@@ -1,0 +1,197 @@
+/*** Veterans.gov SCSS ***/
+
+
+/*** Colors ***/
+$va-primary-color: #025D92;
+$va-secondary-color: #C08A38;
+$va-body-content-color: #444;
+$va-body-accent-color: #F4F2F1;
+$va-body-background-color: #fff;
+
+/*** General ***/
+html, body {
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-weight: 300; color: $va-body-content-color;
+  background: $va-body-background-color;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  background: #eee;
+  font-family: 'Open Sans', sans-serif;
+  -webkit-transition: all 1s ease-in-out;
+  -moz-transition: all 1s ease-in-out;
+  -o-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+}
+
+a {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+  color: $va-body-content-color;
+  &:hover {color: $va-body-content-color;}
+}
+
+/*** Logo / header ***/
+
+.header {
+  width: 100%;
+  clear: both;
+  padding: 0 0 .5em 0;
+  h1 {margin-bottom: 0; line-height: 1em;}
+}
+
+
+
+h1 a {
+  text-indent: 180%;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+  background: url(../img/design/logo/logo-small.png) top center no-repeat;
+  width: 130px;
+  height: 28px;
+  background-size: contain;
+  @media #{$small} {
+    background: url(../img/design/logo/logo.png) top center no-repeat;
+    width: 257px;
+    height: 55px;
+    background-size: contain;
+  }
+}
+
+
+/*** Type ***/
+
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto Slab', serif;
+}
+
+/*** Header ***/
+
+.header {
+  background: $va-primary-color;
+  color: #fff;
+  h1, a {color: #fff;}
+}
+
+/***  Banner ***/
+
+.splash {
+  padding: 2em 0;
+  @media #{$small} {background: url(../img/design/banner/banner1.jpg) 50% 40% no-repeat;}
+  background-size: cover;
+  @media #{$small} {padding: 8em 0;}
+  @media #{$medium} {padding: 8em 0;}
+  @media #{$large} {padding: 10em 0;}
+  h2, p {padding: 0; margin: 0; font-family: 'Open Sans', sans-serif;}
+}
+
+.primary {
+  background: #fff;
+  padding: 1em 0;
+  @media #{$small} {padding: 2em 0;}
+  @media #{$medium} {padding: 4em 0;}
+  h3 {
+    padding: 0 0 .5em 0;
+  }
+}
+
+html.no-touch .banner {
+  background: url(../img/design/banner.jpg) 50% 60% no-repeat;
+  background-size: cover;
+}
+
+/*** Cards ***/
+
+.cards {
+  a {
+    display: block;
+    position: relative;
+    background: #eee;
+    -webkit-box-shadow: 0 0 3px rgba(0,0,0,.1);
+    min-height: 12em;
+
+    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0;}
+    p {padding: 0;}
+    div {
+      position: absolute;
+      bottom: 0;
+      padding: .5em .5em 0 .5em;
+      display: block;
+      width: 100%;
+      -webkit-transition: all .3s ease-in-out;
+      -moz-transition: all .3s ease-in-out;
+      -o-transition: all .3s ease-in-out;
+      transition: all .3s ease-in-out;
+      h4, p {color: #fff; padding: 0;}
+      background: rgba(0,0,0,.75);
+    }
+    &:hover div {padding: .5em .5em 1em .5em;}
+  }
+}
+
+/*** Card Flip ***/
+/*** http://davidwalsh.name/css-flip ***/
+
+/* entire container, keeps perspective */
+.card-container {
+	perspective: 1000;
+}
+	/* flip the pane when hovered */
+	.card-container:hover .flipper, .flip-container.hover .flipper {
+		transform: rotateY(180deg);
+	}
+
+.card-container, .front, .back {
+	width: 100%;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
+}
+
+
+/*** Footer ***/
+
+footer {
+  background: #eee;
+  ul {margin: 0; padding: 0 0 2em 0;}
+  li {list-style: none; padding: 0; margin: 0; text-align: center; display: block; a {display: block;}}
+  padding: 2em 0;
+  dl.vcard {display: block; text-align: center; border: none; padding: 0; margin: .5em auto;}
+  dd {
+    padding: 0; margin: 0; text-align: center;
+    @media #{$small} {display: inline;}
+  }
+}
