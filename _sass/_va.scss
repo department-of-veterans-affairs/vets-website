@@ -1,14 +1,16 @@
 /*** Veterans.gov SCSS ***/
 
+//Colors
 
-/*** Colors ***/
-$va-primary-color: #025D92;
+$va-primary-color: #002950;
 $va-secondary-color: #C08A38;
+$va-tertiary-color: #444;
 $va-body-content-color: #444;
-$va-body-accent-color: #F4F2F1;
+$va-body-accent-color: #FFD43E;
 $va-body-background-color: #fff;
 
-/*** General ***/
+// General
+
 html, body {
   font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-weight: 300; color: $va-body-content-color;
   background: $va-body-background-color;
@@ -17,12 +19,20 @@ html, body {
   -o-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-  background: #eee;
+  background: #fff;
   font-family: 'Open Sans', sans-serif;
   -webkit-transition: all 1s ease-in-out;
   -moz-transition: all 1s ease-in-out;
   -o-transition: all 1s ease-in-out;
   transition: all 1s ease-in-out;
+}
+
+abbr {
+  border-bottom: none;
+  text-decoration: none;
+  font-weight: inherit;
+  font-style: inherit;
+  color: inherit;
 }
 
 a {
@@ -35,7 +45,7 @@ a {
   &:hover {color: $va-body-content-color;}
 }
 
-/*** Logo / header ***/
+// Logo and Header
 
 .header {
   width: 100%;
@@ -43,8 +53,6 @@ a {
   padding: 0 0 .5em 0;
   h1 {margin-bottom: 0; line-height: 1em;}
 }
-
-
 
 h1 a {
   text-indent: 180%;
@@ -64,15 +72,13 @@ h1 a {
 }
 
 
-/*** Type ***/
-
-
+// Type
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Roboto Slab', serif;
 }
 
-/*** Header ***/
+// Header
 
 .header {
   background: $va-primary-color;
@@ -80,23 +86,30 @@ h1, h2, h3, h4, h5, h6 {
   h1, a {color: #fff;}
 }
 
-/***  Banner ***/
+// Banner
 
 .splash {
-  padding: 2em 0;
-  @media #{$small} {background: url(../img/design/banner/banner1.jpg) 50% 40% no-repeat;}
+  padding: 1em 0;
   background-size: cover;
-  @media #{$small} {padding: 8em 0;}
-  @media #{$medium} {padding: 8em 0;}
-  @media #{$large} {padding: 10em 0;}
-  h2, p {padding: 0; margin: 0; font-family: 'Open Sans', sans-serif;}
+  background: #4FCEFF;
+  @media #{$small} {padding: 5em 0;}
+  @media #{$medium} {padding: 5em 0;}
+  @media #{$large} {padding: 6em 0;}
+  h2, h3, p {padding: 0; margin: 0; font-family: 'Open Sans', sans-serif;}
+  h3 {font-weight: 200; font-size: 1.4em; color: #555;}
+}
+
+.pitch {
+  background: $va-primary-color;
+  padding: .5em;
+  h2, h3 {color: #FFD43E;}
 }
 
 .primary {
   background: #fff;
   padding: 1em 0;
   @media #{$small} {padding: 2em 0;}
-  @media #{$medium} {padding: 4em 0;}
+  @media #{$medium} {padding: 2em 0;}
   h3 {
     padding: 0 0 .5em 0;
   }
@@ -107,15 +120,33 @@ html.no-touch .banner {
   background-size: cover;
 }
 
-/*** Cards ***/
+// Breadcrumbs
+
+ul.breadcrumbs {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 2em 0 0 0;
+  font-size: 1.2em;
+  li {
+    &:before {
+      content:"›";
+      vertical-align: top;
+    }
+    a {
+
+    }
+  }
+}
+
+// Cards
 
 .cards {
   a {
     display: block;
     position: relative;
-    background: #eee;
-    -webkit-box-shadow: 0 0 3px rgba(0,0,0,.1);
-    min-height: 12em;
+    background: $va-tertiary-color;
+    min-height: 8em;
 
     h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0;}
     p {padding: 0;}
@@ -130,9 +161,8 @@ html.no-touch .banner {
       -o-transition: all .3s ease-in-out;
       transition: all .3s ease-in-out;
       h4, p {color: #fff; padding: 0;}
-      background: rgba(0,0,0,.75);
     }
-    &:hover div {padding: .5em .5em 1em .5em;}
+    &:hover div {padding: .5em .5em .5em .5em;}
   }
 }
 
@@ -181,17 +211,30 @@ html.no-touch .banner {
 	transform: rotateY(180deg);
 }
 
-
-/*** Footer ***/
+// Footer
 
 footer {
-  background: #eee;
+  /* background: $va-primary-color url(../img/design/seal/seal.png) bottom center no-repeat; */
+  background: $va-primary-color;
+  background-size: contain;
+  li, p, a {color: #fff;}
+  a {
+    border-bottom: 2px solid rgba(0,0,0,0);
+    &:hover {color: $va-body-accent-color; border-bottom: 2px solid #fff;}
+  }
   ul {margin: 0; padding: 0 0 2em 0;}
   li {list-style: none; padding: 0; margin: 0; text-align: center; display: block; a {display: block;}}
   padding: 2em 0;
-  dl.vcard {display: block; text-align: center; border: none; padding: 0; margin: .5em auto;}
+  dl.vcard {display: block; text-align: center; border: none; color: #fff; margin: .5em auto;}
   dd {
     padding: 0; margin: 0; text-align: center;
+    &:after {
+      content: " / ";
+      color: $va-secondary-color;
+    }
+    &:last-of-type:after {
+      content: "";
+    }
     @media #{$small} {display: inline;}
   }
 }
