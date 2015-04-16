@@ -47,4 +47,15 @@ gems:
   - jekyll-sitemap
   - jekyll-redirect-from
 
+collections:
+  - health-care
+  # list all the collections here
+
+collections:
+  health-care:
+    output: true
+    permalink: /health-care/:path/
+  # further define collections here
+
+
 
