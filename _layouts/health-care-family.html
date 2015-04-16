@@ -1,0 +1,44 @@
+{% include header.html %}
+
+<div class="main" role="main">
+  <div class="splash">
+    <div class="row">
+      <div class="small-12 medium-push-1 medium-6 columns">
+        <div class="pitch">
+          <h2 class="tagline">{{ page.title }}</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 columns services">
+      <ul class="breadcrumbs">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Health Care</a></li>
+        <li class="current"><a href="{{ page.url }}">{{ page.title }}</a></li>
+      </ul>
+    </div>
+  </div>
+
+<div class="primary">
+  {% include health-care-subnav.html %}
+
+  <div class="row">
+
+    <div class="row">
+      <div class="small-12 columns services">
+
+        <h3>Spouses, Dependents, and Survivors </h3>
+
+        <p>A Veteran’s spouse, dependent, or survivor may be eligible for VA health care benefits through programs such as the Civilian Health and Medical Program, Spina Bifida, Children of Women Vietnam Veterans, Foreign Medical Program, and Caregivers. Enrolling in these programs may reduce or eliminate your costs for medical supplies, office visits, or prescriptions. Get details about family health benefits at VA’s health beneficiaries page.</p>
+
+        <p>Learn more about other VA benefits for Veterans’ spouses, dependents, and survivors.</p>
+
+        <a class="button" href="#">Apply for Health Care</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include footer.html %}
