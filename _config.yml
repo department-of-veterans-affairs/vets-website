@@ -47,4 +47,48 @@ gems:
   - jekyll-sitemap
   - jekyll-redirect-from
 
+collections:
+  # list all the collections here
+  - employment
+  - education
+  - loans
+  - health-care
+  - pension
+  - insurance
+  - memorial
+  - compensation
+  - family
+
+
+collections:
+  # further define collections here
+  employment:
+    output: true
+    permalink: /employment/:path/
+  education:
+    output: true
+    permalink: /education/:path/
+  loans:
+    output: true
+    permalink: /loans/:path/
+  health-care:
+    output: true
+    permalink: /health-care/:path/
+  pension:
+    output: true
+    permalink: /pension/:path/
+  insurance:
+    output: true
+    permalink: /insurance/:path/
+  memorial:
+    output: true
+    permalink: /memorial/:path/
+  compensation:
+    output: true
+    permalink: /compensation/:path/
+  family:
+    output: true
+    permalink: /family/:path/
+
+
 
