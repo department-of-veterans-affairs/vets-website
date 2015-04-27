@@ -1,8 +1,8 @@
-/*** Veterans.gov SCSS ***/
+// Veterans.gov
 
 //Colors
 
-$va-primary-color: #002950;
+$va-primary-color: #174172;
 $va-secondary-color: #C08A38;
 $va-tertiary-color: #444;
 $va-highlight-color: #4FCEFF;
@@ -29,7 +29,7 @@ html, body {
   transition: all 1s ease-in-out;
 }
 
-abbr {
+abbr, a abbr, abbr[title] {
   border-bottom: none;
   text-decoration: none;
   font-weight: inherit;
@@ -37,6 +37,7 @@ abbr {
   color: inherit;
   cursor: pointer;
 }
+
 
 a {
   -webkit-transition: all 0.3s ease-in-out;
@@ -51,9 +52,9 @@ a {
 // Logo and Header
 
 .header {
-  width: 100%;
   clear: both;
   padding: 0 0 .5em 0;
+  border-bottom: 2px solid #ff;
   h1 {margin-bottom: 0; line-height: 1em;}
 }
 
@@ -78,7 +79,8 @@ h1 a {
 // Type
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Droid Serif', serif;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  font-weight: 600;
 }
 
 // Header
@@ -93,23 +95,33 @@ h1, h2, h3, h4, h5, h6 {
 
 .splash {
   padding: 1em 0;
+  background: lighten($va-primary-color, 15);
   background-size: cover;
-  background: $va-highlight-color;
-  @media #{$small} {padding: 5em 0;}
-  @media #{$medium} {padding: 5em 0;}
-  @media #{$large} {padding: 6em 0;}
-  h2, h3, p {padding: 0; margin: 0; font-family: 'Open Sans', sans-serif;}
-  h3 {font-weight: 200; font-size: 1.4em; color: #555;}
+
+  @media #{$small} {padding: 1em 0;}
+  @media #{$medium} {padding: 3em 0;}
+  @media #{$large} {padding: 4em 0;}
+  span {
+    background: $va-body-accent-color;
+    display: inline;
+    line-height: 1.3em;
+    white-space: pre-wrap;
+    color: #333;
+  }
+  h2, h3, p {padding: .35em; margin: 0; display: inline-block; font-family: 'Open Sans', sans-serif;}
+  h2 {
+    font-size: 1em;
+    @media #{$small} {font-size: 2em;}
+  }
+  h3 {font-weight: 500; font-size: 1.4em; color: #555;}
 }
 
 .pitch {
-  background: $va-primary-color;
   padding: .5em;
-  h2, h3 {color: #FFD43E;}
+  h2, h3 {color: $va-primary-color; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
 }
 
 .primary {
-  background: #fff;
   padding: 1em 0;
   @media #{$small} {padding: 2em 0;}
   @media #{$medium} {padding: 2em 0;}
@@ -128,57 +140,113 @@ html.no-touch .banner {
 ul.breadcrumbs {
   background: none;
   border: none;
+  display: block;
   padding: 0;
-  margin: 2em 0 0 0;
-  font-size: 1.2em;
+  margin: 0 0 1em 0;
+
+
   li {
-    &:before {
-      content:"›";
-      vertical-align: top;
-    }
-    a {
+    text-transform: none;
+    font-size: 1em;
+    display: inline-block;
+    padding: .25em;
+    line-height: 1.75em;
+    margin: auto;
+    height: auto;
+    font-size: 1.25em;
+    &.parent {
+      &:after {content:" › "; display: inline-block; padding: 0 .5em;}
 
     }
+
+    &.active {
+      line-height: 1em;
+      background: $va-body-accent-color;
+      color: #444;
+      font-size: 2em;
+      vertical-align: top;
+      margin: 0;
+      vertical-align: bottom;
+      &:before {content: ""; padding: 0; margin: 0;}
+    }
+
+    a {
+      border-bottom: 2px solid #fff;
+      text-decoration: none;
+      color: #fff;
+      &:hover {text-decoration: none; border-bottom: 3px solid $va-body-accent-color;}
+    }
   }
+}
+
+// Informational Content
+
+.informational-content {
+  padding: 2em 0;
+  background: rgba(0,0,0,.05);
+}
+
+
+// Navigation
+
+.navigation {
+  padding: 3em 0;
 }
 
 // Cards
 
 .cards {
+  margin: 0;
   a {
     display: block;
     position: relative;
-    background: $va-tertiary-color;
-    min-height: 8em;
+    background: darken($va-primary-color, 10);
+    &:hover, &:active, &:focus {
+      background: darken($va-primary-color, 0);
+      -webkit-box-shadow: 0 0 5px rgba(0,0,0,.15);
+      }
+    height: auto;
+    @media #{$small} {min-height: 8em;}
 
     h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0;}
-    p {padding: 0;}
+    p {padding: 0 0 .5em 0; margin: 0; color: #fff; color: rgba(255,255,255,.8);}
     div {
-      position: absolute;
-      bottom: 0;
-      padding: .5em .5em 0 .5em;
+      @media #{$small} {
+        position: absolute;
+        bottom: 0;
+        margin: 0;
+      }
+      padding: .5em .5em .5em .5em;
       display: block;
+      background: rgba(255,255,255,.1);
       width: 100%;
       -webkit-transition: all .3s ease-in-out;
       -moz-transition: all .3s ease-in-out;
       -o-transition: all .3s ease-in-out;
       transition: all .3s ease-in-out;
       h4, p {color: #fff; padding: 0;}
+
     }
     &:hover div {
-      a {color: $va-body-accent-color;}
+      a {color: $va-body-accent-color; p {color: $va-body-accent-color;}}
     }
   }
 }
 
-/*** Card Flip ***/
-/*** http://davidwalsh.name/css-flip ***/
+.home [class*="block-grid-"]>li {
+  padding: 0;
+  margin: 0;
+  border-bottom: 1px solid $va-highlight-color;
+  @media #{$small} {border-bottom: none; margin: inherit; padding: 0 0.625rem 1.25rem;}
+}
 
-/* entire container, keeps perspective */
+// Card Flip http://davidwalsh.name/css-flip
+
+// entire container, keeps perspective
 .card-container {
 	perspective: 1000;
 }
-	/* flip the pane when hovered */
+	// flip the pane when hovered
 	.card-container:hover .flipper, .flip-container.hover .flipper {
 		transform: rotateY(180deg);
 	}
@@ -187,7 +255,7 @@ ul.breadcrumbs {
 	width: 100%;
 }
 
-/* flip speed goes here */
+// Flip speed
 .flipper {
 	transition: 0.6s;
 	transform-style: preserve-3d;
@@ -195,7 +263,7 @@ ul.breadcrumbs {
 	position: relative;
 }
 
-/* hide back of pane during swap */
+// hide back of pane during swap
 .front, .back {
 	backface-visibility: hidden;
 
@@ -204,10 +272,10 @@ ul.breadcrumbs {
 	left: 0;
 }
 
-/* front pane, placed above back */
+// front pane, placed above back
 .front {
 	z-index: 2;
-	/* for firefox 31 */
+	// for firefox 31
 	transform: rotateY(0deg);
 }
 
@@ -219,28 +287,57 @@ ul.breadcrumbs {
 // Footer
 
 footer {
-  /* background: $va-primary-color url(../img/design/seal/seal.png) bottom center no-repeat; */
+  // background: $va-primary-color url(../img/design/seal/seal.png) bottom center no-repeat;
   background: $va-primary-color;
   background-size: contain;
   li, p, a {color: #fff;}
   a {
-    border-bottom: 2px solid rgba(0,0,0,0);
+    border-bottom: 2px solid (#fff);
     padding: .25em 0;
     &:hover {color: $va-body-accent-color; border-bottom: 2px solid $va-highlight-color;}
   }
   ul {margin: 0; padding: 0 0 2em 0;}
   li {list-style: none; padding: 0 1em; margin: 0; text-align: center; display: block; a {}}
-  padding: 2em 0;
+  padding: 2em 0 0 0;
   dl.vcard {display: block; text-align: center; border: none; color: #fff; margin: .5em auto;}
   dd {
     padding: 0; margin: 0; text-align: center;
+    @media #{$small} {
     &:after {
       content: " / ";
       color: $va-secondary-color;
     }
+
     &:last-of-type:after {
       content: "";
     }
+  }
     @media #{$small} {display: inline;}
   }
+
+  .post-script {
+    font-size: .85em;
+    margin: 0;
+    padding: 0 0 1em 0;
+    background: darken($va-primary-color, 5);
+  }
+
+
+  blockquote {
+    border-left: 0;
+    padding: 1em 1em 0 1em;
+    color: #fff;
+    text-align: center;
+    margin: 0 auto;
+    font-style: italic;
+  }
+
+  span.source {
+    color: #fff;
+    color: rgba(255,255,255,.8);
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+    }
+
 }
