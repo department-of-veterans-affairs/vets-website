@@ -1,7 +1,9 @@
 name: Veterans.gov
 
 #URL of site, include http://, do not include a trailing slash
-url: http://veterans.gov
+#url: http://veterans.gov
+url: http://localhost:4000
+
 
 #files to exclude, array
 exclude:
@@ -13,13 +15,13 @@ exclude:
   - CNAME
 
 #posts per page
-paginate: 1
+paginate: 5
 
 #number of items in RSS feed
 rss_limit: 20
 
 #permalink structure, see https://github.com/mojombo/jekyll/wiki/Permalinks
-permalink: /:year/:month/:day/:title/
+permalink: /blog/:year/:month/:day/:title/
 
 #whether production or dev, minifies JS, bool
 production: true
@@ -49,7 +51,7 @@ gems:
 
 collections:
   # list all the collections here
-  - employment
+  - disability
   - education
   - loans
   - health-care
@@ -62,9 +64,9 @@ collections:
 
 collections:
   # further define collections here
-  employment:
+  disability:
     output: true
-    permalink: /employment/:path/
+    permalink: /disability-benefits/:path/
   education:
     output: true
     permalink: /education/:path/
@@ -89,6 +91,3 @@ collections:
   family:
     output: true
     permalink: /family/:path/
-
-
-
