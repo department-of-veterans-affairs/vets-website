@@ -156,6 +156,15 @@ html.no-touch .banner {
   background-size: cover;
 }
 
+// Headings
+
+h1 {}
+h2 {}
+h3 {}
+h4 {}
+h5 {}
+h6 {}
+
 // Breadcrumbs
 
 ul.breadcrumbs {
@@ -222,12 +231,11 @@ ul.checklist {
   li {
     list-style: none;
     display: block;
+    font-weight: 500;
+    span {font-weight: normal;}
     padding: 1em 0;
     border-bottom: 1px solid #ccc;
     list-style-type: none;
-    &:before {
-      content: "✓ ";
-    }
     p {
 
     }
