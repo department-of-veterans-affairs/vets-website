@@ -7,7 +7,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Veterans.gov</title>
 
-<!-- Fonts -->
+<!-- Icon library - SVG icons -->
+
+<script src="{{ site.url }}/assets/js/vendor/svg-injector.js"></script>
+
+<script>
+	// Elements to inject
+	var mySVGsToInject = document.querySelectorAll('.iconic-sprite');
+
+	// Do the injection
+	SVGInjector(mySVGsToInject);
+</script>
+
 
 <!-- Icons -->
 <link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />

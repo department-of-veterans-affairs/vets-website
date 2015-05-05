@@ -165,6 +165,25 @@ h4 {}
 h5 {}
 h6 {}
 
+// Iconic SVG icons
+
+.icon {
+  display: inline-block;
+  margin: 10px;
+  width: 16px;
+  height: 16px;
+}
+
+.icon-account-login {
+  fill: #f00;
+}
+
+.icon {
+  color: red;
+  fill: red;
+}
+
+
 // Breadcrumbs
 
 ul.breadcrumbs {
@@ -232,7 +251,8 @@ ul.checklist {
     list-style: none;
     display: block;
     font-weight: 500;
-    span {font-weight: normal;}
+    color: $va-primary-color;
+    span {font-weight: normal; display: block; margin-left: 2.25em; color: #555;}
     padding: 1em 0;
     border-bottom: 1px solid #ccc;
     list-style-type: none;
