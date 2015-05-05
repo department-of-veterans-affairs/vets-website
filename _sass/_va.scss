@@ -215,6 +215,25 @@ ul
   }
 }
 
+// Checklists
+
+ul.checklist {
+  margin: 0; padding: 0;
+  li {
+    list-style: none;
+    display: block;
+    padding: 1em 0;
+    border-bottom: 1px solid #ccc;
+    list-style-type: none;
+    &:before {
+      content: "✓ ";
+    }
+    p {
+
+    }
+  }
+}
+
 // Informational Content
 
 .informational-content, .introductory-content {
@@ -289,6 +308,13 @@ ul
     div {
       h4 {color: #555;}
       p {color: #777;}
+    }
+  }
+  &.secondary {
+    a {
+      height: auto;
+      div {position: inherit;}
+      @media #{$small} {height: auto; min-height: inherit;}
     }
   }
 }
