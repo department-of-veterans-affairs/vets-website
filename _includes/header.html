@@ -7,14 +7,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Veterans.gov</title>
 
-<!-- Fonts -->
+<!-- Icon library - SVG icons -->
+
+<script src="{{ site.url }}/assets/js/vendor/svg-injector.js"></script>
+
+<script>
+	// Elements to inject
+	var mySVGsToInject = document.querySelectorAll('.iconic-sprite');
+
+	// Do the injection
+	SVGInjector(mySVGsToInject);
+</script>
+
 
 <!-- Icons -->
-<link href="/images/design/icons/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed" />
-<link href="/images/design/icons/apple-touch-icon-72x72-precomposed.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
-<link href="/images/design/icons/apple-touch-icon-114x114-precomposed.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
-<link href="/images/design/icons/apple-touch-icon-144x144-precomposed.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
-<link rel="shortcut icon" href="/images/design/icons/favicon.png" />
+<link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+<link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
+<link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
+<link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
+<link rel="shortcut icon" href="{{ site.url }}/assets/images/design/icons/favicon.ico" />
 
 <!-- CSS -->
 <link rel='stylesheet' href='/assets/css/style.css?v={{ site.github.build_revision }}'>
@@ -22,16 +33,12 @@
 <!-- Fonts -->
 <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
 
-<!-- JavaScript -->
-<script src="/assets/js/vendor/modernizr.custom.js"></script>
-<script src="/assets/js/vendor/jquery-1.11.0.min.js"></script>
-
 </head>
 <body>
 
 <div class="header">
 	<div class="row">
-		<div class="small-12 medium-4 medium-centered large-uncentered columns">
+		<div class="small-12 medium-4 columns">
 			<h1 role="banner"><a href="/">Veterans.gov</a></h1>
 		</div>
 	</div>

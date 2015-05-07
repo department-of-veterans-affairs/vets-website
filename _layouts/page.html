@@ -1,13 +1,25 @@
 {% include header.html %}
 
 <div id="content" class="{{ page.id }}">
-<div class="row">
-<div class="small-10 small-centered columns">
+
+  <div class="splash">
+    <div class="row">
+      <div class="small-12 columns">
+
+        {% include breadcrumb.html %}
+
+        <!--
+        <div class="pitch">
+          <h2 class="tagline"><span>{{ page.title }}</span></h2>
+        </div>
+      -->
+      </div>
+    </div>
+  </div>
 
 {{ content }}
 
-</div>
-</div>
+
 </div><!-- /content -->
 
 
