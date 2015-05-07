@@ -9,6 +9,7 @@ $va-highlight-color: #4FCEFF;
 $va-body-content-color: #444;
 $va-body-accent-color: #FFD43E;
 $va-body-background-color: #fff;
+$va-start-color: #05A48E;
 
 // General
 
@@ -108,6 +109,13 @@ h1, h2, h3, h4, h5, h6 {
   h1, a {color: #fff;}
 }
 
+// Links
+
+a {text-decoration: underline; background: rgba(0,0,0,.05);}
+a:active {}
+a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
+a:visited {}
+
 // Banner
 
 .splash {
@@ -160,10 +168,33 @@ html.no-touch .banner {
 
 h1 {}
 h2 {}
-h3 {}
+h3 {color: $va-primary-color; font-size: 1.8em; padding: 0 0 1em 0;}
 h4 {}
 h5 {}
 h6 {}
+
+// Sections
+
+section {
+  padding: 2em 0;
+  &.two {
+    h3 {color: darken($va-start-color, 10);}
+    background: rgba($va-start-color, 0.1);
+  }
+}
+
+// Action
+
+.action {
+  padding: 2em 0;
+  margin: 0 auto;
+  text-align: center;
+  .button {
+    font-size: 1.25em;
+    padding: 1em 3.5em;
+  }
+}
+
 
 // Iconic SVG icons
 
@@ -205,7 +236,7 @@ ul.breadcrumbs {
     line-height: 1.75em;
     margin: auto;
     height: auto;
-    font-size: 1.25em;
+    font-size: 1.35em;
     &:hover  {border-bottom: none; text-decoration: none;}
     &.parent {
       &:after {content:" › "; display: inline-block; color: #fff; padding: 0 .5em;}
@@ -243,22 +274,53 @@ ul
   }
 }
 
+ol {
+  margin: 0 0 0 1.25em;
+  li {
+    list-style-position: outside;
+  }
+}
+
+li {
+  span.meta {
+    display: inline-block;
+    padding: .5em;
+    color: $va-primary-color;
+    background: rgba($va-primary-color,.05);
+    font-weight: bold;
+    float: right;
+    margin: .5em 0 1em 1em;
+  }
+}
+
+
+
 // Checklists
 
-ul.checklist {
-  margin: 0; padding: 0;
+ul.checklist, ol.checklist {
+  margin: 0 0 0 1.35em; padding: 0;
   li {
-    list-style: none;
-    display: block;
     font-weight: 500;
-    color: $va-primary-color;
-    span {font-weight: normal; display: block; margin-left: 2.25em; color: #555;}
+    span {font-weight: normal; font-size: 1em; display: block; margin-left: 2.25em; color: #555;}
     padding: 1em 0;
     border-bottom: 1px solid #ccc;
-    list-style-type: none;
-    p {
-
+    &:last-of-type {border-bottom: none;}
+    h5 {font-size: 1.35em;}
+    ul li {
+      border-bottom: none;
+      padding: .5em 0;
+      span {background: rgba(0,0,0,.1); display: block; padding: 1em .5em; text-align: center;}
     }
+
+    ul.small-block-grid-2,
+    ul.small-block-grid-3,
+    ul.small-block-grid-4 {
+      margin: 0 !important;
+      padding: 0;
+      li {padding: 0; margin: 0;}
+      &:before {margin: 0; padding: 0;}
+      span {margin: .25em .25em 1em .25em; }
+      }
   }
 }
 
@@ -363,6 +425,15 @@ a.button {
   background: $va-primary-color;
   border-bottom: 4px solid $va-highlight-color;
   &:hover, &:active, &:focus {background: lighten($va-primary-color, 10);}
+  padding: 1em 2.5em;
+  &.start {
+    background: $va-start-color;
+    &:hover {
+      background: darken($va-start-color, 10);
+    }
+    color: #fff;
+    border-bottom: 6px solid darken($va-start-color, 10);
+  }
 }
 
 
@@ -376,6 +447,8 @@ footer {
   a {
     border-bottom: 2px solid rgba(0,0,0,.35);
     display: block;
+    background: none;
+    text-decoration: none;
     @media #{$small} {display: inline-block;}
     border-bottom: 2px solid rgba(0,0,0,.5);
     padding: .25em 0;
