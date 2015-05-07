@@ -7,14 +7,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Veterans.gov</title>
 
-<!-- Fonts -->
+<!-- Icon library - SVG icons -->
+
+<script src="http://localhost:4000/assets/js/vendor/svg-injector.js"></script>
+
+<script>
+	// Elements to inject
+	var mySVGsToInject = document.querySelectorAll('.iconic-sprite');
+
+	// Do the injection
+	SVGInjector(mySVGsToInject);
+</script>
+
 
 <!-- Icons -->
-<link href="/images/design/icons/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed" />
-<link href="/images/design/icons/apple-touch-icon-72x72-precomposed.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
-<link href="/images/design/icons/apple-touch-icon-114x114-precomposed.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
-<link href="/images/design/icons/apple-touch-icon-144x144-precomposed.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
-<link rel="shortcut icon" href="/images/design/icons/favicon.png" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
+<link rel="shortcut icon" href="http://localhost:4000/assets/images/design/icons/favicon.ico" />
 
 <!-- CSS -->
 <link rel='stylesheet' href='/assets/css/style.css?v='>
@@ -22,16 +33,12 @@
 <!-- Fonts -->
 <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
 
-<!-- JavaScript -->
-<script src="/assets/js/vendor/modernizr.custom.js"></script>
-<script src="/assets/js/vendor/jquery-1.11.0.min.js"></script>
-
 </head>
 <body>
 
 <div class="header">
 	<div class="row">
-		<div class="small-12 medium-4 medium-centered large-uncentered columns">
+		<div class="small-12 medium-4 columns">
 			<h1 role="banner"><a href="/">Veterans.gov</a></h1>
 		</div>
 	</div>
@@ -39,99 +46,117 @@
 
 
 <div id="content" class="">
-<div class="row">
-<div class="small-10 small-centered columns">
 
-<div class="primary">
+  <div class="splash">
+    <div class="row">
+      <div class="small-12 columns">
+
+        <div class="row">
+  <div class="small-12 columns">
+    <ul class="breadcrumbs">
+      <li class="parent"><a href="/health-care/">Health Care</a></li>
+      <li class="active">Types of Health Care</li>
+    </ul>
+  </div>
+</div>
+
+
+        <!--
+        <div class="pitch">
+          <h2 class="tagline"><span>Types of Health Care</span></h2>
+        </div>
+      -->
+      </div>
+    </div>
+  </div>
+
+<div class="informational-content">
   <div class="row">
-	<div class="small-12 columns services">
-	  <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 cards">
+    <div class="small-12 columns services">
+
+      <h3>Dental Care</h3>
+
+      <p>VA offers comprehensive dental care benefits to certain qualifying Veterans. In addition, Veterans enrolled in VA health care may purchase dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP). Beneficiaries of VA’s Civilian Health and Medical Program—a health insurance program for dependents of Veterans—are also eligible for VADIP.</p>
+
+      <p>Services offered through VADIP include diagnostic, preventive, surgical, emergency, and endodontic and restorative treatment. Veterans and other beneficiaries who choose to purchase VADIP pay a fixed monthly premium and any copayments required for coverage, depending on the type of plan selected.</p>
+
+      <hr>
+
+      <h3>Vision</h3>
+
+      <p>Veterans who are visually impaired may be eligible for VA’s vision health benefits. VA’s vision care ranges from primary eye care services to intermediate and advanced clinical vision care, including clinical examinations, vision-enhancing devices, and specialized training in the use of innovative vision technology.</p>
+
+      <p>VA also offers inpatient rehabilitation centers for Veterans who are blind. These centers focus on enhancing skills such as communication, orientation and mobility, manual skills, and recreational and daily living activities.</p>
+
+      <hr>
+
+      <h3>Mental Health Services and Coverage</h3>
+
+      <p>VA health benefits include high-quality mental health services for Veterans, including:</p>
+
+      <ul>
+        <li>Inpatient and outpatient care at VA medical centers</li>
+        <li>Community-based outpatient treatment services</li>
+        <li>Vet Center support, including individual and whole-family services, for post-traumatic stress disorder, military sexual trauma, depression, readjustment, and substance use disorders</li>
+      </ul>
+
+      <hr>
+
+      <h3>Assisted Living and Home Health Services</h3>
+
+      <p>VA offers many assisted living and home health services for eligible Veterans, including 132 Community Living Centers that provide short- and long-stay services. Home and community-based services are also available. VA’s caregiver education and training programs help make sure all Veterans receive quality care by providing the following additional assisted living services:</p>
+
+      <ul>
+        <li>In-home and community-based care</li>
+        <li>Respite care</li>
+        <li>Family support services</li>
+      </ul>
+
+      <a class="button" href="#">Apply for Health Care</a>
+    </div>
+  </div>
+</div>
+
+<div class="navigation">
+  <div class="row">
+    <div class="small-12 columns">
+      	  <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-4 cards">
 	    <li>
-	      <a href="../types">
+	      <a href="/health-care/types">
 	        <div>
 	          <h4>Types of Care</h4>
 	        </div>
 	      </a>
 	    </li>
 	    <li>
-	      <a href="../affordable-care-act">
+	      <a href="/health-care/affordable-care-act">
 	        <div>
 	          <h4>Affordable Care Act</h4>
 	        </div>
 	      </a>
 	    </li>
 	    <li>
-	      <a href="../vet-center">
+	      <a href="/health-care/vet-center">
 	        <div>
 	          <h4>Vet Centers</h4>
 	        </div>
 	      </a>
 	    </li>
 	    <li>
-	      <a href="../family">
+	      <a href="/health-care/family">
 	        <div>
-	          <h4>Spouses, Dependents, and Survivors Eligibility</h4>
+	          <h4>Spouses, Dependents, and Survivors</h4>
 	        </div>
 	      </a>
 	    </li>
 	  </ul>
-  </div>
-</div>
 
-
-  <div class="row">
-
-    <div class="row">
-      <div class="small-12 columns services">
-
-        <h3>Dental Care</h3>
-
-        <p>VA offers comprehensive dental care benefits to certain qualifying Veterans. In addition, Veterans enrolled in VA health care may purchase dental insurance at a reduced cost through the VA Dental Insurance Program (VADIP). Beneficiaries of VA’s Civilian Health and Medical Program—a health insurance program for dependents of Veterans—are also eligible for VADIP.</p>
-
-        <p>Services offered through VADIP include diagnostic, preventive, surgical, emergency, and endodontic and restorative treatment. Veterans and other beneficiaries who choose to purchase VADIP pay a fixed monthly premium and any copayments required for coverage, depending on the type of plan selected.</p>
-
-        <hr>
-
-        <h3>Vision</h3>
-
-        <p>Veterans who are visually impaired may be eligible for VA’s vision health benefits. VA’s vision care ranges from primary eye care services to intermediate and advanced clinical vision care, including clinical examinations, vision-enhancing devices, and specialized training in the use of innovative vision technology.</p>
-
-        <p>VA also offers inpatient rehabilitation centers for Veterans who are blind. These centers focus on enhancing skills such as communication, orientation and mobility, manual skills, and recreational and daily living activities.</p>
-    
-        <hr>
-
-        <h3>Mental Health Services and Coverage</h3>
-
-        <p>VA health benefits include high-quality mental health services for Veterans, including:</p>
-
-        <ul>
-          <li>Inpatient and outpatient care at VA medical centers</li> 
-          <li>Community-based outpatient treatment services</li> 
-          <li>Vet Center support, including individual and whole-family services, for post-traumatic stress disorder, military sexual trauma, depression, readjustment, and substance use disorders</li>
-        </ul>
-
-        <hr>
-
-        <h3>Assisted Living and Home Health Services</h3>
-
-        <p>VA offers many assisted living and home health services for eligible Veterans, including 132 Community Living Centers that provide short- and long-stay services. Home and community-based services are also available. VA’s caregiver education and training programs help make sure all Veterans receive quality care by providing the following additional assisted living services:</p>
-
-        <ul>
-          <li>In-home and community-based care</li> 
-          <li>Respite care</li> 
-          <li>Family support services</li>
-        </ul>
-
-        <hr>
-
-        <a class="button" href="#">Apply for Health Care</a>
-      </div>
     </div>
   </div>
 </div>
 
-</div>
-</div>
+
+
 </div><!-- /content -->
 
 
@@ -139,14 +164,14 @@
   <div class="row">
     <div class="small-12 columns">
 
-      <ul class="small-block-grid-2 large-block-grid-7">
-        <li><a href="#"><abbr title="Department of Veterans Affairs">VA</abbr>.gov</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Business</a></li>
-        <li><a href="#">About <abbr title="Department of Veterans Affairs">VA</abbr></a></li>
-        <li><a href="#">Media Room</a></li>
-        <li><a href="#">Locations</a></li>
-        <li><a href="#">Contact Us</a></li>
+      <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-7">
+        <li><a href="https://www.va.gov/"><abbr title="Department of Veterans Affairs">VA</abbr>.gov</a></li>
+        <li><a href="https://www.va.gov/landing2_vetsrv.htm">Services</a></li>
+        <li><a href="https://www.va.gov/landing2_business.htm">Business</a></li>
+        <li><a href="https://www.va.gov/landing2_about.htm">About <abbr title="Department of Veterans Affairs">VA</abbr></a></li>
+        <li><a href="https://www.va.gov/landing2_media_room.htm">Media Room</a></li>
+        <li><a href="https://www.va.gov/landing2_locations.htm">Locations</a></li>
+        <li><a href="https://www.va.gov/landing2_contact.htm">Contact Us</a></li>
       </ul>
 
   </div>
@@ -155,15 +180,20 @@
   <div class="row">
     <div class="small-12 large-6 large-centered columns">
     <dl class="vcard">
-      <dt class="org fn">U.S. Department of Veterans Affairs</dt>
+      <dt class="org fn"><abbr title="United States">U.S.</abbr> Department of Veterans Affairs</dt>
       <dd class="street-adr">810 Vermont Avenue</dd>
-      <dd class="locality">NW Washington DC</dd>
+      <dd class="locality"><abbr title="North West">NW</abbr> Washington <abbr title="District of Columbia">DC</abbr></dd>
       <dd class="postal-code">20420</dd>
   </div>
 </div>
 
 </footer>
 
+
+<!--
+"To care for him who shall have borne the battle and for his widow, and his orphan."
+- Abraham Lincoln
+-->
 
 </body>
 </html>

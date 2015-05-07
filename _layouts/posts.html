@@ -1,0 +1,30 @@
+{% include header.html %}
+
+<div id="content" class="{{ page.id }}">
+
+  <div class="splash">
+    <div class="row">
+      <div class="small-12 columns">
+
+        <!--
+        {% include breadcrumb.html %}
+      -->
+
+      <h2>Blog</h2>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="primary">
+  <div class="row">
+    <div class="small-12 columns">
+
+        {{ content }}
+    </div>
+  </div>
+</div>
+</div>
+</div><!-- /content -->
+
+{% include footer.html %}

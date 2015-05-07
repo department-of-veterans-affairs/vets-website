@@ -7,14 +7,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Veterans.gov</title>
 
-<!-- Fonts -->
+<!-- Icon library - SVG icons -->
+
+<script src="http://localhost:4000/assets/js/vendor/svg-injector.js"></script>
+
+<script>
+	// Elements to inject
+	var mySVGsToInject = document.querySelectorAll('.iconic-sprite');
+
+	// Do the injection
+	SVGInjector(mySVGsToInject);
+</script>
+
 
 <!-- Icons -->
-<link href="/images/design/icons/apple-touch-icon-precomposed.png" rel="apple-touch-icon-precomposed" />
-<link href="/images/design/icons/apple-touch-icon-72x72-precomposed.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
-<link href="/images/design/icons/apple-touch-icon-114x114-precomposed.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
-<link href="/images/design/icons/apple-touch-icon-144x144-precomposed.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
-<link rel="shortcut icon" href="/images/design/icons/favicon.png" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
+<link rel="shortcut icon" href="http://localhost:4000/assets/images/design/icons/favicon.ico" />
 
 <!-- CSS -->
 <link rel='stylesheet' href='/assets/css/style.css?v='>
@@ -22,16 +33,12 @@
 <!-- Fonts -->
 <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
 
-<!-- JavaScript -->
-<script src="/assets/js/vendor/modernizr.custom.js"></script>
-<script src="/assets/js/vendor/jquery-1.11.0.min.js"></script>
-
 </head>
 <body>
 
 <div class="header">
 	<div class="row">
-		<div class="small-12 medium-4 medium-centered large-uncentered columns">
+		<div class="small-12 medium-4 columns">
 			<h1 role="banner"><a href="/">Veterans.gov</a></h1>
 		</div>
 	</div>
@@ -39,104 +46,121 @@
 
 
 <div class="main" role="main">
-<div class="home">
   <div class="splash">
-
     <div class="row">
-      <div class="small-12 medium-push-1 large-6 columns">
+      <div class="small-12 medium-push-1 medium-8 medium-centered large-uncentered large-6 columns">
         <div class="pitch">
-          <h2 class="tagline">Get started with your transition to civilian life.</h2>
+          <h2 class="tagline"><span>Get started with your transition to civilian life.</span></h2>
         </div>
       </div>
     </div>
   </div>
-<div class="primary">
-  <div class="row">
-    <div class="small-12 columns services">
 
-      <h3>Services and Information</h3>
 
+<div class="primary navigation">
       <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 cards">
 
         <li>
-          <a href="employment/home">
+          <a href="disability-benefits/">
             <div>
-              <h4>Get a job</h4>
-              <p>Description.</p>
+              <h4>Disability benefits</h4>
+              <p>Description</p>
             </div>
           </a>
         </li>
 
         <li>
-          <a href="education/home">
+          <a href="education/">
             <div>
               <h4>Education and training</h4>
-              <p>Description.</p>
+              <p>Description</p>
             </div>
           </a>
         </li>
 
         <li>
-          <a href="loans/home">
+          <div class="coming-soon">
             <div>
-              <h4>Get a mortgage</h4>
-              <p>Description.</p>
+              <h4>Dependent and caretaker benefits</h4>
+              <p>Coming soon</p>
             </div>
-          </a>
+          </span>
         </li>
 
         <li>
-          <a href="health-care/home">
+          <div class="coming-soon">
             <div>
-              <h4>Health care</h4>
-              <p>Description.</p>
+              <h4>Travel reimbursement</h4>
+              <p>Coming soon</p>
             </div>
-          </a>
+          </div>
         </li>
 
         <li>
-          <a href="pension/home">
+          <div class="coming-soon">
             <div>
-              <h4>Pensions</h4>
-              <p>Description.</p>
+              <h4>Jobs and employment</h4>
+              <p>Coming soon</p>
             </div>
-          </a>
+          </div>
         </li>
 
         <li>
-          <a href="insurance/home">
+          <div class="coming-soon">
             <div>
-              <h4>Life insurance</h4>
-              <p>Description.</p>
+              <h4>Mental health</h4>
+              <p>Coming soon</p>
             </div>
-          </a>
+          </div>
         </li>
 
         <li>
-          <a href="memorial/home">
+          <div class="coming-soon">
             <div>
-              <h4>Memorial benefits</h4>
-              <p>Description.</p>
+              <h4>Loss of a family member</h4>
+              <p>Coming soon</p>
             </div>
-          </a>
+          </div>
         </li>
 
-        <li>
-          <a href="compensation/home">
-            <div>
-              <h4>Disability compensation</h4>
-              <p>Description.</p>
-            </div>
-          </a>
-        </li>
 
         <li>
-          <a href="family/home">
+          <div class="coming-soon">
             <div>
               <h4>Spouses and dependents</h4>
-              <p>Description.</p>
+              <p>Coming soon</p>
             </div>
-          </a>
+          </div>
+        </li>
+
+        <li>
+          <div class="coming-soon">
+            <div>
+              <span class="sr-only">Coming soon:</span>
+              <h4>Homeless resources</h4>
+              <p>Coming soon</p>
+            </div>
+          </div>
+        </li>
+
+        <li>
+          <div class="coming-soon">
+            <div>
+              <span class="sr-only">Coming soon:</span>
+              <h4>Medical records</h4>
+              <p>Coming soon</p>
+            </div>
+          </div>
+        </li>
+
+        <li>
+          <div class="coming-soon">
+            <div>
+              <span class="sr-only">Coming soon:</span>
+              <h4>Service records</h4>
+              <p>Coming soon</p>
+            </div>
+          </div>
         </li>
 
 
@@ -147,20 +171,19 @@
   </div>
 </div>
 </div>
-</div>
 
 <footer role="contentinfo">
   <div class="row">
     <div class="small-12 columns">
 
-      <ul class="small-block-grid-2 large-block-grid-7">
-        <li><a href="#"><abbr title="Department of Veterans Affairs">VA</abbr>.gov</a></li>
-        <li><a href="#">Services</a></li>
-        <li><a href="#">Business</a></li>
-        <li><a href="#">About <abbr title="Department of Veterans Affairs">VA</abbr></a></li>
-        <li><a href="#">Media Room</a></li>
-        <li><a href="#">Locations</a></li>
-        <li><a href="#">Contact Us</a></li>
+      <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-7">
+        <li><a href="https://www.va.gov/"><abbr title="Department of Veterans Affairs">VA</abbr>.gov</a></li>
+        <li><a href="https://www.va.gov/landing2_vetsrv.htm">Services</a></li>
+        <li><a href="https://www.va.gov/landing2_business.htm">Business</a></li>
+        <li><a href="https://www.va.gov/landing2_about.htm">About <abbr title="Department of Veterans Affairs">VA</abbr></a></li>
+        <li><a href="https://www.va.gov/landing2_media_room.htm">Media Room</a></li>
+        <li><a href="https://www.va.gov/landing2_locations.htm">Locations</a></li>
+        <li><a href="https://www.va.gov/landing2_contact.htm">Contact Us</a></li>
       </ul>
 
   </div>
@@ -169,15 +192,20 @@
   <div class="row">
     <div class="small-12 large-6 large-centered columns">
     <dl class="vcard">
-      <dt class="org fn">U.S. Department of Veterans Affairs</dt>
+      <dt class="org fn"><abbr title="United States">U.S.</abbr> Department of Veterans Affairs</dt>
       <dd class="street-adr">810 Vermont Avenue</dd>
-      <dd class="locality">NW Washington DC</dd>
+      <dd class="locality"><abbr title="North West">NW</abbr> Washington <abbr title="District of Columbia">DC</abbr></dd>
       <dd class="postal-code">20420</dd>
   </div>
 </div>
 
 </footer>
 
+
+<!--
+"To care for him who shall have borne the battle and for his widow, and his orphan."
+- Abraham Lincoln
+-->
 
 </body>
 </html>
