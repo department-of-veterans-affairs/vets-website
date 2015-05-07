@@ -452,7 +452,7 @@ footer {
     @media #{$small} {display: inline-block;}
     border-bottom: 2px solid rgba(0,0,0,.5);
     padding: .25em 0;
-    &:hover {color: $va-primary-color; border-bottom: 2px solid $va-highlight-color;}
+    &:hover {color: $va-primary-color; text-decoration: none; border-bottom: 2px solid $va-highlight-color;}
   }
   ul {margin: 0; padding: 0 0 2em 0;}
   li {list-style: none; padding: 0 1em; margin: 0; text-align: center; display: block; a {}}
