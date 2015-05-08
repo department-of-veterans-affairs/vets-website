@@ -230,15 +230,16 @@ ul.breadcrumbs {
 
   li {
     text-transform: none;
-    font-size: 1em;
     display: inline-block;
-    padding: .25em;
+    @media #{$small} {padding: .25em .25em .5em .25em;}
     line-height: 1.75em;
     margin: auto;
     height: auto;
-    font-size: 1.35em;
+    font-size: .85em;
+    @media #{$small} {font-size: 1.35em;}
     &:hover  {border-bottom: none; text-decoration: none;}
     &.parent {
+      &:before {content: none;}
       &:after {content:" › "; display: inline-block; color: #fff; padding: 0 .5em;}
 
     }
@@ -247,7 +248,8 @@ ul.breadcrumbs {
       line-height: 1em;
       background: $va-body-accent-color;
       color: #444;
-      font-size: 2em;
+      font-size: 1.25em;
+      @media #{$small} {font-size: 2em;}
       vertical-align: top;
       margin: 0;
       vertical-align: bottom;
@@ -258,9 +260,10 @@ ul.breadcrumbs {
   }
   a {
     border-bottom: 3px solid #fff;
+    background: none;
     text-decoration: none !important;
     color: #fff;
-    &:hover {text-decoration: none; border-bottom: 3px solid $va-body-accent-color;}
+    &:hover {text-decoration: none; background: rgba(0,0,0,.1); border-bottom: 3px solid $va-body-accent-color;}
   }
 }
 
@@ -348,6 +351,9 @@ ul.checklist, ol.checklist {
   a, .coming-soon {
     display: block;
     position: relative;
+    color: #fff;
+    padding: .5em .5em 1.5em .5em;
+    text-decoration: none;
     border-bottom: 6px solid lighten($va-primary-color, 15);
     background: darken($va-primary-color, 10);
     &:hover, &:active, &:focus {
@@ -358,7 +364,8 @@ ul.checklist, ol.checklist {
     height: auto;
     @media #{$small} {min-height: 10em;}
 
-    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0;}
+
+    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; color: #fff;}
     p {padding: 0 0 .5em 0; margin: 0; color: #fff; color: rgba(255,255,255,.8);}
     div {
       @media #{$small} {
@@ -366,7 +373,7 @@ ul.checklist, ol.checklist {
         bottom: 0;
         margin: 0;
       }
-      padding: .5em .5em .5em .5em;
+
       display: block;
       width: 100%;
       -webkit-transition: all .3s ease-in-out;
@@ -405,6 +412,22 @@ ul.checklist, ol.checklist {
       height: auto;
       div {position: inherit;}
       @media #{$small} {height: auto; min-height: inherit;}
+    }
+  }
+
+  &.small {
+    a {
+    height: auto;
+    @media #{$small} {min-height: 6.5em;}
+    }
+
+    div {
+    height: auto;
+    @media #{$small} {
+      position: inherit;
+      bottom: 0;
+      margin: 0;
+      }
     }
   }
 }
