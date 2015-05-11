@@ -7,7 +7,7 @@ A disability can result from a disease or injury sustained, or aggravated, while
 
 There are different types of disability claims and there are different ways to process a claim.
 
-#####Learn about disability claims
+##### Learn about disability claims
 
 ##### Learn about claims processes
 
