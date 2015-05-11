@@ -78,6 +78,7 @@ h1 a {
   overflow: hidden;
   display: block;
   background: url(../images/design/logo/logo-small.png) top center no-repeat;
+  &:hover {background: url(../images/design/logo/logo-small.png) top center no-repeat; background-size: contain;}
   width: 145px;
   height: 25px;
   background-size: contain;
@@ -234,12 +235,14 @@ ul.breadcrumbs {
     @media #{$small} {padding: .25em .25em .5em .25em;}
     line-height: 1.75em;
     margin: auto;
+    vertical-align: middle;
     height: auto;
     font-size: .85em;
-    @media #{$small} {font-size: 1.35em;}
+    line-height: 2em;
+    @media #{$small} {font-size: 1.35em; line-height: 1em;}
     &:hover  {border-bottom: none; text-decoration: none;}
     &.parent {
-      &:before {content: none;}
+      &:before {content: none; vertical-align: middle;}
       &:after {content:" › "; display: inline-block; color: #fff; padding: 0 .5em;}
 
     }
@@ -249,9 +252,9 @@ ul.breadcrumbs {
       background: $va-body-accent-color;
       color: #444;
       font-size: 1.25em;
-      @media #{$small} {font-size: 2em;}
-      vertical-align: top;
-      margin: 0;
+      margin: .5em 0 0 0;
+      padding: .25em;
+      @media #{$small} {font-size: 2em; margin: 0;}
       vertical-align: bottom;
       &:before {content: ""; padding: 0; margin: 0;}
     }
@@ -339,8 +342,7 @@ ul.checklist, ol.checklist {
 
 .navigation {
   @media #{$small} {padding: 3em 0.9375em;}
-  background: #fff;
-  max-width: 62.5rem;
+  background: rgba(0,0,0,.05);
   margin: 0 auto;
 }
 
@@ -468,19 +470,36 @@ footer {
   background-size: contain;
   li, p, a {color: #222;}
   a {
-    border-bottom: 2px solid rgba(0,0,0,.35);
+    border-bottom: 2px solid rgba(0,0,0,.25);
     display: block;
     background: none;
+    font-size: 1em;
     text-decoration: none;
-    @media #{$small} {display: inline-block;}
-    border-bottom: 2px solid rgba(0,0,0,.5);
-    padding: .25em 0;
+    border-bottom: 2px solid rgba(0,0,0,.15);
+    padding: .65em 0;
+    @media #{$small} {display: inline-block; padding: .25em 0;}
+
     &:hover {color: $va-primary-color; text-decoration: none; border-bottom: 2px solid $va-highlight-color;}
+
+    &.contact {
+      margin: 1.5em auto; padding: .65em 0; font-size: 1em; text-align: center;
+      @media #{$small} {margin: 0 auto; display: inline-block; }
+
+    }
   }
   ul {margin: 0; padding: 0 0 2em 0;}
-  li {list-style: none; padding: 0 1em; margin: 0; text-align: center; display: block; a {}}
+  li {list-style: none; padding: 0 1em; margin: 0 auto; text-align: center; display: block; a {}}
   padding: 2em 0 0 0;
-  dl.vcard {display: block; font-size: .8em; text-align: center; border: none; color: #333; margin: .5em auto;}
+  dl.vcard {
+    display: block;
+    text-align: center;
+    border: none;
+    font-size: .85em;
+    color: #333;
+    margin: .5em auto;
+    background: rgba(0,0,0,.1);
+    @media #{$small} {background: none;}
+    }
   dd {
     padding: 0; margin: 0; text-align: center;
     @media #{$small} {
