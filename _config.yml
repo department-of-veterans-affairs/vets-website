@@ -30,6 +30,7 @@ production: true
 
 kramdown:
   parse_block_html: true
+  input: GFM
 
 timezone: America/New_York
 encoding: UTF-8
