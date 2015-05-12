@@ -1,11 +1,35 @@
-# Learn about claim processes
+---
+layout: page-disability
+permalink: disability-benefits/learn/claim-processes/index.html
+title: Claim processes
+---
+
+
+<div class="splash" markdown="0">
+<div class="row" markdown="0">
+<div class="small-12 columns" markdown="0">
+
+<ul class="breadcrumbs">
+<li class="parent"><a href="/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="/disability-benefits/learn/">Learn about disability benefits</a></li>
+<li class="active">{{ page.title }}</li>
+</ul>
+
+</div>
+</div>
+</div>
+
+<section class="one" markdown="0">
+<div class="row" markdown="0">
+<div class="small-12 medium-10 medium-centered columns" markdown="1">
+
 
 ### What are the different types of claims processes?
 
 ##### VA has several types of claims processes, which depend on when a claim is submitted and if it filed before - or after - a Veteran’s separation from service.
 Veterans, dependents of Veterans, and survivors of deceased Veterans can file a claim for benefits with the VA, just not for compensation for disability benefits. [right?]
 
-######This article describes the different types of claims processes filed after a Veteran separates from services.
+###### This article describes the different types of claims processes filed after a Veteran separates from services.
 
 ###### To learn about the different types of claims processes that can be filed before a Veteran separates from service, click [here] (url).
 
@@ -19,7 +43,7 @@ Evidence not held by Federal agencies may include: medical records from private 
 
 To help determine a standard claim decision for a disability, the VA may provide medical examinations or seek a medical opinion.
 
-VA recommends the appointment of an accredited Veterans service officer to help with a claim process. 
+VA recommends the appointment of an accredited Veterans service officer to help with a claim process.
 
 They will help gather the required medical records, collect evidence, and submit a fully developed claim by paper or online at a local regional Veterans Affairs office. An accredited Veterans Service Officer is a free service.
 
@@ -33,19 +57,42 @@ VA will then review, process, and generally make a determination faster than it 
 
 At any time during a fully developed claim process, VA may switch from a fully developed claim process to a standard claim process if VA discovers additional evidence that was not in the originally submitted claim.
 
-VA recommends the appointment of an accredited Veterans service officer to help with a claim process. 
+VA recommends the appointment of an accredited Veterans service officer to help with a claim process.
 
 They will help gather required medical records, collect evidence, and submit a fully developed claim by paper or online at a local regional Veterans Affairs office. An accredited Veterans Service Officer is a free service.
 
-#### Learn about regional Veterans Affairs offices (url)
-#### Learn about dependent and survivor benefits and services (url)
-#### Learn about claims processes that can be filed before a Veteran’s separation from service] (url)
+</div>
+</div>
+</section>
 
-### OR
+<section class="two" markdown="0">
+<div class="row" markdown="0">
+<div class="small-12 medium-10 medium-centered columns" markdown="1">
 
-[Apply Now Button img]
+- Learn about regional Veterans Affairs offices (url)
+- Learn about dependent and survivor benefits and services (url)
+- Learn about claims processes that can be filed before a Veteran’s separation from service] (url)
+
+</div>
+</div>
+</section>
+
+<div class="action" markdown="0">
+<div class="row" markdown="0">
+<div class="small-12 medium-10 medium-centered columns" markdown="0">
+<a class="button start expand" href="#">Apply for benefits</a>
+</div>
+</div>
+</div>
+
+
+<div class="row" markdown="0">
+<div class="small-12 medium-10 medium-centered columns" markdown="1">
 
 #### Sources:
-- http://www.benefits.va.gov/COMPENSATION/apply.asp
-- http://www.benefits.va.gov/fdc/
-- http://www.benefits.va.gov/COMPENSATION/evidence.asp
+- [http://www.benefits.va.gov/COMPENSATION/apply.asp](http://www.benefits.va.gov/COMPENSATION/apply.asp)
+- [http://www.benefits.va.gov/fdc/](http://www.benefits.va.gov/fdc/)
+- [http://www.benefits.va.gov/COMPENSATION/evidence.asp](http://www.benefits.va.gov/COMPENSATION/evidence.asp)
+
+</div>
+</div>  
