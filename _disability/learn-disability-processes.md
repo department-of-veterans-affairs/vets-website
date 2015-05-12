@@ -90,9 +90,9 @@ They will help gather required medical records, collect evidence, and submit a f
 <div class="small-12 medium-10 medium-centered columns" markdown="1">
 
 #### Sources:
-- http://www.benefits.va.gov/COMPENSATION/apply.asp
-- http://www.benefits.va.gov/fdc/
-- http://www.benefits.va.gov/COMPENSATION/evidence.asp
+- [http://www.benefits.va.gov/COMPENSATION/apply.asp](http://www.benefits.va.gov/COMPENSATION/apply.asp)
+- [http://www.benefits.va.gov/fdc/](http://www.benefits.va.gov/fdc/)
+- [http://www.benefits.va.gov/COMPENSATION/evidence.asp](http://www.benefits.va.gov/COMPENSATION/evidence.asp)
 
 </div>
 </div>  
