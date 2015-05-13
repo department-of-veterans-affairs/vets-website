@@ -346,46 +346,113 @@ ul.checklist, ol.checklist {
   margin: 0 auto;
 }
 
+// Flexbox
+
+.list
+{
+
+
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+    .list__item
+    {
+      /*width: 25%; */
+      float: left;
+      overflow: hidden;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        border: 1px solid green;
+    }
+
 // Cards
+
+
 
 .cards {
   margin: 0;
+
+/*  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+
+*/
+
+   li {
+     display: -webkit-flex;
+     display: -ms-flexbox;
+     display: flex;
+
+     -webkit-flex-wrap: wrap;
+     -ms-flex-wrap: wrap;
+     flex-wrap: wrap;
+
+     -webkit-align-items: top;
+     align-items: top;
+
+   }
+
+
   a, .coming-soon {
+
+    padding: 1em .5em;
     display: block;
-    position: relative;
+
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+
+    -webkit-align-items: top;
+    -webkit-justify-content: top;
+
+    -webkit-flex-direction: column; /* Safari */
+    flex-direction:         column;
+
+    display: flex;
+    align-items: top;
+    -webkit-align-items: top;
+    justify-content: top;
+
+    width: 100%;
     color: #fff;
-    padding: .5em .5em 1.5em .5em;
+    overflow: hidden;
+
     text-decoration: none;
     border-bottom: 6px solid lighten($va-primary-color, 15);
     background: darken($va-primary-color, 10);
+
+    h4 {-webkit-align-self: flex-start; align-self: flex-start; }
+
+    p {
+      display: -webkit-inline-flex; /* Safari */
+      display: inline-flex;
+      margin: .5em 0;
+      -webkit-align-self: flex-start;
+      align-self: flex-start;
+    }
+
     &:hover, &:active, &:focus {
       background: darken($va-primary-color, 0);
       -webkit-box-shadow: 0 0 5px rgba(0,0,0,.15);
       border-bottom: 6px solid $va-highlight-color;
       }
-    height: auto;
-    @media #{$small} {min-height: 10em;}
 
+    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; color: #fff; display: block; clear: both; width: 100%;}
 
-    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; color: #fff;}
-    p {padding: 0 0 .5em 0; margin: 0; color: #fff; color: rgba(255,255,255,.8);}
-    div {
-      @media #{$small} {
-        position: absolute;
-        bottom: 0;
-        margin: 0;
-      }
-
-      display: block;
-      width: 100%;
-      -webkit-transition: all .3s ease-in-out;
-      -moz-transition: all .3s ease-in-out;
-      -o-transition: all .3s ease-in-out;
-      transition: all .3s ease-in-out;
-      h4, p {color: #fff; padding: 0;}
-      h4 {font-size: 1.35em;}
-
-    }
     &:hover div {
       a {color: $va-body-accent-color; p {color: $va-body-accent-color;}}
     }
@@ -396,6 +463,9 @@ ul.checklist, ol.checklist {
     background: rgba(0,0,0,.05);
     color: #454545;
     border-bottom: #bbb;
+
+    h4 {color: #444;}
+
     &:hover, &:active, &:focus {
       background: #eee;
       background: rgba(0,0,0,.05);
@@ -403,33 +473,6 @@ ul.checklist, ol.checklist {
       border-bottom: #bbb;
       -webkit-box-shadow: none;
       box-shadow: none;
-    }
-    div {
-      h4 {color: #555;}
-      p {color: #777;}
-    }
-  }
-  &.secondary {
-    a {
-      height: auto;
-      div {position: inherit;}
-      @media #{$small} {height: auto; min-height: inherit;}
-    }
-  }
-
-  &.small {
-    a {
-    height: auto;
-    @media #{$small} {min-height: 6.5em;}
-    }
-
-    div {
-    height: auto;
-    @media #{$small} {
-      position: inherit;
-      bottom: 0;
-      margin: 0;
-      }
     }
   }
 }
@@ -443,6 +486,33 @@ ul.checklist, ol.checklist {
   margin: 0;
   @media #{$small} {border-bottom: none; margin: inherit; padding: 0 0.625rem 1.25rem;}
 }
+
+ul.navigation-list {
+  margin: 0;
+  padding: 0;
+
+
+  li {
+
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+
+
+    background: green;
+    border-bottom: #ccc;
+    border: 1px solid red;
+    a {
+
+     }
+  }
+
+}
+
 
 // Buttons
 
