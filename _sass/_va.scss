@@ -560,7 +560,7 @@ footer {
     &:hover {color:#fff; text-decoration: none; border-bottom: 2px solid $va-highlight-color;}
 
     &.contact {
-      margin: 1.5em auto; padding: .65em 0; font-size: 1em; text-align: center;
+      margin: 1.5em auto; padding: .65em; font-size: 1em; text-align: center; border: 2px solid #fff;
       @media #{$small} {margin: 1em auto; display: inline-block; }
 
     }
@@ -570,13 +570,12 @@ footer {
   padding: 2em 0 0 0;
   dl.vcard {
     display: block;
-
     background-size: 50px;
-    text-align: center;
+    text-align: left;
     border: none;
     font-size: .85em;
     color: #fff;
-    margin: .5em auto;
+    margin: 0 0 .5em 15%;
     background: rgba(0,0,0,.1);
     @media #{$small} {background: none;}
     }
