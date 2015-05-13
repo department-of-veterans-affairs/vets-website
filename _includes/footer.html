@@ -42,6 +42,20 @@
 
 </footer>
 
+<!-- Foundation JS -->
+
+<script src="{{ site.url }}/assets/js/vendor/jquery.js"></script>
+<script src="{{ site.url }}/assets/js/foundation/foundation.js"></script>
+<script src="{{ site.url }}/assets/js/foundation/foundation.equalizer.js"></script>
+
+
+<script>
+$(document).foundation({
+equalizer : {
+equalize_on_stack: true
+}
+}); // Specify if Equalizer should make elements equal height once they become stacked.
+</script>
 
 <!--
 "To care for him who shall have borne the battle and for his widow, and his orphan."

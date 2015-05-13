@@ -10,8 +10,8 @@ title: Claim processes
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs">
-<li class="parent"><a href="/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="/disability-benefits/learn/">Learn about disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">Learn about disability benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
