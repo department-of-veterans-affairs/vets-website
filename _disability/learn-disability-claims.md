@@ -64,6 +64,7 @@ A secondary disability claim is a new claim linked to an existing VA-recognized 
 
 #### Sources:
 - http://www.benefits.va.gov/fdc/checklist.asp
+- http://www.benefits.va.gov/compensation/types-claims.asp
 
 </div>
 </div>
