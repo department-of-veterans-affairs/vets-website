@@ -3,11 +3,20 @@
 <!--[if gt IE 8]><html class="no-js ie-good" lang="en"><![endif]-->
 
 <head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Veterans.gov</title>
 
-<!-- Icon library - SVG icons -->
+<!--[if lt IE 9]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+  <script src="//s3.amazonaws.com/nwapi/nwmatcher/nwmatcher-1.2.5-min.js"></script>
+  <script src="//html5base.googlecode.com/svn-history/r38/trunk/js/selectivizr-1.0.3b.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+<![endif]-->
+
+
+<!-- Icon library -
 
 <script src="http://localhost:4000/assets/js/vendor/svg-injector.js"></script>
 
@@ -19,6 +28,7 @@
 	SVGInjector(mySVGsToInject);
 </script>
 
+SVG icons -->
 
 <!-- Icons -->
 <link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
@@ -60,60 +70,60 @@
 
 
   <div class="navigation">
-    <div class="row">
+    <div class="row" >
       <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 cards">
+        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 cards" data-equalizer data-equalizer-mq="medium-up">
 
-          <li>
-            <a href="disability-benefits/">
+          <li data-equalizer-watch>
+            <a href="disability-benefits/" >
               <h4>Disability Benefits</h4>
               <p>Description</p>
             </a>
           </li>
 
-          <li>
+          <li data-equalizer-watch>
+            <a href="education/" >
+              <h4>Education and training</h4>
+              <p>Description</p>
+            </a>
+          </li>
+
+          <li data-equalizer-watch>
             <a href="education/">
               <h4>Education and training</h4>
               <p>Description</p>
             </a>
           </li>
 
-          <li>
-            <a href="education/">
-              <h4>Education and training</h4>
-              <p>Description</p>
-            </a>
-          </li>
-
-          <li>
+          <li data-equalizer-watch>
             <div class="coming-soon">
-              <h4>Dependent and caretaker asdfasdf  asdf a asdfa asdfasdf as fads benefits</h4>
+              <h4>Dependent and caretaker benefits</h4>
               <p>Coming soon</p>
             </div>
           </li>
 
-          <li>
+          <li data-equalizer-watch>
             <div class="coming-soon">
               <h4>Travel reimbursement</h4>
               <p>Coming soon</p>
             </div>
           </li>
 
-          <li>
+          <li data-equalizer-watch>
             <div class="coming-soon">
               <h4>Jobs and employment</h4>
               <p>Coming soon</p>
             </div>
           </li>
 
-          <li>
-            <div class="coming-soon">
+          <li data-equalizer-watch>
+            <div class="coming-soon" >
               <h4>Mental health</h4>
               <p>Coming soon</p>
             </div>
           </li>
 
-          <li>
+          <li data-equalizer-watch>
             <div class="coming-soon">
               <h4>Loss of a family member</h4>
               <p>Coming soon</p>
@@ -121,28 +131,28 @@
           </li>
 
 
-          <li>
+          <li data-equalizer-watch>
             <div class="coming-soon">
               <h4>Spouses and dependents</h4>
               <p>Coming soon</p>
             </div>
           </li>
 
-          <li>
+          <li data-equalizer-watch>
             <div class="coming-soon">
               <h4>Homeless resources</h4>
               <p>Coming soon</p>
             </div>
           </li>
 
-          <li>
+          <li data-equalizer-watch>
             <div class="coming-soon">
               <h4>Medical records</h4>
               <p>Coming soon</p>
             </div>
           </li>
 
-          <li>
+          <li data-equalizer-watch>
             <div class="coming-soon">
               <h4>Service records</h4>
               <p>Coming soon</p>
@@ -201,6 +211,20 @@
 
 </footer>
 
+<!-- Foundation JS -->
+
+<script src="http://localhost:4000/assets/js/vendor/jquery.js"></script>
+<script src="http://localhost:4000/assets/js/foundation/foundation.js"></script>
+<script src="http://localhost:4000/assets/js/foundation/foundation.equalizer.js"></script>
+
+
+<script>
+$(document).foundation({
+equalizer : {
+equalize_on_stack: true
+}
+}); // Specify if Equalizer should make elements equal height once they become stacked.
+</script>
 
 <!--
 "To care for him who shall have borne the battle and for his widow, and his orphan."

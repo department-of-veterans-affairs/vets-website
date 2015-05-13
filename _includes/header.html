@@ -3,11 +3,20 @@
 <!--[if gt IE 8]><html class="no-js ie-good" lang="en"><![endif]-->
 
 <head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Veterans.gov</title>
 
-<!-- Icon library - SVG icons -->
+<!--[if lt IE 9]>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+  <script src="//s3.amazonaws.com/nwapi/nwmatcher/nwmatcher-1.2.5-min.js"></script>
+  <script src="//html5base.googlecode.com/svn-history/r38/trunk/js/selectivizr-1.0.3b.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+<![endif]-->
+
+
+<!-- Icon library -
 
 <script src="{{ site.url }}/assets/js/vendor/svg-injector.js"></script>
 
@@ -19,6 +28,7 @@
 	SVGInjector(mySVGsToInject);
 </script>
 
+SVG icons -->
 
 <!-- Icons -->
 <link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
