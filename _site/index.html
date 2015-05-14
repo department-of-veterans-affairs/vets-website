@@ -16,19 +16,15 @@
 <![endif]-->
 
 
-<!-- Icon library -
-
-<script src="http://10.0.1.17:4000/assets/js/vendor/svg-injector.js"></script>
+<!-- Header Javascript and CSS for animation-->
+<link rel="stylesheet" href="http://10.0.1.17:4000/assets/css/vendor/animate.css">
+<script src="http://10.0.1.17:4000/assets/js/vendor/jquery-1.11.0.min.js"></script>
+<script src="http://10.0.1.17:4000/assets/js/vendor/wow.min.js"></script>
 
 <script>
-	// Elements to inject
-	var mySVGsToInject = document.querySelectorAll('.iconic-sprite');
-
-	// Do the injection
-	SVGInjector(mySVGsToInject);
+new WOW().init();
 </script>
 
-SVG icons -->
 
 <!-- Icons -->
 <link href="http://10.0.1.17:4000/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
@@ -36,6 +32,10 @@ SVG icons -->
 <link href="http://10.0.1.17:4000/assets/images/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
 <link href="http://10.0.1.17:4000/assets/images/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
 <link rel="shortcut icon" href="http://10.0.1.17:4000/assets/images/design/icons/favicon.ico" />
+
+<meta name="msapplication-TileImage" content="http://10.0.1.17:4000/assets/images/design/icons/apple-touch-icon-114x114">
+<meta name="msapplication-TileColor" content="#144073">
+
 
 <!-- CSS -->
 <link rel='stylesheet' href='http://10.0.1.17:4000/assets/css/style.css?v='>
@@ -67,108 +67,99 @@ SVG icons -->
     </div>
   </div>
 
-
-
   <div class="navigation">
-    <div class="row" >
-      <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 cards" data-equalizer data-equalizer-mq="medium-up">
+  <div class="row wow fadeIn animated">
+    <div class="small-12 columns">
+      <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 cards" data-equalizer data-equalizer-mq="medium-up">
 
-          <li>
-            <a href="disability-benefits/" data-equalizer-watch>
-              <h4>Disability Benefits</h4>
-              <p>Description</p>
-            </a>
-          </li>
+        <li>
+          <a href="disability-benefits/" data-equalizer-watch>
+            <h4>Disability Benefits</h4>
+            <p>Description</p>
+          </a>
+        </li>
 
-          <li>
-            <a href="education/" data-equalizer-watch>
-              <h4>Education and training</h4>
-              <p>Description</p>
-            </a>
-          </li>
+        <li>
+          <a href="education/" data-equalizer-watch>
+            <h4>Education and training</h4>
+            <p>Description</p>
+          </a>
+        </li>
 
-          <li>
-            <a href="education/" data-equalizer-watch>
-              <h4>Education and training</h4>
-              <p>Description</p>
-            </a>
-          </li>
+        <li>
+          <div class="coming-soon" data-equalizer-watch>
+            <h4>Dependent and caretaker benefits</h4>
+            <p>Coming soon</p>
+          </div>
+        </li>
 
-          <li>
-            <div class="coming-soon" data-equalizer-watch>
-              <h4>Dependent and caretaker benefits</h4>
-              <p>Coming soon</p>
-            </div>
-          </li>
+        <li>
+          <div class="coming-soon" data-equalizer-watch>
+            <h4>Travel reimbursement</h4>
+            <p>Coming soon</p>
+          </div>
+        </li>
 
-          <li>
-            <div class="coming-soon" data-equalizer-watch>
-              <h4>Travel reimbursement</h4>
-              <p>Coming soon</p>
-            </div>
-          </li>
+        <li>
+          <div class="coming-soon" data-equalizer-watch>
+            <h4>Jobs and employment</h4>
+            <p>Coming soon</p>
+          </div>
+        </li>
 
-          <li>
-            <div class="coming-soon" data-equalizer-watch>
-              <h4>Jobs and employment</h4>
-              <p>Coming soon</p>
-            </div>
-          </li>
+        <li>
+          <div class="coming-soon" data-equalizer-watch >
+            <h4>Mental health</h4>
+            <p>Coming soon</p>
+          </div>
+        </li>
 
-          <li>
-            <div class="coming-soon" data-equalizer-watch >
-              <h4>Mental health</h4>
-              <p>Coming soon</p>
-            </div>
-          </li>
-
-          <li>
-            <div class="coming-soon" data-equalizer-watch>
-              <h4>Loss of a family member</h4>
-              <p>Coming soon</p>
-            </div>
-          </li>
+        <li>
+          <div class="coming-soon" data-equalizer-watch>
+            <h4>Loss of a family member</h4>
+            <p>Coming soon</p>
+          </div>
+        </li>
 
 
-          <li>
-            <div class="coming-soon" data-equalizer-watch>
-              <h4>Spouses and dependents</h4>
-              <p>Coming soon</p>
-            </div>
-          </li>
+        <li>
+          <div class="coming-soon" data-equalizer-watch>
+            <h4>Spouses and dependents</h4>
+            <p>Coming soon</p>
+          </div>
+        </li>
 
-          <li>
-            <div class="coming-soon" data-equalizer-watch>
-              <h4>Homeless resources</h4>
-              <p>Coming soon</p>
-            </div>
-          </li>
+        <li>
+          <div class="coming-soon" data-equalizer-watch>
+            <h4>Homeless resources</h4>
+            <p>Coming soon</p>
+          </div>
+        </li>
 
-          <li>
-            <div class="coming-soon" data-equalizer-watch>
-              <h4>Medical records</h4>
-              <p>Coming soon</p>
-            </div>
-          </li>
+        <li>
+          <div class="coming-soon" data-equalizer-watch>
+            <h4>Medical records</h4>
+            <p>Coming soon</p>
+          </div>
+        </li>
 
-          <li>
-            <div class="coming-soon" data-equalizer-watch>
-              <h4>Service records</h4>
-              <p>Coming soon</p>
-            </div>
-          </li>
+        <li>
+          <div class="coming-soon" data-equalizer-watch>
+            <h4>Service records</h4>
+            <p>Coming soon</p>
+          </div>
+        </li>
 
-
-        </ul>
-      </div>
+      </ul>
     </div>
   </div>
 </div>
+
+
 </div>
 
 <footer role="contentinfo">
-  <div class="row">
+  <div class="row wow fadeIn animated">
     <div class="small-12 columns text-center">
 
       <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-6">
@@ -184,15 +175,15 @@ SVG icons -->
   </div>
 </div>
 
-  <div class="row secondary">
+  <div class="row secondary wow fadeIn animated">
     <div class="small-12 columns">
 
       <div class="row">
         <div class="small-12 medium-8 columns">
           <dl class="vcard">
             <dt class="org fn"><abbr title="United States">U.S.</abbr> Department of Veterans Affairs</dt>
-            <dd class="street-adr">810 Vermont Avenue</dd>
-            <dd class="locality"><abbr title="North West">NW</abbr> Washington <abbr title="District of Columbia">DC</abbr></dd>
+            <dd class="street-adr">810 Vermont Avenue <abbr title="North West">NW</abbr></dd>
+            <dd class="locality">Washington <abbr title="District of Columbia">DC</abbr></dd>
             <dd class="postal-code">20420</dd>
           </dl>
         </div>
@@ -213,7 +204,6 @@ SVG icons -->
 
 <!-- Foundation JS -->
 
-<script src="http://10.0.1.17:4000/assets/js/vendor/jquery.js"></script>
 <script src="http://10.0.1.17:4000/assets/js/foundation/foundation.js"></script>
 <script src="http://10.0.1.17:4000/assets/js/foundation/foundation.equalizer.js"></script>
 
