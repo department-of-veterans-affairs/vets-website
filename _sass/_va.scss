@@ -121,7 +121,7 @@ a:visited {}
 
 .splash {
   padding: 1em 0;
-  background: $va-primary-color;
+  background: lighten($va-primary-color, 5);
   &.home {
     background: #ccc;
     background: rgba(0,0,0,.1);
@@ -238,8 +238,7 @@ ul.breadcrumbs {
     vertical-align: middle;
     height: auto;
     font-size: .85em;
-    line-height: 2em;
-    @media #{$small} {font-size: 1.35em; line-height: 1em;}
+    @media #{$small} {font-size: 1.35em; line-height: 1.5em;}
     &:hover  {border-bottom: none; text-decoration: none;}
     &.parent {
       &:before {content: none; vertical-align: middle;}
@@ -252,7 +251,7 @@ ul.breadcrumbs {
       background: $va-body-accent-color;
       color: #444;
       font-size: 1.25em;
-      margin: .5em 0 0 0;
+      margin: 0 0 0 0;
       padding: .25em;
       @media #{$small} {font-size: 2em; margin: 0;}
       vertical-align: bottom;
@@ -337,6 +336,7 @@ ul.checklist, ol.checklist {
   background: rgba(0,0,0,.05);
 }
 
+.introductory-content {background: #fff; p {font-size: 1.35em;}}
 
 // Navigation
 
@@ -541,9 +541,11 @@ a.button {
 footer {
   // background: $va-primary-color url(../img/design/seal/seal.png) bottom center no-repeat;
   background: $va-primary-color;
+  padding: 2em 0;
   li, p, a {color: #fff;}
   .row.secondary {
-    @media #{$small} {background: $va-primary-color url(../images/design/seal/stars.png) 5% 50% no-repeat; background-size: 50px;}
+    padding: 2em 0;
+    @media #{$small} {background: $va-primary-color url(../images/design/seal/stars.png) 2% 50% no-repeat; background-size: 50px;}
 
   }
 
@@ -562,6 +564,9 @@ footer {
     &.contact {
       margin: 1.5em auto; padding: .65em; font-size: 1em; text-align: center; border: 2px solid #fff;
       @media #{$small} {margin: 1em auto; display: inline-block; }
+      &:hover, &:focus, &:active {
+        background: lighten($va-primary-color, 20);
+      }
 
     }
   }
@@ -575,7 +580,7 @@ footer {
     border: none;
     font-size: .85em;
     color: #fff;
-    margin: 0 0 .5em 15%;
+    margin: 0 0 .5em 10%;
     background: rgba(0,0,0,.1);
     @media #{$small} {background: none;}
     }

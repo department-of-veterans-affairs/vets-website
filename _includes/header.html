@@ -16,19 +16,15 @@
 <![endif]-->
 
 
-<!-- Icon library -
-
-<script src="{{ site.url }}/assets/js/vendor/svg-injector.js"></script>
+<!-- Header Javascript and CSS for animation-->
+<link rel="stylesheet" href="{{ site.url }}/assets/css/vendor/animate.css">
+<script src="{{ site.url }}/assets/js/vendor/jquery-1.11.0.min.js"></script>
+<script src="{{ site.url }}/assets/js/vendor/wow.min.js"></script>
 
 <script>
-	// Elements to inject
-	var mySVGsToInject = document.querySelectorAll('.iconic-sprite');
-
-	// Do the injection
-	SVGInjector(mySVGsToInject);
+new WOW().init();
 </script>
 
-SVG icons -->
 
 <!-- Icons -->
 <link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
@@ -36,6 +32,10 @@ SVG icons -->
 <link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
 <link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
 <link rel="shortcut icon" href="{{ site.url }}/assets/images/design/icons/favicon.ico" />
+
+<meta name="msapplication-TileImage" content="{{ site.url }}/assets/images/design/icons/apple-touch-icon-114x114">
+<meta name="msapplication-TileColor" content="#144073">
+
 
 <!-- CSS -->
 <link rel='stylesheet' href='{{ site.url }}/assets/css/style.css?v={{ site.github.build_revision }}'>
