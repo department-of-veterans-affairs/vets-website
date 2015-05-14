@@ -232,16 +232,20 @@ ul.breadcrumbs {
 
   li {
     text-transform: none;
-    display: inline-block;
-    @media #{$small} {padding: .25em .25em .5em .25em;}
+    display: block;
+    margin: 0 0 1em 0;
+    @media #{$small} {padding: .25em .25em .5em .25em; display: inline-block; margin: 0;}
     line-height: 1.75em;
-    margin: auto;
     vertical-align: middle;
     height: auto;
     font-size: .85em;
     @media #{$small} {font-size: 1.35em; line-height: 1.5em;}
     &:hover  {border-bottom: none; text-decoration: none;}
     &.parent {
+
+      display: block;
+      @media #{$small} {display: inline-block;}
+
       &:before {content: none; vertical-align: middle;}
       &:after {content:" › "; display: inline-block; color: #fff; padding: 0 .5em;}
 
@@ -252,7 +256,7 @@ ul.breadcrumbs {
       background: $va-body-accent-color;
       color: #444;
       font-size: 1.25em;
-      margin: 1em 0 0 0;
+
       display: block;
       padding: .25em;
       @media #{$small} {font-size: 2em; margin: 0; display: inline-block;}
@@ -319,9 +323,7 @@ ul.checklist, ol.checklist {
       span {background: rgba(0,0,0,.1); display: block; padding: 1em .5em; text-align: center;}
     }
 
-    ul.small-block-grid-2,
-    ul.small-block-grid-3,
-    ul.small-block-grid-4 {
+    ul {
       margin: 0 !important;
       padding: 0;
       text-align: center;
@@ -329,7 +331,7 @@ ul.checklist, ol.checklist {
 
       li {padding: 0; margin: 0;}
       &:before {margin: 0; padding: 0;}
-      span {margin: .25em .25em 1em .25em; color: $va-primary-color;  padding: 2.5em 1em; background: rgba($va-secondary-color, .15);}
+      span.type {margin: .25em .25em 1em .25em; color: $va-primary-color;  @media #{$small} {padding: 2.5em 1em;}  background: rgba($va-secondary-color, .15);}
       }
   }
 }
@@ -384,34 +386,8 @@ ul.checklist, ol.checklist {
 .cards {
   margin: 0;
 
-/*  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-
-  -webkit-flex-wrap: wrap;
-  -ms-flex-wrap: wrap;
-  flex-wrap: wrap;
-
-*/
-
-   li {
-     /*
-     display: -webkit-flex;
-     display: -ms-flexbox;
-     display: flex;
-
-     -webkit-flex-wrap: wrap;
-     -ms-flex-wrap: wrap;
-     flex-wrap: wrap;
-
-     -webkit-align-items: top;
-     align-items: top;
-*/
-   }
-
-
   a, .coming-soon {
-    padding: .5em;
+    padding: .75em;
     text-align: center;
     @media #{$small} {padding: 1em .5em; text-align: left;}
     display: block;
@@ -603,6 +579,10 @@ footer {
     }
   }
     @media #{$small} {display: inline;}
+  }
+
+  dt {
+    @media #{$small} {display: block; text-align: left;}
   }
 
   .post-script {
