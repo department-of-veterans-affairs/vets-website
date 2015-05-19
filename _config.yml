@@ -46,10 +46,6 @@ sass:
   images_dir: 'img/content'
   javascripts_dir: 'assets/js'
 
-gems:
-  - jekyll-sitemap
-  - jekyll-redirect-from
-
 collections:
   # list all the collections here
   - disability
