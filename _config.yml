@@ -28,10 +28,6 @@ production: true
 
 #build config
 
-kramdown:
-  parse_block_html: true
-  input: GFM
-
 timezone: America/New_York
 encoding: UTF-8
 safe: true
@@ -39,6 +35,10 @@ safe: true
 markdown: kramdown
 timezone: America/New_York
 encoding: UTF-8
+
+kramdown:
+  parse_block_html: true
+  input: GFM
 
 sass:
   sass_dir: _sass

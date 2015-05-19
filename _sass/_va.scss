@@ -78,8 +78,8 @@ h1 a {
   overflow: hidden;
   display: block;
   background: url(../images/design/logo/logo-small.png) top center no-repeat;
-  &:hover {background: url(../images/design/logo/logo-small.png) top center no-repeat; background-size: contain;}
-  width: 159px;
+  &:hover {background: url(../images/design/logo/logo-small.png) top left no-repeat; background-size: contain;}
+  width: 134px;
   height: 25px;
   background-size: contain;
   @media #{$small} {
@@ -88,7 +88,7 @@ h1 a {
       background: url(../images/design/logo/logo-hover.png) top center no-repeat;
       background-size: contain;
     }
-    width: 317px;
+    width: 263px;
     height: 50px;
     background-size: contain;
   }
@@ -359,6 +359,7 @@ ul.checklist, ol.checklist {
   position: absolute;
   top: -3.5em;
   right: -5em;
+  z-index: 1000;
   background: rgba(237,41,57, .9);
   color: #fff;
   font-size: .85em;
