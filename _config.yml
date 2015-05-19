@@ -2,7 +2,7 @@ name: Veterans.gov
 
 #URL of site, include http://, do not include a trailing slash
 #url: http://veterans.gov
-url: http://10.0.1.17:4000
+url: http://localhost:4000
 
 
 #files to exclude, array
