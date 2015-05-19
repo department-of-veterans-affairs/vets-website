@@ -79,7 +79,7 @@ h1 a {
   display: block;
   background: url(../images/design/logo/logo-small.png) top center no-repeat;
   &:hover {background: url(../images/design/logo/logo-small.png) top center no-repeat; background-size: contain;}
-  width: 145px;
+  width: 159px;
   height: 25px;
   background-size: contain;
   @media #{$small} {
@@ -88,7 +88,7 @@ h1 a {
       background: url(../images/design/logo/logo-hover.png) top center no-repeat;
       background-size: contain;
     }
-    width: 290px;
+    width: 317px;
     height: 50px;
     background-size: contain;
   }
@@ -355,71 +355,42 @@ ul.checklist, ol.checklist {
   margin: 0 auto;
 }
 
-// Flexbox
+.draft {
+  position: absolute;
+  top: -3.5em;
+  right: -5em;
+  background: rgba(237,41,57, .9);
+  color: #fff;
+  font-size: .85em;
+  position: fixed;
+  padding: 2.5em 4em 1em 4em;
+  -ms-transform: rotate(45deg); /* IE 9 */
+    -ms-transform-origin: 20% 40%; /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    -webkit-transform-origin: 20% 40%; /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+    transform-origin: 20% 40%;
 
-.list
-{
-
-
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
 }
-    .list__item
-    {
-      /*width: 25%; */
-      float: left;
-      overflow: hidden;
-        display: -webkit-flex;
-        display: -ms-flexbox;
-        display: flex;
-        border: 1px solid green;
-    }
 
 // Cards
 
-
-
 .cards {
-  margin: 0;
   -webkit-backface-visibility: hidden;
-     	backface-visibility: hidden;
-
+  backface-visibility: hidden;
+  padding-bottom: 0;
+  padding-top: 0;
 
   a, .coming-soon {
     padding: .75em;
     text-align: center;
     @media #{$small} {padding: 1em .5em; text-align: left;}
     display: block;
-    /*
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-
-    -webkit-align-items: top;
-    -webkit-justify-content: top;
-
-    -webkit-flex-direction: column;
-    flex-direction:         column;
-
-    display: flex;
-    align-items: top;
-    -webkit-align-items: top;
-    justify-content: top;
-    */
 
     width: 100%;
     color: #fff;
     text-decoration: none;
-    border-bottom: 2px solid #fff;
+    border-bottom: 4px solid rgba(255,255,255,0);
     @media #{$small} {border-bottom: 6px solid lighten($va-primary-color, 15);}
     background: lighten($va-primary-color, 15);
 
@@ -430,7 +401,9 @@ ul.checklist, ol.checklist {
       display: inline-flex;
       */
       padding: 0; margin: 0;
-      @media #{$small} {margin: .5em 0;}
+      font-size: .85em;
+
+      @media #{$small} {margin: 0;}
       /*
       -webkit-align-self: flex-start;
       align-self: flex-start;
@@ -454,49 +427,20 @@ ul.checklist, ol.checklist {
     background: #eee;
     background: rgba(0,0,0,.05);
     color: #454545;
-    border-bottom: 2px solid #fff;
+    border-bottom: 2px solid rgba(0,0,0,0);
 
     h4 {color: #444;}
 
     &:hover, &:active, &:focus {
       background: #eee;
-      background: rgba(0,0,0,.1);
+      background: rgba(0,0,0,.05);
       color: #888;
-      border-bottom: 2px solid #fff;
+      border-bottom: 2px solid rgba(0,0,0,0);
       -webkit-box-shadow: none;
       box-shadow: none;
     }
   }
 }
-
-
-
-ul.navigation-list {
-  margin: 0;
-  padding: 0;
-
-
-  li {
-
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-
-    -webkit-flex-wrap: wrap;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-
-
-    background: green;
-    border-bottom: #ccc;
-    border: 1px solid red;
-    a {
-
-     }
-  }
-
-}
-
 
 // Buttons
 
