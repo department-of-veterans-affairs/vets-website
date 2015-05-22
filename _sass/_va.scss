@@ -386,7 +386,7 @@ ul.checklist, ol.checklist {
   a, .coming-soon {
     padding: .75em;
     text-align: center;
-    @media #{$small} {padding: 1em .5em; text-align: left;}
+    @media #{$small} {padding: .45em .75em; text-align: left;}
     display: block;
 
     width: 100%;
@@ -438,6 +438,7 @@ ul.checklist, ol.checklist {
       background: #eee;
       background: rgba(0,0,0,.05);
       color: #888;
+      p {color: #444;}
       border-bottom: 2px solid rgba(0,0,0,0);
       -webkit-box-shadow: none;
       box-shadow: none;

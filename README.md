@@ -1,5 +1,5 @@
-# alpha-site
-## Alpha version of Veterans.gov
+# Veterans.gov
+## Beta version of Veterans.gov
 
 ### To run
 
