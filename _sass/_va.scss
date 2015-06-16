@@ -30,6 +30,10 @@ html, body {
   transition: all 1s ease-in-out;
 }
 
+html, body {
+  background: $va-primary-color url(../images/design/icons/watermark.png) 80% 10% no-repeat;
+}
+
 // Screen Readers
 
 .sr-only {
@@ -121,8 +125,7 @@ a:visited {}
 
 .splash {
   padding: .5em 0;
-  background: lighten($va-primary-color, 5);
-  @media #{$small} {background: lighten($va-primary-color, 5) url(../images/design/icons/watermark.png) center right no-repeat;}
+  @media #{$small} {}
   &.home {
     background: #ccc;
     background: rgba(0,0,0,.1);
@@ -131,18 +134,20 @@ a:visited {}
   @media #{$small} {padding: 1em 0;}
   @media #{$medium} {padding: 3em 0;}
   @media #{$large} {padding: 4em 0;}
-  span {
-    background: $va-body-accent-color;
+  span, h2 {
+    background: rgba($va-body-accent-color, .9);
     display: inline;
-    -webkit-box-decoration-break: clone;
     line-height: 1.3em;
     margin: 0;
     white-space: pre-wrap;
     color: #333;
   }
+
+  h2 span {background: none; clear: both; display: inline-block; line-height: 1em; white-space: inherit; margin: 0; padding: 0; font-weight: normal; font-size: .8em;}
   h2, h3, p {padding: .35em; margin: 0; display: inline-block; font-family: 'Open Sans', sans-serif;}
   h2 {
     font-size: 1em;
+    display: inline-block;
     @media #{$small} {font-size: 2em;}
   }
   h3 {font-weight: 500; font-size: 1.4em; color: #555;}
@@ -176,9 +181,20 @@ h4 {}
 h5 {}
 h6 {}
 
+// Main
+
+.main {
+  background: #fff;
+}
+
+body.home {
+  .main {background: none;}
+}
+
 // Sections
 
 section {
+  background: #fff;
   padding: 2em 0;
   &.two {
     h3 {color: darken($va-start-color, 10);}
@@ -223,6 +239,7 @@ section {
 ul.breadcrumbs {
   background: none;
   border: none;
+  h2 {font-size: 1em;}
   display: block;
   padding: 0;
   @media #{$small} {margin: 0 0 1em 0;}
@@ -352,8 +369,12 @@ ul.checklist, ol.checklist {
 .navigation {
   padding: 1em  0;
   @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 3em 0;}
-  background: rgba(0,0,0,.05);
+  background: #efefef;
   margin: 0 auto;
+}
+
+body.home .navigation {
+  background: none;
 }
 
 .draft {
@@ -427,16 +448,14 @@ ul.checklist, ol.checklist {
   }
 
   .coming-soon {
-    background: #eee;
-    background: rgba(0,0,0,.05);
+    background: rgba(255,255,255,.75);
     color: #454545;
     border-bottom: 2px solid rgba(0,0,0,0);
 
     h4 {color: #444;}
 
     &:hover, &:active, &:focus {
-      background: #eee;
-      background: rgba(0,0,0,.05);
+      background: rgba(255,255,255,.75);
       color: #888;
       p {color: #444;}
       border-bottom: 2px solid rgba(0,0,0,0);
@@ -464,16 +483,27 @@ a.button {
 }
 
 
+// Blog
+
+.post-date, .post-author {
+  color: #555;
+}
+
+.post-date {
+  margin-bottom: 2.5em;
+}
+
+
 // Footer
 
 footer {
   // background: $va-primary-color url(../img/design/seal/seal.png) bottom center no-repeat;
-  background: $va-primary-color;
+  background: darken($va-primary-color, 5);
   padding: 2em 0;
   li, p, a {color: #fff;}
   .row.secondary {
     padding: 2em 0;
-    @media #{$small} {background: $va-primary-color url(../images/design/seal/stars.png) 2% 50% no-repeat; background-size: 50px;}
+    @media #{$small} {background: url(../images/design/seal/stars.png) 2% 50% no-repeat; background-size: 50px;}
 
   }
 
@@ -489,14 +519,18 @@ footer {
 
     &:hover {color:#fff; text-decoration: none; border-bottom: 2px solid $va-highlight-color;}
 
-    &.contact {
+    &.contact, &.blog {
       margin: 1.5em auto; padding: .65em; font-size: 1em; text-align: center; border: 2px solid #fff;
       @media #{$small} {margin: 1em auto; display: inline-block; }
       &:hover, &:focus, &:active {
-        background: lighten($va-primary-color, 20);
+        background: #fff; color: $va-primary-color;
       }
 
     }
+
+    &.contact {margin: 0 0 0 1em;}
+    &.blog {border: none; &:hover {background: none; color: $va-highlight-color;}}
+
   }
   ul {margin: 0; padding: 0 0 2em 0;}
   li {list-style: none; padding: 0 1em; margin: 0 auto; text-align: center; display: block; a {}}
