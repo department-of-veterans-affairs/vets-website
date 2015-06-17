@@ -1,6 +1,10 @@
 <!DOCTYPE html>
-<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
-<!--[if gt IE 8]><html class="no-js ie-good" lang="en"><![endif]-->
+<html class="no-js" lang="en">
+<!--[if lt IE 7 ]> <html lang="en" class="ie6"> <![endif]-->
+<!--[if IE 7 ]> <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9 ]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
 
 <head>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -17,9 +21,9 @@
 
 
 <!-- Header Javascript and CSS for animation-->
-<link rel="stylesheet" href="http://department-of-veterans-affairs.github.io/beta-site/assets/css/vendor/animate.css">
-<script src="http://department-of-veterans-affairs.github.io/beta-site/assets/js/vendor/jquery-1.11.0.min.js"></script>
-<script src="http://department-of-veterans-affairs.github.io/beta-site/assets/js/vendor/wow.min.js"></script>
+<link rel="stylesheet" href="http://localhost:4000/assets/css/vendor/animate.css">
+<script src="http://localhost:4000/assets/js/vendor/jquery-1.11.0.min.js"></script>
+<script src="http://localhost:4000/assets/js/vendor/wow.min.js"></script>
 
 <script>
 new WOW().init();
@@ -27,18 +31,18 @@ new WOW().init();
 
 
 <!-- Icons -->
-<link href="http://department-of-veterans-affairs.github.io/beta-site/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
-<link href="http://department-of-veterans-affairs.github.io/beta-site/assets/images/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
-<link href="http://department-of-veterans-affairs.github.io/beta-site/assets/images/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
-<link href="http://department-of-veterans-affairs.github.io/beta-site/assets/images/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
-<link rel="shortcut icon" href="http://department-of-veterans-affairs.github.io/beta-site/assets/images/design/icons/favicon.ico" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
+<link rel="shortcut icon" href="http://localhost:4000/assets/images/design/icons/favicon.ico" />
 
-<meta name="msapplication-TileImage" content="http://department-of-veterans-affairs.github.io/beta-site/assets/images/design/icons/apple-touch-icon-114x114">
+<meta name="msapplication-TileImage" content="http://localhost:4000/assets/images/design/icons/apple-touch-icon-114x114">
 <meta name="msapplication-TileColor" content="#144073">
 
 
 <!-- CSS -->
-<link rel='stylesheet' href='http://department-of-veterans-affairs.github.io/beta-site/assets/css/style.css'>
+<link rel='stylesheet' href='http://localhost:4000/assets/css/style.css'>
 
 <!-- Fonts -->
 <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
@@ -92,17 +96,18 @@ new WOW().init();
 </symbol>
 
 </head>
-<body>
+<body class="home post">
 
 <div class="header">
 	<div class="row">
 		<div class="small-12 medium-4 columns">
-			<h1 role="banner"><a href="http://department-of-veterans-affairs.github.io/beta-site">Veterans.gov</a></h1>
-
+			<h1 role="banner"><a href="http://localhost:4000">Veterans.gov</a></h1>
 			<div class="draft">Draft</div>
 		</div>
 	</div>
 </div>
+
+<h2 class="sr-only">Veterans.gov</h2>
 
 
 <div class="main" role="main">
@@ -124,49 +129,49 @@ new WOW().init();
 
         <li>
           <a href="disability-benefits/" data-equalizer-watch>
-            <h4>Disability Benefits</h4>
+            <h3>Disability Benefits</h3>
             <p>For Veterans with service-connected disabilities, medical conditions, or injuries, as well as benefits for some survivors of Veterans and Servicemembers.</p>
           </a>
         </li>
 
         <li>
           <a href="education/" data-equalizer-watch>
-            <h4>Education and training</h4>
+            <h3>Education and training</h3>
             <p>For Veterans and Servicemembers, as well as for some dependents and survivors of Veterans and Servicemembers.</p>
           </a>
         </li>
 
         <li>
           <div class="coming-soon" data-equalizer-watch>
-            <h4>Dependent and caretaker benefits</h4>
+            <h3>Dependent and caretaker benefits</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
           <div class="coming-soon" data-equalizer-watch>
-            <h4>Travel reimbursement</h4>
+            <h3>Travel reimbursement</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
           <div class="coming-soon" data-equalizer-watch>
-            <h4>Jobs and employment</h4>
+            <h3>Jobs and employment</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
           <div class="coming-soon" data-equalizer-watch >
-            <h4>Mental health</h4>
+            <h3>Mental health</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
           <div class="coming-soon" data-equalizer-watch>
-            <h4>Loss of a family member</h4>
+            <h3>Loss of a family member</h3>
             <p>Coming soon</p>
           </div>
         </li>
@@ -174,28 +179,28 @@ new WOW().init();
 
         <li>
           <div class="coming-soon" data-equalizer-watch>
-            <h4>Spouses and dependents</h4>
+            <h3>Spouses and dependents</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
           <div class="coming-soon" data-equalizer-watch>
-            <h4>Homeless resources</h4>
+            <h3>Homeless resources</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
           <div class="coming-soon" data-equalizer-watch>
-            <h4>Medical records</h4>
+            <h3>Medical records</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
           <div class="coming-soon" data-equalizer-watch>
-            <h4>Service records</h4>
+            <h3>Service records</h3>
             <p>Coming soon</p>
           </div>
         </li>
@@ -239,6 +244,7 @@ new WOW().init();
         </div>
 
         <div class="small-12 medium-4 text-right columns">
+          <a href="/blog/" class="blog">Blog</a>
           <a href="https://www.va.gov/landing2_contact.htm" class="contact">Contact Us</a>
         </div>
 
@@ -254,8 +260,8 @@ new WOW().init();
 
 <!-- Foundation JS -->
 
-<script src="http://department-of-veterans-affairs.github.io/beta-site/assets/js/foundation/foundation.js"></script>
-<script src="http://department-of-veterans-affairs.github.io/beta-site/assets/js/foundation/foundation.equalizer.js"></script>
+<script src="http://localhost:4000/assets/js/foundation/foundation.js"></script>
+<script src="http://localhost:4000/assets/js/foundation/foundation.equalizer.js"></script>
 
 
 <script>
@@ -271,6 +277,7 @@ equalize_on_stack: true
 - Abraham Lincoln
 -->
 
+<script src="tota11y.min.js"></script>
 </body>
 </html>
 

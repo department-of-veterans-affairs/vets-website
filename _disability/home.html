@@ -9,45 +9,53 @@ category: parent
   <div class="row">
     <div class="small-12 columns">
 
-      <ul class="breadcrumbs">
-        <li class="active">Disability benefits</li>
+      <ul class="breadcrumbs" role="menubar" aria-label="Primary">
+        <li class="active">{{ page.title }}</h2>
+        </li>
       </ul>
 
     </div>
   </div>
 </div>
 
+<div class="main" role="main">
 
-<div class="introductory-content">
-  <div class="row">
-    <div class="small-12 columns medium-10 medium-centered">
-      <p>Benefits for Veterans with service-connected disabilities, medical conditions, or injuries, as well as benefits for some survivors of Veterans and Servicemembers.</p>
+  <div class="introductory-content">
+    <div class="row">
+      <div class="small-12 medium-9 columns">
+        <p>Benefits for Veterans with service-connected disabilities, medical conditions, or injuries, as well as benefits for some survivors of Veterans and Servicemembers.</p>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns medium-10 medium-centered">
+
+
+  <div class="navigation" role="navigation" aria-label="Secondary">
+    <div class="row">
+      <div class="small-12 columns">
 
         <ul class="small-block-grid-1 medium-block-grid-2 cards">
 
           <li>
             <a href="{{ site.url }}/disability-benefits/get/">
               <div>
-                <h4>Get benefits</h4>
+                <h3>Get benefits</h3>
               </div>
             </a>
           </li>
+
           <li>
             <a href="{{ site.url }}/disability-benefits/learn/">
               <div>
-                <h4>Learn about benefits</h4>
+                <h3>Learn about benefits</h3>
               </div>
             </a>
-          </li>
-        </ul>
 
+          </li>
+
+        </ul>
+      </div>
     </div>
   </div>
+
 </div>
