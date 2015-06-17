@@ -2,8 +2,8 @@ name: Veterans.gov
 
 #URL of site, include http://, do not include a trailing slash
 #url: http://veterans.gov
-#url: http://department-of-veterans-affairs.github.io/beta-site
-url: http://localhost:4000
+url: http://department-of-veterans-affairs.github.io/beta-site
+#url: http://localhost:4000
 
 #files to exclude, array
 exclude:
