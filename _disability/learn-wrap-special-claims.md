@@ -34,7 +34,7 @@ VA may grant a temporary 12-month 50 or 100 percent initial rating to a Veteran 
 
 
 #####Learn about Title 38 U.S.C. 1151 claims 
-#####Learn about automobile llowance
+#####Learn about automobile allowance
 #####Learn about birth defects/spina bifida
 #####Learn about clothing allowance
 #####Learn about convalescence
@@ -46,19 +46,3 @@ VA may grant a temporary 12-month 50 or 100 percent initial rating to a Veteran 
 
 #### Sources:
 - http://www.benefits.va.gov/COMPENSATION/claims-special-index.asp
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

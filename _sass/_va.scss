@@ -9,7 +9,7 @@ $va-highlight-color: #4FCEFF;
 $va-body-content-color: #444;
 $va-body-accent-color: #FFD43E;
 $va-body-background-color: #fff;
-$va-start-color: #05A48E;
+$va-start-color: #008674;
 
 // General
 
@@ -31,7 +31,7 @@ html, body {
 }
 
 html, body {
-  background: $va-primary-color url(../images/design/icons/watermark.png) 80% 10% no-repeat;
+  background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;
 }
 
 // Screen Readers
@@ -40,7 +40,6 @@ html, body {
   position: absolute;
   left: -9999em;
   float: left;
-  font-size: 1px;
 }
 
 // Abbr
@@ -72,11 +71,12 @@ a {
 .header {
   clear: both;
   padding: 0 0 .5em 0;
-  border-bottom: 2px solid #ff;
   h1 {margin-bottom: 0; line-height: 1em;}
+  color: #fff;
 }
 
-h1 a {
+h1 {
+  a {
   text-indent: 180%;
   white-space: nowrap;
   overflow: hidden;
@@ -86,15 +86,16 @@ h1 a {
   width: 134px;
   height: 25px;
   background-size: contain;
-  @media #{$small} {
-    background: url(../images/design/logo/logo.png) top center no-repeat;
-    &:hover {
-      background: url(../images/design/logo/logo-hover.png) top center no-repeat;
+    @media #{$small} {
+      background: url(../images/design/logo/logo.png) top center no-repeat;
+      &:hover {
+        background: url(../images/design/logo/logo-hover.png) top center no-repeat;
+        background-size: contain;
+      }
+      width: 263px;
+      height: 50px;
       background-size: contain;
     }
-    width: 263px;
-    height: 50px;
-    background-size: contain;
   }
 }
 
@@ -108,11 +109,6 @@ h1, h2, h3, h4, h5, h6 {
 
 // Header
 
-.header {
-  background: $va-primary-color;
-  color: #fff;
-  h1, a {color: #fff;}
-}
 
 // Links
 
@@ -187,7 +183,7 @@ h6 {}
   background: #fff;
 }
 
-body.home {
+body.home, body.fourohfour {
   .main {background: none;}
 }
 
@@ -373,7 +369,7 @@ ul.checklist, ol.checklist {
   margin: 0 auto;
 }
 
-body.home .navigation {
+body.home .navigation, body.fourohfour .navigation {
   background: none;
 }
 
@@ -382,7 +378,7 @@ body.home .navigation {
   top: -3.5em;
   right: -5em;
   z-index: 1000;
-  background: rgba(237,41,57, .9);
+  background: rgba(#a91d28, .9);
   color: #fff;
   font-size: .85em;
   position: fixed;
@@ -407,6 +403,7 @@ body.home .navigation {
   a, .coming-soon {
     padding: .75em;
     text-align: center;
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
     @media #{$small} {padding: .45em .75em; text-align: left;}
     display: block;
 
@@ -415,7 +412,8 @@ body.home .navigation {
     text-decoration: none;
     border-bottom: 4px solid rgba(255,255,255,0);
     @media #{$small} {border-bottom: 6px solid lighten($va-primary-color, 15);}
-    background: lighten($va-primary-color, 15);
+    background: rgba(#1C579E,.85);
+    h3 {font-size: 1.45em;}
 
     h4 {/*-webkit-align-self: flex-start; align-self: flex-start; */}
 
@@ -423,9 +421,9 @@ body.home .navigation {
     /*  display: -webkit-inline-flex;
       display: inline-flex;
       */
-      padding: 0; margin: 0;
-      font-size: .85em;
-      line-height: 1.4em;
+      padding: 0 0 1em 0; margin: 0 0 1em 0;
+      font-size: .8em;
+      line-height: 1.5em;
 
       @media #{$small} {margin: 0;}
       /*
@@ -448,16 +446,16 @@ body.home .navigation {
   }
 
   .coming-soon {
-    background: rgba(255,255,255,.75);
-    color: #454545;
+    background: rgba(255,255,255,.05);
+    color: #fff;
     border-bottom: 2px solid rgba(0,0,0,0);
 
-    h4 {color: #444;}
+    h3 {color: #fff; color: rgba(255,255,255,.7);}
 
     &:hover, &:active, &:focus {
-      background: rgba(255,255,255,.75);
-      color: #888;
-      p {color: #444;}
+      background: rgba(255,255,255,.05);
+      color: #fff;
+      p {color: #fff;}
       border-bottom: 2px solid rgba(0,0,0,0);
       -webkit-box-shadow: none;
       box-shadow: none;
