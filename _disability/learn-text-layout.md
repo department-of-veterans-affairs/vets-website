@@ -5,24 +5,24 @@ title: What are the different kinds of disability claims?
 ---
 
 <div class="splash" markdown="0">
-  <div class="row" markdown="0">
-    <div class="small-12 columns" markdown="0">
+<div class="row" markdown="0">
+<div class="small-12 columns" markdown="0">
 
-      <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-        <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-        <li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">Learn about disability benefits</a></li>
-        <li class="active">{{ page.title }}</li>
-      </ul>
+<ul class="breadcrumbs" role="menubar" aria-label="Primary">
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">Learn about disability benefits</a></li>
+<li class="active">{{ page.title }}</li>
+</ul>
 
-    </div>
-  </div>
+</div>
+</div>
 </div>
 
 <div class="main" role="main">
 
 <section class="one" markdown="0">
-  <div class="row" markdown="0">
-    <div class="small-12 medium-10 medium-centered columns" markdown="1">
+<div class="row" markdown="0">
+<div class="small-12 medium-10 medium-centered columns" markdown="1">
 
 ### [Learning Question] What are the different kinds of disability claims?
 
@@ -45,30 +45,30 @@ A reopened disability claim is a resubmission of a previously denied claim filed
 ##### [Sub Learn] 4. Secondary disability claim
 A secondary disability claim is a new claim linked to an existing VA-recognized service-connected disability.
 
-    </div>
-  </div>
+</div>
+</div>
 </section>
 
 <div class="navigation" markdown="0" aria-label="Secondary">
-  <div class="row" markdown="0">
-    <div class="small-12 medium-10 medium-centered columns" markdown="1">
+<div class="row" markdown="0">
+<div class="small-12 medium-10 medium-centered columns" markdown="1">
 
 - More Learning Options
 - Learn about claims processes
 - Learn about dependent and survivor benefits and services
 
-    </div>  
-  </div>
+</div>  
+</div>
 </div>
 
 <section class="two" markdown="0">
-  <div class="action" markdown="0">
-    <div class="row" markdown="0">
-      <div class="small-12 medium-10 medium-centered columns" markdown="0">
-        <a class="button start expand" href="#">Apply for benefits</a>
-      </div>
-    </div>
-  </div>
+<div class="action" markdown="0">
+<div class="row" markdown="0">
+<div class="small-12 medium-10 medium-centered columns" markdown="0">
+<a class="button start expand" href="#">Apply for benefits</a>
+</div>
+</div>
+</div>
 </section>
 
 

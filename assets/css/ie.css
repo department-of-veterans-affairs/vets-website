@@ -1,0 +1,118 @@
+// IE 8 and lower
+
+body {
+}
+
+html .main .row {
+  width: 960px;
+  margin: 0 auto;
+}
+
+.header h1 a, .header h1 a:hover, .header h1 a:active, .header h1 a:focus {
+  display: block;
+  width: 315px;
+  height: 60px;
+}
+
+ul.cards li  {
+  width: 100%;
+
+  text-align: left !important;
+  padding: 0;
+  margin: 0;
+}
+
+ul.cards li a, ul.cards li .coming-soon {padding: 1em 0; text-align: left; border-bottom: 1px solid #def;}
+
+ul.cards li a:hover, ul.cards li .coming-soon:hover {border-bottom: 1px solid #def;}
+
+.splash span, .splash h2 {
+  background: #E8C541;
+  font-size: 1.5em;
+  margin: 1em 0;
+}
+
+.navigation {
+  padding: 2em 0;
+}
+
+.navigation ul.cards li a {
+  background: #3A6EAA;
+  margin-bottom: .5em;
+  padding: .5em;
+}
+
+.draft {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: .55em;
+  background: #9C202C;
+  color: #fff;
+}
+
+ul.breadcrumbs {
+  display: block;
+  margin-bottom: 2em;
+}
+
+*.three {
+    background: #fff;
+}
+
+ol.checklist ul li {
+  background: #F5EDE0;
+  margin: 0 .25em;
+  float: left;
+  display: inline-block;
+  padding: .5em 1.5em;
+  border: 2px solid #fff;
+  text-align: center;
+}
+
+ol.checklist ul li i, ol.checklist ul li svg, ol.checklist ul li .icon {display: none;}
+
+.main {padding: 2em 0 0 0;}
+
+.footer {
+  background: #10345E;
+}
+
+section {
+  border: 4px solid purple;
+}
+
+.footer a {
+  border-bottom: 2px solid #103E74;
+}
+
+.footer a.blog, .footer a.contact  {
+  max-width: auto !important;
+  width: auto !important;
+  display: inline-block;
+  margin: 0;
+}
+
+.footer .social {
+  float: right;
+  width: 30%;
+}
+
+.footer .address {
+  float: left;
+  width: 60%;
+}
+
+.footer dl.vcard {
+  padding-left: 1em;
+}
+
+.footer dl.vcard dl, .footer dl.vcard dt, .footer dl.vcard dd {
+  display: inline;
+  text-align: left;
+  margin-right: .35em;
+}
+
+.footer dl.vcard dt {
+  display: block;
+}
