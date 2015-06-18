@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
 <!--[if lt IE 7 ]> <html lang="en" class="ie6"> <![endif]-->
 <!--[if IE 7 ]> <html lang="en" class="ie7"> <![endif]-->
 <!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
@@ -12,12 +11,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Veterans.gov:</title>
 
+<!-- IE 8 Shims -->
+<!-- http://foundation.zurb.com/forum/posts/241-foundation-5-and-ie8 -->
 <!--[if lt IE 9]>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
-  <script src="//s3.amazonaws.com/nwapi/nwmatcher/nwmatcher-1.2.5-min.js"></script>
-  <script src="//html5base.googlecode.com/svn-history/r38/trunk/js/selectivizr-1.0.3b.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+  <script src="http://s3.amazonaws.com/nwapi/nwmatcher/nwmatcher-1.2.5-min.js"></script>
+  <script src="http://html5base.googlecode.com/svn-history/r38/trunk/js/selectivizr-1.0.3b.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
 <![endif]-->
+
+<!--[if lt IE 9] >
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 
 
 <!-- Header Javascript and CSS for animation-->
@@ -28,6 +33,8 @@
 <script>
 new WOW().init();
 </script>
+
+
 
 
 <!-- Icons -->
@@ -46,6 +53,13 @@ new WOW().init();
 
 <!-- Fonts -->
 <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
+
+<!-- Old IE -->
+
+<!--[if lt IE 9]>
+<link rel='stylesheet' href='{{ site.url }}/assets/css/ie.css'>
+<![endif]-->
+
 
 <!-- SVG -->
 <svg display="none" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -99,7 +113,7 @@ new WOW().init();
 <body class="{{ page.layout }} post{{ page.id | replace:"/","-" }}">
 
 <div class="header">
-	<div class="row">
+	<div class="row full">
 		<div class="small-12 medium-4 columns">
 			<h1 role="banner"><a href="{{ site.url }}">Veterans.gov</a></h1>
 			<div class="draft">Draft</div>
