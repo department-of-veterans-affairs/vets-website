@@ -2,7 +2,7 @@
 
 //Colors
 
-$va-primary-color: #174172;
+$va-primary-color: #144073;
 $va-secondary-color: #C08A38;
 $va-tertiary-color: #444;
 $va-highlight-color: #4FCEFF;
@@ -16,22 +16,33 @@ $va-start-color: #008674;
 html, body {
   font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-weight: 300; color: $va-body-content-color;
   background: $va-body-background-color;
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   background: #fff;
   font-weight: 500;
   font-family: 'Open Sans', sans-serif;
-  -webkit-transition: all 1s ease-in-out;
-  -moz-transition: all 1s ease-in-out;
-  -o-transition: all 1s ease-in-out;
-  transition: all 1s ease-in-out;
 }
 
 html, body {
   background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;
+}
+
+// row
+
+body.home .row.full {
+  width: 100%;
+  max-width: 100%;
+}
+
+body.page-disability .row {
+  max-width: 55em;
+}
+
+body.page-disability .row.full {
+  max-width: 100%;
+}
+
+body.home .row {
+  max-width: 62.5em;
 }
 
 // Screen Readers
@@ -81,7 +92,7 @@ h1 {
   white-space: nowrap;
   overflow: hidden;
   display: block;
-  background: url(../images/design/logo/logo-small.png) top center no-repeat;
+  background: url(../images/design/logo/logo-small.png) top left no-repeat;
   &:hover {background: url(../images/design/logo/logo-small.png) top left no-repeat; background-size: contain;}
   width: 134px;
   height: 25px;
@@ -494,9 +505,12 @@ a.button {
 
 // Footer
 
-footer {
+.footer {
   // background: $va-primary-color url(../img/design/seal/seal.png) bottom center no-repeat;
-  background: darken($va-primary-color, 5);
+
+
+background: #10345E;
+
   padding: 2em 0;
   li, p, a {color: #fff;}
   .row.secondary {

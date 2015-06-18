@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
 <!--[if lt IE 7 ]> <html lang="en" class="ie6"> <![endif]-->
 <!--[if IE 7 ]> <html lang="en" class="ie7"> <![endif]-->
 <!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
@@ -12,40 +11,55 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Veterans.gov:</title>
 
+<!-- IE 8 Shims -->
+<!-- http://foundation.zurb.com/forum/posts/241-foundation-5-and-ie8 -->
 <!--[if lt IE 9]>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
-  <script src="//s3.amazonaws.com/nwapi/nwmatcher/nwmatcher-1.2.5-min.js"></script>
-  <script src="//html5base.googlecode.com/svn-history/r38/trunk/js/selectivizr-1.0.3b.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
+  <script src="http://s3.amazonaws.com/nwapi/nwmatcher/nwmatcher-1.2.5-min.js"></script>
+  <script src="http://html5base.googlecode.com/svn-history/r38/trunk/js/selectivizr-1.0.3b.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
 <![endif]-->
+
+<!--[if lt IE 9] >
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
 
 
 <!-- Header Javascript and CSS for animation-->
-<link rel="stylesheet" href="http://localhost:4000/assets/css/vendor/animate.css">
-<script src="http://localhost:4000/assets/js/vendor/jquery-1.11.0.min.js"></script>
-<script src="http://localhost:4000/assets/js/vendor/wow.min.js"></script>
+<link rel="stylesheet" href="http://10.0.1.3:4000/assets/css/vendor/animate.css">
+<script src="http://10.0.1.3:4000/assets/js/vendor/jquery-1.11.0.min.js"></script>
+<script src="http://10.0.1.3:4000/assets/js/vendor/wow.min.js"></script>
 
 <script>
 new WOW().init();
 </script>
 
 
-<!-- Icons -->
-<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
-<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
-<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
-<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
-<link rel="shortcut icon" href="http://localhost:4000/assets/images/design/icons/favicon.ico" />
 
-<meta name="msapplication-TileImage" content="http://localhost:4000/assets/images/design/icons/apple-touch-icon-114x114">
+
+<!-- Icons -->
+<link href="http://10.0.1.3:4000/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+<link href="http://10.0.1.3:4000/assets/images/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
+<link href="http://10.0.1.3:4000/assets/images/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
+<link href="http://10.0.1.3:4000/assets/images/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
+<link rel="shortcut icon" href="http://10.0.1.3:4000/assets/images/design/icons/favicon.ico" />
+
+<meta name="msapplication-TileImage" content="http://10.0.1.3:4000/assets/images/design/icons/apple-touch-icon-114x114">
 <meta name="msapplication-TileColor" content="#144073">
 
 
 <!-- CSS -->
-<link rel='stylesheet' href='http://localhost:4000/assets/css/style.css'>
+<link rel='stylesheet' href='http://10.0.1.3:4000/assets/css/style.css'>
 
 <!-- Fonts -->
 <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
+
+<!-- Old IE -->
+
+<!--[if lt IE 9]>
+<link rel='stylesheet' href='http://10.0.1.3:4000/assets/css/ie.css'>
+<![endif]-->
+
 
 <!-- SVG -->
 <svg display="none" width="0" height="0" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -99,9 +113,9 @@ new WOW().init();
 <body class="page post">
 
 <div class="header">
-	<div class="row">
+	<div class="row full">
 		<div class="small-12 medium-4 columns">
-			<h1 role="banner"><a href="http://localhost:4000">Veterans.gov</a></h1>
+			<h1 role="banner"><a href="http://10.0.1.3:4000">Veterans.gov</a></h1>
 			<div class="draft">Draft</div>
 		</div>
 	</div>
@@ -225,7 +239,7 @@ new WOW().init();
 </div><!-- /content -->
 
 
-<footer role="contentinfo">
+<div class="footer" role="contentinfo">
   <div class="row wow fadeIn animated">
     <div class="small-12 columns text-center">
 
@@ -246,7 +260,7 @@ new WOW().init();
     <div class="small-12 columns">
 
       <div class="row">
-        <div class="small-12 medium-8 columns">
+        <div class="small-12 medium-8 address columns">
           <dl class="vcard">
             <dt class="org fn"><abbr title="United States">U.S.</abbr> Department of Veterans Affairs</dt>
             <dd class="street-adr">810 Vermont Avenue <abbr title="North West">NW</abbr></dd>
@@ -255,7 +269,7 @@ new WOW().init();
           </dl>
         </div>
 
-        <div class="small-12 medium-4 text-right columns">
+        <div class="small-12 medium-4 text-right social columns">
           <a href="/blog/" class="blog">Blog</a>
           <a href="https://www.va.gov/landing2_contact.htm" class="contact">Contact Us</a>
         </div>
@@ -268,12 +282,12 @@ new WOW().init();
 
 
 
-</footer>
+</div>
 
 <!-- Foundation JS -->
 
-<script src="http://localhost:4000/assets/js/foundation/foundation.js"></script>
-<script src="http://localhost:4000/assets/js/foundation/foundation.equalizer.js"></script>
+<script src="http://10.0.1.3:4000/assets/js/foundation/foundation.js"></script>
+<script src="http://10.0.1.3:4000/assets/js/foundation/foundation.equalizer.js"></script>
 
 
 <script>
@@ -289,7 +303,6 @@ equalize_on_stack: true
 - Abraham Lincoln
 -->
 
-<script src="tota11y.min.js"></script>
 </body>
 </html>
 

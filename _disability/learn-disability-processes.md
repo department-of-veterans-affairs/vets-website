@@ -5,24 +5,24 @@ title: Claim processes
 ---
 
 <div class="splash" markdown="0">
-  <div class="row" markdown="0">
-    <div class="small-12 columns" markdown="0">
+<div class="row" markdown="0">
+<div class="small-12 columns" markdown="0">
 
-      <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-        <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-        <li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">Learn about disability benefits</a></li>
-        <li class="active">{{ page.title }}</li>
-      </ul>
+<ul class="breadcrumbs" role="menubar" aria-label="Primary">
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">Learn about disability benefits</a></li>
+<li class="active">{{ page.title }}</li>
+</ul>
 
-    </div>
-  </div>
+</div>
+</div>
 </div>
 
 <div class="main" role="main">
 
 <section class="one" markdown="0">
-  <div class="row" markdown="0">
-    <div class="small-12 medium-10 medium-centered columns" markdown="1">
+<div class="row" markdown="0">
+<div class="small-12 medium-10 medium-centered columns" markdown="1">
 
 
 ### What are the different types of claims processes?
@@ -62,28 +62,28 @@ VA recommends the appointment of an accredited Veterans service officer to help 
 
 They will help gather required medical records, collect evidence, and submit a fully developed claim by paper or online at a local regional Veterans Affairs office. An accredited Veterans Service Officer is a free service.
 
-    </div>
-  </div>
+</div>
+</div>
 </section>
 
 <section class="two" markdown="0">
-  <div class="row" markdown="0">
-    <div class="small-12 medium-10 medium-centered columns" markdown="1">
+<div class="row" markdown="0">
+<div class="small-12 medium-10 medium-centered columns" markdown="1">
 
 - Learn about regional Veterans Affairs offices (url)
 - Learn about dependent and survivor benefits and services (url)
 - Learn about claims processes that can be filed before a Veteran’s separation from service] (url)
 
-    </div>
-  </div>
+</div>
+</div>
 </section>
 
 <div class="action" markdown="0">
-  <div class="row" markdown="0">
-    <div class="small-12 medium-10 medium-centered columns" markdown="0">
-      <a class="button start expand" href="#">Apply for benefits</a>
-    </div>
-  </div>
+<div class="row" markdown="0">
+<div class="small-12 medium-10 medium-centered columns" markdown="0">
+<a class="button start expand" href="#">Apply for benefits</a>
+</div>
+</div>
 </div>
 
 
