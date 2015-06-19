@@ -423,7 +423,8 @@ body.home .navigation, body.fourohfour .navigation {
     text-decoration: none;
     border-bottom: 4px solid rgba(255,255,255,0);
     @media #{$small} {border-bottom: 6px solid lighten($va-primary-color, 15);}
-    background: rgba(#1C579E,.85);
+    background: rgba(#1C579E,.9);
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
     h3 {font-size: 1.45em;}
 
     h4 {/*-webkit-align-self: flex-start; align-self: flex-start; */}
