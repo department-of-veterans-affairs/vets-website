@@ -636,6 +636,17 @@ svg {
 	color: #444444;
 }
 
+// Alerts
+
+.alert-box {
+  border-bottom: none;
+  padding: 1em .4em;
+  a {color: #fff; background: none;}
+  &.notice {
+  background: rgba(#a91d28, .9);
+  }
+}
+
 /* ================================================================================
 Example showing how to change the color/size of the icons:
 .icon-name {

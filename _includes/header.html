@@ -110,13 +110,28 @@ new WOW().init();
 </symbol>
 
 </head>
-<body class="{{ page.layout }} post{{ page.id | replace:"/","-" }}">
+<body class="{{ page.layout }}">
+
+
+<div data-alert class="alert-box notice">
+	<div class="row full">
+		<div class="small-12 medium-8 columns">
+			This beta site is in active development — We need your help to make this better. All feedback welcome.
+		</div>
+
+		<div class="small-12 medium-4 text-right columns">
+			<a href="#">Feedback</a>
+		</div>
+
+	</div>
+</div>
+
 
 <div class="header">
 	<div class="row full">
 		<div class="small-12 medium-4 columns">
 			<h1 role="banner"><a href="{{ site.url }}">Veterans.gov</a></h1>
-			<div class="draft">Draft</div>
+			<!-- <div class="draft">Draft</div> -->
 		</div>
 	</div>
 </div>
