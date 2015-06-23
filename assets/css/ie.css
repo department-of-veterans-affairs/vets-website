@@ -6,6 +6,27 @@ body {
 html .main .row {
   width: 960px;
   margin: 0 auto;
+  clear: both;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
+html .main .row:after {
+  visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+}
+
+body.page-disability .row.full, body.page-education .row.full {
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+body.page-disability .splash, body.page-education .splash {
+  padding-left: .5em;
 }
 
 .header h1 a, .header h1 a:hover, .header h1 a:active, .header h1 a:focus {
@@ -76,6 +97,8 @@ ol.checklist ul li i, ol.checklist ul li svg, ol.checklist ul li .icon {display:
 
 .footer {
   background: #10345E;
+  padding-right: 1em;
+  padding-left: 1em;
 }
 
 section {
@@ -115,4 +138,14 @@ section {
 
 .footer dl.vcard dt {
   display: block;
+}
+
+.alert-box.notice .message {
+  float: left;
+  width: 70%;
+}
+
+.alert-box.notice .info {
+  float: right;
+  width: 20%;
 }

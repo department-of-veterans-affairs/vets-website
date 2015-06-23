@@ -49,7 +49,7 @@ A secondary disability claim is a new claim linked to an existing VA-recognized 
 
 </div>
 </div>
-</section>
+</div>
 
 <section class="two" markdown="0">
 <div class="action" markdown="0">
@@ -59,7 +59,7 @@ A secondary disability claim is a new claim linked to an existing VA-recognized 
 </div>
 </div>
 </div>
-</section>
+</div>
 
 <div class="row" markdown="0">
 <div class="small-12 medium-10 medium-centered columns" markdown="1">

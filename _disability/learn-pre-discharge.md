@@ -39,7 +39,7 @@ Service-members can submit a disability claim when they are 1 to 59 days away fr
 
 </div>
 </div>
-</section>
+</div>
 
 <div class="navigation" role="menubar" aria-label="Secondary">
 <div class="row" markdown="0">

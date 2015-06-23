@@ -11,20 +11,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Veterans.gov:</title>
 
-<!-- IE 8 Shims -->
-<!-- http://foundation.zurb.com/forum/posts/241-foundation-5-and-ie8 -->
-<!--[if lt IE 9]>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
-  <script src="http://s3.amazonaws.com/nwapi/nwmatcher/nwmatcher-1.2.5-min.js"></script>
-  <script src="http://html5base.googlecode.com/svn-history/r38/trunk/js/selectivizr-1.0.3b.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/respond.js/1.1.0/respond.min.js"></script>
-<![endif]-->
-
-<!--[if lt IE 9] >
-	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-	<![endif]-->
-
-
 <!-- Header Javascript and CSS for animation-->
 <link rel="stylesheet" href="{{ site.url }}/assets/css/vendor/animate.css">
 <script src="{{ site.url }}/assets/js/vendor/jquery-1.11.0.min.js"></script>
@@ -34,6 +20,11 @@
 new WOW().init();
 </script>
 
+
+
+<!--[if lt IE 9]>
+<script src="{{ site.url }}/assets/js/vendor/html5shiv.js"></script>
+<![endif]-->
 
 
 
@@ -115,11 +106,11 @@ new WOW().init();
 
 <div data-alert class="alert-box notice">
 	<div class="row full">
-		<div class="small-12 medium-8 columns">
+		<div class="small-12 medium-8 columns message">
 			This beta site is in active development and we need your help to make it better. All feedback welcome.
 		</div>
 
-		<div class="small-12 medium-4 text-right columns">
+		<div class="small-12 medium-4 text-right columns info">
 			Draft
 		</div>
 
