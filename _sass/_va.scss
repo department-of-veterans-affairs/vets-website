@@ -33,11 +33,11 @@ body.home .row.full {
   max-width: 100%;
 }
 
-body.page-disability .row {
+body.interior .row {
   max-width: 55em;
 }
 
-body.page-disability .row.full {
+body.page-disability .row.full, body.page-education .row.full {
   max-width: 100%;
 }
 
@@ -200,14 +200,18 @@ body.home, body.fourohfour {
 
 // Sections
 
-section {
+.section {
   background: #fff;
   padding: 2em 0;
   &.two {
     h3 {color: darken($va-start-color, 10);}
+    background: #E4F2F0;
     background: rgba($va-start-color, 0.1);
+    clear: both;
   }
+  &.three {clear: both; padding: 2em 0;}
 }
+
 
 // Action
 
@@ -644,6 +648,7 @@ svg {
   padding: 1em .4em;
   a {color: #fff; background: none;}
   &.notice {
+  background: #9D1F2C;
   background: rgba(#a91d28, .9);
   }
 }
