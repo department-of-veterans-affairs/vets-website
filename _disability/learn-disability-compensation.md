@@ -37,7 +37,7 @@ There are different types of disability claims and there are different ways to p
 
 </div>
 </div>
-</section>
+</div>
 
 
 <section class="two" markdown="0">
@@ -48,7 +48,7 @@ There are different types of disability claims and there are different ways to p
 </div>
 </div>
 </div>
-</section>
+</div>
 
 <div class="row" markdown="0">
 <div class="small-12 medium-10 medium-centered columns" markdown="1">

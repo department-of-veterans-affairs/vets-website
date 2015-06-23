@@ -64,7 +64,7 @@ They will help gather required medical records, collect evidence, and submit a f
 
 </div>
 </div>
-</section>
+</div>
 
 <section class="two" markdown="0">
 <div class="row" markdown="0">
@@ -76,7 +76,7 @@ They will help gather required medical records, collect evidence, and submit a f
 
 </div>
 </div>
-</section>
+</div>
 
 <div class="action" markdown="0">
 <div class="row" markdown="0">
