@@ -1,13 +1,14 @@
-# alpha-site
-## Alpha version of Veterans.gov
+# Beta version of Veterans.gov
 
-### Created by
+## Created by
 
+- Susan Benson
 - Sarah Brooks
 - Danny Chapman
+- Kavi Harshawat
 - Marina Martin
 - Shaun So
+- Rainey Straus
+- Emily Tavoulareas
 - Richard Wheeler
 - Emily Wright
-- Emily Tavoulareas
-- Kavi Harshawat
