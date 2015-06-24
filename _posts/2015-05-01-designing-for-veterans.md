@@ -9,7 +9,7 @@ tags:
 published: true
 ---
 
-Be quiet, respectful and empathic. Build something empowering and easy to use.
+### Be quiet, respectful and empathic.
 
 These are the principles of Veterans.gov. Unlike many design projects where it's easy to insert style and flourish to your heart's desire, it was clear very early on that designing veterans.gov had to very different. Content, communication had to be as efficient, succinct and without ornamentation; And yet, not feel impersonal — another wall between a veteran and the service they deserve. It can't be another another line to wait in, another form to fill out, another hurdle to overcome.
 

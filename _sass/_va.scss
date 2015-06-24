@@ -23,7 +23,10 @@ html, body {
 }
 
 html, body {
-  background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;
+  background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat;
+  @media #{$large} {
+    background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;
+  }
 }
 
 // row
@@ -37,7 +40,9 @@ body.interior .row {
   max-width: 55em;
 }
 
-body.page-disability .row.full, body.page-education .row.full {
+body.page-disability .row.full,
+body.posts .row.full,
+body.page-education .row.full {
   max-width: 100%;
 }
 
@@ -98,9 +103,9 @@ h1 {
   height: 25px;
   background-size: contain;
     @media #{$small} {
-      background: url(../images/design/logo/logo.png) top center no-repeat;
+      background: url(../images/design/logo/logo.png) top left no-repeat;
       &:hover {
-        background: url(../images/design/logo/logo-hover.png) top center no-repeat;
+        background: url(../images/design/logo/logo-hover.png) top left no-repeat;
         background-size: contain;
       }
       width: 263px;
@@ -124,15 +129,12 @@ h1, h2, h3, h4, h5, h6 {
 // Links
 
 a {text-decoration: underline; background: rgba(0,0,0,.05);}
-a:active {}
 a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
-a:visited {}
 
 // Banner
 
 .splash {
   padding: .5em 0;
-  @media #{$small} {}
   &.home {
     background: #ccc;
     background: rgba(0,0,0,.1);
@@ -161,7 +163,7 @@ a:visited {}
 }
 
 .pitch {
-  @media #{$small} {padding: .5em;}
+  @media #{$small} {padding: .5em 0;}
   h2, h3 {color: $va-primary-color; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
 }
 
@@ -373,7 +375,12 @@ ul.checklist, ol.checklist {
   background: rgba(0,0,0,.05);
 }
 
-.introductory-content {background: #fff; p {font-size: 1.35em;}}
+.introductory-content {
+  background: #fff;
+  p {
+    font-size: 1em;}
+    @media #{$small} {font-size: 1.35em;}
+  }
 
 // Navigation
 
@@ -409,27 +416,52 @@ body.home .navigation, body.fourohfour .navigation {
 
 // Cards
 
+
+ul.large-block-grid-3 >li {
+
+}
+
+[class*="block-grid-"]>li {
+  padding: .1em 0;
+  @media #{$small} {padding: 0 0.625rem 1.25rem;}
+}
+
+
 .cards {
+/*
+  -webkit-display: flex;
+  display: flex;
+
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+
+  width: 100%;
+  */
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  padding-bottom: 0;
-  padding-top: 0;
+
 
   a, .coming-soon {
-    padding: .75em;
+    padding: .75em .2em 0 .2em;
+    @media #{$small} {padding: .75em;}
+    -webkit-justify-content: flex-end;
+    @media #{$medium} {height: 8em;}
     text-align: center;
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
     @media #{$small} {padding: .45em .75em; text-align: left;}
-    display: block;
-
     width: 100%;
     color: #fff;
+    display: block;
     text-decoration: none;
+    h3 {text-decoration: none; margin: 0 0 1em 0;}
     border-bottom: 4px solid rgba(255,255,255,0);
-    @media #{$small} {border-bottom: 6px solid lighten($va-primary-color, 15);}
+   @media #{$small} {border-bottom: 6px solid lighten($va-primary-color, 15);}
     background: rgba(#1C579E,.9);
+
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
-    h3 {font-size: 1.45em;}
+    h3 {font-size: 1.35em;}
 
     h4 {/*-webkit-align-self: flex-start; align-self: flex-start; */}
 
@@ -437,7 +469,7 @@ body.home .navigation, body.fourohfour .navigation {
     /*  display: -webkit-inline-flex;
       display: inline-flex;
       */
-      padding: 0 0 1em 0; margin: 0 0 1em 0;
+      @media #{$small} {padding: 0m 0 1em 0;}
       font-size: .8em;
       line-height: 1.5em;
 
@@ -500,22 +532,25 @@ a.button {
 // Blog
 
 .post-date, .post-author {
-  color: #555;
+  color: $va-body-accent-color;
 }
 
 .post-date {
   margin-bottom: 2.5em;
 }
 
+body.posts {
+  h2 a {text-decoration: none; background: none; border: 2px solid #fff; padding: .25em .5em; display: inline-block;}
+  .post-preview {
+    a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #fff;}
+  }
+   h3 {margin-top: 1em; margin-bottom: 0; padding-bottom: .5em; font-size: 1.5em; color: $va-body-accent-color;}
+}
 
 // Footer
 
 .footer {
   // background: $va-primary-color url(../img/design/seal/seal.png) bottom center no-repeat;
-
-
-background: #10345E;
-
 background: #0e345e; /* Old browsers */
 /* IE9 SVG, needs conditional override of 'filter' to 'none' */
 background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzBlMzQ1ZSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxMzQwNzMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
@@ -527,13 +562,12 @@ background: -ms-linear-gradient(top,  #0e345e 0%,#134073 100%); /* IE10+ */
 background: linear-gradient(to bottom,  #0e345e 0%,#134073 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e345e', endColorstr='#134073',GradientType=0 ); /* IE6-8 */
 
-
   padding: 2em 0;
   li, p, a {color: #fff;}
   .row.secondary {
-    padding: 2em 0;
+    padding: 0 0 1em 0;
+    @media #{$medium} {padding: 2em 0;}
     @media #{$small} {background: url(../images/design/seal/stars.png) 2% 50% no-repeat; background-size: 50px;}
-
   }
 
   a {
@@ -542,34 +576,35 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e345e', end
     background: none;
     font-size: 1em;
     text-decoration: none;
-    border-bottom: 2px solid rgba(255,255,255,.15);
+    border-bottom: 2px solid rgba(255,255,255,.1);
     padding: .65em 0;
     @media #{$small} {display: inline-block; padding: .25em 0;}
-
     &:hover {color:#fff; text-decoration: none; border-bottom: 2px solid $va-highlight-color;}
-
     &.contact, &.blog {
-      margin: 1.5em auto; padding: .65em; font-size: 1em; text-align: center; border: 2px solid #fff;
-      @media #{$small} {margin: 1em auto; display: inline-block; }
+      padding: .65em; font-size: 1em;  text-align: center; border: 2px solid #fff;
+      @media #{$small} {margin: 1.5em auto; display: inline-block;}
       &:hover, &:focus, &:active {
         background: #fff; color: $va-primary-color;
       }
-
     }
 
-    &.contact {margin: 0 0 0 1em;}
+    &.contact {
+      @media #{$small} {margin: 0 0 0 1em;}
+      }
     &.blog {border: none; &:hover {background: none; color: $va-highlight-color;}}
-
   }
-  ul {margin: 0; padding: 0 0 2em 0;}
-  li {list-style: none; padding: 0 1em; margin: 0 auto; text-align: center; display: block; a {}}
+
+  li {list-style: none; padding: 0; @media #{$small} {padding: 0 1em;} margin: 0 auto; text-align: center; display: block;}
   padding: 2em 0 0 0;
   dl.vcard {
+    padding: 1em 0 0 0  ;
+    @media #{$small} {padding: 1.625rem 0.75rem;}
     display: block;
     background-size: 50px;
-    text-align: left;
+    text-align: center;
+    @media #{$small} {text-align: left;}
     border: none;
-    font-size: .85em;
+    font-size: .75em;
     color: #fff;
     @media #{$small} {margin: 0 0 .5em 10%;}
     }
@@ -587,10 +622,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e345e', end
   }
     @media #{$small} {display: inline;}
   }
-
-  dt {
-    @media #{$small} {display: block; text-align: left;}
-  }
+  .fn {font-size: .9em;}
+  dd.locality, dd.postal-code {display: inline;}
+  dt {@media #{$small} {display: block; text-align: left;}}
 
   .post-script {
     font-size: .85em;
@@ -598,7 +632,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e345e', end
     padding: 0 0 1em 0;
     background: darken($va-primary-color, 5);
   }
-
 
   blockquote {
     border-left: 0;
@@ -616,7 +649,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e345e', end
     margin: 0 auto;
     display: block;
     }
-
 }
 
 // Icons - Icomoon.com
@@ -628,7 +660,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e345e', end
 	margin: 0 0 1em 0;
   fill: $va-primary-color;
 }
-
 
 .glyph {
 	font-size: 16px;
@@ -648,87 +679,28 @@ svg {
   padding: 1em .4em;
   a {color: #fff; background: none;}
   &.notice {
+    font-size: .7em;
   background: #9D1F2C;
   background: rgba(#a91d28, .9);
   }
 }
 
-/* ================================================================================
-Example showing how to change the color/size of the icons:
-.icon-name {
-	font-size: 32px; // works because "width" & "height" were set using em units
-	color: red; // works because "fill" was set to "currentColor"
-}
-================================================================================ */
 
-.icon-images {
-	width: 1.125em;
-}
-
-.icon-connection {
-	width: 1.25em;
-}
-
-.icon-books {
-	width: 1.125em;
-}
-
-.icon-library {
-	width: 1.0625em;
-}
-
-.icon-price-tags {
-	width: 1.25em;
-}
-
-.icon-history {
-	width: 1.0625em;
-}
-
-.icon-keyboard {
-	width: 1.125em;
-}
-
-.icon-bubbles {
-	width: 1.125em;
-}
-
-.icon-bubbles2 {
-	width: 1.125em;
-}
-
-.icon-bubbles3 {
-	width: 1.125em;
-}
-
-.icon-bubbles4 {
-	width: 1.125em;
-}
-
-.icon-users {
-	width: 1.125em;
-}
-
-.icon-menu2 {
-	width: 1.375em;
-}
-
-.icon-menu3 {
-	width: 1.375em;
-}
-
-.icon-menu4 {
-	width: 1.375em;
-}
-
-.icon-volume-high {
-	width: 1.0625em;
-}
-
-.icon-embed2 {
-	width: 1.25em;
-}
-
-.icon-youtube4 {
-	width: 2.5087890625em;
-}
+.icon-images {width: 1.125em;}
+.icon-connection {width: 1.25em;}
+.icon-books {width: 1.125em;}
+.icon-library {width: 1.0625em;}
+.icon-price-tags {width: 1.25em;}
+.icon-history {width: 1.0625em;}
+.icon-keyboard {width: 1.125em;}
+.icon-bubbles {width: 1.125em;}
+.icon-bubbles2 {width: 1.125em;}
+.icon-bubbles3 {width: 1.125em;}
+.icon-bubbles4 {width: 1.125em;}
+.icon-users {width: 1.125em;}
+.icon-menu2 {width: 1.375em;}
+.icon-menu3 {width: 1.375em;}
+.icon-menu4 {width: 1.375em;}
+.icon-volume-high {width: 1.0625em;}
+.icon-embed2 {width: 1.25em;}
+.icon-youtube4 {width: 2.5087890625em;}
