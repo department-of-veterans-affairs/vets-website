@@ -25,8 +25,15 @@ $ brew install ruby
 - Once you have ruby installed (see above)
 - Open terminal
 - 'cd' to directory (leave a space after 'cd', then drag and drop your site folder into the terminal window)
-- Install Jekyll by running 'gem install jekyll'
-- Run site by using 'jekyll serve'
+- Install Jekyll by running:
+```shell
+gem install jekyll
+```
+
+- Run site by using:
+```shell
+jekyll serve
+```
 - View the site in your browser by going to http://localhost:4000
 
 Any changes made locally will cause the site to rebuild automagically.
