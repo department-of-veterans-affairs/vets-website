@@ -15,19 +15,20 @@ $va-start-color: #008674;
 
 html, body {
   font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-weight: 300; color: $va-body-content-color;
-  background: $va-body-background-color;
   transition: all 0.3s ease-in-out;
   background: #fff;
+  height: 100%;
   font-weight: 500;
   font-family: 'Open Sans', sans-serif;
 }
 
 html, body {
-  background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat;
+    background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat;
   @media #{$large} {
     background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;
   }
 }
+
 
 // row
 
@@ -198,6 +199,12 @@ h6 {}
 
 body.home, body.fourohfour {
   .main {background: none;}
+}
+
+// Content
+
+#content {
+  padding-bottom: 2em;
 }
 
 // Sections
@@ -540,10 +547,39 @@ a.button {
 }
 
 body.posts {
-  h2 a {text-decoration: none; background: none; border: 2px solid #fff; padding: .25em .5em; display: inline-block;}
+  height: 100%;
+
+  .primary {padding: 0; margin: 0;}
+  .splash {
+     margin: 0;
+     @media #{$small} {margin: 1em 0 0 0;}
+    @media #{$small} {padding: 1em 0 0 0; display: inline-block;}
+    h2 {
+    padding: .53em .5em;
+    @media #{$small} {position: fixed; margin-top: .26em;}
+    }
+  }
+
+
   .post-preview {
     a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #fff;}
+    a {
+      text-decoration: none;
+      border-bottom: 1px solid $va-body-accent-color;
+      &:hover {border-bottom: 1px solid $va-secondary-color;}
+      }
+
+      h2 a {
+        text-decoration: none;
+        background: none;
+        border: 2px solid #fff;
+        padding: .25em .5em;
+
+        display: inline-block;
+        }  
   }
+
+
    h3 {margin-top: 1em; margin-bottom: 0; padding-bottom: .5em; font-size: 1.5em; color: $va-body-accent-color;}
 }
 
