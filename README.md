@@ -4,7 +4,7 @@
 
 ### Requirements
 
-You will need [Ruby](https://www.ruby-lang.org) ( > version 2.1.5 ). You may
+You will need [Ruby](https://www.ruby-lang.org). You may
 consider using a Ruby version manager such as
 [rbenv](https://github.com/sstephenson/rbenv) or [rvm](https://rvm.io/) to
 help ensure that Ruby version upgrades don't mean all your
