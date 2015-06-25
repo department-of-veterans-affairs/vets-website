@@ -4,7 +4,9 @@
 
 ### Requirements
 
-You will need [Ruby](https://www.ruby-lang.org). You may
+If you don't have Xcode installed (for OS X), install from the Mac App store. Once installed, add command line tools by going to Preferences > Downloads > Components
+
+Next, you will need [Ruby](https://www.ruby-lang.org). You may
 consider using a Ruby version manager such as
 [rbenv](https://github.com/sstephenson/rbenv) or [rvm](https://rvm.io/) to
 help ensure that Ruby version upgrades don't mean all your
@@ -18,6 +20,7 @@ variable. Once you have brew installed, here are the commands to follow to insta
 $ brew update
 $ brew install ruby
 ```
+
 
 
 ### To run
