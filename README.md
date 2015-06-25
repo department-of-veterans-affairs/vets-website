@@ -4,7 +4,7 @@
 
 ### Requirements
 
-If you don't have Xcode installed (for OS X), install from the Mac App store. Once installed, add command line tools by going to Preferences > Downloads > Components
+If you don't have Xcode installed (for OS X), install from the Mac App store. Once installed, add command line tools by going to Preferences > Downloads > Components.
 
 Next, you will need [Ruby](https://www.ruby-lang.org). You may
 consider using a Ruby version manager such as
