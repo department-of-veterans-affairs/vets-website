@@ -13,13 +13,13 @@ published: true
 
 These are the principles of Veterans.gov. Unlike many design projects where it is so easy - required even - to insert design flourish to your heart's desire, it was clear very early on that veterans.gov had to very different. This project had to be efficient, succinct and at the same time, not feel impersonal — wall between a veteran and the service they deserve. Most of all, veterans.gov can't another hurdle to overcome.
 
-Veterans.gov is a small (for now), simple website aimed at meeting the needs of the most frequently interactions a veteran has with the VA. It is note complete, exhaustive or definitive. But it is a start in a new direction — a very public experiment in how the agency can communicate going forward.
+Veterans.gov is a small (for now), simple website aimed at meeting the needs of the most frequent interactions a veteran has with the VA. It is not complete, exhaustive or definitive. But it is a start in a new direction — a very public experiment in how the agency can communicate going forward.
 
 We're building this with a small team. A few great content strategists / problem solvers, a Presidential Innovation Fellow, and a [designer (me)](http://dannychapman.com). Here's a look at how we're meeting these principles from a design perspective.
 
 ### Be quiet
 
-There are no images, and [taking a page from gov.uk](https://gds.blog.gov.uk/2013/06/18/retiring-our-icons/), there aren't even any icons to distract you. Text, color, and a simple grid provide structure and hierarchy. Whenver possible, content is presented in one column. This way, there's less change of getting lost, distracted, or confused about what's truly important. Simply read top to bottom, then make your next decision.
+There are no images, and [taking a page from gov.uk](https://gds.blog.gov.uk/2013/06/18/retiring-our-icons/), there aren't even any icons to distract you. Text, color, and a simple grid provide structure and hierarchy. Whenever possible, content is presented in one column. This way, there's less change of getting lost, distracted, or confused about what's truly important. Simply read top to bottom, then make your next decision.
 
 ### Be respectful
 
