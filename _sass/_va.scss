@@ -2,14 +2,15 @@
 
 //Colors
 
-$va-primary-color: #144073;
-$va-secondary-color: #C08A38;
+$va-primary-color: #003F72;
+$va-secondary-color: #0083BE;
 $va-tertiary-color: #444;
 $va-highlight-color: #4FCEFF;
 $va-body-content-color: #444;
-$va-body-accent-color: #FFD43E;
+$va-body-accent-color: #FAC922;
 $va-body-background-color: #fff;
 $va-start-color: #008674;
+$va-alert-color: #00A4C7;
 
 // General
 
@@ -464,8 +465,8 @@ ul.large-block-grid-3 >li {
     text-decoration: none;
     h3 {text-decoration: none; margin: 0 0 1em 0;}
     border-bottom: 4px solid rgba(255,255,255,0);
-   @media #{$small} {border-bottom: 6px solid lighten($va-primary-color, 15);}
-    background: rgba(#1C579E,.9);
+   @media #{$small} {border-bottom: 6px solid $va-secondary-color;}
+    background: lighten($va-primary-color, 8);
 
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
     h3 {font-size: 1.35em;}
@@ -488,7 +489,7 @@ ul.large-block-grid-3 >li {
     }
 
     &:hover, &:active, &:focus {
-      background: darken($va-primary-color, 5);
+      background: lighten($va-primary-color, 4);
       -webkit-box-shadow: 0 0 5px rgba(0,0,0,.15);
       @media #{$small} {border-bottom: 6px solid lighten($va-primary-color, 15);}
       }
@@ -576,7 +577,7 @@ body.posts {
         padding: .25em .5em;
 
         display: inline-block;
-        }  
+        }
   }
 
 
@@ -603,7 +604,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e345e', end
   .row.secondary {
     padding: 0 0 1em 0;
     @media #{$medium} {padding: 2em 0;}
-    @media #{$small} {background: url(../images/design/seal/stars.png) 2% 50% no-repeat; background-size: 50px;}
+    @media #{$small} {background: url(../images/design/seal/seal.png) 2% 50% no-repeat; background-size: 60px;}
   }
 
   a {
@@ -615,12 +616,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e345e', end
     border-bottom: 2px solid rgba(255,255,255,.1);
     padding: .65em 0;
     @media #{$small} {display: inline-block; padding: .25em 0;}
-    &:hover {color:#fff; text-decoration: none; border-bottom: 2px solid $va-highlight-color;}
+    &:hover {color:#fff; text-decoration: none; border-bottom: 2px solid $va-secondary-color; text-shadow: 0 0 5px rgba(255,255,255,.4);}
     &.contact, &.blog {
-      padding: .65em; font-size: 1em;  text-align: center; border: 2px solid #fff;
+      padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $va-secondary-color;
       @media #{$small} {margin: 1.5em auto; display: inline-block;}
       &:hover, &:focus, &:active {
-        background: #fff; color: $va-primary-color;
+        background: $va-secondary-color; color: #fff;
       }
     }
 
@@ -633,14 +634,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e345e', end
   li {list-style: none; padding: 0; @media #{$small} {padding: 0 1em;} margin: 0 auto; text-align: center; display: block;}
   padding: 2em 0 0 0;
   dl.vcard {
-    padding: 1em 0 0 0  ;
+    padding: 1.2em 0 0 0  ;
     @media #{$small} {padding: 1.625rem 0.75rem;}
     display: block;
     background-size: 50px;
     text-align: center;
     @media #{$small} {text-align: left;}
     border: none;
-    font-size: .75em;
+    font-size: .85em;
     color: #fff;
     @media #{$small} {margin: 0 0 .5em 10%;}
     }
@@ -658,7 +659,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0e345e', end
   }
     @media #{$small} {display: inline;}
   }
-  .fn {font-size: .9em;}
+  .fn {font-size: 1em;}
   dd.locality, dd.postal-code {display: inline;}
   dt {@media #{$small} {display: block; text-align: left;}}
 
@@ -715,9 +716,8 @@ svg {
   padding: 1em .4em;
   a {color: #fff; background: none;}
   &.notice {
-    font-size: .7em;
-  background: #9D1F2C;
-  background: rgba(#a91d28, .9);
+    font-size: .9em;
+  background: $va-alert-color;
   }
 }
 
