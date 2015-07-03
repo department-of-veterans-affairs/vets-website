@@ -44,6 +44,7 @@ body.interior .row {
 
 body.page-disability .row.full,
 body.posts .row.full,
+body.post-single .row.full,
 body.page-education .row.full {
   max-width: 100%;
 }
@@ -547,8 +548,18 @@ a.button {
   margin-bottom: 2.5em;
 }
 
-body.posts {
+html, body.posts, body.post-single {
+    background: darken($va-primary-color, 5) url(../images/design/icons/watermark.png) 80% -8% no-repeat;
+  @media #{$large} {
+    background: darken($va-primary-color, 5) url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;
+  }
+}
+
+
+body.posts,
+body.post-single {
   height: 100%;
+
 
   .primary {padding: 0; margin: 0;}
   .splash {
@@ -556,26 +567,27 @@ body.posts {
      @media #{$small} {margin: 1em 0 0 0;}
     @media #{$small} {padding: 1em 0 0 0; display: inline-block;}
     h2 {
-    padding: .53em .5em;
+    padding: .65em .5em;
+    a {background: none; text-decoration: none;}
     @media #{$small} {position: fixed; margin-top: .26em;}
     }
   }
 
 
-  .post-preview {
-    a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #fff;}
+  .post {
+    a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #fff; line-height: 1.65em;}
     a {
       text-decoration: none;
       border-bottom: 1px solid $va-body-accent-color;
       &:hover {border-bottom: 1px solid $va-secondary-color;}
       }
 
-      h2 a {
+      h3 {
         text-decoration: none;
         background: none;
         border: 2px solid #fff;
-        padding: .25em .5em;
-
+        padding: .75em;
+        margin: 0 0 1em 0;
         display: inline-block;
         }
   }
@@ -720,6 +732,34 @@ svg {
   background: $va-alert-color;
   }
 }
+
+// Plain lists
+
+ul.plain {
+  margin: 0;
+  padding: 0;
+  li {
+    list-style: none;
+    display: block;
+    .post-date {padding: 0; margin: 0;}
+    padding: .5em 0;
+    border-bottom: 1px solid rgba(255,255,255,.2);
+    &:last-of-type {border-bottom: none;}
+  }
+  &.posts {
+    font-size: 1.65em;
+    a {
+      text-decoration: none;
+      background: none;
+      color: #fff;
+      .post-date {font-size: .65em;}
+      &:hover {
+        background: rgba(255,255,255,.2);
+      }
+    }
+  }
+}
+
 
 
 .icon-images {width: 1.125em;}

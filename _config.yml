@@ -16,13 +16,14 @@ exclude:
   - CNAME
 
 #posts per page
-paginate: 5
+paginate: 1
+paginate_path: "/experience/page:num/"
 
 #number of items in RSS feed
 rss_limit: 20
 
 #permalink structure, see https://github.com/mojombo/jekyll/wiki/Permalinks
-permalink: /blog/:year/:month/:day/:title/
+permalink: /experience/:year/:month/:day/:title/
 
 #whether production or dev, minifies JS, bool
 production: true

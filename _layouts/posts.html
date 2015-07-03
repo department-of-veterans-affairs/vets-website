@@ -2,7 +2,7 @@
 
 <div id="content" class="{{ page.id }}">
   <div class="splash">
-    <h2>Blog</h2>
+    <h2><a href="{{ site.url }}/experience/">Experience</a></h2>
   </div>
 
   <div class="primary">
@@ -10,30 +10,18 @@
       <div class="small-12 columns">
         <div class="row">
           <div class="small-12 medium-8 medium-centered columns">
-            <div class="post-preview">
-              {% for post in site.posts %}
-              <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-              <div class="post-author">{{ post.author }}</div>
-              <div class="post-date">{{ post.date | date: "%B %d, %Y" }}</div>
-                {{ post.content | split:'<!--break-->' | first }}
-                {% if post.content contains '<!--break-->' %}
-                <em><a href="{{ post.url }}">read on &rarr;</a></em>
-                {% endif %}
-              {% endfor %}
 
-              <div class="previous">
-                {% if post.categories contains 'past' %}
-                  <h4>Previous Posts</h4>
-                  <ul class="posts">
-                    {% for post in site.posts %}
-                    {% if post.categories contains 'past' %}
-                    <li><a href="{{ BASE_PATH }}{{ post.url }}">{{ post.title }}</a> <span class="date">{{ post.date | date_to_string }}</span></li>
-                    {% endif %}
-                    {% endfor %}
-                  </ul>
-                {% endif %}
-              </div>
-            </div>
+            <ul class="plain posts">
+              {% for post in site.posts %}
+              <li>
+                <a href="{{ post.url }}">
+                  <div class="post-title">{{ post.title }}</div>
+                  <div class="post-date">{{ post.date | date: "%B %d, %Y" }}</div>
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+
           </div>
         </div>
       </div>
