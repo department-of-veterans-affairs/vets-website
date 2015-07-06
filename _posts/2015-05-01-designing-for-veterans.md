@@ -3,15 +3,18 @@ title: Designing Veterans.gov
 description:
 author: Danny Chapman
 layout: post-single
-category: current
+category: design
 tags:
- - Design
+ - uk
+ - standards
 published: true
 ---
 
 #### Be quiet, respectful and empathic.
 
 These are the principles of Veterans.gov. Unlike many design projects where it is so easy - required even - to insert design flourish to your heart's desire, it was clear very early on that veterans.gov had to very different. This project had to be efficient, succinct and at the same time, not feel impersonal — wall between a veteran and the service they deserve. Most of all, veterans.gov can't another hurdle to overcome.
+
+<!--more-->
 
 Veterans.gov is a small (for now), simple website aimed at meeting the needs of the most frequent interactions a veteran has with the VA. It is not complete, exhaustive or definitive. But it is a start in a new direction — a very public experiment in how the agency can communicate going forward.
 

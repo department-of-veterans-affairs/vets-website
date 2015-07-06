@@ -1,3 +1,4 @@
+
 {% include header.html %}
 
 <div id="content" class="{{ page.id }}">
@@ -9,13 +10,27 @@
   <div class="primary">
     <div class="row">
       <div class="post">
-        <div class="small-12 medium-8 medium-centered columns">
-          <div class="post-preview">
+        <div class="small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns">
+          <div class="post">
             <h3>{{ page.title }}</h3>
             <div class="post-author">{{ page.author }}</div>
             <div class="post-date">{{ page.date | date: "%B %d, %Y" }}</div>
             {{ content }}
           </div>
+
+          <div class="related-posts">
+          <h6>Related posts</h6>
+          <ul class="plain posts">
+            {% for post in site.related_posts %}
+            <li>
+              <a href="{{ site.url }}{{ post.url }}">
+                <div class="post-title">{{ post.title }}</div>
+                <div class="post-date">{{ post.date | date: "%B %d, %Y" }}</div>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
         </div>
       </div>
     </div>

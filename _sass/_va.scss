@@ -44,6 +44,7 @@ body.interior .row {
 
 body.page-disability .row.full,
 body.posts .row.full,
+body.index .row.full,
 body.post-single .row.full,
 body.page-education .row.full {
   max-width: 100%;
@@ -548,7 +549,8 @@ a.button {
   margin-bottom: 2.5em;
 }
 
-html, body.posts, body.post-single {
+html, body.posts, body.post-single,
+body.index, body.index {
     background: darken($va-primary-color, 5) url(../images/design/icons/watermark.png) 80% -8% no-repeat;
   @media #{$large} {
     background: darken($va-primary-color, 5) url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;
@@ -557,10 +559,9 @@ html, body.posts, body.post-single {
 
 
 body.posts,
-body.post-single {
+body.post-single,
+body.index {
   height: 100%;
-
-
   .primary {padding: 0; margin: 0;}
   .splash {
      margin: 0;
@@ -570,6 +571,26 @@ body.post-single {
     padding: .65em .5em;
     a {background: none; text-decoration: none;}
     @media #{$small} {position: fixed; margin-top: .26em;}
+    }
+  }
+
+
+
+  .post-preview {
+    border-bottom: 1px solid rgba(255,255,255,.2);
+    padding: 0 0 3em 0;
+    margin: 0 0 3em 0;
+    &:last-of-type{border-bottom: none;}
+  }
+
+  .related-posts {
+    border-top: 1px solid rgba(255,255,255,.2);
+    padding: 2em 0 0 0;
+    margin: 2em 0 0 0;
+    h6 {font-size: 1.45em;}
+    ul.plain.posts li a {
+      .post-title {color: $va-body-accent-color; font-size: 1em; margin: 0; padding: 0;}
+      .post-date {color: #fff; margin: 0; padding: 0;}
     }
   }
 
@@ -585,9 +606,10 @@ body.post-single {
       h3 {
         text-decoration: none;
         background: none;
+        a.title {text-decoration: none; border: none;}
         border: 2px solid #fff;
         padding: .75em;
-        margin: 0 0 1em 0;
+        margin: 0 0 .5em 0;
         display: inline-block;
         }
   }

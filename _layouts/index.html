@@ -1,0 +1,65 @@
+---
+title: Index
+---
+
+{% include header.html %}
+
+<div id="content" class="{{ page.id }}" role="main">
+
+  <div class="splash">
+    <h2><a href="{{ site.url }}/experience/">Experience</a></h2>
+  </div>
+
+  <div class="primary">
+    <div class="row">
+      <div class="small-12 medium-8 medium-centered columns">
+        <div class="post">
+
+  <!-- This loops through the paginated posts -->
+  {% for post in paginator.posts %}
+    <h3><a class="title" href="{{ post.url }}">{{ post.title }}</a></h3>
+    <div class="meta">
+      <div class="post-author">{{ post.author }}</div>
+      <div class="post-date">{{ post.date | date: "%-d %B %Y" }}</div>
+    </div>
+    <div class="post-preview">
+    <div class="content">
+      {{ post.excerpt }}
+      <a href="{{ post.url }}">Read more...</a>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- Pagination links -->
+
+  {% if paginator.total_pages > 1 %}
+
+  <div class="pagination">
+
+      <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+
+    <div class="blog-navigation">
+    {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path }}" class="previous">Previous</a>
+    {% else %}
+      <span class="previous">Previous</span>
+    {% endif %}
+
+    {% if paginator.next_page %}
+      <a href="{{ paginator.next_page_path }}" class="next">Next</a>
+    {% else %}
+      <span class="next ">Next</span>
+    {% endif %}
+  </div>
+
+    {% endif %}
+
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+{% include footer.html %}

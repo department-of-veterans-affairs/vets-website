@@ -3,13 +3,15 @@ title: When high bounce rate may be a good thing
 description:
 author: Richard Wheeler
 layout: post-single
-category: current
+category: content
 tags:
- - Design
+ - content
 published: true
 ---
 
 One of the primary challenges for any government website is that while the internet may have started in academic and government labs it is now in many ways an overwhelmingly commercially driven environment. And the tools, the language, and the ideas that make sense in a commercial space do not necessarily make sense in a government space. Even in cases when the government is providing services—cases like VA—the service is not a consumer service, and so it doesn't necessarily call for a consumer experience, even if it may draw from the knowledge that makes good consumer experiences possible. The challenge is trying to understand which ideas make sense and which ones don't.
+
+<!--more-->
 
 One idea that the veterans.gov team has talked about in this context is about bounce rates. For those readers who aren't familiar with the term, bounce rate ["...represents the percentage of visitors who enter the site and then leave ('bounce') rather than continuing on to view other pages within the same site."](https://en.wikipedia.org/wiki/Bounce_rate) For a commercial sites a high bounce rate is usually considered a bad thing. Commercial sites—like brick and mortar retail stores—are designed to keep users on the sites as long as possible in order to sell a product, to deliver a marketing message, to collect usage data, and so on.
 
