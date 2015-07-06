@@ -11,7 +11,7 @@
         <ul class="plain posts">
           {% for post in site.posts %}
           <li>
-            <a href="{{ site.url }}{{ post.url }}">
+            <a href="{{ site.url }}/{{ post.url }}">
               <div class="post-title">{{ post.title }}</div>
               <div class="post-date">{{ post.date | date: "%B %d, %Y" }}</div>
             </a>
