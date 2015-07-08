@@ -12,15 +12,15 @@ title: Index
 
   <div class="primary">
     <div class="row">
-      <div class="small-12 medium-8 medium-centered columns">
+      <div class="small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns">
         <div class="post">
 
   <!-- This loops through the paginated posts -->
   {% for post in paginator.posts %}
     <h3><a class="title" href="{{ site.url }}/{{ post.url }}">{{ post.title }}</a></h3>
     <div class="meta">
-      <div class="post-author">{{ post.author }}</div>
-      <div class="post-date">{{ post.date | date: "%-d %B %Y" }}</div>
+      <div class="post-author"><span class="sr-only">Author: </span>{{ post.author }}</div>
+      <div class="post-date"><span class="sr-only">Post date: </span>{{ post.date | date: "%-d %B %Y" }}</div>
     </div>
     <div class="post-preview">
     <div class="content">
@@ -36,19 +36,17 @@ title: Index
 
   <div class="pagination">
 
-      <span class="page_number ">Page: {{ paginator.page }} of {{ paginator.total_pages }}</span>
+      <div class="page-number ">Page: {{ paginator.page }} of {{ paginator.total_pages }} <span class="sr-only"> blog posts</span></div>
 
     <div class="blog-navigation">
     {% if paginator.previous_page %}
-      <a href="{{ paginator.previous_page_path }}" class="previous">Previous</a>
+      <a href="{{ paginator.previous_page_path }}" class="previous">Previous <span class="sr-only">page of blog posts</span></a>
     {% else %}
-      <span class="previous">Previous</span>
     {% endif %}
 
     {% if paginator.next_page %}
-      <a href="{{ paginator.next_page_path }}" class="next">Next</a>
+      <span class="next "><a href="{{ paginator.next_page_path }}" class="next">Next<span class="sr-only">page of blog posts</span></a></span>
     {% else %}
-      <span class="next ">Next</span>
     {% endif %}
   </div>
 
