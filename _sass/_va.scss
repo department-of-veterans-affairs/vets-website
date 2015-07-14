@@ -23,8 +23,8 @@ html, body {
   font-family: 'Open Sans', sans-serif;
 }
 
-html, body {
-
+html, body, body.home {
+    height: 100%;
     background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat;
   @media #{$large} {
     background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;
