@@ -19,10 +19,12 @@ html, body {
   transition: all 0.3s ease-in-out;
   background: $va-primary-color;
   font-weight: 500;
+  height: 100%;
   font-family: 'Open Sans', sans-serif;
 }
 
 html, body {
+
     background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat;
   @media #{$large} {
     background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;
