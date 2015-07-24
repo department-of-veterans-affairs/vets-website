@@ -4,22 +4,68 @@ title: Home
 
 {% include header.html %}
 
-<div class="main" role="main">
+<div class="main home" role="main">
 
   <div class="splash">
-    <div class="row wow fadeIn animated" data-wow-delay="0.5s">
+    <div class="row">
       <div class="small-12 medium-8 medium-centered large-uncentered large-6 columns">
         <div class="pitch">
-          <h2 class="tagline"><span>A new way of working with the VA, coming soon.</span></h2>
+          <h2 class="tagline"><span>You&rsquo;ve served us. Now we&rsquo;ll serve you.</span></h2>
         </div>
       </div>
     </div>
   </div>
 
+<div class="section one">
+  <div class="row">
+    <div class="small-12 columns">
+      <h3>Popular on Vets.gov</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 medium-6 columns">
+      <ul class="plain">
+        <li><a href="#">Disability Benefits</a></li>
+        <li><a href="#"><abbr>GI</abbr> Bill</a></li>
+        <li><a href="#">Resume Builder</a></li>
+      </ul>
+    </div>
 
+    <div class="small-12 medium-6 columns">
+        <ul class="plain">
+          <li><a href="#">Can you help me find a job?</a></li>
+          <li><a href="#">What mental health resources are available to me?</a></li>
+          <li><a href="#">I’m homeless</a></li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section two">
   {% include main-navigation.html %}
+</div>
+
+<div class="section three">
+  <div class="row">
+    <div class="small-12 medium-9 columns">
+      <h4><a href="/experience/">From the  Vets.gov Blog</a></h4>
+
+      <ul class="plain posts">
+        {% for post in site.posts limit:1 %}
+        <li>
+          <a href="{{ site.url }}/{{ post.url }}">
+            <div class="post-title">{{ post.title }}</div>
+            <div class="post-date">{{ post.date | date: "%B %d, %Y" }}</div>
+            <div class="post-summary">{{ post.excerpt }} <span class="read-more">Continue reading...<span class="sr-only"> on {{ post.title }}</span></span></div>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
 
 
+    </div>
+  </div>
+</div>
 
 </div>
 

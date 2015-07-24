@@ -17,14 +17,11 @@ $va-alert-color: #00A4C7;
 html, body {
   font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-weight: 300; color: $va-body-content-color;
   transition: all 0.3s ease-in-out;
-  background: $va-primary-color;
   font-weight: 500;
-  height: 100%;
   font-family: 'Open Sans', sans-serif;
 }
 
-html, body, body.home {
-    height: 100%;
+body, body.home {
     background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat;
   @media #{$large} {
     background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;
@@ -211,6 +208,69 @@ body.home, body.fourohfour {
 
 #content {
   padding-bottom: 2em;
+}
+
+// Home page specific
+
+.home {
+  h2, h3, h4, h5, h6, p, ul, li, ol, a {color: #fff;}
+  color: #fff;
+
+  .post-date {font-size: .5em;}
+
+  h3 {border-bottom: 1px solid #fff; border-bottom: 1px solid rgba(255,255,255,.2); font-size: 1.65em; margin: 0 0 1em 0; padding: 0 0 .2em 0;}
+
+  h4 a {
+    text-decoration: none;
+    &:hover {
+      border-bottom: 1px solid #fff;
+      color: $va-body-accent-color;
+    }
+  }
+
+  .read-more {
+    font-size: .5em;
+    display: inline-block;
+    border-bottom: 1px solid $va-body-accent-color;
+    color: $va-body-accent-color;
+    &:hover {
+      background: none;
+      color: #fff;
+      border-bottom: 1px solid #fff;
+      }
+  }
+
+  ul.plain {
+    margin: 0;
+    padding: 0;
+    li {list-style: none; font-size: 1.15em; border-bottom: none;}
+    a {background: none;}
+  }
+
+  .section.one, .section.two {
+    background: none;
+    padding: 4em 0 2em 0;
+    a {
+      &:hover {
+        color: $va-body-accent-color;
+        background: rgba(0,0,0,.2);
+      }
+    }
+  }
+
+  .section.two {
+    padding: 2em 0;
+    a, h3 {color: #fff;}
+    h3 {border-bottom: none;}
+    background: rgba(0,0,0,.05);
+  }
+
+  .section.three {
+    background: none;
+    padding: 4em 0;
+    h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
+  }
+
 }
 
 // Sections
@@ -550,15 +610,10 @@ a.button {
 
 .post-date {
   margin-bottom: 2.5em;
+  font-size: .85em;
 }
 
-html, body.posts, body.post-single,
-body.index, body.index {
-    background: darken($va-primary-color, 5) url(../images/design/icons/watermark.png) 80% -8% no-repeat;
-  @media #{$large} {
-    background: darken($va-primary-color, 5) url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;
-  }
-}
+
 
 .blog-navigation {
   padding: 2em 0;
@@ -574,7 +629,6 @@ span.next {
 body.posts,
 body.post-single,
 body.index {
-  height: 100%;
   .primary {padding: 0; margin: 0;}
   .splash {
      margin: 0;

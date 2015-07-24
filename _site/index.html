@@ -16,9 +16,9 @@
 
 
 <!-- Header Javascript and CSS for animation-->
-<link rel="stylesheet" href="http://10.0.1.3:4000/assets/css/vendor/animate.css">
-<script src="http://10.0.1.3:4000/assets/js/vendor/jquery-1.11.0.min.js"></script>
-<script src="http://10.0.1.3:4000/assets/js/vendor/wow.min.js"></script>
+<link rel="stylesheet" href="http://localhost:4000/assets/css/vendor/animate.css">
+<script src="http://localhost:4000/assets/js/vendor/jquery-1.11.0.min.js"></script>
+<script src="http://localhost:4000/assets/js/vendor/wow.min.js"></script>
 
 <script>
 new WOW().init();
@@ -27,24 +27,24 @@ new WOW().init();
 
 
 <!--[if lt IE 9]>
-<script src="http://10.0.1.3:4000/assets/js/vendor/html5shiv.js"></script>
+<script src="http://localhost:4000/assets/js/vendor/html5shiv.js"></script>
 <![endif]-->
 
 
 
 <!-- Icons -->
-<link href="http://10.0.1.3:4000/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
-<link href="http://10.0.1.3:4000/assets/images/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
-<link href="http://10.0.1.3:4000/assets/images/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
-<link href="http://10.0.1.3:4000/assets/images/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
-<link rel="shortcut icon" href="http://10.0.1.3:4000/assets/images/design/icons/favicon.ico" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
+<link href="http://localhost:4000/assets/images/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
+<link rel="shortcut icon" href="http://localhost:4000/assets/images/design/icons/favicon.ico" />
 
-<meta name="msapplication-TileImage" content="http://10.0.1.3:4000/assets/images/design/icons/apple-touch-icon-114x114">
+<meta name="msapplication-TileImage" content="http://localhost:4000/assets/images/design/icons/apple-touch-icon-114x114">
 <meta name="msapplication-TileColor" content="#144073">
 
 
 <!-- CSS -->
-<link rel='stylesheet' href='http://10.0.1.3:4000/assets/css/style.css'>
+<link rel='stylesheet' href='http://localhost:4000/assets/css/style.css'>
 
 <!-- Fonts -->
 <link href='http://fonts.googleapis.com/css?family=Droid+Serif:400,700' rel='stylesheet' type='text/css'>
@@ -52,7 +52,7 @@ new WOW().init();
 <!-- Old IE -->
 
 <!--[if lt IE 9]>
-<link rel='stylesheet' href='http://10.0.1.3:4000/assets/css/ie.css'>
+<link rel='stylesheet' href='http://localhost:4000/assets/css/ie.css'>
 <![endif]-->
 
 
@@ -125,7 +125,7 @@ new WOW().init();
 <div class="header">
 	<div class="row full">
 		<div class="small-12 medium-4 columns">
-			<h1 role="banner"><a href="http://10.0.1.3:4000">Veterans.gov</a></h1>
+			<h1 role="banner"><a href="http://localhost:4000">Veterans.gov</a></h1>
 
 		</div>
 	</div>
@@ -134,69 +134,95 @@ new WOW().init();
 <h2 class="sr-only">Home</h2>
 
 
-<div class="main" role="main">
+<div class="main home" role="main">
 
   <div class="splash">
-    <div class="row wow fadeIn animated" data-wow-delay="0.5s">
+    <div class="row">
       <div class="small-12 medium-8 medium-centered large-uncentered large-6 columns">
         <div class="pitch">
-          <h2 class="tagline"><span>A new way of working with the VA, coming soon.</span></h2>
+          <h2 class="tagline"><span>You&rsquo;ve served us. Now we&rsquo;ll serve you.</span></h2>
         </div>
       </div>
     </div>
   </div>
 
+<div class="section one">
+  <div class="row">
+    <div class="small-12 columns">
+      <h3>Popular on Vets.gov</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 medium-6 columns">
+      <ul class="plain">
+        <li><a href="#">Disability Benefits</a></li>
+        <li><a href="#"><abbr>GI</abbr> Bill</a></li>
+        <li><a href="#">Resume Builder</a></li>
+      </ul>
+    </div>
 
+    <div class="small-12 medium-6 columns">
+        <ul class="plain">
+          <li><a href="#">Can you help me find a job?</a></li>
+          <li><a href="#">What mental health resources are available to me?</a></li>
+          <li><a href="#">I’m homeless</a></li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section two">
   
 
 <div class="navigation">
-  <div class="row wow fadeIn animated" data-wow-delay="1.5s">
+  <div class="row">
     <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 cards" data-equalizer data-equalizer-mq="medium-up">
+      <ul class="small-block-grid-1 medium-block-grid-2 cards">
 
         <li>
-          <a href="disability-benefits/" data-equalizer-watch>
+          <a href="disability-benefits/">
             <h3>Disability Benefits</h3>
-
           </a>
         </li>
 
         <li>
-          <a href="education/" data-equalizer-watch>
+          <a href="education/" >
             <h3>Education and training</h3>
           </a>
         </li>
 
+        <!--
+
         <li>
-          <div class="coming-soon" data-equalizer-watch>
+          <div class="coming-soon" >
             <h3>Dependent and caretaker benefits</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
-          <div class="coming-soon" data-equalizer-watch>
+          <div class="coming-soon">
             <h3>Travel reimbursement</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
-          <div class="coming-soon" data-equalizer-watch>
+          <div class="coming-soon">
             <h3>Jobs and employment</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
-          <div class="coming-soon" data-equalizer-watch >
+          <div class="coming-soon" >
             <h3>Mental health</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
-          <div class="coming-soon" data-equalizer-watch>
+          <div class="coming-soon">
             <h3>Loss of a family member</h3>
             <p>Coming soon</p>
           </div>
@@ -204,40 +230,65 @@ new WOW().init();
 
 
         <li>
-          <div class="coming-soon" data-equalizer-watch>
+          <div class="coming-soon">
             <h3>Spouses and dependents</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
-          <div class="coming-soon" data-equalizer-watch>
+          <div class="coming-soon">
             <h3>Homeless resources</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
-          <div class="coming-soon" data-equalizer-watch>
+          <div class="coming-soon">
             <h3>Medical records</h3>
             <p>Coming soon</p>
           </div>
         </li>
 
         <li>
-          <div class="coming-soon" data-equalizer-watch>
+          <div class="coming-soon">
             <h3>Service records</h3>
             <p>Coming soon</p>
           </div>
         </li>
+
+      -->
 
       </ul>
     </div>
   </div>
 </div>
 
+</div>
+
+<div class="section three">
+  <div class="row">
+    <div class="small-12 medium-9 columns">
+      <h4><a href="/experience/">From the  Vets.gov Blog</a></h4>
+
+      <ul class="plain posts">
+        
+        <li>
+          <a href="http://localhost:4000//content/2015/06/22/when-high-bounce-rate-may-be-a-good-thing.html">
+            <div class="post-title">When high bounce rate may be a good thing</div>
+            <div class="post-date">June 22, 2015</div>
+            <div class="post-summary"><p>One of the primary challenges for any government website is that while the internet may have started in academic and government labs it is now in many ways an overwhelmingly commercially driven environment. And the tools, the language, and the ideas that make sense in a commercial space do not necessarily make sense in a government space. Even in cases when the government is providing services—cases like VA—the service is not a consumer service, and so it doesn’t necessarily call for a consumer experience, even if it may draw from the knowledge that makes good consumer experiences possible. The challenge is trying to understand which ideas make sense and which ones don’t.</p>
+
+ <span class="read-more">Continue reading...<span class="sr-only"> on When high bounce rate may be a good thing</span></span></div>
+          </a>
+        </li>
+        
+      </ul>
 
 
+    </div>
+  </div>
+</div>
 
 </div>
 
@@ -253,7 +304,6 @@ new WOW().init();
         <li><a href="https://www.va.gov/landing2_about.htm">About <abbr title="Department of Veterans Affairs">VA</abbr></a></li>
         <li><a href="https://www.va.gov/landing2_media_room.htm">Media Room</a></li>
         <li><a href="https://www.va.gov/landing2_locations.htm">Locations</a></li>
-
       </ul>
 
   </div>
@@ -273,7 +323,7 @@ new WOW().init();
         </div>
 
         <div class="small-12 medium-4 text-right social columns">
-          <a href="http://10.0.1.3:4000/experience/" class="blog">Blog</a>
+          <a href="http://localhost:4000/experience/" class="blog">Blog</a>
           <a href="https://www.va.gov/landing2_contact.htm" class="contact">Contact Us</a>
         </div>
 
@@ -286,6 +336,50 @@ new WOW().init();
 
 </div>
 </div>
+
+<script>
+// Include the UserVoice JavaScript SDK (only needed once on a page)
+UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/VVQ8IxRU6QbvQIwK3pkJQ.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
+
+//
+// UserVoice Javascript SDK developer documentation:
+// https://www.uservoice.com/o/javascript-sdk
+//
+
+// Set colors
+UserVoice.push(['set', {
+  accent_color: '#808283',
+  trigger_color: 'white',
+  trigger_background_color: '#448dd6'
+}]);
+
+// Identify the user and pass traits
+// To enable, replace sample data with actual user traits and uncomment the line
+UserVoice.push(['identify', {
+  //email:      'john.doe@example.com', // User’s email address
+  //name:       'John Doe', // User’s real name
+  //created_at: 1364406966, // Unix timestamp for the date the user signed up
+  //id:         123, // Optional: Unique id of the user (if set, this should not change)
+  //type:       'Owner', // Optional: segment your users by type
+  //account: {
+  //  id:           123, // Optional: associate multiple users with a single account
+  //  name:         'Acme, Co.', // Account name
+  //  created_at:   1364406966, // Unix timestamp for the date the account was created
+  //  monthly_rate: 9.99, // Decimal; monthly rate of the account
+  //  ltv:          1495.00, // Decimal; lifetime value of the account
+  //  plan:         'Enhanced' // Plan name for the account
+  //}
+}]);
+
+// Add default trigger to the bottom-right corner of the window:
+UserVoice.push(['addTrigger', {trigger_position: 'bottom-right' }]);
+
+// Or, use your own custom trigger:
+//UserVoice.push(['addTrigger', '#id']);
+
+// Autoprompt for Satisfaction and SmartVote (only displayed under certain conditions)
+UserVoice.push(['autoprompt', {}]);
+</script>
 
 
 <!--
