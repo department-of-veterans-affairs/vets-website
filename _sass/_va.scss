@@ -207,7 +207,16 @@ body.home, body.fourohfour {
 // Content
 
 #content {
-  padding-bottom: 2em;
+
+  a {
+    text-decoration: none;
+    border-bottom: 3px solid $va-primary-color;
+    background: $va-body-accent-color;
+    &:hover {
+        background: lighten($va-body-accent-color, 30);
+    }
+  }
+
 }
 
 // Home page specific
@@ -277,8 +286,11 @@ body.home, body.fourohfour {
 
 .section {
   background: #fff;
-  padding: 2em 0;
+  &.one {
+    padding: 2em 0;
+  }
   &.two {
+    padding: 3em 0;
     h3 {color: darken($va-start-color, 10);}
     background: #E4F2F0;
     background: rgba($va-start-color, 0.1);
@@ -322,7 +334,7 @@ body.home, body.fourohfour {
 
 // Breadcrumbs
 
-ul.breadcrumbs {
+#content ul.breadcrumbs {
   background: none;
   border: none;
   h2 {font-size: 1em;}
@@ -346,7 +358,7 @@ ul.breadcrumbs {
     @media #{$small} {font-size: 1.35em; line-height: 1.5em;}
     &:hover  {border-bottom: none; text-decoration: none;}
     &.parent {
-
+      a {background: none;}
       display: block;
       @media #{$small} {display: inline-block;}
 
@@ -586,7 +598,7 @@ ul.large-block-grid-3 >li {
 
 // Buttons
 
-a.button {
+#content a.button {
   background: $va-primary-color;
   border-bottom: 4px solid $va-highlight-color;
   &:hover, &:active, &:focus {background: lighten($va-primary-color, 10);}
@@ -636,7 +648,7 @@ body.index {
     @media #{$small} {padding: 1em 0 0 0; display: inline-block;}
     h2 {
     padding: 0; margin: 0 0 1em 0; background: none;
-    a {text-decoration: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
+    a {text-decoration: none; background: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
     @media #{$medium} {position: fixed; margin: .75em 0 0 0;}
     }
   }
@@ -881,7 +893,8 @@ svg {
 
 .alert-box {
   border-bottom: none;
-  padding: 1em .4em;
+  padding: 1.25em .4em;
+  margin-bottom: 0;
   a {color: #fff; background: none;}
   &.notice {
     font-size: .9em;
@@ -914,6 +927,158 @@ ul.plain {
       }
     }
   }
+}
+
+// Info cards
+
+.card {
+  position: relative;
+  margin: .25em 0 1.5em 0;
+
+  &:after {
+    visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+  }
+
+  span {
+    display: block;
+  }
+
+  .number {
+    font-size: 3.5em;
+    position: absolute;
+    left: .25rem;
+    top: 0rem;
+    font-weight: 700;
+    margin: 0;
+    color: #003E73;
+    line-height: 1em;
+    display: inline-block;
+    padding: 0 .5em 0 0;
+  }
+
+  .heading, .description {
+    margin-left: 3.25rem;
+    display: block;
+  }
+
+  .heading {
+    font-size: .8em;
+    padding: 0;
+  }
+
+  .description {
+    font-size: 1.5em;
+    padding: 0;
+  }
+
+  &.information {
+    background: none;
+  }
+
+}
+
+// Dividers
+
+.divider {
+  &.margin {
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+  &.top {
+    border-top: 1px solid #f0f0f0;
+  }
+  &.bottom {
+    border-bottom: 1px solid #f0f0f0;
+  }
+}
+
+// Steps
+
+.feature {
+  background: rgba(0,0,0,.05);
+  padding: 1em;
+  margin: 0;
+}
+
+// Process line
+
+ol.process {
+  padding: 0;
+  position: relative;
+  margin: 0 0 0 .5em;
+  // border-left: 4px solid #ccc;
+
+  h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
+  list-style: none;
+  margin-left: 2em;
+  padding-top: .75em;
+
+  li {
+    list-style-type: none;
+    list-style: none;
+    &.step {
+      border-left: 4px solid #ccc;
+      padding: 0 0 2em 2em;
+      margin: 0 !important;
+    &.last {
+      border-left: 4px solid #fff;
+    }
+
+    }
+
+
+    &.va {border-left: 4px dashed #ccc;}
+
+    ul  {
+      margin: .25em 0 1em 0;
+      padding: 0;
+      li {
+        margin: 0;
+        padding: .1em 0;
+      }
+    }
+
+    &:before {
+      float: left;
+      text-align: center;
+      width: 2.5em;
+      top: -.2em;
+      margin-left: -3.4em;
+      display: block;
+      border: 4px solid #ccc;
+      background: #fff;
+      border-radius: 4em;
+      padding: .25em;
+      }
+  }
+
+  li.one:before {content: "1";}
+  li.two:before {content: "2";}
+  li.three:before {content: "3";}
+  li.four:before {content: "4";}
+  li.five:before {content: "5";}
+  li.six:before {content: "6";}
+  li.seven:before {content: "7";}
+  li.eight:before {content: "8";}
+  li.nine:before {content: "9";}
+  li.ten:before {content: "10";}
+  li.eleven:before {content: "11";}
+  li.twelve:before {content: "12";}
+  li.thirteen:before {content: "13";}
+  li.fourteen:before {content: "14";}
+  li.fifteen:before {content: "15";}
+  li.sixteen:before {content: "16";}
+  li.seventeen:before {content: "17";}
+  li.eighteen:before {content: "18";}
+  li.nineteen:before {content: "19";}
+  li.twenty:before {content: "20";}
 }
 
 
