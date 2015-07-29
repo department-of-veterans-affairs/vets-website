@@ -111,8 +111,7 @@ The VA currently recommends submitting a Fully Developed Claim online. This proc
 
 - [Fully Developed Claim (FDC)](#) (Recommended)
 - [Standard Claim](#)
-
-**Apply Now for Disability Benefits**
+- [Apply Now for Disability Benefits](#)
 
 </li>
 
