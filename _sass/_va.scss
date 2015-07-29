@@ -206,8 +206,7 @@ body.home, body.fourohfour {
 
 // Content
 
-#content .main {
-
+#content .main.interior {
   a {
     text-decoration: none;
     border-bottom: 3px solid $va-primary-color;
@@ -216,7 +215,6 @@ body.home, body.fourohfour {
         background: lighten($va-body-accent-color, 30);
     }
   }
-
 }
 
 // Home page specific
@@ -512,7 +510,7 @@ ul.large-block-grid-3 >li {
 }
 
 
-#content .cards {
+#content  .cards {
 /*
   -webkit-display: flex;
   display: flex;
