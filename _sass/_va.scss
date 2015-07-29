@@ -900,6 +900,13 @@ svg {
     font-size: .9em;
   background: $va-alert-color;
   }
+
+  .text-right {
+    padding: .25em 4em 0 0;
+    line-height: 1em;
+    margin: 0;
+  }
+
 }
 
 // Plain lists
