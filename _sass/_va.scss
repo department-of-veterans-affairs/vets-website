@@ -137,8 +137,11 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 
 // Banner
 
-.splash {
+#content {margin: 0; padding: 0;}
+
+#content .splash {
   padding: .5em 0;
+  margin: 0;
   &.home {
     background: #ccc;
     background: rgba(0,0,0,.1);
@@ -148,6 +151,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   @media #{$medium} {padding: 3em 0;}
   @media #{$large} {padding: 4em 0;}
   span, h2 {
+    padding: 0;
     a {background: rgba($va-body-accent-color, .9);}
     display: inline;
     line-height: 1.3em;
@@ -169,6 +173,18 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 .pitch {
   @media #{$small} {padding: .5em 0;}
   h2, h3 {color: $va-primary-color; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
+}
+
+#experience .splash {padding: 0; margin: 0;}
+
+#experience .splash h2 {
+  margin: .5em 0; padding: 0;
+  a {
+    margin: 0;
+    background: rgba($va-body-accent-color, .9);
+    line-height: 1.4em;
+    font-size: .9em;
+  }
 }
 
 .primary {
@@ -646,7 +662,7 @@ body.index {
     @media #{$small} {padding: 1em 0 0 0; display: inline-block;}
     h2 {
     padding: 0; margin: 0 0 1em 0; background: none;
-    a {text-decoration: none; background: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
+    a {text-decoration: none; margin: 0; background: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
     @media #{$medium} {position: fixed; margin: .75em 0 0 0;}
     }
   }
