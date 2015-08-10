@@ -103,7 +103,7 @@ h1 {
   display: block;
   background: url(../images/design/logo/logo.png) top left no-repeat;
   &:hover, &:active, &:focus {background: url(../images/design/logo/logo-hover.png) top left no-repeat; background-size: cover;}
-  width: 211px;
+  width: 240px;
   height: 40px;
   background-size: cover;
     @media #{$small} {
@@ -152,12 +152,12 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   @media #{$large} {padding: 4em 0;}
   span, h2 {
     padding: 0;
-    a {background: rgba($va-body-accent-color, .9);}
     display: inline;
     line-height: 1.3em;
     margin: 1em 0 0 0;
     white-space: pre-wrap;
     color: #333;
+    a {background: rgba($va-body-accent-color, .9); color: #444;}
   }
 
   h2 span {background: none; clear: both; display: inline-block; line-height: 1em; white-space: inherit; margin: 0; padding: 0; font-weight: normal; font-size: .8em;}
@@ -181,6 +181,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   margin: .5em 0; padding: 0;
   a {
     margin: 0;
+    color: #444;
     background: rgba($va-body-accent-color, .9);
     line-height: 1.4em;
     font-size: .9em;
@@ -239,7 +240,7 @@ body.home, body.fourohfour {
   h2, h3, h4, h5, h6, p, ul, li, ol, a {color: #fff;}
   color: #fff;
 
-  .post-date {font-size: .5em;}
+  .post-date {font-size: .5em; color: $va-body-accent-color;}
 
   h3 {border-bottom: 1px solid #fff; border-bottom: 1px solid rgba(255,255,255,.2); font-size: 1.65em; margin: 0 0 1em 0; padding: 0 0 .2em 0;}
 
@@ -630,8 +631,38 @@ ul.large-block-grid-3 >li {
 
 // Blog
 
+body.index, body.post-single {
+  background: #fff url(../images/design/icons/watermark.png) 80% -8% no-repeat;
+  @media #{$large} {background: #fff url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;}
+
+    h1 a {
+    text-indent: 180%;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    width: 240px;
+    height: 40px;
+
+    background: url(../images/design/logo/logo-alt.png) top left no-repeat;
+    background-size: cover;
+    &:hover, &:active, &:focus {background: url(../images/design/logo/logo-alt-hover.png) top left no-repeat; background-size: cover;}
+
+      @media #{$small} {
+        width: 263px;
+        height: 50px;
+        background: url(../images/design/logo/logo-alt.png) top left no-repeat;
+        background-size: contain;
+        &:hover {
+          background: url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
+          background-size: contain;
+        }
+    }
+  }
+
+}
+
 .post-date, .post-author {
-  color: $va-body-accent-color;
+  color: #444;
 }
 
 .post-date {
@@ -661,8 +692,8 @@ body.index {
      @media #{$small} {margin: 1em 0 0 0;}
     @media #{$small} {padding: 1em 0 0 0; display: inline-block;}
     h2 {
-    padding: 0; margin: 0 0 1em 0; background: none;
-    a {text-decoration: none; margin: 0; background: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
+    padding: 0; margin: 0 0 2em 0; background: none; color: $va-primary-color;
+    a {text-decoration: none; margin: 0; color: $va-primary-color; background: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
     @media #{$medium} {position: fixed; margin: .75em 0 0 0;}
     }
   }
@@ -670,7 +701,7 @@ body.index {
 
 
   .post-preview {
-    border-bottom: 1px solid rgba(255,255,255,.2);
+    border-bottom: 1px solid rgba(0,0,0,.2);
     padding: 0 0 3em 0;
     margin: 0 0 3em 0;
     &:last-of-type{border-bottom: none;}
@@ -679,19 +710,27 @@ body.index {
   }
 
   .related-posts {
-    border-top: 1px solid rgba(255,255,255,.2);
-    padding: 2em 0 0 0;
+    border-top: 1px solid $va-body-accent-color;
+    padding: 2em 0 1em 0;
     margin: 2em 0 0 0;
-    h6 {font-size: 1.45em;}
-    ul.plain.posts li a {
-      .post-title {color: $va-body-accent-color; font-size: 1em; margin: 0; padding: 0;}
-      .post-date {color: #fff; margin: 0; padding: 0;}
+    h6 {line-height: 1.2em; margin: 0; padding: 0; font-size: 1.15em;}
+    ul.plain.posts {
+        margin: 0; padding: 0;
+        li {
+          margin: 0;
+          padding: 0;
+          a {
+            padding: 0; margin: 0;
+        .post-title {color: $va-primary-color; font-size: 1em; margin: 0; padding: 0;}
+        .post-date {color: #444; margin: 0; padding: 0 0 1em 0;}
+        }
+      }
     }
   }
 
 
   .post {
-    a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #fff; line-height: 1.65em;}
+    a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #444; line-height: 1.65em;}
     a {
       text-decoration: none;
       border-bottom: 1px solid $va-body-accent-color;
@@ -699,7 +738,7 @@ body.index {
       }
 
       .page-number {
-        color: #fff;
+        color: #444;
       }
 
       span.previous {
@@ -716,8 +755,9 @@ body.index {
         display: block;
         a.title {
           font-size: 1.65rem;
-          border: 2px solid #fff;
+          border: 2px solid $va-secondary-color;
           padding: .75em;
+          color: $va-primary-color;
           background: none;
           display: block;
           text-decoration: none;
@@ -734,8 +774,9 @@ body.index {
 
       &.full {
         h3.title {
-          border: 2px solid #fff;
+          border: 2px solid $va-secondary-color;
           padding: .75em;
+          color: $va-primary-color;
           background: none;
           font-size: 1.65rem;
           display: block;
