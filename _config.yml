@@ -1,4 +1,4 @@
-name: Veterans.gov
+name: Vets.gov
 
 #URL of site, include http://, do not include a trailing slash
 #url: http://vets.gov
@@ -89,3 +89,6 @@ collections:
   family:
     output: true
     permalink: /family/:path/
+  playbook:
+    output: true
+    permalink: /playbook/:path/
