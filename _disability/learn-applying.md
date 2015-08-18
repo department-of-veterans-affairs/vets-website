@@ -1,6 +1,6 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/exposures-to-hazardous-materials/index.html
+permalink: disability-benefits/learn/applying/index.html
 title: Applying for Benefits
 ---
 
