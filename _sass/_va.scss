@@ -21,10 +21,13 @@ html, body {
   font-family: 'Open Sans', sans-serif;
 }
 
+
 body, body.home {
-    background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat;
+    background: $va-primary-color url(../images/design/background/thread.png) top center no-repeat;
+    background-size: cover;
   @media #{$large} {
-    background: $va-primary-color url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;
+    background: $va-primary-color url(../images/design/background/thread.png) top center no-repeat;
+    background-size: cover;
   }
 }
 
@@ -999,8 +1002,6 @@ body.index, body.page-playbook {
 }
 
 .footer .content {
-  background: url(../images/design/background/thread.png) bottom center no-repeat;
-  background-size: cover;
   padding: 2em 0;
   margin: 0;
 }
@@ -1073,6 +1074,12 @@ ul.plain {
   }
 }
 
+// byline
+
+p.byline {font-size: .8em; color: #fff; color: rgba(255,255,255,.9);}
+
+
+
 // Simple List
 
 ul.simple-list, ol.simple-list {
@@ -1126,7 +1133,7 @@ ul.simple-list, ol.simple-list {
   }
 
   .description {
-    font-size: 1.15em;
+    font-size: 1em;
     padding: 0;
     text-align: left;
   }
