@@ -23,12 +23,8 @@ html, body {
 
 
 body, body.home {
-    background: $va-primary-color url(../images/design/background/thread.png) top center no-repeat;
-    background-size: cover;
-  @media #{$large} {
-    background: $va-primary-color url(../images/design/background/thread.png) top center no-repeat;
-    background-size: cover;
-  }
+    background: $va-primary-color url(../images/design/background/thread.png) top left no-repeat;
+    background-size: contain;
 }
 
 
