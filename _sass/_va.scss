@@ -714,8 +714,8 @@ ul.large-block-grid-3 >li {
 // Blog / Playbook
 
 body.index, body.post-single, body.page-playbook {
-  background: #fff url(../images/design/background/thread.png) 80% -8% no-repeat;
-  @media #{$large} {background: #fff url(../images/design/background/thread.png) 80% -8% no-repeat fixed;}
+  background: #fff url(../images/design/background/thread.png) 80% -8% no-repeat; background-size: contain;
+  @media #{$large} {background: #fff url(../images/design/background/thread.png) 80% -8% no-repeat;  background-size: contain;}
 
     h1 a {
     text-indent: 180%;
