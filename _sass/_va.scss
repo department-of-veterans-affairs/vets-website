@@ -714,8 +714,8 @@ ul.large-block-grid-3 >li {
 // Blog / Playbook
 
 body.index, body.post-single, body.page-playbook {
-  background: #fff url(../images/design/icons/watermark.png) 80% -8% no-repeat;
-  @media #{$large} {background: #fff url(../images/design/icons/watermark.png) 80% -8% no-repeat fixed;}
+  background: #fff url(../images/design/background/thread.png) 80% -8% no-repeat;
+  @media #{$large} {background: #fff url(../images/design/background/thread.png) 80% -8% no-repeat fixed;}
 
     h1 a {
     text-indent: 180%;
@@ -894,7 +894,7 @@ body.page-playbook {
   .row.secondary {
     padding: 0 0 1em 0;
     @media #{$medium} {padding: 2em 0;}
-    @media #{$small} {background: url(../images/design/seal/seal.png) 2% 50% no-repeat; background-size: 60px;}
+    @media #{$small} {background: url(../images/design/background/thread.png) 2% 50% no-repeat; background-size: 60px;}
   }
 
   a {
