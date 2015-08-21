@@ -693,6 +693,46 @@ ul.large-block-grid-3 >li {
   }
 }
 
+// Telephone numbers
+
+span.tel {
+  background: rgba(0,0,0,.05);
+  padding: .2em;
+  display: inline-block;
+}
+
+// Information Grid
+
+ul.information-grid {
+
+  li {
+
+      strong {
+        font-size: 1.3em;
+        color: $va-primary-color;
+      }
+
+      p {
+        font-size: .9em;
+      }
+
+      div {
+      padding: .75em;
+      margin: 0 0 .5em 0;
+      @media #{$small} {min-height: 14em;}
+      background: #eee;
+      background: rgba(0,0,0,.05);
+      }
+    a {
+
+      text-decoration: none;
+      border-bottom: 2px solid $va-primary-color;
+
+    }
+  }
+
+}
+
 // Buttons
 
 #content a.button {
