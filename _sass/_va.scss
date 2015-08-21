@@ -6,11 +6,11 @@ $va-primary-color: #003F72;
 $va-secondary-color: #0083BE;
 $va-tertiary-color: #444;
 $va-highlight-color: #4FCEFF;
-$va-body-content-color: #444;
+$va-body-content-color: #222;
 $va-body-accent-color: #FAC922;
 $va-body-background-color: #fff;
 $va-start-color: #008674;
-$va-alert-color: #00A4C7;
+$va-alert-color: #741B30;
 
 // General
 
@@ -719,9 +719,11 @@ ul.information-grid {
       div {
       padding: .75em;
       margin: 0 0 .5em 0;
-      @media #{$small} {min-height: 14em;}
+      @media #{$small} {min-height: 12em;}
       background: #eee;
       background: rgba(0,0,0,.05);
+      &:hover, &:focus, &:active {background: rgba(0,0,0,.1);}
+      border-bottom: 4px solid $va-secondary-color;
       }
     a {
 
@@ -934,7 +936,7 @@ body.page-playbook {
   .row.secondary {
     padding: 0 0 1em 0;
     @media #{$medium} {padding: 2em 0;}
-    @media #{$small} {background: url(../images/design/background/thread.png) 2% 50% no-repeat; background-size: 60px;}
+    @media #{$small} {background: url(../images/design/seal/seal.png) 2% 50% no-repeat; background-size: 60px;}
   }
 
   a {
@@ -1072,7 +1074,7 @@ svg {
   a {color: #fff; background: none;}
   &.notice {
     font-size: .9em;
-  background: $va-alert-color;
+  background: $va-secondary-color;
   }
 
   .text-right {
@@ -1184,12 +1186,21 @@ ul.simple-list, ol.simple-list {
     span.number {color: #fff;}
   }
 
+
+
 }
 
 
 #playbook {
   h2 {background: none; font-size: 2.5em;}
   a {text-decoration: none; background: none;}
+
+  .card a {
+    border-bottom: 2px solid $va-secondary-color;
+    display: inline-block;
+    background: rgba(0,0,0,.03);
+    &:hover {background: rgba(0,0,0,.1);}
+  }
 }
 
 // Dividers
@@ -1291,7 +1302,30 @@ ol.process {
   li.twenty:before {content: "20";}
 }
 
+// Visual Guide
 
+span.color-chip {
+  height: 3em;
+  width: 3em;
+  margin: .5em 1em .5em 0;
+  border-radius: 10em;
+  vertical-align: middle;
+  display: inline-block;
+
+  &.va-primary-color {background: $va-primary-color;}
+  &.va-secondary-color {background: $va-secondary-color;}
+  &.va-tertiary-color {background: $va-tertiary-color;}
+  &.va-highlight-color {background: $va-highlight-color;}
+  &.va-body-content-color {background: $va-body-content-color;}
+  &.va-body-accent-color {background: $va-body-accent-color;}
+  &.va-body-background-color {background: $va-body-background-color;}
+  &.va-start-color {background: $va-start-color;}
+  &.va-alert-color {background: $va-alert-color;}
+
+}
+
+
+// Icons
 
 .icon-images {width: 1.125em;}
 .icon-connection {width: 1.25em;}
