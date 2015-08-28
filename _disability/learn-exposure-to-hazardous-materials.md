@@ -2,6 +2,8 @@
 layout: page-disability
 permalink: disability-benefits/learn/exposures-to-hazardous-materials/index.html
 title: Hazardous Exposures
+section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">
@@ -10,7 +12,7 @@ title: Hazardous Exposures
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">Learn about disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }} </a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
