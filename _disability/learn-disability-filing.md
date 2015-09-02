@@ -1,7 +1,7 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/claims-appeal/index.html
-title: Claims appeal
+permalink: disability-benefits/learn/filing/index.html
+title: Filing
 section-title: Learn about
 ---
 
@@ -11,7 +11,7 @@ section-title: Learn about
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="/disability-benefits/learn/">{{ page.section-title }}</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -39,17 +39,20 @@ Coming soon.
 
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/conditions/">Claims appeal overview
+              <a href="{{ site.url }}/disability-benefits/learn/conditions/">
+                Filing online
               </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/claims-appeal/court-of-appeals">Getting help filing an appeal</a>
+              <a href="{{ site.url }}/disability-benefits/learn/rates/">How do I file while on active duty in pre-discharge status?</a>
             </li>
           </ul>
         </div>
       </div>
 </div>
+
+
 
 
 <div class="section two" markdown="0">

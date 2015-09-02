@@ -1,8 +1,8 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/claims-appeal/index.html
-title: Claims appeal
-section-title: Learn about
+permalink: disability-benefits/learn/claims-appeal/court-of-appeals/index.html
+title: Court of Appeals
+section-title: Claims appeal
 ---
 
 <div class="splash" markdown="0">
@@ -11,7 +11,8 @@ section-title: Learn about
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="/disability-benefits/learn/">Learn about</a></li>
+<li class="parent"><a href="/disability-benefits/learn/claims-appeal/">{{ page.section-title }}</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -39,12 +40,11 @@ Coming soon.
 
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/conditions/">Claims appeal overview
-              </a>
+              <a href="/disability-benefits/learn/conditions/">Board of Veterans Appeals</a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/claims-appeal/court-of-appeals">Getting help filing an appeal</a>
+              <a href="/disability-benefits/learn/claims-appeal/court-of-appeals">Court of Appeals for Veterans Claims</a>
             </li>
           </ul>
         </div>
