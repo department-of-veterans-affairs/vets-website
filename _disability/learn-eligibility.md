@@ -1,7 +1,7 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/rates/index.html
-title: Rates
+permalink: disability-benefits/learn/eligibility/index.html
+title: Eligibility
 section-title: Learn about
 ---
 
@@ -30,6 +30,33 @@ Coming soon.
 </div>
 </div>
 </div>
+
+<div class="navigation">
+  <div class="row">
+    <div class="small-12 columns">
+
+        <h4>Learn More</h4>
+
+          <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+            <li>
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/service-connected/">What does "service-connected" mean?
+              </a>
+            </li>
+
+            <li>
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/disability-ratings/">How does VA assign disability ratings?</a>
+            </li>
+
+            <li>
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types">Overview of types of claims</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+</div>
+
+
+
 
 <div class="section two" markdown="0">
 <div class="action" markdown="0">

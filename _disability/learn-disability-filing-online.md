@@ -1,7 +1,7 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/rates/index.html
-title: Rates
+permalink: disability-benefits/learn/filing/filing-online/index.html
+title: Filing Online
 section-title: Learn about
 ---
 
@@ -12,6 +12,7 @@ section-title: Learn about
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/filing">Filing</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -30,6 +31,7 @@ Coming soon.
 </div>
 </div>
 </div>
+
 
 <div class="section two" markdown="0">
 <div class="action" markdown="0">

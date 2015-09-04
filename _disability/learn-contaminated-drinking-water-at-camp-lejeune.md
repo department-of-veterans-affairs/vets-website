@@ -1,7 +1,7 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/rates/index.html
-title: Rates
+permalink: disability-benefits/learn/conditions/exposures-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/index.html
+title: Contaminated Drinking Water at Camp Lejeune
 section-title: Learn about
 ---
 
@@ -12,6 +12,8 @@ section-title: Learn about
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/conditions/">Conditions</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

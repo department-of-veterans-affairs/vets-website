@@ -1,7 +1,7 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/rates/index.html
-title: Rates
+permalink: disability-benefits/learn/eligibility/claim-types/post-service-claim/index.html
+title: Post-Service claim
 section-title: Learn about
 ---
 
@@ -12,6 +12,8 @@ section-title: Learn about
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility/">Eligibility</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types">Claim types</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -30,6 +32,7 @@ Coming soon.
 </div>
 </div>
 </div>
+
 
 <div class="section two" markdown="0">
 <div class="action" markdown="0">

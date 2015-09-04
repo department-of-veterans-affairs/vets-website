@@ -1,8 +1,9 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/claims-appeal/index.html
-title: Claims appeal
+permalink: disability-benefits/learn/conditions/special-claims/index.html
+title: Special claims
 section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">
@@ -12,6 +13,7 @@ section-title: Learn about
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/conditions/">Conditions</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -25,7 +27,7 @@ section-title: Learn about
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+Coming Soon
 
 </div>
 </div>
@@ -39,17 +41,26 @@ Coming soon.
 
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/claims-appeal/claims-appeal-overview/">Claims appeal overview</a>
+              <a href="{{ site.url }}/disability-benefits/learn/conditions/special-claims/hospitalization/">
+                Hospitalization
+              </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/claims-appeal/court-of-appeals/">Getting help filing an appeal</a>
+              <a href="{{ site.url }}/disability-benefits/learn/conditions/special-claims/individual-unemployability">Individual Unemployability</a>
+            </li>
+
+            <li>
+              <a href="{{ site.url }}/disability-benefits/learn/conditions/special-claims/convalescence/">Convalescence</a>
+            </li>
+
+            <li>
+              <a href="{{ site.url }}/disability-benefits/learn/conditions/special-claims/title-38-USC-1151/">Title 38 U.S.C. 1151</a>
             </li>
           </ul>
         </div>
       </div>
 </div>
-
 
 <div class="section two" markdown="0">
 <div class="action" markdown="0">
