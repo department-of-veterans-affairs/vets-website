@@ -1,8 +1,8 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/eligibility/claim-types/index.html
-title: Claim types
-section-title: Eligibility
+permalink: disability-benefits/learn/eligibility/index.html
+title: Eligibility
+section-title: Learn about
 ---
 
 <div class="splash" markdown="0">
@@ -11,8 +11,7 @@ section-title: Eligibility
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="/disability-benefits/learn/">Learn about</a></li>
-<li class="parent"><a href="/disability-benefits/learn/eligibility">{{ page.section-title }}</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -40,32 +39,16 @@ Coming soon.
 
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/conditions/">Pre-discharge
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/service-connected/">What does "service-connected" mean?
               </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/rates/">New Claim</a>
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/disability-ratings/">How does VA assign disability ratings?</a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/rates/">Original Claim</a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/learn/rates/">Reopened Claim</a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/learn/rates/">Secondary Claim</a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/learn/rates/">Post-Service Claim</a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/learn/rates/">Pre-Service Claim</a>
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types">Overview of types of claims</a>
             </li>
           </ul>
         </div>

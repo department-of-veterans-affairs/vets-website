@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/learn/conditions/index.html
 title: Conditions
+section-title: Learn about
 ---
 
 <div class="splash" markdown="0">
@@ -38,21 +39,21 @@ Coming soon.
 
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/conditions/">
+              <a href="{{ site.url }}/disability-benefits/learn/conditions/general-conditions/">
                 General Conditions
               </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/rates/">PTSD</a>
+              <a href="{{ site.url }}/disability-benefits/learn/conditions/ptsd/">PTSD</a>
             </li>
 
             <li>
-              <a href="/disability-benefits/learn/conditions/exposures-to-hazardous-materials/">Exposures to Hazardous Materials</a>
+              <a href="{{ site.url }}/disability-benefits/learn/conditions/exposures-to-hazardous-materials/">Exposures to Hazardous Materials</a>
             </li>
 
             <li>
-              <a href="/disability-benefits/learn/conditions/special-claims/">Special Claims</a>
+              <a href="{{ site.url }}/disability-benefits/learn/conditions/special-claims/">Special Claims</a>
             </li>
           </ul>
         </div>

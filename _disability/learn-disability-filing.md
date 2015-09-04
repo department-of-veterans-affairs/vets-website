@@ -11,7 +11,7 @@ section-title: Learn about
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="/disability-benefits/learn/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -39,13 +39,12 @@ Coming soon.
 
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/conditions/">
-                Filing online
+              <a href="{{ site.url }}/disability-benefits/learn/filing/filing-online/">Filing online
               </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/rates/">How do I file while on active duty in pre-discharge status?</a>
+              <a href="{{ site.url }}/disability-benefits/learn/filing/pre-discharge-filing/">How do I file while on active duty in pre-discharge status?</a>
             </li>
           </ul>
         </div>
