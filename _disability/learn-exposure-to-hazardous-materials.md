@@ -107,7 +107,7 @@ There are certain diseases that may be service connected if they occurred as a r
 
         <li>
           <a href="{{ site.url }}/disability-benefits/learn/conditions/exposures-to-hazardous-materials/radiogenic-risk-activities/">Radiogenic Risk Activities</a>
-        </li>
+        </li> 
 
         <li>
           <a href="{{ site.url }}/disability-benefits/learn/conditions/exposures-to-hazardous-materials/specific-environmental-hazards/">Specific Environmental Hazards</a>
