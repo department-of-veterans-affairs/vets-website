@@ -39,12 +39,11 @@ Coming soon.
 
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/conditions/">Claims appeal overview
-              </a>
+              <a href="{{ site.url }}/disability-benefits/learn/claims-appeal/claims-appeal-overview/">Claims appeal overview</a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/claims-appeal/court-of-appeals">Getting help filing an appeal</a>
+              <a href="{{ site.url }}/disability-benefits/learn/claims-appeal/court-of-appeals/">Getting help filing an appeal</a>
             </li>
           </ul>
         </div>

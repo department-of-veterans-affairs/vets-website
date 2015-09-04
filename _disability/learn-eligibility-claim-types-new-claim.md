@@ -1,7 +1,7 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/eligibility/index.html
-title: Eligibility
+permalink: disability-benefits/learn/eligibility/claim-types/new-claim/index.html
+title: New claim
 section-title: Learn about
 ---
 
@@ -11,7 +11,9 @@ section-title: Learn about
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="/disability-benefits/learn/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility/">Eligibility</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types">Claim types</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -30,33 +32,6 @@ Coming soon.
 </div>
 </div>
 </div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-
-        <h4>Learn More</h4>
-
-          <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-            <li>
-              <a href="{{ site.url }}/disability-benefits/learn/conditions/">
-                What does "service-connected" mean?
-              </a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/learn/rates/">How does VA assign disability ratings?</a>
-            </li>
-
-            <li>
-              <a href="/disability-benefits/learn/eligibility/claim-types">Overview of types of claims</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-</div>
-
-
 
 
 <div class="section two" markdown="0">

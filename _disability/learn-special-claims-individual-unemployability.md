@@ -1,8 +1,9 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/rates/index.html
-title: Rates
+permalink: disability-benefits/learn/conditions/special-claims/individual-unemployability/index.html
+title: Individual Unemployability
 section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">
@@ -12,6 +13,8 @@ section-title: Learn about
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/conditions/">Conditions</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/conditions/special-claims/">Special Claims</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -25,11 +28,12 @@ section-title: Learn about
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+Coming Soon
 
 </div>
 </div>
 </div>
+
 
 <div class="section two" markdown="0">
 <div class="action" markdown="0">
