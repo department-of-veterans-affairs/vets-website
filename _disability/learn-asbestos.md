@@ -21,14 +21,16 @@ section-title: Learn about
 </div>
 </div>
 
-<div class="main" role="main" markdown="0">
+<div class="main interior" role="main" markdown="0">
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
+### Asbestos
 
-Coming soon.
+Some service occupations, tasks, and workplaces make exposure to asbestos more likely. These include mining, milling, shipyards, insulation work, building demolition, carpentry, and construction. In addition, the manufacturing and installation of products such as flooring, roofing, cement sheet, and pipe products, and the servicing of friction products such as clutch facings and brake linings, make exposure to asbestos more likely. If you served in Iraq or other countries in that region, you could have been exposed to asbestos when older buildings were damaged, releasing the contaminant into the air. 
 
+[Learn more about exposure to asbestos](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp)
 </div>
 </div>
 </div>

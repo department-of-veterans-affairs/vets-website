@@ -21,14 +21,16 @@ section-title: Learn about
 </div>
 </div>
 
-<div class="main" role="main" markdown="0">
+<div class="main interior" role="main" markdown="0">
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
+### Specific Environmental Hazards
 
-Coming soon.
+You may have been exposed to environmental hazards at military installations during military service. These hazards include burn pits, particulate matter, chemical fires, and waste disposal pollution.
 
+[Learn more about exposure to specific environmental hazards](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp)
 </div>
 </div>
 </div>
