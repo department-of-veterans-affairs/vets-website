@@ -21,14 +21,16 @@ section-title: Learn about
 </div>
 </div>
 
-<div class="main" role="main" markdown="0">
+<div class="main interior" role="main" markdown="0">
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
+### Ionizing Radiation
 
-Coming soon.
+You may have been exposed to ionizing radiation during military service if, for example, you participated in nuclear weapons testing. Certain diseases may be service connected if the disease occurred as a result of the radiation exposure.
 
+[Learn more about diseases related to exposure to ionizing radiation](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-ionizing_radiation.asp)
 </div>
 </div>
 </div>
