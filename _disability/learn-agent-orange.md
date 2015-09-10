@@ -230,16 +230,6 @@ If you choose to file by mail using VA Form 21-526EZ make sure you annotate each
 </div>
 </div>
 
-<div class="section two" markdown="0">
-<div class="action" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="0">
-<a class="button start" href="#">Apply for benefits</a>
-</div>
-</div>
-</div>
-</div>
-
 </div>
 
 </div>
