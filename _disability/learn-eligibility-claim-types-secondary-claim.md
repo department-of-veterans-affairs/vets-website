@@ -27,23 +27,37 @@ section-title: Learn about
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+It is possible for your service-connected disability to be cause or worsen a another disability.  If this is the case, you could file a Secondary Disability Claim to seek additional benefit. This second disability may not otherwise be considered service-connected.
+
+### Example 1
+
+A Veteran has a service-connected knee injury that causes him to walk with a limp. He subsequently develops arthritis in his hip. Although the arthritic condition was not incurred during or aggravated by service, service-connection may still be established if the arthritis is a result of his previously establish service-connected knee condition.
+
+### Example 2
+
+A Veteran was in the Army for twenty years. During her military service, she was diagnosed with hypertension. After her discharge, service-connection was established for hypertension. She was subsequently diagnosed with a heart condition. Service-connection for her heart condition may be established via a Secondary Claim.  
+
+Source(s)
+
+[http://www.benefits.va.gov/compensation/types-claims.asp](http://www.benefits.va.gov/compensation/types-claims.asp)
 
 </div>
 </div>
 </div>
+</div>
 
-
-<div class="section two" markdown="0">
-<div class="action" markdown="0">
+<div class="section secondary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="0">
-<a class="button start" href="#">Apply for benefits</a>
-</div>
+<div class="small-12 columns" markdown="1">
+
+#### See also
+
+- Initiate a Secondary Claim
+- Back to Overview of types of claims
+
 </div>
 </div>
 </div>
 
-</div>
 
 </div>

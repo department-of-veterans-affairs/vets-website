@@ -27,23 +27,31 @@ section-title: Learn about
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+The first disability claim filed is considered the Original Claim.  A Service Member within 180 days of separation, Veteran or survivor of deceased Veteran may file an Original Claim.
+
+Source(s)
+
+[http://www.benefits.va.gov/compensation/types-claims.asp](http://www.benefits.va.gov/compensation/types-claims.asp)
+
 
 </div>
 </div>
 </div>
+</div>
 
-
-<div class="section two" markdown="0">
-<div class="action" markdown="0">
+<div class="section secondary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="0">
-<a class="button start" href="#">Apply for benefits</a>
-</div>
+<div class="small-12 columns" markdown="1">
+
+#### See also:
+
+- Initiate a claim
+- Back to Overview of types of claims
+
+
 </div>
 </div>
 </div>
 
-</div>
 
 </div>
