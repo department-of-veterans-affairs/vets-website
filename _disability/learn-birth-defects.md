@@ -39,7 +39,9 @@ If you served in Iraq or other countries in that region, you could have been exp
 - You must have a disease or disability related to the asbestos exposure that occurred in military service
 - You must be a Veteran who was discharged under conditions other than dishonorable
 
-[Source(s)](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp)
+Source(s)
+
+[http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp)
 
 </div>
 </div>

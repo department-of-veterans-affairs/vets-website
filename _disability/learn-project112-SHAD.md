@@ -33,7 +33,9 @@ If you participated in Project 112/SHAD, you are eligible for disability benefit
 
 - Claims associated with Project 112/SHAD are evaluated on a case-by-case basis.
 
-[Source(s)](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp)
+Source(s)
+
+[http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp)
 
 
 

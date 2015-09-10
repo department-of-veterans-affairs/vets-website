@@ -224,7 +224,9 @@ To file a claim electronically, use eBenefits at [https://www.ebenefits.va.gov](
 
 If you choose to file by mail using VA Form 21-526EZ make sure you annotate each C-123 related disability inSection I, Block 11 on the form, and submit any of the material noted above (if you have it) with your paper claim. Claims can be mailed to the following address (or faxed to 608-373-6694):
 
-[Source(s)](http://www.benefits.va.gov/compensation/agentorange-c123.asp)
+Source(s)
+
+[http://www.benefits.va.gov/compensation/agentorange-c123.asp](http://www.benefits.va.gov/compensation/agentorange-c123.asp)
 
 </div>
 </div>

@@ -44,20 +44,12 @@ If you participated in one of several radiation-risk activities while serving an
 - Area K-25 at Oak Ridge, Tennessee
 - Performance of tasks similar to those performed by a Department of Energy (DOE) employee that qualifies the DOE employee as a member of the Special Exposure Cohort under 42 U.S.C. 7384L(14).
 
-##### Source(s)
-- [http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp)
--  [http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp)
+Source(s)
 
-</div>
-</div>
-</div>
+[http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp)
 
-<div class="section two" markdown="0">
-<div class="action" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="0">
-<a class="button start" href="#">Apply for benefits</a>
-</div>
+[http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp)
+
 </div>
 </div>
 </div>
