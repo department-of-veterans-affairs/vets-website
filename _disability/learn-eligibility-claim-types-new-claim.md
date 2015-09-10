@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/learn/eligibility/claim-types/new-claim/index.html
-title: New claim
+title: New claims
 section-title: Learn about
 ---
 
@@ -27,7 +27,30 @@ section-title: Learn about
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+If you have new information about a condition that you think could qualify you for new or additional disability benefits, you may want to file a New Claim.  This is distinct from a “Reopened Claim” in that only the new information will be considered during the evaluation process.  The outcome of a New Claim evaluation may be:
+
+- Increased disability compensation
+- Special monthly compensation
+- Shift to “individual unemployability” status
+
+Source(s)
+
+[http://www.benefits.va.gov/compensation/types-claims.asp](http://www.benefits.va.gov/compensation/types-claims.asp)
+
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="section secondary" markdown="0">
+<div class="row" markdown="0">
+<div class="small-12 columns" markdown="1">
+
+#### See also:
+
+- Initiate a new claim
+- Back to Overview of types of claims
 
 </div>
 </div>

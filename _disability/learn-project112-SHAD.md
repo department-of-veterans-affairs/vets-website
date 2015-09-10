@@ -27,7 +27,16 @@ section-title: Learn about
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+If you participated in Project 112/SHAD, you are eligible for disability benefits for any illness possibly related to the testing.
+
+#### Eligibility Requirements
+
+- Claims associated with Project 112/SHAD are evaluated on a case-by-case basis.
+
+[Source(s)](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp)
+
+
+
 
 </div>
 </div>
