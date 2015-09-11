@@ -27,22 +27,26 @@ section-title: Learn about
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+If you were exposed to specific environmental hazards while serving at military installations in Iraq, Afghanistan, and elsewhere and have developed a disease related to this exposure, you may be eligible for disability benefits. These hazards include:
+
+- Large burn pits throughout Iraq, Afghanistan, and Djibouti in the Horn of Africa
+- Particulate matter in Iraq and Afghanistan
+- A large sulfur fire at Mishraq State Sulfur Mine near Mosul, Iraq
+- Hexavalent chromium exposure at the Qarmat Ali Water Treatment Plant at Basra, Iraq
+- Contaminated drinking water at Camp Lejeune, North Carolina, between 1953 and 1987 (See our Camp Lejeune page for more information)
+- Pollutants from a waste incinerator near the Naval Air Facility at Atsugi, Japan.
+
+### Eligibility Requirements
+
+- You must have a disability resulting from your exposure to an environmental hazard during military service.
+- You were discharged under conditions other than dishonorable.
+
+Source(s)
+[http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp)
+
 
 </div>
 </div>
-</div>
-
-<div class="section two" markdown="0">
-<div class="action" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="0">
-<a class="button start" href="#">Apply for benefits</a>
-</div>
-</div>
-</div>
-</div>
-
 </div>
 
 </div>
