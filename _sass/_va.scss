@@ -12,13 +12,16 @@ $va-body-background-color: #fff;
 $va-start-color: #008674;
 $va-alert-color: #741B30;
 
+//fonts
+
+$open-sans: 'Open Sans', Helvetica, Arial, sans-serif;
+$roboto-slab: 'Roboto Slab', serif;
+
 // General
 
 html, body {
-  font-family: 'Open Sans', Helvetica, Arial, sans-serif; font-weight: 300; color: $va-body-content-color;
+  font-family: $open-sans; font-weight: 500; color: $va-body-content-color;
   transition: all 0.3s ease-in-out;
-  font-weight: 500;
-  font-family: 'Open Sans', sans-serif;
 }
 
 
@@ -125,9 +128,16 @@ h1 {
 
 // Type
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+h1, h2 {
+  font-family: $open-sans;
   font-weight: 600;
+}
+h3, h4, h5, h6 {
+  font-family:$roboto-slab;
+  font-weight: 400;
+    &.alternate{
+      font-family: $open-sans;
+    }
 }
 
 // Header
@@ -164,7 +174,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   }
 
   h2 span {background: none; clear: both; display: inline-block; line-height: 1em; white-space: inherit; margin: 0; padding: 0; font-weight: normal; font-size: .8em;}
-  h2, h3, p {padding: .35em; margin: 0; display: inline-block; font-family: 'Open Sans', sans-serif;}
+  h2, h3, p {padding: .35em; margin: 0; display: inline-block; font-family: $open-sans;}
   h2 {
     font-size: 1em;
     display: inline-block;
@@ -1047,22 +1057,22 @@ body.index, body.page-playbook {
 // Icons - Icomoon.com
 
 .icon {
-	display: inline-block;
-	width: 1.75em;
-	height: 1.75em;
-	margin: 0 0 1em 0;
+  display: inline-block;
+  width: 1.75em;
+  height: 1.75em;
+  margin: 0 0 1em 0;
   fill: $va-primary-color;
 }
 
 .glyph {
-	font-size: 16px;
-	width: 17em;
-	margin-right: 1.5em;
-	float: left;
-	overflow: hidden;
+  font-size: 16px;
+  width: 17em;
+  margin-right: 1.5em;
+  float: left;
+  overflow: hidden;
 }
 svg {
-	color: #444444;
+  color: #444444;
 }
 
 // Alerts
