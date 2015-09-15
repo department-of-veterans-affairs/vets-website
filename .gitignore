@@ -1,2 +1,6 @@
 _site/
 .DS_Store
+
+#Compiled VA files
+_site/index.html
+_site/health-care/types/index.html
