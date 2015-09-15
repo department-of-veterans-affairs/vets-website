@@ -107,7 +107,7 @@ There are certain diseases that may be service connected if they occurred as a r
 
         <li>
           <a href="{{ site.url }}/disability-benefits/learn/conditions/exposures-to-hazardous-materials/radiogenic-risk-activities/">Radiogenic Risk Activities</a>
-        </li> 
+        </li>
 
         <li>
           <a href="{{ site.url }}/disability-benefits/learn/conditions/exposures-to-hazardous-materials/specific-environmental-hazards/">Specific Environmental Hazards</a>
@@ -116,18 +116,6 @@ There are certain diseases that may be service connected if they occurred as a r
       </ul>
     </div>
   </div>
-</div>
-
-
-
-<div class="section two" markdown="0">
-<div class="action" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="0">
-<a class="button start" href="#">Apply for benefits</a>
-</div>
-</div>
-</div>
 </div>
 
 </div>
