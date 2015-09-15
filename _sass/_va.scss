@@ -915,23 +915,33 @@ body.index, body.post-single, body.page-playbook {
   // Footer
 
   .footer {
+    color:#fff;
     padding: 0 !important;
     margin: 0;
-    .small-block-grid-1 {
-      li {padding: 0; margin: 0;}
-    }
+      .small-block-grid-1 {
+        li {padding: 0; margin: 0;}
+      }
     ul, form {
       margin: 1.5em 0 0 0; padding: 0 0 1em 0;
     }
-    /*background: $va-primary-color url(../img/design/seal/seal.png) bottom center no-repeat;*/
     background: #0e345e; /* Old browsers */
     padding: 0;
-    li, p, a {color: #fff;}
+    li, p, a {
+      color: #fff;
+    }
     .row.secondary {
-      padding: 0 0 1em 0;
-      @media #{$medium} {padding: 0;}
-      @media #{$small} {background:url(../images/design/seal/seal.png) 2% 50% no-repeat; background-size: 47.667px;}
-  }
+      background:url(../images/design/seal/seal.png) no-repeat;
+      padding: 0;
+        @media #{$small-up} {
+          background-size:50px;
+          background-position: 4% 15%;
+        }
+        @media #{$medium-up} {
+          background-size: 50px;
+          background-position: 2% 50%; 
+          padding: 0;
+        }
+    }
 
   a {
     border-bottom: 2px solid rgba(0,0,0,.25);
@@ -984,6 +994,16 @@ body.index, body.post-single, body.page-playbook {
     span {
       font-weight: bold;
     }
+    a {
+      color:rgb(0,0,0);
+      &:hover {
+        border-bottom: 2px solid $va-body-accent-color;
+      }
+      @media #{$small-only} {
+        display: inline;
+        padding: 0;
+      }
+    }
   }
 
   li {
@@ -994,6 +1014,7 @@ body.index, body.post-single, body.page-playbook {
     padding: 2em 0 0 0;
     dl.vcard {
       padding: 1.2em 0 0 0  ;
+      margin: 0;
       @media #{$small} {padding: 1.625rem 0.75rem;}
       display: block;
       background-size: 50px;
@@ -1002,7 +1023,13 @@ body.index, body.post-single, body.page-playbook {
       border: none;
       font-size: .85em;
       color: #fff;
-      @media #{$small} {margin: 0 0 0 9%;}
+
+      @media #{$small-up} {
+        margin: 0 0 0 9%;
+      }
+      @media #{$medium-only} {
+        margin:3% 0 0 11%;
+      }
     }
     dd, dt {
       padding: 0; margin: 0; text-align: center;
@@ -1105,11 +1132,25 @@ body.index, body.post-single, body.page-playbook {
     font-size: .9em;
     background: $va-secondary-color;
   }
+  .feedback {
+    @media #{$medium-up} {
+      /*float: right;*/
+      text-align: right;
+    }
+    @media #{$medium-only} {
+      right:2.75em;
+      
+    }
+  }
 
   .text-right {
-    padding: .25em 4em 0 0;
+    padding: .25em 1em 0 0;
     line-height: 1em;
     margin: 0;
+
+    @media #{$small-up} {
+      float: left!important;
+    }
   }
 
 }
