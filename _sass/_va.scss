@@ -1145,7 +1145,7 @@ svg {
       /*float: right;*/
       text-align: right;
     }
-    @media #{$medium-only} {
+    @media #{$medium-up} {
       right:2.75em;
     }
   }
