@@ -949,7 +949,7 @@ body.index, body.post-single, body.page-playbook {
         }
         @media #{$medium-up} {
           background-size: 50px;
-          background-position: 2% 50%; 
+          background-position: 2% 50%;
           padding: 0;
         }
     }
@@ -1108,11 +1108,6 @@ body.index, body.post-single, body.page-playbook {
     margin: 0;
   }
 
-  // Newsletter
-
-<<<<<<< HEAD
-
-  // Icons - Icomoon.com
 
   .icon {
    display: inline-block;
@@ -1132,7 +1127,7 @@ body.index, body.post-single, body.page-playbook {
  svg {
    color: #444444;
  }
-=======
+
 .icon {
   display: inline-block;
   width: 1.75em;
@@ -1171,7 +1166,7 @@ svg {
     }
     @media #{$medium-only} {
       right:2.75em;
-      
+
     }
   }
 
