@@ -1021,7 +1021,7 @@ body.index, body.post-single, body.page-playbook {
   .footer-logo a {
 
     @media #{$medium} {padding: 0;}
-    @media #{$small-up} {background:url(../images/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
+    @media #{$medium} {background:url(../images/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
   }
   .newsletter {
     label {
