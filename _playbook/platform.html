@@ -5,7 +5,7 @@ title: Platform
 ---
 
 <div class="splash alternate">
-  <div class="row">
+  <div class="row full">
     <div class="small-12 columns">
       <ul class="breadcrumbs" role="menubar" aria-label="Primary">
         <li class="parent"><a href="{{ site.url }}/playbook/">Playbook</a></li>
@@ -14,94 +14,114 @@ title: Platform
     </div>
   </div>
 </div>
-
 <div class="main" role="main">
-
   <div class="section primary">
-
-  <div class="row">
-    <div class="small-12 columns">
-
-      <h3>The Platform</h3>
-
-
+    <div class="row">
+      <div class="small-12 columns">
+        <h3>Our Platform</h3>
         <p>The Vets.gov platform ensures both customers, and those building experiences for them, have a consistent experiences. It holds to high standards, utilizing the best in design research and technology.</p>
-
       </div>
     </div>
   </div>
-
   <div class="section secondary">
-
     <div class="row">
       <div class="small-12 columns">
-
         <h4>Services and Infrastructure</h4>
-
         <p>Our platform provides central services, including:</p>
-
         <ul>
           <li>Secure accounts</li>
           <li>Robust analytics</li>
           <li>Visual design system</li>
           <li>UX Pattern System</li>
         </ul>
-
         <p>These applications (apps) are well scoped and grouped by category. Using employment as an example, you’ll find apps for searching for jobs, posting a job listing, and translating military service into civilian skills.</p>
-
         <p>Apps are in development, created by internal teams, contractors, or others, such as the <abbr>VERC</abbr> or <abbr>18F</abbr>. All will benefit from our platform’s infrastructure in delivering improved functionality to customers more quickly. They’ll be able to do so without sacrificing quality, security, or privacy. New apps may be designed and sponsored by a business office, a VA administration, or in certain cases by the <abbr>VE</abbr> and/or <abbr>DSE</abbr> team. Our platform was built and is maintained internally within VA. It’s run by the VA Digital Service.</p>
-
         <h4>Standards</h4>
-
         <p>To be included in our platform, apps must meet rigorous standards. They need to be 508-compliant and adhere to automated test and code review standards. In some cases, a legacy system will simply not make the cut.</p>
-
         <h4>Levels of Complexity</h4>
-
         <p>The Vets.gov platform will include features ranging from basic information to personalized applications. Here are the range of offerings and the architecture that supports them.</p>
-
-        <ul class="small-block-grid-1">
-
-        <li>
-          <dl class="simple feature">
-            <dt>Level 1: Clear Information</dt>
-            <dd>Features: None</dd>
-            <dd>Hosting: Github</dd>
-            <dd><abbr>FISMA</abbr>: N/A</dd>
-            <dd>Example: New Disability Claims content</dd>
-          </dl>
-        </li>
-
-        <li>
-          <dl class="feature simple">
-            <dt>Level 2: Basic Tools</dt>
-            <dd>Features: Interactive forms</dd>
-            <dd>Hosting: Amazon web services pilot (<abbr>GSA</abbr> <abbr>IAA</abbr>)</dd>
-            <dd><abbr>FISMA</abbr>: Low</dd>
-            <dd>Example: Saved Veterans Employment Center information</dd>
-          </dl>
-        </li>
-
-        <li>
-          <dl class="feature simple">
-            <dt>Level 3: Account Linked Tools</dt>
-            <dd>Features: Personalization</dd>
-            <dd>Hosting: Amazon web services pilot (<abbr>GSA</abbr> <abbr>IAA</abbr>)</dd>
-            <dd><abbr>FISMA</abbr>: Moderate</dd>
-            <dd>Example: Saved Veterans Employment Center information</dd>
-          </dl>
-        </li>
-
-        <li>
-          <dl class="feature simple">
-            <dt>Level 4: Sensitive Data Linked Tools</dt>
-            <dd>Features: Integrated User Profile</dd>
-            <dd>Hosting: <abbr>TBD</abbr></dd>
-            <dd><abbr>FISMA</abbr>: Moderate</dd>
-            <dd>Hosting: TBD</dd>
-        </dl>
-      </li>
-    </ul>
+          <table role="grid" class="small-12 text-left">
+            <tr>
+              <th scope="column" colspan="4"><span>Level 1:</span> Clear Information</th>
+            </tr>
+            <tr>
+              <th scope="column">Features</th>
+              <th scope="column">Hosting</th>
+              <th scope="column"><abbr>fisma</abbr></th>
+              <th scope="column">User Account</th>
+            </tr>
+            <tr>
+              <td>None</td>
+              <td>GitHub Pages</td>
+              <td>N/A</td>
+              <td>N/A</td>
+            </tr>
+            <tr>
+              <th scope="column" colspan="4"><span>Level 2:</span> Basic Tools</th>
+            </tr>
+            <tr>
+              <th scope="column">Features</th>
+              <th scope="column">Hosting</th>
+              <th scope="column"><abbr>fisma</abbr></th>
+              <th scope="column">User Account</th>
+            </tr>
+            <tr>
+              <td>Interactive forms</td>
+              <td>Amazon web services pilot (<abbr>GSA</abbr> <abbr>IAA</abbr>)</td>
+              <td>Low</td>
+              <td>LOA 1</td>
+            </tr>
+            <tr>
+              <th scope="column" colspan="4"><span>Level 3:</span> Tools Linked to Account</th>
+            </tr>
+            <tr>
+              <th scope="column">Features</th>
+              <th scope="column">Hosting</th>
+              <th scope="column"><abbr>fisma</abbr></th>
+              <th scope="column">User Account</th>
+            </tr>
+            <tr>
+              <td>Personalization</td>
+              <td>Amazon web services pilot (<abbr>GSA</abbr> <abbr>IAA</abbr>)</td>
+              <td>Moderate</td>
+              <td>LOA 2/3</td>
+            </tr>
+            <tr>
+              <th scope="column" colspan="4"><span>Level 4:</span> Sensitive Account Information & Related Tools</th>
+            </tr>
+            <tr>
+              <th scope="column">Features</th>
+              <th scope="column">Hosting</th>
+              <th scope="column"><abbr>fisma</abbr></th>
+              <th scope="column">User Account</th>
+            </tr>
+            <tr>
+              <td>Integrated User Profile</td>
+              <td>TBD</td>
+              <td>Moderate</td>
+              <td>LOA 3</td>
+            </tr>
+          </table>
+        <hr>
+        <div class="row">
+          <div class="span-12 column">
+            <h4 class="alternate"><strong>Additional Resources</strong></h4>
+            <div class="span-12 medium-6 column">
+              <ul>
+                <li>Resource 1</li>
+                <li>Resource 2</li>
+                <li>Resource 3</li>
+              </ul>
+            </div>
+            <div class="span-12 medium-6 column">
+              <ul>
+                <li>Resource 1</li>
+                <li>Resource 2</li>
+                <li>Resource 3</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-</div>
