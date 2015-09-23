@@ -1053,8 +1053,7 @@ body.index, body.post-single, body.page-playbook {
         border-bottom: 2px solid $va-body-accent-color;
       }
       @media #{$small-only} {
-        display: inline;
-        padding: 0;
+        padding: .25em 0;
       }
     }
   }
@@ -1078,7 +1077,7 @@ body.index, body.post-single, body.page-playbook {
       color: #fff;
 
       @media #{$small-up} {
-        margin: 0 0 0 9%;
+        margin: 0 0 0 11%;
       }
       @media #{$medium-up} {
         margin:0 0 0 11%;
@@ -1097,7 +1096,13 @@ body.index, body.post-single, body.page-playbook {
       }
       @media #{$small} {display: inline;}
     }
-    .fn {font-size: 1em;}
+    .fn {
+      font-size: 1em;
+      @media #{$small-only} {
+        font-size: .9em;
+        
+      }
+    }
     dd.locality, dd.postal-code {display: inline;}
     dt {@media #{$small} {text-align: left;}}
 
