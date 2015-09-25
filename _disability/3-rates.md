@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/rates/index.html
 title: Rates
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

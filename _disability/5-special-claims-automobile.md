@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/automobile/index.html
 title: Automobile use claims
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

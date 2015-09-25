@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/convalescence/index.html
 title: Convalescence
-section-title: Learn about
+
 
 ---
 

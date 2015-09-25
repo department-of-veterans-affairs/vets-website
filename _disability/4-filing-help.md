@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/filing/help/index.html
 title: ow do I get help determining whether I should file and with filing?
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

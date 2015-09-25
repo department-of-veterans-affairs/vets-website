@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/ptsd/index.html
 title: Post-Traumatic Stress Disorder (PTSD)
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

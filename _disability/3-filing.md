@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/filing/index.html
 title: How do I file for a disability benefit?
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">
@@ -52,6 +52,13 @@ Coming soon.
             <li>
               <a href="{{ site.url }}/disability-benefits/filing/active-duty/">How do I file while on active duty in pre-discharge status?</a>
             </li>
+
+            <li>
+              <a href="{{ site.url }}/disability-benefits/filing/one-year/">How do I file for Disabilities That Appear Within One Year After Discharge?</a>
+            </li>
+
+
+
 
 
 

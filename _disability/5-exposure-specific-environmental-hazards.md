@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/specific-environmental-hazards/index.html
 title: Specific Environmental Hazards
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

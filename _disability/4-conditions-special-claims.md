@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/index.html
 title: Special claims
-section-title: Learn about
+
 
 ---
 

@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/hospitalization/index.html
 title: Hospitalization
-section-title: Learn about
+
 
 ---
 

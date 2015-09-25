@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/radiogenic-risk-activities/index.html
 title: Radiogenic Risk Activities
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

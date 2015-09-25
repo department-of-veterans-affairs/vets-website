@@ -1,8 +1,8 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/claims-appeal/court-of-appeals/court-appeals-veterans-claims/index.html
+permalink: disability-benefits/claims-appeal/court-of-appeals/court-appeals-veterans-claims/index.html
 title: United States Court of Appeals for Veterans Claims
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">
@@ -11,9 +11,8 @@ section-title: Learn about
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/claims-appeal/">Claims appeal</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/claims-appeal/court-of-appeals/">Getting help filing an appeal</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-appeal/">Claims appeal</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-appeal/court-of-appeals/">Getting help filing an appeal</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

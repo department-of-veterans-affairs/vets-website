@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/individual-unemployability/index.html
 title: Individual Unemployability
-section-title: Learn about
+
 
 ---
 

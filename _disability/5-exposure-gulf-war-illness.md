@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/gulf-war-illness/index.html
 title: Gulf War Illness
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/title-38-USC-1151/index.html
 title: Title 38 U.S.C. 1151 Claims
-section-title: Learn about
+
 
 ---
 

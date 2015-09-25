@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/eligibility/service-connected/index.html
 title: Service Connected
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

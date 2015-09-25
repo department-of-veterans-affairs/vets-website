@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/index.html
 title: Hazardous Exposures
-section-title: Learn about
+
 
 ---
 

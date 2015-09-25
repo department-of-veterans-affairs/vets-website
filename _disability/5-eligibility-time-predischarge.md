@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/eligibility/time/pre-discharge/index.html
 title: Pre-discharge
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

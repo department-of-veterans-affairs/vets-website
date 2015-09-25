@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/pow/index.html
 title: Disability Compensation for Former Prisoners of War (POWs)
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

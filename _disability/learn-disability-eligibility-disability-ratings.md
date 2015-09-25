@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/learn/eligibility/disability-ratings/index.html
 title: Disability Ratings
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

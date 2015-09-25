@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/filing/faster/index.html
 title: Is there a way to file that can get me a decision faster?
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">
@@ -11,8 +11,7 @@ section-title: Learn about
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/filing">Filing</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/filing">Filing</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/learn/eligibility/claim-types/original-claim/index.html
 title: Original claim
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

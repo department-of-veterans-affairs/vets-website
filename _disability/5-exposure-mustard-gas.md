@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/mustard-gas/index.html
 title: Exposure to Mustard Gas or Lewisite
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

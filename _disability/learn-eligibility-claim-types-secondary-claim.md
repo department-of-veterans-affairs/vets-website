@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/learn/eligibility/claim-types/secondary-claim/index.html
 title: Secondary claim
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

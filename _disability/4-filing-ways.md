@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/filing/ways/index.html
 title: What are the different ways I can file a claim
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

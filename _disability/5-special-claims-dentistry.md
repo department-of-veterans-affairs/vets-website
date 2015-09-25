@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/dentistry/index.html
 title: Dentistry
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

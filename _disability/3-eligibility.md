@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/eligibility/index.html
 title: Eligibility
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

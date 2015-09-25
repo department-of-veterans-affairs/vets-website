@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/index.html
 title: Agent Orange
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/eligibility/time/pre-service/index.html
 title: Pre-Service claim
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

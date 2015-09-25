@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/index.html
 title: Conditions
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

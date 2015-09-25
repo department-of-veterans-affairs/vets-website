@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/eligibility/time/post-service/index.html
 title: Post-Service claim
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

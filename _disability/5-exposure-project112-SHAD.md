@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/project112-SHAD/index.html
 title: Project112/SHAD
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

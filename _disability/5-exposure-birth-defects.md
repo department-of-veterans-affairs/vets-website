@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/birth-defects/index.html
 title: Birth Defects/Spina Bifida
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

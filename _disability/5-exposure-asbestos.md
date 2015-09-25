@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/asbestos/index.html
 title: Asbestos
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">

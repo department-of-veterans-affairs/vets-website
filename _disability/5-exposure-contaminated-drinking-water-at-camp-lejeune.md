@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/index.html
 title: Contaminated Drinking Water at Camp Lejeune
-section-title: Learn about
+
 ---
 
 <div class="splash" markdown="0">
