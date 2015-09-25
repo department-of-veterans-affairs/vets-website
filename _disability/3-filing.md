@@ -1,7 +1,7 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/eligibility/claim-types/index.html
-title: Claim types
+permalink: disability-benefits/filing/index.html
+title: How do I file for a disability benefit?
 
 ---
 
@@ -11,8 +11,6 @@ title: Claim types
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility">Eligibility</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -40,33 +38,30 @@ Coming soon.
 
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/pre-discharge/">Pre-discharge
-              </a>
+              <a href="{{ site.url }}/disability-benefits/filing/faster/">Is there a way to file that can get me a decision faster?</a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/new-claim/">New Claim</a>
+              <a href="{{ site.url }}/disability-benefits/filing/ways/">What are the different ways I can file a claim?</a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/original-claim/">Original Claim</a>
+              <a href="{{ site.url }}/disability-benefits/filing/help/">How do I get help determining whether I should file and with filing?</a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/reopened-claim/">Reopened Claim</a>
+              <a href="{{ site.url }}/disability-benefits/filing/active-duty/">How do I file while on active duty in pre-discharge status?</a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/secondary-claim/">Secondary Claim</a>
+              <a href="{{ site.url }}/disability-benefits/filing/one-year/">How do I file for Disabilities That Appear Within One Year After Discharge?</a>
             </li>
 
-            <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/post-service-claim/">Post-Service Claim</a>
-            </li>
 
-            <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/pre-service-claim/">Pre-Service Claim</a>
-            </li>
+
+
+
+
           </ul>
         </div>
       </div>

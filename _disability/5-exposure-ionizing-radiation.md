@@ -1,7 +1,7 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/eligibility/disability-ratings/index.html
-title: Disability Ratings
+permalink: disability-benefits/conditions/exposures-to-hazardous-materials/ionizing-radiation/index.html
+title: Ionizing Radiation
 
 ---
 
@@ -11,8 +11,8 @@ title: Disability Ratings
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility">Eligibility</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -31,7 +31,6 @@ Coming soon.
 </div>
 </div>
 </div>
-
 
 <div class="section two" markdown="0">
 <div class="action" markdown="0">

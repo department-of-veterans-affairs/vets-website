@@ -1,7 +1,7 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/eligibility/disability-ratings/index.html
-title: Disability Ratings
+permalink: disability-benefits/filing/ways/index.html
+title: What are the different ways I can file a claim
 
 ---
 
@@ -11,8 +11,7 @@ title: Disability Ratings
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility">Eligibility</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/filing">Filing</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -26,23 +25,22 @@ title: Disability Ratings
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
 
 </div>
 </div>
 </div>
+</div>
 
-
-<div class="section two" markdown="0">
-<div class="action" markdown="0">
+<div class="section secondary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="0">
-<a class="button start" href="#">Apply for benefits</a>
-</div>
+<div class="small-12 columns" markdown="1">
+
+#### See also:
+
+
 </div>
 </div>
 </div>
 
-</div>
 
 </div>

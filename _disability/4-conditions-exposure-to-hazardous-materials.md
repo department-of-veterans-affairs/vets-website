@@ -1,6 +1,6 @@
 ---
 layout: page-disability
-#permalink: disability-benefits/learn/exposures-to-hazardous-materials/index.html
+permalink: disability-benefits/conditions/exposures-to-hazardous-materials/index.html
 title: Hazardous Exposures
 
 
@@ -12,7 +12,7 @@ title: Hazardous Exposures
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
+=<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -49,11 +49,11 @@ Mustard gas is a common term for sulfur mustard (Yperite) or nitrogen mustard. L
 [Learn more about exposure to mustard gas and lewisite](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-mustard.asp)
 
 ### Project 112/SHAD
-From 1962 to 1974 approximately 6,000 U.S. Service Members were involved in conducting chemical tests to defend against biological and chemical weapons threats.. Participation in these tests, known as Project 112 and Project SHAD, may have resulted in subsequent illnesses among Veterans, and may qualify a survivor of a Veteran who died from exposure to such chemical testing to certain VA benefits.
+From 1962 to 1974 approximately 6,000 U.S. Service Members were involved in conducting chemical tests to defend against biological and chemical weapons threats. Participation in these tests, known as Project 112 and Project SHAD, may have resulted in subsequent illnesses among Veterans, and may qualify a survivor of a Veteran who died from exposure to such chemical testing to certain VA benefits.
 [Learn more about Project 112/SHAD](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp)
 
 ### Radiogenic Risk Activities
-There are certain diseases that may be service connected if the disease occurred as a result of your participating in a radiation-risk activity. Examples of radiation-risk activities include serving or being a prisoner of war in Japan and participating in nuclear weapons testing.
+There are certain diseases that may be service connected if they occurred as a result of your participating in a radiation-risk activity. Examples of radiation-risk activities include serving or being a prisoner of war in Japan and participating in nuclear weapons testing.
 [Learn more about post-service radiogenic diseases](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp)
 
 #### Sources
@@ -63,14 +63,58 @@ There are certain diseases that may be service connected if the disease occurred
 </div>
 </div>
 
-<div class="section two" markdown="0">
-<div class="action" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="0">
-<a class="button start" href="#">Apply for benefits</a>
-</div>
-</div>
-</div>
+<div class="navigation">
+  <div class="row">
+    <div class="small-12 columns">
+
+      <h4>Learn More</h4>
+
+      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+        <li>
+          <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">
+            Agent Orange
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/asbestos/">Asbestos</a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/birth-defects/">Birth Defects/Spina Bifida</a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/">Contaminated Drinking Water at Camp Lejeune</a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/gulf-war-illness/">Gulf War Illness</a>  
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/ionizing-radiation/">Ionizing Radiation</a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/mustard-gas/">Mustard Gas</a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/project112-SHAD/">Project112/SHAD</a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/radiogenic-risk-activities/">Radiogenic Risk Activities</a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/specific-environmental-hazards/">Specific Environmental Hazards</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
 </div>
 
 </div>
