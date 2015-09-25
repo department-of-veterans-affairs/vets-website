@@ -181,7 +181,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   }
 
   h2 span {background: none; clear: both; display: inline-block; line-height: 1em; white-space: inherit; margin: 0; padding: 0; font-weight: normal; font-size: .8em;}
-  h2, h3, p {padding: .35em; margin: 0; display: inline-block; font-family: $open-sans;}
+  h2, h3, p {padding: .35em; margin: 0; display: inline-block; font-family: $roboto-slab;}
   h2 {
     font-size: 1em;
     display: inline-block;
@@ -285,7 +285,7 @@ body.home, body.fourohfour {
 
   .post-date {font-size: .5em; color: $va-body-accent-color;}
 
-  h3 {border-bottom: 1px solid #fff; border-bottom: 1px solid rgba(255,255,255,.2); font-size: 1.65em; margin: 0 0 1em 0; padding: 0 0 .2em 0;}
+  h3 {border-bottom: 1px solid #fff; border-bottom: 6px solid $va-secondary-color; font-size: 1.65em; margin: 0 0 1em 0; padding: 0 0 .2em 0;}
 
   h4 a {
     text-decoration: none;
