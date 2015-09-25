@@ -260,6 +260,29 @@ body.home, body.fourohfour {
 
 // Content
 
+#content .main {
+  p:first-of-type {
+    font-weight: bold;
+    font-weight: 600;
+    font-size: 1.15em;
+  }
+
+  .call-out {
+    background: #E8F5FA;
+    padding: 1em;
+    clear: both;
+    margin: 0 0 1.5em 0;
+    ul {
+      margin: 0 0 .5em 0; padding: 0;
+      li {
+        padding: 0 .25em;
+        margin: 0;
+      }
+    }
+  }
+
+}
+
 #content .main.interior {
   background: #fff;
   a {
@@ -270,6 +293,11 @@ body.home, body.fourohfour {
       background: lighten(#DAC99A, 30);
     }
   }
+
+  // First Paragraph
+
+
+
 }
 
 // Home page specific
@@ -389,7 +417,7 @@ body.home, body.fourohfour {
 .section {
   background: #fff;
   &.one {
-    padding: 2em 0;
+    padding: 2em 0 0 0;
   }
   &.two {
     padding: 0 0 4em 0;

@@ -25,15 +25,35 @@ title: Conditions
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Do you have disabilities that are the result of a disease or injury incurred or aggravated during active military service? If so, you may be eligible for monthly benefits no matter when or where you served. To receive compensation, you must meet the following criteria:
+Do you have disabilities that are the result of a disease or injury incurred or aggravated during active military service?
+
+If so, you may be eligible for monthly benefits no matter when or where you served. To receive compensation, you must meet the following criteria:
+
+</div>
+
+<div class="small-12 columns" markdown="0">
+<div class="call-out" markdown="1">
+
+### Compensation criteria
 
 - You have a current physical or mental disability.
 - You incurred an injury or disease in service that caused a disability or aggravated a disability that existed prior to service.
 - You are able to link your current disability to an injury or disease experienced during military service.
 
-What sorts of conditions may qualify me for benefits, including compensation?
+</div>
+</div>
 
+<div class="small-12 columns" markdown="1">
+
+What sorts of conditions may qualify me for benefits, including compensation?
 Examples of physical conditions and diseases that may qualify you for a disability rating (if determined to be service connected):
+
+</div>
+
+<div class="small-12 columns" markdown="0">
+<div class="call-out" markdown="1">
+
+### Qualified Physical Conditions
 
 - Chronic back pain
 - Significant loss of hearing
@@ -43,11 +63,26 @@ Examples of physical conditions and diseases that may qualify you for a disabili
 - Cancer (due to hazardous exposures)
 - Traumatic brain injury
 
+</div>
+</div>
+
+<div class="small-12 columns" markdown="1">
+
 Examples of mental disorders and conditions that may qualify you for a disability rating (if determined to be service connected):
+
+</div>
+
+<div class="small-12 columns" markdown="0">
+<div class="call-out" markdown="1">
 
 - PTSD
 - Major depressive disorder
 - Anxiety disorder
+
+</div>
+</div>
+
+<div class="small-12 columns" markdown="1">
 
 [Access the complete schedule of disabilities here](http://www.benefits.va.gov/warms/bookc.asp).
 
@@ -94,18 +129,6 @@ General Conditions
 </ul>
 </div>
 </div>
-</div>
-
-<div class="section two" markdown="0">
-<div class="action" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="0">
-<a class="button start" href="#">Apply for benefits</a>
-</div>
-</div>
-</div>
-</div>
-
 </div>
 
 </div>
