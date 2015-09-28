@@ -43,17 +43,17 @@ title: Apply for Benefits
 ### How long does a decision take?
 
 <div class="row" markdown="0">
-<div class="small-12 medium-3 columns"  markdown="0">
+<div class="small-12 medium-2 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="heading" markdown="0">Average time</span>
 <span class="number" markdown="0">6</span>
-<span class="description" markdown="0">Months</span>
+<span class="heading" markdown="0">Average time</span>
+<span class="description" markdown="0">MONTHS</span>
 </div>
 
 </div>
 
-<div class="small-12 medium-9 columns"  markdown="0">
+<div class="small-12 medium-10 columns"  markdown="0">
 
 The current average (data through March 2015,) for the length of time to complete a claim for disability compensation once it has been submitted to VA is 201.5 days (about 29 weeks or a little over six months).
 
