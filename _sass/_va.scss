@@ -258,7 +258,7 @@ body.home, body.fourohfour {
   .main {background: none;}
 }
 
-// Content
+// Content Callouts
 
 #content .main {
 
@@ -276,6 +276,14 @@ body.home, body.fourohfour {
     }
   }
 
+}
+
+// Content lead paragraphs
+
+#content.interior .section.one .row .small-12:first-of-type p:first-of-type {
+  font-size: 1.1em;
+  letter-spacing: normal;
+  font-weight: 600;
 }
 
 #content .main.interior {
@@ -629,24 +637,56 @@ ul.checklist, ol.checklist {
 }
 
 .introductory-content {
-  background: #fff;
+  padding: 1em  0;
+  @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 3em 0;}
+  background: #efefef;
+  margin: 0 auto;
   p {
     font-size: 1em;}
     @media #{$small} {font-size: 1.35em;}
+}
+
+// Navigation
+
+#content.interior .navigation {
+
+  padding: 1em  0;
+  @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 3em 0;}
+  background: #efefef;
+  margin: 0 auto;
+
+  ul.small-block-grid-1 {
+    margin: 0;
+    padding: 0;
+    li {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
   }
 
-  // Navigation
-
-  .navigation {
-    padding: 1em  0;
-    @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 3em 0;}
-    background: #efefef;
-    margin: 0 auto;
-  }
-
-  body.home .navigation, body.fourohfour .navigation {
+  ul.cards li {
+    margin: 0;
+    height: auto;
+    h3, h4, h5, h6 {color: $va-primary-color; font-weight: 600; font-size: 1.2em;}
+    border-bottom: 1px solid rgba(0,0,0,.15);
+    &:last-of-type { border-bottom: none;}
+    a {
+    color: $va-primary-color;
+    -webkit-box-shadow: none;
+    border-bottom: none;
+    padding: .75em 0;
+    height: auto;
     background: none;
+    &:hover {background: rgba(0,0,0,.05);}
+    }
   }
+}
+
+
+body.home .navigation, body.fourohfour .navigation {
+  background: none;
+}
 
   .draft {
     position: absolute;
