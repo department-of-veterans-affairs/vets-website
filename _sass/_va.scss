@@ -1204,15 +1204,35 @@ svg {
   a {color: #fff; background: none;}
   &.notice {
     font-size: .9em;
+    font-weight: 700;
     background: $va-secondary-color;
   }
   .feedback {
     @media #{$medium-up} {
-      /*float: right;*/
       text-align: right;
     }
     @media #{$medium-up} {
       right:2.75em;
+    }
+  }
+  .message {
+    font-size:.95rem;
+    font-weight: 700;
+    span {
+      background: url(../images/icons/icon-alert.png); /* IE svg fallback */
+      background-image: url(../images/icons/SVG/icon-alert.svg);
+      background-position: 0 4px;
+      background-repeat: no-repeat;
+      background-size: 16px 14px;
+      display:inline-block;
+      margin-bottom: .3em;
+      padding-left: 1.3em;
+
+    }
+    p {
+      font-size: .9rem;
+      font-weight: 300;
+      margin-bottom: 0; 
     }
   }
 
