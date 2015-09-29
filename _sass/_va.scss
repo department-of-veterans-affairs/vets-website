@@ -26,6 +26,8 @@ $roboto-slab: 'Roboto Slab', serif;
 // General
 
 html, body {
+  padding: 0;
+  margin: 0;
   font-family: $open-sans; font-weight: 500; color: $va-body-content-color;
   transition: all 0.3s ease-in-out;
 }
@@ -1239,7 +1241,18 @@ svg {
 
  .alert-box {
   border-bottom: none;
+  margin: 0;
   padding: 1.25em .4em 0 0;
+
+  &:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
+
   @media #{$small-up} {padding: 1.25em .4em 0 .4em;}
   margin-bottom: 0;
   a {color: #fff; background: none;}
@@ -1255,8 +1268,18 @@ svg {
   &.notice {
     font-size: .9em;
     font-weight: 700;
+    clear: both;
     background: $va-secondary-color;
   }
+
+  &.coda {
+    font-size: .9em;
+    font-weight: 700;
+    clear: both;
+    padding: 1.25em 0 1.5em 0;
+    background: $va-secondary-color;
+  }
+
   .feedback {
     @media #{$medium-up} {
       text-align: right;
