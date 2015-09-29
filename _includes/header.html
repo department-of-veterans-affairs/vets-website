@@ -61,9 +61,23 @@ new WOW().init();
 
 </head>
 <body class="{{ page.layout }}">
-
-
 <div class="header">
+<div data-alert class="alert-box notice">
+	<div class="row full">
+		<div class="small-12 message">
+		<div class="medium-8 columns">
+			<span>This beta site is a work in progress.</span>
+				<p>We’re prototyping new designs. Things may not work as expected. If you’re not finding what you need, visit <a href="{{ site.url }}">va.gov</a>.</p>
+		</div>
+
+		<div class="medium-4 text-right columns">
+			<a href="#" class="button small">Why We’re Designing in Beta: A Message from Secretary Bob</a>
+		</div>
+
+		</div>
+ </div>
+</div>
+<!-- /header alert box -->
 	<div class="row full">
 		<div class="small-12 medium-4 columns">
 			<h1 role="banner"><a href="{{ site.url }}">Veterans.gov</a></h1>
