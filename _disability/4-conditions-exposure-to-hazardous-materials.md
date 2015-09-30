@@ -42,20 +42,57 @@ You may be eligible for disability compensation if you were exposed to certain c
         <li>
           <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">
             <h4 class="alternate">Agent Orange</h4>
-            Agent Orange refers to a blend of tactical herbicides the U.S. military sprayed in the jungles of Vietnam and around the Korean demilitarized zone.
+            Exposure -- where and when. Vietnam, Korea, C123s, and more.
           </a>
         </li>
         
         <li>
               <a href="{{ site.url }}/disability-benefits/filing/">
                 <h4 class="alternate">Asbestos</h4>
-                Occupations like mining, milling, shipyards, insulation work, building demolition, carpentry, and construction make exposure to asbestos more likely.</a>
+                Service activities and jobs that may have health consequences.</a>
             </li>
             
              <li>
               <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/"
                 <h4 class="alternate">Contaminated Drinking Water at Camp Lejeune</h4>
-                Exposure may have occurred at Camp Lejeune between August 1953 and January 1988. </a>
+                EChemicals in the camp's water from1953 to 1988 now pose health risks.</a>
+            </li>
+            
+             <li>
+              <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/"
+                <h4 class="alternate">Gulf War Illness</h4>
+                The many diseases associated with serving in Southwest Asia</a>
+            </li>
+            
+              <li>
+              <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/ionizing-radiation/">Ionizing Radiation>
+                <h4 class="alternate">Ionizing Radiation</h4>
+                Exposure risks include nuclear testing, having been a POW in Japan, working with x-rays or at a reactor, and more. </a>
+            </li>
+            
+             <li>
+              <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/mustard-gas/">
+                <h4 class="alternate">Mustard Gas</h4>
+                Field or chamber testing, WWI battlefields, German bombing of Bari, Italy during WWII, and more.</a>
+            </li>
+            
+             <li>
+              <a href="{{ site.url }}disability-benefits/conditions/exposures-to-hazardous-materials/project112-SHAD/">
+                <h4 class="alternate">Project 112/SHAD</h4>
+               Chemical testing exposure --1962 to 1974 and survivor benefits.</a>
+            </li> 
+            
+            <li>
+              <a href="{{ site.url }}disability-benefits/conditions/exposures-to-hazardous-materials/project112-SHAD/">
+                <h4 class="alternate">Project 112/SHAD</h4>
+               Chemical testing exposure --1962 to 1974 and survivor benefits.</a>
+            </li>
+            
+            <li>
+              <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/specific-environmental-hazards/">
+                <h4 class="alternate">Radiogenic Risk Activities</h4>
+               Exposure problems in Iraq, Afghanistan, Dijibouti, Camp Lejune, NC, and Atsugi, Japan, from burn pits and particulate matter to chemically contaminated drinking water.
+</a>
             </li>
             
              <li>
@@ -64,31 +101,6 @@ You may be eligible for disability compensation if you were exposed to certain c
                 Hazards include burn pits, particulate matter, chemical fires, and waste disposal pollution. </a>
             </li>
             
-            <li>
-              <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/ionizing-radiation/">Ionizing Radiation>
-                <h4 class="alternate">Ionizing Radiation</h4>
-                Exposure could occur due to participation in nuclear weapons testing. </a>
-            </li>
-            
-              <li>
-              <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/mustard-gas/">
-                <h4 class="alternate">Mustard Gas</h4>
-                Exposures occured during World War 1, field or chamber testing and manufacturing. </a>
-            </li>
-            
-             <li>
-              <a href="{{ site.url }}disability-benefits/conditions/exposures-to-hazardous-materials/project112-SHAD/">
-                <h4 class="alternate">Project 112/SHAD</h4>
-               Exposures may have occurred from 1962 to 1974 during involvement in chemical tests. </a>
-            </li>
-            
-             <li>
-              <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/specific-environmental-hazards/">
-                <h4 class="alternate">Radiogenic Risk Activities</h4>
-               Exposure due to participation in a radiation-risk activity. </a>
-            </li>
-            
-
       </ul>
     </div>
   </div>
