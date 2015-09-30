@@ -1577,7 +1577,9 @@ ul.simple-list, ol.simple-list {
       width: 2em;
     }
   }
-}
+
+} 
+
 .human-centered {
   .discover,
   .design,
@@ -1621,6 +1623,38 @@ ul.simple-list, ol.simple-list {
         border-bottom:1px solid darken($polar, 7%);
       }
     }
+  }
+  .has-tip {
+    border-bottom: none!important;
+    i {
+      background: url(../images/icons/info-circle.png); /* IE svg fallback */
+      background-image: url(../images/icons/SVG/info-circle.svg);
+      display: inline-block;
+      -webkit-background-size: 20px 20px;
+      background-size: 20px 20px;
+      width: 20px;
+      height: 20px;
+      position: relative;
+      top:.3em
+    }
+  }
+  .tooltip {
+    background: #000044;
+    &>.nub {
+      border-color: transparent transparent #000044 transparent!important;
+      @media #{$small-only} {
+          border:none!important
+      }
+    }
+    @media #{$small-only} {
+      left:auto!important;
+      max-width: 100%!important;
+    }
+  }
+  .tap-to-close {
+    color:$va-body-accent-color!important;
+    font-size: .8em!important;
+    padding-top: .75em!important;
   }
   .design {
     background:$wild-sand;
