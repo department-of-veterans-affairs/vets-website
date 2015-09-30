@@ -25,7 +25,7 @@ title: Conditions
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Do you have disabilities that are the result of a disease or injury incurred or aggravated during active military service?
+Do you have disabilities that are the result of a disease or injury incurred or aggravated during active military service? No I don't.
 
 If so, you may be eligible for monthly benefits no matter when or where you served. To receive compensation, you must meet the following criteria:
 
