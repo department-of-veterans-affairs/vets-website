@@ -51,7 +51,7 @@ You may be eligible for disability compensation if you were exposed to certain c
             </li>
 
              <li>
-              <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/"
+              <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/">
                 <h4 class="alternate">Contaminated Drinking Water at Camp Lejeune</h4>
                 Chemicals in the camp's water from1953 to 1988 now pose health risks.</a>
             </li>
@@ -62,13 +62,13 @@ You may be eligible for disability compensation if you were exposed to certain c
                 The many diseases associated with serving in Southwest Asia</a>
             </li>
 
-              <li>
+            <li>
               <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/ionizing-radiation/">
                 <h4 class="alternate">Ionizing Radiation</h4>
                 Exposure risks include nuclear testing, having been a POW in Japan, working with x-rays or at a reactor, and more. </a>
             </li>
 
-             <li>
+              <li>
               <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/mustard-gas/">
                 <h4 class="alternate">Mustard Gas</h4>
                 Field or chamber testing, WWI battlefields, German bombing of Bari, Italy during WWII, and more.</a>
@@ -80,13 +80,7 @@ You may be eligible for disability compensation if you were exposed to certain c
                Chemical testing exposure --1962 to 1974 and survivor benefits.</a>
             </li>
 
-            <li>
-              <a href="{{ site.url }}disability-benefits/conditions/exposures-to-hazardous-materials/project112-SHAD/">
-                <h4 class="alternate">Project 112/SHAD</h4>
-               Chemical testing exposure --1962 to 1974 and survivor benefits.</a>
-            </li>
-
-            <li>
+             <li>
               <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/specific-environmental-hazards/">
                 <h4 class="alternate">Radiogenic Risk Activities</h4>
                Exposure problems in Iraq, Afghanistan, Dijibouti, Camp Lejune, NC, and Atsugi, Japan, from burn pits and particulate matter to chemically contaminated drinking water.
@@ -98,6 +92,7 @@ You may be eligible for disability compensation if you were exposed to certain c
                 <h4 class="alternate">Specific Environmental Hazards</h4>
                 Hazards include burn pits, particulate matter, chemical fires, and waste disposal pollution. </a>
             </li>
+
 
       </ul>
     </div>
