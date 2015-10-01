@@ -103,27 +103,40 @@ Source(s)
 <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/general-conditions/">
-General Conditions
+<h5 class="alternate">General Conditions</h5>
+<p>The broad definition and specific benefits.
 </a>
 </li>
 
 
 <li>
-<a href="{{ site.url }}/disability-benefits/conditions/pow/">Prisoners of War (<abbr>POW</abbr>s)</a>
+<a href="{{ site.url }}/disability-benefits/conditions/pow/">
+<h5 class="alternate">Prisoners of War (<abbr>POW</abbr>s)</h5>
+<p>Physical and emotional conditions resulting from captivity.
+</a>
 </li>
 
 
 <li>
-<a href="{{ site.url }}/disability-benefits/conditions/ptsd/">PTSD</a>
+<a href="{{ site.url }}/disability-benefits/conditions/ptsd/">
+<h5 class="alternate">PTSD</h5>
+<p>The basics: symptoms and help.
+</a>
 </li>
 
 <li>
-<a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Exposures to Hazardous Materials</a>
+<a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">
+<h5 class="alternate">Exposures to Hazardous Materials</h5>
+<p>Asbestos, chemicals, weapons testing, Camp Lejune, Radiation, and more.
+</a>
 </li>
 
 
 <li>
-<a href="{{ site.url }}/disability-benefits/conditions/special-claims/">Special Claims</a>
+<a href="{{ site.url }}/disability-benefits/conditions/special-claims/">
+<h5 class="alternate">Special Claims</h5>
+<p>Adaptive equipment, hospitalization and convalescence, dentistry, individual unemployability, and more.</p>
+</a>
 </li>
 
 </ul>
