@@ -104,26 +104,31 @@ Source(s)
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/general-conditions/">
 General Conditions
+The broad definition and specific benefits.
 </a>
 </li>
 
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/pow/">Prisoners of War (<abbr>POW</abbr>s)</a>
+Physical and emotional conditions resulting from captivity.
 </li>
 
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/ptsd/">PTSD</a>
+The basics: symptoms and help.
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Exposures to Hazardous Materials</a>
+Asbestos, chemicals, weapons testing, Camp Lejune, Radiation, and more.
 </li>
 
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/">Special Claims</a>
+Adaptive equipment, hospitalization and convalescence, dentistry, individual unemployability, and more.
 </li>
 
 </ul>
