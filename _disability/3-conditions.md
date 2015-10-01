@@ -104,7 +104,7 @@ Source(s)
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/general-conditions/">
 <h5 class="alternate">General Conditions</h5>
-<p>The broad definition and specific benefits.
+<p>The broad definition and specific benefits.</p>
 </a>
 </li>
 
@@ -112,7 +112,7 @@ Source(s)
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/pow/">
 <h5 class="alternate">Prisoners of War (<abbr>POW</abbr>s)</h5>
-<p>Physical and emotional conditions resulting from captivity.
+<p>Physical and emotional conditions resulting from captivity.</p>
 </a>
 </li>
 
@@ -120,14 +120,14 @@ Source(s)
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/ptsd/">
 <h5 class="alternate">PTSD</h5>
-<p>The basics: symptoms and help.
+<p>The basics: symptoms and help.</p>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">
 <h5 class="alternate">Exposures to Hazardous Materials</h5>
-<p>Asbestos, chemicals, weapons testing, Camp Lejune, Radiation, and more.
+<p>Asbestos, chemicals, weapons testing, Camp Lejune, Radiation, and more.</p>
 </a>
 </li>
 
