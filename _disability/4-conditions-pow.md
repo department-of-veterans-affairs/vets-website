@@ -25,7 +25,7 @@ title: Disability Compensation for Former Prisoners of War (POWs)
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you are a former POW with disabilities related to your captivity, you may be eligible for compensation. VA has identified several conditions presumed to be related to the deprivations, traumas, and cold injuries sustained by POWs. If you are a former POW and have been diagnosed as at least 10% disabled by one or more of the conditions listed below, VA presumes that the condition is associated with the POW experience:
+If you are a former POW with disabilities related to your captivity, you may be eligible for compensation. If you are a former POW and have been diagnosed as at least 10% disabled by one - or more - of the following conditions , VA presumes it is because of your POW experience, no matter how long you were in captivity:
 
 - Osteoporosis (on or after October 10, 2008, if the POW has PTSD)
 - Neuropsychiatric condition, including psychosis, dysthymic disorder (depressive neurosis), and any of the anxiety states (e.g., PTSD)
@@ -34,7 +34,7 @@ If you are a former POW with disabilities related to your captivity, you may be 
 - Stroke
 - Heart disease
 
-The following additional conditions are presumed to be service connected for former POWs who were captive for 30 days or more:
+For former POWs who were captive for 30 days or more, the following additional conditions are presumed to be service connected.
 
 - Osteoporosis (on or after September 28, 2009)
 - Nutritional deficiencies, including avitaminosis, beriberi, malnutrition, and pellagra
