@@ -34,7 +34,7 @@ If so, you may be eligible for monthly benefits no matter when or where you serv
 <div class="small-12 columns" markdown="0">
 <div class="call-out" markdown="1">
 
-### Compensation criteria
+### Compensation criteria aldskjfalskfj
 
 - You have a current physical or mental disability.
 - You incurred an injury or disease in service that caused a disability or aggravated a disability that existed prior to service.
