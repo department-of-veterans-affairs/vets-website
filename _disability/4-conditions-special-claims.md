@@ -21,6 +21,15 @@ title: Special claims
 </div>
 
 <div class="main" role="main" markdown="0">
+
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="button small start" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
+    </div>
+  </div>  
+</div>
+
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -41,31 +50,41 @@ Coming Soon
 <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
 <li>
-<a href="{{ site.url }}/disability-benefits/conditions/special-claims/automobile/">Automobile use claims</a>
+<a href="{{ site.url }}/disability-benefits/conditions/special-claims/automobile/">
+<h4>Automobile use claims</h4>
+</a>
 </li>
 
 
 <li>
-<a href="{{ site.url }}/disability-benefits/conditions/special-claims/convalescence/">Convalescence</a>
-</li>
-
-<li>
-<a href="{{ site.url }}/disability-benefits/conditions/special-claims/dentistry/">Dentistry</a>
-</li>
-
-<li>
-<a href="{{ site.url }}/disability-benefits/conditions/special-claims/hospitalization/">
-Hospitalization
+<a href="{{ site.url }}/disability-benefits/conditions/special-claims/convalescence/">
+<h4>Convalescence</h4>
 </a>
 </li>
 
 <li>
-<a href="{{ site.url }}/disability-benefits/conditions/special-claims/individual-unemployability">Individual Unemployability</a>
+<a href="{{ site.url }}/disability-benefits/conditions/special-claims/dentistry/">
+<h4>Dentistry</h4>
+</a>
+</li>
+
+<li>
+<a href="{{ site.url }}/disability-benefits/conditions/special-claims/hospitalization/">
+<h4>Hospitalization</h4>
+</a>
+</li>
+
+<li>
+<a href="{{ site.url }}/disability-benefits/conditions/special-claims/individual-unemployability">
+<h4>Individual Unemployability</h4>
+</a>
 </li>
 
 
 <li>
-<a href="{{ site.url }}/disability-benefits/conditions/special-claims/title-38-USC-1151/">Title 38 U.S.C. 1151</a>
+<a href="{{ site.url }}/disability-benefits/conditions/special-claims/title-38-USC-1151/">
+<h4>Title 38 U.S.C. 1151</h4>
+</a>
 </li>
 </ul>
 </div>

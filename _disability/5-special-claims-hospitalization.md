@@ -22,6 +22,15 @@ title: Hospitalization
 </div>
 
 <div class="main" role="main" markdown="0">
+
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="button small start" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
+    </div>
+  </div>  
+</div>
+
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -37,8 +46,17 @@ A Veteran with a 40% service-connected disability rating for diabetes mellitus w
 
 You must have been hospitalized for more than 21 days in a Department of Veterans Affairs or an approved hospital for a service-connected disability, or you must have been under hospital observation at Department of Veterans Affairs expense for a service-connected disability for a period in excess of 21 days.
 
-Source(s)
+</div>
+
+<div class="small-12 columns" markdown="0">
+<div class="citation" markdown="1">
+
+#####Source(s)
+
 [http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp](http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp)
+
+</div>
+</div>
 
 </div>
 </div>
@@ -51,9 +69,7 @@ Source(s)
 
 #### See also
 
-- Back to Overview of types of special claims
-- Begin application process
-
+- Overview of types of special claims
 
 </div>
 </div>

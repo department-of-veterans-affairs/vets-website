@@ -1826,3 +1826,15 @@ h4.highlight {
   display: block;
   margin-bottom: .75em;
 }
+
+// Action banner
+
+.action-bar {
+  text-align: right;
+  background: #f0f0f0;
+  padding: .5em 0;
+  a.button {
+    margin: 0; padding: 0;
+    border-bottom: none !important;
+  }
+}
