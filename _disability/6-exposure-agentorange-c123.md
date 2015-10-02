@@ -105,6 +105,8 @@ See the list of affected military units, Air Force specialty codes, and dates of
 
 <div markdown="1">
 
+---------------------------------------------
+
 #### How to Apply for Benefits Online
 
 </div>
@@ -140,20 +142,18 @@ Type C-123 next to the disability in the text box
   <li>USAF Form 2096 (unit where assigned at the time of the training action)</li>
   <li>USAF Form 5 (aircraft flight duties)</li>
   <li>USAF Form 781 (aircraft maintenance duties)</li>
-  <li>Dependency records (marriage certificate and children’s birth certificates) • Medical evidence (doctor and hospital reports)</li>
+  <li>Dependency records (marriage certificate and children’s birth certificates)</li>
+  <li>Medical evidence (doctor and hospital reports)</li>
 </ul>
 
 </div>
 
 </li>
-
 </ol>
 
-</div>
-
-</div>
-
 <div markdown="1">
+
+---------------------------------------------
 
 #### How to Apply for Benefits by Mail or Fax
 
@@ -167,9 +167,10 @@ Use VA Form 21-526EZ
 
 </li>
 
-<li class="step two wow fadeIn animated" markdown="1">
+<li class="step two wow fadeIn animated" markdown="0">
 
-Include each C-123 related disability in Section I, Block 11 on the form.
+<p>Include each C-123 related disability in Section I, Block 11 on the form.</p>
+
 <div class="call-out">
 
 <ul>
@@ -193,13 +194,13 @@ Include the following material if you have it available
 <li class="step last four wow fadeIn animated animated" markdown="0">
 
 <p>Mail claims to:</p>
-<p>Department of Veterans Affairs Claims Intake Center</p> 
-<p>Attention: C123 Claims</p>
-<p>PO Box 5088 Janesville</p>
-<p>WI 53547-5088</p>
+<p>Department of Veterans Affairs Claims Intake Center</p>
+<p>Attention: C123 Claims<br />
+PO Box 5088 Janesville<br />
+WI 53547-5088</p>
 
-<p>Fax claims to:</p>
-<p>608-373-6694)</p> 
+<p>Fax claims to:<br />
+<span class="tel">608-373-6694)</span></p>
 
 </div>
 
@@ -208,7 +209,6 @@ Include the following material if you have it available
 </ol>
 
 </div>
-
 
 </div>
 </div>
