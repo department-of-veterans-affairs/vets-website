@@ -85,24 +85,16 @@ You may be eligible for disability compensation if you were exposed to certain c
         <li>
           <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/asbestos/">
           <h4>Asbestos</h4>
-          <span>Some service occupations, tasks, and workplaces make exposure to asbestos more likely. These include mining, milling, shipyards, insulation work, building demolition, carpentry, and construction.</span>
+          <span>Service activities and jobs that may have health consequences</span>
 
-          </a>
-        </li>
-
-        <li>
-          <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/birth-defects/">
-          <h4>Birth Defects/Spina Bifida</h4>
           </a>
         </li>
 
         <li>
           <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/">
           <h4>Contaminated Drinking Water at Camp Lejeune</h4>
-
-          <span>
-            Between August 1953 and January 1988, two on-base water-supply systems at Marine Corps Base in Lejeune, North Carolina, were contaminated with the volatile organic compounds trichloroethylene (TCE), a metal degreaser, and perchloroethylene (<abbr>PCE</abbr>), a dry cleaning agent. Benzene, vinyl chloride, and other compounds were also found to be contaminating the water-supply systems.
-          </span>
+ <span>Chemicals in the camp's water from1953 to 1988 now pose health risks.</span>
+         
           </a>
         </li>
 
@@ -110,7 +102,7 @@ You may be eligible for disability compensation if you were exposed to certain c
           <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/gulf-war-illness/">
           <h4>Gulf War Illness</h4>
           <span>
-            If you served in the Southwest Asia theater of military operations [include link] or in Afghanistan and suffer from certain illnesses, disorders, and conditions that have been linked to this service, you may be entitled to disability compensation, even if your symptoms did not appear during qualifying service.
+            The many diseases associated with serving in Southwest Asia
           </span>
           </a>  
         </li>
@@ -119,7 +111,7 @@ You may be eligible for disability compensation if you were exposed to certain c
           <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/ionizing-radiation/">
           <h4>Ionizing Radiation</h4>
           <span>
-            You may have been exposed to ionizing radiation during military service if, for example, you participated in nuclear weapons testing. Certain diseases may be service connected if the disease occurred as a result of the radiation exposure.
+            Exposure risks include nuclear testing, having been a POW in Japan, working with x-rays or at a reactor, and more.
           </span>
           </a>
         </li>
@@ -127,7 +119,7 @@ You may be eligible for disability compensation if you were exposed to certain c
         <li>
           <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/mustard-gas/">
             <h4>Mustard Gas</h4>
-            <span>Mustard gas is a common term for sulfur mustard (Yperite) or nitrogen mustard. Lewisite, an organic compound containing arsenic, is another chemical agent.</span>  
+            <span>Field or chamber testing, WWI battlefields, German bombing of Bari, Italy during WWII, and more.</span>  
           </a>
         </li>
 
@@ -135,7 +127,7 @@ You may be eligible for disability compensation if you were exposed to certain c
           <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/project112-SHAD/">
           <h4>Project112/SHAD</h4>
           <span>
-            From 1962 to 1974 approximately 6,000 U.S. Service Members were involved in conducting chemical tests to defend against biological and chemical weapons threats. Participation in these tests, known as Project 112 and Project SHAD, may have resulted in subsequent illnesses among Veterans
+            Chemical testing exposure --1962 to 1974 and survivor benefits.
           </span>
 
           </a>
@@ -145,7 +137,8 @@ You may be eligible for disability compensation if you were exposed to certain c
           <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/radiogenic-risk-activities/">
           <h4>Radiogenic Risk Activities</h4>
           <span>
-            If you participated in one of several radiation-risk activities while serving and have developed a disease related to this exposure, you may be eligible for disability benefits.
+           WWII-era service or imprisonment in Japan, nuclear weapons testing, gaseous diffusion plant assignment,
+ and more.
           </span>
           </a>
         </li>
@@ -153,7 +146,7 @@ You may be eligible for disability compensation if you were exposed to certain c
         <li>
           <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/specific-environmental-hazards/"><h4>Specific Environmental Hazards</h4>
           <span>
-            If you were exposed to specific environmental hazards while serving at military installations in Iraq, Afghanistan, and elsewhere and have developed a disease related to this exposure, you may be eligible for disability benefits.
+            Exposure problems in Iraq, Afghanistan, Dijibouti, Camp Lejune, NC, and Atsugi, Japan, from burn pits and particulate matter to chemically contaminated drinking water. 
           </span>
           </a>
         </li>
