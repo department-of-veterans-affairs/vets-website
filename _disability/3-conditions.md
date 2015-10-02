@@ -86,9 +86,17 @@ Examples of mental disorders and conditions that may qualify you for a disabilit
 
 [Access the complete schedule of disabilities here](http://www.benefits.va.gov/warms/bookc.asp).
 
-Source(s)
+</div>
+
+<div class="small-12 columns" markdown="0">
+<div class="citation" markdown="1">
+
+##### Source(s)
 
 [https://eauth.va.gov/ebenefits/learn/compensation](https://eauth.va.gov/ebenefits/learn/compensation)
+
+</div>
+</div>
 
 </div>
 </div>

@@ -270,8 +270,9 @@ body.home, body.fourohfour {
     clear: both;
     margin: 0 0 1.5em 0;
     ul {
-      margin: 0 0 .5em 0; padding: 0;
+      margin: 0 0 .5em 1.5em; padding: 0;
       li {
+        list-style: square;
         padding: 0 .25em;
         margin: 0;
       }
@@ -414,6 +415,15 @@ body.home, body.fourohfour {
 
 #content .section .feature {
   min-height: 10em;
+}
+
+#content .section.do {
+  background: #efefef;
+  padding: 2em 0;
+  .actions {padding: 1em 0;}
+  h2, h3, h4, h5, h6, p, li {color: #444;}
+  h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
+  a {color: #fff;}
 }
 
 #content .section.secondary,
@@ -654,6 +664,10 @@ ul.checklist, ol.checklist {
 
 // Navigation
 
+#content.interior .section-nav {
+  padding: 1em 0 2em 0;
+}
+
 #content.interior .navigation {
 
   padding: 1em  0;
@@ -662,12 +676,13 @@ ul.checklist, ol.checklist {
   margin: 0 auto;
 
   ul.small-block-grid-1 {
-    margin: 0;
+    margin: 0 0 1em 0;
     padding: 0;
     li {
       width: 100%;
       margin: 0;
       padding: 0;
+      h4, h5 {font-size: 1em; }
     }
   }
 
@@ -684,7 +699,7 @@ ul.checklist, ol.checklist {
     padding: .75em 0;
     height: auto;
     background: none;
-    &:hover {background: rgba(0,0,0,.05);}
+    &:hover {background: rgba(0,0,0,.05); padding-left: .5em; border-left: 4px solid $va-primary-color;}
     }
   }
 }
@@ -1763,3 +1778,34 @@ span.color-chip {
 .icon-volume-high {width: 1.0625em;}
 .icon-embed2 {width: 1.25em;}
 .icon-youtube4 {width: 2.5087890625em;}
+
+// Citation
+
+.citation {
+  border-top: 1px solid #eee;
+  padding: 1em 0 0 0;
+  h5, h6 {font-size: .85em; font-family: $open-sans; color: $va-body-content-color;}
+  p, ul, li {font-size: .7em;}
+  font-style: italic;
+}
+
+// Panel list
+
+.panel-list {
+  background: #F4F4F5;
+  padding: 1em;
+  position: relative;
+  min-height: 12em;
+  dt {color: $va-primary-color; padding: 0;}
+  dd {padding: 0; margin: 0;}
+  a {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+    padding: .5em;
+    background: rgba(0,0,0,.2);
+    &:hover {background: $va-secondary-color; color: #fff;}
+    text-decoration: none;
+    margin: .75em 0;
+  }
+}
