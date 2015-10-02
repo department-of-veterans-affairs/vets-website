@@ -90,7 +90,7 @@ If you have a disease that is not on this list, but you believe is a result of A
     <dl class="panel-list">
       <dt>C-123 Airplanes</dt>
       <dd>Dates: 1969 and 1986</dd>
-      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/c-123/">Learn more <span class="sr-only">about C-123- Airplanes and Agent Orange</span></a></dd>
+      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about C-123- Airplanes and Agent Orange</span></a></dd>
     </dl>
 
   </li>  
