@@ -31,7 +31,7 @@ title: Apply for Benefits
 </div>
 
 <div class="small-4 columns">
-<a class="button start expand" href="#">Apply for disability benefits</a>
+<a class="button start" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
 </div>
 
 </div>
@@ -159,7 +159,7 @@ Unless VA writes to you and asks for additional information there is nothing you
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="0">
 
-<a class="button start" href="#">Apply for disability benefits</a>
+<a class="button start" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
 
 </div>
 </div>
