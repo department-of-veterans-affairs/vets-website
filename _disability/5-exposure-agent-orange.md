@@ -69,7 +69,7 @@ If you have a disease that is not on this list, but you believe is a result of A
       <dd>Dates: (January 9, 1962 and May 7, 1975)</dd>
       <dd>Sites: C-123 aircraft</dd>
       <dd>Who: Air Force & Air Force Reservists</dd>
-      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about Vietnam and Agent Orange</span></a></dd>
+      <dd><a href="#">Learn more <span class="sr-only">about Vietnam and Agent Orange</span></a></dd>
     </dl>
 
   </li>  
