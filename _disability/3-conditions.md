@@ -111,39 +111,39 @@ Examples of mental disorders and conditions that may qualify you for a disabilit
 <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/general-conditions/">
-<h5 class="alternate">General Conditions</h5>
-<p>The broad definition and specific benefits.</p>
+<h5>General Conditions</h5>
+<span>The broad definition and specific benefits.</span>
 </a>
 </li>
 
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/pow/">
-<h5 class="alternate">Prisoners of War (<abbr>POW</abbr>s)</h5>
-<p>Physical and emotional conditions resulting from captivity.</p>
+<h5>Prisoners of War (<abbr>POW</abbr>s)</h5>
+<span>Physical and emotional conditions resulting from captivity.</span>
 </a>
 </li>
 
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/ptsd/">
-<h5 class="alternate">PTSD</h5>
-<p>The basics: symptoms and help.</p>
+<h5>PTSD</h5>
+<span>The basics: symptoms and help.</span>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">
-<h5 class="alternate">Exposures to Hazardous Materials</h5>
-<p>Asbestos, chemicals, weapons testing, Camp Lejune, Radiation, and more.</p>
+<h5>Exposures to Hazardous Materials</h5>
+<span>Asbestos, chemicals, weapons testing, Camp Lejune, Radiation, and more.</span>
 </a>
 </li>
 
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/">
-<h5 class="alternate">Special Claims</h5>
-<p>Adaptive equipment, hospitalization and convalescence, dentistry, individual unemployability, and more.</p>
+<h5>Special Claims</h5>
+<span>Adaptive equipment, hospitalization and convalescence, dentistry, individual unemployability, and more.</span>
 </a>
 </li>
 
