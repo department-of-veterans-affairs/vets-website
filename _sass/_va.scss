@@ -683,6 +683,7 @@ ul.checklist, ol.checklist {
       margin: 0;
       padding: 0;
       h4, h5 {font-size: 1em; }
+      span {color: $va-body-content-color;}
     }
   }
 
@@ -1808,4 +1809,20 @@ span.color-chip {
     text-decoration: none;
     margin: .75em 0;
   }
+  &.plain {
+    height: auto;
+    dt {font-size: 1.45em;}
+    background: none;
+    padding: 0 0 1em 0;
+    min-height: 0;
+  }
+}
+
+// Highlight headings
+
+h4.highlight {
+  background: #eee;
+  padding: .25em;
+  display: block;
+  margin-bottom: .75em;
 }

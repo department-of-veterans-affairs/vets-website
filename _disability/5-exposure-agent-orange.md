@@ -66,10 +66,10 @@ If you have a disease that is not on this list, but you believe is a result of A
 
     <dl class="panel-list">
       <dt>Vietnam</dt>
-      <dd>Dates: 1969 - 1986</dd>
+      <dd>Dates: (January 9, 1962 and May 7, 1975)</dd>
       <dd>Sites: C-123 aircraft</dd>
       <dd>Who: Air Force & Air Force Reservists</dd>
-      <dd><a href="#">Learn more</a></dd>
+      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about Vietnam and Agent Orange</span></a></dd>
     </dl>
 
   </li>  
@@ -77,11 +77,9 @@ If you have a disease that is not on this list, but you believe is a result of A
   <li>
 
     <dl class="panel-list">
-      <dt>U.S. Navy and Coast Guard ships in Vietnam</dt>
-      <dd>Dates: 1969 - 1986</dd>
-      <dd>Sites: C-123 aircraft</dd>
-      <dd>Who: Navy and Coast Guard</dd>
-      <dd><a href="#">Learn more</a></dd>
+      <dt>Korean Demilitarized Zone</dt>
+      <dd>Dates: April 1, 1968 and August 31, 1971</dd>
+      <dd><a href="#">Learn more <span class="sr-only">about the Korean Demilitarized Zone and Agent Orange</span></a></dd>
     </dl>
 
   </li>  
@@ -90,11 +88,9 @@ If you have a disease that is not on this list, but you believe is a result of A
   <li>
 
     <dl class="panel-list">
-      <dt>Waters in the Vicinity of Vietnam</dt>
-      <dd>Dates: 1969 - 1986</dd>
-      <dd>Sites:</dd>
-      <dd>Who: </dd>
-      <dd><a href="#">Learn more</a></dd>
+      <dt>C-123 Airplanes</dt>
+      <dd>Dates: 1969 and 1986</dd>
+      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Learn more <span class="sr-only">about C-123- Airplanes and Agent Orange</span></a></dd>
     </dl>
 
   </li>  
@@ -102,17 +98,45 @@ If you have a disease that is not on this list, but you believe is a result of A
   <li>
 
     <dl class="panel-list">
-      <dt>Test and Storage Areas Outside of Vietnam</dt>
-      <dd>Dates: 1969 - 1986</dd>
-      <dd>Sites: C-123 aircraft</dd>
-      <dd>Who: </dd>
-      <dd><a href="#">Learn more</a></dd>
+      <dt>Thailand Military Bases</dt>
+      <dd>Dates: February 28, 1961 and May 7, 1975</dd>
+      <dd><a href="#">Learn more <span class="sr-only">about Thailand Military Bases and Agent Orange</span></a></dd>
     </dl>
 
-  </li>  
+  </li>
+
+  <li>
+
+    <dl class="panel-list">
+      <dt>U.S. Navy and Coast Guard Ships in Vietnam</dt>
+      <dd>Dates:</dd>
+      <dd><a href="#">Learn more <span class="sr-only">about U.S. Navy and Coast Guard Ships in Vietnam and Agent Orange</span></a></dd>
+    </dl>
+
+  </li>
+
+  <li>
+
+  <dl class="panel-list">
+    <dt>Waters in the Vicinity of Vietnam</dt>
+    <dd>Dates: (January 9, 1962 and May 7, 1975)</dd>
+    <dd><a href="#">Learn more <span class="sr-only">about Waters in the Vicinity of Vietnam and Agent Orange</span></a></dd>
+  </dl>
+
+</li>   
+
+<li>
+
+<dl class="panel-list">
+  <dt>Test and Storage Areas Outside of Vietnam</dt>
+  <dd>Dates: 1944-19XX</dd>
+  <dd>Sites: Various</dd>
+  <dd><a href="#">Learn more <span class="sr-only">Test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
+</dl>
+
+</li>   
 
 </ul>
-
 
 </div>
 </div>
