@@ -94,9 +94,7 @@ See the list of affected military units, Air Force specialty codes, and dates of
 If you have an Agent Orangerelated disability and were assigned to flight, ground, or medical crew duties at any of the following locations, you may be eligible for benefits:
 
 - Lockbourne/Rickenbacker Air Force Base in Ohio (906th and 907th Tactical Air Groups or 355th and 356th Tactical Airlift Squadrons)
-
 - Westover Air Force Base in Massachusetts (731st Tactical Air Squadron and 74th Aeromedical Evacuation Squadron) or Pittsburgh, Pennsylvania
-
 - International Airport (758th Airlift Squadron)
 
 VA presumes that your Agent Orange condition had its onset during your Reserve training.
