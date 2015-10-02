@@ -104,7 +104,7 @@ Source(s)
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/general-conditions/">
 <h5 class="alternate">General Conditions</h5>
-<p>The broad definition and specific benefits.</p>
+<p>What sort of conditions can be service connected?</p>
 </a>
 </li>
 
