@@ -86,7 +86,6 @@ If you have a disease that is not on this list, but you believe is a result of A
 
 
   <li>
-
     <dl class="panel-list">
       <dt>C-123 Airplanes</dt>
       <dd>Dates: 1969 and 1986</dd>

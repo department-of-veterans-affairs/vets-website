@@ -13,7 +13,7 @@ title: C-123 Aircraft
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Agent Orange</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
