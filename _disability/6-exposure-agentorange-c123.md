@@ -34,7 +34,7 @@ title: C-123 Aircraft
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-8 columns" markdown="0">
+<div class="small-12 medium-8 columns" markdown="0">
 
 <dl class="panel-list plain">
 <dt>Contaminated C-123 Aircraft</dt>
@@ -43,11 +43,11 @@ title: C-123 Aircraft
 <dd>Who: Air Force & Air Force Reservists</dd>
 </dl>
 
-<p>If you worked on operated C-123s that were employed in Vietnam as part of Operation Ranch Hand, or regularly op- erated, maintained, or served on a contaminated C-123 from 1969 through 1986, and have a condition that is linked to herbicide exposure, including Agent Orange , you may be eligible for disability compensation.</p>
+<p>C-123 Aircraft were used to spray Agent Orange during the Vietnam War. However, after being contaminated with chemical residue, they continued to fly throughout the world, and did so through 1986. If you flew on or worked with these planes in Vietnam, or other locations, you may have been exposed.</p>
 
 </div>
 
-<div class="small-4 columns" markdown="0">
+<div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
 
 <h4 class="highlight">Questions</h4>
@@ -77,37 +77,38 @@ C-123 aircraft and Agent Orange exposure
 <div class="small-12 columns" markdown="0">
 
 <div markdown="1">
-### Eligibility Criteria
+### Are you Eligible for Disability Compensation?
 </div>
 
 
 <div class="call-out" markdown="1">
 
-#### Active Duty
+#### Active Duty Servicemembers
 
-If you meet all of the following criteria, you may be eligible for benefits:
+Yes, if:
 
+- You have an [Agent Orange-related disability](http://www.benefits.va.gov/COMPENSATION/claims-postservice-agent_orange.asp)
 - You served in a regular Air Force unit location where a contaminated C-123 was assigned
-- You had regular and repeated contact with C-123 aircraft through flight, ground, or medical duties
-- You have an Agent Orangerelated disability
+- You regularly and repeatedly had contact with C-123 aircraft through flight, ground, or medical duties
 
-See the list of affected military units, Air Force specialty codes, and dates of service for Air Force Veterans who may have been exposed to Agent Orange.you will need to prove your illness began or was worsened by your military service.
+This list of military units and Air Force Specialty codes will help you figure out if [your unit was exposed.](http://www.benefits.va.gov/compensation/docs/AO_C123_AFSpecialityCodesUnits.pdf)
 
 </div>
 
 <div class="call-out" markdown="1">
 
-#### Reservist
+#### Reservists
 
-If you have an Agent Orangerelated disability and were assigned to flight, ground, or medical crew duties at any of the following locations, you may be eligible for benefits:
+You may be, if:
 
-- Lockbourne/Rickenbacker Air Force Base in Ohio (906th and 907th Tactical Air Groups or 355th and 356th Tactical Airlift Squadrons)
-- Westover Air Force Base in Massachusetts (731st Tactical Air Squadron and 74th Aeromedical Evacuation Squadron) or Pittsburgh, Pennsylvania
-- International Airport (758th Airlift Squadron)
+- You have an [Agent Orange-related disability](http://www.benefits.va.gov/COMPENSATION/claims-postservice-agent_orange.asp)
+- You were assigned to flight, ground, or medical crew duties at any of the following locations:
+  - **Lockbourne/Rickenbacker Air Force Base** in Ohio (906th and 907th Tactical Air Groups or 355th and 356th Tactical Airlift Squadrons)
+  - **Westover Air Force Base** in Massachusetts (731st Tactical Air Squadron and 74th Aeromedical Evacuation Squadron) or
+  - **Pittsburgh, Pennsylvania International Airport** (758th Airlift Squadron)
 
-VA presumes that your Agent Orange condition had its onset during your Reserve training.
 
-See the list of affected military units, Air Force specialty codes, and dates of service for Air Force Reserve personnel who may have been exposed to Agent Orange.
+This list of military units, Air Force specialty codes, and dates of service will help you figure out if [your unit was exposed.](http://www.benefits.va.gov/compensation/docs/AO_C123_AFSpecialityCodesUnits.pdf)
 
 </div>
 
@@ -116,6 +117,8 @@ See the list of affected military units, Air Force specialty codes, and dates of
 ---------------------------------------------
 
 #### How to Apply for Benefits Online
+
+This is the fastest way to file a claim and receive your decision.
 
 </div>
 
@@ -135,22 +138,22 @@ Select a Disability Benefit
 
 <li class="step three wow fadeIn animated" markdown="1">
 
-Type C-123 next to the disability in the text box
+After you select a disability in your eBenefits form, make sure you type C-123 next to the disability in the text box.
 
 </li>
 
 <li class="step last four wow fadeIn animated animated" markdown="0">
 
-<p>Upload the following material if you have it available</p>
+<p>If you have any of the following material, upload it with your online application:</p>
 
 <div class="call-out">
 
 <ul>
-  <li>Discharge or separation papers (DD214 or equivalent)</li>
+  <li>Discharge, separation papers (DD214 or equivalent)</li>
   <li>USAF Form 2096 (unit where assigned at the time of the training action)</li>
   <li>USAF Form 5 (aircraft flight duties)</li>
   <li>USAF Form 781 (aircraft maintenance duties)</li>
-  <li>Dependency records (marriage certificate and children’s birth certificates)</li>
+  <li>Dependency records (marriage certificate and children's birth certificates)</li>
   <li>Medical evidence (doctor and hospital reports)</li>
 </ul>
 
@@ -171,13 +174,13 @@ Type C-123 next to the disability in the text box
 <ol class="process" markdown="0">
 <li class="step one wow fadeIn animated" markdown="1">
 
-Use VA Form 21-526EZ
+File by mail by printing out and filling in this form: [VA Form 21-526EZ](http://www.vba.va.gov/pubs/forms/VBA-21-526EZ-ARE.pdf)
 
 </li>
 
 <li class="step two wow fadeIn animated" markdown="0">
 
-<p>Include each C-123 related disability in Section I, Block 11 on the form.</p>
+<p>Make sure you include each C-123 related disability in Section I, Block 11 on the form, and submit copies of any of the material noted above — if you have it - with your paper claim.</p>
 
 <div class="call-out">
 
@@ -186,20 +189,15 @@ Use VA Form 21-526EZ
   <li>USAF Form 2096 (unit where assigned at the time of the training action)</li>
   <li>USAF Form 5 (aircraft flight duties)</li>
   <li>USAF Form 781 (aircraft maintenance duties)</li>
-  <li>Dependency records (marriage certificate and children’s birth certificates) • Medical evidence (doctor and hospital reports)</li>
+  <li>Dependency records (marriage certificate and children’s birth certificates)</li>
+  <li>Medical evidence (doctor and hospital reports)</li>
 </ul>
 
 </div>
 
 </li>
 
-<li class="step three wow fadeIn animated" markdown="1">
-
-Include the following material if you have it available
-
-</li>
-
-<li class="step last four wow fadeIn animated animated" markdown="0">
+<li class="step three last wow fadeIn animated animated" markdown="0">
 
 <p>Mail claims to:</p>
 <p>Department of Veterans Affairs Claims Intake Center</p>
@@ -209,8 +207,6 @@ WI 53547-5088</p>
 
 <p>Fax claims to:<br />
 <span class="tel">608-373-6694)</span></p>
-
-</div>
 
 </li>
 
