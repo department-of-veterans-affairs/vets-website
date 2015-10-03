@@ -66,12 +66,6 @@ How do I file when I’m Overseas?
 </li>
 
 <li>
-<a href="{{ site.url }}/disability-benefits/filing/active-duty/fly-in/">
-What is a Fly In Claim?
-</a>
-</li>
-
-<li>
 <a href="{{ site.url }}/disability-benefits/filing/active-duty/bdd/">
 What is Benefit Delivery at Discharge? (BDD)
 </a>
