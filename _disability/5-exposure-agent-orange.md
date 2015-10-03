@@ -59,9 +59,9 @@ You or your dependents
 
 #### How it Works:
 
-These diseases are a result of exposure to these herbicides. VA forgoes the normal requirement that you prove an illness began during or was worsened by your military service.
+[These diseases are a result of exposure to these herbicides.]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) VA forgoes the normal requirement that you prove an illness began during or was worsened by your military service.
 
-If you have a disease that is not on this list, but you believe is a result of Agent Orange exposure, you will need to prove your illness began or was worsened by your military service.
+If you have a disease that is [not on this list]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), but you believe is a result of Agent Orange exposure, you will need to prove your illness began or was worsened by your military service.
 
 </div>
 
