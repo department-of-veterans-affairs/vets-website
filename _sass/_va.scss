@@ -220,7 +220,20 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   }
 }
 
+.feature-list ul {
+  margin: 0; padding: 0;
+  li {
+  a {font-weight: bold;}
+  list-style-position: outside;
+  list-style-type: none;
+  border-bottom: 1px solid #ccc;
+  padding: 1em 0;
+  &:last-of-type {border-bottom: none;}
+  }
+}
+
 .primary {
+
   @media #{$small} {padding: 1em 0;}
   @media #{$small} {padding: 2em 0;}
   @media #{$medium} {padding: 2em 0;}
@@ -1524,7 +1537,7 @@ ul.simple-list, ol.simple-list {
           background-color: #D9C799;
         }
     }
-    &.step.four {
+    &.step.three.last, &.step.four {
       &:before {
       margin-left: -2.4em
       }

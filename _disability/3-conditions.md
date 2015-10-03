@@ -135,7 +135,7 @@ Examples of mental disorders and conditions that may qualify you for a disabilit
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">
 <h5>Exposures to Hazardous Materials</h5>
-<span>Asbestos, chemicals, weapons testing, Camp Lejune, Radiation, and more.</span>
+<span>Asbestos, Agent Orange, chemicals, weapons testing, Camp Lejune, Radiation, and more.</span>
 </a>
 </li>
 
