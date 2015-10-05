@@ -37,59 +37,62 @@ title: Conditions
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Do you have disabilities that are the result of a disease or injury incurred or aggravated during active military service?
-
-If so, you may be eligible for monthly benefits no matter when or where you served. To receive compensation, you must meet the following criteria:
+Do you have physical or emotional problems that started -- or worsened -- during your active military service? If so, you may be eligible for monthly benefits no matter when or where you served. 
 
 </div>
 
 <div class="small-12 columns" markdown="0">
 <div class="call-out" markdown="1">
 
-### Compensation criteria
+### Are you Eligible for Compensation?
 
-- You have a current physical or mental disability.
-- You incurred an injury or disease in service that caused a disability or aggravated a disability that existed prior to service.
-- You are able to link your current disability to an injury or disease experienced during military service.
+##Yes, if:##
+-You became ill or were injured while you were in the military
+-You had an illness or injury before you were in the military, but activities, injury or illness during your service made your condition worse. 
+-A VA doctor finds you are at least 10% disabled.
+
+###Who is covered: You or your dependents###
+
+###How it works:### When you apply for benefits, you will need prove your problems were caused, or worsened, by your service. 
+</div>
+</div>
+
+<div class="small-12 columns" markdown="1">
+
+
+
+###What sorts of physical and mental health conditions may qualify me for benefits?###
+-Chronic back pain
+-Significant loss of hearing
+-Scar tissue 
+-Loss of range of motion 
+-Ulcers
+-Cancer (due to hazardous exposures)
+-Traumatic brain injury
+-PTSD
+-Major depressive disorder
+-Anxiety disorder
+
+
+</div>
+
+<div class="small-12 columns" markdown="0">
+<div class="call-out" markdown="1">
+
+
 
 </div>
 </div>
 
 <div class="small-12 columns" markdown="1">
 
-What sorts of conditions may qualify me for benefits, including compensation?
-Examples of physical conditions and diseases that may qualify you for a disability rating (if determined to be service connected):
 
 </div>
 
 <div class="small-12 columns" markdown="0">
 <div class="call-out" markdown="1">
 
-### Qualified Physical Conditions
 
-- Chronic back pain
-- Significant loss of hearing
-- Scar tissue
-- Loss of range of motion
-- Ulcers
-- Cancer (due to hazardous exposures)
-- Traumatic brain injury
-
-</div>
-</div>
-
-<div class="small-12 columns" markdown="1">
-
-Examples of mental disorders and conditions that may qualify you for a disability rating (if determined to be service connected):
-
-</div>
-
-<div class="small-12 columns" markdown="0">
-<div class="call-out" markdown="1">
-
-- PTSD
-- Major depressive disorder
-- Anxiety disorder
 
 </div>
 </div>
