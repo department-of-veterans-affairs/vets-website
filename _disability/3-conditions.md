@@ -37,7 +37,7 @@ title: Conditions
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Do you have physical or emotional problems that started -- or worsened -- during your active military service? If so, you may be eligible for monthly benefits no matter when or where you served. 
+Do you have physical or emotional problems that started -- or worsened -- during your active military service? If so, you may be eligible for monthly benefits no matter when or where you served.
 
 </div>
 
@@ -46,52 +46,38 @@ Do you have physical or emotional problems that started -- or worsened -- during
 
 ### Are you Eligible for Compensation?
 
-##Yes, if:##
--You became ill or were injured while you were in the military
--You had an illness or injury before you were in the military, but activities, injury or illness during your service made your condition worse. 
--A VA doctor finds you are at least 10% disabled.
+**Yes, if:**
 
-###Who is covered: You or your dependents###
+- You became ill or were injured while you were in the military
+- You had an illness or injury before you were in the military, but activities, injury or illness during your service made your condition worse.
+- A VA doctor finds you are at least 10% disabled.
 
-###How it works:### When you apply for benefits, you will need prove your problems were caused, or worsened, by your service. 
-</div>
-</div>
+#### Who is covered:
 
-<div class="small-12 columns" markdown="1">
+- You or your dependents
 
+#### How it works:
 
-
-###What sorts of physical and mental health conditions may qualify me for benefits?###
--Chronic back pain
--Significant loss of hearing
--Scar tissue 
--Loss of range of motion 
--Ulcers
--Cancer (due to hazardous exposures)
--Traumatic brain injury
--PTSD
--Major depressive disorder
--Anxiety disorder
-
-
-</div>
-
-<div class="small-12 columns" markdown="0">
-<div class="call-out" markdown="1">
-
-
+When you apply for benefits, you will need prove your problems were caused, or worsened, by your service.
 
 </div>
 </div>
 
 <div class="small-12 columns" markdown="1">
-
-
-</div>
-
-<div class="small-12 columns" markdown="0">
 <div class="call-out" markdown="1">
 
+### What sorts of physical and mental health conditions may qualify me for benefits?
+
+- Chronic back pain
+- Significant loss of hearing
+- Scar tissue
+- Loss of range of motion
+- Ulcers
+- Cancer (due to hazardous exposures)
+- Traumatic brain injury
+- PTSD
+- Major depressive disorder
+- Anxiety disorder
 
 
 </div>
@@ -120,8 +106,6 @@ Do you have physical or emotional problems that started -- or worsened -- during
 <div class="navigation">
 <div class="row">
 <div class="small-12 columns">
-
-<h4>Learn More</h4>
 
 <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 <li>
