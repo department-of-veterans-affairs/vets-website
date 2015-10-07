@@ -1,6 +1,6 @@
 ---
 layout: page-disability
-permalink: disability-benefits/filing/faster/index.html
+permalink: disability-benefits/get/filing/faster/index.html
 title: Is there a way to file that can get me a decision faster?
 
 ---
@@ -11,7 +11,8 @@ title: Is there a way to file that can get me a decision faster?
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/filing">Filing</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/get/">Apply for Benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/get/filing">Filing</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

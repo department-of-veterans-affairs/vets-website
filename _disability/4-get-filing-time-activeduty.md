@@ -1,6 +1,6 @@
 ---
 layout: page-disability
-permalink: disability-benefits/filing/active-duty/index.html
+permalink: disability-benefits/get/filing/active-duty/index.html
 title: Pre-discharge filing status
 
 ---
@@ -11,7 +11,8 @@ title: Pre-discharge filing status
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/filing">Filing</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/get/">Apply for Benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/get/filing/">Filing</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

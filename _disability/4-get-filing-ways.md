@@ -1,7 +1,7 @@
 ---
 layout: page-disability
-permalink: disability-benefits/filing/help/index.html
-title: How do I get help determining whether I should file and with filing?
+permalink: disability-benefits/get/filing/ways/index.html
+title: What are the different ways I can file a claim
 
 ---
 
@@ -11,7 +11,8 @@ title: How do I get help determining whether I should file and with filing?
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/filing">Filing</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/get/">Apply for Benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/get/filing/">Filing</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

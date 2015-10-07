@@ -165,3 +165,36 @@ Unless VA writes to you and asks for additional information there is nothing you
 </div>
 </div>
 </div>
+
+
+<div class="navigation">
+  <div class="row">
+    <div class="small-12 columns">
+
+
+          <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+
+            <li>
+              <a href="{{ site.url }}/disability-benefits/get/filing/faster/">Is there a way to file that can get me a decision faster?</a>
+            </li>
+
+            <li>
+              <a href="{{ site.url }}/disability-benefits/get/filing/ways/">What are the different ways I can file a claim?</a>
+            </li>
+
+            <li>
+              <a href="{{ site.url }}/disability-benefits/get/filing/help/">How do I get help determining whether I should file and with filing?</a>
+            </li>
+
+            <li>
+              <a href="{{ site.url }}/disability-benefits/get/filing/active-duty/">How do I file while on active duty in pre-discharge status?</a>
+            </li>
+
+            <li>
+              <a href="{{ site.url }}/disability-benefits/get/filing/one-year/">How do I file for Disabilities That Appear Within One Year After Discharge?</a>
+            </li>
+
+          </ul>
+        </div>
+      </div>
+    </div>
