@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/get/filing/active-duty/index.html
 title: Pre-discharge filing status
-
+source: http://benefits.va.gov/PREDISCHARGE/index.asp
 ---
 
 <div class="splash" markdown="0">
@@ -32,26 +32,16 @@ If you are in pre-discharge status, you may file a claim for disability compensa
 
 If you are between 180 and 60 days from separation, you can begin the Benefit Delivery at Discharge (BDD) program. From 59 days until separation, you can initiate the Quick Start program.  
 
-Source(s)
-
-[http://www.benefits.va.gov/predischarge/index.asp](http://www.benefits.va.gov/predischarge/index.asp)
-
 -------------------------------------------
 
 ### Integrated Disability Evaluation System
 
 The Integrated Disability Evaluation System (IDES) Examination Templates page is used to determine a Service Member's fitness for duty. If you are found medically unfit for duty, the IDES proposes a VA disability rating before you leave the service.
 
-Source(s)
-
-[http://benefits.va.gov/PREDISCHARGE/index.asp](http://benefits.va.gov/PREDISCHARGE/index.asp)
-
 --------------------------------------------
 
 
 <hr />
-
-<h4>Learn More</h4>
 
 <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 <li>

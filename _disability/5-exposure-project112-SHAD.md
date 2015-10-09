@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/project112-SHAD/index.html
 title: Project112/SHAD
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp
 ---
 
 <div class="splash" markdown="0">
@@ -40,13 +40,6 @@ If you participated in Project 112/SHAD, you are eligible for disability benefit
 #### Eligibility Requirements
 
 - Claims associated with Project 112/SHAD are evaluated on a case-by-case basis.
-
-Source(s)
-
-[http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp)
-
-
-
 
 </div>
 </div>

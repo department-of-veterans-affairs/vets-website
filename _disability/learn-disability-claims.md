@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/learn/disability-claims/index.html
 title: Disability claims
+source: http://www.benefits.va.gov/fdc/checklist.asp,http://www.benefits.va.gov/compensation/types-claims.asp
 ---
 
 <div class="splash" markdown="0">
@@ -61,15 +62,6 @@ A secondary disability claim is a new claim linked to an existing VA-recognized 
 </div>
 </div>
 
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="1">
-
-#### Sources:
-- http://www.benefits.va.gov/fdc/checklist.asp
-- http://www.benefits.va.gov/compensation/types-claims.asp
-
-</div>
-</div>
 
 </div>
 

@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/radiogenic-risk-activities/index.html
 title: Radiogenic Risk Activities
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp,http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp
 ---
 
 <div class="splash" markdown="0">
@@ -52,11 +52,6 @@ If you participated in one of several radiation-risk activities while serving an
 - Area K-25 at Oak Ridge, Tennessee
 - Performance of tasks similar to those performed by a Department of Energy (DOE) employee that qualifies the DOE employee as a member of the Special Exposure Cohort under 42 U.S.C. 7384L(14).
 
-Source(s)
-
-[http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp)
-
-[http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp)
 
 </div>
 </div>

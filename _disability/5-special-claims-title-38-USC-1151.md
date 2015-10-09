@@ -2,8 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/title-38-USC-1151/index.html
 title: Title 38 U.S.C. 1151 Claims
-
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp
 ---
 
 <div class="splash" markdown="0">
@@ -47,10 +46,6 @@ You must have a disabling condition that is the result of or has been aggravated
 #### Example
 
 While engaged in on-the-job training as a car mechanic under VA's Chapter 31 Vocational Rehabilitation and Employment program, a Veteran was injured when a jack slipped from under a car and crushed his left foot. Disability compensation may be paid for his foot injury because the injury occurred while the Veteran was pursuing training under a VA Vocational Rehabilitation and Employment program.
-
-Source(s)
-
-[http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp](http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp)
 
 </div>
 </div>

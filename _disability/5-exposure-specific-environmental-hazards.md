@@ -49,9 +49,6 @@ If you were exposed to specific environmental hazards while serving at military 
 - You must have a disability resulting from your exposure to an environmental hazard during military service.
 - You were discharged under conditions other than dishonorable.
 
-Source(s)
-[http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp)
-
 
 </div>
 </div>

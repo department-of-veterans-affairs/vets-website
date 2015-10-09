@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/get/filing/faster/index.html
 title: Is there a way to file that can get me a decision faster?
-
+source: http://www.benefits.va.gov/compensation/dbq_disabilityexams.asp
 ---
 
 <div class="splash" markdown="0">
@@ -56,10 +56,6 @@ Where can I get more information?
 See our DBQ Frequently Asked Questions for more information. You can also call us at 1-800-827-1000 or ask us a question online.
 
 DBQs also help support VA's Fully Developed Claims (FDC) program. DBQs are valuable for claims processing because they provide medical information that is directly relevant to determining a disability rating. When submitted with a fully developed claim, DBQs ensure VA's rating specialists have precisely the information they need to start processing the claim.
-
-Source(s)
-
-[http://www.benefits.va.gov/compensation/dbq_disabilityexams.asp](http://www.benefits.va.gov/compensation/dbq_disabilityexams.asp)
 
 </div>
 </div>

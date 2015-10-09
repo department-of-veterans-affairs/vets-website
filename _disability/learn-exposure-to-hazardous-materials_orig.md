@@ -2,8 +2,7 @@
 layout: page-disability
 #permalink: disability-benefits/learn/exposures-to-hazardous-materials/index.html
 title: Hazardous Exposures
-
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-index.asp
 ---
 
 <div class="splash" markdown="0">
@@ -55,9 +54,6 @@ From 1962 to 1974 approximately 6,000 U.S. Service Members were involved in cond
 ### Radiogenic Risk Activities
 There are certain diseases that may be service connected if the disease occurred as a result of your participating in a radiation-risk activity. Examples of radiation-risk activities include serving or being a prisoner of war in Japan and participating in nuclear weapons testing.
 [Learn more about post-service radiogenic diseases](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp)
-
-#### Sources
-[http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-index.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-index.asp)
 
 </div>
 </div>

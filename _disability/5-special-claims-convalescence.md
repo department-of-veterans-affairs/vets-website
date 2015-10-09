@@ -2,8 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/convalescence/index.html
 title: Convalescence
-
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp
 ---
 
 <div class="splash" markdown="0">
@@ -50,11 +49,6 @@ A Veteran has a left knee condition that resulted in a 30% disability rating. Du
 - The surgery required convalescence of at least one month or
 - The surgery resulted in severe postoperative residuals, such as incompletely healed surgical wounds, stumps of recent amputations, therapeutic immobilizations, house confinement, or required use of a wheelchair or crutches or
 - One major joint or more was immobilized by a cast without surgery
-
-Source(s)
-
-[http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp](http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp)
-
 
 </div>
 </div>

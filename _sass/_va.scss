@@ -39,8 +39,6 @@ body, body.home {
 }
 
 
-h2.tagline {background: $va-body-accent-color; color: #fff;}
-
 // row
 
 body.home .row.full {
@@ -170,19 +168,19 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   }
 
   @media #{$small} {padding: 1em 0;}
-  @media #{$medium} {padding: 3em 0;}
-  @media #{$large} {padding: 4em 0;}
+  @media #{$medium} {padding: 2em 0;}
+  @media #{$large} {padding: 2.5em 0;}
   span, h2 {
     padding: 0;
     display: inline;
     line-height: 1.3em;
-    margin: 1em 0 0 0;
-    white-space: pre-wrap;
+    margin: .5em 0 0 0;
+      white-space: pre-wrap;
     color: #333;
     a {background: rgba($va-body-accent-color, .9); color: #444;}
   }
 
-  h2 span {background: none; clear: both; display: inline-block; line-height: 1em; white-space: inherit; margin: 0; padding: 0; font-weight: normal; font-size: .8em;}
+  h2 span {clear: both; padding: .5em; display: inline-block; background: $va-body-accent-color; font-weight: normal; font-size: .8em;}
   h2, h3, p {padding: .35em; margin: 0; display: inline-block; font-family: $roboto-slab;}
   h2 {
     font-size: 1em;
@@ -324,7 +322,7 @@ body.home, body.fourohfour {
 
 // Home page specific
 
-.home {
+.home #content {
   h2, h3, h4, h5, h6, p, ul, li, ol, a {color: #fff;}
   color: #fff;
 
@@ -356,7 +354,7 @@ body.home, body.fourohfour {
   ul.plain {
     margin: 0;
     padding: 0;
-    li {list-style: none; font-size: 1.15em; border-bottom: none;}
+    li {list-style: none; border-bottom: none;}
     a {background: none;}
   }
 
@@ -364,6 +362,20 @@ body.home, body.fourohfour {
     padding: 4em 0 2em 0;
     text-align: left;
   }
+
+  .section.main-menu {
+    padding: 1em 0 2em 0;
+    background: darken($va-primary-color, 5);
+    .navigation {
+      padding: 1.5em 0 0 0;
+      background: none;
+      ul li a {
+        h3 {border-bottom: none;}
+        -webkit-box-shadow: 0 0 5px rgba(0,0,0,.4);
+      }
+    }
+  }
+
 
   .section.one, .section.two {
     background: none;
@@ -684,36 +696,39 @@ ul.checklist, ol.checklist {
 #content.interior .navigation {
 
   padding: 1em  0;
-  @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 3em 0;}
-  background: #efefef;
+  @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 1em 0 3em 0;}
+  background: $va-primary-color;
+  color: #fff;
+  border-bottom: 2px solid #fff;
   margin: 0 auto;
 
   ul.small-block-grid-1 {
-    margin: 0 0 1em 0;
+    margin: 0;
     padding: 0;
     li {
       width: 100%;
       margin: 0;
       padding: 0;
       h4, h5 {font-size: 1em; }
-      span {color: $va-body-content-color;}
+      span {color: #fff; color: rgba(255,255,255,255.8);}
     }
   }
 
   ul.cards li {
     margin: 0;
     height: auto;
-    h3, h4, h5, h6 {color: $va-primary-color; font-weight: 600; font-size: 1.2em;}
-    border-bottom: 1px solid rgba(0,0,0,.15);
+    h3, h4, h5, h6 {color:#fff; font-weight: 600; font-family: $open-sans; font-size: 1.2em;}
+    border-bottom: 1px solid $va-secondary-color;
     &:last-of-type { border-bottom: none;}
     a {
-    color: $va-primary-color;
-    -webkit-box-shadow: none;
+    color: #fff;
+
     border-bottom: none;
-    padding: .75em 0;
+
+    padding: 1em 0;
     height: auto;
     background: none;
-    &:hover {background: rgba(0,0,0,.05); padding-left: .5em; border-left: 4px solid $va-primary-color;}
+    &:hover {padding-left: .5em; background: rgba(0,0,0,.15); border-left: 4px solid $va-secondary-color;}
     }
   }
 }
@@ -721,6 +736,16 @@ ul.checklist, ol.checklist {
 
 body.home .navigation, body.fourohfour .navigation {
   background: none;
+  background: rgba(0,0,0,.2);
+  padding: 3em 0;
+}
+
+body.home .main-navigation {
+  padding: 2em 0;
+  background: rgba(0,0,0,.2);
+  ul.cards li {
+    -webkit-box-shadow: 0 0 4px rgba(0,0,0,.7);
+  }
 }
 
   .draft {
@@ -774,7 +799,6 @@ body.home .navigation, body.fourohfour .navigation {
   a, .coming-soon {
     padding: .75em .2em 0 .2em;
     @media #{$small} {padding: .75em;}
-    -webkit-justify-content: flex-end;
     @media #{$medium} {height: 9em;}
     text-align: center;
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
@@ -964,8 +988,7 @@ body.index, body.post-single, body.page-playbook {
     .primary {padding: 0; margin: 0;}
     .splash {
       margin: 0;
-      @media #{$small} {margin: 1em 0 0 0;}
-      @media #{$small} {padding: 1em 0 0 0;}
+      @media #{$small} {margin: .5em 0 0 0;}
       h2 {
         padding: 0; margin: 0 0 2em 0; background: none; color: $va-primary-color;
         a {text-decoration: none; margin: 0; color: $va-primary-color; background: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
@@ -1076,6 +1099,7 @@ body.index, body.post-single, body.page-playbook {
     padding: 0;
     li, p, a {
       color: #fff;
+      font-size: 1em;
     }
     .row.secondary {
       background:url(../images/design/seal/seal.png) no-repeat;
@@ -1095,7 +1119,6 @@ body.index, body.post-single, body.page-playbook {
     border-bottom: 2px solid rgba(0,0,0,.25);
     display: block;
     background: none;
-    font-size: 1.125em;
     font-weight: 400;
     text-decoration: none;
     border-bottom: 2px solid rgba(255,255,255,.1);
@@ -1300,7 +1323,7 @@ svg {
      height: 0;
      }
 
-  @media #{$small-up} {padding: 1.25em .4em 0 .4em;}
+  @media #{$small-up} {padding: 1em .4em 0 .4em;}
   margin-bottom: 0;
   a {color: #fff; background: none;}
   a.button {
@@ -1309,8 +1332,8 @@ svg {
     font-weight: 600;
     font-size: .9em;
     font-family: $roboto-slab;
-    margin: 2em 0 1em 0;
-    @media #{$small-up} {margin: 0 0 1em 0;}
+    margin: 2em 0 .75em 0;
+    @media #{$small-up} {margin: 0 0 .75em 0;}
   }
   &.notice {
     font-size: .9em;
@@ -1319,7 +1342,7 @@ svg {
     margin-bottom: .75em;
     -webkit-box-shadow: 0 0 6px rgba(0,0,0,.2);
     box-shadow: 0 0 6px rgba(0,0,0,.2);
-    background: $va-secondary-color;
+    background: rgba($va-secondary-color, .9);
   }
 
   &.coda {

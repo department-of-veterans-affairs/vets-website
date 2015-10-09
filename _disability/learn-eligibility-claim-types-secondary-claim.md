@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/learn/eligibility/claim-types/secondary-claim/index.html
 title: Secondary claim
-
+source: http://www.benefits.va.gov/compensation/types-claims.asp
 ---
 
 <div class="splash" markdown="0">
@@ -36,10 +36,6 @@ A Veteran has a service-connected knee injury that causes him to walk with a lim
 ### Example 2
 
 A Veteran was in the Army for twenty years. During her military service, she was diagnosed with hypertension. After her discharge, service-connection was established for hypertension. She was subsequently diagnosed with a heart condition. Service-connection for her heart condition may be established via a Secondary Claim.  
-
-Source(s)
-
-[http://www.benefits.va.gov/compensation/types-claims.asp](http://www.benefits.va.gov/compensation/types-claims.asp)
 
 </div>
 </div>

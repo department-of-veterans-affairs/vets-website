@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/filing/active-duty/overseas/index.html
 title: How do I file when I’m Overseas?
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp,http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-overseas-intake-sites.asp
 ---
 
 <div class="splash" markdown="0">
@@ -49,26 +49,7 @@ If you are stationed outside the KMC, you can participate in the BDD or Quick St
 
 - When you report for your examinations, you must bring a copy of your Service Treatment Records (STRs), which will be submitted to VA and not returned. BDD and Quick Start claims cannot be processed without the STRs.
 
-Source(s)
-[http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp](http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp)
-
-[http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-overseas-intake-sites.asp](http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-overseas-intake-sites.asp)
-
 </div>
 </div>
 </div>
-</div>
-
-<div class="section secondary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
-#### See also:
-
-
-</div>
-</div>
-</div>
-
-
 </div>

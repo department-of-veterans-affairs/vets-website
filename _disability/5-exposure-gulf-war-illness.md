@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/gulf-war-illness/index.html
 title: Gulf War Illness
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp
 ---
 
 <div class="splash" markdown="0">
@@ -44,10 +44,6 @@ The undiagnosed illnesses, disorders, and conditions that fall under the umbrell
 - Diagnosed or undiagnosed conditions that appeared either during a qualifying period of active service or prior to December 31, 2016, with a disability rating of 10% or more must meet the following conditions:
 - There must be no other cause for your disability or illness than service in the Southwest Asia theater of military operations or Afghanistan or
 - Your disability or illness must have existed for six months or more, and if it did not appear during active duty in the Southwest Asia theater of military operations or Afghanistan, then it must have appeared prior to December 31, 2016, and it must have a disability rating of 10% or more (for VA rating purposes).
-
-Source(s)
-
-[http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp)
 
 </div>
 </div>

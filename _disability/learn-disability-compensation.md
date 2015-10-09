@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/learn/disability-compensation/index.html
 title: Disability compensation
+source: http://www.benefits.va.gov/compensation/,http://www.benefits.va.gov/fdc/,http://www.benefits.va.gov/FDC/checklist.asp
 ---
 
 <div class="splash" markdown="0">
@@ -50,16 +51,6 @@ There are different types of disability claims and there are different ways to p
 </div>
 </div>
 
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="1">
-
-#### Sources:
-- http://www.benefits.va.gov/compensation/
-- http://www.benefits.va.gov/fdc/
-- http://www.benefits.va.gov/FDC/checklist.asp
-
-</div>
-</div>
 </div>
 
 </div>

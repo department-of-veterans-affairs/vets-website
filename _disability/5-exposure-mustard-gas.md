@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/mustard-gas/index.html
 title: Exposure to Mustard Gas or Lewisite
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-mustard.asp
 ---
 
 <div class="splash" markdown="0">
@@ -45,10 +45,6 @@ Mustard gas is a common term for sulfur mustard (Yperite) or nitrogen mustard. L
 - At the German air raid on the harbor of Bari, Italy, in World War II or
 - In manufacturing and handling of vesicant (blistering) agents during military service
 - You were discharged under conditions other than dishonorable
-
-Source(s)
-
-[http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-mustard.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-mustard.asp)
 
 </div>
 </div>

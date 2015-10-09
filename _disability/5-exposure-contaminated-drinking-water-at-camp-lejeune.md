@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/index.html
 title: Contaminated Drinking Water at Camp Lejeune
-
+source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_lejeune_water.asp
 ---
 
 <div class="splash" markdown="0">
@@ -46,10 +46,6 @@ If you were exposed to contaminated drinking water while serving at Camp Lejeune
 ### Background
 
 Between August 1953 and January 1988, two on-base water-supply systems at Marine Corps Base in Lejeune, North Carolina, were contaminated with the volatile organic compounds trichloroethylene (TCE), a metal degreaser, and perchloroethylene (PCE), a dry cleaning agent. Benzene, vinyl chloride, and other compounds were also found to be contaminating the water-supply systems.
-
-Source(s)
-
-[(http://benefits.va.gov/compensation/claims-postservice-exposures-camp_lejeune_water.asp)](http://benefits.va.gov/compensation/claims-postservice-exposures-camp_lejeune_water.asp)
 
 </div>
 </div>

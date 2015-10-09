@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/eligibility/service-connected/index.html
 title: Service Connected
-
+source: https://eauth.va.gov/ebenefits/learn/compensation
 ---
 
 <div class="splash" markdown="0">
@@ -50,10 +50,6 @@ Examples of mental disorders and conditions that may qualify you for a disabilit
 - Anxiety disorder
 
 [Access the complete schedule of disabilities here](http://www.benefits.va.gov/warms/bookc.asp).
-
-Source(s)
-
-https://eauth.va.gov/ebenefits/learn/compensation
 
 </div>
 </div>

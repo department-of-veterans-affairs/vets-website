@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/asbestos/index.html
 title: Asbestos
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp
 ---
 
 <div class="splash" markdown="0">
@@ -46,10 +46,6 @@ If you served in Iraq or other countries in that region, you could have been exp
 - You must have been exposed to asbestos while in military service
 - You must have a disease or disability related to the asbestos exposure that occurred in military service
 - You must be a Veteran who was discharged under conditions other than dishonorable
-
-Source(s)
-
-[http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp)
 
 </div>
 </div>

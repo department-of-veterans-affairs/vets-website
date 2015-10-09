@@ -45,8 +45,6 @@ Coming Soon
 <div class="row">
 <div class="small-12 columns">
 
-<h4>Learn More</h4>
-
 <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
 <li>

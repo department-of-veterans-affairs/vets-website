@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/dentistry/index.html
 title: Dentistry
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-special-dental.asp
 ---
 
 <div class="splash" markdown="0">
@@ -36,11 +36,6 @@ title: Dentistry
 <div class="small-12 columns" markdown="1">
 
 Certain Veterans may receive dental treatment from VA. VA dental care eligibility and Veteran dental care benefits are based on a number of factors. Both the Veterans Benefits Administration (VBA) and the Veterans Health Administration (VHA) may make decisions regarding dental benefits and treatment. The Dental Benefits for Veterans fact sheet describes dental eligibility criteria and contains information to assist Veterans in understanding their eligibility for VA dental care.
-
-Source(s)
-
-[http://www.benefits.va.gov/COMPENSATION/claims-special-dental.asp](http://www.benefits.va.gov/COMPENSATION/claims-special-dental.asp)
-
 
 </div>
 </div>

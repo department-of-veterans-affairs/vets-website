@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/index.html
 title: Conditions
-
+source: https://eauth.va.gov/ebenefits/learn/compensation
 ---
 
 <div class="splash" markdown="0">
@@ -89,15 +89,6 @@ When you apply for benefits, you will need prove your problems were caused, or w
 
 </div>
 
-<div class="small-12 columns" markdown="0">
-<div class="citation" markdown="1">
-
-##### Source(s)
-
-[https://eauth.va.gov/ebenefits/learn/compensation](https://eauth.va.gov/ebenefits/learn/compensation)
-
-</div>
-</div>
 
 </div>
 </div>

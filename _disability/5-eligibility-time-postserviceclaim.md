@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/learn/eligibility/claim-types/post-service-claim/index.html
 title: Post-Service claim
-
+source: http://www.benefits.va.gov/compensation/claims-postservice-index.asp
 ---
 
 <div class="splash" markdown="0">
@@ -53,10 +53,6 @@ Gulf War Veterans suffering from what is commonly referred to as "Gulf War Syndr
 #### Prisoners of War (POWs)
 
 VA presumes that certain medical conditions are associated with a Former POW's captivity. If you are a former POW and have been diagnosed with one or more of these conditions, VA presumes that it is associated with the POW experience and you are entitled to disability compensation.
-
-Source(s)
-
-[http://www.benefits.va.gov/compensation/claims-postservice-index.asp](http://www.benefits.va.gov/compensation/claims-postservice-index.asp)
 
 </div>
 </div>

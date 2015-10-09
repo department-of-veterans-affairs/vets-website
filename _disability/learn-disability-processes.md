@@ -2,6 +2,8 @@
 layout: page-disability
 permalink: disability-benefits/learn/claim-processes/index.html
 title: Claim processes
+source: http://www.benefits.va.gov/COMPENSATION/apply.asp,http://www.benefits.va.gov/fdc/,http://www.benefits.va.gov/COMPENSATION/evidence.asp
+
 ---
 
 <div class="splash" markdown="0">
@@ -85,17 +87,5 @@ They will help gather required medical records, collect evidence, and submit a f
 </div>
 </div>
 </div>
-
-
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="1">
-
-#### Sources:
-- [http://www.benefits.va.gov/COMPENSATION/apply.asp](http://www.benefits.va.gov/COMPENSATION/apply.asp)
-- [http://www.benefits.va.gov/fdc/](http://www.benefits.va.gov/fdc/)
-- [http://www.benefits.va.gov/COMPENSATION/evidence.asp](http://www.benefits.va.gov/COMPENSATION/evidence.asp)
-
-</div>
-</div>  
 
 </div>

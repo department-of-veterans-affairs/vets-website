@@ -2,8 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/hospitalization/index.html
 title: Hospitalization
-
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
 ---
 
 <div class="splash" markdown="0">
@@ -48,15 +47,6 @@ You must have been hospitalized for more than 21 days in a Department of Veteran
 
 </div>
 
-<div class="small-12 columns" markdown="0">
-<div class="citation" markdown="1">
-
-#####Source(s)
-
-[http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp](http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp)
-
-</div>
-</div>
 
 </div>
 </div>

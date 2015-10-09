@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/claims-appeal/court-of-appeals/veterans-appeals-board/index.html
 title: Board of Veterans Appeals
-
+source: http://www.bva.va.gov/index.asp
 ---
 
 <div class="splash" markdown="0">
@@ -29,11 +29,6 @@ title: Board of Veterans Appeals
 If you are not satisfied with the results of a claim for Veterans benefits, you can [file a substantive appeal](http://www.va.gov/vaforms/va/pdf/VA9.pdf) to [your regional office](http://www.benefits.va.gov/benefits/offices.asp). Your appeal will be reviewed by the Board of Veterans’ Appeals (also known as BVA or “the Board”), which is composed of attorneys experienced in Veterans law and in reviewing benefit claims.
 
 Typically, it takes approximately XX weeks for an appeal to be reviewed and adjudicated.
-
-Source(s)
-
-[http://www.bva.va.gov/index.asp](http://www.bva.va.gov/index.asp)
-
 
 </div>
 </div>

@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/backup.html
 title: Agent Orange
-
+source: http://www.publichealth.va.gov/exposures/agentorange/index.asp
 ---
 
 <div class="splash" markdown="0">
@@ -70,7 +70,7 @@ Publications and Reports
 Use these resources and media materials on Agent Orange and Veterans »
 See more: http://www.publichealth.va.gov/exposures/agentorange/index.asp#sthash.vJrCf3sN.dpuf
 
-[Source](http://www.publichealth.va.gov/exposures/agentorange/index.asp)
+[Source]()
 
 
 #### Agent Orange and C-123 Aircraft
@@ -222,10 +222,6 @@ To file a claim electronically, use eBenefits at [https://www.ebenefits.va.gov](
 - Medical evidence (doctor & hospital reports)
 
 If you choose to file by mail using VA Form 21-526EZ make sure you annotate each C-123 related disability inSection I, Block 11 on the form, and submit any of the material noted above (if you have it) with your paper claim. Claims can be mailed to the following address (or faxed to 608-373-6694):
-
-Source(s)
-
-[http://www.benefits.va.gov/compensation/agentorange-c123.asp](http://www.benefits.va.gov/compensation/agentorange-c123.asp)
 
 </div>
 </div>

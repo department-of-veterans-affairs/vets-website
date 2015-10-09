@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/ptsd/index.html
 title: Post-Traumatic Stress Disorder (PTSD)
-
+source: http://www.va.gov/opa/issues/ptsd.asp
 ---
 
 <div class="splash" markdown="0">
@@ -59,11 +59,6 @@ New regulations passed in 2010 make it easier for Veterans with post-traumatic s
 - The stressor is one that is likely to have happened in the locations and circumstances of your service.
 
 If you have any of these symptoms, make an appointment with a mental health professional to determine if you are suffering from PTSD. In addition to applying for disability benefits, you can also apply for VA health care benefits.
-
-Source(s)
-
-[http://www.va.gov/opa/issues/ptsd.asp](http://www.va.gov/opa/issues/ptsd.asp)
-
 
 </div>
 </div>

@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/pow/index.html
 title: Disability Compensation for Former Prisoners of War (POWs)
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-pow.asp
 ---
 
 <div class="splash" markdown="0">
@@ -50,11 +50,6 @@ For former POWs who were captive for 30 days or more, the following additional c
 - Helminthiasis
 - Peripheral neuropathy
 - Digestive disorders, including peptic ulcer disease, chronic dysentery, irritable bowel syndrome, and cirrhosis of the liver
-
-Source(s)
-
-[http://www.benefits.va.gov/COMPENSATION/claims-postservice-pow.asp](http://www.benefits.va.gov/COMPENSATION/claims-postservice-pow.asp)
-
 
 </div>
 </div>

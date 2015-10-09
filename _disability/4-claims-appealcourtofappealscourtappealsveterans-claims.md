@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/claims-appeal/court-of-appeals/court-appeals-veterans-claims/index.html
 title: United States Court of Appeals for Veterans Claims
-
+source: http://www.bva.va.gov/
 ---
 
 <div class="splash" markdown="0">
@@ -34,11 +34,6 @@ The Court’s principal office is in Washington, D.C., but the Court is authoriz
 
 You must have a final decision from the Board of Veterans’ Appeals, not the regional office, before you can appeal to this Court.
 
-Source(s)
-
-[http://www.bva.va.gov/](http://www.bva.va.gov/)
-
-</div>
 </div>
 </div>
 

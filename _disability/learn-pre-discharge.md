@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/learn/pre-discharge-programs/index.html
 title: Pre-discharge programs
+source: http://www.benefits.va.gov/predischarge/index.asp
 ---
 
 <div class="splash" markdown="0">
@@ -49,15 +50,6 @@ Service-members can submit a disability claim when they are 1 to 59 days away fr
 - To learn about the quick start program
 
 </div>
-</div>
-</div>
-
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="1">
-
-#### Sources:
-- [VA Benefits - Predischarge](http://www.benefits.va.gov/predischarge/index.asp)
-
 </div>
 </div>
 

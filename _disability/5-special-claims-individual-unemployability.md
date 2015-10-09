@@ -2,8 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/individual-unemployability/index.html
 title: Individual Unemployability
-
-
+source: http://www.benefits.va.gov/COMPENSATION/claims-special-individual_unemployability.asp
 ---
 
 <div class="splash" markdown="0">
@@ -48,10 +47,6 @@ A Veteran served as a medic in Vietnam and stepped on a land mine, severing his 
 He applied for individual unemployability because he has not been able to maintain gainful employment for many years. His only income during the last two years has come from a neighbor who pays him to watch his dogs while he's out of town. The evidence established that his service-connected disabilities rendered him unemployable and entitled to compensation at the same rate as a 100% disabled Veteran.
 
 Use this tool to quickly ascertain whether or not you may be eligible for individual unemployability.  [widget here]
-
-Source(s)
-
-[http://www.benefits.va.gov/COMPENSATION/claims-special-individual_unemployability.asp](http://www.benefits.va.gov/COMPENSATION/claims-special-individual_unemployability.asp)
 
 </div>
 </div>
