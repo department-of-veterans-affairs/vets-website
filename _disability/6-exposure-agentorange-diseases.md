@@ -43,7 +43,7 @@ VA recognizes the following diseases as related to Agent Orange and herbicide ex
 - [Chloracne](http://www.publichealth.va.gov/exposures/agentorange/conditions/chloracne.asp)<br/>
   (or similar acneform disease) A skin condition that occurs soon after exposure to chemicals and looks like common forms of acne seen in teenagers. Under VA's rating regulations, it must be at least 10% disabling within one year of exposure to herbicides.
 - [Diabetes Mellitus Type 2](http://www.publichealth.va.gov/exposures/agentorange/conditions/diabetes.asp)<br/>
-  A disease characterized by high blood sugar levels resulting from the body’s inability to produce to right levels of the hormone insulin.
+  A disease characterized by high blood sugar levels resulting from the body’s inability to produce the right levels of the hormone insulin.
 - [Hodgkin's Disease](http://www.publichealth.va.gov/exposures/agentorange/conditions/hodgkins.asp)<br/>
   A malignant lymphoma (cancer) characterized by progressive enlargement of the lymph nodes, liver, and spleen, and by progressive anemia.
 - [Ischemic Heart Disease](http://www.publichealth.va.gov/exposures/agentorange/conditions/ischemicheartdisease.asp)<br/>
