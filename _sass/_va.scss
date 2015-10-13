@@ -93,8 +93,32 @@ a {
   -ms-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
   color: $va-body-content-color;
-  &:hover {color: $va-body-content-color;}
+  &:hover {
+    color: $va-body-content-color;
+  }
+
+
 }
+a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/beta-site"]) {
+    background: url(../images/icons/icon-exit-white.png);
+    /*background: url(../images/icons/SVG/icon-exit-white.svg);*/
+    -webkit-background-size: 18px 15.38px;
+    background-size: 18px 15.38px;
+    background-position: right center!important;
+    background-repeat: no-repeat;
+    padding-right: 2em;
+    position: relative;
+    &:hover {
+      background:rgba(0,0,0,0.2) url(../images/icons/icon-exit-gold.png)!important;
+      /*background: url(../images/icons/SVG/icon-exit-gold.svg);*/
+      -webkit-background-size: 18px 15.38px!important;
+      background-size: 18px 15.38px!important;
+      background-position: right center!important;
+      background-repeat: no-repeat!important;
+    }
+
+  }
+
 
 // Logo and Header
 
@@ -355,7 +379,7 @@ body.home, body.fourohfour {
     margin: 0;
     padding: 0;
     li {list-style: none; border-bottom: none;}
-    a {background: none;}
+    /*a {background: none;}*/
   }
 
   .section {
