@@ -99,7 +99,7 @@ a {
 
 
 }
-.external {
+a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/beta-site"]) {
     background: url(../images/icons/icon-exit-white.png);
     /*background: url(../images/icons/SVG/icon-exit-white.svg);*/
     -webkit-background-size: 18px 15.38px;
