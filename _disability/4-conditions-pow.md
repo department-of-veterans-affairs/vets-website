@@ -34,22 +34,34 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-pow.asp
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you are a former POW with disabilities related to your captivity, you may be eligible for compensation. If you are a former POW and have been diagnosed as at least 10% disabled by one - or more - of the following conditions , VA presumes it is because of your POW experience, no matter how long you were in captivity:
+If you are a former POW with disabilities related to your captivity, you may be eligible for compensation.  VA has identified several conditions presumed to be related to the deprivations, traumas, and cold injuries sustained by POWs. If you are a former POW and have been diagnosed with one or more of the conditions listed below and it has manifest to a compensable degree (at least 10 percent disabling) at any time following active duty military service, VA presumes that the condition is associated with your POW experience.
 
-- Osteoporosis (on or after October 10, 2008, if the POW has PTSD)
-- Neuropsychiatric condition, including psychosis, dysthymic disorder (depressive neurosis), and any of the anxiety states (e.g., PTSD)
-- Cold injury
-- Traumatic arthritis
-- Stroke
-- Heart disease
+### For former POWs, who were captive for any length of time, the following conditions are presumed to be service connected:
 
-For former POWs who were captive for 30 days or more, the following additional conditions are presumed to be service connected.
+-	Osteoporosis (for claims filed on or after October 10, 2008, if the POW also has a diagnosis of Post Traumatic Stress Disorder (PTSD))
+-	Psychosis
+-	Any of the anxiety states
+-	Dysthymic disorder (or depressive neurosis)
+-	Residuals of frostbite (if the POW was detained in climactic conditions consistent with the occurrence of frostbite)
+-	Post-traumatic osteoarthritis
+-	Stroke and its complications
+-	Atherosclerotic heart disease and its complications
+- Hypertensive vascular disease, including hypertensive heart disease, and their complications
 
-- Osteoporosis (on or after September 28, 2009)
-- Nutritional deficiencies, including avitaminosis, beriberi, malnutrition, and pellagra
-- Helminthiasis
-- Peripheral neuropathy
-- Digestive disorders, including peptic ulcer disease, chronic dysentery, irritable bowel syndrome, and cirrhosis of the liver
+### For former POWs who were captive for 30 days or more, the following additional conditions are presumed to be service connected:
+
+- Osteoporosis (for claims filed on or after September 28, 2009; a diagnosis of PTSD is not required if the POW was captive for 30 days or more)
+-	Avitaminosis
+-	Beriberi (including beriberi heart disease)
+-	Chronic dysentery
+-	Helminthiasis
+-	Malnutrition (including optic atrophy associated with malnutrition)
+-	Pellagra
+-	Any other nutritional deficiency
+-	Irritable bowel syndrome
+-	Peptic ulcer disease
+-	Peripheral neuropathy (except where directly related to infectious disease)
+-	Cirrhosis of the liver
 
 </div>
 </div>
