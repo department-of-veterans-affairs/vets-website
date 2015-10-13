@@ -926,7 +926,8 @@ ul.information-grid {
 // Blog / Playbook
 
 body.index, body.post-single, body.page-playbook {
-  background: #fff;
+  background:#fff url(../images/design/background/thread.png) top left no-repeat;
+  background-size: contain;
 
   h1 a {
     text-indent: 180%;
@@ -955,6 +956,9 @@ body.index, body.post-single, body.page-playbook {
           background-size: contain;
         }
       }
+    }
+    .main {
+      background: white;
     }
 
   }
