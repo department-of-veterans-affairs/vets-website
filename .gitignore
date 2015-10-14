@@ -4,3 +4,5 @@ _site/
 #Compiled VA files
 _site/index.html
 _site/health-care/types/index.html
+.ruby-gemset
+.ruby-version
