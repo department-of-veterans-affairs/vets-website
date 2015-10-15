@@ -40,3 +40,4 @@ jekyll serve
 - View the site in your browser by going to http://localhost:4000
 
 Any changes made locally will cause the site to rebuild automagically.
+
