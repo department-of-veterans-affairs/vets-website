@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/individual-unemployability/index.html
 title: Individual Unemployability
+concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-individual_unemployability.asp
 ---
 
@@ -35,18 +36,29 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-special-individual_unempl
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you have one or more service connected disabilities that prevent you from maintaining gainful employment then you may qualify for a rating under the umbrella of Individual Unemployability. If designated individually unemployable, you will be compensated at the 100% rate - even if your actual service-connected disability rating is less than 100%.   
+If you are unable to maintain suitable gainful employment due to a service-connected disability, VA may designate you as individually unemployable and assign you a compensation level that’s the same as a 100% disabled Veteran.
 
-### Example 1
+### Are you eligible for compensation?
 
-A Veteran has a service-connected heart condition evaluated as 60% disabling. She has been able to work without difficulty until last year, when she began to experience chest pain with any exertion. Her physician recommended that she retire as soon as possible. She subsequently filed a claim for increased disability compensation. Evidence regarding the Veteran's work history and education were reviewed and she was designated individually unemployable due to her service-connected disability and entitled to compensation at the same rate as a 100% disabled Veteran.
+Yes, if:
 
-### Example 2
+- You have at least one service-connected disability rated at least at 60%, or two or more service-connected disabilities, at least one of which has a 40% or more disability rating, and with a combined rating of 70% or more.
+- You are unable to maintain substantially gainful employment as a result of service-connected disabilities. Marginal employment, such as odd jobs, is not considered substantially gainful employment for VA purposes. 
+- In exceptional cases such as frequent hospitalization, this benefit may be granted at a lower disability rating. 
 
-A Veteran served as a medic in Vietnam and stepped on a land mine, severing his right leg below the knee. He wears a prosthesis that allows him good mobility. He had a great deal of difficulty readjusting to civilian life and was recently diagnosed with post-traumatic stress disorder. Service connection was established for both disabilities. The ratings for these disabilities are 40% and 50%, respectively. The combined disability rating is 70%.
-He applied for individual unemployability because he has not been able to maintain gainful employment for many years. His only income during the last two years has come from a neighbor who pays him to watch his dogs while he's out of town. The evidence established that his service-connected disabilities rendered him unemployable and entitled to compensation at the same rate as a 100% disabled Veteran.
+### Who is covered
+You 
 
-Use this tool to quickly ascertain whether or not you may be eligible for individual unemployability.  [widget here]
+### Available benefits
+-Compensation 
+-Health care
+
+### How it works
+When filing your claim, be sure to provide evidence or statements that your disability is preventing you from maintaining substantially gainful employment. Your work and education history will be reviewed.
+
+### Example
+A Veteran has a service-connected heart condition that has been evaluated as 60% disabling. She has been able to work without difficulty until last year, when she began to experience chest pain with any exertion. Her physician recommended that she retire as soon as possible. She filed a claim for increased disability compensation. Evidence regarding the Veteran's work history and education were reviewed, and she was designated as individually unemployable due to her service-connected disability and entitled to compensation at the same rate as a 100% disabled Veteran.
+
 
 </div>
 </div>
