@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/title-38-USC-1151/index.html
 title: Title 38 U.S.C. 1151 Claims
+concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp
 ---
 
@@ -34,7 +35,6 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
 
 If you were injured, or aggravated an injury, while receiving VA-sponsored medical treatment, pursuing a course of vocational rehabilitation (under 38 U.S.C. Chapter 31), or participating in compensated work therapy (under 38 U.S.C. 1718), you may be eligible for compensation. 
 
