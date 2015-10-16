@@ -36,7 +36,7 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-env
 <div class="small-12 columns" markdown="1">
 ### Radiogenic Diseases Postservice
 
-Radiogenic diseases can be caused by exposure to radiation. If you participated in an activity while on active duty that has a radiation risk, you may have developed one of these [associated diseases](38 CFR 3.309(d)(2)).
+Radiogenic diseases can be caused by exposure to radiation. If you participated in an activity while on active duty that has a radiation risk, you may have developed one of these [associated diseases](associated-diseases).
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out" markdown="1">
