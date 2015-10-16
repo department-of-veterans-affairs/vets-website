@@ -29,22 +29,22 @@ concurrence: incomplete
 
 If you experience symptoms of certain diseases, such as hypertension, arthritis, diabetes, and peptic ulcers, within a year of separation from active service, you may be eligible for disability benefits. If symptoms appear within a year of separation, even though they were not present during military service, VA may presume a service connection. [See the complete list of diseases](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc)
 
-## Are you eligible for compensation?
+### Are you eligible for compensation?
 
 Yes, if: 
 -	You have a disease that is at least 10% disabling within one year after separation from service
 -	The disease is listed in [Title 38, Code of Federal Regulation, 3.09(a)](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc)
 -	You were discharged under conditions other than dishonorable
 
-## Who is covered
+### Who is covered
 You
 
-## Available benefits
+### Available benefits
 -	Compensation benefits
 -	Health care benefits
 -	Disability benefits
 
-## How it works
+### How it works
 -	The evidence must show that the disease is at least 10% disabling. For example, you may be taking medication for hypertension.
 -	The evidence must show the disease appeared within one year after separation from service.
 
