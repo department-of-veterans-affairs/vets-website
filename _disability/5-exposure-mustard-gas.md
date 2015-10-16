@@ -35,31 +35,31 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-mus
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Mustard gas is a common term for sulfur mustard (Yperite) or nitrogen mustard. Lewisite, an organic compound containing arsenic, is another chemical agent. If you were exposed to mustard gas or lewisite during military service and suffer from certain related diseases or disabilities, you may be eligible for disability compensation.  
+If you were exposed to mustard gas (also known as sulfur mustard, yperite, or nitrogen mustard) or lewisite (an organic compound containing arsenic), you may have certain related long-term diseases or disabilities. 
 
-### Eligibility Requirements
+### Are you eligible for compensation?
 
-- You must have been exposed to mustard gas in one of the following ways:
-- During field or chamber testing or
-- During battlefield conditions in World War I or
-- At the German air raid on the harbor of Bari, Italy, in World War II or
-- In manufacturing and handling of vesicant (blistering) agents during military service
-- You were discharged under conditions other than dishonorable
+Yes, if:
 
-</div>
-</div>
-</div>
-</div>
+•	You have a [disability related to mustard gas or lewisite exposure](http://www.warms.vba.va.gov/regs/38cfr/bookb/part3/S3_316.doc)
+•	Your military record shows you were exposed to mustard gas:
+•	During field or chamber testing, or
+•	During battlefield conditions in World War I, or
+•	At the German air raid on the harbor of Bari, Italy, in World War II, or
+•	While demolishing or handling explosive ordinance during Operation Iraqi Freedom, or
+•	In the manufacturing and handling of vesicant (blistering) agents during military service
 
-<div class="section secondary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+### Who is covered
+You
 
-#### See also
+### Available benefits
+- Compensation benefits
+- Health care benefits 
 
-- Widget to determine eligibility
-- Start application process
-- Learn more detailed information about mustard gas or lewisite. 38 CFR 3.316(a)
+For questions about your benefits related to mustard gas exposure, send us an e-mail at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov).
+
+### How it works
+Because *exposure* to mustard gas or lewisite is not a service condition, you must claim the disease or condition that is related to the exposure. You should present any military records showing exposure to blistering agents with your claim.
 
 
 
