@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/project112-SHAD/index.html
 title: Project112/SHAD
+concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp
 ---
 
@@ -40,23 +41,22 @@ If you participated in the chemical and biological warfare testing associated wi
 ### Are you eligible for disability benefits?
 
 Yes if:
-
-•	You participated in Projects 112 or SHAD testing.
-•	You have a condition believed to be connected to this testing.
+- You participated in Projects 112 or SHAD testing.
+- You have a condition believed to be connected to this testing.
 
 ### Who is covered
 You and your survivors
 
 ### Available benefits
-•	Compensation
-•	Health care
+- Compensation
+- Health care
 
 ### How it works
-If you were a participant in Projects 112 or SHAD from 1963 to 1974 and need more information regarding a particular test site, ship, or unit, please refer to the declassified [Department of Defense information sheets]( http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Fact-Sheets).
+If you were a participant in Projects 112 or SHAD from 1963 to 1974 and need more information regarding a particular test site, ship, or unit, please refer to the declassified [Department of Defense information sheets](http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Fact-Sheets).
 
 VA is reaching out to military personnel who participated in Projects 112 and SHAD. If you were involved with the project or have questions regarding whether you were involved and have not received a letter from VA, contact VA at 1-800-749-8387 for verification. 
 
-Claims associated with Projects 112 and SHAD are evaluated on a case-by-case basis. While no physical effects are known to be affiliated with exposure during these tests, studies are still being conducted. For more information regarding DOD research and releases related to chemical and biological warfare testing, please reference [GAO and other reported studies]( http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Other-Documents).
+Claims associated with Projects 112 and SHAD are evaluated on a case-by-case basis. While no physical effects are known to be affiliated with exposure during these tests, studies are still being conducted. For more information regarding DOD research and releases related to chemical and biological warfare testing, please reference [GAO and other reported studies](http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Other-Documents).
 
 
 </div>
