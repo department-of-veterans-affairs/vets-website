@@ -1575,10 +1575,9 @@ ul.simple-list, ol.simple-list {
   position: relative;
   h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
   list-style: none;
-
   li {
-    list-style-type: none;
-    list-style: none;
+      list-style-type: none;
+      list-style: none;
     &.step {
       border-left: 8px solid #ccc;
       padding: 0 0 2em 2em;
@@ -1599,13 +1598,20 @@ ul.simple-list, ol.simple-list {
 
     /*&.va {border-left: 8px dashed #ccc;}*/
 
-    ul  {
+    ul {
       margin: .25em 0 1em 0;
       padding: 0;
       li {
         margin: 0;
         padding: .1em 0;
 
+      }
+    }
+    ol {
+      margin-top: .25em;
+      margin-bottom: 1em;
+      li {
+        margin-left: .2em;
       }
     }
 
@@ -1658,6 +1664,11 @@ ul.simple-list, ol.simple-list {
     }
     @media #{$medium-up} {
       text-align: center;
+    }
+  }
+  ol:nth-child(n+2) {
+    li {
+      list-style-type:decimal;
     }
   }
   li {
@@ -1785,7 +1796,7 @@ ul.simple-list, ol.simple-list {
           margin-top: 1em!important;
         }
       }
-      &.step.eight {
+      &.step.nine {
         padding-top:0;
         &:before {
           margin-left: -2.3em;
