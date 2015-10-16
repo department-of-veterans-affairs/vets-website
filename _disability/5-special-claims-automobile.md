@@ -19,7 +19,7 @@ concurrence: incomplete
 </div>
 </div>
 
-<div class="main" role="main" markdown="1">
+<div class="main" role="main" markdown="0">
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
