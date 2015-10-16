@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/ptsd/index.html
 title: Post-Traumatic Stress Disorder (PTSD)
+concurrence: incomplete
 source: http://www.va.gov/opa/issues/ptsd.asp
 ---
 
