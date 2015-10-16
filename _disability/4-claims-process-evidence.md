@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/claims-process/evidence/index.html
 title: Evidence
+concurrence: incomplete
 ---
 
 <div class="splash" markdown="0">
@@ -27,25 +28,25 @@ title: Evidence
 It is important to gather all relevant documents so that VA can evaluate your disability claim. Some of these documents may be in your possession or easily available to you, but VA will need your authorization to access others.
 
 ### The documents you’ll need to provide include:
-•	Discharge or separation papers (DD214 or equivalent)
-•	Service treatment records (if they are in your possession)
-•	Medical evidence (private doctor and hospital reports)
+- Discharge or separation papers (DD214 or equivalent)
+- Service treatment records (if they are in your possession)
+- Medical evidence (private doctor and hospital reports)
 
 According to the Veterans Claims Assistance Act (VCAA) passed by Congress in 2000, responsibility for obtaining evidence to support a claim is as follows:
 
 ### VA’s responsibility
 Obtaining relevant records from:
-•	Any federal agency, including the military
-•	VA medical centers, including private facilities where VA has authorized treatment 
-•	The Social Security Administration
+- Any federal agency, including the military
+- VA medical centers, including private facilities where VA has authorized treatment 
+- The Social Security Administration
 
 Providing a medical examination or obtaining a medical opinion, if required to decide the claim.
 
 ### The Veteran’s responsibility 
 Obtaining relevant records not held by a federal agency. This may include records from:
-•	State or local governments
-•	Private doctors and hospitals
-•	Current or former employers
+- State or local governments
+- Private doctors and hospitals
+- Current or former employers
 
 Note: VA may assist in obtaining these records.
 
@@ -59,8 +60,8 @@ A Veteran filed a disability claim that indicated previous treatment from a priv
 #### Fully Developed Claims
 
 The Fully Developed Claim program allows you to speed up the claim-resolution process. You need to submit the following when you file your formal claim:
-•	All relevant service-treatment and personnel records
-•	Any pertinent private medical records 
+- All relevant service-treatment and personnel records
+- Any pertinent private medical records 
 
 Disability benefit claims are considered fully developed when you have no more evidence to submit and the only assistance required from VA is obtaining federal records and facilitating or providing additional medical examinations or opinions. More information about this program is available on the Fully Developed Claims page.  
 
