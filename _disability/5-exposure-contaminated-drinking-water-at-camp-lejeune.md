@@ -35,19 +35,28 @@ source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_le
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you were exposed to contaminated drinking water while serving at Camp Lejeune, North Carolina, between August 1953, and January 1988,  and have developed a disease considered to be related to this exposure, you may be eligible for disability benefits.   
+If you served at Camp Lejeune, North Carolina, for 30 days or more between August 1953 and December 1987, you and your family may have been exposed to drinking water contaminated with chemical and organic compounds. There are [15 conditions](http://www.publichealth.va.gov/exposures/camp-lejeune/index.asp) linked to this exposure. 
+ 
+### Are you eligible for disability benefits?
 
-### Eligibility Requirements
+Yes, if:
 
-- You must have served at Camp Lejeune during the period of contamination (August 1953 through 1987)
-- You must have a current disease and a medical opinion that states the disease is a result of exposure to the contaminated water at Camp Lejeune
-- You must be a Veteran who was discharged under conditions other than dishonorable.
+•	You served at Camp Lejeune during the period of contamination (August 1953 through December 1987)
+•	You have a current disease and a medical opinion that states the disease is a result of exposure to the contaminated water at Camp Lejeune
 
-### Background
+### Who is covered 
+You and your family
 
-Between August 1953 and January 1988, two on-base water-supply systems at Marine Corps Base in Lejeune, North Carolina, were contaminated with the volatile organic compounds trichloroethylene (TCE), a metal degreaser, and perchloroethylene (PCE), a dry cleaning agent. Benzene, vinyl chloride, and other compounds were also found to be contaminating the water-supply systems.
+### Available benefits 
+-Compensation 
+-Health care
 
-</div>
+### How it works 
+Claims are evaluated on a case-by-case basis, and additional evidence may be necessary to support your claim. VA may require you to have a medical exam to supplement the existing records.
+
+If you have any of the following material, upload it with your online application:
+•	Discharge papers (DD214 or equivalent) and other proof you served at Camp Lejeune for longer than 30 days during the eligible period.
+•	Current medical evidence (doctor and hospital reports) stating the disease is a result of contaminated water at Camp Lejeune.
 </div>
 </div>
 </div>
