@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/hospitalization/index.html
 title: Hospitalization
+concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
 ---
 
@@ -56,9 +57,7 @@ If you were not hospitalized at a VA facility, you should provide the hospital d
 ### Example
 A Veteran with a 40% service-connected disability rating for diabetes mellitus was hospitalized at a VA facility after lapsing into a diabetic coma. He required 25 days of hospitalization due to the coma and associated infections. VA temporarily raised his rating to 100% for the period of his hospitalization. After this period, his disability rating reverted to 40%.
 
-
 </div>
-
 
 </div>
 </div>
