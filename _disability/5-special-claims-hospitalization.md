@@ -35,15 +35,27 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatmen
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you were hospitalized for more than 21 continuous days for a service-connected disability, you may be eligible to receive a 100% disability rating for the period of hospitalization. To qualify for this provision you must have been hospitalized at a VA or VA-approved facility for a service-connected disability.  
+If you were hospitalized for a service-connected disability at a VA or VA-approved facility, you may be eligible to receive a temporary 100% disability rating for a period of hospitalization for your service-connected disability(ies).
+
+### Are you eligible for compensation?
+
+Yes, if:
+- You were hospitalized for more than 21 days in a VA hospital or other approved hospital for a service-connected disability, or
+- You were under hospital observation for more than 21 days at VA expense for a service-connected disability
+
+### Who is covered
+You
+
+### Available benefits
+- Compensation 
+- Health care
+
+### How it works
+If you were not hospitalized at a VA facility, you should provide the hospital discharge summary showing the length of stay and cause for hospitalization when filing your claim. 
 
 ### Example
+A Veteran with a 40% service-connected disability rating for diabetes mellitus was hospitalized at a VA facility after lapsing into a diabetic coma. He required 25 days of hospitalization due to the coma and associated infections. VA temporarily raised his rating to 100% for the period of his hospitalization. After this period, his disability rating reverted to 40%.
 
-A Veteran with a 40% service-connected disability rating for diabetes mellitus was hospitalized at a VA facility after lapsing into a diabetic coma. He required over 25 days of hospitalization due to the coma and associated infections. Upon adjudication of his claim, his rating was temporarily raised to 100% for the period of his hospitalization. After this period, his disability rating reverted to 40%.
-
-### Eligibility Requirements:
-
-You must have been hospitalized for more than 21 days in a Department of Veterans Affairs or an approved hospital for a service-connected disability, or you must have been under hospital observation at Department of Veterans Affairs expense for a service-connected disability for a period in excess of 21 days.
 
 </div>
 
