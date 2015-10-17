@@ -1,7 +1,7 @@
 ---
 layout: page-disability
-permalink: disability-benefits/claims-process/claim-types/index.html
-title: What are the different claim types and what do they mean?
+permalink: disability-benefits/claims-process/claim-types/secondary-claim/index.html
+title: Secondary Claim
 ---
 
 <div class="splash" markdown="0">
@@ -55,6 +55,4 @@ Coming soon.
     </div>
   </div>
 </div>
-
-
 </div>
