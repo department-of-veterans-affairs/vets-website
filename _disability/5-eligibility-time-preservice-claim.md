@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/eligibility/time/pre-service/index.html
 title: Pre-Service claim
+concurrence: complete
 source: http://www.benefits.va.gov/compensation/types-claims.asp
 ---
 
@@ -28,7 +29,7 @@ source: http://www.benefits.va.gov/compensation/types-claims.asp
 
 ### Claims Based on Pre-Service Disabilities
 
-If you entered the military with a known disability that became worse, or aggravated, due to your service, you may be eligible for benefits. In these cases, disability compensation is calculated based on the level of aggravation.  For example, if you had a condition that was 10% disabling when you entered the military and it worsened due to service to 20%, then the level of aggravation would be 10%.
+If you entered the military with a known disability that became worse or was aggravated due to your service, you may be eligible for benefits. In these cases, disability compensation is calculated based on the level of aggravation. For example, if you had a condition that was 10% disabling when you entered the military and it worsened due to service to 20% disabling, then the level of aggravation would be 10%.
 
 </div>
 </div>
