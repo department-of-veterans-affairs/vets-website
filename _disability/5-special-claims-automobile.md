@@ -14,6 +14,25 @@ title: Automobile use claims
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
+
+</div>
+</div>
+</div>
+
+<div class="main" role="main" markdown="0">
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="button small start" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
+    </div>
+  </div>  
+</div>
+
+<div class="section one" markdown="0">
+<div class="primary" markdown="0">
+<div class="row" markdown="0">
+<div class="small-12 columns" markdown="1">
+
 If you have a service-connected disability that prevents you from driving an automobile or other conveyance, you may be eligible for a one-time payment of $20,114.34 toward buying a specially outfitted vehicle. You may also qualify for more than one adaptive-equipment grant to modify a vehicle with power steering, brakes, seats, windows or lift equipment to assist you getting into and out of the vehicle. 
 
 ### Are you Eligible for Compensation?
@@ -41,29 +60,6 @@ You must show that your disability is service-connected or is treated as if serv
 You will be required to complete [VA Form 21-4502]( http://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf) (Application for Automobile or Other Conveyance and Adaptive Equipment).
 
 If you are entitled to adaptive equipment only (i.e., you have a service-connected disability due to ankylosis of the knees or hips), you should complete [VA Form 10-1394](http://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf) (Application for Adaptive Equipment - Motor Vehicle)
-
-</div>
-</div>
-</div>
-
-<div class="main" role="main" markdown="0">
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="button small start" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
-    </div>
-  </div>  
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
-
-
-
 
 </div>
 </div>
