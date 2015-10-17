@@ -26,11 +26,14 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you intend to file a disability claim, the best time to start the process is while you are on active duty in a pre-discharge status.  While it’s not a problem to wait until later, processing times tend to be faster for claims submitted pre-separation.
+### Predischarge
 
-Service Members in pre-discharge status may file claims for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty.
+It is to your benefit to start the process of filing a disability claim while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted before separation than for those submitted after separation. 
 
-If you are between 180 and 60 days from separation, you can begin the Benefit Delivery at Discharge (BDD) program.  From 59 days until separation, you can initiate the Quick Start process.  
+If you are in predischarge status, you may file a claim for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty. 
+
+If you are between 180 and 60 days from separation, you can begin the [Benefit Delivery at Discharge (BDD)](http://benefits.va.gov/predischarge/claims-pre-discharge-benefits-delivery-at-discharge.asp) program. From 59 days until separation, you can initiate the [Quick Start Claim](Beta site page).
+
 
 </div>
 </div>
