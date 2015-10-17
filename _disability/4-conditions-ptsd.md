@@ -40,14 +40,13 @@ source: http://www.va.gov/opa/issues/ptsd.asp
 - Call 911
 - Go to the nearest emergency room
 
-Post-Traumatic Stress Disorder (PTSD) Basics
+### Post-Traumatic Stress Disorder (PTSD) Basics
 
 If you have symptoms of PTSD and were exposed to serious trauma or a life-threatening event during your military service, you may be eligible for benefits, including compensation and health care. 
 
 ### Are you eligible for compensation?
 
 Yes, if: 
-
 -	You have a PTSD diagnosis
 -	You have symptoms related to a traumatic event (the "stressor")
 -	You have seen a VA psychiatrist or psychologist who has confirmed that the triggering stressor was enough to cause PTSD
@@ -55,20 +54,16 @@ Yes, if:
 -	The stressor is one that is likely to have happened in the locations and circumstances of your service
 
 ### Who is covered
-
 You
 
-#### Available benefits
-
+### Available benefits
 -	Compensation 
 -	Health care 
 
-#### How it works
-
+### How it works
 PTSD is a complex and serious disorder. New regulations passed in 2010 make it easier for Veterans with post-traumatic stress disorder to qualify for VA disability benefits. Combat service is not necessarily a requirement. 
 
 You may have PTSD if you experience the following symptoms:
-
 -	You have nightmares or persistent memories of the event, or you relive the event over and over.
 -	You do not talk to anyone about the event, avoiding any situation that may trigger bad memories related to it.
 -	You feel numb and detached, depressed, and disinterested in normal life activities.
