@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/eligibility/time/in-service/index.html
 title: In-Service claim
+concurrence: complete
 
 ---
 
@@ -26,6 +27,7 @@ title: In-Service claim
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
+If your disability resulted from an injury or disease acquired in the line of duty (and not because of willful misconduct or abuse of alcohol or drugs), then it is considered an in-service disability.
 
 </div>
 </div>
