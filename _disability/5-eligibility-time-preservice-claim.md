@@ -1,6 +1,6 @@
 ---
 layout: page-disability
-permalink: disability-benefits/eligibility/time/pre-service/index.html
+permalink: disability-benefits/conditions/time/pre-service/index.html
 title: Pre-Service claim
 concurrence: complete
 source: http://www.benefits.va.gov/compensation/types-claims.asp
@@ -12,8 +12,8 @@ source: http://www.benefits.va.gov/compensation/types-claims.asp
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/eligibility/">Eligibility</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/eligibility/time/">How does the time when I received a disability affect my eligibility?</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/time/">How does the time when I received a disability affect my eligibility?</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
