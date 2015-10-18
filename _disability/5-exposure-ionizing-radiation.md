@@ -37,7 +37,7 @@ title: Ionizing Radiation
 
 ### Exposure to Ionizing Radiation
 
-If you have certain diseases, including some cancers, and you were exposed to ionizing radiation during service, VA may consider those diseases to be service related. (See a complete list of these diseases in 38 CFR 3.311(b)(2))[http://www.ecfr.gov/cgi-bin/text-idx?c=ecfr&sid=39c7e367a71c8efc570650851b266303&rgn=div5&view=text&node=38:1.0.1.1.4&idno=38#38:1.0.1.1.4.1.66.119]
+If you have certain diseases, including some cancers, and you were exposed to ionizing radiation during service, VA may consider those diseases to be service related. [See a complete list of these diseases in 38 CFR 3.311(b)(2)](http://www.ecfr.gov/cgi-bin/text-idx?c=ecfr&sid=39c7e367a71c8efc570650851b266303&rgn=div5&view=text&node=38:1.0.1.1.4&idno=38#38:1.0.1.1.4.1.66.119)
 
 ### Are you eligible for compensation?
 
