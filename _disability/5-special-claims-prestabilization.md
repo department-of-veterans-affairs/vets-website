@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/prestabilization/index.html
 title: Prestabilization Ratings
+concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
 ---
 
@@ -35,7 +36,13 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatmen
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+A prestabilization rating is a temporary rating normally assigned to recently separated Veterans with an unstable disability and an immediate need for services and support. Prestabilization ratings may be granted at 50% or 100%, depending on the severity of the disability, and continue for one year after discharge from active service.
+
+### Eligibility Requirements
+You must have been separated from military service with an unstable, significantly disabling service-connected disability that will continue for an indefinite amount of time.
+
+#### Example:
+While in active service, a Service Member was diagnosed with Hodgkin's disease and began chemotherapy that continued during and after her medical discharge process. She coordinated through her local VA medical center for follow-on treatment. The claim for compensation resulted in a prestabilization rating of 100% for one year from the date of discharge.
 
 
 </div>
