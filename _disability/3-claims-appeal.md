@@ -46,10 +46,6 @@ Coming soon.
 
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/disability-benefits/claims-appeal/overview/">Claims appeal overview</a>
-            </li>
-
-            <li>
               <a href="{{ site.url }}/disability-benefits/claims-appeal/court-of-appeals/">Getting help filing an appeal</a>
             </li>
           </ul>
