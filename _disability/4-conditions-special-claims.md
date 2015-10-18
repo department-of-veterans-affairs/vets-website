@@ -78,23 +78,19 @@ Coming Soon
 </a>
 </li>
 
-
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/title-38-USC-1151/">
 <h4>Title 38 U.S.C. 1151</h4>
 </a>
 </li>
-</ul>
-</div>
-</div>
-</div>
 
-<div class="section two" markdown="0">
-<div class="action" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="0">
-<a class="button start" href="#">Apply for benefits</a>
-</div>
+<li>
+<a href="{{ site.url }}/disability-benefits/conditions/special-claims/prestabilization/">
+<h4>Prestabilization Ratings</h4>
+</a>
+</li>
+
+</ul>
 </div>
 </div>
 </div>
