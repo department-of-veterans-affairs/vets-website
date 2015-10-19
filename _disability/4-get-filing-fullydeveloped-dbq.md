@@ -35,9 +35,11 @@ source: http://www.benefits.va.gov/compensation/dbq_disabilityexams.asp
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-### Fully Developed Claims
+### Yes.
 
-(Coming soon)
+#### If you’re an active-duty Service Member, you can initiate a [predischarge claim](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/get/filing/active-duty/).
+
+#### If you’re filing after separation, you can use the Disability Benefits Questionnaires (DBQs) to create a fully developed claim. 
 
 --------------------------------------------
 
@@ -52,11 +54,14 @@ Visit our [DBQ List by Form Name](http://www.benefits.va.gov/COMPENSATION/dbq_Li
 -	[VSO](http://www.benefits.va.gov/compensation/dbq_vsoinstruct.asp)
 -	[Health Care Provider](http://www.benefits.va.gov/compensation/dbq_providerinstruct.asp )
 
-
 ### Where can I get more information?
 See our [DBQ Frequently Asked Questions](http://www.benefits.va.gov/COMPENSATION/dbq_FAQS.asp) for more information. You can also call us at 1-800-827-1000 or [ask us a question online](https://iris.custhelp.com/app/ask/session/L3RpbWUvMTMyMzEwMDk5My9zaWQvM0htaElRS2s%3D).
 
 DBQs also help support VA's Fully Developed Claims (FDC) program. DBQs are valuable for claims processing because they provide medical information that is relevant to determining a disability rating. When submitted with a [fully developed claim](http://benefits.va.gov/transformation/fastclaims/), DBQs ensure VA's rating specialists have precisely the information they need to start processing the claim.
+
+### Fully Developed Claim 
+
+(Coming soon)
 
 </div>
 </div>
