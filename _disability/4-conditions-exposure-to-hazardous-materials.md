@@ -62,6 +62,13 @@ You may be eligible for disability compensation if you were exposed to certain c
         </li>
 
         <li>
+          <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/birth-defects/">
+          <h4>Birth Defects</h4>
+
+          </a>
+        </li>
+
+        <li>
           <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/">
           <h4>Contaminated Drinking Water at Camp Lejeune</h4>
  <span>Chemicals in the camp's water from1953 to 1988 now pose health risks.</span>

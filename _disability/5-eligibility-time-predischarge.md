@@ -1,6 +1,6 @@
 ---
 layout: page-disability
-permalink: disability-benefits/eligibility/time/pre-discharge/index.html
+permalink: disability-benefits/conditions/time/pre-discharge/index.html
 title: Pre-discharge
 source: http://www.benefits.va.gov/predischarge/index.asp
 ---
@@ -11,7 +11,7 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility/">Eligibility</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/eligibility/time/">How does the time when I received a disability affect my eligibility?</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
@@ -28,9 +28,9 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 
 ### Predischarge
 
-It is to your benefit to start the process of filing a disability claim while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted before separation than for those submitted after separation. 
+It is to your benefit to start the process of filing a disability claim while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted before separation than for those submitted after separation.
 
-If you are in predischarge status, you may file a claim for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty. 
+If you are in predischarge status, you may file a claim for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty.
 
 If you are between 180 and 60 days from separation, you can begin the [Benefit Delivery at Discharge (BDD)](http://benefits.va.gov/predischarge/claims-pre-discharge-benefits-delivery-at-discharge.asp) program. From 59 days until separation, you can initiate the [Quick Start Claim](Beta site page).
 

@@ -1,8 +1,8 @@
 ---
 layout: page-disability
-permalink: disability-benefits/conditions/exposures-to-hazardous-materials/birth-defects/index.html
-title: Birth Defects/Spina Bifida
-source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp
+permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/navy-coast-guard/index.html
+title: US Navy and Coast Guard Ships in Vietnam
+
 ---
 
 <div class="splash" markdown="0">
@@ -13,6 +13,7 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asb
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -33,11 +34,59 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asb
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
+<div class="small-12 medium-8 columns" markdown="0">
+
+<dl class="panel-list plain">
+<dt>{{ page.title }}</dt>
+<dd>Dates: </dd>
+<dd>Sites: </dd>
+<dd>Who: </dd>
+</dl>
+
+<div markdown="1">
+
+Opening paragraph
+
+</div>
+
+</div>
+
+
+<div class="small-12 medium-4 columns" markdown="0">
+<div markdown="0">
+
+<h4 class="highlight">Questions</h4>
+
+<ul class="plain">
+
+<li>
+Sidebar item
+</li>
+
+<li>
+Sidebar item
+email address
+</li>
+
+<li>
+Fact Sheet
+C-123 aircraft and Agent Orange exposure
+</li>
+</ul>
+
+</div>
+</div>
+</div>
+
+<div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+Content coming soon.
 
 </div>
+
 </div>
+
 </div>
+
 </div>

@@ -55,6 +55,12 @@ Coming Soon
 
 
 <li>
+<a href="{{ site.url }}/disability-benefits/conditions/special-claims/clothing/">
+<h4>Clothing Allowance</h4>
+</a>
+</li>
+
+<li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/convalescence/">
 <h4>Convalescence</h4>
 </a>
