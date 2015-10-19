@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/automobile/index.html
 title: Automobile use claims
+concurrence: incomplete
 
 ---
 
@@ -55,11 +56,12 @@ Compensation
 ### How it works
 In the case of these allowances, you must gain VA approval before purchasing an automobile or adaptive equipment. In the case of the adaptive-equipment grant, the compensation may be paid to you or to the seller. In the case of the one-time vehicle purchase grant, the compensation is paid directly to the seller. Either grant may be requested and received before or after military discharge.
 
-You must show that your disability is service-connected or is treated as if service-connected under [38 U.S.C. 1151](link to beta site page of this program). 
+You must show that your disability is service-connected or is treated as if service-connected under [38 U.S.C. 1151](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/conditions/special-claims/title-38-USC-1151/). 
 
-You will be required to complete [VA Form 21-4502]( http://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf) (Application for Automobile or Other Conveyance and Adaptive Equipment).
+You will be required to complete [VA Form 21-4502](http://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf) (Application for Automobile or Other Conveyance and Adaptive Equipment).
 
 If you are entitled to adaptive equipment only (i.e., you have a service-connected disability due to ankylosis of the knees or hips), you should complete [VA Form 10-1394](http://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf) (Application for Adaptive Equipment - Motor Vehicle)
+
 
 </div>
 </div>
