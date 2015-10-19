@@ -283,7 +283,7 @@ h6 {}
 #content .tagline-content {
   p {
     font-size: 2.15em;
-    border-bottom: 1px solid $va-secondary-color;
+    border-bottom: 2px solid white;
     padding: 0 0 1em 0;
     margin: 0 0 2em 0;
     color: rgba(255,255,255,.7);
@@ -444,12 +444,25 @@ body.home, body.fourohfour {
 }
 
 #content .section.tertiary {
-  background: rgba(0,0,0,.05);
+  background: $polar;
+  /*background: rgba(0,0,0,.05);*/
 }
 
 #content .section.quaternary {
-  background: rgba($va-start-color, .83);
+  /*background: rgba($va-start-color, .83);*/
+  background: #dcddde;
   h1, h2, h3, h4, h5, h6, p, li {color: #fff;}
+  h4 {
+    font-weight: 700;
+  }
+  .cards {
+    a {
+      height:10em;
+    }
+  }
+  .feature {
+    background: none;
+  }
 }
 
 #content .section.coda {
@@ -1510,10 +1523,13 @@ ul.simple-list, ol.simple-list {
   }
 
   .description {
-    font-size: 1em;
-    font-weight: 700;
+    font-size: 1.25em;
+    font-weight: 300;
     padding: 0;
     text-align: left;
+    display: inline-block;
+    width: 100%;
+    text-transform:uppercase;
   }
 
   &.information {
@@ -1523,7 +1539,12 @@ ul.simple-list, ol.simple-list {
   &.info-graphic {
     border: 1px solid #fff;
     background: none;
-    span.number {color: #fff;}
+    padding: 1em 1em 0;
+    line-height: 2.5;
+    span.number {
+      color: #fff;
+      display: inline-block;
+    }
   }
 
 
