@@ -111,6 +111,17 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
   <li>
 
     <dl class="panel-list">
+      <dt>Service in Vietnam or Korea</dt>
+      <dd>Dates: </dd>
+      <dd>Sites: </dd>
+      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/service-inside/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
+    </dl>
+
+  </li>   
+
+  <li>
+
+    <dl class="panel-list">
       <dt>Service Outside of Vietnam or Korea</dt>
       <dd>Dates: </dd>
       <dd>Sites: </dd>
