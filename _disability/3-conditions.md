@@ -102,7 +102,7 @@ When you apply for benefits, you will need prove your problems were caused, or w
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/general-conditions/">
 <h5>General Conditions</h5>
-<span>The broad definition and specific benefits.</span>
+<span>What sort of conditions can be service connected?</span>
 </a>
 </li>
 
