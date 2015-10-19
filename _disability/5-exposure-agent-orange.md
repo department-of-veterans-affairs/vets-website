@@ -71,6 +71,18 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
 <ul class="small-block-grid-1 medium-block-grid-2">
 
   <li>
+    <dl class="panel-list">
+      <dt>C-123 Airplanes</dt>
+      <dd>Dates: (January 9, 1962 and May 7, 1975)</dd>
+      <dd>Sites: C-123 aircraft</dd>
+      <dd>Who: Air Force & Air Force Reservists</dd>
+      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about C-123- Airplanes and Agent Orange</span></a></dd>
+    </dl>
+
+  </li>  
+
+
+  <li>
 
     <dl class="panel-list">
       <dt>Korean Demilitarized Zone</dt>
@@ -83,16 +95,6 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
   </li>  
 
 
-  <li>
-    <dl class="panel-list">
-      <dt>C-123 Airplanes</dt>
-      <dd>Dates: (January 9, 1962 and May 7, 1975)</dd>
-      <dd>Sites: C-123 aircraft</dd>
-      <dd>Who: Air Force & Air Force Reservists</dd>
-      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about C-123- Airplanes and Agent Orange</span></a></dd>
-    </dl>
-
-  </li>  
 
   <li>
 
@@ -105,6 +107,28 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
     </dl>
 
   </li>
+
+  <li>
+
+    <dl class="panel-list">
+      <dt>Service Outside of Vietnam or Korea</dt>
+      <dd>Dates: </dd>
+      <dd>Sites: </dd>
+      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/service-outside/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
+    </dl>
+
+  </li>   
+
+  <li>
+
+    <dl class="panel-list">
+      <dt>Test and Storage Areas Outside of Vietnam</dt>
+      <dd>Dates: 1944-19XX</dd>
+      <dd>Sites: Various</dd>
+      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/test-storage/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
+    </dl>
+
+  </li>   
 
   <li>
 
@@ -130,16 +154,6 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
 
 </li>   
 
-<li>
-
-<dl class="panel-list">
-  <dt>Test and Storage Areas Outside of Vietnam</dt>
-  <dd>Dates: 1944-19XX</dd>
-  <dd>Sites: Various</dd>
-  <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/test-storage/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
-</dl>
-
-</li>   
 
 </ul>
 
