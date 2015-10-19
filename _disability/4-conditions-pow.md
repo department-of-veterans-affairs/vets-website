@@ -65,7 +65,7 @@ You
 -	Compensation benefits
 -	Health care benefits
 
-How it works 
+### How it works 
 Certain conditions are presumed to be related to time spent in captivity. These presumptive disabilities are based on studies of the long-term effects of captivity, deprivation, trauma, and cold injury. If a former POW is diagnosed as having one or more of these conditions to a degree that is at least 10% disabling, VA presumes that it is associated with the POW experience.
 
 

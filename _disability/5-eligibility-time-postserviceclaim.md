@@ -1,6 +1,6 @@
 ---
 layout: page-disability
-permalink: disability-benefits/learn/eligibility/claim-types/post-service-claim/index.html
+permalink: disability-benefits/learn/conditions/claim-types/post-service-claim/index.html
 title: Post-Service claim
 source: http://www.benefits.va.gov/compensation/claims-postservice-index.asp
 ---
@@ -12,8 +12,8 @@ source: http://www.benefits.va.gov/compensation/claims-postservice-index.asp
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility/">Eligibility</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types">Claim types</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/conditions/">Eligibility</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/conditions/claim-types">Claim types</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

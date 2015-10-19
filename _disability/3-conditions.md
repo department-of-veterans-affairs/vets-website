@@ -137,6 +137,22 @@ When you apply for benefits, you will need prove your problems were caused, or w
 </a>
 </li>
 
+<li>
+
+  <a href="{{ site.url }}/disability-benefits/conditions/time/">
+  <h5>Service Time</h5>
+  <span>How does the time when I received a disability affect my eligibility?</span>
+  </a>
+</li>
+
+<li>
+  <a href="{{ site.url }}/disability-benefits/conditions/service-connected/">
+  <h5>Service Connected</h5>
+  <span>What does "service-connected" mean?</span>
+  </a>
+</li>
+
+
 </ul>
 </div>
 </div>

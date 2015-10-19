@@ -1,7 +1,7 @@
 ---
 layout: page-disability
-permalink: disability-benefits/claims-appeal/overview/index.html
-title: Claims appeal overview
+permalink: disability-benefits/conditions/special-claims/clothing/index.html
+title: Clothing Allowance
 
 ---
 
@@ -11,15 +11,25 @@ title: Claims appeal overview
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-appeal">Claims appeal</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
+
 
 </div>
 </div>
 </div>
 
 <div class="main" role="main" markdown="0">
+
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="button small start" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
+    </div>
+  </div>  
+</div>
+
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -27,8 +37,10 @@ title: Claims appeal overview
 
 Coming soon.
 
+
 </div>
 </div>
 </div>
+
 
 </div>

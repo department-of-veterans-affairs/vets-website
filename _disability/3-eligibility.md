@@ -45,28 +45,7 @@ Coming soon.
 
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
-          <li>
-            <a href="{{ site.url }}/disability-benefits/eligibility/time/">How does the time when I received a disability affect my eligibility?</a>
-          </li>
-
-          <li>
-            <a href="{{ site.url }}/disability-benefits/eligibility/service-connected/">What does "service-connected" mean?
-            </a>
-          </li>
-
-
-          <!--
-
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/disability-ratings/">How does VA assign disability ratings?</a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types">Overview of types of claims</a>
-            </li>
-
-            -->
+        
 
           </ul>
         </div>

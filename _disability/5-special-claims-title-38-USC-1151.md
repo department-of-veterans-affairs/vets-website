@@ -35,17 +35,26 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you were injured or have an injury that was aggravated while receiving VA-sponsored medical treatment, pursuing a course of vocational rehabilitation (under 38 U.S.C. Chapter 31), or participating in compensated work therapy (under 38 U.S.C. 1718), you may be eligible for compensation.
 
-Title 38 U.S.C. Section 1151 allows VA to pay compensation for death or disability "as if service-connected." The disability is not considered service connected. If eligibility is established under Section 1151, the disability is considered service connected for payment purposes ONLY.
+If you were injured, or aggravated an injury, while receiving VA-sponsored medical treatment, pursuing a course of vocational rehabilitation (under 38 U.S.C. Chapter 31), or participating in compensated work therapy (under 38 U.S.C. 1718), you may be eligible for compensation. 
 
-### Eligibility Requirements
+### Are you eligible for compensation?
 
-You must have a disabling condition that is the result of or has been aggravated due to VA-sponsored medical treatment or training.
+Yes, if:
 
-#### Example
+You have a disabling condition resulting from or aggravated by VA medical treatment or VA-sponsored training.
 
-While engaged in on-the-job training as a car mechanic under VA's Chapter 31 Vocational Rehabilitation and Employment program, a Veteran was injured when a jack slipped from under a car and crushed his left foot. Disability compensation may be paid for his foot injury because the injury occurred while the Veteran was pursuing training under a VA Vocational Rehabilitation and Employment program.
+### Who’s covered 
+You 
+
+### Available benefits
+Compensation benefits
+
+### How it works 
+When filing your claim, you should submit evidence that the additional disability occurred while in VA care or during VA-sponsored training. The additional disability cannot be a reasonably expected result of or complication from treatment. 
+
+This additional disability will be treated “as if service-connected” for payment purposes only.
+
 
 </div>
 </div>

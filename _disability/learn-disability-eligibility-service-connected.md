@@ -1,6 +1,6 @@
 ---
 layout: page-disability
-permalink: disability-benefits/eligibility/service-connected/index.html
+permalink: disability-benefits/conditions/service-connected/index.html
 title: Service Connected
 source: https://eauth.va.gov/ebenefits/learn/compensation
 ---
@@ -11,7 +11,7 @@ source: https://eauth.va.gov/ebenefits/learn/compensation
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/eligibility">Eligibility</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

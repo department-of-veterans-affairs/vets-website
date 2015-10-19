@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/get/filing/faster/index.html
 title: Is there a way to file that can get me a decision faster?
+concurrence: incomplete
 source: http://www.benefits.va.gov/compensation/dbq_disabilityexams.asp
 ---
 
@@ -42,20 +43,20 @@ source: http://www.benefits.va.gov/compensation/dbq_disabilityexams.asp
 
 ### Disability Benefits Questionnaires (DBQs)
 
-You have options when it comes to applying for disability benefits. To speed up the processing of compensation and pension claims, VA now gives you the option of completing an examination with your own healthcare provider instead of at a Department of Veterans Affairs (VA) facility.  
+To speed up the processing of compensation and pension claims, you now have the option of completing an examination with your own healthcare provider instead of at a Department of Veterans Affairs (VA) facility.  
 
-If you choose to go to your own healthcare provider, you will need to bring the appropriate Disability Benefits Questionnaires, or DBQs. These downloadable forms enable private healthcare providers to capture important information needed by VA to accurately evaluate and promptly decide on your claims for benefits.
+If you choose to go to your own healthcare provider, you will need to bring the appropriate Disability Benefits Questionnaires, or DBQs. These downloadable forms that are specific to your [condition](http://www.benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp) or [symptom](http://www.benefits.va.gov/COMPENSATION/dbq_ListBySymptom.asp) enable private healthcare providers to capture important information needed by VA to accurately evaluate and promptly decide on your claims for benefits.
 
-Visit our DBQ List by Form Name or DBQ List by Symptom pages to access the 70 forms available. See detailed instructions:
+Visit our [DBQ List by Form Name](http://www.benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp) or [DBQ List by Symptom](http://www.benefits.va.gov/COMPENSATION/dbq_ListBySymptom.asp) pages to access the 70 forms available. See detailed instructions: 
+-	[Veteran](http://www.benefits.va.gov/compensation/dbq_veteraninstruct.asp)
+-	[VSO](http://www.benefits.va.gov/compensation/dbq_vsoinstruct.asp)
+-	[Health Care Provider](http://www.benefits.va.gov/compensation/dbq_providerinstruct.asp )
 
-- Veteran [LINK]
-- VSO [LINK]
-- Health Care Provider. [LINK]
 
-Where can I get more information?
-See our DBQ Frequently Asked Questions for more information. You can also call us at 1-800-827-1000 or ask us a question online.
+### Where can I get more information?
+See our [DBQ Frequently Asked Questions](http://www.benefits.va.gov/COMPENSATION/dbq_FAQS.asp) for more information. You can also call us at 1-800-827-1000 or [ask us a question online](https://iris.custhelp.com/app/ask/session/L3RpbWUvMTMyMzEwMDk5My9zaWQvM0htaElRS2s%3D).
 
-DBQs also help support VA's Fully Developed Claims (FDC) program. DBQs are valuable for claims processing because they provide medical information that is directly relevant to determining a disability rating. When submitted with a fully developed claim, DBQs ensure VA's rating specialists have precisely the information they need to start processing the claim.
+DBQs also help support VA's Fully Developed Claims (FDC) program. DBQs are valuable for claims processing because they provide medical information that is relevant to determining a disability rating. When submitted with a [fully developed claim](http://benefits.va.gov/transformation/fastclaims/), DBQs ensure VA's rating specialists have precisely the information they need to start processing the claim.
 
 </div>
 </div>
