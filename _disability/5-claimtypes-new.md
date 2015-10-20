@@ -26,9 +26,10 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="1">
 
 If you have new information about a condition that you think could qualify you for new or additional disability benefits, you may want to file a new claim. The outcome of a new claim determination may be:
+
 - Increased disability compensation
 - Special Monthly Compensation
-- A shift to Individual Unemployability status
+- A shift to [Individual Unemployability](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/conditions/special-claims/individual-unemployability/) status
 
 </div>
 </div>
