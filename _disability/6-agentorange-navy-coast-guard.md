@@ -120,9 +120,9 @@ with one of the following designations:
 You and your dependents
 
 ### Available benefits
--Compensation benefits
--Health benefits
--An [Agent Orange Registry health exam] (http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
+- Compensation benefits
+- Health benefits
+- An [Agent Orange Registry health exam] (http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
 
 ### How it works
 If you served on one of the vessels listed as contaminated with Agent Orange, VA will forego the normal requirement that you prove an illness related to Agent Orange began during or was worsened by your military service when you apply for benefits. 
