@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/service-outside/index.html
 title: Service Outside of Vietnam or Korea
+concurrence: incomplete
 
 ---
 
@@ -39,13 +40,11 @@ title: Service Outside of Vietnam or Korea
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
 <dd>Dates: </dd>
-<dd>Sites: </dd>
-<dd>Who: </dd>
+<dd>Sites: Vietnam, C-123 aircraft, other herbicide-contaminated areas</dd>
+<dd>Who: All Vietnam-era Veterans</dd>
 </dl>
 
 <div markdown="1">
-
-Opening paragraph
 
 </div>
 
@@ -60,18 +59,10 @@ Opening paragraph
 <ul class="plain">
 
 <li>
-Sidebar item
+See more information on [Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
 </li>
 
-<li>
-Sidebar item
-email address
-</li>
 
-<li>
-Fact Sheet
-C-123 aircraft and Agent Orange exposure
-</li>
 </ul>
 
 </div>
@@ -81,7 +72,30 @@ C-123 aircraft and Agent Orange exposure
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Content coming soon.
+If you served were exposed to Agent Orange or other tactical herbicides periods during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam and or the DMZ in Korea.  
+
+### Are you Eligible for Compensation?
+
+Yes, if: 
+- You are ill with one, or more, of these diseases related to Agent Orange
+- Your service involved regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam War Era, or
+- You served in close proximity to areas where [herbicides were tested or stored outside of Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp), or
+- You had regular and repeated contact with a contaminated [C-123 aircraft](http://www.publichealth.va.gov/exposures/agentorange/locations/residue-c123-aircraft/index.asp) or
+- You were associated during your service with projects to test, dispose of, or store Agent Orange 
+
+### Who is covered:
+You and your survivors.  
+
+Available benefits: 
+- Compensation 
+- Health care 
+- An [Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
+
+### How it works:  
+You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for diseases that VA presumes are related to Agent Orange exposure.
+
+***Exception:*** If you’re a Blue Water Veteran with [non-Hodgkin's lymphoma](disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/index.html), you do not need to prove where you were exposed. VA recognizes non-Hodgkin's lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
+
 
 </div>
 
