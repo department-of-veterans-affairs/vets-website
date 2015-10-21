@@ -60,8 +60,10 @@ If you served on a Blue Water Navy ship on the coastal or inland waterways of Vi
 
 <ul class="plain">
 
-<li>
+<li markdown="1">
+
 [See More](http://www.publichealth.va.gov/exposures/agentorange/locations/blue-water-veterans.asp#sthash.Srfgf1kO.dpuf)
+
 </li>
 
 </ul>
@@ -71,30 +73,53 @@ If you served on a Blue Water Navy ship on the coastal or inland waterways of Vi
 </div>
 
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns">
+
+
+<div class="call-out" markdown="1">
 
 ### Are you Eligible for Compensation?
 
 Yes, if:
+
 - You are ill with one, or more, of [these diseases](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) related to Agent Orange
+
 - Your military record shows that you were aboard one of the [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp) that operated in Vietnam, or
+
 - You came ashore
 
+</div>
+
+<div class="call-out" markdown="1">
+
 ### Who is covered:
+
 You and your survivors.
 
+</div>
+
+<div class="call-out" markdown="1">
+
 ### Available benefits:
+
 - Compensation
 - Health care
+
 - An [Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
 
-### How it works: You must prove you were aboard one of the U.S. Navy and Coast Guard ships that entered Vietnam’s inland waterways. If your ship docked or landed crewmembers, you must be able to prove that you went ashore.
+</div>
+
+<div class="call-out" markdown="1">
+
+### How it works:
+
+You must prove you were aboard one of the U.S. Navy and Coast Guard ships that entered Vietnam’s inland waterways. If your ship docked or landed crewmembers, you must be able to prove that you went ashore.
 
 If you did not go ashore or serve aboard a ship that operated on the inland waterways of Vietnam, you must prove that you were otherwise exposed to herbicides during your military service in order to receive disability compensation for diseases related to Agent Orange exposure. These claims are decided on a case-by-case basis.
 
-
 *Exception:* If you’re a Blue Water Vietnam Veteran with [non-Hodgkin's lymphoma](http://www.publichealth.va.gov/exposures/agentorange/conditions/nonhodgkinslymphoma.asp), you do not need to prove where you were exposed. VA recognizes non-Hodgkin's lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
 
+</div>
 
 </div>
 

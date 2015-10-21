@@ -3,7 +3,7 @@ layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/navy-coast-guard/index.html
 title: US Navy and Coast Guard Ships in Vietnam
 concurrence: complete
-
+template: 4-action-page
 ---
 
 <div class="splash" markdown="0">
@@ -60,20 +60,20 @@ If you served on a Navy or Coast Guard ship in the Vietnam area of operations, y
 
 <ul class="plain">
 
-<li>
+<li markdown="1">
 Need help determining whether you qualify for benefits?
-VA will help determine qualifying service in Vietnam after you [file a claim for compensation benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). 
+VA will help determine qualifying service in Vietnam after you [file a claim for compensation benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
 
 </li>
 
-<li>
+<li markdown="1">
 To contact VA:
 - Call 1-800-827-1000 or 1-800-829-4833 (TDD for hearing impaired)
 - Go to your [nearest VA benefits office](http://www.va.gov/directory/guide/division.asp?dnum=3)
 
 </li>
 
-<li>
+<li markdown="1">
 More information about [ships that may have been exposed to Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf)
 
 </li>
@@ -84,7 +84,9 @@ More information about [ships that may have been exposed to Agent Orange](http:/
 </div>
 
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns">
+
+<div class="call-out" markdown="1">
 
 ### Are you Eligible for Compensation?
 
@@ -114,20 +116,37 @@ with one of the following designations:
 - WPB (Patrol Boat)
 - YFU (Harbor Utility Craft)
 
-*Even if your vessel is not included in the Mobile Riverine Force (IFS), Division 93 or the above designations, it may still appear in VA's alphabetized list of ships that were exposed to Agent Orange or other herbicides. (Check to see if your ship was exposed).* 
- 
+*Even if your vessel is not included in the Mobile Riverine Force (IFS), Division 93 or the above designations, it may still appear in VA's alphabetized list of ships that were exposed to Agent Orange or other herbicides. (Check to see if your ship was exposed).*
+
+</div>
+
+<div class="call-out" markdown="1">
+
 ### Who is Covered
+
 You and your dependents
 
+</div>
+
+<div class="call-out" markdown="1">
+
 ### Available benefits
+
 - Compensation benefits
 - Health benefits
-- An [Agent Orange Registry health exam] (http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
+- An [Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
+
+</div>
+
+<div class="call-out" markdown="1">
 
 ### How it works
-If you served on one of the vessels listed as contaminated with Agent Orange, VA will forego the normal requirement that you prove an illness related to Agent Orange began during or was worsened by your military service when you apply for benefits. 
+
+If you served on one of the vessels listed as contaminated with Agent Orange, VA will forego the normal requirement that you prove an illness related to Agent Orange began during or was worsened by your military service when you apply for benefits.
 
 If you don’t currently have an Agent Orange related disability, you and your family may still participate in the Agent Orange Health registry.
+
+</div>
 
 </div>
 

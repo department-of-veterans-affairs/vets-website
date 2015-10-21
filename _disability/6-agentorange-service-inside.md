@@ -3,7 +3,7 @@ layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/service-inside/index.html
 title: Service in Vietnam or Korea
 concurrence: incomplete
-
+template: 4-action-page
 ---
 
 <div class="splash" markdown="0">
@@ -55,36 +55,48 @@ If you served in Vietnam, including aboard a [ship on the inland waterways](link
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
 
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain">
-
-
-</ul>
 
 </div>
 </div>
 </div>
 
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns">
+
+<div class="call-out" markdown="1">
 
 ### Are you eligible for compensation?
 
-Yes, if: 
+Yes, if:
+
 You are ill with one, or more, of these diseases related to Agent Orange
+
+</div>
+
+<div class="call-out" markdown="1">
 
 ### Who is covered
 You and your survivors
 
+</div>
+
+<div class="call-out" markdown="1">
+
 ### Available benefits
+
 - Compensation
 - Health care
 - An Agent Orange Registry health exam
 
+</div>
+
+<div class="call-out" markdown="1">
+
 ### How it works
+
 Check the list of [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/water-vietnam/index.html) that operated in Vietnam to confirm whether your service aboard a ship allows VA to concede that you were exposed to Agent Orange.
 
+</div>
 
 </div>
 
