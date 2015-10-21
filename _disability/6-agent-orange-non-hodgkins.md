@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/index.html
 title: Diseases Associated with Agent Orange
+concurrence: incomplete
 
 ---
 
@@ -30,7 +31,44 @@ title: Diseases Associated with Agent Orange
 
 <div markdown="1">
 
-Coming soon.
+Non-Hodgkin's lymphoma is a type of cancer of the lymph glands and other lymphatic tissue – a part of the body's immune system that helps to fight infection and disease. Signs of Non-Hodgkin’s lymphoma include:
+
+-Swollen, painless lymph nodes in the neck, armpit, or groin
+-Fever
+-Night sweats
+-Fatigue
+-Weight loss
+-Abdominal pain or swelling
+-Chest pain or trouble breathing
+-Itchy skin
+
+### Are you Eligible for Benefits?
+
+Yes, if
+-You are ill with Non-Hodgkin’s lymphoma 
+-You were exposed to Agent Orange or other herbicides during military service
+-You served in Vietnam or in the waters off Vietnam during the Vietnam War era, the Korean demilitarized zone, or another area where Agent Orange was stored, tested or sprayed. 
+
+### Who is covered
+ You, your dependents and survivors
+
+### Available benefits
+- Compensation
+- Health Care 
+- [Agent Orange Registry health exam]( http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
+
+### How it works
+VA considers Non-Hodgkins Lymphoma to related to exposure to Agent Orange or other herbicides. When you apply for benefits, VA will forego the normal requirement that you prove your illness is related to Agent Orange or that it began during -- or was worsened by -- your military service. 
+
+Learn more about [benefits related to Agent Orange](exposurehttp://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
+
+**Need help determining exposure?**
+
+VA will help you determine exposure to Agent Orange or other herbicides during military service after you [file a claim for compensation benefits.](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation)
+Learn more about [Agent Orange exposure locations](http://www.publichealth.va.gov/exposures/agentorange/locations/thailand.asp#sthash.oK22WgPr.dpuf)
+
+Visit [Medline Plus](https://www.nlm.nih.gov/medlineplus/ency/article/000581.htm) to learn about treatment of non-Hodgkin’s lymphoma, the latest research, and more from the National Institutes of Health.
+
 
 </div>
 </div>
