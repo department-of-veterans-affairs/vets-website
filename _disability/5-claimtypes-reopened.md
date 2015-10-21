@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/claims-process/claim-types/reopened-claim/index.html
 title: Reopened Claim
+concurrence: incomplete
 ---
 
 <div class="splash" markdown="0">
@@ -24,7 +25,11 @@ title: Reopened Claim
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+You can file a reopened claim for a benefit that was previously denied and is in final status because a year has passed since the VA decision without an appeal. VA cannot reopen these claims without new material evidence. *New evidence* is information about the claimed benefit that the VA has not previously considered. *Material evidence* is information that is relevant to and has direct bearing on the specific claimed benefit. 
+
+**Example:**
+A Veteran was treated several times during service for pain in the right elbow. He filed a claim for service connection, but his claim could not be granted because no orthopedic abnormalities were found on VA examination. Two years later, his private physician x-rayed the elbow and noted arthritic changes in the joint. The Veteran submitted the new material evidence to VA. Because it suggested that a residual, or aftereffect, of his in-service elbow problems did exist, VA reopened his claim.
+
 
 </div>
 </div>
