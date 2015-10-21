@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/index.html
 title: C-123 Aircraft
-
+template: 4-action-page
 ---
 
 <div class="splash" markdown="0">

@@ -60,17 +60,23 @@ concurrence: incomplete
 
 <ul class="plain">
 
-<li>
+<li markdown="1">
+
 Learn more about [benefits related to Agent Orange exposure.](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
+
 </li>
 
-<li>
+<li markdown="1">
+
 Learn more about [Agent Orange exposure locations](http://www.publichealth.va.gov/exposures/agentorange/locations/thailand.asp#sthash.oK22WgPr.dpuf)
 </li>
 
-<li>
+
+<li markdown="1">
+
 **Need help determining exposure?**
 VA will help you determine potential exposure to Agent Orange after you file a claim for disability  benefits.
+
 </li>
 </ul>
 
@@ -91,27 +97,42 @@ You served perimeter security duty at Royal Thai Air Force (RTAF) bases, includi
 </div>
 
 <div class="call-out" markdown="1">
+
 #### Army Veterans
 
 Yes, if:
 - You served perimeter security duty on RTAF bases in Thailand.
-- You served perimeter security duty while stationed on a US Army installations in Thailand. 
+- You served perimeter security duty while stationed on a US Army installations in Thailand.
 
 </div>
 
+<div class="call-out" markdown="1">
+
 ### Who is covered:
+
 You, your dependents and survivors
 
+</div>
+
+<div class="call-out" markdown="1">
+
 ### Available benefits:
+
 - Heath care benefits
 - Compensation benefits
 - An [Agent Orange Registry health exam](publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
 
+</div>
+
+<div class="call-out" markdown="1">
+
 ### How it works:
-An acknowledgement of potential Agent Orange exposure on a case-by-case basis is available for Thailand Veterans whose military personnel records show perimeter security duties as a dog handler, member of a security squadron, member of a military police unit, or some related duties indicating regular security activity on a fenced-in perimeter. 
+
+An acknowledgement of potential Agent Orange exposure on a case-by-case basis is available for Thailand Veterans whose military personnel records show perimeter security duties as a dog handler, member of a security squadron, member of a military police unit, or some related duties indicating regular security activity on a fenced-in perimeter.
 
 To receive benefits for diseases associated with  Agent Orange exposure based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence showing the required perimeter security duty.
 
+</div>
 
 </div>
 

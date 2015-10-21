@@ -3,6 +3,7 @@ layout: page-disability
 permalink: disability-benefits/conditions/index.html
 title: Conditions
 source: https://eauth.va.gov/ebenefits/learn/compensation
+template: 2-detailed-landing
 ---
 
 <div class="splash" markdown="0">
@@ -46,7 +47,7 @@ Do you have physical or emotional problems that started -- or worsened -- during
 
 ### Are you Eligible for Compensation?
 
-**Yes, if:**
+Yes, if:
 
 - You became ill or were injured while you were in the military
 - You had an illness or injury before you were in the military, but activities, injury or illness during your service made your condition worse.

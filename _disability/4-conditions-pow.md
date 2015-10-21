@@ -4,6 +4,7 @@ permalink: disability-benefits/conditions/pow/index.html
 title: Disability Compensation for Former Prisoners of War (POWs)
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-pow.asp
+template: 6-info-page
 ---
 
 <div class="splash" markdown="0">
@@ -33,10 +34,13 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-pow.asp
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns">
 
+<div markdown="1">
 If you are a former POW with disabilities related to your service and captivity, you may be eligible for compensation. If, after your service, you are diagnosed as being at least 10% disabled by one or more of the conditions listed below, VA presumes it is because of your POW experience, no matter how long you were in captivity.
+</div>
 
+<div class="call-out" markdown="1">
 
 ### Are you eligible for compensation?
 
@@ -49,25 +53,44 @@ Yes, if:
 -	You have experienced a stroke
 -	You have hypertensive vascular disease, including hypertensive heart disease
 
+</div>
+
+<div class="call-out" markdown="1">
 
 ### For former POWs who were captive for 30 days or more, the following additional conditions are presumed to be service connected:
 
--	Osteoporosis (for claims filed on or after September 28, 2009; no PTSD diagnosis is required.) 
+-	Osteoporosis (for claims filed on or after September 28, 2009; no PTSD diagnosis is required.)
 -	Any nutritional deficiencies, including avitaminosis, beriberi, malnutrition – including optic atrophy connected to malnutrition -- and pellagra
 -	Helminthiasis
 -	Peripheral neuropathy (unless caused by infectious disease.)
 -	Digestive disorders, including peptic ulcer disease, chronic dysentery, irritable bowel syndrome, and cirrhosis of the liver
 
+</div>
+
+<div class="call-out" markdown="1">
+
 ### Who is covered
+
 You
 
+</div>
+
+<div class="call-out" markdown="1">
+
 ### Available benefits
+
 -	Compensation benefits
 -	Health care benefits
 
-### How it works 
+</div>
+
+<div class="call-out" markdown="1">
+
+### How it works
+
 Certain conditions are presumed to be related to time spent in captivity. These presumptive disabilities are based on studies of the long-term effects of captivity, deprivation, trauma, and cold injury. If a former POW is diagnosed as having one or more of these conditions to a degree that is at least 10% disabling, VA presumes that it is associated with the POW experience.
 
+</div>
 
 </div>
 </div>

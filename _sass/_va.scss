@@ -99,9 +99,10 @@ a {
 
 
 }
-a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/beta-site"]) {
+/*
+a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/beta-site"]),
+a[href*="//"]:not([href*="http://localhost"])  {
     background: url(../images/icons/icon-exit-white.png);
-    /*background: url(../images/icons/SVG/icon-exit-white.svg);*/
     -webkit-background-size: 18px 15.38px;
     background-size: 18px 15.38px;
     background-position: right center!important;
@@ -110,15 +111,15 @@ a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/beta-s
     position: relative;
     &:hover {
       background:rgba(0,0,0,0.2) url(../images/icons/icon-exit-gold.png)!important;
-      /*background: url(../images/icons/SVG/icon-exit-gold.svg);*/
       -webkit-background-size: 18px 15.38px!important;
       background-size: 18px 15.38px!important;
       background-position: right center!important;
       background-repeat: no-repeat!important;
     }
 
-  }
+}
 
+*/
 
 // Logo and Header
 

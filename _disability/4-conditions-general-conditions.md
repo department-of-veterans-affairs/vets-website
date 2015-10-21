@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/general-conditions/index.html
 title: General Conditions
-
+template: 6-info-page
 ---
 
 <div class="splash" markdown="0">

@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/korean-zone/index.html
 title: Korean Demilitarized Zone
-
+template: 4-action-page
 ---
 
 <div class="splash" markdown="0">
