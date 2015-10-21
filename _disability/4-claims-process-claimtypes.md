@@ -24,7 +24,7 @@ title: What are the different claim types and what do they mean?
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+Disability compensation claims can be based on disabilities that existed when entering military service and then made worse by your service, disabilities that occurred during your service, or disabilities that arose after you left the service.
 
 </div>
 </div>
