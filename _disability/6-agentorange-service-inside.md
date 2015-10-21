@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/service-inside/index.html
 title: Service in Vietnam or Korea
+concurrence: incomplete
 
 ---
 
@@ -38,14 +39,13 @@ title: Service in Vietnam or Korea
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: </dd>
-<dd>Sites: </dd>
-<dd>Who: </dd>
+<dd>Dates: 1962-1975</dd>
+<dd>Sites: Vietnam and Korea</dd>
+<dd>Who: Vietnam era Veterans</dd>
 </dl>
 
 <div markdown="1">
-
-Opening paragraph
+If you served in Vietnam, including aboard a [ship on the inland waterways](link to Beta site page), for any length of time between January 9, 1962, and May 7, 1975, or in or near the Korean demilitarized zone between April 1, 1968, and August 31, 1971, VA presumes you were exposed to Agent Orange or other herbicides.
 
 </div>
 
@@ -59,19 +59,7 @@ Opening paragraph
 
 <ul class="plain">
 
-<li>
-Sidebar item
-</li>
 
-<li>
-Sidebar item
-email address
-</li>
-
-<li>
-Fact Sheet
-C-123 aircraft and Agent Orange exposure
-</li>
 </ul>
 
 </div>
@@ -81,7 +69,22 @@ C-123 aircraft and Agent Orange exposure
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Content coming soon.
+### Are you eligible for compensation?
+
+Yes, if: 
+You are ill with one, or more, of these diseases related to Agent Orange
+
+### Who is covered
+You and your survivors
+
+### Available benefits
+- Compensation
+- Health care
+- An Agent Orange Registry health exam
+
+### How it works
+Check the list of [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/water-vietnam/index.html) that operated in Vietnam to confirm whether your service aboard a ship allows VA to concede that you were exposed to Agent Orange.
+
 
 </div>
 
