@@ -3,6 +3,7 @@ layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/gulf-war-illness/index.html
 title: Gulf War Illness
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp
+template: 4-action-page
 ---
 
 <div class="splash" markdown="0">
@@ -33,11 +34,24 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 medium-8 columns">
+
+
+<dl class="panel-list plain">
+<dt>{{ page.title }}</dt>
+<dd>Definition item</dd>
+<dd>Definition item</dd>
+<dd>Definition item</dd>
+</dl>
+
+<div markdown="1">
 
 If you served in the Southwest Asia theater of military operations [include link] or in Afghanistan and suffer from certain illnesses, disorders, and conditions that have been linked to this service, you may be entitled to disability compensation, even if your symptoms did not appear during qualifying service.
 
 The undiagnosed illnesses, disorders, and conditions that fall under the umbrella of Gulf War Illness are varied and extensive. They include several functional gastrointestinal disorders, chronic fatigue syndrome, fibromyalgia, abnormal weight loss, fatigue, muscle and joint pain, headache, menstrual disorders, neurological problems, various skin conditions, respiratory disorders, and sleep disorders.  
+</div>
+
+<div class="call-out" markdown="1">
 
 ### Eligibility Requirements
 
@@ -47,8 +61,39 @@ The undiagnosed illnesses, disorders, and conditions that fall under the umbrell
 
 </div>
 </div>
+
+
+<div class="small-12 medium-4 columns" markdown="0">
+<div markdown="0">
+
+<h4 class="highlight">Questions</h4>
+
+<ul class="plain">
+
+<li>
+C-123 Hotline
+<span class="tel">1-800-749-8387</span>
+</li>
+
+<li>
+St. Paul Regional Benefit Office
+<a href="mailto:VSCC123.VAVBASPL@va.gov">VSCC123.VAVBASPL@va.gov</a>
+</li>
+
+<li>
+Fact Sheet
+C-123 aircraft and Agent Orange exposure
+</li>
+</ul>
 </div>
 </div>
+
+
+</div>
+</div>
+</div>
+
+<!--
 
 <div class="section secondary" markdown="0">
 <div class="row" markdown="0">
@@ -56,14 +101,13 @@ The undiagnosed illnesses, disorders, and conditions that fall under the umbrell
 
 #### See also:
 
-- Widget to determine eligibility
 - Start application process
 - Learn more detailed health information about Gulf War Illness
 
+</div>
+</div>
+</div>
 
-
-</div>
-</div>
-</div>
+-->
 
 </div>

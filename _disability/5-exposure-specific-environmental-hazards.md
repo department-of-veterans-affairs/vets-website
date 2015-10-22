@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/specific-environmental-hazards/index.html
 title: Specific Environmental Hazards
-
+template: 4-action-page
 ---
 
 <div class="splash" markdown="0">
@@ -33,26 +33,56 @@ title: Specific Environmental Hazards
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 medium-8 columns">
+
+<dl class="panel-list plain">
+<dt>{{ page.title }}</dt>
+<dd>Definition item</dd>
+<dd>Definition item</dd>
+<dd>Definition item</dd>
+</dl>
+
+<div markdown="1">
 
 If you were exposed to specific environmental hazards (such as burn pits) while serving at military installations in Iraq, Afghanistan, and elsewhere, you may have developed a disease related to this exposure.
+
+</div>
+
+<div class="call-out" markdown="1">
 
 ### Are you eligible for compensation?
 
 Yes, if:
+
 You have a disability resulting from your exposure to an environmental hazard during military service.
 
+</div>
+
+<div class="call-out" markdown="1">
+
 ### Who is covered
+
 You and your survivors
 
-### Available benefits 
-- Compensation 
-- Health care 
+</div>
+
+<div class="call-out" markdown="1">
+
+### Available benefits
+
+- Compensation
+- Health care
+
+</div>
+
+<div class="call-out" markdown="1">
 
 ### How it works
+
 You should submit any additional information (such as [Burn Pit Registry]( https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/) regarding proof of exposure when filing your claim.
 
 This exposure may include
+
 - Large burn pits throughout Iraq, Afghanistan, and Djibouti in the Horn of Africa
 - Particulate matter in Iraq and Afghanistan
 - A large sulfur fire at Mishraq State Sulfur Mine near Mosul, Iraq
@@ -62,6 +92,23 @@ This exposure may include
 
 </div>
 </div>
+
+<div class="small-12 medium-4 columns" markdown="0">
+<div markdown="0">
+
+<h4 class="highlight">Questions</h4>
+
+<ul class="plain">
+
+<li>List item</li>
+<li>List item</li>
+<li>List item</li>
+
+</ul>
+</div>
+</div>
+
+
 </div>
 
 </div>

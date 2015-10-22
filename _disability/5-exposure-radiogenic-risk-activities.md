@@ -3,6 +3,7 @@ layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/radiogenic-risk-activities/index.html
 title: Radiogenic Risk Activities
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp,http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp
+template: 4-action-page
 ---
 
 <div class="splash" markdown="0">
@@ -33,16 +34,27 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-env
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 medium-8 columns">
+
+<dl class="panel-list plain">
+<dt>{{ page.title }}</dt>
+<dd>Definition item</dd>
+<dd>Definition item</dd>
+<dd>Definition item</dd>
+</dl>
+
+<div markdown="1">
+
 ### Radiogenic Diseases Postservice
 
 Radiogenic diseases can be caused by exposure to radiation. If you participated in an activity while on active duty that has a radiation risk, you may have developed one of these [associated diseases](associated-diseases).
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out" markdown="1">
-### Are you eligible for disability benefits? 
 
-**Yes, if:**
+<div class="call-out" markdown="1">
+
+### Are you eligible for disability benefits?
+
+Yes, if:
 
 - You were interned as a prisoner of war in Japan
 - You participated in the postwar occupation of Hiroshima or Nagasaki
@@ -55,19 +67,54 @@ Radiogenic diseases can be caused by exposure to radiation. If you participated 
 
 - Your performance of tasks was similar to those that qualify a Department of Energy (DOE) employee as a member of the Special Exposure Cohort under 42 U.S.C. 7384L(14).
 
-#### Who is covered 
-- You 
+</div>
+
+<div class="call-out" markdown="1">
+
+#### Who is covered
+
+- You
+
+</div>
+
+<div class="call-out" markdown="1">
 
 #### Available benefits
+
 - Compensation benefits
 - Health care benefits
 
-#### How it works 
-- Your service records must prove you participated in one of the radiation risk activities described above and in 38 CFR 3.309(d)(3)(ii). 
-- You have to claim an actual disease or disability. It is not enough to state that you were exposed to radiation during service. 
+</div>
+
+<div class="call-out" markdown="1">
+
+#### How it works
+
+- Your service records must prove you participated in one of the radiation risk activities described above and in 38 CFR 3.309(d)(3)(ii).
+- You have to claim an actual disease or disability. It is not enough to state that you were exposed to radiation during service.
 - You must have been discharged under conditions other than dishonorable.
+
+</div>
+
+</div>
+
+
+<div class="small-12 medium-4 columns" markdown="0">
+<div markdown="0">
+
+<h4 class="highlight">Questions</h4>
+
+<ul class="plain">
+
+<li>List item</li>
+<li>List item</li>
+<li>List item</li>
+
+</ul>
 </div>
 </div>
+
+
 </div>
 </div>
 
