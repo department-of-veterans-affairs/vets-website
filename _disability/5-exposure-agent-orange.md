@@ -51,7 +51,7 @@ The U.S. military sprayed millions of gallons of Agent Orange on trees and veget
 
 #### Yes if:
 
-You were exposed to Agent Orange or other herbicides during military service
+You were exposed to Agent Orange during military service
 
 #### Who's Covered:
 
@@ -59,7 +59,7 @@ You or your dependents
 
 #### How it Works:
 
-[These diseases are a result of exposure to these herbicides.]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) VA forgoes the normal requirement that you prove an illness began during or was worsened by your military service.
+[These diseases are a result of exposure to Agent Orange.]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) VA forgoes the normal requirement that you prove an illness began during or was worsened by your military service.
 
 If you have a disease that is [not on this list]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), but you believe is a result of Agent Orange exposure, you will need to prove your illness began or was worsened by your military service.
 
