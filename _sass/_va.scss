@@ -85,6 +85,7 @@ abbr, a abbr, abbr[title] {
 
 
 a {
+  background: rgba(0,0,0,0.05);
   text-decoration: none;
   &:hover {text-decoration: none;}
   -webkit-transition: all 0.3s ease-in-out;
@@ -99,9 +100,7 @@ a {
 
 
 }
-/*
-a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/beta-site"]),
-a[href*="//"]:not([href*="http://localhost"])  {
+a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/beta-site"]) {
     background: url(../images/icons/icon-exit-white.png);
     -webkit-background-size: 18px 15.38px;
     background-size: 18px 15.38px;
@@ -117,9 +116,8 @@ a[href*="//"]:not([href*="http://localhost"])  {
       background-repeat: no-repeat!important;
     }
 
-}
+  }
 
-*/
 
 // Logo and Header
 
@@ -1555,7 +1553,7 @@ ul.simple-list, ol.simple-list {
 
 #playbook {
   h2 {background: none; font-size: 2.5em;}
-  a {text-decoration: none; background: none;}
+  /*a {text-decoration: none; background: none;}*/
 
   .card a {
     border-bottom: 2px solid $va-secondary-color;
@@ -1608,7 +1606,7 @@ ul.simple-list, ol.simple-list {
       border-left: 0;
     }
         a {
-          background-color: #D9C799;
+          /*background-color: #D9C799;*/
         }
     }
     &.step.three.last, &.step.four {
@@ -1687,6 +1685,15 @@ ul.simple-list, ol.simple-list {
     @media #{$medium-up} {
       text-align: center;
     }
+    &.hcd {
+      h4 {
+        color: $va-secondary-color;
+      }
+    }
+
+  }
+  .medium-9 {
+    background: white;
   }
   ol:nth-child(n+2) {
     li {
@@ -1696,22 +1703,60 @@ ul.simple-list, ol.simple-list {
   li {
     &.step {
       padding-top: 1.5em;
-      border-left:8px solid #fff;
+      border-left:4px solid $olso-gray;
+    }
+    h4 {
+      span {
+          font-family: $open-sans;
+      }
     }
     &:before {
-      background:$olso-gray;
-      border: 4px solid #fff;
-      color:white;
+      background:white;
+      border: 4px solid $olso-gray;
+      color:$olso-gray;
       font-size: 1.3em;
       font-weight:700;
       position: relative;
       padding: 0;
-      margin-left: -2.75em;
+      margin-left: -2.6em;
       top: -.1em;
       width: 2em;
     }
+
+    &.step.four,
+    &.step.five,
+    &.step.seven,
+    &.step.nine
+     {
+      &:before {
+        background:white url(../images/icons/SVG/loop2.svg)center center no-repeat;
+        display:inline-block;
+        width:3.4em;
+        height:2.2em;
+        background-size:contain;
+        border:none;
+        margin-left: -3.3em;
+        padding-top: .25em;
+      }
+    }
   }
 
+  &.page {
+    .discover {
+      background: none;
+    }
+    .medium-3 {
+      padding-top: 0;
+      ul {
+        margin-left: 0;
+      }
+    } 
+    .medium-9 {
+        li {
+            list-style-type: disc;
+        }
+    }
+  }
 }
 
 .human-centered {
@@ -1745,7 +1790,7 @@ ul.simple-list, ol.simple-list {
     background:$polar;
     li {
       &.step.one {
-          margin-top: 1.5em!important;
+          margin-top: -2.7em!important;
           padding-top: 0;
       }
     }
@@ -1759,6 +1804,7 @@ ul.simple-list, ol.simple-list {
     }
   }
   .has-tip {
+    background: none!important;
     border-bottom: none!important;
     i {
       background: url(../images/icons/info-circle.png); /* IE svg fallback */
@@ -1821,7 +1867,7 @@ ul.simple-list, ol.simple-list {
       &.step.nine {
         padding-top:0;
         &:before {
-          margin-left: -2.3em;
+          margin-left: -3.1em;
         }
       }
     }
