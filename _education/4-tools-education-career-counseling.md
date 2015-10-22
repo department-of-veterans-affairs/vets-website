@@ -1,7 +1,7 @@
 ---
 layout: page-education
-permalink: education/tools-programs/principles-excellence-program/index.html
-title: Principles of Excellence Program
+permalink: education/tools-programs/education-career-counseling/index.html
+title: Education and Career Counseling
 
 ---
 

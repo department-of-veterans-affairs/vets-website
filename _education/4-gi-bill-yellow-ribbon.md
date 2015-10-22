@@ -1,7 +1,7 @@
 ---
 layout: page-education
-permalink: education/tools-programs/principles-excellence-program/index.html
-title: Principles of Excellence Program
+permalink: education/gi-bill/yellow-ribbon/index.html
+title: Yellow Ribbon
 
 ---
 
@@ -11,7 +11,7 @@ title: Principles of Excellence Program
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/tools-programs/">Tools and Programs</a></li>
+<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

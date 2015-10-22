@@ -53,6 +53,10 @@ Coming soon.
             <li>
               <a href="{{ site.url }}/education/gi-bill/montgomery-selected-reserve/">Montgomery GI Bill Selected Reserve (MGIB-SR)</a>
             </li>
+            <li>
+              <a href="{{ site.url }}/education/gi-bill/yellow-ribbon/">Yellow Ribbon</a>
+            </li>
+
           </ul>
         </div>
       </div>
