@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/learn/eligibility/claim-types/secondary-claim/index.html
 title: Secondary claim
+concurrence: incomplete
 source: http://www.benefits.va.gov/compensation/types-claims.asp
 ---
 
@@ -27,15 +28,14 @@ source: http://www.benefits.va.gov/compensation/types-claims.asp
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-It is possible for your service-connected disability to be cause or worsen a another disability.  If this is the case, you could file a Secondary Disability Claim to seek additional benefit. This second disability may not otherwise be considered service-connected.
+It is possible for your service-connected disability to cause or worsen another disability.  If this is the case, you can file a Secondary Disability Claim to seek additional benefit.  This second disability may not otherwise be considered service connected.
 
-### Example 1
+**Example 1:**
+A Veteran has a service-connected knee injury that causes him to walk with a limp.  He subsequently develops arthritis in his hip.  Although the arthritic condition did not start during, nor was it aggravated by service, service connection may still be established if the arthritis is a result of his previously established service-connected knee condition.
 
-A Veteran has a service-connected knee injury that causes him to walk with a limp. He subsequently develops arthritis in his hip. Although the arthritic condition was not incurred during or aggravated by service, service-connection may still be established if the arthritis is a result of his previously establish service-connected knee condition.
-
-### Example 2
-
-A Veteran was in the Army for twenty years. During her military service, she was diagnosed with hypertension. After her discharge, service-connection was established for hypertension. She was subsequently diagnosed with a heart condition. Service-connection for her heart condition may be established via a Secondary Claim.  
+**Example 2:**
+A Veteran was in the Army for twenty years.  During her military service, she was diagnosed with hypertension.  After her discharge, service connection was established for hypertension.  She was subsequently diagnosed with a coronary artery disease.  Service connection for her coronary artery disease may be established via a Secondary Claim.
+  
 
 </div>
 </div>
