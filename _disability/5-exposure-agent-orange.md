@@ -37,7 +37,7 @@ template: 3-panel-filters
 
 <div markdown="1">
 
-The U.S. military sprayed millions of gallons of Agent Orange and other herbicides on trees and vegetation during the Vietnam War. Several decades later, concerns about the health effects from these chemicals continue.
+The U.S. military sprayed millions of gallons of Agent Orange on trees and vegetation during the Vietnam War. Several decades later, concerns about the health effects from these chemicals continue.
 
 -------------------------------------------
 
