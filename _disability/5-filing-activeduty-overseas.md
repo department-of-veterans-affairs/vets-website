@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/filing/active-duty/overseas/index.html
 title: How do I file when I’m Overseas?
+concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp,http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-overseas-intake-sites.asp
 template: 6-info-page
 ---
@@ -40,15 +41,15 @@ template: 6-info-page
 
 ### Overseas Intake Sites
 
-If you are stationed within the Kaiserslautern Military Community (KMC), you can visit the Landstuhl Benefits Delivery at Discharge (BDD) office and start the disability claim process while you are on active duty in a predischarge status. Walk-in hours are from Tuesday through Thursday 10:00 to 12:00 and 13:00 to 15:00 hours.
+If you are stationed within the Kaiserslautern Military Community (KMC), you can visit the Landstuhl Benefits Delivery at Discharge (BDD) office and start the disability claim process while you are on active duty in predischarge status. Walk-in hours are Tuesday, Wednesday, and Thursday from 10:00 to 12:00 and from 1:00 to 3:00.
 
-If you are stationed outside the KMC, you can participate in the BDD or Quick Start programs through the "Fly-in" claim process. The Fly-in claim process allows you to submit applications by fax or e-mail in advance of your in-person appointment. To participate in the Fly-in claim process:
 
 </div>
 
 <div class="call-out" markdown="1">
+If you are stationed outside the KMC, you can participate in the BDD or Quick Start programs through the "Fly-in" claim process, which allows you to submit applications by fax or e-mail before your in-person appointment. Here’s what you need to do to participate in the Fly-in claim process:
 
-- Contact the Landstuhl BDD office by phone, fax, or e-mail to request all necessary information and forms.  
+- Contact the [Landstuhl BDD office]( https://ermc.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733) by phone, fax, or e-mail to request all necessary information and forms.  
 
 - After you complete and return the application, a BDD officer will contact you by e-mail to schedule an examination at the Landstuhl Regional Medical Center(LRMC) and to notify you about the information and evidence required to support the claim.
 
