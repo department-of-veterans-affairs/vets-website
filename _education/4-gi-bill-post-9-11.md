@@ -96,6 +96,7 @@ VA approves the following programs and courses under the Post-9/11 GI Bill:
 - Post-9/11 GI Bill pamphlet
 - Frequently Asked Questions (FAQ) 
 
+“GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our Terms of Use.
 
 </div>
 </div>
