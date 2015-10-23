@@ -2,6 +2,7 @@
 layout: page-education
 permalink: education/tools-programs/careerscope/index.html
 title: CareerScope
+concurrence: incomplete
 
 ---
 
@@ -26,7 +27,12 @@ title: CareerScope
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+In addition to career counseling, VA provides the interest and aptitude assessment tool, CareerScope, to all eligible benefit recipients. CareerScope has been used frequently by Veterans to determine the best career path when transitioning to civilian life. 
+
+CareerScope uses the results from your assessment to give you recommendations that help identify which career fields you may enjoy and in which careers you might excel. CareerScope also recommends courses or training programs that can help you pursue those careers. 
+ 
+[Use this document in conjunction with your CareerScope results](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf)
+
 
 </div>
 </div>
