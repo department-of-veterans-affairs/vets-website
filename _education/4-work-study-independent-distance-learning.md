@@ -2,6 +2,7 @@
 layout: page-education
 permalink: education/work-learn/independent-distance-learning/index.html
 title: Independent and Distance Learning Training
+concurrence: incomplete
 
 ---
 
@@ -34,7 +35,7 @@ title: Independent and Distance Learning Training
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+You can use the GI Bill for independent and distance-learning online training. If you are using your Post-9/11 GI Bill benefits while taking only distance-learning courses, you will be paid a housing allowance based on 50% of the national average. [View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp) 
 
 </div>
 </div>
