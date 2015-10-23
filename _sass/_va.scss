@@ -100,6 +100,9 @@ a {
 
 
 }
+
+/*
+
 a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/beta-site"]) {
     background: url(../images/icons/icon-exit-white.png);
     -webkit-background-size: 18px 15.38px;
@@ -115,8 +118,9 @@ a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/beta-s
       background-position: right center!important;
       background-repeat: no-repeat!important;
     }
+}
 
-  }
+*/
 
 
 // Logo and Header
@@ -1750,7 +1754,7 @@ ul.simple-list, ol.simple-list {
       ul {
         margin-left: 0;
       }
-    } 
+    }
     .medium-9 {
         li {
             list-style-type: disc;

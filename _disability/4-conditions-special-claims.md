@@ -2,8 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/index.html
 title: Special claims
-
-
+template: 2-detailed-landing
 ---
 
 <div class="splash" markdown="0">

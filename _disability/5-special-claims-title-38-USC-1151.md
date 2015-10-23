@@ -3,6 +3,7 @@ layout: page-disability
 permalink: disability-benefits/conditions/special-claims/title-38-USC-1151/index.html
 title: Title 38 U.S.C. 1151 Claims
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp
+template: 4-action-page-pending
 ---
 
 <div class="splash" markdown="0">
@@ -33,10 +34,15 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns">
 
+<div markdown="1">
 
-If you were injured, or aggravated an injury, while receiving VA-sponsored medical treatment, pursuing a course of vocational rehabilitation (under 38 U.S.C. Chapter 31), or participating in compensated work therapy (under 38 U.S.C. 1718), you may be eligible for compensation. 
+If you were injured, or aggravated an injury, while receiving VA-sponsored medical treatment, pursuing a course of vocational rehabilitation (under 38 U.S.C. Chapter 31), or participating in compensated work therapy (under 38 U.S.C. 1718), you may be eligible for compensation.
+
+</div>
+
+<div class="call-out" markdown="1">
 
 ### Are you eligible for compensation?
 
@@ -44,17 +50,20 @@ Yes, if:
 
 You have a disabling condition resulting from or aggravated by VA medical treatment or VA-sponsored training.
 
-### Who’s covered 
-You 
+#### Who’s covered
+You
 
-### Available benefits
+#### Available benefits
+
 Compensation benefits
 
-### How it works 
-When filing your claim, you should submit evidence that the additional disability occurred while in VA care or during VA-sponsored training. The additional disability cannot be a reasonably expected result of or complication from treatment. 
+#### How it works
+
+When filing your claim, you should submit evidence that the additional disability occurred while in VA care or during VA-sponsored training. The additional disability cannot be a reasonably expected result of or complication from treatment.
 
 This additional disability will be treated “as if service-connected” for payment purposes only.
 
+</div>
 
 </div>
 </div>

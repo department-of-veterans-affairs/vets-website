@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/filing/active-duty/bdd/index.html
 title: What is Benefit Delivery at Discharge? (BDD)
-
+template: 6-info-page
 ---
 
 <div class="splash" markdown="0">
@@ -35,23 +35,11 @@ title: What is Benefit Delivery at Discharge? (BDD)
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-
-
-</div>
-</div>
-</div>
-</div>
-
-<div class="section secondary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
-#### See also:
-
+Coming soon.
 
 </div>
 </div>
 </div>
-
+</div>
 
 </div>

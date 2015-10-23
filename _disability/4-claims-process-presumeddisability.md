@@ -2,8 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/claims-process/presumed-disability/index.html
 title: What is “presumed disability”?
-
-
+template: 6-info-page
 ---
 
 <div class="splash" markdown="0">
@@ -26,6 +25,7 @@ title: What is “presumed disability”?
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
+Coming soon.
 
 </div>
 </div>

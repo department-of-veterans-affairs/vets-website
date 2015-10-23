@@ -2,8 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/claims-process/ratings/index.html
 title: How does VA assign disability ratings?
-
-
+template: 6-info-page
 ---
 
 <div class="splash" markdown="0">
@@ -33,6 +32,8 @@ title: How does VA assign disability ratings?
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
+
+Coming soon.
 
 
 </div>

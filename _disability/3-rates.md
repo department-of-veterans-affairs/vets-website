@@ -3,7 +3,7 @@ layout: page-disability
 permalink: disability-benefits/rates/index.html
 title: Rates
 concurrence: complete
-
+template: 6-info-page
 ---
 
 <div class="splash" markdown="0">
@@ -31,26 +31,24 @@ concurrence: complete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns">
+
+<div markdown="1">
 
 The amount of compensation depends upon the severity of your disability.  VA determines this based on the evidence you send us, as well as the information VA obtains from your military records.  VA rates disability from 0% to 100% in 10% increments (for example, 10%, 20%, 30%).  See the [Combined Ratings page](http://www.benefits.va.gov/COMPENSATION/rates-index.asp#combined) for information about how VA calculates disability percentage for multiple disabilities.
 
+</div>
+
+<div class="call-out" markdown="1">
+
 You may be paid additional amounts, in certain instances, if:
+
 -	You have very severe disabilities or loss of limb(s)
 -	You have a spouse, child(ren), or dependent parent(s)
 -	You have a seriously disabled spouse
 
-
-</div>
-</div>
 </div>
 
-<div class="section two" markdown="0">
-<div class="action" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="0">
-<a class="button start" href="#">Apply for benefits</a>
-</div>
 </div>
 </div>
 </div>

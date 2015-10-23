@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/claims-process/index.html
 title: How does the claims process work?
-
+template: 2-detailed-landing
 ---
 
 <div class="splash" markdown="0">
@@ -66,21 +66,6 @@ Coming soon.
       </ul>
     </div>
   </div>
-</div>
-
-
-
-
-<div class="section do" markdown="0">
-<div class="action" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="0">
-<a class="button start" href="{{ site.url }}/disability-benefits/get/">Apply for benefits</a>
-</div>
-</div>
-</div>
-</div>
-
 </div>
 
 </div>

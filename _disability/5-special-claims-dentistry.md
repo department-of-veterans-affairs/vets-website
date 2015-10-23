@@ -4,6 +4,7 @@ permalink: disability-benefits/conditions/special-claims/dentistry/index.html
 title: Dentistry
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-dental.asp
+template: 6-info-page
 ---
 
 <div class="splash" markdown="0">

@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/filing/active-duty/tools/index.html
 title: What tools are there to help me prepare my claim before my discharge?
-
+template: 6-info-page
 ---
 
 <div class="splash" markdown="0">
@@ -35,21 +35,9 @@ title: What tools are there to help me prepare my claim before my discharge?
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-
-
+Coming soon.
 
 </div>
-</div>
-</div>
-</div>
-
-<div class="section secondary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
-#### See also:
-
-
 </div>
 </div>
 </div>

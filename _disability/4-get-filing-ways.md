@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/get/filing/ways/index.html
 title: What are the different ways I can file a claim
-
+template: 6-info-page
 ---
 
 <div class="splash" markdown="0">
@@ -35,22 +35,13 @@ title: What are the different ways I can file a claim
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
+Coming soon.
 
 </div>
 </div>
 </div>
 </div>
 
-<div class="section secondary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
-#### See also:
-
-
-</div>
-</div>
-</div>
 
 
 </div>
