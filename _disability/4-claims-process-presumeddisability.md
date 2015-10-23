@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/claims-process/presumed-disability/index.html
 title: What is “presumed disability”?
+concurrence: incomplete
 template: 6-info-page
 ---
 
@@ -25,7 +26,15 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+A presumed disability is a diagnosed disability that VA considers to be related to a Veteran's service because of the circumstances of the Veteran's military service.
+
+### This may apply to: 
+- Veterans who are former prisoners of war
+- Veterans who have certain chronic or tropical diseases that appear within a specific period of time after discharge from service
+- Veterans who were exposed to ionizing radiation, mustard gas, or lewisite while in service
+- Veterans who were exposed to Agent Orange
+- Veterans who served in southwest Asia during the Gulf War
+
 
 </div>
 </div>
