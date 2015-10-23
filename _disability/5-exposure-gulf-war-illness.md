@@ -46,18 +46,30 @@ template: 4-action-page
 
 <div markdown="1">
 
-If you served in the Southwest Asia theater of military operations [include link] or in Afghanistan and suffer from certain illnesses, disorders, and conditions that have been linked to this service, you may be entitled to disability compensation, even if your symptoms did not appear during qualifying service.
+If you served in the [Southwest Asia theater of military operations](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp) or in Afghanistan, you may suffer from certain illnesses, disorders, and conditions that have been linked to your service.
 
-The undiagnosed illnesses, disorders, and conditions that fall under the umbrella of Gulf War Illness are varied and extensive. They include several functional gastrointestinal disorders, chronic fatigue syndrome, fibromyalgia, abnormal weight loss, fatigue, muscle and joint pain, headache, menstrual disorders, neurological problems, various skin conditions, respiratory disorders, and sleep disorders.  
-</div>
+### Are you eligible for compensation?
 
-<div class="call-out" markdown="1">
+Yes, if:
 
-### Eligibility Requirements
+- You served in the Southwest Asia theater of operations during the Gulf War period, or in Afghanistan on or after September 19, 2001.
+- Your diagnosed or undiagnosed chronic conditions appeared during a qualifying period of active service or appeared prior to December 31, 2016, with a disability rating of 10% or more
+- There exists no other cause for your disability or illness than service in the Southwest Asia theater of military operations or Afghanistan, and
+- For those who served in Afghanistan, a qualifying infectious disease (brucellosis, campylobacter jejuni, coxiella burnetii (Q fever), malaria, mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, or West Nile virus) that began
+- During a qualifying period of service, or
+- Within 1 year from the date of separation from a qualifying period of service (except malaria, which may manifest more than 1 year after qualifying service if standard or accepted medical principles indicate that the incubation period commenced during a qualifying period of service, and visceral leishmaniasis or tuberculosis, which may manifest more than 1 year after service)
+- Your disability existed for six months or more, and
+- You were discharged under conditions other than dishonorable 
+ 
+### Who is covered
+You
 
-- Diagnosed or undiagnosed conditions that appeared either during a qualifying period of active service or prior to December 31, 2016, with a disability rating of 10% or more must meet the following conditions:
-- There must be no other cause for your disability or illness than service in the Southwest Asia theater of military operations or Afghanistan or
-- Your disability or illness must have existed for six months or more, and if it did not appear during active duty in the Southwest Asia theater of military operations or Afghanistan, then it must have appeared prior to December 31, 2016, and it must have a disability rating of 10% or more (for VA rating purposes).
+### Available benefits
+- Compensation
+- Healthcare 
+
+### How it works
+The conditions that fall under the umbrella of Gulf War Illness are varied and extensive. They include fibromyalgia, chronic fatigue syndrome, functional gastrointestinal disorders, and undiagnosed illnesses such as headaches, joint pain, sleep disorders, and cardiovascular disease. 
 
 </div>
 </div>
@@ -70,14 +82,9 @@ The undiagnosed illnesses, disorders, and conditions that fall under the umbrell
 
 <ul class="plain">
 
-<li>
-C-123 Hotline
-<span class="tel">1-800-749-8387</span>
-</li>
+<li></li>
 
 <li>
-St. Paul Regional Benefit Office
-<a href="mailto:VSCC123.VAVBASPL@va.gov">VSCC123.VAVBASPL@va.gov</a>
 </li>
 
 <li>
