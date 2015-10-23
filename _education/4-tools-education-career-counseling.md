@@ -27,7 +27,7 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you are transitioning soon out of active service soon, you are entitled to free educational and career counseling services.
+If you are transitioning out of active service soon, you are entitled to free educational and career counseling services.
 
 ### Are you eligible for services?
 
@@ -47,7 +47,7 @@ Academic and career counseling
 As a transitioning Service Member, you are eligible to receive the following services:
 -	Counseling to help you decide which civilian or military occupations to pursue
 -	Educational and career counseling to help you find a training program or job
--	Academic and adjustment counseling to help resolve issues that impede your success in training or employment
+-	Academic and adjustment counseling to help resolve issues that interfere with your success in training or employment
 
 [Apply for free counseling services](http://www.vba.va.gov/pubs/forms/VBA-28-8832-ARE.pdf).
 
