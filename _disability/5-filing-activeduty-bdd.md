@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/filing/active-duty/bdd/index.html
 title: What is Benefit Delivery at Discharge? (BDD)
+concurrence: incomplete
 template: 6-info-page
 ---
 
@@ -35,7 +36,30 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+If you are a Service Member with a disability, you may begin your claim for compensation 60 to 180 days before separation, retirement, or release from active duty or demobilization. BDD helps you receive your VA disability benefits sooner. 
+
+### Are you eligible for this program? 
+
+Yes, if: 
+-	You have a known separation date 
+-	You have a separation date 60-180 days from now
+
+### Who is covered
+You
+
+### Available benefits
+Disability compensation 
+
+### How it works
+You must give your service treatment records to VA when you apply, and you must complete all phases of VA/DOD medical separation examination processes at point of separation, before your release from the military. 
+
+BDD is available nationwide and open to all Service Members on full-time active duty, including members of the National Guard and Reserve. Members of the Coast Guard may also participate.
+
+**Exception:** If you are less than 60 days from separation, you can submit a [Quick Start claim](http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-quickstart.asp).
+
+### Learn More:
+If you are on a military installation, contact your local Transition Assistance Office or ACAP Center (Army only) to schedule an appointment to attend a VA benefits briefing and learn how to initiate your claim. You can also call the VA toll free at 1-800-827-1000.
+
 
 </div>
 </div>
