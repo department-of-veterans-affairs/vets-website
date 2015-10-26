@@ -2,8 +2,8 @@
 layout: page-education
 permalink: education/tools-programs/education-career-counseling/index.html
 title: Education and Career Counseling
+template: 4-action-page
 concurrence: incomplete
-
 ---
 
 <div class="splash" markdown="0">
@@ -22,29 +22,47 @@ concurrence: incomplete
 
 <div class="main" role="main" markdown="0">
 
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="button small start" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
+    </div>
+  </div>  
+</div>
+
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
+<<<<<<< HEAD
 If you are transitioning out of active service soon, you are entitled to free educational and career counseling services.
+=======
+If you are transitioning soon out of active service soon, you are entitled to free educational and career counseling services.
+</div>
+<div class="small-12 columns" markdown="1">
+<div class="call-out">### Are you eligible for services?
+>>>>>>> education formatting
 
-### Are you eligible for services?
+**Yes, if:**
 
-Yes, if:
 -	You will be discharged from active duty within six months
 -	You were discharged from active duty not more than one year ago
 -	You qualify for educational assistance under Chapters 30, 31, 32, 33, 35, 1606, and 1607
 -	You and your qualified dependents are eligible for and have entitlement to education assistance under Chapters 30, 31, 32, 33, 35, 1606, and 1607.
 
-### Who is covered
-You and your dependents
+#### Who is covered
 
-### Available benefits
-Academic and career counseling 
+- You and your dependents
 
-### How it works
+#### Available benefits
+
+- Academic and career counseling 
+
+#### How it works
+
 As a transitioning Service Member, you are eligible to receive the following services:
+
 -	Counseling to help you decide which civilian or military occupations to pursue
 -	Educational and career counseling to help you find a training program or job
 -	Academic and adjustment counseling to help resolve issues that interfere with your success in training or employment
@@ -52,7 +70,8 @@ As a transitioning Service Member, you are eligible to receive the following ser
 [Apply for free counseling services](http://www.vba.va.gov/pubs/forms/VBA-28-8832-ARE.pdf).
 
 Use the [VA aptitude assessment tool](link to career scope page) at no cost.
-
+</div>
+</div>
 
 </div>
 </div>

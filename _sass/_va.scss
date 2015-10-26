@@ -1,4 +1,4 @@
-// Veterans.gov
+  // Veterans.gov
 
 //Colors
 
@@ -13,7 +13,7 @@ $va-body-background-color: #fff;
 $va-start-color: #008674;
 $va-alert-color: #741B30;
 
-$polar:#E8F5FA;
+$polar:#E8F5FA; 
 $wild-sand:#f6f6f6;
 $green-white:#eff0e6;
 $olso-gray:#849097;
@@ -323,10 +323,15 @@ body.home, body.fourohfour {
 
 // Content lead paragraphs
 
-#content.interior .section.one .row .small-12:first-of-type p:first-of-type {
-  font-size: 1.1em;
-  letter-spacing: normal;
-  font-weight: 600;
+#content.interior .section.one .row .small-12:first-of-type {
+  li p:first-of-type {
+    font-weight: normal;;
+  }
+  p:first-of-type {
+    font-size: 1.1em;
+    letter-spacing: normal;
+    font-weight: 600;
+  }
 }
 
 #content .main.interior {

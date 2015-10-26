@@ -2,8 +2,8 @@
 layout: page-education
 permalink: education/work-learn/accelerated-payments/index.html
 title: Accelerated Payments For High-Technology Programs
+template: 4-action-page
 concurrence: incomplete
-
 ---
 
 <div class="splash" markdown="0">
@@ -22,36 +22,40 @@ concurrence: incomplete
 
 <div class="main" role="main" markdown="0">
 
-<!-- <div class="action-bar">
+<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
       <a class="button small start" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
   </div>  
-</div> -->
+</div>
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
 If you’re enrolled in a high-tech program and intend to work in a high-tech industry, you may be eligible to receive a lump-sum payment of 60% of tuition and fees. VA issues accelerated payment to you instead of the monthly benefits you would otherwise receive. This program covers the higher per-month costs associated with these courses of study.
-
+</div>
+<div class="small-12 columns" markdown="1">
+<div class="call-out">
 ### Are you eligible for compensation?
 
-Yes, if: 
+**Yes, if:** 
+
 -	You are an active-duty GI Bill recipient, in which case both degree and non-degree programs qualify
 -	You are a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for two years or less
 -	Your tuition and fees exceed 200% of the monthly amount of educational assistance you would otherwise be eligible to receive during the certified period of enrollment
 
-### Who is covered
-You
+#### Who is covered
+- You
 
-### Available benefits
-Compensation benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs
+#### Available benefits
+- Compensation benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs
 
-### How it works
+#### How it works
+
 You must be enrolled in one of the following categories:
+
 -	Life science or physical science (not social science)
 -	Engineering (all fields)
 -	Mathematics
@@ -60,6 +64,7 @@ You must be enrolled in one of the following categories:
 -	Engineering, science, and computer management
 
 And, you must certify that you intend to seek employment in one of the following industries:
+
 - Biotechnology
 - Life science technologies
 - Optoelectronics
@@ -72,6 +77,7 @@ And, you must certify that you intend to seek employment in one of the following
 - Nuclear technology
 
 *Exception:* This benefit is not available under the Post-9/11 GI Bill, Dependents’ Educational Assistance program, or VEAP.
+</div>
 
 
 </div>

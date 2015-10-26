@@ -2,8 +2,8 @@
 layout: page-education
 permalink: education/training-testing-licensing/flight-training/index.html
 title: Flight Training
+template: 6-info-page
 concurrence: incomplete
-
 ---
 
 <div class="splash" markdown="0">
@@ -22,13 +22,13 @@ concurrence: incomplete
 
 <div class="main" role="main" markdown="0">
 
-<!-- <div class="action-bar">
+<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
       <a class="button small start" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
   </div>  
-</div> -->
+</div>
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
@@ -36,21 +36,24 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="1">
 
 If you have preexisting pilot qualifications and want to pursue additional certifications, VA offers benefits for you to achieve this.
-
+</div>
+<div class="small-12 columns" markdown="1">
+<div class="call-out">
 ### Are you eligible for this benefit?
 
-Yes, if: 
+**Yes, if:**
 - You have at least a private pilot’s license  
 - You have a valid medical certification
 
-### Who is covered
-You
+#### Who is covered
+- You
 
-### Available benefits
-Tuition assistance
+#### Available benefits
+- Tuition assistance
 
-### How it works 
+#### How it works 
 Flight training is available for the following qualifications:
+
 - Rotary wing certification
 - B747-400 certification
 - Dual engine certification
@@ -63,6 +66,7 @@ Flight training is available for the following qualifications:
 Get more details about the [Post-9/11 GI Bill](LINK).
 
 -	If you are enrolled in a vocational flight training program, VA reimburses you for either the full cost of training or the annual maximum for the training, whichever is less. [See annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
+</div>
 
 
 </div>

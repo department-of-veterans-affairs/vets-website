@@ -3,7 +3,6 @@ layout: page-education
 permalink: education/process/regional-office/index.html
 title: Education Application Process - Regional Office
 concurrence: incomplete
-
 ---
 
 <div class="splash" markdown="0">

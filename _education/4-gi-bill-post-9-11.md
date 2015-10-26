@@ -2,8 +2,8 @@
 layout: page-education
 permalink: education/gi-bill/post-9-11/index.html
 title: Post-9/11 GI Bill
+template: 1-topic-landing
 concurrence: incomplete
-
 ---
 
 <div class="splash" markdown="0">
@@ -22,13 +22,13 @@ concurrence: incomplete
 
 <div class="main" role="main" markdown="0">
 
-<!-- <div class="action-bar">
+<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
       <a class="button small start" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
   </div>  
-</div> -->
+</div>
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
@@ -36,18 +36,20 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="1">
 
 If you are seeking education or training opportunities and have served on active duty after September 10, 2001, you may be eligible for the Post-9/11 GI Bill. This program is a major overhaul of the Montgomery GI Bill. 
-
+</div>
+<div class="small-12 columns" markdown="1">
+<div class="call-out">
 ### Are you eligible for benefits?
 
-Yes, if:
-•	You meet the basic requirements for any GI Bill program
-•	You have served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001
-•	You make an irrevocable election of the Post-9/11 GI Bill (and forgo use of any other GI Bill)
+**Yes, if:**
+•  You meet the basic requirements for any GI Bill program
+•  You have served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001
+•  You make an irrevocable election of the Post-9/11 GI Bill (and forgo use of any other GI Bill)
 
 Making an “irrevocable election” means that you cannot change back to another GI Bill program for which you may also be eligible after you receive Post-9/11 GI Bill benefits.
 
-### Who is covered
-You and/or your dependents
+#### Who is covered
+- You and/or your dependents
 
 ### Available benefits
 - Significant tuition-funding assistance 
@@ -76,7 +78,9 @@ Use the [GI Bill Comparison Tool] to pick the right type of educational assistan
 Get information on the Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) for dependents of Service Members who died in the line of duty after September 10, 2001.
 
 #### Types of Training
+
 VA approves the following programs and courses under the Post-9/11 GI Bill:
+
 - Correspondence training
 - Cooperative training
 - Entrepreneurship training
@@ -90,11 +94,14 @@ VA approves the following programs and courses under the Post-9/11 GI Bill:
 - Tuition Assistance Top-Up 
 - Tutorial Assistance
 - Vocational/technical training
+</div>
+</div>
 
-### Learn more:
+<div class="small-12 columns" markdown="1">### Learn more:
 - See the current payment rates for the Post-9/11 GI Bill
 - Post-9/11 GI Bill pamphlet
-- Frequently Asked Questions (FAQ) 
+- Frequently Asked Questions (FAQ)
+</div>
 
 “GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our Terms of Use.
 
