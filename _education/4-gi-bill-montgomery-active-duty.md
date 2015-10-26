@@ -99,6 +99,7 @@ Use the [GI Bill Comparison Tool](link to tool) to pick the right type of educat
 ### Learn more:
 [Montgomery GI Bill Active Duty](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf)
 
+“GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our Terms of Use.
 
 </div>
 </div>
