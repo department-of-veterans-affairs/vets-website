@@ -103,7 +103,7 @@ a {
 
 }
 
-/*
+
 
 a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/beta-site"]) {
     background: url(../images/icons/icon-exit-white.png);
@@ -122,7 +122,7 @@ a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/beta-s
     }
 }
 
-*/
+
 
 
 // Logo and Header
@@ -1712,8 +1712,28 @@ ul.simple-list, ol.simple-list {
       border-left:4px solid $olso-gray;
     }
     h4 {
+      display: inline-block;
       span {
-          font-family: $open-sans;
+        font-family: $open-sans;
+      }
+    }
+    .interactive {
+      display: inline-block;
+      background: rgba(0,0,0,0.05);
+      padding: .2em .6em;
+      border-radius: 3px;
+      margin-left: 1.25em;
+      text-transform: uppercase;
+      font-size: .85em;
+      vertical-align: 15%;
+      letter-spacing: .05em;
+      @media #{$small-only} {
+        margin-left: 0;
+        margin-bottom: 1em;
+      }
+      @media #{$medium-only} {
+        margin-left: 0;
+        margin-bottom: 1em;
       }
     }
     &:before {
@@ -1796,17 +1816,17 @@ ul.simple-list, ol.simple-list {
     background:$polar;
     li {
       &.step.one {
-          margin-top: -2.7em!important;
-          padding-top: 0;
+        @media #{$small-only} {
+          margin-top: 1.3em!important;
+        }
+        @media #{$medium-up} {
+          margin-top: -2.7em!important; 
+        }
+        padding-top: 0;
       }
     }
     .graphic {
       background: url(../images/design/playbook/discover-process.svg) 40% center no-repeat;
-    }
-     div:nth-child(1) {
-      @media #{$small-only} {
-        border-bottom:1px solid darken($polar, 7%);
-      }
     }
   }
   .has-tip {
@@ -1855,11 +1875,6 @@ ul.simple-list, ol.simple-list {
     .graphic {
       background :url(../images/design/playbook/design-process.svg) 40% center no-repeat;
     }
-    div:nth-child(1) {
-      @media #{$small-only} {
-        border-bottom:1px solid darken($wild-sand, 7%);
-      }
-    }
   }
   .deliver {
     background:$green-white;
@@ -1879,11 +1894,6 @@ ul.simple-list, ol.simple-list {
     }
     .graphic {
       background: url(../images/design/playbook/deliver-process.svg) 40% center no-repeat;
-    }
-    div:nth-child(1) {
-      @media #{$small-only} {
-        border-bottom:1px solid darken($green-white, 7%);
-      }
     }
   }
 
