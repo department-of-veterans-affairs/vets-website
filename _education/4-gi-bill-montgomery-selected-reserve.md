@@ -36,6 +36,8 @@ title: Montgomery GI Bill Selected Reserve (MGIB-SR)
 
 Coming soon.
 
+“GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our Terms of Use.
+
 </div>
 </div>
 </div>
