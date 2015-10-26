@@ -1,7 +1,8 @@
 ---
 layout: page-education
-permalink: education/survivors-dependent-assistance/index.html
-title: Survivors & Dependent Assistance
+permalink: education/survivors-dependent-assistance/fry-scholarship/index.html
+title: Fry Scholarship
+concurrence: incomplete
 
 ---
 
@@ -11,6 +12,7 @@ title: Survivors & Dependent Assistance
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/education/tools-programs/">Tools and Programs</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -35,25 +37,10 @@ title: Survivors & Dependent Assistance
 
 Coming soon.
 
+
 </div>
 </div>
 </div>
 
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-          <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-            <li>
-              <a href="{{ site.url }}/education/survivors-dependent-assistance/dependents-education/">Dependents Education Assistance Program</a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/education/survivors-dependent-assistance/fry-scholarship/">Fry Scholarship</a>
-            </li>
-
-          </ul>
-        </div>
-      </div>
-</div>
 
 </div>
