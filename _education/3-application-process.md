@@ -44,7 +44,7 @@ The time it takes to process your education or training claim depends on your re
 -	Decide [which school] (http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
 -	Please note that it is not required, but is an option, to apply to a chosen school prior to applying for benefits.
 
-#### 2. Prepare Documents***
+#### 2. Prepare Documents
 
 The following documents will help VA process your claim:
 
