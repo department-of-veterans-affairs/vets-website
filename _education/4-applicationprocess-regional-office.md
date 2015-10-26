@@ -12,6 +12,7 @@ concurrence: incomplete
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/education/process/">Education Application Process</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
