@@ -59,21 +59,6 @@ VA presumes that certain medical conditions are associated with a Former POW's c
 </div>
 </div>
 
-<div class="section secondary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
-#### See also
-
-- Initiate a claim
-- Back to Overview of types of claims
-- Various sites to learn more about specified illnesses.
-- Back to Overview of types of claims
-
-</div>
-</div>
-</div>
-
 
 </div>
 
