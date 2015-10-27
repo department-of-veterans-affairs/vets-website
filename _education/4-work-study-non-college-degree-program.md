@@ -2,6 +2,7 @@
 layout: page-education
 permalink: education/work-learn/non-college-degree-program/index.html
 title: Non-College Degree Program
+concurrence: incomplete
 template: 6-info-page
 ---
 
@@ -24,7 +25,7 @@ template: 6-info-page
 <!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      
+
     </div>
   </div>  
 </div>-->
@@ -34,7 +35,28 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+If you are a Veteran interested in non-college degree programs (such as EMT, HVAC repair, and truck driving), the GI Bill can pay all or a portion of your tuition.
+
+### Are you eligible for benefits?
+
+Yes, if:
+
+•	You qualify for the GI Bill
+•	You enroll in a non-degree program at an approved institution
+
+### Who is covered
+You and/or your dependents
+
+### Available benefits
+Significant tuition assistance
+
+### How it works
+Benefits depend on which GI Bill program you use and the school you attend. VA pays you at the end of each month for the hours you have spent training, and provides a monthly housing allowance based on the location of the school. You may receive up to $83 per month for books and supplies.
+
+Post-9/11 GI Bill: For training offered at non-degree schools, VA pays for in-state tuition and fees up to the [national maximum](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.aspa).
+
+Other GI Bill programs: VA pays a monthly rate that depends on your specific program and your length of active service. [View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
+
 
 </div>
 </div>
