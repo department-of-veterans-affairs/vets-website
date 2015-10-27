@@ -2,8 +2,8 @@
 layout: page-education
 permalink: education/tools-programs/careerscope/index.html
 title: CareerScope
+template: 4-action-page
 concurrence: incomplete
-
 ---
 
 <div class="splash" markdown="0">
@@ -21,6 +21,14 @@ concurrence: incomplete
 </div>
 
 <div class="main" role="main" markdown="0">
+
+<!--<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      
+    </div>
+  </div>  
+</div>-->
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">

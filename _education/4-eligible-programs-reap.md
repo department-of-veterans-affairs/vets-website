@@ -2,7 +2,7 @@
 layout: page-education
 permalink: education/eligible-programs/reap/index.html
 title: Reserve Educational Assistance Program (REAP)
-
+template: 6-info-page
 ---
 
 <div class="splash" markdown="0">
@@ -21,13 +21,13 @@ title: Reserve Educational Assistance Program (REAP)
 
 <div class="main" role="main" markdown="0">
 
-<!-- <div class="action-bar">
+<!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="button small start" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
+      
     </div>
   </div>  
-</div> -->
+</div>-->
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">

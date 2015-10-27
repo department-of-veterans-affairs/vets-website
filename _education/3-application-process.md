@@ -2,9 +2,10 @@
 layout: page-education
 permalink: education/process/index.html
 title: Education Application Process
+template: 7-get-page
 concurrence: incomplete
-
 ---
+
 
 <div class="splash" markdown="0">
 <div class="row" markdown="0">
@@ -21,13 +22,13 @@ concurrence: incomplete
 
 <div class="main" role="main" markdown="0">
 
-<!-- <div class="action-bar">
+<!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="button small start" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
+      
     </div>
   </div>  
-</div> -->
+</div>-->
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
@@ -35,7 +36,10 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="1">
 
 The time it takes to process your education or training claim depends on your regional office. There are four regional claims processing centers. You can use [VA’s interactive map](http://www.vba.va.gov/reports/aspiremap.asp) to find out how quickly your regional office is processing claims.
+</div>
+<div class="small-12 columns" markdown="1">
 
+<div class="call-out">
 ### How it works:
 
 #### 1. Research
@@ -64,6 +68,7 @@ You have four options for filing your claim:
 
 #### 4. VA Review
 You can track the status of your application on [eBenefits](https://www.ebenefits.va.gov/ebenefits/manage/status).
+</div>
 
 
 

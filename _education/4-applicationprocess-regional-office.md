@@ -3,7 +3,6 @@ layout: page-education
 permalink: education/process/regional-office/index.html
 title: Education Application Process - Regional Office
 concurrence: incomplete
-
 ---
 
 <div class="splash" markdown="0">
@@ -25,7 +24,7 @@ concurrence: incomplete
 <!-- <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="button small start" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
+
     </div>
   </div>  
 </div> -->
