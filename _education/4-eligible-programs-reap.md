@@ -35,7 +35,7 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you are a Reservist who has been ordered to active duty in response to war or national emergency, you may be eligible for additional education benefits using the Reserve Educational Assistance Program (REAP).
+If you are a Reservist who has been ordered to active duty in response to war or national emergency, you may be eligible for additional education benefits using the Reserve Educational Assistance Program (REAP). 
 
 ### Are you eligible for benefits?
 
