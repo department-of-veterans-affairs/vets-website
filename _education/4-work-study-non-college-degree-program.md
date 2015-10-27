@@ -3,7 +3,7 @@ layout: page-education
 permalink: education/work-learn/non-college-degree-program/index.html
 title: Non-College Degree Program
 concurrence: incomplete
-
+template: 6-info-page
 ---
 
 <div class="splash" markdown="0">
