@@ -25,7 +25,7 @@ concurrence: incomplete
 <!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      
+
     </div>
   </div>  
 </div>-->
@@ -41,7 +41,7 @@ If you served at least two years on active duty, you may be eligible for the MGI
 <div class="call-out">
 ### Are you eligible for compensation?
 
-**Yes, if:** 
+**Yes, if:**
 
 -	You were honorably discharged
 -	You have a high school diploma, GED, or 12 hours of college credit
@@ -75,29 +75,30 @@ If you served at least two years on active duty, you may be eligible for the MGI
 
 #### Who is covered
 
--You 
+- You
 
 #### Available benefits
 
--School tuition or training fees
+- School tuition or training fees
 
 #### How it works
 You may receive benefits for up to eight semesters (four years) of traditional academic education. Benefits, paid monthly, depend upon the following factors:
 - length of service
 - type of training
 - your category (as defined below)
-- college-fund eligibility 
+- college-fund eligibility
 - your contribution to the $600 Buy-Up program
 
 
 
-**Several related funding or training programs fall under the MGIB-AD umbrella:**
+#### Several related funding or training programs fall under the MGIB-AD umbrella:
+
 - [$600 Buy-Up program](LINK to beta story) While on active duty, you can contribute a maximum of $600 to receive increased monthly benefits. With this maximum contribution, you are eligible for an additional $5,400 in GI Bill benefits.  
 - College degree and certificate programs
 - Non-college degree programs (technical or vocational courses)
 - Flight training
 - Apprenticeships or on-the-job training
-- High-tech training 
+- High-tech training
 - Licensing and certification
 - Entrepreneurship training
 - Entrance examinations
@@ -106,17 +107,15 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 Use the [GI Bill Comparison Tool](link to tool) to pick the right type of educational assistance program and school to maximize your benefits.
 
 </div>
-</div>
+
 
 <div markdown="1">
-### Learn more:
 
-<<<<<<< HEAD
 “GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our Terms of Use.
-=======
+
 [Montgomery GI Bill Active Duty](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf)
+
 </div>
->>>>>>> education formatting
 
 </div>
 </div>
