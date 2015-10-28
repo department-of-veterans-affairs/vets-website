@@ -1,0 +1,2900 @@
+
+.row, .article {
+  max-width: 1200px;
+}
+
+/* line 26, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.inline {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+/*** Alternate colors ***/
+/* line 36, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+html, body {
+  background: #fff;
+  color: #222222;
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  font-weight: normal;
+  letter-spacing: inherit;
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  -ms-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+/* line 49, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+html a, body a {
+  color: #00174e;
+  text-decoration: underline;
+  -webkit-transition: all .3s ease-in-out;
+  -moz-transition: all .3s ease-in-out;
+  -o-transition: all .3s ease-in-out;
+  -ms-transition: all .3s ease-in-out;
+  transition: all .3s ease-in-out;
+}
+/* line 57, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+html a:hover, html a:active, body a:hover, body a:active {
+  color: #00081b;
+  text-decoration: underline;
+  -webkit-transition: all .2s ease-in-out;
+}
+
+/* line 61, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+abbr {
+  text-decoration: none;
+  border-bottom: none;
+  color: inherit !important;
+  font-weight: inherit;
+  font-size: inherit;
+}
+
+/*** FF Fix ***/
+/* line 71, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+* {
+  -moz-box-sizing: border-box;
+}
+
+/*
+.wrap {background: asset-url('watermark.png') 10% 100% no-repeat;}
+*/
+/* line 77, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  -o-transform: translateZ(0);
+  transform: translateZ(0);
+  background: #fff;
+  background: rgba(255, 255, 255, 0.88);
+  /* max-width: 60.5em; */
+  /* -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1); */
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 77, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .page {
+    margin: 1.5em auto;
+  }
+}
+
+/*** Type ***/
+/* line 93, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+  color: #00174e;
+  margin: 0;
+  padding: 0;
+}
+
+/* line 99, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+h3, h2.small {
+  font-size: 1.25em;
+}
+
+/* line 101, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+h4.small {
+  font-size: 1em;
+  font-weight: normal;
+}
+
+/* line 103, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+h5.formlabel {
+  font-weight: bold;
+  color: #222222;
+}
+
+/* line 108, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+label.formlabel {
+  font-weight: bold !important;
+}
+
+/* line 110, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.formvalue {
+  color: #444;
+  font-weight: normal;
+}
+/* line 113, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.formvalue span {
+  line-height: 1.4em;
+  font-size: 14px;
+  color: #444;
+  display: inline-block;
+}
+
+/* line 116, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.showform .formrow:nth-child(odd) {
+  background: #fff;
+}
+
+/* line 117, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.showform .formrow:nth-child(even) {
+  background: #efefef;
+}
+
+/* line 119, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.formrow {
+  padding: .5em 0;
+}
+/* line 121, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.formrow .information-block {
+  color: #444;
+}
+
+/* line 127, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+h3 span {
+  font-weight: 700;
+  color: #222222;
+}
+
+/* line 129, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.panel {
+  border: none;
+}
+
+/*** Skip links for 508 ***/
+/* line 134, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.skip {
+  position: absolute;
+  left: -9999em;
+  float: left;
+}
+
+/*** Hide if Javascript is not available ***/
+/* line 142, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+html.no-js .hide-no-js {
+  display: none;
+}
+
+/*** Links ***/
+/* line 145, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+a:hover, a:active, a:focus {
+  text-decoration: none;
+}
+
+/*** Header ***/
+/* line 150, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.row.question, .question.article {
+  margin: 0 auto .25em auto;
+  padding: .5em 0;
+  /* .small-6 label {margin: 1.25em 0 0 0;} */
+}
+/* line 153, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.row.question:hover, .question.article:hover {
+  background: rgba(21, 47, 97, 0.1);
+}
+/* line 154, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.row.question:last-child, .question.article:last-child {
+  margin: 0 auto;
+}
+/* line 155, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.row.question label, .question.article label {
+  /* display: table; */
+  padding: .25em 0 0 .5em;
+}
+
+/* line 160, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+form ul {
+  margin: 0;
+  padding: 0;
+}
+/* line 163, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+form ul li {
+  list-style: none;
+  padding: .5em 0 0 0;
+  margin: 0;
+  line-height: 1.3em;
+}
+/* line 168, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+form ul li:last-child {
+  border-bottom: none;
+}
+
+/* line 175, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+label {
+  font-size: 1rem;
+  color: #222222;
+  font-weight: 600;
+}
+
+/* line 176, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.grouping {
+  border: 1px solid #eee;
+  padding: 0;
+  margin: 0;
+}
+
+/* line 178, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.group {
+  margin-right: 2em;
+}
+/* line 180, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.group.question {
+  padding: .5em;
+}
+
+/* line 185, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.label {
+  text-shadow: none;
+  font-size: 1em;
+  line-height: 1em;
+  padding: .35em 1em;
+  background: #005d7e;
+}
+/* line 191, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.label.success {
+  background: #2c5515;
+}
+
+/* line 194, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.update {
+  font-weight: normal;
+  border: 1px solid #00174e;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: .25em .5em;
+  font-style: italic;
+  margin: .5em 0 0 0;
+  display: inline-block;
+}
+/* line 202, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.update p {
+  padding: 0;
+  margin: 0;
+  font-size: .8em;
+}
+
+/* line 209, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+html.no-backgroundsize .button {
+  display: inline-block;
+  height: auto;
+  padding: .75em;
+}
+
+/* line 216, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button {
+  width: 100%;
+  background: #152f61;
+  color: #fff;
+  margin-bottom: 1em;
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  -o-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  display: block;
+}
+/* line 221, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.mini {
+  margin-bottom: 0;
+}
+/* line 227, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button:hover {
+  background: #00174e;
+  text-decoration: underline;
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 216, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .page .button {
+    width: auto;
+    display: inline-block;
+  }
+}
+/* line 231, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button + .button {
+  margin-left: .5em;
+}
+/* line 235, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.full {
+  display: block;
+  width: 100%;
+}
+/* line 240, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.primary {
+  background: #00174e;
+  border-bottom: 5px;
+  border-color: #002e9b;
+  border-style: solid;
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 240, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .page .button.primary {
+    margin-right: 2em;
+  }
+}
+/* line 247, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.primary:hover, .page .button.primary:active, .page .button.primary:focus {
+  background: #002377;
+  border-bottom: 5px;
+  border-style: solid;
+  border-color: #0038be;
+}
+/* line 255, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.secondary {
+  background: #777;
+  border-bottom: 5px;
+  border-style: solid;
+  border-color: #555;
+  color: #fff;
+}
+/* line 261, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.secondary:hover, .page .button.secondary:active, .page .button.secondary:focus {
+  background: #555;
+  color: #fff;
+  border-color: #1d1d1d;
+}
+/* line 269, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.tertiary {
+  background: #005a83;
+  color: #fff !important;
+  text-shadow: none !important;
+}
+/* line 273, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.tertiary:hover, .page .button.tertiary:active, .page .button.tertiary:focus {
+  background: #003750;
+}
+/* line 276, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.alert {
+  background: #d11515;
+  margin-bottom: 1em;
+  color: #fff !important;
+  text-shadow: none !important;
+}
+/* line 281, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.alert:hover, .page .button.alert:active, .page .button.alert:focus {
+  background: #a31010;
+}
+/* line 284, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.edit {
+  background: #00174e;
+  margin-bottom: 1em;
+  color: #fff !important;
+  text-shadow: none !important;
+}
+/* line 289, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.edit:hover, .page .button.edit:active, .page .button.edit:focus {
+  background: #00081b;
+}
+/* line 292, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.alternate {
+  margin: .5em 0;
+  background: rgba(0, 0, 0, 0.15);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  color: #333;
+}
+/* line 298, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.alternate:hover, .page .button.alternate:active, .page .button.alternate:focus {
+  background: rgba(0, 0, 0, 0.25);
+}
+/* line 301, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.mini {
+  padding: .5em 1em;
+}
+/* line 305, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.add {
+  margin: .5em 0;
+  background: #006600;
+  -webkit-box-shadow: none;
+  text-shadow: none;
+  box-shadow: none;
+  color: #fff;
+}
+/* line 312, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.page .button.add:hover, .page .button.add:active, .page .button.add:focus {
+  background: #003300;
+}
+
+/**** Screen reader only ***/
+/* line 319, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.sr-only {
+  float: left;
+  position: absolute;
+  left: -9999em;
+  font-size: 1px;
+}
+
+/* line 328, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.alert-box {
+  font-weight: bold;
+  font-size: .9em;
+}
+
+/*** Forms ***/
+/* line 336, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+fieldset {
+  border: none;
+  padding: 1em 0;
+  margin: 0;
+}
+/* line 339, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+fieldset legend {
+  font-weight: normal;
+  color: #00174e;
+  font-size: 2em;
+}
+/* line 343, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+fieldset legend.small {
+  font-weight: normal;
+}
+
+/* line 347, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.answer-group {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: #fff;
+  padding: .25em;
+  border-radius: .25em;
+  display: block;
+}
+
+/* line 358, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.vha-form input[type="text"] {
+  width: 20em;
+  margin-bottom: 10px;
+}
+/* line 362, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.vha-form input[type="password"] {
+  width: 20em;
+  margin-bottom: 10px;
+}
+
+/* line 371, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus {
+  border: 1px solid #00174e;
+}
+
+/* line 376, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+input[type="text"], input[type="email"], input[type="password"], input[type="tel"], button, a.button, input[type="submit"] {
+  -webkit-appearance: none;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  -o-border-radius: 0;
+  -ms-border-radius: 0;
+  border-radius: 0;
+  max-width: 100%;
+  width: 100%;
+  width: auto;
+  margin-bottom: 0;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+/* line 387, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="tel"]:focus, button:focus, a.button:focus, input[type="submit"]:focus {
+  background: #ffffe5;
+}
+
+/* line 395, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+textarea {
+  width: 100%;
+}
+/* line 395, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+textarea:focus {
+  background: #ffffe5;
+}
+
+/* line 399, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+input[type="email"].full,
+input[type="password"].full,
+input[type="tel"].full,
+input[type="text"].full {
+  width: 100%;
+}
+
+/* line 405, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+input[type="radio"] {
+  border: 2px solid rgba(0, 0, 0, 0);
+}
+/* line 405, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+input[type="radio"]:active {
+  color: #ffffe5;
+}
+
+/* line 409, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+input[type="checkbox"] {
+  border: 2px solid rgba(0, 0, 0, 0);
+  margin-bottom: .1em;
+  margin-top: 0;
+}
+
+/* line 415, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+html body .wrap .card select {
+  -webkit-appearance: normal !important;
+  filter: none;
+  background-image: none;
+  background: none;
+  background: #fff;
+  appearance: normal !important;
+  background-image: none;
+  font-size: .85em;
+}
+/* line 424, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+html body .wrap .card select:hover, html body .wrap .card select:active, html body .wrap .card select:focus {
+  background: #ffffe5;
+}
+
+/* line 428, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+html.no-flexbox .icon-user, html.no-flexbox .icon-comment {
+  display: none;
+}
+/* line 429, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+html.no-flexbox .alert-box, html.no-flexbox .error {
+  padding: .5em;
+}
+/* line 432, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+html.no-flexbox select {
+  background-image: none !important;
+  background-color: #fff;
+  padding: .25em;
+  height: 2.5em;
+  margin: 0 0 1em 0;
+}
+
+/* line 435, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+label.inline {
+  padding: 0 0 1em 0;
+  margin: 0;
+  line-height: 1em;
+  vertical-align: baseline;
+}
+
+/* line 439, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.alert-box {
+  margin-bottom: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 443, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .alert-box.d-message {
+    margin-bottom: 2em;
+  }
+  /* line 443, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .alert-box.d-message p {
+    font-weight: 300;
+  }
+}
+/* line 444, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.alert-box.alert {
+  background: #d11515;
+}
+/* line 446, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.alert-box h1, .alert-box h2, .alert-box h3, .alert-box h4, .alert-box h5, .alert-box h6 {
+  color: #fff;
+  font-weight: 700;
+  margin: 1em 0 .25em 0;
+}
+/* line 447, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.alert-box p {
+  color: #fff;
+  color: rgba(255, 255, 255, 0.85);
+}
+/* line 448, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.alert-box.success {
+  background: #2c5515;
+}
+
+/* line 451, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+small.error {
+  background: #d11515;
+  font-style: normal;
+  display: block;
+  clear: both;
+  padding: 1em;
+}
+
+/* line 461, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+caption {
+  text-align: left;
+  font-size: 1.2em;
+  color: #333;
+  font-weight: normal;
+  font-weight: 600;
+  margin: 0 0 .5em 0;
+}
+
+/* line 463, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.data-table {
+  width: 100%;
+  padding: .1em;
+  -webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  -ms-box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+  margin: 1em 0;
+}
+/* line 471, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.data-table ul {
+  font-size: 1em;
+}
+/* line 472, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.data-table a {
+  color: #00174e;
+  text-decoration: underline;
+  font-size: 1em;
+}
+/* line 473, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.data-table th, .data-table td {
+  text-align: left;
+  vertical-align: top;
+}
+/* line 474, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.data-table th {
+  background: #777777;
+  color: #fff;
+  font-weight: normal;
+}
+/* line 476, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.data-table tr:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+
+/***  Button animation ***/
+@-webkit-keyframes pulse {
+  /* line 483, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  0% {
+    opacity: .8;
+  }
+
+  /* line 484, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  50% {
+    opacity: 1;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  }
+
+  /* line 485, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  100% {
+    opacity: .8;
+  }
+}
+
+@-moz-keyframes pulse {
+  /* line 489, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  0% {
+    opacity: .8;
+  }
+
+  /* line 490, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  50% {
+    opacity: 1;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  }
+
+  /* line 491, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  100% {
+    opacity: .8;
+  }
+}
+
+@-o-keyframes pulse {
+  /* line 495, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  0% {
+    opacity: .8;
+  }
+
+  /* line 496, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  50% {
+    opacity: 1;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  }
+
+  /* line 497, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  100% {
+    opacity: .8;
+  }
+}
+
+@keyframes pulse {
+  /* line 501, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  0% {
+    opacity: .8;
+  }
+
+  /* line 502, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  50% {
+    opacity: 1;
+    -webkit-box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  }
+
+  /* line 503, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  100% {
+    opacity: .8;
+  }
+}
+
+/*** Actions ***/
+/* line 508, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.row.actions, .actions.article {
+  padding: 1em 0 0 0;
+}
+
+/* line 509, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.actions {
+  padding: 1.5em 0;
+}
+
+/* line 513, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+abbr {
+  font-size: inherit;
+  font-weight: inherit;
+  text-decoration: none;
+  border-bottom: none;
+}
+
+/* line 521, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.test-banner {
+  padding: .45em 0;
+  background: #d11515;
+}
+/* line 524, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.test-banner h1 {
+  color: #222222;
+  font-size: 1.25rem;
+  margin-left: 10px;
+}
+
+/* line 533, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.banner {
+  padding: .45em 0;
+  background: #00174e;
+}
+/* line 536, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.banner h1, .banner span, .banner em, .banner abbr {
+  color: #fff;
+}
+/* line 537, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.banner h1 {
+  font-size: 1.125rem;
+  text-align: center;
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 538, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .banner h1 {
+    font-size: 1.75rem;
+    text-align: left;
+  }
+}
+/* line 539, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.banner a {
+  text-decoration: none;
+}
+/* line 540, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.banner a:hover {
+  text-shadow: 0 0 9px rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+}
+/* line 544, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.banner abbr {
+  cursor: pointer;
+  text-shadow: 0 0 9px rgba(255, 255, 255, 0.45);
+}
+
+/* line 549, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.sign-in {
+  color: #fff;
+  text-align: center;
+  font-size: .85em;
+  padding-top: .5em;
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 549, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .sign-in {
+    text-align: right;
+  }
+}
+/* line 555, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.sign-in a {
+  color: #fff;
+  padding: .5em .5em .5em .75em;
+  display: inline-block;
+}
+/* line 559, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.sign-in a:hover, .sign-in a:active, .sign-in a:focus {
+  color: #fff;
+  text-decoration: underline;
+}
+/* line 561, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.sign-in .user-name {
+  border-right: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+@-webkit-keyframes lightup {
+  /* line 570, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  0% {
+    opacity: 0;
+    -webkit-filter: blur(4px);
+    -webkit-transform: scale(0.98);
+    -webkit-filter: blur(2px);
+  }
+
+  /* line 577, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  100% {
+    opacity: 1;
+    -webkit-filter: blur(0px);
+    -webkit-transform: scale(1);
+  }
+}
+
+/*** Plain Lists ***/
+/* line 588, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.plain {
+  margin: 0;
+  padding: 0;
+}
+/* line 589, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.plain.small {
+  font-size: .8em;
+}
+/* line 591, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.plain.no-margin {
+  margin: 0;
+  padding: 0;
+}
+/* line 591, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.plain.no-margin li {
+  margin: 0;
+  padding: 0;
+}
+/* line 594, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.plain li {
+  list-style: none;
+}
+/* line 596, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.plain li a {
+  padding: .25em 0;
+  display: block;
+}
+/* line 599, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.plain li a:hover, ul.plain li a:focus {
+  background: rgba(0, 0, 0, 0.05);
+  color: #00174e;
+}
+/* line 601, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.plain li:last-child {
+  border-bottom: none;
+}
+
+/*** Content Structure ***/
+/*** Semantic Grid! ***/
+/*** Messages ***/
+/* line 621, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.messages {
+  margin: 0;
+}
+@media only screen and (min-width: 64.063em) {
+  /* line 621, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .messages {
+    margin: 0 0 1em 0;
+  }
+}
+
+/*** Content ***/
+/*** Aside ***/
+/* line 632, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.aside {
+  text-align: left;
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 632, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .aside {
+    text-align: left;
+  }
+}
+/* line 635, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.aside .small-12.columns, .aside .small-12.main, .aside .main-full-width, .aside .small-12.main-with-nav, .aside .small-12.aside, .aside .small-12.aside-nav {
+  padding: 0 1.25em;
+}
+/* line 637, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.aside h4 {
+  padding: 0;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 1.25rem;
+  text-transform: uppercase;
+}
+/* line 642, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.aside h4 i {
+  opacity: .7;
+}
+/* line 644, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.aside ul {
+  margin: 0 0 1em 0;
+  padding: 0;
+}
+/* line 645, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.aside li {
+  list-style: none;
+  margin: 0;
+  padding: .2em 0;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #005a83;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+/* line 653, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.aside li strong a {
+  color: #00174e;
+}
+/* line 657, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.aside li:last-child {
+  border-bottom: none;
+}
+/* line 658, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.aside li:first-child {
+  border-top: none;
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 645, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .aside li {
+    border-top: none;
+    border-bottom: none;
+  }
+}
+/* line 663, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.aside a {
+  color: #005a83;
+}
+
+/*** Listings ***/
+/* line 668, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.listing {
+  padding: .5em 0;
+  margin: 1em 0;
+  width: 100%;
+}
+/* line 672, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.listing li {
+  list-style: none;
+  padding: .5em 0;
+  display: block;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  clear: both;
+}
+/* line 673, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.listing a.button {
+  margin: 0em;
+  padding: .75em 1em;
+}
+
+/*** Misc ***/
+/* line 679, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.address {
+  display: block;
+  margin: .25em 0;
+}
+
+/* line 684, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.contention-display {
+  color: black;
+}
+
+/* line 688, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.diagnosis-content {
+  min-height: 15em;
+}
+
+/* line 693, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.content-grid h4 {
+  font-size: 1em;
+  font-style: italic;
+  font-weight: bold;
+  font-weight: 700;
+  margin: 0 0 .25em 0;
+  color: #00174e;
+}
+/* line 694, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.content-grid p {
+  font-size: .9em;
+}
+/* line 695, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+ul.content-grid .panel {
+  margin-bottom: 0;
+}
+
+/*** Sign in / Account ***/
+/* line 700, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+fieldset.account {
+  -webkit-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  -ms-transition: all .3s ease-in;
+  transition: all .3s ease-in;
+  background: #e6f2f9;
+  position: relative;
+  padding: 1em 1.5em;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+/* line 706, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+fieldset.account:hover, fieldset.account:active {
+  -webkit-box-shadow: 0 0 8px rgba(21, 47, 97, 0.5);
+}
+/* line 712, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+fieldset.account input[type="email"],
+fieldset.account input[type="text"],
+fieldset.account input[type="password"] {
+  font-size: 1.25em;
+}
+/* line 716, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+fieldset.account .row, fieldset.account .article {
+  margin-bottom: 1em;
+}
+/* line 717, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+fieldset.account .shared {
+  margin: 0 0 2em 0;
+  font-size: .85em;
+}
+/* line 719, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+fieldset.account legend {
+  display: block;
+  font-size: 1.65em;
+  clear: both;
+  float: left;
+  width: 100%;
+  font-weight: normal;
+  font-weight: 400;
+  padding: 0 0 1em 0;
+  background: none;
+  margin: 0;
+}
+/* line 732, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+fieldset.account #error_explanation
+h2, fieldset.account li {
+  color: #981E32;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+/*** Help ***/
+/* line 742, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.help-links {
+  font-size: .85em;
+}
+
+/* line 747, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.help {
+  padding: .25em 1em;
+  margin-bottom: 1.5em;
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid rgba(0, 188, 170, 0.4);
+}
+
+/* line 754, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+p.disclaimer {
+  font-size: .8em;
+}
+
+/*** Footer ***/
+/* line 758, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.footer {
+  text-align: center;
+  padding: 1em 0 1em 0;
+}
+/* line 761, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.footer p {
+  font-size: .85em;
+  padding-top: 1em;
+}
+/* line 762, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.footer span.logo {
+  display: block;
+  width: 100%;
+  height: 3em;
+  background: url(/assets/va.png) center no-repeat;
+  background-size: contain;
+}
+/* line 769, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.footer .right {
+  text-align: center;
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 769, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .footer .right {
+    text-align: right;
+  }
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 758, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .footer {
+    text-align: left;
+  }
+}
+
+/* line 780, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+html.no-backgroundsize .footer span.logo {
+  background: none;
+  height: 0;
+  width: 0em;
+}
+/* line 783, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+html.no-backgroundsize .row, html.no-backgroundsize .article {
+  max-width: 960px;
+}
+
+/*** Align ***/
+/* line 788, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.right {
+  text-align: center;
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 788, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .right {
+    text-align: right;
+  }
+}
+
+/* line 793, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.left {
+  text-align: center;
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 793, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+  .left {
+    text-align: left;
+  }
+}
+
+/*** Web Font - Fontello.com ***/
+@font-face {
+  font-family: 'va';
+  src: url(/assets/va.eot);
+  src: url(/assets/va.eot?#iefix) format("embedded-opentype"), url(/assets/va.woff) format("woff"), url(/assets/va.ttf) format("truetype"), url(/assets/va.svg) format("svg"), url(/assets/va.svg#mahix) format("svg");
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  text-decoration: inherit;
+}
+
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'va';
+    src: url('../font/va.svg?53055161#va') format('svg');
+  }
+}
+*/
+/* line 829, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+[class^="icon-"]:before, [class*=" icon-"]:before {
+  font-family: "va";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+  margin-left: .2em;
+}
+
+/* line 847, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-mail:before {
+  content: '\e800';
+}
+
+/* '' */
+/* line 848, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-search:before {
+  content: '\e801';
+}
+
+/* '' */
+/* line 849, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-flashlight:before {
+  content: '\e802';
+}
+
+/* '' */
+/* line 850, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-heart:before {
+  content: '\e803';
+}
+
+/* '' */
+/* line 851, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-heart-empty:before {
+  content: '\e804';
+}
+
+/* '' */
+/* line 852, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-star:before {
+  content: '\e805';
+}
+
+/* '' */
+/* line 853, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-user:before {
+  content: '\e806';
+}
+
+/* '' */
+/* line 854, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-users:before {
+  content: '\e807';
+}
+
+/* '' */
+/* line 855, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-check:before {
+  content: '\e808';
+}
+
+/* '' */
+/* line 856, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-cancel:before {
+  content: '\e809';
+}
+
+/* '' */
+/* line 857, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-menu:before {
+  content: '\e80a';
+}
+
+/* '' */
+/* line 858, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-layout:before {
+  content: '\e80b';
+}
+
+/* '' */
+/* line 859, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-tag:before {
+  content: '\e80c';
+}
+
+/* '' */
+/* line 860, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-pencil:before {
+  content: '\e80d';
+}
+
+/* '' */
+/* line 861, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-feather:before {
+  content: '\e80e';
+}
+
+/* '' */
+/* line 862, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-tumblr:before {
+  content: '\e80f';
+}
+
+/* '' */
+/* line 863, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-pinterest:before {
+  content: '\e810';
+}
+
+/* '' */
+/* line 864, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-gplus:before {
+  content: '\e811';
+}
+
+/* '' */
+/* line 865, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-facebook:before {
+  content: '\e812';
+}
+
+/* '' */
+/* line 866, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-up-open-big:before {
+  content: '\e813';
+}
+
+/* '' */
+/* line 867, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-right-open-big:before {
+  content: '\e814';
+}
+
+/* '' */
+/* line 868, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-left-open-big:before {
+  content: '\e815';
+}
+
+/* '' */
+/* line 869, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-down-open-big:before {
+  content: '\e816';
+}
+
+/* '' */
+/* line 870, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-star-empty:before {
+  content: '\e817';
+}
+
+/* '' */
+/* line 871, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-user-add:before {
+  content: '\e818';
+}
+
+/* '' */
+/* line 872, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-video:before {
+  content: '\e819';
+}
+
+/* '' */
+/* line 873, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-link:before {
+  content: '\e81a';
+}
+
+/* '' */
+/* line 874, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-attach:before {
+  content: '\e81b';
+}
+
+/* '' */
+/* line 875, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-picture:before {
+  content: '\e81c';
+}
+
+/* '' */
+/* line 876, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-lock:before {
+  content: '\e81d';
+}
+
+/* '' */
+/* line 877, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-lock-open:before {
+  content: '\e81e';
+}
+
+/* '' */
+/* line 878, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-download:before {
+  content: '\e81f';
+}
+
+/* '' */
+/* line 879, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-upload:before {
+  content: '\e820';
+}
+
+/* '' */
+/* line 880, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-upload-cloud:before {
+  content: '\e821';
+}
+
+/* '' */
+/* line 881, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-reply:before {
+  content: '\e822';
+}
+
+/* '' */
+/* line 882, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-reply-all:before {
+  content: '\e823';
+}
+
+/* '' */
+/* line 883, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-forward:before {
+  content: '\e824';
+}
+
+/* '' */
+/* line 884, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-quote:before {
+  content: '\e825';
+}
+
+/* '' */
+/* line 885, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-info-circled:before {
+  content: '\e826';
+}
+
+/* '' */
+/* line 886, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-info:before {
+  content: '\e827';
+}
+
+/* '' */
+/* line 887, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-help-circled:before {
+  content: '\e828';
+}
+
+/* '' */
+/* line 888, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-help:before {
+  content: '\e829';
+}
+
+/* '' */
+/* line 889, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-minus-circled:before {
+  content: '\e82a';
+}
+
+/* '' */
+/* line 890, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-minus-squared:before {
+  content: '\e82b';
+}
+
+/* '' */
+/* line 891, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-minus:before {
+  content: '\e82c';
+}
+
+/* '' */
+/* line 892, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-plus-squared:before {
+  content: '\e82d';
+}
+
+/* '' */
+/* line 893, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-plus-circled:before {
+  content: '\e82e';
+}
+
+/* '' */
+/* line 894, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-bookmarks:before {
+  content: '\e82f';
+}
+
+/* '' */
+/* line 895, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-block:before {
+  content: '\e830';
+}
+
+/* '' */
+/* line 896, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-flag:before {
+  content: '\e831';
+}
+
+/* '' */
+/* line 897, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-thumbs-up:before {
+  content: '\e832';
+}
+
+/* '' */
+/* line 898, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-thumbs-down:before {
+  content: '\e833';
+}
+
+/* '' */
+/* line 899, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-chat:before {
+  content: '\e834';
+}
+
+/* '' */
+/* line 900, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-bell:before {
+  content: '\e835';
+}
+
+/* '' */
+/* line 901, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-attention:before {
+  content: '\e836';
+}
+
+/* '' */
+/* line 902, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-alert:before {
+  content: '\e837';
+}
+
+/* '' */
+/* line 903, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-vcard:before {
+  content: '\e838';
+}
+
+/* '' */
+/* line 904, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-folder:before {
+  content: '\e839';
+}
+
+/* '' */
+/* line 905, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-archive:before {
+  content: '\e83a';
+}
+
+/* '' */
+/* line 906, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-box:before {
+  content: '\e83b';
+}
+
+/* '' */
+/* line 907, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-rss:before {
+  content: '\e83c';
+}
+
+/* '' */
+/* line 908, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-phone:before {
+  content: '\e83d';
+}
+
+/* '' */
+/* line 909, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-lamp:before {
+  content: '\e83e';
+}
+
+/* '' */
+/* line 910, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-light-down:before {
+  content: '\e83f';
+}
+
+/* '' */
+/* line 911, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-light-up:before {
+  content: '\e840';
+}
+
+/* '' */
+/* line 912, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-adjust:before {
+  content: '\e841';
+}
+
+/* '' */
+/* line 913, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-resize-small:before {
+  content: '\e842';
+}
+
+/* '' */
+/* line 914, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-resize-full:before {
+  content: '\e843';
+}
+
+/* '' */
+/* line 915, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-cog:before {
+  content: '\e844';
+}
+
+/* '' */
+/* line 916, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-share:before {
+  content: '\e845';
+}
+
+/* '' */
+/* line 917, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-tools:before {
+  content: '\e846';
+}
+
+/* '' */
+/* line 918, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-address:before {
+  content: '\e847';
+}
+
+/* '' */
+/* line 919, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-location:before {
+  content: '\e848';
+}
+
+/* '' */
+/* line 920, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-map:before {
+  content: '\e849';
+}
+
+/* '' */
+/* line 921, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-direction:before {
+  content: '\e84a';
+}
+
+/* '' */
+/* line 922, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-compass:before {
+  content: '\e84b';
+}
+
+/* '' */
+/* line 923, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-cup:before {
+  content: '\e84c';
+}
+
+/* '' */
+/* line 924, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-trash:before {
+  content: '\e84d';
+}
+
+/* '' */
+/* line 925, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-logout:before {
+  content: '\e84e';
+}
+
+/* '' */
+/* line 926, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-login:before {
+  content: '\e84f';
+}
+
+/* '' */
+/* line 927, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-hourglass:before {
+  content: '\e850';
+}
+
+/* '' */
+/* line 928, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-book:before {
+  content: '\e851';
+}
+
+/* '' */
+/* line 929, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-book-open:before {
+  content: '\e852';
+}
+
+/* '' */
+/* line 930, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-newspaper:before {
+  content: '\e853';
+}
+
+/* '' */
+/* line 931, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-doc-text-inv:before {
+  content: '\e854';
+}
+
+/* '' */
+/* line 932, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-doc-text:before {
+  content: '\e855';
+}
+
+/* '' */
+/* line 933, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-doc-landscape:before {
+  content: '\e856';
+}
+
+/* '' */
+/* line 934, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-retweet:before {
+  content: '\e857';
+}
+
+/* '' */
+/* line 935, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-print:before {
+  content: '\e858';
+}
+
+/* '' */
+/* line 936, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-keyboard:before {
+  content: '\e859';
+}
+
+/* '' */
+/* line 937, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-comment:before {
+  content: '\e85a';
+}
+
+/* '' */
+/* line 938, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-export:before {
+  content: '\e85b';
+}
+
+/* '' */
+/* line 939, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-code:before {
+  content: '\e85c';
+}
+
+/* '' */
+/* line 940, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-home:before {
+  content: '\e85d';
+}
+
+/* '' */
+/* line 941, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-back:before {
+  content: '\e85e';
+}
+
+/* '' */
+/* line 942, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-plus:before {
+  content: '\e85f';
+}
+
+/* '' */
+/* line 943, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-cancel-squared:before {
+  content: '\e860';
+}
+
+/* '' */
+/* line 944, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-cancel-circled:before {
+  content: '\e861';
+}
+
+/* '' */
+/* line 945, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-bookmark:before {
+  content: '\e862';
+}
+
+/* '' */
+/* line 946, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-left-open-mini:before {
+  content: '\e863';
+}
+
+/* '' */
+/* line 947, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-right-open-mini:before {
+  content: '\e864';
+}
+
+/* '' */
+/* line 948, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-up-open-mini:before {
+  content: '\e865';
+}
+
+/* '' */
+/* line 949, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-down:before {
+  content: '\e866';
+}
+
+/* '' */
+/* line 950, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-left:before {
+  content: '\e867';
+}
+
+/* '' */
+/* line 951, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-right:before {
+  content: '\e868';
+}
+
+/* '' */
+/* line 952, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-up:before {
+  content: '\e869';
+}
+
+/* '' */
+/* line 953, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-down-dir:before {
+  content: '\e86a';
+}
+
+/* '' */
+/* line 954, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-left-dir:before {
+  content: '\e86b';
+}
+
+/* '' */
+/* line 955, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-right-dir:before {
+  content: '\e86c';
+}
+
+/* '' */
+/* line 956, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-up-dir:before {
+  content: '\e86d';
+}
+
+/* '' */
+/* line 957, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-down-bold:before {
+  content: '\e86e';
+}
+
+/* '' */
+/* line 958, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-left-bold:before {
+  content: '\e86f';
+}
+
+/* '' */
+/* line 959, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-right-bold:before {
+  content: '\e870';
+}
+
+/* '' */
+/* line 960, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-up-bold:before {
+  content: '\e871';
+}
+
+/* '' */
+/* line 961, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-down-thin:before {
+  content: '\e872';
+}
+
+/* '' */
+/* line 962, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-left-thin:before {
+  content: '\e873';
+}
+
+/* '' */
+/* line 963, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-right-thin:before {
+  content: '\e874';
+}
+
+/* '' */
+/* line 964, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-up-thin:before {
+  content: '\e875';
+}
+
+/* '' */
+/* line 965, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-ccw:before {
+  content: '\e876';
+}
+
+/* '' */
+/* line 966, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-cw:before {
+  content: '\e877';
+}
+
+/* '' */
+/* line 967, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-arrows-ccw:before {
+  content: '\e878';
+}
+
+/* '' */
+/* line 968, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-level-down:before {
+  content: '\e879';
+}
+
+/* '' */
+/* line 969, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-level-up:before {
+  content: '\e87a';
+}
+
+/* '' */
+/* line 970, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-shuffle:before {
+  content: '\e87b';
+}
+
+/* '' */
+/* line 971, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-loop:before {
+  content: '\e87c';
+}
+
+/* '' */
+/* line 972, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-switch:before {
+  content: '\e87d';
+}
+
+/* '' */
+/* line 973, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-play:before {
+  content: '\e87e';
+}
+
+/* '' */
+/* line 974, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-suitcase:before {
+  content: '\e87f';
+}
+
+/* '' */
+/* line 975, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-briefcase:before {
+  content: '\e880';
+}
+
+/* '' */
+/* line 976, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-mouse:before {
+  content: '\e881';
+}
+
+/* '' */
+/* line 977, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-lifebuoy:before {
+  content: '\e882';
+}
+
+/* '' */
+/* line 978, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-flight:before {
+  content: '\e883';
+}
+
+/* '' */
+/* line 979, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-moon:before {
+  content: '\e884';
+}
+
+/* '' */
+/* line 980, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-globe:before {
+  content: '\e885';
+}
+
+/* '' */
+/* line 981, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-cloud:before {
+  content: '\e886';
+}
+
+/* '' */
+/* line 982, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-network:before {
+  content: '\e887';
+}
+
+/* '' */
+/* line 983, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-drive:before {
+  content: '\e888';
+}
+
+/* '' */
+/* line 984, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-megaphone:before {
+  content: '\e889';
+}
+
+/* '' */
+/* line 985, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-clipboard:before {
+  content: '\e88a';
+}
+
+/* '' */
+/* line 986, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-floppy:before {
+  content: '\e88b';
+}
+
+/* '' */
+/* line 987, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_va.scss */
+.icon-credit-card:before {
+  content: '\e88c';
+}
+
+/* '' */
+/*** DTT ***/
+/* line 4, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+table.nav-list {
+  margin: .5em 0 1.5em 0;
+  width: 100%;
+}
+/* line 7, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+table.nav-list th {
+  background: #555;
+  color: #fff;
+  font-weight: normal;
+}
+/* line 8, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+table.nav-list td {
+  padding: .5em;
+}
+/* line 9, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+table.nav-list tr {
+  border-bottom: 1px solid #ccc;
+}
+/* line 11, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+table.nav-list tr:hover {
+  background: rgba(0, 0, 0, 0.03);
+}
+/* line 13, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+table.nav-list a {
+  display: block;
+  padding: .5em;
+  font-weight: normal;
+}
+
+/*** Top Margin ***/
+/* line 23, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.feature.margin-top {
+  margin-top: 1em;
+}
+
+/*** Forms ***/
+/* line 29, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+input[type="checkbox"], input[type="radio"] {
+  font-size: 3.5em;
+  display: inline-block;
+}
+
+/* line 34, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+input[type="checkbox"] {
+  margin-right: .05em;
+  margin-top: 0;
+  line-height: 1em;
+}
+
+/* line 40, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+input[type="radio"] {
+  margin-right: .05em;
+}
+
+/* line 44, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+select.inline {
+  width: auto;
+  display: inline-block;
+}
+
+/* line 49, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.subnav {
+  background: #1C2B67;
+  color: #fff;
+  text-align: center;
+  padding: 0;
+  -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 49, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+  .subnav {
+    text-align: left;
+  }
+}
+/* line 56, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.subnav .row, .subnav .article {
+  padding: .5em auto .5em auto;
+}
+/* line 57, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.subnav h2 {
+  color: #fff;
+  font-size: 1em;
+  padding: .5em 0 0 0;
+  line-height: 1.5em;
+  vertical-align: middle;
+}
+/* line 58, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.subnav ul {
+  text-align: center;
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 58, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+  .subnav ul {
+    text-align: right;
+  }
+}
+
+/* line 64, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.plain-nav, ul.sub-nav {
+  margin: 0;
+  padding: 0;
+}
+/* line 66, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.plain-nav li, ul.sub-nav li {
+  list-style-type: none;
+  display: inline-block;
+  margin: 0;
+  height: 100%;
+  padding: 0;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+/* line 73, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.plain-nav li:last-child, ul.sub-nav li:last-child {
+  border-right: none;
+}
+/* line 75, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.plain-nav a, ul.sub-nav a {
+  padding: .5em .75em .8em .75em;
+  margin: 0;
+  display: block;
+  color: #fff;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+}
+/* line 78, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.plain-nav a:before, ul.plain-nav a:after, ul.sub-nav a:before, ul.sub-nav a:after {
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+/* line 82, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.plain-nav a:hover, ul.sub-nav a:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+/* line 85, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.plain-nav a.last, ul.sub-nav a.last {
+  border-right: none;
+}
+
+/* line 89, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.sub-nav {
+  text-align: right;
+  float: right;
+}
+/* line 92, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.sub-nav li {
+  text-align: left;
+}
+/* line 94, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.sub-nav a:hover {
+  color: #fff;
+}
+
+/* line 98, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.contain-to-grid {
+  background: none;
+}
+
+/*** Hints ***/
+/* line 106, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.hint {
+  font-weight: normal;
+  color: #555;
+}
+/* line 109, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.hint.required {
+  color: #00154F;
+}
+
+/* line 115, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card {
+  font-size: .8em;
+  background: #ededed;
+  padding: .5em;
+}
+/* line 117, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card hr {
+  background-color: rgba(21, 47, 97, 0.3);
+  height: 2px;
+}
+/* line 119, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+/* line 127, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card h3 {
+  color: #555;
+}
+/* line 130, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card p strong {
+  border-top: 2px solid #00174e;
+  padding-top: 1em;
+  margin-top: 1em;
+  clear: both;
+  display: block;
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 115, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+  .card {
+    padding: .75em .2em;
+  }
+}
+/* line 135, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected {
+  font-size: 1em;
+  color: #222 !important;
+  /* border-left: .85em solid #EDEDED; */
+  -webkit-box-shadow: 0 -3px 5px rgba(0, 0, 0, 0.15);
+  border-top: none;
+  padding: 1em;
+  /* -webkit-box-shadow: 0 -5px 3px rgba(0,0,0,.07); */
+  margin-bottom: .5em;
+  color: #fff;
+  background: #E6F2F9;
+}
+/* line 138, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected .row.extra, .card.selected .extra.article {
+  padding: 1em 0;
+}
+/* line 143, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected .eval-question label {
+  font-weight: normal;
+  font-weight: 600;
+  clear: both;
+  width: 100%;
+  display: block;
+  padding-top: 0em;
+  margin-top: 0em;
+  padding-bottom: .5em;
+}
+/* line 154, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected .eval-question legend {
+  padding-bottom: 1.35em;
+}
+/* line 160, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected label.block {
+  display: block;
+  padding: 0;
+}
+/* line 165, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected f-group {
+  margin-bottom: 1em;
+}
+/* line 166, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected f-group input {
+  margin: 0;
+}
+/* line 174, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected p, .card.selected h1, .card.selected h2, .card.selected h3, .card.selected h4, .card.selected h5, .card.selected h6, .card.selected label, .card.selected li, .card.selected a {
+  color: #222;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+/* line 175, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected label {
+  font-weight: normal;
+}
+/* line 177, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected h3 {
+  font-weight: bold;
+  font-weight: 500;
+}
+/* line 178, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected textarea {
+  min-height: 15em;
+}
+/* line 179, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected label {
+  display: inline;
+}
+/* line 182, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected table.data-table {
+  margin: .2em 0 1em 0;
+  border: none;
+}
+/* line 185, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected table.data-table th, .card.selected table.data-table td {
+  margin: 0;
+  border: none;
+}
+/* line 187, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected th {
+  background: #555;
+}
+
+@media only screen and (min-width: 40.063em) {
+  /* line 196, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+  html.no-rgba .card.selected {
+    margin: 0;
+  }
+}
+
+/*** Abbreviations ***/
+/* line 203, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+abbr {
+  color: inherit !important;
+  font-weight: inherit !important;
+  border-bottom: none;
+  text-decoration: none;
+}
+
+/*** Evaluation Forms ***/
+/* line 212, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.group {
+  background: #D8E3EC;
+  background: rgba(0, 23, 78, 0.05);
+  padding: .5em 1em;
+  margin: 0 0 1em 0;
+  -webkit-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  -ms-transition: all .3s ease-in;
+  transition: all .3s ease-in;
+}
+/* line 214, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.group fieldset {
+  margin: 0;
+  padding: 0;
+}
+/* line 216, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.group legend {
+  display: inline-block !important;
+  background: none;
+  font-size: 1em;
+  font-weight: normal;
+  color: #222;
+  width: auto;
+  clear: none;
+  padding: .25em 0 1em 0;
+  margin: 0;
+}
+/* line 238, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.group:hover {
+  background: rgba(0, 23, 78, 0.09);
+}
+
+/* line 241, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.conditional-on {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: .5em;
+}
+
+/* line 247, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.message {
+  padding: .25em .75em 2em .75em;
+}
+
+/* line 251, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.status {
+  padding: 1em;
+  display: block;
+  font-size: .8em;
+}
+/* line 254, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.status p, .status h2, .status h3, .status h4 {
+  margin: 0;
+  padding: 0;
+}
+/* line 256, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.status .actions {
+  padding: 0;
+  margin: 1em 0 0 0;
+}
+/* line 257, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.status h4 {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+/* line 258, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.status a {
+  font-size: .85em;
+}
+
+/* line 261, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.feature {
+  background: rgba(0, 23, 78, 0.05);
+  padding: .5em .75em;
+}
+/* line 264, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.feature legend {
+  display: inline-block !important;
+  background: none;
+  font-size: 1em;
+  font-weight: normal;
+  color: #222;
+  width: auto;
+  clear: none;
+  padding: .25em 0;
+}
+/* line 274, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.feature.block {
+  margin: 1em 0;
+  clear: both;
+  display: block;
+}
+/* line 278, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.feature.block legend {
+  background: none;
+  font-size: 1em;
+  font-weight: bold;
+  color: #444;
+}
+/* line 283, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.feature.block legend.small {
+  font-weight: normal;
+  font-size: .9em;
+  font-weight: 500;
+}
+
+/* line 289, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.card.selected .feature label {
+  color: #444;
+}
+
+/* line 296, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.help-icon {
+  display: inline-block;
+  padding: .25em .5em;
+  margin: 0 .5em .25em .5em;
+  background: #fff;
+  border: 2px solid #00174e;
+  font-weight: bold;
+  text-align: center;
+  font-size: .75em;
+  border-radius: 3em;
+  line-height: 1em;
+}
+
+/* line 311, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.chosen-search label {
+  position: absolute;
+  left: -9999em;
+  font-size: 1px;
+  display: inline-block;
+  float: left;
+}
+
+/* line 321, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.has-tip {
+  border-bottom: none;
+  display: inline-block;
+}
+/* line 324, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.has-tip:hover {
+  border-bottom: none;
+  color: #00174e;
+  border-radius: .15em;
+}
+
+@media only screen and (min-width: 40.063em) {
+  /* line 327, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+  .tooltip {
+    max-width: 96%;
+  }
+}
+@media only screen and (min-width: 40.063em) {
+  /* line 327, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+  .tooltip {
+    max-width: 40.75em;
+  }
+}
+@media only screen and (min-width: 64.063em) {
+  /* line 327, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+  .tooltip {
+    max-width: 64.75em;
+  }
+}
+
+/* line 335, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.tag-list {
+  margin: 0;
+  padding: 0;
+}
+/* line 338, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.tag-list li {
+  list-style: none !important;
+  list-style-type: none !important;
+  display: inline-block;
+  background: #eee;
+  border-radius: .35em;
+  padding: .5em;
+  color: #333;
+}
+
+/* line 353, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .card {
+  background: none;
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border: none;
+  padding: 0 0 .5em 0;
+}
+/* line 355, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .card span {
+  line-height: 1.4em !important;
+}
+/* line 356, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .card li {
+  list-style: none;
+  display: inline-block;
+  background: #fff;
+  color: #000;
+  border: 1px solid #333;
+  margin: 0 .5em .5em 0;
+  padding: .25em .5em;
+}
+/* line 362, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .card h4.large {
+  font-size: 24px !important;
+  font-weight: normal;
+}
+/* line 363, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .card h3.small {
+  font-weight: normal;
+  font-size: 16px;
+}
+/* line 364, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .card h4 {
+  font-weight: bold;
+  font-weight: 600;
+}
+/* line 365, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .card h4.small {
+  font-size: 14px;
+}
+/* line 366, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .card .formrow {
+  border: none;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+  padding: 0;
+  margin: .25em .75em;
+  font-weight: normal;
+}
+/* line 367, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .card .formrow:last-of-type {
+  border-bottom: none;
+}
+/* line 368, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .card .columns, .print .card .main, .print .card .main-full-width, .print .card .main-with-nav, .print .card .aside, .print .card .aside-nav {
+  padding: .2em 0;
+  margin: 0;
+}
+/* line 369, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .card .formvalue span {
+  font-weight: normal !important;
+  font-size: 1em;
+  padding: 0 0 .5em 0;
+  display: inline-block;
+}
+/* line 372, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .small {
+  font-size: .9em;
+}
+/* line 376, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .complete-form {
+  border: 1px solid #555;
+  padding: .5em;
+  font-size: 12px;
+  border-radius: none;
+}
+/* line 383, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .results {
+  padding-bottom: 2em;
+  border-bottom: 2px solid #000;
+}
+/* line 386, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .results:last-of-type {
+  border-bottom: none;
+}
+/* line 389, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .panel {
+  background: #fff;
+  margin: .25em 0 0 0;
+  padding: .5em;
+  color: #333;
+  clear: both;
+  border: 1px solid #555;
+}
+/* line 396, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .panel ul {
+  padding: .25em .25em;
+}
+/* line 397, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .panel ul li {
+  display: block;
+  background: none;
+  color: #000;
+  margin: 0;
+  padding: .25em 0;
+  border: none;
+  font-size: 12px;
+}
+/* line 405, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .panel p, .print .panel h4 {
+  padding: 0 .25em;
+  margin: 0;
+  color: #333;
+  text-shadow: none;
+}
+/* line 406, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print .panel h4 {
+  font-weight: bold;
+  padding-bottom: 0;
+  color: #333;
+}
+/* line 409, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.print hr {
+  -webkit-box-shadow: none;
+  border: none;
+  height: 3px;
+  background-color: #999;
+  margin: 1.5em 0 1em 0;
+}
+
+/* line 415, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.switch {
+  position: relative;
+  margin: 20px auto;
+  height: 26px;
+  width: 120px;
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 3px;
+  -webkit-box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* line 426, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.switch-label {
+  position: relative;
+  z-index: 2;
+  float: left;
+  width: 58px;
+  line-height: 26px;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.35);
+  text-align: center;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+
+/* line 439, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.switch-label:active {
+  font-weight: bold;
+}
+
+/* line 443, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.switch-label-off {
+  padding-left: 2px;
+}
+
+/* line 449, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.action-widget {
+  background: rgba(255, 255, 255, 0.6);
+  margin-bottom: 1em;
+}
+/* line 452, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.action-widget h4 {
+  font-size: 1em;
+  font-weight: bold;
+  padding: .2em;
+}
+/* line 453, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.action-widget p {
+  font-size: .75em;
+  padding: 0 0 .25em 0;
+  margin: 0;
+}
+/* line 454, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.action-widget .button {
+  margin-bottom: 0;
+  height: 100%;
+}
+/* line 455, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.action-widget i {
+  display: inline-block;
+  float: left;
+  font-size: 2em;
+  margin-top: .25em;
+  font-weight: bold;
+  color: #2c5515;
+}
+
+/* line 461, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.conditional-group, .feature-box {
+  background: rgba(255, 255, 255, 0.75);
+  padding: .5em;
+}
+/* line 462, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.conditional-group p, .feature-box p {
+  padding: .25em 0 .25em 0;
+  margin: 0;
+}
+/* line 465, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.conditional-group em, .feature-box em {
+  display: inline;
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* line 468, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+fieldset.silm, fieldset.plain {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 474, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+fieldset.plain legend {
+  font-size: 1em;
+  background: none;
+  font-weight: bold;
+  display: block;
+  width: 100%;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.2em;
+  padding: .5em 0 1em 0;
+}
+
+/* line 479, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.vertical-tabs {
+  margin: 0;
+  width: 100%;
+  padding: 0;
+}
+/* line 483, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.vertical-tabs li {
+  display: block;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+/* line 489, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.vertical-tabs li:last-of-type {
+  border-bottom: none;
+}
+/* line 490, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.vertical-tabs li a {
+  display: block;
+  padding: .5em 1em;
+  text-decoration: none;
+  width: 100%;
+  color: #222 !important;
+  border-left: 3px solid rgba(0, 0, 0, 0);
+}
+/* line 497, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.vertical-tabs li a:hover {
+  background: rgba(21, 47, 97, 0.05);
+  border-left: 3px solid rgba(0, 0, 0, 0.2);
+}
+/* line 499, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.vertical-tabs li.selected a {
+  background: rgba(21, 47, 97, 0.1);
+  border-left: 3px solid #00174e;
+  font-weight: bold;
+  color: #00174e;
+}
+/* line 508, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.vertical-tabs.large li a {
+  padding: 1.25em 1em;
+}
+
+/* line 514, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.selected-content {
+  background: rgba(21, 47, 97, 0.1);
+  padding: 1em;
+}
+
+/* line 519, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.tab-hidden {
+  display: none;
+}
+
+/* line 523, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.side-nav {
+  padding: 0;
+}
+/* line 525, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.side-nav h3 {
+  font-size: 1em;
+  padding: 0 1em .5em 1em;
+  color: #00174e;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* line 533, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+.inset {
+  margin: 1em;
+}
+
+/* line 540, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.breadcrumb-navigation {
+  margin: 0;
+  padding: 0;
+}
+/* line 543, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.breadcrumb-navigation h2, ul.breadcrumb-navigation h3, ul.breadcrumb-navigation h4, ul.breadcrumb-navigation label {
+  font-size: 1em;
+}
+/* line 544, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.breadcrumb-navigation select {
+  margin: 0 .25em;
+}
+/* line 545, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.breadcrumb-navigation li {
+  display: inline-block;
+  float: left;
+  list-style: none;
+  padding: 0 0 0;
+  list-style-type: none;
+}
+/* line 551, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.breadcrumb-navigation li:after {
+  content: " › ";
+  display: inline-block;
+  padding: 0 .5em;
+}
+/* line 556, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+ul.breadcrumb-navigation li:last-of-type:after {
+  content: "";
+}
+
+/* line 565, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+dl.inline {
+  margin: 0;
+  padding: 0;
+  float: left;
+  display: inline-block;
+}
+/* line 570, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+dl.inline dt, dl.inline dd {
+  pading: 0;
+}
+/* line 571, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+dl.inline dt, dl.inline dd {
+  display: inline-block;
+}
+/* line 572, /Users/llimllib/adhoc/DrTurbotax/app/assets/stylesheets/_dtt.scss */
+dl.inline a {
+  display: inline-block;
+  padding: 0 .25em;
+}
