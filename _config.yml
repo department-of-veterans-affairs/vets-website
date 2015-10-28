@@ -60,6 +60,7 @@ collections:
   - memorial
   - compensation
   - family
+  - facility-locator
 
 
 collections:
@@ -94,3 +95,6 @@ collections:
   playbook:
     output: true
     permalink: /playbook/:path/
+  facility-locator:
+    output: true
+    permalink: /facility-locator/
