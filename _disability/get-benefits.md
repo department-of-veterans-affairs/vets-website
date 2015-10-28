@@ -19,7 +19,9 @@ title: Apply for Benefits
 <div class="section one" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns"  markdown="1">
+
 ### Who Should Read This
+
 </div>
 
 <div class="small-8 columns"  markdown="1">
@@ -30,8 +32,8 @@ title: Apply for Benefits
 
 </div>
 
-<div class="small-4 columns">
-<a class="button start" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
+<div class="small-4 columns actions">
+<a class="usa-button-primary start" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
 </div>
 
 </div>
@@ -48,7 +50,7 @@ title: Apply for Benefits
 <div class="card information" markdown="0">
 <span class="number" markdown="0">3</span>
 <span class="heading" markdown="0">Average time</span>
-<span class="description" markdown="0">MONTHS</span>
+<span class="description" markdown="0">Months</span>
 </div>
 
 </div>
@@ -154,12 +156,12 @@ Unless VA writes to you and asks for additional information there is nothing you
 </div>
 </div>
 
-<div class="section two" markdown="0">
+<div class="section start" markdown="0">
 <div class="action" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="0">
 
-<a class="button start" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
+<a class="usa-button-primary start" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
 
 </div>
 </div>
