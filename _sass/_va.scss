@@ -1,26 +1,15 @@
   // Veterans.gov
 
-//Colors
 
-$va-primary-color: #003F72;
-$va-secondary-color: #0083BE;
-$va-tertiary-color: #444;
-$va-highlight-color: #4FCEFF;
-$va-body-content-color: #222;
-$va-body-header-color: #000444;
-$va-body-accent-color: #FAC922;
-$va-body-background-color: #fff;
-$va-start-color: #008674;
-$va-alert-color: #741B30;
+// Other Colors
 
-$polar:#E8F5FA; 
+$polar:#E8F5FA;
 $wild-sand:#f6f6f6;
 $green-white:#eff0e6;
 $olso-gray:#849097;
 
-//fonts
+// VA Fonts
 
-$open-sans: 'Open Sans', Helvetica, Arial, sans-serif;
 $roboto-slab: 'Roboto Slab', serif;
 
 
@@ -30,13 +19,14 @@ $roboto-slab: 'Roboto Slab', serif;
 html, body {
   padding: 0;
   margin: 0;
-  font-family: $open-sans; font-weight: 500; color: $va-body-content-color;
+  font-size: 16px;
+  font-family: $font-sans; font-weight: 500; color: $color-gray-dark;
   transition: all 0.3s ease-in-out;
 }
 
 
 body, body.home {
-  background: $va-primary-color url(../images/design/background/thread.png) top left no-repeat;
+  background: $color-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
   background-size: contain;
 }
 
@@ -95,15 +85,15 @@ a {
   -o-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-  color: $va-body-content-color;
+  color: $color-gray-dark;
   &:hover {
-    color: $va-body-content-color;
+    color: $color-gray-dark;
   }
 
 
 }
 
-
+/*
 
 a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/vets-website"]) {
     background: url(../images/icons/icon-exit-white.png);
@@ -122,6 +112,7 @@ a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/vets-w
     }
 }
 
+*/
 
 
 
@@ -164,15 +155,15 @@ h1 {
 // Type
 
 h1, h2 {
-  font-family: $open-sans;
+  font-family: $font-sans;
   font-weight: 600;
 }
 h3, h4, h5, h6 {
-  color:$va-body-header-color;
+  color:$color-primary-darkest;
   font-family:$roboto-slab;
   font-weight: 400;
     &.alternate{
-      font-family: $open-sans;
+      font-family: $font-sans;
     }
 }
 
@@ -206,10 +197,10 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
     margin: .5em 0 0 0;
       white-space: pre-wrap;
     color: #333;
-    a {background: rgba($va-body-accent-color, .9); color: #444;}
+    a {background: $color-gold; color: #444;}
   }
 
-  h2 span {clear: both; padding: .5em; display: inline-block; background: $va-body-accent-color; font-weight: normal; font-size: .8em;}
+  h2 span {clear: both; padding: .1em; display: inline-block; background: $color-gold; font-weight: normal; font-size: .8em;}
   h2, h3, p {padding: .35em; margin: 0; display: inline-block; font-family: $roboto-slab;}
   h2 {
     font-size: 1em;
@@ -220,8 +211,8 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 
   &.alternate {
     li a {
-      color: $va-primary-color;
-      border-bottom: 2px solid $va-secondary-color;
+      color: $color-primary-darkest;
+      border-bottom: 2px solid $secondary-color;
     }
 
     li.parent:after {color: #ccc;}
@@ -231,7 +222,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 
 .pitch {
   @media #{$small} {padding: .5em 0;}
-  h2, h3 {color: $va-primary-color; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
+  h2, h3 {color: $color-primary-darkest; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
 }
 
 #experience .splash {padding: 0; margin: 0;}
@@ -241,7 +232,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   a {
     margin: 0;
     color: #444;
-    background: rgba($va-body-accent-color, .9);
+    background: $color-gold;
     line-height: 1.4em;
     font-size: .9em;
   }
@@ -278,7 +269,7 @@ html.no-touch .banner {
 
 h1 {}
 h2 {}
-h3 {color: $va-primary-color; font-size: 1.8em; padding: 0 0 1em 0;}
+h3 {color: $color-primary-darkest; font-size: 1.8em; padding: 0 0 1em 0;}
 h4 {}
 h5 {}
 h6 {}
@@ -305,10 +296,11 @@ body.home, body.fourohfour {
 #content .main {
 
   .call-out {
-    background: #E8F5FA;
+    background: $color-primary-alt-lightest;
     padding: 1em;
     clear: both;
     margin: 0 0 1.5em 0;
+    h3 {font-size: 1.5em;}
     ul {
       margin: 0 0 .5em 1.5em; padding: 0;
       li {
@@ -337,12 +329,8 @@ body.home, body.fourohfour {
 #content .main.interior {
   background: #fff;
   a {
-    text-decoration: none;
-    border-bottom: 3px solid #DAC99A;
-    background: #EDE4CC;
-    &:hover {
-      background: lighten(#DAC99A, 30);
-    }
+    text-decoration: underline;
+
     // padding: .2em .3em .1em .3em;
     // display: inline-block;
     // margin-bottom: .2em;
@@ -360,28 +348,28 @@ body.home, body.fourohfour {
   h2, h3, h4, h5, h6, p, ul, li, ol, a {color: #fff;}
   color: #fff;
 
-  .post-date {font-size: .5em; color: $va-body-accent-color;}
+  .post-date {font-size: .5em; color: $color-gold;}
 
-  h3 {border-bottom: 1px solid #fff; border-bottom: 6px solid $va-secondary-color; font-size: 1.65em; margin: 0 0 1em 0; padding: 0 0 .2em 0;}
+  h3 {border-bottom: 1px solid #fff; border-bottom: 6px solid $secondary-color; font-size: 1.65em; margin: 0 0 1em 0; padding: 0 0 .2em 0;}
 
   h4 a {
     text-decoration: none;
     &:hover {
       border-bottom: 1px solid #fff;
-      color: $va-body-accent-color;
+      color: $color-gold;
     }
   }
 
   .read-more {
     font-size: .5em;
     display: inline-block;
-    border-bottom: 1px solid $va-secondary-color;
-    color: $va-secondary-color;
+    border-bottom: 1px solid $secondary-color;
+    color: $secondary-color;
     &:hover {
       background: none;
-      color: $va-primary-color;
+      color: $color-primary-darkest;
       background: rgba(1,1,1,.1);
-      border-bottom: 1px solid $va-secondary-color;
+      border-bottom: 1px solid $secondary-color;
     }
   }
 
@@ -415,7 +403,7 @@ body.home, body.fourohfour {
     background: none;
     a {
       &:hover {
-        color: $va-body-accent-color;
+        color: $color-gold;
         background: rgba(0,0,0,.2);
       }
     }
@@ -437,16 +425,17 @@ body.home, body.fourohfour {
     padding: 5em 0;
     h2, h3, h4, h5, h6, p, li {color: #444;}
     h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
-    a {color: $va-primary-color;}
+    a {color: $color-primary-darkest;}
   }
 }
 
 #content .section.primary {
   background: none;
   padding: 2em 0;
-  background: rgba($va-secondary-color,0.8);
+  background: $color-primary;
   h1, h2, h3, h4, h5, h6, p, li {color: #fff;}
   p {color: rgba(255,255,255,1);}
+  a {color: #fff;}
 }
 
 #content .section.secondary {
@@ -459,7 +448,7 @@ body.home, body.fourohfour {
 }
 
 #content .section.quaternary {
-  /*background: rgba($va-start-color, .83);*/
+  /*background: rgba($color-green, .83);*/
   background: #dcddde;
   h1, h2, h3, h4, h5, h6, p, li {color: #fff;}
   h4 {
@@ -476,8 +465,9 @@ body.home, body.fourohfour {
 }
 
 #content .section.coda {
-  background: none;
-  background: rgba(255,255,255,.75);
+  background: $color-primary-darker;
+  color: #fff;
+  a {color: #fff;}
 }
 
 #content .section {
@@ -496,6 +486,11 @@ body.home, body.fourohfour {
   h2, h3, h4, h5, h6, p, li {color: #444;}
   h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
   a {color: #fff;}
+  a.usa-button-primary {background: $color-green;}
+}
+
+#content .main {
+  a.usa-button-primary.start {background: $color-green; text-decoration: none;}
 }
 
 #content .section.secondary,
@@ -504,6 +499,12 @@ body.home, body.fourohfour {
 #content .section.coda {
   padding: 3em 0;
   h3 {font-size: 2.2em;}
+}
+
+#content .section.start {
+  background: $color-green-lightest;
+  padding: 3em 0;
+  border-bottom: 3px solid #fff;
 }
 
 // Sections
@@ -515,7 +516,7 @@ body.home, body.fourohfour {
   }
   &.two {
     padding: 0 0 4em 0;
-    h3 {color: darken($va-start-color, 10);}
+    h3 {color: darken($color-green, 10);}
     clear: both;
   }
   &.three {clear: both; padding: 2em 0;}
@@ -590,7 +591,7 @@ body.home, body.fourohfour {
 
     &.active {
       line-height: 1em;
-      background: $va-body-accent-color;
+      background: $color-gold;
       color: #000;
       font-family: $roboto-slab;
       font-weight: 400;
@@ -611,7 +612,7 @@ body.home, body.fourohfour {
     background: none;
     text-decoration: none !important;
     color: #fff;
-    &:hover {text-decoration: none; background: rgba(0,0,0,.1); border-bottom: 3px solid $va-body-accent-color;}
+    &:hover {text-decoration: none; background: rgba(0,0,0,.1); border-bottom: 3px solid $color-gold;}
   }
 }
 
@@ -634,8 +635,8 @@ li {
   span.meta {
     display: inline-block;
     padding: .5em;
-    color: $va-primary-color;
-    background: rgba($va-primary-color,.05);
+    color: $color-primary-darkest;
+    background: rgba($color-primary-darkest,.05);
     font-weight: bold;
     float: right;
     margin: .5em 0 1em 1em;
@@ -667,7 +668,7 @@ th{
     padding-top:.8em;
     padding-bottom: .8em;
     padding-left: .8em;
-    color:$va-primary-color;
+    color:$color-primary-darkest;
   }
   span {
     font-weight: normal;
@@ -712,7 +713,7 @@ ul.checklist, ol.checklist {
 
       li {padding: 0; margin: 0;}
       &:before {margin: 0; padding: 0;}
-      span.type {margin: .25em .25em 1em .25em; color: $va-primary-color;  @media #{$small} {padding: 2.5em 1em;}  background: rgba($va-secondary-color, .15);}
+      span.type {margin: .25em .25em 1em .25em; color: $color-primary-darkest;  @media #{$small} {padding: 2.5em 1em;}  background: rgba($secondary-color, .15);}
     }
   }
 }
@@ -738,14 +739,19 @@ ul.checklist, ol.checklist {
 
 #content.interior .section-nav {
   padding: 1em 0 2em 0;
+  ul.small-block-grid-1 {
+    h2, h3, h4, h5, h6 {
+      font-size: 1.65em;
+    }
+  }
 }
 
 #content.interior .navigation {
 
   padding: 1em  0;
   @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 1em 0 3em 0;}
-  background: $va-primary-color;
-  color: #fff;
+  background: $color-gray-lightest;
+  color: $color-primary-darkest;
   border-bottom: 2px solid #fff;
   margin: 0 auto;
 
@@ -757,25 +763,27 @@ ul.checklist, ol.checklist {
       margin: 0;
       padding: 0;
       h4, h5 {font-size: 1em; }
-      span {color: #fff; color: rgba(255,255,255,255.8);}
+      span {color: $color-gray-dark;}
     }
   }
 
   ul.cards li {
     margin: 0;
     height: auto;
-    h3, h4, h5, h6 {color:#fff; font-weight: 600; font-family: $open-sans; font-size: 1.2em;}
-    border-bottom: 1px solid $va-secondary-color;
+    h3, h4, h5, h6 {color: $color-primary-darkest; font-weight: 600; font-family: $font-sans; font-size: 1.5em;}
+    border-bottom: 1px solid rgba(0,0,0,.2);
     &:last-of-type { border-bottom: none;}
     a {
-    color: #fff;
-
+    color: $color-primary-darkest;
+    -webkit-box-shadow: none;
     border-bottom: none;
-
+    box-shadow: none;
+    border-radius: none;
+    border-radius: 0;
     padding: 1em 0;
     height: auto;
     background: none;
-    &:hover {padding-left: .5em; background: rgba(0,0,0,.15); border-left: 4px solid $va-secondary-color;}
+    &:hover {padding-left: .5em; background: rgba(0,0,0,.1); border-left: 4px solid $color-primary;}
     }
   }
 }
@@ -848,6 +856,7 @@ body.home .main-navigation {
     @media #{$small} {padding: .75em;}
     @media #{$medium} {height: 9em;}
     text-align: center;
+    border-radius: .15em;
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
     @media #{$small} {padding: .45em .75em; text-align: left;}
     width: 100%;
@@ -856,8 +865,8 @@ body.home .main-navigation {
     text-decoration: none;
     h3 {text-decoration: none; margin: 0 0 1em 0;}
     border-bottom: 4px solid rgba(255,255,255,0);
-    @media #{$small} {border-bottom: 6px solid $va-secondary-color;}
-    background: lighten($va-primary-color, 8);
+    /* @media #{$small} {border-bottom: 6px solid $color-primary;} */
+    background: $color-primary-darker;
 
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
     h3 {font-size: 1.35em;}
@@ -869,7 +878,6 @@ body.home .main-navigation {
       display: inline-flex;
       */
       @media #{$small} {padding: 0m 0 1em 0;}
-      font-size: .8em;
       line-height: 1.5em;
 
       @media #{$small} {margin: 0;}
@@ -880,15 +888,15 @@ body.home .main-navigation {
     }
 
     &:hover, &:active, &:focus {
-      background: lighten($va-primary-color, 4);
+      background: lighten($color-primary-darkest, 4);
       -webkit-box-shadow: 0 0 5px rgba(0,0,0,.15);
-      @media #{$small} {border-bottom: 6px solid lighten($va-primary-color, 15);}
+      @media #{$small} {border-bottom: 6px solid lighten($color-primary-darkest, 15);}
     }
 
     h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; color: #fff; display: block; clear: both; width: 100%;}
 
     &:hover div {
-      a {color: $va-body-accent-color; p {color: $va-body-accent-color;}}
+      a {color: $color-gold; p {color: $color-gold;}}
     }
   }
 
@@ -926,7 +934,7 @@ ul.information-grid {
 
     strong {
       font-size: 1.3em;
-      color: $va-primary-color;
+      color: $color-primary-darkest;
     }
 
     p {
@@ -944,29 +952,11 @@ ul.information-grid {
     a {
 
       text-decoration: none;
-      border-bottom: 2px solid $va-primary-color;
+      border-bottom: 2px solid $color-primary-darkest;
 
     }
   }
 
-}
-
-// Buttons
-
-#content a.button {
-  background: $va-primary-color;
-  border-bottom: 4px solid $va-highlight-color;
-  &:hover, &:active, &:focus {background: darken($va-secondary-color, 10);}
-  padding: 1em 2.5em;
-  &.start {
-    background: $va-secondary-color;
-    &:hover {
-      background: darken($va-secondary-color, 10);
-    }
-    color: #fff;
-    border-bottom: 6px solid darken($va-secondary-color, 10);
-    padding: 1em;
-  }
 }
 
 
@@ -1041,8 +1031,8 @@ body.index, body.post-single, body.page-playbook {
       margin: 0;
       @media #{$small} {margin: .5em 0 0 0;}
       h2 {
-        padding: 0; margin: 0 0 2em 0; background: none; color: $va-primary-color;
-        a {text-decoration: none; margin: 0; color: $va-primary-color; background: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
+        padding: 0; margin: 0 0 2em 0; background: none; color: $color-primary-darkest;
+        a {text-decoration: none; margin: 0; color: $color-primary-darkest; background: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
         @media #{$medium} {position: fixed; margin: .75em 0 0 0;}
       }
     }
@@ -1055,7 +1045,7 @@ body.index, body.post-single, body.page-playbook {
     }
 
     .related-posts {
-      border-top: 1px solid $va-body-accent-color;
+      border-top: 1px solid $color-gold;
       padding: 2em 0 1em 0;
       margin: 2em 0 0 0;
       h6 {line-height: 1.2em; margin: 0; padding: 0; font-size: 1.15em;}
@@ -1066,7 +1056,7 @@ body.index, body.post-single, body.page-playbook {
           padding: 0;
           a {
             padding: 0; margin: 0;
-            .post-title {color: $va-primary-color; font-size: 1em; margin: 0; padding: 0;}
+            .post-title {color: $color-primary-darkest; font-size: 1em; margin: 0; padding: 0;}
             .post-date {color: #444; margin: 0; padding: 0 0 1em 0;}
           }
         }
@@ -1077,8 +1067,8 @@ body.index, body.post-single, body.page-playbook {
       a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #444; line-height: 1.65em;}
       a {
         text-decoration: none;
-        border-bottom: 1px solid $va-body-accent-color;
-        &:hover {border-bottom: 1px solid $va-secondary-color;}
+        border-bottom: 1px solid $color-gold;
+        &:hover {border-bottom: 1px solid $secondary-color;}
       }
 
       .page-number {
@@ -1099,9 +1089,9 @@ body.index, body.post-single, body.page-playbook {
         display: block;
         a.title {
           font-size: 1.65rem;
-          border: 2px solid $va-secondary-color;
+          border: 2px solid $secondary-color;
           padding: .75em;
-          color: $va-primary-color;
+          color: $color-primary-darkest;
           background: none;
           display: block;
           text-decoration: none;
@@ -1111,16 +1101,16 @@ body.index, body.post-single, body.page-playbook {
             -o-transition: all 0.3s ease-in-out;
             -ms-transition: all 0.3s ease-in-out;
             transition: all 0.3s ease-in-out;
-            border: 2px solid $va-secondary-color;
+            border: 2px solid $secondary-color;
           }
         }
       }
 
       &.full {
         h3.title {
-          border: 2px solid $va-secondary-color;
+          border: 2px solid $secondary-color;
           padding: .75em;
-          color: $va-primary-color;
+          color: $color-primary-darkest;
           background: none;
           font-size: 1.65rem;
           display: block;
@@ -1129,7 +1119,7 @@ body.index, body.post-single, body.page-playbook {
       }
     }
 
-    h3 {margin-top: 1em; margin-bottom: 0; padding-bottom: .5em; font-size: 1.5em; color: $va-primary-color;}
+    h3 {margin-top: 1em; margin-bottom: 0; padding-bottom: .5em; font-size: 1.5em; color: $color-primary-darkest;}
   }
 
   // Footer
@@ -1175,19 +1165,19 @@ body.index, body.post-single, body.page-playbook {
     border-bottom: 2px solid rgba(255,255,255,.1);
     padding: .65em 0;
     @media #{$small} {display: inline-block; padding: .25em 0;}
-    &:hover {color:#fff; text-decoration: none; border-bottom: 2px solid $va-secondary-color; text-shadow: 0 0 5px rgba(255,255,255,.4);}
+    &:hover {color:#fff; text-decoration: none; border-bottom: 2px solid $secondary-color; text-shadow: 0 0 5px rgba(255,255,255,.4);}
     &.contact, &.blog {
-      padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $va-secondary-color;
+      padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $secondary-color;
       @media #{$small} {margin: 1.5em auto; display: inline-block;}
       &:hover, &:focus, &:active {
-        background: $va-secondary-color; color: #fff;
+        background: $secondary-color; color: #fff;
       }
     }
 
     &.contact {
       @media #{$small} {margin: 0 0 0 1em;}
     }
-    &.blog {border: none; &:hover {background: none; color: $va-highlight-color;}}
+    &.blog {border: none; &:hover {background: none; color: $color-primary-alt;}}
   }
   .footer-logo a {
 
@@ -1208,14 +1198,15 @@ body.index, body.post-single, body.page-playbook {
     }
   }
   .footer-address {
-    background:$va-primary-color;
+    background:$color-primary-darkest;
   }
   .footer-crisis {
-    background:$va-body-accent-color;
+    background:$color-gold;
     margin: 1.625rem 0;
     padding: .25rem 0;
-    color: $va-body-content-color;
+    color: $color-gray-dark;
     font-size: .85em;
+    text-align: center;
     span {
       font-weight: bold;
     }
@@ -1224,7 +1215,7 @@ body.index, body.post-single, body.page-playbook {
       text-decoration: none!important;
       color:rgb(0,0,0);
       &:hover {
-        border-bottom: 2px solid $va-body-accent-color;
+        border-bottom: 2px solid $color-gold;
       }
       @media #{$small-only} {
         padding: .25em 0;
@@ -1288,7 +1279,7 @@ body.index, body.post-single, body.page-playbook {
       font-size: .85em;
       margin: 0;
       padding: 0 0 1em 0;
-      background: darken($va-primary-color, 5);
+      background: darken($color-primary-darkest, 5);
     }
 
     blockquote {
@@ -1311,7 +1302,7 @@ body.index, body.post-single, body.page-playbook {
 
   body.index, body.page-playbook {
     .footer {
-      // background: $va-primary-color url(../img/design/seal/seal.png) bottom center no-repeat;
+      // background: $color-primary-darkest url(../img/design/seal/seal.png) bottom center no-repeat;
       /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#003f72+21,003159+100 */
       background: #003f72; /* Old browsers */
       padding: 0;
@@ -1335,7 +1326,7 @@ body.index, body.post-single, body.page-playbook {
 
   }
 
-  .footer li b {font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;}
+  .footer li b {font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;}
 
   // Newsletter
 
@@ -1344,7 +1335,7 @@ body.index, body.post-single, body.page-playbook {
   width: 1.75em;
   height: 1.75em;
   margin: 0 0 1em 0;
-  fill: $va-primary-color;
+  fill: $color-primary-darkest;
 }
 
 .glyph {
@@ -1377,15 +1368,7 @@ svg {
   @media #{$small-up} {padding: 1em .4em 0 .4em;}
   margin-bottom: 0;
   a {color: #fff; background: none;}
-  a.button {
-    background: #fff;
-    color: $va-primary-color;
-    font-weight: 600;
-    font-size: .9em;
-    font-family: $roboto-slab;
-    margin: 2em 0 .75em 0;
-    @media #{$small-up} {margin: 0 0 .75em 0;}
-  }
+
   &.notice {
     font-size: .9em;
     font-weight: 700;
@@ -1393,15 +1376,16 @@ svg {
     margin-bottom: .75em;
     -webkit-box-shadow: 0 0 6px rgba(0,0,0,.2);
     box-shadow: 0 0 6px rgba(0,0,0,.2);
-    background: rgba($va-secondary-color, .9);
+    background: $color-primary-darker;
   }
 
   &.coda {
     font-size: .9em;
-    font-weight: 700;
+    font-weight: 500;
     clear: both;
     padding: 1.25em 0 1.5em 0;
-    background: $va-secondary-color;
+    border-top: none;
+    background: $color-primary-darker;
   }
 
   .feedback {
@@ -1422,7 +1406,6 @@ svg {
       background-repeat: no-repeat;
       background-size: 16px 14px;
       display:inline-block;
-      margin-bottom: .3em;
       padding-left: 1.5em;
 
     }
@@ -1430,13 +1413,17 @@ svg {
       font-size: .9rem;
       font-weight: 300;
       margin-bottom: 0;
+      margin-top: 0;
+      padding: 0;
     }
   }
 
   .text-right {
-    padding: .25em 1em 0 0;
+    padding: 0 .5em 0 0;
     line-height: 1em;
     margin: 0;
+    text-align: right;
+    a.usa-button {margin-top: 0; margin-bottom: .75em;}
 
     @media #{$small-up} {
       float: left!important;
@@ -1453,7 +1440,7 @@ ul.plain {
   li {
     list-style: none;
     display: block;
-    .post-date {padding: 0; margin: 0; color: $va-secondary-color;}
+    .post-date {padding: 0; margin: 0; color: $secondary-color;}
     padding: .5em 0;
     border-bottom: 1px solid rgba(255,255,255,.2);
     &:last-of-type {border-bottom: none;}
@@ -1486,6 +1473,7 @@ ul.simple-list, ol.simple-list {
   display: block;
   li {
     padding: .35em 0;
+    list-style: square;
 
   }
 }
@@ -1567,7 +1555,7 @@ ul.simple-list, ol.simple-list {
   /*a {text-decoration: none; background: none;}*/
 
   .card a {
-    border-bottom: 2px solid $va-secondary-color;
+    border-bottom: 2px solid $secondary-color;
     display: inline-block;
     background: rgba(0,0,0,.03);
     &:hover {background: rgba(0,0,0,.1);}
@@ -1605,6 +1593,8 @@ ul.simple-list, ol.simple-list {
   padding: 0;
   position: relative;
   h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
+  h5 {font-size: 1.3em; margin: 0; padding: 0;}
+  h6 {font-size: 1.1em; margin: 0; padding: 0;}
   list-style: none;
   li {
       list-style-type: none;
@@ -1698,7 +1688,7 @@ ul.simple-list, ol.simple-list {
     }
     &.hcd {
       h4 {
-        color: $va-secondary-color;
+        color: $secondary-color;
       }
     }
 
@@ -1719,7 +1709,7 @@ ul.simple-list, ol.simple-list {
     h4 {
       display: inline-block;
       span {
-        font-family: $open-sans;
+        font-family: $font-sans;
       }
     }
     .interactive {
@@ -1825,7 +1815,7 @@ ul.simple-list, ol.simple-list {
           margin-top: 1.3em!important;
         }
         @media #{$medium-up} {
-          margin-top: -2.7em!important; 
+          margin-top: -2.7em!important;
         }
         padding-top: 0;
       }
@@ -1863,7 +1853,7 @@ ul.simple-list, ol.simple-list {
     }
   }
   .tap-to-close {
-    color:$va-body-accent-color!important;
+    color:$color-gold!important;
     font-size: .8em!important;
     padding-top: .75em!important;
   }
@@ -1912,15 +1902,15 @@ span.color-chip {
   vertical-align: middle;
   display: inline-block;
 
-  &.va-primary-color {background: $va-primary-color;}
-  &.va-secondary-color {background: $va-secondary-color;}
-  &.va-tertiary-color {background: $va-tertiary-color;}
-  &.va-highlight-color {background: $va-highlight-color;}
-  &.va-body-content-color {background: $va-body-content-color;}
-  &.va-body-accent-color {background: $va-body-accent-color;}
-  &.va-body-background-color {background: $va-body-background-color;}
-  &.va-start-color {background: $va-start-color;}
-  &.va-alert-color {background: $va-alert-color;}
+  &.color-primary-darkest {background: $color-primary-darkest;}
+  &.secondary-color {}
+  &.va-tertiary-color {}
+  &.color-primary-alt {background: $color-primary-alt;}
+  &.color-gray-dark {background: $color-gray-dark;}
+  &.color-gold {background: $color-gold;}
+  &.color-white {background: $color-white;}
+  &.color-green {background: $color-green;}
+  &.va-alert-color {}
 
 }
 
@@ -1951,7 +1941,7 @@ span.color-chip {
 .citation {
   border-top: 1px solid #eee;
   padding: 1em 0 0 0;
-  h5, h6 {font-size: .85em; font-family: $open-sans; color: $va-body-content-color;}
+  h5, h6 {font-size: .85em; font-family: $font-sans; color: $color-gray-dark;}
   p, ul, li {font-size: .7em;}
   font-style: italic;
 }
@@ -1963,22 +1953,17 @@ span.color-chip {
   padding: 1em;
   position: relative;
   min-height: 12em;
-  dt {color: $va-primary-color; padding: 0;}
+  dt {color: $color-primary-darkest; padding: 0; font-weight: 700; font-size: 1.2em;}
   dd {padding: 0; margin: 0;}
   a {
-    display: block;
-    text-align: center;
-    font-weight: bold;
-    padding: .5em;
-    background: rgba(0,0,0,.2);
-    &:hover {background: $va-secondary-color; color: #fff;}
-    text-decoration: none;
-    margin: .75em 0;
+    @extend .usa-button-primary;
+    margin: .5em 0;
   }
   &.plain {
     height: auto;
     dt {font-size: 1.45em;}
     background: none;
+    margin: 0;
     padding: 0 0 1em 0;
     min-height: 0;
   }
@@ -1987,20 +1972,22 @@ span.color-chip {
 // Highlight headings
 
 h4.highlight {
-  background: #eee;
-  padding: .25em;
+  background: $color-gray-lightest;
+  padding: .5em !important;
   display: block;
+  font-weight: 700;
+  line-heighgt: 1.2em;
   margin-bottom: .75em;
+  font-famiy: $font-sans;
 }
 
 // Action banner
 
 .action-bar {
   text-align: right;
-  background: #f0f0f0;
+  background: $color-gray-lightest;
   padding: .5em 0;
-  a.button {
-    margin: 0; padding: 0;
-    border-bottom: none !important;
+  a.usa-button-primary {
+    background: $color-green;
   }
 }
