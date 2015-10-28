@@ -270,7 +270,7 @@ html.no-touch .banner {
 h1 {}
 h2 {}
 h3 {color: $color-primary-darkest; font-size: 1.8em; padding: 0 0 1em 0;}
-h4 {}
+h4 {font-size: 1.5em;}
 h5 {}
 h6 {}
 
@@ -350,7 +350,7 @@ body.home, body.fourohfour {
 
   .post-date {font-size: .5em; color: $color-gold;}
 
-  h3 {border-bottom: 1px solid #fff; border-bottom: 6px solid $secondary-color; font-size: 1.65em; margin: 0 0 1em 0; padding: 0 0 .2em 0;}
+  h3 {border-bottom: 1px solid #fff; border-bottom: 6px solid $primary-color; font-size: 1.65em; margin: 0 0 1em 0; padding: 0 0 .2em 0;}
 
   h4 a {
     text-decoration: none;
@@ -456,7 +456,7 @@ body.home, body.fourohfour {
   }
   .cards {
     a {
-      height:10em;
+      height:12em;
     }
   }
   .feature {
@@ -467,7 +467,8 @@ body.home, body.fourohfour {
 #content .section.coda {
   background: $color-primary-darker;
   color: #fff;
-  a {color: #fff;}
+  h2, h3, h4, h5, h6, a {color: #fff;}
+  h4 {font-size: 1.5em;}
 }
 
 #content .section {
@@ -476,7 +477,7 @@ body.home, body.fourohfour {
 }
 
 #content .section .feature {
-  min-height: 10em;
+  min-height: 11em;
 }
 
 #content .section.do {
@@ -646,6 +647,7 @@ li {
 // Tables
 table {
   border: 0;
+  text-align: left;
   @media #{$small-only} {
     font-size: .5em;
   }
@@ -741,7 +743,6 @@ ul.checklist, ol.checklist {
   padding: 1em 0 2em 0;
   ul.small-block-grid-1 {
     h2, h3, h4, h5, h6 {
-      font-size: 1.65em;
     }
   }
 }
@@ -771,6 +772,7 @@ ul.checklist, ol.checklist {
     margin: 0;
     height: auto;
     h3, h4, h5, h6 {color: $color-primary-darkest; font-weight: 600; font-family: $font-sans; font-size: 1.5em;}
+    h4 {font-size: 1.4em;}
     border-bottom: 1px solid rgba(0,0,0,.2);
     &:last-of-type { border-bottom: none;}
     a {
@@ -856,7 +858,7 @@ body.home .main-navigation {
     @media #{$small} {padding: .75em;}
     @media #{$medium} {height: 9em;}
     text-align: center;
-    border-radius: .15em;
+    border-radius: .2em;
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
     @media #{$small} {padding: .45em .75em; text-align: left;}
     width: 100%;
@@ -1483,9 +1485,13 @@ ul.simple-list, ol.simple-list {
 .card {
   position: relative;
   margin: 0 0 1.5em 0;
-  background: #eee;
-  padding: .1em .65em .5em 0;
-
+  padding: 1em;
+  border: 1px solid #eee;
+  dt {font-weight: 700;}
+  dd {
+    padding: 0;
+    margin: 0;
+  }
   &:after {
     visibility: hidden;
     display: block;
@@ -1902,16 +1908,14 @@ span.color-chip {
   vertical-align: middle;
   display: inline-block;
 
+  &.primary-color {background: $color-primary;}
+  &.color-primary-darker {background: $color-primary-darker;}
   &.color-primary-darkest {background: $color-primary-darkest;}
-  &.secondary-color {}
-  &.va-tertiary-color {}
-  &.color-primary-alt {background: $color-primary-alt;}
   &.color-gray-dark {background: $color-gray-dark;}
+  &.color-gray-lightest {background: $color-gray-lightest;}
   &.color-gold {background: $color-gold;}
-  &.color-white {background: $color-white;}
   &.color-green {background: $color-green;}
-  &.va-alert-color {}
-
+  &.color-green-lightest {background: $color-green-lightest;}
 }
 
 
