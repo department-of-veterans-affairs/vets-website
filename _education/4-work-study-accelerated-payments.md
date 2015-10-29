@@ -63,7 +63,7 @@ You must be enrolled in one of the following categories:
 -	Computer specialties
 -	Engineering, science, and computer management
 
-And, you must certify that you intend to seek employment in one of the following industries:
+And, you must certify that you intend to seek employment in one of the [following industries](http://www.gpo.gov/fdsys/granule/USCODE-2011-title38/USCODE-2011-title38-partIII-chap30-subchapII-sec3014A):
 
 - Biotechnology
 - Life science technologies
