@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: page-disability
 permalink: /facility-locator/
 title: Facility Locator
 ---
@@ -67,10 +67,9 @@ html, body {
 }
 
 .secondary-banner {
-  padding: .45em 0;
+  padding: 1.75em 0 1.75em 0;
   background: #DFEFF7;
   margin-top: 10px;
-  padding-top: 25px;
 }
 
 .secondary-banner h2 {
@@ -108,16 +107,16 @@ html, body {
 
 span.helpTooltip {
   border-radius: 5em;
-  background: #444;
+  background: #444 !important;
   padding: .2em;
   display: inline-block;
-  margin: .25em 0em 1.35em 2em;
   color: #fff;
   height: 2em;
   width: 2em;
   text-align: center;
   font-size: .8em;
   vertical-align: middle;
+  margin-left: 1em;
 }
 
 
@@ -127,11 +126,23 @@ button.searchButton {
   font-size: 1.4em;
   color: #fff;
   display: inline-block;
-  margin: 0 0 1rem 0;
+  margin: 0 0 0 0;
+  border-radius: 0;
   vertical-align: middle;
   padding: 0.2em .5em 0 .5em;
 }
     </style>
+  <div class="splash" style="padding-bottom: 8px;">
+    <div class="row">
+      <div class="small-12 columns">
+        <ul class="breadcrumbs" role="menubar" aria-label="Primary">
+          <li class="active">Facility Locator</li>
+        </ul>
+        <!-- is there a style I can use for this? -->
+        <h3 style="border-bottom: None; padding-left: 0; margin-bottom: 0px; font-family: 'Open Sans', Helvetica, Arial, sans-serif; color: #fff;">Find facilities throughout the U.S. and its territories</h3>
+      </div>
+    </div>
+  </div>
 
 <div class="secondary-banner">
   <div class="row">
@@ -151,7 +162,7 @@ button.searchButton {
     </div>
     <div class="small-12 large-9 columns">
       <input id="pac-input" type="text" placeholder="Search for a location"><button class="searchButton">Search</button>
-      <span class="helpTooltip" aria-info="help" title="Search by ZIP Code, city, state, U.S. territory, or address">?</span>
+      <span data-tooltip aria-haspopup="true" class="helpTooltip has-tip" title="Search by ZIP Code, city, state, U.S. territory, or address">?</span>
     </div>
   </div>
 </div>
@@ -203,6 +214,7 @@ async defer></script>
       $(document).foundation();
 
 
+      /*
       // manually trigger the tooltip so that it works on mobile
       $('.helpTooltip').tipsy({trigger: 'manual'});
 
@@ -226,5 +238,5 @@ async defer></script>
       });
 
       $(document).click(hideTooltip)
-      $(document).bind("touchstart", hideTooltip);
+      $(document).bind("touchstart", hideTooltip); */
     </script>
