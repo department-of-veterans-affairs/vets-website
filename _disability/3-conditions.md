@@ -51,7 +51,6 @@ Yes, if:
 
 - You became ill or were injured while you were in the military
 - You had an illness or injury before you were in the military, but activities, injury or illness during your service made your condition worse.
-- A VA doctor finds you are at least 10% disabled.
 
 #### Who is covered:
 
