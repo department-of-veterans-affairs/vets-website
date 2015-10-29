@@ -2,6 +2,7 @@
 layout: page-education
 permalink: education/work-learn/index.html
 title: Work and Learn
+concurrence: incomplete
 template: 1-topic-landing
 ---
 
@@ -33,7 +34,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+You are in charge of designing your own education. VA education benefits, including the GI Bill, give you a wide range of options, including apprenticeships, overseas schools, and correspondence training. 
 
 </div>
 </div>
