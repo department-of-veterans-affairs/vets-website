@@ -2,6 +2,7 @@
 layout: page-education
 permalink: education/training-testing-licensing/index.html
 title: Training, Testing, or Licensing
+concurrence: incomplete
 template: 1-topic-landing
 ---
 
@@ -33,7 +34,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+You can use the GI Bill for more than just academic programs. This benefit will help you pay the fees for advanced training and certifications in your area of expertise. 
 
 </div>
 </div>
