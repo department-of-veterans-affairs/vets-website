@@ -3,7 +3,7 @@ layout: page-education
 permalink: education/gi-bill/index.html
 title: GI Bill
 concurrence: incomplete
-template: 2-detailed-landing
+template: 6-info-page
 ---
 
 <div class="splash" markdown="0">
@@ -33,34 +33,6 @@ This benefit has changed over time, and you currently have several options for e
 
 </div>
 </div>
-</div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-          <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-            <li>
-              <a href="{{ site.url }}/education/gi-bill/higher-learning/">Higher Learning: Undergraduate and Graduate Degrees</a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/education/gi-bill/post-9-11/">Post-9/11 GI Bill</a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/education/gi-bill/montgomery-active-duty/">Montgomery GI Bill Active Duty (MGIB-AD)</a>
-            </li>
-            <li>
-              <a href="{{ site.url }}/education/gi-bill/montgomery-selected-reserve/">Montgomery GI Bill Selected Reserve (MGIB-SR)</a>
-            </li>
-            <li>
-              <a href="{{ site.url }}/education/gi-bill/yellow-ribbon/">Yellow Ribbon</a>
-            </li>
-
-          </ul>
-        </div>
-      </div>
 </div>
 
 </div>
