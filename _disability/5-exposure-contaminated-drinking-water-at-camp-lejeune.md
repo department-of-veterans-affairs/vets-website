@@ -45,7 +45,7 @@ template: 6-info-page
 
 <div markdown="1">
 
-If you served at Camp Lejeune, North Carolina, for 30 days or more between August 1953 and December 1987, you and your family may have been exposed to drinking water contaminated with chemical and organic compounds. There are [15 conditions](http://www.publichealth.va.gov/exposures/camp-lejeune/index.asp) linked to this exposure.
+If you served at Camp Lejeune, North Carolina, for 30 days or more from August 1953 through December 1987, you and your family may have been exposed to drinking water contaminated with chemical and organic compounds. There are [15 conditions](http://www.publichealth.va.gov/exposures/camp-lejeune/index.asp) linked to this exposure that qualify you for free VA health care.
 
 </div>
 </div>
