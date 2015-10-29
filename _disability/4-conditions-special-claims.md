@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/index.html
 title: Special claims
+concurrence: complete
 template: 2-detailed-landing
 ---
 
@@ -34,7 +35,24 @@ template: 2-detailed-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming Soon
+If you are a Veteran with a service-connected disability rating, you may be eligible for special compensation to help with the following:
+
+- Individual Unemployability
+- Automobile Allowance
+- Clothing Allowance
+- Prestabilization 
+- Hospitalization
+- Convalescence
+- Dentistry
+- Birth Defects / Spina Bifida
+
+### Quick Links:
+
+[Housing Grants for Disabled Veterans](Link)
+[Supplemental Financing](Link)
+[Special Home Adaptation Grant](Link)
+[Temporary Residence Adaptation](Link)
+
 
 </div>
 </div>
