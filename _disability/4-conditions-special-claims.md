@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/index.html
 title: Special claims
+concurrence: complete
 template: 2-detailed-landing
 ---
 
@@ -34,7 +35,9 @@ template: 2-detailed-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming Soon
+Veterans may be eligible for other types of disability compensation once a disability has been determined to be service connected. Special VA disability compensation programs include: individual unemployability, automobile allowance, clothing allowance, prestabilization, hospitalization, convalescence, dental, and birth defects.
+Learn more about [Special Claims](http://www.va.gov/opa/publications/benefits_book/benefits_chap02.asp)
+
 
 </div>
 </div>
