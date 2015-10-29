@@ -2,6 +2,7 @@
 layout: page-education
 permalink: education/gi-bill/index.html
 title: GI Bill
+concurrence: incomplete
 template: 2-detailed-landing
 ---
 
@@ -33,7 +34,10 @@ template: 2-detailed-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+Since 1944, tens of millions of Veterans have used the GI Bill to pay for college. Since 2009, VA has provided educational benefits to 773,000 Veterans and their family members, amounting to more than $20 billion in benefits.
+
+This benefit has changed over time, and you currently have several options for enrollment. [Veteran Service Officers](link to Accredited Representative beta site) and the [GI Bill Comparison Tool](link to tool) can help you pick the right program for your goals.
+
 
 </div>
 </div>
