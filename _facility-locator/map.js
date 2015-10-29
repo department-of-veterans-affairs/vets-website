@@ -44,7 +44,7 @@ FacilityLocator = (function() {
     // Load facilities
     $.ajax({
       dataType: "json",
-      url: "static/facilities.json/facilities.json",
+      url: "facilities.json",
       success: function(data) {
         allFacilities = data;
         placeMarkers(data);
