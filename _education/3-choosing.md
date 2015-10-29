@@ -24,7 +24,7 @@ template: 3-panel-filter
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 medium-8 columns" markdown="0">
 
 
 <dl class="panel-list plain">
