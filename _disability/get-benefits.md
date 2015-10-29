@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/get/index.html
 title: Apply for Benefits
+template: 7-get-page
 ---
 
 <div class="splash">
