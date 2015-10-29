@@ -63,7 +63,7 @@ List item
 </div>
 
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="0">
+<div class="small-12 columns">
 
 <div markdown="1">
 
