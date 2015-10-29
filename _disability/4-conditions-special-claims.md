@@ -35,6 +35,9 @@ template: 2-detailed-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
+Veterans may be eligible for other types of disability compensation once a disability has been determined to be service connected. Special VA disability compensation programs include: individual unemployability, automobile allowance, clothing allowance, prestabilization, hospitalization, convalescence, dental, and birth defects.
+Learn more about [Special Claims](http://www.va.gov/opa/publications/benefits_book/benefits_chap02.asp)
+
 If you are a Veteran with a service-connected disability rating, you may be eligible for special compensation to help with the following:
 
 - Individual Unemployability
