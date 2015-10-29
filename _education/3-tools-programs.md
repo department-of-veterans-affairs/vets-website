@@ -21,14 +21,6 @@ Template: 1-topic-landing
 
 <div class="main" role="main" markdown="0">
 
-<!--<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      
-    </div>
-  </div>  
-</div>-->
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -55,6 +47,11 @@ Navigating your transition from military to civilian life can be challenging. VA
         <li>
           <a href="{{ site.url }}/education/tools-programs/principles-excellence-program/">Principles of Excellence Program</a>
         </li>
+
+        <li>
+          <a href="{{ site.url }}/education/tools-programs/locate-a-school/">Locate a School</a>
+        </li>
+
       </ul>
     </div>
   </div>
