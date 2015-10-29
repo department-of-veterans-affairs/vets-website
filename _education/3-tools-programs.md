@@ -2,6 +2,7 @@
 layout: page-education
 permalink: education/tools-programs/index.html
 title: Tools and Programs
+concurrence: incomplete
 Template: 1-topic-landing
 ---
 
@@ -33,7 +34,7 @@ Template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+Navigating your transition from military to civilian life can be challenging. VA offers tools and counseling programs to help you make the most of your options.  
 
 </div>
 </div>
