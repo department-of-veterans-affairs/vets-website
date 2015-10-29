@@ -10,11 +10,6 @@ html, body {
   padding: 0;
 }
 
-/* padding between the content and the footer */
-.section.one {
-  padding-bottom: 50px;
-}
-
 #map {
   height: 100%;
 }
@@ -28,6 +23,10 @@ html, body {
   .map-container {
     height: 800px;
   }
+}
+
+.section.one {
+  padding-bottom: 50px;
 }
 
 .list-container {
@@ -208,31 +207,4 @@ button.searchButton {
 async defer></script>
     <script>
       $(document).foundation();
-
-
-      /*
-      // manually trigger the tooltip so that it works on mobile
-      $('.helpTooltip').tipsy({trigger: 'manual'});
-
-      var visible = false;
-
-      function hideTooltip() {
-        $('.helpTooltip').tipsy("hide");
-        visible = false;
-      }
-
-      function showTooltip() {
-        $('.helpTooltip').tipsy("show");
-        visible = true;
-      }
-
-      $('.helpTooltip').hover(showTooltip, hideTooltip);
-
-      $('.helpTooltip').click(function() {
-        visible ? hideTooltip() : showTooltip();
-        return false;
-      });
-
-      $(document).click(hideTooltip)
-      $(document).bind("touchstart", hideTooltip); */
     </script>
