@@ -34,7 +34,7 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-If you would like to learn at home or are located in a remote area, correspondence training may be a good option for you. You receive coursework assignments in the mail, work on them at your desired pace, and send them back when completed. This type of training is not tied to a semester, trimester, or quarter system.
+If you would like to learn at home or are located in a remote area, correspondence training may be a good option for you. This type of training does not have to be completed within a quarter, semester, or term. You receive coursework assignments in the mail and send them back when completed.
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">
@@ -48,7 +48,7 @@ If you would like to learn at home or are located in a remote area, corresponden
 - You or your dependents
 
 #### Available benefits
-- Tuition and possibly some living expenses
+- Reimbursed expenses. Read more below. 
 
 
 #### How it works
