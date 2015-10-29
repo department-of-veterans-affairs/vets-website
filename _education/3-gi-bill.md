@@ -44,6 +44,10 @@ This benefit has changed over time, and you currently have several options for e
           <a href="{{ site.url }}/education/gi-bill/transfer/">Transfer Post-9/11 GI Bill to Spouse and Dependents</a>
         </li>
 
+        <li>
+          <a href="{{ site.url }}/education/gi-bill/foreign-programs/">Foreign Programs</a>
+        </li>
+
       </ul>
     </div>
   </div>
