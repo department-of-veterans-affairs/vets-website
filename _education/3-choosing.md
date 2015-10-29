@@ -38,7 +38,7 @@ template: 3-panel-filter
 
 </div>
 
-<div class="small-12 medium-4 columns" markdown="0">
+<div class="small-12 medium-4 columns">
 <div markdown="0">
 
 <h4 class="highlight">Questions</h4>
