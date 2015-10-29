@@ -34,6 +34,11 @@ Disability compensation claims can be based on disabilities that existed when en
   <div class="row">
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+
+      <li>
+        <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/standard-claim/">Standard Claim</a>
+      </li>
+
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/original-claim/">Original Claim</a>
         </li>
