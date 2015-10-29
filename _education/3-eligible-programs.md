@@ -21,20 +21,12 @@ template: 1-topic-landing
 
 <div class="main" role="main" markdown="0">
 
-<!--<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      
-    </div>
-  </div>  
-</div>-->
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Before the Post-9/11 GI Bill, several smaller programs provided education benefits to Service Members and Veterans. [Veteran Service Officers](link to Accredited Representative beta site) and the [GI Bill Comparison Tool](link to tool) can help you pick the right program for your goals.
+Before the Post-9/11 GI Bill®, several smaller programs provided education benefits to Service Members and Veterans. [Veteran Service Officers](link to Accredited Representative beta site) and the [GI Bill® Comparison Tool](link to tool) can help you pick the right program for your goals.
 
 </div>
 </div>

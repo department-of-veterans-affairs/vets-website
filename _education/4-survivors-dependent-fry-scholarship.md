@@ -35,7 +35,7 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) provides Post-9/11 GI Bill benefits to the children and surviving spouses of Service Members who died in the line of duty while on active duty after September 10, 2001. Eligible beneficiaries attending school may receive up to 36 months of benefits at the 100% level. 
+The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) provides Post-9/11 GI Bill® benefits to the children and surviving spouses of Service Members who died in the line of duty while on active duty after September 10, 2001. Eligible beneficiaries attending school may receive up to 36 months of benefits at the 100% level. 
  
 ### Are you eligible for compensation?
 
@@ -46,7 +46,7 @@ You are the child or surviving spouse of an active-duty Service Member who died 
 Dependents/survivors
 
 ### Available benefits 
-Fry Scholarship (GI Bill benefits)
+Fry Scholarship (GI Bill® benefits)
 
 ### How it works
 Children are eligible as of their 18th birthday or after graduating high school, whichever comes first, until their 33rd birthday. A spouse has 15 years from the date of death of the Service Member to use the benefit.
@@ -59,7 +59,7 @@ Surviving spouses are eligible to receive [Dependency Indemnity Compensation](ht
 
 
 ### Apply
-Use the [GI Bill Comparison Tool](LINK) to help you choose a school. Make sure that your selected program is approved for VA training.
+Use the [GI Bill® Comparison Tool](LINK) to help you choose a school. Make sure that your selected program is approved for VA training.
 
 Fill out [VA Form 22-5490 (Dependents Application for VA Education Benefits)](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490) . Send it to the VA regional office that has jurisdiction over the state where you will advance your education and training. If you are a son or daughter under legal age, a parent or guardian must sign the application. When applying, you will be required to make an irrevocable election of either the Fry Scholarship or the Dependents' Educational Assistance (DEA) program. 
 

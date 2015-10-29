@@ -12,7 +12,7 @@ concurrence: incomplete
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill</a></li>
+<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -47,7 +47,7 @@ Coming soon.
         </li>
 
         <li>
-          <a href="{{ site.url }}/education/gi-bill/post-9-11/bill-transfer">Transfer Post-9/11 GI Bill to Spouse and Dependents</a>
+          <a href="{{ site.url }}/education/gi-bill/post-9-11/bill-transfer">Transfer Post-9/11 GI Bill® to Spouse and Dependents</a>
         </li>
       </ul>
     </div>

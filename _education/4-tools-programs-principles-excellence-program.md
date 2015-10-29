@@ -47,7 +47,7 @@ The Principles of Excellence program requires participating educational institut
 
 Foreign schools, high schools, on-the-job training and apprenticeship programs, residency and internship programs, and institutions that do not charge tuition and fees are not required to comply with the Principles of Excellence.
 
-Use the [GI Bill Comparison tool](link to tool] to maximize your educational benefits and learn which schools participate.
+Use the [GI Bill® Comparison tool](link to tool] to maximize your educational benefits and learn which schools participate.
 
 
 </div>

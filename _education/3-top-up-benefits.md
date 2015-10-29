@@ -34,7 +34,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you are using or intend to use one of the GI Bill programs, there are options available, such as the $600 Buy-Up and Tuition Assistance Top-Up, that will significantly improve your benefit.
+If you are using or intend to use one of the GI Bill® programs, there are options available, such as the $600 Buy-Up and Tuition Assistance Top-Up, that will significantly improve your benefit.
 
 </div>
 </div>

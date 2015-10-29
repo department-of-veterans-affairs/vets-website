@@ -40,7 +40,7 @@ If you are pursuing higher education that requires testing as part of the applic
 ### Are you eligible for compensation? 
 
 Yes, if: 
-You are a Veteran eligible for the GI Bill
+You are a Veteran eligible for the GI Bill®
 
 ### Who is covered
 You
@@ -53,7 +53,7 @@ Compensation benefits, including:
 
 ### How it works: 
 - Proof of payment may be required.
-- [Learn how your GI Bill benefit package will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for testing expenses.
+- [Learn how your GI Bill® benefit package will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for testing expenses.
 - VA reimburses you for some but not necessarily all required test fees.
 
 **Exception:** VA does not reimburse you for the following fees:

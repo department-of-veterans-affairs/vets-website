@@ -80,7 +80,7 @@ If you are a spouse, you may take correspondence courses under this program. Rem
 
 What happens next?
 If you have not begun your education or training program:
-- Make sure that VA approves your selected educational or vocational program [WIDGET FOR GI BILL SELECTION TOOL? Currently www.benefits.va.gov/gibill/comparison]. For more information, (contact us). [Link to information inquiry or contact us widget]
+- Make sure that VA approves your selected educational or vocational program [WIDGET FOR GI Bill® SELECTION TOOL? Currently www.benefits.va.gov/gibill/comparison]. For more information, (contact us). [Link to information inquiry or contact us widget]
 - Complete and submit VA Form 22-5490, Dependents’ Application for VA Education Benefits [Link or widget to http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490]. Be sure to send the form to the VA regional office that oversees the state where you will receive the education [LINK TO ZIP CODE WIDGET?].
 
 If you have already started your program take your application to your school or employer.Ask them to complete VA Form 22-1999, Enrollment Certification, and send both forms to VA. 

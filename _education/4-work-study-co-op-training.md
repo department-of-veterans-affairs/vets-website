@@ -55,8 +55,8 @@ If you are enrolled in a program at an approved Institution of Higher Learning (
 
 The amount covered under VA educational assistance depends on the benefit you use. 
 
-- The Post-9/11 GI Bill: If the program is at a public IHL, VA pays the actual costs for public in-state tuition and fees. If the program is at a private or foreign IHL, VA pays the lesser of the [national maximum](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp) or the actual costs for in-state tuition and fees. Housing and educational-supplies stipend benefits are also paid under full-time enrollment.
-- All other GI Bill programs: VA pays a monthly rate that varies depending on which GI Bill program you are entitled to use. [View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
+- The Post-9/11 GI Bill®: If the program is at a public IHL, VA pays the actual costs for public in-state tuition and fees. If the program is at a private or foreign IHL, VA pays the lesser of the [national maximum](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp) or the actual costs for in-state tuition and fees. Housing and educational-supplies stipend benefits are also paid under full-time enrollment.
+- All other GI Bill® programs: VA pays a monthly rate that varies depending on which GI Bill® program you are entitled to use. [View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
 </div>
 
 

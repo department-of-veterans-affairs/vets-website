@@ -28,7 +28,7 @@ Template: 6-info-page
 
 <div markdown="1">
 
-If you are a dependent or survivor of a Veteran, you may be eligible for education assistance through a GI Bill program.
+If you are a dependent or survivor of a Veteran, you may be eligible for education assistance through a GI Bill® program.
 
 ### Are you eligible for benefits?
 
@@ -37,7 +37,7 @@ Yes, if:
 - You are a child or spouse of a Service Member who died in the line of duty after September 10, 2001, or
 - You are a dependent of a Veteran who is permanently and totally disabled due to a service-related condition, or
 - You are a survivor of a Veteran who died while on active duty or as a result of a service-related condition, or
-- You are eligible to receive a transfer of Post-9/11 GI Bill benefits
+- You are eligible to receive a transfer of Post-9/11 GI Bill® benefits
 
 ### Who is covered
 
@@ -51,7 +51,7 @@ You
 - A stipend for books and supplies
 
 ### How it works
-There are two main GI Bill programs offering education assistance to survivors and dependents of Veterans:
+There are two main GI Bill® programs offering education assistance to survivors and dependents of Veterans:
 
 - [The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](Link to beta site) is available for children and spouses of Service Members who died in the line of duty after September 10, 2001.
 - [The Survivors' and Dependents' Educational Assistance (DEA) program](Link to beta site) offers education and training opportunities to eligible dependents of Veterans who are permanently and totally disabled due to a service-related condition or who died while on active duty or as a result of a service-related condition.

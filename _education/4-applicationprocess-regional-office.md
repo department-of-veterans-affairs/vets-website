@@ -34,7 +34,7 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you need assistance with GI Bill claims, contact your VA Regional Processing Office (RPO). VA has four RPOs in the United States to help you with your claims, all of which correspond to regional jurisdictions. Here are the locations: 
+If you need assistance with GI Bill® claims, contact your VA Regional Processing Office (RPO). VA has four RPOs in the United States to help you with your claims, all of which correspond to regional jurisdictions. Here are the locations: 
 
 ***Atlanta, Georgia***
 P.O. Box 100022

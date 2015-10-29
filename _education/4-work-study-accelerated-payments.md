@@ -42,8 +42,8 @@ If you’re enrolled in a high-tech program and intend to work in a high-tech in
 
 **Yes, if:** 
 
--	You are an active-duty GI Bill recipient, in which case both degree and non-degree programs qualify
--	You are a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for two years or less
+-	You are an active-duty GI Bill® recipient, in which case both degree and non-degree programs qualify
+-	You are a REAP recipient or a Reservist using the Reserve GI Bill® while pursuing a non-degree program for two years or less
 -	Your tuition and fees exceed 200% of the monthly amount of educational assistance you would otherwise be eligible to receive during the certified period of enrollment
 
 #### Who is covered
@@ -76,7 +76,7 @@ And, you must certify that you intend to seek employment in one of the [followin
 - Weapons
 - Nuclear technology
 
-*Exception:* This benefit is not available under the Post-9/11 GI Bill, Dependents’ Educational Assistance program, or VEAP.
+*Exception:* This benefit is not available under the Post-9/11 GI Bill®, Dependents’ Educational Assistance program, or VEAP.
 </div>
 
 
