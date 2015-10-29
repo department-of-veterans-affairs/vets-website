@@ -38,7 +38,7 @@ If you’re enrolled in a high-tech program and intend to work in a high-tech in
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">
-### Are you eligible for compensation?
+### Are you eligible for education benefits?
 
 **Yes, if:** 
 
@@ -50,7 +50,7 @@ If you’re enrolled in a high-tech program and intend to work in a high-tech in
 - You
 
 #### Available benefits
-- Compensation benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs
+- Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs
 
 #### How it works
 
