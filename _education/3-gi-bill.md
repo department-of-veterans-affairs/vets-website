@@ -21,14 +21,6 @@ template: 2-detailed-landing
 
 <div class="main" role="main" markdown="0">
 
-<!--<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      
-    </div>
-  </div>  
-</div>-->
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -47,6 +39,11 @@ This benefit has changed over time, and you currently have several options for e
   <div class="row">
     <div class="small-12 columns">
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+
+            <li>
+              <a href="{{ site.url }}/education/gi-bill/higher-learning/">Higher Learning: Undergraduate and Graduate Degrees</a>
+            </li>
+
             <li>
               <a href="{{ site.url }}/education/gi-bill/post-9-11/">Post-9/11 GI Bill</a>
             </li>
