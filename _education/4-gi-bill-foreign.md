@@ -2,7 +2,7 @@
 layout: page-education
 permalink: education/gi-bill/foreign-programs/index.html
 title: Foreign Programs
-template: 6-info-page
+template: 4-action-page
 concurrence: incomplete
 ---
 
@@ -25,12 +25,56 @@ concurrence: incomplete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 medium-8 columns" markdown="-">
+
+<dl class="panel-list plain">
+<dt>{{ page.title }}</dt>
+<dd>Item</dd>
+<dd>Item</dd>
+<dd>Item</dd>
+</dl>
+
+</div>
+
+
+<div class="small-12 medium-4 columns" markdown="0">
+<div markdown="0">
+
+<h4 class="highlight">Questions</h4>
+
+<ul class="plain">
+
+<li markdown="1">
+List item
+</li>
+
+<li markdown="1">
+List item
+</li>
+
+<li markdown="1">
+List item
+</li>
+
+</ul>
+
+</div>
+</div>
+</div>
+
+<div class="row" markdown="0">
+<div class="small-12 columns" markdown="0">
+
+<div markdown="1">
 
 Coming soon.
 
 </div>
 </div>
+</div>
+
+
+
 </div>
 
 
