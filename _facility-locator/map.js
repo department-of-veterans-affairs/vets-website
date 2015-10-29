@@ -166,7 +166,7 @@ FacilityLocator = (function() {
     var i = types.indexOf(facility.type) + 1;
     if (i === 0) { i = 1; }
 
-    return 'static/img/markers/m' + i + '_40.svg';
+    return 'markers/m' + i + '_40.svg';
   }
 
   function clearMarkers() {
