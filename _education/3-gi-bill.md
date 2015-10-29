@@ -34,5 +34,17 @@ This benefit has changed over time, and you currently have several options for e
 </div>
 </div>
 </div>
+</div>
 
+<div class="navigation">
+  <div class="row">
+    <div class="small-12 columns">
+      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+        <li>
+          <a href="{{ site.url }}/education/gi-bill/transfer/">Transfer Post-9/11 GI Bill to Spouse and Dependents</a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
 </div>
