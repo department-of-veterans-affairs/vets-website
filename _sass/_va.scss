@@ -19,8 +19,9 @@ $roboto-slab: 'Roboto Slab', serif;
 html, body {
   padding: 0;
   margin: 0;
-  font-size: 17px;
+  font-size: 16px;
   font-family: $font-sans; font-weight: 500; color: $color-gray-dark;
+  transition: all 0.3s ease-in-out;
 }
 
 
@@ -93,7 +94,6 @@ a {
 }
 
 /*
-
 a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/vets-website"]) {
     background: url(../images/icons/icon-exit-white.png);
     -webkit-background-size: 18px 15.38px;
@@ -110,7 +110,6 @@ a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/vets-w
       background-repeat: no-repeat!important;
     }
 }
-
 */
 
 
@@ -270,7 +269,7 @@ h1 {}
 h2 {}
 h3 {color: $color-primary-darkest; font-size: 1.8em; padding: 0 0 1em 0;}
 h4 {font-size: 1.5em;}
-h5 {font-size: 1.3em;}
+h5 {}
 h6 {}
 
 // tagline
@@ -640,6 +639,14 @@ li {
     font-weight: bold;
     float: right;
     margin: .5em 0 1em 1em;
+  }
+}
+.inline-list {
+  > li {
+    float: left;
+  }
+  > * {
+    display: block;
   }
 }
 
@@ -1134,6 +1141,15 @@ body.index, body.post-single, body.page-playbook {
       .small-block-grid-1 {
         li {padding: 0; margin: 0;}
       }
+
+    .usa-social-links a {
+      border-bottom: none;
+      display: inline-block;
+      &:hover {
+        border-bottom: none;
+      }
+    }
+
     ul, form {
       margin: 1.5em 0 0 0; padding: 0 0 1em 0;
     }
@@ -1143,19 +1159,19 @@ body.index, body.post-single, body.page-playbook {
       color: #fff;
       font-size: 1em;
     }
-    .row.secondary {
-      background:url(../images/design/seal/seal.png) no-repeat;
-      padding: 0;
-        @media #{$small-up} {
-          background-size:50px;
-          background-position: 4% 15%;
-        }
-        @media #{$medium-up} {
-          background-size: 50px;
-          background-position: 2% 50%;
-          padding: 0;
-        }
-    }
+    // .row.secondary {
+    //   background:url(../images/design/seal/seal.png) no-repeat;
+    //   padding: 0;
+    //     @media #{$small-up} {
+    //       background-size:50px;
+    //       background-position: 4% 15%;
+    //     }
+    //     @media #{$medium-up} {
+    //       background-size: 50px;
+    //       background-position: 2% 50%;
+    //       padding: 0;
+    //     }
+    // }
 
   a {
     border-bottom: 2px solid rgba(0,0,0,.25);
@@ -1201,6 +1217,32 @@ body.index, body.post-single, body.page-playbook {
   .footer-address {
     background:$color-primary-darkest;
   }
+  .footer-seal {
+          background:url(../images/design/seal/seal-footer.svg) no-repeat;
+          text-indent:-325px;
+          overflow: hidden;
+
+      // padding: 0;
+        @media #{$small-up} {
+          background-size:50px;
+          // background-position: 4% 15%;
+        }
+        @media #{$small-only} {
+          background-size: 206px;
+          background-position: center 14px;
+          padding: 1.75em 0 1.5em;
+        }
+        @media #{$medium-only} {
+          background-size: 170px;
+          background-position: 0 33px;
+          padding: 1.75em 0;
+        }
+        @media #{$large-up} {
+          background-size: 206px;
+          background-position: 0 14px;
+          padding: 1.75em 0;
+        }
+  }
   .footer-crisis {
     background:$color-gold;
     margin: 1.625rem 0;
@@ -1223,6 +1265,51 @@ body.index, body.post-single, body.page-playbook {
       }
       @media #{$medium-only} {
         display:block
+      }
+    }
+  }
+  .inline-list {
+    margin: 1.85rem 0;
+    text-align: center;
+    @media #{$small-only} {
+      margin: 0;
+      padding: 0;
+    }
+    li {
+        font-size: .75em;
+        padding: 0;
+        @media #{$small-only} { 
+          display:inline-block;
+          float: none;
+          padding: 0;
+          &:first-of-type {
+            padding-left: 0;
+          }
+          &:last-of-type {
+            padding-right: 0;
+          }
+        }
+        @media #{$small-up} {
+          font-size: .7em;
+        }
+        @media #{$medium-only} {
+          margin: 1rem 0;
+        }
+        &:last-child {
+          margin-right: 0;
+        }
+        &:after {
+          content:"|";
+          padding: 0 .5em;
+        }
+        &:last-of-type:after {
+          padding:0;
+          content: "";
+        }
+      a {
+          border-bottom: 1px solid;
+          display:inline-block;
+          padding-bottom: 0;
       }
     }
   }
@@ -1481,13 +1568,11 @@ ul.simple-list, ol.simple-list {
 
 // Info cards
 
-#content .card {
+.card {
   position: relative;
   margin: 0 0 1.5em 0;
   padding: 1em;
-  border: 1px solid #ccc;
-  p {margin: 0 0 1em 0; padding: 0;}
-  h3, h4, h5, h5 {font-family: $font-sans; font-weight: bold; font-weight: 700; margin: 0 0 .25em 0; padding: 0; line-height: 1.3em;}
+  border: 1px solid #eee;
   dt {font-weight: 700;}
   dd {
     padding: 0;
