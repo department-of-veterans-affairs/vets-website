@@ -1141,6 +1141,15 @@ body.index, body.post-single, body.page-playbook {
       .small-block-grid-1 {
         li {padding: 0; margin: 0;}
       }
+
+    .usa-social-links a {
+      border-bottom: none;
+      display: inline-block;
+      &:hover {
+        border-bottom: none;
+      }
+    }
+
     ul, form {
       margin: 1.5em 0 0 0; padding: 0 0 1em 0;
     }
@@ -1218,7 +1227,17 @@ body.index, body.post-single, body.page-playbook {
           background-size:50px;
           // background-position: 4% 15%;
         }
-        @media #{$small-up} {
+        @media #{$small-only} {
+          background-size: 206px;
+          background-position: center 14px;
+          padding: 1.75em 0 1.5em;
+        }
+        @media #{$medium-only} {
+          background-size: 170px;
+          background-position: 0 33px;
+          padding: 1.75em 0;
+        }
+        @media #{$large-up} {
           background-size: 206px;
           background-position: 0 14px;
           padding: 1.75em 0;
@@ -1251,16 +1270,31 @@ body.index, body.post-single, body.page-playbook {
   }
   .inline-list {
     margin: 1.85rem 0;
+    text-align: center;
+    @media #{$small-only} {
+      margin: 0;
+      padding: 0;
+    }
     li {
+        font-size: .75em;
+        padding: 0;
+        @media #{$small-only} { 
+          display:inline-block;
+          float: none;
+          padding: 0;
+          &:first-of-type {
+            padding-left: 0;
+          }
+          &:last-of-type {
+            padding-right: 0;
+          }
+        }
         @media #{$small-up} {
           font-size: .7em;
         }
-        @media #{$large-up} {
-          font-size: .75em;
+        @media #{$medium-only} {
+          margin: 1rem 0;
         }
-        font-size: .75em;
-        padding: 0;
-        // margin-right:1em;
         &:last-child {
           margin-right: 0;
         }
@@ -1274,6 +1308,7 @@ body.index, body.post-single, body.page-playbook {
         }
       a {
           border-bottom: 1px solid;
+          display:inline-block;
           padding-bottom: 0;
       }
     }
