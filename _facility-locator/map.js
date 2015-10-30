@@ -8,6 +8,8 @@ FacilityLocator = (function() {
       currentInfoBox,
       searchService,
       searchBox,
+      searchQuery,
+      searchCenter,
       infowindows = {};
 
   FacilityLocator.prototype.init = function() {
@@ -92,6 +94,9 @@ FacilityLocator = (function() {
     // setCenter will move the map to the location of that infowindow. Which
     // is confusing as heck for the user.
     $("#facilitiesList").html("");
+
+    searchQuery = position.coords.latitude + ", " + position.coords.longitude;
+    searchCenter = [position.coords.latitude, position.coords.longitude];
 
     // And let it propagate, since it seems not to work just clearing it like that
     setTimeout(function() {
@@ -192,6 +197,13 @@ FacilityLocator = (function() {
         facilityPoint,
         facility;
 
+    // If the user has searched for something, calculate the distances from
+    // the center of their search, rather than the center of the map
+    if (searchCenter) {
+      lat = searchCenter[0];
+      lng = searchCenter[1];
+    }
+
     // The linear search seems to be fast enough for our 5000 sample sites
     for (var i=0; i < facilities.length; i++) {
       facility = facilities[i];
@@ -200,6 +212,7 @@ FacilityLocator = (function() {
         distance = round10(metersToMiles(
             google.maps.geometry.spherical.computeDistanceBetween(
               facilityPoint, new google.maps.LatLng(lat, lng))));
+
         foundFacilities.push([distance, facility]);
       }
     }
@@ -297,6 +310,10 @@ FacilityLocator = (function() {
     if (places.length === 0) {
       return;
     }
+
+    searchQuery = places[0].formatted_address;
+    var loc = places[0].geometry.location;
+    searchCenter = [loc.lat(), loc.lng()];
 
     // For each place, get the icon, name and location.
     var bounds = new google.maps.LatLngBounds();
