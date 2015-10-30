@@ -39,7 +39,7 @@ If you served at least two years on active duty, you may be eligible for the MGI
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">
-### Are you eligible for compensation?
+### Are you eligible for educational benefits?
 
 **Yes, if:**
 
@@ -69,7 +69,7 @@ If you served at least two years on active duty, you may be eligible for the MGI
 
 **CATEGORY IV**
 
-- You were on active duty on October 9, 1996, had money remaining in a VEAP account on that date, and elected MGIB by October 9, 1997.
+- You were on active duty on October 9, 1996, had money remaining in a VEAP account on that date, and elected MGIB before October 9, 1997.
 - Or you entered full-time National Guard duty under title 32, USC, between July 1, 1985, and November 28, 1989, and you elected MGIB between October 9, 1996, and July 9, 1997.
 - You had military pay reduced by $100 a month for 12 months or made a $1,200 lump-sum contribution.
 
@@ -82,7 +82,7 @@ If you served at least two years on active duty, you may be eligible for the MGI
 - School tuition or training fees
 
 #### How it works
-You may receive benefits for up to eight semesters (four years) of traditional academic education. Benefits, paid monthly, depend upon the following factors:
+You may receive benefits for up to eight semesters (four years) of traditional academic education. The benefits, paid monthly, depend upon the following factors:
 - length of service
 - type of training
 - your category (as defined below)
@@ -93,7 +93,8 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 
 #### Several related funding or training programs fall under the MGIB-AD umbrella:
 
-- [$600 Buy-Up program](LINK to beta story) While on active duty, you can contribute a maximum of $600 to receive increased monthly benefits. With this maximum contribution, you are eligible for an additional $5,400 in GI Bill® benefits.  
+- [$600 Buy-Up program](LINK to beta story) While on active duty, you can contribute a maximum of $600 to receive increased monthly benefits. With this maximum contribution, you are eligible for up to an additional $5,400 in GI Bill benefits.  
+
 - College degree and certificate programs
 - Non-college degree programs (technical or vocational courses)
 - Flight training
