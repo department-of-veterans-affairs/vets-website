@@ -64,7 +64,7 @@ You can elect to participate in this program when you enlist in any branch of se
 ### Learn more:
 [National Call to Service program pamplet](http://www.benefits.va.gov/gibill/docs/pamphlets/summary-of-national-call-to-service-program.pdf)
 
-***NOTE: If you enlist under the National Call to Service program, you are not eligible for the MGIB, unless you reenlist at a later date for two or more additional years.***
+***NOTE:*** If you enlist under the National Call to Service program, you are not eligible for the MGIB, unless you reenlist at a later date for two or more additional years.
 
 This program is administered by VA for the Department of Defense.
 
