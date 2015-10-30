@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/ptsd/index.html
 title: Post-Traumatic Stress Disorder (PTSD)
+concurrence: complete
 source: http://www.va.gov/opa/issues/ptsd.asp
 template: 6-info-page
 ---
@@ -39,9 +40,11 @@ template: 6-info-page
 
 ### Are you in crisis? You have options.
 
-- Call the suicide prevention hotline: 1-800-273-TALK (8255)
-- Call 911
-- Go to the nearest emergency room
+- Call the Veterans Crisis Line 1-800-273-8255 and press 1 to [talk to someone now](https://www.veteranscrisisline.net/Default.aspx).
+- [Confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/)
+- Text 838255 to get help right away.
+- Call 911.
+- Go to the nearest emergency room.
 
 </div>
 
@@ -49,7 +52,7 @@ template: 6-info-page
 
 ### Post-Traumatic Stress Disorder (PTSD) Basics
 
-If you have symptoms of PTSD and were exposed to serious trauma or a life-threatening event during your military service, you may be eligible for benefits, including compensation and health care.
+If you have symptoms of PTSD and were exposed to actual or threatened death, serious injury, or sexual violation during your military service, you may be eligible for benefits, including compensation and health care. 
 
 </div>
 
@@ -59,11 +62,12 @@ If you have symptoms of PTSD and were exposed to serious trauma or a life-threat
 
 Yes, if:
 
--	You have a PTSD diagnosis
--	You have symptoms related to a traumatic event (the "stressor")
--	You have seen a VA psychiatrist or psychologist who has confirmed that the triggering stressor was enough to cause PTSD
--	The stressor is related either to fear of hostile military or terrorist activity or to [military sexual trauma](http://www.benefits.va.gov/BENEFITS/factsheets/serviceconnected/MST.pdf)
--	The stressor is one that is likely to have happened in the locations and circumstances of your service
+-	You have symptoms related to a traumatic event (the "stressor"), or 
+-	Exposure to the stressor is related to the PTSD symptoms
+-	The stressor occurred during your service
+-	You are experiencing impairment as a result of your symptoms
+-	You have been diagnosed with PTSD 
+
 
 </div>
 
@@ -79,8 +83,9 @@ You
 
 ### Available benefits
 
--	Compensation
--	Health care
+-	Compensation 
+-	Health care 
+-	Treatment for PTSD 
 
 </div>
 
@@ -88,17 +93,11 @@ You
 
 ### How it works
 
-PTSD is a complex and serious disorder. New regulations passed in 2010 make it easier for Veterans with post-traumatic stress disorder to qualify for VA disability benefits. Combat service is not necessarily a requirement.
+Post-traumatic stress disorder (PTSD) can occur after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions after experiencing trauma. If the reactions don't go away over time or they disrupt your life, you may have PTSD. [Learn more](http://www.ptsd.va.gov/public/index.asp)
 
-You may have PTSD if you experience the following symptoms:
--	You have nightmares or persistent memories of the event, or you relive the event over and over.
--	You do not talk to anyone about the event, avoiding any situation that may trigger bad memories related to it.
--	You feel numb and detached, depressed, and disinterested in normal life activities.
--	You feel on high alert all the time, always watching for danger.
+VA is committed to providing the best care and resources for Veterans diagnosed with PTSD. VA has made significant progress in PTSD treatments and is expanding access by increasing the number of mental health providers at VA medical centers. Learn more about [VA's programs focused on helping Veterans with PTSD](http://www.mentalhealth.va.gov/PTSD.asp).
 
-If you have any of these [symptoms](http://www.ptsd.va.gov/public/pages/symptoms_of_ptsd.asp), make an appointment with a mental health professional. They can give you help and determine if you are suffering from PTSD.
-
-Note: VA is committed to providing the best care and resources for our Veterans diagnosed with PTSD. We have made significant progress in PTSD treatments and are expanding access by increasing the number of mental health providers at VA medical centers. [Learn more about VA's programs, support groups, and research efforts focused on helping those with PTSD](http://www.ptsd.va.gov/public/treatment/Veterans/get_help_with_va.asp).
+Note: The screening process for disability compensation benefits is geared toward assessment, not treatment. For help or treatment, contact your provider or one of the emergency contacts listed at the top of this page.
 
 </div>
 
