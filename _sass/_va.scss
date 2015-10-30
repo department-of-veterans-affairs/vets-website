@@ -19,9 +19,8 @@ $roboto-slab: 'Roboto Slab', serif;
 html, body {
   padding: 0;
   margin: 0;
-  font-size: 16px;
+  font-size: 17px;
   font-family: $font-sans; font-weight: 500; color: $color-gray-dark;
-  transition: all 0.3s ease-in-out;
 }
 
 
@@ -271,7 +270,7 @@ h1 {}
 h2 {}
 h3 {color: $color-primary-darkest; font-size: 1.8em; padding: 0 0 1em 0;}
 h4 {font-size: 1.5em;}
-h5 {}
+h5 {font-size: 1.3em;}
 h6 {}
 
 // tagline
@@ -1482,11 +1481,13 @@ ul.simple-list, ol.simple-list {
 
 // Info cards
 
-.card {
+#content .card {
   position: relative;
   margin: 0 0 1.5em 0;
   padding: 1em;
-  border: 1px solid #eee;
+  border: 1px solid #ccc;
+  p {margin: 0 0 1em 0; padding: 0;}
+  h3, h4, h5, h5 {font-family: $font-sans; font-weight: bold; font-weight: 700; margin: 0 0 .25em 0; padding: 0; line-height: 1.3em;}
   dt {font-weight: 700;}
   dd {
     padding: 0;
