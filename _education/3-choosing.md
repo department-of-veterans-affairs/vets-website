@@ -34,7 +34,7 @@ template: 3-panel-filter
 <dd>Item</dd>
 </dl>
 
-<p>Opening paragraph</p>
+<p>opening paragraph</p>
 
 </div>
 
@@ -67,7 +67,17 @@ List item
 
 <div markdown="1">
 
-Coming soon.
+If you need help choosing a school or education program, you can use VA and other government resources for guidance:
+
+- [GI Bill Comparison Tool](link to tool) (helps you find a school and determine what your GI Bill benefits would be at that school)
+- [Factors to Consider When Choosing a School](http://www.benefits.va.gov/gibill/docs/factsheets/Choosing_a_School.pdf)
+- [The President's Principles of Excellence program](http://www.benefits.va.gov/gibill/principles_of_excellence.asp)
+- [GI Bill Comparison Chart(http://www.benefits.va.gov/GIBILL/comparison_chart.asp)
+- [Paying for College](http://www.consumerfinance.gov/paying-for-college/) (from the Consumer Financial Protection Bureau, external link)
+- [College Affordability and Transparency Center](http://collegecost.ed.gov/catc/default.aspx) (from the U.S. Department of Education, external link)
+- [Foreign School Information for Students](http://www.benefits.va.gov/gibill/foreign_school_information_for_students.asp)  
+- [Choosing a College: Questions to Ask](http://www.consumer.ftc.gov/articles/0395-choosing-college-questions-ask) (from the Federal Trade Commission, external link)
+- [Choosing a Vocational School](http://www.consumer.ftc.gov/articles/0241-choosing-vocational-school) (from the Federal Trade Commission, external link)
 
 </div>
 
