@@ -54,7 +54,12 @@ If you were exposed to specific environmental hazards (such as burn pits) while 
 
 Yes, if:
 
-You have a disability resulting from your exposure to an environmental hazard during military service.
+You have a disability resulting from your exposure to an environmental hazard during military service.  This exposure may include:
+- Particulate matter or large burn pits throughout Iraq, Afghanistan, and Djibouti in the Horn of Africa- A large sulfur fire at Mishraq State Sulfur Mine near Mosul, Iraq
+- Hexavalent chromium exposure at the Qarmat Ali Water Treatment Plant at Basra, Iraq
+- Contaminated drinking water at Camp Lejeune, North Carolina, between 1953 and 1987 (See our Camp Lejeune page for more information)
+- Pollutants from a waste incinerator near the Naval Air Facility at Atsugi, Japan
+
 
 </div>
 
@@ -80,15 +85,6 @@ You and your survivors
 ### How it works
 
 You should submit any additional information (such as [Burn Pit Registry]( https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/) regarding proof of exposure when filing your claim.
-
-This exposure may include
-
-- Large burn pits throughout Iraq, Afghanistan, and Djibouti in the Horn of Africa
-- Particulate matter in Iraq and Afghanistan
-- A large sulfur fire at Mishraq State Sulfur Mine near Mosul, Iraq
-- Hexavalent chromium exposure at the Qarmat Ali Water Treatment Plant at Basra, Iraq
-- Contaminated drinking water at Camp Lejeune, North Carolina, between 1953 and 1987 (See our Camp Lejeune page for more information)
-- Pollutants from a waste incinerator near the Naval Air Facility at Atsugi, Japan
 
 </div>
 </div>
