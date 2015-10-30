@@ -2,6 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/test-storage/index.html
 title: Test and Storage Areas Outside of Vietnam
+concurrence: incomplete
 
 ---
 
@@ -38,14 +39,14 @@ title: Test and Storage Areas Outside of Vietnam
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: </dd>
-<dd>Sites: </dd>
-<dd>Who: </dd>
+<dd>Dates: Vietnam era</dd>
+<dd>Sites: Herbicide storage facilities</dd>
+<dd>Who: All branches of service</dd>
 </dl>
 
 <div markdown="1">
 
-Opening paragraph
+If you participated in the testing or storage activities of Agent Orange and other herbicides used in Vietnam—on bases in the United States or elsewhere—you can apply for disability compensation.
 
 </div>
 
@@ -60,18 +61,11 @@ Opening paragraph
 <ul class="plain">
 
 <li>
-Sidebar item
+See these comprehensive lists for dates and locations of herbicide tests and storage: 
+- [In the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp)
+- [Outside the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp)
 </li>
 
-<li>
-Sidebar item
-email address
-</li>
-
-<li>
-Fact Sheet
-C-123 aircraft and Agent Orange exposure
-</li>
 </ul>
 
 </div>
@@ -81,7 +75,23 @@ C-123 aircraft and Agent Orange exposure
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Content coming soon.
+### Are you eligible for compensation?
+
+Yes, if:
+- You are ill with one, or more, of [these diseases](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) related to Agent Orange
+- Your service included testing and storage activities of Agent Orange and other herbicides used in Vietnam
+
+### Who is covered
+You and your dependents or survivors
+
+### Available benefits
+- Compensation 
+- Health care 
+- An [Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
+
+### How it works
+You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for [diseases](http://www.benefits.va.gov/compensation/claims-postservice-agent_orange.asp#diseases) that VA presumes are related to Agent Orange exposure.  
+
 
 </div>
 
