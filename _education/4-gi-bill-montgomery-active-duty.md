@@ -94,7 +94,7 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 #### Several related funding or training programs fall under the MGIB-AD umbrella:
 
 - [$600 Buy-Up program](LINK to beta story) While on active duty, you can contribute a maximum of $600 to receive increased monthly benefits. With this maximum contribution, you are eligible for up to an additional $5,400 in GI Bill benefits.  
-- Update 4-gi-bill-montgomery-active-duty.md
+
 - College degree and certificate programs
 - Non-college degree programs (technical or vocational courses)
 - Flight training
