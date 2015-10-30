@@ -39,39 +39,33 @@ template: 6-info-page
 
 <div markdown="1">
 
-Spina bifida is a birth defect in which the developing baby's spinal cord fails to develop properly. It can be caused by environmental factors. If you have spina bifida or certain other birth defects and are the biological child of a Veteran with qualifying service in the Republic of South Vietnam or the Republic of Korea, you may be eligible for VA benefits.
+Spina bifida is a birth defect in which the developing baby's spinal cord fails to develop properly. It can be caused by environmental factors. If you have spina bifida or certain other birth defects and are the biological child of a Veteran with qualifying service in South Vietnam or the Republic of Korea, you may be eligible for VA benefits.
 
 </div>
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for compensation?
+Spina bifida is a birth defect in which the developing baby's spinal cord fails to develop properly. It can be caused by environmental factors. If you have qualifying service in South Vietnam or the Republic of Korea and have a child with spina bifida or certain other birth defects, you may be eligible for VA benefits.
 
-#### Spina Bifida
+### Are you eligible for benefits? 
 
-If you are the biological child of a male or female Veteran, yes, if:
+#### Spina Bifida 
+If you are seeking benefits for the biological child of a male or female Veteran, yes, if:
 
-- Your parent served in the Republic of South Vietnam during the period from January 9, 1962, through May 7, 1975, or
-- Your parent served in or near the Korean demilitarized zone (DMZ) during the period from September 1, 1967, through August 31, 1971, and was exposed to herbicides (service between April 1, 1968, and August 31, 1971, in or near the DMZ presumes exposure to herbicides), and
-- You were conceived after your parent served in either the Republic of South Vietnam or the Republic of Korea, and
-- You have been diagnosed with a form of spina bifida other than spina bifida occulta.
+- The parent served in South Vietnam (the Republic of Vietnam) during the period from January 9, 1962, through May 7, 1975, or 
+- The parent served in a military unit in the Korean demilitarized zone (DMZ) during the period from April 1, 1968, through August 31, 1971, and 
+- The child was conceived after the parent served in either South Vietnam or the Republic of Korea, and
+- The child was diagnosed with a form of spina bifida other than spina bifida occulta.
 
-#### Birth Defects
-
+#### Birth Defects 
 Yes, if:
-
-- You are the biological child of a female Veteran, and
-- Your mother served in the Republic of South Vietnam during the period from February 28, 1961, through May 7, 1975, and
-- You were conceived after your mother served in the Republic of South Vietnam, and
-- You have a covered birth defect that resulted in a permanent physical or mental disability
-
-</div>
-
-<div class="call-out" markdown="1">
+- You are seeking benefits for the biological child of a female Veteran, and
+- The mother served in South Vietnam during the period from February 28, 1961, through May 7, 1975, and
+- The child was conceived after the mother served in South Vietnam, and
+- The child has a covered birth defect that resulted in a permanent physical or mental disability
 
 ### Who is covered
-
-Your dependents and survivors
+Dependents and survivors of qualified Veterans
 
 </div>
 
@@ -79,8 +73,8 @@ Your dependents and survivors
 
 ### Available benefits
 
--	Compensation
--	Health care
+-	Monetary allowances
+-	Health care 
 -	Vocational training
 
 </div>
@@ -89,7 +83,7 @@ Your dependents and survivors
 
 ### How it works  
 
-VA provides monetary compensation at one of three disability levels, based on the severity of the disability. VA has no requirements regarding the character of the parent's discharge or the length of his or her service.
+VA provides monetary allowances at one of three disability levels, based on the severity of the disability.
 
 </div>
 
