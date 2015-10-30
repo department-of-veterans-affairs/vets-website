@@ -39,7 +39,7 @@ template: 6-info-page
 
 <div markdown="1">
 
-A prestabilization rating is a temporary rating normally assigned to recently separated Veterans with an unstable disability and an immediate need for services and support. Prestabilization ratings may be granted at 50% or 100%, depending on the severity of the disability, and continue for one year after discharge from active service.
+A prestabilization rating is a temporary rating that can be  assigned to recently separated Veterans with an unstable disability and an immediate need for services and support. Prestabilization ratings may be granted at 50% or 100%, depending on the severity of the disability, and continue for one year after discharge from active service.
 
 </div>
 
@@ -47,12 +47,12 @@ A prestabilization rating is a temporary rating normally assigned to recently se
 
 ### Eligibility Requirements
 
-You must have been separated from military service with an unstable, significantly disabling service-connected disability that will continue for an indefinite amount of time.
+You must have been recently separated from military service with an unstable, significantly disabling service-connected disability that will continue for an indefinite amount of time.
 
 
 #### Example:
 
-While in active service, a Service Member was diagnosed with Hodgkin's disease and began chemotherapy that continued during and after her medical discharge process. She coordinated through her local VA medical center for follow-on treatment. The claim for compensation resulted in a prestabilization rating of 100% for one year from the date of discharge.
+While in active service, a Servicemember was diagnosed with Hodgkin's disease and began chemotherapy that continued during and after her medical discharge process. She coordinated through her local VA medical center for follow-on treatment. The claim for compensation resulted in a prestabilization rating of 100% for one year from the date of discharge.
 
 </div>
 
