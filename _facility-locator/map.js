@@ -238,7 +238,13 @@ FacilityLocator = (function() {
       distanceString = "";
     }
 
-    var center = map.getCenter().lat() + "," + map.getCenter().lng();
+    var center;
+    if (searchCenter === undefined) {
+      center = map.getCenter().lat() + "," + map.getCenter().lng();
+    } else {
+      center = searchCenter[0] + "," + searchCenter[1];
+    }
+
     var facLatLng = facility.lat + "," + facility.lng;
     var directions = '<a href="https://www.google.com/maps/dir/' +
       center + '/' + facLatLng + '">driving directions</a>';
