@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/gi-bill/post-9-11/index.html
-title: Post-9/11 GI Bill
+title: Post-9/11 GI Bill®
 template: 1-topic-landing
 concurrence: incomplete
 ---

@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/gi-bill/montgomery-active-duty/index.html
-title: Montgomery GI Bill Active Duty (MGIB-AD)
+title: Montgomery GI Bill® Active Duty (MGIB-AD)
 template: 4-action-page
 concurrence: incomplete
 ---

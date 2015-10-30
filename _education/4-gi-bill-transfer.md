@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/gi-bill/transfer/index.html
-title: Transfer Post-9/11 GI Bill to Spouse and Dependents
+title: Transfer Post-9/11 GI Bill® to Spouse and Dependents
 template: 6-info-page
 concurrence: incomplete
 ---

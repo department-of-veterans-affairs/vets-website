@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/gi-bill/index.html
-title: GI Bill
+title: GI Bill®
 concurrence: incomplete
 template: 6-info-page
 ---

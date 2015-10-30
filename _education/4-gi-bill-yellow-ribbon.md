@@ -22,13 +22,6 @@ concurrence: incomplete
 
 <div class="main" role="main" markdown="0">
 
-<!--<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      
-    </div>
-  </div>  
-</div>-->
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
@@ -54,19 +47,19 @@ If your school participates in the Yellow Ribbon Program, you may be able to red
 
 #### Available benefits
 
-- Additional tuition 
+- Additional tuition
 
 #### How it works
 
-1. After you submit your application for Post-9/11 GI Bill® benefits and VA finds you eligible, you will receive a Certificate of Eligibility. 
+1. After you submit your application for Post-9/11 GI Bill® benefits and VA finds you eligible, you will receive a Certificate of Eligibility.
 
 2. Bring this certificate to your participating institution’s financial aid, military liaison, or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
 
 3. Your school will determine:
 -  Whether it has already enrolled the maximum number of participants for the program period. Enrollment is on a first-come, first-served basis. Your school and VA agree on how many students may be covered each year.
--  What the amount of entitlement will be. This is calculated by adding up tuition and mandatory fees, and then subtracting any specific aid you’ve received from other sources such as scholarships or grants as well as your Post-9/11 GI Bill® tuition payment. Your school applies the Yellow Ribbon Program benefit to this final amount. 
+-  What the amount of entitlement will be. This is calculated by adding up tuition and mandatory fees, and then subtracting any specific aid you’ve received from other sources such as scholarships or grants as well as your Post-9/11 GI Bill® tuition payment. Your school applies the Yellow Ribbon Program benefit to this final amount.
 
-4. You will receive notice from your school about whether you have been accepted to the program and about the application of the benefit to your tuition. 
+4. You will receive notice from your school about whether you have been accepted to the program and about the application of the benefit to your tuition.
 
 5. Confirm that your school will submit your enrollment information to VA, and coordinate with VA for the application of the benefit to your tuition or fees.
 </div>

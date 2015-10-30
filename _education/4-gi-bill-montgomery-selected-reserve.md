@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/gi-bill/montgomery-selected-reserve/index.html
-title: Montgomery GI Bill Selected Reserve (MGIB-SR)
+title: Montgomery GI Bill® Selected Reserve (MGIB-SR)
 template: 4-action-page
 ---
 
@@ -34,9 +34,7 @@ template: 4-action-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
-
-“GI Bill®® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our Terms of Use.
+“GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our Terms of Use.
 
 </div>
 </div>
