@@ -46,7 +46,7 @@ template: 4-action-page
 
 <div markdown="1">
 
-If you served on a Navy or Coast Guard ship in the Vietnam area of operations, you may have been exposed to Agent Orange or other herbicides.
+If you served on a Navy or Coast Guard ship in the Vietnam area of operations, you may have been exposed to Agent Orange.
 
 </div>
 
@@ -92,14 +92,9 @@ More information about [ships that may have been exposed to Agent Orange](http:/
 
 Yes, if:
 
-You are ill with one, or more, [of these diseases](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/range exposure), and
+You currently have one or more [of these diseases](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/range exposure), and
 
-You served on ships or boats that were part of:
-- The Mobile Riverine Force
-- Inshore Fire Support (IFS), or
-- Division 93
-
-with one of the following designations:
+You served on ships or boats that were part of the Mobile Riverine Force, Inshore Fire Support Division 93, or had one of the following designations:
 
 - AGP (Assault Group Patrol/Patrol Craft Tender)
 - LCM (Landing Craft, Mechanized)
@@ -116,7 +111,7 @@ with one of the following designations:
 - WPB (Patrol Boat)
 - YFU (Harbor Utility Craft)
 
-*Even if your vessel is not included in the Mobile Riverine Force (IFS), Division 93 or the above designations, it may still appear in VA's alphabetized list of ships that were exposed to Agent Orange or other herbicides. (Check to see if your ship was exposed).*
+*Even if your vessel is #not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in VA's alphabetized list of ships that were exposed to Agent Orange. (Check to see if your ship was exposed).*
 
 </div>
 
@@ -142,7 +137,7 @@ You and your dependents
 
 ### How it works
 
-If you served on one of the vessels listed as contaminated with Agent Orange, VA will forego the normal requirement that you prove an illness related to Agent Orange began during or was worsened by your military service when you apply for benefits.
+If you served on one of the vessels listed as exposed to Agent Orange, and have a disease listed above, VA will presume that your disease isrelated to Agent Orange exposure in service. 
 
 If you don’t currently have an Agent Orange related disability, you and your family may still participate in the Agent Orange Health registry.
 
