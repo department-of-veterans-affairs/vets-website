@@ -52,26 +52,4 @@ VA issues payments after each month’s classes. For example, you receive the No
 </div>
 </div>
 
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-      <h4>Learn More</h4>
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-        <li>
-          <a href="{{ site.url }}/education/gi-bill/post-9-11/yellow-ribbon-program">Yellow Ribbon Program</a>
-        </li>
-
-        <li>
-          <a href="{{ site.url }}/education/gi-bill/post-9-11/fry-scholarship">Fry Scholarship</a>
-        </li>
-
-        <li>
-          <a href="{{ site.url }}/education/gi-bill/post-9-11/bill-transfer">Transfer Post-9/11 GI Bill® to Spouse and Dependents</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-
 </div>

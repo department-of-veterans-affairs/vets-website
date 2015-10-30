@@ -40,13 +40,36 @@ This benefit has changed over time, and you currently have several options for e
   <div class="row">
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+
+      <li>
+        <a href="{{ site.url }}/education/gi-bill/foreign-programs/">Foreign Programs</a>
+      </li>
+
+      <li>
+        <a href="{{ site.url }}/education/gi-bill/higher-learning/">Institutions of Higher Learning Undergraduate and Graduate Degrees</a>
+      </li>
+
+
+      <li>
+        <a href="{{ site.url }}/education/gi-bill/post-9-11/">Post 9-11 GI BIll® </a>
+      </li>
+
         <li>
           <a href="{{ site.url }}/education/gi-bill/transfer/">Transfer Post-9/11 GI Bill® to Spouse and Dependents</a>
+        </li>    
+
+        <li>
+          <a href="{{ site.url }}/education/gi-bill/montgomery-active-duty/">Montgomery Active Duty</a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/education/gi-bill/foreign-programs/">Foreign Programs</a>
+          <a href="{{ site.url }}/education/gi-bill/montgomery-selected-reserve/">Montgomery Selected Reserve</a>
         </li>
+
+        <li>
+          <a href="{{ site.url }}/education/gi-bill/yellow-ribbon/">Yellow Ribbon</a>
+        </li>
+
 
       </ul>
     </div>
