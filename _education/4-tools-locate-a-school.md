@@ -27,7 +27,10 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+Not all schools and vocational institutions will qualify you for VA benefits. Use the school search tool to locate institutions that are approved for use with VA educational benefits. You can also locate institutions of higher education participating in the [Yellow Ribbon Program](link to beta site), which may offer additional education-related costs not covered by VA.
+
+Use the [school locator tool]( http://inquiry.vba.va.gov/weamspub/buildSearchInstitutionCriteria.do;jsessionid=qtMbSxQFpzyL7GpnQrtnNGv6G9CGQQvb2YqM9Cvw3vB2pv2lXhfJ!-1531379871).
+
 
 </div>
 </div>
