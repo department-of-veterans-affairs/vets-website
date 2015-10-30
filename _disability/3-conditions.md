@@ -125,7 +125,7 @@ When you apply for benefits, you will need prove your problems were caused, or w
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">
 <h5>Exposures to Hazardous Materials</h5>
-<span>Asbestos, Agent Orange, chemicals, weapons testing, Camp Lejune, Radiation, and more.</span>
+<span>Asbestos, Agent Orange, chemicals, weapons testing, Camp Lejeune, radiation, and more.</span>
 </a>
 </li>
 
