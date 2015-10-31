@@ -38,7 +38,7 @@ concurrence: incomplete
 <<<<<<< HEAD
 If you are transitioning out of active service soon, you are entitled to free educational and career counseling services.
 =======
-If you are transitioning soon out of active service soon, you are entitled to free educational and career counseling services.
+If you are transitioning out of active service soon, you are entitled to free educational and career counseling services.
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">### Are you eligible for services?
