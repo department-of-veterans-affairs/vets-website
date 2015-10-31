@@ -35,7 +35,7 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) provides Post-9/11 GI Bill® benefits to the children and surviving spouses of Service Members who died in the line of duty while on active duty after September 10, 2001. Eligible beneficiaries attending school may receive up to 36 months of benefits at the 100% level. 
+The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) provides Post-9/11 GI Bill® benefits to the children and surviving spouses of Service Members who died in the line of duty while on active duty after September 10, 2001. If you qualify, and are attending school, you may receive up to 36 months of benefits at the 100% level. Full in-state tuition costs are covered at public institutions; up to $20,235 per year will be paid for training at private institutions.
  
 ### Are you eligible for compensation?
 
@@ -49,9 +49,9 @@ Dependents/survivors
 Fry Scholarship (GI Bill® benefits)
 
 ### How it works
-Children are eligible as of their 18th birthday or after graduating high school, whichever comes first, until their 33rd birthday. A spouse has 15 years from the date of death of the Service Member to use the benefit.
+Children are eligible on their 18th birthday or after graduating high school, whichever comes first. Scholarship funds must be spent before the student’s 33rd birthday. A spouse has 15 years from the Service Members death to use the benefit.
 
-If you are eligible for both the Fry Scholarship and [DEA](link to Beta Dependents’ Educational Assistance), you will be required to pick one. If you are a dependent and your parent died in the line of duty before August 1, 2011, you may be eligible for both benefits, but you can use only one program at a time. Combined benefits are capped at 81 months of full-time training.
+If you are a dependent and your parent died in the line of duty before August 1, 2011, you may be eligible for both the Fry Scholarship and [DEA](link to Beta Dependents’ Educational Assistance), but you can use only one program at a time. Combined benefits are capped at 81 months of full-time training.
  
 Surviving spouses are eligible to receive [Dependency Indemnity Compensation](http://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp) while using the Fry Scholarship. Children over 18 who receive DIC will need to give up those payments when they start to use the Fry Scholarship.
 
