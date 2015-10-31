@@ -35,7 +35,7 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you are currently using VA educational assistance, and there’s a specific deficiency you need to address, you may be eligible for a financial supplement to pay for a tutor.
+If you are currently using VA educational assistance, and you're struggling with the course work, you may be eligible for a financial supplement to pay for a tutor.
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">### Are you eligible for benefits?
@@ -44,7 +44,7 @@ If you are currently using VA educational assistance, and there’s a specific d
 
 - You are using VA educational assistance
 - You are pursuing an educational program at half-time or more
-- You are presently enrolled in the course in which you are deficient
+- You are presently enrolled in the course you're finding difficult
 - The course is a required part of your educational program
 
 #### Who is covered
@@ -58,9 +58,12 @@ If you are currently using VA educational assistance, and there’s a specific d
 
 #### How it works
 
-The monthly rate of this supplement may not exceed $100, and the total payable may not be greater than $1,200. Your course instructor must identify the need for a tutor and write a letter on your behalf for your VA student file. If approved, the school assigns a tutor to you and confirms the hourly rate. You, your selected tutor, and your school’s certifying official must complete and sign [VA Form 22-1990t](http://www.vba.va.gov/pubs/forms/vba-22-1990t-are.pdf), Application for Individualized Tutorial Assistance. If you are using the Post-9/11 GI Bill®, your professor must also sign section 18 of this form.
+VA will not pay more than $100 per month for tutoring assistance, and will not pay more than $1,200 total. The process to receive this benefit is as follows:
 
-This application must be submitted at the end of each month during which you require tutoring. Each monthly application must be signed and dated on or after the date of the last certified tutoring session (Form 22-1900t, item 12b).
+- Your course instructor must identify your need for a tutor and write a letter on your behalf for your VA student file. 
+- If you are approved, the school will assign you a tutor and confirm the tutor's the hourly pay. 
+- You, your selected tutor, and your school’s certifying official must complete and sign [VA Form 22-1990t](http://www.vba.va.gov/pubs/forms/vba-22-1990t-are.pdf), Application for Individualized Tutorial Assistance. If you are using the Post-9/11 GI Bill®, your professor must also sign section 18 of this form.
+- At the end of every month you receive tutoring, you'll need to send in this application. It must be signed and dated on or after the date of the last certified tutoring session (Form 22-1900t, item 12b).
 
 There is no entitlement charge for the first $600 of your [Montgomery GI Bill®](beta link) or for your [Post-9/11 GI Bill®](beta link) or [Dependents’ Educational Assistance](beta link).
 
