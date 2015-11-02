@@ -72,9 +72,17 @@ new WOW().init();
 		</div>
 
 		<div class="medium-6 text-right columns">
-			<div class="button_wrapper">
+			<form accept-charset="UTF-8" action="http://search.usa.gov/search" id="search_form" method="get">
+			    <div style="margin:0;padding:0;display:inline">
+			    <input name="utf8" type="hidden" value="&#x2713;" /></div>
+			    <input id="affiliate" name="affiliate" type="hidden" value="vets_staging" />
+			    <label for="query">Enter Search Term(s):</label>
+			    <input autocomplete="off" class="usagov-search-autocomplete" id="query" name="query" type="text" />
+			    <input name="commit" type="submit" value="Search" />
+			</form>
+			<!--<div class="button_wrapper">
 				<a href="{{ site.url }}/beta/2015/09/29/why-we-are-designing-in-beta.html" class="usa-button usa-button-outline-inverse">Help Us Create vets.gov: A Message from Secretary Robert McDonald</a>
-			</div>
+			</div>-->
 		</div>
 
 		</div>
