@@ -46,7 +46,7 @@ concurrence: incomplete
 
 <div markdown="1">
 
-If you participated in the testing or storage activities of Agent Orange and other herbicides used in Vietnam—on bases in the United States or elsewhere—you can apply for disability compensation.
+If you participated in the testing or storage activities of Agent Orange used in Vietnam—on bases in the United States or elsewhere—you can apply for disability compensation.
 
 </div>
 
@@ -79,7 +79,7 @@ See these comprehensive lists for dates and locations of herbicide tests and sto
 
 Yes, if:
 - You are ill with one, or more, of [these diseases](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) related to Agent Orange
-- Your service included testing and storage activities of Agent Orange and other herbicides used in Vietnam
+- Your service included testing and storage activities of Agent Orange used in Vietnam
 
 ### Who is covered
 You and your dependents or survivors
