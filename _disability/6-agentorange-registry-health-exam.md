@@ -46,7 +46,7 @@ template: action-page
 
 <div markdown="1">
 
-If you suspect you were exposed to Agent Orange or other herbicides during your military service you can request a VA Agent Orange Registry health exam. Even if you don’t have a known illness, the exam could alert you to health problems that may be related to herbicide exposure. Your participation also helps VA better understand and serve those affected by Agent Orange-related health problems.
+If you suspect you were exposed to Agent Orange during your military service you can request a VA Agent Orange Registry health exam. Even if you don’t have a known illness, the exam could alert you to health problems that may be related to herbicide exposure. Your participation also helps VA better understand and serve those affected by Agent Orange-related health problems.
 
 </div>
 
