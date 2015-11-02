@@ -46,7 +46,7 @@ template: 4-action-page
 
 <div markdown="1">
 
-<p>Because of the proximity to Vietnam and potential for tactical herbicide use as a security measure on fenced-in base perimeters, some Servicemembers in Thailand may have been exposed to Agent Orange. If your service involved regular daily security duty on the fenced-in perimeters of a U.S. military base in Thailand between January 9, 1962, and May 7, 1975, you may be eligible for an acknowledgement of Agent Orange exposure.</p>
+<p>Because of the proximity to Vietnam and potential for Agent Orange use as a security measure on fenced-in base perimeters, some Servicemembers in Thailand may have been exposed to Agent Orange. If your service involved regular daily security duty on the fenced-in perimeters of a U.S. military base in Thailand between January 9, 1962, and May 7, 1975, you may be eligible for an acknowledgement of Agent Orange exposure.</p>
 
 </div>
 
@@ -130,7 +130,7 @@ You, your dependents and survivors
 
 An acknowledgement of potential Agent Orange exposure on a case-by-case basis is available for Thailand Veterans whose military personnel records show perimeter security duties as a dog handler, member of a security squadron, member of a military police unit, or some related duties indicating regular security activity on a fenced-in perimeter.
 
-To receive benefits for diseases associated with  Agent Orange exposure based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence showing the required perimeter security duty.
+To receive benefits for diseases associated with Agent Orange exposure based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence showing the required perimeter security duty.
 
 </div>
 
