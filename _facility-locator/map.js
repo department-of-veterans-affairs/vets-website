@@ -123,11 +123,6 @@ FacilityLocator = (function() {
     $.each(facilities, function(i, facility) {
       var image = {
         url: markerURL(facility),
-
-        size: new google.maps.Size(40, 66),
-
-        scaledSize: new google.maps.Size(20, 33),
-
         anchor: new google.maps.Point(10, 33)
       };
 
@@ -175,7 +170,7 @@ FacilityLocator = (function() {
     var i = types.indexOf(facility.type) + 1;
     if (i === 0) { i = 1; }
 
-    return 'markers/m' + i + '_40.svg';
+    return 'markers/m' + i + '_40.png';
   }
 
   function clearMarkers() {
