@@ -45,7 +45,7 @@ template: 4-action-page
 </dl>
 
 <div markdown="1">
-If you served in Vietnam, including aboard a [ship on the inland waterways](link to Beta site page), for any length of time between January 9, 1962, and May 7, 1975, or in or near the Korean demilitarized zone between April 1, 1968, and August 31, 1971, VA presumes you were exposed to Agent Orange or other herbicides.
+If you served in Vietnam, including aboard a [ship on the inland waterways](link to Beta site page), for any length of time between January 9, 1962, and May 7, 1975, or on the Korean demilitarized zone between April 1, 1968, and August 31, 1971, VA presumes you were exposed to Agent Orange.
 
 </div>
 
