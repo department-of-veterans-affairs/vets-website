@@ -145,6 +145,10 @@ FacilityLocator = (function() {
         content: text
       });
 
+      google.maps.event.addListener(infowindow, 'domready', function() {
+        infowindow.setContent(facilityHTML(facility));
+      })
+
       infowindows[facility.sid] = [infowindow, marker];
 
       marker.addListener('click', function() {
