@@ -46,7 +46,7 @@ Non-Hodgkin's lymphoma is a type of cancer of the lymph glands and other lymphat
 
 Yes, if
 -You are ill with Non-Hodgkin’s lymphoma 
--You were exposed to Agent Orange or other herbicides during military service
+-You were exposed to Agent Orange during military service
 -You served in Vietnam or in the waters off Vietnam during the Vietnam War era, the Korean demilitarized zone, or another area where Agent Orange was stored, tested or sprayed. 
 
 ### Who is covered
@@ -58,7 +58,7 @@ Yes, if
 - [Agent Orange Registry health exam]( http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
 
 ### How it works
-VA considers Non-Hodgkins Lymphoma to related to exposure to Agent Orange or other herbicides. When you apply for benefits, VA will forego the normal requirement that you prove your illness is related to Agent Orange or that it began during -- or was worsened by -- your military service. 
+VA considers Non-Hodgkins Lymphoma to related to exposure to Agent Orange. When you apply for benefits, VA will forego the normal requirement that you prove your illness is related to Agent Orange or that it began during -- or was worsened by -- your military service. 
 
 Learn more about [benefits related to Agent Orange](exposurehttp://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
 
