@@ -1767,9 +1767,15 @@ li.twenty:before {content: "20";}
       font-size: 1.4em;
     }
   }
-  @media #{$medium-up} {
-    text-align: center;
+
+  ul {
+    margin: 0 0 1.5em 0; padding: 0;
+    li {
+    margin: 0;
+    padding: 0;
+    }
   }
+
   &.hcd {
     h4 {
       color: $secondary-color;
