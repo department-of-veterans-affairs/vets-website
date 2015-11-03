@@ -209,8 +209,8 @@ Unless VA writes to you and asks for additional information there is nothing you
 
             <li>
               <a href="{{ site.url }}/disability-benefits/conditions/time/">
-              <h5>Service Time</h5>
-              <span>How does the time when I received a disability affect my eligibility?</span>
+              <h5>Effective Dates</h5>
+              <span>Effective Dates</span>
               </a>
             </li>
 

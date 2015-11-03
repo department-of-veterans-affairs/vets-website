@@ -13,7 +13,7 @@ concurrence: incomplete
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/time/">How does the time when I received a disability affect my eligibility?</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/time/">Effective Dates</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

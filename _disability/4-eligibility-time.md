@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/conditions/time/index.html
-title: How does the time when I received a disability affect my eligibility?
+title: Effective Dates
 
 ---
 
