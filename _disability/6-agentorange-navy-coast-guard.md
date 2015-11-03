@@ -39,9 +39,7 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: </dd>
-<dd>Sites: Navy and Coast Guard Ships in Vietnam</dd>
-<dd>Who: Navy Veterans & Coast Guard Veterans</dd>
+<dd>Dates: <January 9, 1962 and May 7, 1975>
 </dl>
 
 <div markdown="1">
