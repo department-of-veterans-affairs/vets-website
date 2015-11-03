@@ -175,7 +175,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 
 // Banner
 
-#content {margin: 0; padding: 0;}
+#content {margin: 0; padding: 0; color: $color-gray-dark;}
 
 #content .splash {
 padding: .5em 0;
@@ -1453,10 +1453,19 @@ a {color: #fff; background: none;}
   font-size: .9em;
   font-weight: 700;
   clear: both;
+  padding: .5em .85em;
   margin-bottom: .75em;
   -webkit-box-shadow: 0 0 6px rgba(0,0,0,.2);
   box-shadow: 0 0 6px rgba(0,0,0,.2);
   background: $color-primary-darker;
+  &:after {
+     visibility: hidden;
+     display: block;
+     font-size: 0;
+     content: " ";
+     clear: both;
+     height: 0;
+     }
 }
 
 &.coda {
@@ -1502,15 +1511,47 @@ a {color: #fff; background: none;}
   padding: 0 .5em 0 0;
   line-height: 1em;
   margin: 0;
-  text-align: right;
+  text-align: right !important;
   a.usa-button {margin-top: 0; margin-bottom: .75em;}
-
-  @media #{$small-up} {
-    float: left!important;
   }
 }
 
+// Search form
+
+#search_form {
+  padding: 2.1em 0;
+  text-align: right;
+  label {
+    position: absolute;
+    left: -9999em;
+    font-size: 1px;
+    overflow: hidden;
+    float: left;
+  }
+  input[type="text"] {
+    height: 3em;
+    margin: 0;
+    width: 100%;
+    color: $color-gray-dark;
+    padding: .2em;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+
+  input[type="submit"] {
+    margin: 0;
+    height: 3em;
+    text-align: center !important;
+    width: 100%;
+    padding: 0;
+    border-radius: 0px 3px 3px 0px;
+    -moz-border-radius: 0px 3px 3px 0px;
+    -webkit-border-radius: 0px 3px 3px 0px;
+  }
+
 }
+
+
 
 // Plain lists
 

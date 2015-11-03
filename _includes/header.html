@@ -66,27 +66,46 @@ new WOW().init();
 <div data-alert class="alert-box notice">
 	<div class="row full">
 		<div class="small-12 message">
-		<div class="medium-6 columns">
-			<span>This site is a work in progress.</span>
-			<p>We&rsquo;re designing in the open. If you don&rsquo;t find what you need, visit <a href="http://www.va.gov">va.gov</a>.</p>
+			<p><strong>This site is a work in progress.</strong> We&rsquo;re designing in the open. If you don&rsquo;t find what you need, visit <a href="http://www.va.gov">va.gov</a>.</p>
 		</div>
-
-		<div class="medium-6 text-right columns">
-			<div class="button_wrapper">
-				<a href="{{ site.url }}/beta/2015/09/29/why-we-are-designing-in-beta.html" class="usa-button usa-button-outline-inverse">Help Us Create vets.gov: A Message from Secretary Robert McDonald</a>
-			</div>
-		</div>
-
-		</div>
+	</div>
  </div>
 </div>
 <!-- /header alert box -->
 	<div class="row full">
 		<div class="small-12 medium-4 columns">
 			<h1 role="banner"><a href="{{ site.url }}">Veterans.gov</a></h1>
-
 		</div>
+
+		<div class="medium-4 medium-offset-2 text-right columns">
+			<form accept-charset="UTF-8" action="http://search.usa.gov/search" id="search_form" method="get">
+					<div style="margin:0;padding:0;display:inline">
+					<input name="utf8" type="hidden" value="&#x2713;" /></div>
+					<input id="affiliate" name="affiliate" type="hidden" value="siteHandle" />
+					<label for="query">Search:</label>
+					<div class="row collapse">
+						<div class="small-9 columns">
+							<input autocomplete="off" class="usagov-search-autocomplete" id="query" name="query" type="text" />
+						</div>
+						<div class="small-3 columns">
+							<input name="commit" type="submit" value="Search" />
+					</div>
+			</form>
+		</div>
+
 	</div>
 </div>
 
 <h2 class="sr-only">{{ page.title }}</h2>
+
+<script type="text/javascript">
+//<![CDATA[
+      var usasearch_config = { siteHandle:"staging_vets" };
+
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "http://search.usa.gov/javascripts/remote.loader.js";
+      document.getElementsByTagName("head")[0].appendChild(script);
+
+//]]>
+</script>
