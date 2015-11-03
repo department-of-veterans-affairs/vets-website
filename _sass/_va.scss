@@ -178,8 +178,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 #content .splash {
 padding: .5em 0;
 margin: 0;
-p {color: #fff;}
-h2 {display: block;}
+p {color: #fff; font-family: $font-sans;}
 
 &.home {
   background: #ccc;
@@ -188,12 +187,15 @@ h2 {display: block;}
 
 &.app {
   padding: 0;
+  p {color: #fff; font-family: $font-sans;}
   ul.breadcrumbs {
-    margin: 0; padding: 0;
-    h2 {margin: 0; padding: .2em; line-height: 1em;}
+    display: inline-block;
+    margin: 0 0 .5em 0; padding: 0;
+    @media #{$small} {margin-right: 1em;}
+    h2 {margin: 0; padding: .2em; line-height: 1em; display: block;}
     li {overflow: hidden; padding: 0;}
   }
-  p {margin: 0 0 1em 0;}
+  p {margin: .5em 0 1em 0;}
 }
 
 @media #{$small} {padding: 1em 0;}
@@ -210,7 +212,7 @@ span, h2 {
 }
 
 h2 span {clear: both; padding: .1em; display: inline-block; background: $color-gold; font-weight: normal; font-size: .8em;}
-h2, h3, p {padding: .35em; margin: 0; display: inline-block; font-family: $roboto-slab;}
+h2, h3, p {/*padding: .35em; */ margin: 0; display: inline-block; font-family: $roboto-slab;}
 h2 {
   font-size: 1em;
   display: inline-block;
@@ -1049,6 +1051,7 @@ body.page-playbook {
     margin: 0;
     @media #{$small} {margin: .5em 0 0 0;}
     h2 {
+      &.tagline {padding: 0;}
       padding: 0; margin: 0 0 2em 0; background: none; color: $color-primary-darkest;
       a {text-decoration: none; margin: 0; color: $color-primary-darkest; background: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
       @media #{$medium} {position: fixed; margin: .75em 0 0 0;}
@@ -1184,15 +1187,13 @@ body.page-playbook {
   // }
 
 a {
-  border-bottom: 2px solid rgba(0,0,0,.25);
+  text-decoration: underline;
   display: block;
   background: none;
   font-weight: 400;
-  text-decoration: none;
-  border-bottom: 2px solid rgba(255,255,255,.1);
   padding: .65em 0;
   @media #{$small} {display: inline-block; padding: .25em 0;}
-  &:hover {color:#fff; text-decoration: none; border-bottom: 2px solid $secondary-color; text-shadow: 0 0 5px rgba(255,255,255,.4);}
+  &:hover {color:#fff;}
   &.contact, &.blog {
     padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $secondary-color;
     @media #{$small} {margin: 1.5em auto; display: inline-block;}
@@ -1225,7 +1226,7 @@ a {
   }
 }
 .footer-address {
-  background:$color-primary-darkest;
+  background: rgba(0,0,0,.055);
 }
 .footer-seal {
         background:url(../images/design/seal/seal-footer.svg) no-repeat;
@@ -1314,7 +1315,6 @@ a {
         content: "";
       }
     a {
-        border-bottom: 1px solid;
         display:inline-block;
         padding-bottom: 0;
     }
@@ -1498,8 +1498,9 @@ a {color: #fff; background: none;}
     text-align: right;
   }
   @media #{$medium-up} {
-    top:.5em;
     right:3em;
+    vertical-align: middle;
+    top: 2em;
   }
 }
 .message {
