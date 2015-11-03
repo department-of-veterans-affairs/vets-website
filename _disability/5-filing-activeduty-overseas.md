@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/filing/active-duty/overseas/index.html
-title: How do I file when I’m Overseas?
+title: How do I file when I’m overseas?
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp,http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-overseas-intake-sites.asp
 template: 6-info-page
@@ -14,7 +14,7 @@ template: 6-info-page
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/filing">Filing</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/filing/active-duty/">Pre-discharge filing status</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/filing/active-duty/">Predischarge filing status</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -47,13 +47,13 @@ If you are stationed within the Kaiserslautern Military Community (KMC), you can
 </div>
 
 <div class="call-out" markdown="1">
-If you are stationed outside the KMC, you can participate in the BDD or Quick Start programs through the "Fly-in" claim process, which allows you to submit applications by fax or e-mail before your in-person appointment. Here’s what you need to do to participate in the Fly-in claim process:
+If you are stationed outside the KMC, you can participate in the BDD or Quick Start programs through the "Fly-in" claim process, which allows you to submit applications by fax or email before your in-person appointment. Here’s what you need to do to participate in the Fly-in claim process:
 
-- Contact the [Landstuhl BDD office]( https://ermc.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733) by phone, fax, or e-mail to request all necessary information and forms.  
+- Contact the [Landstuhl BDD office]( https://ermc.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733) by phone, fax, or email to request all necessary information and forms.  
 
-- After you complete and return the application, a BDD officer will contact you by e-mail to schedule an examination at the Landstuhl Regional Medical Center(LRMC) and to notify you about the information and evidence required to support the claim.
+- After you complete and return the application, a BDD officer will contact you by email to schedule an examination at the Landstuhl Regional Medical Center (LRMC) and to notify you about the information and evidence required to support your claim.
 
-- You are responsible for contacting the clinics at LRMC to schedule necessary exams as directed, and for arranging your travel and gaining the approval of your command to make the trip.
+- You are responsible for contacting the clinics at LRMC to schedule necessary exams as directed, and for arranging your travel and getting the approval of your command to make the trip.
 
 - When you report for your examinations, you must bring a copy of your Service Treatment Records (STRs), which will be submitted to VA and not returned. BDD and Quick Start claims cannot be processed without the STRs.
 
