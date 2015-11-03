@@ -1570,6 +1570,9 @@ dd {
   padding: 0;
   margin: 0;
 }
+&.templates {
+  height: 338px;
+}
 &:after {
   visibility: hidden;
   display: block;
