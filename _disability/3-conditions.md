@@ -148,7 +148,7 @@ When you apply for benefits, you will need prove your problems were caused, or w
 <li>
   <a href="{{ site.url }}/disability-benefits/conditions/service-connected/">
   <h5>Service Connected</h5>
-  <span>What does "service-connected" mean?</span>
+  <span>What does "service connected" mean?</span>
   </a>
 </li>
 
