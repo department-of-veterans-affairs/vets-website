@@ -11,8 +11,8 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/conditions/">Conditions</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/eligibility/time/">How does the time when I received a disability affect my eligibility?</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/time/">How does the time when I received a disability affect my eligibility?</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -46,11 +46,11 @@ If you are between 180 and 60 days from separation, you can begin the [Benefit D
 
 #### See also
 
-- Benefit Delivery at Discharge (BDD) program.
-- Quick Start Program
-- Overseas
-- Disability Compensation Rates
-- Other programs available to pre-discharge Service Members.
+- [Benefit Delivery at Discharge (BDD) program]({{ site.url }}/disability-benefits/filing/active-duty/bdd/index.html).
+- [Quick Start Program]({{ site.url }}/disability-benefits/filing/active-duty/quick-start/index.html)
+- [Overseas]({{ site.url }}/disability-benefits/filing/active-duty/overseas/index.html)
+- [Disability Compensation Rates]({{ site.url }}/disability-benefits/rates/index.html)
+- [Other programs available to pre-discharge Service Members]({{ site.url }}/disability-benefits/claims-process/claim-types/standard-claim/index.html).
 
 </div>
 </div>

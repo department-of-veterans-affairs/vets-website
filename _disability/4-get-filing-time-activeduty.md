@@ -50,25 +50,25 @@ The Integrated Disability Evaluation System (IDES) Examination Templates page is
 <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 <li>
 <a href="{{ site.url }}/disability-benefits/filing/active-duty/tools/">
-What tools are there to help me prepare my claim before my discharge?
+<h5>What tools are there to help me prepare my claim before my discharge?</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/filing/active-duty/overseas/">
-How do I file when I’m Overseas?
+<h5>How do I file when I’m Overseas?</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/filing/active-duty/bdd/">
-What is Benefit Delivery at Discharge? (BDD)
+<h5>What is Benefit Delivery at Discharge? (BDD)</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/filing/active-duty/quick-start/">
-What is Quick Start?
+<h5>What is Quick Start?</h5>
 </a>
 </li>
 

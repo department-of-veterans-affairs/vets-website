@@ -37,13 +37,19 @@ Before the Post-9/11 GI Bill®, several smaller programs provided education bene
     <div class="small-12 columns">
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/education/eligible-programs/reap/">Reserve Educational Assistance Program (REAP)</a>
+              <a href="{{ site.url }}/education/eligible-programs/reap/">
+                <h5>Reserve Educational Assistance Program (REAP)</h5>
+              </a>
             </li>
             <li>
-              <a href="{{ site.url }}/education/eligible-programs/call-to-service/">National Call to Service Program</a>
+              <a href="{{ site.url }}/education/eligible-programs/call-to-service/">
+                <h5>National Call to Service Program</h5>
+              </a>
             </li>
             <li>
-              <a href="{{ site.url }}/education/eligible-programs/veap/">Veterans Educational Assistance Program (VEAP)</a>
+              <a href="{{ site.url }}/education/eligible-programs/veap/">
+                <h5>Veterans Educational Assistance Program (VEAP)</h5>
+              </a>
             </li>
           </ul>
         </div>

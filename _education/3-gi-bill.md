@@ -26,7 +26,7 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you are an eligible member of the Army Reserve, Navy Reserve, Air Force Reserve, Marine Corps Reserve, Coast Guard Reserve, Army National Guard or Air National Guard, you may receive up to 36 months of education and training benefits under the MGIB-SR program. 
+If you are an eligible member of the Army Reserve, Navy Reserve, Air Force Reserve, Marine Corps Reserve, Coast Guard Reserve, Army National Guard or Air National Guard, you may receive up to 36 months of education and training benefits under the MGIB-SR program.
 
 [View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606)
 
@@ -70,35 +70,48 @@ Complete an application using [VA Form 22-1990](http://www.vba.va.gov/pubs/forms
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
       <li>
-        <a href="{{ site.url }}/education/gi-bill/foreign-programs/">Foreign Programs</a>
+        <a href="{{ site.url }}/education/gi-bill/foreign-programs/">
+          <h5>Foreign Programs</h5>
+        </a>
       </li>
 
       <li>
-        <a href="{{ site.url }}/education/gi-bill/higher-learning/">Institutions of Higher Learning Undergraduate and Graduate Degrees</a>
+        <a href="{{ site.url }}/education/gi-bill/higher-learning/">
+          <h5>Institutions of Higher Learning Undergraduate and Graduate Degrees</h5>
+        </a>
       </li>
 
 
       <li>
-        <a href="{{ site.url }}/education/gi-bill/post-9-11/">Post 9-11 GI BIll® </a>
+        <a href="{{ site.url }}/education/gi-bill/post-9-11/">
+          <h5>Post 9-11 GI BIll®</h5>
+        </a>
       </li>
 
         <li>
-          <a href="{{ site.url }}/education/gi-bill/transfer/">Transfer Post-9/11 GI Bill® to Spouse and Dependents</a>
+          <a href="{{ site.url }}/education/gi-bill/transfer/">
+            <h5>Transfer Post-9/11 GI Bill® to Spouse and Dependents</h5>
+          </a>
         </li>    
 
         <li>
-          <a href="{{ site.url }}/education/gi-bill/montgomery-active-duty/">Montgomery Active Duty</a>
+          <a href="{{ site.url }}/education/gi-bill/montgomery-active-duty/">
+            <h5>Montgomery Active Duty</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/education/gi-bill/montgomery-selected-reserve/">Montgomery Selected Reserve</a>
+          <a href="{{ site.url }}/education/gi-bill/montgomery-selected-reserve/">
+            <h5>Montgomery Selected Reserve</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/education/gi-bill/yellow-ribbon/">Yellow Ribbon</a>
+          <a href="{{ site.url }}/education/gi-bill/yellow-ribbon/">
+            <h5>Yellow Ribbon</h5>
+          </a>
         </li>
-
-
+        
       </ul>
     </div>
   </div>

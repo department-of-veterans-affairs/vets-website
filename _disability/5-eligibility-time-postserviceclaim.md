@@ -11,9 +11,9 @@ source: http://www.benefits.va.gov/compensation/claims-postservice-index.asp
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/conditions/">Eligibility</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/conditions/claim-types">Claim types</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Eligibility</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/claim-types">Claim types</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

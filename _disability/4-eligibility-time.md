@@ -35,40 +35,47 @@ title: How does the time when I received a disability affect my eligibility?
 <div class="small-12 columns" markdown="1">
 
 
+Coming soon.
+
+
+</div>
+</div>
+</div>
+</div>
+
+<div class="navigation" markdown="0">
+<div class="row" markdown="0">
+<div class="small-12 columns" markdown="1">
+
 <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
 <li>
-  <a href="{{ site.url }}/disability-benefits/conditions/time/pre-service/">Pre-service claim</a>
+  <a href="{{ site.url }}/disability-benefits/conditions/time/pre-service/">
+    <h5>Pre-service claim</h5>
+  </a>
 </li>
 
 <li>
-  <a href="{{ site.url }}/disability-benefits/conditions/time/in-service/">In-service claim</a>
+  <a href="{{ site.url }}/disability-benefits/conditions/time/in-service/">
+    <h5>In-service claim</h5>
+  </a>
 </li>
 
 <li>
-  <a href="{{ site.url }}/disability-benefits/conditions/time/pre-discharge/">Pre-discharge claim</a>
+  <a href="{{ site.url }}/disability-benefits/conditions/time/pre-discharge/">
+    <h5>Pre-discharge claim</h5>
+  </a>
 </li>
 
 <li>
-  <a href="{{ site.url }}/disability-benefits/conditions/time/post-service/">Post-service claim</a>
+  <a href="{{ site.url }}/disability-benefits/conditions/time/post-service/">
+    <h5>Post-service claim</h5>
+  </a>
 </li>
 
 
 
 </ul>
-
-
-</div>
-</div>
-</div>
-</div>
-
-<div class="section secondary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
-#### See also:
-
 
 </div>
 </div>

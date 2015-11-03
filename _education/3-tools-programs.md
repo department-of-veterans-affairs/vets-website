@@ -37,19 +37,27 @@ Navigating your transition from military to civilian life can be challenging. VA
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="{{ site.url }}/education/tools-programs/education-career-counseling/">Education and Career Counseling</a>
+          <a href="{{ site.url }}/education/tools-programs/education-career-counseling/">
+            <h5>Education and Career Counseling</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/education/tools-programs/careerscope/">CareerScope</a>
+          <a href="{{ site.url }}/education/tools-programs/careerscope/">
+            <h5>CareerScope</h5>
+          </a>
         </li>  
 
         <li>
-          <a href="{{ site.url }}/education/tools-programs/principles-excellence-program/">Principles of Excellence Program</a>
+          <a href="{{ site.url }}/education/tools-programs/principles-excellence-program/">
+            <h5>Principles of Excellence Program</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/education/tools-programs/locate-a-school/">Locate a School</a>
+          <a href="{{ site.url }}/education/tools-programs/locate-a-school/">
+            <h5>Locate a School</h5>
+          </a>
         </li>
 
       </ul>
