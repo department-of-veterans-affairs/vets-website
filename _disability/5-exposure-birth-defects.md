@@ -60,7 +60,7 @@ If you are seeking benefits for the biological child of a male or female Veteran
 #### Birth Defects 
 Yes, if:
 - You are seeking benefits for the biological child of a female Veteran, and
-- The mother served in South Vietnam during the period from February 28, 1961, through May 7, 1975, and
+- The mother served in South Vietnam during the period from January 9, 1962, through May 7, 1975, and
 - The child was conceived after the mother served in South Vietnam, and
 - The child has a covered birth defect that resulted in a permanent physical or mental disability
 
