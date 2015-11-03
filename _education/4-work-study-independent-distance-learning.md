@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/work-learn/independent-distance-learning/index.html
-title: Independent and Distance Learning Training
+title: Independent and Distance-Learning Training
 template: 4-action-page
 concurrence: incomplete
 ---
