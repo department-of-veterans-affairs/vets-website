@@ -1694,7 +1694,12 @@ li {
         /*background-color: #D9C799;*/
       }
   }
-  &.step.three.last, &.step.four {
+  &.step.three.last,
+  &.step.four.last,
+  &.step.five.last,
+  &.step.six.last,
+  &.step.seven.last
+   {
     &:before {
     margin-left: -2.4em
     }
