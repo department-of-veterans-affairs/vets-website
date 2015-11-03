@@ -99,13 +99,6 @@ When you apply for benefits, you will need prove your problems were caused, or w
 <div class="small-12 columns">
 
 <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-<li>
-<a href="{{ site.url }}/disability-benefits/conditions/general-conditions/">
-<h5>General Conditions</h5>
-<span>What sort of conditions can be service connected?</span>
-</a>
-</li>
-
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/pow/">
