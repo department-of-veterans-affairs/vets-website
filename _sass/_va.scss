@@ -178,9 +178,22 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 #content .splash {
 padding: .5em 0;
 margin: 0;
+p {color: #fff;}
+h2 {display: block;}
+
 &.home {
   background: #ccc;
   background: rgba(0,0,0,.1);
+}
+
+&.app {
+  padding: 0;
+  ul.breadcrumbs {
+    margin: 0; padding: 0;
+    h2 {margin: 0; padding: .2em; line-height: 1em;}
+    li {overflow: hidden; padding: 0;}
+  }
+  p {margin: 0 0 1em 0;}
 }
 
 @media #{$small} {padding: 1em 0;}
@@ -383,7 +396,7 @@ ul.plain {
 
 .section.main-menu {
   padding: .5em;
-  @media #{$small} {padding: 1.5em 0 3em 0;}
+  @media #{$small} {padding: 0 0 0 0;}
   background: transparent;
   .navigation {
     padding: 1.5em 0 0 0;
@@ -407,8 +420,8 @@ ul.plain {
 }
 
 .section.one {
-  padding: 1em 0;
-    @media #{$small} {padding: 4em 0;}
+  padding: 0 0 1.5em 0;
+    @media #{$small} {padding: 2em 0 4em 0;}
 }
 
 .section.two {
@@ -786,7 +799,7 @@ ul.cards li {
   margin: 0;
   height: auto;
   h3, h4, h5, h6 {color: $color-primary-darkest; font-weight: 600; font-family: $font-sans; font-size: 1.5em;}
-  h4 {font-size: 1.4em;}
+  h4 {font-size: 1.3em;}
   border-bottom: 1px solid rgba(0,0,0,.2);
   &:last-of-type { border-bottom: none;}
   a {
@@ -866,6 +879,7 @@ a, .coming-soon {
   width: 100%;
   color: #fff;
   display: block;
+  font-weight: normal;
   text-decoration: none;
   h3 {
     text-decoration: none;
@@ -873,13 +887,10 @@ a, .coming-soon {
     @media #{$small} {margin: 0 0 1em 0;}
   }
   border-bottom: 4px solid rgba(255,255,255,0);
-  /* @media #{$small} {border-bottom: 6px solid $color-primary;} */
   background: $color-primary-darker;
 
   -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
-  h3 {font-size: 1.35em;}
-
-h4 {/*-webkit-align-self: flex-start; align-self: flex-start; */}
+  h3, h4 {font-size: 1.35em; font-weight: 700;}
 
 p {
   /*  display: -webkit-inline-flex;
@@ -1487,7 +1498,7 @@ a {color: #fff; background: none;}
     text-align: right;
   }
   @media #{$medium-up} {
-    top:.15em;
+    top:.5em;
     right:3em;
   }
 }
@@ -1557,15 +1568,15 @@ a {color: #fff; background: none;}
 }
 
 .search-button {
-  margin: 0 .5em 0 0;
+  margin: 0.1em .5em 0 0;
   padding: 0;
   float: right;
   a {
     line-height: 1em;
     display: inline-block;
-    padding: .35em;
+    padding: .41em;
     font-size: .85em;
-    border-radius: .3em;
+    border-radius: .2em;
     text-decoration: none;
     background: $color-primary;
     color: #fff;
