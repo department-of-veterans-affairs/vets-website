@@ -45,15 +45,23 @@ If you are using or intend to use one of the GI Bill® programs, there are optio
     <div class="small-12 columns">
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/education/top-up/tuition-assistance/">Tuition Assistance Top Up</a>
+              <a href="{{ site.url }}/education/top-up/tuition-assistance/">
+                <h5>Tuition Assistance Top Up</h5>
+              </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/education/top-up/buy-up-program/">$600 Buy-Up Program</a>
+              <a href="{{ site.url }}/education/top-up/buy-up-program/">
+                <h5>$600 Buy-Up Program</h5>
+              </a>
             </li>
+            
             <li>
-              <a href="{{ site.url }}/education/top-up/tutorial-assistance/">Tutorial Assistance</a>
+              <a href="{{ site.url }}/education/top-up/tutorial-assistance/">
+                <h5>Tutorial Assistance</h5>
+              </a>
             </li>
+
           </ul>
         </div>
       </div>

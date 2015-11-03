@@ -40,19 +40,27 @@ If you have new information about a condition that you think could qualify you f
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/original-claim/">Original Claim</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/original-claim/">
+            <h5>Original Claim</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/reopened-claim/">Reopened Claim</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/reopened-claim/">
+            <h5>Reopened Claim</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/new-claim/">New Claim</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/new-claim/">
+            <h5>New Claim</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/secondary-claim/">Secondary Claim</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/secondary-claim/">
+            <h5>Secondary Claim</h5>
+          </a>
         </li>
 
 

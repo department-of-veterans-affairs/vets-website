@@ -69,50 +69,50 @@ If you are a Veteran with a service-connected disability rating, you may be elig
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/automobile/">
-<h4>Automobile use claims</h4>
+<h5>Automobile use claims</h5>
 </a>
 </li>
 
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/clothing/">
-<h4>Clothing Allowance</h4>
+<h5>Clothing Allowance</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/convalescence/">
-<h4>Convalescence</h4>
+<h5>Convalescence</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/dentistry/">
-<h4>Dentistry</h4>
+<h5>Dentistry</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/hospitalization/">
-<h4>Hospitalization</h4>
+<h5>Hospitalization</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/individual-unemployability">
-<h4>Individual Unemployability</h4>
+<h5>Individual Unemployability</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/title-38-USC-1151/">
-<h4>Title 38 U.S.C. 1151</h4>
+<h5>Title 38 U.S.C. 1151</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/prestabilization/">
-<h4>Prestabilization Ratings</h4>
+<h5>Prestabilization Ratings</h5>
 </a>
 </li>
 

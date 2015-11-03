@@ -44,23 +44,33 @@ Coming soon.
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/ratings/">How does VA assign disability ratings?</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/ratings/">
+            <h5>How does VA assign disability ratings?</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/presumed-disability/">What is “presumed disability”?</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/presumed-disability/">
+            <h5>What is “presumed disability”?</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/">What are the different claim types and what do they mean?</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/">
+            <h5>What are the different claim types and what do they mean?</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/evidence/">Evidence</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/evidence/">
+            <h5>Evidence</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/date/">Effective Date of Disability</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/date/">
+            <h5>Effective Date of Disability</h5>
+          </a>
         </li>
 
       </ul>

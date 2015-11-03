@@ -25,7 +25,7 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-You can file a reopened claim for a benefit that was previously denied and became final, e.g., because you did not appeal. VA cannot reopen a claim without new and material evidence. *New evidence* is information about the claimed benefit that the VA has not previously considered. *Material evidence* is information that is relevant to and has direct bearing on the specific claimed benefit. 
+You can file a reopened claim for a benefit that was previously denied and became final, e.g., because you did not appeal. VA cannot reopen a claim without new and material evidence. *New evidence* is information about the claimed benefit that the VA has not previously considered. *Material evidence* is information that is relevant to and has direct bearing on the specific claimed benefit.
 
 **Example:**
 A Veteran was treated several times during service for pain in the right elbow. He filed a claim for service connection, but his claim could not be granted because no orthopedic abnormalities were found on VA examination. Two years later, his private physician x-rayed the elbow and noted arthritic changes in the joint. The Veteran submitted the new and material evidence to VA. Because it suggested that a residual, or after-effect, of his in-service elbow problems did exist, VA reopened his claim.
@@ -40,21 +40,28 @@ A Veteran was treated several times during service for pain in the right elbow. 
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/original-claim/">Original Claim</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/original-claim/">
+            <h5>Original Claim</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/reopened-claim/">Reopened Claim</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/reopened-claim/">
+            <h5>Reopened Claim</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/new-claim/">New Claim</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/new-claim/">
+            <h5>New Claim</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/secondary-claim/">Secondary Claim</a>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/secondary-claim/">
+            <h5>Secondary Claim</h5>
+          </a>
         </li>
-
 
       </ul>
     </div>

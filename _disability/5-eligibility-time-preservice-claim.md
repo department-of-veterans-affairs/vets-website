@@ -36,19 +36,5 @@ If you entered the military with a known disability that became worse or was agg
 </div>
 </div>
 
-<div class="section secondary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
-#### See also
-
-- Widget to determine eligibility
-- Start application process.
-- Learn more detailed health information about asbestos exposure
-
-</div>
-</div>
-</div>
-
 
 </div>

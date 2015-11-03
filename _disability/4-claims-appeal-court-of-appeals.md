@@ -35,11 +35,15 @@ Coming soon.
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-appeal/court-of-appeals/veterans-appeals-board/">Board of Veterans Appeals</a>
+          <a href="{{ site.url }}/disability-benefits/claims-appeal/court-of-appeals/veterans-appeals-board/">
+            <h5>Board of Veterans Appeals</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-appeal/court-of-appeals/court-appeals-veterans-claims/">Court of Appeals for Veterans Claims</a>
+          <a href="{{ site.url }}/disability-benefits/claims-appeal/court-of-appeals/court-appeals-veterans-claims/">
+            <h5>Court of Appeals for Veterans Claims</h5>
+          </a>
         </li>
       </ul>
     </div>

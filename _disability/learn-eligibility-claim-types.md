@@ -35,53 +35,54 @@ Coming soon.
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-    
+
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/pre-discharge/">Pre-discharge
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/pre-discharge/">
+                <h5>Pre-discharge</h5>
               </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/new-claim/">New Claim</a>
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/new-claim/">
+                <h5>New Claim</h5>
+              </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/original-claim/">Original Claim</a>
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/original-claim/">
+                <h5>Original Claim</h5>
+              </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/reopened-claim/">Reopened Claim</a>
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/reopened-claim/">
+                <h5>Reopened Claim</h5>
+              </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/secondary-claim/">Secondary Claim</a>
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/secondary-claim/">
+                <h5>Secondary Claim</h5>
+              </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/post-service-claim/">Post-Service Claim</a>
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/post-service-claim/">
+                <h5>Post-Service Claim</h5>
+              </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/pre-service-claim/">Pre-Service Claim</a>
+              <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/pre-service-claim/">
+                <h5>Pre-Service Claim</h5>
+              </a>
             </li>
           </ul>
         </div>
       </div>
-</div>
+    </div>
 
-
-
-
-<div class="section two" markdown="0">
-<div class="action" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-10 medium-centered columns" markdown="0">
-<a class="button start" href="#">Apply for benefits</a>
-</div>
-</div>
-</div>
-</div>
 
 </div>
 

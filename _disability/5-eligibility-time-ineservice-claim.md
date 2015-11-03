@@ -34,13 +34,5 @@ If your disability resulted from an injury or disease acquired in the line of du
 </div>
 </div>
 
-<div class="section secondary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
-
-</div>
-</div>
-</div>
 
 </div>
