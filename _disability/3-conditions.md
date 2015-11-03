@@ -38,25 +38,25 @@ template: 2-detailed-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Do you have physical or emotional problems that started -- or worsened -- during your active military service? If so, you may be eligible for monthly benefits no matter when or where you served.
+Do you have physical or emotional problems that started -- or became worse -- during your active military service? If so, you may be eligible for monthly benefits no matter when or where you served.
 
 </div>
 
 <div class="small-12 columns" markdown="0">
 <div class="call-out" markdown="1">
 
-### Are you Eligible for Compensation?
+### Are you eligible for compensation?
 
 Yes, if:
 
 - You became ill or were injured while you were in the military
 - You had an illness or injury before you were in the military, but activities, injury or illness during your service made your condition worse.
 
-#### Who is covered:
+#### Who is covered
 
 - You or your dependents
 
-#### How it works:
+#### How it works
 
 When you apply for benefits, you will need prove your problems were caused, or worsened, by your service.
 
@@ -85,7 +85,7 @@ When you apply for benefits, you will need prove your problems were caused, or w
 
 <div class="small-12 columns" markdown="1">
 
-[Access the complete schedule of disabilities here](http://www.benefits.va.gov/warms/bookc.asp).
+[Access the complete schedule of disabilities](http://www.benefits.va.gov/warms/bookc.asp)
 
 </div>
 
@@ -106,15 +106,6 @@ When you apply for benefits, you will need prove your problems were caused, or w
 </a>
 </li>
 
-
-<li>
-<a href="{{ site.url }}/disability-benefits/conditions/pow/">
-<h5>Prisoners of War (<abbr>POW</abbr>s)</h5>
-<span>Physical and emotional conditions resulting from captivity.</span>
-</a>
-</li>
-
-
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/ptsd/">
 <h5>PTSD</h5>
@@ -122,10 +113,19 @@ When you apply for benefits, you will need prove your problems were caused, or w
 </a>
 </li>
 
+
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">
 <h5>Exposures to Hazardous Materials</h5>
 <span>Asbestos, Agent Orange, chemicals, weapons testing, Camp Lejeune, radiation, and more.</span>
+</a>
+</li>
+
+
+<li>
+<a href="{{ site.url }}/disability-benefits/conditions/pow/">
+<h5>Prisoners of War (<abbr>POW</abbr>s)</h5>
+<span>Physical and emotional conditions resulting from captivity.</span>
 </a>
 </li>
 
