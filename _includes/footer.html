@@ -91,10 +91,10 @@
 
 <div data-alert class="alert-box coda">
 	<div class="row full">
-    <div class="small-6 columns">
+    <div class="small-12 medium-6 columns">
     	<a href="{{ site.url }}/beta/2015/09/29/why-we-are-designing-in-beta.html" class="usa-button usa-button-outline-inverse">Help Us Create vets.gov: A Message from Secretary Robert McDonald</a>
     </div>
-    <div class="small-6 columns feedback">
+    <div class="small-12 medium-6 columns feedback">
      We need your feedback to make Vets.gov better.
    </div>
  </div>
@@ -143,6 +143,11 @@ UserVoice.push(['addTrigger', {trigger_position: 'bottom-right' }]);
 // Autoprompt for Satisfaction and SmartVote (only displayed under certain conditions)
 UserVoice.push(['autoprompt', {}]);
 </script>
+
+
+<script src="{{ site.url }}/assets/js/vendor/jquery.js"></script>
+<script src="{{ site.url }}/assets/js/foundation/foundation.js"></script>
+<script src="{{ site.url }}/assets/js/foundation/foundation.reveal.js"></script>
 
 <script>
   $(document).foundation();

@@ -2,40 +2,36 @@
 
 
 // Other Colors
-
 $polar:#E8F5FA;
 $wild-sand:#f6f6f6;
 $green-white:#eff0e6;
 $olso-gray:#849097;
 
 // VA Fonts
-
 $roboto-slab: 'Roboto Slab', serif;
 
-
-
 // General
-
 html, body {
-padding: 0;
-margin: 0;
-font-size: 16px;
-font-family: $font-sans; font-weight: 500; color: $color-gray-dark;
-transition: all 0.3s ease-in-out;
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  font-family: $font-sans;
+  font-weight: 500;
+  color: $color-gray-dark;
+  transition: all 0.3s ease-in-out;
 }
 
 
 body, body.home {
-background: $color-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
-background-size: contain;
+  background: $color-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
+  background-size: contain;
 }
 
 
 // row
-
 body.home .row.full {
-width: 100%;
-max-width: 100%;
+  width: 100%;
+  max-width: 100%;
 }
 
 body.interior .row,
@@ -49,7 +45,7 @@ body.index .row.full,
 body.post-single .row.full,
 body.page-education .row.full,
 body.page-playbook .row.full {
-max-width: 100%;
+  max-width: 100%;
 }
 
 body.home .row {
@@ -59,20 +55,20 @@ body.home .row {
 // Screen Readers
 
 .sr-only {
-position: absolute;
-left: -9999em;
-float: left;
+  position: absolute;
+  left: -9999em;
+  float: left;
 }
 
 // Abbr
 
 abbr, a abbr, abbr[title] {
-border-bottom: none;
-text-decoration: none;
-font-weight: inherit;
-font-style: inherit;
-color: inherit;
-cursor: pointer;
+  border-bottom: none;
+  text-decoration: none;
+  font-weight: inherit;
+  font-style: inherit;
+  color: inherit;
+  cursor: pointer;
 }
 
 
@@ -117,34 +113,36 @@ a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/vets-w
 // Logo and Header
 
 .header {
-clear: both;
-padding: 0 0 .5em 0;
-h1 {margin-bottom: 0; line-height: 1em;}
-color: #fff;
+  clear: both;
+  padding: 0 0 .5em 0;
+  margin: 0;
+
+  h1 {margin: 0; line-height: 1em; @media #{$small} {margin: .25em 0 0 0;} }
+  color: #fff;
 }
 
 h1 {
-a {
-  text-indent: 180%;
-  white-space: nowrap;
-  overflow: hidden;
-  display: block;
-  background: url(../images/design/logo/logo.png) top left no-repeat;
-  &:hover, &:active, &:focus {background: url(../images/design/logo/logo-hover.png) top left no-repeat; background-size: contain;}
-  width: 210px;
-  height: 50px;
-  background-size: contain;
-  border-bottom: none;
-  text-decoration: none;
+  a {
+    text-indent: 180%;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
+    background: url(../images/design/logo/logo.png) top left no-repeat;
+    width: 180px;
+    height: 30px;
+    background-size: contain;
+    border-bottom: none;
+    text-decoration: none;
+    &:hover, &:active, &:focus {background: url(../images/design/logo/logo-hover.png) top left no-repeat; background-size: contain;}
   @media #{$small} {
     background: url(../images/design/logo/logo.png) top left no-repeat;
+    width: 263px;
+    height: 50px;
+    background-size: contain;
     &:hover {
       background: url(../images/design/logo/logo-hover.png) top left no-repeat;
       background-size: contain;
     }
-    width: 263px;
-    height: 50px;
-    background-size: contain;
   }
 }
 }
@@ -384,7 +382,8 @@ ul.plain {
 }
 
 .section.main-menu {
-  padding: 1.5em 0 3em 0;
+  padding: .5em;
+  @media #{$small} {padding: 1.5em 0 3em 0;}
   background: transparent;
   .navigation {
     padding: 1.5em 0 0 0;
@@ -408,7 +407,8 @@ ul.plain {
 }
 
 .section.one {
-  padding: 4em 0;
+  padding: 1em 0;
+    @media #{$small} {padding: 4em 0;}
 }
 
 .section.two {
@@ -796,7 +796,7 @@ ul.cards li {
   box-shadow: none;
   border-radius: none;
   border-radius: 0;
-  padding: 1em 0;
+  padding: 1em .5em;
   height: auto;
   background: none;
   &:hover {padding-left: .5em; background: rgba(0,0,0,.1); border-left: 4px solid $color-primary;}
@@ -856,10 +856,10 @@ ul.large-block-grid-3 >li {
 backface-visibility: hidden;
 
 a, .coming-soon {
-  padding: .75em .2em 0 .2em;
+  padding: .2em .5em;
+  margin: 0 0 .25em 0;
   @media #{$small} {padding: .75em;}
   @media #{$medium} {height: 9em;}
-  text-align: center;
   border-radius: .2em;
   -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
   @media #{$small} {padding: .45em .75em; text-align: left;}
@@ -867,7 +867,11 @@ a, .coming-soon {
   color: #fff;
   display: block;
   text-decoration: none;
-  h3 {text-decoration: none; margin: 0 0 1em 0;}
+  h3 {
+    text-decoration: none;
+    margin: 0 0 .25em 0;
+    @media #{$small} {margin: 0 0 1em 0;}
+  }
   border-bottom: 4px solid rgba(255,255,255,0);
   /* @media #{$small} {border-bottom: 6px solid $color-primary;} */
   background: $color-primary-darker;
@@ -1192,8 +1196,8 @@ a {
   &.blog {border: none; &:hover {background: none; color: $color-primary-alt;}}
 }
 .footer-logo a {
-
-  @media #{$medium} {padding: 0;}
+  display: none;
+  @media #{$medium} {padding: 0; display: block;}
   @media #{$medium} {background:url(../images/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
 }
 .newsletter {
@@ -1401,7 +1405,7 @@ body.index, body.page-playbook {
 }
 
 .footer .content {
-  padding: 2em 0 0 0;
+  @media #{$small} {padding: 2em 0 0 0;}
   margin: 0;
 
 }
@@ -1453,7 +1457,8 @@ a {color: #fff; background: none;}
   font-size: .9em;
   font-weight: 700;
   clear: both;
-  padding: .5em .85em;
+  padding: .5em;
+  @media #{$small} {padding: .5em .85em;}
   margin-bottom: .75em;
   -webkit-box-shadow: 0 0 6px rgba(0,0,0,.2);
   box-shadow: 0 0 6px rgba(0,0,0,.2);
@@ -1516,10 +1521,10 @@ a {color: #fff; background: none;}
   }
 }
 
-// Search form
+// Search
 
 #search_form {
-  padding: 2.1em 0;
+  padding: 1.1em 0;
   text-align: right;
   label {
     position: absolute;
@@ -1551,7 +1556,41 @@ a {color: #fff; background: none;}
 
 }
 
+.search-button {
+  margin: 0 .5em 0 0;
+  padding: 0;
+  float: right;
+  a {
+    line-height: 1em;
+    display: inline-block;
+    padding: .35em;
+    font-size: .85em;
+    border-radius: .3em;
+    text-decoration: none;
+    background: $color-primary;
+    color: #fff;
+  }
+}
 
+.reveal-modal #search_form {
+  margin-bottom: 1em;
+}
+
+.reveal-modal .close-reveal-modal {
+  font-size: 1em;
+  clear: both;
+  text-decoration: none;
+  color: $color-gray-dark;
+  text-align: center;
+  margin: 1em 0;
+  position: relative;
+  top: auto;
+  display: block;
+  padding: 1em 0;
+  right: auto;
+  width: 100%;
+  bottom: auto;
+}
 
 // Plain lists
 

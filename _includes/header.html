@@ -70,29 +70,56 @@ new WOW().init();
 		</div>
 	</div>
  </div>
-</div>
+
 <!-- /header alert box -->
 	<div class="row full">
-		<div class="small-12 medium-4 columns">
+		<div class="small-9 medium-4 columns">
 			<h1 role="banner"><a href="{{ site.url }}">Veterans.gov</a></h1>
 		</div>
 
-		<div class="medium-4 medium-offset-2 text-right columns">
-			<form accept-charset="UTF-8" action="http://search.usa.gov/search" id="search_form" method="get">
-					<div style="margin:0;padding:0;display:inline">
-					<input name="utf8" type="hidden" value="&#x2713;" /></div>
-					<input id="affiliate" name="affiliate" type="hidden" value="siteHandle" />
-					<label for="query">Search:</label>
-					<div class="row collapse">
-						<div class="small-9 columns">
-							<input autocomplete="off" class="usagov-search-autocomplete" id="query" name="query" type="text" />
-						</div>
-						<div class="small-3 columns">
-							<input name="commit" type="submit" value="Search" />
+		<!-- Mobile search button -->
+		<div class="hide-for-medium-up search-button">
+			 <a data-reveal-id="myModal">Search</a>
+
+			 <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+
+				 <form accept-charset="UTF-8" action="http://search.usa.gov/search" id="search_form" method="get">
+	 				<div style="margin:0;padding:0;display:inline">
+	 				<input name="utf8" type="hidden" value="&#x2713;" /></div>
+	 				<input id="affiliate" name="affiliate" type="hidden" value="siteHandle" />
+	 				<label for="query">Search:</label>
+	 				<div class="row collapse">
+	 					<div class="small-9 columns">
+	 						<input autocomplete="off" class="usagov-search-autocomplete" id="query" name="query" type="text" />
+	 					</div>
+	 					<div class="small-3 columns">
+	 						<input name="commit" type="submit" value="Search" />
+	 					</div>
 					</div>
-			</form>
+	 				</form>
+
+				  <a class="close-reveal-modal" aria-label="Close">Close &#215;</a>
+			</div>
+
 		</div>
 
+
+		<div class="medium-5 medium-offset-3 text-right columns show-for-medium-up">
+			<form accept-charset="UTF-8" action="http://search.usa.gov/search" id="search_form" method="get">
+				<div style="margin:0;padding:0;display:inline">
+				<input name="utf8" type="hidden" value="&#x2713;" /></div>
+				<input id="affiliate" name="affiliate" type="hidden" value="siteHandle" />
+				<label for="query">Search:</label>
+				<div class="row collapse">
+					<div class="small-9 columns">
+						<input autocomplete="off" class="usagov-search-autocomplete" id="query" name="query" type="text" />
+					</div>
+					<div class="small-3 columns">
+						<input name="commit" type="submit" value="Search" />
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
 
