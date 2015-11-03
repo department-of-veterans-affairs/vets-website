@@ -40,7 +40,7 @@ template: 4-action-page
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
 <dd>Dates: </dd>
-<dd>Sites: Vietnam, C-123 aircraft, other herbicide-contaminated areas</dd>
+<dd>Sites: Vietnam, C-123 aircraft, other Agent Orange-contaminated areas</dd>
 <dd>Who: All Vietnam-era Veterans</dd>
 </dl>
 
@@ -70,7 +70,7 @@ See more information on [Agent Orange benefits](http://www.publichealth.va.gov/e
 
 <div markdown="1">
 
-If you served were exposed to Agent Orange or other tactical herbicides periods during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam and or the DMZ in Korea.  
+If you served were exposed to Agent Orange during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam and or the DMZ in Korea.  
 
 </div>
 
