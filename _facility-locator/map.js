@@ -21,6 +21,25 @@ FacilityLocator = (function() {
       maxZoom: 12,
     });
 
+    // Load facilities
+    $.ajax({
+      dataType: "json",
+      url: "facilities.json",
+      success: function(data) {
+        allFacilities = data;
+        placeMarkers(data);
+
+        // If the map has not yet loaded (which we test with map.getBounds()),
+        // wait until it is to show the facilities list. Otherwise, show it
+        // immediately
+        if (map.getBounds() === undefined) {
+          map.addListener('idle', listFacilities);
+        } else {
+          listFacilities();
+        }
+      }
+    });
+
     searchService = new google.maps.places.PlacesService(map);
 
     // Create the search box and link it to the UI element.
@@ -42,16 +61,6 @@ FacilityLocator = (function() {
 
     // Handle click on "Search" button
     $(".searchButton").click(searchClick);
-
-    // Load facilities
-    $.ajax({
-      dataType: "json",
-      url: "facilities.json",
-      success: function(data) {
-        allFacilities = data;
-        placeMarkers(data);
-      }
-    });
 
     $("#facilityType").change(function(evt) {
       filterFacilities(evt.target.value);
