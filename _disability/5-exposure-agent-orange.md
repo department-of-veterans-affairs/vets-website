@@ -96,19 +96,6 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
   </li>  
 
 
-  <li>
-
-    <dl class="panel-list">
-      <dt>Korean Demilitarized Zone</dt>
-      <dd>Dates: April 1, 1968 and August 31, 1971</dd>
-      <dd>
-        <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/korean-zone/">Learn more <span class="sr-only">about the Korean Demilitarized Zone and Agent Orange</span></a>
-      </dd>
-    </dl>
-
-  </li>  
-
-
 
   <li>
 
