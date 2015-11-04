@@ -62,7 +62,7 @@ You
 You can elect to participate in this program when you enlist in any branch of service if you are not eligible for the Montgomery GI Bill. If you are eligible for this benefit and elect to participate in it, your Montgomery GI Bill benefit will be reduced. Contact your recruiter to discuss your eligibility and to enroll in the National Call to Service program. This benefit affects your service contract. 
 
 ### Learn more:
-[National Call to Service program pamplet](http://www.benefits.va.gov/gibill/docs/pamphlets/summary-of-national-call-to-service-program.pdf)
+[National Call to Service program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/summary-of-national-call-to-service-program.pdf)
 
 ***NOTE:*** If you enlist under the National Call to Service program, you are not eligible for the MGIB, unless you reenlist at a later date for two or more additional years.
 
