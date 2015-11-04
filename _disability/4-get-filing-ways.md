@@ -35,7 +35,17 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+Choose one of three ways: 
+
+1.	Apply online, using [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
+
+2.	Work with an [accredited representative](link to beta site page), or
+
+3.	Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you. 
+
+Note: Active-duty members should learn about [Predischarge Claims](link to beta site)
+
+
 
 </div>
 </div>
