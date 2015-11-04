@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/process/index.html
-title: Education Application Process
+title: Apply for Education Benefits
 template: 7-get-page
 concurrence: incomplete
 ---
@@ -32,7 +32,7 @@ The time it takes to process your education or training claim depends on your re
 <div class="small-12 columns" markdown="0">
 
 <div markdown="1">
-### How it works:
+### How it works
 </div>
 
 
