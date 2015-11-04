@@ -2188,7 +2188,7 @@ a.usa-button-primary {
 
 // USDS component styles
 // Accordion
-[aria-hidden=true] {
+.usa-accordion-content[aria-hidden=true] {
     display: none !important;
 }
 button[class*="usa-button-"] {
