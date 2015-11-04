@@ -10,6 +10,8 @@ $olso-gray:#849097;
 // VA Fonts
 $roboto-slab: 'Roboto Slab', serif;
 
+
+
 // General
 html, body {
   padding: 0;
@@ -20,6 +22,7 @@ html, body {
   color: $color-gray-dark;
   transition: all 0.3s ease-in-out;
 }
+
 
 
 body, body.home {
@@ -2084,6 +2087,7 @@ li {
   }
 }
 
+
 // Visual Guide
 
 span.color-chip {
@@ -2181,3 +2185,17 @@ a.usa-button-primary {
   background: $color-green;
 }
 }
+
+// USDS component styles
+// Accordion
+[aria-hidden=true] {
+    display: none !important;
+}
+button[class*="usa-button-"] {
+  font-weight:500;
+  span {
+    font-weight:700
+  }
+}
+
+
