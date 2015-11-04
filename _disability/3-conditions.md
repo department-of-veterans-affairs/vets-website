@@ -12,7 +12,7 @@ template: 2-detailed-landing
 
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -38,7 +38,7 @@ template: 2-detailed-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Do you have physical or emotional problems that started -- or became worse -- during your active military service? If so, you may be eligible for monthly benefits no matter when or where you served.
+Do you have physical or emotional problems that started—or became worse—during your active military service? If so, you may be eligible for monthly benefits no matter when or where you served.
 
 </div>
 
@@ -48,8 +48,8 @@ Do you have physical or emotional problems that started -- or became worse -- du
 ### Are you eligible for compensation?
 Yes, if:
 
-- You became ill or were injured while you were in the military
-- You had an illness or injury before you were in the military, but activities, injury or illness during your service made your condition worse.
+- You became ill or were injured while you were in the military.
+- You had an illness or injury before you were in the military, but activities, injury, or illness during your service made your condition worse.
 
 #### Who is covered
 
@@ -57,7 +57,7 @@ Yes, if:
 
 #### How it works
 
-When you apply for benefits, you will need prove your problems were caused, or worsened, by your service.
+When you apply for benefits, you will need to prove your problems were caused, or worsened, by your service.
 
 </div>
 </div>
@@ -84,7 +84,7 @@ When you apply for benefits, you will need prove your problems were caused, or w
 
 <div class="small-12 columns" markdown="1">
 
-[Access the complete schedule of disabilities](http://www.benefits.va.gov/warms/bookc.asp).
+[Access the complete schedule of disabilities](http://www.benefits.va.gov/warms/bookc.asp)
 
 </div>
 
