@@ -504,10 +504,12 @@ margin-bottom: 1.5em;
 clear: both;
 }
 
+#content .actions {padding: 1em 0;}
+
 #content .section.do {
 background: #efefef;
 padding: 2em 0;
-.actions {padding: 1em 0;}
+
 h2, h3, h4, h5, h6, p, li {color: #444;}
 h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
 a {color: #fff;}
@@ -803,7 +805,7 @@ ul.small-block-grid-1 {
 ul.cards li {
   margin: 0;
   height: auto;
-  h3, h4, h5, h6 {color: $color-primary-darkest; font-weight: 600; font-family: $font-sans; font-size: 1.5em;}
+  h3, h4, h5, h6 {color: $color-primary-darkest; font-weight: 600; font-family: $font-sans; font-size: 1.35em;}
   h4 {font-size: 1.3em;}
   border-bottom: 1px solid rgba(0,0,0,.2);
   &:last-of-type { border-bottom: none;}
@@ -897,7 +899,7 @@ a, .coming-soon {
   background: $color-primary-darker;
 
   -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
-  h3, h4 {font-size: 1.35em; font-weight: 700;}
+  h3, h4, h5 {font-size: 1.35em; font-weight: 700;}
 
 p {
   /*  display: -webkit-inline-flex;
@@ -1774,15 +1776,25 @@ margin: 0;
 // Process line
 
 .process {
-padding: 0;
-position: relative;
-h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
-h5 {font-size: 1.3em; margin: 0; padding: 0;}
-h6 {font-size: 1.1em; margin: 0; padding: 0;}
-list-style: none;
-li {
-    list-style-type: none;
-    list-style: none;
+  padding: 0;
+  position: relative;
+  h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
+  h5 {font-size: 1.3em; margin: 0; padding: 0;}
+  h6 {font-size: 1.1em; margin: 0; padding: 0;}
+  list-style: none;
+  li {
+      list-style-type: none;
+      list-style: none;
+      ol {
+        margin: 0 0 1em 1.5em;
+        padding: 0;
+        li {list-style: decimal; padding: .25em 0;}
+      }
+      ul {
+        margin: 0 0 1em 1.25em !important;
+        padding: 0;
+        li {list-style: square;}
+      }
   &.step {
     border-left: 8px solid #ccc;
     padding: 0 0 2em 2em;
@@ -2163,6 +2175,13 @@ a {
 }
 }
 
+// Buttons
+
+#content .usa-button,
+#content .usa-button-primary,
+#content .usa-button-outline
+{text-decoration: none;}
+
 // Highlight headings
 
 h4.highlight {
@@ -2197,5 +2216,3 @@ button[class*="usa-button-"] {
     font-weight:700
   }
 }
-
-
