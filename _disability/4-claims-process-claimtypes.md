@@ -65,6 +65,12 @@ Disability compensation claims can be based on disabilities that existed when en
           </a>
         </li>
 
+        <li>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/fully-developed/">
+            <h5>Fully Developed Claim (<abbr>FDC</abbr>)</h5>
+          </a>
+        </li>
+
 
       </ul>
     </div>
