@@ -1,4 +1,4 @@
-// Veterans.gov
+// Vets.gov
 
 
 // Other Colors
@@ -829,8 +829,11 @@ ul.cards li {
 
 body.home .navigation, body.fourohfour .navigation {
 background: none;
-background: rgba(0,0,0,.2);
 padding: 3em 0;
+}
+
+body.fourohfour #content {
+  h3 {margin-top: 1em; font-size: 1.4em;}
 }
 
 body.home .main-navigation {

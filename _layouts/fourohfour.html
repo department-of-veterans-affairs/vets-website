@@ -1,20 +1,62 @@
 {% include header.html %}
 
-<div class="main" role="main">
+<div id="content">
+
+<div class="main home" role="main">
 
   <div class="splash">
     <div class="row">
-      <div class="small-12 medium-push-1 medium-9 medium-centered large-uncentered columns">
+      <div class="small-12 medium-8 medium-centered large-uncentered large-8 columns">
         <div class="pitch">
-          <h2 class="tagline"><span>This page could not be found. Please try one of the options listed below.</span></h2>
+          <h2 class="tagline"><span>The page you are looking for could not be found.</span></h2>
         </div>
       </div>
     </div>
   </div>
 
-  {% include main-navigation.html %}
+  <div class="section main-menu">
+    <div class="row">
+      <div class="small-12 columns">
+        <h3>Please try one of the options listed below.</h3>
+        {% include main-navigation.html %}
+      </div>
+    </div>
+  </div>
+
+
+<div class="section one">
+  <div class="row">
+    <div class="small-12 columns">
+      <h3 class="alternate">Quick Links</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="small-12 medium-6 columns">
+      <ul class="plain">
+        <li>
+          <a href="{{ site.url }}/disability-benefits/get/">How do I apply for disability benefits?</a>
+        </li>
+        <li>
+          <a href="{{ site.url }}/education/process/">How do I apply for education benefits?</a>
+        </li>
+        <li>
+          <a href="https://department-of-veterans-affairs.github.io/gi-bill-comparison-tool/">What education benefits are available by school?</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="small-12 medium-6 columns">
+        <ul class="plain">
+          <li><a href="https://staging.vets.gov/employment/">Can you help me find a job?</a></li>
+          <li><a href="/facility-locator/">How can I find VA locations?</a></li>
+         <li><a href="https://www.veteranscrisisline.net/" class="external">Where is the Veterans Crisis Line?</a></li>
+        </ul>
+    </div>
+  </div>
+</div>
 
 </div>
 
+</div>
 
 {% include footer.html %}
