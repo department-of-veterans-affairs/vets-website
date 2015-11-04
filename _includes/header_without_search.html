@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="ie6"> <![endif]-->
+<!--[if IE 7 ]> <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9 ]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+{% if page.title == 'Home' %}
+<title>{{site.name}}</title>
+{% else %}
+<title>{{ page.section-title }} {{ page.title }}: {{site.name}}</title>
+{% endif %}
+
+
+<!-- Header Javascript and CSS for animation-->
+<link rel="stylesheet" href="{{ site.url }}/assets/css/vendor/animate.css">
+<script src="{{ site.url }}/assets/js/vendor/jquery-1.11.0.min.js"></script>
+<script src="{{ site.url }}/assets/js/components.js"></script>
+<script src="{{ site.url }}/assets/js/foundation.min.js"></script>
+<script src="{{ site.url }}/assets/js/foundation/foundation.tooltip.js"></script>
+<script src="{{ site.url }}/assets/js/vendor/modernizr.custom.js"></script>
+<script src="{{ site.url }}/assets/js/vendor/wow.min.js"></script>
+
+
+<script>
+new WOW().init();
+</script>
+
+
+<!--[if lt IE 9]>
+<script src="{{ site.url }}/assets/js/vendor/html5shiv.js"></script>
+<![endif]-->
+
+
+
+<!-- Icons -->
+<link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+<link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
+<link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
+<link href="{{ site.url }}/assets/images/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
+<link rel="shortcut icon" href="{{ site.url }}/assets/images/design/icons/favicon.ico" />
+
+<meta name="msapplication-TileImage" content="{{ site.url }}/assets/images/design/icons/apple-touch-icon-114x114">
+<meta name="msapplication-TileColor" content="#144073">
+
+
+<!-- CSS -->
+<link rel='stylesheet' href='{{ site.url }}/assets/css/style.css'>
+
+<!-- Fonts -->
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600,700|Roboto+Slab' rel='stylesheet' type='text/css'>
+
+<!-- Old IE -->
+
+<!--[if lt IE 9]>
+<link rel='stylesheet' href='{{ site.url }}/assets/css/ie.css'>
+<![endif]-->
+
+
+</head>
+<body class="{{ page.layout }}">
+<div class="header">
+<div data-alert class="alert-box notice">
+	<div class="row full">
+		<div class="small-12 message">
+			<p><strong>This site is a work in progress.</strong> We&rsquo;re designing in the open. If you don&rsquo;t find what you need, visit <a href="http://www.va.gov">va.gov</a>.</p>
+		</div>
+	</div>
+ </div>
+
+<!-- /header alert box -->
+	<div class="row full">
+		<div class="small-9 medium-4 columns">
+			<h1 role="banner"><a href="{{ site.url }}">Veterans.gov</a></h1>
+		</div>
+
+	</div>
+</div>
+
+<h2 class="sr-only">{{ page.title }}</h2>
+
+<script type="text/javascript">
+//<![CDATA[
+      var usasearch_config = { siteHandle:"staging_vets" };
+
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "http://search.usa.gov/javascripts/remote.loader.js";
+      document.getElementsByTagName("head")[0].appendChild(script);
+
+//]]>
+</script>
