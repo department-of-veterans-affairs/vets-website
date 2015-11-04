@@ -877,7 +877,7 @@ backface-visibility: hidden;
 
 a, .coming-soon {
   padding: .2em .5em;
-  margin: 0 0 .25em 0;
+  margin: 0 0 .1em 0;
   @media #{$small} {padding: .75em;}
   @media #{$medium} {height: 9em;}
   border-radius: .2em;
@@ -2188,14 +2188,13 @@ a.usa-button-primary {
 
 // USDS component styles
 // Accordion
-[aria-hidden=true] {
+#content.interior [aria-hidden=true] {
     display: none !important;
 }
+
 button[class*="usa-button-"] {
   font-weight:500;
   span {
     font-weight:700
   }
 }
-
-
