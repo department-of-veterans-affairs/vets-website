@@ -26,7 +26,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Before the Post-9/11 GI Bill®, several smaller programs provided education benefits to Service Members and Veterans. [Veteran Service Officers](link to Accredited Representative beta site) and the [GI Bill® Comparison Tool](link to tool) can help you pick the right program for your goals.
+Before the Post-9/11 GI Bill®, several smaller programs provided education benefits to Servicemembers and Veterans. [Veteran Service Officers](link to Accredited Representative beta site) and the [GI Bill® Comparison Tool](link to tool) can help you pick the right program for your goals.
 
 </div>
 </div>

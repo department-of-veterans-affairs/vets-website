@@ -34,7 +34,7 @@ If you are a dependent or survivor of a Veteran, you may be eligible for educati
 
 Yes, if:
 
-- You are a child or spouse of a Service Member who died in the line of duty after September 10, 2001, or
+- You are a child or spouse of a Servicemember who died in the line of duty after September 10, 2001, or
 - You are a dependent of a Veteran who is permanently and totally disabled due to a service-related condition, or
 - You are a survivor of a Veteran who died while on active duty or as a result of a service-related condition, or
 - You are eligible to receive a transfer of Post-9/11 GI Bill® benefits
@@ -53,12 +53,12 @@ You
 ### How it works
 There are two main GI Bill® programs offering education assistance to survivors and dependents of Veterans:
 
-- [The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](Link to beta site) is available for children and spouses of Service Members who died in the line of duty after September 10, 2001.
+- [The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](Link to beta site) is available for children and spouses of Servicemembers who died in the line of duty after September 10, 2001.
 - [The Survivors' and Dependents' Educational Assistance (DEA) program](Link to beta site) offers education and training opportunities to eligible dependents of Veterans who are permanently and totally disabled due to a service-related condition or who died while on active duty or as a result of a service-related condition.
 
 You may be eligible for both of these programs, but can only use one of them. You’ll have to decide which one when you apply, and once you make this decision, it is final.
 
-**Exception:** As a beneficiary, you cannot use the same qualifying event for more than one benefit unless you are a child of a Service Member who died in the line of duty before August 1, 2011.
+**Exception:** As a beneficiary, you cannot use the same qualifying event for more than one benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
 
 Use the chart below to compare the programs.
 
@@ -92,9 +92,9 @@ Use the chart below to compare the programs.
 
 <tr>
   <td scope="row"><strong>Duration of Benefits</strong></td>
-  <td>20 years from the Service Member's date of death
+  <td>20 years from the Servicemember's date of death
 </td>
-  <td>15 years from the Service Member's date of death
+  <td>15 years from the Servicemember's date of death
 </td>
 </tr>
 

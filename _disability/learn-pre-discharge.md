@@ -29,7 +29,7 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 
 #### Pre-Discharge programs allow active duty service-members to file claims for disability compensation prior to separation, retirement, release from active duty, or demobilization.
 
-Programs are different by the number of days service members have left before separation.
+Programs are different by the number of days servicemembers have left before separation.
 
 1. #### Benefits delivery at discharge:
 Service-members can submit a disability claim when they are between 60 to 180 days away from separation, retirement, release from active duty, or demobilization.

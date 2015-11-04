@@ -48,7 +48,7 @@ Mustard gas is a common term for sulfur mustard (Yperite) or nitrogen mustard. L
 [Learn more about exposure to mustard gas and lewisite](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-mustard.asp)
 
 ### Project 112/SHAD
-From 1962 to 1974 approximately 6,000 U.S. Service Members were involved in conducting chemical tests to defend against biological and chemical weapons threats.. Participation in these tests, known as Project 112 and Project SHAD, may have resulted in subsequent illnesses among Veterans, and may qualify a survivor of a Veteran who died from exposure to such chemical testing to certain VA benefits.
+From 1962 to 1974 approximately 6,000 U.S. Servicemembers were involved in conducting chemical tests to defend against biological and chemical weapons threats.. Participation in these tests, known as Project 112 and Project SHAD, may have resulted in subsequent illnesses among Veterans, and may qualify a survivor of a Veteran who died from exposure to such chemical testing to certain VA benefits.
 [Learn more about Project 112/SHAD](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp)
 
 ### Radiogenic Risk Activities

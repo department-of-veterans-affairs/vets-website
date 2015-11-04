@@ -50,7 +50,7 @@ If you are between 180 and 60 days from separation, you can begin the [Benefit D
 - [Quick Start Program]({{ site.url }}/disability-benefits/filing/active-duty/quick-start/index.html)
 - [Overseas]({{ site.url }}/disability-benefits/filing/active-duty/overseas/index.html)
 - [Disability Compensation Rates]({{ site.url }}/disability-benefits/rates/index.html)
-- [Other programs available to pre-discharge Service Members]({{ site.url }}/disability-benefits/claims-process/claim-types/standard-claim/index.html).
+- [Other programs available to pre-discharge Servicemembers]({{ site.url }}/disability-benefits/claims-process/claim-types/standard-claim/index.html).
 
 </div>
 </div>

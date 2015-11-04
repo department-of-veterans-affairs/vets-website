@@ -71,11 +71,11 @@ The benefit amount varies according to where you use the benefit and the amount 
 
 #### Also includes:
 - The Yellow Ribbon Program, which provides additional support to cover higher private-school and out-of-state tuition and fees.
-- The Transfer of Entitlement Option, which enables eligible Service Members to transfer all 36 months or a portion of Post-9/11 GI Bill® benefits to a spouse or children.
+- The Transfer of Entitlement Option, which enables eligible Servicemembers to transfer all 36 months or a portion of Post-9/11 GI Bill® benefits to a spouse or children.
 
 Use the [GI Bill® Comparison Tool] to pick the right type of educational assistance program and school to maximize your benefits. (LINK TO TOOL)
 
-Get information on the Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) for dependents of Service Members who died in the line of duty after September 10, 2001.
+Get information on the Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) for dependents of Servicemembers who died in the line of duty after September 10, 2001.
 
 #### Types of Training
 

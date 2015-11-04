@@ -40,7 +40,7 @@ template: 6-info-page
 
 When filing a disability claim, it may help to work with an accredited representative who is familiar with the process and who VA considers capable of assisting you with VA-related affairs.
 
-Most accredited representatives work for veterans service organizations (VSOs), which are private nonprofit groups that advocate on behalf of Veterans, Service Members, dependents, and survivors. They may also work for state or county governments.
+Most accredited representatives work for veterans service organizations (VSOs), which are private nonprofit groups that advocate on behalf of Veterans, Servicemembers, dependents, and survivors. They may also work for state or county governments.
 
 </div>
 
@@ -54,7 +54,7 @@ The accreditation process includes the following:
 
 </div>
 
-Recognized organizations and individuals can legally represent a Veteran, Service Member, dependent, or survivor before VA. Non-recognized organizations and individuals can provide information but cannot be representatives.
+Recognized organizations and individuals can legally represent a Veteran, Servicemember, dependent, or survivor before VA. Non-recognized organizations and individuals can provide information but cannot be representatives.
 
 </div>
 

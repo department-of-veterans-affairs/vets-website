@@ -6,7 +6,7 @@
 
 
 1. #### Pre-discharge claims:
-Service members that are within 180 days of separation or retirement from active duty or full time National Guard duty may file claims for disability compensation.
+Servicemembers that are within 180 days of separation or retirement from active duty or full time National Guard duty may file claims for disability compensation.
 
 2. #### Claims based on pre-service disabilities:
 Individuals may enter military service with a known disability. Should this disability become worse due to military service, VA may be able to pay compensation. This is known as aggravation; however, compensation can only be paid for the level of aggravation. For example, at entry into military service, an individual has a disabling condition that could be considered 10% disabling. In order for this condition to be considered aggravated, it would have to have worsened due to military service to at least 20%.

@@ -40,7 +40,7 @@ template: 6-info-page
 
 ### Yes.
 
-If you’re an active-duty Service Member, you can initiate a [predischarge claim](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/get/filing/active-duty/).
+If you’re an active-duty Servicemember, you can initiate a [predischarge claim](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/get/filing/active-duty/).
 
 If you’re filing after separation, you can use the Disability Benefits Questionnaires (DBQs) to create a fully developed claim.
 

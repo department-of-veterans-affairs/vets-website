@@ -36,7 +36,7 @@ If you are between 180 and 60 days from separation, you can begin the Benefit De
 
 ### Integrated Disability Evaluation System
 
-The Integrated Disability Evaluation System (IDES) Examination Templates page is used to determine a Service Member's fitness for duty. If you are found medically unfit for duty, the IDES proposes a VA disability rating before you leave the service.
+The Integrated Disability Evaluation System (IDES) Examination Templates page is used to determine a Servicemember's fitness for duty. If you are found medically unfit for duty, the IDES proposes a VA disability rating before you leave the service.
 
 </div>
 </div>

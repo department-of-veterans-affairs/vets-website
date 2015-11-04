@@ -25,7 +25,7 @@ template: 6-info-page
 <!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      
+
     </div>
   </div>  
 </div>-->
@@ -35,11 +35,11 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you want to learn a trade or skill through on-the-job training or apprenticeships, find out if you are eligible for VA benefits. 
+If you want to learn a trade or skill through on-the-job training or apprenticeships, find out if you are eligible for VA benefits.
 
 ### Are you eligible for compensation?
 
-Yes, if: 
+Yes, if:
 -	You are eligible for GI Bill® benefits
 -	You are interested in working in an industry or job where OTJ is available, such as:
 -	Union plumber
@@ -54,11 +54,11 @@ You
 -	Monthly housing allowance
 
 ### How it works
-Participation in these programs generally involves your entering into a training contract for a specific amount of time with an employer or union. During training you will likely receive a salary from the employer or union, which typically increases as your skills increase. At the end of your training period, you will get a job certification or journeyman status. 
+Participation in these programs generally involves your entering into a training contract for a specific amount of time with an employer or union. During training you will likely receive a salary from the employer or union, which typically increases as your skills increase. At the end of your training period, you will get a job certification or journeyman status.
 
 Veterans in an approved program can use their GI Bill® benefit and receive a tax-free stipend. The Post-9/11 GI Bill® stipend is the equivalent of the Monthly Housing Allowance (MHA) of an E-5 with dependents, which is paid in addition to the entry-level wage. Take a look at the [OJT Fact Sheet for more information](http://www.benefits.va.gov/gibill/docs/factsheets/OJT_Factsheet.pdf).
 
-VA issues GI Bill® payments each month after receiving verification of your hours from your employer or union. 
+VA issues GI Bill® payments each month after receiving verification of your hours from your employer or union.
 
 Your payment varies depending on the GI Bill® program. View the [payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp) for your GI Bill® program.
 
@@ -76,7 +76,7 @@ Your payment varies depending on the GI Bill® program. View the [payment rates]
 - 35% of the full-time GI Bill® rate for the remainder of the training program
 
 
-**Exception:** OJT is not available if you are an active-duty Service Member, or to spouses using a transferred benefit. 
+**Exception:** OJT is not available if you are an active-duty Servicemember, or to spouses using a transferred benefit. 
 
 
 </div>
