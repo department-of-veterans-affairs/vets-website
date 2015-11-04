@@ -179,7 +179,7 @@ Unless VA writes to you and asks for additional information there is nothing you
 
             <li>
               <a href="{{ site.url }}/disability-benefits/get/filing/faster/">
-                <h5>Is there a way to file that can get me a decision faster?</h5>
+                <h5>What is the fastest way to file a claim?</h5>
               </a>
             </li>
 
@@ -191,26 +191,26 @@ Unless VA writes to you and asks for additional information there is nothing you
 
             <li>
               <a href="{{ site.url }}/disability-benefits/get/filing/help/">
-                <h5>How do I get help determining whether I should file and with filing?</h5>
+                <h5>How do I get help filing a claim?</h5>
               </a>
             </li>
 
             <li>
               <a href="{{ site.url }}/disability-benefits/get/filing/active-duty/">
-                <h5>How do I file while on active duty in pre-discharge status?</h5>
+                <h5>How do I file while on active duty?</h5>
               </a>
             </li>
 
             <li>
               <a href="{{ site.url }}/disability-benefits/get/filing/one-year/">
-                <h5>How do I file for Disabilities That Appear Within One Year After Discharge?</h5>
+                <h5>How do I file for disabilities that appear within one year after discharge?</h5>
               </a>
             </li>
 
             <li>
               <a href="{{ site.url }}/disability-benefits/conditions/time/">
               <h5>Effective Dates</h5>
-              <span>Effective Dates</span>
+              <span></span>
               </a>
             </li>
 
