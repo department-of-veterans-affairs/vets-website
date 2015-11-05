@@ -16,7 +16,7 @@ I’m proud to introduce you to the beta version vets.gov.  It’s still a work 
 
 <!--more-->
 
-VVeterans have been speaking and we’ve been listening. You’ve told us VA has too many websites containing too much confusing information.  You’ve said want a site that’s clear  -- one that’s written in plain language and is easy to use.
+Veterans have been speaking and we’ve been listening. You’ve told us VA has too many websites containing too much confusing information.  You’ve said want a site that’s clear  -- one that’s written in plain language and is easy to use.
 
 That’s what you’ll find here.
 
