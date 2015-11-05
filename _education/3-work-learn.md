@@ -79,11 +79,7 @@ You are in charge of designing your own education. VA education benefits, includ
                 <h5>Correspondence Training</h5>
               </a>
             </li>
-            <li>
-              <a href="{{ site.url }}/education/work-learn/foreign-programs/">
-                <h5>Foreign Programs</h5>
-              </a>
-            </li>
+        
           </ul>
         </div>
       </div>
