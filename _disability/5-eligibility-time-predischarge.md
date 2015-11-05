@@ -32,7 +32,7 @@ It is to your benefit to start the process of filing a disability claim while yo
 
 If you are in predischarge status, you may file a claim for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty.
 
-If you are between 180 and 60 days from separation, you can begin the [Benefit Delivery at Discharge (BDD)](http://benefits.va.gov/predischarge/claims-pre-discharge-benefits-delivery-at-discharge.asp) program. From 59 days until separation, you can initiate the [Quick Start Claim](Beta site page).
+If you are between 180 and 60 days from separation, you can begin the [Benefit Delivery at Discharge (BDD)]({{ site.url }}/disability-benefits/filing/active-duty/bdd/index.html) program. From 59 days until separation, you can initiate the [Quick Start Claim](Beta site page).
 
 
 </div>
