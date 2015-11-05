@@ -26,7 +26,7 @@ concurrence: complete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+The Fully Developed Claims (FDC) program is an optional way for Veterans and survivors to get faster decisions by submitting all relevant records in their possession, and those records which are easily obtainable, such as private medical records, when they make their claim and certify that they have no further evidence to submit. VA can process these claims more quickly.
 
 </div>
 </div>
