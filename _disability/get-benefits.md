@@ -9,7 +9,7 @@ template: 7-get-page
 <div class="row">
 <div class="small-12 columns">
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 </div>
@@ -21,15 +21,15 @@ template: 7-get-page
 <div class="row" markdown="0">
 <div class="small-12 columns"  markdown="1">
 
-### Who Should Read This
+### Who should read this?
 
 </div>
 
 <div class="small-8 columns"  markdown="1">
 
-- Veterans who are filing claims for disability benefits
-- Servicemembers who are getting ready to separate from the militar
-- Survivors of Veterans and Servicemembers who may be eligible for benefits
+- Veterans who are filing claims for disability benefits.
+- Servicemembers who are getting ready to separate from the military.
+- Survivors of Veterans and Servicemembers who may be eligible for benefits.
 
 </div>
 
@@ -78,22 +78,22 @@ This is the [current national average]( http://www.benefits.va.gov/REPORTS/aspir
 
 - An [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html) can help you prepare and file your claim.
 - Speed up your processing time by filing a [fully developed claim]({{ site.url }}/disability-benefits/get/filing/faster/index.html).
-- Learn more about [evidence requirements.]({{ site.url }}/disability-benefits/claims-process/claim-types/standard-claim/index.html)
+- Learn more about [evidence requirements]({{ site.url }}/disability-benefits/claims-process/claim-types/standard-claim/index.html).
 
 </div>
 
 <div class="feature" markdown="1">
 
-##### Documents you’ll need
+###### Documents you’ll need
 
 - Discharge papers (DD214 or equivalent)
 - Service Treatment Records
-  - Both of these documents can be ordered through the [National Archives]( https://www.archives.gov/veterans/military-service-records/)
-- Other materials that support your claim, such as:
-  - Ship’s logs
-  - Historical records
-  - Awards, and
-  - Statements from eyewitnesses
+Both of these documents can be ordered through the [National Archives]( https://www.archives.gov/veterans/military-service-records/).
+Other materials that support your claim, such as:
+- Ship’s logs
+- Historical records
+- Awards
+- Statements from eyewitnesses
 - VA medical records and hospital reports
 - Private medical records and hospital reports
 
@@ -109,11 +109,11 @@ This is the [current national average]( http://www.benefits.va.gov/REPORTS/aspir
 
 Choose one of three ways:
 
-1.  Online, using [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
-2.  Work with an [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html), or
-3.  Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
+- Apply online, using [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
+- Work with an [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html), or
+- Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
 
-Note: Active duty members should learn about[ Pre-Discharge Claims]({{ site.url }}/disability-benefits/conditions/time/index.html)
+Note: Active-duty members should learn about [Predischarge Claims]({{ site.url }}/disability-benefits/conditions/time/index.html).
 
 </div>
 
@@ -125,25 +125,25 @@ Note: Active duty members should learn about[ Pre-Discharge Claims]({{ site.url 
 
 ##### VA Review
 
-###### How long it takes to process your claim depends on several factors:
+###### The amount of time it takes to process your claim depends on several factors:
 
-- The type of claim you filed
-- How many injuries or disabilities you claimed and how complicated they are, and,
-- How hard or easy it is for VA to gather the evidence needed to decide your claim.
+- The type of claim you filed.
+- How many injuries or disabilities you claimed and how complicated they are.
+- How hard it is for VA to gather the evidence needed to decide your claim.
 
 </div>
 
 
 <div class="feature" markdown="1">
 
-###### Here’s what happens once you’ve filed your claim.
+###### Here’s what happens once you’ve filed your claim:
 
-1. VA receives it – your claim is time and date stamped. **(Claim Received)**
-2. A Veteran Service Representative (VSR) examines your claim. **(Under Review)**
-3. If VA needs additional information – evidence – they’ll ask you for it or obtain it separately. **(Gathering of Evidence)**
-4. VSR studies the evidence and makes a recommendation for a rating decision.
-**(Review of evidence)**
-5. VSR prepares a report recommending what your rating decision should be. **(Preparation for a Decision**
+1. VA receives your claim, and it is time and date stamped. **(Claim Received)**
+2. A Veterans Service Representative (VSR) examines your claim. **(Under Review)**
+3. If VA needs additional information (evidence), the VSR will ask you for it or obtain it separately. **(Gathering of Evidence)**
+4. The VSR studies the evidence and makes a recommendation for a rating decision.
+**(Review of Evidence)**
+5. The VSR prepares a report recommending what your rating decision should be. **(Preparation for a Decision)**
 6. A reviewing official examines the VSR report and makes a final rating determination.
 **(Pending Decision Approval)**
 
@@ -157,8 +157,8 @@ Note: Active duty members should learn about[ Pre-Discharge Claims]({{ site.url 
 
 ###### What if VA needs more information?
 
-- VA may reach out to other government agencies on your behalf to find records.  (For example, the Department of Defense.)
-- If VA needs more medical information, they may ask you to provide it.  They may schedule an exam for you at either a VA facility or a civilian health care provider. (Please note: this isn’t a general medical exam. It’s to check out the injuries you listed on your benefits claim.)
+- VA may reach out on your behalf to other governmental agencies, such as the Department of Defense, to find records. 
+- If VA needs more medical information, they may ask you to provide it.  They may schedule an exam for you at either a VA facility or a civilian health care provider. (Please note: This isn’t a general medical exam. It’s to check out the injuries you listed on your benefits claim.)
 
 ###### Do I need to do anything while I’m waiting ?
 
@@ -174,9 +174,9 @@ VA will send you a letter if they need more information. Unless VA writes and as
 
 ##### Decision
 
-When the VA Veterans Service Representative reviewing your claim has studied all the information you submitted, and that VA may have gathered on your behalf, they will make a decision and send it to you in a letter.
+When the VA Veterans Service Representative reviewing your claim has studied all the information you submitted, as well as what VA may have gathered on your behalf, the VSR will make a decision and send it to you in a letter.
 
-If you disagree with this decision, you may [appeal the decision](link to appeal process).
+If you disagree with this decision, you may [file an appeal](link to appeal process).
 
 </div>
 
