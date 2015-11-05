@@ -33,12 +33,14 @@ If you are an eligible member of the Army Reserve, Navy Reserve, Air Force Reser
 ### Are you eligible for this program?
 
 Yes, if:
+
 - You have a six-year service obligation in the Selected Reserve. If you are an officer, you must have agreed to serve six years in addition to your original obligation.
-- You complete your initial active duty for training (IADT)
-- You receive a high school diploma or equivalency certificate before completing IADT
-- You remain in good standing while serving in an active Selected Reserve unit
+- You complete your initial active duty for training (IADT).
+- You receive a high school diploma or equivalency certificate before completing IADT.
+- You remain in good standing while serving in an active Selected Reserve unit.
 
 You can use up to $368 per month in financial assistance for the following types of training:
+
 - [College degree and certificate programs](http://www.benefits.va.gov/gibill/higher_learning.asp)
 - [Co-op training](http://www.benefits.va.gov/gibill/coop_training.asp)
 - [Technical or vocational courses](http://www.benefits.va.gov/gibill/non_college_degree.asp)
