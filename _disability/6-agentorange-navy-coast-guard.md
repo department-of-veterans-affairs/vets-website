@@ -90,7 +90,7 @@ Get more information about [ships that may have been exposed to Agent Orange](ht
 
 Yes, if:
 
-You currently have one or more of [these diseases](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/range exposure), and
+You currently have one or more [of these diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), and
 
 You served on ships or boats that were part of the Mobile Riverine Force, Inshore Fire Support Division 93, or had one of the following designations:
 
@@ -135,7 +135,7 @@ You and your dependents
 
 ### How it works
 
-If you served on one of the vessels listed as exposed to Agent Orange, and have a disease listed above, VA will presume that your disease is related to Agent Orange exposure in service. 
+If you served on one of the vessels listed as exposed to Agent Orange, and have a disease listed above, VA will presume that your disease is related to Agent Orange exposure in service.
 
 If you don’t currently have an Agent Orange–related disability, you and your family may still participate in the Agent Orange Health registry.
 
