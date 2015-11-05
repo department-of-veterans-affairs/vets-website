@@ -1,6 +1,6 @@
 ---
 layout: page-education
-permalink: education/top-up/buy-up-program/index.html
+permalink: education/gi-bill/buy-up-program/index.html
 title: $600 Buy-Up Program
 Template: 4-action-page
 concurrence: incomplete
@@ -12,7 +12,7 @@ concurrence: incomplete
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/top-up/">Top-up Benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -25,7 +25,7 @@ concurrence: incomplete
 <!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      
+
     </div>
   </div>  
 </div>-->
@@ -35,7 +35,7 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you participate in the $600 Montgomery GI Bill® buy-up program, your GI Bill® monthly payments will increase. 
+If you participate in the $600 Montgomery GI Bill® buy-up program, your GI Bill® monthly payments will increase.
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">

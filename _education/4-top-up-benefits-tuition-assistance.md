@@ -1,6 +1,6 @@
 ---
 layout: page-education
-permalink: education/top-up/tuition-assistance/index.html
+permalink: education/gi-bill/tuition-assistance/index.html
 title: Tuition Assistance Top Up
 concurrence: incomplete
 Template: 4-action-page
@@ -12,7 +12,7 @@ Template: 4-action-page
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/top-up/">Top-up Benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -25,7 +25,7 @@ Template: 4-action-page
 <!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      
+
     </div>
   </div>  
 </div>-->
@@ -39,7 +39,7 @@ If your tuition is more than what's covered by the Tuition Assistance (TA) progr
 
 ### Are you eligible for compensation?
 
-Yes, if: 
+Yes, if:
 - You are approved for federal TA
 - You are eligible for Montgomery GI Bill® Active Duty or Post-9/11 GI Bill® benefits
 - The tuition and fees for your desired course total more than TA will cover
