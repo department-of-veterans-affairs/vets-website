@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/training-testing-licensing/index.html
-title: Training, Testing, or Licensing
+title: Advanced Training and Certifications
 concurrence: incomplete
 template: 1-topic-landing
 ---
