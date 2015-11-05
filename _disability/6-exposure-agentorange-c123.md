@@ -87,7 +87,7 @@ C-123 aircraft and Agent Orange exposure
 
 Yes, if:
 
-- You have an [Agent Orange-related disability](http://www.benefits.va.gov/COMPENSATION/claims-postservice-agent_orange.asp)
+- You have an [Agent Orange-related disability]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/)
 - You served in a regular Air Force unit location where a contaminated C-123 was assigned
 - You regularly and repeatedly had contact with contaminated C-123 aircraft through flight, ground, or medical duties
 
@@ -101,7 +101,7 @@ This list of military units and Air Force Specialty codes will help you figure o
 
 Yes, if:
 
-- You have an [Agent Orange-related disability](http://www.benefits.va.gov/COMPENSATION/claims-postservice-agent_orange.asp)
+- You have an [Agent Orange-related disability]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/)
 - You were assigned to flight, ground, or medical crew duties at any of the following locations:
   - **Lockbourne/Rickenbacker Air Force Base** in Ohio from 1969-1986 (906th and 907th Tactical Air Groups or 355th and 356th Tactical Airlift Squadrons)
   - **Westover Air Force Base** in Massachusetts from 1972-1982 (731st Tactical Air Squadron and 74th Aeromedical Evacuation Squadron, or 901st Organizational Maintenance Squadron)
