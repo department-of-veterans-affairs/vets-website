@@ -90,7 +90,7 @@ More information about [ships that may have been exposed to Agent Orange](http:/
 
 Yes, if:
 
-You currently have one or more [of these diseases](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/range exposure), and
+You currently have one or more [of these diseases]({{ site.url }}http://staging.vets.gov/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), and
 
 You served on ships or boats that were part of the Mobile Riverine Force, Inshore Fire Support Division 93, or had one of the following designations:
 
