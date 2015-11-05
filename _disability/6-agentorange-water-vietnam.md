@@ -82,7 +82,7 @@ If you served on a Blue Water Navy ship on the coastal or inland waterways of Vi
 
 Yes, if:
 
-- You are ill with one, or more, of [these diseases](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) related to Agent Orange
+- You are ill with one, or more, of [these diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange
 
 - Your military record shows that you were aboard one of the [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp) that operated in Vietnam, or
 
