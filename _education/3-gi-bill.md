@@ -107,11 +107,23 @@ Complete an application using [VA Form 22-1990](http://www.vba.va.gov/pubs/forms
         </li>
 
         <li>
+          <a href="{{ site.url }}/education/survivors-dependent-assistance/">
+            <h4 class="alternate">Survivors & Dependent Assistance</h4>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/education/rates/">
+            <h4 class="alternate">Rates</h4>
+          </a>
+        </li>
+
+        <li>
           <a href="{{ site.url }}/education/gi-bill/yellow-ribbon/">
             <h5>Yellow Ribbon</h5>
           </a>
         </li>
-        
+
       </ul>
     </div>
   </div>

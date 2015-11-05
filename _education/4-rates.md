@@ -12,6 +12,7 @@ template: 6-info-page
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -28,7 +29,7 @@ template: 6-info-page
 
 <div markdown="1">
 
-VA provides education benefits to qualifying Veterans and their family members. See the tables below for information about the available education benefits and corresponding rates. 
+VA provides education benefits to qualifying Veterans and their family members. See the tables below for information about the available education benefits and corresponding rates.
 
 [Rate Tables](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rate_tables.asp#ch33)
 
