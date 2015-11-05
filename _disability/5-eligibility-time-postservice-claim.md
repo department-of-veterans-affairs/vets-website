@@ -36,7 +36,7 @@ VA presumes certain conditions are service connected if you experience them with
 Exposure to certain chemical, physical, or environmental hazards during military service may result in disease or injury.
 
 ***Diseases Associated with Gulf War Service***
-There are many [conditions and diseases](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/conditions/exposures-to-hazardous-materials/gulf-war-illness/) associated with serving in Southwest Asia.
+There are many [conditions and diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/gulf-war-illness/) associated with serving in Southwest Asia.
 
 ***Prisoners of War (POWs)***
 There are certain physical and emotional conditions resulting from captivity as a POW.
