@@ -85,7 +85,9 @@ You
 
 <div class="call-out" markdown="1">
 
-### How it works The evidence must show the existence of a radiogenic disease listed in 38 CFR 3.311(a) or an unlisted disease for which a medical opinion has been submitted showing a relationship between the disease and exposure to radiation, and service records must show exposure to ionizing radiation. VA requests from the appropriate military service or the Defense Threat Reduction Agency an estimate of your level or range of radiation exposure. The military service or agency reports to VA the range within which a Veteran may have been exposed, and VA accepts the highest level of the dose range. See 38 CFR 3.311(b)(5) for more information.
+#### How it works 
+
+The evidence must show the existence of a radiogenic disease listed in 38 CFR 3.311(a) or an unlisted disease for which a medical opinion has been submitted showing a relationship between the disease and exposure to radiation, and service records must show exposure to ionizing radiation. VA requests from the appropriate military service or the Defense Threat Reduction Agency an estimate of your level or range of radiation exposure. The military service or agency reports to VA the range within which a Veteran may have been exposed, and VA accepts the highest level of the dose range. See 38 CFR 3.311(b)(5) for more information.
 
 </div>
 
