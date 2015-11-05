@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/survivors-dependent-assistance/index.html
-title: Survivors' and Dependents' Assistance
+title: Survivors and Dependents Assistance
 concurrence: incomplete
 Template: 6-info-page
 ---
