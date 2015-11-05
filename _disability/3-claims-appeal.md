@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/claims-appeal/index.html
-title: Claims appeal
+title: Appeals
 concurrence: incomplete
 template: 6-info-page
 ---
@@ -38,13 +38,13 @@ template: 6-info-page
 
 All benefits decisions can be appealed. If you disagree with all or part of a VA benefits decision, you may file a Notice of Disagreement (NOD). [Veteran Service Organizations](link to Accredited Representative) can assist you with this.
 
-### When
+### When do I file an NOD?
 
 You’ll need to file within one year from the date on the letter notifying you about the decision on your claim.
 
 ### What do I file?  
 
-[VA Form 21-0958](http://www.vba.va.gov/pubs/forms/ VBA-21-0958-ARE.pdf).  
+[VA Form 21-0958](http://www.vba.va.gov/pubs/forms/ VBA-21-0958-ARE.pdf)
 
 ### What’s next?  
 
@@ -56,13 +56,13 @@ You’ll need to file within one year from the date on the letter notifying you 
 
 If you disagree with the Statement of the Case, you can file a Substantive Appeal to the Board of Veterans’ Appeals.
 
-### When?
+### When do I file a Substantive Appeal?
 
 You’ll need to file within one year from the date on the letter notifying you about the original decision on your claim or 60 days from the date on the letter accompanying the Statement of the Case, whichever gives you more time.
 
 ### What do I file?
 
-[VA Form 9](http://www.va.gov/ vaforms/va/pdf/VA9.pdf). Check the status of your appeal by calling 1-800-827-1000 or going online to [eBenefits] (https://www.ebenefits.va.gov).
+[VA Form 9](http://www.va.gov/ vaforms/va/pdf/VA9.pdf). Check the status of your appeal by calling 1-800-827-1000 or going online to [eBenefits](https://www.ebenefits.va.gov).
 
 </div>
 
