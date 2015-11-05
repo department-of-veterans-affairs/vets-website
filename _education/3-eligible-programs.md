@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/eligible-programs/index.html
-title: Eligible programs
+title: Legacy Programs
 concurrence: incomplete
 template: 1-topic-landing
 ---
