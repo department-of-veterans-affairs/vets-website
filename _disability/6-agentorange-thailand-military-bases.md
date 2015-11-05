@@ -120,7 +120,7 @@ You, your dependents and survivors
 
 - Heath care benefits
 - Compensation benefits
-- An [Agent Orange Registry health exam](http://staging.vets.gov/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
+- An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 </div>
 
