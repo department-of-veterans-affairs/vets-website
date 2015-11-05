@@ -113,7 +113,7 @@ Choose one of three ways:
 - Work with an [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html), or
 - Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
 
-Note: Active-duty members should learn about [Predischarge Claims]({{ site.url }}/disability-benefits/conditions/time/index.html).
+Note: Active-duty members should learn about [Predischarge Claims]({{ site.url }}/conditions/time/pre-discharge/).
 
 </div>
 
@@ -160,7 +160,7 @@ Note: Active-duty members should learn about [Predischarge Claims]({{ site.url }
 - VA may reach out on your behalf to other governmental agencies, such as the Department of Defense, to find records. 
 - If VA needs more medical information, they may ask you to provide it.  They may schedule an exam for you at either a VA facility or a civilian health care provider. (Please note: This isn’t a general medical exam. It’s to check out the injuries you listed on your benefits claim.)
 
-###### Do I need to do anything while I’m waiting ?
+###### Do I need to do anything while I’m waiting?
 
 VA will send you a letter if they need more information. Unless VA writes and asks you for additional information, there is nothing else you need to do.
 
@@ -176,7 +176,7 @@ VA will send you a letter if they need more information. Unless VA writes and as
 
 When the VA Veterans Service Representative reviewing your claim has studied all the information you submitted, as well as what VA may have gathered on your behalf, the VSR will make a decision and send it to you in a letter.
 
-If you disagree with this decision, you may [file an appeal](link to appeal process).
+If you disagree with this decision, you may [file an appeal]({{ site.url }}/disability-benefits/claims-appeal/).
 
 </div>
 
