@@ -59,27 +59,19 @@ You are in charge of designing your own education. VA education benefits, includ
                 <h5>Co-Op Training</h5>
               </a>
             </li>
+
             <li>
               <a href="{{ site.url }}/education/work-learn/non-college-degree-program/">
                 <h5>Non-College Degree Program</h5>
               </a>
             </li>
+
             <li>
-              <a href="{{ site.url }}/education/work-learn/accelerated-payments/">
-                <h5>Accelerated Payments For High-Technology Programs</h5>
+              <a href="{{ site.url }}/education/work-learn/non-traditional/">
+                <h5>Non-Traditional Options</h5>
               </a>
             </li>
-            <li>
-              <a href="{{ site.url }}/education/work-learn/independent-distance-learning/">
-                <h5>Independent and Distance Learning Training</h5>
-              </a>
-            </li>
-            <li>
-              <a href="{{ site.url }}/education/work-learn/correspondence-training/">
-                <h5>Correspondence Training</h5>
-              </a>
-            </li>
-        
+
           </ul>
         </div>
       </div>

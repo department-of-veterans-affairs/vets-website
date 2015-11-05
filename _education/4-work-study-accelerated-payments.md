@@ -1,6 +1,6 @@
 ---
 layout: page-education
-permalink: education/work-learn/accelerated-payments/index.html
+permalink: education/work-learn/non-traditional/accelerated-payments/index.html
 title: Accelerated Payments For High-Technology Programs
 template: 4-action-page
 concurrence: incomplete
@@ -13,6 +13,7 @@ concurrence: incomplete
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/education/work-learn/">Work and Learn</a></li>
+<li class="parent"><a href="{{ site.url }}/education/work-learn/non-traditional/">Non-Traditional Options</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -25,7 +26,7 @@ concurrence: incomplete
 <!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      
+
     </div>
   </div>  
 </div>-->
@@ -40,7 +41,7 @@ If you’re enrolled in a high-tech program and intend to work in a high-tech in
 <div class="call-out">
 ### Are you eligible for education benefits?
 
-**Yes, if:** 
+**Yes, if:**
 
 -	You are an active-duty GI Bill® recipient, in which case both degree and non-degree programs qualify
 -	You are a REAP recipient or a Reservist using the Reserve GI Bill® while pursuing a non-degree program for two years or less
