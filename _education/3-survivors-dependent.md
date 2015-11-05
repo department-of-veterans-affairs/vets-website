@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/survivors-dependent-assistance/index.html
-title: Survivors & Dependent Assistance
+title: Survivors and Dependents Assistance
 concurrence: incomplete
 Template: 6-info-page
 ---
@@ -63,7 +63,7 @@ You may be eligible for both of these programs, but can only use one of them. Yo
 
 Use the chart below to compare the programs.
 
-#### Chart
+#### Compare DEA and Fry Scholarship Benefits
 
 </div>
 
