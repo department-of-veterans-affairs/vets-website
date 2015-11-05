@@ -75,7 +75,7 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
 
 <div class="call-out" markdown="1">
 
-- [Non-Hodgkin's Lymphoma and Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/))
+- [Non-Hodgkin's Lymphoma and Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/)
 
 </div>
 
