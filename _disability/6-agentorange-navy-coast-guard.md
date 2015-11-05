@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/navy-coast-guard/index.html
-title: US Navy and Coast Guard Ships in Vietnam
+title: U.S. Navy and Coast Guard Ships in Vietnam
 concurrence: complete
 template: 4-action-page
 ---
@@ -11,7 +11,7 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
@@ -72,7 +72,7 @@ To contact VA:
 </li>
 
 <li markdown="1">
-More information about [ships that may have been exposed to Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf)
+Get more information about [ships that may have been exposed to Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf)
 
 </li>
 </ul>
@@ -86,11 +86,11 @@ More information about [ships that may have been exposed to Agent Orange](http:/
 
 <div class="call-out" markdown="1">
 
-### Are you Eligible for Compensation?
+### Are you eligible for compensation?
 
 Yes, if:
 
-You currently have one or more [of these diseases](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/range exposure), and
+You currently have one or more of [these diseases](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/range exposure), and
 
 You served on ships or boats that were part of the Mobile Riverine Force, Inshore Fire Support Division 93, or had one of the following designations:
 
@@ -109,13 +109,13 @@ You served on ships or boats that were part of the Mobile Riverine Force, Inshor
 - WPB (Patrol Boat)
 - YFU (Harbor Utility Craft)
 
-*Even if your vessel is #not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in VA's alphabetized list of ships that were exposed to Agent Orange. (Check to see if your ship was exposed).*
+*Even if your vessel is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in VA's alphabetized list of ships that were exposed to Agent Orange. (Check to see if your ship was exposed).*
 
 </div>
 
 <div class="call-out" markdown="1">
 
-### Who is Covered
+### Who is covered
 
 You and your dependents
 
@@ -135,9 +135,9 @@ You and your dependents
 
 ### How it works
 
-If you served on one of the vessels listed as exposed to Agent Orange, and have a disease listed above, VA will presume that your disease isrelated to Agent Orange exposure in service. 
+If you served on one of the vessels listed as exposed to Agent Orange, and have a disease listed above, VA will presume that your disease is related to Agent Orange exposure in service. 
 
-If you don’t currently have an Agent Orange related disability, you and your family may still participate in the Agent Orange Health registry.
+If you don’t currently have an Agent Orange–related disability, you and your family may still participate in the Agent Orange Health registry.
 
 </div>
 
