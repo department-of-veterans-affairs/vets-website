@@ -50,7 +50,9 @@ If you have certain diseases, including some cancers, and you were exposed to io
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for compensation? Yes, if:
+### Are you eligible for compensation?
+
+Yes, if:
 
 -	You were exposed to ionizing radiation during military service in one of the following ways:
 -	As a participant in atmospheric testing of nuclear weapons, or
