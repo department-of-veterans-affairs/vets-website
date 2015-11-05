@@ -36,6 +36,8 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns">
 
+### Accredited Representatives
+
 <div markdown="1">
 
 When filing a disability claim, it may help to work with an accredited representative who is familiar with the process and who VA considers capable of assisting you with VA-related affairs.
