@@ -34,28 +34,28 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
 If you are seeking education or training opportunities and have served on active duty after September 10, 2001, you may be eligible for the Post-9/11 GI Bill®. This program is a major overhaul of the Montgomery GI Bill®.
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:**
-•  You meet the basic requirements for any GI Bill® program
-•  You have served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001
-•  You make an irrevocable election of the Post-9/11 GI Bill® (and forgo use of any other GI Bill®)
+Yes, if:
+
+-  You meet the basic requirements for any GI Bill® program
+-  You have served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001
+-  You make an irrevocable election of the Post-9/11 GI Bill® (and forgo use of any other GI Bill®)
 
 Making an “irrevocable election” means that you cannot change back to another GI Bill® program for which you may also be eligible after you receive Post-9/11 GI Bill® benefits.
 
 #### Who is covered
 - You and/or your dependents
 
-### Available benefits
+#### Available benefits
 - Significant tuition-funding assistance
 - A location-adjusted housing allowance out of which you can pay your living expenses during enrollment
 
-### How it works
+#### How it works
 The benefit amount varies according to where you use the benefit and the amount of your active-duty service since September 10, 2001.
 
 #### The program:
@@ -103,7 +103,7 @@ VA approves the following programs and courses under the Post-9/11 GI Bill®:
 - Frequently Asked Questions (FAQ)
 </div>
 
-“GI Bill®® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our Terms of Use.
+“GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our Terms of Use.
 
 </div>
 </div>

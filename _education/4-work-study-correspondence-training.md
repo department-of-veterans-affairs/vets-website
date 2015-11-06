@@ -41,7 +41,7 @@ If you would like to learn at home or are located in a remote area, corresponden
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:**
+Yes, if:
 
 - You meet the basic requirements for any GI Bill® program
 

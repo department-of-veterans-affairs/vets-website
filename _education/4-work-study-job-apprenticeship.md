@@ -3,7 +3,7 @@ layout: page-education
 permalink: education/work-learn/job-and-apprenticeship/index.html
 title: On-The-Job and Apprenticeship
 concurrence: incomplete
-template: 6-info-page
+template: 4-action-page
 ---
 
 <div class="splash" markdown="0">
@@ -36,24 +36,31 @@ template: 6-info-page
 <div class="small-12 columns" markdown="1">
 
 If you want to learn a trade or skill through on-the-job training or apprenticeships, find out if you are eligible for VA benefits.
+</div>
+<div class="small-12 columns" markdown="1">
+<div class="call-out">
 
 ### Are you eligible for compensation?
 
 Yes, if:
+
 -	You are eligible for GI Bill® benefits
 -	You are interested in working in an industry or job where OTJ is available, such as:
 -	Union plumber
 -	Hotel management
 -	Firefighter
 
-### Who is covered
-You
+#### Who is covered
 
-### Available benefits
+- You
+
+#### Available benefits
+
 -	Stipend
 -	Monthly housing allowance
 
-### How it works
+#### How it works
+
 Participation in these programs generally involves your entering into a training contract for a specific amount of time with an employer or union. During training you will likely receive a salary from the employer or union, which typically increases as your skills increase. At the end of your training period, you will get a job certification or journeyman status.
 
 Veterans in an approved program can use their GI Bill® benefit and receive a tax-free stipend. The Post-9/11 GI Bill® stipend is the equivalent of the Monthly Housing Allowance (MHA) of an E-5 with dependents, which is paid in addition to the entry-level wage. Take a look at the [OJT Fact Sheet for more information](http://www.benefits.va.gov/gibill/docs/factsheets/OJT_Factsheet.pdf).
@@ -76,7 +83,7 @@ Your payment varies depending on the GI Bill® program. View the [payment rates]
 - 35% of the full-time GI Bill® rate for the remainder of the training program
 
 
-**Exception:** OJT is not available if you are an active-duty Servicemember, or to spouses using a transferred benefit. 
+**Exception:** OJT is not available if you are an active-duty Servicemember, or to spouses using a transferred benefit. </div>
 
 
 </div>

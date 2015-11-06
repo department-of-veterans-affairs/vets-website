@@ -40,7 +40,7 @@ If you experience symptoms of certain diseases, such as hypertension, arthritis,
 <div class="call-out" markdown="1">
 ### Are you eligible for compensation?
 
-**Yes, if:**
+Yes, if:
 
 -	You have a disease that is at least 10% disabling within one year after separation from service
 -	The disease is listed in [Title 38, Code of Federal Regulation, 3.09(a)](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc)

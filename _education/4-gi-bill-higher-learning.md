@@ -28,7 +28,9 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="1">
 
 If you would like to earn an advanced degree at an institution of higher learning, including four-year universities, community colleges, and schools offering advanced degrees, VA education and training benefits are available to you.
-
+</div>
+<div class="small-12 columns" markdown="1">
+<div class="call-out">
 The number of classes you attend and the accompanying hours spent in those classes determine your payments. For example, a college considers:
 
 -	12 or more hours full time
@@ -46,6 +48,7 @@ You can attend more than one college at a time under the GI Bill as long as the 
 The GI Bill can pay you for the classes required to achieve more than one degree. Once you earn a degree, you could pursue another one if you have remaining entitlement on your GI Bill.
 
 VA issues payments after each month’s classes. For example, you receive the November payment in December. For the Post-9/11 GI Bill, the tuition and fees are paid directly to the school, the book stipend is paid to you at the beginning of the term, and the housing allowance is paid to you at the end of each month.
+</div>
 
 
 </div>

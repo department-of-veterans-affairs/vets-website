@@ -34,14 +34,13 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
 If you served at least two years on active duty, you may be eligible for the MGIB-AD program.
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">
 ### Are you eligible for educational benefits?
 
-**Yes, if:**
+Yes, if:
 
 -	You were honorably discharged
 -	You have a high school diploma, GED, or 12 hours of college credit
@@ -112,7 +111,7 @@ Use the [GI Bill® Comparison Tool](link to tool) to pick the right type of educ
 
 <div markdown="1">
 
-“GI Bill®® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our Terms of Use.
+“GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our Terms of Use.
 
 [Montgomery GI Bill® Active Duty](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf)
 

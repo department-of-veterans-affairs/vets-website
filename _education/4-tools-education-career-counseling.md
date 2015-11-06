@@ -26,7 +26,6 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
 If you are transitioning out of active service soon, you are entitled to free educational and career counseling services.
 </div>
 <div class="small-12 columns" markdown="1">
@@ -34,7 +33,7 @@ If you are transitioning out of active service soon, you are entitled to free ed
 
 ### Are you eligible for services?
 
-**Yes, if:**
+Yes, if:
 
 -	You will be discharged from active duty within six months
 -	You were discharged from active duty not more than one year ago

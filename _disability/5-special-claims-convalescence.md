@@ -43,7 +43,7 @@ You may be eligible for a temporary 100% disability rating while you recover fro
 <div class="call-out" markdown="1">
 ### Are you Eligible for Compensation?
 
-**Yes, if:**
+Yes, if:
 
 -	You have had a surgery or other treatment performed by a VA hospital or an approved hospital or outpatient facility for a service-connected disability **and**
 -	The surgery required convalescence of at least one month **or**

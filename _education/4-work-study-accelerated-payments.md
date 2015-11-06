@@ -41,7 +41,7 @@ If you’re enrolled in a high-tech program and intend to work in a high-tech in
 <div class="call-out">
 ### Are you eligible for education benefits?
 
-**Yes, if:**
+Yes, if:
 
 -	You are an active-duty GI Bill® recipient, in which case both degree and non-degree programs qualify
 -	You are a REAP recipient or a Reservist using the Reserve GI Bill® while pursuing a non-degree program for two years or less

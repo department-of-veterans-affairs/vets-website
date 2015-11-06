@@ -3,7 +3,7 @@ layout: page-education
 permalink: education/gi-bill/index.html
 title: GI Bill®
 concurrence: incomplete
-template: 6-info-page
+template: 1-topic-landing
 ---
 
 <div class="splash" markdown="0">
@@ -25,11 +25,12 @@ template: 6-info-page
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
 If you are an eligible member of the Army Reserve, Navy Reserve, Air Force Reserve, Marine Corps Reserve, Coast Guard Reserve, Army National Guard or Air National Guard, you may receive up to 36 months of education and training benefits under the MGIB-SR program.
 
 [View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606)
-
+</div>
+<div class="small-12 columns" markdown="1">
+<div class="call-out">
 ### Are you eligible for this program?
 
 Yes, if:
@@ -53,14 +54,18 @@ You can use up to $368 per month in financial assistance for the following types
 - [Correspondence courses](http://www.benefits.va.gov/gibill/corresponence_training.asp) [INSERT LINK to Pivotal #99185706]
 - Under certain circumstances, remedial, deficiency, and refresher courses
 
-### How it works
-Complete an application using [VA Form 22-1990](http://www.vba.va.gov/pubs/forms/VBA-22-1990-ARE.pdf), "Application for VA Education Benefits." You can complete the application online through eBenefits.
+#### How it works
 
-### Learn more:
+Complete an application using [VA Form 22-1990](http://www.vba.va.gov/pubs/forms/VBA-22-1990-ARE.pdf), "Application for VA Education Benefits." You can complete the application online through eBenefits.
+</div>
+</div>
+
+<div class="small-12 columns" markdown="1">
+#### Learn more:
+
 - Visit the GI Bill customer service page to search Frequently Asked Questions or to ask a question online.
 - Call 1-888-GIBILL-1 (1-888-442-4551)
 - For TDD/TYY, use 1-800-829-4833
-
 </div>
 </div>
 </div>

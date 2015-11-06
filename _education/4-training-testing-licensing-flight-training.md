@@ -41,7 +41,8 @@ If you have preexisting pilot qualifications and want to pursue additional certi
 <div class="call-out">
 ### Are you eligible for this benefit?
 
-**Yes, if:**
+Yes, if:
+
 - You have at least a private pilot’s license  
 - You have a valid medical certification
 
@@ -60,7 +61,7 @@ Flight training is available for the following qualifications:
 - Flight engineer certification
 
 **The requirements and benefits vary according to the benefit program you use:**  
-- If you use the Montgomery GI Bill® (MGIB) or the [Reserve Educational Assistance Program (REAP)](LINK), VA reimburses you for 60% of the approved charges. [View payment information] (http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
+- If you use the Montgomery GI Bill® (MGIB) or the [Reserve Educational Assistance Program (REAP)](/education/eligible-programs/reap/), VA reimburses you for 60% of the approved charges. [View payment information] (http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
 - If you use the Post-9/11 GI Bill®, your payment varies depending on the specific flight course and whether your school is public or private. If it is private, your payment varies according to whether or not your school participates in the [Yellow Ribbon program](link to Betasite).
 
 Get more details about the [Post-9/11 GI Bill®](LINK).

@@ -2,7 +2,7 @@
 layout: page-education
 permalink: education/survivors-dependent-assistance/dependents-education/index.html
 title: Survivors and Dependents Education Assistance Program
-template: 4-action-page
+template: 6-info-page
 concurrence: incomplete
 ---
 
@@ -41,7 +41,7 @@ If you are the dependent of a Veteran who was permanently and totally disabled o
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:**
+Yes, if:
 
 **You are the son, daughter, or spouse of:**
 
