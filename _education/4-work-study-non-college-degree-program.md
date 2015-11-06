@@ -34,7 +34,7 @@ template: 6-info-page
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-If you are a Veteran interested in non-college degree programs (such as EMT, HVAC repair, and truck driving), the GI Bill® can pay all or a portion of your tuition.
+If you are a Veteran, Servicemember, or eligible dependent interested in non-college degree programs (such as EMT, HVAC repair, truck driving, and more), the GI Bill® may pay all or a portion of your tuition.
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">
@@ -43,7 +43,7 @@ If you are a Veteran interested in non-college degree programs (such as EMT, HVA
 Yes, if:
 
 - You qualify for the GI Bill®
--	You enroll in a non-degree program at an approved institution
+-	You enroll, or plan to enroll, in a non-degree program at an approved institution
 
 #### Who is covered
 
@@ -52,6 +52,7 @@ Yes, if:
 #### Available benefits
 
 - Significant tuition assistance
+- Books and supplies stipend
 
 #### How it works
 
