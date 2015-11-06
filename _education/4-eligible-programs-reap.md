@@ -35,7 +35,7 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you are a Reservist who has been ordered to active duty in response to war or national emergency, you may be eligible for additional education benefits using the Reserve Educational Assistance Program (REAP). 
+If you are a Reservist who has been ordered to active duty in response to war or national emergency, you may be eligible for additional education benefits using the Reserve Educational Assistance Program (REAP).
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">
@@ -46,17 +46,13 @@ Yes, if:
 - You are a Reservist activated for 90 days or more after September 11, 2001
 - The activation was due to war or national emergency, as declared by the President of the United States or the United States Congress
 
-#### Who is covered
-- You and/or your dependents
+### Who is covered
+You and/or your dependents
 
-#### Available benefits
-- Repayment of some or all of your tuition and fees for institutional education, certificate programs, and vocational training
-- Additional monthly benefits if you participate in the [Buy-Up program] (link to Buy-Up program)
+### How it works
+Under REAP, you may be able to receive assistance on some or all of your tuition and fees for college courses, certificate programs, and vocational training.
 
-#### How it works
-The amount of repayment you receive depends on your active-service time. See the [current benefit rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1607).
-</div>
-
+The amount of your benefit depends on your active-service time. See the [current benefit rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1607).You may get additional monthly benefits if you participate in the [Buy-Up program] (link to Buy-Up program).
 
 #### Learn more:
 [REAP pamphlet](Link to http://www.benefits.va.gov/gibill/docs/pamphlets/ch1607_pamphlet.pdf)
