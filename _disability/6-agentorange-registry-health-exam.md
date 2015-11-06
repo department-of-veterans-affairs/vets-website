@@ -25,11 +25,11 @@ template: action-page
 <div class="main" role="main" markdown="0">
 
 <div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
-    </div>
-  </div>  
+<div class="row">
+<div class="small-12 columns">
+<a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
+</div>
+</div>  
 </div>
 
 <div class="section one" markdown="0">
@@ -37,7 +37,7 @@ template: action-page
 <div class="row" markdown="0">
 <div class="small-12 medium-8 columns" markdown="0">
 
-<dl class="panel-list plain">
+<dl class="panel-list plain" markdown="0">
 <dt>{{ page.title }}</dt>
 <dd>Dates: 1962-1975</dd>
 <dd>Sites: Vietnam and areas exposed to herbicides</dd>
@@ -50,32 +50,9 @@ If you suspect you were exposed to Agent Orange during your military service you
 
 </div>
 
-</div>
+<div class="call-out" markdown="1">
 
-
-<div class="small-12 medium-4 columns" markdown="0">
-<div markdown="0">
-
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain">
-
-<li>
-[Learn more](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp#sthash.WRMj8tzo.dpuf):
-</li>
-
-<li>
-Contact your [local VA Environmental Health Coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp) to get started.
-</li>
-
-</div>
-</div>
-</div>
-
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
-### Are you Eligible for an Agent Orange Registry Health Exam? 
+### Are you Eligible for an Agent Orange Registry Health Exam?
 
 Yes, if you served in
 
@@ -86,12 +63,17 @@ Yes, if you served in
 - Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975.  You must have been a member of a military police (MP) unit or assigned a military occupational specialty with duty placing you at or near the base perimeter
 - Other locations but were exposed to herbicides during a military operation or as a result of testing, transporting, or spraying herbicides for military purposes. Learn about [herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp)
 
+</div>
+
+<div markdown="1">
+
 ### Who’s covered
-You 
+
+You
 
 ### How it Works
 
-Contact your VA Environmental Health Coordinator [to make an appointment for your exam]. (http://www.publichealth.va.gov/exposures/coordinators.asp)
+Contact your VA Environmental Health Coordinator [to make an appointment for your exam](http://www.publichealth.va.gov/exposures/coordinators.asp).
 
 This comprehensive health exam is free to eligible Veterans and includes:
 
@@ -103,6 +85,7 @@ This comprehensive health exam is free to eligible Veterans and includes:
 VA health professional will discuss your results with you. They will also follow up with a letter detailing your results.
 
 Important points about the Agent Orange Registry health exam:
+
 - It is not a disability compensation exam, nor is it required for other VA benefits. If you want to be considered for disability compensation, you must file a claim.
 - You do not need to enroll in VA’s health care system to receive a registry health exam.
 - The exam is based on your recollection of service, not on your military records.
@@ -110,8 +93,38 @@ Important points about the Agent Orange Registry health exam:
 - You can receive additional, free registry exams if new problems develop.
 - Veterans' family members are not eligible for an Agent Orange Registry health exam.
 
+
 </div>
 
+</div>
+
+
+<div class="small-12 medium-4 columns" markdown="0">
+<div markdown="0">
+<h4 class="highlight">Questions</h4>
+
+<ul class="plain" markdown="0">
+
+<li markdown="1">
+[Learn more](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp#sthash.WRMj8tzo.dpuf):
+</li>
+
+<li markdown="1">
+Contact your [local VA Environmental Health Coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp) to get started.
+</li>
+
+</div>
+</div>
+
+
+<div class="row" markdown="0">
+<div class="small-12 columns">
+<div markdown="1">
+
+
+</div>
+
+</div>
 </div>
 
 </div>
