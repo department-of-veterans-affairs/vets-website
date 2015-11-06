@@ -38,7 +38,8 @@ concurrence: incomplete
 If you are currently using VA educational assistance, and you're struggling with the course work, you may be eligible for a financial supplement to pay for a tutor.
 </div>
 <div class="small-12 columns" markdown="1">
-<div class="call-out">### Are you eligible for benefits?
+<div class="call-out">
+### Are you eligible for benefits?
 
 **Yes, if:**
 
@@ -48,11 +49,9 @@ If you are currently using VA educational assistance, and you're struggling with
 - The course is a required part of your educational program
 
 #### Who is covered
-
 - You
 
 #### Available benefits
-
 - A supplement to the regular education benefit
 
 
@@ -65,7 +64,7 @@ VA will not pay more than $100 per month for tutoring assistance, and will not p
 - You, your selected tutor, and your school’s certifying official must complete and sign [VA Form 22-1990t](http://www.vba.va.gov/pubs/forms/vba-22-1990t-are.pdf), Application for Individualized Tutorial Assistance. If you are using the Post-9/11 GI Bill®, your professor must also sign section 18 of this form.
 - At the end of every month you receive tutoring, you'll need to send in this application. It must be signed and dated on or after the date of the last certified tutoring session (Form 22-1900t, item 12b).
 
-There is no entitlement charge for the first $600 of your [Montgomery GI Bill®](beta link) or for your [Post-9/11 GI Bill®](beta link) or [Dependents’ Educational Assistance](beta link).
+There is no entitlement charge for the first $600 of your [Montgomery GI Bill®](/gibill/) or for your [Post-9/11 GI Bill®](/education/gi-bill/post-9-11/) or [Dependents’ Educational Assistance](/education/survivors-dependent-assistance/dependents-education/.
 
 *Exception:* Tutorial Assistance is not available for Reservists using the Reserve Educational Assistance Program benefit.
 </div>

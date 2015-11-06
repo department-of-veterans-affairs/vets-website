@@ -26,12 +26,14 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
 If you have not used all of your Post-9/11 GI Bill benefits, you may be eligible to transfer up to 36 months of benefits to your spouse or dependent children. Once the Department of Defense (DOD) approves the transfer, the new beneficiaries can apply for VA benefits.
-
+</div>
+<div class="small-12 columns" markdown="1">
+<div class="call-out">
 ### Are you eligible for benefits?
 
-Yes, if: 
+**Yes, if:** 
+
 - You’re currently on active duty or in the Selected Reserve.
 - You’re in one of these three situations:
 - You have at least six years of service on the date of approval and agree to serve four additional years from the date of election, or
@@ -39,21 +41,26 @@ Yes, if:
 - You are, or are about to be, eligible for retirement, and you agree to serve an additional four years of service on or after August 1, 2012. You are considered to be eligible for retirement if you have completed 20 years of active federal service or 20 qualifying years (pursuant to section 12732 of title 10 U.S.C.).
 - The recipient of the benefit is enrolled in DEERS
 
-### Who is covered
-Your dependents 
+#### Who is covered
+- Your dependents 
 
-### Available benefits
+#### Available benefits
 - Significant tuition-funding assistance 
 - A location-adjusted housing allowance for paying your living expenses during enrollment
 
-### How it works
+#### How it works
+
 The following conditions apply to family members using transferred benefits:
-#### Spouses
+
+##### Spouses
+
 - May use the benefit immediately
 - May use the benefit while you are on active duty or after separation
 - Are not eligible for the monthly housing allowance while you are on active duty
 - May use the benefit for up to 15 years after your last separation from active duty
-#### Children
+
+##### Children
+
 - May start to use the benefit only after you have completed at least 10 years of service
 - May use the benefit while you are on active duty or after separation
 - May not use the benefit until they have attained a secondary school diploma (or equivalency certificate), or have reached the age of 18
@@ -63,8 +70,9 @@ The following conditions apply to family members using transferred benefits:
 Dependent eligibility is not affected if a child marries or if you and your spouse divorce. However, you retain the right to revoke or modify the transfer at any time. If you want to totally revoke transferred benefits for a dependent and you are still in the service, you must submit another transfer request for the dependent via milConnect. If a dependent's transfer eligibility was previously totally revoked, you cannot transfer benefits again to that dependent.
 
 If you are still in the service and want to reallocate transferred benefits, you can do so using the TEB Portlet in [milConnect](https://www.dmdc.osd.mil/milconnect). If you’re a Veteran and want to reallocate benefits, you should contact VA using the ["Ask a Question" website](http://gibill.custhelp.com).
-
-
+</div>
+</div>
+<div class="small-12 columns" markdown="1">
 ### Learn more:
 
 - [DOD website for information on transferability](LINK TO http://archive.defense.gov/Home/Features/2009/0409_gibill/) (non-VA link)
@@ -95,8 +103,8 @@ While you are still serving, use the [Transfer of Education Benefits (TEB) websi
 Upon approval, family members may apply to use transferred benefits by printing, completing, and mailing [VA Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf) to the nearest [VA regional office](Pop-up for VA regional office list) or [applying online](http://vabenefits.vba.va.gov/vonapp/main.asp). 
 
 Once you leave military service, you can still provide a future effective date for use of TOE, modify the number of months transferred, or revoke the transfer of entitlement by submitting a written request to VA through the TEB website.
-
 </div>
+
 </div>
 </div>
 

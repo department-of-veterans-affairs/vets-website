@@ -25,15 +25,15 @@ Template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns">
-
-<div markdown="1">
-
+<div class="small-12 columns" markdown="1">
 If you are a dependent or survivor of a Veteran, you may be eligible for education assistance through a GI Bill® program.
+</div>
+<div class="small-12 columns" markdown="1">
+<div class="call-out">
 
 ### Are you eligible for benefits?
 
-Yes, if:
+**Yes, if:**
 
 - You are a child or spouse of a Servicemember who died in the line of duty after September 10, 2001, or
 - You are a dependent of a Veteran who is permanently and totally disabled due to a service-related condition, or
@@ -42,39 +42,37 @@ Yes, if:
 
 ### Who is covered
 
-You
+- You
 
-### Available benefits
+#### Available benefits
 
 - Education and training opportunities
 - Significant tuition-funding assistance
 - A location-adjusted housing allowance for paying your living expenses during enrollment
 - A stipend for books and supplies
 
-### How it works
+#### How it works
+
 There are two main GI Bill® programs offering education assistance to survivors and dependents of Veterans:
 
-- [The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](Link to beta site) is available for children and spouses of Servicemembers who died in the line of duty after September 10, 2001.
-- [The Survivors' and Dependents' Educational Assistance (DEA) program](Link to beta site) offers education and training opportunities to eligible dependents of Veterans who are permanently and totally disabled due to a service-related condition or who died while on active duty or as a result of a service-related condition.
+- [The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](/education/survivors-dependent-assistance/fry-scholarship/) is available for children and spouses of Servicemembers who died in the line of duty after September 10, 2001.
+- [The Survivors' and Dependents' Educational Assistance (DEA) program](/education/survivors-dependent-assistance/dependents-education/) offers education and training opportunities to eligible dependents of Veterans who are permanently and totally disabled due to a service-related condition or who died while on active duty or as a result of a service-related condition.
 
 You may be eligible for both of these programs, but can only use one of them. You’ll have to decide which one when you apply, and once you make this decision, it is final.
 
 **Exception:** As a beneficiary, you cannot use the same qualifying event for more than one benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
 
 Use the chart below to compare the programs.
-
-#### Compare DEA and Fry Scholarship Benefits
-
 </div>
 
-<div markdown="0">
-
+<div markdown="1">
+#### Compare DEA and Fry Scholarship Benefits
 <table>
 
 <tr>
-  <th></th>
-  <th scope="col">DEA</th>
-  <th scope="col">Fry Scholarship</th>
+  <th colspan="1"></th>
+  <th colspan="1" scope="col">DEA</th>
+  <th colspan="1" scope="col">Fry Scholarship</th>
 </tr>
 
 <tr>

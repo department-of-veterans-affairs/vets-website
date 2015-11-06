@@ -36,10 +36,15 @@ template: 4-action-page
 <div class="small-12 columns" markdown="1">
 
 If you are a full-time or three-quarter-time college, vocational, or professional student using VA education benefits, you may be eligible for this VA internship program. 
-
+</div>
+<div class="small-12 columns" markdown="1">
+<div class="call-out">
 ### Are you eligible for benefits?
-Yes, if:
+
+**Yes, if:**
+
 You are using one of the following VA education benefits:  
+
 - Post-9/11 GI Bill® ([Veterans](http://www.benefits.va.gov/gibill/post911_gibill.asp) and [transfer-of-entitlement recipients](http://www.benefits.va.gov/gibill/post911_transfer.asp))
 - Montgomery GI Bill® ([active duty](http://www.benefits.va.gov/gibill/mgib_ad.asp) and [Selected Reserve](http://www.benefits.va.gov/gibill/mgib_sr.asp))
 - [Reserve Educational Assistance Program](http://www.benefits.va.gov/gibill/reap.asp)
@@ -52,13 +57,16 @@ And if:
 - You are enrolled at least three-quarter time at an institution of higher learning
 - There is a position available within your normal commuting distance
 
-### Who is eligible?
-You and your dependents using education benefits
+#### Who is eligible?
 
-### Available benefits
-Paid internships
+- You and your dependents using education benefits
 
-### How it works
+#### Available benefits
+
+- Paid internships
+
+#### How it works
+
 The number of applicants selected depends on the availability of VA-related work at your school or at VA facilities in your area. Veterans with service-connected disabilities of at least 30% may be given priority consideration.
 
 You can [download a copy](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf) of the application form or get help with your application from the [Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp) that handles your claim. Your school’s financial aid office can provide other sources of assistance as well.
@@ -80,6 +88,7 @@ You’ll earn an hourly wage equal to the federal minimum wage or your state min
 You may elect to be paid in advance for 40% of the number of hours in your work-study agreement, or for 50 hours, whichever is fewer. After you’ve completed the hours covered by your first payment, VA will pay you each time you complete 50 hours of service, or bi-weekly, whichever comes first.
 
 You may work during or between enrollment periods. The total number of hours you work during your enrollment can’t be more than 25 times the number of weeks in your enrollment period.
+</div>
 
 
 </div>

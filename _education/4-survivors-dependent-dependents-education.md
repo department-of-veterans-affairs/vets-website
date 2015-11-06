@@ -2,7 +2,7 @@
 layout: page-education
 permalink: education/survivors-dependent-assistance/dependents-education/index.html
 title: Survivors and Dependents Education Assistance Program
-template: 4-action-page
+template: 6-info-page
 concurrence: incomplete
 ---
 

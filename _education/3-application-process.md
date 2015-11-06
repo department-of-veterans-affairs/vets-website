@@ -48,7 +48,7 @@ The time it takes to process your education or training claim depends on your re
 
 - 	Learn about schools offering VA-approved programs by using the [comparison tool](http://www.benefits.va.gov/gibill/comparison_tool.asp) or (http://department-of-veterans-affairs.github.io/gi-bill-comparison-tool/).
 
--	Decide [which school] (http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
+-	Decide [which school](http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
 
 -	Please note that it is not required, but is an option, to apply to a chosen school prior to applying for benefits.
 
