@@ -39,7 +39,7 @@ If you are transitioning out of active service soon, you are entitled to free ed
 -	You will be discharged from active duty within six months
 -	You were discharged from active duty not more than one year ago
 -	You qualify for educational assistance under Chapters 30, 31, 32, 33, 35, 1606, and 1607
--	You and your qualified dependents are eligible for and have entitlement to education assistance under Chapters 30, 31, 32, 33, 35, 1606, and 1607.
+-	You and your qualified dependents are eligible for and have entitlement to education assistance under the [Post-9/11 GI Bill](LINK TO PAGE).
 
 #### Who is covered
 
@@ -53,6 +53,7 @@ If you are transitioning out of active service soon, you are entitled to free ed
 
 As a transitioning Servicemember, you are eligible to receive the following services:
 
+As a transitioning Service Member, you are eligible to receive the following services:
 -	Counseling to help you decide which civilian or military occupations to pursue
 -	Educational and career counseling to help you find a training program or job
 -	Academic and adjustment counseling to help resolve issues that interfere with your success in training or employment
