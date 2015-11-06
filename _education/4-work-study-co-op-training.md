@@ -2,6 +2,7 @@
 layout: page-education
 permalink: education/work-learn/co-op-training/index.html
 title: Co-Op Training
+concurrence: complete
 template: 4-action-page
 ---
 
@@ -55,7 +56,7 @@ Yes, if:
 
 The amount covered under VA educational assistance depends on the benefit you use. 
 
-- The Post-9/11 GI Bill®: If the program is at a public IHL, VA pays the actual costs for public in-state tuition and fees. If the program is at a private or foreign IHL, VA pays the lesser of the [national maximum](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp) or the actual costs for in-state tuition and fees. Housing and educational-supplies stipend benefits are also paid under full-time enrollment.
+- The Post-9/11 GI Bill®: If the program is at a public IHL, VA pays the actual costs for public in-state tuition and fees. If the program is at a private or foreign IHL, VA pays the lesser of the [national maximum](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp) or the actual costs for in-state tuition and fees. Housing and books stipend benefits are also paid.
 - All other GI Bill® programs: VA pays a monthly rate that varies depending on which GI Bill® program you are entitled to use. [View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
 </div>
 
