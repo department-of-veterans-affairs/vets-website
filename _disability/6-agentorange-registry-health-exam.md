@@ -61,16 +61,7 @@ Yes, if you served in
 - Thailand (U.S. Air Force Veterans) on Royal Thai Air Force (RTAF) bases near U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, and Don Muang near the air base perimeter anytime between February 28, 1961, and May 7, 1975
 - Thailand (U.S. Army Veterans) as perimeter security personnel on RTAF bases in Thailand anytime between February 28, 1961, and May 7, 1975
 - Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975.  You must have been a member of a military police (MP) unit or assigned a military occupational specialty with duty placing you at or near the base perimeter
-- Other locations but were exposed to herbicides during a military operation or as a result of testing, transporting, or spraying herbicides for military purposes. Learn about [herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp)### Are you eligible for an Agent Orange Registry health exam?
-
-Yes, if you served in
-
-- Vietnam on smaller river patrol and swift boats that operated on the inland waterways of Vietnam (also known as “Brown Water Veterans”). Check VA's list of [U.S. Navy and Coast Guard ships that operated in Vietnam](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
-- Korea in a unit in or near the Demilitarized Zone (DMZ) anytime between April 1, 1968, and August 31, 1971.
-- Thailand (U.S. Air Force Veterans) on Royal Thai Air Force (RTAF) bases near U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, and Don Muang near the air base perimeter anytime between February 28, 1961, and May 7, 1975.
-- Thailand (U.S. Army Veterans) as perimeter security personnel on RTAF bases in Thailand anytime between February 28, 1961, and May 7, 1975.
-- Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975.  You must have been a member of a military police (MP) unit or assigned a military occupational specialty with duty placing you at or near the base perimeter.
-- Other locations but were exposed to herbicides during a military operation or as a result of testing, transporting, or spraying herbicides for military purposes. Learn about [herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp).
+- Other locations but were exposed to herbicides during a military operation or as a result of testing, transporting, or spraying herbicides for military purposes. Learn about [herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp)
 
 ### Who is covered
 
@@ -111,7 +102,7 @@ Important points about the Agent Orange Registry health exam:
 <ul class="plain" markdown="0">
 
 <li markdown="1">
-[Learn more](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp#sthash.WRMj8tzo.dpuf):
+Learn more about the [Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp#sthash.WRMj8tzo.dpuf).
 </li>
 
 <li markdown="1">
