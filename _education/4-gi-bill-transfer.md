@@ -32,7 +32,7 @@ If you have not used all of your Post-9/11 GI Bill benefits, you may be eligible
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:** 
+Yes, if: 
 
 - You’re currently on active duty or in the Selected Reserve.
 - You’re in one of these three situations:

@@ -41,7 +41,7 @@ If you are the dependent of a Veteran who was permanently and totally disabled o
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:**
+Yes, if:
 
 **You are the son, daughter, or spouse of:**
 

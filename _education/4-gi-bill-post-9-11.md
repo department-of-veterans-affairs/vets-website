@@ -40,7 +40,7 @@ If you are seeking education or training opportunities and have served on active
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:**
+Yes, if:
 
 -  You meet the basic requirements for any GI Bill® program
 -  You have served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001

@@ -41,7 +41,7 @@ If you are a full-time or three-quarter-time college, vocational, or professiona
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:**
+Yes, if:
 
 You are using one of the following VA education benefits:  
 

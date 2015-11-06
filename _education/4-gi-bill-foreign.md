@@ -70,7 +70,7 @@ If you are planning to pursue training at a foreign school, you can use VA benef
 <div class="call-out">
 ### Are you eligible for compensation?
 
-**Yes, if:**
+Yes, if:
 
 - You are eligible for or are already receiving VA educational assistance
 - Your program is approved by VA

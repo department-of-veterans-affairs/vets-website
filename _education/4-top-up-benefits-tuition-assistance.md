@@ -40,7 +40,7 @@ If your tuition is more than what's covered by the Tuition Assistance (TA) progr
 <div class="call-out">
 ### Are you eligible for compensation?
 
-**Yes, if:**
+Yes, if:
 
 - You are approved for federal TA
 - You are eligible for Montgomery GI Bill® Active Duty or Post-9/11 GI Bill® benefits

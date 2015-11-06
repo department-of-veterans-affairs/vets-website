@@ -40,7 +40,7 @@ If you are a Veteran interested in non-college degree programs (such as EMT, HVA
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:**
+Yes, if:
 
 - You qualify for the GI Bill®
 -	You enroll in a non-degree program at an approved institution

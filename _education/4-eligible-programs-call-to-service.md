@@ -41,7 +41,7 @@ If you performed a period of national service, you may be eligible for the Natio
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:** 
+Yes, if: 
 
 -	You completed your initial entry training, and then continued to serve on active duty in a military occupational specialty designated by the Secretary of Defense for a period of 15 months
 -	You then, without a break in service, served either an additional period of active duty as determined by the Secretary of Defense or a period of 24 months in active status in the Selected Reserve

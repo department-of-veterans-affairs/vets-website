@@ -41,7 +41,7 @@ The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) provide
 <div class="call-out">
 ### Are you eligible for compensation?
 
-**Yes, if:**
+Yes, if:
 
 You are the child or surviving spouse of an active-duty Servicemember who died in the line of duty on or after September 11, 2001
 

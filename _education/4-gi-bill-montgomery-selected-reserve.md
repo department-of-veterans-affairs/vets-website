@@ -42,7 +42,7 @@ If you are an eligible member of the Army Reserve, Navy Reserve, Air Force Reser
 <div class="call-out">
 ### Are you eligible for this program?
 
-**Yes, if:**
+Yes, if:
 
 - You have a six-year service obligation in the Selected Reserve. If you are an officer, you must have agreed to serve six years in addition to your original obligation.
 - You complete your initial active duty for training (IADT)

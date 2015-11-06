@@ -40,7 +40,7 @@ If you served at least two years on active duty, you may be eligible for the MGI
 <div class="call-out">
 ### Are you eligible for educational benefits?
 
-**Yes, if:**
+Yes, if:
 
 -	You were honorably discharged
 -	You have a high school diploma, GED, or 12 hours of college credit

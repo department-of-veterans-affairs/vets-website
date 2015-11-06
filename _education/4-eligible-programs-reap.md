@@ -41,7 +41,7 @@ If you are a Reservist who has been ordered to active duty in response to war or
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:**
+Yes, if:
 
 - You are a Reservist activated for 90 days or more after September 11, 2001
 - The activation was due to war or national emergency, as declared by the President of the United States or the United States Congress

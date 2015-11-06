@@ -41,7 +41,7 @@ If you are pursuing higher education that requires testing as part of the applic
 <div class="call-out">
 ### Are you eligible for compensation? 
 
-**Yes, if:** 
+Yes, if: 
 
 - You are a Veteran eligible for the GI Bill®
 

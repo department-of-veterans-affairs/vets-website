@@ -40,7 +40,7 @@ If you are enrolled in a program at an approved Institution of Higher Learning (
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:** 
+Yes, if: 
 
 - You are using VA educational assistance
 - You are pursuing an educational program that requires part-time study and part-time work or training

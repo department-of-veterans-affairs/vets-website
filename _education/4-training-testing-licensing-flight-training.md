@@ -41,7 +41,7 @@ If you have preexisting pilot qualifications and want to pursue additional certi
 <div class="call-out">
 ### Are you eligible for this benefit?
 
-**Yes, if:**
+Yes, if:
 
 - You have at least a private pilot’s license  
 - You have a valid medical certification

@@ -41,7 +41,7 @@ If you are currently using VA educational assistance, and you're struggling with
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:**
+Yes, if:
 
 - You are using VA educational assistance
 - You are pursuing an educational program at half-time or more

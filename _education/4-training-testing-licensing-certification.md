@@ -41,7 +41,7 @@ If you are a Veteran looking for employment in a field that requires a license o
 <div class="call-out">
 ### Are you eligible for compensation?
 
-**Yes, if:**
+Yes, if:
 
 -	You are eligible for the GI Bill®
 -	You are taking an exam that costs less than $2,000

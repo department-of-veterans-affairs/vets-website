@@ -33,7 +33,7 @@ If you are a dependent or survivor of a Veteran, you may be eligible for educati
 
 ### Are you eligible for benefits?
 
-**Yes, if:**
+Yes, if:
 
 - You are a child or spouse of a Servicemember who died in the line of duty after September 10, 2001, or
 - You are a dependent of a Veteran who is permanently and totally disabled due to a service-related condition, or

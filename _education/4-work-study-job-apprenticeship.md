@@ -42,7 +42,7 @@ If you want to learn a trade or skill through on-the-job training or apprentices
 
 ### Are you eligible for compensation?
 
-**Yes, if:**
+Yes, if:
 
 -	You are eligible for GI Bill® benefits
 -	You are interested in working in an industry or job where OTJ is available, such as:

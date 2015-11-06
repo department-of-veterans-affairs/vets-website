@@ -42,7 +42,7 @@ If your school participates in the Yellow Ribbon Program, you may be able to red
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:**
+Yes, if:
 
 - You are a Veteran or the dependent of a Veteran who is eligible for transfer of entitlement for the Post-9/11 GI Bill®, or you are the child of an active-duty Servicemember who is the recipient of a transfer of entitlement 
 - You served an aggregate period of 36 months in active duty after Sept. 10, 2001
