@@ -39,15 +39,15 @@ Yes, if:
 - You are eligible for Montgomery GI Bill® Active Duty or Post-9/11 GI Bill® benefits
 - The tuition and fees for your desired course total more than TA will cover
 
-#### Who is covered
+### Who is covered
 
 - You
 
-#### Available benefits
+### Available benefits
 
 - Additional tuition funding  
 
-#### How it works
+### How it works
 
 If your tuition cost amounts to more than what's covered by the Tuition Assistance (TA) program, you may be eligible for additional assistance. Tuition Assistance Top-Up covers the difference between the full cost of a college course and the amount covered under active-duty TA for up to 36 months.
 
@@ -76,7 +76,7 @@ If you are utilizing the Montgomery GI Bill, you will receive the difference bet
 - If you utilize the Montgomery GI Bill, this benefit will be reduced, or charged, one month of entitlement for each payment received that is equal to the full-time monthly [GI Bill rate](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
 - If you utilize the Post-9/11 GI Bill, this benefit will be charged based on training time no matter how much money you are reimbursed. Half-time training rates reduce your GI Bill benefit by a half-month for each month you are enrolled.
 
-**Exception:** In no case will the combined amount paid by DOD and VA exceed the total cost of the course.
+**Exception:** Tutorial Assistance is not available for Reservists using the Reserve Educational Assistance Program benefit.
 
 </div>
 </div>
