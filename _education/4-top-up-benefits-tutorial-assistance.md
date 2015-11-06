@@ -47,16 +47,16 @@ If you are currently using VA educational assistance, and you're struggling with
 - You are presently enrolled in the course you're finding difficult
 - The course is a required part of your educational program
 
-#### Who is covered
+### Who is covered
 
 - You
 
-#### Available benefits
+### Available benefits
 
 - A supplement to the regular education benefit
 
 
-#### How it works
+### How it works
 
 VA will not pay more than $100 per month for tutoring assistance, and will not pay more than $1,200 total. The process to receive this benefit is as follows:
 
@@ -67,7 +67,7 @@ VA will not pay more than $100 per month for tutoring assistance, and will not p
 
 There is no entitlement charge for the first $600 of your [Montgomery GI Bill®](beta link) or for your [Post-9/11 GI Bill®](beta link) or [Dependents’ Educational Assistance](beta link).
 
-*Exception:* Tutorial Assistance is not available for Reservists using the Reserve Educational Assistance Program benefit.
+**Exception:** Tutorial Assistance is not available for Reservists using the Reserve Educational Assistance Program benefit.
 </div>
 
 
