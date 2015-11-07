@@ -55,14 +55,14 @@ Yes, if:
 - You
 
 ### Available benefits
+You may select from the following:
 -	A cash bonus of $5,000
 -	Repayment of a qualifying student loan not to exceed $18,000
 -	Educational assistance equal to the three-year monthly Montgomery GI Bill Active Duty rate for 12 months
 -	Educational assistance equal to 50% of the less-than-three-year monthly Montgomery GI Bill Active Duty rate for 36 months
--	Coordination with Montgomery GI Bill benefits
 
 #### How it works
-You can elect to participate in this program when you enlist in any branch of service if you are not eligible for the Montgomery GI Bill. If you are eligible for this benefit and elect to participate in it, your Montgomery GI Bill benefit will be reduced. Contact your recruiter to discuss your eligibility and to enroll in the National Call to Service program. This benefit affects your service contract.
+If you enlist under the National Call to Service program, you are not eligible for the MGIB, unless you reenlist at a later date for an additional period of service. Contact your recruiter to discuss your eligibility and to enroll in the National Call to Service program. This benefit affects your service contract. 
 </div>
 </div>
 
@@ -71,7 +71,6 @@ You can elect to participate in this program when you enlist in any branch of se
 
 [National Call to Service program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/summary-of-national-call-to-service-program.pdf)
 
-***NOTE:*** If you enlist under the National Call to Service program, you are not eligible for the MGIB, unless you reenlist at a later date for two or more additional years.
 
 This program is administered by VA for the Department of Defense.
 </div>
