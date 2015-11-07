@@ -53,7 +53,7 @@ If you served in the [Southwest Asia theater of military operations](http://www.
 
 Yes, if:
 
-- You served in the Southwest Asia theater of operations during the Gulf War period, or in Afghanistan on or after September 19, 2001.
+- •	You served in the Southwest Asia theater of operations during the Gulf War period, or in Afghanistan on or after September 19, 2001.
 - Your diagnosed or undiagnosed chronic conditions appeared during a qualifying period of active service or appeared prior to December 31, 2016, with a disability rating of 10% or more
 - There exists no other cause for your disability or illness than service in the Southwest Asia theater of military operations or Afghanistan, and
 - For those who served in Afghanistan, a qualifying infectious disease (brucellosis, campylobacter jejuni, coxiella burnetii (Q fever), malaria, mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, or West Nile virus) that began
