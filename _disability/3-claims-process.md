@@ -33,7 +33,7 @@ template: 2-detailed-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+A Disability Claim is a formal legal request for benefits. It's very important to prepare carefully and to make sure you've got the details right before applying. It's a good idea to get help from a Veteran Service Officer or Accredited Representative to help you through the process. Below are links to some of the key terms and classifications that VA uses to process your claim.
 
 </div>
 </div>
