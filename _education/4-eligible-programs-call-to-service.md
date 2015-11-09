@@ -34,11 +34,10 @@ template: 6-info-page
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
+<div markdown="1">
 If you performed a period of national service, you may be eligible for the National Call to Service program, which allows you to choose an education benefit as an alternative to the Montgomery GI Bill.
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out">
+<div class="call-out" markdown="1">
 ### Are you eligible for benefits?
 
 Yes, if: 
@@ -50,30 +49,31 @@ Yes, if:
 -	In the Selected Reserve
 -	In the Individual Ready Reserve
 -	In AmeriCorps, or another domestic national service program jointly designated by the Secretary of Defense
-
+</div>
+<div class="call-out" markdown="1">
 #### Who is covered
 - You
-
+</div>
+<div class="call-out" markdown="1">
 ### Available benefits
+You may select from the following:
 -	A cash bonus of $5,000
 -	Repayment of a qualifying student loan not to exceed $18,000
 -	Educational assistance equal to the three-year monthly Montgomery GI Bill Active Duty rate for 12 months
 -	Educational assistance equal to 50% of the less-than-three-year monthly Montgomery GI Bill Active Duty rate for 36 months
--	Coordination with Montgomery GI Bill benefits
-
+</div>
+<div class="call-out" markdown="1">
 #### How it works
-You can elect to participate in this program when you enlist in any branch of service if you are not eligible for the Montgomery GI Bill. If you are eligible for this benefit and elect to participate in it, your Montgomery GI Bill benefit will be reduced. Contact your recruiter to discuss your eligibility and to enroll in the National Call to Service program. This benefit affects your service contract.
+If you enlist under the National Call to Service program, you are not eligible for the MGIB, unless you reenlist at a later date for an additional period of service. Contact your recruiter to discuss your eligibility and to enroll in the National Call to Service program. This benefit affects your service contract. 
 </div>
-</div>
-
-<div class="small-12 columns" markdown="1">
+<div class="call-out" markdown="1">
 #### Learn more:
 
 [National Call to Service program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/summary-of-national-call-to-service-program.pdf)
 
-***NOTE:*** If you enlist under the National Call to Service program, you are not eligible for the MGIB, unless you reenlist at a later date for two or more additional years.
 
 This program is administered by VA for the Department of Defense.
+</div>
 </div>
 
 
