@@ -96,7 +96,7 @@ You’ll need to file within 120 days from the date of the decision by the Board
 
 #### What do I file?
 
-File a [Notice of Appeal](http://www.uscourts.cavc.gov/ forms_fees.php). Send your Notice of Appeal to the Clerk of the Court of Appeals for Veterans Claims. Follow these [detailed instructions](http://www.uscourts.cavc.gov/appeal.php).
+File a [Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). Send your Notice of Appeal to the Clerk of the Court of Appeals for Veterans Claims. Follow these [detailed instructions](http://www.uscourts.cavc.gov/appeal.php).
 
 #### Learn more:
 
