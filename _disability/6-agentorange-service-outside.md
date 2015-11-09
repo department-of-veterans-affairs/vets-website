@@ -39,9 +39,8 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: </dd>
+<dd>Dates: </dd>January 9, 1962 and 1986</dd>
 <dd>Sites: Vietnam, C-123 aircraft, other Agent Orange-contaminated areas</dd>
-<dd>Who: All Vietnam-era Veterans</dd>
 </dl>
 
 </div>
