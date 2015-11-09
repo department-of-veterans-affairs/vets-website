@@ -29,7 +29,7 @@ If you have new information about a condition that you think could qualify you f
 
 - Increased disability compensation
 - Special Monthly Compensation
-- A shift to [Individual Unemployability](http://department-of-veterans-affairs.github.io/beta-site/disability-benefits/conditions/special-claims/individual-unemployability/) status
+- A shift to [Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/) status
 
 </div>
 </div>
