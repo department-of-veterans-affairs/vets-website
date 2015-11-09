@@ -39,7 +39,7 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: <January 9, 1962 and May 7, 1975>
+<dd>Dates: January 9, 1962 and May 7, 1975</dd>
 </dl>
 
 <div markdown="1">
@@ -61,19 +61,16 @@ If you served on a Navy or Coast Guard ship in the Vietnam area of operations, y
 <li markdown="1">
 Need help determining whether you qualify for benefits?
 VA will help determine qualifying service in Vietnam after you [file a claim for compensation benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
-
 </li>
 
 <li markdown="1">
 To contact VA:
 - Call 1-800-827-1000 or 1-800-829-4833 (TDD for hearing impaired)
 - Go to your [nearest VA benefits office](http://www.va.gov/directory/guide/division.asp?dnum=3)
-
 </li>
 
 <li markdown="1">
 Get more information about [ships that may have been exposed to Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf)
-
 </li>
 </ul>
 
@@ -82,7 +79,7 @@ Get more information about [ships that may have been exposed to Agent Orange](ht
 </div>
 
 <div class="row" markdown="0">
-<div class="small-12 columns">
+<div class="small-12 columns" markdown="0">
 
 <div class="call-out" markdown="1">
 
@@ -111,27 +108,19 @@ You served on ships or boats that were part of the Mobile Riverine Force, Inshor
 
 *Even if your vessel is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in VA's alphabetized list of ships that were exposed to Agent Orange. (Check to see if your ship was exposed).*
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### Who is covered
+#### Who is covered
 
 You and your dependents
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 ### Available benefits
 
 - Compensation benefits
 - Health benefits
 - An [Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
-
-</div>
-
-<div class="call-out" markdown="1">
 
 ### How it works
 
