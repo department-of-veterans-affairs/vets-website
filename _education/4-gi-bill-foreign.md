@@ -74,7 +74,7 @@ VA will accept degrees from schools or establishments in foreign countries that 
 
 For applications and further information, the following offices or representatives will be glad to assist you:
 
-- Any [VA regional office](link to regional map) (from outside the United States, call 716-857-3196/7)
+- Any [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) (from outside the United States, call 716-857-3196/7)
 - Local representatives of veterans organizations and the American Red Cross
 - Foreign service posts
 - Canadian Department of Veterans Affairs (Canadian schools only)
