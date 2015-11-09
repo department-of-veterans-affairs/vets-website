@@ -87,7 +87,7 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
   <li>
     <dl class="panel-list">
       <dt>C-123 Airplanes</dt>
-      <dd>Dates: (January 9, 1962 and May 7, 1975)</dd>
+      <dd>Dates: January 9, 1962 and May 7, 1975</dd>
       <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about C-123- Airplanes and Agent Orange</span></a></dd>
     </dl>
 
