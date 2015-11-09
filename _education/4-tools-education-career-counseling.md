@@ -59,7 +59,7 @@ As a transitioning Service Member, you are eligible to receive the following ser
 
 [Apply for free counseling services](http://www.vba.va.gov/pubs/forms/VBA-28-8832-ARE.pdf).
 
-Use the [VA aptitude assessment tool](http://www.benefits.va.gov/gibill/careerscope.asp) at no cost.
+Use CareerScope the [VA aptitude assessment tool](https://va.careerscope.net/gibill) at no cost.
 </div>
 </div>
 
