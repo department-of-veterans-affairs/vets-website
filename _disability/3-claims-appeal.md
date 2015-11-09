@@ -70,7 +70,7 @@ You’ll need to file within one year from the date on the letter notifying you 
 
 ### How the Board of Appeals works:
 
-If you selected an optional in-person or video teleconference hearing with a Veterans Law Judge at the (Board of Veterans’ Appeals)[LINK TO OUR PAGE], the hearing will be scheduled at your local VA office (or in Washington, DC, if you selected that location).
+If you selected an optional in-person or video teleconference hearing with a Veterans Law Judge at the [Board of Veterans’ Appeals]({{ site.url}}/disability-benefits/claims-appeal/court-of-appeals/veterans-appeals-board/index.html), the hearing will be scheduled at your local VA office (or in Washington, DC, if you selected that location).
 
 - You may request an optional personal hearing before an adjudicator who works at your local VA office or a Veterans Law Judge who works at the Board of Veterans’ Appeals.  
 - If you request an optional hearing, it will significantly delay a Board decision because optional hearings take more time to schedule.  
@@ -87,17 +87,18 @@ If you selected an optional in-person or video teleconference hearing with a Vet
 
 <div markdown="1">
 
-### Filing a Notice of Appeal with the [Court of Appeals for Veteran Claims](link to beta page)
+### Filing a Notice of Appeal with the [Court of Appeals for Veteran Claims]({{ site.url }}/disability-benefits/claims-appeal/court-of-appeals/index.html)
 
-### When?
+
+#### When?
 
 You’ll need to file within 120 days from the date of the decision by the Board of Veterans’ Appeals (stamped on the first page of the decision).
 
-### What do I file?
+#### What do I file?
 
 File a [Notice of Appeal](http://www.uscourts.cavc.gov/ forms_fees.php). Send your Notice of Appeal to the Clerk of the Court of Appeals for Veterans Claims. Follow these [detailed instructions](http://www.uscourts.cavc.gov/appeal.php).
 
-### Learn more:
+#### Learn more:
 
 [http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf)
 
