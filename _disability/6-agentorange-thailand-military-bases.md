@@ -40,13 +40,13 @@ template: 4-action-page
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
 <dd>Dates: 1962-1975</dd>
-<dd>Sites: Royal Thai Air Force (RATF) bases</dd>
+<dd>Sites: Royal Thai Air Force (RATF) bases and US Army bases in Thailand</dd>
 <dd>Who: Army and Air Force</dd>
 </dl>
 
 <div markdown="1">
 
-<p>Because of the proximity to Vietnam and potential for Agent Orange use as a security measure on fenced-in base perimeters, some Servicemembers in Thailand may have been exposed to Agent Orange. If your service involved regular daily security duty on the fenced-in perimeters of a U.S. military base in Thailand between January 9, 1962, and May 7, 1975, you may be eligible for an acknowledgement of Agent Orange exposure.</p>
+<p>If your service involved regular daily security duty on the fenced-in perimeters of a U.S. military base in Thailand or Royal Thai Air Force Bases between January 9, 1962, and May 7, 1975, you may be eligible for an acknowledgement of Agent Orange exposure.</p>
 
 </div>
 
@@ -87,7 +87,7 @@ VA will help you determine potential exposure to Agent Orange after you file a c
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Are you eligible for disability compensation?
+### Are you eligible for disability compensation?
 
 #### Air Force Veterans  
 
@@ -109,7 +109,6 @@ Yes, if:
 <div class="call-out" markdown="1">
 
 ### Who is covered:
-
 You, your dependents and survivors
 
 </div>
@@ -117,7 +116,6 @@ You, your dependents and survivors
 <div class="call-out" markdown="1">
 
 ### Available benefits:
-
 - Heath care benefits
 - Compensation benefits
 - An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
@@ -127,10 +125,7 @@ You, your dependents and survivors
 <div class="call-out" markdown="1">
 
 ### How it works:
-
-An acknowledgement of potential Agent Orange exposure on a case-by-case basis is available for Thailand Veterans whose military personnel records show perimeter security duties as a dog handler, member of a security squadron, member of a military police unit, or some related duties indicating regular security activity on a fenced-in perimeter.
-
-To receive benefits for diseases associated with Agent Orange exposure based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence showing the required perimeter security duty.
+To receive benefits for [diseases associated with Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence must be provided showing the required perimeter security duty (such as  a dog handler, member of a security squadron, member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
 
 </div>
 
