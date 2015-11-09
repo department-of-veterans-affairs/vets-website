@@ -62,11 +62,14 @@ Yes, if you served in
 - Thailand (U.S. Army Veterans) as perimeter security personnel on RTAF bases in Thailand anytime between February 28, 1961, and May 7, 1975
 - Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975.  You must have been a member of a military police (MP) unit or assigned a military occupational specialty with duty placing you at or near the base perimeter
 - Other locations but were exposed to herbicides during a military operation or as a result of testing, transporting, or spraying herbicides for military purposes. Learn about [herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp)
-
+</div>
+<div class="call-out" markdown="1">
 ### Who is covered
 
 You
+</div>
 
+<div class="call-out" markdown="1">
 ### How it works
 
 Contact your VA Environmental Health Coordinator [to make an appointment for your exam](http://www.publichealth.va.gov/exposures/coordinators.asp).
@@ -88,9 +91,9 @@ Important points about the Agent Orange Registry health exam:
 - The exam will not confirm exposure to Agent Orange.
 - You can receive additional, free Registry exams if new problems develop.
 - Veterans' family members are not eligible for an Agent Orange Registry health exam.
-
-
 </div>
+
+
 
 </div>
 
