@@ -113,7 +113,7 @@ Choose one of three ways:
 - Work with an [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html), or
 - Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
 
-Note: Active-duty members should learn about [Predischarge Claims]({{ site.url }}/conditions/time/pre-discharge/).
+Note: Active-duty members should learn about [Predischarge Claims]({{ site.url }}/disability-benefits/conditions/time/pre-discharge/).
 
 </div>
 
@@ -157,7 +157,7 @@ Note: Active-duty members should learn about [Predischarge Claims]({{ site.url }
 
 ###### What if VA needs more information?
 
-- VA may reach out on your behalf to other governmental agencies, such as the Department of Defense, to find records. 
+- VA may reach out on your behalf to other governmental agencies, such as the Department of Defense, to find records.
 - If VA needs more medical information, they may ask you to provide it.  They may schedule an exam for you at either a VA facility or a civilian health care provider. (Please note: This isn’t a general medical exam. It’s to check out the injuries you listed on your benefits claim.)
 
 ###### Do I need to do anything while I’m waiting?
