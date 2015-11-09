@@ -44,7 +44,7 @@ You’ll need to file within one year from the date on the letter notifying you 
 
 ### What do I file?  
 
-[VA Form 21-0958](http://www.vba.va.gov/pubs/forms/ VBA-21-0958-ARE.pdf)
+[VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf)
 
 ### What’s next?  
 
