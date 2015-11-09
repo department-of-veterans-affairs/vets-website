@@ -37,15 +37,10 @@ template: 4-action-page
 <div class="small-12 medium-8 columns">
 
 <dl class="panel-list plain">
-<dt>{{ page.title }}</dt>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
+<dt>Radiogenic Diseases Postservice</dt>
 </dl>
 
 <div markdown="1">
-
-### Radiogenic Diseases Postservice
 
 Radiogenic diseases can be caused by exposure to radiation. If you participated in an activity while on active duty that has a radiation risk, you may have developed one of these [associated diseases](associated-diseases).
 </div>
@@ -67,26 +62,18 @@ Yes, if:
 
 - Your performance of tasks was similar to those that qualify a Department of Energy (DOE) employee as a member of the Special Exposure Cohort under 42 U.S.C. 7384L(14).
 
-</div>
-
-<div class="call-out" markdown="1">
-
 #### Who is covered
 
 - You
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 #### Available benefits
 
 - Compensation benefits
 - Health care benefits
-
-</div>
-
-<div class="call-out" markdown="1">
 
 #### How it works
 
@@ -102,15 +89,7 @@ Yes, if:
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
 
-<h4 class="highlight">Questions</h4>
 
-<ul class="plain">
-
-<li>List item</li>
-<li>List item</li>
-<li>List item</li>
-
-</ul>
 </div>
 </div>
 
