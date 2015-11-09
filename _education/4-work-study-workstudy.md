@@ -43,8 +43,6 @@ If you are a full-time or 3/4-time college, vocational, or professional student 
 
 ### Are you eligible for benefits?
 
-### Are you eligible for benefits?
-
 Yes, if:
 - You are enrolled at least 3/4 time at an institution of higher learning.
 - You are using one of the following VA education benefits:
