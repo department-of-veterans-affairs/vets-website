@@ -38,9 +38,6 @@ template: 6-info-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
 </dl>
 
 <div markdown="1">
@@ -53,23 +50,6 @@ If you served at Camp Lejeune, North Carolina, for 30 days or more from August 1
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
 
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain">
-
-<li>
-List item
-</li>
-
-<li>
-List item
-</li>
-
-<li>
-List item
-</li>
-
-</ul>
 </div>
 </div>
 </div>
@@ -87,24 +67,16 @@ Yes, if:
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 ### Who is covered
 
 You and your family
 
-</div>
-
-<div class="call-out" markdown="1">
-
 ### Available benefits
 
 - Compensation
 - Health care
-
-</div>
-
-<div class="call-out" markdown="1">
 
 ### How it works
 
