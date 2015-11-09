@@ -84,20 +84,18 @@ The conditions that fall under the umbrella of Gulf War Illness are varied and e
 
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
-<!--
+
 <h4 class="highlight">Questions</h4>
 
 <ul class="plain">
 
-<li>
-
-Fact Sheet
-C-123 aircraft and Agent Orange exposure
-
+<li markdown="1">
+[Fact Sheet
+C-123 aircraft and Agent Orange exposure](http://www.benefits.va.gov/benefits/factsheets/serviceconnected/AO_c123.pdf)
 </li>
 
 </ul>
--->
+
 </div>
 </div>
 
