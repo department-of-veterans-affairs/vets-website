@@ -38,9 +38,6 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
 </dl>
 
 
@@ -61,24 +58,16 @@ Yes if:
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 ### Who is covered
 
 You and your survivors
 
-</div>
-
-<div class="call-out" markdown="1">
-
 ### Available benefits
 
 -	Compensation
 -	Health care
-
-</div>
-
-<div class="call-out" markdown="1">
 
 ### How it works
 
@@ -95,15 +84,6 @@ Claims associated with Projects 112 and SHAD are evaluated on a case-by-case bas
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
 
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain">
-
-<li>List item</li>
-<li>List item</li>
-<li>List item</li>
-
-</ul>
 </div>
 </div>
 
