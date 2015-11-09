@@ -52,10 +52,9 @@ Learn more about [Special Claims](http://www.va.gov/opa/publications/benefits_bo
 
 ### Quick Links:
 
-- [Housing Grants for Disabled Veterans](Link)
-- [Supplemental Financing](Link)
-- [Special Home Adaptation Grant](Link)
-- [Temporary Residence Adaptation](Link)
+- [Housing Grants for Disabled Veterans](http://www.benefits.va.gov/homeloans/adaptedhousing.asp)
+- [Special Home Adaptation Grant](http://www.benefits.va.gov/homeloans/adaptedhousing.asp)
+- [Temporary Residence Adaptation](http://www.benefits.va.gov/BENEFITS/factsheets/homeloans/sahfactsheet.pdf)
 
 
 </div>
