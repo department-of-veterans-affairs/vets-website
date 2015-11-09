@@ -77,23 +77,23 @@ If you are still in the service and want to reallocate transferred benefits, you
 
 - [DOD website for information on transferability](LINK TO http://archive.defense.gov/Home/Features/2009/0409_gibill/) (non-VA link)
 - [Fact Sheet on Post-9/11 GI Bill Benefits Transferability](http://www.benefits.va.gov/gibill/docs/factsheets/Transferability_Factsheet.pdf)
-- To ask about your eligibility, the status of your transfer request, and the TEB Portlet (for service-specific questions), please contact the appropriate career counselor or personnel center from this list: [POP-UP containing this table:
-- Army Active-Duty Officer  [E-mail](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
-- Army Active-Duty Enlisted  [E-mail](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
-- Army National Guard  [E-mail](mailto:ng.robinson.ngb-arng-pec.mbx.arng-hrm-o-gi-bill-ch33@mail.mil)
-- Army Reserve (Enlisted and Officer)  [E-mail](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
-- Navy Active-Duty Personnel  866-U-ASK-NPC (866-827-5672)/DSN 882-5672
-- Navy Reserve  800-621-8853, Fax: 757-444-7597/7598  [E-mail](mailto:cnrfc_post911gibill@navy.mil)
-- Marine Corps Active-Duty Officer  [E-mail](mailto:Angelo.Valadez@usmc.mil)
-- Marine Corps Active-Duty Enlisted  [E-mail](mailto:Michael.A.Peck@usmc.mil)
-- Marine Corps Reserve  [E-mail](mailto:smb_manpower.cmt@usmc.mil)
-- Air Force Active Duty  800-525-0102 or 210-565-5000 or DSN 665-5000
-- Air National Guard  (Contact unit retention manager) 
-- Air Force Reserve  [E-mail](mailto:julia.williamson@us.af.mil)
-- Coast Guard Active Duty  [E-mail](mailto:reidus.stokes@uscg.mil)
-- Coast Guard Reserve  [E-mail](mailto:reserveVAeducation@uscg.mil)
-- NOAA  [E-mail](mailto:Gregory.Raymond@noaa.gov) or 301-713-7728
-- PHS  [E-mail](mailto:OCCOHelpdesk@hhs.gov) or 240-453-6130
+- To ask about your eligibility, the status of your transfer request, and the TEB Portlet (for service-specific questions), please contact the appropriate career counselor or personnel center from this list:
+  - Army Active-Duty Officer  [E-mail](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
+  - Army Active-Duty Enlisted  [E-mail](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
+  - Army National Guard  [E-mail](mailto:ng.robinson.ngb-arng-pec.mbx.arng-hrm-o-gi-bill-ch33@mail.mil)
+  - Army Reserve (Enlisted and Officer)  [E-mail](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
+  - Navy Active-Duty Personnel  866-U-ASK-NPC (866-827-5672)/DSN 882-5672
+  - Navy Reserve  800-621-8853, Fax: 757-444-7597/7598  [E-mail](mailto:cnrfc_post911gibill@navy.mil)
+  - Marine Corps Active-Duty Officer  [E-mail](mailto:Angelo.Valadez@usmc.mil)
+  - Marine Corps Active-Duty Enlisted  [E-mail](mailto:Michael.A.Peck@usmc.mil)
+  - Marine Corps Reserve  [E-mail](mailto:smb_manpower.cmt@usmc.mil)
+  - Air Force Active Duty  800-525-0102 or 210-565-5000 or DSN 665-5000
+  - Air National Guard  (Contact unit retention manager) 
+  - Air Force Reserve  [E-mail](mailto:julia.williamson@us.af.mil)
+  - Coast Guard Active Duty  [E-mail](mailto:reidus.stokes@uscg.mil)
+  - Coast Guard Reserve  [E-mail](mailto:reserveVAeducation@uscg.mil)
+  - NOAA  [E-mail](mailto:Gregory.Raymond@noaa.gov) or 301-713-7728
+  - PHS  [E-mail](mailto:OCCOHelpdesk@hhs.gov) or 240-453-6130
 
 
 ### What happens next?
