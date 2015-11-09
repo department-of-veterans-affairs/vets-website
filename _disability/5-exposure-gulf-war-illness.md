@@ -48,7 +48,8 @@ template: 4-action-page
 <div markdown="1">
 
 If you served in the [Southwest Asia theater of military operations](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp) or in Afghanistan, you may suffer from certain illnesses, disorders, and conditions that have been linked to your service.
-
+</div>
+<div class="call-out" markdown="1">
 ### Are you eligible for compensation?
 
 Yes, if:
@@ -61,18 +62,21 @@ Yes, if:
 - Within 1 year from the date of separation from a qualifying period of service (except malaria, which may manifest more than 1 year after qualifying service if standard or accepted medical principles indicate that the incubation period commenced during a qualifying period of service, and visceral leishmaniasis or tuberculosis, which may manifest more than 1 year after service)
 - Your disability existed for six months or more, and
 - You were discharged under conditions other than dishonorable 
- 
+ </div>
+<div class="call-out" markdown="1">
 ### Who is covered
 You
-
+</div>
+<div class="call-out" markdown="1">
 ### Available benefits
 - Compensation
 - Healthcare 
-
+</div>
+<div class="call-out" markdown="1">
 ### How it works
 The conditions that fall under the umbrella of Gulf War Illness are varied and extensive. They include fibromyalgia, chronic fatigue syndrome, functional gastrointestinal disorders, and undiagnosed illnesses such as headaches, joint pain, sleep disorders, and cardiovascular disease. 
-
 </div>
+
 </div>
 
 
