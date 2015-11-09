@@ -54,7 +54,7 @@ template: 4-action-page
 <ul class="plain">
 
 <li markdown="1">
-See more information on [Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
 </li>
 
 
@@ -108,6 +108,8 @@ Available benefits:
 You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for diseases that VA presumes are related to Agent Orange exposure.
 
 *Exception:* If you’re a Blue Water Veteran with [non-Hodgkin's lymphoma](disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/index.html), you do not need to prove where you were exposed. VA recognizes non-Hodgkin's lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
+
+Learn more about [Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
 
 </div>
 
