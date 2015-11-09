@@ -38,9 +38,6 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
 </dl>
 
 <div markdown="1">
@@ -63,32 +60,20 @@ Yes, if:
 -	While demolishing or handling explosive ordinance during Operation Iraqi Freedom, or
 -	In the manufacturing and handling of vesicant (blistering) agents during military service
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### Who is covered
+#### Who is covered
 
 You
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 ### Available benefits
 
 - Compensation benefits
 - Health care benefits
 
-</div>
-
-<div markdown="1">
-
 For questions about your benefits related to mustard gas exposure, send us an e-mail at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov).
-
-</div>
-
-<div class="call-out" markdown="1">
 
 ### How it works
 
@@ -101,15 +86,6 @@ Because *exposure* to mustard gas or lewisite is not a service condition, you mu
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
 
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain">
-
-<li>List item</li>
-<li>List item</li>
-<li>List item</li>
-
-</ul>
 </div>
 </div>
 
