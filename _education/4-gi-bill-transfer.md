@@ -75,7 +75,7 @@ If you are still in the service and want to reallocate transferred benefits, you
 <div class="small-12 columns" markdown="1">
 ### Learn more:
 
-- [DOD website for information on transferability](LINK TO http://archive.defense.gov/Home/Features/2009/0409_gibill/) (non-VA link)
+- [DOD website for information on transferability](http://archive.defense.gov/Home/Features/2009/0409_gibill/) (non-VA link)
 - [Fact Sheet on Post-9/11 GI Bill Benefits Transferability](http://www.benefits.va.gov/gibill/docs/factsheets/Transferability_Factsheet.pdf)
 - To ask about your eligibility, the status of your transfer request, and the TEB Portlet (for service-specific questions), please contact the appropriate career counselor or personnel center from this list:
   - Army Active-Duty Officer  [E-mail](mailto:usarmy.knox.hrc.mbx.tagd-post-911-gi-bill@mail.mil)
@@ -100,7 +100,7 @@ If you are still in the service and want to reallocate transferred benefits, you
 
 While you are still serving, use the [Transfer of Education Benefits (TEB) website](https://www.dmdc.osd.mil/milconnect/faces/faqs?_adf.ctrl-state=c4t1chkk8_4) to designate, modify, and revoke a Transfer of Entitlement (TOE) request. You cannot apply for transfer of benefits through VA. (NOTE: From the milConnect home page, select Education then Transfer of Education Benefits [TEB] from the menu bar.)
 
-Upon approval, family members may apply to use transferred benefits by printing, completing, and mailing [VA Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf) to the nearest [VA regional office](Pop-up for VA regional office list) or [applying online](http://vabenefits.vba.va.gov/vonapp/main.asp). 
+Upon approval, family members may apply to use transferred benefits by printing, completing, and mailing [VA Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf) to the nearest [VA regional office]({{ site.url }}/facility-locator/) or [applying online](http://vabenefits.vba.va.gov/vonapp/main.asp). 
 
 Once you leave military service, you can still provide a future effective date for use of TOE, modify the number of months transferred, or revoke the transfer of entitlement by submitting a written request to VA through the TEB website.
 </div>
