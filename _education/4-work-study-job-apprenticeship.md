@@ -34,12 +34,10 @@ template: 4-action-page
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
+<div markdown="1">
 If you want to learn a trade or skill through on-the-job training or apprenticeships, there are VA benefits that can help.
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out">
-
+<div class="call-out" markdown="1">
 ### Are you eligible for benefits?
 
 Yes, if:
@@ -49,14 +47,17 @@ Yes, if:
   -	Union plumber
   -	Hotel management
   -	Firefighter
-
+</div>
+<div class="call-out" markdown="1">
 ### Who is covered
 - You
-
+</div>
+<div class="call-out" markdown="1">
 ### Available benefits
 -	Books and supplies stipend
 -	Monthly housing allowance
-
+</div>
+<div class="call-out" markdown="1">
 ### How it works
 Participation in these programs generally involves your entering into a training contract for a specific amount of time with an employer or union. During training you will likely receive a salary from the employer or union, which typically increases as your skills increase. At the end of your training period, you will get a job certification or journeyman status.
 
@@ -80,7 +81,8 @@ Your payment varies depending on the GI Bill® program. View the [payment rates]
 - 35% of the full-time GI Bill® rate for the remainder of the training program
 
 
-**Exception:** OJT is not available if you are an active-duty Servicemember, or to spouses using a transferred benefit. </div>
+**Exception:** OJT is not available if you are an active-duty Servicemember, or to spouses using a transferred benefit.
+</div>
 
 
 </div>
