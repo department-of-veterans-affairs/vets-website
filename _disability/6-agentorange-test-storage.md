@@ -49,33 +49,6 @@ If you participated in the testing or storage of Agent Orange used in Vietnam—
 
 </div>
 
-</div>
-
-
-<div class="small-12 medium-4 columns" markdown="0">
-<div markdown="1">
-
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain"> 
-
-<li markdown="1">
-See these comprehensive lists for dates and locations of herbicide tests and storage:
-
-[In the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp)
-
-[Outside the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp)
-</li>
-
-</ul>
-
-</div>
-</div>
-</div>
-
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
 <div class="call-out" markdown="1">
 ### Are you eligible for compensation?
 Yes, if:
@@ -100,6 +73,25 @@ You must prove you were exposed to Agent Orange during your military service to 
 
 </div>
 
+
+<div class="small-12 medium-4 columns" markdown="0">
+<div markdown="1">
+
+<h4 class="highlight">Questions</h4>
+
+<ul class="plain"> 
+
+<li markdown="1">
+See these comprehensive lists for dates and locations of herbicide tests and storage:
+
+[In the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp)
+
+[Outside the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp)
+</li>
+
+</ul>
+
+</div>
 </div>
 
 </div>
