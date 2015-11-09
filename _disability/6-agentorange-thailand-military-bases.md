@@ -39,14 +39,13 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: 1962-1975</dd>
+<dd>Dates: January 9, 1962 and May 7, 1975</dd>
 <dd>Sites: Royal Thai Air Force (RATF) bases and US Army bases in Thailand</dd>
-<dd>Who: Army and Air Force</dd>
 </dl>
 
 <div markdown="1">
 
-<p>If your service involved regular daily security duty on the fenced-in perimeters of a U.S. military base in Thailand or Royal Thai Air Force Bases between January 9, 1962, and May 7, 1975, you may be eligible for an acknowledgement of Agent Orange exposure.</p>
+<p>If your service involved regular daily security duty on the fenced-in perimeters of a U.S. military base in Thailand or Royal Thai Air Force Bases between January 9, 1962, and May 7, 1975, you may be eligible for an acknowledgement of Agent Orange exposure and benefits if you have an associated disease.</p>
 
 </div>
 
@@ -62,21 +61,15 @@ template: 4-action-page
 
 <li markdown="1">
 
-Learn more about [benefits related to Agent Orange exposure.](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
 
-</li>
-
-<li markdown="1">
-
-Learn more about [Agent Orange exposure locations](http://www.publichealth.va.gov/exposures/agentorange/locations/thailand.asp#sthash.oK22WgPr.dpuf)
-</li>
 
 
 <li markdown="1">
 
 **Need help determining exposure?**
-VA will help you determine potential exposure to Agent Orange after you file a claim for disability  benefits.
+VA will help you determine potential exposure to Agent Orange after you file a claim for disability benefits.
 
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
 </li>
 </ul>
 
@@ -89,19 +82,8 @@ VA will help you determine potential exposure to Agent Orange after you file a c
 
 ### Are you eligible for disability compensation?
 
-#### Air Force Veterans  
-
-Yes if:
-You served perimeter security duty at Royal Thai Air Force (RTAF) bases, including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang.
-
-</div>
-
-<div class="call-out" markdown="1">
-
-#### Army Veterans
-
 Yes, if:
-- You served perimeter security duty on RTAF bases in Thailand.
+- You served perimeter security duty on RTAF bases in Thailand including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang.
 - You served perimeter security duty while stationed on a US Army installations in Thailand.
 
 </div>
@@ -126,6 +108,11 @@ You, your dependents and survivors
 
 ### How it works:
 To receive benefits for [diseases associated with Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence must be provided showing the required perimeter security duty (such as  a dog handler, member of a security squadron, member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
+
+Learn more about [benefits related to Agent Orange exposure.](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
+
+Learn more about [Agent Orange exposure locations](http://www.publichealth.va.gov/exposures/agentorange/locations/thailand.asp#sthash.oK22WgPr.dpuf)
+
 
 </div>
 
