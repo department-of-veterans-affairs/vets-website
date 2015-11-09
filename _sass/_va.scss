@@ -2219,3 +2219,17 @@ button[class*="usa-button-"] {
     font-weight:700
   }
 }
+
+// Disclaimer
+
+.disclaimer {
+  padding: 1em 0;
+  border-top: 1px solid #ddd;
+  font-size: .8em;
+  color: #444;
+  background: #fff;
+}
+
+body.home .disclaimer, body.page-playbook .disclaimer {
+  display: none;
+}
