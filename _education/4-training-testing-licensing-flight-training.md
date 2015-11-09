@@ -61,10 +61,10 @@ Flight training is available for the following qualifications:
 - Flight engineer certification
 
 **The requirements and benefits vary according to the benefit program you use:**  
-- If you use the Montgomery GI Bill® (MGIB) or the [Reserve Educational Assistance Program (REAP)](/education/eligible-programs/reap/), VA reimburses you for 60% of the approved charges. [View payment information] (http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
-- If you use the Post-9/11 GI Bill®, your payment varies depending on the specific flight course and whether your school is public or private. If it is private, your payment varies according to whether or not your school participates in the [Yellow Ribbon program](link to Betasite).
+- If you use the Montgomery GI Bill® (MGIB) or the [Reserve Educational Assistance Program (REAP)]({{ site.url }}/education/eligible-programs/reap/), VA reimburses you for 60% of the approved charges. [View payment information] (http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
+- If you use the Post-9/11 GI Bill®, your payment varies depending on the specific flight course and whether your school is public or private. If it is private, your payment varies according to whether or not your school participates in the [Yellow Ribbon program]({{ site.url }}/education/gi-bill/yellow-ribbon/).
 
-Get more details about the [Post-9/11 GI Bill®](LINK).
+Get more details about the [Post-9/11 GI Bill®]({{ site.url }}/education/gi-bill/post-9-11/).
 
 -	If you are enrolled in a vocational flight training program, VA reimburses you for either the full cost of training or the annual maximum for the training, whichever is less. [See annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
 </div>
