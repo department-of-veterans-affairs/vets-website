@@ -36,7 +36,7 @@ template: 6-info-page
 
 <div markdown="1">
 
-All benefits decisions can be appealed. If you disagree with all or part of a VA benefits decision, you may file a Notice of Disagreement (NOD). [Veteran Service Organizations](link to Accredited Representative) can assist you with this.
+All benefits decisions can be appealed. If you disagree with all or part of a VA benefits decision, you may file a Notice of Disagreement (NOD). [Veteran Service Organizations]({{ site.url }}/disability-benefits/get/filing/help/index.html) can assist you with this.
 
 ### When do I file an NOD?
 
@@ -62,7 +62,7 @@ You’ll need to file within one year from the date on the letter notifying you 
 
 ### What do I file?
 
-[VA Form 9](http://www.va.gov/ vaforms/va/pdf/VA9.pdf). Check the status of your appeal by calling 1-800-827-1000 or going online to [eBenefits](https://www.ebenefits.va.gov).
+[VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf). Check the status of your appeal by calling 1-800-827-1000 or going online to [eBenefits](https://www.ebenefits.va.gov).
 
 </div>
 
