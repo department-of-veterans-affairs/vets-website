@@ -83,11 +83,6 @@ Several military occupational specialties have a risk of exposure to asbestos, i
 
 <div class="call-out" markdown="1">
 
-#### See also:
-
-- Determine eligibility
-- Start application process.
-- Learn more detailed health information about asbestos exposure
 
 </div>
 
