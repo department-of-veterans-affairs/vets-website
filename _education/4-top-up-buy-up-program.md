@@ -35,7 +35,7 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you participate in the $600 Montgomery GI Bill® buy-up program, your GI Bill® monthly payments will increase.
+If you participate in the $600 Montgomery GI Bill® Buy-Up program, your GI Bill® monthly payments will increase.
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">
@@ -43,7 +43,7 @@ If you participate in the $600 Montgomery GI Bill® buy-up program, your GI Bill
 
 [This table](http://www.benefits.va.gov/gibill/resources/benefits_resources/rates/600_buyup.asp) shows the amount of increase you can expect.
 
-*Exception:* This program is intended for use with the Montgomery GI Bill® or REAP and cannot be used with any other program.
+**Note:** This program is intended for use with the Montgomery GI Bill® or REAP and cannot be used with any other program.
 </div>
 
 
