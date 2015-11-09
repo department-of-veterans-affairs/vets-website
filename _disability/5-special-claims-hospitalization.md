@@ -36,7 +36,7 @@ template: 4-action-page-pending
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you were hospitalized for a service-connected disability at a VA or VA-approved facility, you may be eligible to receive a temporary 100% disability rating for a period of hospitalization for your service-connected disability.
+If you were hospitalized for a service-connected disability at a VA or VA-approved facility, you may be eligible to receive a temporary 100% disability rating for the time you spent in the hospital.
 
 </div>
 
