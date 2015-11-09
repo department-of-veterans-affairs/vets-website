@@ -43,42 +43,6 @@ template: 4-action-page
 
 <p>C-123 Aircraft were used to spray Agent Orange during the Vietnam War. However, after being contaminated with chemical residue, they continued to fly throughout the world and did so through 1986. If you flew on or worked with these planes in Vietnam, or other locations, you may have been exposed.</p>
 
-</div>
-
-<div class="small-12 medium-4 columns" markdown="0">
-<div markdown="0">
-
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain">
-
-<li>
-C-123 Hotline
-<span class="tel">1-800-749-8387</span>
-</li>
-
-<li>
-St. Paul Regional Benefit Office
-<a href="mailto:VSCC123.VAVBASPL@va.gov">VSCC123.VAVBASPL@va.gov</a>
-</li>
-
-<li>
-Fact Sheet
-C-123 aircraft and Agent Orange exposure
-</li>
-
-<li>
-Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
-<li>
-
-</ul>
-</div>
-</div>
-</div>
-
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="0">
-
 <div markdown="1">
 ### Are you Eligible for Disability Compensation?
 </div>
@@ -217,9 +181,34 @@ WI 53547-5088</p>
 
 </div>
 
-</div>
-</div>
+<div class="small-12 medium-4 columns" markdown="0">
 
-</div>
+<h4 class="highlight">Questions</h4>
 
+<ul class="plain" markdown="0">
+
+<li markdown="0">
+C-123 Hotline
+<span class="tel">1-800-749-8387</span>
+</li>
+
+<li markdown="1">
+St. Paul Regional Benefit Office
+[VSCC123.VAVBASPL@va.gov](mailto:VSCC123.VAVBASPL@va.gov)
+</li>
+
+<li markdown="1">
+Fact Sheet
+C-123 aircraft and Agent Orange exposure
+</li>
+
+<li markdown="1">
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
+</li>
+
+</ul>
+</div>
+</div>
+</div>
+</div>
 </div>
