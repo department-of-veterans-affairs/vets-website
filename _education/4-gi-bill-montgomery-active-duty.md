@@ -104,7 +104,7 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 - Entrance examinations
 - Correspondence courses
 
-Use the [GI Bill® Comparison Tool](link to tool) to pick the right type of educational assistance program and school to maximize your benefits.
+Use the [GI Bill® Comparison Tool]({{ site.url }}/gibill/) to pick the right type of educational assistance program and school to maximize your benefits.
 
 </div>
 
