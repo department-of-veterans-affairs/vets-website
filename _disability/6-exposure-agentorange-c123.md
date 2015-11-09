@@ -39,8 +39,6 @@ template: 4-action-page
 <dl class="panel-list plain">
 <dt>Contaminated C-123 Aircraft</dt>
 <dd>Dates: 1969 - 1986</dd>
-<dd>Sites: C-123 aircraft</dd>
-<dd>Who: Air Force & Air Force Reservists</dd>
 </dl>
 
 <p>C-123 Aircraft were used to spray Agent Orange during the Vietnam War. However, after being contaminated with chemical residue, they continued to fly throughout the world and did so through 1986. If you flew on or worked with these planes in Vietnam, or other locations, you may have been exposed.</p>
@@ -68,6 +66,11 @@ St. Paul Regional Benefit Office
 Fact Sheet
 C-123 aircraft and Agent Orange exposure
 </li>
+
+<li>
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
+<li>
+
 </ul>
 </div>
 </div>
