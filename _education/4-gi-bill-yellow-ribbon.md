@@ -27,7 +27,7 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-If your school participates in the Yellow Ribbon Program, you may be able to reduce or eliminate your education costs that are not covered by the [Post-9/11 GI Bill®](link to Beta), such as higher tuition at private colleges or out-of-state schools.
+If your school participates in the Yellow Ribbon Program, you may be able to reduce or eliminate your education costs that are not covered by the [Post-9/11 GI Bill®]({{ site.url }}/education/gi-bill/post-9-11/index.html), such as higher tuition at private colleges or out-of-state schools.
 </div>
 <div class="small-12 column" markdown="1">
 <div class="call-out">
