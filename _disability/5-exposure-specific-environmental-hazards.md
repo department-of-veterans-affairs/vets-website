@@ -84,7 +84,7 @@ You and your survivors
 
 ### How it works
 
-You should submit any additional information (such as [Burn Pit Registry]( https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/) regarding proof of exposure when filing your claim.
+You should submit any additional information (such as [Burn Pit Registry]( https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/)) regarding proof of exposure when filing your claim.
 
 </div>
 </div>
