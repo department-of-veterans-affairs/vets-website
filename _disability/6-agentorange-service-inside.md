@@ -39,7 +39,7 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: 1962-1975</dd>
+<dd>Dates: January 9, 1962 and May 7, 1975</dd>
 </dl>
 
 <div markdown="1">
@@ -84,7 +84,7 @@ You and your survivors
 
 - Compensation
 - Health care
-- An Agent Orange Registry health exam
+- An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 </div>
 
