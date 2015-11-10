@@ -11,7 +11,7 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
@@ -51,10 +51,10 @@ Radiogenic diseases can be caused by exposure to radiation. If you participated 
 
 Yes, if:
 
-- You were interned as a prisoner of war in Japan
-- You participated in the postwar occupation of Hiroshima or Nagasaki
-- You participated in atmospheric nuclear weapons testing
-- You participated in underground nuclear weapons testing at Amchitka Island, Alaska
+- You were interned as a prisoner of war in Japan.
+- You participated in the postwar occupation of Hiroshima or Nagasaki.
+- You participated in atmospheric nuclear weapons testing.
+- You participated in underground nuclear weapons testing at Amchitka Island, Alaska.
 - You were assigned to a gaseous diffusion plant at one of the following:
 	-	Paducah, Kentucky
 	-	Portsmouth, Ohio, or
@@ -64,7 +64,7 @@ Yes, if:
 
 #### Who is covered
 
-- You
+You
 
 </div>
 
