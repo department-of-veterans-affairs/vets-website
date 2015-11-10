@@ -1,12 +1,12 @@
 ---
 title: Help Us Create vets.gov
 description:
-author: Bob McDonald
+author: Robert McDonald
 layout: post-single
-category: beta
 tags:
  - transparency
  - website
+ - design
 published: true
 ---
 
