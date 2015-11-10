@@ -240,8 +240,8 @@ If you disagree with this decision, you may [file an appeal]({{ site.url }}/disa
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/conditions/time/">
-              <h5>Effective Dates</h5>
+              <a href="{{ site.url }}/disability-benefits/claims-process/date/">
+              <h5>Effective Date of Disability</h5>
               <span></span>
               </a>
             </li>

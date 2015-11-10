@@ -12,7 +12,6 @@ template: 6-info-page
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/get/">Apply for Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/get/filing/">Filing</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -43,7 +42,7 @@ Choose one of three ways:
 
 3.	Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
 
-Note: Active-duty members should learn about [Predischarge Claims]({{ site.url}}/disability-benefits/conditions/time/pre-discharge/index.html)
+Note: Active-duty members should learn about [Predischarge Claims]({{ site.url}}/disability-benefits/claims-process/claim-types/pre-discharge/index.html)
 
 
 

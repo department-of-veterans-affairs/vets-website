@@ -13,7 +13,6 @@ concurrence: incomplete
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/get/">Apply for Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/get/filing/">Filing</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
