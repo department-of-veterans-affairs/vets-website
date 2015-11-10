@@ -107,7 +107,7 @@ Hotline
 
 <li markdown="1">
 St. Paul Regional Benefit Office
-[VSCC123.VAVBASPL@va.gov](VSCC123.VAVBASPL@va.gov)
+[VSCC123.VAVBASPL@va.gov](mailto:VSCC123.VAVBASPL@va.gov)
 </li>
 
 <li markdown="1">
