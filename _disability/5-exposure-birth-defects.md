@@ -45,8 +45,6 @@ Spina bifida is a birth defect in which the developing baby's spinal cord fails 
 
 <div class="call-out" markdown="1">
 
-Spina bifida is a birth defect in which the developing baby's spinal cord fails to develop properly. It can be caused by environmental factors. If you have qualifying service in South Vietnam or the Republic of Korea and have a child with spina bifida or certain other birth defects, you may be eligible for VA benefits.
-
 ### Are you eligible for benefits? 
 
 #### Spina Bifida 
