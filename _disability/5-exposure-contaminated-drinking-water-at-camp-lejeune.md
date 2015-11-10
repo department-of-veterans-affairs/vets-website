@@ -11,7 +11,7 @@ template: 6-info-page
 <div class="small-12 medium-8 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
@@ -62,8 +62,8 @@ If you served at Camp Lejeune, North Carolina, for 30 days or more from August 1
 
 Yes, if:
 
--	You served at Camp Lejeune during the period of contamination (August 1953 through December 1987)
--	You have a current disease and a medical opinion that states the disease is a result of exposure to the contaminated water at Camp Lejeune
+-	You served at Camp Lejeune during the period of contamination (August 1953 through December 1987).
+-	You have a current disease and a medical opinion that states the disease is a result of exposure to the contaminated water at Camp Lejeune.
 
 </div>
 
