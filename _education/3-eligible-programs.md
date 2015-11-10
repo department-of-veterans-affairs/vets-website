@@ -26,7 +26,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Before the Post-9/11 GI Bill®, several smaller programs provided education benefits to Servicemembers and Veterans. [Veteran Service Officers](link to Accredited Representative beta site) and the [GI Bill® Comparison Tool]({{ site.url }}/gibill/) can help you pick the right program for your goals.
+Before the Post-9/11 GI Bill®, several smaller programs provided education benefits to Servicemembers and Veterans. [Veteran Service Officers]({{ site.url }}/disability-benefits/get/filing/help/index.html) and the [GI Bill® Comparison Tool]({{ site.url }}/gibill/) can help you pick the right program for your goals.
 
 </div>
 </div>
@@ -44,11 +44,6 @@ Before the Post-9/11 GI Bill®, several smaller programs provided education bene
             <li>
               <a href="{{ site.url }}/education/eligible-programs/call-to-service/">
                 <h5>National Call to Service Program</h5>
-              </a>
-            </li>
-            <li>
-              <a href="{{ site.url }}/education/eligible-programs/veap/">
-                <h5>Veterans Educational Assistance Program (VEAP)</h5>
               </a>
             </li>
           </ul>
