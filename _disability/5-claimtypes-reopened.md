@@ -25,10 +25,14 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-You can file a reopened claim for a benefit that was previously denied and became final (for example, because you did not appeal). VA cannot reopen a claim without new and material evidence. "New evidence" is information about the claimed benefit that the VA has not previously considered. "Material evidence" is information that is relevant to and has direct bearing on the specific claimed benefit. 
+You can file a reopened claim for a benefit that VA previously denied if a year has passed since your claim was denied and you did not appeal that decision. However, VA cannot reopen a claim without new and material evidence. 
+
+"New evidence" is information about the claimed benefit that the VA has not previously considered. 
+
+"Material evidence" is information that is relevant to and has direct bearing on the specific claimed benefit. 
 
 **Example:**
-A Veteran was treated several times during service for pain in the right elbow. He filed a claim for service connection, but his claim could not be granted because no orthopedic abnormalities were found on VA examination. Two years later, his private physician x-rayed the elbow and noted arthritic changes in the joint. The Veteran submitted the new and material evidence to VA. Because it suggested that a residual, or after-effect, of his in-service elbow problems did exist, VA reopened his claim.
+A Veteran was treated several times during service for pain in his right elbow. He filed a claim for service connection, but his claim could not be granted because no orthopedic abnormalities were found on VA examination. Two years later, his private physician x-rayed the elbow and noted arthritic changes in the joint. The Veteran submitted this new and material evidence to VA. Because it suggested that a residual, or after-effect, of his in-service elbow problems did exist, VA reopened his claim.
 
 
 </div>
