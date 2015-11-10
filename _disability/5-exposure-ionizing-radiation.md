@@ -85,7 +85,7 @@ You
 
 <div class="call-out" markdown="1">
 
-#### How it works 
+#### How it works
 
 VA requests from the appropriate military service or the Defense Threat Reduction Agency an estimate of your level or range of radiation exposure. The military service or agency reports to VA the range within which a Veteran may have been exposed, and VA accepts the highest level of the dose range. See [38 CFR 3.311(b)(5)](http://www.warms.vba.va.gov/regs/38CFR/BOOKB/PART3/S3_311.DOC) for more information.
 
@@ -105,17 +105,17 @@ C-123 Hotline
 <span class="tel">1-800-749-8387</span>
 </li>
 
-<li>
+<li markdown="1">
 St. Paul Regional Benefit Office
-<a href="mailto:VSCC123.VAVBASPL@va.gov">VSCC123.VAVBASPL@va.gov</a>
+[mailto:VSCC123.VAVBASPL@va.gov](VSCC123.VAVBASPL@va.gov)
 </li>
 
-<li>
+<li markdown="1">
 Fact Sheet
 C-123 aircraft and Agent Orange exposure
 </li>
 
-<li>
+<li markdown="1">
 Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
 </li>
 </ul>
