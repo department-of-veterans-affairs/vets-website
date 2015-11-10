@@ -37,9 +37,9 @@ Yes, if:
 
 -	You are eligible for [the GI Bill®]({{ site.url }}/education/gi-bill/)
 -	You are interested in working in an industry or job where OTJ is available. Examples include:
-  -	Union plumber
-  -	Hotel management
-  -	Firefighter
+    -	Union plumber
+    -	Hotel management
+    -	Firefighter
 
 #### Who is covered
 
