@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/claims-appeal/court-of-appeals/court-appeals-veterans-claims/index.html
 title: United States Court of Appeals for Veterans Claims
-concurrence: incomplete
+concurrence: complete
 source: http://www.bva.va.gov/
 ---
 
@@ -29,7 +29,7 @@ source: http://www.bva.va.gov/
 
 <div markdown="1">
 
-If you have filed a [substantive appeal](http://www.va.gov/vaforms/va/pdf/VA9.pdf) to your [regional office](http://www.benefits.va.gov/benefits/offices.asp) and the Board of Veterans’ Appeals has sent you a final decision with which you disagree, you may then appeal to the Court of Appeals for Veterans Claims should you want to pursue further action. The Court reviews Board decisions appealed by those who believe the Board erred in its decision.
+If the Board of Veterans’ Appeals (Board) has sent you a final decision with which you disagree, you may then appeal to the U.S. Court of Appeals for Veterans Claims (Court) should you want to pursue further action. The Court reviews Board decisions appealed by those who believe the Board erred in its decision.
 
 </div>
 
@@ -38,13 +38,13 @@ If you have filed a [substantive appeal](http://www.va.gov/vaforms/va/pdf/VA9.pd
 The Court is composed of:
 
 - Seven permanent, active judges
-- Two additional judges as part of a temporary expansion provision
+- Two additional judges as part of a temporary expansion provision.
 
 </div>
 
 <div markdown="1">
 
-It has exclusive jurisdiction over decisions of the Board of Veterans’ Appeals (the “Board” or BVA) and is part of the U.S. Judiciary, not the Department of Veterans Affairs.
+It has exclusive jurisdiction over decisions of the Board of Veterans’ Appeals and is part of the United States Judiciary. It is not part of the Department of Veterans Affairs. 
 
 </div>
 
@@ -52,8 +52,8 @@ It has exclusive jurisdiction over decisions of the Board of Veterans’ Appeals
 
 Its review of Board decisions is based on:
 
-- The record before the agency
-- Arguments of the parties
+- The record before the agency (i.e., what was in your file at the time the Board reviewed it); and
+- Arguments of the parties.
 
 </div>
 
