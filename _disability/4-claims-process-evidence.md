@@ -84,37 +84,30 @@ A Veteran filed a disability claim that indicated previous treatment from a priv
 <div markdown="1">
 
 ### Evidence Procedures for Fully Developed Claims and Standard Claims
-
+<div class="call-out">
 #### Fully Developed Claims
 
 The Fully Developed Claim program allows you to speed up the claim-resolution process. You need to submit the following when you file your formal claim:
 
-</div>
-
-<div class="call-out" markdown="1">
-
 -	All relevant service-treatment and personnel records
 -	Any pertinent private medical records
-
+</div>
 </div>
 
 <div markdown="1">
 
 Disability benefit claims are considered fully developed when you have no more evidence to submit and the only assistance required from VA is obtaining federal records and facilitating or providing additional medical examinations or opinions. More information about this program is available on the Fully Developed Claims page.  
 
+<div class="call-out">
 #### Standard Claims
 
 Evidence procedures for standard claims place greater responsibility on VA to assemble relevant records from both federal sources and private sources that you identify and authorize.
-
-</div>
-
-<div class="call-out" markdown="1">
 
 These may include:
 
 - Privately held evidence and information that you tell us about (such as records from a private doctor or hospital), and
 - Records from state or local governments or current or former employers.
-
+</div>
 </div>
 
 <div markdown="1">
