@@ -22,14 +22,6 @@ template: 4-action-page
 
 <div class="main" role="main" markdown="0">
 
-<!--<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-
-    </div>
-  </div>  
-</div>-->
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -57,21 +49,23 @@ And:
 - There is a position available within your normal commuting distance
 </div>
 <div class="call-out" markdown="1">
+
 #### Who is Eligible
 
 You and your dependents using education benefits
 </div>
-<div class="call-out" markdown="1">
+
+<div markdown="1">
+
 #### Available benefits
 
 Part-time job while you study
-</div>
-<div class="call-out" markdown="1">
+
+
 #### How it works
 
 The number of applicants selected will depend on the availability of VA-related work at your school or at VA facilities in your area. Veterans with service-connected disabilities of at least 30% may be given priority consideration.
-</div>
-<div class="call-out" markdown="1">
+
 #### Learn More
 
 -	Download a copy of the [application form](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf) here.
@@ -85,8 +79,8 @@ The number of applicants selected will depend on the availability of VA-related 
 - Working at a Center of Excellence for Veteran Student Success to support and coordinate academic, financial, physical, and social needs of Veteran students.
 - Working in a cooperative program carried out jointly by VA and an institution of higher learning.
 - Working in any Veterans-related position in an institution of higher learning, such as providing assistance to Veteran students with general inquiries about Veteran benefits, processing necessary documents, or maintaining and organizing Veteran-related files
-</div>
-<div class="call-out" markdown="1">
+
+
 #### How Much Will I Earn?
 
 You’ll earn an hourly wage equal to the federal minimum wage or your state minimum wage, whichever is greater. If you’re in a work-study job at a college or university, your school may pay you the difference between the amount VA pays and the amount the school normally pays other work-study students doing the same job.
@@ -94,6 +88,7 @@ You’ll earn an hourly wage equal to the federal minimum wage or your state min
 You may elect to be paid in advance for 40% of the number of hours in your work-study agreement, or for 50 hours, whichever is fewer. After you’ve completed the hours covered by your first payment, VA will pay you each time you complete 50 hours of service or bi-weekly, whichever comes first.
 
 You may work during or between periods of enrollment. The total number of hours you work during your enrollment can’t be more than 25 times the number of weeks in your enrollment period.
+
 </div>
 
 
