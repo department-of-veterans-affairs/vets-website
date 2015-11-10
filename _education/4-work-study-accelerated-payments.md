@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/work-learn/non-traditional/accelerated-payments/index.html
-title: Accelerated Payments For High-Technology Programs
+title: Accelerated Payments for High-Technology Programs
 template: 4-action-page
 concurrence: incomplete
 ---
