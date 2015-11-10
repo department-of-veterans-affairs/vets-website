@@ -94,15 +94,15 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 
 - [$600 Buy-Up program]({{ site.url }}/education/gi-bill/buy-up-program/) While on active duty, you can contribute a maximum of $600 to receive increased monthly benefits. With this maximum contribution, you are eligible for up to an additional $5,400 in GI Bill benefits.  
 
-- College degree and certificate programs
-- Non-college degree programs (technical or vocational courses)
-- Flight training
-- Apprenticeships or on-the-job training
-- High-tech training
-- Licensing and certification
-- Entrepreneurship training
-- Entrance examinations
-- Correspondence courses
+- [College degree and certificate programs]({{ site.url }}/education/gi-bill/higher-learning/)
+- [Non-college degree programs (technical or vocational courses)]({{ site.url }}/education/work-learn/non-college-degree-program/)
+- [Flight training]({{ site.url }}/education/training-testing-licensing/flight-training/)
+- [Apprenticeships or on-the-job training]({{ site.url }}/education/work-learn/job-and-apprenticeship/)
+- [High-tech training]({{ site.url }}/education/work-learn/non-traditional/accelerated-payments/)
+- [Licensing and certification]({{ site.url }}/education/training-testing-licensing/licensing-certification/)
+- [Entrepreneurship training]({{ site.url }}/education/training-testing-licensing/entrepreneurship-training/)
+- [Entrance examinations]({{ site.url }}/education/training-testing-licensing/national-testing-program/)
+- [Correspondence courses]({{ site.url }}/education/work-learn/non-traditional/correspondence-training/)
 
 Use the [GI Bill® Comparison Tool]({{ site.url }}/gibill/) to pick the right type of educational assistance program and school to maximize your benefits.
 
