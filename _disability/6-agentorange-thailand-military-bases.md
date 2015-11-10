@@ -61,11 +61,6 @@ template: 4-action-page
 
 <li markdown="1">
 
-
-
-
-<li markdown="1">
-
 **Need help determining exposure?**
 VA will help you determine potential exposure to Agent Orange after you file a claim for disability benefits.
 
@@ -95,18 +90,15 @@ You, your dependents and survivors
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 ### Available benefits:
 - Heath care benefits
 - Compensation benefits
 - An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
-</div>
 
-<div class="call-out" markdown="1">
-
-### How it works:
+#### How it works:
 To receive benefits for [diseases associated with Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence must be provided showing the required perimeter security duty (such as  a dog handler, member of a security squadron, member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
 
 Learn more about [benefits related to Agent Orange exposure.](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
