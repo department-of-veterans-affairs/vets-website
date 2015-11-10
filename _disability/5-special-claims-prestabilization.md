@@ -12,7 +12,7 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/special-claims/">Special Claims</a></li>
 <li class="active">{{ page.title }}</li>
@@ -50,7 +50,7 @@ A prestabilization rating is a temporary rating that can be  assigned to recentl
 You must have been recently separated from military service with an unstable, significantly disabling service-connected disability that will continue for an indefinite amount of time.
 
 
-#### Example:
+#### Example
 
 While in active service, a Servicemember was diagnosed with Hodgkin's disease and began chemotherapy that continued during and after her medical discharge process. She coordinated through her local VA medical center for follow-on treatment. The claim for compensation resulted in a prestabilization rating of 100% for one year from the date of discharge.
 
