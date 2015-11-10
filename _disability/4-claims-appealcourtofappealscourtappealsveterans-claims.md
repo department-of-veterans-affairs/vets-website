@@ -1,6 +1,6 @@
 ---
 layout: page-disability
-permalink: disability-benefits/claims-appeal/court-of-appeals/court-appeals-veterans-claims/index.html
+permalink: disability-benefits/claims-appeal/court-appeals-veterans-claims/index.html
 title: United States Court of Appeals for Veterans Claims
 concurrence: complete
 source: http://www.bva.va.gov/
@@ -13,7 +13,6 @@ source: http://www.bva.va.gov/
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/claims-appeal/">Claims appeal</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-appeal/court-of-appeals/">Getting help filing an appeal</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -44,7 +43,7 @@ The Court is composed of:
 
 <div markdown="1">
 
-It has exclusive jurisdiction over decisions of the Board of Veterans’ Appeals and is part of the United States Judiciary. It is not part of the Department of Veterans Affairs. 
+It has exclusive jurisdiction over decisions of the Board of Veterans’ Appeals and is part of the United States Judiciary. It is not part of the Department of Veterans Affairs.
 
 </div>
 
