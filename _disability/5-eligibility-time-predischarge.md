@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/claims-process/claim-types/pre-discharge/index.html
-title: Pre-discharge
+title: Predischarge
 source: http://www.benefits.va.gov/predischarge/index.asp
 ---
 
@@ -10,7 +10,7 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/">Claims Process</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/claim-types/">Claim Types</a></li>
 <li class="active">{{ page.title }}</li>
@@ -50,7 +50,7 @@ If you are between 180 and 60 days from separation, you can begin the [Benefit D
 - [Quick Start Program]({{ site.url }}/disability-benefits/filing/active-duty/quick-start/index.html)
 - [Overseas]({{ site.url }}/disability-benefits/filing/active-duty/overseas/index.html)
 - [Disability Compensation Rates]({{ site.url }}/disability-benefits/rates/index.html)
-- [Other programs available to pre-discharge Servicemembers]({{ site.url }}/disability-benefits/claims-process/claim-types/standard-claim/index.html).
+- [Other programs available to predischarge Servicemembers]({{ site.url }}/disability-benefits/claims-process/claim-types/standard-claim/index.html)
 
 </div>
 </div>
