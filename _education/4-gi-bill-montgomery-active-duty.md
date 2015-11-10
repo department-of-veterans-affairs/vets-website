@@ -111,7 +111,7 @@ Use the [GI Bill® Comparison Tool]({{ site.url }}/gibill/) to pick the right ty
 
 <div markdown="1">
 
-“GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our Terms of Use.
+“GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
 
 [Montgomery GI Bill® Active Duty](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf)
 
