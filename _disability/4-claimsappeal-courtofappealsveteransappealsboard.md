@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/claims-appeal/veterans-appeals-board/index.html
-title: Board of Veterans Appeals
+title: Board of Veterans' Appeals
 concurrence: complete
 source: http://www.bva.va.gov/index.asp
 ---
@@ -11,8 +11,8 @@ source: http://www.bva.va.gov/index.asp
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-appeal/">Claims appeal</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-appeal/">Claims Appeal</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -37,9 +37,9 @@ If you are not satisfied with the results of a claim for Veterans benefits, you 
 </div>
 <div class="small-12 columns" markdown="0">
 <div class="call-out" markdown="1">
-Your appeal will be reviewed by the Board of Veterans’ Appeals (also known as BVA or the “Board”), which is composed of attorneys experienced in:
+Your appeal will be reviewed by the Board of Veterans’ Appeals (also known as BVA or the "Board"), which is composed of attorneys experienced in:
 
-- Veterans’ law
+- Veterans law
 - Reviewing benefit claims
 
 Typically, it takes approximately 80 weeks for an appeal to be reviewed and decided upon.
