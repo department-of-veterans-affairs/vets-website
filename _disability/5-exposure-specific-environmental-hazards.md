@@ -46,6 +46,20 @@ If you were exposed to specific environmental hazards (such as burn pits) while 
 
 </div>
 
+
+</div>
+
+<div class="small-12 medium-4 columns" markdown="0">
+<div markdown="0">
+
+</div>
+</div>
+
+
+</div>
+
+<div class="row">
+<div class="small-12 columns">
 <div class="call-out" markdown="1">
 
 ### Are you eligible for compensation?
@@ -53,19 +67,20 @@ If you were exposed to specific environmental hazards (such as burn pits) while 
 Yes, if:
 
 You have a disability resulting from your exposure to an environmental hazard during military service.  This exposure may include:
+
 - Particulate matter or large burn pits throughout Iraq, Afghanistan, and Djibouti in the Horn of Africa- A large sulfur fire at Mishraq State Sulfur Mine near Mosul, Iraq
 - Hexavalent chromium exposure at the Qarmat Ali Water Treatment Plant at Basra, Iraq
 - Contaminated drinking water at Camp Lejeune, North Carolina, between 1953 and 1987 (See our Camp Lejeune page for more information)
 - Pollutants from a waste incinerator near the Naval Air Facility at Atsugi, Japan
 
+### Who is covered
+
+You and your survivors
+
 
 </div>
 
 <div markdown="1">
-
-### Who is covered
-
-You and your survivors
 
 ### Available benefits
 
@@ -77,15 +92,9 @@ You and your survivors
 You should submit any additional information (such as [Burn Pit Registry]( https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/)) regarding proof of exposure when filing your claim.
 
 </div>
-</div>
-
-<div class="small-12 medium-4 columns" markdown="0">
-<div markdown="0">
 
 </div>
 </div>
 
-
-</div>
 
 </div>
