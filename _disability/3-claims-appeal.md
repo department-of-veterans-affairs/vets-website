@@ -87,9 +87,6 @@ If you selected an optional in-person or video teleconference hearing with a Vet
 
 <div markdown="1">
 
-### Filing a Notice of Appeal with the [Court of Appeals for Veteran Claims]({{ site.url }}/disability-benefits/claims-appeal/court-of-appeals/index.html)
-
-
 #### When?
 
 You’ll need to file within 120 days from the date of the decision by the Board of Veterans’ Appeals (stamped on the first page of the decision).
