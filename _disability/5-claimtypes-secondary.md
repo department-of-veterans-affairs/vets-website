@@ -41,6 +41,12 @@ A Veteran was in the Army for twenty years.  During her military service, she wa
   <div class="row">
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <li>
+        <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/standard-claim/">
+          <h5>Standard Claim</h5>
+        </a>
+      </li>
+
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/original-claim/">
             <h5>Original Claim</h5>
@@ -65,6 +71,35 @@ A Veteran was in the Army for twenty years.  During her military service, she wa
           </a>
         </li>
 
+        <li>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/fully-developed/">
+            <h5>Fully Developed Claim (<abbr>FDC</abbr>)</h5>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/pre-service/">
+            <h5>Pre-service claim</h5>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/in-service/">
+            <h5>In-service claim</h5>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/pre-discharge/">
+            <h5>Pre-discharge claim</h5>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/post-service/">
+            <h5>Post-service claim</h5>
+          </a>
+        </li>
       </ul>
     </div>
   </div>
