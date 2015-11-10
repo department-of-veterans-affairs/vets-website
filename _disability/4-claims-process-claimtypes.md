@@ -9,7 +9,7 @@ title: What are the different claim types and what do they mean?
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/">Claims Process</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/claim-types/">Claim Types</a></li>
 <li class="active">{{ page.title }}</li>
