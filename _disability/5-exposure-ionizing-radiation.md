@@ -101,13 +101,13 @@ VA requests from the appropriate military service or the Defense Threat Reductio
 <ul class="plain">
 
 <li>
-C-123 Hotline
+Hotline
 <span class="tel">1-800-749-8387</span>
 </li>
 
 <li markdown="1">
 St. Paul Regional Benefit Office
-[mailto:VSCC123.VAVBASPL@va.gov](VSCC123.VAVBASPL@va.gov)
+[VSCC123.VAVBASPL@va.gov](VSCC123.VAVBASPL@va.gov)
 </li>
 
 <li markdown="1">
