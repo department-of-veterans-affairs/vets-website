@@ -43,6 +43,7 @@ If you have a service-connected disability that prevents you from driving an aut
 Yes, if:
 
 Your service-connected disability includes at least one of the following conditions:
+
 - Loss, or permanent loss of use, of one or both feet.
 - Loss, or permanent loss of use, of one or both hands.
 - Permanent impairment of vision in both eyes: Central Visual acuity of 20/200 or less in the better eye with glasses, or Central Visual acuity that is greater than 20/200, accompanied by a visual field defect in which your peripheral field has contracted to such an extent that the widest diameter of visual fields subtends an angular distance no greater than 20 degrees in the better eye.
@@ -50,25 +51,17 @@ Your service-connected disability includes at least one of the following conditi
 - Amyotrophic lateral sclerosis (ALS).
 - Ankylosis (immobility of the joint) in one or both knees or hips (adaptive equipment grant only).
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### Who is covered
+#### Who is covered
 
 You
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 ### Available benefits
 
 Compensation
-
-</div>
-
-<div class="call-out" markdown="1">
 
 ### How it works
 
