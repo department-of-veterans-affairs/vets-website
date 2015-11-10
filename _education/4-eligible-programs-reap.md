@@ -55,7 +55,7 @@ Under REAP, you may be able to receive assistance on some or all of your tuition
 The amount of your benefit depends on your active-service time. See the [current benefit rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1607).You may get additional monthly benefits if you participate in the [Buy-Up program] (link to Buy-Up program).
 
 #### Learn more:
-[REAP pamphlet](Link to http://www.benefits.va.gov/gibill/docs/pamphlets/ch1607_pamphlet.pdf)
+[REAP pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch1607_pamphlet.pdf)
 </div>
 
 
