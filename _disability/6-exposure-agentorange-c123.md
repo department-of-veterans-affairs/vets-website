@@ -199,7 +199,7 @@ St. Paul Regional Benefit Office
 
 <li markdown="1">
 Fact Sheet
-C-123 aircraft and Agent Orange exposure
+[C-123 aircraft and Agent Orange exposure](http://www.benefits.va.gov/benefits/factsheets/serviceconnected/AO_c123.pdf)
 </li>
 
 <li markdown="1">
