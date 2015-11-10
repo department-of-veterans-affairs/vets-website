@@ -8,8 +8,6 @@ url: http://staging.vets.gov
 
 #baseurl: /beta-site
 
-posturl: experience
-
 #files to exclude, array
 exclude:
   - README.md
