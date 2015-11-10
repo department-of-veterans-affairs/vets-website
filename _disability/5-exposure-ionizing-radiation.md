@@ -114,6 +114,10 @@ St. Paul Regional Benefit Office
 Fact Sheet
 C-123 aircraft and Agent Orange exposure
 </li>
+
+<li>
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
+</li>
 </ul>
 </div>
 </div>
