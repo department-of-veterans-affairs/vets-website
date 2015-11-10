@@ -129,13 +129,6 @@ When you apply for benefits, you will need to prove your problems were caused, o
 </a>
 </li>
 
-<li>
-
-  <a href="{{ site.url }}/disability-benefits/conditions/time/">
-  <h5>Service Times</h5>
-  <span>How does when my condition appeared affect my eligibility?</span>
-  </a>
-</li>
 
 <li>
   <a href="{{ site.url }}/disability-benefits/conditions/service-connected/">

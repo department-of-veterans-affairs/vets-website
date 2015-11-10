@@ -72,6 +72,34 @@ Disability compensation claims can be based on disabilities that existed when en
         </li>
 
 
+
+
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/pre-service/">
+            <h5>Pre-service claim</h5>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/in-service/">
+            <h5>In-service claim</h5>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/pre-discharge/">
+            <h5>Pre-discharge claim</h5>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/post-service/">
+            <h5>Post-service claim</h5>
+          </a>
+        </li>
+
+
       </ul>
     </div>
   </div>

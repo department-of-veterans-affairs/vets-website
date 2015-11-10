@@ -1,6 +1,6 @@
 ---
 layout: page-disability
-permalink: disability-benefits/conditions/time/pre-discharge/index.html
+permalink: disability-benefits/claims-process/claim-types/pre-discharge/index.html
 title: Pre-discharge
 source: http://www.benefits.va.gov/predischarge/index.asp
 ---
@@ -11,8 +11,8 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/time/">Effective Dates</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/">Claims Process</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/claim-types/">Claim Types</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

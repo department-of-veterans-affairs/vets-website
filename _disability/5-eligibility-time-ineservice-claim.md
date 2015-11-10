@@ -1,6 +1,6 @@
 ---
 layout: page-disability
-permalink: disability-benefits/conditions/time/in-service/index.html
+permalink: disability-benefits/claims-process/claim-types/in-service/index.html
 title: In-Service claim
 concurrence: complete
 
@@ -12,8 +12,8 @@ concurrence: complete
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/time/">Effective Dates</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/">Claims Process</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/claim-types/">Claim Types</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
