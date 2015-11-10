@@ -36,20 +36,12 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns">
 
-<div class="call-out" markdown="1">
 
-
-</div>  
-
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 ### Fully Developed Claim
 
 The Fully Developed Claims (FDC) program is an optional way for Veterans and survivors to get faster decisions by submitting all relevant records in their possession, and those records which are easily obtainable, such as private medical records, when they make their claim and certify that they have no further evidence to submit. VA can process these claims more quickly.
-
-</div>
-
-<div class="call-out" markdown="1">
 
 ### Disability Benefits Questionnaires (DBQs)
 
@@ -63,9 +55,6 @@ Visit our [DBQ List by Form Name](http://www.benefits.va.gov/COMPENSATION/dbq_Li
 -	[VSO](http://www.benefits.va.gov/compensation/dbq_vsoinstruct.asp)
 -	[Health Care Provider](http://www.benefits.va.gov/compensation/dbq_providerinstruct.asp )
 
-</div>
-
-<div class="call-out" markdown="1">
 
 ### Where can I get more information?
 
@@ -77,9 +66,6 @@ If you’re an active-duty Servicemember, you can initiate a [predischarge claim
 
 </div>
 
-
-
-</div>
 </div>
 </div>
 </div>
