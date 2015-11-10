@@ -82,6 +82,7 @@ Yes, if:
 
 #### How it works
 You may receive benefits for up to eight semesters (four years) of traditional academic education. The benefits, paid monthly, depend upon the following factors:
+
 - length of service
 - type of training
 - your category (as defined below)
@@ -95,7 +96,7 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 - [$600 Buy-Up program]({{ site.url }}/education/gi-bill/buy-up-program/) While on active duty, you can contribute a maximum of $600 to receive increased monthly benefits. With this maximum contribution, you are eligible for up to an additional $5,400 in GI Bill benefits.  
 
 - [College degree and certificate programs]({{ site.url }}/education/gi-bill/higher-learning/)
-- [Non-college degree programs (technical or vocational courses)]({{ site.url }}/education/work-learn/non-college-degree-program/)
+- [Non-college degree programs (technical or vocationalcourses)]({{site.url}}/education/work-learn/non-college-degree-program/)
 - [Flight training]({{ site.url }}/education/training-testing-licensing/flight-training/)
 - [Apprenticeships or on-the-job training]({{ site.url }}/education/work-learn/job-and-apprenticeship/)
 - [High-tech training]({{ site.url }}/education/work-learn/non-traditional/accelerated-payments/)
