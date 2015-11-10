@@ -84,9 +84,8 @@ Claims are evaluated on a case-by-case basis, and additional evidence may be nec
 
 If you have any of the following material, upload it with your online application:
 
-- Discharge papers (DD214 or equivalent) and other proof you served at Camp Lejeune for longer than 30 days during the eligible period.
-
-- Current medical evidence (doctor and hospital reports) stating the disease is a result of contaminated water at Camp Lejeune.
+-	Discharge papers (DD214 or equivalent) and other proof you served at Camp Lejeune for longer than 30 days during the eligible period.
+-	Current medical evidence (doctor and hospital reports) stating the disease is a result of contaminated water at Camp Lejeune.
 
 </div>
 </div>
