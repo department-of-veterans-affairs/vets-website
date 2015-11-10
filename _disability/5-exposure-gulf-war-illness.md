@@ -77,6 +77,9 @@ You
 
 The conditions that fall under the umbrella of Gulf War Illness are varied and extensive. They include fibromyalgia, chronic fatigue syndrome, functional gastrointestinal disorders, and undiagnosed illnesses such as headaches, joint pain, sleep disorders, and cardiovascular disease.
 
+[Fact Sheet
+C-123 aircraft and Agent Orange exposure](http://www.benefits.va.gov/benefits/factsheets/serviceconnected/AO_c123.pdf)
+
 </div>
 
 </div>
@@ -90,8 +93,8 @@ The conditions that fall under the umbrella of Gulf War Illness are varied and e
 <ul class="plain">
 
 <li markdown="1">
-[Fact Sheet
-C-123 aircraft and Agent Orange exposure](http://www.benefits.va.gov/benefits/factsheets/serviceconnected/AO_c123.pdf)
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
+
 </li>
 
 </ul>
