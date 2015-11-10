@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/gi-bill/yellow-ribbon/index.html
-title: Yellow Ribbon
+title: Yellow Ribbon Program
 template: 6-info-page
 concurrence: incomplete
 ---
@@ -35,19 +35,19 @@ If your school participates in the Yellow Ribbon Program, you may be able to red
 
 Yes, if:
 
-- You are a Veteran or the dependent of a Veteran who is eligible for transfer of entitlement for the Post-9/11 GI Bill®, or you are the child of an active-duty Servicemember who is the recipient of a transfer of entitlement
-- You are eligible to receive 100% Post-9/11 GI Bill® benefits [Is this me?](https://gibill.custhelp.com/app/answers/detail/a_id/947)
-- Your school participates in the [Yellow Ribbon Program for the 2015-16 school year](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2014.asp )
-- You maintain continuous enrollment, full- or part-time, as defined by your school
-- You are working toward the completion of your enrolled program
+- You are a Veteran or the dependent of a Veteran who is eligible for transfer of entitlement for the Post-9/11 GI Bill®, or you are the child of an active-duty Servicemember who is the recipient of a transfer of entitlement.
+- You are eligible to receive 100% Post-9/11 GI Bill® benefits. [Is this me?](https://gibill.custhelp.com/app/answers/detail/a_id/947)
+- Your school participates in the [Yellow Ribbon Program for the 2015-16 school year](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2014.asp ).
+- You maintain continuous enrollment, full- or part-time, as defined by your school.
+- You are working toward the completion of your enrolled program.
 
 #### Who is covered
 
-- You and/or your dependents
+You and your family members
 
 #### Available benefits
 
-- Additional tuition
+Additional tuition
 
 #### How it works
 
