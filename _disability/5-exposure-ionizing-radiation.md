@@ -59,7 +59,7 @@ Yes, if:
 -	As a participant in the postwar occupation of Hiroshima or Nagasaki, or
 -	As a prisoner of war in Japan, or
 -	While working in a military occupation such as an x-ray technician, performing work in a reactor plant, nuclear medicine, or radiography (Note: your exposure to ionizing radiation must have occurred while serving on active duty *or* as a member of a Reserve component of the Armed Forces during a period of active or inactive duty for training), or
-- 	While performing tasks similar to those performed by a Department of Energy (DOE) employee qualifying them as a member of the Special Exposure Cohort. [See 42 U.S.C. 7384L(14)](http://www.benefits.va.gov/COMPENSATION/ext_redirect.asp?url=http://www.law.cornell.edu/uscode/text/42/7384l)
+- 	While performing tasks similar to those performed by a Department of Energy (DOE) employee qualifying them as a member of the Special Exposure Cohort. [See 42 U.S.C. 7384L(14)](https://www.law.cornell.edu/uscode/text/42/7384l)
 -	You have one of the [recognized radiogenic diseases](http://www.ecfr.gov/cgi-bin/text-idx?c=ecfr&sid=39c7e367a71c8efc570650851b266303&rgn=div5&view=text&node=38:1.0.1.1.4&idno=38#38:1.0.1.1.4.1.66.119) or an unlisted disease that medical opinion relates to exposure to radiation
 -	The radiogenic disease has manifested within a certain period of time  
 -	You were discharged under conditions other than dishonorable.
