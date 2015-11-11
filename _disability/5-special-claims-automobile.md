@@ -53,7 +53,7 @@ Your service-connected disability includes at least one of the following conditi
 
 #### Who is covered
 
-You
+Veterans and Servicemembers
 
 </div>
 
