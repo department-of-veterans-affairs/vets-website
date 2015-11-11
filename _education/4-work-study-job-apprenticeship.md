@@ -56,7 +56,7 @@ Yes, if:
 
 ### How it works
 
-Participation in these programs generally involves your entering into a training contract for a specific amount of time with an employer or union. During training you will likely receive a salary from the employer or union, which typically increases as your skills increase. At the end of your training period, you will get a job certification or journeyman status.
+Participation in these programs generally involves entering into a training contract for a specific amount of time with an employer or union. During training you will likely receive a salary from the employer or union, which typically increases as your skills increase. At the end of your training period, you will get a job certification or journeyman status.
 
 Veterans in an approved program can use their GI Bill® benefit and receive a tax-free stipend. The Post-9/11 GI Bill® pays a monthly housing allowance (MHA), which is paid in addition to the entry-level wage. Take a look at the [OJT Fact Sheet for more information](http://www.benefits.va.gov/gibill/docs/factsheets/OJT_Factsheet.pdf).
 
@@ -64,7 +64,7 @@ VA issues GI Bill® payments each month after receiving verification of your hou
 
 Your payment varies depending on the GI Bill® program. View the [payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp) for your GI Bill® program.
 
-***Post-9/11 GI Bill® recipients. The payment rates are as follows:***
+***Post-9/11 GI Bill® MHA Payment Rates***
 
 - You will receive 100% of your applicable MHA during the first six months of training in these increments:
 - 80% of your applicable MHA during the second six months of training
@@ -73,7 +73,7 @@ Your payment varies depending on the GI Bill® program. View the [payment rates]
 - 20% of your applicable MHA during the remainder of the training
 - You will receive up to $83 per month for books and supplies.
 
-***All other GI Bill® programs. For all other GI Bill® programs, the MHA payment rates are as follows:***
+***All other GI Bill® Programs Payment Rates***
 
 - 75% of the full-time GI Bill® rate for the first six months of training
 - 55% of the full-time GI Bill® rate for the second six months of training
