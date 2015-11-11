@@ -55,7 +55,7 @@ Yes, if:
     - therapeutic immobilizations
     - house confinement
     - or required use of a wheelchair or crutches, or
-    -	One major joint or more was immobilized by a cast without surgery.
+-	One major joint or more was immobilized by a cast without surgery.
 
 #### Who is covered
 
@@ -80,6 +80,7 @@ A temporary 100% rating is for convalescence based on surgery or immobilization 
 #### Example
 
 A Veteran has a left knee condition that resulted in a 30% disability rating. Due to further deterioration of the knee, the VA physician recommended surgery to arrest the problem. Since the success of the surgery won't be known for three months following the one week of hospitalization, VA granted the Veteran a temporary 100% disability rating for three months.
+
 </div>
 </div>
 </div>
