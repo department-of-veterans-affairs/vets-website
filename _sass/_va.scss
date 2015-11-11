@@ -307,7 +307,7 @@ body.home, body.fourohfour {
 
 // Content Callouts
 
-#content .main {
+#content .main .section.one {
 
   ul {
     margin: 0 0 1em 1.2em;
@@ -316,6 +316,10 @@ body.home, body.fourohfour {
     li {
       list-style: square;
     }
+  }
+
+  ul.cards {
+    margin: 0 0 1em 0;
   }
 
   .call-out {
@@ -334,6 +338,10 @@ body.home, body.fourohfour {
     }
   }
 
+}
+
+body.home #content .main .section.one ul {
+  margin: 0 0 1em 0;
 }
 
 // Content lead paragraphs
