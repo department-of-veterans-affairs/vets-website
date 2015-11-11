@@ -41,7 +41,7 @@ The U.S. military sprayed millions of gallons of Agent Orange on trees and veget
 
 -------------------------------------------
 
-### Are you Eligible for Compensation?
+### Are you eligible for compensation?
 
 </div>
 </div>
@@ -51,13 +51,13 @@ The U.S. military sprayed millions of gallons of Agent Orange on trees and veget
 
 #### Yes if:
 
-You were exposed to Agent Orange during military service
+You were exposed to Agent Orange during military service.
 
-#### Who's Covered:
+#### Who is covered
 
 You or your dependents
 
-#### How it Works:
+#### How it works
 
 [These diseases are a result of exposure to Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/). VA forgoes the normal requirement that you prove an illness began during or was worsened by your military service.
 
@@ -65,12 +65,12 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
 
 ### See also:
 
-[See also: Agent Orange Registry Health Exam for Veterans]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
+[Agent Orange Registry Health Exam for Veterans]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 </div>
 
 <div markdown="1">
-### Related Symptoms
+### Related symptoms
 </div>
 
 <div class="call-out" markdown="1">
@@ -80,7 +80,7 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
 </div>
 
 
-<h3>Were you Exposed?</h3>
+<h3>Were you exposed?</h3>
 
 <ul class="small-block-grid-1 medium-block-grid-2">
 
@@ -132,7 +132,6 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
     <dl class="panel-list">
       <dt>Test and Storage Areas Outside of Vietnam</dt>
       <dd>Dates: 1944-19XX</dd>
-      <dd>Sites: Various</dd>
       <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/test-storage/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
     </dl>
 
@@ -142,7 +141,7 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
 
     <dl class="panel-list">
       <dt>U.S. Navy and Coast Guard Ships in Vietnam</dt>
-      <dd>Dates:January 9, 1962 and May 7, 1975</dd>
+      <dd>Dates: January 9, 1962 and May 7, 1975</dd>
       <dd>
         <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/navy-coast-guard/">Learn more <span class="sr-only">about U.S. Navy and Coast Guard Ships in Vietnam and Agent Orange</span></a>
       </dd>
