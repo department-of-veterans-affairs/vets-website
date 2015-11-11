@@ -106,16 +106,16 @@ html, body {
 
 span.helpTooltip {
   border-radius: 5em;
-  background: #444 !important;
+  background: #444;
   padding: .2em;
   display: inline-block;
+  margin: .25em 0em 1.35em 2em;
   color: #fff;
   height: 2em;
   width: 2em;
   text-align: center;
   font-size: .8em;
   vertical-align: middle;
-  margin-left: 1em;
 }
 
 
@@ -163,7 +163,7 @@ button.searchButton {
     </div>
     <div class="small-12 large-9 columns">
       <input id="pac-input" type="text" placeholder="Search for a location"><button class="searchButton">Search</button>
-      <span data-tooltip aria-haspopup="true" class="helpTooltip has-tip" title="Search by ZIP Code, city, state, U.S. territory, or address">?</span>
+      <span class="helpTooltip" aria-info="help" title="Search by ZIP Code, city, state, U.S. territory, or address">?</span>
     </div>
   </div>
 </div>
@@ -207,6 +207,3 @@ button.searchButton {
     <script src="map.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJI5rs8s_N42z1hrrls3HSIgtUNw_iy30&libraries=places,geometry&callback=init"
 async defer></script>
-    <script>
-      $(document).foundation();
-    </script>

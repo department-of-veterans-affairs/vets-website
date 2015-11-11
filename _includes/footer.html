@@ -107,7 +107,9 @@
  </div>
 </div>
 
+
 <script>
+
 // Include the UserVoice JavaScript SDK (only needed once on a page)
 UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/NDkEKHU7ZuU64RQKkUL9Q.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
 
@@ -141,6 +143,7 @@ UserVoice.push(['identify', {
   //}
 }]);
 
+
 // Add default trigger to the bottom-right corner of the window:
 UserVoice.push(['addTrigger', {trigger_position: 'bottom-right', strings: {suggestion_category_label: 'General' },}]);
 
@@ -151,13 +154,33 @@ UserVoice.push(['addTrigger', {trigger_position: 'bottom-right', strings: {sugge
 UserVoice.push(['autoprompt', {}]);
 </script>
 
+<script src='{{ site.url }}/assets/js/vendor/jquery.tipsy.js'></script>
 <script src="{{ site.url }}/assets/js/vendor/classie.js"></script>
 <script src="{{ site.url }}/assets/js/vendor/menu.js"></script>
 
-<!--
-"To care for him who shall have borne the battle and for his widow, and his orphan."
-- Abraham Lincoln
--->
+<script>
+     // manually trigger the tooltip so that it works on mobile
+     $('.helpTooltip').tipsy({trigger: 'manual'});
+     var visible = false;
+     function hideTooltip() {
+       $('.helpTooltip').tipsy("hide");
+       visible = false;
+     }
+     function showTooltip() {
+       $('.helpTooltip').tipsy("show");
+       visible = true;
+     }
+     $('.helpTooltip').hover(showTooltip, hideTooltip);
+     $('.helpTooltip').click(function() {
+       visible ? hideTooltip() : showTooltip();
+       return false;
+     });
+     $(document).click(hideTooltip)
+     $(document).bind("touchstart", hideTooltip);
+</script>
+
+<script>
+
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -168,5 +191,12 @@ UserVoice.push(['autoprompt', {}]);
   ga('send', 'pageview');
 
 </script>
+
+
+<!--
+"To care for him who shall have borne the battle and for his widow, and his orphan."
+- Abraham Lincoln
+-->
+
 </body>
 </html>

@@ -29,12 +29,11 @@ body, body.home {
   background: $color-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
   background-size: contain;
   color: #fff;
-  a {color: #fff;}
 }
 
 
 // row
-body.home .row.full {
+body .row.full {
   width: 100%;
   max-width: 100%;
 }
@@ -44,14 +43,6 @@ body.page-playbook .row {
 max-width: 55em;
 }
 
-body.page-disability .row.full,
-body.posts .row.full,
-body.index .row.full,
-body.post-single .row.full,
-body.page-education .row.full,
-body.page-playbook .row.full {
-  max-width: 100%;
-}
 
 body.home .row {
 /* max-width: 62.5em; */
