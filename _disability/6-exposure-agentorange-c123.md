@@ -38,27 +38,27 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>Contaminated C-123 Aircraft</dt>
-<dd>Dates: 1969 - 1986</dd>
+<dd>Dates: 1969-1986</dd>
 </dl>
 
 <p>C-123 Aircraft were used to spray Agent Orange during the Vietnam War. However, after being contaminated with chemical residue, they continued to fly throughout the world and did so through 1986. If you flew on or worked with these planes in Vietnam, or other locations, you may have been exposed.</p>
 
 <div markdown="1">
-### Are you Eligible for Disability Compensation?
+### Are you eligible for disability compensation?
 </div>
 
 
 <div class="call-out" markdown="1">
 
-#### Active Duty Servicemembers
+#### Active-Duty Servicemembers
 
 Yes, if:
 
-- You have an [Agent Orange-related disability]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/)
-- You served in a regular Air Force unit location where a contaminated C-123 was assigned
-- You regularly and repeatedly had contact with contaminated C-123 aircraft through flight, ground, or medical duties
+- You have an [Agent Orange-related disability]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/).
+- You served in a regular Air Force unit location where a contaminated C-123 was assigned.
+- You regularly and repeatedly had contact with contaminated C-123 aircraft through flight, ground, or medical duties.
 
-This list of military units and Air Force Specialty codes will help you figure out if [your unit was exposed.](http://www.benefits.va.gov/compensation/docs/AO_C123_AFSpecialityCodesUnits.pdf)
+This list of military units and Air Force Specialty codes will help you figure out if [your unit was exposed](http://www.benefits.va.gov/compensation/docs/AO_C123_AFSpecialityCodesUnits.pdf).
 
 </div>
 
@@ -68,14 +68,14 @@ This list of military units and Air Force Specialty codes will help you figure o
 
 Yes, if:
 
-- You have an [Agent Orange-related disability]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/)
+- You have an [Agent Orange–related disability]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/).
 - You were assigned to flight, ground, or medical crew duties at any of the following locations:
-  - **Lockbourne/Rickenbacker Air Force Base** in Ohio from 1969-1986 (906th and 907th Tactical Air Groups or 355th and 356th Tactical Airlift Squadrons)
-  - **Westover Air Force Base** in Massachusetts from 1972-1982 (731st Tactical Air Squadron and 74th Aeromedical Evacuation Squadron, or 901st Organizational Maintenance Squadron)
-  - **Pittsburgh, Pennsylvania International Airport** from 1972-1982 (758th Airlift Squadron)
+  - **Lockbourne/Rickenbacker Air Force Base** in Ohio, 1969-1986 (906th and 907th Tactical Air Groups or 355th and 356th Tactical Airlift Squadrons)
+  - **Westover Air Force Base** in Massachusetts, 1972-1982 (731st Tactical Air Squadron and 74th Aeromedical Evacuation Squadron, or 901st Organizational Maintenance Squadron)
+  - **Pittsburgh, Pennsylvania International Airport**, 1972-1982 (758th Airlift Squadron)
 
 
-This list of military units, Air Force specialty codes, and dates of service will help you figure out if [your unit was exposed.](http://www.benefits.va.gov/compensation/docs/AO_C123_AFSpecialityCodesUnits.pdf)
+This list of military units, Air Force specialty codes, and dates of service will help you figure out if [your unit was exposed](http://www.benefits.va.gov/compensation/docs/AO_C123_AFSpecialityCodesUnits.pdf).
 
 </div>
 
@@ -85,7 +85,7 @@ This list of military units, Air Force specialty codes, and dates of service wi
 
 #### How to Apply for Benefits Online
 
-This is the fastest way to file a claim and receive your decision.
+This is the fastest way to file a claim and receive your decision:
 
 </div>
 
@@ -93,7 +93,7 @@ This is the fastest way to file a claim and receive your decision.
 <ol class="process" markdown="0">
 <li class="step one wow fadeIn animated" markdown="1">
 
-[Go to eBenefits.va.gov](http://eBenefits.va.gov)
+[Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/homepage)
 
 </li>
 
@@ -147,7 +147,7 @@ File by mail by printing out and filling in this form: [VA Form 21-526EZ](http:/
 
 <li class="step two wow fadeIn animated" markdown="0">
 
-<p>Make sure you include each C-123 related disability in Section I, Block 11 on the form, and submit copies of any of the material noted above — if you have it - with your paper claim.</p>
+<p>Make sure you include each C-123-related disability in Section I, Block 11 on the form, and submit copies of any of the material noted above—if you have it—with your paper claim.</p>
 
 <div class="call-out">
 
@@ -169,11 +169,12 @@ File by mail by printing out and filling in this form: [VA Form 21-526EZ](http:/
 <p>Mail claims to:</p>
 <p>Department of Veterans Affairs Claims Intake Center</p>
 <p>Attention: C123 Claims<br />
-PO Box 5088 Janesville<br />
-WI 53547-5088</p>
+PO Box 5088<br />
+Janesville, WI<br />
+53547-5088</p>
 
 <p>Fax claims to:<br />
-<span class="tel">608-373-6694)</span></p>
+<span class="tel">608-373-6694</span></p>
 
 </li>
 
@@ -188,22 +189,22 @@ WI 53547-5088</p>
 <ul class="plain" markdown="0">
 
 <li markdown="0">
-C-123 Hotline
+C-123 Hotline:
 <span class="tel">1-800-749-8387</span>
 </li>
 
 <li markdown="1">
-St. Paul Regional Benefit Office
+St. Paul Regional Benefit Office:
 [VSCC123.VAVBASPL@va.gov](mailto:VSCC123.VAVBASPL@va.gov)
 </li>
 
 <li markdown="1">
-Fact Sheet
+Fact Sheet:
 [C-123 aircraft and Agent Orange exposure](http://www.benefits.va.gov/benefits/factsheets/serviceconnected/AO_c123.pdf)
 </li>
 
 <li markdown="1">
-Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
 </li>
 
 </ul>
