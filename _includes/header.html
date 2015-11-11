@@ -21,8 +21,6 @@
 <link rel="stylesheet" href="{{ site.url }}/assets/css/vendor/animate.css">
 <script src="{{ site.url }}/assets/js/vendor/jquery-1.11.0.min.js"></script>
 <script src="{{ site.url }}/assets/js/components.js"></script>
-<script src="{{ site.url }}/assets/js/foundation.min.js"></script>
-<script src="{{ site.url }}/assets/js/foundation/foundation.tooltip.js"></script>
 <script src="{{ site.url }}/assets/js/vendor/modernizr.custom.js"></script>
 <script src="{{ site.url }}/assets/js/vendor/wow.min.js"></script>
 
@@ -63,49 +61,49 @@ new WOW().init();
 
 <!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
 <script src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
-
+<script src="{{ site.url }}/assets/js/vendor/modernizr.custom.js"></script>
 
 </head>
 <body class="{{ page.layout }}">
 <div class="header">
-<div data-alert class="alert-box notice">
-	<div class="row full">
-		<div class="small-12 message">
-			<p><strong>This site is a work in progress.</strong> We&rsquo;re designing in the open. If you don&rsquo;t find what you need, visit <a href="http://www.va.gov">VA.gov</a>.</p>
+	<div data-alert class="alert-box notice">
+		<div class="row full">
+			<div class="small-12 message">
+				<p><strong>This site is a work in progress.</strong> We&rsquo;re designing in the open. If you don&rsquo;t find what you need, visit <a href="http://www.va.gov">VA.gov</a>.</p>
+			</div>
 		</div>
-	</div>
- </div>
+	 </div>
 
 <!-- /header alert box -->
 	<div class="row full">
-		<div class="small-9 medium-4 columns">
+		<div class="small-6 medium-4 columns">
 			<h1 role="banner"><a href="/">Vets.gov</a></h1>
 		</div>
 
 		<!-- Mobile search button -->
 		<div class="hide-for-medium-up search-button">
-			 <a data-reveal-id="myModal">Search</a>
+			<button id="trigger-overlay" type="button" class="usa-button usa-button-outline-inverse" aria-controls="mobile-menu" aria-hidden="true">Search</button>
+		</div>
 
-			 <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
 
-				 <form accept-charset="UTF-8" action="https://search.usa.gov/search" id="search_form" method="get">
-	 				<div style="margin:0;padding:0;display:inline">
-	 				<input name="utf8" type="hidden" value="&#x2713;" /></div>
-	 				<input id="affiliate" name="affiliate" type="hidden" value="vets.gov_staging" />
-	 				<label for="query">Search:</label>
-	 				<div class="row collapse">
-	 					<div class="small-9 columns">
-	 						<input autocomplete="off" class="usagov-search-autocomplete" id="query" name="query" type="text" />
-	 					</div>
-	 					<div class="small-3 columns">
-	 						<input name="commit" type="submit" value="Search" />
-	 					</div>
-					</div>
-	 				</form>
-
-				  <a class="close-reveal-modal" aria-label="Close">Close &#215;</a>
+		<div id="mobile-menu" class="overlay overlay-fullscreen" role="dialog">
+			<button type="button" class="overlay-close">Close</button>
+				<div class="menu">
+    		 <form accept-charset="UTF-8" action="https://search.usa.gov/search" id="search_form" method="get">
+				 <div style="margin:0;padding:0;display:inline">
+				 <input name="utf8" type="hidden" value="&#x2713;" /></div>
+				 <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_staging" />
+				 <label for="mobile-query">Search:</label>
+				 <div class="row collapse">
+					 <div class="small-9 columns">
+						 <input autocomplete="off" class="usagov-search-autocomplete" id="mobile-query" name="query" type="text" />
+					 </div>
+					 <div class="small-3 columns">
+						 <input name="commit" type="submit" value="Search" />
+					 </div>
+				 </div>
+				</form>
 			</div>
-
 		</div>
 
 
