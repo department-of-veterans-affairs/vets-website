@@ -100,7 +100,6 @@ VA requests from the appropriate military service or the Defense Threat Reductio
 
 <ul class="plain">
 
-<li>
 <li markdown="1">
 Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
 </li>
