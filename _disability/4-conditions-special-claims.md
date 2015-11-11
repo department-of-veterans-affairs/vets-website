@@ -56,6 +56,7 @@ Learn more about [Special Claims](http://www.va.gov/opa/publications/benefits_bo
 - [Special Home Adaptation Grant](http://www.benefits.va.gov/homeloans/adaptedhousing.asp)
 - [Temporary Residence Adaptation](http://www.benefits.va.gov/BENEFITS/factsheets/homeloans/sahfactsheet.pdf)
 
+If you are a Veteran with a service-connected disability rating, you may be eligible for special compensation to help with the following:
 
 </div>
 </div>
@@ -70,6 +71,12 @@ Learn more about [Special Claims](http://www.va.gov/opa/publications/benefits_bo
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/automobile/">
 <h5>Automobile use claims</h5>
+</a>
+</li>
+
+<li>
+<a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/birth-defects/index.html">
+<h5>Birth Defects / Spina Bifida</h5>
 </a>
 </li>
 
