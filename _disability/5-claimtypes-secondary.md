@@ -79,7 +79,7 @@ A Veteran was in the Army for twenty years.  During her military service, she wa
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/pre-service/">
-            <h5>Pre-service claim</h5>
+            <h5>Preservice Claim</h5>
           </a>
         </li>
 
@@ -91,13 +91,13 @@ A Veteran was in the Army for twenty years.  During her military service, she wa
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/pre-discharge/">
-            <h5>Pre-discharge claim</h5>
+            <h5>Predischarge claim</h5>
           </a>
         </li>
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/post-service/">
-            <h5>Post-service claim</h5>
+            <h5>Postservice claim</h5>
           </a>
         </li>
       </ul>

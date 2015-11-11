@@ -39,7 +39,7 @@ Coming soon.
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
               <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/pre-discharge/">
-                <h5>Pre-discharge</h5>
+                <h5>Predischarge</h5>
               </a>
             </li>
 
@@ -69,13 +69,13 @@ Coming soon.
 
             <li>
               <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/post-service-claim/">
-                <h5>Post-Service Claim</h5>
+                <h5>Postservice claim</h5>
               </a>
             </li>
 
             <li>
               <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/pre-service-claim/">
-                <h5>Pre-Service Claim</h5>
+                <h5>Preservice Claim</h5>
               </a>
             </li>
           </ul>
