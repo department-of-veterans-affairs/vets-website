@@ -90,6 +90,16 @@ html, body {
   list-style: none;
   border-bottom: 1px solid #ddd;
   padding-bottom: 15px;
+
+}
+
+#facilitiesList li a {
+    border-radius: .15em;
+    display: inline-block;
+    border: 2px solid #ccc;
+    padding: .1em .5em;
+    text-decoration: none;
+    margin: 0 0 .5em 0;
 }
 
 #facilitiesList li:not(:first-child) {
@@ -177,7 +187,7 @@ button.searchButton {
         <div id="map"></div>
       </div>
       <div class="small-12 large-4 columns map-container list-container">
-        <ul id="facilitiesList"></ul>
+        <ul id="facilitiesList" aria-live="polite" aria-relevant="additions removals"></ul>
       </div>
     </div>
   </div>
