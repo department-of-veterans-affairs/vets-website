@@ -40,7 +40,7 @@ The number of classes you attend and the accompanying hours spent in those class
 
 If you are interested in graduate-level training, the training time is determined by the college. For example, if a two-hour class is considered full time in a graduate program at your school, VA will pay you the full-time rate.
 
-If your school participates in the Yellow Ribbon Program, it agrees to make additional funds available for your education without charging your GI Bill entitlement. Get more information from the [Yellow Ribbon Program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/Yellow_Ribbon_Pamphlet.pdf) or go online to the [Yellow Ribbon Program page](http://www.benefits.va.gov/gibill/yellow_ribbon.asp).
+If your school participates in the Yellow Ribbon Program, it agrees to make additional funds available for your education without charging your GI Bill entitlement. Get more information from the [Yellow Ribbon Program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/Yellow_Ribbon_Pamphlet.pdf) or go online to the [Yellow Ribbon Program page]({{ site.url }}/education/gi-bill/yellow-ribbon/).
 
 View [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 
