@@ -69,24 +69,20 @@ Yes, if:
 
 <div class="call-out" markdown="1">
 
-### Who is covered
+#### Who is covered
 
 You
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
-### Available benefits
+#### Available benefits
 
 -	Compensation benefits
 -	Health care benefits
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### How it works
+#### How it works
 
 Certain conditions are presumed to be related to time spent in captivity. These presumptive disabilities are based on studies of the long-term effects of captivity, deprivation, trauma, and cold injury. If a former POW is diagnosed as having one or more of these conditions to a degree that is at least 10% disabling, VA presumes that it is associated with the POW experience.
 

@@ -43,7 +43,8 @@ Yes, if:
 ### Who is covered
 
 - You
-
+</div>
+<div markdown="1">
 #### Available benefits
 
 - Education and training opportunities
@@ -63,9 +64,9 @@ You may be eligible for both of these programs, but can only use one of them. Yo
 **Exception:** As a beneficiary, you cannot use the same qualifying event for more than one benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
 
 Use the chart below to compare the programs.
-</div>
 
-<div markdown="1">
+
+
 #### Compare DEA and Fry Scholarship Benefits
 <table>
 

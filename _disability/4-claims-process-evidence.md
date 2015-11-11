@@ -45,11 +45,7 @@ It is important to gather all relevant documents so that VA can evaluate your di
 
 According to the Veterans Claims Assistance Act (VCAA) passed by Congress in 2000, responsibility for obtaining evidence to support a claim is as follows:
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### VA’s responsibility
+#### VA’s responsibility
 
 Obtaining relevant records from:
 
@@ -59,11 +55,7 @@ Obtaining relevant records from:
 
 Providing a medical examination or obtaining a medical opinion, if required to decide the claim.
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### The Veteran’s responsibility
+#### The Veteran’s responsibility
 
 Obtaining relevant records not held by a federal agency. This may include records from:
 
@@ -79,26 +71,17 @@ Providing relevant information to VA so that records can be requested.
 
 A Veteran filed a disability claim that indicated previous treatment from a private doctor and a previous Social Security disability award. In this case, VA is responsible for obtaining the Social Security records and can assist in obtaining the private physician records. However, ultimate responsibility for obtaining the private records lies with the Veteran.
 
-</div>
-
-<div markdown="1">
-
 ### Evidence Procedures for Fully Developed Claims and Standard Claims
-<div class="call-out">
+
 #### Fully Developed Claims
 
 The Fully Developed Claim program allows you to speed up the claim-resolution process. You need to submit the following when you file your formal claim:
 
 -	All relevant service-treatment and personnel records
 -	Any pertinent private medical records
-</div>
-</div>
-
-<div markdown="1">
 
 Disability benefit claims are considered fully developed when you have no more evidence to submit and the only assistance required from VA is obtaining federal records and facilitating or providing additional medical examinations or opinions. More information about this program is available on the Fully Developed Claims page.  
 
-<div class="call-out">
 #### Standard Claims
 
 Evidence procedures for standard claims place greater responsibility on VA to assemble relevant records from both federal sources and private sources that you identify and authorize.
@@ -107,10 +90,6 @@ These may include:
 
 - Privately held evidence and information that you tell us about (such as records from a private doctor or hospital), and
 - Records from state or local governments or current or former employers.
-</div>
-</div>
-
-<div markdown="1">
 
 VA will provide a medical examination for you, or will get a medical opinion, if it’s required to make a claims decision.
 
