@@ -39,7 +39,7 @@ template: 6-info-page
 
 <div markdown="1">
 
-Spina bifida is a birth defect in which the developing baby's spinal cord fails to develop properly. It can be caused by environmental factors. If you have spina bifida or certain other birth defects and are the biological child of a Veteran with qualifying service in South Vietnam or the Republic of Korea, you may be eligible for VA benefits.
+Spina bifida is a birth defect in which the developing baby's spinal cord fails to develop properly. It can be caused by environmental factors. If you are a Veteran with qualifying service in South Vietnam or the Republic of Korea, and your child has spina bifida or certain other birth defects, he or she may be eligible for VA benefits. 
 
 </div>
 
@@ -55,7 +55,7 @@ If you are seeking benefits for the biological child of a male or female Veteran
 - The child was conceived after the parent served in either South Vietnam or the Republic of Korea, and
 - The child was diagnosed with a form of spina bifida other than spina bifida occulta.
 
-#### Birth Defects 
+#### Other Birth Defects 
 Yes, if:
 - You are seeking benefits for the biological child of a female Veteran, and
 - The mother served in South Vietnam during the period from January 9, 1962, through May 7, 1975, and
