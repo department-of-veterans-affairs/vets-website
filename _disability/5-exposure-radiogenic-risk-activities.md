@@ -42,7 +42,7 @@ template: 4-action-page
 
 <div markdown="1">
 
-Radiogenic diseases can be caused by exposure to radiation. If you participated in an activity while on active duty that has a radiation risk, you may have developed one of these [associated diseases](associated-diseases).
+Radiogenic diseases can be caused by exposure to radiation. If you participated in an activity while on active duty that has a radiation risk, you may have developed one of these [associated diseases](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309).
 </div>
 
 <div class="call-out" markdown="1">
