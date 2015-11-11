@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/claims-process/claim-types/pre-service/index.html
-title: Pre-Service claim
+title: Preservice Claim
 concurrence: complete
 source: http://www.benefits.va.gov/compensation/types-claims.asp
 ---
@@ -27,7 +27,7 @@ source: http://www.benefits.va.gov/compensation/types-claims.asp
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-### Claims Based on Pre-Service Disabilities
+### Claims Based on Preservice Disabilities
 
 If you entered the military with a known disability that became worse or was aggravated due to your service, you may be eligible for benefits. In these cases, disability compensation is calculated based on the level of aggravation. For example, if you had a condition that was 10% disabling when you entered the military and it worsened due to service to 20% disabling, then the level of aggravation would be 10%.
 
@@ -79,7 +79,7 @@ If you entered the military with a known disability that became worse or was agg
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/pre-service/">
-            <h5>Pre-service claim</h5>
+            <h5>Preservice Claim</h5>
           </a>
         </li>
 
@@ -91,13 +91,13 @@ If you entered the military with a known disability that became worse or was agg
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/pre-discharge/">
-            <h5>Pre-discharge claim</h5>
+            <h5>Predischarge claim</h5>
           </a>
         </li>
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/post-service/">
-            <h5>Post-service claim</h5>
+            <h5>Postservice claim</h5>
           </a>
         </li>
       </ul>

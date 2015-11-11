@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/learn/pre-discharge-programs/index.html
-title: Pre-discharge programs
+title: Predischarge programs
 source: http://www.benefits.va.gov/predischarge/index.asp
 ---
 
@@ -27,7 +27,7 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 
 ### What are pre-discharge programs?
 
-#### Pre-Discharge programs allow active duty service-members to file claims for disability compensation prior to separation, retirement, release from active duty, or demobilization.
+#### PreDischarge programs allow active duty service-members to file claims for disability compensation prior to separation, retirement, release from active duty, or demobilization.
 
 Programs are different by the number of days servicemembers have left before separation.
 

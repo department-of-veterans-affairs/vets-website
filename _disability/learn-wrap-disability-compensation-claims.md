@@ -5,10 +5,10 @@
 ##### There are numerous types of claims that apply to disability compensation. They can be based on disabilities that existed when entering military service, but were made worse, disabilities that occurred during service, or disabilities that arose after you left military service. Additionally, there are claims that are filed for special circumstances.
 
 
-1. #### Pre-discharge claims:
+1. #### Predischarge claims:
 Servicemembers that are within 180 days of separation or retirement from active duty or full time National Guard duty may file claims for disability compensation.
 
-2. #### Claims based on pre-service disabilities:
+2. #### Claims based on preservice disabilities:
 Individuals may enter military service with a known disability. Should this disability become worse due to military service, VA may be able to pay compensation. This is known as aggravation; however, compensation can only be paid for the level of aggravation. For example, at entry into military service, an individual has a disabling condition that could be considered 10% disabling. In order for this condition to be considered aggravated, it would have to have worsened due to military service to at least 20%.
 
 3. #### Claims based on in-service disabilities:
@@ -21,8 +21,8 @@ Claims for post-service disabilities would include claims for disabilities that 
 Claims regarding compensation are not always based on an in-service event. In other words, after a disability has been determined to be service connected, there may be other types of claims a Veteran or surviving spouse may wish to file. This might include a claim for a temporary 100% rating due to surgery for a service-connected disability, or additional compensation based on being in need of regular aid and attendance.
 
 
-#####% Learn about pre-discharge claims
-#####% Learn about post-service claims
+#####% Learn about Predischarge claims
+#####% Learn about Postservice claims
 #####% Learn about special claims
 
 ###### Sources:
