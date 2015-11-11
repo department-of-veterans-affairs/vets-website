@@ -101,20 +101,6 @@ VA requests from the appropriate military service or the Defense Threat Reductio
 <ul class="plain">
 
 <li>
-Hotline
-<span class="tel">1-800-749-8387</span>
-</li>
-
-<li markdown="1">
-St. Paul Regional Benefit Office
-[VSCC123.VAVBASPL@va.gov](mailto:VSCC123.VAVBASPL@va.gov)
-</li>
-
-<li markdown="1">
-Fact Sheet
-C-123 aircraft and Agent Orange exposure
-</li>
-
 <li markdown="1">
 Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
 </li>
