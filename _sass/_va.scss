@@ -310,7 +310,7 @@ body.home, body.fourohfour {
 #content .main .section.one {
 
   ul {
-    @media #{$medium} {margin: 0 0 1em 1.2em;}
+  margin: 0 0 1em 1.2em;
     padding: 0;
     list-style-position: outside;
     li {
@@ -664,82 +664,76 @@ a {
 // General List Styles
 
 ul {
-li {
+  li {
   list-style: inside;
-}
+  }
 }
 
 ol {
-margin: 0 0 0 1.25em;
+  margin: 0 0 0 1.25em;
 li {
-  list-style-position: outside;
-}
+    list-style-position: outside;
+  }
 }
 
 li {
-span.meta {
-  display: inline-block;
-  padding: .5em;
-  color: $color-primary-darkest;
-  background: rgba($color-primary-darkest,.05);
-  font-weight: bold;
-  float: right;
-  margin: .5em 0 1em 1em;
-}
+  span.meta {
+    display: inline-block;
+    padding: .5em;
+    color: $color-primary-darkest;
+    background: rgba($color-primary-darkest,.05);
+    font-weight: bold;
+    float: right;
+    margin: .5em 0 1em 1em;
+  }
 }
 .inline-list {
-> li {
-  float: left;
-}
-> * {
-  display: block;
-}
+  > li {
+    float: left;
+  }
+  > * {
+    display: block;
+  }
 }
 
 // Tables
 table {
-border: 0;
-text-align: left;
-@media #{$small-only} {
-  font-size: .5em;
-}
+  border: 0;
+  text-align: left;
+  @media #{$small-only} {
+    font-size: .5em;
+  }
 }
 td,th {
-
-padding-top:.8em;
-  padding-bottom: .8em;
-  padding-left: .8em;
-//   @media #{$small-up} {
-//   font-size: .7em;
-//   padding-left:.8em;
-
-// }
-}
-th{
-&[colspan] {
-  background: #E8F5FA;
-  font-size: 1.19rem;
   padding-top:.8em;
   padding-bottom: .8em;
   padding-left: .8em;
-  color:$color-primary-darkest;
 }
-span {
-  font-weight: normal;
-}
-}
-tr {
-background: #fff!important;
 
+th{
+  &[colspan] {
+    background: #E8F5FA;
+    font-size: 1.19rem;
+    padding-top:.8em;
+    padding-bottom: .8em;
+    padding-left: .8em;
+    color:$color-primary-darkest;
+  }
+  span {
+    font-weight: normal;
+  }
 }
+  tr {
+  background: #fff!important;
+  }
+
 // Definition lists
 
 dl.simple {
-margin: 0;
-padding: 0 0 1em 0;
-&.feature {padding: .25em .5em;}
-dt {}
-dd {padding: 0; margin: 0; border-bottom: 1px solid #eee; &:last-of-type {border-bottom: none;}}
+  margin: 0;
+  padding: 0 0 1em 0;
+  &.feature {padding: .25em .5em;}
+  dd {padding: 0; margin: 0; border-bottom: 1px solid #eee; &:last-of-type {border-bottom: none;}}
 }
 
 // Checklists
@@ -768,46 +762,45 @@ li {
     li {padding: 0; margin: 0;}
     &:before {margin: 0; padding: 0;}
     span.type {margin: .25em .25em 1em .25em; color: $color-primary-darkest;  @media #{$small} {padding: 2.5em 1em;}  background: rgba($secondary-color, .15);}
+    }
   }
-}
 }
 
 // Informational Content
 
 .informational-content, .introductory-content {
-padding: 2em 0 2em 0;
-background: rgba(0,0,0,.05);
+  padding: 2em 0 2em 0;
+  background: rgba(0,0,0,.05);
 }
 
 .introductory-content {
-padding: 1em  0;
-@media #{$small} {/*padding: 3em 0.9375em;*/ padding: 3em 0;}
-background: #efefef;
-margin: 0 auto;
-p {
-  font-size: 1em;}
-  @media #{$small} {font-size: 1.35em;}
+  padding: 1em  0;
+  @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 3em 0;}
+  background: #efefef;
+  margin: 0 auto;
+  p {
+    font-size: 1em;}
+    @media #{$small} {font-size: 1.35em;}
 }
 
 // Navigation
 
 #content.interior .section-nav {
-padding: 1em 0 2em 0;
-ul.small-block-grid-1 {
-  h2, h3, h4, h5, h6 {
+  padding: 1em 0 2em 0;
+  ul.small-block-grid-1 {
+    h2, h3, h4, h5, h6 {
+    }
   }
-}
 }
 
 #content.interior .navigation,
 #content #playbook .navigation {
-
-padding: 1em  0;
-@media #{$small} {/*padding: 3em 0.9375em;*/ padding: 1em 0 3em 0;}
-background: $color-gray-lightest;
-color: $color-primary-darkest;
-border-bottom: 2px solid #fff;
-margin: 0 auto;
+  padding: 1em  0;
+  @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 1em 0 3em 0;}
+  background: $color-gray-lightest;
+  color: $color-primary-darkest;
+  border-bottom: 2px solid #fff;
+  margin: 0 auto;
 
 ul.small-block-grid-1 {
   margin: 0;
@@ -847,8 +840,8 @@ ul.cards li {
 
 
 body.home .navigation, body.fourohfour .navigation {
-background: none;
-padding: 3em 0;
+  background: none;
+  padding: 3em 0;
 }
 
 body.fourohfour #content {
@@ -856,11 +849,11 @@ body.fourohfour #content {
 }
 
 body.home .main-navigation {
-padding: 2em 0;
-background: rgba(0,0,0,.2);
-ul.cards li {
-  -webkit-box-shadow: 0 0 4px rgba(0,0,0,.7);
-}
+  padding: 2em 0;
+  background: rgba(0,0,0,.2);
+  ul.cards li {
+    -webkit-box-shadow: 0 0 4px rgba(0,0,0,.7);
+  }
 }
 
 .draft {
@@ -1178,7 +1171,7 @@ body.page-playbook {
   color:#fff;
   padding: 0 !important;
   margin: 0;
-  background: rgba(0,0,0,.1);
+  background: rgba(0,0,0,.15);
 
 
     .small-block-grid-1 {
@@ -1255,21 +1248,16 @@ a {
         text-indent:-325px;
         overflow: hidden;
 
-    // padding: 0;
       @media #{$small-up} {
         background-size:50px;
         // background-position: 4% 15%;
       }
-      @media #{$small-only} {
+      @media #{$small-up} {
         background-size: 206px;
         background-position: center 14px;
         padding: 1.75em 0 1.5em;
       }
-      @media #{$medium-only} {
-        background-size: 170px;
-        background-position: 0 33px;
-        padding: 1.75em 0;
-      }
+
       @media #{$large-up} {
         background-size: 206px;
         background-position: 0 14px;
@@ -1301,14 +1289,15 @@ a {
     }
   }
 }
-ul.inline-list {
+ul.final-list {
   text-align: center;
   font-size: .8em;
-  padding: .5em 0 0 0;
+  @media #{$medium} {font-size: .9em;}
+  padding: 1.5em 0 0 0;
   width: 100%;
   border-bottom: none !important;
   display: block;
-  margin: 0 !important;
+  margin: 0 auto;
   &:after {
      visibility: hidden;
      display: block;
@@ -1321,6 +1310,8 @@ ul.inline-list {
 
   li {
       padding: 0;
+      display: inline-block;
+      text-align: center;
       &:last-child {
         margin-right: 0;
       }
@@ -1512,6 +1503,7 @@ a {color: #fff; background: none;}
 }
 
 .feedback {
+  color: #fff;
   @media #{$medium-up} {
     text-align: right;
   }
