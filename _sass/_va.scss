@@ -35,12 +35,6 @@ body .row.full {
   max-width: 100%;
 }
 
-body.interior .row,
-body.page-playbook .row {
-max-width: 55em;
-}
-
-
 body.home .row {
 /* max-width: 62.5em; */
 }
@@ -1161,7 +1155,7 @@ body.page-playbook {
   color:#fff;
   padding: 0 !important;
   margin: 0;
-  background: darken($color-primary-darkest, 03);
+  background: darken($color-primary-darkest, 02);
 
 
     .small-block-grid-1 {
