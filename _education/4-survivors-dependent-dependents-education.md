@@ -74,14 +74,14 @@ Yes, if:
 - A monthly payment of up to $1,021. [View current rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp)
 
 #### How it works
-If you are a spouse, you may take correspondence courses under this program. Remedial, deficiency, and refresher courses may also be approved under certain circumstances. View [current DEA pay rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch35). For both children and spouses, if you are eligible for both DEA and the [Fry Scholarship](http://www.benefits.va.gov/GIBILL/Fry_scholarship.asp), you must choose which of these you will use. Your choice is final and cannot be changed.
+If you are a spouse, you may take correspondence courses under this program. Remedial, deficiency, and refresher courses may also be approved under certain circumstances. View [current DEA pay rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch35). For both children and spouses, if you are eligible for both DEA and the [Fry Scholarship]({{ site.url }}/education/survivors-dependent-assistance/fry-scholarship/), you must choose which of these you will use. Your choice is final and cannot be changed.
 
 *Exception:* If you are the child of a Servicemember who died in the line of duty before August 1, 2011, you qualify to use both benefits subsequently for up to 81 months of education and training.
 
 What happens next?
 If you have not begun your education or training program:
-- Make sure that VA approves your selected educational or vocational program [WIDGET FOR GI Bill® SELECTION TOOL? Currently www.benefits.va.gov/gibill/comparison]. For more information, (contact us). [Link to information inquiry or contact us widget]
-- Complete and submit VA Form 22-5490, Dependents’ Application for VA Education Benefits [Link or widget to http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490]. Be sure to send the form to the VA regional office that oversees the state where you will receive the education [LINK TO ZIP CODE WIDGET?].
+- Make sure that VA approves your selected educational or vocational program. Explore the [GI Bill® Comparison tool]({{ site.url }}/gibill/) for more information if your program is approved.
+- Complete and submit [VA Form 22-5490](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490), Dependents’ Application for VA Education Benefits. Be sure to send the form to the VA regional office that oversees the state where you will receive the education. Find out which [Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp) will accept your form.
 
 If you have already started your program take your application to your school or employer.Ask them to complete VA Form 22-1999, Enrollment Certification, and send both forms to VA.
 Note: Your school must contact their VA representative to receive this form.
@@ -89,7 +89,7 @@ Note: Your school must contact their VA representative to receive this form.
 
 Learn more:
 - [DEA pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch35_pamphlet_2.pdf)
-- Get help from an [accredited representative](link to beta site).
+- Get help from an [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html).
 
 </div>
 </div>
