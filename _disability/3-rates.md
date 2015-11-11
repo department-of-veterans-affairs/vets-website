@@ -40,9 +40,9 @@ The amount of compensation depends on the severity of your disability. VA determ
 
 You may be paid additional amounts, in certain instances, if:
 
--	You have very severe disabilities or loss of limb(s)
--	You have a spouse, child(ren), or dependent parent(s)
--	You have a seriously disabled spouse
+-	You have very severe disabilities or loss of limb(s).
+-	You have a spouse, child(ren), or dependent parent(s).
+-	You have a seriously disabled spouse.
 
 
 
