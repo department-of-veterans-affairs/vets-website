@@ -20,10 +20,7 @@ html, body {
   font-family: $font-sans;
   font-weight: 500;
   color: $color-gray-dark;
-  transition: all 0.3s ease-in-out;
 }
-
-
 
 body, body.home {
   background: $color-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
@@ -789,46 +786,46 @@ li {
 #content.interior .navigation,
 #content #playbook .navigation {
   padding: 1em  0;
-  @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 1em 0 3em 0;}
+  @media #{$small} {padding: 1em 0 3em 0;}
   background: $color-gray-lightest;
   color: $color-primary-darkest;
   border-bottom: 2px solid #fff;
   margin: 0 auto;
 
-ul.small-block-grid-1 {
-  margin: 0;
-  padding: 0;
-  li {
-    width: 100%;
+  ul.small-block-grid-1 {
     margin: 0;
     padding: 0;
-    h4, h5 {font-size: 1em; }
-    span {color: $color-gray-dark;}
+    li {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      h4, h5 {font-size: 1em; }
+      span {color: $color-gray-dark;}
+    }
   }
-}
 
-ul.cards li {
-  margin: 0;
-  height: auto;
-  h3, h4, h5, h6 {color: $color-primary-darkest; font-weight: 600; font-family: $font-sans; font-size: 1.35em;}
-  h4 {font-size: 1.3em;}
-  border-bottom: 1px solid rgba(0,0,0,.2);
-  &:last-of-type { border-bottom: none;}
-  a {
-  color: $color-primary-darkest;
-  -webkit-box-shadow: none;
-  border-bottom: none;
-  box-shadow: none;
-  text-decoration: none;
-  border-radius: none;
-  border-radius: 0;
-  padding: 1em .5em;
-  height: auto;
-  margin: 0 0 .25em 0;
-  background: none;
-  &:hover {padding-left: .5em; background: rgba(0,0,0,.1); border-left: 4px solid $color-primary;}
+  ul.cards li {
+    margin: 0;
+    height: auto;
+    h3, h4, h5, h6 {color: $color-primary-darkest; font-weight: 600; font-family: $font-sans; font-size: 1.35em;}
+    h4 {font-size: 1.3em;}
+    border-bottom: 1px solid rgba(0,0,0,.2);
+    &:last-of-type { border-bottom: none;}
+    a {
+    color: $color-primary-darkest;
+    -webkit-box-shadow: none;
+    border-bottom: none;
+    box-shadow: none;
+    text-decoration: none;
+    border-radius: none;
+    border-radius: 0;
+    padding: 1em .5em;
+    height: auto;
+    margin: 0;
+    background: none;
+    &:hover {padding-left: .5em; background: rgba(0,0,0,.1); border-left: 4px solid $color-primary;}
+    }
   }
-}
 }
 
 
@@ -1186,7 +1183,7 @@ body.page-playbook {
     @media #{$small} {
       border-bottom: none;
       padding: 0;
-      margin: 1.5em 0 0 0;
+      margin: 1.5em 0 2em 0;
     }
   }
   padding: 0;
@@ -1199,8 +1196,9 @@ a {
   text-decoration: underline;
   display: block;
   background: none;
+  padding: 0;
   font-weight: 400;
-  @media #{$small} {display: inline-block; padding: .25em 0;}
+  @media #{$small} {display: inline-block; margin: .25em 0;}
   &:hover {color:#fff;}
   &.contact, &.blog {
     padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $secondary-color;
@@ -1285,12 +1283,13 @@ a {
 ul.final-list {
   text-align: center;
   font-size: .8em;
-  @media #{$medium} {font-size: .9em;}
   padding: 1.5em 0 0 0;
   width: 100%;
   border-bottom: none !important;
   display: block;
   margin: 0 auto;
+  @media #{$medium} {font-size: .9em;}
+
   &:after {
      visibility: hidden;
      display: block;
@@ -1310,7 +1309,7 @@ ul.final-list {
       }
       &:after {
         content:"|";
-        padding: 0 .25em;
+        padding: 0 .15em;
       }
       &:last-of-type:after {
         padding:0;
@@ -1318,7 +1317,7 @@ ul.final-list {
       }
     a {
         display:inline-block;
-        padding: .5em;
+        padding: .35em;
     }
   }
 }
@@ -2318,6 +2317,14 @@ button#trigger-overlay {
 		height: 70%;
 	}
 
+}
+
+// vets.gov branded apps
+
+a.vets-app {
+  border-left: 3px solid $color-gold;
+  display: inline-block;
+  padding: 0 0 0 .5em !important;
 }
 
 // Tooltips
