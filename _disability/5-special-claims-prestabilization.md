@@ -37,7 +37,7 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" div markdown="1">
 
-A prestabilization rating is a temporary rating that can be  assigned to recently separated Veterans with an unstable disability and an immediate need for services and support. Prestabilization ratings may be granted at 50% or 100%, depending on the severity of the disability, and continue for one year after discharge from active service.
+A prestabilization rating is a temporary rating for recently separated Veterans with an unstable disability and an immediate need for services and support. Prestabilization ratings may be granted at 50% or 100%, depending on the severity of the disability, and continue for one year after discharge from active service.
 
 </div>
 
