@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/survivors-dependent-assistance/dependents-education/index.html
-title: Survivors and Dependents Education Assistance Program
+title: Survivors' and Dependents' Educational Assistance Program
 template: 6-info-page
 concurrence: incomplete
 ---
@@ -12,7 +12,8 @@ concurrence: incomplete
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/tools-programs/">Tools and Programs</a></li>
+<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
+<li class="parent"><a href="{{ site.url }}/education/survivors-dependent-assistance/">Survivors' and Dependents' Assistance</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -35,7 +36,7 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you are the dependent of a Veteran who was permanently and totally disabled on active duty or due to a service-related condition, you may be eligible for 45 months of degree and certificate courses, apprenticeship, and on-the-job training under the Survivors and Dependents’ Educational Assistance (DEA) program.
+If you are the dependent of a Veteran who was permanently and totally disabled on active duty or due to a service-related condition, you may be eligible for 45 months of degree and certificate courses, apprenticeship, and on-the-job training under the Survivors' and Dependents’ Educational Assistance (DEA) program.
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">
@@ -45,11 +46,11 @@ Yes, if:
 
 **You are the son, daughter, or spouse of:**
 
-- A Veteran who died or is permanently and totally disabled as the result of active service
-- A Veteran who was permanently and totally disabled as the result of active service and who died from any cause while in this condition
-- A Servicemember missing in action or captured in the line of duty by a hostile force
-- A Servicemember forcibly detained or interned in the line of duty by a foreign entity
-- A Servicemember hospitalized or receiving outpatient treatment for a service-connected permanent and total disability who is likely to be discharged for that disability
+- A Veteran who died or is permanently and totally disabled as the result of active service.
+- A Veteran who was permanently and totally disabled as the result of active service and who died from any cause while in this condition.
+- A Servicemember missing in action or captured in the line of duty by a hostile force.
+- A Servicemember forcibly detained or interned in the line of duty by a foreign entity.
+- A Servicemember hospitalized or receiving outpatient treatment for a service-connected permanent and total disability who is likely to be discharged for that disability.
 
 **If you are the child of the Veteran or Servicemember:**
 
@@ -71,23 +72,25 @@ Yes, if:
 
 #### Available benefits
 
-- A monthly payment of up to $1,021. [View current rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp)
+A monthly payment of up to $1,021. [View current rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp)
 
 #### How it works
 If you are a spouse, you may take correspondence courses under this program. Remedial, deficiency, and refresher courses may also be approved under certain circumstances. View [current DEA pay rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch35). For both children and spouses, if you are eligible for both DEA and the [Fry Scholarship](http://www.benefits.va.gov/GIBILL/Fry_scholarship.asp), you must choose which of these you will use. Your choice is final and cannot be changed.
 
-*Exception:* If you are the child of a Servicemember who died in the line of duty before August 1, 2011, you qualify to use both benefits subsequently for up to 81 months of education and training.
+**Exception:** If you are the child of a Servicemember who died in the line of duty before August 1, 2011, you qualify to use both benefits subsequently for up to 81 months of education and training.
 
 What happens next?
 If you have not begun your education or training program:
-- Make sure that VA approves your selected educational or vocational program [WIDGET FOR GI Bill® SELECTION TOOL? Currently www.benefits.va.gov/gibill/comparison]. For more information, (contact us). [Link to information inquiry or contact us widget]
+
+- Make sure that VA approves your selected educational or vocational program [WIDGET FOR GI Bill® SELECTION TOOL? Currently www.benefits.va.gov/gibill/comparison]. For more information, (contact us)[Link to information inquiry or contact us widget].
 - Complete and submit VA Form 22-5490, Dependents’ Application for VA Education Benefits [Link or widget to http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490]. Be sure to send the form to the VA regional office that oversees the state where you will receive the education [LINK TO ZIP CODE WIDGET?].
 
-If you have already started your program take your application to your school or employer.Ask them to complete VA Form 22-1999, Enrollment Certification, and send both forms to VA.
-Note: Your school must contact their VA representative to receive this form.
+If you have already started your program, take your application to your school or employer. Ask them to complete VA Form 22-1999, Enrollment Certification, and send both forms to VA.
+**Note:** Your school must contact their VA representative to receive this form.
 
 
 Learn more:
+
 - [DEA pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch35_pamphlet_2.pdf)
 - Get help from an [accredited representative](link to beta site).
 
