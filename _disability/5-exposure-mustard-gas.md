@@ -68,27 +68,35 @@ You
 
 <div markdown="1">
 
-### Available benefits
+#### Available benefits
 
 - Compensation benefits
 - Health care benefits
 
 For questions about your benefits related to mustard gas exposure, send us an e-mail at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov).
 
-### How it works
+#### How it works
 
 Because *exposure* to mustard gas or lewisite is not a service condition, you must claim the disease or condition that is related to the exposure. You should present any military records showing exposure to blistering agents with your claim.
 
 </div>
-
 </div>
-
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
 
-</div>
-</div>
+<h4 class="highlight">Questions</h4>
 
+<ul class="plain">
+
+<li markdown="1">
+For questions about your benefits related to mustard gas exposure, send us an e-mail at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov)
+</li>
+<li markdown="1">
+Find an [Accredited Representative to help you](/disability-benefits/get/filing/help/)
+</li>
+</ul>
+</div>
+</div>
 </div>
 </div>
 
