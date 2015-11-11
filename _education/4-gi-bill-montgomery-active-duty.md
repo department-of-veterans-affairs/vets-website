@@ -12,7 +12,7 @@ concurrence: incomplete
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®?</a></li>
+<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -75,7 +75,8 @@ Yes, if:
 #### Who is covered
 
 - You
-
+</div>
+<div markdown="1">
 #### Available benefits
 
 - School tuition or training fees
@@ -88,8 +89,6 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 - your category (as defined below)
 - college-fund eligibility
 - your contribution to the $600 Buy-Up program
-
-
 
 #### Several related funding or training programs fall under the MGIB-AD umbrella:
 
@@ -106,11 +105,6 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 - [Correspondence courses]({{ site.url }}/education/work-learn/non-traditional/correspondence-training/)
 
 Use the [GI Bill® Comparison Tool]({{ site.url }}/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
-
-</div>
-
-
-<div markdown="1">
 
 “GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
 
