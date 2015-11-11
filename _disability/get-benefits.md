@@ -113,7 +113,7 @@ Choose one of three ways:
 - Work with an [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html), or
 - Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
 
-Note: Active-duty members should learn about [Predischarge Claims]({{ site.url }}/disability-benefits/conditions/time/pre-discharge/).
+Note: Active-duty members should learn about [Predischarge Claims]({{ site.url }}/disability-benefits/claims-process/claim-types/pre-discharge/).
 
 </div>
 
