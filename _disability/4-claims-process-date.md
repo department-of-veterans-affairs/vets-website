@@ -30,15 +30,16 @@ When VA determines it will pay a compensation award based on a claim, it assigns
 
 ### How Effective Dates Are Assigned
 
-Below are explanations of how effective dates are determined in various cases:
+Below are explanations of how effective dates are determined in various cases.
 
 ### Direct Service Connection
 
 The effective date for a disability that resulted from or was aggravated by military service is either:
+
 -	The date VA receives a claim, or
 -	The date entitlement arose—whichever is later.
 
-“The date entitlement arose” means the date a doctor noted in your medical records that the condition existed. (This is also called “by medical evidence.”)
+"The date entitlement arose" means the date a doctor noted in your medical records that the condition existed. (This is also called "by medical evidence.")
 
 If you file a claim within one year of separation from active service, the effective date will be the day following separation.  
 
