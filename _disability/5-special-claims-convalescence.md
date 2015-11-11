@@ -62,7 +62,9 @@ Yes, if:
 You
 
 </div>
+</div>
 
+<div class="small-12 columns">
 <div markdown="1">
 
 #### Available benefits
