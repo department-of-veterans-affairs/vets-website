@@ -62,7 +62,7 @@ Surviving spouses are eligible to receive [Dependency and Indemnity Compensation
 <div class="call-out" markdown="1">
 ### Apply
 
-Use the [GI Bill® Comparison Tool]({{ site.url }}/gibill/) to help you choose a school. Make sure that your selected program is approved for VA training.
+Use the [GI Bill® Comparison Tool]({{ site.url }}/gi-bill-comparison-tool/) to help you choose a school. Make sure that your selected program is approved for VA training.
 
 Fill out [VA Form 22-5490 (Dependents' Application for VA Education Benefits)](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490). Send it to the VA regional office that has jurisdiction over the state where you will advance your education and training. If you are a son or daughter under legal age, a parent or guardian must sign the application. When applying, you will be required to make an irrevocable election of either the Fry Scholarship or the Dependents' Educational Assistance (DEA) program.
 
