@@ -173,7 +173,7 @@ FacilityLocator = (function() {
 
   function markerURL(facility) {
     var types = ["VA Central Offices", "Regional Benefit Office",
-      "Intake Site (Predischarge claims Assistance)", "National Cemetery",
+      "Intake Site (Pre-discharge claims Assistance)", "National Cemetery",
       "VISN", "Outpatient Clinic", "VA Medical Center", "Vet Center"];
 
     var i = types.indexOf(facility.type) + 1;
