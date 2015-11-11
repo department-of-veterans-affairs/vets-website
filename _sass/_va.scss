@@ -214,7 +214,7 @@ span, h2 {
   a {background: $color-gold; color: #444;}
 }
 
-h2 span {clear: both; padding: .1em; display: inline-block; background: $color-gold; font-weight: normal; font-size: .8em;}
+h2 span {clear: both; padding: .1em; display: inline-block; background: $color-gold; font-weight: normal;}
 h2, h3, p {/*padding: .35em; */ margin: 0; display: inline-block; font-family: $roboto-slab;}
 h2 {
   font-size: 1em;
@@ -417,8 +417,8 @@ ul.plain {
 }
 
 .section.main-menu {
-  padding: .5em;
-  @media #{$small} {padding: 0 0 0 0;}
+  padding: .5em .5em 3.35em .5em;
+  @media #{$small} {padding: 0 0 3em 0;}
   background: transparent;
   .navigation {
     padding: 1.5em 0 0 0;
@@ -836,7 +836,7 @@ ul.cards li {
   border-radius: 0;
   padding: 1em .5em;
   height: auto;
-  margin: 0;
+  margin: 0 0 .25em 0;
   background: none;
   &:hover {padding-left: .5em; background: rgba(0,0,0,.1); border-left: 4px solid $color-primary;}
   }
@@ -899,8 +899,8 @@ backface-visibility: hidden;
 
 a, .coming-soon {
   padding: .2em .5em;
-  margin: 0 0 .25em 0;
-  @media #{$small} {padding: .75em;}
+  margin: 0 0 .4em 0;
+  @media #{$small} {padding: .75em; margin: 0 0 .25em 0}
   @media #{$medium} {height: 9em;}
   border-radius: .2em;
   -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
@@ -1176,6 +1176,7 @@ body.page-playbook {
   color:#fff;
   padding: 0 !important;
   margin: 0;
+  background: rgba(0,0,0,.1);
 
 
     .small-block-grid-1 {
@@ -1190,35 +1191,27 @@ body.page-playbook {
     }
   }
 
-  ul, form {
-    margin: 1.5em 0 0 0; padding: 0 0 1em 0;
+  ul {
+    margin: 0;
+    padding: .5em 0;
+    border-bottom: 1px solid $color-primary;
+    @media #{$small} {
+      border-bottom: none;
+      padding: 0;
+      margin: 1.5em 0 0 0;
+    }
   }
-  background: #0e345e; /* Old browsers */
   padding: 0;
   li, p, a {
     color: #fff;
     font-size: 1em;
   }
-  // .row.secondary {
-  //   background:url(../images/design/seal/seal.png) no-repeat;
-  //   padding: 0;
-  //     @media #{$small-up} {
-  //       background-size:50px;
-  //       background-position: 4% 15%;
-  //     }
-  //     @media #{$medium-up} {
-  //       background-size: 50px;
-  //       background-position: 2% 50%;
-  //       padding: 0;
-  //     }
-  // }
 
 a {
   text-decoration: underline;
   display: block;
   background: none;
   font-weight: 400;
-  padding: .65em 0;
   @media #{$small} {display: inline-block; padding: .25em 0;}
   &:hover {color:#fff;}
   &.contact, &.blog {
@@ -2249,4 +2242,97 @@ button[class*="usa-button-"] {
 
 body.home .disclaimer, body.page-playbook .disclaimer {
   display: none;
+}
+
+
+// Mobile menu
+
+/* Overlay style */
+.overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+  z-index: 800;
+	background: rgba($color-primary-darkest, .9);
+}
+
+/* Overlay closing cross */
+.overlay .overlay-close {
+	border: none;
+	outline: none;
+	z-index: 100;
+}
+
+
+button#trigger-overlay {
+  padding: .5em;
+  margin-top: 0;
+  border-radius: .15em;
+}
+
+/* Effects */
+.overlay-fullscreen {
+	opacity: 0;
+	visibility: hidden;
+	-webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+	transition: opacity 0.5s, visibility 0s 0.5s;
+
+  button {
+    border-radius: 0;
+    display: block;
+    width: 100% !important;
+    margin: 0;
+    width: auto;
+    background: $color-primary;
+
+  }
+
+  input[type="text"] {
+    border-radius: 3px 0 0 3px;
+    -moz-border-radius: 3px 0 0 3px;
+    -webkit-border-radius: 3px 0 0 3px;
+    -webkit-appearance: none;
+  }
+
+}
+
+.overlay-fullscreen.open {
+	opacity: 1;
+	visibility: visible;
+	-webkit-transition: opacity 0.5s;
+	transition: opacity 0.5s;
+}
+
+.overlay-fullscreen .menu {
+	-webkit-perspective: 1200px;
+	perspective: 1200px;
+  padding: 1em 1em;
+}
+
+.overlay-fullscreen form {
+	opacity: 0.4;
+	-webkit-transform: translateY(-25%) rotateX(35deg);
+	transform: translateY(-25%) rotateX(35deg);
+	-webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+	transition: transform 0.5s, opacity 0.5s;
+}
+
+.overlay-fullscreen.open form {
+	opacity: 1;
+	-webkit-transform: rotateX(0deg);
+	transform: rotateX(0deg);
+}
+
+.overlay-fullscreen.close form {
+	-webkit-transform: translateY(25%) rotateX(-35deg);
+	transform: translateY(25%) rotateX(-35deg);
+}
+
+@media screen and (max-height: 30.5em) {
+	.overlay form {
+		height: 70%;
+	}
+
 }
