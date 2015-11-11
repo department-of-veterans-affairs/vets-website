@@ -28,6 +28,8 @@ html, body {
 body, body.home {
   background: $color-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
   background-size: contain;
+  color: #fff;
+  a {color: #fff;}
 }
 
 
