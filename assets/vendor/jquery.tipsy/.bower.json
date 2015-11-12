@@ -1,0 +1,28 @@
+{
+  "name": "jquery.tipsy",
+  "main": "js/jquery.tipsy.min.js",
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "test"
+  ],
+  "homepage": "https://github.com/CreativeDream/jquery.tipsy",
+  "authors": [
+    "CreativeDream <yuliangagarin@mail.ru>"
+  ],
+  "description": "Tipsy is a jQuery plugin for creating tooltips.",
+  "license": "MIT",
+  "dependencies": {
+    "jquery": ">= 1.7.2"
+  },
+  "_release": "e094afea83",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "e094afea83afe93898e5aa6f876c4ca1da0ecefc"
+  },
+  "_source": "git://github.com/CreativeDream/jquery.tipsy.git",
+  "_target": "*",
+  "_originalSource": "jquery.tipsy",
+  "_direct": true
+}
