@@ -31,9 +31,9 @@ concurrence: incomplete
 
 <div markdown="1">
 
-Non-Hodgkin's lymphoma is a type of cancer of the lymph glands and other lymphatic tissue – a part of the body's immune system that helps to fight infection and disease.
+Non-hodgkin's lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of the body's immune system that helps to fight infection and disease.
 
-Signs of Non-Hodgkin’s lymphoma include:
+Signs of non-Hodgkin’s lymphoma include:
 
 - Swollen, painless lymph nodes in the neck, armpit, or groin
 - Fever
@@ -48,13 +48,13 @@ Signs of Non-Hodgkin’s lymphoma include:
 
 <div class="call-out" markdown="1">
 
-### Are you Eligible for Benefits?
+### Are you eligible for benefits?
 
-Yes, if
+Yes, if:
 
-- You are ill with Non-Hodgkin’s lymphoma
-- You were exposed to Agent Orange during military service
-- You served in Vietnam or in the waters off Vietnam during the Vietnam War era, the Korean demilitarized zone, or another area where Agent Orange was stored, tested or sprayed.
+- You are ill with Non-hodgkin’s lymphoma.
+- You were exposed to Agent Orange during military service.
+- You served in Vietnam or in the waters off Vietnam during the Vietnam War era, in the Korean demilitarized zone, or in another area where Agent Orange was stored, tested or sprayed.
 
 #### Who is covered
 
@@ -67,19 +67,19 @@ Yes, if
 ### Available benefits
 
 - Compensation
-- Health Care
+- Health care
 - [Agent Orange Registry health exam]( http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
 
 ### How it works
 
-VA considers Non-Hodgkins Lymphoma to related to exposure to Agent Orange. When you apply for benefits, VA will forego the normal requirement that you prove your illness is related to Agent Orange or that it began during -- or was worsened by -- your military service.
+VA considers non-Hodgkin's lymphoma to be related to exposure to Agent Orange. When you apply for benefits, VA will forego the normal requirement that you prove your illness is related to Agent Orange or that it began during—or became worse because of—your military service.
 
-Learn more about [benefits related to Agent Orange](exposurehttp://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
+Learn more about [benefits related to Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
 
 **Need help determining exposure?**
 
-VA will help you determine exposure to Agent Orange or other herbicides during military service after you [file a claim for compensation benefits.](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation)
-Learn more about [Agent Orange exposure locations](http://www.publichealth.va.gov/exposures/agentorange/locations/thailand.asp#sthash.oK22WgPr.dpuf)
+VA will help you determine exposure to Agent Orange or other herbicides during military service after you [file a claim for compensation benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
+Learn more about [Agent Orange exposure locations](http://www.publichealth.va.gov/exposures/agentorange/locations/thailand.asp#sthash.oK22WgPr.dpuf).
 
 Visit [Medline Plus](https://www.nlm.nih.gov/medlineplus/ency/article/000581.htm) to learn about treatment of non-Hodgkin’s lymphoma, the latest research, and more from the National Institutes of Health.
 
