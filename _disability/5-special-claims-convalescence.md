@@ -11,7 +11,7 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/special-claims/">Special Claims</a></li>
 <li class="active">{{ page.title }}</li>
@@ -38,32 +38,49 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp
 
 ### Temporary Rating Due to Surgery or Immobilization
 
-You may be eligible for a temporary 100% disability rating while you recover from surgery, or from an immobilizing disability related to your service. 
+You may be eligible for a temporary 100% disability rating while you recover from surgery, or from an immobilizing disability related to your service.
 
 <div class="call-out" markdown="1">
-### Are you Eligible for Compensation?
 
-**Yes, if:**
+### Are you eligible for compensation?
 
--	You have had a surgery or other treatment performed by a VA hospital or an approved hospital or outpatient facility for a service-connected disability **and**
--	The surgery required convalescence of at least one month **or**
--	The evidence shows that the surgery or treatment was for a service-connected disability **and**
--	The surgery resulted in severe postoperative residuals, such as incompletely healed surgical wounds, stumps of recent amputations, therapeutic immobilizations, house confinement, or required use of a wheelchair or crutches **or**
--	One major joint or more was immobilized by a cast without surgery
+Yes, if:
 
-#### Who's covered:
-- You
+-	You have had a surgery or other treatment performed by a VA hospital or an approved hospital or outpatient facility for a service-connected disability, and
+-	The surgery required convalescence of at least one month, or
+-	The evidence shows that the surgery or treatment was for a service-connected disability, and
+-	The surgery resulted in severe postoperative residuals, such as
+    - incompletely healed surgical wounds
+    - stumps of recent amputations
+    - therapeutic immobilizations
+    - house confinement
+    - or required use of a wheelchair or crutches, or
+-	One major joint or more was immobilized by a cast without surgery.
 
-#### Available benefits:
+#### Who is covered
+
+You
+
+</div>
+</div>
+
+<div class="small-12 columns">
+<div markdown="1">
+
+#### Available benefits
+
 -	Temporary increase in compensation benefits
 -	Health care benefits
 -	Temporary 100% disability rating
 
-#### How it works:
-A temporary 100% rating is for convalescence based on surgery or immobilization of a joint by a cast without surgery for a service-connected disability. The temporary 100% rating may continue for 1 to 3 months depending on individual circumstances, with possible extensions up to an additional 3 months in severe cases.
+#### How it works
+
+A temporary 100% rating is for convalescence based on surgery or immobilization of a joint by a cast without surgery for a service-connected disability. The temporary 100% rating may continue for one to three months depending on individual circumstances, with possible extensions up to an additional three months in severe cases.
 
 #### Example
+
 A Veteran has a left knee condition that resulted in a 30% disability rating. Due to further deterioration of the knee, the VA physician recommended surgery to arrest the problem. Since the success of the surgery won't be known for three months following the one week of hospitalization, VA granted the Veteran a temporary 100% disability rating for three months.
+
 </div>
 </div>
 </div>

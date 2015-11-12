@@ -10,7 +10,7 @@ source: http://www.benefits.va.gov/compensation/types-claims.asp
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility/">Eligibility</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types">Claim types</a></li>
@@ -27,7 +27,7 @@ source: http://www.benefits.va.gov/compensation/types-claims.asp
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-The first disability claim filed is considered the Original Claim.  A Service Member within 180 days of separation, Veteran or survivor of deceased Veteran may file an Original Claim.
+The first disability claim filed is considered the Original Claim.  A Servicemember within 180 days of separation, Veteran or survivor of deceased Veteran may file an Original Claim.
 
 </div>
 </div>

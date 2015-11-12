@@ -11,7 +11,7 @@ template: 2-detailed-landing
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
@@ -36,7 +36,6 @@ template: 2-detailed-landing
 <div class="small-12 columns" markdown="1">
 
 Veterans may be eligible for other types of disability compensation once a disability has been determined to be service connected. Special VA disability compensation programs include: individual unemployability, automobile allowance, clothing allowance, prestabilization, hospitalization, convalescence, dental, and birth defects.
-Learn more about [Special Claims](http://www.va.gov/opa/publications/benefits_book/benefits_chap02.asp)
 
 If you are a Veteran with a service-connected disability rating, you may be eligible for special compensation to help with the following:
 
@@ -49,13 +48,15 @@ If you are a Veteran with a service-connected disability rating, you may be elig
 - Dentistry
 - Birth Defects / Spina Bifida
 
+Learn more about [Special Claims](http://www.va.gov/opa/publications/benefits_book/benefits_chap02.asp)
+
 ### Quick Links:
 
-[Housing Grants for Disabled Veterans](Link)
-[Supplemental Financing](Link)
-[Special Home Adaptation Grant](Link)
-[Temporary Residence Adaptation](Link)
+- [Housing Grants for Disabled Veterans](http://www.benefits.va.gov/homeloans/adaptedhousing.asp)
+- [Special Home Adaptation Grant](http://www.benefits.va.gov/homeloans/adaptedhousing.asp)
+- [Temporary Residence Adaptation](http://www.benefits.va.gov/BENEFITS/factsheets/homeloans/sahfactsheet.pdf)
 
+If you are a Veteran with a service-connected disability rating, you may be eligible for special compensation to help with the following:
 
 </div>
 </div>
@@ -69,50 +70,56 @@ If you are a Veteran with a service-connected disability rating, you may be elig
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/automobile/">
-<h4>Automobile use claims</h4>
+<h5>Automobile use claims</h5>
+</a>
+</li>
+
+<li>
+<a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/birth-defects/index.html">
+<h5>Birth Defects / Spina Bifida</h5>
 </a>
 </li>
 
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/clothing/">
-<h4>Clothing Allowance</h4>
+<h5>Clothing Allowance</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/convalescence/">
-<h4>Convalescence</h4>
+<h5>Convalescence</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/dentistry/">
-<h4>Dentistry</h4>
+<h5>Dentistry</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/hospitalization/">
-<h4>Hospitalization</h4>
+<h5>Hospitalization</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/individual-unemployability">
-<h4>Individual Unemployability</h4>
+<h5>Individual Unemployability</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/title-38-USC-1151/">
-<h4>Title 38 U.S.C. 1151</h4>
+<h5>Title 38 U.S.C. 1151</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/prestabilization/">
-<h4>Prestabilization Ratings</h4>
+<h5>Prestabilization Ratings</h5>
 </a>
 </li>
 

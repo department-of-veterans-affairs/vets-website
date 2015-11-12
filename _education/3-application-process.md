@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/process/index.html
-title: Education Application Process
+title: Apply for Education Benefits
 template: 7-get-page
 concurrence: incomplete
 ---
@@ -32,7 +32,7 @@ The time it takes to process your education or training claim depends on your re
 <div class="small-12 columns" markdown="0">
 
 <div markdown="1">
-### How it works:
+### How it works
 </div>
 
 
@@ -46,9 +46,9 @@ The time it takes to process your education or training claim depends on your re
 
 <div class="feature" markdown="1">
 
-- 	Learn about schools offering VA-approved programs by using the [comparison tool](http://www.benefits.va.gov/gibill/comparison_tool.asp) or (http://department-of-veterans-affairs.github.io/gi-bill-comparison-tool/).
+- Learn about schools offering VA-approved programs by using the [comparison tool]({{ site.url }}/gi-bill-comparison-tool/).
 
--	Decide [which school] (http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
+-	Decide [which school](http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
 
 -	Please note that it is not required, but is an option, to apply to a chosen school prior to applying for benefits.
 

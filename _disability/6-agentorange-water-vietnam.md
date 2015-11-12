@@ -11,7 +11,7 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
@@ -46,7 +46,7 @@ template: 4-action-page
 
 <div markdown="1">
 
-If you served on a Blue Water Navy ship on the coastal or inland waterways of Vietnam between January 9, 1962 and May 7, 1975 – and ever came ashore – VA presumes you were exposed to Agent Orange or other tactical herbicides.
+If you served on a Blue Water Navy ship on the coastal or inland waterways of Vietnam between January 9, 1962 and May 7, 1975 – and ever came ashore – VA presumes you were exposed to Agent Orange.
 
 </div>
 
@@ -62,7 +62,7 @@ If you served on a Blue Water Navy ship on the coastal or inland waterways of Vi
 
 <li markdown="1">
 
-[See More](http://www.publichealth.va.gov/exposures/agentorange/locations/blue-water-veterans.asp#sthash.Srfgf1kO.dpuf)
+[Learn More About Blue Water and Agent Orange Here](http://www.publichealth.va.gov/exposures/agentorange/locations/blue-water-veterans.asp#sthash.Srfgf1kO.dpuf)
 
 </li>
 
@@ -82,7 +82,7 @@ If you served on a Blue Water Navy ship on the coastal or inland waterways of Vi
 
 Yes, if:
 
-- You are ill with one, or more, of [these diseases](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) related to Agent Orange
+- You are ill with one, or more, of [these diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange
 
 - Your military record shows that you were aboard one of the [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp) that operated in Vietnam, or
 
@@ -115,7 +115,7 @@ You and your survivors.
 
 You must prove you were aboard one of the U.S. Navy and Coast Guard ships that entered Vietnam’s inland waterways. If your ship docked or landed crewmembers, you must be able to prove that you went ashore.
 
-If you did not go ashore or serve aboard a ship that operated on the inland waterways of Vietnam, you must prove that you were otherwise exposed to herbicides during your military service in order to receive disability compensation for diseases related to Agent Orange exposure. These claims are decided on a case-by-case basis.
+If you did not go ashore or serve aboard a ship that operated on the inland waterways of Vietnam, you must prove that you were otherwise exposed to Agent Orange during your military service in order to receive disability compensation for diseases related to this exposure. These claims are decided on a case-by-case basis.
 
 *Exception:* If you’re a Blue Water Vietnam Veteran with [non-Hodgkin's lymphoma](http://www.publichealth.va.gov/exposures/agentorange/conditions/nonhodgkinslymphoma.asp), you do not need to prove where you were exposed. VA recognizes non-Hodgkin's lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
 

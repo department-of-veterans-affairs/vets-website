@@ -6,9 +6,48 @@
 <!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
 
 <head>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta content="vets.gov" property="og:site_name">
+{% if page.title %}
+<meta content="{{ page.title }}" property="og:title">
+{% else %}
+<meta content="vets.gov" property="og:title">
+{% endif %}
+{% if page.title %}
+<meta content="article" property="og:type">
+{% else %}
+<meta content="website" property="og:type">
+{% endif %}
+{% if page.description %}
+<meta content="{{ page.description }}" property="og:description">
+{% else %}
+<meta content="{{ site.description }}" property="og:description">
+{% endif %}
+{% if page.url %}
+<meta content="{{ site.url }}{{ page.url }}" property="og:url">
+{% endif %}
+{% if page.date %}
+<meta content="{{ page.date | date_to_xmlschema }}" property="article:published_time">
+<meta content="{{ site.url }}/about/" property="article:author">
+{% endif %}
+<meta content="{{ site.url }}/assets/images/design/logo/logo-alt.png" property="og:image">
+
+{% if page.categories %}
+{% for category in page.categories limit:1 %}
+<meta content="{{ category }}" property="article:section">
+{% endfor %}
+{% endif %}
+{% if page.tags %}
+{% for tag in page.tags %}
+<meta content="{{ tag }}" property="article:tag">
+{% endfor %}
+{% endif %}
+
 
 {% if page.title == 'Home' %}
 <title>{{site.name}}</title>
@@ -20,10 +59,10 @@
 <!-- Header Javascript and CSS for animation-->
 <link rel="stylesheet" href="{{ site.url }}/assets/css/vendor/animate.css">
 <script src="{{ site.url }}/assets/js/vendor/jquery-1.11.0.min.js"></script>
-<script src="{{ site.url }}/assets/js/foundation.min.js"></script>
-<script src="{{ site.url }}/assets/js/foundation/foundation.tooltip.js"></script>
+<script src="{{ site.url }}/assets/js/components.js"></script>
 <script src="{{ site.url }}/assets/js/vendor/modernizr.custom.js"></script>
 <script src="{{ site.url }}/assets/js/vendor/wow.min.js"></script>
+
 
 <script>
 new WOW().init();
@@ -59,34 +98,83 @@ new WOW().init();
 <link rel='stylesheet' href='{{ site.url }}/assets/css/ie.css'>
 <![endif]-->
 
+<!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
+<script src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
+<script src="{{ site.url }}/assets/js/vendor/modernizr.custom.js"></script>
 
 </head>
 <body class="{{ page.layout }}">
 <div class="header">
-<div data-alert class="alert-box notice">
+	<div data-alert class="alert-box notice">
+		<div class="row full">
+			<div class="small-12 message">
+				<p><strong>This site is a work in progress.</strong> We&rsquo;re designing in the open. If you don&rsquo;t find what you need, visit <a href="http://www.va.gov">VA.gov</a>.</p>
+			</div>
+		</div>
+	 </div>
+
+<!-- /header alert box -->
 	<div class="row full">
-		<div class="small-12 message">
-		<div class="medium-6 columns">
-			<span>This site is a work in progress.</span>
-			<p>We&rsquo;re designing in the open. If you don&rsquo;t find what you need, visit <a href="http://www.va.gov">va.gov</a>.</p>
+		<div class="small-6 medium-4 columns">
+			<h1 role="banner"><a href="/">Vets.gov</a></h1>
 		</div>
 
-		<div class="medium-6 text-right columns">
-			<div class="button_wrapper">
-				<a href="{{ site.url }}/beta/2015/09/29/why-we-are-designing-in-beta.html" class="usa-button usa-button-outline-inverse">Help Us Create vets.gov: A Message from Secretary Robert McDonald</a>
+		<!-- Mobile search button -->
+		<div class="hide-for-medium-up search-button">
+			<button id="trigger-overlay" type="button" class="usa-button usa-button-outline-inverse" aria-controls="mobile-menu" aria-hidden="true">Search</button>
+		</div>
+
+
+		<div id="mobile-menu" class="overlay overlay-fullscreen" role="dialog">
+			<button type="button" class="overlay-close">Close</button>
+				<div class="menu">
+    		 <form accept-charset="UTF-8" action="https://search.usa.gov/search" id="search_form" method="get">
+				 <div style="margin:0;padding:0;display:inline">
+				 <input name="utf8" type="hidden" value="&#x2713;" /></div>
+				 <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_staging" />
+				 <label for="mobile-query">Search:</label>
+				 <div class="row collapse">
+					 <div class="small-9 columns">
+						 <input autocomplete="off" class="usagov-search-autocomplete" id="mobile-query" name="query" type="text" />
+					 </div>
+					 <div class="small-3 columns">
+						 <input name="commit" type="submit" value="Search" />
+					 </div>
+				 </div>
+				</form>
 			</div>
 		</div>
 
-		</div>
- </div>
-</div>
-<!-- /header alert box -->
-	<div class="row full">
-		<div class="small-12 medium-4 columns">
-			<h1 role="banner"><a href="{{ site.url }}">Veterans.gov</a></h1>
 
+		<div class="medium-5 medium-offset-3 text-right columns show-for-medium-up">
+			<form accept-charset="UTF-8" action="https://search.usa.gov/search" id="search_form" method="get">
+				<div style="margin:0;padding:0;display:inline">
+				<input name="utf8" type="hidden" value="&#x2713;" /></div>
+				<input id="affiliate" name="affiliate" type="hidden" value="vets.gov_staging" />
+				<label for="query">Search:</label>
+				<div class="row collapse">
+					<div class="small-9 columns">
+						<input autocomplete="off" class="usagov-search-autocomplete" id="query" name="query" type="text" />
+					</div>
+					<div class="small-3 columns">
+						<input name="commit" type="submit" value="Search" />
+					</div>
+				</form>
+			</div>
 		</div>
 	</div>
 </div>
 
 <h2 class="sr-only">{{ page.title }}</h2>
+
+<script type="text/javascript">
+//<![CDATA[
+      var usasearch_config = { siteHandle:"vets.gov_staging" };
+
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://search.usa.gov/javascripts/remote.loader.js";
+      document.getElementsByTagName("head")[0].appendChild(script);
+
+//]]>
+</script>

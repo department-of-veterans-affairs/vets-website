@@ -1,4 +1,4 @@
-# Beta site Veterans.gov
+# Vets.gov - beta
 
 ## Setup for your local environment
 
@@ -40,4 +40,3 @@ jekyll serve
 - View the site in your browser by going to http://localhost:4000
 
 Any changes made locally will cause the site to rebuild automagically.
-

@@ -12,7 +12,7 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
@@ -39,13 +39,11 @@ template: 6-info-page
 
 <div markdown="1">
 
-Spina bifida is a birth defect in which the developing baby's spinal cord fails to develop properly. It can be caused by environmental factors. If you have spina bifida or certain other birth defects and are the biological child of a Veteran with qualifying service in South Vietnam or the Republic of Korea, you may be eligible for VA benefits.
+Spina bifida is a birth defect in which the developing baby's spinal cord fails to develop properly. It can be caused by environmental factors. If you are a Veteran with qualifying service in South Vietnam or the Republic of Korea, and your child has spina bifida or certain other birth defects, he or she may be eligible for VA benefits. 
 
 </div>
 
 <div class="call-out" markdown="1">
-
-Spina bifida is a birth defect in which the developing baby's spinal cord fails to develop properly. It can be caused by environmental factors. If you have qualifying service in South Vietnam or the Republic of Korea and have a child with spina bifida or certain other birth defects, you may be eligible for VA benefits.
 
 ### Are you eligible for benefits? 
 
@@ -57,10 +55,10 @@ If you are seeking benefits for the biological child of a male or female Veteran
 - The child was conceived after the parent served in either South Vietnam or the Republic of Korea, and
 - The child was diagnosed with a form of spina bifida other than spina bifida occulta.
 
-#### Birth Defects 
+#### Other Birth Defects 
 Yes, if:
 - You are seeking benefits for the biological child of a female Veteran, and
-- The mother served in South Vietnam during the period from February 28, 1961, through May 7, 1975, and
+- The mother served in South Vietnam during the period from January 9, 1962, through May 7, 1975, and
 - The child was conceived after the mother served in South Vietnam, and
 - The child has a covered birth defect that resulted in a permanent physical or mental disability
 

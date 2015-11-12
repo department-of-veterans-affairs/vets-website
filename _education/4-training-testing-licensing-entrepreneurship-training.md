@@ -34,7 +34,10 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Coming soon.
+If you qualify for any of the GI Bill or educational assistance programs, and you are interested in starting or improving a business, VA can help with [entrepreneurship training](http://www.benefits.va.gov/GIBILL/docs/factsheets/Entrepreneurship_Training.pdf) through VA's Center for Enterprise and the Small Business Administration.
+
+Learn more about [entrepreneurship training](http://www.benefits.va.gov/GIBILL/docs/factsheets/Entrepreneurship_Training.pdf)
+
 
 </div>
 </div>

@@ -3,7 +3,7 @@ layout: page-education
 permalink: education/gi-bill/index.html
 title: GI Bill®
 concurrence: incomplete
-template: 6-info-page
+template: 1-topic-landing
 ---
 
 <div class="splash" markdown="0">
@@ -26,38 +26,11 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you are an eligible member of the Army Reserve, Navy Reserve, Air Force Reserve, Marine Corps Reserve, Coast Guard Reserve, Army National Guard or Air National Guard, you may receive up to 36 months of education and training benefits under the MGIB-SR program. 
+### What is the GI Bill®?
 
-[View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606)
+Since 1944, millions of Veterans have used the GI Bill to pay for college. The GI Bill is designed to help Veterans successfully transition from military to civilian life through educational attainment.  The Post-9/11 GI Bill gives Veterans with active duty service on, or after, Sept. 11 2001, enhanced educational benefits that cover more educational expenses, provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
 
-### Are you eligible for this program?
-
-Yes, if:
-- You have a six-year service obligation in the Selected Reserve. If you are an officer, you must have agreed to serve six years in addition to your original obligation.
-- You complete your initial active duty for training (IADT)
-- You receive a high school diploma or equivalency certificate before completing IADT
-- You remain in good standing while serving in an active Selected Reserve unit
-
-You can use up to $368 per month in financial assistance for the following types of training:
-- [College degree and certificate programs](http://www.benefits.va.gov/gibill/higher_learning.asp)
-- [Co-op training](http://www.benefits.va.gov/gibill/coop_training.asp)
-- [Technical or vocational courses](http://www.benefits.va.gov/gibill/non_college_degree.asp)
-- [Flight training](http://www.benefits.va.gov/gibill/flight_training.asp)
-- [Apprenticeships or on-the-job training](http://www.benefits.va.gov/gibill/onthejob_apprenticeship.asp)
-- [High-tech training](http://www.benefits.va.gov/gibill/accelerated_payments.asp) for Reservists pursuing a non-degree program of education lasting two years or less
-- [Licensing and certification tests](http://www.benefits.va.gov/gibill/licensing_certification.asp)
-- [Entrepreneurship training](http://www.benefits.va.gov/gibill/entrepreneurship_training.asp)
-- [Certain entrance examinations](http://www.benefits.va.gov/gibill/national_testing.asp)
-- [Correspondence courses](http://www.benefits.va.gov/gibill/corresponence_training.asp) [INSERT LINK to Pivotal #99185706]
-- Under certain circumstances, remedial, deficiency, and refresher courses
-
-### How it works
-Complete an application using [VA Form 22-1990](http://www.vba.va.gov/pubs/forms/VBA-22-1990-ARE.pdf), "Application for VA Education Benefits." You can complete the application online through eBenefits.
-
-### Learn more:
-- Visit the GI Bill customer service page to search Frequently Asked Questions or to ask a question online.
-- Call 1-888-GIBILL-1 (1-888-442-4551)
-- For TDD/TYY, use 1-800-829-4833
+This benefit has changed over time, and you currently have several options to choose from. [Veteran Service Officers]({{ site.url }}/disability-benefits/get/filing/help/index.html) and the [GI Bill Comparison Tool]({{ site.url }}/gi-bill-comparison-tool/) can help you pick the right benefit program for your goals.
 
 </div>
 </div>
@@ -70,34 +43,77 @@ Complete an application using [VA Form 22-1990](http://www.vba.va.gov/pubs/forms
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
       <li>
-        <a href="{{ site.url }}/education/gi-bill/foreign-programs/">Foreign Programs</a>
+        <a href="{{ site.url }}/education/gi-bill/foreign-programs/">
+          <h5>Foreign Programs</h5>
+        </a>
       </li>
 
       <li>
-        <a href="{{ site.url }}/education/gi-bill/higher-learning/">Institutions of Higher Learning Undergraduate and Graduate Degrees</a>
+        <a href="{{ site.url }}/education/gi-bill/higher-learning/">
+          <h5>Institutions of Higher Learning Undergraduate and Graduate Degrees</h5>
+        </a>
       </li>
 
 
       <li>
-        <a href="{{ site.url }}/education/gi-bill/post-9-11/">Post 9-11 GI BIll® </a>
+        <a href="{{ site.url }}/education/gi-bill/post-9-11/">
+          <h5>Post 9-11 GI BIll®</h5>
+        </a>
       </li>
 
         <li>
-          <a href="{{ site.url }}/education/gi-bill/transfer/">Transfer Post-9/11 GI Bill® to Spouse and Dependents</a>
+          <a href="{{ site.url }}/education/gi-bill/transfer/">
+            <h5>Transfer Post-9/11 GI Bill® to Spouse and Dependents</h5>
+          </a>
         </li>    
 
         <li>
-          <a href="{{ site.url }}/education/gi-bill/montgomery-active-duty/">Montgomery Active Duty</a>
+          <a href="{{ site.url }}/education/gi-bill/montgomery-active-duty/">
+            <h5>Montgomery Active Duty</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/education/gi-bill/montgomery-selected-reserve/">Montgomery Selected Reserve</a>
+          <a href="{{ site.url }}/education/gi-bill/montgomery-selected-reserve/">
+            <h5>Montgomery Selected Reserve</h5>
+          </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/education/gi-bill/yellow-ribbon/">Yellow Ribbon</a>
+          <a href="{{ site.url }}/education/survivors-dependent-assistance/">
+            <h4 class="alternate">Survivors & Dependent Assistance</h4>
+          </a>
         </li>
 
+        <li>
+          <a href="{{ site.url }}/education/rates/">
+            <h4 class="alternate">Rates</h4>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/education/gi-bill/yellow-ribbon/">
+            <h5>Yellow Ribbon</h5>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/education/gi-bill/tuition-assistance/">
+            <h5>Tuition Assistance Top Up</h5>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/education/gi-bill/buy-up-program/">
+            <h5>$600 Buy-Up Program</h5>
+          </a>
+        </li>
+
+        <li>
+          <a href="{{ site.url }}/education/gi-bill/tutorial-assistance/">
+            <h5>Tutorial Assistance</h5>
+          </a>
+        </li>
 
       </ul>
     </div>

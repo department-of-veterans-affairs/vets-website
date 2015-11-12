@@ -36,22 +36,26 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="1">
 
 If you are pursuing higher education that requires testing as part of the application process, you may be eligible for reimbursement from VA.
-
+</div>
+<div class="small-12 columns" markdown="1">
+<div class="call-out">
 ### Are you eligible for compensation? 
 
 Yes, if: 
-You are a Veteran eligible for the GI Bill®
 
-### Who is covered
-You
+- You are a Veteran eligible for the GI Bill®
 
-### Available benefits
+#### Who is covered
+- You
+
+#### Available benefits
 Compensation benefits, including:
+
 - Registration fees
 - Fees for specialized tests
 - Administrative fees
 
-### How it works: 
+#### How it works: 
 - Proof of payment may be required.
 - [Learn how your GI Bill® benefit package will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for testing expenses.
 - VA reimburses you for some but not necessarily all required test fees.
@@ -80,7 +84,8 @@ Compensation benefits, including:
 - PLA (Prior Learning Assessment) testing through learningcounts.org
 
 [See the complete list of tests and fees](http://inquiry.vba.va.gov/weamspub/buildSearchNE.do)
-
+</div>
+</div>
 
 </div>
 </div>

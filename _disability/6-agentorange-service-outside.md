@@ -11,7 +11,7 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
@@ -39,9 +39,8 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: </dd>
-<dd>Sites: Vietnam, C-123 aircraft, other herbicide-contaminated areas</dd>
-<dd>Who: All Vietnam-era Veterans</dd>
+<dd>Dates: January 9, 1962 and 1986</dd>
+<dd>Sites: Vietnam, C-123 aircraft, other Agent Orange-contaminated areas</dd>
 </dl>
 
 </div>
@@ -55,7 +54,7 @@ template: 4-action-page
 <ul class="plain">
 
 <li markdown="1">
-See more information on [Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
 </li>
 
 
@@ -70,7 +69,7 @@ See more information on [Agent Orange benefits](http://www.publichealth.va.gov/e
 
 <div markdown="1">
 
-If you served were exposed to Agent Orange or other tactical herbicides periods during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam and or the DMZ in Korea.  
+If you served were exposed to Agent Orange during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam and or the DMZ in Korea.  
 
 </div>
 
@@ -109,6 +108,8 @@ Available benefits:
 You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for diseases that VA presumes are related to Agent Orange exposure.
 
 *Exception:* If you’re a Blue Water Veteran with [non-Hodgkin's lymphoma](disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/index.html), you do not need to prove where you were exposed. VA recognizes non-Hodgkin's lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
+
+Learn more about [Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
 
 </div>
 

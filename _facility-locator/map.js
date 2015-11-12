@@ -21,6 +21,25 @@ FacilityLocator = (function() {
       maxZoom: 12,
     });
 
+    // Load facilities
+    $.ajax({
+      dataType: "json",
+      url: "https://s3.amazonaws.com/facility-locator-data/facilities.json",
+      success: function(data) {
+        allFacilities = data;
+        placeMarkers(data);
+
+        // If the map has not yet loaded (which we test with map.getBounds()),
+        // wait until it is to show the facilities list. Otherwise, show it
+        // immediately
+        if (map.getBounds() === undefined) {
+          map.addListener('idle', listFacilities);
+        } else {
+          listFacilities();
+        }
+      }
+    });
+
     searchService = new google.maps.places.PlacesService(map);
 
     // Create the search box and link it to the UI element.
@@ -42,16 +61,6 @@ FacilityLocator = (function() {
 
     // Handle click on "Search" button
     $(".searchButton").click(searchClick);
-
-    // Load facilities
-    $.ajax({
-      dataType: "json",
-      url: "facilities.json",
-      success: function(data) {
-        allFacilities = data;
-        placeMarkers(data);
-      }
-    });
 
     $("#facilityType").change(function(evt) {
       filterFacilities(evt.target.value);
@@ -123,11 +132,6 @@ FacilityLocator = (function() {
     $.each(facilities, function(i, facility) {
       var image = {
         url: markerURL(facility),
-
-        size: new google.maps.Size(40, 66),
-
-        scaledSize: new google.maps.Size(20, 33),
-
         anchor: new google.maps.Point(10, 33)
       };
 
@@ -143,6 +147,10 @@ FacilityLocator = (function() {
 
       var infowindow = new google.maps.InfoWindow({
         content: text
+      });
+
+      google.maps.event.addListener(infowindow, 'domready', function() {
+        infowindow.setContent(facilityHTML(facility));
       });
 
       infowindows[facility.sid] = [infowindow, marker];
@@ -171,7 +179,7 @@ FacilityLocator = (function() {
     var i = types.indexOf(facility.type) + 1;
     if (i === 0) { i = 1; }
 
-    return 'markers/m' + i + '_40.svg';
+    return 'markers/m' + i + '_40.png';
   }
 
   function clearMarkers() {
@@ -254,7 +262,7 @@ FacilityLocator = (function() {
 
     return title + distanceString + "<br>\n" +
       addressString(facility) + "<br>\n" +
-      phone + link + directions
+      phone + link + directions;
   }
 
   // Get Facilities currently within the bounds of the map and update the

@@ -12,7 +12,7 @@ template: 2-detailed-landing
 
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -38,27 +38,26 @@ template: 2-detailed-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Do you have physical or emotional problems that started -- or worsened -- during your active military service? If so, you may be eligible for monthly benefits no matter when or where you served.
+Do you have physical or emotional problems that started—or became worse—during your active military service? If so, you may be eligible for monthly benefits no matter when or where you served.
 
 </div>
 
 <div class="small-12 columns" markdown="0">
 <div class="call-out" markdown="1">
 
-### Are you Eligible for Compensation?
-
+### Are you eligible for compensation?
 Yes, if:
 
-- You became ill or were injured while you were in the military
-- You had an illness or injury before you were in the military, but activities, injury or illness during your service made your condition worse.
+- You became ill or were injured while you were in the military.
+- You had an illness or injury before you were in the military, but activities, injury, or illness during your service made your condition worse.
 
-#### Who is covered:
+#### Who is covered
 
 - You or your dependents
 
-#### How it works:
+#### How it works
 
-When you apply for benefits, you will need prove your problems were caused, or worsened, by your service.
+When you apply for benefits, you will need to prove your problems were caused, or worsened, by your service.
 
 </div>
 </div>
@@ -85,7 +84,7 @@ When you apply for benefits, you will need prove your problems were caused, or w
 
 <div class="small-12 columns" markdown="1">
 
-[Access the complete schedule of disabilities here](http://www.benefits.va.gov/warms/bookc.asp).
+[Access the complete schedule of disabilities](http://www.benefits.va.gov/warms/bookc.asp)
 
 </div>
 
@@ -99,20 +98,6 @@ When you apply for benefits, you will need prove your problems were caused, or w
 <div class="small-12 columns">
 
 <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-<li>
-<a href="{{ site.url }}/disability-benefits/conditions/general-conditions/">
-<h5>General Conditions</h5>
-<span>What sort of conditions can be service connected?</span>
-</a>
-</li>
-
-
-<li>
-<a href="{{ site.url }}/disability-benefits/conditions/pow/">
-<h5>Prisoners of War (<abbr>POW</abbr>s)</h5>
-<span>Physical and emotional conditions resulting from captivity.</span>
-</a>
-</li>
 
 
 <li>
@@ -129,6 +114,13 @@ When you apply for benefits, you will need prove your problems were caused, or w
 </a>
 </li>
 
+<li>
+<a href="{{ site.url }}/disability-benefits/conditions/pow/">
+<h5>Prisoners of War (<abbr>POW</abbr>s)</h5>
+<span>Physical and emotional conditions resulting from captivity.</span>
+</a>
+</li>
+
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/">
@@ -137,18 +129,11 @@ When you apply for benefits, you will need prove your problems were caused, or w
 </a>
 </li>
 
-<li>
-
-  <a href="{{ site.url }}/disability-benefits/conditions/time/">
-  <h5>Service Time</h5>
-  <span>How does the time when I received a disability affect my eligibility?</span>
-  </a>
-</li>
 
 <li>
   <a href="{{ site.url }}/disability-benefits/conditions/service-connected/">
   <h5>Service Connected</h5>
-  <span>What does "service-connected" mean?</span>
+  <span>What does "service connected" mean?</span>
   </a>
 </li>
 

@@ -11,7 +11,7 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
@@ -39,13 +39,11 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: 1962-1975</dd>
-<dd>Sites: Vietnam and Korea</dd>
-<dd>Who: Vietnam era Veterans</dd>
+<dd>Dates: January 9, 1962 and May 7, 1975</dd>
 </dl>
 
 <div markdown="1">
-If you served in Vietnam, including aboard a [ship on the inland waterways](link to Beta site page), for any length of time between January 9, 1962, and May 7, 1975, or in or near the Korean demilitarized zone between April 1, 1968, and August 31, 1971, VA presumes you were exposed to Agent Orange or other herbicides.
+If you served in Vietnam, including aboard a [ship on the inland waterways]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/navy-coast-guard/), for any length of time between January 9, 1962, and May 7, 1975, or in the Korean demilitarized zone between April 1, 1968, and August 31, 1971, VA presumes you were exposed to Agent Orange.
 
 </div>
 
@@ -69,7 +67,7 @@ If you served in Vietnam, including aboard a [ship on the inland waterways](link
 
 Yes, if:
 
-You are ill with one, or more, of these diseases related to Agent Orange
+You are ill with one, or more, of these diseases related to Agent Orange.
 
 </div>
 
@@ -86,7 +84,7 @@ You and your survivors
 
 - Compensation
 - Health care
-- An Agent Orange Registry health exam
+- An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 </div>
 
@@ -94,7 +92,7 @@ You and your survivors
 
 ### How it works
 
-Check the list of [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/water-vietnam/index.html) that operated in Vietnam to confirm whether your service aboard a ship allows VA to concede that you were exposed to Agent Orange.
+Check the list of [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp) that operated in Vietnam to confirm whether your service aboard a ship allows VA to concede that you were exposed to Agent Orange.
 
 </div>
 

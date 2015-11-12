@@ -10,7 +10,7 @@ title: Diseases Associated with Agent Orange
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange">Agent Orange</a></li>
@@ -30,7 +30,7 @@ title: Diseases Associated with Agent Orange
 
 <div markdown="1">
 
-VA recognizes the following diseases as related to Agent Orange and herbicide exposure. If you were exposed, and now have one – or more – of the diseases listed below, you may be eligible for disability compensation.  
+VA recognizes the following diseases as related to Agent Orange. If you were exposed, and now have one – or more – of the diseases listed below, you may be eligible for disability compensation.  
 
 </div>
 
@@ -65,7 +65,7 @@ VA recognizes the following diseases as related to Agent Orange and herbicide ex
 - [Soft Tissue Sarcomas](http://www.publichealth.va.gov/exposures/agentorange/conditions/soft-tissue-sarcoma.asp)<br/>
   (other than osteosarcoma, chondrosarcoma, Kaposi's sarcoma, or mesothelioma)  Different types of cancers in body tissues such as muscle, fat, blood and lymph vessels, and connective tissues.
 
-If you have a disease you think is caused by herbicide exposure, but that disease is not listed here, you may still apply for benefits. In these cases, VA requires evidence of disability and medical evidence of a connection between your condition and herbicide exposure.
+If you have a disease you think is caused by Agent Orange exposure, but that disease is not listed here, you may still apply for benefits. In these cases, VA requires evidence of disability and medical evidence of a connection between your condition and Agent Orange exposure.
 
 VA also considers some [birth defects in children of Vietnam and Korea Veterans](http://www.publichealth.va.gov/exposures/agentorange/birth-defects/index.asp) to be associated with Veterans' military service.
 

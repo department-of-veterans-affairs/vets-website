@@ -12,7 +12,7 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
@@ -36,7 +36,7 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns">
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 ### Are you in crisis? You have options.
 
@@ -46,13 +46,9 @@ template: 6-info-page
 - Call 911.
 - Go to the nearest emergency room.
 
-</div>
-
-<div class="call-out" markdown="1">
-
 ### Post-Traumatic Stress Disorder (PTSD) Basics
 
-If you have symptoms of PTSD and were exposed to actual or threatened death, serious injury, or sexual violation during your military service, you may be eligible for benefits, including compensation and health care. 
+If you have symptoms of PTSD and were exposed to actual or threatened death, serious injury, or sexual violation during your military service, you may be eligible for benefits, including compensation and health care.
 
 </div>
 
@@ -62,34 +58,25 @@ If you have symptoms of PTSD and were exposed to actual or threatened death, ser
 
 Yes, if:
 
--	You have symptoms related to a traumatic event (the "stressor"), or 
+-	You have symptoms related to a traumatic event (the "stressor"), or
 -	Exposure to the stressor is related to the PTSD symptoms
 -	The stressor occurred during your service
 -	You are experiencing impairment as a result of your symptoms
--	You have been diagnosed with PTSD 
+-	You have been diagnosed with PTSD
 
-
-</div>
-
-<div class="call-out" markdown="1">
-
-### Who is covered
+#### Who is covered
 
 You
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 ### Available benefits
 
--	Compensation 
--	Health care 
+-	Compensation
+-	Health care
 -	Treatment for PTSD 
-
-</div>
-
-<div class="call-out" markdown="1">
 
 ### How it works
 

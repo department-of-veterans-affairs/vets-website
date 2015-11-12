@@ -11,7 +11,7 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
@@ -38,9 +38,6 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
 </dl>
 
 <div markdown="1">
@@ -63,41 +60,27 @@ Yes, if:
 -	While demolishing or handling explosive ordinance during Operation Iraqi Freedom, or
 -	In the manufacturing and handling of vesicant (blistering) agents during military service
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### Who is covered
+#### Who is covered
 
 You
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
-### Available benefits
+#### Available benefits
 
 - Compensation benefits
 - Health care benefits
 
-</div>
-
-<div markdown="1">
-
 For questions about your benefits related to mustard gas exposure, send us an e-mail at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov).
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### How it works
+#### How it works
 
 Because *exposure* to mustard gas or lewisite is not a service condition, you must claim the disease or condition that is related to the exposure. You should present any military records showing exposure to blistering agents with your claim.
 
 </div>
-
 </div>
-
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
 
@@ -105,14 +88,15 @@ Because *exposure* to mustard gas or lewisite is not a service condition, you mu
 
 <ul class="plain">
 
-<li>List item</li>
-<li>List item</li>
-<li>List item</li>
-
+<li markdown="1">
+For questions about your benefits related to mustard gas exposure, send us an e-mail at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov)
+</li>
+<li markdown="1">
+Find an [Accredited Representative to help you](/disability-benefits/get/filing/help/)
+</li>
 </ul>
 </div>
 </div>
-
 </div>
 </div>
 

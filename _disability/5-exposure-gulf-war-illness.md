@@ -12,7 +12,7 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
@@ -40,39 +40,44 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
 </dl>
 
 <div markdown="1">
 
 If you served in the [Southwest Asia theater of military operations](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp) or in Afghanistan, you may suffer from certain illnesses, disorders, and conditions that have been linked to your service.
+</div>
+<div class="call-out" markdown="1">
 
 ### Are you eligible for compensation?
 
 Yes, if:
 
 - You served in the Southwest Asia theater of operations during the Gulf War period, or in Afghanistan on or after September 19, 2001.
-- Your diagnosed or undiagnosed chronic conditions appeared during a qualifying period of active service or appeared prior to December 31, 2016, with a disability rating of 10% or more
+- Your diagnosed or undiagnosed chronic conditions appeared during a qualifying period of active service or appeared prior to December 31, 2016, with a disability rating of 10% or more.
 - There exists no other cause for your disability or illness than service in the Southwest Asia theater of military operations or Afghanistan, and
-- For those who served in Afghanistan, a qualifying infectious disease (brucellosis, campylobacter jejuni, coxiella burnetii (Q fever), malaria, mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, or West Nile virus) that began
-- During a qualifying period of service, or
-- Within 1 year from the date of separation from a qualifying period of service (except malaria, which may manifest more than 1 year after qualifying service if standard or accepted medical principles indicate that the incubation period commenced during a qualifying period of service, and visceral leishmaniasis or tuberculosis, which may manifest more than 1 year after service)
+- Those who served in Afghanistan have a qualifying infectious disease (brucellosis, campylobacter jejuni, coxiella burnetii (Q fever), malaria, mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, or West Nile virus) that began either during a qualifying period of service or within one year from the date of separation from a qualifying period of service (except malaria, which may manifest more than one year after qualifying service if standard or accepted medical principles indicate that the incubation period commenced during a qualifying period of service, and visceral leishmaniasis or tuberculosis, which may manifest more than 1 year after service).
 - Your disability existed for six months or more, and
-- You were discharged under conditions other than dishonorable 
- 
+- You were discharged under conditions other than dishonorable.
+
+ </div>
+
+<div markdown="1">
 ### Who is covered
+
 You
 
 ### Available benefits
+
 - Compensation
-- Healthcare 
+- Healthcare
 
 ### How it works
-The conditions that fall under the umbrella of Gulf War Illness are varied and extensive. They include fibromyalgia, chronic fatigue syndrome, functional gastrointestinal disorders, and undiagnosed illnesses such as headaches, joint pain, sleep disorders, and cardiovascular disease. 
+
+The conditions that fall under the umbrella of Gulf War Illness are varied and extensive. They include fibromyalgia, chronic fatigue syndrome, functional gastrointestinal disorders, and undiagnosed illnesses such as headaches, joint pain, sleep disorders, and cardiovascular disease.
+
 
 </div>
+
 </div>
 
 
@@ -83,16 +88,13 @@ The conditions that fall under the umbrella of Gulf War Illness are varied and e
 
 <ul class="plain">
 
-<li></li>
+<li markdown="1">
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
 
-<li>
 </li>
 
-<li>
-Fact Sheet
-C-123 aircraft and Agent Orange exposure
-</li>
 </ul>
+
 </div>
 </div>
 

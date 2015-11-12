@@ -1,6 +1,6 @@
 ---
 layout: page-education
-permalink: education/top-up/buy-up-program/index.html
+permalink: education/gi-bill/buy-up-program/index.html
 title: $600 Buy-Up Program
 Template: 4-action-page
 concurrence: incomplete
@@ -12,7 +12,7 @@ concurrence: incomplete
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/top-up/">Top-up Benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -25,7 +25,7 @@ concurrence: incomplete
 <!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      
+
     </div>
   </div>  
 </div>-->
@@ -35,15 +35,17 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you participate in the $600 Montgomery GI Bill® buy-up program, your GI Bill® monthly payments will increase. 
+If you participate in the $600 Montgomery GI Bill® Buy-Up program, your GI Bill® monthly payments will increase.
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">
 ### How it works
 
+Some Servicemembers may contribute up to an additional $600 to the GI Bill® to receive increased monthly benefits. With a $600 contribution, you can receive up to $5,400 more in GI Bill® benefits. The additional contribution must be made while on active duty. View the increased monthly rates and contact your personnel or payroll office.
+
 [This table](http://www.benefits.va.gov/gibill/resources/benefits_resources/rates/600_buyup.asp) shows the amount of increase you can expect.
 
-*Exception:* This program is intended for use with the Montgomery GI Bill® or REAP and cannot be used with any other program.
+**Note:** This program is intended for use with the Montgomery GI Bill® or REAP and cannot be used with any other program.
 </div>
 
 

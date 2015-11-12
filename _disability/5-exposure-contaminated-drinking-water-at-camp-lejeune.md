@@ -11,7 +11,7 @@ template: 6-info-page
 <div class="small-12 medium-8 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
@@ -38,9 +38,6 @@ template: 6-info-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
 </dl>
 
 <div markdown="1">
@@ -53,23 +50,6 @@ If you served at Camp Lejeune, North Carolina, for 30 days or more from August 1
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
 
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain">
-
-<li>
-List item
-</li>
-
-<li>
-List item
-</li>
-
-<li>
-List item
-</li>
-
-</ul>
 </div>
 </div>
 </div>
@@ -82,29 +62,21 @@ List item
 
 Yes, if:
 
--	You served at Camp Lejeune during the period of contamination (August 1953 through December 1987)
--	You have a current disease and a medical opinion that states the disease is a result of exposure to the contaminated water at Camp Lejeune
+-	You served at Camp Lejeune during the period of contamination (August 1953 through December 1987).
+-	You have a current disease and a medical opinion that states the disease is a result of exposure to the contaminated water at Camp Lejeune.
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 ### Who is covered
 
 You and your family
 
-</div>
-
-<div class="call-out" markdown="1">
-
 ### Available benefits
 
 - Compensation
 - Health care
-
-</div>
-
-<div class="call-out" markdown="1">
 
 ### How it works
 
@@ -112,9 +84,8 @@ Claims are evaluated on a case-by-case basis, and additional evidence may be nec
 
 If you have any of the following material, upload it with your online application:
 
-- Discharge papers (DD214 or equivalent) and other proof you served at Camp Lejeune for longer than 30 days during the eligible period.
-
-- Current medical evidence (doctor and hospital reports) stating the disease is a result of contaminated water at Camp Lejeune.
+-	Discharge papers (DD214 or equivalent) and other proof you served at Camp Lejeune for longer than 30 days during the eligible period.
+-	Current medical evidence (doctor and hospital reports) stating the disease is a result of contaminated water at Camp Lejeune.
 
 </div>
 </div>

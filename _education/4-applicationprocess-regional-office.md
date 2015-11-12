@@ -69,7 +69,7 @@ St. Louis RPO Jurisdiction:
 Colorado, Illinois, Indiana, Iowa, Kansas, Kentucky, Michigan, Minnesota, Missouri, Montana, Nebraska, North Dakota, Ohio, South Dakota, Tennessee, Wisconsin, West Virginia, Wyoming 
 
 
-[MAP](http://www.benefits.va.gov/gibill/regional_processing.asp#muskogee)
+[MAP](http://www.benefits.va.gov/gibill/regional_processing.asp)
 
 
 </div>

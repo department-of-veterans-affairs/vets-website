@@ -11,9 +11,8 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/get/">Apply for Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/get/filing/">Filing</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -40,7 +39,7 @@ If you experience symptoms of certain diseases, such as hypertension, arthritis,
 <div class="call-out" markdown="1">
 ### Are you eligible for compensation?
 
-**Yes, if:**
+Yes, if:
 
 -	You have a disease that is at least 10% disabling within one year after separation from service
 -	The disease is listed in [Title 38, Code of Federal Regulation, 3.09(a)](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc)

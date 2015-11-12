@@ -11,7 +11,7 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
@@ -37,17 +37,12 @@ template: 4-action-page
 <div class="small-12 medium-8 columns">
 
 <dl class="panel-list plain">
-<dt>{{ page.title }}</dt>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
+<dt>Radiogenic Diseases Postservice</dt>
 </dl>
 
 <div markdown="1">
 
-### Radiogenic Diseases Postservice
-
-Radiogenic diseases can be caused by exposure to radiation. If you participated in an activity while on active duty that has a radiation risk, you may have developed one of these [associated diseases](associated-diseases).
+Radiogenic diseases can be caused by exposure to radiation. If you participated in an activity while on active duty that has a radiation risk, you may have developed one of these [associated diseases](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309).
 </div>
 
 <div class="call-out" markdown="1">
@@ -56,10 +51,10 @@ Radiogenic diseases can be caused by exposure to radiation. If you participated 
 
 Yes, if:
 
-- You were interned as a prisoner of war in Japan
-- You participated in the postwar occupation of Hiroshima or Nagasaki
-- You participated in atmospheric nuclear weapons testing
-- You participated in underground nuclear weapons testing at Amchitka Island, Alaska
+- You were interned as a prisoner of war in Japan.
+- You participated in the postwar occupation of Hiroshima or Nagasaki.
+- You participated in atmospheric nuclear weapons testing.
+- You participated in underground nuclear weapons testing at Amchitka Island, Alaska.
 - You were assigned to a gaseous diffusion plant at one of the following:
 	-	Paducah, Kentucky
 	-	Portsmouth, Ohio, or
@@ -67,26 +62,18 @@ Yes, if:
 
 - Your performance of tasks was similar to those that qualify a Department of Energy (DOE) employee as a member of the Special Exposure Cohort under 42 U.S.C. 7384L(14).
 
-</div>
-
-<div class="call-out" markdown="1">
-
 #### Who is covered
 
-- You
+You
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 #### Available benefits
 
 - Compensation benefits
 - Health care benefits
-
-</div>
-
-<div class="call-out" markdown="1">
 
 #### How it works
 
@@ -102,15 +89,7 @@ Yes, if:
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
 
-<h4 class="highlight">Questions</h4>
 
-<ul class="plain">
-
-<li>List item</li>
-<li>List item</li>
-<li>List item</li>
-
-</ul>
 </div>
 </div>
 

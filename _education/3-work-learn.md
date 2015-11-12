@@ -24,7 +24,7 @@ template: 1-topic-landing
 <!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      
+
     </div>
   </div>  
 </div>-->
@@ -34,7 +34,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-You are in charge of designing your own education. VA education benefits, including the GI Bill®, give you a wide range of options, including apprenticeships, overseas schools, and correspondence training. 
+You are in charge of designing your own education. VA education benefits, including the GI Bill®, give you a wide range of options, including apprenticeships, overseas schools, and correspondence training.
 
 </div>
 </div>
@@ -45,29 +45,33 @@ You are in charge of designing your own education. VA education benefits, includ
     <div class="small-12 columns">
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/education/work-learn/workstudy/">Workstudy</a>
+              <a href="{{ site.url }}/education/work-learn/workstudy/">
+                <h5>Workstudy</h5>
+              </a>
             </li>
             <li>
-              <a href="{{ site.url }}/education/work-learn/job-and-apprenticeship/">On-The-Job and Apprenticeship</a>
+              <a href="{{ site.url }}/education/work-learn/job-and-apprenticeship/">
+                <h5>On-The-Job and Apprenticeship</h5>
+              </a>
             </li>
             <li>
-              <a href="{{ site.url }}/education/work-learn/co-op-training/">Co-Op Training</a>
+              <a href="{{ site.url }}/education/work-learn/co-op-training/">
+                <h5>Co-Op Training</h5>
+              </a>
             </li>
+
             <li>
-              <a href="{{ site.url }}/education/work-learn/non-college-degree-program/">Non-College Degree Program</a>
+              <a href="{{ site.url }}/education/work-learn/non-college-degree-program/">
+                <h5>Non-College Degree Program</h5>
+              </a>
             </li>
+
             <li>
-              <a href="{{ site.url }}/education/work-learn/accelerated-payments/">Accelerated Payments For High-Technology Programs</a>
+              <a href="{{ site.url }}/education/work-learn/non-traditional/">
+                <h5>Non-Traditional Options</h5>
+              </a>
             </li>
-            <li>
-              <a href="{{ site.url }}/education/work-learn/independent-distance-learning/">Independent and Distance Learning Training</a>
-            </li>
-            <li>
-              <a href="{{ site.url }}/education/work-learn/correspondence-training/">Correspondence Training</a>
-            </li>
-            <li>
-              <a href="{{ site.url }}/education/work-learn/foreign-programs/">Foreign Programs</a>
-            </li>
+
           </ul>
         </div>
       </div>

@@ -12,7 +12,7 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
@@ -45,8 +45,8 @@ If you served in Iraq or other countries in the Middle East and Southeast Asia, 
 
 Yes, if:
 
-- You were exposed to asbestos while in military service
-- You have a condition related to the asbestos exposure that occurred in military service
+- You were exposed to asbestos while in military service.
+- You have a condition related to the asbestos exposure that occurred in military service.
 
 </div>
 
@@ -83,11 +83,6 @@ Several military occupational specialties have a risk of exposure to asbestos, i
 
 <div class="call-out" markdown="1">
 
-#### See also:
-
-- Determine eligibility
-- Start application process.
-- Learn more detailed health information about asbestos exposure
 
 </div>
 

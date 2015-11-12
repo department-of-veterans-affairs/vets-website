@@ -1,6 +1,6 @@
 ---
 layout: page-education
-permalink: education/work-learn/correspondence-training/index.html
+permalink: education/work-learn/non-traditional/correspondence-training/index.html
 title: Correspondence Training
 template: 4-action-page
 concurrence: incomplete
@@ -13,6 +13,7 @@ concurrence: incomplete
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/education/work-learn/">Work and Learn</a></li>
+<li class="parent"><a href="{{ site.url }}/education/work-learn/non-traditional/">Non-Traditional Options</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -25,7 +26,7 @@ concurrence: incomplete
 <!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      
+
     </div>
   </div>  
 </div>-->
@@ -40,7 +41,7 @@ If you would like to learn at home or are located in a remote area, corresponden
 <div class="call-out">
 ### Are you eligible for benefits?
 
-**Yes, if:**
+Yes, if:
 
 - You meet the basic requirements for any GI Bill® program
 
@@ -48,7 +49,7 @@ If you would like to learn at home or are located in a remote area, corresponden
 - You or your dependents
 
 #### Available benefits
-- Reimbursed expenses. Read more below. 
+- Reimbursed expenses. Read more below.
 
 
 #### How it works

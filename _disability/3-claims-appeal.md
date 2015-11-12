@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/claims-appeal/index.html
-title: Claims appeal
+title: Appeals
 concurrence: incomplete
 template: 6-info-page
 ---
@@ -11,7 +11,7 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -36,15 +36,15 @@ template: 6-info-page
 
 <div markdown="1">
 
-All benefits decisions can be appealed. If you disagree with all or part of a VA benefits decision, you may file a Notice of Disagreement (NOD). [Veteran Service Organizations](link to Accredited Representative) can assist you with this.
+All benefits decisions can be appealed. If you disagree with all or part of a VA benefits decision, you may file a Notice of Disagreement (NOD). [Veteran Service Organizations]({{ site.url }}/disability-benefits/get/filing/help/index.html) can assist you with this.
 
-### When
+### When do I file an NOD?
 
 You’ll need to file within one year from the date on the letter notifying you about the decision on your claim.
 
 ### What do I file?  
 
-[VA Form 21-0958](http://www.vba.va.gov/pubs/forms/ VBA-21-0958-ARE.pdf).  
+[VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf)
 
 ### What’s next?  
 
@@ -56,13 +56,13 @@ You’ll need to file within one year from the date on the letter notifying you 
 
 If you disagree with the Statement of the Case, you can file a Substantive Appeal to the Board of Veterans’ Appeals.
 
-### When?
+### When do I file a Substantive Appeal?
 
 You’ll need to file within one year from the date on the letter notifying you about the original decision on your claim or 60 days from the date on the letter accompanying the Statement of the Case, whichever gives you more time.
 
 ### What do I file?
 
-[VA Form 9](http://www.va.gov/ vaforms/va/pdf/VA9.pdf). Check the status of your appeal by calling 1-800-827-1000 or going online to [eBenefits] (https://www.ebenefits.va.gov).
+[VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf). Check the status of your appeal by calling 1-800-827-1000 or going online to [eBenefits](https://www.ebenefits.va.gov).
 
 </div>
 
@@ -70,7 +70,7 @@ You’ll need to file within one year from the date on the letter notifying you 
 
 ### How the Board of Appeals works:
 
-If you selected an optional in-person or video teleconference hearing with a Veterans Law Judge at the (Board of Veterans’ Appeals)[LINK TO OUR PAGE], the hearing will be scheduled at your local VA office (or in Washington, DC, if you selected that location).
+If you selected an optional in-person or video teleconference hearing with a Veterans Law Judge at the [Board of Veterans’ Appeals]({{ site.url}}/disability-benefits/claims-appeal/court-of-appeals/veterans-appeals-board/index.html), the hearing will be scheduled at your local VA office (or in Washington, DC, if you selected that location).
 
 - You may request an optional personal hearing before an adjudicator who works at your local VA office or a Veterans Law Judge who works at the Board of Veterans’ Appeals.  
 - If you request an optional hearing, it will significantly delay a Board decision because optional hearings take more time to schedule.  
@@ -87,19 +87,17 @@ If you selected an optional in-person or video teleconference hearing with a Vet
 
 <div markdown="1">
 
-### Filing a Notice of Appeal with the [Court of Appeals for Veteran Claims](link to beta page)
-
-### When?
+#### When?
 
 You’ll need to file within 120 days from the date of the decision by the Board of Veterans’ Appeals (stamped on the first page of the decision).
 
-### What do I file?
+#### What do I file?
 
-File a [Notice of Appeal](http://www.uscourts.cavc.gov/ forms_fees.php). Send your Notice of Appeal to the Clerk of the Court of Appeals for Veterans Claims. Follow these [detailed instructions](http://www.uscourts.cavc.gov/appeal.php).
+File a [Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). Send your Notice of Appeal to the Clerk of the Court of Appeals for Veterans Claims. Follow these [detailed instructions](http://www.uscourts.cavc.gov/appeal.php).
 
-### Learn more:
+#### Learn more:
 
-[http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf)
+[How Do I Appeal Booklet?](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf)
 
 </div>
 </div>
@@ -109,9 +107,19 @@ File a [Notice of Appeal](http://www.uscourts.cavc.gov/ forms_fees.php). Send yo
   <div class="row">
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-appeal/court-of-appeals/">Getting help filing an appeal</a>
+          <a href="{{ site.url }}/disability-benefits/claims-appeal/veterans-appeals-board/">
+            <h5>Board of Veterans Appeals</h5>
+          </a>
         </li>
+
+        <li>
+          <a href="{{ site.url }}/disability-benefits/claims-appeal/court-appeals-veterans-claims/">
+            <h5>Court of Appeals for Veterans Claims</h5>
+          </a>
+        </li>
+
       </ul>
     </div>
   </div>

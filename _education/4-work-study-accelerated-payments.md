@@ -1,7 +1,7 @@
 ---
 layout: page-education
-permalink: education/work-learn/accelerated-payments/index.html
-title: Accelerated Payments For High-Technology Programs
+permalink: education/work-learn/non-traditional/accelerated-payments/index.html
+title: Accelerated Payments for High-Technology Programs
 template: 4-action-page
 concurrence: incomplete
 ---
@@ -13,6 +13,7 @@ concurrence: incomplete
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/education/work-learn/">Work and Learn</a></li>
+<li class="parent"><a href="{{ site.url }}/education/work-learn/non-traditional/">Non-Traditional Options</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -25,7 +26,7 @@ concurrence: incomplete
 <!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      
+
     </div>
   </div>  
 </div>-->
@@ -40,17 +41,17 @@ If you’re enrolled in a high-tech program and intend to work in a high-tech in
 <div class="call-out">
 ### Are you eligible for education benefits?
 
-**Yes, if:** 
+Yes, if:
 
--	You are an active-duty GI Bill® recipient, in which case both degree and non-degree programs qualify
--	You are a REAP recipient or a Reservist using the Reserve GI Bill® while pursuing a non-degree program for two years or less
--	Your tuition and fees exceed 200% of the monthly amount of educational assistance you would otherwise be eligible to receive during the certified period of enrollment
+-	You are an active-duty GI Bill® recipient, in which case both degree and non-degree programs qualify.
+-	You are a REAP recipient or a Reservist using the Reserve GI Bill® while pursuing a non-degree program for two years or less.
+-	Your tuition and fees exceed 200% of the monthly amount of educational assistance you would otherwise be eligible to receive during the certified period of enrollment.
 
 #### Who is covered
-- You
+You
 
 #### Available benefits
-- Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs
+Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs.
 
 #### How it works
 
@@ -76,7 +77,7 @@ And, you must certify that you intend to seek employment in one of the [followin
 - Weapons
 - Nuclear technology
 
-*Exception:* This benefit is not available under the Post-9/11 GI Bill®, Dependents’ Educational Assistance program, or VEAP.
+**Exception:** This benefit is not available under the Post-9/11 GI Bill®, Dependents’ Educational Assistance program, or VEAP.
 </div>
 
 

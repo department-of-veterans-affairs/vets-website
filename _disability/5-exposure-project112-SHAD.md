@@ -11,7 +11,7 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
@@ -38,15 +38,12 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
-<dd>Definition item</dd>
 </dl>
 
 
 <div markdown="1">
 
-If you participated in the chemical and biological warfare testing associated with Projects 112 or Shipboard Hazard and Defense (SHAD) from 1963 to 1974, you are eligible for disability benefits for any illness that may be related to the testing.
+If you participated in the chemical and biological warfare testing associated with Projects 112 or Shipboard Hazard and Defense (SHAD) from 1963 to 1974, you may be eligible for disability benefits for any illness related to the testing.
 
 </div>
 
@@ -57,36 +54,29 @@ If you participated in the chemical and biological warfare testing associated wi
 Yes if:
 
 -	You participated in Projects 112 or SHAD testing.
--	You have a condition believed to be connected to this testing.
+-	You have a condition believed to be caused by this testing.
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
 ### Who is covered
 
 You and your survivors
-
-</div>
-
-<div class="call-out" markdown="1">
 
 ### Available benefits
 
 -	Compensation
 -	Health care
 
-</div>
-
-<div class="call-out" markdown="1">
-
 ### How it works
 
 If you were a participant in Projects 112 or SHAD from 1963 to 1974 and need more information regarding a particular test site, ship, or unit, please refer to the declassified [Department of Defense information sheets]( http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Fact-Sheets).
 
-VA is reaching out to military personnel who participated in Projects 112 and SHAD. If you were involved with the project or have questions regarding whether you were involved and have not received a letter from VA, contact VA at 1-800-749-8387 for verification.
+Veterans or family members with questions about the tests, including their possible participation in them, or, who have information that can substantiate their participation, may contact the Department of Defense at 800-497-6261.
 
-Claims associated with Projects 112 and SHAD are evaluated on a case-by-case basis. While no physical effects are known to be affiliated with exposure during these tests, studies are still being conducted. For more information regarding DOD research and releases related to chemical and biological warfare testing, please reference [GAO and other reported studies]( http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Other-Documents).
+Those who wish to file a claim for benefits based on SHAD should call the VA Special Issues Helpline at 800-749-8387.
+
 
 </div>
 
@@ -95,15 +85,6 @@ Claims associated with Projects 112 and SHAD are evaluated on a case-by-case bas
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
 
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain">
-
-<li>List item</li>
-<li>List item</li>
-<li>List item</li>
-
-</ul>
 </div>
 </div>
 

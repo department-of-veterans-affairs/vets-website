@@ -9,7 +9,7 @@ template: 7-get-page
 <div class="row">
 <div class="small-12 columns">
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 </div>
@@ -21,15 +21,15 @@ template: 7-get-page
 <div class="row" markdown="0">
 <div class="small-12 columns"  markdown="1">
 
-### Who Should Read This
+### Who should read this?
 
 </div>
 
 <div class="small-8 columns"  markdown="1">
 
-- Veterans who are filing claims for Disability Compensation
-- Servicemembers who are getting ready to seperate
-- Survivors of Veterans and Servicemember who can submit compensation claims
+- Veterans who are filing claims for disability benefits.
+- Servicemembers who are getting ready to separate from the military.
+- Survivors of Veterans and Servicemembers who may be eligible for benefits.
 
 </div>
 
@@ -56,9 +56,9 @@ template: 7-get-page
 
 </div>
 
-<div class="small-12 medium-10 columns"  markdown="0">
+<div class="small-12 medium-10 columns"  markdown="1">
 
-The current average (data through September 2015) for the length of time to complete a claim for disability compensation once it has been received by VA is 96.5 days (about 14 weeks or a little over three months).
+This is the [current national average]( http://www.benefits.va.gov/REPORTS/aspire_dashboard.asp) for how long it takes VA to process a disability compensation claim.
 
 
 </div>
@@ -69,84 +69,116 @@ The current average (data through September 2015) for the length of time to comp
 
 ### What are the steps?
 
-<ol class="process" markdown="0">
-<li class="step one wow fadeIn animated" markdown="1">
+<ol class="process">
+<li class="step one wow fadeIn animated">
+
+<div markdown="1">
 
 ##### Prepare
 
-Assemble the documents needed to support your claim.
+- An [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html) can help you prepare and file your claim.
+- Speed up your processing time by filing a [fully developed claim]({{ site.url }}/disability-benefits/get/filing/faster/index.html).
+- Learn more about [evidence requirements]({{ site.url }}/disability-benefits/claims-process/claim-types/standard-claim/index.html).
+
+</div>
 
 <div class="feature" markdown="1">
 
-##### Proof of Service Connection
+###### Documents you’ll need
 
-- Discharge or separation papers (DD214 or equivalent)
-- Get my DD214
-
-##### Proof of Service Connected Injury
-
-- Service Treatment Records if they are in your possession
-- Statements that support your claim if they are in your possession
-
-##### Proof of disability
-
-- VA medical provider records and hospital reports
-- Private medical provider records and hospital reports
+- Discharge papers (DD214 or equivalent)
+- Service Treatment Records
+Both of these documents can be ordered through the [National Archives]( https://www.archives.gov/veterans/military-service-records/).
+Other materials that support your claim, such as:
+- Ship’s logs
+- Historical records
+- Awards
+- Statements from eyewitnesses
+- VA medical records and hospital reports
+- Private medical records and hospital reports
 
 </div>
 
 </li>
 
-<li class="step two wow fadeIn animated" markdown="1">
+<li class="step two wow fadeIn animated">
+
+<div markdown="1">
 
 ##### Apply
 
-You can submit your claim several ways.
+Choose one of three ways:
 
-- [Online](#)
-- By Phone: 1-800-000-000
-- By Mail: Attn: Claims Submission, 810 Vermont St., Washington, DC, 09201
-- In Person
+- Apply online, using [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
+- Work with an [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html), or
+- Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
 
-And there are two claim types.
-
-The VA currently recommends submitting a Fully Developed Claim online. This process is usually the fastest way to get a decision on your application.
-
-- [Fully Developed Claim (FDC)](#) (Recommended)
-- [Standard Claim](#)
-- [Apply Now for Disability Benefits](#)
-
-</li>
-
-<li class="step three va wow fadeIn animated" markdown="1">
-
-##### VA Review
-
-- A Veterans Service Representative at VA is assigned to review your claim.
-- *The Veterans Service Representative may decide that more information is needed to make a decision.*
-
-<div class="feature" markdown="1">
-
-##### If The VA Needs More Information
-
-- The Representative may contact you for more information and/or may work with you to schedule a medical examination for you at a VA facility or a cooperating health care provider facility.
-- If you are scheduled for an exam this will be a special exam only to review your disability claim and not for a general check-up or for other health conditions that you may have at the time of the exam.
-- The Veterans Service Representative may also reach out to other government agencies, such as the Department of Defense, to request more information.
-
-The Veterans Service Representative who reviews your claim may go through more than one round of Reviewing and Clarifying the information that supports your claim. Every claim is different because every Veteran is different. Some claims may require no additional information to make a decision, and some claims may require multiple rounds to make a decision.
+Note: Active-duty members should learn about [Predischarge Claims]({{ site.url }}/disability-benefits/claims-process/claim-types/pre-discharge/).
 
 </div>
 
 </li>
 
+<li class="step three wow fadeIn animated">
 
-<li class="step last four wow fadeIn animated" markdown="1">
+<div markdown="1">
 
-When the Veterans Service Representative reviewing your claim has assembled enough information *they will make a decision on your claim and send it to you by mail.*
+##### VA Review
 
-###### Do I need anything while I'm waiting?
+###### The amount of time it takes to process your claim depends on several factors:
 
-Unless VA writes to you and asks for additional information there is nothing you need to do. VA will send you a letter if further information is needed. This letter will outline the evidence needed to support your claim.
+- The type of claim you filed.
+- How many injuries or disabilities you claimed and how complicated they are.
+- How hard it is for VA to gather the evidence needed to decide your claim.
+
+</div>
+
+
+<div class="feature" markdown="1">
+
+###### Here’s what happens once you’ve filed your claim:
+
+1. VA receives your claim, and it is time and date stamped. **(Claim Received)**
+2. A Veterans Service Representative (VSR) examines your claim. **(Under Review)**
+3. If VA needs additional information (evidence), the VSR will ask you for it or obtain it separately. **(Gathering of Evidence)**
+4. The VSR studies the evidence and makes a recommendation for a rating decision.
+**(Review of Evidence)**
+5. The VSR prepares a report recommending what your rating decision should be. **(Preparation for a Decision)**
+6. A reviewing official examines the VSR report and makes a final rating determination.
+**(Pending Decision Approval)**
+
+</div>
+
+<div class="actions">
+<a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation" class="usa-button-primary">Track the status of your claim at eBenefits</a>
+</div>
+
+<div markdown="1">
+
+###### What if VA needs more information?
+
+- VA may reach out on your behalf to other governmental agencies, such as the Department of Defense, to find records.
+- If VA needs more medical information, they may ask you to provide it.  They may schedule an exam for you at either a VA facility or a civilian health care provider. (Please note: This isn’t a general medical exam. It’s to check out the injuries you listed on your benefits claim.)
+
+###### Do I need to do anything while I’m waiting?
+
+VA will send you a letter if they need more information. Unless VA writes and asks you for additional information, there is nothing else you need to do.
+
+</div>
+
+</li>
+
+<li class="step last four wow fadeIn animated">
+
+<div markdown="1">
+
+##### Decision
+
+When the VA Veterans Service Representative reviewing your claim has studied all the information you submitted, as well as what VA may have gathered on your behalf, the VSR will make a decision and send it to you in a letter.
+
+If you disagree with this decision, you may [file an appeal]({{ site.url }}/disability-benefits/claims-appeal/).
+
+</div>
 
 </li>
 
@@ -178,23 +210,40 @@ Unless VA writes to you and asks for additional information there is nothing you
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/get/filing/faster/">Is there a way to file that can get me a decision faster?</a>
+              <a href="{{ site.url }}/disability-benefits/get/filing/faster/">
+                <h5>What is the fastest way to file a claim?</h5>
+              </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/get/filing/ways/">What are the different ways I can file a claim?</a>
+              <a href="{{ site.url }}/disability-benefits/get/filing/ways/">
+                <h5>What are the different ways I can file a claim?</h5>
+              </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/get/filing/help/">How do I get help determining whether I should file and with filing?</a>
+              <a href="{{ site.url }}/disability-benefits/get/filing/help/">
+                <h5>How do I get help filing a claim?</h5>
+              </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/get/filing/active-duty/">How do I file while on active duty in pre-discharge status?</a>
+              <a href="{{ site.url }}/disability-benefits/get/filing/active-duty/">
+                <h5>How do I file while on active duty?</h5>
+              </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/disability-benefits/get/filing/one-year/">How do I file for Disabilities That Appear Within One Year After Discharge?</a>
+              <a href="{{ site.url }}/disability-benefits/get/filing/one-year/">
+                <h5>How do I file for disabilities that appear within one year after discharge?</h5>
+              </a>
+            </li>
+
+            <li>
+              <a href="{{ site.url }}/disability-benefits/claims-process/date/">
+              <h5>Effective Date of Disability</h5>
+              <span></span>
+              </a>
             </li>
 
           </ul>

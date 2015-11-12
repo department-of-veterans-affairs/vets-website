@@ -11,7 +11,7 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability benefits</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/filing">Filing</a></li>
 <li class="parent"><a href="{{ site.url }}/disability-benefits/filing/active-duty/">Pre-discharge filing status</a></li>
 <li class="active">{{ page.title }}</li>
@@ -36,24 +36,24 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you are a Service Member with a disability, you may begin your claim for compensation 60 to 180 days before separation, retirement, or release from active duty or demobilization. BDD helps you receive your VA disability benefits sooner. 
+If you are a Servicemember with a disability, you may begin your claim for compensation 60 to 180 days before separation, retirement, or release from active duty or demobilization. BDD helps you receive your VA disability benefits sooner.
 
-### Are you eligible for this program? 
+### Are you eligible for this program?
 
-Yes, if: 
--	You have a known separation date 
+Yes, if:
+-	You have a known separation date
 -	You have a separation date 60-180 days from now
 
 ### Who is covered
 You
 
 ### Available benefits
-Disability compensation 
+Disability compensation
 
 ### How it works
-You must give your service treatment records to VA when you apply, and you must complete all phases of VA/DOD medical separation examination processes at point of separation, before your release from the military. 
+You must give your service treatment records to VA when you apply, and you must complete all phases of VA/DOD medical separation examination processes at point of separation, before your release from the military.
 
-BDD is available nationwide and open to all Service Members on full-time active duty, including members of the National Guard and Reserve. Members of the Coast Guard may also participate.
+BDD is available nationwide and open to all Servicemembers on full-time active duty, including members of the National Guard and Reserve. Members of the Coast Guard may also participate.
 
 **Exception:** If you are less than 60 days from separation, you can submit a [Quick Start claim](http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-quickstart.asp).
 
