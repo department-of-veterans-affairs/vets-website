@@ -65,12 +65,13 @@ VA will help determine qualifying service in Vietnam after you [file a claim for
 
 <li markdown="1">
 To contact VA:
-- Call 1-800-827-1000 or 1-800-829-4833 (TDD for hearing impaired)
-- Go to your [nearest VA benefits office](http://www.va.gov/directory/guide/division.asp?dnum=3)
+
+- Call 1-800-827-1000 or 1-800-829-4833 (TDD for hearing impaired).
+- Go to your [nearest VA benefits office](http://www.va.gov/directory/guide/division.asp?dnum=3).
 </li>
 
 <li markdown="1">
-Get more information about [ships that may have been exposed to Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf)
+Get more information about [ships that may have been exposed to Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf).
 </li>
 </ul>
 
@@ -87,7 +88,7 @@ Get more information about [ships that may have been exposed to Agent Orange](ht
 
 Yes, if:
 
-You currently have one or more [of these diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), and
+You currently have one or more of [these diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), and
 
 You served on ships or boats that were part of the Mobile Riverine Force, Inshore Fire Support Division 93, or had one of the following designations:
 
@@ -106,7 +107,7 @@ You served on ships or boats that were part of the Mobile Riverine Force, Inshor
 - WPB (Patrol Boat)
 - YFU (Harbor Utility Craft)
 
-*Even if your vessel is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in VA's alphabetized list of ships that were exposed to Agent Orange. (Check to see if your ship was exposed).*
+**Note:** Even if your vessel is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in VA's alphabetized list of ships that were exposed to Agent Orange. Check to [see if your ship was exposed](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
 
 #### Who is covered
 
@@ -120,13 +121,13 @@ You and your dependents
 
 - Compensation benefits
 - Health benefits
-- An [Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
+- An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 ### How it works
 
-If you served on one of the vessels listed as exposed to Agent Orange, and have a disease listed above, VA will presume that your disease is related to Agent Orange exposure in service.
+If you served on one of the vessels listed as exposed to Agent Orange, and have one or more of [these diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), VA presumes that your disease is related to Agent Orange exposure in service.
 
-If you don’t currently have an Agent Orange–related disability, you and your family may still participate in the Agent Orange Health registry.
+If you don’t currently have an Agent Orange–related disability, you and your family may still participate in the Agent Orange Health Registry.
 
 </div>
 
