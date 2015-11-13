@@ -54,7 +54,7 @@ template: 4-action-page
 
 Yes, if:
 
-- You have an [Agent Orange-related disability]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/).
+- You have an [Agent Orange–related disease]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/).
 - You served in a regular Air Force unit location where a contaminated C-123 was assigned.
 - You regularly and repeatedly had contact with contaminated C-123 aircraft through flight, ground, or medical duties.
 
@@ -68,14 +68,14 @@ This list of military units and Air Force Specialty codes will help you figure o
 
 Yes, if:
 
-- You have an [Agent Orange–related disability]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/).
+- You have an [Agent Orange–related disease]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/).
 - You were assigned to flight, ground, or medical crew duties at any of the following locations:
   - **Lockbourne/Rickenbacker Air Force Base** in Ohio, 1969-1986 (906th and 907th Tactical Air Groups or 355th and 356th Tactical Airlift Squadrons)
   - **Westover Air Force Base** in Massachusetts, 1972-1982 (731st Tactical Air Squadron and 74th Aeromedical Evacuation Squadron, or 901st Organizational Maintenance Squadron)
   - **Pittsburgh, Pennsylvania International Airport**, 1972-1982 (758th Airlift Squadron)
 
 
-This list of military units, Air Force specialty codes, and dates of service will help you figure out if [your unit was exposed](http://www.benefits.va.gov/compensation/docs/AO_C123_AFSpecialityCodesUnits.pdf).
+This list of military units, Air Force specialty codes, and dates of service will help you [figure out if your unit was exposed](http://www.benefits.va.gov/compensation/docs/AO_C123_AFSpecialityCodesUnits.pdf).
 
 </div>
 
