@@ -73,7 +73,6 @@ You
 - Compensation benefits
 - Health care benefits
 
-For questions about your benefits related to mustard gas exposure, send us an e-mail at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov).
 
 #### How it works
 
