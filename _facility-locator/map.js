@@ -24,7 +24,7 @@ FacilityLocator = (function() {
     // Load facilities
     $.ajax({
       dataType: "json",
-      url: "facilities.json",
+      url: "https://s3.amazonaws.com/facility-locator-data/facilities.json",
       success: function(data) {
         allFacilities = data;
         placeMarkers(data);
@@ -151,7 +151,7 @@ FacilityLocator = (function() {
 
       google.maps.event.addListener(infowindow, 'domready', function() {
         infowindow.setContent(facilityHTML(facility));
-      })
+      });
 
       infowindows[facility.sid] = [infowindow, marker];
 
@@ -262,7 +262,7 @@ FacilityLocator = (function() {
 
     return title + distanceString + "<br>\n" +
       addressString(facility) + "<br>\n" +
-      phone + link + directions
+      phone + link + directions;
   }
 
   // Get Facilities currently within the bounds of the map and update the
