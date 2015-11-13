@@ -50,7 +50,7 @@ If you are a Veteran with a service-connected disability rating, you may be elig
 
 Learn more about [Special Claims](http://www.va.gov/opa/publications/benefits_book/benefits_chap02.asp)
 
-### Quick Links:
+#### Quick Links:
 
 - [Housing Grants for Disabled Veterans](http://www.benefits.va.gov/homeloans/adaptedhousing.asp)
 - [Special Home Adaptation Grant](http://www.benefits.va.gov/homeloans/adaptedhousing.asp)

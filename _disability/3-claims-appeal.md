@@ -38,29 +38,29 @@ template: 6-info-page
 
 All benefits decisions can be appealed. If you disagree with all or part of a VA benefits decision, you may file a Notice of Disagreement (NOD). [Veteran Service Organizations]({{ site.url }}/disability-benefits/get/filing/help/index.html) can assist you with this.
 
-### When do I file an NOD?
+#### When do I file an NOD?
 
 You’ll need to file within one year from the date on the letter notifying you about the decision on your claim.
 
-### What do I file?  
+#### What do I file?  
 
 [VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf)
 
-### What’s next?  
+#### What’s next?  
 
 - Your local VA office will prepare and mail to you a written explanation, known as the Statement of the Case (SOC), which explains why your claim was denied.
 - You may submit additional evidence, or request that VA obtain certain evidence for you, after you receive your Statement of the Case.
 - Your local VA office will review your new evidence and send you a Supplemental Statement of the Case.
 
-### What if I still don’t agree?
+#### What if I still don’t agree?
 
 If you disagree with the Statement of the Case, you can file a Substantive Appeal to the Board of Veterans’ Appeals.
 
-### When do I file a Substantive Appeal?
+#### When do I file a Substantive Appeal?
 
 You’ll need to file within one year from the date on the letter notifying you about the original decision on your claim or 60 days from the date on the letter accompanying the Statement of the Case, whichever gives you more time.
 
-### What do I file?
+#### What do I file?
 
 [VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf). Check the status of your appeal by calling 1-800-827-1000 or going online to [eBenefits](https://www.ebenefits.va.gov).
 
@@ -68,7 +68,7 @@ You’ll need to file within one year from the date on the letter notifying you 
 
 <div class="call-out" markdown="1">
 
-### How the Board of Appeals works:
+#### How the Board of Appeals works:
 
 If you selected an optional in-person or video teleconference hearing with a Veterans Law Judge at the [Board of Veterans’ Appeals]({{ site.url}}/disability-benefits/claims-appeal/court-of-appeals/veterans-appeals-board/index.html), the hearing will be scheduled at your local VA office (or in Washington, DC, if you selected that location).
 
@@ -102,7 +102,7 @@ File a [Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). Send you
 </div>
 </div>
 </div>
-
+</div>
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">

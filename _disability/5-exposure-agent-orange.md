@@ -38,49 +38,37 @@ template: 3-panel-filters
 <div markdown="1">
 
 The U.S. military sprayed millions of gallons of Agent Orange on trees and vegetation during the Vietnam War. Several decades later, concerns about the health effects from these chemicals continue.
-
--------------------------------------------
-
+</div>
+<div class="call-out" markdown="1">
 ### Are you eligible for compensation?
 
-</div>
-</div>
-<div class="small-12 columns">
-
-<div class="call-out" markdown="1">
-
-#### Yes if:
+Yes if:
 
 You were exposed to Agent Orange during military service.
 
 #### Who is covered
 
 You or your dependents
-
+</div>
+<div markdown="1">
 #### How it works
 
 [These diseases are a result of exposure to Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/). VA forgoes the normal requirement that you prove an illness began during or was worsened by your military service.
 
 If you have a disease that is [not on this list]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), but you believe is a result of Agent Orange exposure, you will need to prove your illness began or was worsened by your military service.
 
-### See also:
+#### See also:
 
 [Agent Orange Registry Health Exam for Veterans]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
-</div>
-
-<div markdown="1">
-### Related symptoms
-</div>
-
-<div class="call-out" markdown="1">
+#### Related symptoms
 
 - [Non-Hodgkin's Lymphoma and Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/)
 
 </div>
+</div>
 
-
-<h3>Were you exposed?</h3>
+<h4>Were you exposed?</h4>
 
 <ul class="small-block-grid-1 medium-block-grid-2">
 

@@ -41,24 +41,10 @@ template: 4-action-page
 </dl>
 
 <div markdown="1">
-
 If you were exposed to specific environmental hazards (such as burn pits) while serving at military installations in Iraq, Afghanistan, and elsewhere, you may have developed a disease related to this exposure.
-
-</div>
-
-
-</div>
-
-<div class="small-12 medium-4 columns" markdown="0">
-<div markdown="0">
-
 </div>
 </div>
 
-
-</div>
-
-<div class="row">
 <div class="small-12 columns">
 <div class="call-out" markdown="1">
 
@@ -82,15 +68,16 @@ You and your survivors
 
 <div markdown="1">
 
-### Available benefits
+#### Available benefits
 
 - Compensation
 - Health care
 
-### How it works
+#### How it works
 
 You should submit any additional information (such as [Burn Pit Registry]( https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/)) regarding proof of exposure when filing your claim.
 
+</div>
 </div>
 
 </div>

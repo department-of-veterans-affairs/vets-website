@@ -34,11 +34,10 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
+<div markdown="1">
 If you have preexisting pilot qualifications and want to pursue additional certifications, VA offers benefits for you to achieve this.
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out">
+<div class="call-out" markdown="1">
 ### Are you eligible for this benefit?
 
 Yes, if:
@@ -47,8 +46,10 @@ Yes, if:
 - You have a valid medical certification
 
 #### Who is covered
-- You
 
+You
+</div>
+<div markdown="1">
 #### Available benefits
 - Tuition assistance
 
@@ -68,9 +69,8 @@ Get more details about the [Post-9/11 GI Bill®]({{ site.url }}/education/gi-bil
 
 -	If you are enrolled in a vocational flight training program, VA reimburses you for either the full cost of training or the annual maximum for the training, whichever is less. [See annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
 </div>
-
-
 </div>
+
 </div>
 </div>
 

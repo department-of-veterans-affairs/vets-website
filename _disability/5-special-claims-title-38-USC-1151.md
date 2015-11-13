@@ -52,7 +52,8 @@ You have a disabling condition resulting from or aggravated by VA medical treatm
 
 #### Who’s covered
 You
-
+</div>
+<div markdown="1">
 #### Available benefits
 
 Compensation benefits
@@ -62,10 +63,9 @@ Compensation benefits
 When filing your claim, you should submit evidence that the additional disability occurred while in VA care or during VA-sponsored training. The additional disability cannot be a reasonably expected result of or complication from treatment.
 
 This additional disability will be treated “as if service-connected” for payment purposes only.
-
+</div>
 </div>
 
-</div>
 </div>
 </div>
 

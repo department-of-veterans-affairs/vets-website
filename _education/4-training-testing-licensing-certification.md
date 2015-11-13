@@ -34,11 +34,10 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
+<div markdown="1">
 If you are a Veteran looking for employment in a field that requires a license or certification, you may be eligible for VA GI Bill® reimbursement for licensing or certification exams.
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out">
+<div class="call-out" markdown="1">
 ### Are you eligible for compensation?
 
 Yes, if:
@@ -48,7 +47,8 @@ Yes, if:
 
 #### Who is covered
 - You
-
+</div>
+<div markdown="1">
 #### Available benefits
 Reimbursement under the GI Bill®
 
@@ -61,9 +61,8 @@ Find out [how your GI Bill® entitlement will be charged](https://gibill.custhel
 
 Fees associated with obtaining a license or certification are not reimbursable.
 </div>
-
-
 </div>
+
 </div>
 </div>
 

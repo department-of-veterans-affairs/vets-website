@@ -37,8 +37,7 @@ template: 6-info-page
 <div class="small-12 columns">
 
 <div markdown="1">
-
-### Are you in crisis? You have options.
+#### Are you in crisis? You have options.
 
 - Call the Veterans Crisis Line 1-800-273-8255 and press 1 to [talk to someone now](https://www.veteranscrisisline.net/Default.aspx).
 - [Confidential Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/)
@@ -46,15 +45,13 @@ template: 6-info-page
 - Call 911.
 - Go to the nearest emergency room.
 
-### Post-Traumatic Stress Disorder (PTSD) Basics
+#### Post-Traumatic Stress Disorder (PTSD) Basics
 
 If you have symptoms of PTSD and were exposed to actual or threatened death, serious injury, or sexual violation during your military service, you may be eligible for benefits, including compensation and health care.
-
 </div>
 
 <div class="call-out" markdown="1">
-
-### Are you eligible for compensation?
+#### Are you eligible for compensation?
 
 Yes, if:
 
@@ -72,13 +69,13 @@ You
 
 <div markdown="1">
 
-### Available benefits
+#### Available benefits
 
 -	Compensation
 -	Health care
 -	Treatment for PTSD 
 
-### How it works
+#### How it works
 
 Post-traumatic stress disorder (PTSD) can occur after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions after experiencing trauma. If the reactions don't go away over time or they disrupt your life, you may have PTSD. [Learn more](http://www.ptsd.va.gov/public/index.asp)
 

@@ -37,14 +37,10 @@ template: 2-detailed-landing
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
+<div markdown="1">
 Do you have physical or emotional problems that started—or became worse—during your active military service? If so, you may be eligible for monthly benefits no matter when or where you served.
-
 </div>
-
-<div class="small-12 columns" markdown="0">
 <div class="call-out" markdown="1">
-
 ### Are you eligible for compensation?
 Yes, if:
 
@@ -54,18 +50,14 @@ Yes, if:
 #### Who is covered
 
 - You or your dependents
-
+</div>
+<div markdown="1">
 #### How it works
 
 When you apply for benefits, you will need to prove your problems were caused, or worsened, by your service.
 
-</div>
-</div>
 
-<div class="small-12 columns" markdown="1">
-<div class="call-out" markdown="1">
-
-### What sorts of physical and mental health conditions may qualify me for benefits?
+#### What sorts of physical and mental health conditions may qualify me for benefits?
 
 - Chronic back pain
 - Significant loss of hearing
@@ -77,19 +69,12 @@ When you apply for benefits, you will need to prove your problems were caused, o
 - PTSD
 - Major depressive disorder
 - Anxiety disorder
-
-
 </div>
-</div>
-
-<div class="small-12 columns" markdown="1">
 
 [Access the complete schedule of disabilities](http://www.benefits.va.gov/warms/bookc.asp)
-
 </div>
 
 
-</div>
 </div>
 </div>
 

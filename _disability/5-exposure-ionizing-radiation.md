@@ -34,23 +34,16 @@ template: 4-action-page
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 medium-8 columns">
-
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
 <dd>Exposure risks include nuclear testing, having been a POW in Japan, working with x-rays or at a reactor, and more.</dd>
 </dl>
-
 <div class="call-out" markdown="1">
-
 #### Exposure to Ionizing Radiation
 
 If you have certain diseases, including some cancers, and you were exposed to ionizing radiation during service, VA may consider those diseases to be service related. [See a complete list of these diseases in 38 CFR 3.311(b)(2)](http://www.ecfr.gov/cgi-bin/text-idx?c=ecfr&sid=39c7e367a71c8efc570650851b266303&rgn=div5&view=text&node=38:1.0.1.1.4&idno=38#38:1.0.1.1.4.1.66.119)
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### Are you eligible for compensation?
+#### Are you eligible for compensation?
 
 Yes, if:
 
@@ -64,33 +57,20 @@ Yes, if:
 -	The radiogenic disease has manifested within a certain period of time  
 -	You were discharged under conditions other than dishonorable.
 
-</div>
-
-<div class="call-out" markdown="1">
-
 ### Who is covered
 
 You
-
 </div>
-
-<div class="call-out" markdown="1">
-
-### Available benefits
+<div markdown="1">
+#### Available benefits
 
 -	Compensation benefits
 -	Health care benefits
 
-</div>
-
-<div class="call-out" markdown="1">
-
 #### How it works
 
 VA requests from the appropriate military service or the Defense Threat Reduction Agency an estimate of your level or range of radiation exposure. The military service or agency reports to VA the range within which a Veteran may have been exposed, and VA accepts the highest level of the dose range. See [38 CFR 3.311(b)(5)](http://www.warms.vba.va.gov/regs/38CFR/BOOKB/PART3/S3_311.DOC) for more information.
-
 </div>
-
 </div>
 
 <div class="small-12 medium-4 columns" markdown="0">

@@ -28,7 +28,7 @@ template: 6-info-page
 
 A presumed disability is a diagnosed disability that VA considers to be related to a Veteran's service because of the circumstances of the Veteran's military service.
 
-### This may apply to: 
+#### This may apply to: 
 - [Veterans who are former prisoners of war]({{ site.url }}/disability-benefits/conditions/pow/).
 - [Veterans who have certain chronic or tropical diseases that appear within a specific period of time after discharge from service]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/gulf-war-illness/).
 - [Veterans who were exposed to ionizing radiation, mustard gas, or lewisite while in service]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/ionizing-radiation/).

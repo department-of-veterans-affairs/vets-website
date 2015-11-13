@@ -26,10 +26,10 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
+<div markdown="1">
 If you are transitioning out of active service soon, you are entitled to free educational and career counseling services.
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out">
+<div class="call-out" markdown="1">
 
 ### Are you eligible for services?
 
@@ -43,7 +43,8 @@ Yes, if:
 #### Who is covered
 
 - You and your dependents
-
+</div>
+<div markdown="1">
 #### Available benefits
 
 - Academic and career counseling
@@ -59,8 +60,8 @@ As a transitioning Service Member, you are eligible to receive the following ser
 
 [Apply for free counseling services](http://www.vba.va.gov/pubs/forms/VBA-28-8832-ARE.pdf).
 
-Use CareerScope the [VA aptitude assessment tool](https://va.careerscope.net/gibill) at no cost.
-</div>
+Use CareerScope the [VA aptitude assessment tool](https://va.careerscope.net/gibill) at no cost.</div>
+
 </div>
 
 </div>

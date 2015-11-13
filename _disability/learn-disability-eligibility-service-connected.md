@@ -31,7 +31,7 @@ Do you have disabilities that are the result of a disease or injury incurred or 
 - You incurred an injury or disease in service that caused a disability or aggravated a disability that existed prior to service.
 - You are able to link your current disability to an injury or disease experienced during military service.
 
-### What sorts of conditions may qualify me for benefits, including compensation?
+#### What sorts of conditions may qualify me for benefits, including compensation?
 
 Examples of physical conditions and diseases that may qualify you for a disability rating (if determined to be service connected):
 

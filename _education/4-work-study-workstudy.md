@@ -47,8 +47,6 @@ Yes, if:
 And:
 - You are able to complete the work-study contract before the end of your eligibility for education benefits
 - There is a position available within your normal commuting distance
-</div>
-<div class="call-out" markdown="1">
 
 #### Who is Eligible
 

@@ -59,11 +59,11 @@ Veterans and Servicemembers
 
 <div markdown="1">
 
-### Available benefits
+#### Available benefits
 
 Compensation
 
-### How it works
+#### How it works
 
 In the case of these allowances, you must gain VA approval before purchasing an automobile or adaptive equipment. For the adaptive-equipment grant, the compensation may be paid to you or to the seller. For the one-time vehicle purchase grant, the compensation must be paid directly to the seller. You may request and receive either grant before or after military discharge.
 
