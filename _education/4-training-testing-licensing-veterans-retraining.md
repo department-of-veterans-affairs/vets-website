@@ -41,6 +41,7 @@ If you were an unemployed veteran seeking training assistance, the VRAP program 
 ### Are you Eligible for Compensation?
 
 Yes, if:  
+
 -	You were at least 35 but no more than 60 years old
 -	You were unemployed on the date of application
 -	You received an other than dishonorable discharge
