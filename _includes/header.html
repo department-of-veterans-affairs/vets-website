@@ -146,6 +146,7 @@ new WOW().init();
 		</div>
 
 
+        {% if include.search != 'false' %}
 		<div class="medium-5 medium-offset-3 text-right columns show-for-medium-up">
 			<form accept-charset="UTF-8" action="https://search.usa.gov/search" id="search_form" method="get">
 				<div style="margin:0;padding:0;display:inline">
@@ -162,6 +163,7 @@ new WOW().init();
 				</form>
 			</div>
 		</div>
+        {% endif %}
 	</div>
 </div>
 
