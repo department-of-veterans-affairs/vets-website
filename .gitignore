@@ -1,8 +1,8 @@
 _site/
 .DS_Store
+*.log
 
 #Compiled VA files
-_site/index.html
-_site/health-care/types/index.html
+_site
 .ruby-gemset
 .ruby-version

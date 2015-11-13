@@ -40,7 +40,7 @@ template: 4-action-page
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
 <dd>Dates: January 9, 1962 and 1986</dd>
-<dd>Sites: Vietnam, C-123 aircraft, other Agent Orange-contaminated areas</dd>
+<dd>Sites: Vietnam, C-123 aircraft, other Agent Orange–contaminated areas</dd>
 </dl>
 
 </div>
@@ -54,7 +54,7 @@ template: 4-action-page
 <ul class="plain">
 
 <li markdown="1">
-Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
 </li>
 
 
@@ -69,31 +69,31 @@ Find an [Accredited Representative to help you]({{ site.url }}/disability-benefi
 
 <div markdown="1">
 
-If you served were exposed to Agent Orange during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam and or the DMZ in Korea.  
+If you were exposed to Agent Orange during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam or the DMZ in Korea.  
 
 </div>
 
 <div class="call-out" markdown="1">
 
-### Are you Eligible for Compensation?
+### Are you eligible for compensation?
 
 Yes, if:
 
-- You are ill with one, or more, of these diseases related to Agent Orange
+- You are ill with one, or more, of these [diseases related to Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/).
 - Your service involved regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam War Era, or
-- You served in close proximity to areas where [herbicides were tested or stored outside of Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp), or
-- You had regular and repeated contact with a contaminated [C-123 aircraft](http://www.publichealth.va.gov/exposures/agentorange/locations/residue-c123-aircraft/index.asp) or
-- You were associated during your service with projects to test, dispose of, or store Agent Orange
+- You served in close proximity to areas where [herbicides were tested or stored outside of Vietnam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/test-storage/), or
+- You had regular and repeated contact with a contaminated [C-123 aircraft]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/), or
+- You were associated during your service with projects to test, dispose of, or store Agent Orange.
 
 </div>
 
 <div class="call-out" markdown="1">
 
-### Who is covered:
+### Who is covered
 
-You and your survivors.  
+You and your survivors 
 
-Available benefits:
+Available benefits
 
 - Compensation
 - Health care
@@ -103,13 +103,13 @@ Available benefits:
 
 <div class="call-out" markdown="1">
 
-### How it works:  
+### How it works
 
 You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for diseases that VA presumes are related to Agent Orange exposure.
 
-*Exception:* If you’re a Blue Water Veteran with [non-Hodgkin's lymphoma](disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/index.html), you do not need to prove where you were exposed. VA recognizes non-Hodgkin's lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
+**Exception:** If you’re a Blue Water Veteran with [non-Hodgkin's lymphoma]({{ site.url }}disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/index.html), you do not need to prove where you were exposed. VA recognizes non-Hodgkin's lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
 
-Learn more about [Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
+Learn more about [Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
 
 </div>
 
