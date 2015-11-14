@@ -85,8 +85,7 @@ Because *exposure* to mustard gas or lewisite is not a service condition, you mu
 
 <h4 class="highlight">Questions</h4>
 
-<ul class="plain">
-
+<ul class="plain" markdown="0">
 <li markdown="1">
 For questions about your benefits related to mustard gas exposure, send us an e-mail at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov)
 </li>

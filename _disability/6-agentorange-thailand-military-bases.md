@@ -75,7 +75,7 @@ Find an [Accredited Representative to help you]({{ site.url }}/disability-benefi
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="0">
 
-<div markdown="1">
+<div class="call-out" markdown="1">
 
 ### Are you eligible for disability compensation?
 
@@ -83,10 +83,6 @@ Yes, if:
 
 - You served perimeter security duty on RTAF bases in Thailand including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang.
 - You served perimeter security duty while stationed on a US Army installations in Thailand.
-
-</div>
-
-<div class="call-out" markdown="1">
 
 ### Who is covered:
 
