@@ -73,11 +73,14 @@ Find an [Accredited Representative to help you]({{ site.url }}/disability-benefi
 </div>
 
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns" markdown="0">
+
+<div markdown="1">
 
 ### Are you eligible for disability compensation?
 
 Yes, if:
+
 - You served perimeter security duty on RTAF bases in Thailand including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang.
 - You served perimeter security duty while stationed on a US Army installations in Thailand.
 
@@ -86,19 +89,25 @@ Yes, if:
 <div class="call-out" markdown="1">
 
 ### Who is covered:
+
 You, your dependents and survivors
 
 </div>
 
 <div markdown="1">
 
-### Available benefits:
+#### Available benefits:
+
 - Heath care benefits
 - Compensation benefits
 - An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
+</div>
+
+<div markdown="1">
 
 #### How it works:
+
 To receive benefits for [diseases associated with Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence must be provided showing the required perimeter security duty (such as  a dog handler, member of a security squadron, member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
 
 Learn more about [benefits related to Agent Orange exposure.](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
