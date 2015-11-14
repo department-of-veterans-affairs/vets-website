@@ -24,13 +24,19 @@ concurrence: complete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns">
+
+<div markdown="1">
 
 If you file a standard claim, VA will gather evidence from public and private medical facilities so they can process your disability claim. VA will gather evidence from private medical facilities only with your authorization.
 
 #### Who can file a standard claim?  
 
 You, your dependents and survivors
+
+</div>
+
+<div class="call-out" markdown="1">
 
 #### Why use the standard claim process?
 
@@ -40,6 +46,10 @@ If you want VA to assist you in gathering evidence to support your claim, you sh
  - private doctors' offices
  - state and local governments
  - current or former employers
+
+ </div>
+
+ <div markdown="1">
 
 #### Evidence Requirements
 

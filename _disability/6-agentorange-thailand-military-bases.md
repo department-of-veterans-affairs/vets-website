@@ -40,12 +40,12 @@ template: 4-action-page
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
 <dd>Dates: January 9, 1962 and May 7, 1975</dd>
-<dd>Sites: Royal Thai Air Force (RATF) bases and US Army bases in Thailand</dd>
+<dd>Sites: Royal Thai Air Force (RTAF) bases and U.S. Army bases in Thailand</dd>
 </dl>
 
 <div markdown="1">
 
-<p>If your service involved regular daily security duty on the fenced-in perimeters of a U.S. military base in Thailand or Royal Thai Air Force Bases between January 9, 1962, and May 7, 1975, you may be eligible for an acknowledgement of Agent Orange exposure and benefits if you have an associated disease.</p>
+<p>If your service involved regular daily security duty on the fenced-in perimeters of a U.S. military base in Thailand or Royal Thai Air Force Bases between January 9, 1962, and May 7, 1975, and you have an associated disease, you may be eligible for an acknowledgment of Agent Orange exposure and benefits.</p>
 
 </div>
 
@@ -64,7 +64,7 @@ template: 4-action-page
 **Need help determining exposure?**
 VA will help you determine potential exposure to Agent Orange after you file a claim for disability benefits.
 
-Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
 </li>
 </ul>
 
@@ -73,7 +73,7 @@ Find an [Accredited Representative to help you]({{ site.url }}/disability-benefi
 </div>
 
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="0">
+<div class="small-12 columns">
 
 <div class="call-out" markdown="1">
 
@@ -81,10 +81,10 @@ Find an [Accredited Representative to help you]({{ site.url }}/disability-benefi
 
 Yes, if:
 
-- You served perimeter security duty on RTAF bases in Thailand including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang.
-- You served perimeter security duty while stationed on a US Army installations in Thailand.
+- You served perimeter security duty on RTAF bases in Thailand, including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang.
+- You served perimeter security duty while stationed on a U.S. Army installation in Thailand.
 
-### Who is covered:
+### Who is covered
 
 You, your dependents and survivors
 
@@ -92,23 +92,18 @@ You, your dependents and survivors
 
 <div markdown="1">
 
-#### Available benefits:
-
+### Available benefits
 - Heath care benefits
 - Compensation benefits
 - An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
-</div>
 
-<div markdown="1">
+#### How it works
+To receive benefits for [diseases associated with Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence showing the required perimeter security duty (for example, as a dog handler, a member of a security squadron, a member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
 
-#### How it works:
+Learn more about [benefits related to Agent Orange exposure.](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
 
-To receive benefits for [diseases associated with Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence must be provided showing the required perimeter security duty (such as  a dog handler, member of a security squadron, member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
-
-Learn more about [benefits related to Agent Orange exposure.](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
-
-Learn more about [Agent Orange exposure locations](http://www.publichealth.va.gov/exposures/agentorange/locations/thailand.asp#sthash.oK22WgPr.dpuf)
+Learn more about [Agent Orange exposure locations](http://www.publichealth.va.gov/exposures/agentorange/locations/thailand.asp#sthash.oK22WgPr.dpuf).
 
 
 </div>
