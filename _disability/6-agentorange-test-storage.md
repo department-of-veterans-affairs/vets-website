@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/test-storage/index.html
-title: Test and Storage Areas Outside of Vietnam
+title: Testing and Storage Areas Outside of Vietnam
 concurrence: incomplete
 
 ---
@@ -39,7 +39,7 @@ concurrence: incomplete
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: Vietnam era</dd>
+<dd>Dates: Vietnam Era</dd>
 <dd>Sites: Herbicide storage facilities</dd>
 <dd>Who: All branches of service</dd>
 </dl>
@@ -53,8 +53,8 @@ If you participated in the testing or storage of Agent Orange used in Vietnam—
 ### Are you eligible for compensation?
 Yes, if:
 
-- You are ill with one, or more, of [these diseases](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) related to Agent Orange
-- Your service included participation with the testing or storage of Agent Orange used in Vietnam
+- You are ill with one or more of [these diseases](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) related to Agent Orange.
+- Your service included participation in the testing or storage of Agent Orange used in Vietnam.
 </div>
 <div class="call-out" markdown="1">
 ### Who is covered
