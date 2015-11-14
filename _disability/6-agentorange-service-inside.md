@@ -43,7 +43,7 @@ template: 4-action-page
 </dl>
 
 <div markdown="1">
-If you served in Vietnam, including aboard a [ship on the inland waterways]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/navy-coast-guard/), for any length of time between January 9, 1962, and May 7, 1975, or in the Korean demilitarized zone between April 1, 1968, and August 31, 1971, VA presumes you were exposed to Agent Orange.
+If you served in Vietnam, including aboard a [ship on the inland waterways]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/navy-coast-guard/), for any length of time between January 9, 1962, and May 7, 1975, or in the Korean Demilitarized Zone between April 1, 1968, and August 31, 1971, VA presumes you were exposed to Agent Orange.
 
 </div>
 
@@ -67,7 +67,7 @@ If you served in Vietnam, including aboard a [ship on the inland waterways]({{ s
 
 Yes, if:
 
-You are ill with one, or more, of these diseases related to Agent Orange.
+You are ill with one or more of these diseases related to Agent Orange.
 
 </div>
 
