@@ -30,7 +30,7 @@ title: Diseases Associated with Agent Orange
 
 <div markdown="1">
 
-VA recognizes the following diseases as related to Agent Orange. If you were exposed, and now have one – or more – of the diseases listed below, you may be eligible for disability compensation.  
+VA recognizes the following diseases as related to Agent Orange. If you were exposed, and now have one or more of the diseases listed below, you may be eligible for disability compensation.  
 
 </div>
 
@@ -40,10 +40,10 @@ VA recognizes the following diseases as related to Agent Orange. If you were exp
   A rare disease caused when an abnormal protein, amyloid, enters tissues or organs.  
 - [Chronic B-cell Leukemia](http://www.publichealth.va.gov/exposures/agentorange/conditions/bcell-leukemia.asp)<br/>
   A type of cancer that affects white blood cells.
-- [Chloracne](http://www.publichealth.va.gov/exposures/agentorange/conditions/chloracne.asp)<br/>
-  (or similar acneform disease) A skin condition that occurs soon after exposure to chemicals and looks like common forms of acne seen in teenagers. Under VA's rating regulations, it must be at least 10% disabling within one year of exposure to herbicides.
+- [Chloracne](http://www.publichealth.va.gov/exposures/agentorange/conditions/chloracne.asp) (or similar acneform disease)<br/>
+  A skin condition that occurs soon after exposure to chemicals and looks like common forms of acne seen in teenagers. Under VA's rating regulations, it must be at least 10% disabling within one year of exposure to herbicides.
 - [Diabetes Mellitus Type 2](http://www.publichealth.va.gov/exposures/agentorange/conditions/diabetes.asp)<br/>
-  A disease characterized by high blood sugar levels resulting from the body’s inability to produce to right levels of the hormone insulin.
+  A disease characterized by high blood-sugar levels resulting from the body’s inability to produce the right levels of the hormone insulin.
 - [Hodgkin's Disease](http://www.publichealth.va.gov/exposures/agentorange/conditions/hodgkins.asp)<br/>
   A malignant lymphoma (cancer) characterized by progressive enlargement of the lymph nodes, liver, and spleen, and by progressive anemia.
 - [Ischemic Heart Disease](http://www.publichealth.va.gov/exposures/agentorange/conditions/ischemicheartdisease.asp)<br/>
@@ -54,16 +54,16 @@ VA recognizes the following diseases as related to Agent Orange. If you were exp
   A group of cancers that affect the lymph glands and other lymphatic tissue.
 - [Parkinson's Disease](http://www.publichealth.va.gov/exposures/agentorange/conditions/parkinsonsdisease.asp)<br/>
   A progressive disease of the nervous system that affects muscle function.
-- [Peripheral Neuropathy, Early-Onset](http://www.publichealth.va.gov/exposures/agentorange/conditions/peripheral_neuropathy.asp)<br/>
+- [Peripheral Neuropathy, Early Onset](http://www.publichealth.va.gov/exposures/agentorange/conditions/peripheral_neuropathy.asp)<br/>
   A nervous system condition that causes numbness, tingling, and motor weakness. Under VA's rating regulations, it must be at least 10% disabling within one year of herbicide exposure.
 - [Porphyria Cutanea Tarda](http://www.publichealth.va.gov/exposures/agentorange/conditions/porphyria-cutanea-tarda.asp)<br/>
   A disorder characterized by liver dysfunction and by thinning and blistering of the skin in sun-exposed areas. Under VA's rating regulations, it must be at least 10% disabling within one year of exposure to herbicides.
 - [Prostate Cancer](http://www.publichealth.va.gov/exposures/agentorange/conditions/prostate_cancer.asp)<br/>
   Cancer of the prostate.
-- [Respiratory Cancers](http://www.publichealth.va.gov/exposures/agentorange/conditions/respiratory_cancers.asp)<br/>
-  (includes lung cancer)  Cancers of the lung, larynx, trachea, and bronchus.
-- [Soft Tissue Sarcomas](http://www.publichealth.va.gov/exposures/agentorange/conditions/soft-tissue-sarcoma.asp)<br/>
-  (other than osteosarcoma, chondrosarcoma, Kaposi's sarcoma, or mesothelioma)  Different types of cancers in body tissues such as muscle, fat, blood and lymph vessels, and connective tissues.
+- [Respiratory Cancers](http://www.publichealth.va.gov/exposures/agentorange/conditions/respiratory_cancers.asp) (including lung cancer)<br/>
+  Cancers of the lung, larynx, trachea, and bronchus.
+- [Soft Tissue Sarcomas](http://www.publichealth.va.gov/exposures/agentorange/conditions/soft-tissue-sarcoma.asp) (other than osteosarcoma, chondrosarcoma, Kaposi's sarcoma, or mesothelioma)<br/>
+  Different types of cancers in body tissues such as muscle, fat, blood and lymph vessels, and connective tissues.
 
 If you have a disease you think is caused by Agent Orange exposure, but that disease is not listed here, you may still apply for benefits. In these cases, VA requires evidence of disability and medical evidence of a connection between your condition and Agent Orange exposure.
 
