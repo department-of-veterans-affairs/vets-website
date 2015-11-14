@@ -32,21 +32,14 @@ concurrence: incomplete
 </dl>
 
 </div>
-
-
-<div class="small-12 medium-4 columns" markdown="0">
-<div markdown="0">
-
-</div>
-</div>
 </div>
 
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
+<div markdown="1">
 If you are planning to pursue training at a foreign school, you can use VA benefits to cover your tuition and fees.
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out">
+<div class="call-out" markdown="1">
 ### Are you eligible for compensation?
 
 Yes, if:
@@ -55,12 +48,13 @@ Yes, if:
 - Your program is approved by VA
 - Your program at the foreign school is at an institution of higher learning and will earn you a standard college degree or the equivalent. Exception: Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
 
-</div>
+
 
 #### Who is eligible
 
 - You and/or your dependents
-
+</div>
+<div markdown="">
 #### Available benefits
 
 - Significant tuition-funding assistance
@@ -103,9 +97,9 @@ B. Submit your Certificate of Eligibility to the school’s certifying official 
 C. Your school’s certifying official will submit your enrollment information on VA Form 22-1999. Please note you will not receive payments until your enrollment information has been received and processed by VA.
 D. Normally, foreign schools certify their students for one academic year. If you intend to continue your education at the foreign school for longer than one academic year, you may have to reapply. Within 120 days of your reenrollment, you should notify the school of your intention to reenroll and have the appropriate certifying official submit an enrollment certification for your reenrollment. If your school does not have a supply of the enrollment certifications, the school should request them from the Buffalo Regional Office, and they will be mailed directly to the school.
 E. You should keep the school advised of your plans for continuing enrollment in order to avoid any delay in receiving your benefits.
-
-
 </div>
+</div>
+
 </div>
 </div>
 

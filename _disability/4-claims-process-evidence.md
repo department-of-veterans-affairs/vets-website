@@ -71,7 +71,7 @@ Providing relevant information to VA so that records can be requested.
 
 A Veteran filed a disability claim that indicated previous treatment from a private doctor and a previous Social Security disability award. In this case, VA is responsible for obtaining the Social Security records and can assist in obtaining the private physician records. However, ultimate responsibility for obtaining the private records lies with the Veteran.
 
-### Evidence Procedures for Fully Developed Claims and Standard Claims
+#### Evidence Procedures for Fully Developed Claims and Standard Claims
 
 #### Fully Developed Claims
 

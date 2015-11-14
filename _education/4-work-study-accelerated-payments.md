@@ -35,10 +35,10 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
+<div markdown="1">
 If you’re enrolled in a high-tech program and intend to work in a high-tech industry, you may be eligible to receive a lump-sum payment of 60% of tuition and fees. VA issues accelerated payment to you instead of the monthly benefits you would otherwise receive. This program covers the higher per-month costs associated with these courses of study.
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out">
+<div class="call-out" markdown="1">
 ### Are you eligible for education benefits?
 
 Yes, if:
@@ -49,8 +49,10 @@ Yes, if:
 
 #### Who is covered
 You
-
+</div>
+<div markdown="1">
 #### Available benefits
+
 Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs.
 
 #### How it works
@@ -79,9 +81,8 @@ And, you must certify that you intend to seek employment in one of the [followin
 
 **Exception:** This benefit is not available under the Post-9/11 GI Bill®, Dependents’ Educational Assistance program, or VEAP.
 </div>
-
-
 </div>
+
 </div>
 </div>
 

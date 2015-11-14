@@ -34,11 +34,10 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
+<div markdown="1">
 If you are currently using VA educational assistance, and you're struggling with the course work, you may be eligible for a financial supplement to pay for a tutor.
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out">
+<div class="call-out" markdown="1">
 ### Are you eligible for benefits?
 
 Yes, if:
@@ -51,7 +50,8 @@ Yes, if:
 #### Who is covered
 
 You
-
+</div>
+<div markdown="1">
 #### Available benefits
 
 A supplement to the regular education benefit.
@@ -69,8 +69,6 @@ There is no entitlement charge for the first $600 of your [Montgomery GI Bill®]
 
 **Note:** Tutorial Assistance is not available for Reservists using the Reserve Educational Assistance Program benefit.
 </div>
-
-
 </div>
 
 </div>

@@ -34,11 +34,10 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
+<div markdown="1">
 If you are pursuing higher education that requires testing as part of the application process, you may be eligible for reimbursement from VA.
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out">
+<div class="call-out" markdown="1">
 ### Are you eligible for compensation? 
 
 Yes, if: 
@@ -46,8 +45,10 @@ Yes, if:
 - You are a Veteran eligible for the GI Bill®
 
 #### Who is covered
-- You
 
+You
+</div>
+<div markdown="1">
 #### Available benefits
 Compensation benefits, including:
 
@@ -87,7 +88,6 @@ Compensation benefits, including:
 </div>
 </div>
 
-</div>
 </div>
 </div>
 

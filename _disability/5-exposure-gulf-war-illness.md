@@ -36,18 +36,13 @@ template: 4-action-page
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 medium-8 columns">
-
-
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
 </dl>
-
 <div markdown="1">
-
 If you served in the [Southwest Asia theater of military operations](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp) or in Afghanistan, you may suffer from certain illnesses, disorders, and conditions that have been linked to your service.
 </div>
 <div class="call-out" markdown="1">
-
 ### Are you eligible for compensation?
 
 Yes, if:
@@ -59,19 +54,17 @@ Yes, if:
 - Your disability existed for six months or more, and
 - You were discharged under conditions other than dishonorable.
 
- </div>
-
-<div markdown="1">
-### Who is covered
+#### Who is covered
 
 You
-
-### Available benefits
+</div>
+<div markdown="1">
+#### Available benefits
 
 - Compensation
 - Healthcare
 
-### How it works
+#### How it works
 
 The conditions that fall under the umbrella of Gulf War Illness are varied and extensive. They include fibromyalgia, chronic fatigue syndrome, functional gastrointestinal disorders, and undiagnosed illnesses such as headaches, joint pain, sleep disorders, and cardiovascular disease.
 

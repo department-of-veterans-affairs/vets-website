@@ -49,12 +49,12 @@ Yes, if:
 
 <div markdown="1">
 
-### Available benefits
+#### Available benefits
 
 -	Books and supplies stipend
 -	Monthly housing allowance
 
-### How it works
+#### How it works
 
 Participation in these programs generally involves entering into a training contract for a specific amount of time with an employer or union. During training you will likely receive a salary from the employer or union, which typically increases as your skills increase. At the end of your training period, you will get a job certification or journeyman status.
 

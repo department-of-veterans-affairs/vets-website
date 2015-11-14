@@ -53,11 +53,7 @@ Yes, if:
 -	You have experienced a stroke
 -	You have hypertensive vascular disease, including hypertensive heart disease
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### For former POWs who were captive for 30 days or more, the following additional conditions are presumed to be service connected:
+#### For former POWs who were captive for 30 days or more, the following additional conditions are presumed to be service connected:
 
 -	Osteoporosis (for claims filed on or after September 28, 2009; no PTSD diagnosis is required.)
 -	Any nutritional deficiencies, including avitaminosis, beriberi, malnutrition – including optic atrophy connected to malnutrition -- and pellagra
@@ -65,18 +61,11 @@ Yes, if:
 -	Peripheral neuropathy (unless caused by infectious disease.)
 -	Digestive disorders, including peptic ulcer disease, chronic dysentery, irritable bowel syndrome, and cirrhosis of the liver
 
-</div>
-
-<div class="call-out" markdown="1">
-
 #### Who is covered
 
 You
-
 </div>
-
 <div markdown="1">
-
 #### Available benefits
 
 -	Compensation benefits
@@ -85,12 +74,9 @@ You
 #### How it works
 
 Certain conditions are presumed to be related to time spent in captivity. These presumptive disabilities are based on studies of the long-term effects of captivity, deprivation, trauma, and cold injury. If a former POW is diagnosed as having one or more of these conditions to a degree that is at least 10% disabling, VA presumes that it is associated with the POW experience.
-
-</div>
-
-</div>
 </div>
 </div>
 
-
+</div>
+</div>
 </div>

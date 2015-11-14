@@ -57,11 +57,9 @@ Yes, if:
 #### Who is covered
 
 - You
-
 </div>
-<div class="call-out" markdown="1">
-
-### Available benefits
+<div markdown="1">
+#### Available benefits
 
 You may select from the following:
 
@@ -69,10 +67,6 @@ You may select from the following:
 -	Repayment of a qualifying student loan not to exceed $18,000
 -	Educational assistance equal to the three-year monthly Montgomery GI Bill Active Duty rate for 12 months
 -	Educational assistance equal to 50% of the less-than-three-year monthly Montgomery GI Bill Active Duty rate for 36 months
-
-</div>
-
-<div markdown="1">
 
 #### How it works
 

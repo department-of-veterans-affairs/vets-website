@@ -27,10 +27,10 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
+<div markdown="1">
 If your school participates in the Yellow Ribbon Program, you may be able to reduce or eliminate your education costs that are not covered by the [Post-9/11 GI Bill®]({{ site.url }}/education/gi-bill/post-9-11/index.html), such as higher tuition at private colleges or out-of-state schools.
 </div>
-<div class="small-12 column" markdown="1">
-<div class="call-out">
+<div class="call-out" markdown="1">
 ### Are you eligible for benefits?
 
 Yes, if:
@@ -44,7 +44,8 @@ Yes, if:
 #### Who is covered
 
 You and your family members
-
+</div>
+<div markdown="1">
 #### Available benefits
 
 Additional tuition
@@ -62,18 +63,14 @@ Additional tuition
 4. You will receive notice from your school about whether you have been accepted to the program and about the application of the benefit to your tuition.
 
 5. Confirm that your school will submit your enrollment information to VA, and coordinate with VA for the application of the benefit to your tuition or fees.
-</div>
-</div>
 
-<div class="small-12 columns" markdown="1">
-### Learn more:
+#### Learn more:
 
 - [FAQs about the Yellow Ribbon Program](http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf)
 - [Yellow Ribbon Program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/Yellow_Ribbon_Pamphlet.pdf)
 </div>
-
-
 </div>
+
 </div>
 </div>
 

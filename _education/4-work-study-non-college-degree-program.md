@@ -34,10 +34,10 @@ template: 6-info-page
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
+<div markdown="1">
 If you are a Veteran, Servicemember, or eligible dependent interested in non-college degree programs (such as EMT, HVAC repair, truck driving, and more), the GI Bill® may pay all or a portion of your tuition.
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out">
+<div class="call-out" markdown="1">
 ### Are you eligible for benefits?
 
 Yes, if:
@@ -47,8 +47,9 @@ Yes, if:
 
 #### Who is covered
 
-- You and/or your dependents
-
+You and/or your dependents
+</div>
+<div markdown="1">
 #### Available benefits
 
 - Significant tuition assistance
@@ -62,9 +63,8 @@ Post-9/11 GI Bill®: For training offered at non-degree schools, VA pays for in-
 
 Other GI Bill® programs: VA pays a monthly rate that depends on your specific program and your length of active service. [View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
 </div>
-
-
 </div>
+
 </div>
 </div>
 
