@@ -51,6 +51,7 @@ You were exposed to Agent Orange during military service.
 You or your dependents
 </div>
 <div markdown="1">
+
 #### How it works
 
 [These diseases are a result of exposure to Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/). VA forgoes the normal requirement that you prove an illness began during or was worsened by your military service.
@@ -65,7 +66,7 @@ If you have a disease that is [not on this list]({{ site.url }}/disability-benef
 
 - [Non-Hodgkin's Lymphoma and Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/)
 
-</div>
+
 </div>
 
 <h4>Were you exposed?</h4>
