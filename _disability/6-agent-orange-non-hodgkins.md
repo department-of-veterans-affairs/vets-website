@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/index.html
-title: Diseases Associated with Agent Orange
+title: Non-Hodgkins Lymphoma
 concurrence: incomplete
 
 ---
@@ -78,8 +78,8 @@ Learn more about [benefits related to Agent Orange exposure](http://www.publiche
 
 **Need help determining exposure?**
 
-VA will help you determine exposure to Agent Orange or other herbicides during military service after you [file a claim for compensation benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
-Learn more about [Agent Orange exposure locations](http://www.publichealth.va.gov/exposures/agentorange/locations/thailand.asp#sthash.oK22WgPr.dpuf).
+VA will help you determine exposure to Agent Orange or other herbicides during military service after you [file a claim for compensation benefits](https://www.vets.gov/disability-benefits/claims-process/).
+Learn more about [Agent Orange exposure locations](https://www.vets.gov/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/).
 
 Visit [Medline Plus](https://www.nlm.nih.gov/medlineplus/ency/article/000581.htm) to learn about treatment of non-Hodgkin’s lymphoma, the latest research, and more from the National Institutes of Health.
 
