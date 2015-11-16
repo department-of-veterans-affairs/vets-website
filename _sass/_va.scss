@@ -997,10 +997,10 @@ h1 a {
   white-space: nowrap;
   overflow: hidden;
   display: block;
-  width: 210px;
   border-bottom: none;
   text-decoration: none;
-  height: 50px;
+  width: 180px;
+  height: 30px;
   background: url(../images/design/logo/logo-alt.png) top left no-repeat;
   background-size: contain;
   &:hover, &:active, &:focus {

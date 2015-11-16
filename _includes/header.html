@@ -29,13 +29,13 @@
 <meta content="{{ site.description }}" property="og:description">
 {% endif %}
 {% if page.url %}
-<meta content="{{ site.url }}{{ page.url }}" property="og:url">
+<meta content="https://www.vets.gov/{{ page.url }}" property="og:url">
 {% endif %}
 {% if page.date %}
 <meta content="{{ page.date | date_to_xmlschema }}" property="article:published_time">
-<meta content="{{ site.url }}/about/" property="article:author">
+<meta content="https://www.vets.gov/about/" property="article:author">
 {% endif %}
-<meta content="{{ site.url }}/assets/images/design/logo/logo-alt.png" property="og:image">
+<meta content="https://www.vets.gov/assets/images/design/logo/og-image.jpg" property="og:image">
 
 {% if page.categories %}
 {% for category in page.categories limit:1 %}
@@ -47,6 +47,8 @@
 <meta content="{{ tag }}" property="article:tag">
 {% endfor %}
 {% endif %}
+
+<meta property="og:description" content="" />
 
 
 {% if page.title == 'Home' %}
