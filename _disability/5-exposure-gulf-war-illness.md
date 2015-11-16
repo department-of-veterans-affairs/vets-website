@@ -50,7 +50,7 @@ Yes, if:
 - You served in the Southwest Asia theater of operations during the Gulf War period, or in Afghanistan on or after September 19, 2001.
 - Your diagnosed or undiagnosed chronic conditions appeared during a qualifying period of active service or appeared prior to December 31, 2016, with a disability rating of 10% or more.
 - There exists no other cause for your disability or illness than service in the Southwest Asia theater of military operations or Afghanistan, and
-- Those who served in Afghanistan have a qualifying infectious disease (brucellosis, campylobacter jejuni, coxiella burnetii (Q fever), malaria, mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, or West Nile virus) that began either during a qualifying period of service or within one year from the date of separation from a qualifying period of service (except malaria, which may manifest more than one year after qualifying service if standard or accepted medical principles indicate that the incubation period commenced during a qualifying period of service, and visceral leishmaniasis or tuberculosis, which may manifest more than 1 year after service).
+- Those who served in Afghanistan have a qualifying infectious disease (brucellosis, campylobacter jejuni, coxiella burnetii (Q fever), malaria, mycobacterium tuberculosis, nontyphoid salmonella, shigella, visceral leishmaniasis, or West Nile virus) that began either during a qualifying period of service or within one year from the date of separation from a qualifying period of service (except malaria, which may manifest more than one year after qualifying service if standard or accepted medical principles indicate that the incubation period commenced during a qualifying period of service, and visceral leishmaniasis or tuberculosis, which may manifest more than one year after service).
 - Your disability existed for six months or more, and
 - You were discharged under conditions other than dishonorable.
 
@@ -62,7 +62,7 @@ You
 #### Available benefits
 
 - Compensation
-- Healthcare
+- Health care
 
 #### How it works
 
