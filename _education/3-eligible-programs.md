@@ -48,6 +48,11 @@ Before the Post-9/11 GI Bill®, several smaller programs provided education bene
                 <span>Education benefit earned with a mix of military and civilian service.</span>
               </a>
             </li>
+            <li>
+              <a href="{{ site.url }}/education/eligible-programs/veap/">
+                <h5>Veterans Educational Assistance Program (VEAP)</h5>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
