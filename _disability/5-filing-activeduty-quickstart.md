@@ -11,8 +11,9 @@ title: What is Quick Start?
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/filing">Filing</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/filing/active-duty/">Pre-discharge filing status</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/">Claims Process</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/claim-types/">Claim Types</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/claim-types/pre-discharge/">Predischarge</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -37,7 +38,7 @@ title: What is Quick Start?
 
 <div markdown="1">
 
-If you are in predischarge status between 1 to 59 days prior to separation, retirement, or release from active duty or demobilization, Quick Start allows you to submit a claim for disability compensation.
+If you are in predischarge status between 1 and 59 days before separation, retirement, or release from active duty or demobilization, Quick Start allows you to submit a claim for disability compensation.
 
 </div>
 
@@ -47,9 +48,9 @@ If you are in predischarge status between 1 to 59 days prior to separation, reti
 
 Yes, if:
 
--	You have a known separation date
--	Your separation date is 1 to 59 days away
--	You are full-time Active Duty, National Guard, or Reserves
+-	You have a known separation date.
+-	Your separation date is 1 to 59 days away.
+-	You are full-time Active Duty, National Guard, or Reserves.
 
 #### Who is covered
 
@@ -57,7 +58,7 @@ You
 
 #### Available benefits
 
--	Expedited status decision on your disability claim
+Expedited status decision on your disability claim
 
 #### How it works
 
