@@ -95,15 +95,15 @@ You, your dependents and survivors
 ### Available benefits
 - Heath care benefits
 - Compensation benefits
-- An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
+- An [Agent Orange Registry health exam](https://www.vets.gov/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 
 #### How it works
-To receive benefits for [diseases associated with Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/conditions/index.asp) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence showing the required perimeter security duty (for example, as a dog handler, a member of a security squadron, a member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
+To receive benefits for [diseases associated with Agent Orange exposure](https://www.vets.gov/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence showing the required perimeter security duty (for example, as a dog handler, a member of a security squadron, a member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
 
 Learn more about [benefits related to Agent Orange exposure.](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
 
-Learn more about [Agent Orange exposure locations](http://www.publichealth.va.gov/exposures/agentorange/locations/thailand.asp#sthash.oK22WgPr.dpuf).
+Learn more about [Agent Orange exposure locations](https://www.vets.gov/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/).
 
 
 </div>
