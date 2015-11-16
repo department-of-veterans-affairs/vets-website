@@ -36,7 +36,7 @@ template: 6-info-page
 
 <div markdown="1">
 
-All benefits decisions can be appealed. If you disagree with all or part of a VA benefits decision, you may file a Notice of Disagreement (NOD). [Veteran Service Organizations]({{ site.url }}/disability-benefits/get/filing/help/index.html) can assist you with this.
+All benefits decisions can be appealed. If you disagree with all or part of a VA benefits decision, you may file a Notice of Disagreement (NOD). [Veterans Service Organizations]({{ site.url }}/disability-benefits/get/filing/help/index.html) can assist you with this.
 
 #### When do I file an NOD?
 
@@ -44,7 +44,7 @@ You’ll need to file within one year from the date on the letter notifying you 
 
 #### What do I file?  
 
-[VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf)
+File [VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf).
 
 #### What’s next?  
 
@@ -62,7 +62,7 @@ You’ll need to file within one year from the date on the letter notifying you 
 
 #### What do I file?
 
-[VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf). Check the status of your appeal by calling 1-800-827-1000 or going online to [eBenefits](https://www.ebenefits.va.gov).
+File [VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf). Check the status of your appeal by calling 1-800-827-1000 or going online to [eBenefits](https://www.ebenefits.va.gov).
 
 </div>
 
@@ -81,7 +81,7 @@ If you selected an optional in-person or video teleconference hearing with a Vet
   - File a new claim with your local VA office,
   - File a motion asking the Board of Veterans’ Appeals to reconsider your appeal (there is no time limit to file this motion),
   - File a motion asking the Board of Veterans’ Appeals to review your appeal again because there was clear and obvious error in its decision (there is no time limit to file this motion), and/or
-  - File a Notice of Appeal with the United States Court of Appeals for Veterans Claims
+  - File a Notice of Appeal with the United States Court of Appeals for Veterans Claims.
 
 </div>
 
@@ -97,7 +97,7 @@ File a [Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). Send you
 
 #### Learn more:
 
-[How Do I Appeal Booklet?](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf)
+[How Do I Appeal pamphlet?](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf)
 
 </div>
 </div>
@@ -110,7 +110,7 @@ File a [Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). Send you
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-appeal/veterans-appeals-board/">
-            <h5>Board of Veterans Appeals</h5>
+            <h5>Board of Veterans' Appeals</h5>
           </a>
         </li>
 
