@@ -42,7 +42,7 @@ The U.S. military sprayed millions of gallons of Agent Orange on trees and veget
 <div class="call-out" markdown="1">
 ### Are you eligible for compensation?
 
-Yes if:
+Yes, if:
 
 You were exposed to Agent Orange during military service.
 
@@ -54,17 +54,15 @@ You or your dependents
 
 #### How it works
 
-[These diseases are a result of exposure to Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/). VA forgoes the normal requirement that you prove an illness began during or was worsened by your military service.
+[These diseases are a result of exposure to Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/). VA forgoes the normal requirement that you prove an illness began during or became worse because of your military service.
 
-If you have a disease that is [not on this list]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), but you believe is a result of Agent Orange exposure, you will need to prove your illness began or was worsened by your military service.
+If you have a disease that is [not on this list]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), but you believe it is a result of Agent Orange exposure, you will need to prove your illness began during or became worse because of your military service.
 
 #### See also:
 
 [Agent Orange Registry Health Exam for Veterans]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
-#### Related symptoms
-
-- [Non-Hodgkin's Lymphoma and Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/)
+[Non-Hodgkin's Lymphoma and Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/)
 
 
 </div>
