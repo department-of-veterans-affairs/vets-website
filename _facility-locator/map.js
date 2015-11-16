@@ -268,6 +268,12 @@ FacilityLocator = (function() {
   // Get Facilities currently within the bounds of the map and update the
   // facilities list
   function listFacilities() {
+    // if listFacilities is called before the facility list has loaded,
+    // just bail out
+    if (allFacilities.length  === 0) {
+      return;
+    }
+
     // Clear the facilities list
     $("#facilitiesList").html("");
 
