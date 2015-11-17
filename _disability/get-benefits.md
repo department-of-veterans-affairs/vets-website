@@ -78,7 +78,7 @@ This is the [current national average]( http://www.benefits.va.gov/REPORTS/aspir
 
 - An [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html) can help you prepare and file your claim.
 - Speed up your processing time by filing a [fully developed claim]({{ site.url }}/disability-benefits/get/filing/faster/index.html).
-- Learn more about [evidence requirements]({{ site.url }}/disability-benefits/claims-process/claim-types/standard-claim/index.html).
+- Learn more about [evidence requirements]({{ site.url }}/disability-benefits/claims-process/evidence/).
 
 </div>
 
