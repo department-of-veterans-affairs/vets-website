@@ -97,7 +97,7 @@ File a [Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). Send you
 
 #### Learn more:
 
-[How Do I Appeal pamphlet?](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf)
+[How Do I Appeal?](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Booklet--508Compliance.pdf) pamphlet
 
 </div>
 </div>
