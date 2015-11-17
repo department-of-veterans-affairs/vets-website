@@ -47,7 +47,7 @@ template: 6-info-page
 
 #### Post-Traumatic Stress Disorder (PTSD) Basics
 
-If you have symptoms of PTSD and were exposed to actual or threatened death, serious injury, or sexual violation during your military service, you may be eligible for benefits, including compensation and health care.
+If you have [symptoms of PTSD](http://www.ptsd.va.gov/public/PTSD-overview/basics/symptoms_of_ptsd.asp) and were exposed to actual or threatened death, serious injury, or sexual violation during your military service, you may be eligible for benefits, including compensation and health care.
 </div>
 
 <div class="call-out" markdown="1">
