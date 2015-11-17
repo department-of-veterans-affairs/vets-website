@@ -32,7 +32,7 @@ The effective date is when benefits are payable to you. This varies with the typ
 
 ### How Effective Dates Are Assigned
 
-Here’s how VA determines effective dates in various cases. It’s more than a little complicated. Hang in there. 
+Here’s how VA determines effective dates in various cases. It’s more than a little complicated. Hang in there.
 
 #### Direct Service Connection
 
@@ -45,11 +45,12 @@ The effective date for a disability that resulted from or was aggravated by mili
 
 If VA received your claim within one year of the day you left active service, the effective date can be as early as the day following separation.  
 
-**Example 1**
+##### Example 1
 
 Shaun, a Veteran who separated from active service on September 30, 2013, with a hearing disability, filed a claim for his hearing problem more than a year later. VA received Shaun’s claim on November 15, 2014. On March 10, 2015, VA determined Shaun had a 30% disability rating with an effective date of November 15, 2014—the date VA received the claim.
 
-**Example 2**
+##### Example 2
+
 Ric, a Veteran who separated from active service on September 30, 2013, with a hearing disability, filed a claim for his hearing problem less than a year later. VA received Ric’s claim on July 5, 2014. Because his claim was received within one year of separation from active service, VA awarded Ric a 30% disability rating with an effective date of October 1, 2013—the day after Ric’s separation from the military.
 
 #### Presumptive Service Connection
@@ -58,10 +59,12 @@ In most circumstances, if VA presumes your disability is related to military ser
 
 If VA receives your claim more than one year after your separation from active service, the effective date is when VA received the claim or the date entitlement arose, whichever is later.
 
-**Example 1**
+##### Example 1
+
 Beth, a Veteran who separated from active service on September 30, 2013, had medical tests on April 15, 2014. The doctor found she had hypertension. Less than three months later, Beth filed a claim that VA received on July 1, 2014. VA presumed her hypertension was related to her service. Because VA received the claim less than one year after Beth separated from active service, the effective date was April 15, 2014—the date entitlement (her symptoms) arose.  
 
-**Example 2**
+##### Example 2
+
 Susan, a Veteran who separated from active service on September 30, 2013, underwent medical tests on April 15, 2014. The doctor found she had hypertension. More than a year later, she filed a claim that VA received on October 2, 2014. VA presumed her hypertension was related to her service. Because VA received the claim more than one year after Susan separated from active service, the effective date was October 2, 2014—the date the claim was received.
 
 #### Reopened Claims
@@ -83,7 +86,6 @@ For claims based on a Veteran’s death in service, the effective date is the fi
 If the Veteran’s death occurred after service and VA receives the claim within one year of the Veteran’s passing, the effective date is the first day of the month in which the Veteran died.
 
 If the death occurred after service and VA receives the claim more than one year after the Veteran’s death, the effective date is the date VA received the claim.
-
 
 #### Error
 
