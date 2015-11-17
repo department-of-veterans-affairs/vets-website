@@ -48,6 +48,7 @@ If you have certain diseases, including some cancers, and you were exposed to io
 Yes, if:
 
 You were exposed to ionizing radiation during military service in one of the following ways:
+
   -	As a participant in atmospheric testing of nuclear weapons, or
   -	As a participant in the postwar occupation of Hiroshima or Nagasaki, or
   -	As a prisoner of war in Japan, or
@@ -81,7 +82,7 @@ VA requests from the appropriate military service or the Defense Threat Reductio
 <ul class="plain">
 
 <li markdown="1">
-Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html)
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
 </li>
 </ul>
 </div>
