@@ -97,7 +97,7 @@ Available benefits
 
 - Compensation
 - Health care
-- An [Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
+- An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 </div>
 
