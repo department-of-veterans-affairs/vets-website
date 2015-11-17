@@ -41,7 +41,7 @@ The effective date for a disability that resulted from or was aggravated by mili
 -	The date VA receives a claim, or
 -	The date entitlement arose.
 
-"The date entitlement arose" usually means when your problem first started.
+> "The date entitlement arose" usually means when your problem first started.
 
 If VA received your claim within one year of the day you left active service, the effective date can be as early as the day following separation.  
 
