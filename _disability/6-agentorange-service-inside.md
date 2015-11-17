@@ -67,7 +67,7 @@ If you served in Vietnam, including aboard a [ship on the inland waterways]({{ s
 
 Yes, if:
 
-You are ill with one or more of these diseases related to Agent Orange.
+You are ill with one or more of [these diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
 
 </div>
 
