@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/index.html
-title: Non-Hodgkins Lymphoma
+title: Non-Hodgkin's Lymphoma
 concurrence: incomplete
 
 ---
@@ -31,7 +31,7 @@ concurrence: incomplete
 
 <div markdown="1">
 
-Non-hodgkin's lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of the body's immune system that helps to fight infection and disease.
+Non-Hodgkin's lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of the body's immune system that helps to fight infection and disease.
 
 Signs of non-Hodgkin’s lymphoma include:
 
@@ -52,9 +52,9 @@ Signs of non-Hodgkin’s lymphoma include:
 
 Yes, if:
 
-- You are ill with Non-hodgkin’s lymphoma.
+- You are ill with non-Hodgkin’s lymphoma.
 - You were exposed to Agent Orange during military service.
-- You served in Vietnam or in the waters off Vietnam during the Vietnam War era, in the Korean demilitarized zone, or in another area where Agent Orange was stored, tested or sprayed.
+- You served in Vietnam or in the waters off Vietnam during the Vietnam War Era, in the Korean Demilitarized Zone, or in another area where Agent Orange was stored, tested or sprayed.
 
 #### Who is covered
 
