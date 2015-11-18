@@ -68,7 +68,7 @@ You and your dependents or survivors
 </div>
 <div class="call-out" markdown="1">
 ### How it works
-You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for [diseases]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/) that VA presumes are related to Agent Orange exposure.  
+You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for [diseases]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) that VA presumes are related to Agent Orange exposure.  
 </div>
 
 </div>
