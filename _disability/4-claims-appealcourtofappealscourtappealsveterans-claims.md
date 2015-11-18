@@ -12,7 +12,7 @@ source: http://www.bva.va.gov/
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-appeal/">Claims appeal</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-appeal/">Appeals</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -51,7 +51,7 @@ It has exclusive jurisdiction over decisions of the Board of Veterans’ Appeals
 
 Its review of Board decisions is based on:
 
-- The record before the agency (i.e., what was in your file at the time the Board reviewed it); and
+- The record before the agency (what was in your file at the time the Board reviewed it), and
 - Arguments of the parties.
 
 </div>
