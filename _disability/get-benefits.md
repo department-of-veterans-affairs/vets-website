@@ -64,13 +64,6 @@ template: 7-get-page
 Average number of days to process a claim. If you've already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
 
 </div>
-
-<div class="disclaimer">
-
-<p><abbr>VBA</abbr>’s goal is to complete the processing of disability compensation claims in 125 days or less, with an accuracy rate of 98% or better.</p>
-
-</div>
-
 </div>
 </div>
 
