@@ -49,17 +49,27 @@ template: 7-get-page
 <div class="small-12 medium-2 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="number" markdown="0">3</span>
-<span class="heading" markdown="0">Average time</span>
-<span class="description" markdown="0">Months</span>
-</div>
+<span class="number" markdown="0">139</span>
+<span class="description" markdown="0">Days</span>
+<span class="heading" markdown="0">(Average time)</span>
 
 </div>
 
-<div class="small-12 medium-10 columns"  markdown="1">
+</div>
 
-This is the [current national average]( http://www.benefits.va.gov/REPORTS/aspire_dashboard.asp) for how long it takes VA to process a disability compensation claim.
+<div class="small-12 medium-10 columns">
 
+<div markdown="1">
+
+Average number of days to process a claim. If you've already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
+
+</div>
+
+<div class="disclaimer">
+
+<p><abbr>VBA</abbr>’s goal is to complete the processing of disability compensation claims in 125 days or less, with an accuracy rate of 98% or better.</p>
+
+</div>
 
 </div>
 </div>
