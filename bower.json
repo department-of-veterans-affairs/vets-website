@@ -13,7 +13,6 @@
     "bourbon": "~4.2.6",
     "neat": "~1.7.2",
     "wow": "~1.1.2",
-    "modernizr": "~3.2.0",
     "html5shiv": "~3.7.3",
     "jquery.tipsy": "*",
     "classie": "~1.0.1"
