@@ -99,7 +99,7 @@ VA approves the following programs and courses under the Post-9/11 GI Bill®:
 </div>
 </div>
 
-<div class="small-12 columns" markdown="1">#### Learn more:
+<div class="small-12 columns" markdown="1">#### Learn more
 - See the current payment rates for the Post-9/11 GI Bill®
 - Post-9/11 GI Bill® pamphlet
 - Frequently Asked Questions (FAQ)
