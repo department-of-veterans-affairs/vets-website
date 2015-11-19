@@ -44,36 +44,36 @@ If you are planning to pursue training at a foreign school, you can use VA benef
 
 Yes, if:
 
-- You are eligible for or are already receiving VA educational assistance
-- Your program is approved by VA
-- Your program at the foreign school is at an institution of higher learning and will earn you a standard college degree or the equivalent. Exception: Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
+- You are eligible for or are already receiving VA educational assistance.
+- Your program is approved by VA.
+- Your program at the foreign school is at an institution of higher learning and will earn you a standard college degree or the equivalent. **Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
 
 
 
-#### Who is eligible
+#### Who is covered
 
-- You and/or your dependents
+You and your dependents
 </div>
 <div markdown="">
 #### Available benefits
 
-- Significant tuition-funding assistance
+- Significant tuition assistance
 - A location-adjusted housing allowance for paying your living expenses during enrollment
 
 #### How it works
 
 VA will accept degrees from schools or establishments in foreign countries that are similar to degrees granted by accredited U.S. colleges and universities. If you are considering getting a degree or its equivalent from a private institution overseas, the degree must be comparable to those granted by public colleges and universities in the same country. In addition, programs at private institutions must have the same entrance requirements as programs offered by public colleges and universities in the same country. Independent study (distance learning) courses must be accredited by a nationally recognized accrediting association.
 
-**Exception:** Schools located in the United States offering courses in a foreign country under contract with the Department of Defense are not considered foreign training. Likewise, “Year Abroad” and similar programs offered by schools in the United States are not considered foreign training.
+**Exception:** Programs at schools located in the United States offering courses in a foreign country under contract with the Department of Defense are not considered foreign training. Likewise, “Year Abroad” and similar programs offered by schools in the United States are not considered foreign training.
 
 For applications and further information, the following offices or representatives will be glad to assist you:
 
 - Any [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) (from outside the United States, call 716-857-3196/7)
-- Local representatives of veterans organizations and the American Red Cross
+- Local representatives of Veterans organizations and the American Red Cross
 - Foreign service posts
 - Canadian Department of Veterans Affairs (Canadian schools only)
 
-You can also check your approval status or send us questions by e-mail 24 hours a day, 7 days a week, by using the [Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) section of our website.
+You can also check your approval status or send us questions by email 24 hours a day, 7 days a week, by using the [Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) section of our website.
 
 ### How to apply:
 
@@ -89,6 +89,7 @@ D. Make sure you have enough money to care for all of your needs until VA paymen
 E. You must provide written permission for school officials to release information as necessary to VA. Failure to do so may affect receipt of VA benefits. Some countries have their own version of the Privacy Act [Link to or downloadable PDF?], which is the preferred format.
 3. After enrolling at your foreign school:
 A. Submit your application to VA at least 90 days before your departure. Make sure you send your application to the appropriate regional office for the fastest service.
+
 **Your benefit will be processed depending on your school’s location:**
 - If you are training in Puerto Rico or the U.S. Virgin Islands, your claim will be handled by the Atlanta Regional Processing Office (in Decatur, Georgia).
 - If you are training in the Republic of the Philippines, American Samoa, Guam, Midway, Wake Island, any of the islands in the Federated States of the Marshall Islands, the Republic of Micronesia, or the Republic of Palau, your claim will be handled by the Muskogee Regional Processing Office.
