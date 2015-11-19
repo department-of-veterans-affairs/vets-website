@@ -12,7 +12,7 @@ concurrence: incomplete
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/training-testing-licensing/">Training, Testing, or Licensing</a></li>
+<li class="parent"><a href="{{ site.url }}/education/training-testing-licensing/">Advanced Training and Certifications</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -38,12 +38,12 @@ concurrence: incomplete
 If you have preexisting pilot qualifications and want to pursue additional certifications, VA offers benefits for you to achieve this.
 </div>
 <div class="call-out" markdown="1">
-### Are you eligible for this benefit?
+### Are you eligible for benefits?
 
 Yes, if:
 
-- You have at least a private pilot’s license  
-- You have a valid medical certification
+- You have at least a private pilot’s license.
+- You have a valid medical certification.
 
 #### Who is covered
 
@@ -51,10 +51,11 @@ You
 </div>
 <div markdown="1">
 #### Available benefits
-- Tuition assistance
+Tuition assistance
 
 #### How it works 
-Flight training is available for the following qualifications:
+
+**Flight training is available for the following qualifications:**
 
 - Rotary wing certification
 - B747-400 certification
@@ -62,12 +63,13 @@ Flight training is available for the following qualifications:
 - Flight engineer certification
 
 **The requirements and benefits vary according to the benefit program you use:**  
-- If you use the Montgomery GI Bill® (MGIB) or the [Reserve Educational Assistance Program (REAP)]({{ site.url }}/education/eligible-programs/reap/), VA reimburses you for 60% of the approved charges. [View payment information] (http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
+
+- If you use the Montgomery GI Bill® (MGIB) or the [Reserve Educational Assistance Program (REAP)]({{ site.url }}/education/eligible-programs/reap/), VA reimburses you for 60% of the approved charges. View [payment information](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 - If you use the Post-9/11 GI Bill®, your payment varies depending on the specific flight course and whether your school is public or private. If it is private, your payment varies according to whether or not your school participates in the [Yellow Ribbon program]({{ site.url }}/education/gi-bill/yellow-ribbon/).
 
 Get more details about the [Post-9/11 GI Bill®]({{ site.url }}/education/gi-bill/post-9-11/).
 
--	If you are enrolled in a vocational flight training program, VA reimburses you for either the full cost of training or the annual maximum for the training, whichever is less. [See annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
+If you are enrolled in a vocational flight training program, VA reimburses you for either the full cost of training or the annual maximum for the training, whichever is less. See the [annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 </div>
 </div>
 
