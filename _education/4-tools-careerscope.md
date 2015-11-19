@@ -12,7 +12,7 @@ concurrence: incomplete
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/tools-programs/">Tools and Programs</a></li>
+<li class="parent"><a href="{{ site.url }}/education/tools-programs/">Career Counseling</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -39,7 +39,7 @@ In addition to career counseling, VA provides the interest and aptitude assessme
 
 CareerScope uses the results from your assessment to give you recommendations that help identify which career fields you may enjoy and in which careers you might excel. CareerScope also recommends courses or training programs that can help you pursue those careers. 
  
-[Use this document in conjunction with your CareerScope results](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf)
+Use this [Report Interpretation guide](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf) to help you understand your CareerScope results.
 
 
 </div>
