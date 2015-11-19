@@ -56,7 +56,7 @@ You or your dependents
 
 [These diseases are a result of exposure to Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/). VA forgoes the normal requirement that you prove an illness began during or became worse because of your military service.
 
-If you have a disease that is [not on this list]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), but you believe it is a result of Agent Orange exposure, you will need to prove your illness began during or became worse because of your military service.
+If you have a disease that is not on this list but you believe it is a result of Agent Orange exposure, you will need to prove your illness began during or became worse because of your military service.
 
 #### See also:
 
