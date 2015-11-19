@@ -58,7 +58,7 @@ If you are using the Montgomery GI Bill, you will receive the difference between
 
 **Exception:** In no case will the combined amount paid by DOD and VA exceed the total cost of the course.
 
-#### Learn more:
+#### Learn more
 
 [Top-Up fact sheet](http://www.benefits.va.gov/GIBILL/docs/factsheets/topup.pdf)
 
