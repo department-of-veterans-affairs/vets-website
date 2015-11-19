@@ -61,7 +61,7 @@ For Post-9/11 GI Bill® recipients, VA reimburses the actual costs of the school
 
 For all other GI Bill® recipients, VA reimburses 55% of the approved costs.
 
-*Exception:* This assistance is not available for children training under the Dependents’ Educational Assistance program.
+**Exception:** This assistance is not available for children training under the Dependents’ Educational Assistance program.
 </div>
 </div>
 
