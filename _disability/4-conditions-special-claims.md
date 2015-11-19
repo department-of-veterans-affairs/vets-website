@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/conditions/special-claims/index.html
-title: Special claims
+title: Special Claims
 concurrence: complete
 template: 2-detailed-landing
 ---
@@ -35,14 +35,14 @@ template: 2-detailed-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Veterans may be eligible for other types of disability compensation once a disability has been determined to be service connected. Special VA disability compensation programs include: individual unemployability, automobile allowance, clothing allowance, prestabilization, hospitalization, convalescence, dental, and birth defects.
+Veterans may be eligible for other types of disability compensation once a disability has been determined to be service connected. Special VA disability compensation programs include individual unemployability, automobile allowance, clothing allowance, prestabilization, hospitalization, convalescence, dentistry, and birth defects.
 
 
-#### Quick Links:
+#### Quick Links
 
 - [Special Claims booklet](http://www.va.gov/opa/publications/benefits_book/benefits_chap02.asp)
-- [Housing Grants for - - Disabled Veterans](http://www.benefits.va.gov/homeloans/adaptedhousing.asp)
-- [Special Home Adaptation Grant](http://www.benefits.va.gov/homeloans/adaptedhousing.asp)
+- [Housing Grants for Disabled Veterans](http://www.benefits.va.gov/homeloans/adaptedhousing.asp)
+- [Special Housing Adaptation Grant](http://www.benefits.va.gov/homeloans/adaptedhousing.asp)
 - [Temporary Residence Adaptation](http://www.benefits.va.gov/BENEFITS/factsheets/homeloans/sahfactsheet.pdf)
 
 If you are a Veteran with a service-connected disability rating, you may be eligible for special compensation to help with the following:
@@ -59,13 +59,13 @@ If you are a Veteran with a service-connected disability rating, you may be elig
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/special-claims/automobile/">
-<h5>Automobile use claims</h5>
+<h5>Automobile Use Claims</h5>
 </a>
 </li>
 
 <li>
 <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/birth-defects/index.html">
-<h5>Birth Defects / Spina Bifida</h5>
+<h5>Birth Defects/Spina Bifida</h5>
 </a>
 </li>
 
