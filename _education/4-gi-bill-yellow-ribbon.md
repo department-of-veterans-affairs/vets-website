@@ -64,7 +64,7 @@ Additional tuition
 
 5. Confirm that your school will submit your enrollment information to VA, and coordinate with VA for the application of the benefit to your tuition or fees.
 
-#### Learn more:
+#### Learn more
 
 - [FAQs about the Yellow Ribbon Program](http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf)
 - [Yellow Ribbon Program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/Yellow_Ribbon_Pamphlet.pdf)
