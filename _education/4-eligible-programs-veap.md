@@ -49,10 +49,13 @@ Yes, if:
 You
 
 ### Available benefits: 
+
 -Tuition assistance
 
 ### How it works: 
+
 VEAP benefits can be applied to the following programs:
+
 - college degree and certificate programs
 - technical or vocational courses
 - flight training
