@@ -70,7 +70,7 @@ Complete an application using [VA Form 22-1990](http://www.vba.va.gov/pubs/forms
 </div>
 
 <div class="small-12 columns" markdown="1">
-#### Learn more:
+#### Learn more
 
 -	Visit the [GI Bill customer service page](http://gibill.custhelp.com/) to search Frequently Asked Questions or to ask a question online.
 -	Call 1-888-GIBILL-1 (1-888-442-4551)
