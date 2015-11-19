@@ -73,7 +73,7 @@ Dependent eligibility is not affected if a child marries or if you and your spou
 If you are still in the service and want to reallocate transferred benefits, you can do so using the TEB Portlet in [milConnect](https://www.dmdc.osd.mil/milconnect). If you’re a Veteran and want to reallocate benefits, you should contact VA using the ["Ask a Question" website](http://gibill.custhelp.com).
 
 
-#### Learn more:
+#### Learn more
 
 - [DOD website for information on transferability](http://archive.defense.gov/Home/Features/2009/0409_gibill/) (non-VA link)
 - [Fact Sheet on Post-9/11 GI Bill Benefits Transferability](http://www.benefits.va.gov/gibill/docs/factsheets/Transferability_Factsheet.pdf)
