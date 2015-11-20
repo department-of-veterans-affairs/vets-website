@@ -58,7 +58,7 @@ You or your dependents
 
 If you have a disease that is not on this list but you believe it is a result of Agent Orange exposure, you will need to prove your illness began during or became worse because of your military service.
 
-#### See also:
+#### See also
 
 [Agent Orange Registry Health Exam for Veterans]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
