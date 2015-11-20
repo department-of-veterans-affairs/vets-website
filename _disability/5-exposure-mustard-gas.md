@@ -73,7 +73,6 @@ You
 - Compensation benefits
 - Health care benefits
 
-
 #### How it works
 
 Because *exposure* to mustard gas or lewisite is not a service condition, you must claim the disease or condition that is related to the exposure. You should present any military records showing exposure to blistering agents with your claim.

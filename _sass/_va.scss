@@ -332,15 +332,19 @@ body.home, body.fourohfour {
 
 // Content lead paragraphs
 
-#content.interior .section.one .row .small-12:first-of-type {
-li p:first-of-type {
-  font-weight: normal;
-}
-p:first-of-type {
-  font-size: 1.1em;
-  letter-spacing: normal;
-  font-weight: 600;
-}
+#content.interior .primary {
+  li p:first-of-type,
+  ul+p
+   {
+    font-weight: normal;
+  }
+  p:nth-child(1) {
+    font-size: 1.1em;
+    letter-spacing: normal;
+    font-weight: 600;
+    padding-bottom: 1em;
+  }
+
 }
 
 #content .main.interior {
