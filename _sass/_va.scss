@@ -2171,6 +2171,11 @@ a {
 #content .usa-button-outline
 {text-decoration: none;}
 
+#content .usa-button-primary.expand {
+  width: 100%;
+}
+
+
 // Highlight headings
 
 h4.highlight {
@@ -2181,6 +2186,11 @@ font-weight: 700;
 line-heighgt: 1.2em;
 margin-bottom: .75em;
 font-famiy: $font-sans;
+}
+
+// bumps text down to align with panel or highlighted text
+#content .section h4.bump {
+  margin-top: 0.7rem;
 }
 
 // Action banner
