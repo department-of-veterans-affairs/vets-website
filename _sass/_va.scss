@@ -311,23 +311,22 @@ body.home, body.fourohfour {
     padding: 0;
     margin: 0 -0.625rem;
   }
+}
 
-  .call-out {
-    background: $color-primary-alt-lightest;
-    padding: 1em;
-    clear: both;
-    margin: 0 0 1.5em 0;
-    h3 {font-size: 1.5em;}
-    ul {
-      margin: 0 0 .5em 1.5em; padding: 0;
-      li {
-        list-style: square;
-        padding: 0 .25em;
-        margin: 0;
-      }
+.call-out {
+  background: $color-primary-alt-lightest;
+  padding: 1em;
+  clear: both;
+  margin: 0 0 1.5em 0;
+  h3 {font-size: 1.5em;}
+  ul {
+    margin: 0 0 .5em 1.5em; padding: 0;
+    li {
+      list-style: square;
+      padding: 0 .25em;
+      margin: 0;
     }
   }
-
 }
 
 // Content lead paragraphs
