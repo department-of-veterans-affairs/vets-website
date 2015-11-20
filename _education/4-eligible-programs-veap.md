@@ -40,7 +40,8 @@ If you are interested in pursuing continuing educational programs, and are willi
 ### Are you Eligible for Compensation?
 
 Yes, if:
-- You entered service for the first time between January 1, 1977 and June 30, 1985
+
+- You entered service for the first time between January 1, 1977, and June 30, 1985
 - You opened and contributed to your account before April 1, 1987
 - You voluntarily contributed $25 - $2700 
 - You completed your first period of service and were discharged or released from service under conditions other than dishonorable.
