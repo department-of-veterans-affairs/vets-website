@@ -42,7 +42,6 @@ Your appeal will be reviewed by the Board of Veterans’ Appeals (also known as 
 - Veterans law
 - Reviewing benefit claims
 
-Typically, it takes approximately 80 weeks for an appeal to be reviewed and decided upon.
 </div>
 </div>
 
