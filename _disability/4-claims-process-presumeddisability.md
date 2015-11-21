@@ -28,13 +28,7 @@ template: 6-info-page
 
 A presumed disability is a diagnosed disability that VA considers to be related to a Veteran's service because of the circumstances of the Veteran's military service.
 
-#### This may apply to: 
-- [Veterans who are former prisoners of war]({{ site.url }}/disability-benefits/conditions/pow/).
-- [Veterans who have certain chronic diseases that appear within a specific period of time after discharge from service]({{ site.url }}/disability-benefits/get/filing/one-year/).
-- [Veterans who were exposed to ionizing radiation while in service]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/ionizing-radiation/).
-- [Veterans who were exposed to mustard gas or lewisite while in service]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/mustard-gas/)
-- [Veterans who were exposed to Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/).
-- [Veterans who served in southwest Asia during the Gulf War]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/gulf-war-illness/).
+This designation usually applies to conditions that are the result of a [specific hazardous exposure]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/) or a [chronic disease that appears within one year after discharge]({{ site.url }}/disability-benefits/get/filing/one-year/).
 
 
 </div>
