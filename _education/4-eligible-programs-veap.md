@@ -22,21 +22,16 @@ template: 6-info-page
 
 <div class="main" role="main" markdown="0">
 
-<!--<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      
-    </div>
-  </div>  
-</div>-->
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you are interested in pursuing continuing educational programs, and are willing to make contributions from your military pay, the VEAP is a $2-to-$1 government match program for education assistance. 
+<div markdown="1">
+If you are interested in pursuing continuing educational programs, and are willing to make contributions from your military pay, the VEAP is a $2-to-$1 government match program for education assistance.
+</div>
 
+<div class="call-out" markdown="1">
 ### Are you Eligible for Compensation?
 
 Yes, if:
@@ -48,12 +43,14 @@ Yes, if:
 
 ### Who is covered: 
 You
+</div>
 
-### Available benefits: 
+<div markdown="1">
+#### Available benefits: 
 
--Tuition assistance
+- Tuition assistance
 
-### How it works: 
+#### How it works: 
 
 VEAP benefits can be applied to the following programs:
 
@@ -75,13 +72,11 @@ If you are currently Active Duty and wish to receive VEAP, you must have at leas
 *Withdrawals*
 Contributions may be withdrawn if you do not meet basic eligibility requirements or if you formally request a refund.
 
-### Learn more:
-VEAP [pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch32_pamphlet.pdf) 
-
-
+#### Learn more:
+VEAP [pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch32_pamphlet.pdf)
 </div>
 </div>
 </div>
 
-
+</div>
 </div>
