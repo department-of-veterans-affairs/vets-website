@@ -75,7 +75,7 @@ For applications and further information, the following offices or representativ
 
 You can also check your approval status or send us questions by email 24 hours a day, 7 days a week, by using the [Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) section of our website.
 
-### How to apply:
+#### How to apply:
 
 1.	[Claim your VA education benefits and receive your Certificate of Eligibility](http://www.benefits.va.gov/gibill/apply.asp) [or application widget]
 2.	Before enrolling at your foreign school:
