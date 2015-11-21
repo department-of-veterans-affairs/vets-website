@@ -42,12 +42,12 @@ If you are a Veteran, Servicemember, or eligible dependent interested in non-col
 
 Yes, if:
 
-- You qualify for the GI Bill®
--	You enroll, or plan to enroll, in a non-degree program at an approved institution
+- You qualify for the GI Bill®.
+-	You enroll, or plan to enroll, in a non-degree program at an approved institution.
 
 #### Who is covered
 
-You and/or your dependents
+You and your dependents
 </div>
 <div markdown="1">
 #### Available benefits
@@ -61,7 +61,7 @@ Benefits depend on which GI Bill® program you use and the school you attend. VA
 
 Post-9/11 GI Bill®: For training offered at non-degree schools, VA pays for in-state tuition and fees up to the [national maximum](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rate_tables.asp).
 
-Other GI Bill® programs: VA pays a monthly rate that depends on your specific program and your length of active service. [View current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp)
+Other GI Bill® programs: VA pays a monthly rate that depends on your specific program and your length of active service. View [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 </div>
 </div>
 
