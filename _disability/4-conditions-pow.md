@@ -68,8 +68,8 @@ You
 <div markdown="1">
 #### Available benefits
 
--	Compensation benefits
--	Health care benefits
+-	Compensation
+-	Health care
 
 #### How it works
 
