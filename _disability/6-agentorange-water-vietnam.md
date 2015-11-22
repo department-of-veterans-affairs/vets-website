@@ -117,7 +117,7 @@ You must prove you were aboard one of the U.S. Navy and Coast Guard ships that e
 
 If you did not go ashore or serve aboard a ship that operated on the inland waterways of Vietnam, you must prove that you were otherwise exposed to Agent Orange during your military service in order to receive disability compensation for diseases related to this exposure. These claims are decided on a case-by-case basis.
 
-*Exception:* If you’re a Blue Water Vietnam Veteran with [non-Hodgkin's lymphoma](http://www.publichealth.va.gov/exposures/agentorange/conditions/nonhodgkinslymphoma.asp), you do not need to prove where you were exposed. VA recognizes non-Hodgkin's lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
+**Exception:** If you’re a Blue Water Vietnam Veteran with [non-Hodgkin's lymphoma](http://www.publichealth.va.gov/exposures/agentorange/conditions/nonhodgkinslymphoma.asp), you do not need to prove where you were exposed. VA recognizes non-Hodgkin's lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
 
 </div>
 
