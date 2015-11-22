@@ -69,8 +69,8 @@ You
 
 #### Available benefits
 
--	Temporary increase in compensation benefits
--	Health care benefits
+-	Temporary increase in compensation
+-	Health care
 -	Temporary 100% disability rating
 
 #### How it works
