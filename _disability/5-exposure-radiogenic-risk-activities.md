@@ -62,7 +62,7 @@ Yes, if:
 
 - Your performance of tasks was similar to those that qualify a Department of Energy (DOE) employee as a member of the Special Exposure Cohort under 42 U.S.C. 7384L(14).
 
-#### Who is covered
+### Who is covered
 
 You
 
@@ -70,12 +70,12 @@ You
 
 <div markdown="1">
 
-#### Available benefits
+### Available benefits
 
-- Compensation benefits
-- Health care benefits
+- Compensation
+- Health care
 
-#### How it works
+### How it works
 
 - Your service records must prove you participated in one of the radiation risk activities described above and in 38 CFR 3.309(d)(3)(ii).
 - You have to claim an actual disease or disability. It is not enough to state that you were exposed to radiation during service.
