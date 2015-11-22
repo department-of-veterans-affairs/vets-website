@@ -119,8 +119,8 @@ You and your dependents
 
 ### Available benefits
 
-- Compensation benefits
-- Health benefits
+- Compensation
+- Health
 - An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 ### How it works
