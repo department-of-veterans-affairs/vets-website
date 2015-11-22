@@ -73,7 +73,7 @@ A Veteran filed a disability claim that indicated previous treatment from a priv
 
 #### Evidence Procedures for Fully Developed Claims and Standard Claims
 
-#### Fully Developed Claims
+##### Fully Developed Claims
 
 The Fully Developed Claim program allows you to speed up the claim-resolution process. You need to submit the following when you file your formal claim:
 
@@ -82,7 +82,7 @@ The Fully Developed Claim program allows you to speed up the claim-resolution pr
 
 Disability benefit claims are considered fully developed when you have no more evidence to submit and the only assistance required from VA is obtaining federal records and facilitating or providing additional medical examinations or opinions. More information about this program is available on the Fully Developed Claims page.  
 
-#### Standard Claims
+##### Standard Claims
 
 Evidence procedures for standard claims place greater responsibility on VA to assemble relevant records from both federal sources and private sources that you identify and authorize.
 
