@@ -58,21 +58,21 @@ Yes, if:
 - The child was conceived after the mother served in South Vietnam, and
 - The child has a covered birth defect that resulted in a permanent physical or mental disability.
 
-#### Who is covered
+### Who is covered
 Dependents and survivors of qualified Veterans
 </div>
 <div markdown="1">
-#### Available benefits
+### Available benefits
 
 -	Monetary allowances
 -	Health care 
 -	Vocational training
 
-#### How it works  
+### How it works  
 
 VA provides monetary allowances at one of three disability levels, based on the severity of the disability.
 
-#### Learn more:
+### Learn more
 
 [Spina Bifida and Agent Orange]( http://www.publichealth.va.gov/exposures/agentorange/birth-defects/spina-bifida.asp)
 </div>
