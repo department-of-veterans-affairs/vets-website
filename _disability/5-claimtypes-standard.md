@@ -60,7 +60,7 @@ If you want VA to assist you in gathering evidence to support your claim, you sh
 - Medical evidence of a current physical or mental disability, and
 - Evidence of an event, injury, or disease while you were in service
 
-***NOTE:*** A standard claim will generally take longer to process than a [Fully Developed Claim](/disability-benefits/claims-process/claim-types/fully-developed/).
+**Note:** A standard claim will generally take longer to process than a [Fully Developed Claim](/disability-benefits/claims-process/claim-types/fully-developed/).
 
 
 </div>
