@@ -56,7 +56,7 @@ You
 <div markdown="1">
 #### Available benefits
 
-Compensation benefits
+Compensation
 
 #### How it works
 
