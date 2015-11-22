@@ -44,7 +44,7 @@ If you were hospitalized for a service-connected disability at a VA or VA-approv
 Yes, if:
 
 - You were hospitalized for more than 21 days in a VA hospital or other approved hospital for a service-connected disability, or
-- You were under hospital observation for more than 21 days at VA expense for a service-connected disability
+- You were under hospital observation for more than 21 days at VA expense for a service-connected disability.
 
 #### Who is covered
 
