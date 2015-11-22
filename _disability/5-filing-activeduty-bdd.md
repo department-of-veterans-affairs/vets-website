@@ -57,7 +57,7 @@ BDD is available nationwide and open to all Servicemembers on full-time active d
 
 **Exception:** If you are less than 60 days from separation, you can submit a [Quick Start claim](http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-quickstart.asp).
 
-### Learn More:
+### Learn More
 If you are on a military installation, contact your local Transition Assistance Office or ACAP Center (Army only) to schedule an appointment to attend a VA benefits briefing and learn how to initiate your claim. You can also call the VA toll free at 1-800-827-1000.
 
 
