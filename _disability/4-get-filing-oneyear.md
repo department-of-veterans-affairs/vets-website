@@ -41,9 +41,9 @@ If you experience symptoms of certain diseases, such as hypertension, arthritis,
 
 Yes, if:
 
--	You have a disease that is at least 10% disabling within one year after separation from service
--	The disease is listed in [Title 38, Code of Federal Regulation, 3.09(a)](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc)
--	You were discharged under conditions other than dishonorable
+-	You have a disease that is at least 10% disabling within one year after separation from service.
+-	The disease is listed in [Title 38, Code of Federal Regulation, 3.09(a)](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
+-	You were discharged under conditions other than dishonorable.
 
 #### Who is covered
 
@@ -51,9 +51,9 @@ Yes, if:
 
 #### Available benefits
 
--	Compensation benefits
--	Health care benefits
--	Disability benefits
+-	Compensation
+-	Health care
+-	Disability 
 
 
 #### How it works
