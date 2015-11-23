@@ -49,7 +49,7 @@ template: 7-get-page
 <div class="small-12 medium-2 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="number" markdown="0">139</span>
+<span class="number" markdown="0">130</span>
 <span class="description" markdown="0">Days</span>
 <span class="heading" markdown="0">(Average time)</span>
 
@@ -61,7 +61,7 @@ template: 7-get-page
 
 <div markdown="1">
 
-Average number of days to process a claim. If you've already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
+Average number of days to process a disability claim. If your claim is complicated, it may take longer than 130 days to process. If it's simpler, it may take less. If you've already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
 
 </div>
 </div>
