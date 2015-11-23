@@ -65,8 +65,8 @@ You may select from the following:
 
 -	A cash bonus of $5,000.
 -	Repayment of a qualifying student loan not to exceed $18,000.
--	Educational assistance equal to the three-year monthly Montgomery GI Bill Active Duty rate for 12 months.
--	Educational assistance equal to 50% of the less-than-three-year monthly Montgomery GI Bill Active Duty rate for 36 months.
+-	Educational assistance equal to the three-year monthly Montgomery GI Bill® Active Duty rate for 12 months.
+-	Educational assistance equal to 50% of the less-than-three-year monthly Montgomery GI Bill® Active Duty rate for 36 months.
 
 #### How it works
 
