@@ -12,7 +12,7 @@ template: 6-info-page
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/eligible-programs/">Eligible Programs</a></li>
+<li class="parent"><a href="{{ site.url }}/education/eligible-programs/">Legacy Programs</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -42,20 +42,20 @@ template: 6-info-page
 
 Yes, if:
 
-- You are a Reservist activated for 90 days or more after September 11, 2001
-- The activation was due to war or national emergency, as declared by the President of the United States or the United States Congress
+- You are a Reservist activated for 90 days or more after September 11, 2001.
+- The activation was due to war or national emergency, as declared by the President of the United States or the United States Congress.
 
 ### Who is covered
-You and/or your dependents
+You and your dependents
 </div>
 <div markdown="1">
 #### How it works
-Under REAP, you may be able to receive assistance on some or all of your tuition and fees for college courses, certificate programs, and vocational training.
+Under REAP, you may be able to receive assistance with some or all of your tuition and fees for college courses, certificate programs, and vocational training.
 
-The amount of your benefit depends on your active-service time. See the [current benefit rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1607).You may get additional monthly benefits if you participate in the [Buy-Up program]({{ site.url }}/education/gi-bill/buy-up-program/).
+The amount of your benefit depends on your active-service time. See the [current benefit rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1607). You may get additional monthly benefits if you participate in the [Buy-Up program]({{ site.url }}/education/gi-bill/buy-up-program/).
 
 #### Learn more
-[REAP pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch1607_pamphlet.pdf)
+Read the [REAP pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch1607_pamphlet.pdf).
 </div>
 </div>
 </div>
