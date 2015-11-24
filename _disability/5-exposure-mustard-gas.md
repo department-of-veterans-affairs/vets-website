@@ -89,7 +89,7 @@ Because *exposure* to mustard gas or lewisite is not a service condition, you mu
 For questions about your benefits related to mustard gas exposure, send us an e-mail at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov)
 </li>
 <li markdown="1">
-Find an [Accredited Representative to help you](/disability-benefits/get/filing/help/)
+Find an [accredited Representative to help you](/disability-benefits/get/filing/help/)
 </li>
 </ul>
 </div>
