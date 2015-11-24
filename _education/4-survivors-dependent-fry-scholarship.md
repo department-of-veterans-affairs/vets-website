@@ -66,7 +66,7 @@ Use the [GI Bill® Comparison Tool]({{ site.url }}/gi-bill-comparison-tool/) to 
 
 Fill out [VA Form 22-5490 (Dependents' Application for VA Education Benefits)](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490). Send it to the VA regional office that has jurisdiction over the state where you will advance your education and training. If you are a son or daughter under legal age, a parent or guardian must sign the application. When applying, you will be required to make an irrevocable election of either the Fry Scholarship or the Survivors' and Dependents' Educational Assistance program.
 
-If you have already started your educational program, take your application to your school or employer. Ask them to complete VA Form 22-1999 (Enrollment Certification) and send both forms to VA. You can submit an Enrollment Certification online using VA-ONCE. (Schools must contact their VA representative to receive this form.)
+If you have already started your educational program, ask a certifying official from your school or your employer to request VA Form 22-1999 (Enrollment Certification) from their VA representative, complete it, and submit it online using VA-ONCE.
 </div>
 </div>
 
