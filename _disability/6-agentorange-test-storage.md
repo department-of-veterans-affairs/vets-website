@@ -87,6 +87,8 @@ See these comprehensive lists for dates and locations of herbicide tests and sto
 [In the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp)
 
 [Outside the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp)
+
+Find an [accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
 </li>
 
 </ul>
