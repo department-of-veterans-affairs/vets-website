@@ -24,13 +24,15 @@ title: Secondary Claim
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-It is possible for your service-connected disability to cause or worsen another disability. If this is the case, you can file a Secondary Disability Claim to seek additional benefit. This second disability may not otherwise be considered service connected.
+It is possible for your service-connected disability to cause, or to worsen, another disability. If this is the case, you can file a secondary disability claim to seek additional benefits. This second disability may not otherwise be considered service connected.
 
-Example 1:
-A Veteran has a service-connected knee injury that causes him to walk with a limp. He subsequently develops arthritis in his hip. Although the arthritic condition did not start during, nor was it aggravated by service, service connection may still be established if the arthritis is a result of his previously established service-connected knee condition.
+#### Example 1
 
-Example 2:
-A Veteran was in the Army for twenty years.  During her military service, she was diagnosed with hypertension.  After her discharge, service connection was established for hypertension.  She was subsequently diagnosed with a coronary artery disease that resulted from her hypertension.  Service connection for her coronary artery disease may be established via a Secondary Claim.  
+A Veteran has a service-connected knee injury that causes him to walk with a limp. He subsequently develops arthritis in his hip. The arthritic condition did not start during service, nor was it aggravated by service, but service connection may still be established if the arthritis is a result of his previously established service-connected knee condition.
+
+#### Example 2
+
+A Veteran was in the Army for twenty years. During her military service, she was diagnosed with hypertension. After her discharge, service connection was established for hypertension. She was subsequently diagnosed with a coronary artery disease that resulted from her hypertension. She may file a secondary claim to establish service connection for her coronary artery disease.  
 
 
 </div>
@@ -85,7 +87,7 @@ A Veteran was in the Army for twenty years.  During her military service, she wa
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/in-service/">
-            <h5>In-service claim</h5>
+            <h5>In-Service claim</h5>
           </a>
         </li>
 
