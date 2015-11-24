@@ -204,7 +204,7 @@ Fact Sheet:
 </li>
 
 <li markdown="1">
-Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
+Find an [accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
 </li>
 
 </ul>
