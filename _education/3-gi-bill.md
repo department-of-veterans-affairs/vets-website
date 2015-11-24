@@ -28,9 +28,9 @@ template: 1-topic-landing
 
 ### What is the GI Bill®?
 
-Since 1944, millions of Veterans have used the GI Bill to pay for college. The GI Bill is designed to help Veterans successfully transition from military to civilian life through educational attainment.  The Post-9/11 GI Bill gives Veterans with active duty service on, or after, Sept. 11 2001, enhanced educational benefits that cover more educational expenses, provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
+Since 1944, millions of Veterans have used the GI Bill to pay for college. The GI Bill is designed to help Veterans successfully transition from military to civilian life through educational attainment. The Post-9/11 GI Bill gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
 
-This benefit has changed over time, and you currently have several options to choose from. [Veteran Service Officers]({{ site.url }}/disability-benefits/get/filing/help/index.html) and the [GI Bill Comparison Tool]({{ site.url }}/gi-bill-comparison-tool/) can help you pick the right benefit program for your goals.
+This benefit has changed over time, and you currently have several options to choose from. [Veterans Service Organizations]({{ site.url }}/disability-benefits/get/filing/help/index.html) and the [GI Bill Comparison Tool]({{ site.url }}/gi-bill-comparison-tool/) can help you pick the right benefit program for your goals.
 
 </div>
 </div>
@@ -57,31 +57,31 @@ This benefit has changed over time, and you currently have several options to ch
 
       <li>
         <a href="{{ site.url }}/education/gi-bill/post-9-11/">
-          <h5>Post 9-11 GI BIll®</h5>
+          <h5>Post-9/11 GI BIll®</h5>
         </a>
       </li>
 
         <li>
           <a href="{{ site.url }}/education/gi-bill/transfer/">
-            <h5>Transfer Post-9/11 GI Bill® to Spouse and Dependents</h5>
+            <h5>Transfer Your Post-9/11 GI Bill® Benefits to Your Spouse and Dependents</h5>
           </a>
         </li>    
 
         <li>
           <a href="{{ site.url }}/education/gi-bill/montgomery-active-duty/">
-            <h5>Montgomery Active Duty</h5>
+            <h5>Montgomery GI Bill® Active Duty (MGIB-AD)</h5>
           </a>
         </li>
 
         <li>
           <a href="{{ site.url }}/education/gi-bill/montgomery-selected-reserve/">
-            <h5>Montgomery Selected Reserve</h5>
+            <h5>Montgomery GI Bill® Selected Reserve (MGIB-SR)</h5>
           </a>
         </li>
 
         <li>
           <a href="{{ site.url }}/education/survivors-dependent-assistance/">
-            <h4 class="alternate">Survivors & Dependent Assistance</h4>
+            <h4 class="alternate">Survivors' and Dependents' Assistance</h4>
           </a>
         </li>
 
@@ -93,13 +93,13 @@ This benefit has changed over time, and you currently have several options to ch
 
         <li>
           <a href="{{ site.url }}/education/gi-bill/yellow-ribbon/">
-            <h5>Yellow Ribbon</h5>
+            <h5>Yellow Ribbon Program</h5>
           </a>
         </li>
 
         <li>
           <a href="{{ site.url }}/education/gi-bill/tuition-assistance/">
-            <h5>Tuition Assistance Top Up</h5>
+            <h5>Tuition Assistance Top-Up</h5>
           </a>
         </li>
 
