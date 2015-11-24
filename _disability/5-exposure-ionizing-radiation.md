@@ -65,8 +65,8 @@ You
 <div markdown="1">
 #### Available benefits
 
--	Compensation benefits
--	Health care benefits
+-	Compensation
+-	Health care
 
 #### How it works
 
@@ -82,7 +82,7 @@ VA requests from the appropriate military service or the Defense Threat Reductio
 <ul class="plain">
 
 <li markdown="1">
-Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
+Find an [accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
 </li>
 </ul>
 </div>
