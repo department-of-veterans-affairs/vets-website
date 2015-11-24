@@ -64,6 +64,8 @@ If you served on a Blue Water Navy ship on the coastal or inland waterways of Vi
 
 [Learn More About Blue Water and Agent Orange Here](http://www.publichealth.va.gov/exposures/agentorange/locations/blue-water-veterans.asp#sthash.Srfgf1kO.dpuf)
 
+Find an [accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
+
 </li>
 
 </ul>
