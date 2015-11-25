@@ -35,14 +35,18 @@ If you are a dependent or survivor of a Veteran, you may be eligible for educati
 
 Yes, if:
 
-- You are a child or spouse of a Servicemember who died in the line of duty after September 10, 2001, or
-- You are a dependent of a Veteran who is permanently and totally disabled due to a service-related condition, or
-- You are a survivor of a Veteran who died while on active duty or as a result of a service-related condition, or
-- You are eligible to receive a transfer of Post-9/11 GI Bill® benefits
+- You are a child or spouse of a Service Member who died in the line of duty after September 10, 2001, or
+-	You are the child or spouse of a Veteran who is permanently and totally disabled due to a service-connected disability, or
+-	You are the child or spouse of a Veteran who died while on active duty or as a result of a service-connected disability, or
+-	You are the child or spouse of a Service Member missing in action or captured in line of duty by a hostile force, or
+-	You are the child or spouse of a Service Member forcibly detained in the line of duty by a foreign government or power, or
+-	You are a child or spouse of a Service Member who is hospitalized or receiving outpatient treatment for a service connected permanent and total disability and likely to be discharged for that disability, or
+-	You are eligible to receive a transfer of Post-9/11 GI Bill benefits
+
 
 ### Who is covered
 
-- You
+- Your family
 </div>
 <div markdown="1">
 #### Available benefits
@@ -63,11 +67,9 @@ You may be eligible for both of these programs, but can only use one of them. Yo
 
 **Exception:** As a beneficiary, you cannot use the same qualifying event for more than one benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
 
-Use the chart below to compare the programs.
 
 
-
-#### Compare DEA and Fry Scholarship Benefits
+#### Comparison Chart for Surviving Spouses With Both DEA and Fry Scholarship Eligibility
 <table>
 
 <tr>
