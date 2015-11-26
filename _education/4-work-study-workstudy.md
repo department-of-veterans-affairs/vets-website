@@ -37,6 +37,7 @@ Yes, if:
 
 - You are enrolled at least three-quarter time at an institution of higher learning.
 - You are using one of the following VA education benefits:
+
   -Post-9/11 GI Bill® ([Veterans](http://www.benefits.va.gov/gibill/post911_gibill.asp) and [transfer-of-entitlement recipients](http://www.benefits.va.gov/gibill/post911_transfer.asp))
   - Montgomery GI Bill® ([Active Duty](http://www.benefits.va.gov/gibill/mgib_ad.asp) and [Selected Reserve](http://www.benefits.va.gov/gibill/mgib_sr.asp))
   - [Reserve Educational Assistance Program](http://www.benefits.va.gov/gibill/reap.asp)
@@ -65,7 +66,7 @@ The number of applicants selected will depend on the availability of VA-related 
 
 #### Learn more
 
--	Download a copy of the [Application for Work-Study Allowance](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf) here.
+-	Download a copy of the [Application for Work-Study Allowance](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf).
 -	Contact the [Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp) that handles your claim.
 
 #### Services you perform under a VA work-study program must be related to VA work, such as:
