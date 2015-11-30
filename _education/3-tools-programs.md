@@ -44,7 +44,7 @@ Navigating your transition from military to civilian life can be challenging. VA
 
         <li>
           <a href="{{ site.url }}/education/tools-programs/careerscope/">
-            <h5>CareerScope</h5>
+            <h5>CareerScope®</h5>
           </a>
         </li>  
 
