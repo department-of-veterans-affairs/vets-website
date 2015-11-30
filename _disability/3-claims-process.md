@@ -33,7 +33,7 @@ template: 2-detailed-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-A Disability Claim is a formal legal request for benefits. It's very important to prepare carefully and to make sure you've got the details right before applying. It's a good idea to get help from a Veteran Service Officer or Accredited Representative to help you through the process. Below are links to some of the key terms and classifications that VA uses to process your claim.
+A disability claim is a formal legal request for benefits. It's very important to prepare carefully and to make sure you have the details right before applying. A Veteran Service Officer or accredited representative can help you through the process. Below are links to some of the key terms and classifications that VA uses to process your claim.
 
 </div>
 </div>
@@ -51,7 +51,7 @@ A Disability Claim is a formal legal request for benefits. It's very important t
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/presumed-disability/">
-            <h5>What is “presumed disability”?</h5>
+            <h5>What is a “presumed disability”?</h5>
           </a>
         </li>
 
@@ -63,13 +63,13 @@ A Disability Claim is a formal legal request for benefits. It's very important t
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/evidence/">
-            <h5>Evidence</h5>
+            <h5>How do I gather evidence for a disability claim?</h5>
           </a>
         </li>
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/date/">
-            <h5>Effective Date of Disability</h5>
+            <h5>How does VA determine the effective date of a disability?</h5>
           </a>
         </li>
 
