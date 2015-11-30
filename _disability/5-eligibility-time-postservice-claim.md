@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/claims-process/claim-types/post-service/index.html
-title: Postservice claim
+title: Postservice Claim
 concurrence: incomplete
 
 ---
@@ -27,7 +27,7 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you have a service-related disability that presents itself after you have separated, you may be eligible for disability compensation.  
+If you have a service-related disability that presents itself after you have separated, you may be eligible for disability compensation. These sorts of disabilities include:
 
 #### Disabilities That Appear Within One Year After Discharge
 
