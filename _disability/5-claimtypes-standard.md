@@ -40,7 +40,7 @@ You, your dependents and survivors
 
 </div>
 
-<div markdown="1">
+<div class="call-out" markdown="1">
 
 #### Why use the standard claim process?
 
