@@ -219,58 +219,54 @@ h3 {font-weight: 500; font-size: 1.4em; color: #555;}
 }
 
 .pitch {
-@media #{$small} {padding: .5em 0;}
-h2, h3 {color: $color-primary-darkest; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
+  @media #{$small} {padding: .5em 0;}
+  h2, h3 {color: $color-primary-darkest; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
 }
 
 #experience .splash {padding: 0; margin: 0;}
 
 #experience .splash h2 {
-margin: .5em 0; padding: 0;
-a {
-  margin: 0;
-  color: #444;
-  background: $color-gold;
-  line-height: 1.4em;
-  font-size: .9em;
-}
+  margin: .5em 0; padding: 0;
+  a {
+    margin: 0;
+    color: #444;
+    background: $color-gold;
+    line-height: 1.4em;
+    font-size: .9em;
+  }
 }
 
 .feature-list ul {
-margin: 0; padding: 0;
-li {
-a {font-weight: bold;}
-list-style-position: outside;
-list-style-type: none;
-border-bottom: 1px solid #ccc;
-padding: 1em 0;
-&:last-of-type {border-bottom: none;}
-}
+  margin: 0; padding: 0;
+  li {
+    a {font-weight: bold;}
+    list-style-position: outside;
+    list-style-type: none;
+    border-bottom: 1px solid #ccc;
+    padding: 1em 0;
+    &:last-of-type {border-bottom: none;}
+  }
 }
 
 .primary {
-
-@media #{$small} {padding: 1em 0;}
-@media #{$small} {padding: 2em 0;}
-@media #{$medium} {padding: 2em 0;}
-h3 {
-  padding: 0 0 .5em 0;
-}
+  @media #{$small} {padding: 1em 0;}
+  @media #{$small} {padding: 2em 0;}
+  @media #{$medium} {padding: 2em 0;}
+  h3 {
+    padding: 0 0 .5em 0;
+  }
 }
 
 html.no-touch .banner {
-background: url(../img/design/banner.jpg) 50% 60% no-repeat;
-background-size: cover;
+  background: url(../img/design/banner.jpg) 50% 60% no-repeat;
+  background-size: cover;
 }
 
 // Headings
 
-h1 {}
-h2 {}
 h3 {color: $color-primary-darkest; font-size: 1.8em; padding: 0 0 1em 0;}
 h4 {font-size: 1.5em;}
 h5 {font-size: 1em; font-weight: bold;}
-h6 {}
 
 // tagline
 
@@ -292,6 +288,16 @@ body.home, body.fourohfour {
 // Content Callouts
 
 #content .main .section.one {
+  ol {
+    margin: 0;
+    list-style-position: outside;
+    li {
+      margin: 0 0 1em 0;
+    }
+    ul, ol {
+      margin: .5em 0 .5em 1.2em;
+    }
+  }
 
   ul {
   margin: 0 0 1em 1.2em;
@@ -299,6 +305,7 @@ body.home, body.fourohfour {
     list-style-position: outside;
     li {
       list-style: square;
+      margin: .2em 0;
     }
   }
 
@@ -323,7 +330,7 @@ body.home, body.fourohfour {
     margin: 0 0 .5em 1.5em; padding: 0;
     li {
       list-style: square;
-      padding: 0 .25em;
+      padding: .5em .25em;
       margin: 0;
     }
   }
