@@ -25,7 +25,7 @@ template: 7-get-page
 
 </div>
 
-<div class="small-8 columns"  markdown="1">
+<div class="small-12 medium-8 columns"  markdown="1">
 
 - Veterans who are filing claims for benefits.
 - Servicemembers who are getting ready to separate from the military.
@@ -33,7 +33,7 @@ template: 7-get-page
 
 </div>
 
-<div class="small-4 columns actions">
+<div class="small-12 medium-4 columns actions">
 <a class="usa-button-primary start" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
 </div>
 
@@ -145,7 +145,7 @@ Choose one of three ways:
 1. VA receives your claim. **(Claim Received)**
 2. A Veterans Service Representative (VSR) examines your claim to determine if VA needs any additional information to make a decision. **(Under Review)**
 3. If VA needs additional information, the VSR requests it from you or asks for it on your behalf. **(Gathering of Evidence)**
-4. Once VA obtains, or has completed its efforts to obtain, all the information it needs, the VSR ensures each issue claimed is ready for a decision. 
+4. Once VA obtains, or has completed its efforts to obtain, all the information it needs, the VSR ensures each issue claimed is ready for a decision.
 **(Review of Evidence)**
 5. The VSR electronically routes the claim and supporting information to a Rating Veterans Service Representative (RVSR) for a final decision. **(Preparation for a Decision)**
 
@@ -178,7 +178,7 @@ Other than attend scheduled examinations, you don't need to do anything else unl
 
 ##### Decision
 
-- The RVSR decides your claim after reviewing all evidence in your record, including the initial application, examination reports, and service treatment records. 
+- The RVSR decides your claim after reviewing all evidence in your record, including the initial application, examination reports, and service treatment records.
 - After deciding the claim, the RVSR routes it to a VSR to input the decision and draft the decision letter. A Senior Veterans Service Representative (SVSR) reviews the completed documents, then authorizes release of the letter and any payment.
 
 If you disagree with the decision, you may appeal it. The decision letter contains appeal information. [File an appeal]({{ site.url }}/disability-benefits/claims-appeal/).
