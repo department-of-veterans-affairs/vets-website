@@ -55,11 +55,6 @@ You can use the GI Bill® for more than just academic programs. This benefit wil
               </a>
             </li>
             <li>
-              <a href="{{ site.url }}/education/training-testing-licensing/veterans-retraining">
-                <h5>Veterans Retraining Assistance Program (VRAP)</h5>
-              </a>
-            </li>
-            <li>
               <a href="{{ site.url }}/education/training-testing-licensing/national-testing-program">
                 <h5>National Testing Program</h5>
               </a>
