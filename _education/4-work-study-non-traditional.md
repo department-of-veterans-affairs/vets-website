@@ -41,12 +41,12 @@ template: 6-info-page
 
             <li>
               <a href="{{ site.url }}/education/work-learn/non-traditional/accelerated-payments/">
-                <h5>Accelerated Payments For High-Technology Programs</h5>
+                <h5>Accelerated Payments for High-Technology Programs</h5>
               </a>
             </li>
             <li>
               <a href="{{ site.url }}/education/work-learn/non-traditional/independent-distance-learning/">
-                <h5>Independent and Distance Learning Training</h5>
+                <h5>Independent and Distance Learning</h5>
               </a>
             </li>
             <li>
