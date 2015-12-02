@@ -2,7 +2,7 @@
 layout: page-education
 permalink: education/gi-bill/montgomery-selected-reserve/index.html
 title: Montgomery GI Bill® Selected Reserve (MGIB-SR)
-concurrence: incomplete
+concurrence: complete
 template: 4-action-page
 ---
 
@@ -51,16 +51,16 @@ Yes, if:
 
 You can use up to $368 per month in financial assistance for the following types of training:
 
-- [College degree and certificate programs](http://www.benefits.va.gov/gibill/higher_learning.asp)
-- [Co-op training](http://www.benefits.va.gov/gibill/coop_training.asp)
-- [Technical or vocational courses](http://www.benefits.va.gov/gibill/non_college_degree.asp)
-- [Flight training](http://www.benefits.va.gov/gibill/flight_training.asp)
-- [Apprenticeships or on-the-job training](http://www.benefits.va.gov/gibill/onthejob_apprenticeship.asp)
-- [High-tech training](http://www.benefits.va.gov/gibill/accelerated_payments.asp) for Reservists pursuing a non-degree program of education lasting two years or less
-- [Licensing and certification tests](http://www.benefits.va.gov/gibill/licensing_certification.asp)
-- [Entrepreneurship training](http://www.benefits.va.gov/gibill/entrepreneurship_training.asp)
-- [Certain entrance examinations](http://www.benefits.va.gov/gibill/national_testing.asp)
-- [Correspondence courses](http://www.benefits.va.gov/gibill/corresponence_training.asp)
+- [College degree and certificate programs]{{ site.url }}/education/gi-bill/higher-learning/
+- [Co-op training]{{ site.url }}/education/work-learn/co-op-training/
+- [Technical or vocational courses]{{ site.url }}/education/work-learn/non-college-degree-program/
+- [Flight training]{{ site.url }}/education/training-testing-licensing/flight-training/
+- [Apprenticeships or on-the-job training]{{ site.url }}/education/work-learn/job-and-apprenticeship/
+- [High-tech training]{{ site.url }}/education/work-learn/non-traditional/accelerated-payments for Reservists pursuing a non-degree program of education lasting two years or less
+- [Licensing and certification tests]{{ site.url }}/education/training-testing-licensing/licensing-certification/
+- [Entrepreneurship training]{{ site.url }}/education/training-testing-licensing/entrepreneurship-training/
+- [Certain entrance examinations]{{ site.url }}/education/training-testing-licensing/national-testing-program/
+- [Correspondence courses]{{ site.url }}/education/work-learn/non-traditional/correspondence-training/
 - Under certain circumstances, remedial, deficiency, and refresher courses
 
 #### How it works
