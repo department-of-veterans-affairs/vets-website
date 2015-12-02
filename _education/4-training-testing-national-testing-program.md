@@ -3,7 +3,7 @@ layout: page-education
 permalink: education/training-testing-licensing/national-testing-program/index.html
 title: National Testing Program
 template: 4-action-page
-concurrence: incomplete
+concurrence: complete
 ---
 
 <div class="splash" markdown="0">
@@ -50,7 +50,7 @@ You
 </div>
 <div markdown="1">
 #### Available benefits
-Compensation benefits, including:
+Reimbursement for tests/fees, including:
 
 - Registration fees
 - Fees for specialized tests
@@ -59,7 +59,7 @@ Compensation benefits, including:
 #### How it works: 
 - Proof of payment may be required.
 - [Learn how your GI Bill® benefit package will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for testing expenses.
-- VA reimburses you for some but not necessarily all required test fees.
+- VA can only reimburse you for mandatory test fees.
 
 **Exception:** VA does not reimburse you for the following fees:
 - Fees associated with pre-tests (such as Kaplan tests)
