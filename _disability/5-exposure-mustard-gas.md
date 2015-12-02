@@ -52,13 +52,14 @@ If you were exposed to mustard gas (also known as sulfur mustard, yperite, or ni
 
 Yes, if:
 
--	You have a [disability related to mustard gas or lewisite exposure](http://www.warms.vba.va.gov/regs/38cfr/bookb/part3/S3_316.doc)
+-	You have a [disability related to mustard gas or lewisite exposure](http://www.warms.vba.va.gov/regs/38cfr/bookb/part3/S3_316.doc).
 -	Your military record shows you were exposed to mustard gas:
--	During field or chamber testing, or
--	During battlefield conditions in World War I, or
--	At the German air raid on the harbor of Bari, Italy, in World War II, or
--	While demolishing or handling explosive ordinance during Operation Iraqi Freedom, or
--	In the manufacturing and handling of vesicant (blistering) agents during military service
+
+  -	During field or chamber testing, or
+  -	During service on the battlefield in World War I, or
+  -	At the German air raid on the harbor of Bari, Italy, in World War II, or
+  -	While demolishing or handling explosive ordinance during Operation Iraqi Freedom, or
+  -	In the manufacturing and handling of vesicant (blistering) agents during military service.
 
 #### Who is covered
 
@@ -75,7 +76,7 @@ You
 
 #### How it works
 
-Because *exposure* to mustard gas or lewisite is not a service condition, you must claim the disease or condition that is related to the exposure. You should present any military records showing exposure to blistering agents with your claim.
+Because "exposure" to mustard gas or lewisite is not a service condition, you must claim the disease or condition that is related to the exposure. You should present any military records showing exposure to blistering agents with your claim.
 
 </div>
 </div>
@@ -89,7 +90,7 @@ Because *exposure* to mustard gas or lewisite is not a service condition, you mu
 For questions about your benefits related to mustard gas exposure, send us an e-mail at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov)
 </li>
 <li markdown="1">
-Find an [accredited Representative to help you](/disability-benefits/get/filing/help/)
+[Find an accredited Representative](/disability-benefits/get/filing/help/) to help you.
 </li>
 </ul>
 </div>
