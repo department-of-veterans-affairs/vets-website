@@ -29,21 +29,10 @@ concurrence: incomplete
 
 If you have a service-related disability that presents itself after you have separated, you may be eligible for disability compensation. These sorts of disabilities include:
 
-#### Disabilities That Appear Within One Year After Discharge
-
-VA presumes certain conditions are service connected if you experience them within one year after discharge.
-
-#### Exposures to Hazardous Materials
-
-Exposure to certain chemical, physical, or environmental hazards during military service may result in disease or injury.
-
-#### Diseases Associated with Gulf War Service
-
-There are many [conditions and diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/gulf-war-illness/) associated with serving in Southwest Asia.
-
-#### Prisoners of War (POWs)
-
-There are certain physical and emotional conditions resulting from captivity as a POW.
+- [Disabilities That Appear Within One Year After Discharge]({{ site.url }}/disability-benefits/get/filing/one-year/)
+- [Exposures to Hazardous Materials]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/)
+- [Diseases Associated with Gulf War Service]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/gulf-war-illness/)
+- [Prisoners of War (POWs)]({{ site.url }}/disability-benefits/conditions/pow/)
 
 </div>
 </div>
