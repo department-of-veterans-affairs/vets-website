@@ -210,48 +210,39 @@ If you disagree with the decision, you may appeal it. The decision letter contai
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-
-
-          <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/get/filing/faster/">
-                <h5>What is the fastest way to file a claim?</h5>
-              </a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/get/filing/ways/">
-                <h5>What are the different ways I can file a claim?</h5>
-              </a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/get/filing/help/">
-                <h5>How do I get help filing a claim?</h5>
-              </a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/get/filing/active-duty/">
-                <h5>How do I file while on active duty?</h5>
-              </a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/get/filing/one-year/">
-                <h5>How do I file for disabilities that appear within one year after discharge?</h5>
-              </a>
-            </li>
-
-            <li>
-              <a href="{{ site.url }}/disability-benefits/claims-process/date/">
-              <h5>Effective date of disability</h5>
-              <span></span>
-              </a>
-            </li>
-
-          </ul>
-        </div>
-      </div>
+      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+        <li>
+          <a href="{{ site.url }}/disability-benefits/get/filing/faster/">
+            <h5>What is the fastest way to file a claim?</h5>
+          </a>
+        </li>
+        <li>
+          <a href="{{ site.url }}/disability-benefits/get/filing/ways/">
+            <h5>What are the different ways I can file a claim?</h5>
+          </a>
+        </li>
+        <li>
+          <a href="{{ site.url }}/disability-benefits/get/filing/help/">
+            <h5>How do I get help filing a claim?</h5>
+          </a>
+        </li>
+        <li>
+          <a href="{{ site.url }}/disability-benefits/get/filing/active-duty/">
+            <h5>How do I file while on active duty?</h5>
+          </a>
+        </li>
+        <li>
+          <a href="{{ site.url }}/disability-benefits/get/filing/one-year/">
+            <h5>How do I file for disabilities that appear within one year after discharge?</h5>
+          </a>
+        </li>
+        <li>
+          <a href="{{ site.url }}/disability-benefits/claims-process/date/">
+          <h5>Effective date of disability</h5>
+          <span></span>
+          </a>
+        </li>
+      </ul>
     </div>
+  </div>
+</div>
