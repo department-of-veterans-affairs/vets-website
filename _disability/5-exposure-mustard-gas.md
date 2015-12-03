@@ -55,11 +55,11 @@ Yes, if:
 -	You have a [disability related to mustard gas or lewisite exposure](http://www.warms.vba.va.gov/regs/38cfr/bookb/part3/S3_316.doc).
 -	Your military record shows you were exposed to mustard gas:
 
-  -	During field or chamber testing, or
-  -	During service on the battlefield in World War I, or
-  -	At the German air raid on the harbor of Bari, Italy, in World War II, or
-  -	While demolishing or handling explosive ordinance during Operation Iraqi Freedom, or
-  -	In the manufacturing and handling of vesicant (blistering) agents during military service.
+   -	During field or chamber testing, or
+   -	During service on the battlefield in World War I, or
+   -	At the German air raid on the harbor of Bari, Italy, in World War II, or
+   -	While demolishing or handling explosive ordinance during Operation Iraqi Freedom, or
+   -	In the manufacturing and handling of vesicant (blistering) agents during military service.
 
 #### Who is covered
 
@@ -87,10 +87,10 @@ Because "exposure" to mustard gas or lewisite is not a service condition, you mu
 
 <ul class="plain" markdown="0">
 <li markdown="1">
-For questions about your benefits related to mustard gas exposure, send us an e-mail at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov)
+For questions about your benefits related to mustard gas exposure, send us an email at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov).
 </li>
 <li markdown="1">
-[Find an accredited Representative](/disability-benefits/get/filing/help/) to help you.
+[Find an accredited representative](/disability-benefits/get/filing/help/) to help you.
 </li>
 </ul>
 </div>
