@@ -3,7 +3,7 @@ layout: page-education
 permalink: education/gi-bill/transfer/index.html
 title: Transfer Post-9/11 GI Bill® to Spouse and Dependents
 template: 6-info-page
-concurrence: incomplete
+concurrence: complete
 ---
 
 <div class="splash" markdown="0">
@@ -27,22 +27,22 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 <div markdown="1">
-If you have not used all of your Post-9/11 GI Bill benefits, you may be eligible to transfer up to 36 months of benefits to your spouse or dependent children. Once the Department of Defense (DOD) approves the transfer, the new beneficiaries can apply for VA benefits.
+If you have not used all of your Post-9/11 GI Bill benefits, you may be eligible to transfer up to 36 months of benefits to your spouse or dependent children. Once the Department of Defense (DoD) approves the transfer, the new beneficiaries can apply for VA benefits. *The Department of Defense (DoD) determines whether or not you can transfer benefits to your family.*
 </div>
 <div class="call-out" markdown="1">
-### Are you eligible for benefits?
+### Are you eligible to transfer benefits?
 
 Yes, if: 
 
 - You’re currently on active duty or in the Selected Reserve.
-- You’re in one of these three situations:
-- You have at least six years of service on the date of approval and agree to serve four additional years from the date of election, or
-- You have at least 10 years of service on the date of approval, are prevented by either policy or statute from committing to four additional years, but agree to serve for the maximum amount of time allowed, or
-- You are, or are about to be, eligible for retirement, and you agree to serve an additional four years of service on or after August 1, 2012. You are considered to be eligible for retirement if you have completed 20 years of active federal service or 20 qualifying years (pursuant to section 12732 of title 10 U.S.C.).
+- You’re in one of these situations:
+   - You have at least six years of service on the date of approval and agree to serve four additional years from the date of election, or
+   - You have at least 10 years of service on the date of approval, are prevented by either policy or statute from committing to four additional years, but agree to serve for the maximum amount of time allowed, or
 - The recipient of the benefit is enrolled in DEERS
 
+
 #### Who is covered
-- Your dependents 
+Your dependents 
 </div>
 <div markdown="1">
 #### Available benefits
@@ -57,21 +57,19 @@ The following conditions apply to family members using transferred benefits:
 
 - May use the benefit immediately
 - May use the benefit while you are on active duty or after separation
-- Are not eligible for the monthly housing allowance while you are on active duty
-- May use the benefit for up to 15 years after your last separation from active duty
+- Are not eligible for the monthly housing allowance while your spouse is on active duty
+- May use the benefit for up to 15 years after your spouse’s  separation from active duty
 
 ##### Children
-
-- May start to use the benefit only after you have completed at least 10 years of service
-- May use the benefit while you are on active duty or after separation
+- May start to use the benefit only after the Servicemember has completed at least 10 years of service
+- May use the benefit while the Servicemember is on active duty or after separation
 - May not use the benefit until they have attained a secondary school diploma (or equivalency certificate), or have reached the age of 18
-- Are entitled to the monthly housing allowance stipend even when you are on active duty
+- Are entitled to the monthly housing allowance stipend even when the Servicmember is  on active duty
 - Are not subject to the 15-year delimiting date, but may not use the benefit after reaching 26 years of age
 
-Dependent eligibility is not affected if a child marries or if you and your spouse divorce. However, you retain the right to revoke or modify the transfer at any time. If you want to totally revoke transferred benefits for a dependent and you are still in the service, you must submit another transfer request for the dependent via milConnect. If a dependent's transfer eligibility was previously totally revoked, you cannot transfer benefits again to that dependent.
+Dependent eligibility is not affected if a child marries or if the Servicemember and  spouse divorce. However, the Servicemember or Veteran retains the right to revoke or modify the transfer at any time. If you want to totally revoke transferred benefits for a dependent and you are still in the service, you must submit another transfer request for the dependent via milConnect. If a dependent's transfer eligibility was previously totally revoked, you cannot transfer benefits again to that dependent.
 
 If you are still in the service and want to reallocate transferred benefits, you can do so using the TEB Portlet in [milConnect](https://www.dmdc.osd.mil/milconnect). If you’re a Veteran and want to reallocate benefits, you should contact VA using the ["Ask a Question" website](http://gibill.custhelp.com).
-
 
 #### Learn more
 
