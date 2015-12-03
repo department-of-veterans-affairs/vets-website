@@ -53,7 +53,6 @@ collections:
   - disability
   - education
   - loans
-  - health-care
   - pension
   - insurance
   - memorial
@@ -73,9 +72,6 @@ collections:
   loans:
     output: true
     permalink: /loans/:path/
-  health-care:
-    output: true
-    permalink: /health-care/:path/
   pension:
     output: true
     permalink: /pension/:path/
