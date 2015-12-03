@@ -83,7 +83,7 @@ If you have new information about a condition that you think could qualify you f
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/in-service/">
-            <h5>In-service claim</h5>
+            <h5>In-Service claim</h5>
           </a>
         </li>
 

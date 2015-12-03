@@ -116,7 +116,7 @@ If you want VA to assist you in gathering evidence to support your claim, you sh
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/in-service/">
-            <h5>In-service claim</h5>
+            <h5>In-Service claim</h5>
           </a>
         </li>
 
