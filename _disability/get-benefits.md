@@ -61,7 +61,7 @@ template: 7-get-page
 
 <div markdown="1">
 
-Average number of days to process a disability claim. If your claim is complicated, it may take longer than 130 days to process. If it's simpler, it may take less. If you've already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
+Average number of days to process a disability claim. If your claim is complicated, it may take longer than 127 days to process. If it's simpler, it may take less. If you've already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
 
 </div>
 </div>
