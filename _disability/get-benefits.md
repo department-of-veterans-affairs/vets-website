@@ -49,7 +49,7 @@ template: 7-get-page
 <div class="small-12 medium-2 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="number" markdown="0">130</span>
+<span class="number" markdown="0">127</span>
 <span class="description" markdown="0">Days</span>
 <span class="heading" markdown="0">(Average time)</span>
 
