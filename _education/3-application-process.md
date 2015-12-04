@@ -3,7 +3,7 @@ layout: page-education
 permalink: education/process/index.html
 title: Apply for Education Benefits
 template: 7-get-page
-concurrence: incomplete
+concurrence: complete
 ---
 
 
@@ -27,12 +27,17 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-The time it takes to process your education or training claim depends on your regional office. There are four regional claims processing centers. You can use [VA’s interactive map](http://www.vba.va.gov/reports/aspiremap.asp) to find out how quickly your regional office is processing claims.
+### Who Should Read This
+Service Members and Veterans seeking education and training opportunities
+
+### How long does a decision take?
+The time it takes to process your claim depends on your regional office. There are four regional claims processing centers.It varies, region by region.  You can use [VA’s interactive map](http://www.vba.va.gov/reports/aspiremap.asp) to find out how quickly your regional office is processing claims.
+
 </div>
 <div class="small-12 columns" markdown="0">
 
 <div markdown="1">
-### How it works
+### What Are the Steps?
 </div>
 
 
@@ -50,7 +55,7 @@ The time it takes to process your education or training claim depends on your re
 
 -	Decide [which school](http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
 
--	Please note that it is not required, but is an option, to apply to a chosen school prior to applying for benefits.
+-	Please note: it is not required, but it is an option, to apply to a chosen school prior to applying for benefits.
 
 </div>
 
@@ -60,7 +65,7 @@ The time it takes to process your education or training claim depends on your re
 
 <div markdown="1">
 
-#### Prepare Documents
+#### Gather Your Documents
 
 The following documents will help VA process your claim:
 
@@ -91,7 +96,7 @@ You have four options for filing your claim:
 
 -	Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/vonapp).
 -	Go to a [VA regional office]({{ site.url }}/education/process/regional-office/index.html) and have a VA employee assist you.
--	Work with the VA Certifying Official, who is usually in the Registrar or Financial Aid office, at the school of your choice.
+-	Work with the VA Certifying Official. This, person who is usually in in the Registrar or Financial Aid office, at thethe school  of your choice.
 -	Call 888-GI Bill (888-442-4551) to have the application mailed to you. After you complete it, mail it to your [VA regional claims processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
 </div>
