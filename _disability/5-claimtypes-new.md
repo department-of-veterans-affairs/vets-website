@@ -2,7 +2,7 @@
 layout: page-disability
 permalink: disability-benefits/claims-process/claim-types/new-claim/index.html
 title: New Claim
-concurrence: incomplete
+concurrence: complete
 ---
 
 <div class="splash" markdown="0">
@@ -25,11 +25,18 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you have new information about a condition that you think could qualify you for new or additional disability benefits, you may want to file a new claim. The outcome of a new claim determination may be:
+If you have new information about a condition that you think could qualify you for new or additional disability benefits, you may want to file a new claim. 
 
+### Who can file a new claim? 
+You
+
+### Why use the new claim process? 
+A new claim will determine if new or additional benefits are warranted. 
+
+#### The outcome of a new claim determination may be:
 - Increased disability compensation
 - Special Monthly Compensation
-- A shift to [Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/) status
+- A shift to [Individual Unemployability]({{ site.url }}/disability-benefits/conditions/special-claims/individual-unemployability/) status
 
 </div>
 </div>
