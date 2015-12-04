@@ -87,19 +87,19 @@ A Veteran was in the Army for twenty years. During her military service, she was
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/in-service/">
-            <h5>In-Service claim</h5>
+            <h5>In-Service Claim</h5>
           </a>
         </li>
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/pre-discharge/">
-            <h5>Predischarge claim</h5>
+            <h5>Predischarge Claim</h5>
           </a>
         </li>
 
         <li>
           <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/post-service/">
-            <h5>Postservice claim</h5>
+            <h5>Postservice Claim</h5>
           </a>
         </li>
       </ul>

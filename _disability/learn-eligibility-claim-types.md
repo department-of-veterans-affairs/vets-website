@@ -69,7 +69,7 @@ Coming soon.
 
             <li>
               <a href="{{ site.url }}/disability-benefits/learn/eligibility/claim-types/post-service-claim/">
-                <h5>Postservice claim</h5>
+                <h5>Postservice Claim</h5>
               </a>
             </li>
 
