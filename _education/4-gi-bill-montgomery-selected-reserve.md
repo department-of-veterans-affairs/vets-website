@@ -51,16 +51,16 @@ Yes, if:
 
 You can use up to $368 per month in financial assistance for the following types of training:
 
-- [College degree and certificate programs]{{ site.url }}/education/gi-bill/higher-learning/
-- [Co-op training]{{ site.url }}/education/work-learn/co-op-training/
-- [Technical or vocational courses]{{ site.url }}/education/work-learn/non-college-degree-program/
-- [Flight training]{{ site.url }}/education/training-testing-licensing/flight-training/
-- [Apprenticeships or on-the-job training]{{ site.url }}/education/work-learn/job-and-apprenticeship/
-- [High-tech training]{{ site.url }}/education/work-learn/non-traditional/accelerated-payments for Reservists pursuing a non-degree program of education lasting two years or less
-- [Licensing and certification tests]{{ site.url }}/education/training-testing-licensing/licensing-certification/
-- [Entrepreneurship training]{{ site.url }}/education/training-testing-licensing/entrepreneurship-training/
-- [Certain entrance examinations]{{ site.url }}/education/training-testing-licensing/national-testing-program/
-- [Correspondence courses]{{ site.url }}/education/work-learn/non-traditional/correspondence-training/
+- [College degree and certificate programs]({{ site.url }}/education/gi-bill/higher-learning/)
+- [Co-op training]({{ site.url }}/education/work-learn/co-op-training/)
+- [Technical or vocational courses]({{ site.url }}/education/work-learn/non-college-degree-program/)
+- [Flight training]({{ site.url }}/education/training-testing-licensing/flight-training/)
+- [Apprenticeships or on-the-job training]({{ site.url }}/education/work-learn/job-and-apprenticeship/)
+- [High-tech training]({{ site.url }}/education/work-learn/non-traditional/accelerated-payments/) for Reservists pursuing a non-degree program of education lasting two years or less
+- [Licensing and certification tests]({{ site.url }}/education/training-testing-licensing/licensing-certification/)
+- [Entrepreneurship training]({{ site.url }}/education/training-testing-licensing/entrepreneurship-training/)
+- [Certain entrance examinations]({{ site.url }}/education/training-testing-licensing/national-testing-program/)
+- [Correspondence courses]({{ site.url }}/education/work-learn/non-traditional/correspondence-training/)
 - Under certain circumstances, remedial, deficiency, and refresher courses
 
 #### How it works
