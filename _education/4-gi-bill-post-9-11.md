@@ -3,7 +3,7 @@ layout: page-education
 permalink: education/gi-bill/post-9-11/index.html
 title: Post-9/11 GI Bill®
 template: 1-topic-landing
-concurrence: incomplete
+concurrence: complete
 ---
 
 <div class="splash" markdown="0">
@@ -26,7 +26,7 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-If you are seeking education or training opportunities and have served on active duty after September 10, 2001, you may be eligible for the Post-9/11 GI Bill®. This program is a major overhaul of the Montgomery GI Bill®.
+If you are seeking education or training opportunities and have served on active duty after September 10, 2001, you may be eligible for the Post-9/11 GI Bill®. The Post-9/11 GI Bill is the largest expansion of education benefits since the Montgomery GI Bill.
 </div>
 <div class="small-12 columns" markdown="1">
 <div class="call-out">
@@ -35,11 +35,10 @@ If you are seeking education or training opportunities and have served on active
 
 Yes, if:
 
--  You meet the basic requirements for any GI Bill® program
--  You have served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001
--  You make an irrevocable election of the Post-9/11 GI Bill® (and forgo use of any other GI Bill®)
+-  You meet the basic requirements for any GI Bill® program.
+-  You have served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001.
 
-Making an “irrevocable election” means that you cannot change back to another GI Bill® program for which you may also be eligible after you receive Post-9/11 GI Bill® benefits.
+If you are eligible for more than one VA education benefit, you may be asked to make an irrevocable election. Making an “irrevocable election” means that you cannot change back to another GI Bill® program for which you may also be eligible after you receive Post-9/11 GI Bill® benefits.
 
 #### Who is covered
 
@@ -51,37 +50,38 @@ Making an “irrevocable election” means that you cannot change back to anothe
 
 #### Available benefits
 
-- Significant tuition-funding assistance
-- A location-adjusted housing allowance out of which you can pay your living expenses during enrollment
+- Tuition and fees
+- A monthly housing allowance (for those attending more than half-time) 
+- A books and supplies stipend (up to $1,000 per academic year)
 
 #### How it works
 
-The benefit amount varies according to where you use the benefit and the amount of your active-duty service since September 10, 2001.
+The benefit amount varies according to where you use the benefit, the amount of active-duty service since September 10, 2001 and how many credits or training hours you are taking.
 
 #### The program
 
-- Covers the entire in-state tuition for state schools and up to the national maximum ($21,084.89) for private or foreign schools. Learn more
-- Pays you the Basic Allowance for Housing (BAH) of an E-5 with dependents based on the cost of living for the specific location of your school.
+- Covers the entire in-state tuition for state schools and up to the national maximum ($21,084.89) for private or foreign schools.
+- Pays eligible individuals a Basic Allowance for Housing (BAH) based on the cost of living for the specific location of your school.
 
-**Example:** If you were attending University of California, Los Angeles, in 2015, you would receive a BAH of up to $2,433 a month while in school. If you were attending the University of Virginia in Charlottesville, you would receive up to $1,638 while in school.
+**Example:** If you were attending University of California, Los Angeles, in 2015 (at the 100% benefit level, while attending school full-time), you would receive a BAH of up to $2,433 a month while in school. If you were attending the University of Virginia in Charlottesville, you would receive up to $1,638 while in school.
 
 - Provides up to 36 months of educational benefits, generally payable for 15 years following your release from active duty
 - Uses a percentage-of-maximum-benefit scale based on how much active service you have had since September 10, 2001  
 
 **Example:** If you have had 90 days of active service since September 10, 2001, you qualify for 40% of the maximum amount. Three years of active service qualifies you for 100% of the benefit.
 
-#### Also includes
+#### Other potential benefits include
 
-- The Yellow Ribbon Program, which provides additional support to cover higher private-school and out-of-state tuition and fees.
-- The Transfer of Entitlement Option, which enables eligible Servicemembers to transfer all 36 months or a portion of Post-9/11 GI Bill® benefits to a spouse or children.
+- The Yellow Ribbon Program, which may provide additional support to cover higher private-school and out-of-state tuition and fees.
+- The Transfer of Entitlement Option, which enables eligible Servicemembers to transfer all 36 months or a portion of Post-9/11 GI Bill® benefits to a spouse or children. Transferability eligibility is determined by the Department of Defense.
 
 Use the [GI Bill® Comparison Tool]({{ site.url }}/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
 
-Get information on the Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) for dependents of Servicemembers who died in the line of duty after September 10, 2001.
+Get information on the [Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)]({{ site.url }}/education/survivors-dependent-assistance/fry-scholarship/) for dependents of Servicemembers who died in the line of duty after September 10, 2001.
 
 #### Types of Training
 
-VA approves the following programs and courses under the Post-9/11 GI Bill®:
+The following types of programs and courses may be used under the Post-9/11 GI Bill®:
 
 - Correspondence training
 - Cooperative training
@@ -90,12 +90,11 @@ VA approves the following programs and courses under the Post-9/11 GI Bill®:
 - Independent and distance learning
 - Institutions of higher learning undergraduate and graduate degrees
 - Licensing and certification reimbursement
-- Vocational/technical training, and programs that do not grant college degrees
+- Vocational/technical training and non-college degree programs
 - National testing reimbursement
 - On-the-job training
 - Tuition Assistance Top-Up
 - Tutorial Assistance
-- Vocational/technical training
 </div>
 </div>
 
