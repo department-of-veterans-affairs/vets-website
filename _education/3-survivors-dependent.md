@@ -68,10 +68,8 @@ You may be eligible for both of these programs, but can only use one of them. Yo
 **Exception:** As a beneficiary, you cannot use the same qualifying event for more than one benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
 
 
-
-#### Comparison Chart for Surviving Spouses With Both DEA and Fry Scholarship Eligibility
 <table>
-
+<caption>Comparison Chart for Surviving Spouses With Both DEA and Fry Scholarship Eligibility</caption>
 <tr>
   <th colspan="1"></th>
   <th colspan="1" scope="col">DEA</th>
