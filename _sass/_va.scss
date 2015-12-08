@@ -690,6 +690,13 @@ li {
 
 // Tables
 table {
+
+  caption {
+    text-align: left;
+    padding: 0 0 .25em 0;
+    font-weight: bold;
+    font-size: 1.25em;
+  }
   border: 0;
   text-align: left;
   @media #{$small-only} {
