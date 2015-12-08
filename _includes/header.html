@@ -114,12 +114,14 @@ new WOW().init();
 			<h1 role="banner"><a href="/">Vets.gov</a></h1>
 		</div>
 
+		{% if include.search != 'false' %}
+
 		<!-- Mobile search button -->
 		<div class="hide-for-medium-up search-button">
 			<button id="trigger-overlay" type="button" class="usa-button usa-button-outline-inverse" aria-controls="mobile-menu" aria-flowto="mobile-menu">Search</button>
 		</div>
 
-		{% if include.search != 'false' %}
+
 
 		<div id="mobile-menu" class="overlay overlay-fullscreen" role="dialog">
 			<div class="medium-5 medium-offset-3 text-right columns">
