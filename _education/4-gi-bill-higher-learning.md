@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/gi-bill/higher-learning/index.html
-title: Institutions of Higher Learning Undergraduate and Graduate Degrees
+title: Undergraduate and Graduate Degrees
 template: 1-topic-landing
 concurrence: incomplete
 ---
@@ -12,7 +12,7 @@ concurrence: incomplete
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
+<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
