@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/gi-bill/montgomery-selected-reserve/index.html
-title: Montgomery GI Bill® Selected Reserve (MGIB-SR)
+title: Montgomery GI Bill Selected Reserve (MGIB-SR)
 concurrence: complete
 template: 4-action-page
 ---
@@ -12,7 +12,7 @@ template: 4-action-page
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
+<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -34,7 +34,7 @@ template: 4-action-page
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-If you are an eligible member of the Army Reserve, Navy Reserve, Air Force Reserve, Marine Corps Reserve, Coast Guard Reserve, Army National Guard or Air National Guard, you may receive up to 36 months of education and training benefits under the MGIB-SR program. 
+If you are an eligible member of the Army Reserve, Navy Reserve, Air Force Reserve, Marine Corps Reserve, Coast Guard Reserve, Army National Guard, or Air National Guard, you may receive up to 36 months of education and training benefits under the MGIB-SR program. 
 
 View [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
 </div>
@@ -51,15 +51,15 @@ Yes, if:
 
 You can use up to $368 per month in financial assistance for the following types of training:
 
-- [College degree and certificate programs]({{ site.url }}/education/gi-bill/higher-learning/)
+- [Undergraduate and graduate programs]({{ site.url }}/education/gi-bill/higher-learning/)
 - [Co-op training]({{ site.url }}/education/work-learn/co-op-training/)
-- [Technical or vocational courses]({{ site.url }}/education/work-learn/non-college-degree-program/)
+- [Technical or vocational courses (non-college degree programs)]({{ site.url }}/education/work-learn/non-college-degree-program/)
 - [Flight training]({{ site.url }}/education/training-testing-licensing/flight-training/)
-- [Apprenticeships or on-the-job training]({{ site.url }}/education/work-learn/job-and-apprenticeship/)
+- [On-the-job training and apprenticeships]({{ site.url }}/education/work-learn/job-and-apprenticeship/)
 - [High-tech training]({{ site.url }}/education/work-learn/non-traditional/accelerated-payments/) for Reservists pursuing a non-degree program of education lasting two years or less
 - [Licensing and certification tests]({{ site.url }}/education/training-testing-licensing/licensing-certification/)
 - [Entrepreneurship training]({{ site.url }}/education/training-testing-licensing/entrepreneurship-training/)
-- [Certain entrance examinations]({{ site.url }}/education/training-testing-licensing/national-testing-program/)
+- [Certain entrance examinations (national testing)]({{ site.url }}/education/training-testing-licensing/national-testing-program/)
 - [Correspondence courses]({{ site.url }}/education/work-learn/non-traditional/correspondence-training/)
 - Under certain circumstances, remedial, deficiency, and refresher courses
 
