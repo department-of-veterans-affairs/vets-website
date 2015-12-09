@@ -42,15 +42,42 @@ template: 4-action-page
 <dd>Dates: January 9, 1962 and May 7, 1975</dd>
 <dd>Sites: Royal Thai Air Force (RTAF) bases and U.S. Army bases in Thailand</dd>
 </dl>
+<div markdown="1">
+<p>If your service involved regular daily security duty on the fenced-in perimeters of a U.S. military base in Thailand or Royal Thai Air Force Bases between January 9, 1962, and May 7, 1975, and you have an associated disease, you may be eligible for an acknowledgment of Agent Orange exposure and benefits.</p>
+</div>
+<div class="call-out" markdown="1">
+
+### Are you eligible for disability compensation?
+
+Yes, if:
+
+- You served perimeter security duty on RTAF bases in Thailand, including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang.
+- You served perimeter security duty while stationed on a U.S. Army installation in Thailand.
+
+#### Who is covered
+
+You, your dependents and survivors
+
+</div>
 
 <div markdown="1">
 
-<p>If your service involved regular daily security duty on the fenced-in perimeters of a U.S. military base in Thailand or Royal Thai Air Force Bases between January 9, 1962, and May 7, 1975, and you have an associated disease, you may be eligible for an acknowledgment of Agent Orange exposure and benefits.</p>
+#### Available benefits
+- Heath care benefits
+- Compensation benefits
+- An [Agent Orange Registry health exam]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
+
+
+#### How it works
+To receive benefits for [diseases associated with Agent Orange exposure]({{ site.url}}//disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence showing the required perimeter security duty (for example, as a dog handler, a member of a security squadron, a member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
+
+#### Learn more
+[Benefits related to Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
+
+[Agent Orange exposure locations]({{ site.url}}//disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/).
 
 </div>
-
 </div>
-
 
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="0">
@@ -70,49 +97,7 @@ Find an [accredited Representative to help you]({{ site.url }}/disability-benefi
 
 </div>
 </div>
-</div>
-
-<div class="row" markdown="0">
-<div class="small-12 columns">
-
-<div class="call-out" markdown="1">
-
-### Are you eligible for disability compensation?
-
-Yes, if:
-
-- You served perimeter security duty on RTAF bases in Thailand, including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang.
-- You served perimeter security duty while stationed on a U.S. Army installation in Thailand.
-
-### Who is covered
-
-You, your dependents and survivors
 
 </div>
-
-<div markdown="1">
-
-### Available benefits
-- Heath care
-- Compensation
-- An [Agent Orange Registry health exam]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
-
-
-### How it works
-To receive benefits for [diseases associated with Agent Orange exposure]({{ site.url}}//disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence showing the required perimeter security duty (for example, as a dog handler, a member of a security squadron, a member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
-
-### Learn more
-[Benefits related to Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
-
-[Agent Orange exposure locations]({{ site.url}}//disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/).
-
-
 </div>
-
-</div>
-
-</div>
-
-</div>
-
 </div>

@@ -46,7 +46,6 @@ concurrence: incomplete
 
 <div markdown="1">
 If you participated in the testing or storage of Agent Orange used in Vietnam—on bases in the United States or elsewhere—you can apply for disability compensation.
-
 </div>
 
 <div class="call-out" markdown="1">
@@ -55,24 +54,20 @@ Yes, if:
 
 - You are ill with one or more of [these diseases]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
 - Your service included participation in the testing or storage of Agent Orange used in Vietnam.
-</div>
-<div class="call-out" markdown="1">
-### Who is covered
+- 
+#### Who is covered
 You and your dependents or survivors
 </div>
-<div class="call-out" markdown="1">
-### Available benefits
+<div markdown="1">
+#### Available benefits
 - Compensation 
 - Health care 
 - An [Agent Orange Registry health exam]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
-</div>
-<div class="call-out" markdown="1">
-### How it works
+
+#### How it works
 You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for [diseases]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) that VA presumes are related to Agent Orange exposure.  
 </div>
-
 </div>
-
 
 <div class="small-12 medium-4 columns" markdown="0">
 <div markdown="1">
@@ -97,5 +92,5 @@ Find an [accredited Representative to help you]({{ site.url }}/disability-benefi
 </div>
 
 </div>
-
+</div>
 </div>

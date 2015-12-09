@@ -43,30 +43,6 @@ template: 4-action-page
 <dd>Sites: Vietnam, C-123 aircraft, other Agent Orange–contaminated areas</dd>
 </dl>
 
-</div>
-
-
-<div class="small-12 medium-4 columns" markdown="0">
-<div markdown="0">
-
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain">
-
-<li markdown="1">
-Find an [accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
-</li>
-
-
-</ul>
-
-</div>
-</div>
-</div>
-
-<div class="row" markdown="0">
-<div class="small-12 columns">
-
 <div markdown="1">
 
 If you were exposed to Agent Orange during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam or the DMZ in Korea.  
@@ -85,25 +61,19 @@ Yes, if:
 - You had regular and repeated contact with a contaminated [C-123 aircraft]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/), or
 - You were associated during your service with projects to test, dispose of, or store Agent Orange.
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### Who is covered
+#### Who is covered
 
 You and your survivors 
+</div>
 
-Available benefits
+<div markdown="1">
+#### Available benefits
 
 - Compensation
 - Health care
 - An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### How it works
+#### How it works
 
 You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for diseases that VA presumes are related to Agent Orange exposure.
 
@@ -112,11 +82,21 @@ You must prove you were exposed to Agent Orange during your military service to 
 Learn more about [Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
 
 </div>
+</div>
 
+<div class="small-12 medium-4 columns" markdown="0">
+<div markdown="0">
+<h4 class="highlight">Questions</h4>
+
+<ul class="plain">
+<li markdown="1">
+Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
+</li>
+</ul>
+
+</div>
 </div>
 
 </div>
-
 </div>
-
 </div>

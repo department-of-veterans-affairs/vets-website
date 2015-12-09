@@ -24,14 +24,6 @@ concurrence: incomplete
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-8 columns" markdown="-">
-
-<dl class="panel-list plain">
-</dl>
-
-</div>
-</div>
 
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
@@ -52,8 +44,11 @@ Yes, if:
 #### Who is covered
 
 You and your dependents
+
 </div>
-<div markdown="">
+
+<div markdown="1">
+
 #### Available benefits
 
 - Significant tuition assistance
