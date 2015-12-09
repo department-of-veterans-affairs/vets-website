@@ -55,22 +55,21 @@ If you served on a Blue Water Navy ship on the coastal or inland waterways of Vi
 Yes, if:
 
 - You are ill with one, or more, of [these diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange
-
 - Your military record shows that you were aboard one of the [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp) that operated in Vietnam, or
-
 - You came ashore
 
 ### Who is covered:
 
 You and your survivors.
+
 </div>
 
 <div markdown="1">
+
 #### Available benefits:
 
 - Compensation
 - Health care
-
 - An [Agent Orange Registry health exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
 
 #### How it works:
@@ -92,11 +91,11 @@ If you did not go ashore or serve aboard a ship that operated on the inland wate
 <ul class="plain">
 
 <li markdown="1">
-
 [Learn More About Blue Water and Agent Orange Here](http://www.publichealth.va.gov/exposures/agentorange/locations/blue-water-veterans.asp#sthash.Srfgf1kO.dpuf)
+</li>
 
+<li markdown="1">
 Find an [accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
-
 </li>
 
 </ul>

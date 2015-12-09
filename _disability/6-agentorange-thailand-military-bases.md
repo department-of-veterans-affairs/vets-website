@@ -91,7 +91,7 @@ To receive benefits for [diseases associated with Agent Orange exposure]({{ site
 **Need help determining exposure?**
 VA will help you determine potential exposure to Agent Orange after you file a claim for disability benefits.
 
-Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
+Find an [accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
 </li>
 </ul>
 
