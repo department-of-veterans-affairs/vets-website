@@ -155,11 +155,11 @@ UserVoice.push(['addTrigger', {trigger_position: 'bottom-right', strings: {sugge
 UserVoice.push(['autoprompt', {}]);
 </script>
 
-<script src='{{ site.url }}/assets/js/vendor/jquery.tipsy.js'></script>
+<script src='{{ site.url }}/assets/js/vendor/jquery-accessible-simple-tooltip-aria.min.js'></script>
 <script src="{{ site.url }}/assets/js/vendor/classie.js"></script>
 <script src="{{ site.url }}/assets/js/vendor/menu.js"></script>
 
-<script>
+<!--<script>
      // manually trigger the tooltip so that it works on mobile
      $('.helpTooltip').tipsy({trigger: 'manual'});
      var visible = false;
@@ -178,7 +178,7 @@ UserVoice.push(['autoprompt', {}]);
      });
      $(document).click(hideTooltip)
      $(document).bind("touchstart", hideTooltip);
-</script>
+</script>-->
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

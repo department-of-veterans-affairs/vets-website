@@ -114,20 +114,15 @@ html, body {
   font-weight: bold;
 }
 
-span.helpTooltip {
-  border-radius: 5em;
-  background: #444;
-  padding: .2em;
-  display: inline-block;
-  margin: .25em 0em 1.35em 2em;
-  color: #fff;
-  height: 2em;
-  width: 2em;
-  text-align: center;
-  font-size: .8em;
-  vertical-align: middle;
+button.js-simple-tooltip {
+  margin: -0.5em 0 0 1em;
 }
-
+.simpletooltip {
+  margin-top: 9px;
+}
+.simpletooltip:before  {
+  top:3px;
+}
 
 button.searchButton {
   height: 2em;
@@ -173,7 +168,7 @@ button.searchButton {
     </div>
     <div class="small-12 large-9 columns">
       <input id="pac-input" type="text" placeholder="Search for a location"><button class="searchButton">Search</button>
-      <span class="helpTooltip" aria-info="help" title="Search by ZIP Code, city, state, U.S. territory, or address">?</span>
+      <button class="js-simple-tooltip" data-simpletooltip-text="Search by ZIP Code, city, state, U.S. territory, or address">?</button>
     </div>
   </div>
 </div>
