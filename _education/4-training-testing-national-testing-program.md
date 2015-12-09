@@ -12,7 +12,7 @@ concurrence: complete
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/training-testing-licensing/">Training, Testing, or Licensing</a></li>
+<li class="parent"><a href="{{ site.url }}/education/training-testing-licensing/">Advanced Training and Certifications</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -42,7 +42,7 @@ If you are pursuing higher education that requires testing as part of the applic
 
 Yes, if: 
 
-- You are a Veteran eligible for the GI Bill®
+You are a Veteran eligible for the GI Bill
 
 #### Who is covered
 
@@ -50,23 +50,25 @@ You
 </div>
 <div markdown="1">
 #### Available benefits
-Reimbursement for tests/fees, including:
+Reimbursement for testing fees, including:
 
 - Registration fees
 - Fees for specialized tests
 - Administrative fees
 
-#### How it works: 
+#### How it works
 - Proof of payment may be required.
-- [Learn how your GI Bill® benefit package will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for testing expenses.
-- VA can only reimburse you for mandatory test fees.
+- Learn how [your GI Bill benefit package will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for testing expenses.
+- VA can reimburse you only for mandatory test fees.
 
 **Exception:** VA does not reimburse you for the following fees:
-- Fees associated with pre-tests (such as Kaplan tests)
+
+- Fees associated with pretests (such as Kaplan tests)
 - Fees to receive scores quickly
 - Optional items not required to take an approved test
 
-***The following tests are approved for reimbursement:***
+**The following tests are approved for reimbursement:**
+
 - SAT (Scholastic Assessment Test)
 - LSAT (Law School Admission Test)
 - GRE (Graduate Record Examination)
@@ -84,7 +86,7 @@ Reimbursement for tests/fees, including:
 - ECE (Excelsior College Examinations)
 - PLA (Prior Learning Assessment) testing through learningcounts.org
 
-[See the complete list of tests and fees](http://inquiry.vba.va.gov/weamspub/buildSearchNE.do)
+See the [complete list of tests and fees](http://inquiry.vba.va.gov/weamspub/buildSearchNE.do).
 </div>
 </div>
 
