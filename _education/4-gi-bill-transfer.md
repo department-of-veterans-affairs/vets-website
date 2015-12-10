@@ -1,7 +1,7 @@
 ---
 layout: page-education
 permalink: education/gi-bill/transfer/index.html
-title: Transfering Post-9/11 GI Bill Benefits
+title: Transferring Post-9/11 GI Bill Benefits
 template: 6-info-page
 concurrence: complete
 ---
@@ -96,7 +96,7 @@ If you are still in the service and want to reallocate transferred benefits, you
 
 #### What happens next?
 
-While you are still serving, use the [Transfer of Education Benefits (TEB) website](https://www.dmdc.osd.mil/milconnect/faces/faqs?_adf.ctrl-state=c4t1chkk8_4) to request, modify, and revoke a Transfer of Entitlement (TOE). You cannot apply for a transfer of benefits through VA. (Note: From the milConnect home page, select Education then Transfer of Education Benefits [TEB] from the menu bar.)
+While you are still serving, use the [Transfer of Education Benefits (TEB) website](https://www.dmdc.osd.mil/milconnect/faces/faqs?_adf.ctrl-state=c4t1chkk8_4) to request, modify, and revoke a Transfer of Entitlement (TOE). You cannot apply for a transfer of benefits through VA. (**Note:** From the milConnect home page, select Education then Transfer of Education Benefits [TEB] from the menu bar.)
 
 Upon approval, family members may [apply online](http://vabenefits.vba.va.gov/vonapp/main.asp) to use transferred benefits or may  print, complete, and mail [VA Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf) to the nearest [VA regional office]({{ site.url }}/facility-locator/). 
 
