@@ -34,7 +34,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-You are in charge of designing your own education. VA education benefits, including the GI Bill®, give you a wide range of options, including on-the-job-training, apprenticeships, overseas schools, and correspondence training.
+You are in charge of designing your own education. VA education benefits, including the GI Bill, give you a wide range of options, including on-the-job-training, apprenticeships, overseas schools, and correspondence training.
 
 </div>
 </div>
@@ -46,23 +46,23 @@ You are in charge of designing your own education. VA education benefits, includ
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
               <a href="{{ site.url }}/education/work-learn/workstudy/">
-                <h5>Workstudy</h5>
+                <h5>Work Study</h5>
               </a>
             </li>
             <li>
               <a href="{{ site.url }}/education/work-learn/job-and-apprenticeship/">
-                <h5>On-The-Job and Apprenticeship</h5>
+                <h5>On-the-Job Training and Apprenticeships</h5>
               </a>
             </li>
             <li>
               <a href="{{ site.url }}/education/work-learn/co-op-training/">
-                <h5>Co-Op Training</h5>
+                <h5>Co-op Training</h5>
               </a>
             </li>
 
             <li>
               <a href="{{ site.url }}/education/work-learn/non-college-degree-program/">
-                <h5>Non-College Degree Program</h5>
+                <h5>Non-College Degree Programs</h5>
               </a>
             </li>
 
