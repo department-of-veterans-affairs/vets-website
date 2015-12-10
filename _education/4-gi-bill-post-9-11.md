@@ -83,25 +83,25 @@ Get information about the [Marine Gunnery Sergeant John David Fry Scholarship (F
 
 The following types of programs and courses may be used under the Post-9/11 GI Bill:
 
-- Correspondence training
-- Cooperative training
-- Entrepreneurship training
-- Flight training
-- Independent and distance learning
-- Institutions of higher learning undergraduate and graduate degrees
-- Licensing and certification reimbursement
-- Vocational/technical training and non-college degree programs
-- National testing reimbursement
-- On-the-job training
-- Tuition Assistance Top-Up
-- Tutorial Assistance
+- [Correspondence training]({{ site.url }}/education/work-learn/non-traditional/correspondence-training/)
+- [Cooperative training]({{ site.url }}/education/work-learn/co-op-training/)
+- [Entrepreneurship training]({{ site.url }}/education/training-testing-licensing/entrepreneurship-training/)
+- [Flight training]({{ site.url }}/education/training-testing-licensing/flight-training/)
+- [Independent and distance learning]({{site.url}}/ education/work-learn/non-traditional/independent-distance-learning/)
+- [Institutions of higher learning undergraduate and graduate degrees]({{site.url}}/education/gi-bill/higher-learning/)
+- [Licensing and certification reimbursement]({{ site.url }}/education/training-testing-licensing/licensing-certification/)
+- [Vocational/technical training and non-college degree programs]({{ site.url }}/education/work-learn/non-college-degree-program/)
+- [National testing reimbursement]({{site.url}}/training-testing-licensing/national-testing-program/)
+- [On-the-job training]({{ site.url }}/education/work-learn/job-and-apprenticeship/)
+- [Tuition Assistance Top-Up]({{site.url}}/education/gi-bill/tuition-assistance/)
+- [Tutorial Assistance]({{site.url}}/ education/gi-bill/tutorial-assistance/)
 </div>
 </div>
 
 <div class="small-12 columns" markdown="1">#### Learn more
-- See the current payment rates for the Post-9/11 GI Bill®
-- Post-9/11 GI Bill® pamphlet
-- Frequently Asked Questions (FAQ)
+- See the current [payment rates]({{site.url}}/education/rates/) for the Post-9/11 GI Bill®
+- [Post-9/11 GI Bill® pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf)
+- [Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/detail/a_id/523)
 
 
 “GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
