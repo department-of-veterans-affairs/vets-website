@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/get/filing/faster/index.html
-title: Is there a way to file that can get me a decision faster?
+title: Fully Developed Claims
 concurrence: incomplete
 source: http://www.benefits.va.gov/compensation/dbq_disabilityexams.asp
 template: 6-info-page
@@ -38,8 +38,6 @@ template: 6-info-page
 
 <div markdown="1">
 
-### Fully Developed Claim
-
 The Fully Developed Claims (FDC) program is an optional way for Veterans and survivors to get faster decisions by submitting all relevant records in their possession, and those records which are easily obtainable, such as private medical records, when they make their claim and certify that they have no further evidence to submit. VA can process these claims more quickly.
 
 ### Disability Benefits Questionnaires (DBQs)
@@ -61,7 +59,7 @@ See our [DBQ Frequently Asked Questions](http://www.benefits.va.gov/COMPENSATION
 
 DBQs help support VA's Fully Developed Claims (FDC) program. DBQs are valuable for claims processing because they provide medical information that is relevant to determining a disability rating. When submitted with a [Fully Developed Claim](http://benefits.va.gov/transformation/fastclaims/), DBQs ensure VA's rating specialists have precisely the information they need to start processing the claim.
 
-If you’re an active-duty Servicemember, you can initiate a [predischarge claim](/disability-benefits/get/filing/active-duty/).
+If you’re an active-duty Servicemember, you can initiate a [predischarge claim]({{ site.url }}/disability-benefits/claims-process/claim-types/pre-discharge/).
 
 </div>
 
