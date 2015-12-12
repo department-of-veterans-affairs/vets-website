@@ -1,0 +1,214 @@
+---
+layout: facility-locator
+title: Facility Locator
+---
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#map {
+  height: 100%;
+}
+
+.map-container {
+  margin-top: 25px;
+  height: 400px;
+}
+
+@media only screen and (min-width: 40.063em) {
+  .map-container {
+    height: 800px;
+  }
+}
+
+.section.one {
+  padding-bottom: 50px;
+}
+
+.list-container {
+  overflow-y: scroll;
+}
+
+#pac-input {
+  text-overflow: ellipsis;
+  width: 300px;
+  display: inline-block;
+  height: 2em;
+  font-size: 1.4em;
+  padding: .25em;
+  border: 1px solid #444;
+}
+
+#facilityType {
+  padding: .5em;
+  line-height: 1.85em;
+  -webkit-appearance: none;
+  -mozilla-appearance: none;
+  appearance: none;
+  border: 1px solid #444;
+}
+
+#type-selector {
+  color: #fff;
+  background-color: #003F72;
+  padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+#target {
+  width: 345px;
+}
+
+.secondary-banner {
+  padding: 1.25em 0;
+  background: #DFEFF7;
+}
+
+.secondary-banner h2 {
+  color: #000E3E;
+  font-size: 1.75rem;
+}
+
+.secondary-banner h3 {
+  color: #000E3E;
+  font-size: 1.1rem;
+  font-weight: 200;
+}
+
+#logo {
+  height: 50px;
+}
+
+#facilitiesList li {
+  list-style: none;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 15px;
+
+}
+
+#facilitiesList li a {
+    border-radius: .15em;
+    display: inline-block;
+    border: 2px solid #ccc;
+    padding: .1em .5em;
+    text-decoration: none;
+    margin: 0 0 .5em 0;
+}
+
+#facilitiesList li:not(:first-child) {
+  padding-top: 15px;
+}
+
+.facilityTitle {
+  font-weight: bold;
+}
+
+.facilityPhone {
+  font-weight: bold;
+}
+
+button.js-simple-tooltip {
+  margin: -0.5em 0 0 1em;
+}
+.simpletooltip {
+  margin-top: 9px;
+}
+.simpletooltip:before  {
+  top:3px;
+}
+
+button.searchButton {
+  height: 2em;
+  background: #0083BE;
+  font-size: 1.4em;
+  color: #fff;
+  font-weight: 500;
+  display: inline-block;
+  margin: 0;
+  padding: .25em .5em;
+  border-radius: 0;
+}
+</style>
+
+  <div class="splash app">
+    <div class="row">
+      <div class="small-12 columns">
+        <ul class="breadcrumbs" role="menubar" aria-label="Primary">
+          <li class="active">
+            <h2>Facility Locator</h2>
+          </li>
+        </ul>
+        <p>Find facilities throughout the U.S. and its territories</p>
+      </div>
+    </div>
+  </div>
+
+<div class="secondary-banner">
+  <div class="row">
+    <div class="small-12 large-3 columns">
+      <label for="facilityType" class="sr-only">Facility Type</label>
+      <select name="facilityType" id="facilityType">
+        <option value="All">All Facility Types</option>
+        <option value="VA Central Offices">Central Office</option>
+        <option value="Regional Benefit Office">Benefits Office</option>
+        <option value="Intake Site (Pre-Discharge Claims Assistance)">Intake Site</option>
+        <option value="National Cemetery">Cemetery</option>
+        <option value="VISN">VISN Office</option>
+        <option value="Outpatient Clinic">Outpatient Clinic</option>
+        <option value="VA Medical Center">Hospital</option>
+        <option value="Vet Center">Vet Center</option>
+      </select>
+    </div>
+    <div class="small-12 large-9 columns">
+      <input id="pac-input" type="text" placeholder="Search for a location"><button class="searchButton">Search</button>
+      <button class="js-simple-tooltip" data-simpletooltip-text="Search by ZIP Code, city, state, U.S. territory, or address">?</button>
+    </div>
+  </div>
+</div>
+
+
+<div id="content" class="interior">
+  <div class="section one">
+    <div class="row">
+      <div class="small-12 large-8 columns map-container">
+        <!-- vvv the div google maps will inject the map into -->
+        <div id="map"></div>
+      </div>
+      <div class="small-12 large-4 columns map-container list-container">
+        <ul id="facilitiesList" aria-live="polite" aria-relevant="additions removals"></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="navigation main-menu">
+    <div class="row">
+      <div class="small-12 columns">
+        <ul class="small-block-grid-1 medium-block-grid-2 cards">
+
+          <li>
+            <a href="http://www.va.gov/directory/guide/PTSD.asp" target="_blank">
+              <h3 class="alternate">Post-Traumatic Stress Disorder (<abbr>PTSD</abbr>) Program Locator</h3>
+            </a>
+          </li>
+
+          <li>
+            <a href="http://www.va.gov/directory/guide/SUD.asp" target="_blank">
+              <h3 class="alternate">Substance Use Disorder (<abbr>SUD</abbr>) Program Locator</h3>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="map.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJI5rs8s_N42z1hrrls3HSIgtUNw_iy30&libraries=places,geometry&callback=init" async defer></script>

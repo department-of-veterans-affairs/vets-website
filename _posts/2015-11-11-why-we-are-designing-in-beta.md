@@ -3,6 +3,7 @@ title: Help Us Create vets.gov
 description:
 author: Robert McDonald
 layout: post-single
+body_class: post-single
 tags:
  - transparency
  - website

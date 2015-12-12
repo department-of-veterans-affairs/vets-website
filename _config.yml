@@ -1,11 +1,6 @@
 name: Vets.gov
 
-#URL of site, include http://, do not include a trailing slash
-#url: http://vets.gov
-url: http://staging.vets.gov
-#url: http://localhost:4000
-
-#baseurl: /beta-site
+domain: staging.vets.gov
 
 #files to exclude, array
 exclude:
@@ -14,7 +9,6 @@ exclude:
   - "/vendor/bundle"
   - Gemfile
   - Gemfile.lock
-  - CNAME
 
 #posts per page
 paginate: 2
@@ -32,14 +26,13 @@ production: true
 
 timezone: America/New_York
 encoding: UTF-8
-safe: true
+safe: false
 
 markdown: kramdown
 timezone: America/New_York
 encoding: UTF-8
 
 kramdown:
-  parse_block_html: true
   input: GFM
 
 sass:
@@ -48,48 +41,76 @@ sass:
   images_dir: 'img/content'
   javascripts_dir: 'assets/js'
 
-collections:
-  # list all the collections here
-  - disability
-  - education
-  - loans
-  - pension
-  - insurance
-  - memorial
-  - compensation
-  - family
-  - facility-locator
-
 
 collections:
-  # further define collections here
-  disability:
+  disability-benefits:
     output: true
-    permalink: /disability-benefits/:path/
+    permalink: /:collection/:path/index.html
   education:
     output: true
-    permalink: /education/:path/
-  loans:
-    output: true
-    permalink: /loans/:path/
+    permalink: /:collection/:path/index.html
+  memorial-benefits:
+    output: false
   pension:
     output: true
-    permalink: /pension/:path/
-  insurance:
-    output: true
-    permalink: /insurance/:path/
-  memorial:
-    output: true
-    permalink: /memorial/:path/
-  compensation:
-    output: true
-    permalink: /compensation/:path/
-  family:
-    output: true
-    permalink: /family/:path/
+    permalink: /:collection/:path/index.html
   playbook:
     output: true
-    permalink: /playbook/:path/
-  facility-locator:
-    output: true
-    permalink: /facility-locator/
+    permalink: /:collection/:path/index.html
+
+defaults:
+  - scope:
+      type: "disability-benefits"
+    values:
+      layout: "page-breadcrumbs"
+      body_class: "page-disability"
+  - scope:
+      type: "education"
+    values:
+      layout: "page-breadcrumbs"
+      breadcrumb_1: "Education Benefits"
+      body_class: "page-education"
+  - scope:
+      path: "education/gi-bill"
+    values:
+      breadcrumb_2: "GI Bill"
+  - scope:
+      path: "education/survivors-dependent-assistance"
+    values:
+      breadcrumb_2: "Survivors' and Dependents' Assistance"
+  - scope:
+      path: "education/tools-programs"
+    values:
+      breadcrumb_2: "Career Counseling"
+  - scope:
+      path: "education/training-testing-licensing"
+    values:
+      breadcrumb_2: "Advanced Training and Certifications"
+  - scope:
+      path: "education/work-learn"
+    values:
+      breadcrumb_2: "Work and Learn"
+  - scope:
+      path: "education/work-learn/non-traditional"
+    values:
+      breadcrumb_3: "Non-Traditional Options"
+  - scope:
+      type: "health-care"
+    values:
+      layout: "page"
+      body_class: "page-healthcare"
+  - scope:
+      type: "memorial-benefits"
+    values:
+      layout: "page"
+      body_class: "page"
+  - scope:
+      type: "pension"
+    values:
+      layout: "page"
+      body_class: "page"
+  - scope:
+      type: "playbook"
+    values:
+      layout: "page-playbook"
+      body_class: "page-playbook"

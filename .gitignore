@@ -1,6 +1,7 @@
 _site/
 .DS_Store
 *.log
+.sass-cache
 
 #Compiled VA files
 _site
