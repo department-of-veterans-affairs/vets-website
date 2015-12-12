@@ -44,21 +44,8 @@ sass:
   javascripts_dir: 'assets/js'
 
 collections:
-  # list all the collections here
-  - disability
-  - education
-  - loans
-  - pension
-  - insurance
-  - memorial
-  - compensation
-  - family
-  - facility-locator
-
-
-collections:
   # further define collections here
-  disability:
+  disability-benefits:
     output: true
     permalink: /disability-benefits/:path/
   education:
