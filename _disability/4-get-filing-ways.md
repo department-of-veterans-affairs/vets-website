@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/get/filing/ways/index.html
-title: What are the different ways I can file a claim
+title: Ways to file a claim
 template: 6-info-page
 ---
 
