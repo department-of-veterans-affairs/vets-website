@@ -10,9 +10,9 @@ template: 3-panel-filters
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -27,7 +27,7 @@ template: 3-panel-filters
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="section one" markdown="0">
@@ -54,15 +54,15 @@ You or your dependents
 
 #### How it works
 
-[These diseases are a result of exposure to Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/). VA forgoes the normal requirement that you prove an illness began during or became worse because of your military service.
+[These diseases are a result of exposure to Agent Orange](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/). VA forgoes the normal requirement that you prove an illness began during or became worse because of your military service.
 
 If you have a disease that is not on this list but you believe it is a result of Agent Orange exposure, you will need to prove your illness began during or became worse because of your military service.
 
 #### See also
 
-[Agent Orange Registry Health Exam for Veterans]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
+[Agent Orange Registry Health Exam for Veterans](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
-[Non-Hodgkin's Lymphoma and Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/)
+[Non-Hodgkin's Lymphoma and Agent Orange](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/non-hodgkins/)
 
 
 </div>
@@ -75,10 +75,10 @@ If you have a disease that is not on this list but you believe it is a result of
     <dl class="panel-list">
       <dt>C-123 Airplanes</dt>
       <dd>Dates: January 9, 1962 and May 7, 1975</dd>
-      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about C-123- Airplanes and Agent Orange</span></a></dd>
+      <dd><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about C-123- Airplanes and Agent Orange</span></a></dd>
     </dl>
 
-  </li>  
+  </li>
 
 
 
@@ -88,7 +88,7 @@ If you have a disease that is not on this list but you believe it is a result of
       <dt>Thailand Military Bases</dt>
       <dd>Dates: January 9, 1962 and May 7, 1975</dd>
       <dd>
-        <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/thailand-military-bases/">Learn more <span class="sr-only">about Thailand Military Bases and Agent Orange</span></a>
+        <a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/thailand-military-bases/">Learn more <span class="sr-only">about Thailand Military Bases and Agent Orange</span></a>
       </dd>
     </dl>
 
@@ -99,30 +99,30 @@ If you have a disease that is not on this list but you believe it is a result of
     <dl class="panel-list">
       <dt>Service in Vietnam or Korea</dt>
       <dd>Dates: January 9, 1962 and May 7, 1975</dd>
-      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/service-inside/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
+      <dd><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/service-inside/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
     </dl>
 
-  </li>   
+  </li>
 
   <li>
 
     <dl class="panel-list">
       <dt>Service Outside of Vietnam or Korea</dt>
       <dd>Dates: January 9, 1962 and May 7, 1975</dd>
-      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/service-outside/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
+      <dd><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/service-outside/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
     </dl>
 
-  </li>   
+  </li>
 
   <li>
 
     <dl class="panel-list">
       <dt>Test and Storage Areas Outside of Vietnam</dt>
       <dd>Dates: 1944-19XX</dd>
-      <dd><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/test-storage/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
+      <dd><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/test-storage/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
     </dl>
 
-  </li>   
+  </li>
 
   <li>
 
@@ -130,7 +130,7 @@ If you have a disease that is not on this list but you believe it is a result of
       <dt>U.S. Navy and Coast Guard Ships in Vietnam</dt>
       <dd>Dates: January 9, 1962 and May 7, 1975</dd>
       <dd>
-        <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/navy-coast-guard/">Learn more <span class="sr-only">about U.S. Navy and Coast Guard Ships in Vietnam and Agent Orange</span></a>
+        <a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/navy-coast-guard/">Learn more <span class="sr-only">about U.S. Navy and Coast Guard Ships in Vietnam and Agent Orange</span></a>
       </dd>
     </dl>
 
@@ -142,11 +142,11 @@ If you have a disease that is not on this list but you believe it is a result of
     <dt>Waters in the Vicinity of Vietnam</dt>
     <dd>Dates: January 9, 1962 and May 7, 1975</dd>
     <dd>
-      <a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/water-vietnam/">Learn more <span class="sr-only">about waters in the Vicinity of Vietnam</span></a>
+      <a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/water-vietnam/">Learn more <span class="sr-only">about waters in the Vicinity of Vietnam</span></a>
     </dd>
   </dl>
 
-</li>   
+</li>
 
 
 </ul>

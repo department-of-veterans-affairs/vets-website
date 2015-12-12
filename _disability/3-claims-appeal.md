@@ -11,7 +11,7 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -26,7 +26,7 @@ template: 6-info-page
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="section one" markdown="0">
@@ -36,17 +36,17 @@ template: 6-info-page
 
 <div markdown="1">
 
-All benefits decisions can be appealed. If you disagree with all or part of a VA benefits decision, you may file a Notice of Disagreement (NOD). [Veterans Service Organizations]({{ site.url }}/disability-benefits/get/filing/help/index.html) can assist you with this.
+All benefits decisions can be appealed. If you disagree with all or part of a VA benefits decision, you may file a Notice of Disagreement (NOD). [Veterans Service Organizations](/disability-benefits/get/filing/help/index.html) can assist you with this.
 
 #### When do I file an NOD?
 
 You’ll need to file within one year from the date on the letter notifying you about the decision on your claim.
 
-#### What do I file?  
+#### What do I file?
 
 File [VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf).
 
-#### What’s next?  
+#### What’s next?
 
 - Your local VA office will prepare and mail to you a written explanation, known as the Statement of the Case (SOC), which explains why your claim was denied.
 - You may submit additional evidence, or request that VA obtain certain evidence for you, after you receive your Statement of the Case.
@@ -72,8 +72,8 @@ File [VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf). Check the status of 
 
 If you selected an optional in-person or video teleconference hearing with a Veterans Law Judge at the [Board of Veterans’ Appeals]({{ site.url}}/disability-benefits/claims-appeal/veterans-appeals-board/), the hearing will be scheduled at your local VA office (or in Washington, DC, if you selected that location).
 
-- You may request an optional personal hearing before an adjudicator who works at your local VA office or a Veterans Law Judge who works at the Board of Veterans’ Appeals.  
-- If you request an optional hearing, it will significantly delay a Board decision because optional hearings take more time to schedule.  
+- You may request an optional personal hearing before an adjudicator who works at your local VA office or a Veterans Law Judge who works at the Board of Veterans’ Appeals.
+- If you request an optional hearing, it will significantly delay a Board decision because optional hearings take more time to schedule.
 - The Veterans Law Judge will make a decision on each issue of your appeal. The decision will grant, remand, or deny each issue.
 - Grant: If an issue is granted, your local VA office will notify you of the decision made by the Board of Veterans’ Appeals.
 - Remand: If an issue is remanded, it means that one or more issues in your appeal will be sent back to a local VA office for further evidence collection. Your appeal will return to the Board of Veterans’ Appeals when the local VA office complies with the Board’s remand instructions.
@@ -109,13 +109,13 @@ File a [Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). Send you
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-appeal/veterans-appeals-board/">
+          <a href="/disability-benefits/claims-appeal/veterans-appeals-board/">
             <h5>Board of Veterans' Appeals</h5>
           </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-appeal/court-appeals-veterans-claims/">
+          <a href="/disability-benefits/claims-appeal/court-appeals-veterans-claims/">
             <h5>Court of Appeals for Veterans Claims</h5>
           </a>
         </li>

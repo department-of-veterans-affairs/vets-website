@@ -12,8 +12,8 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/get/">Apply for Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/get/">Apply for Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -27,7 +27,7 @@ template: 6-info-page
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="section one" markdown="0">
@@ -44,7 +44,7 @@ The Fully Developed Claims (FDC) program is an optional way for Veterans and sur
 
 ### Disability Benefits Questionnaires (DBQs)
 
-To speed up the processing of compensation and pension claims, you now have the option of completing an examination with your own healthcare provider instead of at a Department of Veterans Affairs (VA) facility.  
+To speed up the processing of compensation and pension claims, you now have the option of completing an examination with your own healthcare provider instead of at a Department of Veterans Affairs (VA) facility.
 
 If you choose to go to your own healthcare provider, you will need to bring the appropriate Disability Benefits Questionnaires, or DBQs. These downloadable forms that are specific to your [condition](http://www.benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp) or [symptom](http://www.benefits.va.gov/COMPENSATION/dbq_ListBySymptom.asp) enable private healthcare providers to capture important information needed by VA to accurately evaluate and promptly decide on your claims for benefits.
 
@@ -76,27 +76,27 @@ If you’re an active-duty Servicemember, you can initiate a [predischarge claim
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/ways/">
+          <a href="/disability-benefits/get/filing/ways/">
             <h5>What are the different ways I can file a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/help/">
+          <a href="/disability-benefits/get/filing/help/">
             <h5>How do I get help filing a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/active-duty/">
+          <a href="/disability-benefits/get/filing/active-duty/">
             <h5>How do I file while on active duty?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/one-year/">
+          <a href="/disability-benefits/get/filing/one-year/">
             <h5>How do I file for disabilities that appear within one year after discharge?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/date/">
+          <a href="/disability-benefits/claims-process/date/">
           <h5>Effective date of disability</h5>
           <span></span>
           </a>

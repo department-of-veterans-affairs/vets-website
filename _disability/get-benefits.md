@@ -9,7 +9,7 @@ template: 7-get-page
 <div class="row">
 <div class="small-12 columns">
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 </div>
@@ -79,9 +79,9 @@ Average number of days to process disability-related claims during November 2015
 
 ##### Prepare
 
-- An [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html) can help you prepare and file your claim.
-- Speed up your processing time by filing a [fully developed claim]({{ site.url }}/disability-benefits/get/filing/faster/index.html).
-- Learn more about [evidence requirements]({{ site.url }}/disability-benefits/claims-process/evidence/).
+- An [accredited representative](/disability-benefits/get/filing/help/index.html) can help you prepare and file your claim.
+- Speed up your processing time by filing a [fully developed claim](/disability-benefits/get/filing/faster/index.html).
+- Learn more about [evidence requirements](/disability-benefits/claims-process/evidence/).
 
 </div>
 
@@ -114,10 +114,10 @@ For all compensation claims, please provide:
 Choose one of three ways:
 
 - Apply online, using [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
-- Work with an [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html), or
+- Work with an [accredited representative](/disability-benefits/get/filing/help/index.html), or
 - Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
 
-**Note:** Servicemembers should learn about [Predischarge claims]({{ site.url }}/disability-benefits/claims-process/claim-types/pre-discharge/).
+**Note:** Servicemembers should learn about [Predischarge claims](/disability-benefits/claims-process/claim-types/pre-discharge/).
 
 </div>
 
@@ -162,11 +162,11 @@ Choose one of three ways:
 - VA may reach out on your behalf to other governmental agencies, such as the Department of Defense, for records.
 - If VA needs more medical information, it may ask you to provide it. VA may also schedule an examination for you to assess the disabilities you claimed.
 
-**Note:**  VA may schedule you for one or more examinations based on the number and type of disabilities claimed, such as joint, lung, or mental conditions.  
+**Note:**  VA may schedule you for one or more examinations based on the number and type of disabilities claimed, such as joint, lung, or mental conditions.
 
 ###### Do I need to do anything while I’m waiting?
 
-Other than attend scheduled examinations, you don't need to do anything else unless VA sends you a letter saying it needs more information.  
+Other than attend scheduled examinations, you don't need to do anything else unless VA sends you a letter saying it needs more information.
 
 </div>
 
@@ -181,7 +181,7 @@ Other than attend scheduled examinations, you don't need to do anything else unl
 - The RVSR decides your claim after reviewing all evidence in your record, including the initial application, examination reports, and service treatment records.
 - After deciding the claim, the RVSR routes it to a VSR to input the decision and draft the decision letter. A Senior Veterans Service Representative (SVSR) reviews the completed documents, then authorizes release of the letter and any payment.
 
-If you disagree with the decision, you may appeal it. The decision letter contains appeal information. [File an appeal]({{ site.url }}/disability-benefits/claims-appeal/).
+If you disagree with the decision, you may appeal it. The decision letter contains appeal information. [File an appeal](/disability-benefits/claims-appeal/).
 
 </div>
 
@@ -212,32 +212,32 @@ If you disagree with the decision, you may appeal it. The decision letter contai
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/faster/">
+          <a href="/disability-benefits/get/filing/faster/">
             <h5>What is the fastest way to file a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/ways/">
+          <a href="/disability-benefits/get/filing/ways/">
             <h5>What are the different ways I can file a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/help/">
+          <a href="/disability-benefits/get/filing/help/">
             <h5>How do I get help filing a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/active-duty/">
+          <a href="/disability-benefits/get/filing/active-duty/">
             <h5>How do I file while on active duty?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/one-year/">
+          <a href="/disability-benefits/get/filing/one-year/">
             <h5>How do I file for disabilities that appear within one year after discharge?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/date/">
+          <a href="/disability-benefits/claims-process/date/">
           <h5>Effective date of disability</h5>
           <span></span>
           </a>

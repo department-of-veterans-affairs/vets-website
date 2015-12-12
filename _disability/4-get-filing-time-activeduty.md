@@ -11,8 +11,8 @@ template: 2-detailed-landing
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/get/">Apply for Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/get/">Apply for Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -30,7 +30,7 @@ The best time to start the process of filing a disability claim is while you are
 
 If you are in predischarge status, you may file a claim for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty.
 
-If you are between 180 and 60 days from separation, you can begin the Benefit Delivery at Discharge (BDD) program. From 59 days until separation, you can initiate the Quick Start program.  
+If you are between 180 and 60 days from separation, you can begin the Benefit Delivery at Discharge (BDD) program. From 59 days until separation, you can initiate the Quick Start program.
 
 
 ### Integrated Disability Evaluation System
@@ -47,27 +47,27 @@ The Integrated Disability Evaluation System (IDES) Examination Templates page is
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/faster/">
+          <a href="/disability-benefits/get/filing/faster/">
             <h5>What is the fastest way to file a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/ways/">
+          <a href="/disability-benefits/get/filing/ways/">
             <h5>What are the different ways I can file a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/help/">
+          <a href="/disability-benefits/get/filing/help/">
             <h5>How do I get help filing a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/one-year/">
+          <a href="/disability-benefits/get/filing/one-year/">
             <h5>How do I file for disabilities that appear within one year after discharge?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/date/">
+          <a href="/disability-benefits/claims-process/date/">
           <h5>Effective date of disability</h5>
           <span></span>
           </a>

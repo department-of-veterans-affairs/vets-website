@@ -11,9 +11,9 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
-<li class="parent"><a href="{{ site.url }}/education/survivors-dependent-assistance/">Survivors' and Dependents' Assistance</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/gi-bill/">GI Bill®</a></li>
+<li class="parent"><a href="/education/survivors-dependent-assistance/">Survivors' and Dependents' Assistance</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -28,7 +28,7 @@ concurrence: incomplete
     <div class="small-12 columns">
 
     </div>
-  </div>  
+  </div>
 </div>-->
 
 <div class="section one" markdown="0">
@@ -75,14 +75,14 @@ Your dependents
 A monthly payment of up to $1,021. View [current rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp).
 
 #### How it works
-If you are a spouse, you may take correspondence courses under this program. Remedial, deficiency, and refresher courses may also be approved under certain circumstances. View [current DEA pay rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch35). For both children and spouses, if you are eligible for both DEA and the [Fry Scholarship]({{ site.url }}/education/survivors-dependent-assistance/fry-scholarship/), you must choose which of these you will use. Your choice is final and cannot be changed.
+If you are a spouse, you may take correspondence courses under this program. Remedial, deficiency, and refresher courses may also be approved under certain circumstances. View [current DEA pay rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch35). For both children and spouses, if you are eligible for both DEA and the [Fry Scholarship](/education/survivors-dependent-assistance/fry-scholarship/), you must choose which of these you will use. Your choice is final and cannot be changed.
 
 **Exception:** If you are the child of a Servicemember who died in the line of duty before August 1, 2011, you qualify to use both benefits subsequently for up to 81 months of education and training.
 
 What happens next?
 If you have not begun your education or training program:
 
-- Make sure that VA approves your selected educational or vocational program. Explore the [GI Bill® Comparison Tool]({{ site.url }}/gi-bill-comparison-tool/) for more information and to see if your program is approved.
+- Make sure that VA approves your selected educational or vocational program. Explore the [GI Bill® Comparison Tool](/gi-bill-comparison-tool/) for more information and to see if your program is approved.
 - Complete and submit [VA Form 22-5490](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490), Dependents’ Application for VA Education Benefits. Be sure to send the form to the VA regional office that oversees the state where you will receive the education. Find out which [Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp) will accept your form.
 
 If you have already started your program, take your application to your school or employer. Ask them to complete VA Form 22-1999, Enrollment Certification, and send both forms to VA. (Your school must contact their VA representative to receive Form 22-1999.)
@@ -91,7 +91,7 @@ If you have already started your program, take your application to your school o
 #### Learn more
 
 - Read the [DEA pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch35_pamphlet_2.pdf).
-- Get help from an [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html).
+- Get help from an [accredited representative](/disability-benefits/get/filing/help/index.html).
 
 </div>
 </div>

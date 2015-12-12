@@ -11,8 +11,8 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/gi-bill/">GI Bill®</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -27,7 +27,7 @@ concurrence: incomplete
     <div class="small-12 columns">
 
     </div>
-  </div>  
+  </div>
 </div>-->
 
 <div class="section one" markdown="0">

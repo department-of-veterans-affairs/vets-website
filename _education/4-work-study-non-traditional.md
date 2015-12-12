@@ -11,8 +11,8 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/work-learn/">Work and Learn</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/work-learn/">Work and Learn</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -40,17 +40,17 @@ template: 6-info-page
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
             <li>
-              <a href="{{ site.url }}/education/work-learn/non-traditional/accelerated-payments/">
+              <a href="/education/work-learn/non-traditional/accelerated-payments/">
                 <h5>Accelerated Payments for High-Technology Programs</h5>
               </a>
             </li>
             <li>
-              <a href="{{ site.url }}/education/work-learn/non-traditional/independent-distance-learning/">
+              <a href="/education/work-learn/non-traditional/independent-distance-learning/">
                 <h5>Independent and Distance Learning</h5>
               </a>
             </li>
             <li>
-              <a href="{{ site.url }}/education/work-learn/non-traditional/correspondence-training/">
+              <a href="/education/work-learn/non-traditional/correspondence-training/">
                 <h5>Correspondence Training</h5>
               </a>
             </li>

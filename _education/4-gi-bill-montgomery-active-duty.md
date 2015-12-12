@@ -11,8 +11,8 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/gi-bill/">GI Bill®</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -27,7 +27,7 @@ concurrence: incomplete
     <div class="small-12 columns">
 
     </div>
-  </div>  
+  </div>
 </div>-->
 
 <div class="section one" markdown="0">
@@ -92,19 +92,19 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 
 #### Several related funding or training programs fall under the MGIB-AD umbrella:
 
-- [$600 Buy-Up program]({{ site.url }}/education/gi-bill/buy-up-program/): While on active duty, you can contribute a maximum of $600 to receive increased monthly benefits. With this maximum contribution, you are eligible for up to an additional $5,400 in GI Bill® benefits.  
+- [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can contribute a maximum of $600 to receive increased monthly benefits. With this maximum contribution, you are eligible for up to an additional $5,400 in GI Bill® benefits.
 
-- [College degree and certificate programs]({{ site.url }}/education/gi-bill/higher-learning/)
+- [College degree and certificate programs](/education/gi-bill/higher-learning/)
 - [Non-college degree programs (technical or vocational courses)]({{site.url}}/education/work-learn/non-college-degree-program/)
-- [Flight training]({{ site.url }}/education/training-testing-licensing/flight-training/)
-- [Apprenticeships or on-the-job training]({{ site.url }}/education/work-learn/job-and-apprenticeship/)
-- [High-tech training]({{ site.url }}/education/work-learn/non-traditional/accelerated-payments/)
-- [Licensing and certification]({{ site.url }}/education/training-testing-licensing/licensing-certification/)
-- [Entrepreneurship training]({{ site.url }}/education/training-testing-licensing/entrepreneurship-training/)
-- [National testing program]({{ site.url }}/education/training-testing-licensing/national-testing-program/)
-- [Correspondence training]({{ site.url }}/education/work-learn/non-traditional/correspondence-training/)
+- [Flight training](/education/training-testing-licensing/flight-training/)
+- [Apprenticeships or on-the-job training](/education/work-learn/job-and-apprenticeship/)
+- [High-tech training](/education/work-learn/non-traditional/accelerated-payments/)
+- [Licensing and certification](/education/training-testing-licensing/licensing-certification/)
+- [Entrepreneurship training](/education/training-testing-licensing/entrepreneurship-training/)
+- [National testing program](/education/training-testing-licensing/national-testing-program/)
+- [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 
-Use the [GI Bill® Comparison Tool]({{ site.url }}/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
+Use the [GI Bill® Comparison Tool](/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
 
 “GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
 

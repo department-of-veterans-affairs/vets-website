@@ -11,10 +11,10 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -29,7 +29,7 @@ template: 4-action-page
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="section one" markdown="0">
@@ -43,7 +43,7 @@ template: 4-action-page
 </dl>
 
 <div markdown="1">
-If you served in Vietnam, including aboard a [ship on the inland waterways]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/navy-coast-guard/), for any length of time between January 9, 1962, and May 7, 1975, or in the Korean Demilitarized Zone between April 1, 1968, and August 31, 1971, VA presumes you were exposed to Agent Orange.
+If you served in Vietnam, including aboard a [ship on the inland waterways](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/navy-coast-guard/), for any length of time between January 9, 1962, and May 7, 1975, or in the Korean Demilitarized Zone between April 1, 1968, and August 31, 1971, VA presumes you were exposed to Agent Orange.
 
 </div>
 <div class="call-out" markdown="1">
@@ -52,7 +52,7 @@ If you served in Vietnam, including aboard a [ship on the inland waterways]({{ s
 
 Yes, if:
 
-You are ill with one or more of [these diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
+You are ill with one or more of [these diseases](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
 
 #### Who is covered
 You and your survivors
@@ -65,7 +65,7 @@ You and your survivors
 
 - Compensation
 - Health care
-- An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
+- An [Agent Orange Registry health exam](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 
 #### How it works

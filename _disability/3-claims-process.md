@@ -10,7 +10,7 @@ template: 2-detailed-landing
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -25,7 +25,7 @@ template: 2-detailed-landing
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="section one" markdown="0">
@@ -44,31 +44,31 @@ A disability claim is a formal legal request for benefits. It's very important t
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/ratings/">
+          <a href="/disability-benefits/claims-process/ratings/">
             <h5>How does VA assign disability ratings?</h5>
           </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/presumed-disability/">
+          <a href="/disability-benefits/claims-process/presumed-disability/">
             <h5>What is a “presumed disability”?</h5>
           </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/claim-types/">
+          <a href="/disability-benefits/claims-process/claim-types/">
             <h5>What are the different claim types and what do they mean?</h5>
           </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/evidence/">
+          <a href="/disability-benefits/claims-process/evidence/">
             <h5>How do I gather evidence for a disability claim?</h5>
           </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/disability-benefits/claims-process/date/">
+          <a href="/disability-benefits/claims-process/date/">
             <h5>How does VA determine the effective date of a disability?</h5>
           </a>
         </li>

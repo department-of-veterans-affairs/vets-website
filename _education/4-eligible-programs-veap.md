@@ -11,8 +11,8 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/eligible-programs/">Eligible Programs</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/eligible-programs/">Eligible Programs</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -28,7 +28,7 @@ template: 6-info-page
 <div class="small-12 columns" markdown="1">
 ## Veterans Education Assistance Program (VEAP)
 
-If you are interested in pursuing continuing educational programs, and are willing to make contributions from your military pay, the VEAP is a $2-to-$1 government match program for education assistance. 
+If you are interested in pursuing continuing educational programs, and are willing to make contributions from your military pay, the VEAP is a $2-to-$1 government match program for education assistance.
 
 
 <div class="call-out" markdown="1">
@@ -38,17 +38,17 @@ Yes, if:
 
 - you entered service for the first time between January 1, 1977 and June 30, 1985
 - you opened and contributed to your account before April 1, 1987
-- you voluntarily contributed $25 - $2700 
+- you voluntarily contributed $25 - $2700
 - you completed your first period of service and were discharged or released from service under conditions other than dishonorable.
 
 ### Who's covered:
 You
 </div>
 <div markdown="1">
-#### Available benefits: 
+#### Available benefits:
 Tuition assistance
 
-#### How it works: 
+#### How it works:
 
 VEAP benefits can be applied to the following programs:
 

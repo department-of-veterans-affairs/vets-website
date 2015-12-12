@@ -10,9 +10,9 @@ title: Disability Ratings
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/eligibility">Eligibility</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/learn/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="/disability-benefits/learn/eligibility">Eligibility</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

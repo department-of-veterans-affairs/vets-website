@@ -11,10 +11,10 @@ template: action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -29,7 +29,7 @@ template: action-page
 <div class="small-12 columns">
 <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
 </div>
-</div>  
+</div>
 </div>
 
 <div class="section one" markdown="0">
@@ -81,7 +81,7 @@ A VA health professional will discuss your results with you and will follow up w
 
 Important points about the Agent Orange Registry health exam:
 
-- It is not a disability compensation exam, nor is it required for other VA benefits. If you want to be considered for disability compensation, [you must file a claim]({{ site.url }}/disability-benefits/get/).
+- It is not a disability compensation exam, nor is it required for other VA benefits. If you want to be considered for disability compensation, [you must file a claim](/disability-benefits/get/).
 - You do not need to enroll in VA’s health care system to receive a registry health exam.
 - The exam is based on your recollection of service, not on your military records.
 - The exam will not confirm exposure to Agent Orange.
@@ -109,7 +109,7 @@ Learn more about the [Agent Orange Registry health exam](http://www.publichealth
 </li>
 
 <li markdown="1">
-Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
+Find an [Accredited Representative to help you](/disability-benefits/get/filing/help/index.html).
 </li>
 
 </div>

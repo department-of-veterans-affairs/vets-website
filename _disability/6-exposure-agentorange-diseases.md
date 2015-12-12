@@ -10,10 +10,10 @@ title: Diseases Associated with Agent Orange
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange">Agent Orange</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange">Agent Orange</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -30,14 +30,14 @@ title: Diseases Associated with Agent Orange
 
 <div markdown="1">
 
-VA recognizes the following diseases as related to Agent Orange. If you were exposed, and now have one or more of the diseases listed below, you may be eligible for disability compensation.  
+VA recognizes the following diseases as related to Agent Orange. If you were exposed, and now have one or more of the diseases listed below, you may be eligible for disability compensation.
 
 </div>
 
 <div class="feature-list" markdown="1">
 
 - [AL Amyloidosis](http://www.publichealth.va.gov/exposures/agentorange/conditions/al_amyloidosis.asp)<br/>
-  A rare disease caused when an abnormal protein, amyloid, enters tissues or organs.  
+  A rare disease caused when an abnormal protein, amyloid, enters tissues or organs.
 - [Chronic B-cell Leukemia](http://www.publichealth.va.gov/exposures/agentorange/conditions/bcell-leukemia.asp)<br/>
   A type of cancer that affects white blood cells.
 - [Chloracne](http://www.publichealth.va.gov/exposures/agentorange/conditions/chloracne.asp) (or similar acneform disease)<br/>

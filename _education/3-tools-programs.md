@@ -11,7 +11,7 @@ Template: 1-topic-landing
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -26,7 +26,7 @@ Template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Navigating your transition from military to civilian life can be challenging. VA offers tools and counseling programs to help you make the most of your options.  
+Navigating your transition from military to civilian life can be challenging. VA offers tools and counseling programs to help you make the most of your options.
 
 </div>
 </div>
@@ -37,25 +37,25 @@ Navigating your transition from military to civilian life can be challenging. VA
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="{{ site.url }}/education/tools-programs/education-career-counseling/">
+          <a href="/education/tools-programs/education-career-counseling/">
             <h5>Education and Career Counseling</h5>
           </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/education/tools-programs/careerscope/">
+          <a href="/education/tools-programs/careerscope/">
             <h5>CareerScope®</h5>
           </a>
-        </li>  
+        </li>
 
         <li>
-          <a href="{{ site.url }}/education/tools-programs/principles-excellence-program/">
+          <a href="/education/tools-programs/principles-excellence-program/">
             <h5>Principles of Excellence Program</h5>
           </a>
         </li>
 
         <li>
-          <a href="{{ site.url }}/education/tools-programs/locate-a-school/">
+          <a href="/education/tools-programs/locate-a-school/">
             <h5>Locate a School</h5>
           </a>
         </li>

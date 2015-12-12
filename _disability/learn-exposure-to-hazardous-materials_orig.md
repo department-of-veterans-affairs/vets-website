@@ -10,8 +10,8 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-ind
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">{{ page.section-title }}</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/learn/">{{ page.section-title }}</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -25,7 +25,7 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-ind
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-You may be eligible for disability compensation if you were exposed to certain chemical, physical, and environmental hazards during military service that resulted in disease or injury.  
+You may be eligible for disability compensation if you were exposed to certain chemical, physical, and environmental hazards during military service that resulted in disease or injury.
 
 ### Asbestos
 Some service occupations, tasks, and workplaces make exposure to asbestos more likely. These include mining, milling, shipyards, insulation work, building demolition, carpentry, and construction. In addition, the manufacturing and installation of products such as flooring, roofing, cement sheet, and pipe products, and the servicing of friction products such as clutch facings and brake linings, make exposure to asbestos more likely. If you served in Iraq or other countries in that region, you could have been exposed to asbestos when older buildings were damaged, releasing the contaminant into the air.
@@ -44,7 +44,7 @@ You may have been exposed to ionizing radiation during military service if, for 
 [Learn more about diseases related to exposure to ionizing radiation](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-ionizing_radiation.asp)
 
 ### Mustard Gas
-Mustard gas is a common term for sulfur mustard (Yperite) or nitrogen mustard. Lewisite, an organic compound containing arsenic, is another chemical agent.  
+Mustard gas is a common term for sulfur mustard (Yperite) or nitrogen mustard. Lewisite, an organic compound containing arsenic, is another chemical agent.
 [Learn more about exposure to mustard gas and lewisite](http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-mustard.asp)
 
 ### Project 112/SHAD

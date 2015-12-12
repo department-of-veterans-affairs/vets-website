@@ -11,10 +11,10 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -29,7 +29,7 @@ template: 4-action-page
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="section one" markdown="0">
@@ -45,7 +45,7 @@ template: 4-action-page
 
 <div markdown="1">
 
-If you were exposed to Agent Orange during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam or the DMZ in Korea.  
+If you were exposed to Agent Orange during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam or the DMZ in Korea.
 
 </div>
 
@@ -55,15 +55,15 @@ If you were exposed to Agent Orange during your service and have a related disea
 
 Yes, if:
 
-- You are ill with one, or more, of these [diseases related to Agent Orange]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/).
+- You are ill with one, or more, of these [diseases related to Agent Orange](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/).
 - Your service involved regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam War Era, or
-- You served in close proximity to areas where [herbicides were tested or stored outside of Vietnam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/test-storage/), or
-- You had regular and repeated contact with a contaminated [C-123 aircraft]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/), or
+- You served in close proximity to areas where [herbicides were tested or stored outside of Vietnam](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/test-storage/), or
+- You had regular and repeated contact with a contaminated [C-123 aircraft](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/c-123/), or
 - You were associated during your service with projects to test, dispose of, or store Agent Orange.
 
 #### Who is covered
 
-You and your survivors 
+You and your survivors
 </div>
 
 <div markdown="1">
@@ -71,7 +71,7 @@ You and your survivors
 
 - Compensation
 - Health care
-- An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
+- An [Agent Orange Registry health exam](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 #### How it works
 
@@ -90,7 +90,7 @@ Learn more about [Agent Orange benefits](http://www.publichealth.va.gov/exposure
 
 <ul class="plain">
 <li markdown="1">
-Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
+Find an [Accredited Representative to help you](/disability-benefits/get/filing/help/index.html).
 </li>
 </ul>
 

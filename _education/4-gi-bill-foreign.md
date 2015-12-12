@@ -11,8 +11,8 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/gi-bill/">GI Bill</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -71,7 +71,7 @@ You can also check your approval status or send us questions by email 24 hours a
 
 #### How to apply
 
-[Begin your application process]({{ site.url }}/education/process/) and see below for next steps.
+[Begin your application process](/education/process/) and see below for next steps.
 
 **Before enrolling at your foreign school:**
 

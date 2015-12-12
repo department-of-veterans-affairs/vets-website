@@ -11,7 +11,7 @@ template: 1-topic-landing
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -26,7 +26,7 @@ template: 1-topic-landing
     <div class="small-12 columns">
 
     </div>
-  </div>  
+  </div>
 </div>-->
 
 <div class="section one" markdown="0">
@@ -45,22 +45,22 @@ You can use the GI Bill® for more than just academic programs. This benefit wil
     <div class="small-12 columns">
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/education/training-testing-licensing/entrepreneurship-training">
+              <a href="/education/training-testing-licensing/entrepreneurship-training">
                 <h5>Entrepreneurship Training</h5>
               </a>
             </li>
             <li>
-              <a href="{{ site.url }}/education/training-testing-licensing/flight-training">
+              <a href="/education/training-testing-licensing/flight-training">
                 <h5>Flight Training</h5>
               </a>
             </li>
             <li>
-              <a href="{{ site.url }}/education/training-testing-licensing/national-testing-program">
+              <a href="/education/training-testing-licensing/national-testing-program">
                 <h5>National Testing Program</h5>
               </a>
             </li>
             <li>
-              <a href="{{ site.url }}/education/training-testing-licensing/licensing-certification">
+              <a href="/education/training-testing-licensing/licensing-certification">
                 <h5>Licensing and Certification</h5>
               </a>
             </li>

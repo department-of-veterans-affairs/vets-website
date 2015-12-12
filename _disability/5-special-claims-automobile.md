@@ -11,8 +11,8 @@ template: 4-action-page-pending
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/">Conditions</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -26,7 +26,7 @@ template: 4-action-page-pending
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="section one" markdown="0">
@@ -67,7 +67,7 @@ Compensation
 
 In the case of these allowances, you must gain VA approval before purchasing an automobile or adaptive equipment. For the adaptive-equipment grant, the compensation may be paid to you or to the seller. For the one-time vehicle purchase grant, the compensation must be paid directly to the seller. You may request and receive either grant before or after military discharge.
 
-You must show that your disability is service connected or is treated as if service connected under [38 U.S.C. 1151]({{ site.url }}/disability-benefits/conditions/special-claims/title-38-USC-1151/).
+You must show that your disability is service connected or is treated as if service connected under [38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
 
 You will need to complete [VA Form 21-4502](http://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf) (Application for Automobile or Other Conveyance and Adaptive Equipment).
 

@@ -11,8 +11,8 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/training-testing-licensing/">Training, Testing, or Licensing</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/training-testing-licensing/">Training, Testing, or Licensing</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -27,7 +27,7 @@ concurrence: incomplete
     <div class="small-12 columns">
 
     </div>
-  </div>  
+  </div>
 </div>-->
 
 <div class="section one" markdown="0">
@@ -53,7 +53,7 @@ Yes, if:
 Reimbursement under the GI Bill®
 
 #### How it works
-VA may reimburse you for tests necessary for you to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional.             
+VA may reimburse you for tests necessary for you to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional.
 
 After you submit proof of payment, VA will reimburse you. There is no limit to the number of tests you may take, or the number of times you take the same test. VA pays for tests even when you don’t score high enough to achieve your license or certification.
 

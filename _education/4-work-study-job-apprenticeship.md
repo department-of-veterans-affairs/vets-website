@@ -11,8 +11,8 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/work-learn/">Work and Learn</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/work-learn/">Work and Learn</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -35,7 +35,7 @@ If you want to learn a trade or skill through on-the-job training or apprentices
 
 Yes, if:
 
--	You are eligible for [the GI Bill®]({{ site.url }}/education/gi-bill/).
+-	You are eligible for [the GI Bill®](/education/gi-bill/).
 -	You are interested in working in an industry or job where on-the-job (OTJ) training is available. Examples include:
     -	Union plumber
     -	Hotel management

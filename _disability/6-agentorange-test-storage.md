@@ -11,10 +11,10 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -29,7 +29,7 @@ concurrence: incomplete
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="section one" markdown="0">
@@ -54,18 +54,18 @@ Yes, if:
 
 - You are ill with one or more of [these diseases]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
 - Your service included participation in the testing or storage of Agent Orange used in Vietnam.
-- 
+-
 #### Who is covered
 You and your dependents or survivors
 </div>
 <div markdown="1">
 #### Available benefits
-- Compensation 
-- Health care 
+- Compensation
+- Health care
 - An [Agent Orange Registry health exam]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 #### How it works
-You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for [diseases]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) that VA presumes are related to Agent Orange exposure.  
+You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for [diseases]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) that VA presumes are related to Agent Orange exposure.
 </div>
 </div>
 
@@ -74,7 +74,7 @@ You must prove you were exposed to Agent Orange during your military service to 
 
 <h4 class="highlight">Questions</h4>
 
-<ul class="plain"> 
+<ul class="plain">
 
 <li markdown="1">
 See these comprehensive lists for dates and locations of herbicide tests and storage:
@@ -83,7 +83,7 @@ See these comprehensive lists for dates and locations of herbicide tests and sto
 
 [Outside the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp)
 
-Find an [accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
+Find an [accredited Representative to help you](/disability-benefits/get/filing/help/index.html).
 </li>
 
 </ul>

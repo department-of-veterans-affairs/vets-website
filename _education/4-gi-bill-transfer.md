@@ -11,8 +11,8 @@ concurrence: complete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/gi-bill/">GI Bill</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -32,7 +32,7 @@ If you have not used all of your Post-9/11 GI Bill benefits, you may be eligible
 <div class="call-out" markdown="1">
 ### Are you eligible to transfer benefits?
 
-Yes, if: 
+Yes, if:
 
 - You’re currently on active duty or in the Selected Reserve.
 - You’re in one of these situations:
@@ -42,11 +42,11 @@ Yes, if:
 
 
 #### Who is covered
-Your dependents 
+Your dependents
 </div>
 <div markdown="1">
 #### Available benefits
-- Significant tuition-funding assistance 
+- Significant tuition-funding assistance
 - A location-adjusted housing allowance for paying your living expenses during enrollment
 
 #### How it works
@@ -86,7 +86,7 @@ If you are still in the service and want to reallocate transferred benefits, you
   - Marine Corps Active-Duty Enlisted  [Email](mailto:Michael.A.Peck@usmc.mil)
   - Marine Corps Reserve  [Email](mailto:smb_manpower.cmt@usmc.mil)
   - Air Force Active Duty  800-525-0102 or 210-565-5000 or DSN 665-5000
-  - Air National Guard  (Contact unit retention manager) 
+  - Air National Guard  (Contact unit retention manager)
   - Air Force Reserve  [Email](mailto:julia.williamson@us.af.mil)
   - Coast Guard Active Duty  [Email](mailto:reidus.stokes@uscg.mil)
   - Coast Guard Reserve  [Email](mailto:reserveVAeducation@uscg.mil)
@@ -98,7 +98,7 @@ If you are still in the service and want to reallocate transferred benefits, you
 
 While you are still serving, use the [Transfer of Education Benefits (TEB) website](https://www.dmdc.osd.mil/milconnect/faces/faqs?_adf.ctrl-state=c4t1chkk8_4) to request, modify, and revoke a Transfer of Entitlement (TOE). You cannot apply for a transfer of benefits through VA. (**Note:** From the milConnect home page, select Education then Transfer of Education Benefits [TEB] from the menu bar.)
 
-Upon approval, family members may [apply online](http://vabenefits.vba.va.gov/vonapp/main.asp) to use transferred benefits or may  print, complete, and mail [VA Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf) to the nearest [VA regional office]({{ site.url }}/facility-locator/). 
+Upon approval, family members may [apply online](http://vabenefits.vba.va.gov/vonapp/main.asp) to use transferred benefits or may  print, complete, and mail [VA Form 22-1990e](http://www.vba.va.gov/pubs/forms/VBA-22-1990e-ARE.pdf) to the nearest [VA regional office](/facility-locator/).
 
 Once you leave military service, you can still provide a future effective date for use of TOE, modify the number of months transferred, or revoke the transfer of entitlement by submitting a written request to VA through the TEB website.
 </div>

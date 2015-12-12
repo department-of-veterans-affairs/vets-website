@@ -11,8 +11,8 @@ concurrence: complete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/gi-bill/">GI Bill</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -51,7 +51,7 @@ You and your dependents
 #### Available benefits
 
 - Tuition and fees
-- A monthly housing allowance (for those attending more than half time) 
+- A monthly housing allowance (for those attending more than half time)
 - A books and supplies stipend (up to $1,000 per academic year)
 
 #### How it works
@@ -66,7 +66,7 @@ The benefit amount varies according to where you use the benefit, the amount of 
 **Example:** If you were attending University of California, Los Angeles, in 2015 (at the 100% benefit level, while attending school full time), you would receive a BAH of up to $2,433 a month while in school. If you were attending the University of Virginia in Charlottesville, you would receive up to $1,638 while in school.
 
 - Provides up to 36 months of educational benefits, generally payable for 15 years following your release from active duty
-- Uses a percentage-of-maximum-benefit scale based on how much active service you have had since September 10, 2001  
+- Uses a percentage-of-maximum-benefit scale based on how much active service you have had since September 10, 2001
 
 **Example:** If you had 90 days of active service since September 10, 2001, you would qualify for 40% of the maximum amount. Three years of active service would qualify you for 100% of the benefit.
 
@@ -75,9 +75,9 @@ The benefit amount varies according to where you use the benefit, the amount of 
 - The Yellow Ribbon Program may provide additional support to cover higher private-school and out-of-state tuition and fees.
 - The Transfer of Entitlement option enables eligible Servicemembers to transfer all 36 months or a portion of Post-9/11 GI Bill benefits to a spouse or children. Transfer eligibility is determined by the Department of Defense.
 
-Use the [GI Bill Comparison Tool]({{ site.url }}/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
+Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
 
-Get information about the [Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)]({{ site.url }}/education/survivors-dependent-assistance/fry-scholarship/) for dependents of Servicemembers who died in the line of duty after September 10, 2001.
+Get information about the [Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](/education/survivors-dependent-assistance/fry-scholarship/) for dependents of Servicemembers who died in the line of duty after September 10, 2001.
 
 #### Types of training
 

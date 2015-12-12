@@ -11,8 +11,8 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/">Claims Process</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/claims-process/">Claims Process</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -43,7 +43,7 @@ The effective date for a disability that resulted from or was aggravated by mili
 
 > "The date entitlement arose" usually means when your problem first started.
 
-If VA received your claim within one year of the day you left active service, the effective date can be as early as the day following separation.  
+If VA received your claim within one year of the day you left active service, the effective date can be as early as the day following separation.
 
 ##### Example 1
 
@@ -61,7 +61,7 @@ If VA receives your claim more than one year after your separation from active s
 
 ##### Example 1
 
-Beth, a Veteran who separated from active service on September 30, 2013, had medical tests on April 15, 2014. The doctor found she had hypertension. Less than three months later, Beth filed a claim that VA received on July 1, 2014. VA presumed her hypertension was related to her service. Because VA received the claim less than one year after Beth separated from active service, the effective date was April 15, 2014—the date entitlement (her symptoms) arose.  
+Beth, a Veteran who separated from active service on September 30, 2013, had medical tests on April 15, 2014. The doctor found she had hypertension. Less than three months later, Beth filed a claim that VA received on July 1, 2014. VA presumed her hypertension was related to her service. Because VA received the claim less than one year after Beth separated from active service, the effective date was April 15, 2014—the date entitlement (her symptoms) arose.
 
 ##### Example 2
 
@@ -118,27 +118,27 @@ If VA receives a claim more than one year after a Veteran suffered an injury, hi
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/faster/">
+          <a href="/disability-benefits/get/filing/faster/">
             <h5>What is the fastest way to file a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/ways/">
+          <a href="/disability-benefits/get/filing/ways/">
             <h5>What are the different ways I can file a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/help/">
+          <a href="/disability-benefits/get/filing/help/">
             <h5>How do I get help filing a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/active-duty/">
+          <a href="/disability-benefits/get/filing/active-duty/">
             <h5>How do I file while on active duty?</h5>
           </a>
         </li>
         <li>
-          <a href="{{ site.url }}/disability-benefits/get/filing/one-year/">
+          <a href="/disability-benefits/get/filing/one-year/">
             <h5>How do I file for disabilities that appear within one year after discharge?</h5>
           </a>
         </li>

@@ -11,8 +11,8 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/tools-programs/">Career Counseling</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/tools-programs/">Career Counseling</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -38,7 +38,7 @@ Yes, if:
 -	You will be discharged from active duty within six months.
 -	You were discharged from active duty not more than one year ago.
 -	You qualify for educational assistance under Chapters 30, 31, 32, 33, 35, 1606, and 1607.
--	You and your qualified dependents are eligible for and have entitlement to education assistance under the [Post-9/11 GI Bill®]({{ site.url }}/education/gi-bill/post-9-11/).
+-	You and your qualified dependents are eligible for and have entitlement to education assistance under the [Post-9/11 GI Bill®](/education/gi-bill/post-9-11/).
 
 #### Who is covered
 

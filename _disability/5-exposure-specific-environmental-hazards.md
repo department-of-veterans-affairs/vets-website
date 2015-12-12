@@ -10,9 +10,9 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -27,7 +27,7 @@ template: 4-action-page
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="section one" markdown="0">
@@ -57,7 +57,7 @@ You have a disability resulting from your exposure to an environmental hazard du
 - Particulate matter or large burn pits throughout Iraq, Afghanistan, and Djibouti in the Horn of Africa.
 - A large sulfur fire at Mishraq State Sulfur Mine near Mosul, Iraq.
 - Hexavalent chromium exposure at the Qarmat Ali Water Treatment Plant at Basra, Iraq.
-- [Contaminated drinking water at Camp Lejeune]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/), North Carolina, between 1953 and 1987.
+- [Contaminated drinking water at Camp Lejeune](/disability-benefits/conditions/exposures-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/), North Carolina, between 1953 and 1987.
 - Pollutants from a waste incinerator near the Naval Air Facility at Atsugi, Japan.
 
 ### Who is covered

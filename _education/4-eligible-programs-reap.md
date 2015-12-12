@@ -11,8 +11,8 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/eligible-programs/">Legacy Programs</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/eligible-programs/">Legacy Programs</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -27,7 +27,7 @@ template: 6-info-page
     <div class="small-12 columns">
 
     </div>
-  </div>  
+  </div>
 </div>-->
 
 <div class="section one" markdown="0">
@@ -52,7 +52,7 @@ You and your dependents
 #### How it works
 Under REAP, you may be able to receive assistance with some or all of your tuition and fees for college courses, certificate programs, and vocational training.
 
-The amount of your benefit depends on your active-service time. See the [current benefit rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1607). You may get additional monthly benefits if you participate in the [Buy-Up program]({{ site.url }}/education/gi-bill/buy-up-program/).
+The amount of your benefit depends on your active-service time. See the [current benefit rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1607). You may get additional monthly benefits if you participate in the [Buy-Up program](/education/gi-bill/buy-up-program/).
 
 #### Learn more
 Read the [REAP pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch1607_pamphlet.pdf).

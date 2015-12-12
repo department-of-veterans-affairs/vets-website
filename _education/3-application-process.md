@@ -12,7 +12,7 @@ concurrence: complete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -51,7 +51,7 @@ The time it takes to process your claim depends on your regional office. There a
 
 <div class="feature" markdown="1">
 
-- Learn about schools offering VA-approved programs by using the [GI Bill® Comparison Tool]({{ site.url }}/gi-bill-comparison-tool/).
+- Learn about schools offering VA-approved programs by using the [GI Bill® Comparison Tool](/gi-bill-comparison-tool/).
 
 -	Decide [which school](http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
 
@@ -94,7 +94,7 @@ You have four options for filing your claim:
 <div class="feature" markdown="1">
 
 -	Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/vonapp).
--	Go to a [VA regional office]({{ site.url }}/education/process/regional-office/index.html) and have a VA employee assist you.
+-	Go to a [VA regional office](/education/process/regional-office/index.html) and have a VA employee assist you.
 -	Work with your school's VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
 -	Call 888-GI Bill (888-442-4551) to have the application mailed to you. After you complete it, mail it to your [VA regional claims processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
 

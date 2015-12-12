@@ -12,7 +12,7 @@ template: 2-detailed-landing
 
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -27,7 +27,7 @@ template: 2-detailed-landing
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="section one" markdown="0">
@@ -86,21 +86,21 @@ When you apply for benefits, you will need to prove your problems were caused, o
 
 
 <li>
-<a href="{{ site.url }}/disability-benefits/conditions/ptsd/">
+<a href="/disability-benefits/conditions/ptsd/">
 <h5>PTSD</h5>
 <span>The basics: symptoms and help.</span>
 </a>
 </li>
 
 <li>
-<a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">
+<a href="/disability-benefits/conditions/exposures-to-hazardous-materials/">
 <h5>Exposures to Hazardous Materials</h5>
 <span>Asbestos, Agent Orange, chemicals, weapons testing, Camp Lejeune, radiation, and more.</span>
 </a>
 </li>
 
 <li>
-<a href="{{ site.url }}/disability-benefits/conditions/pow/">
+<a href="/disability-benefits/conditions/pow/">
 <h5>Prisoners of War (<abbr>POW</abbr>s)</h5>
 <span>Physical and emotional conditions resulting from captivity.</span>
 </a>
@@ -108,7 +108,7 @@ When you apply for benefits, you will need to prove your problems were caused, o
 
 
 <li>
-<a href="{{ site.url }}/disability-benefits/conditions/special-claims/">
+<a href="/disability-benefits/conditions/special-claims/">
 <h5>Special Claims</h5>
 <span>Adaptive equipment, hospitalization and convalescence, dentistry, individual unemployability, and more.</span>
 </a>
@@ -116,7 +116,7 @@ When you apply for benefits, you will need to prove your problems were caused, o
 
 
 <li>
-  <a href="{{ site.url }}/disability-benefits/conditions/service-connected/">
+  <a href="/disability-benefits/conditions/service-connected/">
   <h5>Service Connected</h5>
   <span>What does "service connected" mean?</span>
   </a>

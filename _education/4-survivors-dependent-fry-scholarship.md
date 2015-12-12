@@ -11,9 +11,9 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
-<li class="parent"><a href="{{ site.url }}/education/survivors-dependent-assistance/">Survivors' and Dependents' Assistance</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/gi-bill/">GI Bill®</a></li>
+<li class="parent"><a href="/education/survivors-dependent-assistance/">Survivors' and Dependents' Assistance</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -53,7 +53,7 @@ Fry Scholarship (GI Bill® benefits)
 
 Children are eligible as of their 18th birthday or after graduating high school, whichever comes first. Childrens' eligibility ends on their 33rd birthday. A spouse has 15 years from the Servicemember's death to use the benefit.
 
-If you are a dependent and your parent died in the line of duty before August 1, 2011, you may be eligible for both the Fry Scholarship and the Survivors' and Dependents' Educational Assistance [(DEA)]({{ site.url }}/education/survivors-dependent-assistance/dependents-education/) program, but you can use only one program at a time. Combined benefits are capped at 81 months of full-time training.
+If you are a dependent and your parent died in the line of duty before August 1, 2011, you may be eligible for both the Fry Scholarship and the Survivors' and Dependents' Educational Assistance [(DEA)](/education/survivors-dependent-assistance/dependents-education/) program, but you can use only one program at a time. Combined benefits are capped at 81 months of full-time training.
 
 Surviving spouses are eligible to receive [Dependency and Indemnity Compensation](http://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp) (DIC) while using the Fry Scholarship. Children over 18 who receive DIC benefits will need to give up those payments when they start to use the Fry Scholarship.
 
@@ -62,7 +62,7 @@ Surviving spouses are eligible to receive [Dependency and Indemnity Compensation
 <div class="call-out" markdown="1">
 ### Apply
 
-Use the [GI Bill® Comparison Tool]({{ site.url }}/gi-bill-comparison-tool/) to help you choose a school. Make sure that your selected program is approved for VA training.
+Use the [GI Bill® Comparison Tool](/gi-bill-comparison-tool/) to help you choose a school. Make sure that your selected program is approved for VA training.
 
 Fill out [VA Form 22-5490 (Dependents' Application for VA Education Benefits)](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490). Send it to the VA regional office that has jurisdiction over the state where you will advance your education and training. If you are a son or daughter under legal age, a parent or guardian must sign the application. When applying, you will be required to make an irrevocable election of either the Fry Scholarship or the Survivors' and Dependents' Educational Assistance program.
 

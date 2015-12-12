@@ -2,7 +2,7 @@
 
 <div id="experience" class="{{ page.id }}" role="main">
   <div class="splash">
-    <h2><a href="{{ site.url }}/experience/">Experience</a></h2>
+    <h2><a href="/experience/">Experience</a></h2>
   </div>
 
   <div class="primary">
@@ -11,7 +11,7 @@
         <ul class="plain posts">
           {% for post in site.posts %}
           <li>
-            <a href="{{ site.url }}/{{ post.url }}">
+            <a href="/{{ post.url }}">
               <div class="post-title">{{ post.title }}</div>
               <div class="post-date">{{ post.date | date: "%B %d, %Y" }}</div>
             </a>

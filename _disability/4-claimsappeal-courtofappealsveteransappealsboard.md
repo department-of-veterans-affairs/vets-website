@@ -11,8 +11,8 @@ source: http://www.bva.va.gov/index.asp
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-appeal/">Claims Appeal</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/claims-appeal/">Claims Appeal</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -26,7 +26,7 @@ source: http://www.bva.va.gov/index.asp
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">

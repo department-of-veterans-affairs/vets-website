@@ -11,8 +11,8 @@ template: 4-action-page-pending
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/">Conditions</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -28,7 +28,7 @@ template: 4-action-page-pending
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="section one" markdown="0">
@@ -48,7 +48,7 @@ Yes, if:
 - Your prosthetic or orthopedic device or your skin medication causes damage to your clothes.
 - Your need for this device or skin medication is related to a service-connected condition.
 
-### Who is covered  
+### Who is covered
 
 You
 </div>
@@ -58,7 +58,7 @@ You
 
 - A one-time or yearly allowance for reimbursement
 
-### How it works  
+### How it works
 
 To receive annual payment, you must establish eligibility by August 1 of the year for which you claim payment. View the current [rate table](http://www.benefits.va.gov/COMPENSATION/special_Benefit_Allowances_2012.asp) to determine the benefit amount. Additional clothing allowances may be provided if more than one prosthetic or orthopedic appliance, or skin medication, is used and/or it affects more than one type of clothing garment.
 

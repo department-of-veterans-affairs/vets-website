@@ -11,8 +11,8 @@ concurrence: complete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/training-testing-licensing/">Advanced Training and Certifications</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/training-testing-licensing/">Advanced Training and Certifications</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -25,9 +25,9 @@ concurrence: complete
 <!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      
+
     </div>
-  </div>  
+  </div>
 </div>-->
 
 <div class="section one" markdown="0">
@@ -38,9 +38,9 @@ concurrence: complete
 If you are pursuing higher education that requires testing as part of the application process, you may be eligible for reimbursement from VA.
 </div>
 <div class="call-out" markdown="1">
-### Are you eligible for compensation? 
+### Are you eligible for compensation?
 
-Yes, if: 
+Yes, if:
 
 You are a Veteran eligible for the GI Bill
 

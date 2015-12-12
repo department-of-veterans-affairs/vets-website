@@ -11,7 +11,7 @@ template: 1-topic-landing
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -26,7 +26,7 @@ template: 1-topic-landing
     <div class="small-12 columns">
 
     </div>
-  </div>  
+  </div>
 </div>-->
 
 <div class="section one" markdown="0">
@@ -45,29 +45,29 @@ You are in charge of designing your own education. VA education benefits, includ
     <div class="small-12 columns">
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="{{ site.url }}/education/work-learn/workstudy/">
+              <a href="/education/work-learn/workstudy/">
                 <h5>Work Study</h5>
               </a>
             </li>
             <li>
-              <a href="{{ site.url }}/education/work-learn/job-and-apprenticeship/">
+              <a href="/education/work-learn/job-and-apprenticeship/">
                 <h5>On-the-Job Training and Apprenticeships</h5>
               </a>
             </li>
             <li>
-              <a href="{{ site.url }}/education/work-learn/co-op-training/">
+              <a href="/education/work-learn/co-op-training/">
                 <h5>Co-op Training</h5>
               </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/education/work-learn/non-college-degree-program/">
+              <a href="/education/work-learn/non-college-degree-program/">
                 <h5>Non-College Degree Programs</h5>
               </a>
             </li>
 
             <li>
-              <a href="{{ site.url }}/education/work-learn/non-traditional/">
+              <a href="/education/work-learn/non-traditional/">
                 <h5>Non-Traditional Options</h5>
               </a>
             </li>

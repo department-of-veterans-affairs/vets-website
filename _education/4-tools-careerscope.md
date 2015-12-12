@@ -11,8 +11,8 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/tools-programs/">Career Counseling</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/tools-programs/">Career Counseling</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -25,9 +25,9 @@ concurrence: incomplete
 <!--<div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      
+
     </div>
-  </div>  
+  </div>
 </div>-->
 
 <div class="section one" markdown="0">
@@ -35,10 +35,10 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-In addition to career counseling, VA provides the interest and aptitude assessment tool, CareerScope, to all eligible benefit recipients. CareerScope has been used frequently by Veterans to determine the best career path when transitioning to civilian life. 
+In addition to career counseling, VA provides the interest and aptitude assessment tool, CareerScope, to all eligible benefit recipients. CareerScope has been used frequently by Veterans to determine the best career path when transitioning to civilian life.
 
-CareerScope uses the results from your assessment to give you recommendations that help identify which career fields you may enjoy and in which careers you might excel. CareerScope also recommends courses or training programs that can help you pursue those careers. 
- 
+CareerScope uses the results from your assessment to give you recommendations that help identify which career fields you may enjoy and in which careers you might excel. CareerScope also recommends courses or training programs that can help you pursue those careers.
+
 Use this [Report Interpretation guide](http://www.benefits.va.gov/gibill/docs/job_aids/CareerScope_Report_Interpretation.pdf) to help you understand your CareerScope results.
 
 

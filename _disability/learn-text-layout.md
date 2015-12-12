@@ -10,8 +10,8 @@ source: http://www.benefits.va.gov/fdc/checklist.asp
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">Learn about disability benefits</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/learn/">Learn about disability benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -58,7 +58,7 @@ A secondary disability claim is a new claim linked to an existing VA-recognized 
 - Learn about claims processes
 - Learn about dependent and survivor benefits and services
 
-</div>  
+</div>
 </div>
 </div>
 

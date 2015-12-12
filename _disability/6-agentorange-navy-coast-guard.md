@@ -11,10 +11,10 @@ template: 4-action-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/">Conditions</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/">Conditions</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/">Hazardous Exposures</a></li>
+<li class="parent"><a href="/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/">Agent Orange</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -29,7 +29,7 @@ template: 4-action-page
     <div class="small-12 columns">
       <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
-  </div>  
+  </div>
 </div>
 
 <div class="section one" markdown="0">
@@ -54,7 +54,7 @@ If you served on a Navy or Coast Guard ship in the Vietnam area of operations, y
 
 Yes, if:
 
-You currently have one or more of [these diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), and
+You currently have one or more of [these diseases](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), and
 
 You served on ships or boats that were part of the Mobile Riverine Force, Inshore Fire Support Division 93, or had one of the following designations:
 
@@ -87,11 +87,11 @@ You and your dependents
 
 - Compensation
 - Health
-- An [Agent Orange Registry health exam]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
+- An [Agent Orange Registry health exam](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 #### How it works
 
-If you served on one of the vessels listed as exposed to Agent Orange, and have one or more of [these diseases]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), VA presumes that your disease is related to Agent Orange exposure in service.
+If you served on one of the vessels listed as exposed to Agent Orange, and have one or more of [these diseases](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/), VA presumes that your disease is related to Agent Orange exposure in service.
 
 If you don’t currently have an Agent Orange–related disability, you and your family may still participate in the Agent Orange Health Registry.
 

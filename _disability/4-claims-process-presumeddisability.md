@@ -11,8 +11,8 @@ template: 6-info-page
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/">Claims Process</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/claims-process/">Claims Process</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -28,7 +28,7 @@ template: 6-info-page
 
 A presumed disability is a diagnosed disability that VA considers to be related to a Veteran's service because of the circumstances of the Veteran's military service.
 
-This designation usually applies to conditions that are the result of a [specific hazardous exposure]({{ site.url }}/disability-benefits/conditions/exposures-to-hazardous-materials/) or a [chronic disease that appears within one year after discharge]({{ site.url }}/disability-benefits/get/filing/one-year/).
+This designation usually applies to conditions that are the result of a [specific hazardous exposure](/disability-benefits/conditions/exposures-to-hazardous-materials/) or a [chronic disease that appears within one year after discharge](/disability-benefits/get/filing/one-year/).
 
 
 </div>

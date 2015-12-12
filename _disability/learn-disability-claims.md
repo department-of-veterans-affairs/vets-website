@@ -10,8 +10,8 @@ source: http://www.benefits.va.gov/fdc/checklist.asp,http://www.benefits.va.gov/
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/learn/">Learn about disability benefits</a></li>
+<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
+<li class="parent"><a href="/disability-benefits/learn/">Learn about disability benefits</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 

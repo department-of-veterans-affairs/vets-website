@@ -11,9 +11,9 @@ concurrence: incomplete
 <div class="small-12 columns" markdown="0">
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/">GI Bill®</a></li>
-<li class="parent"><a href="{{ site.url }}/education/gi-bill/post-9-11/">Post-9/11 GI Bill®</a></li>
+<li class="parent"><a href="/education/">Education Benefits</a></li>
+<li class="parent"><a href="/education/gi-bill/">GI Bill®</a></li>
+<li class="parent"><a href="/education/gi-bill/post-9-11/">Post-9/11 GI Bill®</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -28,7 +28,7 @@ concurrence: incomplete
     <div class="small-12 columns">
 
     </div>
-  </div>  
+  </div>
 </div>-->
 
 <div class="section one" markdown="0">
@@ -44,7 +44,7 @@ If your school participates in the Yellow Ribbon Program, you may be able to red
 
 Yes, if:
 
-- You are a Veteran or the dependent of a Veteran who is eligible for transfer of entitlement for the Post-9/11 GI Bill®, or you are the child of an active-duty Servicemember who is the recipient of a transfer of entitlement 
+- You are a Veteran or the dependent of a Veteran who is eligible for transfer of entitlement for the Post-9/11 GI Bill®, or you are the child of an active-duty Servicemember who is the recipient of a transfer of entitlement
 - You served an aggregate period of 36 months in active duty after Sept. 10, 2001
 - You were honorably discharged from active duty for a service-connected disability with at least 30 continuous days after Sept. 10, 2001.
 - You are a dependent eligible for Transfer of Entitlement under the Post-9/11 GI Bill® based on the service eligibility criteria listed above.
@@ -52,7 +52,7 @@ Yes, if:
 - You maintain continuous enrollment, full- or part-time, as defined by your school
 - You are working toward the completion of your enrolled program
 
-#### Who is covered?  
+#### Who is covered?
 - You and/or your dependents
 
 #### Available benefits
@@ -67,7 +67,7 @@ Yes, if:
 
 4. You will receive notice from your school about whether you have been accepted to the program and about the application of the benefit to your tuition.
 
-5. Confirm that your school will submit your enrollment information to VA, and coordinate with VA for the application of the benefit to your tuition or fees. 
+5. Confirm that your school will submit your enrollment information to VA, and coordinate with VA for the application of the benefit to your tuition or fees.
 </div>
 </div>
 
