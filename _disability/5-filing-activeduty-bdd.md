@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/filing/active-duty/bdd/index.html
-title: What is Benefit Delivery at Discharge? (BDD)
+title: What is Benefits Delivery at Discharge? (BDD)
 concurrence: incomplete
 template: 6-info-page
 ---
@@ -12,8 +12,9 @@ template: 6-info-page
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/filing">Filing</a></li>
-<li class="parent"><a href="{{ site.url }}/disability-benefits/filing/active-duty/">Pre-discharge filing status</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process">Claims Process</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/claim-types">Claim Types</a></li>
+<li class="parent"><a href="{{ site.url }}/disability-benefits/claims-process/claim-types/pre-discharge">Predischarge</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -41,8 +42,9 @@ If you are a Servicemember with a disability, you may begin your claim for compe
 ### Are you eligible for this program?
 
 Yes, if:
--	You have a known separation date
--	You have a separation date 60-180 days from now
+
+-	You have a known separation date.
+-	You have a separation date 60-180 days from now.
 
 ### Who is covered
 You
@@ -55,10 +57,10 @@ You must give your service treatment records to VA when you apply, and you must 
 
 BDD is available nationwide and open to all Servicemembers on full-time active duty, including members of the National Guard and Reserve. Members of the Coast Guard may also participate.
 
-**Exception:** If you are less than 60 days from separation, you can submit a [Quick Start claim](http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-quickstart.asp).
+**Exception:** If you are less than 60 days from separation, you can submit a [Quick Start claim]({{ site.url}}/disability-benefits/filing/active-duty/quick-start/).
 
 ### Learn More
-If you are on a military installation, contact your local Transition Assistance Office or ACAP Center (Army only) to schedule an appointment to attend a VA benefits briefing and learn how to initiate your claim. You can also call the VA toll free at 1-800-827-1000.
+If you are on a military installation, contact your local Transition Assistance Office or ACAP Center (Army only) to schedule an appointment to attend a VA benefits briefing and learn how to initiate your claim. You can also call VA toll free at 1-800-827-1000.
 
 
 </div>
