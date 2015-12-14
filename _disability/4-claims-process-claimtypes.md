@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/claims-process/claim-types/index.html
-title: What are the different claim types and what do they mean?
+title: Types of Claims
 ---
 
 <div class="splash" markdown="0">
