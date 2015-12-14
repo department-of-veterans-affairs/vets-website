@@ -116,14 +116,6 @@ Access the [complete schedule of disabilities](http://www.benefits.va.gov/warms/
 </li>
 
 
-<li>
-  <a href="{{ site.url }}/disability-benefits/conditions/service-connected/">
-  <h5>Service Connected</h5>
-  <span>What does "service connected" mean?</span>
-  </a>
-</li>
-
-
 </ul>
 </div>
 </div>
