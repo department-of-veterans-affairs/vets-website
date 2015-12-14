@@ -87,14 +87,14 @@ The following types of programs and courses may be used under the Post-9/11 GI B
 - [Cooperative training]({{ site.url }}/education/work-learn/co-op-training/)
 - [Entrepreneurship training]({{ site.url }}/education/training-testing-licensing/entrepreneurship-training/)
 - [Flight training]({{ site.url }}/education/training-testing-licensing/flight-training/)
-- [Independent and distance learning]({{site.url}}/ education/work-learn/non-traditional/independent-distance-learning/)
+- [Independent and distance learning]({{site.url}}/education/work-learn/non-traditional/independent-distance-learning/)
 - [Institutions of higher learning undergraduate and graduate degrees]({{site.url}}/education/gi-bill/higher-learning/)
 - [Licensing and certification reimbursement]({{ site.url }}/education/training-testing-licensing/licensing-certification/)
 - [Vocational/technical training and non-college degree programs]({{ site.url }}/education/work-learn/non-college-degree-program/)
 - [National testing reimbursement]({{site.url}}/training-testing-licensing/national-testing-program/)
 - [On-the-job training]({{ site.url }}/education/work-learn/job-and-apprenticeship/)
 - [Tuition Assistance Top-Up]({{site.url}}/education/gi-bill/tuition-assistance/)
-- [Tutorial Assistance]({{site.url}}/ education/gi-bill/tutorial-assistance/)
+- [Tutorial Assistance]({{site.url}}/education/gi-bill/tutorial-assistance/)
 </div>
 </div>
 
