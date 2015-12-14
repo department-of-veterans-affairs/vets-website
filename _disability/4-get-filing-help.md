@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/get/filing/help/index.html
-title: How do I get help filing a claim?
+title: Get Help Filing a Claim
 concurrence: incomplete
 template: 6-info-page
 ---
