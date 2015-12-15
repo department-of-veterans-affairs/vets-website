@@ -38,11 +38,11 @@ Choose one of three ways:
 
 1.	Apply online, using [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
 
-2.	Work with an [accredited representative]({{ site.url}}/disability-benefits/get/filing/help/index.html), or
+2.	Get help from an [accredited representative]({{ site.url}}/disability-benefits/get/filing/help/index.html), or
 
 3.	Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
 
-Note: Active-duty members should learn about [Predischarge Claims]({{ site.url}}/disability-benefits/claims-process/claim-types/pre-discharge/index.html)
+**Note:** Active-duty Servicemembers should learn about [predischarge claims]({{ site.url}}/disability-benefits/claims-process/claim-types/pre-discharge/index.html).
 
 
 
