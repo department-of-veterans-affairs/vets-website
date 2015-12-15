@@ -1,6 +1,4 @@
 ---
-layout: page-disability
-permalink: disability-benefits/conditions/exposures-to-hazardous-materials/mustard-gas/index.html
 title: Exposure to Mustard Gas or Lewisite
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-mustard.asp
 template: 4-action-page

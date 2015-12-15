@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Non-Hodgkin's Lymphoma
 concurrence: incomplete
 ---

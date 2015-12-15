@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Original claim
 source: http://www.benefits.va.gov/compensation/types-claims.asp
 ---

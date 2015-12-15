@@ -1,6 +1,4 @@
 ---
-layout: page-disability
-permalink: disability-benefits/claims-process/claim-types/pre-service/index.html
 title: Preservice Claim
 concurrence: complete
 source: http://www.benefits.va.gov/compensation/types-claims.asp

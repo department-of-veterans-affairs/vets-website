@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Effective Date of Disability
 concurrence: complete
 template: 6-info-page

@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: What are the different kinds of disability claims?
 source: http://www.benefits.va.gov/fdc/checklist.asp
 ---

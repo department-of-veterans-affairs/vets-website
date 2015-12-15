@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Predischarge filing status
 source: http://benefits.va.gov/PREDISCHARGE/index.asp
 template: 2-detailed-landing

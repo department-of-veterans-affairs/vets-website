@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Specific Environmental Hazards
 template: 4-action-page
 ---

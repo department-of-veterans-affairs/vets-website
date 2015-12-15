@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: C-123 Aircraft
 template: 4-action-page
 ---

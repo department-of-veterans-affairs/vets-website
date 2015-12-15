@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: How does VA assign disability ratings?
 template: 6-info-page
 ---

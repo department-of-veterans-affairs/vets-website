@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Hospitalization
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
 template: 4-action-page-pending

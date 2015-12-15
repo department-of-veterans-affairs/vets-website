@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Predischarge programs
 source: http://www.benefits.va.gov/predischarge/index.asp
 ---

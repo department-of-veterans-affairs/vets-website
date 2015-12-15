@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Contaminated Drinking Water at Camp Lejeune
 source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_lejeune_water.asp
 template: 6-info-page

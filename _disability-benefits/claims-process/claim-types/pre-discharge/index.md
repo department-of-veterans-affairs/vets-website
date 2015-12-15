@@ -1,6 +1,4 @@
 ---
-layout: page-disability
-permalink: disability-benefits/claims-process/claim-types/pre-discharge/index.html
 title: Predischarge
 source: http://www.benefits.va.gov/predischarge/index.asp
 ---

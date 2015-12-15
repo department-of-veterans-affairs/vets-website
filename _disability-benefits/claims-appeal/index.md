@@ -1,6 +1,4 @@
 ---
-layout: page-disability
-permalink: disability-benefits/claims-appeal/index.html
 title: Appeals
 concurrence: incomplete
 template: 6-info-page

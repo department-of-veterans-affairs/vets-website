@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Reopened claim
 source: http://www.benefits.va.gov/compensation/types-claims.asp
 ---

@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: New Claim
 concurrence: complete
 ---

@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Prestabilization Ratings
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp

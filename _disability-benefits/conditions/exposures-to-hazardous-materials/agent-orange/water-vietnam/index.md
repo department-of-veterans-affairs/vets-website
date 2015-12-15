@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Waters in the Vicinity of Vietnam
 concurrence: incomplete
 template: 4-action-page

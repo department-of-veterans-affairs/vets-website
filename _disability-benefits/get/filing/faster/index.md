@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Is there a way to file that can get me a decision faster?
 concurrence: incomplete
 source: http://www.benefits.va.gov/compensation/dbq_disabilityexams.asp

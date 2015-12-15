@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Original Claim
 concurrence: complete
 ---

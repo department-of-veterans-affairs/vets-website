@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Disability claims
 source: http://www.benefits.va.gov/fdc/checklist.asp,http://www.benefits.va.gov/compensation/types-claims.asp
 ---

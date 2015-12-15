@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Service in Vietnam or Korea
 concurrence: incomplete
 template: 4-action-page

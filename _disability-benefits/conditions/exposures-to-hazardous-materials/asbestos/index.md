@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Asbestos
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp

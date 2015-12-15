@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Special Claims
 concurrence: complete
 template: 2-detailed-landing

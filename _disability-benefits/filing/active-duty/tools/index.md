@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: What tools are there to help me prepare my claim before my discharge?
 template: 6-info-page
 ---

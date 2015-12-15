@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Service Connected
 source: https://eauth.va.gov/ebenefits/learn/compensation
 ---

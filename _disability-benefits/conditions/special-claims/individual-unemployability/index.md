@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Individual Unemployability
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-individual_unemployability.asp

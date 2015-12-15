@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Apply for Benefits
 template: 7-get-page
 ---

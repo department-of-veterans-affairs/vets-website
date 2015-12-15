@@ -4,18 +4,17 @@
   <div class="splash">
     <h2><a href="/experience/">Experience</a></h2>
   </div>
-
   <div class="primary">
     <div class="row">
       <div class="small-12 medium-8 medium-centered columns">
         <ul class="plain posts">
           {% for post in site.posts %}
-          <li>
-            <a href="/{{ post.url }}">
-              <div class="post-title">{{ post.title }}</div>
-              <div class="post-date">{{ post.date | date: "%B %d, %Y" }}</div>
-            </a>
-          </li>
+            <li>
+              <a href="/{{ post.url }}">
+                <div class="post-title">{{ post.title }}</div>
+                <div class="post-date">{{ post.date | date: "%B %d, %Y" }}</div>
+              </a>
+            </li>
           {% endfor %}
         </ul>
       </div>

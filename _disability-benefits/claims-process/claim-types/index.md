@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: What are the different claim types and what do they mean?
 ---
 

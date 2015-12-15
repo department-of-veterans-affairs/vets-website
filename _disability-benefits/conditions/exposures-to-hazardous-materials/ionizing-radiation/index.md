@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Ionizing Radiation
 template: 4-action-page
 ---

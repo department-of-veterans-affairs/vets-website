@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: What are the different ways I can file a claim
 template: 6-info-page
 ---

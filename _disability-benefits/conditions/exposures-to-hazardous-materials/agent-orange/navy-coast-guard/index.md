@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: U.S. Navy and Coast Guard Ships in Vietnam
 concurrence: complete
 template: 4-action-page

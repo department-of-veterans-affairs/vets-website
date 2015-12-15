@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Standard Claim
 template: 6-info-page
 concurrence: complete

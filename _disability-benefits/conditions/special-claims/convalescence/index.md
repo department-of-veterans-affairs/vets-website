@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Convalescence
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp

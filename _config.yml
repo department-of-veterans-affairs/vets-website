@@ -57,12 +57,14 @@ defaults:
   - scope:
       type: "disability-benefits"
     values:
-      layout: "page-disability"
+      layout: "page-breadcrumbs"
+      body_class: "page-disability"
   - scope:
       type: "education"
     values:
-      layout: "page-education"
+      layout: "page-breadcrumbs"
       breadcrumb_1: "Education Benefits"
+      body_class: "page-education"
   - scope:
       path: "education/gi-bill"
     values:
@@ -90,16 +92,20 @@ defaults:
   - scope:
       type: "health-care"
     values:
-      layout: "page-healthcare"
+      layout: "page"
+      body_class: "page-healthcare"
   - scope:
       type: "memorial-benefits"
     values:
       layout: "page"
+      body_class: "page"
   - scope:
       type: "pension"
     values:
       layout: "page"
+      body_class: "page"
   - scope:
       type: "playbook"
     values:
       layout: "page-playbook"
+      body_class: "page-playbook"

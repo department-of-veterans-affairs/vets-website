@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Agent Orange Registry Health Exam for Veterans
 concurrence: incomplete
 template: action-page

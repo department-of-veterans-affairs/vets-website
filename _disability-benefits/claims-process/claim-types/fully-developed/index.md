@@ -1,6 +1,4 @@
 ---
-layout: page-disability
-permalink: disability-benefits/claims-process/claim-types/fully-developed/index.html
 title: Fully Developed Claim
 template: 6-info-page
 concurrence: complete

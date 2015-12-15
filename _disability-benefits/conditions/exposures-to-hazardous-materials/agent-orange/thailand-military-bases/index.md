@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Thailand Military Bases
 concurrence: incomplete
 template: 4-action-page

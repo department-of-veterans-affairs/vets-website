@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Agent Orange
 template: 3-panel-filters
 ---

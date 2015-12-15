@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Disability Benefits
 source: http://www.benefits.va.gov/compensation/
 template: 1-topic-landing

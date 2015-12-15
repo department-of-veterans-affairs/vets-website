@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Hazardous Exposures
 template: 2-detailed-landing
 ---

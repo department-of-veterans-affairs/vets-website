@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Claim processes
 source: http://www.benefits.va.gov/COMPENSATION/apply.asp,http://www.benefits.va.gov/fdc/,http://www.benefits.va.gov/COMPENSATION/evidence.asp
 ---

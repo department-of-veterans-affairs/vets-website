@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: What is a "presumed disability"?
 concurrence: incomplete
 template: 6-info-page

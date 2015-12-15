@@ -1,8 +1,6 @@
 ---
-layout: page-disability
 title: Testing and Storage Areas Outside of Vietnam
 concurrence: incomplete
-
 ---
 
 <div class="main" role="main" markdown="0">

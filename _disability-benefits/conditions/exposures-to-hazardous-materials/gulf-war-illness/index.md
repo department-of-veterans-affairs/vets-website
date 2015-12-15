@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Gulf War Illness
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp

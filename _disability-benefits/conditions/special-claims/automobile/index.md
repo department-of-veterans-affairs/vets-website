@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Automobile Use Claims
 concurrence: incomplete
 template: 4-action-page-pending

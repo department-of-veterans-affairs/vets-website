@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Disability compensation
 source: http://www.benefits.va.gov/compensation/,http://www.benefits.va.gov/fdc/,http://www.benefits.va.gov/FDC/checklist.asp
 ---

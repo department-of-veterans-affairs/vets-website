@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Secondary claim
 concurrence: incomplete
 source: http://www.benefits.va.gov/compensation/types-claims.asp

@@ -1,9 +1,6 @@
 ---
-layout: page-disability
-permalink: disability-benefits/claims-process/claim-types/post-service/index.html
 title: Postservice Claim
 concurrence: incomplete
-
 ---
 
 <div class="splash" markdown="0">

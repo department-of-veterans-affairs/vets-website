@@ -1,6 +1,4 @@
 ---
-layout: page-disability
-permalink: disability-benefits/claims-process/claim-types/in-service/index.html
 title: In-Service claim
 concurrence: complete
 

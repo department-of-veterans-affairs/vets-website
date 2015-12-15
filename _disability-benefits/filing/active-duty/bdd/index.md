@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: What is Benefit Delivery at Discharge? (BDD)
 concurrence: incomplete
 template: 6-info-page

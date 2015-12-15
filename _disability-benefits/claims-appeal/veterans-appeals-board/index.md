@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Board of Veterans' Appeals
 concurrence: complete
 source: http://www.bva.va.gov/index.asp

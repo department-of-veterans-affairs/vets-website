@@ -1,6 +1,4 @@
 ---
-layout: page-disability
-permalink: disability-benefits/claims-process/index.html
 title: How does the claims process work?
 template: 2-detailed-landing
 ---

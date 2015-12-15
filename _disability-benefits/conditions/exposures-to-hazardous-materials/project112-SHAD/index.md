@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Project 112/SHAD
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp
 template: 4-action-page

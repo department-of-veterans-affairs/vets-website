@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Rates
 concurrence: incomplete
 template: 6-info-page

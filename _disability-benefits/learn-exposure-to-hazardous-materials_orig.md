@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 #permalink: disability-benefits/learn/exposures-to-hazardous-materials/index.html
 title: Hazardous Exposures
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-index.asp

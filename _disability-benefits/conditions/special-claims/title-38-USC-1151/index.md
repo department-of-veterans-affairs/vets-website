@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Title 38 U.S.C. 1151 Claims
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp
 template: 4-action-page-pending

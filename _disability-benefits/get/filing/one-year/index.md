@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: How do I file for Disabilities That Appear Within One Year After Discharge?
 concurrence: incomplete
 ---

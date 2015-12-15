@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: How do I file when I’m overseas?
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp,http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-overseas-intake-sites.asp

@@ -1,7 +1,5 @@
 ---
-layout: page-disability
 title: Diseases Associated with Agent Orange
-
 ---
 
 <div class="main" role="main" markdown="0">

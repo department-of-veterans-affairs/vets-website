@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Evidence
 template: 6-info-page
 ---
