@@ -1,5 +1,7 @@
 ---
-title: How do I file for Disabilities That Appear Within One Year After Discharge?
+layout: page-disability
+permalink: disability-benefits/get/filing/one-year/index.html
+title: Disabilities That Appear Within One Year After Discharge
 concurrence: incomplete
 ---
 
@@ -17,7 +19,7 @@ concurrence: incomplete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you experience symptoms of certain diseases, such as hypertension, arthritis, diabetes, and peptic ulcers, within a year of separation from active service, you may be eligible for disability benefits. If symptoms appear within a year of separation, even though they were not present during military service, VA may presume a service connection. [See the complete list of diseases](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc)
+If you experience symptoms of certain diseases, such as hypertension, arthritis, diabetes, and peptic ulcers, within a year of separation from active service, you may be eligible for disability benefits. If symptoms appear within a year of separation, even though they were not present during military service, VA may presume a service connection. See the [complete list of diseases](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
 
 </div>
 
