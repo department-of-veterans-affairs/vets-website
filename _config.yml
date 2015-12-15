@@ -47,12 +47,11 @@ collections:
     output: true
   education:
     output: true
+  memorial-benefits:
+    output: true
   pension:
     output: true
     permalink: /pension/:path/
-  memorial:
-    output: true
-    permalink: /memorial/:path/
   playbook:
     output: true
     permalink: /playbook/:path/
@@ -91,3 +90,7 @@ defaults:
       path: "education/work-learn/non-traditional"
     values:
       breadcrumb_3: "Non-Traditional Options"
+  - scope:
+      type: "health-care"
+    values:
+      layout: "page-healthcare"
