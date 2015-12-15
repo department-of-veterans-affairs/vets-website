@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/filing/active-duty/quick-start/index.html
-title: What is Quick Start?
+title: Quick Start
 
 ---
 
