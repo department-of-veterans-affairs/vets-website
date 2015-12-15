@@ -43,8 +43,6 @@ sass:
   javascripts_dir: 'assets/js'
 
 collections:
-  compensation:
-    output: true
   disability-benefits:
     output: true
   education:
