@@ -82,7 +82,7 @@ The conditions that fall under the umbrella of Gulf War Illness are varied and e
 <ul class="plain">
 
 <li markdown="1">
-Find an [Accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
+Find an [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html) to help you.
 
 </li>
 
