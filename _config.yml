@@ -27,7 +27,7 @@ production: true
 
 timezone: America/New_York
 encoding: UTF-8
-safe: true
+safe: false
 
 markdown: kramdown
 timezone: America/New_York
@@ -44,10 +44,8 @@ sass:
   javascripts_dir: 'assets/js'
 
 collections:
-  # further define collections here
   disability-benefits:
     output: true
-    permalink: /disability-benefits/:path/
   education:
     output: true
     permalink: /education/:path/
@@ -75,3 +73,10 @@ collections:
   facility-locator:
     output: true
     permalink: /facility-locator/
+
+defaults:
+  - scope:
+      path: ""
+      type: "disability-benefits"
+    values:
+      layout: "page-disability"

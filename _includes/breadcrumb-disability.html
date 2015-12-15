@@ -1,15 +1,9 @@
-<div class="row">
-  <div class="small-12 columns">
-    <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-
-        {% if disability.category == 'parent' %}
-          <li>Hello.</li>
-        {% endif %}
-
-
-      <li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
-      <li class="active">{{ page.title }}</li>
-
-    </ul>
+<div class="splash" markdown="0">
+  <div class="row" markdown="0">
+    <div class="small-12 columns" markdown="0">
+      <ul class="breadcrumbs" role="menubar" aria-label="Primary">
+        <li>{% breadcrumbs %}</li>
+      </ul>
+    </div>
   </div>
 </div>
