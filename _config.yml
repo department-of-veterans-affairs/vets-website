@@ -53,7 +53,6 @@ collections:
     output: true
   playbook:
     output: true
-    permalink: /playbook/:path/
 
 defaults:
   - scope:
@@ -101,3 +100,7 @@ defaults:
       type: "pension"
     values:
       layout: "page"
+  - scope:
+      type: "playbook"
+    values:
+      layout: "page-playbook"
