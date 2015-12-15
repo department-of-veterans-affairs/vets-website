@@ -8,7 +8,7 @@ concurrence: incomplete
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
+      <a class="usa-button-primary" href="/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
   </div>
 </div>
@@ -33,7 +33,7 @@ If you participated in the testing or storage of Agent Orange used in Vietnam—
 ### Are you eligible for compensation?
 Yes, if:
 
-- You are ill with one or more of [these diseases]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
+- You are ill with one or more of [these diseases](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
 - Your service included participation in the testing or storage of Agent Orange used in Vietnam.
 -
 #### Who is covered
@@ -43,10 +43,10 @@ You and your dependents or survivors
 #### Available benefits
 - Compensation
 - Health care
-- An [Agent Orange Registry health exam]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
+- An [Agent Orange Registry health exam](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 #### How it works
-You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for [diseases]({{ site.url}}/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) that VA presumes are related to Agent Orange exposure.
+You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for [diseases](/disability-benefits/conditions/exposures-to-hazardous-materials/agent-orange/diseases/) that VA presumes are related to Agent Orange exposure.
 </div>
 </div>
 

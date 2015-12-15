@@ -9,7 +9,7 @@ template: 6-info-page
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
+      <a class="usa-button-primary" href="/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
   </div>
 </div>
@@ -55,7 +55,7 @@ File [VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf). Check the status of 
 
 #### How the Board of Appeals works:
 
-If you selected an optional in-person or video teleconference hearing with a Veterans Law Judge at the [Board of Veterans’ Appeals]({{ site.url}}/disability-benefits/claims-appeal/veterans-appeals-board/), the hearing will be scheduled at your local VA office (or in Washington, DC, if you selected that location).
+If you selected an optional in-person or video teleconference hearing with a Veterans Law Judge at the [Board of Veterans’ Appeals](/disability-benefits/claims-appeal/veterans-appeals-board/), the hearing will be scheduled at your local VA office (or in Washington, DC, if you selected that location).
 
 - You may request an optional personal hearing before an adjudicator who works at your local VA office or a Veterans Law Judge who works at the Board of Veterans’ Appeals.
 - If you request an optional hearing, it will significantly delay a Board decision because optional hearings take more time to schedule.

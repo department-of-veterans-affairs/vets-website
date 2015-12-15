@@ -7,7 +7,7 @@ concurrence: incomplete
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="{{ site.url}}/disability-benefits/get/">Apply for Disability Benefits</a>
+      <a class="usa-button-primary" href="/disability-benefits/get/">Apply for Disability Benefits</a>
     </div>
   </div>
 </div>
