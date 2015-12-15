@@ -11,7 +11,7 @@ template: 6-info-page
 
 <ul class="breadcrumbs" role="menubar" aria-label="Primary">
 <li class="parent"><a href="{{ site.url }}/education/">Education Benefits</a></li>
-<li class="parent"><a href="{{ site.url }}/education/training-testing-licensing/">Training, Testing, or Licensing</a></li>
+<li class="parent"><a href="{{ site.url }}/education/training-testing-licensing/">Advanced Training and Certifications</a></li>
 <li class="active">{{ page.title }}</li>
 </ul>
 
@@ -34,9 +34,9 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you qualify for any of the GI Bill or educational assistance programs, and you are interested in starting or improving a business, VA can help with [entrepreneurship training](http://www.benefits.va.gov/GIBILL/docs/factsheets/Entrepreneurship_Training.pdf) through VA's Center for Enterprise and the Small Business Administration.
+If you qualify for any of the GI Bill or educational assistance programs, and you are interested in starting or improving a business, VA provides entrepreneurship training through its Center for Veterans Enterprise and the Small Business Administration.
 
-Learn more about [entrepreneurship training](http://www.benefits.va.gov/GIBILL/docs/factsheets/Entrepreneurship_Training.pdf)
+Learn more about [entrepreneurship training](http://www.benefits.va.gov/GIBILL/docs/factsheets/Entrepreneurship_Training.pdf).
 
 
 </div>
