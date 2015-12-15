@@ -1,23 +1,8 @@
 ---
-title: In-Service claim
+title: Preservice Claim
 concurrence: complete
-
+source: http://www.benefits.va.gov/compensation/types-claims.asp
 ---
-
-<div class="splash" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="0">
-
-<ul class="breadcrumbs" role="menubar" aria-label="Primary">
-<li class="parent"><a href="/disability-benefits/">Disability Benefits</a></li>
-<li class="parent"><a href="/disability-benefits/claims-process/">Claims Process</a></li>
-<li class="parent"><a href="/disability-benefits/claims-process/claim-types/">Claim Types</a></li>
-<li class="active">{{ page.title }}</li>
-</ul>
-
-</div>
-</div>
-</div>
 
 <div class="main" role="main" markdown="0">
 <div class="section one" markdown="0">
@@ -25,7 +10,9 @@ concurrence: complete
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If your disability resulted from an injury or disease acquired in the line of duty (and not because of willful misconduct or abuse of alcohol or drugs), then it is considered an in-service disability.
+### Claims Based on Preservice Disabilities
+
+If you entered the military with a known disability that became worse or was aggravated due to your service, you may be eligible for benefits. In these cases, disability compensation is calculated based on the level of aggravation. For example, if you had a condition that was 10% disabling when you entered the military and it worsened due to service to 20% disabling, then the level of aggravation would be 10%.
 
 </div>
 </div>
