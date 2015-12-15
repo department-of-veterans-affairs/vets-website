@@ -1,7 +1,7 @@
 ---
 layout: page-disability
 permalink: disability-benefits/filing/active-duty/bdd/index.html
-title: What is Benefits Delivery at Discharge? (BDD)
+title: Benefits Delivery at Discharge (BDD)
 concurrence: incomplete
 template: 6-info-page
 ---
