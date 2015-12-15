@@ -82,7 +82,7 @@ VA requests from the appropriate military service or the Defense Threat Reductio
 <ul class="plain">
 
 <li markdown="1">
-Find an [accredited Representative to help you]({{ site.url }}/disability-benefits/get/filing/help/index.html).
+Find an [accredited representative]({{ site.url }}/disability-benefits/get/filing/help/index.html) to help you.
 </li>
 </ul>
 </div>
