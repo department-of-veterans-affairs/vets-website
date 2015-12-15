@@ -22,7 +22,7 @@ If you are an eligible member of the Army Reserve, Navy Reserve, Air Force Reser
 
 View [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
 </div>
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns">
 <div class="call-out" markdown="1">
 
 ### Are you eligible for this program?

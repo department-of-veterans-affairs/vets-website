@@ -21,8 +21,8 @@ concurrence: incomplete
 
 If your school participates in the Yellow Ribbon Program, you may be able to reduce or eliminate your education costs that are not covered by the [Post-9/11 GI Bill®](/education/gi-bill/post-9-11/), such as higher tuition at private colleges or out-of-state schools.
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out">
+<div class="small-12 columns">
+<div class="call-out" markdown="1">
 ### Are you eligible for benefits?
 
 Yes, if:

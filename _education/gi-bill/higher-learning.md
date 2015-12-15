@@ -13,8 +13,8 @@ concurrence: incomplete
 
 If you would like to earn an advanced degree at an institution of higher learning, including four-year universities, community colleges, and schools offering advanced degrees, VA education and training benefits may be available to you.
 </div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out">
+<div class="small-12 columns">
+<div class="call-out" markdown="1">
 The number of classes you attend and the accompanying hours spent in those classes determine your payments. For example, for most undergraduate degrees, a college considers:
 
 -	12 or more hours full time

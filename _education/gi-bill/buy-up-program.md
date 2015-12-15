@@ -17,7 +17,7 @@ concurrence: incomplete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns">
 
 <div markdown="1">
 If you participate in the $600 Montgomery GI Bill® Buy-Up program, your GI Bill® monthly payments will increase.
