@@ -47,9 +47,6 @@ collections:
     output: true
   education:
     output: true
-  loans:
-    output: true
-    permalink: /loans/:path/
   pension:
     output: true
     permalink: /pension/:path/
