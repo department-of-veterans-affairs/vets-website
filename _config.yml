@@ -53,9 +53,6 @@ collections:
   pension:
     output: true
     permalink: /pension/:path/
-  insurance:
-    output: true
-    permalink: /insurance/:path/
   memorial:
     output: true
     permalink: /memorial/:path/
