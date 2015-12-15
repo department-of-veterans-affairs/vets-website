@@ -48,7 +48,7 @@ collections:
   education:
     output: true
   memorial-benefits:
-    output: true
+    output: false
   pension:
     output: true
     permalink: /pension/:path/
@@ -94,3 +94,7 @@ defaults:
       type: "health-care"
     values:
       layout: "page-healthcare"
+  - scope:
+      type: "memorial-benefits"
+    values:
+      layout: "page"
