@@ -9,7 +9,6 @@ exclude:
   - "/vendor/bundle"
   - Gemfile
   - Gemfile.lock
-  - CNAME
 
 #posts per page
 paginate: 2
