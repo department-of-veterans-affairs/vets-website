@@ -1,5 +1,7 @@
 {% include header.html %}
 <div id="content" class="interior {{ page.id }}">
-{{ content }}
-</div><!-- /content -->
+  {% include breadcrumbs.html %}
+  {{ content }}
+</div>
 {% include footer.html %}
+

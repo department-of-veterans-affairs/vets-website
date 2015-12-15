@@ -34,7 +34,6 @@ timezone: America/New_York
 encoding: UTF-8
 
 kramdown:
-  parse_block_html: true
   input: GFM
 
 sass:
@@ -44,11 +43,12 @@ sass:
   javascripts_dir: 'assets/js'
 
 collections:
+  compensation:
+    output: true
   disability-benefits:
     output: true
   education:
     output: true
-    permalink: /education/:path/
   loans:
     output: true
     permalink: /loans/:path/
@@ -61,9 +61,6 @@ collections:
   memorial:
     output: true
     permalink: /memorial/:path/
-  compensation:
-    output: true
-    permalink: /compensation/:path/
   family:
     output: true
     permalink: /family/:path/
@@ -76,7 +73,35 @@ collections:
 
 defaults:
   - scope:
-      path: ""
       type: "disability-benefits"
     values:
       layout: "page-disability"
+  - scope:
+      type: "education"
+    values:
+      layout: "page-education"
+      breadcrumb_1: "Education Benefits"
+  - scope:
+      path: "education/gi-bill"
+    values:
+      breadcrumb_2: "GI Bill"
+  - scope:
+      path: "education/survivors-dependent-assistance"
+    values:
+      breadcrumb_2: "Survivors' and Dependents' Assistance"
+  - scope:
+      path: "education/tools-programs"
+    values:
+      breadcrumb_2: "Career Counseling"
+  - scope:
+      path: "education/training-testing-licensing"
+    values:
+      breadcrumb_2: "Advanced Training and Certifications"
+  - scope:
+      path: "education/work-learn"
+    values:
+      breadcrumb_2: "Work and Learn"
+  - scope:
+      path: "education/work-learn/non-traditional"
+    values:
+      breadcrumb_3: "Non-Traditional Options"
