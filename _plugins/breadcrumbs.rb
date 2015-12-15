@@ -10,7 +10,6 @@ module Jekyll
     def render(context)
       breadcrumbs = []
       page_path = context['page']['url']
-      puts context['page'] if page_path == "/education/gi-bill/foreign-programs/index.html"
       parents = page_path.split("/")[1..-2]
       if parents.length > 1
         1.upto(parents.size - 1) do |index|
