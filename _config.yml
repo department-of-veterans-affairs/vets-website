@@ -51,7 +51,6 @@ collections:
     output: false
   pension:
     output: true
-    permalink: /pension/:path/
   playbook:
     output: true
     permalink: /playbook/:path/
@@ -96,5 +95,9 @@ defaults:
       layout: "page-healthcare"
   - scope:
       type: "memorial-benefits"
+    values:
+      layout: "page"
+  - scope:
+      type: "pension"
     values:
       layout: "page"
