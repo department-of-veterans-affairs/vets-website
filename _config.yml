@@ -67,9 +67,6 @@ collections:
   playbook:
     output: true
     permalink: /playbook/:path/
-  facility-locator:
-    output: true
-    permalink: /facility-locator/
 
 defaults:
   - scope:
