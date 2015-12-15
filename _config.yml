@@ -61,9 +61,6 @@ collections:
   memorial:
     output: true
     permalink: /memorial/:path/
-  family:
-    output: true
-    permalink: /family/:path/
   playbook:
     output: true
     permalink: /playbook/:path/
