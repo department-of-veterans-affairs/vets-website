@@ -1,6 +1,5 @@
 ---
 layout: page-disability
-permalink: disability-benefits/get/filing/one-year/index.html
 title: Disabilities That Appear Within One Year After Discharge
 concurrence: incomplete
 ---
