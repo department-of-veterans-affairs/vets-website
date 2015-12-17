@@ -54,6 +54,8 @@ Tuition assistance
 Get more details about the [Post-9/11 GI Bill®](/education/gi-bill/post-9-11/).
 
 If you are enrolled in a vocational flight training program, VA reimburses you for either the full cost of training or the annual maximum for the training, whichever is less. See the [annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+
+*The policies and regulations governing flight training are undergoing a review which may change the way VA administers the program. Notification of changes, if any, will be published to this site by January 2016.*
 </div>
 </div>
 
