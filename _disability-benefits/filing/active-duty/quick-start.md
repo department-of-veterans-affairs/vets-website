@@ -1,5 +1,5 @@
 ---
-title: What is Quick Start?
+title: Quick Start
 ---
 
 <div class="main" role="main" markdown="0">
@@ -37,6 +37,10 @@ Yes, if:
 
 You
 
+</div>
+
+<div markdown="1">
+
 #### Available benefits
 
 Expedited status decision on your disability claim
@@ -47,7 +51,7 @@ By submitting your disability compensation claim before discharge, you can recei
 
 You must submit your service-treatment records to VA when you submit your claim, and you must complete all phases of the VA/DOD medical separation examination process at your point of separation and before you are released from the military.
 
-</div>
+
 
 </div>
 </div>
