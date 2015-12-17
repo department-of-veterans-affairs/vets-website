@@ -1,8 +1,5 @@
 ---
-layout: page-disability
-permalink: disability-benefits/filing/active-duty/quick-start/index.html
 title: Quick Start
-
 ---
 
 <div class="main" role="main" markdown="0">
