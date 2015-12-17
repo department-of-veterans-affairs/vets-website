@@ -1,5 +1,4 @@
 ---
-layout: page-disability
 title: Disabilities That Appear Within One Year After Discharge
 concurrence: incomplete
 ---
