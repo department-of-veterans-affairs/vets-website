@@ -1,5 +1,5 @@
 ---
-title: Fully Developed Claims
+title: Disability Benefits Questionnaires (DBQs)
 concurrence: incomplete
 source: http://www.benefits.va.gov/compensation/dbq_disabilityexams.asp
 template: 6-info-page
@@ -21,10 +21,6 @@ template: 6-info-page
 
 
 <div markdown="1">
-
-The Fully Developed Claims (FDC) program is an optional way for Veterans and survivors to get faster decisions by submitting all relevant records in their possession, and those records which are easily obtainable, such as private medical records, when they make their claim and certify that they have no further evidence to submit. VA can process these claims more quickly.
-
-### Disability Benefits Questionnaires (DBQs)
 
 To speed up the processing of compensation and pension claims, you now have the option of completing an examination with your own healthcare provider instead of at a Department of Veterans Affairs (VA) facility.
 
