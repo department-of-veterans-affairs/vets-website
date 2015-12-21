@@ -17,7 +17,7 @@ title: Get education benefits
       <ul>
         <li><span>Post-9/11 GI Bill® chapter 33 of title 38, U.S. Code</span></li>
         <li><span>Montgomery GI Bill® (MGIB) chapter 30 of title 38, U.S.Code</span></li>
-        <li><span>Montgomery GI Bill® - Selected Reserve (MGIB-SR) chapter 1606 of title 10, U.S. Code</span></li>
+        <li><span>Montgomery GI Bill - Selected Reserve (MGIB-SR) chapter 1606 of title 10, U.S. Code</span></li>
         <li><span>Reserve Educational Assistance Program (REAP) chapter 1607 of title 10, U.S. Code</span></li>
         <li><span>Post-Vietnam Era Veterans' Educational Assistance Program (VEAP) chapter 32 of title 38, U.S. Code, or section 901 or section 903 of Public Law 96-342</span></li>
       </ul>
