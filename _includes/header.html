@@ -115,51 +115,41 @@ new WOW().init();
 			<h1 role="banner"><a href="/">Vets.gov</a></h1>
 		</div>
 
+		{% if include.search != 'false' %}
+
 		<!-- Mobile search button -->
 		<div class="hide-for-medium-up search-button">
-			<button id="trigger-overlay" type="button" class="usa-button usa-button-outline-inverse" aria-controls="mobile-menu" aria-hidden="true">Search</button>
+			<button id="trigger-overlay" type="button" class="usa-button usa-button-outline-inverse" aria-controls="mobile-menu" aria-flowto="mobile-menu">Search</button>
 		</div>
+
 
 
 		<div id="mobile-menu" class="overlay overlay-fullscreen" role="dialog">
-			<button type="button" class="overlay-close">Close</button>
+			<div class="medium-5 medium-offset-3 text-right columns">
+			<button type="button" class="overlay-close" aria-label="close search form - mobile only">Close</button>
 				<div class="menu">
-    		 <form accept-charset="UTF-8" action="https://search.usa.gov/search" id="search_form" method="get">
-				 <div style="margin:0;padding:0;display:inline">
-				 <input name="utf8" type="hidden" value="&#x2713;" /></div>
-				 <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_staging" />
-				 <label for="mobile-query">Search:</label>
-				 <div class="row collapse">
-					 <div class="small-9 columns">
-						 <input autocomplete="off" class="usagov-search-autocomplete" id="mobile-query" name="query" type="text" />
+	    		<form accept-charset="UTF-8" action="https://search.usa.gov/search" id="search_form" method="get">
+					 <div style="margin:0;padding:0;display:inline">
+					 <input name="utf8" type="hidden" value="&#x2713;" /></div>
+					 <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_staging" />
+					 <label for="mobile-query">Search:</label>
+					 <div class="row collapse">
+						 <div class="small-9 columns">
+							 <input autocomplete="off" class="usagov-search-autocomplete" id="mobile-query" name="query" type="text" />
+						 </div>
+						 <div class="small-3 columns">
+							 <input name="commit" type="submit" value="Search" />
+						 </div>
 					 </div>
-					 <div class="small-3 columns">
-						 <input name="commit" type="submit" value="Search" />
-					 </div>
-				 </div>
-				</form>
+					</form>
+				</div>
 			</div>
 		</div>
 
 
-        {% if include.search != 'false' %}
-		<div class="medium-5 medium-offset-3 text-right columns show-for-medium-up">
-			<form accept-charset="UTF-8" action="https://search.usa.gov/search" id="search_form" method="get">
-				<div style="margin:0;padding:0;display:inline">
-				<input name="utf8" type="hidden" value="&#x2713;" /></div>
-				<input id="affiliate" name="affiliate" type="hidden" value="vets.gov_staging" />
-				<label for="query">Search:</label>
-				<div class="row collapse">
-					<div class="small-9 columns">
-						<input autocomplete="off" class="usagov-search-autocomplete" id="query" name="query" type="text" />
-					</div>
-					<div class="small-3 columns">
-						<input name="commit" type="submit" value="Search" />
-					</div>
-				</form>
-			</div>
-		</div>
-        {% endif %}
+
+
+    {% endif %}
 	</div>
 </div>
 
