@@ -67,7 +67,7 @@ Average number of days to process disability-related claims during November 2015
 ##### Prepare
 
 - An [accredited representative](/disability-benefits/get/filing/help/index.html) can help you prepare and file your claim.
-- Speed up your processing time by filing a [fully developed claim](/disability-benefits/get/filing/faster/index.html).
+- Speed up your processing time by filing a [fully developed claim](/disability-benefits/claims-process/claim-types/fully-developed/).
 - Learn more about [evidence requirements](/disability-benefits/claims-process/evidence/).
 
 </div>
@@ -199,8 +199,8 @@ If you disagree with the decision, you may appeal it. The decision letter contai
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="/disability-benefits/get/filing/faster/">
-            <h5>What is the fastest way to file a claim?</h5>
+          <a href="/disability-benefits/claims-process/claim-types/fully-developed/">
+            <h5>What is the fastest way to get a claim decision?</h5>
           </a>
         </li>
         <li>
