@@ -10,6 +10,7 @@ FacilityLocator = (function() {
       searchBox,
       searchQuery,
       searchCenter,
+      zoomLevelToShowMarkers = 5;
       infowindows = {};
 
   FacilityLocator.prototype.init = function() {
@@ -52,6 +53,18 @@ FacilityLocator = (function() {
     });
 
     map.addListener('idle', listFacilities);
+    
+    map.addListener('zoom_changed', function() {
+      var zoom = map.getZoom();
+      if(filteredFacilities === undefined) {
+        for (i = 0; i < allFacilities.length; i++) {
+            markers[i].setVisible(zoom >= zoomLevelToShowMarkers);
+        } 
+        if (currentInfoBox !== undefined) {
+          currentInfoBox.close();
+        }
+      }
+    });
 
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
@@ -128,6 +141,7 @@ FacilityLocator = (function() {
 
   function placeMarkers(facilities) {
     clearMarkers();
+    var zoom = map.getZoom();
 
     $.each(facilities, function(i, facility) {
       var image = {
@@ -143,6 +157,10 @@ FacilityLocator = (function() {
         anchorPoint: new google.maps.Point(0, -33)
       });
 
+      if(filteredFacilities === undefined && zoom < zoomLevelToShowMarkers) {
+          marker.setVisible(false);
+      }
+      
       var text = facilityHTML(facility);
 
       var infowindow = new google.maps.InfoWindow({
@@ -186,6 +204,7 @@ FacilityLocator = (function() {
     for (var i=0; i < markers.length; i++) {
       markers[i].setMap(null);
     }
+    markers = [];
   }
 
   function round10(n) {
@@ -276,6 +295,11 @@ FacilityLocator = (function() {
 
     // Clear the facilities list
     $("#facilitiesList").html("");
+    
+    if(filteredFacilities === undefined && map.getZoom() < zoomLevelToShowMarkers) {
+      $("#facilitiesList").html("Zoom in to see facilities");
+      return;
+    }
 
     var bounds = map.getBounds();
     var centerLat = map.getCenter().lat();
