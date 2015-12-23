@@ -10,6 +10,8 @@ FacilityLocator = (function() {
       searchBox,
       searchQuery,
       searchCenter,
+      directionsStart,
+      geolocated = false; // Used when determining starting location for driving directions
       zoomLevelToShowMarkers = 5;
       infowindows = {};
 
@@ -112,6 +114,8 @@ FacilityLocator = (function() {
   }
 
   function recenter(position) {
+    geolocated = true; 
+    
     // Clear the facilities list, because hovering on a facility after the
     // setCenter will move the map to the location of that infowindow. Which
     // is confusing as heck for the user.
@@ -119,6 +123,7 @@ FacilityLocator = (function() {
 
     searchQuery = position.coords.latitude + ", " + position.coords.longitude;
     searchCenter = [position.coords.latitude, position.coords.longitude];
+    directionsStart = searchCenter;
 
     // And let it propagate, since it seems not to work just clearing it like that
     setTimeout(function() {
@@ -265,16 +270,16 @@ FacilityLocator = (function() {
       distanceString = "";
     }
 
-    var center;
-    if (searchCenter === undefined) {
-      center = map.getCenter().lat() + "," + map.getCenter().lng();
+    var startingLocation;
+    if (directionsStart === undefined) {
+      startingLocation = "";
     } else {
-      center = searchCenter[0] + "," + searchCenter[1];
+      startingLocation = directionsStart;
     }
 
     var facLatLng = facility.lat + "," + facility.lng;
-    var directions = '<a href="https://www.google.com/maps/dir/' +
-      center + '/' + facLatLng + '">driving directions</a>';
+    var directions = '<a target="_blank" href="https://www.google.com/maps/dir/' +
+      startingLocation + '/' + facLatLng + '">driving directions</a>';
 
     var phone = facility.phone ? '<span class="facilityPhone"> Phone: </span>' +
       facility.phone + "<br>\n" : "";
@@ -347,6 +352,23 @@ FacilityLocator = (function() {
   function handlePlaceChanged() {
     var places = searchBox.getPlaces();
 
+    searchQuery = places[0].formatted_address;
+    var placeTypes = places[0].types; 
+    // If user typed in a full street address, start directions from that location.
+    //  Note: This overrides the geolocated location for starting driving directions. 
+    if(placeTypes.indexOf("street_address") !== -1) {
+      directionsStart = searchQuery; 
+    } else if(!geolocated) { 
+      // If the user is not geolocated and they type a state or country into the 
+      //  search box, use a blank starting location for directions. 
+      if(placeTypes.indexOf("country") !== -1 || 
+          placeTypes.indexOf("administrative_area_level_1") !== -1) {
+        directionsStart = undefined;    
+      } else { // Otherwise, use the query term as the directions starting place
+        directionsStart = searchQuery;
+      }
+    }
+    
     fitMapBounds(places);
   }
 
@@ -355,7 +377,6 @@ FacilityLocator = (function() {
       return;
     }
 
-    searchQuery = places[0].formatted_address;
     var loc = places[0].geometry.location;
     searchCenter = [loc.lat(), loc.lng()];
 
