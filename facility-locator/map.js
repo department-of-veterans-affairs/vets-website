@@ -60,7 +60,7 @@ FacilityLocator = (function() {
         for (i = 0; i < allFacilities.length; i++) {
             markers[i].setVisible(zoom >= zoomLevelToShowMarkers);
         } 
-        if (currentInfoBox !== undefined) {
+        if (currentInfoBox !== undefined && zoom < zoomLevelToShowMarkers) {
           currentInfoBox.close();
         }
       }
