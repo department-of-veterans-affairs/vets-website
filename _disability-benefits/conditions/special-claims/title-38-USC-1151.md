@@ -21,7 +21,7 @@ template: 4-action-page-pending
 
 <div markdown="1">
 
-If you were injured, or aggravated an injury, while receiving VA-sponsored medical treatment, pursuing a course of vocational rehabilitation (under 38 U.S.C. Chapter 31), or participating in compensated work therapy (under 38 U.S.C. 1718), you may be eligible for compensation.
+If you suffered additional disability while receiving VA hospital care, medical or surgical treatment, or examination; pursuing a course of vocational rehabilitation (under 38 U.S.C. Chapter 31); or participating in compensated work therapy (under 38 U.S.C. 1718), you may be eligible for compensation.
 
 </div>
 
@@ -31,9 +31,9 @@ If you were injured, or aggravated an injury, while receiving VA-sponsored medic
 
 Yes, if:
 
-You have a disabling condition resulting from or aggravated by VA medical treatment or VA-sponsored training.
+You have an additional disability resulting from VA medical treatment or care, or from participation in VA vocational rehabilitation or compensated work therapy.
 
-#### Who’s covered
+#### Who is covered
 You
 </div>
 <div markdown="1">
@@ -43,9 +43,9 @@ Compensation
 
 #### How it works
 
-When filing your claim, you should submit evidence that the additional disability occurred while in VA care or during VA-sponsored training. The additional disability cannot be a reasonably expected result of or complication from treatment.
+When filing your claim, you should submit evidence that the additional disability occurred as a result of VA medical care, or from participation in VA vocational rehabilitation or compensated work-therapy programs. The additional disability cannot be a reasonably expected result of or complication from treatment.
 
-This additional disability will be treated “as if service-connected” for payment purposes only.
+Compensation payments are awarded in the same manner as if the disability is service connected.
 </div>
 </div>
 
