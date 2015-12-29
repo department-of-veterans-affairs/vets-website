@@ -3,8 +3,7 @@ rvm:
   - ruby-2.1
 
 script:
-  - bundle exec jekyll build
-  - bundle exec htmlproof ./_site --only-4xx --check-favicon --check-html
+  - ./script/cibuild.sh
 bundler_args: "--without development"
 cache:
   - bundler
