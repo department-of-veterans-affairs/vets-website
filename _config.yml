@@ -101,9 +101,13 @@ defaults:
       type: "health-care"
     values:
       breadcrumb_1: "Health Care"
+      layout: "page-breadcrumbs"
       body_class: "page-healthcare"
   - scope:
       path: "health-care/apply"
+    values:
+      layout: "page-breadcrumbs"
+      body_class: "page-healthcare"
   - scope:
       type: "memorial-benefits"
     values:
