@@ -21,6 +21,25 @@ $ brew update
 $ brew install ruby
 ```
 
+### Development.
+You will also need [Node Package Manager](https://nodejs.org/en/download/) because the
+testing framework uses [Karma](http://karma-runner.github.io/) as the test runner which is written in [Node.js](https://nodejs.org/en/).
+
+Using homebrew, you can also do
+
+```shell
+$ brew update
+$ brew install npm
+```
+
+After this, install karma
+
+```shell
+$ npm install
+```
+
+If updating Karma, make sure to remember to rerun `npm shrinkwrap` to update `npm-shrinkwrap.json` (the `npm` equivalent of `Gemfile.lock` for `Bundler`).
+
 ### To run
 
 - Once you have ruby installed (see above)
