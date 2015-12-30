@@ -1,5 +1,5 @@
 ---
-title: Montgomery GI Bill® Active Duty (MGIB-AD)
+title: Montgomery GI Bill Active Duty (MGIB-AD)
 template: 4-action-page
 concurrence: incomplete
 ---
@@ -41,7 +41,7 @@ Yes, if:
 
 - You entered active duty before January 1, 1977.
 - You served at least one day between October 19, 1984, and June 30, 1985, and you stayed on active duty through June 30, 1988 (or through June 30, 1987, if you entered the Selected Reserve within one year of leaving active duty and served four years).
-- On December 31, 1989, you had entitlement left from the Vietnam Era GI Bill®.
+- On December 31, 1989, you had entitlement left from the Vietnam Era GI Bill.
 
 **CATEGORY III**
 
@@ -77,7 +77,7 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 
 #### Several related funding or training programs fall under the MGIB-AD umbrella:
 
-- [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can contribute a maximum of $600 to receive increased monthly benefits. With this maximum contribution, you are eligible for up to an additional $5,400 in GI Bill® benefits.
+- [$600 Buy-Up program](/education/gi-bill/buy-up-program/): While on active duty, you can contribute a maximum of $600 to receive increased monthly benefits. With this maximum contribution, you are eligible for up to an additional $5,400 in GI Bill benefits.
 
 - [College degree and certificate programs](/education/gi-bill/higher-learning/)
 - [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
@@ -89,11 +89,11 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 - [National testing program](/education/training-testing-licensing/national-testing-program/)
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 
-Use the [GI Bill® Comparison Tool](/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
+Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
 
 “GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
 
-Read the [Montgomery GI Bill® Active Duty](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf) pamphlet.
+Read the [Montgomery GI Bill Active Duty](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf) pamphlet.
 
 </div>
 

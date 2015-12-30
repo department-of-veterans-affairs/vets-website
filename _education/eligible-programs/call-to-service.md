@@ -20,7 +20,7 @@ template: 6-info-page
 <div class="small-12 columns" markdown="1">
 <div markdown="1">
 
-If you performed a period of national service, you may be eligible for the National Call to Service program, which allows you to choose an education benefit as an alternative to the Montgomery GI Bill®.
+If you performed a period of national service, you may be eligible for the National Call to Service program, which allows you to choose an education benefit as an alternative to the Montgomery GI Bill.
 
 </div>
 
@@ -49,8 +49,8 @@ You may select from the following:
 
 -	A cash bonus of $5,000.
 -	Repayment of a qualifying student loan not to exceed $18,000.
--	Educational assistance equal to the three-year monthly Montgomery GI Bill® Active Duty rate for 12 months.
--	Educational assistance equal to 50% of the less-than-three-year monthly Montgomery GI Bill® Active Duty rate for 36 months.
+-	Educational assistance equal to the three-year monthly Montgomery GI Bill Active Duty rate for 12 months.
+-	Educational assistance equal to 50% of the less-than-three-year monthly Montgomery GI Bill Active Duty rate for 36 months.
 
 #### How it works
 
