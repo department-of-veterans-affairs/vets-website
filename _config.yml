@@ -4,11 +4,17 @@ domain: staging.vets.gov
 
 #files to exclude, array
 exclude:
-  - README.md
-  - Rakefile
+  - "/node_modules"
+  - "/spec"
   - "/vendor/bundle"
   - Gemfile
   - Gemfile.lock
+  - README.md
+  - Procfile
+  - Rakefile
+  - app.json
+  - karma.conf.js
+  - npm-debug.log
 
 #posts per page
 paginate: 2
