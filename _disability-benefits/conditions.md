@@ -79,7 +79,7 @@ Access the [complete schedule of disabilities](http://www.benefits.va.gov/warms/
 
 <li>
 <a href="/disability-benefits/conditions/exposures-to-hazardous-materials/">
-<h5>Exposures to Hazardous Materials</h5>
+<h5>Exposure to Hazardous Materials</h5>
 <span>Asbestos, Agent Orange, chemicals, weapons testing, Camp Lejeune, radiation, and more.</span>
 </a>
 </li>
