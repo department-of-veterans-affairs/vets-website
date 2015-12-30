@@ -22,8 +22,8 @@ Yes, if:
 - You are enrolled at least three-quarter time at an institution of higher learning.
 - You are using one of the following VA education benefits:
 
-  - Post-9/11 GI Bill® ([Veterans](http://www.benefits.va.gov/gibill/post911_gibill.asp) and [transfer-of-entitlement recipients](http://www.benefits.va.gov/gibill/post911_transfer.asp))
-  - Montgomery GI Bill® ([Active Duty](http://www.benefits.va.gov/gibill/mgib_ad.asp) and [Selected Reserve](http://www.benefits.va.gov/gibill/mgib_sr.asp))
+  - Post-9/11 GI Bill ([Veterans](http://www.benefits.va.gov/gibill/post911_gibill.asp) and [transfer-of-entitlement recipients](http://www.benefits.va.gov/gibill/post911_transfer.asp))
+  - Montgomery GI Bill ([Active Duty](http://www.benefits.va.gov/gibill/mgib_ad.asp) and [Selected Reserve](http://www.benefits.va.gov/gibill/mgib_sr.asp))
   - [Reserve Educational Assistance Program](http://www.benefits.va.gov/gibill/reap.asp)
   - [Veterans' Educational Assistance Program](http://www.benefits.va.gov/gibill/veap.asp)
   - [Dependents’ Educational Assistance program](/education/survivors-dependent-assistance/dependents-education/) (**Note:** Eligible dependents under 38 U.S.C. Chapter 35 may use work study only while enrolled at an educational institution in one of the 50 states.)
@@ -56,7 +56,7 @@ The number of applicants selected will depend on the availability of VA-related 
 #### Services you perform under a VA work-study program must be related to VA work, such as:
 
 - Working at a VA facility.
-- Working at Department of Defense, Coast Guard, or National Guard facilities engaged in the administration of the Montgomery GI Bill® Selected Reserve or the Reserve Educational Assistance Program.
+- Working at Department of Defense, Coast Guard, or National Guard facilities engaged in the administration of the Montgomery GI Bill Selected Reserve or the Reserve Educational Assistance Program.
 - Working at a state Veterans agency to help Veterans obtain Vocational Rehabilitation and Employment benefits.
 - Working at a Center of Excellence for Veteran Student Success to support and coordinate the academic, financial, physical, and social needs of Veteran students.
 - Working in a cooperative program carried out jointly by VA and an institution of higher learning.

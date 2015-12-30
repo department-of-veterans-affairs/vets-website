@@ -35,7 +35,7 @@ The time it takes to process your claim depends on your regional office. There a
 
 <div class="feature" markdown="1">
 
-- Learn about schools offering VA-approved programs by using the [GI Bill® Comparison Tool](/gi-bill-comparison-tool/).
+- Learn about schools offering VA-approved programs by using the [GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 
 -	Decide [which school](http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
 

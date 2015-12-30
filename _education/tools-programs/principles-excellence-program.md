@@ -40,7 +40,7 @@ Institutions that do not charge tuition and fees are not required to comply with
 - On-the-job training and apprenticeship programs
 - Residency and internship programs
 
-Use the [GI Bill® Comparison Tool](/gi-bill-comparison-tool/) to maximize your educational benefits and learn which schools participate.
+Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to maximize your educational benefits and learn which schools participate.
 
 
 </div>

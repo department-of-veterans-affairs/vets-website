@@ -19,7 +19,7 @@ If you want to learn a trade or skill through on-the-job training or apprentices
 
 Yes, if:
 
--	You are eligible for [the GI Bill®](/education/gi-bill/).
+-	You are eligible for [the GI Bill](/education/gi-bill/).
 -	You are interested in working in an industry or job where on-the-job (OTJ) training is available. Examples include:
     -	Union plumber
     -	Hotel management
@@ -42,13 +42,13 @@ You
 
 Participation in these programs generally involves entering into a training contract for a specific amount of time with an employer or union. During training you will likely receive a salary from the employer or union, which typically increases as you gain more skills. At the end of your training period, you will get a job certification or journeyman status.
 
-Veterans in an approved program can use their GI Bill® benefit and receive a tax-free stipend. The Post-9/11 GI Bill® pays a monthly housing allowance (MHA), which is paid in addition to the entry-level wage. Take a look at the [On-the-Job & Apprenticeship Training Programs fact sheet](http://www.benefits.va.gov/gibill/docs/factsheets/OJT_Factsheet.pdf) for more information.
+Veterans in an approved program can use their GI Bill benefit and receive a tax-free stipend. The Post-9/11 GI Bill pays a monthly housing allowance (MHA), which is paid in addition to the entry-level wage. Take a look at the [On-the-Job & Apprenticeship Training Programs fact sheet](http://www.benefits.va.gov/gibill/docs/factsheets/OJT_Factsheet.pdf) for more information.
 
-VA issues GI Bill® payments each month after receiving verification of your hours from your employer or union.
+VA issues GI Bill payments each month after receiving verification of your hours from your employer or union.
 
-Your payment varies depending on the GI Bill® program. View the [payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp) for your GI Bill® program.
+Your payment varies depending on the GI Bill program. View the [payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp) for your GI Bill program.
 
-**Post-9/11 GI Bill® MHA Payment Rates**
+**Post-9/11 GI Bill MHA Payment Rates**
 
 You will receive 100% of your applicable MHA during the first six months of training in these increments:
 
@@ -59,11 +59,11 @@ You will receive 100% of your applicable MHA during the first six months of trai
 
 You will receive up to $83 per month for books and supplies.
 
-**All other GI Bill® Programs Payment Rates**
+**All other GI Bill Programs Payment Rates**
 
-- 75% of the full-time GI Bill® rate for the first six months of training
-- 55% of the full-time GI Bill® rate for the second six months of training
-- 35% of the full-time GI Bill® rate for the remainder of the training program
+- 75% of the full-time GI Bill rate for the first six months of training
+- 55% of the full-time GI Bill rate for the second six months of training
+- 35% of the full-time GI Bill rate for the remainder of the training program
 
 
 **Exception:** OJT is not available if you are an active-duty Servicemember, and it is not available to spouses using a transferred benefit.
