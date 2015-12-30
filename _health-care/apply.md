@@ -1,5 +1,5 @@
 ---
-title: Apply for Health-Care
+title: Apply for Health Care
 template: 2-detailed-landing
 ---
 <div class="main" role="main" markdown="0">
