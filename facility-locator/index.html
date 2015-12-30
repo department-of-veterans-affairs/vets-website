@@ -1,7 +1,7 @@
 ---
-layout: facility-locator
 title: Facility Locator
 ---
+{% include header.html search='false' %}
 <style>
 html, body {
   height: 100%;
@@ -138,18 +138,18 @@ button.searchButton {
 }
 </style>
 
-  <div class="splash app">
-    <div class="row">
-      <div class="small-12 columns">
-        <ul class="breadcrumbs" role="menubar" aria-label="Primary">
-          <li class="active">
-            <h2>Facility Locator</h2>
-          </li>
-        </ul>
-        <p>Find facilities throughout the U.S. and its territories</p>
-      </div>
+<div class="splash app">
+  <div class="row">
+    <div class="small-12 columns">
+      <ul class="breadcrumbs" role="menubar" aria-label="Primary">
+        <li class="active">
+          <h2>Facility Locator</h2>
+        </li>
+      </ul>
+      <p>Find facilities throughout the U.S. and its territories</p>
     </div>
   </div>
+</div>
 
 <div class="secondary-banner">
   <div class="row">
@@ -174,8 +174,7 @@ button.searchButton {
   </div>
 </div>
 
-
-<div id="content" class="interior">
+<div id="content" class="interior {{ page.id }}">
   <div class="section one">
     <div class="row">
       <div class="small-12 large-8 columns map-container">
@@ -212,3 +211,4 @@ button.searchButton {
 
 <script src="map.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJI5rs8s_N42z1hrrls3HSIgtUNw_iy30&libraries=places,geometry&callback=init" async defer></script>
+{% include footer.html %}

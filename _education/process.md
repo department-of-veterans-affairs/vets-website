@@ -96,7 +96,7 @@ You can track the status of your application on [eBenefits](https://www.ebenefit
 
 </div>
 
-<li>
+</li>
 
 </ol>
 
