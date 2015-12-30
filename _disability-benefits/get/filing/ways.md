@@ -1,5 +1,5 @@
 ---
-title: Ways to file a claim
+title: Ways to File a Claim
 template: 6-info-page
 ---
 
