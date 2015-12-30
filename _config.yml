@@ -46,6 +46,9 @@ collections:
   disability-benefits:
     output: true
     permalink: /:collection/:path/index.html
+  health-care:
+    output: true
+    permalink: /:collection/:path/index.html
   education:
     output: true
     permalink: /:collection/:path/index.html
@@ -97,8 +100,13 @@ defaults:
   - scope:
       type: "health-care"
     values:
-      layout: "page"
+      layout: "page-breadcrumbs"
+      breadcrumb_1: "Health-Care"
       body_class: "page-healthcare"
+  - scope:
+      path: "health-care/apply"
+    values:
+      breadcrumb_2: "Apply"
   - scope:
       type: "memorial-benefits"
     values:
