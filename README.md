@@ -21,8 +21,6 @@ $ brew update
 $ brew install ruby
 ```
 
-
-
 ### To run
 
 - Once you have ruby installed (see above)
@@ -30,7 +28,8 @@ $ brew install ruby
 - 'cd' to directory (leave a space after 'cd', then drag and drop your site folder into the terminal window)
 - Install Jekyll by running:
 ```shell
-gem install jekyll
+cd <path to vets-website directory>
+bundle install
 ```
 
 - Run site by using:
