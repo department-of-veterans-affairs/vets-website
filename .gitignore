@@ -1,9 +1,9 @@
-_site/
 .DS_Store
 *.log
-.sass-cache
 
-#Compiled VA files
-_site
+#Compiled files.
+.sass-cache
+_site/
+node_modules/
 .ruby-gemset
 .ruby-version
