@@ -102,27 +102,27 @@ If VA receives a claim more than one year after a Veteran suffered an injury, hi
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="/disability-benefits/get/filing/faster/">
+          <a href="/disability-benefits/apply-for-benefits/faster/">
             <h5>What is the fastest way to file a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="/disability-benefits/get/filing/ways/">
+          <a href="/disability-benefits/apply-for-benefits/ways/">
             <h5>What are the different ways I can file a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="/disability-benefits/get/filing/help/">
+          <a href="/disability-benefits/apply-for-benefits/help/">
             <h5>How do I get help filing a claim?</h5>
           </a>
         </li>
         <li>
-          <a href="/disability-benefits/get/filing/active-duty/">
+          <a href="/disability-benefits/apply-for-benefits/active-duty/">
             <h5>How do I file while on active duty?</h5>
           </a>
         </li>
         <li>
-          <a href="/disability-benefits/get/filing/one-year/">
+          <a href="/disability-benefits/apply-for-benefits/one-year/">
             <h5>How do I file for disabilities that appear within one year after discharge?</h5>
           </a>
         </li>

@@ -74,7 +74,7 @@ If you have already started your program, take your application to your school o
 #### Learn more
 
 - Read the [DEA pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch35_pamphlet_2.pdf).
-- Get help from an [accredited representative](/disability-benefits/get/filing/help/index.html).
+- Get help from an [accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
 
 </div>
 </div>

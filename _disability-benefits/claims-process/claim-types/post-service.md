@@ -11,9 +11,9 @@ concurrence: incomplete
 
 If you have a service-related disability that presents itself after you have separated, you may be eligible for disability compensation. These sorts of disabilities include:
 
-- [Disabilities That Appear Within One Year After Discharge](/disability-benefits/get/filing/one-year/)
-- [Exposures to Hazardous Materials](/disability-benefits/conditions/exposures-to-hazardous-materials/)
-- [Diseases Associated with Gulf War Service](/disability-benefits/conditions/exposures-to-hazardous-materials/gulf-war-illness/)
+- [Disabilities That Appear Within One Year After Discharge](/disability-benefits/apply-for-benefits/one-year/)
+- [Exposures to Hazardous Materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)
+- [Diseases Associated with Gulf War Service](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)
 - [Prisoners of War (POWs)](/disability-benefits/conditions/pow/)
 
 </div>

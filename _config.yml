@@ -41,7 +41,6 @@ sass:
   images_dir: 'img/content'
   javascripts_dir: 'assets/js'
 
-
 collections:
   disability-benefits:
     output: true
@@ -68,6 +67,14 @@ defaults:
       layout: "page-breadcrumbs"
       body_class: "page-disability"
   - scope:
+      path: "disability-benefits/conditions/exposure-to-hazardous-materials"
+    values:
+      breadcrumb_3: "Exposure to Hazardous Materials"
+  - scope:
+      path: "disability-benefits/apply-for-benefits/"
+    values:
+      breadcrumb_2: "Apply for Benefits"
+  - scope:
       type: "education"
     values:
       layout: "page-breadcrumbs"
@@ -78,9 +85,9 @@ defaults:
     values:
       breadcrumb_2: "GI Bill"
   - scope:
-      path: "education/survivors-dependent-assistance"
+      path: "education/gi-bill/survivors-dependent-assistance"
     values:
-      breadcrumb_2: "Survivors' and Dependents' Assistance"
+      breadcrumb_3: "Survivors' and Dependents' Assistance"
   - scope:
       path: "education/tools-programs"
     values:
@@ -93,6 +100,10 @@ defaults:
       path: "education/work-learn"
     values:
       breadcrumb_2: "Work and Learn"
+  - scope:
+      path: "education/apply-for-education-benefits"
+    values:
+      breadcrumb_2: "Apply for Education Benefits"
   - scope:
       path: "education/work-learn/non-traditional"
     values:
