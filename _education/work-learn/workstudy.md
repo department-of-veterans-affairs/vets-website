@@ -26,7 +26,7 @@ Yes, if:
   - Montgomery GI Bill ([Active Duty](http://www.benefits.va.gov/gibill/mgib_ad.asp) and [Selected Reserve](http://www.benefits.va.gov/gibill/mgib_sr.asp))
   - [Reserve Educational Assistance Program](http://www.benefits.va.gov/gibill/reap.asp)
   - [Veterans' Educational Assistance Program](http://www.benefits.va.gov/gibill/veap.asp)
-  - [Dependents’ Educational Assistance program](/education/survivors-dependent-assistance/dependents-education/) (**Note:** Eligible dependents under 38 U.S.C. Chapter 35 may use work study only while enrolled at an educational institution in one of the 50 states.)
+  - [Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (**Note:** Eligible dependents under 38 U.S.C. Chapter 35 may use work study only while enrolled at an educational institution in one of the 50 states.)
   - [National Call to Service](http://www.benefits.va.gov/gibill/national_call_to_service.asp)
   - [Vocational Rehabilitation and Employment program](http://www.benefits.va.gov/vocrehab/index.asp)
 - You are able to complete the work-study contract before the end of your eligibility for education benefits.

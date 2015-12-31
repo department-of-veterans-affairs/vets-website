@@ -61,7 +61,7 @@ The benefit amount varies according to where you use the benefit, the amount of 
 
 Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
 
-Get information about the [Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](/education/survivors-dependent-assistance/fry-scholarship/) for dependents of Servicemembers who died in the line of duty after September 10, 2001.
+Get information about the [Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/) for dependents of Servicemembers who died in the line of duty after September 10, 2001.
 
 #### Types of training
 
@@ -69,13 +69,13 @@ The following types of programs and courses may be used under the Post-9/11 GI B
 
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 - [Cooperative training](/education/work-learn/co-op-training/)
-- [Entrepreneurship training](/education/training-testing-licensing/entrepreneurship-training/)
-- [Flight training](/education/training-testing-licensing/flight-training/)
+- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
+- [Flight training](/education/advanced-training-and-certifications/flight-training/)
 - [Independent and distance learning](/education/work-learn/non-traditional/independent-distance-learning/)
 - [Institutions of higher learning undergraduate and graduate degrees](/education/gi-bill/higher-learning/)
-- [Licensing and certification reimbursement](/education/training-testing-licensing/licensing-certification/)
+- [Licensing and certification reimbursement](/education/advanced-training-and-certifications/licensing-certification/)
 - [Vocational/technical training and non-college degree programs](/education/work-learn/non-college-degree-program/)
-- [National testing reimbursement](/education/training-testing-licensing/national-testing-program/)
+- [National testing reimbursement](/education/advanced-training-and-certifications/national-testing-program/)
 - [On-the-job training](/education/work-learn/job-and-apprenticeship/)
 - [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
 - [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)

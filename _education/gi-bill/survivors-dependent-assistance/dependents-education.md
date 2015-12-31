@@ -58,7 +58,7 @@ Your dependents
 A monthly payment of up to $1,021. View [current rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp).
 
 #### How it works
-If you are a spouse, you may take correspondence courses under this program. Remedial, deficiency, and refresher courses may also be approved under certain circumstances. View [current DEA pay rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch35). For both children and spouses, if you are eligible for both DEA and the [Fry Scholarship](/education/survivors-dependent-assistance/fry-scholarship/), you must choose which of these you will use. Your choice is final and cannot be changed.
+If you are a spouse, you may take correspondence courses under this program. Remedial, deficiency, and refresher courses may also be approved under certain circumstances. View [current DEA pay rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch35). For both children and spouses, if you are eligible for both DEA and the [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), you must choose which of these you will use. Your choice is final and cannot be changed.
 
 **Exception:** If you are the child of a Servicemember who died in the line of duty before August 1, 2011, you qualify to use both benefits subsequently for up to 81 months of education and training.
 

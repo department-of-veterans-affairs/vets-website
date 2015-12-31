@@ -48,7 +48,7 @@ Tuition assistance
 
 **The requirements and benefits vary according to the benefit program you use:**
 
-- If you use the Montgomery GI Bill (MGIB) or the [Reserve Educational Assistance Program (REAP)](/education/eligible-programs/reap/), VA reimburses you for 60% of the approved charges. View [payment information](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+- If you use the Montgomery GI Bill (MGIB) or the [Reserve Educational Assistance Program (REAP)](/education/legacy-programs/reap/), VA reimburses you for 60% of the approved charges. View [payment information](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 - If you use the Post-9/11 GI Bill, your payment varies depending on the specific flight course and whether your school is public or private. If it is private, your payment varies according to whether or not your school participates in the [Yellow Ribbon program](/education/gi-bill/yellow-ribbon/).
 
 Get more details about the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/).

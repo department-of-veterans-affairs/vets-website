@@ -99,7 +99,7 @@ defaults:
     values:
       breadcrumb_2: "Career Counseling"
   - scope:
-      path: "education/training-testing-licensing"
+      path: "education/advanced-training-and-certifications"
     values:
       breadcrumb_2: "Advanced Training and Certifications"
   - scope:

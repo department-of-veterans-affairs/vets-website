@@ -30,22 +30,22 @@ You can use the GI Bill for more than just academic programs. This benefit will 
     <div class="small-12 columns">
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="/education/training-testing-licensing/entrepreneurship-training">
+              <a href="/education/advanced-training-and-certifications/entrepreneurship-training">
                 <h5>Entrepreneurship Training</h5>
               </a>
             </li>
             <li>
-              <a href="/education/training-testing-licensing/flight-training">
+              <a href="/education/advanced-training-and-certifications/flight-training">
                 <h5>Flight Training</h5>
               </a>
             </li>
             <li>
-              <a href="/education/training-testing-licensing/national-testing-program">
+              <a href="/education/advanced-training-and-certifications/national-testing-program">
                 <h5>National Testing Program</h5>
               </a>
             </li>
             <li>
-              <a href="/education/training-testing-licensing/licensing-certification">
+              <a href="/education/advanced-training-and-certifications/licensing-certification">
                 <h5>Licensing and Certification</h5>
               </a>
             </li>
