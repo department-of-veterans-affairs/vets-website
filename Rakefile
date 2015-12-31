@@ -87,12 +87,12 @@ namespace :tests do
     sh "bundle exec htmlproof ./_site --external_only"
   end
 
-  desc "Run Javascript tests."
+  desc "Run Javascript tests in a single-shot."
   task :javascript do
     sh "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
   end
 
-  desc "Run Javascript tests."
+  desc "Run Javascript tests continuously."
   task :javascript_watch do
     sh "./node_modules/.bin/karma start --browsers PhantomJS"
   end
