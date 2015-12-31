@@ -12,7 +12,20 @@ consider using a Ruby version manager such as
 help ensure that Ruby version upgrades don't mean all your
 [gems](https://rubygems.org/) will need to be rebuilt.
 
-On OS X, you can also use [Homebrew](http://brew.sh/) to install Ruby in
+#### Normal installation.
+
+Most development systems will already have the requirements installed
+including `bundler` and `npm`. If that describes you, just run
+
+```shell
+$ rake install
+```
+
+#### Bootstrap
+
+If the requirements are missing, do the following.
+
+On OS X, you can use [Homebrew](http://brew.sh/) to install Ruby in
 `/usr/local/bin`, which may require you to update your `$PATH` environment
 variable. Once you have brew installed, here are the commands to follow to install via homebrew in terminal:
 
@@ -21,40 +34,55 @@ $ brew update
 $ brew install ruby
 ```
 
-### Development.
-You will also need [Node Package Manager](https://nodejs.org/en/download/) because the
-testing framework uses [Karma](http://karma-runner.github.io/) as the test runner which is written in [Node.js](https://nodejs.org/en/).
-
-Using homebrew, you can also do
+Next run this rake task to ensure `bundler` and `npm` are installed.
 
 ```shell
-$ brew update
-$ brew install npm
+$ rake bootstrap
 ```
 
-After this, install karma
+[Node Package Manager](https://nodejs.org/en/download/) is used by
+[Karma](http://karma-runner.github.io/), the  test runner for javascript.
+Karma is written in [Node.js](https://nodejs.org/en/).
 
-```shell
-$ npm install
-```
+### Running the website
 
-If updating Karma, make sure to remember to rerun `npm shrinkwrap` to update `npm-shrinkwrap.json` (the `npm` equivalent of `Gemfile.lock` for `Bundler`).
-
-### To run
-
-- Once you have ruby installed (see above)
 - Open terminal
 - 'cd' to directory (leave a space after 'cd', then drag and drop your site folder into the terminal window)
-- Install Jekyll by running:
 ```shell
 cd <path to vets-website directory>
-bundle install
 ```
 
 - Run site by using:
 ```shell
-jekyll serve
+rake serve
 ```
 - View the site in your browser by going to http://localhost:4000
 
 Any changes made locally will cause the site to rebuild automagically.
+
+### Development
+
+When developing, you will want one terminal open window running the Jekyll server (see Running the website).
+
+For testing, the following commands are useful:
+
+```shell
+rake tests:ci  # Rebuilds the website. Runs all tests that the CI system runs.
+rake tests:ci_nobuild  # Same as above but w/o rebuilding for faster iteraion.
+
+rake tests:all  # Rebuilds the website. Runs all tests, including slow ones. Superset of tests:ci
+rake tests:all_nobuild  # Same as above but w/o rebuilding for faster iteration.
+
+rake tests:htmlproof  # Runs HTML validation as a single-shot.
+rake tests:htmlproof_external_only  # Runs HTML validation of external links only as a single-shot.
+
+rake tests:javascript  # Runs all javascript tests as a single-shot.
+rake tests:javascript_watch  # Runs all javascript tests continually watching for changes..
+```
+
+There is currently now way to automatically run `htmlproof` automatically on
+a change to a source file. Patches welcome!
+
+### Updating Karma.
+
+If updating Karma, make sure to remember to rerun `npm shrinkwrap` to update `npm-shrinkwrap.json` (the `npm` equivalent of `Gemfile.lock` for `Bundler`).

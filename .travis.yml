@@ -2,8 +2,11 @@ language: ruby
 rvm:
   - ruby-2.2
 
+install:
+  - rake install
+
 script:
-  - ./script/cibuild.sh
+  - rake tests:ci
 bundler_args: "--without development"
 cache:
   - bundler
