@@ -39,12 +39,12 @@ You can use up to $368 per month in financial assistance for the following types
 - [Undergraduate and graduate programs](/education/gi-bill/higher-learning/)
 - [Co-op training](/education/work-learn/co-op-training/)
 - [Technical or vocational courses (non-college degree programs)](/education/work-learn/non-college-degree-program/)
-- [Flight training](/education/training-testing-licensing/flight-training/)
+- [Flight training](/education/advanced-training-and-certifications/flight-training/)
 - [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
 - [High-tech training](/education/work-learn/non-traditional/accelerated-payments/) for Reservists pursuing a non-degree program of education lasting two years or less
-- [Licensing and certification tests](/education/training-testing-licensing/licensing-certification/)
-- [Entrepreneurship training](/education/training-testing-licensing/entrepreneurship-training/)
-- [Certain entrance examinations (national testing)](/education/training-testing-licensing/national-testing-program/)
+- [Licensing and certification tests](/education/advanced-training-and-certifications/licensing-certification/)
+- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
+- [Certain entrance examinations (national testing)](/education/advanced-training-and-certifications/national-testing-program/)
 - [Correspondence courses](/education/work-learn/non-traditional/correspondence-training/)
 - Under certain circumstances, remedial, deficiency, and refresher courses
 

@@ -81,12 +81,12 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 
 - [College degree and certificate programs](/education/gi-bill/higher-learning/)
 - [Non-college degree programs (technical or vocational courses)](/education/work-learn/non-college-degree-program/)
-- [Flight training](/education/training-testing-licensing/flight-training/)
+- [Flight training](/education/advanced-training-and-certifications/flight-training/)
 - [Apprenticeships or on-the-job training](/education/work-learn/job-and-apprenticeship/)
 - [High-tech training](/education/work-learn/non-traditional/accelerated-payments/)
-- [Licensing and certification](/education/training-testing-licensing/licensing-certification/)
-- [Entrepreneurship training](/education/training-testing-licensing/entrepreneurship-training/)
-- [National testing program](/education/training-testing-licensing/national-testing-program/)
+- [Licensing and certification](/education/advanced-training-and-certifications/licensing-certification/)
+- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
+- [National testing program](/education/advanced-training-and-certifications/national-testing-program/)
 - [Correspondence training](/education/work-learn/non-traditional/correspondence-training/)
 
 Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
