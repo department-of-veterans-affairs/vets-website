@@ -12,6 +12,7 @@ concurrence: complete
 <div class="small-12 columns" markdown="1">
 
 ### Who Should Read This
+
 Servicemembers and Veterans seeking education and training opportunities
 
 ### How long does a decision take?
