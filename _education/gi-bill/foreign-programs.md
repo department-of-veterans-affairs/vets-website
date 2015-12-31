@@ -55,7 +55,7 @@ You can also check your approval status or send us questions by email 24 hours a
 
 #### How to apply
 
-[Begin your application process](/education/process/) and see below for next steps.
+[Begin your application process](/education/apply-for-education-benefits/) and see below for next steps.
 
 **Before enrolling at your foreign school:**
 
