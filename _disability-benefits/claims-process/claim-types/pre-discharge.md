@@ -29,9 +29,9 @@ If you are between 60 and 180 days from separation, you can begin the [Benefit D
 
 #### See also
 
-- [Benefit Delivery at Discharge (BDD) program](/disability-benefits/claims-process/pre-discharge/bdd/index.html)
-- [Quick Start program](/disability-benefits/claims-process/pre-discharge/quick-start/index.html)
-- [Overseas Intake Sites](/disability-benefits/claims-process/pre-discharge/overseas/index.html)
+- [Benefit Delivery at Discharge (BDD) program](/disability-benefits/claims-process/claim-types/pre-discharge/bdd/index.html)
+- [Quick Start program](/disability-benefits/claims-process/claim-types/pre-discharge/quick-start/index.html)
+- [Overseas Intake Sites](/disability-benefits/claims-process/claim-types/pre-discharge/overseas/index.html)
 - [Disability Compensation Rates](/disability-benefits/rates/index.html)
 - [Other programs available to predischarge Servicemembers](/disability-benefits/claims-process/claim-types/standard-claim/index.html)
 
