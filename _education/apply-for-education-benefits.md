@@ -1,145 +1,107 @@
 ---
-title: Get education benefits
+title: Apply for Education Benefits
+template: 7-get-page
+concurrence: complete
 ---
 
-<div class="main" role="main">
+<div class="main" role="main" markdown="0">
 
-<div class="section one">
+<div class="section one" markdown="0">
+<div class="primary" markdown="0">
+<div class="row" markdown="0">
+<div class="small-12 columns" markdown="1">
 
-  <div class="row">
-    <div class="small-12 columns">
+### Who Should Read This
+Servicemembers and Veterans seeking education and training opportunities
 
-      <h3>What should I expect?</h3>
+### How long does a decision take?
+The time it takes to process your claim depends on your regional office. There are four regional claims processing centers, and it varies region by region. You can use [VA’s interactive map](http://www.vba.va.gov/reports/aspiremap.asp) to find out how quickly your regional office processes claims.
 
-<!-- Who is this for? -->
-      <h4>Who is this for?</h4>
-      <p>This information is for Veterans and Servicemembers who are submitting claims for education benefits under the following programs:</p>
-      <ul>
-        <li><span>Post-9/11 GI Bill chapter 33 of title 38, U.S. Code</span></li>
-        <li><span>Montgomery GI Bill (MGIB) chapter 30 of title 38, U.S.Code</span></li>
-        <li><span>Montgomery GI Bill - Selected Reserve (MGIB-SR) chapter 1606 of title 10, U.S. Code</span></li>
-        <li><span>Reserve Educational Assistance Program (REAP) chapter 1607 of title 10, U.S. Code</span></li>
-        <li><span>Post-Vietnam Era Veterans' Educational Assistance Program (VEAP) chapter 32 of title 38, U.S. Code, or section 901 or section 903 of Public Law 96-342</span></li>
-      </ul>
-      <p>Learn about other education programs. [LINK TBD]</p>
+</div>
+<div class="small-12 columns" markdown="0">
 
-<!-- How long will it take to submit a claim?
-      <h4>How long will it take to submit a claim?</h4>
-      <p>The current average (<a href="http://http://www.app.hospitalcompare.va.gov/index.cfm">data through March 2015,</a>) for the length of time to complete a claim for disability compensation once it has been submitted to the <abbr>VA</abbr> is 201.5 days (about 29 weeks or a little over six months).</p>
--->
+<div markdown="1">
+### What are the steps?
+</div>
 
-      <h4>Is there anything I should think about before I submit a claim?</h4>
-      <h5>For Veterans and Servicemembers who are elibible for the for the Post-9/11 GI Bill only</h5>
-      <p>Deciding to receive benefits under the Post-9/11 GI Bill is <i>irrevocable</i>. You should consider your options before making this decision. Learn more about the Post-9/11 GI Bill [LINK]</P>
 
-      <h4>What are the steps in completing a claim?</h4>
+<ol class="process" markdown="0">
+<li class="step one wow fadeIn animated" markdown="0">
 
-      <ol class="checklist">
-        <li>
-          <span class="meta who">you</span>
-          <h5>Prepare</h5>
-          <p>Before you submit a claim you will need to spend some time assembling information that supports your claim (read "What do I need to do to prepare to submit a claim?" below to get started)</p>
-        </li>
+<div markdown="1">
+#### Research
+</div>
 
-        <li>
-          <span class="meta who">you</span>
-          <h5>Submit</h5>
-          <p>There are a few methods for submitting a claim:</p>
-          <ul class="small-block-grid-4">
-            <li><span>Online</span></li>
-            <li><span>By mail</span></li>
-            <li><span>At your school</span></li>
-            <li><span>In person</span></li>
-          </ul>
-        </li>
 
-        <li>
-          <span class="meta who">you and <abbr>VA</abbr></span>
-          <h5>Review </h5>
-          <p>Once the <abbr>VA</abbr> receives your application... [WHAT HAPPENS HERE?]</p>
-        </li>
+<div class="feature" markdown="1">
 
-        <li>
-          <span class="meta who"><abbr>VA</abbr></span>
-          <h5>Decide</h5>
-          <p>[TBD]</p>
+- Learn about schools offering VA-approved programs by using the [GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 
-          <h4>Do I need anything while I'm waiting?</h4>
-          <p>Unless the VA writes to you and asks for additional information there is nothing you need to do. The VA will send you a letter if further information is needed.</p>
-          </li>
+-	Decide [which school](http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
 
-        </ul>
+-	Please note that it is not required, but it is an option, to apply to a chosen school prior to applying for benefits.
 
-      </div>
-    </div>
+</div>
 
-  </div>
+</li>
 
-  <div class="section two">
+<li class="step two wow fadeIn animated" markdown="0">
 
-    <div class="row">
-      <div class="small-12 columns">
+<div markdown="1">
 
-        <h3>What do I need to do to prepare to submit a claim?</h3>
-        <h4>What documents will I need?</h4>
-        <h5>Proof of Service Connection</h5>
-        <ul>
-          <li>Discharge or separation papers (DD214 or equivalent)</li>
-          <ul>
-            <li>Get my <a href="link: http://www.archives.gov/veterans/military-service-records/">DD214</a></li>
-            <li><span>What if I didn't get a DD214? (link to "Learn" article tbd)</span></li>
-          </ul>
-          </li>
-          <li>Copies of active duty order for National Guard and Reserve Servicemembers called to any periods of active duty</li>
-          <ul>
-            <li>If you do not have copies of order for periods of active duty you may be able to obtain them through your military unit.</li>
-          </ul>
-          <li>Notice of basic eligibility (NOBE) for National Guard and Reserve Servicemembers applying for Montgomery GI Bill - Selected Reserve (MGIB-SR) chapter 1606 benefits. (DD2384)</li>
-          <ul>
-            <li>This form is generated by your military unit.</li>
-          </ul>
-        </ul>
-        <h5>Additional Documentation</h5>
-        <ul>
-          <li>Your enlistment contract will contain information about any kickers, or additional funds contributed by the DoD.</li>
-          <li>Leave and earnings statements will document any additional contributions that you made that could increase your monthly benefits.</li>
-        </ul>
-      </div>
-    </div>
+#### Gather Your Documents
 
-  </div>
+The following documents will help VA process your claim:
 
-  <div class="action">
-    <div class="row">
-      <div class="small-12 columns">
-        <a class="button start expand" href="#">Apply Now</a>
-      </div>
-    </div>
-  </div>
+</div>
 
+<div class="feature" markdown="1">
+
+-	DD214 (Member 4), discharge or separation papers, for all periods of active-duty service, excluding active duty for training
+-	DD2384, Notice of Basic Eligibility (NOBE), which you can get through your Reserve unit
+-	Orders, if activated from the Guard or the Reserves
+
+</div>
+
+</li>
+
+<li class="step three wow fadeIn animated" markdown="0">
+
+<div markdown="1">
+
+#### Apply
+
+You have four options for filing your claim:
+
+</div>
+
+<div class="feature" markdown="1">
+
+-	Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/vonapp).
+-	Go to a [VA regional office](/education/apply-for-education-benefits/regional-office/) and have a VA employee assist you.
+-	Work with your school's VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
+-	Call 888-GI Bill (888-442-4551) to have the application mailed to you. After you complete it, mail it to your [VA regional claims processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
+
+</div>
+
+</li>
+
+<li class="step four last wow fadeIn animated" markdown="0">
+
+<div markdown="1">
+
+#### VA Review
+
+You can track the status of your application on [eBenefits](https://www.ebenefits.va.gov/ebenefits/manage/status).
+
+</div>
+
+</li>
+
+</ol>
 
 </div>
 </div>
 </div>
-
-
-<div class="navigation">
-
-  <div class="row">
-    <div class="small-12 columns">
-
-      <h4>See also</h4>
-      <ul class="small-block-grid-1 medium-block-grid-2 cards secondary">
-        <li>
-          <a href="Employment-Resources/">
-            <div>
-              <h5>Learn about benefits</h5>
-            </div>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
 </div>
-
 </div>
