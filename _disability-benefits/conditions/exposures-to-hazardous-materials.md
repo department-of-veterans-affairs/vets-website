@@ -1,5 +1,5 @@
 ---
-title: Hazardous Exposures
+title: Exposure to Hazardous Materials
 template: 2-detailed-landing
 ---
 
