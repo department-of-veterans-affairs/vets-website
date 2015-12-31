@@ -61,7 +61,7 @@ The benefit amount varies according to where you use the benefit, the amount of 
 
 Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
 
-Get information about the [Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](/education/survivors-dependent-assistance/fry-scholarship/) for dependents of Servicemembers who died in the line of duty after September 10, 2001.
+Get information about the [Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/) for dependents of Servicemembers who died in the line of duty after September 10, 2001.
 
 #### Types of training
 

@@ -22,19 +22,19 @@ Before the Post-9/11 GI Bill, several smaller programs provided education benefi
     <div class="small-12 columns">
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="/education/eligible-programs/reap/">
+              <a href="/education/legacy-programs/reap/">
                 <h5>Reserve Educational Assistance Program (REAP)</h5>
                 <span>Activated Reservists qualify for additional education benefits.</span>
               </a>
             </li>
             <li>
-              <a href="/education/eligible-programs/call-to-service/">
+              <a href="/education/legacy-programs/call-to-service/">
                 <h5>National Call to Service</h5>
                 <span>An education benefit earned with a mix of military and civilian service.</span>
               </a>
             </li>
             <li>
-              <a href="/education/eligible-programs/veap/">
+              <a href="/education/legacy-programs/veap/">
                 <h5>Veterans' Educational Assistance Program (VEAP)</h5>
                 <span>A government match program for educational assistance.</span>
               </a>
