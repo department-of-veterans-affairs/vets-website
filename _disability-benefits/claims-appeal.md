@@ -9,7 +9,7 @@ template: 6-info-page
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="/disability-benefits/get/">Apply for Disability Benefits</a>
+      <a class="usa-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
     </div>
   </div>
 </div>
@@ -21,7 +21,7 @@ template: 6-info-page
 
 <div markdown="1">
 
-All benefits decisions can be appealed. If you disagree with all or part of a VA benefits decision, you may file a Notice of Disagreement (NOD). An [accredited representative](/disability-benefits/get/filing/help/index.html) can help you with this.
+All benefits decisions can be appealed. If you disagree with all or part of a VA benefits decision, you may file a Notice of Disagreement (NOD). An [accredited representative](/disability-benefits/apply-for-benefits/help/index.html) can help you with this.
 
 #### When do I file an NOD?
 

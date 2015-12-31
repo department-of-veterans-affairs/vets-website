@@ -15,7 +15,7 @@ template: 1-topic-landing
 
 Since 1944, millions of Veterans have used the GI Bill to pay for college. The GI Bill is designed to help Veterans successfully transition from military to civilian life through educational attainment. The Post-9/11 GI Bill gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
 
-This benefit has changed over time, and you currently have several options to choose from. [Veterans Service Organizations](/disability-benefits/get/filing/help/index.html) and the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) can help you pick the right benefit program for your goals.
+This benefit has changed over time, and you currently have several options to choose from. [Veterans Service Organizations](/disability-benefits/apply-for-benefits/help/index.html) and the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) can help you pick the right benefit program for your goals.
 
 </div>
 </div>
@@ -65,7 +65,7 @@ This benefit has changed over time, and you currently have several options to ch
         </li>
 
         <li>
-          <a href="/education/survivors-dependent-assistance/">
+          <a href="/education/gi-bill/survivors-dependent-assistance/">
             <h4 class="alternate">Survivors' and Dependents' Assistance</h4>
           </a>
         </li>

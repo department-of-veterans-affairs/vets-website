@@ -9,7 +9,7 @@ template: 2-detailed-landing
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="/disability-benefits/get/">Apply for Disability Benefits</a>
+      <a class="usa-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
     </div>
   </div>
 </div>
@@ -38,7 +38,7 @@ Veterans may be eligible for other types of disability compensation once VA dete
 </li>
 
 <li>
-<a href="/disability-benefits/conditions/exposures-to-hazardous-materials/birth-defects/index.html">
+<a href="/disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/index.html">
 <h5>Birth Defects/Spina Bifida</h5>
 </a>
 </li>

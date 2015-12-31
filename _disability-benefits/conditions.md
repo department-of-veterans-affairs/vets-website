@@ -9,7 +9,7 @@ template: 2-detailed-landing
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="/disability-benefits/get/">Apply for Disability Benefits</a>
+      <a class="usa-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
     </div>
   </div>
 </div>
@@ -78,7 +78,7 @@ Access the [complete schedule of disabilities](http://www.benefits.va.gov/warms/
 </li>
 
 <li>
-<a href="/disability-benefits/conditions/exposures-to-hazardous-materials/">
+<a href="/disability-benefits/conditions/exposure-to-hazardous-materials/">
 <h5>Exposure to Hazardous Materials</h5>
 <span>Asbestos, Agent Orange, chemicals, weapons testing, Camp Lejeune, radiation, and more.</span>
 </a>
