@@ -199,7 +199,7 @@ If you disagree with the decision, you may appeal it. The decision letter contai
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="disability-benefits/claims-process/claim-types/fully-developed-claim/">
+          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
             <h5>What is the fastest way to get a claim decision?</h5>
           </a>
         </li>
