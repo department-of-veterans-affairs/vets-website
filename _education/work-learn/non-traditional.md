@@ -8,7 +8,11 @@ template: 6-info-page
   <div class="section one" markdown="0">
     <div class="primary" markdown="0">
       <div class="row" markdown="0">
-        <div class="small-12 columns" markdown="1"></div>
+        <div class="small-12 columns" markdown="1">
+        
+You may find that mainstream college programs aren't a good fit for you. If you qualify for the GI Bill, you can use your benefit in a variety of non-traditional ways.
+        
+        </div>
       </div>
     </div>
 
