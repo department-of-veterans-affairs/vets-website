@@ -27,9 +27,9 @@ You can attend more than one college at a time under the GI Bill as long as the 
 The GI Bill can pay you for the classes required to achieve more than one degree. Once you earn a degree, you could pursue another one if you have remaining entitlement on your GI Bill.
 
 VA issues payments after each month’s classes. For example, you receive the November payment in December. For the Post-9/11 GI Bill, the tuition and fees are paid directly to the school, the book stipend is paid to you at the beginning of the term, and the housing allowance is paid to you at the end of each month.
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
