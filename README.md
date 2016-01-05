@@ -60,6 +60,30 @@ rake serve
 
 Any changes made locally will cause the site to rebuild automagically.
 
+### Deploying the website
+
+Deployment is done by pushing changes to the `production` branch on github.
+The most common paradigm is to promote `master` to `produciton` by doing a
+fast-forward merge into the branch. This can be accomplished via
+
+```shell
+rake deploy
+```
+
+If someone has had to push emergency changes to the production branch that
+have yet to be merged into master, then you will need "merge down" from
+production into master before doing a deploy. This will ensure that master
+has all the changes pushed to production. *THIS SHOULD NOT HAPPEN NORMALLY.*
+If this has occurred, run
+
+```shell
+rake mergedown
+```
+
+After this, ensure the CI on `master` goes green. Double-check staging as
+you've just introduced a new change to the code. If everything looks good,
+perform a deploy as described earlier to push all changes into production.
+
 ### Development
 
 When developing, you will want one terminal open window running the Jekyll server (see Running the website).
