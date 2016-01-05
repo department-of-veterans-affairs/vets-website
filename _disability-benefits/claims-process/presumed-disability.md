@@ -1,5 +1,5 @@
 ---
-title: What is a &quot;presumed disability&quot;?
+title: Presumed Disability
 concurrence: incomplete
 template: 6-info-page
 ---
