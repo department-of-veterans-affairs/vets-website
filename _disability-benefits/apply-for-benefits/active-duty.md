@@ -31,7 +31,7 @@ The Integrated Disability Evaluation System (IDES) Examination Templates page is
     <div class="small-12 columns">
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
-          <a href="/disability-benefits/apply-for-benefits/faster/">
+          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
             <h5>What is the fastest way to file a claim?</h5>
           </a>
         </li>
