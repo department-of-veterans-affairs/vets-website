@@ -36,7 +36,7 @@ A disability claim is a formal legal request for benefits. It's very important t
 
         <li>
           <a href="/disability-benefits/claims-process/presumed-disability/">
-            <h5>What is a “presumed disability”?</h5>
+            <h5>What is a presumed disability?</h5>
           </a>
         </li>
 
