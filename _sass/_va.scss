@@ -1172,6 +1172,9 @@ body.page-playbook {
   margin: 0;
   background: darken($color-primary-darkest, 02);
 
+  .text-right {
+    text-align: right;
+  }
 
     .small-block-grid-1 {
       li {padding: 0; margin: 0;}
@@ -1207,7 +1210,7 @@ a {
   background: none;
   font-weight: 400;
   @media #{$small} {display: inline-block; margin: .25em 0;}
-  &:hover {color:#fff;}
+  &:hover {color: $color-gold;}
   &.contact, &.blog {
     padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $secondary-color;
     @media #{$small} {margin: 1.5em auto; display: inline-block;}
@@ -1243,26 +1246,15 @@ a {
   background: rgba(0,0,0,.055);
 }
 .footer-seal {
-        background:url(../images/design/seal/seal-footer.png) no-repeat;
-        text-indent:-325px;
-        overflow: hidden;
+  background: url(../images/design/seal/seal-footer.png) center center no-repeat; background-size: contain;
+  @media #{$large} {background:url(../images/design/seal/seal-footer.png) center left no-repeat; background-size: contain;}
+  text-indent:-325px;
+  overflow: hidden;
+  padding: 1em 0;
+  margin: 0 0 1em 0;
 
-      @media #{$small-up} {
-        background-size:50px;
-        // background-position: 4% 15%;
-      }
-      @media #{$small-up} {
-        background-size: 206px;
-        background-position: center 14px;
-        padding: 1.75em 0 1.5em;
-      }
-
-      @media #{$large-up} {
-        background-size: 206px;
-        background-position: 0 14px;
-        padding: 1.75em 0;
-      }
 }
+
 .footer-crisis {
   background:$color-gold;
   margin: 1.625rem 0;
@@ -1290,13 +1282,13 @@ a {
 }
 ul.final-list {
   text-align: center;
-  font-size: .8em;
+  @media #{$large} {text-align: left;}
+  font-size: 1em;
   padding: 1.5em 0 0 0;
   width: 100%;
   border-bottom: none !important;
   display: block;
   margin: 0 auto;
-  @media #{$medium} {font-size: .9em;}
 
   &:after {
      visibility: hidden;
@@ -1317,7 +1309,8 @@ ul.final-list {
       }
       &:after {
         content:"|";
-        padding: 0 .15em;
+        padding: 0 .2em;
+        opacity: .5;
       }
       &:last-of-type:after {
         padding:0;
@@ -1325,7 +1318,10 @@ ul.final-list {
       }
     a {
         display:inline-block;
-        padding: .35em;
+        padding: .2em;
+        &:hover {
+          color: $color-gold;
+        }
     }
   }
 }
@@ -1518,15 +1514,6 @@ a {color: #fff; background: none;}
 .message {
   font-size:.95rem;
   font-weight: 700;
-  span {
-    background: url(../images/design/icons/wrench.png) center left no-repeat;
-    background-position: 0 4px;
-    background-repeat: no-repeat;
-    background-size: 16px 14px;
-    display:inline-block;
-    padding-left: 1.5em;
-
-  }
   p {
     font-size: .9rem;
     font-weight: 300;
