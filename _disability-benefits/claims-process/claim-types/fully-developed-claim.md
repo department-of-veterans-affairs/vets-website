@@ -51,12 +51,6 @@ The Fully Developed Claims (FDC) program is an optional way for Veterans and sur
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/disability-benefits-questionnaires/">
-            <h5>Disability Benefits Questionnaires (DBQs)</h5>
-          </a>
-        </li>
-
-        <li>
           <a href="/disability-benefits/claims-process/claim-types/pre-service/">
             <h5>Preservice Claim</h5>
           </a>
