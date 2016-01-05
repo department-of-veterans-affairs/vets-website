@@ -17,28 +17,15 @@ If you are in predischarge status, you may file a claim for disability compensat
 
 If you are between 60 and 180 days from separation, you can begin the [Benefit Delivery at Discharge (BDD)](/disability-benefits/claims-process/pre-discharge/bdd/index.html) program. Between 1 and 59 days before separation, you can initiate the [Quick Start Claim](/disability-benefits/claims-process/pre-discharge/quick-start/index.html).
 
+If you are stationed overseas, you can go to an [intake site](/disability-benefits/claims-process/claim-types/pre-discharge/overseas/index.html) in Korea or Germany.
+
 
 </div>
 </div>
 </div>
 </div>
 
-<div class="section secondary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
 
-#### See also
-
-- [Benefit Delivery at Discharge (BDD) program](/disability-benefits/claims-process/claim-types/pre-discharge/bdd/index.html)
-- [Quick Start program](/disability-benefits/claims-process/claim-types/pre-discharge/quick-start/index.html)
-- [Overseas Intake Sites](/disability-benefits/claims-process/claim-types/pre-discharge/overseas/index.html)
-- [Disability Compensation Rates](/disability-benefits/rates/index.html)
-- [Other programs available to predischarge Servicemembers](/disability-benefits/claims-process/claim-types/standard-claim/index.html)
-
-</div>
-</div>
-</div>
-</div>
 
 <div class="navigation" markdown="0">
   <div class="row" markdown="0">
