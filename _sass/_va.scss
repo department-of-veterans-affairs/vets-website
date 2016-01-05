@@ -1226,6 +1226,7 @@ a {
   @media #{$medium} {padding: 0; display: block;}
   @media #{$medium} {background:url(../images/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
 }
+
 .newsletter {
   label {
     color:#fff;
@@ -1275,10 +1276,11 @@ a {
   }
   a {
     display:inline;
-    text-decoration: none!important;
+    text-decoration: none;
     color:rgb(0,0,0);
     &:hover {
-      border-bottom: 2px solid $color-gold;
+      border-bottom: none;
+      text-decoration: none;
     }
     @media #{$small-only} {
       padding: .25em 0;
@@ -2413,4 +2415,14 @@ button.js-simple-tooltip {
     border: 10px solid transparent;
     border-bottom: 10px solid rgba( 0, 0, 0, .9 );
   }
+}
+
+html.no-touchevents {
+  .touch {display: none;}
+  .no-touch {display: block;}
+}
+
+html.touchevents {
+  .touch {display: block;}
+  .no-touch {display: none;}
 }
