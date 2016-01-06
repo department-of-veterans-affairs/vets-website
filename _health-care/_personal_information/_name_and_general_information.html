@@ -1,0 +1,100 @@
+<div class="form-section">
+  <div class="row">
+    <div class="small-12 columns">
+      <h4>Veterans Name</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="small-3 columns">
+        <label for="veteran_last_name">Last Name</label>
+        <input type="text" name="veteran[last_name]" />
+      </div>
+      <div class="small-3 columns">
+        <label for="veteran_first_name">First Name</label>
+        <input type="text" name="veteran[first_name]" />
+      </div>
+      <div class="small-3 columns">
+        <label for="veteran_middle_name">Middle Name</label>
+        <input type="text" name="veteran[middle_name]" />
+      </div>
+      <div class="small-3 columns">
+        <label for="veteran_suffix_name">Suffix</label>
+        <select name="veteran[suffix_name]" ><option value="0"></option>
+          <option value="1">Jr.</option>
+          <option value="2">Sr.</option></select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-3 columns">
+        <label for="veteran_mothers_maiden_name">Mother&#39;s Maiden Name</label>
+        (leave blank if unknown)
+      </div>
+      <div class="small-9 columns">
+        <input type="text" name="veteran[mothers_maiden_name]" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-3 columns">
+        <label for="veteran_ssn">Social Security Number</label>
+      </div>
+      <div class="small-9 columns">
+        <input type="text" name="veteran[ssn]" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-3 columns">
+        <label for="veteran_gender">Gender</label>
+      </div>
+      <div class="small-9 columns">
+        <select name="veteran[gender]" ><option value="0">Male</option>
+          <option value="1">Female</option>
+          <option value="2">NeedOtherOfficialOptions</option></select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-12 columns">
+        <h4>Place of Birth</h4>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-3 columns">
+        <label for="veteran_city_of_birth">City</label>
+      </div>
+      <div class="small-9 columns">
+        <input type="text" name="veteran[city]" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-3 columns">
+        <label for="veteran_state_of_birth">State</label>
+      </div>
+      <div class="small-9 columns">
+        <select name="veteran[state_of_birth]" ><option value="0"></option>
+          <option value="1">Alaska</option>
+          <option value="2">Hawaii</option></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-3 columns">
+      <label for="veteran_marital_status">Current Martial Status</label>
+    </div>
+    <div class="small-9 columns">
+      <select name="veteran[marital_status]" ><option value="1"></option>
+        <option value="1">Married</option>
+        <option value="2">Never Married</option>
+        <option value="3">Separated</option>
+        <option value="4">Widowed</option>
+        <option value="5">Divorced</option></select>
+    </div>
+  </div>
+</div>
