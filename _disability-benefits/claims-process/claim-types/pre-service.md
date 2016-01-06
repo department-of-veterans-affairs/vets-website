@@ -73,7 +73,7 @@ If you entered the military with a known disability that became worse or was agg
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-discharge/">
+          <a href="/disability-benefits/claims-process/claim-types/pre-discharge-claim/">
             <h5>Predischarge Claim</h5>
           </a>
         </li>

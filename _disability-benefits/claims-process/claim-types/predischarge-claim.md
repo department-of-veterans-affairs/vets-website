@@ -1,5 +1,5 @@
 ---
-title: Predischarge
+title: Predischarge Claim
 source: http://www.benefits.va.gov/predischarge/index.asp
 ---
 
@@ -9,16 +9,13 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-### Predischarge
-
 It is to your benefit to start the process of filing a disability claim while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted before separation than for those submitted after separation.
 
 If you are in predischarge status, you may file a claim for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty.
 
-If you are between 60 and 180 days from separation, you can begin the [Benefit Delivery at Discharge (BDD)](/disability-benefits/claims-process/pre-discharge/bdd/index.html) program. Between 1 and 59 days before separation, you can initiate the [Quick Start Claim](/disability-benefits/claims-process/pre-discharge/quick-start/index.html).
+If you are between 60 and 180 days from separation, you can begin the [Benefit Delivery at Discharge (BDD)](/disability-benefits/claims-process/claim-types/predischarge-claim/bdd/index.html) program. Between 1 and 59 days before separation, you can initiate the [Quick Start Claim](/disability-benefits/claims-process/claim-types/predischarge-claim/quick-start/index.html).
 
-If you are stationed overseas, you can go to an [intake site](/disability-benefits/claims-process/claim-types/pre-discharge/overseas/index.html) in Korea or Germany.
-
+If you are stationed overseas, you can go to an [intake site](/disability-benefits/claims-process/claim-types/predischarge-claim/overseas/index.html) in Korea or Germany.
 
 </div>
 </div>
@@ -80,7 +77,7 @@ If you are stationed overseas, you can go to an [intake site](/disability-benefi
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-discharge/">
+          <a href="/disability-benefits/claims-process/claim-types/predischarge-claim/">
             <h5>Predischarge Claim</h5>
           </a>
         </li>

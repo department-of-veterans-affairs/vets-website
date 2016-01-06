@@ -71,7 +71,7 @@ If your disability resulted from an injury or disease acquired in the line of du
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-discharge/">
+          <a href="/disability-benefits/claims-process/claim-types/pre-discharge-claim/">
             <h5>Predischarge Claim</h5>
           </a>
         </li>

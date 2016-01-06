@@ -20,7 +20,7 @@ Coming soon.
 
           <ul class="small-block-grid-1 medium-block-grid-3 cards small">
             <li>
-              <a href="/disability-benefits/learn/eligibility/claim-types/pre-discharge/">
+              <a href="/disability-benefits/learn/eligibility/claim-types/pre-discharge-claim/">
                 <h5>Predischarge</h5>
               </a>
             </li>
