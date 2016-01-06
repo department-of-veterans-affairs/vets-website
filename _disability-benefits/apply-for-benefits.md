@@ -46,9 +46,19 @@ template: 7-get-page
 
 <div class="small-12 medium-10 columns">
 
-<div markdown="1">
+<div class="info-block" markdown="1">
 
-Average number of days to process disability-related claims during November 2015. If you've already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status). (The time frame you see there may vary based on the complexity of your claim.)
+Average number of days to process disability-related claims during November 2015.
+
+If you’ve already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
+
+</div>
+
+<div class="disclaimer minimal" markdown="1">
+
+(The time frame you see there may vary based on the complexity of your claim.)
+
+</div>
 
 </div>
 </div>
