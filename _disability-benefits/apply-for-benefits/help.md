@@ -59,7 +59,7 @@ Many VSOs provide their services free of charge, though they may request reimbur
 
 #### How do I find a representative?
 
-1. You can find a local representative, including a recognized VSO, an attorney, or a claims agent, by state/territory, zip code, or the organization's name online using eBenefits.
+1. You can find a local representative, including a recognized VSO, an attorney, or a claims agent, by state/territory, zip code, or the organization’s name online using eBenefits.
 2. To find a VSO office located in or near your local regional benefit office, use our directory of VSOs.
 
 The VA Office of General Counsel also maintains a list of [VA-recognized organizations and VA-accredited individuals](http://www.va.gov/ogc/accreditation.asp) authorized to assist in the preparation, presentation, and prosecution of VA benefit claims. You can get more information about selecting a representative or file a complaint about your representative.

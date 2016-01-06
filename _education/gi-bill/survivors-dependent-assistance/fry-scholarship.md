@@ -33,7 +33,7 @@ Fry Scholarship (GI Bill benefits)
 <div class="call-out" markdown="1">
 ### How it works
 
-Children are eligible as of their 18th birthday or after graduating high school, whichever comes first. Childrens' eligibility ends on their 33rd birthday. A spouse has 15 years from the Servicemember's death to use the benefit.
+Children are eligible as of their 18th birthday or after graduating high school, whichever comes first. Childrens’ eligibility ends on their 33rd birthday. A spouse has 15 years from the Servicemember’s death to use the benefit.
 
 If you are a dependent and your parent died in the line of duty before August 1, 2011, you may be eligible for both the Fry Scholarship and the Survivors' and Dependents' Educational Assistance [(DEA)](/education/gi-bill/survivors-dependent-assistance/dependents-education/) program, but you can use only one program at a time. Combined benefits are capped at 81 months of full-time training.
 

@@ -63,7 +63,7 @@ You
 
 Post-traumatic stress disorder (PTSD) can occur after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions after experiencing trauma. If the reactions don't go away over time or they disrupt your life, you may have PTSD. [Learn more about PTSD](http://www.ptsd.va.gov/public/index.asp)
 
-VA is committed to providing the best care and resources for Veterans diagnosed with PTSD. VA has made significant progress in PTSD treatments and is expanding access by increasing the number of mental health providers at VA medical centers. Learn more about [VA's programs focused on helping Veterans with PTSD](http://www.mentalhealth.va.gov/PTSD.asp).
+VA is committed to providing the best care and resources for Veterans diagnosed with PTSD. VA has made significant progress in PTSD treatments and is expanding access by increasing the number of mental health providers at VA medical centers. Learn more about [VA’s programs focused on helping Veterans with PTSD](http://www.mentalhealth.va.gov/PTSD.asp).
 
 **Note:** The screening process for disability compensation benefits is geared toward assessment, not treatment. For help or treatment, contact your provider or one of the emergency contacts listed at the top of this page.
 

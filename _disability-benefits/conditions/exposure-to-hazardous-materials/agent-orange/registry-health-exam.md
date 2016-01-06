@@ -34,7 +34,7 @@ Contact your local [VA Environmental Health Coordinator](http://www.publichealth
 Yes, if you served in
 
 - Vietnam between 1962 and 1975, regardless of length of time.
-- Vietnam on smaller river patrol and swift boats that operated on the inland waterways of Vietnam (also known as “Brown Water Veterans”). Check VA's list of [U.S. Navy and Coast Guard ships that operated in Vietnam](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
+- Vietnam on smaller river patrol and swift boats that operated on the inland waterways of Vietnam (also known as “Brown Water Veterans”). Check VA’s list of [U.S. Navy and Coast Guard ships that operated in Vietnam](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
 - Korea in a unit in or near the Demilitarized Zone (DMZ) anytime between April 1, 1968, and August 31, 1971.
 - Thailand (U.S. Air Force Veterans) on Royal Thai Air Force (RTAF) bases near U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, and Don Muang near the air base perimeter anytime between February 28, 1961, and May 7, 1975.
 - Thailand (U.S. Army Veterans) as perimeter security personnel on RTAF bases in Thailand anytime between February 28, 1961, and May 7, 1975.

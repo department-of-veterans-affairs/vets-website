@@ -17,7 +17,7 @@ A Veteran was treated several times during service for pain in the right elbow. 
 
 ### Example 2
 
-A Veteran was discharged from service in 1977. He filed an original claim for service connection for pes planus (flat foot) 20 years later. VA was unable to grant his claim because pes planus was never noted in the Veteran's service treatment records. In 2001, he attempted to reopen his claim by submitting a statement from his private physician confirming the diagnosis of pes planus. VA was unable to reopen the claim because, while the evidence was "new," it was not "material," in that it failed to demonstrate the Veteran was diagnosed with pes planus during service.
+A Veteran was discharged from service in 1977. He filed an original claim for service connection for pes planus (flat foot) 20 years later. VA was unable to grant his claim because pes planus was never noted in the Veteran’s service treatment records. In 2001, he attempted to reopen his claim by submitting a statement from his private physician confirming the diagnosis of pes planus. VA was unable to reopen the claim because, while the evidence was "new," it was not "material," in that it failed to demonstrate the Veteran was diagnosed with pes planus during service.
 
 </div>
 </div>

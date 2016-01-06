@@ -56,7 +56,7 @@ You may be eligible for disability compensation if you were exposed to certain c
         <li>
           <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/">
           <h5>Contaminated Drinking Water at Camp Lejeune</h5>
- <span>Chemicals in the camp's water from1953 to 1988 now pose health risks.</span>
+ <span>Chemicals in the camp’s water from1953 to 1988 now pose health risks.</span>
 
           </a>
         </li>

@@ -55,7 +55,7 @@ You served on ships or boats that were part of the Mobile Riverine Force, Inshor
 - WPB (Patrol Boat)
 - YFU (Harbor Utility Craft)
 
-**Note:** Even if your vessel is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in VA's alphabetized list of ships that were exposed to Agent Orange. Check to [see if your ship was exposed](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
+**Note:** Even if your vessel is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in VA’s alphabetized list of ships that were exposed to Agent Orange. Check to [see if your ship was exposed](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
 
 #### Who is covered
 

@@ -88,7 +88,7 @@ The following types of programs and courses may be used under the Post-9/11 GI B
 - See [Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/detail/a_id/523).
 
 
-“GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA's trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
+“GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA’s trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
 
 </div>
 

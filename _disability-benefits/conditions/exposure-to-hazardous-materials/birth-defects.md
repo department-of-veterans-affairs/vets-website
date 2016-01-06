@@ -20,7 +20,7 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns">
 <div markdown="1">
-Spina bifida is a birth defect in which the developing baby's spinal cord fails to develop properly. It can be caused by environmental factors. If you are a Veteran with qualifying service in South Vietnam or the Republic of Korea, and your child has spina bifida or certain other birth defects, he or she may be eligible for VA benefits.
+Spina bifida is a birth defect in which the developing baby’s spinal cord fails to develop properly. It can be caused by environmental factors. If you are a Veteran with qualifying service in South Vietnam or the Republic of Korea, and your child has spina bifida or certain other birth defects, he or she may be eligible for VA benefits.
 </div>
 <div class="call-out" markdown="1">
 ### Are you eligible for benefits?

@@ -51,7 +51,7 @@ The following conditions apply to family members using transferred benefits:
 - Are entitled to the monthly housing allowance stipend even when you are on active duty.
 - Are not subject to the 15-year delimiting date, but they may not use the benefit after reaching 26 years of age.
 
-Dependent eligibility is not affected if a child marries or if you and your spouse divorce. However, Servicemembers and Veterans retain the right to revoke or modify a transfer at any time. If you want to totally revoke transferred benefits for a dependent and you are still in the service, you must submit another transfer request for the dependent via milConnect. If a dependent's transfer eligibility was previously totally revoked, you cannot transfer benefits again to that dependent.
+Dependent eligibility is not affected if a child marries or if you and your spouse divorce. However, Servicemembers and Veterans retain the right to revoke or modify a transfer at any time. If you want to totally revoke transferred benefits for a dependent and you are still in the service, you must submit another transfer request for the dependent via milConnect. If a dependent’s transfer eligibility was previously totally revoked, you cannot transfer benefits again to that dependent.
 
 If you are still in the service and want to reallocate transferred benefits, you can do so using the TEB Portlet in [milConnect](https://www.dmdc.osd.mil/milconnect). If you’re a Veteran and want to reallocate benefits, you should contact VA using the [Ask a Question website](http://gibill.custhelp.com).
 
