@@ -1,5 +1,5 @@
 ---
-title: Predischarge
+title: Predischarge Claim
 source: http://www.benefits.va.gov/predischarge/index.asp
 ---
 
@@ -8,8 +8,6 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-
-### Predischarge
 
 It is to your benefit to start the process of filing a disability claim while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted before separation than for those submitted after separation.
 
