@@ -1180,6 +1180,8 @@ body.page-playbook {
       li {padding: 0; margin: 0;}
     }
 
+  a.usa-button {text-decoration: none; margin-bottom: 1em;}
+
   .usa-social-links a {
     border-bottom: none;
     display: inline-block;
@@ -2217,6 +2219,19 @@ button[class*="usa-button-"] {
   font-size: .8em;
   color: #444;
   background: #fff;
+  &.minimal {
+    border-top: none;
+    padding: .25em 0;
+  }
+}
+
+// Info block
+
+.info-block {
+  p {
+    padding: 0;
+    margin: 0;
+  }
 }
 
 body.home .disclaimer, body.page-playbook .disclaimer {
