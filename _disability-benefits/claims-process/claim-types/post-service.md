@@ -75,7 +75,7 @@ If you have a service-related disability that presents itself after you have sep
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-discharge/">
+          <a href="/disability-benefits/claims-process/claim-types/pre-discharge-claim/">
             <h5>Predischarge Claim</h5>
           </a>
         </li>

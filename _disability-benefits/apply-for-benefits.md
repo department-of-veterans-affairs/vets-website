@@ -104,7 +104,7 @@ Choose one of three ways:
 - Work with an [accredited representative](/disability-benefits/apply-for-benefits/help/index.html), or
 - Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
 
-**Note:** Servicemembers should learn about [predischarge claims](/disability-benefits/claims-process/claim-types/pre-discharge/).
+**Note:** Servicemembers should learn about [predischarge claims](/disability-benefits/claims-process/claim-types/pre-discharge-claim/).
 
 </div>
 
@@ -214,7 +214,7 @@ If you disagree with the decision, you may appeal it. The decision letter contai
           </a>
         </li>
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-discharge/index.html">
+          <a href="/disability-benefits/claims-process/claim-types/pre-discharge-claim/index.html">
             <h5>How do I file while on active duty?</h5>
           </a>
         </li>

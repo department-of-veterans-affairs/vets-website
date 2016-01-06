@@ -106,7 +106,7 @@ VA will seek to validate your claim with a variety documents, including:
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-discharge/">
+          <a href="/disability-benefits/claims-process/claim-types/pre-discharge-claim/">
             <h5>Predischarge Claim</h5>
           </a>
         </li>

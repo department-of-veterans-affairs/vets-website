@@ -67,7 +67,7 @@ Disability compensation claims can be based on disabilities that existed before 
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-discharge/">
+          <a href="/disability-benefits/claims-process/claim-types/pre-discharge-claim/">
             <h5>Predischarge Claim</h5>
           </a>
         </li>
