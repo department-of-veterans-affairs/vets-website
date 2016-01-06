@@ -1172,6 +1172,9 @@ body.page-playbook {
   margin: 0;
   background: darken($color-primary-darkest, 02);
 
+  .text-right {
+    text-align: right;
+  }
 
     .small-block-grid-1 {
       li {padding: 0; margin: 0;}
@@ -1207,7 +1210,7 @@ a {
   background: none;
   font-weight: 400;
   @media #{$small} {display: inline-block; margin: .25em 0;}
-  &:hover {color:#fff;}
+  &:hover {color: $color-gold;}
   &.contact, &.blog {
     padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $secondary-color;
     @media #{$small} {margin: 1.5em auto; display: inline-block;}
@@ -1292,13 +1295,12 @@ a {
 }
 ul.final-list {
   text-align: center;
-  font-size: .8em;
+  @media #{$large} {text-align: left;}
   padding: 1.5em 0 0 0;
   width: 100%;
   border-bottom: none !important;
   display: block;
   margin: 0 auto;
-  @media #{$medium} {font-size: .9em;}
 
   &:after {
      visibility: hidden;
