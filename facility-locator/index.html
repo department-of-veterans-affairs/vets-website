@@ -136,6 +136,35 @@ button.searchButton {
   padding: .25em .5em;
   border-radius: 0;
 }
+
+/*Legend Styles*/
+    
+.fl-legend-border{
+    border: 1px solid #fafafa;
+    padding: .5rem;
+    margin: .5rem 0 .5rem 0;
+}
+.fl-legend-title h5{
+    margin:.5rem 0  .5rem 0;
+}
+.fl-palette-each, .fl-palette{
+    display: inline-block;    
+}
+.fl-palette-each{
+    margin: .5rem 1rem 0 0;
+    min-width: 100px;
+}
+.fl-palette-label{
+    font-size: 12px;
+    
+}
+.fl-pin{
+    height: 20px;
+    width: auto;  
+    vertical-align: middle;
+}
+
+    
 </style>
 
 <div id="content" class="interior {{ page.id }}">
@@ -174,6 +203,70 @@ button.searchButton {
       </div>
     </div>
   </div>
+    
+<!-- LEGEND START -->
+
+<div class="section two">
+    <div class="row">
+      <div class="small-12 columns fl-legend-border">
+          <div class="fl-legend-title">
+              <h5>Legend:</h5>
+          </div>
+          <div class="fl-legend-palette-row">
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m1_40.svg" />
+                </div>
+                <span class="fl-palette-label fl-central-office">Central Office</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m2_40.svg" />
+                </div>
+                <span class="fl-palette-label fl-benefits-office">Benefits Office</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m3_40.svg" />
+                </div>
+                <span class="fl-palette-label fl-intake-site">Intake Site</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m4_40.svg" />
+                </div>
+                <span class="fl-palette-label fl-cemetery">Cemetery</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m5_40.svg" />
+                </div>
+                <span class="fl-palette-label fl-visn-office">VISN Office</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m6_40.svg" />
+                </div>
+                <span class="fl-palette-label fl-outpatient-clinic">Outpatient Clinic</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m7_40.svg" />
+                </div>
+                <span class="fl-palette-label fl-hospital">Hospital</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette fl-vet-center">
+                    <img class="fl-pin" src="markers/m8_40.svg" />
+                </div>
+                <span class="fl-palette-label">Vet Center</span>
+            </div>
+          </div>
+        </div><!--END small-12 columns-->
+    </div><!--END row-->
+</div><!--END section two-->
+
+<!-- END LEGEND -->
 
   <div class="section one">
     <div class="row">
@@ -208,6 +301,8 @@ button.searchButton {
     </div>
   </div>
 </div>
+
+
 
 <script src="map.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJI5rs8s_N42z1hrrls3HSIgtUNw_iy30&libraries=places,geometry&callback=init" async defer></script>
