@@ -44,6 +44,7 @@ html, body {
 
 #facilityType {
   padding: .5em;
+  max-width: 200px;
   line-height: 1.85em;
   -webkit-appearance: none;
   -mozilla-appearance: none;
@@ -76,7 +77,9 @@ html, body {
   color: #000E3E;
   font-size: 1.75rem;
 }
-
+.text-input{
+    width: 100%:
+}
 .secondary-banner h3 {
   color: #000E3E;
   font-size: 1.1rem;
@@ -109,14 +112,17 @@ html, body {
 
 .facilityTitle {
   font-weight: bold;
+  color: black;
 }
 
 .facilityPhone {
   font-weight: bold;
+  color: black;
 }
 
 button.js-simple-tooltip {
   margin: -0.5em 0 0 1em;
+    white-space:nowrap;
 }
 .simpletooltip {
   margin-top: 9px;
@@ -127,6 +133,7 @@ button.js-simple-tooltip {
 
 button.searchButton {
   height: 2em;
+  max-width: 100px;
   background: #0083BE;
   font-size: 1.4em;
   color: #fff;
@@ -136,6 +143,55 @@ button.searchButton {
   padding: .25em .5em;
   border-radius: 0;
 }
+@media only screen and (max-width: 650px) {
+#pac-input, #facilityType, button.searchButton{
+    margin: .5rem 0 .5rem 0;
+    }
+}
+.nowrap{
+    white-space:nowrap;
+}
+
+@media only screen and (max-width: 481px) {
+.nowrap{
+    white-space:normal;
+    }
+}
+/*Legend Styles*/
+
+#legend.section.two{
+    padding: .25rem 1rem 0 1rem;
+}    
+.fl-legend-border{
+    border: 1px solid #d6d7d9;
+    padding: .5rem;
+    margin: .5rem 1rem 0 1rem;
+}
+@media only screen and (max-width: 1025px) {
+  .fl-legend-border {
+    margin: 0 0 0 0;
+  }
+}
+.fl-legend-title h5{
+    margin:.5rem 0  .5rem 0;
+}
+.fl-palette-each, .fl-palette{
+    display: inline-block;    
+}
+.fl-palette-each{
+    margin: .5rem 1rem 0 0;
+    min-width: 100px;
+}
+.fl-palette-label{
+    font-size: 12px;
+    
+}
+.fl-pin{
+    height: 20px;
+    width: auto;  
+    vertical-align: middle;
+}
+    
 </style>
 
 <div id="content" class="interior {{ page.id }}">
@@ -154,7 +210,7 @@ button.searchButton {
 
   <div class="secondary-banner">
     <div class="row">
-      <div class="small-12 large-3 columns">
+      <div class="small-12 medium-3 columns">
         <label for="facilityType" class="sr-only">Facility Type</label>
         <select name="facilityType" id="facilityType">
           <option value="All">All Facility Types</option>
@@ -168,12 +224,78 @@ button.searchButton {
           <option value="Vet Center">Vet Center</option>
         </select>
       </div>
-      <div class="small-12 large-9 columns">
+      <div class="small-12 medium-9 columns text-input nowrap">
         <input id="pac-input" type="text" placeholder="Search for a location"><button class="searchButton">Search</button>
         <button class="js-simple-tooltip" data-simpletooltip-text="Search by ZIP Code, city, state, U.S. territory, or address">?</button>
       </div>
     </div>
-  </div>
+  </div>   
+
+<!-- LEGEND START -->
+
+<div id="legend" class="section two">
+    <div class="row">
+                
+      <div class="small-12 columns fl-legend-border">
+
+          <div class="fl-legend-title">
+              <h5>Legend:</h5>
+          </div>
+          <div class="fl-legend-palette-row">
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m1_40.png" alt="Central Office Pin" />
+                </div>
+                <span class="fl-palette-label fl-central-office">Central Office</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m2_40.png" alt="Benefits Office Pin" />
+                </div>
+                <span class="fl-palette-label fl-benefits-office">Benefits Office</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m3_40.png" alt="Cemetery Pin" />
+                </div>
+                <span class="fl-palette-label fl-intake-site">Intake Site</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m4_40.png" alt="Cemetery Pin"/>
+                </div>
+                <span class="fl-palette-label fl-cemetery">Cemetery</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m5_40.png"  alt="VISN Office Pin" />
+                </div>
+                <span class="fl-palette-label fl-visn-office">VISN Office</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m6_40.png" alt="Outpatient Clinic Pin" />
+                </div>
+                <span class="fl-palette-label fl-outpatient-clinic">Outpatient Clinic</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette">
+                    <img class="fl-pin" src="markers/m7_40.png" alt="Hospital Pin" />
+                </div>
+                <span class="fl-palette-label fl-hospital">Hospital</span>
+            </div>
+            <div class="fl-palette-each">
+                <div class="fl-palette fl-vet-center">
+                    <img class="fl-pin" src="markers/m8_40.png" alt="Vet Center Pin" />
+                </div>
+                <span class="fl-palette-label">Vet Center</span>
+            </div>
+          </div>
+        </div><!--END small-12 columns-->
+    </div><!--END row-->
+</div><!--END section two-->
+
+<!-- END LEGEND -->
 
   <div class="section one">
     <div class="row">
@@ -209,6 +331,8 @@ button.searchButton {
   </div>
 </div>
 
+
 <script src="map.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJI5rs8s_N42z1hrrls3HSIgtUNw_iy30&libraries=places,geometry&callback=init" async defer></script>
+
 {% include footer.html %}
