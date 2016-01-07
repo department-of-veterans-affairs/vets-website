@@ -57,7 +57,7 @@ If you have a service-related disability that presents itself after you have sep
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/fully-developed/">
+          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
             <h5>Fully Developed Claim (<abbr>FDC</abbr>)</h5>
           </a>
         </li>
@@ -75,7 +75,7 @@ If you have a service-related disability that presents itself after you have sep
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-discharge-claim/">
+          <a href="/disability-benefits/claims-process/claim-types/predischarge-claim/">
             <h5>Predischarge Claim</h5>
           </a>
         </li>

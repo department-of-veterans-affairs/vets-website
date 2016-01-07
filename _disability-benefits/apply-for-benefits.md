@@ -33,7 +33,7 @@ template: 7-get-page
 ### How long does a decision take?
 
 <div class="row" markdown="0">
-<div class="small-12 medium-2 columns"  markdown="0">
+<div class="small-12 medium-3 columns"  markdown="0">
 
 <div class="card information" markdown="0">
 <span class="number" markdown="0">128.6</span>
@@ -44,7 +44,7 @@ template: 7-get-page
 
 </div>
 
-<div class="small-12 medium-10 columns">
+<div class="small-12 medium-9 columns">
 
 <div class="info-block" markdown="1">
 
@@ -77,7 +77,7 @@ If you’ve already filed a claim, check on its progress through [eBenefits](htt
 ##### Prepare
 
 - An [accredited representative](/disability-benefits/apply-for-benefits/help/index.html) can help you prepare and file your claim.
-- Speed up your processing time by filing a [fully developed claim](/disability-benefits/claims-process/claim-types/fully-developed/).
+- Speed up your processing time by filing a [fully developed claim](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
 - Learn more about [evidence requirements](/disability-benefits/claims-process/evidence/).
 
 </div>
@@ -114,7 +114,7 @@ Choose one of three ways:
 - Work with an [accredited representative](/disability-benefits/apply-for-benefits/help/index.html), or
 - Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
 
-**Note:** Servicemembers should learn about [predischarge claims](/disability-benefits/claims-process/claim-types/pre-discharge-claim/).
+**Note:** Servicemembers should learn about [predischarge claims](/disability-benefits/claims-process/claim-types/predischarge-claim/).
 
 </div>
 
@@ -224,7 +224,7 @@ If you disagree with the decision, you may appeal it. The decision letter contai
           </a>
         </li>
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-discharge-claim/index.html">
+          <a href="/disability-benefits/claims-process/claim-types/predischarge-claim/index.html">
             <h5>How do I file while on active duty?</h5>
           </a>
         </li>

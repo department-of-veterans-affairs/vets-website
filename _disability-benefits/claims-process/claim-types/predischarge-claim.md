@@ -59,7 +59,7 @@ If you are stationed overseas, you can go to an [intake site](/disability-benefi
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/fully-developed/">
+          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
             <h5>Fully Developed Claim (<abbr>FDC</abbr>)</h5>
           </a>
         </li>

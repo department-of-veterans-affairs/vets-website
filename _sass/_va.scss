@@ -527,7 +527,7 @@ a {color: #fff;}
 a.usa-button-primary {background: $color-green;}
 }
 
-#content .main {
+#content {
 a.usa-button-primary.start {background: $color-green; text-decoration: none;}
 }
 
@@ -2164,7 +2164,7 @@ a {
 #content .usa-button,
 #content .usa-button-primary,
 #content .usa-button-outline
-{text-decoration: none;}
+{text-decoration: none !important;}
 
 #content .usa-button-primary.expand {
   width: 100%;
