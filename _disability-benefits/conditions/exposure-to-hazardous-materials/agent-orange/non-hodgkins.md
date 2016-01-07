@@ -1,5 +1,5 @@
 ---
-title: Non-Hodgkin's Lymphoma
+title: Non-Hodgkin’s Lymphoma
 concurrence: incomplete
 ---
 
@@ -12,7 +12,7 @@ concurrence: incomplete
 
 <div markdown="1">
 
-Non-Hodgkin's lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of the body's immune system that helps to fight infection and disease.
+Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of the body’s immune system that helps to fight infection and disease.
 
 Signs of non-Hodgkin’s lymphoma include:
 
@@ -53,7 +53,7 @@ Yes, if:
 
 ### How it works
 
-VA considers non-Hodgkin's lymphoma to be related to exposure to Agent Orange. When you apply for benefits, VA will forego the normal requirement that you prove your illness is related to Agent Orange or that it began during—or became worse because of—your military service.
+VA considers non-Hodgkin’s lymphoma to be related to exposure to Agent Orange. When you apply for benefits, VA will forego the normal requirement that you prove your illness is related to Agent Orange or that it began during—or became worse because of—your military service.
 
 Learn more about [benefits related to Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
 

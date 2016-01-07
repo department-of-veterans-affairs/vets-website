@@ -50,10 +50,10 @@ You
 
 **Exception:** The requirement that the disease must have appeared within one year after separation from service does not apply to the following:
 
--	Hansen's disease: within three years after separation
+-	Hansen’s disease: within three years after separation
 -	Tuberculosis: within three years after separation
 -	Multiple sclerosis: within seven years after separation
--	Amyotrophic lateral sclerosis (ALS), also known as Lou Gehrig's Disease: any time after separation
+-	Amyotrophic lateral sclerosis (ALS), also known as Lou Gehrig’s Disease: any time after separation
 
 </div>
 </div>

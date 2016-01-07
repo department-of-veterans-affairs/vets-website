@@ -76,9 +76,9 @@ You may be eligible for both of these programs, but you can use only one of them
 
 <tr>
   <td scope="row"><strong>Duration of Benefits</strong></td>
-  <td>20 years from the Servicemember's date of death
+  <td>20 years from the Servicemember’s date of death
 </td>
-  <td>15 years from the Servicemember's date of death
+  <td>15 years from the Servicemember’s date of death
 </td>
 </tr>
 
