@@ -49,7 +49,7 @@ Disability compensation claims can be based on disabilities that existed before 
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/fully-developed/">
+          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
             <h5>Fully Developed Claim (<abbr>FDC</abbr>)</h5>
           </a>
         </li>
@@ -67,7 +67,7 @@ Disability compensation claims can be based on disabilities that existed before 
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-discharge-claim/">
+          <a href="/disability-benefits/claims-process/claim-types/predischarge-claim/">
             <h5>Predischarge Claim</h5>
           </a>
         </li>

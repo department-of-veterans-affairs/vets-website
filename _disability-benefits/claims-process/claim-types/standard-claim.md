@@ -45,7 +45,7 @@ VA will seek to validate your claim with a variety documents, including:
 - Medical evidence of a current physical or mental disability
 - Evidence of an event, injury, or disease while you were in service
 
-**Note:** A standard claim will generally take longer to process than a [Fully Developed Claim](/disability-benefits/claims-process/claim-types/fully-developed/).
+**Note:** A standard claim will generally take longer to process than a [Fully Developed Claim](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
 
 
 </div>
@@ -88,7 +88,7 @@ VA will seek to validate your claim with a variety documents, including:
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/fully-developed/">
+          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
             <h5>Fully Developed Claim (<abbr>FDC</abbr>)</h5>
           </a>
         </li>
@@ -106,7 +106,7 @@ VA will seek to validate your claim with a variety documents, including:
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-discharge-claim/">
+          <a href="/disability-benefits/claims-process/claim-types/predischarge-claim/">
             <h5>Predischarge Claim</h5>
           </a>
         </li>

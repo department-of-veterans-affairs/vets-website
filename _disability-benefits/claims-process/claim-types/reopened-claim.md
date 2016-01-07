@@ -56,7 +56,7 @@ A Veteran was treated several times during service for pain in his right elbow. 
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/fully-developed/">
+          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
             <h5>Fully Developed Claim (<abbr>FDC</abbr>)</h5>
           </a>
         </li>
@@ -74,7 +74,7 @@ A Veteran was treated several times during service for pain in his right elbow. 
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-discharge-claim/">
+          <a href="/disability-benefits/claims-process/claim-types/predischarge-claim/">
             <h5>Predischarge Claim</h5>
           </a>
         </li>
