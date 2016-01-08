@@ -163,8 +163,10 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 #content {margin: 0; padding: 0; color: $color-gray-dark;}
 
 #content .splash {
-padding: .5em 0;
-margin: 0;
+  padding: 0;
+  margin: 0;
+@media #{$small} {padding: .5em 0;}
+
 p {color: #fff; font-family: $font-sans;}
 
 &.home {
@@ -252,7 +254,8 @@ h3 {font-weight: 500; font-size: 1.4em; color: #555;}
   @media #{$small} {padding: 2em 0;}
   @media #{$medium} {padding: 2em 0;}
   h3 {
-    padding: 0 0 .5em 0;
+    padding: 0 0 .5em 0; font-size: 1.25em;
+    @media #{$small} {font-size: 1.8em;}
   }
 }
 
@@ -310,7 +313,8 @@ p {
   ul[class*="block-grid-"] {
     display: block;
     padding: 0;
-    margin: 0 -0.625rem;
+    margin: 0;
+    @media #{$small} {margin: 0 -0.625rem;}
   }
 }
 
@@ -594,6 +598,7 @@ fill: red;
 #content ul.breadcrumbs {
 background: none;
 border: none;
+margin: 0 0 1em 0;
 h2 {font-size: 1em;}
 display: block;
 padding: 0;
@@ -782,7 +787,6 @@ li {
 // Navigation
 
 #content.interior .section-nav {
-  padding: 1em 0 2em 0;
   ul.small-block-grid-1 {
     h2, h3, h4, h5, h6 {
     }
@@ -873,69 +877,55 @@ body.home .main-navigation {
 
 // Cards
 
-
-ul.large-block-grid-3 >li {
-
-}
-
 [class*="block-grid-"]>li {
-  padding: .1em 0;
-  @media #{$small} {padding: 0 0.625rem 1.25rem;}
+  padding: 0;
+  @media #{$small} {padding: 0 0.625rem 1.25rem 0.625rem;}
 }
-
 
 #content  .cards {
 -webkit-backface-visibility: hidden;
 backface-visibility: hidden;
 
-a, .coming-soon {
-  padding: .2em .5em;
-  margin: 0 0 .4em 0;
-  @media #{$small} {padding: .75em; margin: 0 0 .25em 0}
-  @media #{$medium} {height: 9em;}
-  border-radius: .2em;
-  -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
-  @media #{$small} {padding: .45em .75em; text-align: left;}
-  width: 100%;
-  color: #fff;
-  display: block;
-  font-weight: normal;
-  text-decoration: none;
-  h3 {
+  a, .coming-soon {
+    padding: 1em 1.15em;
+    margin: 0 -0.9375rem;
+    border-bottom: 2px solid rgba(255,255,255,.3);
+    color: #fff;
+    display: block;
+    font-weight: normal;
     text-decoration: none;
-    margin: 0 0 .25em 0;
-    @media #{$small} {margin: 0 0 1em 0;}
-  }
-  border-bottom: 4px solid rgba(255,255,255,0);
-  background: $color-primary-darker;
+    background: $color-primary-darker;
+    -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
+    @media #{$small} {padding: .45em .75em; border-bottom: none; text-align: left; border-radius: .2em; margin: 0 0 .25em 0}
+    @media #{$medium} {height: 10em;}
 
-  -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
-  h3, h4, h5 {font-size: 1.35em; font-weight: 700;}
+    h3 {
+      text-decoration: none;
+      margin: 0;
+      padding: 0;
+      @media #{$small} {margin: 0 0 1em 0;}
+    }
 
-p {
-  /*  display: -webkit-inline-flex;
-    display: inline-flex;
-    */
-    @media #{$small} {padding: 0m 0 1em 0;}
-    line-height: 1.5em;
+    h3, h4, h5 {font-size: 1.35em; font-weight: 700;}
 
-    @media #{$small} {margin: 0;}
-    /*
-    -webkit-align-self: flex-start;
-    align-self: flex-start;
-    */
-  }
+    h4 {margin: 0; padding: 0;}
 
-  &:hover, &:active, &:focus {
-    background: $color-primary;
-    -webkit-box-shadow: 0 0 5px rgba(0,0,0,.15);
-  }
+    p {
+      @media #{$small} {padding: 0m 0 1em 0;}
+      line-height: 1.5em;
+      @media #{$small} {margin: 0;}
+    }
 
-  h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; color: #fff; display: block; clear: both; width: 100%;}
+    &:hover, &:active, &:focus {
+      background: $color-primary;
+      -webkit-box-shadow: 0 0 5px rgba(0,0,0,.15);
+    }
 
-  &:hover div {
-    a {color: $color-gold; p {color: $color-gold;}}
-  }
+    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; color: #fff; display: block; clear: both; width: 100%;}
+
+    &:hover div {
+      a {color: $color-gold; p {color: $color-gold;}}
+    }
 }
 
 .coming-soon {
