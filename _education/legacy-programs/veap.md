@@ -36,15 +36,17 @@ Tuition assistance
 
 VEAP benefits can be applied to the following programs:
 
-- college degree and certificate programs
-- technical or vocational courses
-- flight training
-- apprenticeship or on-the-job training
-- high-tech training
-- licensing and certification tests
-- entrepreneurship training
-- certain entrance exams
-- correspondence courses
+- [Undergraduate and graduate programs](/education/gi-bill/higher-learning/)
+- [Co-op training](/education/work-learn/co-op-training/)
+- [Technical or vocational courses (non-college degree programs)](/education/work-learn/non-college-degree-program/)
+- [Flight training](/education/advanced-training-and-certifications/flight-training/)
+- [On-the-job training and apprenticeships](/education/work-learn/job-and-apprenticeship/)
+- [High-tech training](/education/work-learn/non-traditional/accelerated-payments/) for Reservists pursuing a non-degree program of education lasting two years or less
+- [Licensing and certification tests](/education/advanced-training-and-certifications/licensing-certification/)
+- [Entrepreneurship training](/education/advanced-training-and-certifications/entrepreneurship-training/)
+- [Certain entrance examinations (national testing)](/education/advanced-training-and-certifications/national-testing-program/)
+- [Correspondence courses](/education/work-learn/non-traditional/correspondence-training/)
+- Under certain circumstances, remedial, deficiency, and refresher courses
 
 VEAP may also be used for remedial, deficiency, and refresher courses. Your monthly contributions will determine the length of your entitlements (1–36 months), and you have 10 years from your release from active duty to use VEAP benefits. If VEAP benefits go unused after that 10-year period, you can request a refund for the amount left in your fund.
 
