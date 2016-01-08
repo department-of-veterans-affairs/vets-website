@@ -163,7 +163,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 #content {margin: 0; padding: 0; color: $color-gray-dark;}
 
 #content .splash {
-  padding: 0;
+  padding: 0 0 .5em 0;
   margin: 0;
 @media #{$small} {padding: .5em 0;}
 
@@ -323,7 +323,7 @@ p {
   padding: 1em;
   clear: both;
   margin: 0 0 1.5em 0;
-  h3 {font-size: 1.5em;}
+  h3 {@media #{$small} {font-size: 1.5em;}}
   ul {
     margin: 0 0 .5em 1.5em; padding: 0;
     li {
@@ -600,7 +600,6 @@ background: none;
 border: none;
 margin: 0 0 1em 0;
 h2 {font-size: 1em;}
-display: block;
 padding: 0;
 @media #{$small} {margin: 0 0 1em 0;}
 border-radius: 0;
@@ -610,7 +609,6 @@ border-radius: none;
 
 li {
   text-transform: none;
-  display: block;
   margin: .25em 0;
   padding: .1em;
   display: inline-block;
@@ -622,7 +620,6 @@ li {
   &:hover  {border-bottom: none; text-decoration: none;}
   &.parent {
     a {background: none;}
-    display: block;
     padding-top: .5em;
     margin: 0 0 .75em 0;
     @media #{$small} {display: inline-block;}
