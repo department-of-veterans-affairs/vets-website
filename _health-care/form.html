@@ -1,0 +1,136 @@
+---
+title: Health Care Form Test
+permalink: /health-care/form.html
+template: 1-topic-landing
+---
+
+{% if site.domain != "staging.vets.gov" %}
+<div class="main" role="main">
+  <div class="section primary">
+    <div class="row">
+      <div class="small-12 columns">
+        <h4>This page not in production yet.</h4>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<!-- TODO(awong): Remove inline CSS. #1002 -->
+<style>
+  .tabs.vertical {
+    width: 100%;
+    max-width: 100%;
+  }
+  div.form-section {
+    padding: 2rem;
+    margin: 0 0 2rem;
+    border: 1px solid #eee; 
+  }
+</style>
+
+<div class="main" role="main">
+
+  <div class="section primary">
+    <div class="row">
+      <div class="small-12 columns">
+        <h4>This is an online form for the 1010ez.</h4>
+
+        Put the welcome here maybe?
+      </div>
+    </div>
+  </div>
+
+  <div class="section one">
+    <div class="row" >
+      <div class="small-3 columns">
+        <dl class="tabs vertical" role="tablist" data-tab data-options="deep_linking:true">
+          <dd class="tab-title active" role="presentation">
+          <a aria-controls="introduction" data-toggle="tab" href="#introduction" role="tab">Introduction</a>
+          </dd>
+          <dd class="tab-title" role="presentation">
+          <a aria-controls="personal_information" data-toggle="tab" href="#personal_information" role="tab">
+            Personal Information
+          </a>
+          </dd>
+          <dd class="tab-title" role="presentation">
+          <a aria-controls="insurance_information" data-toggle="tab" href="#insurance_information" role="tab">
+            Insurance Information
+          </a>
+          </dd>
+          <dd class="tab-title" role="presentation">
+          <a aria-controls="military_service" data-toggle="tab" href="#military_service" role="tab">
+            Military Service
+          </a>
+          </dd>
+          <dd class="tab-title" role="presentation">
+          <a aria-controls="financial_assessment" data-toggle="tab" href="#financial_assessment" role="tab">
+            Financial Assessment
+          </a>
+          </dd>
+          <dd class="tab-title" role="presentation">
+          <a aria-controls="review_and_submit" data-toggle="tab" href="#review_and_submit" role="tab">
+            Review and Submit
+          </a>
+          </dd>
+        </dl>
+      </div>
+      <div class="small-9 columns">
+        <div class="tabs-content">
+          <div role="tabpanel" class="content active" id="introduction" aria-hidden="false">
+            <div class="row">
+              <div class="small-12 columns">
+                {% include_relative _introduction.html %}
+              </div>
+            </div>
+          </div>
+
+          <div role="tabpanel" class="content" id="personal_information" aria-hidden="true">
+            <div class="row">
+              <div class="small-12 columns">
+                {% include_relative _personal_information/_personal_information.html %}
+              </div>
+            </div>
+          </div>
+
+          <div role="tabpanel" class="content" id="insurance_information" aria-hidden="true">
+            <div class="row">
+              <div class="small-12 columns">
+                {% include_relative _insurance_information/_insurance_information.html %}
+              </div>
+            </div>
+          </div>
+
+          <div role="tabpanel" class="content" id="military_service" aria-hidden="true">
+            <div class="row">
+              <div class="small-12 columns">
+                {% include_relative _military_service/_military_service.html %}
+              </div>
+            </div>
+          </div>
+
+          <div role="tabpanel" class="content" id="financial_assessment" aria-hidden="true">
+            <div class="row">
+              <div class="small-12 columns">
+                {% include_relative _financial_assessment/_financial_assessment.html %}
+              </div>
+            </div>
+          </div>
+
+          <div role="tabpanel" class="content" id="review_and_submit" aria-hidden="true">
+            <div class="row">
+              <div class="small-12 columns">
+                {% include_relative _review_and_submit.html %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/js/foundation.min.js"></script>
+<script>
+  $(document).foundation();
+</script>
+{% endif %}

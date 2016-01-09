@@ -1,0 +1,121 @@
+<div class="form-section">
+  <div class="row">
+    <div class="small-12 columns">
+      <h4>Children Information</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 columns">
+      <input name="veteran[is_covered_by_health_insurance]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[is_covered_by_health_insurance]" />
+      <label for="veteran_is_covered_by_health_insurance">Do you have any children to report?</label>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="row">
+        <h4> !! There needs to be a way to add/remove multiple entries of these.</h4>
+      </div>
+
+      <div class="row">
+        <div class="small-3 columns">
+          <p>Child's Name</p>
+        </div>
+        <div class="small-9 columns">
+          <div class="row">
+            <label for="veteran_children_last_name">Last</label>
+            <input type="text" name="veteran[children][last_name]" />
+          </div>
+          <div class="row">
+            <label for="veteran_children_first_name">First</label>
+            <input type="text" name="veteran[children][first_name]" />
+          </div>
+          <div class="row">
+            <label for="veteran_children_middle_name">Middle</label>
+            <input type="text" name="veteran[children][middle_name]" />
+          </div>
+          <div class="row">
+            <label for="veteran_suffix_name">Suffix</label>
+            <select name="veteran[suffix_name]"><option value="0"></option>
+              <option value="1">Jr.</option>
+              <option value="2">Sr.</option></select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-3 columns">
+          <p>Child's relationship to you (check one)</p>
+        </div>
+        <div class="small-9 columns">
+          <input type="radio" value="1" name="veteran[children][relation]" /><label for="veteran_children_relation_1">Son</label><input type="radio" value="2" name="veteran[children][relation]" /><label for="veteran_children_relation_2">Daughter</label><input type="radio" value="3" name="veteran[children][relation]" /><label for="veteran_children_relation_3">Stepson</label><input type="radio" value="4" name="veteran[children][relation]" /><label for="veteran_children_relation_4">Stepdaughter</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-12 columns">
+          <label for="veteran_children_ssn">Child&#39;s Social Security Number</label>
+          <input type="text" name="veteran[children][ssn]" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-12 columns">
+          <label for="veteran_children_became_dependent">Date child became your dependent</label>
+          <input type="date" name="veteran[children][became_dependent]" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-12 columns">
+          <label for="veteran_children_date_of_birth">Child&#39;s date of birth</label>
+          <input type="date" name="veteran[children][date_of_birth]" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-12 columns">
+          <input name="veteran[children][was_permanentaly_disable_before_18]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[children][was_permanentaly_disable_before_18]" />
+          <label for="veteran_children_was_permanentaly_disable_before_18">Was child permanently and totally disabled before the age of 18?</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-12 columns">
+          <input name="veteran[children][age_18_to_23_attended_school_last_year]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[children][age_18_to_23_attended_school_last_year]" />
+          <label for="veteran_children_age_18_to_23_attended_school_last_year">If child is between 18 and 23 years of age, did child attend school last calendar year?</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-12 columns">
+          <label for="veteran_children_education_expenses">Expenses paid by your dependent child for college, vocational rehabilitation or training (e.g., tuition, books, materials)?</label>
+          $<input type="text" name="veteran[children][education_expenses]" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-12 columns">
+          <input name="veteran[children][cohabited_last_year]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[children][cohabited_last_year]" />
+          <label for="veteran_children_cohabited_last_year">Did your child live with you last year?</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-12 columns">
+          <p>Count child support contributions even if not paid in regular
+          set amounts. Contributions can include tuition payments or
+          payments of medical bills.</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="small-12 columns">
+          <input name="veteran[children][provided_support_last_year]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[children][provided_support_last_year]" />
+          <label for="veteran_children_provided_support_last_year">If your dependent child did not live with you last year, did you provide support?</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
