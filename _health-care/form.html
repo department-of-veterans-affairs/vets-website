@@ -15,6 +15,35 @@ template: 1-topic-landing
   </div>
 </div>
 {% else %}
+
+<script src="/assets/js/vendor/jquery.serializeObject.min.js"></script>
+<script>
+  var xmlFieldMap = [
+    { "input" : "veteran[last_name]", "node" : "VetNameLast" },
+    { "input" : "veteran[first_name]", "node" : "VetNameFirst" },
+    { "input" : null, "node" : "VetNamePrefix" },
+    { "input" : "veteran[suffix_name]", "node" : "VetNameSuffix" },
+    { "input" : "veteran[middle_name]", "node" : "VetNameMiddle" }
+  ];
+
+  function build1010ezXml() {
+    var formData = $(".name-and-general-information").find(":input").serializeObject();
+    var xmlDoc = document.implementation.createDocument(null, "form1");
+
+    for (var i = 0; i < xmlFieldMap.length; i++) {
+      var entry = xmlFieldMap[i];
+      var element = xmlDoc.createElement(entry["node"]);
+      if (entry["input"] != null) {
+        element.appendChild(xmlDoc.createTextNode(formData[entry["input"]]));
+      }
+      xmlDoc.firstChild.appendChild(element);
+    }
+    window.xmlDoc = xmlDoc;
+    var serializer = new XMLSerializer();
+    window.xmlDocStr = serializer.serializeToString(xmlDoc);
+  }
+</script>
+
 <!-- TODO(awong): Remove inline CSS. #1002 -->
 <style>
   .tabs.vertical {
