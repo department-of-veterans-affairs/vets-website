@@ -10,10 +10,21 @@ concurrence: complete
 
 If you have new information about a condition that you think could qualify you for new or additional disability benefits, you can file a new claim.
 
+</div>
+
+<div class="small-12 columns">
+
+<div class="call-out" markdown="1">
+
 ### Who can file a new claim?
+
 You
 
-### Why use the new claim process?
+</div>
+
+<div markdown="1">
+
+#### Why use the new claim process?
 A new claim will determine if you qualify for new or additional benefits.
 
 #### The outcome of a new claim determination may be:

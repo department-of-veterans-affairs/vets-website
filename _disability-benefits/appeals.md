@@ -94,13 +94,13 @@ File a [Notice of Appeal](http://www.uscourts.cavc.gov/forms_fees.php). Send you
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
         <li>
-          <a href="/disability-benefits/claims-appeal/veterans-appeals-board/">
+          <a href="/disability-benefits/appeals/veterans-appeals-board/">
             <h5>Board of Veterans' Appeals</h5>
           </a>
         </li>
 
         <li>
-          <a href="/disability-benefits/claims-appeal/court-appeals-veterans-claims/">
+          <a href="/disability-benefits/appeals/court-appeals-veterans-claims/">
             <h5>Court of Appeals for Veterans Claims</h5>
           </a>
         </li>

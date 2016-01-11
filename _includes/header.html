@@ -52,9 +52,7 @@
 
 
 <!-- Header Javascript and CSS for animation-->
-<link rel="stylesheet" href="/assets/css/vendor/animate.css">
 <script src="/assets/js/vendor/jquery-1.11.0.min.js"></script>
-<!-- <script src="/assets/js/vendor/jquery.tipsy.js"></script> -->
 <script src="/assets/js/components.js"></script>
 <script src="/assets/js/vendor/modernizr.custom.js"></script>
 <script src="/assets/js/vendor/wow.min.js"></script>
@@ -100,6 +98,10 @@ new WOW().init();
 
 </head>
 <body class="{{ page.body_class }}">
+
+<a class="show-on-focus" href="#content">Skip to Content</a>
+
+
 <div class="header">
   <div data-alert class="alert-box notice">
     <div class="row full">
@@ -114,6 +116,8 @@ new WOW().init();
     <div class="small-6 medium-4 columns">
       <h1 role="banner"><a href="/">Vets.gov</a></h1>
     </div>
+
+
 
     {% if include.search != 'false' %}
       <!-- Mobile search button -->
