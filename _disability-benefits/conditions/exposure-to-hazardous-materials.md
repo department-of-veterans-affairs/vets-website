@@ -41,22 +41,22 @@ You may be eligible for disability compensation if you were exposed to certain c
         <li>
           <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/asbestos/">
           <h5>Asbestos</h5>
-          <span>Service activities and jobs that may have health consequences</span>
+          <span>Several military occupational specialties have a risk of exposure to asbestos.</span>
 
           </a>
         </li>
 
         <li>
           <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/">
-          <h4>Birth Defects</h4>
-
+          <h4>Birth Defects/Spina Bifida</h4>
+<span>Children of Veterans who served in South Vietnam or the Republic of Korea during specific periods of time may have birth defects, including spina bifida.</span>
           </a>
         </li>
 
         <li>
           <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/">
           <h5>Contaminated Drinking Water at Camp Lejeune</h5>
- <span>Chemicals in the camp’s water from1953 to 1988 now pose health risks.</span>
+ <span>Chemicals in the camp’s water from 1953 to 1988 now pose health risks.</span>
 
           </a>
         </li>
@@ -65,7 +65,7 @@ You may be eligible for disability compensation if you were exposed to certain c
           <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/">
           <h5>Gulf War Illness</h5>
           <span>
-            The many diseases associated with serving in Southwest Asia
+            Certain illnesses, disorders, and conditions are associated with serving in Southwest Asia.
           </span>
           </a>
         </li>
@@ -82,15 +82,16 @@ You may be eligible for disability compensation if you were exposed to certain c
         <li>
           <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/">
             <h5>Mustard Gas</h5>
-            <span>Field or chamber testing, WWI battlefields, German bombing of Bari, Italy during WWII, and more.</span>
+            <span>You may have been exposed to mustard gas during field or chamber testing, during service on the battlefield in World War I, at the German bombing of Bari, Italy, in World War II, and in certain other situations.</span>
           </a>
         </li>
 
         <li>
           <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/">
-          <h5>Project112/SHAD</h5>
+          <h5>Project 112/SHAD</h5>
           <span>
-            Chemical testing exposure --1962 to 1974 and survivor benefits.
+          Your participation in Project 112/SHAD from 1963 to 1974 may have resulted in chemical testing exposure. 
+
           </span>
 
           </a>
@@ -100,8 +101,7 @@ You may be eligible for disability compensation if you were exposed to certain c
           <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/radiogenic-risk-activities/">
           <h5>Radiogenic Risk Activities</h5>
           <span>
-           WWII-era service or imprisonment in Japan, nuclear weapons testing, gaseous diffusion plant assignment,
- and more.
+           You may have been exposed to radiation during World War II–era service or imprisonment in Japan, nuclear weapons testing, a gaseous diffusion plant assignment, or other situations.
           </span>
           </a>
         </li>
@@ -110,7 +110,7 @@ You may be eligible for disability compensation if you were exposed to certain c
           <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/specific-environmental-hazards/">
           <h5>Specific Environmental Hazards</h5>
           <span>
-            Exposure problems in Iraq, Afghanistan, Dijibouti, Camp Lejune, NC, and Atsugi, Japan, from burn pits and particulate matter to chemically contaminated drinking water.
+            Exposure to environmental hazards may include particulate matter and large burn pits in Iraq, Afghanistan, and Djibouti; contaminated drinking water at Camp Lejeune, North Carolina; and pollutants from a waste incinerator near Atsugi, Japan.
           </span>
           </a>
         </li>
