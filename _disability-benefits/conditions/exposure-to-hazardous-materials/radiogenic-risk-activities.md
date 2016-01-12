@@ -19,9 +19,7 @@ template: 4-action-page
 <div class="row" markdown="0">
 <div class="small-12 medium-8 columns">
 
-<dl class="panel-list plain">
-<dt>Radiogenic Diseases Postservice</dt>
-</dl>
+
 
 <div markdown="1">
 
