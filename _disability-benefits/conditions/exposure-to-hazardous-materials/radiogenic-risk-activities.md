@@ -43,7 +43,6 @@ Yes, if:
 	-	Portsmouth, Ohio, or
 	-	Area K-25 at Oak Ridge, Tennessee
 
-- Your performance of tasks was similar to those that qualify a Department of Energy (DOE) employee as a member of the Special Exposure Cohort under 42 U.S.C. 7384L(14).
 
 ### Who is covered
 
