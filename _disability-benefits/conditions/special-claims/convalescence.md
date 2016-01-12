@@ -19,7 +19,6 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-#### Temporary Rating Due to Surgery or Immobilization
 
 You may be eligible for a temporary 100% disability rating while you recover from surgery, or from an immobilizing disability related to your service.
 
