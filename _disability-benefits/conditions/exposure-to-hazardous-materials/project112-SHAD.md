@@ -18,9 +18,7 @@ template: 4-action-page
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 medium-8 columns">
-<dl class="panel-list plain">
-<dt>{{ page.title }}</dt>
-</dl>
+
 <div markdown="1">
 If you participated in the chemical and biological warfare testing associated with Projects 112 or Shipboard Hazard and Defense (SHAD) from 1963 to 1974, you may be eligible for disability benefits for any illness related to the testing.
 </div>
