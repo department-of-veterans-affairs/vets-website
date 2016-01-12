@@ -18,10 +18,6 @@ template: 4-action-page
 <div class="row" markdown="0">
 <div class="small-12 medium-8 columns">
 
-<dl class="panel-list plain">
-<dt>{{ page.title }}</dt>
-
-</dl>
 
 <div markdown="1">
 If you were exposed to specific environmental hazards (such as burn pits) while serving at military installations in Iraq, Afghanistan, and elsewhere, you may have developed a disease related to this exposure.
