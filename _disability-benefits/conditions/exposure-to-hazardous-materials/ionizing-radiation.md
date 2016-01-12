@@ -18,7 +18,6 @@ template: 4-action-page
 <div class="row" markdown="0">
 <div class="small-12 medium-8 columns">
 <dl class="panel-list plain">
-<dt>{{ page.title }}</dt>
 <dd>Exposure risks include nuclear testing, having been a POW in Japan, working with x-rays or at a reactor, and more.</dd>
 </dl>
 <div class="call-out" markdown="1">
