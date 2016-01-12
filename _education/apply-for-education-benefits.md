@@ -16,30 +16,35 @@ concurrence: complete
 Servicemembers and Veterans seeking education and training opportunities
 
 ### How long does a decision take?
+
 The time it takes to process your claim depends on your regional office. There are four regional claims processing centers, and it varies region by region. You can use [VA’s interactive map](http://www.vba.va.gov/reports/aspiremap.asp) to find out how quickly your regional office processes claims.
 
 </div>
 <div class="small-12 columns" markdown="0">
 
 <div markdown="1">
+
 ### What are the steps?
+
+</div>
 </div>
 
 
+<div class="small-12 columns" markdown="0">
 <ol class="process" markdown="0">
 <li class="step one wow fadeIn animated" markdown="0">
 
 <div markdown="1">
+
 #### Research
+
 </div>
 
 
 <div class="feature" markdown="1">
 
 - Learn about schools offering VA-approved programs by using the [GI Bill Comparison Tool](/gi-bill-comparison-tool/).
-
 -	Decide [which school](http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
-
 -	Please note that it is not required, but it is an option, to apply to a chosen school prior to applying for benefits.
 
 </div>
