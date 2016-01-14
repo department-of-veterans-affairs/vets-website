@@ -29,7 +29,7 @@ template: 4-action-page
 </div>
 <div class="call-out" markdown="1">
 
-### Are you eligible for disability compensation?
+### Are you eligible for compensation?
 
 Yes, if:
 
@@ -45,18 +45,18 @@ You, your dependents and survivors
 <div markdown="1">
 
 #### Available benefits
-- Heath care benefits
-- Compensation benefits
+- Heath care
+- Compensation
 - An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 
 #### How it works
-To receive benefits for [diseases associated with Agent Orange exposure](//disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence showing the required perimeter security duty (for example, as a dog handler, a member of a security squadron, a member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
+To receive benefits for [diseases associated with Agent Orange exposure](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence showing the required perimeter security duty (for example, as a dog handler, a member of a security squadron, a member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
 
 #### Learn more
 [Benefits related to Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp)
 
-[Agent Orange exposure locations](//disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
+[Agent Orange exposure locations](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/)
 
 </div>
 </div>
@@ -73,7 +73,7 @@ To receive benefits for [diseases associated with Agent Orange exposure](//disab
 **Need help determining exposure?**
 VA will help you determine potential exposure to Agent Orange after you file a claim for disability benefits.
 
-Find an [accredited Representative to help you](/disability-benefits/apply-for-benefits/help/index.html).
+Find an [accredited representative to help you](/disability-benefits/apply-for-benefits/help/index.html).
 </li>
 </ul>
 
