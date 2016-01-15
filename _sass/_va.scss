@@ -91,8 +91,9 @@ a {
   }
 }
 
-/*
-a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/vets-website"]) {
+
+#content.interior a[href^="http://"],
+#content.interior a[href^="https://"] {
   background: url(../images/icons/icon-exit-white.png);
   -webkit-background-size: 18px 15.38px;
   background-size: 18px 15.38px;
@@ -108,7 +109,7 @@ a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/vets-w
     background-repeat: no-repeat!important;
   }
 }
-*/
+
 
 
 
