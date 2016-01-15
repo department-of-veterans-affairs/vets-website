@@ -1757,13 +1757,18 @@ margin: 0;
 
 // Process line
 
-.process {
+#content .process {
   padding: 0;
   position: relative;
   h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
   h5 {font-size: 1.3em; margin: 0; padding: 0;}
   h6 {font-size: 1.1em; margin: 0; padding: 0;}
   list-style: none;
+  p:nth-child(1) {
+    font-size: 1em;
+    color: #333;
+    padding-bottom: 0;
+  }
   li {
       list-style-type: none;
       list-style: none;
@@ -1877,7 +1882,7 @@ li.twenty:before {content: "20";}
 
   &.hcd {
     h4 {
-      color: $secondary-color;
+      color: $color-primary-darker;
     }
   }
 
