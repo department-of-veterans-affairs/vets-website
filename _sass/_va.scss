@@ -273,9 +273,9 @@ html.no-touch .banner {
 
 // Headings
 
-h3 {color: $color-primary-darkest; font-size: 1.8em; padding: 0 0 1em 0;}
-h4 {font-size: 1.5em;}
-h5 {font-size: 1em; font-weight: bold;}
+h3 {color: $color-primary-darkest; font-weight: bold; font-size: 1.8em; padding: 0 0 1em 0;}
+h4 {font-size: 1.5em; font-weight: normal;}
+h5 {font-size: 1.25em; font-weight: normal;}
 
 // tagline
 
@@ -337,7 +337,7 @@ h5 {font-size: 1em; font-weight: bold;}
     color: #333;
     padding-bottom: inherit;
   }
-  h3 {@media #{$small} {font-size: 1.5em;}}
+  h3 {@media #{$small} {font-size: 1.65em;}}
   ul {
     margin: 0 0 .5em 1.5em; padding: 0;
     li {
@@ -756,13 +756,6 @@ li {
 
 // Navigation
 
-#content.interior .section-nav {
-  ul.small-block-grid-1 {
-    h2, h3, h4, h5, h6 {
-    }
-  }
-}
-
 #content.interior .navigation,
 #content #playbook .navigation {
   padding: 1em  0;
@@ -787,7 +780,7 @@ li {
   ul.cards li {
     margin: 0;
     height: auto;
-    h3, h4, h5, h6 {color: $color-primary-darkest; font-weight: 600; font-family: $font-sans; font-size: 1.35em;}
+    h3, h4, h5, h6 {color: $color-primary-darkest; font-weight: 700; font-family: $font-sans; font-size: 1.35em;}
     h4 {font-size: 1.3em;}
     border-bottom: 1px solid rgba(0,0,0,.2);
     &:last-of-type { border-bottom: none;}
@@ -1757,19 +1750,21 @@ margin: 0;
 
 // Process line
 
-#content .process {
-  padding: 0;
+.process {
+  padding: 1em 0;
   position: relative;
   h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
   h5 {font-size: 1.3em; margin: 0; padding: 0;}
   h6 {font-size: 1.1em; margin: 0; padding: 0;}
   list-style: none;
-  p:nth-child(1) {
-    font-size: 1em;
-    color: #333;
-    padding-bottom: 0;
-  }
   li {
+
+    p:nth-child(1) {
+      font-size: 1em;
+      color: #333;
+      padding-bottom: inherit;
+    }
+
       list-style-type: none;
       list-style: none;
       ol {
@@ -1882,7 +1877,7 @@ li.twenty:before {content: "20";}
 
   &.hcd {
     h4 {
-      color: $color-primary-darker;
+      color: $secondary-color;
     }
   }
 
