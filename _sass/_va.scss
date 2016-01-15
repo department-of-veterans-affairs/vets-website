@@ -353,7 +353,10 @@ h5 {font-size: 1.25em; font-weight: normal;}
   li p:first-of-type,
   ul+p
    {
-    font-weight: normal;
+    font-weight: normal !important;
+    color: #333;
+    font-size: 1em;
+    padding-bottom: 0;
   }
   p:nth-child(1) {
     font-size: 1.25em;
@@ -1756,6 +1759,11 @@ margin: 0;
   h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
   h5 {font-size: 1.3em; margin: 0; padding: 0;}
   h6 {font-size: 1.1em; margin: 0; padding: 0;}
+  p:nth-child(1) {
+    font-size: 1em;
+    color: #333;
+    padding-bottom: 0;
+  }
   list-style: none;
   li {
 
@@ -1834,6 +1842,12 @@ margin: 0;
     border-radius: 4em;
     position: relative;
   }
+}
+
+#content.interior .primary .process li p:nth-child(1) {
+  font-size: 1em;
+  color: #333 !important;
+  padding-bottom: 0;
 }
 
 li.one:before {content: "1";}
