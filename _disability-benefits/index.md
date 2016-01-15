@@ -28,12 +28,6 @@ template: 1-topic-landing
               </a>
             </li>
             <li>
-              <a href="/disability-benefits/rates/">
-                <h4 class="alternate">Rates</h4>
-                <span>How does VA calculate compensation rates?</span>
-              </a>
-            </li>
-            <li>
               <a href="/disability-benefits/claims-process/">
                 <h4 class="alternate">Claims process</h4>
                 <span>How does the claims process work?</span>
