@@ -6,6 +6,14 @@ template: 1-topic-landing
 
 <div class="main" role="main" markdown="0">
 
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
+    </div>
+  </div>
+</div>
+
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
