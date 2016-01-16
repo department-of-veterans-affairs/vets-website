@@ -21,7 +21,7 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: January 9, 1962 and May 7, 1975</dd>
+<dd>Dates: Between January 9, 1962, and May 7, 1975</dd>
 </dl>
 
 <div markdown="1">
@@ -57,6 +57,7 @@ You served on ships or boats that were part of the Mobile Riverine Force, Inshor
 
 **Note:** Even if your vessel is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in VA’s alphabetized list of ships that were exposed to Agent Orange. Check to [see if your ship was exposed](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
 
+
 #### Who is covered
 
 You and your dependents
@@ -68,7 +69,7 @@ You and your dependents
 #### Available benefits
 
 - Compensation
-- Health
+- Health care
 - An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 #### How it works
