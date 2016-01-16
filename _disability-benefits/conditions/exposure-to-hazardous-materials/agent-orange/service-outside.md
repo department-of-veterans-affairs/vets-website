@@ -21,13 +21,13 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: January 9, 1962 and 1986</dd>
+<dd>Dates: Between January 9, 1962 and 1986</dd>
 <dd>Sites: Vietnam, C-123 aircraft, other Agent Orange–contaminated areas</dd>
 </dl>
 
 <div markdown="1">
 
-If you were exposed to Agent Orange during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam or the DMZ in Korea.
+If you were exposed to Agent Orange during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam or in the Korean Demilitarized Zone.
 
 </div>
 
@@ -37,8 +37,8 @@ If you were exposed to Agent Orange during your service and have a related disea
 
 Yes, if:
 
-- You are ill with one, or more, of these [diseases related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
-- Your service involved regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam War Era, or
+- You are ill with one or more of these [diseases related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+- Your service involved regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam Era, or
 - You served in close proximity to areas where [herbicides were tested or stored outside of Vietnam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/), or
 - You had regular and repeated contact with a contaminated [C-123 aircraft](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/c-123/), or
 - You were associated during your service with projects to test, dispose of, or store Agent Orange.
@@ -72,7 +72,7 @@ Learn more about [Agent Orange benefits](http://www.publichealth.va.gov/exposure
 
 <ul class="plain">
 <li markdown="1">
-Find an [Accredited Representative to help you](/disability-benefits/apply-for-benefits/help/index.html).
+Find an [accredited representative to help you](/disability-benefits/apply-for-benefits/help/index.html).
 </li>
 </ul>
 
