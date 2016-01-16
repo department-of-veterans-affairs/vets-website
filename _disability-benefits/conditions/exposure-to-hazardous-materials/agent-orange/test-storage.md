@@ -35,8 +35,9 @@ Yes, if:
 
 - You are ill with one or more of [these diseases](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
 - Your service included participation in the testing or storage of Agent Orange used in Vietnam.
--
+
 #### Who is covered
+
 You and your dependents or survivors
 </div>
 <div markdown="1">
@@ -64,7 +65,7 @@ See these comprehensive lists for dates and locations of herbicide tests and sto
 
 [Outside the U.S.](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp)
 
-Find an [accredited Representative to help you](/disability-benefits/apply-for-benefits/help/index.html).
+Find an [accredited representative to help you](/disability-benefits/apply-for-benefits/help/index.html).
 </li>
 
 </ul>
