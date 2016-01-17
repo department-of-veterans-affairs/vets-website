@@ -40,7 +40,7 @@ Yes, if:
 - Your military record shows that you were aboard one of the [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp) that operated in Vietnam, or
 - You came ashore.
 
-### Who is covered:
+### Who is covered
 
 You and your survivors
 
