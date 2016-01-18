@@ -149,7 +149,7 @@ Choose one of three ways:
 </div>
 
 <div class="actions">
-<a href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation" class="usa-button-primary">Track the status of your claim at eBenefits</a>
+<a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation" class="usa-button-primary">Track the status of your claim at eBenefits</a>
 </div>
 
 <div markdown="1">
