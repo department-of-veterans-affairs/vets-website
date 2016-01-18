@@ -5,10 +5,19 @@ concurrence: incomplete
 ---
 
 <div class="main" role="main" markdown="0">
-  <div class="section one" markdown="0">
-    <div class="primary" markdown="0">
-      <div class="row" markdown="0">
-        <div class="small-12 columns" markdown="1">
+
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
+    </div>
+  </div>
+</div>
+
+<div class="section one" markdown="0">
+<div class="primary" markdown="0">
+<div class="row" markdown="0">
+<div class="small-12 columns" markdown="1">
 If you would like to earn an advanced degree at an institution of higher learning, including four-year universities, community colleges, and schools offering advanced degrees, VA education and training benefits may be available to you.
 </div>
 <div class="small-12 columns">
