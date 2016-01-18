@@ -21,7 +21,7 @@ Veterans have been speaking and we’ve been listening. You’ve told us VA has 
 
 That’s what you’ll find here.
 
-This beta release of Vets.gov is just a beginning. We’ve launched it with deep content in the two benefit categories you’ve told us mean the most to you: disability and education. There are many more to come. We’ll be adding new information and tools ongoing.  But we wanted to get vets.gov in front of you now, as we build it, so you can tell us what’s working for you and what isn’t.
+This beta release of vets.gov is just a beginning. We’ve launched it with deep content in the two benefit categories you’ve told us mean the most to you: disability and education. There are many more to come. We’ll be adding new information and tools ongoing.  But we wanted to get vets.gov in front of you now, as we build it, so you can tell us what’s working for you and what isn’t.
 
 Over the next year, additional content and services from our many existing VA websites will merge with vets.gov – but not before they’ve been revamped for effective function and clarity.
 
