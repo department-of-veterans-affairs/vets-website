@@ -91,24 +91,18 @@ a {
   }
 }
 
-/*
-a[href*="//"]:not([href*="http://department-of-veterans-affairs.github.io/vets-website"]) {
-  background: url(../images/icons/icon-exit-white.png);
-  -webkit-background-size: 18px 15.38px;
-  background-size: 18px 15.38px;
-  background-position: right center!important;
+
+#content.interior a[href^="http://"],
+#content.interior a[href^="https://"] {
+  background: url(../images/icons/exit-icon.png);
+  -webkit-background-size: 18px 18px;
+  background-size: 18px 18px;
+  background-position: right center !important;
   background-repeat: no-repeat;
-  padding-right: 2em;
+  padding-right: 1.5em;
   position: relative;
-  &:hover {
-    background:rgba(0,0,0,0.2) url(../images/icons/icon-exit-gold.png)!important;
-    -webkit-background-size: 18px 15.38px!important;
-    background-size: 18px 15.38px!important;
-    background-position: right center!important;
-    background-repeat: no-repeat!important;
-  }
 }
-*/
+
 
 
 
