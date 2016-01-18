@@ -1,8 +1,5 @@
 // IE 8 and lower
 
-body {
-}
-
 html .main .row {
   width: 960px;
   margin: 0 auto;
@@ -37,7 +34,6 @@ body.page-disability .splash, body.page-education .splash {
 
 ul.cards li  {
   width: 100%;
-
   text-align: left !important;
   padding: 0;
   margin: 0;

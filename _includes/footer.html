@@ -37,7 +37,6 @@
     <div class="small-12 medium-2 columns">
       <ul>
         <li><b>Connect</b></li>
-        <!-- <li><a href="/contact/">Contact Us</a></li> -->
         <li>
           <div class="usa-social-links">
             <a href="https://www.facebook.com/VeteransAffairs">
@@ -107,18 +106,11 @@
   </div>
 </div>
 
-
 <script>
 
-// Include the UserVoice JavaScript SDK (only needed once on a page)
 UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/NDkEKHU7ZuU64RQKkUL9Q.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
 
-//
-// UserVoice Javascript SDK developer documentation:
-// https://www.uservoice.com/o/javascript-sdk
-//
 
-// Set colors
 UserVoice.push(['set', {
   accent_color: '#808283',
   trigger_color: '#0F3D73',
@@ -127,59 +119,19 @@ UserVoice.push(['set', {
   trigger_background_color: 'white'
 }]);
 
-// Identify the user and pass traits
-// To enable, replace sample data with actual user traits and uncomment the line
 UserVoice.push(['identify', {
-  //email:      'john.doe@example.com', // User’s email address
-  //name:       'John Doe', // User’s real name
-  //created_at: 1364406966, // Unix timestamp for the date the user signed up
-  //id:         123, // Optional: Unique id of the user (if set, this should not change)
-  //type:       'Owner', // Optional: segment your users by type
-  //account: {
-  //  id:           123, // Optional: associate multiple users with a single account
-  //  name:         'Acme, Co.', // Account name
-  //  created_at:   1364406966, // Unix timestamp for the date the account was created
-  //  monthly_rate: 9.99, // Decimal; monthly rate of the account
-  //  ltv:          1495.00, // Decimal; lifetime value of the account
-  //  plan:         'Enhanced' // Plan name for the account
-  //}
+
 }]);
 
 
-// Add default trigger to the bottom-right corner of the window:
 UserVoice.push(['addTrigger', {trigger_position: 'bottom-right', strings: {suggestion_category_label: 'General' },}]);
 
-// Or, use your own custom trigger:
-//UserVoice.push(['addTrigger', '#id']);
-
-// Autoprompt for Satisfaction and SmartVote (only displayed under certain conditions)
 UserVoice.push(['autoprompt', {}]);
 </script>
 
 <script src='/assets/js/vendor/jquery-accessible-simple-tooltip-aria.min.js'></script>
 <script src="/assets/js/vendor/classie.js"></script>
 <script src="/assets/js/vendor/menu.js"></script>
-
-<!--<script>
-     // manually trigger the tooltip so that it works on mobile
-     $('.helpTooltip').tipsy({trigger: 'manual'});
-     var visible = false;
-     function hideTooltip() {
-       $('.helpTooltip').tipsy("hide");
-       visible = false;
-     }
-     function showTooltip() {
-       $('.helpTooltip').tipsy("show");
-       visible = true;
-     }
-     $('.helpTooltip').hover(showTooltip, hideTooltip);
-     $('.helpTooltip').click(function() {
-       visible ? hideTooltip() : showTooltip();
-       return false;
-     });
-     $(document).click(hideTooltip)
-     $(document).bind("touchstart", hideTooltip);
-</script>-->
 
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
