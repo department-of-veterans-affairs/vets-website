@@ -1,5 +1,5 @@
 ---
-title: Education Application Process - Regional Office
+title: Regional Offices
 concurrence: incomplete
 ---
 
@@ -13,7 +13,7 @@ concurrence: incomplete
 
 If you need assistance with GI Bill claims, contact your VA Regional Processing Office (RPO). VA has four RPOs in the United States to help you with your claims, all of which correspond to regional jurisdictions. Here are the locations:
 
-***Atlanta, Georgia***
+**Atlanta, Georgia**
 P.O. Box 100022
 Decatur, GA
 30031-7022
@@ -21,7 +21,7 @@ Decatur, GA
 Atlanta RPO Jurisdiction:
 Georgia, North Carolina, Puerto Rico, U.S. Virgin Islands
 
-***Buffalo, New York***
+**Buffalo, New York**
 P.O. Box 4616
 Buffalo, NY
 14240-4616
@@ -29,7 +29,7 @@ Buffalo, NY
 Buffalo RPO Jurisdiction:
 Connecticut, Delaware, District of Columbia, Maine, Maryland, Massachusetts, New Hampshire, New Jersey, New York, Pennsylvania, Rhode Island, Vermont, Virginia, foreign schools
 
-***Muskogee, Oklahoma***
+**Muskogee, Oklahoma**
 P.O. Box 8888
 Muskogee, OK
 74402-8888
@@ -37,7 +37,7 @@ Muskogee, OK
 Muskogee RPO Jurisdiction:
 Alabama, Alaska, Arizona, Arkansas, California, Florida, Hawaii, Idaho, Louisiana, Mississippi, New Mexico, Nevada, Oklahoma, South Carolina, Texas, Utah, Washington, Trust Territories/Philippines
 
-***St. Louis, Missouri***
+**St. Louis, Missouri**
 P.O. Box 66830
 St. Louis, MO
 63166-6830
