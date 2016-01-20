@@ -29,7 +29,7 @@ Over time, we’ll also be offering services that make all of your online intera
 
 Do you like the simplified, streamlined content? Is it easy to find what you’re seeking? If not, where is it confusing? Our process building vets.gov will be one of constant refinement and improvement.  Your feedback will guide and shape everything we do. That’s as it should be. This site isn’t about us – it’s about you.
 
-Please take the time to let us know what you think.
+[Please take the time to let us know what you think.](https://veterans.uservoice.com/)
 
 With thanks and excitement,
 
