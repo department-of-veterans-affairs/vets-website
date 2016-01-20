@@ -19,29 +19,12 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-<div markdown="1">If you are a Reservist who has been ordered to active duty in response to war or national emergency, you may be eligible for additional education benefits using the Reserve Educational Assistance Program (REAP).
+<div markdown="1">[REAP ended](http://www.benefits.va.gov/gibill/reap.asp) on November 25, 2015, but under the National Defense Authorization Act of 2016, some REAP benefits will remain in place for three more years. The [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) has replaced REAP, providing educational assistance benefits for Reserve and National Guard members called to active duty on or after September 11, 2001.
+
+If you applied for REAP on or after November 25, 2015, your application will be reviewed and appropriate benefits will be applied, including the Post-9/11 GI Bill. If you would like to discontinue using REAP and use the Post-9/11 GI Bill instead, call 1-888-GIBILL-1 (1-888-442-4551).
+
 </div>
-<div class="call-out" markdown="1">
-### Are you eligible for benefits?
 
-Yes, if:
-
-- You are a Reservist activated for 90 days or more after September 11, 2001.
-- The activation was due to war or national emergency, as declared by the President of the United States or the United States Congress.
-
-### Who is covered
-You and your dependents
-</div>
-<div markdown="1">
-#### How it works
-Under REAP, you may be able to receive assistance with some or all of your tuition and fees for college courses, certificate programs, and vocational training.
-
-The amount of your benefit depends on your active-service time. See the [current benefit rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1607). You may get additional monthly benefits if you participate in the [Buy-Up program](/education/gi-bill/buy-up-program/).
-
-#### Learn more
-Read the [REAP pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch1607_pamphlet.pdf).
-</div>
-</div>
 </div>
 </div>
 </div>
