@@ -57,7 +57,7 @@ If you have a disease that is not on this list but you believe it is a result of
   <li>
     <dl class="panel-list">
       <dt>C-123 Airplanes</dt>
-      <dd>Dates: January 9, 1962 and May 7, 1975</dd>
+      <dd>Dates: Between January 9, 1962, and May 7, 1975</dd>
       <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/c-123/">Learn more <span class="sr-only">about C-123- Airplanes and Agent Orange</span></a></dd>
     </dl>
 
@@ -69,7 +69,7 @@ If you have a disease that is not on this list but you believe it is a result of
 
     <dl class="panel-list">
       <dt>Thailand Military Bases</dt>
-      <dd>Dates: January 9, 1962 and May 7, 1975</dd>
+      <dd>Dates: Between January 9, 1962, and May 7, 1975</dd>
       <dd>
         <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/thailand-military-bases/">Learn more <span class="sr-only">about Thailand Military Bases and Agent Orange</span></a>
       </dd>
@@ -81,7 +81,7 @@ If you have a disease that is not on this list but you believe it is a result of
 
     <dl class="panel-list">
       <dt>Service in Vietnam or Korea</dt>
-      <dd>Dates: January 9, 1962 and May 7, 1975</dd>
+      <dd>Dates: Between January 9, 1962, and May 7, 1975</dd>
       <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-inside/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
     </dl>
 
@@ -91,7 +91,7 @@ If you have a disease that is not on this list but you believe it is a result of
 
     <dl class="panel-list">
       <dt>Service Outside of Vietnam or Korea</dt>
-      <dd>Dates: January 9, 1962 and May 7, 1975</dd>
+      <dd>Dates: Between January 9, 1962, and May 7, 1975</dd>
       <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/service-outside/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
     </dl>
 
@@ -101,7 +101,7 @@ If you have a disease that is not on this list but you believe it is a result of
 
     <dl class="panel-list">
       <dt>Test and Storage Areas Outside of Vietnam</dt>
-      <dd>Dates: 1944-19XX</dd>
+      <dd>Dates: 1944–19XX</dd>
       <dd><a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/">Learn more <span class="sr-only">about test and Storage Areas Outside of Vietnam and Agent Orange</span></a></dd>
     </dl>
 
@@ -111,7 +111,7 @@ If you have a disease that is not on this list but you believe it is a result of
 
     <dl class="panel-list">
       <dt>U.S. Navy and Coast Guard Ships in Vietnam</dt>
-      <dd>Dates: January 9, 1962 and May 7, 1975</dd>
+      <dd>Dates: Between January 9, 1962, and May 7, 1975</dd>
       <dd>
         <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/navy-coast-guard/">Learn more <span class="sr-only">about U.S. Navy and Coast Guard Ships in Vietnam and Agent Orange</span></a>
       </dd>
@@ -123,7 +123,7 @@ If you have a disease that is not on this list but you believe it is a result of
 
   <dl class="panel-list">
     <dt>Waters in the Vicinity of Vietnam</dt>
-    <dd>Dates: January 9, 1962 and May 7, 1975</dd>
+    <dd>Dates: Between January 9, 1962, and May 7, 1975</dd>
     <dd>
       <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/water-vietnam/">Learn more <span class="sr-only">about waters in the Vicinity of Vietnam</span></a>
     </dd>
