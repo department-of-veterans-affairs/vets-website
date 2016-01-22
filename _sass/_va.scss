@@ -190,7 +190,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   span, h2 {
     padding: 0;
     display: inline;
-    line-height: 1.3em;
+    line-height: 1.15em;
     margin: .5em 0 0 0;
       white-space: pre-wrap;
     color: #333;
@@ -363,7 +363,7 @@ h5 {font-size: 1.25em; font-weight: normal;}
 
 #content .main.interior {
   background: #fff;
-  a {text-decoration: underline;}
+  a {text-decoration: underline; font-weight: bold !important;}
 }
 
 // Home page specific
@@ -583,9 +583,9 @@ text-align: left;
   li {
   text-transform: none;
   margin: .25em 0;
-  padding: .1em;
+  padding: .05em;
   display: inline-block;
-  line-height: 1.15em;
+  line-height: 1em;
   height: auto;
   vertical-align: middle;
   font-size: .85em;
@@ -1017,7 +1017,12 @@ body.page-playbook {
     h2 {
       &.tagline {padding: 0;}
       padding: 0; margin: 0 0 2em 0; background: none; color: $color-primary-darkest;
-      a {text-decoration: none; margin: 0; color: $color-primary-darkest; background: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
+      a {
+        text-decoration: none;
+        margin: 0;
+        color: $color-primary-darkest;
+        background: none;
+        border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
       @media #{$medium} {position: fixed; margin: .75em 0 0 0;}
     }
   }
@@ -1453,15 +1458,6 @@ a {color: #fff; background: none;}
 .message {
   font-size:.95rem;
   font-weight: 700;
-  span {
-    background: url(../images/design/icons/wrench.png) center left no-repeat;
-    background-position: 0 4px;
-    background-repeat: no-repeat;
-    background-size: 16px 14px;
-    display:inline-block;
-    padding-left: 1.5em;
-
-  }
   p {
     font-size: .9rem;
     font-weight: 300;
