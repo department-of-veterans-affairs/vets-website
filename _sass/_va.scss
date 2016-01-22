@@ -1,4 +1,4 @@
-// vets.gov
+// Vets.gov
 
 // Skip link
 
@@ -37,6 +37,7 @@ html, body {
   font-family: $font-sans;
   font-weight: 500;
   color: $color-gray-dark;
+  background: $color-primary-darkest;
 }
 
 body, body.home {
@@ -118,11 +119,13 @@ a {
 }
 
 h1 {
+  color: #fff;
   a {
     text-indent: 180%;
     white-space: nowrap;
     overflow: hidden;
     display: block;
+    color: #fff;
     background: $color-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
     width: 180px;
     height: 30px;
@@ -136,7 +139,7 @@ h1 {
     height: 50px;
     background-size: contain;
     &:hover {
-      background: url(../images/design/logo/logo-hover.png) top left no-repeat;
+      background: $color-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat;
       background-size: contain;
     }
   }
@@ -190,7 +193,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   span, h2 {
     padding: 0;
     display: inline;
-    line-height: 1.15em;
+    line-height: 1.3em;
     margin: .5em 0 0 0;
       white-space: pre-wrap;
     color: #333;
@@ -363,7 +366,7 @@ h5 {font-size: 1.25em; font-weight: normal;}
 
 #content .main.interior {
   background: #fff;
-  a {text-decoration: underline; font-weight: bold !important;}
+  a {text-decoration: underline;}
 }
 
 // Home page specific
@@ -473,7 +476,7 @@ h5 {font-size: 1.25em; font-weight: normal;}
 }
 
 #content .section.secondary {
-background: transparent;
+background: rgba(255,255,255,.85);
 }
 
 #content .section.tertiary {
@@ -583,9 +586,9 @@ text-align: left;
   li {
   text-transform: none;
   margin: .25em 0;
-  padding: .05em;
+  padding: .1em;
   display: inline-block;
-  line-height: 1em;
+  line-height: 1.15em;
   height: auto;
   vertical-align: middle;
   font-size: .85em;
@@ -925,6 +928,10 @@ li {
     color: $color-primary-darkest;
   }
 
+  p {
+    font-size: .9em;
+  }
+
   div {
     padding: .75em;
     margin: 0 0 .5em 0;
@@ -947,7 +954,7 @@ li {
 // Blog / Playbook
 
 body.index, body.post-single, body.page-playbook {
-background: #fff url(../images/design/background/thread.png) top left no-repeat;
+background:#fff url(../images/design/background/thread.png) top left no-repeat;
 background-size: contain;
 
 h1 a {
@@ -979,7 +986,7 @@ h1 a {
     }
   }
   .main {
-    background: transparent;
+    background: white;
   }
 
 }
@@ -1017,12 +1024,7 @@ body.page-playbook {
     h2 {
       &.tagline {padding: 0;}
       padding: 0; margin: 0 0 2em 0; background: none; color: $color-primary-darkest;
-      a {
-        text-decoration: none;
-        margin: 0;
-        color: $color-primary-darkest;
-        background: none;
-        border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
+      a {text-decoration: none; margin: 0; color: $color-primary-darkest; background: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
       @media #{$medium} {position: fixed; margin: .75em 0 0 0;}
     }
   }
@@ -1124,17 +1126,46 @@ body.page-playbook {
     text-align: right;
   }
 
-    .small-block-grid-1 {
-      li {padding: 0; margin: 0;}
+  dl {
+    margin: 2em 0 0 0;
+    @media #{$small} {
+      margin: 2em 0 1.5em 0;
     }
+  }
+
+  dt {
+  font-weight: 700;
+  display: block;
+  font-size: .95em;
+  padding: 0 0 1em 0;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  }
+
+  dd {
+    display: block;
+    margin: 0;
+    padding: 0;
+  }
+
+  dd {padding: .25em 0;}
 
   a.usa-button {text-decoration: none; margin-bottom: 1em;}
 
-  .usa-social-links a {
+  .usa-social-links {
+    dd {
+      display: inline-block;
+      margin: 0 1em 0 0;
+    }
+    a {
     border-bottom: none;
+    float: left;
+    margin: 0;
+    padding: 0;
     display: inline-block;
     &:hover {
       border-bottom: none;
+      }
     }
   }
 
@@ -1148,75 +1179,47 @@ body.page-playbook {
       margin: 1.5em 0 2em 0;
     }
   }
-  padding: 0;
   li, p, a {
     color: #fff;
     font-size: 1em;
   }
 
-a {
-  text-decoration: underline;
-  display: block;
-  background: none;
-  font-weight: 400;
-  @media #{$small} {display: inline-block; margin: .25em 0;}
-  &:hover {color: $color-gold;}
-  &.contact, &.blog {
-    padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $secondary-color;
-    @media #{$small} {margin: 1.5em auto; display: inline-block;}
-    &:hover, &:focus, &:active {
-      background: $secondary-color; color: #fff;
+  a {
+    text-decoration: underline;
+    display: block;
+    background: none;
+    font-weight: 400;
+    @media #{$small} {display: inline-block; margin: .25em 0;}
+    &:hover {color: $color-gold;}
+    &.contact, &.blog {
+      padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $secondary-color;
+      @media #{$small} {margin: 1.5em auto; display: inline-block;}
+      &:hover, &:focus, &:active {
+        background: $secondary-color; color: #fff;
+      }
     }
+
+    &.contact {
+      @media #{$small} {margin: 0 0 0 1em;}
+    }
+    &.blog {border: none; &:hover {background: none; color: $color-primary-alt;}}
   }
 
-  &.contact {
-    @media #{$small} {margin: 0 0 0 1em;}
+  .footer-logo a {
+    display: none;
+    @media #{$medium} {padding: 0; display: block;}
+    @media #{$medium} {background:url(../images/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
   }
-  &.blog {border: none; &:hover {background: none; color: $color-primary-alt;}}
-}
-.footer-logo a {
-  display: none;
-  @media #{$medium} {padding: 0; display: block;}
-  @media #{$medium} {background:url(../images/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
-}
 
-.newsletter {
-  label {
-    color:#fff;
-    font-size:1.15rem;
-    font-family: 'Roboto Slab', Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    margin:.3em 0 .5em;
+  .footer-seal {
+    background:url(../images/design/sprites/sprite.png)  no-repeat 0 -23px;
+    background-size: 215px 72px;
+	  width: 215px;
+	  height: 49px;
+    text-indent: -999em;
+    overflow: hidden;
   }
-  input {
-    font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-    font-weight: 400;
-  }
-}
-.footer-address {
-  background: rgba(0,0,0,.055);
-}
-.footer-seal {
-        background:url(../images/design/seal/seal-footer.png) no-repeat;
-        text-indent:-325px;
-        overflow: hidden;
 
-      @media #{$small-up} {
-        background-size:50px;
-        // background-position: 4% 15%;
-      }
-      @media #{$small-up} {
-        background-size: 206px;
-        background-position: center 14px;
-        padding: 1.75em 0 1.5em;
-      }
-
-      @media #{$large-up} {
-        background-size: 206px;
-        background-position: 0 14px;
-        padding: 1.75em 0;
-      }
-}
 .footer-crisis {
   background:$color-gold;
   margin: 1.625rem 0;
@@ -1288,50 +1291,9 @@ li {
   list-style: none;
   padding: .5em 0;
   font-weight: 300;
-  font-size: .95em;
   @media #{$small}
   {} margin: 0 auto; text-align: left; display: block;}
   padding: 2em 0 0 0;
-  dl.vcard {
-    padding: 1.2em 0 0 0;
-    margin: 0;
-    @media #{$small} {padding: 1.625rem 0.75rem;}
-    display: block;
-    background-size: 50px;
-    text-align: center;
-    @media #{$small} {text-align: left;}
-    border: none;
-    font-size: .85em;
-    color: #fff;
-    @media #{$small-up} {
-      margin: 0 0 0 11%;
-    }
-    @media #{$medium-only} {
-      margin:4% 0 0 11%;
-    }
-  }
-  dd, dt {
-    padding: 0; margin: 0; text-align: center;
-    @media #{$small} {
-      &:after {
-        content: " | ";
-      }
-
-      &:last-of-type:after {
-        content: "";
-      }
-    }
-    @media #{$small} {display: inline;}
-  }
-  .fn {
-    font-size: 1em;
-    @media #{$small-only} {
-      font-size: .9em;
-
-    }
-  }
-  dd.locality, dd.postal-code {display: inline;}
-  dt {@media #{$small} {text-align: left;}}
 
   .post-script {
     font-size: .85em;
@@ -1358,6 +1320,28 @@ li {
   }
 }
 
+// Footer icon sprite
+
+
+a.facebook {
+	background: url('../images/design/sprites/sprite.png') no-repeat -22px 0;
+  background-size: 215px 72px;
+  width: 17px;
+  height: 17px;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+a.twitter {
+	background: url('../images/design/sprites/sprite.png') no-repeat 0 0;
+  background-size: 215px 72px;
+	width: 20px;
+	height: 16px;
+  text-indent: -999em;
+  overflow: hidden;
+}
+
+
 .primary blockquote {
   margin: 0 0 1em 0;
   padding: 0 0 0 1em;
@@ -1370,29 +1354,7 @@ li {
 .footer .content {
   @media #{$small} {padding: 2em 0 0 0;}
   margin: 0;
-}
 
-.footer li b {font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;}
-
-// Newsletter
-
-.icon {
-display: inline-block;
-width: 1.75em;
-height: 1.75em;
-margin: 0 0 1em 0;
-fill: $color-primary-darkest;
-}
-
-.glyph {
-font-size: 16px;
-width: 17em;
-margin-right: 1.5em;
-float: left;
-overflow: hidden;
-}
-svg {
-color: #444444;
 }
 
 // Alerts
@@ -1458,6 +1420,15 @@ a {color: #fff; background: none;}
 .message {
   font-size:.95rem;
   font-weight: 700;
+  span {
+    background: url(../images/design/icons/wrench.png) center left no-repeat;
+    background-position: 0 4px;
+    background-repeat: no-repeat;
+    background-size: 16px 14px;
+    display:inline-block;
+    padding-left: 1.5em;
+
+  }
   p {
     font-size: .9rem;
     font-weight: 300;
@@ -1681,6 +1652,14 @@ span {
 
 #playbook {
 h2 {background: none; font-size: 2.5em;}
+/*a {text-decoration: none; background: none;}*/
+
+.card a {
+  border-bottom: 2px solid $secondary-color;
+  display: inline-block;
+  background: rgba(0,0,0,.03);
+  &:hover {background: rgba(0,0,0,.1);}
+}
 }
 
 // Dividers
