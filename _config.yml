@@ -17,7 +17,7 @@ exclude:
   - npm-debug.log
 
 #posts per page
-paginate: 2
+paginate: 4
 paginate_path: "/experience/:num/"
 
 excerpt_separator: <!--more-->

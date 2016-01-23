@@ -37,7 +37,6 @@ html, body {
   font-family: $font-sans;
   font-weight: 500;
   color: $color-gray-dark;
-  background: $color-primary-darkest;
 }
 
 body, body.home {
@@ -1058,9 +1057,8 @@ body.page-playbook {
   .post {
     a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #444; line-height: 1.65em;}
     a {
-      text-decoration: none;
-      border-bottom: 1px solid $color-gold;
-      &:hover {border-bottom: 1px solid $secondary-color;}
+      text-decoration: underline;
+      font-weight: bold;
     }
 
     .page-number {
@@ -1077,13 +1075,11 @@ body.page-playbook {
       background: none;
       padding: 0;
       font-size: 1.35em;
-      margin: 0 0 .5em 0;
+      margin: 0;
       display: block;
       a.title {
-        font-size: 1.65rem;
-        border: 2px solid $secondary-color;
-        padding: .75em;
-        color: $color-primary-darkest;
+        font-size: 2rem;
+        color: $color-primary-darker;
         background: none;
         display: block;
         text-decoration: none;
@@ -1093,7 +1089,6 @@ body.page-playbook {
           -o-transition: all 0.3s ease-in-out;
           -ms-transition: all 0.3s ease-in-out;
           transition: all 0.3s ease-in-out;
-          border: 2px solid $secondary-color;
         }
       }
     }
