@@ -30,12 +30,12 @@ Yes, if:
 - You are enrolled at least three-quarter time at an institution of higher learning.
 - You are using one of the following VA education benefits:
 
-  - Post-9/11 GI Bill ([Veterans](http://www.benefits.va.gov/gibill/post911_gibill.asp) and [transfer-of-entitlement recipients](http://www.benefits.va.gov/gibill/post911_transfer.asp))
-  - Montgomery GI Bill ([Active Duty](http://www.benefits.va.gov/gibill/mgib_ad.asp) and [Selected Reserve](http://www.benefits.va.gov/gibill/mgib_sr.asp))
-  - [Reserve Educational Assistance Program](http://www.benefits.va.gov/gibill/reap.asp)
-  - [Veterans' Educational Assistance Program](http://www.benefits.va.gov/gibill/veap.asp)
-  - [Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (**Note:** Eligible dependents under 38 U.S.C. Chapter 35 may use work study only while enrolled at an educational institution in one of the 50 states.)
-  - [National Call to Service](http://www.benefits.va.gov/gibill/national_call_to_service.asp)
+  - Post-9/11 GI Bill ([Veterans](/education/gi-bill/post-9-11/) and [transfer-of-entitlement recipients](/education/gi-bill/transfer/))
+  - Montgomery GI Bill ([Active Duty](/education/gi-bill/montgomery-active-duty/) and [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/))
+  - [Reserve Educational Assistance Program](/education/legacy-programs/reap/)
+  - [Veterans' Educational Assistance Program](/education/legacy-programs/veap/)
+  - [Survivors’ and Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (**Note:** Eligible dependents under 38 U.S.C. Chapter 35 may use work study only while enrolled at an educational institution in one of the 50 states.)
+  - [National Call to Service](/education/legacy-programs/call-to-service/)
   - [Vocational Rehabilitation and Employment program](http://www.benefits.va.gov/vocrehab/index.asp)
 - You are able to complete the work-study contract before the end of your eligibility for education benefits.
 - There is a position available within your normal commuting distance.
