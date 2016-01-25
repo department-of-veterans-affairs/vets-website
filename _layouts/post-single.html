@@ -1,12 +1,12 @@
 {% include header.html %}
 <div id="content">
-  <div id="experience" class="{{ page.id }}" role="main">
+  <div id="experience" class="{{ page.title }}" role="main">
     <div class="splash">
       <h2><a href="/experience/">Experience</a></h2>
     </div>
     <div class="primary">
       <div class="row">
-        <div class="small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns">
+        <div class="main">
           <div class="post">
             <h3 class="title">{{ page.title }}</h3>
             <div class="post-author">{{ page.author }}</div>
@@ -31,5 +31,4 @@
     </div>
   </div>
 </div>
-
 {% include footer.html %}

@@ -91,6 +91,12 @@ a {
   }
 }
 
+// Figure / Caption
+
+figcaption {
+  color: $color-primary-darker;
+}
+
 // Interior rows
 
 #content.interior .row {
@@ -998,6 +1004,16 @@ h1 a {
 
 }
 
+// posts
+
+#experience.Designing .splash {
+    padding: 4em 0;
+    @media #{$small} {padding: 8em 0;}
+    background: url(../images/content/posts/utah.jpg) top center no-repeat;
+    background-size: cover;
+    margin-bottom: 1em;
+}
+
 .post-date, .post-author {color: #444;}
 
 .post-date {
@@ -1019,8 +1035,40 @@ span.next {
   h2 {
     &.tagline {padding: 0;}
     padding: 0; margin: 0 0 2em 0; background: none; color: $color-primary-darkest;
-    a {text-decoration: none; margin: 0; color: $color-primary-darkest; background: $color-gold; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
+    a {text-decoration: none; margin: 0; color: $color-primary-darkest; background: $color-gold; border-bottom: none; padding: .5em .25em; &:hover {padding: .5em .65em;}}
     @media #{$medium} {position: fixed; margin: 1.35em 0 0 0; z-index: 100;}
+  }
+}
+
+// small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns
+
+#experience {
+
+  .main {
+    @extend .small-12;
+    @extend .small-centered;
+    @extend .medium-8;
+    @extend .medium-offset-4;
+    @extend .large-offset-2;
+    @extend .columns;
+  }
+  .post img {
+    width: 100%;
+  }
+}
+
+figure {
+  font-size: .85em;
+  margin-left: -$column-gutter/2;
+  margin-right: -$column-gutter/2;
+  @media #{$small} {
+    margin-left: inherit;
+    margin-right: inherit;
+  }
+
+  @media #{$large} {
+      margin-left: -16.66667%;
+      margin-right: -16.66667%;
   }
 }
 
@@ -1037,13 +1085,22 @@ span.next {
   margin: 2em 0 0 0;
   h6 {line-height: 1.2em; margin: 0; padding: 0; font-size: 1.15em;}
   ul.plain.posts {
-    margin: 0; padding: 0;
+    margin: 1em 0; padding: 0;
     li {
+      list-style-type: none;
       margin: 0;
       padding: 0;
+      border-bottom: 1px solid rgba(0,0,0,.1);
+      &:last-of-type{border-bottom: none;}
       a {
-        padding: 0; margin: 0;
-        .post-title {color: $color-primary-darkest; font-size: 1em; margin: 0; padding: 0;}
+        padding: .5em .2em; margin: 0; text-decoration: none;
+        display: block;
+        &:hover {
+          background: rgba(0,0,0,.08);
+          border-left: 4px solid $color-primary;
+          padding-left: .5em;
+        }
+        .post-title {color: $color-primary-darker; font-size: 1em; font-weight: bold; margin: 0; padding: 0;}
         .post-date {color: #444; margin: 0; padding: 0 0 1em 0;}
       }
     }
@@ -1070,16 +1127,15 @@ span.next {
     text-decoration: none;
     background: none;
     padding: 0;
-    font-size: 2em;
+    font-size: 1.5em;
+    @media #{$small} {font-size: 2em;}
     margin: 0;
     display: block;
     &.title {
-      font-size: 2.75rem;
       color: $color-primary-darker;
       background: none;
       display: block;
-      text-decoration: none;
-      a {}
+      a {text-decoration: none;}
     }
   }
 }
