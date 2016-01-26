@@ -17,32 +17,8 @@ template: 1-topic-landing
 {% else %}
 
 <script src="/assets/js/vendor/jquery.serializeObject.min.js"></script>
-<script>
-  var xmlFieldMap = [
-    { "input" : "veteran[last_name]", "node" : "VetNameLast" },
-    { "input" : "veteran[first_name]", "node" : "VetNameFirst" },
-    { "input" : null, "node" : "VetNamePrefix" },
-    { "input" : "veteran[suffix_name]", "node" : "VetNameSuffix" },
-    { "input" : "veteran[middle_name]", "node" : "VetNameMiddle" }
-  ];
+<script src="form.js"></script>
 
-  function build1010ezXml() {
-    var formData = $(".name-and-general-information").find(":input").serializeObject();
-    var xmlDoc = document.implementation.createDocument(null, "form1");
-
-    for (var i = 0; i < xmlFieldMap.length; i++) {
-      var entry = xmlFieldMap[i];
-      var element = xmlDoc.createElement(entry["node"]);
-      if (entry["input"] != null) {
-        element.appendChild(xmlDoc.createTextNode(formData[entry["input"]]));
-      }
-      xmlDoc.firstChild.appendChild(element);
-    }
-    window.xmlDoc = xmlDoc;
-    var serializer = new XMLSerializer();
-    window.xmlDocStr = serializer.serializeToString(xmlDoc);
-  }
-</script>
 
 <!-- TODO(awong): Remove inline CSS. #1002 -->
 <style>
@@ -105,50 +81,52 @@ template: 1-topic-landing
       </div>
       <div class="small-9 columns">
         <div class="tabs-content">
-          <div role="tabpanel" class="content active" id="introduction" aria-hidden="false">
-            <div class="row">
-              <div class="small-12 columns">
-                {% include_relative _introduction.html %}
+          <form class="main-form">
+            <div role="tabpanel" class="content active" id="introduction" aria-hidden="false">
+              <div class="row">
+                <div class="small-12 columns">
+                  {% include_relative _introduction.html %}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div role="tabpanel" class="content" id="personal_information" aria-hidden="true">
-            <div class="row">
-              <div class="small-12 columns">
-                {% include_relative _personal_information/_personal_information.html %}
+            <div role="tabpanel" class="content" id="personal_information" aria-hidden="true">
+              <div class="row">
+                <div class="small-12 columns">
+                  {% include_relative _personal_information/_personal_information.html %}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div role="tabpanel" class="content" id="insurance_information" aria-hidden="true">
-            <div class="row">
-              <div class="small-12 columns">
-                {% include_relative _insurance_information/_insurance_information.html %}
+            <div role="tabpanel" class="content" id="insurance_information" aria-hidden="true">
+              <div class="row">
+                <div class="small-12 columns">
+                  {% include_relative _insurance_information/_insurance_information.html %}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div role="tabpanel" class="content" id="military_service" aria-hidden="true">
-            <div class="row">
-              <div class="small-12 columns">
-                {% include_relative _military_service/_military_service.html %}
+            <div role="tabpanel" class="content" id="military_service" aria-hidden="true">
+              <div class="row">
+                <div class="small-12 columns">
+                  {% include_relative _military_service/_military_service.html %}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div role="tabpanel" class="content" id="financial_assessment" aria-hidden="true">
-            <div class="row">
-              <div class="small-12 columns">
-                {% include_relative _financial_assessment/_financial_assessment.html %}
+            <div role="tabpanel" class="content" id="financial_assessment" aria-hidden="true">
+              <div class="row">
+                <div class="small-12 columns">
+                  {% include_relative _financial_assessment/_financial_assessment.html %}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div role="tabpanel" class="content" id="review_and_submit" aria-hidden="true">
-            <div class="row">
-              <div class="small-12 columns">
-                {% include_relative _review_and_submit.html %}
+            <div role="tabpanel" class="content" id="review_and_submit" aria-hidden="true">
+              <div class="row">
+                <div class="small-12 columns">
+                  {% include_relative _review_and_submit.html %}
+                </div>
               </div>
             </div>
           </div>
