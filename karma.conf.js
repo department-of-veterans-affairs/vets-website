@@ -14,7 +14,8 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'spec/javascripts/**/*.spec.js',
-      { pattern: 'spec/fixtures/javascripts/**/*', watched: false, included: false, served: true, nocache: false }
+      '_health-care/_js/*.js',
+      { pattern: 'spec/fixtures/javascripts/**/*', watched: false, included: false, served: true, nocache: true }
     ],
 
 
