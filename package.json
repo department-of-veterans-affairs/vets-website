@@ -5,6 +5,7 @@
     "karma": ">= 0.13.0",
     "karma-chrome-launcher": "^0.2.2",
     "karma-jasmine": ">= 0.1.0",
+    "karma-jasmine-jquery": "^0.1.1",
     "karma-phantomjs-launcher": "^0.2.2",
     "phantomjs": "^1.9.19"
   },

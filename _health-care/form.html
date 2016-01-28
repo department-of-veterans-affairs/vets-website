@@ -16,8 +16,17 @@ template: 1-topic-landing
 </div>
 {% else %}
 
-<script src="/assets/js/vendor/jquery.serializeObject.min.js"></script>
-<script src="form.js"></script>
+<!-- TODO(awong): Properly serve up the JS. Right now using jekyl includes
+     to ensure nothing leaks to production. -->
+<script>
+  {% include_relative _js/_jquery.serializeObject.min.js %}
+</script>
+<script>
+  {% include_relative _js/_jquery.deserialize.min.js %}
+</script>
+<script>
+  {% include_relative _js/_form.js %}
+</script>
 
 
 <!-- TODO(awong): Remove inline CSS. #1002 -->
