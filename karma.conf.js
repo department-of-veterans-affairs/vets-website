@@ -9,7 +9,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai-jquery', 'chai-as-promised', 'jquery-1.8.3', 'chai', 'fixture'],
+    frameworks: ['jasmine-jquery', 'jasmine', 'jquery-1.8.3'],
 
     // list of files / patterns to load in the browser
     files: [
@@ -28,7 +28,6 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
     },
-
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -61,6 +60,10 @@ module.exports = function(config) {
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false,
+
+    proxies: {
+      '/assets/': '/base/_site/assets'
+    },
 
     // Concurrency level
     // how many browser should be started simultaneous

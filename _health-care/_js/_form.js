@@ -334,8 +334,7 @@ var HealthApp = (function() {
       xmlDoc.firstChild.appendChild(element);
     }
 
-    var serializer = new XMLSerializer();
-    return serializer.serializeToString(xmlDoc);
+    return xmlDoc;
   }
 
   return {
