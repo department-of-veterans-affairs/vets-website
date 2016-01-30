@@ -1,7 +1,7 @@
 var HealthApp = (function() {
   "use strict";
 
-  var identityTransform = function(formData, arg) { return arg; }
+  var identityTransform = function(formData, arg) { return arg; };
   var extractTransform = function(formData, arg) { return formData[arg]; };
 
   var xmlFieldMap = [
@@ -335,14 +335,14 @@ var HealthApp = (function() {
     }
 
     return xmlDoc;
-  }
+  };
 
   return {
     xmlFieldMap: xmlFieldMap,
     getFormRoot: getFormRoot,
     saveForm: saveForm,
     build1010ezXml: build1010ezXml,
-    initForm: initForm,
+    initForm: initForm
   };
 }());
 $(document).ready(HealthApp.initForm);
