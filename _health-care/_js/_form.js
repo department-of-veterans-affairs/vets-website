@@ -286,7 +286,7 @@ var HealthApp = (function() {
   };
 
   var saveForm = function(formRoot, e) {
-    sessionStorage["voa_form"] = JSON.stringify($(formRoot).serializeArray());
+    sessionStorage.setItem("voa_form", JSON.stringify($(formRoot).serializeArray()));
   };
 
   var initForm = function() {
