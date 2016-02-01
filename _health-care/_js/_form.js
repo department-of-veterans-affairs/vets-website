@@ -297,6 +297,7 @@ var HealthApp = (function() {
     formRoot.addEventListener("submit",
         function (e) {
           e.preventDefault();
+          // TODO(awong): Remove this debugging logic when things work.
           console.log(build1010ezXml(formRoot));
         });
 
