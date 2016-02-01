@@ -42,6 +42,28 @@ module.exports = function(config) {
     // enable / disable colors in the output (reporters and logs)
     colors: true,
 
+    // Make Karma insert a Content-Security-Policy that disables all resource
+    // loads that don't original from the same origin. This enforces
+    // hermeticity in the test by terminating network loads if the page
+    // happens to have a reference to something like Google analytics.
+    // In PhantomJS, this is particularly critical because there will be no
+    // resource cache. Test times dropped from ~4s to ~1s with this.
+    customHeaders: [
+      {
+        match: '.*\.html',
+        name: 'Content-Security-Policy',
+        value: "default-src 'self' about:blank; script-src 'self' 'unsafe-inline'"
+      },
+      {
+        // Phantom-JS 1.8.x still uses the vendor prefix. Note this is a hack
+        // as the vendor-prefixed behavior diverges from spec and is buggy.
+        // However, for our current usage of best-effort reducing of external
+        // dependencies in a test, this is good enough.
+        match: '.*\.html',
+        name: 'X-WebKit-CSP',
+        value: "default-src 'self' about:blank; script-src 'self' 'unsafe-inline'"
+      }
+    ],
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
