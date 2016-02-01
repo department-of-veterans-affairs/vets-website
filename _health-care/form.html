@@ -15,6 +15,20 @@ template: 1-topic-landing
   </div>
 </div>
 {% else %}
+
+<!-- TODO(awong): Properly serve up the JS. Right now using jekyl includes
+     to ensure nothing leaks to production. -->
+<script>
+  {% include_relative _js/_jquery.serializeObject.min.js %}
+</script>
+<script>
+  {% include_relative _js/_jquery.deserialize.min.js %}
+</script>
+<script>
+  {% include_relative _js/_form.js %}
+</script>
+
+
 <!-- TODO(awong): Remove inline CSS. #1002 -->
 <style>
   .tabs.vertical {
@@ -76,53 +90,55 @@ template: 1-topic-landing
       </div>
       <div class="small-9 columns">
         <div class="tabs-content">
-          <div role="tabpanel" class="content active" id="introduction" aria-hidden="false">
-            <div class="row">
-              <div class="small-12 columns">
-                {% include_relative _introduction.html %}
+          <form class="main-form">
+            <div role="tabpanel" class="content active" id="introduction" aria-hidden="false">
+              <div class="row">
+                <div class="small-12 columns">
+                  {% include_relative _introduction.html %}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div role="tabpanel" class="content" id="personal_information" aria-hidden="true">
-            <div class="row">
-              <div class="small-12 columns">
-                {% include_relative _personal_information/_personal_information.html %}
+            <div role="tabpanel" class="content" id="personal_information" aria-hidden="true">
+              <div class="row">
+                <div class="small-12 columns">
+                  {% include_relative _personal_information/_personal_information.html %}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div role="tabpanel" class="content" id="insurance_information" aria-hidden="true">
-            <div class="row">
-              <div class="small-12 columns">
-                {% include_relative _insurance_information/_insurance_information.html %}
+            <div role="tabpanel" class="content" id="insurance_information" aria-hidden="true">
+              <div class="row">
+                <div class="small-12 columns">
+                  {% include_relative _insurance_information/_insurance_information.html %}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div role="tabpanel" class="content" id="military_service" aria-hidden="true">
-            <div class="row">
-              <div class="small-12 columns">
-                {% include_relative _military_service/_military_service.html %}
+            <div role="tabpanel" class="content" id="military_service" aria-hidden="true">
+              <div class="row">
+                <div class="small-12 columns">
+                  {% include_relative _military_service/_military_service.html %}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div role="tabpanel" class="content" id="financial_assessment" aria-hidden="true">
-            <div class="row">
-              <div class="small-12 columns">
-                {% include_relative _financial_assessment/_financial_assessment.html %}
+            <div role="tabpanel" class="content" id="financial_assessment" aria-hidden="true">
+              <div class="row">
+                <div class="small-12 columns">
+                  {% include_relative _financial_assessment/_financial_assessment.html %}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div role="tabpanel" class="content" id="review_and_submit" aria-hidden="true">
-            <div class="row">
-              <div class="small-12 columns">
-                {% include_relative _review_and_submit.html %}
+            <div role="tabpanel" class="content" id="review_and_submit" aria-hidden="true">
+              <div class="row">
+                <div class="small-12 columns">
+                  {% include_relative _review_and_submit.html %}
+                </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

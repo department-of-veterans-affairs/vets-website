@@ -1,11 +1,20 @@
 {
   "//": "Used by npm which is needed for our test runner Karma",
   "devDependencies": {
-    "jasmine-core": ">= 2.4.0",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^5.2.0",
+    "chai-jquery": "^2.0.0",
+    "chai-xml": "^0.3.1",
+    "jquery": "^2.2.0",
     "karma": ">= 0.13.0",
+    "karma-chai": "^0.1.0",
+    "karma-chai-as-promised": "^0.1.2",
+    "karma-chai-jquery": "^1.0.0",
     "karma-chrome-launcher": "^0.2.2",
-    "karma-jasmine": ">= 0.1.0",
+    "karma-jquery": "^0.1.0",
+    "karma-mocha": "^0.2.1",
     "karma-phantomjs-launcher": "^0.2.2",
+    "mocha": "^2.4.5",
     "phantomjs": "^1.9.19"
   },
   "private": true

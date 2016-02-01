@@ -7,16 +7,15 @@ module.exports = function(config) {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
-
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine'],
-
+    frameworks: ['mocha', 'chai-jquery', 'chai-as-promised', 'jquery-1.8.3', 'chai'],
 
     // list of files / patterns to load in the browser
     files: [
       'spec/javascripts/**/*.spec.js',
-      { pattern: 'spec/fixtures/javascripts/**/*', watched: false, included: false, served: true, nocache: false }
+      { pattern: '_site/**/*', watched: false, included: false, served: true, nocache: true },
+      { pattern: 'spec/fixtures/javascripts/**/*', watched: true, included: false, served: true, nocache: true }
     ],
 
 
@@ -29,7 +28,6 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
     },
-
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
@@ -44,6 +42,28 @@ module.exports = function(config) {
     // enable / disable colors in the output (reporters and logs)
     colors: true,
 
+    // Make Karma insert a Content-Security-Policy that disables all resource
+    // loads that don't original from the same origin. This enforces
+    // hermeticity in the test by terminating network loads if the page
+    // happens to have a reference to something like Google analytics.
+    // In PhantomJS, this is particularly critical because there will be no
+    // resource cache. Test times dropped from ~4s to ~1s with this.
+    customHeaders: [
+      {
+        match: '.*\.html',
+        name: 'Content-Security-Policy',
+        value: "default-src 'self' about:blank; script-src 'self' 'unsafe-inline'"
+      },
+      {
+        // Phantom-JS 1.8.x still uses the vendor prefix. Note this is a hack
+        // as the vendor-prefixed behavior diverges from spec and is buggy.
+        // However, for our current usage of best-effort reducing of external
+        // dependencies in a test, this is good enough.
+        match: '.*\.html',
+        name: 'X-WebKit-CSP',
+        value: "default-src 'self' about:blank; script-src 'self' 'unsafe-inline'"
+      }
+    ],
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
@@ -62,6 +82,10 @@ module.exports = function(config) {
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false,
+
+    proxies: {
+      '/assets/': '/base/_site/assets'
+    },
 
     // Concurrency level
     // how many browser should be started simultaneous
