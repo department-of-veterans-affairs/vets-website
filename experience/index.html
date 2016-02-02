@@ -15,7 +15,7 @@ title: Vets.gov Experience
         <div class="post">
           <!-- This loops through the paginated posts -->
           {% for post in paginator.posts %}
-            <h3><a class="title" href="{{ post.url }}">{{ post.title }}</a></h3>
+            <h3 class="title"><a href="{{ post.url }}">{{ post.title }}</a></h3>
             <div class="meta">
               <div class="post-author"><span class="sr-only">Author: </span>{{ post.author }}</div>
               <div class="post-date"><span class="sr-only">Post date: </span>{{ post.date | date: "%-d %B %Y" }}</div>

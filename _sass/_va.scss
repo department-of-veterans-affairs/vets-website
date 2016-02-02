@@ -33,11 +33,10 @@ $roboto-slab: 'Roboto Slab', serif;
 html, body {
   padding: 0;
   margin: 0;
-  font-size: 16px;
+  font-size: 17px;
   font-family: $font-sans;
   font-weight: 500;
   color: $color-gray-dark;
-  background: $color-primary-darkest;
 }
 
 body, body.home {
@@ -90,6 +89,18 @@ a {
   &:hover {
     color: $color-gray-dark;
   }
+}
+
+// Figure / Caption
+
+figcaption {
+  color: $color-primary-darker;
+}
+
+// Interior rows
+
+#content.interior .row {
+  max-width: 52em;
 }
 
 
@@ -224,6 +235,8 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   @media #{$small} {padding: .5em 0;}
   h2, h3 {color: $color-primary-darkest; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
 }
+
+#experience {background: #fff;}
 
 #experience .splash {padding: 0; margin: 0;}
 
@@ -953,7 +966,7 @@ li {
 
 // Blog / Playbook
 
-body.index, body.post-single, body.page-playbook {
+body.page-playbook {
 background:#fff url(../images/design/background/thread.png) top left no-repeat;
 background-size: contain;
 
@@ -991,21 +1004,32 @@ h1 a {
 
 }
 
-.post-date, .post-author {
-  color: #444;
+// posts
+
+#experience.Designing .splash {
+    padding: 4em 0;
+    @media #{$small} {padding: 6.1em 0;}
+    background: url(../images/content/posts/utah.jpg) top center no-repeat;
+    background-size: cover;
+    margin-bottom: 1em;
 }
+
+#experience.When .splash {
+    padding: 4em 0;
+    @media #{$small} {padding: 6.1em 0;}
+    background: url(../images/content/posts/exit.jpg) 50% 50% no-repeat;
+    background-size: cover;
+    margin-bottom: 1em;
+}
+
+.post-date, .post-author {color: #444;}
 
 .post-date {
   margin-bottom: 2.5em;
   font-size: .85em;
 }
 
-
-
-.blog-navigation {
-  padding: 2em 0;
-}
-
+.blog-navigation {padding: 2em 0;}
 
 span.next {
   float: right;
@@ -1013,106 +1037,117 @@ span.next {
 }
 
 
-body.posts,
-body.post-single,
-body.index,
-body.page-playbook {
-  .primary {padding: 0; margin: 0;}
-  .splash {
-    margin: 0;
-    @media #{$small} {margin: .5em 0 0 0;}
-    h2 {
-      &.tagline {padding: 0;}
-      padding: 0; margin: 0 0 2em 0; background: none; color: $color-primary-darkest;
-      a {text-decoration: none; margin: 0; color: $color-primary-darkest; background: none; border-bottom: none; padding: .5em .5em; &:hover {padding: .5em .65em;}}
-      @media #{$medium} {position: fixed; margin: .75em 0 0 0;}
-    }
+#experience .splash {
+  margin: 0;
+  @media #{$small} {margin: .5em 0 0 0; padding: 1em 0 0 0;}
+  h2 {
+    &.tagline {padding: 0;}
+    padding: 0; margin: 0 0 2em 0; background: none; color: $color-primary-darkest;
+    a {text-decoration: none; margin: 0; color: $color-primary-darkest; background: $color-gold; border-bottom: none; padding: .5em .25em; &:hover {padding: .5em .65em;}}
+    @media #{$medium} {position: fixed; margin: 1.35em 0 0 0; z-index: 100;}
   }
-
-  .post-preview {
-    border-bottom: 1px solid rgba(0,0,0,.2);
-    padding: 0 0 3em 0;
-    margin: 0 0 3em 0;
-    &:last-of-type{border-bottom: none;}
-  }
-
-  .related-posts {
-    border-top: 1px solid $color-gold;
-    padding: 2em 0 1em 0;
-    margin: 2em 0 0 0;
-    h6 {line-height: 1.2em; margin: 0; padding: 0; font-size: 1.15em;}
-    ul.plain.posts {
-      margin: 0; padding: 0;
-      li {
-        margin: 0;
-        padding: 0;
-        a {
-          padding: 0; margin: 0;
-          .post-title {color: $color-primary-darkest; font-size: 1em; margin: 0; padding: 0;}
-          .post-date {color: #444; margin: 0; padding: 0 0 1em 0;}
-        }
-      }
-    }
-  }
-
-  .post {
-    a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #444; line-height: 1.65em;}
-    a {
-      text-decoration: none;
-      border-bottom: 1px solid $color-gold;
-      &:hover {border-bottom: 1px solid $secondary-color;}
-    }
-
-    .page-number {
-      color: #444;
-    }
-
-    span.previous {
-      float: left;
-      display: inline-block;
-    }
-
-    h3 {
-      text-decoration: none;
-      background: none;
-      padding: 0;
-      font-size: 1.35em;
-      margin: 0 0 .5em 0;
-      display: block;
-      a.title {
-        font-size: 1.65rem;
-        border: 2px solid $secondary-color;
-        padding: .75em;
-        color: $color-primary-darkest;
-        background: none;
-        display: block;
-        text-decoration: none;
-        &:hover {
-          -webkit-transition: all 0.3s ease-in-out;
-          -moz-transition: all 0.3s ease-in-out;
-          -o-transition: all 0.3s ease-in-out;
-          -ms-transition: all 0.3s ease-in-out;
-          transition: all 0.3s ease-in-out;
-          border: 2px solid $secondary-color;
-        }
-      }
-    }
-
-    &.full {
-      h3.title {
-        border: 2px solid $secondary-color;
-        padding: .75em;
-        color: $color-primary-darkest;
-        background: none;
-        font-size: 1.65rem;
-        display: block;
-        text-decoration: none;
-      }
-    }
-  }
-
-  h3 {margin-top: 1em; margin-bottom: 0; padding-bottom: .5em; font-size: 1.5em; color: $color-primary-darkest;}
 }
+
+// small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns
+
+#experience {
+
+  .main {
+    @extend .small-12;
+    @extend .small-centered;
+    @extend .medium-8;
+    @extend .medium-offset-4;
+    @extend .large-offset-2;
+    @extend .columns;
+  }
+  .post img {
+    width: 100%;
+  }
+}
+
+figure {
+  font-size: .85em;
+  margin-left: -$column-gutter/2;
+  margin-right: -$column-gutter/2;
+  @media #{$small} {
+    margin-left: inherit;
+    margin-right: inherit;
+  }
+
+  @media #{$large} {
+      margin-left: -16.66667%;
+      margin-right: -16.66667%;
+  }
+}
+
+.post-preview {
+  border-bottom: 1px solid rgba(0,0,0,.2);
+  padding: 0 0 3em 0;
+  margin: 0 0 3em 0;
+  &:last-of-type{border-bottom: none;}
+}
+
+.related-posts {
+  border-top: 1px solid $color-gold;
+  padding: 2em 0 1em 0;
+  margin: 2em 0 0 0;
+  h6 {line-height: 1.2em; margin: 0; padding: 0; font-size: 1.15em;}
+  ul.plain.posts {
+    margin: 1em 0; padding: 0;
+    li {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      border-bottom: 1px solid rgba(0,0,0,.1);
+      &:last-of-type{border-bottom: none;}
+      a {
+        padding: .5em .2em; margin: 0; text-decoration: none;
+        display: block;
+        &:hover {
+          background: rgba(0,0,0,.08);
+          border-left: 4px solid $color-primary;
+          padding-left: .5em;
+        }
+        .post-title {color: $color-primary-darker; font-size: 1em; font-weight: bold; margin: 0; padding: 0;}
+        .post-date {color: #444; margin: 0; padding: 0 0 1em 0;}
+      }
+    }
+  }
+}
+
+.post {
+  a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #444; line-height: 1.65em;}
+  a {
+    text-decoration: underline;
+    color: $color-primary-darker;
+  }
+
+  .page-number {
+    color: #444;
+  }
+
+  span.previous {
+    float: left;
+    display: inline-block;
+  }
+
+  h3 {
+    text-decoration: none;
+    background: none;
+    padding: 0;
+    font-size: 1.5em;
+    @media #{$small} {font-size: 2em;}
+    margin: 0;
+    display: block;
+    &.title {
+      color: $color-primary-darker;
+      background: none;
+      display: block;
+      a {text-decoration: none;}
+    }
+  }
+}
+
 
 // Footer
 
@@ -2060,7 +2095,7 @@ font-style: italic;
 // Panel list
 
 .panel-list {
-background: #F4F4F5;
+background: rgba(0,0,0,.05);
 padding: 1em;
 position: relative;
 min-height: 12em;
@@ -2073,9 +2108,7 @@ a {
 &.plain {
   height: auto;
   dt {font-size: 1.45em;}
-  background: none;
-  margin: 0;
-  padding: 0 0 1em 0;
+  margin: 0 0 1em 0;
   min-height: 0;
 }
 }
@@ -2138,6 +2171,7 @@ button[class*="usa-button-"] {
   padding: 1em 0;
   border-top: 1px solid #ddd;
   font-size: .8em;
+  z-index:500;
   color: #444;
   background: #fff;
   &.minimal {
