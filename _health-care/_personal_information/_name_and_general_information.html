@@ -22,8 +22,8 @@
       <div class="small-3 columns">
         <label for="veteran_suffix_name">Suffix</label>
         <select name="veteran[suffix_name]" ><option value="0"></option>
-          <option value="1">Jr.</option>
-          <option value="2">Sr.</option></select>
+          <option value="JR">Jr.</option>
+          <option value="SR">Sr.</option></select>
       </div>
     </div>
 
@@ -48,11 +48,20 @@
 
     <div class="row">
       <div class="small-3 columns">
+        <label for="veteran_date_of_birth">Date of Birth</label>
+      </div>
+      <div class="small-9 columns">
+        <input type="date" name="veteran[date_of_birth]" />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="small-3 columns">
         <label for="veteran_gender">Gender</label>
       </div>
       <div class="small-9 columns">
-        <select name="veteran[gender]" ><option value="0">Male</option>
-          <option value="1">Female</option>
+        <select name="veteran[gender]" ><option value="M">Male</option>
+          <option value="F">Female</option>
           <option value="2">NeedOtherOfficialOptions</option></select>
       </div>
     </div>
@@ -90,11 +99,11 @@
     </div>
     <div class="small-9 columns">
       <select name="veteran[marital_status]" ><option value="1"></option>
-        <option value="1">Married</option>
-        <option value="2">Never Married</option>
-        <option value="3">Separated</option>
-        <option value="4">Widowed</option>
-        <option value="5">Divorced</option></select>
+        <option value="Married">Married</option>
+        <option value="Never Married">Never Married</option>
+        <option value="Separated">Separated</option>
+        <option value="Widowed">Widowed</option>
+        <option value="Divorced">Divorced</option></select>
     </div>
   </div>
 </div>
