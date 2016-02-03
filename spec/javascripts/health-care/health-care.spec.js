@@ -140,26 +140,59 @@ describe("Health Care Form", function() {
     var fixtureFrame = document.createElement('iframe');
     fixtureFrame.id = "fixture-frame";
     fixtureFrame.src = 'base/_site/health-care/form.html';
-    fixtureFrame.onload = function() { done(); };
+    fixtureFrame.onload = function() {
+      // Signal async complete immediately otherwise assertions deadlock the
+      // test.
+      done();  
+
+      assert.isNotNull(
+        fixtureFrame.contentWindow.HealthApp,
+        "The iframe fixture didn't load or is corrupt.");
+    };
     document.body.appendChild(fixtureFrame);
   });
 
   afterEach(function(){
     var fixtureFrame = document.getElementById("fixture-frame");
-    if (fixtureFrame !== undefined) {
+    if (fixtureFrame !== null) {
       fixtureFrame.parentNode.removeChild(fixtureFrame);
     }
+  });
+
+
+  it("Auto-saves on change events in the form.", function() {
+    var contentWindow = document.getElementById("fixture-frame").contentWindow;
+    var HealthApp = contentWindow.HealthApp;
+    var form = HealthApp.getFormRoot();
+
+    // Trigger an auto-save on a text change.
+    form.elements['veteran[first_name]'].value = 'testname';
+    var changeEvent = contentWindow.document.createEvent("UIEvents");
+    changeEvent.initEvent("change", true, true);
+    form.dispatchEvent(changeEvent);
+    expect(JSON.parse(sessionStorage.getItem('voa_form'))['veteran[first_name]']).to.equal('testname');
+
+    // TODO(awong): Trigger auto-save for radio, checkbox, and select controls.
   });
 
   it("Builds a valid XML doc that reflects the form inputs.", function(done) {
     // The xml example doc is taken from a snapshot of the legacy health care
     // application form.
     var HealthApp = document.getElementById("fixture-frame").contentWindow.HealthApp;
-    assert.isNotNull(HealthApp, "The iframe didn't load or is corrupt.");
+
+    // Set the form data to match the golden file.
+    var form = HealthApp.getFormRoot();
+    form.elements['veteran[ssn]'].value = '111-22-3333';
+    form.elements['veteran[date_of_birth]'].value = "01/01/1970";
+    form.elements['veteran[gender]'].value = "M";
+    form.elements['veteran[last_name]'].value = "ALastName";
+    form.elements['veteran[first_name]'].value = "AFirstName";
+    form.elements['veteran[suffix_name]'].value = "SR";
+    form.elements['veteran[middle_name]'].value = "AMiddleName";
 
     $.get('/base/spec/fixtures/javascripts/health-care/anonymous-submission.xml')
       .done(function(data) {
-        var xmlDoc = HealthApp.build1010ezXml(HealthApp.getFormRoot());
+        var xmlDoc = HealthApp.build1010ezXml(form);
         expect(data).to.xml.equal(xmlDoc);
       }).fail(function() {
         expect(true).to.be.false;
