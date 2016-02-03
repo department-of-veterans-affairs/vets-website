@@ -1,5 +1,5 @@
 ---
-title: Legacy Programs
+title: Other Educational Assistance Programs 
 concurrence: incomplete
 template: 1-topic-landing
 ---
