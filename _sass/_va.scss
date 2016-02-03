@@ -33,7 +33,7 @@ $roboto-slab: 'Roboto Slab', serif;
 html, body {
   padding: 0;
   margin: 0;
-  font-size: 17px;
+  font-size: 16px;
   font-family: $font-sans;
   font-weight: 500;
   color: $color-gray-dark;
@@ -970,38 +970,36 @@ body.page-playbook {
 background:#fff url(../images/design/background/thread.png) top left no-repeat;
 background-size: contain;
 
-h1 a {
-  text-indent: 180%;
-  white-space: nowrap;
-  overflow: hidden;
-  display: block;
-  border-bottom: none;
-  text-decoration: none;
-  width: 180px;
-  height: 30px;
-  background: url(../images/design/logo/logo-alt.png) top left no-repeat;
-  background-size: contain;
-  &:hover, &:active, &:focus {
-    background: url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
+  h1 a {
+    text-indent: 180%;
+    white-space: nowrap;
+    overflow: hidden;
+    display: block;
     border-bottom: none;
+    text-decoration: none;
+    width: 180px;
+    height: 30px;
+    background: url(../images/design/logo/logo-alt.png) top left no-repeat;
     background-size: contain;
-    text-decoration: none;}
-
-    @media #{$small} {
-      width: 263px;
-      height: 50px;
-      background: url(../images/design/logo/logo-alt.png) top left no-repeat;
+    &:hover, &:active, &:focus {
+      background: url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
+      border-bottom: none;
       background-size: contain;
-      &:hover {
-        background: url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
+      text-decoration: none;}
+
+      @media #{$small} {
+        width: 263px;
+        height: 50px;
+        background: url(../images/design/logo/logo-alt.png) top left no-repeat;
         background-size: contain;
+        &:hover {
+          background: url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
+          background-size: contain;
+        }
       }
     }
-  }
-  .main {
-    background: white;
-  }
 
+  .main {background: white;}
 }
 
 // posts
@@ -1259,6 +1257,7 @@ figure {
   background:$color-gold;
   margin: 1.625rem 0;
   padding: .25rem 0;
+  border-radius: .2em;
   color: $color-gray-dark;
   font-size: .85em;
   text-align: center;
@@ -1437,26 +1436,70 @@ a {color: #fff; background: none;}
   padding: 1.25em 0 1.5em 0;
   border-top: none;
   background: $color-primary-darker;
+  @media #{$xlarge-up} {
+    padding: 0;
+  }
 }
+
+// Feedback widget
 
 .feedback {
   color: #fff;
-  @media #{$medium-up} {
-    text-align: right;
-  }
-  @media #{$medium-up} {
-    right:3em;
-    vertical-align: middle;
-  }
-  a {
-    opacity: 0.6;
+  text-align: center;
+  @media #{$xlarge-up} {
+    text-align: left;
   }
 }
+
+.feedback-widget {
+  color: #fff;
+  background: none;
+  span.icon {
+    background: url('../images/design/sprites/sprite.png') no-repeat -43px 0;
+    background-size: 215px 72px;
+    display: inline-block;
+    width: 19px;
+    height: 17px;
+    vertical-align: middle;
+    margin: 0 .5em 0 0;
+    float: left;
+  }
+
+  @media #{$xlarge-up} {
+    position: fixed;
+    width: 12em;
+    padding: .5em;
+    display: inline-block;
+    text-decoration: none;
+    background: $color-primary-darker;
+    bottom: .85em;
+    right: 0;
+    -webkit-border-top-left-radius: .3em;
+    -webkit-border-bottom-left-radius: .3em;
+    -moz-border-radius-topleft: .3em;
+    -moz-border-radius-bottomleft: .3em;
+    border-top-left-radius: .3em;
+    border-bottom-left-radius: .3em;
+    span.icon {
+      margin-top: .75em;
+    }
+    span.text {
+      float: left;
+      width: 80%;
+    }
+    &:hover, &:active, &:focus {
+      background: $color-primary-darkest;
+      color: #fff;
+      padding: .5em .65em;
+      width: 12.5em;
+    }
+  }
+}
+
 .message {
   font-size:.95rem;
   font-weight: 700;
   span {
-    background: url(../images/design/icons/wrench.png) center left no-repeat;
     background-position: 0 4px;
     background-repeat: no-repeat;
     background-size: 16px 14px;
@@ -2305,6 +2348,7 @@ ul li p {
   margin: 0;
   padding: 0;
 }
+
 
 // vets.gov branded apps
 
