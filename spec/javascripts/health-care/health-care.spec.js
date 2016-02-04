@@ -189,6 +189,9 @@ describe("Health Care Form", function() {
     form.elements['veteran[first_name]'].value = "AFirstName";
     form.elements['veteran[suffix_name]'].value = "SR";
     form.elements['veteran[middle_name]'].value = "AMiddleName";
+    form.elements['veteran[city_of_birth]'].value = "Kent";
+    form.elements['veteran[state_of_birth]'].value = "WA";
+    form.elements['veteran[email]'].value = "test@foo.com";
 
     $.get('/base/spec/fixtures/javascripts/health-care/anonymous-submission.xml')
       .done(function(data) {
