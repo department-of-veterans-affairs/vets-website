@@ -1,4 +1,4 @@
-(function() {
+$(document).ready(function() {
 	var triggerBttn = document.getElementById( 'trigger-overlay' ),
 		overlay = document.querySelector( 'div.overlay' ),
 		closeBttn = overlay.querySelector( 'button.overlay-close' );
@@ -13,15 +13,15 @@
 		support = { transitions : Modernizr.csstransitions };
 
 	function toggleOverlay() {
-		if( classie.has( overlay, 'open' ) ) {
-			classie.remove( overlay, 'open' );
-			classie.add( overlay, 'close' );
+		if( overlay.classList.contains( 'open' ) ) {
+			overlay.classList.remove( 'open' );
+			overlay.classList.add( 'close' );
 			var onEndTransitionFn = function( ev ) {
 				if( support.transitions ) {
 					if( ev.propertyName !== 'visibility' ) return;
 					this.removeEventListener( transEndEventName, onEndTransitionFn );
 				}
-				classie.remove( overlay, 'close' );
+				overlay.classList.remove( 'close' );
 			};
 			if( support.transitions ) {
 				overlay.addEventListener( transEndEventName, onEndTransitionFn );
@@ -30,11 +30,11 @@
 				onEndTransitionFn();
 			}
 		}
-		else if( !classie.has( overlay, 'close' ) ) {
-			classie.add( overlay, 'open' );
+		else if( !overlay.classList.contains( 'close' ) ) {
+			overlay.classList.add( 'open' );
 		}
 	}
 
 	triggerBttn.addEventListener( 'click', toggleOverlay );
 	closeBttn.addEventListener( 'click', toggleOverlay );
-})();
+});

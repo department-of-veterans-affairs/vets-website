@@ -1,0 +1,15 @@
+{
+  "options": [
+    "prefixed"
+  ],
+  "feature-detects": [
+    "svg",
+    "svg/inline",
+    "svg/clippaths",
+    "touchevents",
+    "css/mediaqueries",
+    "css/transitions",
+    "dom/classlist",
+    "ie8compat"
+  ]
+}
