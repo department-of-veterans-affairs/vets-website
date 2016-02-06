@@ -2552,3 +2552,24 @@ html.touchevents {
     transform: translateY(0);
   }
 }
+
+.progress-menu, .progress-menu dd.tab-title {
+  margin: 10px 2px 0px 0px;
+    
+  li.tab-title, dd.tab-title {
+    list-style: none;
+    border-top: $color-primary-darker 5px solid;
+    a {text-decoration: none;}
+    
+    &.active {
+      border-top: $color-primary 5px solid;  
+      a {color: $color-primary;}
+    }
+
+    a { 
+      padding: 0px 9px;
+      font-size: 14px;
+    }
+  }  
+}
+

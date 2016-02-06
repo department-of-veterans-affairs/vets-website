@@ -16,18 +16,6 @@ template: 1-topic-landing
 </div>
 {% else %}
 
-<!-- TODO(awong): Properly serve up the JS. Right now using jekyl includes
-     to ensure nothing leaks to production. -->
-<script>
-  {% include_relative _js/_jquery.serializeObject.min.js %}
-</script>
-<script>
-  {% include_relative _js/_jquery.deserialize.min.js %}
-</script>
-<script>
-  {% include_relative _js/_form.js %}
-</script>
-
 
 <!-- TODO(awong): Remove inline CSS. #1002 -->
 <style>
@@ -43,7 +31,6 @@ template: 1-topic-landing
 </style>
 
 <div class="main" role="main">
-
   <div class="section primary">
     <div class="row">
       <div class="small-12 columns">
@@ -54,92 +41,96 @@ template: 1-topic-landing
     </div>
   </div>
 
-  <div class="section one">
-    <div class="row" >
-      <div class="small-3 columns">
-        <dl class="tabs vertical" role="tablist" data-tab data-options="deep_linking:true">
+  <div class="section">
+    <div class="row">
+      <div class="small-12 columns">
+        
+        <dl class="tabs progress-menu" role="tablist" data-tab data-options="deep_linking:true">
+
           <dd class="tab-title active" role="presentation">
-          <a aria-controls="introduction" data-toggle="tab" href="#introduction" role="tab">Introduction</a>
+            <a aria-controls="introduction" data-toggle="tab" href="#introduction" role="tab">Introduction</a>
           </dd>
+
           <dd class="tab-title" role="presentation">
-          <a aria-controls="personal_information" data-toggle="tab" href="#personal_information" role="tab">
+            <a aria-controls="personal_information" data-toggle="tab" href="#personal_information" role="tab">
             Personal Information
-          </a>
+            </a>
           </dd>
+        
           <dd class="tab-title" role="presentation">
-          <a aria-controls="insurance_information" data-toggle="tab" href="#insurance_information" role="tab">
+            <a aria-controls="insurance_information" data-toggle="tab" href="#insurance_information" role="tab">
             Insurance Information
-          </a>
+            </a>
           </dd>
+          
           <dd class="tab-title" role="presentation">
-          <a aria-controls="military_service" data-toggle="tab" href="#military_service" role="tab">
-            Military Service
-          </a>
+            <a aria-controls="military_service" data-toggle="tab" href="#military_service" role="tab">
+              Military Service
+            </a>
           </dd>
+          
           <dd class="tab-title" role="presentation">
-          <a aria-controls="financial_assessment" data-toggle="tab" href="#financial_assessment" role="tab">
+            <a aria-controls="financial_assessment" data-toggle="tab" href="#financial_assessment" role="tab">
             Financial Assessment
-          </a>
+            </a>
           </dd>
+        
           <dd class="tab-title" role="presentation">
-          <a aria-controls="review_and_submit" data-toggle="tab" href="#review_and_submit" role="tab">
+            <a aria-controls="review_and_submit" data-toggle="tab" href="#review_and_submit" role="tab">
             Review and Submit
-          </a>
+            </a>
           </dd>
         </dl>
-      </div>
-      <div class="small-9 columns">
-        <div class="tabs-content">
-          <form class="main-form">
+      
+        <form class="main-form">
+        
+          <div class="tabs-content">
             <div role="tabpanel" class="content active" id="introduction" aria-hidden="false">
-              <div class="row">
-                <div class="small-12 columns">
-                  {% include_relative _introduction.html %}
-                </div>
-              </div>
+              {% include_relative _introduction.html %}
             </div>
 
             <div role="tabpanel" class="content" id="personal_information" aria-hidden="true">
-              <div class="row">
-                <div class="small-12 columns">
-                  {% include_relative _personal_information/_personal_information.html %}
+
+              <label for="input-type-text">Text input label</label>
+                <input id="input-type-text" name="input-type-text" type="text">
+
+                <label for="input-focus">Text input focused</label>
+                <input class="usa-input-focus" id="input-focus" name="input-focus" type="text">
+
+                <div class="usa-input-error">
+                  <label class="usa-input-error-label" for="input-error">Text input error</label>
+                  <span class="usa-input-error-message" id="input-error-message" role="alert">Helpful error message</span>
+                  <input id="input-error" name="input-error" type="text" aria-describedby="input-error-message">
                 </div>
-              </div>
+
+                <label for="input-success">Text input success</label>
+                <input class="usa-input-success" id="input-success" name="input-success" type="text">
+
+                <label for="input-type-textarea">Text area label</label>
+                <textarea id="input-type-textarea" name="input-type-textarea"></textarea>
+
+
+              {% include_relative _personal_information/_personal_information.html %}
             </div>
 
             <div role="tabpanel" class="content" id="insurance_information" aria-hidden="true">
-              <div class="row">
-                <div class="small-12 columns">
-                  {% include_relative _insurance_information/_insurance_information.html %}
-                </div>
-              </div>
+              {% include_relative _insurance_information/_insurance_information.html %}
             </div>
 
             <div role="tabpanel" class="content" id="military_service" aria-hidden="true">
-              <div class="row">
-                <div class="small-12 columns">
-                  {% include_relative _military_service/_military_service.html %}
-                </div>
-              </div>
+              {% include_relative _military_service/_military_service.html %}
             </div>
 
             <div role="tabpanel" class="content" id="financial_assessment" aria-hidden="true">
-              <div class="row">
-                <div class="small-12 columns">
-                  {% include_relative _financial_assessment/_financial_assessment.html %}
-                </div>
-              </div>
+              {% include_relative _financial_assessment/_financial_assessment.html %}
             </div>
 
             <div role="tabpanel" class="content" id="review_and_submit" aria-hidden="true">
-              <div class="row">
-                <div class="small-12 columns">
-                  {% include_relative _review_and_submit.html %}
-                </div>
-              </div>
+              {% include_relative _review_and_submit.html %}
             </div>
-          </form>
-        </div>
+          </div>
+
+        </form>
       </div>
     </div>
   </div>
@@ -150,3 +141,15 @@ template: 1-topic-landing
   $(document).foundation();
 </script>
 {% endif %}
+
+<!-- TODO(awong): Properly serve up the JS. Right now using jekyl includes
+     to ensure nothing leaks to production. -->
+<script>
+  {% include_relative _js/_jquery.serializeObject.min.js %}
+</script>
+<script>
+  {% include_relative _js/_jquery.deserialize.min.js %}
+</script>
+<script>
+  {% include_relative _js/_form.js %}
+</script>
