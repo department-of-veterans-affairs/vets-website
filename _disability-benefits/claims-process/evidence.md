@@ -31,25 +31,25 @@ According to the Veterans Claims Assistance Act (VCAA) passed by Congress in 200
 
 #### VA’s responsibility
 
-Obtaining relevant records from:
+- Obtaining relevant records from:
 
--	Any federal agency, including the military
--	VA medical centers, including private facilities where VA has authorized treatment
--	The Social Security Administration
+  -	Any federal agency, including the military
+  -	VA medical centers, including private facilities where VA has authorized treatment
+  -	The Social Security Administration
 
-Providing a medical examination or obtaining a medical opinion, if required to decide the claim.
+- Providing a medical examination or obtaining a medical opinion, if required to decide the claim.
 
 #### The Veteran’s responsibility
 
-Obtaining relevant records not held by a federal agency. This may include records from:
+- Obtaining relevant records not held by a federal agency. This may include records from:
 
--	State or local governments
--	Private doctors and hospitals
--	Current or former employers
+  -	State or local governments
+  -	Private doctors and hospitals
+  -	Current or former employers
 
-Note: VA may assist in obtaining these records.
+**Note:** VA may assist in obtaining these records.
 
-Providing relevant information to VA so that records can be requested.
+- Providing relevant information to VA so that records can be requested.
 
 #### Example
 
