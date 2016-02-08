@@ -16,20 +16,6 @@ template: 1-topic-landing
 </div>
 {% else %}
 
-
-<!-- TODO(awong): Remove inline CSS. #1002 -->
-<style>
-  .tabs.vertical {
-    width: 100%;
-    max-width: 100%;
-  }
-  div.form-section {
-    padding: 2rem;
-    margin: 0 0 2rem;
-    border: 1px solid #eee; 
-  }
-</style>
-
 <div class="main" role="main">
   <div class="section primary">
     <div class="row">
@@ -81,56 +67,40 @@ template: 1-topic-landing
             </a>
           </dd>
         </dl>
+
+        <div class="progress-box">
+          <form class="main-form">
+          
+            <div class="tabs-content">
+              <div role="tabpanel" class="content active" id="introduction" aria-hidden="false">
+                {% include_relative _introduction.html %}
+              </div>
+
+              <div role="tabpanel" class="content" id="personal_information" aria-hidden="true">
+                {% include_relative _personal_information/_personal_information.html %}
+              </div>
+
+              <div role="tabpanel" class="content" id="insurance_information" aria-hidden="true">
+                {% include_relative _insurance_information/_insurance_information.html %}
+              </div>
+
+              <div role="tabpanel" class="content" id="military_service" aria-hidden="true">
+                {% include_relative _military_service/_military_service.html %}
+              </div>
+
+              <div role="tabpanel" class="content" id="financial_assessment" aria-hidden="true">
+                {% include_relative _financial_assessment/_financial_assessment.html %}
+              </div>
+
+              <div role="tabpanel" class="content" id="review_and_submit" aria-hidden="true">
+                {% include_relative _review_and_submit.html %}
+              </div>
+            </div>
+
+          </form>
+
+        </div>
       
-        <form class="main-form">
-        
-          <div class="tabs-content">
-            <div role="tabpanel" class="content active" id="introduction" aria-hidden="false">
-              {% include_relative _introduction.html %}
-            </div>
-
-            <div role="tabpanel" class="content" id="personal_information" aria-hidden="true">
-
-              <label for="input-type-text">Text input label</label>
-                <input id="input-type-text" name="input-type-text" type="text">
-
-                <label for="input-focus">Text input focused</label>
-                <input class="usa-input-focus" id="input-focus" name="input-focus" type="text">
-
-                <div class="usa-input-error">
-                  <label class="usa-input-error-label" for="input-error">Text input error</label>
-                  <span class="usa-input-error-message" id="input-error-message" role="alert">Helpful error message</span>
-                  <input id="input-error" name="input-error" type="text" aria-describedby="input-error-message">
-                </div>
-
-                <label for="input-success">Text input success</label>
-                <input class="usa-input-success" id="input-success" name="input-success" type="text">
-
-                <label for="input-type-textarea">Text area label</label>
-                <textarea id="input-type-textarea" name="input-type-textarea"></textarea>
-
-
-              {% include_relative _personal_information/_personal_information.html %}
-            </div>
-
-            <div role="tabpanel" class="content" id="insurance_information" aria-hidden="true">
-              {% include_relative _insurance_information/_insurance_information.html %}
-            </div>
-
-            <div role="tabpanel" class="content" id="military_service" aria-hidden="true">
-              {% include_relative _military_service/_military_service.html %}
-            </div>
-
-            <div role="tabpanel" class="content" id="financial_assessment" aria-hidden="true">
-              {% include_relative _financial_assessment/_financial_assessment.html %}
-            </div>
-
-            <div role="tabpanel" class="content" id="review_and_submit" aria-hidden="true">
-              {% include_relative _review_and_submit.html %}
-            </div>
-          </div>
-
-        </form>
       </div>
     </div>
   </div>

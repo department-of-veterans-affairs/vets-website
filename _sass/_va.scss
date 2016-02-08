@@ -33,7 +33,7 @@ $roboto-slab: 'Roboto Slab', serif;
 html, body {
   padding: 0;
   margin: 0;
-  font-size: 17px;
+  // font-size: 17px;
   font-family: $font-sans;
   font-weight: 500;
   color: $color-gray-dark;
@@ -2553,6 +2553,7 @@ html.touchevents {
   }
 }
 
+// Everything for progress-menu tabs
 .progress-menu, .progress-menu dd.tab-title {
   margin: 10px 2px 0px 0px;
     
@@ -2567,9 +2568,14 @@ html.touchevents {
     }
 
     a { 
-      padding: 0px 9px;
+      padding: 0px 5px;
       font-size: 14px;
     }
   }  
 }
 
+.progress-box {
+  padding: 1rem;
+  margin: 1.5rem 0  ;
+  border: 1px solid #eee; 
+}
