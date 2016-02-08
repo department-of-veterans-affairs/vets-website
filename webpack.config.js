@@ -12,18 +12,23 @@ var config = {
   module: {
     loaders: [
       {
-        test: /\.modernizrrc$/,
+        // components.js is effectively a hand-rolled bundle.js. Break it apart.
+        test: /components\.js$/,
+        loader: "imports?this=>window"
+      },
+      {
+        test: /foundation\.js$/,
+        loader: "imports?this=>window"
+      },
+      {
+        test: /\.modernizrrc/,
         loader: "modernizr"
       },
       {
-        // components.js is effectively a hand-rolled bundle.js. Break it apart.
-        test: /components.js$/,
-        loader: "imports?this=>window"
-      },
-      {
-        // components.js is effectively a hand-rolled bundle.js. Break it apart.
-        test: /foundation.js$/,
-        loader: "imports?this=>window"
+        // Loaders are executed bottom to top, right to left. This MUST
+        // appear before the \.coffee loader.
+        test: /wow\.coffee$/,
+        loaders: [ "imports?this=>window", "exports?this.WOW" ]
       },
       {
         test: /\.coffee$/, loader: "coffee-loader"

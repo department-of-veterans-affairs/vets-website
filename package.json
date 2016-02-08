@@ -4,7 +4,6 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
     "chai-jquery": "^2.0.0",
-    "chai-xml": "^0.3.1",
     "coffee-loader": "^0.7.2",
     "coffee-script": "^1.10.0",
     "exports-loader": "^0.6.2",
@@ -18,17 +17,18 @@
     "karma-mocha": "^0.2.1",
     "karma-phantomjs-launcher": "^0.2.2",
     "mocha": "^2.4.5",
-    "modernizr-loader": "0.0.4",
+    "modernizr": "^3.3.1",
+    "modernizr-loader": "^0.0.4",
     "phantomjs": "^1.9.19",
     "webpack": "^1.12.13"
   },
   "private": true,
   "dependencies": {
+    "classlist-polyfill": "^1.0.2",
     "dataset": "^0.3.1",
     "foundation": "^4.2.1-1",
     "html5shiv": "^3.7.3",
     "jquery": "^2.2.0",
-    "modernizr": "^3.3.1",
     "sizzle": "^2.3.0",
     "wow.js": "^1.1.2"
   }

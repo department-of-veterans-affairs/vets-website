@@ -35,6 +35,7 @@ end
 
 desc "Build the website"
 task :build do
+  sh "webpack"
   sh "bundle exec jekyll build"
 end
 
