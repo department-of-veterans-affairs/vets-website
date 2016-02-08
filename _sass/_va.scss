@@ -432,6 +432,7 @@ h5 {font-size: 1.25em; font-weight: normal;}
 
   .section.main-menu {
     padding: .5em .5em 2.35em .5em;
+    overflow: hidden;
     @media #{$small} {padding: 1em 0 1.5em 0;}
     .navigation {
       padding: 1.5em 0 0 0;
@@ -1393,9 +1394,9 @@ a.twitter {
 // Alerts
 
 .alert-box {
-border-bottom: none;
-margin: 0;
-padding: 1.25em .4em 0 0;
+  border-bottom: none;
+  margin: 0;
+  padding: 1.25em .4em 0 0;
 
 &:after {
    visibility: hidden;
@@ -1406,63 +1407,64 @@ padding: 1.25em .4em 0 0;
    height: 0;
    }
 
-@media #{$small-up} {padding: 1em .4em 0 .4em;}
-margin-bottom: 0;
-a {color: #fff; background: none;}
+  @media #{$small-up} {padding: 1em .4em 0 .4em;}
+  margin-bottom: 0;
+  a {color: #fff; background: none;}
 
-&.notice {
-  font-size: .9em;
-  font-weight: 700;
-  clear: both;
-  padding: .5em;
-  @media #{$small} {padding: .5em .85em;}
-  margin-bottom: .75em;
-  background: $color-primary-darker;
-  &:after {
-     visibility: hidden;
-     display: block;
-     font-size: 0;
-     content: " ";
-     clear: both;
-     height: 0;
-     }
-}
-
-&.coda {
-  font-size: .9em;
-  font-weight: 500;
-  clear: both;
-  padding: 1.25em 0 1.5em 0;
-  border-top: none;
-  background: $color-primary-darker;
-  @media #{$xlarge-up} {
-    padding: 0;
+  &.notice {
+    font-size: .9em;
+    font-weight: 700;
+    clear: both;
+    padding: .5em;
+    @media #{$small} {padding: .5em .85em;}
+    margin-bottom: .75em;
+    background: $color-primary-darker;
+    &:after {
+       visibility: hidden;
+       display: block;
+       font-size: 0;
+       content: " ";
+       clear: both;
+       height: 0;
+       }
   }
-}
 
-// Feedback widget
-
-.feedback {
-  color: #fff;
-  text-align: center;
-  @media #{$xlarge-up} {
-    text-align: left;
+  &.coda {
+    font-size: .9em;
+    font-weight: 500;
+    clear: both;
+    padding: 1.25em 0 1.5em 0;
+    border-top: none;
+    background: $color-primary-darker;
+    @media #{$xlarge-up} {
+      padding: 0;
+    }
   }
-}
 
-.feedback-widget {
-  color: #fff;
-  background: none;
-  span.icon {
-    background: url('../images/design/sprites/sprite.png') no-repeat -43px 0;
-    background-size: 215px 72px;
-    display: inline-block;
-    width: 19px;
-    height: 17px;
-    vertical-align: middle;
-    margin: 0 .5em 0 0;
-    float: left;
+  // Feedback widget
+
+  .feedback {
+    color: #fff;
+    text-align: center;
+    @media #{$xlarge-up} {
+      text-align: left;
+    }
   }
+
+  .feedback-widget {
+    color: #fff;
+    background: none;
+    overflow: hidden;
+    span.icon {
+      background: url('../images/design/sprites/sprite.png') no-repeat -43px 0;
+      background-size: 215px 72px;
+      display: inline-block;
+      width: 19px;
+      height: 17px;
+      vertical-align: middle;
+      margin: 0 .5em 0 0;
+      @media #{$medium-up} {float: left;}
+    }
 
   @media #{$xlarge-up} {
     position: fixed;
@@ -1483,8 +1485,8 @@ a {color: #fff; background: none;}
       margin-top: .75em;
     }
     span.text {
-      float: left;
-      width: 80%;
+      @media #{$medium-up} {float: left; width: 80%;}
+
     }
     &:hover, &:active, &:focus {
       background: $color-primary-darkest;
