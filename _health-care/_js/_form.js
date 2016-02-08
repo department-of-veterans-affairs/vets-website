@@ -18,16 +18,58 @@ var HealthApp = (function() {
     var dateString = "";
 
     if (date.getMonth() < 10) {
-      dateString += "0"
+      dateString += "0";
     }
     dateString += (date.getMonth() + 1) + "/";
 
     if (date.getDate() < 10) {
-      dateString += "0"
+      dateString += "0";
     }
     dateString += date.getDate() + "/";
 
     return dateString + date.getFullYear();
+  }
+  function extractMonetaryValueTransform(formData, arg) {
+    return Number(extractTransform(formData, arg)).toFixed(2).toString();
+  }
+
+  function validatePresence(input) {
+    if (input.value === '') {
+      return false;
+    }
+
+    return true;
+  }
+  function validateMonetaryValue(input) {
+    var amount = input.value;
+
+    if (/^\d+\.?\d*$/.test(amount)) {
+      return true;
+    }
+
+    return false;
+  }
+  function validate(input) {
+    var valid = validatePresence(input);
+
+    // TODO change this to using classList
+    $(input).removeClass('error');
+
+    if (!valid) {
+      $(input).addClass('error');
+      return false;
+    }
+
+    if ($(input).data('validation-type') === 'monetary') {
+      valid = validateMonetaryValue(input);
+    }
+
+    if (!valid) {
+      $(input).addClass('error');
+      return false;
+    }
+
+    return true;
   }
 
   var medicalCenters = [
@@ -1042,7 +1084,7 @@ var HealthApp = (function() {
     { node: "ChildTotalDisabledNo",  name: 'veteran[]', arg: "1", transform: identityTransform },
     { node: "ChildAttendSchoolYes",  name: 'veteran[]', arg: "1", transform: identityTransform },
     { node: "ChildAttendSchoolNo",  name: 'veteran[]', arg: "0", transform: identityTransform },
-    { node: "ChildSelfSchool",  name: 'veteran[]', arg: "11235.00", transform: identityTransform },
+    { node: "ChildSelfSchool", arg: 'veteran[children][education_expenses]', transform: extractMonetaryValueTransform },
     { node: "ChildSupportAmount",  name: 'veteran[]', arg: "600.00", transform: identityTransform },
     { node: "ChildLive",  name: 'veteran[]', arg: "0", transform: identityTransform },
     { node: "ChildLiveNo",  name: 'veteran[]', arg: "N", transform: identityTransform },
@@ -1129,12 +1171,12 @@ var HealthApp = (function() {
     { node: "SpouseProvideSupport",  name: 'veteran[]', arg: "Y", transform: identityTransform },
     { node: "ReportChildren",  name: 'veteran[]', arg: "Y", transform: identityTransform },
     { node: "ProvideSupport",  name: 'veteran[]', arg: "Y", transform: identityTransform },
-    { node: "VetGrossIncome",  name: 'veteran[]', arg: "55000.00", transform: identityTransform },
-    { node: "VetPropertyIncome",  name: 'veteran[]', arg: "1200.00", transform: identityTransform },
-    { node: "VetOtherIncome",  name: 'veteran[]', arg: "123.00", transform: identityTransform },
-    { node: "SpouseGrossIncome",  name: 'veteran[]', arg: "60000.00", transform: identityTransform },
-    { node: "SpousePropertyIncome",  name: 'veteran[]', arg: "2400.00", transform: identityTransform },
-    { node: "SpouseOtherIncome",  name: 'veteran[]', arg: "234.00", transform: identityTransform },
+    { node: "VetGrossIncome",  arg: 'veteran[gross_wage_income]', transform: extractMonetaryValueTransform },
+    { node: "VetPropertyIncome",  arg: 'veteran[net_business_income]', transform: extractMonetaryValueTransform },
+    { node: "VetOtherIncome",  arg: 'veteran[other_income]', transform: extractMonetaryValueTransform },
+    { node: "SpouseGrossIncome",  arg: 'veteran[spouses][gross_wage_income]', transform: extractMonetaryValueTransform },
+    { node: "SpousePropertyIncome",  arg: 'veteran[spouses][net_business_income]', transform: extractMonetaryValueTransform },
+    { node: "SpouseOtherIncome",  arg: 'veteran[spouses][other_income]', transform: extractMonetaryValueTransform },
     { node: "MedicalExpenses",  name: 'veteran[]', arg: "777.00", transform: identityTransform },
     { node: "FuneralExpenses",  name: 'veteran[]', arg: "666.00", transform: identityTransform },
     { node: "VetSelfSchool",  name: 'veteran[]', arg: "555.00", transform: identityTransform },
@@ -1218,9 +1260,9 @@ var HealthApp = (function() {
     { node: "ChildLiveNo",  name: 'veteran[]', arg: "0", transform: identityTransform },
     { node: "ChildProvideSupportYes",  name: 'veteran[]', arg: "0", transform: identityTransform },
     { node: "ChildProvideSupportNo",  name: 'veteran[]', arg: "0", transform: identityTransform },
-    { node: "ChildGrossIncome",  name: 'veteran[]', arg: "54.00", transform: identityTransform },
-    { node: "ChildPropertyIncome",  name: 'veteran[]', arg: "43.00", transform: identityTransform },
-    { node: "ChildOtherIncome",  name: 'veteran[]', arg: "32.00", transform: identityTransform }
+    { node: "ChildGrossIncome", arg: 'veteran[children][gross_wage_income]', transform: extractMonetaryValueTransform },
+    { node: "ChildPropertyIncome", arg: 'veteran[children][net_business_income]', transform: extractMonetaryValueTransform },
+    { node: "ChildOtherIncome", arg: 'veteran[children][other_income]', transform: extractMonetaryValueTransform }
   ];
 
   var getFormRoot = function() {
@@ -1233,6 +1275,7 @@ var HealthApp = (function() {
 
   var initForm = function() {
     var formRoot = getFormRoot();
+    var allInputs = $(formRoot).find('input, select');
 
     // Suppress the submit behavior since submission is done via crafting an
     // XML payload for AJAX.
@@ -1241,6 +1284,9 @@ var HealthApp = (function() {
           e.preventDefault();
           // TODO(awong): Remove this debugging logic when things work.
           console.log(build1010ezXml(formRoot));
+          for (var i = 0; i < allInputs.length; i++) {
+            validate(allInputs[i]);
+          }
         });
 
     // Load saved form data if there is any.
@@ -1250,10 +1296,14 @@ var HealthApp = (function() {
     }
 
     // Set up auto-save on any changes to the form.
-    getFormRoot().addEventListener("change",
+    formRoot.addEventListener("change",
         function (e) {
           saveForm(formRoot, e);
         });
+
+    $(allInputs).on('change', function() {
+      validate(this);
+    });
   };
 
   var build1010ezXml = function(theForm) {
@@ -1284,6 +1334,7 @@ var HealthApp = (function() {
     xmlFieldMap: xmlFieldMap,
     getFormRoot: getFormRoot,
     saveForm: saveForm,
+    validate: validate,
     build1010ezXml: build1010ezXml,
     initForm: initForm
   };

@@ -77,12 +77,15 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
-
+    browsers: ['PhantomJS', 'PhantomJS_custom'],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false,
+
+    // to avoid DISCONNECTED messages when connecting
+    // TODO(awong): look into why browser was timing out
+    browserNoActivityTimeout: 60000, //default 10000
 
     proxies: {
       '/assets/': '/base/_site/assets'
@@ -91,5 +94,5 @@ module.exports = function(config) {
     // Concurrency level
     // how many browser should be started simultaneous
     concurrency: Infinity
-  })
-}
+  });
+};
