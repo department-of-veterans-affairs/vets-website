@@ -64,7 +64,7 @@ The Fully Developed Claim program allows you to speed up the claim-resolution pr
 -	All relevant service-treatment and personnel records
 -	Any pertinent private medical records
 
-Disability benefit claims are considered fully developed when you have no more evidence to submit and the only assistance required from VA is obtaining federal records and facilitating or providing additional medical examinations or opinions. More information about this program is available on the Fully Developed Claims page.
+Disability benefit claims are considered [fully developed](/disability-benefits/claims-process/claim-types/fully-developed-claim/) when you have no more evidence to submit and the only assistance required from VA is obtaining federal records and facilitating or providing additional medical examinations or opinions.
 
 ##### Standard Claims
 
