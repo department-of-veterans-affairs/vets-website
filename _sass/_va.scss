@@ -1251,6 +1251,8 @@ figure {
 	  height: 49px;
     text-indent: -999em;
     overflow: hidden;
+    margin: 0 auto;
+    @media #{$small} {margin: 0;}
   }
 
 .footer-crisis {
@@ -1266,7 +1268,7 @@ figure {
   }
   a {
     display:inline;
-    text-decoration: none;
+    text-decoration: underline;
     color:rgb(0,0,0);
     &:hover {
       border-bottom: none;
@@ -1446,7 +1448,7 @@ a.twitter {
   .feedback {
     color: #fff;
     text-align: center;
-    @media #{$xlarge-up} {
+    @media #{$medium-up} {
       text-align: left;
     }
   }
@@ -1455,6 +1457,7 @@ a.twitter {
     color: #fff;
     background: none;
     overflow: hidden;
+    text-decoration: underline;
     span.icon {
       background: url('../images/design/sprites/sprite.png') no-repeat -43px 0;
       background-size: 215px 72px;
@@ -1483,9 +1486,11 @@ a.twitter {
     border-bottom-left-radius: .3em;
     span.icon {
       margin-top: .75em;
+      margin-right: 0;
     }
     span.text {
-      @media #{$medium-up} {float: left; width: 80%;}
+      width: 100%; text-decoration: underline;
+      @media #{$medium-up} {float: left; width: 80%; text-decoration: none;}
 
     }
     &:hover, &:active, &:focus {
