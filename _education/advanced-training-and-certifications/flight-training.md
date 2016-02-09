@@ -53,7 +53,7 @@ Commercial pilot, instrument rating, certified flight instructor (airplane, inst
     - If your school is a public college or university, VA reimburses the school the full cost of tuition and fees*.
     - If your school is a private college or university, VA reimburses the school the full cost of tuition and fees up to a yearly limit*. 
 
-* All payments limited by your level of eligibility and remaining entitlement.
+*All payments limited by your level of eligibility and remaining entitlement.
 
 Get more details about the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/).
 
