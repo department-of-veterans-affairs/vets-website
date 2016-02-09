@@ -126,6 +126,11 @@ defaults:
       layout: "page-breadcrumbs"
       body_class: "page-healthcare"
   - scope:
+      path: "health-care/form.html"
+    values:
+      layout: "page-breadcrumbs"
+      body_class: "page-healthcare"    
+  - scope:
       type: "memorial-benefits"
     values:
       layout: "page"
