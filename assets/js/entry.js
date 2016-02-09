@@ -1,10 +1,13 @@
 "use strict;"
 
 // Get our browser up to date with polyfills.
-require("modernizr");
-require('html5shiv');  // Section support in older browsers.
-require('classlist-polyfill'); // DOM element classList support.
-require('dataset');  // dataSet accessort support.
+var Modernizr = require("modernizr");
+if (!Modernizr.classlist) {
+  require('classlist-polyfill'); // DOM element classList support.
+}
+if (!Modernizr.dataset) {
+  require('dataset');  // dataSet accessort support.
+}
 
 
 // Bring in foundation and custom libraries.

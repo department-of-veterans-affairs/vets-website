@@ -1,6 +1,8 @@
 {
   "options": [
-    "prefixed"
+    "html5shiv",
+    "prefixed",
+    "setClasses"
   ],
   "feature-detects": [
     "svg",
@@ -10,6 +12,7 @@
     "css/mediaqueries",
     "css/transitions",
     "dom/classlist",
+    "dom/dataset",
     "ie8compat"
   ]
 }
