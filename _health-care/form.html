@@ -20,7 +20,7 @@ template: 1-topic-landing
   <div class="section">
     <div class="row">
       <div class="small-12 columns">
-        
+
         <dl class="tabs progress-menu" role="tablist" data-tab data-options="deep_linking:true">
 
           <dd class="tab-title active" role="presentation">
@@ -32,25 +32,25 @@ template: 1-topic-landing
             Personal Information
             </a>
           </dd>
-        
+
           <dd class="tab-title" role="presentation">
             <a aria-controls="insurance_information" data-toggle="tab" href="#insurance_information" role="tab">
             Insurance Information
             </a>
           </dd>
-          
+
           <dd class="tab-title" role="presentation">
             <a aria-controls="military_service" data-toggle="tab" href="#military_service" role="tab">
               Military Service
             </a>
           </dd>
-          
+
           <dd class="tab-title" role="presentation">
             <a aria-controls="financial_assessment" data-toggle="tab" href="#financial_assessment" role="tab">
             Financial Assessment
             </a>
           </dd>
-        
+
           <dd class="tab-title" role="presentation">
             <a aria-controls="review_and_submit" data-toggle="tab" href="#review_and_submit" role="tab">
             Review and Submit
@@ -60,7 +60,7 @@ template: 1-topic-landing
 
         <div class="progress-box">
           <form class="main-form">
-          
+
             <div class="tabs-content">
               <div role="tabpanel" class="content active" id="introduction" aria-hidden="false">
                 {% include_relative _introduction.html %}
@@ -87,10 +87,19 @@ template: 1-topic-landing
               </div>
             </div>
 
+            <div class="row">
+              <div class="small-8 columns">
+                <button id="continueButton" class="usa-button-primary">Continue</button>
+              </div>
+              <div class="small-4 columns">
+                <button id="skipButton" class="usa-button-secondary">Skip</button>
+              </div>
+            </div>
+
           </form>
 
         </div>
-      
+
       </div>
     </div>
   </div>
@@ -112,4 +121,7 @@ template: 1-topic-landing
 </script>
 <script>
   {% include_relative _js/_form.js %}
+</script>
+<script>
+  {% include_relative _js/_form_progress.js %}
 </script>
