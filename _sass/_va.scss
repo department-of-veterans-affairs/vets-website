@@ -13,6 +13,14 @@ body {
   font-size: $base-font-size;
 }
 
+// TODO: look into alert / error spacing issues
+.usa-input-error {
+  right: 1rem;
+  padding-bottom: 0;
+  padding-top: 0;
+  margin-top: 0;
+}
+
 // TODO: properly incorporate usds web standards for this
 body .row {
   max-width: 62.5em;

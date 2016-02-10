@@ -7,33 +7,52 @@
 
   <div class="row">
     <div class="small-12 columns">
-      <input name="veteran[is_spanish_hispanic_latino]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[is_spanish_hispanic_latino]" />
+      <input 
+        type="checkbox" 
+        id="veteran_is_spanish_hispanic_latino"
+        name="veteran_is_spanish_hispanic_latino" 
+        value="veteran_is_spanish_hispanic_latino">      
       <label for="veteran_is_spanish_hispanic_latino">Are you Spanish, Hispanic, or Lantino?</label>
     </div>
   </div>
 
   <div class="row">
     <div class="small-12 columns">
-      <h4>What is your race? (You may check more than one.)</h4>
-      
-      <input name="veteran[is_american_indian_or_alaksa_native]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[is_american_indian_or_alaksa_native]" />
-        
+      <h4>What is your race?</h4>
+      <span class="usa-form-hint usa-datefield-hint" id="dobHint">You may check more than one.</span>
+      <input 
+        type="checkbox" 
+        id="veteran_is_american_indian_or_alaksa_native"
+        name="veteran_is_american_indian_or_alaksa_native" 
+        value="veteran_is_american_indian_or_alaksa_native">
       <label for="veteran_is_american_indian_or_alaksa_native">American Indian or Alaksan Native</label>
-      <input name="veteran[is_black_or_african_american]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[is_black_or_african_american]" />
 
+      <input 
+        type="checkbox" 
+        id="veteran_is_black_or_african_american" 
+        name="veteran_is_black_or_african_american" 
+        value="veteran_is_black_or_african_american">
       <label for="veteran_is_black_or_african_american">Black or African American</label>
-      <input name="veteran[is_native_hawaiian_or_other_pacific_islander]" type="hidden" value="0" />
 
-      <input type="checkbox" value="1" name="veteran[is_native_hawaiian_or_other_pacific_islander]" />
-      
+      <input 
+        type="checkbox" 
+        id="veteran_is_native_hawaiian_or_other_pacific_islander"
+        name="veteran_is_native_hawaiian_or_other_pacific_islander" 
+        value="veteran_is_native_hawaiian_or_other_pacific_islander">
       <label for="veteran_is_native_hawaiian_or_other_pacific_islander">Native Hawaiian or Other Pacific Islander</label>
 
-      <input name="veteran[is_asian]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[is_asian]" />
-
+      <input 
+        type="checkbox" 
+        id="veteran_is_asian" 
+        name="veteran[is_asian" 
+        value="veteran_is_asian">
       <label for="veteran_is_asian">Asian</label>
-      <input name="veteran[is_white]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[is_white]" />
 
-
+      <input        
+        type="checkbox" 
+        id="veteran_is_white" 
+        name="veteran_is_white" 
+        value="veteran_is_white">
       <label for="veteran_is_white">White</label>
     </div>
   </div>

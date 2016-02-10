@@ -7,7 +7,11 @@
 
   <div class="row">
     <div class="small-12 columns">
-      <input name="veteran[is_covered_by_health_insurance]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[is_covered_by_health_insurance]" />
+      <input 
+        type="checkbox"
+        name="veteran_is_covered_by_health_insurance" 
+        value="veteran_is_covered_by_health_insurance"
+        id="veteran_is_covered_by_health_insurance">
       <label for="veteran_is_covered_by_health_insurance">Do you have any children to report?</label>
     </div>
   </div>
@@ -15,7 +19,7 @@
   <div class="row">
     <div class="small-12 columns">
       <div class="row">
-        <h4> !! There needs to be a way to add/remove multiple entries of these.</h4>
+        <!-- TODO: There needs to be a way to add/remove multiple entries of these. -->
       </div>
 
       <div class="row">
@@ -70,14 +74,22 @@
 
       <div class="row">
         <div class="small-12 columns">
-          <input name="veteran[children][was_permanentaly_disable_before_18]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[children][was_permanentaly_disable_before_18]" />
+          <input 
+            type="checkbox"
+            name="veteran_children_was_permanentaly_disable_before_18" 
+            id="veteran_children_was_permanentaly_disable_before_18"
+            value="veteran_children_was_permanentaly_disable_before_18">
           <label for="veteran_children_was_permanentaly_disable_before_18">Was child permanently and totally disabled before the age of 18?</label>
         </div>
       </div>
 
       <div class="row">
         <div class="small-12 columns">
-          <input name="veteran[children][age_18_to_23_attended_school_last_year]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[children][age_18_to_23_attended_school_last_year]" />
+          <input 
+            type="checkbox"
+            name="veteran_children_age_18_to_23_attended_school_last_year" 
+            id="veteran_children_age_18_to_23_attended_school_last_year"
+            value="veteran_children_age_18_to_23_attended_school_last_year">
           <label for="veteran_children_age_18_to_23_attended_school_last_year">If child is between 18 and 23 years of age, did child attend school last calendar year?</label>
         </div>
       </div>
@@ -91,7 +103,11 @@
 
       <div class="row">
         <div class="small-12 columns">
-          <input name="veteran[children][cohabited_last_year]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[children][cohabited_last_year]" />
+          <input 
+            type="checkbox"
+            name="veteran_children_cohabited_last_year"
+            value="veteran_children_cohabited_last_year"
+            id="veteran_children_cohabited_last_year">
           <label for="veteran_children_cohabited_last_year">Did your child live with you last year?</label>
         </div>
       </div>
@@ -106,7 +122,11 @@
 
       <div class="row">
         <div class="small-12 columns">
-          <input name="veteran[children][provided_support_last_year]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[children][provided_support_last_year]" />
+          <input
+            type="checkbox"
+            name="veteran_children_provided_support_last_year"
+            value="veteran_children_provided_support_last_year"
+            id="veteran_children_provided_support_last_year">
           <label for="veteran_children_provided_support_last_year">If your dependent child did not live with you last year, did you provide support?</label>
         </div>
       </div>

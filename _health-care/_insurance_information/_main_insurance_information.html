@@ -2,19 +2,17 @@
   <div class="row">
     <div class="small-12 columns">
       <h4>Insurance Information </h4>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="small-12 columns">
-      <input name="veteran[is_covered_by_health_insurance]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[is_covered_by_health_insurance]" />
+      <input 
+        type="checkbox" 
+        name="veteran_is_covered_by_health_insurance" 
+        id="veteran_is_covered_by_health_insurance" 
+        value="veteran_is_covered_by_health_insurance">
       <label for="veteran_is_covered_by_health_insurance">Are you covered by health insurance? (Including coverage through a spouse or another person)</label>
     </div>
   </div>
   <div class="row">
     <div class="small-12 columns">
-      <h4> !! There needs to be a way to add/remove multiple entries of these.</h4>
-
+      <!-- TODO: !! There needs to be a way to add/remove multiple entries of these. -->
       <label for="veteran_health_insurances_name">Name</label>
       <input type="text" name="veteran[health_insurances][name]" />
 

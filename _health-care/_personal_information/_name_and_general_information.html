@@ -3,13 +3,17 @@
     <div class="small-12 columns">
       <h4>Veterans Name</h4>
 
-      <label for="veteran_first_name">First Name</label>
+      <label for="veteran_first_name">First Name
+        <span class="usa-additional_text">Required</span>
+      </label>
       <input type="text" name="veteran[first_name]" />
 
       <label for="veteran_middle_name">Middle Name</label>
       <input type="text" name="veteran[middle_name]" />
 
-      <label for="veteran_last_name">Last Name</label>
+      <label for="veteran_last_name">Last Name
+        <span class="usa-additional_text">Required</span>
+      </label>
       <input type="text" name="veteran[last_name]" />
 
       <div>
@@ -31,9 +35,12 @@
       </div>
 
       <div>
-        <div class="usa-input-grid usa-input-grid-small">
-          <label for="veteran_ssn">Social Security Number</label>
-          <input type="text" name="veteran[ssn]" />
+        <div class="usa-input-grid usa-input-grid-medium usa-input-error">
+          <label class="usa-input-error-label" for="veteran_ssn">Social Security Number
+            <span class="usa-additional_text">Required</span>
+          </label>
+          <span class="usa-input-error-message" id="input-error-message" role="alert">Please put you number in this format xxx-xx-xxxx</span>
+          <input type="text" name="veteran[ssn]" aria-describedby="input-error-message"/>
         </div>
       </div>
 
