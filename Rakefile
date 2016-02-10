@@ -40,7 +40,6 @@ end
 
 desc "Build the website with produciton configs"
 task :build_production do
-  sh "webpack"
   sh "bundle exec jekyll build --config _config.yml,_config_production.yml"
 end
 
