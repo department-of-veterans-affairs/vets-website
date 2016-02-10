@@ -2,19 +2,26 @@ name: Vets.gov
 
 domain: staging.vets.gov
 
+destination:  ./_site
+
 #files to exclude, array
 exclude:
   - "/node_modules"
   - "/spec"
   - "/vendor/bundle"
-  - Gemfile
-  - Gemfile.lock
-  - README.md
-  - Procfile
-  - Rakefile
-  - app.json
-  - karma.conf.js
-  - npm-debug.log
+  - "Gemfile"
+  - "Gemfile.lock"
+  - "Procfile"
+  - "README.md"
+  - "Rakefile"
+  - "_site"
+  - "_site_production"
+  - "app.json"
+  - "karma.conf.js"
+  - "npm-debug.log"
+  - "package.json"
+  - "npm-shrinkwrap.json"
+  - "webpack.config.js"
 
 #posts per page
 paginate: 4
