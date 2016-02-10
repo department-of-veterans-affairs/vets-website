@@ -1,4 +1,13 @@
 {
+  "//": "Javascript libraries actually deployed to production.",
+  "dependencies": {
+    "classlist-polyfill": "^1.0.2",
+    "dataset": "^0.3.1",
+    "foundation": "^4.2.1-1",
+    "jquery": "^2.2.0",
+    "sizzle": "^2.3.0",
+    "wow.js": "^1.1.2"
+  },
   "//": "Used by Karma the test runner and Webpack, for managing JS libraries.",
   "devDependencies": {
     "chai": "^3.5.0",
@@ -22,13 +31,9 @@
     "phantomjs": "^1.9.19",
     "webpack": "^1.12.13"
   },
-  "private": true,
-  "dependencies": {
-    "classlist-polyfill": "^1.0.2",
-    "dataset": "^0.3.1",
-    "foundation": "^4.2.1-1",
-    "jquery": "^2.2.0",
-    "sizzle": "^2.3.0",
-    "wow.js": "^1.1.2"
-  }
+  "scripts": {
+    "webpack": "webpack",
+    "karma": "karma"
+  },
+  "private": true
 }
