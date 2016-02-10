@@ -39,7 +39,7 @@ task :build do
   sh "bundle exec jekyll build"
 end
 
-desc "Build the website with produciton configs"
+desc "Build the website with production configs"
 task :build_production do
   sh "webpack"
   sh "bundle exec jekyll build --config _config.yml,_config_production.yml"
