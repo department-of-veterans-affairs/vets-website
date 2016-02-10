@@ -38,6 +38,11 @@ task :build do
   sh "bundle exec jekyll build"
 end
 
+desc "Build the website with produciton configs"
+task :build_production do
+  sh "bundle exec jekyll build --config _config.yml,_config_production.yml"
+end
+
 desc "Push the *remote* master branch to *remote* production. Does NOT merge."
 task :deploy do
   run_in_cloned_git do
