@@ -9,17 +9,18 @@
 // Make sure the charset is set appropriately
 
 // USDS
-  @import "core/base";
   @import "core/defaults";
+  @import "core/base";
   @import "core/utilities";
   @import "core/variables";
   @import "lib/normalize";
 //  @import "elements/typography";
   @import "elements/buttons";
   @import "elements/table";
+  @import "elements/inputs";
 //  @import "elements/list";
   @import "components/accordions";
-
+  @import "components/forms";
 
 // Behold, here are all the Foundation components.
   @import "foundation/components/grid";
