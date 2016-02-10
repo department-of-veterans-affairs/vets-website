@@ -88,7 +88,11 @@ module.exports = function(config) {
     browserNoActivityTimeout: 60000, //default 10000
 
     proxies: {
-      '/assets/': '/base/_site/assets'
+      // Allow iframes to load javascript assets.
+      '/assets/': '/base/_site/assets',
+
+      // Allow client-side routing to work correctly.
+      '/health-care/': '/base/_site/health-care'
     },
 
     // Concurrency level

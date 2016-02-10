@@ -19,7 +19,8 @@ var config = {
           presets: ['es2015'],
 
           // Share polyfills between files.
-          plugins: ['transform-runtime'],
+          // TODO(awong): This is erroring out. Enable later.
+//          plugins: ['transform-runtime'],
 
           // Speed up compilation.
           cacheDirectory: true
@@ -56,13 +57,17 @@ var config = {
     }
   },
   plugins: [
+    new webpack.DefinePlugin({
+        __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_TYPE === "dev"))
+    }),
+
     // See http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
     new webpack.ProvidePlugin({
       "$": "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery" 
     })
-  ]
+  ],
 };
 
 module.exports = config;
