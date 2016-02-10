@@ -13,9 +13,19 @@ body {
   font-size: $base-font-size;
 }
 
-// TODO:
+// TODO: properly incorporate usds web standards for this
 body .row {
   max-width: 62.5em;
+}
+
+.main-form {
+  button {
+    width: 100%;
+  }
+}
+
+.form-section {
+  display: none;
 }
 
 // Skip link
