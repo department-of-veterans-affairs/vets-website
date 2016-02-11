@@ -5,11 +5,28 @@ var config = {
   entry: "./assets/js/entry.js",
   output: {
     path: path.join(__dirname, "assets/js/generated"),
+    publicPath: "/assets/js/generated/",
     filename: "bundle.js"
   },
   devtool: "#source-map",
   module: {
     loaders: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel',
+        query: {
+          // es2015 is current name for the es6 settings.
+          presets: ['es2015'],
+
+          // Share polyfills between files.
+          // TODO(awong): This is erroring out. Enable later.
+//          plugins: ['transform-runtime'],
+
+          // Speed up compilation.
+          cacheDirectory: true
+        }
+      },
       {
         // components.js is effectively a hand-rolled bundle.js. Break it apart.
         test: /components\.js$/,
@@ -41,13 +58,17 @@ var config = {
     }
   },
   plugins: [
+    new webpack.DefinePlugin({
+        __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_TYPE === "dev"))
+    }),
+
     // See http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
     new webpack.ProvidePlugin({
       "$": "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery" 
     })
-  ]
+  ],
 };
 
 module.exports = config;
