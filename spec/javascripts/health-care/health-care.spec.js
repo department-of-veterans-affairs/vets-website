@@ -139,11 +139,11 @@ describe("Health Care Form", function() {
   beforeEach(function(done){
     var fixtureFrame = document.createElement('iframe');
     fixtureFrame.id = "fixture-frame";
-    fixtureFrame.src = 'base/_site/health-care/form.html';
+    fixtureFrame.src = '/health-care/form.html';
     fixtureFrame.onload = function() {
       // Signal async complete immediately otherwise assertions deadlock the
       // test.
-      done();  
+      done();
 
       assert.isNotNull(
         fixtureFrame.contentWindow.HealthApp,
@@ -171,7 +171,6 @@ describe("Health Care Form", function() {
     changeEvent.initEvent("change", true, true);
     form.dispatchEvent(changeEvent);
     expect(JSON.parse(sessionStorage.getItem('voa_form'))['veteran[first_name]']).to.equal('testname');
-
     // TODO(awong): Trigger auto-save for radio, checkbox, and select controls.
   });
 
@@ -192,6 +191,16 @@ describe("Health Care Form", function() {
     form.elements['veteran[city_of_birth]'].value = "Kent";
     form.elements['veteran[state_of_birth]'].value = "WA";
     form.elements['veteran[email]'].value = "test@foo.com";
+    form.elements['veteran[gross_wage_income]'].value = "55000.00";
+    form.elements['veteran[net_business_income]'].value = "1200.00";
+    form.elements['veteran[other_income]'].value = "123.00";
+    form.elements['veteran[spouses][gross_wage_income]'].value = "60000.00";
+    form.elements['veteran[spouses][net_business_income]'].value = "2400.00";
+    form.elements['veteran[spouses][other_income]'].value = "234.00";
+    form.elements['veteran[children][gross_wage_income]'].value = "54.00";
+    form.elements['veteran[children][net_business_income]'].value = "43.00";
+    form.elements['veteran[children][other_income]'].value = "32.00";
+    form.elements['veteran[children][education_expenses]'].value = "11235.00";
 
     $.get('/base/spec/fixtures/javascripts/health-care/anonymous-submission.xml')
       .done(function(data) {
@@ -199,7 +208,49 @@ describe("Health Care Form", function() {
         expect(data).to.xml.equal(xmlDoc);
       }).fail(function() {
         expect(true).to.be.false;
-      }).always(function() { done(); });
+      }).always(function() {
+        done();
+      });
+  });
+
+  it("should return true for valid monetary value input", function() {
+    var HealthApp = document.getElementById("fixture-frame").contentWindow.HealthApp;
+    var form = HealthApp.getFormRoot();
+    var testElement = form.elements['veteran[gross_wage_income]'];
+    var validInput = ['55000.00', '100', '1.99', '10.'];
+
+    for (var i = 0; i < validInput.length; i++) {
+      testElement.value = validInput[i];
+      expect(HealthApp.validate(testElement)).to.be.true;
+    }
+  });
+
+  it("should return false for invalid monetary value input", function() {
+    var HealthApp = document.getElementById("fixture-frame").contentWindow.HealthApp;
+    var form = HealthApp.getFormRoot();
+    var testElement = form.elements['veteran[gross_wage_income]'];
+    var invalidInput = ['1,000', 'abc', '$100', '10.0.0', '#$#', '\'\''];
+
+    for (var i = 0; i < invalidInput.length; i++) {
+      testElement.value = invalidInput[i];
+      expect(HealthApp.validate(testElement)).to.be.false;
+    }
+  });
+
+  it("should contain the correct data validation type for the field", function() {
+    var HealthApp = document.getElementById("fixture-frame").contentWindow.HealthApp;
+    var form = HealthApp.getFormRoot();
+
+    expect(form.elements['veteran[gross_wage_income]'].dataset.validationType).to.be.equal('monetary');
+    expect(form.elements['veteran[net_business_income]'].dataset.validationType).to.be.equal('monetary');
+    expect(form.elements['veteran[other_income]'].dataset.validationType).to.be.equal('monetary');
+    expect(form.elements['veteran[spouses][gross_wage_income]'].dataset.validationType).to.be.equal('monetary');
+    expect(form.elements['veteran[spouses][net_business_income]'].dataset.validationType).to.be.equal('monetary');
+    expect(form.elements['veteran[spouses][other_income]'].dataset.validationType).to.be.equal('monetary');
+    expect(form.elements['veteran[children][gross_wage_income]'].dataset.validationType).to.be.equal('monetary');
+    expect(form.elements['veteran[children][net_business_income]'].dataset.validationType).to.be.equal('monetary');
+    expect(form.elements['veteran[children][other_income]'].dataset.validationType).to.be.equal('monetary');
+    expect(form.elements['veteran[children][other_income]'].dataset.validationType).to.be.equal('monetary');
   });
 });
 
