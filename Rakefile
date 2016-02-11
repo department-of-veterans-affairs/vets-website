@@ -35,7 +35,14 @@ end
 
 desc "Build the website"
 task :build do
+  sh "BUILD_TYPE=dev npm run-script webpack"
   sh "bundle exec jekyll build"
+end
+
+desc "Build the website with production configs"
+task :build_production do
+  sh "npm run-script webpack -- -p --config webpack_production.config.js"
+  sh "bundle exec jekyll build --config _config.yml,_config_production.yml"
 end
 
 desc "Push the *remote* master branch to *remote* production. Does NOT merge."
@@ -89,11 +96,11 @@ namespace :tests do
 
   desc "Run Javascript tests in a single-shot."
   task :javascript do
-    sh "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
+    sh "npm run-script karma -- start --single-run --browsers PhantomJS"
   end
 
   desc "Run Javascript tests continuously."
   task :javascript_watch do
-    sh "./node_modules/.bin/karma start --browsers PhantomJS"
+    sh "npm run-script karma -- start --browsers PhantomJS"
   end
 end
