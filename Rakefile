@@ -35,7 +35,7 @@ end
 
 desc "Build the website"
 task :build do
-  sh "npm run-script webpack"
+  sh "BUILD_TYPE=dev npm run-script webpack"
   sh "bundle exec jekyll build"
 end
 

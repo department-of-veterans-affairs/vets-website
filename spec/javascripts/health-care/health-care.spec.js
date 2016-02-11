@@ -139,7 +139,7 @@ describe("Health Care Form", function() {
   beforeEach(function(done){
     var fixtureFrame = document.createElement('iframe');
     fixtureFrame.id = "fixture-frame";
-    fixtureFrame.src = 'base/_site/health-care/form.html';
+    fixtureFrame.src = '/health-care/form.html';
     fixtureFrame.onload = function() {
       // Signal async complete immediately otherwise assertions deadlock the
       // test.

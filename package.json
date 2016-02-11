@@ -1,6 +1,7 @@
 {
-  "//": "Javascript libraries actually deployed to production.",
+  "//": "Used by Karma the test runner and Webpack, for managing JS libraries.",
   "dependencies": {
+    "babel-polyfill": "^6.5.0",
     "classlist-polyfill": "^1.0.2",
     "dataset": "^0.3.1",
     "foundation": "^4.2.1-1",
@@ -8,8 +9,11 @@
     "sizzle": "^2.3.0",
     "wow.js": "^1.1.2"
   },
-  "//": "Used by Karma the test runner and Webpack, for managing JS libraries.",
   "devDependencies": {
+    "babel-core": "^6.5.1",
+    "babel-loader": "^6.2.2",
+    "babel-plugin-transform-runtime": "^6.5.0",
+    "babel-preset-es2015": "^6.5.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
     "chai-jquery": "^2.0.0",

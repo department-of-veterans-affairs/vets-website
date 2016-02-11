@@ -77,7 +77,14 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS', 'PhantomJS_custom'],
+    browsers: ['PhantomJS', 'PhantomJS_debug'],
+
+    customLaunchers: {
+      'PhantomJS_debug': {
+        base: 'PhantomJS',
+        debug: true
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
@@ -88,7 +95,11 @@ module.exports = function(config) {
     browserNoActivityTimeout: 60000, //default 10000
 
     proxies: {
-      '/assets/': '/base/_site/assets'
+      // Allow iframes to load javascript assets.
+      '/assets/': '/base/_site/assets',
+
+      // Allow client-side routing to work correctly.
+      '/health-care/': '/base/_site/health-care'
     },
 
     // Concurrency level
