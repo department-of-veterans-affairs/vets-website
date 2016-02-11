@@ -9,10 +9,10 @@
     <div class="small-12 columns">
       <input
         type="checkbox"
-        name="veteran_is_covered_by_health_insurance"
-        value="veteran_is_covered_by_health_insurance"
-        id="veteran_is_covered_by_health_insurance">
-      <label for="veteran_is_covered_by_health_insurance">Do you have any children to report?</label>
+        name="has_children_to_report"
+        value="has_children_to_report"
+        id="has_children_to_report">
+      <label for="has_children_to_report">Do you have any children to report?</label>
     </div>
   </div>
 
@@ -97,7 +97,7 @@
       <div class="row">
         <div class="small-12 columns">
           <label for="veteran_children_education_expenses">Expenses paid by your dependent child for college, vocational rehabilitation or training (e.g., tuition, books, materials)?</label>
-          $<input type="text" name="veteran[children][education_expenses]" />
+          $<input type="text" name="veteran[children][education_expenses]" data-validation-type="monetary"/>
         </div>
       </div>
 

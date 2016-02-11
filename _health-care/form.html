@@ -104,24 +104,4 @@ template: 1-topic-landing
     </div>
   </div>
 </div>
-
-<script src="/assets/js/foundation.min.js"></script>
-<script>
-  $(document).foundation();
-</script>
 {% endif %}
-
-<!-- TODO(awong): Properly serve up the JS. Right now using jekyl includes
-     to ensure nothing leaks to production. -->
-<script>
-  {% include_relative _js/_jquery.serializeObject.min.js %}
-</script>
-<script>
-  {% include_relative _js/_jquery.deserialize.min.js %}
-</script>
-<script>
-  {% include_relative _js/_form.js %}
-</script>
-<script>
-  {% include_relative _js/_form_progress.js %}
-</script>

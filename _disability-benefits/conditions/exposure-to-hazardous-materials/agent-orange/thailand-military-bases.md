@@ -21,7 +21,7 @@ template: 4-action-page
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: Between January 9, 1962, and May 7, 1975</dd>
+<dd>Between January 9, 1962, and May 7, 1975</dd>
 <dd>Sites: Royal Thai Air Force (RTAF) bases and U.S. Army bases in Thailand</dd>
 </dl>
 <div markdown="1">
