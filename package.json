@@ -1,6 +1,7 @@
 {
   "//": "Used by Karma the test runner and Webpack, for managing JS libraries.",
   "dependencies": {
+    "babel-polyfill": "^6.5.0",
     "classlist-polyfill": "^1.0.2",
     "dataset": "^0.3.1",
     "foundation": "^4.2.1-1",
