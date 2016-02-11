@@ -79,7 +79,10 @@ namespace :tests do
   desc "NO JEKYLL REBUILD: Run all tests including slow/flaky ones (eg external link checks)."
   task :all_nobuild => [ :ci_nobuild, :htmlproof_external_only ]
 
-  task :ci=> [ :build, :ci_nobuild ]
+  # TODO(awong): The production build does not get tested. This need to be fixed. Either
+  # it should always tests both configurations, or it should only test one and the configuration
+  # should change based on environment variable. #1177
+  task :ci=> [ :build, :build_production, :ci_nobuild ]
 
   desc "NO JEKYLL REBUILD: Run standard continuous integration tests."
   task :ci_nobuild => [ :htmlproof, :javascript ]
