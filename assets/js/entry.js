@@ -23,8 +23,11 @@ require('./vendor/menu.js');
 // routing library.
 if (window.location.pathname === '/health-care/form.html') {
   if (__DEV__) {
-    let HealthApp = require('../../_health-care/_js/_form.js');
-    $(document).ready(HealthApp.initForm);
-    window.HealthApp = HealthApp;  // Attach to window for easy debugging.
+    // Use code chunking because most pages do not need this piece of JS.
+    require.ensure([], function(require) {
+      let HealthApp = require('../../_health-care/_js/_form.js');
+      $(document).ready(HealthApp.initForm);
+      window.HealthApp = HealthApp;  // Attach to window for easy debugging.
+    });
   }
 }

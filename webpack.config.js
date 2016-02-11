@@ -5,6 +5,7 @@ var config = {
   entry: "./assets/js/entry.js",
   output: {
     path: path.join(__dirname, "assets/js/generated"),
+    publicPath: "/assets/js/generated/",
     filename: "bundle.js"
   },
   devtool: "#source-map",
