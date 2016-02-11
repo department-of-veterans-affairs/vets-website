@@ -135,19 +135,13 @@ figcaption {
 
 // Interior rows
 
-#content.interior .row {
-  max-width: 52em;
-}
+// #content.interior .row {
+//   max-width: 52em;
+// }
 
 
 #content.interior a[href^="http://"],
 #content.interior a[href^="https://"] {
-  background: url(../images/icons/exit-icon.png);
-  -webkit-background-size: 18px 18px;
-  background-size: 18px 18px;
-  background-position: right center !important;
-  background-repeat: no-repeat;
-  padding-right: 1.5em;
   position: relative;
 }
 
@@ -2255,13 +2249,18 @@ button[class*="usa-button-"] {
 .disclaimer {
   padding: 1em 0;
   border-top: 1px solid #ddd;
-  font-size: .8em;
+
   z-index:500;
   color: #444;
   background: #fff;
+
   &.minimal {
     border-top: none;
     padding: .25em 0;
+  }
+
+  p {
+    font-size: 0.8em;
   }
 }
 
