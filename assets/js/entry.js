@@ -1,4 +1,3 @@
-// Add all the ES6 library features that my be missing.
 require ("babel-polyfill");
 
 // Get our browser up to date with polyfills.
@@ -24,10 +23,11 @@ require('./vendor/menu.js');
 // Poor-man's client-side router. If more than the healthcare-app
 // starts using this functionality, then replace with a real client-side
 // routing library.
-if (window.location.pathname === '/health-care/form.html') {
+if (window.location.pathname.startsWith('/health-care/form/')) {
   if (__DEV__) {
     // Use code chunking because most pages do not need this piece of JS.
     require.ensure([], function(require) {
+      console.log("hi mom");
       let HealthApp = require('../../_health-care/_js/_form.js');
       $(document).ready(HealthApp.initForm);
       window.HealthApp = HealthApp;  // Attach to window for easy debugging.
