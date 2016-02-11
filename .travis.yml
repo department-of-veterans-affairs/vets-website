@@ -16,3 +16,16 @@ notifications:
 env:
   global:
   - NOKOGIRI_USE_SYSTEM_LIBRARIES=true # speeds up installation of html-proofer
+deploy:
+  - provider: s3
+    access_key_id: AKIAJPGY3X77ZMIBM4OA
+    secret_access_key:
+      secure: m5rN6YkmhW8kCsd6lc7szFHmPy4iFuc8fXMLRUIGTQQCLok2xdbsx6J4CPEYbjoECTmvQ0HyBfrYDAgR9SypxBprjAs5vBUaccXxB9G9cTWinJrSRbAY2COXVXxWNfjqHZF0Jfk3UH/bzTx72BJL58vkb844RS/pEWBA/HiTmSpKTFaXwQzussMVuJdF4CROvymX0sHBurHap5Jdzytr2lV22cJ10/60rbc8S7XVACloIxsD/n/HJr79wf9J44gHbzjKEpvWpz3jsF/jTHkXkGuq/Li9qaD9mM9dCVYv7AlzXm8Wm4r8IP/qriIuOYsPouyiZHuky6y3oGDD6BaH6JAAUBwVX1e8FfxEjvDGQP4T6K0y3memwIE1NiI3JJbaqSAlNkgfHXwqE5WeP0XThK30X0B41Uu661YgGh9lTu9a2R9+XKPGjxoAi14RFNtMvS7Pwzv2jrUM7UD/7dfIQc0q3s1j/kaHkAlXi9CCvhAB9WRUXSuMJv+Zdcaua5XK0SSO8pBYT/NaY/3rI6G03I3vWG06KRZwsF0ilo2RKBtx+wH1K7tt33LBJdAx/AScoYMyY0hWCKZvtnKlvOc9Ucexy3JDC9aNOG3cvX4u5jPJLI5dpzZJE2dye5BucKkane999hmI37pgvgVE1/qdaN+NjyrGM/CX5kBs9JUfCe8=
+    bucket: www.vets.gov
+    skip_cleanup: true
+    region: us-east-1
+    local-dir: _site_production
+    acl: public_read
+    on:
+      repo: department-of-veterans-affairs/vets-website
+      branch: production
