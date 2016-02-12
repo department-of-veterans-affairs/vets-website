@@ -16,19 +16,6 @@ template: 1-topic-landing
 </div>
 {% else %}
 
-<!-- TODO(awong): Properly serve up the JS. Right now using jekyl includes
-     to ensure nothing leaks to production. -->
-<script>
-  {% include_relative _js/_jquery.serializeObject.min.js %}
-</script>
-<script>
-  {% include_relative _js/_jquery.deserialize.min.js %}
-</script>
-<script>
-  {% include_relative _js/_form.js %}
-</script>
-
-
 <!-- TODO(awong): Remove inline CSS. #1002 -->
 <style>
   .tabs.vertical {
@@ -38,7 +25,7 @@ template: 1-topic-landing
   div.form-section {
     padding: 2rem;
     margin: 0 0 2rem;
-    border: 1px solid #eee; 
+    border: 1px solid #eee;
   }
 </style>
 
@@ -144,9 +131,4 @@ template: 1-topic-landing
     </div>
   </div>
 </div>
-
-<script src="/assets/js/foundation.min.js"></script>
-<script>
-  $(document).foundation();
-</script>
 {% endif %}

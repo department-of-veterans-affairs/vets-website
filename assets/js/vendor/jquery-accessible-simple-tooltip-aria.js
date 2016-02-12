@@ -8,7 +8,7 @@ $(document).ready(function(){
 
    // loading tooltip ------------------------------------------------------------------------------------------------------------
    // init
-   $js_simple_tooltips = $('.js-simple-tooltip');
+   var $js_simple_tooltips = $('.js-simple-tooltip');
    if ( $js_simple_tooltips.length ) { // if there are at least one :)
    
       $js_simple_tooltips.each( function(index_to_expand) {
