@@ -4,10 +4,6 @@ install:
 
 script:
   - rake tests:ci
-cache:
-  directories:
-    - node_modules
-    - vendor/bundle
 notifications:
   email: false
 
