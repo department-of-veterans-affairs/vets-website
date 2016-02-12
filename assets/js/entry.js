@@ -28,7 +28,6 @@ if (window.location.pathname.startsWith('/health-care/form/')) {
   if (__DEV__) {
     // Use code chunking because most pages do not need this piece of JS.
     require.ensure([], function(require) {
-      console.log("hi mom");
       let HealthApp = require('../../_health-care/_js/_form.js');
       $(document).ready(HealthApp.initForm);
       window.HealthApp = HealthApp;  // Attach to window for easy debugging.
