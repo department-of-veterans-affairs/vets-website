@@ -1,6 +1,6 @@
 language: ruby
 install:
-  - rake install
+  - travis_retry rake install
 
 script:
   - rake tests:ci

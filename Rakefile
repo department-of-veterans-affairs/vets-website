@@ -67,7 +67,7 @@ end
 
 desc "Install dependencies for serving and development"
 task :install do
-  sh "bundle install --jobs 3 --retry=3 --deployment"
+  sh "bundle install --jobs 3 --deployment"
   sh "npm install"
 end
 
