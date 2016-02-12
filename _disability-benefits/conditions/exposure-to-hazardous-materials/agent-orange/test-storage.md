@@ -20,7 +20,7 @@ concurrence: incomplete
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
-<dd>Dates: Vietnam Era</dd>
+<dd>During the Vietnam Era</dd>
 <dd>Sites: Herbicide storage facilities</dd>
 <dd>Who: All branches of service</dd>
 </dl>
