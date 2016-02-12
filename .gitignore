@@ -5,5 +5,5 @@
 .sass-cache
 _site/
 node_modules/
+vendor/bundle
 .ruby-gemset
-.ruby-version
