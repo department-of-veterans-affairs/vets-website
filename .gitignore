@@ -7,3 +7,5 @@ _site/
 node_modules/
 vendor/bundle
 .ruby-gemset
+.bundle/
+assets/js/generated/
