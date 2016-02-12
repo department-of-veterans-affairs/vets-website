@@ -6,9 +6,9 @@ script:
   - rake tests:ci
 bundler_args: "--without development --jobs 3 --retry=3"
 cache:
-  bundler: true
-  direcetories:
+  directories:
     - node_modules
+    - vendor/bundle
 notifications:
   email: false
 
