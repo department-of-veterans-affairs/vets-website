@@ -35,13 +35,13 @@ end
 
 desc "Build the website"
 task :build do
-  sh "BUILD_TYPE=dev npm run-script webpack"
+  Rake::Task["webpack"].invoke
   sh "bundle exec jekyll build"
 end
 
 desc "Build the website with production configs"
 task :build_production do
-  sh "npm run-script webpack -- -p --config webpack_production.config.js"
+  Rake::Task["webpack_production"].invoke
   sh "bundle exec jekyll build --config _config.yml,_config_production.yml"
 end
 
@@ -69,6 +69,16 @@ desc "Install dependencies for serving and development"
 task :install do
   sh "bundle install"
   sh "npm install"
+end
+
+desc "Run webpack with development settings"
+task :webpack do
+  sh "BUILD_TYPE=dev npm run-script webpack"
+end
+
+desc "Run webpack with production settings"
+task :webpack_production do
+  sh "npm run-script webpack -- -p --config webpack_production.config.js"
 end
 
 desc "Run the development webpack in watch mode"
