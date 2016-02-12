@@ -10,7 +10,7 @@ template: 2-detailed-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-The best time to start the process of filing a disability claim is while you are on active duty in predischarge status,. Processing times tend to be faster for claims submitted pre-separation than for those submitted after separation has occurred.
+The best time to start the process of filing a disability claim is while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted pre-separation than for those submitted after separation has occurred.
 
 If you are in predischarge status, you may file a claim for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty.
 
