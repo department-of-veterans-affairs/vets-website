@@ -139,7 +139,7 @@ describe("Health Care Form", function() {
   beforeEach(function(done){
     var fixtureFrame = document.createElement('iframe');
     fixtureFrame.id = "fixture-frame";
-    fixtureFrame.src = '/health-care/form.html';
+    fixtureFrame.src = '/health-care/form/index.html';
     fixtureFrame.onload = function() {
       // Signal async complete immediately otherwise assertions deadlock the
       // test.
@@ -182,7 +182,6 @@ describe("Health Care Form", function() {
     // Set the form data to match the golden file.
     var form = HealthApp.getFormRoot();
     form.elements['veteran[ssn]'].value = '111-22-3333';
-    form.elements['veteran[date_of_birth]'].value = "01/01/1970";
     form.elements['veteran[gender]'].value = "M";
     form.elements['veteran[last_name]'].value = "ALastName";
     form.elements['veteran[first_name]'].value = "AFirstName";

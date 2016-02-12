@@ -2,160 +2,164 @@
   <div class="row">
     <div class="small-12 columns">
       <h4>Veterans Name</h4>
+
+      <label for="veteran_first_name">First Name
+        <span class="usa-additional_text">Required</span>
+      </label>
+      <input type="text" name="veteran[first_name]" />
+
+      <label for="veteran_middle_name">Middle Name</label>
+      <input type="text" name="veteran[middle_name]" />
+
+      <label for="veteran_last_name">Last Name
+        <span class="usa-additional_text">Required</span>
+      </label>
+      <input type="text" name="veteran[last_name]" />
+
+      <div>
+        <div class="usa-input-grid usa-input-grid-small">
+          <label for="veteran_suffix_name">Suffix</label>
+          <select name="veteran[suffix_name]" ><option value="0"></option>
+            <option value="JR">Jr.</option>
+            <option value="SR">Sr.</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <div class="usa-input-grid usa-input-grid-large">
+          <label for="veteran_mothers_maiden_name">Mother&#39;s Maiden Name</label>
+          <!-- (TODO: Add optional styling) -->
+          <input type="text" name="veteran[mothers_maiden_name]" />
+        </div>
+      </div>
+
+      <div>
+        <div class="usa-input-grid usa-input-grid-medium usa-input-error">
+          <label class="usa-input-error-label" for="veteran_ssn">Social Security Number
+            <span class="usa-additional_text">Required</span>
+          </label>
+          <span class="usa-input-error-message" id="input-error-message" role="alert">Please put you number in this format xxx-xx-xxxx</span>
+          <input type="text" name="veteran[ssn]" aria-describedby="input-error-message"/>
+        </div>
+      </div>
+
+      <!-- This is our version -->
+      <!-- <label for="veteran_date_of_birth">Date of Birth</label> -->
+      <!-- <input type="date" name="veteran[date_of_birth]" /> -->
+
+      <div>
+        <div class="usa-input-grid usa-input-grid-large">
+
+          <h4>Date of birth</h4>
+          <span class="usa-form-hint usa-datefield-hint" id="dobHint">For example: 04 28 1986</span>
+
+          <div class="usa-date-of-birth">
+            <div class="usa-datefield usa-form-group usa-form-group-month">
+            <!-- this is the USWDS version -->
+              <label for="date_of_birth_1">Month</label>
+              <input aria-describedby="dobHint" class="usa-form-control" id="date_of_birth_1" name="date_of_birth_1" pattern="0?[1-9]|1[012]" type="number" min="1" max="12" value="">
+            </div>
+            <div class="usa-datefield usa-form-group usa-form-group-day">
+              <label for="date_of_birth_2">Day</label>
+              <input aria-describedby="dobHint" class="usa-form-control" id="date_of_birth_2" name="date_of_birth_2" pattern="0?[1-9]|1[0-9]|2[0-9]|3[01]" type="number" min="1" max="31" value="">
+            </div>
+            <div class="usa-datefield usa-form-group usa-form-group-year">
+              <label for="date_of_birth_3">Year</label>
+              <input aria-describedby="dobHint" class="usa-form-control" id="date_of_birth_3" name="date_of_birth_3" pattern="[0-9]{4}" type="number" min="1900" max="2000" value="">
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div>
+        <div class="usa-input-grid usa-input-grid-large">
+          <label for="veteran_gender">Gender</label>
+          <select name="veteran[gender]" ><option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="2">NeedOtherOfficialOptions</option>
+          </select>
+
+          <h4>Place of Birth</h4>
+          <div>
+            <div class="usa-input-grid usa-input-grid-medium">
+              <label for="veteran_city_of_birth">City</label>
+              <input type="text" name="veteran[city_of_birth]" />
+            </div>
+
+            <div class="usa-input-grid usa-input-grid-small">
+              <label for="veteran_state_of_birth">State</label>
+              <select name="veteran[state_of_birth]" ><option value="0"></option>
+                <option value="AL">Alabama</option>
+                <option value="AK">Alaska</option>
+                <option value="AS">American Samoa</option>
+                <option value="AZ">Arizona</option>
+                <option value="AR">Arkansas</option>
+                <option value="CA">California</option>
+                <option value="CO">Colorado</option>
+                <option value="CT">Connecticut</option>
+                <option value="DE">Delaware</option>
+                <option value="DC">District Of Columbia</option>
+                <option value="FM">Federated States Of Micronesia</option>
+                <option value="FL">Florida</option>
+                <option value="GA">Georgia</option>
+                <option value="GU">Guam</option>
+                <option value="HI">Hawaii</option>
+                <option value="ID">Idaho</option>
+                <option value="IL">Illinois</option>
+                <option value="IN">Indiana</option>
+                <option value="IA">Iowa</option>
+                <option value="KS">Kansas</option>
+                <option value="KY">Kentucky</option>
+                <option value="LA">Louisiana</option>
+                <option value="ME">Maine</option>
+                <option value="MH">Marshall Islands</option>
+                <option value="MD">Maryland</option>
+                <option value="MA">Massachusetts</option>
+                <option value="MI">Michigan</option>
+                <option value="MN">Minnesota</option>
+                <option value="MS">Mississippi</option>
+                <option value="MO">Missouri</option>
+                <option value="MT">Montana</option>
+                <option value="NE">Nebraska</option>
+                <option value="NV">Nevada</option>
+                <option value="NH">New Hampshire</option>
+                <option value="NJ">New Jersey</option>
+                <option value="NM">New Mexico</option>
+                <option value="NY">New York</option>
+                <option value="NC">North Carolina</option>
+                <option value="ND">North Dakota</option>
+                <option value="MP">Northern Mariana Islands</option>
+                <option value="OH">Ohio</option>
+                <option value="OK">Oklahoma</option>
+                <option value="OR">Oregon</option>
+                <option value="PW">Palau</option>
+                <option value="PA">Pennsylvania</option>
+                <option value="PR">Puerto Rico</option>
+                <option value="RI">Rhode Island</option>
+                <option value="SC">South Carolina</option>
+                <option value="SD">South Dakota</option>
+                <option value="TN">Tennessee</option>
+                <option value="TX">Texas</option>
+                <option value="UT">Utah</option>
+                <option value="VT">Vermont</option>
+                <option value="VI">Virgin Islands</option>
+                <option value="VA">Virginia</option>
+                <option value="WA">Washington</option>
+                <option value="WV">West Virginia</option>
+                <option value="WI">Wisconsin</option>
+                <option value="WY">Wyoming</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
   <div class="row">
     <div class="small-12 columns">
-      <div class="small-3 columns">
-        <label for="veteran_last_name">Last Name</label>
-        <input type="text" name="veteran[last_name]" />
-      </div>
-      <div class="small-3 columns">
-        <label for="veteran_first_name">First Name</label>
-        <input type="text" name="veteran[first_name]" />
-      </div>
-      <div class="small-3 columns">
-        <label for="veteran_middle_name">Middle Name</label>
-        <input type="text" name="veteran[middle_name]" />
-      </div>
-      <div class="small-3 columns">
-        <label for="veteran_suffix_name">Suffix</label>
-        <select name="veteran[suffix_name]" ><option value="0"></option>
-          <option value="JR">Jr.</option>
-          <option value="SR">Sr.</option></select>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="small-3 columns">
-        <label for="veteran_mothers_maiden_name">Mother&#39;s Maiden Name</label>
-        (leave blank if unknown)
-      </div>
-      <div class="small-9 columns">
-        <input type="text" name="veteran[mothers_maiden_name]" />
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="small-3 columns">
-        <label for="veteran_ssn">Social Security Number</label>
-      </div>
-      <div class="small-9 columns">
-        <input type="text" name="veteran[ssn]" />
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="small-3 columns">
-        <label for="veteran_date_of_birth">Date of Birth</label>
-      </div>
-      <div class="small-9 columns">
-        <input type="date" name="veteran[date_of_birth]" />
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="small-3 columns">
-        <label for="veteran_gender">Gender</label>
-      </div>
-      <div class="small-9 columns">
-        <select name="veteran[gender]" ><option value="M">Male</option>
-          <option value="F">Female</option>
-          <option value="2">NeedOtherOfficialOptions</option></select>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="small-12 columns">
-        <h4>Place of Birth</h4>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="small-3 columns">
-        <label for="veteran_city_of_birth">City</label>
-      </div>
-      <div class="small-9 columns">
-        <input type="text" name="veteran[city_of_birth]" />
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="small-3 columns">
-        <label for="veteran_state_of_birth">State</label>
-      </div>
-      <div class="small-9 columns">
-        <select name="veteran[state_of_birth]" ><option value="0"></option>
-          <option value="AL">Alabama</option>
-          <option value="AK">Alaska</option>
-          <option value="AS">American Samoa</option>
-          <option value="AZ">Arizona</option>
-          <option value="AR">Arkansas</option>
-          <option value="CA">California</option>
-          <option value="CO">Colorado</option>
-          <option value="CT">Connecticut</option>
-          <option value="DE">Delaware</option>
-          <option value="DC">District Of Columbia</option>
-          <option value="FM">Federated States Of Micronesia</option>
-          <option value="FL">Florida</option>
-          <option value="GA">Georgia</option>
-          <option value="GU">Guam</option>
-          <option value="HI">Hawaii</option>
-          <option value="ID">Idaho</option>
-          <option value="IL">Illinois</option>
-          <option value="IN">Indiana</option>
-          <option value="IA">Iowa</option>
-          <option value="KS">Kansas</option>
-          <option value="KY">Kentucky</option>
-          <option value="LA">Louisiana</option>
-          <option value="ME">Maine</option>
-          <option value="MH">Marshall Islands</option>
-          <option value="MD">Maryland</option>
-          <option value="MA">Massachusetts</option>
-          <option value="MI">Michigan</option>
-          <option value="MN">Minnesota</option>
-          <option value="MS">Mississippi</option>
-          <option value="MO">Missouri</option>
-          <option value="MT">Montana</option>
-          <option value="NE">Nebraska</option>
-          <option value="NV">Nevada</option>
-          <option value="NH">New Hampshire</option>
-          <option value="NJ">New Jersey</option>
-          <option value="NM">New Mexico</option>
-          <option value="NY">New York</option>
-          <option value="NC">North Carolina</option>
-          <option value="ND">North Dakota</option>
-          <option value="MP">Northern Mariana Islands</option>
-          <option value="OH">Ohio</option>
-          <option value="OK">Oklahoma</option>
-          <option value="OR">Oregon</option>
-          <option value="PW">Palau</option>
-          <option value="PA">Pennsylvania</option>
-          <option value="PR">Puerto Rico</option>
-          <option value="RI">Rhode Island</option>
-          <option value="SC">South Carolina</option>
-          <option value="SD">South Dakota</option>
-          <option value="TN">Tennessee</option>
-          <option value="TX">Texas</option>
-          <option value="UT">Utah</option>
-          <option value="VT">Vermont</option>
-          <option value="VI">Virgin Islands</option>
-          <option value="VA">Virginia</option>
-          <option value="WA">Washington</option>
-          <option value="WV">West Virginia</option>
-          <option value="WI">Wisconsin</option>
-          <option value="WY">Wyoming</option>
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <div class="row">
-    <div class="small-3 columns">
       <label for="veteran_marital_status">Current Martial Status</label>
-    </div>
-    <div class="small-9 columns">
       <select name="veteran[marital_status]" ><option value="1"></option>
         <option value="Married">Married</option>
         <option value="Never Married">Never Married</option>

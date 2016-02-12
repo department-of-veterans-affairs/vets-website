@@ -1,5 +1,41 @@
 // Vets.gov
 
+// Pieces of elements/typography we need
+// TODO: properly incorporate elements/typography
+$base-font-size: rem(16px);
+
+html {
+  font-family: $font-sans;
+  font-size: $em-base;
+}
+
+body {
+  font-size: $base-font-size;
+}
+
+// TODO: look into alert / error spacing issues
+.usa-input-error {
+  right: 1rem;
+  padding-bottom: 0;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+// TODO: properly incorporate usds web standards for this
+body .row {
+  max-width: 62.5em;
+}
+
+.main-form {
+  button {
+    width: 100%;
+  }
+}
+
+.form-section {
+  display: none;
+}
+
 // Skip link
 
 .show-on-focus {
@@ -33,7 +69,7 @@ $roboto-slab: 'Roboto Slab', serif;
 html, body {
   padding: 0;
   margin: 0;
-  font-size: 16px;
+  // font-size: 17px;
   font-family: $font-sans;
   font-weight: 500;
   color: $color-gray-dark;
@@ -53,7 +89,7 @@ body .row.full {
 }
 
 body.home .row {
-/* max-width: 62.5em; */
+  // max-width: 62.5em;
 }
 
 // Screen Readers
@@ -99,19 +135,13 @@ figcaption {
 
 // Interior rows
 
-#content.interior .row {
-  max-width: 52em;
-}
+// #content.interior .row {
+//   max-width: 52em;
+// }
 
 
 #content.interior a[href^="http://"],
 #content.interior a[href^="https://"] {
-  background: url(../images/icons/exit-icon.png);
-  -webkit-background-size: 18px 18px;
-  background-size: 18px 18px;
-  background-position: right center !important;
-  background-repeat: no-repeat;
-  padding-right: 1.5em;
   position: relative;
 }
 
@@ -1503,7 +1533,7 @@ a.twitter {
 }
 
 .message {
-  font-size:.95rem;
+  font-size: 1.7rem;
   font-weight: 700;
   span {
     background-position: 0 4px;
@@ -1514,7 +1544,7 @@ a.twitter {
 
   }
   p {
-    font-size: .9rem;
+    font-size: 1.44rem;
     font-weight: 300;
     margin-bottom: 0;
     margin-top: 0;
@@ -2219,13 +2249,18 @@ button[class*="usa-button-"] {
 .disclaimer {
   padding: 1em 0;
   border-top: 1px solid #ddd;
-  font-size: .8em;
+
   z-index:500;
   color: #444;
   background: #fff;
+
   &.minimal {
     border-top: none;
     padding: .25em 0;
+  }
+
+  p {
+    font-size: 0.8em;
   }
 }
 
@@ -2601,4 +2636,31 @@ html.touchevents {
     -webkit-transform: translateY(0);
     transform: translateY(0);
   }
+}
+
+// Everything for progress-menu tabs
+.progress-menu, .progress-menu dd.tab-title {
+  margin: 10px 2px 0px 0px;
+
+  li.tab-title, dd.tab-title {
+    list-style: none;
+    border-top: $color-primary-darker 5px solid;
+    a {text-decoration: none;}
+
+    &.active {
+      border-top: $color-primary 5px solid;
+      a {color: $color-primary;}
+    }
+
+    a {
+      padding: 0px 5px;
+      font-size: 14px;
+    }
+  }
+}
+
+.progress-box {
+  padding: 1rem;
+  margin: 1.5rem 0  ;
+  border: 1px solid #eee;
 }

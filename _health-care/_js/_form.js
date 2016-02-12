@@ -1,5 +1,6 @@
 require("./_jquery.serializeObject.min.js");
 require("./_jquery.deserialize.min.js");
+var form_progress = require("./_form_progress.js");
 
 function identityTransform(formData, arg) { return arg; }
 function extractTransform(formData, arg) { return formData[arg]; }
@@ -993,7 +994,7 @@ let xmlFieldMap = [
   { node: "formSessionID",  arg: "fb47f49e-89a6-4ec4-8280-c55c2b5d915b", transform: identityTransform },
   { node: "EDIPI",  arg: null, transform: identityTransform },
   { node: "VetSocialSecurityNumber",  arg: "veteran[ssn]", transform: extractTransform },
-  { node: "DateOfBirth",  arg: 'veteran[date_of_birth]', transform: extractDateWithSlashTransform },
+  { node: "DateOfBirth",  arg: '01/01/1970', transform: identityTransform },
   { node: "Gender",  arg: 'veteran[gender]', transform: extractTransform },
   { node: "VetNameLast",  arg: 'veteran[last_name]', transform: extractTransform },
   { node: "VetNameFirst",  arg: 'veteran[first_name]', transform: extractTransform },
@@ -1011,9 +1012,9 @@ let xmlFieldMap = [
   { node: "MEXStates",  arg: " ", transform: identityTransform },
   { node: "Countries",  arg: "USA", transform: identityTransform },
   { node: "pgIntro2Visited",  arg: "1", transform: identityTransform },
-  { node: "DateOfBirthMonth",  arg: 'veteran[date_of_birth]', transform: extractMonthTransform },
-  { node: "DateOfBirthDay",  arg: 'veteran[date_of_birth]', transform: extractDateTransform },
-  { node: "DateOfBirthYear",  arg: 'veteran[date_of_birth]', transform: extractYearTransform },
+  { node: "DateOfBirthMonth",  arg: '1', transform: identityTransform },
+  { node: "DateOfBirthDay",  arg: '1', transform: identityTransform },
+  { node: "DateOfBirthYear",  arg: '1970', transform: identityTransform },
   { node: "PlaceOfBirthCity",  arg: 'veteran[city_of_birth]', transform: extractTransform },
   { node: "PlaceOfBirthState",  arg: 'veteran[state_of_birth]', transform: extractTransform },
   { node: "State",  arg: 'veteran[state_of_birth]', transform: extractTransform },
@@ -1276,6 +1277,8 @@ export function saveForm(formRoot, e) {
 export function initForm() {
   // initialize foundation.
   $(document).foundation();
+
+  form_progress.init();
 
   let formRoot = getFormRoot();
   let allInputs = $(formRoot).find('input, select');
