@@ -45,6 +45,9 @@ task :build_production do
   sh "bundle exec jekyll build --config _config.yml,_config_production.yml"
 end
 
+desc "Build every configuration"
+multitask :build_all_configurations =>  [ :build, :build_production ]
+
 desc "Push the *remote* master branch to *remote* production. Does NOT merge."
 task :deploy do
   run_in_cloned_git do
@@ -68,13 +71,21 @@ task :install do
   sh "npm install"
 end
 
-desc "Serve the website"
-task :serve do
+desc "Run the development webpack in watch mode"
+task :webpack_watch do
+  sh "BUILD_TYPE=dev npm run-script webpack -- -w"
+end
+
+desc "Run the development jekyll server in watch mode"
+task :jekyll_watch do
   sh "bundle exec jekyll serve"
 end
 
+desc "Serve the website"
+multitask :serve => [ :webpack_watch, :jekyll_watch ]
+
 namespace :tests do
-  task :all => [ :build, :all_nobuild ]
+  task :all => [ :build_all_configurations, :all_nobuild ]
 
   desc "NO JEKYLL REBUILD: Run all tests including slow/flaky ones (eg external link checks)."
   task :all_nobuild => [ :ci_nobuild, :htmlproof_external_only ]
@@ -82,7 +93,7 @@ namespace :tests do
   # TODO(awong): The production build does not get tested. This need to be fixed. Either
   # it should always tests both configurations, or it should only test one and the configuration
   # should change based on environment variable. #1177
-  task :ci=> [ :build, :build_production, :ci_nobuild ]
+  task :ci=> [ :build_all_configurations, :ci_nobuild ]
 
   desc "NO JEKYLL REBUILD: Run standard continuous integration tests."
   task :ci_nobuild => [ :htmlproof, :javascript ]
