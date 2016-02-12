@@ -1,1 +1,1 @@
-web: jekyll serve -P $PORT
+web: rake heroku_serve[$PORT]

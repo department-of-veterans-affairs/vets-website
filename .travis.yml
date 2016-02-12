@@ -1,15 +1,13 @@
 language: ruby
-rvm:
-  - ruby-2.2
-
 install:
   - rake install
 
 script:
   - rake tests:ci
-bundler_args: "--without development"
 cache:
-  - bundler
+  directories:
+    - node_modules
+    - vendor/bundle
 notifications:
   email: false
 
