@@ -47,7 +47,7 @@ Commercial pilot, instrument rating, certified flight instructor (airplane, inst
 
 **The requirements and benefits vary according to the benefit program you use:**
 
-- If you use the Montgomery GI Bill (MGIB) or the [Reserve Educational Assistance Program (REAP)](/education/legacy-programs/reap/), VA reimburses eligible beneficiaries for 60% of the approved charges. View [payment information](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
+- If you use the Montgomery GI Bill (MGIB) or the [Reserve Educational Assistance Program (REAP)](/education/other-educational-assistance-programs/reap/), VA reimburses eligible beneficiaries for 60% of the approved charges. View [payment information](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 - If you use the Post-9/11 GI Bill, your payment varies depending on the specific flight course and what type of school you're attending. 
     - If your school is a standalone Part 141 pilot school, VA pays the school the full cost of training up to a yearly limit*. See the [annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp). 
     - If your school is a public college or university, VA reimburses the school the full cost of tuition and fees*.

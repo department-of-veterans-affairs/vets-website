@@ -32,10 +32,10 @@ Yes, if:
 
   - Post-9/11 GI Bill ([Veterans](/education/gi-bill/post-9-11/) and [transfer-of-entitlement recipients](/education/gi-bill/transfer/))
   - Montgomery GI Bill ([Active Duty](/education/gi-bill/montgomery-active-duty/) and [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/))
-  - [Reserve Educational Assistance Program](/education/legacy-programs/reap/)
-  - [Veterans' Educational Assistance Program](/education/legacy-programs/veap/)
+  - [Reserve Educational Assistance Program](/education/other-educational-assistance-programs/reap/)
+  - [Veterans' Educational Assistance Program](/education/other-educational-assistance-programs/veap/)
   - [Survivors’ and Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (**Note:** Eligible dependents under 38 U.S.C. Chapter 35 may use work study only while enrolled at an educational institution in one of the 50 states.)
-  - [National Call to Service](/education/legacy-programs/call-to-service/)
+  - [National Call to Service](/education/other-educational-assistance-programs/call-to-service/)
   - [Vocational Rehabilitation and Employment program](http://www.benefits.va.gov/vocrehab/index.asp)
 - You are able to complete the work-study contract before the end of your eligibility for education benefits.
 - There is a position available within your normal commuting distance.
