@@ -1,20 +1,9 @@
 // Add all the ES6 library features that my be missing.
 require("babel-polyfill");
 
-// Get our browser up to date with polyfills.
-let Modernizr = require("modernizr");
-if (!Modernizr.classlist) {
-  require('classlist-polyfill'); // DOM element classList support.
-}
-if (!Modernizr.dataset) {
-  require('dataset');  // dataSet accessort support.
-}
-
 
 // Bring in foundation and custom libraries.
 require('foundation/js/foundation/foundation');
-let WOW = require('wow.js/src/wow.coffee');
-new WOW().init();
 require('./components.js');
 
 // Things that run on document.ready().
