@@ -55,7 +55,7 @@ Veterans can seek assistance after they have left the military and held a civili
         </li>
 
         <li>
-          <a href="/employment/job-seekers/interest-and-aptitude/">Interest and Aptitude Profiler: #110298582 </a>
+          <a href="https://www.vets.gov/veterans-employment-center/interest-profiler">Interest and Aptitude Profiler: #110298582 </a>
         </li>
 
         <li>

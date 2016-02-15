@@ -39,7 +39,7 @@ Spouses can use government-sponsored career and education resources, take advant
         </li>
 
         <li>
-          <a href="/employment/job-seekers/interest-and-aptitude/">Interest and Aptitude Profiler: #110298582 </a>
+          <a href="https://www.vets.gov/veterans-employment-center/interest-profiler">Interest and Aptitude Profiler: #110298582 </a>
         </li>
 
         <li>
@@ -47,15 +47,11 @@ Spouses can use government-sponsored career and education resources, take advant
         </li>
 
         <li>
-          <a href="/employment/job-seekers/employer-commitments/">View Employer Commitments to Hire Veterans: #110298592</a>
+          <a href="https://www.vets.gov/veterans-employment-center/commitments">View Employer Commitments to Hire Veterans: #110298592</a>
         </li>
 
         <li>
           <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570</a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/career-fairs/">Career Fairs: #110298576</a>
         </li>
 
         <li>
