@@ -62,6 +62,8 @@ Servicemembers should begin exploring the civilian job environment long before t
           <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
         </li>    
 
+      </ul>  
+
       </div>
     </div>  
   </div>

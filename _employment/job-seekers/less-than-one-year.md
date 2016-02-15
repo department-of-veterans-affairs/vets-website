@@ -62,7 +62,9 @@ This page will outline the steps and processes that Servicemembers should be eng
 
         <li>
           <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
-        </li>    
+        </li>  
+
+        </ul>  
 
       </div>
     </div>  

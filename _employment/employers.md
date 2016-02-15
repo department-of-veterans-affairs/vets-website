@@ -38,7 +38,7 @@ Access Veterans who are seeking employment by searching verified profiles of Vet
           </li>
 
           <li>
-            <a href="/veterans-employment-center/commitments/">
+            <a href="/employment/employers/commitments/">
               <h5>Make a Hiring Commitment</h5>
             </a>
           </li>

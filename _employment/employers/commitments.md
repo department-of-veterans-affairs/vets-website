@@ -1,5 +1,5 @@
 ---
-title: Support Veteran Employees
+title: Make a Hiring Commitment
 concurrence: incomplete
 template: 1-topic-landing
 ---
@@ -19,7 +19,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-A few tips on how to support the Reservists, Veterans, and Service-disabled Vets in your workplace.
+Content here.
 
 </div>
 </div>
@@ -32,13 +32,13 @@ A few tips on how to support the Reservists, Veterans, and Service-disabled Vets
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
           <li>
-            <a href="/employment/job-seekers/find-candidates/">
+            <a href="/employment/employers/find-candidates/">
               <h5>Find Veteran and Military-Spouse Candidates</h5>
             </a>
           </li>
 
           <li>
-            <a href="/veterans-employment-center/employers/commitments/">
+            <a href="/employment/employers/commitments/">
               <h5>Make a Hiring Commitment</h5>
             </a>
           </li>
@@ -81,9 +81,9 @@ A few tips on how to support the Reservists, Veterans, and Service-disabled Vets
 
         <li>
           <a href="/employment/job-seekers/unemployment-support/">Unemployment Support: #111659508</a>
-        </li>    
+        </li>  
 
-        </ul>
+        </ul>  
 
       </div>
     </div>  

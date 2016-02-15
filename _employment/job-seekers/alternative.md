@@ -90,6 +90,8 @@ Wherever you are in your transition, VA provides career advice, mentorship, resu
           <a href="/employment/job-seekers/unemployment-support/">Unemployment Support:  #111659508</a>
         </li>    
 
+        </ul>
+
       </div>
     </div>  
   </div>
