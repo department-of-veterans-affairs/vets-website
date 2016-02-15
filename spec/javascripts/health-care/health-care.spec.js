@@ -180,6 +180,9 @@ describe("Health Care Form", function() {
     // Set the form data to match the golden file.
     var form = HealthApp.getFormRoot();
     form.elements['veteran[ssn]'].value = '111-22-3333';
+    form.elements['veteran[date_of_birth][month]'].value = "1";
+    form.elements['veteran[date_of_birth][date]'].value = "1";
+    form.elements['veteran[date_of_birth][year]'].value = "1970";
     form.elements['veteran[gender]'].value = "M";
     form.elements['veteran[last_name]'].value = "ALastName";
     form.elements['veteran[first_name]'].value = "AFirstName";

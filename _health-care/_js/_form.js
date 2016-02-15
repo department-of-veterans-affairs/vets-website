@@ -6,29 +6,30 @@ function identityTransform(formData, arg) { return arg; }
 function extractTransform(formData, arg) { return formData[arg]; }
 function extractMonthTransform(formData, arg) {
   // Stupid js indexes months from 0.
-  return (new Date(extractTransform(formData, arg))).getMonth() + 1;
+  return extractTransform(formData, arg + "[month]");
 }
 function extractDateTransform(formData, arg) {
-  return (new Date(extractTransform(formData, arg))).getDate();
+  return extractTransform(formData, arg + "[date]");
 }
 function extractYearTransform(formData, arg) {
-  return (new Date(extractTransform(formData, arg))).getFullYear();
+  return extractTransform(formData, arg + "[year]");
 }
 function extractDateWithSlashTransform(formData, arg) {
-  let date = new Date(extractTransform(formData, arg));
   let dateString = "";
 
-  if (date.getMonth() < 10) {
+  let month = extractMonthTransform(formData, arg);
+  let date = extractMonthTransform(formData, arg);
+  if (Number(month) < 10) {
     dateString += "0";
   }
-  dateString += (date.getMonth() + 1) + "/";
+  dateString += month + "/";
 
-  if (date.getDate() < 10) {
+  if (Number(date) < 10) {
     dateString += "0";
   }
-  dateString += date.getDate() + "/";
+  dateString += date + "/";
 
-  return dateString + date.getFullYear();
+  return dateString + extractYearTransform(formData, arg);
 }
 function extractMonetaryValueTransform(formData, arg) {
   return Number(extractTransform(formData, arg)).toFixed(2).toString();
@@ -994,7 +995,7 @@ let xmlFieldMap = [
   { node: "formSessionID",  arg: "fb47f49e-89a6-4ec4-8280-c55c2b5d915b", transform: identityTransform },
   { node: "EDIPI",  arg: null, transform: identityTransform },
   { node: "VetSocialSecurityNumber",  arg: "veteran[ssn]", transform: extractTransform },
-  { node: "DateOfBirth",  arg: '01/01/1970', transform: identityTransform },
+  { node: "DateOfBirth",  arg: 'veteran[date_of_birth]', transform: extractDateWithSlashTransform },
   { node: "Gender",  arg: 'veteran[gender]', transform: extractTransform },
   { node: "VetNameLast",  arg: 'veteran[last_name]', transform: extractTransform },
   { node: "VetNameFirst",  arg: 'veteran[first_name]', transform: extractTransform },
@@ -1012,9 +1013,9 @@ let xmlFieldMap = [
   { node: "MEXStates",  arg: " ", transform: identityTransform },
   { node: "Countries",  arg: "USA", transform: identityTransform },
   { node: "pgIntro2Visited",  arg: "1", transform: identityTransform },
-  { node: "DateOfBirthMonth",  arg: '1', transform: identityTransform },
-  { node: "DateOfBirthDay",  arg: '1', transform: identityTransform },
-  { node: "DateOfBirthYear",  arg: '1970', transform: identityTransform },
+  { node: "DateOfBirthMonth",  arg: 'veteran[date_of_birth]', transform: extractMonthTransform },
+  { node: "DateOfBirthDay",  arg: 'veteran[date_of_birth]', transform: extractDateTransform },
+  { node: "DateOfBirthYear",  arg: 'veteran[date_of_birth]', transform: extractYearTransform },
   { node: "PlaceOfBirthCity",  arg: 'veteran[city_of_birth]', transform: extractTransform },
   { node: "PlaceOfBirthState",  arg: 'veteran[state_of_birth]', transform: extractTransform },
   { node: "State",  arg: 'veteran[state_of_birth]', transform: extractTransform },
