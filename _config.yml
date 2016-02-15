@@ -65,6 +65,9 @@ collections:
   education:
     output: true
     permalink: /:collection/:path/index.html
+  employment:
+    output: true
+    permalink: /:collection/:path/index.html
   memorial-benefits:
     output: false
   pension:
@@ -137,7 +140,7 @@ defaults:
       path: "health-care/form.html"
     values:
       layout: "page-breadcrumbs"
-      body_class: "page-healthcare"    
+      body_class: "page-healthcare"
   - scope:
       type: "memorial-benefits"
     values:
@@ -153,3 +156,8 @@ defaults:
     values:
       layout: "page-playbook"
       body_class: "page-playbook"
+  - scope:
+      type: "employment"
+    values:
+      layout: "page-breadcrumbs"
+      body_class: "page-employment"
