@@ -1,5 +1,5 @@
 ---
-title: Registering Your Business
+title: Entrepreneurship Counseling
 concurrence: incomplete
 template: 1-topic-landing
 ---
@@ -34,9 +34,9 @@ Intro content here.
 
       <ul>
 
-        <li>
-          <a href="/employment/start/counseling/">Entrepreneurship Counseling: #112172071 </a>
-        </li>  
+      <li>
+        <a href="/employment/start/register/">Registering Your Business: #112171837</a>
+      </li>
 
       </ul>
 

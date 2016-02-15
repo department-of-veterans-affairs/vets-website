@@ -38,7 +38,7 @@ A few tips on how to support the Reservists, Veterans, and Service-disabled Vets
           </li>
 
           <li>
-            <a href="/veterans-employment-center/commitments/">
+            <a href="/employment/employers/commitments/">
               <h5>Make a Hiring Commitment</h5>
             </a>
           </li>
@@ -64,7 +64,7 @@ A few tips on how to support the Reservists, Veterans, and Service-disabled Vets
       <ul>
 
         <li>
-          <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:   #110298554</a>
+          <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance: #110298554</a>
         </li>
 
         <li>
@@ -76,12 +76,14 @@ A few tips on how to support the Reservists, Veterans, and Service-disabled Vets
         </li>
 
         <li>
-          <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank:        #110298570</a>
+          <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570</a>
         </li>  
 
         <li>
-          <a href="/employment/job-seekers/unemployment-support/">Unemployment Support:  #111659508</a>
-        </li>    
+          <a href="/employment/job-seekers/unemployment-support/">Unemployment Support: #111659508</a>
+        </li>  
+
+        </ul>  
 
       </div>
     </div>  

@@ -56,7 +56,9 @@ Service-disabled Veterans are eligible for additional support.
 
         <li>
           <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
-        </li>    
+        </li>   
+
+        </ul> 
 
       </div>
     </div>  
