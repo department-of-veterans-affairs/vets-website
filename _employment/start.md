@@ -26,30 +26,25 @@ Research has shown that Veterans and military spouses are uniquely positioned an
 </div>
 
 
-<div class="section two">
-  <div class="row">
-    <div class="small-12 columns">
 
-      <h3>More on this topic</h3>
+  <div class="navigation">
+    <div class="row">
+      <div class="small-12 columns">
+        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
-      <ul>
+          <li>
+            <a href="/employment/start/register/"><h5>Registering Your Business: #112171837</h5></a>
+          </li>
 
-        <li>
-          <a href="/employment/start/register/">Registering Your Business: #112171837</a>
-        </li>
+          <li>
+            <a href="/employment/start/counseling/"><h5>Entrepreneurship Counseling: #112172071</h5></a>
+          </li>  
 
-        <li>
-          <a href="/employment/start/counseling/">Entrepreneurship Counseling: #112172071 </a>
-        </li>  
+        </ul>
 
-  
       </div>
     </div>  
   </div>
-
-
-
-
 
 
 </div>

@@ -26,27 +26,23 @@ Intro content here.
 </div>
 
 
-<div class="section two">
-  <div class="row">
-    <div class="small-12 columns">
+  <div class="navigation">
+    <div class="row">
+      <div class="small-12 columns">
+        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
-      <h3>More on this topic</h3>
+          <li>
+            <a href="/employment/start/register/"><h5>Registering Your Business: #112171837</h5></a>
+          </li>
 
-      <ul>
+          <li>
+            <a href="/employment/start/counseling/"><h5>Entrepreneurship Counseling: #112172071</h5></a>
+          </li>  
 
-        <li>
-          <a href="/employment/start/counseling/">Entrepreneurship Counseling: #112172071 </a>
-        </li>  
-
-      </ul>
+        </ul>
 
       </div>
     </div>  
   </div>
-
-
-
-
-
 
 </div>
