@@ -1,0 +1,29 @@
+{
+  "extends": "eslint:recommended",
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "mocha": true
+  },
+  "plugins": [
+    "babel"
+  ],
+  "globals": {
+      "$": true,
+      "chai": true,
+      "expect": true,
+      "assert": true,
+      "__DEV__": true
+  },
+  "rules": {
+    "eol-last": 0,
+    "new-cap": 0,
+    "no-console": 0,
+    "no-underscore-dangle": 0,
+    "no-unused-vars": [2, {"args": "after-used", "argsIgnorePattern": "^_"}],
+    "no-use-before-define": 0,
+    "strict": 0
+  }
+}

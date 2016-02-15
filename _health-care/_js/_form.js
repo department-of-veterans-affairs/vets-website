@@ -981,7 +981,7 @@ let medicalCenters = [
   { state: "WY", id: "666GD", name: "POWELL VA CLINIC" },
   { state: "WY", id: "666GC", name: "RIVERTON VA CLINIC" },
   { state: "WY", id: "666GF", name: "ROCK SPRINGS CBOC" },
-  { state: "WY", id: "666", name: "SHERIDAN VA MEDICAL CENTER" },
+  { state: "WY", id: "666", name: "SHERIDAN VA MEDICAL CENTER" }
 ];
 
 let xmlFieldMap = [
@@ -1270,7 +1270,7 @@ export function getFormRoot() {
   return document.querySelector(".main-form");
 }
 
-export function saveForm(formRoot, e) {
+export function saveForm(formRoot, _) {
   sessionStorage.setItem("voa_form", JSON.stringify($(formRoot).serializeObject()));
 }
 

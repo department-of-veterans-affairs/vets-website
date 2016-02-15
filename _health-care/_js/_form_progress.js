@@ -48,7 +48,7 @@ function showNextSection()  {
   }
 
   $(nextSection).show();
-};
+}
 
 export function init() {
   $('.content.active').find('.form-section').first().show();
