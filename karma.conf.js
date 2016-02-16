@@ -28,6 +28,27 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'spec/javascripts/**/*.spec.js': ['webpack']
+    },
+
+    webpack: {
+      devtool: 'inline-source-map',
+      module: {
+        loaders: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel',
+            query: {
+              // es2015 is current name for the es6 settings.
+              presets: ['es2015'],
+
+              // Speed up compilation.
+              cacheDirectory: true
+            }
+          }
+        ]
+      }
     },
 
     // test results reporter to use
