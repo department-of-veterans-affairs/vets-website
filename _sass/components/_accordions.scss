@@ -6,7 +6,6 @@ $accordion-border: 3px solid $color-gray-lightest;
 
 .usa-accordion,
 .usa-accordion-bordered {
-
   + .usa-accordion,
   + .usa-accordion-bordered {
     margin-top: 1rem;
@@ -28,16 +27,16 @@ $accordion-border: 3px solid $color-gray-lightest;
   }
 
   button[aria-expanded=false] {
-    background-image: url('../images/icons/plus.png');
-    background-image: url('../images/icons/plus.svg');
+    background-image: url('../images/plus.png');
+    background-image: url('../images/plus.svg');
     background-repeat: no-repeat;
-    // background-size: 1.3rem;
+    background-size: 1.3rem;
   }
 
   button {
     background-color: $color-gray-lightest;
-    background-image: url('../images/icons/minus.png');
-    background-image: url('../images/icons/minus.svg');
+    background-image: url('../images/minus.png');
+    background-image: url('../images/minus.svg');
     background-position: right 3rem center;
     background-repeat: no-repeat;
     background-size: 13px;
@@ -46,12 +45,7 @@ $accordion-border: 3px solid $color-gray-lightest;
     display: inline-block;
     font-family: $font-sans;
     margin: 0;
-    padding: {
-      bottom: 1.5rem;
-      left: 3rem;
-      right: 5.5rem;
-      top: 1.5rem;
-    }
+    padding: 1.5rem 5.5rem 1.5rem 3rem;
     width: 100%;
 
     &:focus {
@@ -71,19 +65,17 @@ $accordion-border: 3px solid $color-gray-lightest;
 
 .usa-accordion-bordered {
   .usa-accordion-content {
-    border: {
-      bottom: $accordion-border;
-      left: $accordion-border;
-      right: $accordion-border;
-    }
+    border-bottom: $accordion-border;
+    border-left: $accordion-border;
+    border-right: $accordion-border;
   }
 }
 
 .usa-accordion-content {
+  background-color: $color-white;
   display: block;
-  background-color: white;
   overflow: auto;
-  padding: 2rem;
+  padding: 3rem;
 
   > *:first-child {
     margin-top: 0;
@@ -91,8 +83,5 @@ $accordion-border: 3px solid $color-gray-lightest;
 
   > *:last-child {
     margin-bottom: 0;
-  }
-  ul {
-    padding-left:0;
   }
 }

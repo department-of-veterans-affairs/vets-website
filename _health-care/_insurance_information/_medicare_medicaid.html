@@ -7,7 +7,11 @@
 
   <div class="row">
     <div class="small-12 columns">
-      <input name="veteran[is_medicaid_eligible]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[is_medicaid_eligible]" />
+      <input 
+        type="checkbox"
+        name="veteran_is_medicaid_eligible" 
+        id="veteran_is_medicaid_eligible" 
+        value="veteran_is_medicaid_eligible">
       <label for="veteran_is_medicaid_eligible">Are you eligible for medicaid?</label>
     </div>
   </div>
@@ -19,7 +23,11 @@
   </div>
   <div class="row">
     <div class="small-12 columns">
-      <input name="veteran[is_enrolled_medicare_part_a]" type="hidden" value="0" /><input type="checkbox" value="1" name="veteran[is_enrolled_medicare_part_a]" />
+      <input 
+        type="checkbox"
+        name="veteran_is_enrolled_medicare_part_a" 
+        value="veteran_is_enrolled_medicare_part_a"
+        id="veteran_is_enrolled_medicare_part_a">
       <label for="veteran_is_enrolled_medicare_part_a">Are you enrolled in medicare hospital insurance part a?</label>
     </div>
   </div>
