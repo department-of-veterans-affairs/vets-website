@@ -1,5 +1,3 @@
-"use strict;"
-
 function compareXml(doc1, doc2) {
   var nodeStack1 = [doc1.firstChild];
   var nodeStack2 = [doc2.firstChild];
@@ -23,7 +21,7 @@ function compareXml(doc1, doc2) {
     }
 
     var node2 = nodeStack2.pop();
-    var childNodes = node2.childNodes;
+    childNodes = node2.childNodes;
     for (i = 0; i < childNodes.length; ++i) {
       nodeStack2.push(childNodes[i]);
     }
@@ -32,7 +30,7 @@ function compareXml(doc1, doc2) {
       result.pass = false;
       result.message = "Expected " + expectNodeName(node1) + " type "
         + node1.nodeType + " to equal " + expectNodeName(node2) + " type "
-        + noe2.nodeType;
+        + node2.nodeType;
       return result;
     }
 
@@ -51,7 +49,7 @@ function compareXml(doc1, doc2) {
       var attributes = node1.attributes;
       var numNode1Attributes = 0;
       for (i = 0; i < attributes.length; ++i) {
-        var attr = attributes[i];
+        let attr = attributes[i];
         // Skip namespace attributes. They're not really attributes.
         if (attr.slice(0, 6) !== "xmlns:") {
           ++numNode1Attributes;
@@ -68,7 +66,7 @@ function compareXml(doc1, doc2) {
       attributes = node2.attributes;
       var numNode2Attributes = 0;
       for (i = 0; i < attributes.length; ++i) {
-        var attr = attributes[i];
+        let attr = attributes[i];
         // Skip namespace attributes. They're not really attributes.
         if (attr.slice(0, 6) !== "xmlns:") {
           ++numNode2Attributes;
