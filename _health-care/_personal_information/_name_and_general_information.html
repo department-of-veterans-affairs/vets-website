@@ -44,10 +44,6 @@
         </div>
       </div>
 
-      <!-- This is our version -->
-      <!-- <label for="veteran_date_of_birth">Date of Birth</label> -->
-      <!-- <input type="date" name="veteran[date_of_birth]" /> -->
-
       <div>
         <div class="usa-input-grid usa-input-grid-large">
 
@@ -56,17 +52,16 @@
 
           <div class="usa-date-of-birth">
             <div class="usa-datefield usa-form-group usa-form-group-month">
-            <!-- this is the USWDS version -->
-              <label for="date_of_birth_1">Month</label>
-              <input aria-describedby="dobHint" class="usa-form-control" id="date_of_birth_1" name="date_of_birth_1" pattern="0?[1-9]|1[012]" type="number" min="1" max="12" value="">
+              <label for="veteran_date_of_birth_month">Month</label>
+              <input aria-describedby="dobHint" class="usa-form-control" id="veteran_date_of_birth_month" name="veteran[date_of_birth][month]" pattern="0?[1-9]|1[012]" type="number" min="1" max="12" value="">
             </div>
             <div class="usa-datefield usa-form-group usa-form-group-day">
-              <label for="date_of_birth_2">Day</label>
-              <input aria-describedby="dobHint" class="usa-form-control" id="date_of_birth_2" name="date_of_birth_2" pattern="0?[1-9]|1[0-9]|2[0-9]|3[01]" type="number" min="1" max="31" value="">
+              <label for="veteran_date_of_birth_date">Day</label>
+              <input aria-describedby="dobHint" class="usa-form-control" id="veteran_date_of_birth_date" name="veteran[date_of_birth][date]" pattern="0?[1-9]|1[0-9]|2[0-9]|3[01]" type="number" min="1" max="31" value="">
             </div>
             <div class="usa-datefield usa-form-group usa-form-group-year">
-              <label for="date_of_birth_3">Year</label>
-              <input aria-describedby="dobHint" class="usa-form-control" id="date_of_birth_3" name="date_of_birth_3" pattern="[0-9]{4}" type="number" min="1900" max="2000" value="">
+              <label for="veteran_date_of_birth_year">Year</label>
+              <input aria-describedby="dobHint" class="usa-form-control" id="veteran_date_of_birth_year" name="veteran[date_of_birth][year]" pattern="[0-9]{4}" type="number" min="1900" max="{{ site.time | date: '%Y' }}" value="">
             </div>
           </div>
 

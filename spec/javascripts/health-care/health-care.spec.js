@@ -133,7 +133,7 @@ chai.use(function(_chai, utils) {
    Assertion.overwriteMethod('eq', compare);
 });
 
-describe("Health Care Form", function() {
+describe("Health Care Form Feature Test", function() {
   beforeEach(function(done){
     var fixtureFrame = document.createElement('iframe');
     fixtureFrame.id = "fixture-frame";
@@ -161,7 +161,7 @@ describe("Health Care Form", function() {
   it("Auto-saves on change events in the form.", function() {
     var contentWindow = document.getElementById("fixture-frame").contentWindow;
     var HealthApp = contentWindow.HealthApp;
-    var form = HealthApp.getFormRoot();
+    var form = HealthApp.forTest.getFormRoot();
 
     // Trigger an auto-save on a text change.
     form.elements['veteran[first_name]'].value = 'testname';
@@ -178,8 +178,11 @@ describe("Health Care Form", function() {
     var HealthApp = document.getElementById("fixture-frame").contentWindow.HealthApp;
 
     // Set the form data to match the golden file.
-    var form = HealthApp.getFormRoot();
+    var form = HealthApp.forTest.getFormRoot();
     form.elements['veteran[ssn]'].value = '111-22-3333';
+    form.elements['veteran[date_of_birth][month]'].value = "1";
+    form.elements['veteran[date_of_birth][date]'].value = "1";
+    form.elements['veteran[date_of_birth][year]'].value = "1970";
     form.elements['veteran[gender]'].value = "M";
     form.elements['veteran[last_name]'].value = "ALastName";
     form.elements['veteran[first_name]'].value = "AFirstName";
@@ -212,31 +215,31 @@ describe("Health Care Form", function() {
 
   it("should return true for valid monetary value input", function() {
     var HealthApp = document.getElementById("fixture-frame").contentWindow.HealthApp;
-    var form = HealthApp.getFormRoot();
+    var form = HealthApp.forTest.getFormRoot();
     var testElement = form.elements['veteran[gross_wage_income]'];
     var validInput = ['55000.00', '100', '1.99', '10.'];
 
     for (var i = 0; i < validInput.length; i++) {
       testElement.value = validInput[i];
-      expect(HealthApp.validate(testElement)).to.be.true;
+      expect(HealthApp.forTest.validate(testElement)).to.be.true;
     }
   });
 
   it("should return false for invalid monetary value input", function() {
     var HealthApp = document.getElementById("fixture-frame").contentWindow.HealthApp;
-    var form = HealthApp.getFormRoot();
+    var form = HealthApp.forTest.getFormRoot();
     var testElement = form.elements['veteran[gross_wage_income]'];
     var invalidInput = ['1,000', 'abc', '$100', '10.0.0', '#$#', '\'\''];
 
     for (var i = 0; i < invalidInput.length; i++) {
       testElement.value = invalidInput[i];
-      expect(HealthApp.validate(testElement)).to.be.false;
+      expect(HealthApp.forTest.validate(testElement)).to.be.false;
     }
   });
 
   it("should contain the correct data validation type for the field", function() {
     var HealthApp = document.getElementById("fixture-frame").contentWindow.HealthApp;
-    var form = HealthApp.getFormRoot();
+    var form = HealthApp.forTest.getFormRoot();
 
     expect(form.elements['veteran[gross_wage_income]'].dataset.validationType).to.be.equal('monetary');
     expect(form.elements['veteran[net_business_income]'].dataset.validationType).to.be.equal('monetary');
@@ -250,4 +253,3 @@ describe("Health Care Form", function() {
     expect(form.elements['veteran[children][other_income]'].dataset.validationType).to.be.equal('monetary');
   });
 });
-
