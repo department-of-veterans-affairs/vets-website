@@ -9,14 +9,23 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai-jquery', 'chai-as-promised', 'jquery-1.8.3', 'chai'],
+    frameworks: [
+      'mocha',
+      'chai-jquery',
+      'chai-as-promised',
+      'jquery-1.8.3',
+      'chai',
+      'fixture'
+    ],
 
     // list of files / patterns to load in the browser
     files: [
       'spec/javascripts/**/*.spec.js',
       { pattern: '_site/health-care/form/index.html', watched: true, included: false, served: true, nocache: true },
       { pattern: '_site/**/*', watched: false, included: false, served: true, nocache: true },
-      { pattern: 'spec/fixtures/javascripts/**/*', watched: true, included: false, served: true, nocache: true }
+      { pattern: 'spec/fixtures/javascripts/**/*', watched: true, included: false, served: true, nocache: true },
+      { pattern: 'spec/fixtures/html/**/*' },
+      { pattern: 'spec/fixtures/json/**/*' }
     ],
 
 
@@ -28,7 +37,9 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'spec/javascripts/**/*.spec.js': ['webpack']
+      'spec/javascripts/**/*.spec.js': ['webpack'],
+      'spec/fixtures/html/**/*.html'   : ['html2js'],
+      'spec/fixtures/json/**/*.json'   : ['json_fixtures']
     },
 
     webpack: {
@@ -121,6 +132,11 @@ module.exports = function(config) {
 
       // Allow client-side routing to work correctly.
       '/health-care/': '/base/_site/health-care'
+    },
+
+    // Used by karma-fixture to serve up html and json fixtures.
+    jsonFixturesPreprocessor: {
+      variableName: '__json__'
     },
 
     // Concurrency level

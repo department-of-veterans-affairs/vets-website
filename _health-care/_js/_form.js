@@ -18,7 +18,13 @@ function extractDateWithSlashTransform(formData, arg) {
   let dateString = "";
 
   let month = extractMonthTransform(formData, arg);
-  let date = extractMonthTransform(formData, arg);
+  let date = extractDateTransform(formData, arg);
+  let year = extractYearTransform(formData, arg);
+
+  if (!month || !date || !year) {
+    return '';
+  }
+
   if (Number(month) < 10) {
     dateString += "0";
   }
@@ -29,7 +35,7 @@ function extractDateWithSlashTransform(formData, arg) {
   }
   dateString += date + "/";
 
-  return dateString + extractYearTransform(formData, arg);
+  return dateString + year;
 }
 function extractMonetaryValueTransform(formData, arg) {
   return Number(extractTransform(formData, arg)).toFixed(2).toString();
@@ -51,7 +57,7 @@ function validateMonetaryValue(input) {
 
   return false;
 }
-export function validate(input) {
+function validate(input) {
   let valid = validatePresence(input);
 
   // TODO change this to using classList
@@ -1267,15 +1273,15 @@ let xmlFieldMap = [
   { node: "ChildOtherIncome", arg: 'veteran[children][other_income]', transform: extractMonetaryValueTransform }
 ];
 
-export function getFormRoot() {
+function getFormRoot() {
   return document.querySelector(".main-form");
 }
 
-export function saveForm(formRoot, _) {
+function saveForm(formRoot, _) {
   sessionStorage.setItem("voa_form", JSON.stringify($(formRoot).serializeObject()));
 }
 
-export function initForm() {
+function initForm() {
   // initialize foundation.
   $(document).foundation();
 
@@ -1313,8 +1319,12 @@ export function initForm() {
   });
 }
 
-export function build1010ezXml(theForm) {
-  let formData = $(theForm).serializeObject();
+function getFormData(theForm) {
+  return $(theForm).serializeObject();
+}
+
+function build1010ezXml(theForm) {
+  let formData = getFormData(theForm);
   let xmlDoc = document.implementation.createDocument(null, "form1");
 
   for (let i = 0; i < xmlFieldMap.length; i++) {
@@ -1336,3 +1346,18 @@ export function build1010ezXml(theForm) {
 
   return xmlDoc;
 }
+
+// Exports that for use in unittests only. Nest them one layer lower so the
+// API is self-documenting.
+const forTestExports = {
+  extractDateWithSlashTransform,
+  getFormData,
+  getFormRoot,
+  validate
+};
+
+export {
+  build1010ezXml,
+  initForm,
+  forTestExports as forTest
+};
