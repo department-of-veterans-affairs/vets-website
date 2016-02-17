@@ -1347,7 +1347,7 @@ function build1010ezXml(theForm) {
   return xmlDoc;
 }
 
-// Exports that for use in unittests only. Nest them one layer lower so the
+// Exports that are for use in unittests only. Nest them one layer lower so the
 // API is self-documenting.
 const forTestExports = {
   extractDateWithSlashTransform,

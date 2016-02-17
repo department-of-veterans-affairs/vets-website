@@ -9,7 +9,7 @@ describe('Health Care Form UnitTests', function() {
   });
 
   describe('Extract Functions', function() {
-    it('extracts date form a composite date component', function() {
+    it('extracts date from a composite date component', function() {
       const form = fixture.load('html/date_form.html')[0];
       // TODO(awong): Use ES6 destructured imports rather than const locals..
       const getFormData = HealthApp.forTest.getFormData;
