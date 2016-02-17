@@ -17,6 +17,7 @@
     "modernizr-loader": "^0.0.4",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
+    "react-router": "^2.0.0",
     "sizzle": "^2.3.0",
     "webpack": "^1.12.13",
     "wow.js": "^1.1.2"
