@@ -33,4 +33,13 @@ if (window.location.pathname.startsWith('/health-care/form/')) {
       window.HealthApp = HealthApp;  // Attach to window for easy debugging.
     });
   }
+} else if (window.location.pathname.startsWith('/health-care/form-react/')) {
+  if (__DEV__) {
+    // Use code chunking because most pages do not need this piece of JS.
+    require.ensure([], function(require) {
+      let ReactEntry = require('../../_health-care/_js/_react-entry.jsx');
+      $(document).ready(ReactEntry.init);
+      window.ReactEntry = ReactEntry;  // Attach to window for easy debugging.
+    });
+  }
 }
