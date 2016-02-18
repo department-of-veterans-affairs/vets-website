@@ -1,20 +1,32 @@
-// When a particular tab is selected, show the first set of questions in that topic
-function showSectionOfSelectedTab(activeTab) {
-  var activePanel = $('#' + $(activeTab).attr('aria-controls'));
-  var $activeSection = $(activePanel).find('.form-section').first();
+// Show a different section from what is currently visible
+function showSection(newPanel, newSection) {
+  var $currentSection = $('.form-section:visible');
+  var $currentPanel = $currentSection.parents('.content');
 
-  $activeSection.show();
+  $currentSection.hide();
+
+  if ($(newPanel).attr('id') !== $currentPanel.attr('id')) {
+    $currentPanel.removeClass('active');
+    $currentPanel.attr('aria-hidden', 'true');
+
+    $(newPanel).addClass('active');
+    $(newPanel).attr('aria-hidden', 'fasle');
+
+    selectTabOfActiveSection($(newPanel));
+  }
+
+  $(newSection).show();
 }
 
 // Show that the tab of the current set of questions is selected
-function selectTabOfActiveSection(nextPanel) {
+function selectTabOfActiveSection(newPanel) {
   var $currentTab = $('.tab-title.active');
   var allTabs = $('.tab-title');
-  var nextTab = '';
+  var newTab = '';
 
   for (var i = 0; i < allTabs.length; i++) {
-    if ($(allTabs[i]).find('a').attr('aria-controls') === $(nextPanel).attr('id')) {
-      nextTab = allTabs[i];
+    if ($(allTabs[i]).find('a').attr('aria-controls') === $(newPanel).attr('id')) {
+      newTab = allTabs[i];
       break;
     }
   }
@@ -22,33 +34,28 @@ function selectTabOfActiveSection(nextPanel) {
   $currentTab.removeClass('active');
   $currentTab.find('a').attr('aria-selected', 'false');
 
-  $(nextTab).addClass('active');
-  $(nextTab).find('a').attr('aria-selected', 'true');
+  $(newTab).addClass('active');
+  $(newTab).find('a').attr('aria-selected', 'true');
 }
 
-// Show the next set of questions
+// When a particular tab is selected, show the first set of questions in that topic
+function showSectionOfSelectedTab(activeTab) {
+  var newPanel = $('#' + $(activeTab).attr('aria-controls'));
+  var $newSection = $(newPanel).find('.form-section').first();
+
+  showSection(newPanel, $newSection);
+}
+
+// Show the next consecutive set of questions
 function showNextSection()  {
   let $allFormSections = $('.form-section');
   var $currentSection = $('.form-section:visible');
   var indexOfCurrentSection = $allFormSections.index($currentSection);
-  var $currentPanel = $currentSection.parents('.content');
   var nextSection = $allFormSections[indexOfCurrentSection + 1];
   var $nextPanel = $(nextSection).parents('.content');
 
-  $currentSection.hide();
-
-  if ($nextPanel.attr('id') !== $currentPanel.attr('id')) {
-    $currentPanel.removeClass('active');
-    $currentPanel.attr('aria-hidden', 'true');
-
-    $nextPanel.addClass('active');
-    $nextPanel.attr('aria-hidden', 'fasle');
-
-    selectTabOfActiveSection($nextPanel);
-  }
-
-  $(nextSection).show();
-};
+  showSection($nextPanel, nextSection);
+}
 
 export function init() {
   $('.content.active').find('.form-section').first().show();
