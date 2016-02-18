@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import DateInput from './_components/date_input.jsx';
 import { IndexLink, Link, Route, Router, hashHistory } from 'react-router'
 
 class Nav extends React.Component {
@@ -19,7 +20,14 @@ class Hello extends React.Component {
     return(
       <div>
         <h2>Hello World</h2>
-        <Nav/>
+        <div className="row">
+          <h3>Happy Date</h3>
+          <DateInput />
+        </div>
+        <div className="row">
+          <h3>Sad Date</h3>
+          <DateInput />
+        </div>
       </div>
       );
   }
@@ -30,7 +38,6 @@ class Night extends React.Component {
     return (
       <div>
         <h2>Goodnight World</h2>
-        <Nav/>
       </div>
       );
   }
