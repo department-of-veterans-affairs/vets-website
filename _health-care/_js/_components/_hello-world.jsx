@@ -2,6 +2,8 @@ import React from 'react';
 import { IndexLink, Link } from 'react-router'
 
 import DateInput from './date_input';
+import FullName from './full_name';
+import MothersMaidenName from './mothers_maiden_name';
 
 class Nav extends React.Component {
   render() {
@@ -31,6 +33,14 @@ class Hello extends React.Component {
           <DateInput date={this.props.applicationData.sadDate}
             onUserInput={(update) => {this.props.onStateChange('sadDate', update);} } />
         </div>
+
+        <div className="row">
+          <h4>Veteran's Name</h4>
+          <FullName name={this.props.applicationData.fullName}
+            onUserInput={(update) => {this.props.onStateChange('fullName', update);} } />
+          <MothersMaidenName name={this.props.applicationData.mothersMaidenName}
+            onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);} } />
+        </div>
       </div>
     )
   }
@@ -39,9 +49,9 @@ class Hello extends React.Component {
 class Night extends React.Component {
   render() {
     return (
-    <div>
-      <h2>Goodnight World</h2>
-    </div>
+      <div>
+        <h2>Goodnight World</h2>
+      </div>
     )
   }
 }
