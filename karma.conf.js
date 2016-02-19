@@ -20,7 +20,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'spec/javascripts/**/*.spec.js',
+      // PhantomJS 1.9.2 does not have Function.prototype.bind.
+      './node_modules/phantomjs-polyfill/bind-polyfill.js',
+      'spec/javascripts/**/*.spec.js?(x)',
       { pattern: '_site/health-care/form/index.html', watched: true, included: false, served: true, nocache: true },
       { pattern: '_site/**/*', watched: false, included: false, served: true, nocache: true },
       { pattern: 'spec/fixtures/javascripts/**/*', watched: true, included: false, served: true, nocache: true },
@@ -37,7 +39,8 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'spec/javascripts/**/*.spec.js': ['webpack'],
+      'spec/javascripts/**/*.spec.js': ['webpack', 'sourcemap'],
+      'spec/javascripts/**/*.spec.jsx': ['webpack', 'sourcemap'],
       'spec/fixtures/html/**/*.html'   : ['html2js'],
       'spec/fixtures/json/**/*.json'   : ['json_fixtures']
     },
@@ -57,8 +60,23 @@ module.exports = function(config) {
               // Speed up compilation.
               cacheDirectory: true
             }
+          },
+          {
+            test: /\.jsx$/,
+            exclude: /node_modules/,
+            loader: 'babel',
+            query: {
+              // es2015 is current name for the es6 settings.
+              presets: ['es2015', 'react'],
+
+              // Speed up compilation.
+              cacheDirectory: true
+            }
           }
         ]
+      },
+      resolve: {
+        extensions: ['', '.js', '.jsx']
       }
     },
 

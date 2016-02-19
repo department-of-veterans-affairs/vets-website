@@ -1,7 +1,7 @@
 import React from 'react';
 import { IndexLink, Link } from 'react-router'
 
-import DateInput from './date_input.jsx';
+import DateInput from './date_input';
 
 class Nav extends React.Component {
   render() {
@@ -20,13 +20,16 @@ class Hello extends React.Component {
     return(
       <div>
         <h2>Hello World</h2>
+
         <div className="row">
           <h3>Happy Date</h3>
-          <DateInput />
+          <DateInput date={this.props.applicationData.happyDate}
+            onUserInput={(update) => {this.props.onStateChange('happyDate', update);} } />
         </div>
         <div className="row">
           <h3>Sad Date</h3>
-          <DateInput />
+          <DateInput date={this.props.applicationData.sadDate}
+            onUserInput={(update) => {this.props.onStateChange('sadDate', update);} } />
         </div>
       </div>
     )
