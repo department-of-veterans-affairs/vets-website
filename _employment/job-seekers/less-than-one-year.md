@@ -21,58 +21,63 @@ template: 1-topic-landing
 
 This page will outline the steps and processes that Servicemembers should be engaging in as they prepare to leave service. 	
 
-**Subway Map.
+** Subway Map.
 
 </div>
 </div>
 </div>
 
-
-<div class="section two">
+<div class="navigation">
   <div class="row">
     <div class="small-12 columns">
+        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
-      <h3>More on this topic</h3>
+          <li>
+            <h3>
+            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:   #110298554</a>
+            </h3>
+          </li>
 
-      <ul>
+          <li>
+            <h3>
+              <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator: #110298580</a>
+            </h3>
+          </li>  
 
-        <li>
-          <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:   #110298554</a>
-        </li>
+          <li>
+            <h3>
+              <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder: #111659432</a>
+            </h3>
+          </li>
 
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator: #110298580</a>
-        </li>  
+          <li>
+            <h3>
+              <a href="/employment/job-seekers/alternate/">Alternative Ways to Start Your Career </a>
+            </h3>
+          </li>  
 
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder: #111659432</a>
-        </li>
+          <li>
+            <h3>
+              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank:  #110298570</a>
+            </h3>
+          </li>
 
-        <li>
-          <a href="/employment/job-seekers/alternate/">Alternative Ways to Start Your Career </a>
-        </li>  
+          <li>
+            <h3>
+            <a href="https://www.vets.gov/veterans-employment-center/interest-profiler">Interest and Aptitude Profiler: #110298582 </a>
+            </h3>
+          </li>
 
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank:  #110298570</a>
-        </li>
-
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/interest-profiler">Interest and Aptitude Profiler: #110298582 </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
-        </li>  
+          <li>
+            <h3>
+            <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
+            </h3>
+          </li>  
 
         </ul>  
 
       </div>
     </div>  
   </div>
-
-
-
-
-
 
 </div>

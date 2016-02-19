@@ -1,5 +1,5 @@
 ---
-title: Military Transcripts
+title: Establish an Apprenticeship program for Veterans
 concurrence: incomplete
 template: 1-topic-landing
 ---
@@ -24,5 +24,6 @@ Content here.
 </div>
 </div>
 </div>
+
 
 </div>

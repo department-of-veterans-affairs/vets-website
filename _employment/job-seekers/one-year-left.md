@@ -1,7 +1,7 @@
 ---
 title: Do you have more than a year left of military service?
 concurrence: incomplete
-template: 1-topic-landing
+template: 6-info-page
 ---
 
 <div class="main" role="main" markdown="0">
@@ -25,52 +25,58 @@ Servicemembers should begin exploring the civilian job environment long before t
 </div>
 </div>
 
-
-<div class="section two">
+<div class="navigation">
   <div class="row">
     <div class="small-12 columns">
+        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
-      <h3>More on this topic</h3>
+          <li>
+            <h3>
+              <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance: #110298554</a>
+            </h3>
+          </li>
 
-      <ul>
+          <li>
+            <h3>
+              <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator: #110298580</a>
+            </h3>
+          </li>  
 
-        <li>
-          <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance: #110298554</a>
-        </li>
+          <li>
+            <h3>
+              <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder: #111659432</a>
+            </h3>
+          </li>
 
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator: #110298580</a>
-        </li>  
+          <li>
+            <h3>
+              <a href="/employment/job-seekers/alternative/">Alternative Ways to Start Your Career </a>
+            </h3>
+          </li>  
 
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder: #111659432</a>
-        </li>
+          <li>
+            <h3>
+              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570</a>
+            </h3>
+          </li>
 
-        <li>
-          <a href="/employment/job-seekers/alternative/">Alternative Ways to Start Your Career </a>
-        </li>  
+          <li>
+            <h3>
+              <a href="https://www.vets.gov/veterans-employment-center/interest-profiler">Interest and Aptitude Profiler: #110298582 </a>
+            </h3>
+          </li>
 
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570</a>
-        </li>
+          <li>
+            <h3>
+              <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
+            </h3>
+          </li>    
 
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/interest-profiler">Interest and Aptitude Profiler: #110298582 </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
-        </li>    
-
-      </ul>  
+        </ul>  
 
       </div>
     </div>  
   </div>
 
-
-
-
-
-
+  </div>
 </div>
