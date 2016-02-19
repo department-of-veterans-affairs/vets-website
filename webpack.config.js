@@ -71,7 +71,8 @@ var config = {
     alias: {
       modernizr$: path.resolve(__dirname, "./.modernizrrc"),
       jquery: "jquery/src/jquery"
-    }
+    },
+    extensions: ['', '.js', '.jsx']
   },
   plugins: [
     new webpack.DefinePlugin({
