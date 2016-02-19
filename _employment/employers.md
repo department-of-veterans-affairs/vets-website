@@ -44,7 +44,7 @@ Access Veterans who are seeking employment by searching verified profiles of Vet
           </li>
 
           <li>
-            <a href="/employment/job-seekers/employment-support/">
+            <a href="/employment/employers/support-veteran-employees/">
               <h5>Support Veteran Employees</h5>
             </a>
           </li>
@@ -54,42 +54,5 @@ Access Veterans who are seeking employment by searching verified profiles of Vet
     </div>
   </div>  
 </div>
-
-<div class="section two">
-  <div class="row">
-    <div class="small-12 columns">
-
-      <h3>More on this topic</h3>
-
-      <ul>
-
-        <li>
-          <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:   #110298554</a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/start-a-business/">Start or Grow Your Own Business: #110298556</a>
-        </li>  
-
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/commitments/">View Employer Commitments: #110298592</a>
-        </li>
-
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank:        #110298570</a>
-        </li>  
-
-        <li>
-          <a href="/employment/job-seekers/unemployment-support/">Unemployment Support:  #111659508</a>
-        </li>    
-
-      </div>
-    </div>  
-  </div>
-
-
-
-
-
 
 </div>

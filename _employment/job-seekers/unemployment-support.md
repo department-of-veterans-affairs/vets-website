@@ -26,39 +26,48 @@ Service-disabled Veterans are eligible for additional support.
 </div>
 
 
-<div class="section two">
+<div class="navigation">
   <div class="row">
     <div class="small-12 columns">
+        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
-      <h3>More on this topic</h3>
+          <li>
+            <h5>
+              <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:   #110298554</a>
+            </h5>
+          </li>
 
-      <ul>
+          <li>
+            <h5>
+              <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator: #110298580</a>
+            </h5>
+          </li>  
 
-        <li>
-          <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:   #110298554</a>
-        </li>
+          <li>
+            <h5>
+              <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder: #111659432</a>
+            </h5>
+          </li>
 
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator: #110298580</a>
-        </li>  
+          <li>
+            <h5>
+              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570 </a>
+            </h5>
+          </li>  
 
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder: #111659432</a>
-        </li>
+          <li>
+            <h5>
+              <a href="https://www.vets.gov/veterans-employment-center/interest-profiler">Interest and Aptitude Profiler: #110298582 </a>
+            </h5>  
+          </li>
 
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570 </a>
-        </li>  
+          <li>
+            <h5>
+              <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
+            </h5>
+          </li>   
 
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/interest-profiler">Interest and Aptitude Profiler: #110298582 </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
-        </li>   
-
-        </ul> 
+        </ul>
 
       </div>
     </div>  

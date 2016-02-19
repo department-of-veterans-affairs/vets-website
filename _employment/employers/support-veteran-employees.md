@@ -32,66 +32,22 @@ A few tips on how to support the Reservists, Veterans, and Service-disabled Vets
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
           <li>
-            <a href="/employment/job-seekers/find-candidates/">
-              <h5>Find Veteran and Military-Spouse Candidates</h5>
-            </a>
-          </li>
+            <h5>
+              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
+            </h5>  
+          </li>  
 
           <li>
-            <a href="/veterans-employment-center/employers/commitments/">
-              <h5>Make a Hiring Commitment</h5>
-            </a>
-          </li>
-
-          <li>
-            <a href="/employment/job-seekers/support-veteran-employees/">
-              <h5>Support Veteran Employees</h5>
-            </a>
-          </li>
+            <h5>
+              <a href="https://www.vets.gov/veterans-employment-center/how-to-post-jobs">Post a Job</a>
+            </h5>  
+          </li>  
 
         </ul>
       </div>
     </div>
   </div>  
 </div>
-
-<div class="section two">
-  <div class="row">
-    <div class="small-12 columns">
-
-      <h3>More on this topic</h3>
-
-      <ul>
-
-        <li>
-          <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance: #110298554</a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/start-a-business/">Start or Grow Your Own Business: #110298556</a>
-        </li>  
-
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/commitments/">View Employer Commitments: #110298592</a>
-        </li>
-
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570</a>
-        </li>  
-
-        <li>
-          <a href="/employment/job-seekers/unemployment-support/">Unemployment Support: #111659508</a>
-        </li>    
-
-        </ul>
-
-      </div>
-    </div>  
-  </div>
-
-
-
-
 
 
 </div>

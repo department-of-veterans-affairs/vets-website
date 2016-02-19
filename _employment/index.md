@@ -19,9 +19,8 @@ concurrence: incomplete
 
     <div class="row">
       <div class="small-12 columns">
-
         <div class="section-nav">
-          <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+          <ul class="small-block-grid-1 medium-block-grid-2 cards small">
 
             <li>
               <a href="/employment/job-seekers/">
@@ -33,13 +32,6 @@ concurrence: incomplete
             <li>
               <a href="/employment/employers/">
                 <h4 class="alternate">Employers</h4>
-                <span></span>
-              </a>
-            </li>
-
-            <li>
-              <a href="/employment/start/">
-                <h4 class="alternate">Start or Grow Your Own Business</h4>
                 <span></span>
               </a>
             </li>

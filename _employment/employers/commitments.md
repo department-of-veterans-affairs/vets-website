@@ -31,23 +31,23 @@ Content here.
     <div class="small-12 columns">
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
-          <li>
-            <a href="/employment/employers/find-candidates/">
-              <h5>Find Veteran and Military-Spouse Candidates</h5>
-            </a>
-          </li>
+        <li>
+          <h5>
+            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
+          </h5>  
+        </li>  
 
-          <li>
-            <a href="/employment/employers/commitments/">
-              <h5>Make a Hiring Commitment</h5>
-            </a>
-          </li>
+        <li>
+          <h5>
+            <a href="/employment/employers/commitments/apprenticeship/">Establish an Apprenticeship program for Veterans</a>
+          </h5>  
+        </li>  
 
-          <li>
-            <a href="/employment/job-seekers/support-veteran-employees/">
-              <h5>Support Veteran Employees</h5>
-            </a>
-          </li>
+        <li>
+          <h5>
+            <a href="https://www.vets.gov/veterans-employment-center/how-to-post-jobs">Post a Job</a>
+          </h5>  
+        </li>  
 
         </ul>
       </div>
