@@ -204,6 +204,56 @@ describe("Health Care Form Feature Test", function() {
     form.elements['veteran[spouses][last_name]'].value = "SpouseLast";
     form.elements['veteran[spouses][first_name]'].value = "SpouseFirst";
     form.elements['veteran[spouses][middle_name]'].value = "SpouseMiddle";
+    form.elements['veteran[spouses][suffix_name]'].value = "JR";
+    form.elements['veteran[spouses][address]'].value = "1 Spouse Dr";
+    form.elements['veteran[spouses][city]'].value = "Auburn";
+    form.elements['veteran[spouses][country]'].value = "USA";
+    form.elements['veteran[spouses][state]'].value = "AZ";
+    form.elements['veteran[spouses][zipcode]'].value = "33421";
+    form.elements['veteran[spouses][phone]'].value = "(344) 222-1111";
+    form.elements['veteran[spouses][ssn]'].value = "222-33-4444";
+    form.elements['veteran[spouses][date_of_marriage]'].value = "06/08/2010";
+    form.elements['veteran[spouses][date_of_birth]'].value = "04/03/1990";
+    form.elements['veteran[mothers_maiden_name]'].value = "AMaidenName";
+    form.elements['veteran[marital_status]'].value = "MARRIED";
+    form.elements['veteran[preferred_va_facility]'].value = "663A4";
+    form.elements['veteran[street]'].value = "111 22st NE";
+    form.elements['veteran[city]'].value = "Kent";
+    form.elements['veteran[country]'].value = "USA";
+    form.elements['veteran[state]'].value = "WA";
+    form.elements['veteran[zipcode]'].value = "98105";
+    form.elements['veteran[county]'].value = "King";
+    form.elements['veteran[email]'].value = "test@foo.com";
+    form.elements['veteran[home_phone]'].value = "(425) 333-2455";
+    form.elements['veteran[mobile_phone]'].value = "(425) 333-2456";
+    form.elements['veteran[health_insurances][name]'].value = "AInsurance2";
+    //form.elements['veteran[health_insurances][street]'].value = "2 Insurance Way";
+    form.elements['veteran[health_insurances][city]'].value = "Boston";
+    form.elements['veteran[health_insurances][state]'].value = "MA";
+    form.elements['veteran[health_insurances][zipcode]'].value = "12123";
+    form.elements['veteran[health_insurances][phone]'].value = "(202) 923-4567";
+    form.elements['veteran[health_insurances][policy_holder_name]'].value = "2Policy Holder";
+    form.elements['veteran[health_insurances][policy_number]'].value = "2Policy";
+    form.elements['veteran[health_insurances][group_code]'].value = "2Group";
+
+    form.elements['veteran[last_branch_of_service]'].value = "COAST GUARD";
+    form.elements['veteran[last_entry_date]'].value = "05/06/1985";
+    form.elements['veteran[last_discharge_date]'].value = "05/08/1990";
+    form.elements['veteran[discharge_type]'].value = "GENERAL";
+
+    form.elements['veteran[children][last_name]'].value = "ChildLast1";
+    form.elements['veteran[children][first_name]'].value = "ChildLast1";
+    form.elements['veteran[children][middle_name]'].value = "ChildMiddle1";
+    form.elements['veteran[children][suffix_name]'].value = "JR";
+    form.elements['veteran[children][date_of_birth]'].value = "02/02/2005";
+    form.elements['veteran[children][ssn]'].value = "333-44-5555";
+    form.elements['veteran[children][became_dependent]'].value = "06/03/2010";
+
+    form.elements['veteran[deductible_medical_expenses]'].value = "777.00";
+    form.elements['veteran[deductible_funeral_expenses]'].value = "666.00";
+    form.elements['veteran[deductible_education_expenses]'].value = "555.00";
+
+    form.elements['veteran[medicare_part_a_effective_date]'].value = "04/03/1980";
 
     $.get('/base/spec/fixtures/javascripts/health-care/anonymous-submission.xml')
       .done(function(data) {
@@ -254,5 +304,9 @@ describe("Health Care Form Feature Test", function() {
     expect(form.elements['veteran[children][net_business_income]'].dataset.validationType).to.be.equal('monetary');
     expect(form.elements['veteran[children][other_income]'].dataset.validationType).to.be.equal('monetary');
     expect(form.elements['veteran[children][other_income]'].dataset.validationType).to.be.equal('monetary');
+
+    expect(form.elements['veteran[deductible_medical_expenses]'].dataset.validationType).to.be.equal('monetary');
+    expect(form.elements['veteran[deductible_funeral_expenses]'].dataset.validationType).to.be.equal('monetary');
+    expect(form.elements['veteran[deductible_education_expenses]'].dataset.validationType).to.be.equal('monetary');
   });
 });
