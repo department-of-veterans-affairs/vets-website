@@ -47,7 +47,7 @@ concurrence: incomplete
   <div class="row">
     <div class="small-12 columns">
       <div class="actions">
-        <a href="/veteran-employment-center/" class="usa-button-primary">Veteran Employment Center</a>
+        <a href="https://www.vets.gov/veterans-employment-center/" class="usa-button-primary">Veteran Employment Center</a>
       </div>
     </div>
   </div>
