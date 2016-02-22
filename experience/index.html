@@ -23,7 +23,11 @@ title: Vets.gov Experience
             <div class="post-preview">
             <div class="content">
               {{ post.excerpt }}
-              <a href="{{ post.url }}">Read more...<span class="sr-only"> on this blog post: &ldquo;{{ post.title }}&rdquo;</span></a>
+              {% if post.tags contains "shortpost" %}
+              {% else %}
+                <a href="{{ post.url }}">Read more...<span class="sr-only"> on this blog post: &ldquo;{{ post.title }}&rdquo;</span></a>
+              {% endif %}
+
             </div>
           </div>
           {% endfor %}
