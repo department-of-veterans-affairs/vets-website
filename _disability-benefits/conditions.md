@@ -45,6 +45,7 @@ When you apply for benefits, you will need to prove your conditions were caused 
 #### What sorts of physical and mental health conditions may qualify me for benefits?
 
 - Chronic back pain
+- Respiratory disease
 - Significant loss of hearing
 - Scar tissue
 - Loss of range of motion

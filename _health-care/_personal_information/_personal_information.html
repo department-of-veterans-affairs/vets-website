@@ -4,9 +4,11 @@
       <h3>Name and General Information</h3>
     </div>
   </div>
-{% include_relative _personal_information/_name_and_general_information.html %}
-{% include_relative _personal_information/_va_information.html %}
-{% include_relative _personal_information/_additional_information.html %}
-{% include_relative _personal_information/_demographic_information.html %}
-{% include_relative _personal_information/_veterans_address.html %}
+  <fieldset class="usa-fieldset-inputs usa-sans">
+  {% include_relative _personal_information/_name_and_general_information.html %}
+  {% include_relative _personal_information/_va_information.html %}
+  {% include_relative _personal_information/_additional_information.html %}
+  {% include_relative _personal_information/_demographic_information.html %}
+  {% include_relative _personal_information/_veterans_address.html %}
+  </fieldset>
 </div>

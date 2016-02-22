@@ -128,11 +128,11 @@ namespace :tests do
 
   desc "Run Javascript tests in a single-shot."
   task :javascript do
-    sh "npm run-script karma -- start --single-run --browsers PhantomJS"
+    sh "./node_modules/karma/bin/karma start --single-run --browsers PhantomJS"
   end
 
   desc "Run Javascript tests continuously."
   task :javascript_watch do
-    sh "npm run-script karma -- start --browsers PhantomJS"
+    sh "./node_modules/karma/bin/karma start --browsers PhantomJS"
   end
 end

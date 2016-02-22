@@ -1,33 +1,41 @@
 require("./_jquery.serializeObject.min.js");
 require("./_jquery.deserialize.min.js");
+var form_progress = require("./_form_progress.js");
 
 function identityTransform(formData, arg) { return arg; }
 function extractTransform(formData, arg) { return formData[arg]; }
 function extractMonthTransform(formData, arg) {
   // Stupid js indexes months from 0.
-  return (new Date(extractTransform(formData, arg))).getMonth() + 1;
+  return extractTransform(formData, arg + "[month]");
 }
 function extractDateTransform(formData, arg) {
-  return (new Date(extractTransform(formData, arg))).getDate();
+  return extractTransform(formData, arg + "[date]");
 }
 function extractYearTransform(formData, arg) {
-  return (new Date(extractTransform(formData, arg))).getFullYear();
+  return extractTransform(formData, arg + "[year]");
 }
 function extractDateWithSlashTransform(formData, arg) {
-  let date = new Date(extractTransform(formData, arg));
   let dateString = "";
 
-  if (date.getMonth() < 10) {
+  let month = extractMonthTransform(formData, arg);
+  let date = extractDateTransform(formData, arg);
+  let year = extractYearTransform(formData, arg);
+
+  if (!month || !date || !year) {
+    return '';
+  }
+
+  if (Number(month) < 10) {
     dateString += "0";
   }
-  dateString += (date.getMonth() + 1) + "/";
+  dateString += month + "/";
 
-  if (date.getDate() < 10) {
+  if (Number(date) < 10) {
     dateString += "0";
   }
-  dateString += date.getDate() + "/";
+  dateString += date + "/";
 
-  return dateString + date.getFullYear();
+  return dateString + year;
 }
 function extractMonetaryValueTransform(formData, arg) {
   return Number(extractTransform(formData, arg)).toFixed(2).toString();
@@ -49,7 +57,7 @@ function validateMonetaryValue(input) {
 
   return false;
 }
-export function validate(input) {
+function validate(input) {
   let valid = validatePresence(input);
 
   // TODO change this to using classList
@@ -980,7 +988,7 @@ let medicalCenters = [
   { state: "WY", id: "666GD", name: "POWELL VA CLINIC" },
   { state: "WY", id: "666GC", name: "RIVERTON VA CLINIC" },
   { state: "WY", id: "666GF", name: "ROCK SPRINGS CBOC" },
-  { state: "WY", id: "666", name: "SHERIDAN VA MEDICAL CENTER" },
+  { state: "WY", id: "666", name: "SHERIDAN VA MEDICAL CENTER" }
 ];
 
 let xmlFieldMap = [
@@ -1045,9 +1053,9 @@ let xmlFieldMap = [
   { node: "LastDischargeDateYear",  name: 'veteran[]', arg: "1990", transform: identityTransform },
   { node: "pgAdditionalServiceVisited",  name: 'veteran[]', arg: "1", transform: identityTransform },
   { node: "pgAdditionalServiceVisited",  name: 'veteran[]', arg: "0", transform: identityTransform },
-  { node: "SpouseNameLast",  name: 'veteran[]', arg: "SpouseLast", transform: identityTransform },
-  { node: "SpouseNameFirst",  name: 'veteran[]', arg: "SpouseFirst", transform: identityTransform },
-  { node: "SpouseNameMiddle",  name: 'veteran[]', arg: "SpouseMiddle", transform: identityTransform },
+  { node: "SpouseNameLast",  arg: 'veteran[spouses][last_name]', transform: extractTransform },
+  { node: "SpouseNameFirst",  arg: 'veteran[spouses][first_name]', transform: extractTransform },
+  { node: "SpouseNameMiddle",  arg: 'veteran[spouses][middle_name]', transform: extractTransform },
   { node: "SpouseNameSuffix",  name: 'veteran[]', arg: "JR", transform: identityTransform },
   { node: "SpouseDateOfBirthMonth",  name: 'veteran[]', arg: "4", transform: identityTransform },
   { node: "SpouseDateOfBirthDay",  name: 'veteran[]', arg: "3", transform: identityTransform },
@@ -1265,17 +1273,19 @@ let xmlFieldMap = [
   { node: "ChildOtherIncome", arg: 'veteran[children][other_income]', transform: extractMonetaryValueTransform }
 ];
 
-export function getFormRoot() {
+function getFormRoot() {
   return document.querySelector(".main-form");
 }
 
-export function saveForm(formRoot, e) {
+function saveForm(formRoot, _) {
   sessionStorage.setItem("voa_form", JSON.stringify($(formRoot).serializeObject()));
 }
 
-export function initForm() {
+function initForm() {
   // initialize foundation.
   $(document).foundation();
+
+  form_progress.init();
 
   let formRoot = getFormRoot();
   let allInputs = $(formRoot).find('input, select');
@@ -1309,8 +1319,12 @@ export function initForm() {
   });
 }
 
-export function build1010ezXml(theForm) {
-  let formData = $(theForm).serializeObject();
+function getFormData(theForm) {
+  return $(theForm).serializeObject();
+}
+
+function build1010ezXml(theForm) {
+  let formData = getFormData(theForm);
   let xmlDoc = document.implementation.createDocument(null, "form1");
 
   for (let i = 0; i < xmlFieldMap.length; i++) {
@@ -1332,3 +1346,18 @@ export function build1010ezXml(theForm) {
 
   return xmlDoc;
 }
+
+// Exports that are for use in unittests only. Nest them one layer lower so the
+// API is self-documenting.
+const forTestExports = {
+  extractDateWithSlashTransform,
+  getFormData,
+  getFormRoot,
+  validate
+};
+
+export {
+  build1010ezXml,
+  initForm,
+  forTestExports as forTest
+};
