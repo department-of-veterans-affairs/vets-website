@@ -52,7 +52,7 @@ This page will outline the steps and processes that Servicemembers should be eng
 
           <li>
             <h3>
-              <a href="/employment/job-seekers/alternate/">Alternative Ways to Start Your Career </a>
+              <a href="/employment/job-seekers/alternative/">Alternative Ways to Start Your Career </a>
             </h3>
           </li>  
 
