@@ -33,11 +33,11 @@ Research has shown that Veterans and military spouses are uniquely positioned an
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
           <li>
-            <a href="/job-seekers/start/register/"><h5>Registering Your Business: #112171837</h5></a>
+            <a href="/employment/job-seekers/start/register/"><h5>Registering Your Business: #112171837</h5></a>
           </li>
 
           <li>
-            <a href="/job-seekers/start/counseling/"><h5>Entrepreneurship Counseling: #112172071</h5></a>
+            <a href="/employment/job-seekers/start/counseling/"><h5>Entrepreneurship Counseling: #112172071</h5></a>
           </li>  
 
         </ul>
