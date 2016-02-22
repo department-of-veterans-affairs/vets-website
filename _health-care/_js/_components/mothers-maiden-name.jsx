@@ -38,7 +38,7 @@ class MothersMaidenName extends React.Component {
       <div>
         <div className={`usa-input-grid usa-input-grid-large ${error_class}`}>
           <label htmlFor={this.id + "_mothers_maiden_name"}>Mother’s Maiden Name</label>
-          <input type="text" id={this.id + "_mothers_maiden_name"} value={this.state.name} 
+          <input type="text" id={this.id + "_mothers_maiden_name"} value={this.props.name}
             ref="name" onChange={this.handleChange}/>
         </div>
       </div>
