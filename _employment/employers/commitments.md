@@ -39,7 +39,7 @@ Content here.
 
         <li>
           <h5>
-            <a href="/employment/employers/commitments/apprenticeship/">Establish an Apprenticeship program for Veterans</a>
+            <a href="https://www.vets.gov/veterans-employment-center/commitmentsapprenticeship/">Establish an Apprenticeship program for Veterans</a>
           </h5>  
         </li>  
 
@@ -68,7 +68,7 @@ Content here.
         </li>
 
         <li>
-          <a href="/employment/job-seekers/start-a-business/">Start or Grow Your Own Business: #110298556</a>
+          <a href="/job-seekers/start/">Start or Grow Your Own Business: #110298556</a>
         </li>  
 
         <li>
