@@ -201,6 +201,9 @@ describe("Health Care Form Feature Test", function() {
     form.elements['veteran[children][net_business_income]'].value = "43.00";
     form.elements['veteran[children][other_income]'].value = "32.00";
     form.elements['veteran[children][education_expenses]'].value = "11235.00";
+    form.elements['veteran[spouses][last_name]'].value = "SpouseLast";
+    form.elements['veteran[spouses][first_name]'].value = "SpouseFirst";
+    form.elements['veteran[spouses][middle_name]'].value = "SpouseMiddle";
 
     $.get('/base/spec/fixtures/javascripts/health-care/anonymous-submission.xml')
       .done(function(data) {
