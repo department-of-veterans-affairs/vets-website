@@ -43,7 +43,7 @@ class DateInput extends React.Component {
   render() {
     const error_class = this.state.hasError ? "usa-input-error" : ""
     return (
-      <div className={`usa-input-grid usa-input-grid-medium ${error_class}`}>
+      <div className={error_class}>
         <div className="usa-date-of-birth">
           <div className="usa-datefield usa-form-group usa-form-group-month">
             <label htmlFor={this.id + "-month"}>Month</label>

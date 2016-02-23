@@ -14,19 +14,8 @@ class HealthCareApp extends React.Component {
     this.publishStateChange = this.publishStateChange.bind(this);
     this.state = {
       applicationData: {
-        introduction: {
-          happyDate: {
-            month: "1",
-            day: "15",
-            year: "1997",
-          },
-
-          sadDate: {
-            month: "4",
-            day: "5",
-            year: "2014",
-          }
-        },
+        introduction: {},
+        
         personalInformation: {
           fullName: {
             first: "William",
@@ -36,6 +25,12 @@ class HealthCareApp extends React.Component {
           },
 
           mothersMaidenName: "Arden",
+
+          dateOfBirth: {
+            month: "1",
+            day: "15",
+            year: "1997",
+          }
         }
       }
     };

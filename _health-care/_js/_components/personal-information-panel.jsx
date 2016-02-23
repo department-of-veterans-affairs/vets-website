@@ -1,5 +1,6 @@
 import React from 'react';
 
+import DateInput from './date-input';
 import FullName from './full-name';
 import MothersMaidenName from './mothers-maiden-name';
 
@@ -29,6 +30,12 @@ class PersonalInformationPanel extends React.Component {
                 onUserInput={(update) => {this.onStateChange('fullName', update);}} />
               <MothersMaidenName name={this.props.applicationData.personalInformation.mothersMaidenName}
                 onUserInput={(update) => {this.onStateChange('mothersMaidenName', update);}} />
+            </div>
+            <div className="small-12 columns">
+            	<h4>Date of Birth</h4>
+            	<span className="usa-form-hint usa-datefield-hint" id="dobHint">For example: 04 28 1986</span>
+            	<DateInput date={this.props.applicationData.personalInformation.dateOfBirth}
+                onUserInput={(update) => {this.onStateChange('dateOfBirth', update);}}/>
             </div>
           </div>
         </fieldset>
