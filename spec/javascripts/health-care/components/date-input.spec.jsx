@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-addons-test-utils';
-import DateInput from '../../../../_health-care/_js/_components/date_input';
+import DateInput from '../../../../_health-care/_js/_components/date-input';
 import _ from 'lodash';
 
 describe('<DateInput>', () => {

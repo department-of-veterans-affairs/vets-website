@@ -14,6 +14,7 @@
     "imports-loader": "^0.6.5",
     "jquery": "^2.2.0",
     "lodash": "^4.5.0",
+    "lodash-deep": "^1.6.0",
     "modernizr": "^3.3.1",
     "modernizr-loader": "^0.0.4",
     "polyfill-function-prototype-bind": "0.0.1",

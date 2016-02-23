@@ -49,13 +49,13 @@ class FullName extends React.Component {
           <label htmlFor={this.id + "_first_name"}>First Name
             <span className="usa-additional_text">Required</span>
           </label>
-          <input type="text" value={this.state.first} id={this.id + "_first_name"}
+          <input type="text" value={this.props.name.first} id={this.id + "_first_name"}
             ref="first" onChange={this.handleChange} />
         </div>
 
         <div>
           <label htmlFor={this.id + "_middle_name"}>Middle Name</label>
-          <input type="text" value={this.state.middle} id={this.id + "_middle_name"}
+          <input type="text" value={this.props.name.middle} id={this.id + "_middle_name"}
             ref="middle" onChange={this.handleChange} />
         </div>
 
@@ -63,13 +63,13 @@ class FullName extends React.Component {
           <label htmlFor={this.id + "_last_name"}>Last Name
             <span className="usa-additional_text">Required</span>
           </label>
-          <input type="text" value={this.state.last} id={this.id + "_last_name"}
+          <input type="text" value={this.props.name.last} id={this.id + "_last_name"}
             ref="last" onChange={this.handleChange} />
         </div>
 
         <div className="usa-input-grid usa-input-grid-small">
           <label htmlFor={this.id + "_suffix_name"}>Suffix</label>
-          <select value={this.state.suffix} id={this.id + "_suffix_name"}
+          <select value={this.props.name.suffix} id={this.id + "_suffix_name"}
             ref="suffix" onChange={this.handleChange}>
             <option value=""></option>
             <option value="JR">Jr.</option>

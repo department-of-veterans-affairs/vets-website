@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-addons-test-utils';
-import MothersMaidenName from '../../../../_health-care/_js/_components/mothers_maiden_name';
+import MothersMaidenName from '../../../../_health-care/_js/_components/mothers-maiden-name';
 import _ from 'lodash';
 
 describe('<MothersMaidenName>', () => {

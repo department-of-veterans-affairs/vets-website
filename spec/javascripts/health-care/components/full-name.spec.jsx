@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-addons-test-utils';
-import FullName from '../../../../_health-care/_js/_components/full_name';
+import FullName from '../../../../_health-care/_js/_components/full-name';
 import _ from 'lodash';
 
 describe('<FullName>', () => {
@@ -31,7 +31,6 @@ describe('<FullName>', () => {
     // Empty first and last name renders error.
     component.refs.first.value = '';
     component.refs.last.value = '';
-    ReactTestUtils.Simulate.change(component.refs.first);
     ReactTestUtils.Simulate.change(component.refs.last);
     expect(component.state.hasError).to.be.true;
     expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
@@ -40,7 +39,6 @@ describe('<FullName>', () => {
     // Present first and last name removes error.
     component.refs.first.value = 'a';
     component.refs.last.value = 'b';
-    ReactTestUtils.Simulate.change(component.refs.first);
     ReactTestUtils.Simulate.change(component.refs.last);
     expect(component.state.hasError).to.be.false;
     expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
@@ -51,21 +49,18 @@ describe('<FullName>', () => {
     // Present first name and blank last name should render error.
     component.refs.first.value = 'a';
     component.refs.last.value = '';
-    ReactTestUtils.Simulate.change(component.refs.first);
     ReactTestUtils.Simulate.change(component.refs.last);
     expect(component.state.hasError).to.be.true;
 
     // Present first and last should have no error.
     component.refs.first.value = 'a';
     component.refs.last.value = 'b';
-    ReactTestUtils.Simulate.change(component.refs.first);
     ReactTestUtils.Simulate.change(component.refs.last);
     expect(component.state.hasError).to.be.false;
 
     // Blank first and last should render error.
     component.refs.first.value = '';
     component.refs.last.value = '';
-    ReactTestUtils.Simulate.change(component.refs.first);
     ReactTestUtils.Simulate.change(component.refs.last);
     expect(component.state.hasError).to.be.true;
 
@@ -73,8 +68,6 @@ describe('<FullName>', () => {
     component.refs.first.value = 'a';
     component.refs.middle.value = '';
     component.refs.last.value = 'b';
-    ReactTestUtils.Simulate.change(component.refs.first);
-    ReactTestUtils.Simulate.change(component.refs.middle);
     ReactTestUtils.Simulate.change(component.refs.last);
     expect(component.state.hasError).to.be.false;
 
@@ -82,8 +75,6 @@ describe('<FullName>', () => {
     component.refs.first.value = 'a';  
     component.refs.last.value = 'b';
     component.refs.suffix.value = '';
-    ReactTestUtils.Simulate.change(component.refs.first);
-    ReactTestUtils.Simulate.change(component.refs.last);
     ReactTestUtils.Simulate.change(component.refs.suffix);
     expect(component.state.hasError).to.be.false;
   });
