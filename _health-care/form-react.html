@@ -1,0 +1,29 @@
+---
+title: React! Health Care! Cheerios!
+template: 1-topic-landing
+---
+
+{% if site.domain != "staging.vets.gov" %}
+<div class="main" role="main">
+  <div class="section primary">
+    <div class="row">
+      <div class="small-12 columns">
+        <h4>This page not in production yet.</h4>
+      </div>
+    </div>
+  </div>
+</div>
+{% else %}
+<div class="main" role="main">
+  <div class="section primary">
+    <div class="row">
+      <div class="small-12 columns">
+        <div id="react-root">
+          Ruh-roh. React not loading.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endif %}

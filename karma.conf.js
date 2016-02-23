@@ -9,14 +9,25 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'chai-jquery', 'chai-as-promised', 'jquery-1.8.3', 'chai'],
+    frameworks: [
+      'mocha',
+      'chai-jquery',
+      'chai-as-promised',
+      'jquery-1.8.3',
+      'chai',
+      'fixture'
+    ],
 
     // list of files / patterns to load in the browser
     files: [
-      'spec/javascripts/**/*.spec.js',
-      { pattern: '_site/health-care/form.html', watched: true, included: false, served: true, nocache: true },
+      // PhantomJS 1.9.2 does not have Function.prototype.bind.
+      './node_modules/phantomjs-polyfill/bind-polyfill.js',
+      'spec/javascripts/**/*.spec.js?(x)',
+      { pattern: '_site/health-care/form/index.html', watched: true, included: false, served: true, nocache: true },
       { pattern: '_site/**/*', watched: false, included: false, served: true, nocache: true },
-      { pattern: 'spec/fixtures/javascripts/**/*', watched: true, included: false, served: true, nocache: true }
+      { pattern: 'spec/fixtures/javascripts/**/*', watched: true, included: false, served: true, nocache: true },
+      { pattern: 'spec/fixtures/html/**/*' },
+      { pattern: 'spec/fixtures/json/**/*' }
     ],
 
 
@@ -28,6 +39,45 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
+      'spec/javascripts/**/*.spec.js': ['webpack', 'sourcemap'],
+      'spec/javascripts/**/*.spec.jsx': ['webpack', 'sourcemap'],
+      'spec/fixtures/html/**/*.html'   : ['html2js'],
+      'spec/fixtures/json/**/*.json'   : ['json_fixtures']
+    },
+
+    webpack: {
+      devtool: 'inline-source-map',
+      module: {
+        loaders: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: 'babel',
+            query: {
+              // es2015 is current name for the es6 settings.
+              presets: ['es2015'],
+
+              // Speed up compilation.
+              cacheDirectory: true
+            }
+          },
+          {
+            test: /\.jsx$/,
+            exclude: /node_modules/,
+            loader: 'babel',
+            query: {
+              // es2015 is current name for the es6 settings.
+              presets: ['es2015', 'react'],
+
+              // Speed up compilation.
+              cacheDirectory: true
+            }
+          }
+        ]
+      },
+      resolve: {
+        extensions: ['', '.js', '.jsx']
+      }
     },
 
     // test results reporter to use
@@ -100,6 +150,11 @@ module.exports = function(config) {
 
       // Allow client-side routing to work correctly.
       '/health-care/': '/base/_site/health-care'
+    },
+
+    // Used by karma-fixture to serve up html and json fixtures.
+    jsonFixturesPreprocessor: {
+      variableName: '__json__'
     },
 
     // Concurrency level
