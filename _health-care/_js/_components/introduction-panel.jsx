@@ -1,7 +1,5 @@
 import React from 'react';
 
-import DateInput from './date-input';
-
 class IntroductionPanel extends React.Component {
   constructor() {
     super();
@@ -14,26 +12,19 @@ class IntroductionPanel extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="usa-form-width">
         <div className="row">
           <div className="small-12 columns">
-            <h3>Introduction</h3>
+            <h3>Apply online for health care with the 1010ez</h3>
           </div>
         </div>
 
         <div className="row">
           <div className="small-12 columns">
-            <h3>Happy Date</h3>
-            <DateInput date={this.props.applicationData.introduction.happyDate}
-              onUserInput={(update) => {this.onStateChange('happyDate', update);}}/>
-          </div>
-        </div>
-        
-        <div className="row">
-          <div className="small-12 columns">
-            <h3>Sad Date</h3>
-            <DateInput date={this.props.applicationData.introduction.sadDate}
-              onUserInput={(update) => {this.onStateChange('sadDate', update);}}/>
+            <p>
+              You are ready to begin applying for health care. Before you continue, 
+              here is important information related to applying for VA health care benefits.
+            </p>
           </div>
         </div>
       </div>
