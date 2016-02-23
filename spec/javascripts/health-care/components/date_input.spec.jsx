@@ -15,7 +15,7 @@ describe('<DateInput>', () => {
   });
 
   it('has sane looking features', () => {
-    let inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'input');
+    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'input');
     expect(inputs).to.have.length(3);
   })
 

@@ -28,6 +28,17 @@ class HealthCareApp extends React.Component {
         year: "2014",
       };
     }
+    if (this.state.applicationData.fullName === undefined) {
+      this.state.applicationData.fullName = {
+        first: "William",
+        last: "Shakespeare",
+      }
+    }
+    if (this.state.applicationData.mothersMaidenName === undefined) {
+      this.state.applicationData.mothersMaidenName = {
+        name: "Arden"
+      }
+    }
   }
 
   onStateChange(field, update) {
