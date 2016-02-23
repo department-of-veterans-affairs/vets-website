@@ -1185,6 +1185,10 @@ figure {
   margin: 0;
   background: darken($color-primary-darkest, 02);
 
+  .coda .row {
+    max-width: 70em;
+  }
+
   .text-right {
     text-align: right;
   }
@@ -1287,7 +1291,7 @@ figure {
 
 .footer-crisis {
   background:$color-gold;
-  margin: 1.625rem 0;
+  margin: 2.5em 0;
   padding: .25rem 0;
   border-radius: .2em;
   color: $color-gray-dark;
@@ -1298,7 +1302,7 @@ figure {
   }
   a {
     display:inline;
-    text-decoration: underline;
+    text-decoration: none;
     color:rgb(0,0,0);
     &:hover {
       border-bottom: none;
@@ -1384,6 +1388,8 @@ li {
     margin: 0 auto;
     display: block;
   }
+
+
 }
 
 // Footer icon sprite
@@ -1471,6 +1477,7 @@ a.twitter {
     @media #{$xlarge-up} {
       padding: 0;
     }
+
   }
 
   // Feedback widget

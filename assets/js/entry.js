@@ -16,8 +16,6 @@ require('polyfill-function-prototype-bind');
 
 // Bring in foundation and custom libraries.
 require('foundation/js/foundation/foundation');
-let WOW = require('wow.js/src/wow.coffee');
-new WOW().init();
 require('./components.js');
 
 // Things that run on document.ready().
