@@ -41,6 +41,42 @@ function extractMonetaryValueTransform(formData, arg) {
   return Number(extractTransform(formData, arg)).toFixed(2).toString();
 }
 
+function extractAddressNameTransform(formData, arg) {
+  return extractTransform(formData, arg + "[name]");
+}
+
+function extractAddressStreetTransform(formData, arg) {
+  return extractTransform(formData, arg + "[street]");
+}
+
+function extractAddressCityTransform(formData, arg) {
+  return extractTransform(formData, arg + "[city]");
+}
+
+function extractAddressStateTransform(formData, arg) {
+  return extractTransform(formData, arg + "[state]");
+}
+
+function extractAddressZipcodeTransform(formData, arg) {
+  return extractTransform(formData, arg + "[zipcode]");
+}
+
+function extractAddressPhoneTransform(formData, arg) {
+  return extractTransform(formData, arg + "[phone]");
+}
+
+function extractAddressWithFormatTransform(formData, arg) {
+  let name = extractAddressNameTransform(formData, arg);
+  let street = extractAddressStreetTransform(formData, arg);
+  let city = extractAddressCityTransform(formData, arg);
+  let state = extractAddressStateTransform(formData, arg);
+  let zip = extractAddressZipcodeTransform(formData, arg);
+  let phone = extractAddressPhoneTransform(formData, arg);
+
+  //return name + "\n" + street + "\n" + city + ", " + state + " " + zip + "  " + phone;
+  return "AInsurance1\n1 Insurance Way\nNew York, NY 02123  (202) 123-4567";
+}
+
 function validatePresence(input) {
   if (input.value === '') {
     return false;
@@ -1034,7 +1070,7 @@ let xmlFieldMap = [
   { node: "VetHealthInsureCompany",  name: 'veteran[]', arg: "AInsurance1", transform: identityTransform },
   { node: "VetHealthInsureAddress",  name: 'veteran[]', arg: "1 Insurance Way", transform: identityTransform },
   { node: "VetHealthInsureCity",  name: 'veteran[]', arg: "New York", transform: identityTransform },
-  { node: "VetHealthInsureCountry",  name: 'veteran[]', arg: "USA", transform: identityTransform },
+  { node: "VetHealthInsureCountry",  name: 'veteran[health_insurances][country]', arg: "USA", transform: identityTransform },
   { node: "VetHealthInsureState",  name: 'veteran[]', arg: "NY", transform: identityTransform },
   { node: "VetHealthInsureZip",  name: 'veteran[]', arg: "02123", transform: identityTransform },
   { node: "VetHealthInsurePostalCode",  name: 'veteran[]', arg: null, transform: identityTransform },
@@ -1056,20 +1092,20 @@ let xmlFieldMap = [
   { node: "SpouseNameLast",  arg: 'veteran[spouses][last_name]', transform: extractTransform },
   { node: "SpouseNameFirst",  arg: 'veteran[spouses][first_name]', transform: extractTransform },
   { node: "SpouseNameMiddle",  arg: 'veteran[spouses][middle_name]', transform: extractTransform },
-  { node: "SpouseNameSuffix",  name: 'veteran[]', arg: "JR", transform: identityTransform },
+  { node: "SpouseNameSuffix",  arg: 'veteran[spouses][suffix_name]', transform: extractTransform },
   { node: "SpouseDateOfBirthMonth",  name: 'veteran[]', arg: "4", transform: identityTransform },
   { node: "SpouseDateOfBirthDay",  name: 'veteran[]', arg: "3", transform: identityTransform },
   { node: "SpouseDateOfBirthYear",  name: 'veteran[]', arg: "1990", transform: identityTransform },
   { node: "MarraigeDateMonth",  name: 'veteran[]', arg: "6", transform: identityTransform },
   { node: "MarraigeDateDay",  name: 'veteran[]', arg: "8", transform: identityTransform },
   { node: "MarraigeDateYear",  name: 'veteran[]', arg: "2010", transform: identityTransform },
-  { node: "SpouseAddress",  name: 'veteran[]', arg: "1 Spouse Dr", transform: identityTransform },
-  { node: "SpouseCity",  name: 'veteran[]', arg: "Auburn", transform: identityTransform },
+  { node: "SpouseAddress",  arg: 'veteran[spouses][address]', transform: extractTransform },
+  { node: "SpouseCity",  arg: 'veteran[spouses][city]', transform: extractTransform },
   { node: "SpouseCountry",  name: 'veteran[]', arg: "USA", transform: identityTransform },
-  { node: "SpouseState",  name: 'veteran[]', arg: "AZ", transform: identityTransform },
-  { node: "SpouseZip",  name: 'veteran[]', arg: "33421", transform: identityTransform },
+  { node: "SpouseState",  arg: 'veteran[spouses][state]', transform: extractTransform },
+  { node: "SpouseZip",  arg: 'veteran[spouses][zipcode]', transform: extractTransform },
   { node: "SpousePostalCode",  name: 'veteran[]', arg: null, transform: identityTransform },
-  { node: "SpousePhone",  name: 'veteran[]', arg: "(344) 222-1111", transform: identityTransform },
+  { node: "SpousePhone",  arg: 'veteran[spouses][phone]', transform: extractTransform },
   { node: "CHContrecordno",  name: 'veteran[]', arg: "CHILD #1 OF 2", transform: identityTransform },
   { node: "ChildNameLast",  name: 'veteran[]', arg: "ChildLast1", transform: identityTransform },
   { node: "ChildNameFirst",  name: 'veteran[]', arg: "ChildLast1", transform: identityTransform },
@@ -1125,7 +1161,8 @@ let xmlFieldMap = [
   { node: "place_birth",  name: 'veteran[]', arg: "Kent, WA", transform: identityTransform },
   { node: "MedCenterText",  name: 'veteran[]', arg: "PUGET SOUND HEALTH CARE SYSTEM - AMERICAN LAKE DIVISION", transform: identityTransform },
   { node: "Path",  name: 'veteran[]', arg: "A", transform: identityTransform },
-  { node: "MotherMaidenName",  name: 'veteran[]', arg: "AMaidenName", transform: identityTransform },
+  { node: "MotherMaidenName",  arg: 'veteran[mothers_maiden_name]', transform: extractTransform },
+  //{ node: "CurrentMaritalStatus",  arg: 'veteran[marital_status]', transform: extractTransform },
   { node: "CurrentMaritalStatus",  name: 'veteran[]', arg: "MARRIED", transform: identityTransform },
   { node: "TargetURL",  name: 'veteran[]', arg: null, transform: identityTransform },
   { node: "Q1",  name: 'veteran[]', arg: "N", transform: identityTransform },
@@ -1140,24 +1177,24 @@ let xmlFieldMap = [
   { node: "Race3",  name: 'veteran[]', arg: "1", transform: identityTransform },
   { node: "Race4",  name: 'veteran[]', arg: "1", transform: identityTransform },
   { node: "ReligionList",  name: 'veteran[]', arg: "Select Religion", transform: identityTransform },
-  { node: "CurrentAddress",  name: 'veteran[]', arg: "111 22st NE", transform: identityTransform },
-  { node: "CurrentCity",  name: 'veteran[]', arg: "Kent", transform: identityTransform },
+  { node: "CurrentAddress",  arg: 'veteran[street]', transform: extractTransform },
+  { node: "CurrentCity",  arg: 'veteran[city]', transform: extractTransform },
   { node: "CurrentCountry",  name: 'veteran[]', arg: "USA", transform: identityTransform },
-  { node: "CurrentState",  name: 'veteran[]', arg: "WA", transform: identityTransform },
-  { node: "CurrentZip",  name: 'veteran[]', arg: "98105", transform: identityTransform },
+  { node: "CurrentState",  arg: 'veteran[state]', transform: extractTransform },
+  { node: "CurrentZip",  arg: 'veteran[zipcode]', transform: extractTransform },
   { node: "CurrentPostalCode",  name: 'veteran[]', arg: null, transform: identityTransform },
-  { node: "CurrentCounty",  name: 'veteran[]', arg: "King", transform: identityTransform },
-  { node: "Email",  name: 'veteran[]', arg: "test@foo.com", transform: identityTransform },
-  { node: "CurrentHomePhone",  name: 'veteran[]', arg: "(425) 333-2455", transform: identityTransform },
-  { node: "CellPhone",  name: 'veteran[]', arg: "(425) 333-2456", transform: identityTransform },
+  { node: "CurrentCounty",  arg: 'veteran[county]', transform: extractTransform },
+  { node: "Email",  arg: 'veteran[email]', transform: extractTransform },
+  { node: "CurrentHomePhone",  arg: 'veteran[home_phone]', transform: extractTransform },
+  { node: "CellPhone",  arg: 'veteran[mobile_phone]', transform: extractTransform },
   { node: "VetHealthInsurance",  name: 'veteran[]', arg: "Y", transform: identityTransform },
   { node: "MedicaidEligible",  name: 'veteran[]', arg: "N", transform: identityTransform },
   { node: "MedicareEnrolledA",  name: 'veteran[]', arg: "Y", transform: identityTransform },
-  { node: "DateMedicarePartA",  name: 'veteran[]', arg: "04/03/1980", transform: identityTransform },
-  { node: "LastServiceBranch",  name: 'veteran[]', arg: "COAST GUARD", transform: identityTransform },
-  { node: "LastEntryDate",  name: 'veteran[]', arg: "05/06/1985", transform: identityTransform },
-  { node: "LastDischargeDate",  name: 'veteran[]', arg: "05/08/1990", transform: identityTransform },
-  { node: "DischargeType",  name: 'veteran[]', arg: "GENERAL", transform: identityTransform },
+  { node: "DateMedicarePartA",  arg: 'veteran[medicare_part_a_effective_date]', transform: extractTransform },
+  { node: "LastServiceBranch", name: 'veteran[]', arg: "COAST GUARD", transform: identityTransform },
+  { node: "LastEntryDate",  arg: 'veteran[last_entry_date]', transform: extractTransform },
+  { node: "LastDischargeDate",  arg: 'veteran[last_discharge_date]', transform: extractTransform },
+  { node: "DischargeType", name: 'veteran[]', arg: "GENERAL", transform: identityTransform },
   { node: "MilitaryServiceNumber",  name: 'veteran[]', arg: null, transform: identityTransform },
   { node: "PurpleHeart",  name: 'veteran[]', arg: "N", transform: identityTransform },
   { node: "FormerPOW",  name: 'veteran[]', arg: "N", transform: identityTransform },
@@ -1170,8 +1207,8 @@ let xmlFieldMap = [
   { node: "CampLejeune",  name: 'veteran[]', arg: "Y", transform: identityTransform },
   { node: "ProvideDetails",  name: 'veteran[]', arg: "Y", transform: identityTransform },
   { node: "ConfirmProvideDetails",  name: 'veteran[]', arg: null, transform: identityTransform },
-  { node: "SpouseSocialSecurityNumber",  name: 'veteran[]', arg: "222-33-4444", transform: identityTransform },
-  { node: "SpouseDateOfBirth",  name: 'veteran[]', arg: "04/03/1990", transform: identityTransform },
+  { node: "SpouseSocialSecurityNumber",  arg: 'veteran[spouses][ssn]', transform: extractTransform },
+  { node: "SpouseDateOfBirth",  arg: 'veteran[spouses][date_of_birth]', transform: extractTransform },
   { node: "MarraigeDate",  name: 'veteran[]', arg: "06/08/2010", transform: identityTransform },
   { node: "SpouseSame",  name: 'veteran[]', arg: "2", transform: identityTransform },
   { node: "SpouseSupportAmount",  name: 'veteran[]', arg: "600.00", transform: identityTransform },
@@ -1185,9 +1222,9 @@ let xmlFieldMap = [
   { node: "SpouseGrossIncome",  arg: 'veteran[spouses][gross_wage_income]', transform: extractMonetaryValueTransform },
   { node: "SpousePropertyIncome",  arg: 'veteran[spouses][net_business_income]', transform: extractMonetaryValueTransform },
   { node: "SpouseOtherIncome",  arg: 'veteran[spouses][other_income]', transform: extractMonetaryValueTransform },
-  { node: "MedicalExpenses",  name: 'veteran[]', arg: "777.00", transform: identityTransform },
-  { node: "FuneralExpenses",  name: 'veteran[]', arg: "666.00", transform: identityTransform },
-  { node: "VetSelfSchool",  name: 'veteran[]', arg: "555.00", transform: identityTransform },
+  { node: "MedicalExpenses",  arg: 'veteran[deductible_medical_expenses]', transform: extractMonetaryValueTransform },
+  { node: "FuneralExpenses",  arg: 'veteran[deductible_funeral_expenses]', transform: extractMonetaryValueTransform },
+  { node: "VetSelfSchool",  arg: 'veteran[deductible_education_expenses]', transform: extractMonetaryValueTransform },
   { node: "VetBankCashAmount",  name: 'veteran[]', arg: null, transform: identityTransform },
   { node: "VetLandMarketValue",  name: 'veteran[]', arg: null, transform: identityTransform },
   { node: "VetOtherAssetNet",  name: 'veteran[]', arg: null, transform: identityTransform },
@@ -1200,7 +1237,7 @@ let xmlFieldMap = [
   { node: "ClaimNumber",  name: 'veteran[]', arg: null, transform: identityTransform },
   { node: "HEALTH_SERVICES",  name: 'veteran[]', arg: "0", transform: identityTransform },
   { node: "DENTAL",  name: 'veteran[]', arg: "0", transform: identityTransform },
-  { node: "health_insurance",  name: 'veteran[]', arg: "AInsurance1\n1 Insurance Way\nNew York, NY 02123  (202) 123-4567", transform: identityTransform },
+  { node: "health_insurance",  arg: 'veteran[health_insurances]', transform: extractAddressWithFormatTransform },
   { node: "FVetHealthPolicyHolder",  name: 'veteran[]', arg: "APolicy Holder", transform: identityTransform },
   { node: "FVetHealthPolicyNumber",  name: 'veteran[]', arg: "Policy1", transform: identityTransform },
   { node: "FVetHealthGroupCode",  name: 'veteran[]', arg: "Group1", transform: identityTransform },
@@ -1228,17 +1265,17 @@ let xmlFieldMap = [
   { node: "FChild1OtherAssetNet",  name: 'veteran[]', arg: null, transform: identityTransform },
   { node: "TextField",  name: 'veteran[]', arg: "Online 10-10EZ Application for Health Benefits", transform: identityTransform },
   { node: "HIContrecordno",  name: 'veteran[]', arg: "HEALTH INSURANCE #2", transform: identityTransform },
-  { node: "VetHealthInsureCompany",  name: 'veteran[]', arg: "AInsurance2", transform: identityTransform },
+  { node: "VetHealthInsureCompany",  arg: 'veteran[health_insurances][name]', transform: extractTransform },
   { node: "VetHealthInsureAddress",  name: 'veteran[]', arg: "2 Insurance Way", transform: identityTransform },
-  { node: "VetHealthInsureCity",  name: 'veteran[]', arg: "Boston", transform: identityTransform },
+  { node: "VetHealthInsureCity",  arg: 'veteran[health_insurances][city]', transform: extractTransform },
   { node: "VetHealthInsureCountry",  name: 'veteran[]', arg: "USA", transform: identityTransform },
-  { node: "VetHealthInsureState",  name: 'veteran[]', arg: "MA", transform: identityTransform },
-  { node: "VetHealthInsureZip",  name: 'veteran[]', arg: "12123", transform: identityTransform },
+  { node: "VetHealthInsureState",  arg: 'veteran[health_insurances][state]', transform: extractTransform },
+  { node: "VetHealthInsureZip",  arg: 'veteran[health_insurances][zipcode]', transform: extractTransform },
   { node: "VetHealthInsurePostalCode",  name: 'veteran[]', arg: null, transform: identityTransform },
-  { node: "VetHealthInsurePhone",  name: 'veteran[]', arg: "(202) 923-4567", transform: identityTransform },
-  { node: "VetHealthPolicyHolder",  name: 'veteran[]', arg: "2Policy Holder", transform: identityTransform },
-  { node: "VetHealthPolicyNumber",  name: 'veteran[]', arg: "2Policy", transform: identityTransform },
-  { node: "VetHealthGroupCode",  name: 'veteran[]', arg: "2Group", transform: identityTransform },
+  { node: "VetHealthInsurePhone",  arg: 'veteran[health_insurances][phone]', transform: extractTransform },
+  { node: "VetHealthPolicyHolder",  arg: 'veteran[health_insurances][policy_holder_name]', transform: extractTransform },
+  { node: "VetHealthPolicyNumber",  arg: 'veteran[health_insurances][policy_number]', transform: extractTransform },
+  { node: "VetHealthGroupCode",  arg: 'veteran[health_insurances][group_code]', transform: extractTransform },
   { node: "TextField",  name: 'veteran[]', arg: "Online 10-10EZ Application for Health Benefits", transform: identityTransform },
   { node: "CHContrecordno",  name: 'veteran[]', arg: "CHILD #2 OF 2", transform: identityTransform },
   { node: "ChildNameLast",  name: 'veteran[]', arg: "LastChild2", transform: identityTransform },
