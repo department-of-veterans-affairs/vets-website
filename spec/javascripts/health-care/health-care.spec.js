@@ -134,6 +134,7 @@ chai.use(function(_chai, utils) {
 });
 
 describe("Health Care Form Feature Test", function() {
+  this.timeout(60000);
   beforeEach(function(done){
     var fixtureFrame = document.createElement('iframe');
     fixtureFrame.id = "fixture-frame";
