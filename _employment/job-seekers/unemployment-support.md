@@ -19,7 +19,31 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Service-disabled Veterans are eligible for additional support.
+If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through the Unemployment Compensation for Ex-Servicemembers (UCX).
+
+### Are you eligible?
+Yes, if:
+
+- You were honorably discharged from active-duty service.
+- You are actively seeking employment.
+- You are no longer on terminal leave.
+
+### Who is eligible
+You
+
+### How it works
+
+You must apply for unemployment benefits in the state in which you reside. You can do this in person at your [state employment office](http://www.servicelocator.org/OWSLinks.asp) or, in some cases, online. Your state office will then determine if you are eligible, how much you may receive, and for how long. Unemployment benefits may vary from state to state. Some states do not pay Unemployment Compensation if you retired from active duty and is in receipt of retired military pay.
+
+Receiving unemployment will not affect your wages, but if you receive separation or retirement pay, your compensation amount may be lower. 
+
+You will need the following documents when you apply: 
+- DD Form 214 
+- Social security card 
+- Current résumé or military job history 
+
+If you are unemployed and at risk of becoming homeless, [VA can help](vets.gov homeless section). 
+
 
 </div>
 </div>
