@@ -60,7 +60,7 @@
   },
   "scripts": {
     "karma": "karma",
-    "lint": "eslint --ext .js --ext .jsx--ignore-pattern *.min.js  _health-care/_js spec assets/js/entry.js",
+    "lint": "eslint --ext .js --ext .jsx --ignore-pattern *.min.js  _health-care/_js spec assets/js/entry.js",
     "webpack": "webpack"
   },
   "private": true
