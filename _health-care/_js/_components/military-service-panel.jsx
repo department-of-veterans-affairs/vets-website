@@ -11,7 +11,7 @@ class MilitaryServicePanel extends React.Component {
         <ServiceInformationSection/>
         <AdditionalMilitaryInformationSection/>
       </div>
-    )
+    );
   }
 }
 

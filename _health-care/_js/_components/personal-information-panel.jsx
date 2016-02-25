@@ -17,12 +17,12 @@ class PersonalInformationPanel extends React.Component {
                 this.props.publishStateChange(['personalInformation', subfield], update);
               }
             }/>
-        <VaInformationSection />
-        <AdditionalInformationSection />
-        <DemographicInformationSection />
-        <VeteranAddressSection />
+        <VaInformationSection/>
+        <AdditionalInformationSection/>
+        <DemographicInformationSection/>
+        <VeteranAddressSection/>
       </div>
-    )
+    );
   }
 }
 

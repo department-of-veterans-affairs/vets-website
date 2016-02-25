@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router'
+import { Link } from 'react-router';
 
 class Nav extends React.Component {
   render() {
@@ -24,7 +24,7 @@ class Nav extends React.Component {
           <Link to="/review-and-submit">Review and Submit</Link><br/>
         </dd>
       </dl>
-    )
+    );
   }
 }
 

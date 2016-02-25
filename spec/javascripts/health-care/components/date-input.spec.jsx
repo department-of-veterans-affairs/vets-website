@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-addons-test-utils';
 import DateInput from '../../../../_health-care/_js/_components/date-input';
 import _ from 'lodash';
@@ -9,15 +8,15 @@ describe('<DateInput>', () => {
 
   beforeEach(() => {
     component = ReactTestUtils.renderIntoDocument(
-      <DateInput date={{ month:"1", day:"2", year:"1900"}} onUserInput={(update) => {}}/>
+      <DateInput date={{ month: '1', day: '2', year: '1900' }} onUserInput={(_update) => {}}/>
       );
-    assert.ok(component, "Cannot even render component");
+    assert.ok(component, 'Cannot even render component');
   });
 
   it('has sane looking features', () => {
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'input');
     expect(inputs).to.have.length(3);
-  })
+  });
 
   it('sets and removes error css on invalid date', () => {
     // Initial state should be valid.
@@ -38,7 +37,7 @@ describe('<DateInput>', () => {
     expect(component.state.hasError).to.be.false;
     expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
         component, 'usa-input-error')).to.have.length(0);
-  })
+  });
 
   it('validate february here cause its a special snowflake', () => {
     // 28 should work always.
@@ -64,7 +63,7 @@ describe('<DateInput>', () => {
     ReactTestUtils.Simulate.change(component.refs.year);
     expect(component.state.hasError).to.be.false;
 
-    // 30 is always bad. 
+    // 30 is always bad.
     component.refs.month.value = 2;
     component.refs.day.value = 30;
     component.refs.year.value = 2016;
@@ -78,13 +77,13 @@ describe('<DateInput>', () => {
     ReactTestUtils.Simulate.change(component.refs.year);
     expect(component.state.hasError).to.be.false;
 
-    // 0 is always bad. 
+    // 0 is always bad.
     component.refs.month.value = 2;
     component.refs.day.value = 0;
     component.refs.year.value = 2016;
     ReactTestUtils.Simulate.change(component.refs.year);
     expect(component.state.hasError).to.be.true;
-  })
+  });
 
   it('ensure valid days vary with the month', () => {
     // Our calendar system make no frigging sense. :(

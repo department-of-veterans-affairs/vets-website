@@ -52,7 +52,7 @@ class VeteranAddressSection extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

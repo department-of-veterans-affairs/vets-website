@@ -18,15 +18,15 @@ class NameAndGeneralInfoSection extends React.Component {
             <div className="small-12 columns">
               <h4>Veteran's Name</h4>
               <FullName name={this.props.data.fullName}
-                onUserInput={(update) => {this.props.onStateChange('fullName', update);}} />
+                  onUserInput={(update) => {this.props.onStateChange('fullName', update);}}/>
               <MothersMaidenName name={this.props.data.mothersMaidenName}
-                onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);}} />
+                  onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);}}/>
             </div>
             <div className="small-12 columns">
               <h4>Date of Birth</h4>
               <span className="usa-form-hint usa-datefield-hint" id="dobHint">For example: 04 28 1986</span>
               <DateInput date={this.props.data.dateOfBirth}
-                onUserInput={(update) => {this.props.onStateChange('dateOfBirth', update);}}/>
+                  onUserInput={(update) => {this.props.onStateChange('dateOfBirth', update);}}/>
             </div>
             <div className="usa-input-grid usa-input-grid-medium usa-input-error">
               <label className="usa-input-error-label" htmlFor="veteran_ssn">Social Security Number
@@ -48,7 +48,7 @@ class NameAndGeneralInfoSection extends React.Component {
             <div>
               <div className="usa-input-grid usa-input-grid-medium">
                 <label htmlFor="veteran_city_of_birth">City</label>
-                <input type="text" name="veteran[city_of_birth]" />
+                <input type="text" name="veteran[city_of_birth]"/>
               </div>
 
               <div className="usa-input-grid usa-input-grid-small">
@@ -131,7 +131,7 @@ class NameAndGeneralInfoSection extends React.Component {
           </div>
         </fieldset>
       </div>
-    )
+    );
   }
 }
 

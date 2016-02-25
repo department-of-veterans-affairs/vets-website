@@ -12,17 +12,17 @@ import ReviewAndSubmitPanel from './_components/review-and-submit-panel.jsx';
 
 function init() {
   ReactDOM.render((
-      <Router history={hashHistory}>
-        <Route path="/" component={HealthCareApp}>
-          <Route path="/introduction" component={IntroductionPanel}/>
-          <Route path="/personal-information" component={PersonalInformationPanel}/>
-          <Route path="/insurance-information" component={InsuranceInformationPanel}/>
-          <Route path="/military-service" component={MilitaryServicePanel}/>
-          <Route path="/financial-assessment" component={FinancialAssessmentPanel}/>
-          <Route path="/review-and-submit" component={ReviewAndSubmitPanel}/>
-        </Route>
-      </Router>
-      ), document.getElementById('react-root'));
+    <Router history={hashHistory}>
+      <Route path="/" component={HealthCareApp}>
+        <Route path="/introduction" component={IntroductionPanel}/>
+        <Route path="/personal-information" component={PersonalInformationPanel}/>
+        <Route path="/insurance-information" component={InsuranceInformationPanel}/>
+        <Route path="/military-service" component={MilitaryServicePanel}/>
+        <Route path="/financial-assessment" component={FinancialAssessmentPanel}/>
+        <Route path="/review-and-submit" component={ReviewAndSubmitPanel}/>
+      </Route>
+    </Router>
+    ), document.getElementById('react-root'));
 }
 
 export { init };

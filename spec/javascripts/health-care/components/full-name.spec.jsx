@@ -1,17 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-addons-test-utils';
 import FullName from '../../../../_health-care/_js/_components/full-name';
-import _ from 'lodash';
 
 describe('<FullName>', () => {
   let component = null;
 
   beforeEach(() => {
     component = ReactTestUtils.renderIntoDocument(
-      <FullName name={{first:"William", last:"Shakespeare"}} onUserInput={(update) => {}}/>
+      <FullName name={{ first: 'William', last: 'Shakespeare' }} onUserInput={(_update) => {}}/>
     );
-    assert.ok(component, "Cannot even render component");
+    assert.ok(component, 'Cannot even render component');
   });
 
   it('has sane looking features', () => {
@@ -64,7 +62,7 @@ describe('<FullName>', () => {
     ReactTestUtils.Simulate.change(component.refs.last);
     expect(component.state.hasError).to.be.true;
 
-    // Blank middle name should not render error. 
+    // Blank middle name should not render error.
     component.refs.first.value = 'a';
     component.refs.middle.value = '';
     component.refs.last.value = 'b';
@@ -72,7 +70,7 @@ describe('<FullName>', () => {
     expect(component.state.hasError).to.be.false;
 
     // Blank suffix should not render error.
-    component.refs.first.value = 'a';  
+    component.refs.first.value = 'a';
     component.refs.last.value = 'b';
     component.refs.suffix.value = '';
     ReactTestUtils.Simulate.change(component.refs.suffix);

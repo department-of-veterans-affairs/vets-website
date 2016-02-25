@@ -71,6 +71,11 @@ task :install do
   sh "npm install"
 end
 
+desc "Run lint"
+task :lint do
+  sh "npm run-script lint"
+end
+
 desc "Run webpack with development settings"
 task :webpack do
   sh "BUILD_TYPE=dev npm run-script webpack"
@@ -114,7 +119,7 @@ namespace :tests do
   task :ci=> [ :build_all_configurations, :ci_nobuild ]
 
   desc "NO JEKYLL REBUILD: Run standard continuous integration tests."
-  task :ci_nobuild => [ :htmlproof, :javascript ]
+  task :ci_nobuild => [ :lint, :htmlproof, :javascript ]
 
   desc "Validate HTML. No extenral checks."
   task :htmlproof do

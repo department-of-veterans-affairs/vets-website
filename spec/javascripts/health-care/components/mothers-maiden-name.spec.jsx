@@ -1,21 +1,21 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import ReactTestUtils from 'react-addons-test-utils';
-import MothersMaidenName from '../../../../_health-care/_js/_components/mothers-maiden-name';
-import _ from 'lodash';
+import MothersMaidenName from
+    '../../../../_health-care/_js/_components/mothers-maiden-name';
 
 describe('<MothersMaidenName>', () => {
   let component = null;
 
   beforeEach(() => {
     component = ReactTestUtils.renderIntoDocument(
-      <MothersMaidenName name={{name:"Arden"}} onUserInput={(update) => {}}/>
+      <MothersMaidenName name={{ name: 'Arden' }} onUserInput={(_unused) => {}}/>
     );
-    assert.ok(component, "Cannot even render component");
+    assert.ok(component, 'Cannot even render component');
   });
 
   it('has sane looking features', () => {
-    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'input');
+    const inputs =
+        ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'input');
     expect(inputs).to.have.length(1);
   });
 

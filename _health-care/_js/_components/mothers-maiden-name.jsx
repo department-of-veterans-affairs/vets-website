@@ -4,7 +4,7 @@ import _ from 'lodash';
 class MothersMaidenName extends React.Component {
   constructor() {
     super();
-    this.state = {hasError: false};
+    this.state = { hasError: false };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -15,35 +15,40 @@ class MothersMaidenName extends React.Component {
   handleChange() {
     const name = this.refs.name.value;
 
-    if (!this.validate(name)) {
-      this.setState({hasError: true});
+    if (this.validate(name)) {
+      this.setState({ hasError: false });
     } else {
-      this.setState({hasError: false});
+      this.setState({ hasError: true });
     }
 
-    this.props.onUserInput(name);    
+    this.props.onUserInput(name);
   }
 
   validate(field) {
     if (field === '') {
       return true;
-    } else {
-      return /^[a-zA-Z '\-]+$/.test(field);
     }
+    return /^[a-zA-Z '\-]+$/.test(field);
   }
 
   render() {
-    const error_class = this.state.hasError ? "usa-input-error" : ""
+    const errorClass = this.state.hasError ? 'usa-input-error' : '';
     return (
       <div>
-        <div className={`usa-input-grid usa-input-grid-large ${error_class}`}>
-          <label htmlFor={this.id + "_mothers_maiden_name"}>Mother’s Maiden Name</label>
-          <input type="text" id={this.id + "_mothers_maiden_name"} value={this.props.name}
-            ref="name" onChange={this.handleChange}/>
+        <div className={`usa-input-grid usa-input-grid-large ${errorClass}`}>
+          <label htmlFor={`${this.id}-mothers-maiden-name`}>
+            Mother’s Maiden Name
+          </label>
+          <input
+              id={`${this.id}-mothers-maiden-name`}
+              ref="name"
+              type="text"
+              value={this.props.name}
+              onChange={this.handleChange}/>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default MothersMaidenName
+export default MothersMaidenName;

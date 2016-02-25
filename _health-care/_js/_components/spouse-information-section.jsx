@@ -11,15 +11,15 @@ class SpouseInformationSection extends React.Component {
             </div>
             <div className="small-3 columns">
               <label htmlFor="veteran_spouses_first_name">First Name</label>
-              <input type="text" name="veteran[spouses][first_name]" />
+              <input type="text" name="veteran[spouses][first_name]"/>
             </div>
             <div className="small-3 columns">
               <label htmlFor="veteran_spouses_middle_name">Middle Name</label>
-              <input type="text" name="veteran[spouses][middle_name]" />
+              <input type="text" name="veteran[spouses][middle_name]"/>
             </div>
             <div className="small-3 columns">
               <label htmlFor="veteran_spouses_last_name">Last Name</label>
-              <input type="text" name="veteran[spouses][last_name]" />
+              <input type="text" name="veteran[spouses][last_name]"/>
             </div>
             <div className="small-3 columns">
               <label htmlFor="veteran_spouses_suffix_name">Suffix</label>
@@ -34,7 +34,7 @@ class SpouseInformationSection extends React.Component {
               <label htmlFor="veteran_spouses_ssn">Spouse&#39;s Social Security Number</label>
             </div>
             <div className="small-3 columns">
-              <input type="text" name="veteran[spouses][ssn]" />
+              <input type="text" name="veteran[spouses][ssn]"/>
             </div>
           </div>
 
@@ -43,7 +43,7 @@ class SpouseInformationSection extends React.Component {
               <label htmlFor="veteran_spouses_date_of_birth">Spouse&#39;s Date of Birth</label>
             </div>
             <div className="small-3 columns">
-              <input type="date" name="veteran[spouses][date_of_birth]" />
+              <input type="date" name="veteran[spouses][date_of_birth]"/>
             </div>
           </div>
 
@@ -52,45 +52,45 @@ class SpouseInformationSection extends React.Component {
               <label htmlFor="veteran_spouses_date_of_marriage">Date of Marriage</label>
             </div>
             <div className="small-3 columns">
-              <input type="date" name="veteran[spouses][date_of_marriage]" />
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="small-12 columns">
-              <input 
-                type="checkbox"
-                name="veteran_spouses_has_same_address"
-                id="veteran_spouses_has_same_address"/>
-              <label htmlFor="veteran_spouses_has_same_address">Do you have the same address as your spouse?</label>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="small-12 columns">
-              <input 
-                type="checkbox" 
-                name="veteran_spouses_cohabited_last_year"
-                id="veteran_spouses_cohabited_last_year"/>
-              <label htmlFor="veteran_spouses_cohabited_last_year">Did your spouse live with you last year?</label>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="small-12 columns">
-              <hr />
-              You may count your spouse as your dependent even if you did not live
-              together, as long as you contributed support last calendar year.
-              <hr />
+              <input type="date" name="veteran[spouses][date_of_marriage]"/>
             </div>
           </div>
 
           <div className="row">
             <div className="small-12 columns">
               <input
-                type="checkbox"
-                name="veteran_spouses_provided_support_last_year"
-                id="veteran_spouses_provided_support_last_year"/>
+                  id="veteran_spouses_has_same_address"
+                  name="veteran_spouses_has_same_address"
+                  type="checkbox"/>
+              <label htmlFor="veteran_spouses_has_same_address">Do you have the same address as your spouse?</label>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="small-12 columns">
+              <input
+                  id="veteran_spouses_cohabited_last_year"
+                  name="veteran_spouses_cohabited_last_year"
+                  type="checkbox"/>
+              <label htmlFor="veteran_spouses_cohabited_last_year">Did your spouse live with you last year?</label>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="small-12 columns">
+              <hr/>
+              You may count your spouse as your dependent even if you did not live
+              together, as long as you contributed support last calendar year.
+              <hr/>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="small-12 columns">
+              <input
+                  id="veteran_spouses_provided_support_last_year"
+                  name="veteran_spouses_provided_support_last_year"
+                  type="checkbox"/>
               <label htmlFor="veteran_spouses_provided_support_last_year">If your spouse did not live with you last year, did you provide support?</label>
             </div>
           </div>
@@ -106,14 +106,14 @@ class SpouseInformationSection extends React.Component {
           <div className="row">
             <div className="small-12 columns">
               <label htmlFor="veteran_spouses_address">Address</label>
-              <input type="text" name="veteran[spouses][address]" />
+              <input type="text" name="veteran[spouses][address]"/>
             </div>
           </div>
 
           <div className="row">
             <div className="small-12 columns">
               <label htmlFor="veteran_spouses_city">City</label>
-              <input type="text" name="veteran[spouses][city]" />
+              <input type="text" name="veteran[spouses][city]"/>
             </div>
           </div>
 
@@ -140,19 +140,19 @@ class SpouseInformationSection extends React.Component {
           <div className="row">
             <div className="small-12 columns">
               <label htmlFor="veteran_spouses_zipcode">Zip Code</label>
-              <input type="text" name="veteran[spouses][zipcode]" />
+              <input type="text" name="veteran[spouses][zipcode]"/>
             </div>
           </div>
 
           <div className="row">
             <div className="small-12 columns">
               <label htmlFor="veteran_spouses_phone">Phone</label>
-              <input type="text" name="veteran[spouses][phone]" />
+              <input type="text" name="veteran[spouses][phone]"/>
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

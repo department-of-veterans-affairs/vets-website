@@ -13,7 +13,7 @@ class AnnualIncomeSection extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <h4>Previous calendar year gross annual income of veteran, spouse and
-              dependent children</h4>
+            dependent children</h4>
             <p><u>Report</u> gross annual income from employment, except for income
             from your farm, ranch, property or business, including information
             about your wages, bonuses, tips, severance pay and other accrued
@@ -114,7 +114,7 @@ class AnnualIncomeSection extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

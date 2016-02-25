@@ -8,10 +8,10 @@ class InsuranceInformationPanel extends React.Component {
     return (
       <div>
         <h3>Insurance Information</h3>
-        <InsuranceInformationSection />
-        <MedicareMedicaidSection />
+        <InsuranceInformationSection/>
+        <MedicareMedicaidSection/>
       </div>
-    )
+    );
   }
 }
 
