@@ -145,9 +145,6 @@ figcaption {
   position: relative;
 }
 
-
-
-
 // Logo and Header
 
 .header {
@@ -493,13 +490,6 @@ h5 {font-size: 1.25em; font-weight: normal;}
       @media #{$small} {padding: 2em 0 4em 0;}
   }
 
-  .section.two {
-    padding: 2em 0;
-    a, h3 {color: #fff;}
-    h3 {border-bottom: none;}
-    background: rgba(0,0,0,.1);
-  }
-
   .section.three {
     background: #fff;
     padding: 5em 0;
@@ -589,17 +579,40 @@ background: rgba(255,255,255,.85);
 
 // Sections
 
-.section {
+#content .main .section {
   background: #fff;
   &.one {
     padding: 2em 0 0 0;
   }
-  &.two {
-    padding: 0 0 4em 0;
-    h3 {color: darken($color-green, 10);}
-    clear: both;
-  }
   &.three {clear: both; padding: 2em 0;}
+
+  &.two {
+    padding: 2em 0;
+    a, h3 {color: $color-primary-darkest;}
+    h3 {border-bottom: none; color: $color-primary;}
+    background: #e1f3f8;
+    color: $color-primary-darkest;
+
+    ul {
+      margin: 0 0 1em 0; padding: 0;
+      li {
+        list-style: none;
+        padding: 0;
+        display: block;
+        a {
+          display: block;
+          padding: 1em .5em;
+          text-decoration: none;
+          background: none;
+          &:hover {
+            background: rgba(0,0,0,.1);
+          }
+        }
+        border-bottom: 1px solid rgba(0,0,0,.1);
+        &:last-of-type {border-bottom: none;}
+      }
+    }
+  }
 }
 
 
@@ -804,9 +817,9 @@ li {
 #content #playbook .navigation {
   padding: 1em  0;
   @media #{$small} {padding: 1em 0 3em 0;}
-  background: $color-gray-lightest;
-  color: $color-primary-darkest;
-  border-bottom: 2px solid #fff;
+  background: $color-primary-darker;
+  color: #fff;
+  border-bottom: 2px solid rgba(255,255,255,.1);
   margin: 0 auto;
 
   ul.small-block-grid-1 {
@@ -817,19 +830,19 @@ li {
       margin: 0;
       padding: 0;
       h4, h5 {font-size: 1em; }
-      span {color: $color-gray-dark;}
+      span {color: #fff;}
     }
   }
 
   ul.cards li {
     margin: 0;
     height: auto;
-    h3, h4, h5, h6 {color: $color-primary-darkest; font-weight: 700; font-family: $font-sans; font-size: 1.35em;}
+    h3, h4, h5, h6 {color: #fff; font-weight: 700; font-family: $font-sans; font-size: 1.35em;}
     h4 {font-size: 1.3em;}
     border-bottom: 1px solid rgba(0,0,0,.2);
     &:last-of-type { border-bottom: none;}
     a {
-    color: $color-primary-darkest;
+    color: #fff;
     -webkit-box-shadow: none;
     border-bottom: none;
     box-shadow: none;
@@ -840,7 +853,7 @@ li {
     height: auto;
     margin: 0;
     background: none;
-    &:hover {padding-left: .5em; background: rgba(0,0,0,.1); border-left: 4px solid $color-primary;}
+    &:hover {padding-left: .5em; background: rgba(0,0,0,.15); border-left: 4px solid #fff;}
     }
   }
 }
