@@ -4,6 +4,7 @@
 #Compiled files.
 .sass-cache
 _site/
+_site_production/
 node_modules/
 vendor/bundle
 .ruby-gemset

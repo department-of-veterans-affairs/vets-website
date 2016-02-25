@@ -3,6 +3,7 @@ import React from 'react';
 import DateInput from './date-input';
 import FullName from './full-name';
 import MothersMaidenName from './mothers-maiden-name';
+import SocialSecurityNumber from './social-security-number';
 
 class NameAndGeneralInfoSection extends React.Component {
   render() {
@@ -21,19 +22,14 @@ class NameAndGeneralInfoSection extends React.Component {
                   onUserInput={(update) => {this.props.onStateChange('fullName', update);}}/>
               <MothersMaidenName name={this.props.data.mothersMaidenName}
                   onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);}}/>
+              <SocialSecurityNumber ssn={this.props.data.socialSecurityNumber}
+                  onUserInput={(update) => {this.props.onStateChange('socialSecurityNumber', update);}}/>
             </div>
             <div className="small-12 columns">
               <h4>Date of Birth</h4>
               <span className="usa-form-hint usa-datefield-hint" id="dobHint">For example: 04 28 1986</span>
               <DateInput date={this.props.data.dateOfBirth}
                   onUserInput={(update) => {this.props.onStateChange('dateOfBirth', update);}}/>
-            </div>
-            <div className="usa-input-grid usa-input-grid-medium usa-input-error">
-              <label className="usa-input-error-label" htmlFor="veteran_ssn">Social Security Number
-                <span className="usa-additional_text">Required</span>
-              </label>
-              <span className="usa-input-error-message" id="input-error-message" role="alert">Please put you number in this format xxx-xx-xxxx</span>
-              <input type="text" name="veteran[ssn]" aria-describedby="input-error-message"/>
             </div>
           </div>
 
