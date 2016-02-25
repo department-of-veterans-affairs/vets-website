@@ -6,7 +6,7 @@ class ReviewAndSubmitPanel extends React.Component {
       <div>
         <p>Review and Submit</p>
       </div>
-    )
+    );
   }
 }
 

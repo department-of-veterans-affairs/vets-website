@@ -4,7 +4,7 @@ import _ from 'lodash';
 class FullName extends React.Component {
   constructor() {
     super();
-    this.state = {hasError: false};
+    this.state = { hasError: false };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -18,20 +18,20 @@ class FullName extends React.Component {
       middle: this.refs.middle.value,
       last: this.refs.last.value,
       suffix: this.refs.suffix.value
-    }
+    };
 
     const requiredFields = [this.refs.first, this.refs.last];
 
-    for (let i=0; i<requiredFields.length; i++) {
-      let errorDiv = requiredFields[i].parentElement;
-      
+    for (let i = 0; i < requiredFields.length; i++) {
+      const errorDiv = requiredFields[i].parentElement;
+
       errorDiv.classList.remove('usa-input-error');
 
       if (!this.validate(requiredFields[i])) {
-        this.setState({hasError: true});
+        this.setState({ hasError: true });
         errorDiv.classList.add('usa-input-error');
       } else {
-        this.setState({hasError: false});
+        this.setState({ hasError: false });
       }
     }
 
@@ -46,39 +46,39 @@ class FullName extends React.Component {
     return (
       <div>
         <div>
-          <label htmlFor={this.id + "_first_name"}>First Name
+          <label htmlFor={`${this.id}-first-name`}>First Name
             <span className="usa-additional_text">Required</span>
           </label>
-          <input type="text" value={this.props.name.first} id={this.id + "_first_name"}
-            ref="first" onChange={this.handleChange} />
+          <input type="text" value={this.props.name.first} id={`${this.id}-first-name`}
+              ref="first" onChange={this.handleChange}/>
         </div>
 
         <div>
-          <label htmlFor={this.id + "_middle_name"}>Middle Name</label>
-          <input type="text" value={this.props.name.middle} id={this.id + "_middle_name"}
-            ref="middle" onChange={this.handleChange} />
+          <label htmlFor={`${this.id}-middle-name`}>Middle Name</label>
+          <input type="text" value={this.props.name.middle} id={`${this.id}-middle-name`}
+              ref="middle" onChange={this.handleChange}/>
         </div>
 
         <div>
-          <label htmlFor={this.id + "_last_name"}>Last Name
+          <label htmlFor={`${this.id}-last-name`}>Last Name
             <span className="usa-additional_text">Required</span>
           </label>
-          <input type="text" value={this.props.name.last} id={this.id + "_last_name"}
-            ref="last" onChange={this.handleChange} />
+          <input type="text" value={this.props.name.last} id={`${this.id}-last-name`}
+              ref="last" onChange={this.handleChange}/>
         </div>
 
         <div className="usa-input-grid usa-input-grid-small">
-          <label htmlFor={this.id + "_suffix_name"}>Suffix</label>
-          <select value={this.props.name.suffix} id={this.id + "_suffix_name"}
-            ref="suffix" onChange={this.handleChange}>
+          <label htmlFor={`${this.id}-suffix-name`}>Suffix</label>
+          <select value={this.props.name.suffix} id={`${this.id}-suffix-name`}
+              ref="suffix" onChange={this.handleChange}>
             <option value=""></option>
             <option value="JR">Jr.</option>
             <option value="SR">Sr.</option>
           </select>
         </div>
       </div>
-    )
+    );
   }
 }
 
-export default FullName
+export default FullName;

@@ -22,13 +22,13 @@ class IntroductionPanel extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <p>
-              You are ready to begin applying for health care. Before you continue, 
+              You are ready to begin applying for health care. Before you continue,
               here is important information related to applying for VA health care benefits.
             </p>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

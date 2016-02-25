@@ -12,10 +12,10 @@ class AdditionalInformationSection extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <input 
-              type="checkbox" 
-              id="veteran_is_essential_aca_coverage"
-              name="veteran_is_essential_aca_coverage" />
+            <input
+                type="checkbox"
+                id="veteran_is_essential_aca_coverage"
+                name="veteran_is_essential_aca_coverage"/>
             <label htmlFor="veteran_is_essential_aca_coverage">I am enrolling to obtain minimal essential coverage under the affordable care act</label>
           </div>
         </div>
@@ -36,15 +36,15 @@ class AdditionalInformationSection extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <input 
-              type="checkbox"
-              name="veteran_wants_initial_va_contact" 
-              id="veteran_wants_initial_va_contact"/>
+            <input
+                type="checkbox"
+                name="veteran_wants_initial_va_contact"
+                id="veteran_wants_initial_va_contact"/>
             <label htmlFor="veteran_wants_initial_va_contact">Do you want VA to contact you to schedule your first appointment?</label>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

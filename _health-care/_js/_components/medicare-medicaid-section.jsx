@@ -12,10 +12,10 @@ class MedicareMedicaidSection extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <input 
-              type="checkbox"
-              name="veteran_is_medicaid_eligible" 
-              id="veteran_is_medicaid_eligible"/>
+            <input
+                id="veteran_is_medicaid_eligible"
+                name="veteran_is_medicaid_eligible"
+                type="checkbox"/>
             <label htmlFor="veteran_is_medicaid_eligible">Are you eligible for medicaid?</label>
           </div>
         </div>
@@ -27,10 +27,10 @@ class MedicareMedicaidSection extends React.Component {
         </div>
         <div className="row">
           <div className="small-12 columns">
-            <input 
-              type="checkbox"
-              name="veteran_is_enrolled_medicare_part_a" 
-              id="veteran_is_enrolled_medicare_part_a"/>
+            <input
+                id="veteran_is_enrolled_medicare_part_a"
+                name="veteran_is_enrolled_medicare_part_a"
+                type="checkbox"/>
             <label htmlFor="veteran_is_enrolled_medicare_part_a">Are you enrolled in medicare hospital insurance part a?</label>
           </div>
         </div>
@@ -48,7 +48,7 @@ class MedicareMedicaidSection extends React.Component {
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

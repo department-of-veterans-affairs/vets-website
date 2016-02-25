@@ -17,7 +17,7 @@ class FinancialAssessmentPanel extends React.Component {
         <AnnualIncomeSection/>
         <DeductibleExpensesSection/>
       </div>
-    )
+    );
   }
 }
 
