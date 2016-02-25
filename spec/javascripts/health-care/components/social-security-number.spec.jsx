@@ -59,7 +59,7 @@ describe('<SocialSecurityNumber>', () => {
         component, 'usa-input-error')).to.have.length(1);
   });
 
-  xit('includes ErrorMessage component when invalid SSN', () => {
+  it('includes ErrorMessage component when invalid SSN', () => {
     // ErrorMessage component should not be present when valid.
     component.refs.ssn.value = '123-45-6789';
     ReactTestUtils.Simulate.change(component.refs.ssn);

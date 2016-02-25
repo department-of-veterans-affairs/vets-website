@@ -38,7 +38,7 @@ class SocialSecurityNumber extends React.Component {
       <div>
         <div className={`usa-input-grid usa-input-grid-medium ${errorClass}`}>
           <label className={`${errorClass}-label`} htmlFor={`${this.id}_snn`}>Social Security Number
-            <span className="usa-additional_text">Required</span>
+            <span className="usa-additional_text">Required Hi</span>
           </label>
           <TextInputRequired
               errorMessage="Please put your number in this format xxx-xx-xxxx"

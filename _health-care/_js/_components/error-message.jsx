@@ -2,8 +2,6 @@ import React from 'react';
 
 /**
  * An error message to be included conditionally by question components in an error state.
- *
- * @constructor
  */
 class ErrorMessage extends React.Component {
   render() {
