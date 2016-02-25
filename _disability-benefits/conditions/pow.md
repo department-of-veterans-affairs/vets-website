@@ -46,7 +46,7 @@ If you are a former POW with disabilities related to your service and captivity,
 -	Peptic ulcer disease
 -	Chronic dysentery
 -	Irritable bowel syndrome
--	Cirrhosis of the liver
+-	
 
 
 #### Who is covered
