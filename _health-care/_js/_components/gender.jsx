@@ -25,7 +25,7 @@ class GenderInput extends React.Component {
   }
 
   validate(field) {
-    if (field === '' || field === ' ' || field === 'F' || field === 'M') {
+    if (field === '0' || field === 'F' || field === 'M') {
       return true;
     }
     return false;
@@ -42,10 +42,9 @@ class GenderInput extends React.Component {
           <select
               id={`${this.id}-gender`}
               ref="gender"
-              type="text"
               value={this.props.gender}
               onChange={this.handleChange}>
-            <option value=" "></option>
+            <option value="0"></option>
             <option value="M">Male</option>
             <option value="F">Female</option>
           </select>
