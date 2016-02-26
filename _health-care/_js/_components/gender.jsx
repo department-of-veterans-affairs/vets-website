@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
-class GenderInput extends React.Component {
+class Gender extends React.Component {
   constructor() {
     super();
     this.state = { hasError: false };
@@ -54,4 +54,4 @@ class GenderInput extends React.Component {
   }
 }
 
-export default GenderInput;
+export default Gender;
