@@ -19,7 +19,28 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Research has shown that Veterans and military spouses are uniquely positioned and trained to succeed as entrepreneurs. Vets.gov encourages Veterans to explore this option with help from the SBA and other organizations such as the IVMF that offer resources, classes, and personal mentorship.
+Wherever you are in the transition process, The Veterans Employment Center provides career advice, mentorship, résumé-building assistance, and exclusive access to employers who are committed to hiring Veterans and military spouses. 
+
+[Convert Buttons]
+
+[Do you have more than a year left of military service?](Link to active page) 
+It’s never too early to start preparing for your civilian career. 
+
+[Do you have less than a year left of military service?](Link to planning page) 
+It’s time to formulate a solid plan for your transition.
+
+[Veteran employment support](Link to job search page)
+VA job-search programs are available in every stage of your civilian career. 
+
+[Support for military and Veteran family members](Link to family page) 
+You can participate in job-search and small-business programs.
+
+[Are you service disabled?](Link to SDV section)
+Service-disabled Veterans are eligible for additional support.
+
+[Are you separating from active duty sooner than expected?](Link to IDES and MEB etc page)
+Embark on an accelerated preparation for transition.
+
 
 </div>
 </div>
