@@ -4,6 +4,7 @@ import DateInput from './date-input';
 import FullName from './full-name';
 import MothersMaidenName from './mothers-maiden-name';
 import SocialSecurityNumber from './social-security-number';
+import GenderInput from './gender-input';
 
 class NameAndGeneralInfoSection extends React.Component {
   render() {
@@ -24,6 +25,8 @@ class NameAndGeneralInfoSection extends React.Component {
                   onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);}}/>
               <SocialSecurityNumber ssn={this.props.data.socialSecurityNumber}
                   onUserInput={(update) => {this.props.onStateChange('socialSecurityNumber', update);}}/>
+              <GenderInput name={this.props.data.gender}
+                  onUserInput={(update) => {this.props.onStateChange('gender', update);}}/>
             </div>
             <div className="small-12 columns">
               <h4>Date of Birth</h4>
@@ -34,12 +37,6 @@ class NameAndGeneralInfoSection extends React.Component {
           </div>
 
           <div className="usa-input-grid usa-input-grid-large">
-            <label htmlFor="veteran_gender">Gender</label>
-            <select name="veteran[gender]" ><option value="M">Male</option>
-              <option value="F">Female</option>
-              <option value="2">NeedOtherOfficialOptions</option>
-            </select>
-
             <h4>Place of Birth</h4>
             <div>
               <div className="usa-input-grid usa-input-grid-medium">
