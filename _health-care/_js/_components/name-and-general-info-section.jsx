@@ -4,7 +4,7 @@ import DateInput from './date-input';
 import FullName from './full-name';
 import MothersMaidenName from './mothers-maiden-name';
 import SocialSecurityNumber from './social-security-number';
-import GenderInput from './gender';
+import Gender from './gender';
 import AddressState from './address-state';
 
 class NameAndGeneralInfoSection extends React.Component {
@@ -26,7 +26,7 @@ class NameAndGeneralInfoSection extends React.Component {
                   onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);}}/>
               <SocialSecurityNumber ssn={this.props.data.socialSecurityNumber}
                   onUserInput={(update) => {this.props.onStateChange('socialSecurityNumber', update);}}/>
-              <GenderInput gender={this.props.data.gender}
+              <Gender gender={this.props.data.gender}
                   onUserInput={(update) => {this.props.onStateChange('gender', update);}}/>
             </div>
             <div className="small-12 columns">
@@ -44,7 +44,6 @@ class NameAndGeneralInfoSection extends React.Component {
                 <label htmlFor="veteran_city_of_birth">City</label>
                 <input type="text" name="veteran[city_of_birth]"/>
               </div>
-
               <AddressState state={this.props.data.state}
                   onUserInput={(update) => {this.props.onStateChange('state', update);}}/>
             </div>

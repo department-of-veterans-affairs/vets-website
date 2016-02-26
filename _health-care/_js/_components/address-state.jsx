@@ -13,7 +13,7 @@ class AddressState extends React.Component {
   }
 
   handleChange() {
-    const state = this.refs.StateInput.value;
+    const state = this.refs.state.value;
 
     if (this.validate(state)) {
       this.setState({ hasError: false });
@@ -22,11 +22,6 @@ class AddressState extends React.Component {
     }
 
     this.props.onUserInput(state);
-  }
-
-  validate(field) {
-    if (field === '') return true;
-    return true;
   }
 
   render() {

@@ -24,13 +24,6 @@ class Gender extends React.Component {
     this.props.onUserInput(gender);
   }
 
-  validate(field) {
-    if (field === '0' || field === 'F' || field === 'M') {
-      return true;
-    }
-    return false;
-  }
-
   render() {
     const errorClass = this.state.hasError ? 'usa-input-error' : '';
     return (
