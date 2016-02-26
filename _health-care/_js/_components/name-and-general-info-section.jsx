@@ -4,7 +4,7 @@ import DateInput from './date-input';
 import FullName from './full-name';
 import MothersMaidenName from './mothers-maiden-name';
 import SocialSecurityNumber from './social-security-number';
-import GenderInput from './gender-input';
+import GenderInput from './gender';
 
 class NameAndGeneralInfoSection extends React.Component {
   render() {
