@@ -1,7 +1,9 @@
 import React from 'react';
+import { hashHistory } from 'react-router';
 import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 
+import ContinueButton from './ContinueButton';
 import IntroductionPanel from './IntroductionPanel.jsx';
 import Nav from './Nav.jsx';
 
@@ -12,27 +14,40 @@ class HealthCareApp extends React.Component {
   constructor() {
     super();
     this.publishStateChange = this.publishStateChange.bind(this);
+    this.handleContinue = this.handleContinue.bind(this);
+    this.getNextUrl = this.getNextUrl.bind(this);
+
     let initialState = {
       applicationData: {
         introduction: {},
 
         personalInformation: {
-          fullName: {
-            first: 'William',
-            middle: '',
-            last: 'Shakespeare',
-            suffix: '',
+          nameAndGeneralInfo: {
+            fullName: {
+              first: 'William',
+              middle: '',
+              last: 'Shakespeare',
+              suffix: '',
+            },
+
+            mothersMaidenName: 'Arden',
+
+            socialSecurityNumber: '999-99-9999',
+
+            dateOfBirth: {
+              month: '1',
+              day: '15',
+              year: '1997',
+            }
           },
 
-          mothersMaidenName: 'Arden',
+          vaInformation: {},
 
-          socialSecurityNumber: '999-99-9999',
+          additionalInformation: {},
 
-          dateOfBirth: {
-            month: '1',
-            day: '15',
-            year: '1997',
-          }
+          demographicInformation: {},
+
+          veteranAddress: {}
         }
       }
     };
@@ -59,12 +74,39 @@ class HealthCareApp extends React.Component {
     this.state = initialState;
   }
 
+  getNextUrl() {
+    const routes = this.props.route.childRoutes;
+    const panels = [];
+    let currentPath = this.props.location.pathname;
+    let nextPath = '';
+
+    // TODO(awong): remove the '/' alias for '/introduction' using history.replaceState()
+    if (currentPath === '/') {
+      currentPath = '/introduction';
+    }
+
+    panels.push.apply(panels, routes.map((obj) => { return obj.path; }));
+
+    for (let i = 0; i < panels.length; i++) {
+      if (currentPath === panels[i]) {
+        nextPath = panels[i + 1];
+        break;
+      }
+    }
+
+    return nextPath;
+  }
+
   publishStateChange(propertyPath, update) {
     const newApplicationData = Object.assign({}, this.state.applicationData);
     _.set(newApplicationData, propertyPath, update);
     window.localStorage['health-app-data'] = JSON.stringify(newApplicationData);
 
     this.setState({ applicationData: newApplicationData });
+  }
+
+  handleContinue() {
+    hashHistory.push(this.getNextUrl());
   }
 
   render() {
@@ -92,7 +134,10 @@ class HealthCareApp extends React.Component {
         <div className="small-12 columns">
           <Nav/>
           <div className="progress-box">
-            {children}
+            <div className="form-panel">
+              {children}
+              <ContinueButton onButtonClick={this.handleContinue}/>
+            </div>
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ import SocialSecurityNumber from './SocialSecurityNumber';
 class NameAndGeneralInfoSection extends React.Component {
   render() {
     return (
-      <div>
+      <div className="tabs-content">
         <div className="row">
           <div className="small-12 columns">
             <h3>Name and General Information</h3>
