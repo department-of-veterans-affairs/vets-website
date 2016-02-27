@@ -81,7 +81,7 @@ If you are unemployed and at risk of becoming homeless, [VA can help](vets.gov h
 
           <li>
             <h5>
-              <a href="/employment/job-seekers/interest-profiler/>Interest and Aptitude Profiler: #110298582 </a>
+              <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler: #110298582 </a>
             </h5>  
           </li>
 

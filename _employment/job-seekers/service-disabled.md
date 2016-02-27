@@ -57,7 +57,7 @@ Service-disabled Veterans are eligible for additional support.
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/interest-profiler/>Interest and Aptitude Profiler: #110298582 </a>
+            <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler: #110298582 </a>
           </h3>
         </li>
 
