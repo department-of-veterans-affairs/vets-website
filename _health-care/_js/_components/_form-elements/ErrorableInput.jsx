@@ -2,15 +2,16 @@ import React from 'react';
 import _ from 'lodash';
 
 /**
- * An text input field that can regexp validate an input.
+ * A form input with a label that can display error messages.
  *
  * Validation has the following props.
  * `errorMessage` - Error string to display in the component.
  *                  When defined, indicates input has a validation error.
+ * `label` - String for the input field label.
  * `placeholder` - placeholder string for input field.
  * `required` - boolean. Render marker indicating field is required.
  * `value` - string. Value of the input field.
- * `onValueChange` - a function with this prototype: (newValue, isValid)
+ * `onValueChange` - a function with this prototype: (newValue)
  */
 class ErrorableInput extends React.Component {
   constructor() {
@@ -65,7 +66,7 @@ class ErrorableInput extends React.Component {
 
 ErrorableInput.propTypes = {
   errorMessage: React.PropTypes.string,
-  label: React.PropTypes.string,
+  label: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,
   required: React.PropTypes.bool,
   value: React.PropTypes.string,

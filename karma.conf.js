@@ -20,8 +20,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      // PhantomJS 1.9.2 does not have Function.prototype.bind.
-      './node_modules/phantomjs-polyfill/bind-polyfill.js',
+      // PhantomJS doesn't have ES6 Promises.
+      'node_modules/babel-polyfill/dist/polyfill.js',
       'spec/javascripts/**/*.spec.js?(x)',
       { pattern: '_site/health-care/form/index.html', watched: true, included: false, served: true, nocache: true },
       { pattern: '_site/**/*', watched: false, included: false, served: true, nocache: true },

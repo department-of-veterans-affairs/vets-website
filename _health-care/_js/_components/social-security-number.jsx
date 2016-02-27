@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ErrorableInput from './_form_elements/ErrorableInput';
+import ErrorableInput from './_form-elements/ErrorableInput';
 import { isValidSSN } from '../_utils/validations.js';
 
 /**
@@ -19,6 +19,7 @@ class SocialSecurityNumber extends React.Component {
             errorMessage={errorMessage}
             label="Social Security Number"
             placeholder="xxx-xx-xxxx"
+            required
             questionValue={this.props.ssn}
             onValueChange={this.props.onValueChange}/>
       </div>
@@ -27,8 +28,7 @@ class SocialSecurityNumber extends React.Component {
 }
 
 SocialSecurityNumber.propTypes = {
-  required: React.PropTypes.bool,
-  value: React.PropTypes.string,
+  ssn: React.PropTypes.string.isRequired,
   onValueChange: React.PropTypes.func,
 };
 
