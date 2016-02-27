@@ -62,7 +62,7 @@ Servicemembers should begin exploring the civilian job environment long before t
 
           <li>
             <h3>
-              <a href="https://www.vets.gov/veterans-employment-center/interest-profiler">Interest and Aptitude Profiler: #110298582 </a>
+              <a href="/employment/job-seekers/interest-profiler/>Interest and Aptitude Profiler: #110298582 </a>
             </h3>
           </li>
 
