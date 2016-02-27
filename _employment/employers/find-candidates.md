@@ -39,7 +39,7 @@ A few tips on how to support the Reservists, Veterans, and Service-disabled Vets
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/how-to-post-jobs">Post a Job</a>
+              <a href="/employment/employers/post-a-job/">Post a Job</a>
             </h5>  
           </li>  
 
