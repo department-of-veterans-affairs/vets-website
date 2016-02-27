@@ -17,9 +17,16 @@ describe('Validations unit tests', () => {
   });
 
   it('rejects invalid ssn format', () => {
+    // Disallow empty.
     expect(Validations.isValidSSN('')).to.be.false;
+
+    // Invalid characters.
     expect(Validations.isValidSSN('111-22-1%34')).to.be.false;
     expect(Validations.isValidSSN('111-22-1A34')).to.be.false;
     expect(Validations.isValidSSN('hi mom')).to.be.false;
+
+    // No leading or trailing spaces.
+    expect(Validations.isValidSSN('111-22-1A34 ')).to.be.false;
+    expect(Validations.isValidSSN(' 111-22-1234')).to.be.false;
   });
 });
