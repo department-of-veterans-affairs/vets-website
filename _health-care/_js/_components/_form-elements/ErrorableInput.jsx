@@ -39,7 +39,7 @@ class ErrorableInput extends React.Component {
     // Calculate required.
     let requiredSpan = '';
     if (this.props.required) {
-      requiredSpan = <span className="usa-additional-text">Required</span>;
+      requiredSpan = <span className="usa-additional_text">Required</span>;
     }
 
     return (

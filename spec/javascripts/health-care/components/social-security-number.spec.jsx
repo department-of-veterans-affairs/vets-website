@@ -25,6 +25,7 @@ describe('<SocialSecurityNumber>', () => {
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `ssn` of type `boolean` supplied to `SocialSecurityNumber`, expected `string`/);
     });
 
+    // TODO(awong): Why in the world does this not work?!?!
     xit('onValueChange is required', () => {
       SkinDeep.shallowRender(<SocialSecurityNumber/>);
       sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `SocialSecurityNumber`/);

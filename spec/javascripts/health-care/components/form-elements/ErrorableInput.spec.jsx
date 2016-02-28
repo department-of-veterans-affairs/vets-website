@@ -133,14 +133,14 @@ describe('<ErrorableInput>', () => {
     const tree = SkinDeep.shallowRender(
         <ErrorableInput label="my label" onValueChange={(_update) => {}}/>);
 
-    expect(tree.everySubTree('.usa-additional-text')).to.have.lengthOf(0);
+    expect(tree.everySubTree('.usa-additional_text')).to.have.lengthOf(0);
   });
 
-  it('', () => {
+  it('required=true has required span', () => {
     const tree = SkinDeep.shallowRender(
         <ErrorableInput label="my label" required onValueChange={(_update) => {}}/>);
 
-    const requiredSpan = tree.everySubTree('.usa-additional-text');
+    const requiredSpan = tree.everySubTree('.usa-additional_text');
     expect(requiredSpan).to.have.lengthOf(1);
     expect(requiredSpan[0].text()).to.equal('Required');
   });
