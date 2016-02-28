@@ -1,5 +1,6 @@
 // Karma configuration
 // Generated on Wed Dec 30 2015 15:40:11 GMT-0800 (PST)
+var webpack = require('webpack');
 
 module.exports = function(config) {
   config.set({
@@ -15,6 +16,7 @@ module.exports = function(config) {
       'chai-as-promised',
       'jquery-1.8.3',
       'chai',
+      'sinon-chai',
       'fixture'
     ],
 
@@ -75,6 +77,9 @@ module.exports = function(config) {
           }
         ]
       },
+      plugins: [
+        new webpack.IgnorePlugin(/ReactContext/)
+      ],
       resolve: {
         extensions: ['', '.js', '.jsx']
       }

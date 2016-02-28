@@ -31,29 +31,28 @@ class ErrorableInput extends React.Component {
     // Calculate error state.
     let errorSpan = '';
     let errorSpanId = undefined;
-    let errorClass = '';
     if (this.props.errorMessage) {
-      errorClass = 'usa-input-error';
       errorSpanId = `${this.inputId}-error-message`;
-      errorSpan = <span id={`${this.inputId}-error-message`}>{this.props.errorMessage}</span>;
+      errorSpan = <span className='usa-input-error-message' id={`${this.inputId}-error-message`}>{this.props.errorMessage}</span>;
     }
 
     // Calculate required.
     let requiredSpan = '';
     if (this.props.required) {
-      requiredSpan = <span className="usa-additional_text">Required</span>;
+      requiredSpan = <span className="usa-additional-text">Required</span>;
     }
 
     return (
-      <div className={`usa-input-grid usa-input-grid-medium ${errorClass}`}>
-          <label className={`${errorClass}-label`} htmlFor={this.inputId}>
-            {this.props.label}
-            {requiredSpan}
+      <div className={`usa-input-grid usa-input-grid-medium ${this.props.errorMessage ? 'usa-input-error' : ''}`}>
+          <label
+            className={`${this.props.errorMessage ? 'usa-input-error-label' : undefined}`}
+            htmlFor={this.inputId}>
+              {this.props.label}
+              {requiredSpan}
           </label>
           {errorSpan}
         <input
             aria-describedby={errorSpanId}
-            className={errorClass}
             id={this.inputId}
             placeholder={this.props.placeholder}
             type="text"
