@@ -28,5 +28,11 @@ describe('Validations unit tests', () => {
     // No leading or trailing spaces.
     expect(isValidSSN('111-22-1A34 ')).to.be.false;
     expect(isValidSSN(' 111-22-1234')).to.be.false;
+
+    // Dashes are required.
+    expect(isValidSSN('111221234')).to.be.false;
+
+    // Too few numbers is invalid.
+    expect(isValidSSN('111-22-123')).to.be.false;
   });
 });

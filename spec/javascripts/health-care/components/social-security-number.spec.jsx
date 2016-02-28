@@ -1,75 +1,63 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
+import SkinDeep from 'skin-deep';
+
 import SocialSecurityNumber from '../../../../_health-care/_js/_components/social-security-number';
 
 describe('<SocialSecurityNumber>', () => {
-  let component = null;
+  describe('propTypes', () => {
+    let consoleStub;
+    beforeEach(() => {
+      consoleStub = sinon.stub(console, 'error');
+    });
 
-  beforeEach(() => {
-    component = ReactTestUtils.renderIntoDocument(
-      <SocialSecurityNumber ssn={{ ssn: '999-99-9999' }} onUserInput={(_update) => {}}/>
-    );
-    assert.ok(component, 'Cannot even render component');
+    afterEach(() => {
+      console.error.restore();
+    });
+
+    it('ssn is required', () => {
+      SkinDeep.shallowRender(<SocialSecurityNumber/>);
+      sinon.assert.calledWithMatch(consoleStub, /Required prop `ssn` was not specified in `SocialSecurityNumber`/);
+    });
+
+    it('ssn must be a string', () => {
+      SkinDeep.shallowRender(<SocialSecurityNumber ssn/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `ssn` of type `boolean` supplied to `SocialSecurityNumber`, expected `string`/);
+    });
+
+    xit('onValueChange is required', () => {
+      SkinDeep.shallowRender(<SocialSecurityNumber/>);
+      sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `SocialSecurityNumber`/);
+    });
+
+    it('onValueChange must be a function', () => {
+      SkinDeep.shallowRender(
+          <SocialSecurityNumber onValueChange/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `SocialSecurityNumber`, expected `function`/);
+    });
   });
 
-  it('has sane looking features', () => {
-    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'input');
-    expect(inputs).to.have.length(1);
+  it('includes ErrorMessage component when invalid SSN', () => {
+    const tree = SkinDeep.shallowRender(<SocialSecurityNumber ssn="123-45-6789" onValueChange={(_update) => {}}/>);
+    const errorableInputs = tree.everySubTree('ErrorableInput');
+    expect(errorableInputs).to.have.lengthOf(1);
+    expect(errorableInputs[0].props['errorMessage']).to.be.undefined;
   });
 
-  xit('sets and removes error css on invalid SSN', () => {
-    // Initial state should be valid.
-    expect(component.state.hasError).to.be.false;
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(0);
-
-    // Valid SSN has no error.
-    component.refs.ssn.value = '123-45-6789';
-    ReactTestUtils.Simulate.change(component.refs.ssn);
-    expect(component.state.hasError).to.be.false;
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(0);
-
-    // SSN with alphabetical characters is invalid.
-    component.refs.ssn.value = '123-45-678a';
-    ReactTestUtils.Simulate.change(component.refs.ssn);
-    expect(component.state.hasError).to.be.true;
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(1);
-
-    // SSN without dashes is invalid.
-    component.refs.ssn.value = '123456789';
-    ReactTestUtils.Simulate.change(component.refs.ssn);
-    expect(component.state.hasError).to.be.true;
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(1);
-
-    // SSN with too few numbers is invalid.
-    component.refs.ssn.value = '123-45-678';
-    ReactTestUtils.Simulate.change(component.refs.ssn);
-    expect(component.state.hasError).to.be.true;
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(1);
-
-    // SSN with non-numberic characters is invalid.
-    component.refs.ssn.value = '#12-34-5678';
-    ReactTestUtils.Simulate.change(component.refs.ssn);
-    expect(component.state.hasError).to.be.true;
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(1);
+  it('sets error message when SSN is invalid', () => {
+    const tree = SkinDeep.shallowRender(<SocialSecurityNumber ssn="123-45-678" onValueChange={(_update) => {}}/>);
+    const errorableInputs = tree.everySubTree('ErrorableInput');
+    expect(errorableInputs).to.have.lengthOf(1);
+    expect(errorableInputs[0].props['errorMessage']).to.not.be.undefined;
   });
 
-  xit('includes ErrorMessage component when invalid SSN', () => {
-    // ErrorMessage component should not be present when valid.
-    component.refs.ssn.value = '123-45-6789';
-    ReactTestUtils.Simulate.change(component.refs.ssn);
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error-message')).to.have.length(0);
-
-    // ErrorMessage component should be present when invalid.
-    component.refs.ssn.value = '123-45-678';
-    ReactTestUtils.Simulate.change(component.refs.ssn);
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error-message')).to.have.length(1);
+  it('Verify static attributes are as expected.', () => {
+    const tree = SkinDeep.shallowRender(<SocialSecurityNumber ssn="123-45-6789" onValueChange={(_update) => {}}/>);
+    const errorableInputs = tree.everySubTree('ErrorableInput');
+    expect(errorableInputs).to.have.lengthOf(1);
+    expect(errorableInputs[0].props['label']).to.equal('Social Security Number');
+    expect(errorableInputs[0].props['required']).to.be.true;
+    expect(errorableInputs[0].props['placeholder']).to.equal('xxx-xx-xxxx');
+    expect(errorableInputs[0].props['value']).to.equal('123-45-6789');
   });
 });

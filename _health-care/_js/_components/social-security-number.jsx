@@ -20,7 +20,7 @@ class SocialSecurityNumber extends React.Component {
             label="Social Security Number"
             placeholder="xxx-xx-xxxx"
             required
-            questionValue={this.props.ssn}
+            value={this.props.ssn}
             onValueChange={this.props.onValueChange}/>
       </div>
     );
@@ -29,7 +29,7 @@ class SocialSecurityNumber extends React.Component {
 
 SocialSecurityNumber.propTypes = {
   ssn: React.PropTypes.string.isRequired,
-  onValueChange: React.PropTypes.func,
+  onValueChange: React.PropTypes.func.isRequired,
 };
 
 
