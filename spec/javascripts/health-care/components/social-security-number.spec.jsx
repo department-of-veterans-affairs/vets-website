@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 
 import SocialSecurityNumber from '../../../../_health-care/_js/_components/social-security-number';
@@ -12,7 +11,7 @@ describe('<SocialSecurityNumber>', () => {
     });
 
     afterEach(() => {
-      console.error.restore();
+      consoleStub.restore();
     });
 
     it('ssn is required', () => {
@@ -33,7 +32,7 @@ describe('<SocialSecurityNumber>', () => {
 
     it('onValueChange must be a function', () => {
       SkinDeep.shallowRender(
-          <SocialSecurityNumber onValueChange/>);
+        <SocialSecurityNumber onValueChange/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `SocialSecurityNumber`, expected `function`/);
     });
   });
@@ -42,23 +41,23 @@ describe('<SocialSecurityNumber>', () => {
     const tree = SkinDeep.shallowRender(<SocialSecurityNumber ssn="123-45-6789" onValueChange={(_update) => {}}/>);
     const errorableInputs = tree.everySubTree('ErrorableInput');
     expect(errorableInputs).to.have.lengthOf(1);
-    expect(errorableInputs[0].props['errorMessage']).to.be.undefined;
+    expect(errorableInputs[0].props.errorMessage).to.be.undefined;
   });
 
   it('sets error message when SSN is invalid', () => {
     const tree = SkinDeep.shallowRender(<SocialSecurityNumber ssn="123-45-678" onValueChange={(_update) => {}}/>);
     const errorableInputs = tree.everySubTree('ErrorableInput');
     expect(errorableInputs).to.have.lengthOf(1);
-    expect(errorableInputs[0].props['errorMessage']).to.not.be.undefined;
+    expect(errorableInputs[0].props.errorMessage).to.not.be.undefined;
   });
 
   it('Verify static attributes are as expected.', () => {
     const tree = SkinDeep.shallowRender(<SocialSecurityNumber ssn="123-45-6789" onValueChange={(_update) => {}}/>);
     const errorableInputs = tree.everySubTree('ErrorableInput');
     expect(errorableInputs).to.have.lengthOf(1);
-    expect(errorableInputs[0].props['label']).to.equal('Social Security Number');
-    expect(errorableInputs[0].props['required']).to.be.true;
-    expect(errorableInputs[0].props['placeholder']).to.equal('xxx-xx-xxxx');
-    expect(errorableInputs[0].props['value']).to.equal('123-45-6789');
+    expect(errorableInputs[0].props.label).to.equal('Social Security Number');
+    expect(errorableInputs[0].props.required).to.be.true;
+    expect(errorableInputs[0].props.placeholder).to.equal('xxx-xx-xxxx');
+    expect(errorableInputs[0].props.value).to.equal('123-45-6789');
   });
 });

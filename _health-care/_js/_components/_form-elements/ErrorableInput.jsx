@@ -33,7 +33,7 @@ class ErrorableInput extends React.Component {
     let errorSpanId = undefined;
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
-      errorSpan = <span className='usa-input-error-message' id={`${this.inputId}-error-message`}>{this.props.errorMessage}</span>;
+      errorSpan = <span className="usa-input-error-message" id={`${this.inputId}-error-message`}>{this.props.errorMessage}</span>;
     }
 
     // Calculate required.
@@ -44,13 +44,13 @@ class ErrorableInput extends React.Component {
 
     return (
       <div className={`usa-input-grid usa-input-grid-medium ${this.props.errorMessage ? 'usa-input-error' : ''}`}>
-          <label
+        <label
             className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
             htmlFor={this.inputId}>
               {this.props.label}
               {requiredSpan}
-          </label>
-          {errorSpan}
+        </label>
+        {errorSpan}
         <input
             aria-describedby={errorSpanId}
             id={this.inputId}
