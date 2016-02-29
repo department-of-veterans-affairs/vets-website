@@ -2,7 +2,7 @@
 title: Careers and Employment
 permalink: /employment/index.html
 template: 1-topic-landing
-concurrence: incomplete
+concurrence: complete
 ---
 
 <div class="main" role="main">
@@ -12,7 +12,16 @@ concurrence: incomplete
     <div class="primary">
       <div class="row">
         <div class="small-12 columns">
-         <p>VA connects Veterans and their families with meaningful employment and career-development opportunities.</p>
+         <p>The Veterans Employment Center (VEC™) connects Veterans and their families with meaningful employment and career-development opportunities.
+
+### Resources and tools for both job seekers and employers
+
+*Job Seekers*
+Map your military skills, build a civilian résumé, and post your profile so employers can find you easily. Search our career opportunities, and learn about organizations that can assist you with career development and employment. 
+
+*Employers*
+Search verified profiles of Veterans and their spouses to get direct access to Veterans who are seeking employment. Make a public hiring commitment when you post open positions. You’ll benefit from Veteran experience and skills, and you’ll hire the best!
+</p>
        </div>
       </div>
     </div>
