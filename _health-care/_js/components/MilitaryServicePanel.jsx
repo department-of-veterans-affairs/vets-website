@@ -1,7 +1,7 @@
 import React from 'react';
 
-import AdditionalMilitaryInformationSection from './additional-military-information-section';
-import ServiceInformationSection from './service-information-section';
+import AdditionalMilitaryInformationSection from './military-service/AdditionalMilitaryInformationSection';
+import ServiceInformationSection from './military-service/ServiceInformationSection';
 
 class MilitaryServicePanel extends React.Component {
   render() {

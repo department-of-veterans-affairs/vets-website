@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 
-import ErrorableTextInput from '../../../../../_health-care/_js/_components/_form-elements/ErrorableTextInput';
+import ErrorableTextInput from '../../../../../_health-care/_js/components/form-elements/ErrorableTextInput';
 
 describe('<ErrorableTextInput>', () => {
   describe('propTypes', () => {

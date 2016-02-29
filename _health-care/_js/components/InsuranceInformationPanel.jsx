@@ -1,7 +1,7 @@
 import React from 'react';
 
-import InsuranceInformationSection from './insurance-information-section';
-import MedicareMedicaidSection from './medicare-medicaid-section';
+import InsuranceInformationSection from './insurance-information/InsuranceInformationSection';
+import MedicareMedicaidSection from './insurance-information/MedicareMedicaidSection';
 
 class InsuranceInformationPanel extends React.Component {
   render() {

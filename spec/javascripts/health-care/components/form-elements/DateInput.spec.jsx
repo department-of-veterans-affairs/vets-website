@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
-import DateInput from '../../../../_health-care/_js/_components/date-input';
 import _ from 'lodash';
+
+import DateInput from '../../../../../_health-care/_js/components/form-elements/DateInput';
 
 describe('<DateInput>', () => {
   let component = null;

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
-import FullName from '../../../../_health-care/_js/_components/full-name';
+
+import FullName from '../../../../../_health-care/_js/components/personal-information/FullName';
 
 describe('<FullName>', () => {
   let component = null;
