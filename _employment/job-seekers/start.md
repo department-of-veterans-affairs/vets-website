@@ -1,6 +1,6 @@
 ---
 title: Start or Grow Your Own Business
-concurrence: incomplete
+concurrence: complete
 template: 1-topic-landing
 ---
 
@@ -19,27 +19,22 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Wherever you are in the transition process, The Veterans Employment Center provides career advice, mentorship, résumé-building assistance, and exclusive access to employers who are committed to hiring Veterans and military spouses. 
+You and your spouse have access to resources through VA and other federal entities that can assist you in making a new or existing business a success.
 
-[Convert Buttons]
+If you are already open for business and want to sell to the Federal government, contact your closest Procurement Technical Assistance Center (PTAC) for assistance with all of the required documentation and registration to bid on Government contracts.  Please refer to the [PTAC Website](http://www.aptac-us.org/) for the listing of an office near you.
 
-[Do you have more than a year left of military service?](Link to active page) 
-It’s never too early to start preparing for your civilian career. 
+If you need assistance in starting a business, please visit the [Small Business Development Center (SBDC)](https://www.sba.gov/offices/headquarters/osbdc/resources/11409) Website and contact your closest Procurement Technical Assistance Center (PTAC) for assistance.
 
-[Do you have less than a year left of military service?](Link to planning page) 
-It’s time to formulate a solid plan for your transition.
+If you are Service-Disabled Veteran who wants to start a business, please view the [Veterans Business Outreach Program](https://www.sba.gov/about-sba/sba-locations/headquarters-offices) website and the [SBDC](https://www.sba.gov/offices/headquarters/osbdc/resources/11409) website for assistance.
 
-[Veteran employment support](Link to job search page)
-VA job-search programs are available in every stage of your civilian career. 
+VA can help you [register your business](link to register page) as a Veteran-owned or service-disabled Veteran-owned business. Once you receive your certification, you are eligible for certain assistance and benefits.
 
-[Support for military and Veteran family members](Link to family page) 
-You can participate in job-search and small-business programs.
+The Small Business Administration also has [resources specifically for Veterans](https://www.sba.gov/content/veteran-service-disabled-veteran-owned). 
 
-[Are you service disabled?](Link to SDV section)
-Service-disabled Veterans are eligible for additional support.
+### Learn more
+Many universities and nonprofit organizations offer free or low-cost entrepreneur and business-focused courses, some held online and others in person, for Veterans and military family members. 
 
-[Are you separating from active duty sooner than expected?](Link to IDES and MEB etc page)
-Embark on an accelerated preparation for transition.
+Find more resources for starting your business at the [Department of Labor’s Veteran information site](http://www.dol.gov/vets/opportunities/opportunities.htm).
 
 
 </div>
