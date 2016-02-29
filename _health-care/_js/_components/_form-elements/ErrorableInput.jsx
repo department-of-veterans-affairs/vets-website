@@ -20,7 +20,7 @@ class ErrorableInput extends React.Component {
   }
 
   componentWillMount() {
-    this.inputId = _.uniqueId('validated-input-');
+    this.inputId = _.uniqueId('errorable-input-');
   }
 
   handleChange(domEvent) {
@@ -33,7 +33,7 @@ class ErrorableInput extends React.Component {
     let errorSpanId = undefined;
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
-      errorSpan = <span className="usa-input-error-message" id={`${this.inputId}-error-message`}>{this.props.errorMessage}</span>;
+      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
     }
 
     // Calculate required.
@@ -71,6 +71,5 @@ ErrorableInput.propTypes = {
   value: React.PropTypes.string,
   onValueChange: React.PropTypes.func.isRequired,
 };
-
 
 export default ErrorableInput;
