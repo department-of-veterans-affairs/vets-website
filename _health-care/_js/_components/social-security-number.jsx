@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ErrorableInput from './_form-elements/ErrorableInput';
+import ErrorableTextInput from './_form-elements/ErrorableTextInput';
 import { isValidSSN } from '../_utils/validations.js';
 
 /**
@@ -15,7 +15,7 @@ class SocialSecurityNumber extends React.Component {
     const errorMessage = isValidSSN(this.props.ssn) ? undefined : 'Please put your number in this format xxx-xx-xxxx';
     return (
       <div>
-        <ErrorableInput
+        <ErrorableTextInput
             errorMessage={errorMessage}
             label="Social Security Number"
             placeholder="xxx-xx-xxxx"

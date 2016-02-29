@@ -13,7 +13,7 @@ import _ from 'lodash';
  * `value` - string. Value of the input field.
  * `onValueChange` - a function with this prototype: (newValue)
  */
-class ErrorableInput extends React.Component {
+class ErrorableTextInput extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
@@ -63,7 +63,7 @@ class ErrorableInput extends React.Component {
   }
 }
 
-ErrorableInput.propTypes = {
+ErrorableTextInput.propTypes = {
   errorMessage: React.PropTypes.string,
   label: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,
@@ -72,4 +72,4 @@ ErrorableInput.propTypes = {
   onValueChange: React.PropTypes.func.isRequired,
 };
 
-export default ErrorableInput;
+export default ErrorableTextInput;
