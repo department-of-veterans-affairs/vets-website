@@ -1,5 +1,6 @@
 // Karma configuration
 // Generated on Wed Dec 30 2015 15:40:11 GMT-0800 (PST)
+var webpack = require('webpack');
 
 module.exports = function(config) {
   config.set({
@@ -15,13 +16,14 @@ module.exports = function(config) {
       'chai-as-promised',
       'jquery-1.8.3',
       'chai',
+      'sinon-chai',
       'fixture'
     ],
 
     // list of files / patterns to load in the browser
     files: [
-      // PhantomJS 1.9.2 does not have Function.prototype.bind.
-      './node_modules/phantomjs-polyfill/bind-polyfill.js',
+      // PhantomJS doesn't have ES6 Promises.
+      'node_modules/babel-polyfill/dist/polyfill.js',
       'spec/javascripts/**/*.spec.js?(x)',
       { pattern: '_site/health-care/form/index.html', watched: true, included: false, served: true, nocache: true },
       { pattern: '_site/**/*', watched: false, included: false, served: true, nocache: true },
@@ -75,6 +77,9 @@ module.exports = function(config) {
           }
         ]
       },
+      plugins: [
+        new webpack.IgnorePlugin(/ReactContext/)
+      ],
       resolve: {
         extensions: ['', '.js', '.jsx']
       }
