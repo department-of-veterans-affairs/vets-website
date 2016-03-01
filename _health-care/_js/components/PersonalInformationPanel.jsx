@@ -1,10 +1,10 @@
 import React from 'react';
 
-import AdditionalInformationSection from './additional-information-section';
-import DemographicInformationSection from './demographic-information-section';
-import NameAndGeneralInfoSection from './name-and-general-info-section';
-import VaInformationSection from './va-information-section';
-import VeteranAddressSection from './veteran-address-section';
+import AdditionalInformationSection from './personal-information/AdditionalInformationSection';
+import DemographicInformationSection from './personal-information/DemographicInformationSection';
+import NameAndGeneralInfoSection from './personal-information/NameAndGeneralInfoSection';
+import VaInformationSection from './personal-information/VaInformationSection';
+import VeteranAddressSection from './personal-information/VeteranAddressSection';
 
 class PersonalInformationPanel extends React.Component {
   render() {

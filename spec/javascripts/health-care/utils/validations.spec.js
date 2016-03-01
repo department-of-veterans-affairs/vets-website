@@ -1,4 +1,4 @@
-import { isValidSSN } from '../../../../_health-care/_js/_utils/validations.js';
+import { isValidSSN } from '../../../../_health-care/_js/utils/validations.js';
 
 describe('Validations unit tests', () => {
   it('accepts ssns of the right one including "invalid" test ones', () => {

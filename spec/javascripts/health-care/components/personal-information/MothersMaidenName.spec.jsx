@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
-import MothersMaidenName from
-    '../../../../_health-care/_js/_components/mothers-maiden-name';
+
+import MothersMaidenName from '../../../../../_health-care/_js/components/personal-information/MothersMaidenName';
 
 describe('<MothersMaidenName>', () => {
   let component = null;

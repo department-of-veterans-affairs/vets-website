@@ -1,7 +1,7 @@
 import React from 'react';
 
-import ErrorableTextInput from './_form-elements/ErrorableTextInput';
-import { isValidSSN } from '../_utils/validations.js';
+import ErrorableTextInput from '../form-elements/ErrorableTextInput';
+import { isValidSSN } from '../../utils/validations.js';
 
 /**
  * Input component for collecting a Social Security Number.

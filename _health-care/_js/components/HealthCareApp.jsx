@@ -2,8 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 
-import IntroductionPanel from './introduction-panel.jsx';
-import Nav from './nav.jsx';
+import IntroductionPanel from './IntroductionPanel.jsx';
+import Nav from './Nav.jsx';
 
 // Add deep object manipulation routines to lodash.
 _.mixin(lodashDeep);

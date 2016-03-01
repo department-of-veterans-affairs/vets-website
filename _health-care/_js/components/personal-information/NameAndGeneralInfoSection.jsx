@@ -1,11 +1,11 @@
 import React from 'react';
 
-import DateInput from './date-input';
-import FullName from './full-name';
-import MothersMaidenName from './mothers-maiden-name';
-import SocialSecurityNumber from './social-security-number';
-import Gender from './gender';
-import AddressState from './address-state';
+import AddressState from './AddressState';
+import DateInput from '../form-elements/DateInput';
+import FullName from './FullName';
+import Gender from './Gender';
+import MothersMaidenName from './MothersMaidenName';
+import SocialSecurityNumber from './SocialSecurityNumber';
 
 class NameAndGeneralInfoSection extends React.Component {
   render() {

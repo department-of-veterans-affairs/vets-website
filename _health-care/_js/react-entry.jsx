@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route, Router, hashHistory } from 'react-router';
 
-import FinancialAssessmentPanel from './_components/financial-assessment-panel.jsx';
-import HealthCareApp from './_components/health-care-app.jsx';
-import IntroductionPanel from './_components/introduction-panel.jsx';
-import InsuranceInformationPanel from './_components/insurance-information-panel.jsx';
-import MilitaryServicePanel from './_components/military-service-panel.jsx';
-import PersonalInformationPanel from './_components/personal-information-panel.jsx';
-import ReviewAndSubmitPanel from './_components/review-and-submit-panel.jsx';
+import FinancialAssessmentPanel from './components/FinancialAssessmentPanel.jsx';
+import HealthCareApp from './components/HealthCareApp.jsx';
+import IntroductionPanel from './components/IntroductionPanel.jsx';
+import InsuranceInformationPanel from './components/InsuranceInformationPanel.jsx';
+import MilitaryServicePanel from './components/MilitaryServicePanel.jsx';
+import PersonalInformationPanel from './components/PersonalInformationPanel.jsx';
+import ReviewAndSubmitPanel from './components/ReviewAndSubmitPanel.jsx';
 
 function init() {
   ReactDOM.render((
