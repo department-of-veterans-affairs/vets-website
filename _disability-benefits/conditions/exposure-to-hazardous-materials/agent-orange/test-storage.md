@@ -8,7 +8,7 @@ concurrence: incomplete
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
+      <a class="uk-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
     </div>
   </div>
 </div>

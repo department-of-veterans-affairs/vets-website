@@ -319,10 +319,10 @@ function validator($el) {
             validatorName.toLowerCase() + ']');
 
         if (!validatorPattern.test($el.val())) {
-          $validatorCheckbox.toggleClass('usa-checklist-checked', false);
+          $validatorCheckbox.toggleClass('uk-checklist-checked', false);
         }
         else {
-          $validatorCheckbox.toggleClass('usa-checklist-checked', true);
+          $validatorCheckbox.toggleClass('uk-checklist-checked', true);
         }
       }
     }
@@ -332,26 +332,26 @@ function validator($el) {
 }
 
 $(function() {
-  $('[class^=usa-accordion]').each(function() {
+  $('[class^=uk-accordion]').each(function() {
     accordion($(this));
   });
 
   var footerAccordion = function() {
     if (window.innerWidth < 600) {
 
-      $('.usa-footer-big nav ul').addClass('hidden');
+      $('.uk-footer-big nav ul').addClass('hidden');
 
-      $('.usa-footer-big nav .usa-footer-primary-link').unbind('click');
+      $('.uk-footer-big nav .uk-footer-primary-link').unbind('click');
 
-      $('.usa-footer-big nav .usa-footer-primary-link').bind('click', function() {
+      $('.uk-footer-big nav .uk-footer-primary-link').bind('click', function() {
         $(this).parent().removeClass('hidden')
         .siblings().addClass('hidden');
       });
     } else {
 
-      $('.usa-footer-big nav ul').removeClass('hidden');
+      $('.uk-footer-big nav ul').removeClass('hidden');
 
-      $('.usa-footer-big nav .usa-footer-primary-link').unbind('click');
+      $('.uk-footer-big nav .uk-footer-primary-link').unbind('click');
     }
   };
 
@@ -368,9 +368,9 @@ $(function() {
     $(this).attr('tabindex','-1');
   });
 
-  togglePassword($('.usa-show_password'));
-  toggleMultiPassword($('.usa-show_multipassword'));
-  toggleSSN($('.usa-show_ssn'));
+  togglePassword($('.uk-show_password'));
+  toggleMultiPassword($('.uk-show_multipassword'));
+  toggleSSN($('.uk-show_ssn'));
   validator($('.js-validate_password'));
 
 });

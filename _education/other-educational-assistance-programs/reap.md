@@ -9,7 +9,7 @@ template: 6-info-page
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
+      <a class="uk-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
     </div>
   </div>
 </div>

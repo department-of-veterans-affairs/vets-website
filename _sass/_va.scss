@@ -14,7 +14,7 @@ body {
 }
 
 // TODO: look into alert / error spacing issues
-.usa-input-error {
+.uk-input-error {
   right: 1rem;
   padding-bottom: 0;
   padding-top: 0;
@@ -566,11 +566,11 @@ background: rgba(255,255,255,.85);
   h2, h3, h4, h5, h6, p, li {color: #444;}
   h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
   a {color: #fff;}
-  a.usa-button-primary {background: $color-green;}
+  a.uk-button-primary {background: $color-green;}
 }
 
 #content {
-  a.usa-button-primary.start {background: $color-green; text-decoration: none;}
+  a.uk-button-primary.start {background: $color-green; text-decoration: none;}
 }
 
 #content .section.secondary,
@@ -1217,9 +1217,9 @@ figure {
 
   dd {padding: .25em 0;}
 
-  a.usa-button {text-decoration: none; margin-bottom: 1em;}
+  a.uk-button {text-decoration: none; margin-bottom: 1em;}
 
-  .usa-social-links {
+  .uk-social-links {
     dd {
       display: inline-block;
       margin: 0 1em 0 0;
@@ -1564,7 +1564,7 @@ a.twitter {
   line-height: 1em;
   margin: 0;
   text-align: right !important;
-  a.usa-button {margin-top: 0; margin-bottom: .75em;}
+  a.uk-button {margin-top: 0; margin-bottom: .75em;}
   }
 }
 
@@ -2188,7 +2188,7 @@ min-height: 12em;
 dt {color: $color-primary-darkest; padding: 0; font-weight: 700; font-size: 1.2em;}
 dd {padding: 0; margin: 0;}
 a {
-  @extend .usa-button-primary;
+  @extend .uk-button-primary;
   margin: .5em 0;
 }
 &.plain {
@@ -2201,12 +2201,12 @@ a {
 
 // Buttons
 
-#content .usa-button,
-#content .usa-button-primary,
-#content .usa-button-outline
+#content .uk-button,
+#content .uk-button-primary,
+#content .uk-button-outline
 {text-decoration: none !important;}
 
-#content .usa-button-primary.expand {
+#content .uk-button-primary.expand {
   width: 100%;
 }
 
@@ -2234,17 +2234,17 @@ h4.highlight {
 text-align: right;
 background: $color-gray-lightest;
 padding: .5em 0;
-a.usa-button-primary {
+a.uk-button-primary {
   background: $color-green;
 }
 }
 
 // USDS component styles
 // Accordion
-.usa-accordion-content[aria-hidden=true] {
+.uk-accordion-content[aria-hidden=true] {
     display: none !important;
 }
-button[class*="usa-button-"] {
+button[class*="uk-button-"] {
   font-weight:500;
   span {
     font-weight:700

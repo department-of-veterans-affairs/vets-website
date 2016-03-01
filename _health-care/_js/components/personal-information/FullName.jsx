@@ -25,11 +25,11 @@ class FullName extends React.Component {
     for (let i = 0; i < requiredFields.length; i++) {
       const errorDiv = requiredFields[i].parentElement;
 
-      errorDiv.classList.remove('usa-input-error');
+      errorDiv.classList.remove('uk-input-error');
 
       if (!this.validate(requiredFields[i])) {
         this.setState({ hasError: true });
-        errorDiv.classList.add('usa-input-error');
+        errorDiv.classList.add('uk-input-error');
       } else {
         this.setState({ hasError: false });
       }
@@ -47,7 +47,7 @@ class FullName extends React.Component {
       <div>
         <div>
           <label htmlFor={`${this.id}-first-name`}>First Name
-            <span className="usa-additional_text">Required</span>
+            <span className="uk-additional_text">Required</span>
           </label>
           <input type="text" value={this.props.name.first} id={`${this.id}-first-name`}
               ref="first" onChange={this.handleChange}/>
@@ -61,13 +61,13 @@ class FullName extends React.Component {
 
         <div>
           <label htmlFor={`${this.id}-last-name`}>Last Name
-            <span className="usa-additional_text">Required</span>
+            <span className="uk-additional_text">Required</span>
           </label>
           <input type="text" value={this.props.name.last} id={`${this.id}-last-name`}
               ref="last" onChange={this.handleChange}/>
         </div>
 
-        <div className="usa-input-grid usa-input-grid-small">
+        <div className="uk-input-grid uk-input-grid-small">
           <label htmlFor={`${this.id}-suffix-name`}>Suffix</label>
           <select value={this.props.name.suffix} id={`${this.id}-suffix-name`}
               ref="suffix" onChange={this.handleChange}>

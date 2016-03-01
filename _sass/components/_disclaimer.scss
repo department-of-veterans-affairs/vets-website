@@ -1,4 +1,4 @@
-.usa-disclaimer {
+.uk-disclaimer {
   background-color: $color-gray-lightest;
   font-size: $h6-font-size;
   padding-bottom: .5rem;
@@ -11,7 +11,7 @@
 
 // This hides the stage note (i.e. alpha, beta, etc) of the disclaimer for 
 // anything smaller than large screen sizes
-.usa-disclaimer-stage {
+.uk-disclaimer-stage {
   display: none;
   float: right;
 
@@ -20,6 +20,6 @@
   }
 }
 
-.usa-flag_icon {
+.uk-flag_icon {
   margin-right: .2rem;
 }

@@ -23,21 +23,21 @@ describe('<DateInput>', () => {
     // Initial state should be valid.
     expect(component.state.hasError).to.be.false;
     expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(0);
+        component, 'uk-input-error')).to.have.length(0);
 
     // Smarch is not a real month.
     component.refs.month.value = 13;
     ReactTestUtils.Simulate.change(component.refs.month);
     expect(component.state.hasError).to.be.true;
     expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(1);
+        component, 'uk-input-error')).to.have.length(1);
 
     // December is a real month though.
     component.refs.month.value = 12;
     ReactTestUtils.Simulate.change(component.refs.month);
     expect(component.state.hasError).to.be.false;
     expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(0);
+        component, 'uk-input-error')).to.have.length(0);
   });
 
   it('validate february here cause its a special snowflake', () => {

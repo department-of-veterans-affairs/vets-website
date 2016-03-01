@@ -4,7 +4,7 @@
       <h4>Veterans Name</h4>
 
       <label for="veteran_first_name">First Name
-        <span class="usa-additional_text">Required</span>
+        <span class="uk-additional_text">Required</span>
       </label>
       <input type="text" name="veteran[first_name]" />
 
@@ -12,12 +12,12 @@
       <input type="text" name="veteran[middle_name]" />
 
       <label for="veteran_last_name">Last Name
-        <span class="usa-additional_text">Required</span>
+        <span class="uk-additional_text">Required</span>
       </label>
       <input type="text" name="veteran[last_name]" />
 
       <div>
-        <div class="usa-input-grid usa-input-grid-small">
+        <div class="uk-input-grid uk-input-grid-small">
           <label for="veteran_suffix_name">Suffix</label>
           <select name="veteran[suffix_name]" ><option value="0"></option>
             <option value="JR">Jr.</option>
@@ -27,7 +27,7 @@
       </div>
 
       <div>
-        <div class="usa-input-grid usa-input-grid-large">
+        <div class="uk-input-grid uk-input-grid-large">
           <label for="veteran_mothers_maiden_name">Mother&#39;s Maiden Name</label>
           <!-- (TODO: Add optional styling) -->
           <input type="text" name="veteran[mothers_maiden_name]" />
@@ -35,33 +35,33 @@
       </div>
 
       <div>
-        <div class="usa-input-grid usa-input-grid-medium usa-input-error">
-          <label class="usa-input-error-label" for="veteran_ssn">Social Security Number
-            <span class="usa-additional_text">Required</span>
+        <div class="uk-input-grid uk-input-grid-medium uk-input-error">
+          <label class="uk-input-error-label" for="veteran_ssn">Social Security Number
+            <span class="uk-additional_text">Required</span>
           </label>
-          <span class="usa-input-error-message" id="input-error-message" role="alert">Please put you number in this format xxx-xx-xxxx</span>
+          <span class="uk-input-error-message" id="input-error-message" role="alert">Please put you number in this format xxx-xx-xxxx</span>
           <input type="text" name="veteran[ssn]" aria-describedby="input-error-message"/>
         </div>
       </div>
 
       <div>
-        <div class="usa-input-grid usa-input-grid-large">
+        <div class="uk-input-grid uk-input-grid-large">
 
           <h4>Date of birth</h4>
-          <span class="usa-form-hint usa-datefield-hint" id="dobHint">For example: 04 28 1986</span>
+          <span class="uk-form-hint uk-datefield-hint" id="dobHint">For example: 04 28 1986</span>
 
-          <div class="usa-date-of-birth">
-            <div class="usa-datefield usa-form-group usa-form-group-month">
+          <div class="uk-date-of-birth">
+            <div class="uk-datefield uk-form-group uk-form-group-month">
               <label for="veteran_date_of_birth_month">Month</label>
-              <input aria-describedby="dobHint" class="usa-form-control" id="veteran_date_of_birth_month" name="veteran[date_of_birth][month]" pattern="0?[1-9]|1[012]" type="number" min="1" max="12" value="">
+              <input aria-describedby="dobHint" class="uk-form-control" id="veteran_date_of_birth_month" name="veteran[date_of_birth][month]" pattern="0?[1-9]|1[012]" type="number" min="1" max="12" value="">
             </div>
-            <div class="usa-datefield usa-form-group usa-form-group-day">
+            <div class="uk-datefield uk-form-group uk-form-group-day">
               <label for="veteran_date_of_birth_date">Day</label>
-              <input aria-describedby="dobHint" class="usa-form-control" id="veteran_date_of_birth_date" name="veteran[date_of_birth][date]" pattern="0?[1-9]|1[0-9]|2[0-9]|3[01]" type="number" min="1" max="31" value="">
+              <input aria-describedby="dobHint" class="uk-form-control" id="veteran_date_of_birth_date" name="veteran[date_of_birth][date]" pattern="0?[1-9]|1[0-9]|2[0-9]|3[01]" type="number" min="1" max="31" value="">
             </div>
-            <div class="usa-datefield usa-form-group usa-form-group-year">
+            <div class="uk-datefield uk-form-group uk-form-group-year">
               <label for="veteran_date_of_birth_year">Year</label>
-              <input aria-describedby="dobHint" class="usa-form-control" id="veteran_date_of_birth_year" name="veteran[date_of_birth][year]" pattern="[0-9]{4}" type="number" min="1900" max="{{ site.time | date: '%Y' }}" value="">
+              <input aria-describedby="dobHint" class="uk-form-control" id="veteran_date_of_birth_year" name="veteran[date_of_birth][year]" pattern="[0-9]{4}" type="number" min="1900" max="{{ site.time | date: '%Y' }}" value="">
             </div>
           </div>
 
@@ -69,7 +69,7 @@
       </div>
 
       <div>
-        <div class="usa-input-grid usa-input-grid-large">
+        <div class="uk-input-grid uk-input-grid-large">
           <label for="veteran_gender">Gender</label>
           <select name="veteran[gender]" ><option value="M">Male</option>
             <option value="F">Female</option>
@@ -78,12 +78,12 @@
 
           <h4>Place of Birth</h4>
           <div>
-            <div class="usa-input-grid usa-input-grid-medium">
+            <div class="uk-input-grid uk-input-grid-medium">
               <label for="veteran_city_of_birth">City</label>
               <input type="text" name="veteran[city_of_birth]" />
             </div>
 
-            <div class="usa-input-grid usa-input-grid-small">
+            <div class="uk-input-grid uk-input-grid-small">
               <label for="veteran_state_of_birth">State</label>
               <select name="veteran[state_of_birth]" ><option value="0"></option>
                 <option value="AL">Alabama</option>

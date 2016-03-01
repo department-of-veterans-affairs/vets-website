@@ -115,41 +115,41 @@ dfn {
 
 // Custom typography
 
-.usa-content {
+.uk-content {
   p {
     max-width: $text-max-width;
   }  
 }
 
-.usa-content-list {
+.uk-content-list {
   max-width: $text-max-width;
 }
 
 p, 
-.usa-content-list {
+.uk-content-list {
   a {
     text-decoration: underline;
   }
 }
 
-.usa-sans {
+.uk-sans {
   p, a, li, span {
     font-family: $font-sans;
   }
 }
 
-.usa-serif {
+.uk-serif {
   p, a, li, span {
     font-family: $font-serif;
   }
 }
 
-.usa-sans a {
+.uk-sans a {
   border-bottom: none;
   font-weight: $font-bold;
 }
 
-.usa-display {
+.uk-display {
   @include h3();
   margin-bottom: 0;
 
@@ -162,17 +162,17 @@ p,
   }
 }
 
-.usa-font-lead {
+.uk-font-lead {
   font-family: $font-serif;
   font-size: $lead-font-size;
   line-height: $lead-line-height;
 }
 
-.usa-image-block {
+.uk-image-block {
   position: relative;
 }
 
-.usa-image-text-block {
+.uk-image-text-block {
   color: $color-white;
   left: 0;
   margin-left: 8%;
@@ -180,15 +180,15 @@ p,
   top: 0;
 }
 
-.usa-image-text {
+.uk-image-text {
   margin-top: 0;
 }
 
-.usa-drop_text {
+.uk-drop_text {
   margin-bottom: 0;
 }
 
-.usa-background-dark {
+.uk-background-dark {
   background-color: $color-gray-dark;
 
   p, span {
@@ -204,7 +204,7 @@ p,
   }
 }
 
-.usa-text-small {
+.uk-text-small {
   font-size: $h6-font-size;
   margin-top: 0;
 }

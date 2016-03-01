@@ -4,10 +4,10 @@ $accordion-border: 3px solid $color-gray-lightest;
 
 // Accordion Styles
 
-.usa-accordion,
-.usa-accordion-bordered {
-  + .usa-accordion,
-  + .usa-accordion-bordered {
+.uk-accordion,
+.uk-accordion-bordered {
+  + .uk-accordion,
+  + .uk-accordion-bordered {
     margin-top: 1rem;
   }
 
@@ -63,15 +63,15 @@ $accordion-border: 3px solid $color-gray-lightest;
   }
 }
 
-.usa-accordion-bordered {
-  .usa-accordion-content {
+.uk-accordion-bordered {
+  .uk-accordion-content {
     border-bottom: $accordion-border;
     border-left: $accordion-border;
     border-right: $accordion-border;
   }
 }
 
-.usa-accordion-content {
+.uk-accordion-content {
   background-color: $color-white;
   display: block;
   overflow: auto;

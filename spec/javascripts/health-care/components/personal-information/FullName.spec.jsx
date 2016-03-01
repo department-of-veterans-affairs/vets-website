@@ -25,7 +25,7 @@ describe('<FullName>', () => {
     // Initial state should be valid.
     expect(component.state.hasError).to.be.false;
     expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(0);
+        component, 'uk-input-error')).to.have.length(0);
 
     // Empty first and last name renders error.
     component.refs.first.value = '';
@@ -33,7 +33,7 @@ describe('<FullName>', () => {
     ReactTestUtils.Simulate.change(component.refs.last);
     expect(component.state.hasError).to.be.true;
     expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(2);
+        component, 'uk-input-error')).to.have.length(2);
 
     // Present first and last name removes error.
     component.refs.first.value = 'a';
@@ -41,7 +41,7 @@ describe('<FullName>', () => {
     ReactTestUtils.Simulate.change(component.refs.last);
     expect(component.state.hasError).to.be.false;
     expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(0);
+        component, 'uk-input-error')).to.have.length(0);
   });
 
   it('validate first and last name are present', () => {
