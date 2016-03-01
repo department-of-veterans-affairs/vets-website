@@ -1,6 +1,6 @@
 ---
 title: Entrepreneurship Counseling
-concurrence: incomplete
+concurrence: complete
 template: 1-topic-landing
 ---
 
@@ -19,7 +19,10 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Intro content here.
+The [Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned) and VA’s Office of Small and Disadvantaged Business Utilization in collaboration with [Business USA](http://business.usa.gov/) have resources to support you in starting a new business or growing an existing one. These resources help you with business-plan writing, funding, licensure and permits, mentoring, marketing, how to contract with the government, and more. 
+
+Your SBA representative may also be able to help you find and register for other state and federal start-up assistance, such as [Veteran-owned small-business preference](vets.gov/ #112171837). 
+
 
 </div>
 </div>
