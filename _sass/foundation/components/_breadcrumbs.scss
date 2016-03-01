@@ -9,8 +9,8 @@
 //
 $include-html-nav-classes: $include-html-classes !default;
 
-// We use this to set the background color for the breadcrumb container.
-$crumb-bg: scale-color($secondary-color, $lightness: 55%) !default;
+// We use this to set the background colour for the breadcrumb container.
+$crumb-bg: scale-colour($secondary-colour, $lightness: 55%) !default;
 
 // We use these to set the padding around the breadcrumbs.
 $crumb-padding: rem-calc(9 14 9) !default;
@@ -20,19 +20,19 @@ $crumb-side-padding: rem-calc(12) !default;
 $crumb-function-factor: -10% !default;
 $crumb-border-size: 1px !default;
 $crumb-border-style: solid !default;
-$crumb-border-color: scale-color($crumb-bg, $lightness: $crumb-function-factor) !default;
+$crumb-border-colour: scale-colour($crumb-bg, $lightness: $crumb-function-factor) !default;
 $crumb-radius: $global-radius !default;
 
 // We use these to set various text styles for breadcrumbs.
 $crumb-font-size: rem-calc(11) !default;
-$crumb-font-color: $primary-color !default;
-$crumb-font-color-current: $oil !default;
-$crumb-font-color-unavailable: $aluminum !default;
+$crumb-font-colour: $primary-colour !default;
+$crumb-font-colour-current: $oil !default;
+$crumb-font-colour-unavailable: $aluminum !default;
 $crumb-font-transform: uppercase !default;
 $crumb-link-decor: underline !default;
 
 // We use these to control the slash between breadcrumbs
-$crumb-slash-color: $base !default;
+$crumb-slash-colour: $base !default;
 $crumb-slash: "/" !default;
 
 //
@@ -49,9 +49,9 @@ $crumb-slash: "/" !default;
   border-style: $crumb-border-style;
   border-width: $crumb-border-size;
 
-  // We control which background color and border come through.
-  background-color: $crumb-bg;
-  border-color: $crumb-border-color;
+  // We control which background colour and border come through.
+  background-colour: $crumb-bg;
+  border-colour: $crumb-border-colour;
 }
 
 // We use this mixin to create breadcrumb styles from list items.
@@ -63,45 +63,45 @@ $crumb-slash: "/" !default;
   font-size: $crumb-font-size;
   line-height: $crumb-font-size;
   text-transform: $crumb-font-transform;
-  color: $crumb-font-color;
+  colour: $crumb-font-colour;
 
   &:hover a, &:focus a { text-decoration: $crumb-link-decor; }
 
   a {
-    color: $crumb-font-color;
+    colour: $crumb-font-colour;
   }
 
   // Current is for the link of the current page
   &.current {
     cursor: $cursor-default-value;
-    color: $crumb-font-color-current;
+    colour: $crumb-font-colour-current;
     a {
       cursor: $cursor-default-value;
-      color: $crumb-font-color-current;
+      colour: $crumb-font-colour-current;
     }
 
     &:hover, &:hover a,
     &:focus, &:focus a { text-decoration: none; }
   }
 
-  // Unavailable removed color and link styles so it looks inactive.
+  // Unavailable removed colour and link styles so it looks inactive.
   &.unavailable {
-    color: $crumb-font-color-unavailable;
-    a { color: $crumb-font-color-unavailable; }
+    colour: $crumb-font-colour-unavailable;
+    a { colour: $crumb-font-colour-unavailable; }
 
     &:hover,
     &:hover a,
     &:focus,
     a:focus {
       text-decoration: none;
-      color: $crumb-font-color-unavailable;
+      colour: $crumb-font-colour-unavailable;
       cursor: $cursor-disabled-value;
     }
   }
 
   &:before {
     content: "#{$crumb-slash}";
-    color: $crumb-slash-color;
+    colour: $crumb-slash-colour;
     margin: 0 $crumb-side-padding;
     position: relative;
     top: 1px;

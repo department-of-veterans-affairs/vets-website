@@ -10,7 +10,7 @@ $include-html-type-classes: $include-html-classes !default;
 $header-font-family: $body-font-family !default;
 $header-font-weight: $font-weight-normal !default;
 $header-font-style: normal !default;
-$header-font-color: $jet !default;
+$header-font-colour: $jet !default;
 $header-line-height: 1.4 !default;
 $header-top-margin: .2rem !default;
 $header-bottom-margin: .5rem !default;
@@ -34,14 +34,14 @@ $h6-font-reduction: 0 !default;
 
 // These control how subheaders are styled.
 $subheader-line-height: 1.4 !default;
-$subheader-font-color: scale-color($header-font-color, $lightness: 35%) !default;
+$subheader-font-colour: scale-colour($header-font-colour, $lightness: 35%) !default;
 $subheader-font-weight: $font-weight-normal !default;
 $subheader-top-margin: .2rem !default;
 $subheader-bottom-margin: .5rem !default;
 
 // A general <small> styling
 $small-font-size: 60% !default;
-$small-font-color: scale-color($header-font-color, $lightness: 35%) !default;
+$small-font-colour: scale-colour($header-font-colour, $lightness: 35%) !default;
 
 // We use these to style paragraphs
 $paragraph-font-family: inherit !default;
@@ -55,25 +55,25 @@ $paragraph-aside-font-style: italic !default;
 $paragraph-text-rendering: optimizeLegibility !default;
 
 // We use these to style <code> tags
-$code-color: $oil !default;
+$code-colour: $oil !default;
 $code-font-family: $font-family-monospace !default;
 $code-font-weight: $font-weight-normal !default;
-$code-background-color: scale-color($secondary-color, $lightness: 70%) !default;
+$code-background-colour: scale-colour($secondary-colour, $lightness: 70%) !default;
 $code-border-size: 1px !default;
 $code-border-style: solid !default;
-$code-border-color: scale-color($code-background-color, $lightness: -10%) !default;
+$code-border-colour: scale-colour($code-background-colour, $lightness: -10%) !default;
 $code-padding: rem-calc(2) rem-calc(5) rem-calc(1) !default;
 
 // We use these to style anchors
 $anchor-text-decoration: none !default;
 $anchor-text-decoration-hover: none !default;
-$anchor-font-color: $primary-color !default;
-$anchor-font-color-hover: scale-color($anchor-font-color, $lightness: -14%) !default;
+$anchor-font-colour: $primary-colour !default;
+$anchor-font-colour-hover: scale-colour($anchor-font-colour, $lightness: -14%) !default;
 
 // We use these to style the <hr> element
 $hr-border-width: 1px !default;
 $hr-border-style: solid !default;
-$hr-border-color: $gainsboro !default;
+$hr-border-colour: $gainsboro !default;
 $hr-margin: rem-calc(20) !default;
 
 // We use these to style lists
@@ -91,12 +91,12 @@ $definition-list-header-margin-bottom: .3rem !default;
 $definition-list-margin-bottom: rem-calc(12) !default;
 
 // We use these to style blockquotes
-$blockquote-font-color: scale-color($header-font-color, $lightness: 35%) !default;
+$blockquote-font-colour: scale-colour($header-font-colour, $lightness: 35%) !default;
 $blockquote-padding: rem-calc(9 20 0 19) !default;
 $blockquote-border: 1px solid $gainsboro !default;
 $blockquote-cite-font-size: rem-calc(13) !default;
-$blockquote-cite-font-color: scale-color($header-font-color, $lightness: 23%) !default;
-$blockquote-cite-link-color: $blockquote-cite-font-color !default;
+$blockquote-cite-font-colour: scale-colour($header-font-colour, $lightness: 23%) !default;
+$blockquote-cite-link-colour: $blockquote-cite-font-colour !default;
 
 // Acronym styles
 $acronym-underline: 1px dotted $gainsboro !default;
@@ -108,7 +108,7 @@ $microformat-margin: rem-calc(0 0 20 0) !default;
 // We use these to control the border styles
 $microformat-border-width: 1px !default;
 $microformat-border-style: solid !default;
-$microformat-border-color: $gainsboro !default;
+$microformat-border-colour: $gainsboro !default;
 
 // We use these to control full name font styles
 $microformat-fullname-font-weight: $font-weight-bold !default;
@@ -179,7 +179,7 @@ $align-class-breakpoints:
 
 @mixin subheader {
   line-height: $subheader-line-height;
-  color: $subheader-font-color;
+  colour: $subheader-font-colour;
   font-weight: $subheader-font-weight;
   margin-top: $subheader-top-margin;
   margin-bottom: $subheader-bottom-margin;
@@ -215,13 +215,13 @@ $align-class-breakpoints:
 
     /* Default Link Styles */
     a {
-      color: $anchor-font-color;
+      colour: $anchor-font-colour;
       text-decoration: $anchor-text-decoration;
       line-height: inherit;
 
       &:hover,
       &:focus {
-        color: $anchor-font-color-hover;
+        colour: $anchor-font-colour-hover;
         @if $anchor-text-decoration-hover != $anchor-text-decoration {
         	text-decoration: $anchor-text-decoration-hover;
         }
@@ -253,7 +253,7 @@ $align-class-breakpoints:
       font-family: $header-font-family;
       font-weight: $header-font-weight;
       font-style: $header-font-style;
-      color: $header-font-color;
+      colour: $header-font-colour;
       text-rendering: $header-text-rendering;
       margin-top: $header-top-margin;
       margin-bottom: $header-bottom-margin;
@@ -261,7 +261,7 @@ $align-class-breakpoints:
 
       small {
         font-size: $small-font-size;
-        color: $small-font-color;
+        colour: $small-font-colour;
         line-height: 0;
       }
     }
@@ -276,7 +276,7 @@ $align-class-breakpoints:
     .subheader { @include subheader; }
 
     hr {
-      border: $hr-border-style $hr-border-color;
+      border: $hr-border-style $hr-border-colour;
       border-width: $hr-border-width 0 0;
       clear: both;
       margin: $hr-margin 0 ($hr-margin - rem-calc($hr-border-width));
@@ -304,11 +304,11 @@ $align-class-breakpoints:
     code {
       font-family: $code-font-family;
       font-weight: $code-font-weight;
-      color: $code-color;
-      background-color: $code-background-color;
+      colour: $code-colour;
+      background-colour: $code-background-colour;
       border-width: $code-border-size;
       border-style: $code-border-style;
-      border-color: $code-border-color;
+      border-colour: $code-border-colour;
       padding: $code-padding;
     }
 
@@ -385,7 +385,7 @@ $align-class-breakpoints:
     acronym {
       text-transform: uppercase;
       font-size: 90%;
-      color: $body-font-color;
+      colour: $body-font-colour;
       cursor: $cursor-help-value;
     }
     abbr {
@@ -404,28 +404,28 @@ $align-class-breakpoints:
       cite {
         display: block;
         font-size: $blockquote-cite-font-size;
-        color: $blockquote-cite-font-color;
+        colour: $blockquote-cite-font-colour;
         &:before {
           content: "\2014 \0020";
         }
 
         a,
         a:visited {
-          color: $blockquote-cite-link-color;
+          colour: $blockquote-cite-link-colour;
         }
       }
     }
     blockquote,
     blockquote p {
       line-height: $paragraph-line-height;
-      color: $blockquote-font-color;
+      colour: $blockquote-font-colour;
     }
 
     /* Microformats */
     .vcard {
       display: inline-block;
       margin: $microformat-margin;
-      border: $microformat-border-width $microformat-border-style $microformat-border-color;
+      border: $microformat-border-width $microformat-border-style $microformat-border-colour;
       padding: $microformat-padding;
 
       li {
@@ -473,7 +473,7 @@ $align-class-breakpoints:
       @media print {
         * {
           background: transparent !important;
-          color: $black !important; /* Black prints faster: h5bp.com/s */
+          colour: $black !important; /* Black prints faster: h5bp.com/s */
           box-shadow: none !important;
           text-shadow: none !important;
         }

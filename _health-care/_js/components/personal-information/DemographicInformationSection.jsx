@@ -23,7 +23,7 @@ class DemographicInformationSection extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <h4>What is your race?</h4>
-            <span className="usa-form-hint">You may check more than one.</span>
+            <span className="uk-form-hint">You may check more than one.</span>
             <input
                 type="checkbox"
                 id="veteran_is_american_indian_or_alaksa_native"

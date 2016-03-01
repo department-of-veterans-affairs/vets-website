@@ -19,12 +19,12 @@
 }
 
 @mixin column-rule($arg) {
-  // <border-width> || <border-style> || <color>
+  // <border-width> || <border-style> || <colour>
   @include prefixer(column-rule, $arg, webkit moz spec);
 }
 
-@mixin column-rule-color($color) {
-  @include prefixer(column-rule-color, $color, webkit moz spec);
+@mixin column-rule-colour($colour) {
+  @include prefixer(column-rule-colour, $colour, webkit moz spec);
 }
 
 @mixin column-rule-style($style: none) {

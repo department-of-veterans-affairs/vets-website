@@ -83,11 +83,11 @@ template {
    ========================================================================== */
 
 /**
- * Remove the gray background color from active links in IE 10.
+ * Remove the gray background colour from active links in IE 10.
  */
 
 a {
-  background-color: transparent;
+  background-colour: transparent;
 }
 
 /**
@@ -143,7 +143,7 @@ h1 {
 
 mark {
   background: #ff0;
-  color: #000;
+  colour: #000;
 }
 
 /**
@@ -243,8 +243,8 @@ samp {
  */
 
 /**
- * 1. Correct color not being inherited.
- *    Known issue: affects color of disabled elements.
+ * 1. Correct colour not being inherited.
+ *    Known issue: affects colour of disabled elements.
  * 2. Correct font properties not being inherited.
  * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
  */
@@ -254,7 +254,7 @@ input,
 optgroup,
 select,
 textarea {
-  color: inherit; /* 1 */
+  colour: inherit; /* 1 */
   font: inherit; /* 2 */
   margin: 0; /* 3 */
 }
@@ -383,7 +383,7 @@ fieldset {
 }
 
 /**
- * 1. Correct `color` not being inherited in IE 8/9/10/11.
+ * 1. Correct `colour` not being inherited in IE 8/9/10/11.
  * 2. Remove padding so people aren't caught out if they zero out fieldsets.
  */
 

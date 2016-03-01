@@ -19,8 +19,8 @@ $include-html-button-classes: $include-html-classes !default;
 
 // We use these to control different shared styles for Split Buttons
 $split-button-function-factor: 10% !default;
-$split-button-pip-color: $white !default;
-$split-button-pip-color-alt: $oil !default;
+$split-button-pip-colour: $white !default;
+$split-button-pip-colour-alt: $oil !default;
 $split-button-active-bg-tint: rgba(0,0,0,0.1) !default;
 
 // We use these to control tiny split buttons
@@ -59,13 +59,13 @@ $split-button-pip-default-float-lrg: rem-calc(-6) !default;
 // We use this mixin to create split buttons that build upon the button mixins
 //
 // $padding - Type of padding to apply. Default: medium. Options: tiny, small, medium, large.
-// $pip-color - Color of the triangle. Default: $split-button-pip-color.
-// $span-border - Border color of button divider. Default: $primary-color.
+// $pip-colour - Color of the triangle. Default: $split-button-pip-colour.
+// $span-border - Border colour of button divider. Default: $primary-colour.
 // $base-style - Apply base style to split button. Default: true.
 @mixin split-button(
   $padding:medium,
-  $pip-color:$split-button-pip-color, 
-  $span-border:$primary-color, 
+  $pip-colour:$split-button-pip-colour, 
+  $span-border:$primary-colour, 
   $base-style:true) {
 
   // With this, we can control whether or not the base styles come through.
@@ -94,14 +94,14 @@ $split-button-pip-default-float-lrg: rem-calc(-6) !default;
         #{$default-float}: 50%;
       }
 
-      &:active { background-color: $split-button-active-bg-tint; }
+      &:active { background-colour: $split-button-active-bg-tint; }
     }
   }
 
-  // Control the border color for the span area of the split button
+  // Control the border colour for the span area of the split button
   @if $span-border {
     span {
-      border-#{$default-float}-color: rgba(255,255,255,0.5);
+      border-#{$default-float}-colour: rgba(255,255,255,0.5);
     }
   }
 
@@ -161,9 +161,9 @@ $split-button-pip-default-float-lrg: rem-calc(-6) !default;
     }
   }
 
-  // Control the color of the triangle pip
-  @if $pip-color {
-    span:after { border-color: $pip-color transparent transparent transparent; }
+  // Control the colour of the triangle pip
+  @if $pip-colour {
+    span:after { border-colour: $pip-colour transparent transparent transparent; }
   }
 }
 
@@ -172,16 +172,16 @@ $split-button-pip-default-float-lrg: rem-calc(-6) !default;
 
     .split.button { @include split-button;
 
-      &.secondary { @include split-button(false, $split-button-pip-color, $secondary-color, false); }
-      &.alert { @include split-button(false, false, $alert-color, false); }
-      &.success { @include split-button(false, false, $success-color, false); }
+      &.secondary { @include split-button(false, $split-button-pip-colour, $secondary-colour, false); }
+      &.alert { @include split-button(false, false, $alert-colour, false); }
+      &.success { @include split-button(false, false, $success-colour, false); }
 
       &.tiny { @include split-button(tiny, false, false, false); }
       &.small { @include split-button(small, false, false, false); }
       &.large { @include split-button(large, false, false, false); }
       &.expand { padding-left: 2rem; }
 
-      &.secondary { @include split-button(false, $split-button-pip-color-alt, false, false); }
+      &.secondary { @include split-button(false, $split-button-pip-colour-alt, false, false); }
 
       &.radius span { @include side-radius($opposite-direction, $global-radius); }
       &.round span { @include side-radius($opposite-direction, 1000px); }

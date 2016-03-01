@@ -1,7 +1,7 @@
-.usa-label {
-  background-color: $color-primary;
+.uk-label {
+  background-colour: $colour-primary;
   border-radius: $border-radius;
-  color: $color-white;
+  colour: $colour-white;
   font-size: $h5-font-size;
   margin-right: 0.5rem;
   padding: 0.1rem 0.7rem;
@@ -12,21 +12,21 @@
   }
 }
 
-.usa-label-big {
-  @extend .usa-label;
+.uk-label-big {
+  @extend .uk-label;
   font-size: $base-font-size;
   padding-left: 0.9rem;
   padding-right: 0.9rem;
 }
 
 a {
-  &.usa-label {
+  &.uk-label {
     border-bottom: none;
 
     &:hover {
-      background-color: $color-primary-darker;
+      background-colour: $colour-primary-darker;
       border-bottom: none;
-      color: $color-white;
+      colour: $colour-white;
     }
   }
 }

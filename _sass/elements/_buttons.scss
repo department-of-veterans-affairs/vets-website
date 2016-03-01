@@ -4,20 +4,20 @@ $button-stroke: inset 0 0 0 2px;
 
 // Buttons
 
-.usa-button,
-.usa-button-primary,
-.usa-button:visited,
-.usa-button-primary:visited,
+.uk-button,
+.uk-button-primary,
+.uk-button:visited,
+.uk-button-primary:visited,
 button,
 [type="button"],
 [type="submit"],
 [type="reset"],
 [type="image"] {
   appearance: none;
-  background-color: $color-primary;
+  background-colour: $colour-primary;
   border: 0;
   border-radius: $border-radius;
-  color: $color-white;
+  colour: $colour-white;
   cursor: pointer;
   display: inline-block;
   font-family: $font-sans;
@@ -39,138 +39,138 @@ button,
   }
 
   &:hover,
-  &.usa-button-hover {
-    background-color: $color-primary-darker;
+  &.uk-button-hover {
+    background-colour: $colour-primary-darker;
     border-bottom: 0;
-    color: $color-white;
+    colour: $colour-white;
     text-decoration: none;
   }
 
   &:focus,
-  &.usa-button-focus {
+  &.uk-button-focus {
     box-shadow: $focus-shadow;
   }
 
   &:active,
-  &.usa-button-active {
-    background-color: $color-primary-darkest;
+  &.uk-button-active {
+    background-colour: $colour-primary-darkest;
   }
 
-  &.usa-button-primary-alt {
-    background-color: $color-primary-alt;
-    color: $color-base;
+  &.uk-button-primary-alt {
+    background-colour: $colour-primary-alt;
+    colour: $colour-base;
 
     &:hover,
-    &.usa-button-hover {
-      background-color: $color-primary-alt-dark;
+    &.uk-button-hover {
+      background-colour: $colour-primary-alt-dark;
     }
 
     &:active,
-    &.usa-button-active {
-      background-color: $color-primary-alt-darkest;
-      color: $color-white;
+    &.uk-button-active {
+      background-colour: $colour-primary-alt-darkest;
+      colour: $colour-white;
     }
   }
 
-  &.usa-button-secondary {
-    background-color: $color-secondary;
+  &.uk-button-secondary {
+    background-colour: $colour-secondary;
 
     &:hover,
-    &.usa-button-hover {
-      background-color: $color-secondary-dark;
+    &.uk-button-hover {
+      background-colour: $colour-secondary-dark;
     }
 
     &:active,
-    &.usa-button-active {
-      background-color: $color-secondary-darkest;
+    &.uk-button-active {
+      background-colour: $colour-secondary-darkest;
     }
   }
 
-  &.usa-button-gray {
-    background-color: $color-gray;
+  &.uk-button-gray {
+    background-colour: $colour-gray;
 
     &:hover,
-    &.usa-button-hover {
-      background-color: $color-gray-dark;
+    &.uk-button-hover {
+      background-colour: $colour-gray-dark;
     }
 
     &:active,
-    &.usa-button-active {
-      background-color: $color-base;
+    &.uk-button-active {
+      background-colour: $colour-base;
     }
   }
 
-  &.usa-button-outline {
-    background-color: $color-white;
-    box-shadow: $button-stroke $color-primary;
-    color: $color-primary;
+  &.uk-button-outline {
+    background-colour: $colour-white;
+    box-shadow: $button-stroke $colour-primary;
+    colour: $colour-primary;
 
     &:hover,
-    &.usa-button-hover {
-      box-shadow: $button-stroke $color-primary-darker;
-      color: $color-primary-darker;
+    &.uk-button-hover {
+      box-shadow: $button-stroke $colour-primary-darker;
+      colour: $colour-primary-darker;
     }
 
     &:active,
-    &.usa-button-active {
-      box-shadow: $button-stroke $color-primary-darkest;
-      color: $color-primary-darkest;
+    &.uk-button-active {
+      box-shadow: $button-stroke $colour-primary-darkest;
+      colour: $colour-primary-darkest;
     }
 
     &:focus,
-    &.usa-button-focus {
-      box-shadow: $button-stroke $color-primary-darkest, $focus-shadow;
+    &.uk-button-focus {
+      box-shadow: $button-stroke $colour-primary-darkest, $focus-shadow;
     }
   }
 
-  &.usa-button-outline-inverse {
+  &.uk-button-outline-inverse {
     background: transparent;
-    box-shadow: $button-stroke $color-white;
-    color: $color-white;
+    box-shadow: $button-stroke $colour-white;
+    colour: $colour-white;
 
     &:hover,
-    &.usa-button-hover {
-      box-shadow: $button-stroke $color-gray-lighter;
-      color: $color-gray-lighter;
+    &.uk-button-hover {
+      box-shadow: $button-stroke $colour-gray-lighter;
+      colour: $colour-gray-lighter;
     }
 
     &:active,
-    &.usa-button-active {
-      box-shadow: $button-stroke $color-gray-light;
-      color: $color-gray-lighter;
+    &.uk-button-active {
+      box-shadow: $button-stroke $colour-gray-light;
+      colour: $colour-gray-lighter;
     }
 
     &:focus,
-    &.usa-button-focus {
-      box-shadow: $button-stroke $color-gray-light, $focus-shadow;
+    &.uk-button-focus {
+      box-shadow: $button-stroke $colour-gray-light, $focus-shadow;
     }
   }
 
-  &.usa-button-big {
+  &.uk-button-big {
     font-size: 1.9rem;
     padding: 1.5rem 3rem;
   }
 }
 
 [type="submit"]:disabled,
-.usa-button-disabled {
-  background-color: $color-gray-lighter;
-  color: $color-gray-dark;
+.uk-button-disabled {
+  background-colour: $colour-gray-lighter;
+  colour: $colour-gray-dark;
   cursor: default;
 
   &:hover,
-  &.usa-button-hover,
+  &.uk-button-hover,
   &:active,
-  &.usa-button-active,
+  &.uk-button-active,
   &:focus  {
-    background-color: $color-gray-lighter;
+    background-colour: $colour-gray-lighter;
     border: 0;
     box-shadow: none;
-    color: $color-gray-dark;
+    colour: $colour-gray-dark;
   }
 }
 
-.usa-button-unstyled {
+.uk-button-unstyled {
   background: none;
   border: 0;
   border-radius: 0;

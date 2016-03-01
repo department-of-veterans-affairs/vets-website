@@ -12,35 +12,35 @@ $include-html-keystroke-classes: $include-html-classes !default;
 // We use these to control text styles.
 $keystroke-font: "Consolas", "Menlo", "Courier", monospace !default;
 $keystroke-font-size: inherit !default;
-$keystroke-font-color: $jet !default;
-$keystroke-font-color-alt: $white !default;
+$keystroke-font-colour: $jet !default;
+$keystroke-font-colour-alt: $white !default;
 $keystroke-function-factor: -7% !default;
 
 // We use this to control keystroke padding.
 $keystroke-padding: rem-calc(2 4 0) !default;
 
 // We use these to control background and border styles.
-$keystroke-bg: scale-color($white, $lightness: $keystroke-function-factor) !default;
+$keystroke-bg: scale-colour($white, $lightness: $keystroke-function-factor) !default;
 $keystroke-border-style: solid !default;
 $keystroke-border-width: 1px !default;
-$keystroke-border-color: scale-color($keystroke-bg, $lightness: $keystroke-function-factor) !default;
+$keystroke-border-colour: scale-colour($keystroke-bg, $lightness: $keystroke-function-factor) !default;
 $keystroke-radius: $global-radius !default;
 
 //
 // @mixins
 //
 // We use this mixin to create keystroke styles.
-// $bg - Default: $keystroke-bg || scale-color($white, $lightness: $keystroke-function-factor) !default;
+// $bg - Default: $keystroke-bg || scale-colour($white, $lightness: $keystroke-function-factor) !default;
 @mixin keystroke($bg:$keystroke-bg) {
-  // This find the lightness percentage of the background color.
+  // This find the lightness percentage of the background colour.
   $bg-lightness: lightness($bg);
 
-  background-color: $bg;
-  border-color: scale-color($bg, $lightness: $keystroke-function-factor);
+  background-colour: $bg;
+  border-colour: scale-colour($bg, $lightness: $keystroke-function-factor);
 
-  // We adjust the font color based on the brightness of the background.
-  @if $bg-lightness > 70% { color: $keystroke-font-color; }
-  @else { color: $keystroke-font-color-alt; }
+  // We adjust the font colour based on the brightness of the background.
+  @if $bg-lightness > 70% { colour: $keystroke-font-colour; }
+  @else { colour: $keystroke-font-colour-alt; }
 
   border-style: $keystroke-border-style;
   border-width: $keystroke-border-width;

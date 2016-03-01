@@ -9,7 +9,7 @@
 //
 $include-html-pricing-classes: $include-html-classes !default;
 
-// We use this to control the border color
+// We use this to control the border colour
 $price-table-border: solid 1px $gainsboro !default;
 
 // We use this to control the bottom margin of the pricing table
@@ -19,7 +19,7 @@ $price-table-margin-bottom: rem-calc(20) !default;
 $price-title-bg: $oil !default;
 $price-title-padding: rem-calc(15 20) !default;
 $price-title-align: center !default;
-$price-title-color: $smoke !default;
+$price-title-colour: $smoke !default;
 $price-title-weight: $font-weight-normal !default;
 $price-title-size: rem-calc(16) !default;
 $price-title-font-family: $body-font-family !default;
@@ -28,7 +28,7 @@ $price-title-font-family: $body-font-family !default;
 $price-money-bg: $vapor !default;
 $price-money-padding: rem-calc(15 20) !default;
 $price-money-align: center !default;
-$price-money-color: $oil !default;
+$price-money-colour: $oil !default;
 $price-money-weight: $font-weight-normal !default;
 $price-money-size: rem-calc(32) !default;
 $price-money-font-family: $body-font-family !default;
@@ -36,7 +36,7 @@ $price-money-font-family: $body-font-family !default;
 
 // We use these to control the description styles
 $price-bg: $white !default;
-$price-desc-color: $monsoon !default;
+$price-desc-colour: $monsoon !default;
 $price-desc-padding: rem-calc(15) !default;
 $price-desc-align: center !default;
 $price-desc-font-size: rem-calc(12) !default;
@@ -45,7 +45,7 @@ $price-desc-line-height: 1.4 !default;
 $price-desc-bottom-border: dotted 1px $gainsboro !default;
 
 // We use these to control the list item styles
-$price-item-color: $oil !default;
+$price-item-colour: $oil !default;
 $price-item-padding: rem-calc(15) !default;
 $price-item-align: center !default;
 $price-item-font-size: rem-calc(14) !default;
@@ -74,10 +74,10 @@ $price-cta-padding: rem-calc(20 20 0) !default;
 //
 // We use this mixin to create the pricing table title styles
 @mixin pricing-table-title {
-  background-color: $price-title-bg;
+  background-colour: $price-title-bg;
   padding: $price-title-padding;
   text-align: $price-title-align;
-  color: $price-title-color;
+  colour: $price-title-colour;
   font-weight: $price-title-weight;
   font-size: $price-title-size;
   font-family: $price-title-font-family;
@@ -87,10 +87,10 @@ $price-cta-padding: rem-calc(20 20 0) !default;
 //
 // We use this mixin to control the pricing table price styles
 @mixin pricing-table-price {
-  background-color: $price-money-bg;
+  background-colour: $price-money-bg;
   padding: $price-money-padding;
   text-align: $price-money-align;
-  color: $price-money-color;
+  colour: $price-money-colour;
   font-weight: $price-money-weight;
   font-size: $price-money-size;
   font-family: $price-money-font-family;
@@ -100,10 +100,10 @@ $price-cta-padding: rem-calc(20 20 0) !default;
 //
 // We use this mixin to create the description styles for the pricing table
 @mixin pricing-table-description {
-  background-color: $price-bg;
+  background-colour: $price-bg;
   padding: $price-desc-padding;
   text-align: $price-desc-align;
-  color: $price-desc-color;
+  colour: $price-desc-colour;
   font-size: $price-desc-font-size;
   font-weight: $price-desc-weight;
   line-height: $price-desc-line-height;
@@ -114,10 +114,10 @@ $price-cta-padding: rem-calc(20 20 0) !default;
 //
 // We use this mixin to style the bullet items in the pricing table
 @mixin pricing-table-bullet {
-  background-color: $price-bg;
+  background-colour: $price-bg;
   padding: $price-item-padding;
   text-align: $price-item-align;
-  color: $price-item-color;
+  colour: $price-item-colour;
   font-size: $price-item-font-size;
   font-weight: $price-item-weight;
   border-bottom: $price-item-bottom-border;
@@ -127,7 +127,7 @@ $price-cta-padding: rem-calc(20 20 0) !default;
 //
 // We use this mixin to style the CTA area of the pricing tables
 @mixin pricing-table-cta {
-  background-color: $price-cta-bg;
+  background-colour: $price-cta-bg;
   text-align: $price-cta-align;
   padding: $price-cta-padding;
 }

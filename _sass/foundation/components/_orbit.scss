@@ -11,7 +11,7 @@ $include-html-orbit-classes: $include-html-classes !default;
 // We use these to control the caption styles
 $orbit-container-bg: none !default;
 $orbit-caption-bg: rgba(51,51,51, 0.8) !default;
-$orbit-caption-font-color: $white !default;
+$orbit-caption-font-colour: $white !default;
 $orbit-caption-font-size: rem-calc(14) !default;
 $orbit-caption-position: "bottom" !default; // Supported values: "bottom", "under"
 $orbit-caption-padding: rem-calc(10 14) !default;
@@ -20,21 +20,21 @@ $orbit-caption-height: auto !default;
 // We use these to control the left/right nav styles
 $orbit-nav-bg: transparent !default;
 $orbit-nav-bg-hover: rgba(0,0,0,0.3) !default;
-$orbit-nav-arrow-color: $white !default;
-$orbit-nav-arrow-color-hover: $white !default;
+$orbit-nav-arrow-colour: $white !default;
+$orbit-nav-arrow-colour-hover: $white !default;
 
 // We use these to control the timer styles
 $orbit-timer-bg: rgba(255,255,255,0.3) !default;
 $orbit-timer-show-progress-bar: true !default;
 
 // We use these to control the bullet nav styles
-$orbit-bullet-nav-color: $iron !default;
-$orbit-bullet-nav-color-active: $aluminum !default;
+$orbit-bullet-nav-colour: $iron !default;
+$orbit-bullet-nav-colour-active: $aluminum !default;
 $orbit-bullet-radius: rem-calc(9) !default;
 
 // We use these to controls the style of slide numbers
 $orbit-slide-number-bg: rgba(0,0,0,0) !default;
-$orbit-slide-number-font-color: $white !default;
+$orbit-slide-number-font-colour: $white !default;
 $orbit-slide-number-padding: rem-calc(5) !default;
 
 // Graceful Loading Wrapper and preloader
@@ -84,7 +84,7 @@ $orbit-timer-hide-for-small: true !default;
         li:first-child { display: block; }
       }
 
-      .orbit-container { background-color: transparent;
+      .orbit-container { background-colour: transparent;
 
         // Show images when .orbit-container is loaded
         li { display: block;
@@ -107,7 +107,7 @@ $orbit-timer-hide-for-small: true !default;
         margin-top: -20px;
         margin-left: -20px;
         border: solid 3px;
-        border-color: $charcoal $white;
+        border-colour: $charcoal $white;
         @include radius(1000px);
         animation-name: rotate;
         animation-duration: 1.5s;
@@ -162,8 +162,8 @@ $orbit-timer-hide-for-small: true !default;
               position: relative;
             }
 
-            background-color: $orbit-caption-bg;
-            color: $orbit-caption-font-color;
+            background-colour: $orbit-caption-bg;
+            colour: $orbit-caption-font-colour;
             width: 100%;
             padding: $orbit-caption-padding;
             font-size: $orbit-caption-font-size;
@@ -177,7 +177,7 @@ $orbit-timer-hide-for-small: true !default;
         #{$default-float}: 10px;
         font-size: 12px;
         span { font-weight: 700; padding: $orbit-slide-number-padding;}
-        color: $orbit-slide-number-font-color;
+        colour: $orbit-slide-number-font-colour;
         background: $orbit-slide-number-bg;
         z-index: 10;
       }
@@ -192,7 +192,7 @@ $orbit-timer-hide-for-small: true !default;
         .orbit-progress {
           @if $orbit-timer-show-progress-bar {
             height: 3px;
-            background-color: $orbit-timer-bg;
+            background-colour: $orbit-timer-bg;
             display: block;
             width: 0;
             position: relative;
@@ -223,10 +223,10 @@ $orbit-timer-hide-for-small: true !default;
             height: 14px;
             border: inset 8px;
             border-left-style: solid;
-            border-color: transparent;
-            border-left-color: $white;
+            border-colour: transparent;
+            border-left-colour: $white;
             &.dark {
-              border-left-color: $oil;
+              border-left-colour: $oil;
             }
           }
         }
@@ -245,13 +245,13 @@ $orbit-timer-hide-for-small: true !default;
         width: 36px;
         height: 60px;
         line-height: 50px;
-        color: white;
-        background-color: $orbit-nav-bg;
+        colour: white;
+        background-colour: $orbit-nav-bg;
         text-indent: -9999px !important;
         z-index: 10;
 
         &:hover {
-          background-color: $orbit-nav-bg-hover;
+          background-colour: $orbit-nav-bg-hover;
         }
 
         & > span {
@@ -267,23 +267,23 @@ $orbit-timer-hide-for-small: true !default;
       .orbit-prev { #{$default-float}: 0;
         & > span {
           border-#{$opposite-direction}-style: solid;
-          border-color: transparent;
-          border-#{$opposite-direction}-color: $orbit-nav-arrow-color;
+          border-colour: transparent;
+          border-#{$opposite-direction}-colour: $orbit-nav-arrow-colour;
         }
         &:hover > span {
-          border-#{$opposite-direction}-color: $orbit-nav-arrow-color-hover;
+          border-#{$opposite-direction}-colour: $orbit-nav-arrow-colour-hover;
         }
       }
       .orbit-next { #{$opposite-direction}: 0;
         & > span {
-          border-color: transparent;
+          border-colour: transparent;
           border-#{$default-float}-style: solid;
-          border-#{$default-float}-color: $orbit-nav-arrow-color;
+          border-#{$default-float}-colour: $orbit-nav-arrow-colour;
           #{$default-float}: 50%;
           margin-#{$default-float}: -4px;
         }
         &:hover > span {
-          border-#{$default-float}-color: $orbit-nav-arrow-color-hover;
+          border-#{$default-float}-colour: $orbit-nav-arrow-colour-hover;
         }
       }
     }
@@ -303,14 +303,14 @@ $orbit-timer-hide-for-small: true !default;
         display: inline-block;
         width: $orbit-bullet-radius;
         height: $orbit-bullet-radius;
-        background: $orbit-bullet-nav-color;
+        background: $orbit-bullet-nav-colour;
         // float: $default-float;
         float: none;
         margin-#{$opposite-direction}: 6px;
         @include radius(1000px);
 
         &.active {
-          background: $orbit-bullet-nav-color-active;
+          background: $orbit-bullet-nav-colour-active;
         }
 
         &:last-child { margin-#{$opposite-direction}: 0; }

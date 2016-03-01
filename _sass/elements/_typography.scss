@@ -14,17 +14,17 @@ p {
 }
 
 a {
-  color: $color-primary;
+  colour: $colour-primary;
   text-decoration: none;
 
   &:hover, 
   &:active {
-    color: $color-primary-darker;
+    colour: $colour-primary-darker;
     text-decoration: underline;
   }
 
   &:visited {
-    color: $color-visited;
+    colour: $colour-visited;
   }
 
   &:focus {
@@ -115,41 +115,41 @@ dfn {
 
 // Custom typography
 
-.usa-content {
+.uk-content {
   p {
     max-width: $text-max-width;
   }  
 }
 
-.usa-content-list {
+.uk-content-list {
   max-width: $text-max-width;
 }
 
 p, 
-.usa-content-list {
+.uk-content-list {
   a {
     text-decoration: underline;
   }
 }
 
-.usa-sans {
+.uk-sans {
   p, a, li, span {
     font-family: $font-sans;
   }
 }
 
-.usa-serif {
+.uk-serif {
   p, a, li, span {
     font-family: $font-serif;
   }
 }
 
-.usa-sans a {
+.uk-sans a {
   border-bottom: none;
   font-weight: $font-bold;
 }
 
-.usa-display {
+.uk-display {
   @include h3();
   margin-bottom: 0;
 
@@ -162,49 +162,49 @@ p,
   }
 }
 
-.usa-font-lead {
+.uk-font-lead {
   font-family: $font-serif;
   font-size: $lead-font-size;
   line-height: $lead-line-height;
 }
 
-.usa-image-block {
+.uk-image-block {
   position: relative;
 }
 
-.usa-image-text-block {
-  color: $color-white;
+.uk-image-text-block {
+  colour: $colour-white;
   left: 0;
   margin-left: 8%;
   position: absolute;
   top: 0;
 }
 
-.usa-image-text {
+.uk-image-text {
   margin-top: 0;
 }
 
-.usa-drop_text {
+.uk-drop_text {
   margin-bottom: 0;
 }
 
-.usa-background-dark {
-  background-color: $color-gray-dark;
+.uk-background-dark {
+  background-colour: $colour-gray-dark;
 
   p, span {
-    color: $color-white;
+    colour: $colour-white;
   }
 
   a {
-    color: $color-gray-lighter;
+    colour: $colour-gray-lighter;
     
     &:hover {
-      color: $color-white;
+      colour: $colour-white;
     }
   }
 }
 
-.usa-text-small {
+.uk-text-small {
   font-size: $h6-font-size;
   margin-top: 0;
 }

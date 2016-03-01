@@ -21,11 +21,11 @@ $range-slider-bar-height: rem-calc(16) !default;
 
 $range-slider-bar-border-width: 1px !default;
 $range-slider-bar-border-style: solid !default;
-$range-slider-bar-border-color: $gainsboro !default;
+$range-slider-bar-border-colour: $gainsboro !default;
 $range-slider-radius: $global-radius !default;
 $range-slider-round: $global-rounded !default;
-$range-slider-bar-bg-color: $ghost !default;
-$range-slider-active-segment-bg-color: scale-color($secondary-color, $lightness: -1%) !default;
+$range-slider-bar-bg-colour: $ghost !default;
+$range-slider-active-segment-bg-colour: scale-colour($secondary-colour, $lightness: -1%) !default;
 
 // Vertical bar styles
 $range-slider-vertical-bar-width: rem-calc(16) !default;
@@ -35,13 +35,13 @@ $range-slider-vertical-bar-height: rem-calc(200) !default;
 $range-slider-handle-width: rem-calc(32) !default;
 $range-slider-handle-height: rem-calc(22) !default;
 $range-slider-handle-position-top: rem-calc(-5) !default;
-$range-slider-handle-bg-color: $primary-color !default;
+$range-slider-handle-bg-colour: $primary-colour !default;
 $range-slider-handle-border-width: 1px !default;
 $range-slider-handle-border-style: solid !default;
-$range-slider-handle-border-color: none !default;
+$range-slider-handle-border-colour: none !default;
 $range-slider-handle-radius: $global-radius !default;
 $range-slider-handle-round: $global-rounded !default;
-$range-slider-handle-bg-hover-color: scale-color($primary-color, $lightness: -12%) !default;
+$range-slider-handle-bg-hover-colour: scale-colour($primary-colour, $lightness: -12%) !default;
 $range-slider-handle-cursor: pointer !default;
 
 $range-slider-disabled-opacity: 0.7 !default;
@@ -56,7 +56,7 @@ $range-slider-disabled-cursor: $cursor-disabled-value !default;
   position: relative;
   width: $range-slider-bar-width;
   height: $range-slider-bar-height;
-  border: $range-slider-bar-border-width $range-slider-bar-border-style $range-slider-bar-border-color;
+  border: $range-slider-bar-border-width $range-slider-bar-border-style $range-slider-bar-border-colour;
   margin: rem-calc(20 0);
   -ms-touch-action: none;
   touch-action: none;
@@ -71,7 +71,7 @@ $range-slider-disabled-cursor: $cursor-disabled-value !default;
   $radius: false,
   $round: false,
   $disabled: false) {
-  @if $bg == true { background: $range-slider-bar-bg-color; }
+  @if $bg == true { background: $range-slider-bar-bg-colour; }
   @if $radius == true { @include radius($range-slider-radius); }
   @if $round == true { @include radius($range-slider-round); }
   @if $disabled == true {
@@ -81,7 +81,7 @@ $range-slider-disabled-cursor: $cursor-disabled-value !default;
 }
 
 @mixin range-slider-bar(
-  $bg: $range-slider-bar-bg-color,
+  $bg: $range-slider-bar-bg-colour,
   $radius:false) {
   @include range-slider-bar-base;
   @include range-slider-bar-style;
@@ -94,7 +94,7 @@ $range-slider-disabled-cursor: $cursor-disabled-value !default;
   top: $range-slider-handle-position-top;
   width: $range-slider-handle-width;
   height: $range-slider-handle-height;
-  border: $range-slider-handle-border-width $range-slider-handle-border-style $range-slider-handle-border-color;
+  border: $range-slider-handle-border-width $range-slider-handle-border-style $range-slider-handle-border-colour;
   cursor: $range-slider-handle-cursor;
 
   // This removes the 300ms touch delay on Windows 8
@@ -106,7 +106,7 @@ $range-slider-disabled-cursor: $cursor-disabled-value !default;
   $radius: false,
   $round: false,
   $disabled: false) {
-  @if $bg == true { background: $range-slider-handle-bg-color; }
+  @if $bg == true { background: $range-slider-handle-bg-colour; }
   @if $radius == true { @include radius($range-slider-radius); }
   @if $round == true { @include radius($range-slider-round); }
   @if $disabled == true {
@@ -114,7 +114,7 @@ $range-slider-disabled-cursor: $cursor-disabled-value !default;
     opacity: $range-slider-disabled-opacity;
   }
   &:hover {
-    background: $range-slider-handle-bg-hover-color;
+    background: $range-slider-handle-bg-hover-colour;
   }
 }
 @mixin range-slider-handle() {
@@ -159,7 +159,7 @@ $range-slider-disabled-cursor: $cursor-disabled-value !default;
       display: inline-block;
       position: absolute;
       height: $range-slider-bar-height - rem-calc((strip-unit($range-slider-bar-border-width) * 2));
-      background: $range-slider-active-segment-bg-color;
+      background: $range-slider-active-segment-bg-colour;
     }
     .range-slider-handle {
       @include range-slider-handle-base;

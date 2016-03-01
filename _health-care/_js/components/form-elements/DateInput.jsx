@@ -41,28 +41,28 @@ class DateInput extends React.Component {
   }
 
   render() {
-    const errorClass = this.state.hasError ? 'usa-input-error' : '';
+    const errorClass = this.state.hasError ? 'uk-input-error' : '';
     return (
       <div className={errorClass}>
-        <div className="usa-date-of-birth">
-          <div className="usa-datefield usa-form-group usa-form-group-month">
+        <div className="uk-date-of-birth">
+          <div className="uk-datefield uk-form-group uk-form-group-month">
             <label htmlFor={`${this.id}-month`}>Month</label>
             <input id={`${this.id}-month`} aria-describedby="dobHint"
-                className="usa-form-control" pattern="0?[1-9]|1[012]"
+                className="uk-form-control" pattern="0?[1-9]|1[012]"
                 type="number" min="1" max="12" value={this.props.date.month}
                 ref="month" onChange={this.handleChange}/>
           </div>
-          <div className="usa-datefield usa-form-group usa-form-group-day">
+          <div className="uk-datefield uk-form-group uk-form-group-day">
             <label htmlFor={`${this.id}-day`}>Day</label>
             <input id={`${this.id}-day`} aria-describedby="dobHint"
-                className="usa-form-control" pattern="0?[1-9]|1[0-9]|2[0-9]|3[01]"
+                className="uk-form-control" pattern="0?[1-9]|1[0-9]|2[0-9]|3[01]"
                 type="number" min="1" max="31" value={this.props.date.day}
                 ref="day" onChange={this.handleChange}/>
           </div>
-          <div className="usa-datefield usa-form-group usa-form-group-year">
+          <div className="uk-datefield uk-form-group uk-form-group-year">
             <label htmlFor={`${this.id}-year`}>Year</label>
             <input id={`${this.id}-year`} aria-describedby="dobHint"
-                className="usa-form-control" pattern="[0-9]{4}" type="number"
+                className="uk-form-control" pattern="[0-9]{4}" type="number"
                 min="1900" max={new Date().getFullYear()}
                 value={this.props.date.year} ref="year"
                 onChange={this.handleChange}/>

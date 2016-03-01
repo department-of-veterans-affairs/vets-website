@@ -18,8 +18,8 @@ $alert-padding-bottom: $alert-padding-top !default;
 // We use these to control text style.
 $alert-font-weight: $font-weight-normal !default;
 $alert-font-size: rem-calc(13) !default;
-$alert-font-color: $white !default;
-$alert-font-color-alt: scale-color($secondary-color, $lightness: -66%) !default;
+$alert-font-colour: $white !default;
+$alert-font-colour-alt: scale-colour($secondary-colour, $lightness: -66%) !default;
 
 // We use this for close hover effect.
 $alert-function-factor: -14% !default;
@@ -27,11 +27,11 @@ $alert-function-factor: -14% !default;
 // We use these to control border styles.
 $alert-border-style: solid !default;
 $alert-border-width: 1px !default;
-$alert-border-color: scale-color($primary-color, $lightness: $alert-function-factor) !default;
+$alert-border-colour: scale-colour($primary-colour, $lightness: $alert-function-factor) !default;
 $alert-bottom-margin: rem-calc(20) !default;
 
 // We use these to style the close buttons
-$alert-close-color: $oil !default;
+$alert-close-colour: $oil !default;
 $alert-close-top: 50% !default;
 $alert-close-position: rem-calc(4) !default;
 $alert-close-font-size: rem-calc(22) !default;
@@ -65,19 +65,19 @@ $alert-transition-ease: ease-out !default;
 
 // We use this mixin to add alert styles
 //
-// $bg - The background of the alert. Default: $primary-color.
-@mixin alert-style($bg:$primary-color) {
+// $bg - The background of the alert. Default: $primary-colour.
+@mixin alert-style($bg:$primary-colour) {
 
-  // This finds the lightness percentage of the background color.
+  // This finds the lightness percentage of the background colour.
   $bg-lightness: lightness($bg);
 
-  // We control which background color and border come through.
-  background-color: $bg;
-  border-color: scale-color($bg, $lightness: $alert-function-factor);
+  // We control which background colour and border come through.
+  background-colour: $bg;
+  border-colour: scale-colour($bg, $lightness: $alert-function-factor);
 
-  // We control the text color for you based on the background color.
-  @if $bg-lightness > 70% { color: $alert-font-color-alt; }
-  @else                   { color: $alert-font-color; }
+  // We control the text colour for you based on the background colour.
+  @if $bg-lightness > 70% { colour: $alert-font-colour-alt; }
+  @else                   { colour: $alert-font-colour; }
 
 }
 
@@ -90,7 +90,7 @@ $alert-transition-ease: ease-out !default;
   top: $alert-close-top;
   margin-top: -($alert-close-font-size / 2);
   #{$opposite-direction}: $alert-close-position;
-  color: $alert-close-color;
+  colour: $alert-close-colour;
   opacity: $alert-close-opacity;
   background: $alert-close-background;
   &:hover,
@@ -99,9 +99,9 @@ $alert-transition-ease: ease-out !default;
 
 // We use this to quickly create alerts with a single mixin.
 //
-// $bg - Background of alert. Default: $primary-color.
+// $bg - Background of alert. Default: $primary-colour.
 // $radius - Radius of alert box. Default: false.
-@mixin alert($bg:$primary-color, $radius:false) {
+@mixin alert($bg:$primary-colour, $radius:false) {
   @include alert-base;
   @include alert-style($bg);
   @include radius($radius);
@@ -117,11 +117,11 @@ $alert-transition-ease: ease-out !default;
       &.radius    { @include radius($alert-radius); }
       &.round     { @include radius($global-rounded); }
 
-      &.success   { @include alert-style($success-color); }
-      &.alert     { @include alert-style($alert-color); }
-      &.secondary { @include alert-style($secondary-color); }
-      &.warning { @include alert-style($warning-color); }
-      &.info { @include alert-style($info-color); }
+      &.success   { @include alert-style($success-colour); }
+      &.alert     { @include alert-style($alert-colour); }
+      &.secondary { @include alert-style($secondary-colour); }
+      &.warning { @include alert-style($warning-colour); }
+      &.info { @include alert-style($info-colour); }
       &.alert-close { opacity: 0}
     }
   }

@@ -12,9 +12,9 @@
 //
 $include-html-top-bar-classes: $include-html-classes !default;
 
-// Background color for the top bar
-$topbar-bg-color: $oil !default;
-$topbar-bg: $topbar-bg-color !default;
+// Background colour for the top bar
+$topbar-bg-colour: $oil !default;
+$topbar-bg: $topbar-bg-colour !default;
 
 // Height and margin
 $topbar-height: rem-calc(45) !default;
@@ -24,19 +24,19 @@ $topbar-margin-bottom: 0 !default;
 $topbar-title-weight: $font-weight-normal !default;
 $topbar-title-font-size: rem-calc(17) !default;
 
-// Set the link colors and styles for top-level nav
-$topbar-link-color: $white !default;
-$topbar-link-color-hover: $white !default;
-$topbar-link-color-active: $white !default;
-$topbar-link-color-active-hover: $white !default;
+// Set the link colours and styles for top-level nav
+$topbar-link-colour: $white !default;
+$topbar-link-colour-hover: $white !default;
+$topbar-link-colour-active: $white !default;
+$topbar-link-colour-active-hover: $white !default;
 $topbar-link-weight: $font-weight-normal !default;
 $topbar-link-font-size: rem-calc(13) !default;
 $topbar-link-hover-lightness: -10% !default; // Darken by 10%
 $topbar-link-bg: $topbar-bg !default;
 $topbar-link-bg-hover: $oil !default;
-$topbar-link-bg-color-hover: $charcoal !default;
-$topbar-link-bg-active: $primary-color !default;
-$topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%) !default;
+$topbar-link-bg-colour-hover: $charcoal !default;
+$topbar-link-bg-active: $primary-colour !default;
+$topbar-link-bg-active-hover: scale-colour($primary-colour, $lightness: -14%) !default;
 $topbar-link-font-family: $body-font-family !default;
 $topbar-link-text-transform: none !default;
 $topbar-link-padding: ($topbar-height / 3) !default;
@@ -47,16 +47,16 @@ $topbar-button-top: 7px !default;
 
 // Style the top bar dropdown elements
 $topbar-dropdown-bg: $oil !default;
-$topbar-dropdown-link-color: $white !default;
-$topbar-dropdown-link-color-hover: $topbar-link-color-hover !default;
+$topbar-dropdown-link-colour: $white !default;
+$topbar-dropdown-link-colour-hover: $topbar-link-colour-hover !default;
 $topbar-dropdown-link-bg: $oil !default;
 $topbar-dropdown-link-bg-hover: $oil !default;
 $topbar-dropdown-link-weight: $font-weight-normal !default;
 $topbar-dropdown-toggle-size: 5px !default;
-$topbar-dropdown-toggle-color: $white !default;
+$topbar-dropdown-toggle-colour: $white !default;
 $topbar-dropdown-toggle-alpha: 0.4 !default;
 
-$topbar-dropdown-label-color: $monsoon !default;
+$topbar-dropdown-label-colour: $monsoon !default;
 $topbar-dropdown-label-text-transform: uppercase !default;
 $topbar-dropdown-label-font-weight: $font-weight-bold !default;
 $topbar-dropdown-label-font-size: rem-calc(10) !default;
@@ -66,10 +66,10 @@ $topbar-dropdown-label-bg: $oil !default;
 $topbar-menu-link-transform: uppercase !default;
 $topbar-menu-link-font-size: rem-calc(13) !default;
 $topbar-menu-link-weight: $font-weight-bold !default;
-$topbar-menu-link-color: $white !default;
-$topbar-menu-icon-color: $white !default;
-$topbar-menu-link-color-toggled: $jumbo !default;
-$topbar-menu-icon-color-toggled: $jumbo !default;
+$topbar-menu-link-colour: $white !default;
+$topbar-menu-icon-colour: $white !default;
+$topbar-menu-link-colour-toggled: $jumbo !default;
+$topbar-menu-icon-colour-toggled: $jumbo !default;
 $topbar-menu-icon-position: $opposite-direction !default; // Change to $default-float for a left menu icon
 
 // Transitions and breakpoint styles
@@ -82,8 +82,8 @@ $topbar-media-query: $medium-up !default;
 $topbar-input-height: rem-calc(28) !default;
 
 // Divider Styles
-$topbar-divider-border-bottom: solid 1px scale-color($topbar-bg-color, $lightness: 13%) !default;
-$topbar-divider-border-top: solid 1px scale-color($topbar-bg-color, $lightness: -50%) !default;
+$topbar-divider-border-bottom: solid 1px scale-colour($topbar-bg-colour, $lightness: 13%) !default;
+$topbar-divider-border-top: solid 1px scale-colour($topbar-bg-colour, $lightness: -50%) !default;
 
 // Sticky Class
 $topbar-sticky-class: ".sticky" !default;
@@ -209,7 +209,7 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
           margin: 0;
           a {
             font-weight: $topbar-title-weight;
-            color: $topbar-link-color;
+            colour: $topbar-link-colour;
             width: 75%;
             display: block;
             padding: 0 $topbar-link-padding;
@@ -224,7 +224,7 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
         top: 0;
 
         a {
-          color: $topbar-link-color;
+          colour: $topbar-link-colour;
           text-transform: $topbar-menu-link-transform;
           font-size: $topbar-menu-link-font-size;
           font-weight: $topbar-menu-link-weight;
@@ -247,7 +247,7 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
             height: 34px;
             line-height: 33px;
             padding: 0 $topbar-link-padding+rem-calc(25) 0 $topbar-link-padding;
-            color: $topbar-menu-link-color;
+            colour: $topbar-menu-link-colour;
             position: relative;
 
             & {
@@ -259,10 +259,10 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
               // $top - If false, icon will be centered vertically || explicitly set value in rem
               // $thickness - thickness of lines in hamburger icon, set value in px
               // $gap - spacing between the lines in hamburger icon, set value in px
-              // $color - icon color
-              // $hover-color - icon color during hover, here it isn't set b/c it would override $topbar-menu-icon-color-toggled
+              // $colour - icon colour
+              // $hover-colour - icon colour during hover, here it isn't set b/c it would override $topbar-menu-icon-colour-toggled
               // $offcanvas - Set to false of @include in topbar
-              @include hamburger(16px, false, 0, 1px, 6px, $topbar-menu-icon-color, "", false);
+              @include hamburger(16px, false, 0, 1px, 6px, $topbar-menu-icon-colour, "", false);
             }
           }
         }
@@ -276,13 +276,13 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
         .title-area { background: $topbar-bg; }
 
         .toggle-topbar {
-          a { color: $topbar-menu-link-color-toggled;
+          a { colour: $topbar-menu-link-colour-toggled;
       span::after {
               // Shh, don't tell, but box-shadows create the menu icon :)
-              // Change the color of the bars when the menu is expanded, using given thickness from hamburger() above
-              box-shadow: 0 0 0 1px $topbar-menu-icon-color-toggled,
-                          0 7px 0 1px $topbar-menu-icon-color-toggled,
-                          0 14px 0 1px $topbar-menu-icon-color-toggled;
+              // Change the colour of the bars when the menu is expanded, using given thickness from hamburger() above
+              box-shadow: 0 0 0 1px $topbar-menu-icon-colour-toggled,
+                          0 7px 0 1px $topbar-menu-icon-colour-toggled,
+                          0 14px 0 1px $topbar-menu-icon-colour-toggled;
             }
           }
         }
@@ -318,7 +318,7 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
         & > a {
           display: block;
           width: 100%;
-          color: $topbar-link-color;
+          colour: $topbar-link-colour;
           padding: 12px 0 12px 0;
           padding-#{$default-float}: $topbar-link-padding;
           font-family: $topbar-link-font-family;
@@ -330,42 +330,42 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
             font-size: $topbar-link-font-size;
             padding-#{$opposite-direction}: $topbar-link-padding;
             padding-#{$default-float}: $topbar-link-padding;
-            @include button-style($bg:$primary-color);
+            @include button-style($bg:$primary-colour);
           }
-          &.button.secondary { @include button-style($bg:$secondary-color); }
-          &.button.success { @include button-style($bg:$success-color); }
-          &.button.alert { @include button-style($bg:$alert-color); }
-          &.button.warning { @include button-style($bg:$warning-color); }
+          &.button.secondary { @include button-style($bg:$secondary-colour); }
+          &.button.success { @include button-style($bg:$success-colour); }
+          &.button.alert { @include button-style($bg:$alert-colour); }
+          &.button.warning { @include button-style($bg:$warning-colour); }
         }
 
         > button {
           font-size: $topbar-link-font-size;
           padding-#{$opposite-direction}: $topbar-link-padding;
           padding-#{$default-float}: $topbar-link-padding;
-          @include button-style($bg:$primary-color);
+          @include button-style($bg:$primary-colour);
 
-          &.secondary { @include button-style($bg:$secondary-color); }
-          &.success { @include button-style($bg:$success-color); }
-          &.alert { @include button-style($bg:$alert-color); }
-          &.warning { @include button-style($bg:$warning-color); }
+          &.secondary { @include button-style($bg:$secondary-colour); }
+          &.success { @include button-style($bg:$success-colour); }
+          &.alert { @include button-style($bg:$alert-colour); }
+          &.warning { @include button-style($bg:$warning-colour); }
         }
 
-        // Apply the hover link color when it has that class
+        // Apply the hover link colour when it has that class
         &:hover:not(.has-form) > a {
-          background-color: $topbar-link-bg-color-hover;
+          background-colour: $topbar-link-bg-colour-hover;
           @if ($topbar-link-bg-hover) {
             background: $topbar-link-bg-hover;
           }
-          color: $topbar-link-color-hover;
+          colour: $topbar-link-colour-hover;
         }
 
-        // Apply the active link color when it has that class
+        // Apply the active link colour when it has that class
         &.active > a {
           background: $topbar-link-bg-active;
-          color: $topbar-link-color-active;
+          colour: $topbar-link-colour-active;
           &:hover {
             background: $topbar-link-bg-active-hover;
-            color: $topbar-link-color-active-hover;
+            colour: $topbar-link-colour-active-hover;
           }
         }
       }
@@ -380,7 +380,7 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
         & > a {
           &:after {
             @if ($topbar-arrows){
-              @include css-triangle($topbar-dropdown-toggle-size, rgba($topbar-dropdown-toggle-color, $topbar-dropdown-toggle-alpha), $default-float);
+              @include css-triangle($topbar-dropdown-toggle-size, rgba($topbar-dropdown-toggle-colour, $topbar-dropdown-toggle-alpha), $default-float);
             }
             margin-#{$opposite-direction}: $topbar-link-padding;
             margin-top: -($topbar-dropdown-toggle-size / 2) - 2;
@@ -428,7 +428,7 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
             margin-top: 0;
             font-size: $topbar-back-link-size;
             a {
-              color: $topbar-link-color;
+              colour: $topbar-link-colour;
               // line-height: ($topbar-height / 2);
               display: block;
               &:hover { background:none; }
@@ -442,7 +442,7 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
           padding: 8px $topbar-link-padding 2px;
           margin-bottom: 0;
           text-transform: $topbar-dropdown-label-text-transform;
-          color: $topbar-dropdown-label-color;
+          colour: $topbar-dropdown-label-colour;
           font-weight: $topbar-dropdown-label-font-weight;
           font-size: $topbar-dropdown-label-font-size;
         }
@@ -500,11 +500,11 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
         li {
           &.hover {
             > a:not(.button) {
-              background-color: $topbar-link-bg-color-hover;
+              background-colour: $topbar-link-bg-colour-hover;
               @if ($topbar-link-bg-hover) {
                 background: $topbar-link-bg-hover;
               }
-              color: $topbar-link-color-hover;
+              colour: $topbar-link-colour-hover;
             }
           }
           &:not(.has-form) {
@@ -513,7 +513,7 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
               line-height: $topbar-height;
               background: $topbar-link-bg;
               &:hover {
-                background-color: $topbar-link-bg-color-hover;
+                background-colour: $topbar-link-bg-colour-hover;
                 @if ($topbar-link-bg-hover) {
                   background: $topbar-link-bg-hover;
                 }
@@ -524,11 +524,11 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
             a:not(.button) {
               padding: 0 $topbar-link-padding;
               line-height: $topbar-height;
-              color: $topbar-link-color-active;
+              colour: $topbar-link-colour-active;
               background: $topbar-link-bg-active;
               &:hover {
                 background: $topbar-link-bg-active-hover;
-                color: $topbar-link-color-active-hover;
+                colour: $topbar-link-colour-active-hover;
               }
             }
           }
@@ -539,7 +539,7 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
             & > a {
               padding-#{$opposite-direction}: $topbar-link-padding + $topbar-link-dropdown-padding !important;
               &:after {
-                @include css-triangle($topbar-dropdown-toggle-size, rgba($topbar-dropdown-toggle-color, $topbar-dropdown-toggle-alpha), top);
+                @include css-triangle($topbar-dropdown-toggle-size, rgba($topbar-dropdown-toggle-colour, $topbar-dropdown-toggle-alpha), top);
                 margin-top: -($topbar-dropdown-toggle-size / 2);
                 top: ($topbar-height / 2);
               }
@@ -585,7 +585,7 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
 
           li {
             a {
-              color: $topbar-dropdown-link-color;
+              colour: $topbar-dropdown-link-colour;
               line-height: $topbar-height;
               white-space: nowrap;
               padding: 12px $topbar-link-padding;
@@ -594,13 +594,13 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
 
             &:not(.has-form):not(.active) {
               & > a:not(.button) {
-                color: $topbar-dropdown-link-color;
+                colour: $topbar-dropdown-link-colour;
                 background: $topbar-dropdown-link-bg;
               }
 
               &:hover > a:not(.button) {
-                color: $topbar-dropdown-link-color-hover;
-                background-color: $topbar-link-bg-color-hover;
+                colour: $topbar-dropdown-link-colour-hover;
+                background-colour: $topbar-link-bg-colour-hover;
                 @if ($topbar-dropdown-link-bg-hover) {
                   background: $topbar-dropdown-link-bg-hover;
                 }
@@ -656,22 +656,22 @@ $topbar-dropdown-arrows: true !default; //Set false to remove the \00bb >> text 
       }
 
       // Degrade gracefully when Javascript is disabled. Displays dropdown and changes
-      // background & text color on hover.
+      // background & text colour on hover.
       .no-js .top-bar-section {
         ul li {
-          // Apply the hover link color when it has that class
+          // Apply the hover link colour when it has that class
           &:hover > a {
-            background-color: $topbar-link-bg-color-hover;
+            background-colour: $topbar-link-bg-colour-hover;
             @if ($topbar-link-bg-hover) {
               background: $topbar-link-bg-hover;
             }
-            color: $topbar-link-color-hover;
+            colour: $topbar-link-colour-hover;
           }
 
-          // Apply the active link color when it has that class
+          // Apply the active link colour when it has that class
           &:active > a {
             background: $topbar-link-bg-active;
-            color: $topbar-link-color-active;
+            colour: $topbar-link-colour-active;
           }
         }
 

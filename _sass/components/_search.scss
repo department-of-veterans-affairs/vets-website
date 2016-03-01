@@ -1,6 +1,6 @@
-$usa-btn-small-width:   4.5rem;
-$usa-btn-medium-width:  8.5rem;
-$usa-btn-big-width:     11.6rem;
+$uk-btn-small-width:   4.5rem;
+$uk-btn-medium-width:  8.5rem;
+$uk-btn-big-width:     11.6rem;
 
 @mixin search-icon {
   background-image: url('../images/search.png');
@@ -9,13 +9,13 @@ $usa-btn-big-width:     11.6rem;
   background-repeat: no-repeat;
 }
 
-.usa-search {
+.uk-search {
   @include clearfix;
   max-width: none;
   position: relative;
 
   [type="search"],
-  .usa-search-input {
+  .uk-search-input {
     -webkit-appearance: none;
     border-bottom-right-radius: 0;
     border-right: none;
@@ -25,30 +25,30 @@ $usa-btn-big-width:     11.6rem;
     margin: 0;
     padding-bottom: 0;
     padding-top: 0;
-    width: calc(100% - #{$usa-btn-small-width});
+    width: calc(100% - #{$uk-btn-small-width});
 
     @include media($small-screen) {
-      width: calc(100% - #{$usa-btn-medium-width});
+      width: calc(100% - #{$uk-btn-medium-width});
     }
   }
 
   [type="submit"],
-  .usa-search-submit {
+  .uk-search-submit {
     @include search-icon;
     border-bottom-left-radius: 0;
     border-top-left-radius: 0;
     height: 3.3rem;
     margin: 0;
     padding: 0;
-    width: $usa-btn-small-width;
+    width: $uk-btn-small-width;
 
     @include media($small-screen) {
       background-image: none;
-      width: $usa-btn-medium-width;
+      width: $uk-btn-medium-width;
     }
   }
 
-  .usa-search-submit-text {
+  .uk-search-submit-text {
     display: none;
 
     @include media($small-screen) {
@@ -56,19 +56,19 @@ $usa-btn-big-width:     11.6rem;
     }
   }
 
-  &.usa-search-big {
+  &.uk-search-big {
     @include media($small-screen) {
       $height: 4.4rem;
-      $width: $usa-btn-big-width;
+      $width: $uk-btn-big-width;
 
       [type="search"],
-      .usa-search-input {
+      .uk-search-input {
         height: $height;
         width: calc(100% - #{$width});
       }
 
       [type="submit"],
-      .usa-search-submit {
+      .uk-search-submit {
         font-size: $h3-font-size;
         height: $height;
         width: $width;
@@ -76,17 +76,17 @@ $usa-btn-big-width:     11.6rem;
     }
   }
 
-  &.usa-search-small {
+  &.uk-search-small {
     @include media($small-screen) {
-      $width: $usa-btn-small-width;
+      $width: $uk-btn-small-width;
 
       [type="search"],
-      .usa-search-input {
+      .uk-search-input {
         width: calc(100% - #{$width});
       }
 
       [type="submit"],
-      .usa-search-submit {
+      .uk-search-submit {
         @include search-icon;
         width: $width;
       }

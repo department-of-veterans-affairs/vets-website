@@ -26,22 +26,22 @@ $f-dropdown-margin-right: $f-dropdown-margin-top !default;
 // Used for top position
 $f-dropdown-margin-bottom: $f-dropdown-margin-top !default;
 
-// We use this to control the background color
+// We use this to control the background colour
 $f-dropdown-bg: $white !default;
 
 // We use this to set the border styles for dropdowns.
 $f-dropdown-border-style: solid !default;
 $f-dropdown-border-width: 1px !default;
-$f-dropdown-border-color: scale-color($white, $lightness: -20%) !default;
+$f-dropdown-border-colour: scale-colour($white, $lightness: -20%) !default;
 
 // We use these to style the triangle pip.
 $f-dropdown-triangle-size: 6px !default;
-$f-dropdown-triangle-color: $white !default;
+$f-dropdown-triangle-colour: $white !default;
 $f-dropdown-triangle-side-offset: 10px !default;
 
 // We use these to control styles for the list elements.
 $f-dropdown-list-style: none !default;
-$f-dropdown-font-color: $charcoal !default;
+$f-dropdown-font-colour: $charcoal !default;
 $f-dropdown-font-size: rem-calc(14) !default;
 $f-dropdown-list-padding: rem-calc(5, 10) !default;
 $f-dropdown-line-height: rem-calc(18) !default;
@@ -78,7 +78,7 @@ $f-dropdown-radius: $global-radius !default;
     max-height: $f-dropdown-max-height;
     height: $f-dropdown-height;
     background: $f-dropdown-bg;
-    border: $f-dropdown-border-style $f-dropdown-border-width $f-dropdown-border-color;
+    border: $f-dropdown-border-style $f-dropdown-border-width $f-dropdown-border-colour;
     font-size: $f-dropdown-font-size;
     z-index: 89;
   }
@@ -88,7 +88,7 @@ $f-dropdown-radius: $global-radius !default;
     height: $f-dropdown-height;
     max-height: $f-dropdown-max-height;
     background: $f-dropdown-bg;
-    border: $f-dropdown-border-style $f-dropdown-border-width $f-dropdown-border-color;
+    border: $f-dropdown-border-style $f-dropdown-border-width $f-dropdown-border-colour;
     font-size: $f-dropdown-font-size;
     z-index: 89;
   }
@@ -97,14 +97,14 @@ $f-dropdown-radius: $global-radius !default;
     margin-top: $f-dropdown-margin-top;
 
     &:before {
-      @include css-triangle($f-dropdown-triangle-size, $f-dropdown-triangle-color, bottom);
+      @include css-triangle($f-dropdown-triangle-size, $f-dropdown-triangle-colour, bottom);
       position: absolute;
       top: -($f-dropdown-triangle-size * 2);
       #{$default-float}: $f-dropdown-triangle-side-offset;
       z-index: 89;
     }
     &:after {
-      @include css-triangle($f-dropdown-triangle-size + 1, $f-dropdown-border-color, bottom);
+      @include css-triangle($f-dropdown-triangle-size + 1, $f-dropdown-border-colour, bottom);
       position: absolute;
       top: -(($f-dropdown-triangle-size + 1) * 2);
       #{$default-float}: $f-dropdown-triangle-side-offset - 1;
@@ -126,14 +126,14 @@ $f-dropdown-radius: $global-radius !default;
     margin-#{$default-float}: $f-dropdown-margin-right;
 
     &:before {
-      @include css-triangle($f-dropdown-triangle-size, $f-dropdown-triangle-color, #{$opposite-direction});
+      @include css-triangle($f-dropdown-triangle-size, $f-dropdown-triangle-colour, #{$opposite-direction});
       position: absolute;
       top: $f-dropdown-triangle-side-offset;
       #{$default-float}: -($f-dropdown-triangle-size * 2);
       z-index: 89;
     }
     &:after {
-      @include css-triangle($f-dropdown-triangle-size + 1, $f-dropdown-border-color, #{$opposite-direction});
+      @include css-triangle($f-dropdown-triangle-size + 1, $f-dropdown-border-colour, #{$opposite-direction});
       position: absolute;
       top: $f-dropdown-triangle-side-offset - 1;
       #{$default-float}: -($f-dropdown-triangle-size * 2) - 2;
@@ -147,7 +147,7 @@ $f-dropdown-radius: $global-radius !default;
     margin-#{$default-float}: -$f-dropdown-margin-right;
 
     &:before {
-      @include css-triangle($f-dropdown-triangle-size, $f-dropdown-triangle-color, #{$default-float});
+      @include css-triangle($f-dropdown-triangle-size, $f-dropdown-triangle-colour, #{$default-float});
       position: absolute;
       top: $f-dropdown-triangle-side-offset;
       #{$opposite-direction}: -($f-dropdown-triangle-size * 2);
@@ -155,7 +155,7 @@ $f-dropdown-radius: $global-radius !default;
       z-index: 89;
     }
     &:after {
-      @include css-triangle($f-dropdown-triangle-size + 1, $f-dropdown-border-color, #{$default-float});
+      @include css-triangle($f-dropdown-triangle-size + 1, $f-dropdown-border-colour, #{$default-float});
       position: absolute;
       top: $f-dropdown-triangle-side-offset - 1;
       #{$opposite-direction}: -($f-dropdown-triangle-size * 2) - 2;
@@ -170,7 +170,7 @@ $f-dropdown-radius: $global-radius !default;
     margin-left: 0;
 
     &:before {
-      @include css-triangle($f-dropdown-triangle-size, $f-dropdown-triangle-color, top);
+      @include css-triangle($f-dropdown-triangle-size, $f-dropdown-triangle-colour, top);
       position: absolute;
       top: auto;
       bottom: -($f-dropdown-triangle-size * 2);
@@ -179,7 +179,7 @@ $f-dropdown-radius: $global-radius !default;
       z-index: 89;
     }
     &:after {
-      @include css-triangle($f-dropdown-triangle-size + 1, $f-dropdown-border-color, top);
+      @include css-triangle($f-dropdown-triangle-size + 1, $f-dropdown-border-colour, top);
       position: absolute;
       top: auto;
       bottom: -($f-dropdown-triangle-size * 2) - 2;
@@ -214,7 +214,7 @@ $f-dropdown-radius: $global-radius !default;
   a {
     display: block;
     padding: $f-dropdown-list-padding;
-    color: $f-dropdown-font-color;
+    colour: $f-dropdown-font-colour;
   }
 }
 

@@ -32,10 +32,10 @@ class MothersMaidenName extends React.Component {
   }
 
   render() {
-    const errorClass = this.state.hasError ? 'usa-input-error' : '';
+    const errorClass = this.state.hasError ? 'uk-input-error' : '';
     return (
       <div>
-        <div className={`usa-input-grid usa-input-grid-large ${errorClass}`}>
+        <div className={`uk-input-grid uk-input-grid-large ${errorClass}`}>
           <label htmlFor={`${this.id}-mothers-maiden-name`}>
             Mother’s Maiden Name
           </label>

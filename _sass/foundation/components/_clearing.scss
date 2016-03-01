@@ -9,22 +9,22 @@
 //
 $include-html-clearing-classes: $include-html-classes !default;
 
-// We use these to set the background colors for parts of Clearing.
+// We use these to set the background colours for parts of Clearing.
 $clearing-bg: $oil !default;
 $clearing-caption-bg: $clearing-bg !default;
 $clearing-carousel-bg: rgba(51,51,51,0.8) !default;
 $clearing-img-bg: $clearing-bg !default;
 
 // We use these to style the close button
-$clearing-close-color: $iron !default;
+$clearing-close-colour: $iron !default;
 $clearing-close-size: 30px !default;
 
 // We use these to style the arrows
 $clearing-arrow-size: 12px !default;
-$clearing-arrow-color: $clearing-close-color !default;
+$clearing-arrow-colour: $clearing-close-colour !default;
 
 // We use these to style captions
-$clearing-caption-font-color: $iron !default;
+$clearing-caption-font-colour: $iron !default;
 $clearing-caption-font-size: 0.875em !default;
 $clearing-caption-padding: 10px 30px 20px !default;
 
@@ -81,7 +81,7 @@ $clearing-carousel-thumb-active-border: 1px solid rgb(255,255,255) !default;
       position: absolute;
       top: 50%;
       left: 50%;
-      color: $base;
+      colour: $base;
       font-size: 0.6em;
     }
 
@@ -109,7 +109,7 @@ $clearing-carousel-thumb-active-border: 1px solid rgb(255,255,255) !default;
     }
 
     .clearing-caption {
-      color: $clearing-caption-font-color;
+      colour: $clearing-caption-font-colour;
       font-size: $clearing-caption-font-size;
       line-height: 1.3;
       margin-bottom: 0;
@@ -128,11 +128,11 @@ $clearing-carousel-thumb-active-border: 1px solid rgb(255,255,255) !default;
       padding-top: 10px;
       font-size: $clearing-close-size;
       line-height: 1;
-      color: $clearing-close-color;
+      colour: $clearing-close-colour;
       display: none;
 
       &:hover,
-      &:focus { color: $iron; }
+      &:focus { colour: $iron; }
     }
 
     .clearing-assembled .clearing-container { height: 100%;
@@ -169,15 +169,15 @@ $clearing-carousel-thumb-active-border: 1px solid rgb(255,255,255) !default;
         #{$default-float}: 0;
         & > span {
           #{$default-float}: 5px;
-          border-color: transparent;
-          border-#{$opposite-direction}-color: $clearing-arrow-color;
+          border-colour: transparent;
+          border-#{$opposite-direction}-colour: $clearing-arrow-colour;
         }
       }
       .clearing-main-next {
         #{$opposite-direction}: 0;
         & > span {
-          border-color: transparent;
-          border-#{$default-float}-color: $clearing-arrow-color;
+          border-colour: transparent;
+          border-#{$default-float}-colour: $clearing-arrow-colour;
         }
       }
 

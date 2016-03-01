@@ -27,7 +27,7 @@
 
     // If not spec calculate correct values
     @else {
-      @if ($pos-type != color) or ($first-val != "transparent") {
+      @if ($pos-type != colour) or ($first-val != "transparent") {
         @if ($pos-type == number)
         or ($first-val == "center")
         or ($first-val == "top")

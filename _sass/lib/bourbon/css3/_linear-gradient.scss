@@ -10,7 +10,7 @@
   $pos-degree: null;
 
   // If $pos is missing from mixin, reassign vars and add default position
-  @if ($pos-type == color) or (nth($pos, 1) == "transparent")  {
+  @if ($pos-type == colour) or (nth($pos, 1) == "transparent")  {
     $g10: $g9; $g9: $g8; $g8: $g7; $g7: $g6; $g6: $g5;
     $g5: $g4; $g4: $g3; $g3: $g2; $g2: $g1; $g1: $pos;
     $pos: null;
@@ -24,15 +24,15 @@
 
   $full: $g1, $g2, $g3, $g4, $g5, $g6, $g7, $g8, $g9, $g10;
 
-  // Set $g1 as the default fallback color
-  $fallback-color: nth($g1, 1);
+  // Set $g1 as the default fallback colour
+  $fallback-colour: nth($g1, 1);
 
-  // If $fallback is a color use that color as the fallback color
-  @if (type-of($fallback) == color) or ($fallback == "transparent") {
-    $fallback-color: $fallback;
+  // If $fallback is a colour use that colour as the fallback colour
+  @if (type-of($fallback) == colour) or ($fallback == "transparent") {
+    $fallback-colour: $fallback;
   }
 
-  background-color: $fallback-color;
+  background-colour: $fallback-colour;
   background-image: -webkit-linear-gradient($pos-degree $full); // Safari 5.1+, Chrome
   background-image: unquote("linear-gradient(#{$pos-spec}#{$full})");
 }

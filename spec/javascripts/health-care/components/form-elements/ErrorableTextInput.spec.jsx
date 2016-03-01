@@ -91,9 +91,9 @@ describe('<ErrorableTextInput>', () => {
       <ErrorableTextInput label="my label" onValueChange={(_update) => {}}/>);
 
     // No error classes.
-    expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(0);
-    expect(tree.everySubTree('.usa-input-error-label')).to.have.lengthOf(0);
-    expect(tree.everySubTree('.usa-input-error-message')).to.have.lengthOf(0);
+    expect(tree.everySubTree('.uk-input-error')).to.have.lengthOf(0);
+    expect(tree.everySubTree('.uk-input-error-label')).to.have.lengthOf(0);
+    expect(tree.everySubTree('.uk-input-error-message')).to.have.lengthOf(0);
 
     // Ensure no unnecessary class names on label w/o error..
     const labels = tree.everySubTree('label');
@@ -111,13 +111,13 @@ describe('<ErrorableTextInput>', () => {
       <ErrorableTextInput label="my label" errorMessage="error message" onValueChange={(_update) => {}}/>);
 
     // Ensure all error classes set.
-    expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(1);
+    expect(tree.everySubTree('.uk-input-error')).to.have.lengthOf(1);
 
-    const labels = tree.everySubTree('.usa-input-error-label');
+    const labels = tree.everySubTree('.uk-input-error-label');
     expect(labels).to.have.lengthOf(1);
     expect(labels[0].text()).to.equal('my label');
 
-    const errorMessages = tree.everySubTree('.usa-input-error-message');
+    const errorMessages = tree.everySubTree('.uk-input-error-message');
     expect(errorMessages).to.have.lengthOf(1);
     expect(errorMessages[0].text()).to.equal('error message');
 
@@ -132,14 +132,14 @@ describe('<ErrorableTextInput>', () => {
     const tree = SkinDeep.shallowRender(
       <ErrorableTextInput label="my label" onValueChange={(_update) => {}}/>);
 
-    expect(tree.everySubTree('.usa-additional_text')).to.have.lengthOf(0);
+    expect(tree.everySubTree('.uk-additional_text')).to.have.lengthOf(0);
   });
 
   it('required=true has required span', () => {
     const tree = SkinDeep.shallowRender(
       <ErrorableTextInput label="my label" required onValueChange={(_update) => {}}/>);
 
-    const requiredSpan = tree.everySubTree('.usa-additional_text');
+    const requiredSpan = tree.everySubTree('.uk-additional_text');
     expect(requiredSpan).to.have.lengthOf(1);
     expect(requiredSpan[0].text()).to.equal('Required');
   });
