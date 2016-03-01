@@ -1,6 +1,6 @@
 ---
 title: Are you service disabled?
-concurrence: incomplete
+concurrence: complete
 template: 1-topic-landing
 ---
 
@@ -19,7 +19,27 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Service-disabled Veterans are eligible for additional support.
+As a service-disabled Veteran, there are many ways for you to pursue your personal and professional goals through both government and private-sector employment.
+
+**Federal Job Preference**
+
+If you are a service-disabled Veteran, you qualify for hiring preference when competing for certain federal jobs. Learn more about [applying for federal jobs](link to our Vet.gov page). Some classifications, or exceptions, may qualify you for specific federal positions. Know which hiring exceptions you qualify for as a service-disabled Veteran. Check [federal hiring authority information](http://www.fedshirevets.gov/job/shav/) before applying.
+
+**Vocational Rehabilitation and Employment (VR&E)**
+If you are service disabled at more than 10% and can no longer continue your current employment due to injuries, you may be eligible for [Vocational Rehabilitation and Employment](vets.gov VRE&E page) (VR&E). 
+
+**Start or Grow Your Own Business**
+If entrepreneurship interests you, your disability may qualify you for preference in winning government contracts. VA and other [Veteran entrepreneur programs](link to our page) can support you through this journey. 
+
+**Private Sector**
+
+Private-sector employers may qualify for incentives such as [tax benefits](link to our vets.gov Employer support page) when hiring service-disabled Veterans. Make sure you’re knowledgeable about this when you meet with [VA Employment Center](link) representatives and during the interview process.
+
+Credentialing and job training will help in your search. Check your [military transcripts](link to our vets.gov military transcripts page] now to be sure they are accurate.
+
+**Learn more**
+Contact your local [Veteran Employment Specialist (VES)](VES Map) or your [policy and benefits advocate](Link to list of advocates from disabilities section) for more information.
+
 
 </div>
 </div>
