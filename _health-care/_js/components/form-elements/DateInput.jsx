@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 
+import { isValidDate } from '../../utils/validations';
+
 class DateInput extends React.Component {
   constructor() {
     super();
@@ -20,7 +22,7 @@ class DateInput extends React.Component {
     };
 
     // Update UI based on validation.
-    if (!this.validate(date.day, date.month, date.year)) {
+    if (!isValidDate(date.day, date.month, date.year)) {
       this.setState({ hasError: true });
     } else {
       this.setState({ hasError: false });
@@ -28,16 +30,6 @@ class DateInput extends React.Component {
 
     // Publish change up.
     this.props.onUserInput(date);
-  }
-
-  validate(day, month, year) {
-    // Use the date class to see if the date parses back sanely as a
-    // validation check. Not sure this is a great idea...
-    const adjustedMonth = Number(month) - 1;  // JS Date object 0-indexes months. WTF.
-    const date = new Date(year, adjustedMonth, day);
-    return date.getDate() === Number(day) &&
-      date.getMonth() === adjustedMonth &&
-      date.getFullYear() === Number(year);
   }
 
   render() {
