@@ -9,7 +9,7 @@ template: 1-topic-landing
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
+      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
     </div>
   </div>
 </div>
@@ -19,7 +19,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Wherever you are in your transition, VA provides career advice, mentorship, resume-building assistance, and exclusive access to employers committed to hiring Veterans and military spouses.
+Wherever you are in the transition process, VA provides career advice, mentorship, résumé-building assistance, and exclusive access to employers who are committed to hiring Veterans and military spouses.
 
 </div>
 </div>
@@ -40,14 +40,14 @@ Wherever you are in your transition, VA provides career advice, mentorship, resu
             <li>
               <a href="/employment/job-seekers/less-than-one-year/">
                 <h5>Do you have less than a year left of military service?</h5>
-                <span>The steps and processes that Servicemembers should be engaging in with less than one year left.</span>
+                <span>The steps and processes in which Servicemembers should be engaging with less than one year left.</span>
               </a>
             </li>
 
             <li>
               <a href="/employment/job-seekers/rapid/">
                 <h5>Rapid transition to civilian life</h5>
-                <span>For servicemembers that have less than 120 days before they will be separated from the military.</span>
+                <span>For servicemembers who have less than 120 days before they separate from the military.</span>
               </a>
             </li>
 
