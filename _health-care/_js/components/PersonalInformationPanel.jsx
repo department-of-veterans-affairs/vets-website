@@ -3,7 +3,7 @@ import React from 'react';
 import AdditionalInformationSection from './personal-information/AdditionalInformationSection';
 import DemographicInformationSection from './personal-information/DemographicInformationSection';
 import NameAndGeneralInfoSection from './personal-information/NameAndGeneralInfoSection';
-import VaInformationSection from './personal-information/VaInformationSection';
+import VAInformationSection from './personal-information/VAInformationSection';
 import VeteranAddressSection from './personal-information/VeteranAddressSection';
 
 class PersonalInformationPanel extends React.Component {
@@ -17,7 +17,7 @@ class PersonalInformationPanel extends React.Component {
                 this.props.publishStateChange(['personalInformation', subfield], update);
               }
             }/>
-        <VaInformationSection/>
+        <VAInformationSection/>
         <AdditionalInformationSection/>
         <DemographicInformationSection/>
         <VeteranAddressSection/>
