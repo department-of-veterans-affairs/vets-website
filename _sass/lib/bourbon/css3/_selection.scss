@@ -8,17 +8,17 @@
 /// @example scss - Usage
 ///   .element {
 ///     @include selection(true) {
-///       background-color: #ffbb52;
+///       background-colour: #ffbb52;
 ///     }
 ///   }
 ///
 /// @example css - CSS Output
 ///   .element::-moz-selection {
-///     background-color: #ffbb52;
+///     background-colour: #ffbb52;
 ///   }
 ///
 ///   .element::selection {
-///     background-color: #ffbb52;
+///     background-colour: #ffbb52;
 ///   }
 
 @mixin selection($current-selector: false) {

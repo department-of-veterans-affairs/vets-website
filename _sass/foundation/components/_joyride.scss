@@ -18,7 +18,7 @@ $joyride-tip-radius: 4px !default;
 $joyride-tip-position-offset: 22px !default;
 
 // Here, we're setting the tip font styles
-$joyride-tip-font-color: $white !default;
+$joyride-tip-font-colour: $white !default;
 $joyride-tip-font-size: rem-calc(14) !default;
 $joyride-tip-header-weight: $font-weight-bold !default;
 
@@ -28,10 +28,10 @@ $joyride-tip-nub-size: 10px !default;
 // This adjusts the styles for the timer when its enabled
 $joyride-tip-timer-width: 50px !default;
 $joyride-tip-timer-height: 3px !default;
-$joyride-tip-timer-color: $steel !default;
+$joyride-tip-timer-colour: $steel !default;
 
 // This changes up the styles for the close button
-$joyride-tip-close-color: $monsoon !default;
+$joyride-tip-close-colour: $monsoon !default;
 $joyride-tip-close-size: 24px !default;
 $joyride-tip-close-weight: $font-weight-normal !default;
 
@@ -52,7 +52,7 @@ $joyride-screenfill: rgba(0,0,0,0.5) !default;
       display: none;
       position: absolute;
       background: $joyride-tip-bg;
-      color: $joyride-tip-font-color;
+      colour: $joyride-tip-font-colour;
       z-index: 101;
       top: 0;
       #{$default-float}: 2.5%;
@@ -89,18 +89,18 @@ $joyride-screenfill: rgba(0,0,0,0.5) !default;
 
         &.top {
           border-top-style: solid;
-          border-color: $joyride-tip-bg;
-          border-top-color: transparent !important;
-          border-#{$default-float}-color: transparent !important;
-          border-#{$opposite-direction}-color: transparent !important;
+          border-colour: $joyride-tip-bg;
+          border-top-colour: transparent !important;
+          border-#{$default-float}-colour: transparent !important;
+          border-#{$opposite-direction}-colour: transparent !important;
           top: -($joyride-tip-nub-size*2);
         }
         &.bottom {
           border-bottom-style: solid;
-          border-color: $joyride-tip-bg !important;
-          border-bottom-color: transparent !important;
-          border-#{$default-float}-color: transparent !important;
-          border-#{$opposite-direction}-color: transparent !important;
+          border-colour: $joyride-tip-bg !important;
+          border-bottom-colour: transparent !important;
+          border-#{$default-float}-colour: transparent !important;
+          border-#{$opposite-direction}-colour: transparent !important;
           bottom: -($joyride-tip-nub-size*2);
         }
 
@@ -119,7 +119,7 @@ $joyride-screenfill: rgba(0,0,0,0.5) !default;
       line-height: 1.25;
       margin: 0;
       font-weight: $joyride-tip-header-weight;
-      color: $joyride-tip-font-color;
+      colour: $joyride-tip-font-colour;
     }
     .joyride-tip-guide p {
       margin: rem-calc(0 0 18 0);
@@ -139,21 +139,21 @@ $joyride-screenfill: rgba(0,0,0,0.5) !default;
       display: block;
       width: 0;
       height: inherit;
-      background: $joyride-tip-timer-color;
+      background: $joyride-tip-timer-colour;
     }
 
     .joyride-close-tip {
       position: absolute;
       #{$opposite-direction}: 12px;
       top: 10px;
-      color: $joyride-tip-close-color !important;
+      colour: $joyride-tip-close-colour !important;
       text-decoration: none;
       font-size: $joyride-tip-close-size;
       font-weight: $joyride-tip-close-weight;
       line-height: .5 !important;
 
       &:hover,
-      &:focus { color: $smoke !important; }
+      &:focus { colour: $smoke !important; }
     }
 
     .joyride-modal-bg {
@@ -170,7 +170,7 @@ $joyride-screenfill: rgba(0,0,0,0.5) !default;
     }
 
     .joyride-expose-wrapper {
-      background-color: $white;
+      background-colour: $white;
       position: absolute;
       border-radius: 3px;
       z-index: 102;
@@ -192,25 +192,25 @@ $joyride-screenfill: rgba(0,0,0,0.5) !default;
       .joyride-tip-guide { width: $joyride-tip-default-width; #{$default-float}: inherit;
         .joyride-nub {
           &.bottom {
-            border-color: $joyride-tip-bg !important;
-            border-bottom-color: transparent !important;
-            border-#{$default-float}-color: transparent !important;
-            border-#{$opposite-direction}-color: transparent !important;
+            border-colour: $joyride-tip-bg !important;
+            border-bottom-colour: transparent !important;
+            border-#{$default-float}-colour: transparent !important;
+            border-#{$opposite-direction}-colour: transparent !important;
             bottom: -($joyride-tip-nub-size*2);
           }
           &.right {
-            border-color: $joyride-tip-bg !important;
-            border-top-color: transparent !important;
-            border-right-color: transparent !important; border-bottom-color: transparent !important;
+            border-colour: $joyride-tip-bg !important;
+            border-top-colour: transparent !important;
+            border-right-colour: transparent !important; border-bottom-colour: transparent !important;
             top: $joyride-tip-position-offset;
             left: auto;
             right: -($joyride-tip-nub-size*2);
           }
           &.left {
-            border-color: $joyride-tip-bg !important;
-            border-top-color: transparent !important;
-            border-left-color: transparent !important;
-            border-bottom-color: transparent !important;
+            border-colour: $joyride-tip-bg !important;
+            border-top-colour: transparent !important;
+            border-left-colour: transparent !important;
+            border-bottom-colour: transparent !important;
             top: $joyride-tip-position-offset;
             left: -($joyride-tip-nub-size*2);
             right: auto;

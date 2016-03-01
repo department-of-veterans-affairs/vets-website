@@ -1,5 +1,5 @@
 .uk-alert {
-  background-color: $color-gray-lightest;  
+  background-colour: $colour-gray-lightest;  
   background-position: 1rem 2rem;
   background-repeat: no-repeat;
   background-size: 4rem;
@@ -47,25 +47,25 @@
 }
 
 .uk-alert-success {
-  background-color: $color-green-lightest;
+  background-colour: $colour-green-lightest;
   background-image: url('../images/alerts/success.png');  
   background-image: url('../images/alerts/success.svg');  
 }
 
 .uk-alert-warning {
-  background-color: $color-gold-lightest;
+  background-colour: $colour-gold-lightest;
   background-image: url('../images/alerts/warning.png');  
   background-image: url('../images/alerts/warning.svg');   
 }
 
 .uk-alert-error {
-  background-color: $color-secondary-lightest;
+  background-colour: $colour-secondary-lightest;
   background-image: url('../images/alerts/error.png');  
   background-image: url('../images/alerts/error.svg');   
 }
 
 .uk-alert-info {
-  background-color: $color-primary-alt-lightest;
+  background-colour: $colour-primary-alt-lightest;
   background-image: url('../images/alerts/info.png');  
   background-image: url('../images/alerts/info.svg');   
 }

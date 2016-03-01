@@ -19,12 +19,12 @@
   // Strip deprecated cover/contain for spec
   $shape-size-spec: _shape-size-stripper($shape-size);
 
-  // Set $g1 as the default fallback color
-  $first-color: nth($full, 1);
-  $fallback-color: nth($first-color, 1);
+  // Set $g1 as the default fallback colour
+  $first-colour: nth($full, 1);
+  $fallback-colour: nth($first-colour, 1);
 
-  @if (type-of($fallback) == color) or ($fallback == "transparent") {
-    $fallback-color: $fallback;
+  @if (type-of($fallback) == colour) or ($fallback == "transparent") {
+    $fallback-colour: $fallback;
   }
 
   // Add Commas and spaces
@@ -33,7 +33,7 @@
   $pos-spec:   if($pos, "at #{$pos}", null);
   $shape-size-spec: if(($shape-size-spec != " ") and ($pos == null), "#{$shape-size-spec}, ", "#{$shape-size-spec} ");
 
-  background-color:  $fallback-color;
+  background-colour:  $fallback-colour;
   background-image: -webkit-radial-gradient(unquote(#{$pos}#{$shape-size}#{$full}));
   background-image: unquote("radial-gradient(#{$shape-size-spec}#{$pos-spec}#{$full})");
 }

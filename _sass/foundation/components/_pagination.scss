@@ -16,26 +16,26 @@ $pagination-margin: rem-calc(-5) !default;
 // We use these to set the list-item properties
 $pagination-li-float: $default-float !default;
 $pagination-li-height: rem-calc(24) !default;
-$pagination-li-font-color: $jet !default;
+$pagination-li-font-colour: $jet !default;
 $pagination-li-font-size: rem-calc(14) !default;
 $pagination-li-margin: rem-calc(5) !default;
 
 // We use these for the pagination anchor links
 $pagination-link-pad: rem-calc(1 10 1) !default;
-$pagination-link-font-color: $aluminum !default;
-$pagination-link-active-bg: scale-color($white, $lightness: -10%) !default;
+$pagination-link-font-colour: $aluminum !default;
+$pagination-link-active-bg: scale-colour($white, $lightness: -10%) !default;
 
 // We use these for disabled anchor links
 $pagination-link-unavailable-cursor: default !default;
-$pagination-link-unavailable-font-color: $aluminum !default;
+$pagination-link-unavailable-font-colour: $aluminum !default;
 $pagination-link-unavailable-bg-active: transparent !default;
 
 // We use these for currently selected anchor links
-$pagination-link-current-background: $primary-color !default;
-$pagination-link-current-font-color: $white !default;
+$pagination-link-current-background: $primary-colour !default;
+$pagination-link-current-font-colour: $white !default;
 $pagination-link-current-font-weight: $font-weight-bold !default;
 $pagination-link-current-cursor: default !default;
-$pagination-link-current-active-bg: $primary-color !default;
+$pagination-link-current-active-bg: $primary-colour !default;
 
 // @mixins
 //
@@ -50,7 +50,7 @@ $pagination-link-current-active-bg: $primary-color !default;
 @mixin pagination-unavailable-item {
   a, button {
     cursor: $pagination-link-unavailable-cursor;
-    color: $pagination-link-unavailable-font-color;
+    colour: $pagination-link-unavailable-font-colour;
   }
   &:hover a,
   & a:focus,
@@ -67,7 +67,7 @@ $pagination-link-current-active-bg: $primary-color !default;
   @if $has-anchor {
     a, button {
       background: $pagination-link-current-background;
-      color: $pagination-link-current-font-color;
+      colour: $pagination-link-current-font-colour;
       font-weight: $pagination-link-current-font-weight;
       cursor: $pagination-link-current-cursor;
 
@@ -78,7 +78,7 @@ $pagination-link-current-active-bg: $primary-color !default;
     height: auto;
     padding: $pagination-link-pad;
     background: $pagination-link-current-background;
-    color: $pagination-link-current-font-color;
+    colour: $pagination-link-current-font-colour;
     font-weight: $pagination-link-current-font-weight;
     cursor: $pagination-link-current-cursor;
     @include radius;
@@ -103,20 +103,20 @@ $pagination-link-current-active-bg: $primary-color !default;
 
     li {
       height: $pagination-li-height;
-      color: $pagination-li-font-color;
+      colour: $pagination-li-font-colour;
       font-size: $pagination-li-font-size;
       margin-#{$default-float}: $pagination-li-margin;
 
       a, button {
         display: block;
         padding: $pagination-link-pad;
-        color: $pagination-link-font-color;
+        colour: $pagination-link-font-colour;
         background: none;
         @include radius;
         font-weight: normal;
         font-size: 1em;
         line-height: inherit;
-        @include single-transition(background-color);
+        @include single-transition(background-colour);
       }
 
       &:hover a,

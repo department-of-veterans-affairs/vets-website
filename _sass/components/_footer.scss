@@ -4,7 +4,7 @@
   }
 
   .uk-footer-primary-link {
-    color: $color-base;
+    colour: $colour-base;
     display: block;
     font-weight: $font-bold;
     margin-top: 0;
@@ -27,7 +27,7 @@
 }
 
 .uk-footer-primary-section {
-  background-color: $color-gray-lightest;
+  background-colour: $colour-gray-lightest;
 
   .uk-footer-primary-content {
     padding-left: 2.5rem;
@@ -102,14 +102,14 @@
 ul.uk-footer-primary-content,
 li.uk-footer-primary-content,
 li.uk-footer-primary-content {
-  border-top: 1px solid $color-base;      
+  border-top: 1px solid $colour-base;      
 
   @include media($medium-screen) {
     border: none;
   }
 
   &:last-child {
-    border-bottom: 1px solid $color-base;
+    border-bottom: 1px solid $colour-base;
 
     @include media($medium-screen) {
       border-bottom: none;
@@ -143,12 +143,12 @@ li.uk-footer-primary-content {
 }
 
 .uk-footer-secondary_section {
-  background-color: $color-gray-lighter;
+  background-colour: $colour-gray-lighter;
   padding-bottom: 3rem;
   padding-top: 3rem;
 
   a {
-    color: $color-base;
+    colour: $colour-base;
   }
 }
 
@@ -180,7 +180,7 @@ li.uk-footer-primary-content {
     }
     
     &:last-child {
-      border-bottom: 1px solid $color-base;
+      border-bottom: 1px solid $colour-base;
 
       @include media($medium-screen) {
         border-bottom: none;

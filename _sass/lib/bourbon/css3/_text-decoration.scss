@@ -1,5 +1,5 @@
 @mixin text-decoration($value) {
-// <text-decoration-line> || <text-decoration-style> || <text-decoration-color>
+// <text-decoration-line> || <text-decoration-style> || <text-decoration-colour>
   @include prefixer(text-decoration, $value, moz);
 }
 
@@ -13,7 +13,7 @@
   @include prefixer(text-decoration-style, $style, moz webkit);
 }
 
-@mixin text-decoration-color($color: currentColor) {
-// currentColor || <color>
-  @include prefixer(text-decoration-color, $color, moz);
+@mixin text-decoration-colour($colour: currentColor) {
+// currentColor || <colour>
+  @include prefixer(text-decoration-colour, $colour, moz);
 }

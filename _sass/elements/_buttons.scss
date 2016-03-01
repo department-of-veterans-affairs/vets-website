@@ -14,10 +14,10 @@ button,
 [type="reset"],
 [type="image"] {
   appearance: none;
-  background-color: $color-primary;
+  background-colour: $colour-primary;
   border: 0;
   border-radius: $border-radius;
-  color: $color-white;
+  colour: $colour-white;
   cursor: pointer;
   display: inline-block;
   font-family: $font-sans;
@@ -40,9 +40,9 @@ button,
 
   &:hover,
   &.uk-button-hover {
-    background-color: $color-primary-darker;
+    background-colour: $colour-primary-darker;
     border-bottom: 0;
-    color: $color-white;
+    colour: $colour-white;
     text-decoration: none;
   }
 
@@ -53,96 +53,96 @@ button,
 
   &:active,
   &.uk-button-active {
-    background-color: $color-primary-darkest;
+    background-colour: $colour-primary-darkest;
   }
 
   &.uk-button-primary-alt {
-    background-color: $color-primary-alt;
-    color: $color-base;
+    background-colour: $colour-primary-alt;
+    colour: $colour-base;
 
     &:hover,
     &.uk-button-hover {
-      background-color: $color-primary-alt-dark;
+      background-colour: $colour-primary-alt-dark;
     }
 
     &:active,
     &.uk-button-active {
-      background-color: $color-primary-alt-darkest;
-      color: $color-white;
+      background-colour: $colour-primary-alt-darkest;
+      colour: $colour-white;
     }
   }
 
   &.uk-button-secondary {
-    background-color: $color-secondary;
+    background-colour: $colour-secondary;
 
     &:hover,
     &.uk-button-hover {
-      background-color: $color-secondary-dark;
+      background-colour: $colour-secondary-dark;
     }
 
     &:active,
     &.uk-button-active {
-      background-color: $color-secondary-darkest;
+      background-colour: $colour-secondary-darkest;
     }
   }
 
   &.uk-button-gray {
-    background-color: $color-gray;
+    background-colour: $colour-gray;
 
     &:hover,
     &.uk-button-hover {
-      background-color: $color-gray-dark;
+      background-colour: $colour-gray-dark;
     }
 
     &:active,
     &.uk-button-active {
-      background-color: $color-base;
+      background-colour: $colour-base;
     }
   }
 
   &.uk-button-outline {
-    background-color: $color-white;
-    box-shadow: $button-stroke $color-primary;
-    color: $color-primary;
+    background-colour: $colour-white;
+    box-shadow: $button-stroke $colour-primary;
+    colour: $colour-primary;
 
     &:hover,
     &.uk-button-hover {
-      box-shadow: $button-stroke $color-primary-darker;
-      color: $color-primary-darker;
+      box-shadow: $button-stroke $colour-primary-darker;
+      colour: $colour-primary-darker;
     }
 
     &:active,
     &.uk-button-active {
-      box-shadow: $button-stroke $color-primary-darkest;
-      color: $color-primary-darkest;
+      box-shadow: $button-stroke $colour-primary-darkest;
+      colour: $colour-primary-darkest;
     }
 
     &:focus,
     &.uk-button-focus {
-      box-shadow: $button-stroke $color-primary-darkest, $focus-shadow;
+      box-shadow: $button-stroke $colour-primary-darkest, $focus-shadow;
     }
   }
 
   &.uk-button-outline-inverse {
     background: transparent;
-    box-shadow: $button-stroke $color-white;
-    color: $color-white;
+    box-shadow: $button-stroke $colour-white;
+    colour: $colour-white;
 
     &:hover,
     &.uk-button-hover {
-      box-shadow: $button-stroke $color-gray-lighter;
-      color: $color-gray-lighter;
+      box-shadow: $button-stroke $colour-gray-lighter;
+      colour: $colour-gray-lighter;
     }
 
     &:active,
     &.uk-button-active {
-      box-shadow: $button-stroke $color-gray-light;
-      color: $color-gray-lighter;
+      box-shadow: $button-stroke $colour-gray-light;
+      colour: $colour-gray-lighter;
     }
 
     &:focus,
     &.uk-button-focus {
-      box-shadow: $button-stroke $color-gray-light, $focus-shadow;
+      box-shadow: $button-stroke $colour-gray-light, $focus-shadow;
     }
   }
 
@@ -154,8 +154,8 @@ button,
 
 [type="submit"]:disabled,
 .uk-button-disabled {
-  background-color: $color-gray-lighter;
-  color: $color-gray-dark;
+  background-colour: $colour-gray-lighter;
+  colour: $colour-gray-dark;
   cursor: default;
 
   &:hover,
@@ -163,10 +163,10 @@ button,
   &:active,
   &.uk-button-active,
   &:focus  {
-    background-color: $color-gray-lighter;
+    background-colour: $colour-gray-lighter;
     border: 0;
     box-shadow: none;
-    color: $color-gray-dark;
+    colour: $colour-gray-dark;
   }
 }
 

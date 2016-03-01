@@ -28,7 +28,7 @@ $reveal-box-shadow: 0 0 10px rgba($black,.4) !default;
 $reveal-close-font-size: rem-calc(40) !default;
 $reveal-close-top: rem-calc(10) !default;
 $reveal-close-side: rem-calc(22) !default;
-$reveal-close-color: $base !default;
+$reveal-close-colour: $base !default;
 $reveal-close-weight: $font-weight-bold !default;
 
 // We use this to set the default radius used throughout the core.
@@ -38,7 +38,7 @@ $reveal-round: $global-rounded !default;
 // We use these to control the modal border
 $reveal-border-style: solid !default;
 $reveal-border-width: 1px !default;
-$reveal-border-color: $steel !default;
+$reveal-border-colour: $steel !default;
 
 $reveal-modal-class: "reveal-modal" !default;
 $close-reveal-modal-class: "close-reveal-modal" !default;
@@ -104,12 +104,12 @@ $close-reveal-modal-class: "close-reveal-modal" !default;
 
 // We use this to style the reveal modal defaults
 //
-// $bg - Sets background color of reveal modal. Default: $reveal-modal-bg || $white
+// $bg - Sets background colour of reveal modal. Default: $reveal-modal-bg || $white
 // $padding - Padding to apply to reveal modal. Default: $reveal-modal-padding.
 // $border - Choose whether reveal uses a border. Default: true, Options: false
 // $border-style - Set reveal border style. Default: $reveal-border-style || solid
 // $border-width - Width of border (i.e. 1px). Default: $reveal-border-width.
-// $border-color - Color of border. Default: $reveal-border-color.
+// $border-colour - Color of border. Default: $reveal-border-colour.
 // $box-shadow - Choose whether or not to include the default box-shadow. Default: true, Options: false
 // $radius - If true, set to modal radius which is $global-radius || explicitly set radius amount in px (ex. $radius:10px). Default: false
 // $top-offset - Default: $reveal-position-top || 50px
@@ -119,15 +119,15 @@ $close-reveal-modal-class: "close-reveal-modal" !default;
   $border:false,
   $border-style:$reveal-border-style,
   $border-width:$reveal-border-width,
-  $border-color:$reveal-border-color,
+  $border-colour:$reveal-border-colour,
   $box-shadow:false,
   $radius:false,
   $top-offset:false) {
 
-  @if $bg { background-color: $bg; }
+  @if $bg { background-colour: $bg; }
   @if $padding != false { padding: $padding; }
 
-  @if $border { border: $border-style $border-width $border-color; }
+  @if $border { border: $border-style $border-width $border-colour; }
 
   // We can choose whether or not to include the default box-shadow.
   @if $box-shadow {
@@ -147,14 +147,14 @@ $close-reveal-modal-class: "close-reveal-modal" !default;
 
 // We use this to create a close button for the reveal modal
 //
-// $color - Default: $reveal-close-color || $base
-@mixin reveal-close($color:$reveal-close-color) {
+// $colour - Default: $reveal-close-colour || $base
+@mixin reveal-close($colour:$reveal-close-colour) {
   font-size: $reveal-close-font-size;
   line-height: 1;
   position: absolute;
   top: $reveal-close-top;
   #{$opposite-direction}: $reveal-close-side;
-  color: $color;
+  colour: $colour;
   font-weight: $reveal-close-weight;
   cursor: $cursor-pointer-value;
 }

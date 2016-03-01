@@ -16,10 +16,10 @@ input[type="week"],
 textarea,
 select  {
   appearance: none;
-  border: 1px solid $color-gray;
+  border: 1px solid $colour-gray;
   border-radius: 0;
   box-sizing: border-box;
-  color: $color-base; // standardize on firefox 
+  colour: $colour-base; // standardize on firefox 
   display: block;
   font-size: $base-font-size;
   margin: 0.2em 0;
@@ -34,12 +34,12 @@ select  {
   }
 
   &.uk-input-success {
-    border: 3px solid $color-green-light;
+    border: 3px solid $colour-green-light;
   }
 }
 
 .uk-input-error {
-  border-left: 4px solid $color-secondary-dark;
+  border-left: 4px solid $colour-secondary-dark;
   margin-top: 3rem;
   padding-bottom: 0.8rem;
   padding-left: 1.5rem;
@@ -48,7 +48,7 @@ select  {
   right: 1.9rem;
   
   input {
-    border: 3px solid $color-secondary-dark;
+    border: 3px solid $colour-secondary-dark;
     width: calc(100% + 1.5rem);
   }
   
@@ -64,7 +64,7 @@ select  {
 }
 
 .uk-input-error-message {
-  color: $color-secondary-dark;
+  colour: $colour-secondary-dark;
   display: block;
   font-size: $base-font-size;
   font-weight: $font-bold;
@@ -86,7 +86,7 @@ select {
   -moz-appearance: none;
   -webkit-appearance: none;
   appearance: none;
-  background-color: $color-white;
+  background-colour: $colour-white;
   background-image: url('../images/arrow-down.png');
   background-image: url('../images/arrow-down.svg');
   background-position: right 1.3rem center;
@@ -108,7 +108,7 @@ legend {
 // Hint text
 
 .uk-form-hint {
-  color: $color-gray-medium;
+  colour: $colour-gray-medium;
   font-family: $font-sans;
   margin-bottom: 0;
 }
@@ -141,7 +141,7 @@ input[type="checkbox"] + label::before,
 input[type="radio"] + label::before {
   background: white;
   border-radius: $border-radius;
-  box-shadow: 0 0 0 1px $color-gray-medium;
+  box-shadow: 0 0 0 1px $colour-gray-medium;
   content: '\a0';
   display: inline-block;
   height: 1.8rem;
@@ -153,7 +153,7 @@ input[type="radio"] + label::before {
 }
 
 input[type="radio"] + label::before {  
-  box-shadow: 0 0 0 2px $color-white, 0 0 0 3px $color-gray-medium;
+  box-shadow: 0 0 0 2px $colour-white, 0 0 0 3px $colour-gray-medium;
   height: 1.6rem;  
   width: 1.6rem;  
 }
@@ -164,16 +164,16 @@ input[type="radio"] + label::before {
 
 input[type="checkbox"]:checked + label::before,
 input[type="radio"]:checked + label::before {
-  background-color: $color-primary;
-  box-shadow: 0 0 0 1px $color-primary;
+  background-colour: $colour-primary;
+  box-shadow: 0 0 0 1px $colour-primary;
 }
 
 input[type="radio"]:checked + label::before {
-  box-shadow: 0 0 0 2px $color-white, 0 0 0 4px $color-primary; 
+  box-shadow: 0 0 0 2px $colour-white, 0 0 0 4px $colour-primary; 
 }
 
 input[type="radio"]:focus + label::before {
-  box-shadow: 0 0 0 2px $color-white, 0 0 0 4px $color-primary, 0 0 3px 4px $color-focus, 0 0 7px 4px $color-focus;
+  box-shadow: 0 0 0 2px $colour-white, 0 0 0 4px $colour-primary, 0 0 3px 4px $colour-focus, 0 0 7px 4px $colour-focus;
 }
 
 input[type="checkbox"]:checked + label::before {
@@ -184,17 +184,17 @@ input[type="checkbox"]:checked + label::before {
 }
 
 input[type="checkbox"]:focus + label::before {
-  box-shadow: 0 0 0 1px $color-white, 0 0 0 3px $color-primary;
+  box-shadow: 0 0 0 1px $colour-white, 0 0 0 3px $colour-primary;
 }
 
 input[type="checkbox"]:disabled + label {
-  color: $color-gray;
+  colour: $colour-gray;
 }
 
 input[type="checkbox"]:disabled + label::before,
 input[type="radio"]:disabled + label::before {
-  background: $color-gray-lighter;
-  box-shadow: 0 0 0 1px $color-gray-light;
+  background: $colour-gray-lighter;
+  box-shadow: 0 0 0 1px $colour-gray-light;
   cursor: not-allowed;
 }
 
@@ -213,16 +213,16 @@ input[type=range]:focus {
 }
 
 input[type=range]::-webkit-slider-runnable-track {
-  background: $color-gray-light;
-  border: 1px solid $color-gray-medium;
+  background: $colour-gray-light;
+  border: 1px solid $colour-gray-medium;
   cursor: pointer;
   height: 1.2rem;
   width: 100%;
 }
 
 input[type=range]::-moz-range-track {
-  background: $color-primary;
-  border: 1px solid $color-gray-medium;
+  background: $colour-primary;
+  border: 1px solid $colour-gray-medium;
   cursor: pointer;
   height: 1.2rem;
   width: 100%;
@@ -230,7 +230,7 @@ input[type=range]::-moz-range-track {
 
 input[type=range]::-ms-track {
   background: transparent;
-  color: transparent;
+  colour: transparent;
   cursor: pointer;
   height: 1.2rem;
   width: 100%;
@@ -238,18 +238,18 @@ input[type=range]::-ms-track {
 
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  border: 1px solid $color-gray-medium;
+  border: 1px solid $colour-gray-medium;
   height: 2.2rem;
   border-radius: 1.5rem;
-  background: $color-gray-lightest;
+  background: $colour-gray-lightest;
   cursor: pointer;
   margin-top: -.65rem;  
   width: 2.2rem;
 }
 
 input[type=range]::-moz-range-thumb {
-  background: $color-gray-lightest;
-  border: 1px solid $color-gray-medium;
+  background: $colour-gray-lightest;
+  border: 1px solid $colour-gray-medium;
   border-radius: 1.5rem;
   cursor: pointer;
   height: 2.2rem;
@@ -257,8 +257,8 @@ input[type=range]::-moz-range-thumb {
 }
 
 input[type=range]::-ms-thumb {
-  background: $color-gray-lightest;
-  border: 1px solid $color-gray-medium;
+  background: $colour-gray-lightest;
+  border: 1px solid $colour-gray-medium;
   border-radius: 1.5rem;
   cursor: pointer;
   height: 2.2rem;
@@ -266,27 +266,27 @@ input[type=range]::-ms-thumb {
 }
 
 input[type=range]::-ms-fill-lower {
-  background: $color-gray-light;
-  border: 1px solid $color-gray-medium;
+  background: $colour-gray-light;
+  border: 1px solid $colour-gray-medium;
   border-radius: 2rem;
 }
 
 input[type=range]::-ms-fill-upper {
-  background: $color-gray-light;
-  border: 1px solid $color-gray-medium;
+  background: $colour-gray-light;
+  border: 1px solid $colour-gray-medium;
   border-radius: 2rem;
 }
 
 input[type=range]:focus::-webkit-slider-thumb {
-  border: 2px solid $color-focus;
+  border: 2px solid $colour-focus;
 }
 
 input[type=range]:focus::-moz-range-thumb {
-  border: 2px solid $color-focus;
+  border: 2px solid $colour-focus;
 }
 
 input[type=range]:focus::-ms-thumb {
-  border: 2px solid $color-focus;
+  border: 2px solid $colour-focus;
 }
 
 // Memorable dates

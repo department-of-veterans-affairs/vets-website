@@ -66,7 +66,7 @@ $modules: () !default;
       tel
       time
       url
-      color
+      colour
       textarea;
 
     @if $types == all { $types: $all-text-input-types; }

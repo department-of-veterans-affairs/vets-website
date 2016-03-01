@@ -4,16 +4,16 @@
 ///
 /// @example scss - Usage
 ///   #{$all-buttons} {
-///     background-color: #f00;
+///     background-colour: #f00;
 ///   }
 ///
 ///   #{$all-buttons-focus},
 ///   #{$all-buttons-hover} {
-///     background-color: #0f0;
+///     background-colour: #0f0;
 ///   }
 ///
 ///   #{$all-buttons-active} {
-///     background-color: #00f;
+///     background-colour: #00f;
 ///   }
 ///
 /// @example css - CSS Output
@@ -21,7 +21,7 @@
 ///   input[type="button"],
 ///   input[type="reset"],
 ///   input[type="submit"] {
-///     background-color: #f00;
+///     background-colour: #f00;
 ///   }
 ///
 ///   button:focus,
@@ -32,14 +32,14 @@
 ///   input[type="button"]:hover,
 ///   input[type="reset"]:hover,
 ///   input[type="submit"]:hover {
-///     background-color: #0f0;
+///     background-colour: #0f0;
 ///   }
 ///
 ///   button:active,
 ///   input[type="button"]:active,
 ///   input[type="reset"]:active,
 ///   input[type="submit"]:active {
-///     background-color: #00f;
+///     background-colour: #00f;
 ///   }
 ///
 /// @require assign-inputs

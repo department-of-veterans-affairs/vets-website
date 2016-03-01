@@ -11,10 +11,10 @@ $include-html-media-classes: $include-html-classes !default;
 
 // We use this to set the progress bar height
 $progress-bar-height: rem-calc(25) !default;
-$progress-bar-color: $vapor !default;
+$progress-bar-colour: $vapor !default;
 
 // We use these to control the border styles
-$progress-bar-border-color: scale-color($white, $lightness: 20%) !default;
+$progress-bar-border-colour: scale-colour($white, $lightness: 20%) !default;
 $progress-bar-border-size: 1px !default;
 $progress-bar-border-style: solid !default;
 $progress-bar-border-radius: $global-radius !default;
@@ -23,27 +23,27 @@ $progress-bar-border-radius: $global-radius !default;
 $progress-bar-pad: rem-calc(2) !default;
 $progress-bar-margin-bottom: rem-calc(10) !default;
 
-// We use these to set the meter colors
-$progress-meter-color: $primary-color !default;
-$progress-meter-secondary-color: $secondary-color !default;
-$progress-meter-success-color: $success-color !default;
-$progress-meter-alert-color: $alert-color !default;
+// We use these to set the meter colours
+$progress-meter-colour: $primary-colour !default;
+$progress-meter-secondary-colour: $secondary-colour !default;
+$progress-meter-success-colour: $success-colour !default;
+$progress-meter-alert-colour: $alert-colour !default;
 
 // @mixins
 //
 // We use this to set up the progress bar container
 @mixin progress-container {
-  background-color: $progress-bar-color;
+  background-colour: $progress-bar-colour;
   height: $progress-bar-height;
-  border: $progress-bar-border-size $progress-bar-border-style $progress-bar-border-color;
+  border: $progress-bar-border-size $progress-bar-border-style $progress-bar-border-colour;
   padding: $progress-bar-pad;
   margin-bottom: $progress-bar-margin-bottom;
 }
 
 // @mixins
 //
-// $bg - Default: $progress-meter-color || $primary-color
-@mixin progress-meter($bg:$progress-meter-color) {
+// $bg - Default: $progress-meter-colour || $primary-colour
+@mixin progress-meter($bg:$progress-meter-colour) {
   background: $bg;
   height: 100%;
   display: block;
@@ -61,9 +61,9 @@ $progress-meter-alert-color: $alert-color !default;
       .meter {
         @include progress-meter;
       }
-      &.secondary .meter { @include progress-meter($bg:$progress-meter-secondary-color); }
-      &.success .meter { @include progress-meter($bg:$progress-meter-success-color); }
-      &.alert .meter { @include progress-meter($bg:$progress-meter-alert-color); }
+      &.secondary .meter { @include progress-meter($bg:$progress-meter-secondary-colour); }
+      &.success .meter { @include progress-meter($bg:$progress-meter-success-colour); }
+      &.alert .meter { @include progress-meter($bg:$progress-meter-alert-colour); }
 
       &.radius { @include radius($progress-bar-border-radius);
         .meter { @include radius($progress-bar-border-radius - 1); }

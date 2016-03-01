@@ -14,17 +14,17 @@ p {
 }
 
 a {
-  color: $color-primary;
+  colour: $colour-primary;
   text-decoration: none;
 
   &:hover, 
   &:active {
-    color: $color-primary-darker;
+    colour: $colour-primary-darker;
     text-decoration: underline;
   }
 
   &:visited {
-    color: $color-visited;
+    colour: $colour-visited;
   }
 
   &:focus {
@@ -173,7 +173,7 @@ p,
 }
 
 .uk-image-text-block {
-  color: $color-white;
+  colour: $colour-white;
   left: 0;
   margin-left: 8%;
   position: absolute;
@@ -189,17 +189,17 @@ p,
 }
 
 .uk-background-dark {
-  background-color: $color-gray-dark;
+  background-colour: $colour-gray-dark;
 
   p, span {
-    color: $color-white;
+    colour: $colour-white;
   }
 
   a {
-    color: $color-gray-lighter;
+    colour: $colour-gray-lighter;
     
     &:hover {
-      color: $color-white;
+      colour: $colour-white;
     }
   }
 }

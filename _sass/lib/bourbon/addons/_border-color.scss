@@ -1,26 +1,26 @@
 @charset "UTF-8";
 
-/// Provides a quick method for targeting `border-color` on specific sides of a box. Use a `null` value to “skip” a side.
+/// Provides a quick method for targeting `border-colour` on specific sides of a box. Use a `null` value to “skip” a side.
 ///
 /// @param {Arglist} $vals
 ///   List of arguments
 ///
 /// @example scss - Usage
 ///   .element {
-///     @include border-color(#a60b55 #76cd9c null #e8ae1a);
+///     @include border-colour(#a60b55 #76cd9c null #e8ae1a);
 ///   }
 ///
 /// @example css - CSS Output
 ///   .element {
-///     border-left-color: #e8ae1a;
-///     border-right-color: #76cd9c;
-///     border-top-color: #a60b55;
+///     border-left-colour: #e8ae1a;
+///     border-right-colour: #76cd9c;
+///     border-top-colour: #a60b55;
 ///   }
 ///
 /// @require {mixin} directional-property
 ///
-/// @output `border-color`
+/// @output `border-colour`
 
-@mixin border-color($vals...) {
-  @include directional-property(border, color, $vals...);
+@mixin border-colour($vals...) {
+  @include directional-property(border, colour, $vals...);
 }

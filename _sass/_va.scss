@@ -43,14 +43,14 @@ body .row {
   top: -10em;
   background: #fff;
   padding: 1em;
-  color: $color-primary-darkest;
+  colour: $colour-primary-darkest;
   display: block;
   font-weight: 600;
   &:hover {background: #fff;}
   &:focus {
     position: inherit;
     top: auto;
-    outline: 2px solid $color-gold;
+    outline: 2px solid $colour-gold;
   }
 }
 
@@ -72,13 +72,13 @@ html, body {
   // font-size: 17px;
   font-family: $font-sans;
   font-weight: 500;
-  color: $color-gray-dark;
+  colour: $colour-gray-dark;
 }
 
 body, body.home {
-  background: $color-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
+  background: $colour-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
   background-size: contain;
-  color: #fff;
+  colour: #fff;
 }
 
 
@@ -107,7 +107,7 @@ abbr, a abbr, abbr[title] {
   text-decoration: none;
   font-weight: inherit;
   font-style: inherit;
-  color: inherit;
+  colour: inherit;
   cursor: pointer;
 }
 
@@ -121,16 +121,16 @@ a {
   -o-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
   transition: all 0.3s ease-in-out;
-  color: $color-gray-dark;
+  colour: $colour-gray-dark;
   &:hover {
-    color: $color-gray-dark;
+    colour: $colour-gray-dark;
   }
 }
 
 // Figure / Caption
 
 figcaption {
-  color: $color-primary-darker;
+  colour: $colour-primary-darker;
 }
 
 // Interior rows
@@ -156,31 +156,31 @@ figcaption {
   margin: 0;
 
   h1 {margin: 0; line-height: 1em; @media #{$small} {margin: .25em 0 0 0;} }
-  color: #fff;
+  colour: #fff;
 }
 
 h1 {
-  color: #fff;
+  colour: #fff;
   a {
     text-indent: 180%;
     white-space: nowrap;
     overflow: hidden;
     display: block;
-    color: #fff;
-    background: $color-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
+    colour: #fff;
+    background: $colour-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
     width: 180px;
     height: 30px;
     background-size: contain;
     border-bottom: none;
     text-decoration: none;
-    &:hover, &:active, &:focus {background: $color-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat; background-size: contain;}
+    &:hover, &:active, &:focus {background: $colour-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat; background-size: contain;}
   @media #{$small} {
-    background: $color-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
+    background: $colour-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
     width: 263px;
     height: 50px;
     background-size: contain;
     &:hover {
-      background: $color-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat;
+      background: $colour-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat;
       background-size: contain;
     }
   }
@@ -194,7 +194,7 @@ h1, h2 {
   font-weight: 600;
 }
 h3, h4, h5, h6 {
-  color:$color-primary-darkest;
+  colour:$colour-primary-darkest;
   font-weight: 600;
 }
 
@@ -205,18 +205,18 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 
 // Banner
 
-#content {margin: 0; padding: 0; color: $color-gray-dark;}
+#content {margin: 0; padding: 0; colour: $colour-gray-dark;}
 
 #content .splash {
   padding: 0 0 .5em 0;
   margin: 0;
   @media #{$small} {padding: .5em 0;}
 
-  p {color: #fff; font-family: $font-sans;}
+  p {colour: #fff; font-family: $font-sans;}
 
   &.app {
     padding: 0;
-    p {color: #fff; font-family: $font-sans;}
+    p {colour: #fff; font-family: $font-sans;}
     ul.breadcrumbs {
       display: inline-block;
       margin: 0 0 .5em 0; padding: 0;
@@ -237,11 +237,11 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
     line-height: 1.3em;
     margin: .5em 0 0 0;
       white-space: pre-wrap;
-    color: #333;
-    a {background: $color-gold; color: #444;}
+    colour: #333;
+    a {background: $colour-gold; colour: #444;}
   }
 
-  h2 span {clear: both; padding: .04em; display: inline-block; background: $color-gold; font-weight: normal;}
+  h2 span {clear: both; padding: .04em; display: inline-block; background: $colour-gold; font-weight: normal;}
   h2, h3, p {/*padding: .35em; */ margin: 0; display: inline-block; font-family: $roboto-slab;}
   h2 {
     font-size: 1em;
@@ -249,21 +249,21 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
     @media #{$small} {font-size: 2em;}
   }
 
-  h3 {font-weight: 500; font-size: 1.4em; color: #555;}
+  h3 {font-weight: 500; font-size: 1.4em; colour: #555;}
 
   &.alternate {
     li a {
-      color: $color-primary-darkest;
-      border-bottom: 2px solid $secondary-color;
+      colour: $colour-primary-darkest;
+      border-bottom: 2px solid $secondary-colour;
     }
 
-    li.parent:after {color: #ccc;}
+    li.parent:after {colour: #ccc;}
   }
 }
 
 .pitch {
   @media #{$small} {padding: .5em 0;}
-  h2, h3 {color: $color-primary-darkest; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
+  h2, h3 {colour: $colour-primary-darkest; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
 }
 
 #experience {background: #fff;}
@@ -274,8 +274,8 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   margin: .5em 0; padding: 0;
   a {
     margin: 0;
-    color: #444;
-    background: $color-gold;
+    colour: #444;
+    background: $colour-gold;
     line-height: 1.4em;
     font-size: .9em;
   }
@@ -313,7 +313,7 @@ html.no-touch .banner {
 
 // Headings
 
-h3 {color: $color-primary-darkest; font-weight: bold; font-size: 1.8em; padding: 0 0 1em 0;}
+h3 {colour: $colour-primary-darkest; font-weight: bold; font-size: 1.8em; padding: 0 0 1em 0;}
 h4 {font-size: 1.5em; font-weight: normal;}
 h5 {font-size: 1.25em; font-weight: normal;}
 
@@ -325,7 +325,7 @@ h5 {font-size: 1.25em; font-weight: normal;}
     border-bottom: 2px solid white;
     padding: 0 0 1em 0;
     margin: 0 0 2em 0;
-    color: rgba(255,255,255,.7);
+    colour: rgba(255,255,255,.7);
     line-height: 1.2em;
   }
 }
@@ -367,14 +367,14 @@ h5 {font-size: 1.25em; font-weight: normal;}
 }
 
 .call-out {
-  background: $color-primary-alt-lightest;
+  background: $colour-primary-alt-lightest;
   padding: 1em;
   clear: both;
   margin: 0 0 1.5em 0;
   p {margin-bottom: 0; padding-bottom: .5em}
   p:nth-child(1) {
     font-size: 1em;
-    color: #333;
+    colour: #333;
     padding-bottom: inherit;
   }
   h3 {@media #{$small} {font-size: 1.65em;}}
@@ -394,13 +394,13 @@ h5 {font-size: 1.25em; font-weight: normal;}
   ul+p
    {
     font-weight: normal !important;
-    color: #333;
+    colour: #333;
     font-size: 1em;
     padding-bottom: 0;
   }
   p:nth-child(1) {
     font-size: 1.25em;
-    color: $color-primary-darker;
+    colour: $colour-primary-darker;
     letter-spacing: normal;
     font-weight: normal;
     padding-bottom: 1em;
@@ -415,14 +415,14 @@ h5 {font-size: 1.25em; font-weight: normal;}
 // Home page specific
 
 .home #content {
-  h2, h3, h4, h5, h6, p, ul, li, ol, a {color: $color-gray-dark;}
-  .post-date {font-size: .5em; color: $color-gold;}
+  h2, h3, h4, h5, h6, p, ul, li, ol, a {colour: $colour-gray-dark;}
+  .post-date {font-size: .5em; colour: $colour-gold;}
   h3 {
     border-bottom: 1px solid #fff;
     line-height: 1.2em;
-    border-bottom: 6px solid $color-primary-darker;
+    border-bottom: 6px solid $colour-primary-darker;
     font-size: 1.65em;
-    color: $color-primary;
+    colour: $colour-primary;
     margin: 0 0 2.5em 0;
     padding: 0 0 .2em 0;
   }
@@ -431,20 +431,20 @@ h5 {font-size: 1.25em; font-weight: normal;}
     text-decoration: none;
     &:hover {
       border-bottom: 1px solid #fff;
-      color: $color-gold;
+      colour: $colour-gold;
     }
   }
 
   .read-more {
     font-size: .5em;
     display: inline-block;
-    border-bottom: 1px solid $secondary-color;
-    color: $secondary-color;
+    border-bottom: 1px solid $secondary-colour;
+    colour: $secondary-colour;
     &:hover {
       background: none;
-      color: $color-primary-darkest;
+      colour: $colour-primary-darkest;
       background: rgba(1,1,1,.1);
-      border-bottom: 1px solid $secondary-color;
+      border-bottom: 1px solid $secondary-colour;
     }
   }
 
@@ -476,9 +476,9 @@ h5 {font-size: 1.25em; font-weight: normal;}
 
   .section.one, .section.two {
     a {
-      color: $color-gray-dark;
+      colour: $colour-gray-dark;
       &:hover {
-        color: $color-primary-darkest;
+        colour: $colour-primary-darkest;
         background: rgba(0,0,0,.15);
       }
     }
@@ -495,7 +495,7 @@ h5 {font-size: 1.25em; font-weight: normal;}
 
   .section.two {
     padding: 2em 0;
-    a, h3 {color: #fff;}
+    a, h3 {colour: #fff;}
     h3 {border-bottom: none;}
     background: rgba(0,0,0,.1);
   }
@@ -503,19 +503,19 @@ h5 {font-size: 1.25em; font-weight: normal;}
   .section.three {
     background: #fff;
     padding: 5em 0;
-    h2, h3, h4, h5, h6, p, li {color: #444;}
+    h2, h3, h4, h5, h6, p, li {colour: #444;}
     h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
-    a {color: $color-primary-darkest;}
+    a {colour: $colour-primary-darkest;}
   }
 }
 
 #content .section.primary {
   background: none;
   padding: 2em 0;
-  background: $color-primary;
-  h1, h2, h3, h4, h5, h6, p, li {color: #fff;}
-  p {color: rgba(255,255,255,1);}
-  a {color: #fff;}
+  background: $colour-primary;
+  h1, h2, h3, h4, h5, h6, p, li {colour: #fff;}
+  p {colour: rgba(255,255,255,1);}
+  a {colour: #fff;}
   ul li {list-style: square;}
 }
 
@@ -529,7 +529,7 @@ background: rgba(255,255,255,.85);
 
 #content .section.quaternary {
   background: #dcddde;
-  h1, h2, h3, h4, h5, h6, p, li {color: #fff;}
+  h1, h2, h3, h4, h5, h6, p, li {colour: #fff;}
   h4 {font-weight: 700;}
   .cards {
     a {
@@ -540,9 +540,9 @@ background: rgba(255,255,255,.85);
 }
 
 #content .section.coda {
-  background: $color-primary-darker;
-  color: #fff;
-  h2, h3, h4, h5, h6, a {color: #fff;}
+  background: $colour-primary-darker;
+  colour: #fff;
+  h2, h3, h4, h5, h6, a {colour: #fff;}
   h4 {font-size: 1.5em;}
 }
 
@@ -554,7 +554,7 @@ background: rgba(255,255,255,.85);
 #content .section .feature {min-height: 11em;}
 
 #content .panel {
-  background: $color-gray-lightest;
+  background: $colour-gray-lightest;
   padding: 1em;
   margin-bottom: 1.5em;
   clear: both;
@@ -563,14 +563,14 @@ background: rgba(255,255,255,.85);
 #content .section.do {
   background: #efefef;
   padding: 2em 0;
-  h2, h3, h4, h5, h6, p, li {color: #444;}
+  h2, h3, h4, h5, h6, p, li {colour: #444;}
   h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
-  a {color: #fff;}
-  a.uk-button-primary {background: $color-green;}
+  a {colour: #fff;}
+  a.uk-button-primary {background: $colour-green;}
 }
 
 #content {
-  a.uk-button-primary.start {background: $color-green; text-decoration: none;}
+  a.uk-button-primary.start {background: $colour-green; text-decoration: none;}
 }
 
 #content .section.secondary,
@@ -582,7 +582,7 @@ background: rgba(255,255,255,.85);
 }
 
 #content .section.start {
-  background: $color-green-lightest;
+  background: $colour-green-lightest;
   padding: 3em 0;
   border-bottom: 3px solid #fff;
 }
@@ -596,7 +596,7 @@ background: rgba(255,255,255,.85);
   }
   &.two {
     padding: 0 0 4em 0;
-    h3 {color: darken($color-green, 10);}
+    h3 {colour: darken($colour-green, 10);}
     clear: both;
   }
   &.three {clear: both; padding: 2em 0;}
@@ -645,12 +645,12 @@ text-align: left;
     @media #{$small} {display: inline-block;}
 
     &:before {content: none; vertical-align: middle;}
-    &:after {content:" › "; display: inline-block; color: #fff; padding: 0 .5em;}
+    &:after {content:" › "; display: inline-block; colour: #fff; padding: 0 .5em;}
     }
 
     &.active {
-      background: $color-gold;
-      color: #000;
+      background: $colour-gold;
+      colour: #000;
       font-family: $roboto-slab;
       font-weight: 400;
       margin: .5em 0;
@@ -664,8 +664,8 @@ text-align: left;
     border-bottom: 3px solid #fff;
     background: none;
     text-decoration: none !important;
-    color: #fff;
-    &:hover {text-decoration: none; background: rgba(0,0,0,.1); border-bottom: 3px solid $color-gold;}
+    colour: #fff;
+    &:hover {text-decoration: none; background: rgba(0,0,0,.1); border-bottom: 3px solid $colour-gold;}
   }
 }
 
@@ -688,8 +688,8 @@ li {
   span.meta {
     display: inline-block;
     padding: .5em;
-    color: $color-primary-darkest;
-    background: rgba($color-primary-darkest,.05);
+    colour: $colour-primary-darkest;
+    background: rgba($colour-primary-darkest,.05);
     font-weight: bold;
     float: right;
     margin: .5em 0 1em 1em;
@@ -732,7 +732,7 @@ th{
     padding-top:.8em;
     padding-bottom: .8em;
     padding-left: .8em;
-    color:$color-primary-darkest;
+    colour:$colour-primary-darkest;
   }
   span {
     font-weight: normal;
@@ -757,7 +757,7 @@ ul.checklist, ol.checklist {
 margin: 0 0 0 1.35em; padding: 0;
 li {
   font-weight: 500;
-  span {font-weight: normal; font-size: 1em; display: block; margin-left: 2.25em; color: #555;}
+  span {font-weight: normal; font-size: 1em; display: block; margin-left: 2.25em; colour: #555;}
   padding: 1em 0;
   border-bottom: 1px solid #ccc;
   &:last-of-type {border-bottom: none;}
@@ -776,7 +776,7 @@ li {
 
     li {padding: 0; margin: 0;}
     &:before {margin: 0; padding: 0;}
-    span.type {margin: .25em .25em 1em .25em; color: $color-primary-darkest;  @media #{$small} {padding: 2.5em 1em;}  background: rgba($secondary-color, .15);}
+    span.type {margin: .25em .25em 1em .25em; colour: $colour-primary-darkest;  @media #{$small} {padding: 2.5em 1em;}  background: rgba($secondary-colour, .15);}
     }
   }
 }
@@ -804,8 +804,8 @@ li {
 #content #playbook .navigation {
   padding: 1em  0;
   @media #{$small} {padding: 1em 0 3em 0;}
-  background: $color-gray-lightest;
-  color: $color-primary-darkest;
+  background: $colour-gray-lightest;
+  colour: $colour-primary-darkest;
   border-bottom: 2px solid #fff;
   margin: 0 auto;
 
@@ -817,19 +817,19 @@ li {
       margin: 0;
       padding: 0;
       h4, h5 {font-size: 1em; }
-      span {color: $color-gray-dark;}
+      span {colour: $colour-gray-dark;}
     }
   }
 
   ul.cards li {
     margin: 0;
     height: auto;
-    h3, h4, h5, h6 {color: $color-primary-darkest; font-weight: 700; font-family: $font-sans; font-size: 1.35em;}
+    h3, h4, h5, h6 {colour: $colour-primary-darkest; font-weight: 700; font-family: $font-sans; font-size: 1.35em;}
     h4 {font-size: 1.3em;}
     border-bottom: 1px solid rgba(0,0,0,.2);
     &:last-of-type { border-bottom: none;}
     a {
-    color: $color-primary-darkest;
+    colour: $colour-primary-darkest;
     -webkit-box-shadow: none;
     border-bottom: none;
     box-shadow: none;
@@ -840,7 +840,7 @@ li {
     height: auto;
     margin: 0;
     background: none;
-    &:hover {padding-left: .5em; background: rgba(0,0,0,.1); border-left: 4px solid $color-primary;}
+    &:hover {padding-left: .5em; background: rgba(0,0,0,.1); border-left: 4px solid $colour-primary;}
     }
   }
 }
@@ -866,7 +866,7 @@ body.home .main-navigation {
   right: -5em;
   z-index: 1000;
   background: rgba(#a91d28, .9);
-  color: #fff;
+  colour: #fff;
   font-size: .85em;
   position: fixed;
   padding: 2.5em 4em 1em 4em;
@@ -894,11 +894,11 @@ backface-visibility: hidden;
     padding: 1em 1.15em;
     margin: 0 -0.9375rem;
     border-bottom: 2px solid rgba(255,255,255,.3);
-    color: #fff;
+    colour: #fff;
     display: block;
     font-weight: normal;
     text-decoration: none;
-    background: $color-primary-darker;
+    background: $colour-primary-darker;
     -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
     @media #{$small} {padding: .45em .75em; border-bottom: none; text-align: left; border-radius: .2em; margin: 0 0 .25em 0}
     @media #{$medium} {height: 10em;}
@@ -921,30 +921,30 @@ backface-visibility: hidden;
     }
 
     &:hover, &:active, &:focus {
-      background: $color-primary;
+      background: $colour-primary;
       -webkit-box-shadow: 0 0 5px rgba(0,0,0,.35);
       -moz-box-shadow: 0 0 5px rgba(0,0,0,.35);
       box-shadow: 0 0 5px rgba(0,0,0,.35);
     }
 
-    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; color: #fff; display: block; clear: both; width: 100%;}
+    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; colour: #fff; display: block; clear: both; width: 100%;}
 
     &:hover div {
-      a {color: $color-gold; p {color: $color-gold;}}
+      a {colour: $colour-gold; p {colour: $colour-gold;}}
     }
 }
 
 .coming-soon {
   background: rgba(255,255,255,.05);
-  color: #fff;
+  colour: #fff;
   border-bottom: 2px solid rgba(0,0,0,0);
 
-  h3 {color: #fff; color: rgba(255,255,255,.7);}
+  h3 {colour: #fff; colour: rgba(255,255,255,.7);}
 
   &:hover, &:active, &:focus {
     background: rgba(255,255,255,.05);
-    color: #fff;
-    p {color: #fff;}
+    colour: #fff;
+    p {colour: #fff;}
     border-bottom: 2px solid rgba(0,0,0,0);
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -968,7 +968,7 @@ li {
 
   strong {
     font-size: 1.3em;
-    color: $color-primary-darkest;
+    colour: $colour-primary-darkest;
   }
 
   p {
@@ -986,7 +986,7 @@ li {
   a {
 
     text-decoration: none;
-    border-bottom: 2px solid $color-primary-darkest;
+    border-bottom: 2px solid $colour-primary-darkest;
 
   }
 }
@@ -1050,7 +1050,7 @@ background-size: contain;
     margin-bottom: 1em;
 }
 
-.post-date, .post-author {color: #444;}
+.post-date, .post-author {colour: #444;}
 
 .post-date {
   margin-bottom: 2.5em;
@@ -1070,8 +1070,8 @@ span.next {
   @media #{$small} {margin: .5em 0 0 0; padding: 1em 0 0 0;}
   h2 {
     &.tagline {padding: 0;}
-    padding: 0; margin: 0 0 2em 0; background: none; color: $color-primary-darkest;
-    a {text-decoration: none; margin: 0; color: $color-primary-darkest; background: $color-gold; border-bottom: none; padding: .5em .25em; &:hover {padding: .5em .65em;}}
+    padding: 0; margin: 0 0 2em 0; background: none; colour: $colour-primary-darkest;
+    a {text-decoration: none; margin: 0; colour: $colour-primary-darkest; background: $colour-gold; border-bottom: none; padding: .5em .25em; &:hover {padding: .5em .65em;}}
     @media #{$medium} {position: fixed; margin: 1.35em 0 0 0; z-index: 100;}
   }
 }
@@ -1116,7 +1116,7 @@ figure {
 }
 
 .related-posts {
-  border-top: 1px solid $color-gold;
+  border-top: 1px solid $colour-gold;
   padding: 2em 0 1em 0;
   margin: 2em 0 0 0;
   h6 {line-height: 1.2em; margin: 0; padding: 0; font-size: 1.15em;}
@@ -1133,25 +1133,25 @@ figure {
         display: block;
         &:hover {
           background: rgba(0,0,0,.08);
-          border-left: 4px solid $color-primary;
+          border-left: 4px solid $colour-primary;
           padding-left: .5em;
         }
-        .post-title {color: $color-primary-darker; font-size: 1em; font-weight: bold; margin: 0; padding: 0;}
-        .post-date {color: #444; margin: 0; padding: 0 0 1em 0;}
+        .post-title {colour: $colour-primary-darker; font-size: 1em; font-weight: bold; margin: 0; padding: 0;}
+        .post-date {colour: #444; margin: 0; padding: 0 0 1em 0;}
       }
     }
   }
 }
 
 .post {
-  a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #444; line-height: 1.65em;}
+  a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {colour: #444; line-height: 1.65em;}
   a {
     text-decoration: underline;
-    color: $color-primary-darker;
+    colour: $colour-primary-darker;
   }
 
   .page-number {
-    color: #444;
+    colour: #444;
   }
 
   span.previous {
@@ -1168,7 +1168,7 @@ figure {
     margin: 0;
     display: block;
     &.title {
-      color: $color-primary-darker;
+      colour: $colour-primary-darker;
       background: none;
       display: block;
       a {text-decoration: none;}
@@ -1180,10 +1180,10 @@ figure {
 // Footer
 
 .footer {
-  color:#fff;
+  colour:#fff;
   padding: 0 !important;
   margin: 0;
-  background: darken($color-primary-darkest, 02);
+  background: darken($colour-primary-darkest, 02);
 
   .coda .row {
     max-width: 70em;
@@ -1239,7 +1239,7 @@ figure {
   ul {
     margin: 0;
     padding: .5em 0;
-    border-bottom: 1px solid $color-primary;
+    border-bottom: 1px solid $colour-primary;
     @media #{$small} {
       border-bottom: none;
       padding: 0;
@@ -1247,7 +1247,7 @@ figure {
     }
   }
   li, p, a {
-    color: #fff;
+    colour: #fff;
     font-size: 1em;
   }
 
@@ -1257,19 +1257,19 @@ figure {
     background: none;
     font-weight: 400;
     @media #{$small} {display: inline-block; margin: .25em 0;}
-    &:hover {color: $color-gold;}
+    &:hover {colour: $colour-gold;}
     &.contact, &.blog {
-      padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $secondary-color;
+      padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $secondary-colour;
       @media #{$small} {margin: 1.5em auto; display: inline-block;}
       &:hover, &:focus, &:active {
-        background: $secondary-color; color: #fff;
+        background: $secondary-colour; colour: #fff;
       }
     }
 
     &.contact {
       @media #{$small} {margin: 0 0 0 1em;}
     }
-    &.blog {border: none; &:hover {background: none; color: $color-primary-alt;}}
+    &.blog {border: none; &:hover {background: none; colour: $colour-primary-alt;}}
   }
 
   .footer-logo a {
@@ -1290,11 +1290,11 @@ figure {
   }
 
 .footer-crisis {
-  background:$color-gold;
+  background:$colour-gold;
   margin: 2.5em 0;
   padding: .25rem 0;
   border-radius: .2em;
-  color: $color-gray-dark;
+  colour: $colour-gray-dark;
   font-size: .85em;
   text-align: center;
   span {
@@ -1303,7 +1303,7 @@ figure {
   a {
     display:inline;
     text-decoration: none;
-    color:rgb(0,0,0);
+    colour:rgb(0,0,0);
     &:hover {
       border-bottom: none;
       text-decoration: none;
@@ -1369,21 +1369,21 @@ li {
     font-size: .85em;
     margin: 0;
     padding: 0 0 1em 0;
-    background: darken($color-primary-darkest, 5);
+    background: darken($colour-primary-darkest, 5);
   }
 
   blockquote {
     border-left: 0;
     padding: 1em 1em 0 1em;
-    color: #fff;
+    colour: #fff;
     text-align: center;
     margin: 0 auto;
     font-style: italic;
   }
 
   span.source {
-    color: #fff;
-    color: rgba(255,255,255,.8);
+    colour: #fff;
+    colour: rgba(255,255,255,.8);
     text-align: center;
     margin: 0 auto;
     display: block;
@@ -1417,9 +1417,9 @@ a.twitter {
 .primary blockquote {
   margin: 0 0 1em 0;
   padding: 0 0 0 1em;
-  border-left: 2px solid $color-gray-lighter;
+  border-left: 2px solid $colour-gray-lighter;
   p {
-  color: $color-primary-darker;
+  colour: $colour-primary-darker;
   }
 }
 
@@ -1447,7 +1447,7 @@ a.twitter {
 
   @media #{$small-up} {padding: 1em .4em 0 .4em;}
   margin-bottom: 0;
-  a {color: #fff; background: none;}
+  a {colour: #fff; background: none;}
 
   &.notice {
     font-size: .9em;
@@ -1456,7 +1456,7 @@ a.twitter {
     padding: .5em;
     @media #{$small} {padding: .5em .85em;}
     margin-bottom: .75em;
-    background: $color-primary-darker;
+    background: $colour-primary-darker;
     &:after {
        visibility: hidden;
        display: block;
@@ -1473,7 +1473,7 @@ a.twitter {
     clear: both;
     padding: 1.25em 0 1.5em 0;
     border-top: none;
-    background: $color-primary-darker;
+    background: $colour-primary-darker;
     @media #{$xlarge-up} {
       padding: 0;
     }
@@ -1483,7 +1483,7 @@ a.twitter {
   // Feedback widget
 
   .feedback {
-    color: #fff;
+    colour: #fff;
     text-align: center;
     @media #{$medium-up} {
       text-align: left;
@@ -1491,7 +1491,7 @@ a.twitter {
   }
 
   .feedback-widget {
-    color: #fff;
+    colour: #fff;
     background: none;
     overflow: hidden;
     text-decoration: underline;
@@ -1512,7 +1512,7 @@ a.twitter {
     padding: .5em;
     display: inline-block;
     text-decoration: none;
-    background: $color-primary-darker;
+    background: $colour-primary-darker;
     bottom: .85em;
     right: 0;
     -webkit-border-top-left-radius: .3em;
@@ -1531,8 +1531,8 @@ a.twitter {
 
     }
     &:hover, &:active, &:focus {
-      background: $color-primary-darkest;
-      color: #fff;
+      background: $colour-primary-darkest;
+      colour: #fff;
       padding: .5em .65em;
       width: 12.5em;
     }
@@ -1584,7 +1584,7 @@ a.twitter {
     height: 3em;
     margin: 0;
     width: 100%;
-    color: $color-gray-dark;
+    colour: $colour-gray-dark;
     padding: .2em;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
@@ -1614,8 +1614,8 @@ a.twitter {
     font-size: .85em;
     border-radius: .2em;
     text-decoration: none;
-    background: $color-primary;
-    color: #fff;
+    background: $colour-primary;
+    colour: #fff;
   }
 }
 
@@ -1627,7 +1627,7 @@ a.twitter {
   font-size: 1em;
   clear: both;
   text-decoration: none;
-  color: $color-gray-dark;
+  colour: $colour-gray-dark;
   text-align: center;
   margin: 1em 0;
   position: relative;
@@ -1647,7 +1647,7 @@ a.twitter {
   li {
     list-style: none;
     display: block;
-    .post-date {padding: 0; margin: 0; color: $secondary-color;}
+    .post-date {padding: 0; margin: 0; colour: $secondary-colour;}
     padding: .5em 0;
     border-bottom: 1px solid rgba(255,255,255,.2);
     &:last-of-type {border-bottom: none;}
@@ -1657,19 +1657,19 @@ a.twitter {
     a {
       text-decoration: none;
       background: none;
-      color: #fff;
+      colour: #fff;
       .post-date {font-size: .65em;}
       &:hover {
         background: rgba(255,255,255,.2);
       }
     }
   }
-  p:nth-child(1) {font-size: inherit; color: inherit;}
+  p:nth-child(1) {font-size: inherit; colour: inherit;}
 }
 
 // byline
 
-p.byline {font-size: .8em; color: #fff; color: rgba(255,255,255,.9);}
+p.byline {font-size: .8em; colour: #fff; colour: rgba(255,255,255,.9);}
 
 
 
@@ -1719,7 +1719,7 @@ span {
   font-weight: 700;
   float: left;
   margin: 0;
-  color: #003E73;
+  colour: #003E73;
   line-height: .65em;
   display: inline-block;
   padding: 0 .125em 0 0;
@@ -1730,7 +1730,7 @@ span {
 }
 
 .heading {
-  color:#006699;
+  colour:#006699;
   font-size: .8em;
   padding: 0;
 }
@@ -1755,7 +1755,7 @@ span {
   padding: 1em 1em 0;
   line-height: 2.5;
   span.number {
-    color: #fff;
+    colour: #fff;
     display: inline-block;
   }
 }
@@ -1776,7 +1776,7 @@ h2 {background: none; font-size: 2.5em;}
 /*a {text-decoration: none; background: none;}*/
 
 .card a {
-  border-bottom: 2px solid $secondary-color;
+  border-bottom: 2px solid $secondary-colour;
   display: inline-block;
   background: rgba(0,0,0,.03);
   &:hover {background: rgba(0,0,0,.1);}
@@ -1818,7 +1818,7 @@ margin: 0;
   h6 {font-size: 1.1em; margin: 0; padding: 0;}
   p:nth-child(1) {
     font-size: 1em;
-    color: #333;
+    colour: #333;
     padding-bottom: 0;
   }
   list-style: none;
@@ -1826,7 +1826,7 @@ margin: 0;
 
     p:nth-child(1) {
       font-size: 1em;
-      color: #333;
+      colour: #333;
       padding-bottom: inherit;
     }
 
@@ -1850,7 +1850,7 @@ margin: 0;
     border-left: 0;
   }
       a {
-        /*background-color: #D9C799;*/
+        /*background-colour: #D9C799;*/
       }
   }
   &.step.three.last,
@@ -1885,7 +1885,7 @@ margin: 0;
   }
 
   &:before {
-    color:#fff;
+    colour:#fff;
     float: left;
     font-size: 1.3em;
     font-weight: 700;
@@ -1903,7 +1903,7 @@ margin: 0;
 
 #content.interior .primary .process li p:nth-child(1) {
   font-size: 1em;
-  color: #333 !important;
+  colour: #333 !important;
   padding-bottom: 0;
 }
 
@@ -1948,7 +1948,7 @@ li.twenty:before {content: "20";}
 
   &.hcd {
     h4 {
-      color: $secondary-color;
+      colour: $secondary-colour;
     }
   }
 
@@ -1994,7 +1994,7 @@ li {
   &:before {
     background:white;
     border: 4px solid $olso-gray;
-    color:$olso-gray;
+    colour:$olso-gray;
     font-size: 1.3em;
     font-weight:700;
     position: relative;
@@ -2086,7 +2086,7 @@ li {
 }
 
 .tap-to-close {
-  color:$color-gold!important;
+  colour:$colour-gold!important;
   font-size: .8em!important;
   padding-top: .75em!important;
 }
@@ -2128,7 +2128,7 @@ li {
 
 // Visual Guide
 
-span.color-chip {
+span.colour-chip {
 height: 3em;
 width: 3em;
 margin: .5em 1em .5em 0;
@@ -2136,14 +2136,14 @@ border-radius: 10em;
 vertical-align: middle;
 display: inline-block;
 
-&.primary-color {background: $color-primary;}
-&.color-primary-darker {background: $color-primary-darker;}
-&.color-primary-darkest {background: $color-primary-darkest;}
-&.color-gray-dark {background: $color-gray-dark;}
-&.color-gray-lightest {background: $color-gray-lightest;}
-&.color-gold {background: $color-gold;}
-&.color-green {background: $color-green;}
-&.color-green-lightest {background: $color-green-lightest;}
+&.primary-colour {background: $colour-primary;}
+&.colour-primary-darker {background: $colour-primary-darker;}
+&.colour-primary-darkest {background: $colour-primary-darkest;}
+&.colour-gray-dark {background: $colour-gray-dark;}
+&.colour-gray-lightest {background: $colour-gray-lightest;}
+&.colour-gold {background: $colour-gold;}
+&.colour-green {background: $colour-green;}
+&.colour-green-lightest {background: $colour-green-lightest;}
 }
 
 
@@ -2173,7 +2173,7 @@ display: inline-block;
 .citation {
 border-top: 1px solid #eee;
 padding: 1em 0 0 0;
-h5, h6 {font-size: .85em; font-family: $font-sans; color: $color-gray-dark;}
+h5, h6 {font-size: .85em; font-family: $font-sans; colour: $colour-gray-dark;}
 p, ul, li {font-size: .7em;}
 font-style: italic;
 }
@@ -2185,7 +2185,7 @@ background: rgba(0,0,0,.05);
 padding: 1em;
 position: relative;
 min-height: 12em;
-dt {color: $color-primary-darkest; padding: 0; font-weight: 700; font-size: 1.2em;}
+dt {colour: $colour-primary-darkest; padding: 0; font-weight: 700; font-size: 1.2em;}
 dd {padding: 0; margin: 0;}
 a {
   @extend .uk-button-primary;
@@ -2214,7 +2214,7 @@ a {
 // Highlight headings
 
 h4.highlight {
-  border-bottom: 3px solid $primary-color;
+  border-bottom: 3px solid $primary-colour;
   display: block;
   padding-bottom: .25em;
   font-weight: 700;
@@ -2232,10 +2232,10 @@ h4.highlight {
 
 .action-bar {
 text-align: right;
-background: $color-gray-lightest;
+background: $colour-gray-lightest;
 padding: .5em 0;
 a.uk-button-primary {
-  background: $color-green;
+  background: $colour-green;
 }
 }
 
@@ -2258,7 +2258,7 @@ button[class*="uk-button-"] {
   border-top: 1px solid #ddd;
 
   z-index:500;
-  color: #444;
+  colour: #444;
   background: #fff;
 
   &.minimal {
@@ -2298,7 +2298,7 @@ body.home .disclaimer, body.page-playbook .disclaimer {
   	top: 0;
   	left: 0;
     z-index: 800;
-  	background: rgba($color-primary-darkest, .95);
+  	background: rgba($colour-primary-darkest, .95);
   }
 
   /* Overlay closing cross */
@@ -2329,7 +2329,7 @@ body.home .disclaimer, body.page-playbook .disclaimer {
       width: 100% !important;
       margin: 0;
       width: auto;
-      background: $color-primary;
+      background: $colour-primary;
 
     }
 
@@ -2401,7 +2401,7 @@ ul li p {
 // vets.gov branded apps
 
 a.vets-app {
-  border-left: 3px solid $color-gold;
+  border-left: 3px solid $colour-gold;
   display: inline-block;
   padding: 0 0 0 .5em !important;
 }
@@ -2414,9 +2414,9 @@ button.js-simple-tooltip {
   display:inline-block;
   padding: 0;
   border-radius: 1.75em;
-  background: $color-gray-dark;
+  background: $colour-gray-dark;
   margin: 0 0 0 .5em;
-  color: white;
+  colour: white;
   height: 1.75em;
   font-size: .8em;
   width: 1.75em;
@@ -2434,8 +2434,8 @@ button.js-simple-tooltip {
   z-index: 777;
   width: 11em;
   border-radius: .3em;
-  background: $color-gray-dark;
-  color: $color-white;
+  background: $colour-gray-dark;
+  colour: $colour-white;
   padding: .6em;
   text-align: left;
   font-size: 1em;
@@ -2450,7 +2450,7 @@ button.js-simple-tooltip {
 .simpletooltip:before {
   border-bottom: 10px solid transparent;  /* left arrow slant */
   border-top: 10px solid transparent; /* right arrow slant */
-  border-right: 10px solid $color-gray-dark;
+  border-right: 10px solid $colour-gray-dark;
   content:"";
   font-size: 0;
   position: absolute;
@@ -2651,12 +2651,12 @@ html.touchevents {
 
   li.tab-title, dd.tab-title {
     list-style: none;
-    border-top: $color-primary-darker 5px solid;
+    border-top: $colour-primary-darker 5px solid;
     a {text-decoration: none;}
 
     &.active {
-      border-top: $color-primary 5px solid;
-      a {color: $color-primary;}
+      border-top: $colour-primary 5px solid;
+      a {colour: $colour-primary;}
     }
 
     a {

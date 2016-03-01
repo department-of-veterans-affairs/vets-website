@@ -18,16 +18,16 @@ $form-label-pointer: pointer !default;
 $form-label-font-size: rem-calc(14) !default;
 $form-label-font-weight: $font-weight-normal !default;
 $form-label-line-height: 1.5 !default;
-$form-label-font-color: scale-color($black, $lightness: 30%) !default;
+$form-label-font-colour: scale-colour($black, $lightness: 30%) !default;
 $form-label-small-transform: capitalize !default;
 $form-label-bottom-margin: 0 !default;
 $input-font-family: inherit !default;
-$input-font-color: rgba(0,0,0,0.75) !default;
+$input-font-colour: rgba(0,0,0,0.75) !default;
 $input-font-size: rem-calc(14) !default;
-$input-bg-color: $white !default;
-$input-focus-bg-color: scale-color($white, $lightness: -2%) !default;
-$input-border-color: scale-color($white, $lightness: -20%) !default;
-$input-focus-border-color: scale-color($white, $lightness: -40%) !default;
+$input-bg-colour: $white !default;
+$input-focus-bg-colour: scale-colour($white, $lightness: -2%) !default;
+$input-border-colour: scale-colour($white, $lightness: -20%) !default;
+$input-focus-border-colour: scale-colour($white, $lightness: -40%) !default;
 $input-border-style: solid !default;
 $input-border-width: 1px !default;
 $input-border-radius: $global-radius !default;
@@ -39,7 +39,7 @@ $input-include-glowing-effect: false !default;
 // We use these to style the fieldset border and spacing.
 $fieldset-border-style: solid !default;
 $fieldset-border-width: 1px !default;
-$fieldset-border-color: $gainsboro !default;
+$fieldset-border-colour: $gainsboro !default;
 $fieldset-padding: rem-calc(20) !default;
 $fieldset-margin: rem-calc(18 0) !default;
 
@@ -49,13 +49,13 @@ $legend-font-weight: $font-weight-bold !default;
 $legend-padding: rem-calc(0 3) !default;
 
 // We use these to style the prefix and postfix input elements
-$input-prefix-bg: scale-color($white, $lightness: -5%) !default;
-$input-prefix-border-color: scale-color($white, $lightness: -20%) !default;
+$input-prefix-bg: scale-colour($white, $lightness: -5%) !default;
+$input-prefix-border-colour: scale-colour($white, $lightness: -20%) !default;
 $input-prefix-border-size: 1px !default;
 $input-prefix-border-type: solid !default;
 $input-prefix-overflow: hidden !default;
-$input-prefix-font-color: $oil !default;
-$input-prefix-font-color-alt: $white !default;
+$input-prefix-font-colour: $oil !default;
+$input-prefix-font-colour-alt: $white !default;
 
 // We use this setting to turn on/off HTML5 number spinners (the up/down arrows)
 $input-number-spinners: true !default;
@@ -66,17 +66,17 @@ $input-error-message-top: -1px !default;
 $input-error-message-font-size: rem-calc(12) !default;
 $input-error-message-font-weight: $font-weight-normal !default;
 $input-error-message-font-style: italic !default;
-$input-error-message-font-color: $white !default;
-$input-error-message-bg-color: $alert-color !default;
-$input-error-message-font-color-alt: $oil !default;
+$input-error-message-font-colour: $white !default;
+$input-error-message-bg-colour: $alert-colour !default;
+$input-error-message-font-colour-alt: $oil !default;
 
 // We use this to style the glowing effect of inputs when focused
 $glowing-effect-fade-time: 0.45s !default;
-$glowing-effect-color: $input-focus-border-color !default;
+$glowing-effect-colour: $input-focus-border-colour !default;
 
 // Select variables
-$select-bg-color: $ghost !default;
-$select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
+$select-bg-colour: $ghost !default;
+$select-hover-bg-colour: scale-colour($select-bg-colour, $lightness: -3%) !default;
 
 //
 // @MIXINS
@@ -110,15 +110,15 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
 //
 // We use this mixin to give all basic form elements their style
 @mixin form-element {
-  background-color: $input-bg-color;
+  background-colour: $input-bg-colour;
   font-family: $input-font-family;
   border: {
     style: $input-border-style;
     width: $input-border-width;
-    color: $input-border-color;
+    colour: $input-border-colour;
   }
   box-shadow: $input-box-shadow;
-  color: $input-font-color;
+  colour: $input-font-colour;
   display: block;
   font-size: $input-font-size;
   margin: 0 0 $form-spacing 0;
@@ -127,25 +127,25 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
   width: 100%;
   @include box-sizing(border-box);
   @if $input-include-glowing-effect {
-    @include block-glowing-effect(focus, $glowing-effect-fade-time, $glowing-effect-color);
+    @include block-glowing-effect(focus, $glowing-effect-fade-time, $glowing-effect-colour);
   }
   // Basic focus styles
   &:focus {
-    background: $input-focus-bg-color;
-    border-color: $input-focus-border-color;
+    background: $input-focus-bg-colour;
+    border-colour: $input-focus-border-colour;
     outline: none;
   }
   // Disbaled Styles
   &:disabled {
-    background-color: $input-disabled-bg;
+    background-colour: $input-disabled-bg;
     cursor: $input-disabled-cursor;
   }
 
-  // Disabled background input background color
+  // Disabled background input background colour
   &[disabled],
   &[readonly],
   fieldset[disabled] & {
-    background-color: $input-disabled-bg;
+    background-colour: $input-disabled-bg;
     cursor: $input-disabled-cursor;
   }
 }
@@ -161,7 +161,7 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
   // Control whether or not the base styles come through.
   @if $base-style {
     font-size: $form-label-font-size;
-    color: $form-label-font-color;
+    colour: $form-label-font-colour;
     cursor: $form-label-pointer;
     display: block;
     font-weight: $form-label-font-weight;
@@ -200,23 +200,23 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
 // @MIXIN
 //
 // We use this mixin to create prefix label styles
-// $bg - Default:$input-prefix-bg || scale-color($white, $lightness: -5%) !default;
+// $bg - Default:$input-prefix-bg || scale-colour($white, $lightness: -5%) !default;
 // $is-button - Toggle position settings if prefix is a button. Default:false
 //
-@mixin prefix($bg:$input-prefix-bg, $border:$input-prefix-border-color, $is-button:false) {
+@mixin prefix($bg:$input-prefix-bg, $border:$input-prefix-border-colour, $is-button:false) {
 
   @if $bg {
     $bg-lightness: lightness($bg);
     background: $bg;
     border-#{$opposite-direction}: none;
 
-    // Control the font color based on background brightness
-    @if $bg-lightness > 70% or $bg == yellow { color: $input-prefix-font-color; }
-    @else { color: $input-prefix-font-color-alt; }
+    // Control the font colour based on background brightness
+    @if $bg-lightness > 70% or $bg == yellow { colour: $input-prefix-font-colour; }
+    @else { colour: $input-prefix-font-colour-alt; }
   }
 
   @if $border {
-    border-color: $border;
+    border-colour: $border;
   }
 
   @if $is-button {
@@ -233,22 +233,22 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
 // @MIXIN
 //
 // We use this mixin to create postfix label styles
-// $bg - Default:$input-prefix-bg || scale-color($white, $lightness: -5%) !default;
+// $bg - Default:$input-prefix-bg || scale-colour($white, $lightness: -5%) !default;
 // $is-button - Toggle position settings if prefix is a button. Default: false
-@mixin postfix($bg:$input-prefix-bg, $border:$input-prefix-border-color, $is-button:false) {
+@mixin postfix($bg:$input-prefix-bg, $border:$input-prefix-border-colour, $is-button:false) {
 
   @if $bg {
     $bg-lightness: lightness($bg);
     background: $bg;
     border-#{$default-float}: none;
 
-    // Control the font color based on background brightness
-    @if $bg-lightness > 70%  or $bg == yellow { color: $input-prefix-font-color; }
-    @else { color: $input-prefix-font-color-alt; }
+    // Control the font colour based on background brightness
+    @if $bg-lightness > 70%  or $bg == yellow { colour: $input-prefix-font-colour; }
+    @else { colour: $input-prefix-font-colour-alt; }
   }
 
   @if $border {
-    border-color: $border;
+    border-colour: $border;
   }
 
   @if $is-button {
@@ -264,7 +264,7 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
 
 // We use this mixin to style fieldsets
 @mixin fieldset {
-  border: $fieldset-border-width $fieldset-border-style $fieldset-border-color;
+  border: $fieldset-border-width $fieldset-border-style $fieldset-border-colour;
   padding: $fieldset-padding;
   margin: $fieldset-margin;
 
@@ -280,30 +280,30 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
 
 // @MIXIN
 //
-// We use this mixin to control border and background color of error inputs
-// $color - Default: $alert-color (found in settings file)
-@mixin form-error-color($color:$alert-color) {
-  border-color: $color;
-  background-color: rgba($color, 0.1);
+// We use this mixin to control border and background colour of error inputs
+// $colour - Default: $alert-colour (found in settings file)
+@mixin form-error-colour($colour:$alert-colour) {
+  border-colour: $colour;
+  background-colour: rgba($colour, 0.1);
 
   // Go back to normal on focus
   &:focus {
-    background: $input-focus-bg-color;
-    border-color: $input-focus-border-color;
+    background: $input-focus-bg-colour;
+    border-colour: $input-focus-border-colour;
   }
 }
 
 // @MIXIN
 //
 // We use this simple mixin to style labels for error inputs
-// $color - Default:$alert-color. Found in settings file
-@mixin form-label-error-color($color:$alert-color) { color: $color; }
+// $colour - Default:$alert-colour. Found in settings file
+@mixin form-label-error-colour($colour:$alert-colour) { colour: $colour; }
 
 // @MIXIN
 //
 // We use this mixin to create error message styles
-// $bg - Default: $alert-color (Found in settings file)
-@mixin form-error-message($bg:$input-error-message-bg-color) {
+// $bg - Default: $alert-colour (Found in settings file)
+@mixin form-error-message($bg:$input-error-message-bg-colour) {
   display: block;
   padding: $input-error-message-padding;
   margin-top: $input-error-message-top;
@@ -312,18 +312,18 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
   font-weight: $input-error-message-font-weight;
   font-style: $input-error-message-font-style;
 
-  // We can control the text color based on the brightness of the background.
+  // We can control the text colour based on the brightness of the background.
   $bg-lightness: lightness($bg);
   background: $bg;
-  @if $bg-lightness < 70% or $bg == yellow { color: $input-error-message-font-color; }
-  @else { color: $input-error-message-font-color-alt; }
+  @if $bg-lightness < 70% or $bg == yellow { colour: $input-error-message-font-colour; }
+  @else { colour: $input-error-message-font-colour-alt; }
 }
 
 // We use this mixin to style select elements
 @mixin form-select  {
   -webkit-appearance: none !important;
   border-radius: 0;
-  background-color: $select-bg-color;
+  background-colour: $select-bg-colour;
 
   // Hide the dropdown arrow shown in newer IE versions
   &::-ms-expand {
@@ -341,22 +341,22 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
   border: {
     style: $input-border-style;
     width: $input-border-width;
-    color: $input-border-color;
+    colour: $input-border-colour;
   }
   padding: ($form-spacing / 2);
   font-size: $input-font-size;
   font-family: $body-font-family;
-  color: $input-font-color;
+  colour: $input-font-colour;
   line-height: normal;
   @include radius(0);
   &.radius { @include radius($global-radius); }
   &:hover {
-    background-color: $select-hover-bg-color;
-    border-color: $input-focus-border-color;
+    background-colour: $select-hover-bg-colour;
+    border-colour: $input-focus-border-colour;
   }
   // Disabled Styles
   &:disabled {
-    background-color: $input-disabled-bg;
+    background-colour: $input-disabled-bg;
     cursor: $input-disabled-cursor;
   }
 }
@@ -388,7 +388,7 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
       /* Styles for required inputs */
       small {
         text-transform: $form-label-small-transform;
-        color: scale-color($form-label-font-color, $lightness: 15%);
+        colour: scale-colour($form-label-font-colour, $lightness: 15%);
       }
     }
 
@@ -535,7 +535,7 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
 
       label,
       label.error {
-        @include form-label-error-color;
+        @include form-label-error-colour;
       }
 
       small.error {
@@ -544,7 +544,7 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
 
       > label {
         > small {
-          color: scale-color($form-label-font-color, $lightness: 15%);
+          colour: scale-colour($form-label-font-colour, $lightness: 15%);
           background: transparent;
           padding: 0;
           text-transform: $form-label-small-transform;
@@ -565,6 +565,6 @@ $select-hover-bg-color: scale-color($select-bg-color, $lightness: -3%) !default;
     select.error {
       margin-bottom: 0;
     }
-    label.error { @include form-label-error-color; }
+    label.error { @include form-label-error-colour; }
   }
 }

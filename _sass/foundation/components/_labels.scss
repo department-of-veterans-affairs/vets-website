@@ -16,8 +16,8 @@ $label-radius: $global-radius !default;
 // We use these to style the label text
 $label-font-sizing: rem-calc(11) !default;
 $label-font-weight: $font-weight-normal !default;
-$label-font-color: $oil !default;
-$label-font-color-alt: $white !default;
+$label-font-colour: $oil !default;
+$label-font-colour-alt: $white !default;
 $label-font-family: $body-font-family !default;
 
 //
@@ -49,21 +49,21 @@ $label-font-family: $body-font-family !default;
 // @mixins
 //
 // We use this mixin to add label styles.
-// $bg - Default: $primary-color (found in settings file)
+// $bg - Default: $primary-colour (found in settings file)
 // $radius - Default: false, Options: true, sets radius to $global-radius (found in settings file)
-@mixin label-style($bg:$primary-color, $radius:false) {
+@mixin label-style($bg:$primary-colour, $radius:false) {
 
-  // We control which background color comes through
+  // We control which background colour comes through
   @if $bg {
 
-    // This find the lightness percentage of the background color.
+    // This find the lightness percentage of the background colour.
     $bg-lightness: lightness($bg);
 
-    background-color: $bg;
+    background-colour: $bg;
 
-    // We control the text color for you based on the background color.
-    @if $bg-lightness < 70% { color: $label-font-color-alt; }
-    @else { color: $label-font-color; }
+    // We control the text colour for you based on the background colour.
+    @if $bg-lightness < 70% { colour: $label-font-colour-alt; }
+    @else { colour: $label-font-colour; }
   }
 
   // We use this to control the radius on labels.
@@ -77,9 +77,9 @@ $label-font-family: $body-font-family !default;
 // We use this to add close buttons to alerts
 // $padding - Default: $label-padding,
 // $text-size - Default: $label-font-sizing,
-// $bg - Default: $primary-color(found in settings file)
+// $bg - Default: $primary-colour(found in settings file)
 // $radius - Default: false, Options: true which sets radius to $global-radius (found in settings file)
-@mixin label($padding:$label-padding, $text-size:$label-font-sizing, $bg:$primary-color, $radius:false) {
+@mixin label($padding:$label-padding, $text-size:$label-font-sizing, $bg:$primary-colour, $radius:false) {
 
   @include label-base;
   @include label-size($padding, $text-size);
@@ -96,11 +96,11 @@ $label-font-family: $body-font-family !default;
       &.radius { @include label-style(false, true); }
       &.round { @include label-style(false, $radius:1000px); }
 
-      &.alert     { @include label-style($alert-color); }
-      &.warning   { @include label-style($warning-color); }
-      &.success   { @include label-style($success-color); }
-      &.secondary { @include label-style($secondary-color); }
-      &.info      { @include label-style($info-color); }
+      &.alert     { @include label-style($alert-colour); }
+      &.warning   { @include label-style($warning-colour); }
+      &.success   { @include label-style($success-colour); }
+      &.secondary { @include label-style($secondary-colour); }
+      &.info      { @include label-style($info-colour); }
     }
   }
 }

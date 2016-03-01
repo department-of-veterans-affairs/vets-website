@@ -15,7 +15,7 @@
 
 $include-html-form-classes: $include-html-classes !default;
 
-// Controlling background color for the switch container
+// Controlling background colour for the switch container
 $switch-bg: $gainsboro !default;
 
 // We use these to control the switch heights for our default classes
@@ -29,7 +29,7 @@ $switch-bottom-margin: 1.5rem !default;
 $switch-paddle-bg: $white !default;
 $switch-paddle-transition-speed: .15s !default;
 $switch-paddle-transition-ease: ease-out !default;
-$switch-active-color: $primary-color !default;
+$switch-active-colour: $primary-colour !default;
 
 
 //
@@ -57,7 +57,7 @@ $switch-active-color: $primary-color !default;
     display: block;
     margin-bottom: ($switch-height-med / 2);
     position: relative;
-    color: transparent;
+    colour: transparent;
     background: $switch-bg;
     text-indent: 100%;
     width: $switch-height-med * 2; height: $switch-height-med;
@@ -105,7 +105,7 @@ $switch-active-color: $primary-color !default;
   }
 
   input:checked + label {
-    background: $switch-active-color;
+    background: $switch-active-colour;
   }
 
   input:checked + label:after {
@@ -136,23 +136,23 @@ $switch-active-color: $primary-color !default;
 
 }
 
-// We use this mixin to add color and other fanciness to the switches.
+// We use this mixin to add colour and other fanciness to the switches.
 //
 // $paddle-bg - Background of switch paddle. Default: $switch-paddle-bg.
-// $active-color - Background color of positive side of switch. Default: $switch-positive-color.
-// $negative-color - Background color of negative side of switch. Default: $switch-negative-color.
+// $active-colour - Background colour of positive side of switch. Default: $switch-positive-colour.
+// $negative-colour - Background colour of negative side of switch. Default: $switch-negative-colour.
 // $radius - Radius to apply to switch. Default: false.
 // $base-style - Apply base styles? Default: true.
 @mixin switch-style(
   $paddle-bg:$switch-paddle-bg,
-  $active-color:$switch-active-color,
+  $active-colour:$switch-active-colour,
   $radius:false,
   $base-style:true) {
 
   @if $base-style {
 
     label {
-      color: transparent;
+      colour: transparent;
       background: $switch-bg;
     }
 
@@ -161,7 +161,7 @@ $switch-active-color: $primary-color !default;
     }
 
     input:checked + label {
-      background: $active-color;
+      background: $active-colour;
     }
   }
 
@@ -191,7 +191,7 @@ $switch-active-color: $primary-color !default;
 // $transition-ease - Easing function to use for animation (i.e. ease-out). Default: $switch-paddle-transition-ease.
 // $height - Height (in px) of the switch. Default: $switch-height-med.
 // $paddle-bg - Background of switch paddle. Default: $switch-paddle-bg.
-// $active-color - Background color of an active switch. Default: $switch-active-color.
+// $active-colour - Background colour of an active switch. Default: $switch-active-colour.
 // $radius - Radius to apply to switch. Default: false.
 // $base-style - Apply base styles? Default: true.
 @mixin switch(
@@ -199,12 +199,12 @@ $switch-active-color: $primary-color !default;
   $transition-ease: $switch-paddle-transition-ease,
   $height: $switch-height-med,
   $paddle-bg: $switch-paddle-bg,
-  $active-color: $switch-active-color,
+  $active-colour: $switch-active-colour,
   $radius:false,
   $base-style:true) {
     @include switch-base($transition-speed, $transition-ease);
     @include switch-size($height);
-    @include switch-style($paddle-bg, $active-color, $radius, $base-style);
+    @include switch-style($paddle-bg, $active-colour, $radius, $base-style);
 }
 
 @include exports("switch") {

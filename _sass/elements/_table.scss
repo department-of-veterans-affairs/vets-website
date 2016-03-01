@@ -5,7 +5,7 @@ table {
 
   thead {
     tr {
-      background-color: $color-gray-lightest;
+      background-colour: $colour-gray-lightest;
     }
 
     th {
@@ -20,7 +20,7 @@ table {
   }
 
   th, td {
-    border: 1px solid $color-gray;
+    border: 1px solid $colour-gray;
     padding: 1.5rem;
   }
 }
@@ -28,7 +28,7 @@ table {
 .uk-table-borderless {
   thead {
     tr {
-      background-color: transparent;
+      background-colour: transparent;
 
       th {
         border-top: 0;

@@ -17,7 +17,7 @@
 ///   }
 ///
 /// @example css - CSS Output
-///   input[type="color"],
+///   input[type="colour"],
 ///   input[type="date"],
 ///   input[type="datetime"],
 ///   input[type="datetime-local"],
@@ -35,7 +35,7 @@
 ///     border: 1px solid #f00;
 ///   }
 ///
-///   input[type="color"]:focus,
+///   input[type="colour"]:focus,
 ///   input[type="date"]:focus,
 ///   input[type="datetime"]:focus,
 ///   input[type="datetime-local"]:focus,
@@ -50,7 +50,7 @@
 ///   input[type="url"]:focus,
 ///   input[type="week"]:focus,
 ///   textarea:focus,
-///   input[type="color"]:hover,
+///   input[type="colour"]:hover,
 ///   input[type="date"]:hover,
 ///   input[type="datetime"]:hover,
 ///   input[type="datetime-local"]:hover,
@@ -68,7 +68,7 @@
 ///     border: 1px solid #0f0;
 ///   }
 ///
-///   input[type="color"]:active,
+///   input[type="colour"]:active,
 ///   input[type="date"]:active,
 ///   input[type="datetime"]:active,
 ///   input[type="datetime-local"]:active,
@@ -90,7 +90,7 @@
 ///
 /// @type List
 
-$text-inputs-list: 'input[type="color"]',
+$text-inputs-list: 'input[type="colour"]',
                    'input[type="date"]',
                    'input[type="datetime"]',
                    'input[type="datetime-local"]',

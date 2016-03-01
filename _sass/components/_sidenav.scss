@@ -2,7 +2,7 @@
   @include unstyled-list();
 
   li {
-    border-top: 1px solid $color-gray;
+    border-top: 1px solid $colour-gray;
     font-size: $h4-font-size;
 
     &:first-child {
@@ -12,15 +12,15 @@
 
   a {
     border: none;
-    color: $color-base;
+    colour: $colour-base;
     display: block;
     font-family: $font-sans;
     line-height: 1;
     padding: 1rem 1rem 1rem 1.8rem;
 
     &:hover {
-      background-color: $color-gray-lightest;
-      color: $color-primary;
+      background-colour: $colour-gray-lightest;
+      colour: $colour-primary;
       text-decoration: none;
     }
 
@@ -30,12 +30,12 @@
     }
 
     &.uk-current {
-      color: $color-primary;
+      colour: $colour-primary;
       font-weight: $font-bold;
     }
 
     &.uk-current {
-      border-left: 4px solid $color-primary;
+      border-left: 4px solid $colour-primary;
       padding-left: 1.4rem;
     }
   }
