@@ -16,6 +16,7 @@
     '__DEV__': true,
     'assert': true,
     'chai': true,
+    'sinon': true,
     'expect': true,
     'fixture': true
   },

@@ -37,7 +37,7 @@ if (window.location.pathname.startsWith('/health-care/form/')) {
   if (__DEV__) {
     // Use code chunking because most pages do not need this piece of JS.
     require.ensure([], (require) => {
-      const ReactEntry = require('../../_health-care/_js/_react-entry.jsx');
+      const ReactEntry = require('../../_health-care/_js/react-entry.jsx');
       $(document).ready(ReactEntry.init);
       window.ReactEntry = ReactEntry;  // Attach to window for easy debugging.
     });

@@ -49,13 +49,18 @@
     "karma-json-fixtures-preprocessor": "0.0.6",
     "karma-mocha": "^0.2.1",
     "karma-phantomjs-launcher": "^0.2.2",
+    "karma-sinon-chai": "^1.2.0",
     "karma-sourcemap-loader": "^0.3.7",
     "karma-webpack": "^1.7.0",
+    "lolex": "^1.4.0",
     "mocha": "^2.4.5",
     "npm": "^3.7.2",
     "phantomjs": "^1.9.19",
     "phantomjs-polyfill": "0.0.1",
-    "react-addons-test-utils": "^0.14.7"
+    "react-addons-test-utils": "^0.14.7",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0",
+    "skin-deep": "^0.14.0"
   },
   "scripts": {
     "karma": "karma",

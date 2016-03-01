@@ -1,11 +1,11 @@
 import React from 'react';
 
-import DateInput from './date-input';
-import FullName from './full-name';
-import MothersMaidenName from './mothers-maiden-name';
-import SocialSecurityNumber from './social-security-number';
-import Gender from './gender';
-import AddressState from './address-state';
+import AddressState from './AddressState';
+import DateInput from '../form-elements/DateInput';
+import FullName from './FullName';
+import Gender from './Gender';
+import MothersMaidenName from './MothersMaidenName';
+import SocialSecurityNumber from './SocialSecurityNumber';
 
 class NameAndGeneralInfoSection extends React.Component {
   render() {
@@ -25,7 +25,7 @@ class NameAndGeneralInfoSection extends React.Component {
               <MothersMaidenName name={this.props.data.mothersMaidenName}
                   onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);}}/>
               <SocialSecurityNumber ssn={this.props.data.socialSecurityNumber}
-                  onUserInput={(update) => {this.props.onStateChange('socialSecurityNumber', update);}}/>
+                  onValueChange={(update) => {this.props.onStateChange('socialSecurityNumber', update);}}/>
               <Gender gender={this.props.data.gender}
                   onUserInput={(update) => {this.props.onStateChange('gender', update);}}/>
             </div>
