@@ -34,19 +34,18 @@ describe('<ContinueButton>', () => {
     expect(buttons).to.have.lengthOf(1);
   });
 
-  it('calls handleContinue() on click', (done) => {
+  it('calls handleContinue() on click', () => {
     let continueButton;
 
     const updatePromise = new Promise((resolve, _reject) => {
       continueButton = ReactTestUtils.renderIntoDocument(
-        <ContinueButton onButtonClick={() => { resolve('ugly'); }}/>
+        <ContinueButton onButtonClick={() => { resolve(true); }}/>
       );
     });
 
-    // Check that current path has been updated
     const button = ReactTestUtils.findRenderedDOMComponentWithTag(continueButton, 'button');
     ReactTestUtils.Simulate.click(button);
 
-    return expect(updatePromise).to.eventually.eql('ugly');
+    return expect(updatePromise).to.eventually.eql(true);
   });
 });
