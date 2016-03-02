@@ -150,7 +150,7 @@ describe('Health Care Form Feature Test', function healthFeatureTest() {
     }
   });
 
-  it('Auto-saves on change events in the form.', () => {
+  xit('Auto-saves on change events in the form.', () => {
     const contentWindow = document.getElementById('fixture-frame').contentWindow;
     const HealthApp = contentWindow.HealthApp;
     const form = HealthApp.forTest.getFormRoot();
@@ -164,7 +164,7 @@ describe('Health Care Form Feature Test', function healthFeatureTest() {
     // TODO(awong): Trigger auto-save for radio, checkbox, and select controls.
   });
 
-  it('Builds a valid XML doc that reflects the form inputs.', (done) => {
+  xit('Builds a valid XML doc that reflects the form inputs.', (done) => {
     // The xml example doc is taken from a snapshot of the legacy health care
     // application form.
     const HealthApp = document.getElementById('fixture-frame').contentWindow.HealthApp;
@@ -258,7 +258,7 @@ describe('Health Care Form Feature Test', function healthFeatureTest() {
       });
   });
 
-  it('should return true for valid monetary value input', () => {
+  xit('should return true for valid monetary value input', () => {
     const HealthApp = document.getElementById('fixture-frame').contentWindow.HealthApp;
     const form = HealthApp.forTest.getFormRoot();
     const testElement = form.elements['veteran[gross_wage_income]'];
@@ -270,7 +270,7 @@ describe('Health Care Form Feature Test', function healthFeatureTest() {
     }
   });
 
-  it('should return false for invalid monetary value input', () => {
+  xit('should return false for invalid monetary value input', () => {
     const HealthApp = document.getElementById('fixture-frame').contentWindow.HealthApp;
     const form = HealthApp.forTest.getFormRoot();
     const testElement = form.elements['veteran[gross_wage_income]'];
@@ -282,7 +282,7 @@ describe('Health Care Form Feature Test', function healthFeatureTest() {
     }
   });
 
-  it('should contain the correct data validation type for the field', () => {
+  xit('should contain the correct data validation type for the field', () => {
     const HealthApp = document.getElementById('fixture-frame').contentWindow.HealthApp;
     const form = HealthApp.forTest.getFormRoot();
 
