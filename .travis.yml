@@ -1,4 +1,9 @@
 language: ruby
+
+branches:
+  only:
+    - master
+
 install:
   - rake install
 
