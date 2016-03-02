@@ -25,9 +25,8 @@ module.exports = function(config) {
       // PhantomJS doesn't have ES6 Promises.
       'node_modules/babel-polyfill/dist/polyfill.js',
       'spec/javascripts/**/*.spec.js?(x)',
-      { pattern: '_site/health-care/form/index.html', watched: true, included: false, served: true, nocache: true },
       { pattern: '_site/**/*', watched: false, included: false, served: true, nocache: true },
-      { pattern: 'spec/fixtures/javascripts/**/*', watched: true, included: false, served: true, nocache: true },
+      { pattern: 'spec/fixtures/javascripts/**/*', watched: false, included: false, served: true, nocache: true },
       { pattern: 'spec/fixtures/html/**/*' },
       { pattern: 'spec/fixtures/json/**/*' }
     ],
@@ -41,8 +40,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'spec/javascripts/**/*.spec.js': ['webpack', 'sourcemap'],
-      'spec/javascripts/**/*.spec.jsx': ['webpack', 'sourcemap'],
+      'spec/javascripts/**/*.spec.js?(x)': ['webpack', 'sourcemap'],
       'spec/fixtures/html/**/*.html'   : ['html2js'],
       'spec/fixtures/json/**/*.json'   : ['json_fixtures']
     },
@@ -85,10 +83,14 @@ module.exports = function(config) {
       }
     },
 
+    webpackMiddleware: {
+      // Don't spam Karma with output.
+      noInfo: true
+    },
+
     // test results reporter to use
-    // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['mocha'],
 
 
     // web server port
@@ -132,7 +134,7 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS', 'PhantomJS_debug'],
+    browsers: ['PhantomJS'],
 
     customLaunchers: {
       'PhantomJS_debug': {

@@ -18,54 +18,46 @@ describe('<ErrorableTextInput>', () => {
     it('label is required', () => {
       SkinDeep.shallowRender(
         <ErrorableTextInput onValueChange={(_update) => {}}/>);
-      expect(consoleStub.calledOnce).to.equal(true);
       sinon.assert.calledWithMatch(consoleStub, /Required prop `label` was not specified in `ErrorableTextInput`/);
     });
 
     it('label must be a string', () => {
       SkinDeep.shallowRender(
         <ErrorableTextInput label onValueChange={(_update) => {}}/>);
-      expect(consoleStub.calledOnce).to.equal(true);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `label` of type `boolean` supplied to `ErrorableTextInput`, expected `string`./);
     });
 
     it('onValueChange is required', () => {
       SkinDeep.shallowRender(<ErrorableTextInput label="test"/>);
-      expect(consoleStub.calledOnce).to.equal(true);
       sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `ErrorableTextInput`/);
     });
 
     it('onValueChange must be a function', () => {
       SkinDeep.shallowRender(<ErrorableTextInput label="test" onValueChange/>);
-      expect(consoleStub.calledOnce).to.equal(true);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `ErrorableTextInput`, expected `function`/);
     });
 
     it('errorMessage must be a string', () => {
       SkinDeep.shallowRender(
         <ErrorableTextInput label="test" errorMessage onValueChange={(_update) => {}}/>);
-      expect(consoleStub.calledOnce).to.equal(true);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `errorMessage` of type `boolean` supplied to `ErrorableTextInput`, expected `string`/);
     });
 
     it('placeholder must be a string', () => {
       SkinDeep.shallowRender(
         <ErrorableTextInput label="test" placeholder onValueChange={(_update) => {}}/>);
-      expect(consoleStub.calledOnce).to.equal(true);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `placeholder` of type `boolean` supplied to `ErrorableTextInput`, expected `string`/);
     });
 
     it('value must be a string', () => {
       SkinDeep.shallowRender(
         <ErrorableTextInput label="test" value onValueChange={(_update) => {}}/>);
-      expect(consoleStub.calledOnce).to.equal(true);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `value` of type `boolean` supplied to `ErrorableTextInput`, expected `string`/);
     });
 
     it('required must be a boolean', () => {
       SkinDeep.shallowRender(
         <ErrorableTextInput label="test" required="hi" onValueChange={(_update) => {}}/>);
-      expect(consoleStub.calledOnce).to.equal(true);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `required` of type `string` supplied to `ErrorableTextInput`, expected `boolean`/);
     });
   });
@@ -83,7 +75,7 @@ describe('<ErrorableTextInput>', () => {
     input.value = 'newValue';
     ReactTestUtils.Simulate.change(input);
 
-    expect(updatePromise).to.eventually.equal('newValue');
+    return expect(updatePromise).to.eventually.eql('newValue');
   });
 
   it('no error styles when errorMessage undefined', () => {
