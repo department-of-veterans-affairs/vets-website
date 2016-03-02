@@ -73,6 +73,6 @@ If you're a designer, writer, user experience designer or usability expert, we n
 
 <div class="disclaimer" markdown="1">
 
-Image source: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Finley%27s_Map_1826_BHoU-p28.png)
+Image source: [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Utah_counties_%26_cities.jpg)
 
 </div>
