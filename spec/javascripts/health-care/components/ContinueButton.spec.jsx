@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 
 import ContinueButton from '../../../../_health-care/_js/components/ContinueButton';
@@ -33,25 +34,19 @@ describe('<ContinueButton>', () => {
     expect(buttons).to.have.lengthOf(1);
   });
 
-  it('calls handleContinue() on click', () => {
+  it('calls handleContinue() on click', (done) => {
     let continueButton;
 
     const updatePromise = new Promise((resolve, _reject) => {
       continueButton = ReactTestUtils.renderIntoDocument(
-        <ContinueButton onButtonClick={(update) => { resolve(update); }}/>
+        <ContinueButton onButtonClick={() => { resolve('ugly'); }}/>
       );
     });
 
-    // Copied from other test example
-    // const input = ReactTestUtils.findRenderedDOMComponentWithTag(errorableInput, 'input');
-    // input.value = 'newValue';
-    // ReactTestUtils.Simulate.change(input);
-    // return expect(updatePromise).to.eventually.eql('newValue');
-
     // Check that current path has been updated
-    const currentPath = '';
-    ReactTestUtils.Simulate.click(continueButton);
+    const button = ReactTestUtils.findRenderedDOMComponentWithTag(continueButton, 'button');
+    ReactTestUtils.Simulate.click(button);
 
-    return excpect(updatePromise).to.eventually.eql('')
+    return expect(updatePromise).to.eventually.eql('ugly');
   });
 });
