@@ -32,4 +32,26 @@ describe('<ContinueButton>', () => {
     const buttons = tree.everySubTree('button');
     expect(buttons).to.have.lengthOf(1);
   });
+
+  it('calls handleContinue() on click', () => {
+    let continueButton;
+
+    const updatePromise = new Promise((resolve, _reject) => {
+      continueButton = ReactTestUtils.renderIntoDocument(
+        <ContinueButton onButtonClick={(update) => { resolve(update); }}/>
+      );
+    });
+
+    // Copied from other test example
+    // const input = ReactTestUtils.findRenderedDOMComponentWithTag(errorableInput, 'input');
+    // input.value = 'newValue';
+    // ReactTestUtils.Simulate.change(input);
+    // return expect(updatePromise).to.eventually.eql('newValue');
+
+    // Check that current path has been updated
+    const currentPath = '';
+    ReactTestUtils.Simulate.click(continueButton);
+
+    return excpect(updatePromise).to.eventually.eql('')
+  });
 });
