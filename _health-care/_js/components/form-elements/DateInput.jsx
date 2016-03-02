@@ -6,7 +6,6 @@ import { isValidDate } from '../../utils/validations';
 class DateInput extends React.Component {
   constructor() {
     super();
-    this.state = { hasError: false };
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -16,47 +15,60 @@ class DateInput extends React.Component {
 
   handleChange() {
     const date = {
-      month: this.refs.month.value,
-      day: this.refs.day.value,
-      year: this.refs.year.value
+      month: Number(this._month.value),
+      day: Number(this._day.value),
+      year: Number(this._year.value)
     };
 
-    // Update UI based on validation.
-    if (!isValidDate(date.day, date.month, date.year)) {
-      this.setState({ hasError: true });
-    } else {
-      this.setState({ hasError: false });
-    }
-
-    // Publish change up.
-    this.props.onUserInput(date);
+    this.props.onValueChange(date);
   }
 
   render() {
-    const errorClass = this.state.hasError ? 'usa-input-error' : '';
+    const isValid = isValidDate(this.props.day, this.props.month, this.props.year);
     return (
-      <div className={errorClass}>
+      <div className={isValid ? undefined : 'usa-input-error'}>
         <div className="usa-date-of-birth">
           <div className="usa-datefield usa-form-group usa-form-group-month">
-            <label htmlFor={`${this.id}-month`}>Month</label>
-            <input id={`${this.id}-month`} aria-describedby="dobHint"
-                className="usa-form-control" pattern="0?[1-9]|1[012]"
-                type="number" min="1" max="12" value={this.props.date.month}
-                ref="month" onChange={this.handleChange}/>
+            <label
+                className={isValid ? undefined : 'usa-input-error-label'}
+                htmlFor={`${this.id}-month`}>
+              Month
+            </label>
+            <input
+                className="usa-form-control"
+                id={`${this.id}-month`}
+                max="12"
+                min="1"
+                pattern="0?[1-9]|1[012]"
+                ref={(c) => { this._month = c }}
+                type="number"
+                value={this.props.month}
+                onChange={this.handleChange}/>
           </div>
           <div className="usa-datefield usa-form-group usa-form-group-day">
             <label htmlFor={`${this.id}-day`}>Day</label>
-            <input id={`${this.id}-day`} aria-describedby="dobHint"
-                className="usa-form-control" pattern="0?[1-9]|1[0-9]|2[0-9]|3[01]"
-                type="number" min="1" max="31" value={this.props.date.day}
-                ref="day" onChange={this.handleChange}/>
+            <input
+                className="usa-form-control"
+                id={`${this.id}-day`}
+                max="31"
+                min="1"
+                pattern="0?[1-9]|1[0-9]|2[0-9]|3[01]"
+                ref={(c) => { this._day = c }}
+                type="number"
+                value={this.props.day}
+                onChange={this.handleChange}/>
           </div>
           <div className="usa-datefield usa-form-group usa-form-group-year">
             <label htmlFor={`${this.id}-year`}>Year</label>
-            <input id={`${this.id}-year`} aria-describedby="dobHint"
-                className="usa-form-control" pattern="[0-9]{4}" type="number"
-                min="1900" max={new Date().getFullYear()}
-                value={this.props.date.year} ref="year"
+            <input
+                className="usa-form-control"
+                id={`${this.id}-year`}
+                max={new Date().getFullYear()}
+                min="1900"
+                pattern="[0-9]{4}"
+                ref={(c) => { this._year = c }}
+                type="number"
+                value={this.props.year}
                 onChange={this.handleChange}/>
           </div>
         </div>
@@ -64,5 +76,12 @@ class DateInput extends React.Component {
     );
   }
 }
+
+DateInput.propTypes = {
+  day: React.PropTypes.number.isRequired,
+  month: React.PropTypes.number.isRequired,
+  year: React.PropTypes.number.isRequired,
+  onValueChange: React.PropTypes.func.isRequired,
+};
 
 export default DateInput;

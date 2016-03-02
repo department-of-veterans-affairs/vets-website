@@ -32,8 +32,11 @@ class NameAndGeneralInfoSection extends React.Component {
             <div className="small-12 columns">
               <h4>Date of Birth</h4>
               <span className="usa-form-hint usa-datefield-hint" id="dobHint">For example: 04 28 1986</span>
-              <DateInput date={this.props.data.dateOfBirth}
-                  onUserInput={(update) => {this.props.onStateChange('dateOfBirth', update);}}/>
+              <DateInput
+                  day={this.props.data.dateOfBirth.day}
+                  month={this.props.data.dateOfBirth.month}
+                  year={this.props.data.dateOfBirth.year}
+                  onValueChange={(update) => {this.props.onStateChange('dateOfBirth', update);}}/>
             </div>
           </div>
 
