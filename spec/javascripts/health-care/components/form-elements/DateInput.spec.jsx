@@ -67,7 +67,6 @@ describe('<DateInput>', () => {
   describe('error css', () => {
     it('no error styles when date is valid', () => {
       // Smarch is not a real month.
-      const smarch = { month: 13, day: 1, year: 2010 };
       const tree = SkinDeep.shallowRender(
         <DateInput day="1" month="12" year="2010" onValueChange={(_update) => {}}/>);
       expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(0);
@@ -75,8 +74,6 @@ describe('<DateInput>', () => {
     });
 
     it('has error styles when date is invalid', () => {
-      // Smarch is not a real month.
-      const smarch = { month: 13, day: 1, year: 2010 };
       const tree = SkinDeep.shallowRender(
         <DateInput day="1" month="13" year="2010" onValueChange={(_update) => {}}/>);
       expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(1);

@@ -40,7 +40,7 @@ class DateInput extends React.Component {
                 max="12"
                 min="1"
                 pattern="0?[1-9]|1[012]"
-                ref={(c) => { this._month = c }}
+                ref={(c) => { this._month = c; }}
                 type="number"
                 value={this.props.month}
                 onChange={this.handleChange}/>
@@ -53,7 +53,7 @@ class DateInput extends React.Component {
                 max="31"
                 min="1"
                 pattern="0?[1-9]|1[0-9]|2[0-9]|3[01]"
-                ref={(c) => { this._day = c }}
+                ref={(c) => { this._day = c; }}
                 type="number"
                 value={this.props.day}
                 onChange={this.handleChange}/>
@@ -66,7 +66,7 @@ class DateInput extends React.Component {
                 max={new Date().getFullYear()}
                 min="1900"
                 pattern="[0-9]{4}"
-                ref={(c) => { this._year = c }}
+                ref={(c) => { this._year = c; }}
                 type="number"
                 value={this.props.year}
                 onChange={this.handleChange}/>
