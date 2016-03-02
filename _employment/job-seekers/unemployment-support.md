@@ -9,7 +9,7 @@ template: 1-topic-landing
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
+      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
     </div>
   </div>
 </div>
@@ -33,7 +33,7 @@ You
 
 ### How it works
 
-You must apply for unemployment benefits in the state in which you reside. You can do this in person at your [state employment office](http://www.servicelocator.org/OWSLinks.asp) or, in some cases, online. Your state office will then determine if you are eligible, how much you may receive, and for how long. Unemployment benefits may vary from state to state. Some states do not pay Unemployment Compensation if you retired from active duty and is in receipt of retired military pay.
+You must apply for unemployment benefits in the state in which you reside. You can do this in person at your [state employment office](http://www.servicelocator.org/OWSLinks.asp) or, in some cases, online. Your state office will then determine if you are eligible, how much you may receive, and for how long. Unemployment benefits may vary from state to state. Some states do not pay Unemployment Compensation if you have retired from active duty and receive retired military pay.
 
 Receiving unemployment will not affect your wages, but if you receive separation or retirement pay, your compensation amount may be lower. 
 
@@ -69,13 +69,13 @@ If you are unemployed and at risk of becoming homeless, [VA can help](vets.gov h
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder: #111659432</a>
+              <a href="https://www.vets.gov/veterans-employment-center/createresume/">Résumé Builder: #111659432</a>
             </h5>
           </li>
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570 </a>
+              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Veterans Job Bank: #110298570 </a>
             </h5>
           </li>  
 
