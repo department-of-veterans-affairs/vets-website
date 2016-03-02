@@ -17,6 +17,7 @@ exclude:
   - "Rakefile"
   - "_site"
   - "_site_production"
+  - "_webpack"
   - "app.json"
   - "karma.conf.js"
   - "npm-debug.log"

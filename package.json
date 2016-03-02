@@ -61,11 +61,18 @@
     "react-addons-test-utils": "^0.14.7",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
-    "skin-deep": "^0.14.0"
+    "skin-deep": "^0.14.0",
+    "webpack-dev-server": "^1.14.1"
   },
   "scripts": {
     "karma": "karma",
-    "lint": "eslint --ext .js --ext .jsx --ignore-pattern *.min.js  _health-care/_js spec assets/js/entry.js",
+    "lint": "eslint --ext .js --ext .jsx --ignore-pattern *.min.js  _health-care/_js _webpack assets/js/entry.js spec",
+    "start": "webpack-dev-server --config webpack_dev.config.js --hot --inline --content-base _webpack/public",
+    "test": "npm run test-js && npm run lint",
+    "test-js": "karma start --single-run",
+    "watch": "npm start & npm run watch-js & npm run watch-lint",
+    "watch-js": "karma start",
+    "watch-lint": "nodemon --watch _health-care/_js --watch _webpack --watch assets/js/entry.js --ignore _webpack/public/assets/js/generated --watch spec --ext js,jsx --exec 'npm run lint'",
     "webpack": "webpack"
   },
   "private": true
