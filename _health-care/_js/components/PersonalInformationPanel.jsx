@@ -11,16 +11,20 @@ class PersonalInformationPanel extends React.Component {
     return (
       <div>
         <NameAndGeneralInfoSection
-            data={this.props.applicationData.personalInformation}
+            data={this.props.applicationData.personalInformation.nameAndGeneralInfo}
             onStateChange={
               (subfield, update) => {
                 this.props.publishStateChange(['personalInformation', subfield], update);
               }
             }/>
-        <VAInformationSection/>
-        <AdditionalInformationSection/>
-        <DemographicInformationSection/>
-        <VeteranAddressSection/>
+        <VAInformationSection
+            data={this.props.applicationData.personalInformation.vaInformation}/>
+        <AdditionalInformationSection
+            data={this.props.applicationData.personalInformation.additionalInformation}/>
+        <DemographicInformationSection
+            data={this.props.applicationData.personalInformation.demographicInformation}/>
+        <VeteranAddressSection
+            data={this.props.applicationData.personalInformation.veteranAddress}/>
       </div>
     );
   }

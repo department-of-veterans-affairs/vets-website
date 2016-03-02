@@ -26,7 +26,14 @@ body .row {
   max-width: 62.5em;
 }
 
-.main-form {
+.form-panel {
+  @include media($medium-screen) {
+    max-width: $usa-form-width;
+  }
+}
+
+.main-form,
+.progress-box {
   button {
     width: 100%;
   }

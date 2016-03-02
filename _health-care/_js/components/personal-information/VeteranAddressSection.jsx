@@ -8,8 +8,8 @@ class VeteranAddressSection extends React.Component {
           <div className="small-12 columns">
             <h4>Permanent Address</h4>
 
-            <p>For locations outside the U.S. enter City,Country in City box,
-              I.e. "Paris,France", and select Foreign Country for State.
+            <p>For locations outside the U.S., enter "City,Country" in the City field
+              (e.g., "Paris,France"), and select Foreign Country for State.
             </p>
 
             <label htmlFor="veteran_street">Street</label>
