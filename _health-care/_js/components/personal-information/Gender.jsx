@@ -1,47 +1,40 @@
 import React from 'react';
 import _ from 'lodash';
 
+/**
+ * Select component for getting a person's gender.
+ *
+ * No validation is provided since base UI elements provide all
+ * common options as provided in reference PDF/JS form.
+ */
 class Gender extends React.Component {
   constructor() {
     super();
-    this.state = { hasError: false };
     this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillMount() {
-    this.id = _.uniqueId();
+    this.selectId = _.uniqueId('gender-select-');
   }
 
-  handleChange() {
-    const gender = this.refs.gender.value;
-
-    if (this.validate(gender)) {
-      this.setState({ hasError: false });
-    } else {
-      this.setState({ hasError: true });
-    }
-
-    this.props.onUserInput(gender);
+  handleChange(domEvent) {
+    this.props.onUserInput(domEvent.target.value);
   }
 
   render() {
-    const errorClass = this.state.hasError ? 'usa-input-error' : '';
     return (
-      <div>
-        <div className={`usa-input-grid usa-input-grid-large ${errorClass}`}>
-          <label htmlFor={`${this.id}-gender`}>
-            Gender
-          </label>
-          <select
-              id={`${this.id}-gender`}
-              ref="gender"
-              value={this.props.gender}
-              onChange={this.handleChange}>
-            <option value="0"></option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-          </select>
-        </div>
+      <div className="usa-input-grid usa-input-grid-large">
+        <label htmlFor={this.selectId}>
+          Gender
+        </label>
+        <select
+            id={this.selectId}
+            onChange={this.handleChange}
+            value={this.props.value}>
+          <option value=""></option>
+          <option value="F">Female</option>
+          <option value="M">Male</option>
+        </select>
       </div>
     );
   }
