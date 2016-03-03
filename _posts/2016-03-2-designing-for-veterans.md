@@ -1,5 +1,5 @@
 ---
-title: Designing Veterans.gov
+title: Designing Vets.gov
 description:
 author: Danny Chapman
 layout: post-single
