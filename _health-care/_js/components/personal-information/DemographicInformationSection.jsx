@@ -1,5 +1,7 @@
 import React from 'react';
 
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+
 class DemographicInformationSection extends React.Component {
   render() {
     return (
@@ -12,11 +14,10 @@ class DemographicInformationSection extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <input
-                type="checkbox"
-                id="veteran_is_spanish_hispanic_latino"
-                name="veteran_is_spanish_hispanic_latino"/>
-            <label htmlFor="veteran_is_spanish_hispanic_latino">Are you Spanish, Hispanic, or Lantino?</label>
+            <ErrorableCheckbox
+                label="Are you Spanish, Hispanic, or Lantino?"
+                checked={this.props.data.isSpanishHispanicLatino}
+                onValueChange={(update) => {this.props.onStateChange('isSpanishHispanicLatino', update);}}/>
           </div>
         </div>
 
@@ -24,35 +25,30 @@ class DemographicInformationSection extends React.Component {
           <div className="small-12 columns">
             <h4>What is your race?</h4>
             <span className="usa-form-hint">You may check more than one.</span>
-            <input
-                type="checkbox"
-                id="veteran_is_american_indian_or_alaksa_native"
-                name="veteran_is_american_indian_or_alaksa_native"/>
-            <label htmlFor="veteran_is_american_indian_or_alaksa_native">American Indian or Alaksan Native</label>
+            <ErrorableCheckbox
+                label="American Indian or Alaksan Native"
+                checked={this.props.data.isAmericanIndianOrAlaskanNative}
+                onValueChange={(update) => {this.props.onStateChange('isAmericanIndianOrAlaskanNative', update);}}/>
 
-            <input
-                type="checkbox"
-                id="veteran_is_black_or_african_american"
-                name="veteran_is_black_or_african_american"/>
-            <label htmlFor="veteran_is_black_or_african_american">Black or African American</label>
+            <ErrorableCheckbox
+                label="Black or African American"
+                checked={this.props.data.isBlackOrAfricanAmerican}
+                onValueChange={(update) => {this.props.onStateChange('isBlackOrAfricanAmerican', update);}}/>
 
-            <input
-                type="checkbox"
-                id="veteran_is_native_hawaiian_or_other_pacific_islander"
-                name="veteran_is_native_hawaiian_or_other_pacific_islander"/>
-            <label htmlFor="veteran_is_native_hawaiian_or_other_pacific_islander">Native Hawaiian or Other Pacific Islander</label>
+            <ErrorableCheckbox
+                label="Native Hawaiian or Other Pacific Islander"
+                checked={this.props.data.isNativeHawaiianOrOtherPacificIslander}
+                onValueChange={(update) => {this.props.onStateChange('isNativeHawaiianOrOtherPacificIslander', update);}}/>
 
-            <input
-                type="checkbox"
-                id="veteran_is_asian"
-                name="veteran[is_asian]"/>
-            <label htmlFor="veteran_is_asian">Asian</label>
+            <ErrorableCheckbox
+                label="Asian"
+                checked={this.props.data.isAsian}
+                onValueChange={(update) => {this.props.onStateChange('isAsian', update);}}/>
 
-            <input
-                type="checkbox"
-                id="veteran_is_white"
-                name="veteran_is_white"/>
-            <label htmlFor="veteran_is_white">White</label>
+            <ErrorableCheckbox
+                label="White"
+                checked={this.props.data.isWhite}
+                onValueChange={(update) => {this.props.onStateChange('isWhite', update);}}/>
           </div>
         </div>
       </div>

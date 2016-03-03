@@ -1,5 +1,7 @@
 import React from 'react';
 
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+
 class AdditionalInformationSection extends React.Component {
   render() {
     return (
@@ -12,11 +14,10 @@ class AdditionalInformationSection extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <input
-                type="checkbox"
-                id="veteran_is_essential_aca_coverage"
-                name="veteran_is_essential_aca_coverage"/>
-            <label htmlFor="veteran_is_essential_aca_coverage">I am enrolling to obtain minimal essential coverage under the affordable care act</label>
+            <ErrorableCheckbox
+                label="I am enrolling to obtain minimal essential coverage under the affordable care act"
+                checked={this.props.data.isEssentialAcaCoverage}
+                onValueChange={(update) => {this.props.onStateChange('isEssentialAcaCoverage', update);}}/>
           </div>
         </div>
 
@@ -36,11 +37,10 @@ class AdditionalInformationSection extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <input
-                type="checkbox"
-                name="veteran_wants_initial_va_contact"
-                id="veteran_wants_initial_va_contact"/>
-            <label htmlFor="veteran_wants_initial_va_contact">Do you want VA to contact you to schedule your first appointment?</label>
+            <ErrorableCheckbox
+                label="Do you want VA to contact you to schedule your first appointment?"
+                checked={this.props.data.wantsInitialVaContact}
+                onValueChange={(update) => {this.props.onStateChange('wantsInitialVaContact', update);}}/>
           </div>
         </div>
       </div>
