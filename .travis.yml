@@ -3,6 +3,7 @@ language: ruby
 branches:
   only:
     - master
+    - production
 
 install:
   - rake install
