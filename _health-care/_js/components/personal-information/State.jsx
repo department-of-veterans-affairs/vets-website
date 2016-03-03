@@ -100,7 +100,7 @@ class State extends React.Component {
         <select
             id={this.selectId}
             onChange={this.handleChange}
-            value={this.props.optionState}>
+            value={this.props.value}>
           <option value=""></option>
           {options}
         </select>

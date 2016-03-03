@@ -30,7 +30,7 @@ class Gender extends React.Component {
         <select
             id={this.selectId}
             onChange={this.handleChange}
-            value={this.props.optionState}>
+            value={this.props.value}>
           <option value=""></option>
           <option value="F">Female</option>
           <option value="M">Male</option>
