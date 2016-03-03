@@ -84,7 +84,7 @@ end
 
 desc "Run webpack with production settings"
 task :webpack_production do
-  sh "npm run-script webpack -- -p --config webpack_production.config.js"
+  sh "npm run-script webpack-production"
 end
 
 desc "Run the development webpack in watch mode"
