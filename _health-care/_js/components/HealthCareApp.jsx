@@ -132,7 +132,7 @@ class HealthCareApp extends React.Component {
     return (
       <div className="row">
         <div className="small-12 columns">
-          <Nav/>
+          <Nav currentUrl={this.props.location.pathname}/>
           <div className="progress-box">
             <div className="form-panel">
               {children}
