@@ -61,7 +61,10 @@ class HealthCareApp extends React.Component {
             isWhite: false
           },
 
-          veteranAddress: {}
+          veteranAddress: {
+            homePhone: '555-555-5555',
+            mobilePhone: ''
+          }
         }
       }
     };

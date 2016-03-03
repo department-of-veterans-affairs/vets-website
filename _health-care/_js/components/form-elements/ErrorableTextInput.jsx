@@ -43,7 +43,7 @@ class ErrorableTextInput extends React.Component {
     }
 
     return (
-      <div className={`usa-input-grid usa-input-grid-medium ${this.props.errorMessage ? 'usa-input-error' : ''}`}>
+      <div className={`${this.props.errorMessage ? 'usa-input-error' : ''}`}>
         <label
             className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
             htmlFor={this.inputId}>
