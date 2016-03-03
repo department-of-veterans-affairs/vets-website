@@ -1,5 +1,7 @@
 import React from 'react';
 
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+
 class VaInformationSection extends React.Component {
   render() {
     return (
@@ -12,26 +14,20 @@ class VaInformationSection extends React.Component {
             Health Benefits you should complete.
           </p>
 
-          <input
-              id="veteran_is_service_connected_50_100"
-              name="veteran_is_service_connected_50_100"
-              type="checkbox"
-              value="veteran_is_service_connected_50_100"/>
-          <label htmlFor="veteran_is_service_connected_50_100">Are you VA Service Connected 50% to 100% Disabled?</label>
+          <ErrorableCheckbox
+              label="Are you VA Service Connected 50% to 100% Disabled?"
+              checked={this.props.data.isVaServiceConnected}
+              onValueChange={(update) => {this.props.onStateChange('isVaServiceConnected', update);}}/>
 
-          <input
-              id="veteran_is_compensable_va_service_connected_0_40"
-              name="veteran_is_compensable_va_service_connected_0_40"
-              type="checkbox"
-              value="veteran_is_compensable_va_service_connected_0_40"/>
-          <label htmlFor="veteran_is_compensable_va_service_connected_0_40">Are you compensable VA Service Connected 0% - 40%?</label>
+          <ErrorableCheckbox
+              label="Are you compensable VA Service Connected 0% - 40%?"
+              checked={this.props.data.compensableVaServiceConnected}
+              onValueChange={(update) => {this.props.onStateChange('compensableVaServiceConnected', update);}}/>
 
-          <input
-              id="veteran_receives_va_pension"
-              name="veteran_receives_va_pension"
-              type="checkbox"
-              value="veteran_receives_va_pension"/>
-          <label htmlFor="veteran_receives_va_pension">Do you receive a VA pension?</label>
+          <ErrorableCheckbox
+              label="Do you receive a VA pension?"
+              checked={this.props.data.receivesVaPension}
+              onValueChange={(update) => {this.props.onStateChange('receivesVaPension', update);}}/>
         </div>
       </div>
     );

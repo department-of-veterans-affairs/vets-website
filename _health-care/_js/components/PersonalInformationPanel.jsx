@@ -14,17 +14,37 @@ class PersonalInformationPanel extends React.Component {
             data={this.props.applicationData.personalInformation.nameAndGeneralInfo}
             onStateChange={
               (subfield, update) => {
-                this.props.publishStateChange(['personalInformation', subfield], update);
+                this.props.publishStateChange(['personalInformation', 'nameAndGeneralInfo', subfield], update);
               }
             }/>
         <VAInformationSection
-            data={this.props.applicationData.personalInformation.vaInformation}/>
+            data={this.props.applicationData.personalInformation.vaInformation}
+            onStateChange={
+              (subfield, update) => {
+                this.props.publishStateChange(['personalInformation', 'vaInformation', subfield], update);
+              }
+            }/>
         <AdditionalInformationSection
-            data={this.props.applicationData.personalInformation.additionalInformation}/>
+            data={this.props.applicationData.personalInformation.additionalInformation}
+            onStateChange={
+              (subfield, update) => {
+                this.props.publishStateChange(['personalInformation', 'additionalInformation', subfield], update);
+              }
+            }/>
         <DemographicInformationSection
-            data={this.props.applicationData.personalInformation.demographicInformation}/>
+            data={this.props.applicationData.personalInformation.demographicInformation}
+            onStateChange={
+              (subfield, update) => {
+                this.props.publishStateChange(['personalInformation', 'demographicInformation', subfield], update);
+              }
+            }/>
         <VeteranAddressSection
-            data={this.props.applicationData.personalInformation.veteranAddress}/>
+            data={this.props.applicationData.personalInformation.veteranAddress}
+            onStateChange={
+              (subfield, update) => {
+                this.props.publishStateChange(['personalInformation', 'veteranAddress', subfield], update);
+              }
+            }/>
       </div>
     );
   }
