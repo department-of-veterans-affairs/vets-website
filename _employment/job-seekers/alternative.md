@@ -9,7 +9,7 @@ template: 1-topic-landing
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
+      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
     </div>
   </div>
 </div>
@@ -40,7 +40,7 @@ The GI Bill supplements distance learning and correspondence courses, which can 
 You can start or grow your own business using skills you learned in the military in combination with business-management training. You may receive reimbursement through the GI Bill for approved entrepreneurship courses.
 
 **Internships , Volunteer Work, and Community Service** 
-Internships and volunteer work can advance your career and expand your network while you further your education. Community involvement and service are also productive ways to network with civilians and open the door to future employment possibilities. There are [internships available at VA](http://mycareeratva.va.gov/library/55) and [VA Volunteer opportunities](http://www.volunteer.va.gov/)
+Internships and volunteer work can advance your career and expand your network while you further your education. Community involvement and service are also productive ways to network with civilians and open the door to future employment possibilities. VA offers [internships](http://mycareeratva.va.gov/library/55) and [volunteer opportunities](http://www.volunteer.va.gov/).
 
 
 </div>
@@ -61,7 +61,7 @@ Internships and volunteer work can advance your career and expand your network w
           </li>
 
           <li>
-            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank:        #110298570</a>
+            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Veterans Job Bank:        #110298570</a>
           </li>  
 
           <li>
