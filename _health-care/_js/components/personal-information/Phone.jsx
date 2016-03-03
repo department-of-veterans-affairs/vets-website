@@ -11,7 +11,8 @@ import { isValidPhone } from '../../utils/validations.js';
  * data.
  *
  * Props:
- * `label` - String.
+ * `label` - String. Not required as a prop, can be passed directly to
+ *            ErrorableTextInput
  * `value` - String. Stores the phone number.
  * `onValueChange` - a function with this prototype: (newValue)
  */
