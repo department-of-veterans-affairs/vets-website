@@ -3,6 +3,9 @@ import _ from 'lodash';
 
 /**
  * A component for the continue button to navigate through panels of questions.
+ *
+ * Required props
+ * `onButtonClick`: function that changes the path to the next panel
  */
 class ContinueButton extends React.Component {
   componentWillMount() {

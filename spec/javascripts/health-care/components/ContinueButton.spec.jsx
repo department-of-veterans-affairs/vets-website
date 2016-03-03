@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 
 import ContinueButton from '../../../../_health-care/_js/components/ContinueButton';
@@ -31,5 +32,20 @@ describe('<ContinueButton>', () => {
     const tree = SkinDeep.shallowRender(<ContinueButton/>);
     const buttons = tree.everySubTree('button');
     expect(buttons).to.have.lengthOf(1);
+  });
+
+  it('calls handleContinue() on click', () => {
+    let continueButton;
+
+    const updatePromise = new Promise((resolve, _reject) => {
+      continueButton = ReactTestUtils.renderIntoDocument(
+        <ContinueButton onButtonClick={() => { resolve(true); }}/>
+      );
+    });
+
+    const button = ReactTestUtils.findRenderedDOMComponentWithTag(continueButton, 'button');
+    ReactTestUtils.Simulate.click(button);
+
+    return expect(updatePromise).to.eventually.eql(true);
   });
 });

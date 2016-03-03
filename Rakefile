@@ -1,5 +1,6 @@
 require "tmpdir"
 
+
 # Clones the current git repository into a temp directory that shares the
 # object store. Also sets up a github remote.
 #
@@ -95,7 +96,6 @@ desc "Run the development jekyll server in watch mode"
 task :jekyll_watch do
   sh "bundle exec jekyll serve"
 end
-
 
 desc "Run the development jekyll server on a given port with webpack bootstrapped. Used by Heroku."
 task :heroku_serve, :port do |t, args|
