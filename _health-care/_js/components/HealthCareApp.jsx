@@ -63,6 +63,14 @@ class HealthCareApp extends React.Component {
           },
 
           veteranAddress: {
+            address: {
+              street: undefined,
+              city: undefined,
+              country: undefined,
+              state: undefined,
+              zipcode: undefined,
+              county: undefined
+            },
             email: 'test@test.com',
             emailConfirmation: 'test@test.com',
             homePhone: '555-555-5555',
