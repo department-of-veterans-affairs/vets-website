@@ -14,7 +14,7 @@ class SocialSecurityNumber extends React.Component {
   render() {
     const errorMessage = isValidSSN(this.props.ssn) ? undefined : 'Please put your number in this format xxx-xx-xxxx';
     return (
-      <div>
+      <div className="usa-input-grid usa-input-grid-medium">
         <ErrorableTextInput
             errorMessage={errorMessage}
             label="Social Security Number"
