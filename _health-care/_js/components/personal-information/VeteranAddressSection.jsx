@@ -1,8 +1,22 @@
 import React from 'react';
 
 import Phone from './Phone';
+import Email from './Email';
 
 class VeteranAddressSection extends React.Component {
+  constructor() {
+    super();
+    this.confirmEmail = this.confirmEmail.bind(this);
+  }
+
+  confirmEmail() {
+    if (this.props.data.email !== this.props.data.emailConfirmation) {
+      return 'Please ensure your entries match';
+    }
+
+    return undefined;
+  }
+
   render() {
     return (
       <div>
@@ -40,11 +54,14 @@ class VeteranAddressSection extends React.Component {
             <label htmlFor="veteran_county">County</label>
             <input type="text" name="veteran[county]"/>
 
-            <label htmlFor="veteran_email">Email address</label>
-            <input type="text" name="veteran[email]"/>
+            <Email label="Email address"
+                value={this.props.data.email}
+                onValueChange={(update) => {this.props.onStateChange('email', update);}}/>
 
-            <label htmlFor="veteran_email_confirmation">Re-enter Email address</label>
-            <input type="text" name="veteran[email_confirmation]"/>
+            <Email error={this.confirmEmail()}
+                label="Re-enter Email address"
+                value={this.props.data.emailConfirmation}
+                onValueChange={(update) => {this.props.onStateChange('emailConfirmation', update);}}/>
 
             <Phone label="Home telephone number"
                 value={this.props.data.homePhone}
