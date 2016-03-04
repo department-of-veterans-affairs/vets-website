@@ -66,6 +66,9 @@ collections:
   education:
     output: true
     permalink: /:collection/:path/index.html
+  employment:
+    output: true
+    permalink: /:collection/:path/index.html
   memorial-benefits:
     output: false
   pension:
@@ -163,4 +166,4 @@ defaults:
       type: "employment"
     values:
       layout: "page-breadcrumbs"
-      body_class: "page-employment"
+      body_class: "page-employment"    
