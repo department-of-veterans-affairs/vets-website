@@ -11,17 +11,20 @@ concurrence: complete
 
     <div class="primary">
       <div class="row">
-        <div class="small-12 columns">
-         <p>The Veterans Employment Center (VEC™) connects Veterans and their families with meaningful employment and career-development opportunities.
+        <div class="small-12 columns" markdown="1">
+        
+        The Veterans Employment Center (VEC™) connects Veterans and their families with meaningful employment and career-development opportunities.
 
-### Resources and tools for both job seekers and employers
+        ### Resources and tools for both job seekers and employers
 
-*Job Seekers*
-Map your military skills, build a civilian résumé, and post your profile so employers can find you easily. Search our career opportunities, and learn about organizations that can assist you with career development and employment. 
+        #### Job Seekers
 
-*Employers*
-Search verified profiles of Veterans and their spouses to get direct access to Veterans who are seeking employment. Make a public hiring commitment when you post open positions. You’ll benefit from Veteran experience and skills, and you’ll hire the best!
-</p>
+        Map your military skills, build a civilian résumé, and post your profile so employers can find you easily. Search our career opportunities, and learn about organizations that can assist you with career development and employment.
+
+        #### Employers
+
+        Search verified profiles of Veterans and their spouses to get direct access to Veterans who are seeking employment. Make a public hiring commitment when you post open positions. You’ll benefit from Veteran experience and skills, and you’ll hire the best!
+
        </div>
       </div>
     </div>
