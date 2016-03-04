@@ -60,9 +60,7 @@ class VeteranAddressSection extends React.Component {
                 value={this.props.data.email}
                 onValueChange={(update) => {this.props.onStateChange('email', update);}}/>
 
-            <Email error={
-              this.confirmEmail()
-            }
+            <Email error={this.confirmEmail()}
                 label="Re-enter Email address"
                 value={this.props.data.emailConfirmation}
                 onValueChange={(update) => {this.props.onStateChange('emailConfirmation', update);}}/>
