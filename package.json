@@ -28,6 +28,7 @@
   "//": "Keep test dependencies in devDependencies so Heroku does not waste time installing.",
   "devDependencies": {
     "babel-eslint": "^5.0.0",
+    "babel-plugin-react-transform": "^2.0.1",
     "babel-preset-react": "^6.5.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
@@ -60,6 +61,10 @@
     "phantomjs": "^1.9.19",
     "phantomjs-polyfill": "0.0.1",
     "react-addons-test-utils": "^0.14.7",
+    "react-transform": "0.0.3",
+    "react-transform-catch-errors": "^1.0.2",
+    "react-transform-hmr": "^1.0.2",
+    "redbox-react": "^1.2.2",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "skin-deep": "^0.14.0",

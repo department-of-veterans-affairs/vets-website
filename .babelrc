@@ -1,0 +1,24 @@
+{
+  "env": {
+    // this plugin will be included only in development mode, e.g.
+    // if NODE_ENV (or BABEL_ENV) environment variable is not set
+    // or is equal to "development"
+    "development": {
+      "plugins": [
+        // must be an array with options object as second item
+        ["react-transform", {
+          "transforms": [{
+            // can be an NPM module name or a local path
+            "transform": "react-transform-hmr",
+            // see transform docs for "imports" and "locals" dependencies
+            "imports": ["react"],
+            "locals": ["module"]
+          }, {
+            "transform": "react-transform-catch-errors",
+            "imports": ["react", "redbox-react"]
+          }]
+        }]
+      ]
+    }
+  }
+}
