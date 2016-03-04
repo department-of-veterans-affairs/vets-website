@@ -77,22 +77,3 @@ Both of these can be ordered through the [National Archives](https://www.archive
 <div markdown="1">
 
 #### 2-4 Months Before Leaving Active Duty
-
-- Attend networking and recruiting events.
-- Review job boards, search job banks, and research openings at companies that interest you.
-- Actively engage in your career search.
-- Avoid using military lingo like “V/R” in your career-search emails. 
-- Wear professional, civilian clothing to events and in networking website photos.
-
-</div>
-</li>
-<li class="step four last wow fadeIn animated">
-<div markdown="1">
-
-#### 1 Month Before Leaving Active Duty
-
-- Complete TAP GPS (can be completed earlier).
-- Prepare for final round of job interviews.
-</div>
-</li>
-</ol>

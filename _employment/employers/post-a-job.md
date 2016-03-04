@@ -19,7 +19,6 @@ Thank you for your interest in hiring Veterans, transitioning Servicemembers, an
 </div>
 
 <div class="call-out" markdown="1">
-
 ### Who can post a job?
 
 Anyone
@@ -136,6 +135,7 @@ This example contains two job listings. The first uses a smaller set of schema.o
 "url": "www.abccompanyinc.com/jobs?listing=23456"
 }]</code></pre>
 </div>
+
 </div>
 </div>
 </div>

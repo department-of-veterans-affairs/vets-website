@@ -23,3 +23,4 @@ Employers participating in an on-the-job training (OJT) program can hire a Veter
 
 - Some Veterans may have disabilities that were acquired or aggravated during their military service; these are called service-related or [service-connected disabilities](/disability-benefits/conditions/service-connected/).
 - [Understanding Your Employment Rights Under the Americans with Disabilities Act (ADA): A Guide for Veterans](http://www.eeoc.gov/eeoc/publications/ada_veterans.cfm) briefly explains how protections for Veterans with service-connected disabilities differ under USERRA and the ADA. It also describes how the ADA, in particular, applies to recruiting, hiring, and accommodating Veterans with service-connected disabilities.
+
