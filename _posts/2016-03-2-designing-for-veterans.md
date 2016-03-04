@@ -12,21 +12,21 @@ published: true
 
 <div markdown="1">
 
-I didn't fully understand the mission until I went to Utah.
+I didn't fully understand the mission until I went to Utah last year.
 
-I'd been working on a web application for the Department of Veteran's affairs for several months, and I'd just flown into Salt Lake City for some usability testing with our beta testers. Having not grown up in a military family, my experience of veterans - what it meant to be one, what it meant to serve — fit neatly into news reports about veterans returning home from Iraq and Afghanistan.
+I'd been working on a web application for the Department of Veterans Affairs for several months, and I'd just flown into Salt Lake City for usability testing with our beta testers. Having not grown up in a military family, my experience with veterans — what it means to be one, what it means to serve — was largely shaped by news reports about veterans returning home from Iraq and Afghanistan.
 
 <!--more-->
 
-That all changed when I walked into a VA medical facility. I saw the people that served us. Some doing well, others struggling from the costs of military conflict. People that served us is ways that are humbling and hard to confront.
+That all changed when I walked into a VA medical facility. I saw the men and women that served us. Some were doing well, others were struggling from the costs of military conflict. They served us in ways that are humbling and hard to confront.
 
-I was there to do informal usability testing on an app with an interesting challenge: to make the process of filling out forms easier for VA medical examiners. If ever there was an application design that needed to be as efficient, quiet, and mostly stay out of the way, this was it.
+I was there to do informal usability testing on an app with an interesting challenge: to make the process of filling out forms easier for VA medical examiners. If ever there was an application design that needs to be as efficient, quiet, and mostly stay out of the way, this was it.
 
-Several months after this experience, I was honored to part of the small team working on vets.gov. Our group of content strategists and designers came up with core voice and tone principles that largely mirrored the experience I had working on medical forms in Salt Lake City. There were a lot of things scribbled on white boards, but the three principles that have stayed with me are these:
+Several months after this experience, I was honored to be part of the small team working on vets.gov. Our group of content strategists and designers came up with core voice and design principles that largely mirrored those that we used when working on medical forms in Salt Lake City. We scribbled a lot on white boards, but three principles that have stayed with me are:
 
 #### Be quiet, respectful and empathetic.
 
-Unlike many projects where it's so easy - required, even - to insert design flourishes or a strong brand, it was clear early on that vets.gov had to be very different. This design had to be incredibly efficient, letting content and interactions take center stage.
+Unlike many projects where it's so easy — required, even — to insert design flourishes or a strong brand, it was clear that vets.gov has to be very different. This design has to be incredibly efficient, letting content and interactions take center stage.
 
 </div>
 
@@ -43,9 +43,9 @@ Unlike many projects where it's so easy - required, even - to insert design flou
 
 <div markdown="1">
 
-Launched on Veterans day in 2015, vets.gov is a small experiment, aimed at simplifying the information a veteran needs in two categories - disability benefits and education benefits. Two of the most popular categories on VA.gov. This information is a very long way from being exhaustive or definitive, but it is a start in a new direction — a very public experiment in how the VA can communicate in an agile, simple and clear way.
+Launched on Veterans day in 2015, vets.gov is a bold vision to reimagine how we serve veterans, but we're starting small, and being agile and iterating as we learn. We've started by presenting the two categoies of information a veteran most needs: disability benefits and education benefits. These are two of the most popular categories on VA.gov. This information is a very long way from being exhaustive or definitive, but it is a start in a new direction — showing how the VA can communicate in an simple and clear way.
 
-We're building this with talented team of content strategists and problem solvers, designers and coders from the [United State Digital Service](https://www.whitehouse.gov/digital/united-states-digital-service), [Presidential Innovation Fellows](http://pif.gov), as well as great small business tech talent from outside government. Here's a how we're attempting to achieve our core principles from a design perspective.
+We're building this with talented team of content strategists and problem solvers, designers and coders from the [United State Digital Service](https://www.whitehouse.gov/digital/united-states-digital-service), [Presidential Innovation Fellows](http://pif.gov), as well as great small business tech talent from outside government. Here's how we're attempting to achieve our core principles from a design perspective.
 
 #### Be quiet
 
@@ -53,11 +53,11 @@ There are no images. And, [taking a page from gov.uk](https://gds.blog.gov.uk/20
 
 #### Be respectful
 
-There are no tricks, nothing to pull your attention from the content that is most important. No sidebar, no widgets. No pop-ups or surveys. Nothing to take your attention away. The content is always designed to inform, not sell. Design patterns are kept to a small number, and repeated consistently. Over time, these simple design patterns will evolve in a pattern library used across all vets.gov services and interactions, whether they occur online, on paper, or in person.
+There are no tricks in our design, and nothing to distract you from the most important content. No sidebar, no widgets. No pop-ups or surveys. Nothing to take your attention away. Design patterns are kept to a small number, and repeated consistently. Over time, these simple design patterns will evolve in a pattern library used across all vets.gov services and interactions, whether they occur online, on paper, or in person.
 
 #### Be empathetic
 
-We understand that vets.gov content will be used and reused in many different contexts. It will be viewed on computers old and new. There will be dialup connections, slow wireless networks, broadband, and unexpected technical challenges we can't plan for. We plan for the unexpected by building with [web standards](http://www.webstandards.org/) and a mobile-first, responsive approach. We're keeping the number of building blocks in our design system very small, to start, only adding to them when we're confident they work in as many situations as possible. By taking a conservative approach, We're able to build Web pages that can be easily printed, shared, read aloud as text-to-speech, or displayed on your cousin's old not-so-smartphone.
+We understand that vets.gov content will be used and reused in many different contexts. It will be viewed on computers old and new. There will be dialup connections, slow wireless networks, broadband, and unexpected technical challenges we can't plan for. We plan for the unexpected by building with [web standards](http://www.webstandards.org/) and a mobile-first, responsive approach. We're keeping the number of building blocks in our design system very small, to start, only adding to them when we're confident they work in as many situations as possible. By taking a conservative approach, We're able to build web pages that can be easily printed, shared, read aloud as text-to-speech, or displayed on your cousin's old not-so-smartphone.
 
 #### Build something empowering and easy to use.
 
