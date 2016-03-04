@@ -11,9 +11,8 @@ import { isValidEmail } from '../../utils/validations.js';
  * fake data.
  *
  * Props:
- * `error` - Function that returns a string. Only necessary for confirming email.
- * `label` - String. Not required as a prop, can be passed directly to
- *            ErrorableTextInput
+ * `error` - String. If set, it is rendered as the error for the input field.
+ * `label` - String.
  * `value` - String. Stores the email address.
  * `onValueChange` - a function with this prototype: (newValue)
  */

@@ -10,13 +10,11 @@ class VeteranAddressSection extends React.Component {
   }
 
   confirmEmail() {
-    let errorMessage = undefined;
-
     if (this.props.data.email !== this.props.data.emailConfirmation) {
-      errorMessage = 'Please ensure your entries match';
+      return 'Please ensure your entries match';
     }
 
-    return errorMessage;
+    return undefined;
   }
 
   render() {
