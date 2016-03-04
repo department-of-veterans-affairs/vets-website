@@ -65,6 +65,9 @@
     "skin-deep": "^0.14.0",
     "webpack-dev-server": "^1.14.1"
   },
+  "optionalDependencies": {
+    "fsevents": "^1.0.7"
+  },
   "scripts": {
     "karma": "karma",
     "lint": "eslint --ext .js --ext .jsx --ignore-pattern *.min.js  _health-care/_js _webpack assets/js/entry.js spec",
