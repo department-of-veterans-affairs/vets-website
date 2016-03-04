@@ -55,6 +55,7 @@
     "karma-webpack": "^1.7.0",
     "lolex": "^1.4.0",
     "mocha": "^2.4.5",
+    "nodemon": "^1.9.1",
     "npm": "^3.7.2",
     "phantomjs": "^1.9.19",
     "phantomjs-polyfill": "0.0.1",
