@@ -9,7 +9,7 @@ template: 1-topic-landing
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
+      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
     </div>
   </div>
 </div>
@@ -23,7 +23,7 @@ Veterans are civic assets who can draw on their experiences to improve your busi
 
 If your company has not previously hired Veterans, learn about how you can design and implement a [Veterans hiring initiative](http://www.dol.gov/vets/ahaw/index.htm). A [Vocational Rehabilitation & Employment (VR&E) coordinator](http://www.benefits.va.gov/VOCREHAB/docs/EmploymentCoordinators.xls) can help you if you are interested in hiring service-disabled Veterans. There may be [tax credits](https://www.doleta.gov/business/incentives/opptax/) of up to $9,600 for every eligible Veteran hired.
 
-In addition to the services listed above, VR&E provides employers with other benefits through the [Special Employer Incentives (SEI) program]( http://benefits.va.gov/vow/docs/SEIFlyerFinal.pdf). An employer hiring a Veteran with a service-connected disability who is approved for VR&E services may be entitled to reimbursements of up to 50% of the Veteran’s salary for six months to offset training costs. Read about the [VR&E](vets.gov/VRE/) program or call 1-800-827-1000 .
+In addition to the services listed above, VR&E provides employers with other benefits through the [Special Employer Incentives (SEI) program](http://benefits.va.gov/vow/docs/SEIFlyerFinal.pdf). An employer hiring a Veteran with a service-connected disability who is approved for VR&E services may be entitled to reimbursements of up to 50% of the Veteran’s salary for six months to offset training costs. Read about the [VR&E](vets.gov/VRE/) program or call 1-800-827-1000.
 
 Employers participating in an [on-the-job training (OJT)](vets.gov/OJT) program can hire a Veteran at the apprenticeship wage and VA will supplement that wage with GI Bill payments. The training often results in permanent, full-time employment and provides employers with a well-trained Veteran employee.  
 
@@ -46,7 +46,7 @@ Employers participating in an [on-the-job training (OJT)](vets.gov/OJT) program 
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
+              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Veterans Job Bank</a>
             </h5>  
           </li>  
 
