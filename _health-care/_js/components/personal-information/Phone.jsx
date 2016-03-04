@@ -6,9 +6,9 @@ import { isValidPhone } from '../../utils/validations.js';
 /**
  * Input component for collecting a Phone number.
  *
- * Validates the input data. Does NOT consider "invalid" phone such as
- * 000-000-0000 to be errors. This is to allow integration testing with fake
- * data.
+ * Validates the input data. Does NOT consider "invalid" phone numbers such
+ * as 000-000-0000 to be errors. This is to allow integration testing with
+ * fake data.
  *
  * Props:
  * `label` - String. Not required as a prop, can be passed directly to
@@ -37,6 +37,5 @@ Phone.propTypes = {
   value: React.PropTypes.string.isRequired,
   onValueChange: React.PropTypes.func.isRequired,
 };
-
 
 export default Phone;

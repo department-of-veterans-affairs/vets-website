@@ -12,6 +12,7 @@ function isValidDate(day, month, year) {
     date.getFullYear() === Number(year);
 }
 
+// TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
   return /^\d{3}-\d{3}-\d{4}$/.test(value);
 }
