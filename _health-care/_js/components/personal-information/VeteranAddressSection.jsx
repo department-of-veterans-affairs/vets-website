@@ -1,4 +1,5 @@
 import React from 'react';
+import Address from './Address';
 
 import Phone from './Phone';
 import Email from './Email';
@@ -31,31 +32,8 @@ class VeteranAddressSection extends React.Component {
               (e.g., "Paris,France"), and select Foreign Country for State.
             </p>
 
-            <label htmlFor="veteran_street">Street</label>
-            <input type="text" name="veteran[street]"/>
-
-            <label htmlFor="veteran_city">City</label>
-            <input type="text" name="veteran[city]"/>
-
-            <div className="usa-input-grid usa-input-grid-large">
-              <ErrorableSelect label="Country"
-                  options={countries}
-                  value={this.props.data.country}
-                  onUserInput={(update) => {this.props.onStateChange('country', update);}}/>
-            </div>
-
-            <div className="usa-input-grid usa-input-grid-large">
-              <ErrorableSelect label="State"
-                  options={states}
-                  value={this.props.data.state}
-                  onUserInput={(update) => {this.props.onStateChange('state', update);}}/>
-            </div>
-
-            <label htmlFor="veteran_zipcode">Zip Code</label>
-            <input type="text" name="veteran[zipcode]"/>
-
-            <label htmlFor="veteran_county">County</label>
-            <input type="text" name="veteran[county]"/>
+            <Address value={this.props.data.address}
+                onUserInput={(update) => {this.props.onStateChange('address', update);}}/>
 
             <Email label="Email address"
                 value={this.props.data.email}
@@ -81,4 +59,3 @@ class VeteranAddressSection extends React.Component {
 }
 
 export default VeteranAddressSection;
-
