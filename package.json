@@ -77,8 +77,10 @@
     "watch": "npm start & npm run watch-js & npm run watch-lint",
     "watch-js": "karma start",
     "watch-lint": "nodemon --watch _health-care/_js --watch _webpack --watch assets/js/entry.js --ignore _webpack/public/assets/js/generated --watch spec --ext js,jsx --exec 'npm run lint'",
-    "webpack": "webpack",
-    "webpack-production": "webpack -p --config webpack_production.config.js"
+    "webpack": "webpack -p",
+    "webpack-noopt": "webpack",
+    "webpack-production": "webpack -p --config webpack_production.config.js",
+    "webpack-production-noopt": "webpack --config webpack_production.config.js"
   },
   "private": true
 }

@@ -31,13 +31,13 @@ paginate_path: "/experience/:num/"
 
 excerpt_separator: <!--more-->
 
-#number of items in RSS feed
+# number of items in RSS feed
 rss_limit: 20
 
-#whether production or dev, minifies JS, bool
-production: true
+# whether production or dev. Allows `site.production` to enable/disable features in the Jekyll Templates.
+production: false
 
-#build config
+# build config
 
 timezone: America/New_York
 encoding: UTF-8

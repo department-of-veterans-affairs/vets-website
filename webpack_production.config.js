@@ -5,6 +5,8 @@ var path = require('path');
 
 var config = require('./webpack.config');
 
-config.output.path = path.join(__dirname, "_site_production/assets/js/generated");
+config.output.path = path.join(__dirname, "assets/js/generated/prod");
+config.output.publicPath = "/assets/js/generated/prod/";
+config.devtool = '#source-map';
 
 module.exports = config;
