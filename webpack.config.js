@@ -4,11 +4,11 @@ var webpack = require('webpack');
 var config = {
   entry: "./assets/js/entry.js",
   output: {
-    path: path.join(__dirname, "assets/js/generated"),
-    publicPath: "/assets/js/generated/",
+    path: path.join(__dirname, "assets/js/generated/dev"),
+    publicPath: "/assets/js/generated/dev/",
     filename: "bundle.js"
   },
-  devtool: "#source-map",
+  devtool: '#cheap-module-eval-source-map',
   module: {
     loaders: [
       {

@@ -41,13 +41,30 @@ class HealthCareApp extends React.Component {
             }
           },
 
-          vaInformation: {},
+          vaInformation: {
+            isVaServiceConnected: false,
+            compensableVaServiceConnected: false,
+            receivesVaPension: false
+          },
 
-          additionalInformation: {},
+          additionalInformation: {
+            isEssentialAcaCoverage: false,
+            wantsInitialVaContact: false
+          },
 
-          demographicInformation: {},
+          demographicInformation: {
+            isSpanishHispanicLatino: false,
+            isAmericanIndianOrAlaskanNative: false,
+            isBlackOrAfricanAmerican: false,
+            isNativeHawaiianOrOtherPacificIslander: false,
+            isAsian: false,
+            isWhite: false
+          },
 
-          veteranAddress: {}
+          veteranAddress: {
+            homePhone: '555-555-5555',
+            mobilePhone: '111-111-1111'
+          }
         }
       }
     };

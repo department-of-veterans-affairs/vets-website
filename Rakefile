@@ -1,5 +1,10 @@
 require "tmpdir"
 
+# TODO(awong): Add method for overriding these if building on the local
+# machine. Currently it keys off of Travis configs only which makes it
+# less natural as an "API" for local development.
+enable_dev_features = (ENV['TRAVIS_BRANCH'] != "production")
+enable_optimizations = (ENV['CI'])
 
 # Clones the current git repository into a temp directory that shares the
 # object store. Also sets up a github remote.
@@ -31,23 +36,29 @@ task :bootstrap do
   sh "brew install npm"
 
   # Continue with install.
-  Rake::Task["install"].invoke
+  Rake::Task[:install].invoke
 end
 
-desc "Build the website"
+desc "Build the website. This target chooses a dev or prod config based on environment variables"
 task :build do
-  Rake::Task["webpack"].invoke
+  if enable_dev_features then
+    Rake::Task[:build_dev].invoke
+  else
+    Rake::Task[:build_prod].invoke
+  end
+end
+
+desc "Build the website with development configs"
+task :build_dev do
+  Rake::Task[:webpack_dev].invoke
   sh "bundle exec jekyll build"
 end
 
 desc "Build the website with production configs"
-task :build_production do
-  Rake::Task["webpack_production"].invoke
+task :build_prod do
+  Rake::Task[:webpack_prod].invoke
   sh "bundle exec jekyll build --config _config.yml,_config_production.yml"
 end
-
-desc "Build every configuration"
-multitask :build_all_configurations =>  [ :build, :build_production ]
 
 desc "Push the *remote* master branch to *remote* production. Does NOT merge."
 task :deploy do
@@ -77,19 +88,29 @@ task :lint do
   sh "npm run-script lint"
 end
 
-desc "Run webpack with development settings"
-task :webpack do
-  sh "BUILD_TYPE=dev npm run-script webpack"
+desc "Run webpack with development features turned on."
+task :webpack_dev do
+  sh "rm -rf assets/js/generated"
+  if enable_optimizations then
+    sh "BUILD_TYPE=dev npm run-script webpack"
+  else
+    sh "BUILD_TYPE=dev npm run-script webpack-noopt"
+  end
 end
 
-desc "Run webpack with production settings"
-task :webpack_production do
-  sh "npm run-script webpack-production"
+desc "Run webpack with production features only "
+task :webpack_prod do
+  sh "rm -rf assets/js/generated"
+  if enable_optimizations then
+    sh "npm run-script webpack-production"
+  else
+    sh "npm run-script webpack-production-noopt"
+  end
 end
 
 desc "Run the development webpack in watch mode"
 task :webpack_watch do
-  sh "BUILD_TYPE=dev npm run-script webpack -- -w"
+  sh "BUILD_TYPE=dev npm run-script webpack-noopt -- -w"
 end
 
 desc "Run the development jekyll server in watch mode"
@@ -97,10 +118,13 @@ task :jekyll_watch do
   sh "bundle exec jekyll serve"
 end
 
+# TODO(awong): This does not respect the branch so heroku will always deploy
+# no-opt with development features turned on even on the production branch
+# build. Need to find a way to pipe the config into Heroku.
 desc "Run the development jekyll server on a given port with webpack bootstrapped. Used by Heroku."
 task :heroku_serve, :port do |t, args|
   raise "heroku_serve needs port argument" if args[:port].empty?
-  Rake::Task["webpack"].invoke
+  Rake::Task[:webpack_dev].invoke
   sh "bundle exec jekyll serve -P #{args[:port]}"
 end
 
@@ -108,15 +132,19 @@ desc "Serve the website"
 multitask :serve => [ :webpack_watch, :jekyll_watch ]
 
 namespace :tests do
-  task :all => [ :build_all_configurations, :all_nobuild ]
+  task :all => [ :build, :all_nobuild ]
 
   desc "NO JEKYLL REBUILD: Run all tests including slow/flaky ones (eg external link checks)."
   task :all_nobuild => [ :ci_nobuild, :htmlproof_external_only ]
 
-  # TODO(awong): The production build does not get tested. This need to be fixed. Either
-  # it should always tests both configurations, or it should only test one and the configuration
-  # should change based on environment variable. #1177
-  task :ci=> [ :build_all_configurations, :ci_nobuild ]
+  desc "Run by the continuous build system. Looks at the environment to decide between prod/dev configs."
+  task :ci => [:build, :ci_nobuild]
+
+  desc "Builds and tests the site in development configuration"
+  task :ci_dev => [ :build_dev, :ci_nobuild ]
+
+  desc "Builds and tests the site in production configuration"
+  task :ci_prod => [ :build_prod, :ci_nobuild ]
 
   desc "NO JEKYLL REBUILD: Run standard continuous integration tests."
   task :ci_nobuild => [ :lint, :htmlproof, :javascript ]

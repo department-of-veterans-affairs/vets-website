@@ -1,11 +1,11 @@
 import React from 'react';
 
-import AddressState from './AddressState';
 import DateInput from '../form-elements/DateInput';
 import FullName from './FullName';
 import Gender from './Gender';
 import MothersMaidenName from './MothersMaidenName';
 import SocialSecurityNumber from './SocialSecurityNumber';
+import State from './State';
 
 class NameAndGeneralInfoSection extends React.Component {
   render() {
@@ -26,8 +26,7 @@ class NameAndGeneralInfoSection extends React.Component {
                   onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);}}/>
               <SocialSecurityNumber ssn={this.props.data.socialSecurityNumber}
                   onValueChange={(update) => {this.props.onStateChange('socialSecurityNumber', update);}}/>
-              <Gender gender={this.props.data.gender}
-                  onUserInput={(update) => {this.props.onStateChange('gender', update);}}/>
+              <Gender value={this.props.data.gender} onUserInput={(update) => {this.props.onStateChange('gender', update);}}/>
             </div>
             <div className="small-12 columns">
               <h4>Date of Birth</h4>
@@ -47,8 +46,7 @@ class NameAndGeneralInfoSection extends React.Component {
                 <label htmlFor="veteran_city_of_birth">City</label>
                 <input type="text" name="veteran[city_of_birth]"/>
               </div>
-              <AddressState state={this.props.data.state}
-                  onUserInput={(update) => {this.props.onStateChange('state', update);}}/>
+              <State value={this.props.data.state} onUserInput={(update) => {this.props.onStateChange('state', update);}}/>
             </div>
           </div>
           <div className="row">

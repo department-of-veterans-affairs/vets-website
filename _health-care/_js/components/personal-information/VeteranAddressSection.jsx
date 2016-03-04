@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Phone from './Phone';
+
 class VeteranAddressSection extends React.Component {
   render() {
     return (
@@ -44,11 +46,13 @@ class VeteranAddressSection extends React.Component {
             <label htmlFor="veteran_email_confirmation">Re-enter Email address</label>
             <input type="text" name="veteran[email_confirmation]"/>
 
-            <label htmlFor="veteran_home_phone">Home telephone number</label>
-            <input type="text" name="veteran[home_phone]"/>
+            <Phone label="Home telephone number"
+                value={this.props.data.homePhone}
+                onValueChange={(update) => {this.props.onStateChange('homePhone', update);}}/>
 
-            <label htmlFor="veteran_mobile_phone">Mobile telephone number</label>
-            <input type="text" name="veteran[mobile_phone]"/>
+            <Phone label="Mobile telephone number"
+                value={this.props.data.mobilePhone}
+                onValueChange={(update) => {this.props.onStateChange('mobilePhone', update);}}/>
           </div>
         </div>
       </div>

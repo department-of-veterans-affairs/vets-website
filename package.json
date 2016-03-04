@@ -55,6 +55,7 @@
     "karma-webpack": "^1.7.0",
     "lolex": "^1.4.0",
     "mocha": "^2.4.5",
+    "nodemon": "^1.9.1",
     "npm": "^3.7.2",
     "phantomjs": "^1.9.19",
     "phantomjs-polyfill": "0.0.1",
@@ -63,6 +64,9 @@
     "sinon-chai": "^2.8.0",
     "skin-deep": "^0.14.0",
     "webpack-dev-server": "^1.14.1"
+  },
+  "optionalDependencies": {
+    "fsevents": "^1.0.7"
   },
   "scripts": {
     "karma": "karma",
@@ -73,8 +77,10 @@
     "watch": "npm start & npm run watch-js & npm run watch-lint",
     "watch-js": "karma start",
     "watch-lint": "nodemon --watch _health-care/_js --watch _webpack --watch assets/js/entry.js --ignore _webpack/public/assets/js/generated --watch spec --ext js,jsx --exec 'npm run lint'",
-    "webpack": "webpack",
-    "webpack-production": "webpack -p --config webpack_production.config.js"
+    "webpack": "webpack -p",
+    "webpack-noopt": "webpack",
+    "webpack-production": "webpack -p --config webpack_production.config.js",
+    "webpack-production-noopt": "webpack --config webpack_production.config.js"
   },
   "private": true
 }
