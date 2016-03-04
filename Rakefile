@@ -3,7 +3,7 @@ require "tmpdir"
 # TODO(awong): Add method for overriding these if building on the local
 # machine. Currently it keys off of Travis configs only which makes it
 # less natural as an "API" for local development.
-enable_dev_features = (ENV['TRAVIS_BRANCH'] == "production")
+enable_dev_features = (ENV['TRAVIS_BRANCH'] != "production")
 enable_optimizations = (ENV['CI'])
 
 # Clones the current git repository into a temp directory that shares the
@@ -39,16 +39,16 @@ task :bootstrap do
   Rake::Task[:install].invoke
 end
 
-desc "Build the website with development features"
+desc "Build the website. This target chooses a dev or prod config based on environment variables"
 task :build do
   if enable_dev_features then
-    Rake::Task[:build_prod].invoke
-  else
     Rake::Task[:build_dev].invoke
+  else
+    Rake::Task[:build_prod].invoke
   end
 end
 
-desc "Build the website with development features"
+desc "Build the website with development configs"
 task :build_dev do
   Rake::Task[:webpack_dev].invoke
   sh "bundle exec jekyll build"
@@ -88,7 +88,7 @@ task :lint do
   sh "npm run-script lint"
 end
 
-desc "Run webpack with development features turned on. Build is optimized."
+desc "Run webpack with development features turned on."
 task :webpack_dev do
   sh "rm -rf assets/js/generated"
   if enable_optimizations then
