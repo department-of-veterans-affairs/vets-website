@@ -143,7 +143,7 @@ defaults:
       path: "health-care/form-react.html"
     values:
       layout: "page-breadcrumbs"
-      body_class: "page-healthcare"    
+      body_class: "page-healthcare"
   - scope:
       type: "memorial-benefits"
     values:
@@ -159,3 +159,8 @@ defaults:
     values:
       layout: "page-playbook"
       body_class: "page-playbook"
+  - scope:
+      type: "employment"
+    values:
+      layout: "page-breadcrumbs"
+      body_class: "page-employment"
