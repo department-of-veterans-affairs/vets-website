@@ -1,6 +1,6 @@
 ---
 title: VECI
-concurrence: incomplete
+concurrence: complete
 template: 1-topic-landing
 ---
 
@@ -19,7 +19,10 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Content here.
+Representatives from the Veterans Economic Community Initiative (VECI) are available in [25 cities](popup to MAP). [VECI liaisons](link to list) collaborate with local business leaders, schools, and nonprofit groups, and help you maximize education and economic opportunities. Find a [VECI Economic Liaison](http://www.benefits.va.gov/VECI/docs/VECIPOCList.pdf) near you. 
+
+ 
+
 
 </div>
 </div>
