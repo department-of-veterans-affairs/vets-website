@@ -43,6 +43,15 @@ class ErrorableSelect extends React.Component {
     }
 
     // Calculate options for select
+    const options = _.map(this.props.options, (val, key) => {
+      return (
+        <option
+            key={key}
+            value={key}>
+          {val}
+        </option>
+      );
+    });
     // let reactKey = 0;
     // const optionElements = this.props.options.map((obj) => {
     //   let label;
@@ -56,15 +65,6 @@ class ErrorableSelect extends React.Component {
     //   }
     //   return <option key={++reactKey} value={value}>{label}</option>;
     // });
-    const options = _.map(this.props.options, (val, key) => {
-      return (
-        <option
-            key={key}
-            value={key}>
-          {val}
-        </option>
-      );
-    });
 
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : undefined}>

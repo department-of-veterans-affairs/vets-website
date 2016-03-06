@@ -24,7 +24,7 @@ describe('<DateInput>', () => {
     it('day must be a number', () => {
       SkinDeep.shallowRender(
         <DateInput day month={12} year={2010} onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `day` of type `boolean` supplied to `DateInput`, expected `string`./);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `day` of type `boolean` supplied to `DateInput`, expected `number`./);
     });
 
     it('month is required', () => {
@@ -36,7 +36,7 @@ describe('<DateInput>', () => {
     it('month must be a number', () => {
       SkinDeep.shallowRender(
         <DateInput day={1} month year={2010} onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `month` of type `boolean` supplied to `DateInput`, expected `string`./);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `month` of type `boolean` supplied to `DateInput`, expected `number`./);
     });
 
     it('year is required', () => {
@@ -48,7 +48,7 @@ describe('<DateInput>', () => {
     it('year must be a number', () => {
       SkinDeep.shallowRender(
         <DateInput day={1} month={12} year onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `year` of type `boolean` supplied to `DateInput`, expected `string`./);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `year` of type `boolean` supplied to `DateInput`, expected `number`./);
     });
 
     it('onValueChange is required', () => {
