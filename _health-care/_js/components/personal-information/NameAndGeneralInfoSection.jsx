@@ -65,16 +65,3 @@ class NameAndGeneralInfoSection extends React.Component {
 }
 
 export default NameAndGeneralInfoSection;
-
-// <div className="small-12 columns">
-//   <label htmlFor="veteran_marital_status">Current Martial Status</label>
-//   <select name="veteran[marital_status]" >
-//     <option value=""></option>
-//     <option value="Married">Married</option>
-//     <option value="Never Married">Never Married</option>
-//     <option value="Separated">Separated</option>
-//     <option value="Widowed">Widowed</option>
-//     <option value="Divorced">Divorced</option></select>
-// </div>
-
-
