@@ -4,7 +4,7 @@ import Phone from './Phone';
 import Email from './Email';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
 
-import { countries, states } from '../../utils/options-for-select.js'
+import { countries, states } from '../../utils/options-for-select.js';
 
 class VeteranAddressSection extends React.Component {
   constructor() {

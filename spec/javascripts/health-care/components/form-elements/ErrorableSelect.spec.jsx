@@ -5,7 +5,7 @@ import SkinDeep from 'skin-deep';
 import ErrorableSelect from '../../../../../_health-care/_js/components/form-elements/ErrorableSelect';
 
 describe('<ErrorableSelect>', () => {
-  const options = {1: 'first', 2: 'second'};
+  const options = { 1: 'first', 2: 'second' };
 
   describe('propTypes', () => {
     let consoleStub;

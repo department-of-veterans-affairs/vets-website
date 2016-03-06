@@ -2,7 +2,7 @@ const countries = {
   1: 'United States',
   2: 'France',
   3: 'Atlantis'
-}
+};
 
 const maritalStatuses = {
   Married: 'Married',
@@ -10,7 +10,7 @@ const maritalStatuses = {
   Separated: 'Separated',
   Widowed: 'Widowed',
   Divorced: 'Divorced'
-}
+};
 
 const states = {
   AL: 'Alabama',
@@ -77,7 +77,7 @@ const states = {
 const vaMedicalFacilities = {
   1: 'PUG',
   2: 'Tampa VAMC'
-}
+};
 
 export {
   countries,

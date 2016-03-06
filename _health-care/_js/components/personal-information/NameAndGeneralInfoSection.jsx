@@ -8,7 +8,7 @@ import MothersMaidenName from './MothersMaidenName';
 import SocialSecurityNumber from './SocialSecurityNumber';
 import State from './State';
 
-import { maritalStatuses } from '../../utils/options-for-select.js'
+import { maritalStatuses } from '../../utils/options-for-select.js';
 
 class NameAndGeneralInfoSection extends React.Component {
   render() {
