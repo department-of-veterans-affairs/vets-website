@@ -2,6 +2,9 @@ import React from 'react';
 
 import Phone from './Phone';
 import Email from './Email';
+import ErrorableSelect from '../form-elements/ErrorableSelect';
+
+import { countries, states } from '../../utils/options-for-select.js'
 
 class VeteranAddressSection extends React.Component {
   constructor() {
@@ -34,19 +37,19 @@ class VeteranAddressSection extends React.Component {
             <label htmlFor="veteran_city">City</label>
             <input type="text" name="veteran[city]"/>
 
-            <label htmlFor="veteran_country">Country</label>
-            <select name="veteran[country]"><option value="0"></option>
-              <option value="1">United States</option>
-              <option value="2">France</option>
-              <option value="3">Atlantis</option>
-            </select>
+            <div className="usa-input-grid usa-input-grid-large">
+              <ErrorableSelect label="Country"
+                  options={countries}
+                  value={this.props.data.country}
+                  onUserInput={(update) => {this.props.onStateChange('country', update);}}/>
+            </div>
 
-            <label htmlFor="veteran_state">State</label>
-            <select name="veteran[state]"><option value="0"></option>
-              <option value="1">California</option>
-              <option value="2">Nebraska</option>
-              <option value="3">Foriegn</option>
-            </select>
+            <div className="usa-input-grid usa-input-grid-large">
+              <ErrorableSelect label="State"
+                  options={states}
+                  value={this.props.data.state}
+                  onUserInput={(update) => {this.props.onStateChange('state', update);}}/>
+            </div>
 
             <label htmlFor="veteran_zipcode">Zip Code</label>
             <input type="text" name="veteran[zipcode]"/>
