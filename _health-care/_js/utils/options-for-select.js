@@ -300,17 +300,17 @@ const states = [
 ];
 
 const vaMedicalFacilities = {
-  'TT' : {
+  'TT' : [
     { label: '987', value: 'CHEY6 (987)'},
     { label: '988', value: 'DAYT20 (988)'}
-  },
-  'AK' : {
+  ],
+  'AK' : [
     { label: '463', value: 'ALASKA VA HLTCR SYSTEM (AVAHS)'},
     { label: '463GA', value: 'FAIRBANKS VA CBOC'},
     { label: '463GB', value: 'KENAI VA CBOC'},
     { label: '463GC', value: 'MAT-SU CBOC'}
-  },
-  'AL' : {
+  ],
+  'AL' : [
     { label: '521GE', value: 'ANNISTON CBOC'},
     { label: '521GG', value: 'BESSEMER CBOC'},
     { label: '521', value: 'BIRMINGHAM VAMC'},
@@ -327,8 +327,8 @@ const vaMedicalFacilities = {
     { label: '521GD', value: 'RAINBOW CITY CBOC'},
     { label: '679', value: 'TUSCALOOSA VA MEDICAL CENTER'},
     { label: '619GD', value: 'WIREGRASS CBOC'}
-  },
-  'AR' : {
+  ],
+  'AR' : [
     { label: '598', value: 'CENTRAL ARKANSAS HEALTH CARE SYSTEM - LITTLE ROCK'},
     { label: '598GG', value: 'CONWAY CBOC'},
     { label: '598GB', value: 'EL DORADO, AR CBOC'},
@@ -346,11 +346,11 @@ const vaMedicalFacilities = {
     { label: '598GH', value: 'RUSSELLVILLE CBOC'},
     { label: '598GF', value: 'SEARCY CBOC'},
     { label: '667GA', value: 'TEXARKANA CBOC'}
-  },
-  'AS' : {
+  ],
+  'AS' : [
     { label: '459GF', value: 'VA AMERICAN SAMOA CBOC'}
-  },
-  'AZ' : {
+  ],
+  'AZ' : [
     { label: '649GD', value: 'ANTHEM CBOC'},
     { label: '678GC', value: 'CASA GRANDE CBOC'},
     { label: '649GE', value: 'COTTONWOOD CBOC'},
@@ -373,8 +373,8 @@ const vaMedicalFacilities = {
     { label: '644GA', value: 'SUN CITY, AZ CBOC'},
     { label: '644GE', value: 'THUNDERBIRD VA CBOC'},
     { label: '678GB', value: 'YUMA CBOC'}
-  },
-  'CA' : {
+  ],
+  'CA' : [
     { label: '600GA', value: 'ANAHEIM VETERANS HEALTH CLINIC'},
     { label: '691GD', value: 'BAKERSFIELD CBOC'},
     { label: '600GC', value: 'CABRILLO VETERANS HEALTH CLINIC'},
@@ -435,8 +435,8 @@ const vaMedicalFacilities = {
     { label: '605GA', value: 'VICTORVILLE CBOC'},
     { label: '600GD', value: 'WHITTIER/SANTA FE SPRINGS CLINIC'},
     { label: '612GI', value: 'YUBA CITY CBOC'}
-  },
-  'CO' : {
+  ],
+  'CO' : [
     { label: '554GF', value: 'ALAMOSA COMMUNITY BASED OUTPATIENT CLINIC (554GF)'},
     { label: '554GB', value: 'AURORA COMMUNITY BASED OUTPATIENT CLINIC (554GB)'},
     { label: '554GI', value: 'BURLINGTON VA CBOC'},
@@ -451,8 +451,8 @@ const vaMedicalFacilities = {
     { label: '554GH', value: 'LAMAR VA CBOC'},
     { label: '575GA', value: 'MONTROSE (CBOC)'},
     { label: '554GD', value: 'PUEBLO COMMUNITY BASED OUTPATIENT CLINIC (554GD)'}
-  },
-  'CT' : {
+  ],
+  'CT' : [
     { label: '689GE', value: 'DANBURY'},
     { label: '689HC', value: 'NEW LONDON'},
     { label: '689A4', value: 'NEWINGTON'},
@@ -461,16 +461,16 @@ const vaMedicalFacilities = {
     { label: '689GA', value: 'WATERBURY'},
     { label: '689GC', value: 'WINDHAM CBOC'},
     { label: '689GD', value: 'WINSTED'}
-  },
-  'DC' : {
+  ],
+  'DC' : [
     { label: '688', value: 'WASHINGTON'},
     { label: '688GB', value: 'WASHINGTON CBOC'}
-  },
-  'DE' : {
+  ],
+  'DE' : [
     { label: '460GC', value: 'DOVER CBOC'},
     { label: '460GA', value: 'SUSSEX COUNTY CBOC'}
-  },
-  'FL' : {
+  ],
+  'FL' : [
     { label: '548GD', value: 'BOCA RATON CBOC'},
     { label: '516GD', value: 'BRADENTON CBOC'},
     { label: '673GC', value: 'BROOKSVILLE CBOC'},
@@ -520,8 +520,8 @@ const vaMedicalFacilities = {
     { label: '573GI', value: 'VILLAGES CBOC'},
     { label: '548', value: 'WEST PALM BEACH VAMC'},
     { label: '673GF', value: 'ZEPHYRHILLS CBOC'}
-  },
-  'GA' : {
+  ],
+  'GA' : [
     { label: '557GB', value: 'ALBANY VA CBOC'},
     { label: '509GA', value: 'ATHENS CBOC'},
     { label: '508GA', value: 'ATLANTA VA CBOC'},
@@ -544,18 +544,18 @@ const vaMedicalFacilities = {
     { label: '573GJ', value: 'ST MARYS CBOC'},
     { label: '508GG', value: 'STOCKBRIDGE CBOC'},
     { label: '573GA', value: 'VALDOSTA CBOC'}
-  },
-  'GU' : {
+  ],
+  'GU' : [
     { label: '459GE', value: 'GUAM CBOC'}
-  },
-  'HI' : {
+  ],
+  'HI' : [
     { label: '459GB', value: 'HILO CBOC'},
     { label: '459GD', value: 'KAUAI CBOC'},
     { label: '459GC', value: 'KONA CBOC'},
     { label: '459GG', value: 'LEEWARD OAHU CBOC'},
     { label: '459GA', value: 'MAUI CBOC'}
-  },
-  'IA' : {
+  ],
+  'IA' : [
     { label: '636GF', value: 'BETTENDORF COMMUNITY BASED OUTPATIENT CLINIC'},
     { label: '636GM', value: 'CARROLL CBOC'},
     { label: '636GN', value: 'CEDAR RAPIDS CBOC'},
@@ -572,16 +572,16 @@ const vaMedicalFacilities = {
     { label: '438GA', value: 'SPIRIT LAKE CBOC'},
     { label: '636A6', value: 'VA CIHS, DES MOINES DIVISION'},
     { label: '636GH', value: 'WATERLOO COMMUNITY BASED OUTPATIENT CLINIC'}
-  },
-  'ID' : {
+  ],
+  'ID' : [
     { label: '531', value: 'BOISE VAMC'},
     { label: '531GG', value: 'CANYON COUNTY CBOC'},
     { label: '687GB', value: 'LEWISTON CLINIC'},
     { label: '668GB', value: 'NORTH IDAHO CBOC'},
     { label: '531GE', value: 'TWIN FALLS CBOC'},
     { label: '660GA', value: 'VA POCATELLO CBOC (660GA)'}
-  },
-  'IL' : {
+  ],
+  'IL' : [
     { label: '578GD', value: 'AURORA CBOC (578GD)'},
     { label: '657GA', value: 'BELLEVILLE IL CBOC (657GA)'},
     { label: '537HA', value: 'BEVERLY CBOC'},
@@ -611,8 +611,8 @@ const vaMedicalFacilities = {
     { label: '550GD', value: 'SPRINGFIELD'},
     { label: '636GT', value: 'STERLING CBOC'},
     { label: '657A5', value: 'VA HEARTLAND-EAST, VISN 15 HCS MARION IL DIVISION'}
-  },
-  'IN' : {
+  ],
+  'IN' : [
     { label: '583GB', value: 'BLOOMINGTON CBOC'},
     { label: '657GJ', value: 'EVANSVILLE IL CBOC'},
     { label: '610GC', value: 'GOSHEN CBOC'},
@@ -630,8 +630,8 @@ const vaMedicalFacilities = {
     { label: '583GA', value: 'TERRE HAUTE CBOC'},
     { label: '603GB', value: 'VA HEALTHCARE CENTER, NEW ALBANY'},
     { label: '657GQ', value: 'VINCENNES IN CBOC'}
-  },
-  'KS' : {
+  ],
+  'KS' : [
     { label: '589GM', value: 'CHANUTE CBOC'},
     { label: '589G2', value: 'DODGE CITY CBOC'},
     { label: '589A6', value: 'EASTERN KS HCS LEAVENWORTH DIV'},
@@ -652,8 +652,8 @@ const vaMedicalFacilities = {
     { label: '589GW', value: 'SALINA CBOC WICHITA'},
     { label: '589GT', value: 'SENECA CBOC'},
     { label: '589GJ', value: 'WYANDOTTE CBOC'}
-  },
-  'KY' : {
+  ],
+  'KY' : [
     { label: '539GA', value: 'BELLEVUE CBOC'},
     { label: '596GD', value: 'BEREA CBOC'},
     { label: '626GC', value: 'BOWLING GREEN COMMUNITY BASED OUTPATIENT CLINIC'},
@@ -678,8 +678,8 @@ const vaMedicalFacilities = {
     { label: '603GE', value: 'VA HEALTHCARE CENTER, NEWBURG'},
     { label: '603GC', value: 'VA HEALTHCARE CENTER, SHIVELY'},
     { label: '596GA', value: 'VA OUTPATIENT CLINIC SOMERSET'}
-  },
-  'LA' : {
+  ],
+  'LA' : [
     { label: '502', value: 'ALEXANDRIA VAMC'},
     { label: '629GF', value: 'BOGALUSA CBOC'},
     { label: '502GF', value: 'FORT POLK CBOC'},
@@ -694,8 +694,8 @@ const vaMedicalFacilities = {
     { label: '629', value: 'SE LOUISIANA VETERANS HCS'},
     { label: '629GC', value: 'SLIDELL CBOC'},
     { label: '629GD', value: 'ST. JOHN VA OUTPATIENT CLINIC'}
-  },
-  'MA' : {
+  ],
+  'MA' : [
     { label: '518', value: 'BEDFORD VAMC'},
     { label: '518GG', value: 'FITCHBURG CBOC'},
     { label: '631GF', value: 'FITCHBURG CBOC'},
@@ -716,8 +716,8 @@ const vaMedicalFacilities = {
     { label: '523GB', value: 'VA BOSTON HEALTHCARE SYSTEM - WORCESTER DIVISION'},
     { label: '631', value: 'VA CNTRL WSTRN MASSCHUSETS HCS'},
     { label: '631GE', value: 'WORCESTER CBOC'}
-  },
-  'MD' : {
+  ],
+  'MD' : [
     { label: '512GD', value: 'BALTIMORE CBOC'},
     { label: '512', value: 'BALTIMORE MD VAMC'},
     { label: '512GA', value: 'CAMBRIDGE CBOC'},
@@ -732,8 +732,8 @@ const vaMedicalFacilities = {
     { label: '512A5', value: 'PERRY POINT VAMC'},
     { label: '512GE', value: 'POCOMOKE CITY CBOC'},
     { label: '688GE', value: 'S. PRINCE GEORGES COUNTY CBOC'}
-  },
-  'ME' : {
+  ],
+  'ME' : [
     { label: '402HB', value: 'BANGOR MAINE CBOC'},
     { label: '402GB', value: 'CALAIS MAINE CBOC'},
     { label: '402GA', value: 'CARIBOU MAINE CBOC'},
@@ -741,8 +741,8 @@ const vaMedicalFacilities = {
     { label: '402HC', value: 'PORTLAND MAINE MH ORC'},
     { label: '402GC', value: 'RUMFORD MAINE CBOC'},
     { label: '402GD', value: 'SACO MAINE CBOC'}
-  },
-  'MI' : {
+  ],
+  'MI' : [
     { label: '655', value: 'ALEDA E. LUTZ VA MEDICAL CENTER'},
     { label: '655GD', value: 'ALPENA CBOC'},
     { label: '506', value: 'ANN ARBOR VAMC'},
@@ -770,8 +770,8 @@ const vaMedicalFacilities = {
     { label: '655GB', value: 'TRAVERSE CITY VA OUTPATIENT CLINIC'},
     { label: '553GA', value: 'YALE CBOC'},
     { label: '656GD', value: 'ZZ-ALPENA'}
-  },
-  'MN' : {
+  ],
+  'MN' : [
     { label: '618GK', value: 'ALBERT LEA CBOC'},
     { label: '437GE', value: 'BEMIDJI CBOC'},
     { label: '656GA', value: 'BRAINERD VA COMMUNITY OUTPATIENT CLINIC'},
@@ -785,8 +785,8 @@ const vaMedicalFacilities = {
     { label: '618GA', value: 'SOUTH CENTRAL CBOC'},
     { label: '656', value: 'ST. CLOUD VA HEALTH CARE SYSTEM'},
     { label: '618GD', value: 'ST. PAUL (CBOC)'}
-  },
-  'MO' : {
+  ],
+  'MO' : [
     { label: '589GB', value: 'BELTON COMMUNITY BASED OUTPATIENT CLINIC (589GB)'},
     { label: '564GC', value: 'BRANSON CBOC'},
     { label: '589GZ', value: 'CAMERON CBOC'},
@@ -815,8 +815,8 @@ const vaMedicalFacilities = {
     { label: '589G1', value: 'WARRENSBURG MO CBOC'},
     { label: '657GS', value: 'WASHINGTON CBOC'},
     { label: '657GF', value: 'WEST PLAINS MO CBOC (657GF)'}
-  },
-  'MS' : {
+  ],
+  'MS' : [
     { label: '614GC', value: 'BYHALIA CBOC'},
     { label: '586GF', value: 'COLUMBUS'},
     { label: '586', value: 'G.V. (SONNY) MONTGOMERY'},
@@ -829,8 +829,8 @@ const vaMedicalFacilities = {
     { label: '586GE', value: 'NATCHEZ'},
     { label: '614GA', value: 'TUPELO CBOC'},
     { label: '520', value: 'VA GULF COAST VETERANS HEALTH CARE SYSTEM'}
-  },
-  'MT' : {
+  ],
+  'MT' : [
     { label: '436GA', value: 'ANACONDA CBOC'},
     { label: '436GH', value: 'BILLINGS, MT CBOC'},
     { label: '436GD', value: 'BOZEMAN CBOC'},
@@ -842,8 +842,8 @@ const vaMedicalFacilities = {
     { label: '436GM', value: 'LEWISTON CBOC'},
     { label: '436GJ', value: 'MILES CITY CBOC'},
     { label: '436GC', value: 'MISSOULA CBOC'}
-  },
-  'NC' : {
+  ],
+  'NC' : [
     { label: '590GC', value: 'ALBEMARLE CBOC'},
     { label: '637', value: 'ASHEVILLE VAMC'},
     { label: '659GA', value: 'CHARLOTTE, CBOC'},
@@ -862,16 +862,16 @@ const vaMedicalFacilities = {
     { label: '659', value: 'SALISBURY,VAMC'},
     { label: '565GC', value: 'WILMINGTON CBOC'},
     { label: '659BY', value: 'WINSTON-SALEM,OPC'}
-  },
-  'ND' : {
+  ],
+  'ND' : [
     { label: '437GB', value: 'BISMARCK'},
     { label: '437', value: 'FARGO VA HCS'},
     { label: '437GA', value: 'GRAFTON'},
     { label: '437GI', value: 'GRAND FORKS CBOC'},
     { label: '437GD', value: 'MINOT CBOC'},
     { label: '437GF', value: 'WILLISTON CBOC'}
-  },
-  'NE' : {
+  ],
+  'NE' : [
     { label: '636GL', value: 'BELLEVUE VA CBOC'},
     { label: '568HB', value: 'GORDON CBOC'},
     { label: '636GQ', value: 'HOLDREGE, NE CBOC'},
@@ -882,8 +882,8 @@ const vaMedicalFacilities = {
     { label: '636A5', value: 'VA CENTRAL PLAINS HEALTH NETWORK - LINCOLN DIVISION'},
     { label: '636', value: 'VA CENTRAL PLAINS HEALTH NETWORK - OMAHA DIVISION'},
     { label: '636A4', value: 'VA NWIHS, GRAND ISLAND DIV'}
-  },
-  'NH' : {
+  ],
+  'NH' : [
     { label: '608GD', value: 'CONWAY CBOC'},
     { label: '608MA', value: 'IDES MANCHESTER VAMC'},
     { label: '405HE', value: 'KEENE OUT REACH CENTER'},
@@ -892,8 +892,8 @@ const vaMedicalFacilities = {
     { label: '608GC', value: 'SOMERSWORTH CBOC'},
     { label: '405HC', value: 'ST. JOHNSBURY VERMONT OUTREACH CLINIC'},
     { label: '608HA', value: 'TILTON CBOC'}
-  },
-  'NJ' : {
+  ],
+  'NJ' : [
     { label: '460GD', value: 'CAPE MAY (WILMINGTON)'},
     { label: '460HG', value: 'CUMBERLAND COUNTY CBOC'},
     { label: '561GB', value: 'ELIZABETH CBOC'},
@@ -910,8 +910,8 @@ const vaMedicalFacilities = {
     { label: '561GI', value: 'TINTON FALLS CBOC'},
     { label: '460HE', value: 'VENTNOR CBOC'},
     { label: '642GD', value: 'VET HEALTH CLINIC (GLOUCESTER)'}
-  },
-  'NM' : {
+  ],
+  'NM' : [
     { label: '501GI', value: 'ALAMOGORDO (CBOC)'},
     { label: '501GA', value: 'ARTESIA (CBOC)'},
     { label: '501GE', value: 'ESPANOLA (CBOC)'},
@@ -926,16 +926,16 @@ const vaMedicalFacilities = {
     { label: '501GK', value: 'SANTA FE (CBOC)'},
     { label: '501GC', value: 'SILVER CITY (CBOC)'},
     { label: '501GH', value: 'TRUTH OR CONSEQUENCES (CBOC)'}
-  },
-  'NV' : {
+  ],
+  'NV' : [
     { label: '654GB', value: 'CARSON VALLEY CBOC'},
     { label: '593GC', value: 'PAHRUMP CBOC'},
     { label: '593', value: 'SOUTHERN NEVADA HCS'},
     { label: '660GC', value: 'VA ELY CONTRACT CLINIC (660GC)'},
     { label: '654GC', value: 'VA LAHONTAN VALLEY CBOC'},
     { label: '654', value: 'VA SIERRA NEVADA HEALTH CARE SYSTEM (654)'}
-  },
-  'NY' : {
+  ],
+  'NY' : [
     { label: '528G5', value: 'AUBURN'},
     { label: '632HC', value: 'BAY SHORE CBOC'},
     { label: '528GN', value: 'BINGHAMTON CBOC'},
@@ -993,8 +993,8 @@ const vaMedicalFacilities = {
     { label: '528G2', value: 'WESTPORT CBOC'},
     { label: '526GA', value: 'WHITE PLAINS CLINIC'},
     { label: '526GB', value: 'YONKERS CLINIC'}
-  },
-  'OH' : {
+  ],
+  'OH' : [
     { label: '541GG', value: 'AKRON CBOC'},
     { label: '562GB', value: 'ASHTABULA COUNTY CBOC (562GB)'},
     { label: '538GA', value: 'ATHENS, OH CBOC'},
@@ -1033,8 +1033,8 @@ const vaMedicalFacilities = {
     { label: '541GI', value: 'WARREN CBOC'},
     { label: '541BZ', value: 'YOUNGSTOWN CBOC'},
     { label: '757GA', value: 'ZANESVILLE CBOC'}
-  },
-  'OK' : {
+  ],
+  'OK' : [
     { label: '635GD', value: 'ADA CBOC'},
     { label: '635GF', value: 'ALTUS CBOC'},
     { label: '635HB', value: 'ARDMORE VETERANS CENTER CLINIC'},
@@ -1048,8 +1048,8 @@ const vaMedicalFacilities = {
     { label: '635GE', value: 'STILLWATER CBOC'},
     { label: '623BY', value: 'TULSA, OK CBOC'},
     { label: '623GB', value: 'VINITA CBOC'}
-  },
-  'OR' : {
+  ],
+  'OR' : [
     { label: '648GA', value: 'BEND, OR CBOC'},
     { label: '653GB', value: 'BROOKINGS, OR CBOC'},
     { label: '653BY', value: 'EUGENE, OR CBOC'},
@@ -1065,8 +1065,8 @@ const vaMedicalFacilities = {
     { label: '648GB', value: 'SALEM, OR CBOC'},
     { label: '692', value: 'VA SOUTHERN OREGON REHABILITATION CENTER &amp'},
     { label: '648GG', value: 'WEST LINN CBOC'}
-  },
-  'PA' : {
+  ],
+  'PA' : [
     { label: '646GC', value: 'BEAVER CBOC'},
     { label: '595GD', value: 'BERKS VA OUTPATIENT CLINIC'},
     { label: '693GF', value: 'BERWICK CBOC'},
@@ -1109,18 +1109,18 @@ const vaMedicalFacilities = {
     { label: '693', value: 'WILKES-BARRE VAMC'},
     { label: '693GB', value: 'WILLIAMSPORT CBOC'},
     { label: '595GE', value: 'YORK VA OUTPATIENT CLINIC'}
-  },
-  'PR' : {
+  ],
+  'PR' : [
     { label: '672GC', value: 'ARECIBO VETERANS CLINIC (CBOC)'},
     { label: '672GD', value: 'CEIBA CBOC'},
     { label: '672GE', value: 'GUAYAMA VETERANS CLINIC'},
     { label: '672', value: 'SAN JUAN VA MEDICAL CENTER'}
-  },
-  'RI' : {
+  ],
+  'RI' : [
     { label: '650GD', value: 'MIDDLETOWN CBOC'},
     { label: '650', value: 'PROVIDENCE VAMC'}
-  },
-  'SC' : {
+  ],
+  'SC' : [
     { label: '509GB', value: 'AIKEN CBOC'},
     { label: '544GD', value: 'ANDERSON CBOC'},
     { label: '534GC', value: 'BEAUFORT PRIMARY CARE CLINIC'},
@@ -1133,8 +1133,8 @@ const vaMedicalFacilities = {
     { label: '544GG', value: 'SPARTANBURG CBOC'},
     { label: '544GF', value: 'SUMTER CBOC'},
     { label: '544', value: 'WM JENNINGS BRYAN DORN VETERANS AFFAIRS MEDICAL CENTER'}
-  },
-  'SD' : {
+  ],
+  'SD' : [
     { label: '438GD', value: 'ABERDEEN CBOC'},
     { label: '568', value: 'BLACK HILLS HEALTH CARE SYSTEM - FT. MEADE DIVISION'},
     { label: '568HM', value: 'EAGLE BUTTE'},
@@ -1148,8 +1148,8 @@ const vaMedicalFacilities = {
     { label: '438GE', value: 'WAGNER CBOC'},
     { label: '438GF', value: 'WATERTOWN CBOC'},
     { label: '568HP', value: 'WINNER'}
-  },
-  'TN' : {
+  ],
+  'TN' : [
     { label: '614GH', value: 'BOLIVAR CBOC'},
     { label: '621GK', value: 'CAMPBELL COUNTY CBOC'},
     { label: '626GF', value: 'CHATTANOOGA CBOC'},
@@ -1173,8 +1173,8 @@ const vaMedicalFacilities = {
     { label: '626GG', value: 'TULLAHOMA COMMUNITY BASED OUTPATIENT CLINIC'},
     { label: '626A4', value: 'VA TENNESSEE VALLEY HEALTHCARE SYSTEM - ALVIN C. YORK DIVISION'},
     { label: '626', value: 'VA TENNESSEE VALLEY HEALTHCARE SYSTEM - NASHVILLE DIVISION'}
-  },
-  'TX' : {
+  ],
+  'TX' : [
     { label: '519HC', value: 'ABILENE CBOC'},
     { label: '504', value: 'AMARILLO HCS'},
     { label: '674GB', value: 'BROWNWOOD, TX  CBOC'},
@@ -1228,8 +1228,8 @@ const vaMedicalFacilities = {
     { label: '671GK', value: 'WELLMED AT NORTHWEST 410'},
     { label: '519', value: 'WEST TEXAS VA HEALTH CARE SYSTEM - BIG SPRING DIVISION'},
     { label: '635GB', value: 'WICHITA FALLS CBOC VETERANS CLINIC OF NORTH TEXAS'}
-  },
-  'UT' : {
+  ],
+  'UT' : [
     { label: '660GB', value: 'VA OGDEN CBOC (660GB)'},
     { label: '660GE', value: 'VA OREM CBOC (660GE)'},
     { label: '660GD', value: 'VA ROOSEVELT CONTRACT CLINIC (660GD)'},
@@ -1237,8 +1237,8 @@ const vaMedicalFacilities = {
     { label: '660GI', value: 'VA SOUTH CENTERAL CBOC (660GI)'},
     { label: '660GG', value: 'VA ST. GEORGE CBOC (660GG)'},
     { label: '660GJ', value: 'WESTERN SALT LAKE CBOC'}
-  },
-  'VA' : {
+  ],
+  'VA' : [
     { label: '621GJ', value: 'BRISTOL CBOC'},
     { label: '652GE', value: 'CHARLOTTESVILLE CBOC'},
     { label: '658HG', value: 'COVINGTON OUTREACH CLINIC'},
@@ -1257,18 +1257,18 @@ const vaMedicalFacilities = {
     { label: '613GC', value: 'STEPHEN CITY CBOC'},
     { label: '658GA', value: 'TAZEWELL CBOC'},
     { label: '658GE', value: 'WYTHEVILLE CBOC'}
-  },
-  'VI' : {
+  ],
+  'VI' : [
     { label: '672GA', value: 'ST.CROIX VETERANS CLINIC'},
     { label: '672GB', value: 'ST.THOMAS VETERANS CLINIC'}
-  },
-  'VT' : {
+  ],
+  'VT' : [
     { label: '405GA', value: 'BENNINGTON VERMONT OUTREACH CLINIC'},
     { label: '405GC', value: 'BRATTLEBORO CBOC'},
     { label: '405HA', value: 'BURLINGTON LAKESIDE CBOC'},
     { label: '405HF', value: 'RUTLAND VERMONT OUTREACH CLINIC'}
-  },
-  'WA' : {
+  ],
+  'WA' : [
     { label: '687', value: 'JONATHAN M. WAINWRIGHT MEMORIAL VA MEDICAL CENTER'},
     { label: '663A4', value: 'PUGET SOUND HEALTH CARE SYSTEM - AMERICAN LAKE DIVISION'},
     { label: '663GB', value: 'PUGET SOUND HEALTH CARE SYSTEM - BREMERTON CBOC'},
@@ -1281,8 +1281,8 @@ const vaMedicalFacilities = {
     { label: '648A4', value: 'VANCOUVER,WA DIV PORTLAND VAMC'},
     { label: '668GA', value: 'WENATCHEE CBOC'},
     { label: '687HA', value: 'YAKIMA CBOC'}
-  },
-  'WI' : {
+  ],
+  'WI' : [
     { label: '607GD', value: 'BARABOO, WI CBOC'},
     { label: '607GE', value: 'BEAVER DAM, WI CBOC'},
     { label: '618GE', value: 'CHIPPEWA VALLEY (CBOC)'},
@@ -1301,8 +1301,8 @@ const vaMedicalFacilities = {
     { label: '676GA', value: 'WAUSAU CBOC'},
     { label: '607', value: 'WILLIAM S. MIDDLETON MEMORIAL VA HOSPITAL'},
     { label: '676GD', value: 'WISCONSIN RAPIDS CBOC'}
-  },
-  'WV' : {
+  ],
+  'WV' : [
     { label: '517', value: 'BECKLEY VAMC'},
     { label: '540GC', value: 'BRAXTON CBOC'},
     { label: '581GB', value: 'CHARLESTON CBOC'},
@@ -1315,8 +1315,8 @@ const vaMedicalFacilities = {
     { label: '613', value: 'MARTINSBURG VAMC'},
     { label: '540GD', value: 'MONONGALIA CBOC'},
     { label: '613GE', value: 'PETERSBURG CBOC'}
-  },
-  'WY' : {
+  ],
+  'WY' : [
     { label: '666GB', value: 'CASPER CBOC'},
     { label: '666GE', value: 'GILLETTE CBOC'},
     { label: '442MB', value: 'IDES SHERIDAN VAMC'},
@@ -1325,7 +1325,7 @@ const vaMedicalFacilities = {
     { label: '666GC', value: 'RIVERTON CBOC'},
     { label: '666GF', value: 'ROCK SPRINGS CBOC'},
     { label: '666', value: 'SHERIDAN VAMC'}
-  }
+  ]
 };
 
 export {
