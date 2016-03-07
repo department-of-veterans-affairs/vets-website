@@ -35,9 +35,9 @@ class HealthCareApp extends React.Component {
             socialSecurityNumber: '999-99-9999',
 
             dateOfBirth: {
-              month: '1',
-              day: '15',
-              year: '1997',
+              month: 1,
+              day: 15,
+              year: 1997,
             }
           },
 
@@ -49,6 +49,7 @@ class HealthCareApp extends React.Component {
 
           additionalInformation: {
             isEssentialAcaCoverage: false,
+            vaMedicalFacility: '',
             wantsInitialVaContact: false
           },
 
