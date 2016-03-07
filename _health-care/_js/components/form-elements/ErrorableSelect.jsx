@@ -43,28 +43,21 @@ class ErrorableSelect extends React.Component {
     }
 
     // Calculate options for select
-    const options = _.map(this.props.options, (val, key) => {
-      return (
-        <option
-            key={key}
-            value={key}>
-          {val}
-        </option>
-      );
+    let reactKey = 0;
+    // TODO(awong): Remove this hack to handle options prop and use invariants instead.
+    const options = _.isArray(this.props.options) ? this.props.options : [];
+    const optionElements = options.map((obj) => {
+      let label;
+      let value;
+      if (_.isString(obj)) {
+        label = obj;
+        value = obj;
+      } else {
+        label = obj.label;
+        value = obj.value;
+      }
+      return <option key={++reactKey} value={value}>{label}</option>;
     });
-    // let reactKey = 0;
-    // const optionElements = this.props.options.map((obj) => {
-    //   let label;
-    //   let value;
-    //   if (_.isString(obj)) {
-    //     label = obj;
-    //     value = obj;
-    //   } else {
-    //     label = obj.label;
-    //     value = obj.value;
-    //   }
-    //   return <option key={++reactKey} value={value}>{label}</option>;
-    // });
 
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : undefined}>
@@ -81,7 +74,7 @@ class ErrorableSelect extends React.Component {
             value={this.props.value}
             onChange={this.handleChange}>
           <option value=""></option>
-          {options}
+          {optionElements}
         </select>
       </div>
     );
@@ -91,14 +84,13 @@ class ErrorableSelect extends React.Component {
 ErrorableSelect.propTypes = {
   errorMessage: React.PropTypes.string,
   label: React.PropTypes.string.isRequired,
-  options: React.PropTypes.object.isRequired,
-  // options: React.PropTypes.arrayOf(
-  //   React.PropTypes.oneOfType([
-  //     React.PropTypes.string,
-  //     React.PropTypes.shape({
-  //       label: React.PropTypes.string,
-  //       value: React.PropTypes.string }),
-  //   ])).isRequired,
+  options: React.PropTypes.arrayOf(
+    React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.shape({
+        label: React.PropTypes.string,
+        value: React.PropTypes.string }),
+    ])).isRequired,
   required: React.PropTypes.bool,
   value: React.PropTypes.string,
   onUserInput: React.PropTypes.func.isRequired,

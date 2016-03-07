@@ -5,7 +5,7 @@ import SkinDeep from 'skin-deep';
 import ErrorableSelect from '../../../../../_health-care/_js/components/form-elements/ErrorableSelect';
 
 describe('<ErrorableSelect>', () => {
-  const options = { 1: 'first', 2: 'second' };
+  const options = [{ value: 1, label: 'first' }, { value: 2, label: 'second' }];
 
   describe('propTypes', () => {
     let consoleStub;
@@ -54,7 +54,7 @@ describe('<ErrorableSelect>', () => {
     it('options must be an object', () => {
       SkinDeep.shallowRender(
         <ErrorableSelect label="test" options onUserInput={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `options` of type `boolean` supplied to `ErrorableSelect`, expected `object`/);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `options` of type `boolean` supplied to `ErrorableSelect`, expected an array/);
     });
 
     it('value must be a string', () => {
