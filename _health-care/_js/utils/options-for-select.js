@@ -300,10 +300,6 @@ const states = [
 ];
 
 const vaMedicalFacilities = {
-  TT: [
-    { label: '987', value: 'CHEY6 (987)' },
-    { label: '988', value: 'DAYT20 (988)' }
-  ],
   AK: [
     { label: '463', value: 'ALASKA VA HLTCR SYSTEM (AVAHS)' },
     { label: '463GA', value: 'FAIRBANKS VA CBOC' },
@@ -1173,6 +1169,12 @@ const vaMedicalFacilities = {
     { label: '626GG', value: 'TULLAHOMA COMMUNITY BASED OUTPATIENT CLINIC' },
     { label: '626A4', value: 'VA TENNESSEE VALLEY HEALTHCARE SYSTEM - ALVIN C. YORK DIVISION' },
     { label: '626', value: 'VA TENNESSEE VALLEY HEALTHCARE SYSTEM - NASHVILLE DIVISION' }
+  ],
+  // Is TT a real place? In the original PDF file, these records were at the
+  // top of the otherwise alphabetical-by-state ordered dataset.
+  TT: [
+    { label: '987', value: 'CHEY6 (987)' },
+    { label: '988', value: 'DAYT20 (988)' }
   ],
   TX: [
     { label: '519HC', value: 'ABILENE CBOC' },
