@@ -29,7 +29,7 @@ class AdditionalInformationSection extends React.Component {
             <State value={this.props.data.facilityState}
                 onUserInput={(update) => {this.props.onStateChange('facilityState', update);}}/>
             <VaMedicalFacility value={this.props.data.vaMedicalFacility}
-                onUserInput={(update) => {this.props.onStateChange('vaMedicalFacility', update);}}/>
+                onValueChange={(update) => {this.props.onStateChange('vaMedicalFacility', update);}}/>
           </div>
         </div>
 
