@@ -19,20 +19,19 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-You and your spouse have access to resources through VA and other federal entities that can assist you in making a new or existing business a success.
+VA provides you and your spouse with resources through VA and other federal entities that can help you make a new or existing business a success.
 
-If you are already open for business and want to sell to the Federal government, contact your closest Procurement Technical Assistance Center (PTAC) for assistance with all of the required documentation and registration to bid on Government contracts.  Please refer to the [PTAC Website](http://www.aptac-us.org/) for the listing of an office near you.
-
-If you need assistance in starting a business, please visit the [Small Business Development Center (SBDC)](https://www.sba.gov/offices/headquarters/osbdc/resources/11409) Website and contact your closest Procurement Technical Assistance Center (PTAC) for assistance.
-
-If you are Service-Disabled Veteran who wants to start a business, please view the [Veterans Business Outreach Program](https://www.sba.gov/about-sba/sba-locations/headquarters-offices) website and the [SBDC](https://www.sba.gov/offices/headquarters/osbdc/resources/11409) website for assistance.
-
-VA can help you [register your business](link to register page) as a Veteran-owned or service-disabled Veteran-owned business. Once you receive your certification, you are eligible for certain assistance and benefits.
+VA can guide you through the process of [registering](link to register page) as a Veteran-owned or service-disabled Veteran-owned business. Once you get your certification, you are eligible for certain assistance and benefits. If you are already open for business and want to sell to the federal government, the [Procurement Technical Assistance Center (PTAC)](www.apt-us.org) can help you with the required documentation and with registering to bid on government contracts. [Find an office](http://www.aptac-us.org/) near you.
 
 The Small Business Administration also has [resources specifically for Veterans](https://www.sba.gov/content/veteran-service-disabled-veteran-owned). 
 
 ### Learn more
-Many universities and nonprofit organizations offer free or low-cost entrepreneur and business-focused courses, some held online and others in person, for Veterans and military family members. 
+Many universities and nonprofit organizations offer free or low-cost entrepreneur and business-focused courses, some held online and others in person, for Veterans and military family members. Here are some examples: 
+
+- Syracuse University’s Institute for Veterans and Military Families [Boots to Business](http://vets.syr.edu/education/boots-to-business/), [Entrepreneurship Bootcamp for Veterans with Disabilities](http://ebv.vets.syr.edu/), [Veteran Women Igniting the Spirit of Entrepreneurship](http://vets.syr.edu/education/v-wise/).
+- New York University’s [Veteran Entrepreneur Training](http://engineering.nyu.edu/business/incubators/veteran-support/veteran-entrepreneur-training) (Based in New York City).
+- [Techstars Risingstars Program](http://www.techstars.com/risingstars/).
+
 
 Find more resources for starting your business at the [Department of Labor’s Veteran information site](http://www.dol.gov/vets/opportunities/opportunities.htm).
 
