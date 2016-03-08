@@ -35,9 +35,9 @@ class HealthCareApp extends React.Component {
             socialSecurityNumber: '999-99-9999',
 
             dateOfBirth: {
-              month: '1',
-              day: '15',
-              year: '1997',
+              month: 1,
+              day: 15,
+              year: 1997,
             }
           },
 
@@ -49,6 +49,7 @@ class HealthCareApp extends React.Component {
 
           additionalInformation: {
             isEssentialAcaCoverage: false,
+            vaMedicalFacility: '',
             wantsInitialVaContact: false
           },
 
@@ -62,6 +63,16 @@ class HealthCareApp extends React.Component {
           },
 
           veteranAddress: {
+            address: {
+              street: undefined,
+              city: undefined,
+              country: undefined,
+              state: undefined,
+              zipcode: undefined,
+              county: undefined
+            },
+            email: 'test@test.com',
+            emailConfirmation: 'test@test.com',
             homePhone: '555-555-5555',
             mobilePhone: '111-111-1111'
           }

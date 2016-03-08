@@ -22,7 +22,7 @@ class VaMedicalFacility extends React.Component {
   }
 
   handleChange(domEvent) {
-    this.props.onUserInput(domEvent.target.value);
+    this.props.onValueChange(domEvent.target.value);
   }
 
   // TODO: Add the actual list of medical facilities

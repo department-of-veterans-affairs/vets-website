@@ -36,7 +36,7 @@ template: 7-get-page
 <div class="small-12 medium-3 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="number" markdown="0">127.7</span>
+<span class="number" markdown="0">125.4</span>
 <span class="description" markdown="0">Days</span>
 <span class="heading" markdown="0">(Average time)</span>
 
@@ -48,7 +48,7 @@ template: 7-get-page
 
 <div class="info-block" markdown="1">
 
-Average number of days to process disability-related claims during January 2016.
+Average number of days to process disability-related claims during February 2016.
 
 If you’ve already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
 

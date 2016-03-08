@@ -1,8 +1,23 @@
 import React from 'react';
 
+import Address from './Address';
 import Phone from './Phone';
+import Email from './Email';
 
 class VeteranAddressSection extends React.Component {
+  constructor() {
+    super();
+    this.confirmEmail = this.confirmEmail.bind(this);
+  }
+
+  confirmEmail() {
+    if (this.props.data.email !== this.props.data.emailConfirmation) {
+      return 'Please ensure your entries match';
+    }
+
+    return undefined;
+  }
+
   render() {
     return (
       <div>
@@ -14,37 +29,17 @@ class VeteranAddressSection extends React.Component {
               (e.g., "Paris,France"), and select Foreign Country for State.
             </p>
 
-            <label htmlFor="veteran_street">Street</label>
-            <input type="text" name="veteran[street]"/>
+            <Address value={this.props.data.address}
+                onUserInput={(update) => {this.props.onStateChange('address', update);}}/>
 
-            <label htmlFor="veteran_city">City</label>
-            <input type="text" name="veteran[city]"/>
+            <Email label="Email address"
+                value={this.props.data.email}
+                onValueChange={(update) => {this.props.onStateChange('email', update);}}/>
 
-            <label htmlFor="veteran_country">Country</label>
-            <select name="veteran[country]"><option value="0"></option>
-              <option value="1">United States</option>
-              <option value="2">France</option>
-              <option value="3">Atlantis</option>
-            </select>
-
-            <label htmlFor="veteran_state">State</label>
-            <select name="veteran[state]"><option value="0"></option>
-              <option value="1">California</option>
-              <option value="2">Nebraska</option>
-              <option value="3">Foriegn</option>
-            </select>
-
-            <label htmlFor="veteran_zipcode">Zip Code</label>
-            <input type="text" name="veteran[zipcode]"/>
-
-            <label htmlFor="veteran_county">County</label>
-            <input type="text" name="veteran[county]"/>
-
-            <label htmlFor="veteran_email">Email address</label>
-            <input type="text" name="veteran[email]"/>
-
-            <label htmlFor="veteran_email_confirmation">Re-enter Email address</label>
-            <input type="text" name="veteran[email_confirmation]"/>
+            <Email error={this.confirmEmail()}
+                label="Re-enter Email address"
+                value={this.props.data.emailConfirmation}
+                onValueChange={(update) => {this.props.onStateChange('emailConfirmation', update);}}/>
 
             <Phone label="Home telephone number"
                 value={this.props.data.homePhone}
@@ -61,4 +56,3 @@ class VeteranAddressSection extends React.Component {
 }
 
 export default VeteranAddressSection;
-
