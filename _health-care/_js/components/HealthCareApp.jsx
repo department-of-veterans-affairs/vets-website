@@ -77,6 +77,7 @@ class HealthCareApp extends React.Component {
             mobilePhone: '111-111-1111'
           }
         },
+
         financialAssessment: {
           financialDisclosure: {
             provideFinancialInfo: false,
@@ -112,7 +113,35 @@ class HealthCareApp extends React.Component {
           },
           childInformation: {},
           annualIncome: {},
-          deductibleExpenses: {}
+          deductibleExpenses: {},
+        },
+
+        // TODO: insuranceInformation should be an array where each row
+        //       contains all the following fields:
+        insuranceInformation: {
+          insuranceInfo: {
+            isCoveredByHealthInsurance: false,
+            insuranceName: '',
+            insuranceAddress: '',
+            insuranceCity: '',
+            insuranceCountry: '',
+            insuranceState: '',
+            insuranceZipcode: '',
+            insurancePhone: '404-123-1234',
+            insurancePolicyHolderName: '',
+            insurancePolicyNumber: '',
+            insuranceGroupCode: '',
+          },
+
+          medicareMedicaidInfo: {
+            isMedicaidEligible: false,
+            isEnrolledMedicarePartA: false,
+            medicarePartAEffectiveDate: {
+              month: 10,
+              day: 25,
+              year: 2001
+            }
+          }
         }
       }
     };

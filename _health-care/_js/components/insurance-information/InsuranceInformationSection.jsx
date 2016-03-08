@@ -1,58 +1,64 @@
 import React from 'react';
 
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+import ErrorableSelect from '../form-elements/ErrorableSelect';
+import ErrorableTextInput from '../form-elements/ErrorableTextInput';
+import { countries, states } from '../../utils/options-for-select';
+
+import Phone from '../questions/Phone';
+
 class InsuranceInformationSection extends React.Component {
   render() {
     return (
       <div>
         <div className="row">
           <div className="small-12 columns">
-            <h4>Insurance Information </h4>
-            <input
-                id="veteran_is_covered_by_health_insurance"
-                name="veteran_is_covered_by_health_insurance"
-                type="checkbox"/>
-            <label htmlFor="veteran_is_covered_by_health_insurance">Are you covered by health insurance? (Including coverage through a spouse or another person)</label>
-          </div>
-        </div>
-        <div className="row">
-          <div className="small-12 columns">
-            <label htmlFor="veteran_health_insurances_name">Name</label>
-            <input type="text" name="veteran[health_insurances][name]"/>
-
-            <label htmlFor="veteran_health_insurances_address">Address</label>
-            <input type="text" name="veteran[health_insurances][address]"/>
-
-            <label htmlFor="veteran_health_insurances_city">City</label>
-            <input type="text" name="veteran[health_insurances][city]"/>
-
-            <label htmlFor="veteran_health_insurances_country">Country</label>
-            <select name="veteran[health_insurances][country]" >
-              <option value="0"></option>
-              <option value="1">United States</option>
-              <option value="2">France</option>
-              <option value="3">Atlantis</option></select>
-
-            <label htmlFor="veteran_health_insurances_state">State</label>
-            <select name="veteran[health_insurances][state]" >
-              <option value=""></option>
-              <option value="1">California</option>
-              <option value="2">Nebraska</option>
-              <option value="3">Foriegn</option></select>
-
-            <label htmlFor="veteran_health_insurances_zipcode">Address</label>
-            <input type="text" name="veteran[health_insurances][zipcode]"/>
-
-            <label htmlFor="veteran_health_insurances_phone">Phone</label>
-            <input type="text" name="veteran[health_insurances][phone]"/>
-
-            <label htmlFor="veteran_health_insurances_policy_holder_name">Name of Policy Holder</label>
-            <input type="text" name="veteran[health_insurances][policy_holder_name]"/>
-
-            <label htmlFor="veteran_health_insurances_policy_number">Policy Number</label>
-            <input type="text" name="veteran[health_insurances][policy_number]"/>
-
-            <label htmlFor="veteran_health_insurances_group_code">Group Code</label>
-            <input type="text" name="veteran[health_insurances][group_code]"/>
+            <h4>Coverage Information </h4>
+            <ErrorableCheckbox
+                label="Are you covered by health insurance? (Including coverage through a spouse or another person)"
+                checked={this.props.data.isCoveredByHealthInsurance}
+                onValueChange={(update) => {this.props.onStateChange('isCoveredByHealthInsurance', update);}}/>
+            <ErrorableTextInput
+                label="Name"
+                value={this.props.data.insuranceName}
+                onValueChange={(update) => {this.props.onStateChange('insuranceName', update);}}/>
+            <ErrorableTextInput
+                label="Address"
+                value={this.props.data.insuranceAddress}
+                onValueChange={(update) => {this.props.onStateChange('insuranceAddress', update);}}/>
+            <ErrorableTextInput
+                label="City"
+                value={this.props.data.insuranceCity}
+                onValueChange={(update) => {this.props.onStateChange('insuranceCity', update);}}/>
+            <ErrorableSelect
+                label="Country"
+                options={countries}
+                value={this.props.data.insuranceCountry}
+                onUserInput={(update) => {this.props.onStateChange('insuranceCountry', update);}}/>
+            <ErrorableSelect
+                label="State"
+                options={states}
+                value={this.props.data.insuranceState}
+                onUserInput={(update) => {this.props.onStateChange('insuranceState', update);}}/>
+            <ErrorableTextInput
+                label="Zipcode"
+                value={this.props.data.insuranceZipcode}
+                onValueChange={(update) => {this.props.onStateChange('insuranceZipcode', update);}}/>
+            <Phone label="Phone"
+                value={this.props.data.insurancePhone}
+                onValueChange={(update) => {this.props.onStateChange('insurancePhone', update);}}/>
+            <ErrorableTextInput
+                label="Name of Policy Holder"
+                value={this.props.data.insurancePolicyHolderName}
+                onValueChange={(update) => {this.props.onStateChange('insurancePolicyHolderName', update);}}/>
+            <ErrorableTextInput
+                label="Policy Number"
+                value={this.props.data.insurancePolicyNumber}
+                onValueChange={(update) => {this.props.onStateChange('insurancePolicyNumber', update);}}/>
+            <ErrorableTextInput
+                label="Group Code"
+                value={this.props.data.insuranceGroupCode}
+                onValueChange={(update) => {this.props.onStateChange('insuranceGroupCode', update);}}/>
           </div>
         </div>
       </div>
