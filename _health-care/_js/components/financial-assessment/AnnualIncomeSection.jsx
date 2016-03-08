@@ -14,19 +14,19 @@ class AnnualIncomeSection extends React.Component {
           <div className="small-12 columns">
             <h4>Previous calendar year gross annual income of veteran, spouse and
             dependent children</h4>
-            <p><u>Report</u> gross annual income from employment, except for income
+            <p><strong>Report</strong> gross annual income from employment, except for income
             from your farm, ranch, property or business, including information
             about your wages, bonuses, tips, severance pay and other accrued
             benefits and your child's income information if it could have been used
             to pay your household expenses.
             </p>
 
-            <p><u>Report</u> net income from your farm, ranch, property or business.
+            <p><strong>Report</strong> net income from your farm, ranch, property or business.
             Payments on principal of mortgage and depreciation expenses are not
             deductible.
             </p>
 
-            <p><u>Report</u> other income amounts, including retirement and pension
+            <p><strong>Report</strong> other income amounts, including retirement and pension
             income, Social Security Retirement and Social Security Disability
             income, compensation benefits such as VA disability, unemployment,
             Workers and black lung; cash gifts, interest and dividends, including
@@ -34,7 +34,7 @@ class AnnualIncomeSection extends React.Component {
             Accounts (IRAs) or annuities.
             </p>
 
-            <p><u>Do Not Report:</u> Donations from public or private relief,
+            <p><strong>Do Not Report:</strong> Donations from public or private relief,
             welfare or charitable organizations; Supplemental Security Income (SSI)
             and need-based payments from a government agency; profit from the
             occasional sale of property; income tax refunds; reinvested interest on

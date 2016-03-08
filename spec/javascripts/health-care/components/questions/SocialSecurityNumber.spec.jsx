@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 
-import SocialSecurityNumber from '../../../../../_health-care/_js/components/personal-information/SocialSecurityNumber';
+import SocialSecurityNumber from '../../../../../_health-care/_js/components/questions/SocialSecurityNumber';
 
 describe('<SocialSecurityNumber>', () => {
   describe('propTypes', () => {
