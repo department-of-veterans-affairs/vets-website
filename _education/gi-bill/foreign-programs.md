@@ -73,13 +73,15 @@ You can also check your approval status or send us questions by email 24 hours a
 
 <ol class="process">
 
-<li class="step one wow fadeIn animated" markdown="0">
+<li class="step one wow fadeIn animated" markdown="1">
 
 Contact the school or [Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) to learn if VA approves your program for benefits. Provide the name of the foreign school, the complete address, and the name of the program you intend to pursue. VA will let you know whether your program has already been approved. Allow for extra time if you are applying to a program that VA has not yet approved.
 
-    -	Programs offered by schools in the Philippines are subject to approval by the Director of the Manila Regional Office. Programs offered by all other foreign schools are subject to approval by the Director of the Buffalo Regional Office.
-    -	If you or your eligible dependent wishes to enroll in a program that has not already been approved by VA, you will need to ask the school to request approval. VA can take no action until a request for approval is received from a school official (not from you). Note that if your program is not approved, you will be responsible for all costs at the school, including tuition and fees.
-    -	School officials should [follow these instructions](http://benefits.va.gov/gibill/foreign_program_approval_information_for_schools.asp) when applying for approval of education programs.
+Programs offered by schools in the Philippines are subject to approval by the Director of the Manila Regional Office. Programs offered by all other foreign schools are subject to approval by the Director of the Buffalo Regional Office.
+
+If you or your eligible dependent wishes to enroll in a program that has not already been approved by VA, you will need to ask the school to request approval. VA can take no action until a request for approval is received from a school official (not from you). Note that if your program is not approved, you will be responsible for all costs at the school, including tuition and fees.
+
+School officials should [follow these instructions](http://benefits.va.gov/gibill/foreign_program_approval_information_for_schools.asp) when applying for approval of education programs.
 
 </li>
 
