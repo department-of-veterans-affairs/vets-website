@@ -37,6 +37,8 @@
     'space-unary-ops': 2,
 
     // Disabled rules with rationale.
+	'react/prefer-stateless-function': 0,	// Our components are currently stateful.
+
     'react/no-multi-comp': 0,      // Leave organization to code reviewer discretion. 
 
     'react/jsx-closing-bracket-location': [2, 'after-props'],
