@@ -57,6 +57,8 @@ module.exports = function(config) {
               // es2015 is current name for the es6 settings.
               presets: ['es2015'],
 
+              plugins: ['transform-runtime'],
+
               // Speed up compilation.
               cacheDirectory: true
             }
@@ -68,6 +70,8 @@ module.exports = function(config) {
             query: {
               // es2015 is current name for the es6 settings.
               presets: ['es2015', 'react'],
+
+              plugins: ['transform-runtime'],
 
               // Speed up compilation.
               cacheDirectory: true
