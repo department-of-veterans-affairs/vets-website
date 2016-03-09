@@ -46,7 +46,7 @@ Additional tuition
 
 #### How it works
 
-1. After you submit your application for Post-9/11 GI Bill benefits and VA finds you eligible, you will receive a Certificate of Eligibility.
+1. After you for Post-9/11 GI Bill benefits and VA finds you eligible, you will receive a Certificate of Eligibility.
 2. Bring this certificate to your participating institution’s financial aid, military liaison, or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
 3. Your school will determine:
   -  Whether it has already enrolled the maximum number of participants for the program period. Enrollment is on a first-come, first-served basis. Your school and VA agree on how many students may be covered each year.
