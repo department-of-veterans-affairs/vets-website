@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 
+// TODO: Refactor to use latest conventions
+
 class FullName extends React.Component {
   constructor() {
     super();

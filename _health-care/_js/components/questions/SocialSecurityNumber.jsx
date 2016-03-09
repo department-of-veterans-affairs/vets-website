@@ -9,6 +9,12 @@ import { isValidSSN } from '../../utils/validations.js';
  * Validates the input data. Does NOT consider "invalid" ssn such as
  * 000-00-0000 to be errors. This is to allow integration testing with fake
  * data.
+ *
+ * Props:
+ * `label` - String. Optional, if provided overrides default label.
+ * `required` - Boolean. Optional, defaults to true.
+ * `ssn` - String. Value of SSN.
+ * `onValueChange` - updates value of SSN
  */
 class SocialSecurityNumber extends React.Component {
   render() {
@@ -17,9 +23,9 @@ class SocialSecurityNumber extends React.Component {
       <div className="usa-input-grid usa-input-grid-medium">
         <ErrorableTextInput
             errorMessage={errorMessage}
-            label="Social Security Number"
+            label={this.props.label || 'Social Security Number'}
             placeholder="xxx-xx-xxxx"
-            required
+            required={this.props.required !== undefined ? this.props.required : true}
             value={this.props.ssn}
             onValueChange={this.props.onValueChange}/>
       </div>
@@ -28,6 +34,8 @@ class SocialSecurityNumber extends React.Component {
 }
 
 SocialSecurityNumber.propTypes = {
+  label: React.PropTypes.string,
+  required: React.PropTypes.bool,
   ssn: React.PropTypes.string.isRequired,
   onValueChange: React.PropTypes.func.isRequired,
 };

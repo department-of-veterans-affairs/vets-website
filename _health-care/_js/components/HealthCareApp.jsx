@@ -69,13 +69,50 @@ class HealthCareApp extends React.Component {
               country: undefined,
               state: undefined,
               zipcode: undefined,
-              county: undefined
             },
+            county: undefined,
             email: 'test@test.com',
             emailConfirmation: 'test@test.com',
             homePhone: '555-555-5555',
             mobilePhone: '111-111-1111'
           }
+        },
+        financialAssessment: {
+          financialDisclosure: {
+            provideFinancialInfo: false,
+            understandsFinancialDisclosure: false
+          },
+          spouseInformation: {
+            spouseFirstName: undefined,
+            spouseMiddleName: undefined,
+            spouseLastName: undefined,
+            spouseSuffix: undefined,
+            spouseSocialSecurityNumber: '111-11-1111',
+            spouseDateOfBirth: {
+              month: 4,
+              day: 23,
+              year: 1989,
+            },
+            dateOfMarriage: {
+              month: 3,
+              day: 8,
+              year: 2016
+            },
+            sameAddress: false,
+            cohabitedLastYear: false,
+            provideSupportLastYear: false,
+            spouseAddress: {
+              street: undefined,
+              city: undefined,
+              country: undefined,
+              state: undefined,
+              zipcode: undefined,
+            },
+            spousePhone: '222-222-2222'
+          },
+          childInformation: {},
+          annualIncome: {},
+          deductibleExpenses: {}
         }
       }
     };

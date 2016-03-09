@@ -299,6 +299,11 @@ const states = [
   { label: 'Wyoming', value: 'WY' }
 ];
 
+const suffixes = [
+  'Jr.',
+  'Sr.'
+];
+
 const vaMedicalFacilities = {
   AK: [
     { label: '463', value: 'ALASKA VA HLTCR SYSTEM (AVAHS)' },
@@ -1334,5 +1339,6 @@ export {
   countries,
   maritalStatuses,
   states,
+  suffixes,
   vaMedicalFacilities
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
-import State from './State';
+import State from '../questions/State';
 import VaMedicalFacility from './VaMedicalFacility';
 
 class AdditionalInformationSection extends React.Component {

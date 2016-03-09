@@ -1,8 +1,9 @@
 import React from 'react';
 
-import Address from './Address';
-import Phone from './Phone';
-import Email from './Email';
+import Address from '../questions/Address';
+import Email from '../questions/Email';
+import ErrorableTextInput from '../form-elements/ErrorableTextInput';
+import Phone from '../questions/Phone';
 
 class VeteranAddressSection extends React.Component {
   constructor() {
@@ -31,6 +32,10 @@ class VeteranAddressSection extends React.Component {
 
             <Address value={this.props.data.address}
                 onUserInput={(update) => {this.props.onStateChange('address', update);}}/>
+
+            <ErrorableTextInput label="County"
+                value={this.props.data.county}
+                onValueChange={(update) => {this.onStateChange('county', update);}}/>
 
             <Email label="Email address"
                 value={this.props.data.email}
