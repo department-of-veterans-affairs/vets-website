@@ -8,8 +8,20 @@ class InsuranceInformationPanel extends React.Component {
     return (
       <div>
         <h3>Insurance Information</h3>
-        <InsuranceInformationSection/>
-        <MedicareMedicaidSection/>
+        <InsuranceInformationSection
+            data={this.props.applicationData.insuranceInformation.insuranceInfo}
+            onStateChange={
+            (subfield, update) => {
+              this.props.publishStateChange(['insuranceInformation', 'insuranceInfo', subfield], update);
+            }
+          }/>
+        <MedicareMedicaidSection
+            data={this.props.applicationData.insuranceInformation.medicareMedicaidInfo}
+            onStateChange={
+            (subfield, update) => {
+              this.props.publishStateChange(['insuranceInformation', 'medicareMedicaidInfo', subfield], update);
+            }
+        }/>
       </div>
     );
   }

@@ -2,11 +2,11 @@ import React from 'react';
 
 import DateInput from '../form-elements/DateInput';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
-import FullName from './FullName';
-import Gender from './Gender';
+import FullName from '../questions/FullName';
+import Gender from '../questions/Gender';
 import MothersMaidenName from './MothersMaidenName';
-import SocialSecurityNumber from './SocialSecurityNumber';
-import State from './State';
+import SocialSecurityNumber from '../questions/SocialSecurityNumber';
+import State from '../questions/State';
 
 import { maritalStatuses } from '../../utils/options-for-select.js';
 

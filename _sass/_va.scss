@@ -26,6 +26,18 @@ body .row {
   max-width: 62.5em;
 }
 
+.usa-sidenav-list {
+  li {
+    list-style: none;
+    line-height: 2em;
+
+    a {
+      text-decoration: none;
+      background: none;
+    }
+  }
+}
+
 .form-panel {
   @include media($medium-screen) {
     max-width: $usa-form-width;
@@ -37,6 +49,12 @@ body .row {
   button {
     width: 100%;
   }
+}
+
+.progress-box {
+  padding: 1rem 2rem;
+  margin: 1.5rem 0  ;
+  border: 1px solid #eee;
 }
 
 .form-section {
@@ -2650,31 +2668,4 @@ html.touchevents {
     -webkit-transform: translateY(0);
     transform: translateY(0);
   }
-}
-
-// Everything for progress-menu tabs
-.progress-menu, .progress-menu dd.tab-title {
-  margin: 10px 2px 0px 0px;
-
-  li.tab-title, dd.tab-title {
-    list-style: none;
-    border-top: $color-primary-darker 5px solid;
-    a {text-decoration: none;}
-
-    &.active {
-      border-top: $color-primary 5px solid;
-      a {color: $color-primary;}
-    }
-
-    a {
-      padding: 0px 5px;
-      font-size: 14px;
-    }
-  }
-}
-
-.progress-box {
-  padding: 1rem;
-  margin: 1.5rem 0  ;
-  border: 1px solid #eee;
 }

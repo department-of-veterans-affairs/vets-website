@@ -1,5 +1,8 @@
 import React from 'react';
 
+import DateInput from '../form-elements/DateInput';
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+
 class MedicareMedicaidSection extends React.Component {
   render() {
     return (
@@ -12,11 +15,10 @@ class MedicareMedicaidSection extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <input
-                id="veteran_is_medicaid_eligible"
-                name="veteran_is_medicaid_eligible"
-                type="checkbox"/>
-            <label htmlFor="veteran_is_medicaid_eligible">Are you eligible for medicaid?</label>
+            <ErrorableCheckbox
+                label="Are you eligible for Medicaid?"
+                checked={this.props.data.isMedicaidEligible}
+                onValueChange={(update) => {this.props.onStateChange('isMedicaidEligible', update);}}/>
           </div>
         </div>
         <div className="row">
@@ -27,11 +29,10 @@ class MedicareMedicaidSection extends React.Component {
         </div>
         <div className="row">
           <div className="small-12 columns">
-            <input
-                id="veteran_is_enrolled_medicare_part_a"
-                name="veteran_is_enrolled_medicare_part_a"
-                type="checkbox"/>
-            <label htmlFor="veteran_is_enrolled_medicare_part_a">Are you enrolled in medicare hospital insurance part a?</label>
+            <ErrorableCheckbox
+                label="Are you enrolled in Medicare Part A (hospital insurance)"
+                checked={this.props.data.isEnrolledMedicarePartA}
+                onValueChange={(update) => {this.props.onStateChange('isEnrolledMedicarePartA', update);}}/>
           </div>
         </div>
         <div className="row">
@@ -43,8 +44,11 @@ class MedicareMedicaidSection extends React.Component {
         </div>
         <div className="row">
           <div className="small-12 columns">
-            <label htmlFor="veteran_medicare_part_a_effective_date">Effective Date</label>
-            <input type="date" name="veteran[medicare_part_a_effective_date]"/>
+            <DateInput
+                day={this.props.data.medicarePartAEffectiveDate.day}
+                month={this.props.data.medicarePartAEffectiveDate.month}
+                year={this.props.data.medicarePartAEffectiveDate.year}
+                onValueChange={(update) => {this.props.onStateChange('medicarePartAEffectiveDate', update);}}/>
           </div>
         </div>
       </div>

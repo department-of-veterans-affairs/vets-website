@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import Address from
-    '../../../../_health-care/_js/components/personal-information/Address';
+    '../../../../../_health-care/_js/components/questions/Address';
 
 describe('<Address>', () => {
   let component = null;
