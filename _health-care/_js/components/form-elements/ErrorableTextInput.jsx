@@ -4,7 +4,7 @@ import _ from 'lodash';
 /**
  * A form input with a label that can display error messages.
  *
- * Validation has the following props.
+ * Props:
  * `errorMessage` - Error string to display in the component.
  *                  When defined, indicates input has a validation error.
  * `label` - String for the input field label.
