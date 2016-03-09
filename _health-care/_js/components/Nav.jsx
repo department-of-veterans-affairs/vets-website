@@ -8,13 +8,13 @@ class Nav extends React.Component {
     return (
       <ul className="usa-sidenav-list">
         <li role="presentation">
-          <Link to="/introduction" 
+          <Link to="/introduction"
               className={this.props.currentUrl === '/' || this.props.currentUrl === '/introduction' ? ' usa-current' : ''}>
             Introduction
           </Link>
         </li>
         <li role="presentation">
-          <Link to="/personal-information" 
+          <Link to="/personal-information"
               className={this.props.currentUrl === '/personal-information' ? ' usa-current' : ''}>
             Personal Information
           </Link>
@@ -27,7 +27,7 @@ class Nav extends React.Component {
           </ul>
         </li>
         <li role="presentation">
-          <Link to="/insurance-information" 
+          <Link to="/insurance-information"
               className={this.props.currentUrl === '/insurance-information' ? ' usa-current' : ''}>
             Insurance Information
           </Link>
@@ -37,7 +37,7 @@ class Nav extends React.Component {
           </ul>
         </li>
         <li role="presentation">
-          <Link to="/military-service" 
+          <Link to="/military-service"
               className={this.props.currentUrl === '/military-service' ? ' usa-current' : ''}>
             Military Service
           </Link>
@@ -47,7 +47,7 @@ class Nav extends React.Component {
           </ul>
         </li>
         <li role="presentation">
-          <Link to="/financial-assessment" 
+          <Link to="/financial-assessment"
               className={this.props.currentUrl === '/financial-assessment' ? ' usa-current' : ''}>
             Financial Assessment
           </Link>
@@ -60,7 +60,7 @@ class Nav extends React.Component {
           </ul>
         </li>
         <li role="presentation">
-          <Link to="/review-and-submit" 
+          <Link to="/review-and-submit"
               className={this.props.currentUrl === '/review-and-submit' ? ' usa-current' : ''}>
             Review and Submit
           </Link>
