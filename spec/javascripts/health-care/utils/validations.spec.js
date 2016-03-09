@@ -1,4 +1,4 @@
-import { isValidDate, isValidSSN } from '../../../../_health-care/_js/utils/validations.js';
+import { isValidDate, isValidSSN, isValidName, isNotBlank } from '../../../../_health-care/_js/utils/validations.js';
 
 describe('Validations unit tests', () => {
   describe('isValidSSN', () => {
@@ -57,6 +57,31 @@ describe('Validations unit tests', () => {
 
       // 0 is always bad.
       expect(isValidDate(0, 2, 2016)).to.be.false;
+    });
+  });
+
+  describe('isValidName', () => {
+    it('correctly validates name', () => {
+      expect(isValidName('Test')).to.be.true;
+      expect(isValidName('abc')).to.be.true;
+      expect(isValidName('Jean-Pierre')).to.be.true;
+      expect(isValidName('Vigee Le Brun')).to.be.true;
+      expect(isValidName('')).to.be.true;
+
+      expect(isValidName('123')).to.be.false;
+      expect(isValidName('#$%')).to.be.false;
+      expect(isValidName('Test1')).to.be.false;
+    });
+  });
+
+  describe('isNotBlank', () => {
+    it('correctly validates blank values', () => {
+      expect(isNotBlank('Test')).to.be.true;
+      expect(isNotBlank('abc')).to.be.true;
+      expect(isNotBlank('123')).to.be.true;
+      expect(isNotBlank('#$%')).to.be.true;
+
+      expect(isNotBlank('')).to.be.false;
     });
   });
 });

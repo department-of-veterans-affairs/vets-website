@@ -29,8 +29,7 @@ class Address extends React.Component {
       city: this.props.value.city,
       country: this.props.value.country,
       state: this.props.value.state,
-      zipcode: this.props.value.zipcode,
-      county: this.props.value.county
+      zipcode: this.props.value.zipcode
     };
 
     address[path] = update;
@@ -44,8 +43,7 @@ class Address extends React.Component {
       this.props.value.city,
       this.props.value.country,
       this.props.value.state,
-      this.props.value.zipcode,
-      this.props.value.county
+      this.props.value.zipcode
     );
 
     return (
@@ -64,23 +62,18 @@ class Address extends React.Component {
             label="Country"
             options={countries}
             value={this.props.value.country}
-            onUserInput={(update) => {this.handleChange('country', update);}}/>
+            onValueChange={(update) => {this.handleChange('country', update);}}/>
 
         <ErrorableSelect errorMesssage={isValid ? undefined : 'Please enter a valid state'}
             label="State"
             options={states}
             value={this.props.value.state}
-            onUserInput={(update) => {this.handleChange('state', update);}}/>
+            onValueChange={(update) => {this.handleChange('state', update);}}/>
 
         <ErrorableTextInput errorMessage={isValid ? undefined : 'Please enter a valid ZIP code'}
             label="ZIP Code"
             value={this.props.value.zipcode}
             onValueChange={(update) => {this.handleChange('zipcode', update);}}/>
-
-        <ErrorableTextInput errorMessage={isValid ? undefined : 'Please enter a valid county'}
-            label="County"
-            value={this.props.value.county}
-            onValueChange={(update) => {this.handleChange('county', update);}}/>
       </div>
     );
   }

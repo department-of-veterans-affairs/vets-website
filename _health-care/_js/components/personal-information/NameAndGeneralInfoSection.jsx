@@ -2,11 +2,11 @@ import React from 'react';
 
 import DateInput from '../form-elements/DateInput';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
-import FullName from './FullName';
-import Gender from './Gender';
+import FullName from '../questions/FullName';
+import Gender from '../questions/Gender';
 import MothersMaidenName from './MothersMaidenName';
-import SocialSecurityNumber from './SocialSecurityNumber';
-import State from './State';
+import SocialSecurityNumber from '../questions/SocialSecurityNumber';
+import State from '../questions/State';
 
 import { maritalStatuses } from '../../utils/options-for-select.js';
 
@@ -23,7 +23,8 @@ class NameAndGeneralInfoSection extends React.Component {
           <div className="row">
             <div className="small-12 columns">
               <h4>Veteran's Name</h4>
-              <FullName name={this.props.data.fullName}
+              <FullName required
+                  value={this.props.data.fullName}
                   onUserInput={(update) => {this.props.onStateChange('fullName', update);}}/>
               <MothersMaidenName name={this.props.data.mothersMaidenName}
                   onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);}}/>
@@ -56,7 +57,7 @@ class NameAndGeneralInfoSection extends React.Component {
             <ErrorableSelect label="Current Marital Status"
                 options={maritalStatuses}
                 value={this.props.data.maritalStatus}
-                onUserInput={(update) => {this.props.onStateChange('maritalStatus', update);}}/>
+                onValueChange={(update) => {this.props.onStateChange('maritalStatus', update);}}/>
           </div>
         </fieldset>
       </div>

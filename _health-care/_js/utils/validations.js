@@ -1,3 +1,7 @@
+function isNotBlank(value) {
+  return value !== '';
+}
+
 function isValidSSN(value) {
   return /^\d{3}-\d{2}-\d{4}$/.test(value);
 }
@@ -10,6 +14,10 @@ function isValidDate(day, month, year) {
   return date.getDate() === Number(day) &&
     date.getMonth() === adjustedMonth &&
     date.getFullYear() === Number(year);
+}
+
+function isValidName(value) {
+  return value === '' || /^[a-zA-Z '\-]+$/.test(value);
 }
 
 // TODO: look into validation libraries (npm "validator")
@@ -25,7 +33,7 @@ function isValidEmail(value) {
 // TODO:  1. what is a valid address?
 //        2. 6 arguments to a function is ugly...
 //        3. argument order is now based on form order... using
-function isValidAddress(street, city, country, state, zipcode, county) {
+function isValidAddress(street, city, country, state, zipcode) {
   // arbitraty use of field to keep linter happy until we answer #1
   let n = 0;
   if (street === '') n++;
@@ -33,12 +41,13 @@ function isValidAddress(street, city, country, state, zipcode, county) {
   if (country === '') n++;
   if (state === '') n++;
   if (zipcode === '') n++;
-  if (county === '') n++;
   return true;
 }
 
 export {
+  isNotBlank,
   isValidDate,
+  isValidName,
   isValidSSN,
   isValidPhone,
   isValidEmail,
