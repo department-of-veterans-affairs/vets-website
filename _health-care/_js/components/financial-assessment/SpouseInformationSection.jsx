@@ -44,7 +44,7 @@ class SpouseInformationSection extends React.Component {
                   label="Suffix"
                   options={suffixes}
                   value={this.props.data.spouseSuffix}
-                  onUserInput={(update) => {this.props.onStateChange('spouseSuffix', update);}}/>
+                  onValueChange={(update) => {this.props.onStateChange('spouseSuffix', update);}}/>
             </div>
           </div>
 

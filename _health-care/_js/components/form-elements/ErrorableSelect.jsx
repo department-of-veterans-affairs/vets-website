@@ -11,7 +11,7 @@ import _ from 'lodash';
  * `options` - Array of options to populate select.
  * `required` - boolean. Render marker indicating field is required.
  * `value` - string. Value of the select field.
- * `onUserInput` - a function with this prototype: (newValue)
+ * `onValueChange` - a function with this prototype: (newValue)
  */
 class ErrorableSelect extends React.Component {
   constructor() {
@@ -24,7 +24,7 @@ class ErrorableSelect extends React.Component {
   }
 
   handleChange(domEvent) {
-    this.props.onUserInput(domEvent.target.value);
+    this.props.onValueChange(domEvent.target.value);
   }
 
   render() {
@@ -93,7 +93,7 @@ ErrorableSelect.propTypes = {
     ])).isRequired,
   required: React.PropTypes.bool,
   value: React.PropTypes.string,
-  onUserInput: React.PropTypes.func.isRequired,
+  onValueChange: React.PropTypes.func.isRequired,
 };
 
 export default ErrorableSelect;
