@@ -5,7 +5,8 @@ import InsuranceInformationPanel from '../../../../_health-care/_js/components/I
 
 describe('<InsuranceInformationPanel>', () => {
   it('Sanity check the component renders', () => {
-    const tree = SkinDeep.shallowRender(<InsuranceInformationPanel/>);
+    const tree = SkinDeep.shallowRender(
+      <InsuranceInformationPanel applicationData={{ insuranceInformation: '' }}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.have.property('type', 'div');
   });
