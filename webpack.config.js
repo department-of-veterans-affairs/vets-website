@@ -20,8 +20,7 @@ var config = {
           presets: ['es2015'],
 
           // Share polyfills between files.
-          // TODO(awong): This is erroring out. Enable later.
-//          plugins: ['transform-runtime'],
+          plugins: ['transform-runtime'],
 
           // Speed up compilation.
           cacheDirectory: true
@@ -36,8 +35,7 @@ var config = {
           presets: ['es2015', 'react'],
 
           // Share polyfills between files.
-          // TODO(awong): This is erroring out. Enable later.
-//          plugins: ['transform-runtime'],
+          plugins: ['transform-runtime'],
 
           // Speed up compilation.
           cacheDirectory: true
