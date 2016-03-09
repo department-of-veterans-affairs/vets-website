@@ -112,8 +112,22 @@ class HealthCareApp extends React.Component {
             spousePhone: '222-222-2222'
           },
           childInformation: {},
-          annualIncome: {},
-          deductibleExpenses: {},
+          annualIncome: {
+            veteranGrossIncome: '',
+            veteranNetIncome: '',
+            veteranOtherIncome: '',
+            spouseGrossIncome: '',
+            spouseNetIncome: '',
+            spouseOtherIncome: '',
+            childrenGrossIncome: '',
+            childrenNetIncome: '',
+            childrenOtherIncome: ''
+          },
+          deductibleExpenses: {
+            deductibleMedicalExpenses: '',
+            deductibleFuneralExpenses: '',
+            deductibleEducationExpenses: ''
+          },
         },
 
         // TODO: insuranceInformation should be an array where each row

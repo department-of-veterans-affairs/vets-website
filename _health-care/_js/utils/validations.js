@@ -20,6 +20,10 @@ function isValidName(value) {
   return value === '' || /^[a-zA-Z '\-]+$/.test(value);
 }
 
+function isValidMonetaryValue(value) {
+  return value === '' || /^\d+\.?\d*$/.test(value);
+}
+
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
   return /^\d{3}-\d{3}-\d{4}$/.test(value);
@@ -49,6 +53,7 @@ export {
   isValidDate,
   isValidName,
   isValidSSN,
+  isValidMonetaryValue,
   isValidPhone,
   isValidEmail,
   isValidAddress

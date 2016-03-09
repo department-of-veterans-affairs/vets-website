@@ -1,4 +1,4 @@
-import { isValidDate, isValidSSN, isValidName, isNotBlank } from '../../../../_health-care/_js/utils/validations.js';
+import { isValidDate, isValidSSN, isValidName, isNotBlank, isValidMonetaryValue } from '../../../../_health-care/_js/utils/validations.js';
 
 describe('Validations unit tests', () => {
   describe('isValidSSN', () => {
@@ -82,6 +82,19 @@ describe('Validations unit tests', () => {
       expect(isNotBlank('#$%')).to.be.true;
 
       expect(isNotBlank('')).to.be.false;
+    });
+  });
+  
+  describe('isValidMonetaryValue', () => {
+    it('validates monetary values', () => {
+      expect(isValidMonetaryValue('100')).to.be.true;
+      expect(isValidMonetaryValue('1.99')).to.be.true;
+      expect(isValidMonetaryValue('1000')).to.be.true;
+      expect(isValidMonetaryValue('')).to.be.true;
+
+      expect(isValidMonetaryValue('1,000')).to.be.false;
+      expect(isValidMonetaryValue('abc')).to.be.false;
+      expect(isValidMonetaryValue('$100')).to.be.false;
     });
   });
 });
