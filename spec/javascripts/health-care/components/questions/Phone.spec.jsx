@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 
-import Phone from '../../../../../_health-care/_js/components/personal-information/Phone';
+import Phone from '../../../../../_health-care/_js/components/questions/Phone';
 
 describe('<Phone>', () => {
   describe('propTypes', () => {

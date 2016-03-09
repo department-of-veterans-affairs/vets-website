@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
-import Gender from
-    '../../../../_health-care/_js/components/personal-information/Gender';
+import State from
+    '../../../../../_health-care/_js/components/questions/State';
 
-describe('<Gender>', () => {
+describe('<State>', () => {
   let component = null;
 
   beforeEach(() => {
     component = ReactTestUtils.renderIntoDocument(
-      <Gender value="F"/>
+      <State value="CA"/>
     );
     assert.ok(component, 'Cannot even render component');
   });

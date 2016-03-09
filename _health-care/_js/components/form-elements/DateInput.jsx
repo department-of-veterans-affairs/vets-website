@@ -25,6 +25,7 @@ class DateInput extends React.Component {
 
   render() {
     const isValid = isValidDate(this.props.day, this.props.month, this.props.year);
+
     return (
       <div className={isValid ? undefined : 'usa-input-error'}>
         <div className="usa-date-of-birth">
