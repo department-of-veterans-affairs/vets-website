@@ -19,47 +19,34 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Plan for your transition from the military as soon as you know you’ll be exiting the service. Steps you and your spouse take early on can have a big impact on your successful transition.
+The Veterans Employment Center can help spouses and family members access valuable career resources. 
 
-**Online Presence**
+Through the Department of Defense’s [Spouse Education Career Opportunities](https://myseco.militaryonesource.mil/Portal/) (SECO) program, spouses can use government-sponsored career and education resources, take advantage of networking opportunities, and work with employment counselors. SECO also partners with the [Military Spouse Employment Partnership](https://msepjobs.militaryonesource.mil/msep/) (MSEP) and [My Career Advancement Account](https://myseco.militaryonesource.mil/Portal/Media/Default/Collaterals_Catalog/Program_Overview/MyCAA-Helping-Spouses-Reach-Career-Goals.pdf) (MyCAA) scholarship program. These organizations and others (like [Blue Star Families](https://www.bluestarfam.org/)) offer assistance for spouses interested in:
+-	connecting with employers committed to hiring military spouses or
+-	pursuing additional education and/or training.  
 
-Make sure your online presence is what you want it to be.
+### Are you eligible for SECO services? 
+Yes, if:
+-	You are the spouse of an active-duty, National Guard, or Reserve Servicemember in the Army, Marine Corps, Navy, or Air Force, or 
+-	You are the spouse of a Servicemember who has been separated from active duty, National Guard, or Reserves for less than 180 days.
+-	You are the surviving spouse of a Servicemember who died while on active duty.
 
-Protect:
-- Search your name, and variations on your name, in several search engines. If you find something that you would not want an employer to see, request that the source remove it. 
-- Ensure that your personal social-media profiles are set to private.
--Do not post, or allow others to post, information on social media that an employer might find controversial or inappropriate.
+### How it works
+Sign up for a current DS Logon ID. This is the same login used for online services like TRICARE. If you are unsure of your DS Logon, visit [My Access Center](https://myaccess.dmdc.osd.mil/identitymanagement/help.do?execution=e1s1).
+-	Request a logon account.  
+-	Register on the SECO site.
 
-Establish:
-- Learn how professional civilian networks, like LinkedIn, function. 
-- Connect online with organizations in which you are interested. 
-- Follow companies you might consider working for.
+### Other Programs
+-	The [Military Spouse eMentor Program](https://ementorprogram.org/p/milspouse/about) links spouses to career-specific mentors. 
+-	The [Military Spouse Fellowship Program](http://www.saveandinvest.org/military/military-spouse-fellowship-program) offers 50 spouses a year (at no cost to themselves) the opportunity to earn the Accredited Financial Counselor® certificate.
 
-Build:
-- Start establishing your network long before you begin your job search.
-- Maintain your network presence. Regularly contribute to your network page with thoughtful, professional content, or share the professional content of others you find interesting. 
+Start your own business 
+If entrepreneurship interests you, learn about everything from start-up costs to business, accounting, and financial assistance with three programs: [SCORE](https://www.score.org/topics/veteran_guards_reservists ), the [Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned)(SBA), and [Entrepreneurship Boot Camp](https://myseco.militaryonesource.mil/Portal/Content/View/2622). 
 
-**Consider More Education**
+If you are a surviving spouse, the [Tragedy Assistance Program for Survivors](http://www.taps.org/) offers seminars, peer mentors, and other forms of support to help you complete your education or find a sustainable career. 
 
-- Decide if pursuing a college degree, an advanced degree, or a vocational technical degree is the right path for you. 
-- Begin researching schools and programs that will help you reach your goals.
-- Consider [alternative options](LINK) such as on-the-job training or an apprenticeship. 
-- Research how to access your [GI Bill benefits](/education/gi-bill/) and the financial impact of pursuing an education versus a career. 
+Spouses can attend Department of Labor Employment Workshops (DOLEW) online through the Transition GPS Virtual Curriculum on [Joint Knowledge Online](https://jkodirect.jten.mil), on the [Department of Labor website](www.dol.gov/vets/ or in person at some military installations. These workshops focus on building résumés and cover letters as well as developing networking and interviewing skills.
 
-
-**Résumé Building**
-
-Your résumé is a living document. Visit a (VA Employment Center)[Link] and get help preparing yours in the right format for the type of job you want.
-
-Basic tips:
-- Your résumé should be one to two pages for every ten years of work experience. The exception to this rule is for a (Federal Job Application)[Link]. 
-- Build your general résumé, following a standard format. Your post-education office will have more information as well as sample résumé templates.
-- Keep your résumé updated during your military career.
-- Have a basic cover letter for each résumé type
-
-**Ramp Up Before You Begin Searching for a Job**
-
-Start a list of fields that interest you. A resource for this is the [Interest Profiler] (LINK).
 
 </div>
 </div>
