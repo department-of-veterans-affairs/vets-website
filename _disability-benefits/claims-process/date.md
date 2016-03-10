@@ -12,7 +12,7 @@ template: 6-info-page
 
 When VA determines it will pay a benefit based on a claim, it assigns an effective date.
 
-The effective date is when benefits are payable to you. This varies with the type of benefit you’re applying for and the circumstances of your claim.
+The day you became eligible for benefits is your effective date. This varies with the type of benefit you’re applying for and the circumstances of your claim.
 
 ### How Effective Dates Are Assigned
 
