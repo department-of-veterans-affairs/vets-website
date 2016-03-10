@@ -84,7 +84,7 @@ describe('Validations unit tests', () => {
       expect(isNotBlank('')).to.be.false;
     });
   });
-  
+
   describe('isValidMonetaryValue', () => {
     it('validates monetary values', () => {
       expect(isValidMonetaryValue('100')).to.be.true;
