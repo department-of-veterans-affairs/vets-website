@@ -34,67 +34,67 @@ describe('<Nav>', () => {
       history.replace('/');
     });
 
-    it('/introduction', ()=> {
+    it('/introduction', () => {
       expectOneActiveLink(nav, '/introduction');
     });
 
-    it('/personal-information/name-and-general-information', ()=> {
+    it('/personal-information/name-and-general-information', () => {
       expectOneActiveLink(nav, '/personal-information/name-and-general-information');
     });
 
-    it('/personal-information/va-information', ()=> {
+    it('/personal-information/va-information', () => {
       expectOneActiveLink(nav, '/personal-information/va-information');
     });
 
-    it('/personal-information/additional-information', ()=> {
+    it('/personal-information/additional-information', () => {
       expectOneActiveLink(nav, '/personal-information/additional-information');
     });
 
-    it('/personal-information/demographic-information', ()=> {
+    it('/personal-information/demographic-information', () => {
       expectOneActiveLink(nav, '/personal-information/demographic-information');
     });
 
-    it('/personal-information/veteran-address', ()=> {
+    it('/personal-information/veteran-address', () => {
       expectOneActiveLink(nav, '/personal-information/veteran-address');
     });
 
-    it('/insurance-information/general', ()=> {
+    it('/insurance-information/general', () => {
       expectOneActiveLink(nav, '/insurance-information/general');
     });
 
-    it('/insurance-information/medicare-medicaid', ()=> {
+    it('/insurance-information/medicare-medicaid', () => {
       expectOneActiveLink(nav, '/insurance-information/medicare-medicaid');
     });
 
-    it('/military-service/service-information', ()=> {
+    it('/military-service/service-information', () => {
       expectOneActiveLink(nav, '/military-service/service-information');
     });
 
-    it('/military-service/additional-information', ()=> {
+    it('/military-service/additional-information', () => {
       expectOneActiveLink(nav, '/military-service/additional-information');
     });
 
-    it('/financial-assessment/financial-disclosure', ()=> {
+    it('/financial-assessment/financial-disclosure', () => {
       expectOneActiveLink(nav, '/financial-assessment/financial-disclosure');
     });
 
-    it('/financial-assessment/spouse-information', ()=> {
+    it('/financial-assessment/spouse-information', () => {
       expectOneActiveLink(nav, '/financial-assessment/spouse-information');
     });
 
-    it('/financial-assessment/child-information', ()=> {
+    it('/financial-assessment/child-information', () => {
       expectOneActiveLink(nav, '/financial-assessment/child-information');
     });
 
-    it('/financial-assessment/annual-income', ()=> {
+    it('/financial-assessment/annual-income', () => {
       expectOneActiveLink(nav, '/financial-assessment/annual-income');
     });
 
-    it('/financial-assessment/deductible-expenses', ()=> {
+    it('/financial-assessment/deductible-expenses', () => {
       expectOneActiveLink(nav, '/financial-assessment/deductible-expenses');
     });
 
-    it('/review-and-submit', ()=> {
+    it('/review-and-submit', () => {
       expectOneActiveLink(nav, '/review-and-submit');
     });
   });

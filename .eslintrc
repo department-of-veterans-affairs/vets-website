@@ -38,7 +38,7 @@
 
     // Disabled rules with rationale.
     'react/no-multi-comp': 0,      // Leave organization to code reviewer discretion. 
-    'react/prefer-stateless-function': 0,
+    'react/prefer-stateless-function': 0, // Leave statelessness to code reviewer discretion.
 
     'react/jsx-closing-bracket-location': [2, 'after-props'],
     'react/jsx-curly-spacing': 2,

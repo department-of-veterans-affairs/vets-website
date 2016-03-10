@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
-import { isValidSSN } from '../../utils/validations.js';
+import { isBlank, isValidSSN } from '../../utils/validations.js';
 
 /**
  * Input component for collecting a Social Security Number.
@@ -17,8 +17,20 @@ import { isValidSSN } from '../../utils/validations.js';
  * `onValueChange` - updates value of SSN
  */
 class SocialSecurityNumber extends React.Component {
+  constructor() {
+    super();
+    this.validate = this.validate.bind(this);
+  }
+
+  validate(value) {
+    if (this.props.required) {
+      return isValidSSN(value);
+    }
+    return isBlank(value) || isValidSSN(value);
+  }
+
   render() {
-    const errorMessage = isValidSSN(this.props.ssn) ? undefined : 'Please put your number in this format xxx-xx-xxxx';
+    const errorMessage = this.validate(this.props.ssn) ? undefined : 'Please put your number in this format xxx-xx-xxxx';
     return (
       <div className="usa-input-grid usa-input-grid-medium">
         <ErrorableTextInput

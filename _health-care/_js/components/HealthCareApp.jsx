@@ -84,11 +84,11 @@ class HealthCareApp extends React.Component {
             understandsFinancialDisclosure: false
           },
           'spouse-information': {
-            spouseFirstName: null,
-            spouseMiddleName: null,
-            spouseLastName: null,
-            spouseSuffix: null,
-            spouseSocialSecurityNumber: '111-11-1111',
+            spouseFirstName: undefined,
+            spouseMiddleName: undefined,
+            spouseLastName: undefined,
+            spouseSuffix: undefined,
+            spouseSocialSecurityNumber: '',
             spouseDateOfBirth: {
               month: 4,
               day: 23,
@@ -111,9 +111,51 @@ class HealthCareApp extends React.Component {
             },
             spousePhone: '222-222-2222'
           },
-          'child-information': {},
-          'annual-income': {},
-          'deductible-expenses': {},
+
+          'child-information': {
+            hasChildrenToReport: false,
+            childFullName: {
+              first: '',
+              middle: '',
+              last: '',
+              suffix: ''
+            },
+            childRelation: '',
+            childSocialSecurityNumber: '',
+            childBecameDependent: {
+              month: 11,
+              day: 4,
+              year: 2000
+            },
+            childDateOfBirth: {
+              month: 11,
+              day: 4,
+              year: 2000
+            },
+            childDisabledBefore18: false,
+            childAttendedSchoolLastYear: false,
+            childEducationExpenses: '',
+            childCohabitedLastYear: false,
+            childReceivedSupportLastYear: false
+          },
+
+          'annual-income': {
+            veteranGrossIncome: '',
+            veteranNetIncome: '',
+            veteranOtherIncome: '',
+            spouseGrossIncome: '',
+            spouseNetIncome: '',
+            spouseOtherIncome: '',
+            childrenGrossIncome: '',
+            childrenNetIncome: '',
+            childrenOtherIncome: ''
+          },
+
+          'deductible-expenses': {
+            deductibleMedicalExpenses: '',
+            deductibleFuneralExpenses: '',
+            deductibleEducationExpenses: ''
+          },
         },
 
         // TODO: insuranceInformation should be an array where each row
