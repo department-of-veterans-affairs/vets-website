@@ -1,3 +1,11 @@
+function isBlank(value) {
+  return value === '';
+}
+
+function isNotBlank(value) {
+  return value !== '';
+}
+
 function isValidSSN(value) {
   return /^\d{3}-\d{2}-\d{4}$/.test(value);
 }
@@ -10,6 +18,14 @@ function isValidDate(day, month, year) {
   return date.getDate() === Number(day) &&
     date.getMonth() === adjustedMonth &&
     date.getFullYear() === Number(year);
+}
+
+function isValidName(value) {
+  return /^[a-zA-Z '\-]+$/.test(value);
+}
+
+function isValidMonetaryValue(value) {
+  return /^\d+\.?\d*$/.test(value);
 }
 
 // TODO: look into validation libraries (npm "validator")
@@ -37,8 +53,12 @@ function isValidAddress(street, city, country, state, zipcode) {
 }
 
 export {
+  isBlank,
+  isNotBlank,
   isValidDate,
+  isValidName,
   isValidSSN,
+  isValidMonetaryValue,
   isValidPhone,
   isValidEmail,
   isValidAddress

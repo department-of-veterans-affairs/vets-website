@@ -1,19 +1,50 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
+import SkinDeep from 'skin-deep';
 
 import FullName from '../../../../../_health-care/_js/components/questions/FullName';
 
 describe('<FullName>', () => {
-  let component = null;
+  describe('propTypes', () => {
+    let consoleStub;
+    beforeEach(() => {
+      consoleStub = sinon.stub(console, 'error');
+    });
 
-  beforeEach(() => {
-    component = ReactTestUtils.renderIntoDocument(
-      <FullName name={{ first: 'William', last: 'Shakespeare' }} onUserInput={(_update) => {}}/>
-    );
-    assert.ok(component, 'Cannot even render component');
+    afterEach(() => {
+      consoleStub.restore();
+    });
+
+    // TODO(awong): consider implementing higher-order component approach using invariant
+    xit('value is required', () => {
+      SkinDeep.shallowRender(<FullName/>);
+      sinon.assert.calledWithMatch(consoleStub, /Required prop `value` was not specified in `FullName`/);
+    });
+
+    it('value must be an object', () => {
+      SkinDeep.shallowRender(<FullName value/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `value` of type `boolean` supplied to `FullName`, expected `object`/);
+    });
+
+    // TODO(awong): Why in the world does this not work?!?!
+    xit('onValueChange is required', () => {
+      SkinDeep.shallowRender(<FullName/>);
+      sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `FullName`/);
+    });
+
+    xit('onValueChange must be a function', () => {
+      SkinDeep.shallowRender(
+        <FullName onValueChange/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `FullName`, expected `function`/);
+    });
   });
 
   it('has sane looking features', () => {
+    const component = ReactTestUtils.renderIntoDocument(
+      <FullName value={{ first: '', last: '' }}/>
+    );
+    assert.ok(component, 'Cannot even render component');
+
     const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(component, 'input');
     expect(inputs).to.have.length(3);
 
@@ -21,60 +52,28 @@ describe('<FullName>', () => {
     expect(selects).to.have.length(1);
   });
 
-  it('sets and removes error css on blank name', () => {
-    // Initial state should be valid.
-    expect(component.state.hasError).to.be.false;
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(0);
-
-    // Empty first and last name renders error.
-    component.refs.first.value = '';
-    component.refs.last.value = '';
-    ReactTestUtils.Simulate.change(component.refs.last);
-    expect(component.state.hasError).to.be.true;
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(2);
-
-    // Present first and last name removes error.
-    component.refs.first.value = 'a';
-    component.refs.last.value = 'b';
-    ReactTestUtils.Simulate.change(component.refs.last);
-    expect(component.state.hasError).to.be.false;
-    expect(ReactTestUtils.scryRenderedDOMComponentsWithClass(
-        component, 'usa-input-error')).to.have.length(0);
+  it('excludes ErrorMessage prop when valid name', () => {
+    const tree = SkinDeep.shallowRender(<FullName value={{ first: 'First', middle: '', last: 'Last', suffix: '' }} onUserInput={(_update) => {}}/>);
+    const errorableInputs = tree.everySubTree('ErrorableTextInput');
+    expect(errorableInputs).to.have.lengthOf(3);
+    expect(errorableInputs[0].props.errorMessage).to.be.undefined;
   });
 
-  it('validate first and last name are present', () => {
-    // Present first name and blank last name should render error.
-    component.refs.first.value = 'a';
-    component.refs.last.value = '';
-    ReactTestUtils.Simulate.change(component.refs.last);
-    expect(component.state.hasError).to.be.true;
+  it('includes ErrorMessage prop when blank name', () => {
+    const tree = SkinDeep.shallowRender(<FullName value={{ first: '', middle: '', last: '', suffix: '' }} required onUserInput={(_update) => {}}/>);
+    const errorableInputs = tree.everySubTree('ErrorableTextInput');
+    expect(errorableInputs).to.have.lengthOf(3);
+    expect(errorableInputs[0].props.errorMessage).to.not.be.undefined;
+    expect(errorableInputs[1].props.errorMessage).to.be.undefined;
+    expect(errorableInputs[2].props.errorMessage).to.not.be.undefined;
+  });
 
-    // Present first and last should have no error.
-    component.refs.first.value = 'a';
-    component.refs.last.value = 'b';
-    ReactTestUtils.Simulate.change(component.refs.last);
-    expect(component.state.hasError).to.be.false;
-
-    // Blank first and last should render error.
-    component.refs.first.value = '';
-    component.refs.last.value = '';
-    ReactTestUtils.Simulate.change(component.refs.last);
-    expect(component.state.hasError).to.be.true;
-
-    // Blank middle name should not render error.
-    component.refs.first.value = 'a';
-    component.refs.middle.value = '';
-    component.refs.last.value = 'b';
-    ReactTestUtils.Simulate.change(component.refs.last);
-    expect(component.state.hasError).to.be.false;
-
-    // Blank suffix should not render error.
-    component.refs.first.value = 'a';
-    component.refs.last.value = 'b';
-    component.refs.suffix.value = '';
-    ReactTestUtils.Simulate.change(component.refs.suffix);
-    expect(component.state.hasError).to.be.false;
+  it('includes ErrorMessage prop when invalid name', () => {
+    const tree = SkinDeep.shallowRender(<FullName value={{ first: '#1', middle: '#2', last: '#3', suffix: '' }} onUserInput={(_update) => {}}/>);
+    const errorableInputs = tree.everySubTree('ErrorableTextInput');
+    expect(errorableInputs).to.have.lengthOf(3);
+    expect(errorableInputs[0].props.errorMessage).to.not.be.undefined;
+    expect(errorableInputs[1].props.errorMessage).to.not.be.undefined;
+    expect(errorableInputs[2].props.errorMessage).to.not.be.undefined;
   });
 });

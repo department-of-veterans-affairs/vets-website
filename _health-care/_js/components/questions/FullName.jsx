@@ -1,86 +1,102 @@
 import React from 'react';
 import _ from 'lodash';
 
-// TODO: Refactor to use latest conventions
+import ErrorableTextInput from '../form-elements/ErrorableTextInput';
+import ErrorableSelect from '../form-elements/ErrorableSelect';
+import { isValidName, isBlank } from '../../utils/validations';
+import { suffixes } from '../../utils/options-for-select';
+
+/**
+ * A form input with a label that can display error messages.
+ *
+ * Props:
+ * `required` - boolean. Render marker indicating field is required.
+ * `value` - object. Value of the full name.
+ * `onUserInput` - a function with this prototype: (newValue)
+ */
 
 class FullName extends React.Component {
   constructor() {
     super();
-    this.state = { hasError: false };
     this.handleChange = this.handleChange.bind(this);
+    this.validateRequiredFields = this.validateRequiredFields.bind(this);
   }
 
   componentWillMount() {
     this.id = _.uniqueId();
   }
 
-  handleChange() {
+  // TODO: look into why this is updating so slowly
+  handleChange(path, update) {
     const name = {
-      first: this.refs.first.value,
-      middle: this.refs.middle.value,
-      last: this.refs.last.value,
-      suffix: this.refs.suffix.value
+      first: this.props.value.first,
+      middle: this.props.value.middle,
+      last: this.props.value.last,
+      suffix: this.props.value.suffix
     };
 
-    const requiredFields = [this.refs.first, this.refs.last];
-
-    for (let i = 0; i < requiredFields.length; i++) {
-      const errorDiv = requiredFields[i].parentElement;
-
-      errorDiv.classList.remove('usa-input-error');
-
-      if (!this.validate(requiredFields[i])) {
-        this.setState({ hasError: true });
-        errorDiv.classList.add('usa-input-error');
-      } else {
-        this.setState({ hasError: false });
-      }
-    }
+    name[path] = update;
 
     this.props.onUserInput(name);
   }
 
-  validate(field) {
-    return field !== '' && /^[a-zA-Z '\-]+$/.test(field.value);
+  validateRequiredFields(value) {
+    if (this.props.required) {
+      return isValidName(value);
+    }
+    return isBlank(value) || isValidName(value);
   }
 
   render() {
     return (
       <div>
         <div>
-          <label htmlFor={`${this.id}-first-name`}>First Name
-            <span className="usa-additional_text">Required</span>
-          </label>
-          <input type="text" value={this.props.name.first} id={`${this.id}-first-name`}
-              ref="first" onChange={this.handleChange}/>
+          <ErrorableTextInput
+              errorMessage={this.validateRequiredFields(this.props.value.first) ? undefined : 'Please enter a valid name'}
+              label="First Name"
+              required={this.props.required}
+              value={this.props.value.first}
+              onValueChange={(update) => {this.handleChange('first', update);}}/>
         </div>
 
         <div>
-          <label htmlFor={`${this.id}-middle-name`}>Middle Name</label>
-          <input type="text" value={this.props.name.middle} id={`${this.id}-middle-name`}
-              ref="middle" onChange={this.handleChange}/>
+          <ErrorableTextInput
+              errorMessage={isBlank(this.props.value.middle) || isValidName(this.props.value.middle) ? undefined : 'Please enter a valid name'}
+              label="Middle Name"
+              value={this.props.value.middle}
+              onValueChange={(update) => {this.handleChange('middle', update);}}/>
         </div>
 
         <div>
-          <label htmlFor={`${this.id}-last-name`}>Last Name
-            <span className="usa-additional_text">Required</span>
-          </label>
-          <input type="text" value={this.props.name.last} id={`${this.id}-last-name`}
-              ref="last" onChange={this.handleChange}/>
+          <ErrorableTextInput
+              errorMessage={this.validateRequiredFields(this.props.value.last) ? undefined : 'Please enter a valid name'}
+              label="Last Name"
+              required={this.props.required}
+              value={this.props.value.last}
+              onValueChange={(update) => {this.handleChange('last', update);}}/>
         </div>
 
         <div className="usa-input-grid usa-input-grid-small">
-          <label htmlFor={`${this.id}-suffix-name`}>Suffix</label>
-          <select value={this.props.name.suffix} id={`${this.id}-suffix-name`}
-              ref="suffix" onChange={this.handleChange}>
-            <option value=""></option>
-            <option value="JR">Jr.</option>
-            <option value="SR">Sr.</option>
-          </select>
+          <ErrorableSelect
+              label="Suffix"
+              options={suffixes}
+              value={this.props.value.suffix}
+              onValueChange={(update) => {this.handleChange('suffix', update);}}/>
         </div>
       </div>
     );
   }
 }
+
+FullName.propTypes = {
+  required: React.PropTypes.bool,
+  value: React.PropTypes.shape({
+    first: React.PropTypes.string,
+    middle: React.PropTypes.string,
+    last: React.PropTypes.string,
+    suffix: React.PropTypes.string,
+  }).isRequired,
+  onUserInput: React.PropTypes.func.isRequired,
+};
 
 export default FullName;

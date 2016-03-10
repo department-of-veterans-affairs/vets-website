@@ -1347,6 +1347,13 @@ const vaMedicalFacilities = {
   ]
 };
 
+const childRelationships = [
+  'Son',
+  'Daughter',
+  'Stepson',
+  'Stepdaughter'
+];
+
 export {
   countries,
   maritalStatuses,
@@ -1354,5 +1361,6 @@ export {
   dischargeTypes,
   states,
   suffixes,
-  vaMedicalFacilities
+  vaMedicalFacilities,
+  childRelationships
 };

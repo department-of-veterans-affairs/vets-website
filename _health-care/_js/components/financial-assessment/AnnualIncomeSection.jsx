@@ -1,7 +1,21 @@
 import React from 'react';
 
+import ErrorableTextInput from '../form-elements/ErrorableTextInput';
+import { isBlank, isValidMonetaryValue } from '../../utils/validations';
+
 class AnnualIncomeSection extends React.Component {
+  constructor() {
+    super();
+    this.validateMonetaryFields = this.validateMonetaryFields.bind(this);
+  }
+
+  validateMonetaryFields(value, message) {
+    return isBlank(value) || isValidMonetaryValue(value) ? undefined : message;
+  }
+
   render() {
+    const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
+
     return (
       <div>
         <div className="row">
@@ -12,8 +26,8 @@ class AnnualIncomeSection extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <h4>Previous calendar year gross annual income of veteran, spouse and
-            dependent children</h4>
+            <h5>Previous calendar year gross annual income of veteran, spouse and
+            dependent children</h5>
             <p><strong>Report</strong> gross annual income from employment, except for income
             from your farm, ranch, property or business, including information
             about your wages, bonuses, tips, severance pay and other accrued
@@ -53,64 +67,82 @@ class AnnualIncomeSection extends React.Component {
         </div>
 
         <div className="row">
-          <div className="small-3 columns">
-            <p></p>
-          </div>
-          <div className="small-3 columns">
-            <p>Gross annual income from employment (wages, bonuses, tips, etc.)
+          <div className="small-12 columns">
+            <h6>Definitions</h6>
+            <p><strong>Gross annual income</strong>: from employment (wages, bonuses, tips, etc.)
             excluding income from your farm, ranch, property or business</p>
-          </div>
-          <div className="small-3 columns">
-            <p>Net income from your farm, ranch, property or business</p>
-          </div>
-          <div className="small-3 columns">
-            <p>List other income amounts (Social Security, compensation, pension,
-            interest, dividends. Exclude welfare)</p>
+            <p><strong>Net income</strong>: from your farm, ranch, property or business.</p>
+            <p><strong>Other income</strong>: possibly from Social Security, compensation, pension,
+            interest, and dividends. Exclude welfare.</p>
           </div>
         </div>
 
         <div className="row">
-          <div className="small-3 columns">
-            <p>Veteran</p>
-          </div>
-          <div className="small-3 columns">
-            $<input type="text" name="veteran[gross_wage_income]" data-validation-type="monetary"/>
-          </div>
-          <div className="small-3 columns">
-            $<input type="text" name="veteran[net_business_income]" data-validation-type="monetary"/>
-          </div>
-          <div className="small-3 columns">
-            $<input type="text" name="veteran[other_income]" data-validation-type="monetary"/>
+          <div className="small-12 columns">
+            <h6>Veteran</h6>
+            <ErrorableTextInput
+                errorMessage={this.validateMonetaryFields(this.props.data.veteranGrossIncome, message)}
+                label="Veteran Gross Income"
+                value={this.props.data.veteranGrossIncome}
+                onValueChange={(update) => {this.props.onStateChange('veteranGrossIncome', update);}}/>
+
+            <ErrorableTextInput
+                errorMessage={this.validateMonetaryFields(this.props.data.veteranNetIncome, message)}
+                label="Veteran Net Income"
+                value={this.props.data.veteranNetIncome}
+                onValueChange={(update) => {this.props.onStateChange('veteranNetIncome', update);}}/>
+
+            <ErrorableTextInput
+                errorMessage={this.validateMonetaryFields(this.props.data.veteranOtherIncome, message)}
+                label="Veteran Other Income"
+                value={this.props.data.veteranOtherIncome}
+                onValueChange={(update) => {this.props.onStateChange('veteranOtherIncome', update);}}/>
           </div>
         </div>
 
         <div className="row">
-          <div className="small-3 columns">
-            <p>Spouse</p>
-          </div>
-          <div className="small-3 columns">
-            $<input type="text" name="veteran[spouses][gross_wage_income]" data-validation-type="monetary"/>
-          </div>
-          <div className="small-3 columns">
-            $<input type="text" name="veteran[spouses][net_business_income]" data-validation-type="monetary"/>
-          </div>
-          <div className="small-3 columns">
-            $<input type="text" name="veteran[spouses][other_income]" data-validation-type="monetary"/>
+          <div className="small-12 columns">
+            <h6>Spouse</h6>
+            <ErrorableTextInput
+                errorMessage={this.validateMonetaryFields(this.props.data.spouseGrossIncome, message)}
+                label="Spouse Gross Income"
+                value={this.props.data.spouseGrossIncome}
+                onValueChange={(update) => {this.props.onStateChange('spouseGrossIncome', update);}}/>
+
+            <ErrorableTextInput
+                errorMessage={this.validateMonetaryFields(this.props.data.spouseNetIncome, message)}
+                label="Spouse Net Income"
+                value={this.props.data.spouseNetIncome}
+                onValueChange={(update) => {this.props.onStateChange('spouseNetIncome', update);}}/>
+
+            <ErrorableTextInput
+                errorMessage={this.validateMonetaryFields(this.props.data.spouseOtherIncome, message)}
+                label="Spouse Other Income"
+                value={this.props.data.spouseOtherIncome}
+                onValueChange={(update) => {this.props.onStateChange('spouseOtherIncome', update);}}/>
           </div>
         </div>
 
         <div className="row">
-          <div className="small-3 columns">
-            <p>Child NN </p>
-          </div>
-          <div className="small-3 columns">
-            $<input type="text" name="veteran[children][gross_wage_income]" data-validation-type="monetary"/>
-          </div>
-          <div className="small-3 columns">
-            $<input type="text" name="veteran[children][net_business_income]" data-validation-type="monetary"/>
-          </div>
-          <div className="small-3 columns">
-            $<input type="text" name="veteran[children][other_income]" data-validation-type="monetary"/>
+          <div className="small-12 columns">
+            <h6>Children</h6>
+            <ErrorableTextInput
+                errorMessage={this.validateMonetaryFields(this.props.data.childrenGrossIncome, message)}
+                label="Children Gross Income"
+                value={this.props.data.childrenGrossIncome}
+                onValueChange={(update) => {this.props.onStateChange('childrenGrossIncome', update);}}/>
+
+            <ErrorableTextInput
+                errorMessage={this.validateMonetaryFields(this.props.data.childrenNetIncome, message)}
+                label="Children Net Income"
+                value={this.props.data.childrenNetIncome}
+                onValueChange={(update) => {this.props.onStateChange('childrenNetIncome', update);}}/>
+
+            <ErrorableTextInput
+                errorMessage={this.validateMonetaryFields(this.props.data.childrenOtherIncome, message)}
+                label="Children Other Income"
+                value={this.props.data.childrenOtherIncome}
+                onValueChange={(update) => {this.props.onStateChange('childrenOtherIncome', update);}}/>
           </div>
         </div>
       </div>

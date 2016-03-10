@@ -1,10 +1,10 @@
 import React from 'react';
-import { hashHistory } from 'react-router';
 import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
+import { hashHistory } from 'react-router';
 
 import ContinueButton from './ContinueButton';
-import IntroductionPanel from './IntroductionPanel.jsx';
+import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
 
 // Add deep object manipulation routines to lodash.
@@ -17,12 +17,12 @@ class HealthCareApp extends React.Component {
     this.handleContinue = this.handleContinue.bind(this);
     this.getNextUrl = this.getNextUrl.bind(this);
 
-    let initialState = {
+    this.state = {
       applicationData: {
         introduction: {},
 
-        personalInformation: {
-          nameAndGeneralInfo: {
+        'personal-information': {
+          'name-and-general-information': {
             fullName: {
               first: 'William',
               middle: '',
@@ -41,19 +41,19 @@ class HealthCareApp extends React.Component {
             }
           },
 
-          vaInformation: {
+          'va-information': {
             isVaServiceConnected: false,
             compensableVaServiceConnected: false,
             receivesVaPension: false
           },
 
-          additionalInformation: {
+          'additional-information': {
             isEssentialAcaCoverage: false,
             vaMedicalFacility: '',
             wantsInitialVaContact: false
           },
 
-          demographicInformation: {
+          'demographic-information': {
             isSpanishHispanicLatino: false,
             isAmericanIndianOrAlaskanNative: false,
             isBlackOrAfricanAmerican: false,
@@ -62,15 +62,15 @@ class HealthCareApp extends React.Component {
             isWhite: false
           },
 
-          veteranAddress: {
+          'veteran-address': {
             address: {
-              street: undefined,
-              city: undefined,
-              country: undefined,
-              state: undefined,
-              zipcode: undefined,
+              street: null,
+              city: null,
+              country: null,
+              state: null,
+              zipcode: null,
             },
-            county: undefined,
+            county: null,
             email: 'test@test.com',
             emailConfirmation: 'test@test.com',
             homePhone: '555-555-5555',
@@ -78,17 +78,17 @@ class HealthCareApp extends React.Component {
           }
         },
 
-        financialAssessment: {
-          financialDisclosure: {
+        'financial-assessment': {
+          'financial-disclosure': {
             provideFinancialInfo: false,
             understandsFinancialDisclosure: false
           },
-          spouseInformation: {
+          'spouse-information': {
             spouseFirstName: undefined,
             spouseMiddleName: undefined,
             spouseLastName: undefined,
             spouseSuffix: undefined,
-            spouseSocialSecurityNumber: '111-11-1111',
+            spouseSocialSecurityNumber: '',
             spouseDateOfBirth: {
               month: 4,
               day: 23,
@@ -103,23 +103,65 @@ class HealthCareApp extends React.Component {
             cohabitedLastYear: false,
             provideSupportLastYear: false,
             spouseAddress: {
-              street: undefined,
-              city: undefined,
-              country: undefined,
-              state: undefined,
-              zipcode: undefined,
+              street: null,
+              city: null,
+              country: null,
+              state: null,
+              zipcode: null,
             },
             spousePhone: '222-222-2222'
           },
-          childInformation: {},
-          annualIncome: {},
-          deductibleExpenses: {},
+
+          'child-information': {
+            hasChildrenToReport: false,
+            childFullName: {
+              first: '',
+              middle: '',
+              last: '',
+              suffix: ''
+            },
+            childRelation: '',
+            childSocialSecurityNumber: '',
+            childBecameDependent: {
+              month: 11,
+              day: 4,
+              year: 2000
+            },
+            childDateOfBirth: {
+              month: 11,
+              day: 4,
+              year: 2000
+            },
+            childDisabledBefore18: false,
+            childAttendedSchoolLastYear: false,
+            childEducationExpenses: '',
+            childCohabitedLastYear: false,
+            childReceivedSupportLastYear: false
+          },
+
+          'annual-income': {
+            veteranGrossIncome: '',
+            veteranNetIncome: '',
+            veteranOtherIncome: '',
+            spouseGrossIncome: '',
+            spouseNetIncome: '',
+            spouseOtherIncome: '',
+            childrenGrossIncome: '',
+            childrenNetIncome: '',
+            childrenOtherIncome: ''
+          },
+
+          'deductible-expenses': {
+            deductibleMedicalExpenses: '',
+            deductibleFuneralExpenses: '',
+            deductibleEducationExpenses: ''
+          },
         },
 
         // TODO: insuranceInformation should be an array where each row
         //       contains all the following fields:
-        insuranceInformation: {
-          insuranceInfo: {
+        'insurance-information': {
+          general: {
             isCoveredByHealthInsurance: false,
             insuranceName: '',
             insuranceAddress: '',
@@ -133,7 +175,7 @@ class HealthCareApp extends React.Component {
             insuranceGroupCode: '',
           },
 
-          medicareMedicaidInfo: {
+          'medicare-medicaid': {
             isMedicaidEligible: false,
             isEnrolledMedicarePartA: false,
             medicarePartAEffectiveDate: {
@@ -144,7 +186,7 @@ class HealthCareApp extends React.Component {
           }
         },
         militaryService: {
-          serviceInfo: {
+          'service-information': {
             lastServiceBranch: null,
             lastEntryDate: {
               month: 3,
@@ -158,7 +200,7 @@ class HealthCareApp extends React.Component {
             },
             dischargeType: null
           },
-          additionalInfo: {
+          'additional-information': {
             purpleHeartRecipient: false,
             isFormerPow: false,
             postNov111998Combat: false,
@@ -172,27 +214,6 @@ class HealthCareApp extends React.Component {
         }
       }
     };
-
-    // Merge in saved data.
-    // TODO(awong): If a field is ever removed in a new version of the code,
-    // this will preserve the key. The result of JSON.parse() should first
-    // be filtered to only contain keys also in this.state.applicationData.
-    const savedDataJson = window.localStorage['health-app-data'];
-    if (savedDataJson !== undefined) {
-      const savedData = JSON.parse(savedDataJson);
-      initialState = _.deepMapValues(
-        initialState,
-        (value, propertyPath) => {
-          const savedValue = _.get(savedData, propertyPath);
-          if (savedValue !== undefined) {
-            return savedValue;
-          }
-
-          return value;
-        });
-    }
-
-    this.state = initialState;
   }
 
   getNextUrl() {
@@ -221,7 +242,6 @@ class HealthCareApp extends React.Component {
   publishStateChange(propertyPath, update) {
     const newApplicationData = Object.assign({}, this.state.applicationData);
     _.set(newApplicationData, propertyPath, update);
-    window.localStorage['health-app-data'] = JSON.stringify(newApplicationData);
 
     this.setState({ applicationData: newApplicationData });
   }
@@ -234,19 +254,19 @@ class HealthCareApp extends React.Component {
     let children = this.props.children;
 
     if (children === null) {
-      // This occurs if the root route is hit. Default to IntroductionPanel.
-      children = (<IntroductionPanel
+      // This occurs if the root route is hit. Default to IntroductionSection.
+      children = (<IntroductionSection
           applicationData={this.state.applicationData}
           publishStateChange={this.publishStateChange}/>);
     } else {
-      // Pass the application state down to child components. The
-      // cloneElement idiom is the standard react way to add
-      // properties to a child. It doesn't actually new a bunch of objects
-      // so it's fast.
-      children = React.Children.map(children, (child) => {
-        return React.cloneElement(child,
-          { applicationData: this.state.applicationData,
-            publishStateChange: this.publishStateChange });
+      const statePath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
+      children = React.Children.map(this.props.children, (child) => {
+        return React.cloneElement(child, {
+          data: _.get(this.state.applicationData, statePath),
+          onStateChange: (subfield, update) => {
+            this.props.publishStateChange(statePath.concat(subfield), update);
+          }
+        });
       });
     }
 
