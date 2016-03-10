@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
-import { isValidName, isNotBlank } from '../../utils/validations';
+import { isValidName, isBlank } from '../../utils/validations';
 import { suffixes } from '../../utils/options-for-select';
 
 /**
@@ -18,7 +18,6 @@ import { suffixes } from '../../utils/options-for-select';
 class FullName extends React.Component {
   constructor() {
     super();
-    this.state = { hasError: false };
     this.handleChange = this.handleChange.bind(this);
     this.validateRequiredFields = this.validateRequiredFields.bind(this);
   }
@@ -43,9 +42,9 @@ class FullName extends React.Component {
 
   validateRequiredFields(value) {
     if (this.props.required) {
-      return isNotBlank(value) && isValidName(value);
+      return isValidName(value);
     }
-    return isValidName(value);
+    return isBlank(value) || isValidName(value);
   }
 
   render() {
@@ -62,7 +61,7 @@ class FullName extends React.Component {
 
         <div>
           <ErrorableTextInput
-              errorMessage={isValidName(this.props.value.middle) ? undefined : 'Please enter a valid name'}
+              errorMessage={isBlank(this.props.value.middle) || isValidName(this.props.value.middle) ? undefined : 'Please enter a valid name'}
               label="Middle Name"
               value={this.props.value.middle}
               onValueChange={(update) => {this.handleChange('middle', update);}}/>

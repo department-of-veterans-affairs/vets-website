@@ -1,9 +1,18 @@
 import React from 'react';
 
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
-import { isValidMonetaryValue } from '../../utils/validations';
+import { isBlank, isValidMonetaryValue } from '../../utils/validations';
 
 class DeductibleExpensesSection extends React.Component {
+  constructor() {
+    super();
+    this.validateMonetaryFields = this.validateMonetaryFields.bind(this);
+  }
+
+  validateMonetaryFields(value, message) {
+    return isBlank(value) || isValidMonetaryValue(value) ? undefined : message;
+  }
+
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
 
@@ -32,9 +41,9 @@ class DeductibleExpensesSection extends React.Component {
         </div>
 
         <div className="row">
-          <div className="small-9 columns">
+          <div className="small-12 columns">
             <ErrorableTextInput
-                errorMessage={isValidMonetaryValue(this.props.data.deductibleMedicalExpenses) ? undefined : message}
+                errorMessage={this.validateMonetaryFields(this.props.data.deductibleMedicalExpenses, message)}
                 label="Total non-reimbursed medical expenses paid by you or your spouse
                     (e.g., payments for doctors, dentists, medications, Medicare, health
                     insurance, hospital and nursing home) VA will calculate a deductible
@@ -45,9 +54,9 @@ class DeductibleExpensesSection extends React.Component {
         </div>
 
         <div className="row">
-          <div className="small-9 columns">
+          <div className="small-12 columns">
             <ErrorableTextInput
-                errorMessage={isValidMonetaryValue(this.props.data.deductibleFuneralExpenses) ? undefined : message}
+                errorMessage={this.validateMonetaryFields(this.props.data.deductibleFuneralExpenses, message)}
                 label="Amount you paid last calendar year for funeral and burial expenses
                     for your deceased spouse or dependent child (Also enter spouse or child’s
                     information in Spouse Information and Children Information)"
@@ -57,9 +66,9 @@ class DeductibleExpensesSection extends React.Component {
         </div>
 
         <div className="row">
-          <div className="small-9 columns">
+          <div className="small-12 columns">
             <ErrorableTextInput
-                errorMessage={isValidMonetaryValue(this.props.data.deductibleEducationExpenses) ? undefined : message}
+                errorMessage={this.validateMonetaryFields(this.props.data.deductibleEducationExpenses, message)}
                 label="Amount you paid last calendar year for your college or vocational
                 educational expenses (e.g., tuition, books, fees, materials) Do not list
                 your dependents’ educational expenses."

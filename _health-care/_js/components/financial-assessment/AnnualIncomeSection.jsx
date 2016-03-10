@@ -1,9 +1,18 @@
 import React from 'react';
 
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
-import { isValidMonetaryValue } from '../../utils/validations';
+import { isBlank, isValidMonetaryValue } from '../../utils/validations';
 
 class AnnualIncomeSection extends React.Component {
+  constructor() {
+    super();
+    this.validateMonetaryFields = this.validateMonetaryFields.bind(this);
+  }
+
+  validateMonetaryFields(value, message) {
+    return isBlank(value) || isValidMonetaryValue(value) ? undefined : message;
+  }
+
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
 
@@ -72,19 +81,19 @@ class AnnualIncomeSection extends React.Component {
           <div className="small-12 columns">
             <h6>Veteran</h6>
             <ErrorableTextInput
-                errorMessage={isValidMonetaryValue(this.props.data.veteranGrossIncome) ? undefined : message}
+                errorMessage={this.validateMonetaryFields(this.props.data.veteranGrossIncome, message)}
                 label="Veteran Gross Income"
                 value={this.props.data.veteranGrossIncome}
                 onValueChange={(update) => {this.props.onStateChange('veteranGrossIncome', update);}}/>
 
             <ErrorableTextInput
-                errorMessage={isValidMonetaryValue(this.props.data.veteranNetIncome) ? undefined : message}
+                errorMessage={this.validateMonetaryFields(this.props.data.veteranNetIncome, message)}
                 label="Veteran Net Income"
                 value={this.props.data.veteranNetIncome}
                 onValueChange={(update) => {this.props.onStateChange('veteranNetIncome', update);}}/>
 
             <ErrorableTextInput
-                errorMessage={isValidMonetaryValue(this.props.data.veteranOtherIncome) ? undefined : message}
+                errorMessage={this.validateMonetaryFields(this.props.data.veteranOtherIncome, message)}
                 label="Veteran Other Income"
                 value={this.props.data.veteranOtherIncome}
                 onValueChange={(update) => {this.props.onStateChange('veteranOtherIncome', update);}}/>
@@ -95,19 +104,19 @@ class AnnualIncomeSection extends React.Component {
           <div className="small-12 columns">
             <h6>Spouse</h6>
             <ErrorableTextInput
-                errorMessage={isValidMonetaryValue(this.props.data.spouseGrossIncome) ? undefined : message}
+                errorMessage={this.validateMonetaryFields(this.props.data.spouseGrossIncome, message)}
                 label="Spouse Gross Income"
                 value={this.props.data.spouseGrossIncome}
                 onValueChange={(update) => {this.props.onStateChange('spouseGrossIncome', update);}}/>
 
             <ErrorableTextInput
-                errorMessage={isValidMonetaryValue(this.props.data.spouseNetIncome) ? undefined : message}
+                errorMessage={this.validateMonetaryFields(this.props.data.spouseNetIncome, message)}
                 label="Spouse Net Income"
                 value={this.props.data.spouseNetIncome}
                 onValueChange={(update) => {this.props.onStateChange('spouseNetIncome', update);}}/>
 
             <ErrorableTextInput
-                errorMessage={isValidMonetaryValue(this.props.data.spouseOtherIncome) ? undefined : message}
+                errorMessage={this.validateMonetaryFields(this.props.data.spouseOtherIncome, message)}
                 label="Spouse Other Income"
                 value={this.props.data.spouseOtherIncome}
                 onValueChange={(update) => {this.props.onStateChange('spouseOtherIncome', update);}}/>
@@ -118,19 +127,19 @@ class AnnualIncomeSection extends React.Component {
           <div className="small-12 columns">
             <h6>Children</h6>
             <ErrorableTextInput
-                errorMessage={isValidMonetaryValue(this.props.data.childrenGrossIncome) ? undefined : message}
+                errorMessage={this.validateMonetaryFields(this.props.data.childrenGrossIncome, message)}
                 label="Children Gross Income"
                 value={this.props.data.childrenGrossIncome}
                 onValueChange={(update) => {this.props.onStateChange('childrenGrossIncome', update);}}/>
 
             <ErrorableTextInput
-                errorMessage={isValidMonetaryValue(this.props.data.childrenNetIncome) ? undefined : message}
+                errorMessage={this.validateMonetaryFields(this.props.data.childrenNetIncome, message)}
                 label="Children Net Income"
                 value={this.props.data.childrenNetIncome}
                 onValueChange={(update) => {this.props.onStateChange('childrenNetIncome', update);}}/>
 
             <ErrorableTextInput
-                errorMessage={isValidMonetaryValue(this.props.data.childrenOtherIncome) ? undefined : message}
+                errorMessage={this.validateMonetaryFields(this.props.data.childrenOtherIncome, message)}
                 label="Children Other Income"
                 value={this.props.data.childrenOtherIncome}
                 onValueChange={(update) => {this.props.onStateChange('childrenOtherIncome', update);}}/>
