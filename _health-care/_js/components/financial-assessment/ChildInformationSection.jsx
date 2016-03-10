@@ -105,7 +105,7 @@ class ChildInformationSection extends React.Component {
           <div className="small-12 columns">
             <ErrorableTextInput
                 errorMessage={isBlank(this.props.data.childEducationExpenses) || isValidMonetaryValue(this.props.data.childEducationExpenses) ? undefined : message}
-                label="Expenses paid by your dependent child for college, vocational rehabilitation or training 
+                label="Expenses paid by your dependent child for college, vocational rehabilitation or training
                     (e.g., tuition, books, materials)?"
                 value={this.props.data.childEducationExpenses}
                 onValueChange={(update) => {this.props.onStateChange('childEducationExpenses', update);}}/>
@@ -123,7 +123,7 @@ class ChildInformationSection extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <p>Count child support contributions even if not paid in regular set amounts. Contributions 
+            <p>Count child support contributions even if not paid in regular set amounts. Contributions
             can include tuition payments or payments of medical bills.</p>
           </div>
         </div>
