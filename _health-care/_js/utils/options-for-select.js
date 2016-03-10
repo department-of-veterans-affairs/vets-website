@@ -237,6 +237,18 @@ const maritalStatuses = [
   'Divorced'
 ];
 
+const branchesServed = [
+  'Army',
+  'Airforce',
+  'Marine',
+  'Navy'
+];
+
+const dischargeTypes = [
+  { value: 'honorable', label: 'Honorable' },
+  { value: 'dishonorable', label: 'Dishonorable' }
+];
+
 const states = [
   { label: 'Alabama', value: 'AL' },
   { label: 'Alaska', value: 'AK' },
@@ -1345,6 +1357,8 @@ const childRelationships = [
 export {
   countries,
   maritalStatuses,
+  branchesServed,
+  dischargeTypes,
   states,
   suffixes,
   vaMedicalFacilities,
