@@ -185,7 +185,7 @@ class HealthCareApp extends React.Component {
             }
           }
         },
-        militaryService: {
+        'military-service': {
           'service-information': {
             lastServiceBranch: null,
             lastEntryDate: {
@@ -205,11 +205,11 @@ class HealthCareApp extends React.Component {
             isFormerPow: false,
             postNov111998Combat: false,
             disabledInLineOfDuty: false,
-            swAsiaCombatAug21990ToNov111998: false,
-            vietnamServiceJan91962ToMay71975: false,
+            swAsiaCombat: false,
+            vietnamService: false,
             exposedToRadiation: false,
-            receivedNoseThroatRadiumTreatments: false,
-            campLejeuneJan11957ToDec311987: false
+            radiumTreatments: false,
+            campLejeune: false
           }
         }
       }
@@ -264,7 +264,7 @@ class HealthCareApp extends React.Component {
         return React.cloneElement(child, {
           data: _.get(this.state.applicationData, statePath),
           onStateChange: (subfield, update) => {
-            this.props.publishStateChange(statePath.concat(subfield), update);
+            this.publishStateChange(statePath.concat(subfield), update);
           }
         });
       });

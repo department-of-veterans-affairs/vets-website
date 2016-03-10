@@ -238,10 +238,10 @@ const maritalStatuses = [
 ];
 
 const branchesServed = [
-  { value: 'army', label: 'Army' },
-  { value: 'airfoce', label: 'Airforce' },
-  { value: 'marine', label: 'Marine' },
-  { value: 'navy', label: 'Navy' }
+  'Army',
+  'Airforce',
+  'Marine',
+  'Navy'
 ];
 
 const dischargeTypes = [

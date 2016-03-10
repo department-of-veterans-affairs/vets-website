@@ -52,8 +52,8 @@ class AdditionalMilitaryInformationSection extends React.Component {
           <div className="small-12 columns">
             <ErrorableCheckbox
                 label="Did you serve in SW Asia during the Gulf War between August 2, 1990 and Nov 11, 1998?"
-                checked={this.props.data.swAsiaCombatAug21990ToNov111998}
-                onValueChange={(update) => {this.props.onStateChange('swAsiaCombatAug21990ToNov111998', update);}}/>
+                checked={this.props.data.swAsiaCombat}
+                onValueChange={(update) => {this.props.onStateChange('swAsiaCombat', update);}}/>
           </div>
         </div>
 
@@ -61,8 +61,8 @@ class AdditionalMilitaryInformationSection extends React.Component {
           <div className="small-12 columns">
             <ErrorableCheckbox
                 label="Did you serve in Vietnam between January 9, 1962 and May 7, 1975?"
-                checked={this.props.data.vietnamServiceJan91962ToMay71975}
-                onValueChange={(update) => {this.props.onStateChange('vietnamServiceJan91962ToMay71975', update);}}/>
+                checked={this.props.data.vietnamService}
+                onValueChange={(update) => {this.props.onStateChange('vietnamService', update);}}/>
           </div>
         </div>
 
@@ -79,8 +79,8 @@ class AdditionalMilitaryInformationSection extends React.Component {
           <div className="small-12 columns">
             <ErrorableCheckbox
                 label="Did you receive nose and throat radium treatments while in the military?"
-                checked={this.props.data.receivedNoseThroatRadiumTreatments}
-                onValueChange={(update) => {this.props.onStateChange('receivedNoseThroatRadiumTreatments', update);}}/>
+                checked={this.props.data.radiumTreatments}
+                onValueChange={(update) => {this.props.onStateChange('radiumTreatments', update);}}/>
           </div>
         </div>
 
@@ -88,8 +88,8 @@ class AdditionalMilitaryInformationSection extends React.Component {
           <div className="small-12 columns">
             <ErrorableCheckbox
                 label="Did you serve on active duty at least 30 days at Camp LeJeune from January 1, 1957 through December 31, 1987?"
-                checked={this.props.data.campLejeuneJan11957ToDec311987}
-                onValueChange={(update) => {this.props.onStateChange('campLejeuneJan11957ToDec311987', update);}}/>
+                checked={this.props.data.campLejeune}
+                onValueChange={(update) => {this.props.onStateChange('campLejeune', update);}}/>
           </div>
         </div>
       </div>
