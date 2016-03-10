@@ -6,14 +6,6 @@ template: 1-topic-landing
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
-    </div>
-  </div>
-</div>
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -25,10 +17,53 @@ Wherever you are in the transition process, VA provides career advice, mentorshi
 </div>
 </div>
 
+<div class="row">
+  <div class="small-12 columns">
+    <h4 class="navigation-title"> For Veterans </h4>
+  </div>
+</div>
+
+<div class="navigation">
+  <div class="row">
+    <div class="small-12 columns">
+      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+
+        <li>
+            <a href="/employment/job-seekers/employment-support/">
+              <h5>Veteran employment support</h5>
+              <span>Veterans can seek assistance after they have left the military and held a civilian job.</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="/employment/job-seekers/service-disabled/">
+              <h5>Are you service disabled?</h5>
+              <span>Service-disabled Veterans are eligible for additional support.</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="/employment/job-seekers/family-members/">
+              <h5>Support Veteran family members</h5>
+              <span>Spouses can use government-sponsored career and education resources, take advantage of networking opportunities, and work with employment counselors.</span>
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>  
+
+  <div class="row">
+    <div class="small-12 columns">
+      <h4 class="navigation-title"> Currently in the service </h4>
+    </div>
+  </div>
+
   <div class="navigation">
     <div class="row">
       <div class="small-12 columns">
-          <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
             <li>
               <a href="/employment/job-seekers/one-year-left/">
@@ -52,29 +87,22 @@ Wherever you are in the transition process, VA provides career advice, mentorshi
             </li>
 
             <li>
-              <a href="/employment/job-seekers/employment-support/">
-                <h5>Veteran employment support</h5>
-                <span>Veterans can seek assistance after they have left the military and held a civilian job.</span>
-              </a>
-            </li>
-
-            <li>
               <a href="/employment/job-seekers/family-members/">
-                <h5>Support for military and Veteran family members</h5>
+                <h5>Support for military family members</h5>
                 <span>Spouses can use government-sponsored career and education resources, take advantage of networking opportunities, and work with employment counselors.</span>
               </a>
             </li>
 
-            <li>
-              <a href="/employment/job-seekers/service-disabled/">
-                <h5>Are you service disabled?</h5>
-                <span>Service-disabled Veterans are eligible for additional support.</span>
-              </a>
-            </li>
-
-          </ul>
-        </div>
+        </ul>
       </div>
-    </div>  
+    </div>
+</div>
+
+</div>
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary" href="/employment/job-seekers/veterans-employment-center/">Veterans Employment Center</a>
+    </div>
   </div>
 </div>
