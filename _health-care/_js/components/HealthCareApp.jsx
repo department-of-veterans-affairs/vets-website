@@ -157,6 +157,17 @@ class HealthCareApp extends React.Component {
               year: 2016
             },
             dischargeType: undefined
+          },
+          additionalInfo: {
+            purpleHeartRecipient: false,
+            isFormerPow: false,
+            postNov111998Combat: false,
+            disabledInLineOfDuty: false,
+            swAsiaCombatAug21990ToNov111998: false,
+            vietnamServiceJan91962ToMay71975: false,
+            exposedToRadiation: false,
+            receivedNoseThroatRadiumTreatments: false,
+            campLejeuneJan11957ToDec311987: false
           }
         }
       }
