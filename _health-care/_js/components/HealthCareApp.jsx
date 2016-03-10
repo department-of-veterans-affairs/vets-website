@@ -88,7 +88,7 @@ class HealthCareApp extends React.Component {
             spouseMiddleName: undefined,
             spouseLastName: undefined,
             spouseSuffix: undefined,
-            spouseSocialSecurityNumber: '111-11-1111',
+            spouseSocialSecurityNumber: '',
             spouseDateOfBirth: {
               month: 4,
               day: 23,
@@ -111,7 +111,32 @@ class HealthCareApp extends React.Component {
             },
             spousePhone: '222-222-2222'
           },
-          childInformation: {},
+          childInformation: {
+            hasChildrenToReport: false,
+            childFullName: {
+              first: '',
+              middle: '',
+              last: '',
+              suffix: ''
+            },
+            childRelation: '',
+            childSocialSecurityNumber: '',
+            childBecameDependent: {
+              month: 11,
+              day: 4,
+              year: 2000
+            },
+            childDateOfBirth: {
+              month: 11,
+              day: 4,
+              year: 2000
+            },
+            childDisabledBefore18: false,
+            childAttendedSchoolLastYear: false,
+            childEducationExpenses: '',
+            childCohabitedLastYear: false,
+            childReceivedSupportLastYear: false
+          },
           annualIncome: {
             veteranGrossIncome: '',
             veteranNetIncome: '',
