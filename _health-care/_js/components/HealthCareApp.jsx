@@ -145,7 +145,7 @@ class HealthCareApp extends React.Component {
         },
         militaryService: {
           serviceInfo: {
-            lastServiceBranch: undefined,
+            lastServiceBranch: null,
             lastEntryDate: {
               month: 3,
               day: 8,
@@ -156,7 +156,7 @@ class HealthCareApp extends React.Component {
               day: 8,
               year: 2016
             },
-            dischargeType: undefined
+            dischargeType: null
           },
           additionalInfo: {
             purpleHeartRecipient: false,
