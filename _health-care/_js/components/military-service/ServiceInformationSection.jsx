@@ -34,11 +34,12 @@ class ServiceInformationSection extends React.Component {
                   year={this.props.data.lastDischargeDate.year}
                   onValueChange={(update) => {this.props.onStateChange('lastDischargeDate', update);}}/>
             </div>
-
+            <div className="small-12 columns">
             <ErrorableSelect label="Discharge Type"
                 options={dischargeTypes}
                 value={this.props.data.dischargeType}
                 onUserInput={(update) => {this.props.onStateChange('dischargeType', update);}}/>
+            </div>
         </div>
       </div>
     );
