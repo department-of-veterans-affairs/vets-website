@@ -2,7 +2,7 @@ import React from 'react';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 
-class FiniancialDisclosureSection extends React.Component {
+class FinancialDisclosureSection extends React.Component {
   render() {
     return (
       <div>
@@ -64,5 +64,5 @@ class FiniancialDisclosureSection extends React.Component {
   }
 }
 
-export default FiniancialDisclosureSection;
+export default FinancialDisclosureSection;
 
