@@ -37,7 +37,6 @@ relatedlinks:
   You can take certain steps to improve your chances of moving smoothly and successfully into civilian life.
 </div>
 
-
 ### What are the steps?
 
 <ol class="process">

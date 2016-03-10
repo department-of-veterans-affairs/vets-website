@@ -140,6 +140,7 @@ This example contains two job listings. The first uses a smaller set of schema.o
 </div>
 </div>
 </div>
+</div>
 
 <div class="va-action-bar--header">
   <div class="row">
