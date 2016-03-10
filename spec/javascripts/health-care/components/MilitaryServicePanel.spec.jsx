@@ -5,9 +5,8 @@ import MilitaryServicePanel from '../../../../_health-care/_js/components/Milita
 
 describe('<MilitaryServicePanel>', () => {
   it('Sanity check the component renders', () => {
-    const tree = SkinDeep.shallowRender(<MilitaryServicePanel/>);
+    const tree = SkinDeep.shallowRender(<MilitaryServicePanel applicationData={{ militaryService: '' }}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.have.property('type', 'div');
   });
 });
-

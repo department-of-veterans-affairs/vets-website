@@ -142,6 +142,22 @@ class HealthCareApp extends React.Component {
               year: 2001
             }
           }
+        },
+        militaryService: {
+          serviceInfo: {
+            lastServiceBranch: undefined,
+            lastEntryDate: {
+              month: 3,
+              day: 8,
+              year: 2016
+            },
+            lastDischargeDate: {
+              month: 3,
+              day: 8,
+              year: 2016
+            },
+            dischargeType: undefined
+          }
         }
       }
     };

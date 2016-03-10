@@ -8,7 +8,13 @@ class MilitaryServicePanel extends React.Component {
     return (
       <div>
         <h3>Military Service</h3>
-        <ServiceInformationSection/>
+        <ServiceInformationSection
+          data={this.props.applicationData.militaryService.serviceInfo}
+          onStateChange={
+            (subfield, update) => {
+              this.props.publishStateChange(['militaryService', 'serviceInfo', subfield], update);
+            }
+          }/>
         <AdditionalMilitaryInformationSection/>
       </div>
     );
