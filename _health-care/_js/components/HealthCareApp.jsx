@@ -237,7 +237,7 @@ class HealthCareApp extends React.Component {
         return React.cloneElement(child, {
           data: _.get(this.state.applicationData, statePath),
           onStateChange: (subfield, update) => {
-            this.props.publishStateChange(statePath.concat(subfield), update);
+            this.publishStateChange(statePath.concat(subfield), update);
           }
         });
       });
