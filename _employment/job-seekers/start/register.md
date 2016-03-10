@@ -49,7 +49,7 @@ Contact a [trained specialist](/_dummy-placeholder.html) who can coach you throu
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
           <li>
-            <a href="/employment/job-seekers/start/register/"><h5>Registering Your Business: #112171837</h5></a>
+            <a href="https://www.vip.vetbiz.gov/Public/Logon.aspx"><h5>Registering Your Business: #112171837</h5></a>
           </li>
 
           <li>
