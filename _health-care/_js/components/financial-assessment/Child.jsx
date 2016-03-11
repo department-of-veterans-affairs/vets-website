@@ -88,7 +88,9 @@ class Child extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <ErrorableTextInput
-                errorMessage={isBlank(this.props.data.childEducationExpenses) || isValidMonetaryValue(this.props.data.childEducationExpenses) ? undefined : message}
+                errorMessage={
+                  isBlank(this.props.data.childEducationExpenses) || isValidMonetaryValue(this.props.data.childEducationExpenses) ? undefined : message
+                }
                 label="Expenses paid by your dependent child for college, vocational rehabilitation or training
                     (e.g., tuition, books, materials)?"
                 value={this.props.data.childEducationExpenses}

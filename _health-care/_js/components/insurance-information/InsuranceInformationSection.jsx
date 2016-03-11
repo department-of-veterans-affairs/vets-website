@@ -8,16 +8,16 @@ class InsuranceInformationSection extends React.Component {
   // TODO(awong): Pull this out into a model.
   createBlankProvider() {
     return {
-      insuranceName: '',
-      insuranceAddress: '',
-      insuranceCity: '',
-      insuranceCountry: '',
-      insuranceState: '',
-      insuranceZipcode: '',
-      insurancePhone: '404-123-1234',
-      insurancePolicyHolderName: '',
-      insurancePolicyNumber: '',
-      insuranceGroupCode: '',
+      insuranceName: null,
+      insuranceAddress: null,
+      insuranceCity: null,
+      insuranceCountry: null,
+      insuranceState: null,
+      insuranceZipcode: null,
+      insurancePhone: null,
+      insurancePolicyHolderName: null,
+      insurancePolicyNumber: null,
+      insuranceGroupCode: null,
     };
   }
 
