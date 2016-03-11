@@ -34,12 +34,12 @@ class InsuranceInformationSection extends React.Component {
                 label="Country"
                 options={countries}
                 value={this.props.data.insuranceCountry}
-                onUserInput={(update) => {this.props.onStateChange('insuranceCountry', update);}}/>
+                onValueChange={(update) => {this.props.onStateChange('insuranceCountry', update);}}/>
             <ErrorableSelect
                 label="State"
                 options={states}
                 value={this.props.data.insuranceState}
-                onUserInput={(update) => {this.props.onStateChange('insuranceState', update);}}/>
+                onValueChange={(update) => {this.props.onStateChange('insuranceState', update);}}/>
             <ErrorableTextInput
                 label="Zipcode"
                 value={this.props.data.insuranceZipcode}

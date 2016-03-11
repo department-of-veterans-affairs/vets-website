@@ -34,6 +34,20 @@ body .row {
     a {
       text-decoration: none;
       background: none;
+
+      &.usa-current {
+        color: $color-base;
+        font-weight: normal;
+      }
+    }
+  }
+
+  .usa-sidenav-sub_list {
+    padding-left: 0.5em;
+
+    a.usa-current {
+      color: $color-primary;
+      font-weight: $font-bold;
     }
   }
 }
