@@ -184,6 +184,33 @@ class HealthCareApp extends React.Component {
               year: 2001
             }
           }
+        },
+        'military-service': {
+          'service-information': {
+            lastServiceBranch: null,
+            lastEntryDate: {
+              month: 3,
+              day: 8,
+              year: 2016
+            },
+            lastDischargeDate: {
+              month: 3,
+              day: 8,
+              year: 2016
+            },
+            dischargeType: null
+          },
+          'additional-information': {
+            purpleHeartRecipient: false,
+            isFormerPow: false,
+            postNov111998Combat: false,
+            disabledInLineOfDuty: false,
+            swAsiaCombat: false,
+            vietnamService: false,
+            exposedToRadiation: false,
+            radiumTreatments: false,
+            campLejeune: false
+          }
         }
       }
     };
