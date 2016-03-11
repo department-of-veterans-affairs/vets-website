@@ -34,7 +34,7 @@ You will need the following documents when you apply:
 - Social security card 
 - Current résumé or military job history 
 
-If you are unemployed and at risk of becoming homeless, [VA can help]({{site.baseurl}}/dummy-placeholder.html). 
+If you are unemployed and at risk of becoming homeless, [VA can help](/_dummy-placeholder.html). 
 
 
 </div>

@@ -2,4 +2,4 @@ domain: www.vets.gov
 destination:  ./_site_production
 production: true
 
-exclude: [dummy-placeholder.html]
+include: []

@@ -19,9 +19,9 @@ Next Steps
 
 - Fill in any gaps in your education or skill set by taking classes and obtaining certifications and licensures. The [GI Bill](/education/gi-bill/) may be used for some of this prior to exiting the service. 
 - Contact your local Transition Assistance Program (TAP) manager to schedule the mandatory Transition Goals, Plans, Success (GPS) curriculum. If you are unable to attend this training, it is available through [Joint Knowledge Online](https://jkodirect.jten.mil). You must complete the VA Benefits Briefings I and II, the Department of Labor Employment Workshop, and an Individual Transition Plan (ITP). ITPs are service specific, so check [documents](https://dodtap.mil/index.html) related to your branch. 
-- Review [military transcripts pivotal#110298578]({{site.baseurl}}/dummy-placeholder.html) and service records for accuracy. 
-- Think about which industries and careers interest you, using [tools#110298582]({{site.baseurl}}/dummy-placeholder.html) such as o*Net and CareerScope. 
-- Start developing a résumé by [translating military skills 110298580]({{site.baseurl}}/dummy-placeholder.html) into equivalent civilian skills. Import these using the [Résumé Builder]({{site.baseurl}}/dummy-placeholder.html). 
+- Review [military transcripts pivotal#110298578](/_dummy-placeholder.html) and service records for accuracy. 
+- Think about which industries and careers interest you, using [tools#110298582](/_dummy-placeholder.html) such as o*Net and CareerScope. 
+- Start developing a résumé by [translating military skills 110298580](/_dummy-placeholder.html) into equivalent civilian skills. Import these using the [Résumé Builder](/_dummy-placeholder.html). 
 - Clean up your personal social-media footprint and establish a presence on professional sites like LinkedIn. 
 
 **6 Months Before Leaving Active Duty**
@@ -30,10 +30,10 @@ Next Steps
 - Compile your service-treatment records and military hospital reports if you plan on registering for VA medical resources.
 Both of these documents can be ordered through the [National Archives](https://www.archives.gov/veterans/military-service-records/)
 - Compile private medical records and hospital reports. 
-- Finalize your résumé and begin actively [searching for employment vets.gov/#110298570]({{site.baseurl}}/dummy-placeholder.html).
+- Finalize your résumé and begin actively [searching for employment vets.gov/#110298570](/_dummy-placeholder.html).
 - Consider taking one of three additional GPS tracks: Accessing Higher Education, Career Technical Training, or Entrepreneurship. 
 - Consider free [education and career counseling](/education/tools-programs/education-career-counseling/)
-- At 120 days from separation you can begin applying for [federal jobs]({{site.baseurl}}/dummy-placeholder.html). 
+- At 120 days from separation you can begin applying for [federal jobs](/_dummy-placeholder.html). 
 
 **2-4 Months Before Leaving Active Duty**
 
