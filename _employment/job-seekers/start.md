@@ -19,7 +19,7 @@ If you need assistance in starting a business, please visit the [Small Business 
 
 If you are Service-Disabled Veteran who wants to start a business, please view the [Veterans Business Outreach Program](https://www.sba.gov/about-sba/sba-locations/headquarters-offices) website and the [SBDC](https://www.sba.gov/offices/headquarters/osbdc/resources/11409) website for assistance.
 
-VA can help you [register your business](link to register page) as a Veteran-owned or service-disabled Veteran-owned business. Once you receive your certification, you are eligible for certain assistance and benefits.
+VA can help you [register your business]({{site.baseurl}}/dummy-placeholder.html) as a Veteran-owned or service-disabled Veteran-owned business. Once you receive your certification, you are eligible for certain assistance and benefits.
 
 The Small Business Administration also has [resources specifically for Veterans](https://www.sba.gov/content/veteran-service-disabled-veteran-owned). 
 
