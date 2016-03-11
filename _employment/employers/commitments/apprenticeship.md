@@ -17,7 +17,7 @@ Employers provide  Veterans with a job at an acceptable wage; training, developm
 
 Submit a request through your [State Approving Agency (SAA)](http://www.nasaa-vetseducation.com/Contacts.aspx), which authorizes Registered Apprenticeship programs as approved for the GI Bill typically within 30 days.
 
-The Department of Labor also has several [programs for Registered Apprenticeships and on-the-job training](www.dol.gov/apprenticeship/).
+The Department of Labor also has several [programs for Registered Apprenticeships and on-the-job training](http://www.dol.gov/apprenticeship/).
 
 
 </div>

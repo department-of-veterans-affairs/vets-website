@@ -48,9 +48,7 @@ Receiving unemployment will not affect your wages, but if you receive separation
 #### You will need the following documents when you apply: 
 
 - DD Form 214 
-
 - Social security card 
-
 - Current résumé or military job history 
 
 If you are unemployed and at risk of becoming homeless, call or visit your [local VA Medical Center](/facility-locator/) or Community Resource and Referral Center where VA staff are ready to help. 
