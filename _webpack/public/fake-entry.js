@@ -1,3 +1,5 @@
+require('./css/style.scss');
+
 // Get our browser up to date with polyfills.
 const Modernizr = require('modernizr');
 if (!Modernizr.classlist) {
@@ -11,7 +13,7 @@ if (!Modernizr.dataset) {
 require('polyfill-function-prototype-bind');
 
 // Bring in foundation and custom libraries.
-require('foundation/js/foundation/foundation');
+require('foundation-sites');
 
 const ReactEntry = require('../../_health-care/_js/react-entry.jsx');
 document.addEventListener('DOMContentLoaded', () => {
