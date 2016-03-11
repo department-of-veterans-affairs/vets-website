@@ -20,7 +20,7 @@ Your preparation for job fairs is critical to your success. Here are a few tips:
 - Prioritize the employers you are interested in, and prepare two to three questions for the representatives of those companies.
 - Bring multiple copies of your résumé and any relevant military transcripts.
 - Bring business cards to encourage follow-up conversations and questions with prospective employers.
-- For virtual or online events, fill out all necessary online profile requirements (including résumé, references, and a professional high-resolution photo), and update your [LinkedIn profile](veteran linkedin link).
+- For virtual or online events, fill out all necessary online profile requirements (including résumé, references, and a professional high-resolution photo), and update your [LinkedIn profile]({{site.baseurl}}/dummy-placeholder.html).
 
 Visit the following sites to find a career fair near you: 
 
