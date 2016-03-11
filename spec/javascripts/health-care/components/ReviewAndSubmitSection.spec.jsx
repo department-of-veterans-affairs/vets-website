@@ -1,11 +1,11 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 
-import IntroductionPanel from '../../../../_health-care/_js/components/IntroductionPanel';
+import ReviewAndSubmitSection from '../../../../_health-care/_js/components/ReviewAndSubmitSection';
 
-describe('<IntroductionPanel>', () => {
+describe('<ReviewAndSubmitSection>', () => {
   it('Sanity check the component renders', () => {
-    const tree = SkinDeep.shallowRender(<IntroductionPanel/>);
+    const tree = SkinDeep.shallowRender(<ReviewAndSubmitSection/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.have.property('type', 'div');
   });
