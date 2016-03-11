@@ -35,7 +35,7 @@ You
 [Apply online](https://www.vip.vetbiz.gov/).
 
 ### Learn more
-Contact a [trained specialist](link to popup with list) who can coach you through the application process.
+Contact a [trained specialist]({{site.baseurl}}/dummy-placeholder.html) who can coach you through the application process.
 
 
 </div>
