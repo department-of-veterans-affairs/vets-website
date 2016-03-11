@@ -28,7 +28,8 @@ class NameAndGeneralInfoSection extends React.Component {
                   onUserInput={(update) => {this.props.onStateChange('fullName', update);}}/>
               <MothersMaidenName name={this.props.data.mothersMaidenName}
                   onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);}}/>
-              <SocialSecurityNumber ssn={this.props.data.socialSecurityNumber}
+              <SocialSecurityNumber required
+                  ssn={this.props.data.socialSecurityNumber}
                   onValueChange={(update) => {this.props.onStateChange('socialSecurityNumber', update);}}/>
               <Gender value={this.props.data.gender} onUserInput={(update) => {this.props.onStateChange('gender', update);}}/>
             </div>
