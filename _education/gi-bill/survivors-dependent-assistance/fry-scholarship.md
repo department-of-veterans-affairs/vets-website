@@ -47,14 +47,14 @@ If you are a dependent and your parent died in the line of duty before August 1,
 
 Surviving spouses are eligible to receive [Dependency and Indemnity Compensation](http://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp) (DIC) while using the Fry Scholarship. Children over 18 who receive DIC benefits will need to give up those payments when they start to use the Fry Scholarship.
 
-**Exception:** Upon remarriage, a spouse will lose eligibility for this benefit.
+**Exception:** Spouses who remarry will lose their eligibility for this benefit.
 </div>
 <div class="call-out" markdown="1">
 ### Apply
 
 Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to help you choose a school. Make sure that your selected program is approved for VA training.
 
-Fill out [VA Form 22-5490 (Dependents' Application for VA Education Benefits)](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490). Send it to the VA regional office that has jurisdiction over the state where you will advance your education and training. If you are a son or daughter under legal age, a parent or guardian must sign the application. When applying, you will be required to make an irrevocable election of either the Fry Scholarship or the Survivors' and Dependents' Educational Assistance program.
+Fill out [VA Form 22-5490 (Dependents' Application for VA Education Benefits)](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490). Send it to the VA regional office that has jurisdiction over the state where you intend to go to school. If you are not yet legally an adult, your parent or guardian must sign the application. When you apply, you must choose between the Fry Scholarship or the Survivors' and Dependents' Educational Assistance program. Once you make that choice, you can't change it.
 
 If you have already started your educational program, ask a certifying official from your school or your employer to request VA Form 22-1999 (Enrollment Certification) from their VA representative, complete it, and submit it online using VA-ONCE.
 </div>
