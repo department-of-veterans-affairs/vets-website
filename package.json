@@ -103,5 +103,8 @@
     "webpack-production": "webpack -p --config webpack_production.config.js",
     "webpack-production-noopt": "webpack --config webpack_production.config.js"
   },
+  "engines": {
+    "node": ">= 0.12.4"
+  },
   "private": true
 }
