@@ -17,13 +17,6 @@ The Veterans Employment Center (VEC™) connects Veterans and their families wit
 
 ### Resources and tools for both job seekers and employers
 
-#### Job Seekers
-
-Map your military skills, build a civilian résumé, and post your profile so employers can find you easily. Search our career opportunities, and learn about organizations that can assist you with career development and employment.
-
-#### Employers
-
-Search verified profiles of Veterans and their spouses to get direct access to Veterans who are seeking employment. Make a public hiring commitment when you post open positions. You’ll benefit from Veteran experience and skills, and you’ll hire the best!
 
 </div>
 </div>
@@ -37,14 +30,14 @@ Search verified profiles of Veterans and their spouses to get direct access to V
 <li>
 <a href="/employment/job-seekers/">
 <h4 class="alternate">Job Seekers</h4>
-<span></span>
+<span>Map your military skills, build a civilian résumé, and post your profile so employers can find you easily. Search our career opportunities, and learn about organizations that can assist you with career development and employment.</span>
 </a>
 </li>
 
 <li>
 <a href="/employment/employers/">
 <h4 class="alternate">Employers</h4>
-<span></span>
+<span>Search verified profiles of Veterans and their spouses to get direct access to Veterans who are seeking employment. Make a public hiring commitment when you post open positions. You’ll benefit from Veteran experience and skills, and you’ll hire the best!</span>
 </a>
 </li>
 
