@@ -114,29 +114,7 @@ class HealthCareApp extends React.Component {
 
           'child-information': {
             hasChildrenToReport: false,
-            childFullName: {
-              first: '',
-              middle: '',
-              last: '',
-              suffix: ''
-            },
-            childRelation: '',
-            childSocialSecurityNumber: '',
-            childBecameDependent: {
-              month: 11,
-              day: 4,
-              year: 2000
-            },
-            childDateOfBirth: {
-              month: 11,
-              day: 4,
-              year: 2000
-            },
-            childDisabledBefore18: false,
-            childAttendedSchoolLastYear: false,
-            childEducationExpenses: '',
-            childCohabitedLastYear: false,
-            childReceivedSupportLastYear: false
+            children: []
           },
 
           'annual-income': {
@@ -158,21 +136,10 @@ class HealthCareApp extends React.Component {
           },
         },
 
-        // TODO: insuranceInformation should be an array where each row
-        //       contains all the following fields:
         'insurance-information': {
           general: {
             isCoveredByHealthInsurance: false,
-            insuranceName: '',
-            insuranceAddress: '',
-            insuranceCity: '',
-            insuranceCountry: '',
-            insuranceState: '',
-            insuranceZipcode: '',
-            insurancePhone: '404-123-1234',
-            insurancePolicyHolderName: '',
-            insurancePolicyNumber: '',
-            insuranceGroupCode: '',
+            providers: []
           },
 
           'medicare-medicaid': {
