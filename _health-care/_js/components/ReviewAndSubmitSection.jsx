@@ -1,6 +1,6 @@
 import React from 'react';
 
-class ReviewAndSubmitPanel extends React.Component {
+class ReviewAndSubmitSection extends React.Component {
   render() {
     return (
       <div>
@@ -10,4 +10,4 @@ class ReviewAndSubmitPanel extends React.Component {
   }
 }
 
-export default ReviewAndSubmitPanel;
+export default ReviewAndSubmitSection;
