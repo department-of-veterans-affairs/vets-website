@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router';
+import { Route, Redirect } from 'react-router';
 
 import AdditionalInformationSection from './components/personal-information/AdditionalInformationSection';
 import AdditionalMilitaryInformationSection from './components/military-service/AdditionalMilitaryInformationSection';
@@ -19,15 +19,17 @@ import VAInformationSection from './components/personal-information/VAInformatio
 import VeteranAddressSection from './components/personal-information/VeteranAddressSection';
 
 const routes = [
+  // Introduction route.
+  <Route
+      component={IntroductionSection}
+      key="/introduction"
+      path="/introduction"/>,
+
   // Personal Information routes.
-  <Route
-      component={AdditionalInformationSection}
-      key="/personal-information/additional-information"
-      path="/personal-information/additional-information"/>,
-  <Route
-      component={DemographicInformationSection}
-      key="/personal-information/demographic-information"
-      path="/personal-information/demographic-information"/>,
+  <Redirect
+      key="/personal-information"
+      from="/personal-information"
+      to="/personal-information/name-and-general-information"/>,
   <Route
       component={NameAndGeneralInfoSection}
       key="/personal-information/name-and-general-information"
@@ -37,11 +39,23 @@ const routes = [
       key="/personal-information/va-information"
       path="/personal-information/va-information"/>,
   <Route
+      component={AdditionalInformationSection}
+      key="/personal-information/additional-information"
+      path="/personal-information/additional-information"/>,
+  <Route
+      component={DemographicInformationSection}
+      key="/personal-information/demographic-information"
+      path="/personal-information/demographic-information"/>,
+  <Route
       component={VeteranAddressSection}
       key="/personal-information/veteran-address"
       path="/personal-information/veteran-address"/>,
 
   // Insurance Information routes.
+  <Redirect
+      key="/insurance-information"
+      from="/insurance-information"
+      to="/insurance-information/general"/>,
   <Route
       component={InsuranceInformationSection}
       key="/insurance-information/general"
@@ -51,19 +65,25 @@ const routes = [
       key="/insurance-information/medicare-medicaid"
       path="/insurance-information/medicare-medicaid"/>,
 
+  // Military Service routes.
+  <Redirect
+      key="/military-service"
+      from="/military-service"
+      to="/military-service/service-information"/>,
+  <Route
+      component={ServiceInformationSection}
+      key="/military-service/service-information"
+      path="/military-service/service-information"/>,
+  <Route
+      component={AdditionalMilitaryInformationSection}
+      key="/military-service/additional-information"
+      path="/military-service/additional-information"/>,
+
   // Financial Assessment routes.
-  <Route
-      component={AnnualIncomeSection}
-      key="/financial-assessment/annual-income"
-      path="/financial-assessment/annual-income"/>,
-  <Route
-      component={ChildInformationSection}
-      key="/financial-assessment/child-information"
-      path="/financial-assessment/child-information"/>,
-  <Route
-      component={DeductibleExpensesSection}
-      key="/financial-assessment/deductible-expenses"
-      path="/financial-assessment/deductible-expenses"/>,
+  <Redirect
+      key="/financial-assessment"
+      from="/financial-assessment"
+      to="/financial-assessment/financial-disclosure"/>,
   <Route
       component={FinancialDisclosureSection}
       key="/financial-assessment/financial-disclosure"
@@ -72,22 +92,20 @@ const routes = [
       component={SpouseInformationSection}
       key="/financial-assessment/spouse-information"
       path="/financial-assessment/spouse-information"/>,
-
-  // Military Service routes.
   <Route
-      component={AdditionalMilitaryInformationSection}
-      key="/military-service/additional-information"
-      path="/military-service/additional-information"/>,
+      component={ChildInformationSection}
+      key="/financial-assessment/child-information"
+      path="/financial-assessment/child-information"/>,
   <Route
-      component={ServiceInformationSection}
-      key="/military-service/service-information"
-      path="/military-service/service-information"/>,
-
+      component={AnnualIncomeSection}
+      key="/financial-assessment/annual-income"
+      path="/financial-assessment/annual-income"/>,
   <Route
-      component={IntroductionSection}
-      key="/introduction"
-      path="/introduction"/>,
+      component={DeductibleExpensesSection}
+      key="/financial-assessment/deductible-expenses"
+      path="/financial-assessment/deductible-expenses"/>,
 
+  // Review and Submit route.
   <Route
       component={ReviewAndSubmitSection}
       key="/review-and-submit"

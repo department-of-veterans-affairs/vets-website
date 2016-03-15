@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router';
 
+/**
+ * Component for navigation, with links to each section of the form.
+ * Parent links redirect to first section link within topic.
+ *
+ * Props:
+ * `currentUrl` - String. Specifies the current url.
+ */
 class Nav extends React.Component {
   render() {
-    // TODO(akainic): DRY this up
     // TODO(akainic): change this check once the alias for introduction has been changed
     return (
       <ul className="usa-sidenav-list">
@@ -13,7 +19,9 @@ class Nav extends React.Component {
           </Link>
         </li>
         <li role="presentation">
-          Personal Information
+          <Link to="/personal-information" className={this.props.currentUrl.startsWith('/personal-information/') ? ' usa-current' : ''}>
+            Personal Information
+          </Link>
           <ul className="usa-sidenav-sub_list">
             <li>
               <Link to="/personal-information/name-and-general-information" activeClassName="usa-current">
@@ -43,7 +51,9 @@ class Nav extends React.Component {
           </ul>
         </li>
         <li role="presentation">
-          Insurance Information
+          <Link to="/insurance-information" className={this.props.currentUrl.startsWith('/insurance-information/') ? ' usa-current' : ''}>
+            Insurance Information
+          </Link>
           <ul className="usa-sidenav-sub_list">
             <li>
               <Link to="/insurance-information/general" activeClassName="usa-current">
@@ -58,7 +68,9 @@ class Nav extends React.Component {
           </ul>
         </li>
         <li role="presentation">
-          Military Service
+          <Link to="/military-service" className={this.props.currentUrl.startsWith('/military-service/') ? ' usa-current' : ''}>
+            Military Service
+          </Link>
           <ul className="usa-sidenav-sub_list">
             <li>
               <Link to="/military-service/service-information" activeClassName="usa-current">
@@ -73,7 +85,9 @@ class Nav extends React.Component {
           </ul>
         </li>
         <li role="presentation">
-          Financial Assessment
+          <Link to="/financial-assessment" className={this.props.currentUrl.startsWith('/financial-assessment/') ? ' usa-current' : ''}>
+            Financial Assessment
+          </Link>
           <ul className="usa-sidenav-sub_list">
             <li>
               <Link to="/financial-assessment/financial-disclosure" activeClassName="usa-current">
@@ -111,5 +125,9 @@ class Nav extends React.Component {
     );
   }
 }
+
+Nav.propTypes = {
+  currentUrl: React.PropTypes.string.isRequired
+};
 
 export default Nav;
