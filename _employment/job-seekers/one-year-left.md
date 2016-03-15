@@ -35,11 +35,7 @@ Build:
 
 - Decide if pursuing a college degree, an advanced degree, or a vocational technical degree is the right path for you. 
 - Begin researching schools and programs that will help you reach your goals.
-<<<<<<< HEAD
 - Consider [alternative options](/employment/job-seekers/alternative/) such as on-the-job training or an apprenticeship. 
-=======
-- Consider [alternative options](/_dummy-placeholder.html) such as on-the-job training or an apprenticeship. 
->>>>>>> 0332035ddc824796c3ddde5b40394100cbca8f61
 - Research how to access your [GI Bill benefits](/education/gi-bill/) and the financial impact of pursuing an education versus a career. 
 
 
@@ -48,22 +44,14 @@ Build:
 Your résumé is a living document. Visit a [VA Employment Center](/_dummy-placeholder.html) and get help preparing yours in the right format for the type of job you want.
 
 Basic tips:
-<<<<<<< HEAD
 - Your résumé should be one to two pages for every ten years of work experience. The exception to this rule is for a [Federal Job Application](https://www.usajobs.gov/). 
-=======
-- Your résumé should be one to two pages for every ten years of work experience. The exception to this rule is for a [Federal Job Application](/_dummy-placeholder.html). 
->>>>>>> 0332035ddc824796c3ddde5b40394100cbca8f61
 - Build your general résumé, following a standard format. Your post-education office will have more information as well as sample résumé templates.
 - Keep your résumé updated during your military career.
 - Have a basic cover letter for each résumé type
 
 **Ramp Up Before You Begin Searching for a Job**
 
-<<<<<<< HEAD
 Start a list of fields that interest you. A resource for this is the [Interest Profiler](/employment/job-seekers/interest-profiler/).
-=======
-Start a list of fields that interest you. A resource for this is the [Interest Profiler](/_dummy-placeholder.html).
->>>>>>> 0332035ddc824796c3ddde5b40394100cbca8f61
 
 
 </div>
