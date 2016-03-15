@@ -44,7 +44,7 @@ Build:
 Your résumé is a living document. Visit a [VA Employment Center](/veterans-employment-center/) and get help preparing yours in the right format for the type of job you want.
 
 Basic tips:
-- Your résumé should be one to two pages for every ten years of work experience. The exception to this rule is for a [Federal Job Application](/job-resources-federal-employment). 
+- Your résumé should be one to two pages for every ten years of work experience. The exception to this rule is for a [Federal Job Application](/job-resources-federal-employment/). 
 - Build your general résumé, following a standard format. Your post-education office will have more information as well as sample résumé templates.
 - Keep your résumé updated during your military career.
 - Have a basic cover letter for each résumé type
