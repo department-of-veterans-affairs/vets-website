@@ -15,22 +15,22 @@ As a service-disabled Veteran, there are many ways for you to pursue your person
 
 **Federal Job Preference**
 
-If you are a service-disabled Veteran, you qualify for hiring preference when competing for certain federal jobs. Learn more about [applying for federal jobs](/_dummy-placeholder.html). Learn more about [applying for federal jobs](/_dummy-placeholder.html). Some classifications, or exceptions, may qualify you for specific federal positions. Know which hiring exceptions you qualify for as a service-disabled Veteran. Check [federal hiring authority information](http://www.fedshirevets.gov/job/shav/) before applying.
+If you are a service-disabled Veteran, you qualify for hiring preference when competing for certain federal jobs. Learn more about [applying for federal jobs](/veterans-employment-center/job-resources-federal-employment). Some classifications, or exceptions, may qualify you for specific federal positions. Know which hiring exceptions you qualify for as a service-disabled Veteran. Check [federal hiring authority information](http://www.fedshirevets.gov/job/shav/) before applying.
 
 **Vocational Rehabilitation and Employment (VR&E)**
 If you are service disabled at more than 10% and can no longer continue your current employment due to injuries, you may be eligible for [Vocational Rehabilitation and Employment (VR&E)](/_dummy-placeholder.html). 
 
 **Start or Grow Your Own Business**
-If entrepreneurship interests you, your disability may qualify you for preference in winning government contracts. VA and other [Veteran entrepreneur programs](/_dummy-placeholder.html) can support you through this journey. 
+If entrepreneurship interests you, your disability may qualify you for preference in winning government contracts. VA and other [Veteran entrepreneur programs](/veterans-employment-center/job-resources-small-business) can support you through this journey. 
 
 **Private Sector**
 
-Private-sector employers may qualify for incentives such as [tax benefits](/_dummy-placeholder.html) when hiring service-disabled Veterans. Make sure you’re knowledgeable about this when you meet with [VA Employment Center](/_dummy-placeholder.html) representatives and during the interview process.
+Private-sector employers may qualify for incentives such as [tax benefits](/employment/employers/)  when hiring service-disabled Veterans. Make sure you’re knowledgeable about this when you meet with [VA Employment Center](/employment/job-seekers/one-on-one/) representatives and during the interview process.
 
-Credentialing and job training will help in your search. Check your [military transcripts](/_dummy-placeholder.html) now to be sure they are accurate.
+Credentialing and job training will help in your search. Check your [military transcripts](/veterans-employment-center/job-resources-military-transcripts) now to be sure they are accurate.
 
 **Learn more**
-Contact your local [Veteran Employment Specialist (VES)](/_dummy-placeholder.html) or your [policy and benefits advocate](/_dummy-placeholder.html) for more information.
+Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov/hr/RVECS/pages/rvecs-map.asp) or your [policy and benefits advocate](/disability-benefits/apply-for-benefits/help/) for more information.
 
 
 </div>
