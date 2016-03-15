@@ -25,6 +25,10 @@ exclude:
   - "package.json"
   - "webpack.config.js"
 
+# Specifically include files left out in dev.
+include:
+  - "_dummy-placeholder.html"
+
 #posts per page
 paginate: 4
 paginate_path: "/experience/:num/"

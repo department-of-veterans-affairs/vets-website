@@ -1,2 +1,4 @@
 domain: www.vets.gov
 destination:  ./_site_production
+
+include: []

@@ -6,14 +6,6 @@ template: 1-topic-landing
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
-    </div>
-  </div>
-</div>
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -43,7 +35,7 @@ You
 [Apply online](https://www.vip.vetbiz.gov/).
 
 ### Learn more
-Contact a [trained specialist](link to popup with list) who can coach you through the application process.
+Contact a [trained specialist](/_dummy-placeholder.html) who can coach you through the application process.
 
 
 </div>
@@ -57,7 +49,7 @@ Contact a [trained specialist](link to popup with list) who can coach you throug
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
           <li>
-            <a href="/employment/job-seekers/start/register/"><h5>Registering Your Business: #112171837</h5></a>
+            <a href="https://www.vip.vetbiz.gov/Public/Logon.aspx"><h5>Registering Your Business: #112171837</h5></a>
           </li>
 
           <li>
@@ -70,4 +62,12 @@ Contact a [trained specialist](link to popup with list) who can coach you throug
     </div>  
   </div>
 
+</div>
+
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
+    </div>
+  </div>
 </div>
