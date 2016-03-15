@@ -13,9 +13,11 @@ template: 1-topic-landing
 
 One-on-one assistance can help you transition by providing current perspectives on workplaces, targeted job-search techniques, coaching, and résumé building. There are many government and private resources available to you as you make this transition, including:
 
-- [Transition Assistnace Program](http://www.benefits.va.gov/tap/) (TAP)
+- The [Transition Assistance Program](http://www.benefits.va.gov/tap/) (TAP)
 - VA's [Education and Career Counseling](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp) program
-- The Veterans Employment Services Office [VESO](http://vaforvets.va.gov/)
+- The Veteran Employment Services Office [VESO](http://vaforvets.va.gov/)
+- Private nonprofit organizations that help transitioning Veterans
+- [VAforVets](http://vaforvets.va.gov/) (can help you navigate the federal hiring process)
 
 ### Are you eligible for personalized career guidance?
 Yes, if:
@@ -33,7 +35,7 @@ Transitioning Servicemembers are required to attend the Transition Assistance Pr
 - Preseparation counseling, in which your skills, interests, and goals are evaluated and integrated into a custom roadmap. 
 - Résumé-building assistance and interview training.
 - Three optional additional workshops: Career Technical Training Track, Education Track, and Entrepreneurship Track.
-- Information on all available VA benefits (contact VA career and training specialists at 1-800-827-1000).
+- Information on all available VA benefits (contact VA career-and-training specialists at 1-800-827-1000).
 
 *VA's Education and Career Counseling program*
 
@@ -44,6 +46,12 @@ For a year after transitioning out of the military and for the six months prior 
 3.	Select Vocational Rehabilitation and Employment Benefits.
 4.	Apply for Education and Career Counseling. Eligible Veterans will receive an invitation to a session at a regional VA office.
 
+You might also want to work with nonprofit organizations that have been thoroughly vetted and can offer you advice, share connections, and help place you into a good job at no cost to you. [The Call of Duty Endowment](http://www.callofdutyendowment.org/partners) endorses groups that do a particularly good job of this. 
+
+Additionally, Hire Our Heroes, in partnership with [American Corporate Partners (ACP)](http://www.acp-usa.org/), pairs Veterans with corporate mentors. Over the course of a year, you and a mentor will discuss private-sector career preparation and exploration, and review your résumé. Mentors, one-third of whom are former military, come from a wide variety of sectors, including marketing, defense, health care, insurance, and manufacturing. You are eligible for ACP if:
+
+- You are a currently serving or recently separated Veteran (including members of the Reserve and National Guard) and have served on active duty for at least 180 days since September 11, 2001, or
+- You are the spouse of a Servicemember wounded or killed in action.
 
 </div>
 </div>

@@ -37,7 +37,7 @@ If entrepreneurship interests you, learn about everything from start-up costs to
 
 If you are a surviving spouse, the [Tragedy Assistance Program for Survivors](http://www.taps.org/) offers seminars, peer mentors, and other forms of support to help you complete your education or find a sustainable career. 
 
-Spouses can attend Department of Labor Employment Workshops (DOLEW) online through the Transition GPS Virtual Curriculum on [Joint Knowledge Online](https://jkodirect.jten.mil), on the [Department of Labor website](www.dol.gov/vets/ or in person at some military installations. These workshops focus on building résumés and cover letters as well as developing networking and interviewing skills.
+Spouses can attend Department of Labor Employment Workshops (DOLEW) online through the Transition Assistance Program (TAP) Virtual Curriculum on [Joint Knowledge Online](https://jkodirect.jten.mil), on the [Department of Labor website](https://www.dol.gov/vets/) or in person at some military installations. These workshops focus on building résumés and cover letters as well as developing networking and interviewing skills.
 
 
 </div>

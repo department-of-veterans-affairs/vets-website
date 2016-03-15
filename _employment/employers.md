@@ -15,7 +15,7 @@ The Veterans Employment Center™ (VEC) provides support for your company during
 
 Research shows that hiring Veterans is good business, particularly when it comes to entrepreneurship, resiliency, mission strategy, and team-related goals and actions. The highly regarded Institute for Veterans and Military Families released a [brief](http://vets.syr.edu/wp-content/uploads/2014/07/TheBusinessCase7.14.pdf) titled “The Business Case for Hiring a Veteran: Beyond the Clichés” that lays out how Veterans tap into the skills learned during their time in service to add value to dynamic business environments. 
 
-There are incentives such as the Work Opportunity Tax Credit (WOTC) that ranges from $1,200 to $9,600, the [Vocational Rehabilitation and Employment program](Vets.gov/voc-rehab.link ), and [On-the-Job Training programs](Vets.gov/employerfacingOJTpage). The [Compensated Work Therapy program](vets.gov/CWTPage) may also suit your company’s needs.  
+There are incentives such as the Work Opportunity Tax Credit (WOTC) that ranges from $1,200 to $9,600, the [Vocational Rehabilitation and Employment program](/_dummy-placeholder.html), and [On-the-Job Training programs](/_dummy-placeholder.html). The [Compensated Work Therapy program](/_dummy-placeholder.html) may also suit your company’s needs.  
 
 
 </div>
