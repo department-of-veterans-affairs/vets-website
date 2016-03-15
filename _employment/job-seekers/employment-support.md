@@ -13,7 +13,7 @@ template: 1-topic-landing
 
 As you navigate the civilian marketplace, you may encounter challenges. The Veterans Employment Center can help. 
 
-More private-sector businesses are committing each day to hire Veterans and military family members. Review the latest [commitments 110298592](/_dummy-placeholder.html) and search the [Veterans Job Bank](vets.gov/jobbank) for new job openings. Or if you are considering pursuing [education, licensure, or certifications](/education/advanced-training-and-certifications/licensing-certification/), VA can help guide you through the process. 
+More private-sector businesses are committing each day to hire Veterans and military family members. Review the latest [commitments 110298592](/_dummy-placeholder.html) and search the [Veterans Job Bank](/_dummy-placeholder.html) for new job openings. Or if you are considering pursuing [education, licensure, or certifications](/education/advanced-training-and-certifications/licensing-certification/), VA can help guide you through the process. 
 
 If you own your own business or want to start a company, VA, the [Small Business Administration Boots to Business program](https://www.sba.gov/offices/headquarters/ovbd/resources/160511), and organizations like [Syracuse University’s Institute for Veterans and Military Families](http://vets.syr.edu/education/) offer mentorship, counseling, and training.
 
