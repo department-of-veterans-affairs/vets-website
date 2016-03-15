@@ -6,14 +6,6 @@ template: 1-topic-landing
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
-</div>
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -28,7 +20,7 @@ Your preparation for job fairs is critical to your success. Here are a few tips:
 - Prioritize the employers you are interested in, and prepare two to three questions for the representatives of those companies.
 - Bring multiple copies of your résumé and any relevant military transcripts.
 - Bring business cards to encourage follow-up conversations and questions with prospective employers.
-- For virtual or online events, fill out all necessary online profile requirements (including résumé, references, and a professional high-resolution photo), and update your [LinkedIn profile](veteran linkedin link).
+- For virtual or online events, fill out all necessary online profile requirements (including résumé, references, and a professional high-resolution photo), and update your [LinkedIn profile](/_dummy-placeholder.html).
 
 Visit the following sites to find a career fair near you: 
 
@@ -86,10 +78,12 @@ Visit the following sites to find a career fair near you:
       </div>
     </div>  
   </div>
+</div>
 
-
-
-
-
-
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
+    </div>
+  </div>
 </div>
