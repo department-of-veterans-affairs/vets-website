@@ -6,14 +6,6 @@ template: 1-topic-landing
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
-</div>
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -27,7 +19,7 @@ If you need assistance in starting a business, please visit the [Small Business 
 
 If you are Service-Disabled Veteran who wants to start a business, please view the [Veterans Business Outreach Program](https://www.sba.gov/about-sba/sba-locations/headquarters-offices) website and the [SBDC](https://www.sba.gov/offices/headquarters/osbdc/resources/11409) website for assistance.
 
-VA can help you [register your business](link to register page) as a Veteran-owned or service-disabled Veteran-owned business. Once you receive your certification, you are eligible for certain assistance and benefits.
+VA can help you [register your business](/_dummy-placeholder.html) as a Veteran-owned or service-disabled Veteran-owned business. Once you receive your certification, you are eligible for certain assistance and benefits.
 
 The Small Business Administration also has [resources specifically for Veterans](https://www.sba.gov/content/veteran-service-disabled-veteran-owned). 
 
@@ -62,5 +54,12 @@ Find more resources for starting your business at the [Department of Labor’s V
     </div>  
   </div>
 
+</div>
 
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
+    </div>
+  </div>
 </div>

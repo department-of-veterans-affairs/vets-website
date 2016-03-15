@@ -6,14 +6,6 @@ template: 1-topic-landing
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
-    </div>
-  </div>
-</div>
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -42,7 +34,7 @@ You will need the following documents when you apply:
 - Social security card 
 - Current résumé or military job history 
 
-If you are unemployed and at risk of becoming homeless, [VA can help](vets.gov homeless section). 
+If you are unemployed and at risk of becoming homeless, [VA can help](/_dummy-placeholder.html). 
 
 
 </div>
@@ -96,10 +88,12 @@ If you are unemployed and at risk of becoming homeless, [VA can help](vets.gov h
       </div>
     </div>  
   </div>
+</div>
 
-
-
-
-
-
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
+    </div>
+  </div>
 </div>

@@ -6,14 +6,6 @@ template: 1-topic-landing
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
-</div>
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -45,7 +37,7 @@ If entrepreneurship interests you, learn about everything from start-up costs to
 
 If you are a surviving spouse, the [Tragedy Assistance Program for Survivors](http://www.taps.org/) offers seminars, peer mentors, and other forms of support to help you complete your education or find a sustainable career. 
 
-Spouses can attend Department of Labor Employment Workshops (DOLEW) online through the Transition GPS Virtual Curriculum on [Joint Knowledge Online](https://jkodirect.jten.mil), on the [Department of Labor website](www.dol.gov/vets/ or in person at some military installations. These workshops focus on building résumés and cover letters as well as developing networking and interviewing skills.
+Spouses can attend Department of Labor Employment Workshops (DOLEW) online through the Transition Assistance Program (TAP) Virtual Curriculum on [Joint Knowledge Online](https://jkodirect.jten.mil), on the [Department of Labor website](https://www.dol.gov/vets/) or in person at some military installations. These workshops focus on building résumés and cover letters as well as developing networking and interviewing skills.
 
 
 </div>
@@ -107,10 +99,13 @@ Spouses can attend Department of Labor Employment Workshops (DOLEW) online throu
       </div>
     </div>  
   </div>
-
-
-
-
-
-
 </div>
+
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
+    </div>
+  </div>
+</div>
+

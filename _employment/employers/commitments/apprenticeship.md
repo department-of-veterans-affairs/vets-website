@@ -6,14 +6,6 @@ template: 1-topic-landing
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
-</div>
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -25,12 +17,18 @@ Employers provide  Veterans with a job at an acceptable wage; training, developm
 
 Submit a request through your [State Approving Agency (SAA)](http://www.nasaa-vetseducation.com/Contacts.aspx), which authorizes Registered Apprenticeship programs as approved for the GI Bill typically within 30 days.
 
-The Department of Labor also has several [programs for Registered Apprenticeships and on-the-job training](www.dol.gov/apprenticeship/).
+The Department of Labor also has several [programs for Registered Apprenticeships and on-the-job training](http://www.dol.gov/apprenticeship/).
 
 
 </div>
 </div>
 </div>
+</div>
 
-
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
+    </div>
+  </div>
 </div>
