@@ -38,21 +38,6 @@ describe('<Nav>', () => {
     const history = createMemoryHistory('/');
     let nav;
 
-    const expectOneActiveLink = (component, path) => {
-      history.replace(path);
-      const activeLinks = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'usa-current');
-      expect(activeLinks).to.have.lengthOf(1);
-      expect(activeLinks[0].getAttribute('href')).to.equal(path);
-    };
-
-    const expectActiveLinksForNavAndSubNav = (component, path) => {
-      history.replace(path);
-      const activeLinks = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'usa-current');
-      expect(activeLinks).to.have.lengthOf(2);
-      expect(activeLinks[0].getAttribute('href').startsWith(activeLinks[1].getAttribute('href')));
-      expect(activeLinks[1].getAttribute('href')).to.equal(path);
-    };
-
     before(() => {
       // It's perfectly fine in this test to reuse the rendered component. Do that
       // cause it cuts the test time from 1s down to ~0.1s.
@@ -69,6 +54,21 @@ describe('<Nav>', () => {
       // Ensure navigations do not leak from one test case to another.
       history.replace('/');
     });
+
+    const expectOneActiveLink = (component, path) => {
+      history.replace(path);
+      const activeLinks = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'usa-current');
+      expect(activeLinks).to.have.lengthOf(1);
+      expect(activeLinks[0].getAttribute('href')).to.equal(path);
+    };
+
+    const expectActiveLinksForNavAndSubNav = (component, path) => {
+      history.replace(path);
+      const activeLinks = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'usa-current');
+      expect(activeLinks).to.have.lengthOf(2);
+      expect(activeLinks[0].getAttribute('href').startsWith(activeLinks[1].getAttribute('href')));
+      expect(activeLinks[1].getAttribute('href')).to.equal(path);
+    };
 
     it('/introduction', () => {
       expectOneActiveLink(nav, '/introduction');
