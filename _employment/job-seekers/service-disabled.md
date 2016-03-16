@@ -51,31 +51,31 @@ Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov
 
         <li>
           <h3>
-            <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator: #110298580</a>
+            <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator</a>
           </h3>
         </li>  
 
         <li>
           <h3>
-            <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder: #111659432</a>
+            <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder</a>
           </h3>  
         </li>
 
         <li>
           <h3>
-            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570 </a>
+            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
           </h3>
         </li>  
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler: #110298582 </a>
+            <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
+            <a href="/employment/job-seekers/military-transcripts/">Military Transcripts</a>
           </h3>
         </li>    
 
