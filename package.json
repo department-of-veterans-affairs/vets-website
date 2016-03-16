@@ -76,6 +76,7 @@
     "npm": "^3.7.2",
     "phantomjs": "^1.9.19",
     "phantomjs-polyfill": "0.0.1",
+    "react-addons-perf": "^0.14.7",
     "react-addons-test-utils": "^0.14.7",
     "react-transform": "0.0.3",
     "react-transform-catch-errors": "^1.0.2",
