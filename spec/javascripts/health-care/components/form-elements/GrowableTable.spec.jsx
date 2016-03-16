@@ -77,13 +77,16 @@ describe('<GrowableTable>', () => {
 
   describe('row management', () => {
     let growableTable;
-    let currentId = 0;
-    const createRow = () => { return { value: currentId++ }; };
     const rows = [
-      { key: 'k1', value: 'v1' },
-      { key: 'k2', value: 'v2' }
+      { key: 'k1', value: 'a' },
+      { key: 'k2', value: 'b' }
     ];
     const onRowsUpdate = sinon.spy();
+
+    // Function that generates a new model for a row. Use numbers instead of letters to ensure
+    // it never collides with the initial static row model objects in `rows`.
+    let currentId = 0;
+    const createRow = () => { return { value: currentId++ }; };
 
     before(() => {
       // It's perfectly fine in this test to reuse the rendered component. Do that
