@@ -29,7 +29,6 @@ class Child extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <p>Child's relationship to you (check one)</p>
             <ErrorableSelect label="Child’s relationship to you"
                 options={childRelationships}
                 value={this.props.data.childRelation}
