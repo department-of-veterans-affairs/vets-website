@@ -17,6 +17,7 @@ Research shows that hiring Veterans is good business, particularly when it comes
 
 There are incentives such as the Work Opportunity Tax Credit (WOTC) that ranges from $1,200 to $9,600, the [Vocational Rehabilitation and Employment program](/_dummy-placeholder.html), and [On-the-Job Training programs](/_dummy-placeholder.html). The [Compensated Work Therapy program](/_dummy-placeholder.html) may also suit your company’s needs.  
 
+There are incentives such as the Work Opportunity Tax Credit (WOTC) that ranges from $1,200 to $9,600, the [Vocational Rehabilitation and Employment program](/_dummy-placeholder.html), and [On-the-Job Training programs](/_dummy-placeholder.html). The [Compensated Work Therapy program](/_dummy-placeholder.html) may also suit your company’s needs.  Some cities have a Veterans Economic Community Initiative (VECI) liaison who can help you connect with Veterans and understand their needs. 
 
 </div>
 </div>
