@@ -18,16 +18,23 @@ class VaInformationSection extends React.Component {
               label="Are you VA Service Connected 50% to 100% Disabled?"
               checked={this.props.data.isVaServiceConnected}
               onValueChange={(update) => {this.props.onStateChange('isVaServiceConnected', update);}}/>
-
-          <ErrorableCheckbox
-              label="Are you compensable VA Service Connected 0% - 40%?"
-              checked={this.props.data.compensableVaServiceConnected}
-              onValueChange={(update) => {this.props.onStateChange('compensableVaServiceConnected', update);}}/>
-
-          <ErrorableCheckbox
-              label="Do you receive a VA pension?"
-              checked={this.props.data.receivesVaPension}
-              onValueChange={(update) => {this.props.onStateChange('receivesVaPension', update);}}/>
+          {this.props.data.isVaServiceConnected === true &&
+            <div>
+              <ErrorableCheckbox
+                  label="Are you compensable VA Service Connected 0% - 40%?"
+                  checked={this.props.data.compensableVaServiceConnected}
+                  onValueChange={(update) => {this.props.onStateChange('compensableVaServiceConnected', update);}}/>
+              <p>
+                A VA determination that a Service-connected disability is severe enough to warrant monetary compensation.
+              </p>
+            </div>
+          }
+          {this.props.data.isVaServiceConnected === true && this.props.data.compensableVaServiceConnected === true &&
+            <ErrorableCheckbox
+                label="Do you receive a VA pension?"
+                checked={this.props.data.receivesVaPension}
+                onValueChange={(update) => {this.props.onStateChange('receivesVaPension', update);}}/>
+          }
         </div>
       </div>
     );
