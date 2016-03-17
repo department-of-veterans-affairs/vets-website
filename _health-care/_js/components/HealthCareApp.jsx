@@ -49,6 +49,7 @@ class HealthCareApp extends React.Component {
 
           'additional-information': {
             isEssentialAcaCoverage: false,
+            facilityState: '',
             vaMedicalFacility: '',
             wantsInitialVaContact: false
           },
