@@ -1536,6 +1536,19 @@ a.twitter {
     background: none;
     overflow: hidden;
     text-decoration: underline;
+      @media #{$small-only} {
+        text-align: center;
+      }
+
+    &:nth-child(even) {
+      opacity: .5;
+      padding-left: 1em;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+    
     span.icon {
       background: url('../images/design/sprites/sprite.png') no-repeat -43px 0;
       background-size: 215px 72px;
