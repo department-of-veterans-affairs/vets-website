@@ -215,31 +215,21 @@ class HealthCareApp extends React.Component {
   }
 
   resetNullValues(objectData) {
-    const context = this;
-    _.forIn(objectData, (value, key) => {
+    return _.mapValues(objectData, (value, _key) => {
       if (value === null) {
-        _.set(objectData, key, '');
-      } else if (typeof (value) === 'object') {
-        context.resetNullValues(value);
+        return '';
+      } else if (typeof (value) !== 'object') {
+        return value;
       }
+
+      return this.resetNullValues(value);
     });
-
-    // _.mapValues(objectData, (value, key) => {
-    //     if (value === null) {
-    //       return value = '';
-    //     } else if (typeof (value) === 'object') {
-    //       context.resetNullValues(value);
-    //     }
-    // });
-
-    return objectData;
   }
 
   handleContinue() {
     const sectionPath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
-    const sectionData = _.get(this.state.applicationData, sectionPath);
-
-    this.resetNullValues(sectionData);
+    const sectionData = this.resetNullValues(_.get(this.state.applicationData, sectionPath));
+    this.publishStateChange(sectionPath, sectionData);
 
     this.setState({}, () => {
       if (validationFunctions.isValidSection(this.props.location.pathname, sectionData)) {
