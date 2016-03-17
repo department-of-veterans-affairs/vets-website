@@ -1,6 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
 
+import ErrorableSelect from '../form-elements/ErrorableSelect';
+
+import { vaMedicalFacilities } from '../../utils/options-for-select.js';
+
 /**
  * Select component for preferred VA Medical Facility.
  *
@@ -10,7 +14,9 @@ import _ from 'lodash';
  * Props:
  * `value` - String. Stores the medical facility value.
  * `onValueChange` - a function with this prototype: (newValue)
+ * `facilityState` - String. Passes the state name prop from facilityState.
  */
+
 class VaMedicalFacility extends React.Component {
   constructor() {
     super();
@@ -21,26 +27,24 @@ class VaMedicalFacility extends React.Component {
     this.selectId = _.uniqueId('preferred-va-facility-');
   }
 
-  handleChange(domEvent) {
-    this.props.onValueChange(domEvent.target.value);
+  handleChange(update) {
+    this.props.onValueChange(update);
   }
 
-  // TODO: Add the actual list of medical facilities
-  // TODO: Filter list based on state selected?
   render() {
+    let clinicList = [];
+    const selectedState = this.props.facilityState;
+    if (selectedState) {
+      clinicList = vaMedicalFacilities[selectedState];
+    }
+
     return (
       <div className="usa-input-grid usa-input-grid-large">
-        <label htmlFor={this.selectId}>
-          Center/Clinic
-        </label>
-        <select
-            id={this.selectId}
-            onChange={this.handleChange}
-            value={this.props.value}>
-          <option value=""></option>
-          <option value="1">PUG</option>
-          <option value="2">Tampa VAMC</option>
-        </select>
+        <ErrorableSelect
+            label="Center/Clinic"
+            options={clinicList}
+            value={this.props.value}
+            onValueChange={this.handleChange}/>
       </div>
     );
   }
@@ -48,6 +52,7 @@ class VaMedicalFacility extends React.Component {
 
 VaMedicalFacility.propTypes = {
   value: React.PropTypes.string.isRequired,
+  facilityState: React.PropTypes.string.isRequired,
   onValueChange: React.PropTypes.func.isRequired,
 };
 
