@@ -45,6 +45,7 @@ class ErrorableSelect extends React.Component {
     // Calculate options for select
     let reactKey = 0;
     // TODO(awong): Remove this hack to handle options prop and use invariants instead.
+    // TODO(crew): Build options with empty option first here instead of in the return jsx block.
     const options = _.isArray(this.props.options) ? this.props.options : [];
     const optionElements = options.map((obj) => {
       let label;
