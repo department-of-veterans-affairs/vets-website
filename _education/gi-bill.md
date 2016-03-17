@@ -6,14 +6,6 @@ template: 1-topic-landing
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -26,7 +18,7 @@ Since 1994, the GI Bill has helped millions of Veterans pay for college so they 
 You have several options from which to choose. [Veterans Service Organizations](http://www.va.gov/vso/) and the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) can help you pick the best program for you.
 
 <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-<a class="usa-button-primary va-button-secondary" href="/education/apply-for-education-benefits/">GI Bill Comparison Tool</a>
+<a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
 
 
 </div>
