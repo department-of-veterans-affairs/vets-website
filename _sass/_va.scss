@@ -1,4 +1,5 @@
 // Vets.gov
+$color-green-darker: #195c27;
 
 // Pieces of elements/typography we need
 // TODO: properly incorporate elements/typography
@@ -2287,10 +2288,34 @@ h4.highlight {
 text-align: right;
 background: $color-gray-lightest;
 padding: .5em 0;
-a.usa-button-primary {
-  background: $color-green;
+  a.usa-button-primary {
+    background: $color-green;
+  }
 }
+
+// TODO: Deprecate .action-bar a.usa-button-primary.
+// Use .va-button-primary and .va-button-secondary 
+// going forward.
+// Drop !important from the lines below when everything
+// is refactored.
+.va-button-primary {
+  background: $color-green !important;
+ 
+  &:hover,
+  &:focus {
+    background-color: $color-green-darker !important;
+  }
+} 
+
+.va-button-secondary {
+  background-color: $color-primary-darker !important;
+  
+  &:hover,
+  &:focus {
+    background-color: $color-primary-darkest !important;  
+  }
 }
+
 
 // USDS component styles
 // Accordion
