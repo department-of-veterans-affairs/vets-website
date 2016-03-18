@@ -21,6 +21,14 @@ class DeductibleExpensesSection extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <h4>Deductible Expenses</h4>
+            {this.props.external.receivesVaPension === true &&
+              <p>
+                <strong>
+                You are not required to enter financial information because you
+                indicated you are receiving a VA pension.
+                </strong>
+              </p>
+            }
           </div>
         </div>
 
