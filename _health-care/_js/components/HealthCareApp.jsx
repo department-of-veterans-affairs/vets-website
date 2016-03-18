@@ -7,7 +7,7 @@ import ContinueButton from './ContinueButton';
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
 
-import * as validationFunctions from '../utils/validations';
+import * as validations from '../utils/validations';
 
 // Add deep object manipulation routines to lodash.
 _.mixin(lodashDeep);
@@ -18,7 +18,6 @@ class HealthCareApp extends React.Component {
     this.publishStateChange = this.publishStateChange.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
     this.getNextUrl = this.getNextUrl.bind(this);
-    this.resetNullValues = this.resetNullValues.bind(this);
 
     this.state = {
       applicationData: {
@@ -214,29 +213,13 @@ class HealthCareApp extends React.Component {
     this.setState({ applicationData: newApplicationData });
   }
 
-  resetNullValues(objectData) {
-    return _.mapValues(objectData, (value, _key) => {
-      if (value === null) {
-        return '';
-      } else if (Array.isArray(value)) {
-        value.map((obj) => {
-          return this.resetNullValues(obj);
-        });
-      } else if (typeof (value) !== 'object') {
-        return value;
-      }
-
-      return this.resetNullValues(value);
-    });
-  }
-
   handleContinue() {
     const sectionPath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
-    const sectionData = this.resetNullValues(_.get(this.state.applicationData, sectionPath));
+    const sectionData = validations.initializeNullValues(_.get(this.state.applicationData, sectionPath));
     this.publishStateChange(sectionPath, sectionData);
 
     this.setState({}, () => {
-      if (validationFunctions.isValidSection(this.props.location.pathname, sectionData)) {
+      if (validations.isValidSection(this.props.location.pathname, sectionData)) {
         hashHistory.push(this.getNextUrl());
       } else {
         document.getElementsByClassName('usa-input-error')[0].scrollIntoView();
