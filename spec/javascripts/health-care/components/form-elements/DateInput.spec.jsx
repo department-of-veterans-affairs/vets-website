@@ -77,7 +77,7 @@ describe('<DateInput>', () => {
       const tree = SkinDeep.shallowRender(
         <DateInput day="1" month="13" year="2010" onValueChange={(_update) => {}}/>);
       expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(1);
-      expect(tree.everySubTree('.usa-input-error-label')).to.have.lengthOf(1);
+      expect(tree.everySubTree('.usa-input-error-label')).to.have.lengthOf(3);
     });
   });
 

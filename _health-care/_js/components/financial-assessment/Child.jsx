@@ -8,7 +8,7 @@ import FullName from '../questions/FullName';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
 
 import { childRelationships } from '../../utils/options-for-select.js';
-import { isBlank, isValidMonetaryValue } from '../../utils/validations';
+import { isBlank, isNotBlank, isValidMonetaryValue } from '../../utils/validations';
 
 // TODO: create unique nodes for each child in applicationData
 
@@ -29,7 +29,9 @@ class Child extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <ErrorableSelect label="Child’s relationship to you"
+            <ErrorableSelect required
+                errorMessage={isNotBlank(this.props.data.childRelation) ? undefined : 'Please select an option'}
+                label="Child’s relationship to you"
                 options={childRelationships}
                 value={this.props.data.childRelation}
                 onValueChange={(update) => {this.props.onValueChange('childRelation', update);}}/>
@@ -39,7 +41,7 @@ class Child extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <SocialSecurityNumber label="Child’s Social Security Number"
-                required={false}
+                required
                 ssn={this.props.data.childSocialSecurityNumber}
                 onValueChange={(update) => {this.props.onValueChange('childSocialSecurityNumber', update);}}/>
           </div>
@@ -48,7 +50,7 @@ class Child extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <h5>Date Child Became Dependent</h5>
-            <DateInput
+            <DateInput required
                 day={this.props.data.childBecameDependent.day}
                 month={this.props.data.childBecameDependent.month}
                 year={this.props.data.childBecameDependent.year}
@@ -59,7 +61,7 @@ class Child extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <h5>Child’s Date of Birth</h5>
-            <DateInput
+            <DateInput required
                 day={this.props.data.childDateOfBirth.day}
                 month={this.props.data.childDateOfBirth.month}
                 year={this.props.data.childDateOfBirth.year}

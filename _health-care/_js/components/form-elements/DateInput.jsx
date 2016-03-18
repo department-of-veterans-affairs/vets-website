@@ -63,7 +63,9 @@ class DateInput extends React.Component {
                 onChange={this.handleChange}/>
           </div>
           <div className="usa-datefield usa-form-group usa-form-group-day">
-            <label htmlFor={`${this.id}-day`}>Day</label>
+            <label
+                className={isValid ? undefined : 'usa-input-error-label'}
+                htmlFor={`${this.id}-day`}>Day</label>
             <input
                 className="usa-form-control"
                 id={`${this.id}-day`}
@@ -76,7 +78,9 @@ class DateInput extends React.Component {
                 onChange={this.handleChange}/>
           </div>
           <div className="usa-datefield usa-form-group usa-form-group-year">
-            <label htmlFor={`${this.id}-year`}>Year</label>
+            <label
+                className={isValid ? undefined : 'usa-input-error-label'}
+                htmlFor={`${this.id}-year`}>Year</label>
             <input
                 className="usa-form-control"
                 id={`${this.id}-year`}

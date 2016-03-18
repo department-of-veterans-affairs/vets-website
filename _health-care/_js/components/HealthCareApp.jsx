@@ -222,7 +222,10 @@ class HealthCareApp extends React.Component {
       if (validations.isValidSection(this.props.location.pathname, sectionData)) {
         hashHistory.push(this.getNextUrl());
       } else {
-        document.getElementsByClassName('usa-input-error')[0].scrollIntoView();
+        // TODO: improve this
+        if (document.getElementsByClassName('usa-input-error').length > 0) {
+          document.getElementsByClassName('usa-input-error')[0].scrollIntoView();
+        }
       }
     });
   }

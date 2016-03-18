@@ -24,7 +24,7 @@ function isValidSSN(value) {
 function isValidDate(day, month, year) {
   if (day !== null && month !== null && year !== null) {
     // Use the date class to see if the date parses back sanely as a
-    // validation check. Not sure this is a great idea...
+    // validation check. Not sure is a great idea...
     const adjustedMonth = Number(month) - 1;  // JS Date object 0-indexes months. WTF.
     const date = new Date(year, adjustedMonth, day);
     return date.getDate() === Number(day) &&
@@ -69,12 +69,6 @@ function isValidEmail(value) {
 //        3. argument order is now based on form order... using
 function isValidAddress(street, city, country, state, zipcode) {
   if (street !== null && city !== null && country !== null && state !== null && zipcode !== null) {
-    let n = 0;
-    if (street === '') n++;
-    if (city === '') n++;
-    if (country === '') n++;
-    if (state === '') n++;
-    if (zipcode === '') n++;
     return true;
   }
   // arbitraty use of field to keep linter happy until we answer #1
@@ -82,44 +76,45 @@ function isValidAddress(street, city, country, state, zipcode) {
 }
 
 function isValidNameAndGeneralInformation(data) {
-  return this.isNotBlank(data.fullName.first) &&
-      this.isValidName(data.fullName.first) &&
+  return isNotBlank(data.fullName.first) &&
+      isValidName(data.fullName.first) &&
       (isBlank(data.fullName.middle) || isValidName(data.fullName.middle)) &&
-      this.isNotBlank(data.fullName.last) &&
-      this.isValidName(data.fullName.last) &&
-      this.isValidSSN(data.socialSecurityNumber) &&
-      this.isValidDate(data.dateOfBirth.day, data.dateOfBirth.month, data.dateOfBirth.year);
+      isNotBlank(data.fullName.last) &&
+      isValidName(data.fullName.last) &&
+      isValidSSN(data.socialSecurityNumber) &&
+      isValidDate(data.dateOfBirth.day, data.dateOfBirth.month, data.dateOfBirth.year);
 }
 
 function isValidVeteranAddress(data) {
-  return this.isValidAddress(data.address.street, data.address.city, data.address.country, data.address.state, data.address.zipcode) &&
-      (this.isBlank(data.email) || this.isValidEmail(data.email)) &&
-      (this.isBlank(data.emailConfirmation) || this.isValidEmail(data.emailConfirmation)) &&
-      (this.isBlank(data.homePhone) || this.isValidPhone(data.homePhone)) &&
-      (this.isBlank(data.mobilePhone) || this.isValidPhone(data.mobilePhone));
+  return isValidAddress(data.address.street, data.address.city, data.address.country, data.address.state, data.address.zipcode) &&
+      (isBlank(data.email) || isValidEmail(data.email)) &&
+      (isBlank(data.emailConfirmation) || isValidEmail(data.emailConfirmation)) &&
+      (isBlank(data.homePhone) || isValidPhone(data.homePhone)) &&
+      (isBlank(data.mobilePhone) || isValidPhone(data.mobilePhone));
 }
 
 function isValidSpouseInformation(data) {
-  return this.isValidSSN(data.spouseSocialSecurityNumber) &&
-      ((this.isBlank(data.spouseDateOfBirth.day) && this.isBlank(data.spouseDateOfBirth.month) && this.isBlank(data.spouseDateOfBirth.year)) ||
-      this.isValidDate(data.spouseDateOfBirth.day, data.spouseDateOfBirth.month, data.spouseDateOfBirth.year)) &&
-      ((this.isBlank(data.dateOfMarriage.day) && this.isBlank(data.dateOfMarriage.month) && this.isBlank(data.dateOfMarriage.year)) ||
-      this.isValidDate(data.dateOfMarriage.day, data.dateOfMarriage.month, data.dateOfMarriage.year)) &&
-      ((this.isBlank(data.spouseAddress.street) && this.isBlank(data.spouseAddress.city) && this.isBlank(data.spouseAddress.country) && this.isBlank(data.spouseAddress.state) && this.isBlank(data.spouseAddress.zipcode)) ||
-      this.isValidAddress(data.spouseAddress.street, data.spouseAddress.city, data.spouseAddress.country, data.spouseAddress.state, data.spouseAddress.zipcode)) &&
-      (this.isBlank(data.spousePhone) || this.isValidPhone(data.spousePhone));
+  return isValidSSN(data.spouseSocialSecurityNumber) &&
+      ((isBlank(data.spouseDateOfBirth.day) && isBlank(data.spouseDateOfBirth.month) && isBlank(data.spouseDateOfBirth.year)) ||
+      isValidDate(data.spouseDateOfBirth.day, data.spouseDateOfBirth.month, data.spouseDateOfBirth.year)) &&
+      ((isBlank(data.dateOfMarriage.day) && isBlank(data.dateOfMarriage.month) && isBlank(data.dateOfMarriage.year)) ||
+      isValidDate(data.dateOfMarriage.day, data.dateOfMarriage.month, data.dateOfMarriage.year)) &&
+      ((isBlank(data.spouseAddress.street) && isBlank(data.spouseAddress.city) && isBlank(data.spouseAddress.country) && isBlank(data.spouseAddress.state) && isBlank(data.spouseAddress.zipcode)) ||
+      isValidAddress(data.spouseAddress.street, data.spouseAddress.city, data.spouseAddress.country, data.spouseAddress.state, data.spouseAddress.zipcode)) &&
+      (isBlank(data.spousePhone) || isValidPhone(data.spousePhone));
 }
 
 function isValidChildInformation(data) {
   const children = data.children;
   for (let i = 0; i < children.length; i++) {
-    if (!(this.isValidName(children[i].childFullName.first) &&
-        (this.isBlank(children[i].childFullName.middle) || this.isValidName(children[i].childFullName.middle)) &&
-        this.isValidName(children[i].childFullName.last) &&
-        this.isValidSSN(children[i].childSocialSecurityNumber) &&
-        this.isValidDate(children[i].childBecameDependent.day, children[i].childBecameDependent.month, children[i].childBecameDependent.year) &&
-        this.isValidDate(children[i].childDateOfBirth.day, children[i].childDateOfBirth.month, children[i].childDateOfBirth.year) &&
-        (this.isBlank(children[i].childEducationExpenses) || this.isValidMonetaryValue(children[i].childEducationExpenses)))
+    if (!(isValidName(children[i].childFullName.first) &&
+        (isBlank(children[i].childFullName.middle) || isValidName(children[i].childFullName.middle)) &&
+        isValidName(children[i].childFullName.last) &&
+        isNotBlank(children[i].childRelation) &&
+        isValidSSN(children[i].childSocialSecurityNumber) &&
+        isValidDate(children[i].childBecameDependent.day, children[i].childBecameDependent.month, children[i].childBecameDependent.year) &&
+        isValidDate(children[i].childDateOfBirth.day, children[i].childDateOfBirth.month, children[i].childDateOfBirth.year) &&
+        (isBlank(children[i].childEducationExpenses) || isValidMonetaryValue(children[i].childEducationExpenses)))
     ) {
       return false;
     }
@@ -128,27 +123,28 @@ function isValidChildInformation(data) {
 }
 
 function isValidAnnualIncome(data) {
-  return (this.isBlank(data.veteranGrossIncome) || this.isValidMonetaryValue(data.veteranGrossIncome)) &&
-    (this.isBlank(data.veteranNetIncome) || this.isValidMonetaryValue(data.veteranNetIncome)) &&
-    (this.isBlank(data.veteranOtherIncome) || this.isValidMonetaryValue(data.veteranOtherIncome)) &&
-    (this.isBlank(data.spouseGrossIncome) || this.isValidMonetaryValue(data.spouseGrossIncome)) &&
-    (this.isBlank(data.spouseNetIncome) || this.isValidMonetaryValue(data.spouseNetIncome)) &&
-    (this.isBlank(data.spouseOtherIncome) || this.isValidMonetaryValue(data.spouseOtherIncome)) &&
-    (this.isBlank(data.childrenGrossIncome) || this.isValidMonetaryValue(data.childrenGrossIncome)) &&
-    (this.isBlank(data.childrenNetIncome) || this.isValidMonetaryValue(data.childrenNetIncome)) &&
-    (this.isBlank(data.childrenOtherIncome) || this.isValidMonetaryValue(data.childrenOtherIncome));
+  return (isBlank(data.veteranGrossIncome) || isValidMonetaryValue(data.veteranGrossIncome)) &&
+    (isBlank(data.veteranNetIncome) || isValidMonetaryValue(data.veteranNetIncome)) &&
+    (isBlank(data.veteranOtherIncome) || isValidMonetaryValue(data.veteranOtherIncome)) &&
+    (isBlank(data.spouseGrossIncome) || isValidMonetaryValue(data.spouseGrossIncome)) &&
+    (isBlank(data.spouseNetIncome) || isValidMonetaryValue(data.spouseNetIncome)) &&
+    (isBlank(data.spouseOtherIncome) || isValidMonetaryValue(data.spouseOtherIncome)) &&
+    (isBlank(data.childrenGrossIncome) || isValidMonetaryValue(data.childrenGrossIncome)) &&
+    (isBlank(data.childrenNetIncome) || isValidMonetaryValue(data.childrenNetIncome)) &&
+    (isBlank(data.childrenOtherIncome) || isValidMonetaryValue(data.childrenOtherIncome));
 }
 
 function isValidDeductibleExpenses(data) {
-  return (this.isBlank(data.deductibleMedicalExpenses) || this.isValidMonetaryValue(data.deductibleMedicalExpenses)) &&
-      (this.isBlank(data.deductibleFuneralExpenses) || this.isValidMonetaryValue(data.deductibleFuneralExpenses)) &&
-      (this.isBlank(data.deductibleEducationExpenses) || this.isValidMonetaryValue(data.deductibleEducationExpenses));
+  return (isBlank(data.deductibleMedicalExpenses) || isValidMonetaryValue(data.deductibleMedicalExpenses)) &&
+      (isBlank(data.deductibleFuneralExpenses) || isValidMonetaryValue(data.deductibleFuneralExpenses)) &&
+      (isBlank(data.deductibleEducationExpenses) || isValidMonetaryValue(data.deductibleEducationExpenses));
 }
 
+// TODO: add correct validations
 function isValidGeneralInsurance(data) {
   const providers = data.providers;
   for (let i = 0; i < providers.length; i++) {
-    if (!this.isValidPhone(providers[i].insurancePhone)) {
+    if (!isValidPhone(providers[i].insurancePhone)) {
       return false;
     }
   }
@@ -156,37 +152,37 @@ function isValidGeneralInsurance(data) {
 }
 
 function isValidMedicareMedicaid(data) {
-  return (this.isBlank(data.medicarePartAEffectiveDate.day) && this.isBlank(data.medicarePartAEffectiveDate.month) && this.isBlank(data.medicarePartAEffectiveDate.year)) ||
-    this.isValidDate(data.medicarePartAEffectiveDate.day, data.medicarePartAEffectiveDate.month, data.medicarePartAEffectiveDate.year);
+  return (isBlank(data.medicarePartAEffectiveDate.day) && isBlank(data.medicarePartAEffectiveDate.month) && isBlank(data.medicarePartAEffectiveDate.year)) ||
+    isValidDate(data.medicarePartAEffectiveDate.day, data.medicarePartAEffectiveDate.month, data.medicarePartAEffectiveDate.year);
 }
 
 function isValidServiceInformation(data) {
-  return ((this.isBlank(data.lastEntryDate.day) && this.isBlank(data.lastEntryDate.month) && this.isBlank(data.lastEntryDate.year)) ||
-      this.isValidDate(data.lastEntryDate.day, data.lastEntryDate.month, data.lastEntryDate.year)) &&
-      ((this.isBlank(data.lastDischargeDate.day) && this.isBlank(data.lastDischargeDate.month) && this.isBlank(data.lastDischargeDate.year)) ||
-      this.isValidDate(data.lastDischargeDate.day, data.lastDischargeDate.month, data.lastDischargeDate.year));
+  return ((isBlank(data.lastEntryDate.day) && isBlank(data.lastEntryDate.month) && isBlank(data.lastEntryDate.year)) ||
+      isValidDate(data.lastEntryDate.day, data.lastEntryDate.month, data.lastEntryDate.year)) &&
+      ((isBlank(data.lastDischargeDate.day) && isBlank(data.lastDischargeDate.month) && isBlank(data.lastDischargeDate.year)) ||
+      isValidDate(data.lastDischargeDate.day, data.lastDischargeDate.month, data.lastDischargeDate.year));
 }
 
 function isValidSection(completePath, sectionData) {
   switch (completePath) {
     case '/personal-information/name-and-general-information':
-      return this.isValidNameAndGeneralInformation(sectionData);
+      return isValidNameAndGeneralInformation(sectionData);
     case '/personal-information/veteran-address':
-      return this.isValidVeteranAddress(sectionData);
+      return isValidVeteranAddress(sectionData);
     case '/financial-assessment/spouse-information':
-      return this.isValidSpouseInformation(sectionData);
+      return isValidSpouseInformation(sectionData);
     case '/financial-assessment/child-information':
-      return this.isValidChildInformation(sectionData);
+      return isValidChildInformation(sectionData);
     case '/financial-assessment/annual-income':
-      return this.isValidAnnualIncome(sectionData);
+      return isValidAnnualIncome(sectionData);
     case '/financial-assessment/deductible-expenses':
-      return this.isValidDeductibleExpenses(sectionData);
+      return isValidDeductibleExpenses(sectionData);
     case '/insurance-information/general-insurance':
-      return this.isValidGeneralInsurance(sectionData);
+      return isValidGeneralInsurance(sectionData);
     case '/insurance-information/medicare-medicaid':
-      return this.isValidMedicareMedicaid(sectionData);
+      return isValidMedicareMedicaid(sectionData);
     case '/military-service/service-information':
-      return this.isValidServiceInformation(sectionData);
+      return isValidServiceInformation(sectionData);
     default:
       return true;
   }
