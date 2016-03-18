@@ -80,7 +80,7 @@ end
 desc "Install dependencies for serving and development"
 task :install do
   sh "bundle install --jobs 3 --retry=3 --deployment"
-  sh "npm install -d"
+  sh "npm install -d 2>&1 | tail -200"
 end
 
 desc "Run lint"
