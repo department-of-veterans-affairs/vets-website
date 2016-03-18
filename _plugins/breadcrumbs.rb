@@ -1,17 +1,17 @@
 module Jekyll
   class BreadcrumbsTag < Liquid::Tag
   
-	def humanize(s)
+    def humanize(s)
       # Words that shouldn't get capitalized
       filterwords = ['for','a']
       s.split("-").collect do |s|
-      	# if s is not in filterwords array, capitalize it
-      	# otherwise just return s.
-	    if !filterwords.include? s
-	      s.capitalize
-	    else
-	      s
-	    end
+        # if s is not in filterwords array, capitalize it
+        # otherwise just return s.
+        if !filterwords.include? s
+          s.capitalize
+        else
+          s
+        end
       end.join(" ")
     end
 
