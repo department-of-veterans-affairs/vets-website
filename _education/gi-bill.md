@@ -26,11 +26,9 @@ You have several options from which to choose. [Veterans Service Organizations](
 </div>
 </div>
 
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
+<nav class="va-navigation--piano-wrap">
+  <ul class="va-navigation--piano">
       <li>
         <a href="/education/gi-bill/foreign-programs/">
           <h5>Foreign Programs</h5>
@@ -105,6 +103,4 @@ You have several options from which to choose. [Veterans Service Organizations](
         </li>
 
       </ul>
-    </div>
-  </div>
-</div>
+</nav>
