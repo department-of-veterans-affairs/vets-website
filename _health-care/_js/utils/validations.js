@@ -73,7 +73,7 @@ function isValidAddress(street, city, country, state, zipcode) {
     if (country === '') n++;
     if (state === '') n++;
     if (zipcode === '') n++;
-    return true; 
+    return true;
   }
   // arbitraty use of field to keep linter happy until we answer #1
   return true;
@@ -99,10 +99,13 @@ function isValidVeteranAddress(data) {
 
 function isValidSpouseInformation(data) {
   return this.isValidSSN(data.spouseSocialSecurityNumber) &&
-      this.isValidDate(data.spouseDateOfBirth.day, data.spouseDateOfBirth.month, data.spouseDateOfBirth.year) &&
-      this.isValidDate(data.dateOfMarriage.day, data.dateOfMarriage.month, data.dateOfMarriage.year) &&
-      this.isValidAddress(data.spouseAddress.street, data.spouseAddress.city, data.spouseAddress.country, data.spouseAddress.state, data.spouseAddress.zipcode) &&
-      this.isValidPhone(data.spousePhone);
+      ((this.isBlank(data.spouseDateOfBirth.day) && this.isBlank(data.spouseDateOfBirth.month) && this.isBlank(data.spouseDateOfBirth.year)) ||
+      this.isValidDate(data.spouseDateOfBirth.day, data.spouseDateOfBirth.month, data.spouseDateOfBirth.year)) &&
+      ((this.isBlank(data.dateOfMarriage.day) && this.isBlank(data.dateOfMarriage.month) && this.isBlank(data.dateOfMarriage.year)) ||
+      this.isValidDate(data.dateOfMarriage.day, data.dateOfMarriage.month, data.dateOfMarriage.year)) &&
+      ((this.isBlank(data.spouseAddress.street) && this.isBlank(data.spouseAddress.city) && this.isBlank(data.spouseAddress.country) && this.isBlank(data.spouseAddress.state) && this.isBlank(data.spouseAddress.zipcode)) ||
+      this.isValidAddress(data.spouseAddress.street, data.spouseAddress.city, data.spouseAddress.country, data.spouseAddress.state, data.spouseAddress.zipcode)) &&
+      (this.isBlank(data.spousePhone) || this.isValidPhone(data.spousePhone));
 }
 
 function isValidChildInformation(data) {
@@ -123,21 +126,21 @@ function isValidChildInformation(data) {
 }
 
 function isValidAnnualIncome(data) {
-  return this.isValidMonetaryValue(data.veteranGrossIncome) &&
-    this.isValidMonetaryValue(data.veteranNetIncome) &&
-    this.isValidMonetaryValue(data.veteranOtherIncome) &&
-    this.isValidMonetaryValue(data.spouseGrossIncome) &&
-    this.isValidMonetaryValue(data.spouseNetIncome) &&
-    this.isValidMonetaryValue(data.spouseOtherIncome) &&
-    this.isValidMonetaryValue(data.childrenGrossIncome) &&
-    this.isValidMonetaryValue(data.childrenNetIncome) &&
-    this.isValidMonetaryValue(data.childrenOtherIncome);
+  return (this.isBlank(data.veteranGrossIncome) || this.isValidMonetaryValue(data.veteranGrossIncome)) &&
+    (this.isBlank(data.veteranNetIncome) || this.isValidMonetaryValue(data.veteranNetIncome)) &&
+    (this.isBlank(data.veteranOtherIncome) || this.isValidMonetaryValue(data.veteranOtherIncome)) &&
+    (this.isBlank(data.spouseGrossIncome) || this.isValidMonetaryValue(data.spouseGrossIncome)) &&
+    (this.isBlank(data.spouseNetIncome) || this.isValidMonetaryValue(data.spouseNetIncome)) &&
+    (this.isBlank(data.spouseOtherIncome) || this.isValidMonetaryValue(data.spouseOtherIncome)) &&
+    (this.isBlank(data.childrenGrossIncome) || this.isValidMonetaryValue(data.childrenGrossIncome)) &&
+    (this.isBlank(data.childrenNetIncome) || this.isValidMonetaryValue(data.childrenNetIncome)) &&
+    (this.isBlank(data.childrenOtherIncome) || this.isValidMonetaryValue(data.childrenOtherIncome));
 }
 
 function isValidDeductibleExpenses(data) {
-  return this.isValidMonetaryValue(data.deductibleMedicalExpenses) &&
-      this.isValidMonetaryValue(data.deductibleFuneralExpenses) &&
-      this.isValidMonetaryValue(data.deductibleEducationExpenses);
+  return (this.isBlank(data.deductibleMedicalExpenses) || this.isValidMonetaryValue(data.deductibleMedicalExpenses)) &&
+      (this.isBlank(data.deductibleFuneralExpenses) || this.isValidMonetaryValue(data.deductibleFuneralExpenses)) &&
+      (this.isBlank(data.deductibleEducationExpenses) || this.isValidMonetaryValue(data.deductibleEducationExpenses));
 }
 
 function isValidGeneralInsurance(data) {
@@ -151,12 +154,15 @@ function isValidGeneralInsurance(data) {
 }
 
 function isValidMedicareMedicaid(data) {
-  return this.isValidDate(data.medicarePartAEffectiveDate.day, data.medicarePartAEffectiveDate.month, data.medicarePartAEffectiveDate.year);
+  return (this.isBlank(data.medicarePartAEffectiveDate.day) && this.isBlank(data.medicarePartAEffectiveDate.month) && this.isBlank(data.medicarePartAEffectiveDate.year)) ||
+    this.isValidDate(data.medicarePartAEffectiveDate.day, data.medicarePartAEffectiveDate.month, data.medicarePartAEffectiveDate.year);
 }
 
 function isValidServiceInformation(data) {
-  return this.isValidDate(data.lastEntryDate.day, data.lastEntryDate.month, data.lastEntryDate.year) &&
-      this.isValidDate(data.lastDischargeDate.day, data.lastDischargeDate.month, data.lastDischargeDate.year);
+  return ((this.isBlank(data.lastEntryDate.day) && this.isBlank(data.lastEntryDate.month) && this.isBlank(data.lastEntryDate.year)) ||
+      this.isValidDate(data.lastEntryDate.day, data.lastEntryDate.month, data.lastEntryDate.year)) &&
+      ((this.isBlank(data.lastDischargeDate.day) && this.isBlank(data.lastDischargeDate.month) && this.isBlank(data.lastDischargeDate.year)) ||
+      this.isValidDate(data.lastDischargeDate.day, data.lastDischargeDate.month, data.lastDischargeDate.year));
 }
 
 function isValidSection(completePath, sectionData) {

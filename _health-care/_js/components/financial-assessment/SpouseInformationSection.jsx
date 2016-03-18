@@ -134,7 +134,8 @@ class SpouseInformationSection extends React.Component {
 
           <div className="row">
             <div className="small-12 columns">
-              <Phone label="Phone"
+              <Phone
+                  label="Phone"
                   value={this.props.data.spousePhone}
                   onValueChange={(update) => {this.props.onStateChange('spousePhone', update);}}/>
             </div>

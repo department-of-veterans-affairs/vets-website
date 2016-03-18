@@ -138,7 +138,7 @@ class HealthCareApp extends React.Component {
         },
 
         'insurance-information': {
-          'general': {
+          general: {
             isCoveredByHealthInsurance: false,
             providers: []
           },
@@ -218,6 +218,10 @@ class HealthCareApp extends React.Component {
     return _.mapValues(objectData, (value, _key) => {
       if (value === null) {
         return '';
+      } else if (Array.isArray(value)) {
+        value.map((obj) => {
+          return this.resetNullValues(obj);
+        });
       } else if (typeof (value) !== 'object') {
         return value;
       }
