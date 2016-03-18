@@ -34,7 +34,7 @@ describe('<Nav>', () => {
     });
   });
 
-  describe('active links have usa-current class', () => {
+  describe('active links have section-current class', () => {
     const history = createMemoryHistory('/');
     let nav;
 
@@ -57,17 +57,14 @@ describe('<Nav>', () => {
 
     const expectOneActiveLink = (component, path) => {
       history.replace(path);
-      const activeLinks = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'usa-current');
+      const activeLinks = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'section-current');
       expect(activeLinks).to.have.lengthOf(1);
-      expect(activeLinks[0].getAttribute('href')).to.equal(path);
     };
 
     const expectActiveLinksForNavAndSubNav = (component, path) => {
       history.replace(path);
-      const activeLinks = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'usa-current');
+      const activeLinks = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'section-current');
       expect(activeLinks).to.have.lengthOf(2);
-      expect(activeLinks[0].getAttribute('href').startsWith(activeLinks[1].getAttribute('href')));
-      expect(activeLinks[1].getAttribute('href')).to.equal(path);
     };
 
     it('/introduction', () => {

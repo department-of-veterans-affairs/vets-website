@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 
 /**
  * Component for navigation, with links to each section of the form.
@@ -12,116 +11,88 @@ class Nav extends React.Component {
   render() {
     // TODO(akainic): change this check once the alias for introduction has been changed
     return (
-      <ul className="usa-sidenav-list">
-        <li role="presentation">
-          <Link to="/introduction" activeClassName="usa-current">
-            Introduction
-          </Link>
+      <ol className="process">
+        <li className="step one wow fadeIn animated">
+          <div>
+            <h5 className={this.props.currentUrl.startsWith('/introduction') ? ' section-current' : ''}>Introduction</h5>
+          </div>
         </li>
-        <li role="presentation">
-          <Link to="/personal-information" className={this.props.currentUrl.startsWith('/personal-information/') ? ' usa-current' : ''}>
-            Personal Information
-          </Link>
-          <ul className="usa-sidenav-sub_list">
-            <li>
-              <Link to="/personal-information/name-and-general-information" activeClassName="usa-current">
-                Name and General Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/personal-information/va-information" activeClassName="usa-current">
-                VA-Specific Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/personal-information/additional-information" activeClassName="usa-current">
-                Additional Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/personal-information/demographic-information" activeClassName="usa-current">
-                Demographic Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/personal-information/veteran-address" activeClassName="usa-current">
-                Veteran Address
-              </Link>
-            </li>
-          </ul>
+        <li role="presentation" className="step two wow fadeIn animated">
+          <div>
+            <h5 className={this.props.currentUrl.startsWith('/personal-information') ? ' section-current' : ''}>Personal Information</h5>
+            <ul className="usa-unstyled-list">
+              <li className={this.props.currentUrl === '/personal-information/name-and-general-information' ? ' section-current' : ''}>
+                  Name and General Information
+              </li>
+              <li className={this.props.currentUrl === '/personal-information/va-information' ? ' section-current' : ''}>
+                  VA-Specific Information
+              </li>
+              <li className={this.props.currentUrl === '/personal-information/additional-information' ? ' section-current' : ''}>
+                  Additional Information
+              </li>
+              <li className={this.props.currentUrl === '/personal-information/demographic-information' ? ' section-current' : ''}>
+                  Demographic Information
+              </li>
+              <li className={this.props.currentUrl === '/personal-information/veteran-address' ? ' section-current' : ''}>
+                  Veteran Address
+              </li>
+            </ul>
+          </div>
         </li>
-        <li role="presentation">
-          <Link to="/insurance-information" className={this.props.currentUrl.startsWith('/insurance-information/') ? ' usa-current' : ''}>
-            Insurance Information
-          </Link>
-          <ul className="usa-sidenav-sub_list">
-            <li>
-              <Link to="/insurance-information/general" activeClassName="usa-current">
-                General Insurance Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/insurance-information/medicare-medicaid" activeClassName="usa-current">
-                Medicare/Medicaid Information
-              </Link>
-            </li>
-          </ul>
+        <li role="presentation" className="step three wow fadeIn animated">
+          <div>
+            <h5 className={this.props.currentUrl.startsWith('/insurance-information') ? ' section-current' : ''}>Insurance Information</h5>
+            <ul className="usa-sidenav-sub_list">
+              <li className={this.props.currentUrl === '/insurance-information/general' ? ' section-current' : ''}>
+                  General Insurance Information
+              </li>
+              <li className={this.props.currentUrl === '/insurance-information/medicare-medicaid' ? ' section-current' : ''}>
+                  Medicare/Medicaid Information
+              </li>
+            </ul>
+          </div>
         </li>
-        <li role="presentation">
-          <Link to="/military-service" className={this.props.currentUrl.startsWith('/military-service/') ? ' usa-current' : ''}>
-            Military Service
-          </Link>
-          <ul className="usa-sidenav-sub_list">
-            <li>
-              <Link to="/military-service/service-information" activeClassName="usa-current">
-                Service Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/military-service/additional-information" activeClassName="usa-current">
-                Additional Military Information
-              </Link>
-            </li>
-          </ul>
+        <li role="presentation" className="step four wow fadeIn animated">
+          <div>
+            <h5 className={this.props.currentUrl.startsWith('/military-service') ? ' section-current' : ''}>Military Service</h5>
+            <ul className="usa-sidenav-sub_list">
+              <li className={this.props.currentUrl === '/military-service/service-information' ? ' section-current' : ''}>
+                  Service Information
+              </li>
+              <li className={this.props.currentUrl === '/military-service/additional-information' ? ' section-current' : ''}>
+                  Additional Military Information
+              </li>
+            </ul>
+          </div>
         </li>
-        <li role="presentation">
-          <Link to="/financial-assessment" className={this.props.currentUrl.startsWith('/financial-assessment/') ? ' usa-current' : ''}>
-            Financial Assessment
-          </Link>
-          <ul className="usa-sidenav-sub_list">
-            <li>
-              <Link to="/financial-assessment/financial-disclosure" activeClassName="usa-current">
+        <li role="presentation" className="step five wow fadeIn animated">
+          <div>
+            <h5 className={this.props.currentUrl.startsWith('/financial-assessment') ? ' section-current' : ''}>Financial Assessment</h5>
+            <ul className="usa-sidenav-sub_list">
+              <li className={this.props.currentUrl === '/financial-assessment/financial-disclosure' ? ' section-current' : ''}>
                 Financial Disclosure
-              </Link>
-            </li>
-            <li>
-              <Link to="/financial-assessment/spouse-information" activeClassName="usa-current">
-                Spouse Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/financial-assessment/child-information" activeClassName="usa-current">
-                Child Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/financial-assessment/annual-income" activeClassName="usa-current">
-                Annual Income
-              </Link>
-            </li>
-            <li>
-              <Link to="/financial-assessment/deductible-expenses" activeClassName="usa-current">
-                Deductible Expenses
-              </Link>
-            </li>
-          </ul>
+              </li>
+              <li className={this.props.currentUrl === '/financial-assessment/spouse-information' ? ' section-current' : ''}>
+                  Spouse Information
+              </li>
+              <li className={this.props.currentUrl === '/financial-assessment/child-information' ? ' section-current' : ''}>
+                  Child Information
+              </li>
+              <li className={this.props.currentUrl === '/financial-assessment/annual-income' ? ' section-current' : ''}>
+                  Annual Income
+              </li>
+              <li className={this.props.currentUrl === '/financial-assessment/deductible-expenses' ? ' section-current' : ''}>
+                  Deductible Expenses
+              </li>
+            </ul>
+          </div>
         </li>
-        <li role="presentation">
-          <Link to="/review-and-submit" activeClassName="usa-current">
-            Review and Submit
-          </Link>
+        <li role="presentation" className="step six wow fadeIn animated">
+          <div>
+            <h5 className={this.props.currentUrl.startsWith('/review-and-submit') ? ' section-current' : ''}>Review and Submit</h5>
+          </div>
         </li>
-      </ul>
+      </ol>
     );
   }
 }
