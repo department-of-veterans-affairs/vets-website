@@ -1,0 +1,52 @@
+.va-navigation--piano-wrap {
+  background:  $color-white;
+  padding: 2em 0;
+}
+
+.va-navigation--piano {
+  color: $color-primary-darkest;
+  border-bottom: 2px solid #fff;
+  margin: 0 auto;
+  max-width: $text-max-width; 
+  padding: 0;
+   
+  li {
+    background: $color-gray-lightest;
+    border-bottom: 8px solid $color-white;
+    list-style: none;
+    height: auto;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    
+    &:last-of-type { border-bottom: none;}
+  }
+  
+  span {color: $color-gray-dark;}
+  
+  h3, h4, h5, h6 {
+    color: $color-primary-darkest; 
+    font-weight: 700; 
+    font-family: $font-sans; 
+    font-size: 1.35em;
+    margin: 0;
+  }
+   
+  a {
+    display: block;
+    color: $color-primary-darkest;
+    border-left: 8px solid transparent;
+    border-bottom: none;
+    text-decoration: none;
+    border-radius: 0;
+    padding: 1em .5em;
+    margin: 0;
+    background: none;
+
+    &:hover {
+        background: rgba(0,0,0,.1); 
+        border-left-color: $color-primary;
+        text-decoration: none;
+    }
+  }
+} 
