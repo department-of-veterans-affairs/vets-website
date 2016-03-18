@@ -9,26 +9,26 @@ class ChildInformationSection extends React.Component {
   createBlankChild() {
     return {
       childFullName: {
-        first: '',
-        middle: '',
-        last: '',
-        suffix: ''
+        first: null,
+        middle: null,
+        last: null,
+        suffix: null
       },
-      childRelation: '',
-      childSocialSecurityNumber: '',
+      childRelation: null,
+      childSocialSecurityNumber: null,
       childBecameDependent: {
-        month: 11,
-        day: 4,
-        year: 2000
+        month: null,
+        day: null,
+        year: null
       },
       childDateOfBirth: {
-        month: 11,
-        day: 4,
-        year: 2000
+        month: null,
+        day: null,
+        year: null
       },
       childDisabledBefore18: false,
       childAttendedSchoolLastYear: false,
-      childEducationExpenses: '',
+      childEducationExpenses: null,
       childCohabitedLastYear: false,
       childReceivedSupportLastYear: false
     };

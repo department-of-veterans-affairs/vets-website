@@ -46,11 +46,13 @@ class VeteranAddressSection extends React.Component {
                 value={this.props.data.emailConfirmation}
                 onValueChange={(update) => {this.props.onStateChange('emailConfirmation', update);}}/>
 
-            <Phone label="Home telephone number"
+            <Phone required
+                label="Home telephone number"
                 value={this.props.data.homePhone}
                 onValueChange={(update) => {this.props.onStateChange('homePhone', update);}}/>
 
-            <Phone label="Mobile telephone number"
+            <Phone required
+                label="Mobile telephone number"
                 value={this.props.data.mobilePhone}
                 onValueChange={(update) => {this.props.onStateChange('mobilePhone', update);}}/>
           </div>

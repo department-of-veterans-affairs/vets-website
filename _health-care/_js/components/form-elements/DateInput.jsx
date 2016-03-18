@@ -1,8 +1,18 @@
 import React from 'react';
 import _ from 'lodash';
 
-import { isValidDate } from '../../utils/validations';
+import { isBlank, isValidDate } from '../../utils/validations';
 
+/**
+ * A form input with a label that can display error messages.
+ *
+ * Props:
+ * `required` - boolean. Render marker indicating field is required.
+ * `day` - number. Value of day.
+ * `month` - number. Value of month.
+ * `year` - number. Value of year.
+ * `onValueChange` - a function with this prototype: (newValue)
+ */
 class DateInput extends React.Component {
   constructor() {
     super();
@@ -24,7 +34,13 @@ class DateInput extends React.Component {
   }
 
   render() {
-    const isValid = isValidDate(this.props.day, this.props.month, this.props.year);
+    let isValid;
+    if (this.props.required) {
+      isValid = isValidDate(this.props.day, this.props.month, this.props.year);
+    } else {
+      isValid = (isBlank(this.props.day) && isBlank(this.props.month) && isBlank(this.props.year)) ||
+          isValidDate(this.props.day, this.props.month, this.props.year);
+    }
 
     return (
       <div className={isValid ? undefined : 'usa-input-error'}>
@@ -47,7 +63,9 @@ class DateInput extends React.Component {
                 onChange={this.handleChange}/>
           </div>
           <div className="usa-datefield usa-form-group usa-form-group-day">
-            <label htmlFor={`${this.id}-day`}>Day</label>
+            <label
+                className={isValid ? undefined : 'usa-input-error-label'}
+                htmlFor={`${this.id}-day`}>Day</label>
             <input
                 className="usa-form-control"
                 id={`${this.id}-day`}
@@ -60,7 +78,9 @@ class DateInput extends React.Component {
                 onChange={this.handleChange}/>
           </div>
           <div className="usa-datefield usa-form-group usa-form-group-year">
-            <label htmlFor={`${this.id}-year`}>Year</label>
+            <label
+                className={isValid ? undefined : 'usa-input-error-label'}
+                htmlFor={`${this.id}-year`}>Year</label>
             <input
                 className="usa-form-control"
                 id={`${this.id}-year`}
@@ -79,6 +99,7 @@ class DateInput extends React.Component {
 }
 
 DateInput.propTypes = {
+  required: React.PropTypes.bool,
   day: React.PropTypes.number.isRequired,
   month: React.PropTypes.number.isRequired,
   year: React.PropTypes.number.isRequired,

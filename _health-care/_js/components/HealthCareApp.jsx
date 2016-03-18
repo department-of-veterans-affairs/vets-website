@@ -7,6 +7,8 @@ import ContinueButton from './ContinueButton';
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
 
+import * as validations from '../utils/validations';
+
 // Add deep object manipulation routines to lodash.
 _.mixin(lodashDeep);
 
@@ -24,20 +26,17 @@ class HealthCareApp extends React.Component {
         'personal-information': {
           'name-and-general-information': {
             fullName: {
-              first: 'William',
-              middle: '',
-              last: 'Shakespeare',
-              suffix: '',
+              first: null,
+              middle: null,
+              last: null,
+              suffix: null,
             },
-
-            mothersMaidenName: 'Arden',
-
-            socialSecurityNumber: '999-99-9999',
-
+            mothersMaidenName: null,
+            socialSecurityNumber: null,
             dateOfBirth: {
-              month: 1,
-              day: 15,
-              year: 1997,
+              month: null,
+              day: null,
+              year: null,
             }
           },
 
@@ -72,10 +71,10 @@ class HealthCareApp extends React.Component {
               zipcode: null,
             },
             county: null,
-            email: 'test@test.com',
-            emailConfirmation: 'test@test.com',
-            homePhone: '555-555-5555',
-            mobilePhone: '111-111-1111'
+            email: null,
+            emailConfirmation: null,
+            homePhone: null,
+            mobilePhone: null
           }
         },
 
@@ -85,20 +84,20 @@ class HealthCareApp extends React.Component {
             understandsFinancialDisclosure: false
           },
           'spouse-information': {
-            spouseFirstName: undefined,
-            spouseMiddleName: undefined,
-            spouseLastName: undefined,
-            spouseSuffix: undefined,
-            spouseSocialSecurityNumber: '',
+            spouseFirstName: null,
+            spouseMiddleName: null,
+            spouseLastName: null,
+            spouseSuffix: null,
+            spouseSocialSecurityNumber: null,
             spouseDateOfBirth: {
-              month: 4,
-              day: 23,
-              year: 1989,
+              month: null,
+              day: null,
+              year: null,
             },
             dateOfMarriage: {
-              month: 3,
-              day: 8,
-              year: 2016
+              month: null,
+              day: null,
+              year: null
             },
             sameAddress: false,
             cohabitedLastYear: false,
@@ -110,7 +109,7 @@ class HealthCareApp extends React.Component {
               state: null,
               zipcode: null,
             },
-            spousePhone: '222-222-2222'
+            spousePhone: null
           },
 
           'child-information': {
@@ -119,21 +118,21 @@ class HealthCareApp extends React.Component {
           },
 
           'annual-income': {
-            veteranGrossIncome: '',
-            veteranNetIncome: '',
-            veteranOtherIncome: '',
-            spouseGrossIncome: '',
-            spouseNetIncome: '',
-            spouseOtherIncome: '',
-            childrenGrossIncome: '',
-            childrenNetIncome: '',
-            childrenOtherIncome: ''
+            veteranGrossIncome: null,
+            veteranNetIncome: null,
+            veteranOtherIncome: null,
+            spouseGrossIncome: null,
+            spouseNetIncome: null,
+            spouseOtherIncome: null,
+            childrenGrossIncome: null,
+            childrenNetIncome: null,
+            childrenOtherIncome: null
           },
 
           'deductible-expenses': {
-            deductibleMedicalExpenses: '',
-            deductibleFuneralExpenses: '',
-            deductibleEducationExpenses: ''
+            deductibleMedicalExpenses: null,
+            deductibleFuneralExpenses: null,
+            deductibleEducationExpenses: null
           },
         },
 
@@ -147,9 +146,9 @@ class HealthCareApp extends React.Component {
             isMedicaidEligible: false,
             isEnrolledMedicarePartA: false,
             medicarePartAEffectiveDate: {
-              month: 10,
-              day: 25,
-              year: 2001
+              month: null,
+              day: null,
+              year: null
             }
           }
         },
@@ -157,14 +156,14 @@ class HealthCareApp extends React.Component {
           'service-information': {
             lastServiceBranch: null,
             lastEntryDate: {
-              month: 3,
-              day: 8,
-              year: 2016
+              month: null,
+              day: null,
+              year: null
             },
             lastDischargeDate: {
-              month: 3,
-              day: 8,
-              year: 2016
+              month: null,
+              day: null,
+              year: null
             },
             dischargeType: null
           },
@@ -215,7 +214,20 @@ class HealthCareApp extends React.Component {
   }
 
   handleContinue() {
-    hashHistory.push(this.getNextUrl());
+    const sectionPath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
+    const sectionData = validations.initializeNullValues(_.get(this.state.applicationData, sectionPath));
+    this.publishStateChange(sectionPath, sectionData);
+
+    this.setState({}, () => {
+      if (validations.isValidSection(this.props.location.pathname, sectionData)) {
+        hashHistory.push(this.getNextUrl());
+      } else {
+        // TODO: improve this
+        if (document.getElementsByClassName('usa-input-error').length > 0) {
+          document.getElementsByClassName('usa-input-error')[0].scrollIntoView();
+        }
+      }
+    });
   }
 
   render() {
