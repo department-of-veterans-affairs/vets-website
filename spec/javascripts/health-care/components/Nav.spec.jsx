@@ -34,7 +34,7 @@ describe('<Nav>', () => {
     });
   });
 
-  describe('active links have usa-current class', () => {
+  describe('active sections have section-current class', () => {
     const history = createMemoryHistory('/');
     let nav;
 
@@ -55,83 +55,80 @@ describe('<Nav>', () => {
       history.replace('/');
     });
 
-    const expectOneActiveLink = (component, path) => {
+    const expectActiveSection = (component, path) => {
       history.replace(path);
-      const activeLinks = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'usa-current');
-      expect(activeLinks).to.have.lengthOf(1);
-      expect(activeLinks[0].getAttribute('href')).to.equal(path);
+      const activeSection = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'section-current');
+      expect(activeSection).to.have.lengthOf(1);
     };
 
-    const expectActiveLinksForNavAndSubNav = (component, path) => {
+    const expectActiveSectionForNavAndSubNav = (component, path) => {
       history.replace(path);
-      const activeLinks = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'usa-current');
-      expect(activeLinks).to.have.lengthOf(2);
-      expect(activeLinks[0].getAttribute('href').startsWith(activeLinks[1].getAttribute('href')));
-      expect(activeLinks[1].getAttribute('href')).to.equal(path);
+      const activeSection = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'section-current');
+      expect(activeSection).to.have.lengthOf(2);
     };
 
     it('/introduction', () => {
-      expectOneActiveLink(nav, '/introduction');
+      expectActiveSection(nav, '/introduction');
     });
 
     it('/personal-information/name-and-general-information', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/personal-information/name-and-general-information');
+      expectActiveSectionForNavAndSubNav(nav, '/personal-information/name-and-general-information');
     });
 
     it('/personal-information/va-information', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/personal-information/va-information');
+      expectActiveSectionForNavAndSubNav(nav, '/personal-information/va-information');
     });
 
     it('/personal-information/additional-information', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/personal-information/additional-information');
+      expectActiveSectionForNavAndSubNav(nav, '/personal-information/additional-information');
     });
 
     it('/personal-information/demographic-information', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/personal-information/demographic-information');
+      expectActiveSectionForNavAndSubNav(nav, '/personal-information/demographic-information');
     });
 
     it('/personal-information/veteran-address', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/personal-information/veteran-address');
+      expectActiveSectionForNavAndSubNav(nav, '/personal-information/veteran-address');
     });
 
     it('/insurance-information/general', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/insurance-information/general');
+      expectActiveSectionForNavAndSubNav(nav, '/insurance-information/general');
     });
 
     it('/insurance-information/medicare-medicaid', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/insurance-information/medicare-medicaid');
+      expectActiveSectionForNavAndSubNav(nav, '/insurance-information/medicare-medicaid');
     });
 
     it('/military-service/service-information', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/military-service/service-information');
+      expectActiveSectionForNavAndSubNav(nav, '/military-service/service-information');
     });
 
     it('/military-service/additional-information', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/military-service/additional-information');
+      expectActiveSectionForNavAndSubNav(nav, '/military-service/additional-information');
     });
 
     it('/financial-assessment/financial-disclosure', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/financial-assessment/financial-disclosure');
+      expectActiveSectionForNavAndSubNav(nav, '/financial-assessment/financial-disclosure');
     });
 
     it('/financial-assessment/spouse-information', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/financial-assessment/spouse-information');
+      expectActiveSectionForNavAndSubNav(nav, '/financial-assessment/spouse-information');
     });
 
     it('/financial-assessment/child-information', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/financial-assessment/child-information');
+      expectActiveSectionForNavAndSubNav(nav, '/financial-assessment/child-information');
     });
 
     it('/financial-assessment/annual-income', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/financial-assessment/annual-income');
+      expectActiveSectionForNavAndSubNav(nav, '/financial-assessment/annual-income');
     });
 
     it('/financial-assessment/deductible-expenses', () => {
-      expectActiveLinksForNavAndSubNav(nav, '/financial-assessment/deductible-expenses');
+      expectActiveSectionForNavAndSubNav(nav, '/financial-assessment/deductible-expenses');
     });
 
     it('/review-and-submit', () => {
-      expectOneActiveLink(nav, '/review-and-submit');
+      expectActiveSection(nav, '/review-and-submit');
     });
   });
 });
