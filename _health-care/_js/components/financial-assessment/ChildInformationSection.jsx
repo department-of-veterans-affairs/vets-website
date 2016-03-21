@@ -40,6 +40,16 @@ class ChildInformationSection extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <h4>Children Information</h4>
+            <div>
+              {this.props.external.receivesVaPension === true &&
+                <p>
+                  <strong>
+                  You are not required to enter financial information because you
+                  indicated you are receiving a VA pension.
+                  </strong>
+                </p>
+              }
+            </div>
           </div>
         </div>
         <div className="row">
@@ -50,11 +60,15 @@ class ChildInformationSection extends React.Component {
                 onValueChange={(update) => {this.props.onStateChange('hasChildrenToReport', update);}}/>
           </div>
         </div>
-        <GrowableTable
-            component={Child}
-            createRow={this.createBlankChild}
-            onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
-            rows={this.props.data.children}/>
+        <div>
+          {this.props.data.hasChildrenToReport === true &&
+            <GrowableTable
+                component={Child}
+                createRow={this.createBlankChild}
+                onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
+                rows={this.props.data.children}/>
+          }
+        </div>
       </div>
     );
   }

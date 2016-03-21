@@ -21,6 +21,14 @@ class AnnualIncomeSection extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <h4>Annual Income</h4>
+            {this.props.external.receivesVaPension === true &&
+              <p>
+                <strong>
+                You are not required to enter financial information because you
+                indicated you are receiving a VA pension.
+                </strong>
+              </p>
+            }
           </div>
         </div>
 
@@ -28,6 +36,7 @@ class AnnualIncomeSection extends React.Component {
           <div className="small-12 columns">
             <h5>Previous calendar year gross annual income of veteran, spouse and
             dependent children</h5>
+
             <p><strong>Report</strong> gross annual income from employment, except for income
             from your farm, ranch, property or business, including information
             about your wages, bonuses, tips, severance pay and other accrued

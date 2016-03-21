@@ -20,6 +20,7 @@ class HealthCareApp extends React.Component {
     this.handleContinue = this.handleContinue.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getNextUrl = this.getNextUrl.bind(this);
+    this.getExternalData = this.getExternalData.bind(this);
 
     this.state = {
       applicationData: {
@@ -39,7 +40,8 @@ class HealthCareApp extends React.Component {
               month: null,
               day: null,
               year: null,
-            }
+            },
+            maritalStatus: null
           },
 
           'va-information': {
@@ -208,6 +210,19 @@ class HealthCareApp extends React.Component {
     return nextPath;
   }
 
+  getExternalData(applicationData, statePath) {
+    switch (statePath[0]) {
+      case 'financial-assessment':
+        return {
+          receivesVaPension: this.state.applicationData['personal-information']['va-information'].receivesVaPension,
+          neverMarried: this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === '' ||
+            this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === 'Never Married'
+        };
+      default:
+        return undefined;
+    }
+  }
+
   publishStateChange(propertyPath, update) {
     const newApplicationData = Object.assign({}, this.state.applicationData);
     _.set(newApplicationData, propertyPath, update);
@@ -256,7 +271,8 @@ class HealthCareApp extends React.Component {
           data: _.get(this.state.applicationData, statePath),
           onStateChange: (subfield, update) => {
             this.publishStateChange(statePath.concat(subfield), update);
-          }
+          },
+          external: this.getExternalData(this.state.applicationData, statePath)
         });
       });
 

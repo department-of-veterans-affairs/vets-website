@@ -9,6 +9,14 @@ class FinancialDisclosureSection extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <h4>Financial Disclosure</h4>
+            {this.props.external.receivesVaPension === true &&
+              <p>
+                <strong>
+                You are not required to enter financial information because you
+                indicated you are receiving a VA pension.
+                </strong>
+              </p>
+            }
           </div>
         </div>
 
@@ -44,25 +52,27 @@ class FinancialDisclosureSection extends React.Component {
           </div>
         </div>
 
-        <div className="row">
-          <div className="small-12 columns">
-            <ErrorableCheckbox
-                label="I understand VA is not enrolling new applicants who decline to provide their financial information
-                    unless they have other qualifying criteria as outlined above"
-                checked={this.props.data.understandsFinancialDisclosure}
-                onValueChange={(update) => {this.props.onStateChange('understandsFinancialDisclosure', update);}}/>
+        {this.props.data.provideFinancialInfo === true &&
+          <div>
+            <div className="row">
+              <div className="small-12 columns">
+                <ErrorableCheckbox
+                    label="I understand VA is not enrolling new applicants who decline to provide their financial information
+                        unless they have other qualifying criteria as outlined above"
+                    checked={this.props.data.understandsFinancialDisclosure}
+                    onValueChange={(update) => {this.props.onStateChange('understandsFinancialDisclosure', update);}}/>
+              </div>
+            </div>
+            <div className="row">
+              <div className="small-12 columns">
+                <a target="_blank" href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp">Click here</a> to view more information about the income thresholds and copayments.
+              </div>
+            </div>
           </div>
-        </div>
-
-        <div className="row">
-          <div className="small-12 columns">
-            <a target="_blank" href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp">Click here</a> to view more information about the income thresholds and copayments.
-          </div>
-        </div>
+      }
       </div>
     );
   }
 }
 
 export default FinancialDisclosureSection;
-
