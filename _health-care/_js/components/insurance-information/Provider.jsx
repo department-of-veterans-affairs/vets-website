@@ -3,6 +3,7 @@ import React from 'react';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import { countries, states } from '../../utils/options-for-select';
+import { isNotBlank } from '../../utils/validations';
 
 import Phone from '../questions/Phone';
 
@@ -10,7 +11,8 @@ class Provider extends React.Component {
   render() {
     return (
       <div>
-        <ErrorableTextInput
+        <ErrorableTextInput required
+            errorMessage={isNotBlank(this.props.data.insuranceName) ? undefined : 'Please enter the insurer’s name'}
             label="Name"
             value={this.props.data.insuranceName}
             onValueChange={(update) => {this.props.onValueChange('insuranceName', update);}}/>
@@ -36,14 +38,17 @@ class Provider extends React.Component {
             label="Zipcode"
             value={this.props.data.insuranceZipcode}
             onValueChange={(update) => {this.props.onValueChange('insuranceZipcode', update);}}/>
-        <Phone label="Phone"
+        <Phone required
+            label="Phone"
             value={this.props.data.insurancePhone}
             onValueChange={(update) => {this.props.onValueChange('insurancePhone', update);}}/>
-        <ErrorableTextInput
+        <ErrorableTextInput required
+            errorMessage={isNotBlank(this.props.data.insurancePolicyHolderName) ? undefined : 'Please enter the name of the policy holder'}
             label="Name of Policy Holder"
             value={this.props.data.insurancePolicyHolderName}
             onValueChange={(update) => {this.props.onValueChange('insurancePolicyHolderName', update);}}/>
-        <ErrorableTextInput
+        <ErrorableTextInput required
+            errorMessage={isNotBlank(this.props.data.insurancePolicyNumber) ? undefined : 'Please enter the policy number'}
             label="Policy Number"
             value={this.props.data.insurancePolicyNumber}
             onValueChange={(update) => {this.props.onValueChange('insurancePolicyNumber', update);}}/>

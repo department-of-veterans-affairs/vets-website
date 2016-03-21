@@ -140,11 +140,14 @@ function isValidDeductibleExpenses(data) {
       (isBlank(data.deductibleEducationExpenses) || isValidMonetaryValue(data.deductibleEducationExpenses));
 }
 
-// TODO: add correct validations
 function isValidGeneralInsurance(data) {
   const providers = data.providers;
   for (let i = 0; i < providers.length; i++) {
-    if (!isValidPhone(providers[i].insurancePhone)) {
+    if (!(isNotBlank(providers[i].insuranceName) &&
+        isNotBlank(providers[i].insurancePolicyHolderName) &&
+        isNotBlank(providers[i].insurancePolicyNumber) &&
+        (isBlank(providers[i].insurancePhone) || isValidPhone(providers[i].insurancePhone)))
+    ) {
       return false;
     }
   }
@@ -177,7 +180,7 @@ function isValidSection(completePath, sectionData) {
       return isValidAnnualIncome(sectionData);
     case '/financial-assessment/deductible-expenses':
       return isValidDeductibleExpenses(sectionData);
-    case '/insurance-information/general-insurance':
+    case '/insurance-information/general':
       return isValidGeneralInsurance(sectionData);
     case '/insurance-information/medicare-medicaid':
       return isValidMedicareMedicaid(sectionData);
