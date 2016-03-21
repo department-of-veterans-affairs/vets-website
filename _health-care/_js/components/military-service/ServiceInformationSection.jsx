@@ -22,9 +22,7 @@ class ServiceInformationSection extends React.Component {
                 onUserInput={(update) => {this.props.onStateChange('lastServiceBranch', update);}}/>
           </div>
           <div className="small-12 columns">
-            <p>
-              Last entry date
-            </p>
+            <label>Last entry date</label>
             <DateInput
                 day={this.props.data.lastEntryDate.day}
                 month={this.props.data.lastEntryDate.month}
@@ -32,9 +30,7 @@ class ServiceInformationSection extends React.Component {
                 onValueChange={(update) => {this.props.onStateChange('lastEntryDate', update);}}/>
           </div>
           <div className="small-12 columns">
-            <p>
-              Last discharge date
-            </p>
+            <label>Last discharge date</label>
             <DateInput
                 day={this.props.data.lastDischargeDate.day}
                 month={this.props.data.lastDischargeDate.month}

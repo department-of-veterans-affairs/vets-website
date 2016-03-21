@@ -77,8 +77,7 @@ class SpouseInformationSection extends React.Component {
 
               <div className="row">
                 <div className="small-9 columns">
-                  <h5>Spouse’s Date of Birth</h5>
-                  <span className="usa-form-hint usa-datefield-hint" id="dobHint">For example: 04 28 1986</span>
+                  <label>Spouse’s Date of Birth</label>
                   <DateInput
                       day={this.props.data.spouseDateOfBirth.day}
                       month={this.props.data.spouseDateOfBirth.month}
@@ -89,8 +88,7 @@ class SpouseInformationSection extends React.Component {
 
               <div className="row">
                 <div className="small-9 columns">
-                  <h5>Date of Marriage</h5>
-                  <span className="usa-form-hint usa-datefield-hint" id="dobHint">For example: 04 28 1986</span>
+                  <label>Date of Marriage</label>
                   <DateInput
                       day={this.props.data.dateOfMarriage.day}
                       month={this.props.data.dateOfMarriage.month}

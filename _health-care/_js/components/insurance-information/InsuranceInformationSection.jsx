@@ -23,7 +23,7 @@ class InsuranceInformationSection extends React.Component {
 
   render() {
     return (
-      <div>
+      <fieldset>
         <div className="row">
           <div className="small-12 columns">
             <h4>Coverage Information </h4>
@@ -39,7 +39,7 @@ class InsuranceInformationSection extends React.Component {
                 rows={this.props.data.providers}/>
           </div>
         </div>
-      </div>
+      </fieldset>
     );
   }
 }
