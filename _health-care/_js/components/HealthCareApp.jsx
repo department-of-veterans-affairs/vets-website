@@ -4,6 +4,7 @@ import lodashDeep from 'lodash-deep';
 import { hashHistory } from 'react-router';
 
 import ContinueButton from './ContinueButton';
+import SubmitButton from './SubmitButton';
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
 
@@ -17,6 +18,7 @@ class HealthCareApp extends React.Component {
     super();
     this.publishStateChange = this.publishStateChange.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.getNextUrl = this.getNextUrl.bind(this);
 
     this.state = {
@@ -221,6 +223,9 @@ class HealthCareApp extends React.Component {
     this.setState({}, () => {
       if (validations.isValidSection(this.props.location.pathname, sectionData)) {
         hashHistory.push(this.getNextUrl());
+        if (document.getElementsByClassName('progress-box').length > 0) {
+          document.getElementsByClassName('progress-box')[0].scrollIntoView();
+        }
       } else {
         // TODO: improve this
         if (document.getElementsByClassName('usa-input-error').length > 0) {
@@ -230,8 +235,14 @@ class HealthCareApp extends React.Component {
     });
   }
 
+  // Add functionality
+  handleSubmit() {
+
+  }
+
   render() {
     let children = this.props.children;
+    let buttons;
 
     if (children === null) {
       // This occurs if the root route is hit. Default to IntroductionSection.
@@ -248,6 +259,12 @@ class HealthCareApp extends React.Component {
           }
         });
       });
+
+      if (this.props.location.pathname === '/review-and-submit') {
+        buttons = (<SubmitButton onButtonClick={this.handleSubmit}/>);
+      } else {
+        buttons = (<ContinueButton onButtonClick={this.handleContinue}/>);
+      }
     }
 
     return (
@@ -259,7 +276,7 @@ class HealthCareApp extends React.Component {
           <div className="progress-box">
             <div className="form-panel">
               {children}
-              <ContinueButton onButtonClick={this.handleContinue}/>
+              {buttons}
             </div>
           </div>
         </div>
