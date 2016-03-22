@@ -1817,9 +1817,6 @@ margin: 0;
   h5 {
     font-size: 1.3em; 
     margin: 0; padding: 0;
-    &.section-current {
-      font-weight: bold;
-    }
   }
   h6 {font-size: 1.1em; margin: 0; padding: 0;}
   p:nth-child(1) {
@@ -1830,10 +1827,6 @@ margin: 0;
   list-style: none;
   li {
 
-    &.section-current {
-      font-weight: bold;
-      color: $color-primary;
-    }
     p:nth-child(1) {
       font-size: 1em;
       color: #333;
