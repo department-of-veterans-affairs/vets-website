@@ -37,30 +37,21 @@ class ChildInformationSection extends React.Component {
   render() {
     return (
       <div>
-        <div className="row">
-          <div className="small-12 columns">
-            <h4>Children Information</h4>
-            <div>
-              {this.props.external.receivesVaPension === true &&
-                <p>
-                  <strong>
-                  You are not required to enter financial information because you
-                  indicated you are receiving a VA pension.
-                  </strong>
-                </p>
-              }
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="small-12 columns">
-            <ErrorableCheckbox
-                label="Do you have any children to report?"
-                checked={this.props.data.hasChildrenToReport}
-                onValueChange={(update) => {this.props.onStateChange('hasChildrenToReport', update);}}/>
-          </div>
-        </div>
-        <div>
+        <h4>Children Information</h4>
+        {this.props.external.receivesVaPension === true &&
+          <p>
+            <strong>
+            You are not required to enter financial information because you
+            indicated you are receiving a VA pension.
+            </strong>
+          </p>
+        }
+        <div className="input-section">
+          <ErrorableCheckbox
+              label="Do you have any children to report?"
+              checked={this.props.data.hasChildrenToReport}
+              onValueChange={(update) => {this.props.onStateChange('hasChildrenToReport', update);}}/>
+
           {this.props.data.hasChildrenToReport === true &&
             <GrowableTable
                 component={Child}
