@@ -44,6 +44,7 @@ class MedicareMedicaidSection extends React.Component {
         </div>
         <div className="row">
           <div className="small-12 columns">
+            <label>If so, what is your Medicare Part A effective date?</label>
             <DateInput
                 day={this.props.data.medicarePartAEffectiveDate.day}
                 month={this.props.data.medicarePartAEffectiveDate.month}

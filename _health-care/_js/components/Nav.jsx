@@ -22,19 +22,19 @@ class Nav extends React.Component {
             <h5 className={this.props.currentUrl.startsWith('/personal-information') ? ' section-current' : ''}>Personal Information</h5>
             <ul className="usa-unstyled-list">
               <li className={this.props.currentUrl === '/personal-information/name-and-general-information' ? ' section-current' : ''}>
-                  Name and General Information
+                Name and General
               </li>
               <li className={this.props.currentUrl === '/personal-information/va-information' ? ' section-current' : ''}>
-                  VA-Specific Information
+                VA-Specific
               </li>
               <li className={this.props.currentUrl === '/personal-information/additional-information' ? ' section-current' : ''}>
-                  Additional Information
+                Additional
               </li>
               <li className={this.props.currentUrl === '/personal-information/demographic-information' ? ' section-current' : ''}>
-                  Demographic Information
+                Demographic
               </li>
               <li className={this.props.currentUrl === '/personal-information/veteran-address' ? ' section-current' : ''}>
-                  Veteran Address
+                Veteran Address
               </li>
             </ul>
           </div>
@@ -44,10 +44,10 @@ class Nav extends React.Component {
             <h5 className={this.props.currentUrl.startsWith('/insurance-information') ? ' section-current' : ''}>Insurance Information</h5>
             <ul className="usa-unstyled-list">
               <li className={this.props.currentUrl === '/insurance-information/general' ? ' section-current' : ''}>
-                  General Insurance Information
+                General Insurance
               </li>
               <li className={this.props.currentUrl === '/insurance-information/medicare-medicaid' ? ' section-current' : ''}>
-                  Medicare/Medicaid Information
+                Medicare/Medicaid
               </li>
             </ul>
           </div>
@@ -57,10 +57,10 @@ class Nav extends React.Component {
             <h5 className={this.props.currentUrl.startsWith('/military-service') ? ' section-current' : ''}>Military Service</h5>
             <ul className="usa-unstyled-list">
               <li className={this.props.currentUrl === '/military-service/service-information' ? ' section-current' : ''}>
-                  Service Information
+                Service
               </li>
               <li className={this.props.currentUrl === '/military-service/additional-information' ? ' section-current' : ''}>
-                  Additional Military Information
+                Additional Military
               </li>
             </ul>
           </div>
@@ -73,21 +73,21 @@ class Nav extends React.Component {
                 Financial Disclosure
               </li>
               <li className={this.props.currentUrl === '/financial-assessment/spouse-information' ? ' section-current' : ''}>
-                  Spouse Information
+                Spouse
               </li>
               <li className={this.props.currentUrl === '/financial-assessment/child-information' ? ' section-current' : ''}>
-                  Child Information
+                Child
               </li>
               <li className={this.props.currentUrl === '/financial-assessment/annual-income' ? ' section-current' : ''}>
-                  Annual Income
+                Annual Income
               </li>
               <li className={this.props.currentUrl === '/financial-assessment/deductible-expenses' ? ' section-current' : ''}>
-                  Deductible Expenses
+                Deductible Expenses
               </li>
             </ul>
           </div>
         </li>
-        <li role="presentation" className="step six wow fadeIn animated">
+        <li role="presentation" className="step six last wow fadeIn animated">
           <div>
             <h5 className={this.props.currentUrl.startsWith('/review-and-submit') ? ' section-current' : ''}>Review and Submit</h5>
           </div>

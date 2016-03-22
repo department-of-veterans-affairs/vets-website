@@ -24,9 +24,9 @@ class VaInformationSection extends React.Component {
                   label="Are you compensable VA Service Connected 0% - 40%?"
                   checked={this.props.data.compensableVaServiceConnected}
                   onValueChange={(update) => {this.props.onStateChange('compensableVaServiceConnected', update);}}/>
-              <p>
+              <span>
                 A VA determination that a Service-connected disability is severe enough to warrant monetary compensation.
-              </p>
+              </span>
             </div>
           }
           {this.props.data.isVaServiceConnected === true && this.props.data.compensableVaServiceConnected === true &&

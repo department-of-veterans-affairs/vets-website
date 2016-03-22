@@ -23,7 +23,7 @@ class Gender extends React.Component {
 
   render() {
     return (
-      <div className="usa-input-grid usa-input-grid-large">
+      <div>
         <label htmlFor={this.selectId}>
           Gender
         </label>

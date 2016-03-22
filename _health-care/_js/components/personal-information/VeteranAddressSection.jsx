@@ -21,7 +21,7 @@ class VeteranAddressSection extends React.Component {
 
   render() {
     return (
-      <div>
+      <fieldset>
         <div className="row">
           <div className="small-12 columns">
             <h4>Permanent Address</h4>
@@ -57,7 +57,7 @@ class VeteranAddressSection extends React.Component {
                 onValueChange={(update) => {this.props.onStateChange('mobilePhone', update);}}/>
           </div>
         </div>
-      </div>
+      </fieldset>
     );
   }
 }

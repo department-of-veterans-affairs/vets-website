@@ -76,7 +76,7 @@ class FullName extends React.Component {
               onValueChange={(update) => {this.handleChange('last', update);}}/>
         </div>
 
-        <div className="usa-input-grid usa-input-grid-small">
+        <div>
           <ErrorableSelect
               label="Suffix"
               options={suffixes}

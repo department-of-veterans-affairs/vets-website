@@ -22,60 +22,6 @@ body {
   margin-top: 0;
 }
 
-// TODO: properly incorporate usds web standards for this
-body .row {
-  max-width: 62.5em;
-}
-
-.usa-sidenav-list {
-  li {
-    list-style: none;
-    line-height: 2em;
-
-    a {
-      text-decoration: none;
-      background: none;
-
-      &.usa-current {
-        color: $color-base;
-        font-weight: normal;
-      }
-    }
-  }
-
-  .usa-sidenav-sub_list {
-    padding-left: 0.5em;
-
-    a.usa-current {
-      color: $color-primary;
-      font-weight: $font-bold;
-    }
-  }
-}
-
-.form-panel {
-  @include media($medium-screen) {
-    max-width: $usa-form-width;
-  }
-}
-
-.main-form,
-.progress-box {
-  button {
-    width: 100%;
-  }
-}
-
-.progress-box {
-  padding: 1rem 2rem;
-  margin: 1.5rem 0  ;
-  border: 1px solid #eee;
-}
-
-.form-section {
-  display: none;
-}
-
 // Skip link
 
 .show-on-focus {

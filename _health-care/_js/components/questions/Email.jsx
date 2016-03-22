@@ -25,7 +25,7 @@ class Email extends React.Component {
       errorMessage = isValidEmail(this.props.value) ? undefined : 'Please put your email in this format x@x.xxx';
     }
     return (
-      <div className="usa-input-grid usa-input-grid-large">
+      <div>
         <ErrorableTextInput
             errorMessage={errorMessage}
             label={this.props.label}

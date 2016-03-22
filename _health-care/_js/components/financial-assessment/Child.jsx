@@ -49,7 +49,7 @@ class Child extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <h5>Date Child Became Dependent</h5>
+            <label>Date Child Became Dependent</label>
             <DateInput required
                 day={this.props.data.childBecameDependent.day}
                 month={this.props.data.childBecameDependent.month}
@@ -60,7 +60,7 @@ class Child extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <h5>Child’s Date of Birth</h5>
+            <label>Child’s Date of Birth</label>
             <DateInput required
                 day={this.props.data.childDateOfBirth.day}
                 month={this.props.data.childDateOfBirth.month}

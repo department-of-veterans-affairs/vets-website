@@ -7,15 +7,10 @@ import VaMedicalFacility from './VaMedicalFacility';
 class AdditionalInformationSection extends React.Component {
   render() {
     return (
-      <div>
+      <fieldset>
         <div className="row">
           <div className="small-12 columns">
             <h4>Additional Information</h4>
-          </div>
-        </div>
-
-        <div className="row">
-          <div className="small-12 columns">
             <ErrorableCheckbox
                 label="I am enrolling to obtain minimal essential coverage under the affordable care act"
                 checked={this.props.data.isEssentialAcaCoverage}
@@ -42,7 +37,7 @@ class AdditionalInformationSection extends React.Component {
                 onValueChange={(update) => {this.props.onStateChange('wantsInitialVaContact', update);}}/>
           </div>
         </div>
-      </div>
+      </fieldset>
     );
   }
 }
