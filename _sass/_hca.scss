@@ -41,3 +41,33 @@ body .row {
 .input-section {
   margin-bottom: 2em; 
 }
+
+.process {
+  li {
+    h5 {
+      color: $color-gray;
+    }
+    li {
+      display: none;
+    }
+    &:before {
+      background: $color-gray;
+    }
+    &.section-current {
+      h5 {
+        font-weight: bold;
+        color: $color-primary;
+      }
+      li {
+        display: list-item;
+        &.sub-section-current {
+          font-weight: bold;
+          color: $color-primary;
+        }
+      }
+      &:before {
+        background: $color-primary;
+      }
+    }
+  }
+}
