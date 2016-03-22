@@ -8,6 +8,7 @@ import { isBlank, isValidDate } from '../../utils/validations';
  *
  * Props:
  * `required` - boolean. Render marker indicating field is required.
+ * `label` - string. Label for entire question.
  * `day` - number. Value of day.
  * `month` - number. Value of month.
  * `year` - number. Value of year.
@@ -44,9 +45,10 @@ class DateInput extends React.Component {
 
     return (
       <div>
+        <label>{this.props.label ? this.props.label : 'Date of Birth'}</label>
         <span className="usa-form-hint usa-datefield-hint" id="dobHint">For example: 04 28 1986</span>
         <div className={isValid ? undefined : 'usa-input-error'}>
-          <div className="usa-date-of-birth">
+          <div className="usa-date-of-birth row">
             <div className="usa-datefield usa-form-group usa-form-group-month">
               <label
                   className={isValid ? undefined : 'usa-input-error-label'}
@@ -103,6 +105,7 @@ class DateInput extends React.Component {
 
 DateInput.propTypes = {
   required: React.PropTypes.bool,
+  label: React.PropTypes.string,
   day: React.PropTypes.number.isRequired,
   month: React.PropTypes.number.isRequired,
   year: React.PropTypes.number.isRequired,

@@ -4,7 +4,7 @@ class ReviewAndSubmitSection extends React.Component {
   render() {
     return (
       <div>
-        <p>Review and Submit</p>
+        <h4>Review and Submit</h4>
       </div>
     );
   }
