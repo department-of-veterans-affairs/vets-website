@@ -39,7 +39,7 @@ $va-card-height: 8.75em;
   &:hover, &:focus {
     box-shadow: 0 0 5px rgba(0,0,0,0.35);
   }
-    
+
   @media #{$medium} {
     float: left;
     margin: 0 0.625rem 1.25rem 0.67rem;
