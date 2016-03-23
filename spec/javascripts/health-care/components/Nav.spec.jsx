@@ -34,7 +34,7 @@ describe('<Nav>', () => {
     });
   });
 
-  describe('active sections have section-current class', () => {
+  describe('active sections have section-current or sub-section-current class', () => {
     const history = createMemoryHistory('/');
     let nav;
 
@@ -63,8 +63,8 @@ describe('<Nav>', () => {
 
     const expectActiveSectionForNavAndSubNav = (component, path) => {
       history.replace(path);
-      const activeSection = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'section-current');
-      expect(activeSection).to.have.lengthOf(2);
+      const activeSubSection = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'sub-section-current');
+      expect(activeSubSection).to.have.lengthOf(1);
     };
 
     it('/introduction', () => {

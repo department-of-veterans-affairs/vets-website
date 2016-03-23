@@ -3,7 +3,8 @@ import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 import { hashHistory } from 'react-router';
 
-import ContinueButton from './ContinueButton';
+import ProgressButton from './ProgressButton';
+
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
 
@@ -16,8 +17,11 @@ class HealthCareApp extends React.Component {
   constructor() {
     super();
     this.publishStateChange = this.publishStateChange.bind(this);
+    this.handleBack = this.handleBack.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
-    this.getNextUrl = this.getNextUrl.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.getUrl = this.getUrl.bind(this);
+    this.getExternalData = this.getExternalData.bind(this);
 
     this.state = {
       applicationData: {
@@ -37,7 +41,8 @@ class HealthCareApp extends React.Component {
               month: null,
               day: null,
               year: null,
-            }
+            },
+            maritalStatus: null
           },
 
           'va-information': {
@@ -183,7 +188,7 @@ class HealthCareApp extends React.Component {
     };
   }
 
-  getNextUrl() {
+  getUrl(direction) {
     const routes = this.props.route.childRoutes;
     const panels = [];
     let currentPath = this.props.location.pathname;
@@ -198,12 +203,29 @@ class HealthCareApp extends React.Component {
 
     for (let i = 0; i < panels.length; i++) {
       if (currentPath === panels[i]) {
-        nextPath = panels[i + 1];
+        if (direction === 'back') {
+          nextPath = panels[i - 1];
+        } else {
+          nextPath = panels[i + 1];
+        }
         break;
       }
     }
 
     return nextPath;
+  }
+
+  getExternalData(applicationData, statePath) {
+    switch (statePath[0]) {
+      case 'financial-assessment':
+        return {
+          receivesVaPension: this.state.applicationData['personal-information']['va-information'].receivesVaPension,
+          neverMarried: this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === '' ||
+            this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === 'Never Married'
+        };
+      default:
+        return undefined;
+    }
   }
 
   publishStateChange(propertyPath, update) {
@@ -220,7 +242,10 @@ class HealthCareApp extends React.Component {
 
     this.setState({}, () => {
       if (validations.isValidSection(this.props.location.pathname, sectionData)) {
-        hashHistory.push(this.getNextUrl());
+        hashHistory.push(this.getUrl('next'));
+        if (document.getElementsByClassName('progress-box').length > 0) {
+          document.getElementsByClassName('progress-box')[0].scrollIntoView();
+        }
       } else {
         // TODO: improve this
         if (document.getElementsByClassName('usa-input-error').length > 0) {
@@ -230,8 +255,20 @@ class HealthCareApp extends React.Component {
     });
   }
 
+  handleBack() {
+    hashHistory.push(this.getUrl('back'));
+    if (document.getElementsByClassName('progress-box').length > 0) {
+      document.getElementsByClassName('progress-box')[0].scrollIntoView();
+    }
+  }
+
+  handleSubmit() {
+    // Add functionality
+  }
+
   render() {
     let children = this.props.children;
+    let buttons;
 
     if (children === null) {
       // This occurs if the root route is hit. Default to IntroductionSection.
@@ -245,9 +282,59 @@ class HealthCareApp extends React.Component {
           data: _.get(this.state.applicationData, statePath),
           onStateChange: (subfield, update) => {
             this.publishStateChange(statePath.concat(subfield), update);
-          }
+          },
+          external: this.getExternalData(this.state.applicationData, statePath)
         });
       });
+    }
+
+    // Check which section the user is on and render the correct ProgressButtons.
+    const lastSectionText = (this.getUrl('back')) ? this.getUrl('back').split('/').slice(-1)[0].replace(/-/g, ' ') : '';
+    const nextSectionText = (this.getUrl('next')) ? this.getUrl('next').split('/').slice(-1)[0].replace(/-/g, ' ') : '';
+
+    const backButton = (
+      <ProgressButton
+          onButtonClick={this.handleBack}
+          buttonText={`Back to ${lastSectionText}`}
+          buttonClass={'usa-button-outline'}
+          beforeText={'«'}/>
+    );
+
+    const nextButton = (
+      <ProgressButton
+          onButtonClick={this.handleContinue}
+          buttonText={`Continue to ${nextSectionText}`}
+          buttonClass={'usa-button-primary'}
+          afterText={'»'}/>
+    );
+
+    const submitButton = (
+      <ProgressButton
+          onButtonClick={this.handleSubmit}
+          buttonText={'Submit'}
+          buttonClass={'usa-button-primary'}/>
+    );
+
+    if (this.props.location.pathname === '/review-and-submit') {
+      buttons = (
+        <div>
+          {submitButton}
+          {backButton}
+        </div>
+      );
+    } else if (this.props.location.pathname === '/introduction') {
+      buttons = (
+        <div>
+          {nextButton}
+        </div>
+      );
+    } else {
+      buttons = (
+        <div>
+          {nextButton}
+          {backButton}
+        </div>
+      );
     }
 
     return (
@@ -259,7 +346,7 @@ class HealthCareApp extends React.Component {
           <div className="progress-box">
             <div className="form-panel">
               {children}
-              <ContinueButton onButtonClick={this.handleContinue}/>
+              {buttons}
             </div>
           </div>
         </div>

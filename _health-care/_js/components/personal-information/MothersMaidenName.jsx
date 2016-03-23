@@ -28,7 +28,7 @@ class MothersMaidenName extends React.Component {
 
   render() {
     return (
-      <div className="usa-input-grid usa-input-grid-large">
+      <div>
         <ErrorableTextInput
             errorMessage={this.validateRequiredFields(this.props.value) ? undefined : 'Please enter a valid name'}
             label="Mother’s Maiden Name"

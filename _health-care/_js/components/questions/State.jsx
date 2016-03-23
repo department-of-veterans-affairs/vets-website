@@ -95,7 +95,7 @@ class State extends React.Component {
     });
 
     return (
-      <div className="usa-input-grid usa-input-grid-large">
+      <div>
         <label htmlFor={this.selectId}>
           State
         </label>

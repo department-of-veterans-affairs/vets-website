@@ -94,7 +94,7 @@ function isValidVeteranAddress(data) {
 }
 
 function isValidSpouseInformation(data) {
-  return isValidSSN(data.spouseSocialSecurityNumber) &&
+  return (isBlank(data.spouseSocialSecurityNumber) || isValidSSN(data.spouseSocialSecurityNumber)) &&
       ((isBlank(data.spouseDateOfBirth.day) && isBlank(data.spouseDateOfBirth.month) && isBlank(data.spouseDateOfBirth.year)) ||
       isValidDate(data.spouseDateOfBirth.day, data.spouseDateOfBirth.month, data.spouseDateOfBirth.year)) &&
       ((isBlank(data.dateOfMarriage.day) && isBlank(data.dateOfMarriage.month) && isBlank(data.dateOfMarriage.year)) ||
