@@ -13,20 +13,27 @@ class AnnualIncomeSection extends React.Component {
     return isBlank(value) || isValidMonetaryValue(value) ? undefined : message;
   }
 
+  // TODO: Figure out best way to enable users to change their response to pension
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
+    let notRequiredMessage;
+
+    if (this.props.external.receivesVaPension === true) {
+      notRequiredMessage = (
+        <p>
+          <strong>
+            You are not required to enter financial information because you
+            indicated you are receiving a VA pension.
+          </strong>
+        </p>
+      );
+    }
 
     return (
       <div>
         <h4>Annual Income</h4>
-        {this.props.external.receivesVaPension === true &&
-          <p>
-            <strong>
-            You are not required to enter financial information because you
-            indicated you are receiving a VA pension.
-            </strong>
-          </p>
-        }
+
+        {notRequiredMessage}
 
         <h5>Previous calendar year gross annual income of veteran, spouse and
         dependent children</h5>

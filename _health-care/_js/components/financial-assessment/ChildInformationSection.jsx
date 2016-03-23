@@ -35,30 +35,44 @@ class ChildInformationSection extends React.Component {
   }
 
   render() {
+    let notRequiredMessage;
+    let hasChildrenContent;
+
+    if (this.props.external.receivesVaPension === true) {
+      notRequiredMessage = (
+        <p>
+          <strong>
+            You are not required to enter financial information because you
+            indicated you are receiving a VA pension.
+          </strong>
+        </p>
+      );
+    }
+
+    if (this.props.data.hasChildrenToReport === true) {
+      hasChildrenContent = (
+        <GrowableTable
+            component={Child}
+            createRow={this.createBlankChild}
+            onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
+            rows={this.props.data.children}/>
+      );
+    }
+
     return (
       <div>
         <h4>Children Information</h4>
-        {this.props.external.receivesVaPension === true &&
-          <p>
-            <strong>
-            You are not required to enter financial information because you
-            indicated you are receiving a VA pension.
-            </strong>
-          </p>
-        }
+
+        {notRequiredMessage}
+
         <div className="input-section">
           <ErrorableCheckbox
               label="Do you have any children to report?"
               checked={this.props.data.hasChildrenToReport}
               onValueChange={(update) => {this.props.onStateChange('hasChildrenToReport', update);}}/>
 
-          {this.props.data.hasChildrenToReport === true &&
-            <GrowableTable
-                component={Child}
-                createRow={this.createBlankChild}
-                onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
-                rows={this.props.data.children}/>
-          }
+          {hasChildrenContent}
+
         </div>
       </div>
     );

@@ -15,18 +15,24 @@ class DeductibleExpensesSection extends React.Component {
 
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
+    let notRequiredMessage;
+
+    if (this.props.external.receivesVaPension === true) {
+      notRequiredMessage = (
+        <p>
+          <strong>
+            You are not required to enter financial information because you
+            indicated you are receiving a VA pension.
+          </strong>
+        </p>
+      );
+    }
 
     return (
       <div>
         <h4>Previous calendar year deductible expenses</h4>
-        {this.props.external.receivesVaPension === true &&
-          <p>
-            <strong>
-            You are not required to enter financial information because you
-            indicated you are receiving a VA pension.
-            </strong>
-          </p>
-        }
+
+        {notRequiredMessage}
 
         <p>
           Report non-reimbursed medical expenses paid by you or your spouse.
