@@ -32,10 +32,6 @@ body .row {
 
 #content .section {
   fieldset {
-    .row {
-      margin: 0;
-    }
-    
     h4 {
       padding: 0;
     }
@@ -44,6 +40,10 @@ body .row {
 
 .input-section {
   margin-bottom: 2em; 
+
+  .row {
+    margin: 0;
+  }
 }
 
 .process {

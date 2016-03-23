@@ -257,6 +257,9 @@ class HealthCareApp extends React.Component {
 
   handleBack() {
     hashHistory.push(this.getUrl('back'));
+    if (document.getElementsByClassName('progress-box').length > 0) {
+      document.getElementsByClassName('progress-box')[0].scrollIntoView();
+    }
   }
 
   handleSubmit() {
