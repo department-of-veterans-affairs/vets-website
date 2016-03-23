@@ -257,6 +257,9 @@ class HealthCareApp extends React.Component {
 
   handleBack() {
     hashHistory.push(this.getUrl('back'));
+    if (document.getElementsByClassName('progress-box').length > 0) {
+      document.getElementsByClassName('progress-box')[0].scrollIntoView();
+    }
   }
 
   handleSubmit() {
@@ -293,14 +296,16 @@ class HealthCareApp extends React.Component {
       <ProgressButton
           onButtonClick={this.handleBack}
           buttonText={`Back to ${lastSectionText}`}
-          buttonClass={'usa-button-outline'}/>
+          buttonClass={'usa-button-outline'}
+          beforeText={'«'}/>
     );
 
     const nextButton = (
       <ProgressButton
           onButtonClick={this.handleContinue}
           buttonText={`Continue to ${nextSectionText}`}
-          buttonClass={'usa-button-primary'}/>
+          buttonClass={'usa-button-primary'}
+          afterText={'»'}/>
     );
 
     const submitButton = (

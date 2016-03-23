@@ -35,39 +35,44 @@ class ChildInformationSection extends React.Component {
   }
 
   render() {
+    let notRequiredMessage;
+    let hasChildrenContent;
+
+    if (this.props.external.receivesVaPension === true) {
+      notRequiredMessage = (
+        <p>
+          <strong>
+            You are not required to enter financial information because you
+            indicated you are receiving a VA pension.
+          </strong>
+        </p>
+      );
+    }
+
+    if (this.props.data.hasChildrenToReport === true) {
+      hasChildrenContent = (
+        <GrowableTable
+            component={Child}
+            createRow={this.createBlankChild}
+            onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
+            rows={this.props.data.children}/>
+      );
+    }
+
     return (
       <div>
-        <div className="row">
-          <div className="small-12 columns">
-            <h4>Children Information</h4>
-            <div>
-              {this.props.external.receivesVaPension === true &&
-                <p>
-                  <strong>
-                  You are not required to enter financial information because you
-                  indicated you are receiving a VA pension.
-                  </strong>
-                </p>
-              }
-            </div>
-          </div>
-        </div>
-        <div className="row">
-          <div className="small-12 columns">
-            <ErrorableCheckbox
-                label="Do you have any children to report?"
-                checked={this.props.data.hasChildrenToReport}
-                onValueChange={(update) => {this.props.onStateChange('hasChildrenToReport', update);}}/>
-          </div>
-        </div>
-        <div>
-          {this.props.data.hasChildrenToReport === true &&
-            <GrowableTable
-                component={Child}
-                createRow={this.createBlankChild}
-                onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
-                rows={this.props.data.children}/>
-          }
+        <h4>Children Information</h4>
+
+        {notRequiredMessage}
+
+        <div className="input-section">
+          <ErrorableCheckbox
+              label="Do you have any children to report?"
+              checked={this.props.data.hasChildrenToReport}
+              onValueChange={(update) => {this.props.onStateChange('hasChildrenToReport', update);}}/>
+
+          {hasChildrenContent}
+
         </div>
       </div>
     );

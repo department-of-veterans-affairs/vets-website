@@ -9,41 +9,32 @@ class ServiceInformationSection extends React.Component {
   render() {
     return (
       <div>
-        <div className="row">
-          <div className="small-12 columns">
-            <h4>
-              Service Information
-            </h4>
+        <h4>Service Information</h4>
 
-            <ErrorableSelect
-                label="Last branch of service"
-                options={branchesServed}
-                value={this.props.data.lastServiceBranch}
-                onUserInput={(update) => {this.props.onStateChange('lastServiceBranch', update);}}/>
-          </div>
-          <div className="small-12 columns">
-            <label>Last entry date</label>
-            <DateInput
-                day={this.props.data.lastEntryDate.day}
-                month={this.props.data.lastEntryDate.month}
-                year={this.props.data.lastEntryDate.year}
-                onValueChange={(update) => {this.props.onStateChange('lastEntryDate', update);}}/>
-          </div>
-          <div className="small-12 columns">
-            <label>Last discharge date</label>
-            <DateInput
-                day={this.props.data.lastDischargeDate.day}
-                month={this.props.data.lastDischargeDate.month}
-                year={this.props.data.lastDischargeDate.year}
-                onValueChange={(update) => {this.props.onStateChange('lastDischargeDate', update);}}/>
-          </div>
-          <div className="small-12 columns">
-            <ErrorableSelect
-                label="Discharge Type"
-                options={dischargeTypes}
-                value={this.props.data.dischargeType}
-                onUserInput={(update) => {this.props.onStateChange('dischargeType', update);}}/>
-          </div>
+        <div className="input-section">
+          <ErrorableSelect
+              label="Last branch of service"
+              options={branchesServed}
+              value={this.props.data.lastServiceBranch}
+              onUserInput={(update) => {this.props.onStateChange('lastServiceBranch', update);}}/>
+
+          <DateInput label="Last entry date"
+              day={this.props.data.lastEntryDate.day}
+              month={this.props.data.lastEntryDate.month}
+              year={this.props.data.lastEntryDate.year}
+              onValueChange={(update) => {this.props.onStateChange('lastEntryDate', update);}}/>
+
+          <DateInput label="Last discharge date"
+              day={this.props.data.lastDischargeDate.day}
+              month={this.props.data.lastDischargeDate.month}
+              year={this.props.data.lastDischargeDate.year}
+              onValueChange={(update) => {this.props.onStateChange('lastDischargeDate', update);}}/>
+
+          <ErrorableSelect
+              label="Discharge Type"
+              options={dischargeTypes}
+              value={this.props.data.dischargeType}
+              onUserInput={(update) => {this.props.onStateChange('dischargeType', update);}}/>
         </div>
       </div>
     );
