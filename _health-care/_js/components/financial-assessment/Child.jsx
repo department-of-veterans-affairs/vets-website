@@ -20,7 +20,7 @@ class Child extends React.Component {
       <div>
         <div className="row">
           <div className="small-12 columns">
-            <p>Child's Name</p>
+            <p>Child’s Name</p>
             <FullName required
                 value={this.props.data.childFullName}
                 onUserInput={(update) => {this.props.onValueChange('childFullName', update);}}/>
