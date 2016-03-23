@@ -5,8 +5,7 @@ var path = require('path');
 
 var config = require('./webpack.config');
 
-config.output.path = path.join(__dirname, "_webpack/public/assets/js/generated");
-config.devtool = '#cheap-module-eval-source-map';
+config.output.path = path.join(__dirname, "_webpack/public/assets/js/generated/dev");
 config.entry = "./_webpack/public/fake-entry.js",
 
 module.exports = config;

@@ -6,14 +6,6 @@ concurrence: complete
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -53,7 +45,7 @@ The time it takes to process your claim depends on your regional office. There a
 
 - Learn about schools offering VA-approved programs by using the [GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 -	Decide [which school](http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
--	Please note that it is not required, but it is an option, to apply to a chosen school prior to applying for benefits.
+-	You may apply for the school or schools you choose before you apply for benefits.
 
 </div>
 
@@ -94,7 +86,7 @@ You have four options for filing your claim:
 -	Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/vonapp).
 -	Go to a [VA regional office](/education/apply-for-education-benefits/regional-office/) and have a VA employee assist you.
 -	Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
--	Call 888-GI Bill (888-442-4551) to have the application mailed to you. After you complete it, mail it to your [VA regional claims processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
+-	Call 888-GI Bill (888-442-4551) to have the application mailed to you. After you complete it, mail it to your [VA regional claims processing office](/education/apply-for-education-benefits/regional-office/).
 
 </div>
 

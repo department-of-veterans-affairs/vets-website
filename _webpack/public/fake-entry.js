@@ -1,6 +1,3 @@
-// Add all the ES6 library features that my be missing.
-require('babel-polyfill');
-
 // Get our browser up to date with polyfills.
 const Modernizr = require('modernizr');
 if (!Modernizr.classlist) {

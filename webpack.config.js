@@ -4,11 +4,11 @@ var webpack = require('webpack');
 var config = {
   entry: "./assets/js/entry.js",
   output: {
-    path: path.join(__dirname, "assets/js/generated"),
-    publicPath: "/assets/js/generated/",
+    path: path.join(__dirname, "assets/js/generated/dev"),
+    publicPath: "/assets/js/generated/dev/",
     filename: "bundle.js"
   },
-  devtool: "#source-map",
+  devtool: '#cheap-module-eval-source-map',
   module: {
     loaders: [
       {
@@ -20,8 +20,7 @@ var config = {
           presets: ['es2015'],
 
           // Share polyfills between files.
-          // TODO(awong): This is erroring out. Enable later.
-//          plugins: ['transform-runtime'],
+          plugins: ['transform-runtime'],
 
           // Speed up compilation.
           cacheDirectory: true
@@ -36,8 +35,7 @@ var config = {
           presets: ['es2015', 'react'],
 
           // Share polyfills between files.
-          // TODO(awong): This is erroring out. Enable later.
-//          plugins: ['transform-runtime'],
+          plugins: ['transform-runtime'],
 
           // Speed up compilation.
           cacheDirectory: true

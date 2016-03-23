@@ -83,6 +83,7 @@ class State extends React.Component {
       WI: 'Wisconsin',
       WY: 'Wyoming'
     };
+
     const options = _.map(arrayOfState, (val, key) => {
       return (
         <option
@@ -92,8 +93,9 @@ class State extends React.Component {
         </option>
       );
     });
+
     return (
-      <div className="usa-input-grid usa-input-grid-large">
+      <div>
         <label htmlFor={this.selectId}>
           State
         </label>

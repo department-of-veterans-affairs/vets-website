@@ -1,4 +1,5 @@
 // Vets.gov
+$color-green-darker: #195c27;
 
 // Pieces of elements/typography we need
 // TODO: properly incorporate elements/typography
@@ -19,28 +20,6 @@ body {
   padding-bottom: 0;
   padding-top: 0;
   margin-top: 0;
-}
-
-// TODO: properly incorporate usds web standards for this
-body .row {
-  max-width: 62.5em;
-}
-
-.form-panel {
-  @include media($medium-screen) {
-    max-width: $usa-form-width;
-  }
-}
-
-.main-form,
-.progress-box {
-  button {
-    width: 100%;
-  }
-}
-
-.form-section {
-  display: none;
 }
 
 // Skip link
@@ -323,6 +302,7 @@ html.no-touch .banner {
 h3 {color: $color-primary-darkest; font-weight: bold; font-size: 1.8em; padding: 0 0 1em 0;}
 h4 {font-size: 1.5em; font-weight: normal;}
 h5 {font-size: 1.25em; font-weight: normal;}
+h6 {font-size: 1.15em; font-weight: bold;}
 
 // tagline
 
@@ -1506,6 +1486,19 @@ a.twitter {
     background: none;
     overflow: hidden;
     text-decoration: underline;
+      @media #{$small-only} {
+        text-align: center;
+      }
+
+    &:nth-child(even) {
+      opacity: .5;
+      padding-left: 1em;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+    
     span.icon {
       background: url('../images/design/sprites/sprite.png') no-repeat -43px 0;
       background-size: 215px 72px;
@@ -1825,7 +1818,10 @@ margin: 0;
   padding: 1em 0;
   position: relative;
   h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
-  h5 {font-size: 1.3em; margin: 0; padding: 0;}
+  h5 {
+    font-size: 1.3em; 
+    margin: 0; padding: 0;
+  }
   h6 {font-size: 1.1em; margin: 0; padding: 0;}
   p:nth-child(1) {
     font-size: 1em;
@@ -2245,10 +2241,34 @@ h4.highlight {
 text-align: right;
 background: $color-gray-lightest;
 padding: .5em 0;
-a.usa-button-primary {
-  background: $color-green;
+  a.usa-button-primary {
+    background: $color-green;
+  }
 }
+
+// TODO: Deprecate .action-bar a.usa-button-primary.
+// Use .va-button-primary and .va-button-secondary 
+// going forward.
+// Drop !important from the lines below when everything
+// is refactored.
+.va-button-primary {
+  background: $color-green !important;
+ 
+  &:hover,
+  &:focus {
+    background-color: $color-green-darker !important;
+  }
+} 
+
+.va-button-secondary {
+  background-color: $color-primary-darker !important;
+  
+  &:hover,
+  &:focus {
+    background-color: $color-primary-darkest !important;  
+  }
 }
+
 
 // USDS component styles
 // Accordion
@@ -2654,31 +2674,4 @@ html.touchevents {
     -webkit-transform: translateY(0);
     transform: translateY(0);
   }
-}
-
-// Everything for progress-menu tabs
-.progress-menu, .progress-menu dd.tab-title {
-  margin: 10px 2px 0px 0px;
-
-  li.tab-title, dd.tab-title {
-    list-style: none;
-    border-top: $color-primary-darker 5px solid;
-    a {text-decoration: none;}
-
-    &.active {
-      border-top: $color-primary 5px solid;
-      a {color: $color-primary;}
-    }
-
-    a {
-      padding: 0px 5px;
-      font-size: 14px;
-    }
-  }
-}
-
-.progress-box {
-  padding: 1rem;
-  margin: 1.5rem 0  ;
-  border: 1px solid #eee;
 }

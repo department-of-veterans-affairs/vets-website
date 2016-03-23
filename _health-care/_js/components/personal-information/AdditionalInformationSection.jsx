@@ -1,49 +1,37 @@
 import React from 'react';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+import State from '../questions/State';
+import VaMedicalFacility from './VaMedicalFacility';
 
 class AdditionalInformationSection extends React.Component {
   render() {
     return (
-      <div>
-        <div className="row">
-          <div className="small-12 columns">
-            <h4>Additional Information</h4>
-          </div>
+      <fieldset>
+        <h4>Additional Information</h4>
+        <div className="input-section">
+          <ErrorableCheckbox
+              label="I am enrolling to obtain minimal essential coverage under the affordable care act"
+              checked={this.props.data.isEssentialAcaCoverage}
+              onValueChange={(update) => {this.props.onStateChange('isEssentialAcaCoverage', update);}}/>
         </div>
 
-        <div className="row">
-          <div className="small-12 columns">
-            <ErrorableCheckbox
-                label="I am enrolling to obtain minimal essential coverage under the affordable care act"
-                checked={this.props.data.isEssentialAcaCoverage}
-                onValueChange={(update) => {this.props.onStateChange('isEssentialAcaCoverage', update);}}/>
-          </div>
+        <div className="input-section">
+          <h4>Select the VA Medical Facility which will be your preferred facility</h4>
+          <State value={this.props.data.facilityState}
+              onUserInput={(update) => {this.props.onStateChange('facilityState', update);}}/>
+          <VaMedicalFacility value={this.props.data.vaMedicalFacility}
+              facilityState={this.props.data.facilityState}
+              onValueChange={(update) => {this.props.onStateChange('vaMedicalFacility', update);}}/>
         </div>
 
-        <div className="row">
-          <div className="small-12 columns">
-            <h4>Select the VA Medical Facility which will be your preferred facility</h4>
-            <label htmlFor="veteran_preferred_facility_state">State</label>
-            <select name="veteran[preferred_facility_state]" ><option value="0"></option>
-              <option value="1">Alaska</option>
-              <option value="2">Hawaii</option></select>
-            <label htmlFor="veteran_preferred_va_facility">Center/Clinic</label>
-            <select name="veteran[preferred_va_facility]" ><option value="0"></option>
-              <option value="1">PUG</option>
-              <option value="2">Tampa VAMC</option></select>
-          </div>
+        <div className="input-section">
+          <ErrorableCheckbox
+              label="Do you want VA to contact you to schedule your first appointment?"
+              checked={this.props.data.wantsInitialVaContact}
+              onValueChange={(update) => {this.props.onStateChange('wantsInitialVaContact', update);}}/>
         </div>
-
-        <div className="row">
-          <div className="small-12 columns">
-            <ErrorableCheckbox
-                label="Do you want VA to contact you to schedule your first appointment?"
-                checked={this.props.data.wantsInitialVaContact}
-                onValueChange={(update) => {this.props.onStateChange('wantsInitialVaContact', update);}}/>
-          </div>
-        </div>
-      </div>
+      </fieldset>
     );
   }
 }
