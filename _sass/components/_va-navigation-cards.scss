@@ -1,0 +1,207 @@
+// Styles for card navigation elements
+
+$va-card-height: 8.75em;
+
+.va-cards {
+  display: block;
+  // TODO: Remove !important when 
+  // #content .main .section.one ul is cleared up
+  margin: 0 !important;
+  min-width: 300px;
+  padding: 0;
+}
+
+// Foundation break point
+@media #{$medium} {
+  .va-cards--3across,
+  .va-cards--2across {
+    @include clearfix;
+  }
+  
+  .va-cards--3across {
+    > .va-card {
+      width: 32%;
+    } 
+  }
+  
+  .va-cards--2across {
+    > .va-card {
+      width: 48.7%
+    } 
+  }
+}
+
+.va-card { 
+  list-style: none !important;
+  overflow: hidden;
+  position: relative;
+  
+  @media #{$medium} {
+    float: left;
+    margin: 0 0.625rem 1.25rem 0.67rem;
+  }
+  
+  a {
+    color: inherit;
+  }
+}
+
+// This can be any element, but usually an
+// `a` or `div`
+.va-card-body {
+  @include transition(all 0.3s ease-in-out);
+  background: $color-primary-darker;
+  border-bottom: 2px solid rgba(255,255,255,0.3);
+  color: #fff !important;
+  display: block;
+  font-weight: normal;
+  overflow: hidden;
+  padding: 1em 1.15em;
+  text-decoration: none;
+
+  &:hover {
+    background: $color-primary;
+    cursor: pointer;
+    text-decoration: inherit;
+  }
+
+  + ul,
+  + ol {
+    margin: 1em 1.2em 0 2em !important;
+  }
+  
+  &:active,
+  &:hover,
+  &:focus {
+    color: inherit;
+    box-shadow: 0 0 5px rgba(0,0,0,0.35);
+  }
+  
+  // Using $medium instead of $medium-screen
+  // because this grid uses Foundation, not USWDS
+  // Roughly a 640px breakpoint.
+  @media #{$medium} {
+    height: $va-card-height;
+    padding: .45em .75em;
+    border-bottom: none;
+    text-align: left;
+    border-radius: .2em;
+  }
+}
+
+.va-card-title {
+  color: $color-white;
+  font: 700 1.35em / 1 $font-sans;
+  margin: 0;
+  padding: 0 0 .25em 0;
+  
+  a {
+    text-decoration: none;
+    background-color: transparent;
+  }
+}
+
+.va-card--hasdrawer {
+  @include transition(all 0.3s ease-in-out);
+  height: auto;
+  overflow: hidden;
+  
+  // Foundation breakpoint
+  @media #{$small-only} {
+    max-height: 114px; 
+  }
+}
+
+.va-card--hasdrawer .va-card-body {
+  padding-right: 4em;
+  position: relative;
+  
+  &::after {
+    background: transparent url(/assets/images/card-white-down-button.svg) center no-repeat;
+    content: '\00A0';
+    display: block;
+    height: 100%;
+    padding: 1.25em;
+    position: absolute;
+    right: 0;
+    top: 0;   
+  }
+  
+  // Foundation breakpoint
+  @media #{$medium} {
+    padding-right: 1.15em;
+    
+    &::after {
+      background: $color-white url(/assets/images/card-blue-down-button.svg) center center no-repeat;
+      border: 1px solid $color-gray-light;
+      border-bottom-right-radius: inherit;
+      border-bottom-left-radius: inherit;
+      border-top: 0;
+      bottom: 0;
+      height: auto;
+      left: 0;
+      right: auto;
+      padding: .25em;
+      position: absolute;
+      top: auto;
+      width: 100%;
+      z-index: 3;
+    }
+  }  
+}
+
+.va-card-drawer {
+  padding: 1rem 1.25rem 0;
+  
+  @media #{$medium} {
+    @include transition(all 300ms ease-in-out);
+    border: 1px solid $color-gray-light;
+    left: 0;
+    margin-top: 2em; 
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    height: 100%;
+  }
+     
+  a {
+    background: transparent;
+    font-weight: bold;
+  }
+  
+  ul {
+    margin-bottom: 0 !important;
+  }
+} 
+
+.va-card--hasdrawer--open {
+  max-height: 600px;
+  min-height: 180px;
+  padding-bottom: 1.25em;
+  
+  
+  .va-card-body {
+    &::after {
+      background-image: url(/assets/images/card-white-up-button.svg); 
+      
+      @media #{$medium} {
+        background-image: url(/assets/images/card-blue-up-button.svg);  
+      }
+    }
+  }
+    
+  @media #{$medium} {
+    height: $va-card-height;
+    max-height: $va-card-height;
+    min-height: $va-card-height;
+    padding-bottom: 0;
+  }
+  
+  .va-card-drawer {   
+    @media #{$medium} {
+      background: $color-white;
+      top: 0;   
+    }
+  }
+}
+
