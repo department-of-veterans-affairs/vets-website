@@ -19,7 +19,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-You are in charge of designing your own education. VA education benefits, including the GI Bill, give you a wide range of options, including on-the-job-training, apprenticeships, overseas schools, and correspondence training.
+You're in charge of designing your own education. VA education benefits, including the GI Bill, give you a wide range of options, including on-the-job-training, apprenticeships, overseas schools, and correspondence training.
 
 </div>
 </div>
