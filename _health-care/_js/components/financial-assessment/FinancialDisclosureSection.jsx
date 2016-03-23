@@ -4,17 +4,24 @@ import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 
 class FinancialDisclosureSection extends React.Component {
   render() {
+    let notRequiredMessage;
+
+    if (this.props.external.receivesVaPension === true) {
+      notRequiredMessage = (
+        <p>
+          <strong>
+            You are not required to enter financial information because you
+            indicated you are receiving a VA pension.
+          </strong>
+        </p>
+      );
+    }
+
     return (
       <div>
         <h4>Financial Disclosure</h4>
-        {this.props.external.receivesVaPension === true &&
-          <p>
-            <strong>
-            You are not required to enter financial information because you
-            indicated you are receiving a VA pension.
-            </strong>
-          </p>
-        }
+
+        {notRequiredMessage}
 
         <p>
           Disclosure allows VA to accurately determine whether certain Veterans
