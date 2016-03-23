@@ -1,0 +1,77 @@
+// TODO: properly incorporate usds web standards for this
+body .row {
+  max-width: 62.5em;
+}
+
+.form-panel {
+  @include media($medium-screen) {
+    max-width: $usa-form-width;
+  }
+}
+
+.main-form,
+.progress-box {
+  button {
+    width: 100%;
+  }
+}
+
+.button-icon{
+  font-size: 1.7rem;
+}
+
+.progress-box {
+  padding: 1rem 2rem;
+  margin: 1.5rem 0  ;
+  border: 1px solid #eee;
+}
+
+.form-section {
+  display: none;
+}
+
+#content .section {
+  fieldset {
+    h4 {
+      padding: 0;
+    }
+  }
+}
+
+.input-section {
+  margin-bottom: 2em; 
+
+  .row {
+    margin: 0;
+  }
+}
+
+.process {
+  li {
+    h5 {
+      color: $color-gray;
+    }
+    li {
+      display: none;
+    }
+    &:before {
+      background: $color-gray;
+    }
+    &.section-current {
+      h5 {
+        font-weight: bold;
+        color: $color-primary;
+      }
+      li {
+        display: list-item;
+        &.sub-section-current {
+          font-weight: bold;
+          color: $color-primary;
+        }
+      }
+      &:before {
+        background: $color-primary;
+      }
+    }
+  }
+}
