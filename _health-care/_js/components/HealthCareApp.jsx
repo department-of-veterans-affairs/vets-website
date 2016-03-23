@@ -293,14 +293,16 @@ class HealthCareApp extends React.Component {
       <ProgressButton
           onButtonClick={this.handleBack}
           buttonText={`Back to ${lastSectionText}`}
-          buttonClass={'usa-button-outline'}/>
+          buttonClass={'usa-button-outline'}
+          beforeText={'«'}/>
     );
 
     const nextButton = (
       <ProgressButton
           onButtonClick={this.handleContinue}
           buttonText={`Continue to ${nextSectionText}`}
-          buttonClass={'usa-button-primary'}/>
+          buttonClass={'usa-button-primary'}
+          afterText={'»'}/>
     );
 
     const submitButton = (
