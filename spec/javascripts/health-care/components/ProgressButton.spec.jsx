@@ -37,6 +37,18 @@ describe('<ProgressButton>', () => {
         <ProgressButton buttonClass/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `buttonClass` of type `boolean` supplied to `ProgressButton`, expected `string`/);
     });
+
+    it('beforeText must be a string', () => {
+      SkinDeep.shallowRender(
+        <ProgressButton beforeText/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `beforeText` of type `boolean` supplied to `ProgressButton`, expected `string`/);
+    });
+
+    it('afterText must be a string', () => {
+      SkinDeep.shallowRender(
+        <ProgressButton afterText/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `afterText` of type `boolean` supplied to `ProgressButton`, expected `string`/);
+    });
   });
 
   it('has sane looking features', () => {
