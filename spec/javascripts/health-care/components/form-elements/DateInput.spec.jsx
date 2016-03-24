@@ -15,6 +15,12 @@ describe('<DateInput>', () => {
       consoleStub.restore();
     });
 
+    it('label must be a string', () => {
+      SkinDeep.shallowRender(
+        <DateInput label day={1} month={12} year={2010} onValueChange={(_update) => {}}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `label` of type `boolean` supplied to `DateInput`, expected `string`./);
+    });
+
     it('day is required', () => {
       SkinDeep.shallowRender(
         <DateInput month={12} year={2010} onValueChange={(_update) => {}}/>);
