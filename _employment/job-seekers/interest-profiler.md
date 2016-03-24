@@ -25,10 +25,9 @@ understanding of it—or possibly present you with some new perspectives you had
 
 This is an interactive tool for job seekers and students to learn more about their career options. My Next Move has tasks, skills, salary information, and more for over 900 different careers. Users can find careers through keyword search; by browsing industries that employ different types of workers; or through the O&#42;NET Interest Profiler, a tool that offers personalized career suggestions based on a person’s interests and level of work experience.
 
-Similarly, the VA CareerScope Assessment Profile provides a detailed report on interest areas such as humanitarian, mechanical, scientific, or artistic. This should be used in conjunction with your O&#42;Net results and should be shared with your career counselor (link to chapter 36). Together you may be able to more accurately target employment opportunities.
+Similarly, the VA CareerScope Assessment Profile provides a detailed report on interest areas such as humanitarian, mechanical, scientific, or artistic. This should be used in conjunction with your O&#42;Net results and should be shared with your career counselor. Together you may be able to more accurately target employment opportunities.
 
-www.benefits.va.gov/gibill/careerscope.asp
-CareerScope enhances the career and educational planning process by measuring both interest and
+[CareerScope](http://www.benefits.va.gov/gibill/careerscope.asp) enhances the career and educational planning process by measuring both interest and
 aptitude. Career recommendations can be generated that are consistent with the Guide for Occupational
 Exploration (GOE), the Dictionary of Occupational Titles (DOT), O&#42;NET as well as the U.S. DOE Career
 Clusters and Pathways.
