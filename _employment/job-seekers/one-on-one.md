@@ -30,7 +30,7 @@ Yes, if:
 - Your spouse (only for the Career Technical Training Track)
 
 ### How it works
-Transitioning Servicemembers are required to attend the Transition Assistance Program (TAP)) briefings. These include: 
+Transitioning Servicemembers are required to attend the Transition Assistance Program (TAP) briefings. These include: 
 
 - Preseparation counseling, in which your skills, interests, and goals are evaluated and integrated into a custom roadmap. 
 - Résumé-building assistance and interview training.
@@ -39,7 +39,7 @@ Transitioning Servicemembers are required to attend the Transition Assistance Pr
 
 *VA's Education and Career Counseling program*
 
-For a year after transitioning out of the military and for the six months prior to separation, Servicemembers can also access the VA's Education and Career Counseling [program](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp). This option focuses on those who are interested in getting the most out of their education benefits. The program includes career counseling, benefits coaching and individual support, and academic counseling. To apply, follow these simple steps: 
+For a year after transitioning out of the military and for the six months prior to separation, Servicemembers may also be eligible for VA's Education and Career Counseling [program](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp). If you are eligible,this option focuses on those who are interested in getting the most out of their education benefits. The program includes career counseling, benefits coaching and individual support, and academic counseling. To apply, follow these simple steps: 
 
 1.	Log in to your [eBenefits account](https://www.ebenefits.va.gov).
 2.	Select Apply.
@@ -49,7 +49,6 @@ For a year after transitioning out of the military and for the six months prior 
 You might also want to work with nonprofit organizations that have been thoroughly vetted and can offer you advice, share connections, and help place you into a good job at no cost to you. [The Call of Duty Endowment](http://www.callofdutyendowment.org/partners) endorses groups that do a particularly good job of this. 
 
 Additionally, Hire Our Heroes, in partnership with [American Corporate Partners (ACP)](http://www.acp-usa.org/), pairs Veterans with corporate mentors. Over the course of a year, you and a mentor will discuss private-sector career preparation and exploration, and review your résumé. Mentors, one-third of whom are former military, come from a wide variety of sectors, including marketing, defense, health care, insurance, and manufacturing. You are eligible for ACP if:
-
 - You are a currently serving or recently separated Veteran (including members of the Reserve and National Guard) and have served on active duty for at least 180 days since September 11, 2001, or
 - You are the spouse of a Servicemember wounded or killed in action.
 
@@ -64,19 +63,19 @@ Additionally, Hire Our Heroes, in partnership with [American Corporate Partners 
 
         <li>
           <h3>
-          <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:   #110298554</a>
+          <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance</a>
           </h3>
         </li>
 
         <li>
           <h3>
-          <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator: #110298580</a>
+          <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator</a>
           </h3>
         </li>  
 
         <li>
           <h3>
-          <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder: #111659432</a>
+          <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder</a>
           </h3>
         </li>
 
@@ -94,13 +93,13 @@ Additionally, Hire Our Heroes, in partnership with [American Corporate Partners 
 
         <li>
           <h3>
-          <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler: #110298582 </a>
+          <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler</a>
           </h3>
         </li>
 
         <li>
           <h3>
-          <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
+          <a href="/employment/job-seekers/military-transcripts/">Military Transcripts</a>
           </h3>
         </li>    
 
