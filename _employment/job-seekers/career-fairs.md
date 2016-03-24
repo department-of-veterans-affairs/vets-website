@@ -20,7 +20,7 @@ Your preparation for job fairs is critical to your success. Here are a few tips:
 - Prioritize the employers you are interested in, and prepare two to three questions for the representatives of those companies.
 - Bring multiple copies of your résumé and any relevant military transcripts.
 - Bring business cards to encourage follow-up conversations and questions with prospective employers.
-- For virtual or online events, fill out all necessary online profile requirements (including résumé, references, and a professional high-resolution photo), and update your [LinkedIn profile](/_dummy-placeholder.html).
+- For virtual or online events, fill out all necessary online profile requirements (including résumé, references, and a professional high-resolution photo), and update your [LinkedIn profile](https://www.linkedin.com/).
 
 Visit the following sites to find a career fair near you: 
 
@@ -51,25 +51,25 @@ Visit the following sites to find a career fair near you:
 
           <li>
             <h5>
-              <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:  #110298554</a>
+              <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance</a>
             </h5>  
           </li>
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/commitments/">View Employer Commitments: #110298592</a>
+              <a href="https://www.vets.gov/veterans-employment-center/commitments/">View Employer Commitments</a>
             </h5>  
           </li>
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank:  #110298570</a>
+              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
             </h5>  
           </li>  
 
           <li>
             <h5>
-              <a href="/employment/job-seekers/unemployment-support/">Unemployment Support:  #111659508</a>
+              <a href="/employment/job-seekers/unemployment-support/">Unemployment Support</a>
             </h5>  
           </li>    
 
