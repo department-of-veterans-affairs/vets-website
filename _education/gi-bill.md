@@ -20,14 +20,7 @@ You have several options from which to choose. [Veterans Service Organizations](
 <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
 <a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
 
-
-</div>
-</div>
-</div>
-</div>
-
-
-<nav class="va-navigation--piano-wrap">
+<nav>
   <ul class="va-navigation--piano">
       <li>
         <a href="/education/gi-bill/foreign-programs/">
@@ -104,3 +97,10 @@ You have several options from which to choose. [Veterans Service Organizations](
 
       </ul>
 </nav>
+
+</div>
+</div>
+</div>
+</div>
+
+

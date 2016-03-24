@@ -1,25 +1,24 @@
-.va-navigation--piano-wrap {
-  background:  $color-white;
-  padding: 2em 0;
-}
-
 .va-navigation--piano {
   color: $color-primary-darkest;
   border-bottom: 2px solid #fff;
-  margin: 0 auto;
+  // Can get rid of !important once 
+  // #content .main .section.one ul is simplified
+  margin: 0 !important;
   max-width: $text-max-width; 
-  padding: 0;
-   
-  li {
+  padding: 2em 0;
+
+  li { 
     background: $color-gray-lightest;
     border-bottom: 8px solid $color-white;
-    list-style: none;
+    list-style: none !important;
     height: auto;
     width: 100%;
     margin: 0;
     padding: 0;
     
-    &:last-of-type { border-bottom: none;}
+    &:last-child {
+      border-bottom: none;
+    }
   }
   
   span {color: $color-gray-dark;}
