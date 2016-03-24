@@ -82,6 +82,7 @@ collections:
     output: true
     permalink: /:collection/:path/index.html
 
+# Sets breadcrumbs per path
 defaults:
   - scope:
       type: "disability-benefits"
