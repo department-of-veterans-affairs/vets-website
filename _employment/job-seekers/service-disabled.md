@@ -45,7 +45,7 @@ Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:   #110298554</a>
+            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance</a>
           </h3>
         </li>
 
