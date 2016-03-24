@@ -31,7 +31,7 @@ If you can’t find a job after you separate from active-duty service, you may b
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:   #110298554</a>
+            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:</a>
           </h3>
         </li>
 
@@ -43,7 +43,7 @@ If you can’t find a job after you separate from active-duty service, you may b
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder: #111659432</a>
+            <a href="/employment/job-seekers/https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder:</a>
           </h3>
         </li>
 
@@ -55,31 +55,31 @@ If you can’t find a job after you separate from active-duty service, you may b
 
         <li>
           <h3>
-            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570</a>
+            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank:</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler: #110298582 </a>
+            <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler:</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
+            <a href="/employment/job-seekers/military-transcripts/">Military Transcripts:</a>
           </h3>
         </li>    
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/career-fairs/">Career Fairs: #110298576</a>
+            <a href="/employment/job-seekers/career-fairs/">Career Fairs:</a>
           </h3>
         </li>   
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/veci/">VECI: #112909635</a>
+            <a href="/employment/job-seekers/veci/">VECI:</a>
           </h3>
         </li>   
 
