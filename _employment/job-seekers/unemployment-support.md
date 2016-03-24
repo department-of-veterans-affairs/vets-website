@@ -30,6 +30,7 @@ You must apply for unemployment benefits in the state in which you reside. You c
 Receiving unemployment will not affect your wages, but if you receive separation or retirement pay, your compensation amount may be lower. 
 
 You will need the following documents when you apply: 
+
 - DD Form 214 
 - Social security card 
 - Current résumé or military job history 
