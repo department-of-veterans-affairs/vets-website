@@ -39,7 +39,7 @@ Transitioning Servicemembers are required to attend the Transition Assistance Pr
 
 *VA's Education and Career Counseling program*
 
-For a year after transitioning out of the military and for the six months prior to separation, Servicemembers may also be eligible for VA's Education and Career Counseling [program](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp). If you are eligible,this option focuses on those who are interested in getting the most out of their education benefits. The program includes career counseling, benefits coaching and individual support, and academic counseling. To apply, follow these simple steps: 
+For a year after transitioning out of the military and for the six months prior to separation, Servicemembers may also be eligible for VA's Education and Career Counseling [program](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp). If you are eligible, this option focuses on those who are interested in getting the most out of their education benefits. The program includes career counseling, benefits coaching and individual support, and academic counseling. To apply, follow these simple steps: 
 
 1.	Log in to your [eBenefits account](https://www.ebenefits.va.gov).
 2.	Select Apply.
