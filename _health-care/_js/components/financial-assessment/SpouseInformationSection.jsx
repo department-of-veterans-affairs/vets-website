@@ -3,14 +3,10 @@ import React from 'react';
 import Address from '../questions/Address';
 import DateInput from '../form-elements/DateInput';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
-import ErrorableTextInput from '../form-elements/ErrorableTextInput';
-import ErrorableSelect from '../form-elements/ErrorableSelect';
+import FullName from '../questions/FullName';
 import Phone from '../questions/Phone';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
 
-import { suffixes } from '../../utils/options-for-select';
-
-// TODO: Refactor name to use FullName once that can be abstracted more
 // TODO: Consider adding question for marital status here so if user
 // entered something incorrect in Personal Information they don't have
 // to return to that section to change response
@@ -54,26 +50,9 @@ class SpouseInformationSection extends React.Component {
         </div>
         <div>
           <div className="input-section">
-            <ErrorableTextInput
-                label="First Name"
-                value={this.props.data.spouseFirstName}
-                onValueChange={(update) => {this.props.onStateChange('spouseFirstName', update);}}/>
-
-            <ErrorableTextInput
-                label="Middle Name"
-                value={this.props.data.spouseMiddleName}
-                onValueChange={(update) => {this.props.onStateChange('spouseMiddleName', update);}}/>
-
-            <ErrorableTextInput
-                label="Last Name"
-                value={this.props.data.spouseLastName}
-                onValueChange={(update) => {this.props.onStateChange('spouseLastName', update);}}/>
-
-            <ErrorableSelect
-                label="Suffix"
-                options={suffixes}
-                value={this.props.data.spouseSuffix}
-                onValueChange={(update) => {this.props.onStateChange('spouseSuffix', update);}}/>
+            <FullName
+                value={this.props.data.spouseFullName}
+                onUserInput={(update) => {this.props.onStateChange('spouseFullName', update);}}/>
 
             <SocialSecurityNumber label="Spouse’s Social Security Number"
                 required={false}
