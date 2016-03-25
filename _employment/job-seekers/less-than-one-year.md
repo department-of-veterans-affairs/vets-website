@@ -69,7 +69,6 @@ Both of these can be ordered through the [National Archives](https://www.archive
 - Consider free [education and career counseling](/education/tools-programs/education-career-counseling/).
 - At 120 days from separation, you can begin applying for [federal jobs](/employment/job-seekers/federal-employment). 
 
-
 </div>
 </li>
 
