@@ -1,11 +1,14 @@
 import React from 'react';
-import { hashHistory } from 'react-router';
 import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
+import { hashHistory } from 'react-router';
 
-import ContinueButton from './ContinueButton';
-import IntroductionPanel from './IntroductionPanel.jsx';
+import ProgressButton from './ProgressButton';
+
+import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
+
+import * as validations from '../utils/validations';
 
 // Add deep object manipulation routines to lodash.
 _.mixin(lodashDeep);
@@ -14,46 +17,48 @@ class HealthCareApp extends React.Component {
   constructor() {
     super();
     this.publishStateChange = this.publishStateChange.bind(this);
+    this.handleBack = this.handleBack.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
-    this.getNextUrl = this.getNextUrl.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.getUrl = this.getUrl.bind(this);
+    this.getExternalData = this.getExternalData.bind(this);
 
-    let initialState = {
+    this.state = {
       applicationData: {
         introduction: {},
 
-        personalInformation: {
-          nameAndGeneralInfo: {
+        'personal-information': {
+          'name-and-general-information': {
             fullName: {
-              first: 'William',
-              middle: '',
-              last: 'Shakespeare',
-              suffix: '',
+              first: null,
+              middle: null,
+              last: null,
+              suffix: null,
             },
-
-            mothersMaidenName: 'Arden',
-
-            socialSecurityNumber: '999-99-9999',
-
+            mothersMaidenName: null,
+            socialSecurityNumber: null,
             dateOfBirth: {
-              month: 1,
-              day: 15,
-              year: 1997,
-            }
+              month: null,
+              day: null,
+              year: null,
+            },
+            maritalStatus: null
           },
 
-          vaInformation: {
+          'va-information': {
             isVaServiceConnected: false,
             compensableVaServiceConnected: false,
             receivesVaPension: false
           },
 
-          additionalInformation: {
+          'additional-information': {
             isEssentialAcaCoverage: false,
+            facilityState: '',
             vaMedicalFacility: '',
             wantsInitialVaContact: false
           },
 
-          demographicInformation: {
+          'demographic-information': {
             isSpanishHispanicLatino: false,
             isAmericanIndianOrAlaskanNative: false,
             isBlackOrAfricanAmerican: false,
@@ -62,47 +67,130 @@ class HealthCareApp extends React.Component {
             isWhite: false
           },
 
-          veteranAddress: {
+          'veteran-address': {
             address: {
-              street: undefined,
-              city: undefined,
-              country: undefined,
-              state: undefined,
-              zipcode: undefined,
-              county: undefined
+              street: null,
+              city: null,
+              country: null,
+              state: null,
+              zipcode: null,
             },
-            email: 'test@test.com',
-            emailConfirmation: 'test@test.com',
-            homePhone: '555-555-5555',
-            mobilePhone: '111-111-1111'
+            county: null,
+            email: null,
+            emailConfirmation: null,
+            homePhone: null,
+            mobilePhone: null
+          }
+        },
+
+        'financial-assessment': {
+          'financial-disclosure': {
+            provideFinancialInfo: false,
+            understandsFinancialDisclosure: false
+          },
+          'spouse-information': {
+            spouseFullName: {
+              first: null,
+              middle: null,
+              last: null,
+              suffix: null,
+            },
+            spouseSocialSecurityNumber: null,
+            spouseDateOfBirth: {
+              month: null,
+              day: null,
+              year: null,
+            },
+            dateOfMarriage: {
+              month: null,
+              day: null,
+              year: null
+            },
+            sameAddress: false,
+            cohabitedLastYear: false,
+            provideSupportLastYear: false,
+            spouseAddress: {
+              street: null,
+              city: null,
+              country: null,
+              state: null,
+              zipcode: null,
+            },
+            spousePhone: null
+          },
+
+          'child-information': {
+            hasChildrenToReport: false,
+            children: []
+          },
+
+          'annual-income': {
+            veteranGrossIncome: null,
+            veteranNetIncome: null,
+            veteranOtherIncome: null,
+            spouseGrossIncome: null,
+            spouseNetIncome: null,
+            spouseOtherIncome: null,
+            childrenGrossIncome: null,
+            childrenNetIncome: null,
+            childrenOtherIncome: null
+          },
+
+          'deductible-expenses': {
+            deductibleMedicalExpenses: null,
+            deductibleFuneralExpenses: null,
+            deductibleEducationExpenses: null
+          },
+        },
+
+        'insurance-information': {
+          general: {
+            isCoveredByHealthInsurance: false,
+            providers: []
+          },
+
+          'medicare-medicaid': {
+            isMedicaidEligible: false,
+            isEnrolledMedicarePartA: false,
+            medicarePartAEffectiveDate: {
+              month: null,
+              day: null,
+              year: null
+            }
+          }
+        },
+        'military-service': {
+          'service-information': {
+            lastServiceBranch: null,
+            lastEntryDate: {
+              month: null,
+              day: null,
+              year: null
+            },
+            lastDischargeDate: {
+              month: null,
+              day: null,
+              year: null
+            },
+            dischargeType: null
+          },
+          'additional-information': {
+            purpleHeartRecipient: false,
+            isFormerPow: false,
+            postNov111998Combat: false,
+            disabledInLineOfDuty: false,
+            swAsiaCombat: false,
+            vietnamService: false,
+            exposedToRadiation: false,
+            radiumTreatments: false,
+            campLejeune: false
           }
         }
       }
     };
-
-    // Merge in saved data.
-    // TODO(awong): If a field is ever removed in a new version of the code,
-    // this will preserve the key. The result of JSON.parse() should first
-    // be filtered to only contain keys also in this.state.applicationData.
-    const savedDataJson = window.localStorage['health-app-data'];
-    if (savedDataJson !== undefined) {
-      const savedData = JSON.parse(savedDataJson);
-      initialState = _.deepMapValues(
-        initialState,
-        (value, propertyPath) => {
-          const savedValue = _.get(savedData, propertyPath);
-          if (savedValue !== undefined) {
-            return savedValue;
-          }
-
-          return value;
-        });
-    }
-
-    this.state = initialState;
   }
 
-  getNextUrl() {
+  getUrl(direction) {
     const routes = this.props.route.childRoutes;
     const panels = [];
     let currentPath = this.props.location.pathname;
@@ -117,7 +205,11 @@ class HealthCareApp extends React.Component {
 
     for (let i = 0; i < panels.length; i++) {
       if (currentPath === panels[i]) {
-        nextPath = panels[i + 1];
+        if (direction === 'back') {
+          nextPath = panels[i - 1];
+        } else {
+          nextPath = panels[i + 1];
+        }
         break;
       }
     }
@@ -125,46 +217,138 @@ class HealthCareApp extends React.Component {
     return nextPath;
   }
 
+  getExternalData(applicationData, statePath) {
+    switch (statePath[0]) {
+      case 'financial-assessment':
+        return {
+          receivesVaPension: this.state.applicationData['personal-information']['va-information'].receivesVaPension,
+          neverMarried: this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === '' ||
+            this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === 'Never Married'
+        };
+      default:
+        return undefined;
+    }
+  }
+
   publishStateChange(propertyPath, update) {
     const newApplicationData = Object.assign({}, this.state.applicationData);
     _.set(newApplicationData, propertyPath, update);
-    window.localStorage['health-app-data'] = JSON.stringify(newApplicationData);
 
     this.setState({ applicationData: newApplicationData });
   }
 
   handleContinue() {
-    hashHistory.push(this.getNextUrl());
+    const sectionPath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
+    const sectionData = validations.initializeNullValues(_.get(this.state.applicationData, sectionPath));
+    this.publishStateChange(sectionPath, sectionData);
+
+    this.setState({}, () => {
+      if (validations.isValidSection(this.props.location.pathname, sectionData)) {
+        hashHistory.push(this.getUrl('next'));
+        if (document.getElementsByClassName('progress-box').length > 0) {
+          document.getElementsByClassName('progress-box')[0].scrollIntoView();
+        }
+      } else {
+        // TODO: improve this
+        if (document.getElementsByClassName('usa-input-error').length > 0) {
+          document.getElementsByClassName('usa-input-error')[0].scrollIntoView();
+        }
+      }
+    });
+  }
+
+  handleBack() {
+    hashHistory.push(this.getUrl('back'));
+    if (document.getElementsByClassName('progress-box').length > 0) {
+      document.getElementsByClassName('progress-box')[0].scrollIntoView();
+    }
+  }
+
+  handleSubmit() {
+    // Add functionality
   }
 
   render() {
     let children = this.props.children;
+    let buttons;
 
     if (children === null) {
-      // This occurs if the root route is hit. Default to IntroductionPanel.
-      children = (<IntroductionPanel
+      // This occurs if the root route is hit. Default to IntroductionSection.
+      children = (<IntroductionSection
           applicationData={this.state.applicationData}
           publishStateChange={this.publishStateChange}/>);
     } else {
-      // Pass the application state down to child components. The
-      // cloneElement idiom is the standard react way to add
-      // properties to a child. It doesn't actually new a bunch of objects
-      // so it's fast.
-      children = React.Children.map(children, (child) => {
-        return React.cloneElement(child,
-          { applicationData: this.state.applicationData,
-            publishStateChange: this.publishStateChange });
+      const statePath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
+      children = React.Children.map(this.props.children, (child) => {
+        return React.cloneElement(child, {
+          data: _.get(this.state.applicationData, statePath),
+          onStateChange: (subfield, update) => {
+            this.publishStateChange(statePath.concat(subfield), update);
+          },
+          external: this.getExternalData(this.state.applicationData, statePath)
+        });
       });
+    }
+
+    // Check which section the user is on and render the correct ProgressButtons.
+    const lastSectionText = (this.getUrl('back')) ? this.getUrl('back').split('/').slice(-1)[0].replace(/-/g, ' ') : '';
+    const nextSectionText = (this.getUrl('next')) ? this.getUrl('next').split('/').slice(-1)[0].replace(/-/g, ' ') : '';
+
+    const backButton = (
+      <ProgressButton
+          onButtonClick={this.handleBack}
+          buttonText={`Back to ${lastSectionText}`}
+          buttonClass={'usa-button-outline'}
+          beforeText={'«'}/>
+    );
+
+    const nextButton = (
+      <ProgressButton
+          onButtonClick={this.handleContinue}
+          buttonText={`Continue to ${nextSectionText}`}
+          buttonClass={'usa-button-primary'}
+          afterText={'»'}/>
+    );
+
+    const submitButton = (
+      <ProgressButton
+          onButtonClick={this.handleSubmit}
+          buttonText={'Submit'}
+          buttonClass={'usa-button-primary'}/>
+    );
+
+    if (this.props.location.pathname === '/review-and-submit') {
+      buttons = (
+        <div>
+          {submitButton}
+          {backButton}
+        </div>
+      );
+    } else if (this.props.location.pathname === '/introduction') {
+      buttons = (
+        <div>
+          {nextButton}
+        </div>
+      );
+    } else {
+      buttons = (
+        <div>
+          {nextButton}
+          {backButton}
+        </div>
+      );
     }
 
     return (
       <div className="row">
-        <div className="small-12 columns">
+        <div className="medium-4 columns show-for-medium-up">
           <Nav currentUrl={this.props.location.pathname}/>
+        </div>
+        <div className="medium-8 columns">
           <div className="progress-box">
             <div className="form-panel">
               {children}
-              <ContinueButton onButtonClick={this.handleContinue}/>
+              {buttons}
             </div>
           </div>
         </div>

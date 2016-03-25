@@ -19,53 +19,53 @@ describe('<ErrorableSelect>', () => {
 
     it('label is required', () => {
       SkinDeep.shallowRender(
-        <ErrorableSelect options={options} onUserInput={(_update) => {}}/>);
+        <ErrorableSelect options={options} onValueChange={(_update) => {}}/>);
       sinon.assert.calledWithMatch(consoleStub, /Required prop `label` was not specified in `ErrorableSelect`/);
     });
 
     it('label must be a string', () => {
       SkinDeep.shallowRender(
-        <ErrorableSelect label options={options} onUserInput={(_update) => {}}/>);
+        <ErrorableSelect label options={options} onValueChange={(_update) => {}}/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `label` of type `boolean` supplied to `ErrorableSelect`, expected `string`./);
     });
 
-    it('onUserInput is required', () => {
+    it('onValueChange is required', () => {
       SkinDeep.shallowRender(<ErrorableSelect label="test" options={options}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `onUserInput` was not specified in `ErrorableSelect`/);
+      sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `ErrorableSelect`/);
     });
 
-    it('onUserInput must be a function', () => {
-      SkinDeep.shallowRender(<ErrorableSelect label="test" options={options} onUserInput/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onUserInput` of type `boolean` supplied to `ErrorableSelect`, expected `function`/);
+    it('onValueChange must be a function', () => {
+      SkinDeep.shallowRender(<ErrorableSelect label="test" options={options} onValueChange/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `ErrorableSelect`, expected `function`/);
     });
 
     it('errorMessage must be a string', () => {
       SkinDeep.shallowRender(
-        <ErrorableSelect label="test" errorMessage options={options} onUserInput={(_update) => {}}/>);
+        <ErrorableSelect label="test" errorMessage options={options} onValueChange={(_update) => {}}/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `errorMessage` of type `boolean` supplied to `ErrorableSelect`, expected `string`/);
     });
 
     it('options is required', () => {
       SkinDeep.shallowRender(
-        <ErrorableSelect label="test" onUserInput={(_update) => {}}/>);
+        <ErrorableSelect label="test" onValueChange={(_update) => {}}/>);
       sinon.assert.calledWithMatch(consoleStub, /Required prop `options` was not specified in `ErrorableSelect`/);
     });
 
     it('options must be an object', () => {
       SkinDeep.shallowRender(
-        <ErrorableSelect label="test" options onUserInput={(_update) => {}}/>);
+        <ErrorableSelect label="test" options onValueChange={(_update) => {}}/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `options` of type `boolean` supplied to `ErrorableSelect`, expected an array/);
     });
 
     it('value must be a string', () => {
       SkinDeep.shallowRender(
-        <ErrorableSelect label="test" options={options} value onUserInput={(_update) => {}}/>);
+        <ErrorableSelect label="test" options={options} value onValueChange={(_update) => {}}/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `value` of type `boolean` supplied to `ErrorableSelect`, expected `string`/);
     });
 
     it('required must be a boolean', () => {
       SkinDeep.shallowRender(
-        <ErrorableSelect label="test" options={options} required="hi" onUserInput={(_update) => {}}/>);
+        <ErrorableSelect label="test" options={options} required="hi" onValueChange={(_update) => {}}/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `required` of type `string` supplied to `ErrorableSelect`, expected `boolean`/);
     });
   });
@@ -75,7 +75,7 @@ describe('<ErrorableSelect>', () => {
 
     const updatePromise = new Promise((resolve, _reject) => {
       errorableSelect = ReactTestUtils.renderIntoDocument(
-        <ErrorableSelect label="test" options={options} onUserInput={(update) => { resolve(update); }}/>
+        <ErrorableSelect label="test" options={options} onValueChange={(update) => { resolve(update); }}/>
       );
     });
 
@@ -88,7 +88,7 @@ describe('<ErrorableSelect>', () => {
 
   it('no error styles when errorMessage undefined', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableSelect label="my label" options={options} onUserInput={(_update) => {}}/>);
+      <ErrorableSelect label="my label" options={options} onValueChange={(_update) => {}}/>);
 
     // No error classes.
     expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(0);
@@ -108,7 +108,7 @@ describe('<ErrorableSelect>', () => {
 
   it('has error styles when errorMessage is set', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableSelect label="my label" options={options} errorMessage="error message" onUserInput={(_update) => {}}/>);
+      <ErrorableSelect label="my label" options={options} errorMessage="error message" onValueChange={(_update) => {}}/>);
 
     // Ensure all error classes set.
     expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(1);
@@ -130,14 +130,14 @@ describe('<ErrorableSelect>', () => {
 
   it('required=false does not have required span', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableSelect label="my label" options={options} onUserInput={(_update) => {}}/>);
+      <ErrorableSelect label="my label" options={options} onValueChange={(_update) => {}}/>);
 
     expect(tree.everySubTree('.usa-additional_text')).to.have.lengthOf(0);
   });
 
   it('required=true has required span', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableSelect label="my label" options={options} required onUserInput={(_update) => {}}/>);
+      <ErrorableSelect label="my label" options={options} required onValueChange={(_update) => {}}/>);
 
     const requiredSpan = tree.everySubTree('.usa-additional_text');
     expect(requiredSpan).to.have.lengthOf(1);
@@ -146,7 +146,7 @@ describe('<ErrorableSelect>', () => {
 
   it('label attribute propagates', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableSelect label="my label" options={options} onUserInput={(_update) => {}}/>);
+      <ErrorableSelect label="my label" options={options} onValueChange={(_update) => {}}/>);
 
     // Ensure label text is correct.
     const labels = tree.everySubTree('label');

@@ -32,7 +32,7 @@ If you are a former POW with disabilities related to your service and captivity,
 
 -	You have osteoporosis (for claims filed on or after October 10, 2008, *and* you have a diagnosis of post-traumatic stress disorder, or PTSD).
 -	You have a neuropsychiatric condition, psychosis, dysthymic disorder (depressive neurosis), or any of the anxiety states (for example, PTSD).
--	You have a residual of frostbite (if you were detained in climactic conditions consistent with the occurrence of frostbite).
+-	You still have damage from frostbite (if you were detained in areas cold enough to cause frostbite).
 -	You have post-traumatic osteoarthritis.
 -	You have experienced a stroke or have complications from a stroke.
 -	You have hypertensive vascular disease, including hypertensive heart disease, and related complications.

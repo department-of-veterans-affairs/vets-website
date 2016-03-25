@@ -27,7 +27,7 @@ It is important to gather all relevant documents so that VA can evaluate your di
 
 <div markdown="1">
 
-According to the Veterans Claims Assistance Act (VCAA) passed by Congress in 2000, responsibility for obtaining evidence to support a claim is as follows:
+The Veterans Claims Assistance Act (VCAA) passed by Congress in 2000 defines both the Veteran's and VA's responsibility:
 
 #### VA’s responsibility
 
@@ -53,7 +53,7 @@ According to the Veterans Claims Assistance Act (VCAA) passed by Congress in 200
 
 #### Example
 
-A Veteran filed a disability claim that indicated previous treatment from a private doctor and a previous Social Security disability award. In this case, VA is responsible for obtaining the Social Security records and can assist in obtaining the private physician records. However, ultimate responsibility for obtaining the private records lies with the Veteran.
+A Veteran filed a disability claim that included previous treatment from a private doctor and a previous Social Security disability award. In this case, VA is responsible for obtaining the Social Security records and can assist in obtaining the private physician records. However, ultimate responsibility for obtaining the private records lies with the Veteran.
 
 #### Evidence Procedures for Fully Developed Claims and Standard Claims
 
@@ -64,7 +64,7 @@ The Fully Developed Claim program allows you to speed up the claim-resolution pr
 -	All relevant service-treatment and personnel records
 -	Any pertinent private medical records
 
-Disability benefit claims are considered fully developed when you have no more evidence to submit and the only assistance required from VA is obtaining federal records and facilitating or providing additional medical examinations or opinions.
+Disability benefit claims are considered fully developed when you have no more evidence to submit and the only assistance required from VA is obtaining federal records and facilitating or providing additional medical examinations or opinions. If VA determines other nonfederal records exist and are required to decide a claim, VA will remove the claim from the FDC program and process it through the traditional claims process.
 
 ##### Standard Claims
 
