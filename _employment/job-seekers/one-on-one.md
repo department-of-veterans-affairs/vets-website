@@ -32,7 +32,6 @@ Yes, if:
 ### Who is covered 
 - You 
 - Your spouse (only for the TAP Career Technical Training Track)
-</div>
 
 ### How it works
 
