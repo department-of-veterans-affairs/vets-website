@@ -1,5 +1,5 @@
 ---
-title: Support for Military and Veteran Family Members
+title: Military and Veteran Spouse Support 
 concurrence: complete
 template: 1-topic-landing
 ---
@@ -52,43 +52,43 @@ Spouses can attend Department of Labor Employment Workshops (DOLEW) online throu
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:   #110298554</a>
+            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler: #110298582 </a>
+            <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder: #111659432</a>
+            <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="https://www.vets.gov/veterans-employment-center/commitments">View Employer Commitments to Hire Veterans: #110298592</a>
+            <a href="https://www.vets.gov/veterans-employment-center/commitments">View Employer Commitments to Hire Veterans</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570</a>
+            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/career-fairs/">Career Fairs: #110298576</a>
+            <a href="/employment/job-seekers/career-fairs/">Career Fairs</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/unemployment-support/">Unemployment Support:  #111659508</a>
+            <a href="/employment/job-seekers/unemployment-support/">Unemployment Support</a>
           </h3>
         </li>  
 
