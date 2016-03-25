@@ -30,8 +30,11 @@ You must apply for unemployment benefits in the state in which you reside. You c
 Receiving unemployment will not affect your wages, but if you receive separation or retirement pay, your compensation amount may be lower. 
 
 You will need the following documents when you apply: 
+
 - DD Form 214 
+
 - Social security card 
+
 - Current résumé or military job history 
 
 If you are unemployed and at risk of becoming homeless, [VA can help](/_dummy-placeholder.html). 
@@ -49,37 +52,37 @@ If you are unemployed and at risk of becoming homeless, [VA can help](/_dummy-pl
 
           <li>
             <h5>
-              <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:   #110298554</a>
+              <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance</a>
             </h5>
           </li>
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator: #110298580</a>
+              <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator</a>
             </h5>
           </li>  
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/createresume/">Résumé Builder: #111659432</a>
+              <a href="https://www.vets.gov/veterans-employment-center/createresume/">Résumé Builder</a>
             </h5>
           </li>
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Veterans Job Bank: #110298570 </a>
+              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Veterans Job Bank</a>
             </h5>
           </li>  
 
           <li>
             <h5>
-              <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler: #110298582 </a>
+              <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler</a>
             </h5>  
           </li>
 
           <li>
             <h5>
-              <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
+              <a href="/employment/job-seekers/military-transcripts/">Military Transcripts</a>
             </h5>
           </li>   
 
