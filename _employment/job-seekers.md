@@ -3,14 +3,11 @@ title: Job Seekers
 template: 4-action-page
 ---
 
-<div class="main" role="main" markdown="0">
 
+<div class="main interior" role="main" markdown="0">
 <div class="section one" markdown="0">
-<div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 medium-8 columns">
-
-
 
 <div class="usa-content" markdown="1">
 Wherever you are in the transition process, the Veterans Employment Center provides career advice, résumé-building assistance, and access to employers who are committed to hiring Veterans and military spouses.
@@ -42,7 +39,6 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 ### If you are ready to begin, take these steps:
 
 </div>
-
 
 <ol class="process" markdown="0">
 <li class="step one wow fadeIn animated" markdown="1">
