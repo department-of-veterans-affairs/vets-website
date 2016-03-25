@@ -125,7 +125,7 @@ desc "Run the development jekyll server on a given port with webpack bootstrappe
 task :heroku_serve, :port do |t, args|
   raise "heroku_serve needs port argument" if args[:port].empty?
   Rake::Task[:webpack_dev].invoke
-  sh "bundle exec jekyll serve -P #{args[:port]}"
+  sh "bundle exec jekyll serve --no-watch -P #{args[:port]}"
 end
 
 desc "Serve the website"
