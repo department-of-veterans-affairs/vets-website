@@ -89,10 +89,12 @@ class HealthCareApp extends React.Component {
             understandsFinancialDisclosure: false
           },
           'spouse-information': {
-            spouseFirstName: null,
-            spouseMiddleName: null,
-            spouseLastName: null,
-            spouseSuffix: null,
+            spouseFullName: {
+              first: null,
+              middle: null,
+              last: null,
+              suffix: null,
+            },
             spouseSocialSecurityNumber: null,
             spouseDateOfBirth: {
               month: null,
