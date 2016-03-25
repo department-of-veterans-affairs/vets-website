@@ -25,6 +25,10 @@ exclude:
   - "package.json"
   - "webpack.config.js"
 
+# Specifically include files left out in dev.
+include:
+  - "_dummy-placeholder.html"
+
 #posts per page
 paginate: 4
 paginate_path: "/experience/:num/"
@@ -64,6 +68,9 @@ collections:
     output: true
     permalink: /:collection/:path/index.html
   education:
+    output: true
+    permalink: /:collection/:path/index.html
+  employment:
     output: true
     permalink: /:collection/:path/index.html
   memorial-benefits:
@@ -144,7 +151,7 @@ defaults:
       path: "health-care/form-react.html"
     values:
       layout: "page-breadcrumbs"
-      body_class: "page-healthcare"    
+      body_class: "page-healthcare"
   - scope:
       type: "memorial-benefits"
     values:
@@ -160,3 +167,9 @@ defaults:
     values:
       layout: "page-playbook"
       body_class: "page-playbook"
+  - scope:
+      type: "employment"
+    values:
+      breadcrumb_1: "Careers and Employment"
+      layout: "page-breadcrumbs"
+      body_class: "page-employment"    
