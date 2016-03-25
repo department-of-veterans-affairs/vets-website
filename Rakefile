@@ -39,13 +39,10 @@ task :bootstrap do
   Rake::Task[:install].invoke
 end
 
-desc "Build the website. This target chooses a dev or prod config based on environment variables."
+desc "Build the website both _site with dev features ahd _site_production w/o dev features."
 task :build do
-  if enable_dev_features then
-    Rake::Task[:"build-dev"].invoke
-  else
-    Rake::Task[:"build-prod"].invoke
-  end
+  Rake::Task[:"build-dev"].invoke
+  Rake::Task[:"build-prod"].invoke
 end
 
 desc "Build the website with development configs"
@@ -129,6 +126,7 @@ namespace :tests do
   desc "Builds and tests the site in production configuration"
   task :"ci-prod" => [ :"build-prod", :"ci-nobuild" ]
 
+  # TODO: Mistake. This only tests the dev build no matter what.
   desc "NO JEKYLL REBUILD: Run standard continuous integration tests."
   task :"ci-nobuild" => [ :lint, :htmlproof, :javascript ]
 
