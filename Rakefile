@@ -3,7 +3,6 @@ require "tmpdir"
 # TODO(awong): Add method for overriding these if building on the local
 # machine. Currently it keys off of Travis configs only which makes it
 # less natural as an "API" for local development.
-enable_dev_features = (ENV['TRAVIS_BRANCH'] != "production")
 enable_optimizations = (ENV['CI'])
 
 # Clones the current git repository into a temp directory that shares the
