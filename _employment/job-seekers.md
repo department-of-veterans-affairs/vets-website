@@ -20,11 +20,11 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 - **You plan to leave active service in under 12 months**
   
-  [Activity Checklist 01](/_dummy-placeholder.html)
+  [Activity Checklist](/_dummy-placeholder.html)
 
 - **You recently left active service**
   
-  If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through [Unemployment Compensation for Ex-Servicemembers 02](/_dummy-placeholder.html).
+  If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through [Unemployment Compensation for Ex-Servicemembers](/_dummy-placeholder.html).
 
 - **You are already in the workforce**
   
@@ -47,7 +47,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 ##### Discover your skills and interests
 
-Identify the type of work you enjoy with the [Interest Profiler 03](/_dummy-placeholder.html), then explore related [career paths](https://www.mynextmove.org/).
+Identify the type of work you enjoy with the [Interest Profiler](/_dummy-placeholder.html), then explore related [career paths](https://www.mynextmove.org/).
 
 </div>
 
@@ -71,8 +71,8 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Build a résumé and public profile
 
-- Your military experience can be translated into civilian language with the [Military Skills Translator 07](/_dummy-placeholder.html).
-- Build your [résumé and public profile 08](/_dummy-placeholder.html).
+- Your military experience can be translated into civilian language with the [Military Skills Translator](/_dummy-placeholder.html).
+- Build your [résumé and public profile](/_dummy-placeholder.html) so employers can seek you out.
 
 </div>
 
@@ -84,8 +84,8 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Research employers in your area
 
-- Many employers have made [commitments 09](/_dummy-placeholder.html) to hire Veterans and military spouses.
-- Consider a job with the [federal government 10](/_dummy-placeholder.html).
+- Many employers have made [commitments](/_dummy-placeholder.html) to hire Veterans and military spouses.
+- Consider a job with the [federal government](/_dummy-placeholder.html).
 - Review job boards, search job banks, and research openings at companies that interest you.
 
 </div>
@@ -98,7 +98,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Use your network
 
-- Contact people you have worked with previously, family, and friends to let them know you are looking for a job. They may know of specific openings, or may make an introduction to people in the industry or companies you've targeted. 
+- Contact people you have worked with previously, family, and friends to let them know you are looking for a job. They may know of specific openings, or may make an introduction to people who work for companies you've targeted or in a similar industry. 
 - Email people outside your immediate network to find out about opportunities. Get a free [LinkedIn job seeker profile](/_dummy-placeholder.html) to present yourself professionally.
 
 </div>
@@ -111,9 +111,9 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Consider alternative ways to start your career
 
-- Start or [grow your own business 04](/_dummy-placeholder.html). 
-- Service-disabled Veterans may qualify for [small-business counseling 05](/_dummy-placeholder.html).
-- Evaluate non-traditional programs like apprenticeships, work study, and [on-the-job training 05a](/_dummy-placeholder.html).
+- Start or [grow your own business](/_dummy-placeholder.html). 
+- Service-disabled Veterans may qualify for [small-business counseling](/_dummy-placeholder.html).
+- Evaluate non-traditional programs like apprenticeships, work study, and [on-the-job training](/_dummy-placeholder.html).
 
 </div>
 
@@ -125,7 +125,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Get personalized help if you need it
 
-- Government and private resources offer [ne-on-one assistance 06](/_dummy-placeholder.html).
+- Government and private resources offer [ne-on-one assistance](/_dummy-placeholder.html).
 - Qualified service-disabled Veterans can seek specialized help through [Vocational Rehabilitation and Education (VR&E)](/_dummy-placeholder.html).
 
 </div>
@@ -138,7 +138,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Attend a career fair
 
-Learn about the [job fairs 11](/_dummy-placeholder.html) available for Veterans, Servicemembers, and family members.
+Learn about the [job fairs](/_dummy-placeholder.html) available for Veterans, Servicemembers, and family members.
 
 </div>
 
@@ -150,7 +150,7 @@ Learn about the [job fairs 11](/_dummy-placeholder.html) available for Veterans,
 
 ##### Search online job banks
 
-- Search the [Veterans' Employment Center 12](/_dummy-placeholder.html) for job openings.
+- Search the [Veterans' Employment Center](/_dummy-placeholder.html) for job openings.
 - Search online job listings on [LinkedIn](http://www.linkedin.com/), [Monster](http://www.monster.com/), and [Indeed](http://www.indeed.com/).
 </div>
 
