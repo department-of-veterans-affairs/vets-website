@@ -237,6 +237,31 @@ const maritalStatuses = [
   'Divorced'
 ];
 
+const branchesServed = [
+  { value: 'air force', label: 'Air Force' },
+  { value: 'army', label: 'Army' },
+  { value: 'coast guard', label: 'Coast Guard' },
+  { value: 'marine corps', label: 'Marine Corps' },
+  { value: 'merchant seaman', label: 'Merchant Seaman' },
+  { value: 'navy', label: 'Navy' },
+  { value: 'noaa', label: 'Noaa' },
+  { value: 'usphs', label: 'USPHS' },
+  { value: 'f.commonwealth', label: 'Filipino Commonwealth Army' },
+  { value: 'f.guerilla', label: 'Filipino Guerilla Forces' },
+  { value: 'f.scouts new', label: 'Filipino New Scout' },
+  { value: 'f.scouts old', label: 'Filipino Old Scout' },
+  { value: 'other', label: 'Other' }
+];
+
+const dischargeTypes = [
+  { value: 'honorable', label: 'Honorable' },
+  { value: 'general', label: 'General' },
+  { value: 'other', label: 'Other Than Honorable' },
+  { value: 'bad-conduct', label: 'Bad Conduct' },
+  { value: 'dishonorable', label: 'Dishonorable' },
+  { value: 'undesirable', label: 'Undesirable' }
+];
+
 const states = [
   { label: 'Alabama', value: 'AL' },
   { label: 'Alaska', value: 'AK' },
@@ -297,6 +322,11 @@ const states = [
   { label: 'West Virginia', value: 'WV' },
   { label: 'Wisconsin', value: 'WI' },
   { label: 'Wyoming', value: 'WY' }
+];
+
+const suffixes = [
+  'Jr.',
+  'Sr.'
 ];
 
 const vaMedicalFacilities = {
@@ -1330,9 +1360,20 @@ const vaMedicalFacilities = {
   ]
 };
 
+const childRelationships = [
+  'Son',
+  'Daughter',
+  'Stepson',
+  'Stepdaughter'
+];
+
 export {
   countries,
   maritalStatuses,
+  branchesServed,
+  dischargeTypes,
   states,
-  vaMedicalFacilities
+  suffixes,
+  vaMedicalFacilities,
+  childRelationships
 };

@@ -18,7 +18,7 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
-If you would like to earn an advanced degree at an institution of higher learning, including four-year universities, community colleges, and schools offering advanced degrees, VA education and training benefits may be available to you.
+If you would like to earn an undergraduate or graduate degree at an institution of higher learning, including four-year universities, community colleges, and schools offering advanced degrees, VA education and training benefits may be available to you.
 </div>
 <div class="small-12 columns">
 <div class="call-out" markdown="1">

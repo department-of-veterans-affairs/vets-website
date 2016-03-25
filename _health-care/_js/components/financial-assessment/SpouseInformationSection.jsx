@@ -1,154 +1,107 @@
 import React from 'react';
 
+import Address from '../questions/Address';
+import DateInput from '../form-elements/DateInput';
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+import FullName from '../questions/FullName';
+import Phone from '../questions/Phone';
+import SocialSecurityNumber from '../questions/SocialSecurityNumber';
+
+// TODO: Consider adding question for marital status here so if user
+// entered something incorrect in Personal Information they don't have
+// to return to that section to change response
+
 class SpouseInformationSection extends React.Component {
   render() {
+    let notRequiredMessage;
+    let noSpouseMessage;
+
+    if (this.props.external.receivesVaPension === true) {
+      notRequiredMessage = (
+        <p>
+          <strong>
+            You are not required to enter financial information because you
+            indicated you are receiving a VA pension.
+          </strong>
+        </p>
+      );
+    }
+
+    if (this.props.external.neverMarried === true) {
+      noSpouseMessage = (
+        <p>
+          <strong>
+            You are not required to enter financial information because you
+            indicated you've never had a spouse.
+          </strong>
+        </p>
+      );
+    }
+
     return (
       <div>
         <div>
-          <div className="row">
-            <div className="small-12 columns">
-              <h4>Spouse's name</h4>
-            </div>
-            <div className="small-3 columns">
-              <label htmlFor="veteran_spouses_first_name">First Name</label>
-              <input type="text" name="veteran[spouses][first_name]"/>
-            </div>
-            <div className="small-3 columns">
-              <label htmlFor="veteran_spouses_middle_name">Middle Name</label>
-              <input type="text" name="veteran[spouses][middle_name]"/>
-            </div>
-            <div className="small-3 columns">
-              <label htmlFor="veteran_spouses_last_name">Last Name</label>
-              <input type="text" name="veteran[spouses][last_name]"/>
-            </div>
-            <div className="small-3 columns">
-              <label htmlFor="veteran_spouses_suffix_name">Suffix</label>
-              <select name="veteran[spouses][suffix_name]" ><option value="0"></option>
-                <option value="1">Jr.</option>
-                <option value="2">Sr.</option></select>
-            </div>
-          </div>
+          <h4>Spouse's Information</h4>
 
-          <div className="row">
-            <div className="small-9 columns">
-              <label htmlFor="veteran_spouses_ssn">Spouse&#39;s Social Security Number</label>
-            </div>
-            <div className="small-3 columns">
-              <input type="text" name="veteran[spouses][ssn]"/>
-            </div>
-          </div>
+          {notRequiredMessage}
 
-          <div className="row">
-            <div className="small-9 columns">
-              <label htmlFor="veteran_spouses_date_of_birth">Spouse&#39;s Date of Birth</label>
-            </div>
-            <div className="small-3 columns">
-              <input type="date" name="veteran[spouses][date_of_birth]"/>
-            </div>
-          </div>
+          {noSpouseMessage}
 
-          <div className="row">
-            <div className="small-9 columns">
-              <label htmlFor="veteran_spouses_date_of_marriage">Date of Marriage</label>
-            </div>
-            <div className="small-3 columns">
-              <input type="date" name="veteran[spouses][date_of_marriage]"/>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="small-12 columns">
-              <input
-                  id="veteran_spouses_has_same_address"
-                  name="veteran_spouses_has_same_address"
-                  type="checkbox"/>
-              <label htmlFor="veteran_spouses_has_same_address">Do you have the same address as your spouse?</label>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="small-12 columns">
-              <input
-                  id="veteran_spouses_cohabited_last_year"
-                  name="veteran_spouses_cohabited_last_year"
-                  type="checkbox"/>
-              <label htmlFor="veteran_spouses_cohabited_last_year">Did your spouse live with you last year?</label>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="small-12 columns">
-              <hr/>
-              You may count your spouse as your dependent even if you did not live
-              together, as long as you contributed support last calendar year.
-              <hr/>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="small-12 columns">
-              <input
-                  id="veteran_spouses_provided_support_last_year"
-                  name="veteran_spouses_provided_support_last_year"
-                  type="checkbox"/>
-              <label htmlFor="veteran_spouses_provided_support_last_year">If your spouse did not live with you last year, did you provide support?</label>
-            </div>
-          </div>
         </div>
-
         <div>
-          <div className="row">
-            <div className="small-12 columns">
-              <h4>Spouse's Address and Telephone Number</h4>
-            </div>
+          <div className="input-section">
+            <FullName
+                value={this.props.data.spouseFullName}
+                onUserInput={(update) => {this.props.onStateChange('spouseFullName', update);}}/>
+
+            <SocialSecurityNumber label="Spouse’s Social Security Number"
+                required={false}
+                ssn={this.props.data.spouseSocialSecurityNumber}
+                onValueChange={(update) => {this.props.onStateChange('spouseSocialSecurityNumber', update);}}/>
+
+            <DateInput label="Spouse’s Date of Birth"
+                day={this.props.data.spouseDateOfBirth.day}
+                month={this.props.data.spouseDateOfBirth.month}
+                year={this.props.data.spouseDateOfBirth.year}
+                onValueChange={(update) => {this.props.onStateChange('spouseDateOfBirth', update);}}/>
+
+            <DateInput label="Date of Marriage"
+                day={this.props.data.dateOfMarriage.day}
+                month={this.props.data.dateOfMarriage.month}
+                year={this.props.data.dateOfMarriage.year}
+                onValueChange={(update) => {this.props.onStateChange('dateOfMarriage', update);}}/>
+
+            <ErrorableCheckbox
+                label="Do you have the same address as your spouse?"
+                checked={this.props.data.sameAddress}
+                onValueChange={(update) => {this.props.onStateChange('sameAddress', update);}}/>
+
+            <ErrorableCheckbox
+                label="Did your spouse live with you last year?"
+                checked={this.props.data.cohabitedLastYear}
+                onValueChange={(update) => {this.props.onStateChange('cohabitedLastYear', update);}}/>
+
+            <hr/>
+            <p>You may count your spouse as your dependent even if you did not live
+            together, as long as you contributed support last calendar year.</p>
+            <hr/>
+
+            <ErrorableCheckbox
+                label="If your spouse did not live with you last year, did you provide support?"
+                checked={this.props.data.provideSupportLastYear}
+                onValueChange={(update) => {this.props.onStateChange('provideSupportLastYear', update);}}/>
           </div>
 
-          <div className="row">
-            <div className="small-12 columns">
-              <label htmlFor="veteran_spouses_address">Address</label>
-              <input type="text" name="veteran[spouses][address]"/>
-            </div>
-          </div>
+          <h4>Spouse's Address and Telephone Number</h4>
 
-          <div className="row">
-            <div className="small-12 columns">
-              <label htmlFor="veteran_spouses_city">City</label>
-              <input type="text" name="veteran[spouses][city]"/>
-            </div>
-          </div>
+          <div className="input-section">
+            <Address value={this.props.data.spouseAddress}
+                onUserInput={(update) => {this.props.onStateChange('spouseAddress', update);}}/>
 
-          <div className="row">
-            <div className="small-12 columns">
-              <label htmlFor="veteran_spouses_country">Country</label>
-              <select name="veteran[spouses][country]"><option value="0"></option>
-                <option value="1">United States</option>
-                <option value="2">France</option>
-                <option value="3">Atlantis</option></select>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="small-12 columns">
-              <label htmlFor="veteran_spouses_state">State</label>
-              <select name="veteran[spouses][state]"><option value="0"></option>
-                <option value="1">California</option>
-                <option value="2">Nebraska</option>
-                <option value="3">Foriegn</option></select>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="small-12 columns">
-              <label htmlFor="veteran_spouses_zipcode">Zip Code</label>
-              <input type="text" name="veteran[spouses][zipcode]"/>
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="small-12 columns">
-              <label htmlFor="veteran_spouses_phone">Phone</label>
-              <input type="text" name="veteran[spouses][phone]"/>
-            </div>
+            <Phone
+                label="Phone"
+                value={this.props.data.spousePhone}
+                onValueChange={(update) => {this.props.onStateChange('spousePhone', update);}}/>
           </div>
         </div>
       </div>
