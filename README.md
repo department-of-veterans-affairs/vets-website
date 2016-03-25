@@ -124,3 +124,22 @@ Page-level breadcrumbs are managed by `_plugins/breadcrumbs.rb`. The breadcrumbs
 	- `humanize` method splits the path segment by `-`, and capitalizes each word in the segment. If there's a word that shouldn't be capitalized, add it to `filterwords`.
 
 To add or customize the text of a breadcrumb, edit `_config.yml`.
+
+#### Breadcrumbs and URLs
+
+The breadcrumbs plugin uses the structure of the URL to do two things:
+
+1. To function as the titles of the breadcrumbs if those titles haven't been set in `_config.yml`
+2. To determine _how many_ breadcrumb segments there should be.
+    - There will only ever be as many breadcrumbs as there are URL segments.
+    - The last breadcrumb is always the page title.
+
+In other words, https://vets.gov/employment/job-seekers/alternative/ has three URL segments (not including the base URL of vets.gov):
+
+1. /employment/
+2. /job-seekers/
+3. /alternative/
+
+So that page has three breadcrumbs: _Employment > Job Seekers > Alternative ways to start your career_. 
+
+Adding another breadcrumb requires adding another sub-directory or segment to the URL path. 
