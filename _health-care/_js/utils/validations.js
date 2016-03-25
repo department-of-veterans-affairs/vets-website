@@ -76,11 +76,9 @@ function isValidAddress(street, city, country, state, zipcode) {
 }
 
 function isValidNameAndGeneralInformation(data) {
-  return isNotBlank(data.fullName.first) &&
-      isValidName(data.fullName.first) &&
+  return (isNotBlank(data.fullName.first) && isValidName(data.fullName.first)) &&
       (isBlank(data.fullName.middle) || isValidName(data.fullName.middle)) &&
-      isNotBlank(data.fullName.last) &&
-      isValidName(data.fullName.last) &&
+      (isNotBlank(data.fullName.last) && isValidName(data.fullName.last)) &&
       isValidSSN(data.socialSecurityNumber) &&
       isValidDate(data.dateOfBirth.day, data.dateOfBirth.month, data.dateOfBirth.year);
 }
@@ -94,7 +92,10 @@ function isValidVeteranAddress(data) {
 }
 
 function isValidSpouseInformation(data) {
-  return (isBlank(data.spouseSocialSecurityNumber) || isValidSSN(data.spouseSocialSecurityNumber)) &&
+  return (isBlank(data.spouseFullName.first) || isValidName(data.spouseFullName.first)) &&
+      (isBlank(data.spouseFullName.middle) || isValidName(data.spouseFullName.middle)) &&
+      (isBlank(data.spouseFullName.last) || isValidName(data.spouseFullName.last)) &&
+      (isBlank(data.spouseSocialSecurityNumber) || isValidSSN(data.spouseSocialSecurityNumber)) &&
       ((isBlank(data.spouseDateOfBirth.day) && isBlank(data.spouseDateOfBirth.month) && isBlank(data.spouseDateOfBirth.year)) ||
       isValidDate(data.spouseDateOfBirth.day, data.spouseDateOfBirth.month, data.spouseDateOfBirth.year)) &&
       ((isBlank(data.dateOfMarriage.day) && isBlank(data.dateOfMarriage.month) && isBlank(data.dateOfMarriage.year)) ||
