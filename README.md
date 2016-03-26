@@ -92,16 +92,16 @@ For testing, the following commands are useful:
 
 ```shell
 rake tests:ci  # Rebuilds the website. Runs all tests that the CI system runs.
-rake tests:ci_nobuild  # Same as above but w/o rebuilding for faster iteraion.
+rake tests:ci-nobuild  # Same as above but w/o rebuilding for faster iteraion.
 
 rake tests:all  # Rebuilds the website. Runs all tests, including slow ones. Superset of tests:ci
-rake tests:all_nobuild  # Same as above but w/o rebuilding for faster iteration.
+rake tests:all-nobuild  # Same as above but w/o rebuilding for faster iteration.
 
 rake tests:htmlproof  # Runs HTML validation as a single-shot.
-rake tests:htmlproof_external_only  # Runs HTML validation of external links only as a single-shot.
+rake tests:htmlproof-external-only  # Runs HTML validation of external links only as a single-shot.
 
 rake tests:javascript  # Runs all javascript tests as a single-shot.
-rake tests:javascript_watch  # Runs all javascript tests continually watching for changes..
+rake tests:javascript-watch  # Runs all javascript tests continually watching for changes..
 ```
 
 There is currently now way to automatically run `htmlproof` automatically on
