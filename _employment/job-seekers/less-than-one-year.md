@@ -9,7 +9,7 @@ template: 1-topic-landing
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-9 medium-12 left columns" markdown="1">
 
 ### Who should read this?
 
@@ -19,39 +19,31 @@ Servicemembers, and their spouses, who are within one year of separating from th
 
 You can take certain steps to improve your chances of moving smoothly and successfully into civilian life.
 
+</div>
+</div>
+
+<div class="row" markdown="0">
+<div class="small-12 columns divider margin top"  markdown="1">
+
 ### What are the Steps?
 
-</div>
-</div>
-
-
-<div class="small-12 columns" markdown="0">
-<ol class="process" markdown="0">
-<li class="step one wow fadeIn animated" markdown="0">
-
+<ol class="process">
+<li class="step one wow fadeIn animated">
 <div markdown="1">
 
-
 #### 12 Months Before Leaving Active Duty
-
-</div>
-
-
-<div class="feature" markdown="1">
 
 - Fill in any gaps in your education or skill set by taking classes and obtaining certifications and licensures. The [GI Bill](/education/gi-bill/) may be used for some of this prior to exiting the service. 
 - Contact your local Transition Assistance Program (TAP) manager to schedule the mandatory Transition Goals, Plans, Success (GPS) curriculum. If you are unable to attend this training, it is available through [Joint Knowledge Online](https://jkodirect.jten.mil). You must complete the VA Benefits Briefings I and II, the Department of Labor Employment Workshop, and an Individual Transition Plan (ITP). ITPs are service specific, so check [documents](https://dodtap.mil/index.html) related to your branch. 
 - Review [military transcripts](/employment/job-seekers/military-transcripts) and service records for accuracy. 
 - Think about which industries and careers interest you, using [tools](/employment/job-seekers/interest-profiler) such as o*Net and CareerScope.
-- Start developing a résumé by [translating military skills](/employment/job-seekers/military-skills-translator) into equivalent civilian skills. Import these using the [Résumé Builder](/employment/job-seekers/resume-builder). 
+- Start developing a résumé by [translating military skills](/employment/job-seekers/military-skills-translator) into equivalent civilian skills. Import these using the [Résumé Builder](/employment/job-seekers/create-resume). 
 - Clean up your personal social-media footprint and establish a presence on professional sites like [LinkedIn](https://www.linkedin.com/). 
 
 </div>
-
 </li>
 
-<li class="step two wow fadeIn animated" markdown="0">
-
+<li class="step two wow fadeIn animated">
 <div markdown="1">
 
 #### 6 Months Before Leaving Active Duty
@@ -66,8 +58,10 @@ Both of these documents can be ordered through the [National Archives](https://w
 - At 120 days from separation you can begin applying for [federal jobs](/employment/job-seekers/federal-employment). 
 
 </div>
+</li>
 
-<div class="feature" markdown="1">
+<li class="step three wow fadeIn animated">
+<div markdown="1">
 
 #### 2-4 Months Before Leaving Active Duty
 
@@ -78,19 +72,18 @@ Both of these documents can be ordered through the [National Archives](https://w
 - Wear professional, civilian clothing to events and in networking site photos.
 
 </div>
-
 </li>
 
-<li class="step four last wow fadeIn animated" markdown="0">
+<li class="step four last wow fadeIn animated">
 
 <div markdown="1">
-
-#### 1 Month Before Leaving Active Duty**
+#### 1 Month Before Leaving Active Duty
 
 - Complete TAP GPS (can be completed earlier).
 - Prepare for final job interviews.
- 	
-
+</div>
+</li>
+</ol>
 
 </div>
 </div>
@@ -149,12 +142,4 @@ Both of these documents can be ordered through the [National Archives](https://w
     </div>  
   </div>
 
-</div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
 </div>
