@@ -108,7 +108,7 @@ Both of these documents can be ordered through the [National Archives](https://w
 
           <li>
             <h3>
-              <a href="/employment/job-seekers/create-resume/">Resume Builder</a>
+              <a href="/employment/job-seekers/create-resume">Resume Builder</a>
             </h3>
           </li>
 
