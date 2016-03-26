@@ -102,13 +102,13 @@ Both of these documents can be ordered through the [National Archives](https://w
 
           <li>
             <h3>
-              <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator</a>
+              <a href="/employment/job_seekers/skills-translator">Skills Translator</a>
             </h3>
           </li>  
 
           <li>
             <h3>
-              <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder</a>
+              <a href="/employment/job-seekers/createresume/">Resume Builder</a>
             </h3>
           </li>
 
@@ -120,7 +120,7 @@ Both of these documents can be ordered through the [National Archives](https://w
 
           <li>
             <h3>
-              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
+              <a href="/employment/job-seekers/">Search the Jobs Bank</a>
             </h3>
           </li>
 
