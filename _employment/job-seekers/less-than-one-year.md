@@ -37,7 +37,7 @@ You can take certain steps to improve your chances of moving smoothly and succes
 - Contact your local Transition Assistance Program (TAP) manager to schedule the mandatory Transition Goals, Plans, Success (GPS) curriculum. If you are unable to attend this training, it is available through [Joint Knowledge Online](https://jkodirect.jten.mil). You must complete the VA Benefits Briefings I and II, the Department of Labor Employment Workshop, and an Individual Transition Plan (ITP). ITPs are service specific, so check [documents](https://dodtap.mil/index.html) related to your branch. 
 - Review [military transcripts](/employment/job-seekers/military-transcripts) and service records for accuracy. 
 - Think about which industries and careers interest you, using [tools](/employment/job-seekers/interest-profiler) such as o*Net and CareerScope.
-- Start developing a résumé by [translating military skills](/employment/job-seekers/skills-translator) into equivalent civilian skills. Import these using the [Résumé Builder](/employment/job-seekers/create-resume). 
+- Start developing a résumé by [translating military skills](/employment/job_seekers/skills-translator) into equivalent civilian skills. Import these using the [Résumé Builder](/employment/job-seekers/create-resume). 
 - Clean up your personal social-media footprint and establish a presence on professional sites like [LinkedIn](https://www.linkedin.com/). 
 
 </div>
@@ -108,7 +108,7 @@ Both of these documents can be ordered through the [National Archives](https://w
 
           <li>
             <h3>
-              <a href="/employment/job-seekers/createresume/">Resume Builder</a>
+              <a href="/employment/job-seekers/create-resume/">Resume Builder</a>
             </h3>
           </li>
 
