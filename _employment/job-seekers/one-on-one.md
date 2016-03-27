@@ -33,6 +33,8 @@ Yes, if:
 - You 
 - Your spouse (only for the TAP Career Technical Training Track)
 
+</div>
+
 ### How it works
 
 There are many government and private resources available to you as you make this transition.

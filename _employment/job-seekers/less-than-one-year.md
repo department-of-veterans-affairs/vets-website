@@ -55,7 +55,6 @@ You can take certain steps to improve your chances of moving smoothly and succes
 #### 12 Months Before Leaving Active Duty
 
 - Fill in any gaps in your education or skill set by taking classes and obtaining certifications and licensures. The [GI Bill](/education/gi-bill/) may be used for some of this prior to exiting the service. 
-
 - Contact your local Transition Assistance Program (TAP) manager to schedule the mandatory Transition Goals, Plans, Success (GPS) curriculum. If you are unable to attend this training, it is available through [Joint Knowledge Online](https://jkodirect.jten.mil). You must complete the VA Benefits Briefings I and II, the Department of Labor Employment Workshop, and an Individual Transition Plan (ITP). ITPs are service specific, so check [documents](https://dodtap.mil/index.html) related to your branch. 
 - Review [military transcripts](/employment/job-seekers/military-transcripts) and service records for accuracy. 
 - Think about which industries and careers interest you, using [tools](/employment/job-seekers/interest-profiler) such as o*Net and CareerScope.
