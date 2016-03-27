@@ -6,7 +6,7 @@ template: 1-topic-landing
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="/employment/employers/users/sign_in">Employer Login</a>
+      <a class="usa-button-primary" href="/employment/users/sign_in">Employer Login</a>
     </div>
   </div>
 </div>
