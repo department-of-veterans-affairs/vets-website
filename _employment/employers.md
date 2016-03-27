@@ -6,7 +6,7 @@ template: 1-topic-landing
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="/employment/employers/account">Employer Login</a>
+      <a class="usa-button-primary" href="/employment/employers/users/sign_in">Employer Login</a>
     </div>
   </div>
 </div>
@@ -39,7 +39,7 @@ There are incentives such as the Work Opportunity Tax Credit (WOTC) that ranges 
         </li>  
 
         <li>
-          <a href="/_dummy-placeholder.html">
+          <a href="/employment/employers/apprenticeship/">
             <h5>Establish an Apprenticeship and On-The-Job-Resources</h5>
           </a>
         </li>
