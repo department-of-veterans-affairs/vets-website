@@ -54,11 +54,3 @@ Find more resources for starting your business at the [Department of Labor’s V
   </div>
 
 </div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
-</div>

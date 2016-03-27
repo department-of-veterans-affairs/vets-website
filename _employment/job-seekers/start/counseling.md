@@ -41,11 +41,3 @@ Your SBA representative may also be able to help you find and register for other
   </div>
 
 </div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
-</div>

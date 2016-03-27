@@ -23,11 +23,3 @@ Similarly, the [VA CareerScope Assessment Profile](https://va.careerscope.net/gi
 </div>
 
 </div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
-</div>

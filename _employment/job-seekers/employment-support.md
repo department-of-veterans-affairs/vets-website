@@ -32,55 +32,55 @@ If you are out of work, you may be eligible for [unemployment support](http://ca
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:</a>
+            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator</a>
+            <a href="/employment/job_seekers/skills-translator">Skills Translator</a>
           </h3>
         </li>  
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder:</a>
+            <a href="/employment/job-seekers/create-resume">Resume Builder</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/alternative/">Alternative Ways to Start Your Career </a>
+            <a href="/employment/job-seekers/alternative/">Alternative Ways to Start Your Career</a>
           </h3>
         </li>  
 
         <li>
           <h3>
-            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank:</a>
+            <a href="/employment/job-seekers/search_jobs">Search the Jobs Bank</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler:</a>
+            <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler</a>
           </h3>
         </li>
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/military-transcripts/">Military Transcripts:</a>
+            <a href="/employment/job-seekers/military-transcripts/">Military Transcripts</a>
           </h3>
         </li>    
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/career-fairs/">Career Fairs:</a>
+            <a href="/employment/job-seekers/career-fairs/">Career Fairs</a>
           </h3>
         </li>   
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/veci/">VECI:</a>
+            <a href="/employment/job-seekers/veci/">VECI</a>
           </h3>
         </li>   
 
@@ -88,13 +88,5 @@ If you are out of work, you may be eligible for [unemployment support](http://ca
 
       </div>
     </div>  
-  </div>
-</div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
   </div>
 </div>

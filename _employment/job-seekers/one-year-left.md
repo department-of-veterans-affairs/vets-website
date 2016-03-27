@@ -71,13 +71,13 @@ Start a list of fields that interest you. A resource for this is the [Interest P
 
           <li>
             <h3>
-              <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator</a>
+              <a href="/employment/job_seekers/skills-translator">Skills Translator</a>
             </h3>
           </li>  
 
           <li>
             <h3>
-              <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder</a>
+              <a href="/employment/job-seekers/create-resume">Resume Builder</a>
             </h3>
           </li>
 
@@ -89,7 +89,7 @@ Start a list of fields that interest you. A resource for this is the [Interest P
 
           <li>
             <h3>
-              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
+              <a href="/employment/job-seekers/search_jobs">Search the Jobs Bank</a>
             </h3>
           </li>
 
@@ -113,12 +113,3 @@ Start a list of fields that interest you. A resource for this is the [Interest P
 
   </div>
 </div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
-</div>
-
