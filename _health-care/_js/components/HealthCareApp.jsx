@@ -219,9 +219,6 @@ class HealthCareApp extends React.Component {
   getExternalData(applicationData, statePath) {
     switch (statePath[0]) {
       case 'financial-assessment':
-        if (statePath[1] === 'annual-income') {
-          this.updateChildrenIncome();
-        }
         return {
           receivesVaPension: this.state.applicationData['personal-information']['va-information'].receivesVaPension,
           neverMarried: this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === '' || this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === 'Never Married'
@@ -232,28 +229,31 @@ class HealthCareApp extends React.Component {
   }
 
   // Make sure the number of children reported have corresponding rows in the annual-income section.
-  updateChildrenIncome() {
-    const childInformation = this.state.applicationData['financial-assessment']['child-information'];
+  // TODO: This should really be looking to match the shortname of instead of just
+  //       just assuming the index between child info and child income match.
+  updateChildrenIncome(children) {
     const childIncome = this.state.applicationData['financial-assessment']['annual-income'];
-    if (childInformation.children.length > 0) {
-      for (let i = 0; i < childInformation.children.length; i++) {
-        const shortName = `${childInformation.children[i].childFullName.first} ${childInformation.children[i].childFullName.last}`;
-        if (childIncome.children[i] === undefined) {
-          childIncome.children[i] = {
-            childShortName: shortName,
-            childGrossIncome: null,
-            childNetIncome: null,
-            childOtherIncome: null
-          };
-        } else {
-          childIncome.children[i].childShortName = shortName;
-        }
+    for (let i = 0; i < children.length; i++) {
+      const shortName = `${children[i].childFullName.first} ${children[i].childFullName.last}`;
+      if (childIncome.children[i] === undefined) {
+        childIncome.children[i] = {
+          childShortName: shortName,
+          childGrossIncome: null,
+          childNetIncome: null,
+          childOtherIncome: null
+        };
+      } else {
+        childIncome.children[i].childShortName = shortName;
       }
     }
+    childIncome.children.splice(children.length);
   }
 
   publishStateChange(propertyPath, update) {
     const newApplicationData = Object.assign({}, this.state.applicationData);
+    if (_.isEqual(propertyPath, ['financial-assessment', 'child-information', 'children'])) {
+      this.updateChildrenIncome(update);
+    }
     _.set(newApplicationData, propertyPath, update);
 
     this.setState({ applicationData: newApplicationData });
