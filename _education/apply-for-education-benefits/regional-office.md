@@ -8,7 +8,7 @@ concurrence: incomplete
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
+      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
     </div>
   </div>
 </div>
