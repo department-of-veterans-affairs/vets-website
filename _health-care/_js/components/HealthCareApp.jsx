@@ -22,6 +22,7 @@ class HealthCareApp extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.getUrl = this.getUrl.bind(this);
     this.getExternalData = this.getExternalData.bind(this);
+    this.updateChildrenIncome = this.updateChildrenIncome.bind(this);
 
     this.state = {
       applicationData: {
@@ -218,14 +219,36 @@ class HealthCareApp extends React.Component {
   getExternalData(applicationData, statePath) {
     switch (statePath[0]) {
       case 'financial-assessment':
+        if (statePath[1] === 'annual-income') {
+          this.updateChildrenIncome();
+        }
         return {
-          children: statePath[1] === 'annual-income' ? this.state.applicationData['financial-assessment']['child-information'].children : undefined,
           receivesVaPension: this.state.applicationData['personal-information']['va-information'].receivesVaPension,
-          neverMarried: this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === '' ||
-            this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === 'Never Married'
+          neverMarried: this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === '' || this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === 'Never Married'
         };
       default:
         return undefined;
+    }
+  }
+
+  // Make sure the number of children reported have corresponding rows in the annual-income section.
+  updateChildrenIncome() {
+    const childInformation = this.state.applicationData['financial-assessment']['child-information'];
+    const childIncome = this.state.applicationData['financial-assessment']['annual-income'];
+    if (childInformation.children.length > 0) {
+      for (let i = 0; i < childInformation.children.length; i++) {
+        const shortName = `${childInformation.children[i].childFullName.first} ${childInformation.children[i].childFullName.last}`;
+        if (childIncome.children[i] === undefined) {
+          childIncome.children[i] = {
+            childShortName: shortName,
+            childGrossIncome: null,
+            childNetIncome: null,
+            childOtherIncome: null
+          };
+        } else {
+          childIncome.children[i].childShortName = shortName;
+        }
+      }
     }
   }
 

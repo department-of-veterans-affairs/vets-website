@@ -17,24 +17,6 @@ class AnnualIncomeSection extends React.Component {
 
   // TODO: Figure out best way to enable users to change their response to pension
 
-  updateChildren() {
-    if (this.props.external.children.length > 0) {
-      for (let i = 0; i < this.props.external.children.length; i++) {
-        const shortName = `${this.props.external.children[i].childFullName.first} ${this.props.external.children[i].childFullName.last}`;
-        if (this.props.data.children[i] === undefined) {
-          this.props.data.children[i] = {
-            childShortName: shortName,
-            childGrossIncome: null,
-            childNetIncome: null,
-            childOtherIncome: null
-          };
-        } else {
-          this.props.data.children[i].childShortName = shortName;
-        }
-      }
-    }
-  }
-
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
     let notRequiredMessage;
@@ -52,7 +34,7 @@ class AnnualIncomeSection extends React.Component {
 
     let childrenIncomeInput;
 
-    if (this.props.external.children.length > 0) {
+    if (this.props.data.children.length > 0) {
       childrenIncomeInput = (
         <div className="input-section">
           <h6>Children</h6>
@@ -63,8 +45,6 @@ class AnnualIncomeSection extends React.Component {
         </div>
       );
     }
-
-    this.updateChildren();
 
     return (
       <div>
