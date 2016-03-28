@@ -9,52 +9,71 @@ class ChildInformationSection extends React.Component {
   createBlankChild() {
     return {
       childFullName: {
-        first: '',
-        middle: '',
-        last: '',
-        suffix: ''
+        first: null,
+        middle: null,
+        last: null,
+        suffix: null
       },
-      childRelation: '',
-      childSocialSecurityNumber: '',
+      childRelation: null,
+      childSocialSecurityNumber: null,
       childBecameDependent: {
-        month: 11,
-        day: 4,
-        year: 2000
+        month: null,
+        day: null,
+        year: null
       },
       childDateOfBirth: {
-        month: 11,
-        day: 4,
-        year: 2000
+        month: null,
+        day: null,
+        year: null
       },
       childDisabledBefore18: false,
       childAttendedSchoolLastYear: false,
-      childEducationExpenses: '',
+      childEducationExpenses: null,
       childCohabitedLastYear: false,
       childReceivedSupportLastYear: false
     };
   }
 
   render() {
-    return (
-      <div>
-        <div className="row">
-          <div className="small-12 columns">
-            <h4>Children Information</h4>
-          </div>
-        </div>
-        <div className="row">
-          <div className="small-12 columns">
-            <ErrorableCheckbox
-                label="Do you have any children to report?"
-                checked={this.props.data.hasChildrenToReport}
-                onValueChange={(update) => {this.props.onStateChange('hasChildrenToReport', update);}}/>
-          </div>
-        </div>
+    let notRequiredMessage;
+    let hasChildrenContent;
+
+    if (this.props.external.receivesVaPension === true) {
+      notRequiredMessage = (
+        <p>
+          <strong>
+            You are not required to enter financial information because you
+            indicated you are receiving a VA pension.
+          </strong>
+        </p>
+      );
+    }
+
+    if (this.props.data.hasChildrenToReport === true) {
+      hasChildrenContent = (
         <GrowableTable
             component={Child}
             createRow={this.createBlankChild}
             onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
             rows={this.props.data.children}/>
+      );
+    }
+
+    return (
+      <div>
+        <h4>Children Information</h4>
+
+        {notRequiredMessage}
+
+        <div className="input-section">
+          <ErrorableCheckbox
+              label="Do you have any children to report?"
+              checked={this.props.data.hasChildrenToReport}
+              onValueChange={(update) => {this.props.onStateChange('hasChildrenToReport', update);}}/>
+
+          {hasChildrenContent}
+
+        </div>
       </div>
     );
   }

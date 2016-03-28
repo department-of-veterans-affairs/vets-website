@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 
 /**
  * Component for navigation, with links to each section of the form.
@@ -10,118 +9,91 @@ import { Link } from 'react-router';
  */
 class Nav extends React.Component {
   render() {
+    const subnavStyles = 'step one wow fadeIn animated';
     // TODO(akainic): change this check once the alias for introduction has been changed
     return (
-      <ul className="usa-sidenav-list">
-        <li role="presentation">
-          <Link to="/introduction" activeClassName="usa-current">
-            Introduction
-          </Link>
+      <ol className="process hca-process">
+        <li className={`one ${subnavStyles} ${this.props.currentUrl.startsWith('/introduction') ? ' section-current' : ''}`}>
+          <div>
+            <h5>Introduction</h5>
+          </div>
         </li>
-        <li role="presentation">
-          <Link to="/personal-information" className={this.props.currentUrl.startsWith('/personal-information/') ? ' usa-current' : ''}>
-            Personal Information
-          </Link>
-          <ul className="usa-sidenav-sub_list">
-            <li>
-              <Link to="/personal-information/name-and-general-information" activeClassName="usa-current">
-                Name and General Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/personal-information/va-information" activeClassName="usa-current">
-                VA-Specific Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/personal-information/additional-information" activeClassName="usa-current">
-                Additional Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/personal-information/demographic-information" activeClassName="usa-current">
-                Demographic Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/personal-information/veteran-address" activeClassName="usa-current">
+        <li role="presentation" className={`two ${subnavStyles} ${this.props.currentUrl.startsWith('/personal-information') ? ' section-current' : ''}`}>
+          <div>
+            <h5>Personal Information</h5>
+            <ul className="usa-unstyled-list">
+              <li className={this.props.currentUrl === '/personal-information/name-and-general-information' ? ' sub-section-current' : ''}>
+                Name and General
+              </li>
+              <li className={this.props.currentUrl === '/personal-information/va-information' ? ' sub-section-current' : ''}>
+                VA-Specific
+              </li>
+              <li className={this.props.currentUrl === '/personal-information/additional-information' ? ' sub-section-current' : ''}>
+                Additional
+              </li>
+              <li className={this.props.currentUrl === '/personal-information/demographic-information' ? ' sub-section-current' : ''}>
+                Demographic
+              </li>
+              <li className={this.props.currentUrl === '/personal-information/veteran-address' ? ' sub-section-current' : ''}>
                 Veteran Address
-              </Link>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
         </li>
-        <li role="presentation">
-          <Link to="/insurance-information" className={this.props.currentUrl.startsWith('/insurance-information/') ? ' usa-current' : ''}>
-            Insurance Information
-          </Link>
-          <ul className="usa-sidenav-sub_list">
-            <li>
-              <Link to="/insurance-information/general" activeClassName="usa-current">
-                General Insurance Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/insurance-information/medicare-medicaid" activeClassName="usa-current">
-                Medicare/Medicaid Information
-              </Link>
-            </li>
-          </ul>
+        <li role="presentation" className={`three ${subnavStyles} ${this.props.currentUrl.startsWith('/insurance-information') ? ' section-current' : ''}`}>
+          <div>
+            <h5>Insurance Information</h5>
+            <ul className="usa-unstyled-list">
+              <li className={this.props.currentUrl === '/insurance-information/general' ? ' sub-section-current' : ''}>
+                General Insurance
+              </li>
+              <li className={this.props.currentUrl === '/insurance-information/medicare-medicaid' ? ' sub-section-current' : ''}>
+                Medicare/Medicaid
+              </li>
+            </ul>
+          </div>
         </li>
-        <li role="presentation">
-          <Link to="/military-service" className={this.props.currentUrl.startsWith('/military-service/') ? ' usa-current' : ''}>
-            Military Service
-          </Link>
-          <ul className="usa-sidenav-sub_list">
-            <li>
-              <Link to="/military-service/service-information" activeClassName="usa-current">
-                Service Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/military-service/additional-information" activeClassName="usa-current">
-                Additional Military Information
-              </Link>
-            </li>
-          </ul>
+        <li role="presentation" className={`four ${subnavStyles} ${this.props.currentUrl.startsWith('/military-service') ? ' section-current' : ''}`}>
+          <div>
+            <h5>Military Service</h5>
+            <ul className="usa-unstyled-list">
+              <li className={this.props.currentUrl === '/military-service/service-information' ? ' sub-section-current' : ''}>
+                Service
+              </li>
+              <li className={this.props.currentUrl === '/military-service/additional-information' ? ' sub-section-current' : ''}>
+                Additional Military
+              </li>
+            </ul>
+          </div>
         </li>
-        <li role="presentation">
-          <Link to="/financial-assessment" className={this.props.currentUrl.startsWith('/financial-assessment/') ? ' usa-current' : ''}>
-            Financial Assessment
-          </Link>
-          <ul className="usa-sidenav-sub_list">
-            <li>
-              <Link to="/financial-assessment/financial-disclosure" activeClassName="usa-current">
+        <li role="presentation" className={`five ${subnavStyles} ${this.props.currentUrl.startsWith('/financial-assessment') ? ' section-current' : ''}`}>
+          <div>
+            <h5>Financial Assessment</h5>
+            <ul className="usa-unstyled-list">
+              <li className={this.props.currentUrl === '/financial-assessment/financial-disclosure' ? ' sub-section-current' : ''}>
                 Financial Disclosure
-              </Link>
-            </li>
-            <li>
-              <Link to="/financial-assessment/spouse-information" activeClassName="usa-current">
-                Spouse Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/financial-assessment/child-information" activeClassName="usa-current">
-                Child Information
-              </Link>
-            </li>
-            <li>
-              <Link to="/financial-assessment/annual-income" activeClassName="usa-current">
+              </li>
+              <li className={this.props.currentUrl === '/financial-assessment/spouse-information' ? ' sub-section-current' : ''}>
+                Spouse
+              </li>
+              <li className={this.props.currentUrl === '/financial-assessment/child-information' ? ' sub-section-current' : ''}>
+                Child
+              </li>
+              <li className={this.props.currentUrl === '/financial-assessment/annual-income' ? ' sub-section-current' : ''}>
                 Annual Income
-              </Link>
-            </li>
-            <li>
-              <Link to="/financial-assessment/deductible-expenses" activeClassName="usa-current">
+              </li>
+              <li className={this.props.currentUrl === '/financial-assessment/deductible-expenses' ? ' sub-section-current' : ''}>
                 Deductible Expenses
-              </Link>
-            </li>
-          </ul>
+              </li>
+            </ul>
+          </div>
         </li>
-        <li role="presentation">
-          <Link to="/review-and-submit" activeClassName="usa-current">
-            Review and Submit
-          </Link>
+        <li role="presentation" className={`six last ${subnavStyles} ${this.props.currentUrl.startsWith('/review-and-submit') ? ' section-current' : ''}`}>
+          <div>
+            <h5>Review and Submit</h5>
+          </div>
         </li>
-      </ul>
+      </ol>
     );
   }
 }

@@ -3,9 +3,12 @@ import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 import { hashHistory } from 'react-router';
 
-import ContinueButton from './ContinueButton';
+import ProgressButton from './ProgressButton';
+
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
+
+import * as validations from '../utils/validations';
 
 // Add deep object manipulation routines to lodash.
 _.mixin(lodashDeep);
@@ -14,8 +17,11 @@ class HealthCareApp extends React.Component {
   constructor() {
     super();
     this.publishStateChange = this.publishStateChange.bind(this);
+    this.handleBack = this.handleBack.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
-    this.getNextUrl = this.getNextUrl.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.getUrl = this.getUrl.bind(this);
+    this.getExternalData = this.getExternalData.bind(this);
 
     this.state = {
       applicationData: {
@@ -24,21 +30,19 @@ class HealthCareApp extends React.Component {
         'personal-information': {
           'name-and-general-information': {
             fullName: {
-              first: 'William',
-              middle: '',
-              last: 'Shakespeare',
-              suffix: '',
+              first: null,
+              middle: null,
+              last: null,
+              suffix: null,
             },
-
-            mothersMaidenName: 'Arden',
-
-            socialSecurityNumber: '999-99-9999',
-
+            mothersMaidenName: null,
+            socialSecurityNumber: null,
             dateOfBirth: {
-              month: 1,
-              day: 15,
-              year: 1997,
-            }
+              month: null,
+              day: null,
+              year: null,
+            },
+            maritalStatus: null
           },
 
           'va-information': {
@@ -72,10 +76,10 @@ class HealthCareApp extends React.Component {
               zipcode: null,
             },
             county: null,
-            email: 'test@test.com',
-            emailConfirmation: 'test@test.com',
-            homePhone: '555-555-5555',
-            mobilePhone: '111-111-1111'
+            email: null,
+            emailConfirmation: null,
+            homePhone: null,
+            mobilePhone: null
           }
         },
 
@@ -85,20 +89,22 @@ class HealthCareApp extends React.Component {
             understandsFinancialDisclosure: false
           },
           'spouse-information': {
-            spouseFirstName: undefined,
-            spouseMiddleName: undefined,
-            spouseLastName: undefined,
-            spouseSuffix: undefined,
-            spouseSocialSecurityNumber: '',
+            spouseFullName: {
+              first: null,
+              middle: null,
+              last: null,
+              suffix: null,
+            },
+            spouseSocialSecurityNumber: null,
             spouseDateOfBirth: {
-              month: 4,
-              day: 23,
-              year: 1989,
+              month: null,
+              day: null,
+              year: null,
             },
             dateOfMarriage: {
-              month: 3,
-              day: 8,
-              year: 2016
+              month: null,
+              day: null,
+              year: null
             },
             sameAddress: false,
             cohabitedLastYear: false,
@@ -110,7 +116,7 @@ class HealthCareApp extends React.Component {
               state: null,
               zipcode: null,
             },
-            spousePhone: '222-222-2222'
+            spousePhone: null
           },
 
           'child-information': {
@@ -119,21 +125,21 @@ class HealthCareApp extends React.Component {
           },
 
           'annual-income': {
-            veteranGrossIncome: '',
-            veteranNetIncome: '',
-            veteranOtherIncome: '',
-            spouseGrossIncome: '',
-            spouseNetIncome: '',
-            spouseOtherIncome: '',
-            childrenGrossIncome: '',
-            childrenNetIncome: '',
-            childrenOtherIncome: ''
+            veteranGrossIncome: null,
+            veteranNetIncome: null,
+            veteranOtherIncome: null,
+            spouseGrossIncome: null,
+            spouseNetIncome: null,
+            spouseOtherIncome: null,
+            childrenGrossIncome: null,
+            childrenNetIncome: null,
+            childrenOtherIncome: null
           },
 
           'deductible-expenses': {
-            deductibleMedicalExpenses: '',
-            deductibleFuneralExpenses: '',
-            deductibleEducationExpenses: ''
+            deductibleMedicalExpenses: null,
+            deductibleFuneralExpenses: null,
+            deductibleEducationExpenses: null
           },
         },
 
@@ -147,9 +153,9 @@ class HealthCareApp extends React.Component {
             isMedicaidEligible: false,
             isEnrolledMedicarePartA: false,
             medicarePartAEffectiveDate: {
-              month: 10,
-              day: 25,
-              year: 2001
+              month: null,
+              day: null,
+              year: null
             }
           }
         },
@@ -157,14 +163,14 @@ class HealthCareApp extends React.Component {
           'service-information': {
             lastServiceBranch: null,
             lastEntryDate: {
-              month: 3,
-              day: 8,
-              year: 2016
+              month: null,
+              day: null,
+              year: null
             },
             lastDischargeDate: {
-              month: 3,
-              day: 8,
-              year: 2016
+              month: null,
+              day: null,
+              year: null
             },
             dischargeType: null
           },
@@ -184,7 +190,7 @@ class HealthCareApp extends React.Component {
     };
   }
 
-  getNextUrl() {
+  getUrl(direction) {
     const routes = this.props.route.childRoutes;
     const panels = [];
     let currentPath = this.props.location.pathname;
@@ -199,12 +205,29 @@ class HealthCareApp extends React.Component {
 
     for (let i = 0; i < panels.length; i++) {
       if (currentPath === panels[i]) {
-        nextPath = panels[i + 1];
+        if (direction === 'back') {
+          nextPath = panels[i - 1];
+        } else {
+          nextPath = panels[i + 1];
+        }
         break;
       }
     }
 
     return nextPath;
+  }
+
+  getExternalData(applicationData, statePath) {
+    switch (statePath[0]) {
+      case 'financial-assessment':
+        return {
+          receivesVaPension: this.state.applicationData['personal-information']['va-information'].receivesVaPension,
+          neverMarried: this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === '' ||
+            this.state.applicationData['personal-information']['name-and-general-information'].maritalStatus === 'Never Married'
+        };
+      default:
+        return undefined;
+    }
   }
 
   publishStateChange(propertyPath, update) {
@@ -215,11 +238,39 @@ class HealthCareApp extends React.Component {
   }
 
   handleContinue() {
-    hashHistory.push(this.getNextUrl());
+    const sectionPath = this.props.location.pathname.split('/').filter((path) => { return !!path; });
+    const sectionData = validations.initializeNullValues(_.get(this.state.applicationData, sectionPath));
+    this.publishStateChange(sectionPath, sectionData);
+
+    this.setState({}, () => {
+      if (validations.isValidSection(this.props.location.pathname, sectionData)) {
+        hashHistory.push(this.getUrl('next'));
+        if (document.getElementsByClassName('progress-box').length > 0) {
+          document.getElementsByClassName('progress-box')[0].scrollIntoView();
+        }
+      } else {
+        // TODO: improve this
+        if (document.getElementsByClassName('usa-input-error').length > 0) {
+          document.getElementsByClassName('usa-input-error')[0].scrollIntoView();
+        }
+      }
+    });
+  }
+
+  handleBack() {
+    hashHistory.push(this.getUrl('back'));
+    if (document.getElementsByClassName('progress-box').length > 0) {
+      document.getElementsByClassName('progress-box')[0].scrollIntoView();
+    }
+  }
+
+  handleSubmit() {
+    // Add functionality
   }
 
   render() {
     let children = this.props.children;
+    let buttons;
 
     if (children === null) {
       // This occurs if the root route is hit. Default to IntroductionSection.
@@ -233,9 +284,59 @@ class HealthCareApp extends React.Component {
           data: _.get(this.state.applicationData, statePath),
           onStateChange: (subfield, update) => {
             this.publishStateChange(statePath.concat(subfield), update);
-          }
+          },
+          external: this.getExternalData(this.state.applicationData, statePath)
         });
       });
+    }
+
+    // Check which section the user is on and render the correct ProgressButtons.
+    const lastSectionText = (this.getUrl('back')) ? this.getUrl('back').split('/').slice(-1)[0].replace(/-/g, ' ') : '';
+    const nextSectionText = (this.getUrl('next')) ? this.getUrl('next').split('/').slice(-1)[0].replace(/-/g, ' ') : '';
+
+    const backButton = (
+      <ProgressButton
+          onButtonClick={this.handleBack}
+          buttonText={`Back to ${lastSectionText}`}
+          buttonClass={'usa-button-outline'}
+          beforeText={'«'}/>
+    );
+
+    const nextButton = (
+      <ProgressButton
+          onButtonClick={this.handleContinue}
+          buttonText={`Continue to ${nextSectionText}`}
+          buttonClass={'usa-button-primary'}
+          afterText={'»'}/>
+    );
+
+    const submitButton = (
+      <ProgressButton
+          onButtonClick={this.handleSubmit}
+          buttonText={'Submit'}
+          buttonClass={'usa-button-primary'}/>
+    );
+
+    if (this.props.location.pathname === '/review-and-submit') {
+      buttons = (
+        <div>
+          {submitButton}
+          {backButton}
+        </div>
+      );
+    } else if (this.props.location.pathname === '/introduction') {
+      buttons = (
+        <div>
+          {nextButton}
+        </div>
+      );
+    } else {
+      buttons = (
+        <div>
+          {nextButton}
+          {backButton}
+        </div>
+      );
     }
 
     return (
@@ -247,7 +348,7 @@ class HealthCareApp extends React.Component {
           <div className="progress-box">
             <div className="form-panel">
               {children}
-              <ContinueButton onButtonClick={this.handleContinue}/>
+              {buttons}
             </div>
           </div>
         </div>

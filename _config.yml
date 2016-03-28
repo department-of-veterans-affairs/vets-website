@@ -24,6 +24,8 @@ exclude:
   - "npm-shrinkwrap.json"
   - "package.json"
   - "webpack.config.js"
+  - "webpack_dev.config.js"
+  - "webpack_prod.config.js"
 
 #posts per page
 paginate: 4
@@ -75,6 +77,7 @@ collections:
     output: true
     permalink: /:collection/:path/index.html
 
+# Sets breadcrumbs per path
 defaults:
   - scope:
       type: "disability-benefits"

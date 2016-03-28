@@ -1,3 +1,5 @@
+// Staging config. Also the default config that prod and dev are based off of.
+
 var path = require('path');
 var webpack = require('webpack');
 var bourbon = require('bourbon').includePaths;

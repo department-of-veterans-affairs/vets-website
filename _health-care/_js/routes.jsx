@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Redirect } from 'react-router';
+import { Route } from 'react-router';
 
 import AdditionalInformationSection from './components/personal-information/AdditionalInformationSection';
 import AdditionalMilitaryInformationSection from './components/military-service/AdditionalMilitaryInformationSection';
@@ -26,10 +26,6 @@ const routes = [
       path="/introduction"/>,
 
   // Personal Information routes.
-  <Redirect
-      key="/personal-information"
-      from="/personal-information"
-      to="/personal-information/name-and-general-information"/>,
   <Route
       component={NameAndGeneralInfoSection}
       key="/personal-information/name-and-general-information"
@@ -52,10 +48,6 @@ const routes = [
       path="/personal-information/veteran-address"/>,
 
   // Insurance Information routes.
-  <Redirect
-      key="/insurance-information"
-      from="/insurance-information"
-      to="/insurance-information/general"/>,
   <Route
       component={InsuranceInformationSection}
       key="/insurance-information/general"
@@ -66,10 +58,6 @@ const routes = [
       path="/insurance-information/medicare-medicaid"/>,
 
   // Military Service routes.
-  <Redirect
-      key="/military-service"
-      from="/military-service"
-      to="/military-service/service-information"/>,
   <Route
       component={ServiceInformationSection}
       key="/military-service/service-information"
@@ -80,10 +68,6 @@ const routes = [
       path="/military-service/additional-information"/>,
 
   // Financial Assessment routes.
-  <Redirect
-      key="/financial-assessment"
-      from="/financial-assessment"
-      to="/financial-assessment/financial-disclosure"/>,
   <Route
       component={FinancialDisclosureSection}
       key="/financial-assessment/financial-disclosure"

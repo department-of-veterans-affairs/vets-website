@@ -22,60 +22,6 @@ body {
   margin-top: 0;
 }
 
-// TODO: properly incorporate usds web standards for this
-body .row {
-  max-width: 62.5em;
-}
-
-.usa-sidenav-list {
-  li {
-    list-style: none;
-    line-height: 2em;
-
-    a {
-      text-decoration: none;
-      background: none;
-
-      &.usa-current {
-        color: $color-base;
-        font-weight: normal;
-      }
-    }
-  }
-
-  .usa-sidenav-sub_list {
-    padding-left: 0.5em;
-
-    a.usa-current {
-      color: $color-primary;
-      font-weight: $font-bold;
-    }
-  }
-}
-
-.form-panel {
-  @include media($medium-screen) {
-    max-width: $usa-form-width;
-  }
-}
-
-.main-form,
-.progress-box {
-  button {
-    width: 100%;
-  }
-}
-
-.progress-box {
-  padding: 1rem 2rem;
-  margin: 1.5rem 0  ;
-  border: 1px solid #eee;
-}
-
-.form-section {
-  display: none;
-}
-
 // Skip link
 
 .show-on-focus {
@@ -343,6 +289,14 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   h3 {
     padding: 0 0 .5em 0; font-size: 1.25em;
     @media #{$small} {font-size: 1.8em;}
+  }
+}
+
+// TODO: Integrate USWDS and elements/_typography.scss
+// and eliminate this declaration
+.usa-content {
+  p {
+    max-width: $text-max-width;
   }
 }
 
@@ -1536,6 +1490,19 @@ a.twitter {
     background: none;
     overflow: hidden;
     text-decoration: underline;
+      @media #{$small-only} {
+        text-align: center;
+      }
+
+    &:nth-child(even) {
+      opacity: .5;
+      padding-left: 1em;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+    
     span.icon {
       background: url('../images/design/sprites/sprite.png') no-repeat -43px 0;
       background-size: 215px 72px;
@@ -1855,7 +1822,10 @@ margin: 0;
   padding: 1em 0;
   position: relative;
   h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
-  h5 {font-size: 1.3em; margin: 0; padding: 0;}
+  h5 {
+    font-size: 1.3em; 
+    margin: 0; padding: 0;
+  }
   h6 {font-size: 1.1em; margin: 0; padding: 0;}
   p:nth-child(1) {
     font-size: 1em;
