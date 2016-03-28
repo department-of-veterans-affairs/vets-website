@@ -1,51 +1,39 @@
 import React from 'react';
 import _ from 'lodash';
 
+import ErrorableTextInput from '../form-elements/ErrorableTextInput';
+import { isValidName, isBlank } from '../../utils/validations';
+
 class MothersMaidenName extends React.Component {
   constructor() {
     super();
-    this.state = { hasError: false };
     this.handleChange = this.handleChange.bind(this);
+    this.validateRequiredFields = this.validateRequiredFields.bind(this);
   }
 
   componentWillMount() {
     this.id = _.uniqueId();
   }
 
-  handleChange() {
-    const name = this.refs.name.value;
-
-    if (this.validate(name)) {
-      this.setState({ hasError: false });
-    } else {
-      this.setState({ hasError: true });
-    }
-
-    this.props.onUserInput(name);
+  handleChange(update) {
+    this.props.onUserInput(update);
   }
 
-  validate(field) {
-    if (field === '') {
-      return true;
+  validateRequiredFields(value) {
+    if (this.props.required) {
+      return isValidName(value);
     }
-    return /^[a-zA-Z '\-]+$/.test(field);
+    return isBlank(value) || isValidName(value);
   }
 
   render() {
-    const errorClass = this.state.hasError ? 'usa-input-error' : '';
     return (
       <div>
-        <div className={`usa-input-grid usa-input-grid-large ${errorClass}`}>
-          <label htmlFor={`${this.id}-mothers-maiden-name`}>
-            Mother’s Maiden Name
-          </label>
-          <input
-              id={`${this.id}-mothers-maiden-name`}
-              ref="name"
-              type="text"
-              value={this.props.name}
-              onChange={this.handleChange}/>
-        </div>
+        <ErrorableTextInput
+            errorMessage={this.validateRequiredFields(this.props.value) ? undefined : 'Please enter a valid name'}
+            label="Mother’s Maiden Name"
+            value={this.props.value}
+            onValueChange={(update) => {this.handleChange(update);}}/>
       </div>
     );
   }

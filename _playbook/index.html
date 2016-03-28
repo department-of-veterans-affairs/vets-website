@@ -4,6 +4,13 @@ permalink: /playbook/index.html
 category: parent
 ---
 
+<!-- Add a comment showing production vs staging for easy verification of deploy sanity. -->
+{% if site.production %}
+<!-- Production -->
+{% else %}
+<!-- Staging -->
+{% endif %}
+
 <div class="main" role="main">
   <div class="section primary">
     <div class="tagline-content">

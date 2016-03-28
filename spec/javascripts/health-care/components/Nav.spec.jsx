@@ -1,28 +1,49 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import { Router, Route, createMemoryHistory } from 'react-router';
+import SkinDeep from 'skin-deep';
 
 import Nav from '../../../../_health-care/_js/components/Nav';
 import routes from '../../../../_health-care/_js/routes';
 
+class Container extends React.Component {
+  render() {
+    return (<Nav currentUrl={this.props.location.pathname}/>);
+  }
+}
+
 describe('<Nav>', () => {
-  describe('active links have usa-current class', () => {
+  describe('propTypes', () => {
+    let consoleStub;
+    beforeEach(() => {
+      consoleStub = sinon.stub(console, 'error');
+    });
+
+    afterEach(() => {
+      consoleStub.restore();
+    });
+
+    xit('currentUrl is required', () => {
+      SkinDeep.shallowRender(<Nav/>);
+      sinon.assert.calledWithMatch(consoleStub, /Required prop `currentUrl` was not specified in `Nav`/);
+    });
+
+    xit('currentUrl must be a string', () => {
+      SkinDeep.shallowRender(<Nav currentUrl/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `currentUrl` of type `boolean` supplied to `Nav`, expected `string`/);
+    });
+  });
+
+  describe('active sections have section-current or sub-section-current class', () => {
     const history = createMemoryHistory('/');
     let nav;
-
-    const expectOneActiveLink = (component, path) => {
-      history.replace(path);
-      const activeLinks = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'usa-current');
-      expect(activeLinks).to.have.lengthOf(1);
-      expect(activeLinks[0].getAttribute('href')).to.equal(path);
-    };
 
     before(() => {
       // It's perfectly fine in this test to reuse the rendered component. Do that
       // cause it cuts the test time from 1s down to ~0.1s.
       nav = ReactTestUtils.renderIntoDocument(
         <Router history={history}>
-          <Route path="/" component={Nav}>
+          <Route path="/" component={Container}>
             {routes}
           </Route>
         </Router>
@@ -34,68 +55,80 @@ describe('<Nav>', () => {
       history.replace('/');
     });
 
+    const expectActiveSection = (component, path) => {
+      history.replace(path);
+      const activeSection = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'section-current');
+      expect(activeSection).to.have.lengthOf(1);
+    };
+
+    const expectActiveSectionForNavAndSubNav = (component, path) => {
+      history.replace(path);
+      const activeSubSection = ReactTestUtils.scryRenderedDOMComponentsWithClass(component, 'sub-section-current');
+      expect(activeSubSection).to.have.lengthOf(1);
+    };
+
     it('/introduction', () => {
-      expectOneActiveLink(nav, '/introduction');
+      expectActiveSection(nav, '/introduction');
     });
 
     it('/personal-information/name-and-general-information', () => {
-      expectOneActiveLink(nav, '/personal-information/name-and-general-information');
+      expectActiveSectionForNavAndSubNav(nav, '/personal-information/name-and-general-information');
     });
 
     it('/personal-information/va-information', () => {
-      expectOneActiveLink(nav, '/personal-information/va-information');
+      expectActiveSectionForNavAndSubNav(nav, '/personal-information/va-information');
     });
 
     it('/personal-information/additional-information', () => {
-      expectOneActiveLink(nav, '/personal-information/additional-information');
+      expectActiveSectionForNavAndSubNav(nav, '/personal-information/additional-information');
     });
 
     it('/personal-information/demographic-information', () => {
-      expectOneActiveLink(nav, '/personal-information/demographic-information');
+      expectActiveSectionForNavAndSubNav(nav, '/personal-information/demographic-information');
     });
 
     it('/personal-information/veteran-address', () => {
-      expectOneActiveLink(nav, '/personal-information/veteran-address');
+      expectActiveSectionForNavAndSubNav(nav, '/personal-information/veteran-address');
     });
 
     it('/insurance-information/general', () => {
-      expectOneActiveLink(nav, '/insurance-information/general');
+      expectActiveSectionForNavAndSubNav(nav, '/insurance-information/general');
     });
 
     it('/insurance-information/medicare-medicaid', () => {
-      expectOneActiveLink(nav, '/insurance-information/medicare-medicaid');
+      expectActiveSectionForNavAndSubNav(nav, '/insurance-information/medicare-medicaid');
     });
 
     it('/military-service/service-information', () => {
-      expectOneActiveLink(nav, '/military-service/service-information');
+      expectActiveSectionForNavAndSubNav(nav, '/military-service/service-information');
     });
 
     it('/military-service/additional-information', () => {
-      expectOneActiveLink(nav, '/military-service/additional-information');
+      expectActiveSectionForNavAndSubNav(nav, '/military-service/additional-information');
     });
 
     it('/financial-assessment/financial-disclosure', () => {
-      expectOneActiveLink(nav, '/financial-assessment/financial-disclosure');
+      expectActiveSectionForNavAndSubNav(nav, '/financial-assessment/financial-disclosure');
     });
 
     it('/financial-assessment/spouse-information', () => {
-      expectOneActiveLink(nav, '/financial-assessment/spouse-information');
+      expectActiveSectionForNavAndSubNav(nav, '/financial-assessment/spouse-information');
     });
 
     it('/financial-assessment/child-information', () => {
-      expectOneActiveLink(nav, '/financial-assessment/child-information');
+      expectActiveSectionForNavAndSubNav(nav, '/financial-assessment/child-information');
     });
 
     it('/financial-assessment/annual-income', () => {
-      expectOneActiveLink(nav, '/financial-assessment/annual-income');
+      expectActiveSectionForNavAndSubNav(nav, '/financial-assessment/annual-income');
     });
 
     it('/financial-assessment/deductible-expenses', () => {
-      expectOneActiveLink(nav, '/financial-assessment/deductible-expenses');
+      expectActiveSectionForNavAndSubNav(nav, '/financial-assessment/deductible-expenses');
     });
 
     it('/review-and-submit', () => {
-      expectOneActiveLink(nav, '/review-and-submit');
+      expectActiveSection(nav, '/review-and-submit');
     });
   });
 });
