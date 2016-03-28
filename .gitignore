@@ -11,3 +11,5 @@ vendor/bundle
 .ruby-gemset
 assets/js/generated/
 .bundle/
+bin
+tests_output
