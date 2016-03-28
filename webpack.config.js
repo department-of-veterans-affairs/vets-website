@@ -2,6 +2,9 @@
 
 var path = require('path');
 var webpack = require('webpack');
+var bourbon = require('bourbon').includePaths;
+var neat = require('bourbon-neat').includePaths;
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 var config = {
   entry: "./assets/js/entry.js",
@@ -63,7 +66,23 @@ var config = {
         loaders: [ "imports?this=>window", "exports?this.WOW" ]
       },
       {
-        test: /\.coffee$/, loader: "coffee-loader"
+        test: /\.coffee$/,
+        loader: "coffee-loader"
+      },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract("style-loader", "css!resolve-url!sass?includePaths[]=" + bourbon + "&includePaths[]=" + neat + "&includePaths[]=" + "/Users/awong/src/VA/vets-website/~/uswds/src/stylesheets" + "&sourceMap")
+      },
+      { test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: 'url?limit=10000!img?progressive=true'
+      },
+      {
+        test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: "url-loader?limit=10000&minetype=application/font-woff"
+      },
+      {
+        test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        loader: "file-loader"
       }
     ]
   },
@@ -84,7 +103,8 @@ var config = {
       "$": "jquery",
       jQuery: "jquery",
       "window.jQuery": "jquery" 
-    })
+    }),
+    new ExtractTextPlugin("bundle.css")
   ],
 };
 
