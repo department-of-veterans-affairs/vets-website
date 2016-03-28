@@ -4,8 +4,13 @@ import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
 
-// TODO: create unique nodes for each child in applicationData
-
+/**
+ * Sub-component for children income portion AnnualIncomeSection.
+ *
+ * Props:
+ * `data` - Collection of numbers for each field.
+ * `onValueChange` - a function with this prototype: (newValue)
+ */
 class ChildIncome extends React.Component {
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
