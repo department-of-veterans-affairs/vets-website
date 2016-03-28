@@ -38,7 +38,7 @@ task :bootstrap do
   Rake::Task[:install].invoke
 end
 
-desc "Build the website both _site with dev features ahd _site_production w/o dev features."
+desc "Build the website to both _site with dev features and _site_production without dev features."
 task :build do
   Rake::Task[:"build-dev"].invoke
   Rake::Task[:"build-prod"].invoke

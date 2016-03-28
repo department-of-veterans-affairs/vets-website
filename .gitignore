@@ -1,5 +1,6 @@
 .DS_Store
 *.log
+*.log.*
 
 #Compiled files.
 .sass-cache

@@ -15,6 +15,7 @@ describe('Validations unit tests', () => {
       expect(isValidSSN('900-22-1234')).to.be.true;
       expect(isValidSSN('111-00-1234')).to.be.true;
       expect(isValidSSN('111-22-0000')).to.be.true;
+      expect(isValidSSN('111221234')).to.be.true;
     });
 
     it('rejects invalid ssn format', () => {
@@ -29,9 +30,6 @@ describe('Validations unit tests', () => {
       // No leading or trailing spaces.
       expect(isValidSSN('111-22-1A34 ')).to.be.false;
       expect(isValidSSN(' 111-22-1234')).to.be.false;
-
-      // Dashes are required.
-      expect(isValidSSN('111221234')).to.be.false;
 
       // Too few numbers is invalid.
       expect(isValidSSN('111-22-123')).to.be.false;
