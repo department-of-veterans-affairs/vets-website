@@ -16,7 +16,7 @@ function isNotBlank(value) {
 
 function isValidSSN(value) {
   if (value !== null) {
-    return /^\d{3}-\d{2}-\d{4}$/.test(value);
+    return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
   }
   return true;
 }
