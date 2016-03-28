@@ -139,10 +139,22 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 [LinkedIn&#153;](https://veterans.linkedin.com/) Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with 
 [LinkedIn&#153;'s Lynda](https://veterans.linkedin.com/)
 </li>
-
 </ul>
-</div>
-</div>
+
+Callout Box Title
+  :Callout text
+
+    - list item
+    - list item
+{:.va-callout}
+
+Callout Box Title 2
+  : Callout text
+
+    - list item
+    - list item
+{:.va-callout}
+
 </div>
 </div>
 </div>
