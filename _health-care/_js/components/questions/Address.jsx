@@ -58,13 +58,13 @@ class Address extends React.Component {
             value={this.props.value.city}
             onValueChange={(update) => {this.handleChange('city', update);}}/>
 
-        <ErrorableSelect errorMesssage={isValid ? undefined : 'Please enter a valid country'}
+        <ErrorableSelect errorMessage={isValid ? undefined : 'Please enter a valid country'}
             label="Country"
             options={countries}
             value={this.props.value.country}
             onValueChange={(update) => {this.handleChange('country', update);}}/>
 
-        <ErrorableSelect errorMesssage={isValid ? undefined : 'Please enter a valid state'}
+        <ErrorableSelect errorMessage={isValid ? undefined : 'Please enter a valid state'}
             label="State"
             options={states}
             value={this.props.value.state}

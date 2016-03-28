@@ -1,13 +1,14 @@
 import React from 'react';
 
-class ReviewAndSubmitPanel extends React.Component {
+class ReviewAndSubmitSection extends React.Component {
   render() {
     return (
       <div>
-        <p>Review and Submit</p>
+        <h4>Review and Submit</h4>
+        <p>Please ensure all of your information is correct before submitting your application.</p>
       </div>
     );
   }
 }
 
-export default ReviewAndSubmitPanel;
+export default ReviewAndSubmitSection;
