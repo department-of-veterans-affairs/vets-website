@@ -33,7 +33,7 @@ There are incentives such as the Work Opportunity Tax Credit (WOTC) that ranges 
           </li>
 
           <li>
-            <a href="https://www.vets.gov/veterans-employment-center/commitments"><h5>Make a Hiring Commitment</h5><span>Improve your business by hiring Veterans</span></a>
+            <a href="https://www.vets.gov/veterans-employment-center/commitments"><h5>Make a Hiring Commitment</h5><span>Improve your business by hiring Veterans.</span></a>
           </li>
 
           <li>
