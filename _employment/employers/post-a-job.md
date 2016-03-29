@@ -51,7 +51,6 @@ If your job listing conforms to the JSON-LD template for schema.org’s JobPosti
 
 The schema.org JobPosting vocabulary consists of 18 basic elements (listed below). Each element describes a core detail of a job vacancy. Participation in the Veterans Job Bank requires only a handful of these elements (datePosted, hiringOrganization, JobLocation, SpecialCommitments, title, and url). Adding more elements, however, will make your job posting more accessible to searchers.
 
-
 #### The schema.org JSON-LD JobPosting elements
 
 Only those marked with an asterisk (*) are required for inclusion in the Veterans Job Bank. Square brackets [like this] following each element name indicate the schema.org data type.
@@ -92,6 +91,7 @@ This example contains two job listings. The first uses a smaller set of schema.o
     "addressLocality": "Kirkland",
     "addressRegion": "WA"
   }
+<<<<<<< 31a5b71dc998c23d1f947089d5745650144d3260
 },
 "hiringOrganization": {
   "@type": "Organization",
@@ -135,7 +135,6 @@ This example contains two job listings. The first uses a smaller set of schema.o
 "url": "www.abccompanyinc.com/jobs?listing=23456"
 }]</code></pre>
 </div>
-
 
 </div>
 </div>
