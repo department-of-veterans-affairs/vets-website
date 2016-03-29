@@ -10,9 +10,9 @@ template: 7-get-page
 <div class="row" markdown="0">
 <div class="small-12 medium-9 columns left"  markdown="1">
 
-### Wherever you are in the transition process, the Veterans Employment Center provides career advice, mentorship, résumé-building assistance, and exclusive access to employers who are committed to hiring Veterans and military spouses.
+Wherever you are in the transition process, the Veterans Employment Center provides career advice, mentorship, résumé-building assistance, and exclusive access to employers who are committed to hiring Veterans and military spouses.
 
-You may not be completely ready to start looking for a job. That's okay. There are ways you can prepare. 
+You may not be completely ready to start looking for a job, but there are other ways you can prepare. 
 
 </div>
 
@@ -46,7 +46,6 @@ You may not be completely ready to start looking for a job. That's okay. There a
 <div markdown="1">
 
 ##### Discover your skills and interests
-
 Identify the type of work you enjoy with the [Interest Profiler](/employment/job-seekers/interest-profiler), then explore related [career paths](https://www.mynextmove.org/).
 
 </div>
@@ -58,7 +57,6 @@ Identify the type of work you enjoy with the [Interest Profiler](/employment/job
 <div markdown="1">
 
 ##### Learn about job titles and qualifications
-
 Browse careers by industry and learn about jobs that are similar to your MOS using the [Civilian Occupation Translator](/employment/job_seekers/skills-translator).
 
 </div>
@@ -112,7 +110,6 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 <div markdown="1">
 
 ##### Attend a career fair
-
 Learn about the [job fairs](/employment/job-seekers/career-fairs) available for Veterans, Servicemembers, and family members.
 
 </div>
@@ -128,9 +125,9 @@ Learn about the [job fairs](/employment/job-seekers/career-fairs) available for 
 <div class="call-out" markdown="1">
 #### Consider furthering your education
 - The [Post-9/11 GI Bill](/education/gi-bill/) gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
---Fill in any gaps in your education or skill set by taking classes and getting  [advanced training and certifications](/education/advanced-training-and-certifications/)
--Military [tuition assistance]( http://www.military.com/education/money-for-school/tuition-assistance-ta-program-overview.html) (for active duty)
-- Free [Coursera classes](https://www.surveymonkey.com/r/QSGQRFN)
+- Fill in any gaps in your education or skill set by taking classes and getting  [advanced training and certifications](/education/advanced-training-and-certifications/)
+- Consider military [tuition assistance]( http://www.military.com/education/money-for-school/tuition-assistance-ta-program-overview.html) (for active duty)
+- Take a free [Coursera class](https://www.surveymonkey.com/r/QSGQRFN)
 
 </div>
 
