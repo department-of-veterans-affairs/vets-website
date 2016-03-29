@@ -28,7 +28,7 @@ You may not be completely ready to start looking for a job, but there are other 
 
 - **Are you already in the workforce?**
   
-  Consider a [new career or additional education](/employment/job-seekers/less-than-one-year).
+  Consider a [new career](/employment/job-seekers/search_jobs) or [additional education](https://www.vets.gov/education/gi-bill/).
 
 </div>
 
