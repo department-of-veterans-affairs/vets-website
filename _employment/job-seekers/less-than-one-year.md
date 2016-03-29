@@ -36,7 +36,7 @@ relatedlinks:
 
 Servicemembers, and their spouses, who are within one year of separating from the military
 
-### Why should you ready this? 
+### Why should you read this? 
 
 You can take certain steps to improve your chances of moving smoothly and successfully into civilian life.
 
