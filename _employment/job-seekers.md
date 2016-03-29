@@ -21,14 +21,9 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
   [Prepare for your transition](/employment/job-seekers/less-than-one-year) with this timeline.
 
-<br>
-
 - ##### Have you recently left active duty?
   
   If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through [Unemployment Compensation for Ex-Servicemembers](/employment/job-seekers/unemployment-support).
-
-<br>
-
 
 - ##### Are you already in the workforce?
   
