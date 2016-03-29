@@ -13,7 +13,7 @@ template: 1-topic-landing
 
 VA provides you and your spouse with resources through VA and other federal entities that can help you make a new or existing business a success.
 
-VA can guide you through the process of [registering](http://www.va.gov/osdbu/) as a Veteran-owned or service-disabled Veteran-owned business. Once you get your certification, you are eligible for certain assistance and benefits. If you are already open for business and want to sell to the Federal government, the [Procurement Technical Assistance Center](http://www.apat-us.org) (PTAC) can help with all of the required documentation and registration to bid on government contracts.  
+VA can guide you through the process of [registering](http://www.va.gov/osdbu/) as a Veteran-owned or service-disabled Veteran-owned business. Once you get your certification, you are eligible for certain assistance and benefits. If you are already open for business and want to sell to the Federal government, the [Procurement Technical Assistance Center](http://www.aptac-us.org) (PTAC) can help with all of the required documentation and registration to bid on government contracts.  
 
 The Small Business Administration also has [resources specifically for Veterans](https://www.sba.gov/content/veteran-service-disabled-veteran-owned). 
 
@@ -40,11 +40,11 @@ Find more resources for starting your business at the [Department of Labor’s V
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
           <li>
-            <a href="/employment/job-seekers/start/register/"><h5>Registering Your Business: #112171837</h5></a>
+            <a href="/employment/job-seekers/start/register/"><h5>Registering Your Business</h5></a>
           </li>
 
           <li>
-            <a href="/employment/job-seekers/start/counseling/"><h5>Entrepreneurship Counseling: #112172071</h5></a>
+            <a href="/employment/job-seekers/start/counseling/"><h5>Entrepreneurship Counseling</h5></a>
           </li>  
 
         </ul>
@@ -58,7 +58,7 @@ Find more resources for starting your business at the [Department of Labor’s V
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
+      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
     </div>
   </div>
 </div>
