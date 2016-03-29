@@ -18,7 +18,7 @@ VA can guide you through the process of [registering](http://www.va.gov/osdbu/) 
 
 VA provides you and your spouse with resources through VA and other federal entities that can help you make a new or existing business a success.
 
-VA can guide you through the process of [registering](http://www.va.gov/osdbu/) as a Veteran-owned or service-disabled Veteran-owned business. Once you get your certification, you are eligible for certain assistance and benefits. If you are already open for business and want to sell to the Federal government, the [Procurement Technical Assistance Center](http://www.apat-us.org) (PTAC) can help with all of the required documentation and registration to bid on government contracts.  
+VA can guide you through the process of [registering](http://www.va.gov/osdbu/) as a Veteran-owned or service-disabled Veteran-owned business. Once you get your certification, you are eligible for certain assistance and benefits. If you are already open for business and want to sell to the Federal government, the [Procurement Technical Assistance Center](http://www.aptac-us.org) (PTAC) can help with all of the required documentation and registration to bid on government contracts.  
 
 The Small Business Administration also has [resources specifically for Veterans](https://www.sba.gov/content/veteran-service-disabled-veteran-owned). 
 
@@ -30,4 +30,3 @@ Many universities and nonprofit organizations offer free or low-cost entrepreneu
 - [Techstars Risingstars Program](http://www.techstars.com/risingstars/).
 
 Find more resources for starting your business at the [Department of Labor’s Veteran information site](http://www.dol.gov/vets/opportunities/opportunities.htm).
-
