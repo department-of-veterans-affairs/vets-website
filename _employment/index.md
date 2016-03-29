@@ -6,7 +6,7 @@ concurrence: complete
 ---
 
 <div class="main" role="main">
-<!-- A test comment -->
+
 <div class="section one">
 
 <div class="primary">
