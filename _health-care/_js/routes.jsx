@@ -11,7 +11,7 @@ import FinancialDisclosureSection from './components/financial-assessment/Financ
 import InsuranceInformationSection from './components/insurance-information/InsuranceInformationSection';
 import IntroductionSection from './components/IntroductionSection.jsx';
 import MedicareMedicaidSection from './components/insurance-information/MedicareMedicaidSection';
-import NameAndGeneralInfoSection from './components/personal-information/NameAndGeneralInfoSection';
+import NameAndGeneralInfo from './containers/NameAndGeneralInfo';
 import ReviewAndSubmitSection from './components/ReviewAndSubmitSection.jsx';
 import ServiceInformationSection from './components/military-service/ServiceInformationSection';
 import SpouseInformationSection from './components/financial-assessment/SpouseInformationSection';
@@ -27,7 +27,7 @@ const routes = [
 
   // Personal Information routes.
   <Route
-      component={NameAndGeneralInfoSection}
+      component={NameAndGeneralInfo}
       key="/personal-information/name-and-general-information"
       path="/personal-information/name-and-general-information"/>,
   <Route

@@ -3,10 +3,9 @@ import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 import { hashHistory } from 'react-router';
 
-import ProgressButton from './ProgressButton';
-
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
+import ProgressButton from './ProgressButton';
 
 import * as validations from '../utils/validations';
 
