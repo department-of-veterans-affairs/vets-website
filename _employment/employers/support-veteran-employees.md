@@ -17,7 +17,7 @@ If your company has not previously hired Veterans, learn about how you can desig
 
 In addition to the services listed above, VR&E provides employers with other benefits through the [Special Employer Incentives (SEI) program](http://benefits.va.gov/vow/docs/SEIFlyerFinal.pdf). An employer hiring a Veteran with a service-connected disability who is approved for VR&E services may be entitled to reimbursements of up to 50% of the Veteran’s salary for six months to offset training costs. Read about the [VR&E](/_dummy-placeholder.html) program or call 1-800-827-1000.
 
-Employers participating in an [on-the-job training (OJT)](/_dummy-placeholder.html) program can hire a Veteran at the apprenticeship wage and VA will supplement that wage with GI Bill payments. The training often results in permanent, full-time employment and provides employers with a well-trained Veteran employee.  
+Employers participating in an on-the-job training (OJT) program can hire a Veteran at the apprenticeship wage and VA will supplement that wage with GI Bill payments. The training often results in permanent, full-time employment and provides employers with a well-trained Veteran employee.  
 
 [Apprenticeship](/employment/employers/commitments/apprenticeship/) programs allow a Veteran to enter into a training contract for a specific period of time with an employer or union, and then at the end of the training period, the Veteran gains job certification or journeyman status.
 
