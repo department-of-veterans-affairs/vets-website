@@ -91,7 +91,6 @@ This example contains two job listings. The first uses a smaller set of schema.o
     "addressLocality": "Kirkland",
     "addressRegion": "WA"
   }
-<<<<<<< 31a5b71dc998c23d1f947089d5745650144d3260
 },
 "hiringOrganization": {
   "@type": "Organization",
@@ -135,6 +134,7 @@ This example contains two job listings. The first uses a smaller set of schema.o
 "url": "www.abccompanyinc.com/jobs?listing=23456"
 }]</code></pre>
 </div>
+
 
 </div>
 </div>
