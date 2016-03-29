@@ -140,7 +140,7 @@ Learn about the [job fairs](/employment/job-seekers/career-fairs) available for 
 </div>
 
 <div class="call-out" markdown="1">
-#### Beginning your career make look different than others
+#### Take a different approach to starting your career 
 
 - Start or [grow your own business](/employment/job-seekers/start/counseling). 
 - Service-disabled Veterans may qualify for [small-business counseling](/employment/job-seekers/service-disabled).
