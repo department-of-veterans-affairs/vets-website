@@ -1,5 +1,5 @@
 ---
-title: Establish an Apprenticeship program for Veterans
+title: Establish an Apprenticeship Program for Veterans
 concurrence: complete
 template: 1-topic-landing
 ---
