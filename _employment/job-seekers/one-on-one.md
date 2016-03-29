@@ -37,7 +37,7 @@ Transitioning Servicemembers are required to attend the TAP briefings. These inc
 - Three optional additional workshops: Career Technical Training Track, Education Track, and Entrepreneurship Track.
 - Information on all available VA benefits. Contact VA career-and-training specialists at 1-800-827-1000.
 
-#####VA's Education and Career Counseling program
+##### VA's Education and Career Counseling program
 
 For a year after transitioning out of the military and for the six months prior to separation, Servicemembers may also be eligible for VA's [Education and Career Counseling program](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp). If you are eligible, this option focuses on those who are interested in getting the most out of their education benefits. The program includes career counseling, benefits coaching and individual support, and academic counseling. To apply, follow these simple steps: 
 
