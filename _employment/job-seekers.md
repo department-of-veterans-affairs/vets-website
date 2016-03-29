@@ -44,14 +44,14 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 <ol class="process" markdown="0">
 <li class="step one wow fadeIn animated" markdown="1">
-##### Discover your skills and interests.<br>
 
+##### Discover your skills and interests
 
 Identify the type of work you enjoy with the [Interest Profiler](/employment/job-seekers/interest-profiler), then explore related [career paths](https://www.mynextmove.org/).
 </li>
 
 <li class="step two wow fadeIn animated" markdown="1">
-##### Learn about job titles and qualifications<br>
+##### Learn about job titles and qualifications
 
 Browse careers by industry and learn about jobs that are similar to your MOS using the [Military Skills Translator](/employment/job-seekers/skills-translator).
 </li>
@@ -65,7 +65,6 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 <li class="step four wow fadeIn animated animated" markdown="1">
 ##### Research employers in your area and network
-
 
 - Many employers have made [commitments](/employment/commitments) to hire Veterans and military spouses.
 - Consider a job with the [federal government](/employment/job-seekers/federal-employment).
@@ -115,7 +114,6 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 
 <br>
 
-
 ### Military spouses and family members
 
 - Use government-sponsored [career and education resources](/employment/job-seekers/family-members/).
@@ -129,7 +127,14 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 
 <h4 class="highlight">Online Resources</h4>
 
-<ul class="plain" markdown="0">
+<div class="call-out" markdown="1">
+#### Consider furthering your education
+- The [Post-9/11 GI Bill](/education/gi-bill/) gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
+- Fill in any gaps in your education or skill set by taking classes and getting  [advanced training and certifications](/education/advanced-training-and-certifications/)
+- Consider military [tuition assistance]( http://www.military.com/education/money-for-school/tuition-assistance-ta-program-overview.html) (for active duty)
+- Take a free [Coursera class](https://www.surveymonkey.com/r/QSGQRFN)
+
+</div>
 
 <li markdown="1">
 [Coursera](https://www.surveymonkey.com/r/QSGQRFN) Take a class with these free resources
@@ -140,20 +145,6 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 [LinkedIn&#153;'s Lynda](https://veterans.linkedin.com/)
 </li>
 </ul>
-
-Callout Box Title
-  :Callout text
-
-    - list item
-    - list item
-{:.va-callout}
-
-Callout Box Title 2
-  : Callout text
-
-    - list item
-    - list item
-{:.va-callout}
 
 </div>
 </div>
