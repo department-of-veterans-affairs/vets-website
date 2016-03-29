@@ -173,20 +173,22 @@ Learn about the [job fairs](/_dummy-placeholder.html) available for Veterans, Se
 
 </ol>
 
-</div>
-</div>
+<div class="call-out" markdown="1">
+#### Callout Box Title
+Callout text
+
+- list item
+- list item
 </div>
 
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-        <li>
-          <a href="/_dummy-placeholder.html">
-            <h5>Military Spouses and Family Job Seekers</h5>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
+<div class="call-out" markdown="1">
+#### Callout Box Title 2
+Callout text
+
+- list item
+- list item
+</div>
+
+</div>
+</div>
 </div>
