@@ -20,7 +20,7 @@ template: 1-topic-landing
 
 <div markdown="1">
 
-Thank you for your interest in hiring Veterans, transitioning Servicemembers, and their families with The Veterans Employment Center. Maximize your exposure by posting jobs directly from your website to the Veteran Jobs Bank through the [National Labor Exchange (NLX)](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
+Thank you for your interest in hiring Veterans, transitioning Servicemembers, and their families with the Veterans Employment Center™. Maximize your exposure by posting jobs directly from your website to the Veterans Job Bank through the [National Labor Exchange (NLX)](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
 
 </div>
 
@@ -36,56 +36,57 @@ Anyone
 
 #### How it works 
 
-If your company’s current job listing is posted on the NLX, then it is also searchable in the Veteran Jobs Bank. If you haven’t registered your company with the NLX, [register now and post for free](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
-Or reach out to [qualified Veterans and military spouses](/_dummy-placeholder.html) directly.
+If your company’s current job listing is posted on the NLX, then it is also searchable in the Veterans Job Bank. If you haven’t registered your company with the NLX, [register now and post for free](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
+Or reach out to [qualified Veterans and military spouses](https://www.vets.gov/veterans-employment-center/employers) directly.
 
-#### Which employers are eligible:
+#### Which employers are eligible
 All
 
-#### Registration:
+#### Registration
 
-You do not have to be registered with the NLX in order to participate in the Veterans Employment Center™, but it may streamline the process of posting jobs.
+You do not have to be registered with the NLX to participate in the Veterans Employment Center (VEC), but it may streamline posting a job.
 
-Want to be a Featured Employer? Use the JobPosting Schema from schema.org.
+### Want to be a Featured Employer? Use the JobPosting Schema from schema.org.
 
-#### How it works:
+#### How it works
 
-If your job listings conform to the JSON-LD template for schema.org’s JobPosting vocabulary, when you add the URL for your listings to the designated box within your VEC profile, your jobs will automatically appear in the Veterans Job Bank within 24 hours. When appropriate to a search query, your jobs will be returned as a featured listing near the top of the search results. Please note that the provided URL must end in .json and contain valid JSON-LD.
+If your job listing conforms to the JSON-LD template for schema.org’s JobPosting vocabulary, your job will automatically appear in the Veterans Job Bank within 24 hours of adding the job URL to the designated box in your VEC profile. When appropriate to a search query, your job will be returned as a featured listing near the top of the search results. Please note that the provided URL must end in .json and contain valid JSON-LD.
 
-#### Which employers are eligible:
+#### Which employers are eligible
 
 All
 
-#### How the schema works:
+#### How the schema works
 
 The schema.org JobPosting vocabulary consists of 18 basic elements (listed below). Each element describes a core detail of a job vacancy. Participation in the Veterans Job Bank requires only a handful of these elements (datePosted, hiringOrganization, JobLocation, SpecialCommitments, title, and url). Adding more elements, however, will make your job posting more accessible to searchers.
 
-The schema.org JSON-LD JobPosting Elements
+### The schema.org JSON-LD JobPosting elements
+
 Only those marked with an asterisk (*) are required for inclusion in the Veterans Job Bank. Square brackets ([like this]) following each element name indicate the schema.org data type.
 
-- ** *title**: [Text] the descriptive title for the job vacancy or opportunity
-- ** *hiringOrganization:** [Organization] The company or organization with the vacancy or opportunity
-- ** industry**: [Text] The major industry in which the vacancy or opportunity operates
-- ** occupationalCategory**: [Text] (use BLS O*NET-SOC taxonomy: http://www.onetcenter.org/taxonomy.html)
-- ** *jobLocation**: [Place] The principal place of performance for the vacancy or opportunity
-- ** baseSalary**: [Number] Annual salary. If hourly position estimated cumulative annual wages
-- ** salaryCurrency**: [Text] Indication of country currency in which salary will be paid- particularly for international vacancies or opportunities
-- ** employmentType**: [Text] (E.g.; full-time, part-time, contract, temporary, seasonal, internship)
-- ** workHours**: [Text] (E.g., 1st shift, night shift, 8am-5pm)
-- ** qualifications**: [Text] Any certifications, experience, training, licenses or other special qualifications associated with the vacancy or opportunity
-- ** skills**: [Text] Key or special skills to be highlighted in relation to the vacancy or opportunity
-- ** educationRequirements**: [Text] Level of education attained or educational specialty required for the vacancy or opportunity
-- ** experienceRequirements**: [Text] Years or months of previous experience required for the vacancy or opportunity. May also indicate entry level.
-- ** responsibilities**: [Text] Key duties and responsibilities for the vacancy or opportunity
-- ** benefits**: [Text] Benefits associated with the vacancy or opportunity including health insurance, retirement, tuition assistance or other non-salary based campensation
-- ** incentives**: [Text] a place for bonus and commission compensation
-- ** *specialCommitments**: [Text] (e.g., VeteranCommit, MilitarySpouseCommit, etc.)
-- ** *datePosted**: [Date] effective date of posting for the vacancy or opportunity
-- ** *url**: [URL] Unique url of the detailed job posting.
+- ***title**: [Text] The descriptive title for the job vacancy or opportunity
+- ***hiringOrganization**: [Organization] The company or organization with the vacancy or opportunity
+- **industry**: [Text] The major industry in which the vacancy or opportunity operates
+- **occupationalCategory**: [Text] (use BLS O*NET-SOC taxonomy: http://www.onetcenter.org/taxonomy.html)
+- ***jobLocation**: [Place] The principal place of performance for the vacancy or opportunity
+- **baseSalary**: [Number] Annual salary. If hourly position, estimate cumulative annual wages
+- **salaryCurrency**: [Text] Indication of country currency in which salary will be paid, particularly for international vacancies or opportunities
+- **employmentType**: [Text] (e.g., full-time, part-time, contract, temporary, seasonal, internship)
+- **workHours**: [Text] (e.g., 1st shift, night shift, 8am-5pm)
+- **qualifications**: [Text] Any certifications, experience, training, licenses, or other special qualifications needed for the vacancy or opportunity
+- **skills**: [Text] Key or special skills to be highlighted in relation to the vacancy or opportunity
+- **educationRequirements**: [Text] Level of education or educational specialty required for the vacancy or opportunity
+- **experienceRequirements**: [Text] Years or months of previous experience required for the vacancy or opportunity. May also indicate entry level.
+- **responsibilities**: [Text] Key duties and responsibilities for the vacancy or opportunity
+- **benefits**: [Text] Benefits associated with the vacancy or opportunity, including health insurance, retirement, tuition assistance, or other nonsalary-based compensation
+- **incentives**: [Text] A place for bonus and commission compensation
+- ***specialCommitments**: [Text] (e.g., VeteranCommit, MilitarySpouseCommit, etc.)
+- ***datePosted**: [Date] Effective date of posting for the vacancy or opportunity
+- ***url**: [URL] Unique url of the detailed job posting
 
-#### A schema.org JSON-LD Example
+#### A schema.org JSON-LD example
 
-This example contains two job listings. The first uses a smaller set of schema.org elements. Both use all elements required for inclusion in the Veterans Job Bank. 
+This example contains two job listings. The first uses a smaller set of schema.org elements. Both contain all elements required for inclusion in the Veterans Job Bank. 
           
 
 [
@@ -146,6 +147,8 @@ This example contains two job listings. The first uses a smaller set of schema.o
 
 
 </pre>        
+        
+
 </div>
 </div>
 </div>
