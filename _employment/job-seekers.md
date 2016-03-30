@@ -57,7 +57,7 @@ Identify the type of work you enjoy with the [Interest Profiler](/employment/job
 <div markdown="1">
 
 ##### Learn about job titles and qualifications
-Browse careers by industry and learn about jobs that are similar to your MOS using the [Civilian Occupation Translator](/employment/job_seekers/skills-translator).
+Browse careers by industry and learn about jobs that are similar to your MOS using the [Civilian Occupation Translator](/employment/job-seekers/skills-translator).
 
 </div>
 
@@ -69,7 +69,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Build a résumé and public profile
 
-- Your military experience can be translated into civilian language with the [Military Skills Translator](/employment/job_seekers/skills-translator).
+- Your military experience can be translated into civilian language with the [Military Skills Translator](/employment/job-seekers/skills-translator).
 - Build your [résumé and public profile](/employment/job-seekers/create-resume) so employers can seek you out.
 - Get a free [LinkedIn job seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
 
