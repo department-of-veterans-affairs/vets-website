@@ -10,7 +10,7 @@ class DemographicInformationSection extends React.Component {
 
         <div className="input-section">
           <ErrorableCheckbox
-              label="Are you Spanish, Hispanic, or Lantino?"
+              label="Are you Spanish, Hispanic, or Latino?"
               checked={this.props.data.isSpanishHispanicLatino}
               onValueChange={(update) => {this.props.onStateChange('isSpanishHispanicLatino', update);}}/>
         </div>
