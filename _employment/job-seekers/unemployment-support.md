@@ -58,7 +58,7 @@ If you are unemployed and at risk of becoming homeless, [VA can help](/_dummy-pl
 
           <li>
             <h5>
-              <a href="/employment/job_seekers/skills-translator">Skills Translator</a>
+              <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
             </h5>
           </li>  
 

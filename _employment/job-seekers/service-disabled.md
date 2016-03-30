@@ -51,7 +51,7 @@ Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov
 
         <li>
           <h3>
-            <a href="/employment/job_seekers/skills-translator">Skills Translator</a>
+            <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
           </h3>
         </li>  
 

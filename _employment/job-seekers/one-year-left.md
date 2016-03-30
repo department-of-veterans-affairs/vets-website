@@ -71,7 +71,7 @@ Start a list of fields that interest you. A resource for this is the [Interest P
 
           <li>
             <h3>
-              <a href="/employment/job_seekers/skills-translator">Skills Translator</a>
+              <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
             </h3>
           </li>  
 

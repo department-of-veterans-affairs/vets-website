@@ -1,4 +1,3 @@
-
 ---
 title: Establish an Apprenticeship Program for Veterans
 concurrence: complete
