@@ -895,6 +895,7 @@ backface-visibility: hidden;
     @media #{$medium} {height: 10em;}
 
     h3 {
+      -webkit-font-smoothing: antialiased;
       text-decoration: none;
       margin: 0;
       padding: 0;
@@ -1192,6 +1193,7 @@ figure {
   }
 
   dt {
+  -webkit-font-smoothing: antialiased;
   font-weight: 700;
   display: block;
   font-size: .95em;
