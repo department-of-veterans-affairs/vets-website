@@ -19,18 +19,9 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Employers from every industry and in every state have committed to hiring Veterans and military family members because these individuals have consistently proven themselves to be reliable, independent, and hardworking. 
+Veterans and military family members have consistently proven themselves to be the most reliable, independent, and hardworking team members. Additionally, Veterans have soft skills such as problem solving and creativity that can benefit a company’s bottom line. By signing up and [making a commitment](/employment/users/sign_in), your company will stand out to candidates eager to enter the civilian workforce.  
 
-By signing up and [making a commitment](/employment/users/sign_in), your company will stand out to candidates eager to enter the civilian workforce. There are also tax benefits to hiring Veterans, such as the Work Opportunity Tax Credit (WOTC), that range from $1,200 to $9,600. Other VA programs provide incentives to hiring Veterans, such as  [Vocational Rehabilitation and Employment](/_dummy-placeholder.html ) and [On-the-Job Training](/_dummy-placeholder.html). 
-
-You can regularly update your profile with the number of hires made. You can also share that number publicly. 
-
-Read the RAND Corporation’s report titled [What Veterans Bring to Civilian Workplaces](http://www.rand.org/pubs/tools/TL160z1.html): A Prototype Toolkit for Helping Veterans Communicate to Private-Sector Employers About the Nontechnical Skills Taught in the Military. This publication demonstrates how courses such as Army Basic Combat Training, for example, teach attention to detail, teamwork, and persistence. Veterans have other soft skills such as problem solving and creativity that can benefit a company’s bottom line too. 
-
-Make a [commitment](/employment/users/sign_in). View [current commitments](/employment/commitments). 
-
-To learn more, call 1-800-827-1000 or visit a [VA regional office](/facility-locator/).
-
+You can regularly update your profile with the number of hires made. You can also share that number publicly.
 
 </div>
 </div>
@@ -79,7 +70,7 @@ To learn more, call 1-800-827-1000 or visit a [VA regional office](/facility-loc
         </li>
 
         <li>
-          <a href="/employment/job-seekers/start/">Start or Grow Your Own Business: #110298556</a>
+          <a href="/employment/job-seekers/start/">Start or Grow Your Own Business</a>
         </li>  
 
         <li>
