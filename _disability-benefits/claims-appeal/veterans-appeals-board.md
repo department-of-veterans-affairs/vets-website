@@ -8,7 +8,7 @@ source: http://www.bva.va.gov/index.asp
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
+      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
     </div>
   </div>
 </div>

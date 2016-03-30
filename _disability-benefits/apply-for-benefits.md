@@ -21,7 +21,7 @@ template: 7-get-page
 </div>
 
 <div class="small-12 medium-4 columns actions">
-<a class="usa-button-primary start" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
 </div>
 
 </div>
@@ -196,7 +196,7 @@ If you disagree with the decision, you may appeal it. The decision letter contai
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="0">
 
-<a class="usa-button-primary start" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
 
 </div>
 </div>
