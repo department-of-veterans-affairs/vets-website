@@ -46,6 +46,28 @@ body .row {
   }
 }
 
+.hca-datefield-month,
+.hca-datefield-day {
+  clear: none;
+  float: left;
+  margin-right: 1.5rem;
+  width: 10rem;
+
+  & select {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+}
+
+.usa-input-error {
+  .hca-datefield-month,
+  .hca-datefield-day {
+    select {
+      border: 3px solid $color-secondary-dark;
+    }
+  }
+}
+
 .hca-process {
   li {
     h5 {
