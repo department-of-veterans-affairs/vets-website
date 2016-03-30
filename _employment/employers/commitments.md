@@ -61,39 +61,4 @@ You can regularly update your profile with the number of hires made. You can als
   <div class="row">
     <div class="small-12 columns">
 
-      <h3>More on this topic</h3>
-
-      <ul>
-
-        <li>
-          <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance: #110298554</a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/start/">Start or Grow Your Own Business</a>
-        </li>  
-
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/commitments/">View Employer Commitments</a>
-        </li>
-
-        <li>
-          <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
-        </li>  
-
-        <li>
-          <a href="/employment/job-seekers/unemployment-support/">Unemployment Support</a>
-        </li>  
-
-        </ul>  
-
-      </div>
-    </div>  
-  </div>
-
-
-
-
-
-
-</div>
+   
