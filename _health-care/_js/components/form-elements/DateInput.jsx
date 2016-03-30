@@ -1,6 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
 
+import ErrorableSelect from '../form-elements/ErrorableSelect';
+import ErrorableNumberInput from '../form-elements/ErrorableNumberInput';
+
+import { months, days } from '../../utils/options-for-select.js';
 import { isBlank, isValidDate } from '../../utils/validations';
 
 /**
@@ -24,18 +28,27 @@ class DateInput extends React.Component {
     this.id = _.uniqueId('date-input-');
   }
 
-  handleChange() {
+  handleChange(path, update) {
     const date = {
-      month: Number(this._month.value),
-      day: Number(this._day.value),
-      year: Number(this._year.value)
+      month: Number(this.props.month),
+      day: Number(this.props.day),
+      year: Number(this.props.year)
     };
+
+    date[path] = Number(update);
 
     this.props.onValueChange(date);
   }
 
   render() {
     let isValid;
+    let daysForSelectedMonth = [];
+    const selectedMonth = this.props.month;
+
+    if (selectedMonth) {
+      daysForSelectedMonth = days[selectedMonth];
+    }
+
     if (this.props.required) {
       isValid = isValidDate(this.props.day, this.props.month, this.props.year);
     } else {
@@ -46,55 +59,31 @@ class DateInput extends React.Component {
     return (
       <div>
         <label>{this.props.label ? this.props.label : 'Date of Birth'}</label>
-        <span className="usa-form-hint usa-datefield-hint" id="dobHint">For example: 04 28 1986</span>
+        <span className="usa-form-hint usa-datefield-hint" id="dobHint">For example: Apr 28 1986</span>
         <div className={isValid ? undefined : 'usa-input-error'}>
           <div className="usa-date-of-birth row">
-            <div className="usa-datefield usa-form-group usa-form-group-month">
-              <label
-                  className={isValid ? undefined : 'usa-input-error-label'}
-                  htmlFor={`${this.id}-month`}>
-                Month
-              </label>
-              <input
-                  className="usa-form-control"
-                  id={`${this.id}-month`}
-                  max="12"
-                  min="1"
-                  pattern="0?[1-9]|1[012]"
-                  ref={(c) => { this._month = c; }}
-                  type="number"
+            <div className="hca-datefield-month">
+              <ErrorableSelect errorMessage={isValid ? undefined : ''}
+                  label="Month"
+                  options={months}
                   value={this.props.month}
-                  onChange={this.handleChange}/>
+                  onValueChange={(update) => {this.handleChange('month', update);}}/>
             </div>
-            <div className="usa-datefield usa-form-group usa-form-group-day">
-              <label
-                  className={isValid ? undefined : 'usa-input-error-label'}
-                  htmlFor={`${this.id}-day`}>Day</label>
-              <input
-                  className="usa-form-control"
-                  id={`${this.id}-day`}
-                  max="31"
-                  min="1"
-                  pattern="0?[1-9]|1[0-9]|2[0-9]|3[01]"
-                  ref={(c) => { this._day = c; }}
-                  type="number"
+            <div className="hca-datefield-day">
+              <ErrorableSelect errorMessage={isValid ? undefined : ''}
+                  label="Day"
+                  options={daysForSelectedMonth}
                   value={this.props.day}
-                  onChange={this.handleChange}/>
+                  onValueChange={(update) => {this.handleChange('day', update);}}/>
             </div>
             <div className="usa-datefield usa-form-group usa-form-group-year">
-              <label
-                  className={isValid ? undefined : 'usa-input-error-label'}
-                  htmlFor={`${this.id}-year`}>Year</label>
-              <input
-                  className="usa-form-control"
-                  id={`${this.id}-year`}
+              <ErrorableNumberInput errorMessage={isValid ? undefined : ''}
+                  label="Year"
                   max={new Date().getFullYear()}
                   min="1900"
                   pattern="[0-9]{4}"
-                  ref={(c) => { this._year = c; }}
-                  type="number"
                   value={this.props.year}
-                  onChange={this.handleChange}/>
+                  onValueChange={(update) => {this.handleChange('year', update);}}/>
             </div>
           </div>
         </div>
