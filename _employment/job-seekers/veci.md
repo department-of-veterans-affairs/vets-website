@@ -32,19 +32,19 @@ Representatives from the Veterans Economic Community Initiative (VECI) are avail
 
         <li>
           <h5>
-            <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator</a>
+            <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
           </h5>
         </li>  
 
         <li>
           <h5>
-            <a href="https://www.vets.gov/veterans-employment-center/createresume/">Résumé Builder</a>
+            <a href="/employment/job-seekers/create-resume">Resume Builder</a>
           </h5>  
         </li>
 
         <li>
           <h5>
-            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Veterans Job Bank</a>
+            <a href="/employment/job-seekers/search_jobs">Search the Jobs Bank</a>
           </h5>
         </li>  
 
@@ -66,12 +66,4 @@ Representatives from the Veterans Economic Community Initiative (VECI) are avail
     </div>  
   </div>
 
-</div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
 </div>

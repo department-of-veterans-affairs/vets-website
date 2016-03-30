@@ -19,7 +19,7 @@ In addition to the services listed above, VR&E provides employers with other ben
 
 Employers participating in an on-the-job training (OJT) program can hire a Veteran at the apprenticeship wage and VA will supplement that wage with GI Bill payments. The training often results in permanent, full-time employment and provides employers with a well-trained Veteran employee.  
 
-[Apprenticeship](/employment/employers/commitments/apprenticeship/) programs allow a Veteran to enter into a training contract for a specific period of time with an employer or union. At the end of the training period, the Veteran gains job certification or journeyman status.
+[Apprenticeship](/employment/employers/apprenticeship/) programs allow a Veteran to enter into a training contract for a specific period of time with an employer or union, and then at the end of the training period, the Veteran gains job certification or journeyman status.
 
 ### Learn more about how to support your Veteran employees with disabilities:
 - Some Veterans may have disabilities that were acquired or aggravated during their military service; these are called service-related or [service-connected disabilities](/disability-benefits/conditions/service-connected/).
@@ -38,7 +38,7 @@ Employers participating in an on-the-job training (OJT) program can hire a Veter
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Veterans Job Bank</a>
+              <a href="/employment/job-seekers/search_jobs">Search the Veterans Job Bank</a>
             </h5>  
           </li>  
 
@@ -54,12 +54,4 @@ Employers participating in an on-the-job training (OJT) program can hire a Veter
   </div>  
 </div>
 
-</div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
-    </div>
-  </div>
 </div>

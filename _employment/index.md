@@ -47,13 +47,3 @@ The Veterans Employment Center (VEC™) connects Veterans and their families wit
 </div>
 </div>
 </div>
-
-<div class="section do">
-<div class="row">
-<div class="small-12 columns">
-<div class="actions">
-<a href="https://www.vets.gov/veterans-employment-center/" class="usa-button-primary">Veterans Employment Center</a>
-</div>
-</div>
-</div>
-</div>

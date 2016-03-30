@@ -3,13 +3,20 @@ title: Employers
 concurrence: complete
 template: 1-topic-landing
 ---
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary" href="/employment/users/sign_in">Employer Login</a>
+    </div>
+  </div>
+</div>
 
 <div class="main" role="main" markdown="0">
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
 The Veterans Employment Center™ (VEC) provides support for your company during your search for Veteran candidates and after you have hired a Veteran or military family member. You can also make a hiring commitment as a first step in supporting Veterans and their families.
 
@@ -21,38 +28,32 @@ There are incentives such as the Work Opportunity Tax Credit (WOTC) that ranges 
 </div>
 </div>
 
-  <div class="navigation">
-    <div class="row">
-      <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-          <li>
-            <a href="/employment/employers/find-candidates/">
-              <h5>Find Veteran and Military-Family Candidates</h5>
-              <span>Search for qualified employees.</span></a>
-          </li>
-
-          <li>
-            <a href="https://www.vets.gov/veterans-employment-center/commitments"><h5>Make a Hiring Commitment</h5><span>Improve your business by hiring Veterans.</span></a>
-          </li>
-
-          <li>
-            <a href="/employment/employers/support-veteran-employees/"><h5>Support Veteran Employees</h5><span>Find ways to make your Veteran employees feel at home.</span></a>
-          </li>  
-
-        </ul>
-
-      </div>
-    </div>  
-  </div>
-
-</div>
-</div>
-
-<div class="action-bar">
+<div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
+      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+        <li>
+          <a href="/employment/employers/support-veteran-employees/">
+          <h5>Workplace Support</h5>
+          <span>Find ways to make your Veteran employees feel at home.</span></a>
+        </li>  
+
+        <li>
+          <a href="/employment/employers/apprenticeship/">
+            <h5>Establish an Apprenticeship and On-The-Job-Resources</h5>
+          </a>
+        </li>
+
+        <li>
+          <a href="/employment/commitments">
+            <h5>Make a Hiring Commitment</h5>
+            <span>Improve your business by hiring Vets</span>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
+</div>
+
+</div>
 </div>

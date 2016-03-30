@@ -57,13 +57,13 @@ Visit the following sites to find a career fair near you:
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/commitments/">View Employer Commitments</a>
+              <a href="/employment/commitments">View Employer Commitments</a>
             </h5>  
           </li>
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
+              <a href="/employment/job-seekers/search_jobs">Search the Jobs Bank</a>
             </h5>  
           </li>  
 
@@ -77,13 +77,5 @@ Visit the following sites to find a career fair near you:
 
       </div>
     </div>  
-  </div>
-</div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
   </div>
 </div>

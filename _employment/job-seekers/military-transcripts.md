@@ -22,11 +22,3 @@ Air Force personnel can request transcripts from the Community College of the Ai
 </div>
 </div>
 </div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
-</div>
