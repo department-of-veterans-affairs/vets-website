@@ -19,7 +19,7 @@ Your preparation for job fairs is critical to your success. Here are a few tips:
 - Research the companies that will be in attendance, and find out what jobs they have open.
 - Prioritize the employers you are interested in, and prepare two to three questions for the representatives of those companies.
 - Bring multiple copies of your résumé and any relevant military transcripts.
-- Bring business cards to encourage follow-up conversations and questions with prospective employers.
+- Bring business cards to encourage follow-up conversations with prospective employers.
 - For virtual or online events, fill out all necessary online profile requirements (including résumé, references, and a professional high-resolution photo), and update your [LinkedIn profile](https://www.linkedin.com/).
 
 Visit the following sites to find a career fair near you: 
@@ -32,9 +32,9 @@ Visit the following sites to find a career fair near you:
 
 [Military Officers Association of America (MOAA)](http://www.moaa.org/) hosts six free, live hiring and networking events, as well as quarterly virtual events for Servicemembers and their spouses.
 
-[TechExpoUSA.com](https://techexpousa.com/) serves as an online career center where defense contractors, technology companies, consulting firms, and numerous US governmental agencies can recruit and hire experienced professionals with security clearance.
+[TechExpoUSA.com](https://techexpousa.com/) serves as an online career center where defense contractors, technology companies, consulting firms, and numerous U.S. governmental agencies can recruit and hire experienced professionals with security clearance.
 
-[Virtual Job Scout](https://www.virtualjobscout.org/), sponsored by the US Chamber of Commerce Foundation’s Hiring Our Heroes, connects Veterans, transitioning Servicemembers, and military spouses with recruiters online. 
+[Virtual Job Scout](https://www.virtualjobscout.org/), sponsored by the U.S. Chamber of Commerce Foundation’s Hiring Our Heroes, connects Veterans, transitioning Servicemembers, and military spouses with recruiters online. 
 
 [Veteran Recruiting job fairs](http://veteranrecruiting.com/) are virtual events that give job seekers the opportunity to chat live with employers online. Employers are also available offline.
 
@@ -63,7 +63,7 @@ Visit the following sites to find a career fair near you:
 
           <li>
             <h5>
-              <a href="/employment/job-seekers/search_jobs">Search the Jobs Bank</a>
+              <a href="/employment/job-seekers/search_jobs">Search the Veterans Job Bank</a>
             </h5>  
           </li>  
 
