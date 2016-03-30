@@ -38,7 +38,7 @@ If you are out of work, you may be eligible for [unemployment support](http://ca
 
         <li>
           <h3>
-            <a href="/employment/job_seekers/skills-translator">Skills Translator</a>
+            <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
           </h3>
         </li>  
 
