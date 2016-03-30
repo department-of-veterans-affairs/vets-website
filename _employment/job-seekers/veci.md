@@ -38,13 +38,13 @@ Representatives from the Veterans Economic Community Initiative (VECI) are avail
 
         <li>
           <h5>
-            <a href="/employment/job-seekers/create-resume">Resume Builder</a>
+            <a href="/employment/job-seekers/create-resume">Résumé Builder</a>
           </h5>  
         </li>
 
         <li>
           <h5>
-            <a href="/employment/job-seekers/search_jobs">Search the Jobs Bank</a>
+            <a href="/employment/job-seekers/search_jobs">Search the Veterans Job Bank</a>
           </h5>
         </li>  
 
