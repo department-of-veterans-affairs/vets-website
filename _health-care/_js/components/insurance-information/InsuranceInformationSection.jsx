@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import GrowableTable from '../form-elements/GrowableTable.jsx';
 import Provider from './Provider.jsx';
-import { veteranUpdateField } from '../../actions';
+import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
 
 /**
  * Props:
@@ -29,9 +29,24 @@ class InsuranceInformationSection extends React.Component {
   }
 
   render() {
+    let providersTable;
+
+    if (this.props.data.isCoveredByHealthInsurance) {
+      providersTable = (
+        <GrowableTable
+            component={Provider}
+            createRow={this.createBlankProvider}
+            data={this.props.data}
+            initializeCurrentElement={() => {this.props.initializeFields();}}
+            onRowsUpdate={(update) => {this.props.onStateChange('providers', update);}}
+            path="/insurance-information/general"
+            rows={this.props.data.providers}/>
+      );
+    }
+
     return (
       <fieldset>
-        <div className={`input-section ${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
+        <div className={`input-section${this.props.data.sectionComplete ? ' review-view' : ' edit-view'}`}>
           <h4>Coverage Information</h4>
           <ErrorableCheckbox
               label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
@@ -43,11 +58,7 @@ class InsuranceInformationSection extends React.Component {
               checked={this.props.data.isCoveredByHealthInsurance}
               onValueChange={(update) => {this.props.onStateChange('isCoveredByHealthInsurance', update);}}/>
           <hr/>
-          <GrowableTable
-              component={Provider}
-              createRow={this.createBlankProvider}
-              onRowsUpdate={(update) => {this.props.onStateChange('providers', update);}}
-              rows={this.props.data.providers}/>
+          {providersTable}
         </div>
       </fieldset>
     );
@@ -64,6 +75,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['insuranceInformation', field], update));
+    },
+    initializeFields: () => {
+      dispatch(ensureFieldsInitialized('/insurance-information/general'));
     }
   };
 }
