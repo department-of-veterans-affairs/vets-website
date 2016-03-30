@@ -11,7 +11,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Representatives from the Veterans Economic Community Initiative (VECI) are available in [25 cities](/_dummy-placeholder.html). [VECI liaisons](/_dummy-placeholder.html) collaborate with local business leaders, schools, and nonprofit groups, and help you maximize education and economic opportunities. Find a [VECI economic liaison](http://www.benefits.va.gov/VECI/docs/VECIPOCList.pdf) near you. 
+Representatives from the Veterans Economic Community Initiative (VECI) are available in [25 cities](http://www.benefits.va.gov/TEEI/economic-liaison-list.asp). VECI liaisons collaborate with local business leaders, schools, and nonprofit groups, and help you maximize education and economic opportunities. Find a [VECI economic liaison](http://www.benefits.va.gov/VECI/docs/VECIPOCList.pdf) near you. 
 
 </div>
 </div>
@@ -32,7 +32,7 @@ Representatives from the Veterans Economic Community Initiative (VECI) are avail
 
         <li>
           <h5>
-            <a href="/employment/job_seekers/skills-translator">Skills Translator</a>
+            <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
           </h5>
         </li>  
 
