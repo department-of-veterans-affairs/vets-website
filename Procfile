@@ -1,1 +1,1 @@
-web: rake heroku_serve[$PORT]
+web: rake heroku-serve[$PORT]
