@@ -3,6 +3,13 @@ title: Post a Job
 concurrence: complete
 template: 1-topic-landing
 ---
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary" href="/employment/users/sign_in">Employer Login</a>
+    </div>
+  </div>
+</div>
 
 <div class="main" role="main" markdown="0">
 
