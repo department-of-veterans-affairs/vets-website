@@ -24,3 +24,4 @@ Representatives from the Veterans Economic Community Initiative (VECI) are avail
 - If you are an employer, VECI regional liaisons can help you hire Veterans.
 
 Find a [VECI economic liaison](http://www.benefits.va.gov/TEEI/economic-liaison-list.asp) near you. 
+
