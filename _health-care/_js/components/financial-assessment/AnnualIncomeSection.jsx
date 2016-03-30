@@ -1,5 +1,7 @@
 import React from 'react';
 
+import ChildIncome from './ChildIncome';
+import FixedTable from '../form-elements/FixedTable.jsx';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
 
@@ -14,6 +16,7 @@ class AnnualIncomeSection extends React.Component {
   }
 
   // TODO: Figure out best way to enable users to change their response to pension
+
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
     let notRequiredMessage;
@@ -29,6 +32,20 @@ class AnnualIncomeSection extends React.Component {
       );
     }
 
+    let childrenIncomeInput;
+
+    if (this.props.data.children.length > 0) {
+      childrenIncomeInput = (
+        <div className="input-section">
+          <h6>Children</h6>
+          <FixedTable
+              component={ChildIncome}
+              onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
+              rows={this.props.data.children}/>
+        </div>
+      );
+    }
+
     return (
       <div>
         <h4>Annual Income</h4>
@@ -41,7 +58,7 @@ class AnnualIncomeSection extends React.Component {
         <p><strong>Report</strong> gross annual income from employment, except for income
         from your farm, ranch, property or business, including information
         about your wages, bonuses, tips, severance pay and other accrued
-        benefits and your child's income information if it could have been used
+        benefits and your child’s income information if it could have been used
         to pay your household expenses.
         </p>
 
@@ -123,26 +140,9 @@ class AnnualIncomeSection extends React.Component {
               onValueChange={(update) => {this.props.onStateChange('spouseOtherIncome', update);}}/>
         </div>
 
-        <div className="input-section">
-          <h6>Children</h6>
-          <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.childrenGrossIncome, message)}
-              label="Children Gross Income"
-              value={this.props.data.childrenGrossIncome}
-              onValueChange={(update) => {this.props.onStateChange('childrenGrossIncome', update);}}/>
 
-          <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.childrenNetIncome, message)}
-              label="Children Net Income"
-              value={this.props.data.childrenNetIncome}
-              onValueChange={(update) => {this.props.onStateChange('childrenNetIncome', update);}}/>
+        {childrenIncomeInput}
 
-          <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.childrenOtherIncome, message)}
-              label="Children Other Income"
-              value={this.props.data.childrenOtherIncome}
-              onValueChange={(update) => {this.props.onStateChange('childrenOtherIncome', update);}}/>
-        </div>
       </div>
     );
   }
