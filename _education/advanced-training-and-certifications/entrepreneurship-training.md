@@ -28,7 +28,7 @@ Yes, if you are eligible for any of the following:
 
 - Montgomery GI Bill, [Active Duty](/education/gi-bill/montgomery-active-duty) or [Selected Reserve](/education/gi-bill/montgomery-selected-reserve)
 - [Post-9/11 GI Bill](/education/gi-bill/post-9-11)
-- [VEAP](/education/legacy-programs/veap)
+- [VEAP](/education/other-educational-assistance-programs/veap)
 
 **Note:** Dependents are not eligible for this training under DEA.
 
