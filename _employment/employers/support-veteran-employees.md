@@ -45,7 +45,7 @@ Employers participating in an on-the-job training (OJT) program can hire a Veter
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Veterans Job Bank</a>
+              <a href="/employment/job-seekers/search_jobs">Search the Veterans Job Bank</a>
             </h5>  
           </li>  
 
@@ -61,12 +61,4 @@ Employers participating in an on-the-job training (OJT) program can hire a Veter
   </div>  
 </div>
 
-</div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
-    </div>
-  </div>
 </div>

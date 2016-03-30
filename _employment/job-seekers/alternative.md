@@ -45,32 +45,24 @@ Internships and volunteer work can advance your career and expand your network w
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
           <li>
-            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:  #110298554</a>
+            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance</a>
           </li>
 
           <li>
-            <a href="https://www.vets.gov/veterans-employment-center/commitments/">View Employer Commitments: #110298592</a>
+            <a href="/employment/commitments">View Employer Commitments</a>
           </li>
 
           <li>
-            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Veterans Job Bank:        #110298570</a>
+            <a href="/employment/job-seekers/search_jobs">Search the Veterans Job Bank</a>
           </li>  
 
           <li>
-            <a href="/employment/job-seekers/unemployment-support/">Unemployment Support:  #111659508</a>
+            <a href="/employment/job-seekers/unemployment-support/">Unemployment Support</a>
           </li>    
 
         </ul>
 
       </div>
     </div>  
-  </div>
-</div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
-    </div>
   </div>
 </div>
