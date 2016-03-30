@@ -17,6 +17,7 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
 const NameAndGeneralInfo = connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(NameAndGeneralInfoSection);
 
 export default NameAndGeneralInfo;

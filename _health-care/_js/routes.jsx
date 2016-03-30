@@ -3,7 +3,7 @@ import { Route } from 'react-router';
 
 import AdditionalInformationSection from './components/personal-information/AdditionalInformationSection';
 import AdditionalMilitaryInformationSection from './components/military-service/AdditionalMilitaryInformationSection';
-import AnnualIncomeSection from './components/financial-assessment/AnnualIncomeSection';
+import AnnualIncome from './containers/AnnualIncome';
 import ChildInformationSection from './components/financial-assessment/ChildInformationSection';
 import DeductibleExpensesSection from './components/financial-assessment/DeductibleExpensesSection';
 import DemographicInformationSection from './components/personal-information/DemographicInformationSection';
@@ -81,7 +81,7 @@ const routes = [
       key="/financial-assessment/child-information"
       path="/financial-assessment/child-information"/>,
   <Route
-      component={AnnualIncomeSection}
+      component={AnnualIncome}
       key="/financial-assessment/annual-income"
       path="/financial-assessment/annual-income"/>,
   <Route

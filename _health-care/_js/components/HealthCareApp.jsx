@@ -8,6 +8,7 @@ import { ensureFieldsInitialized, updateField } from '../actions';
 import { pathToData } from '../store';
 
 import * as validations from '../utils/validations';
+import * as calculated from '../store/calculated.js';
 
 class HealthCareApp extends React.Component {
   constructor() {
@@ -50,11 +51,8 @@ class HealthCareApp extends React.Component {
   getExternalData(statePath) {
     switch (statePath[0]) {
       case 'financial-assessment':
-        return {
-          receivesVaPension: this.context.store.vaInformation.receivesVaPension,
-          neverMarried: this.context.store.nameAndGeneralInformation.maritalStatus === '' ||
-            this.context.store.nameAndGeneralInformation.maritalStatus === 'Never Married'
-        };
+        return calculated.financialAssessment(this.context.store.getState());
+
       default:
         return undefined;
     }
