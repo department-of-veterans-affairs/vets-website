@@ -5,10 +5,10 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import HealthCareApp from './components/HealthCareApp.jsx';
-import healthCareApp from './reducers';
+import veteran from './reducers/veteran';
 import routes from './routes.jsx';
 
-const store = createStore(healthCareApp);
+const store = createStore(veteran);
 
 function init() {
   ReactDOM.render((

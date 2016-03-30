@@ -4,7 +4,6 @@ import NameAndGeneralInfoSection from '../components/personal-information/NameAn
 import { updateField } from '../actions';
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     data: state.nameAndGeneralInformation,
   };
@@ -13,11 +12,12 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
-      dispatch(updateField(field, update));
+      dispatch(updateField(['nameAndGeneralInformation', field], update));
     }
   };
 }
 
-const NameAndGeneralInfo = connect(mapStateToProps, mapDispatchToProps)(NameAndGeneralInfoSection);
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+const NameAndGeneralInfo = connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(NameAndGeneralInfoSection);
 
 export default NameAndGeneralInfo;
