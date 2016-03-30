@@ -29,7 +29,7 @@ Read the RAND Corporation’s report titled [What Veterans Bring to Civilian Wor
 
 Make a [commitment](/employment/users/sign_in). View [current commitments](/employment/commitments). 
 
-To learn more, call 1-800-827-1000 or visit a [VA regional office](https://www.vets.gov/facility-locator/).
+To learn more, call 1-800-827-1000 or visit a [VA regional office](/facility-locator/).
 
 
 </div>
@@ -83,15 +83,15 @@ To learn more, call 1-800-827-1000 or visit a [VA regional office](https://www.v
         </li>  
 
         <li>
-          <a href="https://www.vets.gov/veterans-employment-center/commitments/">View Employer Commitments: #110298592</a>
+          <a href="https://www.vets.gov/veterans-employment-center/commitments/">View Employer Commitments</a>
         </li>
 
         <li>
-          <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570</a>
+          <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
         </li>  
 
         <li>
-          <a href="/employment/job-seekers/unemployment-support/">Unemployment Support: #111659508</a>
+          <a href="/employment/job-seekers/unemployment-support/">Unemployment Support</a>
         </li>  
 
         </ul>  
