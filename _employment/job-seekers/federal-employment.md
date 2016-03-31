@@ -27,7 +27,7 @@ The Veterans’ Preference program awards points to you during the application p
   Yes, if:  
 
 - You are applying to a position listed as an Excepted Career. 
-- You were discharged under conditions other than dishonorable.. 
+- You were discharged under conditions other than dishonorable. 
 - You were not retired from service. (You may be medically retired and qualify for disabled preference eligibility.) 
 
 You are 0-point preference eligible if you are a Veteran who is the only surviving child in a family in which the father or mother or one or more siblings:
