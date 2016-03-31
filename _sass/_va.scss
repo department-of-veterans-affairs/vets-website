@@ -561,11 +561,6 @@ background: rgba(255,255,255,.85);
   h2, h3, h4, h5, h6, p, li {color: #444;}
   h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
   a {color: #fff;}
-  a.usa-button-primary {background: $color-green;}
-}
-
-#content {
-  a.usa-button-primary.start {background: $color-green; text-decoration: none;}
 }
 
 #content .section.secondary,
@@ -2157,22 +2152,38 @@ font-style: italic;
 // Panel list
 
 .panel-list {
-background: rgba(0,0,0,.05);
-padding: 1em;
-position: relative;
-min-height: 12em;
-dt {color: $color-primary-darkest; padding: 0; font-weight: 700; font-size: 1.2em;}
-dd {padding: 0; margin: 0;}
-a {
-  @extend .usa-button-primary;
-  margin: .5em 0;
-}
-&.plain {
-  height: auto;
-  dt {font-size: 1.45em;}
-  margin: 0 0 1em 0;
-  min-height: 0;
-}
+  background: rgba(0,0,0,.05);
+  padding: 1em;
+  position: relative;
+  min-height: 12em;
+  
+  dt {
+    color: $color-primary-darkest; 
+    padding: 0; 
+    font-weight: 700; 
+    font-size: 1.2em;
+  }
+  
+  dd {
+    padding: 0; 
+    margin: 0;
+  }
+  
+  a {
+    @extend .usa-button-primary;
+    margin: .5em 0;
+  }
+  
+  &.plain {
+    height: auto;
+    
+    dt {
+      font-size: 1.45em;
+    }
+    
+    margin: 0 0 1em 0;
+    min-height: 0;
+  }
 }
 
 // Buttons
@@ -2207,12 +2218,9 @@ h4.highlight {
 // Action banner
 
 .action-bar {
-text-align: right;
-background: $color-gray-lightest;
-padding: .5em 0;
-  a.usa-button-primary {
-    background: $color-green;
-  }
+  text-align: right;
+  background: $color-gray-lightest;
+  padding: .5em 0;
 }
 
 // TODO: Deprecate .action-bar a.usa-button-primary.
