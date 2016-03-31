@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
-import { updateField } from '../../actions';
+import { veteranUpdateField } from '../../actions';
 
 class DemographicInformationSection extends React.Component {
   render() {
@@ -59,7 +59,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
-      dispatch(updateField(['demographicInformation', field], update));
+      dispatch(veteranUpdateField(['demographicInformation', field], update));
     }
   };
 }

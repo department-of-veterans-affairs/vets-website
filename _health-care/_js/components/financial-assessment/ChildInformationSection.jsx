@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Child from './Child';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import GrowableTable from '../form-elements/GrowableTable.jsx';
-import { updateField } from '../../actions';
+import { veteranUpdateField } from '../../actions';
 
 class ChildInformationSection extends React.Component {
   // TODO(awong): Pull this out into a model.
@@ -91,7 +91,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
-      dispatch(updateField(['childInformation', field], update));
+      dispatch(veteranUpdateField(['childInformation', field], update));
     }
   };
 }

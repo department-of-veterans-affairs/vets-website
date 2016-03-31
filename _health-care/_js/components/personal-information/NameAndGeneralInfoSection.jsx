@@ -9,7 +9,7 @@ import MothersMaidenName from './MothersMaidenName';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
 import State from '../questions/State';
 import { maritalStatuses } from '../../utils/options-for-select.js';
-import { updateField } from '../../actions';
+import { veteranUpdateField } from '../../actions';
 
 class NameAndGeneralInfoSection extends React.Component {
   render() {
@@ -58,7 +58,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
-      dispatch(updateField(['nameAndGeneralInformation', field], update));
+      dispatch(veteranUpdateField(['nameAndGeneralInformation', field], update));
     }
   };
 }

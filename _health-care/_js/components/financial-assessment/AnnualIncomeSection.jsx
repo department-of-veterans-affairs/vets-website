@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
-import { updateField } from '../../actions';
+import { veteranUpdateField } from '../../actions';
 
 class AnnualIncomeSection extends React.Component {
   constructor() {
@@ -160,7 +160,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
-      dispatch(updateField(['annualIncome', field], update));
+      dispatch(veteranUpdateField(['annualIncome', field], update));
     }
   };
 }

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import State from '../questions/State';
 import VaMedicalFacility from './VaMedicalFacility';
-import { updateField } from '../../actions';
+import { veteranUpdateField } from '../../actions';
 
 class AdditionalInformationSection extends React.Component {
   render() {
@@ -47,7 +47,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
-      dispatch(updateField(['additionalInformation', field], update));
+      dispatch(veteranUpdateField(['additionalInformation', field], update));
     }
   };
 }

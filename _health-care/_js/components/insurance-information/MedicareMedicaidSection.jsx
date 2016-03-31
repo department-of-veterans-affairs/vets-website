@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import DateInput from '../form-elements/DateInput';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
-import { updateField } from '../../actions';
+import { veteranUpdateField } from '../../actions';
 
 class MedicareMedicaidSection extends React.Component {
   render() {
@@ -45,7 +45,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
-      dispatch(updateField(['medicareMedicaid', field], update));
+      dispatch(veteranUpdateField(['medicareMedicaid', field], update));
     }
   };
 }

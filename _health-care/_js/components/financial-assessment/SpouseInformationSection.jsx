@@ -8,7 +8,7 @@ import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import FullName from '../questions/FullName';
 import Phone from '../questions/Phone';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
-import { updateField } from '../../actions';
+import { veteranUpdateField } from '../../actions';
 
 // TODO: Consider adding question for marital status here so if user
 // entered something incorrect in Personal Information they don't have
@@ -123,7 +123,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
-      dispatch(updateField(['spouseInformation', field], update));
+      dispatch(veteranUpdateField(['spouseInformation', field], update));
     }
   };
 }

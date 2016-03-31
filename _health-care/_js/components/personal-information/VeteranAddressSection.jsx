@@ -5,7 +5,7 @@ import Address from '../questions/Address';
 import Email from '../questions/Email';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import Phone from '../questions/Phone';
-import { updateField } from '../../actions';
+import { veteranUpdateField } from '../../actions';
 
 class VeteranAddressSection extends React.Component {
   constructor() {
@@ -71,7 +71,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
-      dispatch(updateField(['veteranAddress', field], update));
+      dispatch(veteranUpdateField(['veteranAddress', field], update));
     }
   };
 }

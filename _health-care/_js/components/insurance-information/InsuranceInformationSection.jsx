@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import GrowableTable from '../form-elements/GrowableTable.jsx';
 import Provider from './Provider.jsx';
-import { updateField } from '../../actions';
+import { veteranUpdateField } from '../../actions';
 
 class InsuranceInformationSection extends React.Component {
   // TODO(awong): Pull this out into a model.
@@ -53,7 +53,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
-      dispatch(updateField(['insuranceInformation', field], update));
+      dispatch(veteranUpdateField(['insuranceInformation', field], update));
     }
   };
 }

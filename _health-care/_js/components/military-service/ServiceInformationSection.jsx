@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import DateInput from '../form-elements/DateInput';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
 import { branchesServed, dischargeTypes } from '../../utils/options-for-select.js';
-import { updateField } from '../../actions';
+import { veteranUpdateField } from '../../actions';
 
 class ServiceInformationSection extends React.Component {
   render() {
@@ -51,7 +51,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
-      dispatch(updateField(['serviceInformation', field], update));
+      dispatch(veteranUpdateField(['serviceInformation', field], update));
     }
   };
 }

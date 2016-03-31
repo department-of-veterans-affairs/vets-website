@@ -179,7 +179,7 @@ function veteran(state = blankVeteran, action) {
       newState = Object.assign({}, state);
       // TODO(awong): HACK! Assigning to the sub object assumes pathToData() returns a reference
       // to the actual substructre such that it can be reassigned to.
-      Object.assign(pathToData(state, action.path), initializeNullValues(pathToData(state, action.path)));
+      Object.assign(pathToData(newState, action.path), initializeNullValues(pathToData(newState, action.path)));
       return newState;
 
     default:

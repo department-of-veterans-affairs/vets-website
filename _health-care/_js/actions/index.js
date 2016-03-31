@@ -8,7 +8,7 @@ export function ensureFieldsInitialized(path) {
   };
 }
 
-export function updateField(propertyPath, value) {
+export function veteranUpdateField(propertyPath, value) {
   return {
     type: VETERAN_FIELD_UPDATE,
     propertyPath,
