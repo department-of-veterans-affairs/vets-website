@@ -12,23 +12,23 @@ template: 7-get-page
 
 Wherever you are in the transition process, the Veterans Employment Center provides career advice, mentorship, résumé-building assistance, and exclusive access to employers who are committed to hiring Veterans and military spouses.
 
-### Before you begin, consider how much time you can devote to your job search
+You may not be completely ready to start looking for a job, but there are other ways you can prepare. 
 
 </div>
 
 <div class="small-12 medium-9 columns left"  markdown="1">
 
-- **You plan to leave active service in under 12 months**
+- **Do you plan to leave active service in less than 12 months?**
   
-  [Activity Checklist](/_dummy-placeholder.html)
+  [You can start the process with a few simple steps](/employment/job-seekers/less-than-one-year)
 
-- **You recently left active service**
+- **Have you recently left active duty?**
   
-  If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through [Unemployment Compensation for Ex-Servicemembers](/_dummy-placeholder.html).
+  If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through [Unemployment Compensation for Ex-Servicemembers](/employment/job-seekers/unemployment-support).
 
-- **You are already in the workforce**
+- **Are you already in the workforce?**
   
-  Browse the topics that are most relevant to your current interests.
+  Consider a [new career](/employment/job-seekers/search_jobs) or [additional education](https://www.vets.gov/education/gi-bill/).
 
 </div>
 
@@ -38,7 +38,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 <div class="row" markdown="0">
 <div class="small-12 columns divider margin top"  markdown="1">
 
-### What are the steps to finding a job?
+### If you are ready to begin, here are the steps to take
 
 <ol class="process">
 <li class="step one wow fadeIn animated">
@@ -46,8 +46,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 <div markdown="1">
 
 ##### Discover your skills and interests
-
-Identify the type of work you enjoy with the [Interest Profiler](/_dummy-placeholder.html), then explore related [career paths](https://www.mynextmove.org/).
+Identify the type of work you enjoy with the [Interest Profiler](/employment/job-seekers/interest-profiler), then explore related [career paths](https://www.mynextmove.org/).
 
 </div>
 
@@ -58,8 +57,7 @@ Identify the type of work you enjoy with the [Interest Profiler](/_dummy-placeho
 <div markdown="1">
 
 ##### Learn about job titles and qualifications
-
-Browse careers by industry and learn about jobs that are similar to your MOS using the [Civilian Occupation Translator](/_dummy-placeholder.html).
+Browse careers by industry and learn about jobs that are similar to your MOS using the [Civilian Occupation Translator](/employment/job-seekers/skills-translator).
 
 </div>
 
@@ -71,8 +69,9 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Build a résumé and public profile
 
-- Your military experience can be translated into civilian language with the [Military Skills Translator](/_dummy-placeholder.html).
-- Build your [résumé and public profile](/_dummy-placeholder.html) so employers can seek you out.
+- Your military experience can be translated into civilian language with the [Military Skills Translator](/employment/job-seekers/skills-translator).
+- Build your [résumé and public profile](/employment/job-seekers/create-resume) so employers can seek you out.
+- Get a free [LinkedIn job seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
 
 </div>
 
@@ -82,11 +81,12 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 <div markdown="1">
 
-##### Research employers in your area
+##### Research employers in your area and network 
 
-- Many employers have made [commitments](/_dummy-placeholder.html) to hire Veterans and military spouses.
-- Consider a job with the [federal government](/_dummy-placeholder.html).
+- Many employers have made [commitments](/employment/commitments) to hire Veterans and military spouses.
+- Consider a job with the [federal government](/employment/job-seekers/federal-employment).
 - Review job boards, search job banks, and research openings at companies that interest you.
+- Contact people you have worked with previously, family, and friends to let them know you are looking for a job. They may know of specific openings, opportunities or may make an introduction to people who work for companies you've targeted or in a similar industry.
 
 </div>
 
@@ -96,11 +96,11 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 <div markdown="1">
 
-##### Use your network
 
-- Contact people you have worked with previously, family, and friends to let them know you are looking for a job. They may know of specific openings, or may make an introduction to people who work for companies you've targeted or in a similar industry. 
-- Email people outside your immediate network to find out about opportunities. Get a free [LinkedIn job seeker profile](/_dummy-placeholder.html) to present yourself professionally.
+##### Search online job banks
 
+- Search the [Veterans' Employment Center](/employment/job-seekers/search_jobs) for job openings.
+- Search online job listings on [LinkedIn](http://www.linkedin.com/), [Monster](http://www.monster.com/), and [Indeed](http://www.indeed.com/).
 </div>
 
 </li>
@@ -109,63 +109,12 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 <div markdown="1">
 
-##### Consider alternative ways to start your career
-
-- Start or [grow your own business](/_dummy-placeholder.html). 
-- Service-disabled Veterans may qualify for [small-business counseling](/_dummy-placeholder.html).
-- Evaluate non-traditional programs like apprenticeships, work study, and [on-the-job training](/_dummy-placeholder.html).
-
-</div>
-
-</li>
-
-<li class="step seven wow fadeIn animated">
-
-<div markdown="1">
-
-##### Get personalized help if you need it
-
-- Government and private resources offer [ne-on-one assistance](/_dummy-placeholder.html).
-- Qualified service-disabled Veterans can seek specialized help through [Vocational Rehabilitation and Education (VR&E)](/_dummy-placeholder.html).
-
-</div>
-
-</li>
-
-<li class="step eight wow fadeIn animated">
-
-<div markdown="1">
-
 ##### Attend a career fair
-
-Learn about the [job fairs](/_dummy-placeholder.html) available for Veterans, Servicemembers, and family members.
+Learn about the [job fairs](/employment/job-seekers/career-fairs) available for Veterans, Servicemembers, and family members.
 
 </div>
 
-</li>
-
-<li class="step nine wow fadeIn animated">
-
-<div markdown="1">
-
-##### Search online job banks
-
-- Search the [Veterans' Employment Center](/_dummy-placeholder.html) for job openings.
-- Search online job listings on [LinkedIn](http://www.linkedin.com/), [Monster](http://www.monster.com/), and [Indeed](http://www.indeed.com/).
 </div>
-
-</li>
-
-<li class="step last ten wow fadeIn animated">
-
-<div markdown="1">
-
-##### Keep building your skills
-
-- The [Post-9/11 GI Bill](/education/gi-bill/) gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
---Fill in any gaps in your education or skill set by taking classes and getting  [advanced training and certifications](/education/advanced-training-and-certifications/)
--Military [tuition assistance]( http://www.military.com/education/money-for-school/tuition-assistance-ta-program-overview.html) (for active duty)
-- Free [Coursera classes](https://www.surveymonkey.com/r/QSGQRFN)
 
 </div>
 
@@ -173,20 +122,31 @@ Learn about the [job fairs](/_dummy-placeholder.html) available for Veterans, Se
 
 </ol>
 
-</div>
-</div>
+<div class="call-out" markdown="1">
+#### Consider furthering your education
+- The [Post-9/11 GI Bill](/education/gi-bill/) gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
+- Fill in any gaps in your education or skill set by taking classes and getting  [advanced training and certifications](/education/advanced-training-and-certifications/)
+- Consider military [tuition assistance]( http://www.military.com/education/money-for-school/tuition-assistance-ta-program-overview.html) (for active duty)
+- Take a free [Coursera class](https://www.surveymonkey.com/r/QSGQRFN)
+
 </div>
 
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-        <li>
-          <a href="/_dummy-placeholder.html">
-            <h5>Military Spouses and Family Job Seekers</h5>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
+<div class="call-out" markdown="1">
+#### Get personalized help if you need it
+
+- Government and private resources offer [one-on-one assistance](/employment/job-seekers/one-on-one).
+- Qualified service-disabled Veterans can seek specialized help through [Vocational Rehabilitation and Education (VR&E)](http://www.benefits.va.gov/vocrehab/index.asp).
+
+</div>
+
+<div class="call-out" markdown="1">
+#### Take a different approach to starting your career 
+
+- Start or [grow your own business](/employment/job-seekers/start/counseling). 
+- Service-disabled Veterans may qualify for [small-business counseling](/employment/job-seekers/service-disabled).
+- Evaluate non-traditional programs like apprenticeships, work study, and on-the-job training.
+
+</div>
+
+</div>
 </div>
