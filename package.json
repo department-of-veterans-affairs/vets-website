@@ -67,6 +67,7 @@
     "react-transform-catch-errors": "^1.0.2",
     "react-transform-hmr": "^1.0.2",
     "redbox-react": "^1.2.2",
+    "redux": "^3.3.1",
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "skin-deep": "^0.14.0",

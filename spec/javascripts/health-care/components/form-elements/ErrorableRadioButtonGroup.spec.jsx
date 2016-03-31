@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactTestUtils from 'react-addons-test-utils';
+// import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 
 import ErrorableRadioButtonGroup from '../../../../../_health-care/_js/components/form-elements/ErrorableRadioButtonGroup';
