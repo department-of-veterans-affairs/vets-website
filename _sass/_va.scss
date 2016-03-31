@@ -131,6 +131,14 @@ figcaption {
   position: relative;
 }
 
+// Adds external icon to all links that begin
+// with http (including https) 
+#content a[href^=http] {
+  background: rgba(0,0,0,0.05) url(/assets/images/icons/exit-icon.png) 100% 50% no-repeat;
+  background-size: 1em auto;
+  display: inline-block;
+  padding-right: 1.2em;
+}
 
 
 
