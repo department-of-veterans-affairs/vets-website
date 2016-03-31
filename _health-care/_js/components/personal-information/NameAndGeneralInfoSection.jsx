@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import DateInput from '../form-elements/DateInput';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
@@ -7,8 +8,8 @@ import Gender from '../questions/Gender';
 import MothersMaidenName from './MothersMaidenName';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
 import State from '../questions/State';
-
 import { maritalStatuses } from '../../utils/options-for-select.js';
+import { updateField } from '../../actions';
 
 class NameAndGeneralInfoSection extends React.Component {
   render() {
@@ -48,4 +49,20 @@ class NameAndGeneralInfoSection extends React.Component {
   }
 }
 
-export default NameAndGeneralInfoSection;
+function mapStateToProps(state) {
+  return {
+    data: state.nameAndGeneralInformation,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(updateField(['nameAndGeneralInformation', field], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(NameAndGeneralInfoSection);
+export { NameAndGeneralInfoSection };

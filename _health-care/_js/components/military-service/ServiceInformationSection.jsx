@@ -1,9 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-import ErrorableSelect from '../form-elements/ErrorableSelect';
 import DateInput from '../form-elements/DateInput';
-
+import ErrorableSelect from '../form-elements/ErrorableSelect';
 import { branchesServed, dischargeTypes } from '../../utils/options-for-select.js';
+import { updateField } from '../../actions';
 
 class ServiceInformationSection extends React.Component {
   render() {
@@ -41,4 +42,20 @@ class ServiceInformationSection extends React.Component {
   }
 }
 
-export default ServiceInformationSection;
+function mapStateToProps(state) {
+  return {
+    data: state.serviceInformation,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(updateField(['serviceInformation', field], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(ServiceInformationSection);
+export { ServiceInformationSection };

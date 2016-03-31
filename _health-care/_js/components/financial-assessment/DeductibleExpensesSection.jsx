@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
+import { updateField } from '../../actions';
 
 class DeductibleExpensesSection extends React.Component {
   constructor() {
@@ -17,7 +19,7 @@ class DeductibleExpensesSection extends React.Component {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
     let notRequiredMessage;
 
-    if (this.props.external.receivesVaPension === true) {
+    if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
         <p>
           <strong>
@@ -76,4 +78,21 @@ class DeductibleExpensesSection extends React.Component {
   }
 }
 
-export default DeductibleExpensesSection;
+function mapStateToProps(state) {
+  return {
+    data: state.deductibleExpenses,
+    receivesVaPension: state.vaInformation.receivesVaPension,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(updateField(['deductibleExpenses', field], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(DeductibleExpensesSection);
+export { DeductibleExpensesSection };

@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Child from './Child';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import GrowableTable from '../form-elements/GrowableTable.jsx';
+import { updateField } from '../../actions';
 
 class ChildInformationSection extends React.Component {
   // TODO(awong): Pull this out into a model.
@@ -38,7 +40,7 @@ class ChildInformationSection extends React.Component {
     let notRequiredMessage;
     let hasChildrenContent;
 
-    if (this.props.external.receivesVaPension === true) {
+    if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
         <p>
           <strong>
@@ -79,4 +81,21 @@ class ChildInformationSection extends React.Component {
   }
 }
 
-export default ChildInformationSection;
+function mapStateToProps(state) {
+  return {
+    data: state.childInformation,
+    receivesVaPension: state.vaInformation.receivesVaPension,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(updateField(['childInformation', field], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(ChildInformationSection);
+export { ChildInformationSection };

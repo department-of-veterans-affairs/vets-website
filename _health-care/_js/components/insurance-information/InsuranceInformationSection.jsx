@@ -1,8 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import GrowableTable from '../form-elements/GrowableTable.jsx';
 import Provider from './Provider.jsx';
+import { updateField } from '../../actions';
 
 class InsuranceInformationSection extends React.Component {
   // TODO(awong): Pull this out into a model.
@@ -42,4 +44,20 @@ class InsuranceInformationSection extends React.Component {
   }
 }
 
-export default InsuranceInformationSection;
+function mapStateToProps(state) {
+  return {
+    data: state.insuranceInformation
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(updateField(['insuranceInformation', field], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(InsuranceInformationSection);
+export { InsuranceInformationSection };
