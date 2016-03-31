@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Address from '../questions/Address';
 import Email from '../questions/Email';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import Phone from '../questions/Phone';
+import { veteranUpdateField } from '../../actions';
 
 class VeteranAddressSection extends React.Component {
   constructor() {
@@ -60,4 +62,20 @@ class VeteranAddressSection extends React.Component {
   }
 }
 
-export default VeteranAddressSection;
+function mapStateToProps(state) {
+  return {
+    data: state.veteranAddress
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(veteranUpdateField(['veteranAddress', field], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(VeteranAddressSection);
+export { VeteranAddressSection };
