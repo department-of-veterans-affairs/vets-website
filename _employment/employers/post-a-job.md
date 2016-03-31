@@ -144,7 +144,6 @@ This example contains two job listings. The first uses a smaller set of schema.o
         "url": "www.abccompanyinc.com/jobs?listing=23456"
       }
     ]
-<!-- END Each of these lines needs to begin with 4 spaces -->
 
 
 </div>
