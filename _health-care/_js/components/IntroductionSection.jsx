@@ -1,15 +1,6 @@
 import React from 'react';
 
-class IntroductionPanel extends React.Component {
-  constructor() {
-    super();
-    this.onStateChange = this.onStateChange.bind(this);
-  }
-
-  onStateChange(subfield, update) {
-    this.props.publishStateChange(['introduction', subfield], update);
-  }
-
+class IntroductionSection extends React.Component {
   render() {
     return (
       <div className="usa-form-width">
@@ -31,4 +22,4 @@ class IntroductionPanel extends React.Component {
   }
 }
 
-export default IntroductionPanel;
+export default IntroductionSection;

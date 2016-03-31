@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+import { veteranUpdateField } from '../../actions';
 
 class VaInformationSection extends React.Component {
   render() {
@@ -43,4 +45,20 @@ class VaInformationSection extends React.Component {
   }
 }
 
-export default VaInformationSection;
+function mapStateToProps(state) {
+  return {
+    data: state.vaInformation,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(veteranUpdateField(['vaInformation', field], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(VaInformationSection);
+export { VaInformationSection };
