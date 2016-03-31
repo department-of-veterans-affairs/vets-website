@@ -3,6 +3,13 @@ title: Find Veteran and Military-Spouse Candidates
 concurrence: incomplete
 template: 1-topic-landing
 ---
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary" href="/employment/users/sign_in">Employer Login</a>
+    </div>
+  </div>
+</div>
 
 <div class="main" role="main" markdown="0">
 
@@ -25,7 +32,7 @@ A few tips on how to support the Reservists, Veterans, and Service-disabled Vets
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
+              <a href="/employment/job-seekers/search_jobs">Search the Jobs Bank</a>
             </h5>  
           </li>  
 
@@ -41,12 +48,3 @@ A few tips on how to support the Reservists, Veterans, and Service-disabled Vets
   </div>  
 </div>
 </div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
-</div>
-

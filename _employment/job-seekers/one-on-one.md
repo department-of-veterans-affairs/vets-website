@@ -70,13 +70,13 @@ Additionally, Hire Our Heroes, in partnership with [American Corporate Partners 
 
         <li>
           <h3>
-          <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator</a>
+          <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
           </h3>
         </li>  
 
         <li>
           <h3>
-          <a href="https://www.vets.gov/veterans-employment-center/createresume/">Résumé Builder</a>
+          <a href="/employment/job-seekers/create-resume">Résumé Builder</a>
           </h3>
         </li>
 
@@ -88,7 +88,7 @@ Additionally, Hire Our Heroes, in partnership with [American Corporate Partners 
 
         <li>
           <h3>
-          <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Veterans Job Bank</a>
+          <a href="/employment/job-seekers/search_jobs">Search the Veterans Job Bank</a>
           </h3>
         </li>
 
@@ -110,12 +110,4 @@ Additionally, Hire Our Heroes, in partnership with [American Corporate Partners 
     </div>  
   </div>
 
-</div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
 </div>

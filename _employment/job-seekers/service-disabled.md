@@ -51,19 +51,19 @@ Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov
 
         <li>
           <h3>
-            <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator</a>
+            <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
           </h3>
         </li>  
 
         <li>
           <h3>
-            <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder</a>
+            <a href="/employment/job-seekers/create-resume">Resume Builder</a>
           </h3>  
         </li>
 
         <li>
           <h3>
-            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank</a>
+            <a href="/employment/job-seekers/search_jobs">Search the Jobs Bank</a>
           </h3>
         </li>  
 
@@ -85,12 +85,4 @@ Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov
     </div>  
   </div>
 
-</div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
 </div>

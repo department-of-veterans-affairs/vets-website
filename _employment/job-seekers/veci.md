@@ -11,7 +11,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-Representatives from the Veterans Economic Community Initiative (VECI) are available in [25 cities](/_dummy-placeholder.html). [VECI liaisons](/_dummy-placeholder.html) collaborate with local business leaders, schools, and nonprofit groups, and help you maximize education and economic opportunities. Find a [VECI economic liaison](http://www.benefits.va.gov/VECI/docs/VECIPOCList.pdf) near you. 
+Representatives from the Veterans Economic Community Initiative (VECI) are available in [25 cities](http://www.benefits.va.gov/TEEI/economic-liaison-list.asp). VECI liaisons collaborate with local business leaders, schools, and nonprofit groups, and help you maximize education and economic opportunities. Find a [VECI economic liaison](http://www.benefits.va.gov/VECI/docs/VECIPOCList.pdf) near you. 
 
 </div>
 </div>
@@ -26,37 +26,37 @@ Representatives from the Veterans Economic Community Initiative (VECI) are avail
 
         <li>
           <h5>
-            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance:   #110298554</a>
+            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance</a>
           </h5>  
         </li>
 
         <li>
           <h5>
-            <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator: #110298580</a>
+            <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
           </h5>
         </li>  
 
         <li>
           <h5>
-            <a href="https://www.vets.gov/veterans-employment-center/createresume/">Resume Builder: #111659432</a>
+            <a href="/employment/job-seekers/create-resume">Résumé Builder</a>
           </h5>  
         </li>
 
         <li>
           <h5>
-            <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Jobs Bank: #110298570 </a>
+            <a href="/employment/job-seekers/search_jobs">Search the Veterans Job Bank</a>
           </h5>
         </li>  
 
         <li>
           <h5>
-            <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler: #110298582 </a>
+            <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler</a>
           </h5>
         </li>
 
         <li>
           <h5>
-            <a href="/employment/job-seekers/military-transcripts/">Military Transcripts: 110298578</a>
+            <a href="/employment/job-seekers/military-transcripts/">Military Transcripts</a>
           </h5>
         </li>   
 
@@ -66,12 +66,4 @@ Representatives from the Veterans Economic Community Initiative (VECI) are avail
     </div>  
   </div>
 
-</div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
 </div>

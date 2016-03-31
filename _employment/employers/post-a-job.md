@@ -9,7 +9,7 @@ template: 1-topic-landing
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="0">
+<div class="small-12 medium-9 columns" markdown="0">
 
 <div markdown="1">
 
@@ -82,7 +82,7 @@ Only those marked with an asterisk (*) are required for inclusion in the Veteran
 This example contains two job listings. The first uses a smaller set of schema.org elements. Both contain all elements required for inclusion in the Veterans Job Bank. 
           
 
-[
+
   {
     "@context": "http://schema.org",
     "@type": "JobPosting",
@@ -136,11 +136,6 @@ This example contains two job listings. The first uses a smaller set of schema.o
     "datePosted": "1/2/15",
     "url": "www.abccompanyinc.com/jobs?listing=23456"
   }
-]
-
-
-
-
 
 </div>
 </div>

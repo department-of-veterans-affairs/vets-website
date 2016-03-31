@@ -11,7 +11,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through the Unemployment Compensation for Ex-Servicemembers (UCX).
+If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through the Unemployment Compensation for Ex-Servicemembers (UCX) program.
 
 ### Are you eligible?
 Yes, if:
@@ -37,7 +37,7 @@ You will need the following documents when you apply:
 
 - Current résumé or military job history 
 
-If you are unemployed and at risk of becoming homeless, [VA can help](/_dummy-placeholder.html). 
+If you are unemployed and at risk of becoming homeless, call or visit your [local VA Medical Center](/facility-locator/) or Community Resource and Referral Center where VA staff are ready to help. 
 
 
 </div>
@@ -58,19 +58,19 @@ If you are unemployed and at risk of becoming homeless, [VA can help](/_dummy-pl
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/skills-translator">Skills Translator</a>
+              <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
             </h5>
           </li>  
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/createresume/">Résumé Builder</a>
+              <a href="/employment/job-seekers/create-resume">Résumé Builder</a>
             </h5>
           </li>
 
           <li>
             <h5>
-              <a href="https://www.vets.gov/veterans-employment-center/for_job_seekers">Search the Veterans Job Bank</a>
+              <a href="/employment/job-seekers/search_jobs">Search the Veterans Job Bank</a>
             </h5>
           </li>  
 
@@ -90,13 +90,5 @@ If you are unemployed and at risk of becoming homeless, [VA can help](/_dummy-pl
 
       </div>
     </div>  
-  </div>
-</div>
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veterans Employment Center</a>
-    </div>
   </div>
 </div>

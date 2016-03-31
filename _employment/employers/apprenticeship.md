@@ -1,5 +1,5 @@
 ---
-title: Establish an Apprenticeship program for Veterans
+title: Establish an Apprenticeship Program for Veterans
 concurrence: complete
 template: 1-topic-landing
 ---
@@ -9,11 +9,11 @@ template: 1-topic-landing
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
 Employers can set up an apprenticeship program that is approved for the GI Bill. 
 
-Employers provide  Veterans with a job at an acceptable wage; training, development, and hands-on learning; and technical instruction. VA may give a stipend to Veterans. At the conclusion of the program, Veterans receive job certification or journeyman status.
+Employers provide Veterans with a job at an acceptable wage, as well as training, development, hands-on learning, and technical instruction. VA may give a stipend to Veterans. At the end of the program, Veterans receive job certification or journeyman status.
 
 Submit a request through your [State Approving Agency (SAA)](http://www.nasaa-vetseducation.com/Contacts.aspx), which authorizes Registered Apprenticeship programs as approved for the GI Bill. This process typically takes less than 30 days.
 
@@ -25,10 +25,3 @@ The Department of Labor also has several [programs for Registered Apprenticeship
 </div>
 </div>
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://www.vets.gov/veterans-employment-center/">Veteran Employment Center</a>
-    </div>
-  </div>
-</div>
