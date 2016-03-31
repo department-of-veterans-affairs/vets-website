@@ -147,6 +147,14 @@ Learn about the [job fairs](/employment/job-seekers/career-fairs) available for 
 - Evaluate non-traditional programs like apprenticeships, work study, and on-the-job training.
 
 </div>
+</div>
 
+<div class="call-out" markdown="1">
+#### Military spouses and family members
+
+- Use government-sponsored [career and education resources](/employment/job-seekers/family-members/)
+- Take advantage of networking opportunities
+
+- 
 </div>
 </div>
