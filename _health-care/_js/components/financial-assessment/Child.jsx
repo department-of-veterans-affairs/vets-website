@@ -30,6 +30,7 @@ class Child extends React.Component {
                   onUserInput={(update) => {this.props.onValueChange('childFullName', update);}}/>
             </div>
           </div>
+<<<<<<< HEAD
 
           <div className="row">
             <div className="small-12 columns">
@@ -40,6 +41,18 @@ class Child extends React.Component {
                   value={this.props.data.childRelation}
                   onValueChange={(update) => {this.props.onValueChange('childRelation', update);}}/>
             </div>
+=======
+        </div>
+
+        <div className="row">
+          <div className="small-12 columns">
+            <ErrorableSelect required
+                errorMessage={isNotBlank(this.props.data.childRelation) ? undefined : 'Please select an option'}
+                label="Child’s relationship to you"
+                options={childRelationships}
+                value={this.props.data.childRelation}
+                onValueChange={(update) => {this.props.onValueChange('childRelation', update);}}/>
+>>>>>>> 5411ead... Add radio button component for child info.
           </div>
 
           <div className="row">

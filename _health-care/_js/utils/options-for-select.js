@@ -1400,10 +1400,15 @@ const vaMedicalFacilities = {
 };
 
 const childRelationships = [
-  'Son',
   'Daughter',
+  'Son',
   'Stepson',
   'Stepdaughter'
+];
+
+const yesNo = [
+  { label: 'Yes', value: true },
+  { label: 'No', value: false }
 ];
 
 export {
@@ -1417,5 +1422,6 @@ export {
   months,
   days,
   vaMedicalFacilities,
-  childRelationships
+  childRelationships,
+  yesNo
 };

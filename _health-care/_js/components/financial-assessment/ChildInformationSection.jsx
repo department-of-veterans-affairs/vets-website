@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import Child from './Child';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
 import GrowableTable from '../form-elements/GrowableTable.jsx';
 import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
 
@@ -11,6 +12,8 @@ import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
  * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
  * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
  */
+import { yesNo } from '../../utils/options-for-select.js';
+
 class ChildInformationSection extends React.Component {
   // TODO(awong): Pull this out into a model.
   createBlankChild() {
@@ -84,9 +87,11 @@ class ChildInformationSection extends React.Component {
         {notRequiredMessage}
 
         <div className="input-section">
-          <ErrorableCheckbox
+          <ErrorableRadioButtons
               label="Do you have any children to report?"
-              checked={this.props.data.hasChildrenToReport}
+              options={yesNo}
+              value={this.props.data.hasChildrenToReport}
+              required
               onValueChange={(update) => {this.props.onStateChange('hasChildrenToReport', update);}}/>
         </div>
         {childrenContent}
