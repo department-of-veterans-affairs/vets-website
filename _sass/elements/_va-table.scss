@@ -1,0 +1,45 @@
+// VA-specific table styles
+table {
+  border: 0;
+  text-align: left;
+  
+  @media #{$small-only} {
+    font-size: .85em;
+  }
+}
+// No need to nest this since caption is only
+// ever used with tables.
+caption {
+  text-align: left;
+  padding: 0 0 .25em 0;
+  font-weight: bold;
+  font-size: 1.25em;
+}
+
+td, th {
+  padding-top:.8em;
+  padding-bottom: .8em;
+  padding-left: .8em;
+}
+
+th{
+  &[colspan] {
+    background: #E8F5FA;
+    font-size: 1.19rem;
+    padding-top:.8em;
+    padding-bottom: .8em;
+    padding-left: .8em;
+    color:$color-primary-darkest;
+  }
+  span {
+    font-weight: normal;
+  }
+}
+tr {
+  background: #fff !important;
+}
+
+.va-table-overflow {
+  overflow: auto;
+  width: 100%;
+}
