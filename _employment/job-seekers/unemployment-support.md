@@ -11,7 +11,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through the Unemployment Compensation for Ex-Servicemembers (UCX).
+If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through the Unemployment Compensation for Ex-Servicemembers (UCX) program.
 
 ### Are you eligible?
 Yes, if:
@@ -37,7 +37,7 @@ You will need the following documents when you apply:
 
 - Current résumé or military job history 
 
-If you are unemployed and at risk of becoming homeless, [VA can help](/_dummy-placeholder.html). 
+If you are unemployed and at risk of becoming homeless, call or visit your [local VA Medical Center](/facility-locator/) or Community Resource and Referral Center where VA staff are ready to help. 
 
 
 </div>
