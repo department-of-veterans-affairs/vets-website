@@ -1,7 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import DateInput from '../form-elements/DateInput';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+import { veteranUpdateField } from '../../actions';
 
 class MedicareMedicaidSection extends React.Component {
   render() {
@@ -34,5 +36,20 @@ class MedicareMedicaidSection extends React.Component {
   }
 }
 
-export default MedicareMedicaidSection;
+function mapStateToProps(state) {
+  return {
+    data: state.medicareMedicaid
+  };
+}
 
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(veteranUpdateField(['medicareMedicaid', field], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(MedicareMedicaidSection);
+export { MedicareMedicaidSection };

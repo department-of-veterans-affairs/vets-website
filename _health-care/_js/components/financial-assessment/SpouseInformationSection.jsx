@@ -1,11 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+import * as calculated from '../../store/calculated';
 import Address from '../questions/Address';
 import DateInput from '../form-elements/DateInput';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import FullName from '../questions/FullName';
 import Phone from '../questions/Phone';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
+import { veteranUpdateField } from '../../actions';
 
 // TODO: Consider adding question for marital status here so if user
 // entered something incorrect in Personal Information they don't have
@@ -16,7 +19,7 @@ class SpouseInformationSection extends React.Component {
     let notRequiredMessage;
     let noSpouseMessage;
 
-    if (this.props.external.receivesVaPension === true) {
+    if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
         <p>
           <strong>
@@ -27,7 +30,7 @@ class SpouseInformationSection extends React.Component {
       );
     }
 
-    if (this.props.external.neverMarried === true) {
+    if (this.props.neverMarried === true) {
       noSpouseMessage = (
         <p>
           <strong>
@@ -109,4 +112,22 @@ class SpouseInformationSection extends React.Component {
   }
 }
 
-export default SpouseInformationSection;
+function mapStateToProps(state) {
+  return {
+    data: state.spouseInformation,
+    receivesVaPension: state.vaInformation.receivesVaPension,
+    neverMarried: calculated.neverMarried(state)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(veteranUpdateField(['spouseInformation', field], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(SpouseInformationSection);
+export { SpouseInformationSection };
