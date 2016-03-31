@@ -8,6 +8,6 @@ describe('<HealthCareApp>', () => {
     const mockRoutes = [{ path: '/fake' }];
     const tree = SkinDeep.shallowRender(<HealthCareApp location={{ pathname: '/blah' }} route={{ childRoutes: mockRoutes }}/>);
     const vdom = tree.getRenderOutput();
-    expect(vdom).to.have.property('type', 'div');
+    expect(vdom).to.not.be.undefined;
   });
 });

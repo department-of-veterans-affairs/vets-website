@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
-import ErrorableSelect from '../form-elements/ErrorableSelect';
+import ErrorableRadioButtonGroup from '../form-elements/ErrorableRadioButtonGroup';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import DateInput from '../form-elements/DateInput';
 import FullName from '../questions/FullName';
@@ -29,7 +29,7 @@ class Child extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <ErrorableSelect required
+            <ErrorableRadioButtonGroup required
                 errorMessage={isNotBlank(this.props.data.childRelation) ? undefined : 'Please select an option'}
                 label="Child’s relationship to you"
                 options={childRelationships}

@@ -3,7 +3,7 @@ import { Route } from 'react-router';
 
 import AdditionalInformationSection from './components/personal-information/AdditionalInformationSection';
 import AdditionalMilitaryInformationSection from './components/military-service/AdditionalMilitaryInformationSection';
-import AnnualIncomeSection from './components/financial-assessment/AnnualIncomeSection';
+import AnnualIncome from './containers/AnnualIncome';
 import ChildInformationSection from './components/financial-assessment/ChildInformationSection';
 import DeductibleExpensesSection from './components/financial-assessment/DeductibleExpensesSection';
 import DemographicInformationSection from './components/personal-information/DemographicInformationSection';
@@ -11,7 +11,7 @@ import FinancialDisclosureSection from './components/financial-assessment/Financ
 import InsuranceInformationSection from './components/insurance-information/InsuranceInformationSection';
 import IntroductionSection from './components/IntroductionSection.jsx';
 import MedicareMedicaidSection from './components/insurance-information/MedicareMedicaidSection';
-import NameAndGeneralInfoSection from './components/personal-information/NameAndGeneralInfoSection';
+import NameAndGeneralInfo from './containers/NameAndGeneralInfo';
 import ReviewAndSubmitSection from './components/ReviewAndSubmitSection.jsx';
 import ServiceInformationSection from './components/military-service/ServiceInformationSection';
 import SpouseInformationSection from './components/financial-assessment/SpouseInformationSection';
@@ -27,7 +27,7 @@ const routes = [
 
   // Personal Information routes.
   <Route
-      component={NameAndGeneralInfoSection}
+      component={NameAndGeneralInfo}
       key="/personal-information/name-and-general-information"
       path="/personal-information/name-and-general-information"/>,
   <Route
@@ -81,7 +81,7 @@ const routes = [
       key="/financial-assessment/child-information"
       path="/financial-assessment/child-information"/>,
   <Route
-      component={AnnualIncomeSection}
+      component={AnnualIncome}
       key="/financial-assessment/annual-income"
       path="/financial-assessment/annual-income"/>,
   <Route
