@@ -18,7 +18,6 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 - ##### Do you plan to leave active duty in less than 12 months?
   
-
   [Prepare for your transition](/employment/job-seekers/less-than-one-year) with this timeline.
 
 - ##### Have you recently left active duty?
@@ -52,7 +51,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 </li>
 
 <li class="step three wow fadeIn animated" markdown="1">
-##### Build a résumé<br>
+##### Build a résumé 
 
 - Build your [résumé](/employment/job-seekers/create-resume).
 - Get a free [LinkedIn&#153; Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
@@ -65,6 +64,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 - Consider a job with the [federal government](/employment/job-seekers/federal-employment).
 - Review job boards, search job banks, and research openings at companies that interest you.
 - Contact people you have worked with previously, family, and friends to let them know you are looking for a job. They might know of specific openings or might be able to introduce you to people at companies you've targeted.
+
 </li>
 
 
@@ -133,5 +133,6 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 </ul>
 
 </div>
+
 </div>
 </div>
