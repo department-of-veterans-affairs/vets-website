@@ -1021,12 +1021,40 @@ span.next {
 
 #experience .splash {
   margin: 0;
-  @media #{$small} {margin: .5em 0 0 0; padding: 1em 0 0 0;}
+  
+  @media #{$small} {
+    margin: .5em 0 0 0;
+    padding: 1em 0 0 0;
+  }
+  
   h2 {
-    &.tagline {padding: 0;}
-    padding: 0; margin: 0 0 2em 0; background: none; color: $color-primary-darkest;
-    a {text-decoration: none; margin: 0; color: $color-primary-darkest; background: $color-gold; border-bottom: none; padding: .5em .25em; &:hover {padding: .5em .65em;}}
-    @media #{$medium} {position: fixed; margin: 1.35em 0 0 0; z-index: 100;}
+    &.tagline {
+      padding: 0;
+    }
+    
+    padding: 0; 
+    margin: 0 0 2em 0; 
+    background: none; 
+    color: $color-primary-darkest;
+    
+    a {
+      text-decoration: none; 
+      margin: 0; 
+      color: $color-primary-darkest; 
+      background: $color-gold; 
+      border-bottom: none; 
+      padding: .5em .25em; 
+      
+      &:hover {
+        padding: .5em .65em;
+      }
+    }
+    
+    @media #{$medium} {
+      position: absolute; 
+      margin: 1.35em 0 0 0; 
+      z-index: 100;
+    }
   }
 }
 
