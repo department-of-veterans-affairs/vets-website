@@ -295,9 +295,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 // TODO: Integrate USWDS and elements/_typography.scss
 // and eliminate this declaration
 .usa-content {
-  p, li, h1, h2, h3, h4, h5, h6, dd, dt {
-    max-width: $text-max-width;
-  }
+  max-width: $text-max-width;
 }
 
 html.no-touch .banner {
