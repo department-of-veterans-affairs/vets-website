@@ -64,6 +64,11 @@ class ChildInformationSection extends React.Component {
     return (
       <div>
         <h4>Children Information</h4>
+        <ErrorableCheckbox
+            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+            checked={this.props.data.sectionComplete}
+            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
         {notRequiredMessage}
 

@@ -45,13 +45,18 @@ class SpouseInformationSection extends React.Component {
       <div>
         <div>
           <h4>Spouse's Information</h4>
+          <ErrorableCheckbox
+              label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+              checked={this.props.data.sectionComplete}
+              className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+              onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
           {notRequiredMessage}
 
           {noSpouseMessage}
 
         </div>
-        <div>
+        <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
           <div className="input-section">
             <FullName
                 value={this.props.data.spouseFullName}

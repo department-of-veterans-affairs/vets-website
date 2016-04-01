@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
 import { veteranUpdateField } from '../../actions';
 
@@ -32,8 +33,13 @@ class AnnualIncomeSection extends React.Component {
     }
 
     return (
-      <div>
+      <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
         <h4>Annual Income</h4>
+        <ErrorableCheckbox
+            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+            checked={this.props.data.sectionComplete}
+            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
         {notRequiredMessage}
 

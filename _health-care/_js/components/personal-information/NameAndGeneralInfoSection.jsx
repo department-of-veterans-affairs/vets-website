@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import DateInput from '../form-elements/DateInput';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import FullName from '../questions/FullName';
 import Gender from '../questions/Gender';
 import MothersMaidenName from './MothersMaidenName';
@@ -14,9 +15,14 @@ import { veteranUpdateField } from '../../actions';
 class NameAndGeneralInfoSection extends React.Component {
   render() {
     return (
-      <fieldset>
+      <fieldset className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
         <div className="input-section">
           <h4>Veteran's Name</h4>
+          <ErrorableCheckbox
+              label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+              checked={this.props.data.sectionComplete}
+              className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+              onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
           <FullName required
               value={this.props.data.fullName}
               onUserInput={(update) => {this.props.onStateChange('fullName', update);}}/>
@@ -51,7 +57,7 @@ class NameAndGeneralInfoSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.nameAndGeneralInformation,
+    data: state.nameAndGeneralInformation
   };
 }
 

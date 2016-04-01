@@ -20,8 +20,13 @@ class FinancialDisclosureSection extends React.Component {
     }
 
     return (
-      <div>
+      <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
         <h4>Financial Disclosure</h4>
+        <ErrorableCheckbox
+            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+            checked={this.props.data.sectionComplete}
+            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
         {notRequiredMessage}
 

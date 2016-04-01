@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
 import { veteranUpdateField } from '../../actions';
 
@@ -33,6 +34,11 @@ class DeductibleExpensesSection extends React.Component {
     return (
       <div>
         <h4>Previous calendar year deductible expenses</h4>
+        <ErrorableCheckbox
+            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+            checked={this.props.data.sectionComplete}
+            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
         {notRequiredMessage}
 
@@ -47,7 +53,7 @@ class DeductibleExpensesSection extends React.Component {
           Veteran for spouse or dependent(s).
         </p>
 
-        <div className="input-section">
+        <div className={`input-section ${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
           <ErrorableTextInput
               errorMessage={this.isValidMonetaryValue(this.props.data.deductibleMedicalExpenses, message)}
               label="Total non-reimbursed medical expenses paid by you or your spouse

@@ -9,8 +9,13 @@ class AdditionalMilitaryInformationSection extends React.Component {
     return (
       <div>
         <h4>Additional Information</h4>
+        <ErrorableCheckbox
+            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+            checked={this.props.data.sectionComplete}
+            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
-        <div className="input-section">
+        <div className={`input-section ${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
           <ErrorableCheckbox
               label="Are you a Purple Heart award recipient?"
               checked={this.props.data.purpleHeartRecipient}

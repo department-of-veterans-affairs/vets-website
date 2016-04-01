@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import DateInput from '../form-elements/DateInput';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import { branchesServed, dischargeTypes } from '../../utils/options-for-select.js';
 import { veteranUpdateField } from '../../actions';
 
@@ -11,8 +12,13 @@ class ServiceInformationSection extends React.Component {
     return (
       <div>
         <h4>Service Information</h4>
+        <ErrorableCheckbox
+            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+            checked={this.props.data.sectionComplete}
+            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
-        <div className="input-section">
+        <div className={`input-section ${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
           <ErrorableSelect
               label="Last branch of service"
               options={branchesServed}

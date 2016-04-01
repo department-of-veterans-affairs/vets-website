@@ -26,8 +26,13 @@ class InsuranceInformationSection extends React.Component {
   render() {
     return (
       <fieldset>
-        <div className="input-section">
+        <div className={`input-section ${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
           <h4>Coverage Information</h4>
+          <ErrorableCheckbox
+              label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+              checked={this.props.data.sectionComplete}
+              className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+              onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
           <ErrorableCheckbox
               label="Are you covered by health insurance? (Including coverage through a spouse or another person)"
               checked={this.props.data.isCoveredByHealthInsurance}

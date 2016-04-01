@@ -38,6 +38,35 @@ body .row {
   }
 }
 
+.review-view {
+  input, select {
+    border: 0;
+    pointer-events:none;
+    color: $color-primary;
+    background-image: none;
+    width: 50%;
+    display: inline-block;
+  }
+
+  label {
+    display: inline-block;
+  }
+  .usa-additional_text {
+    display: none;
+  }
+}
+
+.edit-checkbox {
+  label {
+    @extend a;
+    display: inline-block;
+
+    &:before {
+      display: none !important;
+    }
+  }
+}
+
 .input-section {
   margin-bottom: 2em; 
 
@@ -96,4 +125,8 @@ body .row {
       }
     }
   }
+}
+
+.hidden{
+  display: none !important;
 }
