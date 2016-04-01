@@ -22,7 +22,7 @@ Many universities and nonprofit organizations offer free or low-cost entrepreneu
 
 - Syracuse University’s Institute for Veterans and Military Families [Boots to Business](http://vets.syr.edu/education/boots-to-business/), [Entrepreneurship Bootcamp for Veterans with Disabilities](http://ebv.vets.syr.edu/), and [Veteran Women Igniting the Spirit of Entrepreneurship](http://vets.syr.edu/education/v-wise/).
 - New York University’s [Veteran Entrepreneur Training](http://engineering.nyu.edu/business/incubators/veteran-support/veteran-entrepreneur-training) (New York City based).
-- [Techstars Risingstars Program](http://www.techstars.com/risingstars/).
+- [Techstars Risingstars Program](http://www.patriotbootcamp.org/).
 
 Find more resources for starting your business at the [Department of Labor’s Veteran information site](http://www.dol.gov/vets/opportunities/opportunities.htm).
 
