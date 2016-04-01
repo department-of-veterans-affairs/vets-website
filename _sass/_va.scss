@@ -1915,40 +1915,41 @@ li.eighteen:before {content: "18";}
 li.nineteen:before {content: "19";}
 li.twenty:before {content: "20";}
 }
+
 .methodology {
-.medium-3 {
-  padding-top: 1.5em;
-  @media #{$small-only} {
-    padding-left: 1.5em;
-    h4 {
-      font-size: 1.4em;
+  .medium-3 {
+    padding-top: 1.5em;
+
+    @media #{$small-only} {
+      padding-left: 1.5em;
+      h4 {
+        font-size: 1.4em;
+      }
+    }
+
+    ul {
+      margin: 0 0 1.5em 0; padding: 0;
+    
+      li {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    &.hcd {
+      h4 {
+        color: $secondary-color;
+      }
     }
   }
-
-  ul {
-    margin: 0 0 1.5em 0; padding: 0;
+ 
+  ol:nth-child(n+2) {
     li {
-    margin: 0;
-    padding: 0;
+      list-style-type:decimal;
     }
   }
 
-  &.hcd {
-    h4 {
-      color: $secondary-color;
-    }
-  }
-
-}
-.medium-9 {
-  background: white;
-}
-ol:nth-child(n+2) {
   li {
-    list-style-type:decimal;
-  }
-}
-li {
   &.step {
     padding-top: 1.5em;
     border-left:4px solid $olso-gray;
@@ -2009,22 +2010,22 @@ li {
   }
 }
 
-&.page {
-  .discover {
-    background: none;
-  }
-  .medium-3 {
-    padding-top: 0;
-    ul {
-      margin-left: 0;
+  &.page {
+    .discover {
+      background: none;
+    }
+    .medium-3 {
+      padding-top: 0;
+      ul {
+        margin-left: 0;
+      }
+    }
+    .medium-9 {
+        li {
+            list-style-type: disc;
+        }
     }
   }
-  .medium-9 {
-      li {
-          list-style-type: disc;
-      }
-  }
-}
 }
 
 .human-centered {
@@ -2054,18 +2055,13 @@ li {
 }
 }
 .discover {
-  background:$polar;
-  li {
-    &.step.one {
-      @media #{$small-only} {
-        margin-top: 1.3em!important;
-      }
-      @media #{$medium-up} {
-        margin-top: -2.7em!important;
-      }
-      padding-top: 0;
-    }
+  background: $polar;
+  
+  li.one {
+    margin-top: 1.3em !important;
+    padding-top: 0;
   }
+  
   .graphic {
     background: url(../images/design/playbook/discover-process.svg) 40% center no-repeat;
   }
@@ -2090,6 +2086,7 @@ li {
     background :url(../images/design/playbook/design-process.svg) 40% center no-repeat;
   }
 }
+
 .deliver {
   background:$green-white;
     li {
@@ -2112,24 +2109,46 @@ li {
 }
 
 
+.va-list-num--discover { 
+  li::before {
+    background-color: $polar;
+  }
+}
+.va-list-num--design {
+// TODO: Figure out why !important is necessary here.
+  li::before {
+    background-color: $wild-sand !important;
+  }
+}
+
+.va-list-num--deliver {
+// TODO: Figure out why !important is necessary here.
+  li::before {
+    background-color: $green-white !important;
+  }
+}
+.va-prodmethod {
+  padding: 0;
+}
+
 // Visual Guide
 
 span.color-chip {
-height: 3em;
-width: 3em;
-margin: .5em 1em .5em 0;
-border-radius: 10em;
-vertical-align: middle;
-display: inline-block;
+  height: 3em;
+  width: 3em;
+  margin: .5em 1em .5em 0;
+  border-radius: 10em;
+  vertical-align: middle;
+  display: inline-block;
 
-&.primary-color {background: $color-primary;}
-&.color-primary-darker {background: $color-primary-darker;}
-&.color-primary-darkest {background: $color-primary-darkest;}
-&.color-gray-dark {background: $color-gray-dark;}
-&.color-gray-lightest {background: $color-gray-lightest;}
-&.color-gold {background: $color-gold;}
-&.color-green {background: $color-green;}
-&.color-green-lightest {background: $color-green-lightest;}
+  &.primary-color {background: $color-primary;}
+  &.color-primary-darker {background: $color-primary-darker;}
+  &.color-primary-darkest {background: $color-primary-darkest;}
+  &.color-gray-dark {background: $color-gray-dark;}
+  &.color-gray-lightest {background: $color-gray-lightest;}
+  &.color-gold {background: $color-gold;}
+  &.color-green {background: $color-green;}
+  &.color-green-lightest {background: $color-green-lightest;}
 }
 
 
