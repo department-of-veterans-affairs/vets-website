@@ -34,7 +34,7 @@ relatedlinks:
 
 ### Who should read this?
 
-Servicemembers, and their spouses, who are within one year of separating from the military
+Servicemembers, and their spouses, who are within one year of separating from the military.
 
 ### Why should you read this? 
 
@@ -46,7 +46,7 @@ You can take certain steps to improve your chances of moving smoothly and succes
 <div class="row" markdown="0">
 <div class="small-12 columns divider margin top"  markdown="1">
 
-### What are the Steps?
+### What are the steps?
 
 <ol class="process">
 <li class="step one wow fadeIn animated">
@@ -74,11 +74,18 @@ You can take certain steps to improve your chances of moving smoothly and succes
 <li class="step two wow fadeIn animated">
 <div markdown="1">
 
+</div>
+</li>
+<li class="step two wow fadeIn animated">
+<div markdown="1">
+
 #### 6 Months Before Leaving Active Duty
 
 - Complete the [Preseparation Counseling Checklist](http://www.dtic.mil/whs/directives/forms/eforms/dd2648t.pdf) (form DD2648).
 - Compile your service-treatment records and military hospital reports if you plan on registering for VA medical resources.
+
 Both of these can be ordered through the [National Archives](https://www.archives.gov/veterans/military-service-records/). Treatment records are not required for registration or treament at VA.
+
 - Compile private medical records and hospital reports. 
 - Finalize your résumé and begin actively [searching for employment](/employment/job-seekers/search-jobs).
 - Consider taking one of three additional GPS tracks: Accessing Higher Education, Career Technical Training, or Entrepreneurship. 
@@ -86,7 +93,6 @@ Both of these can be ordered through the [National Archives](https://www.archive
 - At 120 days from separation, you can begin applying for [federal jobs](/employment/job-seekers/federal-employment). 
 
 </div>
-
 </li>
 
 <li class="step three wow fadeIn animated">
@@ -103,7 +109,7 @@ Both of these can be ordered through the [National Archives](https://www.archive
 - Review job boards, search job banks, and research openings at companies that interest you.
 - Actively engage in your career search.
 - Avoid using military lingo like “V/R” in your career-search emails. 
-- Wear professional, civilian clothing to events and in networking site photos.
+- Wear professional, civilian clothing to events and in networking website photos.
 
 </div>
 </li>
