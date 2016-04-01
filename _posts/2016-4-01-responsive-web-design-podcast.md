@@ -1,7 +1,7 @@
 ---
 title: Responsive Web Design Podcast
 description:
-author: Danny Chapman
+author: Emily Wright-Moore
 layout: post-single
 tags:
  - press
