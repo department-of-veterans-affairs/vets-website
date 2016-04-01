@@ -17,7 +17,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 ### You may not be completely ready to start looking for a job, but there are other ways you can prepare.
 
 - ##### Do you plan to leave active duty in less than 12 months?
-  
+
   [Prepare for your transition](/employment/job-seekers/less-than-one-year) with this timeline.
 
 - ##### Have you recently left active duty?
@@ -26,7 +26,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 - ##### Are you already in the workforce?
   
-  Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
+Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
 
 </div>
 
