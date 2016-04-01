@@ -52,12 +52,10 @@ $olso-gray:#849097;
 $roboto-slab: 'Roboto Slab', serif;
 
 
-
 // General
 html, body {
   padding: 0;
   margin: 0;
-  // font-size: 17px;
   font-family: $font-sans;
   font-weight: 500;
   color: $color-gray-dark;
@@ -74,10 +72,6 @@ body, body.home {
 body .row.full {
   width: 100%;
   max-width: 100%;
-}
-
-body.home .row {
-  // max-width: 62.5em;
 }
 
 // Screen Readers
@@ -102,16 +96,25 @@ abbr, a abbr, abbr[title] {
 
 a {
   background: rgba(0,0,0,0.05);
-  text-decoration: none;
-  &:hover {text-decoration: none;}
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
   color: $color-gray-dark;
+  text-decoration: none;
+ 
+  -webkit-transition-duration: 0.3s;
+     -moz-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+  
+  -webkit-transition-timing-function: ease-in-out;
+     -moz-transition-timing-function: ease-in-out;
+          transition-timing-function: ease-in-out;
+          
+  // Transition only these properties.
+  -webkit-transition-property: color, background-color, border-color;
+     -moz-transition-property: color, background-color, border-color;
+          transition-property: color, background-color, border-color;
+
   &:hover {
-    color: $color-gray-dark;
+    color: inherit;
+    text-decoration: none;
   }
 }
 
@@ -123,18 +126,10 @@ figcaption {
 
 // Interior rows
 
-// #content.interior .row {
-//   max-width: 52em;
-// }
-
-
 #content.interior a[href^="http://"],
 #content.interior a[href^="https://"] {
   position: relative;
 }
-
-
-
 
 // Logo and Header
 
@@ -230,7 +225,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   }
 
   h2 span {clear: both; padding: .04em; display: inline-block; background: $color-gold; font-weight: normal;}
-  h2, h3, p {/*padding: .35em; */ margin: 0; display: inline-block; font-family: $roboto-slab;}
+  h2, h3, p {margin: 0; display: inline-block; font-family: $roboto-slab;}
   h2 {
     font-size: 1em;
     display: inline-block;
@@ -449,7 +444,6 @@ h6 {font-size: 1.15em; font-weight: bold;}
     margin: 0;
     padding: 0;
     li {list-style: none; border-bottom: none;}
-    /*a {background: none;}*/
   }
 
   .section {
@@ -745,7 +739,7 @@ li {
 
 .introductory-content {
   padding: 1em  0;
-  @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 3em 0;}
+  @media #{$small} {padding: 3em 0;}
   background: #efefef;
   margin: 0 auto;
   p {
@@ -1023,12 +1017,40 @@ span.next {
 
 #experience .splash {
   margin: 0;
-  @media #{$small} {margin: .5em 0 0 0; padding: 1em 0 0 0;}
+  
+  @media #{$small} {
+    margin: .5em 0 0 0;
+    padding: 1em 0 0 0;
+  }
+  
   h2 {
-    &.tagline {padding: 0;}
-    padding: 0; margin: 0 0 2em 0; background: none; color: $color-primary-darkest;
-    a {text-decoration: none; margin: 0; color: $color-primary-darkest; background: $color-gold; border-bottom: none; padding: .5em .25em; &:hover {padding: .5em .65em;}}
-    @media #{$medium} {position: fixed; margin: 1.35em 0 0 0; z-index: 100;}
+    &.tagline {
+      padding: 0;
+    }
+    
+    padding: 0; 
+    margin: 0 0 2em 0; 
+    background: none; 
+    color: $color-primary-darkest;
+    
+    a {
+      text-decoration: none; 
+      margin: 0; 
+      color: $color-primary-darkest; 
+      background: $color-gold; 
+      border-bottom: none; 
+      padding: .5em .25em; 
+      
+      &:hover {
+        padding: .5em .65em;
+      }
+    }
+    
+    @media #{$medium} {
+      position: absolute; 
+      margin: 1.35em 0 0 0; 
+      z-index: 100;
+    }
   }
 }
 
@@ -1743,7 +1765,6 @@ span {
 
 #playbook {
 h2 {background: none; font-size: 2.5em;}
-/*a {text-decoration: none; background: none;}*/
 
 .card a {
   border-bottom: 2px solid $secondary-color;
@@ -1822,9 +1843,7 @@ margin: 0;
   &.last {
     border-left: 0;
   }
-      a {
-        /*background-color: #D9C799;*/
-      }
+
   }
   &.step.three.last,
   &.step.four.last,
@@ -1836,9 +1855,6 @@ margin: 0;
     margin-left: -2.4em
     }
   }
-
-
-  /*&.va {border-left: 8px dashed #ccc;}*/
 
   ul {
     margin: .25em 0 1em 0;
@@ -2026,7 +2042,6 @@ li {
     }
   }
   div:nth-child(2) {
-    /*border-left:4px solid #fff;*/
     padding: 1.5em 1.5em .2em;
   }
   .graphic {
