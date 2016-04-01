@@ -40,6 +40,13 @@ You can take certain steps to improve your chances of moving smoothly and succes
 - Start developing a résumé by [translating military skills](/employment/job-seekers/skills-translator) into equivalent civilian skills. Import these using the [Résumé Builder](/employment/job-seekers/create-resume). 
 - Clean up your personal social-media footprint and establish a presence on professional sites like LinkedIn. 
 
+</div>
+
+</li>
+
+<li class="step two wow fadeIn animated">
+<div markdown="1">
+
 #### 6 Months Before Leaving Active Duty
 
 - Complete the [Preseparation Counseling Checklist](http://www.dtic.mil/whs/directives/forms/eforms/dd2648t.pdf) (form DD2648).
@@ -51,6 +58,11 @@ Both of these documents can be ordered through the [National Archives](https://w
 - Consider free [education and career counseling](/education/tools-programs/education-career-counseling/)
 - At 120 days from separation you can begin applying for [federal jobs](/employment/job-seekers/federal-employment). 
 
+</div>
+</li>
+<li class="step three wow fadeIn animated">
+<div markdown="1">
+
 #### 2-4 Months Before Leaving Active Duty
 
 - Attend networking and recruiting events.
@@ -61,10 +73,9 @@ Both of these documents can be ordered through the [National Archives](https://w
 
 </div>
 </li>
-
 <li class="step four last wow fadeIn animated">
-
 <div markdown="1">
+
 #### 1 Month Before Leaving Active Duty
 
 - Complete TAP GPS (can be completed earlier).
