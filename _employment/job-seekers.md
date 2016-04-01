@@ -29,6 +29,18 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
 
 </div>
+<<<<<<< 0970ee60e89230745807b7b176944947206193aa
+=======
+</div>
+
+<div class="row" markdown="0">
+<div class="small-12 medium-9 columns divider margin top"  markdown="1">
+
+### If you are ready to begin, take these steps:
+
+<ol class="process">
+<li class="step one wow fadeIn animated">
+>>>>>>> Update job-seekers.md
 
 <div markdown="1">
 
