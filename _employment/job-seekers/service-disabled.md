@@ -1,5 +1,5 @@
 ---
-title: Are you service disabled?
+title: Employment Support for Service-Disabled Veterans
 concurrence: complete
 template: 1-topic-landing
 ---
@@ -13,7 +13,7 @@ template: 1-topic-landing
 
 As a service-disabled Veteran, there are many ways for you to pursue your personal and professional goals through both government and private-sector employment.
 
-**Federal Job Preference**
+##### Federal Job Preference
 
 If you are a service-disabled Veteran, you qualify for hiring preference when competing for certain federal jobs. Learn more about [applying for federal jobs](/employment/job-seekers/federal-employment/). Some classifications, or exceptions, may qualify you for specific federal positions. Know which hiring exceptions you qualify for as a service-disabled Veteran. Check [federal hiring authority information](http://www.fedshirevets.gov/job/shav/) before applying.
 
@@ -23,13 +23,13 @@ If you are service disabled at more than 10% and can no longer continue your cur
 **Start or Grow Your Own Business**
 If entrepreneurship interests you, your disability may qualify you for preference in winning government contracts. VA and other [Veteran entrepreneur programs](/education/advanced-training-and-certifications/entrepreneurship-training/) can support you through this journey. 
 
-**Private Sector**
+#####Private Sector
 
 Private-sector employers may qualify for incentives such as [tax benefits](/employment/employers/)  when hiring service-disabled Veterans. Make sure you’re knowledgeable about this when you meet with [VA Employment Center](/employment/job-seekers/one-on-one/) representatives and during the interview process.
 
 Credentialing and job training will help in your search. Check your [military transcripts](/employment/job-seekers/military-transcripts/) now to be sure they are accurate.
 
-**Learn more**
+#####Learn more#####
 Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov/hr/RVECS/pages/rvecs-map.asp) or your [policy and benefits advocate](/disability-benefits/apply-for-benefits/help/) for more information.
 
 
@@ -57,13 +57,13 @@ Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/create-resume">Resume Builder</a>
+            <a href="/employment/job-seekers/create-resume">Résumé Builder</a>
           </h3>  
         </li>
 
         <li>
           <h3>
-            <a href="/employment/job-seekers/search_jobs">Search the Jobs Bank</a>
+            <a href="/employment/job-seekers/search_jobs">Search the Veterans Job Bank</a>
           </h3>
         </li>  
 
