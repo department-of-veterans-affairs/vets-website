@@ -1,7 +1,7 @@
 {% include header.html %}
 <div id="content">
   <div id="experience" class="{{ page.title }}" role="main">
-    <div class="splash">
+    <div class="splash{% if page.splash_image %} splash--hasimg" style="background-image: url(/assets/images/content/posts/{{page.splash_image}});{% endif %}">
       <h2><a href="/experience/">Experience</a></h2>
     </div>
     <div class="primary">
