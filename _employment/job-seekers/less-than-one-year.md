@@ -41,10 +41,6 @@ You can take certain steps to improve your chances of moving smoothly and succes
 - Clean up your personal social-media footprint and establish a presence on professional sites like LinkedIn. 
 
 </div>
-<<<<<<< HEAD
-=======
-
->>>>>>> jobs-employment-v2
 </li>
 
 <li class="step two wow fadeIn animated">
