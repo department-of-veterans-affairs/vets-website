@@ -49,11 +49,6 @@ For a year after transitioning out of the military and for the six months prior 
 
 You might also want to work with nonprofit organizations that have been thoroughly vetted and can offer you advice, share connections, and help place you into a good job at no cost to you. The [Call of Duty Endowment](http://www.callofdutyendowment.org/partners) endorses groups that do a particularly good job of this. 
 
-Additionally, Hire Our Heroes, in partnership with [American Corporate Partners (ACP)](http://www.acp-usa.org/), pairs Veterans with corporate mentors. Over the course of a year, you and a mentor will discuss private-sector career preparation and exploration, and review your résumé. Mentors, one-third of whom are former military, come from a wide variety of sectors, including marketing, defense, health care, insurance, and manufacturing. You are eligible for ACP if:
-
-- You are a currently serving or recently separated Veteran (including members of the Reserve and National Guard) and have served on active duty for at least 180 days since September 11, 2001, or
-- You are the spouse of a Servicemember wounded or killed in action.
-
 </div>
 </div>
 </div>
