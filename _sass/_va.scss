@@ -1,9 +1,4 @@
-// Vets.gov
-$color-green-darker: #195c27;
 
-// Pieces of elements/typography we need
-// TODO: properly incorporate elements/typography
-$base-font-size: rem(16px);
 
 html {
   font-family: $font-sans;
@@ -38,15 +33,6 @@ body {
     outline: 2px solid $color-gold;
   }
 }
-
-// Other Colors
-$polar:#E8F5FA;
-$wild-sand:#f6f6f6;
-$green-white:#eff0e6;
-$olso-gray:#849097;
-
-// VA Fonts
-$roboto-slab: 'Roboto Slab', serif;
 
 
 // General
@@ -225,7 +211,7 @@ h3, h4, h5, h6 {
   }
 
   h2 span {clear: both; padding: .04em; display: inline-block; background: $color-gold; font-weight: normal;}
-  h2, h3, p {margin: 0; display: inline-block; font-family: $roboto-slab;}
+  h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
   h2 {
     font-size: 1em;
     display: inline-block;
@@ -632,7 +618,7 @@ text-align: left;
     &.active {
       background: $color-gold;
       color: #000;
-      font-family: $roboto-slab;
+      font-family: $font-serif;
       font-weight: 400;
       margin: .5em 0;
       padding: .2em;
