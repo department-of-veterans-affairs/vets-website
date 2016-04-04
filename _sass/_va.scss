@@ -82,8 +82,8 @@ body .row.full {
 
 // Abbr
 
-abbr, a abbr, abbr[title] {
-  border-bottom: none;
+abbr {
+  border-bottom: 0px !important;
   text-decoration: none;
   font-weight: inherit;
   font-style: inherit;
