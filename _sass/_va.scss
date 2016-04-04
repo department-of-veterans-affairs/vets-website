@@ -95,7 +95,7 @@ abbr, a abbr, abbr[title] {
 a {
   background: rgba(0,0,0,0.05);
   color: $color-gray-dark;
-  text-decoration: none;
+  text-decoration: underline;
  
   -webkit-transition-duration: 0.3s;
      -moz-transition-duration: 0.3s;
@@ -111,10 +111,12 @@ a {
           transition-property: color, background-color, border-color;
 
   &:hover {
+    background: rgba(0,0,0,.1);
     color: inherit;
-    text-decoration: none;
+    text-decoration: underline;
   }
 }
+
 
 // Figure / Caption
 
@@ -178,11 +180,6 @@ h3, h4, h5, h6 {
   color:$color-primary-darkest;
   font-weight: 600;
 }
-
-// Links
-
-a {text-decoration: underline; background: rgba(0,0,0,.05);}
-a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 
 // Banner
 
