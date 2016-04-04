@@ -42,6 +42,7 @@ You can take certain steps to improve your chances of moving smoothly and succes
 
 </div>
 </li>
+
 <li class="step two wow fadeIn animated">
 <div markdown="1">
 
@@ -58,6 +59,7 @@ Both of these can be ordered through the [National Archives](https://www.archive
 
 </div>
 </li>
+
 <li class="step three wow fadeIn animated">
 <div markdown="1">
 
@@ -71,10 +73,9 @@ Both of these can be ordered through the [National Archives](https://www.archive
 
 </div>
 </li>
-
 <li class="step four last wow fadeIn animated">
-
 <div markdown="1">
+
 #### 1 Month Before Leaving Active Duty
 
 - Complete TAP GPS (can be completed earlier).
