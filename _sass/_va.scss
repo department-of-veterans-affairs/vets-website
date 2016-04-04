@@ -241,10 +241,6 @@ h3, h4, h5, h6 {
   h2, h3 {color: $color-primary-darkest; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
 }
 
-#experience {background: #fff;}
-
-#experience .splash {padding: 0; margin: 0;}
-
 #experience .splash h2 {
   margin: .5em 0; padding: 0;
   a {
@@ -1004,6 +1000,7 @@ span.next {
 
 #experience .splash {
   margin: 0;
+  padding: 0; 
   
   @media #{$small} {
     margin: .5em 0 0 0;
@@ -1044,6 +1041,7 @@ span.next {
 // small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns
 
 #experience {
+  background: #fff;
 
   .main {
     @extend .small-12;
