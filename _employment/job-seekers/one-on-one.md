@@ -60,12 +60,6 @@ You might also want to work with nonprofit organizations that have been thorough
 
         <li>
           <h3>
-          <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance</a>
-          </h3>
-        </li>
-
-        <li>
-          <h3>
           <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
           </h3>
         </li>  
