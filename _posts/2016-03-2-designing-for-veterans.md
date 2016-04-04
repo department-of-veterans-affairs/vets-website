@@ -8,6 +8,7 @@ tags:
  - standards
  - design
 published: true
+splash_image: utah.jpg
 ---
 
 <div markdown="1">
