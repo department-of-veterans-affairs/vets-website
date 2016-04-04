@@ -40,7 +40,7 @@ template: 7-get-page
 <div class="row" markdown="0">
 <div class="small-12 medium-9 columns divider margin top"  markdown="1">
 
-### If you are ready to begin, here are the steps to take:
+### If you are ready to begin, take these steps:
 
 <ol class="process">
 <li class="step one wow fadeIn animated">
@@ -71,7 +71,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Build a résumé and public profile
 
-- Build your [résumé and public profile](/employment/job-seekers/create-resume) so employers can seek you out.
+- Build your [résumé and public profile](/employment/job-seekers/create-resume) so employers can find you.
 - Get a free [LinkedIn Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
 
 </div>
@@ -152,8 +152,8 @@ Learn about the [job fairs](/employment/job-seekers/career-fairs) available for 
 <div class="call-out" markdown="1">
 #### Military spouses and family members
 
-- Use government-sponsored [career and education resources](/employment/job-seekers/family-members/)
-- Take advantage of [networking opportunities](/employment/job-seekers/career-fairs/).
+- Use government-sponsored [career and education resources](/employment/job-seekers/family-members/).
+- Take advantage of [networking opportunities](/employment/job-seekers/career-fairs/) at career fairs.
 
 </div>
 </div>
