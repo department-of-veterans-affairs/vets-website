@@ -1,0 +1,51 @@
+.va-navigation--piano {
+  color: $color-primary-darkest;
+  border-bottom: 2px solid #fff;
+  // Can get rid of !important once 
+  // #content .main .section.one ul is simplified
+  margin: 0 !important;
+  max-width: $text-max-width; 
+  padding: 2em 0;
+
+  li { 
+    background: $color-gray-lightest;
+    border-bottom: 8px solid $color-white;
+    list-style: none !important;
+    height: auto;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+  
+  span {color: $color-gray-dark;}
+  
+  h3, h4, h5, h6 {
+    color: $color-primary-darkest; 
+    font-weight: 700; 
+    font-family: $font-sans; 
+    font-size: 1.35em;
+    margin: 0;
+  }
+   
+  a {
+    display: block;
+    color: $color-primary-darkest;
+    border-left: 8px solid transparent;
+    border-bottom: none;
+    text-decoration: none;
+    border-radius: 0;
+    padding: 1em .5em;
+    margin: 0;
+    background: none;
+
+    &:hover {
+        background: rgba(0,0,0,.1); 
+        border-left-color: $color-primary;
+        text-decoration: none;
+    }
+  }
+} 
