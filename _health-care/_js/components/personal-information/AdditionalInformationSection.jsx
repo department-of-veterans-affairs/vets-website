@@ -1,14 +1,26 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import State from '../questions/State';
 import VaMedicalFacility from './VaMedicalFacility';
+import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class AdditionalInformationSection extends React.Component {
   render() {
     return (
-      <fieldset>
+      <fieldset className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
         <h4>Additional Information</h4>
+        <ErrorableCheckbox
+            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+            checked={this.props.data.sectionComplete}
+            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
         <div className="input-section">
           <ErrorableCheckbox
               label="I am enrolling to obtain minimal essential coverage under the affordable care act"
@@ -36,5 +48,20 @@ class AdditionalInformationSection extends React.Component {
   }
 }
 
-export default AdditionalInformationSection;
+function mapStateToProps(state) {
+  return {
+    data: state.additionalInformation,
+  };
+}
 
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(veteranUpdateField(['additionalInformation', field], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(AdditionalInformationSection);
+export { AdditionalInformationSection };
