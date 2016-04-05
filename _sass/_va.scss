@@ -78,8 +78,7 @@ abbr {
 
 
 a {
-  background: rgba(0,0,0,0.05);
-  color: $color-gray-dark;
+  color: $color-primary;
   text-decoration: underline;
  
   -webkit-transition-duration: 0.3s;
@@ -93,11 +92,18 @@ a {
           transition-property: color, background-color, border-color;
 
   &:hover {
-    background: rgba(0,0,0,.1);
+    background: rgba(0,0,0,0.05);
     color: inherit;
-    text-decoration: underline;
+    text-decoration: underline;  
+  }
+  &:active {
+    background: rgba(0,0,0,.1);
   }
 }
+
+a:visited {
+  color: #4c2c92
+  }
 
 
 // Figure / Caption
