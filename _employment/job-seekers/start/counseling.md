@@ -9,7 +9,7 @@ template: 1-topic-landing
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
 The [Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned) and VA’s Office of Small and Disadvantaged Business Utilization in collaboration with [Business USA](http://business.usa.gov/) have resources to support you in starting a new business or growing an existing one. These resources help you with business-plan writing, funding, licensure and permits, mentoring, marketing, how to contract with the government, and more. 
 
