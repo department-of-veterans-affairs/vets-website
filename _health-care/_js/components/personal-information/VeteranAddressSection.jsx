@@ -3,10 +3,16 @@ import { connect } from 'react-redux';
 
 import Address from '../questions/Address';
 import Email from '../questions/Email';
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import Phone from '../questions/Phone';
 import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class VeteranAddressSection extends React.Component {
   constructor() {
     super();
@@ -23,9 +29,14 @@ class VeteranAddressSection extends React.Component {
 
   render() {
     return (
-      <fieldset>
-        <div className="input-section">
+      <fieldset >
+        <div className={`input-section ${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
           <h4>Permanent Address</h4>
+          <ErrorableCheckbox
+              label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+              checked={this.props.data.sectionComplete}
+              className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+              onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
           <p>For locations outside the U.S., enter "City,Country" in the City field
             (e.g., "Paris,France"), and select Foreign Country for State.
