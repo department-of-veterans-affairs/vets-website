@@ -8,7 +8,7 @@ template: 7-get-page
 <div class="main interior" role="main" markdown="0">
 <div class="section one" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 medium-9 columns left"  markdown="1">
+<div class="small-12 medium-9 columns usa-content left"  markdown="1">
 
 <div class="primary">
 
