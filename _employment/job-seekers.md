@@ -106,7 +106,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 </li>
 
-<li class="step six wow fadeIn animated">
+<li class="step six wow last fadeIn animated">
 
 <div markdown="1">
 
