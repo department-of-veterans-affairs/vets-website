@@ -18,7 +18,7 @@
             <ul class="plain posts">
               {% for post in site.related_posts %}
                 <li>
-                  <a href="/{{ post.url }}">
+                  <a href="{{ post.url }}">
                     <div class="post-title">{{ post.title }}</div>
                     <div class="post-date">{{ post.date | date: "%B %d, %Y" }}</div>
                   </a>
