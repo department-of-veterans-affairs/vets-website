@@ -1,9 +1,4 @@
-// Vets.gov
-$color-green-darker: #195c27;
 
-// Pieces of elements/typography we need
-// TODO: properly incorporate elements/typography
-$base-font-size: rem(16px);
 
 html {
   font-family: $font-sans;
@@ -23,7 +18,6 @@ body {
 }
 
 // Skip link
-
 .show-on-focus {
   position: absolute;
   top: -10em;
@@ -40,21 +34,11 @@ body {
   }
 }
 
-// Other Colors
-$polar:#E8F5FA;
-$wild-sand:#f6f6f6;
-$green-white:#eff0e6;
-$olso-gray:#849097;
-
-// VA Fonts
-$roboto-slab: 'Roboto Slab', serif;
-
 
 // General
 html, body {
   padding: 0;
   margin: 0;
-  // font-size: 17px;
   font-family: $font-sans;
   font-weight: 500;
   color: $color-gray-dark;
@@ -73,10 +57,6 @@ body .row.full {
   max-width: 100%;
 }
 
-body.home .row {
-  // max-width: 62.5em;
-}
-
 // Screen Readers
 
 .sr-only {
@@ -87,8 +67,8 @@ body.home .row {
 
 // Abbr
 
-abbr, a abbr, abbr[title] {
-  border-bottom: none;
+abbr {
+  border-bottom: 0px !important;
   text-decoration: none;
   font-weight: inherit;
   font-style: inherit;
@@ -100,26 +80,25 @@ abbr, a abbr, abbr[title] {
 a {
   background: rgba(0,0,0,0.05);
   color: $color-gray-dark;
-  text-decoration: none;
+  text-decoration: underline;
  
   -webkit-transition-duration: 0.3s;
-     -moz-transition-duration: 0.3s;
           transition-duration: 0.3s;
   
   -webkit-transition-timing-function: ease-in-out;
-     -moz-transition-timing-function: ease-in-out;
           transition-timing-function: ease-in-out;
           
   // Transition only these properties.
   -webkit-transition-property: color, background-color, border-color;
-     -moz-transition-property: color, background-color, border-color;
           transition-property: color, background-color, border-color;
 
   &:hover {
+    background: rgba(0,0,0,.1);
     color: inherit;
-    text-decoration: none;
+    text-decoration: underline;
   }
 }
+
 
 // Figure / Caption
 
@@ -129,29 +108,27 @@ figcaption {
 
 // Interior rows
 
-// #content.interior .row {
-//   max-width: 52em;
-// }
-
-
 #content.interior a[href^="http://"],
 #content.interior a[href^="https://"] {
   position: relative;
 }
 
 // Logo and Header
-
 .header {
   clear: both;
   padding: 0 0 .5em 0;
   margin: 0;
-
-  h1 {margin: 0; line-height: 1em; @media #{$small} {margin: .25em 0 0 0;} }
-  color: #fff;
 }
 
-h1 {
+.va-header-logo {
   color: #fff;
+  line-height: 1em; 
+  margin: 0; 
+  
+  @media #{$small} {
+    margin: .25em 0 0 0;
+  } 
+
   a {
     text-indent: 180%;
     white-space: nowrap;
@@ -164,18 +141,24 @@ h1 {
     background-size: contain;
     border-bottom: none;
     text-decoration: none;
-    &:hover, &:active, &:focus {background: $color-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat; background-size: contain;}
-  @media #{$small} {
-    background: $color-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
-    width: 263px;
-    height: 50px;
-    background-size: contain;
-    &:hover {
-      background: $color-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat;
+    
+    &:hover, &:active, &:focus {
+      background: $color-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat; 
       background-size: contain;
     }
+  
+    @media #{$small} {
+      background: $color-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
+      width: 263px;
+      height: 50px;
+      background-size: contain;
+      
+      &:hover {
+        background: $color-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat;
+        background-size: contain;
+      }
+    }
   }
-}
 }
 
 // Type
@@ -185,14 +168,9 @@ h1, h2 {
   font-weight: 600;
 }
 h3, h4, h5, h6 {
-  color:$color-primary-darkest;
+  color: $color-primary-darkest;
   font-weight: 600;
 }
-
-// Links
-
-a {text-decoration: underline; background: rgba(0,0,0,.05);}
-a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 
 // Banner
 
@@ -233,7 +211,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   }
 
   h2 span {clear: both; padding: .04em; display: inline-block; background: $color-gold; font-weight: normal;}
-  h2, h3, p {/*padding: .35em; */ margin: 0; display: inline-block; font-family: $roboto-slab;}
+  h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
   h2 {
     font-size: 1em;
     display: inline-block;
@@ -256,10 +234,6 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
   @media #{$small} {padding: .5em 0;}
   h2, h3 {color: $color-primary-darkest; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
 }
-
-#experience {background: #fff;}
-
-#experience .splash {padding: 0; margin: 0;}
 
 #experience .splash h2 {
   margin: .5em 0; padding: 0;
@@ -452,7 +426,6 @@ h6 {font-size: 1.15em; font-weight: bold;}
     margin: 0;
     padding: 0;
     li {list-style: none; border-bottom: none;}
-    /*a {background: none;}*/
   }
 
   .section {
@@ -620,7 +593,6 @@ text-align: left;
   @media #{$small} {margin: 0 0 1em 0;}
   border-radius: 0;
   border-radius: none;
-  -webkit-border-radius: 0;
 
   li {
   text-transform: none;
@@ -646,7 +618,7 @@ text-align: left;
     &.active {
       background: $color-gold;
       color: #000;
-      font-family: $roboto-slab;
+      font-family: $font-serif;
       font-weight: 400;
       margin: .5em 0;
       padding: .2em;
@@ -748,7 +720,7 @@ li {
 
 .introductory-content {
   padding: 1em  0;
-  @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 3em 0;}
+  @media #{$small} {padding: 3em 0;}
   background: #efefef;
   margin: 0 auto;
   p {
@@ -788,7 +760,6 @@ li {
     &:last-of-type { border-bottom: none;}
     a {
     color: $color-primary-darkest;
-    -webkit-box-shadow: none;
     border-bottom: none;
     box-shadow: none;
     text-decoration: none;
@@ -845,8 +816,8 @@ body.home .main-navigation {
 }
 
 #content  .cards {
--webkit-backface-visibility: hidden;
-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 
   a, .coming-soon {
     padding: 1em 1.15em;
@@ -857,7 +828,7 @@ backface-visibility: hidden;
     font-weight: normal;
     text-decoration: none;
     background: $color-primary-darker;
-    -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
+    box-shadow: 0 0 5px rgba(0,0,0,.1);
     @media #{$small} {padding: .45em .75em; border-bottom: none; text-align: left; border-radius: .2em; margin: 0 0 .25em 0}
     @media #{$medium} {height: 10em;}
 
@@ -881,8 +852,6 @@ backface-visibility: hidden;
 
     &:hover, &:active, &:focus {
       background: $color-primary;
-      -webkit-box-shadow: 0 0 5px rgba(0,0,0,.35);
-      -moz-box-shadow: 0 0 5px rgba(0,0,0,.35);
       box-shadow: 0 0 5px rgba(0,0,0,.35);
     }
 
@@ -905,7 +874,6 @@ backface-visibility: hidden;
     color: #fff;
     p {color: #fff;}
     border-bottom: 2px solid rgba(0,0,0,0);
-    -webkit-box-shadow: none;
     box-shadow: none;
   }
 }
@@ -1026,6 +994,7 @@ span.next {
 
 #experience .splash {
   margin: 0;
+  padding: 0; 
   
   @media #{$small} {
     margin: .5em 0 0 0;
@@ -1066,6 +1035,7 @@ span.next {
 // small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns
 
 #experience {
+  background: #fff;
 
   .main {
     @extend .small-12;
@@ -1516,10 +1486,6 @@ a.twitter {
     background: $color-primary-darker;
     bottom: .85em;
     right: 0;
-    -webkit-border-top-left-radius: .3em;
-    -webkit-border-bottom-left-radius: .3em;
-    -moz-border-radius-topleft: .3em;
-    -moz-border-radius-bottomleft: .3em;
     border-top-left-radius: .3em;
     border-bottom-left-radius: .3em;
     span.icon {
@@ -1587,7 +1553,6 @@ a.twitter {
     width: 100%;
     color: $color-gray-dark;
     padding: .2em;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
   }
 
@@ -1598,8 +1563,6 @@ a.twitter {
     width: 100%;
     padding: 0;
     border-radius: 0px 3px 3px 0px;
-    -moz-border-radius: 0px 3px 3px 0px;
-    -webkit-border-radius: 0px 3px 3px 0px;
   }
 
 }
@@ -1774,7 +1737,6 @@ span {
 
 #playbook {
 h2 {background: none; font-size: 2.5em;}
-/*a {text-decoration: none; background: none;}*/
 
 .card a {
   border-bottom: 2px solid $secondary-color;
@@ -1853,9 +1815,7 @@ margin: 0;
   &.last {
     border-left: 0;
   }
-      a {
-        /*background-color: #D9C799;*/
-      }
+
   }
   &.step.three.last,
   &.step.four.last,
@@ -1867,9 +1827,6 @@ margin: 0;
     margin-left: -2.4em
     }
   }
-
-
-  /*&.va {border-left: 8px dashed #ccc;}*/
 
   ul {
     margin: .25em 0 1em 0;
@@ -1932,40 +1889,41 @@ li.eighteen:before {content: "18";}
 li.nineteen:before {content: "19";}
 li.twenty:before {content: "20";}
 }
+
 .methodology {
-.medium-3 {
-  padding-top: 1.5em;
-  @media #{$small-only} {
-    padding-left: 1.5em;
-    h4 {
-      font-size: 1.4em;
+  .medium-3 {
+    padding-top: 1.5em;
+
+    @media #{$small-only} {
+      padding-left: 1.5em;
+      h4 {
+        font-size: 1.4em;
+      }
+    }
+
+    ul {
+      margin: 0 0 1.5em 0; padding: 0;
+    
+      li {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    &.hcd {
+      h4 {
+        color: $secondary-color;
+      }
     }
   }
-
-  ul {
-    margin: 0 0 1.5em 0; padding: 0;
+ 
+  ol:nth-child(n+2) {
     li {
-    margin: 0;
-    padding: 0;
+      list-style-type:decimal;
     }
   }
 
-  &.hcd {
-    h4 {
-      color: $secondary-color;
-    }
-  }
-
-}
-.medium-9 {
-  background: white;
-}
-ol:nth-child(n+2) {
   li {
-    list-style-type:decimal;
-  }
-}
-li {
   &.step {
     padding-top: 1.5em;
     border-left:4px solid $olso-gray;
@@ -2026,22 +1984,22 @@ li {
   }
 }
 
-&.page {
-  .discover {
-    background: none;
-  }
-  .medium-3 {
-    padding-top: 0;
-    ul {
-      margin-left: 0;
+  &.page {
+    .discover {
+      background: none;
+    }
+    .medium-3 {
+      padding-top: 0;
+      ul {
+        margin-left: 0;
+      }
+    }
+    .medium-9 {
+        li {
+            list-style-type: disc;
+        }
     }
   }
-  .medium-9 {
-      li {
-          list-style-type: disc;
-      }
-  }
-}
 }
 
 .human-centered {
@@ -2057,11 +2015,9 @@ li {
     }
   }
   div:nth-child(2) {
-    /*border-left:4px solid #fff;*/
     padding: 1.5em 1.5em .2em;
   }
   .graphic {
-    -webkit-background-size: 138px 138px;
     background-size: 165px 165px;
     padding: 0;
     height: 209px;
@@ -2072,18 +2028,13 @@ li {
 }
 }
 .discover {
-  background:$polar;
-  li {
-    &.step.one {
-      @media #{$small-only} {
-        margin-top: 1.3em!important;
-      }
-      @media #{$medium-up} {
-        margin-top: -2.7em!important;
-      }
-      padding-top: 0;
-    }
+  background: $polar;
+  
+  li.one {
+    margin-top: 1.3em !important;
+    padding-top: 0;
   }
+  
   .graphic {
     background: url(../images/design/playbook/discover-process.svg) 40% center no-repeat;
   }
@@ -2108,6 +2059,7 @@ li {
     background :url(../images/design/playbook/design-process.svg) 40% center no-repeat;
   }
 }
+
 .deliver {
   background:$green-white;
     li {
@@ -2130,24 +2082,46 @@ li {
 }
 
 
+.va-list-num--discover { 
+  li::before {
+    background-color: $polar;
+  }
+}
+.va-list-num--design {
+// TODO: Figure out why !important is necessary here.
+  li::before {
+    background-color: $wild-sand !important;
+  }
+}
+
+.va-list-num--deliver {
+// TODO: Figure out why !important is necessary here.
+  li::before {
+    background-color: $green-white !important;
+  }
+}
+.va-prodmethod {
+  padding: 0;
+}
+
 // Visual Guide
 
 span.color-chip {
-height: 3em;
-width: 3em;
-margin: .5em 1em .5em 0;
-border-radius: 10em;
-vertical-align: middle;
-display: inline-block;
+  height: 3em;
+  width: 3em;
+  margin: .5em 1em .5em 0;
+  border-radius: 10em;
+  vertical-align: middle;
+  display: inline-block;
 
-&.primary-color {background: $color-primary;}
-&.color-primary-darker {background: $color-primary-darker;}
-&.color-primary-darkest {background: $color-primary-darkest;}
-&.color-gray-dark {background: $color-gray-dark;}
-&.color-gray-lightest {background: $color-gray-lightest;}
-&.color-gold {background: $color-gold;}
-&.color-green {background: $color-green;}
-&.color-green-lightest {background: $color-green-lightest;}
+  &.primary-color {background: $color-primary;}
+  &.color-primary-darker {background: $color-primary-darker;}
+  &.color-primary-darkest {background: $color-primary-darkest;}
+  &.color-gray-dark {background: $color-gray-dark;}
+  &.color-gray-lightest {background: $color-gray-lightest;}
+  &.color-gold {background: $color-gold;}
+  &.color-green {background: $color-green;}
+  &.color-green-lightest {background: $color-green-lightest;}
 }
 
 
@@ -2375,10 +2349,8 @@ body.home .disclaimer, body.page-playbook .disclaimer {
     }
 
     input[type="text"] {
-      border-radius: 3px 0 0 3px;
-      -moz-border-radius: 3px 0 0 3px;
-      -webkit-border-radius: 3px 0 0 3px;
       -webkit-appearance: none;
+      border-radius: 3px 0 0 3px;
     }
 
   }
@@ -2482,26 +2454,26 @@ button.js-simple-tooltip {
   font-size: 1em;
   font-weight: 300;
   line-height: 1.3;
-}
-.simpletooltip {
   right: auto;
   left: 100%;
   margin-left: .8em;
+
+  &:before {
+    border-bottom: 10px solid transparent;  /* left arrow slant */
+    border-top: 10px solid transparent; /* right arrow slant */
+    border-right: 10px solid $color-gray-dark;
+    content:"";
+    font-size: 0;
+    position: absolute;
+    top: 3px;
+    left: 0px;
+    line-height: 0;
+    margin-left: -10px;
+    width:0;
+    height:0
+  }
 }
-.simpletooltip:before {
-  border-bottom: 10px solid transparent;  /* left arrow slant */
-  border-top: 10px solid transparent; /* right arrow slant */
-  border-right: 10px solid $color-gray-dark;
-  content:"";
-  font-size: 0;
-  position: absolute;
-  top: 3px;
-  left: 0px;
-  line-height: 0;
-  margin-left: -10px;
-  width:0;
-  height:0
-}
+
 @media (max-width: 40.063em) {
   .simpletooltip {
     top: 100%;
@@ -2510,15 +2482,16 @@ button.js-simple-tooltip {
     margin: 0;
     margin-top: .7em;
     margin-left: -5em;
-  }
-  .simpletooltip:before {
-    top: -10px;
-    right: auto;
-    left: 45%;
-    margin-left: -5px;
-    margin-top: -10px;
-    border: 10px solid transparent;
-    border-bottom: 10px solid rgba( 0, 0, 0, .9 );
+  
+    &:before {
+      top: -10px;
+      right: auto;
+      left: 45%;
+      margin-left: -5px;
+      margin-top: -10px;
+      border: 10px solid transparent;
+      border-bottom: 10px solid rgba( 0, 0, 0, .9 );
+    }
   }
 }
 

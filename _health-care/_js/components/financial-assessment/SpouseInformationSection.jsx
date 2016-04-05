@@ -14,6 +14,11 @@ import { veteranUpdateField } from '../../actions';
 // entered something incorrect in Personal Information they don't have
 // to return to that section to change response
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class SpouseInformationSection extends React.Component {
   render() {
     let notRequiredMessage;
@@ -45,13 +50,18 @@ class SpouseInformationSection extends React.Component {
       <div>
         <div>
           <h4>Spouse's Information</h4>
+          <ErrorableCheckbox
+              label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+              checked={this.props.data.sectionComplete}
+              className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+              onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
           {notRequiredMessage}
 
           {noSpouseMessage}
 
         </div>
-        <div>
+        <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
           <div className="input-section">
             <FullName
                 value={this.props.data.spouseFullName}
