@@ -4,12 +4,22 @@ import { connect } from 'react-redux';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class VaInformationSection extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="small-12 columns">
+        <div className={`small-12 columns ${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
           <h4>Veteran</h4>
+          <ErrorableCheckbox
+              label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+              checked={this.props.data.sectionComplete}
+              className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+              onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
           <p>
             Please review the following list and select all the responses that apply to you.
             This information will be used to determine which sections of the Application for

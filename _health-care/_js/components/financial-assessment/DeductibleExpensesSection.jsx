@@ -1,10 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
 import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class DeductibleExpensesSection extends React.Component {
   constructor() {
     super();
@@ -33,6 +39,11 @@ class DeductibleExpensesSection extends React.Component {
     return (
       <div>
         <h4>Previous calendar year deductible expenses</h4>
+        <ErrorableCheckbox
+            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+            checked={this.props.data.sectionComplete}
+            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
         {notRequiredMessage}
 
@@ -47,7 +58,7 @@ class DeductibleExpensesSection extends React.Component {
           Veteran for spouse or dependent(s).
         </p>
 
-        <div className="input-section">
+        <div className={`input-section ${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
           <ErrorableTextInput
               errorMessage={this.isValidMonetaryValue(this.props.data.deductibleMedicalExpenses, message)}
               label="Total non-reimbursed medical expenses paid by you or your spouse
