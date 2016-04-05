@@ -43,7 +43,7 @@ class ErrorableCheckbox extends React.Component {
     }
 
     return (
-      <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
+      <div className={`${this.props.errorMessage ? 'usa-input-error' : ''} ${this.props.className}`}>
         <input
             aria-describedby={errorSpanId}
             checked={this.props.checked}

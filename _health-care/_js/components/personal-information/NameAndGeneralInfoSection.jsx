@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import DateInput from '../form-elements/DateInput';
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
 import FullName from '../questions/FullName';
 import Gender from '../questions/Gender';
@@ -11,12 +12,22 @@ import State from '../questions/State';
 import { maritalStatuses } from '../../utils/options-for-select.js';
 import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class NameAndGeneralInfoSection extends React.Component {
   render() {
     return (
-      <fieldset>
+      <fieldset className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
         <div className="input-section">
           <h4>Veteran's Name</h4>
+          <ErrorableCheckbox
+              label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+              checked={this.props.data.sectionComplete}
+              className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+              onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
           <FullName required
               value={this.props.data.fullName}
               onUserInput={(update) => {this.props.onStateChange('fullName', update);}}/>
@@ -51,7 +62,7 @@ class NameAndGeneralInfoSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.nameAndGeneralInformation,
+    data: state.nameAndGeneralInformation
   };
 }
 
