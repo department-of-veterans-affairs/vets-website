@@ -63,11 +63,6 @@ Both of these can be ordered through the [National Archives](https://www.archive
 <li class="step three wow fadeIn animated">
 <div markdown="1">
 
-</div>
-</li>
-<li class="step three wow fadeIn animated">
-<div markdown="1">
-
 #### 2-4 Months Before Leaving Active Duty
 
 - Attend networking and recruiting events.
