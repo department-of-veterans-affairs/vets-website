@@ -29,18 +29,6 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
 
 </div>
-<<<<<<< 0970ee60e89230745807b7b176944947206193aa
-=======
-</div>
-
-<div class="row" markdown="0">
-<div class="small-12 medium-9 columns divider margin top"  markdown="1">
-
-### If you are ready to begin, take these steps:
-
-<ol class="process">
-<li class="step one wow fadeIn animated">
->>>>>>> Update job-seekers.md
 
 <div markdown="1">
 
@@ -86,20 +74,6 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 - Search the [Veterans Employment Center](/employment/job-seekers/search-jobs) for job openings.
 - Search for connections and job listings on [LinkedIn&#153;](https://veterans.linkedin.com/) as well as other online job boards. 
 </li>
-
-<<<<<<< c91b5fb49b9233f65cc1866dfe3f6546b8734658
-=======
-<li class="step six wow last fadeIn animated">
-
-<div markdown="1">
-
-##### Attend a career fair
-Learn about the [job fairs](/employment/job-seekers/career-fairs) available for Veterans, Servicemembers, and family members.
-
-</div>
-
-</div>
->>>>>>> fix runaway train
 
 <li class="step six wow last fadeIn animated animated" markdown="1">
 ##### Go to a career fair
