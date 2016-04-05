@@ -255,19 +255,6 @@ h3, h4, h5, h6 {
   }
 }
 
-#experience .splash h2 {
-  margin: .5em 0; 
-  padding: 0;
-  
-  a {
-    margin: 0;
-    color: #444;
-    background: $color-gold;
-    line-height: 1.4em;
-    font-size: .9em;
-  }
-}
-
 .feature-list ul {
   margin: 0; padding: 0;
   li {
@@ -1004,22 +991,31 @@ background-size: contain;
   .main {background: white;}
 }
 
-// posts
 
-#experience.Designing .splash {
-    padding: 4em 0;
-    @media #{$small} {padding: 6.1em 0;}
-    background: url(../images/content/posts/utah.jpg) top center no-repeat;
-    background-size: cover;
-    margin-bottom: 1em;
+// posts
+// TODO: Remove !important when #content .splash is refactored
+.splash--blog {
+  margin: 0 !important;
+  padding: 0 !important; 
+
+  @media #{$small} {
+    margin: .5em 0 0 0 !important;
+    padding: 1em 0 0 0 !important;
+  }
 }
 
-#experience.When .splash {
-    padding: 4em 0;
-    @media #{$small} {padding: 6.1em 0;}
-    background: url(../images/content/posts/exit.jpg) 50% 50% no-repeat;
-    background-size: cover;
-    margin-bottom: 1em;
+.splash--hasimg {
+  // TODO: Remove !important when #content .splash is refactored
+  padding: 4em 0 !important; 
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-bottom: 1em;
+  
+  @media #{$small} {
+    // TODO: Remove !important when #content .splash is refactored
+    padding: 6.1em 0 !important;
+  }
 }
 
 .post-date, .post-author {color: #444;}
@@ -1036,49 +1032,44 @@ span.next {
   display: inline-block;
 }
 
-
-#experience .splash {
-  margin: 0;
-  padding: 0; 
+// TODO: Remove !important from this block
+// Once the specificity of #content .splash h2 block/
+// gets reduced.
+.va-headingflag {
+  margin: .5em 0 !important; 
+  padding: 0 !important;
+  margin: 0 0 2em 0 !important; 
+  background: none !important; 
+  color: $color-primary-darkest !important;
   
-  @media #{$small} {
-    margin: .5em 0 0 0;
-    padding: 1em 0 0 0;
-  }
-  
-  h2 {
-    &.tagline {
-      padding: 0;
-    }
+  @media #{$medium} {
+    position: absolute !important; 
+    margin: 1.35em 0 0 0 !important; 
+    z-index: 100 !important;
+  }  
     
-    padding: 0; 
-    margin: 0 0 2em 0; 
-    background: none; 
-    color: $color-primary-darkest;
-    
-    a {
-      text-decoration: none; 
-      margin: 0; 
-      color: $color-primary-darkest; 
-      background: $color-gold; 
-      border-bottom: none; 
-      padding: .5em .25em; 
+  a {
+    margin: 0 !important;
+    background: $color-gold !important; 
+    border-bottom: none !important;
+    color: $color-primary-darkest !important;
+    font-size: .9em !important;
+    line-height: 1.4em !important;
+    padding: .5em .25em; 
+    text-decoration: none; 
       
-      &:hover {
-        padding: .5em .65em;
-      }
-    }
-    
-    @media #{$medium} {
-      position: absolute; 
-      margin: 1.35em 0 0 0; 
-      z-index: 100;
+    &:hover {
+      padding: .5em .65em;
     }
   }
 }
 
-// small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns
+.va-headingflag--tagline {
+  padding: 0;
+}
 
+
+// small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns
 #experience {
   background: #fff;
 
