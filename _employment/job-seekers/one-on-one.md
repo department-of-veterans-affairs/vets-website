@@ -20,15 +20,17 @@ One-on-one assistance can help you transition by providing current perspectives 
 - Private nonprofit organizations that help transitioning Veterans
 - [VA for Vets](http://vaforvets.va.gov/) (can help you navigate the federal hiring process)
 
+<div class="call-out" markdown="1">
 ### Are you eligible for personalized career guidance?
 Yes, if:
 
 - You are a Veteran.
 - You are a Guard or Reserve member demobilizing after 180 days or more of active service.
 
-### Who is covered 
+## Who is covered 
 - You 
 - Your spouse (only for the TAP Career Technical Training Track)
+</div>
 
 ### How it works
 Transitioning Servicemembers are required to attend the TAP briefings. These include: 
