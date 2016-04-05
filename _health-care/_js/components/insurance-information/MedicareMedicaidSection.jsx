@@ -5,6 +5,11 @@ import DateInput from '../form-elements/DateInput';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class MedicareMedicaidSection extends React.Component {
   render() {
     return (

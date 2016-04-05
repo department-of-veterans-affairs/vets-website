@@ -6,6 +6,11 @@ import State from '../questions/State';
 import VaMedicalFacility from './VaMedicalFacility';
 import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class AdditionalInformationSection extends React.Component {
   render() {
     return (

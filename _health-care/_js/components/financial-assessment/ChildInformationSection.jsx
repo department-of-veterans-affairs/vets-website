@@ -6,6 +6,11 @@ import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import GrowableTable from '../form-elements/GrowableTable.jsx';
 import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class ChildInformationSection extends React.Component {
   // TODO(awong): Pull this out into a model.
   createBlankChild() {

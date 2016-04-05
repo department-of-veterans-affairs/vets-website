@@ -3,11 +3,16 @@ import { connect } from 'react-redux';
 
 import Address from '../questions/Address';
 import Email from '../questions/Email';
-import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import Phone from '../questions/Phone';
 import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class VeteranAddressSection extends React.Component {
   constructor() {
     super();

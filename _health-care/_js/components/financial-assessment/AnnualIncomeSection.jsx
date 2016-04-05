@@ -1,11 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
 import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class AnnualIncomeSection extends React.Component {
   constructor() {
     super();

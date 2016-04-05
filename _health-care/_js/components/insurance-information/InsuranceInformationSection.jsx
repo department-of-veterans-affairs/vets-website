@@ -6,6 +6,11 @@ import GrowableTable from '../form-elements/GrowableTable.jsx';
 import Provider from './Provider.jsx';
 import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class InsuranceInformationSection extends React.Component {
   // TODO(awong): Pull this out into a model.
   createBlankProvider() {

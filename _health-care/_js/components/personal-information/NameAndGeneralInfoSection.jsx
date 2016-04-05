@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import DateInput from '../form-elements/DateInput';
-import ErrorableSelect from '../form-elements/ErrorableSelect';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+import ErrorableSelect from '../form-elements/ErrorableSelect';
 import FullName from '../questions/FullName';
 import Gender from '../questions/Gender';
 import MothersMaidenName from './MothersMaidenName';
@@ -12,6 +12,11 @@ import State from '../questions/State';
 import { maritalStatuses } from '../../utils/options-for-select.js';
 import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class NameAndGeneralInfoSection extends React.Component {
   render() {
     return (

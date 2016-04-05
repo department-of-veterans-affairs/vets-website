@@ -14,6 +14,11 @@ import { veteranUpdateField } from '../../actions';
 // entered something incorrect in Personal Information they don't have
 // to return to that section to change response
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class SpouseInformationSection extends React.Component {
   render() {
     let notRequiredMessage;
