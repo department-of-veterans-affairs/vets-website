@@ -84,6 +84,7 @@ collections:
 
 # Sets breadcrumbs per path
 defaults:
+
   - scope:
       type: "disability-benefits"
     values:
@@ -173,3 +174,7 @@ defaults:
       breadcrumb_1: "Careers and Employment"
       layout: "page-breadcrumbs"
       body_class: "page-employment"    
+  - scope:
+      path: "employment/job-seekers/veci/"
+    values:
+      breadcrumb_3: "Veterans Economic Community Initiative"
