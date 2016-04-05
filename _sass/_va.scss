@@ -2730,3 +2730,11 @@ html.touchevents {
     transform: translateY(0);
   }
 }
+
+.va-code-block, 
+code[class*="language-"], 
+pre[class*="language-"]  {
+  background-color: $color-gray-lightest !important;
+  font-size: .9em;
+  line-height: inherit !important;
+}
