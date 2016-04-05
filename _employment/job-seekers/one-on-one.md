@@ -15,8 +15,8 @@ One-on-one assistance can help you transition by providing current perspectives 
 
 - The [Transition Assistance Program](http://www.benefits.va.gov/tap/) (TAP)
 - VA's [Education and Career Counseling](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp) program
-- The Veteran Employment Services Office ([VESO](http://vaforvets.va.gov/))
-- The [Veterans Economic Community Initiative](https://employment.vets.gov/employment/job-seekers/veci/)(VECI)
+- The [Veteran Employment Services Office](http://vaforvets.va.gov/) (VESO)
+- The [Veterans Economic Community Initiative](https://employment.vets.gov/employment/job-seekers/veci/) (VECI)
 - Private nonprofit organizations that help transitioning Veterans
 - [VA for Vets](http://vaforvets.va.gov/) (can help you navigate the federal hiring process)
 
