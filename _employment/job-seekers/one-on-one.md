@@ -19,6 +19,7 @@ One-on-one assistance can help you transition by providing current perspectives 
 - The [Veterans Economic Community Initiative](https://employment.vets.gov/employment/job-seekers/veci/) (VECI)
 - Private nonprofit organizations that help transitioning Veterans
 - [VA for Vets](http://vaforvets.va.gov/) (can help you navigate the federal hiring process)
+- [Homeless Veterans Community Employment Services](http://www.va.gov/HOMELESS/HVCES.asp) (HVCES) 
 
 <div class="call-out" markdown="1">
 ### Are you eligible for personalized career guidance?
