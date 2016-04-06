@@ -34,20 +34,33 @@ There are incentives such as the Work Opportunity Tax Credit (WOTC) that ranges 
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
           <a href="/employment/employers/support-veteran-employees/">
-          <h5>Workplace Support</h5>
-          <span>Find ways to make your Veteran employees feel at home.</span></a>
+            <h5>
+              Workplace Support
+            </h5>
+            <span>
+              Find ways to make your Veteran employees feel at home.
+            </span>
+          </a>
         </li>  
 
         <li>
           <a href="/employment/employers/apprenticeship/">
-            <h5>Establish an Apprenticeship and On-The-Job-Resources</h5>
+            <h5>
+              <span>
+                Establish an Apprenticeship and On-The-Job-Resources
+              </span>
+            </h5>
           </a>
         </li>
 
         <li>
           <a href="/employment/commitments">
-            <h5>Make a Hiring Commitment</h5>
-            <span>Improve your business by hiring Vets</span>
+            <h5>
+              Make a Hiring Commitment
+            </h5>
+            <span>
+              Improve your business by hiring Vets
+            </span>
           </a>
         </li>
       </ul>

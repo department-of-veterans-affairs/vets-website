@@ -31,57 +31,75 @@ If you are out of work, you may be eligible for [unemployment support](http://ca
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
         <li>
-          <h3>
-            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance</a>
-          </h3>
+          <a href="/employment/job-seekers/one-on-one/">
+          <h5>
+            One-on-One Assistance
+          </h5>
+        </a>
         </li>
 
         <li>
-          <h3>
-            <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
-          </h3>
+          <a href="/employment/job-seekers/skills-translator">
+          <h5>
+            Skills Translator
+          </h5>
+          </a>
         </li>  
 
         <li>
-          <h3>
-            <a href="/employment/job-seekers/create-resume">Resume Builder</a>
-          </h3>
+          <a href="/employment/job-seekers/create-resume">
+          <h5>
+            Resume Builder
+          </h5>
+          </a>
         </li>
 
         <li>
-          <h3>
-            <a href="/employment/job-seekers/alternative/">Alternative Ways to Start Your Career</a>
-          </h3>
+          <a href="/employment/job-seekers/alternative/">
+          <h5>
+            Alternative Ways to Start Your Career
+          </h5>
+          </a>
         </li>  
 
         <li>
-          <h3>
-            <a href="/employment/job-seekers/search_jobs">Search the Jobs Bank</a>
-          </h3>
+          <a href="/employment/job-seekers/search_jobs">
+          <h5>
+            Search the Jobs Bank
+          </h5>
+          </a>
         </li>
 
         <li>
-          <h3>
-            <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler</a>
-          </h3>
+          <a href="/employment/job-seekers/interest-profiler/">
+          <h5>
+            Interest and Aptitude Profiler
+          </h5>
+          </a>
         </li>
 
         <li>
-          <h3>
-            <a href="/employment/job-seekers/military-transcripts/">Military Transcripts</a>
-          </h3>
+          <a href="/employment/job-seekers/military-transcripts/">
+          <h5>
+            Military Transcripts
+          </h5>
+          </a>
         </li>    
 
         <li>
-          <h3>
-            <a href="/employment/job-seekers/career-fairs/">Career Fairs</a>
-          </h3>
+          <a href="/employment/job-seekers/career-fairs/">
+          <h5>
+            Career Fairs
+          </h5>
+          </a>
         </li>   
 
         <li>
-          <h3>
-            <a href="/employment/job-seekers/veci/">VECI</a>
-          </h3>
+          <a href="/employment/job-seekers/veci/">
+          <h5>
+            VECI
+          </h5>
+          </a>
         </li>   
 
       </ul>

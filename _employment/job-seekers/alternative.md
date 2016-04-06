@@ -34,7 +34,6 @@ You can start or grow your own business using skills you learned in the military
 **Internships, Volunteer Work, and Community Service**  
 Internships and volunteer work can advance your career and expand your network while you further your education. Community involvement and service are also productive ways to network with civilians and open the door to future employment possibilities. VA offers [internships](http://mycareeratva.va.gov/library/55) and [volunteer opportunities](http://www.volunteer.va.gov/).
 
-
 </div>
 </div>
 </div>
@@ -42,22 +41,41 @@ Internships and volunteer work can advance your career and expand your network w
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
           <li>
-            <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance</a>
+            <a href="/employment/job-seekers/one-on-one/">
+            <H5>
+              One-on-One Assistance
+            </H5>
+            </a>
           </li>
 
-          <li>
-            <a href="/employment/commitments">View Employer Commitments</a>
-          </li>
+
 
           <li>
-            <a href="/employment/job-seekers/search_jobs">Search the Veterans Job Bank</a>
+            <a href="/employment/commitments">
+            <H5>
+              View Employer Commitments
+            </H5>
+            </a>
+          </li>
+
+
+          <li>
+            <a href="/employment/job-seekers/search_jobs">
+            <H5>
+              Search the Veterans Job Bank
+            </H5>
+            </a>
           </li>  
 
           <li>
-            <a href="/employment/job-seekers/unemployment-support/">Unemployment Support</a>
+            <a href="/employment/job-seekers/unemployment-support/">
+            <H5>
+              Unemployment Support
+            </H5>
+            </a>
           </li>    
 
         </ul>

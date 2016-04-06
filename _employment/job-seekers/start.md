@@ -39,11 +39,19 @@ Find more resources for starting your business at the [Department of Labor’s V
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
           <li>
-            <a href="/employment/job-seekers/start/register/"><h5>Registering Your Business</h5></a>
+            <a href="/employment/job-seekers/start/register/">
+              <h5>
+                Registering Your Business
+              </h5>
+            </a>
           </li>
 
           <li>
-            <a href="/employment/job-seekers/start/counseling/"><h5>Entrepreneurship Counseling</h5></a>
+            <a href="/employment/job-seekers/start/counseling/">
+              <h5>
+                Entrepreneurship Counseling
+              </h5>
+            </a>
           </li>  
 
         </ul>
