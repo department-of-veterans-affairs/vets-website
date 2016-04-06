@@ -211,15 +211,6 @@ h3, h4, h5, h6 {
   }
 
   h3 {font-weight: 500; font-size: 1.4em; color: #555;}
-
-  &.alternate {
-    li a {
-      color: $color-primary-darkest;
-      border-bottom: 2px solid $secondary-color;
-    }
-
-    li.parent:after {color: #ccc;}
-  }
 }
 
 .splash--app {
@@ -231,6 +222,21 @@ h3, h4, h5, h6 {
     line-height: 1em; 
     display: inline-block !important;
   }
+}
+
+// TODO: Remove !important once #content ul.breadcrumbs li.active
+// is refactored.
+.splash--alternate {
+  li a {
+    color: $color-primary-darkest !important;
+    border-bottom: 2px solid $secondary-color !important;
+    
+    &:hover {
+      border-bottom: 3px solid $color-gold !important;
+    }
+  }
+
+  li.parent:after {color: #ccc !important;}
 }
 
 .va-facloc-tagline {
@@ -1063,7 +1069,10 @@ span.next {
       background: $color-gold; 
       border-bottom: none; 
       padding: .5em .25em; 
-      
+      // Transition only these properties.
+      -webkit-transition-property: padding;
+      transition-property: padding;
+          
       &:hover {
         padding: .5em .65em;
       }
