@@ -9,7 +9,7 @@ template: 1-topic-landing
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
+<div class="small-12 columns" markdown="1">
 
 There are many advantages to registering your small business with VA as a Veteran-Owned Small Business (VOSB) or Service-Disabled Veteran-Owned Small Business (SDVOSB) through VA’s Veterans First Verification Program, including contract-bidding advantages with state and federal governments. You also get:
 

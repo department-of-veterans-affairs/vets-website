@@ -9,7 +9,7 @@ template: 1-topic-landing
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
+<div class="small-12 columns" markdown="1">
 
 One-on-one assistance can help you transition by providing current perspectives on workplaces, targeted job-search techniques, coaching, and résumé building. There are many government and private resources available to you as you make this transition, including:
 
