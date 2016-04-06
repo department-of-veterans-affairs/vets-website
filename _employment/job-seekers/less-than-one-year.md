@@ -30,7 +30,7 @@ relatedlinks:
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-9 medium-12 left columns usa-content" markdown="1">
+<div class="small-12 left columns usa-content" markdown="1">
 
 ### Who should read this?
 
@@ -44,7 +44,7 @@ You can take certain steps to improve your chances of moving smoothly and succes
 </div>
 
 <div class="row" markdown="0">
-<div class="small-12 columns divider margin top"  markdown="1">
+<div class="small-12 usa-content columns divider margin top"  markdown="1">
 
 ### What are the steps?
 
