@@ -20,6 +20,7 @@ One-on-one assistance can help you transition by providing current perspectives 
 - Private nonprofit organizations that help transitioning Veterans
 - [VA for Vets](http://vaforvets.va.gov/) (can help you navigate the federal hiring process)
 - [Homeless Veterans Community Employment Services](http://www.va.gov/HOMELESS/HVCES.asp) (HVCES) 
+- Veterans with severe service related disabilities may qualify for [Compensated Work Therapy Counseling](http://www.va.gov/health/cwt/) (CWT)
 
 <div class="call-out" markdown="1">
 ### Are you eligible for personalized career guidance?
