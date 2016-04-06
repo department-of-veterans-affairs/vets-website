@@ -9,7 +9,7 @@ template: 1-topic-landing
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
+<div class="small-12 columns" markdown="1">
 
 You can use tools like [O&#42;Net Interest Profiler](http://www.mynextmove.org/explore/ip) to identify the kind of work you enjoy. After taking the short questionnaire, use the results (called an O&#42;Net code) in [targeted job-search engines](http://jobcenter.usa.gov/find-a-job) that may ultimately help you identify a career that fits with the kind of work you enjoy.
 

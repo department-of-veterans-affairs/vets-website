@@ -9,7 +9,7 @@ template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
+<div class="small-12 columns" markdown="1">
 
 Plan for your transition from the military as soon as you know you’ll be exiting the service. Steps you and your spouse take early on can have a big impact on your successful transition.
 

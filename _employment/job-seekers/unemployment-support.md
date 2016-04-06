@@ -10,7 +10,7 @@ template: 1-topic-landing
 
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
+<div class="small-12 columns" markdown="1">
 
 If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through the Unemployment Compensation for Ex-Servicemembers (UCX) program.
 
