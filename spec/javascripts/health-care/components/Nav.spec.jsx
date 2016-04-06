@@ -1,10 +1,15 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import { Router, Route, createMemoryHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import SkinDeep from 'skin-deep';
 
 import Nav from '../../../../_health-care/_js/components/Nav';
 import routes from '../../../../_health-care/_js/routes';
+import veteran from '../../../../_health-care/_js/reducers/veteran';
+
+const store = createStore(veteran);
 
 class Container extends React.Component {
   render() {
@@ -42,11 +47,13 @@ describe('<Nav>', () => {
       // It's perfectly fine in this test to reuse the rendered component. Do that
       // cause it cuts the test time from 1s down to ~0.1s.
       nav = ReactTestUtils.renderIntoDocument(
-        <Router history={history}>
-          <Route path="/" component={Container}>
-            {routes}
-          </Route>
-        </Router>
+        <Provider store={store}>
+          <Router history={history}>
+            <Route path="/" component={Container}>
+              {routes}
+            </Route>
+          </Router>
+        </Provider>
       );
     });
 

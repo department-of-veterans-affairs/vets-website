@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 /**
  * Component for navigation, with links to each section of the form.
@@ -10,6 +11,7 @@ import React from 'react';
 class Nav extends React.Component {
   render() {
     const subnavStyles = 'step one wow fadeIn animated';
+    const appData = this.props.data;
     // TODO(akainic): change this check once the alias for introduction has been changed
     return (
       <ol className="process hca-process">
@@ -18,7 +20,9 @@ class Nav extends React.Component {
             <h5>Introduction</h5>
           </div>
         </li>
-        <li role="presentation" className={`two ${subnavStyles} ${this.props.currentUrl.startsWith('/personal-information') ? ' section-current' : ''}`}>
+        <li role="presentation" className={`two
+          ${subnavStyles} ${this.props.currentUrl.startsWith('/personal-information') ? ' section-current' : ''}
+          ${(appData.veteranAddress.sectionComplete === true) ? ' section-complete' : ''}`}>
           <div>
             <h5>Personal Information</h5>
             <ul className="usa-unstyled-list">
@@ -40,7 +44,9 @@ class Nav extends React.Component {
             </ul>
           </div>
         </li>
-        <li role="presentation" className={`three ${subnavStyles} ${this.props.currentUrl.startsWith('/insurance-information') ? ' section-current' : ''}`}>
+        <li role="presentation" className={`three
+          ${subnavStyles} ${this.props.currentUrl.startsWith('/insurance-information') ? ' section-current' : ''}
+          ${(appData.medicareMedicaid.sectionComplete === true) ? ' section-complete' : ''}`}>
           <div>
             <h5>Insurance Information</h5>
             <ul className="usa-unstyled-list">
@@ -53,7 +59,9 @@ class Nav extends React.Component {
             </ul>
           </div>
         </li>
-        <li role="presentation" className={`four ${subnavStyles} ${this.props.currentUrl.startsWith('/military-service') ? ' section-current' : ''}`}>
+        <li role="presentation" className={`four
+          ${subnavStyles} ${this.props.currentUrl.startsWith('/military-service') ? ' section-current' : ''}
+          ${(appData.militaryAdditionalInfo.sectionComplete === true) ? ' section-complete' : ''}`}>
           <div>
             <h5>Military Service</h5>
             <ul className="usa-unstyled-list">
@@ -66,7 +74,9 @@ class Nav extends React.Component {
             </ul>
           </div>
         </li>
-        <li role="presentation" className={`five ${subnavStyles} ${this.props.currentUrl.startsWith('/financial-assessment') ? ' section-current' : ''}`}>
+        <li role="presentation" className={`five
+          ${subnavStyles} ${this.props.currentUrl.startsWith('/financial-assessment') ? ' section-current' : ''}
+          ${(appData.deductibleExpenses.sectionComplete === true) ? ' section-complete' : ''}`}>
           <div>
             <h5>Financial Assessment</h5>
             <ul className="usa-unstyled-list">
@@ -102,4 +112,12 @@ Nav.propTypes = {
   currentUrl: React.PropTypes.string.isRequired
 };
 
-export default Nav;
+function mapStateToProps(state) {
+  return {
+    data: state
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps)(Nav);
+export { Nav };
