@@ -11,11 +11,9 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-VA provides you and your spouse with resources through VA and other federal entities that can help you make a new or existing business a success.
+VA and the [Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned)(SBA), as well as other government organizations, provide you and your spouse with resources that can help you make a new or existing business a success.
 
 VA can guide you through the process of [registering](http://www.va.gov/osdbu/) as a Veteran-owned or service-disabled Veteran-owned business. Once you get your certification, you are eligible for certain assistance and benefits. If you are already open for business and want to sell to the federal government, the [Procurement Technical Assistance Center](http://www.aptac-us.org) (PTAC) can help with all of the required documentation and registration to bid on government contracts.  
-
-The Small Business Administration also has [resources specifically for Veterans](https://www.sba.gov/content/veteran-service-disabled-veteran-owned). 
 
 #### Learn more
 Many universities and nonprofit organizations offer free or low-cost entrepreneur and business-focused courses, some online and others in person, for Veterans and military family members. Here are some examples: 
