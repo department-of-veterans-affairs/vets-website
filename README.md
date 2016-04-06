@@ -101,7 +101,7 @@ rake tests:htmlproof  # Runs HTML validation as a single-shot.
 rake tests:htmlproof-external-only  # Runs HTML validation of external links only as a single-shot.
 
 rake tests:javascript  # Runs all javascript tests as a single-shot.
-rake tests:javascript-watch  # Runs all javascript tests continually watching for changes..
+rake tests:javascript-watch  # Runs all javascript tests continually watching for changes.
 ```
 
 There is currently now way to automatically run `htmlproof` automatically on
