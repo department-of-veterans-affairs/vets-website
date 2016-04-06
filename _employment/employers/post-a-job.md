@@ -28,6 +28,7 @@ Anyone
 <div class="call-out" markdown="1">
 
 ### Who is eligible
+
 All employers
 
 **A note about registration:** You do not have to be registered with the NLX to post a job in the VEC, but it may streamline the process. 
