@@ -211,15 +211,6 @@ h3, h4, h5, h6 {
   }
 
   h3 {font-weight: 500; font-size: 1.4em; color: #555;}
-
-  &.alternate {
-    li a {
-      color: $color-primary-darkest;
-      border-bottom: 2px solid $secondary-color;
-    }
-
-    li.parent:after {color: #ccc;}
-  }
 }
 
 .splash--app {
@@ -231,6 +222,21 @@ h3, h4, h5, h6 {
     line-height: 1em; 
     display: inline-block !important;
   }
+}
+
+// TODO: Remove !important once #content ul.breadcrumbs li.active
+// is refactored.
+.splash--alternate {
+  li a {
+    color: $color-primary-darkest !important;
+    border-bottom: 2px solid $secondary-color !important;
+    
+    &:hover {
+      border-bottom: 3px solid $color-gold !important;
+    }
+  }
+
+  li.parent:after {color: #ccc !important;}
 }
 
 .va-facloc-tagline {
@@ -1048,21 +1054,33 @@ span.next {
     z-index: 100 !important;
   }  
     
-  a {
-    margin: 0 !important;
-    background: $color-gold !important; 
-    border-bottom: none !important;
-    color: $color-primary-darkest !important;
-    font-size: .9em !important;
-    line-height: 1.4em !important;
-    padding: .5em .25em; 
-    text-decoration: none; 
-      
-    &:hover {
-      padding: .5em .65em;
+    padding: 0; 
+    margin: 0 0 2em 0; 
+    background: none; 
+    color: $color-primary-darkest;
+    
+    a {
+      text-decoration: none; 
+      margin: 0; 
+      color: $color-primary-darkest; 
+      background: $color-gold; 
+      border-bottom: none; 
+      padding: .5em .25em; 
+      // Transition only these properties.
+      -webkit-transition-property: padding;
+      transition-property: padding;
+          
+      &:hover {
+        padding: .5em .65em;
+      }
+    }
+    
+    @media #{$medium} {
+      position: absolute; 
+      margin: 1.35em 0 0 0; 
+      z-index: 100;
     }
   }
-}
 
 .va-headingflag--tagline {
   padding: 0;
