@@ -91,7 +91,6 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 - Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with [LinkedIn&#153;'s Lynda](https://veterans.linkedin.com).
 - Earn a free [Coursera Course Certificate](https://www.surveymonkey.com/r/QSGQRFN).
 
-
 <br>
 
 
