@@ -10,6 +10,8 @@ _.mixin(lodashDeep);
 
 // TODO(awong): This structure should reflect a logical data model for a veteran. Currently it
 // mirrors the UI stricture too much.
+
+// TODO: Remove providers and children if checkbox within section is unchecked
 const blankVeteran = {
   nameAndGeneralInformation: {
     fullName: {

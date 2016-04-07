@@ -105,18 +105,24 @@ function isValidSpouseInformation(data) {
       (isBlank(data.spousePhone) || isValidPhone(data.spousePhone));
 }
 
-function isValidChildInformation(data) {
+function isValidChildInformation(child) {
+  return (isValidName(child.childFullName.first) &&
+      (isBlank(child.childFullName.middle) || isValidName(child.childFullName.middle)) &&
+      isValidName(child.childFullName.last) &&
+      isNotBlank(child.childRelation) &&
+      isValidSSN(child.childSocialSecurityNumber) &&
+      isValidDate(child.childBecameDependent.day, child.childBecameDependent.month, child.childBecameDependent.year) &&
+      isValidDate(child.childDateOfBirth.day, child.childDateOfBirth.month, child.childDateOfBirth.year) &&
+      (isBlank(child.childEducationExpenses) || isValidMonetaryValue(child.childEducationExpenses)));
+}
+
+function isValidChildren(data) {
   const children = data.children;
+  if (!data.hasChildrenToReport) {
+    return true;
+  }
   for (let i = 0; i < children.length; i++) {
-    if (!(isValidName(children[i].childFullName.first) &&
-        (isBlank(children[i].childFullName.middle) || isValidName(children[i].childFullName.middle)) &&
-        isValidName(children[i].childFullName.last) &&
-        isNotBlank(children[i].childRelation) &&
-        isValidSSN(children[i].childSocialSecurityNumber) &&
-        isValidDate(children[i].childBecameDependent.day, children[i].childBecameDependent.month, children[i].childBecameDependent.year) &&
-        isValidDate(children[i].childDateOfBirth.day, children[i].childDateOfBirth.month, children[i].childDateOfBirth.year) &&
-        (isBlank(children[i].childEducationExpenses) || isValidMonetaryValue(children[i].childEducationExpenses)))
-    ) {
+    if (!isValidChildInformation(children[i])) {
       return false;
     }
   }
@@ -143,6 +149,9 @@ function isValidDeductibleExpenses(data) {
 
 function isValidGeneralInsurance(data) {
   const providers = data.providers;
+  if (!data.isCoveredByHealthInsurance) {
+    return true;
+  }
   for (let i = 0; i < providers.length; i++) {
     if (!(isNotBlank(providers[i].insuranceName) &&
         isNotBlank(providers[i].insurancePolicyHolderName) &&
@@ -176,7 +185,7 @@ function isValidSection(completePath, sectionData) {
     case '/financial-assessment/spouse-information':
       return isValidSpouseInformation(sectionData);
     case '/financial-assessment/child-information':
-      return isValidChildInformation(sectionData);
+      return isValidChildren(sectionData);
     case '/financial-assessment/annual-income':
       return isValidAnnualIncome(sectionData);
     case '/financial-assessment/deductible-expenses':
@@ -219,6 +228,7 @@ export {
   isValidVeteranAddress,
   isValidSpouseInformation,
   isValidChildInformation,
+  isValidChildren,
   isValidAnnualIncome,
   isValidDeductibleExpenses,
   isValidGeneralInsurance,

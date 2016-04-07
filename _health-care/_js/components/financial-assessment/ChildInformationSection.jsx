@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Child from './Child';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import GrowableTable from '../form-elements/GrowableTable.jsx';
-import { veteranUpdateField } from '../../actions';
+import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
 
 /**
  * Props:
@@ -43,7 +43,7 @@ class ChildInformationSection extends React.Component {
 
   render() {
     let notRequiredMessage;
-    let hasChildrenContent;
+    let childrenContent;
 
     if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
@@ -57,12 +57,18 @@ class ChildInformationSection extends React.Component {
     }
 
     if (this.props.data.hasChildrenToReport === true) {
-      hasChildrenContent = (
-        <GrowableTable
-            component={Child}
-            createRow={this.createBlankChild}
-            onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
-            rows={this.props.data.children}/>
+      childrenContent = (
+        <div className="input-section">
+          <hr/>
+          <GrowableTable
+              component={Child}
+              createRow={this.createBlankChild}
+              data={this.props.data}
+              initializeCurrentElement={() => {this.props.initializeFields();}}
+              onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
+              path="/financial-assessment/child-information"
+              rows={this.props.data.children}/>
+        </div>
       );
     }
 
@@ -82,10 +88,8 @@ class ChildInformationSection extends React.Component {
               label="Do you have any children to report?"
               checked={this.props.data.hasChildrenToReport}
               onValueChange={(update) => {this.props.onStateChange('hasChildrenToReport', update);}}/>
-
-          {hasChildrenContent}
-
         </div>
+        {childrenContent}
       </div>
     );
   }
@@ -102,6 +106,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['childInformation', field], update));
+    },
+    initializeFields: () => {
+      dispatch(ensureFieldsInitialized('/financial-assessment/child-information'));
     }
   };
 }
