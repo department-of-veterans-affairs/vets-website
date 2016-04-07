@@ -144,7 +144,7 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 <div class="call-out" markdown="1">
 #### Take a different approach to starting your career 
 
-- Start or grow your own [business](/employment/job-seekers/start/). 
+- Start or grow [your own business](/employment/job-seekers/start/). 
 - Service-disabled Veterans may qualify for [employment support services](/employment/job-seekers/service-disabled) like small-business counseling.
 - Evaluate non-traditional programs like apprenticeships, work study, and on-the-job training.
 
