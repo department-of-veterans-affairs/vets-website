@@ -28,50 +28,86 @@ describe('<GrowableTable>', () => {
 
     it('component is required', () => {
       SkinDeep.shallowRender(
-        <GrowableTable rows={[]} createRow={func} onRowsUpdate={func}/>);
+        <GrowableTable createRow={func} data={{}} initializeCurrentElement={func} onRowsUpdate={func} path="" rows={[]}/>);
       sinon.assert.calledWithMatch(consoleStub, /Required prop `component` was not specified in `GrowableTable`/);
     });
 
     it('component must be a func', () => {
       SkinDeep.shallowRender(
-        <GrowableTable rows={[]} component createRow={func} onRowsUpdate={func}/>);
+        <GrowableTable component createRow={func} data={{}} initializeCurrentElement={func} onRowsUpdate={func} path="" rows={[]}/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `component` of type `boolean` supplied to `GrowableTable`, expected `function`/);
     });
 
     it('createRow is required', () => {
       SkinDeep.shallowRender(
-        <GrowableTable rows={[]} component={func} onRowsUpdate={func}/>);
+        <GrowableTable component={func} data={{}} initializeCurrentElement={func} onRowsUpdate={func} path="" rows={[]}/>);
       sinon.assert.calledWithMatch(consoleStub, /Required prop `createRow` was not specified in `GrowableTable`/);
     });
 
     it('createRow must be a func', () => {
       SkinDeep.shallowRender(
-        <GrowableTable rows={[]} component={func} createRow onRowsUpdate={func}/>);
+        <GrowableTable component={func} createRow data={{}} initializeCurrentElement={func} onRowsUpdate={func} path="" rows={[]}/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `createRow` of type `boolean` supplied to `GrowableTable`, expected `function`/);
+    });
+
+    it('data is required', () => {
+      SkinDeep.shallowRender(
+        <GrowableTable component={func} createRow={func} initializeCurrentElement={func} onRowsUpdate={func} path="" rows={[]}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Required prop `data` was not specified in `GrowableTable`/);
+    });
+
+    it('data must be an object', () => {
+      SkinDeep.shallowRender(
+        <GrowableTable component={func} createRow={func} data initializeCurrentElement={func} onRowsUpdate={func} path="" rows={[]}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `data` of type `boolean` supplied to `GrowableTable`, expected `object`/);
+    });
+
+    it('initializeCurrentElement is required', () => {
+      SkinDeep.shallowRender(
+        <GrowableTable component={func} createRow={func} data={{}} onRowsUpdate={func} path="" rows={[]}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Required prop `initializeCurrentElement` was not specified in `GrowableTable`/);
+    });
+
+    it('initializeCurrentElement must be a func', () => {
+      SkinDeep.shallowRender(
+        <GrowableTable component={func} createRow={func} data={{}} initializeCurrentElement onRowsUpdate={func} path="" rows={[]}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `initializeCurrentElement` of type `boolean` supplied to `GrowableTable`, expected `function`/);
     });
 
     it('onRowsUpdate is required', () => {
       SkinDeep.shallowRender(
-        <GrowableTable rows={[]} component={func} createRow={func}/>);
+        <GrowableTable component={func} createRow={func} data={{}} initializeCurrentElement={func} path="" rows={[]}/>);
       sinon.assert.calledWithMatch(consoleStub, /Required prop `onRowsUpdate` was not specified in `GrowableTable`/);
     });
 
     it('onRowsUpdate must be a func', () => {
       SkinDeep.shallowRender(
-        <GrowableTable rows={[]} component={func} createRow={func} onRowsUpdate/>);
+        <GrowableTable component={func} createRow={func} data={{}} initializeCurrentElement={func} onRowsUpdate path="" rows={[]}/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onRowsUpdate` of type `boolean` supplied to `GrowableTable`, expected `function`/);
+    });
+
+    it('path is required', () => {
+      SkinDeep.shallowRender(
+        <GrowableTable component={func} createRow={func} data={{}} initializeCurrentElement={func} onRowsUpdate={func} rows={[]}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Required prop `path` was not specified in `GrowableTable`/);
+    });
+
+    it('path must be an object', () => {
+      SkinDeep.shallowRender(
+        <GrowableTable component={func} createRow={func} data={{}} initializeCurrentElement={func} onRowsUpdate={func} path rows={[]}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `path` of type `boolean` supplied to `GrowableTable`, expected `string`/);
     });
 
     xit('rows is required', () => {
       SkinDeep.shallowRender(
-        <GrowableTable component={func} createRow={func} onRowsUpdate={func}/>);
+        <GrowableTable component={func} createRow={func} data={{}} initializeCurrentElement={func} onRowsUpdate={func} path=""/>);
       sinon.assert.calledWithMatch(consoleStub, /Required prop `rows` was not specified in `GrowableTable`/);
     });
 
     xit('rows must be an array', () => {
       SkinDeep.shallowRender(
-        <GrowableTable rows component={func} createRow={func} onRowsUpdate={func}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `rows` was not specified in `GrowableTable`/);
+        <GrowableTable component={func} createRow={func} data={{}} initializeCurrentElement={func} onRowsUpdate={func} path="" rows/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `rows` of type `boolean` supplied to `GrowableTable`, expected `array`/);
     });
   });
 
@@ -82,6 +118,7 @@ describe('<GrowableTable>', () => {
       { key: 'k2', value: 'b' }
     ];
     const onRowsUpdate = sinon.spy();
+    const initializeCurrentElement = sinon.spy();
 
     // Function that generates a new model for a row. Use numbers instead of letters to ensure
     // it never collides with the initial static row model objects in `rows`.
@@ -95,8 +132,10 @@ describe('<GrowableTable>', () => {
         <GrowableTable
             component={Row}
             createRow={createRow}
+            initializeCurrentElement={initializeCurrentElement}
             rows={rows}
-            onRowsUpdate={onRowsUpdate}/>
+            onRowsUpdate={onRowsUpdate}
+            path=""/>
       );
     });
 
