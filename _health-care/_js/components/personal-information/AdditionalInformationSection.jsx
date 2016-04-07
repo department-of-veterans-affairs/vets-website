@@ -13,14 +13,18 @@ import { veteranUpdateField } from '../../actions';
  */
 class AdditionalInformationSection extends React.Component {
   render() {
-    return (
-      <fieldset className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
-        <h4>Additional Information</h4>
-        <ErrorableCheckbox
-            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-            checked={this.props.data.sectionComplete}
-            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
-            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+    let content;
+    let editButton;
+
+    if (this.props.data.sectionComplete) {
+      content = (<div>
+        <p>I am enrolling to obtain minimal essential coverage under the affordable care act: {`${this.props.data.isEssentialAcaCoverage ? 'Yes' : 'No'}`}</p>
+        <p>Preferred VA Medical Facility: {this.props.data.vaMedicalFacility} in {this.props.data.facilityState}</p>
+        <p>Do you want VA to contact you to schedule your first appointment?: {`${this.props.data.wantsInitialVaContact ? 'Yes' : 'No'}`}</p>
+      </div>
+        );
+    } else {
+      content = (<div>
         <div className="input-section">
           <ErrorableCheckbox
               label="I am enrolling to obtain minimal essential coverage under the affordable care act"
@@ -46,6 +50,22 @@ class AdditionalInformationSection extends React.Component {
               checked={this.props.data.wantsInitialVaContact}
               onValueChange={(update) => {this.props.onStateChange('wantsInitialVaContact', update);}}/>
         </div>
+      </div>);
+    }
+
+    if (this.props.reviewSection) {
+      editButton = (<ErrorableCheckbox
+          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.data.sectionComplete}
+          className="edit-checkbox"
+          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+      );
+    }
+    return (
+      <fieldset>
+        <h4>Additional Information</h4>
+        {editButton}
+        {content}
       </fieldset>
     );
   }

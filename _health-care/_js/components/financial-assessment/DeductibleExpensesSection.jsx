@@ -24,6 +24,8 @@ class DeductibleExpensesSection extends React.Component {
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
     let notRequiredMessage;
+    let content;
+    let editButton;
 
     if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
@@ -36,15 +38,17 @@ class DeductibleExpensesSection extends React.Component {
       );
     }
 
-    return (
-      <div>
-        <h4>Previous calendar year deductible expenses</h4>
-        <ErrorableCheckbox
-            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-            checked={this.props.data.sectionComplete}
-            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
-            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
-
+    if (this.props.data.sectionComplete) {
+      content = (<div>
+        <p>Total non-reimbursed medical expenses paid by you or your spouse: {this.props.data.deductibleMedicalExpenses}</p>
+        <p>Amount you paid last calendar year for funeral and burial expenses
+         for your deceased spouse or dependent child: {this.props.data.deductibleFuneralExpenses}</p>
+        <p>Amount you paid last calendar year for your college or vocational
+              educational expenses: {this.props.data.deductibleEducationExpenses}</p>
+      </div>
+        );
+    } else {
+      content = (<div>
         {notRequiredMessage}
 
         <p>
@@ -84,6 +88,23 @@ class DeductibleExpensesSection extends React.Component {
               value={this.props.data.deductibleEducationExpenses}
               onValueChange={(update) => {this.props.onStateChange('deductibleEducationExpenses', update);}}/>
         </div>
+      </div>);
+    }
+
+    if (this.props.reviewSection) {
+      editButton = (<ErrorableCheckbox
+          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.data.sectionComplete}
+          className="edit-checkbox"
+          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+      );
+    }
+
+    return (
+      <div>
+        <h4>Previous calendar year deductible expenses</h4>
+        {editButton}
+        {content}
       </div>
     );
   }

@@ -11,15 +11,22 @@ import { veteranUpdateField } from '../../actions';
  */
 class DemographicInformationSection extends React.Component {
   render() {
-    return (
-      <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
-        <h4>Demographic Information</h4>
-        <ErrorableCheckbox
-            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-            checked={this.props.data.sectionComplete}
-            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
-            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+    let content;
+    let editButton;
 
+    if (this.props.data.sectionComplete) {
+      content = (<div>
+        <p>Are you Spanish, Hispanic, or Latino?: {`${this.props.data.isSpanishHispanicLatino ? 'Yes' : 'No'}`}</p>
+        <p>Race:</p>
+        <p>{`${this.props.data.isAmericanIndianOrAlaskanNative ? 'American Indian or Alaksan Native' : ''}`}</p>
+        <p>{`${this.props.data.isBlackOrAfricanAmerican ? 'Black or African American' : ''}`}</p>
+        <p>{`${this.props.data.isNativeHawaiianOrOtherPacificIslander ? 'Native Hawaiian or Other Pacific Islander' : ''}`}</p>
+        <p>{`${this.props.data.isAsian ? 'Asian' : ''}`}</p>
+        <p>{`${this.props.data.isWhite ? 'White' : ''}`}</p>
+      </div>
+        );
+    } else {
+      content = (<div>
         <div className="input-section">
           <ErrorableCheckbox
               label="Are you Spanish, Hispanic, or Latino?"
@@ -55,6 +62,22 @@ class DemographicInformationSection extends React.Component {
               checked={this.props.data.isWhite}
               onValueChange={(update) => {this.props.onStateChange('isWhite', update);}}/>
         </div>
+      </div>);
+    }
+
+    if (this.props.reviewSection) {
+      editButton = (<ErrorableCheckbox
+          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.data.sectionComplete}
+          className="edit-checkbox"
+          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+      );
+    }
+    return (
+      <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
+        <h4>Demographic Information</h4>
+        {editButton}
+        {content}
       </div>
     );
   }

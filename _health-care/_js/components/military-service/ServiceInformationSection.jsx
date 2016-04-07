@@ -14,40 +14,60 @@ import { veteranUpdateField } from '../../actions';
  */
 class ServiceInformationSection extends React.Component {
   render() {
+    let content;
+    let editButton;
+
+    if (this.props.data.sectionComplete) {
+      content = (<div>
+        <p>Last branch of service: {this.props.data.lastServiceBranch}</p>
+        <p>Last entry date: {this.props.data.lastEntryDate.month}/
+        {this.props.data.lastEntryDate.day}/{this.props.data.lastEntryDate.year}</p>
+        <p>Last discharge date: {this.props.data.lastDischargeDate.month}/
+        {this.props.data.lastDischargeDate.day}/{this.props.data.lastDischargeDate.year}</p>
+        <p>Discharge Type: {this.props.data.dischargeType}</p>
+      </div>
+        );
+    } else {
+      content = (<div className="input-section">
+        <ErrorableSelect
+            label="Last branch of service"
+            options={branchesServed}
+            value={this.props.data.lastServiceBranch}
+            onValueChange={(update) => {this.props.onStateChange('lastServiceBranch', update);}}/>
+
+        <DateInput label="Last entry date"
+            day={this.props.data.lastEntryDate.day}
+            month={this.props.data.lastEntryDate.month}
+            year={this.props.data.lastEntryDate.year}
+            onValueChange={(update) => {this.props.onStateChange('lastEntryDate', update);}}/>
+
+        <DateInput label="Last discharge date"
+            day={this.props.data.lastDischargeDate.day}
+            month={this.props.data.lastDischargeDate.month}
+            year={this.props.data.lastDischargeDate.year}
+            onValueChange={(update) => {this.props.onStateChange('lastDischargeDate', update);}}/>
+
+        <ErrorableSelect
+            label="Discharge Type"
+            options={dischargeTypes}
+            value={this.props.data.dischargeType}
+            onValueChange={(update) => {this.props.onStateChange('dischargeType', update);}}/>
+      </div>);
+    }
+
+    if (this.props.reviewSection) {
+      editButton = (<ErrorableCheckbox
+          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.data.sectionComplete}
+          className="edit-checkbox"
+          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+      );
+    }
     return (
       <div>
         <h4>Service Information</h4>
-        <ErrorableCheckbox
-            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-            checked={this.props.data.sectionComplete}
-            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
-            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
-
-        <div className={`input-section ${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
-          <ErrorableSelect
-              label="Last branch of service"
-              options={branchesServed}
-              value={this.props.data.lastServiceBranch}
-              onUserInput={(update) => {this.props.onStateChange('lastServiceBranch', update);}}/>
-
-          <DateInput label="Last entry date"
-              day={this.props.data.lastEntryDate.day}
-              month={this.props.data.lastEntryDate.month}
-              year={this.props.data.lastEntryDate.year}
-              onValueChange={(update) => {this.props.onStateChange('lastEntryDate', update);}}/>
-
-          <DateInput label="Last discharge date"
-              day={this.props.data.lastDischargeDate.day}
-              month={this.props.data.lastDischargeDate.month}
-              year={this.props.data.lastDischargeDate.year}
-              onValueChange={(update) => {this.props.onStateChange('lastDischargeDate', update);}}/>
-
-          <ErrorableSelect
-              label="Discharge Type"
-              options={dischargeTypes}
-              value={this.props.data.dischargeType}
-              onUserInput={(update) => {this.props.onStateChange('dischargeType', update);}}/>
-        </div>
+        {editButton}
+        {content}
       </div>
     );
   }

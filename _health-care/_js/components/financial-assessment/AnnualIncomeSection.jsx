@@ -25,6 +25,8 @@ class AnnualIncomeSection extends React.Component {
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
     let notRequiredMessage;
+    let content;
+    let editButton;
 
     if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
@@ -37,16 +39,25 @@ class AnnualIncomeSection extends React.Component {
       );
     }
 
-    return (
-      <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
-        <h4>Annual Income</h4>
-        <ErrorableCheckbox
-            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-            checked={this.props.data.sectionComplete}
-            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
-            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
-
-        {notRequiredMessage}
+    if (this.props.data.sectionComplete) {
+      content = (<div>
+        <h6>Veteran</h6>
+        <p>Veteran Gross Income: {this.props.data.veteranGrossIncome}</p>
+        <p>Veteran Net Income: {this.props.data.veteranNetIncome}</p>
+        <p>Veteran Other Income: {this.props.data.veteranOtherIncome}</p>
+        <h6>Spouse</h6>
+        <p>Spouse Gross Income: {this.props.data.spouseGrossIncome}</p>
+        <p>Spouse Net Income: {this.props.data.spouseNetIncome}</p>
+        <p>Spouse Other Income: {this.props.data.spouseOtherIncome}</p>
+        <h6>Children</h6>
+        <p>Children Gross Income: {this.props.data.childrenGrossIncome}</p>
+        <p>Children Net Income: {this.props.data.childrenNetIncome}</p>
+        <p>Children Other Income: {this.props.data.childrenOtherIncome}</p>
+      </div>
+        );
+    } else {
+      content = (<div>
+                {notRequiredMessage}
 
         <h5>Previous calendar year gross annual income of veteran, spouse and
         dependent children</h5>
@@ -156,6 +167,23 @@ class AnnualIncomeSection extends React.Component {
               value={this.props.data.childrenOtherIncome}
               onValueChange={(update) => {this.props.onStateChange('childrenOtherIncome', update);}}/>
         </div>
+      </div>);
+    }
+
+    if (this.props.reviewSection) {
+      editButton = (<ErrorableCheckbox
+          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.data.sectionComplete}
+          className="edit-checkbox"
+          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+      );
+    }
+
+    return (
+      <div>
+        <h4>Annual Income</h4>
+        {editButton}
+        {content}
       </div>
     );
   }
