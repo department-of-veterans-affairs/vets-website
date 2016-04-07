@@ -37,7 +37,12 @@ class ChildInformationSection extends React.Component {
       childAttendedSchoolLastYear: false,
       childEducationExpenses: null,
       childCohabitedLastYear: false,
-      childReceivedSupportLastYear: false
+      childReceivedSupportLastYear: false,
+      // TODO: Really?
+      childShortName: null,
+      childGrossIncome: null,
+      childNetIncome: null,
+      childOtherIncome: null
     };
   }
 

@@ -124,6 +124,7 @@ const blankVeteran = {
     spouseGrossIncome: null,
     spouseNetIncome: null,
     spouseOtherIncome: null,
+    children: [],
     childrenGrossIncome: null,
     childrenNetIncome: null,
     childrenOtherIncome: null,
