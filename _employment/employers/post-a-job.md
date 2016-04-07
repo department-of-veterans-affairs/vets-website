@@ -13,7 +13,7 @@ template: 1-topic-landing
 
 <div markdown="1">
 
-Thank you for your interest in hiring Veterans, transitioning Servicemembers, and their families with the Veterans Employment Center™. Maximize your exposure by posting jobs directly from your website to the Veterans Job Bank through the [National Labor Exchange (NLX)](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
+Thank you for your interest in hiring Veterans, transitioning Servicemembers, and their families through the Veterans Employment Center™ (VEC). Maximize your exposure by posting jobs directly from your website to the Veterans Job Bank through the [National Labor Exchange (NLX)](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
 
 </div>
 
@@ -32,12 +32,12 @@ Anyone
 If your company’s current job listing is posted on the NLX, then it is also searchable in the Veterans Job Bank. If you haven’t registered your company with the NLX, [register now and post for free](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
 Or reach out to [qualified Veterans and military spouses](https://www.vets.gov/veterans-employment-center/employers) directly.
 
-#### Who is eligible?
+#### Who is eligible
 All employers
 
 #### Registration
 
-You do not have to be registered with the NLX to participate in the Veterans Employment Center (VEC), but it may streamline posting a job. 
+You do not have to be registered with the NLX to post a job in the VEC, but it may streamline the process. 
 
 ### Want to be a featured employer? Use the JobPosting Schema from schema.org.
 
@@ -45,7 +45,7 @@ You do not have to be registered with the NLX to participate in the Veterans Emp
 
 If your job listing conforms to the JSON-LD template for schema.org’s JobPosting vocabulary, your job will automatically appear in the Veterans Job Bank within 24 hours of adding the job URL to the designated box in your VEC profile. When appropriate to a search query, your job will be returned as a featured listing near the top of the search results. Please note that the provided URL must end in .json and contain valid JSON-LD.
 
-#### Who is eligible?
+#### Who is eligible
 
 All employers
 
@@ -55,7 +55,7 @@ The schema.org JobPosting vocabulary consists of 18 basic elements (listed below
 
 ### The schema.org JSON-LD JobPosting elements
 
-Only those marked with an asterisk (*) are required for inclusion in the Veterans Job Bank. Square brackets ([like this]) following each element name indicate the schema.org data type.
+Only those marked with an asterisk (*) are required for inclusion in the Veterans Job Bank. Square brackets [like this] following each element name indicate the schema.org data type.
 
 - ***title**: [Text] The descriptive title for the job vacancy or opportunity
 - ***hiringOrganization**: [Organization] The company or organization with the vacancy or opportunity
