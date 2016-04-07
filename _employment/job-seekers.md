@@ -110,8 +110,8 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 <div markdown="1">
 
-##### Attend a career fair
-Learn about the [job fairs](/employment/job-seekers/career-fairs) available for Veterans, Servicemembers, and family members.
+##### Go to a career fair
+Learn about the [career fairs](/employment/job-seekers/career-fairs) available for Veterans, Servicemembers, and family members.
 
 </div>
 
@@ -144,8 +144,8 @@ Learn about the [job fairs](/employment/job-seekers/career-fairs) available for 
 <div class="call-out" markdown="1">
 #### Take a different approach to starting your career 
 
-- Start or [grow your own business](/employment/job-seekers/start/). 
-- Service-disabled Veterans may qualify for [small-business counseling](/employment/job-seekers/service-disabled).
+- Start or grow your own [business](/employment/job-seekers/start/). 
+- Service-disabled Veterans may qualify for [employment support services](/employment/job-seekers/service-disabled) like small-business counseling.
 - Evaluate non-traditional programs like apprenticeships, work study, and on-the-job training.
 
 </div>
