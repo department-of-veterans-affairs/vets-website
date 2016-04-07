@@ -9,14 +9,6 @@ relatedlinks:
     title: Post a Job
 ---
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="/employment/users/sign-in">Employer Login</a>
-    </div>
-  </div>
-</div>
-
 Veterans are civic assets who can draw on their experiences to improve your business. When a Servicemember first joins a private-sector company, there may be a transition period for both the Veteran and the company. This [web-based tutorial](http://www.va.gov/VETSINWORKPLACE/training/EAP/default.htm) provides tips on how you can support Veterans, Reservists, and National Guardsmen in your workplace.
 
 If your company has not previously hired Veterans, learn about how you can design and implement a [Veterans hiring initiative](http://www.dol.gov/vets/ahaw/index.htm). A [Vocational Rehabilitation & Employment (VR&E) coordinator](http://www.benefits.va.gov/VOCREHAB/docs/EmploymentCoordinators.xls) can help you if you are interested in hiring service-disabled Veterans. There may be [tax credits](https://www.doleta.gov/business/incentives/opptax/) of up to $9,600 for every eligible Veteran hired.
