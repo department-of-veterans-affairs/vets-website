@@ -23,7 +23,7 @@ You can take certain steps to improve your chances of moving smoothly and succes
 </div>
 
 <div class="row" markdown="0">
-<div class="small-12 columns divider margin top"  markdown="1">
+<div class="small-12 columns usa-content divider margin top"  markdown="1">
 
 ### What are the steps?
 
