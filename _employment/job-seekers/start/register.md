@@ -18,7 +18,7 @@ There are many advantages to registering your small business with VA as a Vetera
 - Counseling
 - Support for start-ups and small businesses poised for high growth and innovation. 
  
-VA’s committed to supporting small businesses owned by Veterans. VA works hard to put Veterans first when it comes to procurement. 
+VA’s committed to supporting small businesses owned by Veterans.
 
 ### Are you eligible?
 Yes, if:
