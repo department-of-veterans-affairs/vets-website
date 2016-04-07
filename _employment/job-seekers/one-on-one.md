@@ -63,39 +63,59 @@ You might also want to work with nonprofit organizations that have been thorough
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
         <li>
-          <h3>
-          <a href="/employment/job-seekers/skills-translator">Skills Translator</a>
-          </h3>
+          <a href="/employment/job-seekers/one-on-one/">
+            <h5>
+              One-on-One Assistance
+            </h5>
+          </a>
+        </li>
+
+        <li>
+          <a href="/employment/job-seekers/skills-translator">
+            <h5>
+              Skills Translator
+            </h5>
+          </a>
         </li>  
 
         <li>
-          <h3>
-          <a href="/employment/job-seekers/create-resume">Résumé Builder</a>
-          </h3>
+          <a href="/employment/job-seekers/create-resume">
+            <h5>
+              Résumé Builder
+            </h5>
+          </a>
         </li>
 
         <li>
-          <h3>
-          <a href="/employment/job-seekers/alternative/">Alternative Ways to Start Your Career </a>
-          </h3>
+          <a href="/employment/job-seekers/alternative/">
+            <h5>
+              Alternative Ways to Start Your Career 
+            </h5>
+          </a>
         </li>  
 
         <li>
-          <h3>
-          <a href="/employment/job-seekers/search_jobs">Search the Veterans Job Bank</a>
-          </h3>
+          <a href="/employment/job-seekers/search_jobs">
+            <h5>
+              Search the Veterans Job Bank
+            </h5>
+          </a>
         </li>
 
         <li>
-          <h3>
-          <a href="/employment/job-seekers/interest-profiler/">Interest and Aptitude Profiler</a>
-          </h3>
+          <a href="/employment/job-seekers/interest-profiler/">          
+            <h5>
+              Interest and Aptitude Profiler
+            </h5>
+          </a>
         </li>
 
         <li>
-          <h3>
-          <a href="/employment/job-seekers/military-transcripts/">Military Transcripts</a>
-          </h3>
+          <a href="/employment/job-seekers/military-transcripts/">
+            <h5>
+              Military Transcripts
+            </h5>
+          </a>
         </li>    
 
         </ul>

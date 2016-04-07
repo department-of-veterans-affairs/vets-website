@@ -50,27 +50,35 @@ Visit the following sites to find a career fair near you:
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
           <li>
-            <h5>
-              <a href="/employment/job-seekers/one-on-one/">One-on-One Assistance</a>
-            </h5>  
+            <a href="/employment/job-seekers/one-on-one/">          
+              <h5>
+              One-on-One Assistance
+              </h5>  
+            </a>
           </li>
 
           <li>
+            <a href="/employment/commitments">            
             <h5>
-              <a href="/employment/commitments">View Employer Commitments</a>
-            </h5>  
-          </li>
+              View Employer Commitments
+            </h5>
+            </a>
+           </li>
 
           <li>
+            <a href="/employment/job-seekers/search_jobs">
             <h5>
-              <a href="/employment/job-seekers/search_jobs">Search the Veterans Job Bank</a>
-            </h5>  
+              Search the Veterans Job Bank
+            </h5>
+            </a>  
           </li>  
 
           <li>
+            <a href="/employment/job-seekers/unemployment-support/">
             <h5>
-              <a href="/employment/job-seekers/unemployment-support/">Unemployment Support</a>
-            </h5>  
+              Unemployment Support
+            </h5>
+            </a>  
           </li>    
 
         </ul>

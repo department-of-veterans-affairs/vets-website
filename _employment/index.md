@@ -54,12 +54,16 @@ The Veterans Employment Center (VEC™) connects Veterans and their families wit
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
         <li>
           <a href="/employment/job-seekers/family-members">
-            <h5>Military Spouses and Family Job Seekers</h5>
+            <h5>
+              Military Spouses and Family Job Seekers
+            </h5>
           </a>
         </li>
         <li>
         	<a href="/employment/job-seekers/start">
-        		<h5>Start or Grow Your Business</h5>
+        		<h5>
+              Start or Grow Your Business
+            </h5>
         	</a>
         </li>
       </ul>
