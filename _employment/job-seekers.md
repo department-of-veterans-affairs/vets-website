@@ -128,6 +128,7 @@ Learn about the [job fairs](/employment/job-seekers/career-fairs) available for 
 - The [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
 - Fill in any gaps in your education or skill set by taking classes and getting [advanced training and certifications](/education/advanced-training-and-certifications/).
 - Consider military [tuition assistance]( http://www.military.com/education/money-for-school/tuition-assistance-ta-program-overview.html) (for active duty).
+- Learn transition techniques plus business, software, technology, and creative skills with a free one-year subscription to online courses with [Linked-In's Lynda](https://veterans.linkedin.com).
 - Take a free [Coursera class](https://www.surveymonkey.com/r/QSGQRFN).
 
 </div>
