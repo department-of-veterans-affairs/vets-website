@@ -1,5 +1,5 @@
 ---
-title: VECI
+title: Veterans Economic Community Initiative
 concurrence: complete
 template: 1-topic-landing
 ---
