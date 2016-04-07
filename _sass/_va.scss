@@ -403,7 +403,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
 // Content Callouts
 
 #content .main .section.one {
-  
+
   ul.plain {
     margin: .5em 0 1em 0;
     
@@ -753,6 +753,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
   
   li.active::before {
     display: none;
+
   }
 }
 
@@ -788,7 +789,7 @@ dl.simple {
   padding: 0 0 1em 0;
   
   &.feature {padding: .25em .5em;}
-  
+
   dd {
     padding: 0; 
     margin: 0; 
@@ -797,6 +798,17 @@ dl.simple {
     &:last-of-type {
       border-bottom: none;
     }
+
+    ul {
+      margin: 0 !important;
+      padding: 0;
+      text-align: center;
+      svg {display: block; margin: .25em auto;}
+
+      li {padding: 0; margin: 0;}
+        &:before {margin: 0; padding: 0;}
+        span.type {margin: .25em .25em 1em .25em; color: $color-primary-darkest;  @media #{$small} {padding: 2.5em 1em;}  background: rgba($secondary-color, .15);}
+      }
   }
 }
 
@@ -813,6 +825,7 @@ dl.simple {
     padding: 3em 0;
   }
   background: $color-gray-lightest;
+
   margin: 0 auto;
   
   p {

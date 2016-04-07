@@ -28,7 +28,7 @@ relatedlinks:
 
 
 <div class="section one" markdown="0">
-<div class="primary" markdown="0">
+
 <div class="row" markdown="0">
 <div class="small-12 left columns usa-content" markdown="1">
 
