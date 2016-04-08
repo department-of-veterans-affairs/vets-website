@@ -88,7 +88,7 @@ If you are unemployed and at risk of becoming homeless, call or visit your [loca
           <li>
             <a href="/employment/job-seekers/interest-profiler/">
               <h5>
-                Interest and Aptitude Profiler
+                Interest Profiler
               </h5>
             </a>  
           </li>

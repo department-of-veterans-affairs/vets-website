@@ -78,7 +78,7 @@ Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov
         <li>
           <a href="/employment/job-seekers/interest-profiler/">
             <h5>
-              Interest and Aptitude Profiler
+              Interest Profiler
             </h5>
           </a>
         </li>

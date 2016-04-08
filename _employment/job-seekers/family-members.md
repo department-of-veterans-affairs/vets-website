@@ -64,7 +64,7 @@ Spouses can attend Department of Labor Employment Workshops (DOLEW) online throu
         <li>
           <a href="/employment/job-seekers/interest-profiler/">
           <h5>
-            Interest and Aptitude Profiler
+            Interest Profiler
           </h5>
           </a>
         </li>

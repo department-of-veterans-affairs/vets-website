@@ -59,7 +59,7 @@ Representatives from the Veterans Economic Community Initiative (VECI) are avail
         <li>
           <a href="/employment/job-seekers/interest-profiler/">
             <h5>
-              Interest and Aptitude Profiler
+              Interest Profiler
             </h5>
           </a>  
         </li>

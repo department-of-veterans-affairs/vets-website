@@ -73,7 +73,7 @@ If you are out of work, you may be eligible for [unemployment support](http://ca
         <li>
           <a href="/employment/job-seekers/interest-profiler/">
           <h5>
-            Interest and Aptitude Profiler
+            Interest Profiler
           </h5>
           </a>
         </li>
