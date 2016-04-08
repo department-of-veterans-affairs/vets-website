@@ -1,6 +1,6 @@
 ---
 title: Process Page Template
-template: 7-get-page
+template: Process
 ---
 <!-- Note: The title of the page is what will appear in the breadcrumbs -->
 
@@ -31,9 +31,11 @@ template: 7-get-page
 
 </div>
 </div>
+</div>
 
+<div class="section" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns divider margin top"  markdown="1">
+<div class="small-12 usa-content left columns divider margin top"  markdown="1">
 
 ### What are the steps?
 
