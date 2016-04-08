@@ -327,7 +327,6 @@ h6 {font-size: 1.15em; font-weight: bold;}
 
 #content .main .section.one {
   ol {
-    margin: 0;
     list-style-position: outside;
     li {
       margin: 0 0 1em 0;
@@ -338,7 +337,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
   }
 
   ul {
-  margin: 0 0 1em 1.2em;
+    margin: 0 0 1em 1.2em;
     padding: 0;
     list-style-position: outside;
     li {
@@ -348,7 +347,12 @@ h6 {font-size: 1.15em; font-weight: bold;}
 
   ul.plain {
     margin: .5em 0 1em 0;
-    li {list-style: none; padding: .35em 0; display: block;}
+    
+    li {
+      list-style: none; 
+      padding: .35em 0; 
+      display: block;
+    }
   }
 
   ul[class*="block-grid-"] {
@@ -599,12 +603,13 @@ background: rgba(255,255,255,.85);
 // Action
 
 .action {
-margin: 0 auto;
-text-align: left;
-.button {
-  font-size: 1.25em;
-  padding: 1em 3.5em;
-}
+  margin: 0 auto;
+  text-align: left;
+  
+  .button {
+    font-size: 1.25em;
+    padding: 1em 3.5em;
+  }
 }
 
 // Breadcrumbs
@@ -666,13 +671,14 @@ text-align: left;
 
 ul {
   li {
-  list-style: inside;
+    list-style: inside;
   }
 }
 
 ol {
   margin: 0 0 0 1.25em;
-li {
+
+  li {
     list-style-position: outside;
   }
 }
@@ -741,36 +747,46 @@ dl.simple {
   margin: 0;
   padding: 0 0 1em 0;
   &.feature {padding: .25em .5em;}
-  dd {padding: 0; margin: 0; border-bottom: 1px solid #eee; &:last-of-type {border-bottom: none;}}
+  dd {
+    padding: 0; 
+    margin: 0; 
+    border-bottom: 1px solid #eee; 
+    &:last-of-type {
+      border-bottom: none;
+    }
+  }
 }
 
 // Checklists
 
 ul.checklist, ol.checklist {
-margin: 0 0 0 1.35em; padding: 0;
-li {
-  font-weight: 500;
-  span {font-weight: normal; font-size: 1em; display: block; margin-left: 2.25em; color: #555;}
-  padding: 1em 0;
-  border-bottom: 1px solid #ccc;
-  &:last-of-type {border-bottom: none;}
-  h5 {font-size: 1.35em;}
-  ul li {
-    border-bottom: none;
-    padding: .5em 0;
-    span {background: rgba(0,0,0,.1); display: block; padding: 1em .5em; text-align: center;}
-  }
+  margin: 0 0 0 1.35em; 
+  padding: 0;
+  
+  li {
+    font-weight: 500;
+    span {font-weight: normal; font-size: 1em; display: block; margin-left: 2.25em; color: #555;}
+    padding: 1em 0;
+    border-bottom: 1px solid #ccc;
+    &:last-of-type {border-bottom: none;}
+    h5 {font-size: 1.35em;}
 
-  ul {
-    margin: 0 !important;
-    padding: 0;
-    text-align: center;
-    svg {display: block; margin: .25em auto;}
-
-    li {padding: 0; margin: 0;}
-    &:before {margin: 0; padding: 0;}
-    span.type {margin: .25em .25em 1em .25em; color: $color-primary-darkest;  @media #{$small} {padding: 2.5em 1em;}  background: rgba($secondary-color, .15);}
+    ul li {
+      border-bottom: none;
+      padding: .5em 0;
+      span {background: rgba(0,0,0,.1); display: block; padding: 1em .5em; text-align: center;}
     }
+
+    ul {
+      margin: 0 !important;
+      padding: 0;
+      text-align: center;
+      svg {display: block; margin: .25em auto;}
+
+      li {padding: 0; margin: 0;}
+        &:before {margin: 0; padding: 0;}
+        span.type {margin: .25em .25em 1em .25em; color: $color-primary-darkest;  @media #{$small} {padding: 2.5em 1em;}  background: rgba($secondary-color, .15);}
+      }
   }
 }
 
@@ -783,12 +799,13 @@ li {
 
 .introductory-content {
   padding: 1em  0;
-  @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 3em 0;}
+  @media #{$small} {padding: 3em 0;}
   background: #efefef;
   margin: 0 auto;
   p {
-    font-size: 1em;}
-    @media #{$small} {font-size: 1.35em;}
+    font-size: 1em;
+  }
+  @media #{$small} {font-size: 1.35em;}
 }
 
 // Navigation
