@@ -42,19 +42,57 @@ class AnnualIncomeSection extends React.Component {
     if (this.props.data.sectionComplete) {
       content = (<div>
         <h6>Veteran</h6>
-        <p>Veteran Gross Income: {this.props.data.veteranGrossIncome}</p>
-        <p>Veteran Net Income: {this.props.data.veteranNetIncome}</p>
-        <p>Veteran Other Income: {this.props.data.veteranOtherIncome}</p>
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>Veteran Gross Income:</td>
+              <td>{this.props.data.veteranGrossIncome}</td>
+            </tr>
+            <tr>
+              <td>Veteran Net Income:</td>
+              <td>{this.props.data.veteranNetIncome}</td>
+            </tr>
+            <tr>
+              <td>Veteran Other Income:</td>
+              <td>{this.props.data.veteranOtherIncome}</td>
+            </tr>
+          </tbody>
+        </table>
         <h6>Spouse</h6>
-        <p>Spouse Gross Income: {this.props.data.spouseGrossIncome}</p>
-        <p>Spouse Net Income: {this.props.data.spouseNetIncome}</p>
-        <p>Spouse Other Income: {this.props.data.spouseOtherIncome}</p>
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>Spouse Gross Income:</td>
+              <td>{this.props.data.spouseGrossIncome}</td>
+            </tr>
+            <tr>
+              <td>Spouse Net Income:</td>
+              <td>{this.props.data.spouseNetIncome}</td>
+            </tr>
+            <tr>
+              <td>Spouse Other Income:</td>
+              <td>{this.props.data.spouseOtherIncome}</td>
+            </tr>
+          </tbody>
+        </table>
         <h6>Children</h6>
-        <p>Children Gross Income: {this.props.data.childrenGrossIncome}</p>
-        <p>Children Net Income: {this.props.data.childrenNetIncome}</p>
-        <p>Children Other Income: {this.props.data.childrenOtherIncome}</p>
-      </div>
-        );
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>Children Gross Income:</td>
+              <td>{this.props.data.childrenGrossIncome}</td>
+            </tr>
+            <tr>
+              <td>Children Net Income:</td>
+              <td>{this.props.data.childrenNetIncome}</td>
+            </tr>
+            <tr>
+              <td>Children Other Income:</td>
+              <td>{this.props.data.childrenOtherIncome}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>);
     } else {
       content = (<div>
                 {notRequiredMessage}

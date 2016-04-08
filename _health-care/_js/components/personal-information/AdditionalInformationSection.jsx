@@ -17,12 +17,22 @@ class AdditionalInformationSection extends React.Component {
     let editButton;
 
     if (this.props.data.sectionComplete) {
-      content = (<div>
-        <p>I am enrolling to obtain minimal essential coverage under the affordable care act: {`${this.props.data.isEssentialAcaCoverage ? 'Yes' : 'No'}`}</p>
-        <p>Preferred VA Medical Facility: {this.props.data.vaMedicalFacility} in {this.props.data.facilityState}</p>
-        <p>Do you want VA to contact you to schedule your first appointment?: {`${this.props.data.wantsInitialVaContact ? 'Yes' : 'No'}`}</p>
-      </div>
-        );
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>I am enrolling to obtain minimal essential coverage under the affordable care act:</td>
+            <td>{`${this.props.data.isEssentialAcaCoverage ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Preferred VA Medical Facility:</td>
+            <td>{this.props.data.vaMedicalFacility} in {this.props.data.facilityState}</td>
+          </tr>
+          <tr>
+            <td>Do you want VA to contact you to schedule your first appointment?:</td>
+            <td>{`${this.props.data.wantsInitialVaContact ? 'Yes' : 'No'}`}</td>
+          </tr>
+        </tbody>
+      </table>);
     } else {
       content = (<div>
         <div className="input-section">

@@ -16,15 +16,40 @@ class DemographicInformationSection extends React.Component {
 
     if (this.props.data.sectionComplete) {
       content = (<div>
-        <p>Are you Spanish, Hispanic, or Latino?: {`${this.props.data.isSpanishHispanicLatino ? 'Yes' : 'No'}`}</p>
-        <p>Race:</p>
-        <p>{`${this.props.data.isAmericanIndianOrAlaskanNative ? 'American Indian or Alaksan Native' : ''}`}</p>
-        <p>{`${this.props.data.isBlackOrAfricanAmerican ? 'Black or African American' : ''}`}</p>
-        <p>{`${this.props.data.isNativeHawaiianOrOtherPacificIslander ? 'Native Hawaiian or Other Pacific Islander' : ''}`}</p>
-        <p>{`${this.props.data.isAsian ? 'Asian' : ''}`}</p>
-        <p>{`${this.props.data.isWhite ? 'White' : ''}`}</p>
-      </div>
-        );
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>Are you Spanish, Hispanic, or Latino?:</td>
+              <td>{`${this.props.data.isSpanishHispanicLatino ? 'Yes' : 'No'}`}</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>What is your race?</h4>
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>American Indian or Alaksan Native:</td>
+              <td>{`${this.props.data.isAmericanIndianOrAlaskanNative ? 'Yes' : ''}`}</td>
+            </tr>
+            <tr>
+              <td>Black or African American:</td>
+              <td>{`${this.props.data.isBlackOrAfricanAmerican ? 'Yes' : ''}`}</td>
+            </tr>
+            <tr>
+              <td>Native Hawaiian or Other Pacific Islander:</td>
+              <td>{`${this.props.data.isNativeHawaiianOrOtherPacificIslander ? 'Yes' : ''}`}</td>
+            </tr>
+            <tr>
+              <td>Asian:</td>
+              <td>{`${this.props.data.isAsian ? 'Yes' : ''}`}</td>
+            </tr>
+            <tr>
+              <td>White:</td>
+              <td>{`${this.props.data.isWhite ? 'Yes' : ''}`}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>);
     } else {
       content = (<div>
         <div className="input-section">
@@ -74,7 +99,7 @@ class DemographicInformationSection extends React.Component {
       );
     }
     return (
-      <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
+      <div>
         <h4>Demographic Information</h4>
         {editButton}
         {content}

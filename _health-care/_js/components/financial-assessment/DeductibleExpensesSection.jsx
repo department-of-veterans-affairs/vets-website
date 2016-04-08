@@ -39,14 +39,26 @@ class DeductibleExpensesSection extends React.Component {
     }
 
     if (this.props.data.sectionComplete) {
-      content = (<div>
-        <p>Total non-reimbursed medical expenses paid by you or your spouse: {this.props.data.deductibleMedicalExpenses}</p>
-        <p>Amount you paid last calendar year for funeral and burial expenses
-         for your deceased spouse or dependent child: {this.props.data.deductibleFuneralExpenses}</p>
-        <p>Amount you paid last calendar year for your college or vocational
-              educational expenses: {this.props.data.deductibleEducationExpenses}</p>
-      </div>
-        );
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>Total non-reimbursed medical expenses paid by you or your spouse:</td>
+            <td>{this.props.data.deductibleMedicalExpenses}</td>
+          </tr>
+          <tr>
+            <td>Amount you paid last calendar year for funeral and burial expenses
+         for your deceased spouse or dependent child:
+            </td>
+            <td>{this.props.data.deductibleFuneralExpenses}</td>
+          </tr>
+          <tr>
+            <td>Amount you paid last calendar year for your college or vocational
+              educational expenses:
+            </td>
+            <td>{this.props.data.deductibleEducationExpenses}</td>
+          </tr>
+        </tbody>
+      </table>);
     } else {
       content = (<div>
         {notRequiredMessage}
@@ -62,7 +74,7 @@ class DeductibleExpensesSection extends React.Component {
           Veteran for spouse or dependent(s).
         </p>
 
-        <div className={`input-section ${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
+        <div>
           <ErrorableTextInput
               errorMessage={this.isValidMonetaryValue(this.props.data.deductibleMedicalExpenses, message)}
               label="Total non-reimbursed medical expenses paid by you or your spouse

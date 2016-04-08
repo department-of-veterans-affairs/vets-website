@@ -70,20 +70,56 @@ class ChildInformationSection extends React.Component {
         const childEducationExpenses = obj.childEducationExpenses;
         const childCohabitedLastYear = obj.childCohabitedLastYear;
         const childReceivedSupportLastYear = obj.childReceivedSupportLastYear;
-        return (<div key={++reactKey}>
-          <p>Child {++childNumber}</p>
-          <p>Name: {childFirstName} {childMiddleName} {childLastName} {childSuffix}</p>
-          <p>Relationship to you: {childRelation}</p>
-          <p>Social Security Number: {childSocialSecurityNumber}</p>
-          <p>Date Child Became Dependent: {childBecameDependentMonth}/{childBecameDependentDay}/{childBecameDependentYear}</p>
-          <p>Date of Birth: {childDateOfBirthMonth}/{childDateOfBirthDay}/{childDateOfBirthYear}</p>
-          <p>Was child permanently and totally disabled before the age of 18?: {`${childDisabledBefore18 ? 'Yes' : 'No'}`}</p>
-          <p>If child is between 18 and 23 years of age, did child attend school last calendar year?: {`${childAttendedSchoolLastYear ? 'Yes' : 'No'}`}</p>
-          <p>Expenses paid by your dependent child for college, vocational rehabilitation or training (e.g., tuition, books, materials): {childEducationExpenses}</p>
-          <p>Did your child live with you last year?: {`${childCohabitedLastYear ? 'Yes' : 'No'}`}</p>
-          <p>If your dependent child did not live with you last year, did you provide support?: {`${childReceivedSupportLastYear ? 'Yes' : 'No'}`}</p>
-          <hr/>
-        </div>);
+        return (<table key={++reactKey} className="review usa-table-borderless">
+          <thead>
+            <tr>
+              <td scope="col">Child {++childNumber}</td>
+              <td scope="col"></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Name:</td>
+              <td>{childFirstName} {childMiddleName} {childLastName} {childSuffix}</td>
+            </tr>
+            <tr>
+              <td>Relationship to you:</td>
+              <td>{childRelation}</td>
+            </tr>
+            <tr>
+              <td>Social Security Number:</td>
+              <td>{childSocialSecurityNumber}</td>
+            </tr>
+            <tr>
+              <td>Date Child Became Dependent:</td>
+              <td>{childBecameDependentMonth}/{childBecameDependentDay}/{childBecameDependentYear}</td>
+            </tr>
+            <tr>
+              <td>Date of Birth:</td>
+              <td>{childDateOfBirthMonth}/{childDateOfBirthDay}/{childDateOfBirthYear}</td>
+            </tr>
+            <tr>
+              <td>Was child permanently and totally disabled before the age of 18?:</td>
+              <td>{`${childDisabledBefore18 ? 'Yes' : 'No'}`}</td>
+            </tr>
+            <tr>
+              <td>If child is between 18 and 23 years of age, did child attend school last calendar year?:</td>
+              <td>{`${childAttendedSchoolLastYear ? 'Yes' : 'No'}`}</td>
+            </tr>
+            <tr>
+              <td>Expenses paid by your dependent child for college, vocational rehabilitation or training (e.g., tuition, books, materials):</td>
+              <td>{childEducationExpenses}</td>
+            </tr>
+            <tr>
+              <td>Did your child live with you last year?:</td>
+              <td>{`${childCohabitedLastYear ? 'Yes' : 'No'}`}</td>
+            </tr>
+            <tr>
+              <td>If your dependent child did not live with you last year, did you provide support?:</td>
+              <td>{`${childReceivedSupportLastYear ? 'Yes' : 'No'}`}</td>
+            </tr>
+          </tbody>
+        </table>);
       });
     }
 
@@ -105,10 +141,16 @@ class ChildInformationSection extends React.Component {
 
     if (this.props.data.sectionComplete) {
       content = (<div>
-        <p>Do you have any children to report?: {`${this.props.data.hasChildrenToReport ? 'Yes' : 'No'}`}</p>
-        {children}
-      </div>
-        );
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>Do you have any children to report?:</td>
+              <td>{`${this.props.data.hasChildrenToReport ? 'Yes' : 'No'}`}</td>
+            </tr>
+          </tbody>
+        </table>
+      {children}
+      </div>);
     } else {
       content = (<div>
         {notRequiredMessage}

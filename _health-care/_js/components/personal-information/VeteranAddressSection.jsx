@@ -32,19 +32,50 @@ class VeteranAddressSection extends React.Component {
     let editButton;
 
     if (this.props.data.sectionComplete) {
-      content = (<div>
-        <p>Street: {this.props.data.address.street}</p>
-        <p>City: {this.props.data.address.city}</p>
-        <p>Country: {this.props.data.address.country}</p>
-        <p>State: {this.props.data.address.state}</p>
-        <p>Zip: {this.props.data.address.zip}</p>
-        <p>County: {this.props.data.address.county}</p>
-        <p>Email Address: {this.props.data.email}</p>
-        <p>Re-enter Email address: {this.props.data.emailConfirmation}</p>
-        <p>Home telephone number: {this.props.data.homePhone}</p>
-        <p>Mobile telephone number: {this.props.data.mobilePhone}</p>
-      </div>
-        );
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>Street:</td>
+            <td>{this.props.data.address.street}</td>
+          </tr>
+          <tr>
+            <td>City:</td>
+            <td>{this.props.data.address.city}</td>
+          </tr>
+          <tr>
+            <td>Country:</td>
+            <td>{this.props.data.address.country}</td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td>{this.props.data.address.state}</td>
+          </tr>
+          <tr>
+            <td>ZIP Code:</td>
+            <td>{this.props.data.address.zipcode}</td>
+          </tr>
+          <tr>
+            <td>County:</td>
+            <td>{this.props.data.county}</td>
+          </tr>
+          <tr>
+            <td>Email Address:</td>
+            <td>{this.props.data.email}</td>
+          </tr>
+          <tr>
+            <td>Re-enter Email address:</td>
+            <td>{this.props.data.emailConfirmation}</td>
+          </tr>
+          <tr>
+            <td>Home telephone number:</td>
+            <td>{this.props.data.homePhone}</td>
+          </tr>
+          <tr>
+            <td>Mobile telephone number:</td>
+            <td>{this.props.data.mobilePhone}</td>
+          </tr>
+        </tbody>
+      </table>);
     } else {
       content = (<div>
         <p>For locations outside the U.S., enter "City,Country" in the City field
@@ -56,7 +87,7 @@ class VeteranAddressSection extends React.Component {
 
         <ErrorableTextInput label="County"
             value={this.props.data.county}
-            onValueChange={(update) => {this.onStateChange('county', update);}}/>
+            onValueChange={(update) => {this.props.onStateChange('county', update);}}/>
 
         <Email label="Email address"
             value={this.props.data.email}
@@ -90,7 +121,7 @@ class VeteranAddressSection extends React.Component {
 
     return (
       <fieldset >
-        <div className={`input-section ${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
+        <div>
           <h4>Permanent Address</h4>
           {editButton}
           {content}

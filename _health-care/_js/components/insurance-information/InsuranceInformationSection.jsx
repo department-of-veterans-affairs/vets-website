@@ -51,6 +51,7 @@ class InsuranceInformationSection extends React.Component {
     if (this.props.data.providers) {
       const providersList = this.props.data.providers;
       let reactKey = 0;
+      let providerIndex = 0;
       providers = providersList.map((obj) => {
         const insuranceName = obj.insuranceName;
         const insuranceAddress = obj.insuranceAddress;
@@ -62,29 +63,71 @@ class InsuranceInformationSection extends React.Component {
         const insurancePolicyHolderName = obj.insurancePolicyHolderName;
         const insurancePolicyNumber = obj.insurancePolicyNumber;
         const insuranceGroupCode = obj.insuranceGroupCode;
-        return (<div key={++reactKey}>
-          <p>Provider {++reactKey}</p>
-          <p>{insuranceName}</p>
-          <p>{insuranceAddress}</p>
-          <p>{insuranceCity}</p>
-          <p>{insuranceCountry}</p>
-          <p>{insuranceState}</p>
-          <p>{insuranceZipcode}</p>
-          <p>{insurancePhone}</p>
-          <p>{insurancePolicyHolderName}</p>
-          <p>{insurancePolicyNumber}</p>
-          <p>{insuranceGroupCode}</p>
-          <hr/>
-        </div>);
+        return (<table key={++reactKey} className="review usa-table-borderless">
+          <thead>
+            <tr>
+              <td scope="col">Provider {++providerIndex}</td>
+              <td scope="col"></td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Name:</td>
+              <td>{insuranceName}</td>
+            </tr>
+            <tr>
+              <td>Address:</td>
+              <td>{insuranceAddress}</td>
+            </tr>
+            <tr>
+              <td>City:</td>
+              <td>{insuranceCity}</td>
+            </tr>
+            <tr>
+              <td>Country:</td>
+              <td>{insuranceCountry}</td>
+            </tr>
+            <tr>
+              <td>State:</td>
+              <td>{insuranceState}</td>
+            </tr>
+            <tr>
+              <td>ZIP Code:</td>
+              <td>{insuranceZipcode}</td>
+            </tr>
+            <tr>
+              <td>Phone:</td>
+              <td>{insurancePhone}</td>
+            </tr>
+            <tr>
+              <td>Policy Holder Name:</td>
+              <td>{insurancePolicyHolderName}</td>
+            </tr>
+            <tr>
+              <td>Policy Number:</td>
+              <td>{insurancePolicyNumber}</td>
+            </tr>
+            <tr>
+              <td>Group Code:</td>
+              <td>{insuranceGroupCode}</td>
+            </tr>
+          </tbody>
+        </table>);
       });
     }
 
     if (this.props.data.sectionComplete) {
       content = (<div>
-        <p>Are you covered by health insurance? (Including coverage through a spouse or another person): {`${this.props.data.isCoveredByHealthInsurance ? 'Yes' : 'No'}`}</p>
-        {providers}
-      </div>
-        );
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>Are you covered by health insurance? (Including coverage through a spouse or another person):</td>
+              <td>{`${this.props.data.isCoveredByHealthInsurance ? 'Yes' : 'No'}`}</td>
+            </tr>
+          </tbody>
+        </table>
+      {providers}
+      </div>);
     } else {
       content = (<div>
         <ErrorableCheckbox

@@ -25,15 +25,38 @@ class NameAndGeneralInfoSection extends React.Component {
     let editButton;
 
     if (this.props.data.sectionComplete) {
-      content = (<div>
-        <p>Veteran Name: {this.props.data.fullName.first} {this.props.data.fullName.middle} {this.props.data.fullName.last} {this.props.data.fullName.suffix}</p>
-        <p>Mother's Maiden Name: {this.props.data.mothersMaidenName}</p>
-        <p>Social Security Number: {this.props.data.socialSecurityNumber}</p>
-        <p>Gender: {this.props.data.gender}</p>
-        <p>Date of Birth: {this.props.data.dateOfBirth.month}/{this.props.data.dateOfBirth.day}/{this.props.data.dateOfBirth.year}</p>
-        <p>Place of Birth: {this.props.data.cityOfBirth}, {this.props.data.stateOfBirth}</p>
-        <p>Current Marital Status: {this.props.data.maritalStatus}</p>
-      </div>);
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>Veteran Name:</td>
+            <td>{this.props.data.fullName.first} {this.props.data.fullName.middle} {this.props.data.fullName.last} {this.props.data.fullName.suffix}</td>
+          </tr>
+          <tr>
+            <td>Mother's Maiden Name:</td>
+            <td>{this.props.data.mothersMaidenName}</td>
+          </tr>
+          <tr>
+            <td>Social Security Number:</td>
+            <td>{this.props.data.socialSecurityNumber}</td>
+          </tr>
+          <tr>
+            <td>Gender:</td>
+            <td>{this.props.data.gender}</td>
+          </tr>
+          <tr>
+            <td>Date of Birth:</td>
+            <td>{this.props.data.dateOfBirth.month}/{this.props.data.dateOfBirth.day}/{this.props.data.dateOfBirth.year}</td>
+          </tr>
+          <tr>
+            <td>Place of Birth:</td>
+            <td>{this.props.data.cityOfBirth}, {this.props.data.stateOfBirth}</td>
+          </tr>
+          <tr>
+            <td>Current Marital Status:</td>
+            <td>{this.props.data.maritalStatus}</td>
+          </tr>
+        </tbody>
+      </table>);
     } else {
       content = (<div>
         <div className="input-section">
@@ -60,7 +83,9 @@ class NameAndGeneralInfoSection extends React.Component {
               value={this.props.data.cityOfBirth}
               onValueChange={(update) => {this.props.onStateChange('cityOfBirth', update);}}/>
           <State value={this.props.data.stateOfBirth} onUserInput={(update) => {this.props.onStateChange('stateOfBirth', update);}}/>
-          <ErrorableSelect label="Current Marital Status"
+          <ErrorableSelect required
+              errorMessage={isNotBlank(this.props.data.maritalStatus) ? undefined : 'Please select a marital status'}
+              label="Current Marital Status"
               options={maritalStatuses}
               value={this.props.data.maritalStatus}
               onValueChange={(update) => {this.props.onStateChange('maritalStatus', update);}}/>

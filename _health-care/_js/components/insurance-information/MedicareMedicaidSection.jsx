@@ -17,18 +17,28 @@ class MedicareMedicaidSection extends React.Component {
     let medicarePartA;
 
     if (this.props.data.isEnrolledMedicarePartA) {
-      medicarePartA = (<p>If so, what is your Medicare Part A effective date?: {this.props.data.medicarePartAEffectiveDate.month}
+      medicarePartA = (<tr>
+        <td>If so, what is your Medicare Part A effective date?:</td>
+        <td>{this.props.data.medicarePartAEffectiveDate.month}
         /{this.props.data.medicarePartAEffectiveDate.day}/
-        {this.props.data.medicarePartAEffectiveDate.year}</p>);
+        {this.props.data.medicarePartAEffectiveDate.year}</td>
+      </tr>);
     }
 
     if (this.props.data.sectionComplete) {
-      content = (<div>
-        <p>Are you eligible for Medicaid?: {`${this.props.data.isMedicaidEligible ? 'Yes' : 'No'}`}</p>
-        <p>Are you enrolled in Medicare Part A (hospital insurance): {`${this.props.data.isEnrolledMedicarePartA ? 'Yes' : 'No'}`}</p>
-        {medicarePartA}
-      </div>
-        );
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>Are you eligible for Medicaid?:</td>
+            <td>{`${this.props.data.isMedicaidEligible ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Are you enrolled in Medicare Part A (hospital insurance):</td>
+            <td>{`${this.props.data.isEnrolledMedicarePartA ? 'Yes' : 'No'}`}</td>
+          </tr>
+          {medicarePartA}
+        </tbody>
+      </table>);
     } else {
       content = (<div className="input-section">
         <ErrorableCheckbox

@@ -15,18 +15,46 @@ class AdditionalMilitaryInformationSection extends React.Component {
     let editButton;
 
     if (this.props.data.sectionComplete) {
-      content = (<div>
-        <p>Are you a Purple Heart award recipient?: {`${this.props.data.purpleHeartRecipient ? 'Yes' : 'No'}`}</p>
-        <p>Are you a former prisoner of war?: {`${this.props.data.isFormerPow ? 'Yes' : 'No'}`}</p>
-        <p>Did you serve in combat theater of operations after November 11, 1998?: {`${this.props.data.postNov111998Combat ? 'Yes' : 'No'}`}</p>
-        <p>Were you discharged or retired from the military for a disability incurred in the line of duty?: {`${this.props.data.disabledInLineOfDuty ? 'Yes' : 'No'}`}</p>
-        <p>Did you serve in SW Asia during the Gulf War between August 2, 1990 and Nov 11, 1998?: {`${this.props.data.swAsiaCombat ? 'Yes' : 'No'}`}</p>
-        <p>Did you serve in Vietnam between January 9, 1962 and May 7, 1975?: {`${this.props.data.vietnamService ? 'Yes' : 'No'}`}</p>
-        <p>Were you exposed to radiation while in the military?: {`${this.props.data.exposedToRadiation ? 'Yes' : 'No'}`}</p>
-        <p>Did you receive nose and throat radium treatments while in the military?: {`${this.props.data.radiumTreatments ? 'Yes' : 'No'}`}</p>
-        <p>Did you serve on active duty at least 30 days at Camp LeJeune from January 1, 1957 through December 31, 1987?: {`${this.props.data.campLejeune ? 'Yes' : 'No'}`}</p>
-      </div>
-        );
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>Are you a Purple Heart award recipient?:</td>
+            <td>{`${this.props.data.purpleHeartRecipient ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Are you a former prisoner of war?:</td>
+            <td>{`${this.props.data.isFormerPow ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Did you serve in combat theater of operations after November 11, 1998?:</td>
+            <td>{`${this.props.data.postNov111998Combat ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Were you discharged or retired from the military for a disability incurred in the line of duty?:</td>
+            <td>{`${this.props.data.disabledInLineOfDuty ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Did you serve in SW Asia during the Gulf War between August 2, 1990 and Nov 11, 1998?:</td>
+            <td>{`${this.props.data.swAsiaCombat ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Did you serve in Vietnam between January 9, 1962 and May 7, 1975?:</td>
+            <td>{`${this.props.data.vietnamService ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Were you exposed to radiation while in the military?:</td>
+            <td>{`${this.props.data.exposedToRadiation ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Did you receive nose and throat radium treatments while in the military?:</td>
+            <td>{`${this.props.data.radiumTreatments ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Did you serve on active duty at least 30 days at Camp LeJeune from January 1, 1957 through December 31, 1987?:</td>
+            <td>{`${this.props.data.campLejeune ? 'Yes' : 'No'}`}</td>
+          </tr>
+        </tbody>
+      </table>);
     } else {
       content = (<div className="input-section">
         <ErrorableCheckbox

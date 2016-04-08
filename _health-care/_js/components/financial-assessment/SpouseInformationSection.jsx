@@ -39,25 +39,70 @@ class SpouseInformationSection extends React.Component {
 
     if (this.props.data.sectionComplete) {
       content = (<div>
-        <p>Spouse Name: {this.props.data.spouseFullName.first} {this.props.data.spouseFullName.middle} {this.props.data.spouseFullName.last} {this.props.data.spouseFullName.suffix}</p>
-        <p>Social Security Number: {this.props.data.spouseSocialSecurityNumber}</p>
-        <p>Date of Birth: {this.props.data.spouseDateOfBirth.month}/{this.props.data.spouseDateOfBirth.day}/{this.props.data.spouseDateOfBirth.year}</p>
-        <p>Date of Marriage: {this.props.data.dateOfMarriage.month}/{this.props.data.dateOfMarriage.day}/{this.props.data.dateOfMarriage.year}</p>
-        <p>Do you have the same address as your spouse?: {`${this.props.data.sameAddress ? 'Yes' : 'No'}`}</p>
-        <p>Did your spouse live with you last year?: {`${this.props.data.cohabitedLastYear ? 'Yes' : 'No'}`}</p>
-        <hr/>
-        <p>If your spouse did not live with you last year, did you provide support?: {`${this.props.data.cohabitedLastYear ? 'Yes' : 'No'}`}</p>
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>Spouse Name:</td>
+              <td>{this.props.data.spouseFullName.first} {this.props.data.spouseFullName.middle} {this.props.data.spouseFullName.last} {this.props.data.spouseFullName.suffix}</td>
+            </tr>
+            <tr>
+              <td>Social Security Number:</td>
+              <td>{this.props.data.spouseSocialSecurityNumber}</td>
+            </tr>
+            <tr>
+              <td>Date of Birth:</td>
+              <td>{this.props.data.spouseDateOfBirth.month}/{this.props.data.spouseDateOfBirth.day}/{this.props.data.spouseDateOfBirth.year}</td>
+            </tr>
+            <tr>
+              <td>Date of Marriage:</td>
+              <td>{this.props.data.dateOfMarriage.month}/{this.props.data.dateOfMarriage.day}/{this.props.data.dateOfMarriage.year}</td>
+            </tr>
+            <tr>
+              <td>Do you have the same address as your spouse?:</td>
+              <td>{`${this.props.data.sameAddress ? 'Yes' : 'No'}`}</td>
+            </tr>
+            <tr>
+              <td>Did your spouse live with you last year?:</td>
+              <td>{`${this.props.data.cohabitedLastYear ? 'Yes' : 'No'}`}</td>
+            </tr>
+            <tr>
+              <td>If your spouse did not live with you last year, did you provide support?:</td>
+              <td>{`${this.props.data.provideSupportLastYear ? 'Yes' : 'No'}`}</td>
+            </tr>
+          </tbody>
+        </table>
         <h4>Spouse's Address and Telephone Number</h4>
-        <p>Street: {this.props.data.spouseAddress.street}</p>
-        <p>City: {this.props.data.spouseAddress.city}</p>
-        <p>Country: {this.props.data.spouseAddress.country}</p>
-        <p>State: {this.props.data.spouseAddress.state}</p>
-        <p>Zip: {this.props.data.spouseAddress.zip}</p>
-        <p>Phone: {this.props.data.spousePhone}</p>
-      </div>
-        );
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>Street:</td>
+              <td>{this.props.data.spouseAddress.street}</td>
+            </tr>
+            <tr>
+              <td>City:</td>
+              <td>{this.props.data.spouseAddress.city}</td>
+            </tr>
+            <tr>
+              <td>Country:</td>
+              <td>{this.props.data.spouseAddress.country}</td>
+            </tr>
+            <tr>
+              <td>State:</td>
+              <td>{this.props.data.spouseAddress.state}</td>
+            </tr>
+            <tr>
+              <td>ZIP Code:</td>
+              <td>{this.props.data.spouseAddress.zipcode}</td>
+            </tr>
+            <tr>
+              <td>Phone:</td>
+              <td>{this.props.data.spousePhone}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>);
     } else {
-      content = (<div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
+      content = (<div>
         {notRequiredMessage}
         {noSpouseMessage}
         <div className="input-section">

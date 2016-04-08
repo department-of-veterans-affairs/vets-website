@@ -18,11 +18,22 @@ class VaInformationSection extends React.Component {
     let editButton;
 
     if (this.props.data.sectionComplete) {
-      content = (<div>
-        <p>Are you VA Service Connected 50% to 100% Disabled?: {`${this.props.data.isVaServiceConnected ? 'Yes' : 'No'}`}</p>
-        <p>{`${this.props.data.compensableVaServiceConnected ? 'Are you compensable VA Service Connected 0% - 40%?: Yes' : ''}`}</p>
-        <p>{`${this.props.data.receivesVaPension ? 'Do you receive a VA pension?: Yes' : ''}`}</p>
-      </div>
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>Are you VA Service Connected 50% to 100% Disabled?:</td>
+            <td>{`${this.props.data.isVaServiceConnected ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Are you compensable VA Service Connected 0% - 40%?:</td>
+            <td>{`${this.props.data.compensableVaServiceConnected ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Do you receive a VA pension?:</td>
+            <td>{`${this.props.data.receivesVaPension ? 'Yes' : 'No'}`}</td>
+          </tr>
+        </tbody>
+      </table>
         );
     } else {
       content = (<div>
@@ -33,9 +44,11 @@ class VaInformationSection extends React.Component {
         </p>
 
         <div className="input-section">
-          <ErrorableCheckbox
+          <ErrorableRadioButtons required
+              errorMessage={isNotBlank(this.props.data.isVaServiceConnected) ? '' : 'Please select a response'}
               label="Are you VA Service Connected 50% to 100% Disabled?"
-              checked={this.props.data.isVaServiceConnected}
+              options={yesNo}
+              value={this.props.data.isVaServiceConnected}
               onValueChange={(update) => {this.props.onStateChange('isVaServiceConnected', update);}}/>
           {this.props.data.isVaServiceConnected === true &&
             <div>

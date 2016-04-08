@@ -18,15 +18,28 @@ class ServiceInformationSection extends React.Component {
     let editButton;
 
     if (this.props.data.sectionComplete) {
-      content = (<div>
-        <p>Last branch of service: {this.props.data.lastServiceBranch}</p>
-        <p>Last entry date: {this.props.data.lastEntryDate.month}/
-        {this.props.data.lastEntryDate.day}/{this.props.data.lastEntryDate.year}</p>
-        <p>Last discharge date: {this.props.data.lastDischargeDate.month}/
-        {this.props.data.lastDischargeDate.day}/{this.props.data.lastDischargeDate.year}</p>
-        <p>Discharge Type: {this.props.data.dischargeType}</p>
-      </div>
-        );
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>Last branch of service:</td>
+            <td>{this.props.data.lastServiceBranch}</td>
+          </tr>
+          <tr>
+            <td>Last entry date:</td>
+            <td>{this.props.data.lastEntryDate.month}/
+        {this.props.data.lastEntryDate.day}/{this.props.data.lastEntryDate.year}</td>
+          </tr>
+          <tr>
+            <td>Last discharge date:</td>
+            <td>{this.props.data.lastDischargeDate.month}/
+        {this.props.data.lastDischargeDate.day}/{this.props.data.lastDischargeDate.year}</td>
+          </tr>
+          <tr>
+            <td>Discharge Type:</td>
+            <td>{this.props.data.dischargeType}</td>
+          </tr>
+        </tbody>
+      </table>);
     } else {
       content = (<div className="input-section">
         <ErrorableSelect

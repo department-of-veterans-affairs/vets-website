@@ -28,19 +28,25 @@ class FinancialDisclosureSection extends React.Component {
     }
 
     if (this.props.data.provideFinancialInfo) {
-      understandsFinancialDisclosure = (<p>{`${this.props.data.understandsFinancialDisclosure ?
-         'I understand VA is not enrolling new applicants who decline to provide their financial information: Yes'
-          : 'I understand VA is not enrolling new applicants who decline to provide their financial information: No'}`}</p>);
+      understandsFinancialDisclosure = (<tr>
+        <td>I understand VA is not enrolling new applicants who decline to provide their financial information:</td>
+        <td>{`${this.props.data.understandsFinancialDisclosure ? 'Yes' : 'No'}`}</td>
+      </tr>);
     }
 
     if (this.props.data.sectionComplete) {
-      content = (<div>
-        <p>Do you want to provide your financial information so the VA can determine your
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>Do you want to provide your financial information so the VA can determine your
          eligibility for other services and enrollment and if you will be charged copays for care
-          and medication?: {`${this.props.data.provideFinancialInfo ? 'Yes' : 'No'}`}</p>
-        {understandsFinancialDisclosure}
-      </div>
-        );
+          and medication?:
+            </td>
+            <td>{`${this.props.data.provideFinancialInfo ? 'Yes' : 'No'}`}</td>
+          </tr>
+          {understandsFinancialDisclosure}
+        </tbody>
+      </table>);
     } else {
       content = (<div className="input-section">
         {notRequiredMessage}
