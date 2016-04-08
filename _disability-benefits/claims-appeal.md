@@ -103,7 +103,7 @@ The [How Do I Appeal?](http://www.bva.va.gov/docs/Pamphlets/How-Do-I-Appeal-Book
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="va-nav-category">
 
         <li>
           <a href="/disability-benefits/claims-appeal/veterans-appeals-board/">
