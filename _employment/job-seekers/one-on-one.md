@@ -63,14 +63,6 @@ You might also want to work with nonprofit organizations that have been thorough
         <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
         <li>
-          <a href="/employment/job-seekers/one-on-one/">
-            <h5>
-              One-on-One Assistance
-            </h5>
-          </a>
-        </li>
-
-        <li>
           <a href="/employment/job-seekers/skills-translator">
             <h5>
               Military Skills Translator
