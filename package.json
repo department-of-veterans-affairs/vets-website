@@ -21,7 +21,9 @@
     "polyfill-function-prototype-bind": "0.0.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
+    "react-redux": "^4.4.1",
     "react-router": "^2.0.0",
+    "redux": "^3.3.1",
     "sizzle": "^2.3.0",
     "webpack": "^1.12.13",
     "wow.js": "^1.1.2"
@@ -85,8 +87,8 @@
     "watch-lint": "nodemon --watch _health-care/_js --watch _webpack --watch assets/js/entry.js --ignore _webpack/public/assets/js/generated --watch spec --ext js,jsx --exec 'npm run lint'",
     "webpack": "webpack -p",
     "webpack-noopt": "webpack",
-    "webpack-production": "webpack -p --config webpack_production.config.js",
-    "webpack-production-noopt": "webpack --config webpack_production.config.js"
+    "webpack-prod": "webpack -p --config webpack_prod.config.js",
+    "webpack-prod-noopt": "webpack --config webpack_prod.config.js"
   },
   "private": true
 }

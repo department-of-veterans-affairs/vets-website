@@ -38,11 +38,62 @@ body .row {
   }
 }
 
+.review-view {
+  input, select {
+    border: 0;
+    pointer-events:none;
+    color: $color-primary;
+    background-image: none;
+    width: 50%;
+    display: inline-block;
+  }
+
+  label {
+    display: inline-block;
+  }
+  .usa-additional_text {
+    display: none;
+  }
+}
+
+.edit-checkbox {
+  label {
+    @extend a;
+    display: inline-block;
+
+    &:before {
+      display: none !important;
+    }
+  }
+}
+
 .input-section {
   margin-bottom: 2em; 
 
   .row {
     margin: 0;
+  }
+}
+
+.hca-datefield-month,
+.hca-datefield-day {
+  clear: none;
+  float: left;
+  margin-right: 1.5rem;
+  width: 10rem;
+
+  & select {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+}
+
+.usa-input-error {
+  .hca-datefield-month,
+  .hca-datefield-day {
+    select {
+      border: 3px solid $color-secondary-dark;
+    }
   }
 }
 
@@ -74,4 +125,8 @@ body .row {
       }
     }
   }
+}
+
+.hidden{
+  display: none !important;
 }

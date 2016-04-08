@@ -1,12 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+import { veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class FinancialDisclosureSection extends React.Component {
   render() {
     let notRequiredMessage;
 
-    if (this.props.external.receivesVaPension === true) {
+    if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
         <p>
           <strong>
@@ -18,8 +25,13 @@ class FinancialDisclosureSection extends React.Component {
     }
 
     return (
-      <div>
+      <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
         <h4>Financial Disclosure</h4>
+        <ErrorableCheckbox
+            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+            checked={this.props.data.sectionComplete}
+            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
         {notRequiredMessage}
 
@@ -68,4 +80,21 @@ class FinancialDisclosureSection extends React.Component {
   }
 }
 
-export default FinancialDisclosureSection;
+function mapStateToProps(state) {
+  return {
+    data: state.financialDisclosure,
+    receivesVaPension: state.vaInformation.receivesVaPension,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(veteranUpdateField(['financialDisclosure', field], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(FinancialDisclosureSection);
+export { FinancialDisclosureSection };

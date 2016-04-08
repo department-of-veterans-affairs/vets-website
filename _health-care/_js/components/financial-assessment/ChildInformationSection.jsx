@@ -1,9 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import Child from './Child';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import GrowableTable from '../form-elements/GrowableTable.jsx';
+import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class ChildInformationSection extends React.Component {
   // TODO(awong): Pull this out into a model.
   createBlankChild() {
@@ -36,9 +43,9 @@ class ChildInformationSection extends React.Component {
 
   render() {
     let notRequiredMessage;
-    let hasChildrenContent;
+    let childrenContent;
 
-    if (this.props.external.receivesVaPension === true) {
+    if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
         <p>
           <strong>
@@ -50,18 +57,29 @@ class ChildInformationSection extends React.Component {
     }
 
     if (this.props.data.hasChildrenToReport === true) {
-      hasChildrenContent = (
-        <GrowableTable
-            component={Child}
-            createRow={this.createBlankChild}
-            onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
-            rows={this.props.data.children}/>
+      childrenContent = (
+        <div className="input-section">
+          <hr/>
+          <GrowableTable
+              component={Child}
+              createRow={this.createBlankChild}
+              data={this.props.data}
+              initializeCurrentElement={() => {this.props.initializeFields();}}
+              onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
+              path="/financial-assessment/child-information"
+              rows={this.props.data.children}/>
+        </div>
       );
     }
 
     return (
       <div>
         <h4>Children Information</h4>
+        <ErrorableCheckbox
+            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+            checked={this.props.data.sectionComplete}
+            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
         {notRequiredMessage}
 
@@ -70,13 +88,31 @@ class ChildInformationSection extends React.Component {
               label="Do you have any children to report?"
               checked={this.props.data.hasChildrenToReport}
               onValueChange={(update) => {this.props.onStateChange('hasChildrenToReport', update);}}/>
-
-          {hasChildrenContent}
-
         </div>
+        {childrenContent}
       </div>
     );
   }
 }
 
-export default ChildInformationSection;
+function mapStateToProps(state) {
+  return {
+    data: state.childInformation,
+    receivesVaPension: state.vaInformation.receivesVaPension,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(veteranUpdateField(['childInformation', field], update));
+    },
+    initializeFields: () => {
+      dispatch(ensureFieldsInitialized('/financial-assessment/child-information'));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(ChildInformationSection);
+export { ChildInformationSection };
