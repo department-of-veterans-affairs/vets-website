@@ -30,6 +30,7 @@ exclude:
 # Specifically include files left out in dev.
 include:
   - "_dummy-placeholder.html"
+  - "_templates/*"
 
 #posts per page
 paginate: 4
@@ -83,6 +84,9 @@ collections:
   playbook:
     output: true
     permalink: /:collection/:path/index.html
+  templates:
+    output: true
+    permalink: /:collection/:path/index.html
   vre:
     output: true
     permalink: /:collection/:path/index.html
@@ -90,6 +94,11 @@ collections:
 # Sets breadcrumbs per path
 defaults:
 
+  - scope:
+      type: "templates"
+    values:
+      layout: "page-breadcrumbs"
+      body_class: "template"
   - scope:
       type: "disability-benefits"
     values:
