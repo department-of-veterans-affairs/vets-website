@@ -48,7 +48,6 @@ For a year after transitioning out of the military and for the six months prior 
 
 - VA's [Education and Career Counseling](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp) program includes career counseling, benefits coaching, individual support, and academic counseling.
 - The [Compensated Work Therapy (CWT)](http://www.va.gov/health/cwt/) program helps Veterans with service-related disabilities.
-
 - The Transition Assistance Program (TAP), which you can take before you leave active duty, offers one-on-one guidance. 
 
 #### Homeless Veterans
