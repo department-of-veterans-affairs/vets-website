@@ -105,7 +105,7 @@ You might also want to work with nonprofit organizations that have been thorough
         <li>
           <a href="/employment/job-seekers/interest-profiler/">          
             <h5>
-              Interest and Aptitude Profiler
+              Interest Profiler
             </h5>
           </a>
         </li>

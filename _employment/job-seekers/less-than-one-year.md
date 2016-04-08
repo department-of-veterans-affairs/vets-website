@@ -136,7 +136,7 @@ Both of these can be ordered through the [National Archives](https://www.archive
           <li>
             <a href="/employment/job-seekers/interest-profiler/">
               <h5>
-                Interest and Aptitude Profiler
+                Interest Profiler
               </h5>
             </a>
           </li>
