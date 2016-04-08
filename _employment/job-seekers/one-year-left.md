@@ -104,7 +104,7 @@ Start a list of fields that interest you. A resource for this is the [Interest P
           <li>
             <a href="/employment/job-seekers/interest-profiler/">
               <h5>
-                Interest and Aptitude Profiler
+                Interest Profiler
               </h5>
             </a>
           </li>
