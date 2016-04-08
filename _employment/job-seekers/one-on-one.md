@@ -73,7 +73,7 @@ You might also want to work with nonprofit organizations that have been thorough
         <li>
           <a href="/employment/job-seekers/skills-translator">
             <h5>
-              Skills Translator
+              Military Skills Translator
             </h5>
           </a>
         </li>  

@@ -35,7 +35,7 @@ Representatives from the Veterans Economic Community Initiative (VECI) are avail
         <li>
           <a href="/employment/job-seekers/skills-translator">
             <h5>
-              Skills Translator
+              Military Skills Translator
             </h5>
           </a>  
         </li>  
