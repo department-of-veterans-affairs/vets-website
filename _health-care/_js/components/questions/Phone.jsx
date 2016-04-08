@@ -21,9 +21,9 @@ class Phone extends React.Component {
   render() {
     let errorMessage;
     if (this.props.required) {
-      errorMessage = isValidPhone(this.props.value) ? undefined : 'Please put your number in this format xxx-xxx-xxxx';
+      errorMessage = isValidPhone(this.props.value.value) ? undefined : 'Please put your number in this format xxx-xxx-xxxx';
     } else {
-      errorMessage = isBlank(this.props.value) || isValidPhone(this.props.value) ? undefined : 'Please put your number in this format xxx-xxx-xxxx';
+      errorMessage = isBlank(this.props.value.value) || isValidPhone(this.props.value.value) ? undefined : 'Please put your number in this format xxx-xxx-xxxx';
     }
 
     return (
@@ -32,7 +32,7 @@ class Phone extends React.Component {
             errorMessage={errorMessage}
             label={this.props.label}
             placeholder="xxx-xxx-xxxx"
-            value={this.props.value}
+            field={this.props.value}
             onValueChange={this.props.onValueChange}/>
       </div>
     );

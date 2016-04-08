@@ -3,8 +3,12 @@ import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
-import { isBlank, isValidMonetaryValue } from '../../utils/validations';
+import { isValidField, isValidMonetaryValue } from '../../utils/validations';
 import { updateReviewStatus, veteranUpdateField } from '../../actions';
+
+function getErrorMessage(field, message) {
+  return isValidField(isValidMonetaryValue, field) ? undefined : message;
+}
 
 /**
  * Props:
@@ -12,15 +16,6 @@ import { updateReviewStatus, veteranUpdateField } from '../../actions';
  * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
  */
 class DeductibleExpensesSection extends React.Component {
-  constructor() {
-    super();
-    this.isValidMonetaryValue = this.isValidMonetaryValue.bind(this);
-  }
-
-  isValidMonetaryValue(value, message) {
-    return isBlank(value) || isValidMonetaryValue(value) ? undefined : message;
-  }
-
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
     let notRequiredMessage;
@@ -76,28 +71,28 @@ class DeductibleExpensesSection extends React.Component {
 
         <div className="input-section">
           <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.deductibleMedicalExpenses, message)}
+              errorMessage={getErrorMessage(this.props.data.deductibleMedicalExpenses, message)}
               label="Total non-reimbursed medical expenses paid by you or your spouse
                   (e.g., payments for doctors, dentists, medications, Medicare, health
                   insurance, hospital and nursing home) VA will calculate a deductible
                   and the net medical expenses you may claim."
-              value={this.props.data.deductibleMedicalExpenses}
+              field={this.props.data.deductibleMedicalExpenses}
               onValueChange={(update) => {this.props.onStateChange('deductibleMedicalExpenses', update);}}/>
 
           <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.deductibleFuneralExpenses, message)}
+              errorMessage={getErrorMessage(this.props.data.deductibleFuneralExpenses, message)}
               label="Amount you paid last calendar year for funeral and burial expenses
                   for your deceased spouse or dependent child (Also enter spouse or child’s
                   information in Spouse Information and Children Information)"
-              value={this.props.data.deductibleFuneralExpenses}
+              field={this.props.data.deductibleFuneralExpenses}
               onValueChange={(update) => {this.props.onStateChange('deductibleFuneralExpenses', update);}}/>
 
           <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.deductibleEducationExpenses, message)}
+              errorMessage={getErrorMessage(this.props.data.deductibleEducationExpenses, message)}
               label="Amount you paid last calendar year for your college or vocational
               educational expenses (e.g., tuition, books, fees, materials) Do not list
               your dependents’ educational expenses."
-              value={this.props.data.deductibleEducationExpenses}
+              field={this.props.data.deductibleEducationExpenses}
               onValueChange={(update) => {this.props.onStateChange('deductibleEducationExpenses', update);}}/>
         </div>
       </div>);

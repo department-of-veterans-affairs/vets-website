@@ -3,8 +3,12 @@ import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
-import { isBlank, isValidMonetaryValue } from '../../utils/validations';
+import { isValidField, isValidMonetaryValue } from '../../utils/validations';
 import { updateReviewStatus, veteranUpdateField } from '../../actions';
+
+function getErrorMessage(field, message) {
+  return isValidField(isValidMonetaryValue, field) ? undefined : message;
+}
 
 /**
  * Props:
@@ -12,15 +16,6 @@ import { updateReviewStatus, veteranUpdateField } from '../../actions';
  * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
  */
 class AnnualIncomeSection extends React.Component {
-  constructor() {
-    super();
-    this.isValidMonetaryValue = this.isValidMonetaryValue.bind(this);
-  }
-
-  isValidMonetaryValue(value, message) {
-    return isBlank(value) || isValidMonetaryValue(value) ? undefined : message;
-  }
-
   // TODO: Figure out best way to enable users to change their response to pension
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
@@ -146,63 +141,63 @@ class AnnualIncomeSection extends React.Component {
         <div className="input-section">
           <h6>Veteran</h6>
           <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.veteranGrossIncome, message)}
+              errorMessage={getErrorMessage(this.props.data.veteranGrossIncome, message)}
               label="Veteran Gross Income"
-              value={this.props.data.veteranGrossIncome}
+              field={this.props.data.veteranGrossIncome}
               onValueChange={(update) => {this.props.onStateChange('veteranGrossIncome', update);}}/>
 
           <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.veteranNetIncome, message)}
+              errorMessage={getErrorMessage(this.props.data.veteranNetIncome, message)}
               label="Veteran Net Income"
-              value={this.props.data.veteranNetIncome}
+              field={this.props.data.veteranNetIncome}
               onValueChange={(update) => {this.props.onStateChange('veteranNetIncome', update);}}/>
 
           <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.veteranOtherIncome, message)}
+              errorMessage={getErrorMessage(this.props.data.veteranOtherIncome, message)}
               label="Veteran Other Income"
-              value={this.props.data.veteranOtherIncome}
+              field={this.props.data.veteranOtherIncome}
               onValueChange={(update) => {this.props.onStateChange('veteranOtherIncome', update);}}/>
         </div>
 
         <div className="input-section">
           <h6>Spouse</h6>
           <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.spouseGrossIncome, message)}
+              errorMessage={getErrorMessage(this.props.data.spouseGrossIncome, message)}
               label="Spouse Gross Income"
-              value={this.props.data.spouseGrossIncome}
+              field={this.props.data.spouseGrossIncome}
               onValueChange={(update) => {this.props.onStateChange('spouseGrossIncome', update);}}/>
 
           <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.spouseNetIncome, message)}
+              errorMessage={getErrorMessage(this.props.data.spouseNetIncome, message)}
               label="Spouse Net Income"
-              value={this.props.data.spouseNetIncome}
+              field={this.props.data.spouseNetIncome}
               onValueChange={(update) => {this.props.onStateChange('spouseNetIncome', update);}}/>
 
           <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.spouseOtherIncome, message)}
+              errorMessage={getErrorMessage(this.props.data.spouseOtherIncome, message)}
               label="Spouse Other Income"
-              value={this.props.data.spouseOtherIncome}
+              field={this.props.data.spouseOtherIncome}
               onValueChange={(update) => {this.props.onStateChange('spouseOtherIncome', update);}}/>
         </div>
 
         <div className="input-section">
           <h6>Children</h6>
           <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.childrenGrossIncome, message)}
+              errorMessage={getErrorMessage(this.props.data.childrenGrossIncome, message)}
               label="Children Gross Income"
-              value={this.props.data.childrenGrossIncome}
+              field={this.props.data.childrenGrossIncome}
               onValueChange={(update) => {this.props.onStateChange('childrenGrossIncome', update);}}/>
 
           <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.childrenNetIncome, message)}
+              errorMessage={getErrorMessage(this.props.data.childrenNetIncome, message)}
               label="Children Net Income"
-              value={this.props.data.childrenNetIncome}
+              field={this.props.data.childrenNetIncome}
               onValueChange={(update) => {this.props.onStateChange('childrenNetIncome', update);}}/>
 
           <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.childrenOtherIncome, message)}
+              errorMessage={getErrorMessage(this.props.data.childrenOtherIncome, message)}
               label="Children Other Income"
-              value={this.props.data.childrenOtherIncome}
+              field={this.props.data.childrenOtherIncome}
               onValueChange={(update) => {this.props.onStateChange('childrenOtherIncome', update);}}/>
         </div>
       </div>);

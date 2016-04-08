@@ -4,8 +4,8 @@ import _ from 'lodash';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
 import ErrorableNumberInput from '../form-elements/ErrorableNumberInput';
 
-import { months, days } from '../../utils/options-for-select.js';
 import { isBlank, isValidDate } from '../../utils/validations';
+import { months, days } from '../../utils/options-for-select.js';
 
 /**
  * A form input with a label that can display error messages.
@@ -29,15 +29,13 @@ class DateInput extends React.Component {
   }
 
   handleChange(path, update) {
-    const isYearNumber = this.props.year === null || this.props.year === '';
-
     const date = {
-      month: Number(this.props.month),
-      day: Number(this.props.day),
-      year: isYearNumber ? this.props.year : Number(this.props.year)
+      month: this.props.month,
+      day: this.props.day,
+      year: this.props.year
     };
 
-    date[path] = Number(update);
+    date[path] = update;
 
     this.props.onValueChange(date);
   }
@@ -45,17 +43,19 @@ class DateInput extends React.Component {
   render() {
     let isValid;
     let daysForSelectedMonth = [];
-    const selectedMonth = this.props.month;
+    const day = this.props.day.value;
+    const month = this.props.month.value;
+    const year = this.props.year.value;
 
-    if (selectedMonth) {
-      daysForSelectedMonth = days[selectedMonth];
+    if (month) {
+      daysForSelectedMonth = days[month];
     }
 
     if (this.props.required) {
-      isValid = isValidDate(this.props.day, this.props.month, this.props.year);
+      isValid = isValidDate(day, month, year);
     } else {
-      isValid = (isBlank(this.props.day) && isBlank(this.props.month) && isBlank(this.props.year)) ||
-          isValidDate(this.props.day, this.props.month, this.props.year);
+      isValid = (isBlank(day) && isBlank(month) && isBlank(year)) ||
+          isValidDate(day, month, year);
     }
 
     return (
@@ -84,7 +84,7 @@ class DateInput extends React.Component {
                   max={new Date().getFullYear()}
                   min="1900"
                   pattern="[0-9]{4}"
-                  value={this.props.year}
+                  field={this.props.year}
                   onValueChange={(update) => {this.handleChange('year', update);}}/>
             </div>
           </div>

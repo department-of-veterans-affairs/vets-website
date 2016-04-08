@@ -8,7 +8,7 @@ import FullName from '../questions/FullName';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
 
 import { childRelationships } from '../../utils/options-for-select.js';
-import * as validations from '../../utils/validations';
+import { isNotBlank, isValidField, isValidMonetaryValue } from '../../utils/validations';
 
 // TODO: create unique nodes for each child in applicationData
 
@@ -18,7 +18,7 @@ class Child extends React.Component {
     let content;
 
     if (this.props.view === 'collapsed') {
-      content = `${this.props.data.childFullName.first} ${this.props.data.childFullName.last}`;
+      content = `${this.props.data.childFullName.first.value} ${this.props.data.childFullName.last.value}`;
     } else {
       content = (
         <fieldset>
@@ -26,7 +26,7 @@ class Child extends React.Component {
             <div className="small-12 columns">
               <p>Child's Name</p>
               <FullName required
-                  value={this.props.data.childFullName}
+                  name={this.props.data.childFullName}
                   onUserInput={(update) => {this.props.onValueChange('childFullName', update);}}/>
             </div>
           </div>
@@ -34,7 +34,7 @@ class Child extends React.Component {
           <div className="row">
             <div className="small-12 columns">
               <ErrorableSelect required
-                  errorMessage={validations.isNotBlank(this.props.data.childRelation) ? undefined : 'Please select an option'}
+                  errorMessage={isNotBlank(this.props.data.childRelation.value) ? undefined : 'Please select an option'}
                   label="Child’s relationship to you"
                   options={childRelationships}
                   value={this.props.data.childRelation}
@@ -94,10 +94,10 @@ class Child extends React.Component {
           <div className="row">
             <div className="small-12 columns">
               <ErrorableTextInput
-                  errorMessage={validations.isBlank(this.props.data.childEducationExpenses) || validations.isValidMonetaryValue(this.props.data.childEducationExpenses) ? undefined : message}
+                  errorMessage={isValidField(isValidMonetaryValue, this.props.data.childEducationExpenses) ? undefined : message}
                   label="Expenses paid by your dependent child for college, vocational rehabilitation or training
                       (e.g., tuition, books, materials)?"
-                  value={this.props.data.childEducationExpenses}
+                  field={this.props.data.childEducationExpenses}
                   onValueChange={(update) => {this.props.onValueChange('childEducationExpenses', update);}}/>
             </div>
           </div>

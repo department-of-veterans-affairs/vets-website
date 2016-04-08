@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 
+import { makeField } from '../../reducers/fields.js';
+
 /**
  * A form select with a label that can display error messages.
  *
@@ -24,7 +26,7 @@ class ErrorableSelect extends React.Component {
   }
 
   handleChange(domEvent) {
-    this.props.onValueChange(domEvent.target.value);
+    this.props.onValueChange(makeField(domEvent.target.value, true));
   }
 
   render() {
@@ -72,7 +74,7 @@ class ErrorableSelect extends React.Component {
         <select
             aria-describedby={errorSpanId}
             id={this.selectId}
-            value={this.props.value}
+            value={this.props.value.value}
             onChange={this.handleChange}>
           <option value=""></option>
           {optionElements}
@@ -93,7 +95,10 @@ ErrorableSelect.propTypes = {
         value: React.PropTypes.string }),
     ])).isRequired,
   required: React.PropTypes.bool,
-  value: React.PropTypes.string,
+  value: React.PropTypes.shape({
+    value: React.PropTypes.string,
+    dirty: React.PropTypes.bool
+  }).isRequired,
   onValueChange: React.PropTypes.func.isRequired,
 };
 

@@ -8,7 +8,6 @@ class MothersMaidenName extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
-    this.validateRequiredFields = this.validateRequiredFields.bind(this);
   }
 
   componentWillMount() {
@@ -19,20 +18,20 @@ class MothersMaidenName extends React.Component {
     this.props.onUserInput(update);
   }
 
-  validateRequiredFields(value) {
-    if (this.props.required) {
-      return isValidName(value);
+  validateRequiredFields(field, isRequired) {
+    if (isRequired) {
+      return !field.dirty || isValidName(field.value);
     }
-    return isBlank(value) || isValidName(value);
+    return isBlank(field.value) || isValidName(field.value);
   }
 
   render() {
     return (
       <div>
         <ErrorableTextInput
-            errorMessage={this.validateRequiredFields(this.props.value) ? undefined : 'Please enter a valid name'}
+            errorMessage={this.validateRequiredFields(this.props.value, this.props.required) ? undefined : 'Please enter a valid name'}
             label="Mother’s Maiden Name"
-            value={this.props.value}
+            field={this.props.value}
             onValueChange={(update) => {this.handleChange(update);}}/>
       </div>
     );

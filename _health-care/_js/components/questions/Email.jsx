@@ -22,7 +22,7 @@ class Email extends React.Component {
     if (this.props.error !== undefined) {
       errorMessage = this.props.error;
     } else {
-      errorMessage = isValidEmail(this.props.value) ? undefined : 'Please put your email in this format x@x.xxx';
+      errorMessage = isValidEmail(this.props.email.value) ? undefined : 'Please put your email in this format x@x.xxx';
     }
     return (
       <div>
@@ -30,7 +30,7 @@ class Email extends React.Component {
             errorMessage={errorMessage}
             label={this.props.label}
             placeholder="x@x.xxx"
-            value={this.props.value}
+            field={this.props.email}
             onValueChange={this.props.onValueChange}/>
       </div>
     );
@@ -40,7 +40,10 @@ class Email extends React.Component {
 Email.propTypes = {
   error: React.PropTypes.string,
   label: React.PropTypes.string,
-  value: React.PropTypes.string.isRequired,
+  email: React.PropTypes.shape({
+    value: React.PropTypes.string,
+    dirty: React.PropTypes.bool
+  }).isRequired,
   onValueChange: React.PropTypes.func.isRequired,
 };
 
