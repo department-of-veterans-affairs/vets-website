@@ -10,6 +10,7 @@ import MothersMaidenName from './MothersMaidenName';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
 import State from '../questions/State';
 import { maritalStatuses } from '../../utils/options-for-select.js';
+import { isNotBlank } from '../../utils/validations';
 import { veteranUpdateField } from '../../actions';
 
 /**
@@ -36,7 +37,9 @@ class NameAndGeneralInfoSection extends React.Component {
           <SocialSecurityNumber required
               ssn={this.props.data.socialSecurityNumber}
               onValueChange={(update) => {this.props.onStateChange('socialSecurityNumber', update);}}/>
-          <Gender value={this.props.data.gender} onUserInput={(update) => {this.props.onStateChange('gender', update);}}/>
+          <Gender required
+              value={this.props.data.gender}
+              onUserInput={(update) => {this.props.onStateChange('gender', update);}}/>
           <DateInput required
               day={this.props.data.dateOfBirth.day}
               month={this.props.data.dateOfBirth.month}
@@ -50,7 +53,9 @@ class NameAndGeneralInfoSection extends React.Component {
           <label htmlFor="veteran_city_of_birth">City</label>
           <input type="text" name="veteran[city_of_birth]"/>
           <State value={this.props.data.state} onUserInput={(update) => {this.props.onStateChange('state', update);}}/>
-          <ErrorableSelect label="Current Marital Status"
+          <ErrorableSelect required
+              errorMessage={isNotBlank(this.props.data.maritalStatus) ? undefined : 'Please select a marital status'}
+              label="Current Marital Status"
               options={maritalStatuses}
               value={this.props.data.maritalStatus}
               onValueChange={(update) => {this.props.onStateChange('maritalStatus', update);}}/>
