@@ -29,8 +29,7 @@ Veterans may be eligible for other types of disability compensation once VA dete
 <div class="row">
 <div class="small-12 columns">
 
-<ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
+<ul class="va-nav-category">
 <li>
 <a href="/disability-benefits/conditions/special-claims/automobile/">
 <h5>Automobile Use Claims</h5>
