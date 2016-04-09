@@ -30,11 +30,14 @@ class AdditionalInformationSection extends React.Component {
 
         <div className="input-section">
           <h4>Select the VA Medical Facility which will be your preferred facility</h4>
-          <State value={this.props.data.facilityState}
+          <State required
+              value={this.props.data.facilityState}
               onUserInput={(update) => {this.props.onStateChange('facilityState', update);}}/>
-          <VaMedicalFacility value={this.props.data.vaMedicalFacility}
+          <VaMedicalFacility required
+              value={this.props.data.vaMedicalFacility}
               facilityState={this.props.data.facilityState}
               onValueChange={(update) => {this.props.onStateChange('vaMedicalFacility', update);}}/>
+          OR <a target="_blank" href="http://www.va.gov/directory/guide/home.asp">Go to the VA Facility Locator</a>
         </div>
 
         <div className="input-section">

@@ -89,11 +89,9 @@ body .row {
 }
 
 .usa-input-error {
-  .hca-datefield-month,
-  .hca-datefield-day {
-    select {
-      border: 3px solid $color-secondary-dark;
-    }
+  select {
+    border: 3px solid $color-secondary-dark;
+    width: calc(100% + 1.5rem);
   }
 }
 
