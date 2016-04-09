@@ -1,50 +1,37 @@
-import _ from 'lodash';
-import lodashDeep from 'lodash-deep';
+import React from 'react';
+import { connect } from 'react-redux';
 
-import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE, VETERAN_OVERWRITE } from '../../actions';
-import { initializeNullValues } from '../../utils/validations';
-import { pathToData } from '../../store';
+import { veteranOverwrite } from '../../actions';
 
-// Add deep object manipulation routines to lodash.
-_.mixin(lodashDeep);
-
-// TODO(awong): This structure should reflect a logical data model for a veteran. Currently it
-// mirrors the UI stricture too much.
-
-// TODO: Remove providers and children if checkbox within section is unchecked
-const blankVeteran = {
+const completeVeteran = {
   nameAndGeneralInformation: {
     fullName: {
-      first: null,
-      middle: null,
-      last: null,
-      suffix: null,
+      first: 'Firstname',
+      middle: 'MiddleName',
+      last: 'LastName',
+      suffix: 'Jr.',
     },
-    mothersMaidenName: null,
-    socialSecurityNumber: null,
-    gender: null,
+    mothersMaidenName: 'Maiden',
+    socialSecurityNumber: '000-11-1234',
     dateOfBirth: {
-      month: null,
-      day: null,
-      year: null,
+      month: 1,
+      day: 2,
+      year: 1700,
     },
-    maritalStatus: null,
-    sectionComplete: false
+    maritalStatus: null
   },
 
   vaInformation: {
     isVaServiceConnected: false,
     compensableVaServiceConnected: false,
-    receivesVaPension: false,
-    sectionComplete: false
+    receivesVaPension: false
   },
 
   additionalInformation: {
     isEssentialAcaCoverage: false,
-    facilityState: null,
-    vaMedicalFacility: null,
-    wantsInitialVaContact: false,
-    sectionComplete: false
+    facilityState: '',
+    vaMedicalFacility: '',
+    wantsInitialVaContact: false
   },
 
   demographicInformation: {
@@ -53,14 +40,13 @@ const blankVeteran = {
     isBlackOrAfricanAmerican: false,
     isNativeHawaiianOrOtherPacificIslander: false,
     isAsian: false,
-    isWhite: false,
-    sectionComplete: false
+    isWhite: false
   },
 
   veteranAddress: {
     address: {
-      street: null,
-      city: null,
+      street: '123 N 45 st',
+      city: 'Springfield',
       country: null,
       state: null,
       zipcode: null,
@@ -69,14 +55,12 @@ const blankVeteran = {
     email: null,
     emailConfirmation: null,
     homePhone: null,
-    mobilePhone: null,
-    sectionComplete: false
+    mobilePhone: null
   },
 
   financialDisclosure: {
     provideFinancialInfo: false,
-    understandsFinancialDisclosure: false,
-    sectionComplete: false
+    understandsFinancialDisclosure: false
   },
 
   spouseInformation: {
@@ -107,14 +91,12 @@ const blankVeteran = {
       state: null,
       zipcode: null,
     },
-    spousePhone: null,
-    sectionComplete: false
+    spousePhone: null
   },
 
   childInformation: {
     hasChildrenToReport: false,
-    children: [],
-    sectionComplete: false
+    children: []
   },
 
   annualIncome: {
@@ -126,21 +108,18 @@ const blankVeteran = {
     spouseOtherIncome: null,
     childrenGrossIncome: null,
     childrenNetIncome: null,
-    childrenOtherIncome: null,
-    sectionComplete: false
+    childrenOtherIncome: null
   },
 
   deductibleExpenses: {
     deductibleMedicalExpenses: null,
     deductibleFuneralExpenses: null,
-    deductibleEducationExpenses: null,
-    sectionComplete: false
+    deductibleEducationExpenses: null
   },
 
   insuranceInformation: {
     isCoveredByHealthInsurance: false,
-    providers: [],
-    sectionComplete: false
+    providers: []
   },
 
   medicareMedicaid: {
@@ -150,8 +129,7 @@ const blankVeteran = {
       month: null,
       day: null,
       year: null
-    },
-    sectionComplete: false
+    }
   },
 
   serviceInformation: {
@@ -166,8 +144,7 @@ const blankVeteran = {
       day: null,
       year: null
     },
-    dischargeType: null,
-    sectionComplete: false
+    dischargeType: null
   },
 
   militaryAdditionalInfo: {
@@ -179,32 +156,29 @@ const blankVeteran = {
     vietnamService: false,
     exposedToRadiation: false,
     radiumTreatments: false,
-    campLejeune: false,
-    sectionComplete: false
+    campLejeune: false
   }
 };
 
-function veteran(state = blankVeteran, action) {
-  let newState = undefined;
-  switch (action.type) {
-    case VETERAN_FIELD_UPDATE:
-      newState = Object.assign({}, state);
-      _.set(newState, action.propertyPath, action.value);
-      return newState;
-
-    case VETERAN_OVERWRITE:
-      return action.value;
-
-    case ENSURE_FIELDS_INITIALIZED:
-      newState = Object.assign({}, state);
-      // TODO(awong): HACK! Assigning to the sub object assumes pathToData() returns a reference
-      // to the actual substructre such that it can be reassigned to.
-      Object.assign(pathToData(newState, action.path), initializeNullValues(pathToData(newState, action.path)));
-      return newState;
-
-    default:
-      return state;
+/**
+ * Button to auto-populate every field in the model with valid data.
+ */
+class PopulateVeteranButton extends React.Component {
+  render() {
+    return (
+      <button
+          className="usa-button-primary"
+          onClick={this.props.onClick}>Populate Veteran</button>
+    );
   }
 }
 
-export default veteran;
+function mapDispatchToProps(dispatch) {
+  return {
+    onClick: () => {
+      dispatch(veteranOverwrite(completeVeteran));
+    }
+  };
+}
+
+export default connect(undefined, mapDispatchToProps)(PopulateVeteranButton);

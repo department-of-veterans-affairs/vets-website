@@ -6,6 +6,7 @@ import Nav from './Nav.jsx';
 import ProgressButton from './ProgressButton';
 import { ensureFieldsInitialized } from '../actions';
 import { pathToData } from '../store';
+import PopulateVeteranButton from './debug/PopulateVeteranButton';
 
 import * as validations from '../utils/validations';
 
@@ -140,6 +141,7 @@ class HealthCareApp extends React.Component {
         <div className="medium-8 columns">
           <div className="progress-box">
             <div className="form-panel">
+              <PopulateVeteranButton/>
               {children}
               {buttons}
             </div>
