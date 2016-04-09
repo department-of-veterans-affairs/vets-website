@@ -28,7 +28,7 @@ You may find that mainstream college programs aren't a good fit for you. If you 
 <div class="navigation">
 <div class="row">
 <div class="small-12 columns">
-<ul class="small-block-grid-1 medium-block-grid-3 cards small">
+<ul class="va-nav-category">
 <li>
 <a href="/education/work-learn/non-traditional/accelerated-payments/">
 <h5>Accelerated Payments for High-Technology Programs</h5>
