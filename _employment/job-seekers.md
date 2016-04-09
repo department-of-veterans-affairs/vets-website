@@ -14,12 +14,13 @@ template: 7-get-page
 
 <p>Wherever you are in the transition process, the Veterans Employment Center provides career advice, mentorship, résumé-building assistance, and exclusive access to employers who are committed to hiring Veterans and military spouses.</p>
 
-<p>You may not be completely ready to start looking for a job, but there are other ways you can prepare. </p>
 </div>
 </div>
 
 <div class="small-12 medium-9 columns left"  markdown="1">
 <div class="call-out" markdown="1">
+<p>You may not be completely ready to start looking for a job, but there are other ways you can prepare. </p>
+
 - **Do you plan to leave active duty in less than 12 months?**
   
   You can start the process with [a few simple steps](/employment/job-seekers/less-than-one-year).
