@@ -329,6 +329,11 @@ const suffixes = [
   'Sr.'
 ];
 
+const genders = [
+  { label: 'Female', value: 'F' },
+  { label: 'Male', value: 'M' }
+];
+
 const months = [
   { label: 'Jan', value: 1 },
   { label: 'Feb', value: 2 },
@@ -1408,6 +1413,7 @@ export {
   dischargeTypes,
   states,
   suffixes,
+  genders,
   months,
   days,
   vaMedicalFacilities,

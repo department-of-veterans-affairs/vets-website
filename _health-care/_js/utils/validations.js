@@ -14,8 +14,34 @@ function isNotBlank(value) {
   return true;
 }
 
+// Conditions for valid SSN from the original 1010ez pdf form:
+// '123456789' is not a valid SSN
+// A value where the first 3 digits are 0 is not a valid SSN
+// A value where the 4th and 5th digits are 0 is not a valid SSN
+// A value where the last 4 digits are 0 is not a valid SSN
+// A value with 3 digits, an optional -, 2 digits, an optional -, and 4 digits is a valid SSN
+// 9 of the same digits (e.g., '111111111') is not a valid SSN
 function isValidSSN(value) {
   if (value !== null) {
+    if (value === '123456789' || value === '123-45-6789') {
+      return false;
+    } else if (/1{9}|2{9}|3{9}|4{9}|5{9}|6{9}|7{9}|8{9}|9{9}/.test(value)) {
+      return false;
+    } else if (/^0{3}-?\d{2}-?\d{4}$/.test(value)) {
+      return false;
+    } else if (/^\d{3}-?0{2}-?\d{4}$/.test(value)) {
+      return false;
+    } else if (/^\d{3}-?\d{2}-?0{4}$/.test(value)) {
+      return false;
+    }
+
+    for (let i = 1; i < 10; i++) {
+      const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
+      if (sameDigitRegex.test(value)) {
+        return false;
+      }
+    }
+
     return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
   }
   return true;
@@ -27,6 +53,12 @@ function isValidDate(day, month, year) {
     // validation check. Not sure is a great idea...
     const adjustedMonth = Number(month) - 1;  // JS Date object 0-indexes months. WTF.
     const date = new Date(year, adjustedMonth, day);
+    const today = new Date();
+
+    if (today < date) {
+      return false;
+    }
+
     return date.getDate() === Number(day) &&
       date.getMonth() === adjustedMonth &&
       date.getFullYear() === Number(year);
@@ -80,7 +112,14 @@ function isValidNameAndGeneralInformation(data) {
       (isBlank(data.fullName.middle) || isValidName(data.fullName.middle)) &&
       (isNotBlank(data.fullName.last) && isValidName(data.fullName.last)) &&
       isValidSSN(data.socialSecurityNumber) &&
+      isNotBlank(data.gender) &&
+      isNotBlank(data.maritalStatus) &&
       isValidDate(data.dateOfBirth.day, data.dateOfBirth.month, data.dateOfBirth.year);
+}
+
+function isValidAdditionalInformation(data) {
+  return isNotBlank(data.facilityState) &&
+    isNotBlank(data.vaMedicalFacility);
 }
 
 function isValidVeteranAddress(data) {
@@ -180,6 +219,8 @@ function isValidSection(completePath, sectionData) {
   switch (completePath) {
     case '/personal-information/name-and-general-information':
       return isValidNameAndGeneralInformation(sectionData);
+    case '/personal-information/additional-information':
+      return isValidAdditionalInformation(sectionData);
     case '/personal-information/veteran-address':
       return isValidVeteranAddress(sectionData);
     case '/financial-assessment/spouse-information':
@@ -225,6 +266,7 @@ export {
   isValidEmail,
   isValidAddress,
   isValidNameAndGeneralInformation,
+  isValidAdditionalInformation,
   isValidVeteranAddress,
   isValidSpouseInformation,
   isValidChildInformation,
