@@ -49,9 +49,7 @@ As a transitioning Servicemember, you are eligible to receive the following serv
 -	Educational and career counseling to help you find a training program or job.
 -	Academic and adjustment counseling to help resolve issues that interfere with your success in training or employment.
 
-Apply for [free counseling services](http://www.vba.va.gov/pubs/forms/VBA-28-8832-ARE.pdf).
-
-Use CareerScope®, the [VA aptitude assessment tool](https://va.careerscope.net/gibill), at no cost.
+Use CareerScope&reg;, the [VA aptitude assessment tool](https://va.careerscope.net/gibill), at no cost.
 
 </div>
 
