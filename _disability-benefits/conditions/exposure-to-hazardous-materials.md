@@ -28,7 +28,7 @@ You may be eligible for disability compensation if you were exposed to certain c
   <div class="row">
     <div class="small-12 columns">
 
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="va-nav-category">
         <li>
           <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/">
             <h5>Agent Orange</h5>
@@ -48,7 +48,7 @@ You may be eligible for disability compensation if you were exposed to certain c
 
         <li>
           <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/">
-          <h4>Birth Defects/Spina Bifida</h4>
+          <h5>Birth Defects/Spina Bifida</h5>
 <span>Children of Veterans who served in South Vietnam or the Republic of Korea during specific periods of time may have birth defects, including spina bifida.</span>
           </a>
         </li>
@@ -89,10 +89,7 @@ You may be eligible for disability compensation if you were exposed to certain c
         <li>
           <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/">
           <h5>Project 112/SHAD</h5>
-          <span>
-          Your participation in Project 112/SHAD from 1963 to 1974 may have resulted in chemical testing exposure. 
-
-          </span>
+          <span>Your participation in Project 112/SHAD from 1963 to 1974 may have resulted in chemical testing exposure.</span>
 
           </a>
         </li>

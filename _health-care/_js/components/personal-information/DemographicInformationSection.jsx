@@ -11,15 +11,47 @@ import { veteranUpdateField } from '../../actions';
  */
 class DemographicInformationSection extends React.Component {
   render() {
-    return (
-      <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
-        <h4>Demographic Information</h4>
-        <ErrorableCheckbox
-            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-            checked={this.props.data.sectionComplete}
-            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
-            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+    let content;
+    let editButton;
 
+    if (this.props.data.sectionComplete) {
+      content = (<div>
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>Are you Spanish, Hispanic, or Latino?:</td>
+              <td>{`${this.props.data.isSpanishHispanicLatino ? 'Yes' : 'No'}`}</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>What is your race?</h4>
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>American Indian or Alaksan Native:</td>
+              <td>{`${this.props.data.isAmericanIndianOrAlaskanNative ? 'Yes' : ''}`}</td>
+            </tr>
+            <tr>
+              <td>Black or African American:</td>
+              <td>{`${this.props.data.isBlackOrAfricanAmerican ? 'Yes' : ''}`}</td>
+            </tr>
+            <tr>
+              <td>Native Hawaiian or Other Pacific Islander:</td>
+              <td>{`${this.props.data.isNativeHawaiianOrOtherPacificIslander ? 'Yes' : ''}`}</td>
+            </tr>
+            <tr>
+              <td>Asian:</td>
+              <td>{`${this.props.data.isAsian ? 'Yes' : ''}`}</td>
+            </tr>
+            <tr>
+              <td>White:</td>
+              <td>{`${this.props.data.isWhite ? 'Yes' : ''}`}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>);
+    } else {
+      content = (<div>
         <div className="input-section">
           <ErrorableCheckbox
               label="Are you Spanish, Hispanic, or Latino?"
@@ -55,6 +87,22 @@ class DemographicInformationSection extends React.Component {
               checked={this.props.data.isWhite}
               onValueChange={(update) => {this.props.onStateChange('isWhite', update);}}/>
         </div>
+      </div>);
+    }
+
+    if (this.props.reviewSection) {
+      editButton = (<ErrorableCheckbox
+          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.data.sectionComplete}
+          className="edit-checkbox"
+          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+      );
+    }
+    return (
+      <div>
+        <h4>Demographic Information</h4>
+        {editButton}
+        {content}
       </div>
     );
   }

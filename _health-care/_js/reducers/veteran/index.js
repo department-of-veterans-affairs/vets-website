@@ -22,6 +22,7 @@ const blankVeteran = {
     },
     mothersMaidenName: null,
     socialSecurityNumber: null,
+    gender: null,
     dateOfBirth: {
       month: null,
       day: null,
@@ -32,7 +33,7 @@ const blankVeteran = {
   },
 
   vaInformation: {
-    isVaServiceConnected: false,
+    isVaServiceConnected: null,
     compensableVaServiceConnected: false,
     receivesVaPension: false,
     sectionComplete: false
@@ -40,8 +41,8 @@ const blankVeteran = {
 
   additionalInformation: {
     isEssentialAcaCoverage: false,
-    facilityState: '',
-    vaMedicalFacility: '',
+    facilityState: null,
+    vaMedicalFacility: null,
     wantsInitialVaContact: false,
     sectionComplete: false
   },

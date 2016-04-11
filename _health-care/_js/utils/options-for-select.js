@@ -329,6 +329,11 @@ const suffixes = [
   'Sr.'
 ];
 
+const genders = [
+  { label: 'Female', value: 'F' },
+  { label: 'Male', value: 'M' }
+];
+
 const months = [
   { label: 'Jan', value: 1 },
   { label: 'Feb', value: 2 },
@@ -1395,10 +1400,15 @@ const vaMedicalFacilities = {
 };
 
 const childRelationships = [
-  'Son',
   'Daughter',
+  'Son',
   'Stepson',
   'Stepdaughter'
+];
+
+const yesNo = [
+  { label: 'Yes', value: 'Y' },
+  { label: 'No', value: 'N' }
 ];
 
 export {
@@ -1408,8 +1418,10 @@ export {
   dischargeTypes,
   states,
   suffixes,
+  genders,
   months,
   days,
   vaMedicalFacilities,
-  childRelationships
+  childRelationships,
+  yesNo
 };
