@@ -11,7 +11,13 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-Representatives from the Veterans Economic Community Initiative (VECI) are available in [25 cities](http://www.benefits.va.gov/TEEI/economic-liaison-list.asp). VECI liaisons collaborate with local business leaders, schools, and nonprofit groups, and help you maximize education and economic opportunities. Find a [VECI economic liaison](http://www.benefits.va.gov/VECI/docs/VECIPOCList.pdf) near you. 
+Representatives from the Veterans Economic Community Initiative (VECI) are available in 25 cities. 
+
+If you are a job-seeker, VECI regional liaisons can help you connect to local business leaders, schools, and nonprofit groups to help you maximize education and economic opportunities.
+
+If you are a employer, VECI regional liaissons can help you with you staff Veterans.   
+
+Find a [VECI economic liaison](http://www.benefits.va.gov/TEEI/economic-liaison-list.asp) near you. 
 
 </div>
 </div>
