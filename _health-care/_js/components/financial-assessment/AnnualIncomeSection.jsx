@@ -1,10 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import ChildIncome from './ChildIncome';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
+import FixedTable from '../form-elements/FixedTable.jsx';
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
-import { updateReviewStatus, veteranUpdateField } from '../../actions';
+import { ensureChildFieldsInitialized, updateReviewStatus, veteranUpdateField } from '../../actions';
 
 /**
  * Props:
@@ -36,6 +38,21 @@ class AnnualIncomeSection extends React.Component {
             indicated you are receiving a VA pension.
           </strong>
         </p>
+      );
+    }
+
+    let childrenIncomeInput;
+
+    if (this.props.hasChildrenToReport === true) {
+      childrenIncomeInput = (
+        <div className="input-section">
+          <h6>Children</h6>
+          <FixedTable
+              component={ChildIncome}
+              initializeCurrentElement={() => {this.props.initializeFields();}}
+              onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
+              rows={this.props.data.children}/>
+        </div>
       );
     }
 
@@ -185,26 +202,8 @@ class AnnualIncomeSection extends React.Component {
               onValueChange={(update) => {this.props.onStateChange('spouseOtherIncome', update);}}/>
         </div>
 
-        <div className="input-section">
-          <h6>Children</h6>
-          <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.childrenGrossIncome, message)}
-              label="Children Gross Income"
-              value={this.props.data.childrenGrossIncome}
-              onValueChange={(update) => {this.props.onStateChange('childrenGrossIncome', update);}}/>
+        {childrenIncomeInput}
 
-          <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.childrenNetIncome, message)}
-              label="Children Net Income"
-              value={this.props.data.childrenNetIncome}
-              onValueChange={(update) => {this.props.onStateChange('childrenNetIncome', update);}}/>
-
-          <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.childrenOtherIncome, message)}
-              label="Children Other Income"
-              value={this.props.data.childrenOtherIncome}
-              onValueChange={(update) => {this.props.onStateChange('childrenOtherIncome', update);}}/>
-        </div>
       </div>);
     }
 
@@ -230,6 +229,7 @@ class AnnualIncomeSection extends React.Component {
 function mapStateToProps(state) {
   return {
     data: state.veteran.annualIncome,
+    hasChildrenToReport: state.childInformation.hasChildrenToReport,
     receivesVaPension: state.veteran.vaInformation.receivesVaPension,
     isSectionComplete: state.uiState.completedSections['/financial-assessment/annual-income']
   };
@@ -242,6 +242,9 @@ function mapDispatchToProps(dispatch) {
     },
     onUIStateChange: (update) => {
       dispatch(updateReviewStatus(['/financial-assessment/annual-income'], update));
+    },
+    initializeFields: () => {
+      dispatch(ensureChildFieldsInitialized('/financial-assessment/annual-income'));
     }
   };
 }
