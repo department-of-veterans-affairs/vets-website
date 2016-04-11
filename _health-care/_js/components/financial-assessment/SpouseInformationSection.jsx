@@ -23,6 +23,152 @@ class SpouseInformationSection extends React.Component {
   render() {
     let notRequiredMessage;
     let noSpouseMessage;
+    let content;
+    let editButton;
+
+    if (this.props.receivesVaPension === true) {
+      notRequiredMessage = (
+        <p>
+          <strong>
+            You are not required to enter financial information because you
+            indicated you are receiving a VA pension.
+          </strong>
+        </p>
+      );
+    }
+
+    if (this.props.data.sectionComplete) {
+      content = (<div>
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>Spouse Name:</td>
+              <td>{this.props.data.spouseFullName.first} {this.props.data.spouseFullName.middle} {this.props.data.spouseFullName.last} {this.props.data.spouseFullName.suffix}</td>
+            </tr>
+            <tr>
+              <td>Social Security Number:</td>
+              <td>{this.props.data.spouseSocialSecurityNumber}</td>
+            </tr>
+            <tr>
+              <td>Date of Birth:</td>
+              <td>{this.props.data.spouseDateOfBirth.month}/{this.props.data.spouseDateOfBirth.day}/{this.props.data.spouseDateOfBirth.year}</td>
+            </tr>
+            <tr>
+              <td>Date of Marriage:</td>
+              <td>{this.props.data.dateOfMarriage.month}/{this.props.data.dateOfMarriage.day}/{this.props.data.dateOfMarriage.year}</td>
+            </tr>
+            <tr>
+              <td>Do you have the same address as your spouse?:</td>
+              <td>{`${this.props.data.sameAddress ? 'Yes' : 'No'}`}</td>
+            </tr>
+            <tr>
+              <td>Did your spouse live with you last year?:</td>
+              <td>{`${this.props.data.cohabitedLastYear ? 'Yes' : 'No'}`}</td>
+            </tr>
+            <tr>
+              <td>If your spouse did not live with you last year, did you provide support?:</td>
+              <td>{`${this.props.data.provideSupportLastYear ? 'Yes' : 'No'}`}</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Spouse's Address and Telephone Number</h4>
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>Street:</td>
+              <td>{this.props.data.spouseAddress.street}</td>
+            </tr>
+            <tr>
+              <td>City:</td>
+              <td>{this.props.data.spouseAddress.city}</td>
+            </tr>
+            <tr>
+              <td>Country:</td>
+              <td>{this.props.data.spouseAddress.country}</td>
+            </tr>
+            <tr>
+              <td>State:</td>
+              <td>{this.props.data.spouseAddress.state}</td>
+            </tr>
+            <tr>
+              <td>ZIP Code:</td>
+              <td>{this.props.data.spouseAddress.zipcode}</td>
+            </tr>
+            <tr>
+              <td>Phone:</td>
+              <td>{this.props.data.spousePhone}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>);
+    } else {
+      content = (<div>
+        {notRequiredMessage}
+        {noSpouseMessage}
+        <div className="input-section">
+          <FullName
+              value={this.props.data.spouseFullName}
+              onUserInput={(update) => {this.props.onStateChange('spouseFullName', update);}}/>
+
+          <SocialSecurityNumber label="Spouse’s Social Security Number"
+              required={false}
+              ssn={this.props.data.spouseSocialSecurityNumber}
+              onValueChange={(update) => {this.props.onStateChange('spouseSocialSecurityNumber', update);}}/>
+
+          <DateInput label="Spouse’s Date of Birth"
+              day={this.props.data.spouseDateOfBirth.day}
+              month={this.props.data.spouseDateOfBirth.month}
+              year={this.props.data.spouseDateOfBirth.year}
+              onValueChange={(update) => {this.props.onStateChange('spouseDateOfBirth', update);}}/>
+
+          <DateInput label="Date of Marriage"
+              day={this.props.data.dateOfMarriage.day}
+              month={this.props.data.dateOfMarriage.month}
+              year={this.props.data.dateOfMarriage.year}
+              onValueChange={(update) => {this.props.onStateChange('dateOfMarriage', update);}}/>
+
+          <ErrorableCheckbox
+              label="Do you have the same address as your spouse?"
+              checked={this.props.data.sameAddress}
+              onValueChange={(update) => {this.props.onStateChange('sameAddress', update);}}/>
+
+          <ErrorableCheckbox
+              label="Did your spouse live with you last year?"
+              checked={this.props.data.cohabitedLastYear}
+              onValueChange={(update) => {this.props.onStateChange('cohabitedLastYear', update);}}/>
+
+          <hr/>
+          <p>You may count your spouse as your dependent even if you did not live
+          together, as long as you contributed support last calendar year.</p>
+          <hr/>
+
+          <ErrorableCheckbox
+              label="If your spouse did not live with you last year, did you provide support?"
+              checked={this.props.data.provideSupportLastYear}
+              onValueChange={(update) => {this.props.onStateChange('provideSupportLastYear', update);}}/>
+        </div>
+
+        <h4>Spouse's Address and Telephone Number</h4>
+
+        <div className="input-section">
+          <Address value={this.props.data.spouseAddress}
+              onUserInput={(update) => {this.props.onStateChange('spouseAddress', update);}}/>
+          <Phone
+              label="Phone"
+              value={this.props.data.spousePhone}
+              onValueChange={(update) => {this.props.onStateChange('spousePhone', update);}}/>
+        </div>
+      </div>);
+    }
+
+    if (this.props.reviewSection) {
+      editButton = (<ErrorableCheckbox
+          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.data.sectionComplete}
+          className="edit-checkbox"
+          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+      );
+    }
 
     if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
@@ -48,75 +194,9 @@ class SpouseInformationSection extends React.Component {
 
     return (
       <div>
-        <div>
-          <h4>Spouse's Information</h4>
-          <ErrorableCheckbox
-              label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-              checked={this.props.data.sectionComplete}
-              className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
-              onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
-
-          {notRequiredMessage}
-
-          {noSpouseMessage}
-
-        </div>
-        <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
-          <div className="input-section">
-            <FullName
-                value={this.props.data.spouseFullName}
-                onUserInput={(update) => {this.props.onStateChange('spouseFullName', update);}}/>
-
-            <SocialSecurityNumber label="Spouse’s Social Security Number"
-                required={false}
-                ssn={this.props.data.spouseSocialSecurityNumber}
-                onValueChange={(update) => {this.props.onStateChange('spouseSocialSecurityNumber', update);}}/>
-
-            <DateInput label="Spouse’s Date of Birth"
-                day={this.props.data.spouseDateOfBirth.day}
-                month={this.props.data.spouseDateOfBirth.month}
-                year={this.props.data.spouseDateOfBirth.year}
-                onValueChange={(update) => {this.props.onStateChange('spouseDateOfBirth', update);}}/>
-
-            <DateInput label="Date of Marriage"
-                day={this.props.data.dateOfMarriage.day}
-                month={this.props.data.dateOfMarriage.month}
-                year={this.props.data.dateOfMarriage.year}
-                onValueChange={(update) => {this.props.onStateChange('dateOfMarriage', update);}}/>
-
-            <ErrorableCheckbox
-                label="Do you have the same address as your spouse?"
-                checked={this.props.data.sameAddress}
-                onValueChange={(update) => {this.props.onStateChange('sameAddress', update);}}/>
-
-            <ErrorableCheckbox
-                label="Did your spouse live with you last year?"
-                checked={this.props.data.cohabitedLastYear}
-                onValueChange={(update) => {this.props.onStateChange('cohabitedLastYear', update);}}/>
-
-            <hr/>
-            <p>You may count your spouse as your dependent even if you did not live
-            together, as long as you contributed support last calendar year.</p>
-            <hr/>
-
-            <ErrorableCheckbox
-                label="If your spouse did not live with you last year, did you provide support?"
-                checked={this.props.data.provideSupportLastYear}
-                onValueChange={(update) => {this.props.onStateChange('provideSupportLastYear', update);}}/>
-          </div>
-
-          <h4>Spouse's Address and Telephone Number</h4>
-
-          <div className="input-section">
-            <Address value={this.props.data.spouseAddress}
-                onUserInput={(update) => {this.props.onStateChange('spouseAddress', update);}}/>
-
-            <Phone
-                label="Phone"
-                value={this.props.data.spousePhone}
-                onValueChange={(update) => {this.props.onStateChange('spousePhone', update);}}/>
-          </div>
-        </div>
+        <h4>Spouse's Information</h4>
+        {editButton}
+        {content}
       </div>
     );
   }
