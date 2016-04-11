@@ -29,7 +29,7 @@ You have several options from which to choose. [Veterans Service Organizations](
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="va-nav-category">
 
       <li>
         <a href="/education/gi-bill/foreign-programs/">
