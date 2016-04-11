@@ -12,6 +12,9 @@ import { veteranUpdateField } from '../../actions';
 class FinancialDisclosureSection extends React.Component {
   render() {
     let notRequiredMessage;
+    let content;
+    let editButton;
+    let understandsFinancialDisclosure;
 
     if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
@@ -24,15 +27,28 @@ class FinancialDisclosureSection extends React.Component {
       );
     }
 
-    return (
-      <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
-        <h4>Financial Disclosure</h4>
-        <ErrorableCheckbox
-            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-            checked={this.props.data.sectionComplete}
-            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
-            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+    if (this.props.data.provideFinancialInfo) {
+      understandsFinancialDisclosure = (<tr>
+        <td>I understand VA is not enrolling new applicants who decline to provide their financial information:</td>
+        <td>{`${this.props.data.understandsFinancialDisclosure ? 'Yes' : 'No'}`}</td>
+      </tr>);
+    }
 
+    if (this.props.data.sectionComplete) {
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>Do you want to provide your financial information so the VA can determine your
+         eligibility for other services and enrollment and if you will be charged copays for care
+          and medication?:
+            </td>
+            <td>{`${this.props.data.provideFinancialInfo ? 'Yes' : 'No'}`}</td>
+          </tr>
+          {understandsFinancialDisclosure}
+        </tbody>
+      </table>);
+    } else {
+      content = (<div className="input-section">
         {notRequiredMessage}
 
         <p>
@@ -75,6 +91,23 @@ class FinancialDisclosureSection extends React.Component {
             </div>
           </div>
         }
+      </div>);
+    }
+
+    if (this.props.reviewSection) {
+      editButton = (<ErrorableCheckbox
+          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.data.sectionComplete}
+          className="edit-checkbox"
+          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+      );
+    }
+
+    return (
+      <div>
+        <h4>Financial Disclosure</h4>
+        {editButton}
+        {content}
       </div>
     );
   }

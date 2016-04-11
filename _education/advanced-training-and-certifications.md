@@ -28,7 +28,7 @@ You can use the GI Bill for more than just academic programs. This benefit will 
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-          <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+          <ul class="va-nav-category">
             <li>
               <a href="/education/advanced-training-and-certifications/entrepreneurship-training">
                 <h5>Entrepreneurship Training</h5>
