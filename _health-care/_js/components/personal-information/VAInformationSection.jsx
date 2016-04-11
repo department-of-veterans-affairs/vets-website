@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
+import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
+import { yesNo } from '../../utils/options-for-select';
+import { isNotBlank } from '../../utils/validations';
 import { veteranUpdateField } from '../../actions';
 
 /**
@@ -27,11 +30,14 @@ class VaInformationSection extends React.Component {
           </p>
 
           <div className="input-section">
-            <ErrorableCheckbox
+            <ErrorableRadioButtons required
+                errorMessage={isNotBlank(this.props.data.isVaServiceConnected) ? '' : 'Please select a response'}
                 label="Are you VA Service Connected 50% to 100% Disabled?"
-                checked={this.props.data.isVaServiceConnected}
+                options={yesNo}
+                value={this.props.data.isVaServiceConnected}
                 onValueChange={(update) => {this.props.onStateChange('isVaServiceConnected', update);}}/>
-            {this.props.data.isVaServiceConnected === true &&
+
+            {this.props.data.isVaServiceConnected === 'Y' &&
               <div>
                 <ErrorableCheckbox
                     label="Are you compensable VA Service Connected 0% - 40%?"
@@ -42,7 +48,7 @@ class VaInformationSection extends React.Component {
                 </span>
               </div>
             }
-            {this.props.data.isVaServiceConnected === true && this.props.data.compensableVaServiceConnected === true &&
+            {this.props.data.isVaServiceConnected === 'Y' && this.props.data.compensableVaServiceConnected === true &&
               <ErrorableCheckbox
                   label="Do you receive a VA pension?"
                   checked={this.props.data.receivesVaPension}
@@ -72,3 +78,8 @@ function mapDispatchToProps(dispatch) {
 // TODO(awong): Remove the pure: false once we start using ImmutableJS.
 export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(VaInformationSection);
 export { VaInformationSection };
+
+            // <ErrorableCheckbox
+            //     label="Are you VA Service Connected 50% to 100% Disabled?"
+            //     checked={this.props.data.isVaServiceConnected}
+            //     onValueChange={(update) => {this.props.onStateChange('isVaServiceConnected', update);}}/>
