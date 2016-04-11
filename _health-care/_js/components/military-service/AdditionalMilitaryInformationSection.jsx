@@ -125,7 +125,7 @@ class AdditionalMilitaryInformationSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.militaryAdditionalInfo
+    data: state.veteran.militaryAdditionalInfo
   };
 }
 

@@ -124,7 +124,7 @@ class DeductibleExpensesSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.deductibleExpenses,
+    data: state.veteran.deductibleExpenses,
     receivesVaPension: state.vaInformation.receivesVaPension,
   };
 }

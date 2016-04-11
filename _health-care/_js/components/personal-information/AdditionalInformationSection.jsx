@@ -83,7 +83,7 @@ class AdditionalInformationSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.additionalInformation,
+    data: state.veteran.additionalInformation,
   };
 }
 

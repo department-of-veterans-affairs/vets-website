@@ -229,7 +229,7 @@ class AnnualIncomeSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.annualIncome,
+    data: state.veteran.annualIncome,
     receivesVaPension: state.vaInformation.receivesVaPension
   };
 }

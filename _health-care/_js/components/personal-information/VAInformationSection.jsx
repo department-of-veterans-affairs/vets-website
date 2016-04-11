@@ -98,7 +98,7 @@ class VaInformationSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.vaInformation,
+    data: state.veteran.vaInformation,
   };
 }
 

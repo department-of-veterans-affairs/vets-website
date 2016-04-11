@@ -114,7 +114,7 @@ class NameAndGeneralInfoSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.nameAndGeneralInformation
+    data: state.veteran.nameAndGeneralInformation
   };
 }
 

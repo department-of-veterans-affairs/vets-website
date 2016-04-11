@@ -88,7 +88,7 @@ class ServiceInformationSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.serviceInformation,
+    data: state.veteran.serviceInformation,
   };
 }
 

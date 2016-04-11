@@ -161,7 +161,7 @@ class InsuranceInformationSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.insuranceInformation
+    data: state.veteran.insuranceInformation
   };
 }
 

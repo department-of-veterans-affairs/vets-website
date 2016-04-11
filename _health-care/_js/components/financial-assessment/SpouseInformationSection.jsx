@@ -204,7 +204,7 @@ class SpouseInformationSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.spouseInformation,
+    data: state.veteran.spouseInformation,
     receivesVaPension: state.vaInformation.receivesVaPension,
     neverMarried: calculated.neverMarried(state)
   };

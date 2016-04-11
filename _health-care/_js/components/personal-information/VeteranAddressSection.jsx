@@ -133,7 +133,7 @@ class VeteranAddressSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.veteranAddress
+    data: state.veteran.veteranAddress
   };
 }
 

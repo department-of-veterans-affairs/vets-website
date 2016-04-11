@@ -82,7 +82,7 @@ class MedicareMedicaidSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.medicareMedicaid
+    data: state.veteran.medicareMedicaid
   };
 }
 

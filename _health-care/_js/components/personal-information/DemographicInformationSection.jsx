@@ -110,7 +110,7 @@ class DemographicInformationSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.demographicInformation
+    data: state.veteran.demographicInformation
   };
 }
 

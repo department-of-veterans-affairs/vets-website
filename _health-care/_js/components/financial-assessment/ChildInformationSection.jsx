@@ -186,7 +186,7 @@ class ChildInformationSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.childInformation,
+    data: state.veteran.childInformation,
     receivesVaPension: state.vaInformation.receivesVaPension,
   };
 }

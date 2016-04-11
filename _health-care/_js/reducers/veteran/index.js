@@ -205,3 +205,4 @@ function veteran(state = blankVeteran, action) {
 }
 
 export default veteran;
+

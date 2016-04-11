@@ -115,7 +115,7 @@ class FinancialDisclosureSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.financialDisclosure,
+    data: state.veteran.financialDisclosure,
     receivesVaPension: state.vaInformation.receivesVaPension,
   };
 }
