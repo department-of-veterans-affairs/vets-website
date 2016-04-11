@@ -17,7 +17,7 @@ VA considers the first claim you file for a given disability to be the original 
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="va-nav-category">
       <li>
         <a href="/disability-benefits/claims-process/claim-types/standard-claim/">
           <h5>Standard Claim</h5>

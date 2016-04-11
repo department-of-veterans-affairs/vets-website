@@ -27,7 +27,7 @@ A disability claim is a formal legal request for benefits. It’s very important
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="va-nav-category">
         <li>
           <a href="/disability-benefits/claims-process/ratings/">
             <h5>How does VA assign disability ratings?</h5>
