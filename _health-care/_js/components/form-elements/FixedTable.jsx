@@ -9,6 +9,10 @@ import React from 'react';
  * `onRowsUpdate` - Function that updates the source rows.
  */
 class FixedTable extends React.Component {
+  componentWillMount() {
+    this.props.initializeCurrentElement();
+  }
+
   render() {
     const rowElements = this.props.rows.map((obj, index) => {
       return (
@@ -36,6 +40,7 @@ class FixedTable extends React.Component {
 
 FixedTable.propTypes = {
   component: React.PropTypes.func.isRequired,
+  initializeCurrentElement: React.PropTypes.func.isRequired,
   onRowsUpdate: React.PropTypes.func.isRequired,
   rows: React.PropTypes.array.isRequired
 };

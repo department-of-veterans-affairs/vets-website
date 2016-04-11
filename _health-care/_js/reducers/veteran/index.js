@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 
-import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE } from '../../actions';
+import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE, ENSURE_CHILD_FIELDS_INITIALIZED } from '../../actions';
 import { initializeNullValues } from '../../utils/validations';
 import { pathToData } from '../../store';
 
@@ -125,9 +125,9 @@ const blankVeteran = {
     spouseNetIncome: null,
     spouseOtherIncome: null,
     children: [],
-    childrenGrossIncome: null,
-    childrenNetIncome: null,
-    childrenOtherIncome: null,
+    // childrenGrossIncome: null,
+    // childrenNetIncome: null,
+    // childrenOtherIncome: null,
     sectionComplete: false
   },
 
@@ -185,6 +185,15 @@ const blankVeteran = {
   }
 };
 
+function createBlankChild(shortName) {
+  return {
+    childShortName: shortName,
+    childGrossIncome: null,
+    childNetIncome: null,
+    childOtherIncome: null
+  };
+}
+
 function veteran(state = blankVeteran, action) {
   let newState = undefined;
   switch (action.type) {
@@ -197,6 +206,22 @@ function veteran(state = blankVeteran, action) {
       newState = Object.assign({}, state);
       // TODO(awong): HACK! Assigning to the sub object assumes pathToData() returns a reference
       // to the actual substructre such that it can be reassigned to.
+      Object.assign(pathToData(newState, action.path), initializeNullValues(pathToData(newState, action.path)));
+      return newState;
+
+    case ENSURE_CHILD_FIELDS_INITIALIZED:
+      newState = Object.assign({}, state);
+      // do stuff here can we update children income from children info?
+      if (newState.annualIncome.children.length !== newState.childInformation.children.length) {
+        for (let i = 0; i < newState.childInformation.children.length; i++) {
+          const shortName = `${newState.childInformation.children[i].childFullName.first} ${newState.childInformation.children[i].childFullName.last}`;
+          if (newState.annualIncome.children[i] === undefined) {
+            newState.annualIncome.children[i] = createBlankChild(shortName);
+          } else {
+            newState.annualIncome.children[i].childShortName = shortName;
+          }
+        }
+      }
       Object.assign(pathToData(newState, action.path), initializeNullValues(pathToData(newState, action.path)));
       return newState;
 

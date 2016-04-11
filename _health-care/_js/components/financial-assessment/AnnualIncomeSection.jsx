@@ -6,7 +6,7 @@ import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import FixedTable from '../form-elements/FixedTable.jsx';
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
-import { veteranUpdateField } from '../../actions';
+import { veteranUpdateField, ensureChildFieldsInitialized } from '../../actions';
 
 /**
  * Props:
@@ -42,12 +42,13 @@ class AnnualIncomeSection extends React.Component {
 
     let childrenIncomeInput;
 
-    if (this.props.data.children.length > 0) {
+    if (this.props.hasChildrenToReport === true) {
       childrenIncomeInput = (
         <div className="input-section">
           <h6>Children</h6>
           <FixedTable
               component={ChildIncome}
+              initializeCurrentElement={() => {this.props.initializeFields();}}
               onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
               rows={this.props.data.children}/>
         </div>
@@ -164,6 +165,7 @@ class AnnualIncomeSection extends React.Component {
 function mapStateToProps(state) {
   return {
     data: state.annualIncome,
+    hasChildrenToReport: state.childInformation.hasChildrenToReport,
     receivesVaPension: state.vaInformation.receivesVaPension
   };
 }
@@ -172,6 +174,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['annualIncome', field], update));
+    },
+    initializeFields: () => {
+      dispatch(ensureChildFieldsInitialized('/financial-assessment/annual-income'));
     }
   };
 }
