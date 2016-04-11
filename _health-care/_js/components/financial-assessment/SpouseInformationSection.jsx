@@ -1,22 +1,30 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+import * as calculated from '../../store/calculated';
 import Address from '../questions/Address';
 import DateInput from '../form-elements/DateInput';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import FullName from '../questions/FullName';
 import Phone from '../questions/Phone';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
+import { veteranUpdateField } from '../../actions';
 
 // TODO: Consider adding question for marital status here so if user
 // entered something incorrect in Personal Information they don't have
 // to return to that section to change response
 
+/**
+ * Props:
+ * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class SpouseInformationSection extends React.Component {
   render() {
     let notRequiredMessage;
     let noSpouseMessage;
 
-    if (this.props.external.receivesVaPension === true) {
+    if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
         <p>
           <strong>
@@ -27,7 +35,7 @@ class SpouseInformationSection extends React.Component {
       );
     }
 
-    if (this.props.external.neverMarried === true) {
+    if (this.props.neverMarried === true) {
       noSpouseMessage = (
         <p>
           <strong>
@@ -42,13 +50,18 @@ class SpouseInformationSection extends React.Component {
       <div>
         <div>
           <h4>Spouse's Information</h4>
+          <ErrorableCheckbox
+              label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
+              checked={this.props.data.sectionComplete}
+              className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
+              onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
 
           {notRequiredMessage}
 
           {noSpouseMessage}
 
         </div>
-        <div>
+        <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
           <div className="input-section">
             <FullName
                 value={this.props.data.spouseFullName}
@@ -109,4 +122,22 @@ class SpouseInformationSection extends React.Component {
   }
 }
 
-export default SpouseInformationSection;
+function mapStateToProps(state) {
+  return {
+    data: state.spouseInformation,
+    receivesVaPension: state.vaInformation.receivesVaPension,
+    neverMarried: calculated.neverMarried(state)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(veteranUpdateField(['spouseInformation', field], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(SpouseInformationSection);
+export { SpouseInformationSection };

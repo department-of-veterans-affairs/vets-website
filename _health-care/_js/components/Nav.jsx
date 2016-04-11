@@ -12,7 +12,7 @@ class Nav extends React.Component {
     const subnavStyles = 'step one wow fadeIn animated';
     // TODO(akainic): change this check once the alias for introduction has been changed
     return (
-      <ol className="hca-process">
+      <ol className="process hca-process">
         <li className={`one ${subnavStyles} ${this.props.currentUrl.startsWith('/introduction') ? ' section-current' : ''}`}>
           <div>
             <h5>Introduction</h5>

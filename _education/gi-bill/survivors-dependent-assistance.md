@@ -9,7 +9,7 @@ Template: 6-info-page
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
+      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
     </div>
   </div>
 </div>
@@ -59,7 +59,7 @@ You may be eligible for both of these programs, but you can use only one of them
 
 **Exception:** As a beneficiary, you cannot use the same qualifying event for more than one benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
 
-
+<div class="va-table-overflow">
 <table>
 <caption>Compare DEA and Fry Scholarship Benefits</caption>
 <tr>
@@ -124,8 +124,9 @@ You may be eligible for both of these programs, but you can use only one of them
     </ul>
   </td>
 </tr>
-
 </table>
+</div>
+
 
 </div>
 </div>
