@@ -117,6 +117,10 @@ function isValidNameAndGeneralInformation(data) {
       isValidDate(data.dateOfBirth.day, data.dateOfBirth.month, data.dateOfBirth.year);
 }
 
+function isValidVaInformation(data) {
+  return isNotBlank(data.isVaServiceConnected);
+}
+
 function isValidAdditionalInformation(data) {
   return isNotBlank(data.facilityState) &&
     isNotBlank(data.vaMedicalFacility);
@@ -219,6 +223,8 @@ function isValidSection(completePath, sectionData) {
   switch (completePath) {
     case '/personal-information/name-and-general-information':
       return isValidNameAndGeneralInformation(sectionData);
+    case '/personal-information/va-information':
+      return isValidVaInformation(sectionData);
     case '/personal-information/additional-information':
       return isValidAdditionalInformation(sectionData);
     case '/personal-information/veteran-address':
@@ -266,6 +272,7 @@ export {
   isValidEmail,
   isValidAddress,
   isValidNameAndGeneralInformation,
+  isValidVaInformation,
   isValidAdditionalInformation,
   isValidVeteranAddress,
   isValidSpouseInformation,
