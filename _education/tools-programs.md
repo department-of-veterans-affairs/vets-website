@@ -28,7 +28,7 @@ Navigating your transition from military to civilian life can be challenging. VA
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="va-nav-category">
         <li>
           <a href="/education/tools-programs/education-career-counseling/">
             <h5>Education and Career Counseling</h5>
