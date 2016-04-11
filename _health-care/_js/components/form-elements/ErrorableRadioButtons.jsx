@@ -23,14 +23,7 @@ class ErrorableRadioButtons extends React.Component {
   }
 
   handleChange(domEvent) {
-    // hackery to allow boolean values to work with radio buttons
-    const formValue = domEvent.target.value;
-    let storeValue = formValue;
-    if (formValue && typeof formValue === 'string') {
-      if (formValue.toLowerCase() === 'true') storeValue = true;
-      if (formValue.toLowerCase() === 'false') storeValue = false;
-    }
-    this.props.onValueChange(storeValue);
+    this.props.onValueChange(domEvent.target.value);
   }
 
   render() {
@@ -64,7 +57,7 @@ class ErrorableRadioButtons extends React.Component {
       }
       const checked = storedValue !== undefined && optionValue === storedValue ? 'checked=true' : '';
       return (
-        <div key={reactKey++}>
+        <div key={reactKey++} className="radio-buttons-inline">
           <input
               checked={checked}
               id={optionValue}
@@ -80,15 +73,15 @@ class ErrorableRadioButtons extends React.Component {
     });
 
     return (
-      <div className={`${this.props.errorMessage ? 'usa-input-error' : ''} ${this.props.className}`}>
+      <div className={this.props.errorMessage ? 'usa-input-error' : ''}>
         <label
             className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
             htmlFor={this.inputId}>
             {this.props.label}
             {requiredSpan}
         </label>
-        {optionElements}
         {errorSpan}
+        {optionElements}
       </div>
     );
   }

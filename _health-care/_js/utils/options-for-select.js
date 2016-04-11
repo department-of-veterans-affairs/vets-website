@@ -1407,8 +1407,8 @@ const childRelationships = [
 ];
 
 const yesNo = [
-  { label: 'Yes', value: true },
-  { label: 'No', value: false }
+  { label: 'Yes', value: 'Y' },
+  { label: 'No', value: 'N' }
 ];
 
 export {
