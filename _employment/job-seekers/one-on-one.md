@@ -11,16 +11,7 @@ template: 1-topic-landing
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-One-on-one assistance can help you transition by providing current perspectives on workplaces, targeted job-search techniques, coaching, and résumé building. There are many government and private resources available to you as you make this transition, including:
-
-- The [Transition Assistance Program](http://www.benefits.va.gov/tap/) (TAP)
-- VA's [Education and Career Counseling](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp) program
-- The [Veteran Employment Services Office](http://vaforvets.va.gov/) (VESO)
-- The [Veterans Economic Community Initiative](https://employment.vets.gov/employment/job-seekers/veci/) (VECI)
-- Private nonprofit organizations that help transitioning Veterans
-- [VA for Vets](http://vaforvets.va.gov/) (can help you navigate the federal hiring process)
-- [Homeless Veterans Community Employment Services](http://www.va.gov/HOMELESS/HVCES.asp) (HVCES) 
-- The [Compensated Work Therapy (CWT)](http://www.va.gov/health/cwt/) program for Veterans with severe service-related disabilities
+One-on-one assistance can help you transition by providing current perspectives on workplaces, targeted job-search techniques, coaching, and résumé building. There are many government and private resources available to you as you make this transition.
 
 <div class="call-out" markdown="1">
 ### Are you eligible for personalized career guidance?
@@ -35,23 +26,24 @@ Yes, if:
 </div>
 
 ### How it works
-Transitioning Servicemembers are required to attend the TAP briefings. These include: 
+VA's [Education and Career Counseling](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp) program includes career counseling, benefits coaching and individual support, and academic counseling.
 
-- Preseparation counseling, in which your skills, interests, and goals are evaluated and integrated into a custom roadmap. 
-- Résumé-building assistance and interview training.
-- Three optional additional workshops: Career Technical Training Track, Education Track, and Entrepreneurship Track.
-- Information on all available VA benefits. Contact VA career-and-training specialists at 1-800-827-1000.
+[Veteran Employment Specialists](http://vaforvets.va.gov/hr/RVECS/Pages/default.asp) can help you find jobs in your area. 
 
-##### VA's Education and Career Counseling program
+[Veterans Economic Community Initiative](https://employment.vets.gov/employment/job-seekers/veci/) (VECI) liaisons can help you connect with local business leaders, schools, and nonprofit groups, and help you maximize education and economic opportunities.
 
-For a year after transitioning out of the military and for the six months prior to separation, Servicemembers may also be eligible for VA's [Education and Career Counseling program](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp). If you are eligible, this option focuses on those who are interested in getting the most out of their education benefits. The program includes career counseling, benefits coaching and individual support, and academic counseling. To apply, follow these simple steps: 
+Private nonprofit organizations that have been thoroughly vetted and can offer you advice, share connections, and help place you into a good job at no cost to you. The [Call of Duty Endowment](http://www.callofdutyendowment.org/partners) endorses groups that do a particularly good job of this
 
-1.	Log in to your [eBenefits account](https://www.ebenefits.va.gov).
-2.	Select Apply.
-3.	Select Vocational Rehabilitation and Employment Benefits.
-4.	Apply for Education and Career Counseling. Eligible Veterans will receive an invitation to a session at a regional VA office.
+[VA for Vets](http://vaforvets.va.gov/) can help you navigate the federal hiring process.
 
-You might also want to work with nonprofit organizations that have been thoroughly vetted and can offer you advice, share connections, and help place you into a good job at no cost to you. The [Call of Duty Endowment](http://www.callofdutyendowment.org/partners) endorses groups that do a particularly good job of this. 
+[Homeless Veterans Community Employment Services](http://www.va.gov/HOMELESS/HVCES.asp) (HVCES) can help if you are homeless or at risk of becoming homeless.
+
+The [Compensated Work Therapy (CWT)](http://www.va.gov/health/cwt/) program helps Veterans with service-related disabilities.
+
+One-on-one guidance is also accessible through the Transition Assistance Program (TAP) which you can take before you leave active duty. 
+
+Information on all available VA benefits. Contact VA career-and-training specialists at 1-800-827-1000.
+
 
 </div>
 </div>
