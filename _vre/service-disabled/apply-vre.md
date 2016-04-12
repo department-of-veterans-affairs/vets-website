@@ -64,3 +64,49 @@ You and [eligible family members](/VRE/family-members)
 </div>
 
 <div markdown="1">
+
+---------------------------------------------
+
+#### How it works
+
+</div>
+
+
+<ol class="process" markdown="0">
+<li class="step one wow fadeIn animated" markdown="1">
+Log in to your [eBenefits account](https://www.ebenefits.va.gov/ebenefits/homepage).
+</li>
+
+<li class="step two wow fadeIn animated" markdown="1">
+Click “Additional Benefits” on your dashboard.
+</li>
+
+<li class="step three wow fadeIn animated" markdown="1">
+Click “Vocational Rehabilitation and Employment Program.”
+</li>
+
+<li class="step four wow fadeIn animated" markdown="1">
+Apply for the “Vocational Rehabilitation and Employment Program.”
+</li>
+
+<li class="step five wow fadeIn animated" markdown="1">
+If you are eligible, VA will invite you to an in-person orientation session at the nearest VA Regional Office.
+</li>
+
+<li class="step six wow fadeIn animated" markdown="1">
+If you are a Servicemember who has not yet received a service-connected disability rating, you do not need to wait for a rating. Instead, please fill out [VA Form 28-0588](http://www.vba.va.gov/pubs/forms/VBA-28-0588-ARE.pdf).
+
+*Note:* Servicemembers going through the Physical Evaluation Board process, as well as Servicemembers who expect an other-than-dishonorable discharge and who have a VA memorandum rating of 20% or more, or are in the Integrated Disability Evaluation System (IDES), may be eligible for VR&E services.
+</li>
+
+<li class="step last seven wow fadeIn animated animated" markdown="0">
+
+After you apply, you will be scheduled to meet with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you are in need of VR&E benefits and services. You have an employment handicap if your service-connected disability impairs your ability to prepare for, find and maintain suitable employment. After VA makes an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&E will provide.
+
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+</div>
