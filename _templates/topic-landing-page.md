@@ -29,7 +29,7 @@ template: 1-topic-landing
             </li>
             <li>
               <a href="/directory/subdir/">
-                <h4 class="alternate">Lorem ipsum/h4>
+                <h4 class="alternate">Lorem ipsum</h4>
                 <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit</span>
               </a>
             </li>
