@@ -28,7 +28,7 @@ You are in charge of designing your own education. VA education benefits, includ
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-          <ul class="va-nav-categorys">
+          <ul class="va-nav-category">
             <li>
               <a href="/education/work-learn/workstudy/">
                 <h5>Work Study</h5>
