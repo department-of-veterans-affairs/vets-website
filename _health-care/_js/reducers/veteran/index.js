@@ -34,8 +34,8 @@ const blankVeteran = {
 
   vaInformation: {
     isVaServiceConnected: null,
-    compensableVaServiceConnected: false,
-    receivesVaPension: false,
+    compensableVaServiceConnected: null,
+    receivesVaPension: null,
     sectionComplete: false
   },
 
