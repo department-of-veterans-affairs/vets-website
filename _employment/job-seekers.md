@@ -23,7 +23,7 @@ template: 7-get-page
 
 - **Do you plan to leave active duty in less than 12 months?**
   
-  You can start the process with [a few simple steps](/employment/job-seekers/less-than-one-year).
+  [Prepare for your transition](/employment/job-seekers/less-than-one-year) with this timeline.
 
 - **Have you recently left active duty?**
   
@@ -31,7 +31,7 @@ template: 7-get-page
 
 - **Are you already in the workforce?**
   
-  Consider a [new career](/employment/job-seekers/search_jobs) or [additional education](https://www.vets.gov/education/gi-bill/).
+  Search for a [new career](/employment/job-seekers/search_jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
 </div>
 </div>
 
