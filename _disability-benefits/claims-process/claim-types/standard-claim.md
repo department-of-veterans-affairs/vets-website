@@ -56,7 +56,7 @@ VA will seek to validate your claim with a variety documents, including:
 <div class="navigation" markdown="0">
   <div class="row" markdown="0">
     <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="va-nav-category">
       <li>
         <a href="/disability-benefits/claims-process/claim-types/standard-claim/">
           <h5>Standard Claim</h5>

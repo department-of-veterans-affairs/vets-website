@@ -1,5 +1,3 @@
-
-
 html {
   font-family: $font-sans;
   font-size: $em-base;
@@ -102,8 +100,8 @@ a {
 }
 
 a:visited {
-  color: #4c2c92
-  }
+  color: $color-visited;
+}
 
 
 // Figure / Caption
@@ -199,7 +197,7 @@ h3, h4, h5, h6 {
     margin: .5em 0 0 0;
       white-space: pre-wrap;
     color: #333;
-    a {background: $color-gold; color: #444;}
+    a {background: $color-gold; color: $color-gray-cool-dark;}
   }
 
   h2 span {clear: both; padding: .04em; display: inline-block; background: $color-gold; font-weight: normal;}
@@ -280,6 +278,14 @@ h3, h4, h5, h6 {
 
   p {padding-top: 0; margin-top: 0; padding-bottom: 1em;}
 
+  p:nth-child(1) {
+    font-size: 1.25em;
+    color: $color-primary-darker;
+    letter-spacing: normal;
+    font-weight: normal;
+    padding-bottom: 1em;
+  }
+  
   h3 {
     padding: 0 0 .5em 0; font-size: 1.25em;
     @media #{$small} {font-size: 1.8em;}
@@ -389,13 +395,6 @@ h6 {font-size: 1.15em; font-weight: bold;}
     font-size: 1em;
     padding-bottom: 0;
   }
-  p:nth-child(1) {
-    font-size: 1.25em;
-    color: $color-primary-darker;
-    letter-spacing: normal;
-    font-weight: normal;
-    padding-bottom: 1em;
-  }
 }
 
 #content .main.interior {
@@ -493,7 +492,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
   .section.three {
     background: #fff;
     padding: 5em 0;
-    h2, h3, h4, h5, h6, p, li {color: #444;}
+    h2, h3, h4, h5, h6, p, li {color: $color-gray-cool-dark;}
     h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
     a {color: $color-primary-darkest;}
   }
@@ -553,7 +552,7 @@ background: rgba(255,255,255,.85);
 #content .section.do {
   background: #efefef;
   padding: 2em 0;
-  h2, h3, h4, h5, h6, p, li {color: #444;}
+  h2, h3, h4, h5, h6, p, li {color: $color-gray-cool-dark;}
   h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
   a {color: #fff;}
 }
@@ -1043,7 +1042,7 @@ background-size: contain;
   }
 }
 
-.post-date, .post-author {color: #444;}
+.post-date, .post-author {color: $color-gray-cool-dark;}
 
 .post-date {
   margin-bottom: 2.5em;
@@ -1166,21 +1165,29 @@ figure {
           padding-left: .5em;
         }
         .post-title {color: $color-primary-darker; font-size: 1em; font-weight: bold; margin: 0; padding: 0;}
-        .post-date {color: #444; margin: 0; padding: 0 0 1em 0;}
+        .post-date {color: $color-gray-cool-dark; margin: 0; padding: 0 0 1em 0;}
       }
     }
   }
 }
 
 .post {
-  a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #444; line-height: 1.65em;}
+  a, p, p:nth-child(1), li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure,   
+  blockquote {
+    color: $color-gray-cool-dark; 
+    line-height: 1.65em;
+    font-size: inherit;
+  }
+  
+
+  
   a {
     text-decoration: underline;
     color: $color-primary-darker;
   }
 
   .page-number {
-    color: #444;
+    color: $color-gray-cool-dark;
   }
 
   span.previous {
@@ -1466,18 +1473,24 @@ a.twitter {
   margin: 0;
   padding: 1.25em .4em 0 0;
 
-&:after {
-   visibility: hidden;
-   display: block;
-   font-size: 0;
-   content: " ";
-   clear: both;
-   height: 0;
-   }
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
 
-  @media #{$small-up} {padding: 1em .4em 0 .4em;}
+  @media #{$small-up} {
+    padding: 1em .4em 0 .4em;
+  }
   margin-bottom: 0;
-  a {color: #fff; background: none;}
+  
+  a {
+    color: #fff; 
+    background: none;
+  }
 
   &.notice {
     font-size: .9em;
@@ -1501,13 +1514,9 @@ a.twitter {
     font-size: .9em;
     font-weight: 500;
     clear: both;
-    padding: 1.25em 0 1.5em 0;
+    padding: 1.25em 0;
     border-top: none;
     background: $color-primary-darker;
-    @media #{$xlarge-up} {
-      padding: 0;
-    }
-
   }
 
   // Feedback widget
@@ -1525,9 +1534,10 @@ a.twitter {
     background: none;
     overflow: hidden;
     text-decoration: underline;
-      @media #{$small-only} {
-        text-align: center;
-      }
+
+    @media #{$small-only} {
+      text-align: center;
+    }
 
     &:nth-child(even) {
       opacity: .5;
@@ -1546,36 +1556,11 @@ a.twitter {
       height: 17px;
       vertical-align: middle;
       margin: 0 .5em 0 0;
-      @media #{$medium-up} {float: left;}
+      @media #{$medium-up} {
+        float: left;
+      }
     }
 
-  @media #{$xlarge-up} {
-    position: fixed;
-    width: 12em;
-    padding: .5em;
-    display: inline-block;
-    text-decoration: none;
-    background: $color-primary-darker;
-    bottom: .85em;
-    right: 0;
-    border-top-left-radius: .3em;
-    border-bottom-left-radius: .3em;
-    span.icon {
-      margin-top: .75em;
-      margin-right: .5em;
-    }
-    span.text {
-      width: 100%; text-decoration: underline;
-      @media #{$medium-up} {float: left; width: 80%; text-decoration: none;}
-
-    }
-    &:hover, &:active, &:focus {
-      background: $color-primary-darkest;
-      color: #fff;
-      padding: .5em .65em;
-      width: 12.5em;
-    }
-  }
 }
 
 .message {
@@ -2345,7 +2330,7 @@ button[class*="usa-button-"] {
   border-top: 1px solid #ddd;
 
   z-index:500;
-  color: #444;
+  color: $color-gray-cool-dark;
   background: #fff;
 
   &.minimal {
