@@ -6,10 +6,14 @@ $color-green-darker: #195c27;
 $base-font-size: rem(16px);
 
 // Other Colors
-$polar:#E8F5FA;
-$wild-sand:#f6f6f6;
-$green-white:#eff0e6;
-$olso-gray:#849097;
+$polar: #E8F5FA;
+$wild-sand: #f6f6f6;
+$green-white: #eff0e6;
+$olso-gray: #849097;
+
+// TODO: This color is close enough to $color-gray-warm-dark  
+// that maybe we should replace it.
+$color-gray-cool-dark: #444; 
 
 // VA Fonts
 $roboto-slab: 'Roboto Slab', serif;
