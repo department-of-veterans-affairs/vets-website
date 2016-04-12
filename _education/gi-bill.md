@@ -70,13 +70,13 @@ You have several options from which to choose. [Veterans Service Organizations](
 
         <li>
           <a href="/education/gi-bill/survivors-dependent-assistance/">
-            <h4 class="alternate">Survivors' and Dependents' Assistance</h4>
+            <h5>Survivors' and Dependents' Assistance</h5>
           </a>
         </li>
 
         <li>
           <a href="/education/rates/">
-            <h4 class="alternate">Rates</h4>
+            <h5>Rates</h5>
           </a>
         </li>
 
