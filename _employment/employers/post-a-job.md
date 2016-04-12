@@ -13,7 +13,7 @@ template: 1-topic-landing
 
 <div markdown="1">
 
-Thank you for your interest in hiring Veterans, transitioning Servicemembers, and their families through the Veterans Employment Center™ (VEC). Maximize your exposure by posting jobs directly from your website to the Veterans Job Bank through the [National Labor Exchange (NLX)](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
+Thank you for your interest in hiring Veterans, transitioning Servicemembers, and their families through the Veterans Employment Center (VEC). Maximize your exposure by posting jobs directly from your website to the Veterans Job Bank through the [National Labor Exchange (NLX)](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
 
 </div>
 
