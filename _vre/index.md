@@ -21,27 +21,27 @@ template: 1-topic-landing
         <div class="section-nav">
           <ul class="small-block-grid-1 medium-block-grid-4 cards small">
             <li>
-              <a href="/VRE/service-disabled-veterans/">
+              <a href="/VRE/service-disabled/">
                 <h4 class="alternate">Service-disabled</h4>
                 <span>Service-disabled Veterans</span>
               </a>
             </li>
             <li>
-              <a href="/VRE/Employers/">
+              <a href="/employment/employers/">
                 <h4 class="alternate">Employers</h4>
                 <span>Employers</span>
               </a>
             </li>
             <li>
-              <a href="/VRE/family-members/">
+              <a href="/VRE/family/family-members/">
                 <h4 class="alternate">Family Members</h4>
                 <span>Family Members</span>
               </a>
             </li>
             <li>
-              <a href="/VRE/servicemembers/">
+              <a href="/disability-benefits/claims-process/claim-types/predischarge-claim/">
                 <h4 class="alternate">Servicemembers</h4>
-                <span>Servicemembers</span>
+                <span>Current Servicemembers</span>
               </a>
             </li>
           </ul>
