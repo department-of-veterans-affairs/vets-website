@@ -6,10 +6,24 @@ $color-green-darker: #195c27;
 $base-font-size: rem(16px);
 
 // Other Colors
-$polar:#E8F5FA;
-$wild-sand:#f6f6f6;
-$green-white:#eff0e6;
-$olso-gray:#849097;
+$polar: #E8F5FA;
+$wild-sand: #f6f6f6;
+$green-white: #eff0e6;
+$olso-gray: #849097;
+
+// TODO: These colors is close enough to $color-gray-warm-dark and 
+// to each other that maybe we should replace them.
+$color-va-gray-cool-dark: #444; 
+$color-va-gray-cool-medium: #555; 
+$color-va-gray-medium: #ccc;
+
+// TODO: This can probably be replaced with $color-primary-alt-darkest
+$color-va-primary-alt-darkest: #069;
+$color-va-primary-darker: #003E73;
+
+// TODO can probably replace with $color-secondary-darkest 
+$color-va-secondary-darkest: #a91d28; 
+
 
 // VA Fonts
 $roboto-slab: 'Roboto Slab', serif;
