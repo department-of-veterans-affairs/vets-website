@@ -1454,18 +1454,24 @@ a.twitter {
   margin: 0;
   padding: 1.25em .4em 0 0;
 
-&:after {
-   visibility: hidden;
-   display: block;
-   font-size: 0;
-   content: " ";
-   clear: both;
-   height: 0;
-   }
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
 
-  @media #{$small-up} {padding: 1em .4em 0 .4em;}
+  @media #{$small-up} {
+    padding: 1em .4em 0 .4em;
+  }
   margin-bottom: 0;
-  a {color: #fff; background: none;}
+  
+  a {
+    color: #fff; 
+    background: none;
+  }
 
   &.notice {
     font-size: .9em;
@@ -1489,13 +1495,9 @@ a.twitter {
     font-size: .9em;
     font-weight: 500;
     clear: both;
-    padding: 1.25em 0 1.5em 0;
+    padding: 1.25em 0;
     border-top: none;
     background: $color-primary-darker;
-    @media #{$xlarge-up} {
-      padding: 0;
-    }
-
   }
 
   // Feedback widget
@@ -1513,9 +1515,10 @@ a.twitter {
     background: none;
     overflow: hidden;
     text-decoration: underline;
-      @media #{$small-only} {
-        text-align: center;
-      }
+
+    @media #{$small-only} {
+      text-align: center;
+    }
 
     &:nth-child(even) {
       opacity: .5;
@@ -1534,36 +1537,11 @@ a.twitter {
       height: 17px;
       vertical-align: middle;
       margin: 0 .5em 0 0;
-      @media #{$medium-up} {float: left;}
+      @media #{$medium-up} {
+        float: left;
+      }
     }
 
-  @media #{$xlarge-up} {
-    position: fixed;
-    width: 12em;
-    padding: .5em;
-    display: inline-block;
-    text-decoration: none;
-    background: $color-primary-darker;
-    bottom: .85em;
-    right: 0;
-    border-top-left-radius: .3em;
-    border-bottom-left-radius: .3em;
-    span.icon {
-      margin-top: .75em;
-      margin-right: .5em;
-    }
-    span.text {
-      width: 100%; text-decoration: underline;
-      @media #{$medium-up} {float: left; width: 80%; text-decoration: none;}
-
-    }
-    &:hover, &:active, &:focus {
-      background: $color-primary-darkest;
-      color: #fff;
-      padding: .5em .65em;
-      width: 12.5em;
-    }
-  }
 }
 
 .message {
