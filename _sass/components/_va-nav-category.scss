@@ -52,7 +52,8 @@
   font-weight: 700;
   font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
   font-size: 1.35em;
-  padding: 0 0 .25em 0;
+// TODO: Remove this !important when #content .section h5 is refactored
+  padding: 0 0 .25em 0 !important;
   margin: 0;
   width: 100%;
 }
