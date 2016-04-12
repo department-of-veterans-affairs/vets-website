@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Child from './Child';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import GrowableTable from '../form-elements/GrowableTable.jsx';
-import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
+import { veteranUpdateField, ensureFieldsInitialized, updateReviewStatus } from '../../actions';
 
 /**
  * Props:
@@ -139,7 +139,7 @@ class ChildInformationSection extends React.Component {
       );
     }
 
-    if (this.props.data.sectionComplete) {
+    if (this.props.isSectionComplete && this.props.reviewSection) {
       content = (<div>
         <table className="review usa-table-borderless">
           <tbody>
@@ -167,10 +167,10 @@ class ChildInformationSection extends React.Component {
 
     if (this.props.reviewSection) {
       editButton = (<ErrorableCheckbox
-          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-          checked={this.props.data.sectionComplete}
+          label={`${this.props.isSectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.isSectionComplete}
           className="edit-checkbox"
-          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+          onValueChange={(update) => {this.props.onUIStateChange(update);}}/>
       );
     }
 
@@ -187,7 +187,8 @@ class ChildInformationSection extends React.Component {
 function mapStateToProps(state) {
   return {
     data: state.veteran.childInformation,
-    receivesVaPension: state.vaInformation.receivesVaPension,
+    receivesVaPension: state.veteran.vaInformation.receivesVaPension,
+    isSectionComplete: state.uiState.completedSections['/financial-assessment/child-information']
   };
 }
 
@@ -198,6 +199,9 @@ function mapDispatchToProps(dispatch) {
     },
     initializeFields: () => {
       dispatch(ensureFieldsInitialized('/financial-assessment/child-information'));
+    },
+    onUIStateChange: (update) => {
+      dispatch(updateReviewStatus(['/financial-assessment/child-information'], update));
     }
   };
 }

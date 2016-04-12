@@ -7,9 +7,9 @@ import SkinDeep from 'skin-deep';
 
 import Nav from '../../../../_health-care/_js/components/Nav';
 import routes from '../../../../_health-care/_js/routes';
-import veteran from '../../../../_health-care/_js/reducers/veteran';
+import reducer from '../../../../_health-care/_js/reducers';
 
-const store = createStore(veteran);
+const store = createStore(reducer);
 
 class Container extends React.Component {
   render() {

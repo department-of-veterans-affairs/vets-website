@@ -5,7 +5,7 @@ import DateInput from '../form-elements/DateInput';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
 import { branchesServed, dischargeTypes } from '../../utils/options-for-select.js';
-import { veteranUpdateField } from '../../actions';
+import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
 /**
  * Props:
@@ -17,7 +17,7 @@ class ServiceInformationSection extends React.Component {
     let content;
     let editButton;
 
-    if (this.props.data.sectionComplete) {
+    if (this.props.isSectionComplete && this.props.reviewSection) {
       content = (<table className="review usa-table-borderless">
         <tbody>
           <tr>
@@ -70,10 +70,10 @@ class ServiceInformationSection extends React.Component {
 
     if (this.props.reviewSection) {
       editButton = (<ErrorableCheckbox
-          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-          checked={this.props.data.sectionComplete}
+          label={`${this.props.isSectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.isSectionComplete}
           className="edit-checkbox"
-          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+          onValueChange={(update) => {this.props.onUIStateChange(update);}}/>
       );
     }
     return (
@@ -89,6 +89,7 @@ class ServiceInformationSection extends React.Component {
 function mapStateToProps(state) {
   return {
     data: state.veteran.serviceInformation,
+    isSectionComplete: state.uiState.completedSections['/military-service/service-information']
   };
 }
 
@@ -96,6 +97,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['serviceInformation', field], update));
+    },
+    onUIStateChange: (update) => {
+      dispatch(updateReviewStatus(['/military-service/service-information'], update));
     }
   };
 }

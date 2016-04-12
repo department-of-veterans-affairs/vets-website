@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
-import { veteranUpdateField } from '../../actions';
+import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
 /**
  * Props:
@@ -39,7 +39,7 @@ class AnnualIncomeSection extends React.Component {
       );
     }
 
-    if (this.props.data.sectionComplete) {
+    if (this.props.isSectionComplete && this.props.reviewSection) {
       content = (<div>
         <h6>Veteran</h6>
         <table className="review usa-table-borderless">
@@ -210,10 +210,10 @@ class AnnualIncomeSection extends React.Component {
 
     if (this.props.reviewSection) {
       editButton = (<ErrorableCheckbox
-          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-          checked={this.props.data.sectionComplete}
+          label={`${this.props.isSectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.isSectionComplete}
           className="edit-checkbox"
-          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+          onValueChange={(update) => {this.props.onUIStateChange(update);}}/>
       );
     }
 
@@ -230,7 +230,8 @@ class AnnualIncomeSection extends React.Component {
 function mapStateToProps(state) {
   return {
     data: state.veteran.annualIncome,
-    receivesVaPension: state.vaInformation.receivesVaPension
+    receivesVaPension: state.veteran.vaInformation.receivesVaPension,
+    isSectionComplete: state.uiState.completedSections['/financial-assessment/annual-income']
   };
 }
 
@@ -238,6 +239,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['annualIncome', field], update));
+    },
+    onUIStateChange: (update) => {
+      dispatch(updateReviewStatus(['/financial-assessment/annual-income'], update));
     }
   };
 }

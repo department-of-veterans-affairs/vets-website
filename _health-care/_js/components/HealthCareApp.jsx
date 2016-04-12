@@ -4,7 +4,7 @@ import { hashHistory } from 'react-router';
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
 import ProgressButton from './ProgressButton';
-import { ensureFieldsInitialized, sectionCompleteUpdateField } from '../actions';
+import { ensureFieldsInitialized, updateCompletionStatus } from '../actions';
 import { pathToData } from '../store';
 
 import * as validations from '../utils/validations';
@@ -47,12 +47,12 @@ class HealthCareApp extends React.Component {
 
   handleContinue() {
     const path = this.props.location.pathname;
-    const sectionData = pathToData(this.context.store.getState(), path);
+    const sectionData = pathToData(this.context.store.getState().veteran, path);
 
     this.context.store.dispatch(ensureFieldsInitialized(path));
     if (validations.isValidSection(path, sectionData)) {
       hashHistory.push(this.getUrl('next'));
-      this.context.store.dispatch(sectionCompleteUpdateField(path));
+      this.context.store.dispatch(updateCompletionStatus(path));
       if (document.getElementsByClassName('progress-box').length > 0) {
         document.getElementsByClassName('progress-box')[0].scrollIntoView();
       }
