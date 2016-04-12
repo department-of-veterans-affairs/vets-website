@@ -28,7 +28,6 @@ Yes, if:
 ### How it works
 
 There are many government and private resources available to you as you make this transition.
-
 - VA's [Education and Career Counseling](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp) program includes career counseling, benefits coaching, individual support, and academic counseling.
 
 - [Veteran Employment Specialists](http://vaforvets.va.gov/hr/RVECS/Pages/default.asp) can help you find jobs in your area. 
