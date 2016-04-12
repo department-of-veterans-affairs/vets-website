@@ -1,5 +1,5 @@
 ---
-title: Military and Veteran Spouse Support 
+title: Support for Military and Veteran Spouses
 concurrence: complete
 template: 1-topic-landing
 ---
