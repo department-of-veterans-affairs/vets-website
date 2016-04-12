@@ -147,7 +147,7 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 
 - Start or grow [your own business](/employment/job-seekers/start/). 
 - Service-disabled Veterans may qualify for [employment support services](/employment/job-seekers/service-disabled) like small-business counseling.
-- Evaluate non-traditional programs like apprenticeships, work study, and on-the-job training.
+- Evaluate [non-traditional programs](https://www.vets.gov/education/work-learn/job-and-apprenticeship/) like apprenticeships, work study, and on-the-job training.
 
 </div>
 
