@@ -3,6 +3,7 @@ title: Post a Job
 concurrence: complete
 template: 1-topic-landing
 ---
+<link href="/assets/css/vendor/prism.css" type="text/css" rel="stylesheet">
 
 <div class="main" role="main" markdown="0">
 
@@ -82,62 +83,59 @@ Only those marked with an asterisk (*) are required for inclusion in the Veteran
 This example contains two job listings. The first uses a smaller set of schema.org elements. Both contain all elements required for inclusion in the Veterans Job Bank. 
           
 <!-- Each of these lines needs to begin with 4 spaces -->
-    [
-      {
-        "@context": "http://schema.org",
-        "@type": "JobPosting",
-        "description": "Description: ABC Company Inc. seeks a full-time mid-level software engineer to develop in-house tools.",
-        "jobLocation": {
-          "@type": "Place",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Kirkland",
-            "addressRegion": "WA"
-          }
-        },
-        "hiringOrganization": {
-          "@type": "Organization",
-          "name": "ABC, Inc.",
-          "legalName": "Alphabet, Inc."
-        },
-        "specialCommitments": "VeteranCommit",
-        "title": "Software Engineer",
-        "datePosted": "1/2/15",
-        "url": "www.abccompanyinc.com/jobs?listing=12345"
-      },
-      {
-        "@context": "http://schema.org",
-        "@type": "JobPosting",
-        "baseSalary": "100000",
-        "benefits": "Medical, Life, Dental",
-        "description": "ABC Company Inc. seeks a full-time machine shop foreman for its main manufacturing facility. The successful candidate will be in charge of all shop activities.",
-        "employmentType": "Full-time",
-        "experienceRequirements": "Minimum 4 years experience as shop foreman. Military shop experience highly desired",
-        "incentives": "Performance-based annual bonus plan, project-completion bonuses",
-        "jobLocation": {
-          "@type": "Place",
-          "address": {
-            "@type": "PostalAddress",
-            "addressLocality": "Kirkland",
-            "addressRegion": "WA"
-          }
-        },
-        "hiringOrganization": {
-          "@type": "Organization",
-          "name": "ABC, Inc.",
-          "legalName": "Alphabet, Inc."
-        },
-        "qualifications": "Ability to lead a group of 30+ machinists of varying skill levels. Highly motivated. Ability to learn quickly. Ability to settle disputes.",
-        "responsibilities": "Manage all floor activities. Handle hirings, promotions, and firings.",
-        "salaryCurrency": "USD",
-        "specialCommitments": "VeteranCommit",
-        "title": "Software Engineer",
-        "workHours": "40+ hours per week",
-        "datePosted": "1/2/15",
-        "url": "www.abccompanyinc.com/jobs?listing=23456"
-      }
-    ]
-
+<pre><code class="language-json">[{
+"@context": "http://schema.org",
+"@type": "JobPosting",
+"description": "Description: ABC Company Inc. seeks a full-time mid-level software engineer to develop in-house tools.",
+"jobLocation": {
+ "@type": "Place",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Kirkland",
+    "addressRegion": "WA"
+  }
+},
+"hiringOrganization": {
+  "@type": "Organization",
+  "name": "ABC, Inc.",
+  "legalName": "Alphabet, Inc."
+},
+"specialCommitments": "VeteranCommit",
+"title": "Software Engineer",
+"datePosted": "1/2/15",
+"url": "www.abccompanyinc.com/jobs?listing=12345"
+},
+{
+"@context": "http://schema.org",
+"@type": "JobPosting",
+"baseSalary": "100000",
+"benefits": "Medical, Life, Dental",
+"description": "ABC Company Inc. seeks a full-time machine shop foreman for its main manufacturing facility. The successful candidate will be in charge of all shop activities.",
+"employmentType": "Full-time",
+"experienceRequirements": "Minimum 4 years experience as shop foreman. Military shop experience highly desired",
+"incentives": "Performance-based annual bonus plan, project-completion bonuses",
+"jobLocation": {
+  "@type": "Place",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Kirkland",
+    "addressRegion": "WA"
+  }
+},
+"hiringOrganization": {
+  "@type": "Organization",
+  "name": "ABC, Inc.",
+  "legalName": "Alphabet, Inc."
+},
+"qualifications": "Ability to lead a group of 30+ machinists of varying skill levels. Highly motivated. Ability to learn quickly. Ability to settle disputes.",
+"responsibilities": "Manage all floor activities. Handle hirings, promotions, and firings.",
+"salaryCurrency": "USD",
+"specialCommitments": "VeteranCommit",
+"title": "Software Engineer",
+"workHours": "40+ hours per week",
+"datePosted": "1/2/15",
+"url": "www.abccompanyinc.com/jobs?listing=23456"
+}]</code></pre>
 </div>
 </div>
 </div>
