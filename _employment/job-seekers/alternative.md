@@ -1,5 +1,5 @@
 ---
-title: Alternative ways to start your career
+title: Alternative Ways to Start Your Career
 concurrence: complete
 template: 1-topic-landing
 ---
