@@ -28,7 +28,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 </div>
 <div class="call-out" markdown="1">
 
-***Lorem ipsum dolor sit amet
+#### Lorem ipsum dolor sit amet
 Lorem:
 
 - Lorem ipsum dolor sit amet.
@@ -39,6 +39,7 @@ Lorem:
 
 Lorem ipsum dolor sit amet
 </div>
+
 <div markdown="1">
 #### Lorem ipsum dolor sit amet
 
@@ -47,11 +48,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 #### Lorem ipsum dolor sit amet, consectetur adipiscing elit
 
-- Lorem ipsum
-- Lorem ipsum
-- Lorem ipsum
-- Lorem ipsum
-- Lorem ipsum
+-Lorem ipsum
+-Lorem ipsum
+-Lorem ipsum
+-Lorem ipsum
+-Lorem ipsum
 </div>
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
