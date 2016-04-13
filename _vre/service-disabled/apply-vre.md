@@ -47,7 +47,7 @@ Yes, if:
 
 #### Who is eligible to apply?
 
-You and [eligible family members](/VRE/family-members)
+You and [eligible family members](/VRE/family/family-members)
 
 </div>
 
