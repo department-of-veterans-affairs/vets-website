@@ -132,7 +132,7 @@ The breadcrumbs plugin uses the structure of the URL to do two things:
 1. To function as the titles of the breadcrumbs if those titles haven't been set in `_config.yml`
 2. To determine _how many_ breadcrumb segments there should be.
     - There will only ever be as many breadcrumbs as there are URL segments.
-    - The last breadcrumb is always the page title.
+    - The last breadcrumb is **always the page title**, as defined by the `title` property in the YAML data of the Markdown file.
 
 In other words, https://vets.gov/employment/job-seekers/alternative/ has three URL segments (not including the base URL of vets.gov):
 
@@ -143,3 +143,14 @@ In other words, https://vets.gov/employment/job-seekers/alternative/ has three U
 So that page has three breadcrumbs: _Employment > Job Seekers > Alternative ways to start your career_. 
 
 Adding another breadcrumb requires adding another sub-directory or segment to the URL path. 
+
+It is possible to edit the text **only** of the first two breadcrumbs using `_config.yml`. To do so, update `_config.yml` with lines similar to what follows.
+
+    - scope:
+      type: "employment"
+    values:
+      breadcrumb_1: "Careers and Employment"
+      layout: "page-breadcrumbs"
+      body_class: "page-employment"
+
+In order to **update the third breadcrumb**, you _must_ update the `title` property that's part of the YAML metadata for the corresponding file.
