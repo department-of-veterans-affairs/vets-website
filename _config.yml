@@ -24,7 +24,9 @@ exclude:
   - "npm-shrinkwrap.json"
   - "package.json"
   - "webpack.config.js"
-
+  - "webpack_dev.config.js"        
+  - "webpack_prod.config.js"
+ 
 # Specifically include files left out in dev.
 include:
   - "_dummy-placeholder.html"
