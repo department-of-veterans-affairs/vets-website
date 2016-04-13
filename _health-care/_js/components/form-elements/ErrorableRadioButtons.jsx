@@ -45,7 +45,7 @@ class ErrorableRadioButtons extends React.Component {
     const options = _.isArray(this.props.options) ? this.props.options : [];
     const storedValue = this.props.value;
     let reactKey = 0;
-    const optionElements = options.map((obj) => {
+    const optionElements = options.map((obj, index) => {
       let optionLabel;
       let optionValue;
       if (_.isString(obj)) {
@@ -57,15 +57,15 @@ class ErrorableRadioButtons extends React.Component {
       }
       const checked = storedValue !== undefined && optionValue === storedValue ? 'checked=true' : '';
       return (
-        <div key={reactKey++} className="radio-buttons-inline">
+        <div key={reactKey++} className="hca-radio-buttons">
           <input
               checked={checked}
-              id={optionValue}
+              id={`${this.inputId}-${index}`}
               name={this.inputId}
               type="radio"
               value={optionValue}
               onChange={this.handleChange}/>
-          <label htmlFor={optionValue}>
+          <label htmlFor={`${this.inputId}-${index}`}>
             {optionLabel}
           </label>
         </div>
