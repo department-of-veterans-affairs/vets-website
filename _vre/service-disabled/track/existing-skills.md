@@ -20,7 +20,7 @@ template: 4-action-page
 
 
 <div markdown="1">
-If you want to follow a career path that uses your existing skillset, Vocational Rehabilitation and Employment (VR&E) can help you with your job search through counseling and rehabilitation services that address your interests, abilities and aptitudes. This support supplements other [VA employment search resources](Link to vets.gov section).
+If you want to follow a career path that uses your existing skillset, Vocational Rehabilitation and Employment (VR&E) can help you with your job search through counseling and rehabilitation services that address your interests, abilities and aptitudes. This support supplements other [VA employment search resources](/_employment/job-seekers/employment-support).
 
 ###Are you eligible for this VR&E track?
 
@@ -54,9 +54,9 @@ You
 ---------------------------------------------
 
 ### How it works
-[Apply for VR&E](Link to application page) to find a Vocational Rehabilitation Counselor (VRC) who can assist you.
+[Apply for VR&E](/_vre/service-disabled/apply-vre) to find a Vocational Rehabilitation Counselor (VRC) who can assist you.
 
-Some dependents of Veterans with a service-connected disability may qualify for career counseling, as well. Learn how [family members may apply for VR&E](Link to Vets.gov page).
+Some dependents of Veterans with a service-connected disability may qualify for career counseling, as well. Learn how [family members may apply for VR&E](/_vre/family/family-members).
 </div>
 
 </div>
