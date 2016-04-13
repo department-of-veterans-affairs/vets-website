@@ -149,7 +149,6 @@ GEM
       ethon (>= 0.8.0)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
-    wdm (0.1.1)
     yajl-ruby (1.2.1)
     yell (2.0.5)
 
@@ -161,7 +160,6 @@ DEPENDENCIES
   github-pages
   html-proofer
   jekyll-paginate
-  wdm (>= 0.1.0)
 
 BUNDLED WITH
    1.11.2
