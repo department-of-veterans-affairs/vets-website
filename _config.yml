@@ -83,6 +83,9 @@ collections:
   playbook:
     output: true
     permalink: /:collection/:path/index.html
+  vre:
+    output: true
+    permalink: /:collection/:path/index.html
 
 # Sets breadcrumbs per path
 defaults:
