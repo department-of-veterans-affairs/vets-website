@@ -100,6 +100,19 @@ defaults:
     values:
       breadcrumb_2: "Apply for Benefits"
   - scope:
+      type: "vre"
+    values:
+      layout: "page-breadcrumbs"
+      body_class: "page-vre"
+  - scope:
+      path: "vre/family/"
+    values:
+      breadcrumb_2: "Family Members"
+  - scope:
+      path: "vre/service-disabled"
+    values:
+      breadcrumb_2: "Service-Disabled"
+  - scope:
       type: "education"
     values:
       layout: "page-breadcrumbs"
