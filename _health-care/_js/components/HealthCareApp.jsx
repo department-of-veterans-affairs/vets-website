@@ -1,17 +1,20 @@
 import React from 'react';
-import { hashHistory } from 'react-router';
+import _ from 'lodash';
 
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
+import PopulateVeteranButton from './debug/PopulateVeteranButton';
+import PerfPanel from './debug/PerfPanel';
 import ProgressButton from './ProgressButton';
+import RoutesDropdown from './debug/RoutesDropdown';
 import { ensureFieldsInitialized } from '../actions';
 import { pathToData } from '../store';
 
 import * as validations from '../utils/validations';
 
 class HealthCareApp extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleBack = this.handleBack.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,7 +54,7 @@ class HealthCareApp extends React.Component {
 
     this.context.store.dispatch(ensureFieldsInitialized(path));
     if (validations.isValidSection(path, sectionData)) {
-      hashHistory.push(this.getUrl('next'));
+      this.context.router.push(this.getUrl('next'));
       if (document.getElementsByClassName('progress-box').length > 0) {
         document.getElementsByClassName('progress-box')[0].scrollIntoView();
       }
@@ -64,7 +67,7 @@ class HealthCareApp extends React.Component {
   }
 
   handleBack() {
-    hashHistory.push(this.getUrl('back'));
+    this.context.router.push(this.getUrl('back'));
     if (document.getElementsByClassName('progress-box').length > 0) {
       document.getElementsByClassName('progress-box')[0].scrollIntoView();
     }
@@ -131,6 +134,19 @@ class HealthCareApp extends React.Component {
         </div>
       );
     }
+    let devPanel = undefined;
+    // TODO(awong): Wrap to disable on production sites.
+    const queryParams = _.fromPairs(
+      window.location.search.substring(1).split('&').map((v) => { return v.split('='); }));
+    if (queryParams.devPanel === '1') {
+      devPanel = (
+        <div className="row">
+          <RoutesDropdown/>
+          <PopulateVeteranButton/>
+          <PerfPanel/>
+        </div>
+      );
+    }
 
     return (
       <div className="row">
@@ -138,6 +154,7 @@ class HealthCareApp extends React.Component {
           <Nav currentUrl={this.props.location.pathname}/>
         </div>
         <div className="medium-8 columns">
+          {devPanel}
           <div className="progress-box">
             <div className="form-panel">
               {children}
@@ -152,6 +169,9 @@ class HealthCareApp extends React.Component {
 
 // TODO(awong): Hack to allow access to the store for now while migrating.
 // All uses of this.context.store in this file are WRONG!!!
-HealthCareApp.contextTypes = { store: React.PropTypes.object };
+HealthCareApp.contextTypes = {
+  router: React.PropTypes.object.isRequired,
+  store: React.PropTypes.object
+};
 
 export default HealthCareApp;
