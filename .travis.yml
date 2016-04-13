@@ -38,4 +38,4 @@ deploy:
     acl: public_read
     on:
       repo: department-of-veterans-affairs/vets-website
-      branch: production
+      branch: master
