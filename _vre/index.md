@@ -1,15 +1,16 @@
 ---
-title: VRE Landing
+title: VRE
 permalink: /VRE/index.html
 source: http://www.benefits.va.gov/VRE/
 template: 1-topic-landing
 ---
 
-<div class="main" role="main" markdown="0">
-  <div class="section one" markdown="0">
-    <div class="primary" markdown="0">
-      <div class="row" markdown="0">
-        <div class="small-12 columns" markdown="0">
+
+<div class="main" role="main">
+  <div class="section one">
+    <div class="primary">
+      <div class="row">
+        <div class="small-12 columns usa-content" markdown="0">
           <h3> </h3>
           <p>If you have a service-conected disability that limits your ability to work or prevents you from working, VA’s Vocational Rehabilitation and Employment (VR&E) program can help you, and, in some cases, your family members, explore career options and receive additional training. </p>
         </div>
