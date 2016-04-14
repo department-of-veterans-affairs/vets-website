@@ -107,6 +107,13 @@ function isValidAddress(street, city, country, state, zipcode) {
   return true;
 }
 
+function isValidInsurancePolicy(policyNumber, groupCode) {
+  if (policyNumber !== null || groupCode !== null) {
+    return isNotBlank(policyNumber) || isNotBlank(groupCode);
+  }
+  return true;
+}
+
 function isValidNameAndGeneralInformation(data) {
   return (isNotBlank(data.fullName.first) && isValidName(data.fullName.first)) &&
       (isBlank(data.fullName.middle) || isValidName(data.fullName.middle)) &&
@@ -198,8 +205,7 @@ function isValidGeneralInsurance(data) {
   for (let i = 0; i < providers.length; i++) {
     if (!(isNotBlank(providers[i].insuranceName) &&
         isNotBlank(providers[i].insurancePolicyHolderName) &&
-        isNotBlank(providers[i].insurancePolicyNumber) &&
-        (isBlank(providers[i].insurancePhone) || isValidPhone(providers[i].insurancePhone)))
+        isValidInsurancePolicy(providers[i].insurancePolicyNumber, providers[i].insuranceGroupCode))
     ) {
       return false;
     }
@@ -271,6 +277,7 @@ export {
   isValidPhone,
   isValidEmail,
   isValidAddress,
+  isValidInsurancePolicy,
   isValidNameAndGeneralInformation,
   isValidVaInformation,
   isValidAdditionalInformation,

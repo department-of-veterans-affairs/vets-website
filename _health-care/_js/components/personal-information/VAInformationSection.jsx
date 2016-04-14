@@ -5,7 +5,7 @@ import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
 import { yesNo } from '../../utils/options-for-select';
 import { isNotBlank } from '../../utils/validations';
-import { veteranUpdateField } from '../../actions';
+import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
 /**
  * Props:
@@ -17,7 +17,7 @@ class VaInformationSection extends React.Component {
     let content;
     let editButton;
 
-    if (this.props.data.sectionComplete) {
+    if (this.props.isSectionComplete && this.props.reviewSection) {
       content = (<table className="review usa-table-borderless">
         <tbody>
           <tr>
@@ -50,33 +50,33 @@ class VaInformationSection extends React.Component {
               options={yesNo}
               value={this.props.data.isVaServiceConnected}
               onValueChange={(update) => {this.props.onStateChange('isVaServiceConnected', update);}}/>
-          {this.props.data.isVaServiceConnected === true &&
-            <div>
-              <ErrorableCheckbox
-                  label="Are you compensable VA Service Connected 0% - 40%?"
-                  checked={this.props.data.compensableVaServiceConnected}
-                  onValueChange={(update) => {this.props.onStateChange('compensableVaServiceConnected', update);}}/>
-              <span>
-                A VA determination that a Service-connected disability is severe enough to warrant monetary compensation.
-              </span>
-            </div>
-          }
-          {this.props.data.isVaServiceConnected === true && this.props.data.compensableVaServiceConnected === true &&
-            <ErrorableCheckbox
-                label="Do you receive a VA pension?"
-                checked={this.props.data.receivesVaPension}
-                onValueChange={(update) => {this.props.onStateChange('receivesVaPension', update);}}/>
-          }
+
+          <ErrorableRadioButtons required
+              errorMessage={isNotBlank(this.props.data.compensableVaServiceConnected) ? '' : 'Please select a response'}
+              label="Are you compensable VA Service Connected 0% - 40%?"
+              options={yesNo}
+              value={this.props.data.compensableVaServiceConnected}
+              onValueChange={(update) => {this.props.onStateChange('compensableVaServiceConnected', update);}}/>
+          <span>
+            A VA determination that a Service-connected disability is severe enough to warrant monetary compensation.
+          </span>
+
+          <ErrorableRadioButtons required
+              errorMessage={isNotBlank(this.props.data.receivesVaPension) ? '' : 'Please select a response'}
+              label="Do you receive a VA pension?"
+              options={yesNo}
+              value={this.props.data.receivesVaPension}
+              onValueChange={(update) => {this.props.onStateChange('receivesVaPension', update);}}/>
         </div>
       </div>);
     }
 
     if (this.props.reviewSection) {
       editButton = (<ErrorableCheckbox
-          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-          checked={this.props.data.sectionComplete}
+          label={`${this.props.isSectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.isSectionComplete}
           className="edit-checkbox"
-          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+          onValueChange={(update) => {this.props.onUIStateChange(update);}}/>
       );
     }
 
@@ -94,7 +94,8 @@ class VaInformationSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.vaInformation,
+    data: state.veteran.vaInformation,
+    isSectionComplete: state.uiState.completedSections['/personal-information/va-information']
   };
 }
 
@@ -102,6 +103,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['vaInformation', field], update));
+    },
+    onUIStateChange: (update) => {
+      dispatch(updateReviewStatus(['/personal-information/va-information'], update));
     }
   };
 }

@@ -6,7 +6,7 @@ import Email from '../questions/Email';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import Phone from '../questions/Phone';
-import { veteranUpdateField } from '../../actions';
+import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
 /**
  * Props:
@@ -31,7 +31,7 @@ class VeteranAddressSection extends React.Component {
     let content;
     let editButton;
 
-    if (this.props.data.sectionComplete) {
+    if (this.props.isSectionComplete && this.props.reviewSection) {
       content = (<table className="review usa-table-borderless">
         <tbody>
           <tr>
@@ -77,7 +77,7 @@ class VeteranAddressSection extends React.Component {
         </tbody>
       </table>);
     } else {
-      content = (<div>
+      content = (<div className="input-section">
         <p>For locations outside the U.S., enter "City,Country" in the City field
             (e.g., "Paris,France"), and select Foreign Country for State.
         </p>
@@ -112,10 +112,10 @@ class VeteranAddressSection extends React.Component {
 
     if (this.props.reviewSection) {
       editButton = (<ErrorableCheckbox
-          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-          checked={this.props.data.sectionComplete}
+          label={`${this.props.isSectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.isSectionComplete}
           className="edit-checkbox"
-          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+          onValueChange={(update) => {this.props.onUIStateChange(update);}}/>
       );
     }
 
@@ -133,7 +133,8 @@ class VeteranAddressSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.veteranAddress
+    data: state.veteran.veteranAddress,
+    isSectionComplete: state.uiState.completedSections['/personal-information/veteran-address']
   };
 }
 
@@ -141,6 +142,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['veteranAddress', field], update));
+    },
+    onUIStateChange: (update) => {
+      dispatch(updateReviewStatus(['/personal-information/veteran-address'], update));
     }
   };
 }

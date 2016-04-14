@@ -77,12 +77,9 @@ body .row {
   }
 }
 
-.radio-buttons-inline {
-  display: inline-block;
-
+.hca-radio-buttons {
   label {
     margin-top: 1em;
-    margin-right: 1em;
   }
 }
 
@@ -96,6 +93,12 @@ body .row {
     }
     &:before {
       background: $color-gray;
+    }
+    &.section-complete {
+      &:before {
+        background: $color-green;
+        content: "\2714";
+      }
     }
     &.section-current {
       h5 {

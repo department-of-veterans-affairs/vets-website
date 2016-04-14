@@ -138,7 +138,7 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 #### Get personalized help if you need it
 
 - Government and private resources offer [one-on-one assistance](/employment/job-seekers/one-on-one).
-- Qualified service-disabled Veterans can seek specialized help through [Vocational Rehabilitation and Employment (VR&E)](http://www.benefits.va.gov/vocrehab/index.asp).
+- Qualified service-disabled Veterans can get [employment support services](/employment/job-seekers/service-disabled), such as small business counseling, as well as specialized help through [Vocational Rehabilitation and Employment (VR&E)](http://www.benefits.va.gov/vocrehab/index.asp).
 
 </div>
 
@@ -146,7 +146,6 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 #### Take a different approach to starting your career 
 
 - Start or grow [your own business](/employment/job-seekers/start/). 
-- Service-disabled Veterans may qualify for [employment support services](/employment/job-seekers/service-disabled) like small-business counseling.
 - Evaluate [non-traditional programs](https://www.vets.gov/education/work-learn/job-and-apprenticeship/) like apprenticeships, work study, and on-the-job training.
 
 </div>
