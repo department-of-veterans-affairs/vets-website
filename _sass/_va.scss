@@ -405,7 +405,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
 // Home page specific
 
 .home #content {
-  h2, h3, h4, h5, h6, p, ul, li, ol, a {color: $color-gray-dark;}
+  h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
   .post-date {font-size: .5em; color: $color-gold;}
   h3 {
     border-bottom: 1px solid $color-white;
@@ -461,17 +461,6 @@ h6 {font-size: 1.15em; font-weight: bold;}
         }
       }
     }
-
-
-  .section.one, .section.two {
-    a {
-      color: $color-gray-dark;
-      &:hover {
-        color: $color-primary-darkest;
-        background: rgba(0,0,0,.15);
-      }
-    }
-  }
 
   .home #content .section h3.alternate {
     margin: 0 0 2em 0 !important; padding: 0;
