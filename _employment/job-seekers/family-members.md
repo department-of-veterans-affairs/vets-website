@@ -18,12 +18,14 @@ Through the Department of Defense’s [Spouse Education Career Opportunities](ht
 - connecting with employers committed to hiring military spouses or
 - pursuing additional education and/or training.  
 
+<div class="call-out" markdown="1">
 ### Are you eligible for SECO services? 
 Yes, if:
 
 - You are the spouse of an active-duty, National Guard, or Reserve Servicemember in the Army, Marine Corps, Navy, or Air Force. 
 - You are the spouse of a Servicemember who has been separated from active duty, National Guard, or Reserves for less than 180 days.
 - You are the surviving spouse of a Servicemember who died while on active duty.
+</div>
 
 ### How it works
 Sign up for a current DS Logon ID. This is the same login used for online services like TRICARE. If you are unsure of your DS Logon, visit [My Access Center](https://myaccess.dmdc.osd.mil/identitymanagement/help.do?execution=e1s1).

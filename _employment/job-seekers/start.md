@@ -15,7 +15,9 @@ VA and the [Small Business Administration](https://www.sba.gov/content/veteran-s
 
 VA can guide you through the process of [registering](http://www.va.gov/osdbu/) as a Veteran-owned or service-disabled Veteran-owned business. Once you get your certification, you are eligible for certain assistance and benefits. If you are already open for business and want to sell to the federal government, the [Procurement Technical Assistance Center](http://www.aptac-us.org) (PTAC) can help with all of the required documentation and registration to bid on government contracts.  
 
-#### Learn more
+
+
+### Learn more
 Many universities and nonprofit organizations offer free or low-cost entrepreneur and business-focused courses, some online and others in person, for Veterans and military family members. For example, Syracuse University’s Institute for Veterans and Military Families offers [Boots to Business](http://vets.syr.edu/education/boots-to-business/), [Entrepreneurship Bootcamp for Veterans with Disabilities](http://ebv.vets.syr.edu/), and [Veteran Women Igniting the Spirit of Entrepreneurship](http://vets.syr.edu/education/v-wise/).
 
 
