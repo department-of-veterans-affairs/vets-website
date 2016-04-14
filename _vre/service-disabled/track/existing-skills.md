@@ -54,9 +54,9 @@ You
 ---------------------------------------------
 
 ### How it works
-[Apply for VR&E](/_vre/service-disabled/apply-vre) to find a Vocational Rehabilitation Counselor (VRC) who can assist you.
+[Apply for VR&E](/vre/service-disabled/apply-vre) to find a Vocational Rehabilitation Counselor (VRC) who can assist you.
 
-Some dependents of Veterans with a service-connected disability may qualify for career counseling, as well. Learn how [family members may apply for VR&E](/_vre/family/family-members).
+Some dependents of Veterans with a service-connected disability may qualify for career counseling, as well. Learn how [family members may apply for VR&E](/vre/family/family-members).
 </div>
 
 </div>
