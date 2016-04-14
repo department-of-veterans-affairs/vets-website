@@ -26,9 +26,9 @@ class ReviewAndSubmitSection extends React.Component {
         // TODO(crew): We need to figure out why the css isn't working here.
         <div className="usa-alert usa-alert-success">
           <div className="usa-alert-body">
-            <h3 className="usa-alert-heading">You have submitted your Application for Health Benefits!</h3>
-            <p className="usa-alert-text">Processing time varies case by case, however, we assure you that we are working diligently to process applications as quickly as possible.</p>
-            <p className="usa-alert-text">If you have questions, or would like to check on the status of your application, call the help desk at 1-877-222-VETS (8387).</p>
+            <h3 className="usa-alert-heading">You have submitted your application for health care!</h3>
+            <p className="usa-alert-text">We are processing your application. You should receive a phone call from the VA in the next week.</p>
+            <p className="usa-alert-text">If you do not receive a call from the VA within a week, or you have questions, call 1-877-222-VETS (8387).</p>
           </div>
         </div>
       );
