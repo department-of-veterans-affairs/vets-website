@@ -74,7 +74,7 @@ class DeductibleExpensesSection extends React.Component {
           Veteran for spouse or dependent(s).
         </p>
 
-        <div>
+        <div className="input-section">
           <ErrorableTextInput
               errorMessage={this.isValidMonetaryValue(this.props.data.deductibleMedicalExpenses, message)}
               label="Total non-reimbursed medical expenses paid by you or your spouse

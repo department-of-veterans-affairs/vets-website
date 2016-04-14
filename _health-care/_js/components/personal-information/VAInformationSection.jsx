@@ -50,27 +50,23 @@ class VaInformationSection extends React.Component {
               options={yesNo}
               value={this.props.data.isVaServiceConnected}
               onValueChange={(update) => {this.props.onStateChange('isVaServiceConnected', update);}}/>
-          {this.props.data.isVaServiceConnected === 'Y' &&
-            <div>
-              <ErrorableRadioButtons required
-                  errorMessage={isNotBlank(this.props.data.compensableVaServiceConnected) ? '' : 'Please select a response'}
-                  label="Are you compensable VA Service Connected 0% - 40%?"
-                  options={yesNo}
-                  value={this.props.data.compensableVaServiceConnected}
-                  onValueChange={(update) => {this.props.onStateChange('compensableVaServiceConnected', update);}}/>
-              <span>
-                A VA determination that a Service-connected disability is severe enough to warrant monetary compensation.
-              </span>
-            </div>
-          }
-          {this.props.data.isVaServiceConnected === 'Y' && this.props.data.compensableVaServiceConnected === 'Y' &&
-            <ErrorableRadioButtons required
-                errorMessage={isNotBlank(this.props.data.receivesVaPension) ? '' : 'Please select a response'}
-                label="Do you receive a VA pension?"
-                options={yesNo}
-                value={this.props.data.receivesVaPension}
-                onValueChange={(update) => {this.props.onStateChange('receivesVaPension', update);}}/>
-          }
+
+          <ErrorableRadioButtons required
+              errorMessage={isNotBlank(this.props.data.compensableVaServiceConnected) ? '' : 'Please select a response'}
+              label="Are you compensable VA Service Connected 0% - 40%?"
+              options={yesNo}
+              value={this.props.data.compensableVaServiceConnected}
+              onValueChange={(update) => {this.props.onStateChange('compensableVaServiceConnected', update);}}/>
+          <span>
+            A VA determination that a Service-connected disability is severe enough to warrant monetary compensation.
+          </span>
+
+          <ErrorableRadioButtons required
+              errorMessage={isNotBlank(this.props.data.receivesVaPension) ? '' : 'Please select a response'}
+              label="Do you receive a VA pension?"
+              options={yesNo}
+              value={this.props.data.receivesVaPension}
+              onValueChange={(update) => {this.props.onStateChange('receivesVaPension', update);}}/>
         </div>
       </div>);
     }

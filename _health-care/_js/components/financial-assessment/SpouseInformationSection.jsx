@@ -8,7 +8,7 @@ import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import FullName from '../questions/FullName';
 import Phone from '../questions/Phone';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
-import { updateReviewStatus, veteranUpdateField } from '../../actions';
+import { updateReviewStatus, veteranUpdateField, updateSpouseAddress } from '../../actions';
 
 // TODO: Consider adding question for marital status here so if user
 // entered something incorrect in Personal Information they don't have
@@ -24,9 +24,11 @@ class SpouseInformationSection extends React.Component {
     let notRequiredMessage;
     let noSpouseMessage;
     let content;
+    let spouseAddressSummary;
+    let spouseAddressFields;
     let editButton;
 
-    if (this.props.receivesVaPension === true) {
+    if (this.props.receivesVaPension) {
       notRequiredMessage = (
         <p>
           <strong>
@@ -34,6 +36,57 @@ class SpouseInformationSection extends React.Component {
             indicated you are receiving a VA pension.
           </strong>
         </p>
+      );
+    }
+
+    if (!this.props.data.sameAddress) {
+      spouseAddressSummary = (
+        <div>
+          <h4>Spouse's Address and Telephone Number</h4>
+          <table className="review usa-table-borderless">
+            <tbody>
+              <tr>
+                <td>Street:</td>
+                <td>{this.props.data.spouseAddress.street}</td>
+              </tr>
+              <tr>
+                <td>City:</td>
+                <td>{this.props.data.spouseAddress.city}</td>
+              </tr>
+              <tr>
+                <td>Country:</td>
+                <td>{this.props.data.spouseAddress.country}</td>
+              </tr>
+              <tr>
+                <td>State:</td>
+                <td>{this.props.data.spouseAddress.state}</td>
+              </tr>
+              <tr>
+                <td>ZIP Code:</td>
+                <td>{this.props.data.spouseAddress.zipcode}</td>
+              </tr>
+              <tr>
+                <td>Phone:</td>
+                <td>{this.props.data.spousePhone}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      );
+
+      spouseAddressFields = (
+        <div>
+          <h4>Spouse's Address and Telephone Number</h4>
+
+          <div className="input-section">
+            <Address value={this.props.data.spouseAddress}
+                onUserInput={(update) => {this.props.onStateChange('spouseAddress', update);}}/>
+            <Phone
+                label="Phone"
+                value={this.props.data.spousePhone}
+                onValueChange={(update) => {this.props.onStateChange('spousePhone', update);}}/>
+          </div>
+        </div>
       );
     }
 
@@ -71,35 +124,7 @@ class SpouseInformationSection extends React.Component {
             </tr>
           </tbody>
         </table>
-        <h4>Spouse's Address and Telephone Number</h4>
-        <table className="review usa-table-borderless">
-          <tbody>
-            <tr>
-              <td>Street:</td>
-              <td>{this.props.data.spouseAddress.street}</td>
-            </tr>
-            <tr>
-              <td>City:</td>
-              <td>{this.props.data.spouseAddress.city}</td>
-            </tr>
-            <tr>
-              <td>Country:</td>
-              <td>{this.props.data.spouseAddress.country}</td>
-            </tr>
-            <tr>
-              <td>State:</td>
-              <td>{this.props.data.spouseAddress.state}</td>
-            </tr>
-            <tr>
-              <td>ZIP Code:</td>
-              <td>{this.props.data.spouseAddress.zipcode}</td>
-            </tr>
-            <tr>
-              <td>Phone:</td>
-              <td>{this.props.data.spousePhone}</td>
-            </tr>
-          </tbody>
-        </table>
+        {spouseAddressSummary}
       </div>);
     } else {
       content = (<div>
@@ -136,28 +161,16 @@ class SpouseInformationSection extends React.Component {
               label="Did your spouse live with you last year?"
               checked={this.props.data.cohabitedLastYear}
               onValueChange={(update) => {this.props.onStateChange('cohabitedLastYear', update);}}/>
-
           <hr/>
           <p>You may count your spouse as your dependent even if you did not live
           together, as long as you contributed support last calendar year.</p>
           <hr/>
-
           <ErrorableCheckbox
               label="If your spouse did not live with you last year, did you provide support?"
               checked={this.props.data.provideSupportLastYear}
               onValueChange={(update) => {this.props.onStateChange('provideSupportLastYear', update);}}/>
         </div>
-
-        <h4>Spouse's Address and Telephone Number</h4>
-
-        <div className="input-section">
-          <Address value={this.props.data.spouseAddress}
-              onUserInput={(update) => {this.props.onStateChange('spouseAddress', update);}}/>
-          <Phone
-              label="Phone"
-              value={this.props.data.spousePhone}
-              onValueChange={(update) => {this.props.onStateChange('spousePhone', update);}}/>
-        </div>
+        {spouseAddressFields}
       </div>);
     }
 
@@ -215,6 +228,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['spouseInformation', field], update));
+      if (field === 'sameAddress') {
+        dispatch(updateSpouseAddress(['spouseInformation', 'spouseAddress'], update));
+      }
     },
     onUIStateChange: (update) => {
       dispatch(updateReviewStatus(['/financial-assessment/spouse-information'], update));
