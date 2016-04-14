@@ -96,7 +96,7 @@ defaults:
       layout: "page-breadcrumbs"
       body_class: "page-disability"
   - scope:
-      path: "disability-benefits/apply-for-benefits/"
+      path: "disability-benefits/apply-for-benefits"
     values:
       breadcrumb_2: "Apply for Benefits"
   - scope:
@@ -105,7 +105,7 @@ defaults:
       layout: "page-breadcrumbs"
       body_class: "page-vre"
   - scope:
-      path: "vre/family/"
+      path: "vre/family"
     values:
       breadcrumb_2: "Family Members"
   - scope:
