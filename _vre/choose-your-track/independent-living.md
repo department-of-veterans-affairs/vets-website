@@ -37,17 +37,15 @@ Yes, if:
 <div markdown="1">
 
 ### How to apply
-You may get a referral from your case manager after enrolling in the [Vocational Rehabilitation & Employment](/_vre/service-disabled/apply-vre) Program.
+You may get a referral from your case manager after enrolling in the [Vocational Rehabilitation & Employment](/vre/service-disabled/apply-vre/) Program.
 </div>
 
 <div markdown="1">
 
----------------------------------------------
-
 ### How it works
 A Vocational Rehabilitation Counselor (VRC) will work with you to determine if you are not ready for employment because of the severity of your service-connected disabilities. The counselor will also determine if you will benefit from independent-living services.
 
-Then, a counselor appointed through [Vocational Rehabilitation & Employment](/_vre/service-disabled/apply-vre) will help you personalize an independent-living plan for your needs. The services generally last up to 24 months, but in some situations they may be extended beyond this time frame. 
+Then, a counselor appointed through [Vocational Rehabilitation & Employment](/vre/service-disabled/apply-vre/) will help you personalize an independent-living plan for your needs. The services generally last up to 24 months, but in some situations they may be extended beyond this time frame. 
 
 Independent-living services may include evaluation and counseling to identify your needs and goals; home consultations with specialists; referral to support resources; and guidance in understanding your eligibility for VA home-modification programs. 
 
