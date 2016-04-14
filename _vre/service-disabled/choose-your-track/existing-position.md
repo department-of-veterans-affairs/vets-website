@@ -30,7 +30,7 @@ Veterans with service-connected disabilities have the opportunity to return to w
 <div class="call-out" markdown="1">
 Yes, if:
 
-- You are a Veteran with a service-connected disability and an employment barrier/handicap [enrolled in VR&E](/_vre/service-disabled/apply-vre/).
+- You are a Veteran with a service-connected disability and an employment barrier/handicap [enrolled in VR&E](/vre/service-disabled/apply-vre/).
 - You would like to return to your previous place of employment.
 
 </div>
@@ -53,7 +53,7 @@ VA assistance with your previous employer
 ---------------------------------------------
 
 ### How it works
-[Apply for VR&E](/_vre/service-disabled/apply-vre/) to find a vocational rehabilitation counselor (VRC) who can help you.
+[Apply for VR&E](/vre/service-disabled/apply-vre/) to find a vocational rehabilitation counselor (VRC) who can help you.
 
 </div>
 
