@@ -1,5 +1,5 @@
 ---
-title: Choose your track
+title: Choose Your Track
 template: 2-detailed-landing
 ---
 
