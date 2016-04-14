@@ -1,6 +1,6 @@
 ---
 title: VRE
-permalink: /VRE/index.html
+permalink: /vre/index.html
 source: http://www.benefits.va.gov/VRE/
 template: 1-topic-landing
 ---
