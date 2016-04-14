@@ -22,7 +22,7 @@ template: 1-topic-landing
         <div class="section-nav">
           <ul class="small-block-grid-1 medium-block-grid-4 cards small">
             <li>
-              <a href="service-disabled/choose-track/">
+              <a href="service-disabled/">
                 <h4 class="alternate">Service-disabled</h4>
                 <span>Service-disabled Veterans</span>
               </a>
@@ -34,7 +34,7 @@ template: 1-topic-landing
               </a>
             </li>
             <li>
-              <a href="family/family-members/">
+              <a href="family-members/">
                 <h4 class="alternate">Family Members</h4>
                 <span>Family Members</span>
               </a>
