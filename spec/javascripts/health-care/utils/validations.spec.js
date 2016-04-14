@@ -1,4 +1,6 @@
-import { isValidDate, isValidSSN, isValidName, isNotBlank, isBlank, isValidMonetaryValue } from '../../../../_health-care/_js/utils/validations.js';
+import { isValidDate, isValidField, isValidRequiredField, isValidSSN, isValidName, isNotBlank, isBlank, isValidMonetaryValue } from '../../../../_health-care/_js/utils/validations';
+
+import { makeField } from '../../../../_health-care/_js/reducers/fields';
 
 describe('Validations unit tests', () => {
   describe('isValidSSN', () => {
@@ -118,6 +120,20 @@ describe('Validations unit tests', () => {
       expect(isValidMonetaryValue('1,000')).to.be.false;
       expect(isValidMonetaryValue('abc')).to.be.false;
       expect(isValidMonetaryValue('$100')).to.be.false;
+    });
+  });
+
+  describe('Validation functions for fields', () => {
+    it('isValidField', () => {
+      expect(isValidField(isValidSSN, makeField(''))).to.be.true;
+      expect(isValidField(isValidSSN, makeField('123-11-1234'))).to.be.true;
+      expect(isValidField(isValidSSN, makeField('bad ssn'))).to.be.false;
+    });
+
+    it('isValidRequiredField', () => {
+      expect(isValidRequiredField(isValidSSN, makeField('123-11-1234'))).to.be.true;
+      expect(isValidRequiredField(isValidSSN, makeField(''))).to.be.false;
+      expect(isValidRequiredField(isValidSSN, makeField('bad ssn'))).to.be.false;
     });
   });
 });

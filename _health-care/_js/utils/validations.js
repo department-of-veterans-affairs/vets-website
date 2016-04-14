@@ -113,11 +113,11 @@ function isValidField(validator, field) {
 }
 
 function isValidRequiredField(validator, field) {
-  return isNotBlank(field.value) || validator(field.value);
+  return isNotBlank(field.value) && validator(field.value);
 }
 
-function isBlankDateField(field) {
-  return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
+function isBlankDateField(date) {
+  return isBlank(date.day.value) && isBlank(date.month.value) && isBlank(date.year.value);
 }
 
 function isValidDateField(field) {
@@ -150,7 +150,7 @@ function isValidNameAndGeneralInformation(data) {
   return isValidFullNameField(data.fullName) &&
       isValidRequiredField(isValidSSN, data.socialSecurityNumber) &&
       isNotBlank(data.gender.value) &&
-      isNotBlank(data.maritalStatus) &&
+      isNotBlank(data.maritalStatus.value) &&
       isValidDateField(data.dateOfBirth);
 }
 
@@ -290,26 +290,29 @@ function initializeNullValues(value) {
 export {
   initializeNullValues,
   isBlank,
+  isBlankDateField,
   isNotBlank,
-  isValidDate,
-  isValidName,
-  isValidSSN,
-  isValidMonetaryValue,
-  isValidPhone,
-  isValidEmail,
-  isValidAddress,
-  isValidInsurancePolicy,
-  isValidField,
-  isValidNameAndGeneralInformation,
-  isValidVaInformation,
   isValidAdditionalInformation,
-  isValidVeteranAddress,
-  isValidSpouseInformation,
-  isValidChildren,
+  isValidAddress,
   isValidAnnualIncome,
+  isValidChildren,
+  isValidDate,
+  isValidDateField,
   isValidDeductibleExpenses,
+  isValidEmail,
+  isValidField,
   isValidGeneralInsurance,
+  isValidInsurancePolicy,
   isValidMedicareMedicaid,
+  isValidMonetaryValue,
+  isValidName,
+  isValidNameAndGeneralInformation,
+  isValidPhone,
+  isValidRequiredField,
+  isValidSSN,
+  isValidSection,
   isValidServiceInformation,
-  isValidSection
+  isValidSpouseInformation,
+  isValidVaInformation,
+  isValidVeteranAddress
 };

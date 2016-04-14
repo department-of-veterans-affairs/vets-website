@@ -25,7 +25,7 @@ describe('<ErrorableSelect>', () => {
       sinon.assert.calledWithMatch(consoleStub, /Required prop `label` was not specified in `ErrorableSelect`/);
     });
 
-    it('label must be a stringthis.props.', () => {
+    it('label must be a string.', () => {
       SkinDeep.shallowRender(
         <ErrorableSelect label options={options} value={testValue} onValueChange={(_update) => {}}/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `label` of type `boolean` supplied to `ErrorableSelect`, expected `string`./);
