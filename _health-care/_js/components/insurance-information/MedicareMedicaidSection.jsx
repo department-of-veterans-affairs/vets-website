@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import DateInput from '../form-elements/DateInput';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
-import { veteranUpdateField } from '../../actions';
+import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
 /**
  * Props:
@@ -25,7 +25,7 @@ class MedicareMedicaidSection extends React.Component {
       </tr>);
     }
 
-    if (this.props.data.sectionComplete) {
+    if (this.props.isSectionComplete && this.props.reviewSection) {
       content = (<table className="review usa-table-borderless">
         <tbody>
           <tr>
@@ -64,10 +64,10 @@ class MedicareMedicaidSection extends React.Component {
 
     if (this.props.reviewSection) {
       editButton = (<ErrorableCheckbox
-          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-          checked={this.props.data.sectionComplete}
+          label={`${this.props.isSectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.isSectionComplete}
           className="edit-checkbox"
-          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+          onValueChange={(update) => {this.props.onUIStateChange(update);}}/>
       );
     }
     return (
@@ -82,7 +82,8 @@ class MedicareMedicaidSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.medicareMedicaid
+    data: state.veteran.medicareMedicaid,
+    isSectionComplete: state.uiState.completedSections['/insurance-information/medicare-medicaid']
   };
 }
 
@@ -90,6 +91,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['medicareMedicaid', field], update));
+    },
+    onUIStateChange: (update) => {
+      dispatch(updateReviewStatus(['/insurance-information/medicare-medicaid'], update));
     }
   };
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
-import { veteranUpdateField } from '../../actions';
+import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
 /**
  * Props:
@@ -14,7 +14,7 @@ class DemographicInformationSection extends React.Component {
     let content;
     let editButton;
 
-    if (this.props.data.sectionComplete) {
+    if (this.props.isSectionComplete && this.props.reviewSection) {
       content = (<div>
         <table className="review usa-table-borderless">
           <tbody>
@@ -92,10 +92,10 @@ class DemographicInformationSection extends React.Component {
 
     if (this.props.reviewSection) {
       editButton = (<ErrorableCheckbox
-          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-          checked={this.props.data.sectionComplete}
+          label={`${this.props.isSectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.isSectionComplete}
           className="edit-checkbox"
-          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+          onValueChange={(update) => {this.props.onUIStateChange(update);}}/>
       );
     }
     return (
@@ -110,7 +110,8 @@ class DemographicInformationSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.demographicInformation
+    data: state.veteran.demographicInformation,
+    isSectionComplete: state.uiState.completedSections['/personal-information/demographic-information']
   };
 }
 
@@ -118,6 +119,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['demographicInformation', field], update));
+    },
+    onUIStateChange: (update) => {
+      dispatch(updateReviewStatus(['/personal-information/demographic-information'], update));
     }
   };
 }

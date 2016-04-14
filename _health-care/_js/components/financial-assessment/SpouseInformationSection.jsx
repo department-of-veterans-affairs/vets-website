@@ -8,7 +8,7 @@ import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import FullName from '../questions/FullName';
 import Phone from '../questions/Phone';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
-import { veteranUpdateField } from '../../actions';
+import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
 // TODO: Consider adding question for marital status here so if user
 // entered something incorrect in Personal Information they don't have
@@ -37,7 +37,7 @@ class SpouseInformationSection extends React.Component {
       );
     }
 
-    if (this.props.data.sectionComplete) {
+    if (this.props.isSectionComplete && this.props.reviewSection) {
       content = (<div>
         <table className="review usa-table-borderless">
           <tbody>
@@ -163,10 +163,10 @@ class SpouseInformationSection extends React.Component {
 
     if (this.props.reviewSection) {
       editButton = (<ErrorableCheckbox
-          label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-          checked={this.props.data.sectionComplete}
+          label={`${this.props.isSectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.isSectionComplete}
           className="edit-checkbox"
-          onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+          onValueChange={(update) => {this.props.onUIStateChange(update);}}/>
       );
     }
 
@@ -204,9 +204,10 @@ class SpouseInformationSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.spouseInformation,
-    receivesVaPension: state.vaInformation.receivesVaPension,
-    neverMarried: calculated.neverMarried(state)
+    data: state.veteran.spouseInformation,
+    receivesVaPension: state.veteran.vaInformation.receivesVaPension,
+    neverMarried: calculated.neverMarried(state),
+    isSectionComplete: state.uiState.completedSections['/financial-assessment/spouse-information']
   };
 }
 
@@ -214,6 +215,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['spouseInformation', field], update));
+    },
+    onUIStateChange: (update) => {
+      dispatch(updateReviewStatus(['/financial-assessment/spouse-information'], update));
     }
   };
 }
