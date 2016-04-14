@@ -8,7 +8,7 @@ template: 2-detailed-landing
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/VRE/service-disabled-veterans/choose-your-track/">Choose Your Track</a>
+      <a class="usa-button-primary va-button-primary" href="/vre/service-disabled/choose-your-track/">Choose Your Track</a>
     </div>
   </div>
 </div>
