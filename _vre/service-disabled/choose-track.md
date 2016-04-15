@@ -15,8 +15,6 @@ template: 2-detailed-landing
 
 <div class="section one" markdown="0">
 
-
-
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
