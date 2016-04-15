@@ -12,7 +12,7 @@ template: 7-get-page
 
 <div class="primary">
 
-<p>Wherever you are in the transition process, the Veterans Employment Center provides career advice, mentorship, résumé-building assistance, and exclusive access to employers who are committed to hiring Veterans and military spouses.</p>
+<p>Wherever you are in the transition process, the Veterans Employment Center provides career advice, mentorship, résumé-building assistance, and access to employers who are committed to hiring Veterans and military spouses.</p>
 
 </div>
 </div>
@@ -70,9 +70,9 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 <div markdown="1">
 
-##### Build a résumé and public profile
+##### Build a résumé
 
-- Build your [résumé and public profile](/employment/job-seekers/create-resume) so employers can find you.
+- Build your [résumé](/employment/job-seekers/create-resume).
 - Get a free [LinkedIn Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
 
 </div>

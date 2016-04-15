@@ -15,7 +15,7 @@ concurrence: complete
 
 The Veterans Employment Center™ (VEC) connects Veterans and their families with meaningful employment and career-development opportunities.
 
-### Resources and tools for both job seekers and employers
+### Resources and tools for both job seekers and employers 
 
 
 </div>
@@ -30,14 +30,14 @@ The Veterans Employment Center™ (VEC) connects Veterans and their families wit
 <li>
 <a href="/employment/job-seekers/">
 <h4 class="alternate">Job Seekers</h4>
-<span>Map your military skills, build a civilian résumé, and post your profile so employers can find you easily. Search our career opportunities, and learn about organizations that can assist you with career development and employment.</span>
+<span>Map your military skills, build a civilian résumé, search career opportunities, and learn about organizations that can assist you with career development and employment.</span>
 </a>
 </li>
 
 <li>
 <a href="/employment/employers/">
 <h4 class="alternate">Employers</h4>
-<span>Search verified profiles of Veterans and their spouses to get direct access to Veterans who are seeking employment. Make a public hiring commitment when you post open positions. You’ll benefit from Veteran experience and skills, and you’ll hire the best!</span>
+<span>Make a public hiring commitment when you post open positions. You’ll benefit from Veteran experience and skills, and you’ll hire the best!</span>
 </a>
 </li>
 
