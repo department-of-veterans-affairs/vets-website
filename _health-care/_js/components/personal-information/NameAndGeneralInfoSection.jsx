@@ -49,7 +49,7 @@ class NameAndGeneralInfoSection extends React.Component {
           </tr>
           <tr>
             <td>Place of Birth:</td>
-            <td>{this.props.data.cityOfBirth}, {this.props.data.stateOfBirth}</td>
+            <td>{this.props.data.cityOfBirth} {this.props.data.stateOfBirth}</td>
           </tr>
           <tr>
             <td>Current Marital Status:</td>
