@@ -55,7 +55,7 @@ template: 2-detailed-landing
         </li>
 
         <li>
-        <a href="/vre/service-disabled/return-job/">
+        <a href="/vre/service-disabled/new-skills/">
         <h5>New Skills</h5>
         <span>Do you need new skills for a vocational goal?</span>
         </a>
