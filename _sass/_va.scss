@@ -999,8 +999,8 @@ li {
 // Blog / Playbook
 
 body.page-playbook {
-background:$color-white url(../images/design/background/thread.png) top left no-repeat;
-background-size: contain;
+  background:$color-white url(../images/design/background/thread.png) top left no-repeat;
+  background-size: contain;
 
   h1 a {
     text-indent: 180%;
@@ -1013,6 +1013,7 @@ background-size: contain;
     height: 30px;
     background: $color-white url(../images/design/logo/logo-alt.png) top left no-repeat;
     background-size: contain;
+    
     &:hover, &:active, &:focus {
       background: $color-white url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
       border-bottom: none;
@@ -1092,34 +1093,29 @@ span.next {
     margin: 1.35em 0 0 0 !important; 
     z-index: 100 !important;
   }  
-    
-    padding: 0; 
-    margin: 0 0 2em 0; 
-    background: none; 
-    color: $color-primary-darkest;
-    
-    a {
-      text-decoration: none; 
-      margin: 0; 
-      color: $color-primary-darkest; 
-      background: $color-gold; 
-      border-bottom: none; 
-      padding: .5em .25em; 
-      // Transition only these properties.
-      -webkit-transition-property: padding;
-      transition-property: padding;
-          
-      &:hover {
-        padding: .5em .65em;
-      }
-    }
-    
-    @media #{$medium} {
-      position: absolute; 
-      margin: 1.35em 0 0 0; 
-      z-index: 100;
+
+  a {
+    text-decoration: none; 
+    margin: 0; 
+    color: $color-primary-darkest; 
+    background: $color-gold; 
+    border-bottom: none; 
+    padding: .5em .25em; 
+    // Transition only these properties.
+    -webkit-transition-property: padding;
+    transition-property: padding;
+        
+    &:hover {
+      padding: .5em .65em;
     }
   }
+  
+  @media #{$medium} {
+    position: absolute; 
+    margin: 1.35em 0 0 0; 
+    z-index: 100;
+  }
+}
 
 .va-headingflag--tagline {
   padding: 0;
@@ -1152,8 +1148,8 @@ figure {
   }
 
   @media #{$large} {
-      margin-left: -16.66667%;
-      margin-right: -16.66667%;
+    margin-left: -16.66667%;
+    margin-right: -16.66667%;
   }
 }
 
@@ -1199,9 +1195,7 @@ figure {
     line-height: 1.65em;
     font-size: inherit;
   }
-  
-
-  
+ 
   a {
     text-decoration: underline;
     color: $color-primary-darker;
@@ -2372,11 +2366,6 @@ button[class*="usa-button-"] {
     margin: 0;
   }
 }
-
-body.home .disclaimer, body.page-playbook .disclaimer {
-  display: none;
-}
-
 
 // Mobile menu
 
