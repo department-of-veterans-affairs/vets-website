@@ -8,7 +8,7 @@ template: 2-detailed-landing
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/vre/choose-track/">Choose Your Track</a>
+      <a class="usa-button-primary va-button-primary" href="/vre/service-disabled/choose-track/">Choose Your Track</a>
     </div>
   </div>
 </div>
@@ -32,35 +32,35 @@ If you are a Veteran or Servicemember with service-connected disabilities that p
 
 
 <li>
-<a href="existing-position/">
+<a href="/service-disabled/existing-position/">
 <h5>Existing Position</h5>
 <span>Would you like to return to a job you previously held?</span>
 </a>
 </li>
 
 <li>
-<a href="existing-skills/">
+<a href="/service-disabled/existing-skills/">
 <h5>New Position</h5>
 <span>Are you ready to work now?</span>
 </a>
 </li>
 
 <li>
-<a href="start-business/">
+<a href="/service-disabled/start-business/">
 <h5>Entrepreneurship</h5>
 <span>Do you have a business idea?</span>
 </a>
 </li>
 
 <li>
-<a href="return-job/">
+<a href="/service-disabled/return-job/">
 <h5>New Skills</h5>
 <span>Do you need new skills for a vocational goal?</span>
 </a>
 </li>
 
 <li>
-<a href="independent-living/">
+<a href="/service-disabled/independent-living/">
 <h5>Independent Living</h5>
 <span>Do you need assistance to live independently?</span>
 </a>
