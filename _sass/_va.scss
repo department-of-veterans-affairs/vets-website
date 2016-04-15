@@ -97,12 +97,26 @@ a {
   &:active {
     background: rgba(0,0,0,.1);
   }
+  &:visited {
+    color: $color-visited;
+  }
 }
 
-a:visited {
-  color: $color-visited;
+ul {
+  padding: 0;
+  list-style: square inside;
 }
 
+ol {
+  margin: 0 0 0 1.25em;
+  list-style-position: outside;
+}
+
+ul, ol {
+  > ul, ol {
+    margin: .5em 0 .5em 1.2em;
+  }
+}
 
 // Figure / Caption
 
@@ -326,25 +340,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
 // Content Callouts
 
 #content .main .section.one {
-  ol {
-    list-style-position: outside;
-    li {
-      margin: 0 0 1em 0;
-    }
-    ul, ol {
-      margin: .5em 0 .5em 1.2em;
-    }
-  }
-
-  ul {
-    margin: 0 0 1em 1.2em;
-    padding: 0;
-    list-style-position: outside;
-    li {
-      list-style: square;
-    }
-  }
-
+  
   ul.plain {
     margin: .5em 0 1em 0;
     
@@ -671,20 +667,8 @@ background: rgba(255,255,255,.85);
 
 // General List Styles
 
-ul {
-  li {
-    list-style: inside;
-  }
-}
 
-ol {
-  margin: 0 0 0 1.25em;
-
-  li {
-    list-style-position: outside;
-  }
-}
-
+  
 li {
   span.meta {
     display: inline-block;
@@ -2187,7 +2171,7 @@ li.twenty:before {content: "20";}
   }
 }
 .va-list-num--design {
-// TODO: Figure out why !important is necessary here.
+  // TODO: Figure out why !important is necessary here.
   li::before {
     background-color: $wild-sand !important;
   }
@@ -2296,8 +2280,9 @@ font-style: italic;
 
 #content .usa-button,
 #content .usa-button-primary,
-#content .usa-button-outline
-{text-decoration: none !important;}
+#content .usa-button-outline {
+  text-decoration: none !important;
+}
 
 #content .usa-button-primary.expand {
   width: 100%;
