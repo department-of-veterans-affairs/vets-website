@@ -1,5 +1,5 @@
 ---
-title: How to Apply for VR&E
+title: How to Apply for VR&amp;E
 template: 4-action-page
 ---
 
@@ -22,9 +22,9 @@ template: 4-action-page
 
 <div markdown="1">
 
-Vocational Rehabilitation and Employment (VR&amp;E) provides special career assistance to Veterans and Servicemembers who are overcoming challenges associated with service-connected disabilities. For Veterans and Servicemembers with service-connected disabilities so severe that they cannot immediately consider work, VR&amp;E offers services to improve their ability to live as independently as possible. Services may also be available to eligible family members.
+Vocational Rehabilitation and Employment (VR&E) provides special career assistance to Veterans and Servicemembers who are overcoming challenges associated with service-connected disabilities. For Veterans and Servicemembers with service-connected disabilities so severe that they cannot immediately consider work, VR&amp;E offers services to improve their ability to live as independently as possible. Services may also be available to eligible family members.
 
-### Are you eligible to apply for VR&amp;E?
+### Are you eligible to apply for VR&E?
 
 </div>
 
