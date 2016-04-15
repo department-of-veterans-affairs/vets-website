@@ -1,5 +1,4 @@
 ---
----
 title: VR&amp;E
 permalink: /vre/index.html
 source: http://www.benefits.va.gov/VRE/
