@@ -15,7 +15,7 @@ concurrence: complete
 
 The Veterans Employment Center™ (VEC) connects Veterans and their families with meaningful employment and career-development opportunities.
 
-### Resources and tools for both job seekers and employers
+### Resources and tools for both job seekers and employers 
 
 
 </div>
