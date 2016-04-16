@@ -49,6 +49,9 @@ class ReviewAndSubmitSection extends React.Component {
         <ChildInformationSection reviewSection/>
         <AnnualIncomeSection reviewSection/>
         <DeductibleExpensesSection reviewSection/>
+        <div className="input-section">
+          <a href="#">Upload documents</a>
+        </div>
       </div>);
     }
     return (

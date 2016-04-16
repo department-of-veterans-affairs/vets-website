@@ -97,12 +97,26 @@ a {
   &:active {
     background: rgba(0,0,0,.1);
   }
+  &:visited {
+    color: $color-visited;
+  }
 }
 
-a:visited {
-  color: $color-visited;
+ul {
+  padding: 0;
+  list-style: square inside;
 }
 
+ol {
+  margin: 0 0 0 1.25em;
+  list-style-position: outside;
+}
+
+ul, ol {
+  > ul, ol {
+    margin: .5em 0 .5em 1.2em;
+  }
+}
 
 // Figure / Caption
 
@@ -326,25 +340,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
 // Content Callouts
 
 #content .main .section.one {
-  ol {
-    list-style-position: outside;
-    li {
-      margin: 0 0 1em 0;
-    }
-    ul, ol {
-      margin: .5em 0 .5em 1.2em;
-    }
-  }
-
-  ul {
-    margin: 0 0 1em 1.2em;
-    padding: 0;
-    list-style-position: outside;
-    li {
-      list-style: square;
-    }
-  }
-
+  
   ul.plain {
     margin: .5em 0 1em 0;
     
@@ -671,20 +667,8 @@ background: rgba(255,255,255,.85);
 
 // General List Styles
 
-ul {
-  li {
-    list-style: inside;
-  }
-}
 
-ol {
-  margin: 0 0 0 1.25em;
-
-  li {
-    list-style-position: outside;
-  }
-}
-
+  
 li {
   span.meta {
     display: inline-block;
@@ -880,11 +864,6 @@ body.fourohfour #content {
   h3 {margin-top: 1em; font-size: 1.4em;}
 }
 
-body.home .main-navigation {
-  padding: 2em 0;
-  background: rgba(0,0,0,.2);
-}
-
 .draft {
   position: absolute;
   top: -3.5em;
@@ -1019,8 +998,8 @@ li {
 // Blog / Playbook
 
 body.page-playbook {
-background:$color-white url(../images/design/background/thread.png) top left no-repeat;
-background-size: contain;
+  background:$color-white url(../images/design/background/thread.png) top left no-repeat;
+  background-size: contain;
 
   h1 a {
     text-indent: 180%;
@@ -1033,6 +1012,7 @@ background-size: contain;
     height: 30px;
     background: $color-white url(../images/design/logo/logo-alt.png) top left no-repeat;
     background-size: contain;
+    
     &:hover, &:active, &:focus {
       background: $color-white url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
       border-bottom: none;
@@ -1112,34 +1092,29 @@ span.next {
     margin: 1.35em 0 0 0 !important; 
     z-index: 100 !important;
   }  
-    
-    padding: 0; 
-    margin: 0 0 2em 0; 
-    background: none; 
-    color: $color-primary-darkest;
-    
-    a {
-      text-decoration: none; 
-      margin: 0; 
-      color: $color-primary-darkest; 
-      background: $color-gold; 
-      border-bottom: none; 
-      padding: .5em .25em; 
-      // Transition only these properties.
-      -webkit-transition-property: padding;
-      transition-property: padding;
-          
-      &:hover {
-        padding: .5em .65em;
-      }
-    }
-    
-    @media #{$medium} {
-      position: absolute; 
-      margin: 1.35em 0 0 0; 
-      z-index: 100;
+
+  a {
+    text-decoration: none; 
+    margin: 0; 
+    color: $color-primary-darkest; 
+    background: $color-gold; 
+    border-bottom: none; 
+    padding: .5em .25em; 
+    // Transition only these properties.
+    -webkit-transition-property: padding;
+    transition-property: padding;
+        
+    &:hover {
+      padding: .5em .65em;
     }
   }
+  
+  @media #{$medium} {
+    position: absolute; 
+    margin: 1.35em 0 0 0; 
+    z-index: 100;
+  }
+}
 
 .va-headingflag--tagline {
   padding: 0;
@@ -1172,8 +1147,8 @@ figure {
   }
 
   @media #{$large} {
-      margin-left: -16.66667%;
-      margin-right: -16.66667%;
+    margin-left: -16.66667%;
+    margin-right: -16.66667%;
   }
 }
 
@@ -1219,9 +1194,7 @@ figure {
     line-height: 1.65em;
     font-size: inherit;
   }
-  
-
-  
+ 
   a {
     text-decoration: underline;
     color: $color-primary-darker;
@@ -2186,7 +2159,7 @@ li.twenty:before {content: "20";}
   }
 }
 .va-list-num--design {
-// TODO: Figure out why !important is necessary here.
+  // TODO: Figure out why !important is necessary here.
   li::before {
     background-color: $wild-sand !important;
   }
@@ -2295,8 +2268,9 @@ font-style: italic;
 
 #content .usa-button,
 #content .usa-button-primary,
-#content .usa-button-outline
-{text-decoration: none !important;}
+#content .usa-button-outline {
+  text-decoration: none !important;
+}
 
 #content .usa-button-primary.expand {
   width: 100%;
@@ -2391,11 +2365,6 @@ button[class*="usa-button-"] {
     margin: 0;
   }
 }
-
-body.home .disclaimer, body.page-playbook .disclaimer {
-  display: none;
-}
-
 
 // Mobile menu
 

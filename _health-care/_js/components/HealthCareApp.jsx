@@ -75,6 +75,9 @@ class HealthCareApp extends React.Component {
     const path = this.props.location.pathname;
     this.context.store.dispatch(updateSubmissionStatus('applicationSubmitted'));
     this.context.store.dispatch(updateCompletionStatus(path));
+    if (document.getElementsByTagName('h4').length > 0) {
+      document.getElementsByTagName('h4')[0].scrollIntoView();
+    }
   }
 
   render() {
