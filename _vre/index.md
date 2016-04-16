@@ -1,5 +1,5 @@
 ---
-title: VR&E
+title: Vocational Rehabilitation and Employment (VR&E)
 permalink: /vre/index.html
 source: http://www.benefits.va.gov/VRE/
 template: 1-topic-landing
