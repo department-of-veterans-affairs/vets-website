@@ -60,7 +60,7 @@ Visit the following sites to find a career fair near you:
           <li>
             <a href="/employment/commitments">            
             <h5>
-              View Employer Commitments
+              View Employer Commitments to Hire Veterans
             </h5>
             </a>
            </li>

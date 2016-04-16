@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 
-import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE } from '../../actions';
+import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE, UPDATE_SPOUSE_ADDRESS } from '../../actions';
 import { initializeNullValues } from '../../utils/validations';
 import { pathToData } from '../../store';
 
@@ -22,6 +22,7 @@ const blankVeteran = {
     },
     mothersMaidenName: null,
     socialSecurityNumber: null,
+    gender: null,
     dateOfBirth: {
       month: null,
       day: null,
@@ -32,16 +33,16 @@ const blankVeteran = {
   },
 
   vaInformation: {
-    isVaServiceConnected: false,
-    compensableVaServiceConnected: false,
-    receivesVaPension: false,
+    isVaServiceConnected: null,
+    compensableVaServiceConnected: null,
+    receivesVaPension: null,
     sectionComplete: false
   },
 
   additionalInformation: {
     isEssentialAcaCoverage: false,
-    facilityState: '',
-    vaMedicalFacility: '',
+    facilityState: null,
+    vaMedicalFacility: null,
     wantsInitialVaContact: false,
     sectionComplete: false
   },
@@ -186,17 +187,38 @@ const blankVeteran = {
 function veteran(state = blankVeteran, action) {
   let newState = undefined;
   switch (action.type) {
-    case VETERAN_FIELD_UPDATE:
+    case VETERAN_FIELD_UPDATE: {
       newState = Object.assign({}, state);
       _.set(newState, action.propertyPath, action.value);
       return newState;
+    }
 
-    case ENSURE_FIELDS_INITIALIZED:
+    case ENSURE_FIELDS_INITIALIZED: {
       newState = Object.assign({}, state);
       // TODO(awong): HACK! Assigning to the sub object assumes pathToData() returns a reference
       // to the actual substructre such that it can be reassigned to.
       Object.assign(pathToData(newState, action.path), initializeNullValues(pathToData(newState, action.path)));
       return newState;
+    }
+
+    // Copies the veteran's address into the spouse's address fields if they have the same address.
+    // Clears the spouse's address fields if they do not.
+    case UPDATE_SPOUSE_ADDRESS: {
+      newState = Object.assign({}, state);
+      const emptyAddress = {
+        street: null,
+        city: null,
+        country: null,
+        state: null,
+        zipcode: null,
+      };
+      if (action.value) {
+        _.set(newState, action.propertyPath, state.veteranAddress.address);
+      } else {
+        _.set(newState, action.propertyPath, emptyAddress);
+      }
+      return newState;
+    }
 
     default:
       return state;
@@ -204,3 +226,4 @@ function veteran(state = blankVeteran, action) {
 }
 
 export default veteran;
+

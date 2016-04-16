@@ -24,7 +24,7 @@ td, th {
 
 th{
   &[colspan] {
-    background: #E8F5FA;
+    background: $polar;
     font-size: 1.19rem;
     padding-top:.8em;
     padding-bottom: .8em;
@@ -36,7 +36,7 @@ th{
   }
 }
 tr {
-  background: #fff !important;
+  background: $color-white !important;
 }
 
 .va-table-overflow {

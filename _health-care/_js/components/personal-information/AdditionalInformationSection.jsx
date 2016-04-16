@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import State from '../questions/State';
 import VaMedicalFacility from './VaMedicalFacility';
-import { veteranUpdateField } from '../../actions';
+import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
 /**
  * Props:
@@ -13,14 +13,28 @@ import { veteranUpdateField } from '../../actions';
  */
 class AdditionalInformationSection extends React.Component {
   render() {
-    return (
-      <fieldset className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
-        <h4>Additional Information</h4>
-        <ErrorableCheckbox
-            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-            checked={this.props.data.sectionComplete}
-            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
-            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
+    let content;
+    let editButton;
+
+    if (this.props.isSectionComplete && this.props.reviewSection) {
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>I am enrolling to obtain minimal essential coverage under the affordable care act:</td>
+            <td>{`${this.props.data.isEssentialAcaCoverage ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>Preferred VA Medical Facility:</td>
+            <td>{this.props.data.vaMedicalFacility} in {this.props.data.facilityState}</td>
+          </tr>
+          <tr>
+            <td>Do you want VA to contact you to schedule your first appointment?:</td>
+            <td>{`${this.props.data.wantsInitialVaContact ? 'Yes' : 'No'}`}</td>
+          </tr>
+        </tbody>
+      </table>);
+    } else {
+      content = (<div>
         <div className="input-section">
           <ErrorableCheckbox
               label="I am enrolling to obtain minimal essential coverage under the affordable care act"
@@ -30,11 +44,14 @@ class AdditionalInformationSection extends React.Component {
 
         <div className="input-section">
           <h4>Select the VA Medical Facility which will be your preferred facility</h4>
-          <State value={this.props.data.facilityState}
+          <State required
+              value={this.props.data.facilityState}
               onUserInput={(update) => {this.props.onStateChange('facilityState', update);}}/>
-          <VaMedicalFacility value={this.props.data.vaMedicalFacility}
+          <VaMedicalFacility required
+              value={this.props.data.vaMedicalFacility}
               facilityState={this.props.data.facilityState}
               onValueChange={(update) => {this.props.onStateChange('vaMedicalFacility', update);}}/>
+          OR <a target="_blank" href="http://www.va.gov/directory/guide/home.asp">Go to the VA Facility Locator</a>
         </div>
 
         <div className="input-section">
@@ -43,6 +60,22 @@ class AdditionalInformationSection extends React.Component {
               checked={this.props.data.wantsInitialVaContact}
               onValueChange={(update) => {this.props.onStateChange('wantsInitialVaContact', update);}}/>
         </div>
+      </div>);
+    }
+
+    if (this.props.reviewSection) {
+      editButton = (<ErrorableCheckbox
+          label={`${this.props.isSectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.isSectionComplete}
+          className="edit-checkbox"
+          onValueChange={(update) => {this.props.onUIStateChange(update);}}/>
+      );
+    }
+    return (
+      <fieldset>
+        <h4>Additional Information</h4>
+        {editButton}
+        {content}
       </fieldset>
     );
   }
@@ -50,7 +83,8 @@ class AdditionalInformationSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.additionalInformation,
+    data: state.veteran.additionalInformation,
+    isSectionComplete: state.uiState.completedSections['/personal-information/additional-information']
   };
 }
 
@@ -58,6 +92,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['additionalInformation', field], update));
+    },
+    onUIStateChange: (update) => {
+      dispatch(updateReviewStatus(['/personal-information/additional-information'], update));
     }
   };
 }

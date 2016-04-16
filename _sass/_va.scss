@@ -1,5 +1,3 @@
-
-
 html {
   font-family: $font-sans;
   font-size: $em-base;
@@ -21,12 +19,12 @@ body {
 .show-on-focus {
   position: absolute;
   top: -10em;
-  background: #fff;
+  background: $color-white;
   padding: 1em;
   color: $color-primary-darkest;
   display: block;
   font-weight: 600;
-  &:hover {background: #fff;}
+  &:hover {background: $color-white;}
   &:focus {
     position: inherit;
     top: auto;
@@ -47,7 +45,7 @@ html, body {
 body, body.home {
   background: $color-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
   background-size: contain;
-  color: #fff;
+  color: $color-white;
 }
 
 
@@ -102,8 +100,8 @@ a {
 }
 
 a:visited {
-  color: #4c2c92
-  }
+  color: $color-visited;
+}
 
 
 // Figure / Caption
@@ -127,7 +125,7 @@ figcaption {
 }
 
 .va-header-logo {
-  color: #fff;
+  color: $color-white;
   line-height: 1em; 
   margin: 0; 
   
@@ -140,7 +138,7 @@ figcaption {
     white-space: nowrap;
     overflow: hidden;
     display: block;
-    color: #fff;
+    color: $color-white;
     background: $color-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
     width: 180px;
     height: 30px;
@@ -186,7 +184,7 @@ h3, h4, h5, h6 {
   padding: 0 0 .5em 0;
   margin: 0;
  
-  p {color: #fff; font-family: $font-sans;}
+  p {color: $color-white; font-family: $font-sans;}
 
   @media #{$small} {padding: 1em 0;}
   @media #{$medium} {padding: 2em 0;}
@@ -197,9 +195,9 @@ h3, h4, h5, h6 {
     display: inline;
     line-height: 1.3em;
     margin: .5em 0 0 0;
-      white-space: pre-wrap;
-    color: #333;
-    a {background: $color-gold; color: #444;}
+    white-space: pre-wrap;
+    color: $color-gray-dark;
+    a {background: $color-gold; color: $color-va-gray-cool-dark;}
   }
 
   h2 span {clear: both; padding: .04em; display: inline-block; background: $color-gold; font-weight: normal;}
@@ -210,7 +208,7 @@ h3, h4, h5, h6 {
     @media #{$small} {font-size: 2em;}
   }
 
-  h3 {font-weight: 500; font-size: 1.4em; color: #555;}
+  h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
 }
 
 .splash--app {
@@ -240,7 +238,7 @@ h3, h4, h5, h6 {
 }
 
 .va-facloc-tagline {
-  color: #fff; 
+  color: $color-white; 
   font-family: $font-sans;
   margin: .5em 0 1em 0 !important;
 }
@@ -280,6 +278,14 @@ h3, h4, h5, h6 {
 
   p {padding-top: 0; margin-top: 0; padding-bottom: 1em;}
 
+  p:nth-child(1) {
+    font-size: 1.25em;
+    color: $color-primary-darker;
+    letter-spacing: normal;
+    font-weight: normal;
+    padding-bottom: 1em;
+  }
+  
   h3 {
     padding: 0 0 .5em 0; font-size: 1.25em;
     @media #{$small} {font-size: 1.8em;}
@@ -365,7 +371,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
   p {margin-bottom: 0; padding-bottom: .5em}
   p:nth-child(1) {
     font-size: 1.25em;
-    color: #333;
+    color: $color-gray-dark;
     padding-bottom: inherit;
   }
   h3 {@media #{$small} {font-size: 1.65em;}}
@@ -385,31 +391,24 @@ h6 {font-size: 1.15em; font-weight: bold;}
   ul+p
    {
     font-weight: normal !important;
-    color: #333;
+    color: $color-gray-dark;
     font-size: 1em;
     padding-bottom: 0;
-  }
-  p:nth-child(1) {
-    font-size: 1.25em;
-    color: $color-primary-darker;
-    letter-spacing: normal;
-    font-weight: normal;
-    padding-bottom: 1em;
   }
 }
 
 #content .main.interior {
-  background: #fff;
+  background: $color-white;
   a {text-decoration: underline;}
 }
 
 // Home page specific
 
 .home #content {
-  h2, h3, h4, h5, h6, p, ul, li, ol, a {color: $color-gray-dark;}
+  h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
   .post-date {font-size: .5em; color: $color-gold;}
   h3 {
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid $color-white;
     line-height: 1.2em;
     border-bottom: 6px solid $color-primary-darker;
     font-size: 1.65em;
@@ -421,7 +420,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
   h4 a {
     text-decoration: none;
     &:hover {
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid $color-white;
       color: $color-gold;
     }
   }
@@ -463,17 +462,6 @@ h6 {font-size: 1.15em; font-weight: bold;}
       }
     }
 
-
-  .section.one, .section.two {
-    a {
-      color: $color-gray-dark;
-      &:hover {
-        color: $color-primary-darkest;
-        background: rgba(0,0,0,.15);
-      }
-    }
-  }
-
   .home #content .section h3.alternate {
     margin: 0 0 2em 0 !important; padding: 0;
   }
@@ -485,15 +473,15 @@ h6 {font-size: 1.15em; font-weight: bold;}
 
   .section.two {
     padding: 2em 0;
-    a, h3 {color: #fff;}
+    a, h3 {color: $color-white;}
     h3 {border-bottom: none;}
     background: rgba(0,0,0,.1);
   }
 
   .section.three {
-    background: #fff;
+    background: $color-white;
     padding: 5em 0;
-    h2, h3, h4, h5, h6, p, li {color: #444;}
+    h2, h3, h4, h5, h6, p, li {color: $color-va-gray-cool-dark;}
     h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
     a {color: $color-primary-darkest;}
   }
@@ -503,9 +491,9 @@ h6 {font-size: 1.15em; font-weight: bold;}
   background: none;
   padding: 2em 0;
   background: $color-primary;
-  h1, h2, h3, h4, h5, h6, p, li {color: #fff;}
+  h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
   p {color: rgba(255,255,255,1);}
-  a {color: #fff;}
+  a {color: $color-white;}
   ul li {list-style: square;}
 }
 
@@ -518,8 +506,8 @@ background: rgba(255,255,255,.85);
 }
 
 #content .section.quaternary {
-  background: #dcddde;
-  h1, h2, h3, h4, h5, h6, p, li {color: #fff;}
+  background: $color-gray-lighter;
+  h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
   h4 {font-weight: 700;}
   .cards {
     a {
@@ -531,8 +519,8 @@ background: rgba(255,255,255,.85);
 
 #content .section.coda {
   background: $color-primary-darker;
-  color: #fff;
-  h2, h3, h4, h5, h6, a {color: #fff;}
+  color: $color-white;
+  h2, h3, h4, h5, h6, a {color: $color-white;}
   h4 {font-size: 1.5em;}
 }
 
@@ -553,9 +541,9 @@ background: rgba(255,255,255,.85);
 #content .section.do {
   background: #efefef;
   padding: 2em 0;
-  h2, h3, h4, h5, h6, p, li {color: #444;}
+  h2, h3, h4, h5, h6, p, li {color: $color-va-gray-cool-dark;}
   h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
-  a {color: #fff;}
+  a {color: $color-white;}
 }
 
 #content .section.secondary,
@@ -569,13 +557,13 @@ background: rgba(255,255,255,.85);
 #content .section.start {
   background: $color-green-lightest;
   padding: 3em 0;
-  border-bottom: 3px solid #fff;
+  border-bottom: 3px solid $color-white;
 }
 
 // Sections
 
 .section {
-  background: #fff;
+  background: $color-white;
   &.one {
     padding: 2em 0 0 0;
   }
@@ -641,12 +629,12 @@ background: rgba(255,255,255,.85);
       }
 
       &:before {content: none; vertical-align: middle;}
-      &:after {content:" › "; display: inline-block; color: #fff; padding: 0 .5em;}
+      &:after {content:" › "; display: inline-block; color: $color-white; padding: 0 .5em;}
     }
 
     &.active {
       background: $color-gold;
-      color: #000;
+      color: $color-va-black;
       font-family: $font-serif;
       font-weight: 400;
       margin: .5em 0;
@@ -657,11 +645,15 @@ background: rgba(255,255,255,.85);
       }
     }
     a {
-      border-bottom: 3px solid #fff;
+      border-bottom: 3px solid $color-white;
       background: none;
       text-decoration: none !important;
-      color: #fff;
-      &:hover {text-decoration: none; background: rgba(0,0,0,.1); border-bottom: 3px solid $color-gold;}
+      color: $color-white;
+      &:hover {
+        text-decoration: none; 
+        background: rgba(0,0,0,.1); 
+        border-bottom: 3px solid $color-gold;
+      }
     }
 }
 
@@ -719,11 +711,13 @@ li {
 dl.simple {
   margin: 0;
   padding: 0 0 1em 0;
+  
   &.feature {padding: .25em .5em;}
+  
   dd {
     padding: 0; 
     margin: 0; 
-    border-bottom: 1px solid #eee; 
+    border-bottom: 1px solid $color-gray-lightest; 
     &:last-of-type {
       border-bottom: none;
     }
@@ -735,19 +729,64 @@ dl.simple {
 ul.checklist, ol.checklist {
   margin: 0 0 0 1.35em; 
   padding: 0;
-  
+
   li {
     font-weight: 500;
-    span {font-weight: normal; font-size: 1em; display: block; margin-left: 2.25em; color: #555;}
+  
+    span {
+      font-weight: normal; 
+      font-size: 1em; 
+      display: block; 
+      margin-left: 2.25em; 
+      color: $color-va-gray-cool-medium;
+    }
+  
     padding: 1em 0;
     border-bottom: 1px solid #ccc;
-    &:last-of-type {border-bottom: none;}
+    
+    &:last-of-type {
+      border-bottom: none;
+    }
+    
     h5 {font-size: 1.35em;}
-
+    
     ul li {
       border-bottom: none;
       padding: .5em 0;
-      span {background: rgba(0,0,0,.1); display: block; padding: 1em .5em; text-align: center;}
+    
+      span {
+        background: rgba(0,0,0,.1); 
+        display: block; 
+        padding: 1em .5em; 
+        text-align: center;
+      }
+    }
+
+  ul {
+    margin: 0 !important;
+    padding: 0;
+    text-align: center;
+    
+    svg {
+      display: block; 
+      margin: .25em auto;
+    }
+
+    li {
+      padding: 0; 
+      margin: 0;
+    }
+    
+    &:before {
+      margin: 0; 
+      padding: 0;
+    }
+    
+    span.type {
+      margin: .25em .25em 1em .25em; 
+      color: $color-primary-darkest;  
+      @media #{$small} {padding: 2.5em 1em;}  
+      background: rgba($secondary-color, .15);}
     }
 
     ul {
@@ -793,7 +832,7 @@ ul.checklist, ol.checklist {
   @media #{$small} {padding: 1em 0 3em 0;}
   background: $color-gray-lightest;
   color: $color-primary-darkest;
-  border-bottom: 2px solid #fff;
+  border-bottom: 2px solid $color-white;
   margin: 0 auto;
 
   ul.small-block-grid-1 {
@@ -851,8 +890,8 @@ body.home .main-navigation {
   top: -3.5em;
   right: -5em;
   z-index: 1000;
-  background: rgba(#a91d28, .9);
-  color: #fff;
+  background: rgba($color-va-secondary-darkest, .9);
+  color: $color-white;
   font-size: .85em;
   position: fixed;
   padding: 2.5em 4em 1em 4em;
@@ -862,7 +901,6 @@ body.home .main-navigation {
   -webkit-transform-origin: 20% 40%; /* Chrome, Safari, Opera */
   transform: rotate(45deg);
   transform-origin: 20% 40%;
-
 }
 
 // Cards
@@ -880,7 +918,7 @@ body.home .main-navigation {
     padding: 1em 1.15em;
     margin: 0 -0.9375rem;
     border-bottom: 2px solid rgba(255,255,255,.3);
-    color: #fff;
+    color: $color-white;
     display: block;
     font-weight: normal;
     text-decoration: none;
@@ -912,7 +950,7 @@ body.home .main-navigation {
       box-shadow: 0 0 5px rgba(0,0,0,.35);
     }
 
-    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; color: #fff; display: block; clear: both; width: 100%;}
+    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; color: $color-white; display: block; clear: both; width: 100%;}
 
     &:hover div {
       a {color: $color-gold; p {color: $color-gold;}}
@@ -921,15 +959,15 @@ body.home .main-navigation {
 
 .coming-soon {
   background: rgba(255,255,255,.05);
-  color: #fff;
+  color: $color-white;
   border-bottom: 2px solid rgba(0,0,0,0);
 
-  h3 {color: #fff; color: rgba(255,255,255,.7);}
+  h3 {color: $color-white; color: rgba(255,255,255,.7);}
 
   &:hover, &:active, &:focus {
     background: rgba(255,255,255,.05);
-    color: #fff;
-    p {color: #fff;}
+    color: $color-white;
+    p {color: $color-white;}
     border-bottom: 2px solid rgba(0,0,0,0);
     box-shadow: none;
   }
@@ -963,7 +1001,7 @@ li {
     padding: .75em;
     margin: 0 0 .5em 0;
     @media #{$small} {min-height: 12em;}
-    background: #eee;
+    background: $color-gray-lightest;
     background: rgba(0,0,0,.05);
     &:hover, &:focus, &:active {background: rgba(0,0,0,.1);}
   }
@@ -981,7 +1019,7 @@ li {
 // Blog / Playbook
 
 body.page-playbook {
-background:#fff url(../images/design/background/thread.png) top left no-repeat;
+background:$color-white url(../images/design/background/thread.png) top left no-repeat;
 background-size: contain;
 
   h1 a {
@@ -993,10 +1031,10 @@ background-size: contain;
     text-decoration: none;
     width: 180px;
     height: 30px;
-    background: #fff url(../images/design/logo/logo-alt.png) top left no-repeat;
+    background: $color-white url(../images/design/logo/logo-alt.png) top left no-repeat;
     background-size: contain;
     &:hover, &:active, &:focus {
-      background: #fff url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
+      background: $color-white url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
       border-bottom: none;
       background-size: contain;
       text-decoration: none;}
@@ -1004,10 +1042,10 @@ background-size: contain;
       @media #{$small} {
         width: 263px;
         height: 50px;
-        background: #fff url(../images/design/logo/logo-alt.png) top left no-repeat;
+        background: $color-white url(../images/design/logo/logo-alt.png) top left no-repeat;
         background-size: contain;
         &:hover {
-          background: #fff url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
+          background: $color-white url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
           background-size: contain;
         }
       }
@@ -1043,7 +1081,9 @@ background-size: contain;
   }
 }
 
-.post-date, .post-author {color: #444;}
+.post-date, .post-author {
+  color: $color-va-gray-cool-dark;
+}
 
 .post-date {
   margin-bottom: 2.5em;
@@ -1107,7 +1147,7 @@ span.next {
 
 // small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns
 #experience {
-  background: #fff;
+  background: $color-white;
 
   .main {
     @extend .small-12;
@@ -1166,21 +1206,29 @@ figure {
           padding-left: .5em;
         }
         .post-title {color: $color-primary-darker; font-size: 1em; font-weight: bold; margin: 0; padding: 0;}
-        .post-date {color: #444; margin: 0; padding: 0 0 1em 0;}
+        .post-date {color: $color-va-gray-cool-dark; margin: 0; padding: 0 0 1em 0;}
       }
     }
   }
 }
 
 .post {
-  a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #444; line-height: 1.65em;}
+  a, p, p:nth-child(1), li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure,   
+  blockquote {
+    color: $color-va-gray-cool-dark; 
+    line-height: 1.65em;
+    font-size: inherit;
+  }
+  
+
+  
   a {
     text-decoration: underline;
     color: $color-primary-darker;
   }
 
   .page-number {
-    color: #444;
+    color: $color-va-gray-cool-dark;
   }
 
   span.previous {
@@ -1209,7 +1257,7 @@ figure {
 // Footer
 
 .footer {
-  color:#fff;
+  color:$color-white;
   padding: 0 !important;
   margin: 0;
   background: darken($color-primary-darkest, 02);
@@ -1277,7 +1325,7 @@ figure {
     }
   }
   li, p, a {
-    color: #fff;
+    color: $color-white;
     font-size: 1em;
   }
 
@@ -1292,7 +1340,7 @@ figure {
       padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $secondary-color;
       @media #{$small} {margin: 1.5em auto; display: inline-block;}
       &:hover, &:focus, &:active {
-        background: $secondary-color; color: #fff;
+        background: $secondary-color; color: $color-white;
       }
     }
 
@@ -1405,14 +1453,14 @@ li {
   blockquote {
     border-left: 0;
     padding: 1em 1em 0 1em;
-    color: #fff;
+    color: $color-white;
     text-align: center;
     margin: 0 auto;
     font-style: italic;
   }
 
   span.source {
-    color: #fff;
+    color: $color-white;
     color: rgba(255,255,255,.8);
     text-align: center;
     margin: 0 auto;
@@ -1466,18 +1514,24 @@ a.twitter {
   margin: 0;
   padding: 1.25em .4em 0 0;
 
-&:after {
-   visibility: hidden;
-   display: block;
-   font-size: 0;
-   content: " ";
-   clear: both;
-   height: 0;
-   }
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
 
-  @media #{$small-up} {padding: 1em .4em 0 .4em;}
+  @media #{$small-up} {
+    padding: 1em .4em 0 .4em;
+  }
   margin-bottom: 0;
-  a {color: #fff; background: none;}
+  
+  a {
+    color: $color-white; 
+    background: none;
+  }
 
   &.notice {
     font-size: .9em;
@@ -1501,19 +1555,15 @@ a.twitter {
     font-size: .9em;
     font-weight: 500;
     clear: both;
-    padding: 1.25em 0 1.5em 0;
+    padding: 1.25em 0;
     border-top: none;
     background: $color-primary-darker;
-    @media #{$xlarge-up} {
-      padding: 0;
-    }
-
   }
 
   // Feedback widget
 
   .feedback {
-    color: #fff;
+    color: $color-white;
     text-align: center;
     @media #{$medium-up} {
       text-align: left;
@@ -1521,13 +1571,14 @@ a.twitter {
   }
 
   .feedback-widget {
-    color: #fff;
+    color: $color-white;
     background: none;
     overflow: hidden;
     text-decoration: underline;
-      @media #{$small-only} {
-        text-align: center;
-      }
+
+    @media #{$small-only} {
+      text-align: center;
+    }
 
     &:nth-child(even) {
       opacity: .5;
@@ -1546,36 +1597,11 @@ a.twitter {
       height: 17px;
       vertical-align: middle;
       margin: 0 .5em 0 0;
-      @media #{$medium-up} {float: left;}
+      @media #{$medium-up} {
+        float: left;
+      }
     }
 
-  @media #{$xlarge-up} {
-    position: fixed;
-    width: 12em;
-    padding: .5em;
-    display: inline-block;
-    text-decoration: none;
-    background: $color-primary-darker;
-    bottom: .85em;
-    right: 0;
-    border-top-left-radius: .3em;
-    border-bottom-left-radius: .3em;
-    span.icon {
-      margin-top: .75em;
-      margin-right: .5em;
-    }
-    span.text {
-      width: 100%; text-decoration: underline;
-      @media #{$medium-up} {float: left; width: 80%; text-decoration: none;}
-
-    }
-    &:hover, &:active, &:focus {
-      background: $color-primary-darkest;
-      color: #fff;
-      padding: .5em .65em;
-      width: 12.5em;
-    }
-  }
 }
 
 .message {
@@ -1651,7 +1677,7 @@ a.twitter {
     border-radius: .2em;
     text-decoration: none;
     background: $color-primary;
-    color: #fff;
+    color: $color-white;
   }
 }
 
@@ -1693,7 +1719,7 @@ a.twitter {
     a {
       text-decoration: none;
       background: none;
-      color: #fff;
+      color: $color-white;
       .post-date {font-size: .65em;}
       &:hover {
         background: rgba(255,255,255,.2);
@@ -1705,7 +1731,7 @@ a.twitter {
 
 // byline
 
-p.byline {font-size: .8em; color: #fff; color: rgba(255,255,255,.9);}
+p.byline {font-size: .8em; color: $color-white; color: rgba(255,255,255,.9);}
 
 
 
@@ -1728,7 +1754,7 @@ li {
 position: relative;
 margin: 0 0 1.5em 0;
 padding: 1em;
-border: 1px solid #eee;
+border: 1px solid $color-gray-lightest;
 dt {font-weight: 700;}
 dd {
   padding: 0;
@@ -1766,7 +1792,7 @@ span {
 }
 
 .heading {
-  color:#006699;
+  color: $color-va-primary-alt-darkest;
   font-size: .8em;
   padding: 0;
 }
@@ -1786,12 +1812,12 @@ span {
 }
 
 &.info-graphic {
-  border: 1px solid #fff;
+  border: 1px solid $color-white;
   background: none;
   padding: 1em 1em 0;
   line-height: 2.5;
   span.number {
-    color: #fff;
+    color: $color-white;
     display: inline-block;
   }
 }
@@ -1856,7 +1882,7 @@ margin: 0;
   h6 {font-size: 1.1em; margin: 0; padding: 0;}
   p:nth-child(1) {
     font-size: 1em;
-    color: #333;
+    color: $color-gray-dark;
     padding-bottom: 0;
   }
   list-style: none;
@@ -1864,7 +1890,7 @@ margin: 0;
 
     p:nth-child(1) {
       font-size: 1em;
-      color: #333;
+      color: $color-gray-dark;
       padding-bottom: inherit;
     }
 
@@ -1918,7 +1944,7 @@ margin: 0;
   }
 
   &:before {
-    color:#fff;
+    color:$color-white;
     float: left;
     font-size: 1.3em;
     font-weight: 700;
@@ -1927,7 +1953,7 @@ margin: 0;
     top: -.2em;
     margin-left: -2.7em;
     display: block;
-    border: 4px solid #fff;
+    border: 4px solid $color-white;
     background: $olso-gray;
     border-radius: 4em;
     position: relative;
@@ -1936,7 +1962,7 @@ margin: 0;
 
 #content.interior .primary .process li p:nth-child(1) {
   font-size: 1em;
-  color: #333 !important;
+  color: $color-gray-dark !important;
   padding-bottom: 0;
 }
 
@@ -2078,10 +2104,10 @@ li.twenty:before {content: "20";}
 .discover,
 .design,
 .deliver {
-  border-top: 4px solid #fff;
-  border-bottom:4px solid #fff;
+  border-top: 4px solid $color-white;
+  border-bottom:4px solid $color-white;
   div:nth-child(1) {
-    border-right:8px solid #fff;
+    border-right:8px solid $color-white;
     @media #{$small-only} {
       border-right: 0;
     }
@@ -2221,7 +2247,7 @@ span.color-chip {
 // Citation
 
 .citation {
-border-top: 1px solid #eee;
+border-top: 1px solid $color-gray-lightest;
 padding: 1em 0 0 0;
 h5, h6 {font-size: .85em; font-family: $font-sans; color: $color-gray-dark;}
 p, ul, li {font-size: .7em;}
@@ -2343,10 +2369,9 @@ button[class*="usa-button-"] {
 .disclaimer {
   padding: 1em 0;
   border-top: 1px solid #ddd;
-
   z-index:500;
-  color: #444;
-  background: #fff;
+  color: $color-va-gray-cool-dark;
+  background: $color-white;
 
   &.minimal {
     border-top: none;
@@ -2729,4 +2754,12 @@ html.touchevents {
     -webkit-transform: translateY(0);
     transform: translateY(0);
   }
+}
+
+.va-code-block, 
+code[class*="language-"], 
+pre[class*="language-"]  {
+  background-color: $color-gray-lightest !important;
+  font-size: .9em;
+  line-height: inherit !important;
 }

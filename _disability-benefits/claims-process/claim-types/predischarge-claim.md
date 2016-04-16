@@ -27,7 +27,7 @@ If you are stationed overseas, you can go to an [intake site](/disability-benefi
 <div class="navigation" markdown="0">
   <div class="row" markdown="0">
     <div class="small-12 columns" markdown="0">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="va-nav-category">
       <li>
         <a href="/disability-benefits/claims-process/claim-types/standard-claim/">
           <h5>Standard Claim</h5>

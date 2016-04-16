@@ -9,11 +9,10 @@ template: 1-topic-landing
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 medium-9 columns" markdown="0">
+<div class="small-12 columns usa-content" markdown="1">
 
-<div markdown="1">
+Thank you for your interest in hiring Veterans, transitioning Servicemembers, and their families through the Veterans Employment Center (VEC). Maximize your exposure by posting jobs directly from your website to the Veterans Job Bank through the [National Labor Exchange (NLX)](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
 
-Thank you for your interest in hiring Veterans, transitioning Servicemembers, and their families through the Veterans Employment Center™ (VEC). Maximize your exposure by posting jobs directly from your website to the Veterans Job Bank through the [National Labor Exchange (NLX)](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
 
 </div>
 
@@ -82,6 +81,7 @@ Only those marked with an asterisk (*) are required for inclusion in the Veteran
 This example contains two job listings. The first uses a smaller set of schema.org elements. Both contain all elements required for inclusion in the Veterans Job Bank. 
           
 <!-- Each of these lines needs to begin with 4 spaces -->
+<<<<<<< HEAD
     [
       {
         "@context": "http://schema.org",
@@ -138,6 +138,61 @@ This example contains two job listings. The first uses a smaller set of schema.o
       }
     ]
 
+=======
+<pre><code class="language-json">[{
+"@context": "http://schema.org",
+"@type": "JobPosting",
+"description": "Description: ABC Company Inc. seeks a full-time mid-level software engineer to develop in-house tools.",
+"jobLocation": {
+ "@type": "Place",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Kirkland",
+    "addressRegion": "WA"
+  }
+},
+"hiringOrganization": {
+  "@type": "Organization",
+  "name": "ABC, Inc.",
+  "legalName": "Alphabet, Inc."
+},
+"specialCommitments": "VeteranCommit",
+"title": "Software Engineer",
+"datePosted": "1/2/15",
+"url": "www.abccompanyinc.com/jobs?listing=12345"
+},
+{
+"@context": "http://schema.org",
+"@type": "JobPosting",
+"baseSalary": "100000",
+"benefits": "Medical, Life, Dental",
+"description": "ABC Company Inc. seeks a full-time machine shop foreman for its main manufacturing facility. The successful candidate will be in charge of all shop activities.",
+"employmentType": "Full-time",
+"experienceRequirements": "Minimum 4 years experience as shop foreman. Military shop experience highly desired",
+"incentives": "Performance-based annual bonus plan, project-completion bonuses",
+"jobLocation": {
+  "@type": "Place",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Kirkland",
+    "addressRegion": "WA"
+  }
+},
+"hiringOrganization": {
+  "@type": "Organization",
+  "name": "ABC, Inc.",
+  "legalName": "Alphabet, Inc."
+},
+"qualifications": "Ability to lead a group of 30+ machinists of varying skill levels. Highly motivated. Ability to learn quickly. Ability to settle disputes.",
+"responsibilities": "Manage all floor activities. Handle hirings, promotions, and firings.",
+"salaryCurrency": "USD",
+"specialCommitments": "VeteranCommit",
+"title": "Software Engineer",
+"workHours": "40+ hours per week",
+"datePosted": "1/2/15",
+"url": "www.abccompanyinc.com/jobs?listing=23456"
+}]</code></pre>
+>>>>>>> master
 </div>
 </div>
 </div>

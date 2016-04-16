@@ -143,7 +143,6 @@ In other words, https://vets.gov/employment/job-seekers/alternative/ has three U
 So that page has three breadcrumbs: _Employment > Job Seekers > Alternative ways to start your career_. 
 
 Adding another breadcrumb requires adding another sub-directory or segment to the URL path. 
-<<<<<<< HEAD
 
 It is possible to edit the text **only** of the first two breadcrumbs using `_config.yml`. To do so, update `_config.yml` with lines similar to what follows.
 
@@ -155,5 +154,3 @@ It is possible to edit the text **only** of the first two breadcrumbs using `_co
       body_class: "page-employment"
 
 In order to **update the third breadcrumb**, you _must_ update the `title` property that's part of the YAML metadata for the corresponding file.
-=======
->>>>>>> a14cba8d51c26ba7bd1c0462ccbbc38aab1a19b2

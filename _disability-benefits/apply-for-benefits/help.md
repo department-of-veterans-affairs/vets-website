@@ -66,7 +66,7 @@ The VA Office of General Counsel also maintains a list of [VA-recognized organiz
 
 #### How do I designate a VSO or representative?
 
-You can notify VA that you will be using a representative or modify your current representation online using eBenefits. You may also notify VA by completing VA Form 21-22 and mailing it to your nearest VA regional benefit office. Please speak to the service organization or representative before you submit your request.
+You can notify VA that you will be using a representative or modify your current representation online using eBenefits. You may also notify VA by completing [VA Form 21-22](http://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf) and mailing it to your nearest VA regional benefit office. Please speak to the service organization or representative before you submit your request.
 
 </div>
 </div>
@@ -76,7 +76,7 @@ You can notify VA that you will be using a representative or modify your current
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="va-nav-category">
         <li>
           <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
             <h5>What is the fastest way to file a claim?</h5>
