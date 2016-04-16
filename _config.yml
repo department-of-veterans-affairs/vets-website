@@ -31,6 +31,10 @@ exclude:
 include:
   - "_dummy-placeholder.html"
 
+# Specifically include files left out in dev.
+include:
+  - "_dummy-placeholder.html"
+
 #posts per page
 paginate: 4
 paginate_path: "/experience/:num/"
@@ -86,15 +90,12 @@ collections:
 
 # Sets breadcrumbs per path
 defaults:
+
   - scope:
       type: "disability-benefits"
     values:
       layout: "page-breadcrumbs"
       body_class: "page-disability"
-  - scope:
-      path: "disability-benefits/conditions/exposure-to-hazardous-materials"
-    values:
-      breadcrumb_3: "Exposure to Hazardous Materials"
   - scope:
       path: "disability-benefits/apply-for-benefits/"
     values:
@@ -109,10 +110,6 @@ defaults:
       path: "education/gi-bill"
     values:
       breadcrumb_2: "GI Bill"
-  - scope:
-      path: "education/gi-bill/survivors-dependent-assistance"
-    values:
-      breadcrumb_3: "Survivors' and Dependents' Assistance"
   - scope:
       path: "education/tools-programs"
     values:
@@ -129,10 +126,6 @@ defaults:
       path: "education/apply-for-education-benefits"
     values:
       breadcrumb_2: "Apply for Education Benefits"
-  - scope:
-      path: "education/work-learn/non-traditional"
-    values:
-      breadcrumb_3: "Non-Traditional Options"
   - scope:
       type: "health-care"
     values:
