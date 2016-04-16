@@ -5,7 +5,6 @@ source: http://www.benefits.va.gov/VRE/
 template: 1-topic-landing
 ---
 
-
 <div class="main" role="main">
   <div class="section one">
     <div class="primary">
