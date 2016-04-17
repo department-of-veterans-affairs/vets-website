@@ -24,13 +24,7 @@ template: 1-topic-landing
             <li>
               <a href="service-disabled/">
                 <h4 class="alternate">Service-disabled</h4>
-                <span>Service-disabled Veterans</span>
-              </a>
-            </li>
-            <li>
-              <a href="/employment/employers/">
-                <h4 class="alternate">Employers</h4>
-                <span>Employers</span>
+                <span>Veterans with Service-Connected Disbilities</span>
               </a>
             </li>
             <li>
@@ -45,6 +39,12 @@ template: 1-topic-landing
                 <span>Current Servicemembers</span>
               </a>
             </li>
+             <li>
+              <a href="/employment/employers/">
+                <h4 class="alternate">Employers</h4>
+                <span>Employers</span>
+              </a>
+             </li>
           </ul>
         </div>
       </div>
