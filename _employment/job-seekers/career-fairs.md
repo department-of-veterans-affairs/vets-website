@@ -66,7 +66,7 @@ Visit the following sites to find a career fair near you:
            </li>
 
           <li>
-            <a href="/employment/job-seekers/search_jobs">
+            <a href="/employment/job-seekers/search-jobs">
             <h5>
               Search the Veterans Job Bank
             </h5>

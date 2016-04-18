@@ -68,7 +68,7 @@ Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov
         </li>
 
         <li>
-          <a href="/employment/job-seekers/search_jobs">
+          <a href="/employment/job-seekers/search-jobs">
               <h5>
                 Search the Veterans Job Bank
               </h5>

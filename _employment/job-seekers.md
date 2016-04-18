@@ -31,7 +31,7 @@ template: 7-get-page
 
 - **Are you already in the workforce?**
   
-  Search for a [new career](/employment/job-seekers/search_jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
+  Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
 </div>
 </div>
 
@@ -101,7 +101,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Search online job banks
 
-- Search the [Veterans Employment Center](/employment/job-seekers/search_jobs) for job openings.
+- Search the [Veterans Employment Center](/employment/job-seekers/search-jobs) for job openings.
 - Search for connections and job listings on [LinkedIn](https://veterans.linkedin.com/) as well as other online job boards. 
 </div>
 

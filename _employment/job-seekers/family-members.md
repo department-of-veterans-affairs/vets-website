@@ -86,7 +86,7 @@ Spouses can attend Department of Labor Employment Workshops (DOLEW) online throu
         </li>
 
         <li>
-          <a href="/employment/job-seekers/search_jobs">
+          <a href="/employment/job-seekers/search-jobs">
           <h5>
             Search the Veterans Job Bank
           </h5>

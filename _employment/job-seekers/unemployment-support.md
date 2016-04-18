@@ -78,7 +78,7 @@ If you are unemployed and at risk of becoming homeless, call or visit your [loca
           </li>
 
           <li>
-            <a href="/employment/job-seekers/search_jobs">
+            <a href="/employment/job-seekers/search-jobs">
               <h5>
                 Search the Veterans Job Bank
               </h5>

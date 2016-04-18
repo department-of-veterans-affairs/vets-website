@@ -52,7 +52,7 @@ template: 1-topic-landing
 - Compile your service-treatment records and military hospital reports if you plan on registering for VA medical resources.
 Both of these can be ordered through the [National Archives](https://www.archives.gov/veterans/military-service-records/).
 - Compile private medical records and hospital reports. 
-- Finalize your résumé and begin actively [searching for employment](/employment/job-seekers/search_jobs).
+- Finalize your résumé and begin actively [searching for employment](/employment/job-seekers/search-jobs).
 - Consider taking one of three additional GPS tracks: Accessing Higher Education, Career Technical Training, or Entrepreneurship. 
 - Consider free [education and career counseling](/education/tools-programs/education-career-counseling/).
 - At 120 days from separation, you can begin applying for [federal jobs](/employment/job-seekers/federal-employment). 
@@ -126,7 +126,7 @@ Both of these can be ordered through the [National Archives](https://www.archive
           </li>  
 
           <li>
-            <a href="/employment/job-seekers/search_jobs">
+            <a href="/employment/job-seekers/search-jobs">
               <h5>
                 Search the Veterans Job Bank
               </h5>
