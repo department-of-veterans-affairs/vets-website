@@ -21,7 +21,7 @@ template: 4-action-page
 
 <div markdown="1">
 
-VA may provide independent-living services if your service-connected disability impairs your ability to work, and you need these services to live more independently. You may also receive independent-living services as you work to gain employment, if that’s a goal you and your counselor have created. In both cases, your counselor can help you restore your daily-living activities.
+VA may provide independent-living services if your service-connected disability impairs your ability to work and you need these services to live more independently. You may also receive independent-living services as you work to gain employment if that’s a goal you and your counselor have created. In both cases, your counselor can help you restore your daily-living activities.
 
 ### Are you eligible for independent-living services?
 </div>
@@ -44,7 +44,7 @@ You may get a referral from your case manager after enrolling in the [Vocational
 <div markdown="1">
 
 ### How it works
-A Vocational Rehabilitation Counselor (VRC) will work with you to determine if you are not ready for employment because of the severity of your service-connected disabilities. The counselor will also determine if you will benefit from independent-living services.
+A Vocational Rehabilitation Counselor (VRC) will work with you to determine if you are not yet ready for employment because of the severity of your service-connected disabilities. The counselor will also determine if you will benefit from independent-living services.
 
 Then, a counselor appointed through [Vocational Rehabilitation & Employment](/vre/apply-vre/) will help you personalize an independent-living plan for your needs. The services generally last up to 24 months, but in some situations they may be extended beyond this time frame. 
 
