@@ -52,7 +52,7 @@ VA assistance with your previous employer
 <div class="call-out" markdown="1">
   
 ### How it works
-[Apply for VR&E](/vre/apply-vre/) to find a vocational rehabilitation counselor (VRC) who can help you.
+[Apply for VR&E](https://www.ebenefits.va.gov/ebenefits/vre) to find a vocational rehabilitation counselor (VRC) who can help you.
 
 </div>
 
