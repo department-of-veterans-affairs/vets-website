@@ -28,13 +28,13 @@ describe('<Nav>', () => {
       consoleStub.restore();
     });
 
-    xit('currentUrl is required', () => {
-      SkinDeep.shallowRender(<Nav/>);
+    it('currentUrl is required', () => {
+      SkinDeep.shallowRender(<Nav store={store}/>);
       sinon.assert.calledWithMatch(consoleStub, /Required prop `currentUrl` was not specified in `Nav`/);
     });
 
-    xit('currentUrl must be a string', () => {
-      SkinDeep.shallowRender(<Nav currentUrl/>);
+    it('currentUrl must be a string', () => {
+      SkinDeep.shallowRender(<Nav store={store} currentUrl/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `currentUrl` of type `boolean` supplied to `Nav`, expected `string`/);
     });
   });
