@@ -9,7 +9,7 @@ source: http://www.benefits.va.gov/VOW/vocational-rehabilitation.asp
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-[A VA Employment Coordinator](http://www.benefits.va.gov/VOCREHAB/docs/EmploymentCoordinators.xls) (EC) can help you put together your résumé, develop your interview skills and connect you with employers interested in hiring Veterans. 
+[A VA Employment Coordinator](http://www.benefits.va.gov/VOCREHAB/docs/EmploymentCoordinators.xls) (EC) can help you put together your résumé, develop your interview skills, and connect you with employers interested in hiring Veterans. 
 
 [Veterans ReEmployment](http://www.careeronestop.org/ReEmployment/veterans/default.aspx) connects you with employment services and jobs that use the skills you learned in the military. It also helps with job-search strategies, getting copies of military records, and choosing the right schools or training.
 
