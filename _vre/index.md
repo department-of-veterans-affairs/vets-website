@@ -24,13 +24,13 @@ template: 1-topic-landing
             <li>
               <a href="service-disabled/">
                 <h4 class="alternate">Service-disabled</h4>
-                <span>Veterans with service-connected disabilities may be eligible to get help learning new skills, getting a new job or returning to your old job. Choose your track.</span>
+                <span>You may be eligible to get help learning new skills, getting a new job or returning to your old job. Choose your track.</span>
               </a>
             </li>
             <li>
               <a href="family-members/">
                 <h4 class="alternate">Family Members</h4>
-                <span>Family members of Veterans with service-connected disabilities may be eligible for certain counseling services, training and education benefits.</span>
+                <span>You may be eligible for certain counseling services, training and education benefits.</span>
               </a>
             </li>
             <li>
