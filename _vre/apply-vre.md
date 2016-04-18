@@ -64,7 +64,7 @@ You and [eligible family members](/vre/family-members/)
 
 <div markdown="1">
 
----------------------------------------------
+<hr>
 
 ### How it works
 
