@@ -143,17 +143,14 @@ In other words, https://vets.gov/employment/job-seekers/alternative/ has three U
 So that page has three breadcrumbs: _Employment > Job Seekers > Alternative ways to start your career_. 
 
 Adding another breadcrumb requires adding another sub-directory or segment to the URL path. 
-<<<<<<< HEAD
 
-It is possible to edit the text **only** of the first two breadcrumbs using `_config.yml`. To do so, update `_config.yml` with lines similar to what follows.
+It is possible to edit the text **of all but the last breadcrumb** using `_config.yml`. To do so, update `_config.yml` with lines similar to what follows.
 
     - scope:
-      type: "employment"
-    values:
-      breadcrumb_1: "Careers and Employment"
-      layout: "page-breadcrumbs"
-      body_class: "page-employment"
+        type: "employment"
+      values:
+        breadcrumb_1: "Careers and Employment"
+        layout: "page-breadcrumbs"
+        body_class: "page-employment"
 
-In order to **update the third breadcrumb**, you _must_ update the `title` property that's part of the YAML metadata for the corresponding file.
-=======
->>>>>>> a14cba8d51c26ba7bd1c0462ccbbc38aab1a19b2
+In order to **update the last breadcrumb** (typically the 3rd, but for some pages, the 4th), you _must_ update the `title` property that's part of the YAML metadata for the corresponding file.
