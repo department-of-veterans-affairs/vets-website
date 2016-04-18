@@ -24,25 +24,25 @@ template: 1-topic-landing
             <li>
               <a href="service-disabled/">
                 <h4 class="alternate">Service-disabled</h4>
-                <span>Service-disabled Veterans</span>
-              </a>
-            </li>
-            <li>
-              <a href="/employment/employers/">
-                <h4 class="alternate">Employers</h4>
-                <span>Employers</span>
+                <span>You may be eligible to get help learning new skills, getting a new job or returning to your old job. Choose your track.</span>
               </a>
             </li>
             <li>
               <a href="family-members/">
                 <h4 class="alternate">Family Members</h4>
-                <span>Family Members</span>
+                <span>You may be eligible for certain counseling services, training and education benefits.</span>
               </a>
             </li>
             <li>
               <a href="/disability-benefits/claims-process/claim-types/predischarge-claim/">
                 <h4 class="alternate">Servicemembers</h4>
-                <span>Current Servicemembers</span>
+                <span>You can receive counseling, re-training and education benefits while on active-duty if you have a service-connected disability.</span>
+              </a>
+            </li>
+            <li>
+              <a href="/employment/employers/">
+                <h4 class="alternate">Employers</h4>
+                <span>VA can help you find Veterans to hire and support them in your workplace.</span>
               </a>
             </li>
           </ul>
