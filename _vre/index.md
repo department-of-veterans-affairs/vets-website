@@ -28,12 +28,6 @@ template: 1-topic-landing
               </a>
             </li>
             <li>
-              <a href="/employment/employers/">
-                <h4 class="alternate">Employers</h4>
-                <span>VA can help you find Veterans to hire and support them in your workplace.</span>
-              </a>
-            </li>
-            <li>
               <a href="family-members/">
                 <h4 class="alternate">Family Members</h4>
                 <span>Family members of Veterans with service-connected disabilities may be eligible for certain counseling services, training and education benefits.</span>
@@ -43,6 +37,12 @@ template: 1-topic-landing
               <a href="/disability-benefits/claims-process/claim-types/predischarge-claim/">
                 <h4 class="alternate">Servicemembers</h4>
                 <span>You can receive counseling, re-training and education benefits while on active-duty if you have a service-connected disability.</span>
+              </a>
+            </li>
+            <li>
+              <a href="/employment/employers/">
+                <h4 class="alternate">Employers</h4>
+                <span>VA can help you find Veterans to hire and support them in your workplace.</span>
               </a>
             </li>
           </ul>
