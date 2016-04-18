@@ -22,7 +22,7 @@ template: 4-action-page
 <div markdown="1">
 As a family member of a Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. If the Veteran in your family qualifies for Vocational Rehabilitation and Employment (VR&amp;E) benefits, you may be able to receive vocational and educational counseling and assistance, so you can return to work or school and still provide the care that’s needed. 
 
-### Are you eligible for VR&E counseling? 
+### Are you eligible for VR&amp;E counseling? 
 
 </div>
 
@@ -61,17 +61,19 @@ You
 
 <div markdown="1">
 
----------------------------------------------
+<hr>
 
 ### How it works
- After you apply for services, a Vocational Rehabilitation Counselor (VRC) will work with you to map out a vocational path.  
+
+ After you apply for services, a Vocational Rehabilitation Counselor (VRC) will work with you to map out a vocational path. 
+
 - Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation):
 - Select "Additional Benefits." 
 - Select "Vocational Rehabilitation and Employment Program." 
 - Apply for "Education and Vocational Counseling.”
-- If you are eligible, you will be invited to meet with a Vocational Rehabilitation and Employment (VR&E) counselor. 
+- If you are eligible, you will be invited to meet with a Vocational Rehabilitation and Employment (VR&amp;E) counselor. 
 
-If the Veteran or Servicemember in your family is not already using VR&E benefits and services, he or she may apply online using [eBenefits](www.ebenefits.va.gov/sep/web/guest/vocational-rehabilitation-employment).
+If the Veteran or Servicemember in your family is not already using VR&amp;E benefits and services, he or she may apply online using [eBenefits](https://www.ebenefits.va.gov/sep/web/guest/vocational-rehabilitation-employment).
 
 </div>
 
