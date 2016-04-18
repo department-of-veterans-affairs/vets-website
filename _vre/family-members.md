@@ -61,11 +61,12 @@ You
  After you apply for services, a Vocational Rehabilitation Counselor (VRC) will work with you to map out a vocational path. 
  
 Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation):
-Select "Additional Benefits." 
 
-Select "Vocational Rehabilitation and Employment Program." 
+- Select "Additional Benefits." 
 
-Apply for "Education and Vocational Counseling.”
+- Select "Vocational Rehabilitation and Employment Program." 
+
+- Apply for "Education and Vocational Counseling.”
 
 If you are eligible, you will be invited to meet with a Vocational Rehabilitation and Employment (VR&E) counselor. 
 
