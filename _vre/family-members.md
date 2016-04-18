@@ -47,8 +47,8 @@ You
 ### Available benefits
 
 - Educational and vocational counseling
-- Exploring your abilities, aptitudes and interests
-- Identifying a career path 
+- Help exploring your abilities, aptitudes and interests
+- Help identifying a career path 
 - Planning the best use of your VA benefits 
 
 </div>
@@ -58,12 +58,16 @@ You
 ---------------------------------------------
 
 ### How it works
- After you apply for services, a Vocational Rehabilitation Counselor (VRC) will work with you to map out a vocational path.  
-- Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation):
-- Select "Additional Benefits." 
-- Select "Vocational Rehabilitation and Employment Program." 
-- Apply for "Education and Vocational Counseling.”
-- If you are eligible, you will be invited to meet with a Vocational Rehabilitation and Employment (VR&E) counselor. 
+ After you apply for services, a Vocational Rehabilitation Counselor (VRC) will work with you to map out a vocational path. 
+ 
+Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation):
+Select "Additional Benefits." 
+
+Select "Vocational Rehabilitation and Employment Program." 
+
+Apply for "Education and Vocational Counseling.”
+
+If you are eligible, you will be invited to meet with a Vocational Rehabilitation and Employment (VR&E) counselor. 
 
 If the Veteran in your family is not already using VR&E benefits and services, he or she may apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
 
