@@ -9,8 +9,7 @@ import FullName from '../questions/FullName';
 import Gender from '../questions/Gender';
 import MothersMaidenName from './MothersMaidenName';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
-import State from '../questions/State';
-import { maritalStatuses } from '../../utils/options-for-select.js';
+import { maritalStatuses, states } from '../../utils/options-for-select.js';
 import { isNotBlank } from '../../utils/validations';
 import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
@@ -82,7 +81,10 @@ class NameAndGeneralInfoSection extends React.Component {
           <ErrorableTextInput label="City"
               value={this.props.data.cityOfBirth}
               onValueChange={(update) => {this.props.onStateChange('cityOfBirth', update);}}/>
-          <State value={this.props.data.stateOfBirth} onUserInput={(update) => {this.props.onStateChange('stateOfBirth', update);}}/>
+          <ErrorableSelect label="State"
+              options={states.USA}
+              value={this.props.data.stateOfBirth}
+              onValueChange={(update) => {this.props.onStateChange('stateOfBirth', update);}}/>
           <ErrorableSelect required
               errorMessage={isNotBlank(this.props.data.maritalStatus) ? undefined : 'Please select a marital status'}
               label="Current Marital Status"
