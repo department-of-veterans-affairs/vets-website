@@ -1,5 +1,5 @@
 ---
-title: How to Apply for VR&E
+title: How to Apply for VR&amp;E
 template: 4-action-page
 ---
 
@@ -22,9 +22,9 @@ template: 4-action-page
 
 <div markdown="1">
 
-Vocational Rehabilitation and Employment (VR&E) provides special career assistance to Veterans and Servicemembers who are overcoming challenges associated with service-connected disabilities. For Veterans and Servicemembers with service-connected disabilities so severe that they cannot immediately consider work, VR&E offers services to improve their ability to live as independently as possible. Services may also be available to eligible family members.
+Vocational Rehabilitation and Employment (VR&amp;E) provides special career assistance to Veterans and Servicemembers who are overcoming challenges associated with service-connected disabilities. For Veterans and Servicemembers with service-connected disabilities so severe that they cannot immediately consider work, VR&amp;E offers services to improve their ability to live as independently as possible. Services may also be available to eligible family members.
 
-### Are you eligible to apply for VR&E?
+### Are you eligible to apply for VR&amp;E?
 
 </div>
 
@@ -38,7 +38,7 @@ Yes, if:
 - You are a Veteran who was discharged under conditions other than dishonorable and have a 10% or higher disability rating, and
 - You separated from the military or received a service-connected disability rating from VA within the past 12 years.
 
-**Note:** Veterans may be eligible for VR&E after 12 years if VA determines their employment handicap warrants an extension.
+**Note:** Veterans may be eligible for VR&amp;E after 12 years if VA determines their employment handicap warrants an extension.
 
 
 </div>
@@ -64,7 +64,7 @@ You and [eligible family members](/vre/family-members/)
 
 <div markdown="1">
 
----------------------------------------------
+<hr>
 
 ### How it works
 
@@ -95,12 +95,12 @@ If you are eligible, VA will invite you to an orientation session at the nearest
 <li class="step six wow fadeIn animated" markdown="1">
 If you are a Servicemember who has not yet received a service-connected disability rating, you do not need to wait for a rating. Instead, please fill out [VA Form 28-0588](http://www.vba.va.gov/pubs/forms/VBA-28-0588-ARE.pdf).
 
-**Note:** Servicemembers going through the Physical Evaluation Board process, as well as Servicemembers who expect an other-than-dishonorable discharge and who have a VA memorandum rating of 20% or more, or are in the Integrated Disability Evaluation System (IDES), may be eligible for VR&E services.
+**Note:** Servicemembers going through the Physical Evaluation Board process, as well as Servicemembers who expect an other-than-dishonorable discharge and who have a VA memorandum rating of 20% or more, or are in the Integrated Disability Evaluation System (IDES), may be eligible for VR&amp;E services.
 </li>
 
 <li class="step last seven wow fadeIn animated animated" markdown="0">
 
-After you apply, you will be scheduled to meet with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you are eligible for VR&E benefits and services. You have an employment handicap if your service-connected disability impairs your ability to prepare for, find, and maintain suitable employment. After VA makes an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&E will provide.
+After you apply, you will be scheduled to meet with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you are eligible for VR&amp;E benefits and services. You have an employment handicap if your service-connected disability impairs your ability to prepare for, find, and maintain suitable employment. After VA makes an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&amp;E will provide.
 
 </li>
 </ol>
