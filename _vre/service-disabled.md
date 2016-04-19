@@ -30,14 +30,14 @@ If you are a Veteran or Servicemember with service-connected disabilities that p
 </li>
 
 <li>
-<a href="/vre/service-disabled/start-business/">
-<h5>Do you want to start your own business?</h5>
+<a href="/vre/service-disabled/new-skills/">
+<h5>Do you need new skills for a career goal?</h5>
 </a>
 </li>
 
 <li>
-<a href="/vre/service-disabled/new-skills/">
-<h5>Do you need new skills for a career goal?</h5>
+<a href="/vre/service-disabled/start-business/">
+<h5>Do you want to start your own business?</h5>
 </a>
 </li>
 
