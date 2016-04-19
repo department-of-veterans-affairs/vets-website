@@ -26,7 +26,7 @@ VA may provide independent-living services if your service-connected disability 
 ### Are you eligible for independent-living services?
 </div>
 
-
+<div markdown="1">
 Yes, if:
 
 - You are eligible for VR&amp;E benefits.
