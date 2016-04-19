@@ -29,6 +29,7 @@ relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/post-service/
     title: Postservice Claim
     description: ""
+template: 1-topic-landing
 ---
 
 <div class="main" role="main" markdown="0">
@@ -37,7 +38,7 @@ relatedlinks:
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-It is to your benefit to start the process of filing a disability claim while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted before separation than for those submitted after separation.
+It is best to start the process of filing a disability claim while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted before separation than for those submitted after separation. You may be screened via the Integrated Disability Evaluation System (IDES) process for access to [Vocational Rebilitation and Employment](/vre/)(VR&amp;E) programs before you separate. 
 
 If you are in predischarge status, you may file a claim for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty.
 
@@ -45,7 +46,6 @@ If you are between 60 and 180 days from separation, you can begin the [Benefit D
 
 If you are stationed overseas, you can go to an [intake site](/disability-benefits/claims-process/claim-types/predischarge-claim/overseas/index.html) in Korea or Germany.
 
-</div>
 </div>
 </div>
 </div>
