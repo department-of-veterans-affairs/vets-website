@@ -26,7 +26,7 @@ If you are a Veteran with a service-connected disability and an employment barri
 
 </div>
 
-
+<div markdown="1">
 Yes, if:
 
 - You are a Veteran or Servicemember with a service-connected disability of at least 20% and an employment barrier. 
