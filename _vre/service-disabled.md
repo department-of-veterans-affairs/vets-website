@@ -1,5 +1,5 @@
 ---
-title: How Can We Help?
+title: How can we help?
 template: 2-detailed-landing
 ---
 
@@ -12,7 +12,7 @@ template: 2-detailed-landing
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 <div markdown="1">
-If you are a Veteran or Servicemember with service-connected disabilities that prevent you from continuing on your current career path, then VR&amp;E programs may be able to assist you. VA offers five vocational assistance and employment support and services tracks to increase independence. VR&amp;E counselors will help you determine the most appropriate track.
+If you are a Veteran or Servicemember with service-connected disabilities that prevent you from continuing on your current career path, then VR&amp;E programs may be able to assist you. VA offers five vocational assistance and employment support and services tracks to enable you to live more independently. VR&amp;E counselors will help you determine the most appropriate track.
 </div>
 
 <div class="navigation">
