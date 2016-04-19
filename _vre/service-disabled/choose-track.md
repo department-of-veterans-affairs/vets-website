@@ -5,13 +5,6 @@ template: 2-detailed-landing
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/vre/service-disabled/choose-track/">Choose Your Track</a>
-    </div>
-  </div>
-</div>
 
 <div class="section one" markdown="0">
 
