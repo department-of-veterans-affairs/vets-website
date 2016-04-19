@@ -9,7 +9,7 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">
 
-It is to your benefit to start the process of filing a disability claim while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted before separation than for those submitted after separation.
+It is best to start the process of filing a disability claim while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted before separation than for those submitted after separation. You may be screened via the Integrated Disability Evaluation System (IDES) process for access to [Vocational Rebilitation and Employment](/vre/)(VR&E) programs before you separate. 
 
 If you are in predischarge status, you may file a claim for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty.
 
