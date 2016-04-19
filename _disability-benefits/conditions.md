@@ -2,6 +2,19 @@
 title: Conditions
 source: https://eauth.va.gov/ebenefits/learn/compensation
 template: 2-detailed-landing
+pianokeys:
+  - url: /disability-benefits/conditions/ptsd/
+    title: PTSD
+    description: "The basics: symptoms and help."
+  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/
+    title: Exposure to Hazardous Materials
+    description: Asbestos, Agent Orange, chemicals, weapons testing, Camp Lejeune, radiation, and more.
+  - url: /disability-benefits/conditions/pow/
+    title: Prisoners of War (<abbr>POW</abbr>s)
+    description: Physical and emotional conditions resulting from captivity.
+  - url: /disability-benefits/conditions/special-claims/
+    title: Special Claims
+    description: Adaptive equipment, hospitalization and convalescence, dentistry, individual unemployability, and more.
 ---
 
 <div class="main" role="main" markdown="0">
@@ -64,46 +77,4 @@ Access the [complete schedule of disabilities](http://www.benefits.va.gov/warms/
 </div>
 </div>
 
-<div class="navigation">
-<div class="row">
-<div class="small-12 columns">
 
-<ul class="va-nav-category">
-
-
-<li>
-<a href="/disability-benefits/conditions/ptsd/">
-<h5>PTSD</h5>
-<span>The basics: symptoms and help.</span>
-</a>
-</li>
-
-<li>
-<a href="/disability-benefits/conditions/exposure-to-hazardous-materials/">
-<h5>Exposure to Hazardous Materials</h5>
-<span>Asbestos, Agent Orange, chemicals, weapons testing, Camp Lejeune, radiation, and more.</span>
-</a>
-</li>
-
-<li>
-<a href="/disability-benefits/conditions/pow/">
-<h5>Prisoners of War (<abbr>POW</abbr>s)</h5>
-<span>Physical and emotional conditions resulting from captivity.</span>
-</a>
-</li>
-
-
-<li>
-<a href="/disability-benefits/conditions/special-claims/">
-<h5>Special Claims</h5>
-<span>Adaptive equipment, hospitalization and convalescence, dentistry, individual unemployability, and more.</span>
-</a>
-</li>
-
-
-</ul>
-</div>
-</div>
-</div>
-
-</div>
