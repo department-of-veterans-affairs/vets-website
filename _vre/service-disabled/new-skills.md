@@ -28,13 +28,13 @@ If service-connected disabilities make it difficult for you to succeed in your c
 Yes, if:
 
 - You are a Veteran or Servicemember with a service-connected disability and an employment barrier/handicap [enrolled in VR&amp;E](/vre/apply-vre/).
-- Your service-connected disabilities impair your ability to prepare for, obtain and maintain suitable employment 
+- Your service-connected disabilities impair your ability to prepare for, obtain, and maintain suitable employment 
 </div>
 
 
 <div class="call-out" markdown="1">
 
-### Who is eligible to apply?
+### Who can apply
 You and your family
 </div>
 
