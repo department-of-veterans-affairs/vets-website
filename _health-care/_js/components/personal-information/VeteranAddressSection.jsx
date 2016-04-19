@@ -77,7 +77,7 @@ class VeteranAddressSection extends React.Component {
         </tbody>
       </table>);
     } else {
-      content = (<div>
+      content = (<div className="input-section">
         <p>For locations outside the U.S., enter "City,Country" in the City field
             (e.g., "Paris,France"), and select Foreign Country for State.
         </p>

@@ -62,12 +62,19 @@ body .row {
   clear: none;
   float: left;
   margin-right: 1.5rem;
-  width: 10rem;
 
   & select {
     padding-top: 0.85rem;
     padding-bottom: 0.85rem;
   }
+}
+
+.hca-datefield-month {
+  width: 10rem;
+}
+
+.hca-datefield-day {
+  width: 8rem;
 }
 
 .usa-input-error {

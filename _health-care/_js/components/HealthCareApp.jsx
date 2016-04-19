@@ -4,7 +4,7 @@ import { hashHistory } from 'react-router';
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
 import ProgressButton from './ProgressButton';
-import { ensureFieldsInitialized, updateCompletionStatus } from '../actions';
+import { ensureFieldsInitialized, updateCompletionStatus, updateSubmissionStatus } from '../actions';
 import { pathToData } from '../store';
 
 import * as validations from '../utils/validations';
@@ -72,7 +72,12 @@ class HealthCareApp extends React.Component {
   }
 
   handleSubmit() {
-    // Add functionality
+    const path = this.props.location.pathname;
+    this.context.store.dispatch(updateSubmissionStatus('applicationSubmitted'));
+    this.context.store.dispatch(updateCompletionStatus(path));
+    if (document.getElementsByTagName('h4').length > 0) {
+      document.getElementsByTagName('h4')[0].scrollIntoView();
+    }
   }
 
   render() {
@@ -88,6 +93,7 @@ class HealthCareApp extends React.Component {
     const lastSectionText = (this.getUrl('back')) ? this.getUrl('back').split('/').slice(-1)[0].replace(/-/g, ' ') : '';
     const nextSectionText = (this.getUrl('next')) ? this.getUrl('next').split('/').slice(-1)[0].replace(/-/g, ' ') : '';
 
+    // TODO(crew): Move these buttons into sections.
     const backButton = (
       <ProgressButton
           onButtonClick={this.handleBack}
@@ -107,7 +113,7 @@ class HealthCareApp extends React.Component {
     const submitButton = (
       <ProgressButton
           onButtonClick={this.handleSubmit}
-          buttonText={'Submit'}
+          buttonText={'Submit Application'}
           buttonClass={'usa-button-primary'}/>
     );
 

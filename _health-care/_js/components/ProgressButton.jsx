@@ -23,7 +23,7 @@ class ProgressButton extends React.Component {
 
     return (
       <div className="row progress-buttons">
-        <div className="small-8 columns">
+        <div className="small-12 medium-8 columns">
           <button
               className={`text-capitalize ${this.props.buttonClass}`}
               id={`${this.id}-continueButton`}
