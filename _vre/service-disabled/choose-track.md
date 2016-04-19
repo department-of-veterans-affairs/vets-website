@@ -1,5 +1,5 @@
 ---
-title: Choose Your Track
+title: How Can We Help?
 template: 2-detailed-landing
 ---
 
@@ -30,37 +30,32 @@ If you are a Veteran or Servicemember with service-connected disabilities that p
 
 
 <li>
-<a href="/vre/service-disabled/existing-position/">
-<h5>Existing Position</h5>
-<span>Would you like to return to a job you previously held?</span>
+<a href="/vre/service-disabled/return-job/">
+<h5>Would you like to return to the job you had before being activated?</h5>
 </a>
 </li>
 
 <li>
 <a href="/vre/service-disabled/existing-skills/">
-<h5>New Position</h5>
-<span>Are you ready to work now?</span>
+<h5>Are you ready to work now?</h5>
 </a>
 </li>
 
 <li>
 <a href="/vre/service-disabled/start-business/">
-<h5>Entrepreneurship</h5>
-<span>Do you have a business idea?</span>
+<h5>Do you have a business idea?</h5>
 </a>
 </li>
 
 <li>
-<a href="/vre/service-disabled/return-job/">
-<h5>New Skills</h5>
-<span>Do you need new skills for a vocational goal?</span>
+<a href="/vre/service-disabled/existing-position/">
+<h5>Do you need new skills for a vocational goal?</h5>
 </a>
 </li>
 
 <li>
 <a href="/vre/service-disabled/independent-living/">
-<h5>Independent Living</h5>
-<span>Do you need assistance to live independently?</span>
+<h5>Do you need assistance to live independently?</h5>
 </a>
 </li>
 
