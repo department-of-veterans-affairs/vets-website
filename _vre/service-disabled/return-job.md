@@ -37,7 +37,7 @@ Yes, if:
 
 <div markdown="1">
 
-### Who is eligible
+### Who can apply
 You
 
 </div>
@@ -54,7 +54,7 @@ VA assistance with your previous employer
 ---------------------------------------------
 
 ### How it works
-[Apply for VR&E](/vre/apply-vre/) to find a vocational rehabilitation counselor (VRC) who can help you.
+[Apply for VR&E](/vre/apply-vre/) to find a Vocational Rehabilitation Counselor who can help you.
 </div>
 
 </div>
