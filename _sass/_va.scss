@@ -24,7 +24,7 @@ body {
   color: $color-primary-darkest;
   display: block;
   font-weight: 600;
-  &:hover {background: $color-white;}
+
   &:focus {
     position: inherit;
     top: auto;
@@ -402,7 +402,11 @@ h6 {font-size: 1.15em; font-weight: bold;}
 
 .home #content {
   h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
-  .post-date {font-size: .5em; color: $color-gold;}
+  
+  .post-date {
+    font-size: .5em; color: $color-gold;
+  }
+  
   h3 {
     border-bottom: 1px solid $color-white;
     line-height: 1.2em;
@@ -494,7 +498,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
 }
 
 #content .section.secondary {
-background: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.85);
 }
 
 #content .section.tertiary {
@@ -573,7 +577,6 @@ background: rgba(255,255,255,.85);
 
 
 // Action
-
 .action {
   margin: 0 auto;
   text-align: left;
@@ -957,9 +960,9 @@ body.fourohfour #content {
 // Telephone numbers
 
 span.tel {
-background: rgba(0,0,0,.05);
-padding: .2em;
-display: inline-block;
+  background: rgba(0,0,0,.05);
+  padding: .2em;
+  display: inline-block;
 }
 
 // Information Grid
@@ -1062,7 +1065,8 @@ body.page-playbook {
   }
 }
 
-.post-date, .post-author {
+.post-date, 
+.post-author {
   color: $color-va-gray-cool-dark;
 }
 
@@ -2509,6 +2513,7 @@ button.js-simple-tooltip {
 .simpletooltip_container {
   position: relative;
 }
+
 .simpletooltip {
   position: absolute;
   z-index: 777;
