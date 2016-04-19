@@ -22,7 +22,7 @@ template: 1-topic-landing
         <div class="section-nav">
           <ul class="small-block-grid-1 medium-block-grid-4 cards small">
             <li>
-              <a href="service-disabled/">
+              <a href="vre/service-disabled/choose-track/">
                 <h4 class="alternate">Service-Disabled</h4>
                 <span>You may be eligible to get help learning new skills, getting a new job, or returning to your old job. Choose your track.</span>
               </a>
