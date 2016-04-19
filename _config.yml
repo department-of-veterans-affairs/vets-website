@@ -179,4 +179,10 @@ defaults:
     values:
       breadcrumb_1: "Careers and Employment"
       layout: "page-breadcrumbs"
-      body_class: "page-employment"    
+      body_class: "page-employment"
+  - scope:
+      type: "vre"
+    values:
+      breadcrumb_1: "Vocational Rehabilitation and Employment (VR&amp;E)"
+      layout: "page-breadcrumbs"
+      body_class: "page-vre" 
