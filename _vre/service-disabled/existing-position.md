@@ -1,5 +1,5 @@
 ---
-title: How to Apply for VRE
+title: New Skills
 template: 4-action-page
 ---
 
@@ -19,44 +19,37 @@ template: 4-action-page
 <div class="small-12 medium-8 columns">
 
 
-
 <div markdown="1">
-Veterans with service-connected disabilities have the opportunity to return to work with a former employer because of the [Uniformed Services Employment and Reemployment Rights Act (USERRA)](http://www.dol.gov/vets/programs/userra/). Vocational Rehabilitation and Employment (VR&E) can assist in this process by helping your employer accommodate your needs. Your VR&E counselor can provide a full range of rehabilitation services,  and can refer you directly to the Department of Labor to begin the process.
+If service-connected disabilities make it difficult for you to succeed in your career path, you may qualify for training through Vocational Rehabilitation and Employment (VR&E) that will help you pursue employment in a different field that suits your abilities. You may be eligible for this even if you also qualify for [GI Bill benefits](Link to education section).  However, you must decide which benefit you want to use. 
 
-### Are you eligible for this VR&E track?
-
-</div>
-
-<div class="call-out" markdown="1">
+###Are you eligible for VR&E assistance?
 Yes, if:
 
-- You are a Veteran with a service-connected disability and an employment barrier/handicap [enrolled in VR&E](/vre/apply-vre/).
-- You would like to return to your previous place of employment.
+- You are a Veteran or Servicemember with a service-connected disability and an employment barrier/handicap [enrolled in VR&E](Link to application).
+- Your service-connected disabilities impair your ability to prepare for, obtain and maintain suitable employment 
 
-</div>
-
-<div class="call-out" markdown="1">
-
-### Who is eligible
-You
-
-</div>
-
-<div class="call-out" markdown="1">
+### Who is eligible to apply?
+You and your family
 
 ### Benefits
-VA assistance with your previous employer
+- Comprehensive skills assessment
+- Career counselor
+- Education or training for a suitable vocational field, possibly including volunteer positions and OJT assistance.
 
-</div>
-
-<div class="call-out" markdown="1">
-  
 ### How it works
-[Apply for VR&E](https://www.ebenefits.va.gov/ebenefits/vre) to find a vocational rehabilitation counselor (VRC) who can help you.
+[Apply for VR&E](Link to application page) to find a Vocational Rehabilitation Counselor who can assist you.
+
+VR&E is an employment program different from the GI Bill that may be used to pay for education you require to train for suitable employment. 
+</div>
 
 </div>
+</div>
+</div>
+</div>
 
-</div>
-</div>
-</div>
-</div>
+
+
+
+
+
+
