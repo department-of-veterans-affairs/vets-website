@@ -29,8 +29,8 @@ VA may provide independent-living services if your service-connected disability 
 
 Yes, if:
 
-- You are eligible for VR&E benefits.
-- You have a service-connected disability rating of 20% or higher. 
+- You are eligible for VR&amp;E benefits.
+- You have a service-connected disability rating of 20&#37; or higher. 
 - Your injuries prevent you from immediately seeking or returning to employment.
 
 </div>
@@ -38,15 +38,15 @@ Yes, if:
 <div markdown="1">
 
 ### How to apply
-You may get a referral from your case manager after enrolling in the [Vocational Rehabilitation & Employment](/vre/apply-vre/) program.
+You may get a referral from your case manager after enrolling in the [Vocational Rehabilitation &amp; Employment](/vre/apply-vre/) program.
 </div>
 
 <div markdown="1">
 
 ### How it works
-A Vocational Rehabilitation Counselor (VRC) will work with you to determine if you are not ready for employment because of the severity of your service-connected disabilities. The counselor will also determine if you will benefit from independent-living services.
+A Vocational Rehabilitation Counselor (VRC) will work with you to determine if you are not yet ready for employment because of the severity of your service-connected disabilities. The counselor will also determine if you will benefit from independent-living services.
 
-Then, a counselor appointed through [Vocational Rehabilitation & Employment](/vre/apply-vre/) will help you personalize an independent-living plan for your needs. The services generally last up to 24 months, but in some situations they may be extended beyond this time frame. 
+Then, a counselor appointed through [Vocational Rehabilitation &amp; Employment](/vre/apply-vre/) will help you personalize an independent-living plan for your needs. The services generally last up to 24 months, but in some situations they may be extended beyond this time frame. 
 
 Independent-living services may include evaluation and counseling to identify your needs and goals; home consultations with specialists; referral to support resources; and guidance in understanding your eligibility for VA home-modification programs. 
 
