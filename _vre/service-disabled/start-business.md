@@ -1,5 +1,5 @@
 ---
-title: Do You Want to Start Your Own Business?
+title: Do you want to start your own business?
 template: 4-action-page
 ---
 
@@ -26,9 +26,9 @@ If you are a Veteran with a service-connected disability and an employment barri
 
 </div>
 
-<div markdown="1">
 
 Yes, if:
+
 - You are a Veteran or Servicemember with a service-connected disability of at least 20% and an employment barrier. 
 - You have a business plan drafted.
 
@@ -43,12 +43,12 @@ You
 
 <div markdown="1">
 
-### Available Benefits
+### Available benefits
 - Coordination services and assistance developing a proposed business plan. 
 - Analysis of your business concept.
-- Training in small-business operations, marketing and finances. 
+- Training in small-business operations, marketing, and finances. 
 - Guidance in obtaining adequate resources to implement the business plan.
-- VR&E may also provide minimum stocks, essential equipment and business license fees.
+- VR&E may also provide minimum stocks, essential equipment, and business license fees.
 
 </div>
 
@@ -58,7 +58,7 @@ You
 
 ### How it works	
 
-After you develop your business plan, VR&E will review the plan and evaluate if self-employment and the proposed business are viable options.  
+After you develop your business plan, VR&E will review it and evaluate if self-employment and the proposed business are viable options.  
 
 
 </div>
