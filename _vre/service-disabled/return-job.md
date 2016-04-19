@@ -20,9 +20,9 @@ template: 4-action-page
 
 
 <div markdown="1">
-Veterans with service-connected disabilities have the opportunity to return to work with a former employer because of the [Uniformed Services Employment and Reemployment Rights Act (USERRA)](http://www.dol.gov/vets/programs/userra/). Vocational Rehabilitation and Employment (VR&E) can assist in this process by helping your employer accommodate your needs. Your VR&E counselor can provide a full range of rehabilitation services,  and can refer you directly to the Department of Labor to begin the process.
+Veterans with service-connected disabilities have the opportunity to return to work with a former employer because of the [Uniformed Services Employment and Reemployment Rights Act (USERRA)](http://www.dol.gov/vets/programs/userra/). Vocational Rehabilitation and Employment (VR&amp;E) can assist in this process by helping your employer accommodate your needs. Your VR&amp;E counselor can provide a full range of rehabilitation services,  and can refer you directly to the Department of Labor to begin the process.
 
-### Are you eligible for this VR&E track?
+### Are you eligible for this VR&amp;E track?
 
 </div>
 
@@ -30,7 +30,7 @@ Veterans with service-connected disabilities have the opportunity to return to w
 
 Yes, if:
 
-- You are a Veteran with a service-connected disability and an employment barrier/handicap [enrolled in VR&E](/vre/apply-vre/).
+- You are a Veteran with a service-connected disability and an employment barrier/handicap [enrolled in VR&amp;E](/vre/apply-vre/).
 - You would like to return to your previous place of employment.
 
 </div>
