@@ -5,13 +5,6 @@ template: 4-action-page
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
@@ -24,7 +17,7 @@ template: 4-action-page
 
 Vocational Rehabilitation and Employment (VR&amp;E) provides special career assistance to Veterans and Servicemembers who are overcoming challenges associated with service-connected disabilities. For Veterans and Servicemembers with service-connected disabilities so severe that they cannot immediately consider work, VR&amp;E offers services to improve their ability to live as independently as possible. Services may also be available to eligible family members.
 
-### Are you eligible to apply for VR&amp;E?
+### Are you eligible for VR&amp;E?
 
 </div>
 
@@ -45,7 +38,7 @@ Yes, if:
 
 <div class="call-out" markdown="1">
 
-#### Who is eligible to apply?
+#### Who can apply
 
 You and [eligible family members](/vre/family-members/)
 
@@ -64,7 +57,7 @@ You and [eligible family members](/vre/family-members/)
 
 <div markdown="1">
 
----------------------------------------------
+<hr>
 
 ### How it works
 

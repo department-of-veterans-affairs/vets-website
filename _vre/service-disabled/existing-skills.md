@@ -20,22 +20,23 @@ template: 4-action-page
 
 
 <div markdown="1">
-If you want to follow a career path that uses your existing skillset, Vocational Rehabilitation and Employment (VR&E) can help you with your job search through counseling and rehabilitation services that address your interests, abilities and aptitudes. This support supplements other [VA employment search resources](/employment/job-seekers/employment-support/).
+If you want to follow a career path that uses your existing skillset, Vocational Rehabilitation and Employment (VR&amp;E) can help you with your job search through counseling and rehabilitation services that address your interests, abilities, and aptitudes. This support supplements other [VA employment search resources](/employment/job-seekers/employment-support/).
 
-###Are you eligible for this VR&E track?
+### Are you eligible for this VR&amp;E track?
 
 </div>
 
-<div markdown="1">
+<div class="call-out" markdown="1">
 
 Yes, if:
+
 - You are a Veteran or Servicemember with a service-connected disability and an employment barrier. 
-- You already have experience, education or training in your field of interest.
+- You already have experience, education, or training in your field of interest.
 </div>
 
-<div markdown="1">
+<div class="call-out" markdown="1">
 
-### Who is eligible
+### Who is covered
 You 
 </div>
 
@@ -51,12 +52,12 @@ You
 
 <div markdown="1">
 
----------------------------------------------
+<hr>
 
 ### How it works
-[Apply for VR&E](/vre/apply-vre/) to find a Vocational Rehabilitation Counselor (VRC) who can assist you.
+[Apply for VR&amp;E](/vre/apply-vre/) to find a Vocational Rehabilitation Counselor (VRC) who can assist you.
 
-Some dependents of Veterans with a service-connected disability may qualify for career counseling, as well. Learn how [family members may apply for VR&E](/vre/family-members/).
+Some dependents of Veterans with a service-connected disability may also qualify for career counseling. Learn how [family members may apply for VR&amp;E](/vre/family-members/).
 </div>
 
 </div>
