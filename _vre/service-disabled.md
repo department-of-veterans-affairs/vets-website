@@ -22,27 +22,22 @@ If you are a Veteran or Servicemember with service-connected disabilities that p
 <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
 
-<li>
-<a href="/vre/service-disabled/return-job/">
-<h5>Would you like to return to a job you previously held?</h5>
-</a>
-</li>
 
 <li>
 <a href="/vre/service-disabled/existing-skills/">
-<h5>Are you ready to work now?</h5>
+<h5>Want to follow a career path that uses your existing skillset?</h5>
 </a>
 </li>
 
 <li>
 <a href="/vre/service-disabled/start-business/">
-<h5>Do you have a business idea?</h5>
+<h5>Do you want to start your own business?</h5>
 </a>
 </li>
 
 <li>
 <a href="/vre/service-disabled/new-skills/">
-<h5>Do you need new skills for a vocational goal?</h5>
+<h5>Do you need new skills for a career goal?</h5>
 </a>
 </li>
 
@@ -51,6 +46,13 @@ If you are a Veteran or Servicemember with service-connected disabilities that p
 <h5>Do you need assistance to live independently?</h5>
 </a>
 </li>
+
+<li>
+<a href="/vre/service-disabled/return-job/">
+<h5>Want to return to the job you held before mobilization?</h5>
+</a>
+</li>
+
 
 </ul>
 </div>
