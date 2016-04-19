@@ -34,7 +34,7 @@ template: 2-detailed-landing
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
         <li>
-        <a href="/vre/service-disabled/existing-position/">
+        <a href="/vre/service-disabled/return-job/">
         <h5>Existing Position</h5>
         <span>Would you like to return to a job you previously held?</span>
         </a>
