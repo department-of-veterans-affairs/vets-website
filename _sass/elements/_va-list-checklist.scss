@@ -1,11 +1,9 @@
 // Checklists
 // TODO: Remove ul.checklist, ol.checklist
 // in favor of .va-list-checklist. Haven't
-// found instances of any 
-
-.home #content .section.main-menu .navigation {
-  background: chartreuse !important;
-}
+// found instances of any .checklist in the markup, but
+// decided it was better to keep the code around, but not include it
+// just in case we do need it.
 
 ul.checklist,
 ol.checklist,
