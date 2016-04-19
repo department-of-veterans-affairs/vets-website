@@ -162,7 +162,6 @@ figcaption {
     
     &:hover, &:active, &:focus {
       background-image: url(../images/design/logo/logo-hover.png); 
-      background-size: contain;
     }
   
     @media #{$small} {
