@@ -20,7 +20,9 @@ template: 4-action-page
 
 
 <div markdown="1">
-If you are a Veteran with a service-connected disability and an employment barrier who has the desire and skills to run a successful business, you may be interested in the Vocational Rehabilitation and Employment (VR&E) self-employment track. A Vocational Rehabilitation Counselor (VRC) can guide you through the process of starting your own business.  
+If you are a Veteran with a service-connected disability and an employment barrier who has the desire and skills to run a successful business, you may be interested in the Vocational Rehabilitation and Employment (VR&E) self-employment track. 
+
+A Vocational Rehabilitation Counselor (VRC) can guide you through the process of starting your own business.  
 
 ### Are you eligible?
 
