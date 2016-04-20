@@ -30,7 +30,7 @@ class AnnualIncomeSection extends React.Component {
 
     if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
-        <p>
+        <p id="notRequiredMessage">
           <strong>
             You are not required to enter financial information because you
             indicated you are receiving a VA pension.
