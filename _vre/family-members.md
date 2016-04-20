@@ -8,7 +8,9 @@ template: 4-action-page
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for VR&amp; Benefits</a>
+
+      <a class="usa-button-primary va-button-primary" href="/vre/apply-vre/">Apply for VR&amp;E Benefits</a>
+
     </div>
   </div>
 </div>
