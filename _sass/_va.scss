@@ -2273,21 +2273,7 @@ font-style: italic;
   }
 }
 
-// Buttons
-
-#content .usa-button,
-#content .usa-button-primary,
-#content .usa-button-outline {
-  text-decoration: none !important;
-}
-
-#content .usa-button-primary.expand {
-  width: 100%;
-}
-
-
 // Highlight headings
-
 h4.highlight {
   border-bottom: 3px solid $primary-color;
   display: block;
