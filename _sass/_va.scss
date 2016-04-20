@@ -1489,129 +1489,60 @@ a.twitter {
 
 }
 
-// Alerts
-
-.alert-box {
-  border-bottom: none;
-  margin: 0;
-  padding: 1.25em .4em 0 0;
-
-  &:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-  }
-
-  @media #{$small-up} {
-    padding: 1em .4em 0 .4em;
-  }
-  margin-bottom: 0;
+// Notice / feedback banners
+.va-notice--banner {
+  background: $color-primary-darker;
+  margin: 0 0 .75em 0;
+  padding: .5em;
+  font-size: .9em;
+  font-weight: 300;
   
+  p {
+    margin: 0;
+  }
+    
   a {
     color: $color-white; 
-    background: none;
   }
-
-  &.notice {
-    font-size: .9em;
-    font-weight: 700;
-    clear: both;
-    padding: .5em;
-    @media #{$small} {padding: .5em .85em;}
-    margin-bottom: .75em;
-    background: $color-primary-darker;
-    &:after {
-       visibility: hidden;
-       display: block;
-       font-size: 0;
-       content: " ";
-       clear: both;
-       height: 0;
-       }
+  
+  .row {
+    max-width: 70em;
   }
+}
 
-  &.coda {
-    font-size: .9em;
-    font-weight: 500;
-    clear: both;
-    padding: 1.25em 0;
-    border-top: none;
-    background: $color-primary-darker;
-  }
+// Only used in the footer
+.va-notice--banner--alt {
+  padding: 1.25em 0;
+  margin: 1.5em 0 0 0;
+}
 
-  // Feedback widget
+ // Feedback widget
 
-  .feedback {
-    color: $color-white;
+.feedback-widget {
+  overflow: hidden;
+
+  @media #{$small-only} {
     text-align: center;
-    @media #{$medium-up} {
-      text-align: left;
-    }
   }
 
-  .feedback-widget {
-    color: $color-white;
-    background: none;
-    overflow: hidden;
-    text-decoration: underline;
+  // Works with <= IE8
+  &:last-child {
+    opacity: .5;
+    padding-left: 1em;
 
-    @media #{$small-only} {
-      text-align: center;
+    &:hover {
+      opacity: 1;
     }
-
-    &:nth-child(even) {
-      opacity: .5;
-      padding-left: 1em;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-    
-    span.icon {
-      background: url('../images/design/sprites/sprite.png') no-repeat -43px 0;
-      background-size: 215px 72px;
-      display: inline-block;
-      width: 19px;
-      height: 17px;
-      vertical-align: middle;
-      margin: 0 .5em 0 0;
-      @media #{$medium-up} {
-        float: left;
-      }
-    }
-
-}
-
-.message {
-  font-size: 1.7rem;
-  font-weight: 700;
-  span {
-    background-position: 0 4px;
-    background-repeat: no-repeat;
-    background-size: 16px 14px;
-    display:inline-block;
-    padding-left: 1.5em;
-
   }
-  p {
-    font-size: 1.44rem;
-    font-weight: 300;
-    margin-bottom: 0;
-    margin-top: 0;
-    padding: 0;
-  }
-}
-
-.text-right {
-  padding: 0 .5em 0 0;
-  line-height: 1em;
-  margin: 0;
-  text-align: right !important;
-  a.usa-button {margin-top: 0; margin-bottom: .75em;}
+  
+  .icon {
+    background: url('../images/design/sprites/sprite.png') no-repeat -43px 0;
+    background-size: 215px 72px;
+    display: inline-block;
+    width: 19px;
+    height: 17px;
+    vertical-align: middle;
+    margin: 0 .5em 0 0;
   }
 }
 
@@ -1644,7 +1575,6 @@ a.twitter {
     padding: 0;
     border-radius: 0px 3px 3px 0px;
   }
-
 }
 
 .search-button {
