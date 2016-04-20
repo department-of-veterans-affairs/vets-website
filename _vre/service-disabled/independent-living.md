@@ -21,12 +21,12 @@ template: 4-action-page
 
 <div markdown="1">
 
-VA may provide independent-living services if your service-connected disability impairs your ability to work, and you need these services to live more independently. You may also receive independent-living services as you work to gain employment, if that’s a goal you and your counselor have created. In both cases, your counselor can help you restore your daily-living activities.
+VA may provide independent-living services if your service-connected disability impairs your ability to work and you need these services to live more independently. You may also receive independent-living services as you work to gain employment if that’s a goal you and your counselor have created. In both cases, your counselor can help you restore your daily-living activities.
 
 ### Are you eligible for independent-living services?
 </div>
 
-
+<div markdown="1">
 Yes, if:
 
 - You are eligible for VR&amp;E benefits.
