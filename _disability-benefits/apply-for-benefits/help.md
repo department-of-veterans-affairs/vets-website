@@ -66,11 +66,11 @@ The VA Office of General Counsel also maintains a list of [VA-recognized organiz
 
 #### How do I designate a VSO or representative?
 
-There are two ways to designate a VSO or representative:
+There are two ways to do this:
 
-Use [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). You can notify VA that you will be using a representative or modify your current representation online using eBenefits.
+- Use [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). You can notify VA that you will be using a representative or modify your current representation online using eBenefits.
 
-Complete [VA Form 21-22](http://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf). Mail this form to your nearest [VA regional office](http://www.benefits.va.gov/benefits/offices.asp). Please speak to the service organization or representative before you submit your request.
+- Complete [VA Form 21-22](http://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf). Mail this form to your nearest [VA regional office](http://www.benefits.va.gov/benefits/offices.asp). Please speak to the service organization or representative before you submit your request.
 
 </div>
 </div>
