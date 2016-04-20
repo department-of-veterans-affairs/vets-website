@@ -161,19 +161,22 @@ figcaption {
     text-decoration: none;
     
     &:hover, &:active, &:focus {
-      background: $color-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat; 
-      background-size: contain;
+      background-image: url(../images/design/logo/logo-hover.png); 
     }
   
     @media #{$small} {
-      background: $color-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
       width: 263px;
       height: 50px;
-      background-size: contain;
-      
-      &:hover {
-        background: $color-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat;
-        background-size: contain;
+    }
+  }
+  
+  .page-playbook & {
+    a {
+      background-color: inherit;
+      background-image: url(../images/design/logo/logo-alt.png);
+     
+      &:hover, &:active, &:focus {
+        background-image: url(../images/design/logo/logo-alt-hover.png);
       }
     }
   }
@@ -928,38 +931,7 @@ li {
 // Blog / Playbook
 
 body.page-playbook {
-  background:$color-white url(../images/design/background/thread.png) top left no-repeat;
-  background-size: contain;
-
-  h1 a {
-    text-indent: 180%;
-    white-space: nowrap;
-    overflow: hidden;
-    display: block;
-    border-bottom: none;
-    text-decoration: none;
-    width: 180px;
-    height: 30px;
-    background: $color-white url(../images/design/logo/logo-alt.png) top left no-repeat;
-    background-size: contain;
-    
-    &:hover, &:active, &:focus {
-      background: $color-white url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
-      border-bottom: none;
-      background-size: contain;
-      text-decoration: none;}
-
-      @media #{$small} {
-        width: 263px;
-        height: 50px;
-        background: $color-white url(../images/design/logo/logo-alt.png) top left no-repeat;
-        background-size: contain;
-        &:hover {
-          background: $color-white url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
-          background-size: contain;
-        }
-      }
-    }
+  background-color: $color-white;
 
   .main {background: white;}
 }
