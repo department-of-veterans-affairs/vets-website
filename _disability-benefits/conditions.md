@@ -2,7 +2,7 @@
 title: Conditions
 source: https://eauth.va.gov/ebenefits/learn/compensation
 template: 2-detailed-landing
-pianokeys:
+relatedlinks:
   - url: /disability-benefits/conditions/ptsd/
     title: PTSD
     description: "The basics: symptoms and help."
