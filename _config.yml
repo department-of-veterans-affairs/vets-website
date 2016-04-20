@@ -111,7 +111,7 @@ defaults:
   - scope:
       path: "vre/service-disabled"
     values:
-      breadcrumb_2: "Service-Disabled"
+      breadcrumb_2: "Service Disabled"
   - scope:
       type: "education"
     values:
