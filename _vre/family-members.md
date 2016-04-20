@@ -8,7 +8,7 @@ template: 4-action-page
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
+      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for VR&amp; Benefits</a>
     </div>
   </div>
 </div>
@@ -38,13 +38,6 @@ Yes, if:
 - Your spouse or parent has been listed as Missing in Action for more than 90 days, captured in the line of duty by a hostile force, or detained or interred by a foreign government or power.
 - You are the spouse or child of a Servicemember who is referring care for a service-connected disablility that is considered totally and permanently disabling, and which will likely cause the Servicemember to be discharged from the military.
 - You are the child of a Vietnam War Veteran, and you have been diagnosed with spina bifida and other specified birth defects.
-
-</div>
-
-<div markdown="1">
-
-### Who is covered
-You 
 
 </div>
 
