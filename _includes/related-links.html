@@ -6,7 +6,9 @@
           <li>
             <a href="{{link.url}}">
               <h5>{{link.title}}</h5>
+              {% if link.description %}
               <span>{{link.description}}</span>
+              {% endif %}
             </a>
           </li>
         </ul>
