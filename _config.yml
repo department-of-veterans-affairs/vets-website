@@ -26,6 +26,7 @@ exclude:
   - "webpack.config.js"
   - "webpack_dev.config.js"        
   - "webpack_prod.config.js"
+  - "docs"
  
 # Specifically include files left out in dev.
 include:
