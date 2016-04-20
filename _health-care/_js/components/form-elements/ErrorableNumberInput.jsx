@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 
+import { makeField } from '../../reducers/fields.js';
+
 /**
  * A form input with a label that can display error messages.
  *
@@ -13,7 +15,7 @@ import _ from 'lodash';
  * `pattern` - String specifying the pattern for the input.
  * `placeholder` - placeholder string for input field.
  * `required` - boolean. Render marker indicating field is required.
- * `value` - string. Value of the input field.
+ * `field` - field object representing the input.
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class ErrorableNumberInput extends React.Component {
@@ -27,7 +29,7 @@ class ErrorableNumberInput extends React.Component {
   }
 
   handleChange(domEvent) {
-    this.props.onValueChange(domEvent.target.value);
+    this.props.onValueChange(makeField(domEvent.target.value, true));
   }
 
   render() {
@@ -66,7 +68,7 @@ class ErrorableNumberInput extends React.Component {
             pattern={this.props.pattern}
             placeholder={this.props.placeholder}
             type="number"
-            value={this.props.value}
+            value={this.props.field.value}
             onChange={this.handleChange}/>
       </div>
     );
@@ -75,6 +77,10 @@ class ErrorableNumberInput extends React.Component {
 
 ErrorableNumberInput.propTypes = {
   errorMessage: React.PropTypes.string,
+  field: React.PropTypes.shape({
+    value: React.PropTypes.string,
+    dirty: React.PropTypes.bool
+  }).isRequired,
   label: React.PropTypes.string.isRequired,
   min: React.PropTypes.oneOfType([
     React.PropTypes.string,
@@ -87,7 +93,6 @@ ErrorableNumberInput.propTypes = {
   pattern: React.PropTypes.string,
   placeholder: React.PropTypes.string,
   required: React.PropTypes.bool,
-  value: React.PropTypes.string,
   onValueChange: React.PropTypes.func.isRequired,
 };
 

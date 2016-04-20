@@ -20,7 +20,7 @@ class VeteranAddressSection extends React.Component {
   }
 
   confirmEmail() {
-    if (this.props.data.email !== this.props.data.emailConfirmation) {
+    if (this.props.data.email.value !== this.props.data.emailConfirmation.value) {
       return 'Please ensure your entries match';
     }
 
@@ -86,16 +86,16 @@ class VeteranAddressSection extends React.Component {
             onUserInput={(update) => {this.props.onStateChange('address', update);}}/>
 
         <ErrorableTextInput label="County"
-            value={this.props.data.county}
+            field={this.props.data.county}
             onValueChange={(update) => {this.props.onStateChange('county', update);}}/>
 
         <Email label="Email address"
-            value={this.props.data.email}
+            email={this.props.data.email}
             onValueChange={(update) => {this.props.onStateChange('email', update);}}/>
 
         <Email error={this.confirmEmail()}
             label="Re-enter Email address"
-            value={this.props.data.emailConfirmation}
+            email={this.props.data.emailConfirmation}
             onValueChange={(update) => {this.props.onStateChange('emailConfirmation', update);}}/>
 
         <Phone required

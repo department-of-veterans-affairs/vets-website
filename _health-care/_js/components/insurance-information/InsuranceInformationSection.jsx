@@ -6,6 +6,8 @@ import GrowableTable from '../form-elements/GrowableTable.jsx';
 import Provider from './Provider.jsx';
 import { veteranUpdateField, ensureFieldsInitialized, updateReviewStatus } from '../../actions';
 
+import { makeField } from '../../reducers/fields';
+
 /**
  * Props:
  * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
@@ -15,16 +17,16 @@ class InsuranceInformationSection extends React.Component {
   // TODO(awong): Pull this out into a model.
   createBlankProvider() {
     return {
-      insuranceName: null,
-      insuranceAddress: null,
-      insuranceCity: null,
-      insuranceCountry: null,
-      insuranceState: null,
-      insuranceZipcode: null,
-      insurancePhone: null,
-      insurancePolicyHolderName: null,
-      insurancePolicyNumber: null,
-      insuranceGroupCode: null,
+      insuranceName: makeField(''),
+      insuranceAddress: makeField(''),
+      insuranceCity: makeField(''),
+      insuranceCountry: makeField(''),
+      insuranceState: makeField(''),
+      insuranceZipcode: makeField(''),
+      insurancePhone: makeField(''),
+      insurancePolicyHolderName: makeField(''),
+      insurancePolicyNumber: makeField(''),
+      insuranceGroupCode: makeField(''),
     };
   }
 

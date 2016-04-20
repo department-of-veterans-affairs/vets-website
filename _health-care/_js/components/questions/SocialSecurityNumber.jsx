@@ -22,11 +22,11 @@ class SocialSecurityNumber extends React.Component {
     this.validate = this.validate.bind(this);
   }
 
-  validate(value) {
+  validate(field) {
     if (this.props.required) {
-      return isValidSSN(value);
+      return !field.dirty || isValidSSN(field.value);
     }
-    return isBlank(value) || isValidSSN(value);
+    return isBlank(field.value) || isValidSSN(field.value);
   }
 
   render() {
@@ -38,7 +38,7 @@ class SocialSecurityNumber extends React.Component {
             label={this.props.label || 'Social Security Number'}
             placeholder="xxx-xx-xxxx"
             required={this.props.required !== undefined ? this.props.required : true}
-            value={this.props.ssn}
+            field={this.props.ssn}
             onValueChange={this.props.onValueChange}/>
       </div>
     );

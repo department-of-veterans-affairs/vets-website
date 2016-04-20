@@ -4,8 +4,8 @@ import _ from 'lodash';
 import ErrorableSelect from '../form-elements/ErrorableSelect';
 import ErrorableNumberInput from '../form-elements/ErrorableNumberInput';
 
+import { isBlankDateField, isValidDateField } from '../../utils/validations';
 import { months, days } from '../../utils/options-for-select.js';
-import { isBlank, isValidDate } from '../../utils/validations';
 
 /**
  * A form input with a label that can display error messages.
@@ -29,15 +29,13 @@ class DateInput extends React.Component {
   }
 
   handleChange(path, update) {
-    const isYearNumber = this.props.year === null || this.props.year === '';
-
     const date = {
-      month: Number(this.props.month),
-      day: Number(this.props.day),
-      year: isYearNumber ? this.props.year : Number(this.props.year)
+      month: this.props.month,
+      day: this.props.day,
+      year: this.props.year
     };
 
-    date[path] = Number(update);
+    date[path] = update;
 
     this.props.onValueChange(date);
   }
@@ -45,17 +43,16 @@ class DateInput extends React.Component {
   render() {
     let isValid;
     let daysForSelectedMonth = [];
-    const selectedMonth = this.props.month;
+    const dateField = { day: this.props.day, month: this.props.month, year: this.props.year };
 
-    if (selectedMonth) {
-      daysForSelectedMonth = days[selectedMonth];
+    if (dateField.month) {
+      daysForSelectedMonth = days[dateField.month.value];
     }
 
     if (this.props.required) {
-      isValid = isValidDate(this.props.day, this.props.month, this.props.year);
+      isValid = isValidDateField(dateField);
     } else {
-      isValid = (isBlank(this.props.day) && isBlank(this.props.month) && isBlank(this.props.year)) ||
-          isValidDate(this.props.day, this.props.month, this.props.year);
+      isValid = isBlankDateField(dateField) || isValidDateField(dateField);
     }
 
     return (
@@ -68,14 +65,14 @@ class DateInput extends React.Component {
               <ErrorableSelect errorMessage={isValid ? undefined : ''}
                   label="Month"
                   options={months}
-                  value={this.props.month}
+                  value={dateField.month}
                   onValueChange={(update) => {this.handleChange('month', update);}}/>
             </div>
             <div className="hca-datefield-day">
               <ErrorableSelect errorMessage={isValid ? undefined : ''}
                   label="Day"
                   options={daysForSelectedMonth}
-                  value={this.props.day}
+                  value={dateField.day}
                   onValueChange={(update) => {this.handleChange('day', update);}}/>
             </div>
             <div className="usa-datefield usa-form-group usa-form-group-year">
@@ -84,7 +81,7 @@ class DateInput extends React.Component {
                   max={new Date().getFullYear()}
                   min="1900"
                   pattern="[0-9]{4}"
-                  value={this.props.year}
+                  field={dateField.year}
                   onValueChange={(update) => {this.handleChange('year', update);}}/>
             </div>
           </div>

@@ -1,4 +1,6 @@
-import { initializeNullValues, isValidDate, isValidSSN, isValidName, isNotBlank, isBlank, isValidMonetaryValue } from '../../../../_health-care/_js/utils/validations.js';
+import { isValidDate, isValidField, isValidRequiredField, isValidSSN, isValidName, isNotBlank, isBlank, isValidMonetaryValue } from '../../../../_health-care/_js/utils/validations';
+
+import { makeField } from '../../../../_health-care/_js/reducers/fields';
 
 describe('Validations unit tests', () => {
   describe('isValidSSN', () => {
@@ -84,6 +86,8 @@ describe('Validations unit tests', () => {
       expect(isValidName('123')).to.be.false;
       expect(isValidName('#$%')).to.be.false;
       expect(isValidName('Test1')).to.be.false;
+      expect(isValidName(' leadingspace')).to.be.false;
+      expect(isValidName(' ')).to.be.false;
     });
   });
 
@@ -119,75 +123,17 @@ describe('Validations unit tests', () => {
     });
   });
 
-  describe('initializeNullValues', () => {
-    it('handles base cases', () => {
-      const result = initializeNullValues(
-        { a: null,
-          b: 1,
-          c: '',
-          d: 'str',
-          e: null,       // Ensure multiple null values are handled.
-          f: undefined,  // Ensure undefined is not touched.
-          g: true
-        });
-      expect(result).to.eql(
-        { a: '',
-          b: 1,
-          c: '',
-          d: 'str',
-          e: '',
-          f: undefined,
-          g: true
-        });
-      expect(initializeNullValues(1)).to.eql(1);
-      expect(initializeNullValues([])).to.eql([]);
-      expect(initializeNullValues({ a: [1] })).to.eql({ a: [1] });
-      expect(initializeNullValues(null)).to.eql('');
-      expect(initializeNullValues(undefined)).to.be.undefined;
+  describe('Validation functions for fields', () => {
+    it('isValidField', () => {
+      expect(isValidField(isValidSSN, makeField(''))).to.be.true;
+      expect(isValidField(isValidSSN, makeField('123-11-1234'))).to.be.true;
+      expect(isValidField(isValidSSN, makeField('bad ssn'))).to.be.false;
     });
 
-    it('handles nested objects', () => {
-      const result = initializeNullValues(
-        { a: { foo: '1',
-               bar: '',
-               baz: null,
-               qux: null,
-               quux: undefined,
-               corge: 3
-              },
-          b: { foo: null }  // Ensure multiple objects get processed.
-        });
-      expect(result).to.eql(
-        { a: { foo: '1',
-               bar: '',
-               baz: '',
-               qux: '',
-               quux: undefined,
-               corge: 3
-              },
-          b: { foo: '' }
-        });
-    });
-
-    it('handles arrays', () => {
-      const result = initializeNullValues(
-        { a: [{ foo: '1' },
-              { bar: '' },
-              { baz: null },
-              { qux: null },
-              { quux: undefined },
-              { corge: 3 }],
-          b: [{ foo: null }]  // ensure multiple arrays get processed.
-        });
-      expect(result).to.eql(
-        { a: [{ foo: '1' },
-              { bar: '' },
-              { baz: '' },
-              { qux: '' },
-              { quux: undefined },
-              { corge: 3 }],
-          b: [{ foo: '' }]
-        });
+    it('isValidRequiredField', () => {
+      expect(isValidRequiredField(isValidSSN, makeField('123-11-1234'))).to.be.true;
+      expect(isValidRequiredField(isValidSSN, makeField(''))).to.be.false;
+      expect(isValidRequiredField(isValidSSN, makeField('bad ssn'))).to.be.false;
     });
   });
 });

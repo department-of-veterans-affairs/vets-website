@@ -132,7 +132,7 @@ class SpouseInformationSection extends React.Component {
         {noSpouseMessage}
         <div className="input-section">
           <FullName
-              value={this.props.data.spouseFullName}
+              name={this.props.data.spouseFullName}
               onUserInput={(update) => {this.props.onStateChange('spouseFullName', update);}}/>
 
           <SocialSecurityNumber label="Spouse’s Social Security Number"

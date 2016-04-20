@@ -2,7 +2,7 @@ import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 
 import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE, UPDATE_SPOUSE_ADDRESS } from '../../actions';
-import { initializeNullValues } from '../../utils/validations';
+import { makeField, dirtyAllFields } from '../fields';
 import { pathToData } from '../../store';
 
 // Add deep object manipulation routines to lodash.
@@ -15,20 +15,22 @@ _.mixin(lodashDeep);
 const blankVeteran = {
   nameAndGeneralInformation: {
     fullName: {
-      first: null,
-      middle: null,
-      last: null,
-      suffix: null,
+      first: makeField(''),
+      middle: makeField(''),
+      last: makeField(''),
+      suffix: makeField(''),
     },
-    mothersMaidenName: null,
-    socialSecurityNumber: null,
-    gender: null,
+    mothersMaidenName: makeField(''),
+    socialSecurityNumber: makeField(''),
+    gender: makeField(''),
     dateOfBirth: {
-      month: null,
-      day: null,
-      year: null,
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
     },
-    maritalStatus: null,
+    cityOfBirth: makeField(''),
+    stateOfBirth: makeField(''),
+    maritalStatus: makeField(''),
     sectionComplete: false
   },
 
@@ -41,8 +43,8 @@ const blankVeteran = {
 
   additionalInformation: {
     isEssentialAcaCoverage: false,
-    facilityState: null,
-    vaMedicalFacility: null,
+    facilityState: makeField(''),
+    vaMedicalFacility: makeField(''),
     wantsInitialVaContact: false,
     sectionComplete: false
   },
@@ -59,17 +61,17 @@ const blankVeteran = {
 
   veteranAddress: {
     address: {
-      street: null,
-      city: null,
-      country: null,
-      state: null,
-      zipcode: null,
+      street: makeField(''),
+      city: makeField(''),
+      country: makeField(''),
+      state: makeField(''),
+      zipcode: makeField(''),
     },
-    county: null,
-    email: null,
-    emailConfirmation: null,
-    homePhone: null,
-    mobilePhone: null,
+    county: makeField(''),
+    email: makeField(''),
+    emailConfirmation: makeField(''),
+    homePhone: makeField(''),
+    mobilePhone: makeField(''),
     sectionComplete: false
   },
 
@@ -81,33 +83,33 @@ const blankVeteran = {
 
   spouseInformation: {
     spouseFullName: {
-      first: null,
-      middle: null,
-      last: null,
-      suffix: null,
+      first: makeField(''),
+      middle: makeField(''),
+      last: makeField(''),
+      suffix: makeField(''),
     },
-    spouseSocialSecurityNumber: null,
+    spouseSocialSecurityNumber: makeField(''),
     spouseDateOfBirth: {
-      month: null,
-      day: null,
-      year: null,
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
     },
     dateOfMarriage: {
-      month: null,
-      day: null,
-      year: null
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField('')
     },
     sameAddress: false,
     cohabitedLastYear: false,
     provideSupportLastYear: false,
     spouseAddress: {
-      street: null,
-      city: null,
-      country: null,
-      state: null,
-      zipcode: null,
+      street: makeField(''),
+      city: makeField(''),
+      country: makeField(''),
+      state: makeField(''),
+      zipcode: makeField(''),
     },
-    spousePhone: null,
+    spousePhone: makeField(''),
     sectionComplete: false
   },
 
@@ -118,22 +120,22 @@ const blankVeteran = {
   },
 
   annualIncome: {
-    veteranGrossIncome: null,
-    veteranNetIncome: null,
-    veteranOtherIncome: null,
-    spouseGrossIncome: null,
-    spouseNetIncome: null,
-    spouseOtherIncome: null,
-    childrenGrossIncome: null,
-    childrenNetIncome: null,
-    childrenOtherIncome: null,
+    veteranGrossIncome: makeField(''),
+    veteranNetIncome: makeField(''),
+    veteranOtherIncome: makeField(''),
+    spouseGrossIncome: makeField(''),
+    spouseNetIncome: makeField(''),
+    spouseOtherIncome: makeField(''),
+    childrenGrossIncome: makeField(''),
+    childrenNetIncome: makeField(''),
+    childrenOtherIncome: makeField(''),
     sectionComplete: false
   },
 
   deductibleExpenses: {
-    deductibleMedicalExpenses: null,
-    deductibleFuneralExpenses: null,
-    deductibleEducationExpenses: null,
+    deductibleMedicalExpenses: makeField(''),
+    deductibleFuneralExpenses: makeField(''),
+    deductibleEducationExpenses: makeField(''),
     sectionComplete: false
   },
 
@@ -147,26 +149,26 @@ const blankVeteran = {
     isMedicaidEligible: false,
     isEnrolledMedicarePartA: false,
     medicarePartAEffectiveDate: {
-      month: null,
-      day: null,
-      year: null
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField('')
     },
     sectionComplete: false
   },
 
   serviceInformation: {
-    lastServiceBranch: null,
+    lastServiceBranch: makeField(''),
     lastEntryDate: {
-      month: null,
-      day: null,
-      year: null
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField('')
     },
     lastDischargeDate: {
-      month: null,
-      day: null,
-      year: null
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField('')
     },
-    dischargeType: null,
+    dischargeType: makeField(''),
     sectionComplete: false
   },
 
@@ -197,7 +199,7 @@ function veteran(state = blankVeteran, action) {
       newState = Object.assign({}, state);
       // TODO(awong): HACK! Assigning to the sub object assumes pathToData() returns a reference
       // to the actual substructre such that it can be reassigned to.
-      Object.assign(pathToData(newState, action.path), initializeNullValues(pathToData(newState, action.path)));
+      Object.assign(pathToData(newState, action.path), dirtyAllFields(pathToData(newState, action.path)));
       return newState;
     }
 

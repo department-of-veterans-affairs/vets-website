@@ -1,6 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 
+import { makeField } from '../../reducers/fields.js';
+
 /**
  * A form input with a label that can display error messages.
  *
@@ -10,7 +12,7 @@ import _ from 'lodash';
  * `label` - String for the input field label.
  * `placeholder` - placeholder string for input field.
  * `required` - boolean. Render marker indicating field is required.
- * `value` - string. Value of the input field.
+ * `field` - string. Value of the input field.
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class ErrorableTextInput extends React.Component {
@@ -20,20 +22,24 @@ class ErrorableTextInput extends React.Component {
   }
 
   componentWillMount() {
-    this.inputId = _.uniqueId('errorable-input-');
+    this.inputId = _.uniqueId('errorable-text-input-');
   }
 
   handleChange(domEvent) {
-    this.props.onValueChange(domEvent.target.value);
+    this.props.onValueChange(makeField(domEvent.target.value, true));
   }
 
   render() {
     // Calculate error state.
     let errorSpan = '';
     let errorSpanId = undefined;
+    let inputErrorClass = undefined;
+    let labelErrorClass = undefined;
     if (this.props.errorMessage) {
       errorSpanId = `${this.inputId}-error-message`;
       errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
+      inputErrorClass = 'usa-input-error';
+      labelErrorClass = 'usa-input-error-label';
     }
 
     // Calculate required.
@@ -43,9 +49,9 @@ class ErrorableTextInput extends React.Component {
     }
 
     return (
-      <div className={this.props.errorMessage ? 'usa-input-error' : undefined}>
+      <div className={inputErrorClass}>
         <label
-            className={this.props.errorMessage ? 'usa-input-error-label' : undefined}
+            className={labelErrorClass}
             htmlFor={this.inputId}>
               {this.props.label}
               {requiredSpan}
@@ -56,7 +62,7 @@ class ErrorableTextInput extends React.Component {
             id={this.inputId}
             placeholder={this.props.placeholder}
             type="text"
-            value={this.props.value}
+            value={this.props.field.value}
             onChange={this.handleChange}/>
       </div>
     );
@@ -68,7 +74,10 @@ ErrorableTextInput.propTypes = {
   label: React.PropTypes.string.isRequired,
   placeholder: React.PropTypes.string,
   required: React.PropTypes.bool,
-  value: React.PropTypes.string,
+  field: React.PropTypes.shape({
+    value: React.PropTypes.string,
+    dirty: React.PropTypes.bool
+  }).isRequired,
   onValueChange: React.PropTypes.func.isRequired,
 };
 

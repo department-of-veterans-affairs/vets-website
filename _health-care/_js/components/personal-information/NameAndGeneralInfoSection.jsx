@@ -60,7 +60,7 @@ class NameAndGeneralInfoSection extends React.Component {
       content = (<div>
         <div className="input-section">
           <FullName required
-              value={this.props.data.fullName}
+              name={this.props.data.fullName}
               onUserInput={(update) => {this.props.onStateChange('fullName', update);}}/>
           <MothersMaidenName value={this.props.data.mothersMaidenName}
               onUserInput={(update) => {this.props.onStateChange('mothersMaidenName', update);}}/>
@@ -79,16 +79,17 @@ class NameAndGeneralInfoSection extends React.Component {
         <div className="input-section">
           <h4>Place of Birth</h4>
           <ErrorableTextInput label="City"
-              value={this.props.data.cityOfBirth}
+              field={this.props.data.cityOfBirth}
               onValueChange={(update) => {this.props.onStateChange('cityOfBirth', update);}}/>
           <ErrorableSelect label="State"
               options={states.USA}
               value={this.props.data.stateOfBirth}
               onValueChange={(update) => {this.props.onStateChange('stateOfBirth', update);}}/>
-          <ErrorableSelect required
-              errorMessage={isNotBlank(this.props.data.maritalStatus) ? undefined : 'Please select a marital status'}
+          <ErrorableSelect
+              errorMessage={isNotBlank(this.props.data.maritalStatus.value) ? undefined : 'Please select a marital status'}
               label="Current Marital Status"
               options={maritalStatuses}
+              required
               value={this.props.data.maritalStatus}
               onValueChange={(update) => {this.props.onStateChange('maritalStatus', update);}}/>
         </div>

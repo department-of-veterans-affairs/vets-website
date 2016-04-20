@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import Child from './Child';
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import GrowableTable from '../form-elements/GrowableTable.jsx';
+import { makeField } from '../../reducers/fields';
 import { veteranUpdateField, ensureFieldsInitialized, updateReviewStatus } from '../../actions';
 
 /**
@@ -16,26 +17,26 @@ class ChildInformationSection extends React.Component {
   createBlankChild() {
     return {
       childFullName: {
-        first: null,
-        middle: null,
-        last: null,
-        suffix: null
+        first: makeField(''),
+        middle: makeField(''),
+        last: makeField(''),
+        suffix: makeField('')
       },
-      childRelation: null,
-      childSocialSecurityNumber: null,
+      childRelation: makeField(''),
+      childSocialSecurityNumber: makeField(''),
       childBecameDependent: {
-        month: null,
-        day: null,
-        year: null
+        month: makeField(''),
+        day: makeField(''),
+        year: makeField('')
       },
       childDateOfBirth: {
-        month: null,
-        day: null,
-        year: null
+        month: makeField(''),
+        day: makeField(''),
+        year: makeField('')
       },
       childDisabledBefore18: false,
       childAttendedSchoolLastYear: false,
-      childEducationExpenses: null,
+      childEducationExpenses: makeField(''),
       childCohabitedLastYear: false,
       childReceivedSupportLastYear: false
     };
