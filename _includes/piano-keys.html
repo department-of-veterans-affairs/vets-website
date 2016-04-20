@@ -1,0 +1,17 @@
+  <div class="navigation">
+    <div class="row">
+      <div class="small-12 columns">
+        {% for link in page.pianokeys %}
+        <ul class="va-nav-category">
+          <li>
+            <a href="{{link.url}}">
+              <h5>{{link.title}}</h5>
+              <span>{{link.description}}</span>
+            </a>
+          </li>
+        </ul>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div><!-- end #content -->
