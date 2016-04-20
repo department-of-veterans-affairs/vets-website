@@ -324,6 +324,13 @@ h4 {font-size: 1.5em; font-weight: normal;}
 h5 {font-size: 1.25em; font-weight: normal;}
 h6 {font-size: 1.15em; font-weight: bold;}
 
+// Use to add a horizontal rule under the heading
+.va-h-ruled {
+  border-bottom: 6px solid #205493;
+}
+
+
+
 // tagline
 
 #content .tagline-content {
@@ -380,6 +387,27 @@ h6 {font-size: 1.15em; font-weight: bold;}
   }
 }
 
+// Home page, 404 page
+// TODO combine with .section-nav class
+.navigation--major {
+  padding: 1.5em 0 0 0;
+}
+
+
+// Quick Links
+.va-quicklinks {
+  h3 {
+    line-height: 1.2em;
+    // TODO: Drop the !important when .home #content h3 and  
+    // body.fourohfour #content h3 are straightened out.
+    font-size: 1.65em !important;
+    color: $color-primary !important;
+    margin: 0 0 2.5em 0;
+    padding: 0 0 .2em 0;
+  }
+}
+
+
 // Content lead paragraphs
 
 #content.interior .primary {
@@ -403,16 +431,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
 .home #content {
   h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
   .post-date {font-size: .5em; color: $color-gold;}
-  h3 {
-    border-bottom: 1px solid $color-white;
-    line-height: 1.2em;
-    border-bottom: 6px solid $color-primary-darker;
-    font-size: 1.65em;
-    color: $color-primary;
-    margin: 0 0 2.5em 0;
-    padding: 0 0 .2em 0;
-  }
-
+  
   h4 a {
     text-decoration: none;
     &:hover {
@@ -449,15 +468,10 @@ h6 {font-size: 1.15em; font-weight: bold;}
     padding: .5em .5em 2.35em .5em;
     overflow: hidden;
     @media #{$small} {padding: 1em 0 1.5em 0;}
-    .navigation {
-      padding: 1.5em 0 0 0;
-      background: none;
-      ul li a {
-        h3 {border-bottom: none;}
-        }
-      }
-    }
+    
+  }
 
+  
   .home #content .section h3.alternate {
     margin: 0 0 2em 0 !important; padding: 0;
   }
@@ -853,12 +867,6 @@ ul.checklist, ol.checklist {
     &:hover {padding-left: .5em; background: rgba(0,0,0,.1); border-left: 4px solid $color-primary;}
     }
   }
-}
-
-
-body.home .navigation, body.fourohfour .navigation {
-  background: none;
-  padding: 3em 0;
 }
 
 body.fourohfour #content {
@@ -2195,21 +2203,7 @@ font-style: italic;
   }
 }
 
-// Buttons
-
-#content .usa-button,
-#content .usa-button-primary,
-#content .usa-button-outline {
-  text-decoration: none !important;
-}
-
-#content .usa-button-primary.expand {
-  width: 100%;
-}
-
-
 // Highlight headings
-
 h4.highlight {
   border-bottom: 3px solid $primary-color;
   display: block;
