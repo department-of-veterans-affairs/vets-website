@@ -183,6 +183,6 @@ defaults:
   - scope:
       type: "vre"
     values:
-      breadcrumb_1: "Vocational Rehabilitation and Employment (VR&amp;E)"
+      breadcrumb_1: "Vocational Rehabilitation and Employment"
       layout: "page-breadcrumbs"
       body_class: "page-vre" 
