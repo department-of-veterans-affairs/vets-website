@@ -27,7 +27,7 @@ broken links. Below are some common error messages, their causes, and their fixe
 
 | If you see an error like this&#8230; | It's probably caused by&#8230; | To fix, do&#8230;
 | --- | --- | --- 
-| `Unexpected end tag` | Mismatched tags. Either the end tag is wrong (e.g. `&lt;h4&gt;Heading&lt;/h6&gt;`), or the start tag is missing altogether. (e.g. `Heading&lt;/h6&gt;`) | Check the corresponding Markdown file for that HTML page. | 
+| `Unexpected end tag` | Mismatched tags. Either the end tag is wrong (e.g. `<h4>Heading</h6>`), or the start tag is missing altogether. (e.g. `Heading</h6>`) | Check the corresponding Markdown file for that HTML page. | 
 | `htmlParseEntityRef: expecting ';'` | An unescaped character. Some characters need to be escaped in HTML using a _named character reference_. Such characters include `&`, `>`, `"` and `<`. | Use an [named character reference](https://html.spec.whatwg.org/multipage/syntax.html#named-character-references) for the character in question. |
 | `*  internally linking to` [path]`, which does not exist` | Either there's (a) an explicit link to the wrong file, or (b) a generated breadcrumb link points to a page that doesn't exist. | If (a), fix your URLs to point to the right page. If (b), update your directory structure. See [How URLs are Created](HowURLsAreCreated.md) for more.
  
