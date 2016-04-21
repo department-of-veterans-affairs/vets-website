@@ -23,13 +23,11 @@ template: 4-action-page
 
 <div markdown="1">
 As a family member of a Veteran with a service-connected disability, you may have had to put your career and personal goals on hold because of the important support role you play. If the Veteran in your family qualifies for Vocational Rehabilitation and Employment (VR&amp;E) benefits, you may be able to receive vocational and educational counseling and assistance, so you can return to work or school and still provide the care that’s needed. 
-
-### Are you eligible for VR&amp;E counseling? 
-
 </div>
 
 
 <div class="call-out" markdown="1">
+### Are you eligible for VR&amp;E counseling? 
 
 Yes, if: 
 
