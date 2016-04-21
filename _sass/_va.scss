@@ -1,9 +1,13 @@
-html {
-  font-family: $font-sans;
+html, body {
   font-size: $em-base;
+  font-weight: 500;
+  padding: 0;
+  margin: 0; 
 }
 
 body {
+  color: $color-gray-dark;
+  font-family: $font-sans;
   font-size: $base-font-size;
 }
 
@@ -34,14 +38,6 @@ body {
 
 
 // General
-html, body {
-  padding: 0;
-  margin: 0;
-  font-family: $font-sans;
-  font-weight: 500;
-  color: $color-gray-dark;
-}
-
 body, body.home {
   background: $color-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
   background-size: contain;
