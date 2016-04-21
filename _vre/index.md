@@ -13,8 +13,6 @@ template: 1-topic-landing
         <div class="small-12 columns usa-content" markdown="0">
           <h3> </h3>
           <p>If you have a service-connected disability that limits your ability to work or prevents you from working, VA’s Vocational Rehabilitation and Employment (VR&amp;E) program can help you and, in some cases, your family members, explore career options and receive additional training. </p>
-
-          <p>VA can help you find Veterans to hire and support them in your workplace.</p>
         </div>
       </div>
     </div>
@@ -47,12 +45,23 @@ template: 1-topic-landing
     </div>
 </div>
 
+<div class="navigation">
+<div class="row">
+<div class="small-12 columns">
+    <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+    <li><a href="/vre/employment/employers/"><h5>VA can help you find Veterans to hire and support them in your workplace.</h5></a>
+    </li>
+    </ul>
+    </div>
+</div>
+</div>
+
 <div class="section do">
   <div class="row">
     <div class="small-12 columns">
       <div class="actions">
-        <a href="/vre/apply-vre/" class="usa-button-primary va-button-primary usa-button-big">Apply for VR&E Benefits</a>
+        <a href="/vre/apply-vre/" class="usa-button-primary va-button-primary usa-button-big">Apply for VR&amp;E Benefits</a>
       </div>
     </div>
   </div>
-</div> 
+</div>
