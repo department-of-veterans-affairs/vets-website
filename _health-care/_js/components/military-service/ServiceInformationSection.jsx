@@ -9,7 +9,7 @@ import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
 /**
  * Props:
- * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `isSectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
  * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
  */
 class ServiceInformationSection extends React.Component {
