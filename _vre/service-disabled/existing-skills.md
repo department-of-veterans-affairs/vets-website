@@ -41,7 +41,7 @@ You
 
 <div markdown="1">
 
-### Benefits
+### Available benefits
 - Comprehensive skills assessment
 - Preparation for a new job
 - Job search assistance
