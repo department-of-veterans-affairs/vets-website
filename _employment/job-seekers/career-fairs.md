@@ -13,7 +13,9 @@ template: 1-topic-landing
 
 Career fairs are an important first step in the search for employment. In-person or online, job fairs let you directly and efficiently network with hiring managers from a variety of companies. 
 
-Your preparation for job fairs is critical to your success. Here are a few tips:
+### Your preparation for job fairs is critical to your success. 
+
+#### Here are a few tips:
 
 - Dress professionally.
 - Research the companies that will be in attendance, and find out what jobs they have open.
@@ -22,7 +24,7 @@ Your preparation for job fairs is critical to your success. Here are a few tips:
 - Bring business cards to encourage follow-up conversations with prospective employers.
 - For virtual or online events, fill out all necessary online profile requirements (including résumé, references, and a professional high-resolution photo), and update your [LinkedIn profile](https://www.linkedin.com/).
 
-Visit the following sites to find a career fair near you: 
+### Visit the following sites to find a career fair near you: 
 
 [Corporate Gray military-friendly job fairs](http://www.corporategray.com/jobfairs) take place in the Washington, DC, metro area and in Virginia Beach. Corporate Gray also hosts Virtual Military Job Fairs, which are open to all transitioning Servicemembers and Veterans.
  

@@ -17,10 +17,10 @@ As a service-disabled Veteran, there are many ways for you to pursue your person
 
 If you are a service-disabled Veteran, you qualify for hiring preference when competing for certain federal jobs. Learn more about [applying for federal jobs](/employment/job-seekers/federal-employment/). Some classifications, or exceptions, may qualify you for specific federal positions. Know which hiring exceptions you qualify for as a service-disabled Veteran. Check [federal hiring authority information](http://www.fedshirevets.gov/job/shav/) before applying.
 
-**Vocational Rehabilitation and Employment (VR&E)**
-If you are service disabled at more than 10% and can no longer continue your current employment due to injuries, you may be eligible for [Vocational Rehabilitation and Employment (VR&E)](http://www.benefits.va.gov/vocrehab/index.asp). 
+**Vocational Rehabilitation and Employment (VR&amp;E)**<br>
+If you are service disabled at more than 10% and can no longer continue your current employment due to injuries, you may be eligible for [Vocational Rehabilitation and Employment (VR&amp;E)](http://www.benefits.va.gov/vocrehab/index.asp). 
 
-**Start or Grow Your Own Business**
+**Start or Grow Your Own Business**<br>
 If entrepreneurship interests you, your disability may qualify you for preference in winning government contracts. VA and other [Veteran entrepreneur programs](/employment/job-seekers/start/) can support you through this journey. 
 
 ### Private Sector
