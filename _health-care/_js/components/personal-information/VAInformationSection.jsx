@@ -9,7 +9,7 @@ import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
 /**
  * Props:
- * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `isSectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
  * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
  */
 class VaInformationSection extends React.Component {
@@ -22,15 +22,15 @@ class VaInformationSection extends React.Component {
         <tbody>
           <tr>
             <td>Are you VA Service Connected 50% to 100% Disabled?:</td>
-            <td>{`${this.props.data.isVaServiceConnected ? 'Yes' : 'No'}`}</td>
+            <td>{`${this.props.data.isVaServiceConnected === 'Y' ? 'Yes' : 'No'}`}</td>
           </tr>
           <tr>
             <td>Are you compensable VA Service Connected 0% - 40%?:</td>
-            <td>{`${this.props.data.compensableVaServiceConnected ? 'Yes' : 'No'}`}</td>
+            <td>{`${this.props.data.compensableVaServiceConnected === 'Y' ? 'Yes' : 'No'}`}</td>
           </tr>
           <tr>
             <td>Do you receive a VA pension?:</td>
-            <td>{`${this.props.data.receivesVaPension ? 'Yes' : 'No'}`}</td>
+            <td>{`${this.props.data.receivesVaPension === 'Y' ? 'Yes' : 'No'}`}</td>
           </tr>
         </tbody>
       </table>

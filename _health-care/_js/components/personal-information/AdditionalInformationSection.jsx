@@ -2,13 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
-import State from '../questions/State';
+import ErrorableSelect from '../form-elements/ErrorableSelect';
 import VaMedicalFacility from './VaMedicalFacility';
 import { updateReviewStatus, veteranUpdateField } from '../../actions';
+import { states } from '../../utils/options-for-select';
+import { isNotBlank } from '../../utils/validations';
 
 /**
  * Props:
- * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `isSectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
  * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
  */
 class AdditionalInformationSection extends React.Component {
@@ -44,9 +46,12 @@ class AdditionalInformationSection extends React.Component {
 
         <div className="input-section">
           <h4>Select the VA Medical Facility which will be your preferred facility</h4>
-          <State required
+          <ErrorableSelect required
+              errorMessage={isNotBlank(this.props.data.facilityState) ? undefined : 'Please select a state'}
+              label="State"
+              options={states.USA}
               value={this.props.data.facilityState}
-              onUserInput={(update) => {this.props.onStateChange('facilityState', update);}}/>
+              onValueChange={(update) => {this.props.onStateChange('facilityState', update);}}/>
           <VaMedicalFacility required
               value={this.props.data.vaMedicalFacility}
               facilityState={this.props.data.facilityState}

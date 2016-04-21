@@ -29,6 +29,8 @@ Private-sector employers may qualify for incentives such as [tax benefits](http:
 
 Credentialing and job training will help in your search. Check your [military transcripts](/employment/job-seekers/military-transcripts/) now to be sure they are accurate.
 
+<hr>
+
 ### Learn more
 Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov/hr/RVECS/pages/rvecs-map.asp) or your [policy and benefits advocate](/disability-benefits/apply-for-benefits/help/) for more information.
 
