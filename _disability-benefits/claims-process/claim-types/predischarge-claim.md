@@ -38,7 +38,9 @@ If you are stationed overseas, you can go to an [intake site](/disability-benefi
 
 <h4 class="highlight">Seriously Disabled?</h4>
 
-Vocational Rehabilitation and Employment(VR&amp;E) services may be available to you while you're waiting to be discharged. To access VR&amp;E programs, you may be screened via the Integrated Disability Evaluation System (IDES) by your physician. The first step is to file a predischarge disability claim.
+After you've filed your predischarge disability claim, you'll want to apply to [Vocational Rehabilitation and Employment (VR&amp;E)] services to discover helpful services that may be available to you while you're waiting to be discharged.
+
+To access VR&amp;E programs, you may be screened via the Integrated Disability Evaluation System (IDES) by your physician.
 
 
 </div>
