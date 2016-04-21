@@ -43,11 +43,11 @@ You
 <div markdown="1">
 
 ### Available benefits
-- Coordination services and assistance developing a proposed business plan. 
-- Analysis of your business concept.
-- Training in small-business operations, marketing, and finances. 
-- Guidance in obtaining adequate resources to implement the business plan.
-- VR&amp;E may also provide minimum stocks, essential equipment, and business license fees.
+- Coordination services and assistance developing a proposed business plan 
+- Analysis of your business concept
+- Training in small-business operations, marketing, and finances 
+- Guidance in obtaining adequate resources to implement the business plan
+- VR&amp;E may also provide minimum stocks, essential equipment, and business license fees
 
 </div>
 
