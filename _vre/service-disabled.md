@@ -1,5 +1,5 @@
 ---
-title: How can we help?
+title: Programs
 template: 2-detailed-landing
 ---
 
