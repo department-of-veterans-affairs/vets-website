@@ -17,12 +17,10 @@ template: 4-action-page
 
 Vocational Rehabilitation and Employment (VR&amp;E) provides special career assistance to Veterans and Servicemembers who are overcoming challenges associated with service-connected disabilities. For Veterans and Servicemembers with service-connected disabilities so severe that they cannot immediately consider work, VR&amp;E offers services to improve their ability to live as independently as possible. Services may also be available to eligible family members.
 
-### Are you eligible for VR&amp;E?
-
 </div>
 
-
 <div class="call-out" markdown="1">
+### Are you eligible for VR&amp;E?
 
 Yes, if:
 
@@ -33,20 +31,18 @@ Yes, if:
 
 **Note:** Veterans may be eligible for VR&amp;E after 12 years if VA determines their employment handicap warrants an extension.
 
+<br> 
 
-</div>
 
-<div class="call-out" markdown="1">
-
-#### Who can apply
+### Who can apply
 
 You and [eligible family members](/vre/family-members/)
 
 </div>
 
-<div class="call-out" markdown="1">
+<div markdown="1">
 
-#### Potential benefits and programs
+### Potential benefits and programs
 
 - Job search and placement assistance
 - Training assistance 
@@ -92,7 +88,6 @@ If you are a Servicemember who has not yet received a service-connected disabili
 </li>
 
 <li class="step last seven wow fadeIn animated animated" markdown="0">
-
 After you apply, you will be scheduled to meet with a Vocational Rehabilitation Counselor (VRC) to determine if you have an employment handicap and if you are eligible for VR&amp;E benefits and services. You have an employment handicap if your service-connected disability impairs your ability to prepare for, find, and maintain suitable employment. After VA makes an entitlement decision, you and your counselor will work together to develop a rehabilitation plan. This plan outlines the rehabilitation and other services that VR&amp;E will provide.
 
 </li>
