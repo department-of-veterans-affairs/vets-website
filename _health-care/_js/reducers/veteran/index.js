@@ -28,23 +28,20 @@ const blankVeteran = {
       day: null,
       year: null,
     },
-    maritalStatus: null,
-    sectionComplete: false
+    maritalStatus: null
   },
 
   vaInformation: {
     isVaServiceConnected: null,
     compensableVaServiceConnected: null,
-    receivesVaPension: null,
-    sectionComplete: false
+    receivesVaPension: null
   },
 
   additionalInformation: {
     isEssentialAcaCoverage: false,
     facilityState: null,
     vaMedicalFacility: null,
-    wantsInitialVaContact: false,
-    sectionComplete: false
+    wantsInitialVaContact: false
   },
 
   demographicInformation: {
@@ -53,8 +50,7 @@ const blankVeteran = {
     isBlackOrAfricanAmerican: false,
     isNativeHawaiianOrOtherPacificIslander: false,
     isAsian: false,
-    isWhite: false,
-    sectionComplete: false
+    isWhite: false
   },
 
   veteranAddress: {
@@ -69,14 +65,12 @@ const blankVeteran = {
     email: null,
     emailConfirmation: null,
     homePhone: null,
-    mobilePhone: null,
-    sectionComplete: false
+    mobilePhone: null
   },
 
   financialDisclosure: {
     provideFinancialInfo: false,
-    understandsFinancialDisclosure: false,
-    sectionComplete: false
+    understandsFinancialDisclosure: false
   },
 
   spouseInformation: {
@@ -107,14 +101,12 @@ const blankVeteran = {
       state: null,
       zipcode: null,
     },
-    spousePhone: null,
-    sectionComplete: false
+    spousePhone: null
   },
 
   childInformation: {
     hasChildrenToReport: false,
-    children: [],
-    sectionComplete: false
+    children: []
   },
 
   annualIncome: {
@@ -126,21 +118,18 @@ const blankVeteran = {
     spouseOtherIncome: null,
     childrenGrossIncome: null,
     childrenNetIncome: null,
-    childrenOtherIncome: null,
-    sectionComplete: false
+    childrenOtherIncome: null
   },
 
   deductibleExpenses: {
     deductibleMedicalExpenses: null,
     deductibleFuneralExpenses: null,
-    deductibleEducationExpenses: null,
-    sectionComplete: false
+    deductibleEducationExpenses: null
   },
 
   insuranceInformation: {
     isCoveredByHealthInsurance: false,
-    providers: [],
-    sectionComplete: false
+    providers: []
   },
 
   medicareMedicaid: {
@@ -150,8 +139,7 @@ const blankVeteran = {
       month: null,
       day: null,
       year: null
-    },
-    sectionComplete: false
+    }
   },
 
   serviceInformation: {
@@ -166,8 +154,7 @@ const blankVeteran = {
       day: null,
       year: null
     },
-    dischargeType: null,
-    sectionComplete: false
+    dischargeType: null
   },
 
   militaryAdditionalInfo: {
@@ -179,8 +166,7 @@ const blankVeteran = {
     vietnamService: false,
     exposedToRadiation: false,
     radiumTreatments: false,
-    campLejeune: false,
-    sectionComplete: false
+    campLejeune: false
   }
 };
 

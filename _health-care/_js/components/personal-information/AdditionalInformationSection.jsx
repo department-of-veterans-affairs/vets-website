@@ -10,7 +10,7 @@ import { isNotBlank } from '../../utils/validations';
 
 /**
  * Props:
- * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `isSectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
  * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
  */
 class AdditionalInformationSection extends React.Component {
