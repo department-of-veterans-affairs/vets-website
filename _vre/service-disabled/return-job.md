@@ -44,7 +44,7 @@ You
 
 <div markdown="1">
 
-### Benefits
+### Available benefits
 <ul>
 <li>
 VA assistance with your previous employer
