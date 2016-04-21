@@ -72,6 +72,3 @@ When you apply for benefits, you will need to prove your conditions were caused 
 
 Access the [complete schedule of disabilities](http://www.benefits.va.gov/warms/bookc.asp).
 </div>
-
-</div>
-</div>
