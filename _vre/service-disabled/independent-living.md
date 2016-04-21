@@ -21,32 +21,26 @@ template: 4-action-page
 <div markdown="1">
 
 VA may provide independent-living services if your service-connected disability impairs your ability to work and you need these services to live more independently. You may also receive independent-living services as you work to gain employment if that’s a goal you and your counselor have created. In both cases, your counselor can help you restore your daily-living activities.
-
-### Are you eligible for independent-living services?
-
 </div>
 
 
 <div class="call-out" markdown="1">
+### Are you eligible for independent-living services?
 
 Yes, if:
 
 - You are eligible for VR&amp;E benefits.
 - You have a service-connected disability rating of 20&#37; or higher. 
 - Your injuries prevent you from immediately seeking or returning to employment.
-- Your case manager refers you after enrolling in the [VR&E](/vre/apply-vre/) program.
+- Your case manager refers you after enrolling in the [VR&amp;E](/vre/apply-vre/) program.
 
 </div>
 
 <div markdown="1">
 
-<hr>
-
-#### How to Apply
-
+### How to Apply
 
 </div>
-
 
 <ol class="process" markdown="0">
 <li class="step one wow fadeIn animated" markdown="1">
