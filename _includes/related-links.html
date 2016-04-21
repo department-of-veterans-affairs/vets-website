@@ -1,0 +1,19 @@
+  <div class="navigation">
+    <div class="row">
+      <div class="small-12 columns">
+        {% for link in page.relatedlinks %}
+        <ul class="va-nav-category">
+          <li>
+            <a href="{{link.url}}">
+              <h5>{{link.title}}</h5>
+              {% if link.description %}
+              <span>{{link.description}}</span>
+              {% endif %}
+            </a>
+          </li>
+        </ul>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+ 
