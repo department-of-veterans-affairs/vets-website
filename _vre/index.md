@@ -13,6 +13,8 @@ template: 1-topic-landing
         <div class="small-12 columns usa-content" markdown="0">
           <h3> </h3>
           <p>If you have a service-connected disability that limits your ability to work or prevents you from working, VA’s Vocational Rehabilitation and Employment (VR&amp;E) program can help you and, in some cases, your family members, explore career options and receive additional training. </p>
+
+          <p>VA can help you find Veterans to hire and support them in your workplace.</p>
         </div>
       </div>
     </div>
@@ -37,12 +39,6 @@ template: 1-topic-landing
               <a href="/disability-benefits/claims-process/claim-types/predischarge-claim/">
                 <h4 class="alternate">Servicemembers</h4>
                 <span>Get counseling, retraining, and education benefits while on active duty if you have a service-connected disability.</span>
-              </a>
-            </li>
-            <li>
-              <a href="/employment/employers/">
-                <h4 class="alternate">Employers</h4>
-                <span>VA can help you hire Veterans and then support them in your workplace.</span>
               </a>
             </li>
           </ul>
