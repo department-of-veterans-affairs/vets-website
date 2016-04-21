@@ -41,7 +41,7 @@ You and your family
 </div>
 
 <div markdown="1">
-### Benefits
+### Available benefits
 - Comprehensive skills assessment
 - Access to a career counselor
 - Education or training for a suitable vocational field, possibly including volunteer positions and on-the-job training
