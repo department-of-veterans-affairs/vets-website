@@ -32,13 +32,13 @@ Yes, if:
 </div>
 
 ### You are 0-point preference eligible 
-if you are a Veteran who is the only surviving child in a family in which the father or mother or one or more siblings:
+If you are a Veteran who is the only surviving child in a family in which the father or mother or one or more siblings:
 
 - Served in the Armed Forces, and
 - Was killed, died as a result of wounds, accident, or disease; is in a captured or missing-in-action status; or is permanently 100% disabled or hospitalized and is not gainfully employed because of the disability.
 
 ### You are 5-point preference eligible 
-if you served:
+If you served:
 
 - For more than 180 consecutive days, other than for training, any part of which occurred during the period beginning September 11, 2001, and ending August 31, 2010, the last day of Operation Iraqi Freedom, or
 - Between August 2, 1990, and January 2, 1992, or
@@ -46,7 +46,7 @@ if you served:
 - In a war, campaign, or expedition for which a campaign badge has been authorized or between April 28, 1952, and July 1, 1955.
 
 ### You are a 10-point preference eligible 
-if you:
+If you:
 
 - Have a service-connected disability, or
 - Received a Purple Heart.
