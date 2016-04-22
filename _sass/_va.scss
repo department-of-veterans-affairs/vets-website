@@ -2325,6 +2325,7 @@ button.js-simple-tooltip {
 }
 .simpletooltip_container {
   position: relative;
+  display: inline-block;
 }
 .simpletooltip {
   position: absolute;
@@ -2341,19 +2342,22 @@ button.js-simple-tooltip {
   right: auto;
   left: 100%;
   margin-left: .8em;
-
+  white-space: normal;
+  top: -110%;
+  
   &:before {
     border-bottom: 10px solid transparent;  // left arrow slant
     border-top: 10px solid transparent; // right arrow slant
     border-right: 10px solid $color-gray-dark;
-    content:"";
+    content: "";
     font-size: 0;
     position: absolute;
     left: 0px;
     line-height: 0;
     margin-left: -10px;
     width:0;
-    height:0
+    height:0;
+    top: 39%;
   }
 }
 
