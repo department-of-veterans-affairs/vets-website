@@ -23,7 +23,7 @@ body .row {
 .progress-box {
   padding: 1rem 2rem;
   margin: 1.5rem 0  ;
-  border: 1px solid #eee;
+  border: 1px solid $color-gray-lightest;
 }
 
 .form-section {
@@ -35,24 +35,6 @@ body .row {
     h4 {
       padding: 0;
     }
-  }
-}
-
-.review-view {
-  input, select {
-    border: 0;
-    pointer-events:none;
-    color: $color-primary;
-    background-image: none;
-    width: 50%;
-    display: inline-block;
-  }
-
-  label {
-    display: inline-block;
-  }
-  .usa-additional_text {
-    display: none;
   }
 }
 
@@ -80,7 +62,6 @@ body .row {
   clear: none;
   float: left;
   margin-right: 1.5rem;
-  width: 10rem;
 
   & select {
     padding-top: 0.85rem;
@@ -88,12 +69,24 @@ body .row {
   }
 }
 
+.hca-datefield-month {
+  width: 10rem;
+}
+
+.hca-datefield-day {
+  width: 8rem;
+}
+
 .usa-input-error {
-  .hca-datefield-month,
-  .hca-datefield-day {
-    select {
-      border: 3px solid $color-secondary-dark;
-    }
+  select {
+    border: 3px solid $color-secondary-dark;
+    width: calc(100% + 1.5rem);
+  }
+}
+
+.hca-radio-buttons {
+  label {
+    margin-top: 1em;
   }
 }
 
@@ -107,6 +100,12 @@ body .row {
     }
     &:before {
       background: $color-gray;
+    }
+    &.section-complete {
+      &:before {
+        background: $color-green;
+        content: "\2714";
+      }
     }
     &.section-current {
       h5 {
@@ -122,6 +121,18 @@ body .row {
       }
       &:before {
         background: $color-primary;
+      }
+    }
+  }
+}
+
+.review {
+  tbody {
+    tr {
+      td {
+        &:first-child {
+          color: $color-primary-darker;
+        }
       }
     }
   }

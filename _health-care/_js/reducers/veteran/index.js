@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 
-import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE } from '../../actions';
+import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE, UPDATE_SPOUSE_ADDRESS } from '../../actions';
 import { initializeNullValues } from '../../utils/validations';
 import { pathToData } from '../../store';
 
@@ -22,28 +22,26 @@ const blankVeteran = {
     },
     mothersMaidenName: null,
     socialSecurityNumber: null,
+    gender: null,
     dateOfBirth: {
       month: null,
       day: null,
       year: null,
     },
-    maritalStatus: null,
-    sectionComplete: false
+    maritalStatus: null
   },
 
   vaInformation: {
-    isVaServiceConnected: false,
-    compensableVaServiceConnected: false,
-    receivesVaPension: false,
-    sectionComplete: false
+    isVaServiceConnected: null,
+    compensableVaServiceConnected: null,
+    receivesVaPension: null
   },
 
   additionalInformation: {
     isEssentialAcaCoverage: false,
-    facilityState: '',
-    vaMedicalFacility: '',
-    wantsInitialVaContact: false,
-    sectionComplete: false
+    facilityState: null,
+    vaMedicalFacility: null,
+    wantsInitialVaContact: false
   },
 
   demographicInformation: {
@@ -52,8 +50,7 @@ const blankVeteran = {
     isBlackOrAfricanAmerican: false,
     isNativeHawaiianOrOtherPacificIslander: false,
     isAsian: false,
-    isWhite: false,
-    sectionComplete: false
+    isWhite: false
   },
 
   veteranAddress: {
@@ -68,14 +65,12 @@ const blankVeteran = {
     email: null,
     emailConfirmation: null,
     homePhone: null,
-    mobilePhone: null,
-    sectionComplete: false
+    mobilePhone: null
   },
 
   financialDisclosure: {
     provideFinancialInfo: false,
-    understandsFinancialDisclosure: false,
-    sectionComplete: false
+    understandsFinancialDisclosure: false
   },
 
   spouseInformation: {
@@ -106,14 +101,12 @@ const blankVeteran = {
       state: null,
       zipcode: null,
     },
-    spousePhone: null,
-    sectionComplete: false
+    spousePhone: null
   },
 
   childInformation: {
     hasChildrenToReport: false,
-    children: [],
-    sectionComplete: false
+    children: []
   },
 
   annualIncome: {
@@ -125,21 +118,18 @@ const blankVeteran = {
     spouseOtherIncome: null,
     childrenGrossIncome: null,
     childrenNetIncome: null,
-    childrenOtherIncome: null,
-    sectionComplete: false
+    childrenOtherIncome: null
   },
 
   deductibleExpenses: {
     deductibleMedicalExpenses: null,
     deductibleFuneralExpenses: null,
-    deductibleEducationExpenses: null,
-    sectionComplete: false
+    deductibleEducationExpenses: null
   },
 
   insuranceInformation: {
     isCoveredByHealthInsurance: false,
-    providers: [],
-    sectionComplete: false
+    providers: []
   },
 
   medicareMedicaid: {
@@ -149,8 +139,7 @@ const blankVeteran = {
       month: null,
       day: null,
       year: null
-    },
-    sectionComplete: false
+    }
   },
 
   serviceInformation: {
@@ -165,8 +154,7 @@ const blankVeteran = {
       day: null,
       year: null
     },
-    dischargeType: null,
-    sectionComplete: false
+    dischargeType: null
   },
 
   militaryAdditionalInfo: {
@@ -178,25 +166,45 @@ const blankVeteran = {
     vietnamService: false,
     exposedToRadiation: false,
     radiumTreatments: false,
-    campLejeune: false,
-    sectionComplete: false
+    campLejeune: false
   }
 };
 
 function veteran(state = blankVeteran, action) {
   let newState = undefined;
   switch (action.type) {
-    case VETERAN_FIELD_UPDATE:
+    case VETERAN_FIELD_UPDATE: {
       newState = Object.assign({}, state);
       _.set(newState, action.propertyPath, action.value);
       return newState;
+    }
 
-    case ENSURE_FIELDS_INITIALIZED:
+    case ENSURE_FIELDS_INITIALIZED: {
       newState = Object.assign({}, state);
       // TODO(awong): HACK! Assigning to the sub object assumes pathToData() returns a reference
       // to the actual substructre such that it can be reassigned to.
       Object.assign(pathToData(newState, action.path), initializeNullValues(pathToData(newState, action.path)));
       return newState;
+    }
+
+    // Copies the veteran's address into the spouse's address fields if they have the same address.
+    // Clears the spouse's address fields if they do not.
+    case UPDATE_SPOUSE_ADDRESS: {
+      newState = Object.assign({}, state);
+      const emptyAddress = {
+        street: null,
+        city: null,
+        country: null,
+        state: null,
+        zipcode: null,
+      };
+      if (action.value) {
+        _.set(newState, action.propertyPath, state.veteranAddress.address);
+      } else {
+        _.set(newState, action.propertyPath, emptyAddress);
+      }
+      return newState;
+    }
 
     default:
       return state;
@@ -204,3 +212,4 @@ function veteran(state = blankVeteran, action) {
 }
 
 export default veteran;
+

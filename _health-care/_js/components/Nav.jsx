@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 /**
  * Component for navigation, with links to each section of the form.
@@ -6,89 +7,119 @@ import React from 'react';
  *
  * Props:
  * `currentUrl` - String. Specifies the current url.
+ * `completedSections` - boolean. Section has been validated and completed.
  */
 class Nav extends React.Component {
+
   render() {
     const subnavStyles = 'step one wow fadeIn animated';
+    const completedSections = this.props.data.completedSections;
+    const currentUrl = this.props.currentUrl;
+
+    function determinePanelStyles(currentPath, completePath) {
+      let classes = '';
+      if (currentUrl.startsWith(currentPath)) {
+        classes += ' section-current';
+      }
+      if (completedSections[completePath] === true) {
+        classes += ' section-complete';
+      }
+      return classes;
+    }
+
+    function determineSectionStyles(currentPath) {
+      let classes = '';
+      if (currentUrl === currentPath) {
+        classes += ' sub-section-current';
+      }
+      return classes;
+    }
+
     // TODO(akainic): change this check once the alias for introduction has been changed
     return (
       <ol className="process hca-process">
-        <li className={`one ${subnavStyles} ${this.props.currentUrl.startsWith('/introduction') ? ' section-current' : ''}`}>
+        <li className={`one ${subnavStyles}
+         ${determinePanelStyles('/introduction', '/introduction')}`}>
           <div>
             <h5>Introduction</h5>
           </div>
         </li>
-        <li role="presentation" className={`two ${subnavStyles} ${this.props.currentUrl.startsWith('/personal-information') ? ' section-current' : ''}`}>
+        <li role="presentation" className={`two ${subnavStyles}
+         ${determinePanelStyles('/personal-information', '/personal-information/veteran-address')}`}>
           <div>
             <h5>Personal Information</h5>
             <ul className="usa-unstyled-list">
-              <li className={this.props.currentUrl === '/personal-information/name-and-general-information' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/personal-information/name-and-general-information')}`}>
                 Name and General
               </li>
-              <li className={this.props.currentUrl === '/personal-information/va-information' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/personal-information/va-information')}`}>
                 VA-Specific
               </li>
-              <li className={this.props.currentUrl === '/personal-information/additional-information' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/personal-information/additional-information')}`}>
                 Additional
               </li>
-              <li className={this.props.currentUrl === '/personal-information/demographic-information' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/personal-information/demographic-information')}`}>
                 Demographic
               </li>
-              <li className={this.props.currentUrl === '/personal-information/veteran-address' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/personal-information/veteran-address')}`}>
                 Veteran Address
               </li>
             </ul>
           </div>
         </li>
-        <li role="presentation" className={`three ${subnavStyles} ${this.props.currentUrl.startsWith('/insurance-information') ? ' section-current' : ''}`}>
+        <li role="presentation" className={`three ${subnavStyles}
+         ${determinePanelStyles('/insurance-information', '/insurance-information/medicare-medicaid')}`}>
           <div>
             <h5>Insurance Information</h5>
             <ul className="usa-unstyled-list">
-              <li className={this.props.currentUrl === '/insurance-information/general' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/insurance-information/general')}`}>
                 General Insurance
               </li>
-              <li className={this.props.currentUrl === '/insurance-information/medicare-medicaid' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/insurance-information/medicare-medicaid')}`}>
                 Medicare/Medicaid
               </li>
             </ul>
           </div>
         </li>
-        <li role="presentation" className={`four ${subnavStyles} ${this.props.currentUrl.startsWith('/military-service') ? ' section-current' : ''}`}>
+        <li role="presentation" className={`four ${subnavStyles}
+         ${determinePanelStyles('/military-service', '/military-service/additional-information')}`}>
           <div>
             <h5>Military Service</h5>
             <ul className="usa-unstyled-list">
-              <li className={this.props.currentUrl === '/military-service/service-information' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/military-service/service-information')}`}>
                 Service
               </li>
-              <li className={this.props.currentUrl === '/military-service/additional-information' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/military-service/additional-information')}`}>
                 Additional Military
               </li>
             </ul>
           </div>
         </li>
-        <li role="presentation" className={`five ${subnavStyles} ${this.props.currentUrl.startsWith('/financial-assessment') ? ' section-current' : ''}`}>
+        <li role="presentation" className={`five ${subnavStyles}
+         ${determinePanelStyles('/financial-assessment', '/financial-assessment/deductible-expenses')}`}>
           <div>
             <h5>Financial Assessment</h5>
             <ul className="usa-unstyled-list">
-              <li className={this.props.currentUrl === '/financial-assessment/financial-disclosure' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/financial-assessment/financial-disclosure')}`}>
                 Financial Disclosure
               </li>
-              <li className={this.props.currentUrl === '/financial-assessment/spouse-information' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/financial-assessment/spouse-information')}`}>
                 Spouse
               </li>
-              <li className={this.props.currentUrl === '/financial-assessment/child-information' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/financial-assessment/child-information')}`}>
                 Child
               </li>
-              <li className={this.props.currentUrl === '/financial-assessment/annual-income' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/financial-assessment/annual-income')}`}>
                 Annual Income
               </li>
-              <li className={this.props.currentUrl === '/financial-assessment/deductible-expenses' ? ' sub-section-current' : ''}>
+              <li className={`${determineSectionStyles('/financial-assessment/deductible-expenses')}`}>
                 Deductible Expenses
               </li>
             </ul>
           </div>
         </li>
-        <li role="presentation" className={`six last ${subnavStyles} ${this.props.currentUrl.startsWith('/review-and-submit') ? ' section-current' : ''}`}>
+        <li role="presentation" className={`six last ${subnavStyles}
+         ${determinePanelStyles('/review-and-submit', '/review-and-submit')}`}>
           <div>
             <h5>Review and Submit</h5>
           </div>
@@ -102,4 +133,12 @@ Nav.propTypes = {
   currentUrl: React.PropTypes.string.isRequired
 };
 
-export default Nav;
+function mapStateToProps(state) {
+  return {
+    data: state.uiState
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps)(Nav);
+export { Nav };

@@ -30,7 +30,7 @@ template: 7-get-page
 
 - **Are you already in the workforce?**
   
-  Consider a [new career](/employment/job-seekers/search_jobs) or [additional education](https://www.vets.gov/education/gi-bill/).
+  Search for a [new career](/employment/job-seekers/search_jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
 </div>
 </div>
 
@@ -127,8 +127,8 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 #### Consider furthering your education
 - The [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
 - Fill in any gaps in your education or skill set by taking classes and getting [advanced training and certifications](/education/advanced-training-and-certifications/).
-- Consider military [tuition assistance]( http://www.military.com/education/money-for-school/tuition-assistance-ta-program-overview.html) (for active duty).
-- Learn transition techniques plus business, software, technology, and creative skills with a free one-year subscription to online courses with [Linked-In's Lynda](https://veterans.linkedin.com).
+- Consider military [tuition assistance](http://myarmybenefits.us.army.mil/Home/Benefit_Library/Federal_Benefits_Page/Tuition_Assistance_(TA).html?serv=149) (for active duty).
+- Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with [Linked-In's Lynda](https://veterans.linkedin.com).
 - Take a free [Coursera class](https://www.surveymonkey.com/r/QSGQRFN).
 
 </div>
@@ -137,7 +137,7 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 #### Get personalized help if you need it
 
 - Government and private resources offer [one-on-one assistance](/employment/job-seekers/one-on-one).
-- Qualified service-disabled Veterans can seek specialized help through [Vocational Rehabilitation and Employment (VR&E)](http://www.benefits.va.gov/vocrehab/index.asp).
+- Qualified service-disabled Veterans can get [employment support services](/employment/job-seekers/service-disabled), such as small business counseling, as well as specialized help through [Vocational Rehabilitation and Employment (VR&E)](http://www.benefits.va.gov/vocrehab/index.asp).
 
 </div>
 
@@ -145,8 +145,7 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 #### Take a different approach to starting your career 
 
 - Start or grow [your own business](/employment/job-seekers/start/). 
-- Service-disabled Veterans may qualify for [employment support services](/employment/job-seekers/service-disabled) like small-business counseling.
-- Evaluate non-traditional programs like apprenticeships, work study, and on-the-job training.
+- Evaluate [non-traditional programs](https://www.vets.gov/education/work-learn/job-and-apprenticeship/) like apprenticeships, work study, and on-the-job training.
 
 </div>
 

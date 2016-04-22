@@ -59,14 +59,18 @@ Many VSOs provide their services free of charge, though they may request reimbur
 
 #### How do I find a representative?
 
-1. You can find a local representative, including a recognized VSO, an attorney, or a claims agent, by state/territory, zip code, or the organization’s name online using eBenefits.
-2. To find a VSO office located in or near your local regional benefit office, use our directory of VSOs.
+- You can find a local representative, including a recognized VSO, an attorney, or a claims agent, by state/territory, zip code, or the organization’s name online using eBenefits.
+- To find a VSO office located in or near your local regional benefit office, use our directory of VSOs.
 
 The VA Office of General Counsel also maintains a list of [VA-recognized organizations and VA-accredited individuals](http://www.va.gov/ogc/accreditation.asp) authorized to assist in the preparation, presentation, and prosecution of VA benefit claims. You can get more information about selecting a representative or file a complaint about your representative.
 
 #### How do I designate a VSO or representative?
 
-You can notify VA that you will be using a representative or modify your current representation online using eBenefits. You may also notify VA by completing VA Form 21-22 and mailing it to your nearest VA regional benefit office. Please speak to the service organization or representative before you submit your request.
+There are two ways to do this:
+
+1. Use [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). You can notify VA that you will be using a representative or modify your current representation online using eBenefits.
+
+2. Complete [VA Form 21-22](http://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf). Mail this form to your nearest [VA regional office](http://www.benefits.va.gov/benefits/offices.asp). Please speak to the service organization or representative before you submit your request.
 
 </div>
 </div>
@@ -76,7 +80,7 @@ You can notify VA that you will be using a representative or modify your current
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="va-nav-category">
         <li>
           <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
             <h5>What is the fastest way to file a claim?</h5>

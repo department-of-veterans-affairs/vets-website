@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import AdditionalInformationSection from './personal-information/AdditionalInformationSection';
 import AdditionalMilitaryInformationSection from './military-service/AdditionalMilitaryInformationSection';
@@ -18,9 +19,21 @@ import VeteranAddressSection from './personal-information/VeteranAddressSection'
 
 class ReviewAndSubmitSection extends React.Component {
   render() {
-    return (
-      <div>
-        <h4>Review and Submit</h4>
+    let content;
+
+    if (this.props.isApplicationSubmitted) {
+      content = (
+        // TODO(crew): We need to figure out why the css isn't working here.
+        <div className="usa-alert usa-alert-success">
+          <div className="usa-alert-body">
+            <h3 className="usa-alert-heading">You have submitted your application for health care!</h3>
+            <p className="usa-alert-text">We are processing your application. You should receive a phone call from the VA in the next week.</p>
+            <p className="usa-alert-text">If you do not receive a call from the VA within a week, or you have questions, call 1-877-222-VETS (8387).</p>
+          </div>
+        </div>
+      );
+    } else {
+      content = (<div>
         <p>Please ensure all of your information is correct before submitting your application.</p>
         <NameAndGeneralInfoSection reviewSection/>
         <VAInformationSection reviewSection/>
@@ -36,10 +49,25 @@ class ReviewAndSubmitSection extends React.Component {
         <ChildInformationSection reviewSection/>
         <AnnualIncomeSection reviewSection/>
         <DeductibleExpensesSection reviewSection/>
+        <div className="input-section">
+          <a href="#">Upload documents</a>
+        </div>
+      </div>);
+    }
+    return (
+      <div>
+        <h4>Review and Submit</h4>
+        {content}
       </div>
     );
   }
 }
 
-export default ReviewAndSubmitSection;
-
+function mapStateToProps(state) {
+  return {
+    isApplicationSubmitted: state.uiState.applicationSubmitted
+  };
+}
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps)(ReviewAndSubmitSection);
+export { ReviewAndSubmitSection };

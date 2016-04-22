@@ -13,7 +13,8 @@ concurrence: complete
 <div class="row">
 <div class="small-12 columns usa-content" markdown="1">
 
-The Veterans Employment Center (VEC™) connects Veterans and their families with meaningful employment and career-development opportunities.
+
+The Veterans Employment Center™ (VEC) connects Veterans and their families with meaningful employment and career-development opportunities.
 
 ### Resources and tools for both job seekers and employers
 
@@ -51,7 +52,7 @@ The Veterans Employment Center (VEC™) connects Veterans and their families wit
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="va-nav-category">
         <li>
           <a href="/employment/job-seekers/family-members">
             <h5>
