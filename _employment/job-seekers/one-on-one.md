@@ -20,7 +20,9 @@ Yes, if:
 - You are a Veteran.
 - You are a Guard or Reserve member demobilizing after 180 days or more of active service.
 
-## Who is covered 
+<br>
+
+### Who is covered 
 - You 
 - Your spouse (only for the TAP Career Technical Training Track)
 </div>
