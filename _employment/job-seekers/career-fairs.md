@@ -13,7 +13,7 @@ template: 1-topic-landing
 
 Career fairs are an important first step in the search for employment. In-person or online, job fairs let you directly and efficiently network with hiring managers from a variety of companies. 
 
-### Your preparation for job fairs is critical to your success 
+### Being well prepared is critical to your success 
 
 #### A few tips for you
 
