@@ -46,6 +46,8 @@ You and your family
 - Access to a career counselor
 - Education or training for a suitable vocational field, possibly including volunteer positions and on-the-job training
 
+<hr>
+
 ### How it works
 [Apply for VR&amp;E](/vre/apply-vre/) to find a Vocational Rehabilitation Counselor who can assist you.
 
