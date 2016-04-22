@@ -42,7 +42,7 @@ You and [eligible family members](/vre/family-members/)
 
 <div markdown="1">
 
-### Potential benefits and programs
+### Available benefits
 
 - Job search and placement assistance
 - Training assistance 
