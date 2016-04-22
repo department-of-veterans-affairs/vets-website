@@ -36,7 +36,7 @@ If you are stationed overseas, you can go to an [intake site](/disability-benefi
 
 <h4 class="highlight">Seriously Disabled?</h4>
 <br>
-Consider <a href="/vre/apply-vre/">applying for Vocational Rehabilitation and Employment (VR&amp;E)</a> services immediately, so you can discover any helpful vocational services available to you while you're waiting to be discharged.
+Consider <a href="/vre/apply-vre/">applying for Vocational Rehabilitation and Employment (VR&amp;E)</a> services immediately, so you can discover the helpful vocational services available to you while you're waiting to be discharged.
 
 </div>
 </div>
