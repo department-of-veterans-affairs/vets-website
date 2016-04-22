@@ -32,9 +32,8 @@ Unlike many projects where it's so easy — required, even — to insert design 
 </div>
 
 <div markdown="0">
-
 <figure>
-  <img src="/assets/images/content/posts/whiteboard.jpg" alt="Caption to image">
+  <img src="/assets/images/content/posts/whiteboard.jpg" alt="Whiteboard with writing">
 <figcaption>
   An early vets.gov whiteboard session
 </figcaption>
