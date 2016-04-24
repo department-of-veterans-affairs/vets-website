@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 
-import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE, UPDATE_SPOUSE_ADDRESS, ENSURE_CHILD_FIELDS_INITIALIZED } from '../../actions';
+import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE, UPDATE_SPOUSE_ADDRESS, CREATE_CHILD_INCOME_FIELDS } from '../../actions';
 import { initializeNullValues } from '../../utils/validations';
 import { pathToData } from '../../store';
 
@@ -170,7 +170,6 @@ const blankVeteran = {
 
 function createBlankChild() {
   return {
-    childShortName: null,
     childGrossIncome: null,
     childNetIncome: null,
     childOtherIncome: null
@@ -213,16 +212,14 @@ function veteran(state = blankVeteran, action) {
       return newState;
     }
 
-    case ENSURE_CHILD_FIELDS_INITIALIZED:
+    case CREATE_CHILD_INCOME_FIELDS:
       newState = Object.assign({}, state);
       // update children income from children info
       newState.annualIncome.children.splice(newState.childInformation.children.length);
       for (let i = 0; i < newState.childInformation.children.length; i++) {
-        const shortName = `${newState.childInformation.children[i].childFullName.first} ${newState.childInformation.children[i].childFullName.last}`;
         if (newState.annualIncome.children[i] === undefined) {
           newState.annualIncome.children[i] = createBlankChild();
         }
-        newState.annualIncome.children[i].childShortName = shortName;
       }
       Object.assign(pathToData(newState, action.path), initializeNullValues(pathToData(newState, action.path)));
       return newState;

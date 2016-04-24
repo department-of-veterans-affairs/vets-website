@@ -9,6 +9,7 @@ import { isBlank, isValidMonetaryValue } from '../../utils/validations';
  *
  * Props:
  * `data` - Collection of numbers for each field.
+ * `relatedData` - Used to pass down child information data.
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class ChildIncome extends React.Component {
@@ -17,7 +18,7 @@ class ChildIncome extends React.Component {
 
     return (
       <div>
-        <h6>{this.props.data.childShortName}</h6>
+        <h6>Child: {`${this.props.relatedData.childFullName.first} ${this.props.relatedData.childFullName.last}`}</h6>
         <ErrorableTextInput
             errorMessage={isBlank(this.props.data.childGrossIncome) || isValidMonetaryValue(this.props.data.childGrossIncome) ? undefined : message}
             label="Gross Income"
@@ -40,6 +41,7 @@ class ChildIncome extends React.Component {
 
 ChildIncome.propTypes = {
   data: React.PropTypes.object.isRequired,
+  relatedData: React.PropTypes.object.isRequired,
   onValueChange: React.PropTypes.func.isRequired
 };
 

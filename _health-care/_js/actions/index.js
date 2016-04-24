@@ -4,7 +4,7 @@ export const UPDATE_COMPLETION_STATUS = 'UPDATE_COMPLETION_STATUS';
 export const UPDATE_REVIEW_STATUS = 'UPDATE_REVIEW_STATUS';
 export const UPDATE_SPOUSE_ADDRESS = 'UPDATE_SPOUSE_ADDRESS';
 export const UPDATE_SUBMISSION_STATUS = 'UPDATE_SUBMISSION_STATUS';
-export const ENSURE_CHILD_FIELDS_INITIALIZED = 'ENSURE_CHILD_FIELDS_INITIALIZED';
+export const CREATE_CHILD_INCOME_FIELDS = 'CREATE_CHILD_INCOME_FIELDS';
 
 export function ensureFieldsInitialized(path) {
   return {
@@ -51,9 +51,9 @@ export function updateSubmissionStatus(field) {
   };
 }
 
-export function ensureChildFieldsInitialized(path) {
+export function createChildIncomeFields(path) {
   return {
-    type: ENSURE_CHILD_FIELDS_INITIALIZED,
+    type: CREATE_CHILD_INCOME_FIELDS,
     path
   };
 }
