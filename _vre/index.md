@@ -49,7 +49,7 @@ template: 1-topic-landing
 <div class="row">
 <div class="small-12 columns">
     <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-    <li><a href="/employment/employers/"><h5>VA can help employers hire Veterans and also support them in the workplace.</h5></a>
+    <li><a href="/employment/employers/"><h5>Employers: VA can help you hire Veterans and also support them in the workplace.</h5></a>
     </li>
     </ul>
     </div>
