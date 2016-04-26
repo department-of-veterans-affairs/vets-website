@@ -44,7 +44,7 @@ Or reach out to [qualified Veterans and military spouses](https://www.vets.gov/v
 
 
 <hr>
-### Want to be a featured employer? <br>
+### Want to be a featured employer?
 Use the JobPosting Schema from schema.org.
 
 <div class="call-out" markdown="1">
