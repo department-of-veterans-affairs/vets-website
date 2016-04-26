@@ -31,8 +31,7 @@ Anyone
 ### Who is eligible
 All employers
 
-#### Registration
-You do not have to be registered with the NLX to post a job in the VEC, but it may streamline the process. 
+**A note about registration:** You do not have to be registered with the NLX to post a job in the VEC, but it may streamline the process. 
 </div>
 
 <div markdown="1">
