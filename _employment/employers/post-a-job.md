@@ -31,8 +31,7 @@ Anyone
 ### Who is eligible
 All employers
 
-#### Registration
-You do not have to be registered with the NLX to post a job in the VEC, but it may streamline the process. 
+**A note about registration:** You do not have to be registered with the NLX to post a job in the VEC, but it may streamline the process. 
 </div>
 
 <div markdown="1">
@@ -41,29 +40,21 @@ You do not have to be registered with the NLX to post a job in the VEC, but it m
 If your company’s current job listing is posted on the NLX, then it is also searchable in the Veterans Job Bank. If you haven’t registered your company with the NLX, [register now and post for free](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
 Or reach out to [qualified Veterans and military spouses](https://www.vets.gov/veterans-employment-center/employers) directly.
 
-
-
 <hr>
-### Want to be a featured employer? <br>
-Use the JobPosting Schema from schema.org.
-
-<div class="call-out" markdown="1">
-### Who is eligible
-All employers
-</div>
 
 <div markdown="1">
-### How it works
+### How to be a featured employer
+
+<p>Use the JobPosting Schema from schema.org.</p>
 
 If your job listing conforms to the JSON-LD template for schema.org’s JobPosting vocabulary, your job will automatically appear in the Veterans Job Bank within 24 hours of adding the job URL to the designated box in your VEC profile. When appropriate to a search query, your job will be returned as a featured listing near the top of the search results. Please note that the provided URL must end in .json and contain valid JSON-LD.
-
 
 #### How the schema works
 
 The schema.org JobPosting vocabulary consists of 18 basic elements (listed below). Each element describes a core detail of a job vacancy. Participation in the Veterans Job Bank requires only a handful of these elements (datePosted, hiringOrganization, JobLocation, SpecialCommitments, title, and url). Adding more elements, however, will make your job posting more accessible to searchers.
 
-<hr>
-### The schema.org JSON-LD JobPosting elements
+
+#### The schema.org JSON-LD JobPosting elements
 
 Only those marked with an asterisk (*) are required for inclusion in the Veterans Job Bank. Square brackets [like this] following each element name indicate the schema.org data type.
 
