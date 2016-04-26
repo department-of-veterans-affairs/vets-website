@@ -42,15 +42,10 @@ Or reach out to [qualified Veterans and military spouses](https://www.vets.gov/v
 
 
 
-<hr>
-
-### Want to be a featured employer? <br>
-Use the JobPosting Schema from schema.org.
-
 <div markdown="1">
-### How to be a Featured Employer
+### How to be a featured employer
 
-If your job listing conforms to the JSON-LD template for schema.org’s JobPosting vocabulary, your job will automatically appear in the Veterans Job Bank within 24 hours of adding the job URL to the designated box in your VEC profile. When appropriate to a search query, your job will be returned as a featured listing near the top of the search results. Please note that the provided URL must end in .json and contain valid JSON-LD.
+Use the JobPosting Schema from schema.org. If your job listing conforms to the JSON-LD template for schema.org’s JobPosting vocabulary, your job will automatically appear in the Veterans Job Bank within 24 hours of adding the job URL to the designated box in your VEC profile. When appropriate to a search query, your job will be returned as a featured listing near the top of the search results. Please note that the provided URL must end in .json and contain valid JSON-LD.
 
 
 #### How the schema works
