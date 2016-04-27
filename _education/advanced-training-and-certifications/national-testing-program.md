@@ -47,13 +47,13 @@ Reimbursement for testing fees, including:
 - Learn how [your GI Bill benefit package will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for testing expenses.
 - VA can reimburse you only for mandatory test fees.
 
-**VA will not reimburse you for the following fees:**
+#### VA will not reimburse you for the following fees:
 
 - Fees associated with pretests (such as Kaplan tests)
 - Fees to receive scores quickly
 - Optional items not required to take an approved test
 
-**VA has approved the following tests for reimbursement:**
+#### VA has approved the following tests for reimbursement:
 
 - SAT (Scholastic Assessment Test)
 - LSAT (Law School Admission Test)
