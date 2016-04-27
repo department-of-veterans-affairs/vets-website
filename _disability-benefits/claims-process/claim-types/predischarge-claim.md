@@ -4,15 +4,24 @@ source: http://www.benefits.va.gov/predischarge/index.asp
 ---
 
 <div class="main" role="main" markdown="0">
+
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
+    </div>
+  </div>
+</div>
+
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 medium-8 columns">
+
 
 <div markdown="1">
 
 It is best to start the process of filing a disability claim while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted before separation than for those submitted after separation. 
->>>>>>> vre-master
 
 If you are in predischarge status, you may file a claim for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty.
 
@@ -30,17 +39,15 @@ If you are stationed overseas, you can go to an [intake site](/disability-benefi
 Consider <a href="/vre/apply-vre/">applying for Vocational Rehabilitation and Employment (VR&amp;E)</a> services immediately, so you can discover the helpful vocational services available to you while you're waiting to be discharged.
 
 </div>
->>>>>>> vre-master
 </div>
 </div>
 </div>
 
+<div class="navigation">
+  <div class="row">
+    <div class="small-12 columns">
+      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
-
-<div class="navigation" markdown="0">
-  <div class="row" markdown="0">
-    <div class="small-12 columns" markdown="0">
-      <ul class="va-nav-category">
       <li>
         <a href="/disability-benefits/claims-process/claim-types/standard-claim/">
           <h5>Standard Claim</h5>
@@ -100,7 +107,10 @@ Consider <a href="/vre/apply-vre/">applying for Vocational Rehabilitation and Em
             <h5>Postservice Claim</h5>
           </a>
         </li>
+
       </ul>
     </div>
   </div>
+</div>
+
 </div>
