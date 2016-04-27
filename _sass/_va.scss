@@ -2333,6 +2333,7 @@ button.js-simple-tooltip {
 }
 .simpletooltip_container {
   position: relative;
+  display: inline-block;
 }
 
 .simpletooltip {
@@ -2350,20 +2351,22 @@ button.js-simple-tooltip {
   right: auto;
   left: 100%;
   margin-left: .8em;
-
+  white-space: normal;
+  top: -110%;
+  
   &:before {
-    border-bottom: 10px solid transparent;  /* left arrow slant */
-    border-top: 10px solid transparent; /* right arrow slant */
+    border-bottom: 10px solid transparent;  // left arrow slant
+    border-top: 10px solid transparent; // right arrow slant
     border-right: 10px solid $color-gray-dark;
-    content:"";
+    content: "";
     font-size: 0;
     position: absolute;
-    top: 3px;
     left: 0px;
     line-height: 0;
     margin-left: -10px;
     width:0;
-    height:0
+    height:0;
+    top: 39%;
   }
 }
 
@@ -2377,13 +2380,13 @@ button.js-simple-tooltip {
     margin-left: -5em;
   
     &:before {
-      top: -10px;
+      top: -10px !important;
       right: auto;
       left: 45%;
       margin-left: -5px;
       margin-top: -10px;
       border: 10px solid transparent;
-      border-bottom: 10px solid rgba( 0, 0, 0, .9 );
+      border-bottom: 10px solid $color-gray-dark;
     }
   }
 }
