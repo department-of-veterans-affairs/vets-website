@@ -59,7 +59,7 @@ A Veteran filed a disability claim that included previous treatment from a priva
 
 ##### Fully Developed Claims
 
-The Fully Developed Claim program allows you to speed up the claim-resolution process. You need to submit the following when you file your formal claim:
+The Fully Developed Claims program allows you to speed up the claim-resolution process. You need to submit the following when you file your formal claim:
 
 -	All relevant service-treatment and personnel records
 -	Any pertinent private medical records
