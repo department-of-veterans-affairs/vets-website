@@ -22,7 +22,9 @@ Yes, if:
 - You are actively seeking employment.
 - You are no longer on terminal leave.
 
-## Who is eligible
+<br>
+
+### Who is eligible
 You
 </div>
 
@@ -32,7 +34,7 @@ You must apply for unemployment benefits in the state in which you reside. You c
 
 Receiving unemployment will not affect your wages, but if you receive separation or retirement pay, your compensation amount may be lower. 
 
-You will need the following documents when you apply: 
+#### You will need the following documents when you apply: 
 
 - DD Form 214 
 
