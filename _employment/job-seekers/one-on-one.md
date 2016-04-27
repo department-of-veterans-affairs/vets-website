@@ -35,16 +35,18 @@ Yes, if:
 </div>
 
 ### How it works
-Transitioning Servicemembers are required to attend the TAP briefings. These include: 
 
-- Preseparation counseling, in which your skills, interests, and goals are evaluated and integrated into a custom roadmap. 
-- Résumé-building assistance and interview training.
-- Three optional additional workshops: Career Technical Training Track, Education Track, and Entrepreneurship Track.
-- Information on all available VA benefits. Contact VA career-and-training specialists at 1-800-827-1000.
+There are many government and private resources available to you as you make this transition.
 
-##### VA's Education and Career Counseling program
+- VA's [Education and Career Counseling](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp) program includes career counseling, benefits coaching, individual support, and academic counseling.
 
-For a year after transitioning out of the military and for the six months prior to separation, Servicemembers may also be eligible for VA's [Education and Career Counseling program](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp). If you are eligible, this option focuses on those who are interested in getting the most out of their education benefits. The program includes career counseling, benefits coaching and individual support, and academic counseling. To apply, follow these simple steps: 
+- [Veteran Employment Specialists](http://vaforvets.va.gov/hr/RVECS/Pages/default.asp) can help you find jobs in your area. 
+
+- [Veterans Economic Community Initiative](https://employment.vets.gov/employment/job-seekers/veci/) (VECI) liaisons can help you connect with local business leaders, schools, and nonprofit groups to maximize your education and economic opportunities.
+
+- Private nonprofit organizations that have been thoroughly vetted can offer you advice, share connections, and help place you into a good job at no cost to you. The [Call of Duty Endowment](http://www.callofdutyendowment.org/partners) endorses groups that do a particularly good job of this.
+
+- [VA for Vets](http://vaforvets.va.gov/) can help you navigate the federal hiring process.
 
 - VA's [Education and Career Counseling](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp) program includes career counseling, benefits coaching, individual support, and academic counseling.
 - The [Compensated Work Therapy (CWT)](http://www.va.gov/health/cwt/) program helps Veterans with service-related disabilities.

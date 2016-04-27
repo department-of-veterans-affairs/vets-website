@@ -44,4 +44,3 @@ Disability benefit claims are considered fully developed when you have no more e
 </div>
 </div>
 </div>
-</div>

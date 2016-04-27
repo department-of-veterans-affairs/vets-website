@@ -46,4 +46,3 @@ If you entered the military with a known disability that became worse or was agg
 </div>
 </div>
 </div>
-</div>

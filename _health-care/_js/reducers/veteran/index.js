@@ -211,7 +211,6 @@ function veteran(state = blankVeteran, action) {
       }
       return newState;
     }
-
     case CREATE_CHILD_INCOME_FIELDS:
       newState = Object.assign({}, state);
       // update children income from children info

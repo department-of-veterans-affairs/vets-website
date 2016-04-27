@@ -25,7 +25,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
   If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through [Unemployment Compensation for Ex-Servicemembers](/employment/job-seekers/unemployment-support).
 
 - ##### Are you already in the workforce?
-  
+
 Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
 
 </div>

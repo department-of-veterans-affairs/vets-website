@@ -28,7 +28,6 @@ body {
   color: $color-primary-darkest;
   display: block;
   font-weight: 600;
-
   &:focus {
     position: inherit;
     top: auto;
@@ -194,6 +193,7 @@ hr {
 }
 
 .va-header-logo {
+  color: $color-white;
   line-height: 1em; 
   margin: 0; 
   
@@ -403,7 +403,6 @@ h6 {font-size: 1.15em; font-weight: bold;}
 // Content Callouts
 
 #content .main .section.one {
-
   ul.plain {
     margin: .5em 0 1em 0;
     
@@ -753,13 +752,10 @@ h6 {font-size: 1.15em; font-weight: bold;}
   
   li.active::before {
     display: none;
-
   }
 }
 
 // General List Styles
-
-
   
 li {
   span.meta {
@@ -798,17 +794,6 @@ dl.simple {
     &:last-of-type {
       border-bottom: none;
     }
-
-    ul {
-      margin: 0 !important;
-      padding: 0;
-      text-align: center;
-      svg {display: block; margin: .25em auto;}
-
-      li {padding: 0; margin: 0;}
-        &:before {margin: 0; padding: 0;}
-        span.type {margin: .25em .25em 1em .25em; color: $color-primary-darkest;  @media #{$small} {padding: 2.5em 1em;}  background: rgba($secondary-color, .15);}
-      }
   }
 }
 
@@ -1183,6 +1168,7 @@ figure {
           border-left: 4px solid $color-primary;
           padding-left: .5em;
         }
+
         .post-title {
           color: $color-primary-darker; 
           font-size: 1em; 
@@ -1359,8 +1345,8 @@ figure {
   .footer-seal {
     background:url(../images/design/sprites/sprite.png)  no-repeat 0 -23px;
     background-size: 215px 72px;
-	  width: 215px;
-	  height: 49px;
+    width: 215px;
+    height: 49px;
     text-indent: -999em;
     overflow: hidden;
     margin: 0 auto;
@@ -1474,7 +1460,7 @@ li {
 
 
 a.facebook {
-	background: url('../images/design/sprites/sprite.png') no-repeat -22px 0;
+  background: url('../images/design/sprites/sprite.png') no-repeat -22px 0;
   background-size: 215px 72px;
   width: 17px;
   height: 17px;
@@ -1483,10 +1469,10 @@ a.facebook {
 }
 
 a.twitter {
-	background: url('../images/design/sprites/sprite.png') no-repeat 0 0;
+  background: url('../images/design/sprites/sprite.png') no-repeat 0 0;
   background-size: 215px 72px;
-	width: 20px;
-	height: 16px;
+  width: 20px;
+  height: 16px;
   text-indent: -999em;
   overflow: hidden;
 }
@@ -2329,21 +2315,21 @@ button[class*="usa-button-"] {
 @media #{$small-only} {
 
   .overlay {
-  	position: fixed;
-  	width: 100%;
-  	height: 100%;
-  	top: 0;
-  	left: 0;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     z-index: 800;
-  	background: rgba($color-primary-darkest, .95);
+    background: rgba($color-primary-darkest, .95);
   }
 
   /* Overlay closing cross */
   .overlay .overlay-close {
     display: block;
     border: none;
-  	outline: none;
-  	z-index: 100;
+    outline: none;
+    z-index: 100;
   }
 
 
@@ -2355,10 +2341,10 @@ button[class*="usa-button-"] {
 
   /* Effects */
   .overlay-fullscreen {
-  	opacity: 0;
-  	visibility: hidden;
-  	-webkit-transition: opacity 0.5s, visibility 0s 0.5s;
-  	transition: opacity 0.5s, visibility 0s 0.5s;
+    opacity: 0;
+    visibility: hidden;
+    -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+    transition: opacity 0.5s, visibility 0s 0.5s;
 
     button {
       border-radius: 0;
@@ -2378,44 +2364,44 @@ button[class*="usa-button-"] {
   }
 
   .overlay-fullscreen.open {
-  	opacity: 1;
-  	visibility: visible;
-  	-webkit-transition: opacity 0.5s;
-  	transition: opacity 0.5s;
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: opacity 0.5s;
+    transition: opacity 0.5s;
     .columns {
       padding: 0;
     }
   }
 
   .overlay-fullscreen .menu {
-  	-webkit-perspective: 1200px;
-  	perspective: 1200px;
+    -webkit-perspective: 1200px;
+    perspective: 1200px;
     padding: 1em 1em;
   }
 
   .overlay-fullscreen form {
-  	opacity: 0.4;
-  	-webkit-transform: translateY(-25%) rotateX(35deg);
-  	transform: translateY(-25%) rotateX(35deg);
-  	-webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
-  	transition: transform 0.5s, opacity 0.5s;
+    opacity: 0.4;
+    -webkit-transform: translateY(-25%) rotateX(35deg);
+    transform: translateY(-25%) rotateX(35deg);
+    -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+    transition: transform 0.5s, opacity 0.5s;
   }
 
   .overlay-fullscreen.open form {
-  	opacity: 1;
-  	-webkit-transform: rotateX(0deg);
-  	transform: rotateX(0deg);
+    opacity: 1;
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
   }
 
   .overlay-fullscreen.close form {
-  	-webkit-transform: translateY(25%) rotateX(-35deg);
-  	transform: translateY(25%) rotateX(-35deg);
+    -webkit-transform: translateY(25%) rotateX(-35deg);
+    transform: translateY(25%) rotateX(-35deg);
   }
 
   @media screen and (max-height: 30.5em) {
-  	.overlay form {
-  		height: 70%;
-  	}
+    .overlay form {
+      height: 70%;
+    }
 
   }
 

@@ -34,6 +34,7 @@ You may find that mainstream college programs aren't a good fit for you. If you 
 </div>
 </div>
 </div>
+
 </div>
 
 </div>

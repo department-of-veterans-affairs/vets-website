@@ -31,7 +31,7 @@ There are incentives such as the Work Opportunity Tax Credit (WOTC) that ranges 
 <div class="navigation">
   <div class="row">
     <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
+      <ul class="va-nav-category">
         <li>
           <a href="/employment/employers/support-veteran-employees/">
             <h5>
