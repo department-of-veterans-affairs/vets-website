@@ -2,6 +2,23 @@
 title: Work and Learn
 concurrence: complete
 template: 1-topic-landing
+relatedlinks:
+  - url: /education/work-learn/workstudy/
+    title: Work Study
+    description: ""
+  - url: /education/work-learn/job-and-apprenticeship/
+    title: On-the-Job Training and Apprenticeships
+    description: ""
+  - url: /education/work-learn/co-op-training/
+    title: Co-op Training
+    description: ""
+ - url: /education/work-learn/non-college-degree-program/
+    title: Non-College Degree Programs
+    description: ""
+  - url: /education/work-learn/non-traditional/
+    title: Non-Traditional Options
+    description: ""
+
 ---
 
 <div class="main" role="main" markdown="0">
@@ -23,43 +40,6 @@ You are in charge of designing your own education. VA education benefits, includ
 
 </div>
 </div>
-</div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-          <ul class="va-nav-category">
-            <li>
-              <a href="/education/work-learn/workstudy/">
-                <h5>Work Study</h5>
-              </a>
-            </li>
-            <li>
-              <a href="/education/work-learn/job-and-apprenticeship/">
-                <h5>On-the-Job Training and Apprenticeships</h5>
-              </a>
-            </li>
-            <li>
-              <a href="/education/work-learn/co-op-training/">
-                <h5>Co-op Training</h5>
-              </a>
-            </li>
-
-            <li>
-              <a href="/education/work-learn/non-college-degree-program/">
-                <h5>Non-College Degree Programs</h5>
-              </a>
-            </li>
-
-            <li>
-              <a href="/education/work-learn/non-traditional/">
-                <h5>Non-Traditional Options</h5>
-              </a>
-            </li>
-
-          </ul>
-        </div>
-      </div>
 </div>
 
 </div>

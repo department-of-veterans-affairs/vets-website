@@ -2,6 +2,16 @@
 title: Other Educational Assistance Programs
 concurrence: incomplete
 template: 1-topic-landing
+relatedlinks:
+  - url: /education/other-educational-assistance-programs/reap/
+    title: Reserve Educational Assistance Program (REAP)
+    description: "Activated Reservists qualify for additional education benefits."
+  - url: /education/other-educational-assistance-programs/call-to-service/
+    title: National Call to Service
+    description: "An education benefit earned with a mix of military and civilian service."
+  - url: /education/other-educational-assistance-programs/veap/
+    title: Veterans' Educational Assistance Program (VEAP)
+    description: "A government match program for educational assistance." 
 ---
 
 <div class="main" role="main" markdown="0">
@@ -23,33 +33,6 @@ Several smaller programs that provided education benefits to Servicemembers and 
 
 </div>
 </div>
-</div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-          <ul class="va-nav-category">
-            <li>
-              <a href="/education/other-educational-assistance-programs/reap/">
-                <h5>Reserve Educational Assistance Program (REAP)</h5>
-                <span>Activated Reservists qualify for additional education benefits.</span>
-              </a>
-            </li>
-            <li>
-              <a href="/education/other-educational-assistance-programs/call-to-service/">
-                <h5>National Call to Service</h5>
-                <span>An education benefit earned with a mix of military and civilian service.</span>
-              </a>
-            </li>
-            <li>
-              <a href="/education/other-educational-assistance-programs/veap/">
-                <h5>Veterans' Educational Assistance Program (VEAP)</h5>
-                <span>A government match program for educational assistance.</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
 </div>
 
 </div>

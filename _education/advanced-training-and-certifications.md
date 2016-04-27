@@ -2,6 +2,19 @@
 title: Advanced Training and Certifications
 concurrence: incomplete
 template: 1-topic-landing
+relatedlinks:
+  - url: /education/advanced-training-and-certifications/entrepreneurship-training
+    title: Entrepreneurship Training
+    description: ""
+  - url: /education/advanced-training-and-certifications/flight-training
+    title: Flight Training
+    description: ""
+  - url: /education/advanced-training-and-certifications/national-testing-program
+    title: National Testing Program
+    description: "" 
+  - url: /education/advanced-training-and-certifications/licensing-certification
+    title: Licensing and Certification
+    description: "" 
 ---
 
 <div class="main" role="main" markdown="0">
@@ -24,34 +37,4 @@ You can use the GI Bill for more than just academic programs. This benefit will 
 </div>
 </div>
 </div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-          <ul class="va-nav-category">
-            <li>
-              <a href="/education/advanced-training-and-certifications/entrepreneurship-training">
-                <h5>Entrepreneurship Training</h5>
-              </a>
-            </li>
-            <li>
-              <a href="/education/advanced-training-and-certifications/flight-training">
-                <h5>Flight Training</h5>
-              </a>
-            </li>
-            <li>
-              <a href="/education/advanced-training-and-certifications/national-testing-program">
-                <h5>National Testing Program</h5>
-              </a>
-            </li>
-            <li>
-              <a href="/education/advanced-training-and-certifications/licensing-certification">
-                <h5>Licensing and Certification</h5>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-</div>
-
 </div>
