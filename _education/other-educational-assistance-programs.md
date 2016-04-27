@@ -29,7 +29,9 @@ relatedlinks:
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-Several smaller programs that provided education benefits to Servicemembers and Veterans before the Post-9/11 GI Bill still exist to help previous generations of Veterans, as well as Guardsmen and Reservists not eligible for the new GI Bill. [An accredited representative](/disability-benefits/apply-for-benefits/help/index.html) working for a veterans service organization and the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) can help you pick the right program for you.
+Guardsmen, Reservists, and previous generations of Veterans not eligible for the Post-9/11 GI Bill can access educational benefits through REAP, VEAP, and the National Call to Service program.
+
+[An accredited representative](/disability-benefits/apply-for-benefits/help/index.html) with a Veteran Service Organization (VSO) can help you pick the right program. 
 
 </div>
 </div>
