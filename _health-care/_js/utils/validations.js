@@ -179,6 +179,22 @@ function isValidChildren(data) {
   return true;
 }
 
+function isValidChildIncome(child) {
+  return (isBlank(child.childGrossIncome) || isValidMonetaryValue(child.childGrossIncome)) &&
+    (isBlank(child.childNetIncome) || isValidMonetaryValue(child.childNetIncome)) &&
+    (isBlank(child.childOtherIncome) || isValidMonetaryValue(child.childOtherIncome));
+}
+
+function isValidChildrenIncome(data) {
+  const children = data.children;
+  for (let i = 0; i < children.length; i++) {
+    if (!isValidChildIncome(children[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function isValidAnnualIncome(data) {
   return (isBlank(data.veteranGrossIncome) || isValidMonetaryValue(data.veteranGrossIncome)) &&
     (isBlank(data.veteranNetIncome) || isValidMonetaryValue(data.veteranNetIncome)) &&
@@ -186,9 +202,7 @@ function isValidAnnualIncome(data) {
     (isBlank(data.spouseGrossIncome) || isValidMonetaryValue(data.spouseGrossIncome)) &&
     (isBlank(data.spouseNetIncome) || isValidMonetaryValue(data.spouseNetIncome)) &&
     (isBlank(data.spouseOtherIncome) || isValidMonetaryValue(data.spouseOtherIncome)) &&
-    (isBlank(data.childrenGrossIncome) || isValidMonetaryValue(data.childrenGrossIncome)) &&
-    (isBlank(data.childrenNetIncome) || isValidMonetaryValue(data.childrenNetIncome)) &&
-    (isBlank(data.childrenOtherIncome) || isValidMonetaryValue(data.childrenOtherIncome));
+    isValidChildrenIncome(data);
 }
 
 function isValidDeductibleExpenses(data) {
