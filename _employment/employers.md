@@ -49,7 +49,7 @@ There are incentives such as the Work Opportunity Tax Credit (WOTC) that ranges 
             Establish an Apprenticeship Program
             </h5>
               <span>
-                Employ Veterans at acceptable wages and provide them with training and development.
+                Apprenticeship programs are available for Veterans using their VA education benefits.
               </span>
           </a>
         </li>
