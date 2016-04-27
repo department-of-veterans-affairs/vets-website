@@ -46,10 +46,11 @@ There are incentives such as the Work Opportunity Tax Credit (WOTC) that ranges 
         <li>
           <a href="/employment/employers/apprenticeship/">
             <h5>
-              <span>
-                Establish an Apprenticeship and On-The-Job-Resources
-              </span>
+            Establish an Apprenticeship Program
             </h5>
+              <span>
+                Employ Veterans at acceptable wages and provide them with training and development.
+              </span>
           </a>
         </li>
 
@@ -59,7 +60,7 @@ There are incentives such as the Work Opportunity Tax Credit (WOTC) that ranges 
               Make a Hiring Commitment
             </h5>
             <span>
-              Improve your business by hiring Vets
+              Improve your business by hiring Vets.
             </span>
           </a>
         </li>
