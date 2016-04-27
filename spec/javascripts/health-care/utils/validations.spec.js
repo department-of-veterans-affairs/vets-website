@@ -10,17 +10,18 @@ describe('Validations unit tests', () => {
       //
       // For information on invalid values see:
       //   https://secure.ssa.gov/poms.nsf/lnx/0110201035
-      expect(isValidSSN('000-22-1234')).to.be.true;
       expect(isValidSSN('666-22-1234')).to.be.true;
       expect(isValidSSN('900-22-1234')).to.be.true;
-      expect(isValidSSN('111-00-1234')).to.be.true;
-      expect(isValidSSN('111-22-0000')).to.be.true;
       expect(isValidSSN('111221234')).to.be.true;
+      expect(isValidSSN('111111112')).to.be.true;
     });
 
     it('rejects invalid ssn format', () => {
       // Disallow empty.
       expect(isValidSSN('')).to.be.false;
+
+      // 123-45-6789 is invalid.
+      expect(isValidSSN('123-45-6789')).to.be.false;
 
       // Invalid characters.
       expect(isValidSSN('111-22-1%34')).to.be.false;
@@ -33,6 +34,15 @@ describe('Validations unit tests', () => {
 
       // Too few numbers is invalid.
       expect(isValidSSN('111-22-123')).to.be.false;
+
+      // Consecutive 0's in each segment is invalid.
+      expect(isValidSSN('000-22-1234')).to.be.false;
+      expect(isValidSSN('111-00-1234')).to.be.false;
+      expect(isValidSSN('111-22-0000')).to.be.false;
+
+      // Values with all the same digit are not allowed
+      expect(isValidSSN('111111111')).to.be.false;
+      expect(isValidSSN('999-99-9999')).to.be.false;
     });
   });
 
@@ -55,6 +65,11 @@ describe('Validations unit tests', () => {
 
       // 0 is always bad.
       expect(isValidDate(0, 2, 2016)).to.be.false;
+    });
+
+    it('validate future dates', () => {
+      // future dates are bad.
+      expect(isValidDate(1, 1, 2050)).to.be.false;
     });
   });
 

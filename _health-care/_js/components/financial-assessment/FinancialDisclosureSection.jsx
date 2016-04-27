@@ -2,16 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
-import { veteranUpdateField } from '../../actions';
+import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
 /**
  * Props:
- * `sectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `isSectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
  * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
  */
 class FinancialDisclosureSection extends React.Component {
   render() {
     let notRequiredMessage;
+    let content;
+    let editButton;
 
     if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
@@ -24,15 +26,24 @@ class FinancialDisclosureSection extends React.Component {
       );
     }
 
-    return (
-      <div className={`${this.props.data.sectionComplete ? 'review-view' : 'edit-view'}`}>
-        <h4>Financial Disclosure</h4>
-        <ErrorableCheckbox
-            label={`${this.props.data.sectionComplete ? 'Edit' : 'Update'}`}
-            checked={this.props.data.sectionComplete}
-            className={`edit-checkbox ${this.props.reviewSection ? '' : 'hidden'}`}
-            onValueChange={(update) => {this.props.onStateChange('sectionComplete', update);}}/>
-
+    if (this.props.isSectionComplete && this.props.reviewSection) {
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>Do you want to provide your financial information so the VA can determine your
+         eligibility for other services and enrollment and if you will be charged copays for care
+          and medication?:
+            </td>
+            <td>{`${this.props.data.provideFinancialInfo ? 'Yes' : 'No'}`}</td>
+          </tr>
+          <tr>
+            <td>I understand VA is not enrolling new applicants who decline to provide their financial information:</td>
+            <td>{`${this.props.data.understandsFinancialDisclosure ? 'Yes' : 'No'}`}</td>
+          </tr>
+        </tbody>
+      </table>);
+    } else {
+      content = (<div className="input-section">
         {notRequiredMessage}
 
         <p>
@@ -59,22 +70,35 @@ class FinancialDisclosureSection extends React.Component {
                   other services and enrollment and if you will be charged copays for care and medication?"
               checked={this.props.data.provideFinancialInfo}
               onValueChange={(update) => {this.props.onStateChange('provideFinancialInfo', update);}}/>
+
+          <ErrorableCheckbox
+              label="I understand VA is not enrolling new applicants who decline to provide their financial information
+                  unless they have other qualifying criteria as outlined above."
+              checked={this.props.data.understandsFinancialDisclosure}
+              onValueChange={(update) => {this.props.onStateChange('understandsFinancialDisclosure', update);}}/>
         </div>
 
-        {this.props.data.provideFinancialInfo === true &&
-          <div>
-            <div className="input-section">
-              <ErrorableCheckbox
-                  label="I understand VA is not enrolling new applicants who decline to provide their financial information
-                      unless they have other qualifying criteria as outlined above"
-                  checked={this.props.data.understandsFinancialDisclosure}
-                  onValueChange={(update) => {this.props.onStateChange('understandsFinancialDisclosure', update);}}/>
-            </div>
-            <div className="input-section">
-              <a target="_blank" href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp">Click here</a> to view more information about the income thresholds and copayments.
-            </div>
-          </div>
-        }
+        <div className="input-section">
+          <a target="_blank" href="http://www.va.gov/healthbenefits/cost/income_thresholds.asp">Click here</a> to view more information about the income thresholds and copayments.
+        </div>
+
+      </div>);
+    }
+
+    if (this.props.reviewSection) {
+      editButton = (<ErrorableCheckbox
+          label={`${this.props.isSectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.isSectionComplete}
+          className="edit-checkbox"
+          onValueChange={(update) => {this.props.onUIStateChange(update);}}/>
+      );
+    }
+
+    return (
+      <div>
+        <h4>Financial Disclosure</h4>
+        {editButton}
+        {content}
       </div>
     );
   }
@@ -82,8 +106,9 @@ class FinancialDisclosureSection extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    data: state.financialDisclosure,
-    receivesVaPension: state.vaInformation.receivesVaPension,
+    data: state.veteran.financialDisclosure,
+    receivesVaPension: state.veteran.vaInformation.receivesVaPension,
+    isSectionComplete: state.uiState.completedSections['/financial-assessment/financial-disclosure']
   };
 }
 
@@ -91,6 +116,9 @@ function mapDispatchToProps(dispatch) {
   return {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(['financialDisclosure', field], update));
+    },
+    onUIStateChange: (update) => {
+      dispatch(updateReviewStatus(['/financial-assessment/financial-disclosure'], update));
     }
   };
 }

@@ -4,26 +4,26 @@ concurrence: complete
 template: 1-topic-landing
 ---
 
-<div class="main" role="main" markdown="0">
 
+<div class="main interior" role="main" markdown="0">
 <div class="section one" markdown="0">
-
 <div class="row" markdown="0">
-<div class="small-12 left columns usa-content" markdown="1">
 
-### Who should read this?
+<div class="small-12 medium-9 columns left"  markdown="1">
+<div class="call-out" markdown="1">
 
-Servicemembers, and their spouses, who are within one year of separating from the military.
+- **Who should read this?**
+  
+  Servicemembers, and their spouses, who are within one year of separating from the military.
 
-### Why should you read this? 
-
-You can take certain steps to improve your chances of moving smoothly and successfully into civilian life.
-
+- **Why should you read this?**
+  
+  You can take certain steps to improve your chances of moving smoothly and successfully into civilian life.
 </div>
 </div>
 
 <div class="row" markdown="0">
-<div class="small-12 usa-content columns divider margin top"  markdown="1">
+<div class="small-12 usa-content columns"  markdown="1">
 
 ### What are the steps?
 
