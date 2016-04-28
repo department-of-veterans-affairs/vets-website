@@ -17,7 +17,7 @@ concurrence: incomplete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 <div markdown="1">
 If you are transitioning out of active service soon, you are entitled to free educational and career counseling services.
 </div>
@@ -32,16 +32,18 @@ Yes, if:
 -	You qualify for educational assistance under Chapters 30, 31, 32, 33, 35, 1606, and 1607.
 -	You and your qualified dependents are eligible for and have entitlement to education assistance under the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/).
 
-#### Who is covered
+### Who is covered
 
 You and your dependents
 </div>
 <div markdown="1">
-#### Available benefits
+### Available benefits
 
 Academic and career counseling
 
-#### How it works
+<hr>
+
+### How it works
 
 As a transitioning Servicemember, you are eligible to receive the following services:
 
