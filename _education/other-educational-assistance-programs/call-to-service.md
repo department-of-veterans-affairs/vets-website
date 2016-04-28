@@ -17,7 +17,7 @@ template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 <div markdown="1">
 
 If you performed a period of national service, you may be eligible for the National Call to Service program, which allows you to choose an education benefit as an alternative to the Montgomery GI Bill.
@@ -38,12 +38,12 @@ Yes, if:
   -	In the Individual Ready Reserve, or
   -	In AmeriCorps, or another domestic national service program jointly designated by the Secretary of Defense.
 
-#### Who is covered
+### Who is covered
 
 You
 </div>
 <div markdown="1">
-#### Available benefits
+### Available benefits
 
 You may select from the following:
 
@@ -52,11 +52,13 @@ You may select from the following:
 -	Educational assistance equal to the three-year monthly Montgomery GI Bill Active Duty rate for 12 months.
 -	Educational assistance equal to 50% of the less-than-three-year monthly Montgomery GI Bill Active Duty rate for 36 months.
 
-#### How it works
+<hr>
+
+### How it works
 
 If you enlist under the National Call to Service program, you are not eligible for the MGIB, unless you reenlist at a later date for an additional period of service. Contact your recruiter to discuss your eligibility and to enroll in the National Call to Service program. This benefit affects your service contract.
 
-#### Learn more
+### Learn more
 
 Read the [National Call to Service program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/summary-of-national-call-to-service-program.pdf).
 
