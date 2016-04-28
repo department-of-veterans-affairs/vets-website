@@ -18,10 +18,11 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 <div markdown="1">
 If you plan to study at a foreign school, you can use VA benefits to cover your tuition and fees.
 </div>
+
 <div class="call-out" markdown="1">
 ### Are you eligible for compensation?
 
@@ -29,11 +30,11 @@ Yes, if:
 
 - You are eligible for, or are already receiving, VA educational assistance.
 - Your program is approved by VA.
-- Your program at the foreign school is at an institution of higher learning and will earn you a standard college degree or the equivalent. **Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
+- Your program at the foreign school is at an institution of higher learning and will earn you a standard college degree or the equivalent. 
 
+**Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
 
-
-#### Who is covered
+### Who is covered
 
 You and your dependents
 
@@ -41,12 +42,14 @@ You and your dependents
 
 <div markdown="1">
 
-#### Available benefits
+### Available benefits
 
 - Significant tuition assistance
 - A location-adjusted housing allowance to pay for your living expenses during enrollment
 
-#### How it works
+<hr>
+
+### How it works
 
 VA will accept degrees from schools or establishments in foreign countries that are similar to degrees granted by accredited U.S. colleges and universities. If you are considering getting a degree or its equivalent from a private institution overseas, the degree must be comparable to those granted by public colleges and universities in the same country. In addition, programs at private institutions must have the same entrance requirements as programs offered by public colleges and universities in the same country. Independent study (distance learning) courses must be accredited by a nationally recognized accrediting association.
 
@@ -61,7 +64,7 @@ For applications and further information, the following offices or representativ
 
 You can also check your approval status or send us questions by email 24 hours a day, 7 days a week, by using the [Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) section of our website.
 
-#### How to apply
+### How to apply
 
 [Begin your application process](/education/apply-for-education-benefits/) and see below for next steps.
 

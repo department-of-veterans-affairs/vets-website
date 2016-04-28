@@ -17,7 +17,7 @@ concurrence: incomplete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
 In addition to career counseling, VA provides the interest and aptitude assessment tool, CareerScope, to all eligible benefit recipients. CareerScope has been used frequently by Veterans to determine the best career path when transitioning to civilian life.
 
