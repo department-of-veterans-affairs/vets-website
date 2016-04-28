@@ -31,19 +31,19 @@ Yes, if:
 
 There are many government and private resources available to you as you make this transition.
 
-- VA's [Education and Career Counseling](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp) program includes career counseling, benefits coaching, individual support, and academic counseling.
+- [Veteran Employment Specialists](http://vaforvets.va.gov/hr/RVECS/Pages/default.asp) from the Veteran Employment Services Office (VESO) can help you find jobs in your area. 
 
-- [Veteran Employment Specialists](http://vaforvets.va.gov/hr/RVECS/Pages/default.asp) can help you find jobs in your area. 
+- [VA for Vets](http://vaforvets.va.gov/) can help you find VA or other federal jobs.
 
 - [Veterans Economic Community Initiative](https://employment.vets.gov/employment/job-seekers/veci/) (VECI) liaisons can help you connect with local business leaders, schools, and nonprofit groups to maximize your education and economic opportunities.
 
-- Private nonprofit organizations that have been thoroughly vetted can offer you advice, share connections, and help place you into a good job at no cost to you. The [Call of Duty Endowment](http://www.callofdutyendowment.org/partners) endorses groups that do a particularly good job of this.
-
-- [VA for Vets](http://vaforvets.va.gov/) can help you navigate the federal hiring process.
+- VA's [Education and Career Counseling](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp) program includes career counseling, benefits coaching, individual support, and academic counseling.
 
 - [Homeless Veterans Community Employment Services](http://www.va.gov/HOMELESS/HVCES.asp) (HVCES) can help if you are homeless or at risk of becoming homeless.
 
 - The [Compensated Work Therapy (CWT)](http://www.va.gov/health/cwt/) program helps Veterans with service-related disabilities.
+
+- Private nonprofit organizations that have been thoroughly vetted can offer you advice, share connections, and help place you into a good job at no cost to you. The [Call of Duty Endowment](http://www.callofdutyendowment.org/partners) endorses groups that do a particularly good job of this.
 
 - The Transition Assistance Program (TAP), which you can take before you leave active duty, offers one-on-one guidance. 
 
