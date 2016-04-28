@@ -12,7 +12,7 @@ relatedlinks:
   - url: /education/work-learn/co-op-training/
     title: Co-op Training
     description: ""
- - url: /education/work-learn/non-college-degree-program/
+  - url: /education/work-learn/non-college-degree-program/
     title: Non-College Degree Programs
     description: ""
   - url: /education/work-learn/non-traditional/
