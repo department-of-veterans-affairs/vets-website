@@ -11,15 +11,18 @@ concurrence: complete
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
+<div class="call-out" markdown="1">
 ### Who Should Read This
 
 Servicemembers and Veterans seeking education and training opportunities
+</div>
 
+<div class="call-out" usa-content markdown="1">
 ### How long does a decision take?
 
 The time it takes to process your claim depends on your regional office. There are four regional claims processing centers, and it varies region by region. You can use [VA’s interactive map](http://www.vba.va.gov/reports/aspiremap.asp) to find out how quickly your regional office processes claims.
-
 </div>
+
 <div class="small-12 columns" markdown="0">
 
 <div markdown="1">
