@@ -17,10 +17,10 @@ concurrence: incomplete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content left" markdown="1">
 If you served at least two years on active duty, you may be eligible for the MGIB-AD program.
 </div>
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content left" markdown="1">
 <div class="call-out" markdown="1">
 
 ### Are you eligible for educational benefits?
@@ -57,16 +57,19 @@ Yes, if:
 - Or you entered full-time National Guard duty under title 32, USC, between July 1, 1985, and November 28, 1989, and you elected MGIB between October 9, 1996, and July 9, 1997.
 - You had military pay reduced by $100 a month for 12 months or made a $1,200 lump-sum contribution.
 
-#### Who is covered
+### Who is covered
 
 You
 </div>
+
 <div markdown="1">
-#### Available benefits
+### Available benefits
 
 School tuition or training fees
 
-#### How it works
+<hr>
+
+### How it works
 You may receive benefits for up to eight semesters (four years) of traditional academic education. The benefits, paid monthly, depend upon the following factors:
 
 - length of service

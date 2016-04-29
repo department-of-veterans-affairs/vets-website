@@ -16,12 +16,13 @@ template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
 If you qualify for any of the GI Bill or educational assistance programs, and you are interested in starting or improving a business, VA provides entrepreneurship training through its Center for Veterans Enterprise and the Small Business Administration.
 
 You do not have to use GI Bill funding to participate in this program. 
 
+<div class="call-out" markdown="1">
 ### Are you eligible for this training?
 
 Yes, if you are eligible for any of the following:
@@ -32,6 +33,9 @@ Yes, if you are eligible for any of the following:
 
 **Note:** Dependents are not eligible for this training under DEA.
 
+</div>
+
+<div class="small-12 columns usa-content" markdown="1">
 ### How it works
 
 Contact your local [VA Small Business Liaison](http://www.va.gov/osdbu/about/contacts.asp). 
