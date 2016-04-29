@@ -32,12 +32,13 @@ As a family member of a Veteran with a service-connected disability, you may hav
 Yes, if: 
 
 - You are the dependent of a Veteran and you are eligible for a VA education benefit.
-- You are the spouse or child of a Servicemember or Veteran who died from a service-connected disability.
-- You are the spouse or child of a Servicemember or Veteran with a permanent and total service-connected disablity.
-- You are the spouse or child of a Servicemember or Veteran who died with a permanent and total service-connected disability.
 - Your spouse or parent has been listed as Missing in Action for more than 90 days, captured in the line of duty by a hostile force, or detained or interred by a foreign government or power.
-- You are the spouse or child of a Servicemember who is referring care for a service-connected disablility that is considered totally and permanently disabling, and which will likely cause the Servicemember to be discharged from the military.
 - You are the child of a Vietnam War Veteran, and you have been diagnosed with spina bifida and other specified birth defects.
+**Or, if you are the spouse or child of a:**<br> 
+- Servicemember or Veteran who died from a service-connected disability;
+- Servicemember or Veteran with a permanent and total service-connected disability;
+- Servicemember or Veteran who died with a permanent and total service-connected disability;
+- Servicemember who is referring care for a service-connected disablility that is considered totally and permanently disabling, and which will likely cause the Servicemember to be discharged from the military.
 
 </div>
 
