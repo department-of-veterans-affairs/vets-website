@@ -17,12 +17,12 @@ concurrence: incomplete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
 If you are the dependent of a Veteran who was permanently and totally disabled on active duty or due to a service-related condition, you may be eligible for 45 months of degree and certificate courses, apprenticeship, and on-the-job training under the Survivors' and Dependents’ Educational Assistance (DEA) program.
 </div>
-<div class="small-12 columns">
-<div class="call-out" markdown="1">
+
+<div class="call-out usa-content" markdown="1">
 ### Are you eligible for benefits?
 
 Yes, if:
@@ -49,34 +49,43 @@ Yes, if:
 - If the Servicemember died on active duty, your benefits end 20 years from the date of death.
 - You remain eligible to receive DIC payments from VA.
 
-#### Who is covered
+### Who is covered
 
 Your dependents
+</div>
 
-#### Available benefits
+<div class="small-12 columns usa-content left" markdown="1">
+
+
+
+### Available benefits
 
 A monthly payment of up to $1,021. View [current rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp).
 
-#### How it works
+<hr>
+
+### How it works
 If you are a spouse, you may take correspondence courses under this program. Remedial, deficiency, and refresher courses may also be approved under certain circumstances. View [current DEA pay rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch35). For both children and spouses, if you are eligible for both DEA and the [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), you must choose which of these you will use. Your choice is final and cannot be changed.
 
 **Exception:** If you are the child of a Servicemember who died in the line of duty before August 1, 2011, you qualify to use both benefits subsequently for up to 81 months of education and training.
 
-What happens next?
-If you have not begun your education or training program:
+### What happens next?
+
+#### If you have not begun your education or training program:
 
 - Make sure that VA approves your selected educational or vocational program. Explore the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) for more information and to see if your program is approved.
 - Complete and submit [VA Form 22-5490](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490), Dependents’ Application for VA Education Benefits. Be sure to send the form to the VA regional office that oversees the state where you will receive the education. Find out which [Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp) will accept your form.
 
-If you have already started your program, take your application to your school or employer. Ask them to complete VA Form 22-1999, Enrollment Certification, and send both forms to VA. (Your school must contact their VA representative to receive Form 22-1999.)
+#### If you have already started your program:
+- Take your application to your school or employer. 
+- Ask them to complete VA Form 22-1999, Enrollment Certification, and send both forms to VA. (Your school must contact their VA representative to receive Form 22-1999.)
 
-
-#### Learn more
+### Learn more
 
 - Read the [DEA pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch35_pamphlet_2.pdf).
 - Get help from an [accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
 
-</div>
+
 </div>
 
 </div>

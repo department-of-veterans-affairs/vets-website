@@ -17,11 +17,11 @@ Template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 If you are a dependent or survivor of a Veteran, you may be eligible for education assistance through a GI Bill program.
 </div>
 <div class="small-12 columns" markdown="1">
-<div class="call-out" markdown="1">
+<div class="call-out usa-content" markdown="1">
 
 ### Are you eligible for benefits?
 
@@ -40,15 +40,18 @@ Yes, if:
 
 Your family
 </div>
-<div markdown="1">
-#### Available benefits
+
+<div class="small-12 columns usa-content" markdown="1">
+### Available benefits
 
 - Education and training opportunities
 - Significant tuition-funding assistance
 - A location-adjusted housing allowance for you to pay your living expenses during enrollment
 - A stipend for books and supplies
 
-#### How it works
+<hr>
+
+### How it works
 
 There are two main GI Bill programs offering education assistance to survivors and dependents of Veterans:
 
