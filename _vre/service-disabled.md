@@ -30,8 +30,6 @@ relatedlinks:
 
 If you are a Veteran or Servicemember with service-connected disabilities that prevent you from continuing on your current career path, then VR&amp;E programs may be able to assist you. VA offers five vocational assistance and employment support and services tracks to enable you to live more independently. 
 
-Choose from the tracks listed below.
-
 </div>
 </div>
 </div>
