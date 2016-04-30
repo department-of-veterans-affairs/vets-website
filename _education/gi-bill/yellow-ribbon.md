@@ -18,9 +18,11 @@ concurrence: incomplete
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
+
 <div markdown="1">
 If your school participates in the Yellow Ribbon Program, you may be able to reduce or eliminate your education costs that are not covered by the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/index.html), such as higher tuition at private colleges or out-of-state schools.
 </div>
+
 <div class="call-out" markdown="1">
 
 ### Are you eligible for benefits?
@@ -36,7 +38,6 @@ Yes, if:
 ### Who is covered
 
 You and your family members
-
 </div>
 
 <div markdown="1">
@@ -94,7 +95,6 @@ You will receive notice from your school about whether you have been accepted to
 </li>
 
 </ol>
-
 </div>
 
 <div markdown="1">
@@ -102,10 +102,14 @@ You will receive notice from your school about whether you have been accepted to
 
 - [FAQs about the Yellow Ribbon Program](http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf)
 - [Yellow Ribbon Program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/Yellow_Ribbon_Pamphlet.pdf)
-
-</div>
 </div>
 
 </div>
 
+</div>
+
+</div>
+</div>
+</div>
+</div>
 </div>
