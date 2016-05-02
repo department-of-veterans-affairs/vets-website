@@ -1311,9 +1311,9 @@ figure {
     @media #{$small-only} {
       padding: .25em 0;
     }
-    //@media #{$medium-only} {
-    //  display:block
-    //}
+    @media #{$medium-only} {
+      display:block
+    }
   }
 }
 ul.final-list {
