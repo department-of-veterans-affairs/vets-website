@@ -1,9 +1,13 @@
-html {
-  font-family: $font-sans;
+html, body {
   font-size: $em-base;
+  font-weight: 500;
+  padding: 0;
+  margin: 0; 
 }
 
 body {
+  color: $color-gray-dark;
+  font-family: $font-sans;
   font-size: $base-font-size;
 }
 
@@ -24,7 +28,7 @@ body {
   color: $color-primary-darkest;
   display: block;
   font-weight: 600;
-  &:hover {background: $color-white;}
+
   &:focus {
     position: inherit;
     top: auto;
@@ -34,14 +38,6 @@ body {
 
 
 // General
-html, body {
-  padding: 0;
-  margin: 0;
-  font-family: $font-sans;
-  font-weight: 500;
-  color: $color-gray-dark;
-}
-
 body, body.home {
   background: $color-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
   background-size: contain;
@@ -432,8 +428,21 @@ h6 {font-size: 1.15em; font-weight: bold;}
 
 .home #content {
   h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
-  .post-date {font-size: .5em; color: $color-gold;}
   
+  .post-date {
+    font-size: .5em; color: $color-gold;
+  }
+  
+  h3 {
+    border-bottom: 1px solid $color-white;
+    line-height: 1.2em;
+    border-bottom: 6px solid $color-primary-darker;
+    font-size: 1.65em;
+    color: $color-primary;
+    margin: 0 0 2.5em 0;
+    padding: 0 0 .2em 0;
+  }
+
   h4 a {
     text-decoration: none;
     &:hover {
@@ -510,7 +519,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
 }
 
 #content .section.secondary {
-background: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.85);
 }
 
 #content .section.tertiary {
@@ -589,7 +598,6 @@ background: rgba(255,255,255,.85);
 
 
 // Action
-
 .action {
   margin: 0 auto;
   text-align: left;
@@ -888,9 +896,9 @@ body.fourohfour #content {
 // Telephone numbers
 
 span.tel {
-background: rgba(0,0,0,.05);
-padding: .2em;
-display: inline-block;
+  background: rgba(0,0,0,.05);
+  padding: .2em;
+  display: inline-block;
 }
 
 // Information Grid
@@ -962,7 +970,8 @@ body.page-playbook {
   }
 }
 
-.post-date, .post-author {
+.post-date, 
+.post-author {
   color: $color-va-gray-cool-dark;
 }
 
@@ -2324,7 +2333,9 @@ button.js-simple-tooltip {
 }
 .simpletooltip_container {
   position: relative;
+  display: inline-block;
 }
+
 .simpletooltip {
   position: absolute;
   z-index: 777;
@@ -2340,20 +2351,22 @@ button.js-simple-tooltip {
   right: auto;
   left: 100%;
   margin-left: .8em;
-
+  white-space: normal;
+  top: -110%;
+  
   &:before {
-    border-bottom: 10px solid transparent;  /* left arrow slant */
-    border-top: 10px solid transparent; /* right arrow slant */
+    border-bottom: 10px solid transparent;  // left arrow slant
+    border-top: 10px solid transparent; // right arrow slant
     border-right: 10px solid $color-gray-dark;
-    content:"";
+    content: "";
     font-size: 0;
     position: absolute;
-    top: 3px;
     left: 0px;
     line-height: 0;
     margin-left: -10px;
     width:0;
-    height:0
+    height:0;
+    top: 39%;
   }
 }
 
@@ -2367,13 +2380,13 @@ button.js-simple-tooltip {
     margin-left: -5em;
   
     &:before {
-      top: -10px;
+      top: -10px !important;
       right: auto;
       left: 45%;
       margin-left: -5px;
       margin-top: -10px;
       border: 10px solid transparent;
-      border-bottom: 10px solid rgba( 0, 0, 0, .9 );
+      border-bottom: 10px solid $color-gray-dark;
     }
   }
 }

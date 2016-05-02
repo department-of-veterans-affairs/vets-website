@@ -122,10 +122,10 @@
         <div class="medium-5 medium-offset-3 text-right columns">
           <button type="button" class="overlay-close" aria-label="close search form - mobile only">Close</button>
           <div class="menu">
-            <form accept-charset="UTF-8" action="https://search.usa.gov/search" id="search_form" method="get">
+            <form accept-charset="UTF-8" action="https://search.vets.gov/search" id="search_form" method="get">
               <div style="margin:0;padding:0;display:inline">
                 <input name="utf8" type="hidden" value="&#x2713;" /></div>
-              <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_staging" />
+              <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_search" />
               <label for="mobile-query">Search:</label>
               <div class="row collapse">
                 <div class="small-9 columns">
@@ -146,7 +146,7 @@
 <h2 class="sr-only">{{ page.title }}</h2>
 
 <script>
-  var usasearch_config = { siteHandle:"vets.gov_staging" };
+  var usasearch_config = { siteHandle:"vets.gov_search" };
   var script = document.createElement("script");
   script.src = "https://search.usa.gov/javascripts/remote.loader.js";
   document.getElementsByTagName("head")[0].appendChild(script);
