@@ -12,7 +12,7 @@ template: 7-get-page
 
 </div>
 
-<div class="small-12 medium-8 columns"  markdown="1">
+<div class="small-12 medium-8 columns usa-content"  markdown="1">
 
 - Veterans who are filing claims for benefits.
 - Servicemembers who are getting ready to separate from the military.
@@ -46,7 +46,7 @@ template: 7-get-page
 
 <div class="small-12 medium-9 columns">
 
-<div class="info-block" markdown="1">
+<div class="info-block usa-content" markdown="1">
 
 Average number of days to process disability-related claims during February 2016.
 
@@ -65,7 +65,7 @@ If you’ve already filed a claim, check on its progress through [eBenefits](htt
 </div>
 
 <div class="row" markdown="0">
-<div class="small-12 columns divider margin top"  markdown="1">
+<div class="small-12 columns divider margin top usa-content"  markdown="1">
 
 ### What are the steps?
 
