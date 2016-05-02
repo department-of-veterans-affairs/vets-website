@@ -43,7 +43,7 @@ You
 
 ### Available benefits
 
-VA assistance with your previous employer
+VA assistance in returning to the job you held before deploying
 
 
 </div>
