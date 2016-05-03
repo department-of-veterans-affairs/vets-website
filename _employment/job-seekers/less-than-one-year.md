@@ -9,7 +9,7 @@ relatedlinks:
   - url: /employment/job-seekers/skills-translator/
     title: Military Skills Translator
     description: ""
-  - url: /employment/job-seekers/create-resume/
+  - url: /employment/job-seekers/create-resume
     title: Résumé Builder
     description: ""
   - url: /employment/job-seekers/alternative/
@@ -18,7 +18,7 @@ relatedlinks:
   - url: /employment/job-seekers/search_jobs
     title: Search the Veterans Job Bank
     description: ""
-  - url: /employment/job-seekers/interest-profiler/
+  - url: /employment/job-seekers/interest-profiler
     title: Interest Profiler
     description: ""
   - url: /employment/job-seekers/military-transcripts/
