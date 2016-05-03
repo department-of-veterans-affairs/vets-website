@@ -120,8 +120,29 @@ figcaption {
   color: $color-primary-darker;
 }
 
-// Interior rows
+// Change the placeholder color
+input::-webkit-input-placeholder{
+  color: $color-gray;
+}
+input::-moz-placeholder { 
+  color: $color-gray; 
+}
+input:-ms-input-placeholder {  
+  color: $color-gray;
+}
+// Visually clear placeholder text on focus
+input:focus::-webkit-input-placeholder{
+  color: transparent;
+}
+input:focus::-moz-placeholder { 
+  color: transparent;  
+}
+input:focus:-ms-input-placeholder {  
+  color: transparent;
+}
 
+
+// Interior rows
 #content.interior a[href^="http://"],
 #content.interior a[href^="https://"] {
   position: relative;
@@ -147,8 +168,7 @@ figcaption {
     white-space: nowrap;
     overflow: hidden;
     display: block;
-    color: $color-white;
-    background: $color-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
+    background: url(../images/design/logo/logo.png) top left no-repeat;
     width: 180px;
     height: 30px;
     background-size: contain;
