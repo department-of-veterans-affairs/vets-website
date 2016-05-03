@@ -8,7 +8,7 @@ template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
 A presumed disability is a diagnosed disability that VA considers to be related to a Veteran’s service because of the circumstances of the Veteran’s military service.
 
