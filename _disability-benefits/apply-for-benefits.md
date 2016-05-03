@@ -12,7 +12,7 @@ template: 7-get-page
 
 </div>
 
-<div class="small-12 medium-8 columns"  markdown="1">
+<div class="small-12 medium-8 columns usa-content"  markdown="1">
 
 - Veterans who are filing claims for benefits.
 - Servicemembers who are getting ready to separate from the military.
@@ -36,7 +36,7 @@ template: 7-get-page
 <div class="small-12 medium-3 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="number" markdown="0">119.5</span>
+<span class="number" markdown="0">114.5</span>
 <span class="description" markdown="0">Days</span>
 <span class="heading" markdown="0">(Average time)</span>
 
@@ -46,9 +46,9 @@ template: 7-get-page
 
 <div class="small-12 medium-9 columns">
 
-<div class="info-block" markdown="1">
+<div class="info-block usa-content" markdown="1">
 
-Average number of days to process disability-related claims during February 2016.
+Average number of days to process disability-related claims during April 2016.
 
 If you’ve already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
 
@@ -65,7 +65,7 @@ If you’ve already filed a claim, check on its progress through [eBenefits](htt
 </div>
 
 <div class="row" markdown="0">
-<div class="small-12 columns divider margin top"  markdown="1">
+<div class="small-12 columns divider margin top usa-content"  markdown="1">
 
 ### What are the steps?
 
