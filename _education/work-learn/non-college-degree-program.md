@@ -17,7 +17,7 @@ template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 <div markdown="1">
 If you are a Veteran, Servicemember, or eligible dependent interested in non-college degree programs (such as EMT, HVAC repair, truck driving, and more), the GI Bill may pay all or a portion of your tuition.
 </div>
@@ -29,17 +29,19 @@ Yes, if:
 - You qualify for the GI Bill.
 -	You enroll, or plan to enroll, in a non-degree program at an approved institution.
 
-#### Who is covered
+### Who is covered
 
 You and your dependents
 </div>
 <div markdown="1">
-#### Available benefits
+### Available benefits
 
 - Significant tuition assistance
 - Books and supplies stipend
 
-#### How it works
+<hr>
+
+### How it works
 
 Benefits depend on which GI Bill program you use and the school you attend. VA pays you at the end of each month for the hours you have spent training, and provides a monthly housing allowance based on the location of the school. You may receive up to $83 per month for books and supplies.
 
