@@ -9,7 +9,7 @@ template: 1-topic-landing
   <div class="section one" markdown="0">
     <div class="primary" markdown="0">
       <div class="row" markdown="0">
-        <div class="small-12 columns" markdown="0">
+        <div class="small-12 columns usa-content" markdown="0">
           <h3>Disability compensation is a key benefit that helps Veterans</h3>
           <p>VA disability compensation provides monthly benefits to address the effects of disabilities, diseases, or injuries incurred or aggravated during active military service. Some may not be apparent until years after you have completed your service.</p>
           <p>A disability can apply to physical conditions, such as chronic knee pain, as well as mental-health conditions, such as <a href="/disability-benefits/conditions/ptsd/">post-traumatic stress disorder (PTSD)</a>.</p>
