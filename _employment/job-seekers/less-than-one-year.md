@@ -6,7 +6,7 @@ relatedlinks:
   - url: /employment/job-seekers/one-on-one/
     title: One-on-One Assistance
     description: ""
-  - url: /employment/job-seekers/skills-translator/
+  - url: /employment/job-seekers/skills-translator
     title: Military Skills Translator
     description: ""
   - url: /employment/job-seekers/create-resume
