@@ -17,7 +17,7 @@ template: 4-action-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 <div markdown="1">
 If you are a full-time or three-quarter-time college, vocational, or professional student using VA education benefits, you may be eligible for the work-study program.
 </div>
@@ -40,26 +40,22 @@ Yes, if:
 - You are able to complete the work-study contract before the end of your eligibility for education benefits.
 - There is a position available within your normal commuting distance.
 
-#### Who is eligible
+### Who is eligible
 
 You and your dependents using education benefits
 </div>
 
 <div markdown="1">
 
-#### Available benefits
+### Available benefits
 
 A part-time job while you study
 
+<hr>
 
-#### How it works
+### How it works
 
 The number of applicants selected will depend on the availability of VA-related work at your school or at VA facilities in your area. Veterans with service-connected disabilities of at least 30% may be given priority consideration.
-
-#### Learn more
-
--	Download a copy of the [Application for Work-Study Allowance](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf).
--	Contact the [Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp) that handles your claim.
 
 #### Services you perform under a VA work-study program must be related to VA work, such as:
 
@@ -78,6 +74,11 @@ You’ll earn an hourly wage equal to the federal minimum wage or your state min
 You may elect to be paid in advance for 40% of the number of hours in your work-study agreement, or for 50 hours, whichever is fewer. After you’ve completed the hours covered by your first payment, VA will pay you each time you complete 50 hours of service, or biweekly, whichever comes first.
 
 You may work during or between periods of enrollment. The total number of hours you work during your enrollment can’t be more than 25 times the number of weeks in your enrollment period.
+
+### Learn more
+
+- Download a copy of the [Application for Work-Study Allowance](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf).
+- Contact the [Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp) that handles your claim.
 
 </div>
 
