@@ -86,7 +86,7 @@ a {
           transition-property: color, background-color, border-color;
 
   &:hover {
-    background: rgba(0,0,0,0.05);
+    background-color: rgba(0,0,0,0.05);
     color: inherit;
     text-decoration: underline;  
   }
@@ -146,6 +146,25 @@ input:focus:-ms-input-placeholder {
 #content.interior a[href^="http://"],
 #content.interior a[href^="https://"] {
   position: relative;
+}
+
+// Adds external icon to all links that begin
+// with http (including https) 
+[href^=http] {
+  // Using longhand properties instead of the shorthand to limit 
+  // risk and impact of side effects
+  background-image: url(/assets/images/icons/exit-icon.png);
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  background-size: 1em auto;
+  display: inline-block;
+  padding-right: 1.2em;
+}
+
+.usa-button-primary[href^=http] {
+  background-image: none;
+  // TODO: clean up #content .main.interior a then remove !important
+  text-decoration: none !important;
 }
 
 // Logo and Header
@@ -1424,7 +1443,9 @@ a.twitter {
   }
     
   a {
-    color: $color-white; 
+    background-image: none;
+    color: $color-white;
+    padding: 0;
   }
   
   .row {
