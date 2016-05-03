@@ -168,8 +168,7 @@ input:focus:-ms-input-placeholder {
     white-space: nowrap;
     overflow: hidden;
     display: block;
-    color: $color-white;
-    background: $color-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
+    background: url(../images/design/logo/logo.png) top left no-repeat;
     width: 180px;
     height: 30px;
     background-size: contain;
@@ -455,9 +454,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
   }
   
   h3 {
-    border-bottom: 1px solid $color-white;
     line-height: 1.2em;
-    border-bottom: 6px solid $color-primary-darker;
     font-size: 1.65em;
     color: $color-primary;
     margin: 0 0 2.5em 0;
@@ -581,9 +578,11 @@ h6 {font-size: 1.15em; font-weight: bold;}
 }
 
 #content .section.do {
-  background: #efefef;
-  padding: 2em 0;
-  h2, h3, h4, h5, h6, p, li {color: $color-va-gray-cool-dark;}
+  background: $color-gray-lightest;
+  
+  h2, h3, h4, h5, h6, p, li {
+    color: $color-va-gray-cool-dark;
+  }
   h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
   a {color: $color-white;}
 }
@@ -762,13 +761,19 @@ dl.simple {
 
 .introductory-content {
   padding: 1em  0;
-  @media #{$small} {padding: 3em 0;}
-  background: #efefef;
+  
+  @media #{$small} {
+    padding: 3em 0;
+  }
+  background: $color-gray-lightest;
   margin: 0 auto;
+  
   p {
     font-size: 1em;
   }
-  @media #{$small} {font-size: 1.35em;}
+  @media #{$small} {
+    font-size: 1.35em;
+  }
 }
 
 // Navigation
@@ -1102,17 +1107,34 @@ figure {
       margin: 0;
       padding: 0;
       border-bottom: 1px solid rgba(0,0,0,.1);
-      &:last-of-type{border-bottom: none;}
+     
+      &:last-of-type{
+        border-bottom: none;
+      }
+      
       a {
-        padding: .5em .2em; margin: 0; text-decoration: none;
+        padding: .5em .2em; 
+        margin: 0; 
+        text-decoration: none;
         display: block;
+        
         &:hover {
           background: rgba(0,0,0,.08);
           border-left: 4px solid $color-primary;
           padding-left: .5em;
         }
-        .post-title {color: $color-primary-darker; font-size: 1em; font-weight: bold; margin: 0; padding: 0;}
-        .post-date {color: $color-va-gray-cool-dark; margin: 0; padding: 0 0 1em 0;}
+        .post-title {
+          color: $color-primary-darker; 
+          font-size: 1em; 
+          font-weight: bold; 
+          margin: 0; 
+          padding: 0;
+        }
+        .post-date {
+          color: $color-va-gray-cool-dark; 
+          margin: 0; 
+          padding: 0 0 1em 0;
+        }
       }
     }
   }
@@ -1182,13 +1204,13 @@ figure {
   }
 
   dt {
-  -webkit-font-smoothing: antialiased;
-  font-weight: 700;
-  display: block;
-  font-size: .95em;
-  padding: 0 0 1em 0;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 700;
+    display: block;
+    font-size: .95em;
+    padding: 0 0 1em 0;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 
   dd {
@@ -1238,11 +1260,25 @@ figure {
     display: block;
     background: none;
     font-weight: 400;
-    @media #{$small} {display: inline-block; margin: .25em 0;}
+   
+    @media #{$small} {
+      display: inline-block; 
+      margin: .25em 0;
+    }
+    
     &:hover {color: $color-gold;}
-    &.contact, &.blog {
-      padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $secondary-color;
-      @media #{$small} {margin: 1.5em auto; display: inline-block;}
+    &.contact, 
+    &.blog {
+      padding: .65em; 
+      font-size: 1em;  
+      text-align: center; 
+      border: 2px solid $secondary-color;
+      
+      @media #{$small} {
+        margin: 1.5em auto; 
+        display: inline-block;
+      }
+      
       &:hover, &:focus, &:active {
         background: $secondary-color; color: $color-white;
       }
