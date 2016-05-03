@@ -49,9 +49,9 @@ Yes, if:
 - Compensation
 - Health care
 - [Agent Orange Registry health exam]( http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
-
+<br>
 <hr>
-
+<br>
 ### How it works
 
 VA considers non-Hodgkin’s lymphoma to be related to exposure to Agent Orange. When you apply for benefits, VA will forego the normal requirement that you prove your illness is related to Agent Orange or that it began during—or became worse because of—your military service.
