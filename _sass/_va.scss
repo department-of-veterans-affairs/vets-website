@@ -596,15 +596,15 @@ h6 {font-size: 1.15em; font-weight: bold;}
   clear: both;
 }
 
-#content .section.do {
-  background: $color-gray-lightest;
+//#content .section.do {
+//  background: $color-gray-lightest;
   
-  h2, h3, h4, h5, h6, p, li {
-    color: $color-va-gray-cool-dark;
-  }
-  h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
-  a {color: $color-white;}
-}
+//  h2, h3, h4, h5, h6, p, li {
+//    color: $color-va-gray-cool-dark;
+//  }
+//  h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
+//  a {color: $color-white;}
+//} 
 
 #content .section.secondary,
 #content .section.tertiary,
@@ -612,12 +612,6 @@ h6 {font-size: 1.15em; font-weight: bold;}
 #content .section.coda {
   padding: 3em 0;
   h3 {font-size: 2.2em;}
-}
-
-#content .section.start {
-  background: $color-green-lightest;
-  padding: 3em 0;
-  border-bottom: 3px solid $color-white;
 }
 
 // Sections
@@ -2199,14 +2193,31 @@ h4.highlight {
 }
 
 // Action banner
+//.action-bar {
+//  text-align: right;
+//  background: $color-gray-lightest;
+//  padding: .5em 0;
+//}
 
-.action-bar {
-  text-align: right;
+[class^="va-action-bar"] {
   background: $color-gray-lightest;
-  padding: .5em 0;
 }
 
-// TODO: Deprecate .action-bar a.usa-button-primary.
+.va-action-bar--header {
+  padding: .5em 0;
+  text-align: right;
+}
+
+.va-action-bar--footer {
+  padding: 1em 0;
+}
+
+.va-action-bar--start {
+  background: $color-green-lightest;
+  border-bottom: 3px solid $color-white;
+}
+
+// TODO: Deprecate .va-action-bar--header a.usa-button-primary.
 // Use .va-button-primary and .va-button-secondary 
 // going forward.
 // Drop !important from the lines below when everything
