@@ -17,7 +17,7 @@ concurrence: incomplete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 <div markdown="1">
 If you are using VA educational assistance, and you’re struggling with the course work, you may be eligible for a financial supplement to pay for a tutor.
 </div>
@@ -31,16 +31,18 @@ Yes, if:
 - You are enrolled in the course you’re finding difficult.
 - The course is a required part of your educational program.
 
-#### Who is covered
+### Who is covered
 
 You
 </div>
 <div markdown="1">
-#### Available benefits
+### Available benefits
 
-A supplement to the regular education benefit.
+A supplement to the regular education benefit
 
-#### How it works
+<hr>
+
+### How it works
 
 VA will not pay more than $100 per month for tutoring assistance, and will not pay more than $1,200 total. Here's how the process works: 
 

@@ -2,6 +2,16 @@
 title: Other Educational Assistance Programs
 concurrence: incomplete
 template: 1-topic-landing
+relatedlinks:
+  - url: /education/other-educational-assistance-programs/reap/
+    title: Reserve Educational Assistance Program (REAP)
+    description: "Activated Reservists qualify for additional education benefits."
+  - url: /education/other-educational-assistance-programs/call-to-service/
+    title: National Call to Service
+    description: "An education benefit earned with a mix of military and civilian service."
+  - url: /education/other-educational-assistance-programs/veap/
+    title: Veterans' Educational Assistance Program (VEAP)
+    description: "A government match program for educational assistance." 
 ---
 
 <div class="main" role="main" markdown="0">
@@ -17,39 +27,14 @@ template: 1-topic-landing
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
-Several smaller programs that provided education benefits to Servicemembers and Veterans before the Post-9/11 GI Bill still exist to help previous generations of Veterans, as well as Guardsmen and Reservists not eligible for the new GI Bill. [An accredited representative](/disability-benefits/apply-for-benefits/help/index.html) working for a veterans service organization and the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) can help you pick the right program for you.
+Guardsmen, Reservists, and previous generations of Veterans not eligible for the Post-9/11 GI Bill can access educational benefits through REAP, VEAP, and the National Call to Service program.
+
+[An accredited representative](/disability-benefits/apply-for-benefits/help/index.html) with a Veteran Service Organization (VSO) can help you pick the right program. 
 
 </div>
 </div>
-</div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-          <ul class="va-nav-category">
-            <li>
-              <a href="/education/other-educational-assistance-programs/reap/">
-                <h5>Reserve Educational Assistance Program (REAP)</h5>
-                <span>Activated Reservists qualify for additional education benefits.</span>
-              </a>
-            </li>
-            <li>
-              <a href="/education/other-educational-assistance-programs/call-to-service/">
-                <h5>National Call to Service</h5>
-                <span>An education benefit earned with a mix of military and civilian service.</span>
-              </a>
-            </li>
-            <li>
-              <a href="/education/other-educational-assistance-programs/veap/">
-                <h5>Veterans' Educational Assistance Program (VEAP)</h5>
-                <span>A government match program for educational assistance.</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
 </div>
 
 </div>
