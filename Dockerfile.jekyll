@@ -1,0 +1,22 @@
+FROM ruby:latest
+MAINTAINER Albert J. Wong <albert.wong@va.gov>
+
+# Setup basic environment.
+ENV LC_ALL="C.UTF-8"
+RUN apt-get update -qq && apt-get install -y \
+    nodejs \
+  && rm -rf /var/lib/apt/lists/*
+
+# Shift bundle install out of source tree.
+RUN mkdir -p /bundle/vendor
+COPY Gemfile Gemfile.lock /bundle/
+ENV BUNDLE_PATH=/bundle/vendor
+WORKDIR /bundle
+RUN bundle install
+
+# Mount the source code.
+RUN mkdir /mnt/src
+WORKDIR /mnt/src
+
+EXPOSE 4000
+CMD bundle exec jekyll serve --force_polling
