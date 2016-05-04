@@ -16,7 +16,7 @@ concurrence: incomplete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 medium-8 columns" markdown="0">
+<div class="small-12 medium-8 columns usa-content" markdown="0">
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
@@ -36,17 +36,21 @@ Yes, if:
 - You are ill with one or more of [these diseases](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
 - Your service included participation in the testing or storage of Agent Orange used in Vietnam.
 
-#### Who is covered
+<br>
+
+### Who is covered
 
 You and your dependents or survivors
 </div>
 <div markdown="1">
-#### Available benefits
+### Available benefits
 - Compensation
 - Health care
 - An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
-#### How it works
+<hr>
+
+### How it works
 You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for [diseases](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/) that VA presumes are related to Agent Orange exposure.
 </div>
 </div>
