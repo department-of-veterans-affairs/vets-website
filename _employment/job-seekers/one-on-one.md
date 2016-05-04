@@ -88,7 +88,7 @@ For information on all available VA benefits, contact VA career-and-training spe
         </li>  
 
         <li>
-          <a href="/employment/job-seekers/search_jobs">
+          <a href="/employment/job-seekers/search-jobs">
             <h5>
               Search the Veterans Job Bank
             </h5>

@@ -55,7 +55,7 @@ Find a [VECI economic liaison](http://www.benefits.va.gov/TEEI/economic-liaison-
         </li>
 
         <li>
-          <a href="/employment/job-seekers/search_jobs">
+          <a href="/employment/job-seekers/search-jobs">
             <h5>
               Search the Veterans Job Bank
             </h5>

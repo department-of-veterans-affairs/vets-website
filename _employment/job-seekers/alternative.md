@@ -70,7 +70,7 @@ Internships and volunteer work can advance your career and expand your network w
 
 
           <li>
-            <a href="/employment/job-seekers/search_jobs">
+            <a href="/employment/job-seekers/search-jobs">
             <H5>
               Search the Veterans Job Bank
             </H5>

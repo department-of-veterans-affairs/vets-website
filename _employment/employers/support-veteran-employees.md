@@ -38,7 +38,7 @@ Employers participating in an on-the-job training (OJT) program can hire a Veter
       <ul class="small-block-grid-1 medium-block-grid-3 cards small">
 
           <li>
-            <a href="/employment/job-seekers/search_jobs">
+            <a href="/employment/job-seekers/search-jobs">
             <h5>
               Search the Veterans Job Bank
             </h5>

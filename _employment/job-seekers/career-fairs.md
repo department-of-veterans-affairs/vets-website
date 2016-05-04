@@ -68,7 +68,7 @@ Career fairs are an important first step in the search for employment. In-person
            </li>
 
           <li>
-            <a href="/employment/job-seekers/search_jobs">
+            <a href="/employment/job-seekers/search-jobs">
             <h5>
               Search the Veterans Job Bank
             </h5>
