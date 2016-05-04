@@ -2,6 +2,18 @@
 title: Get Help Filing a Claim
 concurrence: incomplete
 template: 6-info-page
+relatedlinks: 
+  - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
+    title: What is the fastest way to file a claim?
+  - url: /disability-benefits/apply-for-benefits/ways/
+    title: What are the different ways I can file a claim?
+  - url: /disability-benefits/apply-for-benefits/active-duty/
+    title: How do I file while on active duty?
+  - url: /disability-benefits/apply-for-benefits/one-year/
+    title: How do I file for disabilities that appear within one year after discharge?
+  - url: /disability-benefits/claims-process/date/
+    title: Effective date of disability
+
 ---
 
 <div class="main" role="main" markdown="0">
@@ -74,39 +86,4 @@ There are two ways to do this:
 </div>
 </div>
 </div>
-</div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-      <ul class="va-nav-category">
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
-            <h5>What is the fastest way to file a claim?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/apply-for-benefits/ways/">
-            <h5>What are the different ways I can file a claim?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/apply-for-benefits/active-duty/">
-            <h5>How do I file while on active duty?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/apply-for-benefits/one-year/">
-            <h5>How do I file for disabilities that appear within one year after discharge?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/claims-process/date/">
-          <h5>Effective date of disability</h5>
-          <span></span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
 </div>

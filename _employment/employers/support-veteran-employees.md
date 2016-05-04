@@ -2,6 +2,11 @@
 title: Support Veteran Employees
 concurrence: incomplete
 template: 1-topic-landing
+relatedlinks:
+  - url: /employment/job-seekers/search_jobs
+    title: Search the Veterans Job Bank
+  - url: /employment/employers/post-a-job/
+    title: Post a Job
 ---
 
 <div class="main" role="main" markdown="0">
@@ -29,34 +34,4 @@ Employers participating in an on-the-job training (OJT) program can hire a Veter
 
 </div>
 </div>
-</div>
-
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-          <li>
-            <a href="/employment/job-seekers/search_jobs">
-            <h5>
-              Search the Veterans Job Bank
-            </h5>
-            </a>  
-          </li>  
-
-          <li>
-            <a href="/employment/employers/post-a-job/">
-            <h5>
-              Post a Job
-            </h5>
-            </a>
-          </li>  
-
-        </ul>
-      </div>
-    </div>
-  </div>  
-</div>
-
 </div>
