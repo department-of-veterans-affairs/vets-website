@@ -131,7 +131,7 @@ namespace :tests do
 
   desc "Validate HTML. No external checks."
   task :htmlproof do
-    sh "bundle exec htmlproof ./_site --only-4xx --disable-external --check-favicon --check-html --allow-hash-href --href-ignore '/veterans-employment-center/','/gi-bill-comparison-tool/','/disability-benefits/learn/eligibility/.*','/disability-benefits/learn/','/disability-benefits/apply-for-benefits/','Employment-Resources/','/gibill/','/disability-benefits/','/employment/job-seekers/skills-translator','/employment/job-seekers/search-jobs','/employment/job-seekers/create-resume','/employment/commitments','/employment/users/sign_in'"
+    sh "bundle exec htmlproof ./_site --only-4xx --disable-external --check-favicon --check-html --allow-hash-href --href-ignore '/veterans-employment-center/','/gi-bill-comparison-tool/','/disability-benefits/learn/eligibility/.*','/disability-benefits/learn/','/disability-benefits/apply-for-benefits/','Employment-Resources/','/gibill/','/disability-benefits/','/employment/job-seekers/skills-translator','/employment/job-seekers/search-jobs','/employment/job-seekers/create-resume','/employment/commitments','/employment/users/sign_in','/employment/employers','/employment/employers/'"
   end
 
   desc "Validate HTML *including* following external links. May be flaky/slow depending on external link."

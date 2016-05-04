@@ -46,6 +46,12 @@ class Address extends React.Component {
       this.props.value.zipcode
     );
 
+    let stateList = [];
+    const selectedCountry = this.props.value.country;
+    if (selectedCountry) {
+      stateList = states[selectedCountry];
+    }
+
     return (
       <div className={isValid ? undefined : 'usa-input-error'}>
         <ErrorableTextInput errorMessage={isValid ? undefined : 'Please enter a valid street address'}
@@ -66,7 +72,7 @@ class Address extends React.Component {
 
         <ErrorableSelect errorMessage={isValid ? undefined : 'Please enter a valid state'}
             label="State"
-            options={states}
+            options={stateList}
             value={this.props.value.state}
             onValueChange={(update) => {this.handleChange('state', update);}}/>
 

@@ -10,6 +10,8 @@ exclude:
   - "/node_modules"
   - "/spec"
   - "/vendor/bundle"
+  - "Dockerfile.jekyll"
+  - "Dockerfile.webpack"
   - "Gemfile"
   - "Gemfile.lock"
   - "Procfile"
@@ -19,6 +21,7 @@ exclude:
   - "_site_production"
   - "_webpack"
   - "app.json"
+  - "docker-compose.yml"
   - "karma.conf.js"
   - "npm-debug.log"
   - "npm-shrinkwrap.json"
@@ -26,6 +29,7 @@ exclude:
   - "webpack.config.js"
   - "webpack_dev.config.js"        
   - "webpack_prod.config.js"
+  - "docs"
  
 # Specifically include files left out in dev.
 include:

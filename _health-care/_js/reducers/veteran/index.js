@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 
-import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE, UPDATE_SPOUSE_ADDRESS } from '../../actions';
+import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE, UPDATE_SPOUSE_ADDRESS, CREATE_CHILD_INCOME_FIELDS } from '../../actions';
 import { initializeNullValues } from '../../utils/validations';
 import { pathToData } from '../../store';
 
@@ -28,23 +28,20 @@ const blankVeteran = {
       day: null,
       year: null,
     },
-    maritalStatus: null,
-    sectionComplete: false
+    maritalStatus: null
   },
 
   vaInformation: {
     isVaServiceConnected: null,
     compensableVaServiceConnected: null,
-    receivesVaPension: null,
-    sectionComplete: false
+    receivesVaPension: null
   },
 
   additionalInformation: {
     isEssentialAcaCoverage: false,
     facilityState: null,
     vaMedicalFacility: null,
-    wantsInitialVaContact: false,
-    sectionComplete: false
+    wantsInitialVaContact: false
   },
 
   demographicInformation: {
@@ -53,8 +50,7 @@ const blankVeteran = {
     isBlackOrAfricanAmerican: false,
     isNativeHawaiianOrOtherPacificIslander: false,
     isAsian: false,
-    isWhite: false,
-    sectionComplete: false
+    isWhite: false
   },
 
   veteranAddress: {
@@ -69,14 +65,12 @@ const blankVeteran = {
     email: null,
     emailConfirmation: null,
     homePhone: null,
-    mobilePhone: null,
-    sectionComplete: false
+    mobilePhone: null
   },
 
   financialDisclosure: {
     provideFinancialInfo: false,
-    understandsFinancialDisclosure: false,
-    sectionComplete: false
+    understandsFinancialDisclosure: false
   },
 
   spouseInformation: {
@@ -107,14 +101,12 @@ const blankVeteran = {
       state: null,
       zipcode: null,
     },
-    spousePhone: null,
-    sectionComplete: false
+    spousePhone: null
   },
 
   childInformation: {
     hasChildrenToReport: false,
-    children: [],
-    sectionComplete: false
+    children: []
   },
 
   annualIncome: {
@@ -124,23 +116,18 @@ const blankVeteran = {
     spouseGrossIncome: null,
     spouseNetIncome: null,
     spouseOtherIncome: null,
-    childrenGrossIncome: null,
-    childrenNetIncome: null,
-    childrenOtherIncome: null,
-    sectionComplete: false
+    children: []
   },
 
   deductibleExpenses: {
     deductibleMedicalExpenses: null,
     deductibleFuneralExpenses: null,
-    deductibleEducationExpenses: null,
-    sectionComplete: false
+    deductibleEducationExpenses: null
   },
 
   insuranceInformation: {
     isCoveredByHealthInsurance: false,
-    providers: [],
-    sectionComplete: false
+    providers: []
   },
 
   medicareMedicaid: {
@@ -150,8 +137,7 @@ const blankVeteran = {
       month: null,
       day: null,
       year: null
-    },
-    sectionComplete: false
+    }
   },
 
   serviceInformation: {
@@ -166,8 +152,7 @@ const blankVeteran = {
       day: null,
       year: null
     },
-    dischargeType: null,
-    sectionComplete: false
+    dischargeType: null
   },
 
   militaryAdditionalInfo: {
@@ -179,10 +164,17 @@ const blankVeteran = {
     vietnamService: false,
     exposedToRadiation: false,
     radiumTreatments: false,
-    campLejeune: false,
-    sectionComplete: false
+    campLejeune: false
   }
 };
+
+function createBlankChild() {
+  return {
+    childGrossIncome: null,
+    childNetIncome: null,
+    childOtherIncome: null
+  };
+}
 
 function veteran(state = blankVeteran, action) {
   let newState = undefined;
@@ -219,6 +211,18 @@ function veteran(state = blankVeteran, action) {
       }
       return newState;
     }
+
+    case CREATE_CHILD_INCOME_FIELDS:
+      newState = Object.assign({}, state);
+      // update children income from children info
+      newState.annualIncome.children.splice(newState.childInformation.children.length);
+      for (let i = 0; i < newState.childInformation.children.length; i++) {
+        if (newState.annualIncome.children[i] === undefined) {
+          newState.annualIncome.children[i] = createBlankChild();
+        }
+      }
+      Object.assign(pathToData(newState, action.path), initializeNullValues(pathToData(newState, action.path)));
+      return newState;
 
     default:
       return state;
