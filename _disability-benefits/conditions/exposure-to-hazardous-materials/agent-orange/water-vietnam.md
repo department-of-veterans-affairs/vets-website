@@ -58,7 +58,6 @@ You and your survivors
 
 <br>
 <hr>
-<br>
 
 ### How it works:
 
