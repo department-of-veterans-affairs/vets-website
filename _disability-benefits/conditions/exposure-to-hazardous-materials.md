@@ -1,6 +1,37 @@
 ---
 title: Exposure to Hazardous Materials
 template: 2-detailed-landing
+relatedlinks:
+  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/
+    title: Agent Orange
+    description: The U.S. military sprayed millions of gallons of Agent Orange and other herbicides on trees and vegetation during the Vietnam War. Several decades later, concerns about the health effects from these chemicals continue.
+  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/asbestos/
+    title: Asbestos
+    description: Several military occupational specialties have a risk of exposure to asbestos. 
+  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/
+    title: Birth Defects/Spina Bifida
+    description: Children of Veterans who served in South Vietnam or the Republic of Korea during specific periods of time may have birth defects, including spina bifida.
+  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/
+    title: Contaminated Drinking Water at Camp Lejeune
+    description: Chemicals in the camp’s water from 1953 to 1988 now pose health risks.
+  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/
+    title: Gulf War Illness
+    description: Certain illnesses, disorders, and conditions are associated with serving in Southwest Asia.
+  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/ionizing-radiation/
+    title: Ionizing Radiation
+    description: Exposure risks include nuclear testing, having been a POW in Japan, working with x-rays or at a reactor, and more.
+  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/
+    title: Mustard Gas
+    description: You may have been exposed to mustard gas during field or chamber testing, during service on the battlefield in World War I, at the German bombing of Bari, Italy, in World War II, and in certain other situations.
+  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/
+    title: Project 112/SHAD
+    description: Your participation in Project 112/SHAD from 1963 to 1974 may have resulted in chemical testing exposure.</span>
+  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/radiogenic-risk-activities/
+    title: Radiogenic Risk Activities
+    description: You may have been exposed to radiation during World War II–era service or imprisonment in Japan, nuclear weapons testing, a gaseous diffusion plant assignment, or other situations.
+  - url: /disability-benefits/conditions/exposure-to-hazardous-materials/specific-environmental-hazards/
+    title: Specific Environmental Hazards
+    description: Exposure to environmental hazards may include particulate matter and large burn pits in Iraq, Afghanistan, and Djibouti; contaminated drinking water at Camp Lejeune, North Carolina; and pollutants from a waste incinerator near Atsugi, Japan.
 ---
 
 <div class="main" role="main" markdown="0">
@@ -22,101 +53,4 @@ You may be eligible for disability compensation if you were exposed to certain c
 
 </div>
 </div>
-</div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-
-      <ul class="va-nav-category">
-        <li>
-          <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/">
-            <h5>Agent Orange</h5>
-            <span>
-            The U.S. military sprayed millions of gallons of Agent Orange and other herbicides on trees and vegetation during the Vietnam War. Several decades later, concerns about the health effects from these chemicals continue.
-            </span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/asbestos/">
-          <h5>Asbestos</h5>
-          <span>Several military occupational specialties have a risk of exposure to asbestos.</span>
-
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/">
-          <h5>Birth Defects/Spina Bifida</h5>
-<span>Children of Veterans who served in South Vietnam or the Republic of Korea during specific periods of time may have birth defects, including spina bifida.</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/">
-          <h5>Contaminated Drinking Water at Camp Lejeune</h5>
- <span>Chemicals in the camp’s water from 1953 to 1988 now pose health risks.</span>
-
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/">
-          <h5>Gulf War Illness</h5>
-          <span>
-            Certain illnesses, disorders, and conditions are associated with serving in Southwest Asia.
-          </span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/ionizing-radiation/">
-          <h5>Ionizing Radiation</h5>
-          <span>
-            Exposure risks include nuclear testing, having been a POW in Japan, working with x-rays or at a reactor, and more.
-          </span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/">
-            <h5>Mustard Gas</h5>
-            <span>You may have been exposed to mustard gas during field or chamber testing, during service on the battlefield in World War I, at the German bombing of Bari, Italy, in World War II, and in certain other situations.</span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/">
-          <h5>Project 112/SHAD</h5>
-          <span>Your participation in Project 112/SHAD from 1963 to 1974 may have resulted in chemical testing exposure.</span>
-
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/radiogenic-risk-activities/">
-          <h5>Radiogenic Risk Activities</h5>
-          <span>
-           You may have been exposed to radiation during World War II–era service or imprisonment in Japan, nuclear weapons testing, a gaseous diffusion plant assignment, or other situations.
-          </span>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/conditions/exposure-to-hazardous-materials/specific-environmental-hazards/">
-          <h5>Specific Environmental Hazards</h5>
-          <span>
-            Exposure to environmental hazards may include particulate matter and large burn pits in Iraq, Afghanistan, and Djibouti; contaminated drinking water at Camp Lejeune, North Carolina; and pollutants from a waste incinerator near Atsugi, Japan.
-          </span>
-          </a>
-        </li>
-
-      </ul>
-    </div>
-  </div>
-</div>
-
-</div>
-
 </div>
