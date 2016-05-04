@@ -57,8 +57,9 @@ You served on ships or boats that were part of the Mobile Riverine Force, Inshor
 
 **Note:** Even if your vessel is not included in the Mobile Riverine Force, Inshore Fire Support Division 93, or the above designations, it may still appear in VA’s alphabetized list of ships that were exposed to Agent Orange. Check to [see if your ship was exposed](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp).
 
+<br>
 
-#### Who is covered
+### Who is covered
 
 You and your dependents
 
@@ -66,13 +67,15 @@ You and your dependents
 
 <div markdown="1">
 
-#### Available benefits
+### Available benefits
 
 - Compensation
 - Health care
 - An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
-#### How it works
+<hr>
+
+### How it works
 
 If you served on one of the vessels listed as exposed to Agent Orange, and have one or more of [these diseases](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/), VA presumes that your disease is related to Agent Orange exposure in service.
 
