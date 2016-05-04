@@ -25,7 +25,7 @@ relatedlinks:
     description: You may have been exposed to mustard gas during field or chamber testing, during service on the battlefield in World War I, at the German bombing of Bari, Italy, in World War II, and in certain other situations.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/
     title: Project 112/SHAD
-    description: Your participation in Project 112/SHAD from 1963 to 1974 may have resulted in chemical testing exposure.</span>
+    description: Your participation in Project 112/SHAD from 1963 to 1974 may have resulted in chemical testing exposure.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/radiogenic-risk-activities/
     title: Radiogenic Risk Activities
     description: You may have been exposed to radiation during World War II–era service or imprisonment in Japan, nuclear weapons testing, a gaseous diffusion plant assignment, or other situations.
