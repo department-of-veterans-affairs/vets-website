@@ -1,0 +1,19 @@
+FROM node:4
+MAINTAINER Albert J. Wong <albert.wong@va.gov>
+
+# Setup basic environment.
+ENV LC_ALL="C.UTF-8"
+
+# Shift bundle install out of source tree.
+RUN mkdir -p /npm/node_modules
+COPY package.json npm-shrinkwrap.json /npm/
+ENV NODE_PATH=/npm/node_modules
+WORKDIR /npm
+RUN npm -q install
+
+# Mount the source code.
+RUN mkdir /mnt/src
+WORKDIR /mnt/src
+
+EXPOSE 4000
+CMD npm run webpack -- --watch
