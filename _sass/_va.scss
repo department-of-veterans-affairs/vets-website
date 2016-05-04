@@ -552,6 +552,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
   h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
   p {color: rgba(255,255,255,1);}
   a {color: $color-white;}
+  [href^=http] {background-image: url(/assets/images/icons/icon-exit-white.png);}
   ul li {list-style: square;}
 }
 
