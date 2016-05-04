@@ -38,7 +38,7 @@ There are many government and private resources available to you as you make thi
 
 - Private nonprofit organizations that have been thoroughly vetted can offer you advice, share connections, and help place you into a good job at no cost to you. The [Call of Duty Endowment](http://www.callofdutyendowment.org/partners) endorses groups that do a particularly good job of this.
 
-- [Veterans Economic Community Initiative](https://employment.vets.gov/employment/job-seekers/veci/) (VECI) liaisons can help you connect with local business leaders, schools, and nonprofit groups to maximize your education and economic opportunities.
+- [Veterans Economic Community Initiative](/employment/job-seekers/veci/) (VECI) liaisons can help you connect with local business leaders, schools, and nonprofit groups to maximize your education and economic opportunities.
 
 #### Service-Disabled Veterans
 - VA's [Education and Career Counseling](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp) program includes career counseling, benefits coaching, individual support, and academic counseling.
