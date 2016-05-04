@@ -50,7 +50,9 @@ Yes, if:
 - Health care
 - [Agent Orange Registry health exam]( http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
 
+<br>
 <hr>
+<br>
 
 ### How it works
 
