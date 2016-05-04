@@ -51,7 +51,9 @@ You and your survivors
 - Health care
 - An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
+<br>
 <hr>
+<br>
 
 ### How it works
 
