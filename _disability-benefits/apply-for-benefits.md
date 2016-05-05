@@ -191,15 +191,11 @@ If you disagree with the decision, you may appeal it. The decision letter contai
 </div>
 </div>
 
-<div class="section start" markdown="0">
-<div class="action" markdown="0">
+<div class="va-action-bar--footer va-action-bar--start" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="0">
-
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
-
-</div>
-</div>
+  <div class="small-12 columns" markdown="0">
+    <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
+  </div>
 </div>
 </div>
 
