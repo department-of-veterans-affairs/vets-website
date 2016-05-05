@@ -73,7 +73,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 ##### Build a résumé and public profile
 
 - Build your [résumé and public profile](/employment/job-seekers/create-resume) so employers can find you.
-- Get a free [LinkedIn Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
+- Get a free [LinkedIn&#8482; Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
 
 </div>
 
@@ -102,7 +102,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 ##### Search online job banks
 
 - Search the [Veterans Employment Center](/employment/job-seekers/search_jobs) for job openings.
-- Search for connections and job listings on [LinkedIn](https://veterans.linkedin.com/) as well as other online job boards. 
+- Search for connections and job listings on [LinkedIn&#8482;](https://veterans.linkedin.com/) as well as other online job boards. 
 </div>
 
 </li>
