@@ -79,7 +79,7 @@ Both of these can be ordered through the [National Archives](https://www.archive
 #### 1 Month Before Leaving Active Duty
 
 - Complete TAP GPS (can be completed earlier).
-- Prepare for final job interviews.
+- Prepare for final round of job interviews.
 </div>
 </li>
 </ol>
