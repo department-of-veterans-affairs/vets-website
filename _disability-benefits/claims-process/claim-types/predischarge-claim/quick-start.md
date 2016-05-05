@@ -4,7 +4,7 @@ title: Quick Start
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
@@ -15,8 +15,7 @@ title: Quick Start
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="0">
-
+<div class="small-12 columns usa-content" markdown="0">
 <div markdown="1">
 
 If you are in predischarge status between 1 and 59 days before separation, retirement, or release from active duty or demobilization, Quick Start allows you to submit a claim for disability compensation.
@@ -33,7 +32,7 @@ Yes, if:
 -	Your separation date is 1 to 59 days away.
 -	You are full-time Active Duty, National Guard, or Reserves.
 
-#### Who is covered
+### Who is covered
 
 You
 
@@ -41,21 +40,18 @@ You
 
 <div markdown="1">
 
-#### Available benefits
+### Available benefits
 
 Expedited status decision on your disability claim
 
-#### How it works
+<hr>
+
+### How it works
 
 By submitting your disability compensation claim before discharge, you can receive VA disability benefits as soon as possible after separation, retirement, or demobilization.
 
 You must submit your service-treatment records to VA when you submit your claim, and you must complete all phases of the VA/DOD medical separation examination process at your point of separation and before you are released from the military.
-
-
-
 </div>
 </div>
 </div>
-
-
 </div>

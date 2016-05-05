@@ -6,7 +6,7 @@ template: action-page
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
 <div class="row">
 <div class="small-12 columns">
 <a class="usa-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
@@ -17,7 +17,7 @@ template: action-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 medium-8 columns" markdown="0">
+<div class="small-12 medium-8 columns usa-content" markdown="0">
 
 <div markdown="1">
 
@@ -27,7 +27,7 @@ Contact your local [VA Environmental Health Coordinator](http://www.publichealth
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="call-out usa-content" markdown="1">
 
 ### Are you eligible for an Agent Orange Registry health exam?
 
@@ -40,14 +40,15 @@ Yes, if you served in
 - Thailand (U.S. Army Veterans) as perimeter security personnel on RTAF bases in Thailand anytime between February 28, 1961, and May 7, 1975.
 - Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975. You must have been a member of a military police (MP) unit or assigned a military occupational specialty with duty placing you at or near the base perimeter.
 - Other locations but were exposed to herbicides during a military operation or as a result of testing, transporting, or spraying herbicides for military purposes. Learn about [herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp).
-</div>
-<div class="call-out" markdown="1">
+
+<br>
+
 ### Who is covered
 
 You
 </div>
 
-<div class="call-out" markdown="1">
+<div class="usa-content" markdown="1">
 ### How it works
 
 Contact your VA Environmental Health Coordinator to [make an appointment for your exam](http://www.publichealth.va.gov/exposures/coordinators.asp).
