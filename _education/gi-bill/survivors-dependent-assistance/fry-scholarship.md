@@ -53,7 +53,6 @@ Surviving spouses are eligible to receive [Dependency and Indemnity Compensation
 **Exception:**<br>
 Spouses who remarry will lose their eligibility for this benefit.
 
-
 <div class="row" markdown="0">
 <div class="small-12 columns divider margin top usa-content"  markdown="1">
 
