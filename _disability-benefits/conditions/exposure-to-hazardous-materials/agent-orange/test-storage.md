@@ -48,7 +48,9 @@ You and your dependents or survivors
 - Health care
 - An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
+<br>
 <hr>
+<br>
 
 ### How it works
 You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for [diseases](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/) that VA presumes are related to Agent Orange exposure.
