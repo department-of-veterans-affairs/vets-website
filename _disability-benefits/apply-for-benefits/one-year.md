@@ -11,7 +11,7 @@ relatedlinks:
   - url: /disability-benefits/apply-for-benefits/help/
     title: How do I get help filing a claim?
     description: ""
-  - url: /disability-benefits/apply-for-benefits/active-duty/
+  - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
     title: How do I file while on active duty?
     description: ""
   - url: /disability-benefits/claims-process/date/
@@ -48,6 +48,8 @@ Yes, if:
 -	The disease is listed in [Title 38, Code of Federal Regulation, 3.09(a)](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
 -	You were discharged under conditions other than dishonorable.
 
+<br>
+
 ### Who is covered
 
 You
@@ -59,6 +61,7 @@ You
 -	Health care
 -	Disability
 
+<br>
 <hr>
 
 ### How it works
@@ -66,7 +69,8 @@ You
 -	The evidence must show that the disease is at least 10% disabling. For example, you may be taking medication for hypertension.
 -	The evidence must show that the disease appeared within one year after separation from service.
 
-**Exception:** The requirement that the disease must have appeared within one year after separation from service does not apply to the following:
+**Exception:**<br>
+The requirement that the disease must have appeared within one year after separation from service does not apply to the following:
 
 -	Hansen’s disease: within three years after separation
 -	Tuberculosis: within three years after separation
