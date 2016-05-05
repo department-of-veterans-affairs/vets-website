@@ -28,6 +28,8 @@ Yes, if:
 
 You are the child or surviving spouse of an active-duty Servicemember who died in the line of duty on or after September 11, 2001.
 
+<br>
+
 ### Who is covered
 
 Dependents and survivors
@@ -48,23 +50,53 @@ If you are a dependent and your parent died in the line of duty before August 1,
 
 Surviving spouses are eligible to receive [Dependency and Indemnity Compensation](http://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp) (DIC) while using the Fry Scholarship. Children over 18 who receive DIC benefits will need to give up those payments when they start to use the Fry Scholarship.
 
-**Exception:** Spouses who remarry will lose their eligibility for this benefit.
+**Exception:**<br>
+Spouses who remarry will lose their eligibility for this benefit.
 
-<hr>
 
-### How it works
+<div class="row" markdown="0">
+<div class="small-12 columns divider margin top usa-content"  markdown="1">
 
-Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to help you choose a school. Make sure that your selected program is approved for VA training.
+### What are the steps?
 
-Fill out [VA Form 22-5490 (Dependents' Application for VA Education Benefits)](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490). Send it to the VA regional office that has jurisdiction over the state where you intend to go to school. If you are not yet legally an adult, your parent or guardian must sign the application. When you apply, you must choose between the Fry Scholarship or the Survivors' and Dependents' Educational Assistance program. Once you make that choice, you can't change it.
+<ol class="process">
+<li class="step one wow fadeIn animated">
+<div markdown="1">
+###### Choose school
 
-If you have already started your educational program, ask a certifying official from your school or your employer to request VA Form 22-1999 (Enrollment Certification) from their VA representative, complete it, and submit it online using VA-ONCE.
+- Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to help you choose a school. 
+- Make sure that your selected program is approved for VA training.
+</div>
+</li>
+
+<li class="step two wow fadeIn animated">
+<div markdown="1">
+###### Fill out form
+
+- Fill out [VA Form 22-5490 (Dependents' Application for VA Education Benefits)](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490). Send it to the VA regional office that has jurisdiction over the state where you intend to go to school. 
+- If you are not yet legally an adult, your parent or guardian must sign the application.
+- If you have already started your educational program, ask a certifying official from your school or your employer to request VA Form 22-1999 (Enrollment Certification) from their VA representative, complete it, and submit it online using VA-ONCE.
+</div>
+</li>
+
+<li class="step last three wow fadeIn animated">
+<div markdown="1">
+###### Choose program
+
+- When you apply, you must choose between the Fry Scholarship or the Survivors' and Dependents' Educational Assistance program. Once you make that choice, you can't change it.
+</div>
+</li>
+
+</ol>
+
+</div>
 </div>
 
 </div>
-</div>
-</div>
-</div>
 
+</div>
+</div>
+</div>
+</div>
 
 </div>
