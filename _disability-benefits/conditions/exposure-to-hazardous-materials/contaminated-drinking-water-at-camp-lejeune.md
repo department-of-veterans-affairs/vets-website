@@ -26,26 +26,32 @@ template: 6-info-page
 If you served at Camp Lejeune, North Carolina, for 30 days or more from August 1953 through December 1987, you and your family may have been exposed to drinking water contaminated with chemical and organic compounds. There are [15 conditions](http://www.publichealth.va.gov/exposures/camp-lejeune/index.asp) linked to this exposure that qualify you for free VA health care.
 </div>
 </div>
-<div class="small-12 columns">
-<div class="call-out" markdown="1">
+
+<div class="call-out usa-content" markdown="1">
 ### Are you eligible for disability benefits?
 
 Yes, if:
 
 -	You served at Camp Lejeune during the period of contamination (August 1953 through December 1987).
 -	You have a current disease and a medical opinion that states the disease is a result of exposure to the contaminated water at Camp Lejeune.
-</div>
-<div markdown="1">
-#### Who is covered
+
+<br>
+
+### Who is covered
 
 You and your family
+</div>
+<div class="small-12 medium-8 columns" markdown="1">
 
-#### Available benefits
+### Available benefits
 
 - Compensation
 - Health care
 
-#### How it works
+<br>
+<hr>
+
+### How it works
 
 Claims are evaluated on a case-by-case basis, and additional evidence may be necessary to support your claim. VA may require you to have a medical exam to supplement the existing records.
 
