@@ -48,4 +48,9 @@ A Veteran was treated several times during service for pain in his right elbow. 
 </div>
 </div>
 </div>
+</div>eated several times during service for pain in his right elbow. He filed a claim for service connection, but his claim wasn’t granted because when the Veteran was examined the VA doctor didn’t find a problem. Two years later, the Veteran’s elbow was x-rayed by his private physician. His doctor found arthritis. The Veteran applied to reopen his VA claim, sending in his private doctor’s exam results -- new and material evidence. Because the recent exam suggested his current elbow pain was an after-effect of his in-service elbow problems, VA reopened his claim.
+
+</div>
+</div>
+</div>
 </div>
