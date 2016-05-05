@@ -2,7 +2,13 @@
 
 <div id="content" class="interior {{ page.id }}">
   {% include breadcrumbs.html %}
-  {{ content }}
+  
+  {% if page.template == 'L2-section-landing' %}
+    {% include L2-section-landing.html %}
+  {% else %}
+    {{ content }}
+  {% endif %}
+  
   {% include related-links.html %}
 </div>
 {% include footer.html %}
