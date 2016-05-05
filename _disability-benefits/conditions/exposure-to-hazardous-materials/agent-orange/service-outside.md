@@ -68,7 +68,9 @@ You must prove you were exposed to Agent Orange during your military service to 
 **Exception:**<br>
 If you’re a Blue Water Veteran with [non-Hodgkin’s lymphoma](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/), you do not need to prove where you were exposed. VA recognizes non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
 
-Learn more about [Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
+### Learn more
+
+[Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
 
 </div>
 </div>
