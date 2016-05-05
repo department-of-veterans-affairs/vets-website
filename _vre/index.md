@@ -7,20 +7,23 @@ template: 1-topic-landing
 
 
 <div class="main" role="main">
-  <div class="section one">
-    <div class="primary">
-      <div class="row">
-        <div class="small-12 columns usa-content" markdown="0">
-          <h3> </h3>
-          <p>If you have a service-connected disability that limits your ability to work or prevents you from working, VA’s Vocational Rehabilitation and Employment (VR&amp;E) program can help you and, in some cases, your family members, explore career options and receive additional training. </p>
-        </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="small-12 columns">
-        <div class="section-nav">
-          <ul class="small-block-grid-1 medium-block-grid-4 cards small">
+<div class="section one">
+
+<div class="primary">
+<div class="row">
+<div class="small-12 columns usa-content" markdown="1">
+
+If you have a service-connected disability that limits your ability to work or prevents you from working, VA’s Vocational Rehabilitation and Employment (VR&amp;E) program can help you and, in some cases, your family members, explore career options and receive additional training.
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="small-12 columns">
+<div class="section-nav">
+<ul class="small-block-grid-1 medium-block-grid-3 cards small">
+
             <li>
               <a href="service-disabled/">
                 <h4 class="alternate">Service Disabled</h4>
