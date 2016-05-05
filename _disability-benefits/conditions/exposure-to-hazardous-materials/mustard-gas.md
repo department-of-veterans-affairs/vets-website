@@ -82,6 +82,4 @@ Find an [accredited representative](/disability-benefits/apply-for-benefits/help
 </div>
 </div>
 
-
-
 </div>
