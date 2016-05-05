@@ -6,7 +6,7 @@ template: 4-action-page
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
@@ -17,7 +17,7 @@ template: 4-action-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 medium-8 columns" markdown="0">
+<div class="small-12 medium-8 columns usa-content" markdown="0">
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
@@ -40,6 +40,8 @@ Yes, if:
 - Your military record shows that you were aboard one of the [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp) that operated in Vietnam, or
 - You came ashore.
 
+<br>
+
 ### Who is covered
 
 You and your survivors
@@ -48,19 +50,24 @@ You and your survivors
 
 <div markdown="1">
 
-#### Available benefits:
+### Available benefits:
 
 - Compensation
 - Health care
 - An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
-#### How it works:
+<br>
+<hr>
+<br>
+
+### How it works:
 
 You must prove you were aboard one of the U.S. Navy and Coast Guard ships that entered Vietnam’s inland waterways. If your ship docked or landed crewmembers, you must be able to prove that you went ashore.
 
 If you did not go ashore or serve aboard a ship that operated on the inland waterways of Vietnam, you must prove that you were otherwise exposed to Agent Orange during your military service in order to receive disability compensation for diseases related to this exposure. These claims are decided on a case-by-case basis.
 
-**Exception:** If you’re a Blue Water Veteran with [non-Hodgkin’s lymphoma](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/), you do not need to prove where you were exposed. VA recognizes non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
+**Exception:**<br>
+If you’re a Blue Water Veteran with [non-Hodgkin’s lymphoma](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/), you do not need to prove where you were exposed. VA recognizes non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
 
 </div>
 </div>
