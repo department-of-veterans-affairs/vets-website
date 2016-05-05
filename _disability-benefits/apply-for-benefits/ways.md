@@ -8,7 +8,7 @@ relatedlinks:
   - url: /disability-benefits/apply-for-benefits/help/
     title: How do I get help filing a claim?
     description: ""
-  - url: /disability-benefits/apply-for-benefits/active-duty/
+  - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
     title: How do I file while on active duty?
     description: ""
   - url: /disability-benefits/apply-for-benefits/one-year/
