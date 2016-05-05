@@ -3,20 +3,20 @@ title: Programs
 template: 2-detailed-landing
 relatedlinks:
   - url: /vre/service-disabled/existing-skills/
-    title: Want to follow a career path that uses your existing skillset?
-    description: ""
+    title: Job-Search Counseling and Rehabilitation 
+    description: "Continue on your current career path with the help of our counselors."
   - url: /vre/service-disabled/new-skills/
-    title: Do you need new skills for a career goal?
-    description: ""
+    title: Develop New Job Skills
+    description: "You may qualify for vocational training."
   - url: /vre/service-disabled/start-business/
-    title: Do you want to start your own business?
-    description: ""
+    title: Consider Whether Self-employment Is for You
+    description: "If you are a Veteran with a service-connected disability, VA can help you start your own business. "
   - url: /vre/service-disabled/independent-living/
-    title: Do you need assistance to live independently?
-    description: ""
+    title: Independent-Living Services
+    description: "Learn about services that can help you live more independently with your service-connected disability."
   - url: /vre/service-disabled/return-job/
-    title: Want to return to the job you held before mobilization?
-    description: ""
+    title: Return to the Job You Held Before Mobilization
+    description: "You have the right to return to the civilian job you held before activating."
 ---
 
 <div class="main" role="main" markdown="0">
