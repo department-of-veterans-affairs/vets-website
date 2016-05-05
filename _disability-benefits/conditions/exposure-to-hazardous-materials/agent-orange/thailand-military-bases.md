@@ -6,7 +6,7 @@ template: 4-action-page
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
@@ -51,7 +51,9 @@ You, your dependents and survivors
 - Compensation
 - An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
+<br>
 <hr>
+<br>
 
 ### How it works
 To receive benefits for [diseases associated with Agent Orange exposure](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/) based on Thailand service, VA requires documents indicating daily work duties, performance evaluation reports, or other credible evidence showing the required perimeter security duty (for example, as a dog handler, a member of a security squadron, a member of a military police unit, or other related duties indicating regular security activity on a fenced-in perimeter).
