@@ -34,16 +34,21 @@ relatedlinks:
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
+<div class="small-12 columns" markdown="1">    
 
 You can file a reopened claim for a benefit that VA previously denied if a year has passed since your claim was denied and you did not appeal that decision. However, VA cannot reopen a claim without new and material evidence.
 
-**&quot;New evidence&quot;** is information about the claimed benefit that the VA has not previously considered.
+&quot;New evidence&quot; is information about the claimed benefit that the VA has not previously considered.
 
-**&quot;Material evidence&quot;** is information that is relevant to and has direct bearing on the specific claimed benefit.
+&quot;Material evidence&quot; is information that is relevant to and has direct bearing on the specific claimed benefit.
 
 **Example:**<br>
 A Veteran was treated several times during service for pain in his right elbow. He filed a claim for service connection, but his claim wasn’t granted because when the Veteran was examined the VA doctor didn’t find a problem. Two years later, the Veteran’s elbow was x-rayed by his private physician. His doctor found arthritis. The Veteran applied to reopen his VA claim, sending in his private doctor’s exam results -- new and material evidence. Because the recent exam suggested his current elbow pain was an after-effect of his in-service elbow problems, VA reopened his claim.
+
+</div>
+</div>
+</div>
+</div>eated several times during service for pain in his right elbow. He filed a claim for service connection, but his claim wasn’t granted because when the Veteran was examined the VA doctor didn’t find a problem. Two years later, the Veteran’s elbow was x-rayed by his private physician. His doctor found arthritis. The Veteran applied to reopen his VA claim, sending in his private doctor’s exam results -- new and material evidence. Because the recent exam suggested his current elbow pain was an after-effect of his in-service elbow problems, VA reopened his claim.
 
 </div>
 </div>
