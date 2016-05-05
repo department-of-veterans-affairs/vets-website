@@ -8,14 +8,13 @@ concurrence: incomplete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns">
+<div class="small-12 columns usa-content">
 
 <div markdown="1">
 
 Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of the body’s immune system that helps to fight infection and disease.
 
-Signs of non-Hodgkin’s lymphoma include:
-
+##### Signs of non-Hodgkin’s lymphoma include:
 - Swollen, painless lymph nodes in the neck, armpit, or groin
 - Fever
 - Night sweats
@@ -24,7 +23,6 @@ Signs of non-Hodgkin’s lymphoma include:
 - Abdominal pain or swelling
 - Chest pain or trouble breathing
 - Itchy skin
-
 </div>
 
 <div class="call-out" markdown="1">
@@ -37,7 +35,8 @@ Yes, if:
 - You were exposed to Agent Orange during military service.
 - You served in Vietnam or in the waters off Vietnam during the Vietnam War Era, in the Korean Demilitarized Zone, or in another area where Agent Orange was stored, tested or sprayed.
 
-#### Who is covered
+
+### Who is covered
 
  You, your dependents and survivors
 
@@ -51,13 +50,17 @@ Yes, if:
 - Health care
 - [Agent Orange Registry health exam]( http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
 
+<br>
+<hr>
+<br>
+
 ### How it works
 
 VA considers non-Hodgkin’s lymphoma to be related to exposure to Agent Orange. When you apply for benefits, VA will forego the normal requirement that you prove your illness is related to Agent Orange or that it began during—or became worse because of—your military service.
 
 Learn more about [benefits related to Agent Orange exposure](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
 
-**Need help determining exposure?**
+#### Need help determining exposure?
 
 VA will help you determine exposure to Agent Orange or other herbicides during military service after you [file a claim for compensation benefits](https://www.vets.gov/disability-benefits/claims-process/).
 Learn more about [Agent Orange exposure locations](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).

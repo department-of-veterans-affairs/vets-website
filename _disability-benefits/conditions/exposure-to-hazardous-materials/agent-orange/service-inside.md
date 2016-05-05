@@ -6,7 +6,7 @@ template: 4-action-page
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
@@ -17,7 +17,7 @@ template: 4-action-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 medium-8 columns" markdown="0">
+<div class="small-12 medium-8 columns usa-content" markdown="0">
 
 <dl class="panel-list plain">
 <dt>{{ page.title }}</dt>
@@ -36,21 +36,26 @@ Yes, if:
 
 You are ill with one or more of [these diseases](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
 
-#### Who is covered
+<br>
+
+### Who is covered
 You and your survivors
 
 </div>
 
 <div markdown="1">
 
-#### Available benefits
+### Available benefits
 
 - Compensation
 - Health care
 - An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
+<br>
+<hr>
+<br>
 
-#### How it works
+### How it works
 
 Check the list of [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp) that operated in Vietnam to confirm whether your service aboard a ship allows VA to concede that you were exposed to Agent Orange.
 
