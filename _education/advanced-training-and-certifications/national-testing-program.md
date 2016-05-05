@@ -55,7 +55,7 @@ Reimbursement for testing fees, including:
 
 #### VA has approved the following tests for reimbursement:
 
-- SAT (Scholastic Assessment Test)
+- SAT (formerly "Scholastic Assessment Test")
 - LSAT (Law School Admission Test)
 - GRE (Graduate Record Examination)
 - GMAT (Graduate Management Admission Test)
