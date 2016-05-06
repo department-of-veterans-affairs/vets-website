@@ -2,6 +2,19 @@
 title: One-on-One Assistance
 concurrence: complete
 template: 1-topic-landing
+relatedlinks:
+ - url: /employment/job-seekers/skills-translator
+   title: Military Skills Translator
+ - url: /employment/job-seekers/create-resume
+   title: Résumé Builder
+ - url: /employment/job-seekers/alternative/
+   title: Alternative Ways to Start Your Career 
+ - url: /employment/job-seekers/search_jobs
+   title: Search the Veterans Job Bank
+ - url: /employment/job-seekers/interest-profiler/          
+   title: Interest Profiler
+ - url: /employment/job-seekers/military-transcripts/
+   title: Military Transcripts
 ---
 
 <div class="main" role="main" markdown="0">
@@ -38,7 +51,7 @@ There are many government and private resources available to you as you make thi
 
 - Private nonprofit organizations that have been thoroughly vetted can offer you advice, share connections, and help place you into a good job at no cost to you. The [Call of Duty Endowment](http://www.callofdutyendowment.org/partners) endorses groups that do a particularly good job of this.
 
-- [Veterans Economic Community Initiative](https://employment.vets.gov/employment/job-seekers/veci/) (VECI) liaisons can help you connect with local business leaders, schools, and nonprofit groups to maximize your education and economic opportunities.
+- [Veterans Economic Community Initiative](/employment/job-seekers/veci/) (VECI) liaisons can help you connect with local business leaders, schools, and nonprofit groups to maximize your education and economic opportunities.
 
 #### Service-Disabled Veterans
 - VA's [Education and Career Counseling](http://www.benefits.va.gov/vocrehab/edu_voc_counseling.asp) program includes career counseling, benefits coaching, individual support, and academic counseling.
@@ -56,65 +69,4 @@ For information on all available VA benefits, contact VA career-and-training spe
 
 </div>
 </div>
-</div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-        <li>
-          <a href="/employment/job-seekers/skills-translator">
-            <h5>
-              Military Skills Translator
-            </h5>
-          </a>
-        </li>  
-
-        <li>
-          <a href="/employment/job-seekers/create-resume">
-            <h5>
-              Résumé Builder
-            </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/alternative/">
-            <h5>
-              Alternative Ways to Start Your Career 
-            </h5>
-          </a>
-        </li>  
-
-        <li>
-          <a href="/employment/job-seekers/search_jobs">
-            <h5>
-              Search the Veterans Job Bank
-            </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/interest-profiler/">          
-            <h5>
-              Interest Profiler
-            </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/military-transcripts/">
-            <h5>
-              Military Transcripts
-            </h5>
-          </a>
-        </li>    
-
-        </ul>
-
-      </div>
-    </div>  
-  </div>
-
 </div>

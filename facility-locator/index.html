@@ -98,10 +98,11 @@ html, body {
 }
 
 #facilitiesList li a {
+    background-position: 96% 50%;
     border-radius: .15em;
     display: inline-block;
     border: 2px solid #ccc;
-    padding: .1em .5em;
+    padding: .1em 1.5em .1em .5em;
     text-decoration: none;
     margin: 0 0 .5em 0;
 }
@@ -214,8 +215,8 @@ button.searchButton {
         </select>
       </div>
       <div class="small-12 medium-9 columns text-input nowrap">
-        <input id="pac-input" type="text" placeholder="Search for a location"><button class="searchButton">Search</button>
-        <button class="js-simple-tooltip" data-simpletooltip-text="Search by ZIP Code, city, state, U.S. territory, or address">?</button>
+        <label for="pac-input" class="sr-only">Search by location</label>
+        <input id="pac-input" type="text" placeholder="Enter ZIP code or city, state"><button class="searchButton">Search</button>
       </div>
     </div>
   </div>

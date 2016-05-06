@@ -2,11 +2,23 @@
 title: Get Help Filing a Claim
 concurrence: incomplete
 template: 6-info-page
+relatedlinks: 
+  - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
+    title: What is the fastest way to file a claim?
+  - url: /disability-benefits/apply-for-benefits/ways/
+    title: What are the different ways I can file a claim?
+  - url: /disability-benefits/apply-for-benefits/active-duty/
+    title: How do I file while on active duty?
+  - url: /disability-benefits/apply-for-benefits/one-year/
+    title: How do I file for disabilities that appear within one year after discharge?
+  - url: /disability-benefits/claims-process/date/
+    title: Effective date of disability
+
 ---
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
@@ -17,28 +29,25 @@ template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns">
-
-
-
-<div markdown="1">
-
-### Accredited Representatives
+<div class="small-12 columns usa-content" markdown="1">
 
 When filing a disability claim, it may help to work with an accredited representative who is familiar with the process and who VA considers capable of assisting you with VA-related affairs.
 
 Most accredited representatives work for veterans service organizations (VSOs), which are private nonprofit groups that advocate on behalf of Veterans, Servicemembers, dependents, and survivors. They may also work for state or county governments.
+</div>
 
+<div class="call-out usa-content" markdown="1">
 
-The accreditation process includes the following:
+### The accreditation process includes the following:
 
 - An examination
 - A background investigation
 - Continuing education requirements to ensure representatives are providing the most up-to-date information
 
 Recognized organizations and individuals can legally represent a Veteran, Servicemember, dependent, or survivor before VA. Non-recognized organizations and individuals can provide information but cannot be representatives.
-
-#### What is the role of an accredited representative?
+</div>
+<div class="small-12 columns usa-content" markdown="1">
+### What is the role of an accredited representative?
 
 Accredited representatives are trained to help you understand and apply for any VA benefits you may be entitled to, including:
 
@@ -57,7 +66,9 @@ Additionally, accredited representatives can help you gather evidence and can su
 
 Many VSOs provide their services free of charge, though they may request reimbursement for unusual expenses. Unlike VSOs, VA-accredited claims agents and attorneys may charge for their services. If you believe you were charged an unreasonable fee by a claims agent or attorney, see How to Challenge a Fee.
 
-#### How do I find a representative?
+<hr>
+
+### How do I find a representative?
 
 - You can find a local representative, including a recognized VSO, an attorney, or a claims agent, by state/territory, zip code, or the organization’s name online using eBenefits.
 - To find a VSO office located in or near your local regional benefit office, use our directory of VSOs.
@@ -75,39 +86,4 @@ There are two ways to do this:
 </div>
 </div>
 </div>
-</div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-      <ul class="va-nav-category">
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
-            <h5>What is the fastest way to file a claim?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/apply-for-benefits/ways/">
-            <h5>What are the different ways I can file a claim?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/apply-for-benefits/active-duty/">
-            <h5>How do I file while on active duty?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/apply-for-benefits/one-year/">
-            <h5>How do I file for disabilities that appear within one year after discharge?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/claims-process/date/">
-          <h5>Effective date of disability</h5>
-          <span></span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
 </div>

@@ -6,7 +6,7 @@ template: 6-info-page
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
@@ -17,10 +17,11 @@ template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
 If you are a Servicemember with a disability, you may begin your claim for compensation 60 to 180 days before separation, retirement, or release from active duty or demobilization. BDD helps you receive your VA disability benefits sooner.
 
+<div class="call-out" markdown="1">
 ### Are you eligible for this program?
 
 Yes, if:
@@ -30,9 +31,14 @@ Yes, if:
 
 ### Who is covered
 You
+</div>
+
+<div class="small-12 columns usa-content" markdown="1">
 
 ### Available benefits
 Disability compensation
+
+<hr>
 
 ### How it works
 You must give your service treatment records to VA when you apply, and you must complete all phases of VA/DOD medical separation examination processes at point of separation, before your release from the military.

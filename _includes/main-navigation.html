@@ -1,26 +1,22 @@
+{% unless page.majorlinks.size <= 2 %}
+  {% assign gridnum = 3 %}
+{% else %} 
+  {% assign gridnum = 2 %}
+{% endunless %}
+
+
 <div class="navigation--major">
   <div class="row">
     <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards">
+      <ul class="small-block-grid-1 medium-block-grid-{{gridnum}} cards">
+        {% for link in page.majorlinks %}
         <li>
-          <a href="/disability-benefits/">
-            <h3 class="alternate">Disability Benefits</h3>
-            Help with service-related medical conditions.
+          <a href="{{link.url}}">
+            <h3>{{link.title}}</h3>
+            <span>{{link.description}}</span>
           </a>
         </li>
-        <li>
-          <a href="/education/">
-            <h3 class="alternate">Education Benefits</h3>
-            Tuition assistance, training programs, and more.
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/">
-            <h3 class="alternate">Careers and Employment</h3>
-            Meaningful employment and career development for Veterans and their families.
-          </a>
-        </li>
+        {% endfor %}
       </ul>
     </div>
   </div>

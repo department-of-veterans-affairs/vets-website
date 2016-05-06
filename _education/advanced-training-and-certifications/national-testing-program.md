@@ -6,7 +6,7 @@ concurrence: complete
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
@@ -55,7 +55,7 @@ Reimbursement for testing fees, including:
 
 #### VA has approved the following tests for reimbursement:
 
-- SAT (Scholastic Assessment Test)
+- SAT (formerly "Scholastic Assessment Test")
 - LSAT (Law School Admission Test)
 - GRE (Graduate Record Examination)
 - GMAT (Graduate Management Admission Test)
