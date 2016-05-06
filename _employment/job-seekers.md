@@ -82,10 +82,9 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 </li>
 
 <li class="step six wow last fadeIn animated animated" markdown="1">
-##### Search online job banks
+##### Go to a career fair
 
-- Search the [Veterans Employment Center](/employment/job-seekers/search_jobs) for job openings.
-- Search for connections and job listings on [LinkedIn&#153;](https://veterans.linkedin.com/) as well as other online job boards. 
+Learn about the [career fairs](/employment/job-seekers/career-fairs) available for Veterans, Servicemembers, and family members.
 </li>
 
 </ol>
