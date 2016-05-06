@@ -18,14 +18,13 @@ relatedlinks:
   - url: /employment/job-seekers/search_jobs
     title: Search the Veterans Job Bank
     description: ""
-  - url: /employment/job-seekers/interest-profiler/
+  - url: /employment/job-seekers/interest-profiler
     title: Interest Profiler
     description: ""
   - url: /employment/job-seekers/military-transcripts/
     title: Military Transcripts
     description: ""
 ---
-
 
 <div class="main interior" role="main" markdown="0">
 <div class="section one" markdown="0">
@@ -34,13 +33,13 @@ relatedlinks:
 <div class="small-12 medium-9 columns left"  markdown="1">
 <div class="call-out" markdown="1">
 
-- **Who should read this?**
-  
-  Servicemembers, and their spouses, who are within one year of separating from the military.
+### Who should read this?
+Servicemembers, and their spouses, who are within one year of separating from the military.
 
-- **Why should you read this?**
-  
-  You can take certain steps to improve your chances of moving smoothly and successfully into civilian life.
+<br>
+
+### Why should you read this?
+You can take certain steps to improve your chances of moving smoothly and successfully into civilian life.
 </div>
 </div>
 
@@ -71,8 +70,7 @@ relatedlinks:
 #### 6 Months Before Leaving Active Duty
 
 - Complete the [Preseparation Counseling Checklist](http://www.dtic.mil/whs/directives/forms/eforms/dd2648t.pdf) (form DD2648).
-- Compile your service-treatment records and military hospital reports if you plan on registering for VA medical resources.
-Both of these can be ordered through the [National Archives](https://www.archives.gov/veterans/military-service-records/). Treatment records are not required for registration or treament at VA.
+-  Compile your service-treatment records and military hospital reports, which can make the filing process smoother if you should eventually register for VA medical resources. Both of these can be ordered through the [National Archives](https://www.archives.gov/veterans/military-service-records/). However, treatment records are not required for registration or treatment at VA.
 - Compile private medical records and hospital reports. 
 - Finalize your résumé and begin actively [searching for employment](/employment/job-seekers/search_jobs).
 - Consider taking one of three additional GPS tracks: Accessing Higher Education, Career Technical Training, or Entrepreneurship. 
@@ -110,3 +108,4 @@ Both of these can be ordered through the [National Archives](https://www.archive
 </div>
 </div>
 
+</div>
