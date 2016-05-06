@@ -39,7 +39,7 @@ Yes, if you are the child or spouse of a Veteran:
 
 Yes, if you are eligible to receive a transfer of Post-9/11 GI Bill benefits.
 
-
+<br>
 
 ### Who is covered
 
@@ -54,7 +54,9 @@ Your family
 - A location-adjusted housing allowance for you to pay your living expenses during enrollment
 - A stipend for books and supplies
 
+<br>
 <hr>
+<br>
 
 ### How it works
 
