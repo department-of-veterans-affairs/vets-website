@@ -17,7 +17,7 @@ template: 4-action-page-pending
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns">
+<div class="small-12 columns usa-content">
 
 <div markdown="1">
 
@@ -25,7 +25,7 @@ If you suffered additional disability while receiving VA hospital care, medical 
 
 </div>
 
-<div class="call-out" markdown="1">
+<div class="call-out usa-content" markdown="1">
 
 ### Are you eligible for compensation?
 
@@ -33,15 +33,21 @@ Yes, if:
 
 You have an additional disability resulting from VA medical treatment or care, or from participation in VA vocational rehabilitation or compensated work therapy.
 
-#### Who is covered
+<br>
+
+### Who is covered
 You
 </div>
-<div markdown="1">
-#### Available benefits
+<div class="usa-content" markdown="1">
+### Available benefits
 
 Compensation
 
-#### How it works
+<br>
+<hr>
+<br>
+
+### How it works
 
 When filing your claim, you should submit evidence that the additional disability occurred as a result of VA medical care, or from participation in VA vocational rehabilitation or compensated work-therapy programs. The additional disability cannot be a reasonably expected result of or complication from treatment.
 
@@ -51,6 +57,5 @@ Compensation payments are awarded in the same manner as if the disability is ser
 
 </div>
 </div>
-
 
 </div>
