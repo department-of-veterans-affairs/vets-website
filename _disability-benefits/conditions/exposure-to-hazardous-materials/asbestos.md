@@ -43,9 +43,7 @@ You
 - Compensation
 - Health care
 
-<br>
 <hr>
-<br>
 
 ### How it works
 
