@@ -2,6 +2,21 @@
 title: Support for Military and Veteran Spouses
 concurrence: complete
 template: 1-topic-landing
+relatedlinks:
+  - url: /employment/job-seekers/one-on-one/
+    title: One-on-One Assistance
+  - url: /employment/job-seekers/interest-profiler/
+    title: Interest Profiler
+  - url: /employment/job-seekers/create-resume
+    title: Résumé Builder
+  - url: /employment/commitments
+    title: View Employer Commitments to Hire Veterans
+  - url: /employment/job-seekers/search_jobs
+    title: Search the Veterans Job Bank
+  - url: /employment/job-seekers/career-fairs/
+    title: Career Fairs
+  - url: /employment/job-seekers/unemployment-support/
+    title: Unemployment Support
 ---
 
 <div class="main" role="main" markdown="0">
@@ -47,74 +62,4 @@ Sign up for a current DS Logon ID. This is the same login used for online servic
 </div>
 </div>
 </div>
-
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-        <li>
-          <a href="/employment/job-seekers/one-on-one/">
-          <h5>
-              One-on-One Assistance
-          </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/interest-profiler/">
-          <h5>
-            Interest Profiler
-          </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/create-resume">
-          <h5>
-            Résumé Builder
-          </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/commitments">
-          <h5>
-            View Employer Commitments to Hire Veterans
-          </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/search_jobs">
-          <h5>
-            Search the Veterans Job Bank
-          </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/career-fairs/">
-          <h5>
-            Career Fairs
-          </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/unemployment-support/">
-          <h5>
-            Unemployment Support
-          </h5>
-          </a>
-        </li>  
-
-        </ul>
-
-      </ul>
-
-      </div>
-    </div>  
-  </div>
-</div>
+         
