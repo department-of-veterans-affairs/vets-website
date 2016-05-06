@@ -47,10 +47,13 @@ relatedlinks:
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
 You may be eligible for disability compensation if you were exposed to certain chemical, physical, and environmental hazards during military service that resulted in disease or injury.
 
 </div>
 </div>
+</div>
+</div>
+
 </div>
