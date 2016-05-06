@@ -40,6 +40,7 @@ Yes, if you are the child or spouse of a Veteran:
 Yes, if you are eligible to receive a transfer of Post-9/11 GI Bill benefits.
 
 
+
 ### Who is covered
 
 Your family
