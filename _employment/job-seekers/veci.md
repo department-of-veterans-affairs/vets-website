@@ -2,6 +2,19 @@
 title: Veterans Economic Community Initiative
 concurrence: complete
 template: 1-topic-landing
+relatedlinks:
+  - url: /employment/job-seekers/one-on-one/
+    title: One-on-One Assistance
+  - url: /employment/job-seekers/skills-translator
+    title: Military Skills Translator
+  - url: /employment/job-seekers/create-resume
+    title: R&eacute;sum&eacute; Builder
+  - url: /employment/job-seekers/search_jobs
+    title: Search the Veterans Job Bank
+  - url: /employment/job-seekers/interest-profiler/
+    title: Interest Profiler
+  - url: /employment/job-seekers/military-transcripts/
+    title: Military Transcripts
 ---
 
 <div class="main" role="main" markdown="0">
@@ -22,66 +35,4 @@ Find a [VECI economic liaison](http://www.benefits.va.gov/TEEI/economic-liaison-
 </div>
 </div>
 </div>
-
-
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-        <li>
-          <a href="/employment/job-seekers/one-on-one/">
-            <h5>
-              One-on-One Assistance
-            </h5>
-          </a>  
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/skills-translator">
-            <h5>
-              Military Skills Translator
-            </h5>
-          </a>  
-        </li>  
-
-        <li>
-          <a href="/employment/job-seekers/create-resume">
-            <h5>
-              Résumé Builder
-            </h5>
-          </a>  
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/search_jobs">
-            <h5>
-              Search the Veterans Job Bank
-            </h5>
-          </a>  
-        </li>  
-
-        <li>
-          <a href="/employment/job-seekers/interest-profiler/">
-            <h5>
-              Interest Profiler
-            </h5>
-          </a>  
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/military-transcripts/">
-            <h5>
-              Military Transcripts
-            </h5>
-          </a>  
-        </li>   
-
-        </ul>
-
-      </div>
-    </div>  
-  </div>
-
-</div>
+ 
