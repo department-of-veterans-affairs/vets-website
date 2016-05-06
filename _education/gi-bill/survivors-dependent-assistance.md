@@ -25,15 +25,17 @@ If you are a dependent or survivor of a Veteran, you may be eligible for educati
 
 ### Are you eligible for benefits?
 
-Yes, if:
+Yes, if you are the child or spouse of a Servicemember:
+- Who died in the line of duty after September 10, 2001, or
+- Who is missing in action or captured in the line of duty by a hostile force, or
+-	Who was forcibly detained in the line of duty by a foreign government or power, or
+- Who is hospitalized or receiving outpatient treatment for a service-connected permanent and total disability and likely to be discharged for that disability.
 
-- You are the child or spouse of a Servicemember who died in the line of duty after September 10, 2001, or
--	You are the child or spouse of a Veteran who is permanently and totally disabled due to a service-connected disability, or
--	You are the child or spouse of a Veteran who died while on active duty or as a result of a service-connected disability, or
--	You are the child or spouse of a Servicemember missing in action or captured in the line of duty by a hostile force, or
--	You are the child or spouse of a Servicemember forcibly detained in the line of duty by a foreign government or power, or
--	You are the child or spouse of a Servicemember who is hospitalized or receiving outpatient treatment for a service-connected permanent and total disability and likely to be discharged for that disability, or
--	You are eligible to receive a transfer of Post-9/11 GI Bill benefits.
+If you are the child or spouse of a Veteran:
+- Who is permanently and totally disabled due to a service-connected disability, or
+-	Who died while on active duty or as a result of a service-connected disability.
+
+If you are eligible to receive a transfer of Post-9/11 GI Bill benefits.
 
 
 ### Who is covered
