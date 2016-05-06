@@ -30,17 +30,22 @@ Yes if:
 -	You participated in Projects 112 or SHAD testing.
 -	You have a condition believed to be caused by this testing.
 
-#### Who is covered
+<br>
+
+### Who is covered
 
 You and your survivors
 </div>
 <div markdown="1">
-#### Available benefits
+### Available benefits
 
 -	Compensation
 -	Health care
 
-#### How it works
+<br>
+<hr>
+
+### How it works
 
 If you were a participant in Projects 112 or SHAD from 1963 to 1974 and need more information regarding a particular test site, ship, or unit, please refer to the declassified [Department of Defense information sheets]( http://www.health.mil/Military-Health-Topics/Health-Readiness/Environmental-Exposures/Project-112-SHAD/Fact-Sheets).
 
