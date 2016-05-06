@@ -3,6 +3,13 @@ title: Careers and Employment
 permalink: /employment/index.html
 template: 1-topic-landing
 concurrence: complete
+relatedlinks:
+  - url: /employment/job-seekers/family-members
+    title: Military Spouses and Family Job Seekers
+    description: ""
+  - url: /employment/job-seekers/start
+    title: Start or Grow Your Business
+    description: ""
 ---
 
 <div class="main" role="main">
@@ -48,25 +55,3 @@ The Veterans Employment Center™ (VEC) connects Veterans and their families wit
 </div>
 </div>
 
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-      <ul class="va-nav-category">
-        <li>
-          <a href="/employment/job-seekers/family-members">
-            <h5>
-              Military Spouses and Family Job Seekers
-            </h5>
-          </a>
-        </li>
-        <li>
-        	<a href="/employment/job-seekers/start">
-        		<h5>
-              Start or Grow Your Business
-            </h5>
-        	</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
