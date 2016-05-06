@@ -425,11 +425,12 @@ h6 {font-size: 1.15em; font-weight: bold;}
 }
 
 // Home page, 404 page
-// TODO combine with .section-nav class
 .navigation--major {
-  padding: 1.5em 0 0 0;
+  .fourohfour &,
+  .home & {
+    padding-top: 1.5em;
+  }
 }
-
 
 // Quick Links
 .va-quicklinks {
