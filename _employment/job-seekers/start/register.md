@@ -2,6 +2,11 @@
 title: Registering Your Business
 concurrence: complete
 template: 1-topic-landing
+relatedlinks:
+  - url: https://www.vip.vetbiz.gov/Public/Logon.aspx
+    title: Registering Your Business
+  - url: /employment/job-seekers/start/counseling/
+    title: Entrepreneurship Counseling
 ---
 
 <div class="main" role="main" markdown="0">
@@ -40,26 +45,4 @@ Contact a [trained specialist](http://www.va.gov/osdbu/verification/assistance/c
 
 </div>
 </div>
-</div>
-
-
-  <div class="navigation">
-    <div class="row">
-      <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-          <li>
-            <a href="https://www.vip.vetbiz.gov/Public/Logon.aspx"><h5>Registering Your Business</h5></a>
-          </li>
-
-          <li>
-            <a href="/employment/job-seekers/start/counseling/"><h5>Entrepreneurship Counseling</h5></a>
-          </li>  
-
-        </ul>
-
-      </div>
-    </div>  
-  </div>
-
 </div>
