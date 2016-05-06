@@ -141,6 +141,12 @@ input:focus:-ms-input-placeholder {
   color: transparent;
 }
 
+hr {
+  margin: 2.5em 0;
+  margin: 3rem 0 2.5rem;
+  border: 1px solid $color-gray-light;
+}
+
 
 // Interior rows
 #content.interior a[href^="http://"],

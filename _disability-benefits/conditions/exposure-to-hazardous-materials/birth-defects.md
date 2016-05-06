@@ -53,9 +53,7 @@ Dependents and survivors of qualified Veterans
 -	Health care
 -	Vocational training
 
-<br>
 <hr>
-<br>
 
 ### How it works
 
