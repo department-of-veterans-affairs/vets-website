@@ -55,6 +55,7 @@ Dependents and survivors of qualified Veterans
 
 <br>
 <hr>
+<br>
 
 ### How it works
 
