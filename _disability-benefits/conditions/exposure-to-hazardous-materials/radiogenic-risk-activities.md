@@ -6,7 +6,7 @@ template: 4-action-page
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
@@ -41,6 +41,7 @@ Yes, if:
 	-	Portsmouth, Ohio, or
 	-	Area K-25 at Oak Ridge, Tennessee
 
+<br>
 
 ### Who is covered
 
@@ -54,6 +55,9 @@ You
 
 - Compensation
 - Health care
+
+<br>
+<hr>
 
 ### How it works
 

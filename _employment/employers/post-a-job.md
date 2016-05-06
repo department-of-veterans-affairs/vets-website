@@ -141,7 +141,7 @@ This example contains two job listings. The first uses a smaller set of schema.o
 </div>
 </div>
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary" href="https://us.jobs/postajobpartner.asp?partner=ebenefits">Post a Job on the <abbr>NLX</abbr></a>

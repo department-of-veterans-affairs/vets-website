@@ -99,7 +99,7 @@ You can take certain steps to improve your chances of moving smoothly and succes
 #### 1 Month Before Leaving Active Duty
 
 - Complete TAP GPS (can be completed earlier).
-- Prepare for final job interviews.
+- Prepare for final round of job interviews.
 </div>
 </li>
 </ol>
@@ -108,4 +108,7 @@ You can take certain steps to improve your chances of moving smoothly and succes
 </div>
 </div>
 
+<<<<<<< HEAD
 </div>
+=======
+>>>>>>> master

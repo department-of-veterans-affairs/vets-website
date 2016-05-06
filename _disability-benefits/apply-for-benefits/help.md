@@ -2,11 +2,23 @@
 title: Get Help Filing a Claim
 concurrence: incomplete
 template: 6-info-page
+relatedlinks: 
+  - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
+    title: What is the fastest way to file a claim?
+  - url: /disability-benefits/apply-for-benefits/ways/
+    title: What are the different ways I can file a claim?
+  - url: /disability-benefits/apply-for-benefits/active-duty/
+    title: How do I file while on active duty?
+  - url: /disability-benefits/apply-for-benefits/one-year/
+    title: How do I file for disabilities that appear within one year after discharge?
+  - url: /disability-benefits/claims-process/date/
+    title: Effective date of disability
+
 ---
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
@@ -24,7 +36,7 @@ When filing a disability claim, it may help to work with an accredited represent
 Most accredited representatives work for veterans service organizations (VSOs), which are private nonprofit groups that advocate on behalf of Veterans, Servicemembers, dependents, and survivors. They may also work for state or county governments.
 </div>
 
-<div class="call-out" markdown="1">
+<div class="call-out usa-content" markdown="1">
 
 ### The accreditation process includes the following:
 
@@ -74,39 +86,4 @@ There are two ways to do this:
 </div>
 </div>
 </div>
-</div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-      <ul class="va-nav-category">
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
-            <h5>What is the fastest way to file a claim?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/apply-for-benefits/ways/">
-            <h5>What are the different ways I can file a claim?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/apply-for-benefits/active-duty/">
-            <h5>How do I file while on active duty?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/apply-for-benefits/one-year/">
-            <h5>How do I file for disabilities that appear within one year after discharge?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/claims-process/date/">
-          <h5>Effective date of disability</h5>
-          <span></span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
 </div>
