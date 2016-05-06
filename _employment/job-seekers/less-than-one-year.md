@@ -108,7 +108,4 @@ You can take certain steps to improve your chances of moving smoothly and succes
 </div>
 </div>
 
-<<<<<<< HEAD
 </div>
-=======
->>>>>>> master
