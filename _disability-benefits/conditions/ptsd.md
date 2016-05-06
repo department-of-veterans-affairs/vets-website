@@ -18,10 +18,10 @@ template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns">
+<div class="small-12 columns usa-content">
 
 <div markdown="1">
-#### Are you in crisis? You have options.
+### Are you in crisis? You have options.
 
 - Call the Veterans Crisis Line 1-800-273-8255 and press 1 to [talk to someone now](https://www.veteranscrisisline.net/Default.aspx).
 - Get online support with the confidential [Veterans Chat](https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat/).
@@ -35,7 +35,7 @@ If you have [symptoms of PTSD](http://www.ptsd.va.gov/public/PTSD-overview/basic
 </div>
 
 <div class="call-out" markdown="1">
-#### Are you eligible for compensation?
+### Are you eligible for compensation?
 
 Yes, if:
 
@@ -45,7 +45,9 @@ Yes, if:
 -	You are experiencing impairment as a result of your symptoms.
 -	You have been diagnosed with PTSD.
 
-#### Who is covered
+<br>
+
+### Who is covered
 
 You
 
@@ -53,13 +55,17 @@ You
 
 <div markdown="1">
 
-#### Available benefits
+### Available benefits
 
 -	Compensation
 -	Health care
 -	Treatment for PTSD
 
-#### How it works
+<br>
+<hr>
+<br>
+
+### How it works
 
 Post-traumatic stress disorder (PTSD) can occur after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions after experiencing trauma. If the reactions don't go away over time or they disrupt your life, you may have PTSD. [Learn more about PTSD](http://www.ptsd.va.gov/public/index.asp)
 
