@@ -41,6 +41,7 @@ Yes, if:
 	-	Portsmouth, Ohio, or
 	-	Area K-25 at Oak Ridge, Tennessee
 
+<br>
 
 ### Who is covered
 
@@ -54,6 +55,9 @@ You
 
 - Compensation
 - Health care
+
+<br>
+<hr>
 
 ### How it works
 
