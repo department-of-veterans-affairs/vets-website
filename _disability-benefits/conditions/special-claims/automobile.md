@@ -16,11 +16,11 @@ template: 4-action-page-pending
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
 If you have a service-connected disability that prevents you from driving an automobile or other conveyance, you may be eligible for a one-time payment of $20,114.34 toward buying a specially outfitted vehicle. You may also qualify for more than one adaptive-equipment grant to modify a vehicle with power steering, brakes, seats, windows, or lift equipment to assist you with getting into and out of the vehicle.
 
-<div class="call-out" markdown="1">
+<div class="call-out usa-content" markdown="1">
 
 ### Are you eligible for compensation?
 
@@ -35,7 +35,9 @@ Your service-connected disability includes at least one of the following conditi
 - Amyotrophic lateral sclerosis (ALS).
 - Ankylosis (immobility of the joint) in one or both knees or hips (adaptive equipment grant only).
 
-#### Who is covered
+<br>
+
+### Who is covered
 
 Veterans and Servicemembers
 
@@ -43,11 +45,13 @@ Veterans and Servicemembers
 
 <div markdown="1">
 
-#### Available benefits
+### Available benefits
 
 Compensation
 
-#### How it works
+<hr>
+
+### How it works
 
 In the case of these allowances, you must gain VA approval before purchasing an automobile or adaptive equipment. For the adaptive-equipment grant, the compensation may be paid to you or to the seller. For the one-time vehicle purchase grant, the compensation must be paid directly to the seller. You may request and receive either grant before or after military discharge.
 
