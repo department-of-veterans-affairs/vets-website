@@ -97,15 +97,21 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 - Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with [LinkedIn&#153;'s Lynda](https://veterans.linkedin.com).
 - Earn a free [Coursera Course Certificate](https://www.surveymonkey.com/r/QSGQRFN).
 
+<br>
+
 ### Get personalized help if you need it
 
 - Government and private resources offer [one-on-one assistance](/employment/job-seekers/one-on-one).
 - Qualified service-disabled Veterans can get [employment support services](/employment/job-seekers/service-disabled), such as small business counseling, as well as specialized help through [Vocational Rehabilitation and Employment (VR&amp;E)](http://www.benefits.va.gov/vocrehab/index.asp).
 
+<br>
+
 ### Take a different approach to starting your career 
 
 - Start or grow [your own business](/employment/job-seekers/start/). 
 - Evaluate [non-traditional programs](https://www.vets.gov/education/work-learn/job-and-apprenticeship/) like apprenticeships, work study, and on-the-job training.
+
+<br>
 
 ### Military spouses and family members
 
