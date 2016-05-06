@@ -2,6 +2,19 @@
 title: Alternative Ways to Start Your Career
 concurrence: complete
 template: 1-topic-landing
+relatedlinks:
+  - url: /employment/job-seekers/one-on-one/
+    title: One-on-One Assistance
+    description: ""      
+  - url: /employment/commitments
+    title: View Employer Commitments
+    description: ""        
+  - url: /employment/job-seekers/search_jobs
+    title: Search the Veterans Job Bank
+    description: ""
+  - url: /employment/job-seekers/unemployment-support/
+    title: Unemployment Support
+    description: ""
 ---
 
 <div class="main" role="main" markdown="0">
@@ -43,51 +56,4 @@ Internships and volunteer work can advance your career and expand your network w
 
 </div>
 </div>
-</div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-          <li>
-            <a href="/employment/job-seekers/one-on-one/">
-            <H5>
-              One-on-One Assistance
-            </H5>
-            </a>
-          </li>
-
-
-
-          <li>
-            <a href="/employment/commitments">
-            <H5>
-              View Employer Commitments
-            </H5>
-            </a>
-          </li>
-
-
-          <li>
-            <a href="/employment/job-seekers/search_jobs">
-            <H5>
-              Search the Veterans Job Bank
-            </H5>
-            </a>
-          </li>  
-
-          <li>
-            <a href="/employment/job-seekers/unemployment-support/">
-            <H5>
-              Unemployment Support
-            </H5>
-            </a>
-          </li>    
-
-        </ul>
-
-      </div>
-    </div>  
-  </div>
 </div>
