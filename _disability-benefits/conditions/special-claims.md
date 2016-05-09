@@ -17,7 +17,7 @@ relatedlinks:
     title: Hospitalization
   - url: /disability-benefits/conditions/special-claims/individual-unemployability
     title: Individual Unemployability
-  - url: disability-benefits/conditions/special-claims/title-38-USC-1151/
+  - url: /disability-benefits/conditions/special-claims/title-38-USC-1151/
     title: Title 38 U.S.C. 1151
   - url: /disability-benefits/conditions/special-claims/prestabilization/
     title: Prestabilization Ratings
