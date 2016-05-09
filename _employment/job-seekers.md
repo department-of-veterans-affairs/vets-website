@@ -73,7 +73,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 ##### Build a résumé and public profile
 
 - Build your [résumé and public profile](/employment/job-seekers/create-resume) so employers can find you.
-- Get a free [LinkedIn Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
+- Get a free [LinkedIn&#8482; Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
 
 </div>
 
@@ -102,7 +102,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 ##### Search online job banks
 
 - Search the [Veterans Employment Center](/employment/job-seekers/search_jobs) for job openings.
-- Search for connections and job listings on [LinkedIn](https://veterans.linkedin.com/) as well as other online job boards. 
+- Search for connections and job listings on [LinkedIn&#8482;](https://veterans.linkedin.com/) as well as other online job boards. 
 </div>
 
 </li>
@@ -129,7 +129,7 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 - The [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
 - Fill in any gaps in your education or skill set by taking classes and getting [advanced training and certifications](/education/advanced-training-and-certifications/).
 - Consider military [tuition assistance](http://myarmybenefits.us.army.mil/Home/Benefit_Library/Federal_Benefits_Page/Tuition_Assistance_(TA).html?serv=149) (for active duty).
-- Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with [Linked-In's Lynda](https://veterans.linkedin.com).
+- Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with [LinkedIn&#8482;'s Lynda](https://veterans.linkedin.com).
 - Earn a free [Coursera Course Certificate](https://www.surveymonkey.com/r/QSGQRFN).
 
 </div>
