@@ -26,12 +26,6 @@ relatedlinks:
     description: ""
 ---
 
-
-<div class="main interior" role="main" markdown="0">
-<div class="section one" markdown="0">
-<div class="row" markdown="0">
-
-<div class="small-12 medium-9 columns left"  markdown="1">
 <div class="call-out" markdown="1">
 
 - **Who should read this?**
@@ -42,10 +36,7 @@ relatedlinks:
   
   You can take certain steps to improve your chances of moving smoothly and successfully into civilian life.
 </div>
-</div>
 
-<div class="row" markdown="0">
-<div class="small-12 usa-content columns"  markdown="1">
 
 ### What are the steps?
 
@@ -105,8 +96,4 @@ Both of these can be ordered through the [National Archives](https://www.archive
 </div>
 </li>
 </ol>
-
-</div>
-</div>
-</div>
-
+ 
