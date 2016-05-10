@@ -17,13 +17,6 @@ relatedlinks:
     description: ""
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
 There are many ways for you to launch your civilian career and continue your education at the same time, and many options other than traditional education programs.
 
 [**Work Study**](/education/work-learn/workstudy/)
@@ -53,7 +46,3 @@ You can start or grow your own business using skills you learned in the military
 **Internships, Volunteer Work, and Community Service**
 
 Internships and volunteer work can advance your career and expand your network while you further your education. Community involvement and service are also productive ways to network with civilians and open the door to future employment possibilities. VA offers [internships](http://mycareeratva.va.gov/library/55) and [volunteer opportunities](http://www.volunteer.va.gov/).
-
-</div>
-</div>
-</div>
