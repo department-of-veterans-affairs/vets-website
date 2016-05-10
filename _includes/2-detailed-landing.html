@@ -1,4 +1,10 @@
-{% include action-bar.html action_class = 'va-action-bar--header' action_text="Apply for Disability Benefits" action_url="/disability-benefits/apply-for-benefits/" %}
+{% if page.collection == 'disability-benefits' %}
+  {% include action-bar.html action_text="Apply for Disability Benefits" action_url="/disability-benefits/apply-for-benefits/" action_class="va-action-bar--header" %}
+{% endif %}
+
+{% if page.collection == 'education' %}
+  {% include action-bar.html action_text="Apply for Education Benefits" action_url="/education/apply-for-education-benefits/" action_class="va-action-bar--header" %}
+{% endif %}
 
 <div class="section one">
   <div class="primary">
@@ -9,3 +15,4 @@
     </div>
   </div>
 </div>
+
