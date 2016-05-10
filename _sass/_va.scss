@@ -425,6 +425,29 @@ h6 {font-size: 1.15em; font-weight: bold;}
   }
 }
 
+.va-callout {
+  background: $color-primary-alt-lightest;
+  padding: 1em;
+  clear: both;
+  margin: 0 0 1.5em 0;
+  
+  dt {
+    color: $color-primary-darkest;
+    font-size: 1.65em;
+    font-weight: bold;
+    margin: 0 0 .5rem 0;
+  }
+  
+  dd {
+    margin-left: 0;
+    padding-left: 0;
+  }
+  ul {
+    margin: 0 0 .5rem 1.5rem;
+    padding: 0;
+  }
+}
+
 // Home page, 404 page
 .navigation--major {
   .fourohfour &,
