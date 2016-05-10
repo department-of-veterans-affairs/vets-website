@@ -416,7 +416,8 @@ h6 {font-size: 1.15em; font-weight: bold;}
   margin: 0 0 1.5em 0;
   p {margin-bottom: 0; padding-bottom: .5em}
   p:nth-child(1) {
-    font-size: 1.25em;
+  // TODO: refactor #content.interior .primary li p:first-of-type and remove !important
+    font-size: 1.25em !important;
     color: $color-gray-dark;
     padding-bottom: inherit;
   }
