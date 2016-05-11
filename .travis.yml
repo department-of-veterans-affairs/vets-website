@@ -39,15 +39,3 @@ deploy:
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: master    
-  - provider: s3
-    access_key_id: AKIAIEIFFI3LJZO44VTQ
-    secret_access_key:
-      secure: PKZPLle45zyvca1I3w8gxkwznCWM/EUqfw7W8WOGmHBDqvnZ24Cc26pOSKDE8p250rnDX42cxrnOuuGJUNpVTWoIdtKrfi3YEZi8yBXwMecKHsaZO3jQrWtGFVHV747gDmjx7THsacgAn5mvgZkuHXOZXpWcJaQtOLjLhqx++tuKSuSOkFENlRjm5fZWGUkWCBR4HjJPdfFazl8sE7TDomuOEumCjtqeKNFumlrPs+H34OyMpiMidU24Nsbla0exV7YkJTJ2PrdtkYFB3p6zZP26CHv12odkCsauZ3Ee1MUcmolNb3VgK6RPGiBvcozP7u/SdbXb5JYwBT/x/ffkowCcIZ+PNSzh/QF/TdJ0c2vtkfhTCiBDiOnBosFf3DAFCtXRCLEIlJtlxDbavBLTIEMnwkNKAQIRZP5ro4zMGjAJP/AWE0YvYZCQO8YXlb/Pl8QsH8HZY2+EYR8Qrjg/NcnnDfkg9rGdyslY/e9oMoJYYgmJlwpuIMlAWylhqUHfCzGFtUzTV+8GARjM7kkMwtIUqsjBbEYNu+kzd7O8xuJEbPepXkS6jE5F+PzyoVIoWgOCsAHKsFmyRqDjwQVOgMchp8thUMillCcDnNsbTawZ78/MfKWtZd9bHAglSxjWavV6Yr6tNumiI/vyRoQNbc1nIpxwjnMd0lN5bpykTwY=
-    bucket: dev.vets.gov
-    skip_cleanup: true
-    region: us-east-1
-    local-dir: "_site"
-    acl: public_read
-    on:
-      repo: department-of-veterans-affairs/vets-website
-      branch: remove-profile-bank-content
