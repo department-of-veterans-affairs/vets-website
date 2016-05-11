@@ -99,8 +99,8 @@ a {
 }
 
 ul {
-  padding: 0;
-  list-style: square inside;
+  padding: 0 0 0 1.5em;
+  list-style: square;
 }
 
 ol {
@@ -171,7 +171,6 @@ button,
   background-position: 100% 50%;
   background-repeat: no-repeat;
   background-size: 1em auto;
-  display: inline-block;
   padding-right: 1.2em;
 }
 
