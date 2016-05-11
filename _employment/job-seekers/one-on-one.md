@@ -2,14 +2,20 @@
 title: One-on-One Assistance
 concurrence: complete
 template: 1-topic-landing
+relatedlinks:
+ - url: /employment/job-seekers/skills-translator
+   title: Military Skills Translator
+ - url: /employment/job-seekers/create-resume
+   title: Résumé Builder
+ - url: /employment/job-seekers/alternative/
+   title: Alternative Ways to Start Your Career 
+ - url: /employment/job-seekers/search-jobs
+   title: Search the Veterans Job Bank
+ - url: /employment/job-seekers/interest-profiler/          
+   title: Interest Profiler
+ - url: /employment/job-seekers/military-transcripts/
+   title: Military Transcripts
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 One-on-one assistance can help you transition by providing current perspectives on workplaces, targeted job-search techniques, coaching, and résumé building. 
 
@@ -26,7 +32,8 @@ Yes, if:
 - You 
 - Your spouse (only for the TAP Career Technical Training Track)
 </div>
-<div class="small-12 columns usa-content" markdown="1">
+
+
 ### How it works
 
 There are many government and private resources available to you as you make this transition.
@@ -52,69 +59,3 @@ There are many government and private resources available to you as you make thi
 - [Homeless Veterans Community Employment Services](http://www.va.gov/HOMELESS/HVCES.asp) (HVCES) can help if you are homeless or at risk of becoming homeless.
 
 For information on all available VA benefits, contact VA career-and-training specialists at 1-800-827-1000.
-
-
-</div>
-</div>
-</div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-        <li>
-          <a href="/employment/job-seekers/skills-translator">
-            <h5>
-              Military Skills Translator
-            </h5>
-          </a>
-        </li>  
-
-        <li>
-          <a href="/employment/job-seekers/create-resume">
-            <h5>
-              Résumé Builder
-            </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/alternative/">
-            <h5>
-              Alternative Ways to Start Your Career 
-            </h5>
-          </a>
-        </li>  
-
-        <li>
-          <a href="/employment/job-seekers/search-jobs">
-            <h5>
-              Search the Veterans Job Bank
-            </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/interest-profiler/">          
-            <h5>
-              Interest Profiler
-            </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/military-transcripts/">
-            <h5>
-              Military Transcripts
-            </h5>
-          </a>
-        </li>    
-
-        </ul>
-
-      </div>
-    </div>  
-  </div>
-
-</div>

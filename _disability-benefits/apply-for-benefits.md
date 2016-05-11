@@ -1,6 +1,25 @@
 ---
 title: Apply for Benefits
 template: 7-get-page
+relatedlinks:
+  - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
+    title: What is the fastest way to get a claim decision?
+    description: ""
+  - url: /disability-benefits/apply-for-benefits/ways/
+    title: What are the different ways I can file a claim?
+    description: ""
+  - url: /disability-benefits/apply-for-benefits/help/
+    title: How do I get help filing a claim?
+    description: ""
+  - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
+    title: How do I file while on active duty?
+    description: ""
+  - url: /disability-benefits/apply-for-benefits/one-year/
+    title: How do I file for disabilities that appear within one year after discharge?
+    description: ""
+  - url: /disability-benefits/claims-process/date/
+    title: Effective date of disability
+    description: ""
 ---
 
 <div class="main interior" role="main" markdown="0">
@@ -191,55 +210,13 @@ If you disagree with the decision, you may appeal it. The decision letter contai
 </div>
 </div>
 
-<div class="section start" markdown="0">
-<div class="action" markdown="0">
+<div class="va-action-bar--footer va-action-bar--start" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="0">
-
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
-
-</div>
 </div>
 </div>
 </div>
 
 
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-      <ul class="va-nav-category">
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
-            <h5>What is the fastest way to get a claim decision?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/apply-for-benefits/ways/">
-            <h5>What are the different ways I can file a claim?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/apply-for-benefits/help/">
-            <h5>How do I get help filing a claim?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/predischarge-claim/index.html">
-            <h5>How do I file while on active duty?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/apply-for-benefits/one-year/">
-            <h5>How do I file for disabilities that appear within one year after discharge?</h5>
-          </a>
-        </li>
-        <li>
-          <a href="/disability-benefits/claims-process/date/">
-          <h5>Effective date of disability</h5>
-          <span></span>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
+

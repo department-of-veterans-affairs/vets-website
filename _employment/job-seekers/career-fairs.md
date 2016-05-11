@@ -2,14 +2,16 @@
 title: Career Fairs
 concurrence: complete
 template: 1-topic-landing
+relatedlinks:
+  - url: /employment/job-seekers/one-on-one/          
+    title: One-on-One Assistance
+  - url: /employment/commitments            
+    title: View Employer Commitments to Hire Veterans
+  - url: /employment/job-seekers/search-jobs
+    title: Search the Veterans Job Bank
+  - url: /employment/job-seekers/unemployment-support/
+    title: Unemployment Support
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 Career fairs are an important first step in the search for employment. In-person or online, job fairs let you directly and efficiently network with hiring managers from a variety of companies. 
 
@@ -39,53 +41,3 @@ Career fairs are an important first step in the search for employment. In-person
 [Virtual Job Scout](https://www.virtualjobscout.org/), sponsored by the U.S. Chamber of Commerce Foundation’s Hiring Our Heroes, connects Veterans, transitioning Servicemembers, and military spouses with recruiters online. 
 
 [Veteran Recruiting job fairs](http://veteranrecruiting.com/) are virtual events that give job seekers the opportunity to chat live with employers online. Employers are also available offline.
-
-
-</div>
-</div>
-</div>
-
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-          <li>
-            <a href="/employment/job-seekers/one-on-one/">          
-              <h5>
-              One-on-One Assistance
-              </h5>  
-            </a>
-          </li>
-
-          <li>
-            <a href="/employment/commitments">            
-            <h5>
-              View Employer Commitments to Hire Veterans
-            </h5>
-            </a>
-           </li>
-
-          <li>
-            <a href="/employment/job-seekers/search-jobs">
-            <h5>
-              Search the Veterans Job Bank
-            </h5>
-            </a>  
-          </li>  
-
-          <li>
-            <a href="/employment/job-seekers/unemployment-support/">
-            <h5>
-              Unemployment Support
-            </h5>
-            </a>  
-          </li>    
-
-        </ul>
-
-      </div>
-    </div>  
-  </div>
-</div>

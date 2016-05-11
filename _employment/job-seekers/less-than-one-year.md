@@ -2,14 +2,30 @@
 title: Do you have less than a year left of military service?
 concurrence: complete
 template: 1-topic-landing
+relatedlinks:
+  - url: /employment/job-seekers/one-on-one/
+    title: One-on-One Assistance
+    description: ""
+  - url: /employment/job-seekers/skills-translator
+    title: Military Skills Translator
+    description: ""
+  - url: /employment/job-seekers/create-resume
+    title: Résumé Builder
+    description: ""
+  - url: /employment/job-seekers/alternative/
+    title: Alternative Ways to Start Your Career
+    description: ""
+  - url: /employment/job-seekers/search-jobs
+    title: Search the Veterans Job Bank
+    description: ""
+  - url: /employment/job-seekers/interest-profiler/
+    title: Interest Profiler
+    description: ""
+  - url: /employment/job-seekers/military-transcripts/
+    title: Military Transcripts
+    description: ""
 ---
 
-
-<div class="main interior" role="main" markdown="0">
-<div class="section one" markdown="0">
-<div class="row" markdown="0">
-
-<div class="small-12 medium-9 columns left"  markdown="1">
 <div class="call-out" markdown="1">
 
 - **Who should read this?**
@@ -20,10 +36,7 @@ template: 1-topic-landing
   
   You can take certain steps to improve your chances of moving smoothly and successfully into civilian life.
 </div>
-</div>
 
-<div class="row" markdown="0">
-<div class="small-12 usa-content columns"  markdown="1">
 
 ### What are the steps?
 
@@ -79,80 +92,8 @@ Both of these can be ordered through the [National Archives](https://www.archive
 #### 1 Month Before Leaving Active Duty
 
 - Complete TAP GPS (can be completed earlier).
-- Prepare for final job interviews.
+- Prepare for final round of job interviews.
 </div>
 </li>
 </ol>
-
-</div>
-</div>
-</div>
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-          <li>
-            <a href="/employment/job-seekers/one-on-one/">
-              <h5>
-                One-on-One Assistance
-              </h5>
-            </a>
-          </li>
-
-          <li>
-            <a href="/employment/job-seekers/skills-translator">
-              <h5>
-                Military Skills Translator
-              </h5>
-            </a>
-          </li>  
-
-          <li>
-            <a href="/employment/job-seekers/create-resume">
-              <h5>
-                Résumé Builder
-              </h5>
-            </a>
-          </li>
-
-          <li>
-            <a href="/employment/job-seekers/alternative/">
-              <h5>
-                Alternative Ways to Start Your Career
-              </h5>
-            </a>
-          </li>  
-
-          <li>
-            <a href="/employment/job-seekers/search-jobs">
-              <h5>
-                Search the Veterans Job Bank
-              </h5>
-            </a>
-          </li>
-
-          <li>
-            <a href="/employment/job-seekers/interest-profiler/">
-              <h5>
-                Interest Profiler
-              </h5>
-            </a>
-          </li>
-
-          <li>
-            <a href="/employment/job-seekers/military-transcripts/">
-              <h5>
-                Military Transcripts
-              </h5>
-            </a>
-          </li>  
-
-        </ul>  
-
-      </div>
-    </div>  
-  </div>
-
-</div>
+ 

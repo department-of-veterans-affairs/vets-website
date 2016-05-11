@@ -7,7 +7,7 @@ template: 6-info-page
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
@@ -18,7 +18,7 @@ template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns">
+<div class="small-12 columns usa-content">
 <div markdown="1">
 Spina bifida is a birth defect in which the developing baby’s spinal cord fails to develop properly. It can be caused by environmental factors. If you are a Veteran with qualifying service in South Vietnam or the Republic of Korea, and your child has spina bifida or certain other birth defects, he or she may be eligible for VA benefits.
 </div>
@@ -41,21 +41,27 @@ Yes, if:
 - The child was conceived after the mother served in South Vietnam, and
 - The child has a covered birth defect that resulted in a permanent physical or mental disability.
 
-#### Who is covered
+<br>
+
+### Who is covered
 Dependents and survivors of qualified Veterans
 </div>
 <div markdown="1">
-#### Available benefits
+### Available benefits
 
 -	Monetary allowances
 -	Health care
 -	Vocational training
 
-#### How it works
+<br>
+<hr>
+<br>
+
+### How it works
 
 VA provides monetary allowances at one of three disability levels, based on the severity of the disability.
 
-#### Learn more
+### Learn more
 
 [Spina Bifida and Agent Orange]( http://www.publichealth.va.gov/exposures/agentorange/birth-defects/spina-bifida.asp)
 </div>

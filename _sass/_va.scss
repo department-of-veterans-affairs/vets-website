@@ -410,7 +410,8 @@ h6 {font-size: 1.15em; font-weight: bold;}
   margin: 0 0 1.5em 0;
   p {margin-bottom: 0; padding-bottom: .5em}
   p:nth-child(1) {
-    font-size: 1.25em;
+  // TODO: refactor #content.interior .primary li p:first-of-type and remove !important
+    font-size: 1.25em !important;
     color: $color-gray-dark;
     padding-bottom: inherit;
   }
@@ -424,12 +425,36 @@ h6 {font-size: 1.15em; font-weight: bold;}
   }
 }
 
-// Home page, 404 page
-// TODO combine with .section-nav class
-.navigation--major {
-  padding: 1.5em 0 0 0;
+.va-callout {
+  background: $color-primary-alt-lightest;
+  padding: 1em;
+  clear: both;
+  margin: 0 0 1.5em 0;
+  
+  dt {
+    color: $color-primary-darkest;
+    font-size: 1.65em;
+    font-weight: bold;
+    margin: 0 0 .5rem 0;
+  }
+  
+  dd {
+    margin-left: 0;
+    padding-left: 0;
+  }
+  ul {
+    margin: 0 0 .5rem 1.5rem;
+    padding: 0;
+  }
 }
 
+// Home page, 404 page
+.navigation--major {
+  .fourohfour &,
+  .home & {
+    padding-top: 1.5em;
+  }
+}
 
 // Quick Links
 .va-quicklinks {
@@ -596,28 +621,12 @@ h6 {font-size: 1.15em; font-weight: bold;}
   clear: both;
 }
 
-#content .section.do {
-  background: $color-gray-lightest;
-  
-  h2, h3, h4, h5, h6, p, li {
-    color: $color-va-gray-cool-dark;
-  }
-  h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
-  a {color: $color-white;}
-}
-
 #content .section.secondary,
 #content .section.tertiary,
 #content .section.quaternary,
 #content .section.coda {
   padding: 3em 0;
   h3 {font-size: 2.2em;}
-}
-
-#content .section.start {
-  background: $color-green-lightest;
-  padding: 3em 0;
-  border-bottom: 3px solid $color-white;
 }
 
 // Sections
@@ -2198,15 +2207,26 @@ h4.highlight {
   margin-top: 0.7rem;
 }
 
-// Action banner
-
-.action-bar {
-  text-align: right;
+// Action bars
+[class^="va-action-bar"] {
   background: $color-gray-lightest;
-  padding: .5em 0;
 }
 
-// TODO: Deprecate .action-bar a.usa-button-primary.
+.va-action-bar--header {
+  padding: .5em 0;
+  text-align: right;
+}
+
+.va-action-bar--footer {
+  padding: 1em 0;
+}
+
+.va-action-bar--start {
+  background: $color-green-lightest;
+  border-bottom: 3px solid $color-white;
+}
+
+// TODO: Deprecate .va-action-bar--header a.usa-button-primary.
 // Use .va-button-primary and .va-button-secondary 
 // going forward.
 // Drop !important from the lines below when everything

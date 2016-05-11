@@ -2,14 +2,26 @@
 title: Veteran Employment Support
 concurrence: complete
 template: 1-topic-landing
+relatedlinks:
+  - url: /employment/job-seekers/one-on-one/
+    title: One-on-One Assistance
+  - url: /employment/job-seekers/skills-translator
+    title: Military Skills Translator
+  - url: /employment/job-seekers/create-resume
+    title: Resume Builder
+  - url: /employment/job-seekers/alternative/
+    title: Alternative Ways to Start Your Career
+  - url: /employment/job-seekers/search-jobs
+    title: Search the Jobs Bank
+  - url: /employment/job-seekers/interest-profiler/
+    title: Interest Profiler
+  - url: /employment/job-seekers/military-transcripts/
+    title: Military Transcripts
+  - url: /employment/job-seekers/career-fairs/
+    title: Career Fairs
+  - url: /employment/job-seekers/veci/
+    title: VECI
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 As you navigate the civilian marketplace, you may encounter challenges. The Veterans Employment Center can help. 
 
@@ -19,92 +31,3 @@ If you own your own business or want to start a company, VA, the [Small Business
 
 If you are out of work, you may be eligible for [unemployment support](http://careeronestop.org/site/american-job-center.aspx), which is handled by the state in which you work.
 
-
-</div>
-</div>
-</div>
-
-
-<div class="navigation">
-  <div class="row">
-    <div class="small-12 columns">
-        <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-
-        <li>
-          <a href="/employment/job-seekers/one-on-one/">
-          <h5>
-            One-on-One Assistance
-          </h5>
-        </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/skills-translator">
-          <h5>
-            Military Skills Translator
-          </h5>
-          </a>
-        </li>  
-
-        <li>
-          <a href="/employment/job-seekers/create-resume">
-          <h5>
-            Resume Builder
-          </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/alternative/">
-          <h5>
-            Alternative Ways to Start Your Career
-          </h5>
-          </a>
-        </li>  
-
-        <li>
-          <a href="/employment/job-seekers/search-jobs">
-          <h5>
-            Search the Jobs Bank
-          </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/interest-profiler/">
-          <h5>
-            Interest Profiler
-          </h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/employment/job-seekers/military-transcripts/">
-          <h5>
-            Military Transcripts
-          </h5>
-          </a>
-        </li>    
-
-        <li>
-          <a href="/employment/job-seekers/career-fairs/">
-          <h5>
-            Career Fairs
-          </h5>
-          </a>
-        </li>   
-
-        <li>
-          <a href="/employment/job-seekers/veci/">
-          <h5>
-            VECI
-          </h5>
-          </a>
-        </li>   
-
-      </ul>
-
-      </div>
-    </div>  
-  </div>
-</div>

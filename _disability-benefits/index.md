@@ -2,55 +2,24 @@
 title: Disability Benefits
 permalink: /disability-benefits/index.html
 source: http://www.benefits.va.gov/compensation/
-template: 1-topic-landing
+template: L2-section-landing
+majorlinks:
+  - url: /disability-benefits/conditions/
+    title: Conditions
+    description: What conditions qualify me for benefits?
+  - url: /disability-benefits/claims-process/
+    title: Claims process
+    description: How does the claims process work?
+  - url: /disability-benefits/claims-appeal/
+    title: Appeals
+    description: What if I disagree with my rating decision?
 ---
 
-<div class="main" role="main" markdown="0">
-  <div class="section one" markdown="0">
-    <div class="primary" markdown="0">
-      <div class="row" markdown="0">
-        <div class="small-12 columns usa-content" markdown="0">
-          <h3>Disability compensation is a key benefit that helps Veterans</h3>
-          <p>VA disability compensation provides monthly benefits to address the effects of disabilities, diseases, or injuries incurred or aggravated during active military service. Some may not be apparent until years after you have completed your service.</p>
-          <p>A disability can apply to physical conditions, such as chronic knee pain, as well as mental-health conditions, such as <a href="/disability-benefits/conditions/ptsd/">post-traumatic stress disorder (PTSD)</a>.</p>
-        </div>
-      </div>
-    </div>
+### Disability compensation is a key benefit that helps Veterans
 
-    <div class="row">
-      <div class="small-12 columns">
-        <div class="section-nav">
-          <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-            <li>
-              <a href="/disability-benefits/conditions/">
-                <h4 class="alternate">Conditions</h4>
-                <span>What conditions qualify me for benefits?</span>
-              </a>
-            </li>
-            <li>
-              <a href="/disability-benefits/claims-process/">
-                <h4 class="alternate">Claims process</h4>
-                <span>How does the claims process work?</span>
-              </a>
-            </li>
-            <li>
-              <a href="/disability-benefits/claims-appeal/">
-                <h4 class="alternate">Appeals</h4>
-                <span>What if I disagree with my rating decision?</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-</div>
+VA disability compensation provides monthly benefits to address the effects of disabilities, diseases, or injuries incurred or aggravated during active military service. Some may not be apparent until years after you have completed your service.
 
-<div class="section do">
-  <div class="row">
-    <div class="small-12 columns">
-      <div class="actions">
-        <a href="/disability-benefits/apply-for-benefits/" class="usa-button-primary va-button-primary usa-button-big">Apply for Benefits</a>
-      </div>
-    </div>
-  </div>
-</div>
+A disability can apply to physical conditions, such as chronic knee pain, as well as mental-health conditions, such as [post-traumatic stress disorder (PTSD)](/disability-benefits/conditions/ptsd/).
+
+
+

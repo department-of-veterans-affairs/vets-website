@@ -7,7 +7,7 @@ template: 4-action-page
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
@@ -35,17 +35,22 @@ Yes, if:
 - Your disability existed for six months or more, and
 - You were discharged under conditions other than dishonorable.
 
-#### Who is covered
+<br>
+
+### Who is covered
 
 You
 </div>
 <div markdown="1">
-#### Available benefits
+### Available benefits
 
 - Compensation
 - Health care
 
-#### How it works
+<br>
+<hr>
+
+### How it works
 
 The conditions that fall under the umbrella of Gulf War Illness are varied and extensive. They include fibromyalgia, chronic fatigue syndrome, functional gastrointestinal disorders, and undiagnosed illnesses such as headaches, joint pain, sleep disorders, and cardiovascular disease.
 
