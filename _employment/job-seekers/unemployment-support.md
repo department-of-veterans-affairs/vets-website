@@ -12,7 +12,7 @@ relatedlinks:
   - url: /employment/job-seekers/create-resume
     title: Résumé Builder
     description: ""
-  - url: /employment/job-seekers/search_jobs
+  - url: /employment/job-seekers/search-jobs
     title: Search the Veterans Job Bank
     description: ""
   - url: /employment/job-seekers/interest-profiler/
