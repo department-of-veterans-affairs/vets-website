@@ -12,7 +12,7 @@ template: 7-get-page
 
 <div class="primary">
 
-<p>Wherever you are in the transition process, the Veterans Employment Center provides career advice, mentorship, résumé-building assistance, and access to employers who are committed to hiring Veterans and military spouses.</p>
+<p>Wherever you are in the transition process, the Veterans Employment Center provides career advice, résumé-building assistance, and access to employers who are committed to hiring Veterans and military spouses.</p>
 
 </div>
 </div>
