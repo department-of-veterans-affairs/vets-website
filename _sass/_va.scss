@@ -99,8 +99,8 @@ a {
 }
 
 ul {
-  padding: 0;
-  list-style: square inside;
+  padding: 0 0 0 1.5em;
+  list-style: square;
 }
 
 ol {
@@ -141,6 +141,20 @@ input:focus:-ms-input-placeholder {
   color: transparent;
 }
 
+.usa-button,
+.usa-button-primary,
+.usa-button:visited,
+.usa-button-primary:visited,
+button,
+[type="button"],
+[type="submit"],
+[type="reset"],
+[type="image"] {
+  // TODO(crew): Remove this at some point. Fix this by using JS for title casing or passing nav labels as an object.
+  &.text-capitalize {
+    text-transform: capitalize;
+  }
+}
 
 // Interior rows
 #content.interior a[href^="http://"],
@@ -157,7 +171,6 @@ input:focus:-ms-input-placeholder {
   background-position: 100% 50%;
   background-repeat: no-repeat;
   background-size: 1em auto;
-  display: inline-block;
   padding-right: 1.2em;
 }
 
