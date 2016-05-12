@@ -17,13 +17,6 @@ relatedlinks:
    title: Military Transcripts
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
 One-on-one assistance can help you transition by providing current perspectives on workplaces, targeted job-search techniques, coaching, and résumé building. 
 
 <div class="call-out" markdown="1">
@@ -39,7 +32,8 @@ Yes, if:
 - You 
 - Your spouse (only for the TAP Career Technical Training Track)
 </div>
-<div class="small-12 columns usa-content" markdown="1">
+
+
 ### How it works
 
 There are many government and private resources available to you as you make this transition.
@@ -65,8 +59,3 @@ There are many government and private resources available to you as you make thi
 - [Homeless Veterans Community Employment Services](http://www.va.gov/HOMELESS/HVCES.asp) (HVCES) can help if you are homeless or at risk of becoming homeless.
 
 For information on all available VA benefits, contact VA career-and-training specialists at 1-800-827-1000.
-
-
-</div>
-</div>
-</div>
