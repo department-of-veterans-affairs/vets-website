@@ -15,7 +15,7 @@ relatedlinks:
   - url: /employment/job-seekers/alternative/
     title: Alternative Ways to Start Your Career
     description: ""
-  - url: /employment/job-seekers/search_jobs
+  - url: /employment/job-seekers/search-jobs
     title: Search the Veterans Job Bank
     description: ""
   - url: /employment/job-seekers/interest-profiler/
@@ -65,7 +65,7 @@ relatedlinks:
 - Compile your service-treatment records and military hospital reports if you plan on registering for VA medical resources.
 Both of these can be ordered through the [National Archives](https://www.archives.gov/veterans/military-service-records/). Treatment records are not required for registration or treament at VA.
 - Compile private medical records and hospital reports. 
-- Finalize your résumé and begin actively [searching for employment](/employment/job-seekers/search_jobs).
+- Finalize your résumé and begin actively [searching for employment](/employment/job-seekers/search-jobs).
 - Consider taking one of three additional GPS tracks: Accessing Higher Education, Career Technical Training, or Entrepreneurship. 
 - Consider free [education and career counseling](/education/tools-programs/education-career-counseling/).
 - At 120 days from separation, you can begin applying for [federal jobs](/employment/job-seekers/federal-employment). 

@@ -9,7 +9,7 @@ relatedlinks:
   - url: /employment/commitments
     title: View Employer Commitments
     description: ""        
-  - url: /employment/job-seekers/search_jobs
+  - url: /employment/job-seekers/search-jobs
     title: Search the Veterans Job Bank
     description: ""
   - url: /employment/job-seekers/unemployment-support/
