@@ -11,7 +11,7 @@ relatedlinks:
     title: Résumé Builder
   - url: /employment/commitments
     title: View Employer Commitments to Hire Veterans
-  - url: /employment/job-seekers/search_jobs
+  - url: /employment/job-seekers/search-jobs
     title: Search the Veterans Job Bank
   - url: /employment/job-seekers/career-fairs/
     title: Career Fairs

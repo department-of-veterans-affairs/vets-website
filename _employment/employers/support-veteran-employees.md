@@ -3,7 +3,7 @@ title: Support Veteran Employees
 concurrence: incomplete
 template: 1-topic-landing
 relatedlinks:
-  - url: /employment/job-seekers/search_jobs
+  - url: /employment/job-seekers/search-jobs
     title: Search the Veterans Job Bank
   - url: /employment/employers/post-a-job/
     title: Post a Job
