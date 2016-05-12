@@ -12,7 +12,7 @@ template: 7-get-page
 
 <div class="primary">
 
-<p>Wherever you are in the transition process, the Veterans Employment Center provides career advice, mentorship, résumé-building assistance, and exclusive access to employers who are committed to hiring Veterans and military spouses.</p>
+<p>Wherever you are in the transition process, the Veterans Employment Center provides career advice, résumé-building assistance, and access to employers who are committed to hiring Veterans and military spouses.</p>
 
 </div>
 </div>
@@ -31,7 +31,7 @@ template: 7-get-page
 
 - **Are you already in the workforce?**
   
-  Search for a [new career](/employment/job-seekers/search_jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
+  Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
 </div>
 </div>
 
@@ -70,9 +70,9 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 <div markdown="1">
 
-##### Build a résumé and public profile
+##### Build a résumé
 
-- Build your [résumé and public profile](/employment/job-seekers/create-resume) so employers can find you.
+- Build your [résumé](/employment/job-seekers/create-resume).
 - Get a free [LinkedIn&#8482; Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
 
 </div>
@@ -101,7 +101,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 
 ##### Search online job banks
 
-- Search the [Veterans Employment Center](/employment/job-seekers/search_jobs) for job openings.
+- Search the [Veterans Employment Center](/employment/job-seekers/search-jobs) for job openings.
 - Search for connections and job listings on [LinkedIn&#8482;](https://veterans.linkedin.com/) as well as other online job boards. 
 </div>
 
