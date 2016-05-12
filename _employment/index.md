@@ -15,7 +15,7 @@ majorlinks:
     title: Job Seekers
     description: Map your military skills, build a civilian résumé, and post your profile so employers can find you easily. Search our career opportunities, and learn about organizations that can assist you with career development and employment.
   - url: /employment/employers/
-    title: Employers
+    title: Employers 
     description: Search verified profiles of Veterans and their spouses to get direct access to Veterans who are seeking employment. Make a public hiring commitment when you post open positions. You’ll benefit from Veteran experience and skills, and you’ll hire the best!
 ---
 
