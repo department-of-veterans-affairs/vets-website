@@ -852,23 +852,23 @@ dl.simple {
     border-bottom: 1px solid rgba(0,0,0,.2);
     &:last-of-type { border-bottom: none;}
     a {
-    color: $color-primary-darkest;
-    border-bottom: none;
-    box-shadow: none;
-    text-decoration: none;
-    border-radius: none;
-    border-radius: 0;
-    padding: 1em .5em;
-    height: auto;
-    margin: 0;
-    background: none;
-    &:hover {padding-left: .5em; background: rgba(0,0,0,.1); border-left: 4px solid $color-primary;}
+      color: $color-primary-darkest;
+      border-bottom: none;
+      box-shadow: none;
+      text-decoration: none;
+      border-radius: none;
+      border-radius: 0;
+      padding: 1em .5em;
+      height: auto;
+      margin: 0;
+      background: none;
+      &:hover {
+        padding-left: .5em; 
+        background: rgba(0,0,0,.1); 
+        border-left: 4px solid $color-primary;
+      }
     }
   }
-}
-
-body.fourohfour #content {
-  h3 {margin-top: 1em; font-size: 1.4em;}
 }
 
 .draft {
