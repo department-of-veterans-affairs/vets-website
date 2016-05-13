@@ -1,0 +1,107 @@
+// Styles for card navigation elements
+
+.va-cards {
+  display: block;
+  // TODO: Remove !important when 
+  // #content .main .section.one ul is cleared up
+  margin: 0 !important;
+  min-width: 300px;
+  padding: 0;
+}
+
+// Foundation break point
+@media #{$medium} {
+  .va-cards--3across,
+  .va-cards--2across {
+    @include clearfix;
+  }
+  
+  .va-cards--3across {
+    > .va-card {
+      width: 32%;
+    } 
+  }
+  
+  .va-cards--2across {
+    > .va-card {
+      width: 48.7%
+    } 
+  }
+}
+
+.va-card { 
+  list-style: none !important;
+  overflow: hidden;
+  position: relative;
+  padding: 0;
+  
+  &:hover, &:focus {
+    box-shadow: 0 0 5px rgba(0,0,0,0.35);
+  }
+
+  @media #{$medium} {
+    float: left;
+    margin: 0 0.625rem 1.25rem 0.67rem;
+  }
+  
+  a {
+    color: inherit;
+  }
+}
+
+// This can be any element, but usually an
+// `a` or `div`
+.va-card-body {
+  @include transition(all 0.3s ease-in-out);
+  background: $color-primary-darker;
+  border-bottom: 2px solid rgba(255,255,255,0.3);
+  color: #fff !important;
+  display: block;
+  font-weight: normal;
+  overflow: hidden;
+  padding: 1em 1.15em;
+  text-decoration: none;
+
+  &:hover {
+    background: $color-primary;
+    cursor: pointer;
+    text-decoration: inherit;
+  }
+
+  + ul,
+  + ol {
+    margin: 1em 1.2em 0 2em !important;
+  }
+  
+  &:active,
+  &:hover,
+  &:focus {
+    color: inherit;
+    box-shadow: 0 0 5px rgba(0,0,0,0.35);
+  }
+  
+  // Using $medium instead of $medium-screen
+  // because this grid uses Foundation, not USWDS
+  // Roughly a 640px breakpoint.
+  @media #{$medium} {
+    height: 10em;
+    padding: .45em .75em;
+    border-bottom: none;
+    text-align: left;
+    border-radius: .2em;
+  }
+}
+
+.va-card-title {
+  color: $color-white !important;
+  font: 600 1.35em / 1 $font-sans !important;
+  margin: 0 !important;
+  padding: 0 0 .25em 0 !important;
+  
+  a {
+    text-decoration: none;
+    background-color: transparent;
+  }
+}
+
+
