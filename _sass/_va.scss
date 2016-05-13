@@ -896,53 +896,6 @@ body.fourohfour #content {
   @media #{$small} {padding: 0 0.625rem 1.25rem 0.625rem;}
 }
 
-#content  .cards {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
-
-  a, .coming-soon {
-    padding: 1em 1.15em;
-    margin: 0 -0.9375rem;
-    border-bottom: 2px solid rgba(255,255,255,.3);
-    color: $color-white;
-    display: block;
-    font-weight: normal;
-    text-decoration: none;
-    background: $color-primary-darker;
-    box-shadow: 0 0 5px rgba(0,0,0,.1);
-    @media #{$small} {padding: .45em .75em; border-bottom: none; text-align: left; border-radius: .2em; margin: 0 0 .25em 0}
-    @media #{$medium} {height: 10em;}
-
-    h3 {
-      -webkit-font-smoothing: antialiased;
-      text-decoration: none;
-      margin: 0;
-      padding: 0;
-      @media #{$small} {margin: 0 0 1em 0;}
-    }
-
-    h3, h4, h5 {font-size: 1.35em; font-weight: 700;}
-
-    h4 {margin: 0; padding: 0;}
-
-    p {
-      @media #{$small} {padding: 0m 0 1em 0;}
-      line-height: 1.5em;
-      @media #{$small} {margin: 0;}
-    }
-
-    &:hover, &:active, &:focus {
-      background: $color-primary;
-      box-shadow: 0 0 5px rgba(0,0,0,.35);
-    }
-
-    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; color: $color-white; display: block; clear: both; width: 100%;}
-
-    &:hover div {
-      a {color: $color-gold; p {color: $color-gold;}}
-    }
-}
-
 .coming-soon {
   background: rgba(255,255,255,.05);
   color: $color-white;
