@@ -64,7 +64,7 @@ A Substantive Appeal must be filed within 60 days from the date on the letter ac
 
 Complete and file [VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf). 
 
-Find out what happens to [your appeal at the Board]( https://www.vets.gov/disability-benefits/claims-appeal/veterans-appeals-board/).
+Find out what happens to [your appeal at the Board](/disability-benefits/claims-appeal/veterans-appeals-board/).
 
 #### What is the status of my appeal?
 
@@ -89,7 +89,7 @@ If you are not satisfied with the Board’s decision, you can:
 - File a new claim with your regional office.
 - File a motion asking the Board to reconsider your appeal. (There is no time limit to file this motion.)
 - File a motion asking the Board to review your appeal again because there was clear and obvious error in its decision. (There is no time limit to file this motion, but it cannot be filed until after the Board decision becomes final.)
-- File a Notice of Appeal with the [Court of Appeals for Veterans Claims (CAVC)](https://www.vets.gov/disability-benefits/claims-appeal/court-appeals-veterans-claims/) within 120 days from the date of the decision by the Board (stamped on the first page of the decision)
+- File a Notice of Appeal with the [Court of Appeals for Veterans Claims (CAVC)](/disability-benefits/claims-appeal/court-appeals-veterans-claims/) within 120 days from the date of the decision by the Board (stamped on the first page of the decision)
 
 </div>
 <div markdown="1">

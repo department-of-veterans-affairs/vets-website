@@ -31,7 +31,7 @@ template: 7-get-page
 
 - **Are you already in the workforce?**
   
-  Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
+  Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](/education/gi-bill/).
 </div>
 </div>
 
@@ -146,7 +146,7 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 #### Take a different approach to starting your career 
 
 - Start or grow [your own business](/employment/job-seekers/start/). 
-- Evaluate [non-traditional programs](https://www.vets.gov/education/work-learn/job-and-apprenticeship/) like apprenticeships, work study, and on-the-job training.
+- Evaluate [non-traditional programs](/education/work-learn/job-and-apprenticeship/) like apprenticeships, work study, and on-the-job training.
 
 </div>
 
