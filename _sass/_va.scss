@@ -896,25 +896,7 @@ body.fourohfour #content {
   @media #{$small} {padding: 0 0.625rem 1.25rem 0.625rem;}
 }
 
-.coming-soon {
-  background: rgba(255,255,255,.05);
-  color: $color-white;
-  border-bottom: 2px solid rgba(0,0,0,0);
-
-  h3 {color: $color-white; color: rgba(255,255,255,.7);}
-
-  &:hover, &:active, &:focus {
-    background: rgba(255,255,255,.05);
-    color: $color-white;
-    p {color: $color-white;}
-    border-bottom: 2px solid rgba(0,0,0,0);
-    box-shadow: none;
-  }
-}
-}
-
 // Telephone numbers
-
 span.tel {
   background: rgba(0,0,0,.05);
   padding: .2em;
@@ -925,33 +907,30 @@ span.tel {
 
 ul.information-grid {
 
-li {
+  li {
 
-  strong {
-    font-size: 1.3em;
-    color: $color-primary-darkest;
+    strong {
+      font-size: 1.3em;
+      color: $color-primary-darkest;
+    }
+
+    p {
+      font-size: .9em;
+    }
+
+    div {
+      padding: .75em;
+      margin: 0 0 .5em 0;
+      @media #{$small} {min-height: 12em;}
+      background: $color-gray-lightest;
+      background: rgba(0,0,0,.05);
+      &:hover, &:focus, &:active {background: rgba(0,0,0,.1);}
+    }
+    a {
+      text-decoration: none;
+      border-bottom: 2px solid $color-primary-darkest;
+    }
   }
-
-  p {
-    font-size: .9em;
-  }
-
-  div {
-    padding: .75em;
-    margin: 0 0 .5em 0;
-    @media #{$small} {min-height: 12em;}
-    background: $color-gray-lightest;
-    background: rgba(0,0,0,.05);
-    &:hover, &:focus, &:active {background: rgba(0,0,0,.1);}
-  }
-  a {
-
-    text-decoration: none;
-    border-bottom: 2px solid $color-primary-darkest;
-
-  }
-}
-
 }
 
 
