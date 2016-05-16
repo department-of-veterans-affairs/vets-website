@@ -3,18 +3,11 @@ title: Support Veteran Employees
 concurrence: incomplete
 template: 1-topic-landing
 relatedlinks:
-  - url: /employment/job-seekers/search_jobs
+  - url: /employment/job-seekers/search-jobs
     title: Search the Veterans Job Bank
   - url: /employment/employers/post-a-job/
     title: Post a Job
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 Veterans are civic assets who can draw on their experiences to improve your business. When a Servicemember first joins a private-sector company, there may be a transition period for both the Veteran and the company. This [web-based tutorial](http://www.va.gov/VETSINWORKPLACE/training/EAP/default.htm) provides tips on how you can support Veterans, Reservists, and National Guardsmen in your workplace.
 
@@ -30,8 +23,3 @@ Employers participating in an on-the-job training (OJT) program can hire a Veter
 
 - Some Veterans may have disabilities that were acquired or aggravated during their military service; these are called service-related or [service-connected disabilities](/disability-benefits/conditions/service-connected/).
 - [Understanding Your Employment Rights Under the Americans with Disabilities Act (ADA): A Guide for Veterans](http://www.eeoc.gov/eeoc/publications/ada_veterans.cfm) briefly explains how protections for Veterans with service-connected disabilities differ under USERRA and the ADA. It also describes how the ADA, in particular, applies to recruiting, hiring, and accommodating Veterans with service-connected disabilities.
-
-
-</div>
-</div>
-</div>

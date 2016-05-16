@@ -9,13 +9,6 @@ relatedlinks:
     title: Entrepreneurship Counseling
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
 There are many advantages to registering your small business with VA as a Veteran-Owned Small Business (VOSB) or Service-Disabled Veteran-Owned Small Business (SDVOSB) through VA’s Veterans First Verification Program, including contract-bidding advantages with state and federal governments. You also get:
 
 - Tax relief 
@@ -41,8 +34,3 @@ You
 
 ### Learn more
 Contact a [trained specialist](http://www.va.gov/osdbu/verification/assistance/counselors.asp) who can coach you through the application process.
-
-
-</div>
-</div>
-</div>
