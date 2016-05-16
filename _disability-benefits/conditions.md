@@ -1,7 +1,6 @@
 ---
 title: Conditions
 source: https://eauth.va.gov/ebenefits/learn/compensation
-template: 2-detailed-landing
 relatedlinks:
   - url: /disability-benefits/conditions/ptsd/
     title: PTSD
@@ -33,7 +32,7 @@ relatedlinks:
 
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 <div markdown="1">
 Do you have physical or emotional conditions that started—or became worse—during your active military service? If so, they may be considered service connected, and you may be eligible for monthly benefits no matter when or where you served.
 </div>
@@ -45,15 +44,16 @@ Yes, if:
 - You became ill or were injured while serving in the military, and you are able to link your current disability to this illness or injury.
 - You had a disability before you entered the military, and activities, injury, or illness during your service made your condition worse.
 
-#### Who is covered
+<br>
+
+### Who is covered
 
 You and your dependents
 </div>
 <div markdown="1">
-#### How it works
+### How it works
 
 When you apply for benefits, you will need to prove your conditions were caused by, or became worse because of, your service.
-
 
 #### What sorts of physical and mental health conditions may qualify me for benefits?
 
@@ -73,8 +73,5 @@ When you apply for benefits, you will need to prove your conditions were caused 
 Access the [complete schedule of disabilities](http://www.benefits.va.gov/warms/bookc.asp).
 </div>
 
-
 </div>
 </div>
-
-

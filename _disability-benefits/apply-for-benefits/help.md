@@ -13,7 +13,6 @@ relatedlinks:
     title: How do I file for disabilities that appear within one year after discharge?
   - url: /disability-benefits/claims-process/date/
     title: Effective date of disability
-
 ---
 
 <div class="main" role="main" markdown="0">

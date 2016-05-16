@@ -1,6 +1,6 @@
 ---
 title: Licensing and Certification
-Template: 1-topic-landing
+template: 4-action-page
 concurrence: incomplete
 ---
 

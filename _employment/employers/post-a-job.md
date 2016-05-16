@@ -1,7 +1,7 @@
 ---
 title: Post a Job
 concurrence: complete
-template: 1-topic-landing
+template: not-1-topic-landing
 ---
 <link href="/assets/css/vendor/prism.css" type="text/css" rel="stylesheet">
 
@@ -38,7 +38,6 @@ All employers
 ### How it works
 
 If your company’s current job listing is posted on the NLX, then it is also searchable in the Veterans Job Bank. If you haven’t registered your company with the NLX, [register now and post for free](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
-Or reach out to [qualified Veterans and military spouses](https://www.vets.gov/veterans-employment-center/employers) directly.
 
 <hr>
 
