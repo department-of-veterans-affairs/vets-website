@@ -12,7 +12,7 @@ relatedlinks:
   - url: /employment/job-seekers/create-resume
     title: Résumé Builder
     description: ""
-  - url: /employment/job-seekers/search_jobs
+  - url: /employment/job-seekers/search-jobs
     title: Search the Veterans Job Bank
     description: ""
   - url: /employment/job-seekers/interest-profiler/
@@ -22,14 +22,6 @@ relatedlinks:
     title: Military Transcripts
     description: ""
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through the Unemployment Compensation for Ex-Servicemembers (UCX) program.
 
@@ -62,8 +54,3 @@ Receiving unemployment will not affect your wages, but if you receive separation
 - Current résumé or military job history 
 
 If you are unemployed and at risk of becoming homeless, call or visit your [local VA Medical Center](/facility-locator/) or Community Resource and Referral Center where VA staff are ready to help. 
-
-
-</div>
-</div>
-</div>

@@ -2,7 +2,30 @@
 
 <div id="content" class="interior {{ page.id }}">
   {% include breadcrumbs.html %}
-  {{ content }}
+  
+  {% case page.template %}
+    {% when 'L2-section-landing' %}
+      {% include L2-section-landing.html %}
+  
+    {% when '1-topic-landing' or 'alt-1-topic-landing' %}
+      {% include 1-topic-landing.html %}
+
+    {% when '2-detailed-landing' %}
+      {% include 2-detailed-landing.html %}
+
+    {% when '4-action-page-pending' %}
+      {{ content }}
+
+    {% when '6-info-page' %}
+      {{ content }}
+
+    {% when '7-get-page' %}
+      {{ content }}
+    
+  {% else %}
+    {{ content }}
+  {% endcase %}
+  
   {% include related-links.html %}
 </div>
 {% include footer.html %}
