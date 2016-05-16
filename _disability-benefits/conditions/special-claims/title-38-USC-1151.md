@@ -43,9 +43,7 @@ You
 
 Compensation
 
-<br>
 <hr>
-<br>
 
 ### How it works
 

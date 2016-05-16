@@ -61,9 +61,7 @@ You
 -	Health care
 -	Treatment for PTSD
 
-<br>
 <hr>
-<br>
 
 ### How it works
 
