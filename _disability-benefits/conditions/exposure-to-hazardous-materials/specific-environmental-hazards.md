@@ -16,7 +16,7 @@ template: 4-action-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 medium-8 columns">
+<div class="small-12 medium-8 columns usa-content">
 
 
 <div markdown="1">
@@ -25,7 +25,7 @@ If you were exposed to specific environmental hazards (such as burn pits) while 
 </div>
 
 <div class="small-12 columns">
-<div class="call-out" markdown="1">
+<div class="call-out usa-content" markdown="1">
 
 ### Are you eligible for compensation?
 
@@ -39,21 +39,24 @@ You have a disability resulting from your exposure to an environmental hazard du
 - [Contaminated drinking water at Camp Lejeune](/disability-benefits/conditions/exposure-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/), North Carolina, between 1953 and 1987.
 - Pollutants from a waste incinerator near the Naval Air Facility at Atsugi, Japan.
 
+<br>
+
 ### Who is covered
 
 You and your survivors
-
-
 </div>
 
-<div markdown="1">
+<div class="usa-content" markdown="1">
 
-#### Available benefits
+### Available benefits
 
 - Compensation
 - Health care
 
-#### How it works
+<br>
+<hr>
+
+### How it works
 
 You should submit any additional information (such as the [Burn Pit Registry]( https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/)) regarding proof of exposure when filing your claim.
 
