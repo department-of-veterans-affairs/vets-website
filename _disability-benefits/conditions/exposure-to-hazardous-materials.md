@@ -34,26 +34,5 @@ relatedlinks:
     description: Exposure to environmental hazards may include particulate matter and large burn pits in Iraq, Afghanistan, and Djibouti; contaminated drinking water at Camp Lejeune, North Carolina; and pollutants from a waste incinerator near Atsugi, Japan.
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 You may be eligible for disability compensation if you were exposed to certain chemical, physical, and environmental hazards during military service that resulted in disease or injury.
-
-</div>
-</div>
-</div>
-</div>
-
-</div>

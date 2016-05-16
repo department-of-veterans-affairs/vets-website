@@ -19,25 +19,4 @@ relatedlinks:
     description: ""
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
 A disability claim is a formal legal request for benefits. It’s very important to prepare carefully and to make sure you have the details right before applying. An [accredited representative]({{ site.url }}/disability-benefits/apply-for-benefits/help/index.html) can help you through the process. Below are links to some of the key terms and classifications that VA uses to process your claim.
-
-</div>
-</div>
-</div>
-
-</div>
