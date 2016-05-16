@@ -54,7 +54,7 @@ relatedlinks:
 <div class="row" markdown="0">
 <div class="small-12 medium-3 columns"  markdown="0">
 
-<div class="card information" markdown="0">
+<div class="card information usa-content" markdown="0">
 <span class="number" markdown="0">114.5</span>
 <span class="description" markdown="0">Days</span>
 <span class="heading" markdown="0">(Average time)</span>
@@ -63,7 +63,7 @@ relatedlinks:
 
 </div>
 
-<div class="small-12 medium-9 columns">
+<div class="small-12 medium-9 columns usa-content">
 
 <div class="info-block usa-content" markdown="1">
 
@@ -101,7 +101,7 @@ If you’ve already filed a claim, check on its progress through [eBenefits](htt
 
 </div>
 
-<div class="feature" markdown="1">
+<div class="feature usa-content" markdown="1">
 
 ###### Documents you’ll need
 
@@ -121,7 +121,7 @@ For all compensation claims, please provide:
 
 </li>
 
-<li class="step two wow fadeIn animated">
+<li class="step two wow fadeIn animated usa-content">
 
 <div markdown="1">
 
@@ -139,7 +139,7 @@ Choose one of three ways:
 
 </li>
 
-<li class="step three wow fadeIn animated">
+<li class="step three wow fadeIn animated usa-content">
 
 <div markdown="1">
 
@@ -154,7 +154,7 @@ Choose one of three ways:
 </div>
 
 
-<div class="feature" markdown="1">
+<div class="feature usa-content" markdown="1">
 
 ###### Here’s what happens once you’ve filed your claim:
 
@@ -171,7 +171,7 @@ Choose one of three ways:
 <a target="_blank" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation" class="usa-button-primary">Track the status of your claim at eBenefits</a>
 </div>
 
-<div markdown="1">
+<div class="usa-content" markdown="1">
 
 ###### What if VA needs more information?
 
@@ -188,7 +188,7 @@ Other than attend scheduled examinations, you don't need to do anything else unl
 
 </li>
 
-<li class="step last four wow fadeIn animated">
+<li class="step last four wow fadeIn animated usa-content">
 
 <div markdown="1">
 
@@ -217,6 +217,3 @@ If you disagree with the decision, you may appeal it. The decision letter contai
 </div>
 </div>
 </div>
-
-
-
