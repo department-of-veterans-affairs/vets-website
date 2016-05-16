@@ -31,6 +31,8 @@ The VA appeals process is set in law and is different from other judicial appeal
 - Initiate an appeal at your regional office by filing a Notice of Disagreement (NOD).  
 [Accredited representatives](/disability-benefits/apply-for-benefits/help/index.html) can help you with this decision and the process.
 
+<br>
+
 ### When do I file an NOD?
 
 An NOD must be filed within one year from the date on the letter notifying you of the decision on your claim(s).
@@ -52,6 +54,8 @@ VBA will prepare and mail you a written explanation, known as a Statement of the
 ### What if I still don’t agree with the decision made on my claim(s) after VBA issues the SOC?
 
 If an appeal is not resolved to your satisfaction at the VBA level, you may formally continue that appeal to the Board for a de novo (new look) review and Board decision by filing a Substantive Appeal (VA Form 9).
+
+<br>
 
 ### When do I file a Substantive Appeal?
 
@@ -81,6 +85,8 @@ The continuous open record of the current VA appeals process allows you to submi
 If at any time you decide that you no longer want to appeal the initial claim decision  (regarding any or all of the issues involved in the appeal), you or your authorized representative may submit a written statement including your name, the applicable Department of Veterans Affairs file number, and a statement that you are withdrawing the appeal. 
 
 If you request the withdrawal *before* you receive notice that the appeal has been transferred to the Board, submit this statement to VBA. Thereafter, the statement should be submitted directly to the Board.  
+
+<br>
 
 ### What's Next
 
