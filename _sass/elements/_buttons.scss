@@ -1,5 +1,4 @@
 // Buttons variables
-
 $button-stroke: inset 0 0 0 2px;
 
 // Buttons
@@ -149,11 +148,6 @@ button,
   &.usa-button-big {
     font-size: 1.9rem;
     padding: 1.5rem 3rem;
-  }
-
-  // TODO(crew): Remove this at some point. Fix this by using JS for title casing or passing nav labels as an object.
-  &.text-capitalize {
-    text-transform: capitalize;
   }
 }
 

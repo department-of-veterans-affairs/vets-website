@@ -9,20 +9,13 @@ relatedlinks:
     title: Military Skills Translator
   - url: /employment/job-seekers/create-resume
     title: R&eacute;sum&eacute; Builder
-  - url: /employment/job-seekers/search_jobs
+  - url: /employment/job-seekers/search-jobs
     title: Search the Veterans Job Bank
   - url: /employment/job-seekers/interest-profiler/
     title: Interest Profiler
   - url: /employment/job-seekers/military-transcripts/
     title: Military Transcripts
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 Representatives from the Veterans Economic Community Initiative (VECI) are available in 25 cities. 
 
@@ -31,8 +24,3 @@ Representatives from the Veterans Economic Community Initiative (VECI) are avail
 - If you are an employer, VECI regional liaisons can help you hire Veterans.
 
 Find a [VECI economic liaison](http://www.benefits.va.gov/TEEI/economic-liaison-list.asp) near you. 
-
-</div>
-</div>
-</div>
- 

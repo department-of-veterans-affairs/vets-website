@@ -1,7 +1,3 @@
-// TODO: check with USDS to see if they intended it to be rem
-// (rem breaks our design)
-$usa-form-width: 32em;
-
 form {
   @include media($medium-screen) {
     max-width: $usa-form-width;
