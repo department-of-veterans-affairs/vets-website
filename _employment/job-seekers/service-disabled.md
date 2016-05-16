@@ -9,20 +9,13 @@ relatedlinks:
     title: Military Skills Translator
   - url: /employment/job-seekers/create-resume
     title: Résumé Builder
-  - url: /employment/job-seekers/search_jobs
+  - url: /employment/job-seekers/search-jobs
     title: Search the Veterans Job Bank
   - url: /employment/job-seekers/interest-profiler/
     title: Interest Profiler
   - url: /employment/job-seekers/military-transcripts/
     title: Military Transcripts
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 As a service-disabled Veteran, there are many ways for you to pursue your personal and professional goals through both government and private-sector employment.
 
@@ -47,7 +40,4 @@ Credentialing and job training will help in your search. Check your [military tr
 ### Learn more
 Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov/hr/RVECS/pages/rvecs-map.asp) or your [policy and benefits advocate](/disability-benefits/apply-for-benefits/help/) for more information.
 
-
-</div>
-</div>
-</div>
+ 
