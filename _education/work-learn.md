@@ -21,25 +21,4 @@ relatedlinks:
 
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
 You are in charge of designing your own education. VA education benefits, including the GI Bill, give you a wide range of options, including on-the-job-training, apprenticeships, overseas schools, and correspondence training.
-
-</div>
-</div>
-</div>
-
-</div>

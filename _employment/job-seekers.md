@@ -14,27 +14,27 @@ template: 4-action-page
 
 
 <div class="usa-content" markdown="1">
-Wherever you are in the transition process, the Veterans Employment Center provides career advice, mentorship, résumé-building assistance, and exclusive access to employers who are committed to hiring Veterans and military spouses.
+Wherever you are in the transition process, the Veterans Employment Center provides career advice, résumé-building assistance, and access to employers who are committed to hiring Veterans and military spouses.
 </div>
 
 <div class="call-out" markdown="1">
 ### You may not be completely ready to start looking for a job, but there are other ways you can prepare.
 
-- #### Do you plan to leave active duty in less than 12 months?
+- ##### Do you plan to leave active duty in less than 12 months?
   
   [Prepare for your transition](/employment/job-seekers/less-than-one-year) with this timeline.
 
 <br>
 
-- #### Have you recently left active duty?
+- ##### Have you recently left active duty?
   
   If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through [Unemployment Compensation for Ex-Servicemembers](/employment/job-seekers/unemployment-support).
 
 <br>
 
-- #### Are you already in the workforce?
+- ##### Are you already in the workforce?
   
-  Search for a [new career](/employment/job-seekers/search_jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
+  Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](https://www.vets.gov/education/gi-bill/).
 
 </div>
 
@@ -59,9 +59,9 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 </li>
 
 <li class="step three wow fadeIn animated" markdown="1">
-##### Build a résumé and public profile<br>
+##### Build a résumé<br>
 
-- Build your [résumé and public profile](/employment/job-seekers/create-resume) so employers can find you.
+- Build your [résumé](/employment/job-seekers/create-resume).
 - Get a free [LinkedIn&#153; Job Seeker profile](https://veterans.linkedin.com/) to present yourself professionally.
 </li>
 
@@ -77,7 +77,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 <li class="step five wow fadeIn animated animated" markdown="1">
 ##### Search online job banks
 
-- Search the [Veterans Employment Center](/employment/job-seekers/search_jobs) for job openings.
+- Search the [Veterans Employment Center](/employment/job-seekers/search-jobs) for job openings.
 - Search for connections and job listings on [LinkedIn&#153;](https://veterans.linkedin.com/) as well as other online job boards. 
 </li>
 
