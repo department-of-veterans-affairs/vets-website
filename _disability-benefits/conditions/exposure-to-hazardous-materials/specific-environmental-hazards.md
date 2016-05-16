@@ -53,7 +53,6 @@ You and your survivors
 - Compensation
 - Health care
 
-<br>
 <hr>
 
 ### How it works

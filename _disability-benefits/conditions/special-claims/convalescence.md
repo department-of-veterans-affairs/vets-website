@@ -56,9 +56,7 @@ You
 -	Health care
 -	Temporary 100% disability rating
 
-<br>
 <hr>
-<br>
 
 ### How it works
 

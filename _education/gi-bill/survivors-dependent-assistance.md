@@ -54,9 +54,7 @@ Your family
 - A location-adjusted housing allowance for you to pay your living expenses during enrollment
 - A stipend for books and supplies
 
-<br>
 <hr>
-<br>
 
 ### How it works
 
