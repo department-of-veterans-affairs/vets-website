@@ -30,6 +30,9 @@
 @import "core/utilities";
 @import "core/variables";
 
+// VA-specific variables
+@import "va-variables";
+
 // @import "elements/typography";
 @import "elements/buttons";
 @import "elements/inputs";
@@ -42,7 +45,6 @@
 @import "components/sidenav";
 @import "components/va-nav-category";
 
-@import "va-variables";
 @import "va";
 @import "elements/va-table";
 @import "hca";

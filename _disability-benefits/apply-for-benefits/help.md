@@ -13,7 +13,6 @@ relatedlinks:
     title: How do I file for disabilities that appear within one year after discharge?
   - url: /disability-benefits/claims-process/date/
     title: Effective date of disability
-
 ---
 
 <div class="main" role="main" markdown="0">
@@ -83,7 +82,6 @@ There are two ways to do this:
 
 2. Complete [VA Form 21-22](http://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf). Mail this form to your nearest [VA regional office](http://www.benefits.va.gov/benefits/offices.asp). Please speak to the service organization or representative before you submit your request.
 
-</div>
 </div>
 </div>
 </div>

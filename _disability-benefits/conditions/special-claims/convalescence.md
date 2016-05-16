@@ -17,14 +17,14 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
 
 You may be eligible for a temporary 100% disability rating while you recover from surgery, or from an immobilizing disability related to your service.
 
 <div class="call-out" markdown="1">
 
-#### Are you eligible for compensation?
+### Are you eligible for compensation?
 
 Yes, if:
 
@@ -39,31 +39,34 @@ Yes, if:
     - or required use of a wheelchair or crutches, or
 -	One major joint or more was immobilized by a cast without surgery.
 
-#### Who is covered
+<br>
+
+### Who is covered
 
 You
 
 </div>
 </div>
 
-<div class="small-12 columns">
-<div markdown="1">
+<div class="usa-content" markdown="1">
 
-#### Available benefits
+### Available benefits
 
 -	Temporary increase in compensation
 -	Health care
 -	Temporary 100% disability rating
 
-#### How it works
+<br>
+<hr>
+<br>
+
+### How it works
 
 A temporary 100% rating is for convalescence based on surgery or immobilization of a joint by a cast without surgery for a service-connected disability. The temporary 100% rating may continue for one to three months depending on individual circumstances, with possible extensions up to an additional three months in severe cases.
 
-#### Example
-
+**Example**<br>
 A Veteran has a left knee condition that resulted in a 30% disability rating. Due to further deterioration of the knee, the VA physician recommended surgery to arrest the problem. Since the success of the surgery won't be known for three months following the one week of hospitalization, VA granted the Veteran a temporary 100% disability rating for three months.
 
-</div>
 </div>
 </div>
 </div>
