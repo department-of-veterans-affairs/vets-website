@@ -56,7 +56,6 @@ You
 - Compensation
 - Health care
 
-<br>
 <hr>
 
 ### How it works

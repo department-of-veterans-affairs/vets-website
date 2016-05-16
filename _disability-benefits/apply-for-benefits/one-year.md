@@ -61,7 +61,6 @@ You
 -	Health care
 -	Disability
 
-<br>
 <hr>
 
 ### How it works
