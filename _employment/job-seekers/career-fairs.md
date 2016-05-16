@@ -7,18 +7,11 @@ relatedlinks:
     title: One-on-One Assistance
   - url: /employment/commitments            
     title: View Employer Commitments to Hire Veterans
-  - url: /employment/job-seekers/search_jobs
+  - url: /employment/job-seekers/search-jobs
     title: Search the Veterans Job Bank
   - url: /employment/job-seekers/unemployment-support/
     title: Unemployment Support
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 Career fairs are an important first step in the search for employment. In-person or online, job fairs let you directly and efficiently network with hiring managers from a variety of companies. 
 
@@ -48,8 +41,3 @@ Career fairs are an important first step in the search for employment. In-person
 [Virtual Job Scout](https://www.virtualjobscout.org/), sponsored by the U.S. Chamber of Commerce Foundation’s Hiring Our Heroes, connects Veterans, transitioning Servicemembers, and military spouses with recruiters online. 
 
 [Veteran Recruiting job fairs](http://veteranrecruiting.com/) are virtual events that give job seekers the opportunity to chat live with employers online. Employers are also available offline.
-
-
-</div>
-</div>
-</div>   

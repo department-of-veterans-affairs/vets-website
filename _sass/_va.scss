@@ -99,8 +99,8 @@ a {
 }
 
 ul {
-  padding: 0;
-  list-style: square inside;
+  padding: 0 0 0 1.5em;
+  list-style: square;
 }
 
 ol {
@@ -141,6 +141,20 @@ input:focus:-ms-input-placeholder {
   color: transparent;
 }
 
+.usa-button,
+.usa-button-primary,
+.usa-button:visited,
+.usa-button-primary:visited,
+button,
+[type="button"],
+[type="submit"],
+[type="reset"],
+[type="image"] {
+  // TODO(crew): Remove this at some point. Fix this by using JS for title casing or passing nav labels as an object.
+  &.text-capitalize {
+    text-transform: capitalize;
+  }
+}
 
 // Interior rows
 #content.interior a[href^="http://"],
@@ -157,7 +171,6 @@ input:focus:-ms-input-placeholder {
   background-position: 100% 50%;
   background-repeat: no-repeat;
   background-size: 1em auto;
-  display: inline-block;
   padding-right: 1.2em;
 }
 
@@ -410,7 +423,8 @@ h6 {font-size: 1.15em; font-weight: bold;}
   margin: 0 0 1.5em 0;
   p {margin-bottom: 0; padding-bottom: .5em}
   p:nth-child(1) {
-    font-size: 1.25em;
+  // TODO: refactor #content.interior .primary li p:first-of-type and remove !important
+    font-size: 1.25em !important;
     color: $color-gray-dark;
     padding-bottom: inherit;
   }
@@ -421,6 +435,29 @@ h6 {font-size: 1.15em; font-weight: bold;}
       list-style: square;
       margin: 0;
     }
+  }
+}
+
+.va-callout {
+  background: $color-primary-alt-lightest;
+  padding: 1em;
+  clear: both;
+  margin: 0 0 1.5em 0;
+  
+  dt {
+    color: $color-primary-darkest;
+    font-size: 1.65em;
+    font-weight: bold;
+    margin: 0 0 .5rem 0;
+  }
+  
+  dd {
+    margin-left: 0;
+    padding-left: 0;
+  }
+  ul {
+    margin: 0 0 .5rem 1.5rem;
+    padding: 0;
   }
 }
 

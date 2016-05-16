@@ -11,20 +11,13 @@ relatedlinks:
     title: Résumé Builder
   - url: /employment/commitments
     title: View Employer Commitments to Hire Veterans
-  - url: /employment/job-seekers/search_jobs
+  - url: /employment/job-seekers/search-jobs
     title: Search the Veterans Job Bank
   - url: /employment/job-seekers/career-fairs/
     title: Career Fairs
   - url: /employment/job-seekers/unemployment-support/
     title: Unemployment Support
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 The Veterans Employment Center can help spouses and family members access valuable career resources. 
 
@@ -58,8 +51,3 @@ Sign up for a current DS Logon ID. This is the same login used for online servic
 
 - Request a logon account.  
 - Register on the SECO site.
-
-</div>
-</div>
-</div>
-         

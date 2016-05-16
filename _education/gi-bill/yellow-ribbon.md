@@ -104,7 +104,7 @@ You will receive notice from your school about whether you have been accepted to
 - [Yellow Ribbon Program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/Yellow_Ribbon_Pamphlet.pdf)
 </div>
 
-</div>
+
 
 </div>
 

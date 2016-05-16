@@ -18,7 +18,7 @@ template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns">
+<div class="small-12 columns usa-content">
 
 <div markdown="1">
 If you are a former POW with disabilities related to your service and captivity, you may be eligible for compensation. If you are diagnosed with one or more of the conditions listed below, and at any time following active-duty military service your condition becomes at least 10% disabling, VA will presume it is related to your POW experience.
@@ -48,18 +48,23 @@ If you are a former POW with disabilities related to your service and captivity,
 -	Irritable bowel syndrome
 -	Cirrhosis of the liver
 
+<br>
 
-#### Who is covered
+### Who is covered
 
 You
 </div>
 <div markdown="1">
-#### Available benefits
+### Available benefits
 
 -	Compensation
 -	Health care
 
-#### How it works
+<br>
+<hr>
+<br>
+
+### How it works
 
 Certain conditions are presumed to be related to time spent in captivity as a POW. These presumptive disabilities are based on studies of the long-term effects of captivity, deprivation, trauma, and cold injury. If a former POW is diagnosed with one or more of these conditions to a degree that is at least 10% disabling, VA presumes that it is associated with your POW experience.
 </div>
