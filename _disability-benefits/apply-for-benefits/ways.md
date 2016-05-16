@@ -8,7 +8,7 @@ relatedlinks:
   - url: /disability-benefits/apply-for-benefits/help/
     title: How do I get help filing a claim?
     description: ""
-  - url: /disability-benefits/apply-for-benefits/active-duty/
+  - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
     title: How do I file while on active duty?
     description: ""
   - url: /disability-benefits/apply-for-benefits/one-year/
@@ -21,7 +21,7 @@ relatedlinks:
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>

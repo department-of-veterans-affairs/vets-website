@@ -5,7 +5,7 @@ source: http://www.bva.va.gov/index.asp
 ---
 
 <div class="main" role="main" markdown="0">
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>

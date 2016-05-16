@@ -1,12 +1,12 @@
 ---
 title: Post-9/11 GI Bill
-template: 1-topic-landing
+template: 6-info-page
 concurrence: complete
 ---
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>

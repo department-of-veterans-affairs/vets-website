@@ -1,7 +1,7 @@
 ---
 title: Post a Job
 concurrence: complete
-template: 1-topic-landing
+template: not-1-topic-landing
 ---
 <link href="/assets/css/vendor/prism.css" type="text/css" rel="stylesheet">
 
@@ -38,7 +38,6 @@ All employers
 ### How it works
 
 If your company’s current job listing is posted on the NLX, then it is also searchable in the Veterans Job Bank. If you haven’t registered your company with the NLX, [register now and post for free](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
-Or reach out to [qualified Veterans and military spouses](https://www.vets.gov/veterans-employment-center/employers) directly.
 
 <hr>
 
@@ -141,7 +140,7 @@ This example contains two job listings. The first uses a smaller set of schema.o
 </div>
 </div>
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary" href="https://us.jobs/postajobpartner.asp?partner=ebenefits">Post a Job on the <abbr>NLX</abbr></a>
