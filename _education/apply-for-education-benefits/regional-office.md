@@ -5,7 +5,7 @@ concurrence: incomplete
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
@@ -16,7 +16,7 @@ concurrence: incomplete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
 If you need help with GI Bill claims, contact your VA Regional Processing Office (RPO). VA has four RPOs in the United States, all of which correspond to regional jurisdictions. Here are the locations:
 

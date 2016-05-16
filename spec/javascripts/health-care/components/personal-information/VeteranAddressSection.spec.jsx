@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 
-import VeteranAddressSection from '../../../../../_health-care/_js/components/personal-information/VeteranAddressSection';
+import { VeteranAddressSection } from '../../../../../_health-care/_js/components/personal-information/VeteranAddressSection';
 
 describe('<VeteranAddressSection>', () => {
   const nullAddress = [{

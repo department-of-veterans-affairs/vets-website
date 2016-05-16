@@ -1,10 +1,15 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import { Router, Route, createMemoryHistory } from 'react-router';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
 import SkinDeep from 'skin-deep';
 
 import Nav from '../../../../_health-care/_js/components/Nav';
 import routes from '../../../../_health-care/_js/routes';
+import reducer from '../../../../_health-care/_js/reducers';
+
+const store = createStore(reducer);
 
 class Container extends React.Component {
   render() {
@@ -23,13 +28,13 @@ describe('<Nav>', () => {
       consoleStub.restore();
     });
 
-    xit('currentUrl is required', () => {
-      SkinDeep.shallowRender(<Nav/>);
+    it('currentUrl is required', () => {
+      SkinDeep.shallowRender(<Nav store={store}/>);
       sinon.assert.calledWithMatch(consoleStub, /Required prop `currentUrl` was not specified in `Nav`/);
     });
 
-    xit('currentUrl must be a string', () => {
-      SkinDeep.shallowRender(<Nav currentUrl/>);
+    it('currentUrl must be a string', () => {
+      SkinDeep.shallowRender(<Nav store={store} currentUrl/>);
       sinon.assert.calledWithMatch(consoleStub, /Invalid prop `currentUrl` of type `boolean` supplied to `Nav`, expected `string`/);
     });
   });
@@ -42,11 +47,13 @@ describe('<Nav>', () => {
       // It's perfectly fine in this test to reuse the rendered component. Do that
       // cause it cuts the test time from 1s down to ~0.1s.
       nav = ReactTestUtils.renderIntoDocument(
-        <Router history={history}>
-          <Route path="/" component={Container}>
-            {routes}
-          </Route>
-        </Router>
+        <Provider store={store}>
+          <Router history={history}>
+            <Route path="/" component={Container}>
+              {routes}
+            </Route>
+          </Router>
+        </Provider>
       );
     });
 

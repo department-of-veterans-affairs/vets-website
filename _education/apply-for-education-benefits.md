@@ -9,17 +9,20 @@ concurrence: complete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 
+<div class="call-out" markdown="1">
 ### Who Should Read This
 
 Servicemembers and Veterans seeking education and training opportunities
+</div>
 
+<div class="call-out" usa-content markdown="1">
 ### How long does a decision take?
 
 The time it takes to process your claim depends on your regional office. There are four regional claims processing centers, and it varies region by region. You can use [VA’s interactive map](http://www.vba.va.gov/reports/aspiremap.asp) to find out how quickly your regional office processes claims.
-
 </div>
+
 <div class="small-12 columns" markdown="0">
 
 <div markdown="1">
@@ -41,7 +44,7 @@ The time it takes to process your claim depends on your regional office. There a
 </div>
 
 
-<div class="feature" markdown="1">
+<div class="feature usa-content" markdown="1">
 
 - Learn about schools offering VA-approved programs by using the [GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 -	Decide [which school](http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
@@ -61,7 +64,7 @@ The following documents will help VA process your claim:
 
 </div>
 
-<div class="feature" markdown="1">
+<div class="feature usa-content" markdown="1">
 
 -	DD214 (Member 4), discharge or separation papers, for all periods of active-duty service, excluding active duty for training
 -	DD2384, Notice of Basic Eligibility (NOBE), which you can get through your Reserve unit
@@ -81,7 +84,7 @@ You have four options for filing your claim:
 
 </div>
 
-<div class="feature" markdown="1">
+<div class="feature usa-content" markdown="1">
 
 -	Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/vonapp).
 -	Go to a [VA regional office](/education/apply-for-education-benefits/regional-office/) and have a VA employee assist you.

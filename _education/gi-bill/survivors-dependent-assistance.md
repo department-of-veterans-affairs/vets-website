@@ -6,7 +6,7 @@ Template: 6-info-page
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
@@ -17,38 +17,46 @@ Template: 6-info-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
+<div class="small-12 columns usa-content" markdown="1">
 If you are a dependent or survivor of a Veteran, you may be eligible for education assistance through a GI Bill program.
 </div>
 <div class="small-12 columns" markdown="1">
-<div class="call-out" markdown="1">
+<div class="call-out usa-content" markdown="1">
 
 ### Are you eligible for benefits?
 
-Yes, if:
+Yes, if you are the child or spouse of a Servicemember:
 
-- You are the child or spouse of a Servicemember who died in the line of duty after September 10, 2001, or
--	You are the child or spouse of a Veteran who is permanently and totally disabled due to a service-connected disability, or
--	You are the child or spouse of a Veteran who died while on active duty or as a result of a service-connected disability, or
--	You are the child or spouse of a Servicemember missing in action or captured in the line of duty by a hostile force, or
--	You are the child or spouse of a Servicemember forcibly detained in the line of duty by a foreign government or power, or
--	You are the child or spouse of a Servicemember who is hospitalized or receiving outpatient treatment for a service-connected permanent and total disability and likely to be discharged for that disability, or
--	You are eligible to receive a transfer of Post-9/11 GI Bill benefits.
+- Who died in the line of duty after September 10, 2001, or
+- Who is missing in action or was captured in the line of duty by a hostile force, or
+-	Who was forcibly detained in the line of duty by a foreign government or power, or
+-	Who is hospitalized or receiving outpatient treatment for a service-connected permanent and total disability and likely to be discharged for that disability.
 
+Yes, if you are the child or spouse of a Veteran:
+
+- Who is permanently and totally disabled due to a service-connected disability, or
+-	Who died while on active duty or as a result of a service-connected disability.
+
+Yes, if you are eligible to receive a transfer of Post-9/11 GI Bill benefits.
+
+<br>
 
 ### Who is covered
 
 Your family
 </div>
-<div markdown="1">
-#### Available benefits
+
+<div class="small-12 columns usa-content" markdown="1">
+### Available benefits
 
 - Education and training opportunities
 - Significant tuition-funding assistance
 - A location-adjusted housing allowance for you to pay your living expenses during enrollment
 - A stipend for books and supplies
 
-#### How it works
+<hr>
+
+### How it works
 
 There are two main GI Bill programs offering education assistance to survivors and dependents of Veterans:
 
@@ -59,7 +67,7 @@ You may be eligible for both of these programs, but you can use only one of them
 
 **Exception:** As a beneficiary, you cannot use the same qualifying event for more than one benefit unless you are a child of a Servicemember who died in the line of duty before August 1, 2011.
 
-
+<div class="va-table-overflow">
 <table>
 <caption>Compare DEA and Fry Scholarship Benefits</caption>
 <tr>
@@ -124,8 +132,9 @@ You may be eligible for both of these programs, but you can use only one of them
     </ul>
   </td>
 </tr>
-
 </table>
+</div>
+
 
 </div>
 </div>

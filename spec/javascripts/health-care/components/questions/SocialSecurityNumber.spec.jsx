@@ -38,7 +38,7 @@ describe('<SocialSecurityNumber>', () => {
   });
 
   it('includes ErrorMessage component when invalid SSN', () => {
-    const tree = SkinDeep.shallowRender(<SocialSecurityNumber ssn="123-45-6789" onValueChange={(_update) => {}}/>);
+    const tree = SkinDeep.shallowRender(<SocialSecurityNumber ssn="555-12-6789" onValueChange={(_update) => {}}/>);
     const errorableInputs = tree.everySubTree('ErrorableTextInput');
     expect(errorableInputs).to.have.lengthOf(1);
     expect(errorableInputs[0].props.errorMessage).to.be.undefined;
@@ -52,12 +52,12 @@ describe('<SocialSecurityNumber>', () => {
   });
 
   it('Verify static attributes are as expected.', () => {
-    const tree = SkinDeep.shallowRender(<SocialSecurityNumber ssn="123-45-6789" onValueChange={(_update) => {}}/>);
+    const tree = SkinDeep.shallowRender(<SocialSecurityNumber ssn="555-12-6789" onValueChange={(_update) => {}}/>);
     const errorableInputs = tree.everySubTree('ErrorableTextInput');
     expect(errorableInputs).to.have.lengthOf(1);
     expect(errorableInputs[0].props.label).to.equal('Social Security Number');
     expect(errorableInputs[0].props.required).to.be.true;
     expect(errorableInputs[0].props.placeholder).to.equal('xxx-xx-xxxx');
-    expect(errorableInputs[0].props.value).to.equal('123-45-6789');
+    expect(errorableInputs[0].props.value).to.equal('555-12-6789');
   });
 });

@@ -21,7 +21,9 @@
     "polyfill-function-prototype-bind": "0.0.1",
     "react": "^0.14.7",
     "react-dom": "^0.14.7",
+    "react-redux": "^4.4.1",
     "react-router": "^2.0.0",
+    "redux": "^3.3.1",
     "sizzle": "^2.3.0",
     "webpack": "^1.12.13",
     "wow.js": "^1.1.2"

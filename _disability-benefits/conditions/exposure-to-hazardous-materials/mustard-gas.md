@@ -6,7 +6,7 @@ template: 4-action-page
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
@@ -40,7 +40,9 @@ Yes, if:
     -	While demolishing or handling explosive ordinance during Operation Iraqi Freedom, or
     -	In the manufacturing and handling of vesicant (blistering) agents during military service.
 
-#### Who is covered
+<br>
+
+### Who is covered
 
 You
 
@@ -48,12 +50,15 @@ You
 
 <div markdown="1">
 
-#### Available benefits
+### Available benefits
 
 - Compensation
 - Health care
 
-#### How it works
+<br>
+<hr>
+
+### How it works
 
 Because "exposure" to mustard gas or lewisite is not a service condition, you must claim the disease or condition that is related to the exposure. You should present any military records showing exposure to blistering agents with your claim.
 
@@ -76,7 +81,5 @@ Find an [accredited representative](/disability-benefits/apply-for-benefits/help
 </div>
 </div>
 </div>
-
-
 
 </div>

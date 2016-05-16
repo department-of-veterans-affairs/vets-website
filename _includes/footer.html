@@ -1,17 +1,19 @@
 <a class="sr-only" href="#feedback-tool">Give feedback on this page</a>
 
+
+
+{% unless page.body_class == 'page-playbook' or page.body_class == 'home' or page.body_class == 'fourohfour' %}
 <div class="disclaimer">
   <div class="row">
     <div class="small-12 columns">
-
-      <p>Please note: Content on this Web page is for informational purposes only. It is not intended to provide legal advice or to be a comprehensive statement or analysis of applicable statutes, regulations, and case law governing this topic. Rather, it’s a plain-language summary. If you are seeking claims assistance, your local VA regional office, a VA-recognized Veterans Service Organization, or a VA-accredited attorney or agent can help. <a target="_blank" href="http://www.va.gov/ogc/apps/accreditation/index.asp">Search for help near you</a>.</p>
-
+      
+      <p>Please note: Content on this Web page is for informational purposes only. It is not intended to provide legal advice or to be a comprehensive statement or analysis of applicable statutes, regulations, and case law governing this topic. Rather, it’s a plain-language summary. If you are seeking claims assistance, your local VA regional office, a VA-recognized Veterans Service Organization, or a VA-accredited attorney or agent can help. <a target="_blank" href="http://www.va.gov/ogc/apps/accreditation/index.asp">Search Accredited Attorneys, Claims Agents, or Veterans Service Organizations (VSO) Representatives</a>.</p>
     </div>
   </div>
 </div>
+{% endunless %}
 
-
-<div class="footer" role="contentinfo">
+<footer class="footer" role="contentinfo">
   <div class="row wow fadeIn animated">
     <div class="small-12 medium-3 columns">
       <dl>
@@ -69,7 +71,7 @@
 
     <div class="large-4 columns text-right">
       <div class="footer-crisis text-center touch">
-       <a href="tel:1-800-273-8255"><span>Veterans Crisis Line</span> <span class="tel" id="crisis-line">1-800-273-8255</span> <span aria-desicribedby="crisis-line">(Press 1)</span></a>
+       <a href="tel:1-800-273-8255"><span>Veterans Crisis Line</span> <span class="tel" id="crisis-line">1-800-273-8255</span> <span aria-describedby="crisis-line">(Press 1)</span></a>
       </div>
 
        <div class="footer-crisis text-center no-touch">
@@ -95,7 +97,7 @@
 
   </div>
 
-  <div data-alert class="alert-box coda">
+  <div class="va-notice--banner va-notice--banner--alt">
     <div class="row">
       <div class="small-12 columns">
         <a id="feedback-tool" class="feedback-widget" tabindex="0" href="http://veterans.uservoice.com" data-uv-trigger="smartvote">
@@ -107,7 +109,7 @@
       </div>
     </div>
   </div>
-</div>
+</footer>
 
 <script>
 
@@ -119,17 +121,15 @@ UserVoice.push(['identify', {
 UserVoice.push(['autoprompt', {}]);
 </script>
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-50123418-3', 'auto');
-  ga('send', 'pageview');
-
-</script>
-
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-WFJWBD"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WFJWBD');</script>
+<!-- End Google Tag Manager -->
 
 <!--
 "To care for him who shall have borne the battle and for his widow, and his orphan."

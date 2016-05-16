@@ -14,8 +14,34 @@ function isNotBlank(value) {
   return true;
 }
 
+// Conditions for valid SSN from the original 1010ez pdf form:
+// '123456789' is not a valid SSN
+// A value where the first 3 digits are 0 is not a valid SSN
+// A value where the 4th and 5th digits are 0 is not a valid SSN
+// A value where the last 4 digits are 0 is not a valid SSN
+// A value with 3 digits, an optional -, 2 digits, an optional -, and 4 digits is a valid SSN
+// 9 of the same digits (e.g., '111111111') is not a valid SSN
 function isValidSSN(value) {
   if (value !== null) {
+    if (value === '123456789' || value === '123-45-6789') {
+      return false;
+    } else if (/1{9}|2{9}|3{9}|4{9}|5{9}|6{9}|7{9}|8{9}|9{9}/.test(value)) {
+      return false;
+    } else if (/^0{3}-?\d{2}-?\d{4}$/.test(value)) {
+      return false;
+    } else if (/^\d{3}-?0{2}-?\d{4}$/.test(value)) {
+      return false;
+    } else if (/^\d{3}-?\d{2}-?0{4}$/.test(value)) {
+      return false;
+    }
+
+    for (let i = 1; i < 10; i++) {
+      const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
+      if (sameDigitRegex.test(value)) {
+        return false;
+      }
+    }
+
     return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
   }
   return true;
@@ -27,6 +53,12 @@ function isValidDate(day, month, year) {
     // validation check. Not sure is a great idea...
     const adjustedMonth = Number(month) - 1;  // JS Date object 0-indexes months. WTF.
     const date = new Date(year, adjustedMonth, day);
+    const today = new Date();
+
+    if (today < date) {
+      return false;
+    }
+
     return date.getDate() === Number(day) &&
       date.getMonth() === adjustedMonth &&
       date.getFullYear() === Number(year);
@@ -75,12 +107,30 @@ function isValidAddress(street, city, country, state, zipcode) {
   return true;
 }
 
+function isValidInsurancePolicy(policyNumber, groupCode) {
+  if (policyNumber !== null || groupCode !== null) {
+    return isNotBlank(policyNumber) || isNotBlank(groupCode);
+  }
+  return true;
+}
+
 function isValidNameAndGeneralInformation(data) {
   return (isNotBlank(data.fullName.first) && isValidName(data.fullName.first)) &&
       (isBlank(data.fullName.middle) || isValidName(data.fullName.middle)) &&
       (isNotBlank(data.fullName.last) && isValidName(data.fullName.last)) &&
       isValidSSN(data.socialSecurityNumber) &&
+      isNotBlank(data.gender) &&
+      isNotBlank(data.maritalStatus) &&
       isValidDate(data.dateOfBirth.day, data.dateOfBirth.month, data.dateOfBirth.year);
+}
+
+function isValidVaInformation(data) {
+  return isNotBlank(data.isVaServiceConnected);
+}
+
+function isValidAdditionalInformation(data) {
+  return isNotBlank(data.facilityState) &&
+    isNotBlank(data.vaMedicalFacility);
 }
 
 function isValidVeteranAddress(data) {
@@ -105,18 +155,40 @@ function isValidSpouseInformation(data) {
       (isBlank(data.spousePhone) || isValidPhone(data.spousePhone));
 }
 
-function isValidChildInformation(data) {
+function isValidChildInformation(child) {
+  return (isValidName(child.childFullName.first) &&
+      (isBlank(child.childFullName.middle) || isValidName(child.childFullName.middle)) &&
+      isValidName(child.childFullName.last) &&
+      isNotBlank(child.childRelation) &&
+      isValidSSN(child.childSocialSecurityNumber) &&
+      isValidDate(child.childBecameDependent.day, child.childBecameDependent.month, child.childBecameDependent.year) &&
+      isValidDate(child.childDateOfBirth.day, child.childDateOfBirth.month, child.childDateOfBirth.year) &&
+      (isBlank(child.childEducationExpenses) || isValidMonetaryValue(child.childEducationExpenses)));
+}
+
+function isValidChildren(data) {
+  const children = data.children;
+  if (!data.hasChildrenToReport) {
+    return true;
+  }
+  for (let i = 0; i < children.length; i++) {
+    if (!isValidChildInformation(children[i])) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function isValidChildIncome(child) {
+  return (isBlank(child.childGrossIncome) || isValidMonetaryValue(child.childGrossIncome)) &&
+    (isBlank(child.childNetIncome) || isValidMonetaryValue(child.childNetIncome)) &&
+    (isBlank(child.childOtherIncome) || isValidMonetaryValue(child.childOtherIncome));
+}
+
+function isValidChildrenIncome(data) {
   const children = data.children;
   for (let i = 0; i < children.length; i++) {
-    if (!(isValidName(children[i].childFullName.first) &&
-        (isBlank(children[i].childFullName.middle) || isValidName(children[i].childFullName.middle)) &&
-        isValidName(children[i].childFullName.last) &&
-        isNotBlank(children[i].childRelation) &&
-        isValidSSN(children[i].childSocialSecurityNumber) &&
-        isValidDate(children[i].childBecameDependent.day, children[i].childBecameDependent.month, children[i].childBecameDependent.year) &&
-        isValidDate(children[i].childDateOfBirth.day, children[i].childDateOfBirth.month, children[i].childDateOfBirth.year) &&
-        (isBlank(children[i].childEducationExpenses) || isValidMonetaryValue(children[i].childEducationExpenses)))
-    ) {
+    if (!isValidChildIncome(children[i])) {
       return false;
     }
   }
@@ -130,9 +202,7 @@ function isValidAnnualIncome(data) {
     (isBlank(data.spouseGrossIncome) || isValidMonetaryValue(data.spouseGrossIncome)) &&
     (isBlank(data.spouseNetIncome) || isValidMonetaryValue(data.spouseNetIncome)) &&
     (isBlank(data.spouseOtherIncome) || isValidMonetaryValue(data.spouseOtherIncome)) &&
-    (isBlank(data.childrenGrossIncome) || isValidMonetaryValue(data.childrenGrossIncome)) &&
-    (isBlank(data.childrenNetIncome) || isValidMonetaryValue(data.childrenNetIncome)) &&
-    (isBlank(data.childrenOtherIncome) || isValidMonetaryValue(data.childrenOtherIncome));
+    isValidChildrenIncome(data);
 }
 
 function isValidDeductibleExpenses(data) {
@@ -143,11 +213,13 @@ function isValidDeductibleExpenses(data) {
 
 function isValidGeneralInsurance(data) {
   const providers = data.providers;
+  if (!data.isCoveredByHealthInsurance) {
+    return true;
+  }
   for (let i = 0; i < providers.length; i++) {
     if (!(isNotBlank(providers[i].insuranceName) &&
         isNotBlank(providers[i].insurancePolicyHolderName) &&
-        isNotBlank(providers[i].insurancePolicyNumber) &&
-        (isBlank(providers[i].insurancePhone) || isValidPhone(providers[i].insurancePhone)))
+        isValidInsurancePolicy(providers[i].insurancePolicyNumber, providers[i].insuranceGroupCode))
     ) {
       return false;
     }
@@ -171,12 +243,16 @@ function isValidSection(completePath, sectionData) {
   switch (completePath) {
     case '/personal-information/name-and-general-information':
       return isValidNameAndGeneralInformation(sectionData);
+    case '/personal-information/va-information':
+      return isValidVaInformation(sectionData);
+    case '/personal-information/additional-information':
+      return isValidAdditionalInformation(sectionData);
     case '/personal-information/veteran-address':
       return isValidVeteranAddress(sectionData);
     case '/financial-assessment/spouse-information':
       return isValidSpouseInformation(sectionData);
     case '/financial-assessment/child-information':
-      return isValidChildInformation(sectionData);
+      return isValidChildren(sectionData);
     case '/financial-assessment/annual-income':
       return isValidAnnualIncome(sectionData);
     case '/financial-assessment/deductible-expenses':
@@ -215,10 +291,14 @@ export {
   isValidPhone,
   isValidEmail,
   isValidAddress,
+  isValidInsurancePolicy,
   isValidNameAndGeneralInformation,
+  isValidVaInformation,
+  isValidAdditionalInformation,
   isValidVeteranAddress,
   isValidSpouseInformation,
   isValidChildInformation,
+  isValidChildren,
   isValidAnnualIncome,
   isValidDeductibleExpenses,
   isValidGeneralInsurance,

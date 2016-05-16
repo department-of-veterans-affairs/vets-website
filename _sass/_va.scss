@@ -1,16 +1,13 @@
-// Vets.gov
-$color-green-darker: #195c27;
-
-// Pieces of elements/typography we need
-// TODO: properly incorporate elements/typography
-$base-font-size: rem(16px);
-
-html {
-  font-family: $font-sans;
+html, body {
   font-size: $em-base;
+  font-weight: 500;
+  padding: 0;
+  margin: 0; 
 }
 
 body {
+  color: $color-gray-dark;
+  font-family: $font-sans;
   font-size: $base-font-size;
 }
 
@@ -23,16 +20,15 @@ body {
 }
 
 // Skip link
-
 .show-on-focus {
   position: absolute;
   top: -10em;
-  background: #fff;
+  background: $color-white;
   padding: 1em;
   color: $color-primary-darkest;
   display: block;
   font-weight: 600;
-  &:hover {background: #fff;}
+
   &:focus {
     position: inherit;
     top: auto;
@@ -40,31 +36,12 @@ body {
   }
 }
 
-// Other Colors
-$polar:#E8F5FA;
-$wild-sand:#f6f6f6;
-$green-white:#eff0e6;
-$olso-gray:#849097;
-
-// VA Fonts
-$roboto-slab: 'Roboto Slab', serif;
-
-
 
 // General
-html, body {
-  padding: 0;
-  margin: 0;
-  // font-size: 17px;
-  font-family: $font-sans;
-  font-weight: 500;
-  color: $color-gray-dark;
-}
-
 body, body.home {
   background: $color-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
   background-size: contain;
-  color: #fff;
+  color: $color-white;
 }
 
 
@@ -72,10 +49,6 @@ body, body.home {
 body .row.full {
   width: 100%;
   max-width: 100%;
-}
-
-body.home .row {
-  // max-width: 62.5em;
 }
 
 // Screen Readers
@@ -88,8 +61,8 @@ body.home .row {
 
 // Abbr
 
-abbr, a abbr, abbr[title] {
-  border-bottom: none;
+abbr {
+  border-bottom: 0px !important;
   text-decoration: none;
   font-weight: inherit;
   font-style: inherit;
@@ -99,17 +72,45 @@ abbr, a abbr, abbr[title] {
 
 
 a {
-  background: rgba(0,0,0,0.05);
-  text-decoration: none;
-  &:hover {text-decoration: none;}
-  -webkit-transition: all 0.3s ease-in-out;
-  -moz-transition: all 0.3s ease-in-out;
-  -o-transition: all 0.3s ease-in-out;
-  -ms-transition: all 0.3s ease-in-out;
-  transition: all 0.3s ease-in-out;
-  color: $color-gray-dark;
+  color: $color-primary;
+  text-decoration: underline;
+ 
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+  
+  -webkit-transition-timing-function: ease-in-out;
+          transition-timing-function: ease-in-out;
+          
+  // Transition only these properties.
+  -webkit-transition-property: color, background-color, border-color;
+          transition-property: color, background-color, border-color;
+
   &:hover {
-    color: $color-gray-dark;
+    background-color: rgba(0,0,0,0.05);
+    color: inherit;
+    text-decoration: underline;  
+  }
+  &:active {
+    background: rgba(0,0,0,.1);
+  }
+  &:visited {
+    color: $color-visited;
+  }
+}
+
+ul {
+  padding: 0 0 0 1.5em;
+  list-style: square;
+}
+
+ol {
+  margin: 0 0 0 1.25em;
+  list-style-position: outside;
+}
+
+ul, ol {
+  > ul, ol {
+    margin: .5em 0 .5em 1.2em;
   }
 }
 
@@ -119,58 +120,119 @@ figcaption {
   color: $color-primary-darker;
 }
 
+// Change the placeholder color
+input::-webkit-input-placeholder{
+  color: $color-gray;
+}
+input::-moz-placeholder { 
+  color: $color-gray; 
+}
+input:-ms-input-placeholder {  
+  color: $color-gray;
+}
+// Visually clear placeholder text on focus
+input:focus::-webkit-input-placeholder{
+  color: transparent;
+}
+input:focus::-moz-placeholder { 
+  color: transparent;  
+}
+input:focus:-ms-input-placeholder {  
+  color: transparent;
+}
+
+.usa-button,
+.usa-button-primary,
+.usa-button:visited,
+.usa-button-primary:visited,
+button,
+[type="button"],
+[type="submit"],
+[type="reset"],
+[type="image"] {
+  // TODO(crew): Remove this at some point. Fix this by using JS for title casing or passing nav labels as an object.
+  &.text-capitalize {
+    text-transform: capitalize;
+  }
+}
+
+hr {
+  margin: 2.5em 0;
+  margin: 3rem 0 2.5rem;
+  border: 1px solid $color-gray-light;
+}
+
 // Interior rows
-
-// #content.interior .row {
-//   max-width: 52em;
-// }
-
-
 #content.interior a[href^="http://"],
 #content.interior a[href^="https://"] {
   position: relative;
 }
 
+// Adds external icon to all links that begin
+// with http (including https) 
+[href^=http] {
+  // Using longhand properties instead of the shorthand to limit 
+  // risk and impact of side effects
+  background-image: url(/assets/images/icons/exit-icon.png);
+  background-position: 100% 50%;
+  background-repeat: no-repeat;
+  background-size: 1em auto;
+  padding-right: 1.2em;
+}
 
-
+.usa-button-primary[href^=http] {
+  background-image: none;
+  // TODO: clean up #content .main.interior a then remove !important
+  text-decoration: none !important;
+}
 
 // Logo and Header
-
 .header {
   clear: both;
   padding: 0 0 .5em 0;
   margin: 0;
-
-  h1 {margin: 0; line-height: 1em; @media #{$small} {margin: .25em 0 0 0;} }
-  color: #fff;
 }
 
-h1 {
-  color: #fff;
+.va-header-logo {
+  line-height: 1em; 
+  margin: 0; 
+  
+  @media #{$small} {
+    margin: .25em 0 0 0;
+  } 
+
   a {
     text-indent: 180%;
     white-space: nowrap;
     overflow: hidden;
     display: block;
-    color: #fff;
-    background: $color-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
+    background: url(../images/design/logo/logo.png) top left no-repeat;
     width: 180px;
     height: 30px;
     background-size: contain;
     border-bottom: none;
     text-decoration: none;
-    &:hover, &:active, &:focus {background: $color-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat; background-size: contain;}
-  @media #{$small} {
-    background: $color-primary-darkest url(../images/design/logo/logo.png) top left no-repeat;
-    width: 263px;
-    height: 50px;
-    background-size: contain;
-    &:hover {
-      background: $color-primary-darkest url(../images/design/logo/logo-hover.png) top left no-repeat;
-      background-size: contain;
+    
+    &:hover, &:active, &:focus {
+      background-image: url(../images/design/logo/logo-hover.png); 
+    }
+  
+    @media #{$small} {
+      width: 263px;
+      height: 50px;
     }
   }
-}
+  
+  .page-playbook & {
+    a {
+      background-color: inherit;
+      background-image: url(../images/design/logo/logo-alt.png);
+     
+      &:hover, &:active, &:focus {
+        background-image: url(../images/design/logo/logo-alt-hover.png);
+      }
+    }
+  }
 }
 
 // Type
@@ -180,14 +242,9 @@ h1, h2 {
   font-weight: 600;
 }
 h3, h4, h5, h6 {
-  color:$color-primary-darkest;
+  color: $color-primary-darkest;
   font-weight: 600;
 }
-
-// Links
-
-a {text-decoration: underline; background: rgba(0,0,0,.05);}
-a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 
 // Banner
 
@@ -196,22 +253,8 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 #content .splash {
   padding: 0 0 .5em 0;
   margin: 0;
-  @media #{$small} {padding: .5em 0;}
-
-  p {color: #fff; font-family: $font-sans;}
-
-  &.app {
-    padding: 0;
-    p {color: #fff; font-family: $font-sans;}
-    ul.breadcrumbs {
-      display: inline-block;
-      margin: 0 0 .5em 0; padding: 0;
-      @media #{$small} {margin-right: 1em;}
-      h2 {margin: 0; padding: .2em; line-height: 1em; display: block;}
-      li {overflow: hidden; padding: 0;}
-    }
-    p {margin: .5em 0 1em 0;}
-  }
+ 
+  p {color: $color-white; font-family: $font-sans;}
 
   @media #{$small} {padding: 1em 0;}
   @media #{$medium} {padding: 2em 0;}
@@ -222,48 +265,67 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
     display: inline;
     line-height: 1.3em;
     margin: .5em 0 0 0;
-      white-space: pre-wrap;
-    color: #333;
-    a {background: $color-gold; color: #444;}
+    white-space: pre-wrap;
+    color: $color-gray-dark;
+    a {background: $color-gold; color: $color-va-gray-cool-dark;}
   }
 
   h2 span {clear: both; padding: .04em; display: inline-block; background: $color-gold; font-weight: normal;}
-  h2, h3, p {/*padding: .35em; */ margin: 0; display: inline-block; font-family: $roboto-slab;}
+  h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
   h2 {
     font-size: 1em;
     display: inline-block;
     @media #{$small} {font-size: 2em;}
   }
 
-  h3 {font-weight: 500; font-size: 1.4em; color: #555;}
+  h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
+}
 
-  &.alternate {
-    li a {
-      color: $color-primary-darkest;
-      border-bottom: 2px solid $secondary-color;
-    }
+.splash--app {
+  padding: 0 !important;
 
-    li.parent:after {color: #ccc;}
+  h2 {
+    margin: 0; 
+    padding: .2em; 
+    line-height: 1em; 
+    display: inline-block !important;
   }
 }
 
-.pitch {
-  @media #{$small} {padding: .5em 0;}
-  h2, h3 {color: $color-primary-darkest; font-weight: 400; padding: .75em; line-height: 1.3em; display: inline-block; margin: 0;}
+// TODO: Remove !important once #content ul.breadcrumbs li.active
+// is refactored.
+.splash--alternate {
+  li a {
+    color: $color-primary-darkest !important;
+    border-bottom: 2px solid $secondary-color !important;
+    
+    &:hover {
+      border-bottom: 3px solid $color-gold !important;
+    }
+  }
+
+  li.parent:after {color: #ccc !important;}
 }
 
-#experience {background: #fff;}
-
-#experience .splash {padding: 0; margin: 0;}
-
-#experience .splash h2 {
-  margin: .5em 0; padding: 0;
-  a {
+.va-facloc-tagline {
+  color: $color-white; 
+  font-family: $font-sans;
+  margin: .5em 0 1em 0 !important;
+}
+  
+  
+.pitch {
+  @media #{$small} {
+    padding: .5em 0;
+  }
+  
+  h2, h3 {
+    color: $color-primary-darkest; 
+    font-weight: 400; 
+    padding: .75em; 
+    line-height: 1.3em; 
+    display: inline-block; 
     margin: 0;
-    color: #444;
-    background: $color-gold;
-    line-height: 1.4em;
-    font-size: .9em;
   }
 }
 
@@ -286,6 +348,14 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 
   p {padding-top: 0; margin-top: 0; padding-bottom: 1em;}
 
+  p:nth-child(1) {
+    font-size: 1.25em;
+    color: $color-primary-darker;
+    letter-spacing: normal;
+    font-weight: normal;
+    padding-bottom: 1em;
+  }
+  
   h3 {
     padding: 0 0 .5em 0; font-size: 1.25em;
     @media #{$small} {font-size: 1.8em;}
@@ -295,9 +365,7 @@ a:hover {text-decoration: underline; background: rgba(0,0,0,.1);}
 // TODO: Integrate USWDS and elements/_typography.scss
 // and eliminate this declaration
 .usa-content {
-  p {
-    max-width: $text-max-width;
-  }
+  max-width: $text-max-width;
 }
 
 html.no-touch .banner {
@@ -311,6 +379,13 @@ h3 {color: $color-primary-darkest; font-weight: bold; font-size: 1.8em; padding:
 h4 {font-size: 1.5em; font-weight: normal;}
 h5 {font-size: 1.25em; font-weight: normal;}
 h6 {font-size: 1.15em; font-weight: bold;}
+
+// Use to add a horizontal rule under the heading
+.va-h-ruled {
+  border-bottom: 6px solid #205493;
+}
+
+
 
 // tagline
 
@@ -328,29 +403,15 @@ h6 {font-size: 1.15em; font-weight: bold;}
 // Content Callouts
 
 #content .main .section.one {
-  ol {
-    margin: 0;
-    list-style-position: outside;
-    li {
-      margin: 0 0 1em 0;
-    }
-    ul, ol {
-      margin: .5em 0 .5em 1.2em;
-    }
-  }
-
-  ul {
-  margin: 0 0 1em 1.2em;
-    padding: 0;
-    list-style-position: outside;
-    li {
-      list-style: square;
-    }
-  }
-
+  
   ul.plain {
     margin: .5em 0 1em 0;
-    li {list-style: none; padding: .35em 0; display: block;}
+    
+    li {
+      list-style: none; 
+      padding: .35em 0; 
+      display: block;
+    }
   }
 
   ul[class*="block-grid-"] {
@@ -368,8 +429,9 @@ h6 {font-size: 1.15em; font-weight: bold;}
   margin: 0 0 1.5em 0;
   p {margin-bottom: 0; padding-bottom: .5em}
   p:nth-child(1) {
-    font-size: 1em;
-    color: #333;
+  // TODO: refactor #content.interior .primary li p:first-of-type and remove !important
+    font-size: 1.25em !important;
+    color: $color-gray-dark;
     padding-bottom: inherit;
   }
   h3 {@media #{$small} {font-size: 1.65em;}}
@@ -382,6 +444,51 @@ h6 {font-size: 1.15em; font-weight: bold;}
   }
 }
 
+.va-callout {
+  background: $color-primary-alt-lightest;
+  padding: 1em;
+  clear: both;
+  margin: 0 0 1.5em 0;
+  
+  dt {
+    color: $color-primary-darkest;
+    font-size: 1.65em;
+    font-weight: bold;
+    margin: 0 0 .5rem 0;
+  }
+  
+  dd {
+    margin-left: 0;
+    padding-left: 0;
+  }
+  ul {
+    margin: 0 0 .5rem 1.5rem;
+    padding: 0;
+  }
+}
+
+// Home page, 404 page
+.navigation--major {
+  .fourohfour &,
+  .home & {
+    padding-top: 1.5em;
+  }
+}
+
+// Quick Links
+.va-quicklinks {
+  h3 {
+    line-height: 1.2em;
+    // TODO: Drop the !important when .home #content h3 and  
+    // body.fourohfour #content h3 are straightened out.
+    font-size: 1.65em !important;
+    color: $color-primary !important;
+    margin: 0 0 2.5em 0;
+    padding: 0 0 .2em 0;
+  }
+}
+
+
 // Content lead paragraphs
 
 #content.interior .primary {
@@ -389,33 +496,28 @@ h6 {font-size: 1.15em; font-weight: bold;}
   ul+p
    {
     font-weight: normal !important;
-    color: #333;
+    color: $color-gray-dark;
     font-size: 1em;
     padding-bottom: 0;
-  }
-  p:nth-child(1) {
-    font-size: 1.25em;
-    color: $color-primary-darker;
-    letter-spacing: normal;
-    font-weight: normal;
-    padding-bottom: 1em;
   }
 }
 
 #content .main.interior {
-  background: #fff;
+  background: $color-white;
   a {text-decoration: underline;}
 }
 
 // Home page specific
 
 .home #content {
-  h2, h3, h4, h5, h6, p, ul, li, ol, a {color: $color-gray-dark;}
-  .post-date {font-size: .5em; color: $color-gold;}
+  h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
+  
+  .post-date {
+    font-size: .5em; color: $color-gold;
+  }
+  
   h3 {
-    border-bottom: 1px solid #fff;
     line-height: 1.2em;
-    border-bottom: 6px solid $color-primary-darker;
     font-size: 1.65em;
     color: $color-primary;
     margin: 0 0 2.5em 0;
@@ -425,7 +527,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
   h4 a {
     text-decoration: none;
     &:hover {
-      border-bottom: 1px solid #fff;
+      border-bottom: 1px solid $color-white;
       color: $color-gold;
     }
   }
@@ -447,7 +549,6 @@ h6 {font-size: 1.15em; font-weight: bold;}
     margin: 0;
     padding: 0;
     li {list-style: none; border-bottom: none;}
-    /*a {background: none;}*/
   }
 
   .section {
@@ -459,26 +560,10 @@ h6 {font-size: 1.15em; font-weight: bold;}
     padding: .5em .5em 2.35em .5em;
     overflow: hidden;
     @media #{$small} {padding: 1em 0 1.5em 0;}
-    .navigation {
-      padding: 1.5em 0 0 0;
-      background: none;
-      ul li a {
-        h3 {border-bottom: none;}
-        }
-      }
-    }
-
-
-  .section.one, .section.two {
-    a {
-      color: $color-gray-dark;
-      &:hover {
-        color: $color-primary-darkest;
-        background: rgba(0,0,0,.15);
-      }
-    }
+    
   }
 
+  
   .home #content .section h3.alternate {
     margin: 0 0 2em 0 !important; padding: 0;
   }
@@ -490,15 +575,15 @@ h6 {font-size: 1.15em; font-weight: bold;}
 
   .section.two {
     padding: 2em 0;
-    a, h3 {color: #fff;}
+    a, h3 {color: $color-white;}
     h3 {border-bottom: none;}
     background: rgba(0,0,0,.1);
   }
 
   .section.three {
-    background: #fff;
+    background: $color-white;
     padding: 5em 0;
-    h2, h3, h4, h5, h6, p, li {color: #444;}
+    h2, h3, h4, h5, h6, p, li {color: $color-va-gray-cool-dark;}
     h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
     a {color: $color-primary-darkest;}
   }
@@ -508,14 +593,14 @@ h6 {font-size: 1.15em; font-weight: bold;}
   background: none;
   padding: 2em 0;
   background: $color-primary;
-  h1, h2, h3, h4, h5, h6, p, li {color: #fff;}
+  h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
   p {color: rgba(255,255,255,1);}
-  a {color: #fff;}
+  a {color: $color-white;}
   ul li {list-style: square;}
 }
 
 #content .section.secondary {
-background: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.85);
 }
 
 #content .section.tertiary {
@@ -523,8 +608,8 @@ background: rgba(255,255,255,.85);
 }
 
 #content .section.quaternary {
-  background: #dcddde;
-  h1, h2, h3, h4, h5, h6, p, li {color: #fff;}
+  background: $color-gray-lighter;
+  h1, h2, h3, h4, h5, h6, p, li {color: $color-white;}
   h4 {font-weight: 700;}
   .cards {
     a {
@@ -536,8 +621,8 @@ background: rgba(255,255,255,.85);
 
 #content .section.coda {
   background: $color-primary-darker;
-  color: #fff;
-  h2, h3, h4, h5, h6, a {color: #fff;}
+  color: $color-white;
+  h2, h3, h4, h5, h6, a {color: $color-white;}
   h4 {font-size: 1.5em;}
 }
 
@@ -555,19 +640,6 @@ background: rgba(255,255,255,.85);
   clear: both;
 }
 
-#content .section.do {
-  background: #efefef;
-  padding: 2em 0;
-  h2, h3, h4, h5, h6, p, li {color: #444;}
-  h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
-  a {color: #fff;}
-  a.usa-button-primary {background: $color-green;}
-}
-
-#content {
-  a.usa-button-primary.start {background: $color-green; text-decoration: none;}
-}
-
 #content .section.secondary,
 #content .section.tertiary,
 #content .section.quaternary,
@@ -576,16 +648,10 @@ background: rgba(255,255,255,.85);
   h3 {font-size: 2.2em;}
 }
 
-#content .section.start {
-  background: $color-green-lightest;
-  padding: 3em 0;
-  border-bottom: 3px solid #fff;
-}
-
 // Sections
 
 .section {
-  background: #fff;
+  background: $color-white;
   &.one {
     padding: 2em 0 0 0;
   }
@@ -599,14 +665,14 @@ background: rgba(255,255,255,.85);
 
 
 // Action
-
 .action {
-margin: 0 auto;
-text-align: left;
-.button {
-  font-size: 1.25em;
-  padding: 1em 3.5em;
-}
+  margin: 0 auto;
+  text-align: left;
+  
+  .button {
+    font-size: 1.25em;
+    padding: 1em 3.5em;
+  }
 }
 
 // Breadcrumbs
@@ -615,38 +681,48 @@ text-align: left;
   background: none;
   border: none;
   margin: 0 0 1em 0;
-  h2 {font-size: 1em;}
+  
+  h2 {
+    font-size: 1em;
+  }
+  
   padding: 0;
   @media #{$small} {margin: 0 0 1em 0;}
+  
   border-radius: 0;
   border-radius: none;
-  -webkit-border-radius: 0;
 
   li {
-  text-transform: none;
-  margin: .25em 0;
-  padding: .1em;
-  display: inline-block;
-  line-height: 1.15em;
-  height: auto;
-  vertical-align: middle;
-  font-size: .85em;
-  @media #{$small} {font-size: 1.35em;}
-  &:hover  {border-bottom: none; text-decoration: none;}
-  &.parent {
-    a {background: none;}
-    padding-top: .5em;
-    margin: 0 0 .75em 0;
-    @media #{$small} {display: inline-block;}
+    text-transform: none;
+    margin: .25em 0;
+    padding: .1em;
+    display: inline-block;
+    line-height: 1.15em;
+    height: auto;
+    vertical-align: middle;
+    font-size: .85em;
+    
+    @media #{$small} {
+      font-size: 1.35em;
+    }
+    &:hover  {border-bottom: none; text-decoration: none;}
+    &.parent {
+      a {background: none;}
+      padding-top: .5em;
+      margin: 0 0 .75em 0;
+      
+      @media #{$small} {
+        display: inline-block;
+      }
 
-    &:before {content: none; vertical-align: middle;}
-    &:after {content:" › "; display: inline-block; color: #fff; padding: 0 .5em;}
+      &:before {content: none; vertical-align: middle;}
+      &:after {content:" › "; display: inline-block; color: $color-white; padding: 0 .5em;}
     }
 
     &.active {
       background: $color-gold;
-      color: #000;
-      font-family: $roboto-slab;
+      color: $color-va-black;
+      font-family: $font-serif;
       font-weight: 400;
       margin: .5em 0;
       padding: .2em;
@@ -655,30 +731,35 @@ text-align: left;
       &:before {content: ""; padding: 0; margin: 0;}
       }
     }
-  a {
-    border-bottom: 3px solid #fff;
-    background: none;
-    text-decoration: none !important;
-    color: #fff;
-    &:hover {text-decoration: none; background: rgba(0,0,0,.1); border-bottom: 3px solid $color-gold;}
+    a {
+      border-bottom: 3px solid $color-white;
+      background: none;
+      text-decoration: none !important;
+      color: $color-white;
+      &:hover {
+        text-decoration: none; 
+        background: rgba(0,0,0,.1); 
+        border-bottom: 3px solid $color-gold;
+      }
+    }
+}
+
+.breadcrumbs--inline {
+  display: inline-block;
+  
+  @media #{$small} {
+    margin-right: 1em !important;
+  }
+  
+  li.active::before {
+    display: none;
   }
 }
 
 // General List Styles
 
-ul {
-  li {
-  list-style: inside;
-  }
-}
 
-ol {
-  margin: 0 0 0 1.25em;
-li {
-    list-style-position: outside;
-  }
-}
-
+  
 li {
   span.meta {
     display: inline-block;
@@ -699,85 +780,27 @@ li {
   }
 }
 
-// Tables
-table {
-
-  caption {
-    text-align: left;
-    padding: 0 0 .25em 0;
-    font-weight: bold;
-    font-size: 1.25em;
-  }
-  border: 0;
-  text-align: left;
-  @media #{$small-only} {
-    font-size: .5em;
-  }
-}
-td,th {
-  padding-top:.8em;
-  padding-bottom: .8em;
-  padding-left: .8em;
-}
-
-th{
-  &[colspan] {
-    background: #E8F5FA;
-    font-size: 1.19rem;
-    padding-top:.8em;
-    padding-bottom: .8em;
-    padding-left: .8em;
-    color:$color-primary-darkest;
-  }
-  span {
-    font-weight: normal;
-  }
-}
-  tr {
-  background: #fff!important;
-  }
 
 // Definition lists
 
 dl.simple {
   margin: 0;
   padding: 0 0 1em 0;
+  
   &.feature {padding: .25em .5em;}
-  dd {padding: 0; margin: 0; border-bottom: 1px solid #eee; &:last-of-type {border-bottom: none;}}
-}
+  
+  dd {
+    padding: 0; 
+    margin: 0; 
+    border-bottom: 1px solid $color-gray-lightest; 
 
-// Checklists
-
-ul.checklist, ol.checklist {
-margin: 0 0 0 1.35em; padding: 0;
-li {
-  font-weight: 500;
-  span {font-weight: normal; font-size: 1em; display: block; margin-left: 2.25em; color: #555;}
-  padding: 1em 0;
-  border-bottom: 1px solid #ccc;
-  &:last-of-type {border-bottom: none;}
-  h5 {font-size: 1.35em;}
-  ul li {
-    border-bottom: none;
-    padding: .5em 0;
-    span {background: rgba(0,0,0,.1); display: block; padding: 1em .5em; text-align: center;}
-  }
-
-  ul {
-    margin: 0 !important;
-    padding: 0;
-    text-align: center;
-    svg {display: block; margin: .25em auto;}
-
-    li {padding: 0; margin: 0;}
-    &:before {margin: 0; padding: 0;}
-    span.type {margin: .25em .25em 1em .25em; color: $color-primary-darkest;  @media #{$small} {padding: 2.5em 1em;}  background: rgba($secondary-color, .15);}
+    &:last-of-type {
+      border-bottom: none;
     }
   }
 }
 
 // Informational Content
-
 .informational-content, .introductory-content {
   padding: 2em 0 2em 0;
   background: rgba(0,0,0,.05);
@@ -785,15 +808,26 @@ li {
 
 .introductory-content {
   padding: 1em  0;
-  @media #{$small} {/*padding: 3em 0.9375em;*/ padding: 3em 0;}
-  background: #efefef;
+  
+  @media #{$small} {
+    padding: 3em 0;
+  }
+  background: $color-gray-lightest;
   margin: 0 auto;
+  
   p {
-    font-size: 1em;}
-    @media #{$small} {font-size: 1.35em;}
+    font-size: 1em;
+  }
+  @media #{$small} {
+    font-size: 1.35em;
+  }
 }
 
 // Navigation
+
+#content.interior .navigation-title {
+  padding: 1.5em 0 1em 0;
+}
 
 #content.interior .navigation,
 #content #playbook .navigation {
@@ -801,7 +835,7 @@ li {
   @media #{$small} {padding: 1em 0 3em 0;}
   background: $color-gray-lightest;
   color: $color-primary-darkest;
-  border-bottom: 2px solid #fff;
+  border-bottom: 2px solid $color-white;
   margin: 0 auto;
 
   ul.small-block-grid-1 {
@@ -825,7 +859,6 @@ li {
     &:last-of-type { border-bottom: none;}
     a {
     color: $color-primary-darkest;
-    -webkit-box-shadow: none;
     border-bottom: none;
     box-shadow: none;
     text-decoration: none;
@@ -840,19 +873,8 @@ li {
   }
 }
 
-
-body.home .navigation, body.fourohfour .navigation {
-  background: none;
-  padding: 3em 0;
-}
-
 body.fourohfour #content {
   h3 {margin-top: 1em; font-size: 1.4em;}
-}
-
-body.home .main-navigation {
-  padding: 2em 0;
-  background: rgba(0,0,0,.2);
 }
 
 .draft {
@@ -860,8 +882,8 @@ body.home .main-navigation {
   top: -3.5em;
   right: -5em;
   z-index: 1000;
-  background: rgba(#a91d28, .9);
-  color: #fff;
+  background: rgba($color-va-secondary-darkest, .9);
+  color: $color-white;
   font-size: .85em;
   position: fixed;
   padding: 2.5em 4em 1em 4em;
@@ -871,7 +893,6 @@ body.home .main-navigation {
   -webkit-transform-origin: 20% 40%; /* Chrome, Safari, Opera */
   transform: rotate(45deg);
   transform-origin: 20% 40%;
-
 }
 
 // Cards
@@ -882,19 +903,19 @@ body.home .main-navigation {
 }
 
 #content  .cards {
--webkit-backface-visibility: hidden;
-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 
   a, .coming-soon {
     padding: 1em 1.15em;
     margin: 0 -0.9375rem;
     border-bottom: 2px solid rgba(255,255,255,.3);
-    color: #fff;
+    color: $color-white;
     display: block;
     font-weight: normal;
     text-decoration: none;
     background: $color-primary-darker;
-    -webkit-box-shadow: 0 0 5px rgba(0,0,0,.1);
+    box-shadow: 0 0 5px rgba(0,0,0,.1);
     @media #{$small} {padding: .45em .75em; border-bottom: none; text-align: left; border-radius: .2em; margin: 0 0 .25em 0}
     @media #{$medium} {height: 10em;}
 
@@ -918,12 +939,10 @@ backface-visibility: hidden;
 
     &:hover, &:active, &:focus {
       background: $color-primary;
-      -webkit-box-shadow: 0 0 5px rgba(0,0,0,.35);
-      -moz-box-shadow: 0 0 5px rgba(0,0,0,.35);
       box-shadow: 0 0 5px rgba(0,0,0,.35);
     }
 
-    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; color: #fff; display: block; clear: both; width: 100%;}
+    h2, h3, h4, h5, h6 {padding: 0 0 .25em 0; margin: 0; color: $color-white; display: block; clear: both; width: 100%;}
 
     &:hover div {
       a {color: $color-gold; p {color: $color-gold;}}
@@ -932,17 +951,16 @@ backface-visibility: hidden;
 
 .coming-soon {
   background: rgba(255,255,255,.05);
-  color: #fff;
+  color: $color-white;
   border-bottom: 2px solid rgba(0,0,0,0);
 
-  h3 {color: #fff; color: rgba(255,255,255,.7);}
+  h3 {color: $color-white; color: rgba(255,255,255,.7);}
 
   &:hover, &:active, &:focus {
     background: rgba(255,255,255,.05);
-    color: #fff;
-    p {color: #fff;}
+    color: $color-white;
+    p {color: $color-white;}
     border-bottom: 2px solid rgba(0,0,0,0);
-    -webkit-box-shadow: none;
     box-shadow: none;
   }
 }
@@ -951,9 +969,9 @@ backface-visibility: hidden;
 // Telephone numbers
 
 span.tel {
-background: rgba(0,0,0,.05);
-padding: .2em;
-display: inline-block;
+  background: rgba(0,0,0,.05);
+  padding: .2em;
+  display: inline-block;
 }
 
 // Information Grid
@@ -975,7 +993,7 @@ li {
     padding: .75em;
     margin: 0 0 .5em 0;
     @media #{$small} {min-height: 12em;}
-    background: #eee;
+    background: $color-gray-lightest;
     background: rgba(0,0,0,.05);
     &:hover, &:focus, &:active {background: rgba(0,0,0,.1);}
   }
@@ -993,60 +1011,42 @@ li {
 // Blog / Playbook
 
 body.page-playbook {
-background:#fff url(../images/design/background/thread.png) top left no-repeat;
-background-size: contain;
-
-  h1 a {
-    text-indent: 180%;
-    white-space: nowrap;
-    overflow: hidden;
-    display: block;
-    border-bottom: none;
-    text-decoration: none;
-    width: 180px;
-    height: 30px;
-    background: #fff url(../images/design/logo/logo-alt.png) top left no-repeat;
-    background-size: contain;
-    &:hover, &:active, &:focus {
-      background: #fff url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
-      border-bottom: none;
-      background-size: contain;
-      text-decoration: none;}
-
-      @media #{$small} {
-        width: 263px;
-        height: 50px;
-        background: #fff url(../images/design/logo/logo-alt.png) top left no-repeat;
-        background-size: contain;
-        &:hover {
-          background: #fff url(../images/design/logo/logo-alt-hover.png) top left no-repeat;
-          background-size: contain;
-        }
-      }
-    }
+  background-color: $color-white;
 
   .main {background: white;}
 }
 
+
 // posts
+// TODO: Remove !important when #content .splash is refactored
+.splash--blog {
+  margin: 0 !important;
+  padding: 0 !important; 
 
-#experience.Designing .splash {
-    padding: 4em 0;
-    @media #{$small} {padding: 6.1em 0;}
-    background: url(../images/content/posts/utah.jpg) top center no-repeat;
-    background-size: cover;
-    margin-bottom: 1em;
+  @media #{$small} {
+    margin: .5em 0 0 0 !important;
+    padding: 1em 0 0 0 !important;
+  }
 }
 
-#experience.When .splash {
-    padding: 4em 0;
-    @media #{$small} {padding: 6.1em 0;}
-    background: url(../images/content/posts/exit.jpg) 50% 50% no-repeat;
-    background-size: cover;
-    margin-bottom: 1em;
+.splash--hasimg {
+  // TODO: Remove !important when #content .splash is refactored
+  padding: 4em 0 !important; 
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-bottom: 1em;
+  
+  @media #{$small} {
+    // TODO: Remove !important when #content .splash is refactored
+    padding: 6.1em 0 !important;
+  }
 }
 
-.post-date, .post-author {color: #444;}
+.post-date, 
+.post-author {
+  color: $color-va-gray-cool-dark;
+}
 
 .post-date {
   margin-bottom: 2.5em;
@@ -1060,21 +1060,52 @@ span.next {
   display: inline-block;
 }
 
+// TODO: Remove !important from this block
+// Once the specificity of #content .splash h2 block/
+// gets reduced.
+.va-headingflag {
+  margin: .5em 0 !important; 
+  padding: 0 !important;
+  margin: 0 0 2em 0 !important; 
+  background: none !important; 
+  color: $color-primary-darkest !important;
+  
+  @media #{$medium} {
+    position: absolute !important; 
+    margin: 1.35em 0 0 0 !important; 
+    z-index: 100 !important;
+  }  
 
-#experience .splash {
-  margin: 0;
-  @media #{$small} {margin: .5em 0 0 0; padding: 1em 0 0 0;}
-  h2 {
-    &.tagline {padding: 0;}
-    padding: 0; margin: 0 0 2em 0; background: none; color: $color-primary-darkest;
-    a {text-decoration: none; margin: 0; color: $color-primary-darkest; background: $color-gold; border-bottom: none; padding: .5em .25em; &:hover {padding: .5em .65em;}}
-    @media #{$medium} {position: fixed; margin: 1.35em 0 0 0; z-index: 100;}
+  a {
+    text-decoration: none; 
+    margin: 0; 
+    color: $color-primary-darkest; 
+    background: $color-gold; 
+    border-bottom: none; 
+    padding: .5em .25em; 
+    // Transition only these properties.
+    -webkit-transition-property: padding;
+    transition-property: padding;
+        
+    &:hover {
+      padding: .5em .65em;
+    }
+  }
+  
+  @media #{$medium} {
+    position: absolute; 
+    margin: 1.35em 0 0 0; 
+    z-index: 100;
   }
 }
 
-// small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns
+.va-headingflag--tagline {
+  padding: 0;
+}
 
+// small-12 medium-8 medium-offset-4 large-offset-2 small-centered columns
 #experience {
+  background: $color-white;
 
   .main {
     @extend .small-12;
@@ -1099,8 +1130,8 @@ figure {
   }
 
   @media #{$large} {
-      margin-left: -16.66667%;
-      margin-right: -16.66667%;
+    margin-left: -16.66667%;
+    margin-right: -16.66667%;
   }
 }
 
@@ -1123,31 +1154,54 @@ figure {
       margin: 0;
       padding: 0;
       border-bottom: 1px solid rgba(0,0,0,.1);
-      &:last-of-type{border-bottom: none;}
+     
+      &:last-of-type{
+        border-bottom: none;
+      }
+      
       a {
-        padding: .5em .2em; margin: 0; text-decoration: none;
+        padding: .5em .2em; 
+        margin: 0; 
+        text-decoration: none;
         display: block;
+        
         &:hover {
           background: rgba(0,0,0,.08);
           border-left: 4px solid $color-primary;
           padding-left: .5em;
         }
-        .post-title {color: $color-primary-darker; font-size: 1em; font-weight: bold; margin: 0; padding: 0;}
-        .post-date {color: #444; margin: 0; padding: 0 0 1em 0;}
+        .post-title {
+          color: $color-primary-darker; 
+          font-size: 1em; 
+          font-weight: bold; 
+          margin: 0; 
+          padding: 0;
+        }
+        .post-date {
+          color: $color-va-gray-cool-dark; 
+          margin: 0; 
+          padding: 0 0 1em 0;
+        }
       }
     }
   }
 }
 
 .post {
-  a, p, li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure, blockquote {color: #444; line-height: 1.65em;}
+  a, p, p:nth-child(1), li, h1, h2, h3, h4, h5, h6, dl, dd, dt, caption, figure,   
+  blockquote {
+    color: $color-va-gray-cool-dark; 
+    line-height: 1.65em;
+    font-size: inherit;
+  }
+ 
   a {
     text-decoration: underline;
     color: $color-primary-darker;
   }
 
   .page-number {
-    color: #444;
+    color: $color-va-gray-cool-dark;
   }
 
   span.previous {
@@ -1176,7 +1230,7 @@ figure {
 // Footer
 
 .footer {
-  color:#fff;
+  color:$color-white;
   padding: 0 !important;
   margin: 0;
   background: darken($color-primary-darkest, 02);
@@ -1197,13 +1251,13 @@ figure {
   }
 
   dt {
-  -webkit-font-smoothing: antialiased;
-  font-weight: 700;
-  display: block;
-  font-size: .95em;
-  padding: 0 0 1em 0;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 700;
+    display: block;
+    font-size: .95em;
+    padding: 0 0 1em 0;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
   }
 
   dd {
@@ -1244,7 +1298,7 @@ figure {
     }
   }
   li, p, a {
-    color: #fff;
+    color: $color-white;
     font-size: 1em;
   }
 
@@ -1253,13 +1307,27 @@ figure {
     display: block;
     background: none;
     font-weight: 400;
-    @media #{$small} {display: inline-block; margin: .25em 0;}
+   
+    @media #{$small} {
+      display: inline-block; 
+      margin: .25em 0;
+    }
+    
     &:hover {color: $color-gold;}
-    &.contact, &.blog {
-      padding: .65em; font-size: 1em;  text-align: center; border: 2px solid $secondary-color;
-      @media #{$small} {margin: 1.5em auto; display: inline-block;}
+    &.contact, 
+    &.blog {
+      padding: .65em; 
+      font-size: 1em;  
+      text-align: center; 
+      border: 2px solid $secondary-color;
+      
+      @media #{$small} {
+        margin: 1.5em auto; 
+        display: inline-block;
+      }
+      
       &:hover, &:focus, &:active {
-        background: $secondary-color; color: #fff;
+        background: $secondary-color; color: $color-white;
       }
     }
 
@@ -1372,14 +1440,14 @@ li {
   blockquote {
     border-left: 0;
     padding: 1em 1em 0 1em;
-    color: #fff;
+    color: $color-white;
     text-align: center;
     margin: 0 auto;
     font-style: italic;
   }
 
   span.source {
-    color: #fff;
+    color: $color-white;
     color: rgba(255,255,255,.8);
     text-align: center;
     margin: 0 auto;
@@ -1426,155 +1494,62 @@ a.twitter {
 
 }
 
-// Alerts
-
-.alert-box {
-  border-bottom: none;
-  margin: 0;
-  padding: 1.25em .4em 0 0;
-
-&:after {
-   visibility: hidden;
-   display: block;
-   font-size: 0;
-   content: " ";
-   clear: both;
-   height: 0;
-   }
-
-  @media #{$small-up} {padding: 1em .4em 0 .4em;}
-  margin-bottom: 0;
-  a {color: #fff; background: none;}
-
-  &.notice {
-    font-size: .9em;
-    font-weight: 700;
-    clear: both;
-    padding: .5em;
-    @media #{$small} {padding: .5em .85em;}
-    margin-bottom: .75em;
-    background: $color-primary-darker;
-    &:after {
-       visibility: hidden;
-       display: block;
-       font-size: 0;
-       content: " ";
-       clear: both;
-       height: 0;
-       }
-  }
-
-  &.coda {
-    font-size: .9em;
-    font-weight: 500;
-    clear: both;
-    padding: 1.25em 0 1.5em 0;
-    border-top: none;
-    background: $color-primary-darker;
-    @media #{$xlarge-up} {
-      padding: 0;
-    }
-
-  }
-
-  // Feedback widget
-
-  .feedback {
-    color: #fff;
-    text-align: center;
-    @media #{$medium-up} {
-      text-align: left;
-    }
-  }
-
-  .feedback-widget {
-    color: #fff;
-    background: none;
-    overflow: hidden;
-    text-decoration: underline;
-      @media #{$small-only} {
-        text-align: center;
-      }
-
-    &:nth-child(even) {
-      opacity: .5;
-      padding-left: 1em;
-
-      &:hover {
-        opacity: 1;
-      }
-    }
-    
-    span.icon {
-      background: url('../images/design/sprites/sprite.png') no-repeat -43px 0;
-      background-size: 215px 72px;
-      display: inline-block;
-      width: 19px;
-      height: 17px;
-      vertical-align: middle;
-      margin: 0 .5em 0 0;
-      @media #{$medium-up} {float: left;}
-    }
-
-  @media #{$xlarge-up} {
-    position: fixed;
-    width: 12em;
-    padding: .5em;
-    display: inline-block;
-    text-decoration: none;
-    background: $color-primary-darker;
-    bottom: .85em;
-    right: 0;
-    -webkit-border-top-left-radius: .3em;
-    -webkit-border-bottom-left-radius: .3em;
-    -moz-border-radius-topleft: .3em;
-    -moz-border-radius-bottomleft: .3em;
-    border-top-left-radius: .3em;
-    border-bottom-left-radius: .3em;
-    span.icon {
-      margin-top: .75em;
-      margin-right: .5em;
-    }
-    span.text {
-      width: 100%; text-decoration: underline;
-      @media #{$medium-up} {float: left; width: 80%; text-decoration: none;}
-
-    }
-    &:hover, &:active, &:focus {
-      background: $color-primary-darkest;
-      color: #fff;
-      padding: .5em .65em;
-      width: 12.5em;
-    }
-  }
-}
-
-.message {
-  font-size: 1.7rem;
-  font-weight: 700;
-  span {
-    background-position: 0 4px;
-    background-repeat: no-repeat;
-    background-size: 16px 14px;
-    display:inline-block;
-    padding-left: 1.5em;
-
-  }
+// Notice / feedback banners
+.va-notice--banner {
+  background: $color-primary-darker;
+  margin: 0 0 .75em 0;
+  padding: .5em;
+  font-size: .9em;
+  font-weight: 300;
+  
   p {
-    font-size: 1.44rem;
-    font-weight: 300;
-    margin-bottom: 0;
-    margin-top: 0;
+    margin: 0;
+  }
+    
+  a {
+    background-image: none;
+    color: $color-white;
     padding: 0;
   }
+  
+  .row {
+    max-width: 70em;
+  }
 }
 
-.text-right {
-  padding: 0 .5em 0 0;
-  line-height: 1em;
-  margin: 0;
-  text-align: right !important;
-  a.usa-button {margin-top: 0; margin-bottom: .75em;}
+// Only used in the footer
+.va-notice--banner--alt {
+  padding: 1.25em 0;
+  margin: 1.5em 0 0 0;
+}
+
+ // Feedback widget
+
+.feedback-widget {
+  overflow: hidden;
+
+  @media #{$small-only} {
+    text-align: center;
+  }
+
+  // Works with <= IE8
+  &:last-child {
+    opacity: .5;
+    padding-left: 1em;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+  
+  .icon {
+    background: url('../images/design/sprites/sprite.png') no-repeat -43px 0;
+    background-size: 215px 72px;
+    display: inline-block;
+    width: 19px;
+    height: 17px;
+    vertical-align: middle;
+    margin: 0 .5em 0 0;
   }
 }
 
@@ -1596,7 +1571,6 @@ a.twitter {
     width: 100%;
     color: $color-gray-dark;
     padding: .2em;
-    -webkit-box-sizing: border-box;
     box-sizing: border-box;
   }
 
@@ -1607,10 +1581,7 @@ a.twitter {
     width: 100%;
     padding: 0;
     border-radius: 0px 3px 3px 0px;
-    -moz-border-radius: 0px 3px 3px 0px;
-    -webkit-border-radius: 0px 3px 3px 0px;
   }
-
 }
 
 .search-button {
@@ -1625,7 +1596,7 @@ a.twitter {
     border-radius: .2em;
     text-decoration: none;
     background: $color-primary;
-    color: #fff;
+    color: $color-white;
   }
 }
 
@@ -1667,7 +1638,7 @@ a.twitter {
     a {
       text-decoration: none;
       background: none;
-      color: #fff;
+      color: $color-white;
       .post-date {font-size: .65em;}
       &:hover {
         background: rgba(255,255,255,.2);
@@ -1679,7 +1650,7 @@ a.twitter {
 
 // byline
 
-p.byline {font-size: .8em; color: #fff; color: rgba(255,255,255,.9);}
+p.byline {font-size: .8em; color: $color-white; color: rgba(255,255,255,.9);}
 
 
 
@@ -1702,7 +1673,7 @@ li {
 position: relative;
 margin: 0 0 1.5em 0;
 padding: 1em;
-border: 1px solid #eee;
+border: 1px solid $color-gray-lightest;
 dt {font-weight: 700;}
 dd {
   padding: 0;
@@ -1740,7 +1711,7 @@ span {
 }
 
 .heading {
-  color:#006699;
+  color: $color-va-primary-alt-darkest;
   font-size: .8em;
   padding: 0;
 }
@@ -1760,12 +1731,12 @@ span {
 }
 
 &.info-graphic {
-  border: 1px solid #fff;
+  border: 1px solid $color-white;
   background: none;
   padding: 1em 1em 0;
   line-height: 2.5;
   span.number {
-    color: #fff;
+    color: $color-white;
     display: inline-block;
   }
 }
@@ -1783,7 +1754,6 @@ span {
 
 #playbook {
 h2 {background: none; font-size: 2.5em;}
-/*a {text-decoration: none; background: none;}*/
 
 .card a {
   border-bottom: 2px solid $secondary-color;
@@ -1831,7 +1801,7 @@ margin: 0;
   h6 {font-size: 1.1em; margin: 0; padding: 0;}
   p:nth-child(1) {
     font-size: 1em;
-    color: #333;
+    color: $color-gray-dark;
     padding-bottom: 0;
   }
   list-style: none;
@@ -1839,7 +1809,7 @@ margin: 0;
 
     p:nth-child(1) {
       font-size: 1em;
-      color: #333;
+      color: $color-gray-dark;
       padding-bottom: inherit;
     }
 
@@ -1862,9 +1832,7 @@ margin: 0;
   &.last {
     border-left: 0;
   }
-      a {
-        /*background-color: #D9C799;*/
-      }
+
   }
   &.step.three.last,
   &.step.four.last,
@@ -1876,9 +1844,6 @@ margin: 0;
     margin-left: -2.4em
     }
   }
-
-
-  /*&.va {border-left: 8px dashed #ccc;}*/
 
   ul {
     margin: .25em 0 1em 0;
@@ -1898,7 +1863,7 @@ margin: 0;
   }
 
   &:before {
-    color:#fff;
+    color:$color-white;
     float: left;
     font-size: 1.3em;
     font-weight: 700;
@@ -1907,7 +1872,7 @@ margin: 0;
     top: -.2em;
     margin-left: -2.7em;
     display: block;
-    border: 4px solid #fff;
+    border: 4px solid $color-white;
     background: $olso-gray;
     border-radius: 4em;
     position: relative;
@@ -1916,7 +1881,7 @@ margin: 0;
 
 #content.interior .primary .process li p:nth-child(1) {
   font-size: 1em;
-  color: #333 !important;
+  color: $color-gray-dark !important;
   padding-bottom: 0;
 }
 
@@ -1941,40 +1906,41 @@ li.eighteen:before {content: "18";}
 li.nineteen:before {content: "19";}
 li.twenty:before {content: "20";}
 }
+
 .methodology {
-.medium-3 {
-  padding-top: 1.5em;
-  @media #{$small-only} {
-    padding-left: 1.5em;
-    h4 {
-      font-size: 1.4em;
+  .medium-3 {
+    padding-top: 1.5em;
+
+    @media #{$small-only} {
+      padding-left: 1.5em;
+      h4 {
+        font-size: 1.4em;
+      }
+    }
+
+    ul {
+      margin: 0 0 1.5em 0; padding: 0;
+    
+      li {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    &.hcd {
+      h4 {
+        color: $secondary-color;
+      }
     }
   }
-
-  ul {
-    margin: 0 0 1.5em 0; padding: 0;
+ 
+  ol:nth-child(n+2) {
     li {
-    margin: 0;
-    padding: 0;
+      list-style-type:decimal;
     }
   }
 
-  &.hcd {
-    h4 {
-      color: $secondary-color;
-    }
-  }
-
-}
-.medium-9 {
-  background: white;
-}
-ol:nth-child(n+2) {
   li {
-    list-style-type:decimal;
-  }
-}
-li {
   &.step {
     padding-top: 1.5em;
     border-left:4px solid $olso-gray;
@@ -2035,42 +2001,40 @@ li {
   }
 }
 
-&.page {
-  .discover {
-    background: none;
-  }
-  .medium-3 {
-    padding-top: 0;
-    ul {
-      margin-left: 0;
+  &.page {
+    .discover {
+      background: none;
+    }
+    .medium-3 {
+      padding-top: 0;
+      ul {
+        margin-left: 0;
+      }
+    }
+    .medium-9 {
+        li {
+            list-style-type: disc;
+        }
     }
   }
-  .medium-9 {
-      li {
-          list-style-type: disc;
-      }
-  }
-}
 }
 
 .human-centered {
 .discover,
 .design,
 .deliver {
-  border-top: 4px solid #fff;
-  border-bottom:4px solid #fff;
+  border-top: 4px solid $color-white;
+  border-bottom:4px solid $color-white;
   div:nth-child(1) {
-    border-right:8px solid #fff;
+    border-right:8px solid $color-white;
     @media #{$small-only} {
       border-right: 0;
     }
   }
   div:nth-child(2) {
-    /*border-left:4px solid #fff;*/
     padding: 1.5em 1.5em .2em;
   }
   .graphic {
-    -webkit-background-size: 138px 138px;
     background-size: 165px 165px;
     padding: 0;
     height: 209px;
@@ -2081,18 +2045,13 @@ li {
 }
 }
 .discover {
-  background:$polar;
-  li {
-    &.step.one {
-      @media #{$small-only} {
-        margin-top: 1.3em!important;
-      }
-      @media #{$medium-up} {
-        margin-top: -2.7em!important;
-      }
-      padding-top: 0;
-    }
+  background: $polar;
+  
+  li.one {
+    margin-top: 1.3em !important;
+    padding-top: 0;
   }
+  
   .graphic {
     background: url(../images/design/playbook/discover-process.svg) 40% center no-repeat;
   }
@@ -2117,6 +2076,7 @@ li {
     background :url(../images/design/playbook/design-process.svg) 40% center no-repeat;
   }
 }
+
 .deliver {
   background:$green-white;
     li {
@@ -2139,24 +2099,46 @@ li {
 }
 
 
+.va-list-num--discover { 
+  li::before {
+    background-color: $polar;
+  }
+}
+.va-list-num--design {
+  // TODO: Figure out why !important is necessary here.
+  li::before {
+    background-color: $wild-sand !important;
+  }
+}
+
+.va-list-num--deliver {
+// TODO: Figure out why !important is necessary here.
+  li::before {
+    background-color: $green-white !important;
+  }
+}
+.va-prodmethod {
+  padding: 0;
+}
+
 // Visual Guide
 
 span.color-chip {
-height: 3em;
-width: 3em;
-margin: .5em 1em .5em 0;
-border-radius: 10em;
-vertical-align: middle;
-display: inline-block;
+  height: 3em;
+  width: 3em;
+  margin: .5em 1em .5em 0;
+  border-radius: 10em;
+  vertical-align: middle;
+  display: inline-block;
 
-&.primary-color {background: $color-primary;}
-&.color-primary-darker {background: $color-primary-darker;}
-&.color-primary-darkest {background: $color-primary-darkest;}
-&.color-gray-dark {background: $color-gray-dark;}
-&.color-gray-lightest {background: $color-gray-lightest;}
-&.color-gold {background: $color-gold;}
-&.color-green {background: $color-green;}
-&.color-green-lightest {background: $color-green-lightest;}
+  &.primary-color {background: $color-primary;}
+  &.color-primary-darker {background: $color-primary-darker;}
+  &.color-primary-darkest {background: $color-primary-darkest;}
+  &.color-gray-dark {background: $color-gray-dark;}
+  &.color-gray-lightest {background: $color-gray-lightest;}
+  &.color-gold {background: $color-gold;}
+  &.color-green {background: $color-green;}
+  &.color-green-lightest {background: $color-green-lightest;}
 }
 
 
@@ -2184,7 +2166,7 @@ display: inline-block;
 // Citation
 
 .citation {
-border-top: 1px solid #eee;
+border-top: 1px solid $color-gray-lightest;
 padding: 1em 0 0 0;
 h5, h6 {font-size: .85em; font-family: $font-sans; color: $color-gray-dark;}
 p, ul, li {font-size: .7em;}
@@ -2194,38 +2176,41 @@ font-style: italic;
 // Panel list
 
 .panel-list {
-background: rgba(0,0,0,.05);
-padding: 1em;
-position: relative;
-min-height: 12em;
-dt {color: $color-primary-darkest; padding: 0; font-weight: 700; font-size: 1.2em;}
-dd {padding: 0; margin: 0;}
-a {
-  @extend .usa-button-primary;
-  margin: .5em 0;
+  background: rgba(0,0,0,.05);
+  padding: 1em;
+  position: relative;
+  min-height: 12em;
+  
+  dt {
+    color: $color-primary-darkest; 
+    padding: 0; 
+    font-weight: 700; 
+    font-size: 1.2em;
+  }
+  
+  dd {
+    padding: 0; 
+    margin: 0;
+  }
+  
+  a {
+    @extend .usa-button-primary;
+    margin: .5em 0;
+  }
+  
+  &.plain {
+    height: auto;
+    
+    dt {
+      font-size: 1.45em;
+    }
+    
+    margin: 0 0 1em 0;
+    min-height: 0;
+  }
 }
-&.plain {
-  height: auto;
-  dt {font-size: 1.45em;}
-  margin: 0 0 1em 0;
-  min-height: 0;
-}
-}
-
-// Buttons
-
-#content .usa-button,
-#content .usa-button-primary,
-#content .usa-button-outline
-{text-decoration: none !important;}
-
-#content .usa-button-primary.expand {
-  width: 100%;
-}
-
 
 // Highlight headings
-
 h4.highlight {
   border-bottom: 3px solid $primary-color;
   display: block;
@@ -2241,18 +2226,26 @@ h4.highlight {
   margin-top: 0.7rem;
 }
 
-// Action banner
-
-.action-bar {
-text-align: right;
-background: $color-gray-lightest;
-padding: .5em 0;
-  a.usa-button-primary {
-    background: $color-green;
-  }
+// Action bars
+[class^="va-action-bar"] {
+  background: $color-gray-lightest;
 }
 
-// TODO: Deprecate .action-bar a.usa-button-primary.
+.va-action-bar--header {
+  padding: .5em 0;
+  text-align: right;
+}
+
+.va-action-bar--footer {
+  padding: 1em 0;
+}
+
+.va-action-bar--start {
+  background: $color-green-lightest;
+  border-bottom: 3px solid $color-white;
+}
+
+// TODO: Deprecate .va-action-bar--header a.usa-button-primary.
 // Use .va-button-primary and .va-button-secondary 
 // going forward.
 // Drop !important from the lines below when everything
@@ -2293,10 +2286,9 @@ button[class*="usa-button-"] {
 .disclaimer {
   padding: 1em 0;
   border-top: 1px solid #ddd;
-
   z-index:500;
-  color: #444;
-  background: #fff;
+  color: $color-va-gray-cool-dark;
+  background: $color-white;
 
   &.minimal {
     border-top: none;
@@ -2316,11 +2308,6 @@ button[class*="usa-button-"] {
     margin: 0;
   }
 }
-
-body.home .disclaimer, body.page-playbook .disclaimer {
-  display: none;
-}
-
 
 // Mobile menu
 
@@ -2371,10 +2358,8 @@ body.home .disclaimer, body.page-playbook .disclaimer {
     }
 
     input[type="text"] {
-      border-radius: 3px 0 0 3px;
-      -moz-border-radius: 3px 0 0 3px;
-      -webkit-border-radius: 3px 0 0 3px;
       -webkit-appearance: none;
+      border-radius: 3px 0 0 3px;
     }
 
   }
@@ -2465,7 +2450,9 @@ button.js-simple-tooltip {
 }
 .simpletooltip_container {
   position: relative;
+  display: inline-block;
 }
+
 .simpletooltip {
   position: absolute;
   z-index: 777;
@@ -2478,26 +2465,28 @@ button.js-simple-tooltip {
   font-size: 1em;
   font-weight: 300;
   line-height: 1.3;
-}
-.simpletooltip {
   right: auto;
   left: 100%;
   margin-left: .8em;
+  white-space: normal;
+  top: -110%;
+  
+  &:before {
+    border-bottom: 10px solid transparent;  // left arrow slant
+    border-top: 10px solid transparent; // right arrow slant
+    border-right: 10px solid $color-gray-dark;
+    content: "";
+    font-size: 0;
+    position: absolute;
+    left: 0px;
+    line-height: 0;
+    margin-left: -10px;
+    width:0;
+    height:0;
+    top: 39%;
+  }
 }
-.simpletooltip:before {
-  border-bottom: 10px solid transparent;  /* left arrow slant */
-  border-top: 10px solid transparent; /* right arrow slant */
-  border-right: 10px solid $color-gray-dark;
-  content:"";
-  font-size: 0;
-  position: absolute;
-  top: 3px;
-  left: 0px;
-  line-height: 0;
-  margin-left: -10px;
-  width:0;
-  height:0
-}
+
 @media (max-width: 40.063em) {
   .simpletooltip {
     top: 100%;
@@ -2506,15 +2495,16 @@ button.js-simple-tooltip {
     margin: 0;
     margin-top: .7em;
     margin-left: -5em;
-  }
-  .simpletooltip:before {
-    top: -10px;
-    right: auto;
-    left: 45%;
-    margin-left: -5px;
-    margin-top: -10px;
-    border: 10px solid transparent;
-    border-bottom: 10px solid rgba( 0, 0, 0, .9 );
+  
+    &:before {
+      top: -10px !important;
+      right: auto;
+      left: 45%;
+      margin-left: -5px;
+      margin-top: -10px;
+      border: 10px solid transparent;
+      border-bottom: 10px solid $color-gray-dark;
+    }
   }
 }
 
@@ -2680,4 +2670,12 @@ html.touchevents {
     -webkit-transform: translateY(0);
     transform: translateY(0);
   }
+}
+
+.va-code-block, 
+code[class*="language-"], 
+pre[class*="language-"]  {
+  background-color: $color-gray-lightest !important;
+  font-size: .9em;
+  line-height: inherit !important;
 }

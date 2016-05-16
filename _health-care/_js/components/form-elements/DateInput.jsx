@@ -29,10 +29,12 @@ class DateInput extends React.Component {
   }
 
   handleChange(path, update) {
+    const isYearNumber = this.props.year === null || this.props.year === '';
+
     const date = {
       month: Number(this.props.month),
       day: Number(this.props.day),
-      year: Number(this.props.year)
+      year: isYearNumber ? this.props.year : Number(this.props.year)
     };
 
     date[path] = Number(update);

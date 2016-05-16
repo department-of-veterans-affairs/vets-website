@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import ErrorableSelect from '../form-elements/ErrorableSelect';
-
+import { isNotBlank } from '../../utils/validations';
 import { vaMedicalFacilities } from '../../utils/options-for-select.js';
 
 /**
@@ -40,7 +40,8 @@ class VaMedicalFacility extends React.Component {
 
     return (
       <div className="usa-input-grid usa-input-grid-large">
-        <ErrorableSelect
+        <ErrorableSelect required={this.props.required}
+            errorMessage={isNotBlank(this.props.value) ? undefined : 'Please select a medical facility'}
             label="Center/Clinic"
             options={clinicList}
             value={this.props.value}
@@ -51,6 +52,7 @@ class VaMedicalFacility extends React.Component {
 }
 
 VaMedicalFacility.propTypes = {
+  required: React.PropTypes.bool,
   value: React.PropTypes.string.isRequired,
   facilityState: React.PropTypes.string.isRequired,
   onValueChange: React.PropTypes.func.isRequired,

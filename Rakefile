@@ -104,7 +104,7 @@ desc "Run the development jekyll server on a given port with webpack bootstrappe
 task :"heroku-serve", :port do |t, args|
   raise "heroku-serve needs port argument" if args[:port].empty?
   Rake::Task[:"webpack-dev"].invoke
-  sh "bundle exec jekyll serve --no-watch -P #{args[:port]}"
+  sh "bundle exec jekyll serve --no-watch --host 0.0.0.0 -P #{args[:port]}"
 end
 
 desc "Serve the website"
@@ -129,9 +129,9 @@ namespace :tests do
   desc "NO JEKYLL REBUILD: Run standard continuous integration tests."
   task :"ci-nobuild" => [ :lint, :htmlproof, :javascript ]
 
-  desc "Validate HTML. No extenral checks."
+  desc "Validate HTML. No external checks."
   task :htmlproof do
-    sh "bundle exec htmlproof ./_site --only-4xx --disable-external --check-favicon --check-html --allow-hash-href --href-ignore '/veterans-employment-center/','/gi-bill-comparison-tool/','/disability-benefits/learn/eligibility/.*','/disability-benefits/learn/','/disability-benefits/apply-for-benefits/','Employment-Resources/','/gibill/','/disability-benefits/'"
+    sh "bundle exec htmlproof ./_site --only-4xx --disable-external --check-favicon --check-html --allow-hash-href --href-ignore '/veterans-employment-center/','/gi-bill-comparison-tool/','/disability-benefits/learn/eligibility/.*','/disability-benefits/learn/','/disability-benefits/apply-for-benefits/','Employment-Resources/','/gibill/','/disability-benefits/','/employment/job-seekers/skills-translator','/employment/job-seekers/search-jobs','/employment/job-seekers/create-resume','/employment/commitments','/employment/users/sign_in','/employment/employers','/employment/employers/'"
   end
 
   desc "Validate HTML *including* following external links. May be flaky/slow depending on external link."

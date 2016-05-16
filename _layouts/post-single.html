@@ -1,8 +1,8 @@
 {% include header.html %}
 <div id="content">
-  <div id="experience" class="{{ page.title }}" role="main">
-    <div class="splash">
-      <h2><a href="/experience/">Experience</a></h2>
+  <div id="experience" role="main">
+    <div class="splash splash--blog{% if page.splash_image %} splash--hasimg" style="background-image: url(/assets/images/content/posts/{{page.splash_image}});{% endif %}">
+      <h2 class="va-headingflag"><a href="/experience/">Experience</a></h2>
     </div>
     <div class="primary">
       <div class="row">
@@ -18,7 +18,7 @@
             <ul class="plain posts">
               {% for post in site.related_posts %}
                 <li>
-                  <a href="/{{ post.url }}">
+                  <a href="{{ post.url }}">
                     <div class="post-title">{{ post.title }}</div>
                     <div class="post-date">{{ post.date | date: "%B %d, %Y" }}</div>
                   </a>

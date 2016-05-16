@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 
-import ReviewAndSubmitSection from '../../../../_health-care/_js/components/ReviewAndSubmitSection';
+import { ReviewAndSubmitSection } from '../../../../_health-care/_js/components/ReviewAndSubmitSection';
 
 describe('<ReviewAndSubmitSection>', () => {
   it('Sanity check the component renders', () => {

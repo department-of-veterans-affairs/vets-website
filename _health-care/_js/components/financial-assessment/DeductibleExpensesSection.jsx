@@ -1,8 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
+import { updateReviewStatus, veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `isSectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class DeductibleExpensesSection extends React.Component {
   constructor() {
     super();
@@ -16,8 +24,10 @@ class DeductibleExpensesSection extends React.Component {
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
     let notRequiredMessage;
+    let content;
+    let editButton;
 
-    if (this.props.external.receivesVaPension === true) {
+    if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
         <p>
           <strong>
@@ -28,10 +38,29 @@ class DeductibleExpensesSection extends React.Component {
       );
     }
 
-    return (
-      <div>
-        <h4>Previous calendar year deductible expenses</h4>
-
+    if (this.props.isSectionComplete && this.props.reviewSection) {
+      content = (<table className="review usa-table-borderless">
+        <tbody>
+          <tr>
+            <td>Total non-reimbursed medical expenses paid by you or your spouse:</td>
+            <td>{this.props.data.deductibleMedicalExpenses}</td>
+          </tr>
+          <tr>
+            <td>Amount you paid last calendar year for funeral and burial expenses
+         for your deceased spouse or dependent child:
+            </td>
+            <td>{this.props.data.deductibleFuneralExpenses}</td>
+          </tr>
+          <tr>
+            <td>Amount you paid last calendar year for your college or vocational
+              educational expenses:
+            </td>
+            <td>{this.props.data.deductibleEducationExpenses}</td>
+          </tr>
+        </tbody>
+      </table>);
+    } else {
+      content = (<div>
         {notRequiredMessage}
 
         <p>
@@ -71,9 +100,47 @@ class DeductibleExpensesSection extends React.Component {
               value={this.props.data.deductibleEducationExpenses}
               onValueChange={(update) => {this.props.onStateChange('deductibleEducationExpenses', update);}}/>
         </div>
+      </div>);
+    }
+
+    if (this.props.reviewSection) {
+      editButton = (<ErrorableCheckbox
+          label={`${this.props.isSectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.isSectionComplete}
+          className="edit-checkbox"
+          onValueChange={(update) => {this.props.onUIStateChange(update);}}/>
+      );
+    }
+
+    return (
+      <div>
+        <h4>Previous calendar year deductible expenses</h4>
+        {editButton}
+        {content}
       </div>
     );
   }
 }
 
-export default DeductibleExpensesSection;
+function mapStateToProps(state) {
+  return {
+    data: state.veteran.deductibleExpenses,
+    receivesVaPension: state.veteran.vaInformation.receivesVaPension,
+    isSectionComplete: state.uiState.completedSections['/financial-assessment/deductible-expenses']
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(veteranUpdateField(['deductibleExpenses', field], update));
+    },
+    onUIStateChange: (update) => {
+      dispatch(updateReviewStatus(['/financial-assessment/deductible-expenses'], update));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(DeductibleExpensesSection);
+export { DeductibleExpensesSection };

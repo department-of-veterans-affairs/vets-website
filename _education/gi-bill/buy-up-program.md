@@ -6,7 +6,7 @@ concurrence: incomplete
 
 <div class="main" role="main" markdown="0">
 
-<div class="action-bar">
+<div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
@@ -17,12 +17,12 @@ concurrence: incomplete
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns">
+<div class="small-12 columns usa-content">
 
 <div markdown="1">
 If you participate in the $600 Montgomery GI Bill Buy-Up program, your GI Bill monthly payments will increase.
 
-#### How it works
+### How it works
 
 Some Servicemembers may contribute up to an additional $600 to the GI Bill to receive increased monthly benefits. With a $600 contribution, you can receive up to $5,400 more in GI Bill benefits. The additional contribution must be made while on active duty. View the increased monthly rates and contact your personnel or payroll office.
 

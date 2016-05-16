@@ -1,12 +1,26 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
+import ChildIncome from './ChildIncome';
+import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
 import ErrorableTextInput from '../form-elements/ErrorableTextInput';
+import FixedTable from '../form-elements/FixedTable.jsx';
 import { isBlank, isValidMonetaryValue } from '../../utils/validations';
+import { createChildIncomeFields, updateReviewStatus, veteranUpdateField } from '../../actions';
 
+/**
+ * Props:
+ * `isSectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
+ * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
+ */
 class AnnualIncomeSection extends React.Component {
   constructor() {
     super();
     this.isValidMonetaryValue = this.isValidMonetaryValue.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.initializeChildIncomeFields();
   }
 
   isValidMonetaryValue(value, message) {
@@ -17,8 +31,12 @@ class AnnualIncomeSection extends React.Component {
   render() {
     const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
     let notRequiredMessage;
+    let childrenIncomeInput;
+    let childrenIncomeReview;
+    let content;
+    let editButton;
 
-    if (this.props.external.receivesVaPension === true) {
+    if (this.props.receivesVaPension === true) {
       notRequiredMessage = (
         <p>
           <strong>
@@ -29,11 +47,89 @@ class AnnualIncomeSection extends React.Component {
       );
     }
 
-    return (
-      <div>
-        <h4>Annual Income</h4>
+    if (this.props.childrenData.hasChildrenToReport === true) {
+      childrenIncomeInput = (
+        <div className="input-section">
+          <FixedTable
+              component={ChildIncome}
+              onRowsUpdate={(update) => {this.props.onStateChange('children', update);}}
+              relatedData={this.props.childrenData.children}
+              rows={this.props.data.children}/>
+        </div>
+      );
+    }
 
-        {notRequiredMessage}
+    if (this.props.isSectionComplete && this.props.reviewSection) {
+      const childrenData = this.props.childrenData.children;
+      let reactKey = 0;
+      childrenIncomeReview = this.props.data.children.map((obj, index) => {
+        return (
+          <div key={reactKey++}>
+            <h6>Child: {`${childrenData[index].childFullName.first} ${childrenData[index].childFullName.last}`}</h6>
+            <table className="review usa-table-borderless">
+              <tbody>
+                <tr>
+                  <td>Children Gross Income:</td>
+                  <td>{obj.childGrossIncome}</td>
+                </tr>
+                <tr>
+                  <td>Children Net Income:</td>
+                  <td>{obj.childNetIncome}</td>
+                </tr>
+                <tr>
+                  <td>Children Other Income:</td>
+                  <td>{obj.childOtherIncome}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        );
+      });
+
+      content = (
+        <div>
+          <h6>Veteran</h6>
+          <table className="review usa-table-borderless">
+            <tbody>
+              <tr>
+                <td>Veteran Gross Income:</td>
+                <td>{this.props.data.veteranGrossIncome}</td>
+              </tr>
+              <tr>
+                <td>Veteran Net Income:</td>
+                <td>{this.props.data.veteranNetIncome}</td>
+              </tr>
+              <tr>
+                <td>Veteran Other Income:</td>
+                <td>{this.props.data.veteranOtherIncome}</td>
+              </tr>
+            </tbody>
+          </table>
+          <h6>Spouse</h6>
+          <table className="review usa-table-borderless">
+            <tbody>
+              <tr>
+                <td>Spouse Gross Income:</td>
+                <td>{this.props.data.spouseGrossIncome}</td>
+              </tr>
+              <tr>
+                <td>Spouse Net Income:</td>
+                <td>{this.props.data.spouseNetIncome}</td>
+              </tr>
+              <tr>
+                <td>Spouse Other Income:</td>
+                <td>{this.props.data.spouseOtherIncome}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          {childrenIncomeReview}
+
+        </div>
+      );
+    } else {
+      content = (<div>
+                {notRequiredMessage}
 
         <h5>Previous calendar year gross annual income of veteran, spouse and
         dependent children</h5>
@@ -123,29 +219,53 @@ class AnnualIncomeSection extends React.Component {
               onValueChange={(update) => {this.props.onStateChange('spouseOtherIncome', update);}}/>
         </div>
 
-        <div className="input-section">
-          <h6>Children</h6>
-          <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.childrenGrossIncome, message)}
-              label="Children Gross Income"
-              value={this.props.data.childrenGrossIncome}
-              onValueChange={(update) => {this.props.onStateChange('childrenGrossIncome', update);}}/>
+        {childrenIncomeInput}
 
-          <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.childrenNetIncome, message)}
-              label="Children Net Income"
-              value={this.props.data.childrenNetIncome}
-              onValueChange={(update) => {this.props.onStateChange('childrenNetIncome', update);}}/>
+      </div>);
+    }
 
-          <ErrorableTextInput
-              errorMessage={this.isValidMonetaryValue(this.props.data.childrenOtherIncome, message)}
-              label="Children Other Income"
-              value={this.props.data.childrenOtherIncome}
-              onValueChange={(update) => {this.props.onStateChange('childrenOtherIncome', update);}}/>
-        </div>
+    if (this.props.reviewSection) {
+      editButton = (<ErrorableCheckbox
+          label={`${this.props.isSectionComplete ? 'Edit' : 'Update'}`}
+          checked={this.props.isSectionComplete}
+          className="edit-checkbox"
+          onValueChange={(update) => {this.props.onUIStateChange(update);}}/>
+      );
+    }
+
+    return (
+      <div>
+        <h4>Annual Income</h4>
+        {editButton}
+        {content}
       </div>
     );
   }
 }
 
-export default AnnualIncomeSection;
+function mapStateToProps(state) {
+  return {
+    data: state.veteran.annualIncome,
+    childrenData: state.veteran.childInformation,
+    receivesVaPension: state.veteran.vaInformation.receivesVaPension,
+    isSectionComplete: state.uiState.completedSections['/financial-assessment/annual-income']
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onStateChange: (field, update) => {
+      dispatch(veteranUpdateField(['annualIncome', field], update));
+    },
+    onUIStateChange: (update) => {
+      dispatch(updateReviewStatus(['/financial-assessment/annual-income'], update));
+    },
+    initializeChildIncomeFields: () => {
+      dispatch(createChildIncomeFields('/financial-assessment/annual-income'));
+    }
+  };
+}
+
+// TODO(awong): Remove the pure: false once we start using ImmutableJS.
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(AnnualIncomeSection);
+export { AnnualIncomeSection };
