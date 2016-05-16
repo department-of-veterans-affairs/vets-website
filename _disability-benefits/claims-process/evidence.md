@@ -13,9 +13,9 @@ It is important to gather all relevant documents so that VA can evaluate your di
 <div class="call-out" markdown="1">
 ### The documents you’ll need to provide include:
 
--	Discharge or separation papers (DD214 or equivalent)
--	Service treatment records (if they are in your possession)
--	Medical evidence (private doctor and hospital reports)
+-   Discharge or separation papers (DD214 or equivalent)
+-   Service treatment records (if they are in your possession)
+-   Medical evidence (private doctor and hospital reports)
 </div>
 
 The Veterans Claims Assistance Act (VCAA) passed by Congress in 2000 defines both the Veteran's and VA's responsibility:
@@ -24,9 +24,9 @@ The Veterans Claims Assistance Act (VCAA) passed by Congress in 2000 defines bot
 
 - Obtaining relevant records from:
 
-  -	Any federal agency, including the military
-  -	VA medical centers, including private facilities where VA has authorized treatment
-  -	The Social Security Administration
+  - Any federal agency, including the military
+  - VA medical centers, including private facilities where VA has authorized treatment
+  - The Social Security Administration
 
 - Providing a medical examination or obtaining a medical opinion, if required to decide the claim.
 
@@ -34,9 +34,9 @@ The Veterans Claims Assistance Act (VCAA) passed by Congress in 2000 defines bot
 
 - Obtaining relevant records not held by a federal agency. This may include records from:
 
-  -	State or local governments
-  -	Private doctors and hospitals
-  -	Current or former employers
+  - State or local governments
+  - Private doctors and hospitals
+  - Current or former employers
 
 ### VA may assist in obtaining these records
 
@@ -53,8 +53,8 @@ A Veteran filed a disability claim that included previous treatment from a priva
 
 The Fully Developed Claims program allows you to speed up the claim-resolution process. You need to submit the following when you file your formal claim:
 
--	All relevant service-treatment and personnel records
--	Any pertinent private medical records
+-   All relevant service-treatment and personnel records
+-   Any pertinent private medical records
 
 Disability benefit claims are considered fully developed when you have no more evidence to submit and the only assistance required from VA is obtaining federal records and facilitating or providing additional medical examinations or opinions. If VA determines other nonfederal records exist and are required to decide a claim, VA will remove the claim from the FDC program and process it through the traditional claims process.
 
