@@ -178,7 +178,14 @@ hr {
   background-repeat: no-repeat;
   background-size: 1em auto;
   padding-right: 1.2em;
+
+  #playbook .primary & {
+    background-image: url(/assets/images/icons/icon-exit-white.png);
+    margin-right: .1em;
+  }
 }
+
+
 
 .usa-button-primary[href^=http] {
   background-image: none;
