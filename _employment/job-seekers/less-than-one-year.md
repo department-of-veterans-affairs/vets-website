@@ -26,11 +26,6 @@ relatedlinks:
     description: ""
 ---
 
-<div class="main interior" role="main" markdown="0">
-<div class="section one" markdown="0">
-<div class="row" markdown="0">
-
-<div class="small-12 medium-9 columns left"  markdown="1">
 <div class="call-out" markdown="1">
 
 - **Who should read this?**
@@ -41,10 +36,6 @@ relatedlinks:
   
   You can take certain steps to improve your chances of moving smoothly and successfully into civilian life.
 </div>
-</div>
-
-<div class="row" markdown="0">
-<div class="small-12 usa-content columns"  markdown="1">
 
 ### What are the steps?
 
@@ -60,19 +51,6 @@ relatedlinks:
 - Think about which industries and careers interest you, using [tools](/employment/job-seekers/interest-profiler) such as o*Net and CareerScope.
 - Start developing a résumé by [translating military skills](/employment/job_seekers/skills-translator) into equivalent civilian skills. Import these using the [Résumé Builder](/employment/job-seekers/create-resume). 
 - Clean up your personal social-media footprint and establish a presence on professional sites like [LinkedIn](https://www.linkedin.com/). 
-
-</div>
-</li>
-
-<li class="step two wow fadeIn animated">
-<div markdown="1">
-
-</div>
-
-</li>
-
-<li class="step two wow fadeIn animated">
-<div markdown="1">
 
 </div>
 </li>
@@ -120,6 +98,3 @@ Both of these can be ordered through the [National Archives](https://www.archive
 </li>
 </ol>
 
-</div>
-</div>
-</div>

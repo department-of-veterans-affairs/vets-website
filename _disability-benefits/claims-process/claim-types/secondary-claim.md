@@ -49,4 +49,3 @@ A Veteran was in the Army for twenty years. During her military service, she was
 </div>
 </div>
 </div>
-

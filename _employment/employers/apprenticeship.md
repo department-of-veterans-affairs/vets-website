@@ -3,6 +3,7 @@ title: Establish an Apprenticeship Program for Veterans
 concurrence: complete
 template: 1-topic-landing
 ---
+
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">

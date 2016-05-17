@@ -11,6 +11,7 @@ The federal job-application process is very detailed compared with most civilian
 One-on-one assistance in applying for federal jobs is available at local [Employment Centers](https://www.doleta.gov/usworkforce/onestop/onestopmap.cfm). You can also go to [Feds Hire Vets](http://www.fedshirevets.gov) for tips on applying for federal positions.
 
 ### Veterans’ Preference
+
 The Veterans’ Preference program awards points to you during the application process, giving you an advantage in job placement. This program assists you only when you are applying to competitive positions—those announced publicly to a pool of job seekers.
 
 <div class="call-out" markdown="1">
@@ -46,8 +47,6 @@ If you:
 
 - Have a service-connected disability, or
 - Received a Purple Heart.
-
-### Noncompetitive Hiring
 
 ### Noncompetitive Hiring
 You may be eligible for a federal position without having to compete with the public. This is called Noncompetitive Hiring. If you have a 30% or more service-connected disability or a severe physical, intellectual, or psychological disability, you may be placed on a fast track to a position. 

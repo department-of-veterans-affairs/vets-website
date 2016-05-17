@@ -79,6 +79,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 ##### Go to a career fair
 
 Learn about the [career fairs](/employment/job-seekers/career-fairs) available for Veterans, Servicemembers, and family members.
+
 </li>
 
 </ol>
@@ -92,7 +93,6 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 - Earn a free [Coursera Course Certificate](https://www.surveymonkey.com/r/QSGQRFN).
 
 <br>
-
 
 ### Get personalized help if you need it
 
@@ -132,6 +132,5 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 </ul>
 
 </div>
-
 </div>
 </div>

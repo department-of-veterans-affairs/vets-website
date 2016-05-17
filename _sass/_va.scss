@@ -28,6 +28,7 @@ body {
   color: $color-primary-darkest;
   display: block;
   font-weight: 600;
+
   &:focus {
     position: inherit;
     top: auto;
@@ -403,6 +404,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
 // Content Callouts
 
 #content .main .section.one {
+
   ul.plain {
     margin: .5em 0 1em 0;
     
@@ -510,7 +512,7 @@ h6 {font-size: 1.15em; font-weight: bold;}
 
 .home #content {
   h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
-  
+
   .post-date {
     font-size: .5em; color: $color-gold;
   }
@@ -1041,6 +1043,7 @@ body.page-playbook {
   }
 }
 
+
 .post-date, 
 .post-author {
   color: $color-va-gray-cool-dark;
@@ -1522,8 +1525,7 @@ a.twitter {
   margin: 1.5em 0 0 0;
 }
 
- // Feedback widget
-
+// Feedback widget
 .feedback-widget {
   overflow: hidden;
 

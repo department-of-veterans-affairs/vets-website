@@ -116,7 +116,13 @@ const blankVeteran = {
     spouseGrossIncome: null,
     spouseNetIncome: null,
     spouseOtherIncome: null,
+<<<<<<< HEAD
     children: []
+=======
+    childrenGrossIncome: null,
+    childrenNetIncome: null,
+    childrenOtherIncome: null
+>>>>>>> 09491af845139767f92fe1bf8671e52cdebbe31e
   },
 
   deductibleExpenses: {
@@ -211,6 +217,7 @@ function veteran(state = blankVeteran, action) {
       }
       return newState;
     }
+<<<<<<< HEAD
     case CREATE_CHILD_INCOME_FIELDS:
       newState = Object.assign({}, state);
       // update children income from children info
@@ -222,6 +229,8 @@ function veteran(state = blankVeteran, action) {
       }
       Object.assign(pathToData(newState, action.path), initializeNullValues(pathToData(newState, action.path)));
       return newState;
+=======
+>>>>>>> 09491af845139767f92fe1bf8671e52cdebbe31e
 
     default:
       return state;
