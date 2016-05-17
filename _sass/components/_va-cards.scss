@@ -59,7 +59,7 @@
   display: block;
   font-weight: normal;
   overflow: hidden;
-  padding: 1em 1.15em;
+  padding: .45em .75em;
   text-decoration: none;
 
   &:hover {
@@ -83,12 +83,15 @@
   // Using $medium instead of $medium-screen
   // because this grid uses Foundation, not USWDS
   // Roughly a 640px breakpoint.
-  @media #{$medium} {
+  @media #{$small} {
     height: 10em;
-    padding: .45em .75em;
     border-bottom: none;
     text-align: left;
     border-radius: .2em;
+  }
+  
+  @media #{$medium} {
+    padding: 1.2em 1.5em;
   }
 }
 
