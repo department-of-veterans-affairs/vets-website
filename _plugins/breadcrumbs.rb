@@ -3,7 +3,7 @@ module Jekyll
   
     def humanize(s)
       # Words that shouldn't get capitalized
-      filterwords = ['a', 'a', 'an', 'and', 'as', 'but', 'for', 'for', 'nor', 'or', 'the', 'to']   
+      filterwords = ['a', 'an', 'and', 'as', 'but', 'for', 'nor', 'or', 'the', 'to']   
       s.split("-").collect do |s|
         # if s is not in filterwords array, capitalize it
         # otherwise just return s.
