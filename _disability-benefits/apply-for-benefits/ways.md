@@ -48,4 +48,3 @@ Choose one of three ways:
 </div>
 </div>
 </div>
-</div>

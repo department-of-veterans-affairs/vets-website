@@ -48,4 +48,3 @@ A Veteran was treated several times during service for pain in his right elbow. 
 </div>
 </div>
 </div>
-</div>

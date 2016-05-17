@@ -11,6 +11,7 @@ The federal job-application process is very detailed compared with most civilian
 One-on-one assistance in applying for federal jobs is available at local [Employment Centers](https://www.doleta.gov/usworkforce/onestop/onestopmap.cfm). You can also go to [Feds Hire Vets](http://www.fedshirevets.gov) for tips on applying for federal positions.
 
 ### Veterans’ Preference
+
 The Veterans’ Preference program awards points to you during the application process, giving you an advantage in job placement. This program assists you only when you are applying to competitive positions—those announced publicly to a pool of job seekers.
 
 <div class="call-out" markdown="1">
@@ -25,12 +26,14 @@ Yes, if:
 </div>
 
 ### You are 0-point preference eligible 
+
 If you are a Veteran who is the only surviving child in a family in which the father or mother or one or more siblings:
 
-- Served in the Armed Forces, and
+- Served in the Armed Forces, and
 - Was killed, died as a result of wounds, accident, or disease; is in a captured or missing-in-action status; or is permanently 100% disabled or hospitalized and is not gainfully employed because of the disability.
 
 ### You are 5-point preference eligible 
+
 If you served:
 
 - For more than 180 consecutive days, other than for training, any part of which occurred during the period beginning September 11, 2001, and ending August 31, 2010, the last day of Operation Iraqi Freedom, or
@@ -39,11 +42,11 @@ If you served:
 - In a war, campaign, or expedition for which a campaign badge has been authorized or between April 28, 1952, and July 1, 1955.
 
 ### You are a 10-point preference eligible 
+
 If you:
 
 - Have a service-connected disability, or
 - Received a Purple Heart.
-
 
 ### Noncompetitive Hiring
 You may be eligible for a federal position without having to compete with the public. This is called Noncompetitive Hiring. If you have a 30% or more service-connected disability or a severe physical, intellectual, or psychological disability, you may be placed on a fast track to a position. 

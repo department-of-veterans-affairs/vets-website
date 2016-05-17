@@ -46,7 +46,6 @@ class AnnualIncomeSection extends React.Component {
         </p>
       );
     }
-
     if (this.props.childrenData.hasChildrenToReport === true) {
       childrenIncomeInput = (
         <div className="input-section">

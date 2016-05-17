@@ -27,6 +27,7 @@ If you are a service-disabled Veteran, you qualify for hiring preference when co
 If you are service disabled at more than 10% and can no longer continue your current employment due to injuries, you may be eligible for [Vocational Rehabilitation and Employment (VR&amp;E)](http://www.benefits.va.gov/vocrehab/index.asp). 
 
 **Start or Grow Your Own Business**<br>
+
 If entrepreneurship interests you, your disability may qualify you for preference in winning government contracts. VA and other [Veteran entrepreneur programs](/employment/job-seekers/start/) can support you through this journey. 
 
 ### Private Sector
@@ -38,4 +39,5 @@ Credentialing and job training will help in your search. Check your [military tr
 <hr>
 
 ### Learn more
+
 Contact your local [Veteran Employment Specialist (VES)](http://vaforvets.va.gov/hr/RVECS/pages/rvecs-map.asp) or your [policy and benefits advocate](/disability-benefits/apply-for-benefits/help/) for more information.

@@ -29,6 +29,7 @@ Anyone
 <div class="call-out" markdown="1">
 
 ### Who is eligible
+
 All employers
 
 **A note about registration:** You do not have to be registered with the NLX to post a job in the VEC, but it may streamline the process. 
@@ -51,7 +52,6 @@ If your job listing conforms to the JSON-LD template for schema.org’s JobPosti
 #### How the schema works
 
 The schema.org JobPosting vocabulary consists of 18 basic elements (listed below). Each element describes a core detail of a job vacancy. Participation in the Veterans Job Bank requires only a handful of these elements (datePosted, hiringOrganization, JobLocation, SpecialCommitments, title, and url). Adding more elements, however, will make your job posting more accessible to searchers.
-
 
 #### The schema.org JSON-LD JobPosting elements
 
@@ -135,15 +135,10 @@ This example contains two job listings. The first uses a smaller set of schema.o
 "datePosted": "1/2/15",
 "url": "www.abccompanyinc.com/jobs?listing=23456"
 }]</code></pre>
-</div>
-</div>
-</div>
+
 </div>
 
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="https://us.jobs/postajobpartner.asp?partner=ebenefits">Post a Job on the <abbr>NLX</abbr></a>
-    </div>
-  </div>
+</div>
+</div>
+</div>
 </div>

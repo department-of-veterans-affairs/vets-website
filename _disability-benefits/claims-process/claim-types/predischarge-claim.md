@@ -29,15 +29,28 @@ relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/post-service/
     title: Postservice Claim
     description: ""
+template: not-1-topic-landing
 ---
 
 <div class="main" role="main" markdown="0">
+
+<div class="action-bar">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
+    </div>
+  </div>
+</div>
+
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-It is to your benefit to start the process of filing a disability claim while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted before separation than for those submitted after separation.
+
+<div markdown="1">
+
+It is best to start the process of filing a disability claim while you are on active duty in predischarge status. Processing times tend to be faster for claims submitted before separation than for those submitted after separation. 
 
 If you are in predischarge status, you may file a claim for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty.
 
@@ -47,5 +60,15 @@ If you are stationed overseas, you can go to an [intake site](/disability-benefi
 
 </div>
 </div>
+
+<div class="small-12 medium-4 columns" markdown="0">
+
+<h4 class="highlight">Seriously Disabled?</h4>
+<br>
+Consider <a href="/vre/apply-vre/">applying for Vocational Rehabilitation and Employment (VR&amp;E)</a> services immediately, so you can discover the helpful vocational services available to you while you're waiting to be discharged.
+
 </div>
+</div>
+</div>
+
 </div>

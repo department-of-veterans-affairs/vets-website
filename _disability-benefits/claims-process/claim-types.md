@@ -40,4 +40,3 @@ Disability compensation claims can be based on disabilities that existed before 
 </div>
 </div>
 </div>
-</div>

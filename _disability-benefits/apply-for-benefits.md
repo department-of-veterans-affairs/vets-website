@@ -217,6 +217,3 @@ If you disagree with the decision, you may appeal it. The decision letter contai
 </div>
 </div>
 </div>
-
-
-
