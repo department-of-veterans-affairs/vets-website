@@ -179,7 +179,7 @@ hr {
   background-size: 1em auto;
   padding-right: 1.2em;
 
-// TODO: Make this less specific.
+  // TODO: Make this selector less specific.
   #playbook .primary &,
   #playbook .coda & {
     background-image: url(/assets/images/icons/icon-exit-white.png);
@@ -187,6 +187,8 @@ hr {
     padding-right: 1.5em;
   }
 }
+
+
 
 .usa-button-primary[href^=http] {
   background-image: none;
