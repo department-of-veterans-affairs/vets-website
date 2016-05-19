@@ -824,57 +824,13 @@ dl.simple {
 }
 
 // Navigation
-
-#content.interior .navigation-title {
-  padding: 1.5em 0 1em 0;
-}
-
-#content.interior .navigation,
-#content #playbook .navigation {
+.navigation {
   padding: 1em  0;
   @media #{$small} {padding: 1em 0 3em 0;}
   background: $color-gray-lightest;
   color: $color-primary-darkest;
   border-bottom: 2px solid $color-white;
   margin: 0 auto;
-
-  ul.small-block-grid-1 {
-    margin: 0;
-    padding: 0;
-    li {
-      width: 100%;
-      margin: 0;
-      padding: 0;
-      h4, h5 {font-size: 1em; }
-      span {color: $color-gray-dark;}
-    }
-  }
-
-  ul.cards li {
-    margin: 0;
-    height: auto;
-    h3, h4, h5, h6 {color: $color-primary-darkest; font-weight: 700; font-family: $font-sans; font-size: 1.35em;}
-    h4 {font-size: 1.3em;}
-    border-bottom: 1px solid rgba(0,0,0,.2);
-    &:last-of-type { border-bottom: none;}
-    a {
-      color: $color-primary-darkest;
-      border-bottom: none;
-      box-shadow: none;
-      text-decoration: none;
-      border-radius: none;
-      border-radius: 0;
-      padding: 1em .5em;
-      height: auto;
-      margin: 0;
-      background: none;
-      &:hover {
-        padding-left: .5em; 
-        background: rgba(0,0,0,.1); 
-        border-left: 4px solid $color-primary;
-      }
-    }
-  }
 }
 
 .draft {
