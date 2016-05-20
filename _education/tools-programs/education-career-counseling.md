@@ -9,7 +9,6 @@ concurrence: incomplete
 <div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
     </div>
   </div>
 </div>
@@ -29,7 +28,6 @@ Yes, if:
 
 -	You will be discharged from active duty within six months.
 -	You were discharged from active duty not more than one year ago.
--	You qualify for educational assistance under Chapters 30, 31, 32, 33, 35, 1606, and 1607.
 -	You and your qualified dependents are eligible for and have entitlement to education assistance under the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/).
 
 ### Who is covered
@@ -53,6 +51,14 @@ As a transitioning Servicemember, you are eligible to receive the following serv
 
 Use CareerScope&reg;, the [VA aptitude assessment tool](https://va.careerscope.net/gibill), at no cost.
 
+### How to apply
+
+- Log in to [eBenefits](https://www.ebenefits.va.gov). 
+- Select "Apply."
+- Select "Vocational Rehabilitation and Employment Benefits."
+- Apply for "Educational and Career Counseling."
+
+If you are eligible, VA will invite you to attend an orientation session at the nearest VA regional office. 
 </div>
 
 </div>
