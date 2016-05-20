@@ -1,7 +1,7 @@
 ---
 title: Get Help Filing a Claim
 concurrence: incomplete
-template: 6-info-page
+template: 1-topic-landing
 relatedlinks: 
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
     title: What is the fastest way to file a claim?
@@ -15,25 +15,9 @@ relatedlinks:
     title: Effective date of disability
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
 When filing a disability claim, it may help to work with an accredited representative who is familiar with the process and who VA considers capable of assisting you with VA-related affairs.
 
 Most accredited representatives work for veterans service organizations (VSOs), which are private nonprofit groups that advocate on behalf of Veterans, Servicemembers, dependents, and survivors. They may also work for state or county governments.
-</div>
 
 <div class="call-out usa-content" markdown="1">
 
@@ -45,7 +29,7 @@ Most accredited representatives work for veterans service organizations (VSOs), 
 
 Recognized organizations and individuals can legally represent a Veteran, Servicemember, dependent, or survivor before VA. Non-recognized organizations and individuals can provide information but cannot be representatives.
 </div>
-<div class="small-12 columns usa-content" markdown="1">
+
 ### What is the role of an accredited representative?
 
 Accredited representatives are trained to help you understand and apply for any VA benefits you may be entitled to, including:
@@ -65,7 +49,7 @@ Additionally, accredited representatives can help you gather evidence and can su
 
 Many VSOs provide their services free of charge, though they may request reimbursement for unusual expenses. Unlike VSOs, VA-accredited claims agents and attorneys may charge for their services. If you believe you were charged an unreasonable fee by a claims agent or attorney, see How to Challenge a Fee.
 
-<hr>
+-----
 
 ### How do I find a representative?
 
@@ -82,6 +66,3 @@ There are two ways to do this:
 
 2. Complete [VA Form 21-22](http://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf). Mail this form to your nearest [VA regional office](http://www.benefits.va.gov/benefits/offices.asp). Please speak to the service organization or representative before you submit your request.
 
-</div>
-</div>
-</div>

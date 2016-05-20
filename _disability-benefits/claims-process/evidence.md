@@ -3,11 +3,6 @@ title: Evidence
 template: 6-info-page
 ---
 
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
 It is important to gather all relevant documents so that VA can evaluate your disability claim. Some of these documents may be in your possession or easily available to you, but VA will need your authorization to access others.
 
 <div class="call-out" markdown="1">
@@ -45,7 +40,7 @@ The Veterans Claims Assistance Act (VCAA) passed by Congress in 2000 defines bot
 **Example**<br>
 A Veteran filed a disability claim that included previous treatment from a private doctor and a previous Social Security disability award. In this case, VA is responsible for obtaining the Social Security records and can assist in obtaining the private physician records. However, ultimate responsibility for obtaining the private records lies with the Veteran.
 
-<hr>
+-----
 
 ### Evidence Procedures for Fully Developed Claims and Standard Claims
 
@@ -69,7 +64,3 @@ Evidence procedures for standard claims place greater responsibility on VA to as
 
 VA will provide a medical examination for you, or will get a medical opinion, if it’s required to make a claims decision.
 
-</div>
-</div>
-</div>
-</div>

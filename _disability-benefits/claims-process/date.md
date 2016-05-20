@@ -20,12 +20,6 @@ relatedlinks:
     description: ""
 ---
 
-<div class="main" role="main" markdown="0">
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
 When VA determines it will pay a benefit based on a claim, it assigns an effective date.
 
 The day you became eligible for benefits is your effective date. This varies with the type of benefit you’re applying for and the circumstances of your claim.
@@ -37,15 +31,12 @@ The day you became eligible for benefits is your effective date. This varies wit
 Here’s how VA determines effective dates in various cases. It’s more than a little complicated. Hang in there.
 </div>
 
-<div class="small-12 columns usa-content" markdown="1">
-
 ### Direct Service Connection
 
 The effective date for a disability that resulted from or was aggravated by military service is whichever of the following comes later:
 
 -	The date VA receives a claim, or
 -	The date entitlement arose.
-
 
 > "The date entitlement arose" usually means when your problem first started.
 
@@ -108,8 +99,3 @@ If VA receives a claim within one year after the date a Veteran suffered an inju
 If VA receives a claim within one year of the date of a Veteran’s death, the effective date is the first day of the month in which the Veteran died.
 
 If VA receives a claim more than one year after a Veteran suffered an injury, his injury got worse, or he died, the effective date is the date VA receives the claim.
-
-</div>
-</div>
-</div>
-</div>

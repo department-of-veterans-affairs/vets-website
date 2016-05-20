@@ -1,25 +1,11 @@
 ---
 title: Post-9/11 GI Bill
-template: 6-info-page
+template: 1-topic-landing
 concurrence: complete
 ---
 
-<div class="main" role="main" markdown="0">
 
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 If you are seeking education or training opportunities and have served on active duty after September 10, 2001, you may be eligible for the Post-9/11 GI Bill. The Post-9/11 GI Bill is the largest expansion of education benefits since the Montgomery GI Bill.
-</div>
 
 <div class="call-out usa-content" markdown="1">
 
@@ -38,15 +24,13 @@ You and your dependents
 
 </div>
 
-<div class="small-12 columns usa-content" markdown="1">
-
 ### Available benefits
 
 - Tuition and fees
 - A monthly housing allowance (for those attending more than half time)
 - A books and supplies stipend (up to $1,000 per academic year)
 
-<hr>
+-------
 
 ### How it works
 

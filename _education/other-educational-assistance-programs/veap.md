@@ -1,23 +1,8 @@
 ---
 title: Veterans' Educational Assistance Program (VEAP)
 concurrence: complete
-template: 6-info-page
+template: 1-topic-landing
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 If you are interested in pursuing continuing-education programs, and are willing to make contributions from your military pay, the VEAP is a $2-to-$1 government-match program for educational assistance.
 
@@ -35,11 +20,11 @@ Yes, if:
 ### Who is covered
 You
 </div>
-<div markdown="1">
+
 ### Available benefits
 Tuition assistance
 
-<hr>
+------
 
 ### How it works
 
@@ -67,9 +52,4 @@ Contributions may be withdrawn if you do not meet basic eligibility requirements
 
 ### Learn more
 Read the VEAP [pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch32_pamphlet.pdf).
-</div>
-</div>
 
-</div>
-</div>
-</div>
