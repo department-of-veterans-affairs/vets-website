@@ -29,7 +29,7 @@ Yes, if:
 -	You will be discharged from active duty within six months.
 -	You were discharged from active duty not more than one year ago under conditions other than dishonorable.
 -	You qualify as a Veteran for educational assistance under a VA education program.
-- You qualify as a dependent for educational assistance under the [Post-9/11 GI Bill](/education/gi-bill/), the [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), or the [Survivors’ and Dependents’ Educational Assistance Program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (DEA).
+- You qualify as a dependent for educational assistance under the [Post-9/11 GI Bill](/education/gi-bill/transfer), the [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), or the [Survivors’ and Dependents’ Educational Assistance Program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (DEA).
 
 ### Who is covered
 
