@@ -22,29 +22,22 @@ relatedlinks:
     description: ""
 ---
 
-<div class="main interior" role="main" markdown="0">
-<div class="section one" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns"  markdown="1">
-
 ### Who should read this?
 
-</div>
-
+<div class="row" markdown="0">
 <div class="small-12 medium-8 columns usa-content"  markdown="1">
 
 - Veterans who are filing claims for benefits.
 - Servicemembers who are getting ready to separate from the military.
 - Survivors of Veterans and Servicemembers who may be eligible for benefits.
-
 </div>
+
 
 <div class="small-12 medium-4 columns actions">
 <a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
 </div>
+</div>
 
-</div>
-</div>
 
 <div class="row" markdown="0">
 <div class="small-12 columns"  markdown="1">
@@ -205,18 +198,8 @@ If you disagree with the decision, you may appeal it. The decision letter contai
 
 </ol>
 
-</div>
-</div>
-</div>
-</div>
 
-<div class="va-action-bar--footer va-action-bar--start" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="0">
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
-</div>
-</div>
-</div>
+
 
 
 
