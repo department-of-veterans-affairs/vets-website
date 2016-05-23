@@ -35,6 +35,8 @@ Yes, if:
 
 You
 
+</div>
+
 ### Available benefits
 
 -	Compensation

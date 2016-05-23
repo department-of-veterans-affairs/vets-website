@@ -73,21 +73,12 @@ The following types of programs and courses may be used under the Post-9/11 GI B
 - [On-the-job training](/education/work-learn/job-and-apprenticeship/)
 - [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
 - [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
-</div>
 
 
-<div class="small-12 columns usa-content left" markdown="1">
 ### Learn more
 - See the current [payment rates](/education/rates/) for the Post-9/11 GI Bill.
 - Read the [Post-9/11 GI Bill](http://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf) pamphlet.
 - See [Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/detail/a_id/523).
 
 
-GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA’s trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
-</div>
-
-</div>
-</div>
-</div>
-
-</div>
+GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
