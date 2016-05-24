@@ -3,25 +3,8 @@ title: Agent Orange
 template: 3-panel-filters
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns">
-
-<div markdown="1">
-
 The U.S. military sprayed millions of gallons of Agent Orange on trees and vegetation during the Vietnam War. Several decades later, concerns about the health effects from these chemicals continue.
-</div>
+
 <div class="call-out" markdown="1">
 ### Are you eligible for compensation?
 
@@ -33,7 +16,6 @@ You were exposed to Agent Orange during military service.
 
 You or your dependents
 </div>
-<div markdown="1">
 
 #### How it works
 
@@ -48,9 +30,7 @@ If you have a disease that is not on this list but you believe it is a result of
 [Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/)
 
 
-</div>
-
-<h4>Were you exposed?</h4>
+#### Were you exposed?
 
 <ul class="small-block-grid-1 medium-block-grid-2">
 
@@ -130,14 +110,4 @@ If you have a disease that is not on this list but you believe it is a result of
   </dl>
 
 </li>
-
-
 </ul>
-
-</div>
-</div>
-</div>
-
-</div>
-
-</div>
