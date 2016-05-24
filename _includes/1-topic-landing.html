@@ -9,6 +9,11 @@
     {% include action-bar.html action_text="Apply for Education Benefits" action_url="/education/apply-for-education-benefits/" action_class="va-action-bar--header" %}
   {% endif %}
 
+  {% if page.collection == 'health-care' and page.showactionbar == true %}
+    {% include action-bar.html action_text="Apply for VA Health Care" action_url="/healthcare/apply/application" action_class="va-action-bar--header" %}
+  {% endif %}
+
+
 {% endunless %}
 
   <div class="section one">
@@ -16,6 +21,7 @@
       <div class="row">
         <div class="small-12 columns usa-content">
         <!-- Page content begins -->
+  
         {{ content }}
         <!-- Page content ends -->
         </div>
