@@ -1,6 +1,6 @@
 ---
 title: Undergraduate and Graduate Degrees
-template: 4-action-page
+template: 4-action-page-pending
 concurrence: incomplete
 ---
 

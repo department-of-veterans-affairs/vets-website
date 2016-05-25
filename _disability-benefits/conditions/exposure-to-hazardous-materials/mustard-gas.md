@@ -4,27 +4,7 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-mus
 template: 4-action-page
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-8 columns">
-
-
-<div markdown="1">
-
 If you were exposed to mustard gas (also known as sulfur mustard, yperite, or nitrogen mustard) or lewisite (an organic compound containing arsenic), you may have certain related long-term diseases or disabilities.
-
-</div>
 
 <div class="call-out" markdown="1">
 
@@ -48,38 +28,13 @@ You
 
 </div>
 
-<div markdown="1">
-
 ### Available benefits
 
 - Compensation
 - Health care
 
-<br>
-<hr>
+-----
 
 ### How it works
 
 Because "exposure" to mustard gas or lewisite is not a service condition, you must claim the disease or condition that is related to the exposure. You should present any military records showing exposure to blistering agents with your claim.
-
-</div>
-</div>
-<div class="small-12 medium-4 columns" markdown="0">
-<div markdown="0">
-
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain" markdown="0">
-<li markdown="1">
-For questions about your benefits related to mustard gas exposure, send us an email at [mustardgas@vba.va.gov](mailto:mustardgas@vba.va.gov).
-</li>
-<li markdown="1">
-Find an [accredited representative](/disability-benefits/apply-for-benefits/help/) to help you.
-</li>
-</ul>
-</div>
-</div>
-</div>
-</div>
-
-</div>

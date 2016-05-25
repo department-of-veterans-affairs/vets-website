@@ -4,31 +4,11 @@ concurrence:
 template: 4-action-page
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-8 columns usa-content" markdown="0">
-
-<dl class="panel-list plain">
-<dt>Exposure to Ionizing Radiation</dt>
-<dd>Exposure risks include nuclear testing, having been a POW in Japan, working with x-rays or at a reactor, and more.</dd>
-</dl>
-
-<div markdown="1">
+Exposure to Ionizing Radiation
+: Exposure risks include nuclear testing, having been a POW in Japan, working with x-rays or at a reactor, and more.
+{:.panel-list .plain}
 
 If you have certain diseases, including some cancers, and you were exposed to ionizing radiation during service, VA may consider those diseases to be service related. See [38 CFR 3.311(b)(5)](http://www.warms.vba.va.gov/regs/38CFR/BOOKB/PART3/S3_311.DOC) for more information.
-
-</div>
 
 <div class="call-out" markdown="1">
 ### Are you eligible for compensation?
@@ -53,34 +33,13 @@ You were exposed to ionizing radiation during military service in one of the fol
 You
 </div>
 
-<div markdown="1">
 ### Available benefits
 
 - Compensation
 - Health care
 
-<hr>
+-----
 
 ### How it works
 
 VA requests from the appropriate military service or the Defense Threat Reduction Agency an estimate of your level or range of radiation exposure. The military service or agency reports to VA the range within which a Veteran may have been exposed, and VA accepts the highest level of the dose range. See [38 CFR 3.311(b)(5)](http://www.warms.vba.va.gov/regs/38CFR/BOOKB/PART3/S3_311.DOC) for more information.
-
-</div>
-</div>
-
-<div class="small-12 medium-4 columns" markdown="0">
-<div markdown="0">
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain">
-<li markdown="1">
-Find an [accredited representative to help you](/disability-benefits/apply-for-benefits/help/index.html).
-</li>
-</ul>
-
-</div>
-</div>
-
-</div>
-</div>
-</div>

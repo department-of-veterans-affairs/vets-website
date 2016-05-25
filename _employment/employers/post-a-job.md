@@ -1,7 +1,6 @@
 ---
 title: Post a Job
 concurrence: complete
-template: not-1-topic-landing
 ---
 <link href="/assets/css/vendor/prism.css" type="text/css" rel="stylesheet">
 

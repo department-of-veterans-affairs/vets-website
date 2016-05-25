@@ -1,6 +1,6 @@
 ---
 title: Independent and Distance Learning
-template: 4-action-page
+template: 4-action-page-pending
 concurrence: incomplete
 ---
 
