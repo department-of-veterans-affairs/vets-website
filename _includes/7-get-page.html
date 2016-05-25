@@ -1,0 +1,12 @@
+<div class="main interior" role="main">
+  <div class="section one">
+    <div class="row">
+      <div class="small-12 columns{% unless page.template == '7-get-page-alt' %}  usa-content {% endunless %}">
+         {{content}}
+      </div>
+    </div>
+  </div>
+</div>
+{% if page.collection == 'disability-benefits' %}
+    {% include action-bar.html action_text="Go to eBenefits to apply" action_url="https://www.ebenefits.va.gov/ebenefits/homepage" action_class="va-action-bar--footer va-action-bar--start" %}
+{% endif %}
