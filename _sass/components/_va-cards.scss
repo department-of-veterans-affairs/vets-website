@@ -31,14 +31,9 @@
 
 .va-card { 
   list-style: none !important;
-  overflow: hidden;
   position: relative;
   padding: 0;
   
-  &:hover, &:focus {
-    box-shadow: 0 0 5px rgba(0,0,0,0.35);
-  }
-
   @media #{$medium} {
     float: left;
     margin: 0 0.625rem 1.25rem 0.67rem;
@@ -58,14 +53,14 @@
   color: #fff !important;
   display: block;
   font-weight: normal;
-  overflow: hidden;
   padding: .45em .75em;
   text-decoration: none;
 
-  &:hover {
+  &:hover, &:focus {
     background: $color-primary;
     cursor: pointer;
     text-decoration: inherit;
+    box-shadow: 0 0 5px rgba(0,0,0,0.35);
   }
 
   + ul,
