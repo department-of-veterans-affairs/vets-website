@@ -38,13 +38,12 @@ relatedlinks:
 </div>
 </div>
 
-
-<div class="row" markdown="0">
+<div class="row" markdown="0"><br>
 <div class="small-12 columns"  markdown="1">
 
 ### How long does a decision take?
 
-<div class="row" markdown="0">
+<div class="row" markdown="0"><br>
 <div class="small-12 medium-3 columns"  markdown="0">
 
 <div class="card information" markdown="0">
