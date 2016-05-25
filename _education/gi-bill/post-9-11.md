@@ -1,25 +1,11 @@
 ---
 title: Post-9/11 GI Bill
-template: 6-info-page
+template: 1-topic-landing
 concurrence: complete
 ---
 
-<div class="main" role="main" markdown="0">
 
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 If you are seeking education or training opportunities and have served on active duty after September 10, 2001, you may be eligible for the Post-9/11 GI Bill. The Post-9/11 GI Bill is the largest expansion of education benefits since the Montgomery GI Bill.
-</div>
 
 <div class="call-out usa-content" markdown="1">
 
@@ -38,15 +24,13 @@ You and your dependents
 
 </div>
 
-<div class="small-12 columns usa-content" markdown="1">
-
 ### Available benefits
 
 - Tuition and fees
 - A monthly housing allowance (for those attending more than half time)
 - A books and supplies stipend (up to $1,000 per academic year)
 
-<hr>
+-------
 
 ### How it works
 
@@ -89,21 +73,12 @@ The following types of programs and courses may be used under the Post-9/11 GI B
 - [On-the-job training](/education/work-learn/job-and-apprenticeship/)
 - [Tuition Assistance Top-Up](/education/gi-bill/tuition-assistance/)
 - [Tutorial Assistance](/education/gi-bill/tutorial-assistance/)
-</div>
 
 
-<div class="small-12 columns usa-content left" markdown="1">
 ### Learn more
 - See the current [payment rates](/education/rates/) for the Post-9/11 GI Bill.
 - Read the [Post-9/11 GI Bill](http://www.benefits.va.gov/gibill/docs/pamphlets/ch33_pamphlet.pdf) pamphlet.
 - See [Frequently Asked Questions (FAQ)](https://gibill.custhelp.com/app/answers/detail/a_id/523).
 
 
-GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA’s trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
-</div>
-
-</div>
-</div>
-</div>
-
-</div>
+GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).

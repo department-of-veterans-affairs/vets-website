@@ -2,25 +2,9 @@
 title: Post-Traumatic Stress Disorder (PTSD)
 concurrence: complete
 source: http://www.va.gov/opa/issues/ptsd.asp
-template: 6-info-page
+template: 1-topic-landing
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content">
-
-<div markdown="1">
 ### Are you in crisis? You have options.
 
 - Call the Veterans Crisis Line 1-800-273-8255 and press 1 to [talk to someone now](https://www.veteranscrisisline.net/Default.aspx).
@@ -32,7 +16,7 @@ template: 6-info-page
 #### Post-Traumatic Stress Disorder (PTSD) Basics
 
 If you have [symptoms of PTSD](http://www.ptsd.va.gov/public/PTSD-overview/basics/symptoms_of_ptsd.asp) and were exposed to actual or threatened death, serious injury, or sexual violation during your military service, you may be eligible for benefits, including compensation and health care.
-</div>
+
 
 <div class="call-out" markdown="1">
 ### Are you eligible for compensation?
@@ -53,15 +37,13 @@ You
 
 </div>
 
-<div markdown="1">
-
 ### Available benefits
 
 -	Compensation
 -	Health care
 -	Treatment for PTSD
 
-<hr>
+--------
 
 ### How it works
 
@@ -71,11 +53,3 @@ VA is committed to providing the best care and resources for Veterans diagnosed 
 
 **Note:** The screening process for disability compensation benefits is geared toward assessment, not treatment. For help or treatment, contact your provider or one of the emergency contacts listed at the top of this page.
 
-</div>
-
-</div>
-</div>
-</div>
-
-
-</div>

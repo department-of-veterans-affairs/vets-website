@@ -2,26 +2,11 @@
 title: Asbestos
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp
-template: 6-info-page
+template: 1-topic-landing
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-<div markdown="1">
 If you served in Iraq or other countries in the Middle East and Southeast Asia, you may have been exposed to asbestos when older buildings were damaged, releasing the contaminant into the air. Additionally, some service occupations, tasks, and workplaces may have exposed you to asbestos, including shipyards, construction, and vehicle repair.
-</div>
+
 <div class="call-out" markdown="1">
 ### Are you eligible for compensation?
 
@@ -36,14 +21,13 @@ Yes, if:
 
 You
 </div>
-<div markdown="1">
 
 ### Available benefits
 
 - Compensation
 - Health care
 
-<hr>
+--------
 
 ### How it works
 
@@ -52,11 +36,3 @@ Several military occupational specialties have a risk of exposure to asbestos, i
 ### Learn more
 
 [Health risks related to asbestos exposure](http://www.publichealth.va.gov/exposures/asbestos/index.asp)
-</div>
-</div>
-
-</div>
-</div>
-
-
-</div>

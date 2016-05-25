@@ -1,22 +1,7 @@
 ---
 title: Entrepreneurship Training
-template: 6-info-page
+template: 1-topic-landing
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 If you qualify for any of the GI Bill or educational assistance programs, and you are interested in starting or improving a business, VA provides entrepreneurship training through its Center for Veterans Enterprise and the Small Business Administration.
 
@@ -35,16 +20,8 @@ Yes, if you are eligible for any of the following:
 
 </div>
 
-<div class="small-12 columns usa-content" markdown="1">
 ### How it works
 
 Contact your local [VA Small Business Liaison](http://www.va.gov/osdbu/about/contacts.asp). 
 
 Consider attending a [conference or informational event](http://www.va.gov/osdbu/library/events.asp). Many times these events are staffed by VA Small Business Liaisons and other experts in entrepreneurship training. 
-
-</div>
-</div>
-</div>
-
-
-</div>

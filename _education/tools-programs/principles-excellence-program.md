@@ -1,23 +1,8 @@
 ---
 title: Principles of Excellence Program
-template: 6-info-page
+template: 1-topic-landing
 concurrence: incomplete
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 
 The Principles of Excellence program requires participating educational institutions to:
 
@@ -41,11 +26,3 @@ Institutions that do not charge tuition and fees are not required to comply with
 - Residency and internship programs
 
 Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to maximize your educational benefits and learn which schools participate.
-
-
-</div>
-</div>
-</div>
-
-
-</div>

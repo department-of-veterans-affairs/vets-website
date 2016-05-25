@@ -1,6 +1,6 @@
 ---
 title: Ways to File a Claim
-template: 6-info-page
+template: 1-topic-landing
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
     title: What is the fastest way to file a claim?
@@ -19,21 +19,6 @@ relatedlinks:
     description: ""
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
 Choose one of three ways:
 
 1.	Apply online, using [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
@@ -44,8 +29,3 @@ Choose one of three ways:
 
 
 **Note:** Active-duty Servicemembers should learn about [predischarge claims](/disability-benefits/claims-process/claim-types/predischarge-claim/index.html).
-
-</div>
-</div>
-</div>
-</div>

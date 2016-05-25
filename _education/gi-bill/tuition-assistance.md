@@ -1,7 +1,7 @@
 ---
 title: Tuition Assistance Top-Up
 concurrence: incomplete
-Template: 4-action-page
+template: 4-action-page
 ---
 
 <div class="main" role="main" markdown="0">
