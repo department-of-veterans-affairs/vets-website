@@ -44,7 +44,7 @@ Yes, if:
 ##### Start your own business
 If entrepreneurship interests you, learn about everything from start-up costs to business, accounting, and financial assistance with three programs: [SCORE](https://www.score.org/topics/veteran_guards_reservists ), the [Small Business Administration](https://www.sba.gov/content/veteran-service-disabled-veteran-owned)(SBA), and [Entrepreneurship Boot Camp](https://myseco.militaryonesource.mil/Portal/Content/View/2622). 
 
-<hr>
+-----
 
 ### How it works
 Sign up for a current DS Logon ID. This is the same login used for online services like TRICARE. If you are unsure of your DS Logon, visit [My Access Center](https://myaccess.dmdc.osd.mil/identitymanagement/help.do?execution=e1s1).

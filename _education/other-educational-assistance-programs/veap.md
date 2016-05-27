@@ -7,19 +7,17 @@ template: 1-topic-landing
 If you are interested in pursuing continuing-education programs, and are willing to make contributions from your military pay, the VEAP is a $2-to-$1 government-match program for educational assistance.
 
 
-<div class="call-out usa-content" markdown="1">
-### Are you eligible for benefits?
+Are you eligible for benefits?
+: Yes, if:
 
-Yes, if:
+  - You entered service for the first time between January 1, 1977, and June 30, 1985.
+  - You opened and contributed to your account before April 1, 1987.
+  - You voluntarily contributed $25–$2700.
+  - You completed your first period of service and were discharged or released from service under conditions other than dishonorable.
 
-- You entered service for the first time between January 1, 1977, and June 30, 1985.
-- You opened and contributed to your account before April 1, 1987.
-- You voluntarily contributed $25–$2700.
-- You completed your first period of service and were discharged or released from service under conditions other than dishonorable.
-
-### Who is covered
-You
-</div>
+Who is covered
+: You
+{:.va-callout}
 
 ### Available benefits
 Tuition assistance
@@ -43,10 +41,10 @@ VEAP benefits can be applied to the following programs:
 
 VEAP may also be used for remedial, deficiency, and refresher courses. Your monthly contributions will determine the length of your entitlements (1–36 months), and you have 10 years from your release from active duty to use VEAP benefits. If VEAP benefits go unused after that 10-year period, you can request a refund for the amount left in your fund.
 
-**Active Duty**<br>
+**Active Duty**
 If you are currently on active duty and wish to receive VEAP, you must have at least three months of contributions available.
 
-**Withdrawals**<br>
+**Withdrawals**
 Contributions may be withdrawn if you do not meet basic eligibility requirements or if you formally request a refund.
 
 

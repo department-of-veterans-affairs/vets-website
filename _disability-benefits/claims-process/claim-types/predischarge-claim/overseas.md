@@ -13,11 +13,7 @@ If you are stationed outside the KMC, you can participate in the BDD or Quick St
 
 <div class="call-out" markdown="1">
 - Contact the [Landstuhl BDD office]( https://ermc.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733) by phone, fax, or email to request all necessary information and forms.
-
 - After you complete and return the application, a BDD officer will contact you by email to schedule an examination at the Landstuhl Regional Medical Center (LRMC) and to notify you about the information and evidence required to support your claim.
-
 - You are responsible for contacting the clinics at LRMC to schedule necessary exams as directed, and for arranging your travel and getting the approval of your command to make the trip.
-
 - When you report for your examinations, you must bring a copy of your Service Treatment Records (STRs), which will be submitted to VA and not returned. BDD and Quick Start claims cannot be processed without the STRs.
-
 </div>
