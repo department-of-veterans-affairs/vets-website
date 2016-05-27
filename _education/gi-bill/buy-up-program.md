@@ -1,6 +1,6 @@
 ---
 title: $600 Buy-Up Program
-template: 4-action-page
+template: 4-action-page-pending
 concurrence: incomplete
 ---
 

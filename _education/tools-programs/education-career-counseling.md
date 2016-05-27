@@ -1,17 +1,11 @@
 ---
 title: Education and Career Counseling
-template: 4-action-page
+template: 4-action-page-pending
 concurrence: incomplete
 ---
 
 <div class="main" role="main" markdown="0">
 
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-    </div>
-  </div>
-</div>
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">

@@ -1,7 +1,7 @@
 ---
 title: Radiogenic Risk Activities
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp,http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp
-template: 4-action-page
+template: 4-action-page-pending
 ---
 
 <div class="main" role="main" markdown="0">
@@ -17,46 +17,34 @@ template: 4-action-page
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 medium-8 columns">
-
-
+<div class="small-12 columns usa-content" markdown="1">
 
 <div markdown="1">
 
 Radiogenic diseases can be caused by exposure to radiation. If you participated in an activity while on active duty that has a radiation risk, you may have developed one of these [associated diseases](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309).
-</div>
 
-<div class="call-out" markdown="1">
+Are you eligible for disability benefits?
+: Yes, if:
 
-### Are you eligible for disability benefits?
+    - You were interned as a prisoner of war in Japan.
+    - You participated in the postwar occupation of Hiroshima or Nagasaki.
+    - You participated in atmospheric nuclear weapons testing.
+    - You participated in underground nuclear weapons testing at Amchitka Island, Alaska.
+    - You were assigned to a gaseous diffusion plant at one of the following:
+      -	Paducah, Kentucky
+      -	Portsmouth, Ohio, or
+      -	Area K-25 at Oak Ridge, Tennessee
 
-Yes, if:
-
-- You were interned as a prisoner of war in Japan.
-- You participated in the postwar occupation of Hiroshima or Nagasaki.
-- You participated in atmospheric nuclear weapons testing.
-- You participated in underground nuclear weapons testing at Amchitka Island, Alaska.
-- You were assigned to a gaseous diffusion plant at one of the following:
-	-	Paducah, Kentucky
-	-	Portsmouth, Ohio, or
-	-	Area K-25 at Oak Ridge, Tennessee
-
-<br>
-
-### Who is covered
-
-You
-
-</div>
-
-<div markdown="1">
+Who is covered
+: You
+{:.va-callout}
 
 ### Available benefits
 
 - Compensation
 - Health care
 
-<hr>
+------
 
 ### How it works
 
@@ -65,21 +53,7 @@ You
 - You must have been discharged under conditions other than dishonorable.
 
 </div>
-
-</div>
-
-
-<div class="small-12 medium-4 columns" markdown="0">
-<div markdown="0">
-
-
 </div>
 </div>
-
-
 </div>
-</div>
-
-</div>
-
 </div>

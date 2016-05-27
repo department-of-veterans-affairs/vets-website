@@ -1,7 +1,7 @@
 ---
 title: Correspondence Training
-template: 4-action-page
-concurrence: incomplete
+template: 4-action-page-pending
+concurrence: incomplete 
 ---
 
 <div class="main" role="main" markdown="0">
