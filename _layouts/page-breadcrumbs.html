@@ -16,11 +16,11 @@
     {% when '3-panel-filters' %}
        {% include 3-panel-filters.html %}
         
-    {% when '4-action-page-pending' %}
-      {{ content }}
-
     {% when '4-action-page' %}
       {% include 4-action-page.html %}
+      
+    {% when '4-action-page-pending' %}
+      {% include 4-action-page-pending.html %}
 
     {% when '6-info-page' %}
       {% include 6-info-page.html %}
