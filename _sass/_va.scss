@@ -1215,65 +1215,6 @@ li {
     margin: .25em 0;
     text-decoration: underline; 
     
-<<<<<<< 48a5810a3ce889949634b8e411359e534a73d461
-=======
-    &:hover {color: $color-gold;}
-    &.contact, 
-    &.blog {
-      padding: .65em; 
-      font-size: 1em;  
-      text-align: center; 
-      border: 2px solid $secondary-color;
-      
-      @media #{$small} {
-        margin: 1.5em auto; 
-        display: inline-block;
-      }
-      
-      &:hover, &:focus, &:active {
-        background: $secondary-color; color: $color-white;
-      }
-    }
-
-    &.contact {
-      @media #{$small} {margin: 0 0 0 1em;}
-    }
-    &.blog {border: none; &:hover {background: none; color: $color-primary-alt;}}
-  }
-
-  .footer-logo a {
-    display: none;
-    @media #{$medium} {padding: 0; display: block;}
-    @media #{$medium} {background:url(../images/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
-  }
-
-  .footer-seal {
-    background:url(../images/design/sprites/sprite.png)  no-repeat 0 -23px;
-    background-size: 215px 72px;
-    width: 215px;
-    height: 49px;
-    text-indent: -999em;
-    overflow: hidden;
-    margin: 0 auto;
-    @media #{$small} {margin: 0;}
-  }
-
-.footer-crisis {
-  background:$color-gold;
-  margin: 2.5em 0;
-  padding: .25rem 0;
-  border-radius: .2em;
-  color: $color-gray-dark;
-  font-size: .85em;
-  text-align: center;
-  span {
-    font-weight: bold;
-  }
-  a {
-    display:inline;
-    text-decoration: none;
-    color:rgb(0,0,0);
->>>>>>> Updating styles for supplemental content.
     &:hover {
       color: $color-gold;
     }
@@ -2173,8 +2114,6 @@ button[class*="usa-button-"] {
 // Mobile menu
 
 /* Overlay style */
-
-<<<<<<< 48a5810a3ce889949634b8e411359e534a73d461
 .va-overlay-close {
   @media #{$medium} {
     display: none;
@@ -2188,26 +2127,6 @@ button[class*="usa-button-"] {
     &:hover {
       background: transparent;
     }
-=======
-@media #{$small-only} {
-
-  .overlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 800;
-    background: rgba($color-primary-darkest, .95);
-  }
-
-  /* Overlay closing cross */
-  .overlay .overlay-close {
-    display: block;
-    border: none;
-    outline: none;
-    z-index: 100;
->>>>>>> Updating styles for supplemental content.
   }
 }
 
@@ -2218,7 +2137,7 @@ button[class*="usa-button-"] {
   }
 }
 
-<<<<<<< 48a5810a3ce889949634b8e411359e534a73d461
+
 @media #{$small-only} {
   .va-overlay {
     background: rgba($color-primary-darkest, .95);
@@ -2232,26 +2151,7 @@ button[class*="usa-button-"] {
     visibility: hidden;
     width: 100%;
     z-index: 800;
-  
-=======
-  /* Effects */
-  .overlay-fullscreen {
-    opacity: 0;
-    visibility: hidden;
-    -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
-    transition: opacity 0.5s, visibility 0s 0.5s;
-
-    button {
-      border-radius: 0;
-      display: block;
-      width: 100% !important;
-      margin: 0;
-      width: auto;
-      background: $color-primary;
-
-    }
-
->>>>>>> Updating styles for supplemental content.
+   
     input[type="text"] {
       -webkit-appearance: none;
       border-radius: 3px 0 0 3px;
@@ -2273,7 +2173,7 @@ button[class*="usa-button-"] {
     border-radius: .15em;
   }
 
-<<<<<<< 48a5810a3ce889949634b8e411359e534a73d461
+
   .va-overlay--open {
     opacity: 1;
     visibility: visible;
@@ -2285,7 +2185,7 @@ button[class*="usa-button-"] {
     }
   }
 
-<<<<<<< 48a5810a3ce889949634b8e411359e534a73d461
+
   .va-overlay .menu {
     -webkit-perspective: 1200px;
     perspective: 1200px;
@@ -2300,14 +2200,14 @@ button[class*="usa-button-"] {
     transition: transform 0.5s, opacity 0.5s;
   }
 
-<<<<<<< 48a5810a3ce889949634b8e411359e534a73d461
+
   .va-overlay--open form {
     opacity: 1;
     -webkit-transform: rotateX(0deg);
     transform: rotateX(0deg);
   }
 
-<<<<<<< 48a5810a3ce889949634b8e411359e534a73d461
+
   .va-overlay--closed form {
     -webkit-transform: translateY(25%) rotateX(-35deg);
     transform: translateY(25%) rotateX(-35deg);
