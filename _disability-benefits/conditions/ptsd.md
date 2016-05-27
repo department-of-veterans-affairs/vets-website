@@ -34,7 +34,6 @@ Yes, if:
 ### Who is covered
 
 You
-
 </div>
 
 ### Available benefits

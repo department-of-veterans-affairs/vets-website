@@ -4,42 +4,25 @@ concurrence: incomplete
 template: 4-action-page-pending
 ---
 
-<div class="main" role="main" markdown="0">
 
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-<div markdown="1">
 If your tuition amounts to more than what’s covered by the Tuition Assistance (TA) program, you may be eligible for additional assistance. Tuition Assistance Top-Up covers the difference between the full cost of a college course and the amount covered under active-duty TA for up to 36 months.
-</div>
-<div class="call-out" markdown="1">
-### Are you eligible for compensation?
 
-Yes, if:
+Are you eligible for compensation?
+: Yes, if:
 
-- You are approved for federal TA.
-- You are eligible for Montgomery GI Bill Active Duty or Post-9/11 GI Bill benefits.
-- Your desired course tuition and fees total more than TA will cover.
+  - You are approved for federal TA.
+  - You are eligible for Montgomery GI Bill Active Duty or Post-9/11 GI Bill benefits.
+  - Your desired course tuition and fees total more than TA will cover.
 
-### Who is covered
+Who is covered
+: You
+{:.va-callout}
 
-You
-</div>
-<div markdown="1">
 ### Available benefits
 
 Additional tuition funding
 
-<hr>
+-----
 
 ### How it works
 
@@ -55,12 +38,3 @@ If you are using the Montgomery GI Bill, you will receive the difference between
 ### Learn more
 
 Read the [Top-Up fact sheet](http://www.benefits.va.gov/GIBILL/docs/factsheets/topup.pdf).
-
-</div>
-</div>
-
-</div>
-</div>
-
-
-</div>

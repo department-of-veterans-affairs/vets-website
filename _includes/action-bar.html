@@ -2,6 +2,11 @@
   <div class="row">
     <div class="small-12 columns">
       <a class="usa-button-primary va-button-primary" href="{{ include.action_url }}">{{ include.action_text }}</a>
+    
+      {% if page.path contains 'tools-programs/careerscope' %}
+      <a class="usa-button-primary va-button-secondary" href="https://va.careerscope.net/gibill/">CareerScope Assessment Tool</a>
+      {% endif %}
+  
     </div>
   </div>
 </div>
