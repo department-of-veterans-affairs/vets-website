@@ -3,19 +3,7 @@ title: Job Seekers
 template: 4-action-page
 ---
 
-<div class="main" role="main" markdown="0">
-
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-8 columns">
-
-
-
-<div class="usa-content" markdown="1">
 Wherever you are in the transition process, the Veterans Employment Center provides career advice, résumé-building assistance, and access to employers who are committed to hiring Veterans and military spouses.
-</div>
 
 <div class="call-out" markdown="1">
 ### You may not be completely ready to start looking for a job, but there are other ways you can prepare.
@@ -38,12 +26,7 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 </div>
 
-<div markdown="1">
-
 ### If you are ready to begin, take these steps:
-
-</div>
-
 
 <ol class="process" markdown="0">
 <li class="step one wow fadeIn animated" markdown="1">
@@ -89,7 +72,7 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 
 </ol>
 
-<div markdown="1">
+
 ### Consider furthering your education
 - The [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) gives Veterans with active-duty service on or after September 11, 2001, enhanced educational benefits that cover more educational expenses and provide a living allowance, money for books, and the ability to transfer unused educational benefits to spouses or children.
 - Fill in any gaps in your education or skill set by taking classes and getting [advanced training and certifications](/education/advanced-training-and-certifications/).
@@ -117,28 +100,4 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 
 - Use government-sponsored [career and education resources](/employment/job-seekers/family-members/).
 - Take advantage of [networking opportunities](/employment/job-seekers/career-fairs/) at career fairs.
-</div>
 
-</div>
-
-<div class="small-12 medium-4 columns" markdown="0">
-
-<h4 class="highlight">Online Resources</h4>
-
-<ul class="plain" markdown="0">
-
-<li markdown="1">
-[Coursera](https://www.surveymonkey.com/r/QSGQRFN) Take a class with these free resources
-</li>
-
-<li markdown="1">
-[LinkedIn&#153;](https://veterans.linkedin.com/) Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with 
-[LinkedIn&#153;'s Lynda](https://veterans.linkedin.com/)
-</li>
-
-</ul>
-</div>
-</div>
-</div>
-</div>
-</div>

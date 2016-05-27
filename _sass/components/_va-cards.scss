@@ -31,14 +31,9 @@
 
 .va-card { 
   list-style: none !important;
-  overflow: hidden;
   position: relative;
   padding: 0;
   
-  &:hover, &:focus {
-    box-shadow: 0 0 5px rgba(0,0,0,0.35);
-  }
-
   @media #{$medium} {
     float: left;
     margin: 0 0.625rem 1.25rem 0.67rem;
@@ -51,35 +46,29 @@
 
 // This can be any element, but usually an
 // `a` or `div`
-.va-card-body {
+.va-card-body, .va-card a {
   @include transition(all 0.3s ease-in-out);
   background: $color-primary-darker;
   border-bottom: 2px solid rgba(255,255,255,0.3);
   color: #fff !important;
   display: block;
   font-weight: normal;
-  overflow: hidden;
   padding: .45em .75em;
   text-decoration: none;
 
-  &:hover {
+  &:active, &:hover, &:focus {
     background: $color-primary;
+    color: inherit;
     cursor: pointer;
     text-decoration: inherit;
+    box-shadow: 0 0 5px rgba(0,0,0,0.35);
   }
 
   + ul,
   + ol {
     margin: 1em 1.2em 0 2em !important;
   }
-  
-  &:active,
-  &:hover,
-  &:focus {
-    color: inherit;
-    box-shadow: 0 0 5px rgba(0,0,0,0.35);
-  }
-  
+   
   // Using $medium instead of $medium-screen
   // because this grid uses Foundation, not USWDS
   // Roughly a 640px breakpoint.

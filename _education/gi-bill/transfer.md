@@ -1,28 +1,13 @@
 ---
 title: Transferring Post-9/11 GI Bill Benefits
-template: 6-info-page
+template: 1-topic-landing
 concurrence: complete
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-<div markdown="1">
 If you have not used all of your Post-9/11 GI Bill benefits, you may be eligible to transfer up to 36 months of benefits to your spouse or dependent children. Once the Department of Defense (DOD) approves the transfer, the new beneficiaries can apply for VA benefits. 
 
 **Note:** The Department of Defense (DOD) determines whether or not you can transfer benefits to your family.
-</div>
+
 <div class="call-out" markdown="1">
 ### Are you eligible to transfer benefits?
 
@@ -38,12 +23,12 @@ Yes, if:
 ### Who is covered
 Your dependents
 </div>
-<div markdown="1">
+
 ### Available benefits
 - Significant tuition-funding assistance
 - A location-adjusted housing allowance for paying your living expenses during enrollment
 
-<hr>
+------
 
 ### How it works
 
@@ -98,10 +83,3 @@ Once you leave military service, you can still provide a future effective date f
   - NOAA  [Email](mailto:Gregory.Raymond@noaa.gov) or 301-713-7728
   - PHS  [Email](mailto:OCCOHelpdesk@hhs.gov) or 240-453-6130
 
-</div>
-</div>
-</div>
-</div>
-
-
-</div>

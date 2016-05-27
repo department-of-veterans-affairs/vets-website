@@ -1,28 +1,10 @@
 ---
 title: National Call to Service Program
 concurrence: incomplete
-template: 6-info-page
+template: 1-topic-landing
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-<div markdown="1">
-
 If you performed a period of national service, you may be eligible for the National Call to Service program, which allows you to choose an education benefit as an alternative to the Montgomery GI Bill.
-
-</div>
 
 <div class="call-out" markdown="1">
 
@@ -42,7 +24,7 @@ Yes, if:
 
 You
 </div>
-<div markdown="1">
+
 ### Available benefits
 
 You may select from the following:
@@ -52,7 +34,7 @@ You may select from the following:
 -	Educational assistance equal to the three-year monthly Montgomery GI Bill Active Duty rate for 12 months.
 -	Educational assistance equal to 50% of the less-than-three-year monthly Montgomery GI Bill Active Duty rate for 36 months.
 
-<hr>
+------
 
 ### How it works
 
@@ -64,14 +46,3 @@ Read the [National Call to Service program pamphlet](http://www.benefits.va.gov/
 
 
 This program is administered by VA for the Department of Defense.
-
-</div>
-</div>
-
-
-</div>
-</div>
-</div>
-
-
-</div>

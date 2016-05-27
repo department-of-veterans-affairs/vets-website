@@ -2,25 +2,8 @@
 title: How do I file when I’m overseas?
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp,http://www.benefits.va.gov/PREDISCHARGE/claims-pre-discharge-overseas-intake-sites.asp
-template: 6-info-page
+template: 1-topic-landing
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content">
-
-<div markdown="1">
 
 ### Overseas Intake Sites
 
@@ -28,10 +11,7 @@ If you are stationed within the Kaiserslautern Military Community (KMC), you can
 
 If you are stationed outside the KMC, you can participate in the BDD or Quick Start programs through the "Fly-in" claim process, which allows you to submit applications by fax or email before your in-person appointment. Here’s what you need to do to participate in the Fly-in claim process:
 
-</div>
-
 <div class="call-out" markdown="1">
-
 - Contact the [Landstuhl BDD office]( https://ermc.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733) by phone, fax, or email to request all necessary information and forms.
 
 - After you complete and return the application, a BDD officer will contact you by email to schedule an examination at the Landstuhl Regional Medical Center (LRMC) and to notify you about the information and evidence required to support your claim.
@@ -40,9 +20,4 @@ If you are stationed outside the KMC, you can participate in the BDD or Quick St
 
 - When you report for your examinations, you must bring a copy of your Service Treatment Records (STRs), which will be submitted to VA and not returned. BDD and Quick Start claims cannot be processed without the STRs.
 
-</div>
-
-</div>
-</div>
-</div>
 </div>

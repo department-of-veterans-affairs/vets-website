@@ -32,16 +32,7 @@ relatedlinks:
     description: ""
 ---
 
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="0">
-
-<div markdown="1">
-
 If you file a standard claim, VA will gather evidence from public and private medical facilities so they can process your disability claim. VA will gather evidence from private medical facilities only with your authorization.
-
-</div>
 
 <div class="call-out" markdown="1">
 
@@ -61,9 +52,7 @@ This may include medical records from:
  - state and local governments
  - current or former employers
 
- </div>
-
- <div class="usa-content" markdown="1">
+</div>
 
 ### Evidence Requirements
 
@@ -72,10 +61,6 @@ VA will seek to validate your claim with a variety documents, including:
 - Medical evidence of a current physical or mental disability
 - Evidence of an event, injury, or disease while you were in service
 
-**Note:**<br>
+**Note:** <br>
 A standard claim will generally take longer to process than a [Fully Developed Claim](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
 
-</div>
-</div>
-</div>
-</div>

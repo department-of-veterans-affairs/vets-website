@@ -1,26 +1,12 @@
 ---
 title: Survivors' and Dependents' Assistance
 concurrence: incomplete
-Template: 6-info-page
+template: 1-topic-landing
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
 If you are a dependent or survivor of a Veteran, you may be eligible for education assistance through a GI Bill program.
-</div>
-<div class="small-12 columns" markdown="1">
+
+
 <div class="call-out usa-content" markdown="1">
 
 ### Are you eligible for benefits?
@@ -46,7 +32,6 @@ Yes, if you are eligible to receive a transfer of Post-9/11 GI Bill benefits.
 Your family
 </div>
 
-<div class="small-12 columns usa-content" markdown="1">
 ### Available benefits
 
 - Education and training opportunities
@@ -54,7 +39,7 @@ Your family
 - A location-adjusted housing allowance for you to pay your living expenses during enrollment
 - A stipend for books and supplies
 
-<hr>
+--------
 
 ### How it works
 
@@ -133,16 +118,3 @@ You may be eligible for both of these programs, but you can use only one of them
   </td>
 </tr>
 </table>
-</div>
-
-
-</div>
-</div>
-</div>
-</div>
-
-
-
-
-
-</div>

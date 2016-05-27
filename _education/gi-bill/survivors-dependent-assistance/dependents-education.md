@@ -1,26 +1,10 @@
 ---
 title: Survivors' and Dependents' Educational Assistance Program
-template: 6-info-page
+template: 1-topic-landing
 concurrence: incomplete
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
 If you are the dependent of a Veteran who was permanently and totally disabled on active duty or due to a service-related condition, you may be eligible for 45 months of degree and certificate courses, apprenticeship, and on-the-job training under the Survivors' and Dependents’ Educational Assistance (DEA) program.
-</div>
 
 <div class="call-out usa-content" markdown="1">
 ### Are you eligible for benefits?
@@ -54,15 +38,11 @@ Yes, if:
 Your dependents
 </div>
 
-<div class="small-12 columns usa-content left" markdown="1">
-
-
-
 ### Available benefits
 
 A monthly payment of up to $1,021. View [current rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp).
 
-<hr>
+-------
 
 ### How it works
 If you are a spouse, you may take correspondence courses under this program. Remedial, deficiency, and refresher courses may also be approved under certain circumstances. View [current DEA pay rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch35). For both children and spouses, if you are eligible for both DEA and the [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), you must choose which of these you will use. Your choice is final and cannot be changed.
@@ -84,13 +64,3 @@ If you are a spouse, you may take correspondence courses under this program. Rem
 
 - Read the [DEA pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch35_pamphlet_2.pdf).
 - Get help from an [accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
-
-
-</div>
-
-</div>
-</div>
-</div>
-
-
-</div>

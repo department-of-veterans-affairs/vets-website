@@ -5,24 +5,8 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp
 template: 4-action-page
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 medium-8 columns">
-
-<div markdown="1">
 If you served in the [Southwest Asia theater of military operations](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp) or in Afghanistan, you may suffer from certain illnesses, disorders, and conditions that have been linked to your service.
-</div>
+
 <div class="call-out" markdown="1">
 ### Are you eligible for compensation?
 
@@ -41,61 +25,19 @@ Yes, if:
 
 You
 </div>
-<div markdown="1">
+
+
 ### Available benefits
 
 - Compensation
 - Health care
 
-<hr>
+-----
 
 ### How it works
 
 The conditions that fall under the umbrella of Gulf War Illness are varied and extensive. They include fibromyalgia, chronic fatigue syndrome, functional gastrointestinal disorders, and undiagnosed illnesses such as headaches, joint pain, sleep disorders, and cardiovascular disease.
 
 
-</div>
-
-</div>
 
 
-<div class="small-12 medium-4 columns" markdown="0">
-<div markdown="0">
-
-<h4 class="highlight">Questions</h4>
-
-<ul class="plain">
-
-<li markdown="1">
-Find an [accredited representative](/disability-benefits/apply-for-benefits/help/index.html) to help you.
-
-</li>
-
-</ul>
-
-</div>
-</div>
-
-
-</div>
-</div>
-</div>
-
-<!--
-
-<div class="section secondary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
-#### See also:
-
-- Start application process
-- Learn more detailed health information about Gulf War Illness
-
-</div>
-</div>
-</div>
-
--->
-
-</div>

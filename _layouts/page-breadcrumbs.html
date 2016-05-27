@@ -19,11 +19,14 @@
     {% when '4-action-page-pending' %}
       {{ content }}
 
-    {% when '6-info-page' %}
-      {{ content }}
+    {% when '4-action-page' %}
+      {% include 4-action-page.html %}
 
-    {% when '7-get-page' %}
-      {{ content }}
+    {% when '6-info-page' %}
+      {% include 6-info-page.html %}
+
+    {% when '7-get-page' or '7-get-page-alt' %}
+      {% include 7-get-page.html %}
     
   {% else %}
     {{ content }}

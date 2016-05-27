@@ -1,7 +1,8 @@
 ---
 title: Co-op Training
 concurrence: complete
-template: 4-action-page
+template: 4-action-page-pending
+
 ---
 
 <div class="main" role="main" markdown="0">
