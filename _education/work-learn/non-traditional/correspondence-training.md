@@ -15,9 +15,11 @@ Who is covered
 {:.va-callout}
 
 #### Available benefits
+
 Reimbursed expenses. (Read more below.)
 
 #### How it works
+
 Participation requirements are the same for all GI Bill programs, though the payment amount varies depending on the specific GI Bill program you are using. If you are enrolled in correspondence training, VA determines your payment amount and pays it quarterly after receiving certification of lessons completed from the school.
 
 For Post-9/11 GI Bill recipients, VA reimburses the actual costs of the school’s in-state tuition and fees, up to the maximum amount allowed by law. View the [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
