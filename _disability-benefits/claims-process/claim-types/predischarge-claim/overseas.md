@@ -5,8 +5,6 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp,http://w
 template: 1-topic-landing
 ---
 
-### Overseas Intake Sites
-
 If you are stationed within the Kaiserslautern Military Community (KMC), you can visit the Landstuhl Benefits Delivery at Discharge (BDD) office and start the disability claim process while you are on active duty in predischarge status. Walk-in hours are Tuesday, Wednesday, and Thursday from 10:00 to 12:00 and from 1:00 to 3:00.
 
 If you are stationed outside the KMC, you can participate in the BDD or Quick Start programs through the "Fly-in" claim process, which allows you to submit applications by fax or email before your in-person appointment. Here’s what you need to do to participate in the Fly-in claim process:
