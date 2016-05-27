@@ -2,8 +2,6 @@
 title: Quick Start
 ---
 
-<div class="main" role="main" markdown="0">
-
 <div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
@@ -44,7 +42,7 @@ You
 
 Expedited status decision on your disability claim
 
-<hr>
+-----
 
 ### How it works
 

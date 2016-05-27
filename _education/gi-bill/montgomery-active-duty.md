@@ -4,16 +4,6 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
@@ -67,7 +57,7 @@ You
 
 School tuition or training fees
 
-<hr>
+-----
 
 ### How it works
 You may receive benefits for up to eight semesters (four years) of traditional academic education. The benefits, paid monthly, depend upon the following factors:
@@ -98,11 +88,3 @@ Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to pick the right t
 
 Read the [Montgomery GI Bill Active Duty](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf) pamphlet.
 
-</div>
-
-</div>
-</div>
-</div>
-
-
-</div>

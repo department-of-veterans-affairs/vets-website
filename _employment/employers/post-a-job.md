@@ -4,7 +4,7 @@ concurrence: complete
 ---
 <link href="/assets/css/vendor/prism.css" type="text/css" rel="stylesheet">
 
-<div class="main" role="main" markdown="0">
+
 
 <div class="section one" markdown="0">
 <div class="primary" markdown="0">
@@ -38,7 +38,7 @@ All employers
 
 If your company’s current job listing is posted on the NLX, then it is also searchable in the Veterans Job Bank. If you haven’t registered your company with the NLX, [register now and post for free](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
 
-<hr>
+-----
 
 <div markdown="1">
 ### How to be a featured employer
