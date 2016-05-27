@@ -4,50 +4,26 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-<div markdown="1">
 If you plan to study at a foreign school, you can use VA benefits to cover your tuition and fees.
-</div>
 
-<div class="call-out" markdown="1">
-### Are you eligible for compensation?
+Are you eligible for compensation?
+: Yes, if:
 
-Yes, if:
+  - You are eligible for, or are already receiving, VA educational assistance.
+  - Your program is approved by VA.
+  - Your program at the foreign school is at an institution of higher learning and will earn you a standard college degree or the equivalent. 
 
-- You are eligible for, or are already receiving, VA educational assistance.
-- Your program is approved by VA.
-- Your program at the foreign school is at an institution of higher learning and will earn you a standard college degree or the equivalent. 
+: **Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
 
-**Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
-
-### Who is covered
-
-You and your dependents
-
-</div>
-
-<div markdown="1">
+Who is covered
+: You and your dependents
 
 ### Available benefits
 
 - Significant tuition assistance
 - A location-adjusted housing allowance to pay for your living expenses during enrollment
 
-<hr>
+-----
 
 ### How it works
 
@@ -70,12 +46,8 @@ You can also check your approval status or send us questions by email 24 hours a
 
 ##### Before enrolling at your foreign school:
 
-</div>
-
-<div>
 
 <ol class="process">
-
 <li class="step one wow fadeIn animated" markdown="1">
 
 Contact the school or [Submit a Question](http://www.benefits.va.gov/gibill/ext_redirect.asp?url=https://gibill.custhelp.com/app/ask/) to learn if VA approves your program for benefits. Provide the name of the foreign school, the complete address, and the name of the program you intend to pursue. VA will let you know whether your program has already been approved. Allow for extra time if you are applying to a program that VA has not yet approved.
@@ -112,11 +84,7 @@ You must provide written permission for school officials to release information 
 
 </ol>
 
-<div markdown="1">
-
 ##### After enrolling at your foreign school:
-
-</div>
 
 <ol class="process">
 
@@ -156,12 +124,3 @@ You should keep the school advised of your plans for continuing enrollment in or
 
 </ol>
 
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-
-</div>

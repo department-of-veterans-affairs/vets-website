@@ -1,5 +1,7 @@
 ---
 title: Types of Claims
+template: 2-detailed-landing
+showactionbar: false
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
     title: Standard Claim

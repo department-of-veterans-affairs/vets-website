@@ -8,21 +8,18 @@ If you have not used all of your Post-9/11 GI Bill benefits, you may be eligible
 
 **Note:** The Department of Defense (DOD) determines whether or not you can transfer benefits to your family.
 
-<div class="call-out" markdown="1">
-### Are you eligible to transfer benefits?
+Are you eligible to transfer benefits?
+: Yes, if:
 
-Yes, if:
+  - You’re on active duty or in the Selected Reserve.
+  - You’re in one of these situations:
+     - You have at least six years of service on the date of approval and agree to serve four additional years from the date of election, or
+     - You have at least ten years of service on the date of approval, are prevented by either policy or statute from committing to four additional years, but agree to serve for the maximum amount of time allowed, or
+  - The recipient of the benefit is enrolled in DEERS.
 
-- You’re on active duty or in the Selected Reserve.
-- You’re in one of these situations:
-   - You have at least six years of service on the date of approval and agree to serve four additional years from the date of election, or
-   - You have at least ten years of service on the date of approval, are prevented by either policy or statute from committing to four additional years, but agree to serve for the maximum amount of time allowed, or
-- The recipient of the benefit is enrolled in DEERS.
-
-
-### Who is covered
-Your dependents
-</div>
+Who is covered
+: Your dependents
+{:.va-callout}
 
 ### Available benefits
 - Significant tuition-funding assistance
