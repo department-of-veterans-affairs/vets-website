@@ -2,10 +2,12 @@
 	{% include action-bar.html action_text="Apply for Disability Benefits" action_url="/disability-benefits/apply-for-benefits/" action_class="va-action-bar--header" %}
 {% endif %}
 
+{% include breadcrumbs.html %}
+
 <div class="section one">
   <div class="primary">
     <div class="row">
-    {% include breadcrumbs.html %}
+    
       <div class="small-12 medium-8 columns">
           <h1>{{ page.title }}</h1>
          {{ content }}
