@@ -29,18 +29,8 @@ relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/post-service/
     title: Postservice Claim
     description: ""
+template: 6-info-page
 ---
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
-If you have new information about a condition that you think could qualify you for new or additional disability benefits, you can file a new claim.
-
-</div>
-
-<div class="small-12 columns">
 
 <div class="call-out" markdown="1">
 
@@ -52,14 +42,9 @@ You
 A new claim will determine if you qualify for new or additional benefits.
 </div>
 
-<div class="small-12 columns usa-content" markdown="1">
 ### The outcome of a new claim determination may be:
+
 - Increased disability compensation
 - Special Monthly Compensation
 - A shift to [Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/) status
 
-</div>
-</div>
-</div>
-
-</div>
