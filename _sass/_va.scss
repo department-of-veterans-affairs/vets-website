@@ -421,16 +421,16 @@ h6 {
     padding-top: 0; 
     margin-top: 0; 
     padding-bottom: 1em; // TODO: Consider deleting.
+  
+    &:nth-child(1),
+    &:first-of-type {
+      color: $color-primary-darker;
+      letter-spacing: normal;
+      font-size: 1.25em;
+    }
+
   }
 
-  p:nth-child(1) {
-    font-size: 1.25em;
-    color: $color-primary-darker;
-    letter-spacing: normal;
-    font-weight: normal;
-    padding-bottom: 1em;
-  }
-  
   h3 {
     padding: 0 0 .5em 0; 
     font-size: 1.25em;
