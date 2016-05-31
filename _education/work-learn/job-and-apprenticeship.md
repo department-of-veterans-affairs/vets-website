@@ -4,49 +4,29 @@ concurrence: incomplete
 template: 4-action-page-pending
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-<div markdown="1">
 If you want to learn a trade or skill through on-the-job training or apprenticeships, there are VA benefits that can help.
-</div>
-<div class="call-out" markdown="1">
 
-### Are you eligible for benefits?
 
-Yes, if:
+Are you eligible for benefits?
+: Yes, if:
 
--	You are eligible for [the GI Bill](/education/gi-bill/).
--	You are interested in working in an industry or job where on-the-job (OTJ) training is available. Examples include:
-    -	Union plumber
-    -	Hotel management
-    -	Firefighter
+	-	You are eligible for [the GI Bill](/education/gi-bill/).
+	-	You are interested in working in an industry or job where on-the-job (OTJ) training is available. Examples include:
+	    -	Union plumber
+	    -	Hotel management
+	    -	Firefighter
 
-### Who is covered
+Who is covered
+: You
+{:.va-callout}
 
-You
-
-</div>
-
-<div markdown="1">
 
 ### Available benefits
 
 -	Books and supplies stipend
 -	Monthly housing allowance
 
-<hr>
+-----
 
 ### How it works
 
@@ -75,11 +55,3 @@ You will receive up to $83 per month for books and supplies.
 - 35% of the full-time GI Bill rate for the remainder of the training program
 
 **Exception:** OJT is not available if you are an active-duty Servicemember, and it is not available to spouses using a transferred benefit.
-</div>
-
-
-</div>
-</div>
-</div>
-
-</div>
