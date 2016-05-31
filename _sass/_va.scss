@@ -95,6 +95,7 @@ a {
   }
 }
 
+//======= Lists 
 ul {
   padding: 0 0 0 1.5em;
   list-style: square;
@@ -110,6 +111,16 @@ ul, ol {
     margin: .5em 0 .5em 1.2em;
   }
 }
+
+// Definition lists
+dd {
+  margin-left: 0;
+}
+
+dd + dt {
+  margin-top: 1.5em;
+}
+
 
 // Figure / Caption
 figure {
