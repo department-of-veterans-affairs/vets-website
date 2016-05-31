@@ -271,6 +271,10 @@ h1, h2 {
   font-family: $font-sans;
 }
 
+h1:first-child {
+  margin-top: 0;
+}
+
 h3, h4, h5, h6 {
   color: $color-primary-darkest;
 }
@@ -391,7 +395,6 @@ h6 {
   list-style: none outside;
       
   li {   
-
     border-bottom: 1px solid #ccc;
     padding: 1em 0;
     
@@ -406,9 +409,6 @@ h6 {
 }
 
 .primary {
-  @media #{$small} {
-    padding: 2em 0;
-  }
 
   p {
     padding-top: 0; 
@@ -761,14 +761,13 @@ ul, ol {
 }
 
 // Breadcrumbs
-
-.breadcrumbs {
+.va-nav-breadcrumbs {
+  background: $color-white;
   color: $color-primary;
   font-size: inherit;
-  margin: 0 0 1em 0;
-  padding-left: 0;
+  padding: 1em 0;
 
-
+  
   li {
     display: inline-block;
     margin: .25em 0;
@@ -802,7 +801,14 @@ ul, ol {
   }
 }
 
-.breadcrumbs--inline {
+.va-nav-breadcrumbs-list {
+  @extend .columns;
+  float: none;
+}
+  
+ 
+//==== Facility Locator page only
+.va-nav-breadcrumbs--inline {
   display: inline-block;
   
   @media #{$small} {
@@ -814,8 +820,84 @@ ul, ol {
   }
 }
 
-// General List Styles
+//===== Playbook and Facility Locator
+.va-nav-breadcrumbs--playbook {
+  background: none;
+  margin: 0 0 1em 0;
+  padding: 0;
+    
+  h2 {
+    font-size: 1em;
+  }
 
+  li {
+    text-transform: none;
+    margin: .25em 0;
+    padding: .1em;
+    display: inline-block;
+    line-height: 1.15em;
+    vertical-align: middle;
+    
+    @media #{$small} {
+      font-size: 1.35em;
+    }
+    
+    &:hover  {
+      border-bottom: none; 
+      text-decoration: none;
+    }
+  }
+    
+  .parent {
+    padding-top: .5em;
+    margin: 0 0 .75em 0;
+
+    &:after {
+      content:" › "; 
+      display: inline-block; 
+      color: $color-white; 
+      padding: 0 .5em; 
+    }
+  }
+    
+  .active {
+    background: $color-gold;
+    color: $color-va-black;
+    font: 400 1.35em / 1.15em $font-serif;
+    margin: .5em 0;
+    padding: .2em;
+    
+    @media #{$medium} {
+      font-size: 1.8em;
+    }
+    
+    &:before {
+      content: ""; 
+      padding: 0; 
+      margin: 0;
+    }
+  }
+      
+  a {
+    border-bottom: 3px solid $color-white;
+    text-decoration: none !important;
+    color: $color-white;
+    &:hover {
+      text-decoration: none; 
+      background: rgba(0,0,0,.1); 
+      border-bottom: 3px solid $color-gold;
+    }
+  }
+}
+
+
+
+  
+.va-breadcrumbs-heading {
+  font-size: 1em !important;
+}
+//===== General List Styles
+ 
 li {
   span.meta {
     display: inline-block;
@@ -836,7 +918,7 @@ li {
   }
 }
 
-// Navigation
+//===== Navigation
 .navigation {
  padding: 1em  0;
   
