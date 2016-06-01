@@ -160,7 +160,7 @@ module.exports = function(config) {
       '/assets/': '/base/_site/assets',
 
       // Allow client-side routing to work correctly.
-      '/healthcare/': '/base/_site/healthcare'
+      '/health-care/': '/base/_site/health-care'
     },
 
     // Used by karma-fixture to serve up html and json fixtures.
