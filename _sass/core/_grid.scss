@@ -1,9 +1,13 @@
+// Variables that end with *-vp are variables that were renamed to
+// avoid collisions with Foundation variables. Eventually we'll migrate
+// and remove Foundation.
+
 .usa-grid,
 .usa-grid-full {
   @include outer-container();
   max-width: $site-max-width;
 
-  @include media($medium) {
+  @include media($medium-screen) {
     .usa-width-one-whole {
       @include span-columns(6);
     }
@@ -45,7 +49,7 @@
     }
   }
 
-  @include media($large) {
+  @include media($large-screen) {
     .usa-width-one-whole {
       @include span-columns(12);
     }

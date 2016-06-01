@@ -771,7 +771,6 @@ ul, ol {
   margin: 0 0 1em 0;
   padding-left: 0;
 
-
   li {
     display: inline-block;
     margin: .25em 0;
@@ -2447,4 +2446,93 @@ pre[class*="language-"]  {
   background-color: $color-gray-lightest !important;
   font-size: .9em;
   line-height: inherit !important;
+}
+
+// ==== New page layouts
+[class^='va-layout'] {
+  background: $color-white;
+  color: $color-gray-dark;
+}
+
+// Should only be used on va-layout-l2 pages
+.va-article-l2 {
+  h1, h2 {
+    color: $color-primary-darkest;
+  }
+  
+  .va-heading, h2 {
+    background: $color-gray-lightest;
+    margin-top: 5rem;
+    padding: .5rem 1rem;
+  }
+}
+
+// Left information box
+.va-supplement {
+  background: $color-primary-alt-lightest;
+  margin-top: 7.5rem;
+  padding: 1rem;
+
+  h3 {
+    font-size: 1.1em;
+    margin-top: 0;
+  }
+  h4 {
+    border-bottom: 2px solid $color-va-gray-medium;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 1rem 0;
+    padding-bottom: .25em;
+  }
+  ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  li {
+    margin-bottom: 1rem;
+  }
+  
+  img {
+    display: block;
+    height: auto;
+    margin: .5rem 0;
+    width: 100%;
+    
+  }
+}
+
+//===== Link lists with icons for headers
+[class^=va-list--] {
+  dt {
+    background-repeat: no-repeat;
+    background-size: 1em auto;
+    background-position: left .5rem;
+    color: $color-base !important;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0 0 0 1.5em;
+  }
+  dt, dd {
+    margin-bottom: 1rem;
+  }
+  
+  @include media($large-screen) {
+    float: left;
+    width: 50%;
+  }
+}
+
+.va-list--info {
+  dt {
+    background-image: url(/assets/images/icons/fa-book.png);
+    background-image: url(/assets/images/icons/SVG/fa-book.svg);
+  }
+}
+
+.va-list--guide {
+  dt {
+    background-image: url(/assets/images/icons/fa-map.png);
+    background-image: url(/assets/images/icons/SVG/fa-map.svg);
+  }
 }
