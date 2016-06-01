@@ -24,20 +24,20 @@ require('./vendor/menu.js');
 // Poor-man's client-side router. If more than the healthcare-app
 // starts using this functionality, then replace with a real client-side
 // routing library.
-if (window.location.pathname.startsWith('/health-care/form/')) {
+if (window.location.pathname.startsWith('/healthcare/form/')) {
   if (__DEV__) {
     // Use code chunking because most pages do not need this piece of JS.
     require.ensure([], (require) => {
-      const HealthApp = require('../../_health-care/_js/_form.js');
+      const HealthApp = require('../../_healthcare/_js/_form.js');
       $(document).ready(HealthApp.initForm);
       window.HealthApp = HealthApp;  // Attach to window for easy debugging.
     });
   }
-} else if (window.location.pathname.startsWith('/health-care/form-react/')) {
+} else if (window.location.pathname.startsWith('/healthcare/form-react/')) {
   if (__DEV__) {
     // Use code chunking because most pages do not need this piece of JS.
     require.ensure([], (require) => {
-      const ReactEntry = require('../../_health-care/_js/react-entry.jsx');
+      const ReactEntry = require('../../_healthcare/_js/react-entry.jsx');
       $(document).ready(ReactEntry.init);
       window.ReactEntry = ReactEntry;  // Attach to window for easy debugging.
     });
