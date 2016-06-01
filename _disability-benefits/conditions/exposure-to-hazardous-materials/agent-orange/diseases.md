@@ -33,7 +33,7 @@ VA recognizes the following diseases as related to Agent Orange. If you were exp
   Cancers of the lung, larynx, trachea, and bronchus.
 - [Soft Tissue Sarcomas](http://www.publichealth.va.gov/exposures/agentorange/conditions/soft-tissue-sarcoma.asp) (other than osteosarcoma, chondrosarcoma, Kaposi’s sarcoma, or mesothelioma)
   Different types of cancers in body tissues such as muscle, fat, blood and lymph vessels, and connective tissues.
-{:.va-feature-list}
+{:.va-list--feature}
 
 If you have a disease you think is caused by Agent Orange exposure, but that disease is not listed here, you may still apply for benefits. In these cases, VA requires evidence of disability and medical evidence of a connection between your condition and Agent Orange exposure.
 
