@@ -8,8 +8,7 @@ If you would like to learn at home or are located in a remote area, corresponden
 
 Are you eligible for benefits?
 : Yes, if:
-
-  - You meet the basic requirements for any GI Bill program.
+  You meet the basic requirements for any GI Bill program.
 
 Who is covered
 : You and your dependents

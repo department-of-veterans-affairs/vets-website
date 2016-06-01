@@ -4,7 +4,6 @@ concurrence: incomplete
 template: 4-action-page-pending
 ---
 
-
 If you are a full-time or three-quarter-time college, vocational, or professional student using VA education benefits, you may be eligible for the work-study program.
 
 

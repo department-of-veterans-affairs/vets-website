@@ -556,6 +556,9 @@ ul, ol {
 
 // Quick Links
 .va-quicklinks {
+  ul {
+    padding-left: 0;
+  }
   h3 {
     line-height: 1.2em;
     // TODO: Drop the !important when .home #content h3 and  
