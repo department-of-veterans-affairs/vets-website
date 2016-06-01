@@ -5,6 +5,9 @@ $small-screen:  481px;
 $medium-screen: 600px;
 $large-screen:  1201px;
 
-$large: new-breakpoint(min-width $large-screen 12);
-$medium: new-breakpoint(min-width $medium-screen 6);
-$small: new-breakpoint(min-width $small-screen 1);
+// These were originally $large, $medium, $small. Renamed with a -vp suffix
+// because they collide with the $large, $medium, and $small variables of Foundation.
+// TODO: Remove Foundation site-wide.
+$large-vp: new-breakpoint(min-width $large-screen 12);
+$medium-vp: new-breakpoint(min-width $medium-screen 6);
+$small-vp: new-breakpoint(min-width $small-screen 1);

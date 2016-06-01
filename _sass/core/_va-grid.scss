@@ -1,0 +1,12 @@
+// Small VA-specific overrides and additions for USWDS grid
+
+.va-grid {
+  padding: 1em 0;
+
+  // TODO: Remove this once Foundation is obsolete
+  @media (max-width: $medium-screen) {
+    padding-left: .9375rem;
+    padding-right: .9375rem;
+  }
+}
+ 
