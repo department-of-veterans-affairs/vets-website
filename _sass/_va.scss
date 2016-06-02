@@ -1214,7 +1214,7 @@ li {
     font-weight: 400;
     margin: .25em 0;
     text-decoration: underline; 
-    
+  
     &:hover {
       color: $color-gold;
     }
@@ -2137,7 +2137,6 @@ button[class*="usa-button-"] {
   }
 }
 
-
 @media #{$small-only} {
   .va-overlay {
     background: rgba($color-primary-darkest, .95);
@@ -2179,12 +2178,11 @@ button[class*="usa-button-"] {
     visibility: visible;
     -webkit-transition: opacity 0.5s;
     transition: opacity 0.5s;
-
+    
     .columns {
       padding: 0;
     }
   }
-
 
   .va-overlay .menu {
     -webkit-perspective: 1200px;
@@ -2200,13 +2198,11 @@ button[class*="usa-button-"] {
     transition: transform 0.5s, opacity 0.5s;
   }
 
-
   .va-overlay--open form {
     opacity: 1;
     -webkit-transform: rotateX(0deg);
     transform: rotateX(0deg);
   }
-
 
   .va-overlay--closed form {
     -webkit-transform: translateY(25%) rotateX(-35deg);
