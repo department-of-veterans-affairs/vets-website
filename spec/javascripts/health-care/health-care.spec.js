@@ -130,7 +130,7 @@ describe('Health Care Form Feature Test', function healthFeatureTest() {
   beforeEach((done) => {
     const fixtureFrame = document.createElement('iframe');
     fixtureFrame.id = 'fixture-frame';
-    fixtureFrame.src = '/health-care/form/index.html';
+    fixtureFrame.src = '/healthcare/form/index.html';
     fixtureFrame.onload = () => {
       // Signal async complete immediately otherwise assertions deadlock the
       // test.
@@ -247,7 +247,7 @@ describe('Health Care Form Feature Test', function healthFeatureTest() {
 
     form.elements['veteran[medicare_part_a_effective_date]'].value = '04/03/1980';
 
-    $.get('/base/spec/fixtures/javascripts/health-care/anonymous-submission.xml')
+    $.get('/base/spec/fixtures/javascripts/healthcare/anonymous-submission.xml')
       .done((data) => {
         const xmlDoc = HealthApp.build1010ezXml(form);
         expect(data).to.xml.equal(xmlDoc);
