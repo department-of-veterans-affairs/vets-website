@@ -1,6 +1,11 @@
 <div class="small-12 medium-4 columns">
   <div>
+    {% if page.path contains 'job-seekers' %}
+    <h4 class="highlight">Online Resources</h4>
+    {% else %}
     <h4 class="highlight">Questions</h4>
+    {% endif %}
+    
       <ul class="plain">
       {% if page.path contains 'agent-orange/c-123' %}
         <li>C-123 Hotline: <span class="tel">1-800-749-8387</span></li>
@@ -43,14 +48,15 @@
       {% endif %}
     
       {% if page.path contains 'job-seekers' %}
-      <li>
-      <a href="https://www.surveymonkey.com/r/QSGQRFN">Coursera</a> Take a class with these free resources
-      </li>
+        <li>
+        <a href="https://www.surveymonkey.com/r/QSGQRFN">Coursera</a> Take a class with these free resources
+        </li>
 
-      <li>
-      <a href="https://veterans.linkedin.com/">LinkedIn&#153;</a> Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with 
-      <a href="https://veterans.linkedin.com/">LinkedIn&#153;'s Lynda</a>
-      </li>
+        <li>
+        <a href="https://veterans.linkedin.com/">LinkedIn&#153;</a> Learn transition techniques as well as business, software, technology, and creative skills with a free one-year subscription to online courses with 
+        <a href="https://veterans.linkedin.com/">LinkedIn&#153;'s Lynda</a>
+        </li>
+      
       {% endif %}
     </ul>
   </div>
