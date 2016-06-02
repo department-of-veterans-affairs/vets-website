@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 
-import MothersMaidenName from '../../../../../_health-care/_js/components/personal-information/MothersMaidenName';
+import MothersMaidenName from '../../../../../_healthcare/_js/components/personal-information/MothersMaidenName';
 
 describe('<MothersMaidenName>', () => {
   let component = null;

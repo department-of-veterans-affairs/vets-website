@@ -1,4 +1,4 @@
-import { initializeNullValues, isValidDate, isValidSSN, isValidName, isNotBlank, isBlank, isValidMonetaryValue } from '../../../../_health-care/_js/utils/validations.js';
+import { initializeNullValues, isValidDate, isValidSSN, isValidName, isNotBlank, isBlank, isValidMonetaryValue } from '../../../../_healthcare/_js/utils/validations.js';
 
 describe('Validations unit tests', () => {
   describe('isValidSSN', () => {

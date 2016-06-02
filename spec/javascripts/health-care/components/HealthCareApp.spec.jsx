@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 
-import HealthCareApp from '../../../../_health-care/_js/components/HealthCareApp';
+import HealthCareApp from '../../../../_healthcare/_js/components/HealthCareApp';
 
 describe('<HealthCareApp>', () => {
   it('Sanity check the component renders', () => {

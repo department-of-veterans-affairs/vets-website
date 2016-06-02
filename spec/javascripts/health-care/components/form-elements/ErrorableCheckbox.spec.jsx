@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 
-import ErrorableCheckbox from '../../../../../_health-care/_js/components/form-elements/ErrorableCheckbox';
+import ErrorableCheckbox from '../../../../../_healthcare/_js/components/form-elements/ErrorableCheckbox';
 
 describe('<ErrorableCheckbox>', () => {
   describe('propTypes', () => {
