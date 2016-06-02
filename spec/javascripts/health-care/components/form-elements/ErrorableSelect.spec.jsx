@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 
-import ErrorableSelect from '../../../../../_health-care/_js/components/form-elements/ErrorableSelect';
+import ErrorableSelect from '../../../../../_healthcare/_js/components/form-elements/ErrorableSelect';
 
 describe('<ErrorableSelect>', () => {
   const options = [{ value: 1, label: 'first' }, { value: 2, label: 'second' }];

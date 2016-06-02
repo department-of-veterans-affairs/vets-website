@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import State from
-    '../../../../../_health-care/_js/components/questions/State';
+    '../../../../../_healthcare/_js/components/questions/State';
 
 describe('<State>', () => {
   let component = null;
