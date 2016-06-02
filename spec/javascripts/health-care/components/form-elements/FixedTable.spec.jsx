@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 
-import FixedTable from '../../../../../_health-care/_js/components/form-elements/FixedTable';
+import FixedTable from '../../../../../_healthcare/_js/components/form-elements/FixedTable';
 
 describe('<FixedTable>', () => {
   describe('propTypes', () => {
