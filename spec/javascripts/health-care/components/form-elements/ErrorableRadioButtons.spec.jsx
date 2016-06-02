@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 
-import ErrorableRadioButtons from '../../../../../_health-care/_js/components/form-elements/ErrorableRadioButtons';
+import ErrorableRadioButtons from '../../../../../_healthcare/_js/components/form-elements/ErrorableRadioButtons';
 
 describe('<ErrorableRadioButtons>', () => {
   const options = [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }];

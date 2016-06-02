@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 
-import ProgressButton from '../../../../_health-care/_js/components/ProgressButton';
+import ProgressButton from '../../../../_healthcare/_js/components/ProgressButton';
 
 describe('<ProgressButton>', () => {
   describe('propTypes', () => {

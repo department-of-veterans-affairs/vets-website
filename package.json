@@ -78,7 +78,7 @@
   },
   "scripts": {
     "karma": "karma",
-    "lint": "eslint --ext .js --ext .jsx --ignore-pattern *.min.js  _health-care/_js _webpack assets/js/entry.js spec",
+    "lint": "eslint --ext .js --ext .jsx --ignore-pattern *.min.js  _healthcare/_js _webpack assets/js/entry.js spec",
     "start": "webpack-dev-server --config webpack_dev.config.js --hot --inline --content-base _webpack/public",
     "test": "npm run test-js && npm run lint",
     "test-js": "karma start --single-run",
