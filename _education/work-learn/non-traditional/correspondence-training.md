@@ -4,36 +4,16 @@ template: 4-action-page-pending
 concurrence: incomplete 
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-<div markdown="1">
 If you would like to learn at home or are located in a remote area, correspondence training may be a good option for you. This type of training does not have to be completed within a quarter, semester, or term. You receive coursework assignments in the mail and send them back when completed.
-</div>
-<div class="call-out" markdown="1">
-### Are you eligible for benefits?
 
-Yes, if:
+Are you eligible for benefits?
+: Yes, if:
+  You meet the basic requirements for any GI Bill program.
 
-You meet the basic requirements for any GI Bill program.
+Who is covered
+: You and your dependents
+{:.va-callout}
 
-#### Who is covered
-
-You and your dependents
-</div>
-
-<div markdown="1">
 #### Available benefits
 Reimbursed expenses. (Read more below.)
 
@@ -45,10 +25,3 @@ For Post-9/11 GI Bill recipients, VA reimburses the actual costs of the schoolâ€
 For all other GI Bill recipients, VA reimburses 55% of the approved costs.
 
 **Exception:** This assistance is not available for children training under the Dependentsâ€™ Educational Assistance program.
-</div>
-</div>
-
-</div>
-</div>
-
-</div>

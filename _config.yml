@@ -70,7 +70,7 @@ collections:
   disability-benefits:
     output: true
     permalink: /:collection/:path/index.html
-  health-care:
+  healthcare:
     output: true
     permalink: /:collection/:path/index.html
   education:
@@ -138,23 +138,23 @@ defaults:
     values:
       breadcrumb_3: "Non-Traditional Options"
   - scope:
-      type: "health-care"
+      type: "healthcare"
     values:
       breadcrumb_1: "Health Care"
       layout: "page-breadcrumbs"
       body_class: "page-healthcare"
   - scope:
-      path: "health-care/apply"
+      path: "healthcare/apply"
     values:
       layout: "page-breadcrumbs"
       body_class: "page-healthcare"
   - scope:
-      path: "health-care/form.html"
+      path: "healthcare/form.html"
     values:
       layout: "page-breadcrumbs"
       body_class: "page-healthcare"
   - scope:
-      path: "health-care/form-react.html"
+      path: "healthcare/form-react.html"
     values:
       layout: "page-breadcrumbs"
       body_class: "page-healthcare"

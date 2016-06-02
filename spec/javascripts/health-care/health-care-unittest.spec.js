@@ -1,4 +1,4 @@
-const HealthApp = require('../../../_health-care/_js/_form.js');
+const HealthApp = require('../../../_healthcare/_js/_form.js');
 
 describe('Health Care Form UnitTests', () => {
   before(() => {
