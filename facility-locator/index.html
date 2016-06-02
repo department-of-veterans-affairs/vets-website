@@ -1,5 +1,10 @@
 ---
 title: Facility Locator
+relatedlinks:
+- url: http://www.va.gov/directory/guide/PTSD.asp
+  title: Post-Traumatic Stress Disorder (<abbr>PTSD</abbr>) Program Locator
+- url: http://www.va.gov/directory/guide/SUD.asp
+  title: Substance Use Disorder (<abbr>SUD</abbr>) Program Locator
 ---
 {% include header.html search='false' %}
 <style>
@@ -299,26 +304,7 @@ button.searchButton {
     </div>
   </div>
 
-  <div class="navigation navigation--major main-menu">
-    <div class="row">
-      <div class="small-12">
-        <ul class="va-cards va-cards--2across">
-
-          <li class="va-card">
-            <a href="http://www.va.gov/directory/guide/PTSD.asp" target="_blank" class="va-card-body">
-              <h3 class="va-card-title">Post-Traumatic Stress Disorder (<abbr>PTSD</abbr>) Program Locator</h3>
-            </a>
-          </li>
-
-          <li class="va-card">
-            <a href="http://www.va.gov/directory/guide/SUD.asp" target="_blank" class="va-card-body">
-              <h3 class="va-card-title">Substance Use Disorder (<abbr>SUD</abbr>) Program Locator</h3>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  {% include related-links.html %}
 </div>
 
 
