@@ -2410,11 +2410,12 @@ pre[class*="language-"]  {
     margin-top: 8rem;
   }
 
-  h4, .va-h-ruled {
-    border-bottom-width: 3px;
+  h4 {
+    border-bottom: 3px solid $color-primary-darker;
+    color: $color-gray-dark;
     font-size: 1em;
     font-weight: bold;
-    margin: 1rem 0;
+    margin: 4rem 0 1rem;
     padding-bottom: .5em;
 
     &:first-child {
