@@ -31,7 +31,7 @@ relatedlinks:
     description: You may have been exposed to radiation during World War II–era service or imprisonment in Japan, nuclear weapons testing, a gaseous diffusion plant assignment, or other situations.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/specific-environmental-hazards/
     title: Specific Environmental Hazards
-    description: Exposure to environmental hazards may include particulate matter and large burn pits in Iraq, Afghanistan, and Djibouti; contaminated drinking water at Camp Lejeune, North Carolina; and pollutants from a waste incinerator near Atsugi, Japan.
+    description: Exposure to environmental hazards may include particulate matter and large burn pits in Iraq, Afghanistan, and Djibouti; and pollutants from a waste incinerator near Atsugi, Japan.
 ---
 
 You may be eligible for disability compensation if you were exposed to certain chemical, physical, and environmental hazards during military service that resulted in disease or injury.
