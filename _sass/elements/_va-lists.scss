@@ -1,0 +1,50 @@
+//===== Link lists with icons for headers
+[class^=va-list--dl--] {
+  padding: 0 0 0 2rem;
+
+  @include media($large-screen) {
+    float: left;
+    width: 50%;
+  }
+
+  dt {
+    background-repeat: no-repeat;
+    background-size: 1em auto;
+    background-position: left .5rem;
+    color: $color-base !important;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0 0 0 1.5em;
+  }
+  dt, dd {
+    margin-bottom: 1rem;
+  }
+}
+
+.va-list--dl--info {
+  dt {
+    background-image: url(/assets/images/icons/fa-book.png);
+    background-image: url(/assets/images/icons/SVG/fa-book.svg);
+  }
+}
+
+.va-list--dl--guide {
+  dt {
+    background-image: url(/assets/images/icons/fa-map.png);
+    background-image: url(/assets/images/icons/SVG/fa-map.svg);
+  }
+}
+
+.va-list--dl--tools {
+  dt {
+    background-image: url(/assets/images/icons/fa-wrench.png);
+    background-image: url(/assets/images/icons/SVG/fa-wrench.svg);
+  }
+}
+
+.va-list--dl--programs {
+  dt {
+    background-image: url(/assets/images/icons/fa-folder.png);
+    background-image: url(/assets/images/icons/SVG/fa-folder.svg);
+  }
+}
