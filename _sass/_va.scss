@@ -2390,14 +2390,20 @@ pre[class*="language-"]  {
 
 .va-article-l2 h2 {
   background: $color-gray-lightest;
-  margin-top: 5rem;
+  clear: both;
+  // Using a border instead of a margin 
+  // so that the margins don't collapse in to
+  // whatever is before it (if what's before it is 
+  // floated to the left or right)
+  border-top: 4rem solid $color-white;
   padding: .5rem 2rem;
-
+  
   + p {
     font-size: inherit;
     padding-left: 2rem;
     padding-right: 2rem;
   }
+
 }
 
 // Left information box
