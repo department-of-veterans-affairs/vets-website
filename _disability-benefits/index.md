@@ -22,18 +22,17 @@ A disability can apply to physical conditions, such as chronic knee pain, as wel
 <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
 
 ## Find out what disability benefits you are eligible for ##
-{:.va-heading}
 
 If you have physical or emotional conditions that started &#8212; or became worse &#8212; during your active military service, you may be eligible for monthly benefits.
 
 Information
 : [Learn about conditions that qualify you for disability benefits](./conditions/)
-{:.va-list--info}
+{:.va-list--dl--info}
 
 Guide
 : [Your guide to filing a disability claim](./claims-process/)
 : [Your guide to filing an appeal](./claims-appeal/)
-{:.va-list--guide}
+{:.va-list--dl--guide}
 
 
 

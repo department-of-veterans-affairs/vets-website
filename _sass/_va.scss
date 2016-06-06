@@ -2456,21 +2456,35 @@ pre[class*="language-"]  {
 
 // Should only be used on va-layout-l2 pages
 .va-article-l2 {
+  p {
+    font-size: 1.25em;
+  }
   h1, h2 {
     color: $color-primary-darkest;
   }
-  
-  .va-heading, h2 {
-    background: $color-gray-lightest;
-    margin-top: 5rem;
-    padding: .5rem 1rem;
+}
+
+.va-article-l2 h2 {
+  background: $color-gray-lightest;
+  margin-top: 5rem;
+  padding: .5rem 2rem;
+
+  + p {
+    font-size: inherit;
+    padding-left: 2rem;
+    padding-right: 2rem;
   }
 }
 
 // Left information box
 .va-supplement {
-  margin-top: 8rem;
+
+  margin-top: 4rem;
   padding: 1rem 0;
+
+  @include media($large-screen) {
+    margin-top: 8rem;
+  }
 
   h4, .va-h-ruled {
     border-bottom-width: 3px;
@@ -2498,41 +2512,6 @@ pre[class*="language-"]  {
     height: auto;
     margin: .5rem 0;
     width: 100%;
-    
   }
 }
 
-//===== Link lists with icons for headers
-[class^=va-list--] {
-  dt {
-    background-repeat: no-repeat;
-    background-size: 1em auto;
-    background-position: left .5rem;
-    color: $color-base !important;
-    font-size: 1em;
-    font-weight: bold;
-    padding: 0 0 0 1.5em;
-  }
-  dt, dd {
-    margin-bottom: 1rem;
-  }
-  
-  @include media($large-screen) {
-    float: left;
-    width: 50%;
-  }
-}
-
-.va-list--info {
-  dt {
-    background-image: url(/assets/images/icons/fa-book.png);
-    background-image: url(/assets/images/icons/SVG/fa-book.svg);
-  }
-}
-
-.va-list--guide {
-  dt {
-    background-image: url(/assets/images/icons/fa-map.png);
-    background-image: url(/assets/images/icons/SVG/fa-map.svg);
-  }
-}
