@@ -2491,19 +2491,6 @@ pre[class*="language-"]  {
     margin-top: 8rem;
   }
 
-  h4 {
-    border-bottom: 3px solid $color-primary-darker;
-    color: $color-gray-dark;
-    font-size: 1em;
-    font-weight: bold;
-    margin: 4rem 0 1rem;
-    padding-bottom: .5em;
-
-    &:first-child {
-      margin-top: 0;
-    }
-  }
-
   ul {
     list-style: none;
     padding-left: 0;
@@ -2516,7 +2503,38 @@ pre[class*="language-"]  {
   img {
     display: block;
     height: auto;
-    margin: .5rem 0;
+    margin: .5rem 0 1rem;
     width: 100%;
+  }
+}
+.va-supplement-title {
+  border-bottom: 3px solid $color-primary-darker;
+  color: $color-gray-dark;
+  font-size: 1.15em;
+  font-weight: bold;
+  margin: 4rem 0 1rem;
+  padding-bottom: .5em;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+}
+
+.va-phone-assitance {
+  font-size: 1.25em;
+}
+
+//============================================
+// This is a temporary, one-off on these L2 pages 
+// until the entire site can safely be migrated 
+// to USWDS
+// TODO: Remove this when Foundation replaces USWDS.
+//============================================
+
+.page-disability, .page-education {
+  .disclaimer .row {
+  // Brings the row on this page in line with the USWDS grid.
+  // max-width
+    max-width: 1040px;
   }
 }
