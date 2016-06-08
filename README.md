@@ -127,6 +127,7 @@ a change to a source file. Patches welcome!
 If updating Karma, make sure to remember to rerun `npm shrinkwrap` to update `npm-shrinkwrap.json` (the `npm` equivalent of `Gemfile.lock` for `Bundler`).
 
 ## Troubleshooting
+
 ```
 jekyll 2.4.0 | Error:  string not matched
 ```
