@@ -4,66 +4,81 @@
 
 ### Requirements
 
-If you don't have Xcode installed (for OS X), install from the Mac App store. Once installed, add command line tools by going to Preferences > Downloads > Components.
+- [Git](https://git-scm.com/)
+- [Ruby](https://www.ruby-lang.org)
+- [Node and NPM](https://nodejs.org/)
+- [Bundler](http://bundler.io/)
 
-Next, you will need [Ruby](https://www.ruby-lang.org). You may
-consider using a Ruby version manager such as
-[rbenv](https://github.com/sstephenson/rbenv) or [rvm](https://rvm.io/) to
-help ensure that Ruby version upgrades don't mean all your
-[gems](https://rubygems.org/) will need to be rebuilt.
+If you are using OS X, there is a good chance that you already have these installed. To check:
 
-#### Normal installation.
+1. Open Terminal.app (or iTerm, if that's what you're using)
+1. Type `which [program]`, e.g.: `which bundler` or `which git`
 
-Most development systems will already have the requirements installed
-including `bundler` and `npm`. If that describes you, just run
+If the output is a path, then that package has been installed. If there is no output, install the appropriate software.
+
+#### Ruby version management
+
+Different Ruby projects may use different versions of Ruby. Consider using a version manager to eliminate the problems that can arise from incompatible Ruby versions.
+
+- [rbenv](https://github.com/sstephenson/rbenv)
+- [rvm](https://rvm.io/) 
+
+**NOTE:** Most development systems will already have the requirements installed
+including `bundler` and `npm`.
+
+## Installation
+
+### Cloning the repo 
+
+Clone the repo to your local machine using the following.
+
+```shell
+$ git clone git@github.com:department-of-veterans-affairs/vets-website.git
+```
+
+If you haven't set up SSH or GPG keys, use the HTTPS URL instead.
+
+```shell
+$ git clone https://github.com/department-of-veterans-affairs/vets-website.git
+```
+
+These commands will add a `vets-website` directory to the current working directory.
+
+If you'd rather this directory not be named `vets-website`, add a new directory name to the command, e.g. 
+
+```shell
+$ git clone https://github.com/department-of-veterans-affairs/vets-website.git chocolate
+```
+
+This will copy the repo to a `chocolate` directory.
+
+### Installing the build environment
+
+In a terminal window, run:
 
 ```shell
 $ rake install
 ```
 
-#### Bootstrap
+Installation will take several minutes.
 
-If the requirements are missing, do the following.
+## Running the website locally
 
-On OS X, you can use [Homebrew](http://brew.sh/) to install Ruby in
-`/usr/local/bin`, which may require you to update your `$PATH` environment
-variable. Once you have brew installed, here are the commands to follow to install via homebrew in terminal:
-
-```shell
-$ brew update
-$ brew install ruby
-```
-
-Next run this rake task to ensure `bundler` and `npm` are installed.
-
-```shell
-$ rake bootstrap
-```
-
-[Node Package Manager](https://nodejs.org/en/download/) is used by
-[Karma](http://karma-runner.github.io/), the  test runner for javascript.
-Karma is written in [Node.js](https://nodejs.org/en/).
-
-### Running the website
-
-- Open terminal
-- 'cd' to directory (leave a space after 'cd', then drag and drop your site folder into the terminal window)
-```shell
-cd <path to vets-website directory>
-```
-
+- Open a terminal window
+- Use the `cd` command to navigate to the `vets-website` directory
 - Run site by using:
-```shell
-rake serve
-```
-- View the site in your browser by going to http://localhost:4000
+
+    ```shell
+    rake serve
+    ```
+- View the site in your browser at http://localhost:4000
 
 Any changes made locally will cause the site to rebuild automagically.
 
-### Deploying the website
+## Deploying the website
 
 Deployment is done by pushing changes to the `production` branch on github.
-The most common paradigm is to promote `master` to `produciton` by doing a
+The most common paradigm is to promote `master` to `production` by doing a
 fast-forward merge into the branch. This can be accomplished via
 
 ```shell
@@ -84,7 +99,7 @@ After this, ensure the CI on `master` goes green. Double-check staging as
 you've just introduced a new change to the code. If everything looks good,
 perform a deploy as described earlier to push all changes into production.
 
-### Development
+## Development
 
 When developing, you will want one terminal open window running the Jekyll server (see Running the website).
 
@@ -107,13 +122,13 @@ rake tests:javascript-watch  # Runs all javascript tests continually watching fo
 There is currently now way to automatically run `htmlproof` automatically on
 a change to a source file. Patches welcome!
 
-### Updating Karma.
+## Updating Karma.
 
 If updating Karma, make sure to remember to rerun `npm shrinkwrap` to update `npm-shrinkwrap.json` (the `npm` equivalent of `Gemfile.lock` for `Bundler`).
 
-## Troubleshooting
+## More documentation
 
-- [How Breadcrumbs Work](docs/HowBreadCrumbsWork.md)
 - [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)
+- [How Breadcrumbs Work](docs/HowBreadCrumbsWork.md)
 - [How URLs are Created](docs/HowURLsAreCreated.md)
 - [How Search Works](docs/HowSearchWorks.md)
