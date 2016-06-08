@@ -34,7 +34,7 @@ Who is covered
 There are many government and private resources available to you as you make this transition.
 
 #### All Veterans
-- [Veteran Employment Specialists](http://vaforvets.va.gov/hr/RVECS/Pages/default.asp) from the Veteran Employment Services Office (VESO) can help you find jobs in your area. 
+- [Veteran Employment Specialists](http://vaforvets.va.gov/hr/RVECS/Pages/rvecs-map.asp) from the Veteran Employment Services Office (VESO) can help you find jobs in your area. 
 
 - [VA for Vets](http://vaforvets.va.gov/) can help you find VA or other federal jobs.
 
