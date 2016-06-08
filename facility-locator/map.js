@@ -27,7 +27,7 @@ FacilityLocator = (function() {
     // Load facilities
     $.ajax({
       dataType: "json",
-      url: "https://s3.amazonaws.com/facility-locator-data/facilities.json",
+      url: "https://s3.amazonaws.com/www.vets.gov/facility-locator/facilities.json",
       success: function(data) {
         allFacilities = data;
         placeMarkers(data);
