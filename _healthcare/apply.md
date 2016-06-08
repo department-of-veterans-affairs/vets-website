@@ -6,7 +6,7 @@ title: Apply for VA Healthcare
 <div class="va-action-bar--header">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/health-care/apply/application">Apply for VA Health Care</a>
+      <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply for VA Health Care</a>
     </div>
   </div>
 </div>
@@ -22,7 +22,7 @@ title: Apply for VA Healthcare
 Health care at the VA includes preventive and primary care (like check-ups), specialty care (like an OBGYN or dermatologist), prescriptions, mental health care, home health care, geriatrics and extended care, medical equipment and prosthetics, and more.
 <div class="row">
     <div class="small-12 columns">
-        <a class="usa-button-primary va-button-primary" href="/health-care/apply/application">Apply for VA Health Care</a>
+        <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply for VA Health Care</a>
     </div>
 </div>
 </div>
