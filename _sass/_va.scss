@@ -2232,19 +2232,19 @@ button[class*="usa-button-"] {
 @media #{$small-only} {
 
   .overlay {
-  	background: rgba($color-primary-darkest, .95);
-  	height: 100%;
-  	left: 0;
-  	-webkit-transition: opacity 0.5s, visibility 0s 0.5s;
-  	opacity: 0;
-  	position: fixed;
-  	top: 0;
-  	transition: opacity 0.5s, visibility 0s 0.5s;
+    background: rgba($color-primary-darkest, .95);
+    height: 100%;
+    left: 0;
+    -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    transition: opacity 0.5s, visibility 0s 0.5s;
     visibility: hidden;
     width: 100%;
-  	z-index: 800;
-  	
-  	button {
+    z-index: 800;
+  
+    button {
       border-radius: 0;
       display: block;
       width: 100% !important;
@@ -2274,18 +2274,18 @@ button[class*="usa-button-"] {
   }
 
   .overlay.open {
-  	opacity: 1;
-  	visibility: visible;
-  	-webkit-transition: opacity 0.5s;
-  	transition: opacity 0.5s;
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: opacity 0.5s;
+    transition: opacity 0.5s;
     .columns {
       padding: 0;
     }
   }
 
   .overlay .menu {
-  	-webkit-perspective: 1200px;
-  	perspective: 1200px;
+    -webkit-perspective: 1200px;
+    perspective: 1200px;
     padding: 1em 1em;
   }
 
