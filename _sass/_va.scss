@@ -2249,15 +2249,6 @@ button[class*="usa-button-"] {
     width: 100%;
     z-index: 800;
   
-    button {
-      border-radius: 0;
-      display: block;
-      width: 100% !important;
-      margin: 0;
-      width: auto;
-      background: $color-primary;
-    }
-
     input[type="text"] {
       -webkit-appearance: none;
       border-radius: 3px 0 0 3px;
@@ -2327,9 +2318,6 @@ button[class*="usa-button-"] {
     }
   }
 }
-
-
-
 
 // List overrides
 
