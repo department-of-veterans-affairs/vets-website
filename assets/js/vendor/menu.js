@@ -1,46 +1,28 @@
 $(document).ready(function() {
-	var triggerBttn = document.getElementById( 'trigger-overlay' );
 
-	var overlay = document.querySelector( '.overlay' );
-     if (overlay === null) {
-       // More intentionally handle pages with the wrong page structure.
-       console.error('No overlay. This function should not be loaded.');
-       return;
-     }
-	var closeBttn = overlay.querySelector( 'button.overlay-close' );
-	var transEndEventNames = {
-			'WebkitTransition': 'webkitTransitionEnd',
-			'MozTransition': 'transitionend',
-			'OTransition': 'oTransitionEnd',
-			'msTransition': 'MSTransitionEnd',
-			'transition': 'transitionend'
-		},
-		transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
-		support = { transitions : Modernizr.csstransitions };
-
-	function toggleOverlay() {
-		if( overlay.classList.contains( 'open' ) ) {
-			overlay.classList.remove( 'open' );
-			overlay.classList.add( 'close' );
-			var onEndTransitionFn = function( ev ) {
-				if( support.transitions ) {
-					if( ev.propertyName !== 'visibility' ) return;
-					this.removeEventListener( transEndEventName, onEndTransitionFn );
-				}
-				overlay.classList.remove( 'close' );
-			};
-			if( support.transitions ) {
-				overlay.addEventListener( transEndEventName, onEndTransitionFn );
-			}
-			else {
-				onEndTransitionFn();
-			}
-		}
-		else if( !overlay.classList.contains( 'close' ) ) {
-			overlay.classList.add( 'open' );
+	function toggleOverlay(event) {
+	  event.preventDefault();
+	  
+	  // Let overlay be _either_ the value of 
+	  // - href attribute
+	  // - data-show attribute
+	  // - The button's ancestor element, .va-overlay
+	  // Only one of these should ever be defined per button.
+	  
+	  var overlay = $(this).attr('href') || $(this).data('show') || $(this).parents('.va-overlay');
+	  
+	  if( $(overlay).hasClass('va-overlay--open')) {
+	  
+	    $(overlay).toggleClass('va-overlay--open', false);
+	    $(overlay).toggleClass('va-overlay--closed', true);
+		
+		} else {
+		
+		  $(overlay).toggleClass('va-overlay--closed', false);
+	    $(overlay).toggleClass('va-overlay--open', true);
+		
 		}
 	}
 
-	triggerBttn.addEventListener( 'click', toggleOverlay );
-	closeBttn.addEventListener( 'click', toggleOverlay );
+  $('.va-overlay-trigger, .va-overlay-close').on('click', toggleOverlay);
 });
