@@ -4,54 +4,35 @@ concurrence: incomplete
 template: 4-action-page-pending
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-<div markdown="1">
 If you are a full-time or three-quarter-time college, vocational, or professional student using VA education benefits, you may be eligible for the work-study program.
-</div>
-<div class="call-out" markdown="1">
 
-### Are you eligible for benefits?
 
-Yes, if:
+Are you eligible for benefits?
+: Yes, if:
 
-- You are enrolled at least three-quarter time at an institution of higher learning.
-- You are using one of the following VA education benefits:
+  - You are enrolled at least three-quarter time at an institution of higher learning.
+  - You are using one of the following VA education benefits:
 
-  - Post-9/11 GI Bill ([Veterans](/education/gi-bill/post-9-11/) and [transfer-of-entitlement recipients](/education/gi-bill/transfer/))
-  - Montgomery GI Bill ([Active Duty](/education/gi-bill/montgomery-active-duty/) and [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/))
-  - [Reserve Educational Assistance Program](/education/other-educational-assistance-programs/reap/)
-  - [Veterans' Educational Assistance Program](/education/other-educational-assistance-programs/veap/)
-  - [Survivors’ and Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (**Note:** Eligible dependents under 38 U.S.C. Chapter 35 may use work study only while enrolled at an educational institution in one of the 50 states.)
-  - [National Call to Service](/education/other-educational-assistance-programs/call-to-service/)
-  - [Vocational Rehabilitation and Employment program](http://www.benefits.va.gov/vocrehab/index.asp)
-- You are able to complete the work-study contract before the end of your eligibility for education benefits.
-- There is a position available within your normal commuting distance.
+    - Post-9/11 GI Bill ([Veterans](/education/gi-bill/post-9-11/) and [transfer-of-entitlement recipients](/education/gi-bill/transfer/))
+    - Montgomery GI Bill ([Active Duty](/education/gi-bill/montgomery-active-duty/) and [Selected Reserve](/education/gi-bill/montgomery-selected-reserve/))
+    - [Reserve Educational Assistance Program](/education/other-educational-assistance-programs/reap/)
+    - [Veterans' Educational Assistance Program](/education/other-educational-assistance-programs/veap/)
+    - [Survivors’ and Dependents’ Educational Assistance program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (**Note:** Eligible dependents under 38 U.S.C. Chapter 35 may use work study only while enrolled at an educational institution in one of the 50 states.)
+    - [National Call to Service](/education/other-educational-assistance-programs/call-to-service/)
+    - [Vocational Rehabilitation and Employment program](http://www.benefits.va.gov/vocrehab/index.asp)
+  - You are able to complete the work-study contract before the end of your eligibility for education benefits.
+  - There is a position available within your normal commuting distance.
 
-### Who is eligible
+Who is eligible
+: You and your dependents using education benefits
+{:.va-callout}
 
-You and your dependents using education benefits
-</div>
-
-<div markdown="1">
 
 ### Available benefits
 
 A part-time job while you study
 
-<hr>
+-----
 
 ### How it works
 
@@ -79,13 +60,3 @@ You may work during or between periods of enrollment. The total number of hours 
 
 - Download a copy of the [Application for Work-Study Allowance](http://www.vba.va.gov/pubs/forms/VBA-22-8691-ARE.pdf).
 - Contact the [Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp) that handles your claim.
-
-</div>
-
-
-
-</div>
-</div>
-</div>
-
-</div>

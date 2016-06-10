@@ -3,23 +3,6 @@ title: Specific Environmental Hazards
 template: 4-action-page-pending
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
-<div markdown="1">
-
 If you were exposed to specific environmental hazards (such as burn pits) while serving at military installations in Iraq, Afghanistan, and elsewhere, you may have developed a disease related to this exposure.
 
 Are you eligible for compensation?
@@ -46,9 +29,3 @@ Who is covered
 ### How it works
 
 You should submit any additional information (such as the [Burn Pit Registry]( https://veteran.mobilehealth.va.gov/AHBurnPitRegistry/)) regarding proof of exposure when filing your claim.
-
-</div>
-</div>
-</div>
-</div>
-</div>

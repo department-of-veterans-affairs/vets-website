@@ -5,9 +5,9 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import SkinDeep from 'skin-deep';
 
-import Nav from '../../../../_health-care/_js/components/Nav';
-import routes from '../../../../_health-care/_js/routes';
-import reducer from '../../../../_health-care/_js/reducers';
+import Nav from '../../../../_healthcare/_js/components/Nav';
+import routes from '../../../../_healthcare/_js/routes';
+import reducer from '../../../../_healthcare/_js/reducers';
 
 const store = createStore(reducer);
 

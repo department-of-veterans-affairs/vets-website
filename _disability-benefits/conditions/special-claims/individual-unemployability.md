@@ -20,7 +20,7 @@ template: 4-action-page-pending
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 <div markdown="1">
-If you are unable to maintain suitable gainful employment due to a service-connected disability, VA may designate you as individually unemployable and assign you a compensation level that’s the same as a 100% disabled Veteran.
+If you are unable to maintain suitable gainful employment (keep a stable job with a steady paycheck) because of a service-connected disability, VA may designate you as individually unemployable, or unable to work, and assign you a compensation level that’s the same as a 100% disabled Veteran.
 </div>
 <div class="call-out usa-content" markdown="1">
 ### Are you eligible for compensation?
@@ -49,8 +49,8 @@ You
 
 When filing your claim, be sure to provide evidence or statements that your disability is preventing you from maintaining substantially gainful employment. Your work and education history will be reviewed.
 
-**Example**<br>
-A Veteran has a service-connected heart condition that has been evaluated as 60% disabling. She has been able to work without difficulty until last year, when she began to experience chest pain with any exertion. Her physician recommended that she retire as soon as possible. She filed a claim for increased disability compensation. Evidence regarding the Veteran’s work history and education were reviewed, and she was designated as individually unemployable due to her service-connected disability and entitled to compensation at the same rate as a 100% disabled Veteran.
+### Example
+A Veteran has a service-connected heart condition that has been evaluated as 60% disabling. She had been able to work without difficulty until last year, when she began to experience chest pain when she exerted herself. Her physician recommended that she retire as soon as possible. She filed a claim for increased disability compensation. VA reviewed evidence regarding the Veteran’s work history and education, and found she was individually unemployable. She could not work because of her service-connected disability, and she is entitled to compensation at the same rate as a 100%-disabled Veteran.
 </div>
 </div>
 

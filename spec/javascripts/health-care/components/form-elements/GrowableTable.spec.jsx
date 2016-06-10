@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 
-import GrowableTable from '../../../../../_health-care/_js/components/form-elements/GrowableTable';
+import GrowableTable from '../../../../../_healthcare/_js/components/form-elements/GrowableTable';
 
 class Row extends React.Component {
   render() {

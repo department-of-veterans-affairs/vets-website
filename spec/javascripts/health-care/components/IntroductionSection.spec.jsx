@@ -1,7 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 
-import IntroductionSection from '../../../../_health-care/_js/components/IntroductionSection';
+import IntroductionSection from '../../../../_healthcare/_js/components/IntroductionSection';
 
 describe('<IntroductionSection>', () => {
   it('Sanity check the component renders', () => {

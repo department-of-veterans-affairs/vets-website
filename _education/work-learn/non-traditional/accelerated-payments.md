@@ -4,36 +4,19 @@ template: 4-action-page-pending
 concurrence: incomplete 
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-<div markdown="1">
 If you’re enrolled in a high-tech program and intend to work in a high-tech industry, you may be eligible to receive a lump-sum payment of 60% of tuition and fees. VA issues accelerated payment to you instead of the monthly benefits you would otherwise receive. This program covers the higher per-month costs associated with these courses of study.
-</div>
-<div class="call-out" markdown="1">
-### Are you eligible for education benefits?
 
-Yes, if:
+Are you eligible for education benefits?
+: Yes, if:
 
--	You are an active-duty GI Bill recipient, in which case both degree and non-degree programs qualify.
--	You are a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for two years or less.
--	Your tuition and fees exceed 200% of the monthly amount of educational assistance you would otherwise be eligible to receive during the certified period of enrollment.
+	-	You are an active-duty GI Bill recipient, in which case both degree and non-degree programs qualify.
+	-	You are a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for two years or less.
+	-	Your tuition and fees exceed 200% of the monthly amount of educational assistance you would otherwise be eligible to receive during the certified period of enrollment.
 
-#### Who is covered
-You
-</div>
-<div markdown="1">
+Who is covered
+: You
+{:.va-callout}
+
 #### Available benefits
 
 Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs.
@@ -63,10 +46,3 @@ And, you must certify that you intend to seek employment in one of the [followin
 - Nuclear technology
 
 **Exception:** This benefit is not available under the Post-9/11 GI Bill, Dependents’ Educational Assistance program, or VEAP.
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
