@@ -1,61 +1,67 @@
 ---
-title: Apply for Health Care
-template: 2-detailed-landing
+title: Apply for VA Healthcare
 ---
+<div class="main" role="main" markdown="0">
+
+<div class="va-action-bar--header">
+  <div class="row">
+    <div class="small-12 columns">
+      <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply for VA Health Care</a>
+    </div>
+  </div>
+</div>
 
 <div class="section one" markdown="0">
 
+
+
 <div class="primary" markdown="0">
 <div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-
-### Who should read this
-Veterans seeking health care. 
-
-If you served on active duty, and separated under conditions other than dishonorable, you may qualify for VA health care. 
-
-### How long will it take to process my application? 
-Processing time varies case by case. The fastest way to apply is online through the Veterans Online Application (VOA) form.
-
-</div>
-<div class="small-12 columns" markdown="0">
-
+<div class="small-12 columns usa-content" markdown="1">
 <div markdown="1">
-### What are the steps? 
+Health care at the VA includes preventive and primary care (like check-ups), specialty care (like an OBGYN or dermatologist), prescriptions, mental health care, home health care, geriatrics and extended care, medical equipment and prosthetics, and more.
+<div class="row">
+    <div class="small-12 columns">
+        <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply for VA Health Care</a>
+    </div>
 </div>
-
-<ol class="process" markdown="0">
-<li class="step one wow fadeIn animated" markdown="0">
-
+</div>
+<br/>
 <div markdown="1">
-#### Download and Install Adobe Acrobat 9 
+### How long will it take to process your application?
+
+
+Less than one week. If more than a week has passed since you submitted your application and you have not heard back, do not apply again. Call **1-877-222-VETS**.
+
+**Note:** When you apply online you will receive a confirmation number. Keep that number for your records.
+
+### Are you eligible for VA health care?
+
+If you served on active duty, and separated under conditions other than dishonorable, you may qualify for VA health care.
+
+#### If at least one of the following applies to you, you probably qualify for VA health care:
+
+- You receive financial compensation (pay) from the VA for a service-connected disability.
+- You were discharged for a disability that happened or was made worse in the line of duty.
+- You are a recently discharged Combat Veteran.
+- You receive a VA pension.
+- You are a former Prisoner of War.
+- You have received a Purple Heart.
+- You receive (or are eligible for) Medicaid benefits.
+- You served in Vietnam between January 9, 1962 and May 7, 1975.
+- You served in SW Asia during the Gulf War between August 2, 1990 and November 11, 1998.
+- You served at least 30 days at Camp Lejeune between August 1, 1953 and December 31, 1987.
+
+If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes ([income threshold](http://nationalincomelimits.vaftl.us/)) can affect your eligibility for VA benefits.
+
+**Notes:**
+
+- If you separated under a dishonorable discharge to see if you qualify for health insurance, visit [healthcare.gov](https://www.healthcare.gov/).
+
+- Your most recent tax return will have most of information you need to qualify based on your income.
+
+</div>
 </div>
 
-<div class="feature" markdown="1">
-- [Download]( https://helpx.adobe.com/acrobat/kb/acrobat-8-9-product-downloads.html) Adobe Acrobat 9.
-
-- Install Adobe Acrobat 9.
-</div>
-</li>
-
-<li class="step two wow fadeIn animated" markdown="0">
-<div markdown="1">
-#### Apply
-</div>
-
-<div class="feature" markdown="1">
-You have two options for applying: 
-    
-- [DS Logon](https://myaccess.dmdc.osd.mil/identitymanagement/authenticate.do;jsessionid=WLLLMVNchbpfEW6nR9II-NSixp7838q0Ngrvk6GvKhCSC3oigrPc!-1899913949?execution=e1s1) The Department of Defense (DOD) secure logon (DS logon) prefills your application with your DOD account information.
-    
-- [Guest Access](https://www.voa.aac.va.gov/voa-ui/anon.jsp): No login credentials required. It is the same process as the DS Logon, except your form will not be prefilled. 
-</div>
-</li>
-</ol>
-</div>
-
-<div class="small-12 columns" markdown="0">
-If you have questions, or would like to check on the status of your application, call the help desk at 1-877-222-VETS.
-</div>
 </div>
 </div>
