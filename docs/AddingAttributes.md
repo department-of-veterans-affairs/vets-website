@@ -4,15 +4,15 @@ Our Jekyll instance is configured to auto-generate `id` attributes for section h
 
 It's possible, however, to override this using syntax similar to what's below:
 
+> **NOTE:** _This particular syntax only applies to headings._
+
      # This is a heading {#this-is-an-id}
      
 That will generate the following HTML:
 
 	<h1 id="this-is-an-id">This is a heading</h1>
 
-> **NOTE:** _This particular syntax only applies to headings._
-
-## Adding `id` or `class` attributes to headings, paragraphs, lists, or blockquotes
+## Adding `id` or `class` attributes to headings, paragraphs, and blockquotes
 
 You can also add a `class` or `id` attribute to most headings, paragraphs, lists, and blockquotes. The syntax is slightly different than that for adding an `id` to headings. For example, to add a `class` attribute to a heading use the syntax below.
 
@@ -41,22 +41,33 @@ This becomes:
 	
 Yes, it is possible to add multiple `class` attribute values, or `class` and `id` attribute values in one go.
 
-	- List item 1
-	- List item 2
-	- List item 3
+	This is an example paragraph to show how we 
+	can add an id attribute.
 	{:.process .fadein #what-to-do}
 	
 Becomes:
-
-	<ul class="process fadein" id="what-to-do">
-  		<li>List item 1</li>
-  		<li>List item 2</li>
-  		<li>List item 3</li>
-	</ul>
+ 
+	<p id="#what-to-do" class="process fadein">This is an example paragraph to show how we 	can add an id attribute and class names.</p>
 	
-## Adding `id` or `class` attributes to list items
 
-To add an attribute to en entire list, use the examples above. To add an attribute to an item _within_ that list, add it to the beginning of the line, after the `-`, `*`, or item number.
+## Adding `id` or `class` attributes to lists and list items
+
+Adding a `class` or `id` attribute to a list works the same way it does for headings and paragraphs. For example:
+
+	- List item 1
+	- List item 2
+	- List item 3
+	{:.instructions}
+	
+Becomes:
+
+	<ul class="instructions">
+  	  <li>List item 1</li>
+  	  <li>List item 2</li>
+  	  <li>List item 3</li>
+	</ul>
+
+To add an attribute to a **list item**, however, you'll need to add the class name or `id` attribute value to the _beginning_ of the line. Place it after the `-`, `*`, or item number.
 
 	1. {:.step1} Take this first step.
 	2. Then take this second step.
@@ -68,7 +79,7 @@ Becomes:
 		<li>Then take this second step.</li>
 	</ol>
 
-The same goes for definition list definitions. None of this works for definition terms.
+The same goes for **definition list definitions**. (None of this works for definition _terms_.)
 
 	supercilious
 	: {:.def1} having or showing the proud and unpleasant
@@ -83,6 +94,13 @@ Becomes:
 		unpleasant attitude of people who think that they
 		are better or more important than other people</dd>
 	</dl>
+	
+However, the following example does not work, because the class name is attached to the defined term.
+
+	{:.def1}supercilious
+	: having or showing the proud and unpleasant
+	 attitude of people who think that they are better or 
+	 more important than other people
 
 ## Adding `id` or `class` attributes to links, italicized, or bolded text
 
