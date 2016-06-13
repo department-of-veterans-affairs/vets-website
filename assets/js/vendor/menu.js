@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	var triggerBttn = document.getElementById( 'trigger-overlay' );
-	var overlay = document.querySelector( 'div.overlay' );
+
+	var overlay = document.querySelector( '.overlay' );
      if (overlay === null) {
        // More intentionally handle pages with the wrong page structure.
        console.error('No overlay. This function should not be loaded.');

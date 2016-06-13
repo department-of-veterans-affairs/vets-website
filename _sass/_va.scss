@@ -2206,13 +2206,31 @@ button[class*="usa-button-"] {
 @media #{$small-only} {
 
   .overlay {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 800;
     background: rgba($color-primary-darkest, .95);
+    height: 100%;
+    left: 0;
+    -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    transition: opacity 0.5s, visibility 0s 0.5s;
+    visibility: hidden;
+    width: 100%;
+    z-index: 800;
+  
+    button {
+      border-radius: 0;
+      display: block;
+      width: 100% !important;
+      margin: 0;
+      width: auto;
+      background: $color-primary;
+    }
+
+    input[type="text"] {
+      -webkit-appearance: none;
+      border-radius: 3px 0 0 3px;
+    }
   }
 
   /* Overlay closing cross */
@@ -2223,54 +2241,30 @@ button[class*="usa-button-"] {
     z-index: 100;
   }
 
-
   button#trigger-overlay {
     padding: .5em;
     margin-top: 0;
     border-radius: .15em;
   }
 
-  /* Effects */
-  .overlay-fullscreen {
-    opacity: 0;
-    visibility: hidden;
-    -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
-    transition: opacity 0.5s, visibility 0s 0.5s;
-
-    button {
-      border-radius: 0;
-      display: block;
-      width: 100% !important;
-      margin: 0;
-      width: auto;
-      background: $color-primary;
-
-    }
-
-    input[type="text"] {
-      -webkit-appearance: none;
-      border-radius: 3px 0 0 3px;
-    }
-
-  }
-
-  .overlay-fullscreen.open {
-  opacity: 1;
-  visibility: visible;
-  -webkit-transition: opacity 0.5s;
-  transition: opacity 0.5s;
+  .overlay.open {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+    
     .columns {
       padding: 0;
     }
   }
 
-  .overlay-fullscreen .menu {
-  -webkit-perspective: 1200px;
-  perspective: 1200px;
+  .overlay .menu {
+    -webkit-perspective: 1200px;
+    perspective: 1200px;
     padding: 1em 1em;
   }
 
-  .overlay-fullscreen form {
+  .overlay form {
     opacity: 0.4;
     -webkit-transform: translateY(-25%) rotateX(35deg);
     transform: translateY(-25%) rotateX(35deg);
@@ -2278,13 +2272,13 @@ button[class*="usa-button-"] {
     transition: transform 0.5s, opacity 0.5s;
   }
 
-  .overlay-fullscreen.open form {
+  .overlay.open form {
     opacity: 1;
     -webkit-transform: rotateX(0deg);
     transform: rotateX(0deg);
   }
 
-  .overlay-fullscreen.close form {
+  .overlay.close form {
     -webkit-transform: translateY(25%) rotateX(-35deg);
     transform: translateY(25%) rotateX(-35deg);
   }
@@ -2293,14 +2287,13 @@ button[class*="usa-button-"] {
     .overlay form {
       height: 70%;
     }
-
   }
-
 }
 
 .overlay-close {
   display: none;
 }
+
 
 // List overrides
 
