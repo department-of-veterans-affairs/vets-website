@@ -22,6 +22,7 @@ FacilityLocator = (function() {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: false,
       maxZoom: 12,
+      scrollwheel:  false
     });
 
     // Load facilities
