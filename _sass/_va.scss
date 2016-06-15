@@ -1275,8 +1275,8 @@ li {
   .footer-seal {
     background:url(../images/design/sprites/sprite.png)  no-repeat 0 -23px;
     background-size: 215px 72px;
-	  width: 215px;
-	  height: 49px;
+    width: 215px;
+    height: 49px;
     text-indent: -999em;
     overflow: hidden;
     margin: 0 auto;
@@ -1400,7 +1400,7 @@ li {
 
 
 a.facebook {
-	background: url('../images/design/sprites/sprite.png') no-repeat -22px 0;
+  background: url('../images/design/sprites/sprite.png') no-repeat -22px 0;
   background-size: 215px 72px;
   width: 17px;
   height: 17px;
@@ -1409,10 +1409,10 @@ a.facebook {
 }
 
 a.twitter {
-	background: url('../images/design/sprites/sprite.png') no-repeat 0 0;
+  background: url('../images/design/sprites/sprite.png') no-repeat 0 0;
   background-size: 215px 72px;
-	width: 20px;
-	height: 16px;
+  width: 20px;
+  height: 16px;
   text-indent: -999em;
   overflow: hidden;
 }
@@ -2228,10 +2228,15 @@ button[class*="usa-button-"] {
 // Mobile menu
 
 /* Overlay style */
+@media #{$medium} {
+.va-overlay-close {
+    display: none;
+  }
+}
+  
 
 @media #{$small-only} {
-
-  .overlay {
+  .va-overlay {
     background: rgba($color-primary-darkest, .95);
     height: 100%;
     left: 0;
@@ -2244,36 +2249,28 @@ button[class*="usa-button-"] {
     width: 100%;
     z-index: 800;
   
-    button {
-      border-radius: 0;
-      display: block;
-      width: 100% !important;
-      margin: 0;
-      width: auto;
-      background: $color-primary;
-    }
-
     input[type="text"] {
       -webkit-appearance: none;
       border-radius: 3px 0 0 3px;
     }
   }
 
-  /* Overlay closing cross */
-  .overlay .overlay-close {
-    display: block;
-    border: none;
-    outline: none;
-    z-index: 100;
+  .va-mobile-searchclose  {
+    border-radius: 0;
+    display: block !important;
+    width: 100% !important;
+    margin: 0;
+    width: auto;
+    background: $color-primary;
   }
-
-  button#trigger-overlay {
+    
+  .va-mobile-searchtrigger {
     padding: .5em;
     margin-top: 0;
     border-radius: .15em;
   }
 
-  .overlay.open {
+  .va-overlay--open {
     opacity: 1;
     visibility: visible;
     -webkit-transition: opacity 0.5s;
@@ -2284,13 +2281,13 @@ button[class*="usa-button-"] {
     }
   }
 
-  .overlay .menu {
+  .va-overlay .menu {
     -webkit-perspective: 1200px;
     perspective: 1200px;
     padding: 1em 1em;
   }
 
-  .overlay form {
+  .va-overlay form {
     opacity: 0.4;
     -webkit-transform: translateY(-25%) rotateX(35deg);
     transform: translateY(-25%) rotateX(35deg);
@@ -2298,15 +2295,21 @@ button[class*="usa-button-"] {
     transition: transform 0.5s, opacity 0.5s;
   }
 
-  .overlay.open form {
+  .va-overlay--open form {
     opacity: 1;
     -webkit-transform: rotateX(0deg);
     transform: rotateX(0deg);
   }
 
-  .overlay.close form {
+  .va-overlay--closed form {
     -webkit-transform: translateY(25%) rotateX(-35deg);
     transform: translateY(25%) rotateX(-35deg);
+  }
+  .va-overlay--closed {
+    display: block;
+    border: none;
+    outline: none;
+    z-index: 100;
   }
 
   @media screen and (max-height: 30.5em) {
@@ -2316,9 +2319,7 @@ button[class*="usa-button-"] {
   }
 }
 
-.overlay-close {
-  display: none;
-}
+
 
 
 // List overrides
