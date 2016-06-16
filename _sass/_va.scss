@@ -1238,8 +1238,8 @@ li {
   .footer-seal {
     background:url(../images/design/sprites/sprite.png)  no-repeat 0 -23px;
     background-size: 215px 72px;
-	  width: 215px;
-	  height: 49px;
+    width: 215px;
+    height: 49px;
     text-indent: -999em;
     overflow: hidden;
     margin: 0 auto;
@@ -1363,7 +1363,7 @@ li {
 
 
 a.facebook {
-	background: url('../images/design/sprites/sprite.png') no-repeat -22px 0;
+  background: url('../images/design/sprites/sprite.png') no-repeat -22px 0;
   background-size: 215px 72px;
   width: 17px;
   height: 17px;
@@ -1372,10 +1372,10 @@ a.facebook {
 }
 
 a.twitter {
-	background: url('../images/design/sprites/sprite.png') no-repeat 0 0;
+  background: url('../images/design/sprites/sprite.png') no-repeat 0 0;
   background-size: 215px 72px;
-	width: 20px;
-	height: 16px;
+  width: 20px;
+  height: 16px;
   text-indent: -999em;
   overflow: hidden;
 }
@@ -2191,105 +2191,99 @@ button[class*="usa-button-"] {
 // Mobile menu
 
 /* Overlay style */
+@media #{$medium} {
+.va-overlay-close {
+    display: none;
+  }
+}
+  
 
 @media #{$small-only} {
-
-  .overlay {
-  	position: fixed;
-  	width: 100%;
-  	height: 100%;
-  	top: 0;
-  	left: 0;
+  .va-overlay {
+    background: rgba($color-primary-darkest, .95);
+    height: 100%;
+    left: 0;
+    -webkit-transition: opacity 0.5s, visibility 0s 0.5s;
+    opacity: 0;
+    position: fixed;
+    top: 0;
+    transition: opacity 0.5s, visibility 0s 0.5s;
+    visibility: hidden;
+    width: 100%;
     z-index: 800;
-  	background: rgba($color-primary-darkest, .95);
+  
+    input[type="text"] {
+      -webkit-appearance: none;
+      border-radius: 3px 0 0 3px;
+    }
   }
 
-  /* Overlay closing cross */
-  .overlay .overlay-close {
-    display: block;
-    border: none;
-  	outline: none;
-  	z-index: 100;
+  .va-mobile-searchclose  {
+    border-radius: 0;
+    display: block !important;
+    width: 100% !important;
+    margin: 0;
+    width: auto;
+    background: $color-primary;
   }
-
-
-  button#trigger-overlay {
+    
+  .va-mobile-searchtrigger {
     padding: .5em;
     margin-top: 0;
     border-radius: .15em;
   }
 
-  /* Effects */
-  .overlay-fullscreen {
-  	opacity: 0;
-  	visibility: hidden;
-  	-webkit-transition: opacity 0.5s, visibility 0s 0.5s;
-  	transition: opacity 0.5s, visibility 0s 0.5s;
+  .va-overlay--open {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: opacity 0.5s;
+    transition: opacity 0.5s;
 
-    button {
-      border-radius: 0;
-      display: block;
-      width: 100% !important;
-      margin: 0;
-      width: auto;
-      background: $color-primary;
-
-    }
-
-    input[type="text"] {
-      -webkit-appearance: none;
-      border-radius: 3px 0 0 3px;
-    }
-
-  }
-
-  .overlay-fullscreen.open {
-  	opacity: 1;
-  	visibility: visible;
-  	-webkit-transition: opacity 0.5s;
-  	transition: opacity 0.5s;
     .columns {
       padding: 0;
     }
   }
 
-  .overlay-fullscreen .menu {
-  	-webkit-perspective: 1200px;
-  	perspective: 1200px;
+  .va-overlay .menu {
+    -webkit-perspective: 1200px;
+    perspective: 1200px;
     padding: 1em 1em;
   }
 
-  .overlay-fullscreen form {
-  	opacity: 0.4;
-  	-webkit-transform: translateY(-25%) rotateX(35deg);
-  	transform: translateY(-25%) rotateX(35deg);
-  	-webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
-  	transition: transform 0.5s, opacity 0.5s;
+  .va-overlay form {
+    opacity: 0.4;
+    -webkit-transform: translateY(-25%) rotateX(35deg);
+    transform: translateY(-25%) rotateX(35deg);
+    -webkit-transition: -webkit-transform 0.5s, opacity 0.5s;
+    transition: transform 0.5s, opacity 0.5s;
   }
 
-  .overlay-fullscreen.open form {
-  	opacity: 1;
-  	-webkit-transform: rotateX(0deg);
-  	transform: rotateX(0deg);
+  .va-overlay--open form {
+    opacity: 1;
+    -webkit-transform: rotateX(0deg);
+    transform: rotateX(0deg);
   }
 
-  .overlay-fullscreen.close form {
-  	-webkit-transform: translateY(25%) rotateX(-35deg);
-  	transform: translateY(25%) rotateX(-35deg);
+  .va-overlay--closed form {
+    -webkit-transform: translateY(25%) rotateX(-35deg);
+    transform: translateY(25%) rotateX(-35deg);
+  }
+  .va-overlay--closed {
+    display: block;
+    border: none;
+    outline: none;
+    z-index: 100;
   }
 
   @media screen and (max-height: 30.5em) {
-  	.overlay form {
-  		height: 70%;
-  	}
-
+    .overlay form {
+      height: 70%;
+    }
   }
-
 }
 
-.overlay-close {
-  display: none;
-}
+
+
 
 // List overrides
 
