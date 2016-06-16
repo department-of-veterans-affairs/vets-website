@@ -28,21 +28,15 @@
   p {
     margin: 0;
     padding: 1.5rem;
+    font-size: 1.4rem;
   }
 
   ul {
-    font-size: 1.9rem;
+    font-size: 1.7rem;
     list-style: none;
     margin: 0;
     padding: 0;
     text-align: center;
-    
-    a {
-      color: $color-base;
-      display: block;
-      padding: 1.5rem 0;
-      text-decoration: none;     
-    }
   }
 }
 
@@ -52,11 +46,11 @@
 }
 
 .va-crisis-panel--notouch {
-  bottom: 0;
+  bottom: -19.75rem;
   right: 5%; // for browsers that viewport units
   right: 5vw; 
   width: 33rem;
-  position: fixed;
+  position: absolute;
    
   li:not(:last-child) {
     padding: 1.5rem 0;
@@ -103,7 +97,7 @@
   background: $color-gold url(/assets/images/arrow-up.svg) no-repeat 97% center;
   background-size: .8em auto;
   border-radius: .2em .2em 0 0;
-  font-size: 1.9rem !important;
+  font-size: 1.7rem;
   margin: 0;
   padding: 1.25rem;
   text-align: left;
@@ -114,6 +108,7 @@
   }
 }
 
+//==== Small viewport panel touch
 .va-crisis-panel--touch {
   position: relative; 
   top: 50%;
@@ -126,11 +121,16 @@
     max-height: 100%;
   }
   
-  li:nth-child(odd) {
-    border-top: 1px solid $color-gray-lighter;
-    border-bottom: 1px solid $color-gray-lighter;
+  li {
+    &:nth-child(odd) {
+      border-top: 1px solid $color-gray-lighter;
+      border-bottom: 1px solid $color-gray-lighter;
+    }
     
     a {
+      color: $color-base;
+      display: block;
+      padding: 1.5rem 0;
       text-decoration: none; 
     }
   }
