@@ -185,6 +185,13 @@ hr {
   border: 1px solid $color-gray-light;
 }
 
+// Utility classes
+// TODO: Move these into a partial once there are enough
+.va-util-rel {
+  position: relative
+}
+
+
 // Interior rows
 #content.interior a[href^="http://"],
 #content.interior a[href^="https://"] {
@@ -1166,6 +1173,8 @@ li {
   padding: 0 !important;
   margin: 0;
   background: darken($color-primary-darkest, 02);
+  position: relative;
+  overflow: hidden;
   
   .coda .row {
     max-width: 70em;

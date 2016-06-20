@@ -16,18 +16,13 @@
 
 .va-crisis-panel-body {
   background: $color-gray-lightest;
-  height: 0;
   list-style: inherit;
   margin: 0;
-  max-height: 0; 
-  overflow: hidden;  
   padding: 0;
-  -webkit-transition: max-height .55s ease-in-out;
-  transition: max-height .5s ease-in-out;
 
   p {
     margin: 0;
-    padding: 1.5rem;
+    padding: 2.5rem;
     font-size: 1.4rem;
   }
 
@@ -40,25 +35,32 @@
   }
 }
 
-.va-crisis-panel--open .va-crisis-panel-body {
-  height: auto;
-  max-height: 600px;
-}
-
 .va-crisis-panel--notouch {
-  bottom: -19.75rem;
-  right: 5%; // for browsers that viewport units
-  right: 5vw; 
+  bottom: 0;
+  right: 0; 
   width: 33rem;
   position: absolute;
-   
+  
+  -webkit-transform: translateY(243px);
+      -ms-transform: translateY(243px);
+          transform: translateY(243px);
+  
+    -webkit-transition: transform 250ms;
+            transition: transform 250ms;
+           
   li {
-    padding: 1.5rem 0;
+    padding: 2.5rem 0 0;
   }
   
   @media #{$small-only} {
     display: none;
   }
+}
+
+.va-crisis-panel--open {
+  -webkit-transform: translateY(0);
+      -ms-transform: translateY(0);
+          transform: translateY(0);
 }
 
 .va-crisis-line {
@@ -141,6 +143,7 @@
   
   .va-crisis-line {
     background: $color-gold url(/assets/images/icons/SVG/fa-close.svg) 95% center no-repeat;
+    background-size: 1rem auto;
     font-size: inherit;
     padding: 1.25rem;
     text-align: center;
