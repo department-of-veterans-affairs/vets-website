@@ -113,12 +113,12 @@
     {% if include.search != 'false' %}
       <!-- Mobile search button -->
       <div class="hide-for-medium-up search-button">
-        <button id="trigger-overlay" type="button" class="usa-button usa-button-outline-inverse" aria-controls="mobile-menu" aria-flowto="mobile-menu">Search</button>
+        <button data-show="#mobile-menu" class="va-overlay-trigger va-mobile-searchtrigger usa-button usa-button-outline-inverse" aria-controls="mobile-menu" aria-flowto="mobile-menu">Search</button>
       </div>
 
-      <div id="mobile-menu" class="overlay" role="dialog">
+      <div id="mobile-menu" class="va-overlay" role="dialog">
         <div class="medium-5 medium-offset-3 text-right columns">
-          <button type="button" class="overlay-close" aria-label="close search form - mobile only">Close</button>
+          <button type="button" class="va-mobile-searchclose va-overlay-close" aria-label="close search form - mobile only">Close</button>
           <div class="menu">
             <form accept-charset="UTF-8" action="https://search.vets.gov/search" id="search_form" method="get">
               <div style="margin:0;padding:0;display:inline">
