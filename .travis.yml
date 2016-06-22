@@ -1,4 +1,7 @@
 language: ruby
+before_install:
+  - npm install -g npm@3.8.1
+
 install:
   - rake install
 

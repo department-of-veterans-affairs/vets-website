@@ -12,9 +12,3 @@ require('polyfill-function-prototype-bind');
 
 // Bring in foundation and custom libraries.
 require('foundation/js/foundation/foundation');
-
-const ReactEntry = require('../../_healthcare/_js/react-entry.jsx');
-document.addEventListener('DOMContentLoaded', () => {
-  ReactEntry.init();
-});
-window.ReactEntry = ReactEntry;  // Attach to window for easy debugging.
