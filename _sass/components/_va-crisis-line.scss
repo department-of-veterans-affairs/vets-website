@@ -112,6 +112,7 @@
 
 //==== Small viewport panel touch
 .va-crisis-panel--touch {
+  padding: 0 2rem;
   position: relative; 
   top: 50%;
   -webkit-transform: translateY(-50%);
@@ -119,7 +120,6 @@
             
   .va-crisis-panel-body {
     height: auto;
-    margin: 0 2rem;
     max-height: 100%;
   }
   
@@ -142,8 +142,6 @@
   }
   
   .va-crisis-line {
-    background: $color-gold url(/assets/images/icons/SVG/fa-close.svg) 95% center no-repeat;
-    background-size: 1rem auto;
     font-size: inherit;
     padding: 1.25rem;
     text-align: center;
