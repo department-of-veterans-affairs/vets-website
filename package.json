@@ -25,7 +25,7 @@
   },
   "//": "Keep test dependencies in devDependencies so Heroku does not waste time installing.",
   "devDependencies": {
-    "babel-eslint": "^5.0.0",
+    "babel-eslint": "^5.0.4",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
     "chai-jquery": "^2.0.0",

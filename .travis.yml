@@ -1,7 +1,7 @@
 language: ruby
 before_install:
   - npm install -g npm@3.8.1
-  - npm install -g eslint
+  - npm install -g eslint@2.13.1
 
 install:
   - rake install
