@@ -59,7 +59,7 @@ end
 desc "Install dependencies for serving and development"
 task :install do
   sh "bundle install --jobs 3 --retry=3 --deployment"
-  sh "npm install"
+  sh "npm cache clean && npm install"
 end
 
 desc "Run lint"
