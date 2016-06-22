@@ -20,4 +20,5 @@ require('./components.js');
 // Things that run on document.ready().
 require('./vendor/jquery-accessible-simple-tooltip-aria.js'); // Only used in facility-locator index and some playbook examples.
 require('./vendor/menu.js');
+require('./toggle-veterans-crisis-line.js');
 

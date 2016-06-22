@@ -6,7 +6,6 @@
 <div class="disclaimer">
   <div class="row">
     <div class="small-12 columns">
-      
       <p>Please note: Content on this Web page is for informational purposes only. It is not intended to provide legal advice or to be a comprehensive statement or analysis of applicable statutes, regulations, and case law governing this topic. Rather, it’s a plain-language summary. If you are seeking claims assistance, your local VA regional office, a VA-recognized Veterans Service Organization, or a VA-accredited attorney or agent can help. <a target="_blank" href="http://www.va.gov/ogc/apps/accreditation/index.asp">Search Accredited Attorneys, Claims Agents, or Veterans Service Organizations (VSO) Representatives</a>.</p>
     </div>
   </div>
@@ -16,24 +15,24 @@
 <footer class="footer" role="contentinfo">
   <div class="row wow fadeIn animated">
     <div class="small-12 medium-3 columns">
-      <dl>
-        <dt>Benefits</dt>
+      <dl class="va-list--linkgroup">
+        <dt class="va-list--linkgroup-title">Benefits</dt>
         <dd><a href="/disability-benefits/">Disability Benefits</a></dd>
         <dd><a href="/education/">Education &amp; Training</a></dd>
       </dl>
     </div>
     <div class="small-12 medium-3 columns">
-      <dl>
-        <dt>Resources</dt>
-        <dd><a class="vets-app" href="/veterans-employment-center/">Veterans Employment Center&trade;</a></dd>
-        <dd><a class="vets-app" href="/facility-locator">Facility Locator</a></dd>
-        <dd><a class="vets-app" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a></dd>
+      <dl class="va-list--linkgroup">
+        <dt class="va-list--linkgroup-title">Resources</dt>
+        <dd><a href="/veterans-employment-center/">Veterans Employment Center&trade;</a></dd>
+        <dd><a href="/facility-locator">Facility Locator</a></dd>
+        <dd><a href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a></dd>
       </dl>
     </div>
     <!--Use with Signup <div class="small-12 medium-2 columns"> -->
     <div class="small-12 medium-3 columns">
-      <dl>
-        <dt>Creating Vets.gov</dt>
+      <dl class="va-list--linkgroup">
+        <dt class="va-list--linkgroup-title">Creating Vets.gov</dt>
         <dd><a href="/playbook/">Playbook</a></dd>
         <dd><a href="/experience/">Blog</a></dd>
         <dd><a href="/2015/11/11/why-we-are-designing-in-beta.html">Message from the Secretary</a></dd>
@@ -41,7 +40,7 @@
     </div>
     <div class="small-12 medium-3 columns">
       <dl class="usa-social-links">
-        <dt>Connect</dt>
+        <dt class="va-list--linkgroup-title">Connect</dt>
         <dd>
             <a class="facebook" target="_blank" href="https://www.facebook.com/VeteransAffairs">
               Facebook
@@ -61,7 +60,7 @@
   <div class="row">
 
     <div class="large-8 columns">
-      <ul class="final-list">
+      <ul class="va-list--linkgroup--inline">
         <li><a target="_blank" href="http://www.va.gov/">VA.gov</a></li>
         <li><a target="_blank" href="http://www.va.gov/oig/">Inspector General</a></li>
         <li><a target="_blank" href="http://www.section508.va.gov/">Accessibility</a></li>
@@ -70,14 +69,32 @@
       </ul>
     </div>
 
-    <div class="large-4 columns text-right">
-      <div class="footer-crisis text-center touch">
-       <a href="tel:1-800-273-8255"><span>Veterans Crisis Line</span> <span class="tel" id="crisis-line">1-800-273-8255</span> <span aria-describedby="crisis-line">(Press 1)</span></a>
-      </div>
+    <div class="large-4 columns">
+     
+      <a href="#modal-crisisline" class="va-crisis-line va-crisis-line--touch va-overlay-trigger">Get help from Veterans Crisis Line</a>
+      
+      <!-- End mobile crisis line overlay. See desktop overlay at end of footer -->  
+      <div id="modal-crisisline" class="va-overlay" role="dialog">
+          <div class="va-crisis-panel va-crisis-panel--touch">
+            <div class="va-overlay-body va-crisis-panel-body">
+              <h4 class="va-crisis-line">Get help from Veterans Crisis Line</h4>
 
-       <div class="footer-crisis text-center no-touch">
-         <a target="_blank" href="https://www.veteranscrisisline.net/"><span>Veterans Crisis Line</span> 1-800-273-8255 (Press 1)</a>
-       </div>
+              <ul>
+                <li><a href="tel:18002738255">Call <strong>1-800-273-8255 (Press 1)</strong></a></li>
+                <li><a href="sms:838255">Text to <b>838255</b></a></li>
+                <li><a href="https://www.veteranscrisisline.net/mobile/ChatTermsOfService.aspx?account=Veterans%20Chat">Chat <b>confidentially now</b></a></li>
+              </ul> 
+            
+              <p>If you are in crisis or having thoughts of suicide, 
+  visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> for more resources.</p>
+            </div>
+            
+            <p><button type="button" class="va-overlay-close">Close</button></p>
+            
+          </div>
+        </div>   
+      <!-- End mobile crisis line overlay -->  
+    
     </div>
 
   </div>
@@ -106,7 +123,23 @@
       </div>
     </div>
   </div>
+
+<div class="row va-util-rel"> <!-- VA Panel no touch screens -->
+  <div class="va-crisis-panel va-crisis-panel--notouch">
+    <button class="va-crisis-line va-crisis-line--notouch">Get help from Veterans Crisis Line</button>
+    <div  class="va-crisis-panel-body">
+      <ul>
+        <li>Call <strong>1-800-273-8255 (Press 1)</strong></li>
+        <li>Text to <b>838255</b></li>
+        <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat">Chat confidentially now</a></li>
+      </ul>
+      <p>If you are in crisis or having thoughts of suicide, 
+visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> for more resources.</p>
+    </div>      
+  </div> 
+ <!--END VA Panel no touch screens -->   </div>
 </footer>
+
 
 <script>
 

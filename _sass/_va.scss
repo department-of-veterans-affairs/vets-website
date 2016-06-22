@@ -185,6 +185,13 @@ hr {
   border: 1px solid $color-gray-light;
 }
 
+// Utility classes
+// TODO: Move these into a partial once there are enough
+.va-util-rel {
+  position: relative
+}
+
+
 // Interior rows
 #content.interior a[href^="http://"],
 #content.interior a[href^="https://"] {
@@ -1157,248 +1164,153 @@ li {
 
 
 // Footer
-
+.text-right {
+  text-align: right;
+}
+  
 .footer {
-  color:$color-white;
+  color: $color-white;
   padding: 0 !important;
   margin: 0;
   background: darken($color-primary-darkest, 02);
-
+  position: relative;
+  overflow: hidden;
+  
   .coda .row {
     max-width: 70em;
   }
-
-  .text-right {
-    text-align: right;
-  }
-
-  dl {
-    margin: 2em 0 0 0;
-    @media #{$small} {
-      margin: 2em 0 1.5em 0;
-    }
-  }
-
-  dt {
-    -webkit-font-smoothing: antialiased;
-    font-weight: 700;
-    display: block;
-    font-size: .95em;
-    padding: 0 0 1em 0;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-  }
-
-  dd {
-    display: block;
-    margin: 0;
-    padding: 0;
-  }
-
-  dd {padding: .25em 0;}
-
-  a.usa-button {text-decoration: none; margin-bottom: 1em;}
-
-  .usa-social-links {
-    dd {
-      display: inline-block;
-      margin: 0 1em 0 0;
-    }
-    a {
-    border-bottom: none;
-    float: left;
-    margin: 0;
-    padding: 0;
-    display: inline-block;
-    &:hover {
-      border-bottom: none;
-      }
-    }
-  }
-
-  ul {
-    margin: 0;
-    padding: .5em 0;
-    border-bottom: 1px solid $color-primary;
-    @media #{$small} {
-      border-bottom: none;
-      padding: 0;
-      margin: 1.5em 0 2em 0;
-    }
-  }
-  li, p, a {
-    color: $color-white;
-    font-size: 1em;
-  }
-
-  a {
-    text-decoration: underline;
-    display: block;
-    background: none;
-    font-weight: 400;
-   
-    @media #{$small} {
-      display: inline-block; 
-      margin: .25em 0;
-    }
-    
-    &:hover {color: $color-gold;}
-    &.contact, 
-    &.blog {
-      padding: .65em; 
-      font-size: 1em;  
-      text-align: center; 
-      border: 2px solid $secondary-color;
-      
-      @media #{$small} {
-        margin: 1.5em auto; 
-        display: inline-block;
-      }
-      
-      &:hover, &:focus, &:active {
-        background: $secondary-color; color: $color-white;
-      }
-    }
-
-    &.contact {
-      @media #{$small} {margin: 0 0 0 1em;}
-    }
-    &.blog {border: none; &:hover {background: none; color: $color-primary-alt;}}
-  }
-
-  .footer-logo a {
-    display: none;
-    @media #{$medium} {padding: 0; display: block;}
-    @media #{$medium} {background:url(../images/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
-  }
-
-  .footer-seal {
-    background:url(../images/design/sprites/sprite.png)  no-repeat 0 -23px;
-    background-size: 215px 72px;
-    width: 215px;
-    height: 49px;
-    text-indent: -999em;
-    overflow: hidden;
-    margin: 0 auto;
-    @media #{$small} {margin: 0;}
-  }
-
-.footer-crisis {
-  background:$color-gold;
-  margin: 2.5em 0;
-  padding: .25rem 0;
-  border-radius: .2em;
-  color: $color-gray-dark;
-  font-size: .85em;
-  text-align: center;
-  span {
-    font-weight: bold;
-  }
-  a {
-    display:inline;
-    text-decoration: none;
-    color:rgb(0,0,0);
-    &:hover {
-      border-bottom: none;
-      text-decoration: none;
-    }
-    @media #{$small-only} {
-      padding: .25em 0;
-    }
-    @media #{$medium-only} {
-      display:block
-    }
-  }
 }
 
-ul.final-list {
-  text-align: center;
-  
-  @media #{$large} {
-    text-align: left;
-  }
-  
-  padding: 1.5em 0 0 0;
-  width: 100%;
-  border-bottom: none !important;
-  display: block;
+.footer-logo a {
+  display: none;
+  @media #{$medium} {padding: 0; display: block;}
+  @media #{$medium} {background:url(../images/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
+}
+
+.footer-seal {
+  background:url(../images/design/sprites/sprite.png)  no-repeat 0 -23px;
+  background-size: 215px 72px;
+  width: 215px;
+  height: 49px;
+  text-indent: -999em;
+  overflow: hidden;
   margin: 0 auto;
+  @media #{$small} {margin: 0;}
+}
 
-  &:after {
-     visibility: hidden;
-     display: block;
-     font-size: 0;
-     content: " ";
-     clear: both;
-     height: 0;
-  }
-
-
-  li {
-    padding: 0;
+.usa-social-links {
+  dd {
     display: inline-block;
-    text-align: center;
-    
-    &:last-child {
-      margin-right: 0;
-    }
-    &:after {
-      content:"|";
-      padding: 0 .15em;
-    }
-    &:last-of-type:after {
-      padding:0;
-      content: "";
-    }
+    margin: 0 1em 0 0;
   }
- 
   a {
-    display: inline-block;
-    padding: .35em;
+  border-bottom: none;
+  float: left;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  &:hover {
+    border-bottom: none;
+    }
   }
 }
 
-li {
-  list-style: none;
-  padding: .5em 0;
-  font-weight: 300;
-   
-  margin: 0 auto; 
-  text-align: left; 
-  display: block;
+.usa-social-links, 
+.va-list--linkgroup {
+  margin: 2em 0 0 0;
   
+  @media #{$medium} {
+    margin: 2em 0 1.5em 0;
   }
-  padding: 2em 0 0 0;
+}
 
-  .post-script {
-    font-size: .85em;
-    margin: 0;
-    padding: 0 0 1em 0;
-    background: darken($color-primary-darkest, 5);
+// TODO: Move this to a list-specific partial
+.va-list--linkgroup {
+  margin: 2em 0 0 0;
+  
+  @media #{$small} {
+    margin: 2em 0 1.5em 0;
   }
-
-  blockquote {
-    border-left: 0;
-    padding: 1em 1em 0 1em;
-    color: $color-white;
-    text-align: center;
-    margin: 0 auto;
-    font-style: italic;
-  }
-
-  span.source {
-    color: $color-white;
-    color: rgba(255,255,255,.8);
-    text-align: center;
-    margin: 0 auto;
+    
+  a {
+    background: none;
+    color: #fff;
     display: block;
+    font-size: 1em;
+    font-weight: 400;
+    margin: .25em 0;
+    text-decoration: underline; 
+    
+    &:hover {
+      color: $color-gold;
+    }
   }
+   
+  dd {
+    padding: .25em 0;
+  }
+}
 
+.va-list--linkgroup-title {
+  -webkit-font-smoothing: antialiased;
+  font-weight: 700;
+  display: block;
+  font-size: .95em;
+  padding: 0 0 1em 0;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.va-list--linkgroup--inline {
+    list-style: none;
+    margin: 0 auto;
+    padding: 1.5em 0 0 0;
+    text-align: center;
+      @media #{$large} {
+        text-align: left;
+      }
+    width: 100%;
+
+    &:after {
+       visibility: hidden;
+       display: block;
+       font-size: 0;
+       content: " ";
+       clear: both;
+       height: 0;
+    }
+
+    li {
+      padding: 0;
+      display: inline-block;
+      
+      &:after {
+        content:"|";
+        padding: 0 .15em;
+      }
+      
+      &:last-child {
+        margin-right: 0;
+        
+        &::after {
+          padding: 0;
+          content: "";
+        }
+      }       
+    }
+ 
+    a {
+      background: none;
+      color: inherit;
+      font-weight: 400;
+      display: inline-block;
+      padding: .35em;
+      margin: .25em 0;
+      &:hover {color: $color-gold;}
+    }
 }
 
 // Footer icon sprite
-
-
 a.facebook {
   background: url('../images/design/sprites/sprite.png') no-repeat -22px 0;
   background-size: 215px 72px;
@@ -2228,12 +2140,29 @@ button[class*="usa-button-"] {
 // Mobile menu
 
 /* Overlay style */
-@media #{$medium} {
+
 .va-overlay-close {
+  @media #{$medium} {
+    display: none;
+  }
+  &--icon {
+    display: inline;
+    margin: 0;
+    padding: 1rem;
+    width: auto;
+    
+    &:hover {
+      background: transparent;
+    }
+  }
+}
+
+
+@media #{$medium} {
+  .va-overlay-close {
     display: none;
   }
 }
-  
 
 @media #{$small-only} {
   .va-overlay {
@@ -2254,7 +2183,7 @@ button[class*="usa-button-"] {
       border-radius: 3px 0 0 3px;
     }
   }
-
+  
   .va-mobile-searchclose  {
     border-radius: 0;
     display: block !important;
@@ -2312,15 +2241,16 @@ button[class*="usa-button-"] {
     z-index: 100;
   }
 
+  .va-overlay-body {
+    margin: 1rem auto;
+  }
+  
   @media screen and (max-height: 30.5em) {
     .overlay form {
       height: 70%;
     }
   }
 }
-
-
-
 
 // List overrides
 
