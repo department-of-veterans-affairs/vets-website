@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "babel-core": "^6.5.1",
+    "babel-eslint": "^6.0.5",
     "babel-loader": "^6.2.2",
     "babel-plugin-transform-runtime": "^6.5.0",
     "babel-polyfill": "^6.5.0",
@@ -25,7 +26,6 @@
   },
   "//": "Keep test dependencies in devDependencies so Heroku does not waste time installing.",
   "devDependencies": {
-    "babel-eslint": "^6.0.5",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
     "chai-jquery": "^2.0.0",

@@ -1,6 +1,6 @@
 language: ruby
 before_install:
-  - nvm use 4.4.5
+  - nvm install 4.4.5
   - npm install -g npm@3.8.1
   - npm install -g eslint@2.13.1
 
