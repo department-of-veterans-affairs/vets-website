@@ -54,7 +54,7 @@ This will copy the repo to a `chocolate` directory.
 
 ### Installing the build environment
 
-In a terminal window, run:
+In a terminal window `cd` into the `vets-website` directory, then run:
 
 ```shell
 $ rake install
