@@ -8,9 +8,6 @@
     'es6': true,
     'mocha': true
   },
-  'plugins': [
-    'react'
-  ],
   'globals': {
     '$': true,
     '__DEV__': true,
@@ -61,9 +58,6 @@
   },
   'parserOptions': {
     'ecmaVersion': 6,
-    'sourceType': 'module',
-    'ecmaFeatures': {
-      'jsx': true
-    }
+    'sourceType': 'module'
   }
 }
