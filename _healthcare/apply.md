@@ -31,9 +31,7 @@ Health care at the VA includes preventive and primary care (like check-ups), spe
 <div markdown="1">
 ### How long will it take to process your application?
 
-Less than one week. If more than a week has passed since you submitted your application and you have not heard back, do not apply again. Call **1-877-222-VETS**.
-
-**Note:** When you apply online you will receive a confirmation number. Keep that number for your records.
+Less than one week. If more than a week has passed since you submitted your application and you have not heard back, do not apply again. Call **1-877-222-VETS**(8387) option 2.
 
 ### Are you eligible for VA health care?
 
