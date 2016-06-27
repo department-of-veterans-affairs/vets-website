@@ -29,21 +29,6 @@ var config = {
         }
       },
       {
-        test: /\.jsx$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          // es2015 is current name for the es6 settings.
-          presets: ['es2015', 'react'],
-
-          // Share polyfills between files.
-          plugins: ['transform-runtime'],
-
-          // Speed up compilation.
-          cacheDirectory: true
-        }
-      },
-      {
         // components.js is effectively a hand-rolled bundle.js. Break it apart.
         test: /components\.js$/,
         loader: "imports?this=>window"
