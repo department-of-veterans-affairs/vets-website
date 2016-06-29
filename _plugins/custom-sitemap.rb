@@ -7,19 +7,22 @@ module Jekyll
     end
   end
 
-  class JekyllSitemap < Jekyll::Generator
+  class CustomSitemap < Jekyll::Generator
     safe true
     priority :lowest
 
     # Main plugin action, called by Jekyll-core
     def generate(site)
+      @dest_filename = "sitemap.xml"
+      @src_filename = "sitemap.xml"
+
       @site = site
       @site.config["time"]         = Time.new
       @site.config["html_files"]   = html_files.map(&:to_liquid)
       unless sitemap_exists?
         write
         @site.keep_files ||= []
-        @site.keep_files << "sitemap.xml"
+        @site.keep_files << @dest_filename
       end
     end
 
@@ -30,27 +33,15 @@ module Jekyll
 
     # Path to sitemap.xml template file
     def source_path
-      File.expand_path "sitemap.xml", File.dirname(__FILE__)
-    end
-
-    def source_path_html
-      File.expand_path "sitemap.html", File.dirname(__FILE__)
+      File.expand_path @src_filename, File.dirname(__FILE__)
     end
 
     # Destination for sitemap.xml file within the site source directory
     def destination_path
       if @site.respond_to?(:in_dest_dir)
-        @site.in_dest_dir("sitemap.xml")
+        @site.in_dest_dir(@dest_filename)
       else
-        Jekyll.sanitized_path(@site.dest, "sitemap.xml")
-      end
-    end
-
-    def destination_path_html
-      if @site.respond_to?(:in_dest_dir)
-        @site.in_dest_dir("sitemap.xml")
-      else
-        Jekyll.sanitized_path(@site.dest, "sitemap.xml")
+        Jekyll.sanitized_path(@site.dest, @dest_filename)
       end
     end
 
@@ -61,7 +52,7 @@ module Jekyll
     end
 
     def sitemap_content
-      site_map = PageWithoutAFile.new(@site, File.dirname(__FILE__), "", "sitemap.xml")
+      site_map = PageWithoutAFile.new(@site, File.dirname(__FILE__), "", @dest_filename)
       site_map.content = File.read(source_path)
       site_map.data["layout"] = nil
       site_map.render(Hash.new, @site.site_payload)
@@ -71,9 +62,9 @@ module Jekyll
     # Checks if a sitemap already exists in the site source
     def sitemap_exists?
       if @site.respond_to?(:in_source_dir)
-        File.exists? @site.in_source_dir("sitemap.xml")
+        File.exists? @site.in_source_dir(@dest_filename)
       else
-        File.exists? Jekyll.sanitized_path(@site.source, "sitemap.xml")
+        File.exists? Jekyll.sanitized_path(@site.source, @dest_filename)
       end
     end
   end
