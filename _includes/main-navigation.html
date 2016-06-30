@@ -1,4 +1,4 @@
-{% unless page.majorlinks.size <= 2 %}
+{% unless page.majorlinks.size | modulo: 3 %}
   {% assign gridnum = 3 %}
 {% else %} 
   {% assign gridnum = 2 %}

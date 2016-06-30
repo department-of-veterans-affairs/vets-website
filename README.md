@@ -54,7 +54,7 @@ This will copy the repo to a `chocolate` directory.
 
 ### Installing the build environment
 
-In a terminal window, run:
+In a terminal window `cd` into the `vets-website` directory, then run:
 
 ```shell
 $ rake install
@@ -125,6 +125,22 @@ a change to a source file. Patches welcome!
 ## Updating Karma.
 
 If updating Karma, make sure to remember to rerun `npm shrinkwrap` to update `npm-shrinkwrap.json` (the `npm` equivalent of `Gemfile.lock` for `Bundler`).
+
+## Troubleshooting
+```
+jekyll 2.4.0 | Error:  string not matched
+```
+If you get this error when running `rake serve` it may mean that case sensitivity in your OSX path names are interacting weirdly with Ruby string matching.
+
+For example your path is:
+```
+/Users/awesomeuser/workspace/VA/vets-website/
+```
+but Jekyll is reading it as 
+```
+/Users/awesomeuser/workspace/va/vets-website/
+```
+Changing all the directory names to lower-case should fix it. For some reason, the root level `User` directory does not cause this issue.
 
 ## More documentation
 

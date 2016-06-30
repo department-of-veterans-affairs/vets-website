@@ -1,5 +1,5 @@
 ---
-title: Apply for VA Healthcare
+title: Apply for VA Health Care
 ---
 <div class="main" role="main" markdown="0">
 
@@ -22,7 +22,8 @@ title: Apply for VA Healthcare
 Health care at the VA includes preventive and primary care (like check-ups), specialty care (like an OBGYN or dermatologist), prescriptions, mental health care, home health care, geriatrics and extended care, medical equipment and prosthetics, and more.
 <div class="row">
     <div class="small-12 columns">
-        <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply for VA Health Care</a>
+        <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply Online for VA Health Care</a><br/><br/>
+        or <a href="http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf" target="_blank">Download and print the 1010EZ form to apply by mail or in-person.</a>
     </div>
 </div>
 </div>
@@ -30,10 +31,7 @@ Health care at the VA includes preventive and primary care (like check-ups), spe
 <div markdown="1">
 ### How long will it take to process your application?
 
-
-Less than one week. If more than a week has passed since you submitted your application and you have not heard back, do not apply again. Call **1-877-222-VETS**.
-
-**Note:** When you apply online you will receive a confirmation number. Keep that number for your records.
+Less than one week. If more than a week has passed since you submitted your application and you have not heard back, do not apply again. Call **1-877-222-VETS**(8387) option 2.
 
 ### Are you eligible for VA health care?
 
