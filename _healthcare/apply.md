@@ -1,5 +1,5 @@
 ---
-title: Apply for VA Healthcare
+title: Apply for VA Health Care
 ---
 <div class="main" role="main" markdown="0">
 
