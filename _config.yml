@@ -4,6 +4,10 @@ domain: staging.vets.gov
 
 destination:  ./_site
 
+url: https://vets.gov
+
+description: "Vets.gov is an official site from the US Department of Veterans Affairs for helping veterans."
+
 #files to exclude, array
 exclude:
   - ".ruby_version"
@@ -179,3 +183,6 @@ defaults:
       breadcrumb_1: "Careers and Employment"
       layout: "page-breadcrumbs"
       body_class: "page-employment"    
+
+gems:
+  - jekyll-feed
