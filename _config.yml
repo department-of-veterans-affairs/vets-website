@@ -73,13 +73,13 @@ collections:
   disability-benefits:
     output: true
     permalink: /:collection/:path/index.html
-  healthcare:
-    output: true
-    permalink: /:collection/:path/index.html
   education:
     output: true
     permalink: /:collection/:path/index.html
   employment:
+    output: true
+    permalink: /:collection/:path/index.html
+  healthcare:
     output: true
     permalink: /:collection/:path/index.html
   memorial-benefits:
