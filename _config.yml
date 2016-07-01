@@ -4,6 +4,9 @@ domain: staging.vets.gov
 
 destination:  ./_site
 
+gems:
+  - jekyll-sitemap
+ 
 #files to exclude, array
 exclude:
   - ".ruby_version"
