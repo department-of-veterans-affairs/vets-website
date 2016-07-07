@@ -1,34 +1,17 @@
 ---
 title: Apply for VA Health Care
+template: 1-topic-landing
+showactionbar: true
 ---
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply for VA Health Care</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-
-
-
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-<div markdown="1">
 Health care at the VA includes preventive and primary care (like check-ups), specialty care (like an OBGYN or dermatologist), prescriptions, mental health care, home health care, geriatrics and extended care, medical equipment and prosthetics, and more.
+
 <div class="row">
     <div class="small-12 columns">
         <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply Online for VA Health Care</a><br/><br/>
-        or <a href="http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf" target="_blank">Download and print the 1010EZ form to apply by mail or in-person.</a>
+        or <a href="http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf" target="_blank">Download and print the 1010EZ form to apply by mail or in-person.</a><br/><br/>
     </div>
 </div>
-</div>
-<br/>
-<div markdown="1">
+
 ### How long will it take to process your application?
 
 Less than one week. If more than a week has passed since you submitted your application and you have not heard back, do not apply again. Call **1-877-222-VETS**(8387) option 2.
@@ -57,9 +40,3 @@ If none of the above apply to you, you may still qualify for care based on your 
 - If you separated under a dishonorable discharge to see if you qualify for health insurance, visit [healthcare.gov](https://www.healthcare.gov/).
 
 - Your most recent tax return will have most of information you need to qualify based on your income.
-
-</div>
-</div>
-
-</div>
-</div>
