@@ -273,7 +273,7 @@ hr {
   }
 }
 
-// Headings
+//==== Headings
 h1, h2 {
   font-family: $font-sans;
   font-weight: 600;
@@ -285,8 +285,8 @@ h3, h4, h5, h6 {
 
 h3 {
   font-size: 1.8em; 
-  padding: 0 0 1em 0;
 }
+
 h4 {
   font-size: 1.5em; 
   font-weight: normal;
@@ -308,49 +308,34 @@ h6 {
   color: $color-gray-dark;
 }
 
-#content .splash {
-  padding: 0 0 .5em 0;
-  margin: 0;
- 
-  p {
-    color: $color-white; 
-    font-family: $font-sans;
-  }
-
+.splash {
   @media #{$small} {padding: 1em 0;}
   @media #{$medium} {padding: 2em 0;}
   @media #{$large} {padding: 2.5em 0;}
+  
+  margin: 0;
 
-  span, h2 {
-    padding: 0;
-    display: inline;
-    line-height: 1.3em;
-    margin: .5em 0 0 0;
-    white-space: pre-wrap;
-    color: $color-gray-dark;
-    a {background: $color-gold; color: $color-va-gray-cool-dark;}
+  // TODO: Evaluate whether this can be removed.
+  h3 {
+    font-family: $font-serif;
+    font-weight: 500; 
+    font-size: 1.4em; 
+    color: $color-va-gray-cool-medium;
+    display: inline-block; 
   }
+}
 
-  h2 span {clear: both; padding: .04em; display: inline-block; background: $color-gold; font-weight: normal;}
-  h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
-  h2 {
-    font-size: 1em;
-    display: inline-block;
-    @media #{$small} {font-size: 2em;}
-  }
-
-  h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
+.va-tagline--home {
+  clear: both; 
+  color: $color-white;
+  font-size: 2em;
+  line-height: 1.3em; 
+  margin: .5em 0;
+  padding: .04em; 
 }
 
 .splash--app {
   padding: 0 !important;
-
-  h2 {
-    margin: 0; 
-    padding: .2em; 
-    line-height: 1em; 
-    display: inline-block !important;
-  }
 }
 
 // TODO: Remove !important once #content ul.breadcrumbs li.active
@@ -369,25 +354,11 @@ h6 {
 }
 
 .va-facloc-tagline {
-  color: $color-white; 
-  font-family: $font-sans;
+  color: $color-white;
+  display: inline-block;  
+  font-family: $font-serif;
   margin: .5em 0 1em 0 !important;
-}
-  
-  
-.pitch {
-  @media #{$small} {
-    padding: .5em 0;
-  }
-  
-  h2, h3 {
-    color: $color-primary-darkest; 
-    font-weight: 400; 
-    padding: .75em; 
-    line-height: 1.3em; 
-    display: inline-block; 
-    margin: 0;
-  }
+  line-height: 1em;  
 }
 
 // TODO: Remove .feature-list ul once it's
@@ -413,9 +384,6 @@ h6 {
 }
 
 .primary {
-  @media #{$small} {
-    padding: 2em 0;
-  }
 
   p {
     padding-top: 0; 
@@ -432,11 +400,12 @@ h6 {
   }
   
   h3 {
-    padding: 0 0 .5em 0; 
     font-size: 1.25em;
     @media #{$small} {
       font-size: 1.8em;
     }
+
+    margin-top: 0; 
   }
 }
 
@@ -555,11 +524,11 @@ ul, ol {
 
 // Home page, 404 page
 .navigation--major {
-  .fourohfour &,
   .home & {
     padding-top: 1.5em;
   }
 }
+
 
 // Quick Links
 .va-quicklinks {
@@ -568,11 +537,9 @@ ul, ol {
   }
   h3 {
     line-height: 1.2em;
-    // TODO: Drop the !important when .home #content h3 and  
-    // body.fourohfour #content h3 are straightened out.
-    font-size: 1.65em !important;
-    color: $color-primary-darkest !important;
-    margin: 0 0 2.5em 0;
+    font-size: 1.65em;
+    color: $color-primary-darkest;
+    margin: 0 0 1rem 0; 
     padding: 0 0 .2em 0;
   }
 }
@@ -599,20 +566,12 @@ ul, ol {
 // Home page specific
 
 .home #content {
-  h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
+  h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
   
   .post-date {
     font-size: .5em; color: $color-gold;
   }
   
-  h3 {
-    line-height: 1.2em;
-    font-size: 1.65em;
-    color: $color-primary;
-    margin: 0 0 2.5em 0;
-    padding: 0 0 .2em 0;
-  }
-
   h4 a {
     text-decoration: none;
     &:hover {
@@ -654,12 +613,7 @@ ul, ol {
     }
   }
 
-  
-  .home #content .section h3.alternate {
-    margin: 0 0 2em 0 !important; padding: 0;
-  }
-
-  .section.one {
+   .section.one {
     padding: 0 0 1.5em 0;
       @media #{$small} {padding: 2em 0 4em 0;}
   }
@@ -718,7 +672,7 @@ ul, ol {
 }
 
 #content .section {
-  h2, h3, h4, h5, h6 {margin: 0; padding: 0 0 .5em 0;}
+  h2, h4, h5, h6 {margin: 0; padding: 0 0 .5em 0;}
   h2 {line-height: 1.2em;}
 }
 
@@ -775,11 +729,9 @@ ul, ol {
   border: none;
   margin: 0 0 1em 0;
   
-  h2 {
-    font-size: 1em;
-  }
-  
+ 
   padding: 0;
+
   @media #{$small} {margin: 0 0 1em 0;}
   
   border-radius: 0;
@@ -848,6 +800,17 @@ ul, ol {
     display: none;
   }
 }
+
+// TODO: Remove !important when #content .splash h2 has been vanquished
+.va-breadcrumbs-heading {
+  display: inline-block !important;
+  font-family: $font-serif;
+  font-size: 1em !important;
+  line-height: 1em;
+  margin: 0;
+  padding: 0;
+}
+
 
 // General List Styles
  
@@ -1009,12 +972,12 @@ li {
 // Once the specificity of #content .splash h2 block/
 // gets reduced.
 .va-headingflag {
-  margin: .5em 0 !important; 
-  padding: 0 !important;
-  margin: 0 0 2em 0 !important; 
+  font-family: $font-serif;
   background: none !important; 
   color: $color-primary-darkest !important;
-  
+  margin: 0 0 2em 0 !important;   
+  padding: 0 !important;
+
   @media #{$medium} {
     position: absolute !important; 
     margin: 1.35em 0 0 0 !important; 
