@@ -47,7 +47,7 @@ relatedlinks:
 <div class="small-12 medium-3 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="number" markdown="0">117.1</span>
+<span class="number" markdown="0">122.4</span>
 <span class="description" markdown="0">Days</span>
 <span class="heading" markdown="0">(Average time)</span>
 
