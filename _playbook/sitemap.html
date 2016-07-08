@@ -1,71 +1,57 @@
 ---
 title: Vets.gov Site Inventory
 ---
-<div class="row">
-  <div class="small-12">
-    {% for page in site.html_pages %}
-      {% unless page.sitemap == false %}
+<div class="section secondary">
+  <div class="row">
+    <div class="small-12">
+      {% for page in site.html_pages %}
+        {% unless page.sitemap == false %}
         <ul>
           <li>
-            {{ page.url | replace:'/index.html','/' | prepend: site_url }}
-            {% if page.last_modified_at %}
-            <span class="va-timestamp--sitemap">{{ page.last_modified_at | date_to_xmlschema }}</span>
-            {% endif %}
+            <a href="{{ page.url }}">{{ page.url | replace:'/index.html','/' | prepend: site_url }}</a>
           </li>
         </ul>
-      {% endunless %}
-    {% endfor %}
+        {% endunless %}
+      {% endfor %}
 
-    {% for collection in site.collections %}
-      {% unless collection.last.output == false or collection.output == false %}
-        {% for doc in collection.last.docs %}
-          {% unless doc.sitemap == false %}
-            {% unless doc.collection == 'playbook' %}
+      {% for collection in site.collections %}
+        {% unless collection.last.output == false or collection.output == false %}
+          {% for doc in collection.last.docs %}
+            {% unless doc.sitemap == false %}
+              {% unless doc.collection == 'playbook' %}
+              <ul>
+                <li>
+                  <a href="{{ doc.url }}">{{ doc.url | replace:'/index.html','/' | prepend: site_url }}</a>
+                </li>
+              </ul>
+              {% endunless %}
+            {% endunless %}
+          {% endfor %}
+
+          {% for doc in collection.docs %}
+            {% unless doc.sitemap == false %}
             <ul>
               <li>
                 {{ doc.url | replace:'/index.html','/' | prepend: site_url }}
               </li>
             </ul>
             {% endunless %}
-          {% endunless %}
-        {% endfor %}
+          {% endfor %}
+        {% endunless %}
+      {% endfor %}
 
-        {% for doc in collection.docs %}
-          {% unless doc.sitemap == false %}
-          <ul>
-            <li>
-              {{ doc.url | replace:'/index.html','/' | prepend: site_url }}
-            </li>
-          </ul>
-          {% endunless %}
-        {% endfor %}
-
-      {% endunless %}
-    {% endfor %}
-
-    {% for file in site.html_files %}
-      <ul>
-        <li>
-          {{ file.path | prepend: site_url }}
-          <span class="va-timestamp--sitemap">{{ file.modified_time | date_to_xmlschema }}</span>
-        </li>
-      </ul>
-    {% endfor %}
-
-    {% for post in site.posts %}
-      {% unless post.sitemap == false %}
+      <h4>Blog posts</h4>
+      {% for post in site.posts %}
+        {% unless post.sitemap == false %}
         <ul>
           <li>
-            {{ post.url | prepend: site_url }}
-            {% if post.last_modified_at %}
-            <span class="va-timestamp--sitemap">{{ post.last_modified_at | date_to_xmlschema }}</span>
-            {% else %}
-            <span class="va-timestamp--sitemap">{{ post.date | date_to_xmlschema }}</span>
-            {% endif %}
+            <a href="{{ post.url }}">{{ post.title }}</a> <span class="post-date"> – {{ post.date | date_to_string }}</span>
           </li>
         </ul>
-      {% endunless %}
-    {% endfor %}
+        {% endunless %}
+      {% endfor %}
 
+    </div>
   </div>
+
 </div>
