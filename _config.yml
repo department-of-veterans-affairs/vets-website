@@ -4,6 +4,9 @@ domain: staging.vets.gov
 
 destination:  ./_site
 
+gems:
+  - jekyll-sitemap
+ 
 #files to exclude, array
 exclude:
   - ".ruby_version"
@@ -27,10 +30,10 @@ exclude:
   - "npm-shrinkwrap.json"
   - "package.json"
   - "webpack.config.js"
-  - "webpack_dev.config.js"        
+  - "webpack_dev.config.js"
   - "webpack_prod.config.js"
   - "docs"
- 
+
 # Specifically include files left out in dev.
 include:
   - "_dummy-placeholder.html"
@@ -178,4 +181,4 @@ defaults:
     values:
       breadcrumb_1: "Careers and Employment"
       layout: "page-breadcrumbs"
-      body_class: "page-employment"    
+      body_class: "page-employment"
