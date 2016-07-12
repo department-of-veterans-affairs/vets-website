@@ -20,5 +20,3 @@ majorlinks:
 ---
 
 The Veterans Employment Center&#8482; (VEC) connects Veterans and their families with meaningful employment and career-development opportunities.
-
-### Resources and tools for both job seekers and employers

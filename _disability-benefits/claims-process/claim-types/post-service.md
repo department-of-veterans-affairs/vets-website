@@ -1,6 +1,7 @@
 ---
 title: Postservice Claim
 concurrence: incomplete
+template: 6-info-page
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
     title: Standard Claim
@@ -31,12 +32,6 @@ relatedlinks:
     description: ""
 ---
 
-<div class="main" role="main" markdown="0">
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
 If you have a service-related disability that presents itself after you have separated, you may be eligible for disability compensation. 
 
 These sorts of disabilities include:
@@ -45,9 +40,3 @@ These sorts of disabilities include:
 - [Exposures to Hazardous Materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)
 - [Diseases Associated with Gulf War Service](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)
 - [Prisoners of War (POWs)](/disability-benefits/conditions/pow/)
-
-</div>
-</div>
-</div>
-</div>
-</div>

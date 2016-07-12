@@ -6,26 +6,23 @@ concurrence: incomplete
 
 If your school participates in the Yellow Ribbon Program, you may be able to reduce or eliminate your education costs that are not covered by the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/), such as higher tuition at private colleges or out-of-state schools.
 
-<div class="call-out" markdown="1">
+Are you eligible for benefits?
+: Yes, if:
 
-### Are you eligible for benefits?
+  - You are a Veteran or the dependent of a Veteran who is eligible for transfer of entitlement for the Post-9/11 GI Bill, or you are the child of an active-duty Servicemember who is the recipient of a transfer of entitlement
+  - You served an aggregate period of 36 months in active duty after Sept. 10, 2001
+  - You were honorably discharged from active duty for a service-connected disability with at least 30 continuous days after Sept. 10, 2001.
+  - You are a dependent eligible for Transfer of Entitlement under the Post-9/11 GI Bill based on the service eligibility criteria listed above.
+  - Your school voluntarily participates in the [Yellow Ribbon Program for the 2015-16 school year](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp )
+  - You maintain continuous enrollment, full- or part-time, as defined by your school
+  - You are working toward the completion of your enrolled program
 
-Yes, if:
+Who is covered?
+: You and/or your dependents
 
-- You are a Veteran or the dependent of a Veteran who is eligible for transfer of entitlement for the Post-9/11 GI Bill, or you are the child of an active-duty Servicemember who is the recipient of a transfer of entitlement
-- You served an aggregate period of 36 months in active duty after Sept. 10, 2001
-- You were honorably discharged from active duty for a service-connected disability with at least 30 continuous days after Sept. 10, 2001.
-- You are a dependent eligible for Transfer of Entitlement under the Post-9/11 GI Bill based on the service eligibility criteria listed above.
-- Your school voluntarily participates in the [Yellow Ribbon Program for the 2015-16 school year](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp )
-- You maintain continuous enrollment, full- or part-time, as defined by your school
-- You are working toward the completion of your enrolled program
-
-### Who is covered?
-- You and/or your dependents
-
-### Available benefits
-Additional tuition
-</div>
+Available benefits
+: Additional tuition
+{:.va-callout}
 
 ------
 

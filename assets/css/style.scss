@@ -25,10 +25,15 @@
 @import "foundation/variables";
 
 // USDS
+@import "functions/new-breakpoint";
+
 @import "core/defaults";
 @import "core/base";
 @import "core/utilities";
 @import "core/variables";
+@import "core/grid-settings";
+@import "core/grid";
+
 
 // VA-specific variables
 @import "va-variables";
@@ -47,6 +52,9 @@
 @import "va";
 @import "elements/va-table";
 @import "hca";
+@import "core/va-grid";
 @import "components/va-cards";
 @import "components/va-nav-category";
+@import "core/va-grid";
+@import "elements/va-lists";
 @import "components/va-crisis-line";
