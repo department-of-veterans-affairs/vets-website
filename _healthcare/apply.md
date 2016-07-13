@@ -45,7 +45,7 @@ VA health care includes regular checkups with your primary care doctor, as well 
 <div class="call-out" markdown="1">
 ### What information will you need to complete this form?
 
-- You most recent tax return
+- Your most recent tax return
 - Social security numbers for yourself and your dependents
 - Account numbers for any current insurance programs in which you are already enrolled
 
@@ -78,9 +78,9 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 **Notes:**
 
-- If you separated under a dishonorable discharge to see if you qualify for health insurance, visit [healthcare.gov](https://www.healthcare.gov/).
+- If you separated under a dishonorable discharge, visit [healthcare.gov](https://www.healthcare.gov/) to find out if you qualify for health insurance.
 
-- Your most recent tax return will have most of information you need to qualify based on your income.
+- Your most recent tax return will have the most of information you need to qualify based on your income.
 
 </div>
 </div>
