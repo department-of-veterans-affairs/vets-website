@@ -19,7 +19,7 @@ title: Apply for VA Health Care
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 <div markdown="1">
-VA health care includes regular checkups with your primary care doctor, as well as access to specialists, such as cardiologists, gynecologists, and mental health providers. You can also get home health care and geriatric care, as well as medical equipment, prosthetics, and prescriptions.
+VA health care includes regular checkups with your primary care doctor and access to specialists, such as cardiologists, gynecologists, and mental health providers. You can also get home health care and geriatric care, as well as medical equipment, prosthetics, and prescriptions.
 <div class="row">
     <div class="small-12 columns">
         <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply Online for VA Health Care</a>
@@ -78,9 +78,9 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 **Notes:**
 
-- If you separated under a dishonorable discharge to see if you qualify for health insurance, visit [healthcare.gov](https://www.healthcare.gov/).
+- If you separated under a dishonorable discharge, visit [healthcare.gov](https://www.healthcare.gov/) to find out if you qualify for health insurance.
 
-- Your most recent tax return will have most of information you need to qualify based on your income.
+- Your most recent tax return will have most of ​the​ information you need to qualify based on your income.
 
 </div>
 </div>
