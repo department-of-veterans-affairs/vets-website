@@ -34,11 +34,11 @@ VA health care includes regular checkups with your primary care doctor and acces
 
 - Mail in your application. You can download, print, and fill out the [10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf), then send it to this address: 
 
-> <dl>
+<dl class="va-address-block">
     <dd>Health Eligibility Center</dd>
     <dd>2957 Clairmont Rd., Suite 200</dd>
     <dd>Atlanta, GA 30329</dd>
-> </dl>
+</dl>
 
 - Visit the [nearest VA medical center or clinic](http://www.va.gov/directory/guide/division.asp?dnum=1) to apply in person. Download, print, and fill out the [10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 </div>
