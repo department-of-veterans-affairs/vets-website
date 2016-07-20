@@ -4,6 +4,7 @@ The react/redux frontend for the Vets.gov prescription refill project.
 
 ## TODO (alexose):
 
+ * Add redux
  * Pull in header/footer markup and CSS from vets-website
  * Update vets-website build process to include this project
 
