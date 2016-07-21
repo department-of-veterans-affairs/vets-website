@@ -55,5 +55,5 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 - If you separated under a dishonorable discharge, visit [healthcare.gov](https://www.healthcare.gov/) to find out if you qualify for health insurance.
 
-- Your most recent tax return will have most of information you need to qualify based on your income.
+- Your most recent tax return will have most of ​the​ information you need to qualify based on your income.
 
