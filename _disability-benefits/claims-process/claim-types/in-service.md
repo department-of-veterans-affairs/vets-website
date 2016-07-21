@@ -1,5 +1,6 @@
 ---
 title: In-Service claim
+template: 6-info-page
 concurrence: complete
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
@@ -31,16 +32,4 @@ relatedlinks:
     description: ""
 ---
 
-<div class="main" role="main" markdown="0">
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 column usa-content" markdown="1">
-
 If your disability resulted from an injury or disease acquired in the line of duty (and not because of willful misconduct or abuse of alcohol or drugs), then it is considered an in-service disability.
-
-</div>
-</div>
-</div>
-</div>
-</div>

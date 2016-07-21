@@ -6,31 +6,22 @@ template: 1-topic-landing
 
 If you are a dependent or survivor of a Veteran, you may be eligible for educational assistance through a GI Bill program.
 
+Are you eligible for benefits?
+: Yes, if you are the child or spouse of a Servicemember:
 
-<div class="call-out usa-content" markdown="1">
+  - Who died in the line of duty after September 10, 2001, or
+  - Who is missing in action or was captured in the line of duty by a hostile force, or
+  -	Who was forcibly detained in the line of duty by a foreign government or power, or
+  -	Who is hospitalized or receiving outpatient treatment for a service-connected permanent and total disability and likely to be discharged for that disability.
+: Yes, if you are the child or spouse of a Veteran:
 
-### Are you eligible for benefits?
+  - Who is permanently and totally disabled due to a service-connected disability, or
+  -	Who died while on active duty or as a result of a service-connected disability.
+: Yes, if you are eligible to receive a transfer of Post-9/11 GI Bill benefits.
 
-Yes, if you are the child or spouse of a Servicemember:
-
-- Who died in the line of duty after September 10, 2001, or
-- Who is missing in action or was captured in the line of duty by a hostile force, or
--	Who was forcibly detained in the line of duty by a foreign government or power, or
--	Who is hospitalized or receiving outpatient treatment for a service-connected permanent and total disability and likely to be discharged for that disability.
-
-Yes, if you are the child or spouse of a Veteran:
-
-- Who is permanently and totally disabled due to a service-connected disability, or
--	Who died while on active duty or as a result of a service-connected disability.
-
-Yes, if you are eligible to receive a transfer of Post-9/11 GI Bill benefits.
-
-<br>
-
-### Who is covered
-
-Your family
-</div>
+Who is covered
+: Your family
+{:.va-callout}
 
 ### Available benefits
 
