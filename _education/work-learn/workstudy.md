@@ -27,7 +27,6 @@ Who is eligible
 : You and your dependents using education benefits
 {:.va-callout}
 
-
 ### Available benefits
 
 A part-time job while you study
@@ -46,7 +45,6 @@ The number of applicants selected will depend on the availability of VA-related 
 - Working at a Center of Excellence for Veteran Student Success to support and coordinate the academic, financial, physical, and social needs of Veteran students.
 - Working in a cooperative program carried out jointly by VA and an institution of higher learning.
 - Working in any Veterans-related position in an institution of higher learning, such as providing assistance to Veteran students with general inquiries about Veteran benefits, processing necessary documents, or maintaining and organizing Veteran-related files.
-
 
 #### How much will I earn?
 

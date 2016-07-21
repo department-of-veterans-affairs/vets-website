@@ -1,46 +1,23 @@
 ---
 title: Fry Scholarship
 concurrence: incomplete
+template: 4-action-page-pending
 ---
 
-<div class="main" role="main" markdown="0">
+The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) provides Post-9/11 GI Bill benefits to the children and surviving spouses of Servicemembers who died in the line of duty while on active duty after September 10, 2001. If you qualify, you may receive up to 36 months of benefits at the 100% level. Full in-state tuition costs are covered at public institutions; up to $21,084.89 per year will be paid for training at private institutions.
 
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
+Are you eligible for Fry Scholarship benefits?
+: Yes, if:
+: You are the child or surviving spouse of an active-duty Servicemember who died in the line of duty on or after September 11, 2001.
 
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
+Who is covered
+: Dependents and survivors
 
-<div markdown="1">The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) provides Post-9/11 GI Bill benefits to the children and surviving spouses of Servicemembers who died in the line of duty while on active duty after September 10, 2001. If you qualify, you may receive up to 36 months of benefits at the 100% level. Full in-state tuition costs are covered at public institutions; up to $21,084.89 per year will be paid for training at private institutions.
-</div>
-
-<div class="call-out" markdown="1">
-### Are you eligible for Fry Scholarship benefits?
-
-Yes, if:
-
-You are the child or surviving spouse of an active-duty Servicemember who died in the line of duty on or after September 11, 2001.
-
-<br>
-
-### Who is covered
-
-Dependents and survivors
-</div>
-
-<div class="small-12 columns usa-content" markdown="1">
 ### Available benefits
 
 Fry Scholarship (GI Bill benefits)
 
-<hr>
+-----
 
 ### How it works
 
@@ -53,8 +30,7 @@ Surviving spouses are eligible to receive [Dependency and Indemnity Compensation
 **Exception:**<br>
 Spouses who remarry will lose their eligibility for this benefit.
 
-<div class="row" markdown="0">
-<div class="small-12 columns divider margin top usa-content"  markdown="1">
+----
 
 ### What are the steps?
 
@@ -87,15 +63,3 @@ Spouses who remarry will lose their eligibility for this benefit.
 </li>
 
 </ol>
-
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-</div>
-</div>
-
-</div>

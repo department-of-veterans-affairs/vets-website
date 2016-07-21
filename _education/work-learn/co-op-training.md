@@ -2,17 +2,15 @@
 title: Co-op Training
 concurrence: complete
 template: 4-action-page-pending
-
 ---
-
 
 If you are enrolled at an approved Institution of Higher Learning (IHL) that provides cooperative (co-op) training, you may use VA educational assistance benefits to cover your costs. Co-op training is an educational program requiring periods of full-time work or training alternating with periods of full-time instruction.
 
 Are you eligible for benefits?
 : Yes, if:
 
-	- You are using VA educational assistance.
-	- You are pursuing an educational program that requires part-time study and part-time work or training.
+  - You are using VA educational assistance.
+  - You are pursuing an educational program that requires part-time study and part-time work or training.
 
 Who is covered
 : You

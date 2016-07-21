@@ -1,8 +1,11 @@
 <div class="main" role="main">
+{% include breadcrumbs.html %}
   <div class="section one">
     <div class="primary">
       <div class="row">
         <div class="small-12 columns usa-content">
+        
+        <h1>{{ page.title }}</h1>
         <!-- Page content begins -->
         {{ content }}
         <!-- Page content ends -->
