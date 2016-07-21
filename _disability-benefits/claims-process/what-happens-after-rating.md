@@ -1,5 +1,5 @@
 ---
-title: You have a disability rating. What&rsquo;s next?
+title: What happens after I get my disability rating?
 template: 6-info-page
 ---
 
@@ -25,8 +25,8 @@ If you are 30% or more service-connected disabled, you can receive additional pa
 
 #### If you are 100% disabled, you may qualify for additional benefits
 
-    - [Dental care](/disability-benefits/conditions/special-claims/dentistry/)
-    - [Commissary and exchange privileges](http://www.militaryonesource.mil/shopping?content_id=268500)
+- [Dental care](/disability-benefits/conditions/special-claims/dentistry/)
+- [Commissary and exchange privileges](http://www.militaryonesource.mil/shopping?content_id=268500)
 
 #### If you are not employable, you may qualify for additional benefits
 
