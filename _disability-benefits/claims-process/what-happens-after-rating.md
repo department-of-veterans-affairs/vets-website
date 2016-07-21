@@ -1,17 +1,15 @@
 ---
-title: What happens after I get my disability rating?
+title: What happens after getting a disability rating
 template: 6-info-page
 ---
 
 If you have received a decision notice with your disability rating, you may be eligible for additional compensation, education, health care, housing, employment, and dependent benefits.
 
-### What happens after you get your disability rating?
-
-#### Be sure you have received your decision notice from VA
+### Be sure you have received your decision notice from VA
 
 If you haven’t received your decision notice, request to have it sent to you. Check your status on [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=va-letters) or by contacting your [regional VA office](/facility-locator/).
 
-#### Look for a payment within 15 days
+### Look for a payment within 15 days
 
 If you have received a notice with at least a 10% rating decision, you will get either a direct-deposit payment or a check—depending on how you elected to be paid—within 15 days of your decision notice. If you don’t get a payment, please call the Veterans Help Line at 800-827-1000.
 
@@ -23,18 +21,24 @@ Within one year of receiving a decision notice with your rating, you may [file a
 
 If you are 30% or more service-connected disabled, you can receive additional payments and benefits for your dependents. Please use [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation) or contact your local [eligibility office](/facility-locator/) to register your dependents with VA.
 
-#### If you are 100% disabled, you may qualify for additional benefits
+<div class="call-out" markdown="1">
+
+### You may qualify for additional benefits if:
+
+##### You are 100% disabled.
 
 - [Dental care](/disability-benefits/conditions/special-claims/dentistry/)
 - [Commissary and exchange privileges](http://www.militaryonesource.mil/shopping?content_id=268500)
 
-#### If you are not employable, you may qualify for additional benefits
+##### You are not employable.
 
 If you are not employable due to your service-connected disability, even without a 100% rating, you can apply for [Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
 
-#### If you require modified clothing because of your injuries, you may qualify for additional benefits
+##### You require modified clothing because of your injuries.
 
-VA offers a [Clothing Allowance](/disability-benefits/conditions/special-claims/clothing/) to eligible Veterans.
+VA offers a [clothing allowance](/disability-benefits/conditions/special-claims/clothing/) to eligible Veterans.
+
+</div>
 
 
 #### Apply for these additional benefits
