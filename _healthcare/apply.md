@@ -6,6 +6,8 @@ showactionbar: true
 
 VA health care includes regular checkups with your primary care doctor and access to specialists, such as cardiologists, gynecologists, and mental health providers. You can also get home health care and geriatric care, as well as medical equipment, prosthetics, and prescriptions.
 
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply for VA Health Care</a>
+
 ### Other ways to apply
 
 - Call 1-877-222-8387 Monday through Friday, 8:00 a.m. to 8:00 p.m. (EST) to get help with your application. 
