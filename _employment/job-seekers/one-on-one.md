@@ -19,20 +19,15 @@ relatedlinks:
 
 One-on-one assistance can help you transition by providing current perspectives on workplaces, targeted job-search techniques, coaching, and résumé building. 
 
-<div class="call-out" markdown="1">
-### Are you eligible for personalized career guidance?
-Yes, if:
+Are you eligible for personalized career guidance?
+: Yes, if:
+  - You are a Veteran.
+  - You are a Guard or Reserve member demobilizing after 180 days or more of active service.
 
-- You are a Veteran.
-- You are a Guard or Reserve member demobilizing after 180 days or more of active service.
-
-<br>
-
-### Who is covered 
-- You 
-- Your spouse (only for the TAP Career Technical Training Track)
-</div>
-
+Who is covered 
+  - You 
+  - Your spouse (only for the TAP Career Technical Training Track)
+{:.va-callout}
 
 ### How it works
 

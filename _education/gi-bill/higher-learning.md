@@ -4,33 +4,16 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-
-<div class="small-12 columns usa-content" markdown="1">
 If you would like to earn an undergraduate or graduate degree at an institution of higher learning, including four-year universities, community colleges, and schools offering advanced degrees, VA education and training benefits may be available to you.
 
 The number of classes you attend and the accompanying hours spent in those classes determine your payments. 
 
-<div class="call-out usa-content" markdown="1">
-### For example, for most undergraduate degrees, a college considers:
-
--	12 or more hours full time
--	9-11 hours three-quarter time
--	6-8 hours half time
--	Less than six hours as reimbursable at a rate that’s no more than the tuition and fees charged for the course(s)
-</div>
+For example, for most undergraduate degrees, a college considers:
+: -	12 or more hours full time
+  -	9-11 hours three-quarter time
+  -	6-8 hours half time
+  -	Less than six hours as reimbursable at a rate that’s no more than the tuition and fees charged for the course(s)
+{:.va-callout}
 
 If you are interested in graduate-level training, the school determines how each hour is rated. For example, if a two-hour class is considered full time in a graduate program at your school, VA will pay you the full-time rate.
 
@@ -39,10 +22,3 @@ You can attend more than one college at a time under the GI Bill as long as the 
 The GI Bill can pay you for the classes required to achieve more than one degree. Once you earn a degree, you could pursue another one if you have remaining entitlement on your GI Bill.
 
 VA issues payments after each month’s classes. For example, you receive the November payment in December. For the Post-9/11 GI Bill, the tuition and fees are paid directly to the school, the book stipend is paid to you at the beginning of the term, and the housing allowance is paid to you at the end of each month.
-
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>

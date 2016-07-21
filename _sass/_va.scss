@@ -258,7 +258,10 @@ hr {
 // Headings
 h1, h2 {
   font-family: $font-sans;
-  font-weight: 600;
+}
+
+h1:first-child {
+  margin-top: 0;
 }
 
 h3, h4, h5, h6 {
@@ -395,24 +398,21 @@ h6 {
 }
 
 .primary {
-  @media #{$small} {
-    padding: 2em 0;
-  }
 
   p {
     padding-top: 0; 
     margin-top: 0; 
     padding-bottom: 1em; // TODO: Consider deleting.
+  
+    &:nth-child(1),
+    &:first-of-type {
+      color: $color-primary-darker;
+      letter-spacing: normal;
+      font-size: 1.25em;
+    }
+
   }
 
-  p:nth-child(1) {
-    font-size: 1.25em;
-    color: $color-primary-darker;
-    letter-spacing: normal;
-    font-weight: normal;
-    padding-bottom: 1em;
-  }
-  
   h3 {
     padding: 0 0 .5em 0; 
     font-size: 1.25em;
@@ -727,9 +727,11 @@ ul, ol {
 
 .section {
   background: $color-white;
+  
   &.one {
-    padding: 2em 0 0 0;
+    padding: 0;
   }
+
   &.two {
     padding: 0 0 4em 0;
     h3 {color: darken($color-green, 10);}
@@ -751,75 +753,54 @@ ul, ol {
 }
 
 // Breadcrumbs
+.va-nav-breadcrumbs {
+  background: $color-white;
+  color: $color-primary;
+  font-size: inherit;
+  padding: 1em 0;
 
-#content ul.breadcrumbs {
-  background: none;
-  border: none;
-  margin: 0 0 1em 0;
   
-  h2 {
-    font-size: 1em;
-  }
-  
-  padding: 0;
-  @media #{$small} {margin: 0 0 1em 0;}
-  
-  border-radius: 0;
-  border-radius: none;
-
   li {
-    text-transform: none;
-    margin: .25em 0;
-    padding: .1em;
     display: inline-block;
-    line-height: 1.15em;
-    height: auto;
+    margin: .25em 0;
+    //outline: 1px dashed #6c6;
+    padding: .25em 0 .25em 0;
     vertical-align: middle;
-    font-size: .85em;
-    
-    @media #{$small} {
-      font-size: 1.35em;
-    }
-    &:hover  {border-bottom: none; text-decoration: none;}
-    &.parent {
-      a {background: none;}
-      padding-top: .5em;
-      margin: 0 0 .75em 0;
-      
-      @media #{$small} {
-        display: inline-block;
-      }
 
-      &:before {content: none; vertical-align: middle;}
-      &:after {content:" › "; display: inline-block; color: $color-white; padding: 0 .5em;}
+    &:after {
+      content: " › "; 
+      display: inline-block; 
+      padding: 0 .35em;
     }
 
     &.active {
-      background: $color-gold;
-      color: $color-va-black;
-      font-family: $font-serif;
-      font-weight: 400;
-      margin: .5em 0;
-      padding: .2em;
-      font-size: 1.35em;
-      @media #{$medium} {font-size: 1.8em;}
-      &:before {content: ""; padding: 0; margin: 0;}
+      font-weight: bold;
+      padding: .3em 0;
+
+      &:after {
+        content: '';
       }
     }
-    a {
-      border-bottom: 3px solid $color-white;
-      background: none;
-      text-decoration: none !important;
-      color: $color-white;
-      &:hover {
-        text-decoration: none; 
-        background: rgba(0,0,0,.1); 
-        border-bottom: 3px solid $color-gold;
-      }
+  }
+  a {
+    color: $color-primary;
+    display: inline-block;
+    padding: 2px;
+
+    &:hover {
+      background: rgba(0,0,0,.1); 
     }
+  }
 }
 
-.breadcrumbs--inline {
+.va-nav-breadcrumbs-list {
+  @extend .columns;
+  float: none;
+}
+  
+ 
+//==== Facility Locator page only
+.va-nav-breadcrumbs--inline {
   display: inline-block;
   
   @media #{$small} {
@@ -831,7 +812,83 @@ ul, ol {
   }
 }
 
-// General List Styles
+//===== Playbook and Facility Locator
+.va-nav-breadcrumbs--playbook {
+  background: none;
+  margin: 0 0 1em 0;
+  padding: 0;
+    
+  h2 {
+    font-size: 1em;
+  }
+
+  li {
+    text-transform: none;
+    margin: .25em 0;
+    padding: .1em;
+    display: inline-block;
+    line-height: 1.15em;
+    vertical-align: middle;
+    
+    @media #{$small} {
+      font-size: 1.35em;
+    }
+    
+    &:hover  {
+      border-bottom: none; 
+      text-decoration: none;
+    }
+  }
+    
+  .parent {
+    padding-top: .5em;
+    margin: 0 0 .75em 0;
+
+    &:after {
+      content:" › "; 
+      display: inline-block; 
+      color: $color-white; 
+      padding: 0 .5em; 
+    }
+  }
+    
+  .active {
+    background: $color-gold;
+    color: $color-va-black;
+    font: 400 1.35em / 1.15em $font-serif;
+    margin: .5em 0;
+    padding: .2em;
+    
+    @media #{$medium} {
+      font-size: 1.8em;
+    }
+    
+    &:before {
+      content: ""; 
+      padding: 0; 
+      margin: 0;
+    }
+  }
+      
+  a {
+    border-bottom: 3px solid $color-white;
+    text-decoration: none !important;
+    color: $color-white;
+    &:hover {
+      text-decoration: none; 
+      background: rgba(0,0,0,.1); 
+      border-bottom: 3px solid $color-gold;
+    }
+  }
+}
+
+
+
+  
+.va-breadcrumbs-heading {
+  font-size: 1em !important;
+}
+//===== General List Styles
  
 li {
   span.meta {
@@ -853,7 +910,7 @@ li {
   }
 }
 
-// Navigation
+//===== Navigation
 .navigation {
  padding: 1em  0;
   

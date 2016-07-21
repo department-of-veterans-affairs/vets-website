@@ -1,33 +1,13 @@
 ---
 title: Apply for VA Health Care
+template: 1-topic-landing
+showactionbar: true
 ---
-<div class="main" role="main" markdown="0">
 
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply for VA Health Care</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-
-
-
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-<div markdown="1">
 VA health care includes regular checkups with your primary care doctor and access to specialists, such as cardiologists, gynecologists, and mental health providers. You can also get home health care and geriatric care, as well as medical equipment, prosthetics, and prescriptions.
-<div class="row">
-    <div class="small-12 columns">
-        <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply Online for VA Health Care</a>
-    </div>
-</div>
-</div>
-<br/>
-<div markdown="1">
+
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply for VA Health Care</a>
+
 ### Other ways to apply
 
 - Call 1-877-222-8387 Monday through Friday, 8:00 a.m. to 8:00 p.m. (EST) to get help with your application. 
@@ -41,17 +21,14 @@ VA health care includes regular checkups with your primary care doctor and acces
 </dl>
 
 - Visit the [nearest VA medical center or clinic](http://www.va.gov/directory/guide/division.asp?dnum=1) to apply in person. Download, print, and fill out the [10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
-</div>
+
 <div class="call-out" markdown="1">
 ### What information will you need to complete this form?
 
 - Your most recent tax return
 - Social security numbers for yourself and your dependents
 - Account numbers for any current insurance programs in which you are already enrolled
-
 </div>
-<div markdown="1">
-
 
 ### How long will it take to process your application?
 
@@ -82,8 +59,3 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 - Your most recent tax return will have most of ​the​ information you need to qualify based on your income.
 
-</div>
-</div>
-
-</div>
-</div>

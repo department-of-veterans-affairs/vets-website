@@ -41,8 +41,28 @@
       <li>
       Get more information about <a href="http://www.publichealth.va.gov/exposures/agentorange/shiplist/#sthash.EuQ8JwEx.dpuf">ships that may have been exposed to Agent Orange</a>.
       </li>     
-      {% endif %}
+        {% endif %}
     
+        {% if page.path contains 'agent-orange/test-storage' %}
+       <li>
+      See these comprehensive lists for dates and locations of herbicide tests and storage:
+
+        <p><a href="http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/usa.asp">In the U.S.</a></p>
+      
+        <p><a href="http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/outside-vietnam.asp">Outside the U.S.</a></p>
+      </li>
+      {% endif %}
+      
+      {% if page.path contains 'agent-orange/registry-health-exam' %}
+      <li>Contact your <a href="http://www.publichealth.va.gov/exposures/coordinators.asp">local VA Environmental Health Coordinator</a> to make an appointment for your Agent Orange Registry health exam.
+      </li>
+
+
+      <li>
+      Learn more about the <a href="http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp#sthash.WRMj8tzo.dpuf">Agent Orange Registry health exam</a>.
+      </li>
+      {% endif %}
+       
       {% if page.collection == 'disability-benefits' %}
       <li>Find an <a href="/disability-benefits/apply-for-benefits/help/">accredited representative</a> to help you.</li>  
       {% endif %}
