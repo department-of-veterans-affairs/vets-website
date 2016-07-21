@@ -1,5 +1,5 @@
 ---
-title: What to Expect at Your VA Claim Exam
+title: What happens at a VA claim exam?
 template: 6-info-page
 ---
 After you [file your disability benefits claim](/disability-benefits/apply-for-benefits/), you may be asked to go to a VA claim exam. This is also known as a compensation and pension (C&P) exam.
