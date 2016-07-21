@@ -27,5 +27,4 @@ Choose one of three ways:
 
 3.	Go to a [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) and have a VA employee assist you.
 
-
 **Note:** Active-duty Servicemembers should learn about [predischarge claims](/disability-benefits/claims-process/claim-types/predischarge-claim/index.html).

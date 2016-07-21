@@ -1,8 +1,12 @@
 <div class="main interior" role="main">
+  {% include breadcrumbs.html %}
   <div class="section one">
-    <div class="row">
-      <div class="small-12 columns{% unless page.template == '7-get-page-alt' %}  usa-content {% endunless %}">
-         {{content}}
+    <div class="primary">
+      <div class="row">
+        <div class="small-12 columns{% unless page.template == '7-get-page-alt' %}  usa-content {% endunless %}">
+           <h1>{{ page.title }}</h1>
+           {{content}}
+        </div>
       </div>
     </div>
   </div>
