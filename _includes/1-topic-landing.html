@@ -10,7 +10,14 @@
   {% endif %}
 
   {% if page.collection == 'healthcare' and page.showactionbar == true %}
-    {% include action-bar.html action_text="Apply for VA Health Care" action_url="/healthcare/apply/application" action_class="va-action-bar--header" %}
+      <div class="va-action-bar--header" style="background-color: #FAC922; text-align:center;">
+        <div class="row">
+          <div class="small-12 columns">
+            <h6 style="margin: 0;">Are you a caregiver or on active duty? This form’s not quite ready for you yet. <a href="#additional-forms-for-caregivers-and-active-duty-military"> Find the form you need.</a></h6>
+          </div>
+        </div>
+      </div>
+    <!--{% include action-bar.html action_text="Apply for VA Health Care" action_url="/healthcare/apply/application" action_class="va-action-bar--header" %}-->
   {% endif %}
 
 {% endunless %}
