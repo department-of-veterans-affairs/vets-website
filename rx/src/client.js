@@ -3,6 +3,9 @@
 // Add all the ES6 library features that my be missing.
 require('babel-polyfill');
 
+// Add styles
+require('../assets/scss/rx.scss');
+
 // Get our browser up to date with polyfills.
 const Modernizr = require('modernizr');
 if (!Modernizr.classlist) {

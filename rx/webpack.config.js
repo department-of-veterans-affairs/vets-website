@@ -24,7 +24,7 @@ var config = {
 
           // Share polyfills between files.
           // TODO(awong): This is erroring out. Enable later.
-//          plugins: ['transform-runtime'],
+          // plugins: ['transform-runtime'],
 
           // Speed up compilation.
           cacheDirectory: true
@@ -40,7 +40,7 @@ var config = {
 
           // Share polyfills between files.
           // TODO(awong): This is erroring out. Enable later.
-//          plugins: ['transform-runtime'],
+          // plugins: ['transform-runtime'],
           plugins: [
             ['react-transform', {
               transforms: [
@@ -62,6 +62,10 @@ var config = {
       {
         test: /\.modernizrrc/,
         loader: "modernizr"
+      },
+      {
+        test: /\.scss$/,
+        loaders: ["style", "css", "sass"]
       }
     ]
   },
