@@ -56,7 +56,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 ### Additional forms for caregivers and active duty military
 
 - [Update income from a previous application (10-10EZR)](/healthcare/forms/vha-10-10ezr-fill.pdf)
-- [Apply as active duty military (10-10AD)](https://www.1010ez.med.va.gov/sec/vha/1010ez/Form/1010ez.pdf)
+- [Apply as active duty military (10-10AD)](/healthcare/forms/1010ez-AD.pdf)
 - [Apply as a caregiver (10-10CG)](/healthcare/forms/vha-10-10CG.pdf)
 - [Apply as National Guard and Reserve (10-10EZ-Demob)](/healthcare/forms/10-10EZ-DEMOB.pdf)
 - [Apply as a member of the Justice Outreach Program (10-10EZ-JO)](/healthcare/forms/10-10EZ-JO.pdf)
