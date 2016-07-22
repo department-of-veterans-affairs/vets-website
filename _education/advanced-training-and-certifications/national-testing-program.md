@@ -4,43 +4,25 @@ template: 4-action-page-pending
 concurrence: complete
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-<div markdown="1">
 If you are pursuing higher education that requires testing as part of the application process, you may be eligible for reimbursement from VA.
-</div>
-<div class="call-out" markdown="1">
-### Are you eligible for compensation?
 
-Yes, if:
+Are you eligible for compensation?
+: Yes, if:
+: You are a Veteran eligible for the GI Bill
 
-You are a Veteran eligible for the GI Bill
+Who is covered
+: You
+{:.va-callout}
 
-### Who is covered
-
-You
-</div>
-<div markdown="1">
 ### Available benefits
+
 Reimbursement for testing fees, including:
 
 - Registration fees
 - Fees for specialized tests
 - Administrative fees
 
-<hr>
+-----
 
 ### How it works
 - Proof of payment may be required.
@@ -73,11 +55,3 @@ Reimbursement for testing fees, including:
 - PLA (Prior Learning Assessment) testing through learningcounts.org
 
 See the [complete list of tests and fees](http://inquiry.vba.va.gov/weamspub/buildSearchNE.do).
-</div>
-</div>
-
-</div>
-</div>
-
-
-</div>

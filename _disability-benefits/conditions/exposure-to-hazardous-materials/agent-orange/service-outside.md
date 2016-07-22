@@ -11,24 +11,17 @@ template: 4-action-page
 
 If you were exposed to Agent Orange during your service and have a related disease, you can apply for disability compensation even if you did not serve in Vietnam or in the Korean Demilitarized Zone.
 
-<div class="call-out" markdown="1">
+Are you eligible for compensation?
+: Yes, if:
 
-### Are you eligible for compensation?
+  - You are ill with one or more of these [diseases related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+  - Your service involved regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam Era, or
+  - You served in close proximity to areas where [herbicides were tested or stored outside of Vietnam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/), or
+  - You had regular and repeated contact with a contaminated [C-123 aircraft](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/c-123/), or
+  - You were associated during your service with projects to test, dispose of, or store Agent Orange.
 
-Yes, if:
-
-- You are ill with one or more of these [diseases related to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
-- Your service involved regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam Era, or
-- You served in close proximity to areas where [herbicides were tested or stored outside of Vietnam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/test-storage/), or
-- You had regular and repeated contact with a contaminated [C-123 aircraft](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/c-123/), or
-- You were associated during your service with projects to test, dispose of, or store Agent Orange.
-
-<br>
-
-### Who is covered
-
-You and your survivors
-</div>
+Who is covered
+: You and your survivors
 
 ### Available benefits
 
