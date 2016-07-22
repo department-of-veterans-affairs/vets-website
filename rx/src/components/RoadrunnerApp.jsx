@@ -6,9 +6,8 @@ class RoadrunnerApp extends React.Component {
   render() {
     return (
       <div>
-        {this.props.children}
-        <hr/>
         <Nav/>
+        {this.props.children}
       </div>
     );
   }
