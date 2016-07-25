@@ -5,26 +5,15 @@
 ### Requirements
 
 - [Git](https://git-scm.com/)
-- [Ruby](https://www.ruby-lang.org)
 - [Node and NPM](https://nodejs.org/)
 - [Bundler](http://bundler.io/)
 
 If you are using OS X, there is a good chance that you already have these installed. To check:
 
 1. Open Terminal.app (or iTerm, if that's what you're using)
-1. Type `which [program]`, e.g.: `which bundler` or `which git`
+1. Type `which [program]`, e.g.: `which npm` or `which git`
 
 If the output is a path, then that package has been installed. If there is no output, install the appropriate software.
-
-#### Ruby version management
-
-Different Ruby projects may use different versions of Ruby. Consider using a version manager to eliminate the problems that can arise from incompatible Ruby versions.
-
-- [rbenv](https://github.com/sstephenson/rbenv)
-- [rvm](https://rvm.io/) 
-
-**NOTE:** Most development systems will already have the requirements installed
-including `bundler` and `npm`.
 
 ## Installation
 

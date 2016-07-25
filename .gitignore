@@ -1,14 +1,8 @@
-.DS_Store
-*.log
-*.log.*
-*.sw[op]
-
-#Compiled files.
-.sass-cache
-_site/
-_site_production/
+# Node files to ignore
 node_modules/
-vendor/bundle
-.ruby-gemset
-assets/js/generated/
-.bundle/
+npm-debug.log
+
+# OS files to ignore
+._*
+.cache
+.DS_Store
