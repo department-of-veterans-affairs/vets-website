@@ -1,0 +1,14 @@
+@import '../../../_sass/lib/bourbon/_bourbon.scss';
+@import '../../../_sass/lib/neat/_neat.scss';
+
+@import '../../../_sass/_va-variables.scss';
+@import '../../../_sass/core/_variables.scss';
+@import '../../../_sass/core/_grid-settings.scss';
+@import '../../../_sass/core/_grid.scss';
+
+
+#content {
+  background: $color-white;
+}
+
+ 
