@@ -82,7 +82,7 @@
               <ul>
                 <li><a href="tel:18002738255">Call <strong>1-800-273-8255 (Press 1)</strong></a></li>
                 <li><a href="sms:838255">Text to <b>838255</b></a></li>
-                <li><a href="https://www.veteranscrisisline.net/mobile/ChatTermsOfService.aspx?account=Veterans%20Chat">Chat <b>confidentially now</b></a></li>
+                <li><a href="https://www.veteranscrisisline.net/mobile/ChatTermsOfService.aspx?account=Veterans%20Chat" onclick="dataLayer.push({'event': 'popup-link-clicked'});">Chat <b>confidentially now</b></a></li>
               </ul> 
             
               <p>If you are in crisis or having thoughts of suicide, 
@@ -131,7 +131,7 @@
       <ul>
         <li>Call <strong>1-800-273-8255 (Press 1)</strong></li>
         <li>Text to <b>838255</b></li>
-        <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat">Chat confidentially now</a></li>
+        <li><a href="https://www.veteranscrisisline.net/ChatTermsOfService.aspx?account=Veterans%20Chat" onclick="dataLayer.push({'event': 'popup-link-clicked'});">Chat confidentially now</a></li>
       </ul>
       <p>If you are in crisis or having thoughts of suicide, 
 visit <a href="https://www.veteranscrisisline.net/">VeteransCrisisLine.net</a> for more resources.</p>
@@ -149,6 +149,14 @@ UserVoice.push(['identify', {
 }]);
 
 UserVoice.push(['autoprompt', {}]);
+</script>
+
+<!-- For Google Tag Manager to track custom events -->
+<script>
+  dataLayer = [{
+    'pageCategory': 'page',
+    'visitorType': 'high-value'
+  }];
 </script>
 
 <!-- Google Tag Manager -->
