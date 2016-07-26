@@ -1,4 +1,4 @@
-@charset "UTF-8";
+@charset 'UTF-8';
 
 /// Returns a media context (media query / grid context) that can be stored in a variable and passed to `media()` as a single-keyword argument. Media contexts defined using `new-breakpoint` are used by the visual grid, as long as they are defined before importing Neat.
 ///
@@ -114,7 +114,7 @@
 
   $values: ($transparent 0, $color 0);
 
-  @for $i from 1 to $grid-columns*2 {
+  @for $i from 1 to ($grid-columns * 2) {
     @if is-even($i) {
       $values: append($values, $transparent $column-offset, comma);
       $values: append($values, $color $column-offset, comma);
@@ -133,7 +133,7 @@
 @function get-direction($layout, $default) {
   $direction: null;
 
-  @if to-upper-case($layout) == "LTR" or to-upper-case($layout) == "RTL" {
+  @if to-upper-case($layout) == 'LTR' or to-upper-case($layout) == 'RTL' {
     $direction: direction-from-layout($layout);
   } @else {
     $direction: direction-from-layout($default);
@@ -145,7 +145,7 @@
 @function direction-from-layout($layout) {
   $direction: null;
 
-  @if to-upper-case($layout) == "LTR" {
+  @if to-upper-case($layout) == 'LTR' {
     $direction: right;
   } @else {
     $direction: left;
@@ -157,7 +157,7 @@
 @function get-opposite-direction($direction) {
   $opposite-direction: left;
 
-  @if $direction == "left" {
+  @if $direction == 'left' {
     $opposite-direction: right;
   }
 

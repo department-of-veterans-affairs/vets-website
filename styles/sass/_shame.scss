@@ -109,7 +109,7 @@ body .row {
     &.section-complete {
       &:before {
         background: $color-green;
-        content: "\2714";
+        content: '\2714';
       }
     }
     &.section-current {

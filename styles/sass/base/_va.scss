@@ -150,16 +150,20 @@ input::-webkit-input-placeholder{
 input::-moz-placeholder { 
   color: $color-gray; 
 }
+
 input:-ms-input-placeholder {  
   color: $color-gray;
 }
+
 // Visually clear placeholder text on focus
 input:focus::-webkit-input-placeholder{
   color: transparent;
 }
+
 input:focus::-moz-placeholder { 
   color: transparent;  
 }
+
 input:focus:-ms-input-placeholder {  
   color: transparent;
 }
@@ -169,10 +173,10 @@ input:focus:-ms-input-placeholder {
 .usa-button:visited,
 .usa-button-primary:visited,
 button,
-[type="button"],
-[type="submit"],
-[type="reset"],
-[type="image"] {
+[type='button'],
+[type='submit'],
+[type='reset'],
+[type='image'] {
   // TODO(crew): Remove this at some point. Fix this by using JS for title casing or passing nav labels as an object.
   &.text-capitalize {
     text-transform: capitalize;
@@ -193,8 +197,8 @@ hr {
 
 
 // Interior rows
-#content.interior a[href^="http://"],
-#content.interior a[href^="https://"] {
+#content.interior a[href^='http://'],
+#content.interior a[href^='https://'] {
   position: relative;
 }
 
@@ -464,7 +468,7 @@ html.no-touch .banner {
     }
   }
 
-  ul[class*="block-grid-"] {
+  ul[class*='block-grid-'] {
     display: block;
     padding: 0;
     margin: 0;
@@ -768,7 +772,7 @@ ul, ol {
     vertical-align: middle;
 
     &:after {
-      content: " › "; 
+      content: ' › '; 
       display: inline-block; 
       padding: 0 .35em;
     }
@@ -845,7 +849,7 @@ ul, ol {
     margin: 0 0 .75em 0;
 
     &:after {
-      content:" › "; 
+      content:' › '; 
       display: inline-block; 
       color: $color-white; 
       padding: 0 .5em; 
@@ -864,7 +868,7 @@ ul, ol {
     }
     
     &:before {
-      content: ""; 
+      content: ''; 
       padding: 0; 
       margin: 0;
     }
@@ -944,7 +948,7 @@ li {
 
 // Cards
 
-[class*="block-grid-"]>li {
+[class*='block-grid-']>li {
   padding: 0;
   @media #{$small} {
     padding: 0 0.625rem 1.25rem 0.625rem;
@@ -1102,7 +1106,7 @@ li {
        visibility: hidden;
        display: block;
        font-size: 0;
-       content: " ";
+       content: ' ';
        clear: both;
        height: 0;
     }
@@ -1112,7 +1116,7 @@ li {
       display: inline-block;
       
       &:after {
-        content:"|";
+        content:'|';
         padding: 0 .15em;
       }
       
@@ -1121,7 +1125,7 @@ li {
         
         &::after {
           padding: 0;
-          content: "";
+          content: '';
         }
       }       
     }
@@ -1243,7 +1247,7 @@ a.twitter {
     overflow: hidden;
     float: left;
   }
-  input[type="text"] {
+  input[type='text'] {
     height: 3em;
     margin: 0;
     width: 100%;
@@ -1252,7 +1256,7 @@ a.twitter {
     box-sizing: border-box;
   }
 
-  input[type="submit"] {
+  input[type='submit'] {
     margin: 0;
     height: 3em;
     text-align: center !important;
@@ -1353,7 +1357,7 @@ p.byline {
     visibility: hidden;
     display: block;
     font-size: 0;
-    content: " ";
+    content: ' ';
     clear: both;
     height: 0;
   }
@@ -1549,26 +1553,26 @@ margin: 0;
   padding-bottom: 0;
 }
 
-li.one:before {content: "1";}
-li.two:before {content: "2";}
-li.three:before {content: "3";}
-li.four:before {content: "4";}
-li.five:before {content: "5";}
-li.six:before {content: "6";}
-li.seven:before {content: "7";}
-li.eight:before {content: "8";}
-li.nine:before {content: "9";}
-li.ten:before {content: "10";}
-li.eleven:before {content: "11";}
-li.twelve:before {content: "12";}
-li.thirteen:before {content: "13";}
-li.fourteen:before {content: "14";}
-li.fifteen:before {content: "15";}
-li.sixteen:before {content: "16";}
-li.seventeen:before {content: "17";}
-li.eighteen:before {content: "18";}
-li.nineteen:before {content: "19";}
-li.twenty:before {content: "20";}
+li.one:before {content: '1';}
+li.two:before {content: '2';}
+li.three:before {content: '3';}
+li.four:before {content: '4';}
+li.five:before {content: '5';}
+li.six:before {content: '6';}
+li.seven:before {content: '7';}
+li.eight:before {content: '8';}
+li.nine:before {content: '9';}
+li.ten:before {content: '10';}
+li.eleven:before {content: '11';}
+li.twelve:before {content: '12';}
+li.thirteen:before {content: '13';}
+li.fourteen:before {content: '14';}
+li.fifteen:before {content: '15';}
+li.sixteen:before {content: '16';}
+li.seventeen:before {content: '17';}
+li.eighteen:before {content: '18';}
+li.nineteen:before {content: '19';}
+li.twenty:before {content: '20';}
 }
 
 // Icons
@@ -1638,7 +1642,7 @@ li.twenty:before {content: "20";}
 }
 
 // Action bars
-[class^="va-action-bar"] {
+[class^='va-action-bar'] {
   background: $color-gray-lightest;
 }
 
@@ -1685,7 +1689,7 @@ li.twenty:before {content: "20";}
 .usa-accordion-content[aria-hidden=true] {
     display: none !important;
 }
-button[class*="usa-button-"] {
+button[class*='usa-button-'] {
   font-weight:500;
   span {
     font-weight:700
@@ -1761,7 +1765,7 @@ button[class*="usa-button-"] {
     width: 100%;
     z-index: 800;
   
-    input[type="text"] {
+    input[type='text'] {
       -webkit-appearance: none;
       border-radius: 3px 0 0 3px;
     }
@@ -1867,7 +1871,7 @@ ul li p {
   text-align: center;
   vertical-align: middle;
 }
-.simpletooltip[aria-hidden="true"] {
+.simpletooltip[aria-hidden='true'] {
   display: none;
 }
 .simpletooltip_container {
@@ -1897,7 +1901,7 @@ ul li p {
     border-bottom: 10px solid transparent;  // left arrow slant
     border-top: 10px solid transparent; // right arrow slant
     border-right: 10px solid $color-gray-dark;
-    content: "";
+    content: '';
     font-size: 0;
     position: absolute;
     left: 0px;
@@ -1974,8 +1978,8 @@ html.touchevents {
 }
 
 .va-code-block, 
-code[class*="language-"], 
-pre[class*="language-"]  {
+code[class*='language-'], 
+pre[class*='language-']  {
   background-color: $color-gray-lightest !important;
   font-size: .9em;
   line-height: inherit !important;

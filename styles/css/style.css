@@ -5184,7 +5184,7 @@ ol.checklist,
       margin: 0 -0.625rem !important; } }
   .va-nav-category::before, .va-nav-category::after {
     clear: both;
-    content: " ";
+    content: ' ';
     display: table; }
   .va-nav-category li {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -5212,7 +5212,7 @@ ol.checklist,
 .va-nav-category h5 {
   color: #112e51;
   font-weight: 700;
-  font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
+  font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
   font-size: 1.35em;
   padding: 0 0 .25em 0 !important;
   margin: 0;
@@ -5326,7 +5326,7 @@ body .row {
 
 .hca-process li.section-complete:before {
   background: #2e8540;
-  content: "\2714"; }
+  content: '\2714'; }
 
 .hca-process li.section-current h5 {
   font-weight: bold;

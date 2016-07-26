@@ -1,4 +1,4 @@
-// Category navigation AKA "piano keys"
+// Category navigation AKA 'piano keys'
 // pattern. These are the links at the bottom
 // of secondary-level pages.
 
@@ -14,7 +14,7 @@
   
   &::before, &::after {
     clear: both;
-    content: " ";
+    content: ' ';
     display: table; 
   }
   
@@ -50,7 +50,7 @@
 .va-nav-category h5 {
   color: $color-primary-darkest;
   font-weight: 700;
-  font-family: "Source Sans Pro","Helvetica","Arial",sans-serif;
+  font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
   font-size: 1.35em;
 // TODO: Remove this !important when #content .section h5 is refactored
   padding: 0 0 .25em 0 !important;

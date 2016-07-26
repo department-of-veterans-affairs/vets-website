@@ -1,58 +1,58 @@
-@charset "UTF-8";
+@charset 'UTF-8';
 
 // ----- VENDORS ---- //
 
-@import "lib/bourbon/bourbon";
-@import "lib/neat/neat";
-@import "lib/normalize/normalize";
-@import "lib/foundation/variables";
-@import "lib/foundation/components/grid";
-@import "lib/foundation/components/block-grid";
-@import "lib/foundation/components/tabs";
-@import "lib/foundation/components/visibility";
+@import 'lib/bourbon/bourbon';
+@import 'lib/neat/neat';
+@import 'lib/normalize/normalize';
+@import 'lib/foundation/variables';
+@import 'lib/foundation/components/grid';
+@import 'lib/foundation/components/block-grid';
+@import 'lib/foundation/components/tabs';
+@import 'lib/foundation/components/visibility';
 
 
 // ---- U.S. WEB DESIGN STANDARDS SETTINGS --- //
 
-@import "lib/uswds/core/defaults";
-@import "lib/uswds/core/base";
-@import "lib/uswds/core/utilities";
-@import "lib/uswds/core/variables";
+@import 'lib/uswds/core/defaults';
+@import 'lib/uswds/core/base';
+@import 'lib/uswds/core/utilities';
+@import 'lib/uswds/core/variables';
 
 // ----- VA BASE (VARIABLES/HELPERS) ---- //
 
-@import "_base/b-variables";
-@import "_base/b-functions";
+@import 'base/b-variables';
+@import 'base/b-functions';
 
 
 // ---- U.S. WEB DESIGN STANDARDS ELEMENTS/COMPONENTS --- //
 
-@import "lib/uswds/elements/buttons";
-@import "lib/uswds/elements/inputs";
-@import "lib/uswds/elements/labels";
-@import "lib/uswds/elements/table";
+@import 'lib/uswds/elements/buttons';
+@import 'lib/uswds/elements/inputs';
+@import 'lib/uswds/elements/labels';
+@import 'lib/uswds/elements/table';
 
-@import "lib/uswds/components/accordions";
-@import "lib/uswds/components/forms";
-@import "lib/uswds/components/sidenav";
+@import 'lib/uswds/components/accordions';
+@import 'lib/uswds/components/forms';
+@import 'lib/uswds/components/sidenav';
 
 // ----- VA GENERAL (MAIN FILE/OTHER) ---- //
 
-@import "_base/_va";
+@import 'base/va';
 
 
 // ----- VA LAYOUTS (GRIDS/HEADER/FOOTER) ---- //
 
-@import "_layouts/l-playbook";
+@import 'layouts/l-playbook';
 
 
 // ----- VA MODULES (BUTTONS/CARDS/TABLES) ---- //
 
-@import "_modules/m-card";
-@import "_modules/m-checklist";
-@import "_modules/m-crisis-line";
-@import "_modules/m-piano-key";
-@import "_modules/m-table";
+@import 'modules/m-card';
+@import 'modules/m-checklist';
+@import 'modules/m-crisis-line';
+@import 'modules/m-piano-key';
+@import 'modules/m-table';
 
 
 // ----- VA STATE (ACTIVE BUTTONS/ERROR INPUTS) ---- //
@@ -60,4 +60,4 @@
 
 // ----- VA SHAME ---- //
 
-@import "shame";
+@import 'shame';

@@ -73,6 +73,12 @@ module.exports = function(grunt) {
                 spawn: false,
             }
         } 
+      },
+      sasslint: {
+          options: {
+              configFile: 'config/.sass-lint.yml',
+          },
+          target: ['styles/sass/**/\*.scss', '!styles/sass/lib/**/\*.scss']
       }
 
   });
@@ -82,6 +88,7 @@ grunt.loadNpmTasks('grunt-contrib-uglify');
 grunt.loadNpmTasks('grunt-contrib-imagemin');
 grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-contrib-connect');
+grunt.loadNpmTasks('grunt-sass-lint');
 grunt.loadNpmTasks('grunt-sass');
 
 grunt.registerTask('dev', ['sass' ,'concat', 'uglify', 'connect', 'watch']);
