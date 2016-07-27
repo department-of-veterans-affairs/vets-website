@@ -51,7 +51,9 @@ module.exports = function(grunt) {
                   style: 'compressed'
               },
               files: {
-                  'styles/css/style.css': 'styles/sass/style.scss'
+                  'generated/css/style.css': 'sass/style.scss',
+                  'generated/css/hca.css': 'sass/hca.scss'
+
               }
           } 
       },
