@@ -24,8 +24,7 @@ VA health care includes regular checkups with your primary care doctor and acces
 - Visit the [nearest VA medical center or clinic](http://www.va.gov/directory/guide/division.asp?dnum=1) to apply in person. Download, print, and fill out the [10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 <div class="call-out" markdown="1">
-
-### What information will you need to complete this form?
+### What information will you need to complete the 10-10EZ?
 
 - Your most recent tax return
 - Social security numbers for yourself and your dependents
@@ -34,11 +33,13 @@ VA health care includes regular checkups with your primary care doctor and acces
 
 ### How long will it take to process your application?
 
-Less than one week. If more than a week has passed since you submitted your application and you have not heard back, please don’t apply again. Call **1-877-222-VETS** (8387), then press 2.
+Less than one week. If more than a week has passed since you submitted your application and you haven't heard back, please don’t apply again. Call **1-877-222-VETS** (8387), then press 2.
 
 ### Are you eligible for VA health care?
 
 If you served on active duty, and separated under conditions other than dishonorable, you may qualify for VA health care.
+
+If you separated under a dishonorable discharge, visit [healthcare.gov](https://www.healthcare.gov/) to find out if you qualify for health insurance.
 
 #### If at least one of the following applies to you, you probably qualify for VA health care:
 
@@ -55,9 +56,7 @@ If you served on active duty, and separated under conditions other than dishonor
 
 If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes ([income threshold](http://nationalincomelimits.vaftl.us/)) can affect your eligibility for VA benefits.
 
-<div id="additional-forms" markdown="1">
-
-### Additional forms for caregivers and active duty military
+### Additional forms for caregivers and active-duty Servicemembers
 
 
 - [Update income from a previous application (10-10EZR)](/healthcare/forms/vha-10-10ezr-fill.pdf)
@@ -66,36 +65,29 @@ If none of the above apply to you, you may still qualify for care based on your 
 - [Apply as National Guard and Reserve (10-10EZ-Demob)](/healthcare/forms/10-10EZ-DEMOB.pdf)
 - [Apply as a member of the Justice Outreach Program (10-10EZ-JO)](/healthcare/forms/10-10EZ-JO.pdf)
 
+#### Instructions for downloading the forms
 <dl>
-    <dd><strong>To download files in Internet Explorer:</strong></dd>
-    <dd>Right-click on the link for the file you want to download</dd>
-    <dd>Choose "Save Target As …"</dd>
-    <dd>Choose where you want to save the file on your hard drive</dd>
-    <dd>Click 'Save'</dd>
+    <dd><strong>Internet Explorer:</strong></dd>
+    <dd>Right click on one of the links above for the form you want to download.</dd>
+    <dd>Choose **Save Target As...**</dd>
+    <dd>Choose where you want to save the file on your hard drive.</dd>
+    <dd>Click **Save**.</dd>
 </dl>
 
 <dl>
-    <dd><strong>To download files in Firefox/Chrome:</strong></dd>
-    <dd>Right-click on the link for the file you want to download</dd>
-    <dd>Choose "Save Link As …"</dd>
-    <dd>Choose where you want to save the file on your hard drive</dd>
-    <dd>Click 'Save'</dd>
+    <dd><strong>Firefox or Chrome:</strong></dd>
+    <dd>Right click on one of the links above for the form you want to download.</dd>
+    <dd>Choose **Save Link As...**</dd>
+    <dd>Choose where you want to save the file on your hard drive.</dd>
+    <dd>Click **Save**.</dd>
 </dl>
 
 <dl>
-    <dd><strong>To download files in Safari:</strong></dd>
-    <dd>Right-click on the link for the file you want to download</dd>
-    <dd>Choose "Download Linked File As …"</dd>
-    <dd>Choose where you want to save the file on your hard drive</dd>
-    <dd>Click 'Save'</dd>
+    <dd><strong>Safari:</strong></dd>
+    <dd>Right click on one of the links above for the form you want to download.</dd>
+    <dd>Choose **Download Linked File As...**</dd>
+    <dd>Choose where you want to save the file on your hard drive.</dd>
+    <dd>Click **Save**.</dd>
 </dl>
 
-After the download is complete, double-click on the file and it should open as long as you have the necessary software on your computer.
-
-</div>
-
-****Notes:**
-
-- If you separated under a dishonorable discharge, visit [healthcare.gov](https://www.healthcare.gov/) to find out if you qualify for health insurance.
-
-- Your most recent tax return will have most of ​the​ information you need to qualify based on your income.
+Double click on the downloaded file to open it.
