@@ -45,19 +45,6 @@
     "sizzle": "^2.3.0",
     "webpack": "^1.12.13",
     "wow.js": "^1.1.2"
-  },
-  "//": "Keep test dependencies in devDependencies so Heroku does not waste time installing.",
-  "devDependencies": {
-    "chai": "^3.5.0",
-    "chai-as-promised": "^5.2.0",
-    "chai-jquery": "^2.0.0",
-    "install": "^0.4.4",
-    "lolex": "^1.4.0",
-    "mocha": "^2.4.5",
-    "nodemon": "^1.9.1",
-    "sinon": "^1.17.3",
-    "sinon-chai": "^2.8.0",
-    "skin-deep": "^0.14.0",
     "webpack-dev-server": "^1.14.1"
   },
   "optionalDependencies": {

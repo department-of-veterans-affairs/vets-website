@@ -14,9 +14,7 @@ function init() {
         <Route component={Page2} path="/page2"/>
       </Route>
     </Router>
-    ), document.getElementById('react-root'));
+    ), document.getElementById('main'));
 }
 
 export { init };
-
-// I am courtney
