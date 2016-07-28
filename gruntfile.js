@@ -15,33 +15,20 @@ module.exports = function(grunt) {
       concat: {   
         js: {
           src: [
-              'js/jquery-1.11.0.min.js', // Load JQuery
-              'js/foundation.min.js', // Load JQuery
-              'js/*.js'  // This specific file
+              'public/js/jquery-1.11.0.min.js', // Load JQuery
+              'public/js/foundation.min.js', // Load Foundation
+              'public/js/**/*.js'  // Load all other files
           ],
-          dest: 'public/js/production.js',
-        },
-        css: {
-          src: [
-              'styles/css/vendor/*.css', // All JS in the libs folder
-              'styles/css/style.css'  // This specific file
-          ],
-          dest: 'public/css/production.css',
-        }
-      },
-      uglify: {
-        build: {
-          src: 'public/js/production.js',
-          dest: 'public/js/production.min.js'
+          dest: 'generated/js/main.js',    // TODO(crew): Decide on naming convention for this file later.
         }
       },
       imagemin: {
           dynamic: {
               files: [{
                   expand: true,
-                  cwd: 'images/',
+                  cwd: 'public/img/',
                   src: ['**/*.{png,jpg,gif}'],
-                  dest: 'public/images/'
+                  dest: 'public/img/'
               }]
           }
       },
@@ -51,7 +38,7 @@ module.exports = function(grunt) {
                   style: 'compressed'
               },
               files: {
-                  'generated/css/style.css': 'sass/style.scss',
+                  'generated/css/style.css': 'sass/style.scss',  // This is the VA common style
                   'generated/css/hca.css': 'sass/hca.scss'
 
               }
@@ -62,8 +49,8 @@ module.exports = function(grunt) {
           livereload: true,
         },
         scripts: {
-            files: ['js/*.js'],
-            tasks: ['concat:js', 'uglify'],
+            files: ['src/**/*.jsx'],
+            tasks: ['webpack'],
             options: {
                 spawn: false,
             },
@@ -74,15 +61,56 @@ module.exports = function(grunt) {
             options: {
                 spawn: false,
             }
+        },
+        html: {
+            files: ['content/**/*.md'],
+            tasks: [ /* Jekyll-ish build task here */ ],
+            options: {
+                spawn: false,
+            }
         } 
       },
       sasslint: {
           options: {
               configFile: 'config/.sass-lint.yml',
           },
-          target: ['styles/sass/**/\*.scss', '!styles/sass/lib/**/\*.scss']
+          target: ['sass/**/\*.scss', '!sass/lib/**/\*.scss']
+      },
+      webpack: {
+        rx: {
+          // webpack options
+          entry: './src/rx/client.js',
+          output: {
+              path: './generated',
+              filename: 'js/bundle-rx.js'
+          },
+          module: {
+            loaders: [
+              {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel',
+                query: {
+                  presets: ['es2015'],
+                  cacheDirectory: true  // Speed up compilation.
+                }
+              },
+              {
+                test: /\.jsx$/,
+                exclude: /node_modules/,
+                loader: 'babel',
+                query: {
+                  presets: ['react', 'es2015'],
+                  cacheDirectory: true  // Speed up compilation.
+                }
+              }
+            ]
+          },
+          resolve: {
+            extensions: ['', '.js', '.jsx']
+          },
+        },
       }
-
   });
 
 grunt.loadNpmTasks('grunt-contrib-concat');
@@ -92,6 +120,7 @@ grunt.loadNpmTasks('grunt-contrib-watch');
 grunt.loadNpmTasks('grunt-contrib-connect');
 grunt.loadNpmTasks('grunt-sass-lint');
 grunt.loadNpmTasks('grunt-sass');
+grunt.loadNpmTasks('grunt-webpack');
 
 grunt.registerTask('dev', ['sass' ,'concat', 'uglify', 'connect', 'watch']);
 grunt.registerTask('build', ['sass' ,'concat', 'uglify', 'imagemin']);

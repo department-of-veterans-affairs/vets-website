@@ -1,8 +1,9 @@
-# Node files to ignore
+# Directories to ignore
 node_modules/
-npm-debug.log
+generated/
 
-# OS files to ignore
+# Files to ignore
 ._*
 .cache
 .DS_Store
+npm-debug.log
