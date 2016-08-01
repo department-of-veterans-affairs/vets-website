@@ -3,6 +3,7 @@
 const Metalsmith = require('metalsmith');
 const collections = require('metalsmith-collections');
 const dateInFilename = require('metalsmith-date-in-filename');
+const define = require('metalsmith-define');
 const filenames = require('metalsmith-filenames');
 const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdown');
@@ -23,6 +24,7 @@ smith.destination('build');
 // Set up the middleware.
 smith.use(markdown());
 smith.use(dateInFilename(true));
+smith.use(define({ site: require('./config.json') }));
 smith.use(filenames());
 smith.use(permalinks({ pattern: ':collections/:title' }));
 smith.use(layouts({ engine: 'swig', directory: 'content/layouts' }));

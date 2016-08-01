@@ -14,6 +14,53 @@
 
 <meta content="Vets.gov" property="og:site_name">
 
+{% if title %}
+<meta content="{{ title }}" property="og:title">
+{% else %}
+<meta content="https://www.vets.gov" property="og:title">
+{% endif %}
+
+{% if title %}
+<meta content="article" property="og:type">
+{% else %}
+<meta content="website" property="og:type">
+{% endif %}
+
+{% if url %}
+<meta content="https://www.vets.gov{{ url | replace('/index.html','/') }}" property="og:url">
+{% endif %}
+
+{% if date %}
+<meta content="{{ date | date('c') }}" property="article:published_time">
+<meta content="https://www.vets.gov/about/" property="article:author">
+{% endif %}
+<meta content="https://www.vets.gov/img/design/logo/og-image.jpg" property="og:image">
+
+
+<!--Could not find categories so they were removed from header.-->
+
+{% if tags %}
+{% for tag in tags %}
+<meta content="{{ tag }}" property="article:tag">
+{% endfor %}
+{% endif %}
+
+{% if title == 'Home' %}
+<title>{{site.name}}</title>
+{% else %}
+<title>{{ title }}: {{site.name}}</title>
+{% endif %}
+
+<!-- Icons -->
+<link href="/img/design/icons/apple-touch-icon.png" rel="apple-touch-icon-precomposed" />
+<link href="/img/design/icons/apple-touch-icon-72x72.png" rel="apple-touch-icon-precomposed" sizes="72x72" />
+<link href="/img/design/icons/apple-touch-icon-114x114.png" rel="apple-touch-icon-precomposed" sizes="114x114" />
+<link href="/img/design/icons/apple-touch-icon-152x152.png" rel="apple-touch-icon-precomposed" sizes="144x144" />
+<link rel="shortcut icon" href="/img/design/icons/favicon.ico" />
+
+<meta name="msapplication-TileImage" content="/img/design/icons/apple-touch-icon-114x114">
+<meta name="msapplication-TileColor" content="#144073">
+
 <!-- CSS -->
 <link rel='stylesheet' href='/generated/bundle.css'>
 
@@ -28,16 +75,6 @@
 
 <!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
 <script src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
-
-
-
-<!--{% if site.production %}
-<script src="/generated/prod/bundle.js"></script>
-{% else %}
-<script src="/generated/dev/bundle.js"></script>
-{% endif %}-->
-
-<!--TODO: Add ENV variables for builds. Until then use general file.-->
 <script src="/generated/bundle.js"></script>
 
 <!--[if lt IE 9]>

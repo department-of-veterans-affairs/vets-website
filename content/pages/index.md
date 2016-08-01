@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title></title>
+<meta charset="UTF-8">
+<link href="/generated/bundle.css" rel="stylesheet">
+<script src="/generated/bundle.js"></script>
+</head>
+<body>
+Main page
+<div id="react-root"></div>
+</body>
+</html>
