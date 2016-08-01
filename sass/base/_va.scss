@@ -13,7 +13,7 @@ body {
 
 // General
 body, .home {
-  background: $color-primary-darkest url(../images/design/background/thread.png) top left no-repeat;
+  background: $color-primary-darkest url(../../public/img/design/background/thread.png) top left no-repeat;
   background-size: contain;
   color: $color-white;
 }
@@ -207,7 +207,7 @@ hr {
 [href^=http] {
   // Using longhand properties instead of the shorthand to limit 
   // risk and impact of side effects
-  background-image: url(/images/icons/exit-icon.png);
+  background-image: url(/../public/img/icons/exit-icon.png);
   background-position: 100% 50%;
   background-repeat: no-repeat;
   background-size: 1em auto;
@@ -240,7 +240,7 @@ hr {
     white-space: nowrap;
     overflow: hidden;
     display: block;
-    background: url(../images/design/logo/logo.png) top left no-repeat;
+    background: url(../../public/img/design/logo/logo.png) top left no-repeat;
     width: 180px;
     height: 30px;
     background-size: contain;
@@ -248,7 +248,7 @@ hr {
     text-decoration: none;
     
     &:hover, &:active, &:focus {
-      background-image: url(../images/design/logo/logo-hover.png); 
+      background-image: url(../../public/img/design/logo/logo-hover.png); 
     }
   
     @media #{$small} {
@@ -430,11 +430,6 @@ h6 {
 // and eliminate this declaration
 .usa-content {
   max-width: $text-max-width;
-}
-
-html.no-touch .banner {
-  background: url(../img/design/banner.jpg) 50% 60% no-repeat;
-  background-size: cover;
 }
 
 // Use to add a horizontal rule under the heading
@@ -1015,11 +1010,11 @@ li {
 .footer-logo a {
   display: none;
   @media #{$medium} {padding: 0; display: block;}
-  @media #{$medium} {background:url(../images/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
+  @media #{$medium} {background:url(../../public/img/design/logo/logo.png) 102% 102% no-repeat!important;border-bottom:0!important;width: 112px; height:32px; display: block;background-size: 160px!important; text-indent:180%; overflow:hidden}
 }
 
 .footer-seal {
-  background:url(../images/design/sprites/sprite.png)  no-repeat 0 -23px;
+  background:url(../../public/img/design/sprites/sprite.png)  no-repeat 0 -23px;
   background-size: 215px 72px;
   width: 215px;
   height: 49px;
@@ -1143,7 +1138,7 @@ li {
 
 // Footer icon sprite
 a.facebook {
-  background: url('../images/design/sprites/sprite.png') no-repeat -22px 0;
+  background: url('../../public/img/design/sprites/sprite.png') no-repeat -22px 0;
   background-size: 215px 72px;
   width: 17px;
   height: 17px;
@@ -1152,7 +1147,7 @@ a.facebook {
 }
 
 a.twitter {
-  background: url('../images/design/sprites/sprite.png') no-repeat 0 0;
+  background: url('../../public/img/design/sprites/sprite.png') no-repeat 0 0;
   background-size: 215px 72px;
   width: 20px;
   height: 16px;
@@ -1225,7 +1220,7 @@ a.twitter {
   }
   
   .icon {
-    background: url('../images/design/sprites/sprite.png') no-repeat -43px 0;
+    background: url('../../public/img/design/sprites/sprite.png') no-repeat -43px 0;
     background-size: 215px 72px;
     display: inline-block;
     width: 19px;

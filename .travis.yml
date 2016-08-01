@@ -1,19 +1,34 @@
-language: ruby
+language: node_js
 
-before_install:
-  - nvm install 4.4.5
+compiler: clang-3.6
 
-install:
-  - rake install
+env:
+  global:
+    - CXX=clang-3.6
 
-script:
-  - rake tests:ci
-cache:
-  directories:
-    - node_modules
-    - vendor/bundle
 notifications:
   email: false
+
+before_install:
+  - npm install -g npm@3.8.9
+  - npm --version
+  - npm cache clean  # Workaround Travis problem where npm install fails with ENOENT
+  - rm -rf `npm config get cache`  # Big hammer for clearing the cache to handle ENOENT problem.
+
+cache:
+  apt: true
+  directories:
+    - node_modules
+
+addons:
+  apt:
+    sources:
+      - llvm-toolchain-precise-3.6
+      - ubuntu-toolchain-r-test
+    packages:
+      - clang-3.6
+      - g++-4.8
+
 deploy:
   - provider: s3
     access_key_id: AKIAIEIFFI3LJZO44VTQ #Travis.Staging
@@ -27,4 +42,4 @@ deploy:
     acl: public_read
     on:
       repo: department-of-veterans-affairs/vets.gov-ui-components
-      branch: master
+      branch: deploytest

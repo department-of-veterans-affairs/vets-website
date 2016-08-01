@@ -47,7 +47,7 @@
 // This can be any element, but usually an
 // `a` or `div`
 .va-card-body, .va-card a {
-  @include transition(all 0.3s ease-in-out);
+  @include transition(all, 0.3s, ease-in-out);
   background: $color-primary-darker;
   border-bottom: 2px solid rgba(255,255,255,0.3);
   color: #fff !important;

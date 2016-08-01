@@ -2,22 +2,22 @@
 
 // ----- VENDORS ---- //
 
-@import 'lib/bourbon/bourbon';
-@import 'lib/neat/neat';
-@import 'lib/normalize/normalize';
-@import 'lib/foundation/variables';
-@import 'lib/foundation/components/grid';
-@import 'lib/foundation/components/block-grid';
-@import 'lib/foundation/components/tabs';
-@import 'lib/foundation/components/visibility';
+@import "bourbon";
+@import "neat";
+
+@import "~foundation-sites/scss/normalize.scss";
+@import "~foundation-sites/scss/foundation/components/grid";
+@import "~foundation-sites/scss/foundation/components/block-grid";
+@import "~foundation-sites/scss/foundation/components/visibility";
+@import "foundation-variables";
 
 
 // ---- U.S. WEB DESIGN STANDARDS SETTINGS --- //
 
-@import 'lib/uswds/core/defaults';
-@import 'lib/uswds/core/base';
-@import 'lib/uswds/core/utilities';
-@import 'lib/uswds/core/variables';
+@import "~uswds/src/stylesheets/core/defaults";
+@import "~uswds/src/stylesheets/core/base";
+@import "~uswds/src/stylesheets/core/utilities";
+@import "~uswds/src/stylesheets/core/variables";
 
 // ----- VA BASE (VARIABLES/HELPERS) ---- //
 
@@ -27,14 +27,14 @@
 
 // ---- U.S. WEB DESIGN STANDARDS ELEMENTS/COMPONENTS --- //
 
-@import 'lib/uswds/elements/buttons';
-@import 'lib/uswds/elements/inputs';
-@import 'lib/uswds/elements/labels';
-@import 'lib/uswds/elements/table';
+@import "~uswds/src/stylesheets/elements/buttons";
+@import "~uswds/src/stylesheets/elements/inputs";
+@import "~uswds/src/stylesheets/elements/labels";
+@import "~uswds/src/stylesheets/elements/table";
 
-@import 'lib/uswds/components/accordions';
-@import 'lib/uswds/components/forms';
-@import 'lib/uswds/components/sidenav';
+@import "~uswds/src/stylesheets/components/accordions";
+@import "~uswds/src/stylesheets/components/forms";
+@import "~uswds/src/stylesheets/components/sidenav";
 
 // ----- VA GENERAL (MAIN FILE/OTHER) ---- //
 
@@ -57,6 +57,8 @@
 
 // ----- VA STATE (ACTIVE BUTTONS/ERROR INPUTS) ---- //
 
+// Font Awesome
+//@import "~font-awesome/scss/font-awesome";
 
 // ----- VA SHAME ---- //
 

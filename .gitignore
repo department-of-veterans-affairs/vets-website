@@ -1,6 +1,6 @@
 # Directories to ignore
 node_modules/
-generated/
+build/
 
 # Files to ignore
 ._*
