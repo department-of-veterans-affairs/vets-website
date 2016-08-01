@@ -6,8 +6,8 @@
         <div class="main">
           <div class="post">
             <h3 class="title">{{ title }}</h3>
-            <div class="post-author"></div>
-            <div class="post-date">{{ date | date('Y-m-d') }}</div>
+            <div class="post-author">{{ author }}</div>
+            <div class="post-date">{{ date | date('F d, Y') }}</div>
             {{ contents | safe }}
           </div>
           <div class="related-posts">

@@ -5,11 +5,11 @@ class Nav extends React.Component {
   render() {
     return (
       <div>
-        <IndexLink to="/">Home</IndexLink>
+        <IndexLink to="/rx/">Home</IndexLink>
         <span> | </span>
-        <Link to="/landing">Landing Page</Link>
+        <Link to="/rx/landing">Landing Page</Link>
         <span> | </span>
-        <Link to="/page2">Page 2</Link>
+        <Link to="/rx/page2">Page 2</Link>
       </div>
     );
   }

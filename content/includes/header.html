@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<!--[if lt IE 7 ]> <html lang="en" class="ie6"> <![endif]-->
+<!--[if IE 7 ]> <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8 ]> <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9 ]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en"> <!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<meta content="Vets.gov" property="og:site_name">
+
+<!-- CSS -->
+<link rel='stylesheet' href='/generated/bundle.css'>
+
+<!-- Fonts -->
+<link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,300,600,700|Roboto+Slab' rel='stylesheet' type='text/css'>
+
+<!-- Old IE -->
+
+<!--[if lt IE 9]>
+<link rel='stylesheet' href='/assets/css/ie.css'>
+<![endif]-->
+
+<!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
+<script src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
+
+
+
+<!--{% if site.production %}
+<script src="/generated/prod/bundle.js"></script>
+{% else %}
+<script src="/generated/dev/bundle.js"></script>
+{% endif %}-->
+
+<!--TODO: Add ENV variables for builds. Until then use general file.-->
+<script src="/generated/bundle.js"></script>
+
+<!--[if lt IE 9]>
+<script src="/assets/js/vendor/html5shiv.js"></script>
+<![endif]-->
+
+
+</head>
+<body class="{{ body_class }}">
+
+<a class="show-on-focus" href="#content">Skip to Content</a>
+
+
+<div class="header">
+  <div class="va-notice--banner">
+    <div class="row full">
+      <div class="small-12 message">
+        <p><strong>This site is a <a target="_blank" href="https://www.vets.gov/playbook/design/">work in progress.</a></strong> If you don&rsquo;t find what you need, visit <a target="_blank" href="http://www.va.gov">VA.gov</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- /header alert box -->
+  <div class="row full">
+    <div class="small-6 medium-4 columns">
+      <h1 role="banner" class="va-header-logo"><a href="/">Vets.gov</a></h1>
+    </div>
+
+
+
+    <!--{% if include.search != 'false' %}-->
+      <!-- Mobile search button -->
+      <div class="hide-for-medium-up search-button">
+        <button data-show="#mobile-menu" class="va-overlay-trigger va-mobile-searchtrigger usa-button usa-button-outline-inverse" aria-controls="mobile-menu" aria-flowto="mobile-menu">Search</button>
+      </div>
+
+      <div id="mobile-menu" class="va-overlay" role="dialog">
+        <div class="medium-5 medium-offset-3 text-right columns">
+          <button type="button" class="va-mobile-searchclose va-overlay-close" aria-label="close search form - mobile only">Close</button>
+          <div class="menu">
+            <form accept-charset="UTF-8" action="https://search.vets.gov/search" id="search_form" method="get">
+              <div style="margin:0;padding:0;display:inline">
+                <input name="utf8" type="hidden" value="&#x2713;" /></div>
+              <input id="affiliate" name="affiliate" type="hidden" value="vets.gov_search" />
+              <label for="mobile-query">Search:</label>
+              <div class="row collapse">
+                <div class="small-9 columns">
+                  <input autocomplete="off" class="usagov-search-autocomplete" id="mobile-query" name="query" type="text" />
+                </div>
+                <div class="small-3 columns">
+                  <input name="commit" type="submit" value="Search" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    <!--{% endif %}-->
+  </div>
+</div>
+
+<script>
+  var usasearch_config = { siteHandle:"vets.gov_search" };
+  var script = document.createElement("script");
+  script.src = "https://search.usa.gov/javascripts/remote.loader.js";
+  document.getElementsByTagName("head")[0].appendChild(script);
+</script>
