@@ -1,6 +1,6 @@
 ---
 title: React Page
-layout: page.html
+layout: page-react.html
 ---
 
 This is the Rx page.

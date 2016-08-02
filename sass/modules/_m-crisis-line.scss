@@ -96,7 +96,7 @@
 }
 
 .va-crisis-line--notouch {
-  background: $color-gold url(/images/arrow-up.png) no-repeat 97% center;
+  background: $color-gold url(/img/arrow-up.png) no-repeat 97% center;
   background-size: .8em auto;
   border-radius: .2em .2em 0 0;
   font-size: 1.7rem;
@@ -106,7 +106,7 @@
   width: 100%;
   
   .va-crisis-panel--open & {
-    background-image: url(/images/arrow-down.png);
+    background-image: url(/img/arrow-down.png);
   }
 }
 

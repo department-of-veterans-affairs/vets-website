@@ -1,10 +1,12 @@
 // Builds the site using Metalsmith as the top-level build runner.
 
 const Metalsmith = require('metalsmith');
+const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
 const filenames = require('metalsmith-filenames');
+const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdown');
 const permalinks = require('metalsmith-permalinks');
@@ -22,13 +24,16 @@ smith.source(sourceDir);
 smith.destination('build');
 
 // Set up the middleware.
-smith.use(markdown());
+
+smith.use(assets({ source: './public', destination: './' }));
 smith.use(dateInFilename(true));
 smith.use(define({ site: require('./config.json') }));
-smith.use(filenames());
-smith.use(permalinks({ pattern: ':collections/:title' }));
-smith.use(layouts({ engine: 'swig', directory: 'content/layouts' }));
 smith.use(collections());
+smith.use(permalinks({ pattern: ':collections/:title' }));
+smith.use(filenames());
+smith.use(inPlace({ engine: 'swig' }));
+smith.use(markdown());
+smith.use(layouts({ engine: 'swig', directory: 'content/layouts' }));
 
 // If in hot-reload mode, use webpack devserver.
 // TODO(awong): Pick the right environment variables.

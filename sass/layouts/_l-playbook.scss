@@ -5,7 +5,7 @@
   // TODO: Make this selector less specific.
   #playbook .primary &,
   #playbook .coda & {
-    background-image: url(../../public/img/icons/icon-exit-white.png);
+    background-image: url(/img/icons/icon-exit-white.png);
     margin-right: .1em;
     padding-right: 1.5em;
   }
@@ -15,10 +15,10 @@
   .page-playbook & {
     a {
       background-color: inherit;
-      background-image: url(../../public/img/design/logo/logo-alt.png);
+      background-image: url(/img/design/logo/logo-alt.png);
      
       &:hover, &:active, &:focus {
-        background-image: url(../../public/img/design/logo/logo-alt-hover.png);
+        background-image: url(/img/design/logo/logo-alt-hover.png);
       }
     }
   }
@@ -327,7 +327,7 @@
   &.step.nine
    {
     &:before {
-      background:white url(../../public/img/icons/SVG/loop2.svg)center center no-repeat;
+      background:white url(/img/icons/SVG/loop2.svg)center center no-repeat;
       display:inline-block;
       width:3.4em;
       height:2.2em;
@@ -391,7 +391,7 @@
   }
   
   .graphic {
-    background: url(../../public/img/design/playbook/discover-process.svg) 40% center no-repeat;
+    background: url(/img/design/playbook/discover-process.svg) 40% center no-repeat;
   }
 }
 
@@ -411,7 +411,7 @@
     }
   }
   .graphic {
-    background: url(../../public/img/design/playbook/design-process.svg) 40% center no-repeat;
+    background: url(/img/design/playbook/design-process.svg) 40% center no-repeat;
   }
 }
 
@@ -432,7 +432,7 @@
     }
   }
   .graphic {
-    background: url(../../public/img/design/playbook/deliver-process.svg) 40% center no-repeat;
+    background: url(/img/design/playbook/deliver-process.svg) 40% center no-repeat;
   }
 }
 
