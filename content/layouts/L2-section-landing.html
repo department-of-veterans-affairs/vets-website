@@ -1,0 +1,22 @@
+{% include "../includes/header.html" %}
+<div id="content">
+<div class="main" role="main">
+{% include "../includes/breadcrumbs.html" %}
+
+  <div class="section one">
+    <div class="primary">
+      <div class="row">
+        <div class="small-12 columns usa-content">
+        <h1>{{ title }}</h1>
+        <!-- Page content begins -->
+
+        {{ contents | safe }}        
+        <!-- Page content ends -->
+        </div>
+      </div>
+    </div>
+    {% include "../includes/main-navigation.html" %}
+  </div>
+</div>
+</div>
+{% include "../includes/footer.html" %}
