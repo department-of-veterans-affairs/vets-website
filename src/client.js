@@ -24,6 +24,7 @@ require('polyfill-function-prototype-bind');
 
 // TODO(awong): Change this entry to something with a global router.
 const ReactEntry = require('./rx/roadrunner-entry.jsx');
-document.addEventListener('DOMContentLoaded', () => { // eslint-disable-line scanjs-rules/call_addEventListener
+// eslint-disable-next-line scanjs-rules/call_addEventListener
+document.addEventListener('DOMContentLoaded', () => {
   ReactEntry.init();
 });

@@ -23,14 +23,11 @@
     'camelcase': [2, {'properties': 'always'}],
     'comma-dangle': 0,  // Dangling commas are wonderful. It's JSON that's stupid.
     'func-names': 2,
-    'max-len': 0, // TODO(awong): Enforce after a reindent.
     'no-console': 2,
     'no-negated-condition': 0,  // Sometimes negated conditions are easier to understand.
-    'no-unused-expressions': 0, // TODO(awong): Breaks chai expect() statements.
     'no-unused-vars': [2, {'args': 'after-used', 'argsIgnorePattern': '^_', 'vars': 'local'}],
-    'prefer-rest-params': 0,  // TODO(awong): Enable.
+    'prefer-rest-params': 2,
     'quote-props': [2, 'as-needed', { 'keywords': true }],
-    'require-jsdoc': 0,  // TODO(awong): Enable.
     'space-unary-ops': 2,
 
     // Disabled rules with rationale.
