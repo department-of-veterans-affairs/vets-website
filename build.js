@@ -23,17 +23,18 @@ const smith = Metalsmith(__dirname);
 smith.source(sourceDir);
 smith.destination('build');
 
-// Set up the middleware.
+// Set up the middleware. DO NOT CHANGE THE ORDER OF PLUGINS.
 
+smith.use(dateInFilename(true));
 smith.use(filenames());
 smith.use(inPlace({ engine: 'liquid' }));
-smith.use(layouts({ engine: 'liquid', 'default': 'page-breadcrumbs.html', directory: 'content/layouts' }));
 smith.use(markdown());
 smith.use(permalinks());
+smith.use(layouts({ engine: 'liquid', 'default': 'page-breadcrumbs.html', directory: 'content/layouts' }));
 smith.use(collections());
 smith.use(assets({ source: './public', destination: './' }));
-smith.use(dateInFilename(true));
 smith.use(define({ site: require('./config.json') }));
+
 
 // If in hot-reload mode, use webpack devserver.
 // TODO(awong): Pick the right environment variables.
