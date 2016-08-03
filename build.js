@@ -25,15 +25,15 @@ smith.destination('build');
 
 // Set up the middleware.
 
+smith.use(filenames());
+smith.use(inPlace({ engine: 'liquid' }));
+smith.use(layouts({ engine: 'liquid', 'default': 'page-breadcrumbs.html', directory: 'content/layouts' }));
+smith.use(markdown());
+smith.use(permalinks());
+smith.use(collections());
 smith.use(assets({ source: './public', destination: './' }));
 smith.use(dateInFilename(true));
 smith.use(define({ site: require('./config.json') }));
-smith.use(collections());
-smith.use(permalinks({ pattern: ':collections/:title' }));
-smith.use(filenames());
-smith.use(inPlace({ engine: 'liquid' }));
-smith.use(markdown());
-smith.use(layouts({ engine: 'liquid', directory: 'content/layouts' }));
 
 // If in hot-reload mode, use webpack devserver.
 // TODO(awong): Pick the right environment variables.
