@@ -34,7 +34,7 @@ Who is covered
 
 ### How it works
 
-There are two main GI Bill programs offering education assistance to survivors and dependents of Veterans:
+There are two main GI Bill programs offering educational assistance to survivors and dependents of Veterans:
 
 - [The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship)](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/) is available for children and spouses of Servicemembers who died in the line of duty after September 10, 2001.
 - [The Survivors' and Dependents' Educational Assistance (DEA) program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) offers education and training opportunities to eligible dependents of Veterans who are permanently and totally disabled due to a service-related condition or who died while on active duty or as a result of a service-related condition.
