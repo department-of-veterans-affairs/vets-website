@@ -4,7 +4,7 @@ concurrence: incomplete
 template: 4-action-page
 ---
 
-{{ page.title }}
+{{ title }}
 : Between January 9, 1962, and 1986
 : Sites: Vietnam, C-123 aircraft, other Agent Orange–contaminated areas
 {:.panel-list .plain}

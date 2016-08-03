@@ -4,7 +4,7 @@ template: 4-action-page
 concurrence: incomplete
 ---
 
-{{ page.title }}
+{{ title }}
 : During the Vietnam Era
 : Sites: Herbicide storage facilities
 : Who: All branches of service

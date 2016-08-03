@@ -4,7 +4,7 @@ concurrence: incomplete
 template: 4-action-page
 ---
 
-{{ page.title }}
+{{ title }}
 : Between January 9, 1962, and May 7, 1975
 {:.panel-list .plain}
 

@@ -4,7 +4,7 @@ concurrence: incomplete
 template: 4-action-page
 ---
 
-{{ page.title }}
+{{ title }}
 : Dates: Between January 9, 1962, and May 7, 1975
 : Sites: Blue Water Navy ships and inland waterways of Vietnam
 : Who: Navy and Coast Guard
