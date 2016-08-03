@@ -1,9 +1,9 @@
-{% if page.relatedlinks %}
+{% if relatedlinks %}
   <nav class="navigation">
     <div class="row">
       <div class="small-12 columns">
         <ul class="va-nav-category">
-        {% for link in page.relatedlinks %}
+        {% for link in relatedlinks %}
           <li>
             <a href="{{link.url}}">
               <h5>{{link.title}}</h5>

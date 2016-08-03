@@ -49,7 +49,7 @@ if (process.env.AWONG_TEST == 'watch') {
       contentBase: 'build',
       publicPath: '/generated/',
       historyApiFallback: false,
-      stats: {colors: true}
+      stats: { colors: true }
     }
   ));
 } else {
