@@ -1,7 +1,7 @@
 ---
 title: Presumed Disability
 concurrence: incomplete
-layout: 6-info-page.html
+template: 6-info-page
 ---
 
 A presumed disability is a diagnosed disability that VA considers to be related to a Veteran’s service because of the circumstances of the Veteran’s military service.

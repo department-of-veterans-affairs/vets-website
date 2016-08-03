@@ -1,7 +1,7 @@
 ---
 title: Disabilities That Appear Within One Year After Discharge
 concurrence: incomplete
-layout: 4-action-page-pending.html
+template: 4-action-page-pending
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
     title: What is the fastest way to file a claim?

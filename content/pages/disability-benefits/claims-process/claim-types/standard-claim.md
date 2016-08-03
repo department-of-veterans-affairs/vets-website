@@ -1,6 +1,6 @@
 ---
 title: Standard Claim
-layout: 6-info-page.html
+template: 6-info-page
 concurrence: complete
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/

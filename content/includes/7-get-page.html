@@ -1,0 +1,16 @@
+<div class="main interior" role="main">
+  {% include "content/includes/breadcrumbs.html" %}
+  <div class="section one">
+    <div class="primary">
+      <div class="row">
+        <div class="small-12 columns{% unless page.template == '7-get-page-alt' %}  usa-content {% endunless %}">
+           <h1>{{ page.title }}</h1>
+           {{content}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% if collection == 'disability-benefits' %}
+    {% include action-bar.html action_text="Go to eBenefits to apply" action_url="https://www.ebenefits.va.gov/ebenefits/homepage" action_class="va-action-bar--footer va-action-bar--start" %}
+{% endif %}

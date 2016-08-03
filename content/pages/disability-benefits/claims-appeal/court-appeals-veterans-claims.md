@@ -2,7 +2,7 @@
 title: Court of Appeals for Veterans Claims
 concurrence: complete
 source: http://www.bva.va.gov/
-layout: 6-info-page.html
+template: 6-info-page
 ---
 
 

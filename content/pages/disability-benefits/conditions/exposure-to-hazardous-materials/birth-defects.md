@@ -2,7 +2,7 @@
 title: Birth Defects/Spina Bifida
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp
-layout: 1-topic-landing.html
+template: 1-topic-landing
 ---
 
 Spina bifida is a birth defect in which the developing baby’s spinal cord fails to develop properly. It can be caused by environmental factors. If you are a Veteran with qualifying service in South Vietnam or the Republic of Korea, and your child has spina bifida or certain other birth defects, he or she may be eligible for VA benefits.

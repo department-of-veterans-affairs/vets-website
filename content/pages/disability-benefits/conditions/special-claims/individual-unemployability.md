@@ -2,7 +2,7 @@
 title: Individual Unemployability
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-individual_unemployability.asp
-layout: 4-action-page-pending.html
+template: 4-action-page-pending
 ---
 
 If you are unable to maintain suitable gainful employment due to a service-connected disability, VA may designate you as individually unemployable and assign you a compensation level that’s the same as a 100% disabled Veteran.

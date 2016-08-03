@@ -1,6 +1,6 @@
 ---
 title: Secondary Claim
-layout: 6-info-page.html
+template: 6-info-page
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
     title: Standard Claim

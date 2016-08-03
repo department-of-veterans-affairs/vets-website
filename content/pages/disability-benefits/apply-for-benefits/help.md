@@ -1,7 +1,7 @@
 ---
 title: Get Help Filing a Claim
 concurrence: incomplete
-layout: 1-topic-landing.html
+template: 1-topic-landing
 relatedlinks: 
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
     title: What is the fastest way to file a claim?

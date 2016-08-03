@@ -1,7 +1,7 @@
 ---
 title: Effective Date of Disability
 concurrence: complete
-layout: 6-info-page.html
+template: 6-info-page
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
     title: What is the fastest way to file a claim?

@@ -2,7 +2,7 @@
 title: Post-Traumatic Stress Disorder (PTSD)
 concurrence: complete
 source: http://www.va.gov/opa/issues/ptsd.asp
-layout: 1-topic-landing.html
+template: 1-topic-landing
 ---
 
 ### Are you in crisis? You have options.

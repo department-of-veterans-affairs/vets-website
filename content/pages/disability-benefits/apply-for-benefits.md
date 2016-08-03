@@ -1,6 +1,6 @@
 ---
 title: Apply for Benefits
-layout: 7-get-page-alt.html
+template: 7-get-page-alt
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
     title: What is the fastest way to get a claim decision?

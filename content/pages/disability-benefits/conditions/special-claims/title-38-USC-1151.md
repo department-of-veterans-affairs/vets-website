@@ -1,7 +1,7 @@
 ---
 title: Title 38 U.S.C. 1151 Claims
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp
-layout: 4-action-page-pending.html
+template: 4-action-page-pending
 ---
 
 If you suffered additional disability while receiving VA hospital care, medical or surgical treatment, or examination; pursuing a course of vocational rehabilitation (under 38 U.S.C. Chapter 31); or participating in compensated work therapy (under 38 U.S.C. 1718), you may be eligible for compensation.

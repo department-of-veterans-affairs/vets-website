@@ -52,7 +52,7 @@
     "lodash-deep": "^2.0.0",
     "metalsmith": "^2.1.0",
     "metalsmith-assets": "^0.1.0",
-    "metalsmith-collections": "^0.7.0",
+    "metalsmith-collections": "https://registry.npmjs.org/metalsmith-collections/-/metalsmith-collections-0.7.0.tgz",
     "metalsmith-concat-convention": "^1.0.0",
     "metalsmith-date-in-filename": "^0.0.14",
     "metalsmith-define": "^2.0.1",

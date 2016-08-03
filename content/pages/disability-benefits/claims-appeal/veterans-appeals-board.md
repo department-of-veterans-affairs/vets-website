@@ -1,6 +1,6 @@
 ---
 title: Board of Veterans' Appeals
-layout: 4-action-page-pending.html
+template: 4-action-page-pending
 concurrence: complete
 source: http://www.bva.va.gov/index.asp
 ---

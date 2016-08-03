@@ -1,7 +1,7 @@
 ---
 title: Service in Vietnam or Korea
 concurrence: incomplete
-layout: 4-action-page.html
+template: 4-action-page
 ---
 
 {{ page.title }}

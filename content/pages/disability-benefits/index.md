@@ -2,7 +2,7 @@
 title: Disability Benefits
 permalink: /disability-benefits/index.html
 source: http://www.benefits.va.gov/compensation/
-layout: L2-section-landing.html
+template: L2-section-landing
 majorlinks:
   - url: /disability-benefits/conditions/
     title: Conditions

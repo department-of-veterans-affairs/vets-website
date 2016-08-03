@@ -1,7 +1,7 @@
 ---
 title: Preservice Claim
 concurrence: complete
-layout: 2-detailed-landing.html
+template: 2-detailed-landing
 source: http://www.benefits.va.gov/compensation/types-claims.asp
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/

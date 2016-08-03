@@ -1,6 +1,6 @@
 ---
 title: Non-Hodgkin’s Lymphoma
-layout: 4-action-page-pending.html
+template: 4-action-page-pending
 concurrence: incomplete
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: How VA Assigns Disability Ratings
-layout: 1-topic-landing.html
+template: 1-topic-landing
 ---
 
 The amount of compensation depends on the severity of your disability. VA determines this based on the evidence you provide, as well as the information VA obtains about your disability. 

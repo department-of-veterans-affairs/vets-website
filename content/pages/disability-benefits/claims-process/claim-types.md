@@ -1,6 +1,6 @@
 ---
 title: Types of Claims
-layout: 2-detailed-landing.html
+template: 2-detailed-landing
 showactionbar: false
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
@@ -30,7 +30,7 @@ relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/post-service/
     title: Postservice Claim
     description: ""
-layout: 6-info-page.html
+template: 6-info-page
 ---
 
 Disability compensation claims can be based on disabilities that existed before you entered military service and then became worse because of your service, disabilities that occurred during your service, or disabilities that arose after you left the service.

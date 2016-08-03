@@ -1,7 +1,7 @@
 ---
 title: Project 112/SHAD
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-project_112_shad.asp
-layout: 4-action-page-pending.html
+template: 4-action-page-pending
 ---
 
 If you participated in the chemical and biological warfare testing associated with Projects 112 or Shipboard Hazard and Defense (SHAD) from 1963 to 1974, you may be eligible for disability benefits for any illness related to the testing.

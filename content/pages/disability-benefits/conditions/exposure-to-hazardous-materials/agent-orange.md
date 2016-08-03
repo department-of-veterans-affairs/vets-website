@@ -1,6 +1,6 @@
 ---
 title: Agent Orange
-layout: 3-panel-filters.html
+template: 3-panel-filters
 ---
 
 The U.S. military sprayed millions of gallons of Agent Orange on trees and vegetation during the Vietnam War. Several decades later, concerns about the health effects from these chemicals continue.

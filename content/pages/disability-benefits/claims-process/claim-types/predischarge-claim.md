@@ -1,7 +1,7 @@
 ---
 title: Predischarge Claim
 source: http://www.benefits.va.gov/predischarge/index.asp
-layout: 2-detailed-landing.html
+template: 2-detailed-landing
 showactionbar: false 
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
