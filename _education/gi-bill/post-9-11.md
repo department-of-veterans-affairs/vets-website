@@ -43,7 +43,7 @@ The benefit amount varies according to where you use the benefit, the amount of 
 
 **Example:** If you were attending University of California, Los Angeles, in 2015 (at the 100% benefit level, while attending school full time), you would receive a BAH of up to $2,433 a month while in school. If you were attending the University of Virginia in Charlottesville, you would receive up to $1,638 while in school.
 
-- Provides up to 36 months of educational benefits, generally payable for 15 years following your release from active duty
+- Provides up to 36 months of education benefits, generally payable for 15 years following your release from active duty
 - Uses a percentage-of-maximum-benefit scale based on how much active service you have had since September 10, 2001
 
 **Example:** If you had 90 days of active service since September 10, 2001, you would qualify for 40% of the maximum amount. Three years of active service would qualify you for 100% of the benefit.
