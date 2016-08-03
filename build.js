@@ -31,9 +31,9 @@ smith.use(define({ site: require('./config.json') }));
 smith.use(collections());
 smith.use(permalinks({ pattern: ':collections/:title' }));
 smith.use(filenames());
-smith.use(inPlace({ engine: 'swig' }));
+smith.use(inPlace({ engine: 'liquid' }));
 smith.use(markdown());
-smith.use(layouts({ engine: 'swig', directory: 'content/layouts' }));
+smith.use(layouts({ engine: 'liquid', directory: 'content/layouts' }));
 
 // If in hot-reload mode, use webpack devserver.
 // TODO(awong): Pick the right environment variables.

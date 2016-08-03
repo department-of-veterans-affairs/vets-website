@@ -1,4 +1,4 @@
-{% include "../includes/header.html" %}
+{% include "content/includes/header.html" %}
 <div id="content">
   <div id="experience" role="main">
     <div class="primary">
@@ -8,7 +8,7 @@
             <h3 class="title">{{ title }}</h3>
             <div class="post-author"></div>
             <div class="post-date">{{ date | date('Y-m-d') }}</div>
-            {{ contents | safe }}
+            {{ contents }}
           </div>
           <div class="related-posts">
             <h6>Related posts</h6>
@@ -18,4 +18,4 @@
     </div>
   </div>
 </div>
-{% include "../includes/footer.html" %}
+{% include "content/includes/footer.html" %}

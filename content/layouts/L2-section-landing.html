@@ -1,7 +1,7 @@
-{% include "../includes/header.html" %}
+{% include "content/includes/header.html" %}
 <div id="content">
 <div class="main" role="main">
-{% include "../includes/breadcrumbs.html" %}
+{% include "content/includes/breadcrumbs.html" %}
 
   <div class="section one">
     <div class="primary">
@@ -10,13 +10,13 @@
         <h1>{{ title }}</h1>
         <!-- Page content begins -->
 
-        {{ contents | safe }}        
+        {{ contents }}        
         <!-- Page content ends -->
         </div>
       </div>
     </div>
-    {% include "../includes/main-navigation.html" %}
+    {% include "content/includes/main-navigation.html" %}
   </div>
 </div>
 </div>
-{% include "../includes/footer.html" %}
+{% include "content/includes/footer.html" %}

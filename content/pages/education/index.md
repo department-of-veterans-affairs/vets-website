@@ -1,7 +1,7 @@
 ---
 title: Education Benefits
 permalink: /education/index.html
-template: L2-section-landing
+layout: L2-section-landing.html
 majorlinks:
  - url: /education/gi-bill/
    title: GI Bill&reg;

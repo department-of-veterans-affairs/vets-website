@@ -31,7 +31,7 @@
 {% endif %}
 
 {% if date %}
-<meta content="{{ date | date('c') }}" property="article:published_time">
+<meta content="{{ 'now' | date: '%c' }}" property="article:published_time">
 <meta content="https://www.vets.gov/about/" property="article:author">
 {% endif %}
 <meta content="https://www.vets.gov/img/design/logo/og-image.jpg" property="og:image">
