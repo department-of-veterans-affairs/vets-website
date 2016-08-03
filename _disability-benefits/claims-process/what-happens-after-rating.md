@@ -1,15 +1,15 @@
 ---
-title: What happens after you get a disability rating
+title: What to expect after you get a disability rating
 template: 6-info-page
 ---
 
 If you have received a decision notice with your disability rating, you may be eligible for compensation, education, health care, housing, employment, and dependent benefits.  
 
-#### If you haven’t received your decision notice 
-Check your status on [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=va-letters) or by contacting your [regional VA office](/facility-locator/). 
+If you haven’t received your decision notice, check your status on [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=va-letters) or contact your [regional VA office](/facility-locator/). 
 
 
-### What’s next?
+### What happens next
+
 #### Look for a payment within 15 days  
 If you’ve received a notice with at least a 10% disability rating, you will get either a direct-deposit payment or a check within 15 days of your decision notice. If you don’t get a payment, please call the Veterans Help Line at 800-827-1000.  
 
@@ -30,11 +30,11 @@ If you are 30% or more service-connected disabled, you can receive additional pa
 #### Apply for these additional benefits
 - If you served on active duty, and separated under conditions other than dishonorable, you may qualify for [VA health care](https://www.vets.gov/healthcare/apply/).
 
-- You can buy Service-Disabled Veterans’ Insurance (S-DVI), a government life-insurance policy, if you are in good health other than your service-connected disabilities. [Apply for S-DVI](/life-insurance/S-DVI) or call 1-800-669-8477. 
+- If you are in good health other than your service-connected disabilities, you can buy Service-Disabled Veterans’ Insurance (S-DVI), a government life-insurance policy. [Apply for S-DVI](/life-insurance/S-DVI) or call 1-800-669-8477. 
 
 - You can get VA education benefits or additional education benefits under special programs. Learn about [education benefits](/education) or speak to a VA education counselor to find out what benefits are available to you.   
 
 - Check with your [local or state Veterans Affairs offices](http://www.va.gov/statedva.htm) for other possible benefits.  
 
 #### Keep in touch 
-You must update VA when you have a new address, a change to your marital status, or any other life change that could affect your rating or payment. If your condition becomes worse, you may file a claim for an increase in benefits. Update your information through [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation) or by contacting your [local VA office or eligibility office](/facility-locator/).
+It's important to update your information with VA when you have a new address, a change to your marital status, or any other life change that could affect your rating or payment. If your condition becomes worse, you may file a claim for an increase in benefits. Update your information through [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation) or by contacting your [local VA office or eligibility office](/facility-locator/).
