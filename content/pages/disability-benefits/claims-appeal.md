@@ -1,7 +1,7 @@
 ---
 title: Appeals
 concurrence: complete
-template: 6-info-page
+layout: 6-info-page.html
 relatedlinks:
   - url: /disability-benefits/claims-appeal/veterans-appeals-board/
     title: Board of Veterans' Appeals

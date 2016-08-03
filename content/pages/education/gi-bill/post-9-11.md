@@ -1,6 +1,6 @@
 ---
 title: Post-9/11 GI Bill
-template: 1-topic-landing
+layout: 1-topic-landing.html
 concurrence: complete
 ---
 

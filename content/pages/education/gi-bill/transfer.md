@@ -1,6 +1,6 @@
 ---
 title: Transferring Post-9/11 GI Bill Benefits
-template: 1-topic-landing
+layout: 1-topic-landing.html
 concurrence: complete
 ---
 

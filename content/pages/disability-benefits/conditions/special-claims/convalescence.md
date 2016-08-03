@@ -2,7 +2,7 @@
 title: Convalescence
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp
-template: 4-action-page-pending
+layout: 4-action-page-pending.html
 ---
 
 You may be eligible for a temporary 100% disability rating while you recover from surgery, or from an immobilizing disability related to your service.

@@ -1,7 +1,7 @@
 ---
 title: On-the-Job Training and Apprenticeships
 concurrence: incomplete
-template: 4-action-page-pending
+layout: 4-action-page-pending.html
 ---
 
 If you want to learn a trade or skill through on-the-job training or apprenticeships, there are VA benefits that can help.

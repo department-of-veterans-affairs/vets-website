@@ -1,7 +1,7 @@
 ---
 title: Special Claims
 concurrence: complete
-template: 2-detailed-landing
+layout: 2-detailed-landing.html
 relatedlinks:
   - url: /disability-benefits/conditions/special-claims/automobile/
     title: Automobile Use Claims

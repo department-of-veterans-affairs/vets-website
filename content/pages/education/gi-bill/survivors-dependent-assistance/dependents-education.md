@@ -1,6 +1,6 @@
 ---
 title: Survivors' and Dependents' Educational Assistance Program
-template: 1-topic-landing
+layout: 1-topic-landing.html
 concurrence: incomplete
 ---
 

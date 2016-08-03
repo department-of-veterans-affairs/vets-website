@@ -1,6 +1,6 @@
 ---
 title: Specific Environmental Hazards
-template: 4-action-page-pending
+layout: 4-action-page-pending.html
 ---
 
 If you were exposed to specific environmental hazards (such as burn pits) while serving at military installations in Iraq, Afghanistan, and elsewhere, you may have developed a disease related to this exposure.

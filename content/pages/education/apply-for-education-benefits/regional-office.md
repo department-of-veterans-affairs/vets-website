@@ -1,7 +1,7 @@
 ---
 title: Regional Offices
 concurrence: incomplete
-template: 4-action-page-pending
+layout: 4-action-page-pending.html
 ---
 
 

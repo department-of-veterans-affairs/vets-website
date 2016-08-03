@@ -1,6 +1,6 @@
 ---
 title: Diseases Associated with Agent Orange
-template: 6-info-page
+layout: 6-info-page.html
 ---
 
 VA recognizes the following diseases as related to Agent Orange. If you were exposed, and now have one or more of the diseases listed below, you may be eligible for disability compensation.

@@ -1,7 +1,7 @@
 ---
 title: Post a Job
 concurrence: complete
-template: 4-action-page-pending
+layout: 4-action-page-pending.html
 ---
 <link href="/assets/css/vendor/prism.css" type="text/css" rel="stylesheet">
 

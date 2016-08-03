@@ -1,7 +1,7 @@
 ---
 title: Automobile Use Claims
 concurrence: incomplete
-template: 4-action-page-pending
+layout: 4-action-page-pending.html
 ---
 
 If you have a service-connected disability that prevents you from driving an automobile or other conveyance, you may be eligible for a one-time payment of $20,114.34 toward buying a specially outfitted vehicle. You may also qualify for more than one adaptive-equipment grant to modify a vehicle with power steering, brakes, seats, windows, or lift equipment to assist you with getting into and out of the vehicle.

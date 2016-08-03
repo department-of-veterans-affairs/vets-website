@@ -1,7 +1,7 @@
 ---
 title: Waters in the Vicinity of Vietnam
 concurrence: incomplete
-template: 4-action-page
+layout: 4-action-page.html
 ---
 
 {{ page.title }}

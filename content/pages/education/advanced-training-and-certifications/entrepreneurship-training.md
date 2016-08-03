@@ -1,6 +1,6 @@
 ---
 title: Entrepreneurship Training
-template: 1-topic-landing
+layout: 1-topic-landing.html
 ---
 
 If you qualify for any of the GI Bill or educational assistance programs, and you are interested in starting or improving a business, VA provides entrepreneurship training through its Center for Veterans Enterprise and the Small Business Administration.

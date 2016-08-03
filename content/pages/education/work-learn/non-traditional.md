@@ -1,7 +1,7 @@
 ---
 title: Non-Traditional Options
 concurrence: incomplete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 relatedlinks:
   - url: /education/work-learn/non-traditional/accelerated-payments/
     title: Accelerated Payments for High-Technology Programs

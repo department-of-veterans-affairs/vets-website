@@ -1,6 +1,6 @@
 ---
 title: Ways to File a Claim
-template: 1-topic-landing
+layout: 1-topic-landing.html
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
     title: What is the fastest way to file a claim?

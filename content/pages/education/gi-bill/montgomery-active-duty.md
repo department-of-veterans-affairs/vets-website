@@ -1,6 +1,6 @@
 ---
 title: Montgomery GI Bill Active Duty (MGIB-AD)
-template: 4-action-page-pending
+layout: 4-action-page-pending.html
 concurrence: incomplete
 ---
 

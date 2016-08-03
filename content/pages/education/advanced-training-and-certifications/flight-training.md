@@ -1,6 +1,6 @@
 ---
 title: Flight Training
-template: 1-topic-landing
+layout: 1-topic-landing.html
 concurrence: incomplete
 ---
 

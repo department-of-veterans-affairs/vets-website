@@ -1,6 +1,6 @@
 ---
 title: Yellow Ribbon Program
-template: 1-topic-landing
+layout: 1-topic-landing.html
 concurrence: incomplete
 ---
 

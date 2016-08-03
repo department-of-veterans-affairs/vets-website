@@ -1,7 +1,7 @@
 ---
 title: Entrepreneurship Counseling
 concurrence: complete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 relatedlinks:
  - url: /employment/job-seekers/start/register/
    title: Registering Your Business

@@ -2,7 +2,7 @@
 title: Gulf War Illness
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp
-template: 4-action-page
+layout: 4-action-page.html
 ---
 
 If you served in the [Southwest Asia theater of military operations](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp) or in Afghanistan, you may suffer from certain illnesses, disorders, and conditions that have been linked to your service.

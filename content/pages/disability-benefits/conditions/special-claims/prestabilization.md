@@ -2,7 +2,7 @@
 title: Prestabilization Ratings
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
-template: 1-topic-landing
+layout: 1-topic-landing.html
 ---
 
 A prestabilization rating is a temporary rating for recently separated Veterans with an unstable disability and an immediate need for services and support. Prestabilization ratings may be granted at 50% or 100%, depending on the severity of the disability, and continue for one year after discharge from active service.

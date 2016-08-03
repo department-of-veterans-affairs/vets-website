@@ -1,7 +1,7 @@
 ---
 title: Fry Scholarship
 concurrence: incomplete
-template: 4-action-page-pending
+layout: 4-action-page-pending.html
 ---
 
 The Marine Gunnery Sergeant John David Fry Scholarship (Fry Scholarship) provides Post-9/11 GI Bill benefits to the children and surviving spouses of Servicemembers who died in the line of duty while on active duty after September 10, 2001. If you qualify, you may receive up to 36 months of benefits at the 100% level. Full in-state tuition costs are covered at public institutions; up to $21,084.89 per year will be paid for training at private institutions.

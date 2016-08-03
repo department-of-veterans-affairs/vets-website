@@ -1,7 +1,7 @@
 ---
 title: Career Counseling
 concurrence: incomplete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 relatedlinks:
   - url: /education/tools-programs/education-career-counseling/
     title: Education and Career Counseling

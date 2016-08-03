@@ -1,6 +1,6 @@
 ---
 title: Accelerated Payments for High-Technology Programs
-template: 4-action-page-pending
+layout: 4-action-page-pending.html
 concurrence: incomplete 
 ---
 

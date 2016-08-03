@@ -1,7 +1,7 @@
 ---
 title: Military Transcripts
 concurrence: complete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 ---
 
 Military transcripts are certified documents that active-duty Servicemembers and Army, Coast Guard, Marine Corps, and Navy Veterans can show to potential employers. The transcripts, most often used to determine whether military courses or jobs will count toward college credit, may help a hiring manager better understand your qualifications. 

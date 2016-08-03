@@ -1,7 +1,7 @@
 ---
 title: Thailand Military Bases
 concurrence: incomplete
-template: 4-action-page
+layout: 4-action-page.html
 ---
 
 {{ page.title }}

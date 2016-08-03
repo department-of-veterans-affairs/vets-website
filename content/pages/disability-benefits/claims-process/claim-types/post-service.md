@@ -1,7 +1,7 @@
 ---
 title: Postservice Claim
 concurrence: incomplete
-template: 6-info-page
+layout: 6-info-page.html
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
     title: Standard Claim

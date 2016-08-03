@@ -1,6 +1,6 @@
 ---
 title: Testing and Storage Areas Outside of Vietnam
-template: 4-action-page
+layout: 4-action-page.html
 concurrence: incomplete
 ---
 

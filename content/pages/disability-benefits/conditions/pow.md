@@ -2,7 +2,7 @@
 title: Disability Compensation for Former Prisoners of War (POWs)
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-pow.asp
-template: 1-topic-landing
+layout: 1-topic-landing.html
 ---
 
 If you are a former POW with disabilities related to your service and captivity, you may be eligible for compensation. If you are diagnosed with one or more of the conditions listed below, and at any time following active-duty military service your condition becomes at least 10% disabling, VA will presume it is related to your POW experience.

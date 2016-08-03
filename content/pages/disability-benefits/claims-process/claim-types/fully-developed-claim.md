@@ -1,6 +1,6 @@
 ---
 title: Fully Developed Claim
-template: 6-info-page
+layout: 6-info-page.html
 concurrence: complete
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/

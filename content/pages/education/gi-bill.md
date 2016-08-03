@@ -1,7 +1,7 @@
 ---
 title: GI Bill
 concurrence: incomplete
-template: alt-1-topic-landing
+layout: alt-1-topic-landing.html
 relatedlinks:
   - url: /education/gi-bill/foreign-programs/
     title: Foreign Programs

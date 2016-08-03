@@ -1,6 +1,6 @@
 ---
 title: Quick Start
-template: 4-action-page-pending
+layout: 4-action-page-pending.html
 ---
 
 If you are in predischarge status between 1 and 59 days before separation, retirement, or release from active duty or demobilization, Quick Start allows you to submit a claim for disability compensation.

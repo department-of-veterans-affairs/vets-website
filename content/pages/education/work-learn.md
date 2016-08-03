@@ -1,7 +1,7 @@
 ---
 title: Work and Learn
 concurrence: complete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 relatedlinks:
   - url: /education/work-learn/workstudy/
     title: Work Study

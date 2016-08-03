@@ -1,7 +1,7 @@
 ---
 title: Non-College Degree Programs
 concurrence: incomplete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 ---
 
 If you are a Veteran, Servicemember, or eligible dependent interested in non-college degree programs (such as EMT, HVAC repair, truck driving, and more), the GI Bill may pay all or a portion of your tuition.

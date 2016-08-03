@@ -1,7 +1,7 @@
 ---
 title: Interest Profiler
 concurrence: incomplete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 ---
 
 You can use tools like [O&#42;Net Interest Profiler](http://www.mynextmove.org/explore/ip) to identify the kind of work you enjoy. After taking the short questionnaire, use the results (called an O&#42;Net code) in [targeted job-search engines](http://jobcenter.usa.gov/find-a-job) that may ultimately help you identify a career that fits with the kind of work you enjoy.

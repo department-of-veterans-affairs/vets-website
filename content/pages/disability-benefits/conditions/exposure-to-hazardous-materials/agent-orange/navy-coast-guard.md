@@ -1,7 +1,7 @@
 ---
 title: U.S. Navy and Coast Guard Ships in Vietnam
 concurrence: complete
-template: 4-action-page
+layout: 4-action-page.html
 ---
 
 If you served on a Navy or Coast Guard ship in the Vietnam area of operations, you may have been exposed to Agent Orange.

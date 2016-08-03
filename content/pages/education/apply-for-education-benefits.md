@@ -1,6 +1,6 @@
 ---
 title: Apply for Education Benefits
-template: 6-info-page
+layout: 6-info-page.html
 concurrence: complete
 ---
 

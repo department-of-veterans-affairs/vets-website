@@ -1,7 +1,7 @@
 ---
 title: Health Care
 permalink: /healthcare/index.html
-template: L2-section-landing
+layout: L2-section-landing.html
 showactionbar: false
 majorlinks:
   - url: /healthcare/apply/

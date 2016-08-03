@@ -29,7 +29,7 @@ relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/post-service/
     title: Postservice Claim
     description: ""
-template: 6-info-page
+layout: 6-info-page.html
 ---
 
 <div class="call-out" markdown="1">

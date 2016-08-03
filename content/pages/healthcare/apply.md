@@ -1,6 +1,6 @@
 ---
 title: Apply for VA Health Care
-template: 1-topic-landing
+layout: 1-topic-landing.html
 showactionbar: true
 ---
 

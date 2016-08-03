@@ -1,7 +1,7 @@
 ---
 title: Support Veteran Employees
 concurrence: incomplete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 relatedlinks:
   - url: /employment/job-seekers/search-jobs
     title: Search the Veterans Job Bank

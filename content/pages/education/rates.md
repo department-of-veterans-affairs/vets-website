@@ -1,7 +1,7 @@
 ---
 title: Rates
 concurrence: incomplete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 ---
 
 VA provides education benefits to qualifying Veterans and their family members. See the tables below for information about the available education benefits and corresponding rates.

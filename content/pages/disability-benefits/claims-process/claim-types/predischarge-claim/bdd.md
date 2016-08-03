@@ -1,7 +1,7 @@
 ---
 title: Benefits Delivery at Discharge (BDD)
 concurrence: incomplete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 ---
 
 If you are a Servicemember with a disability, you may begin your claim for compensation 60 to 180 days before separation, retirement, or release from active duty or demobilization. BDD helps you receive your VA disability benefits sooner.

@@ -1,7 +1,7 @@
 ---
 title: Exposure to Mustard Gas or Lewisite
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-mustard.asp
-template: 4-action-page
+layout: 4-action-page.html
 ---
 
 If you were exposed to mustard gas (also known as sulfur mustard, yperite, or nitrogen mustard) or lewisite (an organic compound containing arsenic), you may have certain related long-term diseases or disabilities.

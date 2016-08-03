@@ -1,7 +1,7 @@
 ---
 title: One-on-One Assistance
 concurrence: complete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 relatedlinks:
  - url: /employment/job-seekers/skills-translator
    title: Military Skills Translator

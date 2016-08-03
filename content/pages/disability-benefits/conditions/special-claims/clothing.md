@@ -1,7 +1,7 @@
 ---
 title: Clothing Allowance
 concurrence: incomplete
-template: 4-action-page-pending
+layout: 4-action-page-pending.html
 ---
 
 If your clothing has been damaged by your prosthetic or orthopedic device (such as a wheelchair) or medication you’re using for a skin condition, you may be eligible for an annual clothing allowance.

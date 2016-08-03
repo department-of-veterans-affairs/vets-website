@@ -1,7 +1,7 @@
 ---
 title: Hospitalization
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
-template: 4-action-page-pending
+layout: 4-action-page-pending.html
 ---
 
 If you were hospitalized for a service-connected disability at a VA or VA-approved facility, you may be eligible to receive a temporary 100% disability rating for the time you spent in the hospital.

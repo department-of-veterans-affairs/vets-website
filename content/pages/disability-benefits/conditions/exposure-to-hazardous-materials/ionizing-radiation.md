@@ -1,7 +1,7 @@
 ---
 title: Ionizing Radiation
 concurrence: 
-template: 4-action-page
+layout: 4-action-page.html
 ---
 
 Exposure to Ionizing Radiation

@@ -1,7 +1,7 @@
 ---
 title: Careers and Employment
 permalink: /employment/index.html
-template: L2-section-landing
+layout: L2-section-landing.html
 concurrence: complete
 relatedlinks:
   - url: /employment/job-seekers/family-members

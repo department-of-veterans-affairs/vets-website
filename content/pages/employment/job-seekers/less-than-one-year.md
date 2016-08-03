@@ -1,7 +1,7 @@
 ---
 title: Do you have less than a year left of military service?
 concurrence: complete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 relatedlinks:
   - url: /employment/job-seekers/one-on-one/
     title: One-on-One Assistance

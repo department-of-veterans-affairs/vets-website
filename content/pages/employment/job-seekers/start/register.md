@@ -1,7 +1,7 @@
 ---
 title: Registering Your Business
 concurrence: complete
-template: 1-topic-landing
+layout: 1-topic-landing.html
 relatedlinks:
   - url: https://www.vip.vetbiz.gov/Public/Logon.aspx
     title: Registering Your Business
