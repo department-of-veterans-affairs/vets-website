@@ -7,7 +7,7 @@ concurrence: incomplete
 If you served at least two years on active duty, you may be eligible for the MGIB-AD program.
 
 <div class="call-out" markdown="1">
-### Are you eligible for educational benefits?
+### Are you eligible for education benefits?
 
 Yes, if:
 
