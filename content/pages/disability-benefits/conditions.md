@@ -20,7 +20,8 @@ relatedlinks:
 
 Do you have physical or emotional conditions that started—or became worse—during your active military service? If so, they may be considered service connected, and you may be eligible for monthly benefits no matter when or where you served.
 
-<div class="call-out" markdown="1">
+<div class="call-out" markdown="0">
+
 ### Are you eligible for compensation?
 Yes, if:
 

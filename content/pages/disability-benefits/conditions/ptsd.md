@@ -19,6 +19,7 @@ If you have [symptoms of PTSD](http://www.ptsd.va.gov/public/PTSD-overview/basic
 
 
 <div class="call-out" markdown="1">
+
 ### Are you eligible for compensation?
 
 Yes, if:

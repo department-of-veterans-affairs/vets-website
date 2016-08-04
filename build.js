@@ -8,7 +8,7 @@ const define = require('metalsmith-define');
 const filenames = require('metalsmith-filenames');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
-const markdown = require('metalsmith-markdown');
+const markdown = require('metalsmith-markdownit');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const watch = require('metalsmith-watch');
@@ -29,7 +29,10 @@ smith.destination('build');
 smith.use(dateInFilename(true));
 smith.use(filenames());
 smith.use(inPlace({ engine: 'liquid' }));
-smith.use(markdown());
+smith.use(markdown({
+  typographer: true,
+  html: true
+}));
 smith.use(permalinks());
 smith.use(navigation({
   navConfigs: {
