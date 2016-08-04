@@ -90,11 +90,11 @@
 </head>
 <body class="{{ page.body_class }}">
 
-<a class="show-on-focus" href="#content">Skip to Content</a>
+<a class="show-on-focus va-dnp" href="#content">Skip to Content</a>
 
 
 <div class="header">
-  <div class="va-notice--banner">
+  <div class="va-notice--banner va-dnp">
     <div class="row full">
       <div class="small-12 message">
         <p><strong>This site is a <a target="_blank" href="https://www.vets.gov/playbook/design/">work in progress.</a></strong> If you don&rsquo;t find what you need, visit <a target="_blank" href="http://www.va.gov">VA.gov</a>.</p>
@@ -108,15 +108,13 @@
       <h1 role="banner" class="va-header-logo"><a href="/">Vets.gov</a></h1>
     </div>
 
-
-
     {% if include.search != 'false' %}
       <!-- Mobile search button -->
-      <div class="hide-for-medium-up search-button">
+      <div class="hide-for-medium-up search-button va-dnp">
         <button data-show="#mobile-menu" class="va-overlay-trigger va-mobile-searchtrigger usa-button usa-button-outline-inverse" aria-controls="mobile-menu" aria-flowto="mobile-menu">Search</button>
       </div>
 
-      <div id="mobile-menu" class="va-overlay" role="dialog">
+      <div id="mobile-menu" class="va-overlay va-dnp" role="dialog">
         <div class="medium-5 medium-offset-3 text-right columns">
           <button type="button" class="va-mobile-searchclose va-overlay-close" aria-label="close search form - mobile only">Close</button>
           <div class="menu">
