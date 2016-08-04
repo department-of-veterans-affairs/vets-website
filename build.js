@@ -9,6 +9,7 @@ const filenames = require('metalsmith-filenames');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdown');
+const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
@@ -30,6 +31,13 @@ smith.use(filenames());
 smith.use(inPlace({ engine: 'liquid' }));
 smith.use(markdown());
 smith.use(permalinks());
+smith.use(navigation({
+  navConfigs: {
+    sortByNameFirst: true,
+    breadcrumbProperty: 'breadcrumb_path',
+    pathProperty: 'nav_path',
+    includeDirs: true
+  }, navSettings: {} }));
 smith.use(layouts({ engine: 'liquid', 'default': 'page-breadcrumbs.html', directory: 'content/layouts' }));
 smith.use(collections());
 smith.use(assets({ source: './public', destination: './' }));
