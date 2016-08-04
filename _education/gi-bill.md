@@ -10,7 +10,7 @@ relatedlinks:
     title: Institutions of Higher Learning Undergraduate and Graduate Degrees
     description: ""
   - url: /education/gi-bill/post-9-11/
-    title: Post-9/11 GI BIll
+    title: Post-9/11 GI Bill
     description: "" 
   - url: /education/gi-bill/transfer/
     title: Transfer Your Post-9/11 GI Bill Benefits to Your Spouse and Dependents
