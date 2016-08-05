@@ -8,21 +8,21 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 <div class="call-out" markdown="1">
 ### You may not be completely ready to start looking for a job, but there are other ways you can prepare.
 
-- ##### Do you plan to leave active duty in less than 12 months?
+##### Do you plan to leave active duty in less than 12 months?
 
-  [Prepare for your transition](/employment/job-seekers/less-than-one-year) with this timeline.
-
-<br>
-
-- ##### Have you recently left active duty?
-
-  If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through [Unemployment Compensation for Ex-Servicemembers](/employment/job-seekers/unemployment-support).
+[Prepare for your transition](/employment/job-seekers/less-than-one-year) with this timeline.
 
 <br>
 
-- ##### Are you already in the workforce?
+##### Have you recently left active duty?
 
-  Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](/education/gi-bill/).
+If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through [Unemployment Compensation for Ex-Servicemembers](/employment/job-seekers/unemployment-support).
+
+<br>
+
+##### Are you already in the workforce?
+
+Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](/education/gi-bill/).
 
 </div>
 
@@ -90,9 +90,9 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 
 <br>
 
-### Take a different approach to starting your career
+### Take a different approach to starting your career 
 
-- Start or grow [your own business](/employment/job-seekers/start/).
+- Start or grow [your own business](/employment/job-seekers/start/). 
 - Evaluate [non-traditional programs](/education/work-learn/job-and-apprenticeship/) like apprenticeships, work study, and on-the-job training.
 
 <br>
