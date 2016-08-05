@@ -6,15 +6,19 @@ template: 4-action-page-pending
 
 If you participated in the chemical and biological warfare testing associated with Projects 112 or Shipboard Hazard and Defense (SHAD) from 1963 to 1974, you may be eligible for disability benefits for any illness related to the testing.
 
-Are you eligible for disability benefits?
-  : Yes if:
+<div class="call-out" markdown="1">
 
-    -	You participated in Projects 112 or SHAD testing.
-    -	You haveads a condition believed to be caused by this testing.
+### Are you eligible for disability benefits?
+Yes if:
 
-Who is covered
-  : You and your survivors
-{:.va-callout}
+  -	You participated in Projects 112 or SHAD testing.
+  -	You haveads a condition believed to be caused by this testing.
+
+### Who is covered
+You and your survivors
+
+</div>
+
 
 ### Available benefits
 

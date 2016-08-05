@@ -8,6 +8,7 @@ template: 4-action-page
 If you served in the [Southwest Asia theater of military operations](http://www.publichealth.va.gov/exposures/gulfwar/military-service.asp) or in Afghanistan, you may suffer from certain illnesses, disorders, and conditions that have been linked to your service.
 
 <div class="call-out" markdown="1">
+
 ### Are you eligible for compensation?
 
 Yes, if:

@@ -8,6 +8,7 @@ template: 1-topic-landing
 If you served in Iraq or other countries in the Middle East and Southeast Asia, you may have been exposed to asbestos when older buildings were damaged, releasing the contaminant into the air. Additionally, some service occupations, tasks, and workplaces may have exposed you to asbestos, including shipyards, construction, and vehicle repair.
 
 <div class="call-out" markdown="1">
+
 ### Are you eligible for compensation?
 
 Yes, if:

@@ -6,21 +6,24 @@ template: 4-action-page-pending
 
 Radiogenic diseases can be caused by exposure to radiation. If you participated in an activity while on active duty that has a radiation risk, you may have developed one of these [associated diseases](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309).
 
-Are you eligible for disability benefits?
-: Yes, if:
+<div class="call-out" markdown="1">
 
-    - You were interned as a prisoner of war in Japan.
-    - You participated in the postwar occupation of Hiroshima or Nagasaki.
-    - You participated in atmospheric nuclear weapons testing.
-    - You participated in underground nuclear weapons testing at Amchitka Island, Alaska.
-    - You were assigned to a gaseous diffusion plant at one of the following:
-      -	Paducah, Kentucky
-      -	Portsmouth, Ohio, or
-      -	Area K-25 at Oak Ridge, Tennessee
+### Are you eligible for disability benefits?
+Yes, if:
 
-Who is covered
-: You
-{:.va-callout}
+  - You were interned as a prisoner of war in Japan.
+  - You participated in the postwar occupation of Hiroshima or Nagasaki.
+  - You participated in atmospheric nuclear weapons testing.
+  - You participated in underground nuclear weapons testing at Amchitka Island, Alaska.
+  - You were assigned to a gaseous diffusion plant at one of the following:
+    -	Paducah, Kentucky
+    -	Portsmouth, Ohio, or
+    -	Area K-25 at Oak Ridge, Tennessee
+
+### Who is covered
+You
+
+</div>
 
 ### Available benefits
 

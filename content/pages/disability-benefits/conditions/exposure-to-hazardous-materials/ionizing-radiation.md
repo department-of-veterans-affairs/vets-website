@@ -11,6 +11,7 @@ Exposure to Ionizing Radiation
 If you have certain diseases, including some cancers, and you were exposed to ionizing radiation during service, VA may consider those diseases to be service related. See [38 CFR 3.311(b)(5)](http://www.warms.vba.va.gov/regs/38CFR/BOOKB/PART3/S3_311.DOC) for more information.
 
 <div class="call-out" markdown="1">
+
 ### Are you eligible for compensation?
 
 Yes, if:
