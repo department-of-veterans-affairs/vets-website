@@ -1,27 +1,43 @@
 language: node_js
+
 env:
   global:
-  - CXX=g++-4.8
+    - CXX=g++-4.8
+    - AWS_ACCESS_KEY=AKIAKO2IAN6AOQEYC2HQ
+    - secure: jI+ICQIxK2zBhAG8KlULRLgww+g5aypP/wnqYt7RKYiKBKPErDiv4SsTjHTQykpfavhO4SCpik9pjBTDXzIyGffggFBzjZ/IorguZOrhQO8HjrNhrpxGoeilDbZbmVdd5DD6gTIqrTpLGjcF2BTEWPHzJ5gj/2rGob89SyOqfHPCqnPCM+kjsDhzjxtZxceaS6E56wGOVZOQU1VVTRKrrOtu1HcjFLyHpg4DWH9Z6l9PUeizb4cXnkTkHm2YlRoB4uK5u3wdlzvBipiMyuA536gYTx58mfFtHt0SVcFGavhS96zrjYWEgypLburpszyLblXv6ygU7kwzrtgF9dvxOtolEyQqZD7vssyzkFJH+8P/UFGcL68sjygblv6HOuvAKs8FzZUvHT96c7rJ3p8PAt9An9mk5w4ym6AuuRZauHtJnhkjUmZaweAibzbtShtaV9eigVVraJXPpYporCRwRS276KS9r9iGZU+rAwDKuwIgHbtONsc4eq9Yg6nZ00qi3qg7bsPft0Wfk34cRXpc5LTeyUGr4diHljWfbNRqzSoadaMq4pQ3ZLQnaKDnv0hf0dv7VBaLYsr9u84B+dp/gCoCKPCWB1EJ2JzD6fIgkkzF3cgcgKCzEtWnNNrpSEicU1rhsmLlJXHtILruEh0q+B7vkBB09dYUsCfz1Hlqx+g=
+
 notifications:
   email: false
+
 before_install:
   - npm install -g npm@3.8.9
   - npm --version
-  - python --version
-  - pip install s3cmd
+
 cache:
   apt: true
   directories:
   - node_modules
+
 script:
   - npm run build
+
 addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
+
+before_deploy:
+  - npm install -g s3-cli
+
 deploy:
+  - provider: script
+    script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/ s3://dev.vets.gov/
+    skip_cleanup: true
+    on:
+      repo: department-of-veterans-affairs/vets-website
+      branch: burn-the-world
   - provider: s3
     access_key_id: AKIAKO2IAN6AOQEYC2HQ # awong govcloud key.
     secret_access_key:
@@ -33,7 +49,7 @@ deploy:
     acl: public_read
     on:
       repo: department-of-veterans-affairs/vets-website
-      branch: burn-the-world
+      branch: burn-the-worlda
   - provider: s3
     access_key_id: AKIAIEIFFI3LJZO44VTQ
     secret_access_key:
