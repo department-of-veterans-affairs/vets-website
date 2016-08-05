@@ -4,17 +4,7 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-<div class="main" role="main" markdown="0">
-
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-<div markdown="1">
 If you are transitioning out of active service soon, you are entitled to free educational and career counseling services.
-</div>
-<div class="call-out" markdown="1">
 
 ### Are you eligible for services?
 
@@ -28,13 +18,13 @@ Yes, if:
 ### Who is covered
 
 You and your dependents
-</div>
-<div markdown="1">
+
+
 ### Available benefits
 
 Academic and career counseling
 
-<hr>
+-----
 
 ### How it works
 
@@ -54,11 +44,3 @@ Use CareerScope&reg;, the [VA aptitude assessment tool](https://va.careerscope.n
 - Apply for "Educational and Career Counseling."
 
 If you are eligible, VA will invite you to attend an orientation session at the nearest VA regional office. 
-</div>
-
-</div>
-</div>
-</div>
-
-
-</div>

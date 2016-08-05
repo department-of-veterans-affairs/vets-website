@@ -14,6 +14,6 @@ relatedlinks:
     description: "A government match program for educational assistance." 
 ---
 
-Guardsmen, Reservists, and previous generations of Veterans not eligible for the Post-9/11 GI Bill can access educational benefits through REAP, VEAP, and the National Call to Service program.
+Guardsmen, Reservists, and previous generations of Veterans not eligible for the Post-9/11 GI Bill can access education benefits through REAP, VEAP, and the National Call to Service program.
 
 [An accredited representative](/disability-benefits/apply-for-benefits/help/index.html) with a Veteran Service Organization (VSO) can help you pick the right program. 

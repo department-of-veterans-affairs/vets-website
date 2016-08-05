@@ -10,7 +10,7 @@ relatedlinks:
     title: Institutions of Higher Learning Undergraduate and Graduate Degrees
     description: ""
   - url: /education/gi-bill/post-9-11/
-    title: Post-9/11 GI BIll
+    title: Post-9/11 GI Bill
     description: "" 
   - url: /education/gi-bill/transfer/
     title: Transfer Your Post-9/11 GI Bill Benefits to Your Spouse and Dependents
@@ -40,8 +40,6 @@ relatedlinks:
     title: Tutorial Assistance
     description: "" 
 ---
-
-### What is the GI Bill?
 
 Since 1994, the GI Bill has helped millions of Veterans pay for college so they can have successful civilian careers. The Post-9/11 GI Bill, available for Veterans with active-duty service after September 11, 2001, also offers a living allowance, money for books, and the option to transfer education benefits you don't use to your spouse or children.
 

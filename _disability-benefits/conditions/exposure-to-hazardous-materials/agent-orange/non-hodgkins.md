@@ -1,20 +1,13 @@
 ---
 title: Non-Hodgkin’s Lymphoma
+template: 4-action-page-pending
 concurrence: incomplete
 ---
-
-<div class="main" role="main" markdown="0">
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content">
-
-<div markdown="1">
 
 Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of the body’s immune system that helps to fight infection and disease.
 
 ##### Signs of non-Hodgkin’s lymphoma include:
+
 - Swollen, painless lymph nodes in the neck, armpit, or groin
 - Fever
 - Night sweats
@@ -23,26 +16,17 @@ Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymph
 - Abdominal pain or swelling
 - Chest pain or trouble breathing
 - Itchy skin
-</div>
 
-<div class="call-out" markdown="1">
-
-### Are you eligible for benefits?
-
-Yes, if:
+Are you eligible for benefits?
+: Yes, if:
 
 - You are ill with non-Hodgkin’s lymphoma.
 - You were exposed to Agent Orange during military service.
 - You served in Vietnam or in the waters off Vietnam during the Vietnam War Era, in the Korean Demilitarized Zone, or in another area where Agent Orange was stored, tested or sprayed.
 
-
-### Who is covered
-
- You, your dependents and survivors
-
-</div>
-
-<div markdown="1">
+Who is covered
+: You, your dependents and survivors
+{:.va-callout}
 
 ### Available benefits
 
@@ -50,7 +34,7 @@ Yes, if:
 - Health care
 - [Agent Orange Registry health exam]( http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
 
-<hr>
+-----
 
 ### How it works
 
@@ -65,11 +49,3 @@ Learn more about [Agent Orange exposure locations](/disability-benefits/conditio
 
 Visit [Medline Plus](https://www.nlm.nih.gov/medlineplus/ency/article/000581.htm) to learn about treatment of non-Hodgkin’s lymphoma, the latest research, and more from the National Institutes of Health.
 
-
-</div>
-</div>
-
-</div>
-
-</div>
-</div>

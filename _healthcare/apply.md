@@ -1,33 +1,13 @@
 ---
 title: Apply for VA Health Care
+template: 1-topic-landing
+showactionbar: true
 ---
-<div class="main" role="main" markdown="0">
 
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply for VA Health Care</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-
-
-
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-<div markdown="1">
 VA health care includes regular checkups with your primary care doctor and access to specialists, such as cardiologists, gynecologists, and mental health providers. You can also get home health care and geriatric care, as well as medical equipment, prosthetics, and prescriptions.
-<div class="row">
-    <div class="small-12 columns">
-        <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply Online for VA Health Care</a>
-    </div>
-</div>
-</div>
-<br/>
-<div markdown="1">
+
+<a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply for VA Health Care</a>
+
 ### Other ways to apply
 
 - Call 1-877-222-8387 Monday through Friday, 8:00 a.m. to 8:00 p.m. (EST) to get help with your application. 
@@ -41,17 +21,14 @@ VA health care includes regular checkups with your primary care doctor and acces
 </dl>
 
 - Visit the [nearest VA medical center or clinic](http://www.va.gov/directory/guide/division.asp?dnum=1) to apply in person. Download, print, and fill out the [10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
-</div>
+
 <div class="call-out" markdown="1">
 ### What information will you need to complete this form?
 
 - Your most recent tax return
 - Social security numbers for yourself and your dependents
 - Account numbers for any current insurance programs in which you are already enrolled
-
 </div>
-<div markdown="1">
-
 
 ### How long will it take to process your application?
 
@@ -76,14 +53,43 @@ If you served on active duty, and separated under conditions other than dishonor
 
 If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes ([income threshold](http://nationalincomelimits.vaftl.us/)) can affect your eligibility for VA benefits.
 
-**Notes:**
+### Additional forms for caregivers and active duty military
+
+- [Update income from a previous application (10-10EZR)](/healthcare/forms/vha-10-10ezr-fill.pdf)
+- [Apply as active duty military (10-10AD)](/healthcare/forms/1010ez-AD.pdf)
+- [Apply as a caregiver (10-10CG)](/healthcare/forms/vha-10-10CG.pdf)
+- [Apply as National Guard and Reserve (10-10EZ-Demob)](/healthcare/forms/10-10EZ-DEMOB.pdf)
+- [Apply as a member of the Justice Outreach Program (10-10EZ-JO)](/healthcare/forms/10-10EZ-JO.pdf)
+
+<dl>
+    <dd><strong>To download files in Internet Explorer:</strong></dd>
+    <dd>Right-click on the link for the file you want to download</dd>
+    <dd>Choose "Save Target As …"</dd>
+    <dd>Choose where you want to save the file on your hard drive</dd>
+    <dd>Click 'Save'</dd>
+</dl>
+
+<dl>
+    <dd><strong>To download files in Firefox/Chrome:</strong></dd>
+    <dd>Right-click on the link for the file you want to download</dd>
+    <dd>Choose "Save Link As …"</dd>
+    <dd>Choose where you want to save the file on your hard drive</dd>
+    <dd>Click 'Save'</dd>
+</dl>
+
+<dl>
+    <dd><strong>To download files in Safari:</strong></dd>
+    <dd>Right-click on the link for the file you want to download</dd>
+    <dd>Choose "Download Linked File As …"</dd>
+    <dd>Choose where you want to save the file on your hard drive</dd>
+    <dd>Click 'Save'</dd>
+</dl>
+
+After the download is complete, double-click on the file and it should open as long as you have the necessary software on your computer.
+
+****Notes:**
 
 - If you separated under a dishonorable discharge, visit [healthcare.gov](https://www.healthcare.gov/) to find out if you qualify for health insurance.
 
 - Your most recent tax return will have most of ​the​ information you need to qualify based on your income.
 
-</div>
-</div>
-
-</div>
-</div>

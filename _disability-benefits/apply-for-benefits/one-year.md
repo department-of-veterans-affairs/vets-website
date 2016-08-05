@@ -1,6 +1,7 @@
 ---
 title: Disabilities That Appear Within One Year After Discharge
 concurrence: incomplete
+template: 4-action-page-pending
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
     title: What is the fastest way to file a claim?
@@ -19,49 +20,26 @@ relatedlinks:
     description: ""
 ---
 
-<div class="main" role="main" markdown="0">
-<div class="va-action-bar--header">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/disability-benefits/apply-for-benefits/">Apply for Disability Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns usa-content" markdown="1">
-
 If you experience symptoms of certain diseases, such as hypertension, arthritis, diabetes, and peptic ulcers, within a year of separation from active service, you may be eligible for disability benefits. If symptoms appear within a year of separation, even though they were not present during military service, VA may presume service connection. See the [complete list of diseases](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
 
-</div>
+Are you eligible for compensation?
+: Yes, if:
 
-<div class="small-12 columns" markdown="0">
-<div class="call-out usa-content" markdown="1">
+  -	You have a disease that is at least 10% disabling within one year after separation from service.
+  -	The disease is listed in [Title 38, Code of Federal Regulation, 3.09(a)](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
+  -	You were discharged under conditions other than dishonorable.
 
-### Are you eligible for compensation?
+Who is covered
+: You
+{:.va-callout}
 
-Yes, if:
-
--	You have a disease that is at least 10% disabling within one year after separation from service.
--	The disease is listed in [Title 38, Code of Federal Regulation, 3.09(a)](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
--	You were discharged under conditions other than dishonorable.
-
-<br>
-
-### Who is covered
-
-You
-</div>
-<div class="small-12 columns usa-content" markdown="1">
 ### Available benefits
 
 -	Compensation
 -	Health care
 -	Disability
 
-<hr>
+-----
 
 ### How it works
 
@@ -71,12 +49,7 @@ You
 **Exception:**<br>
 The requirement that the disease must have appeared within one year after separation from service does not apply to the following:
 
--	Hansen’s disease: within three years after separation
+-	Hansen&#8217;s disease: within three years after separation
 -	Tuberculosis: within three years after separation
 -	Multiple sclerosis: within seven years after separation
 -	Amyotrophic lateral sclerosis (ALS), also known as Lou Gehrig’s Disease: any time after separation
-
-</div>
-</div>
-</div>
-</div>
