@@ -29,9 +29,10 @@ Yes, if:
 <br>
 
 ### Who is covered 
+
  - You 
  - Your spouse—only for the TAP Career Technical Training Track and some [CareerOneStop](http://www.careeronestop.org/) services
-<div>
+</div>
 
 ### How it works
 
