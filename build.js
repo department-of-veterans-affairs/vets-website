@@ -14,7 +14,7 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
-const webpackConfig = require('./webpack.config');
+const webpackConfig = require('./config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
 
 const sourceDir = 'content/pages';
