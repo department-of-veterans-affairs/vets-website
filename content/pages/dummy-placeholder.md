@@ -5,8 +5,7 @@ title: Vets.gov
 ---
 
 <div class="main home" role="main">
-  <div cl
-  ass="splash">
+  <div class="splash">
     <div class="row">
       <div class="small-12 columns">
         <div class="pitch">
