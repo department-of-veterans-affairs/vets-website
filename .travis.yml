@@ -5,14 +5,16 @@ env:
 notifications:
   email: false
 before_install:
-- npm install -g npm@3.8.9
-- npm --version
+  - npm install -g npm@3.8.9
+  - npm --version
+  - python --version
+  - pip install s3cmd
 cache:
   apt: true
   directories:
   - node_modules
 script:
-- npm run build
+  - npm run build
 addons:
   apt:
     sources:
