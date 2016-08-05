@@ -13,7 +13,7 @@ button,
 [type="reset"],
 [type="image"] {
   appearance: none;
-  background-color: $color-primary;
+  background-color: $color-primary-darker;
   border: 0;
   border-radius: $border-radius;
   color: $color-white;
@@ -39,7 +39,7 @@ button,
 
   &:hover,
   &.usa-button-hover {
-    background-color: $color-primary-darker;
+    background-color: $color-primary-darkest;
     border-bottom: 0;
     color: $color-white;
     text-decoration: none;
