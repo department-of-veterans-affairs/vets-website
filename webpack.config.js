@@ -8,7 +8,7 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 require('babel-polyfill');
 
 var config = {
-  entry: ['babel-polyfill', './src/client.js'],
+  entry: ['babel-polyfill', './src/js/client.js'],
   output: {
     path: path.join(__dirname, 'build/generated'),
     publicPath: '/generated/',
