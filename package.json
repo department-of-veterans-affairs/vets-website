@@ -59,7 +59,6 @@
     "metalsmith-ignore": "^0.1.2",
     "metalsmith-in-place": "^1.4.4",
     "metalsmith-layouts": "^1.6.5",
-    "metalsmith-markdown": "^0.2.1",
     "metalsmith-markdownit": "^0.4.0",
     "metalsmith-navigation": "^0.2.9",
     "metalsmith-permalinks": "^0.5.0",
