@@ -1,47 +1,32 @@
 ---
 title: Education and Career Counseling
-template: 4-action-page
+template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
-<div markdown="1">
 If you are transitioning out of active service soon, you are entitled to free educational and career counseling services.
-</div>
-<div class="call-out" markdown="1">
 
 ### Are you eligible for services?
 
 Yes, if:
 
 -	You will be discharged from active duty within six months.
--	You were discharged from active duty not more than one year ago.
--	You qualify for educational assistance under Chapters 30, 31, 32, 33, 35, 1606, and 1607.
--	You and your qualified dependents are eligible for and have entitlement to education assistance under the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/).
+-	You were discharged from active duty not more than one year ago under conditions other than dishonorable.
+-	You qualify as a Veteran for educational assistance under a VA education program.
+- You qualify as a dependent for educational assistance under the [Post-9/11 GI Bill](/education/gi-bill/transfer), the [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), or the [Survivors’ and Dependents’ Educational Assistance Program](/education/gi-bill/survivors-dependent-assistance/dependents-education/) (DEA).
 
-#### Who is covered
+### Who is covered
 
 You and your dependents
-</div>
-<div markdown="1">
-#### Available benefits
+
+
+### Available benefits
 
 Academic and career counseling
 
-#### How it works
+-----
+
+### How it works
 
 As a transitioning Servicemember, you are eligible to receive the following services:
 
@@ -49,15 +34,13 @@ As a transitioning Servicemember, you are eligible to receive the following serv
 -	Educational and career counseling to help you find a training program or job.
 -	Academic and adjustment counseling to help resolve issues that interfere with your success in training or employment.
 
-Apply for [free counseling services](http://www.vba.va.gov/pubs/forms/VBA-28-8832-ARE.pdf).
+Use CareerScope&reg;, the [VA aptitude assessment tool](https://va.careerscope.net/gibill), at no cost.
 
-Use CareerScope®, the [VA aptitude assessment tool](https://va.careerscope.net/gibill), at no cost.
+### How to apply
 
-</div>
+- Log in to [eBenefits](https://www.ebenefits.va.gov). 
+- Select "Apply."
+- Select "Vocational Rehabilitation and Employment Benefits."
+- Apply for "Educational and Career Counseling."
 
-</div>
-</div>
-</div>
-
-
-</div>
+If you are eligible, VA will invite you to attend an orientation session at the nearest VA regional office. 

@@ -1,29 +1,13 @@
 ---
 title: Montgomery GI Bill Active Duty (MGIB-AD)
-template: 4-action-page
+template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-<div class="main" role="main" markdown="0">
-
-<div class="action-bar">
-  <div class="row">
-    <div class="small-12 columns">
-      <a class="usa-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a>
-    </div>
-  </div>
-</div>
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="1">
 If you served at least two years on active duty, you may be eligible for the MGIB-AD program.
-</div>
-<div class="small-12 columns" markdown="1">
-<div class="call-out" markdown="1">
 
-### Are you eligible for educational benefits?
+<div class="call-out" markdown="1">
+### Are you eligible for education benefits?
 
 Yes, if:
 
@@ -57,16 +41,18 @@ Yes, if:
 - Or you entered full-time National Guard duty under title 32, USC, between July 1, 1985, and November 28, 1989, and you elected MGIB between October 9, 1996, and July 9, 1997.
 - You had military pay reduced by $100 a month for 12 months or made a $1,200 lump-sum contribution.
 
-#### Who is covered
+### Who is covered
 
 You
 </div>
-<div markdown="1">
-#### Available benefits
+
+### Available benefits
 
 School tuition or training fees
 
-#### How it works
+-----
+
+### How it works
 You may receive benefits for up to eight semesters (four years) of traditional academic education. The benefits, paid monthly, depend upon the following factors:
 
 - length of service
@@ -91,15 +77,6 @@ You may receive benefits for up to eight semesters (four years) of traditional a
 
 Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to pick the right type of educational assistance program and school to maximize your benefits.
 
-“GI Bill® is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol ® does not constitute a waiver of VA’s trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
+“GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol &reg; does not constitute a waiver of VA’s trademark rights in that phrase.” Read our [Terms of Use](http://www.benefits.va.gov/GIBILL/Trademark_Terms_of_Use.asp).
 
 Read the [Montgomery GI Bill Active Duty](http://www.benefits.va.gov/gibill/docs/pamphlets/ch30_pamphlet.pdf) pamphlet.
-
-</div>
-
-</div>
-</div>
-</div>
-
-
-</div>

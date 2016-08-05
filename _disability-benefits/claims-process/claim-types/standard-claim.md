@@ -2,121 +2,58 @@
 title: Standard Claim
 template: 6-info-page
 concurrence: complete
+relatedlinks:
+  - url: /disability-benefits/claims-process/claim-types/standard-claim/
+    title: Standard Claim
+    description: ""
+  - url: /disability-benefits/claims-process/claim-types/original-claim/
+    title: Original Claim
+    description: ""
+  - url: /disability-benefits/claims-process/claim-types/reopened-claim/
+    title: Reopened Claim
+    description: ""
+  - url: /disability-benefits/claims-process/claim-types/new-claim/
+    title: New Claim
+    description: ""
+  - url: /disability-benefits/claims-process/claim-types/secondary-claim/
+    title: Secondary Claim
+    description: ""
+  - url: /disability-benefits/claims-process/claim-types/pre-service/
+    title: Preservice Claim
+    description: ""
+  - url: /disability-benefits/claims-process/claim-types/in-service/
+    title: In-Service Claim
+    description: ""
+  - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
+    title: Predischarge Claim
+    description: ""
+  - url: /disability-benefits/claims-process/claim-types/post-service/
+    title: Postservice Claim
+    description: ""
 ---
-
-<div class="section one" markdown="0">
-<div class="primary" markdown="0">
-<div class="row" markdown="0">
-<div class="small-12 columns" markdown="0">
-
-<div markdown="1">
 
 If you file a standard claim, VA will gather evidence from public and private medical facilities so they can process your disability claim. VA will gather evidence from private medical facilities only with your authorization.
 
-</div>
+Who can file a standard claim?
+: You, your dependents and survivors
 
-<div class="call-out" markdown="1">
+Why use the standard claim process?
+: If you want VA to assist you in gathering evidence to support your claim, you should file a standard claim. With your approval, VA will gather needed evidence, listed in your claim, including information not held by federal agencies. 
+: This may include medical records from:
 
-#### Who can file a standard claim?
+   - private medical providers
+   - private doctors' offices
+   - state and local governments
+   - current or former employers
+{:.va-callout}
 
-You, your dependents and survivors
-
-</div>
-
-<div class="call-out" markdown="1">
-
-#### Why use the standard claim process?
-
-If you want VA to assist you in gathering evidence to support your claim, you should file a standard claim. With your approval, VA will gather needed evidence, listed in your claim, including information not held by federal agencies. This may include medical records from:
-
- - private medical providers
- - private doctors' offices
- - state and local governments
- - current or former employers
-
- </div>
-
- <div markdown="1">
-
-#### Evidence Requirements
+### Evidence Requirements
 
 VA will seek to validate your claim with a variety documents, including:
 
 - Medical evidence of a current physical or mental disability
 - Evidence of an event, injury, or disease while you were in service
 
-**Note:** A standard claim will generally take longer to process than a [Fully Developed Claim](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
+**Note:** 
+A standard claim will generally take longer to process than a [Fully Developed Claim](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
 
-
-</div>
-</div>
-</div>
-</div>
-
-<div class="navigation" markdown="0">
-  <div class="row" markdown="0">
-    <div class="small-12 columns">
-      <ul class="small-block-grid-1 medium-block-grid-3 cards small">
-      <li>
-        <a href="/disability-benefits/claims-process/claim-types/standard-claim/">
-          <h5>Standard Claim</h5>
-        </a>
-      </li>
-
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/original-claim/">
-            <h5>Original Claim</h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/reopened-claim/">
-            <h5>Reopened Claim</h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/new-claim/">
-            <h5>New Claim</h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/secondary-claim/">
-            <h5>Secondary Claim</h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/fully-developed-claim/">
-            <h5>Fully Developed Claim (<abbr>FDC</abbr>)</h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/pre-service/">
-            <h5>Preservice Claim</h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/in-service/">
-            <h5>In-Service Claim</h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/predischarge-claim/">
-            <h5>Predischarge Claim</h5>
-          </a>
-        </li>
-
-        <li>
-          <a href="/disability-benefits/claims-process/claim-types/post-service/">
-            <h5>Postservice Claim</h5>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>

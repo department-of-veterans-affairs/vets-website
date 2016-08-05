@@ -1,3 +1,5 @@
+// Staging config. Also the default config that prod and dev are based off of.
+
 var path = require('path');
 var webpack = require('webpack');
 
@@ -20,24 +22,7 @@ var config = {
           presets: ['es2015'],
 
           // Share polyfills between files.
-          // TODO(awong): This is erroring out. Enable later.
-//          plugins: ['transform-runtime'],
-
-          // Speed up compilation.
-          cacheDirectory: true
-        }
-      },
-      {
-        test: /\.jsx$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-        query: {
-          // es2015 is current name for the es6 settings.
-          presets: ['es2015', 'react'],
-
-          // Share polyfills between files.
-          // TODO(awong): This is erroring out. Enable later.
-//          plugins: ['transform-runtime'],
+          plugins: ['transform-runtime'],
 
           // Speed up compilation.
           cacheDirectory: true

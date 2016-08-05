@@ -30,14 +30,24 @@
 @import "core/utilities";
 @import "core/variables";
 
+// VA-specific variables
+@import "va-variables";
+
 // @import "elements/typography";
 @import "elements/buttons";
 @import "elements/inputs";
 @import "elements/labels";
 @import "elements/table";
+
 //  @import "elements/list";
 @import "components/accordions";
 @import "components/forms";
-
+@import "components/sidenav";
 
 @import "va";
+@import "hca";
+@import "elements/va-table";
+@import "components/va-cards";
+@import "components/va-nav-category";
+@import "components/va-crisis-line";
+@import "components/va-playbook";

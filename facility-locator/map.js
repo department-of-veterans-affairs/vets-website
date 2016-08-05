@@ -11,9 +11,11 @@ FacilityLocator = (function() {
       searchQuery,
       searchCenter,
       directionsStart,
-      geolocated = false; // Used when determining starting location for driving directions
-      zoomLevelToShowMarkers = 5;
-      infowindows = {};
+      geolocated = false, // Used when determining starting location for driving directions
+      zoomLevelToShowMarkers = 5,
+      infowindows = {},
+      // Checks whether the matchMedia is a function (supported) and whether this is a small screen
+      isSmallScreen = !(typeof matchMedia === 'function') && (matchMedia('(max-width: 40em)').matches);
 
   FacilityLocator.prototype.init = function() {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -22,12 +24,14 @@ FacilityLocator = (function() {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       mapTypeControl: false,
       maxZoom: 12,
+      scrollwheel:  false,
+      draggable: isSmallScreen
     });
 
     // Load facilities
     $.ajax({
       dataType: "json",
-      url: "https://s3.amazonaws.com/facility-locator-data/facilities.json",
+      url: "https://www.vets.gov/facility-locator/facilities.json",
       success: function(data) {
         allFacilities = data;
         placeMarkers(data);
