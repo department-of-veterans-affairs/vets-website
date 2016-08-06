@@ -86,6 +86,7 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 
 - Government and private resources offer [one-on-one assistance](/employment/job-seekers/one-on-one).
 - Qualified service-disabled Veterans can get [employment support services](/employment/job-seekers/service-disabled), such as small business counseling, as well as specialized help through [Vocational Rehabilitation and Employment (VR&amp;E)](http://www.benefits.va.gov/vocrehab/index.asp).
+- [American Job Centers](http://www.veterans.gov/veterans/) offer interview practice, career counseling, and job-search help. Some of the nearly 2,500 AJC locations have offices with phones, résumé-writing tools, and free Internet access.
 
 <br>
 
