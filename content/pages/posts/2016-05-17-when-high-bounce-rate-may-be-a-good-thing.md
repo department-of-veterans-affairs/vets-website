@@ -1,6 +1,8 @@
 ---
 title: When high bounce rate may be a good thing
+collection: posts
 description:
+slug: when-high-bounce-rate-may-be-a-good-thing
 author: Richard Wheeler
 layout: post-single.html
 tags:

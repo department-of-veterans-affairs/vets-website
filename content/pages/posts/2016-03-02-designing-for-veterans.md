@@ -1,6 +1,8 @@
 ---
 title: Designing Vets.gov
+collection: posts
 description:
+slug: designing-for-veterans
 author: Danny Chapman
 layout: post-single.html
 tags:

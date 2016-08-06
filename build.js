@@ -5,6 +5,7 @@ const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
+const excerpts = require('metalsmith-better-excerpts');
 const filenames = require('metalsmith-filenames');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
@@ -33,7 +34,16 @@ smith.use(markdown({
   typographer: true,
   html: true
 }));
-smith.use(permalinks());
+smith.use(permalinks({
+  linksets: [{
+    match: { collection: 'posts' },
+    pattern: ':date/:slug'
+  }]
+}));
+smith.use(excerpts({
+  moreRegExp: /\s*<!--\s*more\s*-->/i,
+  pruneLength: 600,
+}));
 smith.use(navigation({
   navConfigs: {
     sortByNameFirst: true,

@@ -1,6 +1,8 @@
 ---
 title: Responsive Web Design Podcast
+collection: posts
 description:
+slug: responsive-web-design-podcast
 author: Emily Wright-Moore
 layout: post-single.html
 tags:

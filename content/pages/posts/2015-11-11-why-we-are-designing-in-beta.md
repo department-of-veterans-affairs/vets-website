@@ -1,5 +1,7 @@
 ---
 title: Help Us Create vets.gov
+collection: posts
+slug: why-we-are-designing-in-beta
 description:
 author: Robert McDonald
 layout: post-single.html
