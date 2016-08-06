@@ -14,16 +14,16 @@ const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
 const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
-const webpackConfig = require('./config/webpack.config');
+const webpackConfig = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
 
-const sourceDir = 'content/pages';
+const sourceDir = '../content/pages';
 
 const smith = Metalsmith(__dirname);
 
 // Basic setup.
 smith.source(sourceDir);
-smith.destination('build');
+smith.destination('../build');
 
 // Set up the middleware. DO NOT CHANGE THE ORDER OF PLUGINS.
 
@@ -51,10 +51,10 @@ smith.use(navigation({
     pathProperty: 'nav_path',
     includeDirs: true
   }, navSettings: {} }));
-smith.use(layouts({ engine: 'liquid', 'default': 'page-breadcrumbs.html', directory: 'content/layouts' }));
+smith.use(layouts({ engine: 'liquid', 'default': 'page-breadcrumbs.html', directory: '../content/layouts' }));
 smith.use(collections());
-smith.use(assets({ source: './public', destination: './' }));
-smith.use(define({ site: require('./config.json') }));
+smith.use(assets({ source: '../public', destination: './' }));
+smith.use(define({ site: require('../config/site') }));
 
 
 // If in hot-reload mode, use webpack devserver.

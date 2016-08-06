@@ -10,7 +10,7 @@ require('babel-polyfill');
 var config = {
   entry: ['babel-polyfill', './src/js/client.js'],
   output: {
-    path: path.join(__dirname, 'build/generated'),
+    path: path.join(__dirname, '../build/generated'),
     publicPath: '/generated/',
     filename: 'bundle.js'
   },
@@ -47,7 +47,7 @@ var config = {
         loader: 'imports?this=>window'
       },
       {
-        test: /\.modernizrrc/,
+        test: /\modernizrrc/,
         loader: 'modernizr'
       },
       {
@@ -73,7 +73,7 @@ var config = {
   },
   resolve: {
     alias: {
-      modernizr$: path.resolve(__dirname, "./.modernizrrc"),
+      modernizr$: path.resolve(__dirname, "./modernizrrc"),
       jquery: "jquery/src/jquery"
     },
     extensions: ['', '.js', '.jsx']
