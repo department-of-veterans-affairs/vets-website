@@ -22,9 +22,23 @@ if (!Modernizr.dataset) {
 // This polyfill has its own test logic so no need to conditionally require.
 require('polyfill-function-prototype-bind');
 
+// Bring in foundation and custom libraries.
+require('foundation-sites');
+require('./legacy/components.js');
+
+// Things that run on document.ready().
+require('jquery-accessible-simple-tooltip-aria/jquery-accessible-simple-tooltip-aria.js'); // Only used in facility-locator index and some playbook examples.
+require('./legacy/menu.js');
+require('./legacy/toggle-veterans-crisis-line.js');
+
 // TODO(awong): Change this entry to something with a global router.
-const ReactEntry = require('./rx/roadrunner-entry.jsx');
-// eslint-disable-next-line scanjs-rules/call_addEventListener
-document.addEventListener('DOMContentLoaded', () => {
-  ReactEntry.init();
-});
+if (window.location.pathname.startsWith('/rx/')) {
+  const ReactEntry = require('./rx/roadrunner-entry.jsx');
+  // eslint-disable-next-line scanjs-rules/call_addEventListener
+  document.addEventListener('DOMContentLoaded', () => {
+    ReactEntry.init();
+  });
+}
+
+require('wowjs');
+new WOW().init();

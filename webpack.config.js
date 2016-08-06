@@ -51,14 +51,8 @@ var config = {
         loader: 'modernizr'
       },
       {
-        // Loaders are executed bottom to top, right to left. This MUST
-        // appear before the \.coffee loader.
-        test: /wow\.coffee$/,
+        test: /wow\.js$/,
         loaders: [ 'imports?this=>window', 'exports?this.WOW' ]
-      },
-      {
-        test: /\.coffee$/,
-        loader: 'coffee-loader'
       },
       {
         test: /\.scss$/,
