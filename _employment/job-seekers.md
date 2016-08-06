@@ -9,19 +9,19 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 ### You may not be completely ready to start looking for a job, but there are other ways you can prepare.
 
 - ##### Do you plan to leave active duty in less than 12 months?
-  
+
   [Prepare for your transition](/employment/job-seekers/less-than-one-year) with this timeline.
 
 <br>
 
 - ##### Have you recently left active duty?
-  
+
   If you can’t find a job after you separate from active-duty service, you may be eligible for unemployment benefits through [Unemployment Compensation for Ex-Servicemembers](/employment/job-seekers/unemployment-support).
 
 <br>
 
 - ##### Are you already in the workforce?
-  
+
   Search for a [new career](/employment/job-seekers/search-jobs) or consider [additional education](/education/gi-bill/).
 
 </div>
@@ -61,7 +61,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 ##### Search online job banks
 
 - Search the [Veterans Employment Center](/employment/job-seekers/search-jobs) for job openings.
-- Search for connections and job listings on [LinkedIn&#153;](https://veterans.linkedin.com/) as well as other online job boards. 
+- Search for connections and job listings on [LinkedIn&#153;](https://veterans.linkedin.com/) as well as other online job boards.
 </li>
 
 <li class="step six wow last fadeIn animated animated" markdown="1">
@@ -86,13 +86,13 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 
 - Government and private resources offer [one-on-one assistance](/employment/job-seekers/one-on-one).
 - Qualified service-disabled Veterans can get [employment support services](/employment/job-seekers/service-disabled), such as small business counseling, as well as specialized help through [Vocational Rehabilitation and Employment (VR&amp;E)](http://www.benefits.va.gov/vocrehab/index.asp).
-- [American Job Centers](http://www.veterans.gov/veterans/) offer interview practice, career counseling, and job-search help. Some of the nearly 2,500 AJC locations have offices with phones, résumé-writing tools, and free Internet access.
+- [American Job Centers](http://www.careeronestop.org/ReEmployment/Veterans/JobSearchHelp/ChangeCareers/one-stop-career-centers.aspx) offer interview practice, career counseling, and job-search help. Some of the nearly 2,500 AJC locations have offices with phones, résumé-writing tools, and free Internet access.
 
 <br>
 
-### Take a different approach to starting your career 
+### Take a different approach to starting your career
 
-- Start or grow [your own business](/employment/job-seekers/start/). 
+- Start or grow [your own business](/employment/job-seekers/start/).
 - Evaluate [non-traditional programs](/education/work-learn/job-and-apprenticeship/) like apprenticeships, work study, and on-the-job training.
 
 <br>
@@ -101,4 +101,3 @@ Learn about the [career fairs](/employment/job-seekers/career-fairs) available f
 
 - Use government-sponsored [career and education resources](/employment/job-seekers/family-members/).
 - Take advantage of [networking opportunities](/employment/job-seekers/career-fairs/) at career fairs.
-
