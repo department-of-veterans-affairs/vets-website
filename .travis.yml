@@ -3,14 +3,13 @@ language: node_js
 env:
   global:
     - CXX=g++-4.8
-    # DEV_AWS_ACCESS_KEY
-    - secure: "kBF8LDGFRgHzSewq3ZDuEt8Uojcsnd+CPD4tvcUvtEYZ0xIg0cBdFr2CcO6RzAOmFasJDqbkWv4nJBTphS7zdkiPeEwzFs8X+BYc1z+eTW8hXMSNkCN2bTJK36jORWMw45dDvSUhS854/ELrRSQFaquBH4hzkBywlgSrpvRkxgVAuXEmJzsvfl2uUNnWiff1hC4hlOK1SA5K0jzBNICU1HOcvaQ/Az11ec/NhcahKJaOaYT8NNYIhceW6uVsDfjsCcQxVjMg2TbCQBZDK2+fXbGyEMgDzPTqdgHM6jJwJT29gvL9QaIO5YRaWy9DwEwijNGCaF2dnEIYPmgpMPzvH+834zqVy1x3rDVB4aSxxe3C6u4Afjv5VXAQFHz0wwyO8LY4BMZx++R49tmVrUhDaxCCCfy4nreV+8KLlbQAfgLwhIccAtkyMAO4fRpBeUwHZZ2Nr8G1+x8bz/dXQ8ZfCYMLqsmp5Oi48RMR92h3zU2HpZe+2a5TDwBlemupXLEPynCn+dNTGWaqldBRv7u+R0XgG22V6thXh3UGKDXGKqFlUldNHurXc0rJvEFWTPKhdFZJ3ryoZF59YLmaRt5mpO9LhQOLyA9COvieYzwph57Plmel2KCRpccE4t+Rp7r1P0M+DAyvfmILHXqekT+KJsVygm+SnocsZ1BYzha8NSI="
-    # DEV_AWS_SECRET_KEY
-    - secure: "oR2OSmh1bOrxkQrtX7a4MarN29rblCZq3qnQN93+2eWCqYbBiy+h5uC/fJFzoVOGGZDxYaln3ezjLDkwQ0uUPoo1eU+SSRLRGaV/3+M2Hr5F7bsOviUGSfDmwZRf8pF0bQufPDkQgaifJZqHKbz9agQALw/H0G3eqqvMRpurfu+1I54jTPSlsHqV1+u6QncSr6y4ywoLVKiv0CXeFJuXzETJ0GRW4xPGjdy+AEOvSL/dL7EjQhRG1o2BQ8XKICYxe15RGfDA0ItGlUgZn82F5f+AhGxGbiPpjXlx2gWQpow3Fbs+n4cgVZNF0bCQE6FR5hn2xJl2bDv6pJUQwJY2kX99lThl63aFjH/64CBs/qsCW5ijGaV5VDy1mQuMg4nsb/qt8IYNRt9ieydrdSDHAxzRPFLl01oDdzCQplq/ICeet212iC1B2j26LvZR6plzTpWxt7l3lzJTsEAzPQBnh+vkBHvmM/fQz+u3URVEkayfPPSd4817oCChUZiBgna7KjdQn1FSJh5COSDSDCwDidhXxHpyNuOqlhO/xs5VYshFjTu7kIEv8fGifTKdq6zh9YRGi382UUn+Oc8LXqr+wOJwtVEu2dlqkCUcEhzyAiCb3SBc3S4GA1APD3Cl4q2EDL7WQ8/LMR/DkAbCATneYi2m+Vlcyg71nhwFwSP0+xw="
-    # STAGING_AWS_ACCESS_KEY
-    - secure: "TR2ATVGhGdyvRhuSW68mphnL0+Lwshps9WnVN/pprefEjvxUdabI2NBjOBZdnh3n/cqVy2wOnLlxMDKJY/2HnaAda649NHlZpUB8/d1yEAXUv/xEXxc7YQVJESGzm2ugHMrioVBXjzHn2iPB4P6NB5SWUE9+oYRGUTMi298aZgQAVBgszvaXkleeks/rac3Y/BWicZg4gGTnVJHE0ASUGbEMBs4QwMS2/g5g5lDCuY768P6qKVym+rlGf/8JqetQZ/qD0KE2IGLl5NHCzgyFUrNOQyQ+o/m/PDlocMGnHkInL6PEiA1G8rEcwrPUUP0KpIcKc5YJtGZoFt5g09zk64XitcnwsjQEzEIlUuePFWjKdSrhKIOsIc89trAimoZo8q945fsD78iCVa6WR4+4rvuR2Ycn1428QLQsQe+1C3jnmvfa1OG05oq91hiQzvw0IGnjfNsWK7kg4rDjSZ5pZehO0FZh30ihYor2f1kPJR1FryChD9WoLuMlLmBiCs+cMAHTq5Z6uH8UIuSBZQiyoqZ67qBJq8PspGyULJn1MAtv8KuPho9K6Sdr5y2FOlmIgtnXDOX/eVwBn7WLnGnUzGJsgshaC120a7bcenczL0rLLzSUxUZBWFy2M6ZfpnHE4vStqYlIqWlC40onZvi5YihhrctMlo5OZKLQ5bvI+U8="
-    # STAGING_AWS_SECRET_KEY
-    - secure: "NshonUay7bQITS59Jbao5s3ePFSQbqVmiQ6Qj3AlSt10bu2aXLhHdiOKvi3k6q+0kCIBZb8M9qE6tAfDmmsm2G1FyCAro/UFTIA8Wo3v5DRnNN36nz/8d3E5PrlJiT/vJbKjfEB79jxIqpNQsz8lfVvrLnaSljWXiZl16VpjB4nV+4YRKBJ2la+X3LD9JmRzBVbXZPgYlitfsyEunEFhOhwX0sjxclybMr9PmePvUeAX3+WsdIxFIyomQxDGghPWbdd8E+egnX82DZvQdaS3SI1hI8DTxyQjWg98/UpDwnqKUCJttwZpBcyTNQlHOcDA7ea2lDpIPwaWgDScgarktjsr8qyGeFC6AlddQL014OY7bFGwdcHrgSz9oJ3eaSYv1rzacgpkK/AeuQgKDhSeEigTK6aeoCJdbe4ElKRxYJOsL3kmTWRx5QLH3Fu84BxiwhCO2N65cA1ioqZuUFuUAW+NwycOJV8Q+CGd//xbDw5UvKw1QYm2VqFSJ0xiHZK2Noiz2rC2FoNUjfttmJMYLPMoC57HzcPkBgDCbrGXhDWrOuf8EdNZvN2YBUde3WkgUn/Xf7XwE+IV4lcBtVBrVeqITYg0UKNnMx4JKCt7L7v+Xl2pvUlbXd0ItxW1d0DSt8P+x3ierOeD6KIdZWK+G4Rm1d8/zQzYxXI0UZiX97Q="
+  matrix:
+    # AWS_ACCESS_KEY and AWS_SECRET_KEY for dev.vets.gov
+    - secure: "BQ0BNb3D2gI3hYHXgNIgDNBfZu/koPlZS1mjFqxYizQM+Msu+Zg/QDyeIXFpR7oMU9bmTCWpL2gBFYTOwHAqdP8uDQSz42jCRVGPOmWE9rDt6MDNkyG2M6afJ5FH+bvdcnfWT387iaGfc3jqVZHTVhvy2ay3DTCy8eoovJ7KOZIE+G9YtUxKzNjQHzJaCTloKrvJGIrbebONwJ54LD4GWw4jb7NuUONMpJPwC3ukF6t0gvT83aUf5anrhiu8ghNVYJSObeIXhyiIckley08naETfoK3B/POVf9ex/DbippFhyj64UweNLZ+KAVXUhPBI/CieOG9EdeZQXm7b53ZsdsmDsItXP+nE7+ihfWM4gmv3WJnbLTy12W1D2AF0uoMI5U/jcwRwfoHxVo6OpMbpF10fUVn/yDM/90rpiaB50ufZHtB5cMQfOFGr6/PCiZI/omAi3frUC4Zx6ZbiaG019JqmFHYmrkbTL6d1DTuXL3fawW71tR5a/o4GhOePlu/pXh7nQp4hiRZVo/ZtY6Sa5iuS5UaHmu4uzkXRMurNGrySmSyAFkVxIWG/nHQVTqU1ahgxyYrbtve/aUHZH/aUKr/719N+NW+0ttRMZWAaPnRmbDNdDgyoqcvCr1GKBlaIDWFOMWc+Nd5rhHxaGXr3gthlQdqa4obpk2xdOkBijMw="
+    # AWS_ACCESS_KEY and AWS_SECRET_KEY for staging.vets.gov
+    - secure: "1xqQr7sQdR2yKgcUpFJnRrP0JFaoOOmEIUiBEdYX43Gh4B5jOPrscQR9wOn/gmsUHatL0xVQf4HSarS+TQXpiX6AVfK2fohOijkdi6ozkbE1ZbTFaHUZyESvrIzbvK80Oirl5ez5VCe5cnToM2gDZ/t6UFaxmoizzVzzHK6CwmV7mC7075Ipn+UVHWJCJQRn67XobNP4bhV6M0LZl+PTBf63zU+OzEic/HZftHDEIwdmf8ponaxRvx507BoIEMukoH6pwPEmecOPPPophj6/unNUGh8CxrDUZlKlsNr6DEHZHMH5F+fapYuB7GTOyAL2CbVVEDiKdwtSuTb7N8A2qlsxXb54nDiKjkLaLClC78rQ5zHcTOH0K+JkbZtrGD6R+ruV9Mq6bmQqgsTPj3BXoommNw+jNreFe50qGmv2Ih9EKK6i5k0RRJMkYc+HLSMTtxmSE+h23/K1xyoqR66bB2ts2JAWPemJUzzaISSp/UGZS/qnsqfY2jkh0xiHvRY5qfwcocnz6mRPmdpD5GNG3CldwMcKvN8IhM40/BpotnerbpnuSLHF2A86boxsq5A76bVUhJIcqVjMdNNVR4088fy8dZkcKwLmxDVcmSqQZ5HnDEwQza79EdMy5nL42rudIWrlAqDXjWFoD5p0DxqX/CiZy4lIyypKQWDJu4akySY="
+    # AWS_ACCESS_KEY and AWS_SECRET_KEY for www.vets.gov
+    - secure: "GXmR/K/ggzv875l8+xQ968465F+kEU7OfpChGoFyMdkzlHLIqn3RamXg25ZDp81ph/y3G72Dzmwy7+pxehb2yg9Yh73ZLnRdPJvpNwInVU8V9nI7Qpm29NjMCV4aUmF80xNgK6ArYz141hn0ooPmUYCV5fMPpqJg1lHKDiX8USS7vcPw5OU4hrn6Ssexjowt1xjz2ZiWd/6IG4k1ov/YeYWUgXXr0kg6oXlrtlEJqCmZQGvNJaa2mCg1/MS5QhaYEFkgvJxsbCd9xtK61NlrSK1H+P1/fyg4oqwidEAClr7/YEQbdc83FXiewoWs7KAU8LeKr64N6rMEwH5cbwgIXPYZt4SXnCJGa4z7LaYrBHCjogGIy9VQoT0dR72yYofLr7tsjgVid0gBIhRjfdYpC0+JH4k8lr5SLEKuXrMLtrtx0C9E0dy+m4+GSpF6IhhJYIHHwBukDjCYuppIf2G2t/EdCqL7vD3SytgDmaOW8R8Cc6a7Q6djjtwTWPEvK3GnqA8l+vMQKsD7lVA4Kt0C+DSKvg3E6crJAVs/KQLjSeALlKi18eHOaRXyUTr+Y1vK5XQW4WxCC1wwm5eFuaYPeB3Kyw1r++ef0xQuMuow+Ao0D5YtDnJdNxYFL9qjVqF1Xvnw48FbZw/EazwhpUzUsmO1DQWVTth7qibZzU5pgfw="
 
 notifications:
   email: false
@@ -26,7 +25,9 @@ cache:
 
 script:
   - npm run lint
-  - npm run build
+  - npm run build -- --buildtype development
+  - npm run build -- --buildtype staging
+  - npm run build -- --buildtype production
   - npm run selenium:bootstrap
   - npm run test
 
@@ -42,13 +43,13 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: AWS_ACCESS_KEY=${DEV_AWS_ACCESS_KEY} AWS_SECRET_KEY=${DEV_AWS_SECRET_KEY} s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/development s3://dev.vets.gov/
+    script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/development s3://dev.vets.gov/
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: burn-the-world
   - provider: script
-    script: AWS_ACCESS_KEY=${STAGING_AWS_ACCESS_KEY} AWS_SECRET_KEY=${STAGING_AWS_SECRET_KEY} s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/staging s3://dev.vets.gov/
+    script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/staging s3://dev.vets.gov/
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
