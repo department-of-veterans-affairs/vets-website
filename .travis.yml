@@ -20,6 +20,8 @@ cache:
 
 script:
   - npm run build
+  - npm run selenium:bootstrap
+  - npm run test
 
 addons:
   apt:

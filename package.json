@@ -3,15 +3,16 @@
   "version": "1.0.0",
   "description": "Frontend build for vets.gov website static assets.",
   "scripts": {
-    "build": "node build.js",
+    "build": "node script/build.js",
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:js": "eslint --ext .js --ext .jsx src/js test/js",
     "lint:sass": "sass-lint -c config/sass-lint.yml",
+    "selenium:bootstrap": "selenium-standalone install",
     "serve": "http-server build",
     "test": "npm run test:unit && npm run test:e2e",
-    "test:e2e": "echo 'nightwatch disabled' || nightwatch -c test/config/nightwatch.js",
+    "test:e2e": "nightwatch -c config/nightwatch.js",
     "test:unit": "mocha --recursive --compilers js:babel-register,jsx:babel-register --prof 'test/**/*.unit.spec.js?(x)' ",
-    "watch": "AWONG_TEST=watch node build.js"
+    "watch": "AWONG_TEST=watch node script/build.js"
   },
   "repository": {
     "type": "git",
@@ -86,6 +87,7 @@
     "resolve-url-loader": "^1.6.0",
     "sass-lint": "^1.8.2",
     "sass-loader": "^4.0.0",
+    "selenium-standalone": "^5.5.0",
     "skin-deep": "^0.16.0",
     "style-loader": "^0.13.1",
     "tinyliquid": "^0.2.33",
