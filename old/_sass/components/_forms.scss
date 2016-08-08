@@ -23,6 +23,10 @@ form {
   input[name="password"], input[name="confirmPassword"] {
     margin-bottom: 1.1rem;
   }
+
+  &.full-width, .full-width {
+    max-width: 100%;
+  }
 }
 
 .usa-form-note {

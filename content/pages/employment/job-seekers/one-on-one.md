@@ -19,15 +19,20 @@ relatedlinks:
 
 One-on-one assistance can help you transition by providing current perspectives on workplaces, targeted job-search techniques, coaching, and résumé building. 
 
-Are you eligible for personalized career guidance?
-: Yes, if:
-  - You are a Veteran.
-  - You are a Guard or Reserve member demobilizing after 180 days or more of active service.
+<div class="call-out" markdown="1">
+### Are you eligible for personalized career guidance?
+Yes, if:
 
-Who is covered 
-  - You 
-  - Your spouse (only for the TAP Career Technical Training Track)
-{:.va-callout}
+ - You are a Veteran.
+ - You are a Guard or Reserve member demobilizing after 180 days or more of active service.
+
+<br>
+
+### Who is covered 
+
+ - You 
+ - Your spouse—only for the TAP Career Technical Training Track and some [CareerOneStop](http://www.careeronestop.org/) services
+</div>
 
 ### How it works
 
@@ -37,6 +42,8 @@ There are many government and private resources available to you as you make thi
 - [Veteran Employment Specialists](http://vaforvets.va.gov/hr/RVECS/Pages/rvecs-map.asp) from the Veteran Employment Services Office (VESO) can help you find jobs in your area. 
 
 - [VA for Vets](http://vaforvets.va.gov/) can help you find VA or other federal jobs.
+
+- [American Job Centers (AJCs)](http://www.careeronestop.org/LocalHelp/local-help.aspx) offer interview practice, career counseling, and job-search help. Some of the nearly 2,500 AJC locations have offices with phones, résumé-writing tools, and free Internet access. 
 
 - Private nonprofit organizations that have been thoroughly vetted can offer you advice, share connections, and help place you into a good job at no cost to you. The [Call of Duty Endowment](http://www.callofdutyendowment.org/partners) endorses groups that do a particularly good job of this.
 
