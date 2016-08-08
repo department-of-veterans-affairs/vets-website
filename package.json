@@ -6,7 +6,7 @@
     "build": "node script/build.js",
     "heroku-serve": "http-server",
     "lint": "npm run lint:js && npm run lint:sass",
-    "lint:js": "eslint --ext .js --ext .jsx src/js test/js",
+    "lint:js": "eslint --ignore-pattern src/js/legacy --ext .js --ext .jsx src/js test/js",
     "lint:sass": "sass-lint -c config/sass-lint.yml",
     "selenium:bootstrap": "selenium-standalone install",
     "test": "npm run test:unit && npm run test:e2e",

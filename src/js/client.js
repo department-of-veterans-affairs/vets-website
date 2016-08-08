@@ -26,8 +26,8 @@ require('polyfill-function-prototype-bind');
 require('foundation-sites');
 require('./legacy/components.js');
 
-// Things that run on document.ready().
-require('jquery-accessible-simple-tooltip-aria/jquery-accessible-simple-tooltip-aria.js'); // Only used in facility-locator index and some playbook examples.
+// Only used in facility-locator index and some playbook examples.
+require('jquery-accessible-simple-tooltip-aria/jquery-accessible-simple-tooltip-aria.js');
 require('./legacy/menu.js');
 require('./legacy/toggle-veterans-crisis-line.js');
 
@@ -41,4 +41,5 @@ if (window.location.pathname.startsWith('/rx/')) {
 }
 
 require('wowjs');
+/* global WOW */
 new WOW().init();
