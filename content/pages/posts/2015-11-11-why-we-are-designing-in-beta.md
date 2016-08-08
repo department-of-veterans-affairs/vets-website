@@ -11,6 +11,7 @@ tags:
  - website
  - design
 published: true
+excerpt: I’m proud to introduce you to the beta version of vets.gov.  It’s still a work in progress, but it’s a huge step forward in bringing Veterans the online services they need and deserve.
 ---
 
 #### A Message from Secretary Robert McDonald

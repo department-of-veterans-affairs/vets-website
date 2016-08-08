@@ -9,6 +9,7 @@ tags:
  - content
  - strategy
 published: true
+excerpt: While the Internet started in academic and government labs, it is now, overwhelmingly a commercially driven environment. The tools, language, and ideas that make sense in a commercial space do not necessarily make sense in a government space. This is one of the primary challenges for any government website. Even when the government is providing services, as VA does, the service is not a consumer service. A site supporting that doesn’t necessarily call for a commercial consumer experience, even if it draws from the knowledge that makes good commercial consumer experiences possible. The challenge is understanding which ideas make sense to borrow, and which don’t.
 ---
 
 While the Internet started in academic and government labs, it is now, overwhelmingly a commercially driven environment. The tools, language, and ideas that make sense in a commercial space do not necessarily make sense in a government space. This is one of the primary challenges for any government website. Even when the government is providing services, as VA does, the service is not a consumer service. A site supporting that doesn’t necessarily call for a commercial consumer experience, even if it draws from the knowledge that makes good commercial consumer experiences possible. The challenge is understanding which ideas make sense to borrow, and which don’t.

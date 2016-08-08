@@ -11,6 +11,7 @@ tags:
  - design
 published: true
 splash_image: utah.jpg
+excerpt: I didn't fully understand the mission until I went to Utah last year. I'd been working on a web application for the Department of Veterans Affairs for several months, and I'd just flown into Salt Lake City for usability testing with our beta testers. Having not grown up in a military family, my experience with veterans — what it means to be one, what it means to serve — was largely shaped by news reports about veterans returning home from Iraq and Afghanistan.
 ---
 
 <div markdown="1">

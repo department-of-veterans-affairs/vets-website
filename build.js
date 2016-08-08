@@ -2,10 +2,11 @@
 
 const Metalsmith = require('metalsmith');
 const assets = require('metalsmith-assets');
+const archive = require('metalsmith-archive');
 const collections = require('metalsmith-collections');
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
-const excerpts = require('metalsmith-better-excerpts');
+const excerpts = require('metalsmith-excerpts');
 const filenames = require('metalsmith-filenames');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
@@ -27,6 +28,7 @@ smith.destination('build');
 
 // Set up the middleware. DO NOT CHANGE THE ORDER OF PLUGINS.
 
+smith.use(collections());
 smith.use(dateInFilename(true));
 smith.use(filenames());
 smith.use(inPlace({ engine: 'liquid' }));
@@ -34,15 +36,12 @@ smith.use(markdown({
   typographer: true,
   html: true
 }));
+smith.use(archive());
 smith.use(permalinks({
   linksets: [{
     match: { collection: 'posts' },
     pattern: ':date/:slug'
   }]
-}));
-smith.use(excerpts({
-  moreRegExp: /\s*<!--\s*more\s*-->/i,
-  pruneLength: 600,
 }));
 smith.use(navigation({
   navConfigs: {
@@ -52,7 +51,6 @@ smith.use(navigation({
     includeDirs: true
   }, navSettings: {} }));
 smith.use(layouts({ engine: 'liquid', 'default': 'page-breadcrumbs.html', directory: 'content/layouts' }));
-smith.use(collections());
 smith.use(assets({ source: './public', destination: './' }));
 smith.use(define({ site: require('./config.json') }));
 

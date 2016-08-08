@@ -10,6 +10,7 @@ tags:
  - design
  - shortpost
 published: true
+excerpt: Listen as we talk vets.gov with Karen McGrane and Ethan Marcotte on the Responsive Web Design Podcast.
 ---
 
 Listen as we talk vets.gov with Karen McGrane and Ethan Marcotte on the [Responsive Web Design Podcast](http://responsivewebdesign.com/podcast/vets-gov/).
