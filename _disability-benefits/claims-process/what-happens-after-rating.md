@@ -8,8 +8,6 @@ If you have received a decision notice with your disability rating, you may be e
 If you haven’t received your decision notice, check your status on [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=va-letters) or contact your [regional VA office](/facility-locator/). 
 
 
-### What happens next
-
 #### Look for a payment within 15 days  
 If you’ve received a notice with at least a 10% disability rating, you will get either a direct-deposit payment or a check within 15 days of your decision notice. If you don’t get a payment, please call the Veterans Help Line at 800-827-1000.  
 
