@@ -36,7 +36,7 @@ before_deploy:
 
 deploy:
   - provider: script
-    script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/ s3://dev.vets.gov/
+    script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/development s3://dev.vets.gov/
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
