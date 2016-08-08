@@ -16,7 +16,7 @@ title: Maintenance
       </div>
     </div>
   </div>
-   {% include common-and-popular.html %}
+   {% include content/includes/common-and-popular.html %}
 </div>
 
 <!-- Maintenance Page End -->
