@@ -109,7 +109,7 @@ if (options.watch) {
   smith.use(webpackDevServer(
     webpackConfig,
     {
-      contentBase: 'build',
+      contentBase: `build/${options.buildtype}`,
       historyApiFallback: false,
       hot: true,
       port: options.port,

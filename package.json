@@ -12,7 +12,7 @@
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "nightwatch -c config/nightwatch.js",
     "test:unit": "mocha --recursive --compilers js:babel-register,jsx:babel-register --prof 'test/**/*.unit.spec.js?(x)' ",
-    "watch": "AWONG_TEST=watch node script/build.js"
+    "watch": "node script/build.js --watch"
   },
   "repository": {
     "type": "git",
