@@ -81,7 +81,7 @@ var configGenerator = (options) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-          __DEV__: JSON.stringify(JSON.parse(process.env.NODE_ENV === undefined || process.env.NODE_ENV === 'development'))
+          __BUILDTYPE__: options.buildtype
       }),
 
       // See http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack

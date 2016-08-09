@@ -44,7 +44,7 @@ deploy:
     on:
       repo: department-of-veterans-affairs/vets-website
       condition: "${BUILDTYPE} = development"
-      branch: burn-the-world
+      branch: master
   - provider: script
     script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/production s3://staging.vets.gov/
     skip_cleanup: true
