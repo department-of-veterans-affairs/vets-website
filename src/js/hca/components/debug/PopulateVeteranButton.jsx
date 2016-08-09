@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { completeVeteran } from '../../../common/model/veteran';
+import { completeVeteran } from '../../../common/veteran';
 
 import { updateCompletedStatus, veteranOverwrite } from '../../actions';
 import routes from '../../routes';

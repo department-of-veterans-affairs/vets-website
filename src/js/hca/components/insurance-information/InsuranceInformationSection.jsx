@@ -8,7 +8,7 @@ import { yesNo } from '../../utils/options-for-select.js';
 import { isNotBlank, validateIfDirty } from '../../utils/validations';
 import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
 
-import { makeField } from '../../../common/model/fields';
+import { makeField } from '../../../common/fields';
 
 /**
  * Props:

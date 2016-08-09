@@ -9,8 +9,9 @@ import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
 import ProgressButton from './ProgressButton';
 import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp } from '../actions';
-import { veteranToApplication } from '../../common/model/veteran';
+import { veteranToApplication } from '../../common/veteran';
 import * as validations from '../utils/validations';
+import config from '../../../config';
 
 // TODO(awong): Find some way to remove code when in production. It might require System.import()
 // and a promise.
@@ -118,7 +119,7 @@ class HealthCareApp extends React.Component {
       this.props.onUpdateSubmissionStatus('submitPending');
 
       // POST data to endpoint
-      fetch('/api/hca/v1/application', {
+      fetch(`${config.apiRoot}/application`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -287,7 +288,7 @@ class HealthCareApp extends React.Component {
       );
     }
     let devPanel = undefined;
-    if (__BUILDTYPE__ === 'development') {
+    if (__DEV__) {
       const queryParams = _.fromPairs(
         window.location.search.substring(1).split('&').map((v) => { return v.split('='); }));
       if (queryParams.devPanel === '1') {
