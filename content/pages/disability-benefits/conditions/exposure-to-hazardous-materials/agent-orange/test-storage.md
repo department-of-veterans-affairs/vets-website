@@ -4,22 +4,17 @@ template: 4-action-page
 concurrence: incomplete
 ---
 
-{{ title }}
-: During the Vietnam Era
-: Sites: Herbicide storage facilities
-: Who: All branches of service
-{:.panel-list .plain}
-
 If you participated in the testing or storage of Agent Orange used in Vietnam—on bases in the United States or elsewhere—you can apply for disability compensation.
 
+<div class="call-out" markdown="1">
 
-Are you eligible for compensation?
-: Yes, if:
+### Are you eligible for compensation?
+Yes, if:
 - You are ill with one or more of [these diseases](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
 - Your service included participation in the testing or storage of Agent Orange used in Vietnam.
-Who is covered
-: You and your dependents or survivors
-{:.va-callout}
+
+### Who is covered
+</div>
 
 
 ### Available benefits

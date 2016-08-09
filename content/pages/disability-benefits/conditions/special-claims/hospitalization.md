@@ -6,16 +6,17 @@ template: 4-action-page-pending
 
 If you were hospitalized for a service-connected disability at a VA or VA-approved facility, you may be eligible to receive a temporary 100% disability rating for the time you spent in the hospital.
 
+<div class="call-out" markdown="1">
 
-Are you eligible for compensation?
-: Yes, if:
+### Are you eligible for compensation?
+Yes, if:
 
   - You were hospitalized for more than 21 days in a VA hospital or other approved hospital for a service-connected disability, or
   - You were under hospital observation for more than 21 days at VA expense for a service-connected disability.
 
-Who is covered
-: You
-{:.va-callout}
+### Who is covered
+You
+</div>
 
 ### Available benefits
 

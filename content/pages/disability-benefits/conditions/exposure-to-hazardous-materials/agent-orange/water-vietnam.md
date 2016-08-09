@@ -4,24 +4,20 @@ concurrence: incomplete
 template: 4-action-page
 ---
 
-{{ title }}
-: Dates: Between January 9, 1962, and May 7, 1975
-: Sites: Blue Water Navy ships and inland waterways of Vietnam
-: Who: Navy and Coast Guard
-{:.panel-list .plain}
-
 If you served on a Blue Water Navy ship on the coastal or inland waterways of Vietnam between January 9, 1962, and May 7, 1975—and ever came ashore—VA presumes you were exposed to Agent Orange.
 
-Are you eligible for compensation?
-: Yes, if:
+<div class="call-out" markdown="1">
+
+### Are you eligible for compensation?
+Yes, if:
 
   - You are ill with one or more of [these diseases](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/) related to Agent Orange.
   - Your military record shows that you were aboard one of the [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp) that operated in Vietnam, or
   - You came ashore.
 
-Who is covered
-: You and your survivors
-{:.va-callout}
+### Who is covered
+You and your survivors
+</div>
 
 ### Available benefits:
 

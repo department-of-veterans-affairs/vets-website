@@ -7,8 +7,10 @@ template: 4-action-page-pending
 
 You may be eligible for a temporary 100% disability rating while you recover from surgery, or from an immobilizing disability related to your service.
 
-Are you eligible for compensation?
-: Yes, if:
+<div class="call-out" markdown="1">
+
+### Are you eligible for compensation?
+Yes, if:
 
   -	You have had a surgery or other treatment performed by a VA hospital or an approved hospital or outpatient facility for a service-connected disability, and
   -	The surgery required convalescence of at least one month, or
@@ -21,8 +23,9 @@ Are you eligible for compensation?
       - or required use of a wheelchair or crutches, or
   -	One major joint or more was immobilized by a cast without surgery.
 
-Who is covered
-: You
+### Who is covered
+You
+</div>
 
 ### Available benefits
 
