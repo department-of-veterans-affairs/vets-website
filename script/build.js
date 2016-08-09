@@ -49,7 +49,6 @@ switch (options.buildtype) {
     // No extra checks needed in dev.
     break;
 
-  case 'staging':
   case 'production':
     if (options['no-sanity-check-node-env'] === false) {
       if (env != 'prod') {
@@ -100,7 +99,6 @@ smith.use(define({
 
 
 
-// TODO(awong): Pick the right environment variables.
 if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
   //   https://www.npmjs.com/package/metalsmith-watch
