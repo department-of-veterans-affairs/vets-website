@@ -77,13 +77,13 @@ npm run lint:js 	# This runs linter on js files excluding src/js/legacy
 npm run lint:sass	# This runs linter on sass files based on config/sass-lint.yml
 npm run lint		# This will run both js and sass linters
 
+npm run selenium:bootstrap      # This will boot strap selenium which you will need to run Nightwatch
+
 npm run test:e2e	# This runs Nightwatch.js end-to-end tests base on config/nightwatch.js
-npm run test:unit	# This runs  mocha unit tests
+npm run test:unit	# This runs mocha unit tests
 npm run test		# This runs e2e and unit tests
 
 ```
-
-TODO: Add directions about getting the selenium server running to e2e tests.
 
 ## More documentation
 
