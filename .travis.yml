@@ -51,18 +51,13 @@ deploy:
       repo: department-of-veterans-affairs/vets-website
       condition: "${BUILDTYPE} = production"
       branch: master
-  - provider: s3
-    access_key_id: AKIAKO2IAN6AOQEYC2HQ # awong govcloud key.
-    secret_access_key:
-      secure: vsDSvLeP0CWLEAbffadOH04hriQDw/GdvuKt5me77v7SjAAzZZNb8IPai6leOebgn/Sr/NvsKXUFrMzvLUAjwmH91VDEnq/YsPWzqqlDpONTVbBkiJQDKS+plVNLQZXQ89+6WVKcAOdFLmUH5EwxUpliEGrzdCcxY6v59DiETOykhsouLwDxirBGzgfBqZ46ARiFl2xRS8HYmlavcm8SP4CQFLlFTmFVYMji3waGRk4xaXv+E50iHI2J1Hjo48C7XW/x9oITTZiZnxNLql59lzczDyvdyYBdK/nNQReBatDxUElATQ7s2CfPGDHMaRcJ+6LxxJBXo3hlhD6cDC6ao9q8SqOc1DK5aSfUkt4G97eHeKUMro+BE5+ZkJ6xAszLT19Az6CefT+pEySbLl3RYeUBRvXn+6L5kPlEcSzCX5MXuOpEvQaxAxtsD083Q5Xv6dSa0e63WxlzfqirBDqaFvOtguYnNkS/g0kYGCQBfdkdLAuR45ylE8ElBod8izmdkqGQPu2JtHuisN3VolJQS+sx8KMbwaeHRZCDPpyLjJ9EHUnnEplH+mawKqDi3zkL3PprFH5Tj3f4cVLqR62IoqTbZA8ihOLDDSjuZs9G8Txe19Ehsks0VSzgdgR12CYpW8dGa99ULxUlmYUaBZfVrxmve19vLeYtY+Xwk0+gaPg=
-    bucket: dev.vets.gov
+  - provider: script
+    script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/production s3://www.vets.gov/
     skip_cleanup: true
-    region: us-east-1
-    local-dir: build
-    acl: public_read
     on:
       repo: department-of-veterans-affairs/vets-website
-      branch: burn-the-worlda
+      condition: "${BUILDTYPE} = production"
+      branch: production
   - provider: s3
     access_key_id: AKIAIEIFFI3LJZO44VTQ
     secret_access_key:
@@ -71,10 +66,11 @@ deploy:
     skip_cleanup: true
     upload-dir: shared
     region: us-east-1
-    local-dir: build
+    local-dir: build/production
     acl: public_read
     on:
       repo: department-of-veterans-affairs/vets-website
+      condition: "${BUILDTYPE} = production"
       branch: master
   - provider: s3
     access_key_id: AKIAJPGY3X77ZMIBM4OA
@@ -83,8 +79,9 @@ deploy:
     bucket: www.vets.gov
     skip_cleanup: true
     region: us-east-1
-    local-dir: build
+    local-dir: build/production
     acl: public_read
     on:
       repo: department-of-veterans-affairs/vets-website
+      condition: "${BUILDTYPE} = production"
       branch: production
