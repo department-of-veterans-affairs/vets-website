@@ -8,14 +8,13 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 require('babel-polyfill');
 
 var configGenerator = (options) => {
-  return {
+  const baseConfig = {
     entry: ['babel-polyfill', './src/js/client.js'],
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
       filename: 'bundle.js'
     },
-    devtool: process.env.NODE_ENV === 'production' ? '#source-map' : '#cheap-module-eval-source-map',
     module: {
       loaders: [
         {
@@ -94,6 +93,18 @@ var configGenerator = (options) => {
       new ExtractTextPlugin('bundle.css'),
     ],
   };
+
+  if (process.env.NODE_ENV === 'production') {
+    baseConfig.devtool = '#source-map';
+    baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
+    baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
+    baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
+  } else {
+    baseConfig.devtool = '#cheap-module-eval-source-map';
+  }
+
+
+  return baseConfig;
 };
 
 module.exports = configGenerator;
