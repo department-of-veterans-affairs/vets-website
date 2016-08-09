@@ -19,4 +19,4 @@ relatedlinks:
     description: ""
 ---
 
-A disability claim is a formal legal request for benefits. It’s very important to prepare carefully and to make sure you have the details right before applying. An [accredited representative]({{ site.url }}/disability-benefits/apply-for-benefits/help/index.html) can help you through the process. Below are links to some of the key terms and classifications that VA uses to process your claim.
+A disability claim is a formal legal request for benefits. It’s very important to prepare carefully and to make sure you have the details right before applying. An [accredited representative]({{ site.url }}/disability-benefits/apply-for-benefits/help/) can help you through the process. Below are links to some of the key terms and classifications that VA uses to process your claim.
