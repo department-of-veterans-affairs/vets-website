@@ -94,7 +94,8 @@ smith.use(navigation({
 smith.use(layouts({ engine: 'liquid', 'default': 'page-breadcrumbs.html', directory: '../content/layouts' }));
 smith.use(assets({ source: '../public', destination: './' }));
 smith.use(define({
-    site: require('../config/site')
+    site: require('../config/site'),
+    buildtype: options.buildtype
   }));
 
 
