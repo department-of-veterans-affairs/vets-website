@@ -1,1 +1,1 @@
-web: rake heroku-serve[$PORT]
+web: ./script/heroku-serve.sh $PORT

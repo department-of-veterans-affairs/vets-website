@@ -1,0 +1,148 @@
+// This file is a place where you put all the code you're not proud of, 
+// with the intention of A) isolating it and B) fixing it later. The goal 
+// is for this file to be empty, but some times you just have to throw that 
+// hack in there to get it working.
+
+
+body .row {
+  max-width: 62.5em;
+}
+
+.form-panel {
+  @include media($medium-screen) {
+    max-width: $usa-form-width;
+  }
+}
+
+.main-form,
+.progress-box {
+  button {
+    width: 100%;
+  }
+}
+
+.button-icon{
+  font-size: 1.7rem;
+}
+
+.progress-box {
+  padding: 1rem 2rem;
+  margin: 1.5rem 0  ;
+  border: 1px solid $color-gray-lightest;
+}
+
+.form-section {
+  display: none;
+}
+
+#content .section {
+  fieldset {
+    h4 {
+      padding: 0;
+    }
+  }
+}
+
+.edit-checkbox {
+  label {
+    @extend a;
+    display: inline-block;
+
+    &:before {
+      display: none !important;
+    }
+  }
+}
+
+.input-section {
+  margin-bottom: 2em; 
+
+  .row {
+    margin: 0;
+  }
+}
+
+.hca-datefield-month,
+.hca-datefield-day {
+  clear: none;
+  float: left;
+  margin-right: 1.5rem;
+
+  & select {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+}
+
+.hca-datefield-month {
+  width: 10rem;
+}
+
+.hca-datefield-day {
+  width: 8rem;
+}
+
+.usa-input-error {
+  select {
+    border: 3px solid $color-secondary-dark;
+    width: calc(100% + 1.5rem);
+  }
+}
+
+.hca-radio-buttons {
+  label {
+    margin-top: 1em;
+  }
+}
+
+.hca-process {
+  li {
+    h5 {
+      color: $color-gray;
+    }
+    li {
+      display: none;
+    }
+    &:before {
+      background: $color-gray;
+    }
+    &.section-complete {
+      &:before {
+        background: $color-green;
+        content: '\2714';
+      }
+    }
+    &.section-current {
+      h5 {
+        font-weight: bold;
+        color: $color-primary;
+      }
+      li {
+        display: list-item;
+        &.sub-section-current {
+          font-weight: bold;
+          color: $color-primary;
+        }
+      }
+      &:before {
+        background: $color-primary;
+      }
+    }
+  }
+}
+
+.review {
+  tbody {
+    tr {
+      td {
+        &:first-child {
+          color: $color-primary-darker;
+        }
+      }
+    }
+  }
+}
+
+.hidden{
+  display: none !important;
+}
