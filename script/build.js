@@ -24,7 +24,7 @@ const sourceDir = '../content/pages';
 const smith = Metalsmith(__dirname);
 
 const optionDefinitions = [
-  { name: 'watch', type: Boolean, defaultValue: true },
+  { name: 'watch', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3000 },
   { name: 'buildtype', type: String, defaultValue: 'development' },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
