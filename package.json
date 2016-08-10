@@ -86,6 +86,7 @@
     "polyfill-function-prototype-bind": "0.0.1",
     "react": "^15.2.1",
     "react-addons-perf": "^15.3.0",
+    "react-addons-test-utils": "^15.3.0",
     "react-dom": "^15.2.1",
     "react-redux": "^4.4.5",
     "react-router": "^2.0.0",
