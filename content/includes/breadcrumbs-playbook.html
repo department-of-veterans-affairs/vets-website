@@ -2,7 +2,14 @@
   <div class="row">
     <div class="small-12 columns">
       <ul class="va-nav-breadcrumbs--playbook" role="menubar" aria-label="Primary">
-        {% breadcrumbs %}
+        {% assign my_variable = breadcrumb_path | last %}
+        {% for crumb in breadcrumb_path %}
+          {% if my_variable.name == crumb.name %}
+            <li class="active">{{ crumb.name | replace: '-', ' ' | capitalize }}</li>
+          {% else %}
+            <li class="parent"><a href="/{{ crumb.path }}">{{ crumb.name | replace: '-', ' ' | capitalize }}</a></li>
+          {% endif %}
+        {% endfor %}
       </ul>
     </div>
   </div>
