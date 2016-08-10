@@ -5,16 +5,17 @@ concurrence: incomplete
 ---
 
 If you are a Veteran looking for employment in a field that requires a license or certification, you may be eligible for GI Bill reimbursement for licensing or certification exams.
+<div class="call-out" markdown="1">
 
-Are you eligible for compensation?
-: Yes, if:
+### Are you eligible for compensation?
+Yes, if:
 
   -	You are eligible for the GI Bill.
   -	You are taking an exam that costs less than $2,000.
 
-Who is covered
-: You
-{:.va-callout}
+### Who is covered
+You
+</div>
 
 #### Available benefits
 Reimbursement under the GI Bill
