@@ -9,8 +9,9 @@
     'mocha': true
   },
   'globals': {
+// TODO(awong): Remove these.
     '$': true,
-    '__DEV__': true,
+    '__BUILDTYPE__': true,
     'assert': true,
     'chai': true,
     'sinon': true,

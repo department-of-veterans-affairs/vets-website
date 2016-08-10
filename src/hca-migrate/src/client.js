@@ -19,10 +19,6 @@ if (!Modernizr.dataset) {
 // This polyfill has its own test logic so no need to conditionally require.
 require('polyfill-function-prototype-bind');
 
-// Bring in foundation.
-// TODO(awong): Do we need this? If so, can we remove jquery?
-// require('foundation-sites');
-
 const ReactEntry = require('./client/react-entry.jsx');
 document.addEventListener('DOMContentLoaded', () => { // eslint-disable-line scanjs-rules/call_addEventListener
   ReactEntry.init();

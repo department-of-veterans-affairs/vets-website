@@ -2838,7 +2838,7 @@
     },
     "get-env": {
       "version": "0.4.0",
-      "from": "get-env@latest",
+      "from": "get-env@>=0.4.0 <0.5.0",
       "resolved": "https://registry.npmjs.org/get-env/-/get-env-0.4.0.tgz",
       "dependencies": {
         "lodash": {
@@ -3770,6 +3770,11 @@
       "version": "2.0.0",
       "from": "lodash-deep@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/lodash-deep/-/lodash-deep-2.0.0.tgz"
+    },
+    "lodash-es": {
+      "version": "4.14.2",
+      "from": "lodash-es@>=4.2.1 <5.0.0",
+      "resolved": "https://registry.npmjs.org/lodash-es/-/lodash-es-4.14.2.tgz"
     },
     "lodash._arraycopy": {
       "version": "3.0.0",
@@ -6154,6 +6159,11 @@
       "from": "react@>=15.2.1 <16.0.0",
       "resolved": "https://registry.npmjs.org/react/-/react-15.3.0.tgz"
     },
+    "react-addons-perf": {
+      "version": "15.3.0",
+      "from": "react-addons-perf@latest",
+      "resolved": "https://registry.npmjs.org/react-addons-perf/-/react-addons-perf-15.3.0.tgz"
+    },
     "react-deep-force-update": {
       "version": "1.0.1",
       "from": "react-deep-force-update@>=1.0.0 <2.0.0",
@@ -6169,10 +6179,20 @@
       "from": "react-proxy@>=1.1.7 <2.0.0",
       "resolved": "http://registry.npmjs.org/react-proxy/-/react-proxy-1.1.8.tgz"
     },
+    "react-redux": {
+      "version": "4.4.5",
+      "from": "react-redux@latest",
+      "resolved": "https://registry.npmjs.org/react-redux/-/react-redux-4.4.5.tgz"
+    },
     "react-router": {
       "version": "2.6.1",
       "from": "react-router@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/react-router/-/react-router-2.6.1.tgz"
+    },
+    "react-scroll": {
+      "version": "1.2.0",
+      "from": "react-scroll@latest",
+      "resolved": "https://registry.npmjs.org/react-scroll/-/react-scroll-1.2.0.tgz"
     },
     "react-transform-catch-errors": {
       "version": "1.0.2",
@@ -6281,6 +6301,11 @@
           "resolved": "https://registry.npmjs.org/balanced-match/-/balanced-match-0.1.0.tgz"
         }
       }
+    },
+    "redux": {
+      "version": "3.5.2",
+      "from": "redux@latest",
+      "resolved": "https://registry.npmjs.org/redux/-/redux-3.5.2.tgz"
     },
     "regenerate": {
       "version": "1.3.1",
@@ -7074,6 +7099,11 @@
       "version": "0.6.6",
       "from": "svgo@>=0.6.1 <0.7.0",
       "resolved": "http://registry.npmjs.org/svgo/-/svgo-0.6.6.tgz"
+    },
+    "symbol-observable": {
+      "version": "0.2.4",
+      "from": "symbol-observable@>=0.2.3 <0.3.0",
+      "resolved": "http://registry.npmjs.org/symbol-observable/-/symbol-observable-0.2.4.tgz"
     },
     "table": {
       "version": "3.7.8",
