@@ -1,5 +1,6 @@
 ---
 title: Apply for Health Care: Vets.gov
+entryjs: hca.entry.js
 layout: page-react.html
 ---
 
