@@ -43,6 +43,19 @@ body, .home {
   }
 }
 
+// "Do not print" class. Add to items that should not be
+// printed, e.g. header, footer.
+@media print {
+  .va-dnp {
+    display: none;
+  }
+  .va-header-logo a {
+    background: none;
+    color: #000;
+    text-indent: 0;
+  }
+}
+
 // row
 body .row.full {
   width: 100%;
