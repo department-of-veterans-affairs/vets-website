@@ -27,6 +27,7 @@ Through the Department of Defense’s [Spouse Education Career Opportunities](ht
 - Pursuing additional education and/or training.  
 
 <div class="call-out" markdown="1">
+
 ### Are you eligible for SECO services? 
 Yes, if:
 

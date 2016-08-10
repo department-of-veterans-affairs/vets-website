@@ -6,18 +6,19 @@ template: 1-topic-landing
 
 If you are interested in pursuing continuing-education programs, and are willing to make contributions from your military pay, the VEAP is a $2-to-$1 government-match program for educational assistance.
 
+<div class="call-out" markdown="1">
 
-Are you eligible for benefits?
-: Yes, if:
+### Are you eligible for benefits?
+Yes, if:
 
   - You entered service for the first time between January 1, 1977, and June 30, 1985.
   - You opened and contributed to your account before April 1, 1987.
   - You voluntarily contributed $25–$2700.
   - You completed your first period of service and were discharged or released from service under conditions other than dishonorable.
 
-Who is covered
-: You
-{:.va-callout}
+### Who is covered
+You
+</div>
 
 ### Available benefits
 Tuition assistance

@@ -6,6 +6,7 @@ template: 4-action-page
 Wherever you are in the transition process, the Veterans Employment Center provides career advice, résumé-building assistance, and access to employers who are committed to hiring Veterans and military spouses.
 
 <div class="call-out" markdown="1">
+
 ### You may not be completely ready to start looking for a job, but there are other ways you can prepare.
 
 - ##### Do you plan to leave active duty in less than 12 months?
@@ -30,18 +31,21 @@ Wherever you are in the transition process, the Veterans Employment Center provi
 
 <ol class="process" markdown="0">
 <li class="step one wow fadeIn animated" markdown="1">
+
 ##### Discover your skills and interests.<br>
 
 Identify the type of work you enjoy with the [Interest Profiler](/employment/job-seekers/interest-profiler), then explore related [career paths](https://www.mynextmove.org/).
 </li>
 
 <li class="step two wow fadeIn animated" markdown="1">
+
 ##### Learn about job titles and qualifications<br>
 
 Browse careers by industry and learn about jobs that are similar to your MOS using the [Military Skills Translator](/employment/job-seekers/skills-translator).
 </li>
 
 <li class="step three wow fadeIn animated" markdown="1">
+
 ##### Build a résumé<br>
 
 - Build your [résumé](/employment/job-seekers/create-resume).
@@ -49,6 +53,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 </li>
 
 <li class="step four wow fadeIn animated animated" markdown="1">
+
 ##### Research employers in your area and network
 
 - Many employers have made [commitments](/employment/commitments) to hire Veterans and military spouses.
@@ -58,6 +63,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 </li>
 
 <li class="step five wow fadeIn animated animated" markdown="1">
+
 ##### Search online job banks
 
 - Search the [Veterans Employment Center](/employment/job-seekers/search-jobs) for job openings.
@@ -65,6 +71,7 @@ Browse careers by industry and learn about jobs that are similar to your MOS usi
 </li>
 
 <li class="step six wow last fadeIn animated animated" markdown="1">
+
 ##### Go to a career fair
 
 Learn about the [career fairs](/employment/job-seekers/career-fairs) available for Veterans, Servicemembers, and family members.
