@@ -1,13 +1,7 @@
 // Variables
-
 @import 'style';
 
 $button-stroke: inset 0 0 0 1px;
-
-// TODO: properly incorporate usds web standards for this
-body .row {
-  max-width: 62.5em;
-}
 
 @media screen and (min-width: 600px) {
   form {
@@ -28,23 +22,6 @@ select {
 
 legend {
   @extend h4;
-}
-
-.form-panel {
-  @include media($medium-screen) {
-    max-width: 32em;
-  }
-}
-
-.main-form,
-.progress-box {
-  button {
-    width: 100%;
-  }
-}
-
-.button-icon {
-  font-size: 1.7rem;
 }
 
 .hca-success-icon {
@@ -114,43 +91,6 @@ button.hca-button-disabled {
   pointer-events: none;
 }
 
-.progress-box {
-  padding: 1rem 2rem;
-  margin: 1.5rem 0  ;
-  border: 1px solid $color-gray-lightest;
-}
-
-.form-section {
-  display: none;
-}
-
-#content .section {
-  fieldset {
-    h4 {
-      padding: 0;
-    }
-  }
-}
-
-.edit-checkbox {
-  label {
-    @extend a;
-    display: inline-block;
-
-    &:before {
-      display: none !important;
-    }
-  }
-}
-
-.input-section {
-  margin-bottom: 2em;
-
-  .row {
-    margin: 0;
-  }
-}
-
 .hca-datefield-month,
 .hca-datefield-day {
   clear: none;
@@ -173,13 +113,6 @@ button.hca-button-disabled {
 
 .hca-datefield-day {
   width: 8rem;
-}
-
-.usa-input-error {
-  select {
-    border: 3px solid $color-secondary-dark;
-    width: calc(100% + 1.5rem);
-  }
 }
 
 .hca-radio-buttons {
@@ -229,18 +162,6 @@ button.hca-button-disabled {
   }
 }
 
-.review {
-  tbody {
-    tr {
-      td {
-        &:first-child {
-          color: $color-primary-darker;
-        }
-      }
-    }
-  }
-}
-
 .hca-review-panel {
   button {
       background-color: $color-primary;
@@ -276,10 +197,6 @@ button.hca-button-disabled {
   span{
     background-color: $color-green;
   }
-}
-
-.hidden {
-  display: none !important;
 }
 
 .text-capitalize {
