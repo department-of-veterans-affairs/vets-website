@@ -6,17 +6,18 @@ template: 4-action-page-pending
 
 
 If your tuition amounts to more than what’s covered by the Tuition Assistance (TA) program, you may be eligible for additional assistance. Tuition Assistance Top-Up covers the difference between the full cost of a college course and the amount covered under active-duty TA for up to 36 months.
+<div class="call-out" markdown="1">
 
-Are you eligible for compensation?
-: Yes, if:
+### Are you eligible for compensation?
+Yes, if:
 
   - You are approved for federal TA.
   - You are eligible for Montgomery GI Bill Active Duty or Post-9/11 GI Bill benefits.
   - Your desired course tuition and fees total more than TA will cover.
 
-Who is covered
-: You
-{:.va-callout}
+### Who is covered
+You
+</div>
 
 ### Available benefits
 

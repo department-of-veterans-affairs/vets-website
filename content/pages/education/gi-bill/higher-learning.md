@@ -8,12 +8,14 @@ If you would like to earn an undergraduate or graduate degree at an institution 
 
 The number of classes you attend and the accompanying hours spent in those classes determine your payments. 
 
-For example, for most undergraduate degrees, a college considers:
-: -	12 or more hours full time
+<div class="call-out" markdown="1">
+
+### For example, for most undergraduate degrees, a college considers:
+  -	12 or more hours full time
   -	9-11 hours three-quarter time
   -	6-8 hours half time
   -	Less than six hours as reimbursable at a rate that’s no more than the tuition and fees charged for the course(s)
-{:.va-callout}
+</div>
 
 If you are interested in graduate-level training, the school determines how each hour is rated. For example, if a two-hour class is considered full time in a graduate program at your school, VA will pay you the full-time rate.
 
