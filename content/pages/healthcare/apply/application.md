@@ -2,6 +2,7 @@
 title: Apply for Health Care: Vets.gov
 entryjs: hca.entry.js
 layout: page-react.html
+body_class: page-healthcare
 ---
 
 <!-- TODO(awong) Fix the layout to allow specifying the entry name. -->
