@@ -8,8 +8,11 @@ If you suspect you were exposed to Agent Orange or other herbicides during your 
 
 Contact your local [VA Environmental Health Coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp) if you are interested in getting an Agent Orange Registry health exam.
 
-Are you eligible for an Agent Orange Registry health exam?
-: Yes, if you served in:
+<div class="call-out" markdown="1">
+
+### Are you eligible for an Agent Orange Registry health exam?
+
+Yes, if you served in:
 
   - Vietnam between 1962 and 1975, regardless of length of time.
   - Vietnam on smaller river patrol and swift boats that operated on the inland waterways of Vietnam (also known as “Brown Water Veterans”). Check VA’s list of [U.S. Navy and Coast Guard ships that operated in Vietnam](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
@@ -19,9 +22,9 @@ Are you eligible for an Agent Orange Registry health exam?
   - Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975. You must have been a member of a military police (MP) unit or assigned a military occupational specialty with duty placing you at or near the base perimeter.
   - Other locations but were exposed to herbicides during a military operation or as a result of testing, transporting, or spraying herbicides for military purposes. Learn about [herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp).
 
-Who is covered
-: You
-{:.va-callout}
+### Who is covered
+You
+</div>
 
 ### How it works
 

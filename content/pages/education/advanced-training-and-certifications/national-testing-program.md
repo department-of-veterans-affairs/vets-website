@@ -5,14 +5,16 @@ concurrence: complete
 ---
 
 If you are pursuing higher education that requires testing as part of the application process, you may be eligible for reimbursement from VA.
+<div class="call-out" markdown="1">
 
-Are you eligible for compensation?
-: Yes, if:
-: You are a Veteran eligible for the GI Bill
+### Are you eligible for compensation?
+Yes, if:
 
-Who is covered
-: You
-{:.va-callout}
+You are a Veteran eligible for the GI Bill
+
+### Who is covered
+You
+</div>
 
 ### Available benefits
 

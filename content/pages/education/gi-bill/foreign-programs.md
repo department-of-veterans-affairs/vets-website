@@ -6,17 +6,17 @@ concurrence: incomplete
 
 If you plan to study at a foreign school, you can use VA benefits to cover your tuition and fees.
 
-Are you eligible for compensation?
-: Yes, if:
+### Are you eligible for compensation?
+Yes, if:
 
   - You are eligible for, or are already receiving, VA educational assistance.
   - Your program is approved by VA.
   - Your program at the foreign school is at an institution of higher learning and will earn you a standard college degree or the equivalent. 
 
-: **Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
+##### **Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
 
-Who is covered
-: You and your dependents
+### Who is covered
+You and your dependents
 
 ### Available benefits
 
@@ -33,7 +33,7 @@ VA will accept degrees from schools or establishments in foreign countries that 
 
 For applications and further information, the following offices or representatives will be glad to assist you:
 
-- Any [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) (from outside the United States, call 716-857-3196/7)
+- Any [VA regional office](http://www.benefits.va.gov/benefits/offices.asp) (from outside the United States, call 001-918-781-5678 during business hours, 7:00 a.m.–6:00 p.m. (CST), Monday through Friday)
 - Local representatives of Veterans organizations and the American Red Cross
 - Foreign service posts
 - Canadian Department of Veterans Affairs (Canadian schools only)

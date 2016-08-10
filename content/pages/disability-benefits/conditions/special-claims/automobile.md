@@ -6,9 +6,11 @@ template: 4-action-page-pending
 
 If you have a service-connected disability that prevents you from driving an automobile or other conveyance, you may be eligible for a one-time payment of $20,114.34 toward buying a specially outfitted vehicle. You may also qualify for more than one adaptive-equipment grant to modify a vehicle with power steering, brakes, seats, windows, or lift equipment to assist you with getting into and out of the vehicle.
 
-Are you eligible for compensation?
-: Yes, if:
-: Your service-connected disability includes at least one of the following conditions:
+<div class="call-out" markdown="1">
+
+### Are you eligible for compensation?
+Yes, if:
+Your service-connected disability includes at least one of the following conditions:
 
   - Loss, or permanent loss of use, of one or both feet.
   - Loss, or permanent loss of use, of one or both hands.
@@ -17,9 +19,9 @@ Are you eligible for compensation?
   - Amyotrophic lateral sclerosis (ALS).
   - Ankylosis (immobility of the joint) in one or both knees or hips (adaptive equipment grant only).
 
-Who is covered
-: Veterans and Servicemembers
-{:.va-callout}
+### Who is covered
+Veterans and Servicemembers
+</div>
 
 ### Available benefits
 

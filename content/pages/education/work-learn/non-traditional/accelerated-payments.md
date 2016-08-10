@@ -6,16 +6,18 @@ concurrence: incomplete
 
 If you’re enrolled in a high-tech program and intend to work in a high-tech industry, you may be eligible to receive a lump-sum payment of 60% of tuition and fees. VA issues accelerated payment to you instead of the monthly benefits you would otherwise receive. This program covers the higher per-month costs associated with these courses of study.
 
-Are you eligible for education benefits?
-: Yes, if:
+<div class="call-out" markdown="1">
 
-	-	You are an active-duty GI Bill recipient, in which case both degree and non-degree programs qualify.
-	-	You are a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for two years or less.
-	-	Your tuition and fees exceed 200% of the monthly amount of educational assistance you would otherwise be eligible to receive during the certified period of enrollment.
+### Are you eligible for education benefits?
+Yes, if:
 
-Who is covered
-: You
-{:.va-callout}
+-	You are an active-duty GI Bill recipient, in which case both degree and non-degree programs qualify.
+-	You are a REAP recipient or a Reservist using the Reserve GI Bill while pursuing a non-degree program for two years or less.
+-	Your tuition and fees exceed 200% of the monthly amount of educational assistance you would otherwise be eligible to receive during the certified period of enrollment.
+
+### Who is covered
+You
+</div>
 
 #### Available benefits
 

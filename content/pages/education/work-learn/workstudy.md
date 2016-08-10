@@ -6,9 +6,10 @@ template: 4-action-page-pending
 
 If you are a full-time or three-quarter-time college, vocational, or professional student using VA education benefits, you may be eligible for the work-study program.
 
+<div class="call-out" markdown="1">
 
-Are you eligible for benefits?
-: Yes, if:
+### Are you eligible for benefits?
+Yes, if:
 
   - You are enrolled at least three-quarter time at an institution of higher learning.
   - You are using one of the following VA education benefits:
@@ -23,9 +24,9 @@ Are you eligible for benefits?
   - You are able to complete the work-study contract before the end of your eligibility for education benefits.
   - There is a position available within your normal commuting distance.
 
-Who is eligible
-: You and your dependents using education benefits
-{:.va-callout}
+### Who is eligible
+You and your dependents using education benefits
+</div>
 
 ### Available benefits
 

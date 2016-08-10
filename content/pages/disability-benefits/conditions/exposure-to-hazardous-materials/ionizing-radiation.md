@@ -4,10 +4,6 @@ concurrence:
 template: 4-action-page
 ---
 
-Exposure to Ionizing Radiation
-: Exposure risks include nuclear testing, having been a POW in Japan, working with x-rays or at a reactor, and more.
-{:.panel-list .plain}
-
 If you have certain diseases, including some cancers, and you were exposed to ionizing radiation during service, VA may consider those diseases to be service related. See [38 CFR 3.311(b)(5)](http://www.warms.vba.va.gov/regs/38CFR/BOOKB/PART3/S3_311.DOC) for more information.
 
 <div class="call-out" markdown="1">

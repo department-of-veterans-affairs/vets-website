@@ -6,14 +6,16 @@ template: 4-action-page-pending
 
 If you suffered additional disability while receiving VA hospital care, medical or surgical treatment, or examination; pursuing a course of vocational rehabilitation (under 38 U.S.C. Chapter 31); or participating in compensated work therapy (under 38 U.S.C. 1718), you may be eligible for compensation.
 
-Are you eligible for compensation?
-: Yes, if:
+<div class="call-out" markdown="1">
+
+### Are you eligible for compensation?
+Yes, if:
   
   - You have an additional disability resulting from VA medical treatment or care, or from participation in VA vocational rehabilitation or compensated work therapy.
 
-Who is covered
-: You
-{:.va-callout}
+### Who is covered
+You
+</div>
 
 ### Available benefits
 

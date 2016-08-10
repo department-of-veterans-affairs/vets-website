@@ -17,16 +17,18 @@ Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymph
 - Chest pain or trouble breathing
 - Itchy skin
 
-Are you eligible for benefits?
-: Yes, if:
+<div class="call-out" markdown="1">
+
+### Are you eligible for benefits?
+Yes, if:
 
 - You are ill with non-Hodgkin’s lymphoma.
 - You were exposed to Agent Orange during military service.
 - You served in Vietnam or in the waters off Vietnam during the Vietnam War Era, in the Korean Demilitarized Zone, or in another area where Agent Orange was stored, tested or sprayed.
 
-Who is covered
-: You, your dependents and survivors
-{:.va-callout}
+### Who is covered
+You, your dependents and survivors
+</div>
 
 ### Available benefits
 

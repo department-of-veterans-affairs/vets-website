@@ -7,6 +7,7 @@ template: 1-topic-landing
 If you are a Servicemember with a disability, you may begin your claim for compensation 60 to 180 days before separation, retirement, or release from active duty or demobilization. BDD helps you receive your VA disability benefits sooner.
 
 <div class="call-out" markdown="1">
+
 ### Are you eligible for this program?
 
 Yes, if:

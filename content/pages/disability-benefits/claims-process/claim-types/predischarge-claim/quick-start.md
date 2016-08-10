@@ -5,15 +5,18 @@ template: 4-action-page-pending
 
 If you are in predischarge status between 1 and 59 days before separation, retirement, or release from active duty or demobilization, Quick Start allows you to submit a claim for disability compensation.
 
-Are you eligible for benefits?
-: Yes, if:
+<div class="call-out" markdown="0">
+
+### Are you eligible for benefits?
+Yes, if:
 
   -	You have a known separation date.
   -	Your separation date is 1 to 59 days away.
   -	You are full-time Active Duty, National Guard, or Reserves.
 
-Who is covered
-: You
+### Who is covered
+You
+</div>
 
 ### Available benefits
 
