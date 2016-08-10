@@ -19,12 +19,6 @@
 @import "~uswds/src/stylesheets/core/utilities";
 @import "~uswds/src/stylesheets/core/variables";
 
-// ----- VA BASE (VARIABLES/HELPERS) ---- //
-
-@import 'base/b-variables';
-@import 'base/b-functions';
-
-
 // ---- U.S. WEB DESIGN STANDARDS ELEMENTS/COMPONENTS --- //
 
 @import "~uswds/src/stylesheets/elements/buttons";
@@ -36,6 +30,12 @@
 @import "~uswds/src/stylesheets/components/alerts";
 @import "~uswds/src/stylesheets/components/forms";
 @import "~uswds/src/stylesheets/components/sidenav";
+
+// ----- VA BASE (VARIABLES/HELPERS) ---- //
+
+@import 'base/b-variables';
+@import 'base/b-functions';
+
 
 // ----- VA GENERAL (MAIN FILE/OTHER) ---- //
 
