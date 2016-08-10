@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import ToolTip from '../form-elements/ToolTip';
 
-import { makeField } from '../../../common/fields.js';
+import { makeField } from '../../../common/model/fields.js';
 
 /**
  * A radio button group with a label.

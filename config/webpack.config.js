@@ -1,18 +1,17 @@
 // Staging config. Also the default config that prod and dev are based off of.
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var bourbon = require('bourbon').includePaths;
-var neat = require('bourbon-neat').includePaths;
 var path = require('path');
 var webpack = require('webpack');
-
+var bourbon = require('bourbon').includePaths;
+var neat = require('bourbon-neat').includePaths;
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 require('babel-polyfill');
 
 var configGenerator = (options) => {
   const baseConfig = {
     entry: {
        hca: './src/js/hca/hca-entry.jsx',
-       'no-react': './src/js/no-react-entry.js',
+       'non-react': './src/js/non-react-entry.js',
      },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
@@ -84,10 +83,7 @@ var configGenerator = (options) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-          __BUILDTYPE__: JSON.stringify(options.buildtype),
-          'process.env': {
-              NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-          }
+          __BUILDTYPE__: JSON.stringify(options.buildtype)
       }),
 
       // See http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
@@ -97,7 +93,7 @@ var configGenerator = (options) => {
         "window.jQuery": "jquery"
       }),
 
-      new ExtractTextPlugin('[name].css'),
+      new ExtractTextPlugin('bundle.css'),
     ],
   };
 

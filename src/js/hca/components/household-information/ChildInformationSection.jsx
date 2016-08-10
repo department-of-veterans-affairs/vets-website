@@ -5,7 +5,7 @@ import Child from './Child';
 import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
 import GrowableTable from '../form-elements/GrowableTable.jsx';
 import { yesNo } from '../../utils/options-for-select.js';
-import { createBlankChild } from '../../../common/child';
+import { createBlankChild } from '../../../common/model/child';
 import { isNotBlank, validateIfDirty } from '../../utils/validations';
 import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
 

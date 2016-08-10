@@ -1,9 +1,11 @@
 ---
-title: Apply for Health Care
-entryname: hca
-layout: page-breadcrumbs.html
-body_class: page-healthcare
+title: Apply for Health Care: Vets.gov
+layout: page-react.html
 ---
+
+<!-- TODO(awong) Fix the layout to allow specifying the entry name. -->
+<script src="/generated/hca.entry.js"></script>
+
 <div id="main">
   <nav class="va-nav-breadcrumbs">
     <ul class="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">

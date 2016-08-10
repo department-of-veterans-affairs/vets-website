@@ -2885,7 +2885,7 @@
     },
     "get-env": {
       "version": "0.4.0",
-      "from": "get-env@latest",
+      "from": "get-env@>=0.4.0 <0.5.0",
       "resolved": "https://registry.npmjs.org/get-env/-/get-env-0.4.0.tgz",
       "dependencies": {
         "lodash": {
@@ -7193,6 +7193,11 @@
       "version": "0.6.6",
       "from": "svgo@>=0.6.1 <0.7.0",
       "resolved": "http://registry.npmjs.org/svgo/-/svgo-0.6.6.tgz"
+    },
+    "symbol-observable": {
+      "version": "0.2.4",
+      "from": "symbol-observable@>=0.2.3 <0.3.0",
+      "resolved": "http://registry.npmjs.org/symbol-observable/-/symbol-observable-0.2.4.tgz"
     },
     "symbol-observable": {
       "version": "0.2.4",
