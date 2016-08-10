@@ -34,7 +34,7 @@ relatedlinks:
 
 
 <div class="small-12 medium-4 columns actions">
-<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/homepage">Go to eBenefits to apply</a>
+<a class="usa-button-primary va-button-primary" href="https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation">Go to eBenefits to apply</a>
 </div>
 </div>
 
