@@ -33,6 +33,7 @@
 @import "~uswds/src/stylesheets/elements/table";
 
 @import "~uswds/src/stylesheets/components/accordions";
+@import "~uswds/src/stylesheets/components/alerts";
 @import "~uswds/src/stylesheets/components/forms";
 @import "~uswds/src/stylesheets/components/sidenav";
 
@@ -58,7 +59,7 @@
 // ----- VA STATE (ACTIVE BUTTONS/ERROR INPUTS) ---- //
 
 // Font Awesome
-//@import "~font-awesome/scss/font-awesome";
+@import "~font-awesome/scss/font-awesome";
 
 // ----- VA SHAME ---- //
 

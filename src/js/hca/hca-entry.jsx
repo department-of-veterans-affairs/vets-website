@@ -10,6 +10,8 @@ import initReact from '../common/init-react';
 import reducer from './reducers';
 import routes from './routes.jsx';
 
+require('../../sass/hca.scss');
+
 const store = createStore(reducer);
 
 const browserHistory = useRouterHistory(createHistory)({

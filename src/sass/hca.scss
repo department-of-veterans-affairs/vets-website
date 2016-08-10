@@ -1,3 +1,300 @@
-body {
-  background-color: red;
+// Variables
+
+@import 'style';
+
+$button-stroke: inset 0 0 0 1px;
+
+// TODO: properly incorporate usds web standards for this
+body .row {
+  max-width: 62.5em;
+}
+
+@media screen and (min-width: 600px) {
+  form {
+    max-width: 32em;
+  }
+}
+
+// TODO: Look into why svgs aren't rendering
+select {
+  background-image: url('/img/arrow-down.svg');
+  background-image: url('/img/arrow-down.png');
+}
+
+.loading-message {
+  text-align: center;
+  padding: 2em 0;
+}
+
+legend {
+  @extend h4;
+}
+
+.form-panel {
+  @include media($medium-screen) {
+    max-width: 32em;
+  }
+}
+
+.main-form,
+.progress-box {
+  button {
+    width: 100%;
+  }
+}
+
+.button-icon {
+  font-size: 1.7rem;
+}
+
+.hca-success-icon {
+  color: $color-green;
+  font-size: 8rem;
+}
+
+.hca-alert-copy {
+  color: $color-secondary-dark;
+}
+
+.success-copy {
+  color: $color-green;
+  font-weight: 600;
+}
+
+.success-alert-box {
+  border: 1px solid $color-green;
+  text-align: center;
+}
+
+.row.progress-buttons {
+  max-width: 47rem;
+}
+
+button.short {
+  font-weight: 500;
+  padding: 1rem;
+}
+
+button.usa-button-outline {
+  box-shadow: $button-stroke $color-primary;
+
+  &:hover,
+  &.usa-button-hover {
+    box-shadow: $button-stroke $color-primary-darker;
+    color: $color-primary-darker;
+  }
+
+  &:active,
+  &.usa-button-active {
+    box-shadow: $button-stroke $color-primary-darkest;
+    color: $color-primary-darkest;
+  }
+
+  &:focus,
+  &.usa-button-focus {
+    box-shadow: $button-stroke $color-primary-darkest, $focus-shadow;
+  }
+}
+
+button i.fa {
+  font-size: 0.75em;
+  &.before-text {
+    margin-right: 0.5em;
+  }
+  &.after-text {
+    margin-left: 0.5em;
+  }
+}
+
+button.hca-button-green {
+  background: $color-green;
+}
+
+button.hca-button-disabled {
+  pointer-events: none;
+}
+
+.progress-box {
+  padding: 1rem 2rem;
+  margin: 1.5rem 0  ;
+  border: 1px solid $color-gray-lightest;
+}
+
+.form-section {
+  display: none;
+}
+
+#content .section {
+  fieldset {
+    h4 {
+      padding: 0;
+    }
+  }
+}
+
+.edit-checkbox {
+  label {
+    @extend a;
+    display: inline-block;
+
+    &:before {
+      display: none !important;
+    }
+  }
+}
+
+.input-section {
+  margin-bottom: 2em;
+
+  .row {
+    margin: 0;
+  }
+}
+
+.hca-datefield-month,
+.hca-datefield-day {
+  clear: none;
+  float: left;
+  margin-right: 1.5rem;
+
+  & select {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+}
+
+.hca-alert-body {
+  padding: 0 3.5rem;
+}
+
+.hca-datefield-month {
+  width: 10rem;
+}
+
+.hca-datefield-day {
+  width: 8rem;
+}
+
+.usa-input-error {
+  select {
+    border: 3px solid $color-secondary-dark;
+    width: calc(100% + 1.5rem);
+  }
+}
+
+.hca-radio-buttons {
+  label {
+    margin-top: 1em;
+  }
+}
+
+.hca-required-span {
+  color: $color-secondary-dark;
+  margin: 0 0.35em;
+}
+
+.hca-process {
+  li {
+    h5 {
+      color: $color-gray;
+    }
+    li {
+      display: none;
+    }
+    &:before {
+      background: $color-gray;
+    }
+    &.section-complete {
+      &:before {
+        background: $color-green;
+        content: "\2714";
+      }
+    }
+    &.section-current {
+      h5 {
+        font-weight: bold;
+        color: $color-primary;
+      }
+      li {
+        display: list-item;
+        &.sub-section-current {
+          font-weight: bold;
+          color: $color-primary;
+        }
+      }
+      &:before {
+        background: $color-primary;
+      }
+    }
+  }
+}
+
+.review {
+  tbody {
+    tr {
+      td {
+        &:first-child {
+          color: $color-primary-darker;
+        }
+      }
+    }
+  }
+}
+
+.hca-review-panel {
+  button {
+      background-color: $color-primary;
+      color: $white;
+      &:hover {
+        background-color: $color-primary-darker;
+        color: $white;
+      }
+    }
+    .edit-btn {
+      padding: 1rem;
+      &.primary-outline {
+        background-color: transparent;
+        border: 1px solid $color-primary;
+        color: $color-primary;
+        &:hover {
+        border: 1px solid $color-primary-darker;
+        color: $color-primary-darker;
+        }
+      }
+    }
+  .accordion-header {
+    min-height: 7rem;
+    padding: 1rem;
+  }
+  .section-label {
+    padding-bottom: 1rem;
+  }
+}
+
+.verify-label {
+  padding-top: 1rem;
+  span{
+    background-color: $color-green;
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.hca-tooltip {
+  max-width: 46rem;
+  width: 100%;
+  button {
+    background: transparent;
+    color: $color-primary;
+    text-decoration: underline;
+    padding: 0;
+    font-weight: 400;
+    text-align: left;
+  }
 }
