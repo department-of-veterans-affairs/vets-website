@@ -3,8 +3,8 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import DateInput from '../../../../src/client/components/form-elements/DateInput';
-import { makeField } from '../../../../src/common/fields';
+import DateInput from '../../../../src/js/hca/components/form-elements/DateInput';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<DateInput>', () => {
   describe('propTypes', () => {

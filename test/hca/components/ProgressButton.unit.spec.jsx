@@ -5,7 +5,7 @@ import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 import { default as chai, expect } from 'chai';
 
-import ProgressButton from '../../../src/client/components/ProgressButton';
+import ProgressButton from '../../../src/js/hca/components/ProgressButton';
 
 chai.use(chaiAsPromised);
 

@@ -4,8 +4,8 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import { assert, expect } from 'chai';
 
-import FullName from '../../../../src/client/components/questions/FullName';
-import { makeField } from '../../../../src/common/fields';
+import FullName from '../../../../src/js/hca/components/questions/FullName';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 function makeName(first, middle, last, suffix) {
   return {

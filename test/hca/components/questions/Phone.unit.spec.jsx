@@ -3,8 +3,8 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import Phone from '../../../../src/client/components/questions/Phone';
-import { makeField } from '../../../../src/common/fields';
+import Phone from '../../../../src/js/hca/components/questions/Phone';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<Phone>', () => {
   describe('propTypes', () => {

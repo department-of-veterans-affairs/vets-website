@@ -2,8 +2,8 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { VeteranAddressSection } from '../../../../src/client/components/veteran-information/VeteranAddressSection';
-import { makeField } from '../../../../src/common/fields';
+import { VeteranAddressSection } from '../../../../src/js/hca/components/veteran-information/VeteranAddressSection';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<VeteranAddressSection>', () => {
   const nullAddress = {

@@ -7,9 +7,9 @@ import { createStore } from 'redux';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import Nav from '../../../src/client/components/Nav';
-import routes from '../../../src/client/routes';
-import reducer from '../../../src/client/reducers';
+import Nav from '../../../src/js/hca/components/Nav';
+import routes from '../../../src/js/hca/routes';
+import reducer from '../../../src/js/hca/reducers';
 
 const store = createStore(reducer);
 

@@ -3,8 +3,8 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import Email from '../../../../src/client/components/questions/Email';
-import { makeField } from '../../../../src/common/fields';
+import Email from '../../../../src/js/hca/components/questions/Email';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<Email>', () => {
   describe('propTypes', () => {

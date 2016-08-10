@@ -3,8 +3,8 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import SocialSecurityNumber from '../../../../src/client/components/questions/SocialSecurityNumber';
-import { makeField } from '../../../../src/common/fields';
+import SocialSecurityNumber from '../../../../src/js/hca/components/questions/SocialSecurityNumber';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<SocialSecurityNumber>', () => {
   describe('propTypes', () => {

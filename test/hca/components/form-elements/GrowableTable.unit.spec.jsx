@@ -4,7 +4,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import GrowableTable from '../../../../src/client/components/form-elements/GrowableTable';
+import GrowableTable from '../../../../src/js/hca/components/form-elements/GrowableTable';
 
 class Row extends React.Component {
   render() {

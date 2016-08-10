@@ -2,11 +2,11 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { ReviewAndSubmitSection } from '../../../src/client/components/ReviewAndSubmitSection';
+import IntroductionSection from '../../../src/js/hca/components/IntroductionSection';
 
-describe('<ReviewAndSubmitSection>', () => {
+describe('<IntroductionSection>', () => {
   it('Sanity check the component renders', () => {
-    const tree = SkinDeep.shallowRender(<ReviewAndSubmitSection/>);
+    const tree = SkinDeep.shallowRender(<IntroductionSection/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.have.property('type', 'div');
   });

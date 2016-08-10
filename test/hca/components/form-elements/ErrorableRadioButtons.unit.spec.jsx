@@ -4,8 +4,8 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import ErrorableRadioButtons from '../../../../src/client/components/form-elements/ErrorableRadioButtons';
-import { makeField } from '../../../../src/common/fields';
+import ErrorableRadioButtons from '../../../../src/js/hca/components/form-elements/ErrorableRadioButtons';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<ErrorableRadioButtons>', () => {
   const options = [{ value: 'yes', label: 'Yes' }, { value: 'no', label: 'No' }];

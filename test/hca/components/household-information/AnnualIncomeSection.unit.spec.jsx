@@ -2,8 +2,8 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { AnnualIncomeSection } from '../../../../src/client/components/household-information/AnnualIncomeSection';
-import { makeField } from '../../../../src/common/fields';
+import { AnnualIncomeSection } from '../../../../src/js/hca/components/household-information/AnnualIncomeSection';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<AnnualIncomeSection>', () => {
   it('renders the correct spouse income amounts', () => {

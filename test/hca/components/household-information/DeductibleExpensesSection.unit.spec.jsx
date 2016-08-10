@@ -2,8 +2,8 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { DeductibleExpensesSection } from '../../../../src/client/components/household-information/DeductibleExpensesSection';
-import { makeField } from '../../../../src/common/fields';
+import { DeductibleExpensesSection } from '../../../../src/js/hca/components/household-information/DeductibleExpensesSection';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<DeductibleExpensesSection>', () => {
   it('renders expenses when entered', () => {

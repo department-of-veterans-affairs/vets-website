@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 
-import FixedTable from '../../../../src/client/components/form-elements/FixedTable';
+import FixedTable from '../../../../src/js/hca/components/form-elements/FixedTable';
 
 describe('<FixedTable>', () => {
   describe('propTypes', () => {

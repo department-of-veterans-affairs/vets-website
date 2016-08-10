@@ -3,8 +3,8 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import { createStore } from 'redux';
 
-import HealthCareApp from '../../../src/client/components/HealthCareApp';
-import reducer from '../../../src/client/reducers';
+import HealthCareApp from '../../../src/js/hca/components/HealthCareApp';
+import reducer from '../../../src/js/hca/reducers';
 
 const store = createStore(reducer);
 

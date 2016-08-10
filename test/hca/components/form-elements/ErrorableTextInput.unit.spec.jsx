@@ -1,15 +1,16 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
-import sinon from 'sinon';
 import chaiAsPromised from 'chai-as-promised';
+import sinon from 'sinon';
 import { default as chai, expect } from 'chai';
 
-import ErrorableCheckbox from '../../../../src/client/components/form-elements/ErrorableCheckbox';
+import ErrorableTextInput from '../../../../src/js/hca/components/form-elements/ErrorableTextInput';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 chai.use(chaiAsPromised);
 
-describe('<ErrorableCheckbox>', () => {
+describe('<ErrorableTextInput>', () => {
   describe('propTypes', () => {
     let consoleStub;
     beforeEach(() => {
@@ -22,64 +23,70 @@ describe('<ErrorableCheckbox>', () => {
 
     it('label is required', () => {
       SkinDeep.shallowRender(
-        <ErrorableCheckbox onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `label` was not specified in `ErrorableCheckbox`/);
+        <ErrorableTextInput field={makeField(1)} onValueChange={(_update) => {}}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Required prop `label` was not specified in `ErrorableTextInput`/);
     });
 
     it('label must be a string', () => {
       SkinDeep.shallowRender(
-        <ErrorableCheckbox label onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `label` of type `boolean` supplied to `ErrorableCheckbox`, expected `string`/);
+        <ErrorableTextInput field={makeField(1)} label onValueChange={(_update) => {}}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `label` of type `boolean` supplied to `ErrorableTextInput`, expected `string`./);
     });
 
     it('onValueChange is required', () => {
-      SkinDeep.shallowRender(<ErrorableCheckbox label="test"/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `ErrorableCheckbox`/);
+      SkinDeep.shallowRender(<ErrorableTextInput field={makeField(1)} label="test"/>);
+      sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `ErrorableTextInput`/);
     });
 
     it('onValueChange must be a function', () => {
-      SkinDeep.shallowRender(<ErrorableCheckbox label="test" onValueChange/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `ErrorableCheckbox`, expected `function`/);
+      SkinDeep.shallowRender(<ErrorableTextInput field={makeField(1)} label="test" onValueChange/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `ErrorableTextInput`, expected `function`/);
     });
 
     it('errorMessage must be a string', () => {
       SkinDeep.shallowRender(
-        <ErrorableCheckbox label="test" errorMessage onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `errorMessage` of type `boolean` supplied to `ErrorableCheckbox`, expected `string`/);
+        <ErrorableTextInput field={makeField(1)} label="test" errorMessage onValueChange={(_update) => {}}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `errorMessage` of type `boolean` supplied to `ErrorableTextInput`, expected `string`/);
     });
 
-    it('checked must be a boolean', () => {
+    it('placeholder must be a string', () => {
       SkinDeep.shallowRender(
-        <ErrorableCheckbox label="test" checked="test" onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `checked` of type `string` supplied to `ErrorableCheckbox`, expected `boolean`/);
+        <ErrorableTextInput field={makeField(1)} label="test" placeholder onValueChange={(_update) => {}}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `placeholder` of type `boolean` supplied to `ErrorableTextInput`, expected `string`/);
+    });
+
+    it('field must be object', () => {
+      SkinDeep.shallowRender(
+        <ErrorableTextInput field label="test" onValueChange={(_update) => {}}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `field` of type `boolean` supplied to `ErrorableTextInput`, expected `object`/);
     });
 
     it('required must be a boolean', () => {
       SkinDeep.shallowRender(
-        <ErrorableCheckbox label="test" required="hi" onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `required` of type `string` supplied to `ErrorableCheckbox`, expected `boolean`/);
+        <ErrorableTextInput field={makeField(1)} label="test" required="hi" onValueChange={(_update) => {}}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `required` of type `string` supplied to `ErrorableTextInput`, expected `boolean`/);
     });
   });
 
-  it('ensure checked changes propagate', () => {
+  it('ensure value changes propagate', () => {
     let errorableInput;
 
     const updatePromise = new Promise((resolve, _reject) => {
       errorableInput = ReactTestUtils.renderIntoDocument(
-        <ErrorableCheckbox label="test" onValueChange={(update) => { resolve(update); }}/>
+        <ErrorableTextInput field={makeField(1)} label="test" onValueChange={(update) => { resolve(update); }}/>
       );
     });
 
     const input = ReactTestUtils.findRenderedDOMComponentWithTag(errorableInput, 'input');
-    input.checked = false;
+    input.value = 'newValue';
     ReactTestUtils.Simulate.change(input);
 
-    return expect(updatePromise).to.eventually.eql(false);
+    return expect(updatePromise).to.eventually.eql(makeField('newValue', true));
   });
 
   it('no error styles when errorMessage undefined', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableCheckbox label="my label" onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput field={makeField(1)} label="my label" onValueChange={(_update) => {}}/>);
 
     // No error classes.
     expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(0);
@@ -99,7 +106,7 @@ describe('<ErrorableCheckbox>', () => {
 
   it('has error styles when errorMessage is set', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableCheckbox label="my label" errorMessage="error message" onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput field={makeField(1)} label="my label" errorMessage="error message" onValueChange={(_update) => {}}/>);
 
     // Ensure all error classes set.
     expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(1);
@@ -121,14 +128,14 @@ describe('<ErrorableCheckbox>', () => {
 
   it('required=false does not have required asterisk', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableCheckbox label="my label" onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput field={makeField(1)} label="my label" onValueChange={(_update) => {}}/>);
 
     expect(tree.everySubTree('label')[0].text()).to.equal('my label');
   });
 
   it('required=true has required asterisk', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableCheckbox label="my label" required onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput field={makeField(1)} label="my label" required onValueChange={(_update) => {}}/>);
 
     const label = tree.everySubTree('label');
     expect(label[0].text()).to.equal('my label*');
@@ -136,7 +143,7 @@ describe('<ErrorableCheckbox>', () => {
 
   it('label attribute propagates', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableCheckbox label="my label" onValueChange={(_update) => {}}/>);
+      <ErrorableTextInput field={makeField(1)} label="my label" onValueChange={(_update) => {}}/>);
 
     // Ensure label text is correct.
     const labels = tree.everySubTree('label');
@@ -150,3 +157,4 @@ describe('<ErrorableCheckbox>', () => {
     expect(inputs[0].props.id).to.equal(labels[0].props.htmlFor);
   });
 });
+

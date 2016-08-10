@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { assert, expect } from 'chai';
 
 import Gender from
-    '../../../../src/client/components/questions/Gender';
+    '../../../../src/js/hca/components/questions/Gender';
 
 describe('<Gender>', () => {
   let component = null;

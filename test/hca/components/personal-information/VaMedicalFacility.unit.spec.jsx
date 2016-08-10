@@ -4,8 +4,8 @@ import SkinDeep from 'skin-deep';
 import sinon from 'sinon';
 import { assert, expect } from 'chai';
 
-import VaMedicalFacility from '../../../../src/client/components/insurance-information/VaMedicalFacility';
-import { makeField } from '../../../../src/common/fields';
+import VaMedicalFacility from '../../../../src/js/hca/components/insurance-information/VaMedicalFacility';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<VaMedicalFacility>', () => {
   describe('propTypes', () => {

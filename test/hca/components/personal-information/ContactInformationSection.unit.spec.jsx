@@ -2,8 +2,8 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { ContactInformationSection } from '../../../../src/client/components/veteran-information/ContactInformationSection';
-import { makeField } from '../../../../src/common/fields';
+import { ContactInformationSection } from '../../../../src/js/hca/components/veteran-information/ContactInformationSection';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<ContactInformationSection>', () => {
   const mockEmail = makeField('mock@aol.com', true);

@@ -5,8 +5,8 @@ import chaiAsPromised from 'chai-as-promised';
 import sinon from 'sinon';
 import { default as chai, expect } from 'chai';
 
-import ErrorableSelect from '../../../../src/client/components/form-elements/ErrorableSelect';
-import { makeField } from '../../../../src/common/fields';
+import ErrorableSelect from '../../../../src/js/hca/components/form-elements/ErrorableSelect';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 chai.use(chaiAsPromised);
 
