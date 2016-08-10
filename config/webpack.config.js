@@ -1,10 +1,11 @@
 // Staging config. Also the default config that prod and dev are based off of.
 
-var path = require('path');
-var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var bourbon = require('bourbon').includePaths;
 var neat = require('bourbon-neat').includePaths;
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var path = require('path');
+var webpack = require('webpack');
+
 require('babel-polyfill');
 
 var configGenerator = (options) => {
@@ -93,7 +94,7 @@ var configGenerator = (options) => {
         "window.jQuery": "jquery"
       }),
 
-      new ExtractTextPlugin('bundle.css'),
+      new ExtractTextPlugin('[name].css'),
     ],
   };
 
