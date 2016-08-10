@@ -9,11 +9,14 @@ require('babel-polyfill');
 
 var configGenerator = (options) => {
   const baseConfig = {
-    entry: ['babel-polyfill', './src/js/client.js'],
+    entry: {
+       hca: './src/js/hca/hca-entry.jsx',
+       'non-react': './src/js/non-react-entry.js',
+     },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
-      filename: 'bundle.js'
+      filename: '[name].entry.js'
     },
     module: {
       loaders: [
@@ -80,7 +83,7 @@ var configGenerator = (options) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-          __BUILDTYPE__: options.buildtype
+          __BUILDTYPE__: JSON.stringify(options.buildtype)
       }),
 
       // See http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack

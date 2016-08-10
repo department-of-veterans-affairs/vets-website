@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import ToolTip from '../form-elements/ToolTip';
 
-import { makeField } from '../../../common/fields.js';
+import { makeField } from '../../../common/model/fields.js';
 
 /**
  * A form input with a label that can display error messages.

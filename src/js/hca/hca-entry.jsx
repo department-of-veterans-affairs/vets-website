@@ -6,16 +6,14 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
 import HealthCareApp from './components/HealthCareApp.jsx';
-import config from '../../config';
+import initReact from '../common/init-react';
 import reducer from './reducers';
 import routes from './routes.jsx';
-
-import menu from '../../assets/js/vendor/menu.js'; // eslint-disable-line
 
 const store = createStore(reducer);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: config.basePath
+  basename: '/healthcare/apply/application'
 });
 
 function init() {
@@ -31,4 +29,5 @@ function init() {
     ), document.getElementById('react-root'));
 }
 
-export { init };
+// Start react.
+initReact(init);
