@@ -13,7 +13,6 @@ published: true
 splash_image: utah.jpg
 excerpt: I didn't fully understand the mission until I went to Utah last year. I'd been working on a web application for the Department of Veterans Affairs for several months, and I'd just flown into Salt Lake City for usability testing with our beta testers. Having not grown up in a military family, my experience with veterans — what it means to be one, what it means to serve — was largely shaped by news reports about veterans returning home from Iraq and Afghanistan.
 ---
-
 <div markdown="1">
 
 I didn't fully understand the mission until I went to Utah last year.
@@ -36,7 +35,7 @@ Unlike many projects where it's so easy — required, even — to insert design 
 
 <div markdown="0">
 <figure>
-  <img src="/assets/images/content/posts/whiteboard.jpg" alt="Whiteboard with writing">
+  <img src="/img/content/posts/whiteboard.jpg" alt="Whiteboard with writing">
 <figcaption>
   An early vets.gov whiteboard session
 </figcaption>
