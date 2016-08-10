@@ -4,22 +4,18 @@ concurrence: incomplete
 template: 4-action-page
 ---
 
-{{ title }}
-: Between January 9, 1962, and May 7, 1975
-: Sites: Royal Thai Air Force (RTAF) bases and U.S. Army bases in Thailand
-{:.panel-list .plain}
-
 If your service involved regular daily security duty on the fenced-in perimeters of a U.S. military base in Thailand or Royal Thai Air Force Bases between January 9, 1962, and May 7, 1975, and you have an associated disease, you may be eligible for an acknowledgment of Agent Orange exposure and benefits.
 
+<div class="call-out" markdown="1">
 
-Are you eligible for compensation?
-: Yes, if:
+### Are you eligible for compensation?
+Yes, if:
   - You served perimeter security duty on RTAF bases in Thailand, including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang.
   - You served perimeter security duty while stationed on a U.S. Army installation in Thailand.
 
-Who is covered
-: You, your dependents and survivors
-{:.va-callout}
+### Who is covered
+You, your dependents and survivors
+</div>
 
 ### Available benefits
 - Heath care

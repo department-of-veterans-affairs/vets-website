@@ -6,17 +6,17 @@ concurrence: incomplete
 
 If you plan to study at a foreign school, you can use VA benefits to cover your tuition and fees.
 
-Are you eligible for compensation?
-: Yes, if:
+### Are you eligible for compensation?
+Yes, if:
 
   - You are eligible for, or are already receiving, VA educational assistance.
   - Your program is approved by VA.
   - Your program at the foreign school is at an institution of higher learning and will earn you a standard college degree or the equivalent. 
 
-: **Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
+##### **Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
 
-Who is covered
-: You and your dependents
+### Who is covered
+You and your dependents
 
 ### Available benefits
 

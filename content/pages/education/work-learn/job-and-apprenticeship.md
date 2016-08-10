@@ -6,8 +6,10 @@ template: 4-action-page-pending
 
 If you want to learn a trade or skill through on-the-job training or apprenticeships, there are VA benefits that can help.
 
-Are you eligible for benefits?
-: Yes, if:
+<div class="call-out" markdown="1">
+
+### Are you eligible for benefits?
+Yes, if:
 
   -	You are eligible for [the GI Bill](/education/gi-bill/).
   -	You are interested in working in an industry or job where on-the-job (OTJ) training is available. Examples include:
@@ -15,9 +17,9 @@ Are you eligible for benefits?
       -	Hotel management
       -	Firefighter
 
-Who is covered
-: You
-{:.va-callout}
+### Who is covered
+You
+</div>
 
 ### Available benefits
 

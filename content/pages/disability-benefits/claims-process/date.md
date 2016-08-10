@@ -26,6 +26,7 @@ The day you became eligible for benefits is your effective date. This varies wit
 
 
 <div class="call-out usa-content" markdown="1">
+
 ### How Effective Dates Are Assigned
 
 Here’s how VA determines effective dates in various cases. It’s more than a little complicated. Hang in there.

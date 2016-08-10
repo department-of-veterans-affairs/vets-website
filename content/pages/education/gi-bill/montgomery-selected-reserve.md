@@ -7,15 +7,16 @@ template: 4-action-page-pending
 If you are an eligible member of the Army Reserve, Navy Reserve, Air Force Reserve, Marine Corps Reserve, Coast Guard Reserve, Army National Guard, or Air National Guard, you may receive up to 36 months of education and training benefits under the MGIB-SR program.
 
 View [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp#ch1606).
+<div class="call-out" markdown="1">
 
-Are you eligible for this program?
-: Yes, if:
+### Are you eligible for this program?
+Yes, if:
 
   - You have a six-year service obligation in the Selected Reserve. If you are an officer, you must have agreed to serve six years in addition to your original obligation.
   - You complete your initial active duty for training (IADT).
   - You receive a high school diploma or equivalency certificate before completing IADT.
   - You remain in good standing while serving in an active Selected Reserve unit.
-{:.va-callout}
+</div>
 
 ### Available benefits
 

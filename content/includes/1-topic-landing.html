@@ -1,23 +1,26 @@
 <div class="main" role="main">
 {% unless page.template == 'alt-1-topic-landing' %}
 
-  {% if collection == 'disability-benefits' %}
-    {% include action-bar.html action_text="Apply for Disability Benefits" action_url="/disability-benefits/apply-for-benefits/" action_class="va-action-bar--header" %}
+  {% if path contains 'disability-benefits' %}
+    {% include "content/includes/action-bar.html" action_text="Apply for Disability Benefits" action_url="/disability-benefits/apply-for-benefits/" action_class="va-action-bar--header" %}
   {% endif %}
 
-  {% if collection == 'education' %}
-    {% include action-bar.html action_text="Apply for Education Benefits" action_url="/education/apply-for-education-benefits/" action_class="va-action-bar--header" %}
+  {% if path contains 'education' %}
+    {% include "content/includes/action-bar.html" action_text="Apply for Education Benefits" action_url="/education/apply-for-education-benefits/" action_class="va-action-bar--header" %}
   {% endif %}
 
-  {% if collection == 'healthcare' and page.showactionbar == true %}
-      <div class="va-action-bar--header" style="background-color: #FAC922; text-align:center;">
-        <div class="row">
-          <div class="small-12 columns">
-            <h6 style="margin: 0;">Are you a caregiver or on active duty? This form’s not quite ready for you yet. <a href="#additional-forms-for-caregivers-and-active-duty-military"> Find the form you need.</a></h6>
-          </div>
+  {% if path contains 'healthcare' %}    
+    {% if showactionbar == true %}
+    <div class="va-action-bar--header" style="background-color: #FAC922; text-align:center;">
+      <div class="row">
+        <div class="small-12 columns">
+          <h6 style="margin: 0;">Are you a caregiver or on active duty? This form’s not quite ready for you yet. <a href="#additional-forms"> Find the form you need.</a></h6>
         </div>
       </div>
-    <!--{% include action-bar.html action_text="Apply for VA Health Care" action_url="/healthcare/apply/application" action_class="va-action-bar--header" %}-->
+    </div>
+    {% else %}
+      {% include "content/includes/action-bar.html" action_text="Apply for VA Health Care" action_url="/healthcare/apply/application" action_class="va-action-bar--header" %}
+    {% endif %}
   {% endif %}
 
 {% endunless %}

@@ -34,18 +34,20 @@ relatedlinks:
 
 If you file a standard claim, VA will gather evidence from public and private medical facilities so they can process your disability claim. VA will gather evidence from private medical facilities only with your authorization.
 
-Who can file a standard claim?
-: You, your dependents and survivors
+<div class="call-out" markdown="0">
 
-Why use the standard claim process?
-: If you want VA to assist you in gathering evidence to support your claim, you should file a standard claim. With your approval, VA will gather needed evidence, listed in your claim, including information not held by federal agencies. 
-: This may include medical records from:
+### Who can file a standard claim?
+You, your dependents and survivors
+
+### Why use the standard claim process?
+If you want VA to assist you in gathering evidence to support your claim, you should file a standard claim. With your approval, VA will gather needed evidence, listed in your claim, including information not held by federal agencies. 
+This may include medical records from:
 
    - private medical providers
    - private doctors' offices
    - state and local governments
    - current or former employers
-{:.va-callout}
+</div>
 
 ### Evidence Requirements
 

@@ -4,10 +4,6 @@ concurrence: incomplete
 template: 4-action-page
 ---
 
-{{ title }}
-: Between January 9, 1962, and May 7, 1975
-{:.panel-list .plain}
-
 If you served in Vietnam, including aboard a [ship on the inland waterways](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/navy-coast-guard/), for any length of time between January 9, 1962, and May 7, 1975, or in the Korean Demilitarized Zone between April 1, 1968, and August 31, 1971, VA presumes you were exposed to Agent Orange.
 
 <div class="call-out" markdown="1">

@@ -7,15 +7,18 @@ template: 4-action-page-pending
 
 If you are unable to maintain suitable gainful employment due to a service-connected disability, VA may designate you as individually unemployable and assign you a compensation level that’s the same as a 100% disabled Veteran.
 
-Are you eligible for compensation?
-: Yes, if:
+<div class="call-out" markdown="1">
+
+### Are you eligible for compensation?
+Yes, if:
 
   - You have at least one service-connected disability rated at least at 60%, or two or more service-connected disabilities, at least one of which has a 40% or more disability rating, and a combined rating of 70% or more.
   - You are unable to maintain substantially gainful employment as a result of service-connected disabilities. Marginal employment, such as odd jobs, is not considered substantially gainful employment for VA purposes.
   - In exceptional cases such as frequent hospitalization, this benefit may be granted at a lower disability rating.
 
-Who is covered
-: You
+### Who is covered
+You
+</div>
 
 ### Available benefits
 

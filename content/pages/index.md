@@ -1,7 +1,7 @@
 ---
 layout: home.html
 body_class: home
-title: Vets.gov
+title: Home
 majorlinks:
   - url: /disability-benefits/
     title: Disability Benefits

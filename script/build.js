@@ -14,6 +14,7 @@ const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdownit');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
+const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
@@ -93,6 +94,7 @@ smith.use(navigation({
   }, navSettings: {} }));
 smith.use(layouts({ engine: 'liquid', 'default': 'page-breadcrumbs.html', directory: '../content/layouts' }));
 smith.use(assets({ source: '../assets', destination: './' }));
+smith.use(sitemap('http://www.vets.gov'));
 smith.use(define({
     site: require('../config/site'),
     buildtype: options.buildtype

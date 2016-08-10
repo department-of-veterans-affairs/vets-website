@@ -7,6 +7,7 @@ concurrence: incomplete
 If you want to pursue a career in the aviation industry as a pilot, VA offers benefits to help you achieve your goal.
 
 <div class="call-out" markdown="1">
+
 ### Are you eligible to receive benefits for vocational flight training and have remaining entitlement under the GI Bill?
 
 Yes, if:

@@ -6,15 +6,19 @@ template: 4-action-page-pending
 
 If your clothing has been damaged by your prosthetic or orthopedic device (such as a wheelchair) or medication you’re using for a skin condition, you may be eligible for an annual clothing allowance.
 
-Are you eligible for compensation?
-: Yes, if:
+<div class="call-out" markdown="1">
+
+### Are you eligible for compensation?
+Yes, if:
 
   - Your prosthetic or orthopedic device or your skin medication causes damage to your clothes.
   - Your need for this device or skin medication is related to a service-connected condition.
 
-Who is covered
-: You
-{:.va-callout}
+
+
+### Who is covered
+You
+</div>
 
 ### Available benefits
 

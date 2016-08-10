@@ -23,6 +23,7 @@ VA health care includes regular checkups with your primary care doctor and acces
 - Visit the [nearest VA medical center or clinic](http://www.va.gov/directory/guide/division.asp?dnum=1) to apply in person. Download, print, and fill out the [10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 <div class="call-out" markdown="1">
+
 ### What information will you need to complete this form?
 
 - Your most recent tax return
@@ -53,7 +54,10 @@ If you served on active duty, and separated under conditions other than dishonor
 
 If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes ([income threshold](http://nationalincomelimits.vaftl.us/)) can affect your eligibility for VA benefits.
 
+<div id="additional-forms" markdown="1">
+
 ### Additional forms for caregivers and active duty military
+
 
 - [Update income from a previous application (10-10EZR)](/healthcare/forms/vha-10-10ezr-fill.pdf)
 - [Apply as active duty military (10-10AD)](/healthcare/forms/1010ez-AD.pdf)
@@ -86,6 +90,8 @@ If none of the above apply to you, you may still qualify for care based on your 
 </dl>
 
 After the download is complete, double-click on the file and it should open as long as you have the necessary software on your computer.
+
+</div>
 
 ****Notes:**
 

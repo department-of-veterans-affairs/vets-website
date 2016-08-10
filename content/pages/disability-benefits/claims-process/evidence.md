@@ -6,6 +6,7 @@ template: 6-info-page
 It is important to gather all relevant documents so that VA can evaluate your disability claim. Some of these documents may be in your possession or easily available to you, but VA will need your authorization to access others.
 
 <div class="call-out" markdown="1">
+
 ### The documents you’ll need to provide include:
 
 -	Discharge or separation papers (DD214 or equivalent)
