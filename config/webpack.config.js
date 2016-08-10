@@ -11,7 +11,7 @@ var configGenerator = (options) => {
   const baseConfig = {
     entry: {
        hca: './src/js/hca/hca-entry.jsx',
-       'non-react': './src/js/non-react-entry.js',
+       'no-react': './src/js/no-react-entry.js',
      },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),

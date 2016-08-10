@@ -68,7 +68,12 @@
 
 <!-- We participate in the US government's analytics program. See the data at analytics.usa.gov. -->
 <script src="https://dap.digitalgov.gov/Universal-Federated-Analytics-Min.js?agency=VA" id="_fed_an_ua_tag"></script>
-<script src="/generated/non-react.entry.js"></script>
+
+{% if entryjs %}
+<script src="/generated/{{ entryjs }}"></script>
+{% else %}
+<script src="/generated/no-react.entry.js"></script>
+{% endif %}
 
 </head>
 <body class="{{ body_class }}">
