@@ -97,8 +97,20 @@ smith.use(navigation({
     pathProperty: 'nav_path',
     includeDirs: true
   }, navSettings: {} }));
-smith.use(layouts({ engine: 'liquid', 'default': 'page-breadcrumbs.html', directory: '../content/layouts' }));
+
+// TODO(awong): Remove the default layout. Having a default layout makes it impossible to
+// write a bare HTML page and it is just less explicit.
+//
+// https://github.com/department-of-veterans-affairs/vets-website/issues/2713
+smith.use(layouts({
+  engine: 'liquid',
+  'default': 'page-breadcrumbs.html',
+  directory: '../content/layouts',
+  // Only apply layouts to markdown and html files.
+  pattern: '*.{md,html}'
+}));
 smith.use(assets({ source: '../assets', destination: './' }));
+// TODO(awong): This URL needs to change based on target environment.
 smith.use(sitemap('http://www.vets.gov'));
 smith.use(define({
   site: require('../config/site'),
