@@ -2,13 +2,16 @@ html, body {
   font-size: $em-base;
   font-weight: 500;
   padding: 0;
-  margin: 0; 
+  margin: 0;
 }
 
 body {
   color: $color-gray-dark;
   font-family: $font-sans;
   font-size: $base-font-size;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
 // General
@@ -71,13 +74,13 @@ abbr {
 a {
   color: $color-primary;
   text-decoration: underline;
- 
+
   -webkit-transition-duration: 0.3s;
           transition-duration: 0.3s;
-  
+
   -webkit-transition-timing-function: ease-in-out;
           transition-timing-function: ease-in-out;
-          
+
   // Transition only these properties.
   -webkit-transition-property: color, background-color, border-color;
           transition-property: color, background-color, border-color;
@@ -85,7 +88,7 @@ a {
   &:hover {
     background-color: rgba(0,0,0,0.05);
     color: inherit;
-    text-decoration: underline;  
+    text-decoration: underline;
   }
   &:active {
     background: rgba(0,0,0,.1);
@@ -95,7 +98,7 @@ a {
   }
 }
 
-//======= Lists 
+//======= Lists
 ul {
   padding: 0 0 0 1.5em;
   list-style: square;
@@ -127,7 +130,7 @@ figure {
   font-size: .85em;
   margin-left: -$column-gutter/2;
   margin-right: -$column-gutter/2;
- 
+
   @media #{$small} {
     margin-left: inherit;
     margin-right: inherit;
@@ -147,11 +150,11 @@ figcaption {
 input::-webkit-input-placeholder{
   color: $color-gray;
 }
-input::-moz-placeholder { 
-  color: $color-gray; 
+input::-moz-placeholder {
+  color: $color-gray;
 }
 
-input:-ms-input-placeholder {  
+input:-ms-input-placeholder {
   color: $color-gray;
 }
 
@@ -160,11 +163,11 @@ input:focus::-webkit-input-placeholder{
   color: transparent;
 }
 
-input:focus::-moz-placeholder { 
-  color: transparent;  
+input:focus::-moz-placeholder {
+  color: transparent;
 }
 
-input:focus:-ms-input-placeholder {  
+input:focus:-ms-input-placeholder {
   color: transparent;
 }
 
@@ -203,9 +206,9 @@ hr {
 }
 
 // Adds external icon to all links that begin
-// with http (including https) 
+// with http (including https)
 [href^=http] {
-  // Using longhand properties instead of the shorthand to limit 
+  // Using longhand properties instead of the shorthand to limit
   // risk and impact of side effects
   background-image: url(/img/icons/exit-icon.png);
   background-position: 100% 50%;
@@ -228,12 +231,12 @@ hr {
 }
 
 .va-header-logo {
-  line-height: 1em; 
-  margin: 0; 
-  
+  line-height: 1em;
+  margin: 0;
+
   @media #{$small} {
     margin: .25em 0 0 0;
-  } 
+  }
 
   a {
     text-indent: 180%;
@@ -246,11 +249,11 @@ hr {
     background-size: contain;
     border-bottom: none;
     text-decoration: none;
-    
+
     &:hover, &:active, &:focus {
-      background-image: url(/img/design/logo/logo-hover.png); 
+      background-image: url(/img/design/logo/logo-hover.png);
     }
-  
+
     @media #{$small} {
       width: 263px;
       height: 50px;
@@ -273,11 +276,11 @@ h3, h4, h5, h6 {
 }
 
 h3 {
-  font-size: 1.8em; 
+  font-size: 1.8em;
   padding: 0 0 1em 0;
 }
 h4 {
-  font-size: 1.5em; 
+  font-size: 1.5em;
   font-weight: normal;
 }
 h5 {
@@ -285,24 +288,24 @@ h5 {
   font-weight: normal;
 }
 h6 {
-  font-size: 1.15em; 
+  font-size: 1.15em;
   font-weight: bold;
 }
 
 // Banner
 
 #content {
-  margin: 0; 
-  padding: 0; 
+  margin: 0;
+  padding: 0;
   color: $color-gray-dark;
 }
 
 #content .splash {
   padding: 0 0 .5em 0;
   margin: 0;
- 
+
   p {
-    color: $color-white; 
+    color: $color-white;
     font-family: $font-sans;
   }
 
@@ -335,9 +338,9 @@ h6 {
   padding: 0 !important;
 
   h2 {
-    margin: 0; 
-    padding: .2em; 
-    line-height: 1em; 
+    margin: 0;
+    padding: .2em;
+    line-height: 1em;
     display: inline-block !important;
   }
 }
@@ -348,7 +351,7 @@ h6 {
   li a {
     color: $color-primary-darkest !important;
     border-bottom: 2px solid $secondary-color !important;
-    
+
     &:hover {
       border-bottom: 3px solid $color-gold !important;
     }
@@ -358,23 +361,23 @@ h6 {
 }
 
 .va-facloc-tagline {
-  color: $color-white; 
+  color: $color-white;
   font-family: $font-sans;
   margin: .5em 0 1em 0 !important;
 }
-  
-  
+
+
 .pitch {
   @media #{$small} {
     padding: .5em 0;
   }
-  
+
   h2, h3 {
-    color: $color-primary-darkest; 
-    font-weight: 400; 
-    padding: .75em; 
-    line-height: 1.3em; 
-    display: inline-block; 
+    color: $color-primary-darkest;
+    font-weight: 400;
+    padding: .75em;
+    line-height: 1.3em;
+    display: inline-block;
     margin: 0;
   }
 }
@@ -383,19 +386,19 @@ h6 {
 // refactored from the Markdown
 .feature-list ul,
 .va-list--feature {
-  margin: 0; 
+  margin: 0;
   padding: 0;
   list-style: none outside;
-      
-  li {   
+
+  li {
     border-bottom: 1px solid #ccc;
     padding: 1em 0;
-    
+
     &:last-of-type {
       border-bottom: none;
     }
   }
-  
+
   a {
     font-weight: bold;
   }
@@ -404,10 +407,10 @@ h6 {
 .primary {
 
   p {
-    padding-top: 0; 
-    margin-top: 0; 
+    padding-top: 0;
+    margin-top: 0;
     padding-bottom: 1em; // TODO: Consider deleting.
-  
+
     &:nth-child(1),
     &:first-of-type {
       color: $color-primary-darker;
@@ -418,7 +421,7 @@ h6 {
   }
 
   h3 {
-    padding: 0 0 .5em 0; 
+    padding: 0 0 .5em 0;
     font-size: 1.25em;
     @media #{$small} {
       font-size: 1.8em;
@@ -452,13 +455,13 @@ h6 {
 // Content Callouts
 
 #content .main .section.one {
-  
+
   ul.plain {
     margin: .5em 0 1em 0;
-    
+
     li {
-      list-style: none; 
-      padding: .35em 0; 
+      list-style: none;
+      padding: .35em 0;
       display: block;
     }
   }
@@ -477,7 +480,7 @@ h6 {
   clear: both;
   margin: 0 0 1.5em 0;
   p {
-    margin-bottom: 0; 
+    margin-bottom: 0;
     padding-bottom: .5em
   }
   p:nth-child(1) {
@@ -492,7 +495,7 @@ h6 {
     }
   }
   ul {
-    margin: 0 0 .5em 1.5em; 
+    margin: 0 0 .5em 1.5em;
     padding: 0;
     li {
       list-style: square;
@@ -506,14 +509,14 @@ h6 {
   padding: 1em;
   clear: both;
   margin: 0 0 1.5em 0;
-  
+
   dt {
     color: $color-primary-darkest;
     font-size: 1.65em;
     font-weight: bold;
     margin: 0 0 .5rem 0;
   }
-  
+
   dd {
     margin-left: 0;
     padding-left: 0;
@@ -549,7 +552,7 @@ ul, ol {
   }
   h3 {
     line-height: 1.2em;
-    // TODO: Drop the !important when .home #content h3 and  
+    // TODO: Drop the !important when .home #content h3 and
     // body.fourohfour #content h3 are straightened out.
     font-size: 1.65em !important;
     color: $color-primary-darkest !important;
@@ -581,11 +584,11 @@ ul, ol {
 
 .home #content {
   h2, h3, h4, h5, h6, p, ul, li, ol {color: $color-gray-dark;}
-  
+
   .post-date {
     font-size: .5em; color: $color-gold;
   }
-  
+
   h3 {
     line-height: 1.2em;
     font-size: 1.65em;
@@ -629,13 +632,13 @@ ul, ol {
   .section.main-menu {
     padding: .5em .5em 2.35em .5em;
     overflow: hidden;
-    
+
     @media #{$small} {
       padding: 1em 0 1.5em 0;
     }
   }
 
-  
+
   .home #content .section h3.alternate {
     margin: 0 0 2em 0 !important; padding: 0;
   }
@@ -726,7 +729,7 @@ ul, ol {
 
 .section {
   background: $color-white;
-  
+
   &.one {
     padding: 0;
   }
@@ -744,7 +747,7 @@ ul, ol {
 .action {
   margin: 0 auto;
   text-align: left;
-  
+
   .button {
     font-size: 1.25em;
     padding: 1em 3.5em;
@@ -758,7 +761,7 @@ ul, ol {
   font-size: inherit;
   padding: 1em 0;
 
-  
+
   li {
     display: inline-block;
     margin: .25em 0;
@@ -767,8 +770,8 @@ ul, ol {
     vertical-align: middle;
 
     &:after {
-      content: ' › '; 
-      display: inline-block; 
+      content: ' › ';
+      display: inline-block;
       padding: 0 .35em;
     }
 
@@ -787,7 +790,7 @@ ul, ol {
     padding: 2px;
 
     &:hover {
-      background: rgba(0,0,0,.1); 
+      background: rgba(0,0,0,.1);
     }
   }
 }
@@ -796,16 +799,16 @@ ul, ol {
   @extend .columns;
   float: none;
 }
-  
- 
+
+
 //==== Facility Locator page only
 .va-nav-breadcrumbs--inline {
   display: inline-block;
-  
+
   @media #{$small} {
     margin-right: 1em !important;
   }
-  
+
   li.active::before {
     display: none;
   }
@@ -816,7 +819,7 @@ ul, ol {
   background: none;
   margin: 0 0 1em 0;
   padding: 0;
-    
+
   h2 {
     font-size: 1em;
   }
@@ -828,54 +831,54 @@ ul, ol {
     display: inline-block;
     line-height: 1.15em;
     vertical-align: middle;
-    
+
     @media #{$small} {
       font-size: 1.35em;
     }
-    
+
     &:hover  {
-      border-bottom: none; 
+      border-bottom: none;
       text-decoration: none;
     }
   }
-    
+
   .parent {
     padding-top: .5em;
     margin: 0 0 .75em 0;
 
     &:after {
-      content:' › '; 
-      display: inline-block; 
-      color: $color-white; 
-      padding: 0 .5em; 
+      content:' › ';
+      display: inline-block;
+      color: $color-white;
+      padding: 0 .5em;
     }
   }
-    
+
   .active {
     background: $color-gold;
     color: $color-va-black;
     font: 400 1.35em / 1.15em $font-serif;
     margin: .5em 0;
     padding: .2em;
-    
+
     @media #{$medium} {
       font-size: 1.8em;
     }
-    
+
     &:before {
-      content: ''; 
-      padding: 0; 
+      content: '';
+      padding: 0;
       margin: 0;
     }
   }
-      
+
   a {
     border-bottom: 3px solid $color-white;
     text-decoration: none !important;
     color: $color-white;
     &:hover {
-      text-decoration: none; 
-      background: rgba(0,0,0,.1); 
+      text-decoration: none;
+      background: rgba(0,0,0,.1);
       border-bottom: 3px solid $color-gold;
     }
   }
@@ -883,12 +886,12 @@ ul, ol {
 
 
 
-  
+
 .va-breadcrumbs-heading {
   font-size: 1em !important;
 }
 //===== General List Styles
- 
+
 li {
   span.meta {
     display: inline-block;
@@ -912,11 +915,11 @@ li {
 //===== Navigation
 .navigation {
  padding: 1em  0;
-  
+
   @media #{$small} {
     padding: 1em 0 3em 0;
   }
-  
+
   background: $color-gray-lightest;
   color: $color-primary-darkest;
   border-bottom: 2px solid $color-white;
@@ -973,12 +976,12 @@ li {
     @media #{$small} {
       min-height: 12em;
     }
-    
+
     background: $color-gray-lightest;
     background: rgba(0,0,0,.05);
     margin: 0 0 .5em 0;
     padding: .75em;
-    
+
     &:hover, &:focus, &:active {
       background: rgba(0,0,0,.1);
     }
@@ -993,15 +996,15 @@ li {
 .text-right {
   text-align: right;
 }
-  
+
 .footer {
   color: $color-white;
   padding: 0 !important;
   margin: 0;
-  background: darken($color-primary-darkest, 02);
+  background: $color-primary-darkest;
   position: relative;
   overflow: hidden;
-  
+
   .coda .row {
     max-width: 70em;
   }
@@ -1041,10 +1044,10 @@ li {
   }
 }
 
-.usa-social-links, 
+.usa-social-links,
 .va-list--linkgroup {
   margin: 2em 0 0 0;
-  
+
   @media #{$medium} {
     margin: 2em 0 1.5em 0;
   }
@@ -1053,11 +1056,11 @@ li {
 // TODO: Move this to a list-specific partial
 .va-list--linkgroup {
   margin: 2em 0 0 0;
-  
+
   @media #{$small} {
     margin: 2em 0 1.5em 0;
   }
-    
+
   a {
     background: none;
     color: #fff;
@@ -1065,13 +1068,13 @@ li {
     font-size: 1em;
     font-weight: 400;
     margin: .25em 0;
-    text-decoration: underline; 
-    
+    text-decoration: underline;
+
     &:hover {
       color: $color-gold;
     }
   }
-   
+
   dd {
     padding: .25em 0;
   }
@@ -1109,22 +1112,22 @@ li {
     li {
       padding: 0;
       display: inline-block;
-      
+
       &:after {
         content:'|';
         padding: 0 .15em;
       }
-      
+
       &:last-child {
         margin-right: 0;
-        
+
         &::after {
           padding: 0;
           content: '';
         }
-      }       
+      }
     }
- 
+
     a {
       background: none;
       color: inherit;
@@ -1178,17 +1181,17 @@ a.twitter {
   padding: .5em;
   font-size: .9em;
   font-weight: 300;
-  
+
   p {
     margin: 0;
   }
-    
+
   a {
     background-image: none;
     color: $color-white;
     padding: 0;
   }
-  
+
   .row {
     max-width: 70em;
   }
@@ -1218,7 +1221,7 @@ a.twitter {
       opacity: 1;
     }
   }
-  
+
   .icon {
     background: url('/img/design/sprites/sprite.png') no-repeat -43px 0;
     background-size: 215px 72px;
@@ -1328,8 +1331,8 @@ a.twitter {
 // byline
 
 p.byline {
-  font-size: .8em; 
-  color: $color-white; 
+  font-size: .8em;
+  color: $color-white;
   color: rgba(255,255,255,.9);
 }
 
@@ -1452,32 +1455,32 @@ margin: 0;
   list-style: none;
   padding: 1em 0;
   position: relative;
-  
+
   h2, h3, h4, h5, h6 {padding: .2em 0 0 0;}
   h5 {
-    font-size: 1.3em; 
-    margin: 0; 
+    font-size: 1.3em;
+    margin: 0;
     padding: 0 0 .5em 0;
   }
   h6, &-subtitle {
-    font-size: 1.1em; 
-    margin: 0; 
+    font-size: 1.1em;
+    margin: 0;
     padding: 0;
   }
- 
+
   p:nth-child(1) {
     font-size: 1em;
     color: $color-gray-dark;
     padding-bottom: 0;
   }
-  
+
   li {
     list-style: none;
-    
+
     p:nth-child(1) {
       padding-bottom: inherit;
     }
-    
+
     ol {
       margin: 0 0 1em 1.5em;
       padding: 0;
@@ -1599,31 +1602,31 @@ li.twenty:before {content: '20';}
   padding: 1em;
   position: relative;
   min-height: 12em;
-  
+
   dt {
-    color: $color-primary-darkest; 
-    padding: 0; 
-    font-weight: 700; 
+    color: $color-primary-darkest;
+    padding: 0;
+    font-weight: 700;
     font-size: 1.2em;
   }
-  
+
   dd {
-    padding: 0; 
+    padding: 0;
     margin: 0;
   }
-  
+
   a {
     @extend .usa-button-primary;
     margin: .5em 0;
   }
-  
+
   &.plain {
     height: auto;
-    
+
     dt {
       font-size: 1.45em;
     }
-    
+
     margin: 0 0 1em 0;
     min-height: 0;
   }
@@ -1656,25 +1659,25 @@ li.twenty:before {content: '20';}
 }
 
 // TODO: Deprecate .va-action-bar--header a.usa-button-primary.
-// Use .va-button-primary and .va-button-secondary 
+// Use .va-button-primary and .va-button-secondary
 // going forward.
 // Drop !important from the lines below when everything
 // is refactored.
 .va-button-primary {
   background: $color-green !important;
- 
+
   &:hover,
   &:focus {
     background-color: $color-green-darker !important;
   }
-} 
+}
 
 .va-button-secondary {
   background-color: $color-primary-darker !important;
-  
+
   &:hover,
   &:focus {
-    background-color: $color-primary-darkest !important;  
+    background-color: $color-primary-darkest !important;
   }
 }
 
@@ -1732,7 +1735,7 @@ button[class*='usa-button-'] {
     margin: 0;
     padding: 1rem;
     width: auto;
-    
+
     &:hover {
       background: transparent;
     }
@@ -1759,13 +1762,13 @@ button[class*='usa-button-'] {
     visibility: hidden;
     width: 100%;
     z-index: 800;
-  
+
     input[type='text'] {
       -webkit-appearance: none;
       border-radius: 3px 0 0 3px;
     }
   }
-  
+
   .va-mobile-searchclose  {
     border-radius: 0;
     display: block !important;
@@ -1774,7 +1777,7 @@ button[class*='usa-button-'] {
     width: auto;
     background: $color-primary;
   }
-    
+
   .va-mobile-searchtrigger {
     padding: .5em;
     margin-top: 0;
@@ -1826,7 +1829,7 @@ button[class*='usa-button-'] {
   .va-overlay-body {
     margin: 1rem auto;
   }
-  
+
   @media screen and (max-height: 30.5em) {
     .overlay form {
       height: 70%;
@@ -1891,7 +1894,7 @@ ul li p {
   margin-left: .8em;
   white-space: normal;
   top: -110%;
-  
+
   &:before {
     border-bottom: 10px solid transparent;  // left arrow slant
     border-top: 10px solid transparent; // right arrow slant
@@ -1916,7 +1919,7 @@ ul li p {
     margin: 0;
     margin-top: .7em;
     margin-left: -5em;
-  
+
     &:before {
       top: -10px !important;
       right: auto;
@@ -1972,8 +1975,8 @@ html.touchevents {
   animation-name: fadeIn;
 }
 
-.va-code-block, 
-code[class*='language-'], 
+.va-code-block,
+code[class*='language-'],
 pre[class*='language-']  {
   background-color: $color-gray-lightest !important;
   font-size: .9em;
@@ -1983,5 +1986,5 @@ pre[class*='language-']  {
 .va-address-block {
   margin-left: 5rem;
   border-left: 2px solid $color-primary;
-  padding-left: 1rem;  
+  padding-left: 1rem;
 }
