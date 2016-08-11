@@ -70,9 +70,11 @@ smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
 
 // Set up the middleware. DO NOT CHANGE THE ORDER OF PLUGINS.
-smith.use(ignore([
-  'rx/*',
-]));
+if (options.buildtype === 'production') {
+  smith.use(ignore([
+    'rx/*',
+  ]));
+}
 smith.use(collections());
 smith.use(dateInFilename(true));
 smith.use(filenames());
