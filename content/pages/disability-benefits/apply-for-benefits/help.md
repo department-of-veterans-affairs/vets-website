@@ -9,7 +9,7 @@ relatedlinks:
     title: What are the different ways I can file a claim?
   - url: /disability-benefits/apply-for-benefits/active-duty/
     title: How do I file while on active duty?
-  - url: /disability-benefits/apply-for-benefits/one-year/
+  - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
     title: How do I file for disabilities that appear within one year after discharge?
   - url: /disability-benefits/claims-process/date/
     title: Effective date of disability
