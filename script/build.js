@@ -79,6 +79,8 @@ smith.use(markdown({
   html: true
 }));
 smith.use(archive());
+
+// Responsible for create permalink structure. Most commonly used change foo.md to foo/index.html.
 smith.use(permalinks({
   linksets: [{
     match: { collection: 'posts' },
