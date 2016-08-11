@@ -1,14 +1,15 @@
 // Builds the site using Metalsmith as the top-level build runner.
 
 const Metalsmith = require('metalsmith');
-const assets = require('metalsmith-assets');
 const archive = require('metalsmith-archive');
+const assets = require('metalsmith-assets');
 const collections = require('metalsmith-collections');
 const commandLineArgs = require('command-line-args')
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
 const excerpts = require('metalsmith-excerpts');
 const filenames = require('metalsmith-filenames');
+const ignore = require('metalsmith-ignore');
 const inPlace = require('metalsmith-in-place');
 const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdownit');
@@ -31,7 +32,7 @@ const optionDefinitions = [
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
 
   // Catch-all for bad arguments.
-  { name: 'unexpected', type: String, multile: true, defaultOption: true }, 
+  { name: 'unexpected', type: String, multile: true, defaultOption: true },
 ];
 const options = commandLineArgs(optionDefinitions);
 
@@ -69,7 +70,9 @@ smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
 
 // Set up the middleware. DO NOT CHANGE THE ORDER OF PLUGINS.
-
+smith.use(ignore([
+  'rx/*',
+]));
 smith.use(collections());
 smith.use(dateInFilename(true));
 smith.use(filenames());
@@ -98,11 +101,9 @@ smith.use(layouts({ engine: 'liquid', 'default': 'page-breadcrumbs.html', direct
 smith.use(assets({ source: '../assets', destination: './' }));
 smith.use(sitemap('http://www.vets.gov'));
 smith.use(define({
-    site: require('../config/site'),
-    buildtype: options.buildtype
-  }));
-
-
+  site: require('../config/site'),
+  buildtype: options.buildtype
+}));
 
 if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
