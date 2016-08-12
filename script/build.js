@@ -107,9 +107,9 @@ smith.use(navigation({
 smith.use(layouts({
   engine: 'liquid',
   'default': 'page-breadcrumbs.html',
-  directory: '../content/layouts',
+  directory: '../content/layouts/',
   // Only apply layouts to markdown and html files.
-  pattern: '*.{md,html}'
+  pattern: '**/*.{md,html}'
 }));
 smith.use(assets({ source: '../assets', destination: './' }));
 // TODO(awong): This URL needs to change based on target environment.
