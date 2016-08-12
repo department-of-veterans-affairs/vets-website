@@ -29,6 +29,7 @@ Additional tuition
 <ol class="process">
 <li class="step one wow fadeIn animated">
 <div markdown="1">
+
 ##### Submit application
 After you submit your application for Post-9/11 GI Bill benefits and VA finds you eligible, you will receive a Certificate of Eligibility.
 </div>
@@ -36,6 +37,7 @@ After you submit your application for Post-9/11 GI Bill benefits and VA finds yo
 
 <li class="step two wow fadeIn animated">
 <div markdown="1">
+
 ##### Bring certificate
 Bring this certificate to your participating institution’s financial aid, military liaison, or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
 </div>
@@ -43,6 +45,7 @@ Bring this certificate to your participating institution’s financial aid, mili
 
 <li class="step three wow fadeIn animated">
 <div markdown="1">
+
 ##### Receive determination
 
 ###### Your school will determine:
@@ -54,6 +57,7 @@ Bring this certificate to your participating institution’s financial aid, mili
 
 <li class="step four wow fadeIn animated">
 <div markdown="1">
+
 ##### Receive notice
 You will receive notice from your school about whether you have been accepted to the program and about the application of the benefit to your tuition.
 </div>
@@ -61,6 +65,7 @@ You will receive notice from your school about whether you have been accepted to
 
 <li class="step last five wow fadeIn animated">
 <div markdown="1">
+
 ##### Confirm and coordinate
 
 You will receive notice from your school about whether you have been accepted to the program and about the application of the benefit to your tuition.
@@ -74,5 +79,3 @@ You will receive notice from your school about whether you have been accepted to
 
 - [FAQs about the Yellow Ribbon Program](http://www.benefits.va.gov/gibill/docs/factsheets/2012_Yellow_Ribbon_Student_FAQs.pdf)
 - [Yellow Ribbon Program pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/Yellow_Ribbon_Pamphlet.pdf)
-
-
