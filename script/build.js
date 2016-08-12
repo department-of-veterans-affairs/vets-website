@@ -65,16 +65,22 @@ switch (options.buildtype) {
 
 const webpackConfig = webpackConfigGenerator(options);
 
-// Basic setup.
+/////
+// Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
+// add comments about any implicit dependencies you are introducing!!!
+//
+
 smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
 
-// Set up the middleware. DO NOT CHANGE THE ORDER OF PLUGINS.
+// Ignore files that aren't ready for production.
+// TODO(awong): Verify that memorial-benefits should still be in the source tree.
+//    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
+const ignoreList = [ 'memorial-benefits/*' ];
 if (options.buildtype === 'production') {
-  smith.use(ignore([
-    'rx/*',
-  ]));
+  ignoreList.push('rx/*');
 }
+smith.use(ignore(ignoreList));
 
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
 // during templating end up not showing which file they came from. Load it very early in in the
