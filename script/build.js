@@ -75,17 +75,23 @@ if (options.buildtype === 'production') {
     'rx/*',
   ]));
 }
+
+// This adds the filename into the "entry" that is passed to other plugins. Without this errors
+// during templating end up not showing which file they came from. Load it very early in in the
+// plugin chain.
+smith.use(filenames());
+
 smith.use(collections());
 smith.use(dateInFilename(true));
-smith.use(filenames());
 smith.use(inPlace({ engine: 'liquid' }));
 smith.use(markdown({
   typographer: true,
   html: true
 }));
-smith.use(archive());
+smith.use(archive());  // TODO(awong): Can this be removed?
 
 // Responsible for create permalink structure. Most commonly used change foo.md to foo/index.html.
+// Must come before navigation module, otherwise breadcrunmbs will see the wrong URLs.
 smith.use(permalinks({
   relative: false,
   linksets: [{
@@ -116,10 +122,12 @@ smith.use(layouts({
 smith.use(assets({ source: '../assets', destination: './' }));
 // TODO(awong): This URL needs to change based on target environment.
 smith.use(sitemap('http://www.vets.gov'));
+// TODO(awong): Does anything even use the results of this plugin?
 smith.use(define({
   site: require('../config/site'),
   buildtype: options.buildtype
 }));
+
 
 if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
