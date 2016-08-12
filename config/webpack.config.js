@@ -11,6 +11,7 @@ var configGenerator = (options) => {
   const baseConfig = {
     entry: {
        hca: './src/js/hca/hca-entry.jsx',
+       'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
        'no-react': './src/js/no-react-entry.js',
      },
     output: {
