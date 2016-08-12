@@ -3,7 +3,7 @@ layout: experience.html
 body_class: index
 title: Vets.gov Experience
 ---
-<div id="experience" class="{{ page.id }}" role="main">
+<div id="experience" class="{{ id }}" role="main">
 <div class="splash splash--blog">
 <h2 class="va-headingflag"><a href="/experience/">Experience</a></h2>
 </div>

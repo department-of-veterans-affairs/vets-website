@@ -96,7 +96,7 @@ smith.use(permalinks({
   relative: false,
   linksets: [{
     match: { collection: 'posts' },
-    pattern: ':date/:slug'
+    pattern: ':date/:slug.html'
   }]
 }));
 
