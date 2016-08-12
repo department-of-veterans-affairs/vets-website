@@ -87,11 +87,13 @@ smith.use(archive());
 
 // Responsible for create permalink structure. Most commonly used change foo.md to foo/index.html.
 smith.use(permalinks({
+  relative: false,
   linksets: [{
     match: { collection: 'posts' },
     pattern: ':date/:slug'
   }]
 }));
+
 smith.use(navigation({
   navConfigs: {
     sortByNameFirst: true,
