@@ -13,11 +13,7 @@
           </li>
         {% else %}
           <li><a href="/{{ crumb.path }}">
-            {% if title %}
-              {{ title }}
-            {% else %}
-              {{ crumb.name | replace: '-', ' ' | capitalize }}
-            {% endif %}
+            {{ crumb.name | replace: '-', ' ' | capitalize }}
           </a></li>
         {% endif %}
       {% endfor %}
