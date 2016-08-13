@@ -3,6 +3,7 @@
 const Metalsmith = require('metalsmith');
 const archive = require('metalsmith-archive');
 const assets = require('metalsmith-assets');
+const blc = require('metalsmith-broken-link-checker');
 const collections = require('metalsmith-collections');
 const commandLineArgs = require('command-line-args')
 const dateInFilename = require('metalsmith-date-in-filename');
@@ -177,6 +178,30 @@ if (options.watch) {
     }
   ));
 } else {
+  // Broken link checking does not work well with watch. It continually shows broken links
+  // for permalink processed files. Only run outside of watch mode.
+  smith.use(blc({
+    allowRedirects: true,  // Don't require trailing slash for index.html links.
+    warn: process.env.NODE_ENV !== 'production',
+    allowRegex: new RegExp(
+        [ '/disability-benefits/',
+          '/disability-benefits/apply-for-benefits/',
+          '/disability-benefits/learn/',
+          '/disability-benefits/learn/eligibility/.*',
+          '/employment/commitments',
+          '/employment/employers',
+          '/employment/employers/',
+          '/employment/job-seekers/create-resume',
+          '/employment/job-seekers/search-jobs',
+          '/employment/job-seekers/skills-translator',
+          '/employment/users/sign_in',
+          '/gi-bill-comparison-tool/',
+          '/gibill/',
+          '/healthcare/apply/application',
+          '/veterans-employment-center/',
+          'Employment-Resources/', ].join('|'))
+  }));
+
   smith.use(webpack(webpackConfig));
 }
 
