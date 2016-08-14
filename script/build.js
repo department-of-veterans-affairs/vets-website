@@ -194,7 +194,7 @@ if (options.watch) {
           '/employment/job-seekers/search-jobs',
           '/employment/job-seekers/skills-translator',
           '/employment/users/sign_in',
-          '/gi-bill-comparison-tool/',\
+          '/gi-bill-comparison-tool/',
           '/healthcare/apply/application' ].join('|'))
   }));
 
