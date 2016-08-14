@@ -24,8 +24,8 @@ describe('<ErrorableNumberInput>', () => {
 
     it('field must be an object', () => {
       SkinDeep.shallowRender(
-        <ErrorableNumberInput field label="test" value onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `field` of type `boolean` supplied to `ErrorableNumberInput`, expected `object`/);
+        <ErrorableNumberInput field="bad" label="test" value onValueChange={(_update) => {}}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `field` of type `string` supplied to `ErrorableNumberInput`, expected `object`/);
     });
 
     it('label is required', () => {

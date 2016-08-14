@@ -66,8 +66,8 @@ describe('<ErrorableSelect>', () => {
 
     it('value must be an object', () => {
       SkinDeep.shallowRender(
-        <ErrorableSelect label="test" options={options} value onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `value` of type `boolean` supplied to `ErrorableSelect`, expected `object`/);
+        <ErrorableSelect label="test" options={options} value="bad" onValueChange={(_update) => {}}/>);
+      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `value` of type `string` supplied to `ErrorableSelect`, expected `object`/);
     });
 
     it('required must be a boolean', () => {

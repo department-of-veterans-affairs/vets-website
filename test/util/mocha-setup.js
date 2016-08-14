@@ -1,0 +1,32 @@
+import chai from 'chai';
+import chaiAsPromised from 'chai-as-promised';
+import dirtyChai from 'dirty-chai';
+import jsdom from 'jsdom';
+chai.use(chaiAsPromised);
+chai.use(dirtyChai);
+
+function setupJSDom() {
+  // setup the simplest document possible
+  const doc = jsdom.jsdom('<!doctype html><html><body></body></html>')
+
+  // get the window object out of the document
+  const win = doc.defaultView
+
+  global.document = doc;
+  global.window = win;
+
+  // from mocha-jsdom https://github.com/rstacruz/mocha-jsdom/blob/master/index.js#L80
+  function propagateToGlobal (window) {
+    for (let key in window) {
+      if (!window.hasOwnProperty(key)) continue
+      if (key in global) continue
+
+      global[key] = window[key]
+    }
+  }
+
+  propagateToGlobal(win)
+}
+
+setupJSDom();
+

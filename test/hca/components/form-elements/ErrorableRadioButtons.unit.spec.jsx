@@ -59,13 +59,13 @@ describe('<ErrorableRadioButtons>', () => {
     let myRadioButtons;
 
     const updatePromise = new Promise((resolve, _reject) => {
-      myRadioButtons = SkinDeep.shallowRender(
+      myRadioButtons = ReactTestUtils.renderIntoDocument(
         <ErrorableRadioButtons label="test" options={options} value={makeField('test')} onValueChange={(update) => { resolve(update); }}/>
       );
       done();
     });
 
-    const inputs = myRadioButtons.everySubTree('input');
+    const inputs = ReactTestUtils.scryRenderedDOMComponentsWithTag(myRadioButtons, 'input');
     ReactTestUtils.Simulate.click(inputs[0]);
 
     return expect(updatePromise).to.eventually.eql('Yes');
