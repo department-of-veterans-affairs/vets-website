@@ -190,16 +190,12 @@ if (options.watch) {
           '/disability-benefits/learn/eligibility/.*',
           '/employment/commitments',
           '/employment/employers',
-          '/employment/employers/',
           '/employment/job-seekers/create-resume',
           '/employment/job-seekers/search-jobs',
           '/employment/job-seekers/skills-translator',
           '/employment/users/sign_in',
-          '/gi-bill-comparison-tool/',
-          '/gibill/',
-          '/healthcare/apply/application',
-          '/veterans-employment-center/',
-          'Employment-Resources/', ].join('|'))
+          '/gi-bill-comparison-tool/',\
+          '/healthcare/apply/application' ].join('|'))
   }));
 
   smith.use(webpack(webpackConfig));
