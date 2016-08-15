@@ -9,14 +9,7 @@
     'mocha': true
   },
   'globals': {
-// TODO(awong): Remove these.
-    '$': true,
-    '__BUILDTYPE__': true,
-    'assert': true,
-    'chai': true,
-    'sinon': true,
-    'expect': true,
-    'fixture': true
+    '__BUILDTYPE__': true
   },
   'rules': {
     // Override airbnb style.
@@ -30,6 +23,7 @@
     'prefer-rest-params': 2,
     'quote-props': [2, 'as-needed', { 'keywords': true }],
     'space-unary-ops': 2,
+    'max-len': [0],  // No agreed upon max length and react lines get > 100 chars easily.
 
     // Disabled rules with rationale.
     'react/no-multi-comp': 0,      // Leave organization to code reviewer discretion. 
