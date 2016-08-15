@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Service in Vietnam or Korea
 concurrence: incomplete
 template: 4-action-page
@@ -27,9 +28,8 @@ You and your survivors
 - Health care
 - An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
------ 
+-----
 
 ### How it works
 
 Check the list of [U.S. Navy and Coast Guard ships](http://www.publichealth.va.gov/exposures/agentorange/shiplist/list.asp) that operated in Vietnam to confirm whether your service aboard a ship allows VA to concede that you were exposed to Agent Orange.
-

@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Interest Profiler
 concurrence: incomplete
 template: 1-topic-landing

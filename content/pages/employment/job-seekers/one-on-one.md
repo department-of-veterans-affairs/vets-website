@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: One-on-One Assistance
 concurrence: complete
 template: 1-topic-landing
@@ -8,7 +9,7 @@ relatedlinks:
  - url: /employment/job-seekers/create-resume
    title: Résumé Builder
  - url: /employment/job-seekers/alternative/
-   title: Alternative Ways to Start Your Career 
+   title: Alternative Ways to Start Your Career
  - url: /employment/job-seekers/search-jobs
    title: Search the Veterans Job Bank
  - url: /employment/job-seekers/interest-profiler/          
@@ -17,7 +18,7 @@ relatedlinks:
    title: Military Transcripts
 ---
 
-One-on-one assistance can help you transition by providing current perspectives on workplaces, targeted job-search techniques, coaching, and résumé building. 
+One-on-one assistance can help you transition by providing current perspectives on workplaces, targeted job-search techniques, coaching, and résumé building.
 
 <div class="call-out" markdown="1">
 
@@ -29,9 +30,9 @@ Yes, if:
 
 <br>
 
-### Who is covered 
+### Who is covered
 
- - You 
+ - You
  - Your spouse—only for the TAP Career Technical Training Track and some [CareerOneStop](http://www.careeronestop.org/) services
 </div>
 
@@ -40,11 +41,11 @@ Yes, if:
 There are many government and private resources available to you as you make this transition.
 
 #### All Veterans
-- [Veteran Employment Specialists](http://vaforvets.va.gov/hr/RVECS/Pages/rvecs-map.asp) from the Veteran Employment Services Office (VESO) can help you find jobs in your area. 
+- [Veteran Employment Specialists](http://vaforvets.va.gov/hr/RVECS/Pages/rvecs-map.asp) from the Veteran Employment Services Office (VESO) can help you find jobs in your area.
 
 - [VA for Vets](http://vaforvets.va.gov/) can help you find VA or other federal jobs.
 
-- [American Job Centers (AJCs)](http://www.careeronestop.org/LocalHelp/local-help.aspx) offer interview practice, career counseling, and job-search help. Some of the nearly 2,500 AJC locations have offices with phones, résumé-writing tools, and free Internet access. 
+- [American Job Centers (AJCs)](http://www.careeronestop.org/LocalHelp/local-help.aspx) offer interview practice, career counseling, and job-search help. Some of the nearly 2,500 AJC locations have offices with phones, résumé-writing tools, and free Internet access.
 
 - Private nonprofit organizations that have been thoroughly vetted can offer you advice, share connections, and help place you into a good job at no cost to you. The [Call of Duty Endowment](http://www.callofdutyendowment.org/partners) endorses groups that do a particularly good job of this.
 
@@ -56,7 +57,7 @@ There are many government and private resources available to you as you make thi
 - The [Compensated Work Therapy (CWT)](http://www.va.gov/health/cwt/) program helps Veterans with service-related disabilities.
 
 #### Still in the service?
-- The Transition Assistance Program (TAP), which you can take before you leave active duty, offers one-on-one guidance. 
+- The Transition Assistance Program (TAP), which you can take before you leave active duty, offers one-on-one guidance.
 
 #### Homeless Veterans
 - [Homeless Veterans Community Employment Services](http://www.va.gov/HOMELESS/HVCES.asp) (HVCES) can help if you are homeless or at risk of becoming homeless.

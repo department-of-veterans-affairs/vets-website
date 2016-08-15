@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Montgomery GI Bill Selected Reserve (MGIB-SR)
 concurrence: complete
 template: 4-action-page-pending
@@ -46,4 +47,3 @@ Complete an application using [VA Form 22-1990](http://www.vba.va.gov/pubs/forms
 -	For TDD/TYY, use 1-800-829-4833.
 
 GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol&reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our Terms of Use.
-

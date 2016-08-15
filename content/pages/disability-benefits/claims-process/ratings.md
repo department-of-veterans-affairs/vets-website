@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: How VA Assigns Disability Ratings
 template: 1-topic-landing
 ---

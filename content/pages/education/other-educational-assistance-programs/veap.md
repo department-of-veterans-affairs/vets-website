@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Veterans' Educational Assistance Program (VEAP)
 concurrence: complete
 template: 1-topic-landing
@@ -51,4 +52,3 @@ Contributions may be withdrawn if you do not meet basic eligibility requirements
 
 ### Learn more
 Read the VEAP [pamphlet](http://www.benefits.va.gov/gibill/docs/pamphlets/ch32_pamphlet.pdf).
-

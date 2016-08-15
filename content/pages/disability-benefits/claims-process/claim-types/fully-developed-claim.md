@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Fully Developed Claim
 template: 6-info-page
 concurrence: complete
@@ -32,6 +33,6 @@ relatedlinks:
     description: ""
 ---
 
-The Fully Developed Claims (FDC) program is an optional way for you to get faster decisions by submitting all relevant service-treatment and personnel records as well as private medical records that are in your possession or easily obtainable. 
+The Fully Developed Claims (FDC) program is an optional way for you to get faster decisions by submitting all relevant service-treatment and personnel records as well as private medical records that are in your possession or easily obtainable.
 
 Disability benefit claims are considered fully developed when you have no more evidence to submit and the only assistance required from VA is obtaining federal records and facilitating or providing additional medical examinations or opinions.
