@@ -2,10 +2,17 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import dirtyChai from 'dirty-chai';
 import jsdom from 'jsdom';
+
+// Ordering is important here as dirtyChai interferes with chaiAsPromised if used first.
 chai.use(chaiAsPromised);
 chai.use(dirtyChai);
 
+// Sets up JSDom in the testing environment. Allows testing of DOM functions without a browser.
 function setupJSDom() {
+  if (global.document || global.window) {
+    throw new Error("Refusing to override existing document and window.");
+  }
+
   // setup the simplest document possible
   const doc = jsdom.jsdom('<!doctype html><html><body></body></html>')
 
