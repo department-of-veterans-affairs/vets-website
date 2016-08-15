@@ -79,7 +79,11 @@ module.exports = {
     "playbook": {
       "output": true,
       "permalink": "/:collection/:path/index.html"
-    }
+    },
+    "posts": {
+      "output": true,
+      "permalink": "/:collection/:path.html"
+    },
   },
   "defaults": [
     {

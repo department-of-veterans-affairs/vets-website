@@ -60,6 +60,7 @@
     "metalsmith-archive": "^0.1.1",
     "metalsmith-assets": "^0.1.0",
     "metalsmith-better-excerpts": "^0.1.7",
+    "metalsmith-broken-link-checker": "^0.1.10",
     "metalsmith-collections": "^0.7.0",
     "metalsmith-date-in-filename": "^0.0.14",
     "metalsmith-define": "^2.0.1",

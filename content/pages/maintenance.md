@@ -1,6 +1,7 @@
 ---
 layout: page.html
 title: Maintenance
+permalink: false
 ---
 
 <!-- Maintenance Page Start -->

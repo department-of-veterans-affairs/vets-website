@@ -59,6 +59,11 @@
       "from": "amdefine@>=0.0.4",
       "resolved": "https://registry.npmjs.org/amdefine/-/amdefine-1.0.0.tgz"
     },
+    "animate.css": {
+      "version": "3.5.1",
+      "from": "animate.css@latest",
+      "resolved": "https://registry.npmjs.org/animate.css/-/animate.css-3.5.1.tgz"
+    },
     "ansi-escapes": {
       "version": "1.4.0",
       "from": "ansi-escapes@>=1.1.0 <2.0.0",
@@ -4293,6 +4298,11 @@
         }
       }
     },
+    "metalsmith-broken-link-checker": {
+      "version": "0.1.10",
+      "from": "metalsmith-broken-link-checker@latest",
+      "resolved": "https://registry.npmjs.org/metalsmith-broken-link-checker/-/metalsmith-broken-link-checker-0.1.10.tgz"
+    },
     "metalsmith-collections": {
       "version": "0.7.0",
       "from": "metalsmith-collections@>=0.7.0 <0.8.0",
@@ -7387,6 +7397,11 @@
       "from": "unzip-response@>=1.0.0 <2.0.0",
       "resolved": "http://registry.npmjs.org/unzip-response/-/unzip-response-1.0.0.tgz"
     },
+    "urijs": {
+      "version": "1.18.1",
+      "from": "urijs@>=1.17.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/urijs/-/urijs-1.18.1.tgz"
+    },
     "urix": {
       "version": "0.1.0",
       "from": "urix@>=0.1.0 <0.2.0",
@@ -7714,14 +7729,7 @@
     "wowjs": {
       "version": "1.1.3",
       "from": "wowjs@latest",
-      "resolved": "https://registry.npmjs.org/wowjs/-/wowjs-1.1.3.tgz",
-      "dependencies": {
-        "animate.css": {
-          "version": "3.5.1",
-          "from": "animate.css@latest",
-          "resolved": "https://registry.npmjs.org/animate.css/-/animate.css-3.5.1.tgz"
-        }
-      }
+      "resolved": "https://registry.npmjs.org/wowjs/-/wowjs-1.1.3.tgz"
     },
     "wrap-ansi": {
       "version": "2.0.0",
