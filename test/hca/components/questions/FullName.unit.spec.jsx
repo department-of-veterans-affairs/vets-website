@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
-import sinon from 'sinon';
 import { assert, expect } from 'chai';
 
 import FullName from '../../../../src/js/hca/components/questions/FullName';
@@ -17,40 +16,6 @@ function makeName(first, middle, last, suffix) {
 }
 
 describe('<FullName>', () => {
-  describe('propTypes', () => {
-    let consoleStub;
-    beforeEach(() => {
-      consoleStub = sinon.stub(console, 'error');
-    });
-
-    afterEach(() => {
-      consoleStub.restore();
-    });
-
-    // TODO(awong): consider implementing higher-order component approach using invariant
-    xit('name is required', () => {
-      SkinDeep.shallowRender(<FullName/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `name` was not specified in `FullName`/);
-    });
-
-    xit('name must be an object', () => {
-      SkinDeep.shallowRender(<FullName name/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `name` of type `boolean` supplied to `FullName`, expected `object`/);
-    });
-
-    // TODO(awong): Why in the world does this not work?!?!
-    xit('onValueChange is required', () => {
-      SkinDeep.shallowRender(<FullName/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `FullName`/);
-    });
-
-    xit('onValueChange must be a function', () => {
-      SkinDeep.shallowRender(
-        <FullName onValueChange/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `FullName`, expected `function`/);
-    });
-  });
-
   it('has sane looking features', () => {
     const component = ReactTestUtils.renderIntoDocument(
       <FullName name={makeName('', '', '', '')}/>

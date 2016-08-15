@@ -1,63 +1,11 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
-import sinon from 'sinon';
 import { expect } from 'chai';
 
 import ErrorableCheckbox from '../../../../src/js/hca/components/form-elements/ErrorableCheckbox';
 
 describe('<ErrorableCheckbox>', () => {
-  describe('propTypes', () => {
-    let consoleStub;
-    beforeEach(() => {
-      consoleStub = sinon.stub(console, 'error');
-    });
-
-    afterEach(() => {
-      consoleStub.restore();
-    });
-
-    it('label is required', () => {
-      SkinDeep.shallowRender(
-        <ErrorableCheckbox onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `label` was not specified in `ErrorableCheckbox`/);
-    });
-
-    it('label must be a string', () => {
-      SkinDeep.shallowRender(
-        <ErrorableCheckbox label onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `label` of type `boolean` supplied to `ErrorableCheckbox`, expected `string`/);
-    });
-
-    it('onValueChange is required', () => {
-      SkinDeep.shallowRender(<ErrorableCheckbox label="test"/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `ErrorableCheckbox`/);
-    });
-
-    it('onValueChange must be a function', () => {
-      SkinDeep.shallowRender(<ErrorableCheckbox label="test" onValueChange/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `ErrorableCheckbox`, expected `function`/);
-    });
-
-    it('errorMessage must be a string', () => {
-      SkinDeep.shallowRender(
-        <ErrorableCheckbox label="test" errorMessage onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `errorMessage` of type `boolean` supplied to `ErrorableCheckbox`, expected `string`/);
-    });
-
-    it('checked must be a boolean', () => {
-      SkinDeep.shallowRender(
-        <ErrorableCheckbox label="test" checked="test" onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `checked` of type `string` supplied to `ErrorableCheckbox`, expected `boolean`/);
-    });
-
-    it('required must be a boolean', () => {
-      SkinDeep.shallowRender(
-        <ErrorableCheckbox label="test" required="hi" onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `required` of type `string` supplied to `ErrorableCheckbox`, expected `boolean`/);
-    });
-  });
-
   it('ensure checked changes propagate', () => {
     let errorableInput;
 

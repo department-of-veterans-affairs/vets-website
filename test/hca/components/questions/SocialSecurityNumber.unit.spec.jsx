@@ -1,45 +1,11 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
-import sinon from 'sinon';
 import { expect } from 'chai';
 
 import SocialSecurityNumber from '../../../../src/js/hca/components/questions/SocialSecurityNumber';
 import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<SocialSecurityNumber>', () => {
-  describe('propTypes', () => {
-    let consoleStub;
-    beforeEach(() => {
-      consoleStub = sinon.stub(console, 'error');
-    });
-
-    afterEach(() => {
-      consoleStub.restore();
-    });
-
-    xit('ssn is required', () => {
-      SkinDeep.shallowRender(<SocialSecurityNumber/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `ssn` was not specified in `SocialSecurityNumber`/);
-    });
-
-    xit('ssn must be an object', () => {
-      SkinDeep.shallowRender(<SocialSecurityNumber ssn/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `ssn` of type `boolean` supplied to `SocialSecurityNumber`, expected `string`/);
-    });
-
-    // TODO(awong): Why in the world does this not work?!?!
-    xit('onValueChange is required', () => {
-      SkinDeep.shallowRender(<SocialSecurityNumber/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `SocialSecurityNumber`/);
-    });
-
-    it('onValueChange must be a function', () => {
-      SkinDeep.shallowRender(
-        <SocialSecurityNumber ssn={makeField('')} onValueChange/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `SocialSecurityNumber`, expected `function`/);
-    });
-  });
-
   it('excludes ErrorMessage prop when valid SSN', () => {
     const tree = SkinDeep.shallowRender(<SocialSecurityNumber ssn={makeField('555-12-6789')} onValueChange={(_update) => {}}/>);
     const errorableInputs = tree.everySubTree('ErrorableTextInput');

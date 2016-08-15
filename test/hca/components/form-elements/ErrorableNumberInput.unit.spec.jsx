@@ -2,7 +2,6 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 import chaiAsPromised from 'chai-as-promised';
-import sinon from 'sinon';
 import { default as chai, expect } from 'chai';
 
 import ErrorableNumberInput from '../../../../src/js/hca/components/form-elements/ErrorableNumberInput';
@@ -12,80 +11,6 @@ chai.use(chaiAsPromised);
 
 describe('<ErrorableNumberInput>', () => {
   const testValue = makeField('');
-  describe('propTypes', () => {
-    let consoleStub;
-    beforeEach(() => {
-      consoleStub = sinon.stub(console, 'error');
-    });
-
-    afterEach(() => {
-      consoleStub.restore();
-    });
-
-    it('field must be an object', () => {
-      SkinDeep.shallowRender(
-        <ErrorableNumberInput field="bad" label="test" value onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `field` of type `string` supplied to `ErrorableNumberInput`, expected `object`/);
-    });
-
-    it('label is required', () => {
-      SkinDeep.shallowRender(
-        <ErrorableNumberInput field={testValue} onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `label` was not specified in `ErrorableNumberInput`/);
-    });
-
-    it('label must be a string', () => {
-      SkinDeep.shallowRender(
-        <ErrorableNumberInput field={testValue} label onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `label` of type `boolean` supplied to `ErrorableNumberInput`, expected `string`./);
-    });
-
-    it('min must be a string or a function', () => {
-      SkinDeep.shallowRender(
-        <ErrorableNumberInput field={testValue} label="test" min onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `min` supplied to `ErrorableNumberInput`./);
-    });
-
-    it('max must be a string or a function', () => {
-      SkinDeep.shallowRender(
-        <ErrorableNumberInput field={testValue} label="test" max onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `max` supplied to `ErrorableNumberInput`./);
-    });
-
-    it('pattern must be a string', () => {
-      SkinDeep.shallowRender(
-        <ErrorableNumberInput field={testValue} label="test" pattern onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `pattern` of type `boolean` supplied to `ErrorableNumberInput`, expected `string`./);
-    });
-
-    it('onValueChange is required', () => {
-      SkinDeep.shallowRender(<ErrorableNumberInput field={testValue} label="test"/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `ErrorableNumberInput`/);
-    });
-
-    it('onValueChange must be a function', () => {
-      SkinDeep.shallowRender(<ErrorableNumberInput field={testValue} label="test" onValueChange/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `ErrorableNumberInput`, expected `function`/);
-    });
-
-    it('errorMessage must be a string', () => {
-      SkinDeep.shallowRender(
-        <ErrorableNumberInput field={testValue} label="test" errorMessage onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `errorMessage` of type `boolean` supplied to `ErrorableNumberInput`, expected `string`/);
-    });
-
-    it('placeholder must be a string', () => {
-      SkinDeep.shallowRender(
-        <ErrorableNumberInput field={testValue} label="test" placeholder onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `placeholder` of type `boolean` supplied to `ErrorableNumberInput`, expected `string`/);
-    });
-
-    it('required must be a boolean', () => {
-      SkinDeep.shallowRender(
-        <ErrorableNumberInput field={testValue} label="test" required="hi" onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `required` of type `string` supplied to `ErrorableNumberInput`, expected `boolean`/);
-    });
-  });
 
   it('ensure value changes propagate', () => {
     let errorableInput;

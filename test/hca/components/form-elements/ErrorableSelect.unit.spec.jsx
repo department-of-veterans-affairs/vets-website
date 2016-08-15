@@ -2,7 +2,6 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 import chaiAsPromised from 'chai-as-promised';
-import sinon from 'sinon';
 import { default as chai, expect } from 'chai';
 
 import ErrorableSelect from '../../../../src/js/hca/components/form-elements/ErrorableSelect';
@@ -13,69 +12,6 @@ chai.use(chaiAsPromised);
 describe('<ErrorableSelect>', () => {
   const testValue = makeField('');
   const options = [{ value: 1, label: 'first' }, { value: 2, label: 'second' }];
-
-  describe('propTypes', () => {
-    let consoleStub;
-    beforeEach(() => {
-      consoleStub = sinon.stub(console, 'error');
-    });
-
-    afterEach(() => {
-      consoleStub.restore();
-    });
-
-    it('label is required', () => {
-      SkinDeep.shallowRender(
-        <ErrorableSelect options={options} value={testValue} onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `label` was not specified in `ErrorableSelect`/);
-    });
-
-    it('label must be a stringthis.props.', () => {
-      SkinDeep.shallowRender(
-        <ErrorableSelect label options={options} value={testValue} onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `label` of type `boolean` supplied to `ErrorableSelect`, expected `string`./);
-    });
-
-    it('onValueChange is required', () => {
-      SkinDeep.shallowRender(<ErrorableSelect label="test" options={options} value={testValue}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `ErrorableSelect`/);
-    });
-
-    it('onValueChange must be a function', () => {
-      SkinDeep.shallowRender(<ErrorableSelect label="test" options={options} value={testValue} onValueChange/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `ErrorableSelect`, expected `function`/);
-    });
-
-    it('errorMessage must be a string', () => {
-      SkinDeep.shallowRender(
-        <ErrorableSelect label="test" errorMessage options={options} value={testValue} onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `errorMessage` of type `boolean` supplied to `ErrorableSelect`, expected `string`/);
-    });
-
-    it('options is required', () => {
-      SkinDeep.shallowRender(
-        <ErrorableSelect label="test" value={testValue} onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `options` was not specified in `ErrorableSelect`/);
-    });
-
-    it('options must be an object', () => {
-      SkinDeep.shallowRender(
-        <ErrorableSelect label="test" options value={testValue} onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `options` of type `boolean` supplied to `ErrorableSelect`, expected an array/);
-    });
-
-    it('value must be an object', () => {
-      SkinDeep.shallowRender(
-        <ErrorableSelect label="test" options={options} value="bad" onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `value` of type `string` supplied to `ErrorableSelect`, expected `object`/);
-    });
-
-    it('required must be a boolean', () => {
-      SkinDeep.shallowRender(
-        <ErrorableSelect label="test" options={options} required="hi" value={testValue} onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `required` of type `string` supplied to `ErrorableSelect`, expected `boolean`/);
-    });
-  });
 
   it('ensure value changes propagate', () => {
     let errorableSelect;

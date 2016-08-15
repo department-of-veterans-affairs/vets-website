@@ -1,45 +1,11 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
-import sinon from 'sinon';
 import { expect } from 'chai';
 
 import Phone from '../../../../src/js/hca/components/questions/Phone';
 import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<Phone>', () => {
-  describe('propTypes', () => {
-    let consoleStub;
-    beforeEach(() => {
-      consoleStub = sinon.stub(console, 'error');
-    });
-
-    afterEach(() => {
-      consoleStub.restore();
-    });
-
-    xit('value is required', () => {
-      SkinDeep.shallowRender(<Phone/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `value` was not specified in `Phone`/);
-    });
-
-    it('value must be an object', () => {
-      SkinDeep.shallowRender(<Phone value/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `value` of type `boolean` supplied to `Phone`, expected `object`/);
-    });
-
-    // TODO(awong): Why in the world does this not work?!?!
-    xit('onValueChange is required', () => {
-      SkinDeep.shallowRender(<Phone value={makeField('')}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `Phone`/);
-    });
-
-    it('onValueChange must be a function', () => {
-      SkinDeep.shallowRender(
-        <Phone value={makeField('')} onValueChange/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `Phone`, expected `function`/);
-    });
-  });
-
   it('includes ErrorMessage component when invalid phone number', () => {
     const tree = SkinDeep.shallowRender(<Phone value={makeField('123-456-7890')} onValueChange={(_update) => {}}/>);
     const errorableInputs = tree.everySubTree('ErrorableTextInput');

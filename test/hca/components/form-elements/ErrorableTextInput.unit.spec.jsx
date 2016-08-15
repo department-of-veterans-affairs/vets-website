@@ -2,7 +2,6 @@ import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 import chaiAsPromised from 'chai-as-promised';
-import sinon from 'sinon';
 import { default as chai, expect } from 'chai';
 
 import ErrorableTextInput from '../../../../src/js/hca/components/form-elements/ErrorableTextInput';
@@ -11,63 +10,6 @@ import { makeField } from '../../../../src/js/common/model/fields';
 chai.use(chaiAsPromised);
 
 describe('<ErrorableTextInput>', () => {
-  describe('propTypes', () => {
-    let consoleStub;
-    beforeEach(() => {
-      consoleStub = sinon.stub(console, 'error');
-    });
-
-    afterEach(() => {
-      consoleStub.restore();
-    });
-
-    it('label is required', () => {
-      SkinDeep.shallowRender(
-        <ErrorableTextInput field={makeField(1)} onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `label` was not specified in `ErrorableTextInput`/);
-    });
-
-    it('label must be a string', () => {
-      SkinDeep.shallowRender(
-        <ErrorableTextInput field={makeField(1)} label onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `label` of type `boolean` supplied to `ErrorableTextInput`, expected `string`./);
-    });
-
-    it('onValueChange is required', () => {
-      SkinDeep.shallowRender(<ErrorableTextInput field={makeField(1)} label="test"/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `onValueChange` was not specified in `ErrorableTextInput`/);
-    });
-
-    it('onValueChange must be a function', () => {
-      SkinDeep.shallowRender(<ErrorableTextInput field={makeField(1)} label="test" onValueChange/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `onValueChange` of type `boolean` supplied to `ErrorableTextInput`, expected `function`/);
-    });
-
-    it('errorMessage must be a string', () => {
-      SkinDeep.shallowRender(
-        <ErrorableTextInput field={makeField(1)} label="test" errorMessage onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `errorMessage` of type `boolean` supplied to `ErrorableTextInput`, expected `string`/);
-    });
-
-    it('placeholder must be a string', () => {
-      SkinDeep.shallowRender(
-        <ErrorableTextInput field={makeField(1)} label="test" placeholder onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `placeholder` of type `boolean` supplied to `ErrorableTextInput`, expected `string`/);
-    });
-
-    it('field must be object', () => {
-      SkinDeep.shallowRender(
-        <ErrorableTextInput field label="test" onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `field` of type `boolean` supplied to `ErrorableTextInput`, expected `object`/);
-    });
-
-    it('required must be a boolean', () => {
-      SkinDeep.shallowRender(
-        <ErrorableTextInput field={makeField(1)} label="test" required="hi" onValueChange={(_update) => {}}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `required` of type `string` supplied to `ErrorableTextInput`, expected `boolean`/);
-    });
-  });
-
   it('ensure value changes propagate', () => {
     let errorableInput;
 

@@ -4,7 +4,6 @@ import SkinDeep from 'skin-deep';
 import { Provider } from 'react-redux';
 import { Router, Route, createMemoryHistory } from 'react-router';
 import { createStore } from 'redux';
-import sinon from 'sinon';
 import { expect } from 'chai';
 
 import Nav from '../../../src/js/hca/components/Nav';
@@ -20,27 +19,6 @@ class Container extends React.Component {
 }
 
 describe('<Nav>', () => {
-  describe('propTypes', () => {
-    let consoleStub;
-    beforeEach(() => {
-      consoleStub = sinon.stub(console, 'error');
-    });
-
-    afterEach(() => {
-      consoleStub.restore();
-    });
-
-    it('currentUrl is required', () => {
-      SkinDeep.shallowRender(<Nav store={store}/>);
-      sinon.assert.calledWithMatch(consoleStub, /Required prop `currentUrl` was not specified in `Nav`/);
-    });
-
-    it('currentUrl must be a string', () => {
-      SkinDeep.shallowRender(<Nav store={store} currentUrl/>);
-      sinon.assert.calledWithMatch(consoleStub, /Invalid prop `currentUrl` of type `boolean` supplied to `Nav`, expected `string`/);
-    });
-  });
-
   describe('active sections have section-current or sub-section-current class', () => {
     const history = createMemoryHistory('/');
     let nav;
