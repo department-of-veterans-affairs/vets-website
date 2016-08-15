@@ -184,17 +184,14 @@ if (options.watch) {
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: process.env.NODE_ENV !== 'production',
     allowRegex: new RegExp(
-        [ '/disability-benefits/',
-          '/disability-benefits/apply-for-benefits/',
-          '/disability-benefits/learn/',
-          '/disability-benefits/learn/eligibility/.*',
+        [ '/disability-benefits/apply-for-benefits',
           '/employment/commitments',
           '/employment/employers',
           '/employment/job-seekers/create-resume',
           '/employment/job-seekers/search-jobs',
           '/employment/job-seekers/skills-translator',
           '/employment/users/sign_in',
-          '/gi-bill-comparison-tool/',
+          '/gi-bill-comparison-tool',
           '/healthcare/apply/application' ].join('|'))
   }));
 
