@@ -1,0 +1,3 @@
+--require test/util/mocha-setup.js
+--compilers js:babel-register,jsx:babel-register
+--prof
