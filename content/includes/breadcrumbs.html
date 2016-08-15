@@ -4,9 +4,17 @@
       {% assign my_variable = breadcrumb_path | last %}
       {% for crumb in breadcrumb_path %}
         {% if my_variable.name == crumb.name %}
-          <li class="active">{{ crumb.name | replace: '-', ' ' | capitalize }}</li>
+          <li class="active">
+            {% if title %}
+              {{ title }}
+            {% else %}
+              {{ crumb.name | replace: '-', ' ' | capitalize }}
+            {% endif %}
+          </li>
         {% else %}
-          <li><a href="/{{ crumb.path }}">{{ crumb.name | replace: '-', ' ' | capitalize }}</a></li>
+          <li><a href="/{{ crumb.path }}">
+            {{ crumb.name | replace: '-', ' ' | capitalize }}
+          </a></li>
         {% endif %}
       {% endfor %}
   </ul>

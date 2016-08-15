@@ -26,18 +26,11 @@
 <meta content="website" property="og:type">
 {% endif %}
 
-{% if url %}
-<meta content="https://www.vets.gov{{ url | replace('/index.html','/') }}" property="og:url">
+{% if path %}
+<meta content="https://www.vets.gov/{{ path }}" property="og:url">
 {% endif %}
 
-{% if date %}
-<meta content="{{ 'now' | date: '%c' }}" property="article:published_time">
-<meta content="https://www.vets.gov/about/" property="article:author">
-{% endif %}
 <meta content="https://www.vets.gov/img/design/logo/og-image.jpg" property="og:image">
-
-
-<!--Could not find categories so they were removed from header.-->
 
 {% if tags %}
 {% for tag in tags %}
@@ -97,8 +90,6 @@
     <div class="small-6 medium-4 columns">
       <h1 role="banner" class="va-header-logo"><a href="/">Vets.gov</a></h1>
     </div>
-
-
 
     {% if search != 'false' %}
       <!-- Mobile search button -->
