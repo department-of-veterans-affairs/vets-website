@@ -2,6 +2,7 @@
 layout: home.html
 body_class: fourohfour
 title: Vets.gov
+permalink: false
 ---
 
 <div class="main home" role="main">
