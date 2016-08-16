@@ -25,7 +25,7 @@ VA health care includes regular checkups with your primary care doctor and acces
 
 ---------
 
-- **Already enrolled?** To update your personal, insurance, or financial information from a previous application, download and fill out a [10-10EZR.)](/healthcare/forms/vha-10-10ezr-fill.pdf)
+- **Already enrolled?** To update your personal, insurance, or financial information from a previous application, download and fill out a [10-10EZR](/healthcare/forms/vha-10-10ezr-fill.pdf).
 
 ---------
 
