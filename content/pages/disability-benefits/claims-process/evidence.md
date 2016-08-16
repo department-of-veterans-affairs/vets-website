@@ -58,10 +58,9 @@ Disability benefit claims are considered fully developed when you have no more e
 
 Evidence procedures for standard claims place greater responsibility on VA to assemble relevant records from both federal sources and private sources that you identify and authorize.
 
-##### These may include:
+###### These may include:
 
 - Privately held evidence and information that you tell us about (such as records from a private doctor or hospital), and
 - Records from state or local governments or current or former employers.
 
 VA will provide a medical examination for you, or will get a medical opinion, if it’s required to make a claims decision.
-

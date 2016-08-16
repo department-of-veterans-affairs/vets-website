@@ -32,9 +32,9 @@ relatedlinks:
     description: ""
 ---
 
-If you have a service-related disability that presents itself after you have separated, you may be eligible for disability compensation. 
+If you have a service-related disability that presents itself after you have separated, you may be eligible for disability compensation.
 
-These sorts of disabilities include:
+### These sorts of disabilities include:
 
 - [Disabilities That Appear Within One Year After Discharge](/disability-benefits/apply-for-benefits/one-year/)
 - [Exposures to Hazardous Materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)
