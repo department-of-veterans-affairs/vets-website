@@ -23,6 +23,12 @@ VA health care includes regular checkups with your primary care doctor and acces
 
 - Visit the [nearest VA medical center or clinic](http://www.va.gov/directory/guide/division.asp?dnum=1) to apply in person. Download, print, and fill out the [10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
+---------
+
+- **Already enrolled?** To update your personal, insurance, or financial information from a previous application, download and fill out a [10-10EZR.)](/healthcare/forms/vha-10-10ezr-fill.pdf)
+
+---------
+
 <div class="call-out" markdown="1">
 ### What information will you need to complete the 10-10EZ?
 
@@ -58,14 +64,13 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 ### Additional forms for caregivers and active-duty Servicemembers
 
-
-- [Update income from a previous application (10-10EZR)](/healthcare/forms/vha-10-10ezr-fill.pdf)
 - [Apply as active duty military (10-10AD)](/healthcare/forms/1010ez-AD.pdf)
 - [Apply as a caregiver (10-10CG)](/healthcare/forms/vha-10-10CG.pdf)
 - [Apply as National Guard and Reserve (10-10EZ-Demob)](/healthcare/forms/10-10EZ-DEMOB.pdf)
 - [Apply as a member of the Justice Outreach Program (10-10EZ-JO)](/healthcare/forms/10-10EZ-JO.pdf)
 
 #### Instructions for downloading the forms
+
 <dl>
     <dd><strong>Internet Explorer:</strong></dd>
     <dd>Right click on one of the links above for the form you want to download.</dd>
