@@ -4,7 +4,7 @@ template: 1-topic-landing
 concurrence: complete
 ---
 
-If you have not used all of your Post-9/11 GI Bill benefits, you may be eligible to transfer up to 36 months of benefits to your spouse or dependent children. Once the Department of Defense (DOD) approves the transfer, the new beneficiaries can apply for VA benefits. 
+If you have not used all of your Post-9/11 GI Bill benefits, you may be eligible to transfer up to 36 months of benefits to your spouse or dependent children. Once the Department of Defense (DOD) approves the transfer, the new beneficiaries can apply for VA benefits.
 
 **Note:** The Department of Defense (DOD) determines whether or not you can transfer benefits to your family.
 <div class="call-out" markdown="1">
@@ -32,14 +32,14 @@ Your dependents
 
 The following conditions apply to family members using transferred benefits:
 
-##### Spouses
+#### Spouses
 
 - May use the benefit immediately.
 - May use the benefit while you are on active duty or after separation.
 - Are not eligible for the monthly housing allowance while you are on active duty.
 - May use the benefit for up to 15 years after your separation from active duty.
 
-##### Children
+#### Children
 - May start to use the benefit only after you have completed at least 10 years of service.
 - May use the benefit while you are on active duty or after separation.
 - May not use the benefit until they have received a secondary school diploma (or equivalency certificate), or have reached 18 years of age.
@@ -50,7 +50,7 @@ Dependent eligibility is not affected if a child marries or if you and your spou
 
 If you are still in the service and want to reallocate transferred benefits, you can do so using the TEB Portlet in [milConnect](https://www.dmdc.osd.mil/milconnect). If you’re a Veteran and want to reallocate benefits, you should contact VA using the [Ask a Question website](http://gibill.custhelp.com).
 
-#### What happens next?
+### What happens next?
 
 While you are still serving, use the [Transfer of Education Benefits (TEB) website](https://www.dmdc.osd.mil/milconnect/faces/faqs?_adf.ctrl-state=c4t1chkk8_4) to request, modify, and revoke a Transfer of Entitlement (TOE). You cannot apply for a transfer of benefits through VA. (**Note:** From the milConnect home page, select Education then Transfer of Education Benefits [TEB] from the menu bar.)
 
@@ -80,4 +80,3 @@ Once you leave military service, you can still provide a future effective date f
   - Coast Guard Reserve  [Email](mailto:reserveVAeducation@uscg.mil)
   - NOAA  [Email](mailto:Gregory.Raymond@noaa.gov) or 301-713-7728
   - PHS  [Email](mailto:OCCOHelpdesk@hhs.gov) or 240-453-6130
-

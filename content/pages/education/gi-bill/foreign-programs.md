@@ -11,7 +11,7 @@ Yes, if:
 
   - You are eligible for, or are already receiving, VA educational assistance.
   - Your program is approved by VA.
-  - Your program at the foreign school is at an institution of higher learning and will earn you a standard college degree or the equivalent. 
+  - Your program at the foreign school is at an institution of higher learning and will earn you a standard college degree or the equivalent.
 
 ##### **Exception:** Those eligible for Survivors’ and Dependents’ Educational Assistance may receive VA benefits while pursuing approved postsecondary non-college degree programs at training establishments in the Philippines.
 
@@ -44,7 +44,7 @@ You can also check your approval status or send us questions by email 24 hours a
 
 [Begin your application process](/education/apply-for-education-benefits/) and see below for next steps.
 
-##### Before enrolling at your foreign school:
+#### Before enrolling at your foreign school:
 
 
 <ol class="process">
@@ -84,7 +84,7 @@ You must provide written permission for school officials to release information 
 
 </ol>
 
-##### After enrolling at your foreign school:
+#### After enrolling at your foreign school:
 
 <ol class="process">
 
@@ -123,4 +123,3 @@ You should keep the school advised of your plans for continuing enrollment in or
 </li>
 
 </ol>
-

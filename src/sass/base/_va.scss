@@ -274,19 +274,27 @@ h3, h4, h5, h6 {
 
 h3 {
   font-size: 1.8em;
-  padding: 0 0 1em 0;
-}
-h4 {
-  font-size: 1.5em;
-  font-weight: normal;
-}
-h5 {
-  font-size: 1.25em;
-  font-weight: normal;
-}
-h6 {
-  font-size: 1.15em;
+  line-height: 1.5;
   font-weight: bold;
+}
+
+h4 {
+  font-size: 1.35em;
+  line-height: 1.5;
+  font-weight: bold;
+}
+
+h5 {
+  font-size: 1.15em;
+  line-height: 1.5;
+  font-weight: bold;
+}
+
+h6 {
+  font-size: 0.9em;
+  line-height: 1.5;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 
 // Banner
@@ -414,15 +422,10 @@ h6 {
       letter-spacing: normal;
       font-size: 1.25em;
     }
-
   }
 
   h3 {
     padding: 0 0 .5em 0;
-    font-size: 1.25em;
-    @media #{$small} {
-      font-size: 1.8em;
-    }
   }
 }
 
@@ -656,7 +659,7 @@ ul, ol {
     background: $color-white;
     padding: 5em 0;
     h2, h3, h4, h5, h6, p, li {color: $color-va-gray-cool-dark;}
-    h4 {font-size: 1em; margin: 0; padding: 0; line-height: 1.2em;}
+    h4 {margin: 0; padding: 0;}
     a {color: $color-primary-darkest;}
   }
 }
