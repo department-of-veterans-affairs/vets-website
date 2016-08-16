@@ -31,7 +31,7 @@ FacilityLocator = (function() {
     // Load facilities
     $.ajax({
       dataType: "json",
-      url: "https://www.vets.gov/facility-locator/facilities.json",
+      url: "/facility-locator/facilities.json",
       success: function(data) {
         allFacilities = data;
         placeMarkers(data);
@@ -59,13 +59,13 @@ FacilityLocator = (function() {
     });
 
     map.addListener('idle', listFacilities);
-    
+
     map.addListener('zoom_changed', function() {
       var zoom = map.getZoom();
       if(filteredFacilities === undefined) {
         for (i = 0; i < allFacilities.length; i++) {
             markers[i].setVisible(zoom >= zoomLevelToShowMarkers);
-        } 
+        }
         if (currentInfoBox !== undefined && zoom < zoomLevelToShowMarkers) {
           currentInfoBox.close();
         }
@@ -118,8 +118,8 @@ FacilityLocator = (function() {
   }
 
   function recenter(position) {
-    geolocated = true; 
-    
+    geolocated = true;
+
     // Clear the facilities list, because hovering on a facility after the
     // setCenter will move the map to the location of that infowindow. Which
     // is confusing as heck for the user.
@@ -169,7 +169,7 @@ FacilityLocator = (function() {
       if(filteredFacilities === undefined && zoom < zoomLevelToShowMarkers) {
           marker.setVisible(false);
       }
-      
+
       var text = facilityHTML(facility);
 
       var infowindow = new google.maps.InfoWindow({
@@ -304,7 +304,7 @@ FacilityLocator = (function() {
 
     // Clear the facilities list
     $("#facilitiesList").html("");
-    
+
     if(filteredFacilities === undefined && map.getZoom() < zoomLevelToShowMarkers) {
       $("#facilitiesList").html("Zoom in to see facilities");
       return;
@@ -357,22 +357,22 @@ FacilityLocator = (function() {
     var places = searchBox.getPlaces();
 
     searchQuery = places[0].formatted_address;
-    var placeTypes = places[0].types; 
+    var placeTypes = places[0].types;
     // If user typed in a full street address, start directions from that location.
-    //  Note: This overrides the geolocated location for starting driving directions. 
+    //  Note: This overrides the geolocated location for starting driving directions.
     if(placeTypes.indexOf("street_address") !== -1) {
-      directionsStart = searchQuery; 
-    } else if(!geolocated) { 
-      // If the user is not geolocated and they type a state or country into the 
-      //  search box, use a blank starting location for directions. 
-      if(placeTypes.indexOf("country") !== -1 || 
+      directionsStart = searchQuery;
+    } else if(!geolocated) {
+      // If the user is not geolocated and they type a state or country into the
+      //  search box, use a blank starting location for directions.
+      if(placeTypes.indexOf("country") !== -1 ||
           placeTypes.indexOf("administrative_area_level_1") !== -1) {
-        directionsStart = undefined;    
+        directionsStart = undefined;
       } else { // Otherwise, use the query term as the directions starting place
         directionsStart = searchQuery;
       }
     }
-    
+
     fitMapBounds(places);
   }
 
