@@ -3,7 +3,7 @@ title: What to expect after you get a disability rating
 template: 6-info-page
 ---
 
-If you have received a decision notice with your disability rating, you may be eligible for compensation, education, health care, housing, employment, and dependent benefits.  
+If you've received a decision notice with your disability rating, you may be eligible for compensation, education, health care, housing, employment, and dependent benefits.  
 
 If you haven’t received your decision notice, check your status on [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=va-letters) or contact your [regional VA office](/facility-locator/). 
 
