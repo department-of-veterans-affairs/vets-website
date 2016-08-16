@@ -74,9 +74,9 @@ If none of the above apply to you, you may still qualify for care based on your 
 <dl>
     <dd><strong>Internet Explorer:</strong></dd>
     <dd>Right click on one of the links above for the form you want to download.</dd>
-    <dd>Choose **Save Target As...**</dd>
+    <dd>Choose <b>Save Target As...</b></dd>
     <dd>Choose where you want to save the file on your hard drive.</dd>
-    <dd>Click **Save**.</dd>
+    <dd>Click <b>Save</b>.</dd>
 </dl>
 
 <dl>
