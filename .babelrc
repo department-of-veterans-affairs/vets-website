@@ -1,7 +1,8 @@
 {
   // Javascript settings.
   "presets": [
-    "es2015"
+    "es2015",
+    "react"
   ],
   // Share polyfills between files.
   "env": {
