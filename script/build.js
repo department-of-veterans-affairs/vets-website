@@ -80,6 +80,7 @@ smith.destination(`../build/${options.buildtype}`);
 const ignoreList = [ 'memorial-benefits/*' ];
 if (options.buildtype === 'production') {
   ignoreList.push('rx/*');
+  ignoreList.push('education/apply-for-education-benefits/apply.md');
 }
 smith.use(ignore(ignoreList));
 
