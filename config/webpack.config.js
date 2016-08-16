@@ -29,6 +29,8 @@ var configGenerator = (options) => {
           query: {
             // Speed up compilation.
             cacheDirectory: true
+
+            // Also see .babelrc
           }
         },
         {
@@ -40,6 +42,8 @@ var configGenerator = (options) => {
 
             // Speed up compilation.
             cacheDirectory: true
+
+            // Also see .babelrc
           }
         },
         {
