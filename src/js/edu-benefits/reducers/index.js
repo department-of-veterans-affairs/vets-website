@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-let initState = {};
-let placeholder = (state = initState, action) => state;
+const initState = {};
+const placeholder = (state = initState) => state;
 
 export default combineReducers({
   placeholder

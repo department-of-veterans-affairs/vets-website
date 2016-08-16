@@ -8,16 +8,12 @@ import { bindActionCreators } from 'redux';
 import { placeholderAction } from '../actions';
 
 class EduBenefitsApp extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     let devPanel = undefined;
     if (__BUILDTYPE__ === 'development') {
-      //using require here allows this code to be removed in prod
+      // using require here allows this code to be removed in prod
       let PerfPanel = require('./../components/debug/PerfPanel');
-      //import PopulateVeteranButton from './debug/PopulateVeteranButton';
+      // import PopulateVeteranButton from './debug/PopulateVeteranButton';
       let RoutesDropdown = require('./../components/debug/RoutesDropdown');
       const queryParams = _.fromPairs(
         window.location.search.substring(1).split('&').map((v) => { return v.split('='); }));
@@ -52,7 +48,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({placeholderAction}, dispatch);
+  return bindActionCreators({ placeholderAction }, dispatch);
 }
 
 // TODO(awong): Remove the pure: false once we start using ImmutableJS.
