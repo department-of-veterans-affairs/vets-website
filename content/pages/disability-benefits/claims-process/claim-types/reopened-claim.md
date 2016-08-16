@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Reopened Claim
 concurrence: incomplete
 relatedlinks:

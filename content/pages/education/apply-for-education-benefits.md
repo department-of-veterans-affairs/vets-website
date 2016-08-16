@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Apply for Education Benefits
 template: 6-info-page
 concurrence: complete
@@ -97,4 +98,3 @@ You can track the status of your application on [eBenefits](https://www.ebenefit
 </li>
 
 </ol>
-

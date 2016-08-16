@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Types of Claims
 showactionbar: false
 relatedlinks:

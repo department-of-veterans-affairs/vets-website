@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Standard Claim
 template: 6-info-page
 concurrence: complete
@@ -40,7 +41,7 @@ If you file a standard claim, VA will gather evidence from public and private me
 You, your dependents and survivors
 
 ### Why use the standard claim process?
-If you want VA to assist you in gathering evidence to support your claim, you should file a standard claim. With your approval, VA will gather needed evidence, listed in your claim, including information not held by federal agencies. 
+If you want VA to assist you in gathering evidence to support your claim, you should file a standard claim. With your approval, VA will gather needed evidence, listed in your claim, including information not held by federal agencies.
 This may include medical records from:
 
    - private medical providers
@@ -56,6 +57,5 @@ VA will seek to validate your claim with a variety documents, including:
 - Medical evidence of a current physical or mental disability
 - Evidence of an event, injury, or disease while you were in service
 
-**Note:** 
+**Note:**
 A standard claim will generally take longer to process than a [Fully Developed Claim](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
-

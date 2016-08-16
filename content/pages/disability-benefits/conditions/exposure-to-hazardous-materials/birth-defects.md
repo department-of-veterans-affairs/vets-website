@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Birth Defects/Spina Bifida
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asbestos.asp
