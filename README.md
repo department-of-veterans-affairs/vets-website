@@ -19,7 +19,7 @@ very secret.
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
 | build the site with dev features enabled. | `npm run build` |
-| build the production site (dev features disabled). | `npm run build -- --buildtype production` |
+| build the production site (dev features disabled). | `npm run build -- --buildtype production` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
 | build the site with optimizaitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | run the site for local development with hot reloading of javascript, and sass | `npm run watch` then visit `https://localhost:3000/webpack-dev-server/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run all tests | `npm run test` |
@@ -304,6 +304,8 @@ Webpack seems to have become the defacto build toolkit for Javascript and Sass. 
 documentation around React is based on a Webpack toolchain.
 
 ## More documentation
+
+TODO(awong): Verify if these are still relevant.
 
 - [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)
 - [How Breadcrumbs Work](docs/HowBreadCrumbsWork.md)
