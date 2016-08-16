@@ -74,25 +74,33 @@ If none of the above apply to you, you may still qualify for care based on your 
 <dl>
     <dd><strong>Internet Explorer:</strong></dd>
     <dd>Right click on one of the links above for the form you want to download.</dd>
-    <dd>Choose **Save Target As...**</dd>
+    <dd>Choose <b>Save Target As...</b></dd>
     <dd>Choose where you want to save the file on your hard drive.</dd>
-    <dd>Click **Save**.</dd>
+    <dd>Click <b>Save</b>.</dd>
 </dl>
 
 <dl>
     <dd><strong>Firefox or Chrome:</strong></dd>
     <dd>Right click on one of the links above for the form you want to download.</dd>
-    <dd>Choose **Save Link As...**</dd>
+    <dd>Choose <b>Save Link As...</b></dd>
     <dd>Choose where you want to save the file on your hard drive.</dd>
-    <dd>Click **Save**.</dd>
+    <dd>Click <b>Save</b>.</dd>
 </dl>
 
 <dl>
     <dd><strong>Safari:</strong></dd>
     <dd>Right click on one of the links above for the form you want to download.</dd>
-    <dd>Choose **Download Linked File As...**</dd>
+    <dd>Choose <b>Download Linked File As...</b> </dd>
     <dd>Choose where you want to save the file on your hard drive.</dd>
-    <dd>Click **Save**.</dd>
+    <dd>Click <b>Save</b>.</dd>
 </dl>
+
+After the download is complete, double-click on the file and it should open as long as you have the necessary software on your computer.
+
+</div>
+
+##### Notes:
+
+- If you separated under a dishonorable discharge, visit [healthcare.gov](https://www.healthcare.gov/) to find out if you qualify for health insurance.
 
 Double click on the downloaded file to open it.
