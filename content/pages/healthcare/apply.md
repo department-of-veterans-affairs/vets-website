@@ -30,11 +30,13 @@ VA health care includes regular checkups with your primary care doctor and acces
 ---------
 
 <div class="call-out" markdown="1">
+
 ### What information will you need to complete the 10-10EZ?
 
 - Your most recent tax return
 - Social security numbers for yourself and your dependents
 - Account numbers for any current insurance programs in which you are already enrolled
+
 </div>
 
 ### How long will it take to process your application?
