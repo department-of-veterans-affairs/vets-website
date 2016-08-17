@@ -11,9 +11,9 @@ require('babel-polyfill');
 var configGenerator = (options) => {
   const baseConfig = {
     entry: {
-       hca: './src/js/hca/hca-entry.jsx',
-       'no-react': './src/js/no-react-entry.js',
-     },
+      hca: './src/js/hca/hca-entry.jsx',
+      'no-react': './src/js/no-react-entry.js',
+    },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
@@ -38,7 +38,6 @@ var configGenerator = (options) => {
           loader: 'babel',
           query: {
             presets: ['react'],
-
             // Speed up compilation.
             cacheDirectory: true
 
@@ -102,11 +101,24 @@ var configGenerator = (options) => {
       }),
 
       new ExtractTextPlugin('[name].css'),
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ],
   };
 
   if (process.env.NODE_ENV === 'production') {
     baseConfig.devtool = '#source-map';
+    baseConfig.module.loaders.push({
+      test: /debug\/PopulateVeteranButton/,
+      loader: 'null'
+    });
+    baseConfig.module.loaders.push({
+      test: /debug\/PerfPanel/,
+      loader: 'null'
+    });
+    baseConfig.module.loaders.push({
+      test: /debug\/RoutesDropdown/,
+      loader: 'null'
+    });
     baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
