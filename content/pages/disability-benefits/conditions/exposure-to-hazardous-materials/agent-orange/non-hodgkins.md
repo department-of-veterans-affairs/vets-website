@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Non-Hodgkin’s Lymphoma
 template: 4-action-page-pending
 concurrence: incomplete
@@ -50,4 +51,3 @@ VA will help you determine exposure to Agent Orange or other herbicides during m
 Learn more about [Agent Orange exposure locations](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
 
 Visit [Medline Plus](https://www.nlm.nih.gov/medlineplus/ency/article/000581.htm) to learn about treatment of non-Hodgkin’s lymphoma, the latest research, and more from the National Institutes of Health.
-

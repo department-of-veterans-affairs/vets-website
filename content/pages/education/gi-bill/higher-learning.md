@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Undergraduate and Graduate Degrees
 template: 4-action-page-pending
 concurrence: incomplete
@@ -6,7 +7,7 @@ concurrence: incomplete
 
 If you would like to earn an undergraduate or graduate degree at an institution of higher learning, including four-year universities, community colleges, and schools offering advanced degrees, VA education and training benefits may be available to you.
 
-The number of classes you attend and the accompanying hours spent in those classes determine your payments. 
+The number of classes you attend and the accompanying hours spent in those classes determine your payments.
 
 <div class="call-out" markdown="1">
 

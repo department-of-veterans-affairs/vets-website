@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Careers and Employment
 permalink: /employment/index.html
 template: L2-section-landing
@@ -10,7 +11,7 @@ relatedlinks:
   - url: /employment/job-seekers/start
     title: Start or Grow Your Business
     description: ""
-majorlinks: 
+majorlinks:
   - url: /employment/job-seekers/
     title: Job Seekers
     description: Map your military skills, build a civilian résumé, search career opportunities, and discover organizations that can assist you with career development and employment.

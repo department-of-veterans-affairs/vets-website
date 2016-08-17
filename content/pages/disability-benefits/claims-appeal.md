@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Appeals
 concurrence: complete
 template: 6-info-page
@@ -42,7 +43,7 @@ A Substantive Appeal must be filed within 60 days from the date on the letter ac
 
 ### How do I file a Substantive Appeal?
 
-Complete and file [VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf). 
+Complete and file [VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf).
 
 Find out what happens to [your appeal at the Board](/disability-benefits/claims-appeal/veterans-appeals-board/).
 
@@ -55,7 +56,7 @@ Check the status of your appeal by calling 1-800-827-1000 or going online to [eB
 The continuous open record of the current VA appeals process allows you to submit new evidence and/or make new arguments at any point from the beginning to the end of the appeals process. Additionally, the duty to assist throughout the appeals process requires VA to develop further evidence on the Veteran’s behalf and pursue new arguments and theories of entitlement. Each time the Veteran presents new arguments and adds or obtains evidence, VA generally must issue another decision considering that evidence, which prolongs the time it takes to resolve the appeal.
 
 ### What if I decide that I no longer want to pursue my appeal?
-If at any time you decide that you no longer want to appeal the initial claim decision  (regarding any or all of the issues involved in the appeal), you or your authorized representative may submit a written statement including your name, the applicable Department of Veterans Affairs file number, and a statement that you are withdrawing the appeal. 
+If at any time you decide that you no longer want to appeal the initial claim decision  (regarding any or all of the issues involved in the appeal), you or your authorized representative may submit a written statement including your name, the applicable Department of Veterans Affairs file number, and a statement that you are withdrawing the appeal.
 If you request the withdrawal *before* you receive notice that the appeal has been transferred to the Board, submit this statement to VBA. Thereafter, the statement should be submitted directly to the Board.  
 
 ### What's Next

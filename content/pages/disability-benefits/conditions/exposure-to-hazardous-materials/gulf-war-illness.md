@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Gulf War Illness
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-gulfwar.asp
@@ -38,7 +39,3 @@ You
 ### How it works
 
 The conditions that fall under the umbrella of Gulf War Illness are varied and extensive. They include fibromyalgia, chronic fatigue syndrome, functional gastrointestinal disorders, and undiagnosed illnesses such as headaches, joint pain, sleep disorders, and cardiovascular disease.
-
-
-
-

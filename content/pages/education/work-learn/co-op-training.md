@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Co-op Training
 concurrence: complete
 template: 4-action-page-pending

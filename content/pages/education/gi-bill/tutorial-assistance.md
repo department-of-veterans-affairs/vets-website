@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Tutorial Assistance
 template: 4-action-page-pending
 concurrence: incomplete
@@ -28,7 +29,7 @@ A supplement to the regular education benefit
 
 ### How it works
 
-VA will not pay more than $100 per month for tutoring assistance, and will not pay more than $1,200 total. Here's how the process works: 
+VA will not pay more than $100 per month for tutoring assistance, and will not pay more than $1,200 total. Here's how the process works:
 
 - Your course instructor must identify your need for a tutor and write a letter on your behalf for your VA student file.
 - If you are approved, the school will assign you a tutor and confirm the tutor’s hourly pay.

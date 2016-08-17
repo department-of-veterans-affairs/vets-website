@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Service Connected
 source: https://eauth.va.gov/ebenefits/learn/compensation
 ---

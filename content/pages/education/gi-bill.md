@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: GI Bill
 concurrence: incomplete
 template: alt-1-topic-landing
@@ -11,10 +12,10 @@ relatedlinks:
     description: ""
   - url: /education/gi-bill/post-9-11/
     title: Post-9/11 GI Bill
-    description: "" 
+    description: ""
   - url: /education/gi-bill/transfer/
     title: Transfer Your Post-9/11 GI Bill Benefits to Your Spouse and Dependents
-    description: "" 
+    description: ""
   - url: /education/gi-bill/montgomery-active-duty/
     title: Montgomery GI Bill Active Duty (MGIB-AD)
     description: ""
@@ -23,10 +24,10 @@ relatedlinks:
     description: ""
   - url: /education/gi-bill/survivors-dependent-assistance/
     title: Survivors' and Dependents' Assistance
-    description: "" 
+    description: ""
   - url: /education/rates/
     title: Rates
-    description: "" 
+    description: ""
   - url: /education/gi-bill/yellow-ribbon/
     title: Yellow Ribbon Program
     description: ""
@@ -35,10 +36,10 @@ relatedlinks:
     description: ""
   - url: /education/gi-bill/buy-up-program/
     title: $600 Buy-Up Program
-    description: "" 
+    description: ""
   - url: /education/gi-bill/tutorial-assistance/
     title: Tutorial Assistance
-    description: "" 
+    description: ""
 ---
 
 Since 1994, the GI Bill has helped millions of Veterans pay for college so they can have successful civilian careers. The Post-9/11 GI Bill, available for Veterans with active-duty service after September 11, 2001, also offers a living allowance, money for books, and the option to transfer education benefits you don't use to your spouse or children.
