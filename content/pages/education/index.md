@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Education Benefits
 permalink: /education/index.html
 template: L2-section-landing
@@ -24,4 +25,3 @@ majorlinks:
 ---
 
 From finding the right school or training program, to career counseling and tuition aid, VA provides Veterans, Servicemembers, and their families with generous educational opportunities and benefits.
-

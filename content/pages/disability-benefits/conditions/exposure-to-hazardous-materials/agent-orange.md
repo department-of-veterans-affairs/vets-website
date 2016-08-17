@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Agent Orange
 template: 3-panel-filters
 ---
@@ -18,20 +19,20 @@ You were exposed to Agent Orange during military service.
 You or your dependents
 </div>
 
-#### How it works
+### How it works
 
 [These diseases are a result of exposure to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/). VA forgoes the normal requirement that you prove an illness began during or became worse because of your military service.
 
 If you have a disease that is not on this list but you believe it is a result of Agent Orange exposure, you will need to prove your illness began during or became worse because of your military service.
 
-#### See also
+### See also
 
 [Agent Orange Registry Health Exam for Veterans](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 [Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/)
 
 
-#### Were you exposed?
+### Were you exposed?
 
 <ul class="small-block-grid-1 medium-block-grid-2">
   <li>

@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Original Claim
 concurrence: complete
 template: 6-info-page

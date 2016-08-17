@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Clothing Allowance
 concurrence: incomplete
 template: 4-action-page-pending

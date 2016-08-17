@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Principles of Excellence Program
 template: 1-topic-landing
 concurrence: incomplete

@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: In-Service claim
 template: 6-info-page
 concurrence: complete
