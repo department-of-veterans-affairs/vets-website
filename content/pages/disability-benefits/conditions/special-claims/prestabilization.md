@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Prestabilization Ratings
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
@@ -15,4 +16,3 @@ You must have been recently separated from military service with an unstable, si
 
 **Example**<br>
 While in active service, a Servicemember was diagnosed with Hodgkin’s disease and began chemotherapy that continued during and after her medical discharge process. She coordinated through her local VA medical center for follow-on treatment. Her claim for compensation resulted in a prestabilization rating of 100% for one year from her date of discharge.
-

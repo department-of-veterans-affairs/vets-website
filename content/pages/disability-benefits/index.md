@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Disability Benefits
 permalink: /disability-benefits/index.html
 source: http://www.benefits.va.gov/compensation/

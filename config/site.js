@@ -72,10 +72,6 @@ module.exports = {
     "memorial-benefits": {
       "output": false
     },
-    "pension": {
-      "output": true,
-      "permalink": "/:collection/:path/index.html"
-    },
     "playbook": {
       "output": true,
       "permalink": "/:collection/:path/index.html"

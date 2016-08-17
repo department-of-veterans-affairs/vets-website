@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Apply for Benefits
 template: 7-get-page-alt
 relatedlinks:
@@ -196,9 +197,3 @@ If you disagree with the decision, you may appeal it. The decision letter contai
 </li>
 
 </ol>
-
-
-
-
-
-

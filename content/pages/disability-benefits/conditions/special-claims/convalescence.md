@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Convalescence
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp
@@ -33,7 +34,7 @@ You
 -	Health care
 -	Temporary 100% disability rating
 
------ 
+-----
 
 ### How it works
 

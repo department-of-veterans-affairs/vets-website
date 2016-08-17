@@ -1,7 +1,8 @@
 ---
+layout: page-breadcrumbs.html
 title: Accelerated Payments for High-Technology Programs
 template: 4-action-page-pending
-concurrence: incomplete 
+concurrence: incomplete
 ---
 
 If you’re enrolled in a high-tech program and intend to work in a high-tech industry, you may be eligible to receive a lump-sum payment of 60% of tuition and fees. VA issues accelerated payment to you instead of the monthly benefits you would otherwise receive. This program covers the higher per-month costs associated with these courses of study.
@@ -19,11 +20,11 @@ Yes, if:
 You
 </div>
 
-#### Available benefits
+### Available benefits
 
 Education benefits in the form of accelerated payments of 60% of tuition and fees for high-cost high-tech programs.
 
-#### How it works
+### How it works
 
 You must be enrolled in one of the following categories:
 
