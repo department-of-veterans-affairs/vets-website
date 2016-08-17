@@ -55,6 +55,7 @@ button.rx-prescription-button,
   background: transparent;
   display: inline-block;
   font-weight: bold;
+  float: right;
   margin: 0;
 
   @media (max-width: $small-screen) {
@@ -63,12 +64,10 @@ button.rx-prescription-button,
   };
 }
 
-.rx-prescription-count-and-action {
-  position: relative;
-}
-
 .rx-prescription-count {
   display: inline-block;
+  position: absolute;
+  bottom: 1.5rem;
 }
 
 .rx-prescription-count-number {
@@ -77,16 +76,6 @@ button.rx-prescription-button,
   &::after {
     content: '\a0';
   }
-}
-
-.rx-prescription-action {
-  bottom: 0;
-  position: absolute;
-  right: 0;
-}
-
-.rx-prescription-refill-requested {
-  font-weight: bold;
 }
 
 // "Do not print" styles

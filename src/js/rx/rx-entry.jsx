@@ -9,7 +9,7 @@ import routes from './routes';
 import { store } from './store';
 
 require('../common');  // Bring in the common javascript.
-require('../../sass/rx.scss');
+require('../../sass/rx/rx.scss');
 
 function init() {
   /*
