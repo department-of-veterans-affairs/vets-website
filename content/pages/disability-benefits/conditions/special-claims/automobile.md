@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Automobile Use Claims
 concurrence: incomplete
 template: 4-action-page-pending
@@ -38,4 +39,3 @@ You must show that your disability is service connected or is treated as if serv
 You will need to complete [VA Form 21-4502](http://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf) (Application for Automobile or Other Conveyance and Adaptive Equipment).
 
 If you are entitled to adaptive equipment only (for example, you have a service-connected disability due to ankylosis of the knees or hips), you should complete [VA Form 10-1394](http://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf) (Application for Adaptive Equipment—Motor Vehicle).
-

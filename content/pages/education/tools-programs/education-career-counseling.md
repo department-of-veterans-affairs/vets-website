@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Education and Career Counseling
 template: 4-action-page-pending
 concurrence: incomplete
@@ -38,9 +39,9 @@ Use CareerScope&reg;, the [VA aptitude assessment tool](https://va.careerscope.n
 
 ### How to apply
 
-- Log in to [eBenefits](https://www.ebenefits.va.gov). 
+- Log in to [eBenefits](https://www.ebenefits.va.gov).
 - Select "Apply."
 - Select "Vocational Rehabilitation and Employment Benefits."
 - Apply for "Educational and Career Counseling."
 
-If you are eligible, VA will invite you to attend an orientation session at the nearest VA regional office. 
+If you are eligible, VA will invite you to attend an orientation session at the nearest VA regional office.

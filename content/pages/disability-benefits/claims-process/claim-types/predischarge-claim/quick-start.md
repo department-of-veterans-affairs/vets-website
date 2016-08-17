@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Quick Start
 template: 4-action-page-pending
 ---

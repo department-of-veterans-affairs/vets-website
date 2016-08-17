@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Licensing and Certification
 template: 4-action-page-pending
 concurrence: incomplete
@@ -17,10 +18,10 @@ Yes, if:
 You
 </div>
 
-#### Available benefits
+### Available benefits
 Reimbursement under the GI Bill
 
-#### How it works
+### How it works
 VA may reimburse you for tests necessary for you to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional.
 
 After you submit proof of payment, VA will reimburse you. There is no limit to the number of tests you can take, or the number of times you take the same test. VA pays for tests even when you don’t score high enough to achieve your license or certification.

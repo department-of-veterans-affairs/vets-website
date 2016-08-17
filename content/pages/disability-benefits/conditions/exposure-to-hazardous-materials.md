@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Exposure to Hazardous Materials
 template: 2-detailed-landing
 relatedlinks:
@@ -7,7 +8,7 @@ relatedlinks:
     description: The U.S. military sprayed millions of gallons of Agent Orange and other herbicides on trees and vegetation during the Vietnam War. Several decades later, concerns about the health effects from these chemicals continue.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/asbestos/
     title: Asbestos
-    description: Several military occupational specialties have a risk of exposure to asbestos. 
+    description: Several military occupational specialties have a risk of exposure to asbestos.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/
     title: Birth Defects/Spina Bifida
     description: Children of Veterans who served in South Vietnam or the Republic of Korea during specific periods of time may have birth defects, including spina bifida.

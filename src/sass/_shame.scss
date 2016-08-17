@@ -62,72 +62,10 @@ body .row {
   }
 }
 
-.hca-datefield-month,
-.hca-datefield-day {
-  clear: none;
-  float: left;
-  margin-right: 1.5rem;
-
-  & select {
-    padding-top: 0.85rem;
-    padding-bottom: 0.85rem;
-  }
-}
-
-.hca-datefield-month {
-  width: 10rem;
-}
-
-.hca-datefield-day {
-  width: 8rem;
-}
-
 .usa-input-error {
   select {
     border: 3px solid $color-secondary-dark;
     width: calc(100% + 1.5rem);
-  }
-}
-
-.hca-radio-buttons {
-  label {
-    margin-top: 1em;
-  }
-}
-
-.hca-process {
-  li {
-    h5 {
-      color: $color-gray;
-    }
-    li {
-      display: none;
-    }
-    &:before {
-      background: $color-gray;
-    }
-    &.section-complete {
-      &:before {
-        background: $color-green;
-        content: '\2714';
-      }
-    }
-    &.section-current {
-      h5 {
-        font-weight: bold;
-        color: $color-primary;
-      }
-      li {
-        display: list-item;
-        &.sub-section-current {
-          font-weight: bold;
-          color: $color-primary;
-        }
-      }
-      &:before {
-        background: $color-primary;
-      }
-    }
   }
 }
 
@@ -143,6 +81,6 @@ body .row {
   }
 }
 
-.hidden{
+.hidden {
   display: none !important;
 }

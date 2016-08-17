@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Special Claims
 concurrence: complete
 template: 2-detailed-landing

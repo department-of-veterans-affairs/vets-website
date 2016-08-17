@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Unemployment Support
 concurrence: incomplete
 template: 1-topic-landing
@@ -44,14 +45,14 @@ You
 
 You must apply for unemployment benefits in the state in which you reside. You can do this in person at your [state employment office](http://www.servicelocator.org/OWSLinks.asp) or, in some cases, online. Your state office will then determine if you are eligible, how much you may receive, and for how long. Unemployment benefits may vary from state to state. Some states do not pay Unemployment Compensation if you have retired from active duty and receive retired military pay.
 
-Receiving unemployment will not affect your wages, but if you receive separation or retirement pay, your compensation amount may be lower. 
+Receiving unemployment will not affect your wages, but if you receive separation or retirement pay, your compensation amount may be lower.
 
-#### You will need the following documents when you apply: 
+#### You will need the following documents when you apply:
 
-- DD Form 214 
+- DD Form 214
 
-- Social security card 
+- Social security card
 
-- Current résumé or military job history 
+- Current résumé or military job history
 
-If you are unemployed and at risk of becoming homeless, call or visit your [local VA Medical Center](/facility-locator/) or Community Resource and Referral Center where VA staff are ready to help. 
+If you are unemployed and at risk of becoming homeless, call or visit your [local VA Medical Center](/facility-locator/) or Community Resource and Referral Center where VA staff are ready to help.
