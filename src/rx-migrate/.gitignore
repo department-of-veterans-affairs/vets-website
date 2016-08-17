@@ -1,0 +1,10 @@
+.DS_Store
+*.log
+*.swp
+
+# Compiled files.
+.sass-cache
+node_modules/
+public/js/generated/
+
+config.js

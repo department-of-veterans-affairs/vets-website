@@ -1,0 +1,30 @@
+# Prescriptions Frontend
+
+The react/redux frontend for the Vets.gov prescription refill project.
+
+This is under active development!  If you would like to contribute, start by checking out our [issues](https://github.com/department-of-veterans-affairs/vets-website/issues?q=is%3Aopen+is%3Aissue+label%3ARx), or via [waffle](https://waffle.io/department-of-veterans-affairs/vets-website?search=rx).
+
+## Background
+
+This frontend pairs with the [prescriptions API](https://github.com/department-of-veterans-affairs/prescriptions-api), which will become an early piece of the [Vets.gov API Platform](https://github.com/department-of-veterans-affairs/vets-api).
+
+## Mocks
+
+We're working from these terrific mock-ups courtesy of @goldenmeanie and @angel:
+ * [Mobile](https://marvelapp.com/iaa9b9)
+ * [Desktop](https://marvelapp.com/1h10heg)
+
+## Install
+
+```
+git clone git@github.com:department-of-veterans-affairs/rx.git
+cd rx
+npm install
+npm start
+```
+
+This will serve the `public` directory on port 8080 using the `webpack-dev-server`. The `webpack-dev-server` will watch all files under `src` transitively referenced by `src/client.js` and run webpack to build `public/js/generated/bundle.js`
+
+Visit [http://localhost:8080/webpack-dev-server/](http://localhost:8080/webpack-dev-server/) to load the app with webpack "hot reload" support (change to the source code are pushed and merged into the running application in the browser without having to refresh the page).
+
+Visiting [http://localhost:8080](http://localhost:8080) will show the app without the hot reloading.
