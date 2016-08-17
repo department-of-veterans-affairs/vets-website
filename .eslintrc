@@ -9,13 +9,7 @@
     'mocha': true
   },
   'globals': {
-    '$': true,
-    '__DEV__': true,
-    'assert': true,
-    'chai': true,
-    'sinon': true,
-    'expect': true,
-    'fixture': true
+    '__BUILDTYPE__': true
   },
   'rules': {
     // Override airbnb style.
@@ -23,18 +17,16 @@
     'camelcase': [2, {'properties': 'always'}],
     'comma-dangle': 0,  // Dangling commas are wonderful. It's JSON that's stupid.
     'func-names': 2,
-    'max-len': 0, // TODO(awong): Enforce after a reindent.
     'no-console': 2,
     'no-negated-condition': 0,  // Sometimes negated conditions are easier to understand.
-    'no-unused-expressions': 0, // TODO(awong): Breaks chai expect() statements.
     'no-unused-vars': [2, {'args': 'after-used', 'argsIgnorePattern': '^_', 'vars': 'local'}],
-    'prefer-rest-params': 0,  // TODO(awong): Enable.
+    'prefer-rest-params': 2,
     'quote-props': [2, 'as-needed', { 'keywords': true }],
-    'require-jsdoc': 0,  // TODO(awong): Enable.
     'space-unary-ops': 2,
+    'max-len': [0],  // No agreed upon max length and react lines get > 100 chars easily.
 
     // Disabled rules with rationale.
-    'react/no-multi-comp': 0,      // Leave organization to code reviewer discretion. 
+    'react/no-multi-comp': 0,      // Leave organization to code reviewer discretion.
     'react/prefer-stateless-function': 0, // Leave statelessness to code reviewer discretion.
 
     'react/jsx-closing-bracket-location': [2, 'after-props'],
@@ -46,7 +38,6 @@
     'react/jsx-pascal-case': 2,
     'react/sort-prop-types': [0, {'callbacksLast': true, 'requiredFirst': true}],  // TODO(awong): Too hard to turn on.
     'react/jsx-sort-props': [0, {'callbacksLast': true, 'shorthandFirst': true}],  // TODO(awong): Too hard to turn on.
-    'react/jsx-handler-names': 2,
     'react/jsx-indent-props': [2, 4],
     'react/jsx-no-duplicate-props': 2,
     'react/no-danger': 2,
@@ -61,3 +52,4 @@
     'sourceType': 'module'
   }
 }
+

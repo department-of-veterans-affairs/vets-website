@@ -1,0 +1,20 @@
+{% if path contains 'disability-benefits' %}
+  {% include "content/includes/action-bar.html" action_text="Apply for Disability Benefits" action_url="/disability-benefits/apply-for-benefits/" action_class="va-action-bar--header" %}
+{% endif %}
+
+{% if path contains 'education' %}
+  {% include "content/includes/action-bar.html" action_text="Apply for Education Benefits" action_url="/education/apply-for-education-benefits/" action_class="va-action-bar--header" %}
+{% endif %}
+
+{% include "content/includes/breadcrumbs.html" %}
+
+<div class="section one">
+  <div class="primary">
+    <div class="row">
+      <div class="small-12 columns">
+        <h1>{{ title }}</h1>
+        {{ contents }}
+      </div>
+    </div>
+  </div>
+</div>

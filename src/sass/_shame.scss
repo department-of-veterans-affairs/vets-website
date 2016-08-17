@@ -1,0 +1,96 @@
+// This file is a place where you put all the code you're not proud of,
+// with the intention of A) isolating it and B) fixing it later. The goal
+// is for this file to be empty, but some times you just have to throw that
+// hack in there to get it working.
+
+
+body .row {
+  max-width: 62.5em;
+}
+
+.form-panel {
+  @include media($medium-screen) {
+    max-width: $usa-form-width;
+  }
+}
+
+.main-form,
+.progress-box {
+  button {
+    width: 100%;
+  }
+}
+
+.button-icon{
+  font-size: 1.7rem;
+}
+
+.progress-box {
+  padding: 1rem 2rem;
+  margin: 1.5rem 0  ;
+  border: 1px solid $color-gray-lightest;
+}
+
+.form-section {
+  display: none;
+}
+
+#content .section {
+  fieldset {
+    h4 {
+      padding: 0;
+    }
+  }
+}
+
+.edit-checkbox {
+  label {
+    @extend a;
+    display: inline-block;
+
+    &:before {
+      display: none !important;
+    }
+  }
+}
+
+.input-section {
+  margin-bottom: 2em;
+
+  .row {
+    margin: 0;
+  }
+}
+
+.usa-input-error {
+  select {
+    border: 3px solid $color-secondary-dark;
+    width: calc(100% + 1.5rem);
+  }
+}
+
+.review {
+  tbody {
+    tr {
+      td {
+        &:first-child {
+          color: $color-primary-darker;
+        }
+      }
+    }
+  }
+}
+
+.hidden {
+  display: none !important;
+}
+
+#search_form {
+  input[type="text"] {
+    font-size: 1.9rem;
+  }
+
+  input[type="submit"] {
+    font-size: 1.9rem;
+  }
+}

@@ -1,0 +1,12 @@
+---
+files:
+- foundation.min.js
+- jquery-1.11.0.min.js
+- components.js
+- scripts-no-touch.js
+- scripts-touch.js
+- toggle-veterans-crisis-line.js
+- libs/**/*
+insertNewLine: false
+---
+// This is the collection of all scripts.
