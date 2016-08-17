@@ -1,0 +1,26 @@
+// Variables
+
+@import 'style';
+
+$button-stroke: inset 0 0 0 1px;
+
+@media screen and (min-width: 600px) {
+  form {
+    max-width: 32em;
+  }
+}
+
+// TODO: Look into why svgs aren't rendering
+select {
+  background-image: url('/img/arrow-down.svg');
+  background-image: url('/img/arrow-down.png');
+}
+
+.loading-message {
+  text-align: center;
+  padding: 2em 0;
+}
+
+legend {
+  @extend h4;
+}
