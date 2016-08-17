@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Survivors' and Dependents' Educational Assistance Program
 template: 1-topic-landing
 concurrence: incomplete
@@ -57,7 +58,7 @@ If you are a spouse, you may take correspondence courses under this program. Rem
 - Complete and submit [VA Form 22-5490](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490), Dependents’ Application for VA Education Benefits. Be sure to send the form to the VA regional office that oversees the state where you will receive the education. Find out which [Regional Processing Office](http://www.benefits.va.gov/gibill/regional_processing.asp) will accept your form.
 
 #### If you have already started your program:
-- Take your application to your school or employer. 
+- Take your application to your school or employer.
 - Ask them to complete VA Form 22-1999, Enrollment Certification, and send both forms to VA. (Your school must contact their VA representative to receive Form 22-1999.)
 
 ### Learn more

@@ -1,8 +1,9 @@
 ---
+layout: page-breadcrumbs.html
 title: Get Help Filing a Claim
 concurrence: incomplete
 template: 1-topic-landing
-relatedlinks: 
+relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
     title: What is the fastest way to file a claim?
   - url: /disability-benefits/apply-for-benefits/ways/
@@ -64,4 +65,3 @@ There are two ways to do this:
 1. Use [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation). You can notify VA that you will be using a representative or modify your current representation online using eBenefits.
 
 2. Complete [VA Form 21-22](http://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf). Mail this form to your nearest [VA regional office](http://www.benefits.va.gov/benefits/offices.asp). Please speak to the service organization or representative before you submit your request.
-

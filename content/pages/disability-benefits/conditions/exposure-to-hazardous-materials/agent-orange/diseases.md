@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Diseases Associated with Agent Orange
 template: 6-info-page
 ---

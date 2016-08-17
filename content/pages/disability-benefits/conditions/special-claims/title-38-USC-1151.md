@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Title 38 U.S.C. 1151 Claims
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-1151.asp
 template: 4-action-page-pending
@@ -10,7 +11,7 @@ If you suffered additional disability while receiving VA hospital care, medical 
 
 ### Are you eligible for compensation?
 Yes, if:
-  
+
   - You have an additional disability resulting from VA medical treatment or care, or from participation in VA vocational rehabilitation or compensated work therapy.
 
 ### Who is covered

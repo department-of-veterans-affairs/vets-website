@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Alternative Ways to Start Your Career
 concurrence: complete
 template: 1-topic-landing
@@ -23,10 +24,10 @@ There are many ways for you to launch your civilian career and continue your edu
 : This program allows you to use your GI Bill for higher education while working for VA.
 
 [**On-the-Job Training and Apprenticeships**](/education/work-learn/job-and-apprenticeship/)
-: VA makes GI Bill payments to employers while you learn a vocational trade through a certification course or union training. During this time, you may receive military housing allowance benefits. 
+: VA makes GI Bill payments to employers while you learn a vocational trade through a certification course or union training. During this time, you may receive military housing allowance benefits.
 
 [**Non-College Degree Programs**](/education/work-learn/non-college-degree-program/)
-: The GI Bill may pay all or a portion of your tuition, as well as providing a books and supplies stipend and a monthly housing allowance, while you get your training at an approved institution. 
+: The GI Bill may pay all or a portion of your tuition, as well as providing a books and supplies stipend and a monthly housing allowance, while you get your training at an approved institution.
 
 [**Co-op Training**](/education/work-learn/co-op-training/)
 : The GI Bill provides educational assistance for programs that require periods of work alternating with periods of full-time education.

@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Career Counseling
 concurrence: incomplete
 template: 1-topic-landing
@@ -19,4 +20,3 @@ relatedlinks:
 ---
 
 Navigating your transition from military to civilian life can be challenging. VA offers tools and counseling programs to help you make the most of your options.
-
