@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Secondary Claim
 template: 6-info-page
 relatedlinks:
@@ -36,12 +37,12 @@ relatedlinks:
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-It is possible for your service-connected disability to cause, or to worsen, another disability. 
+It is possible for your service-connected disability to cause, or to worsen, another disability.
 
 If this is the case, you can file a secondary disability claim to seek additional benefits. This second disability may not otherwise be considered service connected.
 
 **Example 1**<br>
-A Veteran has a service-connected knee injury that causes him to walk with a limp. He subsequently develops arthritis in his hip. The arthritic condition did not start during service, nor was it aggravated by service, but service connection may still be established if the arthritis is a result of his previously established service-connected knee condition. 
+A Veteran has a service-connected knee injury that causes him to walk with a limp. He subsequently develops arthritis in his hip. The arthritic condition did not start during service, nor was it aggravated by service, but service connection may still be established if the arthritis is a result of his previously established service-connected knee condition.
 
 **Example 2**<br>
 A Veteran was in the Army for twenty years. During her military service, she was diagnosed with hypertension. After her discharge, service connection was established for hypertension. She was subsequently diagnosed with a coronary artery disease that resulted from her hypertension. She may file a secondary claim to establish service connection for her coronary artery disease.

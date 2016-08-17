@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Disabilities That Appear Within One Year After Discharge
 concurrence: incomplete
 template: 4-action-page-pending

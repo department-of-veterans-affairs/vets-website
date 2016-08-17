@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Testing and Storage Areas Outside of Vietnam
 template: 4-action-page
 concurrence: incomplete
@@ -22,7 +23,7 @@ Yes, if:
 - Health care
 - An [Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
------ 
+-----
 
 ### How it works
 You must prove you were exposed to Agent Orange during your military service to be eligible for service-connection for [diseases](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/) that VA presumes are related to Agent Orange exposure.

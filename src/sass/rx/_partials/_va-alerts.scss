@@ -1,0 +1,17 @@
+.rx-alert {
+  background-size: 4rem;
+  display: table;
+  width: 100%;
+}
+
+.rx-alert-body {
+  font-size: 2rem;
+  padding-left: 4.5rem;
+}
+
+.rx-alert-close {
+  color: $color-gray-dark;
+  display: table-cell;
+  float: right;
+  font-size: 2rem;
+}

@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Apply for VA Health Care
 template: 1-topic-landing
 showactionbar: true
@@ -10,9 +11,9 @@ VA health care includes regular checkups with your primary care doctor and acces
 
 ### Other ways to apply
 
-- Call 1-877-222-8387 Monday through Friday, 8:00 a.m. to 8:00 p.m. (EST) to get help with your application. 
+- Call 1-877-222-8387 Monday through Friday, 8:00 a.m. to 8:00 p.m. (EST) to get help with your application.
 
-- Mail in your application. You can download, print, and fill out the [10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf), then send it to this address: 
+- Mail in your application. You can download, print, and fill out the [10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf), then send it to this address:
 
 <dl class="va-address-block">
     <dd>Health Eligibility Center</dd>
@@ -98,4 +99,3 @@ After the download is complete, double-click on the file and it should open as l
 - If you separated under a dishonorable discharge, visit [healthcare.gov](https://www.healthcare.gov/) to find out if you qualify for health insurance.
 
 - Your most recent tax return will have most of ​the​ information you need to qualify based on your income.
-
