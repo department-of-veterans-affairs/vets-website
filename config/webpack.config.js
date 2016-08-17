@@ -13,6 +13,7 @@ var configGenerator = (options) => {
     entry: {
       hca: './src/js/hca/hca-entry.jsx',
       'no-react': './src/js/no-react-entry.js',
+       rx: './src/js/rx/rx-entry.jsx',
     },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),

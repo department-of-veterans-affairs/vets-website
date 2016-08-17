@@ -26,7 +26,7 @@
     'max-len': [0],  // No agreed upon max length and react lines get > 100 chars easily.
 
     // Disabled rules with rationale.
-    'react/no-multi-comp': 0,      // Leave organization to code reviewer discretion. 
+    'react/no-multi-comp': 0,      // Leave organization to code reviewer discretion.
     'react/prefer-stateless-function': 0, // Leave statelessness to code reviewer discretion.
 
     'react/jsx-closing-bracket-location': [2, 'after-props'],
@@ -38,7 +38,6 @@
     'react/jsx-pascal-case': 2,
     'react/sort-prop-types': [0, {'callbacksLast': true, 'requiredFirst': true}],  // TODO(awong): Too hard to turn on.
     'react/jsx-sort-props': [0, {'callbacksLast': true, 'shorthandFirst': true}],  // TODO(awong): Too hard to turn on.
-    'react/jsx-handler-names': 2,
     'react/jsx-indent-props': [2, 4],
     'react/jsx-no-duplicate-props': 2,
     'react/no-danger': 2,
