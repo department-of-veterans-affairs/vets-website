@@ -5,7 +5,7 @@ import Main from './containers/Main';
 import RxRefillsApp from './containers/RxRefillsApp';
 
 const routes = {
-  path: '/',
+  path: '/rx',
   component: RxRefillsApp,
   childRoutes: [
     {

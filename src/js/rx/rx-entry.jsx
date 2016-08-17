@@ -4,8 +4,12 @@ import ReactDOM from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 
+import initReact from '../common/init-react';
 import routes from './routes';
 import { store } from './store';
+
+require('../common');  // Bring in the common javascript.
+require('../../sass/rx.scss');
 
 function init() {
   /*
@@ -29,4 +33,4 @@ function init() {
     ), document.getElementById('react-root'));
 }
 
-export { init };
+initReact(init);
