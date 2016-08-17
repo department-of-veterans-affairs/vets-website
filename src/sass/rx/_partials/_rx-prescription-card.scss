@@ -8,7 +8,7 @@
   border-color: $color-white;
   border-style: solid;
   border-width: 1rem 0;
-
+  
   @media (min-width: $medium-screen) {
     float: left;
     width: 50%;
@@ -25,8 +25,11 @@
 
 .rx-prescription-inner {
   background: $color-gray-lightest;
+  // As this changes, adjust the position 
+  // of .rx-prescription-count, .rx-prescription-action below
   padding: 2rem;
   position: relative;
+  height: 21.2rem;
 }
 
 .rx-prescription-title {
@@ -50,12 +53,15 @@
   padding-bottom: 3rem;
 }
 
+.rx-prescription-refill-requested {
+  font-weight: bold;
+}
+
 button.rx-prescription-button,
 [type=submit].rx-prescription-button {
   background: transparent;
   display: inline-block;
   font-weight: bold;
-  float: right;
   margin: 0;
 
   @media (max-width: $small-screen) {
@@ -66,12 +72,22 @@ button.rx-prescription-button,
 
 .rx-prescription-count {
   display: inline-block;
-  position: absolute;
   bottom: 1.5rem;
   
   &-zero {
     color: $color-secondary;
   }
+}
+
+.rx-prescription-count,
+.rx-prescription-action {
+  position: absolute;
+}
+
+.rx-prescription-action {
+  text-align: right;
+  right: 2rem;
+  bottom: 2rem;
 }
 
 .rx-prescription-count-number {
@@ -111,9 +127,5 @@ button.rx-prescription-button,
   }
   .rx-prescription-count-number {
     display: inline;
-
-    &::after {
-      content: '\a0';
-    }
   }
 }
