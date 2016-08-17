@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Advanced Training and Certifications
 concurrence: incomplete
 template: 1-topic-landing
@@ -11,10 +12,10 @@ relatedlinks:
     description: ""
   - url: /education/advanced-training-and-certifications/national-testing-program
     title: National Testing Program
-    description: "" 
+    description: ""
   - url: /education/advanced-training-and-certifications/licensing-certification
     title: Licensing and Certification
-    description: "" 
+    description: ""
 ---
 
 You can use the GI Bill for more than just academic programs. This benefit will help you pay the fees for advanced training and certifications in your area of expertise.

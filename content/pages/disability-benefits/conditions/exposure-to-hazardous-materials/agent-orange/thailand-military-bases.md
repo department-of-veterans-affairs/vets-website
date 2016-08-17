@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Thailand Military Bases
 concurrence: incomplete
 template: 4-action-page

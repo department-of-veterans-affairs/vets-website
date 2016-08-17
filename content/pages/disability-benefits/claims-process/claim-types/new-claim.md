@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: New Claim
 concurrence: complete
 relatedlinks:
@@ -47,4 +48,3 @@ A new claim will determine if you qualify for new or additional benefits.
 - Increased disability compensation
 - Special Monthly Compensation
 - A shift to [Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/) status
-

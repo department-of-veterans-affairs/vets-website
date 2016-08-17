@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: $600 Buy-Up Program
 template: 4-action-page-pending
 concurrence: incomplete

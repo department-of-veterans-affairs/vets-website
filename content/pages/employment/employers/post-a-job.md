@@ -1,23 +1,24 @@
 ---
+layout: page-breadcrumbs.html
 title: Post a Job
 concurrence: complete
 template: 4-action-page-pending
 ---
 <link href="/assets/css/vendor/prism.css" type="text/css" rel="stylesheet">
 
-Thank you for your interest in hiring Veterans, transitioning Servicemembers, and their families through the Veterans Employment Center (VEC). Maximize your exposure by posting jobs directly from your website to the Veterans Job Bank through the [National Labor Exchange (NLX)](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
+Thank you for your interest in hiring Veterans, transitioning Servicemembers, and their families through the Veterans Employment Center (VEC). Maximize your exposure by posting jobs directly from your website to the Veterans Job Bank through the [National Labor Exchange (NLX)](https://us.jobs/postajobpartner.asp?partner=ebenefits).
 
 Who can post a job?
 : Anyone
 
 Who is eligible
 : All employers
-: **A note about registration:** You do not have to be registered with the NLX to post a job in the VEC, but it may streamline the process. 
+: **A note about registration:** You do not have to be registered with the NLX to post a job in the VEC, but it may streamline the process.
 {:.va-callout}
 
 ### How it works
 
-If your company’s current job listing is posted on the NLX, then it is also searchable in the Veterans Job Bank. If you haven’t registered your company with the NLX, [register now and post for free](https://us.jobs/postajobpartner.asp?partner=ebenefits). 
+If your company’s current job listing is posted on the NLX, then it is also searchable in the Veterans Job Bank. If you haven’t registered your company with the NLX, [register now and post for free](https://us.jobs/postajobpartner.asp?partner=ebenefits).
 
 -----
 
@@ -57,8 +58,8 @@ Only those marked with an asterisk (*) are required for inclusion in the Veteran
 
 #### Schema.org JSON-LD example
 
-This example contains two job listings. The first uses a smaller set of schema.org elements. Both contain all elements required for inclusion in the Veterans Job Bank. 
-          
+This example contains two job listings. The first uses a smaller set of schema.org elements. Both contain all elements required for inclusion in the Veterans Job Bank.
+
     [{
     "@context": "http://schema.org",
     "@type": "JobPosting",
@@ -113,6 +114,3 @@ This example contains two job listings. The first uses a smaller set of schema.o
     "url": "www.abccompanyinc.com/jobs?listing=23456"
     }]
 {:.language-json}
-
-
-

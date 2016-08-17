@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Disability Compensation for Former Prisoners of War (POWs)
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-pow.asp

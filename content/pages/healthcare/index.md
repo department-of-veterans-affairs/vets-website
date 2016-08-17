@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Health Care
 permalink: /healthcare/index.html
 template: L2-section-landing

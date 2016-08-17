@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Dentistry
 concurrence: incomplete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-dental.asp

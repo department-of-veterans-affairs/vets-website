@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Post-9/11 GI Bill
 template: 1-topic-landing
 concurrence: complete
