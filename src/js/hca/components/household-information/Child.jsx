@@ -1,14 +1,14 @@
 import React from 'react';
 
-import ErrorableSelect from '../form-elements/ErrorableSelect';
-import ErrorableTextInput from '../form-elements/ErrorableTextInput';
-import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
-import DateInput from '../form-elements/DateInput';
+import ErrorableSelect from '../../../components/form-elements/ErrorableSelect';
+import ErrorableTextInput from '../../../components/form-elements/ErrorableTextInput';
+import ErrorableRadioButtons from '../../../components/form-elements/ErrorableRadioButtons';
+import DateInput from '../../../components/form-elements/DateInput';
 import FullName from '../questions/FullName';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
 
-import { childRelationships, yesNo } from '../../utils/options-for-select.js';
-import { isNotBlank, isValidField, isValidMonetaryValue, validateIfDirty, isValidDependentDateField } from '../../utils/validations';
+import { childRelationships, yesNo } from '../../../common/utils/options-for-select.js';
+import { isNotBlank, isValidField, isValidMonetaryValue, validateIfDirty, isValidDependentDateField } from '../../../common/utils/validations';
 
 // TODO: create unique nodes for each child in applicationData
 

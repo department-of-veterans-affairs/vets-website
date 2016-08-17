@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ErrorableSelect from '../form-elements/ErrorableSelect';
-import { genders } from '../../utils/options-for-select';
-import { validateIfDirty, isNotBlank } from '../../utils/validations';
+import ErrorableSelect from '../../../components/form-elements/ErrorableSelect';
+import { genders } from '../../../common/utils/options-for-select';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
 
 /**
  * Select component for gender.

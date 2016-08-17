@@ -2,7 +2,7 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
-import * as validations from '../../utils/validations';
+import * as validations from '../../common/utils/validations';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

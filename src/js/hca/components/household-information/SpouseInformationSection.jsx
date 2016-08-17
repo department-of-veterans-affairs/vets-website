@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Address from '../questions/Address';
-import DateInput from '../form-elements/DateInput';
-import ErrorableSelect from '../form-elements/ErrorableSelect';
-import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
+import DateInput from '../../../components/form-elements/DateInput';
+import ErrorableSelect from '../../../components/form-elements/ErrorableSelect';
+import ErrorableRadioButtons from '../../../components/form-elements/ErrorableRadioButtons';
 import FullName from '../questions/FullName';
 import Phone from '../questions/Phone';
 import SocialSecurityNumber from '../questions/SocialSecurityNumber';
-import { maritalStatuses, yesNo } from '../../utils/options-for-select.js';
-import { isNotBlank, validateIfDirty, isValidMarriageDate } from '../../utils/validations';
+import { maritalStatuses, yesNo } from '../../../common/utils/options-for-select.js';
+import { isNotBlank, validateIfDirty, isValidMarriageDate } from '../../../common/utils/validations';
 import { veteranUpdateField, updateSpouseAddress } from '../../actions';
 
 // TODO: Consider adding question for marital status here so if user

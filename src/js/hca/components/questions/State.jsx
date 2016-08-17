@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ErrorableSelect from '../form-elements/ErrorableSelect';
-import { isNotBlank } from '../../utils/validations';
-import { states } from '../../utils/options-for-select';
+import ErrorableSelect from '../../../components/form-elements/ErrorableSelect';
+import { isNotBlank } from '../../../common/utils/validations';
+import { states } from '../../../common/utils/options-for-select';
 
 /**
  * Select component for the US state of an address.

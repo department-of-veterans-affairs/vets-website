@@ -2,8 +2,8 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import DateInput from '../../../../src/js/hca/components/form-elements/DateInput';
-import { makeField } from '../../../../src/js/common/model/fields';
+import DateInput from '../../../src/js/components/form-elements/DateInput';
+import { makeField } from '../../../src/js/common/model/fields';
 
 describe('<DateInput>', () => {
   it('has sane looking features', () => {

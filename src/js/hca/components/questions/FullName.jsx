@@ -1,10 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
 
-import ErrorableTextInput from '../form-elements/ErrorableTextInput';
-import ErrorableSelect from '../form-elements/ErrorableSelect';
-import { validateIfDirty, isValidName, isBlank } from '../../utils/validations';
-import { suffixes } from '../../utils/options-for-select';
+import ErrorableTextInput from '../../../components/form-elements/ErrorableTextInput';
+import ErrorableSelect from '../../../components/form-elements/ErrorableSelect';
+import { validateIfDirty, isValidName, isBlank } from '../../../common/utils/validations';
+import { suffixes } from '../../../common/utils/options-for-select';
 
 /**
  * A form input with a label that can display error messages.

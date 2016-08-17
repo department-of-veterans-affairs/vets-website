@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import ChildIncome from './ChildIncome';
-import ErrorableTextInput from '../form-elements/ErrorableTextInput';
-import FixedTable from '../form-elements/FixedTable.jsx';
-import { isValidField, isValidMonetaryValue } from '../../utils/validations';
+import ErrorableTextInput from '../../../components/form-elements/ErrorableTextInput';
+import FixedTable from '../../../components/form-elements/FixedTable.jsx';
+import { isValidField, isValidMonetaryValue } from '../../../common/utils/validations';
 import { veteranUpdateField } from '../../actions';
 
 function getErrorMessage(field, message) {
