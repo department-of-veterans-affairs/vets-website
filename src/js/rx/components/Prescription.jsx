@@ -8,17 +8,11 @@ import RefillsRemainingCounter from './RefillsRemainingCounter';
 import SubmitButton from './SubmitButton';
 
 class Prescription extends React.Component {
-  // Can probably replace this with the actual prescription ID
-  componentWillMount() {
-    this.prescriptionId = _.uniqueId('rx-prescription_');
-  }
-
   render() {
     const attrs = this.props.attributes;
     const id = this.props.id;
     const name = attrs['prescription-name'];
     const remaining = attrs['refill-remaining'];
-    const requested = attrs['refill-requested'];
     const trackable = attrs['is-trackable'];
 
     let action;
@@ -27,7 +21,7 @@ class Prescription extends React.Component {
     // TODO: Refillable is currently always false.
     // Switch to using refillable when it's working.
     if (remaining === 0) {
-      messageProvider = <div><MessageProviderLink/></div>;
+      messageProvider = <MessageProviderLink/>;
     } else {
       action = (
         <SubmitButton
@@ -37,8 +31,9 @@ class Prescription extends React.Component {
     }
 
     if (trackable) {
-      action = <div>Track package</div>;
-    } else if (requested) {
+      // TODO: Replace this with a component.
+      action = <a className="usa-button">Track package</a>;
+    } else {
       action = <div className="rx-prescription-refill-requested">Refill requested</div>;
     }
 
@@ -65,11 +60,9 @@ class Prescription extends React.Component {
           <div className="rx-prescription-refilled">
             Last refilled: {moment(attrs['refill-date']).format('ll')}
           </div>
-          <div className="rx-prescription-count-and-action">
-            <RefillsRemainingCounter
-                remaining={attrs['refill-remaining']}/>
-            {actionableContent}
-          </div>
+          <RefillsRemainingCounter
+              remaining={attrs['refill-remaining']}/>
+          {actionableContent}
         </div>
       </div>
     );
