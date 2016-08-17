@@ -25,7 +25,7 @@ You may [file an appeal](/disability-benefits/claims-appeal/) within one year of
 - Check with your [local or state Veterans Affairs offices](http://www.va.gov/statedva.htm) for other possible benefits.  
 
 
-#### Get benefits for severe disabilities
+#### Apply for benefits that cover specific disabilities
 
 - If you have a 100% disability rating, you may qualify for [dental care](/disability-benefits/conditions/special-claims/dentistry/) and [commissary and exchange privileges](http://www.militaryonesource.mil/shopping?content_id=268500).
 - If you can’t work due to your service-connected disability, even without a 100% rating, you can apply for [Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
