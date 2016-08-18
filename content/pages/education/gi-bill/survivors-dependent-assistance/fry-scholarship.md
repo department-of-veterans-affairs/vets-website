@@ -38,7 +38,8 @@ Spouses who remarry will lose their eligibility for this benefit.
 <ol class="process">
 <li class="step one wow fadeIn animated">
 <div markdown="1">
-###### Choose school
+
+##### Choose school
 
 - Use the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) to help you choose a school.
 - Make sure that your selected program is approved for VA training.
@@ -47,7 +48,8 @@ Spouses who remarry will lose their eligibility for this benefit.
 
 <li class="step two wow fadeIn animated">
 <div markdown="1">
-###### Fill out form
+
+##### Fill out form
 
 - Fill out [VA Form 22-5490 (Dependents' Application for VA Education Benefits)](http://www.va.gov/vaforms/form_detail.asp?FormNo=22-5490). Send it to the VA regional office that has jurisdiction over the state where you intend to go to school.
 - If you are not yet legally an adult, your parent or guardian must sign the application.
@@ -57,7 +59,8 @@ Spouses who remarry will lose their eligibility for this benefit.
 
 <li class="step last three wow fadeIn animated">
 <div markdown="1">
-###### Choose program
+
+##### Choose program
 
 - When you apply, you must choose between the Fry Scholarship or the Survivors' and Dependents' Educational Assistance program. Once you make that choice, you can't change it.
 </div>
