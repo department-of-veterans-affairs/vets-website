@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "devDependencies": {
+    "ajv": "^4.5.0",
     "babel": "^6.5.2",
     "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
