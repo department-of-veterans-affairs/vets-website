@@ -12,10 +12,10 @@ const routes = {
       component: Main,
       indexRoute: { component: Active },
       childRoutes: [
-        { path: '/history', component: History }
+        { path: 'history', component: History }
       ]
     },
-    { path: '/prescription/:id', component: Detail }
+    { path: 'prescription/:id', component: Detail }
   ]
 };
 
