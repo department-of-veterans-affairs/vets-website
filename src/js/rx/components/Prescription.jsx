@@ -55,7 +55,7 @@ class Prescription extends React.Component {
             </Link>
           </h3>
           <div className="rx-prescription-number">
-            Rx #: {attrs['prescription-id']}
+            Prescription <abbr title="number">#</abbr>: {attrs['prescription-id']}
           </div>
           <div className="rx-prescription-facility">
             Facility name: {attrs['facility-name']}
