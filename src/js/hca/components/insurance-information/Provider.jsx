@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ErrorableTextInput from '../../../components/form-elements/ErrorableTextInput';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import { validateIfDirty, validateIfDirtyProvider, isNotBlank, isValidInsurancePolicy } from '../../../common/utils/validations';
 
 class Provider extends React.Component {

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import ChildIncome from './ChildIncome';
-import ErrorableTextInput from '../../../components/form-elements/ErrorableTextInput';
-import FixedTable from '../../../components/form-elements/FixedTable.jsx';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import FixedTable from '../../../common/components/form-elements/FixedTable.jsx';
 import { isValidField, isValidMonetaryValue } from '../../../common/utils/validations';
 import { veteranUpdateField } from '../../actions';
 

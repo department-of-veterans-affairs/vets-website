@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ErrorableCheckbox from '../../../components/form-elements/ErrorableCheckbox';
-import ErrorableSelect from '../../../components/form-elements/ErrorableSelect';
-import ErrorableRadioButtons from '../../../components/form-elements/ErrorableRadioButtons';
+import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import VaMedicalFacility from './VaMedicalFacility';
 import { veteranUpdateField } from '../../actions';
 import { states, vaMedicalFacilities, yesNo } from '../../../common/utils/options-for-select';
