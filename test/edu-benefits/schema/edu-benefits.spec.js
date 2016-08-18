@@ -33,4 +33,23 @@ describe('education benefits json schema', () => {
       expectInvalidData({ socialSecurityNumber: '12345678' }, 'socialSecurityNumber');
     });
   });
+
+  context('name validations', () => {
+    it('should allow a valid name', () => {
+      expectValidData({
+        fullName: {
+          first: 'john',
+          last: 'doe'
+        }
+      });
+    });
+
+    it('shouldnt allow an invalid name', () => {
+      expectInvalidData({
+        fullName: {
+          first: 'john'
+        }
+      }, 'fullName');
+    })
+  });
 });
