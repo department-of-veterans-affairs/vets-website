@@ -15,7 +15,7 @@ module.exports = {
 
   "test_settings" : {
     "default" : {
-      "launch_url": "localhost:8080",
+      "launch_url": "localhost:3000",
       "filter" : "./test/**/*.e2e.spec.js",
       "selenium_host" : "localhost",
       "selenium_port" : 4444,
@@ -28,10 +28,11 @@ module.exports = {
         "path" : ""
       },
       "desiredCapabilities" : {
+//        "browserName": "firefox"
         "browserName" : "phantomjs",
         "javascriptEnabled": true,
         "acceptSslCerts": true,
-        "phantomjs.binary.path" : "./node_modules/.bin/phantomjs"
+        "phantomjs.binary.path" : require('phantomjs-prebuilt').path,
       },
       "globals" : {
       },

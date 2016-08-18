@@ -1,26 +1,16 @@
 const request = require('request');
 
-const report = require('../report');
-const config = require('../../../config');
+const E2eHelpers = require('../util/e2e-helpers');
+const Timeouts = require('../util/timeouts.js');
+const hcaHelpers = require('../util/hca-helpers.js');
 
-// FIXME: This should come in from a config variable
-const url = 'http://localhost:' + config.port; // eslint-disable-line
-
-const common = require('../utils/common.js');
-
-// TODO(awong): Move this into a custom command or assertion that can be used with client.expect.element().
-function expectNavigateAwayFrom(client, urlSubstring) {
-  client.expect.element('.js-test-location').attribute('data-location')
-    .to.not.contain(urlSubstring).before(common.timeouts.normal);
-}
-
-module.exports = {
-  'Begin application': (client) => {
+module.exports = E2eHelpers.createE2eTest(
+  (client) => {
     request({
-      uri: `${url}/api/hca/v1/mock`,
+      uri: `${E2eHelpers.apiUrl}/mock`,
       method: 'POST',
       json: {
-        resource: 'application',
+        path: '/api/hca/v1/application',
         verb: 'post',
         value: {
           formSubmissionId: '123fake-submission-id-567',
@@ -31,117 +21,114 @@ module.exports = {
 
     // Ensure introduction page renders.
     client
-      .url(url)
-      .waitForElementVisible('body', common.timeouts.normal)
+      .url(`${E2eHelpers.baseUrl}/healthcare/apply/application/`)
+      .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for Health Care: Vets.gov')
-      .waitForElementVisible('.form-panel', common.timeouts.slow)  // First render of React may be slow.
+      .waitForElementVisible('.form-panel', Timeouts.slow)  // First render of React may be slow.
       .click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/introduction');
+    E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.
     client.expect.element('input[name="fname"]').to.be.visible;
-    common.completePersonalInformation(client, common.testValues, true);
+    hcaHelpers.completePersonalInformation(client, hcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/veteran-information/personal-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/personal-information');
 
     // Birth information page.
     client.expect.element('select[name="veteranBirthMonth"]').to.be.visible;
-    common.completeBirthInformation(client, common.testValues, true);
+    hcaHelpers.completeBirthInformation(client, hcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/veteran-information/birth-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/birth-information');
 
     // Demographic information page.
     client.expect.element('select[name="gender"]').to.be.visible;
-    common.completeDemographicInformation(client, common.testValues, true);
+    hcaHelpers.completeDemographicInformation(client, hcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/veteran-information/demographic-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/demographic-information');
 
     // Veteran Address page.
     client.expect.element('input[name="address"]').to.be.visible;
-    common.completeVeteranAddress(client, common.testValues, true);
+    hcaHelpers.completeVeteranAddress(client, hcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/veteran-information/veteran-address');
+    E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/veteran-address');
 
     // Contact Information Page.
     client.expect.element('input[name="email"]').to.be.visible;
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/veteran-information/contact-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/contact-information');
 
     // Military Service Information Page.
     client.expect.element('select[name="lastServiceBranch"]').to.be.visible;
-    common.completeMilitaryService(client, common.testValues, true);
+    hcaHelpers.completeMilitaryService(client, hcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/military-service/service-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military-service/service-information');
 
     // Military Service Additional Information Page.
     client.expect.element('input[name="purpleHeartRecipient"] + label').to.be.visible;
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/military-service/additional-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/military-service/additional-information');
 
     // VA Benefits Basic Info page.
     client.expect.element('input[name="compensableVaServiceConnected-0"] + label').to.be.visible;
-    common.completeVaBenefits(client, common.testValues, true);
+    hcaHelpers.completeVaBenefits(client, hcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/va-benefits/basic-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/va-benefits/basic-information');
 
     // Financial disclosure page.
     client.expect.element('input[name="understandsFinancialDisclosure"] + label').to.be.visible;
-    common.completeFinancialDisclosure(client, common.testValues, true);
+    hcaHelpers.completeFinancialDisclosure(client, hcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/household-information/financial-disclosure');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/financial-disclosure');
 
     // Spouse information Page.
     client.expect.element('select[name="maritalStatus"]').to.be.visible;
-    common.completeSpouseInformation(client, common.testValues, true);
+    hcaHelpers.completeSpouseInformation(client, hcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/household-information/spouse-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/spouse-information');
 
     // Child Information Page.
     client.expect.element('input[name="hasChildrenToReport-0"] + label').to.be.visible;
-    common.completeChildInformation(client, common.testValues, true);
+    hcaHelpers.completeChildInformation(client, hcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/household-information/child-information');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/child-information');
 
     // Annual Income Page.
     client.expect.element('input[name="veteranGrossIncome"]').to.be.visible;
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/household-information/annual-income');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/annual-income');
 
     // Deductible Expenses Page.
     client.expect.element('input[name="deductibleMedicalExpenses"]').to.be.visible;
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/household-information/deductible-expenses');
+    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/deductible-expenses');
 
     // Medicare and Medicaid Page.
     client.expect.element('input[name="isMedicaidEligible-0"] + label').to.be.visible;
-    common.completeMedicareAndMedicaid(client, common.testValues, true);
+    hcaHelpers.completeMedicareAndMedicaid(client, hcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/insurance-information/medicare');
+    E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/medicare');
 
     // Insurance Information Page.
     client.expect.element('input[name="isCoveredByHealthInsurance-0"] + label').to.be.visible;
-    common.completeInsuranceInformation(client, common.testValues, true);
+    hcaHelpers.completeInsuranceInformation(client, hcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/insurance-information/general');
+    E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/general');
 
     // Additional VA Insurance Information Page.
     client.expect.element('select[name="state"]').to.be.visible;
-    common.completeVaInsuranceInformation(client, common.testValues, true);
+    hcaHelpers.completeVaInsuranceInformation(client, hcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
-    expectNavigateAwayFrom(client, '/insurance-information/va-facility');
+    E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/va-facility');
 
     // Review and Submit Page.
     client.expect.element('button.edit-btn').to.be.visible;
     client.click('.form-panel .usa-button-primary');
-    // expectNavigateAwayFrom(client, '/review-and-submit');
+    // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
     client.expect.element('.js-test-location').attribute('data-location')
-      .to.not.contain('/review-and-submit').before(common.timeouts.submission);
+      .to.not.contain('/review-and-submit').before(Timeouts.submission);
 
     // Submit message
     client.expect.element('.success-alert-box').to.be.visible;
 
-
     client.end();
-  },
-  tearDown: report
-};
+  });
