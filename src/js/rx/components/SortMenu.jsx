@@ -14,7 +14,7 @@ class SortActive extends React.Component {
   handleChangeSortMenu(domEvent) {
     // Updates the window location with a query param.
     browserHistory.push({
-      pathname: '/',
+      pathname: '/rx',
       query: {
         sort: domEvent.target.value
       }
@@ -34,7 +34,7 @@ class SortActive extends React.Component {
         return (<li key={ind}><Link
             activeClassName="rx-sort-active"
             to={{
-              pathname: '/',
+              pathname: '/rx',
               query: { sort: `${o.value}` }
             }}>{o.label}</Link></li>);
       });
