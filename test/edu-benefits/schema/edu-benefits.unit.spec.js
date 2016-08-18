@@ -8,10 +8,10 @@ describe('education benefits json schema', () => {
     return ajv.validate('edu-benefits-schema', data);
   };
   let expectValidData = (data) => {
-    expect(validateSchema(data)).to.be.true;
+    expect(validateSchema(data)).to.equal(true);
   };
   let expectInvalidData = (data, key) => {
-    expect(validateSchema(data)).to.be.false;
+    expect(validateSchema(data)).to.equal(false);
     expect(ajv.errors[0].dataPath).to.equal(`.${key}`);
   };
 
@@ -83,6 +83,20 @@ describe('education benefits json schema', () => {
           country: 'USA'
         }
       }, 'address');
+    });
+  });
+
+  context('phone # validations', () => {
+    it('should allow valid phone #', () => {
+      expectValidData({
+        phone: '5555555555'
+      });
+    });
+
+    it('shouldnt allow invalid phone #', () => {
+      expectInvalidData({
+        phone: '1a'
+      }, 'phone');
     });
   });
 });

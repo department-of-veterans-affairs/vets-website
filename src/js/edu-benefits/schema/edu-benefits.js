@@ -170,9 +170,9 @@ module.exports = {
     address: {
       $ref: '#/definitions/address'
     },
-    // "phoneNumber": {
-    //   "$ref": "#/definitions/phoneNumber"
-    // },
+    phone: {
+      $ref: '#/definitions/phone'
+    },
     // "secondaryPhoneNumber": {
     //   "$ref": "#/definitions/phoneNumber"
     // },
