@@ -153,9 +153,9 @@ module.exports = {
     "chapter32": {
       "type": "boolean"
     },
-    // "name": {
-    //   "$ref": "#/definitions/name"
-    // },
+    "fullName": {
+      "$ref": "#/definitions/fullName"
+    },
     "gender": {
       "type": "string",
       "pattern": "^(M|F)$"
