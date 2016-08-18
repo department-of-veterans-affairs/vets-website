@@ -1,3 +1,5 @@
+/* global __API_URL__ */
+
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
