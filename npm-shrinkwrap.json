@@ -56,6 +56,18 @@
         }
       }
     },
+    "ajv": {
+      "version": "4.5.0",
+      "from": "ajv@>=4.5.0 <5.0.0",
+      "resolved": "https://registry.npmjs.org/ajv/-/ajv-4.5.0.tgz",
+      "dependencies": {
+        "co": {
+          "version": "4.6.0",
+          "from": "co@>=4.6.0 <5.0.0",
+          "resolved": "https://registry.npmjs.org/co/-/co-4.6.0.tgz"
+        }
+      }
+    },
     "align-text": {
       "version": "0.1.4",
       "from": "align-text@>=0.1.3 <0.2.0",
@@ -7417,7 +7429,14 @@
     "wowjs": {
       "version": "1.1.3",
       "from": "wowjs@latest",
-      "resolved": "https://registry.npmjs.org/wowjs/-/wowjs-1.1.3.tgz"
+      "resolved": "https://registry.npmjs.org/wowjs/-/wowjs-1.1.3.tgz",
+      "dependencies": {
+        "animate.css": {
+          "version": "3.5.1",
+          "from": "animate.css@latest",
+          "resolved": "https://registry.npmjs.org/animate.css/-/animate.css-3.5.1.tgz"
+        }
+      }
     },
     "wrap-ansi": {
       "version": "2.0.0",
