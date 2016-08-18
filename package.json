@@ -5,7 +5,6 @@
   "scripts": {
     "build": "node script/build.js",
     "heroku-serve": "http-server",
-    "lint:sass": "sass-lint -c config/sass-lint.yml",
     "nightwatch": "nightwatch -c config/nightwatch.js",
     "selenium:bootstrap": "selenium-standalone install",
     "test": "npm run test:unit && npm run test:e2e",
@@ -106,6 +105,7 @@
     "resolve-url-loader": "^1.6.0",
     "sass-lint": "^1.8.2",
     "sass-loader": "^4.0.0",
+    "sasslint-webpack-plugin": "^1.0.4",
     "selenium-standalone": "^5.5.0",
     "sinon": "^1.17.5",
     "skin-deep": "^0.16.0",

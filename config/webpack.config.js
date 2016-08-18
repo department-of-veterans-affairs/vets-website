@@ -5,6 +5,7 @@ var bourbon = require('bourbon').includePaths;
 var neat = require('bourbon-neat').includePaths;
 var path = require('path');
 var webpack = require('webpack');
+var sassLintPlugin = require('sasslint-webpack-plugin');
 
 require('babel-polyfill');
 
@@ -100,6 +101,11 @@ var configGenerator = (options) => {
           'process.env': {
               NODE_ENV: JSON.stringify(process.env.NODE_ENV)
           }
+      }),
+      new sassLintPlugin({
+        configFile: 'config/.sass-lint.yml',
+        glob: 'src/sass/**/*.s?(a|c)ss',
+        quiet: false
       }),
 
       // See http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
