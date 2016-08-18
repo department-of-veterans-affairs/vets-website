@@ -110,8 +110,11 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Review and Submit Page.
     client.expect.element('button.edit-btn').to.be.visible;
+
+    client.expect.element('.form-panel .usa-button-primary').text.to.equal('Submit Application');
     client.click('.form-panel .usa-button-primary');
-    // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
+    client.expect.element('.form-panel .hca-button-green').text.to.equal('✓ Submitted');
+
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);
 

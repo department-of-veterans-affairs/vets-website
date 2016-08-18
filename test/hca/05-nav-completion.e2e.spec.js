@@ -45,6 +45,8 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/contact-information');
 
+    client.assert.cssClassPresent('.hca-process li.step:nth-child(1)', 'section-complete');
+
     // Military Service Information Page.
     client.expect.element('select[name="lastServiceBranch"]').to.be.visible;
     HcaHelpers.completeMilitaryService(client, HcaHelpers.testValues, true);
@@ -56,11 +58,15 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-service/additional-information');
 
+    client.assert.cssClassPresent('.hca-process li.step:nth-child(2)', 'section-complete');
+
     // VA Benefits Basic Info page.
     client.expect.element('input[name="compensableVaServiceConnected-0"] + label').to.be.visible;
     HcaHelpers.completeVaBenefits(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/va-benefits/basic-information');
+
+    client.assert.cssClassPresent('.hca-process li.step:nth-child(3)', 'section-complete');
 
     // Financial disclosure page.
     client.expect.element('input[name="understandsFinancialDisclosure"] + label').to.be.visible;
@@ -90,6 +96,8 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/deductible-expenses');
 
+    client.assert.cssClassPresent('.hca-process li.step:nth-child(4)', 'section-complete');
+
     // Medicare and Medicaid Page.
     client.expect.element('input[name="isMedicaidEligible-0"] + label').to.be.visible;
     HcaHelpers.completeMedicareAndMedicaid(client, HcaHelpers.testValues, true);
@@ -108,10 +116,15 @@ module.exports = E2eHelpers.createE2eTest(
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/insurance-information/va-facility');
 
+    client.assert.cssClassPresent('.hca-process li.step:nth-child(5)', 'section-complete');
+
     // Review and Submit Page.
     client.expect.element('button.edit-btn').to.be.visible;
+
+    client.expect.element('.form-panel .usa-button-primary').text.to.equal('Submit Application');
     client.click('.form-panel .usa-button-primary');
-    // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
+    client.expect.element('.form-panel .hca-button-green').text.to.equal('✓ Submitted');
+
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);
 
