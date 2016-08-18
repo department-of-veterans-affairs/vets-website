@@ -14,7 +14,7 @@ very secret.
 
 | I want to... | Then you should... |
 | ------------ | ------------------ |
-| install the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website` and `npm install`. Run `npm install` anytime `package.json` changes. | 
+| clone the site | `git clone https://github.com/department-of-veterans-affairs/vets-website.git` followed by `cd vets-website` and `npm install`. Run `npm install` anytime `package.json` changes. | 
 | deploy the site | merge to master for `dev.vets.gov` and `staging.vets.gov`. Merge to production for `www.vets.gov`. Travis will do the deploy on the post merge build. Submit a trivial change to force a re-deploy. |
 | update static content that is already on the site. | Find the corresponding file in `content/pages`. Make your edit. Send a PR. |
 | add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
