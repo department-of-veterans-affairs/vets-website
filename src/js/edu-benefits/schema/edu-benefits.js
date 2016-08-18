@@ -249,16 +249,16 @@ module.exports = {
         "apprenticeship": {
           "type": "boolean"
         },
-        "flight_training": {
+        "flightTraining": {
           "type": "boolean"
         },
-        "test_reimbursement": {
+        "testReimbursement": {
           "type": "boolean"
         },
-        "licensing_reimbursement": {
+        "licensingReimbursement": {
           "type": "boolean"
         },
-        "tuition_top_up": {
+        "tuitionTopUp": {
           "type": "boolean"
         }
       }
