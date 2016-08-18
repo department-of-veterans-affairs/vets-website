@@ -29,7 +29,6 @@ const smith = Metalsmith(__dirname);
 const optionDefinitions = [
   { name: 'apiUrl', type: String, defaultValue: '' },
   { name: 'buildtype', type: String, defaultValue: 'development' },
-  { name: 'apiProxy', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3000 },
   { name: 'watch', type: Boolean, defaultValue: false },
@@ -165,35 +164,35 @@ if (options.watch) {
   //   https://www.npmjs.com/package/metalsmith-watch
   smith.use(watch());
   
-	// If in watch mode, assume hot reloading for JS and use webpack devserver.
-	const devServerConfig = {
-		contentBase: `build/${options.buildtype}`,
-		historyApiFallback: false,
-		hot: true,
-		port: options.port,
-		publicPath: '/generated/',
-		stats: { colors: true }
+  // If in watch mode, assume hot reloading for JS and use webpack devserver.
+  const devServerConfig = {
+    contentBase: `build/${options.buildtype}`,
+    historyApiFallback: false,
+    hot: true,
+    port: options.port,
+    publicPath: '/generated/',
+    stats: { colors: true }
   };
 
-	// Route all API requests through webpack's node-http-proxy
-	// Useful for local development.
-	try {
+  // Route all API requests through webpack's node-http-proxy
+  // Useful for local development.
+  try {
     // Check to see if we have a proxy config file
-		const api = require('../config/config.proxy.js').api;
-		devServerConfig.proxy = {
-			'/api/*': {
-				target: `https://${api.host}${api.path}`,
-				auth: api.auth,
-				rewrite: function rewrite(req) {
-					req.url = req.url.replace(/^\/api/, '');
-					req.headers.host = api.host;
-				}
-			}
-		}
-		console.log('API proxy enabled');
-	} catch(e){
-    // No proxy config file found.	
-	}
+    const api = require('../config/config.proxy.js').api;
+    devServerConfig.proxy = {
+      '/api/*': {
+        target: `https://${api.host}${api.path}`,
+        auth: api.auth,
+        rewrite: function rewrite(req) {
+          req.url = req.url.replace(/^\/api/, '');
+          req.headers.host = api.host;
+        }
+      }
+    }
+    console.log('API proxy enabled');
+  } catch(e){
+    // No proxy config file found.  
+  }
 
   smith.use(webpackDevServer(webpackConfig, devServerConfig));
 } else {
