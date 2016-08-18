@@ -6,6 +6,11 @@
   * + ul {
     margin: 0 0 0 .5rem;
   }
+  
+  label {
+    display: inline-block;
+    margin-top: 0;
+  }
 }
 
 .rx-sort-active {
@@ -58,5 +63,3 @@
     }
   }
 }
-
-
