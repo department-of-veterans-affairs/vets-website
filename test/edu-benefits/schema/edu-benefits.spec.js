@@ -10,6 +10,10 @@ describe('education benefits json schema', () => {
   let expectValidData = (data) => {
     expect(validateSchema(data)).to.be.true;
   };
+  let expectInvalidData = (data, key) => {
+    expect(validateSchema(data)).to.be.false;
+    expect(ajv.errors[0].dataPath).to.equal(`.${key}`);
+  };
 
   before(() => {
     ajv = new Ajv();
@@ -23,6 +27,10 @@ describe('education benefits json schema', () => {
 
     it('should allow ssn with dashes', () => {
       expectValidData({ socialSecurityNumber: '123-45-6789' });
+    });
+
+    it('should not allow bad ssn', () => {
+      expectInvalidData({ socialSecurityNumber: '12345678' }, 'socialSecurityNumber');
     });
   });
 });
