@@ -165,8 +165,7 @@ module.exports = {
       "format": "date-time"
     },
     "socialSecurityNumber": {
-      "type": "string",
-      "pattern": "^\\d{9}$"
+      "$ref": "#/definitions/ssn"
     },
     // "address": {
     //   "$ref": "#/definitions/address"
