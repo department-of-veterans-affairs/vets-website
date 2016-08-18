@@ -25,7 +25,6 @@ very secret.
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
 | run only e2e tests | `npm run test:e2e`.  Note, on a fresh checkout, run `npm run selenium:bootstrap` to install the selenium server into `node_modules`. This only needs to be done once per install. |
-| run sass linter | `npm run lint:sass` |
 | test for broken links | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
 | add new npm modules | `npm install -D my-module` followed by `npm shrinkwrap --dev`. There are no non-dev modules here. |
 
