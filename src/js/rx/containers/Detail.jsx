@@ -8,7 +8,6 @@ import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 
 class Detail extends React.Component {
   componentWillMount() {
-    console.log(this.props.params.id);
     this.props.dispatch(loadData(this.props.params.id));
   }
 
