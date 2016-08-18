@@ -66,7 +66,7 @@ If none of the above apply to you, you may still qualify for care based on your 
 
 ### Additional forms for caregivers and active-duty Servicemembers
 
-- [Apply as active duty military (10-10AD)](/healthcare/forms/1010ez-AD.pdf)
+- [Apply as active-duty military (10-10AD)](/healthcare/forms/1010ez-AD.pdf)
 - [Apply as a caregiver (10-10CG)](/healthcare/forms/vha-10-10CG.pdf)
 - [Apply as National Guard and Reserve (10-10EZ-Demob)](/healthcare/forms/10-10EZ-DEMOB.pdf)
 - [Apply as a member of the Justice Outreach Program (10-10EZ-JO)](/healthcare/forms/10-10EZ-JO.pdf)
@@ -97,12 +97,8 @@ If none of the above apply to you, you may still qualify for care based on your 
     <dd>Click <b>Save</b>.</dd>
 </dl>
 
-After the download is complete, double-click on the file and it should open as long as you have the necessary software on your computer.
+Double click on the downloaded file to open it.
 
 </div>
 
-##### Notes:
 
-- If you separated under a dishonorable discharge, visit [healthcare.gov](https://www.healthcare.gov/) to find out if you qualify for health insurance.
-
-Double click on the downloaded file to open it.
