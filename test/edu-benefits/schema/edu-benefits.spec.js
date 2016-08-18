@@ -52,4 +52,16 @@ describe('education benefits json schema', () => {
       }, 'fullName');
     })
   });
+
+  context('gender validations', () => {
+    it('should allow a valid gender', () => {
+      ['M', 'F'].forEach((gender) => {
+        expectValidData({ gender: gender });
+      });
+    });
+
+    it('shouldnt allow invalid gender', () => {
+      expectInvalidData({ gender: 'Z' }, 'gender');
+    })
+  });
 });
