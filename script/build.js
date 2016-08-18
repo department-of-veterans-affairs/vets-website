@@ -28,6 +28,7 @@ const smith = Metalsmith(__dirname);
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
+  { name: 'apiProxy', type: Boolean, defaultValue: false },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3000 },
   { name: 'watch', type: Boolean, defaultValue: false },
