@@ -2,7 +2,7 @@
 const options = require('../../hca/utils/options-for-select');
 const _ = require('lodash');
 
-const states = _.uniq(_.flatten(_.values(options.states)).map(object => object.value));
+// const states = _.uniq(_.flatten(_.values(options.states)).map(object => object.value));
 const countries = options.countries.map(object => object.value);
 const countriesWithAnyState = Object.keys(options.states).filter(x => _.includes(countries, x));
 const countryStateProperites = _.map(options.states, (value, key) => ({
