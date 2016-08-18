@@ -40,8 +40,8 @@ countryStateProperites.push(
 
 module.exports = {
   $schema: 'http://json-schema.org/draft-04/schema#',
-  'title': 'Education Benefits Claim',
-  'type': 'object',
+  title: 'Education Benefits Claim',
+  type: 'object',
   definitions: {
     address: {
       type: 'object',
@@ -77,10 +77,10 @@ module.exports = {
       type: 'object',
       properties: {
         from: {
-          '$ref': '#/definitions/date'
+          $ref: '#/definitions/date'
         },
         to: {
-          '$ref': '#/definitions/date'
+          $ref: '#/definitions/date'
         }
       }
     },
@@ -128,44 +128,44 @@ module.exports = {
       ]
     },
   },
-  'properties': {
-    'chapter33': {
-      'type': 'object',
-      'properties': {
-        'enabled': {
-          'type': 'boolean'
+  properties: {
+    chapter33: {
+      type: 'object',
+      properties: {
+        enabled: {
+          type: 'boolean'
         },
-        'electionType': {
-          'type': 'string'
+        electionType: {
+          type: 'string'
         },
-        'electionDate': {
-          'type': 'string',
-          'format': 'date-time'
+        electionDate: {
+          type: 'string',
+          format: 'date-time'
         }
       }
     },
-    'chapter30': {
-      'type': 'boolean'
+    chapter30: {
+      type: 'boolean'
     },
-    'chapter1606': {
-      'type': 'boolean'
+    chapter1606: {
+      type: 'boolean'
     },
-    'chapter32': {
-      'type': 'boolean'
+    chapter32: {
+      type: 'boolean'
     },
-    'fullName': {
-      '$ref': '#/definitions/fullName'
+    fullName: {
+      $ref: '#/definitions/fullName'
     },
-    'gender': {
-      'type': 'string',
-      'pattern': '^(M|F)$'
+    gender: {
+      type: 'string',
+      pattern: '^(M|F)$'
     },
-    'birthday': {
-      'type': 'string',
-      'format': 'date-time'
+    birthday: {
+      type: 'string',
+      format: 'date-time'
     },
-    'socialSecurityNumber': {
-      '$ref': '#/definitions/ssn'
+    socialSecurityNumber: {
+      $ref: '#/definitions/ssn'
     },
     // "address": {
     //   "$ref": "#/definitions/address"
@@ -176,14 +176,14 @@ module.exports = {
     // "secondaryPhoneNumber": {
     //   "$ref": "#/definitions/phoneNumber"
     // },
-    'emergencyContact': {
-      'type': 'object',
-      'properties': {
+    emergencyContact: {
+      type: 'object',
+      properties: {
         // "name": {
         //   "$ref": "#/definitions/name"
         // },
-        'sameAddressAndPhone': {
-          'type': 'boolean'
+        sameAddressAndPhone: {
+          type: 'boolean'
         },
         // "address": {
         //   "$ref": "#/definitions/address"
@@ -193,84 +193,84 @@ module.exports = {
         // },
       }
     },
-    'bankAccount': {
-      'type': 'object',
-      'properties': {
-        'accountType': {
-          'type': 'string',
-          'pattern': '^(checking|savings)$'
+    bankAccount: {
+      type: 'object',
+      properties: {
+        accountType: {
+          type: 'string',
+          pattern: '^(checking|savings)$'
         },
-        'bankName': {
-          'type': 'string'
+        bankName: {
+          type: 'string'
         },
-        'routingNumber': {
-          'type': 'string'
+        routingNumber: {
+          type: 'string'
         },
-        'accountNumber': {
-          'type': 'string'
+        accountNumber: {
+          type: 'string'
         }
       }
     },
-    'previouslyFiledClaimWithVa': {
-      'type': 'boolean'
+    previouslyFiledClaimWithVa: {
+      type: 'boolean'
     },
-    'previouslyAppliedWithSomeoneElsesService': {
-      'type': 'boolean'
+    previouslyAppliedWithSomeoneElsesService: {
+      type: 'boolean'
     },
-    'alreadyReceivedInformationPamphlet': {
-      'type': 'boolean'
+    alreadyReceivedInformationPamphlet: {
+      type: 'boolean'
     },
-    'schoolName': {
-      'type': 'string'
+    schoolName: {
+      type: 'string'
     },
     // "schoolAddress": {
     //   "$ref": "#/definitions/address"
     // },
-    'educationStartDate': {
-      'type': 'string',
-      'format': 'date-time'
+    educationStartDate: {
+      type: 'string',
+      format: 'date-time'
     },
-    'educationalObjective': {
-      'type': 'string'
+    educationalObjective: {
+      type: 'string'
     },
-    'courseOfStudy': {
-      'type': 'string'
+    courseOfStudy: {
+      type: 'string'
     },
-    'educationType': {
-      'type': 'object',
-      'properties': {
-        'college': {
-          'type': 'boolean'
+    educationType: {
+      type: 'object',
+      properties: {
+        college: {
+          type: 'boolean'
         },
-        'correspondence': {
-          'type': 'boolean'
+        correspondence: {
+          type: 'boolean'
         },
-        'apprenticeship': {
-          'type': 'boolean'
+        apprenticeship: {
+          type: 'boolean'
         },
-        'flightTraining': {
-          'type': 'boolean'
+        flightTraining: {
+          type: 'boolean'
         },
-        'testReimbursement': {
-          'type': 'boolean'
+        testReimbursement: {
+          type: 'boolean'
         },
-        'licensingReimbursement': {
-          'type': 'boolean'
+        licensingReimbursement: {
+          type: 'boolean'
         },
-        'tuitionTopUp': {
-          'type': 'boolean'
+        tuitionTopUp: {
+          type: 'boolean'
         }
       }
     },
-    'currentlyActiveDuty': {
-      'type': 'boolean'
+    currentlyActiveDuty: {
+      type: 'boolean'
     },
-    'terminalLeaveBeforeDischarge': {
-      'type': 'boolean'
+    terminalLeaveBeforeDischarge: {
+      type: 'boolean'
     },
-    'highSchoolOrGedCompletionDate': {
-      'type': 'string',
-      'format': 'date-time'
+    highSchoolOrGedCompletionDate: {
+      type: 'string',
+      format: 'date-time'
     }
   }
 };
