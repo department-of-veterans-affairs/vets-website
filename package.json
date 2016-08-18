@@ -45,6 +45,7 @@
     "dirty-chai": "^1.2.2",
     "eslint": "^2.2.0",
     "eslint-config-airbnb": "^7.0.0",
+    "eslint-loader": "^1.5.0",
     "eslint-plugin-jsx-a11y": "^0.6.2",
     "eslint-plugin-no-unsafe-innerhtml": "^1.0.14",
     "eslint-plugin-react": "^4.1.0",
