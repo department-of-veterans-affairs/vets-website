@@ -167,9 +167,9 @@ module.exports = {
     socialSecurityNumber: {
       $ref: '#/definitions/ssn'
     },
-    // "address": {
-    //   "$ref": "#/definitions/address"
-    // },
+    address: {
+      $ref: '#/definitions/address'
+    },
     // "phoneNumber": {
     //   "$ref": "#/definitions/phoneNumber"
     // },

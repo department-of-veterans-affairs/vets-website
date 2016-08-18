@@ -64,4 +64,25 @@ describe('education benefits json schema', () => {
       expectInvalidData({ gender: 'Z' }, 'gender');
     })
   });
+
+  context('address validations', () => {
+    it('should allow a valid address', () => {
+      expectValidData({
+        address: {
+          street: '123 a rd',
+          city: 'abc',
+          country: 'USA'
+        }
+      });
+    });
+
+    it('shouldnt allow an invalid address', () => {
+      expectInvalidData({
+        address: {
+          city: 'foo',
+          country: 'USA'
+        }
+      }, 'address');
+    });
+  });
 });
