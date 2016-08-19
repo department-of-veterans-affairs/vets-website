@@ -1105,6 +1105,11 @@
       "from": "core-util-is@>=1.0.0 <1.1.0",
       "resolved": "http://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz"
     },
+    "cors": {
+      "version": "2.7.1",
+      "from": "cors@latest",
+      "resolved": "http://registry.npmjs.org/cors/-/cors-2.7.1.tgz"
+    },
     "corser": {
       "version": "2.0.0",
       "from": "corser@>=2.0.0 <2.1.0",
@@ -1990,6 +1995,11 @@
           "resolved": "https://registry.npmjs.org/type-is/-/type-is-1.6.13.tgz"
         }
       }
+    },
+    "express-history-api-fallback": {
+      "version": "2.0.0",
+      "from": "express-history-api-fallback@latest",
+      "resolved": "https://registry.npmjs.org/express-history-api-fallback/-/express-history-api-fallback-2.0.0.tgz"
     },
     "extend": {
       "version": "3.0.0",
