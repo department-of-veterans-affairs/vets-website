@@ -42,6 +42,10 @@ describe('education benefits json schema', () => {
       });
     });
   };
+  const validDateRange = {
+    from: '2000-01-01',
+    to: '2000-01-02'
+  };
 
   before(() => {
     ajv = new Ajv();
@@ -117,10 +121,7 @@ describe('education benefits json schema', () => {
 
   context('dateRange validations', () => {
     testValidAndInvalid('activeDutyRepayingPeriod', {
-      valid: [{
-        from: '2000-01-01',
-        to: '2000-01-02'
-      }],
+      valid: [validDateRange],
       invalid: [
         {
           from: 'foo',
@@ -143,10 +144,7 @@ describe('education benefits json schema', () => {
   context('tours of duty validation', () => {
     testValidAndInvalid('toursOfDuty', {
       valid: [[{
-        dateRange: {
-          from: '2000-01-01',
-          to: '2000-01-02'
-        },
+        dateRange: validDateRange,
         serviceBranch: 'navy',
         serviceStatus: 'active',
         involuntarilyCalledToDuty: true
@@ -156,6 +154,20 @@ describe('education benefits json schema', () => {
         serviceStatus: 'active',
         involuntarilyCalledToDuty: true
       }]],
+    });
+  });
+
+  context('post high school trainings validation', () => {
+    testValidAndInvalid('postHighSchoolTrainings', {
+      valid: [[{
+        name: 'college',
+        dateRange: validDateRange,
+        city: 'new york',
+        state: 'NY'
+      }]],
+      invalid: [[{
+        name: 'college'
+      }]]
     });
   });
 });

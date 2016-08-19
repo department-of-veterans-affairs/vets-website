@@ -329,6 +329,36 @@ module.exports = {
         },
         required: ['dateRange', 'serviceBranch', 'serviceStatus', 'involuntarilyCalledToDuty']
       }
+    },
+    postHighSchoolTrainings: {
+      type: 'array',
+      items: {
+        name: {
+          type: 'string'
+        },
+        city: {
+          type: 'string'
+        },
+        state: {
+          type: 'string'
+        },
+        dateRange: {
+          $ref: '#/definitions/dateRange'
+        },
+        hours: {
+          type: 'integer'
+        },
+        hoursType: {
+          type: 'string'
+        },
+        degreeReceived: {
+          type: 'string'
+        },
+        major: {
+          type: 'string'
+        },
+        required: ['name', 'dateRange', 'city']
+      }
     }
   }
 };
