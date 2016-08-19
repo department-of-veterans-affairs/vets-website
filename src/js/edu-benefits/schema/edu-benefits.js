@@ -216,9 +216,9 @@ module.exports = {
     schoolName: {
       type: 'string'
     },
-    // "schoolAddress": {
-    //   "$ref": "#/definitions/address"
-    // },
+    schoolAddress: {
+      $ref: '#/definitions/address'
+    },
     educationStartDate: {
       type: 'string',
       format: 'date-time'
