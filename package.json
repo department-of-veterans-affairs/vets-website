@@ -124,5 +124,9 @@
   "optionalDependencies": {
     "fsevents": "^1.0.7"
   },
-  "private": true
+  "private": true,
+  "dependencies": {
+    "cors": "http://registry.npmjs.org/cors/-/cors-2.7.1.tgz",
+    "express-history-api-fallback": "https://registry.npmjs.org/express-history-api-fallback/-/express-history-api-fallback-2.0.0.tgz"
+  }
 }
