@@ -115,7 +115,7 @@ smith.use(archive());  // TODO(awong): Can this be removed?
 // translating .md files which would allow inPlace() and markdown() to be moved under the
 // permalinks() and navigation() filters making the variable stores uniform between inPlace()
 // and layout().
-smith.use(inPlace({ engine: 'liquid' }));
+smith.use(inPlace({ engine: 'liquid', pattern: '*.{md,html}' }));
 smith.use(markdown({
   typographer: true,
   html: true
