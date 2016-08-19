@@ -1,15 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Address from '../questions/Address';
-import DateInput from '../form-elements/DateInput';
-import ErrorableSelect from '../form-elements/ErrorableSelect';
-import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
-import FullName from '../questions/FullName';
-import Phone from '../questions/Phone';
-import SocialSecurityNumber from '../questions/SocialSecurityNumber';
-import { maritalStatuses, yesNo } from '../../utils/options-for-select.js';
-import { isNotBlank, validateIfDirty, isValidMarriageDate } from '../../utils/validations';
+import Address from '../../../common/components/questions/Address';
+import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import FullName from '../../../common/components/questions/FullName';
+import Phone from '../../../common/components/questions/Phone';
+import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
+import { maritalStatuses, yesNo } from '../../../common/utils/options-for-select.js';
+import { isNotBlank, validateIfDirty, isValidMarriageDate } from '../../../common/utils/validations';
 import { veteranUpdateField, updateSpouseAddress } from '../../actions';
 
 // TODO: Consider adding question for marital status here so if user
