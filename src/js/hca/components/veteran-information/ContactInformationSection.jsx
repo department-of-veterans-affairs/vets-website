@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Email from '../questions/Email';
-import Phone from '../questions/Phone';
+import Email from '../../../common/components/questions/Email';
+import Phone from '../../../common/components/questions/Phone';
 import { veteranUpdateField } from '../../actions';
 
 /**

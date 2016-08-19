@@ -4,6 +4,9 @@
     "es2015",
     "react"
   ],
+  "plugins": [
+    "lodash"
+  ],
   // Share polyfills between files.
   "env": {
     "hot": {

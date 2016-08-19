@@ -68,6 +68,10 @@ button.rx-prescription-button,
   display: inline-block;
   position: absolute;
   bottom: 1.5rem;
+  
+  &-zero {
+    color: $color-secondary;
+  }
 }
 
 .rx-prescription-count-number {

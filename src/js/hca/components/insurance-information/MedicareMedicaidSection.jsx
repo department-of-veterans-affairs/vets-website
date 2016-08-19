@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DateInput from '../form-elements/DateInput';
-import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
-import { yesNo } from '../../utils/options-for-select';
-import { validateIfDirty, isNotBlank } from '../../utils/validations';
+import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import { yesNo } from '../../../common/utils/options-for-select';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
 import { veteranUpdateField } from '../../actions';
 
 /**

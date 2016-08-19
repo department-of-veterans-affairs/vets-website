@@ -975,11 +975,6 @@
       "from": "commander@>=2.9.0 <3.0.0",
       "resolved": "http://registry.npmjs.org/commander/-/commander-2.9.0.tgz"
     },
-    "commondir": {
-      "version": "1.0.1",
-      "from": "commondir@>=1.0.1 <2.0.0",
-      "resolved": "https://registry.npmjs.org/commondir/-/commondir-1.0.1.tgz"
-    },
     "commoner": {
       "version": "0.10.4",
       "from": "commoner@>=0.10.3 <0.11.0",
@@ -1090,6 +1085,11 @@
       "version": "1.0.2",
       "from": "core-util-is@>=1.0.0 <1.1.0",
       "resolved": "http://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz"
+    },
+    "cors": {
+      "version": "2.7.1",
+      "from": "http://registry.npmjs.org/cors/-/cors-2.7.1.tgz",
+      "resolved": "http://registry.npmjs.org/cors/-/cors-2.7.1.tgz"
     },
     "corser": {
       "version": "2.0.1",
@@ -1699,11 +1699,6 @@
       "from": "eslint-config-airbnb@>=7.0.0 <8.0.0",
       "resolved": "http://registry.npmjs.org/eslint-config-airbnb/-/eslint-config-airbnb-7.0.0.tgz"
     },
-    "eslint-loader": {
-      "version": "1.5.0",
-      "from": "eslint-loader@>=1.5.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/eslint-loader/-/eslint-loader-1.5.0.tgz"
-    },
     "eslint-plugin-jsx-a11y": {
       "version": "0.6.2",
       "from": "eslint-plugin-jsx-a11y@>=0.6.2 <0.7.0",
@@ -1927,6 +1922,11 @@
       "from": "express@>=4.14.0 <5.0.0",
       "resolved": "https://registry.npmjs.org/express/-/express-4.14.0.tgz"
     },
+    "express-history-api-fallback": {
+      "version": "2.0.0",
+      "from": "https://registry.npmjs.org/express-history-api-fallback/-/express-history-api-fallback-2.0.0.tgz",
+      "resolved": "https://registry.npmjs.org/express-history-api-fallback/-/express-history-api-fallback-2.0.0.tgz"
+    },
     "extend": {
       "version": "3.0.0",
       "from": "extend@>=3.0.0 <3.1.0",
@@ -2095,11 +2095,6 @@
       "version": "0.5.0",
       "from": "finalhandler@0.5.0",
       "resolved": "https://registry.npmjs.org/finalhandler/-/finalhandler-0.5.0.tgz"
-    },
-    "find-cache-dir": {
-      "version": "0.1.1",
-      "from": "find-cache-dir@>=0.1.1 <0.2.0",
-      "resolved": "https://registry.npmjs.org/find-cache-dir/-/find-cache-dir-0.1.1.tgz"
     },
     "find-parent-dir": {
       "version": "0.3.0",
@@ -5277,11 +5272,6 @@
       "from": "pinkie-promise@>=2.0.0 <3.0.0",
       "resolved": "http://registry.npmjs.org/pinkie-promise/-/pinkie-promise-2.0.1.tgz"
     },
-    "pkg-dir": {
-      "version": "1.0.0",
-      "from": "pkg-dir@>=1.0.0 <2.0.0",
-      "resolved": "https://registry.npmjs.org/pkg-dir/-/pkg-dir-1.0.0.tgz"
-    },
     "pkginfo": {
       "version": "0.3.1",
       "from": "pkginfo@>=0.3.0 <0.4.0",
@@ -6012,18 +6002,6 @@
       "version": "4.0.0",
       "from": "sass-loader@>=4.0.0 <5.0.0",
       "resolved": "https://registry.npmjs.org/sass-loader/-/sass-loader-4.0.0.tgz"
-    },
-    "sasslint-webpack-plugin": {
-      "version": "1.0.4",
-      "from": "sasslint-webpack-plugin@>=1.0.4 <2.0.0",
-      "resolved": "https://registry.npmjs.org/sasslint-webpack-plugin/-/sasslint-webpack-plugin-1.0.4.tgz",
-      "dependencies": {
-        "object-assign": {
-          "version": "3.0.0",
-          "from": "object-assign@>=3.0.0 <3.1.0",
-          "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-3.0.0.tgz"
-        }
-      }
     },
     "sax": {
       "version": "1.2.1",
