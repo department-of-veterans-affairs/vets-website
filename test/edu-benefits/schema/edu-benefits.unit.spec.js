@@ -7,16 +7,14 @@ describe('education benefits json schema', () => {
   const validateSchema = (data) => {
     return ajv.validate('edu-benefits-schema', data);
   };
-  const expectValidData = (data) => {
-    expect(validateSchema(data)).to.equal(true);
-  };
-  const expectInvalidData = (data) => {
-    expect(validateSchema(data)).to.equal(false);
-    expect(ajv.errors[0].dataPath).to.contain(`.${Object.keys(data)[0]}`);
-  };
   const validators = {
-    valid: expectValidData,
-    invalid: expectInvalidData
+    valid: (data) => {
+      expect(validateSchema(data)).to.equal(true);
+    },
+    invalid: (data) => {
+      expect(validateSchema(data)).to.equal(false);
+      expect(ajv.errors[0].dataPath).to.contain(`.${Object.keys(data)[0]}`);
+    }
   };
   const objectBuilder = (key, value) => {
     let object = {};
