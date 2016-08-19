@@ -1,5 +1,5 @@
 const jsonValidator = require('../../../src/common/schema/validator');
-const applicationSchema = require('../../../src/common/schema/application');
+const applicationSchema = require('../../../src/js/hca/schema/application');
 const chai = require('chai');
 const expect = chai.expect;
 
