@@ -281,6 +281,9 @@ module.exports = {
     seniorRotcScholarshipProgram: {
       type: 'boolean'
     },
+    seniorRotcOfficersCommission: {
+      type: 'boolean'
+    },
     seniorRotcScholarshipComments: {
       type: 'string'
     },
