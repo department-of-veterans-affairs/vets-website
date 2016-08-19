@@ -14,6 +14,23 @@ describe('education benefits json schema', () => {
     expect(validateSchema(data)).to.equal(false);
     expect(ajv.errors[0].dataPath).to.contain(`.${Object.keys(data)[0]}`);
   };
+  const objectBuilder = (key, value) => {
+    let object = {};
+
+    key.split('.').reverse().forEach((key, i) => {
+      if (i === 0) {
+        object = {
+          [key]: value
+        };
+      } else {
+        object = {
+          [key]: object
+        };
+      }
+    });
+
+    return object;
+  };
 
   before(() => {
     ajv = new Ajv();
@@ -35,32 +52,18 @@ describe('education benefits json schema', () => {
   });
 
   context('name validations', () => {
-    const createNameData = (nameFields, parentKey) => {
-      const nameData = {
-        fullName: nameFields
-      };
-
-      if (parentKey == null) {
-        return nameData;
-      } else {
-        return {
-          [parentKey]: nameData
-        }
-      }
-    };
-
-    [null, 'emergencyContact'].forEach((parentKey) => {
+    ['fullName', 'emergencyContact.fullName'].forEach((parentKey) => {
       it('should allow a valid name', () => {
-        expectValidData(createNameData({
+        expectValidData(objectBuilder(parentKey, {
           first: 'john',
           last: 'doe'
-        }, parentKey));
+        }));
       });
 
       it('shouldnt allow an invalid name', () => {
-        expectInvalidData(createNameData({
+        expectInvalidData(objectBuilder(parentKey, {
           first: 'john'
-        }, parentKey));
+        }));
       });
     });
   });

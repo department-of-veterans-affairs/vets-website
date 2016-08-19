@@ -178,12 +178,12 @@ module.exports = {
         sameAddressAndPhone: {
           type: 'boolean'
         },
-        // "address": {
-        //   "$ref": "#/definitions/address"
-        // },
-        // "phoneNumber": {
-        //   "$ref": "#/definitions/phoneNumber"
-        // },
+        address: {
+          $ref: '#/definitions/address'
+        },
+        phone: {
+          $ref: '#/definitions/phone'
+        },
       }
     },
     bankAccount: {
