@@ -4,7 +4,7 @@ import SkinDeep from 'skin-deep';
 import chaiAsPromised from 'chai-as-promised';
 import { default as chai, expect } from 'chai';
 
-import ErrorableTextInput from '../../../../src/js/hca/components/form-elements/ErrorableTextInput';
+import ErrorableTextInput from '../../../../src/js/common/components/form-elements/ErrorableTextInput';
 import { makeField } from '../../../../src/js/common/model/fields';
 
 chai.use(chaiAsPromised);
@@ -99,4 +99,3 @@ describe('<ErrorableTextInput>', () => {
     expect(inputs[0].props.id).to.equal(labels[0].props.htmlFor);
   });
 });
-

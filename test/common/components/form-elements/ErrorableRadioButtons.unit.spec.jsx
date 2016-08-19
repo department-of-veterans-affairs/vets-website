@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import ErrorableRadioButtons from '../../../../src/js/hca/components/form-elements/ErrorableRadioButtons';
+import ErrorableRadioButtons from '../../../../src/js/common/components/form-elements/ErrorableRadioButtons';
 import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<ErrorableRadioButtons>', () => {

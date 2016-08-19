@@ -3,8 +3,8 @@ import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import { ensureFieldsInitialized, updateIncompleteStatus, updateVerifiedStatus, updateCompletedStatus } from '../../actions';
-import * as validations from '../../utils/validations';
+import { ensureFieldsInitialized, updateIncompleteStatus, updateVerifiedStatus, updateCompletedStatus } from '../actions';
+import * as validations from '../../common/utils/validations';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;

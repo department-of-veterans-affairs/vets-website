@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import SocialSecurityNumber from '../../../../src/js/hca/components/questions/SocialSecurityNumber';
+import SocialSecurityNumber from '../../../../src/js/common/components/questions/SocialSecurityNumber';
 import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<SocialSecurityNumber>', () => {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
-import { isValidFinancialDisclosure } from '../../utils/validations';
+import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
+import { isValidFinancialDisclosure } from '../../../common/utils/validations';
 import { veteranUpdateField } from '../../actions';
 
 /**
