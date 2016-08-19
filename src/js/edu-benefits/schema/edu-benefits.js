@@ -158,7 +158,7 @@ module.exports = {
     },
     gender: {
       type: 'string',
-      pattern: '^(M|F)$'
+      enum: ['M', 'F']
     },
     birthday: {
       type: 'string',
