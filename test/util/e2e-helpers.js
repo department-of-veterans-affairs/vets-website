@@ -18,9 +18,20 @@ function expectNavigateAwayFrom(client, urlSubstring) {
     .to.not.contain(urlSubstring).before(Timeouts.normal);
 }
 
+function overrideVetsGovApi(client) {
+  client.execute(function() {
+      window.VetsGov.api.url = 'http://localhost:4000';
+      return window.VetsGov.api.url;
+    }, [],
+    function(val) {
+      console.log('Result of overriding VetsGov.api.url:' + JSON.stringify(val));
+    });
+}
+
 module.exports = {
   baseUrl: 'http://localhost:3000',
   apiUrl: 'http://localhost:4000',
   createE2eTest,
   expectNavigateAwayFrom,
+  overrideVetsGovApi,
 };
