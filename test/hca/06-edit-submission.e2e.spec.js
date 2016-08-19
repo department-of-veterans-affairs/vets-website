@@ -1,6 +1,22 @@
+const _ = require('lodash');
+
 const E2eHelpers = require('../util/e2e-helpers');
 const Timeouts = require('../util/timeouts.js');
 const HcaHelpers = require('../util/hca-helpers.js');
+
+function editSection(client) {
+  client.useXpath().click('(//button[text()="Edit"])[last()]').useCss();
+}
+
+function nextSection(client) {
+  client.useXpath().click('//button[text()="Next"]').useCss();
+}
+
+function verifyEdit(client, expectedValue) {
+  client.click('.usa-button-outline');
+  client.expect.element('.review tr:nth-child(1) td:nth-child(2)').text.to.equal(expectedValue);
+  nextSection(client);
+}
 
 module.exports = E2eHelpers.createE2eTest(
   (client) => {
@@ -110,13 +126,78 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Review and Submit Page.
     client.expect.element('button.edit-btn').to.be.visible;
+
+    // create copy obj so that all defaults remain except what we explicitly change
+    const vetInfoCopy = _.cloneDeep(HcaHelpers.testValues);
+
+    // TODO: investigate issue with clearing/setting year fields
+    // currently, setting a year after clearing removing the second number, eg. 1980 becomes 180
+    // setting it to blank clears it and fills in with the original value
+    // leaving for now as may be a bug, this test gets us the desired e2e test (can edit in final step and save)
+
+
+    // Edit personal info
+    vetInfoCopy.veteranFullName = {
+      first: 'John',
+      last: 'Doe'
+    };
+    editSection(client);
+    HcaHelpers.completePersonalInformation(client, vetInfoCopy, true);
+    verifyEdit(client, 'John Doe');
+
+    // Edit birth info
+    vetInfoCopy.veteranDateOfBirth = {
+      month: 'Jan',
+      day: '20',
+      year: ''
+    };
+    editSection(client);
+    client.clearValue('input[name="veteranBirthYear"]');
+    HcaHelpers.completeBirthInformation(client, vetInfoCopy, true);
+    verifyEdit(client, '1/20/1980');
+
+    // Edit demographic info
+    vetInfoCopy.gender = 'F';
+    editSection(client);
+    HcaHelpers.completeDemographicInformation(client, vetInfoCopy, true);
+    verifyEdit(client, 'F');
+
+    // Edit address
+    vetInfoCopy.veteranAddress.street = '123 Foo St.';
+    editSection(client);
+    client.clearValue('input[name="address"]');
+    HcaHelpers.completeVeteranAddress(client, vetInfoCopy, true);
+    verifyEdit(client, '123 Foo St.');
+
+    nextSection(client);
+
+    // Edit service branch
+    vetInfoCopy.lastServiceBranch = 'coast guard';
+    vetInfoCopy.lastDischargeDate.year = '';
+    vetInfoCopy.lastEntryDate.year = '';
+    editSection(client);
+    HcaHelpers.completeMilitaryService(client, vetInfoCopy, true);
+    verifyEdit(client, 'Coast Guard');
+
+    nextSection(client);
+    nextSection(client);
+    nextSection(client);
+
+    // Edit spouse information
+    vetInfoCopy.maritalStatus = 'Separated';
+    vetInfoCopy.dateOfMarriage.year = '';
+    vetInfoCopy.spouseDateOfBirth.year = '';
+    editSection(client);
+    HcaHelpers.completeSpouseInformation(client, vetInfoCopy, true);
+    verifyEdit(client, 'Separated');
+
     client.click('.form-panel .usa-button-primary');
-    // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
     client.expect.element('.js-test-location').attribute('data-location')
       .to.not.contain('/review-and-submit').before(Timeouts.submission);
 
     // Submit message
     client.expect.element('.success-alert-box').to.be.visible;
+
 
     client.end();
   });
