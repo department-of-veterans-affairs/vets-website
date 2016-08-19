@@ -10,9 +10,9 @@ describe('education benefits json schema', () => {
   let expectValidData = (data) => {
     expect(validateSchema(data)).to.equal(true);
   };
-  let expectInvalidData = (data, key) => {
+  let expectInvalidData = (data) => {
     expect(validateSchema(data)).to.equal(false);
-    expect(ajv.errors[0].dataPath).to.equal(`.${key}`);
+    expect(ajv.errors[0].dataPath).to.equal(`.${Object.keys(data)[0]}`);
   };
 
   before(() => {
@@ -26,11 +26,11 @@ describe('education benefits json schema', () => {
     });
 
     it('should not allow ssn with dashes', () => {
-      expectInvalidData({ socialSecurityNumber: '123-45-6789' }, 'socialSecurityNumber');
+      expectInvalidData({ socialSecurityNumber: '123-45-6789' });
     });
 
     it('should not allow bad ssn', () => {
-      expectInvalidData({ socialSecurityNumber: '12345678' }, 'socialSecurityNumber');
+      expectInvalidData({ socialSecurityNumber: '12345678' });
     });
   });
 
@@ -49,7 +49,7 @@ describe('education benefits json schema', () => {
         fullName: {
           first: 'john'
         }
-      }, 'fullName');
+      });
     })
   });
 
@@ -61,7 +61,7 @@ describe('education benefits json schema', () => {
     });
 
     it('shouldnt allow invalid gender', () => {
-      expectInvalidData({ gender: 'Z' }, 'gender');
+      expectInvalidData({ gender: 'Z' });
     })
   });
 
@@ -82,7 +82,7 @@ describe('education benefits json schema', () => {
           city: 'foo',
           country: 'USA'
         }
-      }, 'address');
+      });
     });
   });
 
@@ -98,7 +98,7 @@ describe('education benefits json schema', () => {
         it('shouldnt allow invalid phone #', () => {
           expectInvalidData({
             [field]: '1a'
-          }, field);
+          });
         });
       });
     });
