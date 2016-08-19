@@ -191,7 +191,7 @@ module.exports = {
       properties: {
         accountType: {
           type: 'string',
-          pattern: '^(checking|savings)$'
+          'enum': ['checking', 'savings']
         },
         bankName: {
           type: 'string'
