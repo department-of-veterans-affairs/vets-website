@@ -45,7 +45,7 @@ relatedlinks:
 <li class="step one wow fadeIn animated">
 <div markdown="1">
 
-#### 12 Months Before Leaving Active Duty
+##### 12 Months Before Leaving Active Duty
 
 - Fill in any gaps in your education or skill set by taking classes and obtaining certifications and licensures. The [GI Bill](/education/gi-bill/) may be used for some of this prior to exiting the service.
 - Contact your local Transition Assistance Program (TAP) manager to schedule the mandatory Transition Goals, Plans, Success (GPS) curriculum. If you are unable to attend this training, it is available through [Joint Knowledge Online](https://jkodirect.jten.mil), but you must have approval from your service branch to get credit. You must complete the VA Benefits Briefings I and II, the Department of Labor Employment Workshop, and an Individual Transition Plan (ITP). ITPs are service specific, so [check documents related to your branch](https://dodtap.mil/index.html).
@@ -60,7 +60,7 @@ relatedlinks:
 <li class="step two wow fadeIn animated">
 <div markdown="1">
 
-#### 6 Months Before Leaving Active Duty
+##### 6 Months Before Leaving Active Duty
 
 - Complete the [Preseparation Counseling Checklist](http://www.dtic.mil/whs/directives/forms/eforms/dd2648t.pdf) (form DD2648).
 - Compile your service-treatment records and military hospital reports if you plan on registering for VA medical resources.
@@ -77,7 +77,7 @@ Both of these can be ordered through the [National Archives](https://www.archive
 <li class="step three wow fadeIn animated">
 <div markdown="1">
 
-#### 2-4 Months Before Leaving Active Duty
+##### 2-4 Months Before Leaving Active Duty
 
 - Attend networking and recruiting events.
 - Review job boards, search job banks, and research openings at companies that interest you.
@@ -90,7 +90,7 @@ Both of these can be ordered through the [National Archives](https://www.archive
 <li class="step four last wow fadeIn animated">
 <div markdown="1">
 
-#### 1 Month Before Leaving Active Duty
+##### 1 Month Before Leaving Active Duty
 
 - Complete TAP GPS (can be completed earlier).
 - Prepare for final round of job interviews.

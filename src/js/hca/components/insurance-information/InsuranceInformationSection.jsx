@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
-import GrowableTable from '../form-elements/GrowableTable.jsx';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import GrowableTable from '../../../common/components/form-elements/GrowableTable.jsx';
 import Provider from './Provider.jsx';
-import { yesNo } from '../../utils/options-for-select.js';
-import { isNotBlank, validateIfDirty } from '../../utils/validations';
+import { yesNo } from '../../../common/utils/options-for-select.js';
+import { isNotBlank, validateIfDirty } from '../../../common/utils/validations';
 import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
 
 import { makeField } from '../../../common/model/fields';
