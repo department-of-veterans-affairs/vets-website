@@ -107,4 +107,11 @@ describe('education benefits json schema', () => {
       invalid: ['bitcoin']
     });
   });
+
+  context('serviceAcademyGraduationYear validations', () => {
+    testValidAndInvalid('serviceAcademyGraduationYear', {
+      valid: [2004],
+      invalid: [1899]
+    });
+  });
 });

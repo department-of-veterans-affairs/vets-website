@@ -276,6 +276,10 @@ module.exports = {
     },
     nonVaAssistanceComments: {
       type: 'string'
+    },
+    serviceAcademyGraduationYear: {
+      type: 'integer',
+      minimum: 1900
     }
   }
 };
