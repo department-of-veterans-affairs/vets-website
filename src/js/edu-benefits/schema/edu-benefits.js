@@ -311,5 +311,24 @@ module.exports = {
     remarks: {
       type: 'string'
     },
+    toursOfDuty: {
+      type: 'array',
+      items: {
+        dateRange: {
+          $ref: '#/definitions/dateRange'
+        },
+        serviceBranch: {
+          type: 'string'
+          // TODO enum for this field?
+        },
+        serviceStatus: {
+          type: 'string'
+        },
+        involuntarilyCalledToDuty: {
+          type: 'boolean'
+        },
+        required: ['dateRange', 'serviceBranch', 'serviceStatus', 'involuntarilyCalledToDuty']
+      }
+    }
   }
 };

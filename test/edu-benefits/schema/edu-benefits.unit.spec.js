@@ -139,4 +139,23 @@ describe('education benefits json schema', () => {
       invalid: ['4/6/1998', 'Fri Aug 19 2016 15:09:46 GMT-0400 (EDT)']
     });
   });
+
+  context('tours of duty validation', () => {
+    testValidAndInvalid('toursOfDuty', {
+      valid: [[{
+        dateRange: {
+          from: '2000-01-01',
+          to: '2000-01-02'
+        },
+        serviceBranch: 'navy',
+        serviceStatus: 'active',
+        involuntarilyCalledToDuty: true
+      }]],
+      invalid: [[{
+        serviceBranch: 'navy',
+        serviceStatus: 'active',
+        involuntarilyCalledToDuty: true
+      }]],
+    });
+  });
 });
