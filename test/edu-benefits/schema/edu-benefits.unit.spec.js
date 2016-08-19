@@ -100,4 +100,11 @@ describe('education benefits json schema', () => {
       });
     });
   });
+
+  context('bank account validations', () => {
+    testValidAndInvalid('bankAccount.accountType', {
+      valid: ['checking', 'savings'],
+      invalid: ['bitcoin']
+    });
+  });
 });
