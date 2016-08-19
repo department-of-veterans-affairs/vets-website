@@ -114,4 +114,22 @@ describe('education benefits json schema', () => {
       invalid: [1899]
     });
   });
+
+  context('dateRange validations', () => {
+    testValidAndInvalid('activeDutyRepayingPeriod', {
+      valid: [{
+        from: '2000-01-01',
+        to: '2000-01-02'
+      }],
+      invalid: [
+        {
+          from: 'foo',
+          to: 'bar'
+        },
+        {
+          from: '2000-01-01'
+        }
+      ]
+    });
+  });
 });

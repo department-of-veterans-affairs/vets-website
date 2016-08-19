@@ -82,7 +82,8 @@ module.exports = {
         to: {
           $ref: '#/definitions/date'
         }
-      }
+      },
+      required: ['from', 'to']
     },
     fullName: {
       type: 'object',
@@ -280,6 +281,34 @@ module.exports = {
     serviceAcademyGraduationYear: {
       type: 'integer',
       minimum: 1900
+    },
+    seniorRotcScholarshipProgram: {
+      type: 'boolean'
+    },
+    seniorRotcScholarshipComments: {
+      type: 'string'
+    },
+    dateOfRotcCommission: {
+      type: 'string',
+      format: 'date-time'
+    },
+    civilianBenefitsAssistance: {
+      type: 'boolean'
+    },
+    civilianBenefitsAssistanceComments: {
+      type: 'string'
+    },
+    additionalContributions: {
+      type: 'boolean'
+    },
+    activeDutyKicker: {
+      type: 'boolean'
+    },
+    reserveKicker: {
+      type: 'boolean'
+    },
+    activeDutyRepayingPeriod: {
+      $ref: '#/definitions/dateRange'
     }
   }
 };
