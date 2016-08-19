@@ -215,5 +215,9 @@ if (options.watch) {
 
 smith.build(function(err) {
   if (err) throw err;
-  console.log('Metalsmith build finished!  Now starting webpack...');
+  if (options.watch){
+    console.log('Metalsmith build finished!  Starting webpack-dev-server...');
+  } else {
+    console.log('Build finished!');
+  }
 });
