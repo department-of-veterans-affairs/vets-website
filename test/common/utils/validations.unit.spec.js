@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { isValidDate, isValidSSN, isValidName, isNotBlank, isBlank, isValidMonetaryValue } from '../../../src/js/hca/utils/validations.js';
+import { isValidDate, isValidSSN, isValidName, isNotBlank, isBlank, isValidMonetaryValue } from '../../../src/js/common/utils/validations.js';
 
 describe('Validations unit tests', () => {
   describe('isValidSSN', () => {

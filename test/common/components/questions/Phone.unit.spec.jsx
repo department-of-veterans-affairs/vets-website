@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import Phone from '../../../../src/js/hca/components/questions/Phone';
+import Phone from '../../../../src/js/common/components/questions/Phone';
 import { makeField } from '../../../../src/js/common/model/fields';
 
 describe('<Phone>', () => {

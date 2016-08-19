@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-addons-test-utils';
 import { assert, expect } from 'chai';
 
 import Address from
-    '../../../../src/js/hca/components/questions/Address';
+    '../../../../src/js/common/components/questions/Address';
 
 describe('<Address>', () => {
   let component = null;

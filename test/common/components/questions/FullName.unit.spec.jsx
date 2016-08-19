@@ -3,7 +3,7 @@ import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
 import { assert, expect } from 'chai';
 
-import FullName from '../../../../src/js/hca/components/questions/FullName';
+import FullName from '../../../../src/js/common/components/questions/FullName';
 import { makeField } from '../../../../src/js/common/model/fields';
 
 function makeName(first, middle, last, suffix) {

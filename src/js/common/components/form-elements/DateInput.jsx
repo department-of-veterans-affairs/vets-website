@@ -1,10 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
 
-import ErrorableSelect from '../form-elements/ErrorableSelect';
-import ErrorableNumberInput from '../form-elements/ErrorableNumberInput';
+import ErrorableSelect from './ErrorableSelect';
+import ErrorableNumberInput from './ErrorableNumberInput';
 
-import ToolTip from '../form-elements/ToolTip';
+import ToolTip from './ToolTip';
 
 import { validateIfDirtyDate, isBlank, isValidDate } from '../../utils/validations';
 import { months, days } from '../../utils/options-for-select.js';

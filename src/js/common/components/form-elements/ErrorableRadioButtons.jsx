@@ -1,9 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 
-import ToolTip from '../form-elements/ToolTip';
+import ToolTip from './ToolTip';
 
-import { makeField } from '../../../common/model/fields.js';
+import { makeField } from '../../model/fields.js';
 
 /**
  * A radio button group with a label.
