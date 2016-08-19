@@ -2,11 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Child from './Child';
-import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
-import GrowableTable from '../form-elements/GrowableTable.jsx';
-import { yesNo } from '../../utils/options-for-select.js';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import GrowableTable from '../../../common/components/form-elements/GrowableTable.jsx';
+import { yesNo } from '../../../common/utils/options-for-select.js';
 import { createBlankChild } from '../../../common/model/child';
-import { isNotBlank, validateIfDirty } from '../../utils/validations';
+import { isNotBlank, validateIfDirty } from '../../../common/utils/validations';
 import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
 
 /**

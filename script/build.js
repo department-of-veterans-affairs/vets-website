@@ -27,7 +27,6 @@ const sourceDir = '../content/pages';
 const smith = Metalsmith(__dirname);
 
 const optionDefinitions = [
-  { name: 'apiUrl', type: String, defaultValue: '' },
   { name: 'buildtype', type: String, defaultValue: 'development' },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3000 },
@@ -116,7 +115,7 @@ smith.use(archive());  // TODO(awong): Can this be removed?
 // translating .md files which would allow inPlace() and markdown() to be moved under the
 // permalinks() and navigation() filters making the variable stores uniform between inPlace()
 // and layout().
-smith.use(inPlace({ engine: 'liquid' }));
+smith.use(inPlace({ engine: 'liquid', pattern: '*.{md,html}' }));
 smith.use(markdown({
   typographer: true,
   html: true
@@ -173,7 +172,16 @@ if (options.watch) {
       hot: true,
       port: options.port,
       publicPath: '/generated/',
-      stats: { colors: true }
+      stats: {
+        colors: true,
+        assets: false,
+        version: false,
+        hash: false,
+        timings: true,
+        chunks: false,
+        chunkModules: false,
+        children: false
+      }
     }
   ));
 } else {
@@ -205,6 +213,10 @@ if (options.watch) {
 }
 
 smith.build(function(err) {
-    if (err) throw err;
+  if (err) throw err;
+  if (options.watch){
+    console.log('Metalsmith build finished!  Starting webpack-dev-server...');
+  } else {
     console.log('Build finished!');
-  });
+  }
+});

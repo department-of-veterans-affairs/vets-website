@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
-import ErrorableSelect from '../form-elements/ErrorableSelect';
-import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
+import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import VaMedicalFacility from './VaMedicalFacility';
 import { veteranUpdateField } from '../../actions';
-import { states, vaMedicalFacilities, yesNo } from '../../utils/options-for-select';
-import { validateIfDirty, isNotBlank } from '../../utils/validations';
+import { states, vaMedicalFacilities, yesNo } from '../../../common/utils/options-for-select';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
 import { displayLabel } from '../../store/calculated';
 
 /**
