@@ -51,16 +51,9 @@ describe('education benefits json schema', () => {
   });
 
   context('ssn validations', () => {
-    it('should allow an ssn with no dashes', () => {
-      expectValidData({ socialSecurityNumber: '123456789' });
-    });
-
-    it('should not allow ssn with dashes', () => {
-      expectInvalidData({ socialSecurityNumber: '123-45-6789' });
-    });
-
-    it('should not allow bad ssn', () => {
-      expectInvalidData({ socialSecurityNumber: '12345678' });
+    testValidAndInvalid('socialSecurityNumber', {
+      valid: ['123456789'],
+      invalid: ['123-45-6789', '12345678']
     });
   });
 
@@ -79,54 +72,33 @@ describe('education benefits json schema', () => {
   });
 
   context('gender validations', () => {
-    it('should allow a valid gender', () => {
-      ['M', 'F'].forEach((gender) => {
-        expectValidData({ gender: gender });
-      });
+    testValidAndInvalid('gender', {
+      valid: ['M', 'F'],
+      invalid: ['Z']
     });
-
-    it('shouldnt allow invalid gender', () => {
-      expectInvalidData({ gender: 'Z' });
-    })
   });
 
   context('address validations', () => {
     ['address', 'emergencyContact.address'].forEach((parentKey) => {
-      it('should allow a valid address', () => {
-        expectValidData({
-          address: {
-            street: '123 a rd',
-            city: 'abc',
-            country: 'USA'
-          }
-        });
-      });
-
-      it('shouldnt allow an invalid address', () => {
-        expectInvalidData({
-          address: {
-            city: 'foo',
-            country: 'USA'
-          }
-        });
+      testValidAndInvalid(parentKey, {
+        valid: [{
+          street: '123 a rd',
+          city: 'abc',
+          country: 'USA'
+        }],
+        invalid: [{
+          city: 'foo',
+          country: 'USA'
+        }]
       });
     });
   });
 
   context('phone # validations', () => {
-    ['phone', 'secondaryPhone'].forEach((field) => {
-      context(`phone number in ${field} field`, () => {
-        it('should allow valid phone #', () => {
-          expectValidData({
-            [field]: '5555555555'
-          });
-        });
-
-        it('shouldnt allow invalid phone #', () => {
-          expectInvalidData({
-            [field]: '1a'
-          });
-        });
+    ['phone', 'secondaryPhone'].forEach((parentKey) => {
+      testValidAndInvalid(parentKey, {
+        valid: ['5555555555'],
+        invalid: ['1a']
       });
     });
   });
