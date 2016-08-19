@@ -1,9 +1,7 @@
 import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import dirtyChai from 'dirty-chai';
 import jsdom from 'jsdom';
 chai.use(chaiAsPromised);
-chai.use(dirtyChai);
 
 const expect = chai.expect;
 
