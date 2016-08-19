@@ -264,6 +264,18 @@ module.exports = {
     highSchoolOrGedCompletionDate: {
       type: 'string',
       format: 'date-time'
+    },
+    faaFlightCertificatesInformation: {
+      type: 'string'
+    },
+    nonVaAssistance: {
+      type: 'boolean'
+    },
+    guardsmenReservistsAssistance: {
+      type: 'boolean'
+    },
+    nonVaAssistanceComments: {
+      type: 'string'
     }
   }
 };
