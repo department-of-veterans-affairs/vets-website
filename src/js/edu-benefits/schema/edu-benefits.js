@@ -359,6 +359,24 @@ module.exports = {
         },
         required: ['name', 'dateRange', 'city']
       }
+    },
+    nonMilitaryJobs: {
+      type: 'array',
+      items: {
+        name: {
+          type: 'string'
+        },
+        months: {
+          type: 'integer'
+        },
+        licenseOrRating: {
+          type: 'string'
+        },
+        postMilitaryJob: {
+          type: 'boolean'
+        },
+        required: ['name', 'months', 'postMilitaryJob']
+      }
     }
   }
 };

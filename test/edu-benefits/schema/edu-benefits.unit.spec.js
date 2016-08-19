@@ -170,4 +170,18 @@ describe('education benefits json schema', () => {
       }]]
     });
   });
+
+  context('non military jobs validation', () => {
+    testValidAndInvalid('nonMilitaryJobs', {
+      valid: [[{
+        name: 'president',
+        months: 9999,
+        postMilitaryJob: true
+      }]],
+      invalid: [[{
+        name: 'programmer',
+        months: 1
+      }]]
+    });
+  });
 });
