@@ -173,9 +173,9 @@ module.exports = {
     phone: {
       $ref: '#/definitions/phone'
     },
-    // "secondaryPhoneNumber": {
-    //   "$ref": "#/definitions/phoneNumber"
-    // },
+    secondaryPhone: {
+      $ref: '#/definitions/phone'
+    },
     emergencyContact: {
       type: 'object',
       properties: {

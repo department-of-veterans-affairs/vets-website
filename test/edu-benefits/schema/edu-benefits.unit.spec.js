@@ -87,16 +87,20 @@ describe('education benefits json schema', () => {
   });
 
   context('phone # validations', () => {
-    it('should allow valid phone #', () => {
-      expectValidData({
-        phone: '5555555555'
-      });
-    });
+    ['phone', 'secondaryPhone'].forEach((field) => {
+      context(`phone number in ${field} field`, () => {
+        it('should allow valid phone #', () => {
+          expectValidData({
+            [field]: '5555555555'
+          });
+        });
 
-    it('shouldnt allow invalid phone #', () => {
-      expectInvalidData({
-        phone: '1a'
-      }, 'phone');
+        it('shouldnt allow invalid phone #', () => {
+          expectInvalidData({
+            [field]: '1a'
+          }, field);
+        });
+      });
     });
   });
 });
