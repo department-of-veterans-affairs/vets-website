@@ -1,9 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 
-import ErrorableSelect from '../form-elements/ErrorableSelect';
-import { validateIfDirty, isNotBlank } from '../../utils/validations';
-import { vaMedicalFacilities } from '../../utils/options-for-select.js';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
+import { vaMedicalFacilities } from '../../../common/utils/options-for-select.js';
 
 /**
  * Select component for preferred VA Medical Facility.
