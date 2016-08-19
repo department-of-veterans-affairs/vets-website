@@ -133,8 +133,7 @@ module.exports = {
           type: 'string'
         },
         electionDate: {
-          type: 'string',
-          format: 'date-time'
+          $ref: '#/definitions/date'
         }
       }
     },
@@ -155,8 +154,7 @@ module.exports = {
       'enum': ['M', 'F']
     },
     birthday: {
-      type: 'string',
-      format: 'date-time'
+      $ref: '#/definitions/date'
     },
     socialSecurityNumber: {
       $ref: '#/definitions/ssn'
@@ -221,8 +219,7 @@ module.exports = {
       $ref: '#/definitions/address'
     },
     educationStartDate: {
-      type: 'string',
-      format: 'date-time'
+      $ref: '#/definitions/date'
     },
     educationalObjective: {
       type: 'string'
@@ -263,8 +260,7 @@ module.exports = {
       type: 'boolean'
     },
     highSchoolOrGedCompletionDate: {
-      type: 'string',
-      format: 'date-time'
+      $ref: '#/definitions/date'
     },
     faaFlightCertificatesInformation: {
       type: 'string'
@@ -289,8 +285,7 @@ module.exports = {
       type: 'string'
     },
     dateOfRotcCommission: {
-      type: 'string',
-      format: 'date-time'
+      $ref: '#/definitions/date'
     },
     civilianBenefitsAssistance: {
       type: 'boolean'
