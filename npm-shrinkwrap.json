@@ -6736,6 +6736,11 @@
       "from": "throttleit@>=1.0.0 <2.0.0",
       "resolved": "http://registry.npmjs.org/throttleit/-/throttleit-1.0.0.tgz"
     },
+    "throttleit": {
+      "version": "1.0.0",
+      "from": "throttleit@>=1.0.0 <2.0.0",
+      "resolved": "http://registry.npmjs.org/throttleit/-/throttleit-1.0.0.tgz"
+    },
     "through": {
       "version": "2.3.8",
       "from": "through@>=2.3.6 <3.0.0",
