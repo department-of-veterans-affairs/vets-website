@@ -23,12 +23,6 @@ VA health care includes regular checkups with your primary care doctor and acces
 
 - Visit the [nearest VA medical center or clinic](http://www.va.gov/directory/guide/division.asp?dnum=1) to apply in person. Download, print, and fill out the [10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
----------
-
-- **Already enrolled?** To update your personal, insurance, or financial information from a previous application, download and fill out a [10-10EZR](/healthcare/forms/vha-10-10ezr-fill.pdf).
-
----------
-
 <div class="call-out" markdown="1">
 
 ### What information will you need to complete the 10-10EZ?
@@ -63,6 +57,10 @@ If you separated under a dishonorable discharge, visit [healthcare.gov](https://
 - You served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987.
 
 If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes ([income threshold](http://nationalincomelimits.vaftl.us/)) can affect your eligibility for VA benefits.
+
+### Already enrolled?
+
+To update your personal, insurance, or financial information from a previous application, download and fill out a [10-10EZR](/healthcare/forms/vha-10-10ezr-fill.pdf).
 
 ### Additional forms for caregivers and active-duty Servicemembers
 
@@ -100,5 +98,3 @@ If none of the above apply to you, you may still qualify for care based on your 
 Double click on the downloaded file to open it.
 
 </div>
-
-
