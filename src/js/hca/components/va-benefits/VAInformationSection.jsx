@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ErrorableRadioButtons from '../../../components/form-elements/ErrorableRadioButtons';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import { yesNo } from '../../../common/utils/options-for-select';
 import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
 import { veteranUpdateField } from '../../actions';

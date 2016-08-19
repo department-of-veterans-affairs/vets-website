@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Waters in the Vicinity of Vietnam
 concurrence: incomplete
 template: 4-action-page
@@ -35,4 +36,3 @@ If you did not go ashore or serve aboard a ship that operated on the inland wate
 
 **Exception:**
 If you’re a Blue Water Veteran with [non-Hodgkin’s lymphoma](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/), you do not need to prove where you were exposed. VA recognizes non-Hodgkin’s lymphoma as related to service in Vietnam or its offshore waters during the Vietnam Era.
-

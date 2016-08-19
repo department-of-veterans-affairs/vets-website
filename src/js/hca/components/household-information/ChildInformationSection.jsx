@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Child from './Child';
-import ErrorableRadioButtons from '../../../components/form-elements/ErrorableRadioButtons';
-import GrowableTable from '../../../components/form-elements/GrowableTable.jsx';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import GrowableTable from '../../../common/components/form-elements/GrowableTable.jsx';
 import { yesNo } from '../../../common/utils/options-for-select.js';
 import { createBlankChild } from '../../../common/model/child';
 import { isNotBlank, validateIfDirty } from '../../../common/utils/validations';

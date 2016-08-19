@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
-import ErrorableTextInput from '../../../components/form-elements/ErrorableTextInput';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import { isValidField, isValidMonetaryValue } from '../../../common/utils/validations';
 import { veteranUpdateField } from '../../actions';
 

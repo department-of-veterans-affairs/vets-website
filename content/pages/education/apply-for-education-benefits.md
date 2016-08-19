@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Apply for Education Benefits
 template: 6-info-page
 concurrence: complete
@@ -28,7 +29,7 @@ The time it takes to process your claim depends on your regional office. There a
 
 <div markdown="1">
 
-#### Research
+##### Research
 
 </div>
 
@@ -47,7 +48,7 @@ The time it takes to process your claim depends on your regional office. There a
 
 <div markdown="1">
 
-#### Gather Your Documents
+##### Gather Your Documents
 
 The following documents will help VA process your claim:
 
@@ -67,7 +68,7 @@ The following documents will help VA process your claim:
 
 <div markdown="1">
 
-#### Apply
+##### Apply
 
 You have four options for filing your claim:
 
@@ -88,7 +89,7 @@ You have four options for filing your claim:
 
 <div markdown="1">
 
-#### VA Review
+##### VA Review
 
 You can track the status of your application on [eBenefits](https://www.ebenefits.va.gov/ebenefits/manage/status).
 
@@ -97,4 +98,3 @@ You can track the status of your application on [eBenefits](https://www.ebenefit
 </li>
 
 </ol>
-

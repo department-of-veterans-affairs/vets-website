@@ -1,0 +1,17 @@
+// Styles for contact card
+
+.rx-contact-card {
+  width: 30rem;
+}
+
+.rx-contact-line {
+  font-size: 1.8rem;
+
+  & + .rx-contact-line {
+    margin-top: 1rem;
+  }
+}
+
+.rx-contact-header {
+  font-weight: bold;
+}

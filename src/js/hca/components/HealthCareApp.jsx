@@ -118,7 +118,7 @@ class HealthCareApp extends React.Component {
       this.props.onUpdateSubmissionStatus('submitPending');
 
       // POST data to endpoint
-      fetch('/api/hca/v1/application', {
+      fetch(`${window.VetsGov.api.url}/api/hca/v1/application`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

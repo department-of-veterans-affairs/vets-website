@@ -27,10 +27,10 @@ const sourceDir = '../content/pages';
 const smith = Metalsmith(__dirname);
 
 const optionDefinitions = [
-  { name: 'watch', type: Boolean, defaultValue: false },
-  { name: 'port', type: Number, defaultValue: 3000 },
   { name: 'buildtype', type: String, defaultValue: 'development' },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
+  { name: 'port', type: Number, defaultValue: 3000 },
+  { name: 'watch', type: Boolean, defaultValue: false },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -145,13 +145,10 @@ smith.use(navigation({
 
 smith.use(assets({ source: '../assets', destination: './' }));
 
-// TODO(awong): Remove the default layout. Having a default layout makes it impossible to
-// write a bare HTML page and it is just less explicit.
-//
-// https://github.com/department-of-veterans-affairs/vets-website/issues/2713
+// Note that there is no default layout specified.
+// All pages must explicitly declare a layout or else it will be rendered as raw html.
 smith.use(layouts({
   engine: 'liquid',
-  'default': 'page-breadcrumbs.html',
   directory: '../content/layouts/',
   // Only apply layouts to markdown and html files.
   pattern: '**/*.{md,html}'

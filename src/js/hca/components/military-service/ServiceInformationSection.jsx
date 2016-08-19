@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DateInput from '../../../components/form-elements/DateInput';
-import ErrorableSelect from '../../../components/form-elements/ErrorableSelect';
+import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import { branchesServed, dischargeTypes } from '../../../common/utils/options-for-select.js';
 import { validateIfDirty, isNotBlank, isValidDischargeDateField, isValidEntryDateField } from '../../../common/utils/validations';
 import { veteranUpdateField } from '../../actions';

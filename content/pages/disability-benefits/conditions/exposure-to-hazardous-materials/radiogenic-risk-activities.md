@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Radiogenic Risk Activities
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp,http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp
 template: 4-action-page-pending

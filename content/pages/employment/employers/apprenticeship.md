@@ -1,10 +1,11 @@
 ---
+layout: page-breadcrumbs.html
 title: Establish an Apprenticeship Program for Veterans
 concurrence: complete
 template: 1-topic-landing
 ---
 
-Employers can set up an apprenticeship program that is approved for the GI Bill. 
+Employers can set up an apprenticeship program that is approved for the GI Bill.
 
 Employers provide Veterans with a job at an acceptable wage, as well as training, development, hands-on learning, and technical instruction. VA may give a stipend to Veterans. At the end of the program, Veterans receive job certification or journeyman status.
 

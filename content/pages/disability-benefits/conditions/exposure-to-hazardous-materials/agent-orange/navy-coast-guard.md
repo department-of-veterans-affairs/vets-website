@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: U.S. Navy and Coast Guard Ships in Vietnam
 concurrence: complete
 template: 4-action-page
@@ -54,4 +55,3 @@ You and your dependents
 If you served on one of the vessels listed as exposed to Agent Orange, and have one or more of [these diseases](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/), VA presumes that your disease is related to Agent Orange exposure in service.
 
 If you don’t currently have an Agent Orange–related disability, you and your family may still participate in the Agent Orange Health Registry.
-

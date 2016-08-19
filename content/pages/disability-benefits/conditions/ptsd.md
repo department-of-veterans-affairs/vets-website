@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Post-Traumatic Stress Disorder (PTSD)
 concurrence: complete
 source: http://www.va.gov/opa/issues/ptsd.asp

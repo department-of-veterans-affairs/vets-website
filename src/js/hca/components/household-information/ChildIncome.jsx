@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ErrorableTextInput from '../../../components/form-elements/ErrorableTextInput';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 
 import { isBlank, isValidMonetaryValue, validateIfDirty } from '../../../common/utils/validations';
 

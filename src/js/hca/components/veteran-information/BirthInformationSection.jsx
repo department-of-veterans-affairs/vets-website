@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import DateInput from '../../../components/form-elements/DateInput';
-import ErrorableSelect from '../../../components/form-elements/ErrorableSelect';
-import ErrorableTextInput from '../../../components/form-elements/ErrorableTextInput';
-import SocialSecurityNumber from '../questions/SocialSecurityNumber';
+import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
 import { states } from '../../../common/utils/options-for-select.js';
 import { veteranUpdateField } from '../../actions';
 
