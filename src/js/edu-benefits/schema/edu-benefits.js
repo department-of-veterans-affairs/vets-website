@@ -304,6 +304,12 @@ module.exports = {
     },
     activeDutyRepayingPeriod: {
       $ref: '#/definitions/dateRange'
-    }
+    },
+    serviceBefore1977: {
+      type: 'boolean'
+    },
+    remarks: {
+      type: 'string'
+    },
   }
 };

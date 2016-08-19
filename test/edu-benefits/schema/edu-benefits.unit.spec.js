@@ -132,4 +132,11 @@ describe('education benefits json schema', () => {
       ]
     });
   });
+
+  context('date validations', () => {
+    testValidAndInvalid('birthday', {
+      valid: ['2000-01-02'],
+      invalid: ['4/6/1998', 'Fri Aug 19 2016 15:09:46 GMT-0400 (EDT)']
+    });
+  });
 });
