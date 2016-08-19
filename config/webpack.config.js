@@ -103,7 +103,7 @@ var configGenerator = (options) => {
           }
       }),
       new sassLintPlugin({
-        configFile: 'config/.sass-lint.yml',
+        configFile: 'config/sass-lint.yml',
         glob: 'src/sass/**/*.s?(a|c)ss',
         quiet: false
       }),
