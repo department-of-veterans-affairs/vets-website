@@ -13,7 +13,6 @@ class Prescription extends React.Component {
     const id = this.props.id;
     const name = attrs['prescription-name'];
     const remaining = attrs['refill-remaining'];
-    const trackable = attrs['is-trackable'];
 
     let action;
     let messageProvider;
@@ -30,12 +29,12 @@ class Prescription extends React.Component {
       );
     }
 
-    if (trackable) {
+    if (attrs['is-trackable']) {
       // TODO: Replace this with a component.
       action = <a className="usa-button">Track package</a>;
-    } else {
+    } /* else if (!attrs['is-refillable']) {
       action = <div className="rx-prescription-refill-requested">Refill requested</div>;
-    }
+    } */
 
     const actionableContent = (
       <div className="rx-prescription-action">
