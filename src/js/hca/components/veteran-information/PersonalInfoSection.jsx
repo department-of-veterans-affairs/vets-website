@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import FullName from '../questions/FullName';
+import FullName from '../../../common/components/questions/FullName';
 import MothersMaidenName from './MothersMaidenName';
 import { veteranUpdateField } from '../../actions';
 
