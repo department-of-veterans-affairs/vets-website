@@ -23,9 +23,9 @@ module.exports = {
       "silent" : true,
       "output" : true,
       "screenshots" : {
-        "enabled" : false,
+        "enabled" : true,
         "on_failure" : true,
-        "path" : ""
+        "path" : "logs/screenshots"
       },
       "desiredCapabilities" : {
 //        "browserName": "firefox"

@@ -91,7 +91,6 @@ var configGenerator = (options) => {
     plugins: [
       new webpack.DefinePlugin({
           __BUILDTYPE__: JSON.stringify(options.buildtype),
-          __API_URL__: JSON.stringify(options.apiUrl),
           'process.env': {
               NODE_ENV: JSON.stringify(process.env.NODE_ENV)
           }
