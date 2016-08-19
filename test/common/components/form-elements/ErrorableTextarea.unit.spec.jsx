@@ -5,8 +5,8 @@ import chaiAsPromised from 'chai-as-promised';
 import { default as chai, expect } from 'chai';
 import sinon from 'sinon';
 
-import ErrorableTextarea from '../../../src/js/components/form-elements/ErrorableTextarea';
-import { makeField } from '../../../src/js/common/model/fields';
+import ErrorableTextarea from '../../../../src/js/common/components/form-elements/ErrorableTextarea';
+import { makeField } from '../../../../src/js/common/model/fields';
 
 chai.use(chaiAsPromised);
 
