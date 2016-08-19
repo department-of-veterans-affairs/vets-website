@@ -1,0 +1,90 @@
+// TODO: Update the paths so they import from the
+// vets-website repo (or other designated common)
+// elements version of these files.
+
+@import "../style";
+
+// TODO: Contributed these back to core / Vanguard.
+@import "_partials/va-alerts";
+@import "_partials/va-tabs";
+
+// RX-specific partials
+@import "_partials/rx-contact-card";
+@import "_partials/rx-modal";
+@import "_partials/rx-prescription-card";
+@import "_partials/rx-sort-list";
+@import "_partials/rx-table";
+
+// TODO: Replace this with a clearfix mixin
+// from USWDS or something
+.cf {
+  &::before,
+  &::after {
+    content: ' ';
+    display: table;
+    clear: both;
+  }
+}
+
+/* For IE <= 10 */
+[hidden] {
+  display: none !important;
+}
+
+.rx-app {
+  background: $color-white;
+  padding: 3rem 1.5rem;
+  margin: auto;
+  max-width: $site-max-width;
+}
+
+// Enhances a USWDS style that has higher specificity.
+// Do not refactor.
+button.usa-button-outline {
+  font-weight: bold;
+}
+
+// Enhances a USWDS style that has higher specificity.
+// Do not refactor.
+button.usa-button-outline {
+  font-weight: bold;
+}
+
+.rx-header {
+  margin-bottom: 3rem;
+}
+
+.rx-title {
+  margin-bottom: 0;
+  + p {
+    margin: 0 0 3rem;
+  }
+}
+
+.rx-active-disclaimer {
+  margin: 0 0 3rem;
+}
+
+.rx-print-list {
+  white-space: nowrap;
+
+  @media screen and (min-width: $medium-screen) {
+    float: right;
+    margin: 0;
+  }
+}
+
+.rx-print-list-option {
+  &:before {
+    content: "\a0\a0";
+  }
+
+  & + .rx-print-list-option:before {
+    content: "\a0\a0|\a0\a0";
+  }
+}
+  
+// TODO: Contribute this back to core
+.va-required-span {
+  color: $color-secondary-dark;
+}

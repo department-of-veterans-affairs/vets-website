@@ -11,9 +11,11 @@ require('babel-polyfill');
 var configGenerator = (options) => {
   const baseConfig = {
     entry: {
-       hca: './src/js/hca/hca-entry.jsx',
-       'no-react': './src/js/no-react-entry.js',
-     },
+      hca: './src/js/hca/hca-entry.jsx',
+      'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
+      'no-react': './src/js/no-react-entry.js',
+       rx: './src/js/rx/rx-entry.jsx',
+    },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',

@@ -13,6 +13,14 @@ export default function initReact(onDOMContentLoaded) {
     window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
   }
 
+  // Create a Vets.gov global that all code can use. This is mostly useful for overrides for
+  // think like api URL endpoints during testing.
+  window.VetsGov = {
+    api: {
+      url: '',  // API server. Evetually should be 'https://api.vets.gov' in production.
+    },
+  };
+
   // eslint-disable-next-line scanjs-rules/call_addEventListener
   document.addEventListener('DOMContentLoaded', () => {
     onDOMContentLoaded();
