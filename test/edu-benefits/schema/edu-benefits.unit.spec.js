@@ -14,6 +14,10 @@ describe('education benefits json schema', () => {
     expect(validateSchema(data)).to.equal(false);
     expect(ajv.errors[0].dataPath).to.contain(`.${Object.keys(data)[0]}`);
   };
+  const validators = {
+    valid: expectValidData,
+    invalid: expectInvalidData
+  };
   const objectBuilder = (key, value) => {
     let object = {};
 
@@ -30,6 +34,15 @@ describe('education benefits json schema', () => {
     });
 
     return object;
+  };
+  const testValidAndInvalid = (parentKey, fields) => {
+    ['valid', 'invalid'].forEach((fieldType) => {
+      fields[fieldType].forEach((fields) => {
+        it(`should${fieldType === 'valid' ? '' : 'nt'} allow ${parentKey} with ${JSON.stringify(fields)}`, () => {
+          validators[fieldType](objectBuilder(parentKey, fields));
+        });
+      });
+    });
   };
 
   before(() => {
@@ -53,17 +66,14 @@ describe('education benefits json schema', () => {
 
   context('name validations', () => {
     ['fullName', 'emergencyContact.fullName'].forEach((parentKey) => {
-      it('should allow a valid name', () => {
-        expectValidData(objectBuilder(parentKey, {
+      testValidAndInvalid(parentKey, {
+        valid: [{
           first: 'john',
           last: 'doe'
-        }));
-      });
-
-      it('shouldnt allow an invalid name', () => {
-        expectInvalidData(objectBuilder(parentKey, {
+        }],
+        invalid: [{
           first: 'john'
-        }));
+        }]
       });
     });
   });
@@ -81,22 +91,24 @@ describe('education benefits json schema', () => {
   });
 
   context('address validations', () => {
-    it('should allow a valid address', () => {
-      expectValidData({
-        address: {
-          street: '123 a rd',
-          city: 'abc',
-          country: 'USA'
-        }
+    ['address', 'emergencyContact.address'].forEach((parentKey) => {
+      it('should allow a valid address', () => {
+        expectValidData({
+          address: {
+            street: '123 a rd',
+            city: 'abc',
+            country: 'USA'
+          }
+        });
       });
-    });
 
-    it('shouldnt allow an invalid address', () => {
-      expectInvalidData({
-        address: {
-          city: 'foo',
-          country: 'USA'
-        }
+      it('shouldnt allow an invalid address', () => {
+        expectInvalidData({
+          address: {
+            city: 'foo',
+            country: 'USA'
+          }
+        });
       });
     });
   });
