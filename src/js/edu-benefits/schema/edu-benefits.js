@@ -377,6 +377,18 @@ module.exports = {
         },
         required: ['name', 'months', 'postMilitaryJob']
       }
+    },
+    rotcScholarshipAmounts: {
+      type: 'array',
+      items: {
+        year: {
+          type: 'integer'
+        },
+        amount: {
+          type: 'number'
+        },
+        required: ['year', 'amount']
+      }
     }
   }
 };

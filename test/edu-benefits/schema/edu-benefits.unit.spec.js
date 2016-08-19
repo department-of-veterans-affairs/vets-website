@@ -184,4 +184,16 @@ describe('education benefits json schema', () => {
       }]]
     });
   });
+
+  context('rotc scholarship amounts validation', () => {
+    testValidAndInvalid('rotcScholarshipAmounts', {
+      valid: [[{
+        year: 1999,
+        amount: 99.99
+      }]],
+      invalid: [[{
+        year: 1999
+      }]]
+    });
+  });
 });
