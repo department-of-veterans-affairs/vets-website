@@ -172,9 +172,9 @@ module.exports = {
     emergencyContact: {
       type: 'object',
       properties: {
-        // "name": {
-        //   "$ref": "#/definitions/name"
-        // },
+        fullName: {
+          $ref: '#/definitions/fullName'
+        },
         sameAddressAndPhone: {
           type: 'boolean'
         },

@@ -4,15 +4,15 @@ import Ajv from 'ajv';
 
 describe('education benefits json schema', () => {
   let ajv;
-  let validateSchema = (data) => {
+  const validateSchema = (data) => {
     return ajv.validate('edu-benefits-schema', data);
   };
-  let expectValidData = (data) => {
+  const expectValidData = (data) => {
     expect(validateSchema(data)).to.equal(true);
   };
-  let expectInvalidData = (data) => {
+  const expectInvalidData = (data) => {
     expect(validateSchema(data)).to.equal(false);
-    expect(ajv.errors[0].dataPath).to.equal(`.${Object.keys(data)[0]}`);
+    expect(ajv.errors[0].dataPath).to.contain(`.${Object.keys(data)[0]}`);
   };
 
   before(() => {
@@ -35,22 +35,34 @@ describe('education benefits json schema', () => {
   });
 
   context('name validations', () => {
-    it('should allow a valid name', () => {
-      expectValidData({
-        fullName: {
+    const createNameData = (nameFields, parentKey) => {
+      const nameData = {
+        fullName: nameFields
+      };
+
+      if (parentKey == null) {
+        return nameData;
+      } else {
+        return {
+          [parentKey]: nameData
+        }
+      }
+    };
+
+    [null, 'emergencyContact'].forEach((parentKey) => {
+      it('should allow a valid name', () => {
+        expectValidData(createNameData({
           first: 'john',
           last: 'doe'
-        }
+        }, parentKey));
+      });
+
+      it('shouldnt allow an invalid name', () => {
+        expectInvalidData(createNameData({
+          first: 'john'
+        }, parentKey));
       });
     });
-
-    it('shouldnt allow an invalid name', () => {
-      expectInvalidData({
-        fullName: {
-          first: 'john'
-        }
-      });
-    })
   });
 
   context('gender validations', () => {
