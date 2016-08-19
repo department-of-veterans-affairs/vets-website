@@ -25,8 +25,8 @@ describe('education benefits json schema', () => {
       expectValidData({ socialSecurityNumber: '123456789' });
     });
 
-    it('should allow ssn with dashes', () => {
-      expectValidData({ socialSecurityNumber: '123-45-6789' });
+    it('should not allow ssn with dashes', () => {
+      expectInvalidData({ socialSecurityNumber: '123-45-6789' }, 'socialSecurityNumber');
     });
 
     it('should not allow bad ssn', () => {
