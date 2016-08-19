@@ -1,36 +1,30 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
 import SkinDeep from 'skin-deep';
-import chaiAsPromised from 'chai-as-promised';
-import { default as chai, expect } from 'chai';
+import { expect } from 'chai';
 
-import ErrorableNumberInput from '../../../../src/js/hca/components/form-elements/ErrorableNumberInput';
-import { makeField } from '../../../../src/js/common/model/fields';
+import ErrorableCheckbox from '../../../../src/js/common/components/form-elements/ErrorableCheckbox';
 
-chai.use(chaiAsPromised);
-
-describe('<ErrorableNumberInput>', () => {
-  const testValue = makeField('');
-
-  it('ensure value changes propagate', () => {
+describe('<ErrorableCheckbox>', () => {
+  it('ensure checked changes propagate', () => {
     let errorableInput;
 
     const updatePromise = new Promise((resolve, _reject) => {
       errorableInput = ReactTestUtils.renderIntoDocument(
-        <ErrorableNumberInput field={testValue} label="test" onValueChange={(update) => { resolve(update); }}/>
+        <ErrorableCheckbox label="test" onValueChange={(update) => { resolve(update); }}/>
       );
     });
 
     const input = ReactTestUtils.findRenderedDOMComponentWithTag(errorableInput, 'input');
-    input.value = '1';
+    input.checked = false;
     ReactTestUtils.Simulate.change(input);
 
-    return expect(updatePromise).to.eventually.eql(makeField('1', true));
+    return expect(updatePromise).to.eventually.eql(false);
   });
 
   it('no error styles when errorMessage undefined', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableNumberInput field={testValue} label="my label" onValueChange={(_update) => {}}/>);
+      <ErrorableCheckbox label="my label" onValueChange={(_update) => {}}/>);
 
     // No error classes.
     expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(0);
@@ -50,7 +44,7 @@ describe('<ErrorableNumberInput>', () => {
 
   it('has error styles when errorMessage is set', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableNumberInput field={testValue} label="my label" errorMessage="error message" onValueChange={(_update) => {}}/>);
+      <ErrorableCheckbox label="my label" errorMessage="error message" onValueChange={(_update) => {}}/>);
 
     // Ensure all error classes set.
     expect(tree.everySubTree('.usa-input-error')).to.have.lengthOf(1);
@@ -72,14 +66,14 @@ describe('<ErrorableNumberInput>', () => {
 
   it('required=false does not have required asterisk', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableNumberInput field={testValue} label="my label" onValueChange={(_update) => {}}/>);
+      <ErrorableCheckbox label="my label" onValueChange={(_update) => {}}/>);
 
     expect(tree.everySubTree('label')[0].text()).to.equal('my label');
   });
 
   it('required=true has required asterisk', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableNumberInput field={testValue} label="my label" required onValueChange={(_update) => {}}/>);
+      <ErrorableCheckbox label="my label" required onValueChange={(_update) => {}}/>);
 
     const label = tree.everySubTree('label');
     expect(label[0].text()).to.equal('my label*');
@@ -87,7 +81,7 @@ describe('<ErrorableNumberInput>', () => {
 
   it('label attribute propagates', () => {
     const tree = SkinDeep.shallowRender(
-      <ErrorableNumberInput field={testValue} label="my label" onValueChange={(_update) => {}}/>);
+      <ErrorableCheckbox label="my label" onValueChange={(_update) => {}}/>);
 
     // Ensure label text is correct.
     const labels = tree.everySubTree('label');

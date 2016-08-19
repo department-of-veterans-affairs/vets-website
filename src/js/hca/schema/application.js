@@ -1,5 +1,5 @@
 // Relocate options-for-select.
-const options = require('../../client/utils/options-for-select');
+const options = require('../../utils/options-for-select');
 const _ = require('lodash');
 
 const states = _.uniq(_.flatten(_.values(options.states)).map(object => object.value));
