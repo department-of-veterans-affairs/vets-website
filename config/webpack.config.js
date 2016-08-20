@@ -1,19 +1,25 @@
 // Staging config. Also the default config that prod and dev are based off of.
 
-var path = require('path');
-var webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var bourbon = require('bourbon').includePaths;
 var neat = require('bourbon-neat').includePaths;
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var path = require('path');
+var webpack = require('webpack');
+
 require('babel-polyfill');
 
 var configGenerator = (options) => {
   const baseConfig = {
-    entry: ['babel-polyfill', './src/js/client.js'],
+    entry: {
+      hca: './src/js/hca/hca-entry.jsx',
+      'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
+      'no-react': './src/js/no-react-entry.js',
+       rx: './src/js/rx/rx-entry.jsx',
+    },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
-      filename: 'bundle.js'
+      filename: '[name].entry.js'
     },
     module: {
       loaders: [
@@ -24,6 +30,8 @@ var configGenerator = (options) => {
           query: {
             // Speed up compilation.
             cacheDirectory: true
+
+            // Also see .babelrc
           }
         },
         {
@@ -32,9 +40,10 @@ var configGenerator = (options) => {
           loader: 'babel',
           query: {
             presets: ['react'],
-
             // Speed up compilation.
             cacheDirectory: true
+
+            // Also see .babelrc
           }
         },
         {
@@ -80,7 +89,10 @@ var configGenerator = (options) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-          __BUILDTYPE__: options.buildtype
+          __BUILDTYPE__: JSON.stringify(options.buildtype),
+          'process.env': {
+              NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+          }
       }),
 
       // See http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
@@ -90,12 +102,25 @@ var configGenerator = (options) => {
         "window.jQuery": "jquery"
       }),
 
-      new ExtractTextPlugin('bundle.css'),
+      new ExtractTextPlugin('[name].css'),
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ],
   };
 
   if (process.env.NODE_ENV === 'production') {
     baseConfig.devtool = '#source-map';
+    baseConfig.module.loaders.push({
+      test: /debug\/PopulateVeteranButton/,
+      loader: 'null'
+    });
+    baseConfig.module.loaders.push({
+      test: /debug\/PerfPanel/,
+      loader: 'null'
+    });
+    baseConfig.module.loaders.push({
+      test: /debug\/RoutesDropdown/,
+      loader: 'null'
+    });
     baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());

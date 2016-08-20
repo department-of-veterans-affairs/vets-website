@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Disability Compensation for Former Prisoners of War (POWs)
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-pow.asp
@@ -20,7 +21,7 @@ If you are a former POW with disabilities related to your service and captivity,
 -	You have experienced a stroke or have complications from a stroke.
 -	You have hypertensive vascular disease, including hypertensive heart disease, and related complications.
 
-##### For former POWs who were captive for 30 days or more, the following additional conditions are presumed to be service connected:
+##### VA presumes the following additional conditions to be service connected if you are a former POW who was held captive for 30 days or more:
 
 -	Osteoporosis (for claims filed on or after September 28, 2009; no PTSD diagnosis is required)
 -	Any nutritional deficiency, including avitaminosis, beriberi (including beriberi heart disease), malnutrition (including optic atrophy connected to malnutrition), and pellagra

@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: Claims Process
 template: 2-detailed-landing
 relatedlinks:
