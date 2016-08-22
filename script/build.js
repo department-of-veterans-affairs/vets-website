@@ -168,7 +168,7 @@ if (options.watch) {
     webpackConfig,
     {
       contentBase: `build/${options.buildtype}`,
-      historyApiFallback: false,
+      historyApiFallback: true,
       hot: true,
       port: options.port,
       publicPath: '/generated/',
