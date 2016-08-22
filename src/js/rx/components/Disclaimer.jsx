@@ -1,15 +1,7 @@
 import React from 'react';
 
 class Disclaimer extends React.Component {
-  constructor() {
-    super();
-  }
-
   render() {
-    if (!this.props.isVisible) {
-      return <div/>;
-    }
-
     return (
       <div className="rx-disclaimer cf">
         <p className="row">

@@ -9,7 +9,7 @@ import TabNav from '../components/TabNav';
 import Disclaimer from '../components/Disclaimer';
 
 class Main extends React.Component {
-  render() {   
+  render() {
     return (
       <div>
         <Disclaimer
@@ -34,7 +34,7 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps, { 
-  closeAlert, 
-  closeDisclaimer 
+export default connect(mapStateToProps, {
+  closeAlert,
+  closeDisclaimer
 })(Main);
