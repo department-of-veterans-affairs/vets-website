@@ -1,7 +1,8 @@
 'use strict';  // eslint-disable-line
 // Veteran resource prototype objects. In common so server unittests can access.
 
-const _ = require('lodash');
+const includes = require('lodash/includes');
+const omit = require('lodash/omit');
 const fields = require('./fields');
 const makeField = fields.makeField;
 
@@ -683,7 +684,7 @@ const completeVeteran = {
 };
 
 function veteranToApplication(veteran) {
-  if (_.includes(['Never Married', 'Widowed', 'Divorced'], veteran.maritalStatus.value)) {
+  if (includes(['Never Married', 'Widowed', 'Divorced'], veteran.maritalStatus.value)) {
     /* eslint-disable no-param-reassign*/
     delete veteran.spouseAddress;
     delete veteran.spouseFullName;
@@ -794,7 +795,7 @@ function veteranToApplication(veteran) {
     // Strips out suffix if the user does not enter it.
     // TODO: Strip out other fields that are passing empty string.
     if (value.suffix !== undefined && value.suffix.value === '') {
-      return _.omit(value, ['suffix']);
+      return omit(value, ['suffix']);
     }
 
     // Strip all the dirty flags out of the veteran and flatted it into a single atomic value.
