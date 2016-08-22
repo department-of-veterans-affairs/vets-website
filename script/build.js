@@ -162,28 +162,47 @@ if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
   //   https://www.npmjs.com/package/metalsmith-watch
   smith.use(watch());
-
+  
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
-  smith.use(webpackDevServer(
-    webpackConfig,
-    {
-      contentBase: `build/${options.buildtype}`,
-      historyApiFallback: false,
-      hot: true,
-      port: options.port,
-      publicPath: '/generated/',
-      stats: {
-        colors: true,
-        assets: false,
-        version: false,
-        hash: false,
-        timings: true,
-        chunks: false,
-        chunkModules: false,
-        children: false
+  const devServerConfig = {
+    contentBase: `build/${options.buildtype}`,
+    historyApiFallback: false,
+    hot: true,
+    port: options.port,
+    publicPath: '/generated/',
+    stats: { 
+      colors: true,
+      assets: false,
+      version: false,
+      hash: false,
+      timings: true,
+      chunks: false,
+      chunkModules: false,
+      children: false
+    }
+  };
+
+  // Route all API requests through webpack's node-http-proxy
+  // Useful for local development.
+  try {
+    // Check to see if we have a proxy config file
+    const api = require('../config/config.proxy.js').api;
+    devServerConfig.proxy = {
+      '/api/*': {
+        target: `https://${api.host}${api.path}`,
+        auth: api.auth,
+        rewrite: function rewrite(req) {
+          req.url = req.url.replace(/^\/api/, '');
+          req.headers.host = api.host;
+        }
       }
     }
-  ));
+    console.log('API proxy enabled');
+  } catch(e){
+    // No proxy config file found.  
+  }
+
+  smith.use(webpackDevServer(webpackConfig, devServerConfig));
 } else {
   // Broken link checking does not work well with watch. It continually shows broken links
   // for permalink processed files. Only run outside of watch mode.
