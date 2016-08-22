@@ -96,6 +96,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('facilities/*');
   ignoreList.push('messaging/*');
   ignoreList.push('rx/*');
+  ignoreList.push('profile/*');
 }
 smith.use(ignore(ignoreList));
 

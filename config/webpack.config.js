@@ -16,7 +16,8 @@ const configGenerator = (options) => {
       hca: './src/js/hca/hca-entry.jsx',
       messaging: './src/js/messaging/messaging-entry.jsx',
       'no-react': './src/js/no-react-entry.js',
-      rx: './src/js/rx/rx-entry.jsx',
+      'user-profile': './src/js/user-profile/user-profile-entry.jsx',
+       rx: './src/js/rx/rx-entry.jsx',
     },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
