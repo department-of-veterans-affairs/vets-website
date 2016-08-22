@@ -56,7 +56,7 @@ class Prescription extends React.Component {
           id={`rx-${id}`}>
         <div className="rx-prescription-inner cf">
           <h3 className="rx-prescription-title" title={name}>
-            <Link to={`/prescription/${id}`}>
+            <Link to={`/rx/prescription/${id}`}>
               {name}
             </Link>
           </h3>
