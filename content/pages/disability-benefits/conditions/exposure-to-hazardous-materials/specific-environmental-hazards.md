@@ -15,7 +15,6 @@ Yes, if:
   - Particulate matter or large burn pits throughout Iraq, Afghanistan, and Djibouti in the Horn of Africa.
   - A large sulfur fire at Mishraq State Sulfur Mine near Mosul, Iraq.
   - Hexavalent chromium exposure at the Qarmat Ali Water Treatment Plant at Basra, Iraq.
-  - [Contaminated drinking water at Camp Lejeune](/disability-benefits/conditions/exposure-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/), North Carolina, between 1953 and 1987.
   - Pollutants from a waste incinerator near the Naval Air Facility at Atsugi, Japan.
 
 ### Who is covered

@@ -24,8 +24,6 @@ cache:
 script:
   - npm run lint
   - npm run build -- --buildtype ${BUILDTYPE}
-  - npm run selenium:bootstrap
-  - npm run test
 
 addons:
   apt:

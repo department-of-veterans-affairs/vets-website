@@ -172,7 +172,16 @@ if (options.watch) {
       hot: true,
       port: options.port,
       publicPath: '/generated/',
-      stats: { colors: true }
+      stats: {
+        colors: true,
+        assets: false,
+        version: false,
+        hash: false,
+        timings: true,
+        chunks: false,
+        chunkModules: false,
+        children: false
+      }
     }
   ));
 } else {
@@ -204,6 +213,10 @@ if (options.watch) {
 }
 
 smith.build(function(err) {
-    if (err) throw err;
+  if (err) throw err;
+  if (options.watch){
+    console.log('Metalsmith build finished!  Starting webpack-dev-server...');
+  } else {
     console.log('Build finished!');
-  });
+  }
+});
