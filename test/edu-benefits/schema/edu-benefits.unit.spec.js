@@ -35,9 +35,9 @@ describe('education benefits json schema', () => {
   };
   const testValidAndInvalid = (parentKey, fields) => {
     ['valid', 'invalid'].forEach((fieldType) => {
-      fields[fieldType].forEach((fields) => {
-        it(`should${fieldType === 'valid' ? '' : 'nt'} allow ${parentKey} with ${JSON.stringify(fields)}`, () => {
-          validators[fieldType](objectBuilder(parentKey, fields));
+      fields[fieldType].forEach((values) => {
+        it(`should${fieldType === 'valid' ? '' : 'nt'} allow ${parentKey} with ${JSON.stringify(values)}`, () => {
+          validators[fieldType](objectBuilder(parentKey, values));
         });
       });
     });
