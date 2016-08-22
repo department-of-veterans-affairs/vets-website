@@ -3,24 +3,22 @@ import faker from 'faker';
 import { connect } from 'react-redux';
 
 // Generate fake data.  TODO: Retrieve this from the actual API
-const randomName = faker.name.findName();
-const randomEmail = faker.internet.email();
 const randomIDNumber = faker.random.number();
 
 class Profile extends React.Component {
   render() {
     return (
       <div className="va-tab-content">
-        <h1>{randomName}: Profile</h1>
+        <h1>{this.props.profile.veteranFullName.first} {this.props.profile.veteranFullName.last}: Profile</h1>
         <table className="usa-table-borderless">
           <tbody>
             <tr>
               <th scope="row">Name: </th>
-              <td>{randomName}</td>
+              <td>{this.props.profile.veteranFullName.first} {this.props.profile.veteranFullName.last}</td>
             </tr>
             <tr>
               <th scope="row">Email: </th>
-              <td>{randomEmail}</td>
+              <td>{this.props.profile.email}</td>
             </tr>
             <tr>
               <th scope="row">ID Number: </th>
