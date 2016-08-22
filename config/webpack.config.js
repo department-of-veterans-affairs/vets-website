@@ -40,7 +40,6 @@ var configGenerator = (options) => {
           loader: 'babel',
           query: {
             presets: ['react'],
-
             // Speed up compilation.
             cacheDirectory: true
 
@@ -91,7 +90,6 @@ var configGenerator = (options) => {
     plugins: [
       new webpack.DefinePlugin({
           __BUILDTYPE__: JSON.stringify(options.buildtype),
-          __API_URL__: JSON.stringify(options.apiUrl),
           'process.env': {
               NODE_ENV: JSON.stringify(process.env.NODE_ENV)
           }
@@ -105,11 +103,24 @@ var configGenerator = (options) => {
       }),
 
       new ExtractTextPlugin('[name].css'),
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ],
   };
 
   if (process.env.NODE_ENV === 'production') {
     baseConfig.devtool = '#source-map';
+    baseConfig.module.loaders.push({
+      test: /debug\/PopulateVeteranButton/,
+      loader: 'null'
+    });
+    baseConfig.module.loaders.push({
+      test: /debug\/PerfPanel/,
+      loader: 'null'
+    });
+    baseConfig.module.loaders.push({
+      test: /debug\/RoutesDropdown/,
+      loader: 'null'
+    });
     baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
