@@ -166,7 +166,11 @@ if (options.watch) {
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
     contentBase: `build/${options.buildtype}`,
-    historyApiFallback: false,
+    historyApiFallback: {
+      rewrites: [
+        { from: '^\/rx(.*)', to: '/rx/' }
+      ],
+    },
     hot: true,
     port: options.port,
     publicPath: '/generated/',
