@@ -16,10 +16,10 @@ describe('education benefits json schema', () => {
       expect(ajv.errors[0].dataPath).to.contain(`.${Object.keys(data)[0]}`);
     }
   };
-  const objectBuilder = (key, value) => {
+  const objectBuilder = (keys, value) => {
     let object = {};
 
-    key.split('.').reverse().forEach((key, i) => {
+    keys.split('.').reverse().forEach((key, i) => {
       if (i === 0) {
         object = {
           [key]: value
