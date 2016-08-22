@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
-import SkinDeep from 'skin-deep';
 import { Provider } from 'react-redux';
 import { Router, Route, createMemoryHistory } from 'react-router';
 import { createStore } from 'redux';
@@ -107,4 +106,3 @@ describe('<Nav>', () => {
     });
   });
 });
-
