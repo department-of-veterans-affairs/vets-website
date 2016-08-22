@@ -1,0 +1,5 @@
+{
+  'rules': {
+    'no-unused-expressions': 0 //This conflicts with Chai assertions
+  }
+}

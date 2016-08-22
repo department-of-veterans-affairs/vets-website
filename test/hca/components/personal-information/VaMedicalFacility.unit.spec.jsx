@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactTestUtils from 'react-addons-test-utils';
-import SkinDeep from 'skin-deep';
 import { assert, expect } from 'chai';
 
 import VaMedicalFacility from '../../../../src/js/hca/components/insurance-information/VaMedicalFacility';
