@@ -2,18 +2,13 @@ import React from 'react';
 import moment from 'moment';
 
 import { Link } from 'react-router';
-import _ from 'lodash';
 
 import MessageProviderLink from './MessageProviderLink';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import SubmitButton from './SubmitButton';
 
-class Prescription extends React.Component {
-  // Can probably replace this with the actual prescription ID
-  componentWillMount() {
-    this.prescriptionId = _.uniqueId('rx-prescription_');
-  }
 
+class Prescription extends React.Component {
   render() {
     const attrs = this.props.attributes;
     const id = this.props.id;
@@ -52,7 +47,7 @@ class Prescription extends React.Component {
 
     return (
       <div className="rx-prescription"
-          key={this.props.key}
+          key={id}
           id={`rx-${id}`}>
         <div className="rx-prescription-inner cf">
           <h3 className="rx-prescription-title" title={name}>
@@ -62,6 +57,9 @@ class Prescription extends React.Component {
           </h3>
           <div className="rx-prescription-number">
             Rx #: {attrs['prescription-id']}
+          </div>
+          <div className="rx-prescription-facility">
+           Facility name: {attrs['facility-name']}
           </div>
           <div className="rx-prescription-refilled">
             Last refilled: {moment(attrs['refill-date']).format('ll')}
