@@ -5,10 +5,10 @@ const archive = require('metalsmith-archive');
 const assets = require('metalsmith-assets');
 const blc = require('metalsmith-broken-link-checker');
 const collections = require('metalsmith-collections');
-const commandLineArgs = require('command-line-args')
+const commandLineArgs = require('command-line-args');
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
-const excerpts = require('metalsmith-excerpts');
+// const excerpts = require('metalsmith-excerpts');
 const filenames = require('metalsmith-filenames');
 const ignore = require('metalsmith-ignore');
 const inPlace = require('metalsmith-in-place');
@@ -24,7 +24,7 @@ const webpackDevServer = require('metalsmith-webpack-dev-server');
 
 const sourceDir = '../content/pages';
 
-const smith = Metalsmith(__dirname);
+const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
@@ -40,7 +40,7 @@ const options = commandLineArgs(optionDefinitions);
 const env = require('get-env')();
 
 if (options.unexpected && options.unexpected.length !== 0) {
-    throw new Error(`Unexpected arguments: '${options.unexpected}'`);
+  throw new Error(`Unexpected arguments: '${options.unexpected}'`);
 }
 
 if (options.buildtype === undefined) {
@@ -54,7 +54,7 @@ switch (options.buildtype) {
 
   case 'production':
     if (options['no-sanity-check-node-env'] === false) {
-      if (env != 'prod') {
+      if (env !== 'prod') {
         throw new Error(`buildtype ${options.buildtype} expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`);
       }
     }
@@ -66,7 +66,7 @@ switch (options.buildtype) {
 
 const webpackConfig = webpackConfigGenerator(options);
 
-/////
+//
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
 //
@@ -77,7 +77,7 @@ smith.destination(`../build/${options.buildtype}`);
 // Ignore files that aren't ready for production.
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
-const ignoreList = [ 'memorial-benefits/*' ];
+const ignoreList = ['memorial-benefits/*'];
 if (options.buildtype === 'production') {
   ignoreList.push('rx/*');
   ignoreList.push('education/apply-for-education-benefits/apply.md');
@@ -214,7 +214,7 @@ if (options.watch) {
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: process.env.NODE_ENV !== 'production',
     allowRegex: new RegExp(
-        [ '/disability-benefits/',
+        ['/disability-benefits/',
           '/disability-benefits/apply-for-benefits/',
           '/disability-benefits/learn/',
           '/disability-benefits/learn/eligibility/.*',
@@ -229,15 +229,16 @@ if (options.watch) {
           '/gibill/',
           '/healthcare/apply/application',
           '/veterans-employment-center/',
-          'Employment-Resources/', ].join('|'))
+          'Employment-Resources/'].join('|'))
   }));
 
   smith.use(webpack(webpackConfig));
 }
 
-smith.build(function(err) {
+/* eslint-disable no-console */
+smith.build((err) => {
   if (err) throw err;
-  if (options.watch){
+  if (options.watch) {
     console.log('Metalsmith build finished!  Starting webpack-dev-server...');
   } else {
     console.log('Build finished!');
