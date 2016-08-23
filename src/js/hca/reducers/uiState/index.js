@@ -1,11 +1,6 @@
 import _ from 'lodash';
-import lodashDeep from 'lodash-deep';
 
 import { UPDATE_COMPLETED_STATUS, UPDATE_INCOMPLETE_STATUS, UPDATE_REVIEW_STATUS, UPDATE_VERIFIED_STATUS, UPDATE_SUBMISSION_STATUS, UPDATE_SUBMISSION_ID, UPDATE_SUBMISSION_TIMESTAMP } from '../../actions';
-
-// Add deep object manipulation routines to lodash.
-_.mixin(lodashDeep);
-
 
 const ui = {
   submission: {
