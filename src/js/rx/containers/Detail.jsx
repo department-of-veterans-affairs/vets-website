@@ -56,6 +56,7 @@ class Detail extends React.Component {
 
     return (
       <div id="rx-detail" className="rx-app row">
+        <h1>Mail Order Prescriptions</h1>
         <BackLink/>
         {header}
         {content}
