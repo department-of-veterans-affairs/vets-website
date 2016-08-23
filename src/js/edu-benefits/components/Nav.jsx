@@ -1,59 +1,8 @@
 import React from 'react';
 
-const formPanels = [
-  {
-    path: '/benefits-eligibility',
-    name: 'Benefits Eligibility',
-    classes: 'one',
-    sections: []
-  },
-  {
-    path: '/military-history',
-    name: 'Military History',
-    classes: 'two',
-    sections: [
-      { path: '/military-history/service', name: 'Military Service' },
-      { path: '/military-history/rotc-history', name: 'ROTC History' },
-      { path: '/military-history/benefits-history', name: 'Benefits History' }
-    ]
-  },
-  {
-    path: '/education-history',
-    name: 'Education History',
-    classes: 'three',
-    sections: []
-  },
-  {
-    path: '/employment-history',
-    name: 'Employment History',
-    classes: 'four',
-    sections: []
-  },
-  {
-    path: '/school-selection',
-    name: 'School Selection',
-    classes: 'five',
-    sections: []
-  },
-  {
-    path: '/veteran-information',
-    name: 'Veteran Information',
-    classes: 'six',
-    sections: [
-      { path: '/veteran-information/personal-information', name: 'Personal Information' },
-      { path: '/veteran-information/address', name: 'Address' },
-      { path: '/veteran-information/contact', name: 'Contact Information' },
-      { path: '/veteran-information/secondary-contact', name: 'Secondary Contact' },
-      { path: '/veteran-information/dependent-information', name: 'Dependent Information' },
-      { path: '/veteran-information/direct-deposit', name: 'Direct Deposit' },
-    ]
-  },
-  {
-    path: '/review-and-submit',
-    name: 'Review',
-    classes: 'seven last',
-    sections: []
-  }];
+function lastSection(panel) {
+  return panel.sections.slice(-1)[0].path;
+}
 
 function determinePanelStyles(path, sectionState, formPanel, currentUrl) {
   let classes = '';
@@ -62,7 +11,7 @@ function determinePanelStyles(path, sectionState, formPanel, currentUrl) {
   }
   if (sectionState[path] && sectionState[path].complete) {
     classes += ' section-complete';
-  } else if (formPanel.sections.length > 0 && sectionState[formPanel.sections.slice(-1)[0].path].complete) {
+  } else if (formPanel.sections.length > 0 && sectionState[lastSection(formPanel)].complete) {
     classes += ' section-complete';
   }
   return classes;
@@ -78,28 +27,34 @@ function determineSectionStyles(name, currentUrl) {
  *
  * Props:
  * `currentUrl` - String. Specifies the current url.
+ * `sections` - A hash of section names and the current validation state and fields
+ * `panels` - A list of the panels in the nav and their sub-sections
  */
 class Nav extends React.Component {
   render() {
     const subnavStyles = 'step one wow fadeIn animated';
-    const { sections, currentUrl } = this.props;
+    const { sections, currentUrl, panels } = this.props;
 
     return (
       <ol className="process form-process">
-        {formPanels.map(panel => {
-          return (<li role="presentation" className={`${panel.classes} ${subnavStyles}
-           ${determinePanelStyles(panel.path, sections, panel, currentUrl)}`} key={panel.path}>
-            <div>
-              <h5>{panel.name}</h5>
-              <ul className="usa-unstyled-list">
-                {panel.sections.map(subSection => {
-                  return (<li className={`${determineSectionStyles(subSection.path, currentUrl)}`} key={subSection.path}>
-                    {subSection.name}
-                  </li>);
-                })}
-              </ul>
-            </div>
-          </li>);
+        {panels.map(panel => {
+          return (
+            <li role="presentation" className={`${panel.classes} ${subnavStyles}
+              ${determinePanelStyles(panel.path, sections, panel, currentUrl)}`} key={panel.path}>
+              <div>
+                <h5>{panel.name}</h5>
+                <ul className="usa-unstyled-list">
+                  {panel.sections.map(section => {
+                    return (
+                      <li className={`${determineSectionStyles(section.path, currentUrl)}`} key={section.path}>
+                        {section.name}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </li>
+          );
         })}
       </ol>
     );
@@ -108,7 +63,8 @@ class Nav extends React.Component {
 
 Nav.propTypes = {
   currentUrl: React.PropTypes.string.isRequired,
-  sections: React.PropTypes.object.isRequired
+  sections: React.PropTypes.object.isRequired,
+  panels: React.PropTypes.array.isRequired
 };
 
 export default Nav;

@@ -93,7 +93,62 @@ const ui = {
       verified: false,
       fields: []
     }
-  }
+  },
+  panels: [
+    {
+      path: '/benefits-eligibility',
+      name: 'Benefits Eligibility',
+      classes: 'one',
+      sections: []
+    },
+    {
+      path: '/military-history',
+      name: 'Military History',
+      classes: 'two',
+      sections: [
+        { path: '/military-history/service', name: 'Military Service' },
+        { path: '/military-history/rotc-history', name: 'ROTC History' },
+        { path: '/military-history/benefits-history', name: 'Benefits History' }
+      ]
+    },
+    {
+      path: '/education-history',
+      name: 'Education History',
+      classes: 'three',
+      sections: []
+    },
+    {
+      path: '/employment-history',
+      name: 'Employment History',
+      classes: 'four',
+      sections: []
+    },
+    {
+      path: '/school-selection',
+      name: 'School Selection',
+      classes: 'five',
+      sections: []
+    },
+    {
+      path: '/veteran-information',
+      name: 'Veteran Information',
+      classes: 'six',
+      sections: [
+        { path: '/veteran-information/personal-information', name: 'Personal Information' },
+        { path: '/veteran-information/address', name: 'Address' },
+        { path: '/veteran-information/contact', name: 'Contact Information' },
+        { path: '/veteran-information/secondary-contact', name: 'Secondary Contact' },
+        { path: '/veteran-information/dependent-information', name: 'Dependent Information' },
+        { path: '/veteran-information/direct-deposit', name: 'Direct Deposit' },
+      ]
+    },
+    {
+      path: '/review-and-submit',
+      name: 'Review',
+      classes: 'seven last',
+      sections: []
+    }
+  ]
 };
 
 function uiState(state = ui, action) {

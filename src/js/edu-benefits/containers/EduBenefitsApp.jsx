@@ -25,13 +25,13 @@ class EduBenefitsApp extends React.Component {
       }
     }
 
-    const sections = this.props.uiState.sections;
+    const { panels, sections } = this.props.uiState;
     const currentLocation = this.props.currentLocation;
 
     return (
       <div className="row">
         {devPanel}
-        <Nav sections={sections} currentUrl={currentLocation.pathname}/>
+        <Nav sections={sections} panels={panels} currentUrl={currentLocation.pathname}/>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
       </div>
     );
