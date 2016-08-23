@@ -168,7 +168,8 @@ if (options.watch) {
     contentBase: `build/${options.buildtype}`,
     historyApiFallback: {
       rewrites: [
-        { from: '^\/rx(.*)', to: '/rx/' }
+        { from: '^\/rx(.*)', to: '/rx/' },
+        { from: '^\/(.*)', to: function(context){ return context.parsedUrl.pathname; }}
       ],
     },
     hot: true,
@@ -195,7 +196,7 @@ if (options.watch) {
       '/api/*': {
         target: `https://${api.host}${api.path}`,
         auth: api.auth,
-        rewrite: function rewrite(req) {
+        rewrite: function (req) {
           req.url = req.url.replace(/^\/api/, '');
           req.headers.host = api.host;
         }
