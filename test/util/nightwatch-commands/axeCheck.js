@@ -1,0 +1,36 @@
+import util from 'util'
+import axeCore from 'axe-core'
+
+export function command (context, config, callback) {
+  // Find the source of the axe module
+
+  // TODO: since this is executed in the context of the browser,
+  // we probably don't need to include this as an npm dependency,
+  // we may be able to just download it locally into a test fixtures
+  // directory and load the source.
+  const axeSource = module.children.find((el) => {
+    return (el.filename.indexOf('axe-core') != -1)
+  }).exports.source;
+
+  // Attach the axe source to the document
+  this.execute((axeSource) => {
+    const script = document.createElement('script')
+    script.text = axeSource
+    document.head.appendChild(script)
+  }, [axeSource])
+
+  // Run axe checks and report
+  this.executeAsync((context, config, done) => {
+    axe.a11yCheck(document.querySelector(context), config, done)
+  }, [context, config], (results) => {
+    const { violations, passes } = results.value;
+
+    passes.forEach((pass) => {
+      this.assert.ok(true, pass.help)
+    })
+
+    violations.forEach((violation) => {
+      this.verify.fail(JSON.stringify(violation, null, 4))
+    })
+  })
+}

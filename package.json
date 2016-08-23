@@ -13,6 +13,7 @@
     "selenium:bootstrap": "selenium-standalone install",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
+    "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
     "test:unit": "mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:watch": "mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
     "watch": "node script/build.js --watch"
@@ -26,6 +27,7 @@
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "devDependencies": {
+    "axe-core": "^2.0.5",
     "babel": "^6.5.2",
     "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
