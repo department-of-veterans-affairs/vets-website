@@ -8,13 +8,21 @@ import TabNav from '../components/TabNav';
 
 class Main extends React.Component {
   render() {
-    return (
-      <div className="rx-app row">
+    let alertBox;
+
+    if (this.props.alert.visible) {
+      alertBox = (
         <AlertBox
             content={this.props.alert.content}
             isVisible={this.props.alert.visible}
             onCloseAlert={this.props.closeAlert}
             status={this.props.alert.status}/>
+      );
+    }
+
+    return (
+      <div className="rx-app row">
+        {alertBox}
         <h1>Mail Order Prescriptions</h1>
         <TabNav/>
         {this.props.children}
