@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
+
 
 import { loadData } from '../actions/prescriptions.js';
 import BackLink from '../components/BackLink';
@@ -12,37 +14,50 @@ class Detail extends React.Component {
   }
 
   render() {
+    let header;
     let content;
-    const item = this.props.prescriptions.currentItem
+    const item = this.props.prescriptions.currentItem;
 
     if (item) {
       const attrs = item.attributes;
       const data = {
         Quantity: attrs['quantity'],
-        'Start date': attrs['dispensed-date'],
-        'Stop using by': attrs['expiration-date'],
+        // 'Prescription status': attrs[''],
+        'Prescription date': moment(
+            attrs['refill-submit-date']
+          ).format('D MMM YYYY'),
+        'Expiration date': moment(
+            attrs['expiration-date']
+          ).format('D MMM YYYY'),
         'Prescription #': attrs['prescription-number'],
         'Refills': (
           <span>
             {attrs['refill-remaining']} left
-            <a>Refill prescription</a>
+            &nbsp;&nbsp;&nbsp;<a>Refill prescription</a>
           </span>
         )
       };
 
+      header = (
+        <h2 className="rx-detail-header">
+          {attrs['prescription-name']}
+        </h2>
+      );
+
       content = (
         <div>
-          <h3>{attrs['prescription-name']}</h3>
           <TableVerticalHeader
+              cssClass="rx-detail-table"
               data={data}/>
+          <ContactCard/>
         </div>
       );
     }
 
     return (
-      <div className="rx-app row">
+      <div id="rx-detail" className="rx-app row">
         <BackLink/>
-        <ContactCard/>
+        {header}
         {content}
       </div>
     );
