@@ -162,15 +162,19 @@ if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
   //   https://www.npmjs.com/package/metalsmith-watch
   smith.use(watch());
-
+  
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
     contentBase: `build/${options.buildtype}`,
-    historyApiFallback: false,
+    historyApiFallback: {
+      rewrites: [
+        { from: '^\/rx(.*)', to: '/rx/' }
+      ],
+    },
     hot: true,
     port: options.port,
     publicPath: '/generated/',
-    stats: {
+    stats: { 
       colors: true,
       assets: false,
       version: false,
@@ -199,7 +203,7 @@ if (options.watch) {
     }
     console.log('API proxy enabled');
   } catch(e){
-    // No proxy config file found.
+    // No proxy config file found.  
   }
 
   smith.use(webpackDevServer(webpackConfig, devServerConfig));
