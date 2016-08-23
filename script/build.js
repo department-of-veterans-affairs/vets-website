@@ -169,6 +169,7 @@ if (options.watch) {
     historyApiFallback: {
       rewrites: [
         { from: '^\/rx(.*)', to: '/rx/' },
+        { from: '^\/healthcare\/apply\/application(.*)', to: '/healthcare/apply/application/' },
         { from: '^\/(.*)', to: function(context){ return context.parsedUrl.pathname; }}
       ],
     },
