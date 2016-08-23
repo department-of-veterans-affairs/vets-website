@@ -21,7 +21,7 @@ class Detail extends React.Component {
     if (item) {
       const attrs = item.attributes;
       const data = {
-        Quantity: attrs['quantity'],
+        Quantity: attrs.quantity,
         // 'Prescription status': attrs[''],
         'Prescription date': moment(
             attrs['refill-submit-date']
@@ -30,7 +30,7 @@ class Detail extends React.Component {
             attrs['expiration-date']
           ).format('D MMM YYYY'),
         'Prescription #': attrs['prescription-number'],
-        'Refills': (
+        Refills: (
           <span>
             {attrs['refill-remaining']} left
             &nbsp;&nbsp;&nbsp;<a>Refill prescription</a>

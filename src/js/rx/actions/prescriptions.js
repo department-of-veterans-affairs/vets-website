@@ -1,4 +1,4 @@
-export function loadData(id = null) {
+export function loadData(id) {
   if (id) {
     // TODO: Remove this line when API can retrieve any individual Rx.
     id = 1435525;
