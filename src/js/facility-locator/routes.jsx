@@ -1,4 +1,4 @@
-import FacilityLocatorApp from './containers/FacilityLocatorApp';
+import { FacilityLocatorApp } from './containers/FacilityLocatorApp';
 
 const routes = {
   path: '/facilities',
