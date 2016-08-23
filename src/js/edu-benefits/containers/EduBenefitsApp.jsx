@@ -29,7 +29,7 @@ class EduBenefitsApp extends React.Component {
     const currentLocation = this.props.currentLocation;
 
     return (
-      <div>
+      <div className="row">
         {devPanel}
         <Nav sections={sections} currentUrl={currentLocation.pathname}/>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>

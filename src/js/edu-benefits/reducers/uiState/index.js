@@ -1,0 +1,127 @@
+import _ from 'lodash/fp';
+
+import {
+  UPDATE_COMPLETED_STATUS,
+  UPDATE_INCOMPLETE_STATUS,
+  UPDATE_REVIEW_STATUS,
+  UPDATE_VERIFIED_STATUS,
+  UPDATE_SUBMISSION_STATUS,
+  UPDATE_SUBMISSION_ID,
+  UPDATE_SUBMISSION_TIMESTAMP
+} from '../../actions';
+
+const ui = {
+  submission: {
+    status: false,
+    errorMessage: false,
+    id: false,
+    timestamp: false
+  },
+  sections: {
+    '/introduction': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/benefits-eligibility': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/military-history/service': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/military-history/rotc-history': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/military-history/benefits-history': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/education-history': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/employment-history': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/school-selection': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/veteran-information/personal-information': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/veteran-information/address': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/veteran-information/contact': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/veteran-information/secondary-contact': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/veteran-information/dependent-information': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/veteran-information/direct-deposit': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/review-and-submit': {
+      complete: false,
+      verified: false,
+      fields: []
+    }
+  }
+};
+
+function uiState(state = ui, action) {
+  switch (action.type) {
+    case UPDATE_COMPLETED_STATUS:
+      return _.set(['sections', action.path, 'complete'], true, state);
+
+    case UPDATE_INCOMPLETE_STATUS:
+      return _.set(['sections', action.path, 'complete'], false, state);
+
+    case UPDATE_REVIEW_STATUS:
+      return _.set(['sections', action.path, 'complete'], action.value, state);
+
+    case UPDATE_VERIFIED_STATUS:
+      return _.set(['sections', action.path, 'verified'], action.value, state);
+
+    case UPDATE_SUBMISSION_STATUS:
+      return _.set(['submission', action.path, 'status'], action.value, state);
+
+    case UPDATE_SUBMISSION_ID:
+      return _.set(['submission', action.path, 'id'], action.value, state);
+
+    case UPDATE_SUBMISSION_TIMESTAMP:
+      return _.set(['submission', action.path, 'timestamp'], action.value, state);
+
+    default:
+      return state;
+  }
+}
+
+export default uiState;
