@@ -1,7 +1,7 @@
-import FacilityLocatorApp './FacilityLocatorApp';
+import FacilityLocatorApp from './containers/FacilityLocatorApp';
 
 const routes = {
-  path: '/facility-locator-react',
+  path: '/facilities',
   component: FacilityLocatorApp,
 };
 
