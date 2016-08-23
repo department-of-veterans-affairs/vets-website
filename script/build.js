@@ -170,6 +170,7 @@ if (options.watch) {
       rewrites: [
         { from: '^\/rx(.*)', to: '/rx/' },
         { from: '^\/healthcare\/apply\/application(.*)', to: '/healthcare/apply/application/' },
+        { from: '^\/education\/apply-for-education-benefits\/apply(.*)', to: '/education/apply-for-education-benefits/apply/' },
         { from: '^\/(.*)', to: function(context){ return context.parsedUrl.pathname; }}
       ],
     },
