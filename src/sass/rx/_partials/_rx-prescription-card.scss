@@ -35,13 +35,19 @@
 .rx-prescription-title {
   color: $color-primary;
   margin: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
   white-space: nowrap;
   padding-bottom: 0;
 
   a {
+    display: block;
+    overflow: hidden;
     text-decoration: none;
+    text-overflow: ellipsis;
+
+    &:hover {
+      background: none; 
+      text-decoration: underline;
+    }
   }
 }
 
