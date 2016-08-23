@@ -1,0 +1,32 @@
+#content #rx-detail .rx-detail-header {
+  font-size: 3.5rem;
+  margin: 2rem 0;
+}
+
+#rx-detail .rx-contact-card {
+  display: inline-block;
+  margin-left: 3rem;
+}
+
+.rx-detail-table {
+  border: 0;
+  display: inline-block;
+  font-size: 1.8rem;
+  margin: 0;
+  min-width: 0;
+  vertical-align: top;
+
+  td, th {
+    border-width: 0 0 1px 0;
+  }
+
+  td {
+    padding-right: 0;
+  }
+
+  th {
+    font-weight: bold;
+    padding-left: 0;
+    padding-right: 2.5rem;
+  }
+}
