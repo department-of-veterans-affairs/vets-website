@@ -11,11 +11,12 @@
 
 // RX-specific partials
 @import "_partials/rx-contact-card";
+@import "_partials/rx-disclaimer";
+@import "_partials/rx-glossary";
 @import "_partials/rx-modal";
 @import "_partials/rx-prescription-card";
 @import "_partials/rx-sort-list";
 @import "_partials/rx-table";
-@import "_partials/rx-disclaimer";
 
 // TODO: Replace this with a clearfix mixin
 // from USWDS or something
