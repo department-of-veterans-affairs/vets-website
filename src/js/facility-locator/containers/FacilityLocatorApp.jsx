@@ -5,6 +5,7 @@ class FacilityLocatorApp extends React.Component {
     return (
       <div>
         Placeholder for facility locator!
+        {this.props.children}
       </div>
     );
   }
