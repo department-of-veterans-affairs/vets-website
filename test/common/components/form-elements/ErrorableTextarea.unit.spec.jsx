@@ -28,10 +28,9 @@ describe('<ErrorableTextarea>', () => {
   });
 
   it('ensure value doesn\'t propagate when using more than charMax', () => {
-    let errorableInput;
     let valueChangedSpy = sinon.spy();
 
-    errorableInput = ReactTestUtils.renderIntoDocument(
+    const errorableInput = ReactTestUtils.renderIntoDocument(
       <ErrorableTextarea field={makeField(1)} charMax={1} label="test" onValueChange={valueChangedSpy}/>
     );
 
@@ -79,7 +78,6 @@ describe('<ErrorableTextarea>', () => {
     expect(errorMessages).to.have.lengthOf(1);
     expect(errorMessages[0].text()).to.equal('error message');
 
-    // No error means no aria-describedby to not confuse screen readers.
     const textareas = tree.everySubTree('textarea');
     expect(textareas).to.have.lengthOf(1);
     expect(textareas[0].props['aria-describedby']).to.not.be.undefined;
