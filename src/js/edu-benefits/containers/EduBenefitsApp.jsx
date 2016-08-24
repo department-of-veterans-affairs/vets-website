@@ -31,7 +31,14 @@ class EduBenefitsApp extends React.Component {
     return (
       <div className="row">
         {devPanel}
-        <Nav sections={sections} panels={panels} currentUrl={currentLocation.pathname}/>
+        <div className="medium-4 columns show-for-medium-up">
+          <Nav sections={sections} panels={panels} currentUrl={currentLocation.pathname}/>
+        </div>
+        <div className="medium-8 columns">
+          <div className="form-panel">
+            {this.props.children}
+          </div>
+        </div>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
       </div>
     );

@@ -23,12 +23,12 @@ const ui = {
       verified: false,
       fields: []
     },
-    '/benefits-eligibility': {
+    '/benefits-eligibility/benefits-selection': {
       complete: false,
       verified: false,
       fields: []
     },
-    '/military-history/service': {
+    '/military-history/military-service': {
       complete: false,
       verified: false,
       fields: []
@@ -43,17 +43,17 @@ const ui = {
       verified: false,
       fields: []
     },
-    '/education-history': {
+    '/education-history/education-information': {
       complete: false,
       verified: false,
       fields: []
     },
-    '/employment-history': {
+    '/employment-history/employment-information': {
       complete: false,
       verified: false,
       fields: []
     },
-    '/school-selection': {
+    '/school-selection/school-information': {
       complete: false,
       verified: false,
       fields: []
@@ -99,14 +99,16 @@ const ui = {
       path: '/benefits-eligibility',
       name: 'Benefits Eligibility',
       classes: 'one',
-      sections: []
+      sections: [
+        { path: '/benefits-eligibility/benefits-selection', name: 'Benefits Selection' },
+      ]
     },
     {
       path: '/military-history',
       name: 'Military History',
       classes: 'two',
       sections: [
-        { path: '/military-history/service', name: 'Military Service' },
+        { path: '/military-history/military-service', name: 'Military Service' },
         { path: '/military-history/rotc-history', name: 'ROTC History' },
         { path: '/military-history/benefits-history', name: 'Benefits History' }
       ]
@@ -115,19 +117,25 @@ const ui = {
       path: '/education-history',
       name: 'Education History',
       classes: 'three',
-      sections: []
+      sections: [
+        { path: '/education-history/education-information', name: 'Education Information' },
+      ]
     },
     {
       path: '/employment-history',
       name: 'Employment History',
       classes: 'four',
-      sections: []
+      sections: [
+        { path: '/employment-history/employment-information', name: 'Employment Information' },
+      ]
     },
     {
       path: '/school-selection',
       name: 'School Selection',
       classes: 'five',
-      sections: []
+      sections: [
+        { path: '/school-selection/school-information', name: 'School Information' },
+      ]
     },
     {
       path: '/veteran-information',
