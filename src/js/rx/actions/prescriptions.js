@@ -1,8 +1,9 @@
 export function loadData(id) {
   if (id) {
-    // TODO: Use id param instead of hard-coded id
+    // TODO: Use id param instead of test id
     // when API is able to retrieve any individual Rx.
-    return dispatch => fetch(`/api/prescriptions/1435525`)
+    const test_id = 1435525;
+    return dispatch => fetch(`/api/prescriptions/${test_id}`)
       .then(res => res.json())
       .then(
         data => dispatch({ type: 'LOAD_PRESCRIPTION_SUCCESS', data }),
