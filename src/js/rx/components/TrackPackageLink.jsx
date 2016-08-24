@@ -22,6 +22,6 @@ class TrackPackageLink extends React.Component {
 
 TrackPackageLink.propTypes = {
   text: React.PropTypes.string.isRequired
-}
+};
 
 export default TrackPackageLink;
