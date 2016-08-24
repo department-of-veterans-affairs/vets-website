@@ -7,7 +7,7 @@ import fetch from 'isomorphic-fetch';
 
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
-import ProgressButton from './ProgressButton';
+import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp } from '../actions';
 import { veteranToApplication } from '../../common/model/veteran';
 import * as validations from '../../common/utils/validations';
