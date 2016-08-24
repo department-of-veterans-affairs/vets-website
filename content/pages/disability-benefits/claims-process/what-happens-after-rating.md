@@ -19,7 +19,7 @@ You may [file an appeal](/disability-benefits/claims-appeal/) within one year of
 #### Apply for benefits
 
 - If you served on active duty, and separated under conditions other than dishonorable, you may qualify for [VA health care](https://www.vets.gov/healthcare/apply/).
-- If you are in good health other than your service-connected disabilities, you can buy Service-Disabled Veterans’ Insurance (S-DVI), a government life-insurance policy. [Apply for S-DVI](/life-insurance/S-DVI) or call 1-800-669-8477.
+- If you are in good health other than your service-connected disabilities, you can buy Service-Disabled Veterans’ Insurance (S-DVI), a government life-insurance policy. Apply for S-DVI or call 1-800-669-8477.
 - You can get VA education benefits or additional education benefits under special programs. Learn about [education benefits](/education) or speak to a VA education counselor to find out what benefits are available to you.   
 - If you are 30% or more service-connected disabled, you can receive additional payments and benefits for your dependents. Register using [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation) or by contacting your local [eligibility office](/facility-locator/).
 - Check with your [local or state Veterans Affairs offices](http://www.va.gov/statedva.htm) for other possible benefits.  
