@@ -16,7 +16,7 @@ const store = createStore(reducer);
 
 // TODO: figure out the right url here
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/education/apply-for-education-benefits/apply'
+  basename: '/education/apply-for-education-benefits/application'
 });
 
 function init() {
