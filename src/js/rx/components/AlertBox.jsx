@@ -38,7 +38,7 @@ class AlertBox extends React.Component {
 }
 
 AlertBox.propTypes = {
-  content: React.PropTypes.element.isRequired,
+  content: React.PropTypes.element,
   isVisible: React.PropTypes.bool.isRequired,
   onCloseAlert: React.PropTypes.func,
   status: React.PropTypes.oneOf([
