@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux';
-
-const initState = {};
-const placeholder = (state = initState) => state;
+import uiState from './uiState/index';
 
 export default combineReducers({
-  placeholder
+  uiState
 });
