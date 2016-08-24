@@ -21,6 +21,13 @@ function determineSectionStyles(name, currentUrl) {
   return currentUrl === name ? ' sub-section-current' : '';
 }
 
+function getStepClassFromIndex(index, length) {
+  const numbers = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
+  const lastClass = (index + 1) === length ? 'last' : '';
+
+  return (index + 1) < numbers.length ? `${numbers[index]} ${lastClass}` : lastClass;
+}
+
 /**
  * Component for navigation, with links to each section of the form.
  * Parent links redirect to first section link within topic.
@@ -37,9 +44,9 @@ class Nav extends React.Component {
 
     return (
       <ol className="process form-process">
-        {panels.map(panel => {
+        {panels.map((panel, i) => {
           return (
-            <li role="presentation" className={`${panel.classes} ${subnavStyles}
+            <li role="presentation" className={`${getStepClassFromIndex(i, panels.length)} ${subnavStyles}
               ${determinePanelStyles(panel.path, sections, panel, currentUrl)}`} key={panel.path}>
               <div>
                 <h5>{panel.name}</h5>
