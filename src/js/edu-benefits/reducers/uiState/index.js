@@ -106,7 +106,6 @@ const ui = {
     {
       path: '/military-history',
       name: 'Military History',
-      classes: 'two',
       sections: [
         { path: '/military-history/military-service', name: 'Military Service' },
         { path: '/military-history/rotc-history', name: 'ROTC History' },
@@ -116,7 +115,6 @@ const ui = {
     {
       path: '/education-history',
       name: 'Education History',
-      classes: 'three',
       sections: [
         { path: '/education-history/education-information', name: 'Education Information' },
       ]
@@ -124,7 +122,6 @@ const ui = {
     {
       path: '/employment-history',
       name: 'Employment History',
-      classes: 'four',
       sections: [
         { path: '/employment-history/employment-information', name: 'Employment Information' },
       ]
@@ -132,7 +129,6 @@ const ui = {
     {
       path: '/school-selection',
       name: 'School Selection',
-      classes: 'five',
       sections: [
         { path: '/school-selection/school-information', name: 'School Information' },
       ]
@@ -140,7 +136,6 @@ const ui = {
     {
       path: '/veteran-information',
       name: 'Veteran Information',
-      classes: 'six',
       sections: [
         { path: '/veteran-information/personal-information', name: 'Personal Information' },
         { path: '/veteran-information/address', name: 'Address' },
@@ -153,7 +148,6 @@ const ui = {
     {
       path: '/review-and-submit',
       name: 'Review',
-      classes: 'seven last',
       sections: []
     }
   ]
@@ -174,13 +168,13 @@ function uiState(state = ui, action) {
       return _.set(['sections', action.path, 'verified'], action.value, state);
 
     case UPDATE_SUBMISSION_STATUS:
-      return _.set(['submission', action.path, 'status'], action.value, state);
+      return _.set('submission.status', action.value, state);
 
     case UPDATE_SUBMISSION_ID:
-      return _.set(['submission', action.path, 'id'], action.value, state);
+      return _.set('submission.id', action.value, state);
 
     case UPDATE_SUBMISSION_TIMESTAMP:
-      return _.set(['submission', action.path, 'timestamp'], action.value, state);
+      return _.set('submission.timestamp', action.value, state);
 
     default:
       return state;

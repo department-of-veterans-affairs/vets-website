@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import Nav from '../../../src/js/edu-benefits/components/Nav';
 
-describe.only('<Nav>', () => {
+describe('<Nav>', () => {
   it('should render all panels', () => {
     const currentUrl = '/some-url';
     const panels = [
@@ -29,6 +29,7 @@ describe.only('<Nav>', () => {
     };
     const tree = SkinDeep.shallowRender(<Nav sections={sections} panels={panels} currentUrl={currentUrl}/>);
     expect(tree.everySubTree('.step').length).to.equal(panels.length);
+    expect(tree.everySubTree('.two').length).to.equal(1);
     expect(tree.everySubTree('.step')[0].subTree('h5').text()).to.equal(panels[0].name);
   });
   it('should render all sections in panels', () => {
