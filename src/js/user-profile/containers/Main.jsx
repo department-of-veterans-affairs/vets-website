@@ -14,7 +14,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     this.serverRequest = $.get('https://dev.vets.gov/api/v0/sessions/new', result => {
-      const loginPage = result[0];
+      const loginPage = result;
       this.setState({
         loginUrl: loginPage.authenticate_via_get
       });
