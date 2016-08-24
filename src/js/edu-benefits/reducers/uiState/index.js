@@ -33,6 +33,11 @@ const ui = {
       verified: false,
       fields: []
     },
+    '/military-history/additional-information': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
     '/military-history/rotc-history': {
       complete: false,
       verified: false,
@@ -44,6 +49,11 @@ const ui = {
       fields: []
     },
     '/education-history/education-information': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/education-history/additional-information': {
       complete: false,
       verified: false,
       fields: []
@@ -96,6 +106,18 @@ const ui = {
   },
   panels: [
     {
+      path: '/veteran-information',
+      name: 'Veteran Information',
+      sections: [
+        { path: '/veteran-information/personal-information', name: 'Personal Information' },
+        { path: '/veteran-information/address', name: 'Address' },
+        { path: '/veteran-information/contact', name: 'Contact Information' },
+        { path: '/veteran-information/secondary-contact', name: 'Secondary Contact' },
+        { path: '/veteran-information/dependent-information', name: 'Dependent Information' },
+        { path: '/veteran-information/direct-deposit', name: 'Direct Deposit' },
+      ]
+    },
+    {
       path: '/benefits-eligibility',
       name: 'Benefits Eligibility',
       classes: 'one',
@@ -108,6 +130,7 @@ const ui = {
       name: 'Military History',
       sections: [
         { path: '/military-history/military-service', name: 'Military Service' },
+        { path: '/military-history/additional-information', name: 'Additional Information' },
         { path: '/military-history/rotc-history', name: 'ROTC History' },
         { path: '/military-history/benefits-history', name: 'Benefits History' }
       ]
@@ -117,6 +140,7 @@ const ui = {
       name: 'Education History',
       sections: [
         { path: '/education-history/education-information', name: 'Education Information' },
+        { path: '/education-history/additional-information', name: 'Additional Information' },
       ]
     },
     {
@@ -131,18 +155,6 @@ const ui = {
       name: 'School Selection',
       sections: [
         { path: '/school-selection/school-information', name: 'School Information' },
-      ]
-    },
-    {
-      path: '/veteran-information',
-      name: 'Veteran Information',
-      sections: [
-        { path: '/veteran-information/personal-information', name: 'Personal Information' },
-        { path: '/veteran-information/address', name: 'Address' },
-        { path: '/veteran-information/contact', name: 'Contact Information' },
-        { path: '/veteran-information/secondary-contact', name: 'Secondary Contact' },
-        { path: '/veteran-information/dependent-information', name: 'Dependent Information' },
-        { path: '/veteran-information/direct-deposit', name: 'Direct Deposit' },
       ]
     },
     {

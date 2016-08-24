@@ -5,14 +5,14 @@ import { connect } from 'react-redux';
 
 import Nav from '../components/Nav';
 
+import PerfPanel from '../components/debug/PerfPanel';
+import RoutesDropdown from '../components/debug/RoutesDropdown';
+
+
 class EduBenefitsApp extends React.Component {
   render() {
     let devPanel = undefined;
     if (__BUILDTYPE__ === 'development') {
-      // using require here allows this code to be removed in prod
-      let PerfPanel = require('./../components/debug/PerfPanel');
-      // import PopulateVeteranButton from './debug/PopulateVeteranButton';
-      let RoutesDropdown = require('./../components/debug/RoutesDropdown');
       const queryParams = _.fromPairs(
         window.location.search.substring(1).split('&').map((v) => { return v.split('='); }));
       if (queryParams.devPanel === '1') {
