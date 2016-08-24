@@ -162,22 +162,22 @@ if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
   //   https://www.npmjs.com/package/metalsmith-watch
   smith.use(watch());
-  
+
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
     contentBase: `build/${options.buildtype}`,
     historyApiFallback: {
       rewrites: [
-        { from: '^\/rx(.*)', to: '/rx/' },
-        { from: '^\/healthcare\/apply\/application(.*)', to: '/healthcare/apply/application/' },
-        { from: '^\/education\/apply-for-education-benefits\/apply(.*)', to: '/education/apply-for-education-benefits/apply/' },
-        { from: '^\/(.*)', to: function(context){ return context.parsedUrl.pathname; }}
+        { from: '^/rx(.*)', to: '/rx/' },
+        { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
+        { from: '^/education/apply-for-education-benefits/apply(.*)', to: '/education/apply-for-education-benefits/apply/' },
+        { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
     hot: true,
     port: options.port,
     publicPath: '/generated/',
-    stats: { 
+    stats: {
       colors: true,
       assets: false,
       version: false,
@@ -198,15 +198,18 @@ if (options.watch) {
       '/api/*': {
         target: `https://${api.host}${api.path}`,
         auth: api.auth,
-        rewrite: function (req) {
+        rewrite(req) {
+          /* eslint-disable no-param-reassign */
           req.url = req.url.replace(/^\/api/, '');
           req.headers.host = api.host;
+          /* eslint-enable no-param-reassign */
         }
       }
-    }
+    };
+    // eslint-disable-next-line no-console
     console.log('API proxy enabled');
-  } catch(e){
-    // No proxy config file found.  
+  } catch (e) {
+    // No proxy config file found.
   }
 
   smith.use(webpackDevServer(webpackConfig, devServerConfig));
