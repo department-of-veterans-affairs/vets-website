@@ -195,16 +195,18 @@ if (options.watch) {
     // Check to see if we have a proxy config file
     const api = require('../config/config.proxy.js').api;
     devServerConfig.proxy = {
-      '/api/*': {
-        target: `https://${api.host}${api.path}`,
+     '/rx-api/*': {
+        target: `https://${api.host}/`,
         auth: api.auth,
-        rewrite: function (req) {
-          req.url = req.url.replace(/^\/api/, '');
+        secure: true,
+        changeOrigin: true,
+        pathRewrite: function(path, req){
           req.headers.host = api.host;
+          return path.replace('/rx-api', api.path);
         }
       }
     }
-    console.log('API proxy enabled');
+		console.log('API proxy enabled');
   } catch(e){
     // No proxy config file found.  
   }
