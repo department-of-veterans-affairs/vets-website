@@ -64,9 +64,6 @@ class Prescription extends React.Component {
           <div className="rx-prescription-facility">
             Facility name: {attrs['facility-name']}
           </div>
-          <div className="rx-prescription-facility">
-           Facility name: {attrs['facility-name']}
-          </div>
           <div className="rx-prescription-refilled">
             Last refilled: {moment(attrs['refill-date']).format('ll')}
           </div>
