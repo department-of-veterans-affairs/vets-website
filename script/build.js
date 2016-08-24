@@ -206,7 +206,7 @@ if (options.watch) {
         }
       }
     }
-		console.log('API proxy enabled');
+    console.log('API proxy enabled');
   } catch(e){
     // No proxy config file found.  
   }
