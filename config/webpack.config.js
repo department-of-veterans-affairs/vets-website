@@ -1,10 +1,11 @@
 // Staging config. Also the default config that prod and dev are based off of.
 
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const bourbon = require('bourbon').includePaths;
-const neat = require('bourbon-neat').includePaths;
-const path = require('path');
-const webpack = require('webpack');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var bourbon = require('bourbon').includePaths;
+var neat = require('bourbon-neat').includePaths;
+var path = require('path');
+var webpack = require('webpack');
+var sassLintPlugin = require('sasslint-webpack-plugin');
 
 require('babel-polyfill');
 
@@ -45,6 +46,11 @@ const configGenerator = (options) => {
 
             // Also see .babelrc
           }
+        },
+        {
+          test:  /\.(js|jsx)$/,
+          exclude: /(\/node_modules|\/src\/js\/legacy\/)/,
+          loader: 'eslint'
         },
         {
           // components.js is effectively a hand-rolled bundle.js. Break it apart.
@@ -93,6 +99,11 @@ const configGenerator = (options) => {
         'process.env': {
           NODE_ENV: JSON.stringify(process.env.NODE_ENV)
         }
+      }),
+      new sassLintPlugin({
+        configFile: 'config/sass-lint.yml',
+        glob: 'src/sass/**/*.s?(a|c)ss',
+        quiet: false
       }),
 
       // See http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
