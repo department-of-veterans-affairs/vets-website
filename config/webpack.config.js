@@ -48,7 +48,7 @@ const configGenerator = (options) => {
         },
         {
           test:  /\.(js|jsx)$/,
-          exclude: /(\/node_modules|\/src\/js\/legacy\/)/,
+          exclude: /(\/node_modules|\/src\/js\/legacy\/|\/build\/)/,
           loader: 'eslint'
         },
         {
