@@ -15,6 +15,7 @@ class Main extends React.Component {
             isVisible={this.props.alert.visible}
             onCloseAlert={this.props.closeAlert}
             status={this.props.alert.status}/>
+        <h1>Mail Order Prescriptions</h1>
         <TabNav/>
         {this.props.children}
       </div>

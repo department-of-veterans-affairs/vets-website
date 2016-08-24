@@ -3,9 +3,7 @@ import _ from 'lodash';
 
 import { connect } from 'react-redux';
 
-import { bindActionCreators } from 'redux';
-
-import { placeholderAction } from '../actions';
+import Nav from '../components/Nav';
 
 class EduBenefitsApp extends React.Component {
   render() {
@@ -27,30 +25,30 @@ class EduBenefitsApp extends React.Component {
       }
     }
 
+    const { panels, sections } = this.props.uiState;
+    const currentLocation = this.props.currentLocation;
+
     return (
-      <div>
+      <div className="row">
         {devPanel}
-        Get your education benefits here!
-        <span className="js-test-location hidden" data-location={this.props.location.pathname} hidden></span>
+        <Nav sections={sections} panels={panels} currentUrl={currentLocation.pathname}/>
+        <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
       </div>
     );
   }
 }
 
-EduBenefitsApp.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
-
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
-    placeholder: state.placeholder,
+    uiState: state.uiState,
+    currentLocation: ownProps.location
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ placeholderAction }, dispatch);
+// Fill this in when we start using actions
+function mapDispatchToProps() {
+  return {};
 }
 
-// TODO(awong): Remove the pure: false once we start using ImmutableJS.
-export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(EduBenefitsApp);
+export default connect(mapStateToProps, mapDispatchToProps)(EduBenefitsApp);
 export { EduBenefitsApp };
