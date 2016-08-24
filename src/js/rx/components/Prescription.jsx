@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 
 import MessageProviderLink from './MessageProviderLink';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
+import TrackPackageLink from './TrackPackageLink';
 import SubmitButton from './SubmitButton';
 
 class Prescription extends React.Component {
@@ -31,8 +32,11 @@ class Prescription extends React.Component {
     }
 
     if (trackable) {
-      // TODO: Replace this with a component.
-      action = <a className="usa-button">Track package</a>;
+      action = (
+        <TrackPackageLink
+            className="usa-button"
+            text="Track package"/>
+      );
     } else {
       action = <div className="rx-prescription-refill-requested">Refill requested</div>;
     }
