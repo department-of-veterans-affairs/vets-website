@@ -9,13 +9,13 @@ var sassLintPlugin = require('sasslint-webpack-plugin');
 
 require('babel-polyfill');
 
-var configGenerator = (options) => {
+const configGenerator = (options) => {
   const baseConfig = {
     entry: {
       hca: './src/js/hca/hca-entry.jsx',
       'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
       'no-react': './src/js/no-react-entry.js',
-       rx: './src/js/rx/rx-entry.jsx',
+      rx: './src/js/rx/rx-entry.jsx',
     },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
@@ -62,16 +62,16 @@ var configGenerator = (options) => {
           loader: 'imports?this=>window'
         },
         {
-          test: /\modernizrrc/,
+          test: /modernizrrc/,
           loader: 'modernizr'
         },
         {
           test: /wow\.js$/,
-          loaders: [ 'imports?this=>window', 'exports?this.WOW' ]
+          loaders: ['imports?this=>window', 'exports?this.WOW']
         },
         {
           test: /\.scss$/,
-          loader: ExtractTextPlugin.extract('style-loader', 'css!resolve-url!sass?includePaths[]=' + bourbon + '&includePaths[]=' + neat + '&includePaths[]=' + '~/uswds/src/stylesheets' + '&sourceMap')
+          loader: ExtractTextPlugin.extract('style-loader', `css!resolve-url!sass?includePaths[]=${bourbon}&includePaths[]=${neat}&includePaths[]=~/uswds/src/stylesheets&sourceMap`)
         },
         { test: /\.(jpe?g|png|gif|svg)$/i,
           loader: 'url?limit=10000!img?progressive=true&-minimize'
@@ -88,17 +88,17 @@ var configGenerator = (options) => {
     },
     resolve: {
       alias: {
-        modernizr$: path.resolve(__dirname, "./modernizrrc"),
-        jquery: "jquery/src/jquery"
+        modernizr$: path.resolve(__dirname, './modernizrrc'),
+        jquery: 'jquery/src/jquery'
       },
       extensions: ['', '.js', '.jsx']
     },
     plugins: [
       new webpack.DefinePlugin({
-          __BUILDTYPE__: JSON.stringify(options.buildtype),
-          'process.env': {
-              NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-          }
+        __BUILDTYPE__: JSON.stringify(options.buildtype),
+        'process.env': {
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+        }
       }),
       new sassLintPlugin({
         configFile: 'config/sass-lint.yml',
@@ -108,9 +108,9 @@ var configGenerator = (options) => {
 
       // See http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
       new webpack.ProvidePlugin({
-        "$": "jquery",
-        jQuery: "jquery",
-        "window.jQuery": "jquery"
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery'
       }),
 
       new ExtractTextPlugin('[name].css'),
