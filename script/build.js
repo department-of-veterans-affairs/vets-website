@@ -200,7 +200,7 @@ if (options.watch) {
         auth: api.auth,
         secure: true,
         changeOrigin: true,
-        pathRewrite: function(path, req){
+        pathRewrite: (path, req) => {
           /* eslint-disable no-param-reassign */
           req.headers.host = api.host;
           /* eslint-enable no-param-reassign */
