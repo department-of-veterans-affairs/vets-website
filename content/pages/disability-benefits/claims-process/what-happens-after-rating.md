@@ -1,4 +1,5 @@
 ---
+layout: page-breadcrumbs.html
 title: What to expect after you get a disability rating
 template: 6-info-page
 ---
