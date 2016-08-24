@@ -50,4 +50,13 @@ class SortMenu extends React.Component {
   }
 }
 
+SortMenu.propTypes = {
+  options: React.PropTypes.arrayOf(React.PropTypes.shape({
+    value: React.PropTypes.string,
+    label: React.PropTypes.string,
+  })),
+  changeHandler: React.PropTypes.func,
+  clickHandler: React.PropTypes.func,
+}
+
 export default SortMenu;
