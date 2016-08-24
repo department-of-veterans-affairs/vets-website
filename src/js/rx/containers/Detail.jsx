@@ -7,7 +7,7 @@ class Detail extends React.Component {
   render() {
     return (
       <div>
-        <BackLink/>
+        <BackLink text="Back to list"/>
         <ContactCard/>
       </div>
     );
