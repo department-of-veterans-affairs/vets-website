@@ -1,6 +1,7 @@
 ---
 title: Claims Process
-template: 2-detailed-landing
+layout: page-breadcrumbs.html
+template: L2-section-landing
 relatedlinks:
   - url: /disability-benefits/claims-process/ratings/
     title: How does VA assign disability ratings?
@@ -21,8 +22,9 @@ relatedlinks:
     title: What can I expect after getting a disability rating?
     description: ""  
   - url: /disability-benefits/claims-process/claim-exam/
-    title: What to Expect at Your VA Claim Exam
+    title: What can I expect at my VA claim exam?
     description: ""    
 ---
+
 
 A disability claim is a formal legal request for benefits. It’s very important to prepare carefully and to make sure you have the details right before applying. An [accredited representative]({{ site.url }}/disability-benefits/apply-for-benefits/help/index.html) can help you through the process. Below are links to some of the key terms and classifications that VA uses to process your claim.
