@@ -1,16 +1,28 @@
 const glossary = [
   {
-    term: 'dog',
-    definition: 'mammal with four legs. loves people.'
+    term: 'Active',
+    definition: 'If you have refills, you may request a refill of this prescription from your VA pharmacy.'
   },
   {
-    term: 'cow',
-    definition: 'mammal with four legs. tasty when cooked.'
+    term: 'Discontinued',
+    definition: 'This prescription is no longer available. Contact your VA provider if you need more of this medication.'
   },
   {
-    term: 'cat',
-    definition: 'mammal with four legs. plots world domination. Beatae praesentium quidem repellendus consequatur qui quae. Aut minima dolorem dolore. Natus porro non quia quaerat est illo. Soluta eos quia voluptatem. Dicta ullam et sint non.\nVelit beatae odit itaque id dolor. Sed eos deserunt occaecati. Qui reprehenderit ut dolores cupiditate aperiam dolor unde. Possimus occaecati saepe in exercitationem totam.\nConsequatur libero dolor repudiandae ipsam occaecati alias. Provident ut ab laborum asperiores a aut eum aliquid. Earum non dolor totam.\nConsequatur sapiente asperiores fugiat itaque est cumque aut. Ut enim eaque dolores numquam labore omnis eum vel. Aliquid dolore debitis eveniet quaerat vel veniam consectetur. Illum ut sint culpa cumque unde. Et vitae nihil et. Ut et dolorum dolorum.\nEt neque officiis rerum repellendus adipisci illo aperiam. Illum cumque est consequatur aut eum corrupti laborum illo. Non pariatur aliquam hic iste. Id sunt et numquam. Qui non occaecati quod expedita dolorem mollitia. Iusto eos vel nobis iure.'
-  }
+    term: 'Expired',
+    definition: 'Prescription too old. Call your VA healthcare team if you need more.'
+  },
+  {
+    term: 'On hold',
+    definition: 'This prescription cannot be refilled until a hold is resolved by the pharmacy. Contact your VA pharmacy if you need this prescription now.'
+  },
+  {
+    term: 'Pending',
+    definition: 'Your VA provider ordered this prescription. It may not be ready for pick up at the VA pharmacy window or to be mailed to you. Contact your VA pharmacy if you need this prescription now.'
+  },
+  {
+    term: 'Suspended',
+    definition: 'You requested this prescription too early. It will be sent to you before you run out. Contact your VA pharmacy if you need this prescription now.'
+  },
 ];
 
 export function getGlossary() {

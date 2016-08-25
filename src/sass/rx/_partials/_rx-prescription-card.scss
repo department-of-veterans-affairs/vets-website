@@ -29,7 +29,13 @@
   // of .rx-prescription-count, .rx-prescription-action below
   padding: 2rem;
   position: relative;
-  height: 21.2rem;
+  height: 24.5rem;
+
+  .rx-track-package-link {
+    background: $color-primary;
+    display: block;
+    margin: 0;
+  }
 }
 
 .rx-prescription-title {
