@@ -404,7 +404,7 @@ function isValidSection(completePath, sectionData) {
     case '/benefits-eligibility/benefits-selection':
       return isBenefitsInformationSectionValid(sectionData);
     default:
-      return !!sectionData;
+      return true;
   }
 }
 
