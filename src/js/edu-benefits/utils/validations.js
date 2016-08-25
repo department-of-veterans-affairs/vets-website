@@ -231,10 +231,6 @@ function isValidBirthInformationSection(data) {
       isValidDateField(data.veteranDateOfBirth);
 }
 
-function isValidDemographicInformation(data) {
-  return isNotBlank(data.gender.value);
-}
-
 function isValidVaInformation(data) {
   return validateIfDirty(data.isVaServiceConnected, isNotBlank) &&
       validateIfDirty(data.compensableVaServiceConnected, isNotBlank) &&
