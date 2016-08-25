@@ -12,8 +12,6 @@ import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus,
 import { veteranToApplication } from '../../common/model/veteran';
 import * as validations from '../../common/utils/validations';
 
-// TODO(awong): Find some way to remove code when in production. It might require System.import()
-// and a promise.
 import PopulateVeteranButton from './debug/PopulateVeteranButton';
 import PerfPanel from './debug/PerfPanel';
 import RoutesDropdown from './debug/RoutesDropdown';
