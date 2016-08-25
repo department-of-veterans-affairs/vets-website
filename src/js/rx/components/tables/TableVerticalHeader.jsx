@@ -32,8 +32,8 @@ class TableVerticalHeader extends React.Component {
 }
 
 TableVerticalHeader.propTypes = {
-  className: React.PropTypes.string
-  data: React.PropTypes.object.isRequired,
+  className: React.PropTypes.string,
+  data: React.PropTypes.object.isRequired
 };
 
 export default TableVerticalHeader;
