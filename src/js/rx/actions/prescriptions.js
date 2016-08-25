@@ -6,8 +6,8 @@ export function loadData(id) {
     return dispatch => fetch(`/api/prescriptions/${testId}`)
       .then(res => res.json())
       .then(
-        data => dispatch({ type: 'LOAD_RX_TRACKINGS_SUCCESS', data }),
-        err => dispatch({ type: 'LOAD_RX_TRACKINGS_FAILURE', err })
+        data => dispatch({ type: 'LOAD_PRESCRIPTION_SUCCESS', data }),
+        err => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE', err })
       );
     };
   }
