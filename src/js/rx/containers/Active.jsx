@@ -56,10 +56,10 @@ class Active extends React.Component {
     return (
       <div className="va-tab-content">
         <SortMenu
-            options={sortOptions}
-            selected={sortValue}
             changeHandler={this.handleSortOnChange}
-            clickHandler={this.handleSortOnClick}/>
+            clickHandler={this.handleSortOnClick}
+            options={sortOptions}
+            selected={sortValue}/>
         <PrintList
             type="active"/>
         <PrescriptionList

@@ -16,7 +16,7 @@ function sortByFacilityName(obj) {
 }
 
 function sortByLastRequested(obj) {
-  return new Date(obj.attributes['ordered-date']).getTime();
+  return new Date(obj.attributes['refill-date']).getTime();
 }
 
 export default function prescriptions(state = initialState, action) {
@@ -25,7 +25,7 @@ export default function prescriptions(state = initialState, action) {
       return set('items', action.data.data, state);
     // After the data is loaded, we can just use `state`.
     // Also breaking convention and using lower case because the query parameters
-    // are lower case. 
+    // are lower case.
     case 'prescription-name':
       return set('items', _.sortBy(state.items, sortByName), state);
     case 'facility-name':

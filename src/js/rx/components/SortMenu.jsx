@@ -40,6 +40,7 @@ class SortMenu extends React.Component {
         </div>
         <div className="rx-sort-narrow">
           <select
+              value={this.props.selected}
               id="sortby"
               onChange={this.props.changeHandler}>
             {sortOptionElements(this.props.options)}
