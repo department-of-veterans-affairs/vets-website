@@ -3,16 +3,19 @@
   margin-left: 3rem;
 }
 
-.rx-detail-table {
-  border: 0;
+#rx-detail .rx-table {
   display: inline-block;
   font-size: 1.8rem;
   margin: 0;
   min-width: 0;
   vertical-align: top;
 
-  td, th {
-    border-width: 0 0 1px 0;
+  tbody {
+    &:first-child {
+      th, td {
+        border-top: none;
+      }
+    }
   }
 
   td {

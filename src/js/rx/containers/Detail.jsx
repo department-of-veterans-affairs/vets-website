@@ -47,7 +47,7 @@ class Detail extends React.Component {
       content = (
         <div>
           <TableVerticalHeader
-              className="rx-detail-table"
+              className="usa-table-borderless rx-table"
               data={data}/>
           <ContactCard/>
         </div>
