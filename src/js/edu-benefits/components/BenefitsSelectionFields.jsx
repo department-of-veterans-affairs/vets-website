@@ -25,7 +25,7 @@ export default class BenefitsSectionFields extends React.Component {
             options={options}
             value={this.props.data.benefitsChosen}
             onValueChange={(update) => {this.props.onStateChange('benefitsChosen', update);}}>
-          <RadioButtonsSubSection position={0} showIfValueChosen="chapter33">
+          <RadioButtonsSubSection showIfValueChosen="chapter33">
             <p className="form-indent">I acknowledge that by choosing Chapter 33 I have to give up some other stuff</p>
             <fieldset className="form-subsection">
               I elect to receive Chapter 33 education benefits in lieu of the education benefit(s) I am relinquishing below

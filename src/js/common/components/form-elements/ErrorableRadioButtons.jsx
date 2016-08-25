@@ -23,10 +23,21 @@ class ErrorableRadioButtons extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
+    this.getMatchingSubSection = this.getMatchingSubSection.bind(this);
   }
 
   componentWillMount() {
     this.inputId = _.uniqueId('errorable-radio-buttons-');
+  }
+
+  getMatchingSubSection(checked, optionValue) {
+    if (checked && this.props.children) {
+      const children = _.isArray(this.props.children) ? this.props.children : [this.props.children];
+      const subsections = children.filter((child) => child.props.showIfValueChosen === optionValue);
+      return subsections.length > 0 ? subsections[0] : null;
+    }
+
+    return null;
   }
 
   handleChange(domEvent) {
@@ -34,8 +45,6 @@ class ErrorableRadioButtons extends React.Component {
   }
 
   render() {
-    const children = this.props.children;
-
     // TODO: extract error logic into a utility function
     // Calculate error state.
     let errorSpan = '';
@@ -75,7 +84,7 @@ class ErrorableRadioButtons extends React.Component {
         optionValue = obj.value;
       }
       const checked = optionValue === storedValue ? 'checked=true' : '';
-      const matchingSubSections = checked && children && index === children.props.position && children.props.showIfValueChosen === optionValue ? children : null;
+      const matchingSubSection = this.getMatchingSubSection(optionValue === storedValue, optionValue);
       return (
         <div key={reactKey++} className="form-radio-buttons">
           <input
@@ -88,7 +97,7 @@ class ErrorableRadioButtons extends React.Component {
           <label htmlFor={`${this.inputId}-${index}`}>
             {optionLabel}
           </label>
-          {matchingSubSections}
+          {matchingSubSection}
         </div>
       );
     });

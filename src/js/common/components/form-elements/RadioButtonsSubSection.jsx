@@ -8,6 +8,5 @@ export default class RadioButtonsSubSection extends React.Component {
 }
 
 RadioButtonsSubSection.propTypes = {
-  position: React.PropTypes.number.isRequired,
   showIfValueChosen: React.PropTypes.string.isRequired
 };
