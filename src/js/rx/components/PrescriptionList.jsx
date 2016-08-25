@@ -64,6 +64,6 @@ class PrescriptionList extends React.Component {
 PrescriptionList.propTypes = {
   items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   grouped: React.PropTypes.bool
-}
+};
 
 export default PrescriptionList;

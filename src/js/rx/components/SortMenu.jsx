@@ -57,6 +57,6 @@ SortMenu.propTypes = {
   })),
   changeHandler: React.PropTypes.func,
   clickHandler: React.PropTypes.func,
-}
+};
 
 export default SortMenu;
