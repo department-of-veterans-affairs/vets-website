@@ -12,7 +12,7 @@ export default class BenefitsSectionFields extends React.Component {
       { label: 'Chapter 30', value: 'chapter30' },
       { label: 'Chapter 1606', value: 'chapter1606' },
       { label: 'Chapter 32 / Section 903', value: 'chapter32' },
-      { label: 'I don\'t know', value: 'none' },
+      { label: 'I don\'t know', value: 'unknown' },
     ];
     return (<fieldset>
       <legend>Benefits Information</legend>

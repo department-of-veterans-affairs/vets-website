@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import NavButtons from '../../../src/js/edu-benefits/components/NavButtons';
 
-describe.only('<NavButtons>', () => {
+describe('<NavButtons>', () => {
   describe('should render', () => {
     const path = '/some-url';
     const submission = {
