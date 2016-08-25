@@ -195,22 +195,22 @@ if (options.watch) {
     // Check to see if we have a proxy config file
     const api = require('../config/config.proxy.js').api;
     devServerConfig.proxy = {
-     '/rx-api/*': {
+      '/rx-api/*': {
         target: `https://${api.host}/`,
         auth: api.auth,
         secure: true,
         changeOrigin: true,
-        pathRewrite: function(path, req){
+        pathRewrite: (path, req) => {
           /* eslint-disable no-param-reassign */
           req.headers.host = api.host;
           /* eslint-enable no-param-reassign */
           return path.replace('/rx-api', api.path);
         }
       }
-    }
-		console.log('API proxy enabled');
-  } catch(e){
-    // No proxy config file found.  
+    };
+    console.log('API proxy enabled');
+  } catch (e) {
+    // No proxy config file found.
   }
 
   smith.use(webpackDevServer(webpackConfig, devServerConfig));
