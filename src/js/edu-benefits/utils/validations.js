@@ -415,38 +415,8 @@ function isValidForm(data) {
 
 function isValidSection(completePath, sectionData) {
   switch (completePath) {
-    case '/veteran-information/personal-information':
-      return isValidPersonalInfoSection(sectionData);
-    case '/veteran-information/birth-information':
-      return isValidBirthInformationSection(sectionData);
-    case '/veteran-information/demographic-information':
-      return isValidDemographicInformation(sectionData);
-    case '/veteran-information/veteran-address':
-      return isValidVeteranAddress(sectionData);
-    case '/veteran-information/contact-information':
-      return isValidContactInformationSection(sectionData);
-    case '/military-service/service-information':
-      return isValidServiceInformation(sectionData);
-    case '/va-benefits/basic-information':
-      return isValidVaInformation(sectionData);
-    case '/household-information/financial-disclosure':
-      return isValidFinancialDisclosure(sectionData);
-    case '/household-information/spouse-information':
-      return isValidSpouseInformation(sectionData);
-    case '/household-information/child-information':
-      return isValidChildren(sectionData);
-    case '/household-information/annual-income':
-      return isValidAnnualIncome(sectionData);
-    case '/household-information/deductible-expenses':
-      return isValidDeductibleExpenses(sectionData);
-    case '/insurance-information/va-facility':
-      return isValidVAFacility(sectionData);
-    case '/insurance-information/general':
-      return isValidGeneralInsurance(sectionData);
-    case '/insurance-information/medicare':
-      return isValidMedicareMedicaid(sectionData);
     default:
-      return true;
+      return !!sectionData;
   }
 }
 
