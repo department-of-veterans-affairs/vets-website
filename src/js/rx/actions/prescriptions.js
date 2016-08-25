@@ -1,5 +1,5 @@
 export function loadData() {
-  return dispatch => fetch('/api/prescriptions')
+  return dispatch => fetch('/rx-api/prescriptions')
     .then(res => res.json())
     .then(
       data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
