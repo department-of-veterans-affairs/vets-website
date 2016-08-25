@@ -23,12 +23,17 @@ const ui = {
       verified: false,
       fields: []
     },
-    '/benefits-eligibility': {
+    '/benefits-eligibility/benefits-selection': {
       complete: false,
       verified: false,
       fields: []
     },
-    '/military-history/service': {
+    '/military-history/military-service': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/military-history/additional-information': {
       complete: false,
       verified: false,
       fields: []
@@ -43,17 +48,22 @@ const ui = {
       verified: false,
       fields: []
     },
-    '/education-history': {
+    '/education-history/education-information': {
       complete: false,
       verified: false,
       fields: []
     },
-    '/employment-history': {
+    '/education-history/additional-information': {
       complete: false,
       verified: false,
       fields: []
     },
-    '/school-selection': {
+    '/employment-history/employment-information': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/school-selection/school-information': {
       complete: false,
       verified: false,
       fields: []
@@ -96,35 +106,6 @@ const ui = {
   },
   panels: [
     {
-      path: '/benefits-eligibility',
-      name: 'Benefits Eligibility',
-      sections: []
-    },
-    {
-      path: '/military-history',
-      name: 'Military History',
-      sections: [
-        { path: '/military-history/service', name: 'Military Service' },
-        { path: '/military-history/rotc-history', name: 'ROTC History' },
-        { path: '/military-history/benefits-history', name: 'Benefits History' }
-      ]
-    },
-    {
-      path: '/education-history',
-      name: 'Education History',
-      sections: []
-    },
-    {
-      path: '/employment-history',
-      name: 'Employment History',
-      sections: []
-    },
-    {
-      path: '/school-selection',
-      name: 'School Selection',
-      sections: []
-    },
-    {
       path: '/veteran-information',
       name: 'Veteran Information',
       sections: [
@@ -134,6 +115,46 @@ const ui = {
         { path: '/veteran-information/secondary-contact', name: 'Secondary Contact' },
         { path: '/veteran-information/dependent-information', name: 'Dependent Information' },
         { path: '/veteran-information/direct-deposit', name: 'Direct Deposit' },
+      ]
+    },
+    {
+      path: '/benefits-eligibility',
+      name: 'Benefits Eligibility',
+      classes: 'one',
+      sections: [
+        { path: '/benefits-eligibility/benefits-selection', name: 'Benefits Selection' },
+      ]
+    },
+    {
+      path: '/military-history',
+      name: 'Military History',
+      sections: [
+        { path: '/military-history/military-service', name: 'Military Service' },
+        { path: '/military-history/additional-information', name: 'Additional Information' },
+        { path: '/military-history/rotc-history', name: 'ROTC History' },
+        { path: '/military-history/benefits-history', name: 'Benefits History' }
+      ]
+    },
+    {
+      path: '/education-history',
+      name: 'Education History',
+      sections: [
+        { path: '/education-history/education-information', name: 'Education Information' },
+        { path: '/education-history/additional-information', name: 'Additional Information' },
+      ]
+    },
+    {
+      path: '/employment-history',
+      name: 'Employment History',
+      sections: [
+        { path: '/employment-history/employment-information', name: 'Employment Information' },
+      ]
+    },
+    {
+      path: '/school-selection',
+      name: 'School Selection',
+      sections: [
+        { path: '/school-selection/school-information', name: 'School Information' },
       ]
     },
     {

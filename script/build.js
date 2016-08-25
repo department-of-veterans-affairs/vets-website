@@ -80,7 +80,7 @@ smith.destination(`../build/${options.buildtype}`);
 const ignoreList = ['memorial-benefits/*'];
 if (options.buildtype === 'production') {
   ignoreList.push('rx/*');
-  ignoreList.push('education/apply-for-education-benefits/apply.md');
+  ignoreList.push('education/apply-for-education-benefits/application.md');
 }
 smith.use(ignore(ignoreList));
 
@@ -170,7 +170,7 @@ if (options.watch) {
       rewrites: [
         { from: '^/rx(.*)', to: '/rx/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
-        { from: '^/education/apply-for-education-benefits/apply(.*)', to: '/education/apply-for-education-benefits/apply/' },
+        { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
