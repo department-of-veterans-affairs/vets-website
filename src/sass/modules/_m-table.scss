@@ -24,15 +24,6 @@ th {
 }
 
 th {
-  &[colspan] {
-    background: $polar;
-    font-size: 1.19rem;
-    padding-top: .8em;
-    padding-bottom: .8em;
-    padding-left: .8em;
-    color: $color-primary-darkest;
-  }
-
   span {
     font-weight: normal;
   }
