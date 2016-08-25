@@ -1,6 +1,6 @@
-// This file is a place where you put all the code you're not proud of, 
-// with the intention of A) isolating it and B) fixing it later. The goal 
-// is for this file to be empty, but some times you just have to throw that 
+// This file is a place where you put all the code you're not proud of,
+// with the intention of A) isolating it and B) fixing it later. The goal
+// is for this file to be empty, but some times you just have to throw that
 // hack in there to get it working.
 
 
@@ -55,7 +55,7 @@ body .row {
 }
 
 .input-section {
-  margin-bottom: 2em; 
+  margin-bottom: 2em;
 
   .row {
     margin: 0;
@@ -83,4 +83,14 @@ body .row {
 
 .hidden {
   display: none !important;
+}
+
+#search_form {
+  input[type="text"] {
+    font-size: 1.9rem;
+  }
+
+  input[type="submit"] {
+    font-size: 1.9rem;
+  }
 }

@@ -1,20 +1,21 @@
 // Staging config. Also the default config that prod and dev are based off of.
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var bourbon = require('bourbon').includePaths;
-var neat = require('bourbon-neat').includePaths;
-var path = require('path');
-var webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const bourbon = require('bourbon').includePaths;
+const neat = require('bourbon-neat').includePaths;
+const path = require('path');
+const webpack = require('webpack');
 
 require('babel-polyfill');
 
-var configGenerator = (options) => {
+const configGenerator = (options) => {
   const baseConfig = {
     entry: {
-       hca: './src/js/hca/hca-entry.jsx',
-       'no-react': './src/js/no-react-entry.js',
-       rx: './src/js/rx/rx-entry.jsx',
-     },
+      hca: './src/js/hca/hca-entry.jsx',
+      'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
+      'no-react': './src/js/no-react-entry.js',
+      rx: './src/js/rx/rx-entry.jsx',
+    },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
       publicPath: '/generated/',
@@ -39,7 +40,6 @@ var configGenerator = (options) => {
           loader: 'babel',
           query: {
             presets: ['react'],
-
             // Speed up compilation.
             cacheDirectory: true
 
@@ -56,16 +56,16 @@ var configGenerator = (options) => {
           loader: 'imports?this=>window'
         },
         {
-          test: /\modernizrrc/,
+          test: /modernizrrc/,
           loader: 'modernizr'
         },
         {
           test: /wow\.js$/,
-          loaders: [ 'imports?this=>window', 'exports?this.WOW' ]
+          loaders: ['imports?this=>window', 'exports?this.WOW']
         },
         {
           test: /\.scss$/,
-          loader: ExtractTextPlugin.extract('style-loader', 'css!resolve-url!sass?includePaths[]=' + bourbon + '&includePaths[]=' + neat + '&includePaths[]=' + '~/uswds/src/stylesheets' + '&sourceMap')
+          loader: ExtractTextPlugin.extract('style-loader', `css!resolve-url!sass?includePaths[]=${bourbon}&includePaths[]=${neat}&includePaths[]=~/uswds/src/stylesheets&sourceMap`)
         },
         { test: /\.(jpe?g|png|gif|svg)$/i,
           loader: 'url?limit=10000!img?progressive=true&-minimize'
@@ -82,32 +82,45 @@ var configGenerator = (options) => {
     },
     resolve: {
       alias: {
-        modernizr$: path.resolve(__dirname, "./modernizrrc"),
-        jquery: "jquery/src/jquery"
+        modernizr$: path.resolve(__dirname, './modernizrrc'),
+        jquery: 'jquery/src/jquery'
       },
       extensions: ['', '.js', '.jsx']
     },
     plugins: [
       new webpack.DefinePlugin({
-          __BUILDTYPE__: JSON.stringify(options.buildtype),
-          'process.env': {
-              NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-          }
+        __BUILDTYPE__: JSON.stringify(options.buildtype),
+        'process.env': {
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+        }
       }),
 
       // See http://stackoverflow.com/questions/28969861/managing-jquery-plugin-dependency-in-webpack
       new webpack.ProvidePlugin({
-        "$": "jquery",
-        jQuery: "jquery",
-        "window.jQuery": "jquery"
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery'
       }),
 
       new ExtractTextPlugin('[name].css'),
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ],
   };
 
   if (process.env.NODE_ENV === 'production') {
     baseConfig.devtool = '#source-map';
+    baseConfig.module.loaders.push({
+      test: /debug\/PopulateVeteranButton/,
+      loader: 'null'
+    });
+    baseConfig.module.loaders.push({
+      test: /debug\/PerfPanel/,
+      loader: 'null'
+    });
+    baseConfig.module.loaders.push({
+      test: /debug\/RoutesDropdown/,
+      loader: 'null'
+    });
     baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());

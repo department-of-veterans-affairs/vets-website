@@ -28,6 +28,7 @@ $font-serif:          'Roboto Slab',serif;  // This is not a serif.
 // $color-primary:              #0071bc;
 $color-primary-darker:       #003E73;
 // $color-primary-darkest:      #112e51;
+$color-link-default:         #0058A6;
 
 // $color-primary-alt:          #02bfe7;
 // $color-primary-alt-dark:     #00a6d2;
@@ -113,15 +114,14 @@ $green-white: #eff0e6;
 $olso-gray: #849097;
 
 
-// TODO: These colors is close enough to $color-gray-warm-dark and 
+// TODO: These colors is close enough to $color-gray-warm-dark and
 // to each other that maybe we should replace them.
-$color-va-gray-cool-dark: #444; 
-$color-va-gray-cool-medium: #555; 
+$color-va-gray-cool-dark: #444;
+$color-va-gray-cool-medium: #555;
 $color-va-gray-medium: #ccc;
 
 // TODO: Replace these colors in va.scss
 $color-va-primary-alt-darkest: $color-primary-alt-darkest;
 $color-va-primary-darker: $color-primary-darker;
 $color-va-secondary-darkest: $color-secondary-darkest;
-$color-va-black: $color-black; 
-
+$color-va-black: $color-black;

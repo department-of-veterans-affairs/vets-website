@@ -33,7 +33,8 @@ Available benefits
 <li class="step one wow fadeIn animated">
 
 <div markdown="1">
-#### Submit your application
+
+##### Submit your application
 After you submit your application for Post-9/11 GI Bill benefits and VA finds you eligible, you will receive a Certificate of Eligibility.
 </div>
 </li>
@@ -41,7 +42,7 @@ After you submit your application for Post-9/11 GI Bill benefits and VA finds yo
 <li class="step two wow fadeIn animated">
 <div markdown="1">
 
-#### Bring certificate
+##### Bring certificate
 Bring this certificate to your participating institution’s financial aid, military liaison, or other office as determined by your school, and ask to apply to your school’s Yellow Ribbon Program.
 </div>
 </li>
@@ -49,7 +50,7 @@ Bring this certificate to your participating institution’s financial aid, mili
 <li class="step three wow fadeIn animated">
 <div markdown="1">
 
-#### Receive determination
+##### Receive determination
 Your school will determine whether it has already enrolled the maximum number of participants for the program period. Enrollment is on a first-come, first-served basis. Your school and VA will have agreed on how many students may be covered each year.
 
 </div>
@@ -57,7 +58,8 @@ Your school will determine whether it has already enrolled the maximum number of
 
 <li class="step four wow fadeIn animated">
 <div markdown="1">
-#### Receive notice
+
+##### Receive notice
 You will receive notice from your school about whether you have been accepted to the program and about the application of the benefit to your tuition.
 
 </div>
@@ -65,7 +67,8 @@ You will receive notice from your school about whether you have been accepted to
 
 <li class="step five last wow fadeIn animated">
 <div markdown="1">
-#### Confirm and coordinate
+
+##### Confirm and coordinate
 Confirm that your school will submit your enrollment information to VA, and coordinate with VA for the application of the benefit to your tuition or fees.
 </div>
 

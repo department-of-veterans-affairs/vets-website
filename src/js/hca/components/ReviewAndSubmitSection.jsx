@@ -18,7 +18,7 @@ import SpouseInformationSection from './household-information/SpouseInformationS
 import VAInformationSection from './va-benefits/VAInformationSection';
 import VeteranAddressSection from './veteran-information/VeteranAddressSection';
 
-import ReviewCollapsiblePanel from './form-elements/ReviewCollapsiblePanel';
+import ReviewCollapsiblePanel from './ReviewCollapsiblePanel';
 
 /*
     TODO(crew): Get components from store and create array to check if ReviewCollapsiblePanel is

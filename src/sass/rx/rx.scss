@@ -1,22 +1,13 @@
 // TODO: Update the paths so they import from the
 // vets-website repo (or other designated common)
 // elements version of these files.
-@import "_partials/core/variables";
-@import "_partials/va-variables";
 
-// Font Awesome
-$fa-font-path: "~font-awesome/fonts";
-@import "~font-awesome/scss/font-awesome";
-
-// TODO: Update the paths so they import from the
-// vets-website repo (or other designated common)
-// elements version of these files.
-@import "_partials/core/variables";
-@import "_partials/va-variables";
+@import "../style";
 
 // TODO: Contributed these back to core / Vanguard.
 @import "_partials/va-alerts";
 @import "_partials/va-tabs";
+@import "_partials/va-pagination";
 
 // RX-specific partials
 @import "_partials/rx-contact-card";
@@ -41,19 +32,11 @@ $fa-font-path: "~font-awesome/fonts";
   display: none !important;
 }
 
-#content.rx-app {
+.rx-app {
   background: $color-white;
-  padding: 3rem 0rem;
-}
-
-// TODO: Pull in USWDS grid styles via an include
-// or somesuch.
-
-.usa-grid {
+  padding: 3rem 1.5rem;
   margin: auto;
   max-width: $site-max-width;
-  padding-right: 1.5rem;
-  padding-left: 1.5rem;
 }
 
 // Enhances a USWDS style that has higher specificity.
@@ -100,22 +83,6 @@ button.usa-button-outline {
   & + .rx-print-list-option:before {
     content: "\a0\a0|\a0\a0";
   }
-}
-  
-// TODO: Contribute this back to core
-.va-required-span {
-  color: $color-secondary-dark;
-}
-
-
-// TODO: Contribute this back to core
-.va-required-span {
-  color: $color-secondary-dark;
-}
-  
-// TODO: Contribute this back to core
-.va-required-span {
-  color: $color-secondary-dark;
 }
   
 // TODO: Contribute this back to core

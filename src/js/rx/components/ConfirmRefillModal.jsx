@@ -43,7 +43,7 @@ class ConfirmRefillModal extends React.Component {
                   Last refilled: {this.props.lastRefilled}
                 </div>
                 <div className="rx-button-group cf">
-                  <button type="submit" className="usa-button">Order refill</button>
+                  <button type="submit">Order refill</button>
                   <button type="button" className="usa-button-outline"
                       onClick={this.handlerCloseModal}>Cancel</button>
                 </div>
