@@ -4,7 +4,7 @@ import SkinDeep from 'skin-deep';
 import chaiAsPromised from 'chai-as-promised';
 import { default as chai, expect } from 'chai';
 
-import ProgressButton from '../../../src/js/hca/components/ProgressButton';
+import ProgressButton from '../../../../src/js/common/components/form-elements/ProgressButton';
 
 chai.use(chaiAsPromised);
 
