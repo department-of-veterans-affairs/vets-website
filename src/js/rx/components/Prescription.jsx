@@ -31,11 +31,14 @@ class Prescription extends React.Component {
     }
 
     if (attrs['is-trackable']) {
-      // TODO: Replace this with a component.
-      action = <TrackPackageLink className="usa-button" text="Track package"/>;
-    } /* else if (!attrs['is-refillable']) {
+      action = (
+        <TrackPackageLink
+            className="usa-button"
+            text="Track package"/>
+      );
+    } else {
       action = <div className="rx-prescription-refill-requested">Refill requested</div>;
-    } */
+    }
 
     const actionableContent = (
       <div className="rx-prescription-action">
