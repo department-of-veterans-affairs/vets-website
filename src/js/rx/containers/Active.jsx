@@ -36,8 +36,7 @@ class Active extends React.Component {
     const fullURL = domEvent.target.href;
 
     // Find the sort parameter, split the query string on the = and retrieve value
-    const sortParam = fullURL.match(/sort=[_A-Z]{1,}/)[0].split('=')[1];
-
+    const sortParam = fullURL.match(/sort=[-a-z]{1,}/i)[0].split('=')[1];
     this.dispatchSortAction(sortParam);
   }
 
@@ -47,11 +46,11 @@ class Active extends React.Component {
 
     // TODO: Move to a config file?
     const sortOptions = [
-      { value: 'SORT_PRESCRIPTION_NAME',
+      { value: 'prescription-name',
         label: 'Prescription name' },
-      { value: 'SORT_FACILITY_NAME',
+      { value: 'facility-name',
         label: 'Facility name' },
-      { value: 'SORT_LAST_REQUESTED',
+      { value: 'last-requested',
         label: 'Last requested' }];
 
     return (
@@ -66,7 +65,7 @@ class Active extends React.Component {
         <PrescriptionList
             items={items}
             // If we're sorting by facility, tell PrescriptionList to group 'em.
-            grouped={sortValue === 'SORT_FACILITY_NAME'}/>
+            grouped={sortValue === 'facility-name'}/>
       </div>
     );
   }
