@@ -18,7 +18,7 @@ relatedlinks:
     title: How does VA determine the effective date of a disability?
     description: ""
   - url: /disability-benefits/claims-process/what-happens-after-rating/
-    title: You have a disability rating. What&rsquo;s next?
+    title: What can I expect after getting a disability rating?
     description: ""  
   - url: /disability-benefits/claims-process/claim-exam/
     title: What to Expect at Your VA Claim Exam
