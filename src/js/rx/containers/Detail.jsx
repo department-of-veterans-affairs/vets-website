@@ -47,7 +47,7 @@ class Detail extends React.Component {
       content = (
         <div>
           <TableVerticalHeader
-              cssClass="rx-detail-table"
+              className="rx-detail-table"
               data={data}/>
           <ContactCard/>
         </div>
