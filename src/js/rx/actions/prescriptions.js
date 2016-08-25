@@ -4,14 +4,14 @@ export function loadData(id) {
     // when API is able to retrieve any individual Rx.
     const testId = 1435525;
     return dispatch => {
-      fetch(`/api/prescriptions/${testId}`)
+      fetch(`/rx-api/prescriptions/${testId}`)
       .then(res => res.json())
       .then(
         data => dispatch({ type: 'LOAD_PRESCRIPTION_SUCCESS', data }),
         err => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE', err })
       );
 
-      fetch(`/api/prescriptions/${testId}/trackings`)
+      fetch(`/rx-api/prescriptions/${testId}/trackings`)
       .then(res => res.json())
       .then(
         data => dispatch({ type: 'LOAD_RX_TRACKINGS_SUCCESS', data }),
@@ -20,7 +20,7 @@ export function loadData(id) {
     };
   }
 
-  return dispatch => fetch('/api/prescriptions')
+  return dispatch => fetch('/rx-api/prescriptions')
     .then(res => res.json())
     .then(
       data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
