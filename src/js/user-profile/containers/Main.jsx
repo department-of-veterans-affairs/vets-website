@@ -9,6 +9,7 @@ import TabNav from '../components/TabNav';
 class Main extends React.Component {
   constructor(props) {
     super(props);
+    this.handleOpenPopup = this.handleOpenPopup.bind(this);
     this.state = { loginUrl: '' };
   }
 
@@ -25,11 +26,26 @@ class Main extends React.Component {
     this.serverRequest.abort();
   }
 
+  handleOpenPopup() {
+    const myLoginUrl = this.state.loginUrl;
+    window.open(myLoginUrl, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=500,width=500,height=750');
+  }
+
   render() {
+    fetch('https://dev.vets.gov/api/v0/users', {
+      method: 'GET',
+      headers: new Headers({
+        'Authorization': 'Token token=Sc59S-31JFWYVr3cXS7jJ6jngXTo9h-CbiELNmgN'
+      })
+    }).then(function(responseObj) {
+      console.log(responseObj);
+    });
+
     return (
       <div>
         <SignInProfileButton loginUrl={this.state.loginUrl}/>
-        <div className="rx-app row">
+        <button onClick={this.handleOpenPopup}>Click Me</button>
+        <div className='rx-app row'>
           <TabNav/>
           {this.props.children}
         </div>
