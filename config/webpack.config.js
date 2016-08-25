@@ -47,6 +47,11 @@ const configGenerator = (options) => {
           }
         },
         {
+          test: /\.(js|jsx)$/,
+          exclude: /(\/node_modules|\/src\/js\/legacy\/|\/build\/)/,
+          loader: 'eslint'
+        },
+        {
           // components.js is effectively a hand-rolled bundle.js. Break it apart.
           test: /components\.js$/,
           loader: 'imports?this=>window'
