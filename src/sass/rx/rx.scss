@@ -11,6 +11,7 @@
 
 // RX-specific partials
 @import "_partials/rx-contact-card";
+@import "_partials/rx-detail";
 @import "_partials/rx-disclaimer";
 @import "_partials/rx-glossary";
 @import "_partials/rx-modal";
@@ -86,7 +87,7 @@ button.usa-button-outline {
     content: "\a0\a0|\a0\a0";
   }
 }
-  
+
 // TODO: Contribute this back to core
 .va-required-span {
   color: $color-secondary-dark;

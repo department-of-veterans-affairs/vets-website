@@ -10,17 +10,25 @@ import Disclaimer from '../components/Disclaimer';
 
 class Main extends React.Component {
   render() {
+    let alertBox;
+
+    if (this.props.alert.visible) {
+      alertBox = (
+        <AlertBox
+            content={this.props.alert.content}
+            isVisible={this.props.alert.visible}
+            onCloseAlert={this.props.closeAlert}
+            status={this.props.alert.status}/>
+      );
+    }
+
     return (
       <div>
         <Disclaimer
             isVisible={this.props.disclaimer.visible}
             handleClose={this.props.closeDisclaimer}/>
         <div className="rx-app row">
-          <AlertBox
-              content={this.props.alert.content}
-              isVisible={this.props.alert.visible}
-              onCloseAlert={this.props.closeAlert}
-              status={this.props.alert.status}/>
+          {alertBox}
           <h1>Mail Order Prescriptions</h1>
           <TabNav/>
           {this.props.children}
