@@ -1,5 +1,6 @@
 import React from 'react';
 
+// TODO update this when progress button moves
 import ProgressButton from '../../hca/components/ProgressButton';
 
 export default class NavButtons extends React.Component {
@@ -68,7 +69,7 @@ export default class NavButtons extends React.Component {
           <ProgressButton
               onButtonClick={this.handleSubmit}
               buttonText="Submitted"
-              buttonClass="hca-button-green"
+              buttonClass="form-button-green"
               beforeText="&#10003;"/>
         );
       } else {
@@ -80,7 +81,7 @@ export default class NavButtons extends React.Component {
           <ProgressButton
               onButtonClick={this.handleSubmit}
               buttonText="Send Failed"
-              buttonClass="usa-button-secondary hca-button-disabled"
+              buttonClass="usa-button-secondary form-button-disabled"
               beforeText="x"/>
         );
       }
