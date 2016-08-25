@@ -43,8 +43,7 @@ class Main extends React.Component {
 
     return (
       <div>
-        <SignInProfileButton loginUrl={this.state.loginUrl}/>
-        <button onClick={this.handleOpenPopup}>Click Me</button>
+        <SignInProfileButton onButtonClick={this.handleOpenPopup}/>
         <div className='rx-app row'>
           <TabNav/>
           {this.props.children}
