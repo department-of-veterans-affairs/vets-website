@@ -1,0 +1,8 @@
+// Please ask one of your friendly co-workers for the access credentials!
+module.exports = {
+  api: {
+    host: 'api.example.com',
+    path: '/path/to/api',
+    auth: 'username:password'
+  }
+};

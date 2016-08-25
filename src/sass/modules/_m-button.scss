@@ -1,0 +1,15 @@
+.usa-button,
+.usa-button-primary,
+.usa-button:visited,
+.usa-button-primary:visited,
+button,
+[type="button"],
+[type="submit"],
+[type="reset"],
+[type="image"] {
+  background-color: $color-primary-darker;
+
+  &:hover {
+    background-color: $color-primary-darkest;
+  }
+}

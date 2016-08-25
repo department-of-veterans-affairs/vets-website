@@ -87,7 +87,7 @@ abbr {
 }
 
 a {
-  color: $color-primary;
+  color: $color-link-default;
   text-decoration: underline;
 
   -webkit-transition-duration: 0.3s;
@@ -250,6 +250,7 @@ hr {
   }
 
   a {
+    color: white;
     text-indent: 180%;
     white-space: nowrap;
     overflow: hidden;
@@ -1255,6 +1256,7 @@ a.twitter {
 #search_form {
   padding: 1.1em 0;
   text-align: right;
+
   label {
     position: absolute;
     left: -9999em;
@@ -1269,9 +1271,11 @@ a.twitter {
     color: $color-gray-dark;
     padding: .2em;
     box-sizing: border-box;
+    font-size: 1.9rem;
   }
 
   input[type="submit"] {
+    font-size: 1.9rem;
     margin: 0;
     height: 3em;
     text-align: center !important;

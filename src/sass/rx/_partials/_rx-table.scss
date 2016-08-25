@@ -1,0 +1,40 @@
+// Borderless table
+
+[class*=rx-table] {
+  th, td {
+    border-color: $color-gray-light;
+  }
+}
+
+.rx-table {
+  thead tr {
+    // TODO: Figure out where the tr{background: #fff !important}
+    // is coming from, and remove it there so we can remove it here.
+    // (Suspect it's Foundation-related)
+    background: $color-gray-lightest !important;
+  }
+}
+
+.rx-table--sortable {
+  th::after {
+    content: '\25B2';
+  }
+}
+
+.rx-table-prescription-detail {
+  th {
+    font-weight: bold;
+  }
+  // Removes borer from cells of top row  
+  tbody {
+    &:first-child {
+      th, td {
+        border-top: 0;
+      }
+    }
+  }
+  
+  th, td {
+    vertical-align: top;
+  }
+}
