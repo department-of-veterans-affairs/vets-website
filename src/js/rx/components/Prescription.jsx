@@ -5,7 +5,6 @@ import { Link } from 'react-router';
 
 import MessageProviderLink from './MessageProviderLink';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
-import TrackPackageLink from './TrackPackageLink';
 import SubmitButton from './SubmitButton';
 
 class Prescription extends React.Component {
