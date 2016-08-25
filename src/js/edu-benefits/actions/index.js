@@ -5,6 +5,25 @@ export const UPDATE_VERIFIED_STATUS = 'UPDATE_VERIFIED_STATUS';
 export const UPDATE_SUBMISSION_STATUS = 'UPDATE_SUBMISSION_STATUS';
 export const UPDATE_SUBMISSION_ID = 'UPDATE_SUBMISSION_ID';
 export const UPDATE_SUBMISSION_TIMESTAMP = 'UPDATE_SUBMISSION_TIMESTAMP';
+export const VETERAN_FIELD_UPDATE = 'VETERAN_FIELD_UPDATE';
+export const ENSURE_FIELDS_INITIALIZED = 'ENSURE_FIELDS_INITIALIZED';
+
+export function ensureFieldsInitialized(section) {
+  return (dispatch, getState) => {
+    return dispatch({
+      type: ENSURE_FIELDS_INITIALIZED,
+      fields: getState().uiState.sections[section].fields,
+    });
+  };
+}
+
+export function veteranUpdateField(propertyPath, value) {
+  return {
+    type: VETERAN_FIELD_UPDATE,
+    propertyPath,
+    value
+  };
+}
 
 export function updateCompletedStatus(path) {
   return {

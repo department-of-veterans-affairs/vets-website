@@ -34,6 +34,8 @@ class ErrorableRadioButtons extends React.Component {
   }
 
   render() {
+    const children = this.props.children;
+
     // TODO: extract error logic into a utility function
     // Calculate error state.
     let errorSpan = '';
@@ -56,7 +58,7 @@ class ErrorableRadioButtons extends React.Component {
     // Calculate required.
     let requiredSpan = undefined;
     if (this.props.required) {
-      requiredSpan = <span className="hca-required-span">*</span>;
+      requiredSpan = <span className="form-required-span">*</span>;
     }
 
     const options = _.isArray(this.props.options) ? this.props.options : [];
@@ -73,8 +75,9 @@ class ErrorableRadioButtons extends React.Component {
         optionValue = obj.value;
       }
       const checked = optionValue === storedValue ? 'checked=true' : '';
+      const matchingSubSections = checked && children && index === children.props.position && children.props.showIfValueChosen === optionValue ? children : null;
       return (
-        <div key={reactKey++} className="hca-radio-buttons">
+        <div key={reactKey++} className="form-radio-buttons">
           <input
               checked={checked}
               id={`${this.inputId}-${index}`}
@@ -85,6 +88,7 @@ class ErrorableRadioButtons extends React.Component {
           <label htmlFor={`${this.inputId}-${index}`}>
             {optionLabel}
           </label>
+          {matchingSubSections}
         </div>
       );
     });

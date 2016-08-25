@@ -11,6 +11,8 @@ export default class NavButtons extends React.Component {
   handleContinue(nextPath) {
     if (this.props.currentLocation === '/introduction' || this.props.isValid) {
       this.props.onNavigate(nextPath);
+    } else if (!this.props.isValid) {
+      this.props.dirtyFields(this.props.path);
     }
   }
   handleSubmit() {
@@ -145,5 +147,6 @@ NavButtons.propTypes = {
   sections: React.PropTypes.array.isRequired,
   submission: React.PropTypes.object.isRequired,
   onSubmit: React.PropTypes.func,
-  onNavigate: React.PropTypes.func
+  onNavigate: React.PropTypes.func,
+  dirtyFields: React.PropTypes.func
 };

@@ -26,7 +26,7 @@ const ui = {
     '/benefits-eligibility/benefits-selection': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['benefitsChosen']
     },
     '/military-history/military-service': {
       complete: false,

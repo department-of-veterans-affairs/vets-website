@@ -1,40 +1,25 @@
-import _ from 'lodash';
+import _ from 'lodash/fp';
 
-import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE } from '../../actions';
-import { makeField, dirtyAllFields } from '../../../common/model/fields';
+import { VETERAN_FIELD_UPDATE, ENSURE_FIELDS_INITIALIZED } from '../../actions';
+import { makeField } from '../../../common/model/fields';
 
 const blankVeteran = {
-  chapter33: makeField(false),
-  chapter30: makeField(false),
-  chapter1606: makeField(false),
-  chapter32: makeField(false)
+  benefitsChosen: makeField(''),
+  chapter30Relinquished: false,
+  chapter1606Relinquished: false,
+  chapter1607Relinquished: false,
+  notEligible: false,
 };
 
 export default function veteran(state = blankVeteran, action) {
-  let newState = undefined;
   switch (action.type) {
     case VETERAN_FIELD_UPDATE: {
-      newState = Object.assign({}, state);
-      _.set(newState, action.propertyPath, action.value);
-      return newState;
+      return _.set(action.propertyPath, action.value, state);
     }
-
     case ENSURE_FIELDS_INITIALIZED: {
-      newState = Object.assign({}, state);
-
-      if (action.parentNode) {
-        action.fields.map((field) => {
-          Object.assign(newState[action.parentNode][0][field], dirtyAllFields(newState[action.parentNode][0][field]));
-          return newState;
-        });
-      } else {
-        action.fields.map((field) => {
-          Object.assign(newState[field], dirtyAllFields(newState[field]));
-          return newState;
-        });
-      }
-
-      return newState;
+      return action.fields.reduce((vet, field) => {
+        return _.set([field, 'dirty'], true, vet);
+      }, state);
     }
     default:
       return state;

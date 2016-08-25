@@ -263,10 +263,6 @@ function isValidContactInformationSection(data) {
       isValidField(isValidPhone, data.mobilePhone);
 }
 
-function isValidFinancialDisclosure(data) {
-  return validateIfDirty(data.understandsFinancialDisclosure, _.identity);
-}
-
 function isValidIncome(income) {
   return isValidField(isValidMonetaryValue, income.grossIncome) &&
       isValidField(isValidMonetaryValue, income.netIncome) &&
@@ -395,26 +391,18 @@ function isValidServiceInformation(data) {
       isNotBlank(data.dischargeType.value);
 }
 
+function isBenefitsInformationSectionValid(data) {
+  return isNotBlank(data.benefitsChosen.value);
+}
+
 function isValidForm(data) {
-  return isValidPersonalInfoSection(data) &&
-  isValidBirthInformationSection(data) &&
-  isValidDemographicInformation(data) &&
-  isValidVeteranAddress(data) &&
-  isValidContactInformationSection(data) &&
-  isValidServiceInformation(data) &&
-  isValidVaInformation(data) &&
-  isValidFinancialDisclosure(data) &&
-  isValidSpouseInformation(data) &&
-  isValidChildren(data) &&
-  isValidAnnualIncome(data) &&
-  isValidDeductibleExpenses(data) &&
-  isValidVAFacility(data) &&
-  isValidGeneralInsurance(data) &&
-  isValidMedicareMedicaid(data);
+  return isBenefitsInformationSectionValid(data);
 }
 
 function isValidSection(completePath, sectionData) {
   switch (completePath) {
+    case '/benefits-eligibility/benefits-selection':
+      return isBenefitsInformationSectionValid(sectionData);
     default:
       return !!sectionData;
   }
@@ -451,7 +439,6 @@ export {
   isValidDependentDateField,
   isValidMarriageDate,
   isValidField,
-  isValidFinancialDisclosure,
   isValidForm,
   isValidPersonalInfoSection,
   isValidBirthInformationSection,
