@@ -66,6 +66,7 @@ export default class NavButtons extends React.Component {
           <ProgressButton
               onButtonClick={this.handleSubmit}
               buttonText="Sending..."
+              disabled
               buttonClass="usa-button-disabled"/>
         );
       } else if (submission.status === 'applicationSubmitted') {
@@ -73,6 +74,7 @@ export default class NavButtons extends React.Component {
           <ProgressButton
               onButtonClick={this.handleSubmit}
               buttonText="Submitted"
+              disabled
               buttonClass="form-button-green"
               beforeText="&#10003;"/>
         );
@@ -85,6 +87,7 @@ export default class NavButtons extends React.Component {
           <ProgressButton
               onButtonClick={this.handleSubmit}
               buttonText="Send Failed"
+              disabled
               buttonClass="usa-button-secondary form-button-disabled"
               beforeText="x"/>
         );
@@ -103,7 +106,7 @@ export default class NavButtons extends React.Component {
           </div>
         </div>
         <div className="row">
-          <div className="medium-12 columns">
+          <div className="columns">
           {submitMessage}
           </div>
         </div>
@@ -112,7 +115,6 @@ export default class NavButtons extends React.Component {
       return (
         <div className="row progress-buttons">
           <div className="small-6 medium-5 columns">
-            {/* TODO: Figure out where this button should take the user. */}
             <a href="/">
               <button className="usa-button-primary">Back to Main Page</button>
             </a>
