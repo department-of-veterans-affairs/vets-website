@@ -28,7 +28,7 @@ module.exports = {
         path: 'logs/screenshots'
       },
       desiredCapabilities: {
-//        'browserName': 'firefox'
+        // browserName: 'firefox',
         browserName: 'phantomjs',
         javascriptEnabled: true,
         acceptSslCerts: true,
