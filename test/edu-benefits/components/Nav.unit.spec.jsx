@@ -9,12 +9,10 @@ describe('<Nav>', () => {
     const currentUrl = '/some-url';
     const panels = [
       {
-        path: '/some-url',
         name: 'Some url',
         sections: []
       },
       {
-        path: '/some-url2',
         name: 'Some url2',
         sections: []
       }
@@ -69,9 +67,10 @@ describe('<Nav>', () => {
     const currentUrl = '/some-url';
     const panels = [
       {
-        path: '/some-url',
         name: 'Some url',
-        sections: []
+        sections: [{
+          path: '/some-url'
+        }]
       }
     ];
     const sections = {
@@ -103,13 +102,12 @@ describe('<Nav>', () => {
     const currentUrl = '/some-url';
     const panels = [
       {
-        path: '/some-url',
         name: 'Some url',
-        sections: []
+        sections: [{ path: '/some-url/thing', name: 'Test' }]
       }
     ];
     const sections = {
-      '/some-url': {
+      '/some-url/thing': {
         complete: true
       }
     };

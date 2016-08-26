@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import { connect } from 'react-redux';
 
+import { groupSections } from '../utils/sections';
 import Nav from '../components/Nav';
 
 import PerfPanel from '../components/debug/PerfPanel';
@@ -25,8 +26,9 @@ class EduBenefitsApp extends React.Component {
       }
     }
 
-    const { panels, sections } = this.props.uiState;
+    const { sections } = this.props.uiState;
     const currentLocation = this.props.currentLocation;
+    const panels = groupSections();
 
     return (
       <div className="row">

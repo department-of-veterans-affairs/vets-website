@@ -4,14 +4,12 @@ function lastSection(panel) {
   return panel.sections.slice(-1)[0].path;
 }
 
-function determinePanelStyles(path, sectionState, formPanel, currentUrl) {
+function determinePanelStyles(sectionState, formPanel, currentUrl) {
   let classes = '';
-  if (currentUrl.startsWith(path)) {
+  if (formPanel.sections.some(section => section.path === currentUrl)) {
     classes += ' section-current';
   }
-  if (sectionState[path] && sectionState[path].complete) {
-    classes += ' section-complete';
-  } else if (formPanel.sections.length > 0 && sectionState[lastSection(formPanel)].complete) {
+  if (formPanel.sections.length > 0 && sectionState[lastSection(formPanel)].complete) {
     classes += ' section-complete';
   }
   return classes;
@@ -47,11 +45,11 @@ class Nav extends React.Component {
         {panels.map((panel, i) => {
           return (
             <li role="presentation" className={`${getStepClassFromIndex(i, panels.length)} ${subnavStyles}
-              ${determinePanelStyles(panel.path, sections, panel, currentUrl)}`} key={panel.path}>
+              ${determinePanelStyles(sections, panel, currentUrl)}`} key={panel.name}>
               <div>
                 <h5>{panel.name}</h5>
                 <ul className="usa-unstyled-list">
-                  {panel.sections.map(section => {
+                  {panel.sections.filter(section => section.name).map(section => {
                     return (
                       <li className={`${determineSectionStyles(section.path, currentUrl)}`} key={section.path}>
                         {section.name}

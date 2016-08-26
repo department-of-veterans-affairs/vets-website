@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import BenefitsSelectionFields from '../components/BenefitsSelectionFields';
 import NavButtons from '../components/NavButtons';
+import NavHeader from '../components/NavHeader';
 import { isValidSection } from '../utils/validations';
 import { withRouter } from 'react-router';
 import { veteranUpdateField, ensureFieldsInitialized, updateCompletedStatus } from '../actions/index';
@@ -15,6 +16,7 @@ class BenefitsSelection extends React.Component {
 
     return (
       <div className="form-panel">
+        <NavHeader path={currentLocation}/>
         <BenefitsSelectionFields data={data} section={section} onStateChange={onStateChange}/>
         <NavButtons
             submission={submission}

@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import NavButtons from '../components/NavButtons';
+import NavHeader from '../components/NavHeader';
 import { isValidSection } from '../utils/validations';
 import { withRouter } from 'react-router';
 
@@ -15,6 +16,7 @@ class PlaceholderSection extends React.Component {
 
     return (
       <div className="form-panel">
+        <NavHeader path={currentLocation}/>
         {currentLocation}
         <NavButtons
             submission={submission}

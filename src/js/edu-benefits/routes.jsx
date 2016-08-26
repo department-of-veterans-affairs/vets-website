@@ -1,8 +1,20 @@
 import React from 'react';
 import { Route } from 'react-router';
 
+import panels from './utils/panels';
+
 import BenefitsSelection from './containers/BenefitsSelection';
 import PlaceholderSection from './containers/PlaceholderSection';
+
+// const panels = {
+//   veteranInformation: 'Veteran Information',
+//   benefitsEligibility: 'Benefits Eligibility',
+//   militaryHistory: 'Military History',
+//   educationHistory: 'Education History',
+//   employmentHistory: 'Employment History',
+//   schoolSelection: 'School Selection',
+//   review: 'Review'
+// };
 
 const routes = [
   // Introduction route.
@@ -13,68 +25,83 @@ const routes = [
   <Route
       component={PlaceholderSection}
       key="/veteran-information/personal-information"
-      path="/veteran-information/personal-information"/>,
+      path="/veteran-information/personal-information"
+      panel={panels.veteranInformation}
+      name="Personal Information"/>,
   <Route
       component={PlaceholderSection}
       key="/veteran-information/address"
-      path="/veteran-information/address"/>,
+      path="/veteran-information/address"
+      panel={panels.veteranInformation}
+      name="Address"/>,
   <Route
       component={PlaceholderSection}
       key="/veteran-information/contact-information"
-      path="/veteran-information/contact-information"/>,
+      path="/veteran-information/contact-information"
+      panel={panels.veteranInformation}
+      name="Contact Information"/>,
   <Route
       component={PlaceholderSection}
       key="/veteran-information/secondary-contact"
-      path="/veteran-information/secondary-contact"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/veteran-information/dependent-information"
-      path="/veteran-information/dependent-information"/>,
+      path="/veteran-information/secondary-contact"
+      panel={panels.veteranInformation}
+      name="Secondary Contact"/>,
   <Route
       component={PlaceholderSection}
       key="/veteran-information/direct-deposit"
-      path="/veteran-information/direct-deposit"/>,
+      path="/veteran-information/direct-deposit"
+      panel={panels.veteranInformation}
+      name="Direct Deposit"/>,
   <Route
       component={BenefitsSelection}
       key="/benefits-eligibility/benefits-selection"
-      path="/benefits-eligibility/benefits-selection"/>,
+      path="/benefits-eligibility/benefits-selection"
+      panel={panels.benefitsEligibility}/>,
   <Route
       component={PlaceholderSection}
       key="/military-history/military-service"
-      path="/military-history/military-service"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/military-history/additional-information"
-      path="/military-history/additional-information"/>,
+      path="/military-history/military-service"
+      panel={panels.militaryHistory}
+      name="Military Service"/>,
   <Route
       component={PlaceholderSection}
       key="/military-history/rotc-history"
-      path="/military-history/rotc-history"/>,
+      path="/military-history/rotc-history"
+      panel={panels.militaryHistory}
+      name="ROTC History"/>,
   <Route
       component={PlaceholderSection}
       key="/military-history/benefits-history"
-      path="/military-history/benefits-history"/>,
+      path="/military-history/benefits-history"
+      panel={panels.militaryHistory}
+      name="Benefits History"/>,
+  <Route
+      component={PlaceholderSection}
+      key="/military-history/dependents"
+      path="/military-history/dependents"
+      panel={panels.militaryHistory}
+      name="Dependents"/>,
   <Route
       component={PlaceholderSection}
       key="/education-history/education-information"
-      path="/education-history/education-information"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/education-history/additional-information"
-      path="/education-history/additional-information"/>,
+      path="/education-history/education-information"
+      panel={panels.educationHistory}/>,
   <Route
       component={PlaceholderSection}
       key="/employment-history/employment-information"
-      path="/employment-history/employment-information"/>,
+      path="/employment-history/employment-information"
+      panel={panels.employmentHistory}/>,
   <Route
       component={PlaceholderSection}
       key="/school-selection/school-information"
-      path="/school-selection/school-information"/>,
+      path="/school-selection/school-information"
+      panel={panels.schoolSelection}/>,
   // Review and Submit route.
   <Route
       component={PlaceholderSection}
       key="/review-and-submit"
-      path="/review-and-submit"/>,
+      path="/review-and-submit"
+      panel={panels.review}/>,
 
   // Submit Message route.
   <Route

@@ -33,7 +33,7 @@ const ui = {
       verified: false,
       fields: []
     },
-    '/military-history/additional-information': {
+    '/military-history/dependents': {
       complete: false,
       verified: false,
       fields: []
@@ -88,11 +88,6 @@ const ui = {
       verified: false,
       fields: []
     },
-    '/veteran-information/dependent-information': {
-      complete: false,
-      verified: false,
-      fields: []
-    },
     '/veteran-information/direct-deposit': {
       complete: false,
       verified: false,
@@ -103,67 +98,7 @@ const ui = {
       verified: false,
       fields: []
     }
-  },
-  panels: [
-    {
-      path: '/veteran-information',
-      name: 'Veteran Information',
-      sections: [
-        { path: '/veteran-information/personal-information', name: 'Personal Information' },
-        { path: '/veteran-information/address', name: 'Address' },
-        { path: '/veteran-information/contact-information', name: 'Contact Information' },
-        { path: '/veteran-information/secondary-contact', name: 'Secondary Contact' },
-        { path: '/veteran-information/dependent-information', name: 'Dependent Information' },
-        { path: '/veteran-information/direct-deposit', name: 'Direct Deposit' },
-      ]
-    },
-    {
-      path: '/benefits-eligibility',
-      name: 'Benefits Eligibility',
-      sections: [
-        { path: '/benefits-eligibility/benefits-selection', name: 'Benefits Selection' },
-      ]
-    },
-    {
-      path: '/military-history',
-      name: 'Military History',
-      sections: [
-        { path: '/military-history/military-service', name: 'Military Service' },
-        { path: '/military-history/additional-information', name: 'Additional Information' },
-        { path: '/military-history/rotc-history', name: 'ROTC History' },
-        { path: '/military-history/benefits-history', name: 'Benefits History' }
-      ]
-    },
-    {
-      path: '/education-history',
-      name: 'Education History',
-      sections: [
-        { path: '/education-history/education-information', name: 'Education Information' },
-        { path: '/education-history/additional-information', name: 'Additional Information' },
-      ]
-    },
-    {
-      path: '/employment-history',
-      name: 'Employment History',
-      sections: [
-        { path: '/employment-history/employment-information', name: 'Employment Information' },
-      ]
-    },
-    {
-      path: '/school-selection',
-      name: 'School Selection',
-      sections: [
-        { path: '/school-selection/school-information', name: 'School Information' },
-      ]
-    },
-    {
-      path: '/review-and-submit',
-      name: 'Review',
-      sections: [
-        { path: '/review-and-submit', name: 'Review Information' },
-      ]
-    }
-  ]
+  }
 };
 
 function uiState(state = ui, action) {
