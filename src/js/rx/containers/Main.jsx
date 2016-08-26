@@ -3,12 +3,16 @@ import { connect } from 'react-redux';
 
 import { closeAlert } from '../actions/alert.js';
 import { closeDisclaimer } from '../actions/disclaimer.js';
+import { loadData } from '../actions/prescriptions.js';
 
 import AlertBox from '../components/AlertBox';
 import TabNav from '../components/TabNav';
 import Disclaimer from '../components/Disclaimer';
 
 class Main extends React.Component {
+  componentWillMount() {
+    this.props.loadData();
+  }
   render() {
     let alertBox;
 
@@ -44,5 +48,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   closeAlert,
-  closeDisclaimer
+  closeDisclaimer,
+  loadData
 })(Main);
