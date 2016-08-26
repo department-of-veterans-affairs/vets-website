@@ -24,7 +24,8 @@ class PlaceholderSection extends React.Component {
             path={currentLocation}
             sections={sectionNames}
             isValid={isValidSection(currentLocation, data)}
-            onNavigate={navigateTo}/>
+            onNavigate={navigateTo}
+            onComplete={() => null}/>
       </div>
     );
   }

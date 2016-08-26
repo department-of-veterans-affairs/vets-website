@@ -8,7 +8,7 @@ const blankVeteran = {
   chapter30Relinquished: false,
   chapter1606Relinquished: false,
   chapter1607Relinquished: false,
-  notEligible: false,
+  nothingToRelinquish: false,
 };
 
 export default function veteran(state = blankVeteran, action) {

@@ -28,7 +28,7 @@ describe('<BenefitsSelectionFields>', () => {
     expect(tree.everySubTree('ErrorableCheckbox')[0].props.name).to.equal('chapter30Relinquished');
     expect(tree.everySubTree('ErrorableCheckbox')[1].props.name).to.equal('chapter1606Relinquished');
     expect(tree.everySubTree('ErrorableCheckbox')[2].props.name).to.equal('chapter1607Relinquished');
-    expect(tree.everySubTree('ErrorableCheckbox')[3].props.name).to.equal('notEligible');
+    expect(tree.everySubTree('ErrorableCheckbox')[3].props.name).to.equal('nothingToRelinquish');
   });
   it('should render a value for benefits chosen', () => {
     expect(tree.everySubTree('ErrorableRadioButtons')[0].props.value.value).to.equal(data.benefitsChosen.value);

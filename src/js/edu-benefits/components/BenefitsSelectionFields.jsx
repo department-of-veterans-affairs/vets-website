@@ -8,19 +8,17 @@ import { validateIfDirty, isNotBlank } from '../../common/utils/validations';
 export default class BenefitsSectionFields extends React.Component {
   render() {
     const options = [
-      { label: 'Chapter 33', value: 'chapter33' },
-      { label: 'Chapter 30', value: 'chapter30' },
-      { label: 'Chapter 1606', value: 'chapter1606' },
-      { label: 'Chapter 32 / Section 903', value: 'chapter32' },
-      { label: 'I don\'t know', value: 'unknown' },
+      { label: 'Chapter 33 - Post-9/11 GI Bill', value: 'chapter33' },
+      { label: 'Chapter 30 - Montgomery GI Bill Educational Assistance Program', value: 'chapter30' },
+      { label: 'Chapter 1606 - Montgomery GI Bill - Selected Reserve Educational Assistance Program', value: 'chapter1606' },
+      { label: 'Chapter 32 / Section 903 - Post-Vietnam Era Veterans\' Educational Assistance Program', value: 'chapter32' }
     ];
     return (<fieldset>
-      <legend>Benefits Information</legend>
       <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
       <div className="input-section">
         <ErrorableRadioButtons required
             errorMessage={validateIfDirty(this.props.data.benefitsChosen, isNotBlank) ? '' : 'Please select a response'}
-            label="Which benefits would you like to use?"
+            label="Which education benefits are you applying for?"
             name="benefitsChosen"
             options={options}
             value={this.props.data.benefitsChosen}
@@ -28,7 +26,7 @@ export default class BenefitsSectionFields extends React.Component {
           <RadioButtonsSubSection showIfValueChosen="chapter33">
             <p className="form-indent">I acknowledge that by choosing Chapter 33 I have to give up some other stuff</p>
             <fieldset className="form-subsection">
-              I elect to receive Chapter 33 education benefits in lieu of the education benefit(s) I am relinquishing below
+              I elect to receive Chapter 33 education benefits in lieu of the education benefit(s) I am relinquishing below:
               <ErrorableCheckbox
                   label="Chapter 30"
                   name="chapter30Relinquished"
@@ -45,8 +43,8 @@ export default class BenefitsSectionFields extends React.Component {
                   checked={this.props.data.chapter1607Relinquished}
                   onValueChange={(update) => {this.props.onStateChange('chapter1607Relinquished', update);}}/>
               <ErrorableCheckbox
-                  label="I am not eligible for other benefits"
-                  name="notEligible"
+                  label="I don't have anything to relinquish"
+                  name="nothingToRelinquish"
                   checked={this.props.data.notEligible}
                   onValueChange={(update) => {this.props.onStateChange('notEligible', update);}}/>
             </fieldset>

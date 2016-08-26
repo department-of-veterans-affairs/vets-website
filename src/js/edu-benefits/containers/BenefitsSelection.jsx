@@ -6,11 +6,11 @@ import BenefitsSelectionFields from '../components/BenefitsSelectionFields';
 import NavButtons from '../components/NavButtons';
 import { isValidSection } from '../utils/validations';
 import { withRouter } from 'react-router';
-import { veteranUpdateField, ensureFieldsInitialized } from '../actions/index';
+import { veteranUpdateField, ensureFieldsInitialized, updateCompletedStatus } from '../actions/index';
 
 class BenefitsSelection extends React.Component {
   render() {
-    const { section, panels, currentLocation, data, submission, router, onStateChange, dirtyFields } = this.props;
+    const { section, panels, currentLocation, data, submission, router, onStateChange, dirtyFields, setComplete } = this.props;
     const sectionNames = panels.reduce((sections, panel) => {
       return sections.concat(panel.sections.map(sectionObj => sectionObj.path));
     }, []);
@@ -26,7 +26,8 @@ class BenefitsSelection extends React.Component {
             sections={sectionNames}
             isValid={isValidSection(currentLocation, data)}
             dirtyFields={dirtyFields}
-            onNavigate={navigateTo}/>
+            onNavigate={navigateTo}
+            onComplete={setComplete}/>
       </div>
     );
   }
@@ -46,10 +47,13 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
   return {
     onStateChange(field, update) {
-      return dispatch(veteranUpdateField(field, update));
+      dispatch(veteranUpdateField(field, update));
     },
     dirtyFields(section) {
       dispatch(ensureFieldsInitialized(section));
+    },
+    setComplete(section) {
+      dispatch(updateCompletedStatus(section));
     }
   };
 }

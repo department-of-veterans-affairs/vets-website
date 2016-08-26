@@ -230,6 +230,7 @@ describe('<NavButtons>', () => {
     const dirtyFields = sinon.spy();
     const onNavigate = sinon.spy();
     const onSubmit = sinon.spy();
+    const onComplete = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
       <NavButtons
@@ -239,12 +240,14 @@ describe('<NavButtons>', () => {
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}
-          onSubmit={onSubmit}/>
+          onSubmit={onSubmit}
+          onComplete={onComplete}/>
     );
 
     it('should navigate forward', () => {
       tree.everySubTree('ProgressButton')[1].props.onButtonClick();
       expect(onNavigate.calledWith(sections[2])).to.be.true;
+      expect(onComplete.calledWith(sections[1])).to.be.true;
     });
 
     it('should navigate back', () => {
