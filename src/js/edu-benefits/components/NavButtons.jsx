@@ -49,6 +49,7 @@ export default class NavButtons extends React.Component {
           afterText="»"/>
     );
 
+    let buttons;
     if (path === '/review-and-submit') {
       let submitButton;
       let submitMessage;
@@ -92,7 +93,7 @@ export default class NavButtons extends React.Component {
         );
       }
 
-      return (<div>
+      buttons = (<div>
         <div className="row progress-buttons">
           <div className="small-6 medium-5 columns">
             {backButton}
@@ -111,7 +112,7 @@ export default class NavButtons extends React.Component {
         </div>
       </div>);
     } else if (path === '/submit-message') {
-      return (
+      buttons = (
         <div className="row progress-buttons">
           <div className="small-6 medium-5 columns">
             <a href="/">
@@ -121,7 +122,7 @@ export default class NavButtons extends React.Component {
         </div>
       );
     } else if (path === '/introduction') {
-      return (
+      buttons = (
         <div className="row progress-buttons">
           <div className="small-6 medium-5 columns">
             <ProgressButton
@@ -132,18 +133,20 @@ export default class NavButtons extends React.Component {
           </div>
         </div>
       );
+    } else {
+      buttons = (
+        <div className="row progress-buttons">
+          <div className="small-6 medium-5 columns">
+            {backButton}
+          </div>
+          <div className="small-6 medium-5 end columns">
+            {nextButton}
+          </div>
+        </div>
+      );
     }
 
-    return (
-      <div className="row progress-buttons">
-        <div className="small-6 medium-5 columns">
-          {backButton}
-        </div>
-        <div className="small-6 medium-5 end columns">
-          {nextButton}
-        </div>
-      </div>
-    );
+    return buttons;
   }
 }
 
