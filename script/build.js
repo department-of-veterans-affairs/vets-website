@@ -22,7 +22,21 @@ const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
 
+const fs = require('fs');
+
 const sourceDir = '../content/pages';
+
+// Make sure git pre-commit hooks are installed
+['pre-commit'].forEach(hook => {
+  const src = `hooks/${hook}`;
+  const dest = `.git/hooks/${hook}`;
+  if (fs.existsSync(src)) {
+    if (!fs.existsSync(dest)) {
+      // Install hooks
+      fs.linkSync(src, dest);
+    }
+  }
+});
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
