@@ -1,1 +1,1 @@
-web: ./script/heroku-serve.sh $PORT
+web: node script/build.js
