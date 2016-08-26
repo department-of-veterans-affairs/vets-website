@@ -49,7 +49,7 @@ class Prescription extends React.Component {
 
     return (
       <div className="rx-prescription"
-          key={this.props.key}
+          key={id}
           id={`rx-${id}`}>
         <div className="rx-prescription-inner cf">
           <h3 className="rx-prescription-title" title={name}>

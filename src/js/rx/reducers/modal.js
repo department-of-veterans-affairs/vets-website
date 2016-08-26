@@ -1,7 +1,7 @@
 import set from 'lodash/fp/set';
 
 const initialState = {
-  visible: true
+  visible: false
 };
 
 export default function modal(state = initialState, action) {

@@ -1,4 +1,4 @@
-/* Prescription cards for Activity page. */
+/* Prescription cards for Active page. */
 
 .rx-prescription-items {
   padding-top: 3rem;
@@ -8,7 +8,7 @@
   border-color: $color-white;
   border-style: solid;
   border-width: 1rem 0;
-  
+
   @media (min-width: $medium-screen) {
     float: left;
     width: 50%;
@@ -25,35 +25,20 @@
 
 .rx-prescription-inner {
   background: $color-gray-lightest;
-  // As this changes, adjust the position 
-  // of .rx-prescription-count, .rx-prescription-action below
   padding: 2rem;
   position: relative;
-  height: 24.5rem;
-
-  .rx-track-package-link {
-    background: $color-primary;
-    display: block;
-    margin: 0;
-  }
 }
 
 .rx-prescription-title {
   color: $color-primary;
   margin: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
   white-space: nowrap;
   padding-bottom: 0;
 
   a {
-    display: block;
-    overflow: hidden;
     text-decoration: none;
-    text-overflow: ellipsis;
-
-    &:hover {
-      background: none; 
-      text-decoration: underline;
-    }
   }
 }
 
@@ -65,15 +50,12 @@
   padding-bottom: 3rem;
 }
 
-.rx-prescription-refill-requested {
-  font-weight: bold;
-}
-
 button.rx-prescription-button,
 [type=submit].rx-prescription-button {
   background: transparent;
   display: inline-block;
   font-weight: bold;
+  float: right;
   margin: 0;
 
   @media (max-width: $small-screen) {
@@ -84,22 +66,12 @@ button.rx-prescription-button,
 
 .rx-prescription-count {
   display: inline-block;
+  position: absolute;
   bottom: 1.5rem;
   
   &-zero {
     color: $color-secondary;
   }
-}
-
-.rx-prescription-count,
-.rx-prescription-action {
-  position: absolute;
-}
-
-.rx-prescription-action {
-  text-align: right;
-  right: 2rem;
-  bottom: 2rem;
 }
 
 .rx-prescription-count-number {
@@ -109,6 +81,18 @@ button.rx-prescription-button,
     content: '\a0';
   }
 }
+
+//====== Prescription group
+.rx-prescription-group {
+  padding-bottom: 2rem;
+}
+
+// Abusing !important because #content .section h* is causing problems.
+.rx-pgroup-title {
+  padding-bottom: .5rem !important;
+  margin-bottom: 1rem !important;
+}
+
 
 // "Do not print" styles
 // Contributed .va-header-logo a block to vets-website.
@@ -139,5 +123,9 @@ button.rx-prescription-button,
   }
   .rx-prescription-count-number {
     display: inline;
+
+    &::after {
+      content: '\a0';
+    }
   }
 }
