@@ -11,7 +11,7 @@ const store = createStore(reducer);
 describe('<RxRefillsApp>', () => {
   it('Sanity check the component renders', () => {
     const mockRoutes = [{ path: '/fake' }];
-    const tree = SkinDeep.shallowRender(<EduBenefitsApp store={store} location={{ pathname: '/blah' }} route={{ childRoutes: mockRoutes }}/>);
+    const tree = SkinDeep.shallowRender(<RxRefillsApp store={store} location={{ pathname: '/blah' }} route={{ childRoutes: mockRoutes }}/>);
     const vdom = tree.getRenderOutput();
     expect(vdom).to.not.be.undefined;
   });
