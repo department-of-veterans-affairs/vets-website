@@ -1,16 +1,29 @@
+/* Rx detail page */
+
 #rx-detail .rx-contact-card {
-  display: inline-block;
-  margin-left: 3rem;
+  display: block;
+  margin: 2rem 0;
+  width: 100%;
+
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    margin-left: 3rem;
+    width: 30rem;
+  };
 }
 
 #rx-detail .rx-table {
-  margin: 0;
-  min-width: 0;
+  @media (min-width: $medium-screen) {
+    margin: 0;
+    min-width: 0;
+  }
 }
 
 .rx-info {
-  display: inline-block;
-  vertical-align: top;
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    vertical-align: top;
+  }
 
   tbody {
     &:first-child {

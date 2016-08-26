@@ -22,6 +22,7 @@ class Detail extends React.Component {
     const item = this.props.prescriptions.currentItem;
 
     if (item) {
+      // Compose components from Rx data.
       if (item.rx) {
         const attrs = item.rx.attributes;
         const data = {
@@ -55,6 +56,7 @@ class Detail extends React.Component {
         );
       }
 
+      // Compose components from tracking data.
       if (item.trackings) {
         const currentPackage = item.trackings[0].attributes;
         const facilityName = currentPackage['facility-name'];
