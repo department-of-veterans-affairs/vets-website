@@ -16,7 +16,8 @@ class Detail extends React.Component {
 
   render() {
     let header;
-    let content;
+    let rxInfo;
+    let contactCard;
     let orderHistory;
     const item = this.props.prescriptions.currentItem;
 
@@ -47,19 +48,27 @@ class Detail extends React.Component {
           </h2>
         );
 
-        content = (
-          <div>
-            <TableVerticalHeader
-                className="usa-table-borderless rx-table"
-                data={data}/>
-            <ContactCard/>
-          </div>
+        rxInfo = (
+          <TableVerticalHeader
+              className="usa-table-borderless rx-table rx-info"
+              data={data}/>
         );
       }
 
       if (item.trackings) {
+        const currentPackage = item.trackings[0].attributes;
+        const facilityName = currentPackage['facility-name'];
+        const phoneNumber = currentPackage['rx-info-phone-number'];
+
+        contactCard = (
+          <ContactCard
+              facilityName={facilityName}
+              phoneNumber={phoneNumber}/>
+        );
+
         orderHistory = (
           <OrderHistory
+              className="usa-table-borderless rx-table"
               items={item.trackings}/>
         );
       }
@@ -70,7 +79,8 @@ class Detail extends React.Component {
         <h1>Mail Order Prescriptions</h1>
         <BackLink text="Back to list"/>
         {header}
-        {content}
+        {rxInfo}
+        {contactCard}
         {orderHistory}
       </div>
     );

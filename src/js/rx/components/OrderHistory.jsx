@@ -27,20 +27,24 @@ class OrderHistory extends React.Component {
     const rows = this.props.items.map(this.makeRow);
 
     return (
-      <table>
-        <thead>
-          <th>Order status</th>
-          <th>Tracking status</th>
-        </thead>
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
+      <div>
+        <h3>Order History</h3>
+        <table className={this.props.className}>
+          <thead>
+            <th>Order status</th>
+            <th>Tracking status</th>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+      </div>
     );
   }
 }
 
 OrderHistory.propTypes = {
+  className: React.PropTypes.string,
   items: React.PropTypes.array.isRequired
 };
 

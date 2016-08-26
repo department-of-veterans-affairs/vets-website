@@ -4,10 +4,12 @@
 }
 
 #rx-detail .rx-table {
-  display: inline-block;
-  font-size: 1.8rem;
   margin: 0;
   min-width: 0;
+}
+
+.rx-info {
+  display: inline-block;
   vertical-align: top;
 
   tbody {
