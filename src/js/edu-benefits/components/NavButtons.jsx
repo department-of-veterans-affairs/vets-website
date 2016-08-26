@@ -1,7 +1,7 @@
 import React from 'react';
 
 // TODO update this when progress button moves
-import ProgressButton from '../../hca/components/ProgressButton';
+import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
 import { getSectionList } from '../utils/sections';
 
