@@ -32,6 +32,7 @@ export default class BenefitsSectionFields extends React.Component {
 
     return (<fieldset>
       <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
+      <p>Which education benefit are you applying for?</p>
       <div className="input-section">
         <ErrorableCheckbox
             label="Chapter 33 - Post-9/11 GI Bill"
