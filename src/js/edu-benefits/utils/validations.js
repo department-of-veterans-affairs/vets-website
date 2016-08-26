@@ -388,7 +388,8 @@ function isValidServiceInformation(data) {
 }
 
 function isBenefitsInformationSectionValid(data) {
-  return isNotBlank(data.benefitsChosen.value);
+  return isNotBlank(data.benefitsChosen.value)
+    && (data.chapter30Relinquished || data.chapter1607Relinquished || data.chapter1606Relinquished || data.nothingToRelinquish);
 }
 
 function isValidForm(data) {

@@ -18,7 +18,9 @@ export default function veteran(state = blankVeteran, action) {
     }
     case ENSURE_FIELDS_INITIALIZED: {
       return action.fields.reduce((vet, field) => {
-        return _.set([field, 'dirty'], true, vet);
+        return _.isObject(vet[field]) ?
+          _.set([field, 'dirty'], true, vet) :
+          vet;
       }, state);
     }
     default:

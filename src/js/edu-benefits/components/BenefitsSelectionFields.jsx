@@ -45,8 +45,8 @@ export default class BenefitsSectionFields extends React.Component {
               <ErrorableCheckbox
                   label="I don't have anything to relinquish"
                   name="nothingToRelinquish"
-                  checked={this.props.data.notEligible}
-                  onValueChange={(update) => {this.props.onStateChange('notEligible', update);}}/>
+                  checked={this.props.data.nothingToRelinquish}
+                  onValueChange={(update) => {this.props.onStateChange('nothingToRelinquish', update);}}/>
             </fieldset>
           </RadioButtonsSubSection>
         </ErrorableRadioButtons>

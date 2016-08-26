@@ -26,7 +26,7 @@ const ui = {
     '/benefits-eligibility/benefits-selection': {
       complete: false,
       verified: false,
-      fields: ['benefitsChosen']
+      fields: ['benefitsChosen', 'chapter30Relinquished', 'chapter1606Relinquished', 'chapter1607Relinquished', 'nothingToRelinquish']
     },
     '/military-history/military-service': {
       complete: false,
