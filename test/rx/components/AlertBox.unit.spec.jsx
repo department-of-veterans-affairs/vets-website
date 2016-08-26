@@ -12,19 +12,10 @@ describe('<AlertBox>', () => {
 
   it('should have the expected classname', () => {
     const tree = SkinDeep.shallowRender(
-      <AlertBox status={'info'}/>
+      <AlertBox
+          content="test"
+          status={'info'}/>
     );
     expect(tree.props.className).to.equal('rx-alert usa-alert usa-alert-info');
-  });
-
-  // TODO: async assertion / promises?
-  it('should call onCloseAlert when the close button is clicked', () => {
-    const tree = SkinDeep.shallowRender(
-      <AlertBox onCloseAlert={() => { /* assert something */ }}/>
-    );
-
-    tree.props.onCloseAlert();
-
-    expect(tree.toString()).to.equal('<div></div>');
   });
 });
