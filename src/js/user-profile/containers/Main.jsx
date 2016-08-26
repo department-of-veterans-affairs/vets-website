@@ -32,12 +32,12 @@ class Main extends React.Component {
   }
 
   render() {
-    fetch('https://dev.vets.gov/api/v0/users', {
+    fetch('https://dev.vets.gov/api/v0/profile', {
       method: 'GET',
       headers: new Headers({
-        'Authorization': 'Token token=Sc59S-31JFWYVr3cXS7jJ6jngXTo9h-CbiELNmgN'
+        'Authorization': 'Token token=Vew8V3aEg3QgWuRjDKGVbhuTEo1L6tc992V3NG8y'
       })
-    }).then(function(responseObj) {
+    }).then(responseObj => {
       console.log(responseObj);
     });
 
