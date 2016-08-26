@@ -198,7 +198,6 @@ describe('<NavButtons>', () => {
     const submission = {
       status: false
     };
-    const sections = ['/introduction', '/review-and-submit'];
     const isValid = true;
     const dirtyFields = sinon.spy();
     const onNavigate = sinon.spy();
@@ -208,7 +207,6 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
-          sections={sections}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}
@@ -221,11 +219,10 @@ describe('<NavButtons>', () => {
     });
   });
   describe('if valid', () => {
-    const path = '/some-url';
+    const path = '/benefits-eligibility/benefits-selection';
     const submission = {
       status: false
     };
-    const sections = ['/introduction', '/some-url', '/some-other-url'];
     const isValid = true;
     const dirtyFields = sinon.spy();
     const onNavigate = sinon.spy();
@@ -236,7 +233,6 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
-          sections={sections}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}
@@ -246,21 +242,20 @@ describe('<NavButtons>', () => {
 
     it('should navigate forward', () => {
       tree.everySubTree('ProgressButton')[1].props.onButtonClick();
-      expect(onNavigate.calledWith(sections[2])).to.be.true;
-      expect(onComplete.calledWith(sections[1])).to.be.true;
+      expect(onNavigate.calledWith('/military-history/military-service')).to.be.true;
+      expect(onComplete.calledWith(path)).to.be.true;
     });
 
     it('should navigate back', () => {
       tree.everySubTree('ProgressButton')[0].props.onButtonClick();
-      expect(onNavigate.calledWith(sections[0])).to.be.true;
+      expect(onNavigate.calledWith('/veteran-information/direct-deposit')).to.be.true;
     });
   });
   describe('if invalid', () => {
-    const path = '/some-url';
+    const path = '/benefits-eligibility/benefits-selection';
     const submission = {
       status: false
     };
-    const sections = ['/introduction', '/some-url', '/some-other-url'];
     const isValid = false;
     const dirtyFields = sinon.spy();
     const onNavigate = sinon.spy();
@@ -270,7 +265,6 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
-          sections={sections}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}
@@ -289,7 +283,7 @@ describe('<NavButtons>', () => {
 
     it('should navigate back', () => {
       tree.everySubTree('ProgressButton')[0].props.onButtonClick();
-      expect(onNavigate.calledWith(sections[0])).to.be.true;
+      expect(onNavigate.calledWith('/veteran-information/direct-deposit')).to.be.true;
     });
   });
 });

@@ -11,6 +11,30 @@ const routes = [
       key="/introduction"
       path="/introduction"/>,
   <Route
+      component={PlaceholderSection}
+      key="/veteran-information/personal-information"
+      path="/veteran-information/personal-information"/>,
+  <Route
+      component={PlaceholderSection}
+      key="/veteran-information/address"
+      path="/veteran-information/address"/>,
+  <Route
+      component={PlaceholderSection}
+      key="/veteran-information/contact-information"
+      path="/veteran-information/contact-information"/>,
+  <Route
+      component={PlaceholderSection}
+      key="/veteran-information/secondary-contact"
+      path="/veteran-information/secondary-contact"/>,
+  <Route
+      component={PlaceholderSection}
+      key="/veteran-information/dependent-information"
+      path="/veteran-information/dependent-information"/>,
+  <Route
+      component={PlaceholderSection}
+      key="/veteran-information/direct-deposit"
+      path="/veteran-information/direct-deposit"/>,
+  <Route
       component={BenefitsSelection}
       key="/benefits-eligibility/benefits-selection"
       path="/benefits-eligibility/benefits-selection"/>,
@@ -46,30 +70,6 @@ const routes = [
       component={PlaceholderSection}
       key="/school-selection/school-information"
       path="/school-selection/school-information"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/veteran-information/personal-information"
-      path="/veteran-information/personal-information"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/veteran-information/address"
-      path="/veteran-information/address"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/veteran-information/contact-information"
-      path="/veteran-information/contact-information"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/veteran-information/secondary-contact"
-      path="/veteran-information/secondary-contact"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/veteran-information/dependent-information"
-      path="/veteran-information/dependent-information"/>,
-  <Route
-      component={PlaceholderSection}
-      key="/veteran-information/direct-deposit"
-      path="/veteran-information/direct-deposit"/>,
   // Review and Submit route.
   <Route
       component={PlaceholderSection}

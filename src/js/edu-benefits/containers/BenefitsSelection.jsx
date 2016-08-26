@@ -10,11 +10,7 @@ import { veteranUpdateField, ensureFieldsInitialized, updateCompletedStatus } fr
 
 class BenefitsSelection extends React.Component {
   render() {
-    const { section, panels, currentLocation, data, submission, router, onStateChange, dirtyFields, setComplete } = this.props;
-    const sectionNames = panels.reduce((sections, panel) => {
-      return sections.concat(panel.sections.map(sectionObj => sectionObj.path));
-    }, []);
-
+    const { section, currentLocation, data, submission, router, onStateChange, dirtyFields, setComplete } = this.props;
     const navigateTo = path => router.push(path);
 
     return (
@@ -23,7 +19,6 @@ class BenefitsSelection extends React.Component {
         <NavButtons
             submission={submission}
             path={currentLocation}
-            sections={sectionNames}
             isValid={isValidSection(currentLocation, data)}
             dirtyFields={dirtyFields}
             onNavigate={navigateTo}
@@ -37,7 +32,6 @@ function mapStateToProps(state, ownProps) {
   return {
     data: state.veteran,
     section: state.uiState.sections[ownProps.location.pathname],
-    panels: state.uiState.panels,
     submission: state.uiState.submission,
     currentLocation: ownProps.location.pathname,
     router: ownProps.router
