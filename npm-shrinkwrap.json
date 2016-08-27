@@ -56,6 +56,18 @@
         }
       }
     },
+    "ajv": {
+      "version": "4.5.0",
+      "from": "ajv@>=4.5.0 <5.0.0",
+      "resolved": "https://registry.npmjs.org/ajv/-/ajv-4.5.0.tgz",
+      "dependencies": {
+        "co": {
+          "version": "4.6.0",
+          "from": "co@>=4.6.0 <5.0.0",
+          "resolved": "https://registry.npmjs.org/co/-/co-4.6.0.tgz"
+        }
+      }
+    },
     "align-text": {
       "version": "0.1.4",
       "from": "align-text@>=0.1.3 <0.2.0",
