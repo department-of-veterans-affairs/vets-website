@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import Introduction from './components/Introduction.jsx';
+import IntroductionSection from './components/IntroductionSection.jsx';
 
 function PlaceholderComponent({ location }) {
   return <div>{location.pathname}</div>;
@@ -10,7 +10,7 @@ function PlaceholderComponent({ location }) {
 const routes = [
   // Introduction route.
   <Route
-      component={Introduction}
+      component={IntroductionSection}
       key="/introduction"
       path="/introduction"/>,
   <Route
