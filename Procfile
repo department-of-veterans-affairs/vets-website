@@ -1,1 +1,1 @@
-web: ./script/heroku-serve.sh $PORT
+web: npm run watch -- -p $PORT
