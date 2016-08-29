@@ -35,7 +35,7 @@ class EduBenefitsApp extends React.Component {
           <Nav sections={sections} panels={panels} currentUrl={currentLocation.pathname}/>
         </div>
         <div className="medium-8 columns">
-          <div className="form-panel">
+          <div className="progress-box">
             {this.props.children}
           </div>
         </div>
