@@ -4,11 +4,11 @@ import { VETERAN_FIELD_UPDATE, ENSURE_FIELDS_INITIALIZED } from '../../actions';
 import { makeField } from '../../../common/model/fields';
 
 const blankVeteran = {
-  benefitsChosen: makeField(''),
-  chapter30Relinquished: false,
-  chapter1606Relinquished: false,
-  chapter1607Relinquished: false,
-  nothingToRelinquish: false,
+  benefitsRelinquished: makeField(''),
+  chapter30: false,
+  chapter1606: false,
+  chapter32: false,
+  chapter33: false
 };
 
 export default function veteran(state = blankVeteran, action) {

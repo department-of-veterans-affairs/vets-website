@@ -388,9 +388,7 @@ function isValidServiceInformation(data) {
 }
 
 function isBenefitsInformationSectionValid(data) {
-  return isNotBlank(data.benefitsChosen.value)
-    && ((data.chapter30Relinquished || data.chapter1607Relinquished || data.chapter1606Relinquished || data.nothingToRelinquish)
-      || data.benefitsChosen.value !== 'chapter33');
+  return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
 }
 
 function isValidForm(data) {
