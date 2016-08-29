@@ -1,7 +1,7 @@
 ---
 title: Claims Process
 layout: page-breadcrumbs.html
-template: L2-section-landing
+template: 1-topic-landing
 relatedlinks:
   - url: /disability-benefits/claims-process/ratings/
     title: How does VA assign disability ratings?
