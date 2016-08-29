@@ -28,8 +28,8 @@ const sourceDir = '../content/pages';
 
 // Make sure git pre-commit hooks are installed
 ['pre-commit'].forEach(hook => {
-  const src = `hooks/${hook}`;
-  const dest = `.git/hooks/${hook}`;
+  const src = `../hooks/${hook}`;
+  const dest = `../.git/hooks/${hook}`;
   if (fs.existsSync(src)) {
     if (!fs.existsSync(dest)) {
       // Install hooks
