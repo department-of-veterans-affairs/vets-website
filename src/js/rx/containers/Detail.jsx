@@ -44,7 +44,7 @@ class Detail extends React.Component {
         };
 
         header = (
-          <h2 className="rx-detail-header">
+          <h2 className="rx-heading">
             {attrs['prescription-name']}
           </h2>
         );
@@ -69,9 +69,12 @@ class Detail extends React.Component {
         );
 
         orderHistory = (
-          <OrderHistory
-              className="usa-table-borderless rx-table"
-              items={item.trackings}/>
+          <div className="rx-order-history">
+            <h3 className="rx-heading va-h-ruled">Order History</h3>
+            <OrderHistory
+                className="usa-table-borderless rx-table"
+                items={item.trackings}/>
+          </div>
         );
       }
     }
