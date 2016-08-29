@@ -126,10 +126,9 @@
   "optionalDependencies": {
     "fsevents": "^1.0.7"
   },
-  "engineStrict": true,
   "engines": {
     "node": "4.4.7",
     "npm": "3.8.9"
-},
+  },
   "private": true
 }
