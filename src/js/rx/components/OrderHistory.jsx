@@ -4,10 +4,10 @@ import moment from 'moment';
 import TrackPackageLink from './TrackPackageLink';
 
 class OrderHistory extends React.Component {
-  makeRow(item) {
+  makeRow(item, index) {
     const attrs = item.attributes;
     return (
-      <tr>
+      <tr key={index}>
         <td>
           Shipped on {moment(
             attrs['shipped-date']
@@ -28,8 +28,10 @@ class OrderHistory extends React.Component {
     return (
       <table className={this.props.className}>
         <thead>
-          <th>Order status</th>
-          <th>Tracking status</th>
+          <tr>
+            <th>Order status</th>
+            <th>Tracking status</th>
+          </tr>
         </thead>
         <tbody>
           {rows}
