@@ -57,6 +57,16 @@
     h3 {
       border-bottom: none;
     }
+
+    tbody {
+      tr {
+        &:last-child {
+          td {
+            border: none;
+          }
+        }
+      }
+    }
   }
 
   @media (max-width: $medium-screen) {
