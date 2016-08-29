@@ -1,5 +1,5 @@
-const glossary = [
-  {
+module.exports = {
+  glossary: [{
     term: 'Active',
     definition: 'If you have refills, you may request a refill of this prescription from your VA pharmacy.'
   },
@@ -22,9 +22,5 @@ const glossary = [
   {
     term: 'Suspended',
     definition: 'You requested this prescription too early. It will be sent to you before you run out. Contact your VA pharmacy if you need this prescription now.'
-  },
-];
-
-export function getGlossary() {
-  return glossary;
-}
+  }]
+};
