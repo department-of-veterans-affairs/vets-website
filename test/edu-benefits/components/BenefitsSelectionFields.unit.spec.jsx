@@ -24,12 +24,6 @@ describe('<BenefitsSelectionFields>', () => {
   it('should render a subsection for chapter 33', () => {
     expect(tree.everySubTree('ErrorableRadioButtons').length).to.equal(1);
   });
-  it('should render four checkboxes', () => {
-    expect(tree.everySubTree('ErrorableCheckbox')[0].props.name).to.equal('chapter33');
-    expect(tree.everySubTree('ErrorableCheckbox')[1].props.name).to.equal('chapter30');
-    expect(tree.everySubTree('ErrorableCheckbox')[2].props.name).to.equal('chapter1606');
-    expect(tree.everySubTree('ErrorableCheckbox')[3].props.name).to.equal('chapter32');
-  });
   it('should render a value for benefits relinquished', () => {
     expect(tree.everySubTree('ErrorableRadioButtons')[0].props.value.value).to.equal(data.benefitsRelinquished.value);
   });
