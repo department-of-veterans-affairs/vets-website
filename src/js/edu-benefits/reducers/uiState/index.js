@@ -26,7 +26,7 @@ const ui = {
     '/benefits-eligibility/benefits-selection': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['benefitsRelinquished', 'chapter30', 'chapter32', 'chapter33', 'chapter1606']
     },
     '/military-history/military-service': {
       complete: false,
@@ -78,7 +78,7 @@ const ui = {
       verified: false,
       fields: []
     },
-    '/veteran-information/contact': {
+    '/veteran-information/contact-information': {
       complete: false,
       verified: false,
       fields: []
@@ -111,7 +111,7 @@ const ui = {
       sections: [
         { path: '/veteran-information/personal-information', name: 'Personal Information' },
         { path: '/veteran-information/address', name: 'Address' },
-        { path: '/veteran-information/contact', name: 'Contact Information' },
+        { path: '/veteran-information/contact-information', name: 'Contact Information' },
         { path: '/veteran-information/secondary-contact', name: 'Secondary Contact' },
         { path: '/veteran-information/dependent-information', name: 'Dependent Information' },
         { path: '/veteran-information/direct-deposit', name: 'Direct Deposit' },
@@ -120,7 +120,6 @@ const ui = {
     {
       path: '/benefits-eligibility',
       name: 'Benefits Eligibility',
-      classes: 'one',
       sections: [
         { path: '/benefits-eligibility/benefits-selection', name: 'Benefits Selection' },
       ]
@@ -160,7 +159,9 @@ const ui = {
     {
       path: '/review-and-submit',
       name: 'Review',
-      sections: []
+      sections: [
+        { path: '/review-and-submit', name: 'Review Information' },
+      ]
     }
   ]
 };
