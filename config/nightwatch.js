@@ -47,8 +47,11 @@ module.exports = {
       }
     },
 
-    'accessibility': {
+    accessibility: {
       filter: './test/accessibility/*.spec.js',
+      globals: {
+        asyncHookTimeout: 20000,
+      },
       desiredCapabilities: {
         browserName: 'phantomjs',
         javascriptEnabled: true,

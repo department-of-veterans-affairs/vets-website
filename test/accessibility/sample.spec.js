@@ -6,7 +6,7 @@ module.exports = E2eHelpers.createE2eTest(
     client
       .url(E2eHelpers.baseUrl)
       .waitForElementVisible('body', Timeouts.normal)
-      .axeCheck('document')
+      .axeCheck('document');
 
     client.end();
   });
