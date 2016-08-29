@@ -5,6 +5,7 @@ export function loadData(id) {
     const testId = 1435525;
     const rxUrl = `/rx-api/prescriptions/${testId}`;
     const rxUrls = [rxUrl, `${rxUrl}/trackings`];
+
     // Fetch both the prescription and its tracking history and
     // wait for retrieval and read of both resources to resolve.
     return dispatch => {
