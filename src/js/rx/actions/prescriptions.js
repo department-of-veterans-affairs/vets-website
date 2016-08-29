@@ -4,7 +4,7 @@ export function loadData(id) {
     // when API is able to retrieve any individual Rx.
     const testId = 1435525;
     const rxUrl = `/rx-api/prescriptions/${testId}`;
-    const rxUrls = [rxUrl, rxUrl + '/trackings'];
+    const rxUrls = [rxUrl, `${rxUrl}/trackings`];
     return dispatch => {
       Promise.all(rxUrls.map(url => fetch(url).then(res => res.json()))).then(
         data => dispatch({
