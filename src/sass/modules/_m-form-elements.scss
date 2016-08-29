@@ -42,13 +42,20 @@ button.form-button-disabled {
   width: 8rem;
 }
 
-.form-radio-buttons {
-  label {
-    margin-top: 1em;
-  }
-}
-
 .form-required-span {
   color: $color-secondary-dark;
   margin: 0 0.35em;
+}
+
+.form-checkbox {
+  > input[type="checkbox"] + label::before {
+    display: block;
+    float: left;
+    margin-left: -1.7em;
+    margin-top: 0.14em;
+    margin-right: 0;
+  }
+  > input[type="checkbox"] + label {
+    margin-left: 1.7em;
+  }
 }
