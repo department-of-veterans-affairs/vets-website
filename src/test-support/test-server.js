@@ -28,6 +28,7 @@ const app = express();
 const root = path.resolve(__dirname, `../../build/${options.buildtype}`);
 app.use(express.static(root));
 app.use('/healthcare/apply/application', fallback('index.html', { root }));
+app.use('/rx', fallback('index.html', { root }));
 
 app.listen(options.port, () => {
   // eslint-disable-next-line no-console
