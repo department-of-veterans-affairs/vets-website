@@ -1,29 +1,29 @@
 /* Rx detail page */
 
+#rx-detail h2 {
+  font-size: 3rem;
+  // Overriding #content .section h*.
+  margin-top: 2rem !important;
+}
+
+#rx-detail h3 {
+  font-size: 2.5rem;
+}
+
 #rx-detail .rx-contact-card {
-  display: block;
   margin: 2rem 0;
   width: 100%;
 
   @media (min-width: $medium-screen) {
     display: inline-block;
-    margin-left: 3rem;
+    margin: 0;
     width: 30rem;
   };
 }
 
 #rx-detail .rx-table {
-  @media (min-width: $medium-screen) {
-    margin: 0;
-    min-width: 0;
-  }
-}
-
-.rx-info {
-  @media (min-width: $medium-screen) {
-    display: inline-block;
-    vertical-align: top;
-  }
+  font-size: 1.6rem;
+  margin: 0;
 
   tbody {
     &:first-child {
@@ -39,33 +39,51 @@
     }
   }
 
+  @media (min-width: $medium-screen) {
+    margin: 0 3rem 0 0;
+    min-width: 50rem;
+  }
+}
+
+.rx-info {
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    vertical-align: top;
+
+    td {
+      width: 35rem;
+    }
+  }
+
   td {
     padding-right: 0;
+    vertical-align: top;
   }
 
   th {
     font-weight: bold;
     padding-left: 0;
-    padding-right: 2.5rem;
+    padding-right: 0;
+    vertical-align: top;
+    width: 15rem;
+  }
+}
+
+.rx-refill-link {
+  display: block;
+
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    margin-left: 2rem;
   }
 }
 
 .rx-order-history {
-  @media (min-width: $medium-screen) {
-    display: inline-block;
+  margin-top: 3.5rem;
 
+  @media (min-width: $medium-screen) {
     h3 {
       border-bottom: none;
-    }
-
-    tbody {
-      tr {
-        &:last-child {
-          td {
-            border: none;
-          }
-        }
-      }
     }
   }
 

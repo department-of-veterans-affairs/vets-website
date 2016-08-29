@@ -38,7 +38,7 @@ class Detail extends React.Component {
           Refills: (
             <span>
               {attrs['refill-remaining']} left
-              &nbsp;&nbsp;&nbsp;<a>Refill prescription</a>
+              <a className="rx-refill-link">Refill prescription</a>
             </span>
           )
         };
