@@ -6,11 +6,8 @@ import PrescriptionList from '../components/PrescriptionList';
 import PrintList from '../components/PrintList';
 import SortMenu from '../components/SortMenu';
 
-import { loadData } from '../actions/prescriptions.js';
-
 class Active extends React.Component {
   componentWillMount() {
-    this.props.dispatch(loadData());
     this.handleSortOnChange = this.handleSortOnChange.bind(this);
     this.handleSortOnClick = this.handleSortOnClick.bind(this);
     this.dispatchSortAction = this.dispatchSortAction.bind(this);
