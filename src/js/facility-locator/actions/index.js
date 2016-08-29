@@ -1,10 +1,10 @@
 
 
-export function fetchVAFacilities(id) {
+export function fetchVAFacilities() {
   return {
     type: 'FETCH_VA_FACILITY',
     payload: {
-      name:'VA facility 1'
+      name: 'VA facility 1'
     }
   };
 }
