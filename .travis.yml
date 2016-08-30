@@ -20,7 +20,7 @@ cache:
 
 script:
   - npm run lint
-  - npm run build -- --buildtype production
+  - if [[ $TRAVIS_BRANCH == 'production' || $TRAVIS_BRANCH == 'staging' ]]; then npm run build -- --buildtype production; else npm run build; fi
   - npm run selenium:bootstrap
   - npm run test
 
