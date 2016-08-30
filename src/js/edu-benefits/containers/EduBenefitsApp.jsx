@@ -3,7 +3,9 @@ import _ from 'lodash';
 
 import { connect } from 'react-redux';
 
-import { groupSections } from '../utils/sections';
+import { groupPagesIntoChapters } from '../utils/chapters';
+import routes from '../routes';
+
 import Nav from '../components/Nav';
 
 import PerfPanel from '../components/debug/PerfPanel';
@@ -28,13 +30,13 @@ class EduBenefitsApp extends React.Component {
 
     const { sections } = this.props.uiState;
     const currentLocation = this.props.currentLocation;
-    const panels = groupSections();
+    const chapters = groupPagesIntoChapters(routes);
 
     return (
       <div className="row">
         {devPanel}
         <div className="medium-4 columns show-for-medium-up">
-          <Nav sections={sections} panels={panels} currentUrl={currentLocation.pathname}/>
+          <Nav sections={sections} chapters={chapters} currentUrl={currentLocation.pathname}/>
         </div>
         <div className="medium-8 columns">
           <div className="progress-box">

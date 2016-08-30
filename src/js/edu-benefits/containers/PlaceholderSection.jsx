@@ -6,6 +6,8 @@ import NavButtons from '../components/NavButtons';
 import NavHeader from '../components/NavHeader';
 import { isValidSection } from '../utils/validations';
 import { withRouter } from 'react-router';
+import { groupPagesIntoChapters } from '../utils/chapters';
+import routes from '../routes';
 
 class PlaceholderSection extends React.Component {
   render() {
@@ -13,10 +15,11 @@ class PlaceholderSection extends React.Component {
     const navigateTo = path => {
       return router.push(path);
     };
+    const chapters = groupPagesIntoChapters(routes);
 
     return (
       <div className="form-panel">
-        <NavHeader path={currentLocation}/>
+        <NavHeader path={currentLocation} chapters={chapters} className="show-for-small-only"/>
         {currentLocation}
         <NavButtons
             submission={submission}

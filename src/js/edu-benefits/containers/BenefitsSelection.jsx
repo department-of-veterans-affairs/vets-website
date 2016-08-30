@@ -7,16 +7,19 @@ import NavButtons from '../components/NavButtons';
 import NavHeader from '../components/NavHeader';
 import { isValidSection } from '../utils/validations';
 import { withRouter } from 'react-router';
+import routes from '../routes';
 import { veteranUpdateField, ensureFieldsInitialized, updateCompletedStatus } from '../actions/index';
+import { groupPagesIntoChapters } from '../utils/chapters';
 
 class BenefitsSelection extends React.Component {
   render() {
     const { section, currentLocation, data, submission, router, onStateChange, dirtyFields, setComplete } = this.props;
     const navigateTo = path => router.push(path);
+    const chapters = groupPagesIntoChapters(routes);
 
     return (
       <div className="form-panel">
-        <NavHeader path={currentLocation}/>
+        <NavHeader path={currentLocation} chapters={chapters} className="show-for-small-only"/>
         <BenefitsSelectionFields data={data} section={section} onStateChange={onStateChange}/>
         <NavButtons
             submission={submission}
