@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createHistory } from 'history';
-import { Route, Router, useRouterHistory } from 'react-router';
+import { IndexRedirect, Route, Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
@@ -30,6 +30,7 @@ function init() {
     <Provider store={store}>
       <Router history={browserHistory}>
         <Route path="/" component={EduBenefitsApp}>
+          <IndexRedirect to="/introduction"/>
           {routes}
         </Route>
       </Router>
