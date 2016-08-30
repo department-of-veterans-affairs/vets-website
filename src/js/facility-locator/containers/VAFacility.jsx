@@ -10,21 +10,23 @@ class VAFacility extends Component {
   }
 
   renderFacility(facility) {
-    if(!facility)
-      return;
-
+    if (facility) {
+      return (
+        <div key={facility.name}>
+          {facility.name}
+        </div>
+      );
+    }
     return (
-      <div key={facility.name}>
-        {facility.name}
-      </div>
-    )
+      <div></div>
+    );
   }
 
   render() {
     return (
       <div>
         <div>A VA Facility</div>
-        { this.renderFacility(this.props.facility) }
+        {this.renderFacility(this.props.facility)}
       </div>
     );
   }
@@ -35,7 +37,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { facility: state.facilities.facilityDetail }
+  return { facility: state.facilities.facilityDetail };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(VAFacility);
