@@ -66,9 +66,11 @@ class Prescription extends React.Component {
           <div className="rx-prescription-refilled">
             Last refilled: {moment(attrs['refill-date']).format('ll')}
           </div>
-          <RefillsRemainingCounter
-              remaining={attrs['refill-remaining']}/>
-          {actionableContent}
+          <div className="rx-prescription-countaction">
+            <RefillsRemainingCounter
+                remaining={attrs['refill-remaining']}/>
+            {actionableContent}
+          </div>
         </div>
       </div>
     );
