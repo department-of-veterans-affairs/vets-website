@@ -12,10 +12,9 @@ export function openRefillModal(content) {
   };
 }
 
-export function closeGlossaryModal(content) {
+export function closeGlossaryModal() {
   return {
-    type: 'CLOSE_GLOSSARY_MODAL',
-    content
+    type: 'CLOSE_GLOSSARY_MODAL'
   };
 }
 

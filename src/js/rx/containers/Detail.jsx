@@ -33,7 +33,7 @@ class Detail extends React.Component {
     const item = this.props.prescriptions.currentItem;
     // TODO: Replace this with the refill status
     // const glossaryTerm = this.getGlossaryTerm(glossary, item.attributes.status);
-    const glossaryTerm = this.getGlossaryTerm(glossary, 'Suspended');
+    const glossaryTerm = this.getGlossaryTerm(glossary, 'Discontinued');
 
     if (item) {
       // Compose components from Rx data.
