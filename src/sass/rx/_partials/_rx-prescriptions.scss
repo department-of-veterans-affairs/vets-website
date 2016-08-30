@@ -1,4 +1,4 @@
-/* Prescription cards for Activity page. */
+/* Prescription cards for Active page. */
 
 .rx-prescription-items {
   padding-top: 3rem;
@@ -81,6 +81,18 @@ button.rx-prescription-button,
     content: '\a0';
   }
 }
+
+//====== Prescription group
+.rx-prescription-group {
+  padding-bottom: 2rem;
+}
+
+// Abusing !important because #content .section h* is causing problems.
+.rx-pgroup-title {
+  padding-bottom: .5rem !important;
+  margin-bottom: 1rem !important;
+}
+
 
 // "Do not print" styles
 // Contributed .va-header-logo a block to vets-website.
