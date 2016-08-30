@@ -20,7 +20,7 @@ cache:
 
 script:
   - npm run lint
-  - npm run build -- --buildtype ${BUILDTYPE}
+  - if [[ $TRAVIS_BRANCH == 'production' || $TRAVIS_BRANCH == 'staging' ]]; then npm run build -- --buildtype production; else npm run build; fi
   - npm run selenium:bootstrap
   - npm run test
 
@@ -40,21 +40,18 @@ deploy:
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
-      condition: "${BUILDTYPE} = development"
       branch: master
   - provider: script
     script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/production s3://staging.vets.gov/
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
-      condition: "${BUILDTYPE} = production"
       branch: staging
   - provider: script
     script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/production s3://www.vets.gov/
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
-      condition: "${BUILDTYPE} = production"
       branch: production
   - provider: s3
     access_key_id: AKIAIEIFFI3LJZO44VTQ
@@ -67,7 +64,6 @@ deploy:
     acl: public_read
     on:
       repo: department-of-veterans-affairs/vets-website
-      condition: "${BUILDTYPE} = production"
       branch: staging
   - provider: s3
     access_key_id: AKIAJPGY3X77ZMIBM4OA
@@ -80,5 +76,4 @@ deploy:
     acl: public_read
     on:
       repo: department-of-veterans-affairs/vets-website
-      condition: "${BUILDTYPE} = production"
       branch: production

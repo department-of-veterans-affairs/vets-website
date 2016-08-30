@@ -24,7 +24,7 @@ class TableVerticalHeader extends React.Component {
     // Adds an iterator key property
     let rowKey = 1;
     return (
-      <table className={this.props.cssClass} key={rowKey++}>
+      <table className={this.props.className} key={rowKey++}>
         {makeRows(this.props.data)}
       </table>
     );
@@ -32,8 +32,8 @@ class TableVerticalHeader extends React.Component {
 }
 
 TableVerticalHeader.propTypes = {
-  data: React.PropTypes.object.isRequired,
-  cssClass: React.PropTypes.string
+  className: React.PropTypes.string,
+  data: React.PropTypes.object.isRequired
 };
 
 export default TableVerticalHeader;

@@ -1,0 +1,54 @@
+.form-radio-buttons {
+  label {
+    margin-top: 1em;
+  }
+}
+
+.form-required-span {
+  color: $color-secondary-dark;
+  margin: 0 0.35em;
+}
+
+
+button.form-button-green {
+  background: $color-green;
+}
+
+button.form-button-disabled {
+  pointer-events: none;
+}
+
+.form-datefield-month,
+.form-datefield-day {
+  clear: none;
+  float: left;
+  margin-right: 1.5rem;
+
+  & select {
+    padding-top: 0.85rem;
+    padding-bottom: 0.85rem;
+  }
+}
+
+.form-alert-body {
+  padding: 0 3.5rem;
+}
+
+.form-datefield-month {
+  width: 10rem;
+}
+
+.form-datefield-day {
+  width: 8rem;
+}
+
+.form-radio-buttons {
+  label {
+    margin-top: 1em;
+  }
+}
+
+.form-required-span {
+  color: $color-secondary-dark;
+  margin: 0 0.35em;
+}
