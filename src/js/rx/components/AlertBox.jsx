@@ -8,11 +8,11 @@ class AlertBox extends React.Component {
       return <div/>;
     }
 
-    let alertClass = classNames({
-      'rx-alert': true,
-      'usa-alert': true,
-      [`usa-alert-${this.props.status}`]: true
-    });
+    const alertClass = classNames(
+      'rx-alert',
+      'usa-alert',
+      `usa-alert-${this.props.status}`
+    );
 
     let closeButton;
     if (this.props.onCloseAlert) {
