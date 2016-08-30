@@ -17,12 +17,17 @@ class Prescription extends React.Component {
 
     let action;
     let messageProvider;
+    let tracking;
 
     // TODO: Refillable is currently always false.
     // Switch to using refillable when it's working.
+    // if (remaining === 0 && attrs['is-refillable'] === false) {
     if (remaining === 0) {
       messageProvider = <MessageProviderLink/>;
-    } else {
+    }
+
+    // If there are refills remaining and it's refillable.
+    if (remaining > 0 && attrs['is-refillable'] === true) {
       action = (
         <SubmitButton
             cssClass="usa-button-outline rx-prescription-button"
@@ -37,11 +42,12 @@ class Prescription extends React.Component {
             text="Track package"/>
       );
     } else {
-      action = <div className="rx-prescription-refill-requested">Refill requested</div>;
+      tracking = <div className="rx-prescription-refill-requested">Refill requested</div>;
     }
 
     const actionableContent = (
       <div className="rx-prescription-action">
+        {tracking}
         {action}
         {messageProvider}
       </div>
