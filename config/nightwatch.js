@@ -32,7 +32,8 @@ module.exports = {
         browserName: 'phantomjs',
         javascriptEnabled: true,
         acceptSslCerts: true,
-        'phantomjs.binary.path': require('phantomjs-prebuilt').path,
+        'phantomjs.binary.path': require('phantomjs-prebuilt').path
+        // 'phantomjs.cli.args' : ['--remote-debugger-port=9001', '--remote-debugger-autorun=yes']
       },
       globals: {
       },
