@@ -23,12 +23,7 @@ cache:
   - node_modules
 
 script:
-  - npm run lint
-  - if [[ $TRAVIS_BRANCH == 'production' || $TRAVIS_BRANCH == 'staging' ]]; then npm run build -- --buildtype production; else npm run build; fi
-  - if [[ $TEST_SUITE == "e2e" || $TEST_SUITE == "accessibility" ]]; then npm run selenium:bootstrap; fi
-  - if [[ $TEST_SUITE == "unit" ]]; then npm run test:unit; fi
-  - if [[ $TEST_SUITE == "e2e" ]]; then npm run test:e2e; fi
-  - if [[ $TEST_SUITE == "accessibility" ]]; then npm run test:accessibility; fi
+  - ./script/travis-build.sh
 
 addons:
   apt:
