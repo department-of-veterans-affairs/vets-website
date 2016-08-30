@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 
 import { glossary } from '../glossary.js';
-import { loadData } from '../actions/prescriptions.js';
+import { loadRx } from '../actions/prescriptions.js';
 import { openModal } from '../actions/modal.js';
 
 import BackLink from '../components/BackLink';
@@ -13,7 +13,7 @@ import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 
 class Detail extends React.Component {
   componentWillMount() {
-    this.props.dispatch(loadData(this.props.params.id));
+    this.props.dispatch(loadRx(this.props.params.id));
     this.getGlossaryTerm = this.getGlossaryTerm.bind(this);
   }
 
