@@ -1,9 +1,8 @@
 import React from 'react';
 
 import Prescription from '../components/Prescription';
-import PrescriptionGroup from '../components/PrescriptionGroup';
-
-import _ from 'lodash';
+import PrintList from '../components/PrintList';
+import SortMenu from '../components/SortMenu';
 
 function makeItem(props, i) {
   return (
@@ -13,57 +12,27 @@ function makeItem(props, i) {
 
 class PrescriptionList extends React.Component {
   render() {
-    const items = this.props.items;
-    let prescriptions;
-    let facilities;
+    const items = this.props.items.map(makeItem);
 
-    // If we need to display the list as a grouping...
-    if (this.props.grouped) {
-      // Extract facilities from items as an array.
-      // Make it an array of unique values.
-      facilities = _.uniq(_.map(items, (obj) => {
-        return obj.attributes['facility-name'];
-      }));
-
-      /*
-      For every facility in `facilities`, filter those
-      prescriptions that match that facility name.
-
-      Returns an object in the form:
-      { facilityname: [array,of,prescription,objects] }
-      */
-      const groupByFacility = {};
-
-      _.map(facilities, (value) => {
-        groupByFacility[value] = _.filter(items, (obj) => {
-          return obj.attributes['facility-name'] === value;
-        });
-      });
-
-      // Create prescription groups containing prescriptions
-      prescriptions = facilities.map((value, index) => {
-        const groupChildren = groupByFacility[value].map(makeItem);
-
-        return (<PrescriptionGroup
-            title={value}
-            key={index}
-            items={groupChildren}/>);
-      });
-    } else {
-      prescriptions = items.map(makeItem);
-    }
+    const sortOptions = [
+      { value: 'prescription-name',
+        label: 'Prescription name' },
+      { value: 'facility-name',
+        label: 'Facility name' },
+      { value: 'refill-submit-date',
+        label: 'Last requested' }];
 
     return (
-      <div className="rx-prescription-items cf">
-        {prescriptions}
+      <div className="va-tab-content">
+        <SortMenu options={sortOptions}/>
+        <PrintList
+            type="active"/>
+        <div className="rx-prescription-items cf">
+          {items}
+        </div>
       </div>
     );
   }
 }
-
-PrescriptionList.propTypes = {
-  items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  grouped: React.PropTypes.bool
-};
 
 export default PrescriptionList;

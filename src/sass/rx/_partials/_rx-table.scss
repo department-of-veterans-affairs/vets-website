@@ -20,3 +20,21 @@
     content: '\25B2';
   }
 }
+
+.rx-table-prescription-detail {
+  th {
+    font-weight: bold;
+  }
+  // Removes borer from cells of top row  
+  tbody {
+    &:first-child {
+      th, td {
+        border-top: 0;
+      }
+    }
+  }
+  
+  th, td {
+    vertical-align: top;
+  }
+}

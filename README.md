@@ -305,7 +305,7 @@ documentation around React is based on a Webpack toolchain.
 
 ## More documentation
 
-TODO: Verify if these are still relevant.
+TODO(awong): Verify if these are still relevant.
 
 - [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)
 - [How Breadcrumbs Work](docs/HowBreadCrumbsWork.md)

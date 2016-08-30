@@ -2,18 +2,25 @@ import React from 'react';
 import moment from 'moment';
 
 import { Link } from 'react-router';
+import _ from 'lodash';
 
 import MessageProviderLink from './MessageProviderLink';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
-import TrackPackageLink from './TrackPackageLink';
 import SubmitButton from './SubmitButton';
 
 class Prescription extends React.Component {
+  // Can probably replace this with the actual prescription ID
+  componentWillMount() {
+    this.prescriptionId = _.uniqueId('rx-prescription_');
+  }
+
   render() {
     const attrs = this.props.attributes;
     const id = this.props.id;
     const name = attrs['prescription-name'];
     const remaining = attrs['refill-remaining'];
+    const requested = attrs['refill-requested'];
+    const trackable = attrs['is-trackable'];
 
     let action;
     let messageProvider;
@@ -21,7 +28,7 @@ class Prescription extends React.Component {
     // TODO: Refillable is currently always false.
     // Switch to using refillable when it's working.
     if (remaining === 0) {
-      messageProvider = <MessageProviderLink/>;
+      messageProvider = <div><MessageProviderLink/></div>;
     } else {
       action = (
         <SubmitButton
@@ -30,13 +37,9 @@ class Prescription extends React.Component {
       );
     }
 
-    if (attrs['is-trackable']) {
-      action = (
-        <TrackPackageLink
-            className="usa-button"
-            text="Track package"/>
-      );
-    } else {
+    if (trackable) {
+      action = <div>Track package</div>;
+    } else if (requested) {
       action = <div className="rx-prescription-refill-requested">Refill requested</div>;
     }
 
@@ -49,7 +52,7 @@ class Prescription extends React.Component {
 
     return (
       <div className="rx-prescription"
-          key={id}
+          key={this.props.key}
           id={`rx-${id}`}>
         <div className="rx-prescription-inner cf">
           <h3 className="rx-prescription-title" title={name}>
@@ -58,17 +61,16 @@ class Prescription extends React.Component {
             </Link>
           </h3>
           <div className="rx-prescription-number">
-            Prescription <abbr title="number">#</abbr>: {attrs['prescription-id']}
-          </div>
-          <div className="rx-prescription-facility">
-            Facility name: {attrs['facility-name']}
+            Rx #: {attrs['prescription-id']}
           </div>
           <div className="rx-prescription-refilled">
             Last refilled: {moment(attrs['refill-date']).format('ll')}
           </div>
-          <RefillsRemainingCounter
-              remaining={attrs['refill-remaining']}/>
-          {actionableContent}
+          <div className="rx-prescription-count-and-action">
+            <RefillsRemainingCounter
+                remaining={attrs['refill-remaining']}/>
+            {actionableContent}
+          </div>
         </div>
       </div>
     );

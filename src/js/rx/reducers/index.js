@@ -4,12 +4,10 @@ import { combineReducers } from 'redux';
 import prescriptions from './prescriptions';
 import alert from './alert';
 import modal from './modal';
-import disclaimer from './disclaimer';
 
 export default combineReducers({
   prescriptions,
   alert,
-  modal,
-  disclaimer
+  modal
 });
 

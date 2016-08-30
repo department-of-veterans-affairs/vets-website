@@ -12,17 +12,13 @@ class BackLink extends React.Component {
 
   render() {
     return (
-      <a onClick={this.handleClick}>&lt; {this.props.text}</a>
+      <a onClick={this.handleClick}>&lt; Back to list</a>
     );
   }
 }
 
 BackLink.contextTypes = {
   router: React.PropTypes.object.isRequired
-};
-
-BackLink.propTypes = {
-  text: React.PropTypes.string.isRequired
 };
 
 export default BackLink;
