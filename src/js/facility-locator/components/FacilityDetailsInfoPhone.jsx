@@ -2,23 +2,23 @@ import React, { Component, PropTypes } from 'react';
 
 class FacilityDetailsInfoPhone extends Component {
   appendPhone(numbers) {
-    let str = numbers.map((number) => { return `${number}<br />` }).join('');
+    const str = numbers.map((number) => { return `${number}<br />`; }).join('');
 
-    return { __html: str }
+    return { __html: str };
   }
 
-  render () {
+  render() {
     return (
       <div>
         <h5 style={{ marginTop: '15px' }}>Phone:</h5>
-        <table style={{marginTop: '-10px', border: 'none' }} cellPadding="0" cellSpacing="0">
+        <table style={{ marginTop: '-10px', border: 'none' }} cellPadding="0" cellSpacing="0">
           <tr>
             <td>Main Number:</td>
-            <td dangerouslySetInnerHTML={this.appendPhone(this.props.main)} />
+            <td dangerouslySetInnerHTML={this.appendPhone(this.props.main)}/>
           </tr>
           <tr>
             <td>Fax:</td>
-            <td dangerouslySetInnerHTML={this.appendPhone(this.props.fax)} />
+            <td dangerouslySetInnerHTML={this.appendPhone(this.props.fax)}/>
           </tr>
         </table>
       </div>
@@ -32,4 +32,3 @@ FacilityDetailsInfoPhone.propTypes = {
 };
 
 export default FacilityDetailsInfoPhone;
-

@@ -1,13 +1,13 @@
 import { FacilityLocatorApp } from './containers/FacilityLocatorApp';
 import VAFacility from './containers/VAFacility';
-import Map from './containers/Map';
+import VAMap from './containers/Map';
 
 const routes = {
   path: '/facilities',
   component: FacilityLocatorApp,
   childRoutes: [
     {
-      indexRoute: { component: Map }
+      indexRoute: { component: VAMap }
     },
     { path: 'facility/:id', component: VAFacility }
   ]

@@ -2,7 +2,7 @@ export function fetchVAFacilities(id) {
   return {
     type: 'FETCH_VA_FACILITY',
     payload: {
-      id: 238,
+      id,
       name: 'National Capital Region Benefits Office, Specially Adapted Housing Office',
       address: {
         street1: '1722 I Street, NW',

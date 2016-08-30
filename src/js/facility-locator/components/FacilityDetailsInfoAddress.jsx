@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 class FacilityDetailsInfoAddress extends Component {
-  render () {
+  render() {
     return (
       <div>
         <h5>Street Address:</h5>
@@ -22,4 +22,3 @@ FacilityDetailsInfoAddress.propTypes = {
 };
 
 export default FacilityDetailsInfoAddress;
-

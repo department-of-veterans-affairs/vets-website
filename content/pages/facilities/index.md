@@ -1,9 +1,9 @@
 ---
 title: React Page
 layout: page-react.html
-entryname: facilities 
+entryname: facilities
 ---
-
+<link href="https://npmcdn.com/leaflet@1.0.0-rc.3/dist/leaflet.css" type="text/css" rel="stylesheet">
 <div id="main">
   <div class="section">
     <div id="react-root">

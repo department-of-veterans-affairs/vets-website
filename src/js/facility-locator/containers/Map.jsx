@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 
-export default class Map extends React.Component {
+export default class VAMap extends Component {
+
   render() {
+    const position = [38.8976763, -77.03653];
     return (
-      <div>
-        Placeholder for the map page!
-        <a href='facility/238' >VA facility</a>
-      </div>
+      <Map center={position} zoom={13}>
+        <TileLayer
+            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
+        <Marker position={position}>
+          <Popup>
+            <span>A pretty CSS3 popup.<br/>Easily customizable.</span>
+          </Popup>
+        </Marker>
+      </Map>
     );
   }
 }
