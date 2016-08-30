@@ -4,6 +4,7 @@ import { Route } from 'react-router';
 import chapters from './utils/chapters';
 
 import BenefitsSelection from './containers/BenefitsSelection';
+import MilitaryServicePage from './containers/MilitaryServicePage';
 import PlaceholderSection from './containers/PlaceholderSection';
 
 const routes = [
@@ -48,7 +49,7 @@ const routes = [
       path="/benefits-eligibility/benefits-selection"
       chapter={chapters.benefitsEligibility}/>,
   <Route
-      component={PlaceholderSection}
+      component={MilitaryServicePage}
       key="/military-history/military-service"
       path="/military-history/military-service"
       chapter={chapters.militaryHistory}

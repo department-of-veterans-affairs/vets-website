@@ -380,14 +380,11 @@ function isValidGeneralInsurance(data) {
       allProvidersValid;
 }
 
-function isValidServiceInformation(data) {
-  return isNotBlank(data.lastServiceBranch.value) &&
-      (isValidDateField(data.lastEntryDate) && isValidEntryDateField(data.lastEntryDate, data.veteranDateOfBirth)) &&
-      (isValidDateField(data.lastDischargeDate) && isValidDischargeDateField(data.lastDischargeDate, data.lastEntryDate)) &&
-      isNotBlank(data.dischargeType.value);
+function isBenefitsInformationSectionValid(data) {
+  return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
 }
 
-function isBenefitsInformationSectionValid(data) {
+function isMilitaryServicePageValid(data) {
   return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
 }
 
@@ -448,6 +445,6 @@ export {
   isValidDeductibleExpenses,
   isValidGeneralInsurance,
   isValidMedicareMedicaid,
-  isValidServiceInformation,
+  isMilitaryServicePageValid,
   isValidSection
 };

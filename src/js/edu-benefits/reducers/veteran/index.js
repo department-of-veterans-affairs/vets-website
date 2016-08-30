@@ -8,7 +8,13 @@ const blankVeteran = {
   chapter30: false,
   chapter1606: false,
   chapter32: false,
-  chapter33: false
+  chapter33: false,
+  serviceAcademyGraduationYear: makeField(''),
+  currentlyActiveDuty: {
+    yes: makeField(''),
+    onTerminalLeave: makeField(''),
+    nonVaAssistance: makeField('')
+  }
 };
 
 export default function veteran(state = blankVeteran, action) {
