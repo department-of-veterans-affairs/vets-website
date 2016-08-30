@@ -231,10 +231,6 @@ function isValidBirthInformationSection(data) {
       isValidDateField(data.veteranDateOfBirth);
 }
 
-function isValidDemographicInformation(data) {
-  return isNotBlank(data.gender.value);
-}
-
 function isValidVaInformation(data) {
   return validateIfDirty(data.isVaServiceConnected, isNotBlank) &&
       validateIfDirty(data.compensableVaServiceConnected, isNotBlank) &&
@@ -261,10 +257,6 @@ function isValidContactInformationSection(data) {
       emailConfirmationValid &&
       isValidField(isValidPhone, data.homePhone) &&
       isValidField(isValidPhone, data.mobilePhone);
-}
-
-function isValidFinancialDisclosure(data) {
-  return validateIfDirty(data.understandsFinancialDisclosure, _.identity);
 }
 
 function isValidIncome(income) {
@@ -395,56 +387,18 @@ function isValidServiceInformation(data) {
       isNotBlank(data.dischargeType.value);
 }
 
+function isBenefitsInformationSectionValid(data) {
+  return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
+}
+
 function isValidForm(data) {
-  return isValidPersonalInfoSection(data) &&
-  isValidBirthInformationSection(data) &&
-  isValidDemographicInformation(data) &&
-  isValidVeteranAddress(data) &&
-  isValidContactInformationSection(data) &&
-  isValidServiceInformation(data) &&
-  isValidVaInformation(data) &&
-  isValidFinancialDisclosure(data) &&
-  isValidSpouseInformation(data) &&
-  isValidChildren(data) &&
-  isValidAnnualIncome(data) &&
-  isValidDeductibleExpenses(data) &&
-  isValidVAFacility(data) &&
-  isValidGeneralInsurance(data) &&
-  isValidMedicareMedicaid(data);
+  return isBenefitsInformationSectionValid(data);
 }
 
 function isValidSection(completePath, sectionData) {
   switch (completePath) {
-    case '/veteran-information/personal-information':
-      return isValidPersonalInfoSection(sectionData);
-    case '/veteran-information/birth-information':
-      return isValidBirthInformationSection(sectionData);
-    case '/veteran-information/demographic-information':
-      return isValidDemographicInformation(sectionData);
-    case '/veteran-information/veteran-address':
-      return isValidVeteranAddress(sectionData);
-    case '/veteran-information/contact-information':
-      return isValidContactInformationSection(sectionData);
-    case '/military-service/service-information':
-      return isValidServiceInformation(sectionData);
-    case '/va-benefits/basic-information':
-      return isValidVaInformation(sectionData);
-    case '/household-information/financial-disclosure':
-      return isValidFinancialDisclosure(sectionData);
-    case '/household-information/spouse-information':
-      return isValidSpouseInformation(sectionData);
-    case '/household-information/child-information':
-      return isValidChildren(sectionData);
-    case '/household-information/annual-income':
-      return isValidAnnualIncome(sectionData);
-    case '/household-information/deductible-expenses':
-      return isValidDeductibleExpenses(sectionData);
-    case '/insurance-information/va-facility':
-      return isValidVAFacility(sectionData);
-    case '/insurance-information/general':
-      return isValidGeneralInsurance(sectionData);
-    case '/insurance-information/medicare':
-      return isValidMedicareMedicaid(sectionData);
+    case '/benefits-eligibility/benefits-selection':
+      return isBenefitsInformationSectionValid(sectionData);
     default:
       return true;
   }
@@ -481,7 +435,6 @@ export {
   isValidDependentDateField,
   isValidMarriageDate,
   isValidField,
-  isValidFinancialDisclosure,
   isValidForm,
   isValidPersonalInfoSection,
   isValidBirthInformationSection,
