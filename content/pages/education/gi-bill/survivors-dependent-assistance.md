@@ -59,13 +59,13 @@ You may be eligible for both of these programs, but you can use only one of them
     <td scope="row"><strong>Benefit Payments</strong></td>
     <td>VA pays the monthly amount directly to the student. The current monthly payment for full-time training is $1,018.</td>
     <td>
-
-      <p><strong>Tuition and Fee Payment (paid to the school)</strong>: VA covers the full in-state tuition costs for training at public institutions and up to $20,035.02 per year at private institutions.</p>
-
-      <p><strong>Books and Supplies Stipend (paid to the student)</strong>: VA covers up to $1,000 a year, divided up equally among the terms, for books and supplies.</p>
-
-      <p><strong>Monthly Housing Allowance (paid to the student)</strong>: VA bases this allowance on local BAH for E-5 with dependents and pays it monthly. Online students receive half of the BAH national average.</p>
-
+    <ul>
+      <li><strong>Tuition and Fee Payment (paid to the school)</strong>: VA covers the full in-state tuition costs for training at public institutions and up to $20,035.02 per year at private institutions.<br /><br /></li>
+      <li><strong>Books and Supplies Stipend (paid to the student)</strong>:
+    VA covers up to $1,000 a year, divided up equally among the terms, for books and supplies.<br /><br /></li>
+      <li><strong>Monthly Housing Allowance (paid to the student)</strong>:
+      VA bases this allowance on local BAH for E-5 with dependents and pays it monthly. Online students receive half of the BAH national average.</li>
+    </ul>
     </td>
   </tr>
 
