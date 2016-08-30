@@ -20,12 +20,12 @@ export function groupPagesIntoChapters(routes) {
         path: section.props.path
       };
     });
-  const chapterList = _.groupBy(sectionList, section => section.chapter);
+  const pageGroups = _.groupBy(sectionList, section => section.chapter);
 
-  return Object.keys(chapterList).map(chapter => {
+  return Object.keys(pageGroups).map(chapter => {
     return {
       name: chapter,
-      sections: chapters[chapter]
+      sections: pageGroups[chapter]
     };
   });
 }
