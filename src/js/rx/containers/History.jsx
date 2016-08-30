@@ -3,10 +3,15 @@ import { connect } from 'react-redux';
 
 import { Table } from 'reactable';
 
+import { loadRx } from '../actions/prescriptions.js';
 import PrintList from '../components/PrintList';
 import Pagination from '../components/Pagination';
 
 class History extends React.Component {
+  componentWillMount() {
+    this.props.dispatch(loadRx());
+  }
+
   render() {
     const items = this.props.prescriptions.items;
 

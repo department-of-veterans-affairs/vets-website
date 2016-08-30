@@ -1,4 +1,4 @@
-export function loadData(id) {
+export function loadRx(id) {
   if (id) {
     // TODO: Use id param instead of test id
     // when API is able to retrieve any individual Rx.
@@ -13,10 +13,10 @@ export function loadData(id) {
         rxUrls.map(url => fetch(url).then(res => res.json()))
       ).then(
         data => dispatch({
-          type: 'LOAD_PRESCRIPTION_SUCCESS',
+          type: 'LOAD_RX_SUCCESS',
           data: { rx: data[0].data, trackings: data[1].data }
         }),
-        err => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE', err })
+        err => dispatch({ type: 'LOAD_RX_FAILURE', err })
       );
     };
   }
@@ -24,7 +24,16 @@ export function loadData(id) {
   return dispatch => fetch('/rx-api/prescriptions')
     .then(res => res.json())
     .then(
-      data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
-      err => dispatch({ type: 'LOAD_PRESCRIPTIONS_FAILURE', err })
+      data => dispatch({ type: 'LOAD_ALL_RX_SUCCESS', data }),
+      err => dispatch({ type: 'LOAD_ALL_RX_FAILURE', err })
+    );
+}
+
+export function loadActiveRx() {
+  return dispatch => fetch('/rx-api/prescriptions/active')
+    .then(res => res.json())
+    .then(
+      data => dispatch({ type: 'LOAD_ACTIVE_RX_SUCCESS', data }),
+      err => dispatch({ type: 'LOAD_ACTIVE_RX_FAILURE', err })
     );
 }
