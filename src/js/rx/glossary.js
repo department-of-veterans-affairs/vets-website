@@ -22,5 +22,15 @@ module.exports = {
   {
     term: 'Suspended',
     definition: 'You requested this prescription too early. It will be sent to you before you run out. Contact your VA pharmacy if you need this prescription now.'
-  }]
+  }],
+  rxStatuses: {
+    active: 'Active',
+    discontinued: 'Discontinued',
+    expired: 'Expired',
+    onHold: 'On hold',
+    submitted: 'Pending',
+    suspended: 'Suspended',
+    refillinprocess: 'Refill in procress',
+    unknown: 'Unknown'
+  }
 };
