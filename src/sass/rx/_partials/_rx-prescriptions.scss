@@ -68,7 +68,6 @@ button.rx-prescription-button,
   margin: 0;
 
   @media (max-width: $small-screen) {
-    // max-width: 60%;
     padding: 1rem;
   };
 }
@@ -77,7 +76,6 @@ button.rx-prescription-button,
   position: absolute;
   bottom: 0;
   display: inline-block;
-  line-height: 1; 
   &-zero {
     color: $color-secondary;
   }
@@ -99,6 +97,7 @@ button.rx-prescription-button,
 
 .rx-prescription-countaction {
   bottom: 0;
+  line-height: 2rem;
   padding-top: 2rem;
   position: relative;
 }
