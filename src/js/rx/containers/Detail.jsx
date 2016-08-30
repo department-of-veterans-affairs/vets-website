@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-
+import { glossary } from '../glossary.js';
 import { loadData } from '../actions/prescriptions.js';
+import { openModal } from '../actions/modal.js';
+
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
 import OrderHistory from '../components/OrderHistory';
@@ -12,6 +14,14 @@ import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 class Detail extends React.Component {
   componentWillMount() {
     this.props.dispatch(loadData(this.props.params.id));
+    this.getGlossaryTerm = this.getGlossaryTerm.bind(this);
+  }
+
+  // Returns an object containing the glossary term we're seeking.
+  getGlossaryTerm(list, term) {
+    return list.filter((object) => {
+      return object.term === term;
+    });
   }
 
   render() {
@@ -19,7 +29,11 @@ class Detail extends React.Component {
     let rxInfo;
     let contactCard;
     let orderHistory;
+
     const item = this.props.prescriptions.currentItem;
+    // TODO: Replace this with the refill status
+    // const glossaryTerm = this.getGlossaryTerm(glossary, item.attributes.status);
+    const glossaryTerm = this.getGlossaryTerm(glossary, 'Suspended');
 
     if (item) {
       // Compose components from Rx data.
@@ -87,6 +101,11 @@ class Detail extends React.Component {
         {rxInfo}
         {contactCard}
         {orderHistory}
+        <p>
+          <button
+              onClick={() => {this.props.dispatch(openModal(glossaryTerm));}}
+              type="button"
+              value="Discontinued">Discontinued</button></p>
       </div>
     );
   }

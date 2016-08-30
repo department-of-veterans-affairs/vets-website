@@ -23,10 +23,21 @@ class ErrorableRadioButtons extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
+    this.getMatchingSubSection = this.getMatchingSubSection.bind(this);
   }
 
   componentWillMount() {
     this.inputId = _.uniqueId('errorable-radio-buttons-');
+  }
+
+  getMatchingSubSection(checked, optionValue) {
+    if (checked && this.props.children) {
+      const children = _.isArray(this.props.children) ? this.props.children : [this.props.children];
+      const subsections = children.filter((child) => child.props.showIfValueChosen === optionValue);
+      return subsections.length > 0 ? subsections[0] : null;
+    }
+
+    return null;
   }
 
   handleChange(domEvent) {
@@ -56,7 +67,7 @@ class ErrorableRadioButtons extends React.Component {
     // Calculate required.
     let requiredSpan = undefined;
     if (this.props.required) {
-      requiredSpan = <span className="hca-required-span">*</span>;
+      requiredSpan = <span className="form-required-span">*</span>;
     }
 
     const options = _.isArray(this.props.options) ? this.props.options : [];
@@ -73,8 +84,9 @@ class ErrorableRadioButtons extends React.Component {
         optionValue = obj.value;
       }
       const checked = optionValue === storedValue ? 'checked=true' : '';
+      const matchingSubSection = this.getMatchingSubSection(optionValue === storedValue, optionValue);
       return (
-        <div key={reactKey++} className="hca-radio-buttons">
+        <div key={reactKey++} className="form-radio-buttons">
           <input
               checked={checked}
               id={`${this.inputId}-${index}`}
@@ -85,6 +97,7 @@ class ErrorableRadioButtons extends React.Component {
           <label htmlFor={`${this.inputId}-${index}`}>
             {optionLabel}
           </label>
+          {matchingSubSection}
         </div>
       );
     });

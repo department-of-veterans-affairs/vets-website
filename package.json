@@ -5,6 +5,7 @@
   "scripts": {
     "build": "node script/build.js",
     "heroku-serve": "http-server",
+    "heroku-postbuild": "npm run build -- --buildtype development",
     "lint": "npm run lint:js && npm run lint:sass",
     "lint:js": "eslint --quiet --ext .js --ext .jsx .",
     "lint:sass": "sass-lint -c config/sass-lint.yml",
@@ -124,6 +125,10 @@
   },
   "optionalDependencies": {
     "fsevents": "^1.0.7"
+  },
+  "engines": {
+    "node": "4.4.7",
+    "npm": "3.8.9"
   },
   "private": true
 }

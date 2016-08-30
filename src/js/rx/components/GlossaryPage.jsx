@@ -1,7 +1,7 @@
 import React from 'react';
 import BackLink from '../components/BackLink';
 import GlossaryList from '../components/GlossaryList';
-import { getGlossary } from '../glossary.js';
+import { glossary } from '../glossary.js';
 
 class GlossaryPage extends React.Component {
   render() {
@@ -9,7 +9,7 @@ class GlossaryPage extends React.Component {
       <section className="rx-app row">
         <BackLink text="Back to detail page"/>
         <h1>Glossary</h1>
-        <GlossaryList terms={getGlossary()}/>
+        <GlossaryList terms={glossary}/>
       </section>
     );
   }
