@@ -12,19 +12,14 @@
   z-index: 3;
 
   &-inner {
+    background: $color-white;
     margin: auto;
-    max-width: 100%;
+    max-width: 30rem;
+    min-width: 320px;
     position: relative;
     top: 50%;
     transform: translateY(-50%);
     width: 100%;
-
-    > div {
-      background: $color-white;
-      margin: auto;
-      min-width: 320px;
-      max-width: 30rem;
-    }
   }
 
   &-title {
@@ -36,9 +31,8 @@
     padding: .5rem 2rem !important;
   }
 
-  &-refillinfo {
+  &-body {
     padding: 2rem;
-    white-space: nowrap;
   }
 
   &-drug, &-dosage {
@@ -51,7 +45,6 @@
     bottom: 0;
     display: flex;
     align-items: flex-start;
-    justify-content: space-between;
     position: relative;
     margin-top: 5rem;
     
@@ -59,8 +52,15 @@
       margin: 0 1rem 0 0;
     }
     
-    [type=button]:hover {
+    .usa-button-outline:hover {
       background: transparent !important;
     }
   }
+  
+  .rx-glossary {
+    margin: 0 auto;
+  }
+}
+.rx-button-group button {
+  white-space: nowrap;
 }

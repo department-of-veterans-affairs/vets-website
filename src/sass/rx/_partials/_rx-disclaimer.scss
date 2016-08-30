@@ -1,0 +1,27 @@
+.rx-disclaimer {
+  background: $color-gold;
+  padding-left: 1em;
+  padding-right: 1em;
+  position: relative;
+  
+  p {
+    @media (max-width: $medium-screen) {
+      margin-top: 3rem;
+      margin-bottom: 3rem;
+    }
+  }
+  
+  &-close {
+    color: $color-base;
+    margin: 0;
+    padding: 1rem;
+    
+    width: auto;
+    
+    @media (max-width: $medium-screen) {
+      position: absolute;
+      right: 0rem;
+      top: 0rem;
+    }
+  }
+}
