@@ -31,6 +31,7 @@
 
 .rx-prescription-title {
   color: $color-primary;
+  line-height: 1;
   margin: 0;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -39,6 +40,11 @@
 
   a {
     text-decoration: none;
+    
+    &:hover {
+      background: transparent;
+      border-bottom: 2px solid currentColor;
+    }
   }
 }
 
