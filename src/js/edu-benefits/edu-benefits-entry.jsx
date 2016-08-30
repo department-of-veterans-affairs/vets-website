@@ -13,7 +13,12 @@ import routes from './routes.jsx';
 
 require('../../sass/edu-benefits.scss');
 
-const store = createStore(reducer, compose(applyMiddleware(thunk), __BUILDTYPE__ === 'development' && window.devToolsExtension ? window.devToolsExtension() : undefined));
+let store;
+if (__BUILDTYPE__ === 'development' && window.devToolsExtension) {
+  store = createStore(reducer, compose(applyMiddleware(thunk), window.devToolsExtension()));
+} else {
+  store = createStore(reducer, compose(applyMiddleware(thunk)));
+}
 
 // TODO: figure out the right url here
 const browserHistory = useRouterHistory(createHistory)({
