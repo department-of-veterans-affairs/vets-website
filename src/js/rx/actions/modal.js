@@ -1,13 +1,27 @@
-export function closeModal(content) {
+export function closeRefillModal(content) {
   return {
-    type: 'CLOSE_MODAL',
+    type: 'CLOSE_REFILL_MODAL',
     content
   };
 }
 
-export function openModal(content) {
+export function openRefillModal(content) {
   return {
-    type: 'OPEN_MODAL',
+    type: 'OPEN_REFILL_MODAL',
+    content
+  };
+}
+
+export function closeGlossaryModal(content) {
+  return {
+    type: 'CLOSE_GLOSSARY_MODAL',
+    content
+  };
+}
+
+export function openGlossaryModal(content) {
+  return {
+    type: 'OPEN_GLOSSARY_MODAL',
     content
   };
 }

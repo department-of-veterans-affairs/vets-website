@@ -4,7 +4,7 @@ import moment from 'moment';
 
 import { glossary } from '../glossary.js';
 import { loadData } from '../actions/prescriptions.js';
-import { openModal } from '../actions/modal.js';
+import { openGlossaryModal } from '../actions/modal.js';
 
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
@@ -103,7 +103,7 @@ class Detail extends React.Component {
         {orderHistory}
         <p>
           <button
-              onClick={() => {this.props.dispatch(openModal(glossaryTerm));}}
+              onClick={() => {this.props.dispatch(openGlossaryModal(glossaryTerm));}}
               type="button"
               value="Discontinued">Discontinued</button></p>
       </div>
