@@ -1,11 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import IntroductionSection from './components/IntroductionSection.jsx';
-
-function PlaceholderComponent({ location }) {
-  return <div>{location.pathname}</div>;
-}
+import IntroductionSection from './containers/IntroductionSection.jsx';
 import BenefitsSelection from './containers/BenefitsSelection';
 import PlaceholderSection from './containers/PlaceholderSection';
 
