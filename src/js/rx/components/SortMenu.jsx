@@ -3,31 +3,11 @@
 */
 
 import React from 'react';
-import { browserHistory, Link } from 'react-router';
+import { Link } from 'react-router';
 
-class SortActive extends React.Component {
-  constructor() {
-    super();
-    this.handleChangeSortMenu = this.handleChangeSortMenu.bind(this);
-  }
-
-  handleChangeSortMenu(domEvent) {
-    // Updates the window location with a query param.
-    browserHistory.push({
-      pathname: '/rx',
-      query: {
-        sort: domEvent.target.value
-      }
-    });
-  }
-
+class SortMenu extends React.Component {
   render() {
-    const sortBys = [{ value: 'prescription-name',
-        label: 'Prescription name' },
-      { value: 'facility-name',
-        label: 'Facility name' },
-      { value: 'refill-submit-date',
-        label: 'Last requested' }];
+    const sortBys = this.props.options;
 
     const sortLinks = (options) => {
       return options.map((o, ind) => {
@@ -54,15 +34,16 @@ class SortActive extends React.Component {
       <form className="rx-sort va-dnp">
         <div className="rx-sort-wide">
           <label htmlFor="sortby" className="va-disp-ib">Sort by </label>
-          <ul className="va-list-ib">
+          <ul className="va-list-ib" onClick={this.props.clickHandler}>
             {sortLinks(sortBys)}
           </ul>
         </div>
         <div className="rx-sort-narrow">
           <select
+              value={this.props.selected}
               id="sortby"
-              onChange={this.handleChangeSortMenu}>
-            {sortOptionElements(sortBys)}
+              onChange={this.props.changeHandler}>
+            {sortOptionElements(this.props.options)}
           </select>
         </div>
       </form>
@@ -70,4 +51,13 @@ class SortActive extends React.Component {
   }
 }
 
-export default SortActive;
+SortMenu.propTypes = {
+  options: React.PropTypes.arrayOf(React.PropTypes.shape({
+    value: React.PropTypes.string,
+    label: React.PropTypes.string,
+  })),
+  changeHandler: React.PropTypes.func,
+  clickHandler: React.PropTypes.func,
+};
+
+export default SortMenu;
