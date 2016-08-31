@@ -2,12 +2,9 @@ import React from 'react';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
-import { getSectionList } from '../utils/sections';
-
 export default class NavButtons extends React.Component {
   constructor(props) {
     super(props);
-    this.sections = getSectionList();
     this.handleContinue = this.handleContinue.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -25,10 +22,10 @@ export default class NavButtons extends React.Component {
     }
   }
   render() {
-    const { submission, path } = this.props;
-    const currentIndex = this.sections.indexOf(path);
-    const nextPath = currentIndex + 1 < this.sections.length ? this.sections[currentIndex + 1] : null;
-    const previousPath = currentIndex - 1 >= 0 ? this.sections[currentIndex - 1] : null;
+    const { submission, path, pages } = this.props;
+    const currentIndex = pages.indexOf(path);
+    const nextPath = currentIndex + 1 < pages.length ? pages[currentIndex + 1] : null;
+    const previousPath = currentIndex - 1 >= 0 ? pages[currentIndex - 1] : null;
 
     const goBack = () => this.props.onNavigate(previousPath);
     const goForward = () => this.handleContinue(nextPath);
@@ -151,6 +148,7 @@ export default class NavButtons extends React.Component {
 }
 
 NavButtons.propTypes = {
+  pages: React.PropTypes.array.isRequired,
   path: React.PropTypes.string.isRequired,
   isValid: React.PropTypes.bool,
   submission: React.PropTypes.object.isRequired,
