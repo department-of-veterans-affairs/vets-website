@@ -6,7 +6,7 @@ import moment from 'moment';
 import { loadRx } from '../actions/prescriptions';
 import PrintList from '../components/PrintList';
 import Pagination from '../components/Pagination';
-import SortableTable from '../components/SortableTable';
+import SortableTable from '../components/tables/SortableTable';
 
 class History extends React.Component {
   constructor(props) {
