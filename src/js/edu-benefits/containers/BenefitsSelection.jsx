@@ -8,12 +8,12 @@ import NavHeader from '../components/NavHeader';
 import { isValidSection } from '../utils/validations';
 import { withRouter } from 'react-router';
 import routes from '../routes';
-import { veteranUpdateField, ensureFieldsInitialized, updateCompletedStatus } from '../actions/index';
+import { veteranUpdateField, ensureSectionInitialized, updateCompletedStatus } from '../actions/index';
 import { groupPagesIntoChapters } from '../utils/chapters';
 
 class BenefitsSelection extends React.Component {
   render() {
-    const { section, currentLocation, data, submission, router, onStateChange, dirtyFields, setComplete } = this.props;
+    const { section, currentLocation, data, submission, router, onStateChange, dirtySection, setComplete } = this.props;
     const navigateTo = path => router.push(path);
     const chapters = groupPagesIntoChapters(routes);
 
@@ -25,7 +25,7 @@ class BenefitsSelection extends React.Component {
             submission={submission}
             path={currentLocation}
             isValid={isValidSection(currentLocation, data)}
-            dirtyFields={dirtyFields}
+            dirtySection={dirtySection}
             onNavigate={navigateTo}
             onComplete={setComplete}/>
       </div>
@@ -48,8 +48,8 @@ function mapDispatchToProps(dispatch) {
     onStateChange(field, update) {
       dispatch(veteranUpdateField(field, update));
     },
-    dirtyFields(section) {
-      dispatch(ensureFieldsInitialized(section));
+    dirtySection(section) {
+      dispatch(ensureSectionInitialized(section));
     },
     setComplete(section) {
       dispatch(updateCompletedStatus(section));

@@ -33,6 +33,10 @@ function isNotBlank(value) {
   return value !== '';
 }
 
+function isValidYear(value) {
+  return Number(value) >= 1900;
+}
+
 // Conditions for valid SSN from the original 1010ez pdf form:
 // '123456789' is not a valid SSN
 // A value where the first 3 digits are 0 is not a valid SSN
@@ -384,8 +388,16 @@ function isBenefitsInformationSectionValid(data) {
   return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
 }
 
+function isTourOfDutyValid(tour) {
+  return isNotBlank(tour.serviceBranch)
+    && isValidDateField(tour.dateRange.fromDate)
+    && isValidDateField(tour.dateRange.toDate);
+}
+
 function isMilitaryServicePageValid(data) {
-  return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
+  return (!data.chapter33 || isNotBlank(data.benefitsRelinquished.value))
+    && data.toursOfDuty.length > 0
+    && data.toursOfDuty.every(isTourOfDutyValid);
 }
 
 function isValidForm(data) {
@@ -396,6 +408,8 @@ function isValidSection(completePath, sectionData) {
   switch (completePath) {
     case '/benefits-eligibility/benefits-selection':
       return isBenefitsInformationSectionValid(sectionData);
+    case '/military-history/military-service':
+      return isMilitaryServicePageValid(sectionData);
     default:
       return true;
   }
@@ -426,12 +440,14 @@ export {
   isValidMonetaryValue,
   isValidPhone,
   isValidEmail,
+  isValidYear,
   isValidInsurancePolicy,
   isValidEntryDateField,
   isValidDischargeDateField,
   isValidDependentDateField,
   isValidMarriageDate,
   isValidField,
+  isValidDateField,
   isValidForm,
   isValidPersonalInfoSection,
   isValidBirthInformationSection,

@@ -8,24 +8,24 @@ import NavHeader from '../components/NavHeader';
 import { isValidSection } from '../utils/validations';
 import { withRouter } from 'react-router';
 import routes from '../routes';
-import { veteranUpdateField, ensureFieldsInitialized, updateCompletedStatus } from '../actions/index';
+import { veteranUpdateField, ensureFieldsInitialized, ensureSectionInitialized, updateCompletedStatus } from '../actions/index';
 import { groupPagesIntoChapters } from '../utils/chapters';
 
 class MilitaryService extends React.Component {
   render() {
-    const { section, currentLocation, data, submission, router, onStateChange, dirtyFields, setComplete } = this.props;
+    const { section, currentLocation, data, submission, router, onStateChange, dirtyFields, dirtySection, setComplete } = this.props;
     const navigateTo = path => router.push(path);
     const chapters = groupPagesIntoChapters(routes);
 
     return (
       <div className="form-panel">
         <NavHeader path={currentLocation} chapters={chapters} className="show-for-small-only"/>
-        <MilitaryServiceFields data={data} section={section} onStateChange={onStateChange}/>
+        <MilitaryServiceFields data={data} section={section} onStateChange={onStateChange} initializeFields={dirtyFields}/>
         <NavButtons
             submission={submission}
             path={currentLocation}
             isValid={isValidSection(currentLocation, data)}
-            dirtyFields={dirtyFields}
+            dirtySection={dirtySection}
             onNavigate={navigateTo}
             onComplete={setComplete}/>
       </div>
@@ -48,8 +48,11 @@ function mapDispatchToProps(dispatch) {
     onStateChange(field, update) {
       dispatch(veteranUpdateField(field, update));
     },
-    dirtyFields(section) {
-      dispatch(ensureFieldsInitialized(section));
+    dirtyFields(...args) {
+      dispatch(ensureFieldsInitialized(...args));
+    },
+    dirtySection(...args) {
+      dispatch(ensureSectionInitialized(...args));
     },
     setComplete(section) {
       dispatch(updateCompletedStatus(section));

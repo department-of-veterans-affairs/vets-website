@@ -18,7 +18,7 @@ export default class BenefitsSectionFields extends React.Component {
     if (this.props.data.chapter33) {
       relinquishSection = (<RadioButtonsSubSection showIfValueChosen="chapter33">
         <p className="form-indent">I acknowledge that by choosing Chapter 33 I have to give up some other stuff</p>
-        <fieldset className="form-subsection">
+        <fieldset className="usa-alert usa-alert-info">
           <ErrorableRadioButtons required={this.props.data.chapter33}
               errorMessage={validateIfDirty(this.props.data.benefitsRelinquished, isNotBlank) ? '' : 'Please select a response'}
               label="I elect to receive Chapter 33 education benefits in lieu of the education benefit(s) I am relinquishing below:"
