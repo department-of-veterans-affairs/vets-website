@@ -29,7 +29,7 @@ const prescriptions = {
         "tracking":"http://localhost:3000/rx/v1/prescriptions/746575/trackings"
       }
     }
-	]
+  ]
 };
 /* eslint-enable */
 
