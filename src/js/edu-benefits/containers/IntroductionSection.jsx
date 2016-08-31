@@ -1,16 +1,6 @@
 import React from 'react';
-import ProgressButton from '../../common/components/form-elements/ProgressButton';
-import { withRouter } from 'react-router';
 
 class IntroductionSection extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleButtonClick = this.handleButtonClick.bind(this);
-  }
-  handleButtonClick(e) {
-    e.preventDefault();
-    this.props.router.push('/veteran-information/personal-information');
-  }
   render() {
     return (
       <div>
@@ -36,20 +26,9 @@ class IntroductionSection extends React.Component {
             </div>
           </div>
         </div>
-        <br/>
-
-        <div className="row">
-          <div className="small-6 medium-5 end columns">
-            <ProgressButton
-                onButtonClick={this.handleButtonClick}
-                buttonText="Continue"
-                buttonClass="usa-button-primary"
-                afterText="»"/>
-          </div>
-        </div>
       </div>
     );
   }
 }
 
-export default withRouter(IntroductionSection);
+export default IntroductionSection;
