@@ -38,6 +38,10 @@
     float: left;
     margin: 0 0.625rem 1.25rem 0.67rem;
   }
+
+  @media #{$small} {
+    margin: 0 0.625rem 1.25rem 0.67rem;
+  }
   
   a {
     color: inherit;
