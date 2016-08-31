@@ -1,13 +1,14 @@
 import React from 'react';
 import { Route } from 'react-router';
 
+import IntroductionSection from './containers/IntroductionSection.jsx';
 import BenefitsSelection from './containers/BenefitsSelection';
 import PlaceholderSection from './containers/PlaceholderSection';
 
 const routes = [
   // Introduction route.
   <Route
-      component={PlaceholderSection}
+      component={IntroductionSection}
       key="/introduction"
       path="/introduction"/>,
   <Route
