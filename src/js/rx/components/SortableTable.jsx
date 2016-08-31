@@ -8,7 +8,7 @@ class SortableTable extends React.Component {
   }
 
   makeHeader(field, index) {
-    return <th key={index}>{field.label}</th>;
+    return <th key={index} onClick={this.props.onSort}>{field.label}</th>;
   }
 
   makeRow(item, index) {
@@ -46,6 +46,7 @@ SortableTable.propTypes = {
     value: React.PropTypes.string.isRequired
   })).isRequired,
   data: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  onSort: React.PropTypes.func
 };
 
 export default SortableTable;

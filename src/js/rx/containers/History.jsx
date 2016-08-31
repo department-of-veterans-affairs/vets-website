@@ -3,14 +3,23 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
 
-import { loadRx } from '../actions/prescriptions.js';
+import { loadRx } from '../actions/prescriptions';
 import PrintList from '../components/PrintList';
 import Pagination from '../components/Pagination';
 import SortableTable from '../components/SortableTable';
 
 class History extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSort = this.handleSort.bind(this);
+  }
+
   componentWillMount() {
     this.props.dispatch(loadRx());
+  }
+
+  handleSort() {
+    // console.log('Sorting happens here...');
   }
 
   render() {
@@ -42,7 +51,8 @@ class History extends React.Component {
           <SortableTable
               className="usa-table-borderless rx-table"
               fields={fields}
-              data={data}/>
+              data={data}
+              onSort={this.handleSort}/>
           <Pagination/>
         </div>
       );

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
-import { loadActiveRx } from '../actions/prescriptions.js';
+import { loadActiveRx } from '../actions/prescriptions';
 import PrescriptionList from '../components/PrescriptionList';
 import PrintList from '../components/PrintList';
 import SortMenu from '../components/SortMenu';
