@@ -7,7 +7,7 @@ const glob = require('glob');
 
 module.exports = {
   src_folders: ['./test'],
-  output_folder: './logs/nigthwatch',
+  output_folder: './logs/nightwatch',
   live_output: true,
   parallel_process_delay: 10,
   disable_colors: false,
