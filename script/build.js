@@ -8,7 +8,6 @@ const collections = require('metalsmith-collections');
 const commandLineArgs = require('command-line-args');
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
-// const excerpts = require('metalsmith-excerpts');
 const filenames = require('metalsmith-filenames');
 const ignore = require('metalsmith-ignore');
 const inPlace = require('metalsmith-in-place');
@@ -16,6 +15,7 @@ const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdownit');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
+const redirect = require('metalsmith-redirect');
 const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
@@ -84,7 +84,6 @@ const webpackConfig = webpackConfigGenerator(options);
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
 //
-
 smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
 
@@ -145,7 +144,7 @@ smith.use(permalinks({
   relative: false,
   linksets: [{
     match: { collection: 'posts' },
-    pattern: ':date/:slug.html'
+    pattern: ':date/:slug'
   }]
 }));
 
@@ -256,6 +255,10 @@ if (options.watch) {
 
   smith.use(webpack(webpackConfig));
 }
+
+smith.use(redirect({
+  '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/'
+}));
 
 /* eslint-disable no-console */
 smith.build((err) => {

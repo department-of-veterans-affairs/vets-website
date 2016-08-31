@@ -76,11 +76,6 @@
       "from": "amdefine@>=0.0.4",
       "resolved": "https://registry.npmjs.org/amdefine/-/amdefine-1.0.0.tgz"
     },
-    "animate.css": {
-      "version": "3.5.1",
-      "from": "animate.css@latest",
-      "resolved": "https://registry.npmjs.org/animate.css/-/animate.css-3.5.1.tgz"
-    },
     "ansi-escapes": {
       "version": "1.4.0",
       "from": "ansi-escapes@>=1.1.0 <2.0.0",
@@ -4773,6 +4768,11 @@
           "resolved": "https://registry.npmjs.org/debug/-/debug-0.7.4.tgz"
         }
       }
+    },
+    "metalsmith-redirect": {
+      "version": "2.1.0",
+      "from": "metalsmith-redirect@latest",
+      "resolved": "https://registry.npmjs.org/metalsmith-redirect/-/metalsmith-redirect-2.1.0.tgz"
     },
     "metalsmith-sitemap": {
       "version": "1.0.0",
