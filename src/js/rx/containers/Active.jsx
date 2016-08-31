@@ -40,11 +40,11 @@ class Active extends React.Component {
   }
 
   render() {
-    const sortValue = this.props.location.query.sort;
     const items = this.props.prescriptions.items;
     let content;
 
     if (items) {
+      const sortValue = this.props.location.query.sort;
       // TODO: Move to a config file?
       const sortOptions = [
         { value: 'prescription-name',
