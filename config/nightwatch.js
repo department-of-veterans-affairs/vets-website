@@ -8,6 +8,7 @@ const glob = require('glob');
 module.exports = {
   src_folders: ['./test'],
   output_folder: './logs/nightwatch',
+  custom_commands_path: './test/util/nightwatch-commands',
   live_output: true,
   parallel_process_delay: 10,
   disable_colors: false,
@@ -44,6 +45,19 @@ module.exports = {
         log_path: './logs/selenium',
         host: '127.0.0.1',
         port: 4444,
+      }
+    },
+
+    accessibility: {
+      filter: './test/accessibility/*.spec.js',
+      globals: {
+        asyncHookTimeout: 20000,
+      },
+      desiredCapabilities: {
+        browserName: 'phantomjs',
+        javascriptEnabled: true,
+        acceptSslCerts: true,
+        'phantomjs.binary.path': require('phantomjs-prebuilt').path
       }
     }
   }
