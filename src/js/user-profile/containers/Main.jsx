@@ -39,7 +39,7 @@ class Main extends React.Component {
     fetch('http://localhost:3000/v0/user', {
       method: 'GET',
       headers: new Headers({
-        Authorization: 'Token token=' + localStorage.userToken
+        Authorization: `Token token=${localStorage.userToken}`
       })
     }).then(response => {
       return response.json();
