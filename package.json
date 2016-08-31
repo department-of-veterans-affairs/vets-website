@@ -127,6 +127,7 @@
     "uswds": "^0.10.0",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.15.0",
+    "whatwg-fetch": "http://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-1.0.0.tgz",
     "winston": "^2.2.0",
     "wowjs": "^1.1.3"
   },

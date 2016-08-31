@@ -23,6 +23,9 @@ if (!Modernizr.classlist) {
 if (!Modernizr.dataset) {
   require('dataset');  // dataSet accessor support.
 }
+if (!Modernizr.fetch) {
+  require('whatwg-fetch');  // dataSet accessor support.
+}
 
 // This polyfill has its own test logic so no need to conditionally require.
 require('polyfill-function-prototype-bind');

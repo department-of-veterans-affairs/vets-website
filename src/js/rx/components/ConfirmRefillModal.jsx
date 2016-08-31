@@ -39,8 +39,11 @@ class ConfirmRefillModal extends React.Component {
                   <span className="rx-modal-drug">{this.props.drug}</span>
                   <span className="rx-modal-dosage"> {this.props.dosage}</span>
                 </div>
+                <div className="rx-modal-facility">
+                  Facility name: {this.props.facilityName}
+                </div>
                 <div className="rx-modal-lastrefilled">
-                  Last refilled: {this.props.lastRefilled}
+                  Last requested: {this.props.lastRefilled}
                 </div>
                 <div className="rx-button-group cf">
                   <button type="submit">Order refill</button>
@@ -63,6 +66,7 @@ class ConfirmRefillModal extends React.Component {
 ConfirmRefillModal.propTypes = {
   drug: React.PropTypes.string,
   dosage: React.PropTypes.string,
+  facilityName: React.PropTypes.string,
   lastRefilled: React.PropTypes.string
 };
 
