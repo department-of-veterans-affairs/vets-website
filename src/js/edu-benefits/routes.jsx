@@ -4,6 +4,7 @@ import { Route } from 'react-router';
 import IntroductionSection from './containers/IntroductionSection.jsx';
 import BenefitsSelection from './containers/BenefitsSelection';
 import PlaceholderSection from './containers/PlaceholderSection';
+import RotcHistorySection from './containers/RotcHistorySection';
 
 const routes = [
   // Introduction route.
@@ -48,7 +49,7 @@ const routes = [
       key="/military-history/additional-information"
       path="/military-history/additional-information"/>,
   <Route
-      component={PlaceholderSection}
+      component={RotcHistorySection}
       key="/military-history/rotc-history"
       path="/military-history/rotc-history"/>,
   <Route
