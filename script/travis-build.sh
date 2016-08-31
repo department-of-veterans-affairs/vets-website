@@ -28,6 +28,12 @@ else
   npm run build;
 fi
 
+if [[ $TEST_SUITE == 'security' ]]
+then
+  npm install -g nsp
+  nsp check
+fi
+
 if [[ $TEST_SUITE == 'unit' ]]
 then
   npm run test:unit;
