@@ -11,7 +11,7 @@ describe('<NavButtons>', () => {
     const submission = {
       status: false
     };
-    const sections = ['/introduction', '/some-url'];
+    const pages = ['/introduction', '/some-url'];
     const isValid = true;
     const dirtyFields = sinon.spy();
     const onNavigate = sinon.spy();
@@ -20,7 +20,7 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
-          sections={sections}
+          pages={pages}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}/>
@@ -38,7 +38,7 @@ describe('<NavButtons>', () => {
     const submission = {
       status: false
     };
-    const sections = ['/introduction', '/some-url'];
+    const pages = ['/introduction', '/some-url'];
     const isValid = true;
     const dirtyFields = sinon.spy();
     const onNavigate = sinon.spy();
@@ -47,7 +47,7 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
-          sections={sections}
+          pages={pages}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}/>
@@ -61,7 +61,7 @@ describe('<NavButtons>', () => {
     const submission = {
       status: false
     };
-    const sections = ['/introduction', '/review-and-submit'];
+    const pages = ['/introduction', '/review-and-submit'];
     const isValid = true;
     const dirtyFields = sinon.spy();
     const onNavigate = sinon.spy();
@@ -70,7 +70,7 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
-          sections={sections}
+          pages={pages}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}/>
@@ -87,7 +87,7 @@ describe('<NavButtons>', () => {
     const submission = {
       status: 'submitPending'
     };
-    const sections = ['/introduction', '/review-and-submit'];
+    const pages = ['/introduction', '/review-and-submit'];
     const isValid = true;
     const dirtyFields = sinon.spy();
     const onNavigate = sinon.spy();
@@ -96,7 +96,7 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
-          sections={sections}
+          pages={pages}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}/>
@@ -114,7 +114,7 @@ describe('<NavButtons>', () => {
     const submission = {
       status: 'applicationSubmitted'
     };
-    const sections = ['/introduction', '/review-and-submit'];
+    const pages = ['/introduction', '/review-and-submit'];
     const isValid = true;
     const dirtyFields = sinon.spy();
     const onNavigate = sinon.spy();
@@ -123,7 +123,7 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
-          sections={sections}
+          pages={pages}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}/>
@@ -141,7 +141,7 @@ describe('<NavButtons>', () => {
     const submission = {
       status: 'adfadsf'
     };
-    const sections = ['/introduction', '/review-and-submit'];
+    const pages = ['/introduction', '/review-and-submit'];
     const isValid = true;
     const dirtyFields = sinon.spy();
     const onNavigate = sinon.spy();
@@ -150,7 +150,7 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
-          sections={sections}
+          pages={pages}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}/>
@@ -172,7 +172,7 @@ describe('<NavButtons>', () => {
     const submission = {
       status: false
     };
-    const sections = ['/introduction', '/review-and-submit'];
+    const pages = ['/introduction', '/review-and-submit'];
     const isValid = false;
     const dirtyFields = sinon.spy();
     const onNavigate = sinon.spy();
@@ -182,7 +182,7 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
-          sections={sections}
+          pages={pages}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}
@@ -195,6 +195,7 @@ describe('<NavButtons>', () => {
   });
   describe('if valid on /review-and-submit', () => {
     const path = '/review-and-submit';
+    const pages = ['/introduction', '/review-and-submit'];
     const submission = {
       status: false
     };
@@ -207,6 +208,7 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
+          pages={pages}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}
@@ -220,6 +222,7 @@ describe('<NavButtons>', () => {
   });
   describe('if valid', () => {
     const path = '/benefits-eligibility/benefits-selection';
+    const pages = ['/introduction', '/benefits-eligibility/benefits-selection', '/review-and-submit'];
     const submission = {
       status: false
     };
@@ -233,6 +236,7 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
+          pages={pages}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}
@@ -242,17 +246,18 @@ describe('<NavButtons>', () => {
 
     it('should navigate forward', () => {
       tree.everySubTree('ProgressButton')[1].props.onButtonClick();
-      expect(onNavigate.calledWith('/military-history/military-service')).to.be.true;
+      expect(onNavigate.calledWith('/review-and-submit')).to.be.true;
       expect(onComplete.calledWith(path)).to.be.true;
     });
 
     it('should navigate back', () => {
       tree.everySubTree('ProgressButton')[0].props.onButtonClick();
-      expect(onNavigate.calledWith('/veteran-information/direct-deposit')).to.be.true;
+      expect(onNavigate.calledWith('/introduction')).to.be.true;
     });
   });
   describe('if invalid', () => {
     const path = '/benefits-eligibility/benefits-selection';
+    const pages = ['/introduction', '/benefits-eligibility/benefits-selection', '/review-and-submit'];
     const submission = {
       status: false
     };
@@ -265,6 +270,7 @@ describe('<NavButtons>', () => {
       <NavButtons
           submission={submission}
           path={path}
+          pages={pages}
           isValid={isValid}
           dirtyFields={dirtyFields}
           onNavigate={onNavigate}
@@ -283,7 +289,7 @@ describe('<NavButtons>', () => {
 
     it('should navigate back', () => {
       tree.everySubTree('ProgressButton')[0].props.onButtonClick();
-      expect(onNavigate.calledWith('/veteran-information/direct-deposit')).to.be.true;
+      expect(onNavigate.calledWith('/introduction')).to.be.true;
     });
   });
 });

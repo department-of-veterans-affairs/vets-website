@@ -1,14 +1,8 @@
 import _ from 'lodash';
 
-const chapters = {
-  veteranInformation: 'Veteran Information',
-  benefitsEligibility: 'Benefits Eligibility',
-  militaryHistory: 'Military History',
-  educationHistory: 'Education History',
-  employmentHistory: 'Employment History',
-  schoolSelection: 'School Selection',
-  review: 'Review'
-};
+export function getPageList(routes) {
+  return routes.map(route => route.props.path).filter(section => section !== '/submit-message');
+}
 
 export function groupPagesIntoChapters(routes) {
   const sectionList = routes
@@ -30,4 +24,12 @@ export function groupPagesIntoChapters(routes) {
   });
 }
 
-export default chapters;
+export const chapterNames = {
+  veteranInformation: 'Veteran Information',
+  benefitsEligibility: 'Benefits Eligibility',
+  militaryHistory: 'Military History',
+  educationHistory: 'Education History',
+  employmentHistory: 'Employment History',
+  schoolSelection: 'School Selection',
+  review: 'Review'
+};

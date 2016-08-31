@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 
 import { withRouter } from 'react-router';
 
-import { groupPagesIntoChapters } from '../utils/chapters';
-import routes from '../routes';
+import { chapters, pages } from '../routes';
 
 import Nav from '../components/Nav';
 import NavButtons from '../components/NavButtons';
@@ -17,12 +16,12 @@ import RoutesDropdown from '../components/debug/RoutesDropdown';
 import { isValidSection } from '../utils/validations';
 import { ensureFieldsInitialized, updateCompletedStatus } from '../actions/index';
 
+import NavHeader from '../components/NavHeader';
+
 class EduBenefitsApp extends React.Component {
   render() {
-    const { panels, sections } = this.props.uiState;
-    const { currentLocation, data, submission, router, dirtyFields, setComplete } = this.props;
+    const { sections, currentLocation, data, submission, router, dirtyFields, setComplete } = this.props;
     const navigateTo = path => router.push(path);
-    const chapters = groupPagesIntoChapters(routes);
 
     let devPanel = undefined;
     if (__BUILDTYPE__ === 'development') {
@@ -38,8 +37,6 @@ class EduBenefitsApp extends React.Component {
       }
     }
 
-    
-
     return (
       <div className="row">
         {devPanel}
@@ -48,9 +45,11 @@ class EduBenefitsApp extends React.Component {
         </div>
         <div className="medium-8 columns">
           <div className="progress-box">
+            <NavHeader path={currentLocation.pathname} chapters={chapters} className="show-for-small-only"/>
             {this.props.children}
             <NavButtons
                 submission={submission}
+                pages={pages}
                 path={currentLocation.pathname}
                 isValid={isValidSection(currentLocation.pathname, data)}
                 dirtyFields={dirtyFields}
@@ -66,7 +65,7 @@ class EduBenefitsApp extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    uiState: state.uiState,
+    sections: state.uiState.sections,
     currentLocation: ownProps.location,
     data: state.veteran,
     submission: state.uiState.submission,
