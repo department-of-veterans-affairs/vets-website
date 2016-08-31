@@ -5,6 +5,12 @@ table {
   @media #{$small-only} {
     font-size: .85em;
   }
+
+  thead {
+    td {
+      background-color: $color-gray-lightest;
+    }
+  }
 }
 
 // No need to nest this since caption is only
