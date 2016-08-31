@@ -10,41 +10,72 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.handleOpenPopup = this.handleOpenPopup.bind(this);
-    this.state = { loginUrl: '' };
+    this.setMyToken = this.setMyToken.bind(this);
+    this.getUserToken = this.getUserToken.bind(this);
+    this.state = {
+      loginUrl: '',
+      userToken: '',
+      userEmail: '',
+      userFname: '',
+      userLname: '',
+      userZip: ''
+    };
   }
 
   componentDidMount() {
-    this.serverRequest = $.get('https://dev.vets.gov/api/v0/sessions/new', result => {
+    this.serverRequest = $.get('http://localhost:3000/v0/sessions/new', result => {
       const loginPage = result;
       this.setState({
         loginUrl: loginPage.authenticate_via_get
       });
     });
+
+    window.addEventListener('message', this.setMyToken);
   }
 
   componentWillUnmount() {
     this.serverRequest.abort();
+    window.removeEventListener('message', this.setMyToken);
+  }
+
+  setMyToken() {
+    if (event.origin === 'http://localhost:3000') {
+      this.setState({
+        userToken: event.data.token
+      });
+      this.getUserToken();
+    }
+  }
+
+  getUserToken() {
+    fetch('http://localhost:3000/v0/user', {
+      method: 'GET',
+      headers: new Headers({
+        Authorization: `Token token=${this.state.userToken}`
+      })
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      this.setState({
+        userEmail: json.email,
+        userFname: json.first_name,
+        userLname: json.last_name,
+        userZip: json.zip
+      });
+    });
   }
 
   handleOpenPopup() {
     const myLoginUrl = this.state.loginUrl;
-    window.open(myLoginUrl, '_blank', 'toolbar=yes,scrollbars=yes,resizable=yes,top=50,left=500,width=500,height=750');
+    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
+    receiver.focus();
   }
 
   render() {
-    fetch('https://dev.vets.gov/api/v0/profile', {
-      method: 'GET',
-      headers: new Headers({
-        'Authorization': 'Token token=Vew8V3aEg3QgWuRjDKGVbhuTEo1L6tc992V3NG8y'
-      })
-    }).then(responseObj => {
-      console.log(responseObj);
-    });
-
     return (
       <div>
         <SignInProfileButton onButtonClick={this.handleOpenPopup}/>
-        <div className='rx-app row'>
+        <div className="rx-app row">
           <TabNav/>
           {this.props.children}
         </div>
