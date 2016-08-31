@@ -47,66 +47,69 @@ You may be eligible for both of these programs, but you can use only one of them
 <div class="va-table-overflow">
 <table>
 <caption>Compare DEA and Fry Scholarship Benefits</caption>
-<tr>
-  <th colspan="1"></th>
-  <th colspan="1" scope="col">DEA</th>
-  <th colspan="1" scope="col">Fry Scholarship</th>
-</tr>
-
-<tr>
-  <td scope="row"><strong>Benefit Payments</strong></td>
-  <td>VA pays the monthly amount directly to the student. The current monthly payment for full-time training is $1,018.</td>
-  <td>
-
-    <p><strong>Tuition and Fee Payment (paid to the school)</strong>: VA covers the full in-state tuition costs for training at public institutions and up to $20,035.02 per year at private institutions.</p>
-
-    <p><strong>Books and Supplies Stipend (paid to the student)</strong>: VA covers up to $1,000 a year, divided up equally among the terms, for books and supplies.</p>
-
-    <p><strong>Monthly Housing Allowance (paid to the student)</strong>: VA bases this allowance on local BAH for E-5 with dependents and pays it monthly. Online students receive half of the BAH national average.</p>
-
-  </td>
-</tr>
-
-<tr>
-  <td scope="row"><strong>Duration of Benefits</strong></td>
-  <td>20 years from the Servicemember’s date of death
-</td>
-  <td>15 years from the Servicemember’s date of death
-</td>
-</tr>
-
-<tr>
-  <td><strong>Maximum Months of Benefits</strong></td>
-  <td>45 months</td>
-  <td>36 months</td>
-</tr>
-
-<tr>
-  <td scope="row"><strong>Simultaneous Receipt of DIC and Education Benefits for Spouse</strong></td>
-  <td>Yes</td>
-  <td>Yes</td>
-</tr>
-
-<tr>
-  <td scope="row"><strong>Programs Covered</strong></td>
-  <td>
+<thead>
+  <tr>
+    <th colspan="1"></th>
+    <th colspan="1" scope="col">DEA</th>
+    <th colspan="1" scope="col">Fry Scholarship</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td scope="row"><strong>Benefit Payments</strong></td>
+    <td>VA pays the monthly amount directly to the student. The current monthly payment for full-time training is $1,018.</td>
+    <td>
     <ul>
-      <li>College, business, technical, or vocational programs</li>
-      <li>Certification tests</li>
-      <li>Apprenticeships and on-the-job training</li>
-      <li>Tutorial assistance</li>
-      <li>Work study
+      <li><strong>Tuition and Fee Payment (paid to the school)</strong>: VA covers the full in-state tuition costs for training at public institutions and up to $20,035.02 per year at private institutions.<br /><br /></li>
+      <li><strong>Books and Supplies Stipend (paid to the student)</strong>:
+    VA covers up to $1,000 a year, divided up equally among the terms, for books and supplies.<br /><br /></li>
+      <li><strong>Monthly Housing Allowance (paid to the student)</strong>:
+      VA bases this allowance on local BAH for E-5 with dependents and pays it monthly. Online students receive half of the BAH national average.</li>
     </ul>
+    </td>
+  </tr>
+
+  <tr>
+    <td scope="row"><strong>Duration of Benefits</strong></td>
+    <td>20 years from the Servicemember’s date of death
   </td>
-  <td>
-    <ul>
-      <li>College, business, technical, or vocational programs</li>
-      <li>Certification tests</li>
-      <li>Apprenticeships and on-the-job training</li>
-      <li>Vocational flight training</li>
-      <li>Tutorial assistance</li>
-      <li>Work study</li>
-    </ul>
+    <td>15 years from the Servicemember’s date of death
   </td>
-</tr>
+  </tr>
+
+  <tr>
+    <td><strong>Maximum Months of Benefits</strong></td>
+    <td>45 months</td>
+    <td>36 months</td>
+  </tr>
+
+  <tr>
+    <td scope="row"><strong>Simultaneous Receipt of DIC and Education Benefits for Spouse</strong></td>
+    <td>Yes</td>
+    <td>Yes</td>
+  </tr>
+
+  <tr>
+    <td scope="row"><strong>Programs Covered</strong></td>
+    <td>
+      <ul>
+        <li>College, business, technical, or vocational programs</li>
+        <li>Certification tests</li>
+        <li>Apprenticeships and on-the-job training</li>
+        <li>Tutorial assistance</li>
+        <li>Work study
+      </ul>
+    </td>
+    <td>
+      <ul>
+        <li>College, business, technical, or vocational programs</li>
+        <li>Certification tests</li>
+        <li>Apprenticeships and on-the-job training</li>
+        <li>Vocational flight training</li>
+        <li>Tutorial assistance</li>
+        <li>Work study</li>
+      </ul>
+    </td>
+  </tr>
+</tbody>
 </table>
