@@ -5,8 +5,9 @@ export function closeModal(content) {
   };
 }
 
-export function openModal() {
+export function openModal(content) {
   return {
-    type: 'OPEN_MODAL'
+    type: 'OPEN_MODAL',
+    content
   };
 }
