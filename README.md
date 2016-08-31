@@ -240,7 +240,7 @@ Continuous integration and deployment is done via
 is stored in `.travis.yml`.
 
 The build configuration will depend on the branch being pushed. The `master`
-brnach and any feature branches will trigger a build with the default build type
+branch and any feature branches will trigger a build with the default build type
 (development), while the staging and production branches will use the production
 build type.
 
