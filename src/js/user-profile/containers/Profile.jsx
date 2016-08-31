@@ -9,12 +9,12 @@ class Profile extends React.Component {
   render() {
     return (
       <div className="va-tab-content">
-        <h1>{this.props.profile.veteranFullName.first} {this.props.profile.veteranFullName.last}: Profile</h1>
+        <h1>{this.props.profile.email}: Profile</h1>
         <table className="usa-table-borderless">
           <tbody>
             <tr>
               <th scope="row">Name: </th>
-              <td>{this.props.profile.veteranFullName.first} {this.props.profile.veteranFullName.last}</td>
+              <td>{this.props.profile.email}</td>
             </tr>
             <tr>
               <th scope="row">Email: </th>
@@ -33,7 +33,9 @@ class Profile extends React.Component {
 
 // TODO: fill this out
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    profile: state.profile
+  };
 };
 
 export default connect(mapStateToProps)(Profile);

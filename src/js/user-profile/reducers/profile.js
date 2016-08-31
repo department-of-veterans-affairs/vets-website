@@ -1,21 +1,35 @@
-import set from 'lodash/fp/set';
+import _ from 'lodash';
+import lodashDeep from 'lodash-deep';
+
+import { UPDATE_PROFILE_FIELD } from '../actions';
+
+// Add deep object manipulation routines to lodash.
+_.mixin(lodashDeep);
+
 
 const initialState = {
-  veteranFullName: {
+  userFullName: {
     first: 'Shonda',
     middle: 'Eileen',
     last: 'Rhimes',
     suffix: '',
   },
-  email: 'yearofyes@va.gov'
+  email: 'yearofyes@va.gov',
+  zip: ''
 };
 
-export default function prolfile(state = initialState, action) {
+function profileInformation(state = initialState, action) {
+  let newState = undefined;
   switch (action.type) {
-    // TODO(crew): Change this to reflect what is acutually being returned.
-    case 'LOAD_PROFILE_SUCCESS':
-      return set('profile', action.data, state);
+    case UPDATE_PROFILE_FIELD: {
+      newState = Object.assign({}, state);
+      _.set(newState, action.propertyPath, action.value);
+      return newState;
+    }
+
     default:
       return state;
   }
 }
+
+export default profileInformation;

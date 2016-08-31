@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 
-import SignInProfileButton from '../../common/components/SignInProfileButton';
+import { updateLoggedInStatus, updateLogInUrl, updateProfileField } from '../actions';
+import SignInProfileButton from '../components/SignInProfileButton';
 import TabNav from '../components/TabNav';
 
 // TODO(crew): Redux-ify the state and how it is stored here.
@@ -12,22 +13,11 @@ class Main extends React.Component {
     this.handleOpenPopup = this.handleOpenPopup.bind(this);
     this.setMyToken = this.setMyToken.bind(this);
     this.getUserToken = this.getUserToken.bind(this);
-    this.state = {
-      loginUrl: '',
-      userToken: '',
-      userEmail: '',
-      userFname: '',
-      userLname: '',
-      userZip: ''
-    };
   }
 
   componentDidMount() {
     this.serverRequest = $.get('http://localhost:3000/v0/sessions/new', result => {
-      const loginPage = result;
-      this.setState({
-        loginUrl: loginPage.authenticate_via_get
-      });
+      this.props.onUpdateLoginUrl(result.authenticate_via_get);
     });
 
     window.addEventListener('message', this.setMyToken);
@@ -40,9 +30,7 @@ class Main extends React.Component {
 
   setMyToken() {
     if (event.origin === 'http://localhost:3000') {
-      this.setState({
-        userToken: event.data.token
-      });
+      localStorage.setItem('userToken', event.data.token);
       this.getUserToken();
     }
   }
@@ -51,22 +39,19 @@ class Main extends React.Component {
     fetch('http://localhost:3000/v0/user', {
       method: 'GET',
       headers: new Headers({
-        Authorization: `Token token=${this.state.userToken}`
+        Authorization: 'Token token=' + localStorage.userToken
       })
     }).then(response => {
       return response.json();
     }).then(json => {
-      this.setState({
-        userEmail: json.email,
-        userFname: json.first_name,
-        userLname: json.last_name,
-        userZip: json.zip
-      });
+      this.props.onUpdateProfile('email', json.email);
+      this.props.onUpdateLoggedInStatus(true);
+      localStorage.removeItem('userToken');
     });
   }
 
   handleOpenPopup() {
-    const myLoginUrl = this.state.loginUrl;
+    const myLoginUrl = this.props.login.loginUrl;
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
@@ -85,7 +70,26 @@ class Main extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    login: state.login,
+    profile: state.profile
+  };
 };
 
-export default connect(mapStateToProps)(Main);
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onUpdateLoginUrl: (update) => {
+      dispatch(updateLogInUrl(update));
+    },
+    onUpdateLoggedInStatus: (update) => {
+      dispatch(updateLoggedInStatus(update));
+    },
+    onUpdateProfile: (field, update) => {
+      dispatch(updateProfileField(field, update));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(Main);
+export { Main };

@@ -3,8 +3,6 @@ import faker from 'faker';
 import moment from 'moment';
 import { Table } from 'reactable';
 
-import Pagination from '../components/Pagination';
-
 // Generate fake data.  TODO: Retrieve this from the actual API
 function createFakeData() {
   return {
@@ -26,7 +24,6 @@ class Notifications extends React.Component {
             data={data}
             itemsPerPage={10}
             pageButtonLimit={20}/>
-        <Pagination/>
       </div>
     );
   }
