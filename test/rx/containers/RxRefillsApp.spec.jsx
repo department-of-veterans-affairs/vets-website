@@ -9,7 +9,7 @@ import reducer from '../../../src/js/rx/reducers';
 const store = createStore(reducer);
 
 describe('<RxRefillsApp>', () => {
-  it('Sanity check the component renders', () => {
+  it('should render', () => {
     const mockRoutes = [{ path: '/fake' }];
     const tree = SkinDeep.shallowRender(<RxRefillsApp store={store} location={{ pathname: '/blah' }} route={{ childRoutes: mockRoutes }}/>);
     const vdom = tree.getRenderOutput();
