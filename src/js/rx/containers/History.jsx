@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { Table } from 'reactable';
+import _ from 'lodash';
+import moment from 'moment';
 
 import { loadRx } from '../actions/prescriptions.js';
 import PrintList from '../components/PrintList';
 import Pagination from '../components/Pagination';
+import SortableTable from '../components/SortableTable';
 
 class History extends React.Component {
   componentWillMount() {
@@ -14,18 +15,42 @@ class History extends React.Component {
 
   render() {
     const items = this.props.prescriptions.items;
+    let content;
 
-    // TODO: replace reactable
+    if (items) {
+      const fields = [
+        { label: 'Last requested', value: 'ordered-date' },
+        { label: 'Prescription', value: 'prescription-name' },
+        { label: 'Prescription status', value: 'refill-status' }
+      ];
+
+      const data = items.map(item => {
+        const attrs = item.attributes;
+        return {
+          'ordered-date': moment(
+              attrs['ordered-date']
+            ).format('MMM DD, YYYY'),
+          'prescription-name': attrs['prescription-name'],
+          'refill-status': _.capitalize(attrs['refill-status'])
+        };
+      });
+
+      content = (
+        <div>
+          <PrintList
+              type="history"/>
+          <SortableTable
+              className="usa-table-borderless rx-table"
+              fields={fields}
+              data={data}/>
+          <Pagination/>
+        </div>
+      );
+    }
+
     return (
       <div className="va-tab-content">
-        <PrintList
-            type="history"/>
-        <Table
-            className="usa-table-borderless rx-table"
-            data={items}
-            itemsPerPage={10}
-            pageButtonLimit={20}/>
-        <Pagination/>
+        {content}
       </div>
     );
   }

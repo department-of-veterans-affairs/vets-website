@@ -41,7 +41,6 @@ class Active extends React.Component {
   }
 
   render() {
-    const sortValue = this.props.location.query.sort;
     const items = this.props.prescriptions.items;
     let content;
 
