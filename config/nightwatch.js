@@ -7,7 +7,7 @@ const glob = require('glob');
 
 module.exports = {
   src_folders: ['./test'],
-  output_folder: './logs/nigthwatch',
+  output_folder: './logs/nightwatch',
   live_output: true,
   parallel_process_delay: 10,
   disable_colors: false,
@@ -28,11 +28,12 @@ module.exports = {
         path: 'logs/screenshots'
       },
       desiredCapabilities: {
-//        'browserName': 'firefox'
+        // browserName: 'firefox',
         browserName: 'phantomjs',
         javascriptEnabled: true,
         acceptSslCerts: true,
-        'phantomjs.binary.path': require('phantomjs-prebuilt').path,
+        'phantomjs.binary.path': require('phantomjs-prebuilt').path
+        // 'phantomjs.cli.args' : ['--remote-debugger-port=9001', '--remote-debugger-autorun=yes']
       },
       globals: {
       },
