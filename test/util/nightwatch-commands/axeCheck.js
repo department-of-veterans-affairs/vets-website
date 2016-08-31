@@ -19,9 +19,14 @@ export function command(context, config, _callback) {
   }, [axeSource]);
 
   // Run axe checks and report
-  this.executeAsync((innerContext, innerConfig, done) => {
-    axe.a11yCheck(document.querySelector(innerContext), innerConfig, done); // eslint-disable-line no-undef
-  }, [context, config], results => {
+  this.executeAsync((innerContext, done) => {
+    axe.a11yCheck(document.querySelector(innerContext), { // eslint-disable-line no-undef
+      runOnly: {
+        type: 'tag',
+        values: ['section508']
+      }
+    }, done);
+  }, [context], results => {
     const { violations, passes } = results.value;
     const scope = (config || {}).scope || '[n/a]';
 
