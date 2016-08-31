@@ -7,8 +7,12 @@ class SortableTable extends React.Component {
     this.makeRow = this.makeRow.bind(this);
   }
 
+  handleSort(param) {
+    return () => this.props.onSort(param);
+  }
+
   makeHeader(field, index) {
-    return <th key={index} onClick={this.props.onSort}>{field.label}</th>;
+    return <th key={index} onClick={this.handleSort(field.value)}><a>{field.label}</a></th>;
   }
 
   makeRow(item, index) {

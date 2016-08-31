@@ -3,8 +3,7 @@ export function loadRx(id) {
     // TODO: Use id param instead of test id
     // when API is able to retrieve any individual Rx.
     const testId = 1435525;
-    const rxUrl = `/rx-api/prescriptions/${testId}`;
-    const rxUrls = [rxUrl, `${rxUrl}/trackings`];
+    const rxUrl = `/rx-api/prescriptions/${testId}`; const rxUrls = [rxUrl, `${rxUrl}/trackings`];
 
     // Fetch both the prescription and its tracking history and
     // wait for retrieval and read of both resources to resolve.
@@ -21,7 +20,22 @@ export function loadRx(id) {
     };
   }
 
-  return dispatch => fetch('/rx-api/prescriptions')
+  return dispatch => dispatch({ type: 'LOAD_RX_FAILURE' });
+}
+
+export function loadAllRx(options) {
+  let uri = '/rx-api/prescriptions';
+
+  if (options) {
+    if (options.sort) {
+      uri = `${uri}?sort=${options.sort}`;
+    }
+    if (options.page) {
+      // Handle pagination here...
+    }
+  }
+
+  return dispatch => fetch(uri)
     .then(res => res.json())
     .then(
       data => dispatch({ type: 'LOAD_ALL_RX_SUCCESS', data }),
