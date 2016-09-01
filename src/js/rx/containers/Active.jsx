@@ -42,15 +42,6 @@ class Active extends React.Component {
     const sortValue = this.props.location.query.sort;
     const items = this.props.prescriptions.items;
 
-    // TODO: Move to a config file?
-    const sortOptions = [
-      { value: 'prescription-name',
-        label: 'Prescription name' },
-      { value: 'facility-name',
-        label: 'Facility name' },
-      { value: 'last-requested',
-        label: 'Last requested' }];
-
     return (
       <div className="va-tab-content">
         <SortMenu
