@@ -11,9 +11,11 @@ class TableVerticalHeader extends React.Component {
   render() {
     const makeRows = (inputData) => {
       const rows = [];
+      let rowKey = 1;
 
       _.forEach(inputData, (value, key) => {
         rows.push(<TableRowVerticalHeader
+            key={rowKey++}
             cellText={value}
             headerText={key}/>);
       });
@@ -22,9 +24,8 @@ class TableVerticalHeader extends React.Component {
     };
 
     // Adds an iterator key property
-    let rowKey = 1;
     return (
-      <table className={this.props.className} key={rowKey++}>
+      <table className={this.props.className}>
         {makeRows(this.props.data)}
       </table>
     );
