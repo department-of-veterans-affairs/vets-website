@@ -1,14 +1,29 @@
+/* Rx detail page */
+
+#rx-detail h2 {
+  font-size: 3rem;
+  // Overriding #content .section h*.
+  margin-top: 2rem !important;
+}
+
+#rx-detail h3 {
+  font-size: 2.5rem;
+}
+
 #rx-detail .rx-contact-card {
-  display: inline-block;
-  margin-left: 3rem;
+  margin: 2rem 0;
+  width: 100%;
+
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    margin: 0;
+    width: 30rem;
+  };
 }
 
 #rx-detail .rx-table {
-  display: inline-block;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   margin: 0;
-  min-width: 0;
-  vertical-align: top;
 
   tbody {
     &:first-child {
@@ -16,15 +31,92 @@
         border-top: none;
       }
     }
+
+    &:last-child {
+      th, td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  @media (min-width: $medium-screen) {
+    margin: 0 3rem 0 0;
+    min-width: 50rem;
+  }
+}
+
+.rx-info {
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    vertical-align: top;
+
+    td {
+      width: 35rem;
+    }
   }
 
   td {
     padding-right: 0;
+    vertical-align: top;
   }
 
   th {
     font-weight: bold;
     padding-left: 0;
-    padding-right: 2.5rem;
+    padding-right: 0;
+    vertical-align: top;
+    width: 15rem;
+  }
+}
+
+.rx-refill-link {
+  display: block;
+
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    margin-left: 2rem;
+  }
+}
+
+.rx-order-history {
+  margin-top: 3.5rem;
+
+  @media (min-width: $medium-screen) {
+    h3 {
+      border-bottom: none;
+    }
+  }
+
+  @media (max-width: $medium-screen) {
+    thead {
+      left: -9999rem;
+      position: absolute;
+      top: -9999rem;
+    }
+
+    tr {
+      display: block;
+      padding: 1.5rem 0;
+
+      &:nth-child(n+2) {
+        border-top: 1px solid $color-gray-light;
+      }
+    }
+
+    td {
+      border: none;
+      display: block;
+      padding: 0;
+
+      &:nth-child(1):before {
+        content: "Order status: ";
+        font-weight: bold;
+      }
+
+      &:nth-child(2):before {
+        content: "Tracking status: ";
+        font-weight: bold;
+      }
+    }
   }
 }
