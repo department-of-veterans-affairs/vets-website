@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import { Link } from 'react-router';
 
-import MessageProviderLink from './MessageProviderLink';
+import { rxStatuses } from '../config.js';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitButton from './SubmitButton';
@@ -15,35 +15,41 @@ class Prescription extends React.Component {
     const name = attrs['prescription-name'];
     const remaining = attrs['refill-remaining'];
 
-    let action;
-    let messageProvider;
+    let action = [];
 
-    // TODO: Refillable is currently always false.
-    // Switch to using refillable when it's working.
-    if (remaining === 0) {
-      messageProvider = <MessageProviderLink/>;
+    if (attrs['is-refillable'] === true) {
+      action.push(<SubmitButton
+          cssClass="usa-button-outline rx-prescription-button"
+          text="Refill Prescription"/>);
     } else {
-      action = (
-        <SubmitButton
-            cssClass="usa-button-outline rx-prescription-button"
-            text="Refill Prescription"/>
-      );
-    }
+      const callProvider = <div>Call Provider</div>;
 
-    if (attrs['is-trackable']) {
-      action = (
-        <TrackPackageLink
-            className="usa-button"
-            text="Track package"/>
-      );
-    } else {
-      action = <div className="rx-prescription-refill-requested">Refill requested</div>;
+      if (attrs['refill-status'] !== 'active') {
+        action.push(<div className="rx-prescription-status">{rxStatuses[attrs['refill-status']]}</div>);
+
+        if (attrs['refill-status'] !== 'submitted') {
+          action.push(callProvider);
+        }
+      } else {
+        if (attrs['is-trackable'] === true) {
+          action.push(<TrackPackageLink
+              className="usa-button"
+              text="Track package"/>);
+        } else {
+          action.push(<div
+              className="rx-prescription-refill-requested">Refill
+          requested</div>);
+        }
+
+        if (remaining === 0) {
+          action.push(callProvider);
+        }
+      }
     }
 
     const actionableContent = (
       <div className="rx-prescription-action">
         {action}
-        {messageProvider}
       </div>
     );
 
@@ -95,7 +101,8 @@ Prescription.propTypes = {
     'station-number': React.PropTypes.string,
     'is-refillable': React.PropTypes.bool.isRequired,
     'is-trackable': React.PropTypes.bool.isRequired,
-  }).isRequired
+  }).isRequired,
+  onRefill: React.PropTypes.func
 };
 
 export default Prescription;
