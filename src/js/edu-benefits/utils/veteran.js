@@ -2,17 +2,15 @@ import { makeField } from '../../common/model/fields';
 
 export function createTour() {
   return {
-    dateRange: {
-      toDate: {
-        month: makeField(''),
-        day: makeField(''),
-        year: makeField(''),
-      },
-      fromDate: {
-        month: makeField(''),
-        day: makeField(''),
-        year: makeField(''),
-      }
+    toDate: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
+    },
+    fromDate: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
     },
     serviceBranch: makeField(''),
     serviceStatus: makeField(''),
@@ -37,7 +35,8 @@ export function createVeteran() {
       onTerminalLeave: makeField(''),
       nonVaAssistance: makeField('')
     },
-    toursOfDuty: [
-    ]
+    toursOfDuty: [],
+    seniorRotcComissioned: makeField(''),
+    seniorRotcComissionYear: makeField('')
   };
 }

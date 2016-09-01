@@ -7,7 +7,7 @@ import GrowableTable from '../../common/components/form-elements/GrowableTable';
 import MilitaryServiceTour from './MilitaryServiceTour';
 import { createTour } from '../utils/veteran';
 
-import { validateIfDirty, isNotBlank, isValidYear } from '../../common/utils/validations';
+import { validateIfDirty, isNotBlank, isValidYear, isValidSection } from '../utils/validations';
 import { yesNo } from '../utils/options-for-select';
 
 export default class MilitaryServiceFields extends React.Component {
@@ -18,8 +18,8 @@ export default class MilitaryServiceFields extends React.Component {
       'applyToChapter1606',
       'applyToChapter32',
       'serviceBranch',
-      'dateRange.fromDate',
-      'dateRange.toDate',
+      'toDate',
+      'fromDate',
       'serviceStatus',
       'involuntarilyCalledToDuty'
     ];
@@ -62,17 +62,15 @@ export default class MilitaryServiceFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('currentlyActiveDuty.yes', update);}}/>
           {this.props.data.currentlyActiveDuty.yes.value === 'Y' ? activeDutyQuestions : null}
       </div>
-      <fieldset>
-        <legend>Military Service</legend>
-        <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
+      <div className="input-section">
+        <h4>Military Service</h4>
         <div className="usa-alert usa-alert-info">
-          You must enter at least one period of service.
+          <p className="usa-alert-text">You must enter at least one period of service.
           Every period of service that you identify will be applied to the single, specific benefit you are applying for.
           If there are specific periods of service that you do not want applied to the benefit, please identify the period and
-          the corresponding benefit program(s) to which you would like them applied.
+          the corresponding benefit program(s) to which you would like them applied.</p>
         </div>
         <hr/>
-        <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <GrowableTable
               component={MilitaryServiceTour}
@@ -81,9 +79,26 @@ export default class MilitaryServiceFields extends React.Component {
               initializeCurrentElement={() => this.props.initializeFields(tourFields, 'toursOfDuty')}
               onRowsUpdate={(update) => {this.props.onStateChange('toursOfDuty', update);}}
               path="/military-history/military-service"
-              rows={this.props.data.toursOfDuty}/>
+              rows={this.props.data.toursOfDuty}
+              isValidSection={isValidSection}
+              minimumRows={1}/>
+          <ErrorableRadioButtons
+              errorMessage={validateIfDirty(this.props.data.seniorRotcComissioned, isNotBlank) ? '' : 'Please select a response'}
+              label="Were you commissioned as a result of senior ROTC?"
+              name="seniorRotcComissioned"
+              options={yesNo}
+              value={this.props.data.seniorRotcComissioned}
+              onValueChange={(update) => {this.props.onStateChange('seniorRotcComissioned', update);}}/>
+            {this.props.data.seniorRotcComissioned.value === 'Y'
+              ? <ErrorableTextInput
+                  errorMessage={validateIfDirty(this.props.data.seniorRotcComissionYear, isValidYear) ? undefined : 'Please enter a valid year'}
+                  label="Year of commission"
+                  name="seniorRotcComissionYear"
+                  field={this.props.data.seniorRotcComissionYear}
+                  onValueChange={(update) => {this.props.onStateChange('seniorRotcComissionYear', update);}}/>
+                : null}
         </div>
-      </fieldset>
+      </div>
     </fieldset>
     );
   }

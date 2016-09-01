@@ -10,11 +10,17 @@ function validateIfDirty(field, validator) {
 }
 
 function validateIfDirtyDate(dayField, monthField, yearField, validator) {
-  if (dayField.dirty || monthField.dirty || yearField.dirty) {
+  if (dayField.dirty && monthField.dirty && yearField.dirty) {
     return validator(dayField.value, monthField.value, yearField.value);
   }
 
   return true;
+}
+
+function validateIfDirtyDateObj(date, validator) {
+  return validateIfDirtyDate(date.day, date.month, date.year, () => {
+    return validator(date);
+  });
 }
 
 function validateIfDirtyProvider(field1, field2, validator) {
@@ -112,10 +118,6 @@ function isValidField(validator, field) {
   return isBlank(field.value) || validator(field.value);
 }
 
-function isValidRequiredField(validator, field) {
-  return isNotBlank(field.value) && validator(field.value);
-}
-
 function isBlankDateField(field) {
   return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
 }
@@ -147,98 +149,8 @@ function isValidAddressField(field) {
   return initialOk && isNotBlank(field.postalCode.value);
 }
 
-function isValidInsurancePolicy(policyNumber, groupCode) {
-  if (policyNumber !== null || groupCode !== null) {
-    return isNotBlank(policyNumber) || isNotBlank(groupCode);
-  }
-  return true;
-}
-
-function isValidEntryDateField(date, dateOfBirth) {
-  let adjustedDate;
-  let adjustedDateOfBirth;
-
-  if (!isBlankDateField(date) && !isBlankDateField(dateOfBirth)) {
-    const adjustedBirthYear = Number(dateOfBirth.year.value) + 15;
-    adjustedDate = new Date(`${date.month.value}/${date.day.value}/${date.year.value}`);
-    adjustedDateOfBirth = new Date(`${dateOfBirth.month.value}/${dateOfBirth.day.value}/${adjustedBirthYear}`);
-
-    if (adjustedDate < adjustedDateOfBirth) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function isValidDischargeDateField(date, entryDate) {
-  let adjustedDate;
-  let adjustedEntryDate;
-  const d = new Date();
-  const today = new Date(d.setHours(0, 0, 0, 0));
-
-  if (!isBlankDateField(date) && !isBlankDateField(entryDate)) {
-    adjustedDate = new Date(`${date.month.value}/${date.day.value}/${date.year.value}`);
-    adjustedEntryDate = new Date(`${entryDate.month.value}/${entryDate.day.value}/${entryDate.year.value}`);
-
-    // Validation Rule: Discharge date must be after entry date and before today
-    if (adjustedDate < adjustedEntryDate || adjustedDate >= today) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function isValidDependentDateField(date, dateOfBirth) {
-  let adjustedDate;
-  let adjustedDateOfBirth;
-
-  if (!isBlankDateField(date) && !isBlankDateField(dateOfBirth)) {
-    adjustedDate = new Date(date.year.value, date.month.value, date.day.value);
-    adjustedDateOfBirth = new Date(dateOfBirth.year.value, dateOfBirth.month.value, dateOfBirth.day.value);
-
-    if (adjustedDate < adjustedDateOfBirth) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
-function isValidMarriageDate(date, dateOfBirth, spouseDateOfBirth) {
-  let adjustedDate;
-  let adjustedDateOfBirth;
-  let adjustedSpouseDateOfBirth;
-
-  if (!isBlankDateField(date) && !isBlankDateField(dateOfBirth) && !isBlankDateField(spouseDateOfBirth)) {
-    adjustedDate = new Date(date.year.value, date.month.value, date.day.value);
-    adjustedDateOfBirth = new Date(dateOfBirth.year.value, dateOfBirth.month.value, dateOfBirth.day.value);
-    adjustedSpouseDateOfBirth = new Date(spouseDateOfBirth.year.value, spouseDateOfBirth.month.value, spouseDateOfBirth.day.value);
-
-    if (adjustedDate < adjustedDateOfBirth) {
-      return false;
-    } else if (adjustedDate < adjustedSpouseDateOfBirth) {
-      return false;
-    }
-  }
-
-  return true;
-}
-
 function isValidPersonalInfoSection(data) {
   return isValidFullNameField(data.veteranFullName);
-}
-
-function isValidBirthInformationSection(data) {
-  return isValidRequiredField(isValidSSN, data.veteranSocialSecurityNumber) &&
-      isValidDateField(data.veteranDateOfBirth);
-}
-
-function isValidVaInformation(data) {
-  return validateIfDirty(data.isVaServiceConnected, isNotBlank) &&
-      validateIfDirty(data.compensableVaServiceConnected, isNotBlank) &&
-      validateIfDirty(data.receivesVaPension, isNotBlank);
 }
 
 function isValidVeteranAddress(data) {
@@ -263,12 +175,6 @@ function isValidContactInformationSection(data) {
       isValidField(isValidPhone, data.mobilePhone);
 }
 
-function isValidIncome(income) {
-  return isValidField(isValidMonetaryValue, income.grossIncome) &&
-      isValidField(isValidMonetaryValue, income.netIncome) &&
-      isValidField(isValidMonetaryValue, income.otherIncome);
-}
-
 function isValidSpouseInformation(data) {
   let isValidSpouse = true;
   let isValidSpouseAddress = true;
@@ -291,107 +197,26 @@ function isValidSpouseInformation(data) {
       isValidSpouseAddress;
 }
 
-function isValidChildInformationField(child) {
-  // TODO: add validation to check if DOB is before date of dependence
-  // TODO: should this check income? I don't think so because otherwise it blocks movement from the
-  // main ChildInformation component if there is a mistake from another component.
-  return isValidFullNameField(child.childFullName) &&
-    isNotBlank(child.childRelation.value) &&
-    isValidRequiredField(isValidSSN, child.childSocialSecurityNumber) &&
-    isValidDateField(child.childDateOfBirth) &&
-    isValidDateField(child.childBecameDependent) &&
-    isValidDependentDateField(child.childBecameDependent, child.childDateOfBirth) &&
-    isValidField(isValidMonetaryValue, child.childEducationExpenses);
-}
-
-function isValidChildren(data) {
-  let allChildrenValid = true;
-  const children = data.children;
-
-  for (let i = 0; i < children.length; i++) {
-    if (!isValidChildInformationField(children[i])) {
-      allChildrenValid = false;
-    }
-  }
-
-  return isNotBlank(data.hasChildrenToReport.value) &&
-      allChildrenValid;
-}
-
-function isValidChildrenIncome(children) {
-  for (let i = 0; i < children.length; i++) {
-    if (!isValidIncome(children[i])) {
-      return false;
-    }
-  }
-  return true;
-}
-
-function isValidAnnualIncome(data) {
-  let isValidSpouseIncomeFields = true;
-
-  if (data.spouseGrossIncome && data.spouseNetIncome && data.spouseOtherIncome) {
-    isValidSpouseIncomeFields =
-      isValidField(isValidMonetaryValue, data.spouseGrossIncome) &&
-      isValidField(isValidMonetaryValue, data.spouseNetIncome) &&
-      isValidField(isValidMonetaryValue, data.spouseOtherIncome);
-  }
-
-  return isValidField(isValidMonetaryValue, data.veteranGrossIncome) &&
-    isValidField(isValidMonetaryValue, data.veteranNetIncome) &&
-    isValidField(isValidMonetaryValue, data.veteranOtherIncome) &&
-    isValidSpouseIncomeFields &&
-    isValidChildrenIncome(data.children);
-}
-
-function isValidDeductibleExpenses(data) {
-  return isValidField(isValidMonetaryValue, data.deductibleMedicalExpenses) &&
-    isValidField(isValidMonetaryValue, data.deductibleFuneralExpenses) &&
-    isValidField(isValidMonetaryValue, data.deductibleEducationExpenses);
-}
-
-function isValidVAFacility(data) {
-  return validateIfDirty(data.facilityState, isNotBlank) &&
-    validateIfDirty(data.vaMedicalFacility, isNotBlank);
-}
-
-function isValidMedicareMedicaid(data) {
-  let isValidEffectiveDate = true;
-
-  if (data.isEnrolledMedicarePartA.value === 'Y') {
-    isValidEffectiveDate = isValidDateField(data.medicarePartAEffectiveDate);
-  }
-
-  return validateIfDirty(data.isMedicaidEligible, isNotBlank) &&
-    validateIfDirty(data.isEnrolledMedicarePartA, isNotBlank) &&
-    isValidEffectiveDate;
-}
-
-function isValidGeneralInsurance(data) {
-  let allProvidersValid = true;
-  const providers = data.providers;
-
-  for (let i = 0; i < providers.length; i++) {
-    if (!(isNotBlank(providers[i].insuranceName.value) &&
-        isNotBlank(providers[i].insurancePolicyHolderName.value) &&
-        isValidInsurancePolicy(providers[i].insurancePolicyNumber.value, providers[i].insuranceGroupCode.value))
-    ) {
-      allProvidersValid = false;
-    }
-  }
-
-  return isNotBlank(data.isCoveredByHealthInsurance.value) &&
-      allProvidersValid;
-}
-
 function isBenefitsInformationSectionValid(data) {
   return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
 }
 
+function isValidSeparatedDateField(date, dateEntered) {
+  if (!isBlankDateField(date) && !isBlankDateField(dateEntered)) {
+    const adjustedDate = new Date(`${date.month.value}/${date.day.value}/${date.year.value}`);
+    const adjustedEnteredDate = new Date(`${dateEntered.month.value}/${dateEntered.day.value}/${dateEntered.year.value}`);
+
+    return adjustedEnteredDate < adjustedDate;
+  }
+
+  return true;
+}
+
 function isTourOfDutyValid(tour) {
-  return isNotBlank(tour.serviceBranch)
-    && isValidDateField(tour.dateRange.fromDate)
-    && isValidDateField(tour.dateRange.toDate);
+  return isNotBlank(tour.serviceBranch.value)
+    && isValidDateField(tour.fromDate)
+    && isValidDateField(tour.toDate)
+    && isValidSeparatedDateField(tour.fromDate, tour.toDate);
 }
 
 function isMilitaryServicePageValid(data) {
@@ -430,6 +255,7 @@ function initializeNullValues(value) {
 export {
   validateIfDirty,
   validateIfDirtyDate,
+  validateIfDirtyDateObj,
   validateIfDirtyProvider,
   initializeNullValues,
   isBlank,
@@ -441,26 +267,14 @@ export {
   isValidPhone,
   isValidEmail,
   isValidYear,
-  isValidInsurancePolicy,
-  isValidEntryDateField,
-  isValidDischargeDateField,
-  isValidDependentDateField,
-  isValidMarriageDate,
   isValidField,
   isValidDateField,
+  isValidSeparatedDateField,
   isValidForm,
   isValidPersonalInfoSection,
-  isValidBirthInformationSection,
-  isValidVaInformation,
-  isValidVAFacility,
   isValidVeteranAddress,
   isValidContactInformationSection,
   isValidSpouseInformation,
-  isValidChildren,
-  isValidAnnualIncome,
-  isValidDeductibleExpenses,
-  isValidGeneralInsurance,
-  isValidMedicareMedicaid,
   isMilitaryServicePageValid,
   isValidSection
 };
