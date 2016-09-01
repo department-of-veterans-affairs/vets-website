@@ -33,3 +33,20 @@
     }
   }
 }
+
+.form-process-step {
+  color:$color-white;
+  font-weight: 700;
+  text-align: center;
+  width: 2em;
+  margin-left: -.2em;
+  top: -.2em;
+  display: block;
+  border: 4px solid $color-white;
+  background: $olso-gray;
+  border-radius: 4em;
+  display: inline-block;
+  &.current {
+    background: $color-primary;
+  }
+}
