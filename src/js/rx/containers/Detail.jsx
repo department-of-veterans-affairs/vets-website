@@ -4,10 +4,11 @@ import moment from 'moment';
 
 import { glossary } from '../glossary.js';
 import { loadData } from '../actions/prescriptions.js';
-import { openModal } from '../actions/modal.js';
+import { openGlossaryModal } from '../actions/modal.js';
 
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
+import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 
 class Detail extends React.Component {
@@ -25,47 +26,71 @@ class Detail extends React.Component {
 
   render() {
     let header;
-    let content;
+    let rxInfo;
+    let contactCard;
+    let orderHistory;
 
     const item = this.props.prescriptions.currentItem;
     // TODO: Replace this with the refill status
     // const glossaryTerm = this.getGlossaryTerm(glossary, item.attributes.status);
-    const glossaryTerm = this.getGlossaryTerm(glossary, 'Suspended');
+    const glossaryTerm = this.getGlossaryTerm(glossary, 'Discontinued');
 
     if (item) {
-      const attrs = item.attributes;
-      const data = {
-        Quantity: attrs.quantity,
-        // 'Prescription status': attrs[''],
-        'Prescription date': moment(
-            attrs['refill-submit-date']
-          ).format('D MMM YYYY'),
-        'Expiration date': moment(
-            attrs['expiration-date']
-          ).format('D MMM YYYY'),
-        'Prescription #': attrs['prescription-number'],
-        Refills: (
-          <span>
-            {attrs['refill-remaining']} left
-            &nbsp;&nbsp;&nbsp;<a>Refill prescription</a>
-          </span>
-        )
-      };
+      // Compose components from Rx data.
+      if (item.rx) {
+        const attrs = item.rx.attributes;
+        const data = {
+          Quantity: attrs.quantity,
+          // 'Prescription status': attrs[''],
+          'Prescription date': moment(
+              attrs['refill-submit-date']
+            ).format('D MMM YYYY'),
+          'Expiration date': moment(
+              attrs['expiration-date']
+            ).format('D MMM YYYY'),
+          'Prescription #': attrs['prescription-number'],
+          Refills: (
+            <span>
+              {attrs['refill-remaining']} left
+              <a className="rx-refill-link">Refill prescription</a>
+            </span>
+          )
+        };
 
-      header = (
-        <h2 className="rx-detail-header">
-          {attrs['prescription-name']}
-        </h2>
-      );
+        header = (
+          <h2 className="rx-heading">
+            {attrs['prescription-name']}
+          </h2>
+        );
 
-      content = (
-        <div>
+        rxInfo = (
           <TableVerticalHeader
-              className="usa-table-borderless rx-table"
+              className="usa-table-borderless rx-table rx-info"
               data={data}/>
-          <ContactCard/>
-        </div>
-      );
+        );
+      }
+
+      // Compose components from tracking data.
+      if (item.trackings) {
+        const currentPackage = item.trackings[0].attributes;
+        const facilityName = currentPackage['facility-name'];
+        const phoneNumber = currentPackage['rx-info-phone-number'];
+
+        contactCard = (
+          <ContactCard
+              facilityName={facilityName}
+              phoneNumber={phoneNumber}/>
+        );
+
+        orderHistory = (
+          <div className="rx-order-history">
+            <h3 className="rx-heading va-h-ruled">Order History</h3>
+            <OrderHistory
+                className="usa-table-borderless rx-table"
+                items={item.trackings}/>
+          </div>
+        );
+      }
     }
 
     return (
@@ -73,10 +98,12 @@ class Detail extends React.Component {
         <h1>Mail Order Prescriptions</h1>
         <BackLink text="Back to list"/>
         {header}
-        {content}
+        {rxInfo}
+        {contactCard}
+        {orderHistory}
         <p>
           <button
-              onClick={() => {this.props.dispatch(openModal(glossaryTerm));}}
+              onClick={() => {this.props.dispatch(openGlossaryModal(glossaryTerm));}}
               type="button"
               value="Discontinued">Discontinued</button></p>
       </div>

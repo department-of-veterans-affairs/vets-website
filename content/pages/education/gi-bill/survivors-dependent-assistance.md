@@ -49,14 +49,14 @@ You may be eligible for both of these programs, but you can use only one of them
 <caption>Compare DEA and Fry Scholarship Benefits</caption>
 <thead>
   <tr>
-    <th colspan="1"></th>
+    <td colspan="1"></td>
     <th colspan="1" scope="col">DEA</th>
     <th colspan="1" scope="col">Fry Scholarship</th>
   </tr>
 </thead>
 <tbody>
   <tr>
-    <td scope="row"><strong>Benefit Payments</strong></td>
+    <th scope="row"><strong>Benefit Payments</strong></th>
     <td>VA pays the monthly amount directly to the student. The current monthly payment for full-time training is $1,018.</td>
     <td>
     <ul>
@@ -70,7 +70,7 @@ You may be eligible for both of these programs, but you can use only one of them
   </tr>
 
   <tr>
-    <td scope="row"><strong>Duration of Benefits</strong></td>
+    <th scope="row"><strong>Duration of Benefits</strong></th>
     <td>20 years from the Servicemember’s date of death
   </td>
     <td>15 years from the Servicemember’s date of death
@@ -78,19 +78,19 @@ You may be eligible for both of these programs, but you can use only one of them
   </tr>
 
   <tr>
-    <td><strong>Maximum Months of Benefits</strong></td>
+    <th scope="row"><strong>Maximum Months of Benefits</strong></th>
     <td>45 months</td>
     <td>36 months</td>
   </tr>
 
   <tr>
-    <td scope="row"><strong>Simultaneous Receipt of DIC and Education Benefits for Spouse</strong></td>
+    <th scope="row"><strong>Simultaneous Receipt of DIC and Education Benefits for Spouse</strong></th>
     <td>Yes</td>
     <td>Yes</td>
   </tr>
 
   <tr>
-    <td scope="row"><strong>Programs Covered</strong></td>
+    <th scope="row"><strong>Programs Covered</strong></th>
     <td>
       <ul>
         <li>College, business, technical, or vocational programs</li>

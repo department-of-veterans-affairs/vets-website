@@ -1,5 +1,5 @@
 ---
-title: React Page
+title: Refill your prescriptions
 layout: page-react.html
 entryname: rx
 ---
