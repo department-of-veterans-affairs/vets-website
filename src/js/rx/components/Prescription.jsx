@@ -14,7 +14,6 @@ class Prescription extends React.Component {
     const id = this.props.id;
     const name = attrs['prescription-name'];
     const remaining = attrs['refill-remaining'];
-    const trackable = attrs['is-trackable'];
 
     let action;
     let messageProvider;
@@ -31,7 +30,7 @@ class Prescription extends React.Component {
       );
     }
 
-    if (trackable) {
+    if (attrs['is-trackable']) {
       action = (
         <TrackPackageLink
             className="usa-button"
@@ -50,7 +49,7 @@ class Prescription extends React.Component {
 
     return (
       <div className="rx-prescription"
-          key={this.props.key}
+          key={id}
           id={`rx-${id}`}>
         <div className="rx-prescription-inner cf">
           <h3 className="rx-prescription-title" title={name}>
@@ -67,9 +66,11 @@ class Prescription extends React.Component {
           <div className="rx-prescription-refilled">
             Last refilled: {moment(attrs['refill-date']).format('ll')}
           </div>
-          <RefillsRemainingCounter
-              remaining={attrs['refill-remaining']}/>
-          {actionableContent}
+          <div className="rx-prescription-countaction">
+            <RefillsRemainingCounter
+                remaining={attrs['refill-remaining']}/>
+            {actionableContent}
+          </div>
         </div>
       </div>
     );

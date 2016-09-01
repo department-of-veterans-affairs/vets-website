@@ -23,12 +23,17 @@ const ui = {
       verified: false,
       fields: []
     },
-    '/benefits-eligibility': {
+    '/benefits-eligibility/benefits-selection': {
+      complete: false,
+      verified: false,
+      fields: ['benefitsRelinquished', 'chapter30', 'chapter32', 'chapter33', 'chapter1606']
+    },
+    '/military-history/military-service': {
       complete: false,
       verified: false,
       fields: []
     },
-    '/military-history/service': {
+    '/military-history/additional-information': {
       complete: false,
       verified: false,
       fields: []
@@ -43,17 +48,22 @@ const ui = {
       verified: false,
       fields: []
     },
-    '/education-history': {
+    '/education-history/education-information': {
       complete: false,
       verified: false,
       fields: []
     },
-    '/employment-history': {
+    '/education-history/additional-information': {
       complete: false,
       verified: false,
       fields: []
     },
-    '/school-selection': {
+    '/employment-history/employment-information': {
+      complete: false,
+      verified: false,
+      fields: []
+    },
+    '/school-selection/school-information': {
       complete: false,
       verified: false,
       fields: []
@@ -68,7 +78,7 @@ const ui = {
       verified: false,
       fields: []
     },
-    '/veteran-information/contact': {
+    '/veteran-information/contact-information': {
       complete: false,
       verified: false,
       fields: []
@@ -96,15 +106,30 @@ const ui = {
   },
   panels: [
     {
+      path: '/veteran-information',
+      name: 'Veteran Information',
+      sections: [
+        { path: '/veteran-information/personal-information', name: 'Personal Information' },
+        { path: '/veteran-information/address', name: 'Address' },
+        { path: '/veteran-information/contact-information', name: 'Contact Information' },
+        { path: '/veteran-information/secondary-contact', name: 'Secondary Contact' },
+        { path: '/veteran-information/dependent-information', name: 'Dependent Information' },
+        { path: '/veteran-information/direct-deposit', name: 'Direct Deposit' },
+      ]
+    },
+    {
       path: '/benefits-eligibility',
       name: 'Benefits Eligibility',
-      sections: []
+      sections: [
+        { path: '/benefits-eligibility/benefits-selection', name: 'Benefits Selection' },
+      ]
     },
     {
       path: '/military-history',
       name: 'Military History',
       sections: [
-        { path: '/military-history/service', name: 'Military Service' },
+        { path: '/military-history/military-service', name: 'Military Service' },
+        { path: '/military-history/additional-information', name: 'Additional Information' },
         { path: '/military-history/rotc-history', name: 'ROTC History' },
         { path: '/military-history/benefits-history', name: 'Benefits History' }
       ]
@@ -112,34 +137,31 @@ const ui = {
     {
       path: '/education-history',
       name: 'Education History',
-      sections: []
+      sections: [
+        { path: '/education-history/education-information', name: 'Education Information' },
+        { path: '/education-history/additional-information', name: 'Additional Information' },
+      ]
     },
     {
       path: '/employment-history',
       name: 'Employment History',
-      sections: []
+      sections: [
+        { path: '/employment-history/employment-information', name: 'Employment Information' },
+      ]
     },
     {
       path: '/school-selection',
       name: 'School Selection',
-      sections: []
-    },
-    {
-      path: '/veteran-information',
-      name: 'Veteran Information',
       sections: [
-        { path: '/veteran-information/personal-information', name: 'Personal Information' },
-        { path: '/veteran-information/address', name: 'Address' },
-        { path: '/veteran-information/contact', name: 'Contact Information' },
-        { path: '/veteran-information/secondary-contact', name: 'Secondary Contact' },
-        { path: '/veteran-information/dependent-information', name: 'Dependent Information' },
-        { path: '/veteran-information/direct-deposit', name: 'Direct Deposit' },
+        { path: '/school-selection/school-information', name: 'School Information' },
       ]
     },
     {
       path: '/review-and-submit',
       name: 'Review',
-      sections: []
+      sections: [
+        { path: '/review-and-submit', name: 'Review Information' },
+      ]
     }
   ]
 };
