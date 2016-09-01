@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { glossary } from '../glossary.js';
-import { loadPrescription } from '../actions/prescriptions.js';
 import { openGlossaryModal } from '../actions/modal.js';
-
+import { loadPrescription } from '../actions/prescriptions.js';
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
 import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
+import { glossary } from '../config.js';
 
 class Detail extends React.Component {
   componentWillMount() {
