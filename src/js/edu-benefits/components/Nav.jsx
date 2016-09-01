@@ -1,17 +1,15 @@
 import React from 'react';
 
-function lastSection(panel) {
-  return panel.sections.slice(-1)[0].path;
+function lastSection(chapter) {
+  return chapter.sections.slice(-1)[0].path;
 }
 
-function determinePanelStyles(path, sectionState, formPanel, currentUrl) {
+function determineChapterStyles(sectionState, formChapter, currentUrl) {
   let classes = '';
-  if (currentUrl.startsWith(path)) {
+  if (formChapter.sections.some(section => section.path === currentUrl)) {
     classes += ' section-current';
   }
-  if (sectionState[path] && sectionState[path].complete) {
-    classes += ' section-complete';
-  } else if (formPanel.sections.length > 0 && sectionState[lastSection(formPanel)].complete) {
+  if (formChapter.sections.length > 0 && sectionState[lastSection(formChapter)].complete) {
     classes += ' section-complete';
   }
   return classes;
@@ -35,23 +33,23 @@ function getStepClassFromIndex(index, length) {
  * Props:
  * `currentUrl` - String. Specifies the current url.
  * `sections` - A hash of section names and the current validation state and fields
- * `panels` - A list of the panels in the nav and their sub-sections
+ * `chapters` - A list of the chapters in the nav and their sub-sections
  */
 class Nav extends React.Component {
   render() {
     const subnavStyles = 'step one wow fadeIn animated';
-    const { sections, currentUrl, panels } = this.props;
+    const { sections, currentUrl, chapters } = this.props;
 
     return (
       <ol className="process form-process">
-        {panels.map((panel, i) => {
+        {chapters.map((chapter, i) => {
           return (
-            <li role="presentation" className={`${getStepClassFromIndex(i, panels.length)} ${subnavStyles}
-              ${determinePanelStyles(panel.path, sections, panel, currentUrl)}`} key={panel.path}>
+            <li role="presentation" className={`${getStepClassFromIndex(i, chapters.length)} ${subnavStyles}
+              ${determineChapterStyles(sections, chapter, currentUrl)}`} key={chapter.name}>
               <div>
-                <h5>{panel.name}</h5>
+                <h5>{chapter.name}</h5>
                 <ul className="usa-unstyled-list">
-                  {panel.sections.map(section => {
+                  {chapter.sections.filter(section => section.name).map(section => {
                     return (
                       <li className={`${determineSectionStyles(section.path, currentUrl)}`} key={section.path}>
                         {section.name}
@@ -71,7 +69,7 @@ class Nav extends React.Component {
 Nav.propTypes = {
   currentUrl: React.PropTypes.string.isRequired,
   sections: React.PropTypes.object.isRequired,
-  panels: React.PropTypes.array.isRequired
+  chapters: React.PropTypes.array.isRequired
 };
 
 export default Nav;
