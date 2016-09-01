@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import { Link } from 'react-router';
 
-import { rxStatuses } from '../glossary.js';
+import { rxStatuses } from '../config.js';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitButton from './SubmitButton';
@@ -22,11 +22,13 @@ class Prescription extends React.Component {
           cssClass="usa-button-outline rx-prescription-button"
           text="Refill Prescription"/>);
     } else {
+      const callProvider = <div>Call Provider</div>;
+
       if (attrs['refill-status'] !== 'active') {
         action.push(<div className="rx-prescription-status">{rxStatuses[attrs['refill-status']]}</div>);
 
         if (attrs['refill-status'] !== 'submitted') {
-          action.push(<div>Call Provider</div>);
+          action.push(callProvider);
         }
       } else {
         if (attrs['is-trackable'] === true) {
@@ -40,14 +42,13 @@ class Prescription extends React.Component {
         }
 
         if (remaining === 0) {
-          action.push(<div>Request renewal</div>);
+          action.push(callProvider);
         }
       }
     }
 
     const actionableContent = (
       <div className="rx-prescription-action">
-        {tracking}
         {action}
       </div>
     );
