@@ -26,7 +26,7 @@ export function loadPrescription(id) {
 
 export function loadPrescriptions(options) {
   let uri = '/rx-api/prescriptions';
-  let queries = [];
+  const queries = [];
 
   if (options) {
     if (options.active) {
