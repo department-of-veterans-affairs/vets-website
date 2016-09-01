@@ -32,5 +32,15 @@ module.exports = {
     suspended: 'Suspended',
     refillinprocess: 'Refill in procress',
     unknown: 'Unknown'
-  }
+  },
+  sortOptions: [
+    { value: 'prescription-name',
+      label: 'Prescription name'
+    },
+    { value: 'facility-name',
+      label: 'Facility name'
+    },
+    { value: 'last-requested',
+      label: 'Last requested'
+    }]
 };
