@@ -3,7 +3,7 @@ import moment from 'moment';
 
 import { Link } from 'react-router';
 
-import { rxStatuses } from '../glossary.js';
+import { rxStatuses } from '../config.js';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitButton from './SubmitButton';
@@ -47,7 +47,6 @@ class Prescription extends React.Component {
 
     const actionableContent = (
       <div className="rx-prescription-action">
-        {tracking}
         {action}
       </div>
     );
