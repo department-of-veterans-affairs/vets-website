@@ -26,9 +26,6 @@ export default function prescriptions(state = initialState, action) {
   switch (action.type) {
     case 'LOAD_PRESCRIPTIONS_SUCCESS':
       return set('items', action.data.data, state);
-    case 'LOAD_PRESCRIPTIONS_FAILURE':
-      console.log(action.err);
-      return state;
     case 'LOAD_PRESCRIPTION_SUCCESS':
       return set('currentItem', action.data, state);
     // After the data is loaded, we can just use `state`.
