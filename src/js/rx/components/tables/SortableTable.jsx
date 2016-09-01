@@ -7,12 +7,34 @@ class SortableTable extends React.Component {
     this.makeRow = this.makeRow.bind(this);
   }
 
-  handleSort(param) {
-    return () => this.props.onSort(param);
+  handleSort(param, order) {
+    return () => this.props.onSort(param, order);
   }
 
   makeHeader(field, index) {
-    return <th key={index} onClick={this.handleSort(field.value)}><a>{field.label}</a></th>;
+    // Determine what sort order the header will yield on the next click.
+    // By default, it will be ascending. Only make it descending if
+    // the current field is already sorted on in ascending order.
+    let sortOrder = 'ASC';
+    let sortIcon;
+
+    if (this.props.currentSort === field.value) {
+      // Next click will be descending.
+      sortIcon = <i className="fa fa-caret-up"></i>;
+      sortOrder = 'DESC';
+    } else if (this.props.currentSort === `-${field.value}`) {
+      // Next click will be ascending.
+      sortIcon = <i className="fa fa-caret-down"></i>;
+    }
+
+    return (
+      <th key={index}>
+        <a onClick={this.handleSort(field.value, sortOrder)}>
+          {field.label}
+          {sortIcon}
+        </a>
+      </th>
+    );
   }
 
   makeRow(item, index) {

@@ -18,10 +18,13 @@ class History extends React.Component {
     this.props.dispatch(loadPrescriptions());
   }
 
-  handleSort(param) {
-    // console.log('Sorting happens here...');
+  handleSort(param, order) {
+    const formattedParam = _.snakeCase(param);
+    const sortValue = order === 'DESC'
+                    ? `-${formattedParam}`
+                    : formattedParam;
     this.props.dispatch(loadPrescriptions({
-      sort: _.snakeCase(param)
+      sort: sortValue
     }));
   }
 
@@ -30,6 +33,8 @@ class History extends React.Component {
     let content;
 
     if (items) {
+      const currentSort = this.props.prescriptions.sort;
+
       const fields = [
         { label: 'Last requested', value: 'ordered-date' },
         { label: 'Prescription', value: 'prescription-name' },
@@ -53,8 +58,9 @@ class History extends React.Component {
               type="history"/>
           <SortableTable
               className="usa-table-borderless rx-table"
-              fields={fields}
+              currentSort={currentSort}
               data={data}
+              fields={fields}
               onSort={this.handleSort}/>
           <Pagination/>
         </div>
