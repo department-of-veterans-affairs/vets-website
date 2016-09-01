@@ -26,17 +26,23 @@ export function loadPrescription(id) {
 
 export function loadPrescriptions(options) {
   let uri = '/rx-api/prescriptions';
+  let queries = [];
 
   if (options) {
     if (options.active) {
       uri = `${uri}/active`;
     }
     if (options.sort) {
-      uri = `${uri}?sort=${options.sort}`;
+      queries.push(`sort=${options.sort}`);
     }
     if (options.page) {
-      // Handle pagination here...
+      queries.push(`page=${options.page}`);
     }
+  }
+
+  if (queries.length > 0) {
+    const queryString = queries.join('&');
+    uri = `${uri}?${queryString}`;
   }
 
   return dispatch => fetch(uri)
