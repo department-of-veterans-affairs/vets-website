@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import moment from 'moment';
 
-import { loadAllRx } from '../actions/prescriptions';
+import { loadPrescriptions } from '../actions/prescriptions';
 import PrintList from '../components/PrintList';
 import Pagination from '../components/Pagination';
 import SortableTable from '../components/tables/SortableTable';
@@ -15,12 +15,12 @@ class History extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(loadAllRx());
+    this.props.dispatch(loadPrescriptions());
   }
 
   handleSort(param) {
     // console.log('Sorting happens here...');
-    this.props.dispatch(loadAllRx({
+    this.props.dispatch(loadPrescriptions({
       sort: _.snakeCase(param)
     }));
   }
