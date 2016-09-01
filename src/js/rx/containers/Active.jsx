@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
-import { loadActiveRx } from '../actions/prescriptions';
+import { loadPrescriptions } from '../actions/prescriptions';
 import PrescriptionList from '../components/PrescriptionList';
 import PrintList from '../components/PrintList';
 import SortMenu from '../components/SortMenu';
 
 class Active extends React.Component {
   componentWillMount() {
-    this.props.dispatch(loadActiveRx());
+    this.props.dispatch(loadPrescriptions({ active: true }));
     this.handleSortOnChange = this.handleSortOnChange.bind(this);
     this.handleSortOnClick = this.handleSortOnClick.bind(this);
     this.dispatchSortAction = this.dispatchSortAction.bind(this);

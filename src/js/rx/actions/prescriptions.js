@@ -1,4 +1,4 @@
-export function loadRx(id) {
+export function loadPrescription(id) {
   if (id) {
     // TODO: Use id param instead of test id
     // when API is able to retrieve any individual Rx.
@@ -12,21 +12,24 @@ export function loadRx(id) {
         rxUrls.map(url => fetch(url).then(res => res.json()))
       ).then(
         data => dispatch({
-          type: 'LOAD_RX_SUCCESS',
+          type: 'LOAD_PRESCRIPTION_SUCCESS',
           data: { rx: data[0].data, trackings: data[1].data }
         }),
-        err => dispatch({ type: 'LOAD_RX_FAILURE', err })
+        err => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE', err })
       );
     };
   }
 
-  return dispatch => dispatch({ type: 'LOAD_RX_FAILURE' });
+  return dispatch => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE' });
 }
 
-export function loadAllRx(options) {
+export function loadPrescriptions(options) {
   let uri = '/rx-api/prescriptions';
 
   if (options) {
+    if (options.active) {
+      uri = `${uri}/active`;
+    }
     if (options.sort) {
       uri = `${uri}?sort=${options.sort}`;
     }
@@ -38,16 +41,7 @@ export function loadAllRx(options) {
   return dispatch => fetch(uri)
     .then(res => res.json())
     .then(
-      data => dispatch({ type: 'LOAD_ALL_RX_SUCCESS', data }),
-      err => dispatch({ type: 'LOAD_ALL_RX_FAILURE', err })
-    );
-}
-
-export function loadActiveRx() {
-  return dispatch => fetch('/rx-api/prescriptions/active')
-    .then(res => res.json())
-    .then(
-      data => dispatch({ type: 'LOAD_ACTIVE_RX_SUCCESS', data }),
-      err => dispatch({ type: 'LOAD_ACTIVE_RX_FAILURE', err })
+      data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
+      err => dispatch({ type: 'LOAD_PRESCRIPTIONS_FAILURE', err })
     );
 }
