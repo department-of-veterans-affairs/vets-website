@@ -118,6 +118,10 @@ function isValidField(validator, field) {
   return isBlank(field.value) || validator(field.value);
 }
 
+function isValidRequiredField(validator, field) {
+  return isNotBlank(field.value) && validator(field.value);
+}
+
 function isBlankDateField(field) {
   return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
 }

@@ -14,13 +14,9 @@ export default function veteran(state = blankVeteran, action) {
     case ENSURE_FIELDS_INITIALIZED: {
       let newState;
       if (action.parentNode) {
-        const updatedParentArray = state[action.parentNode].map(item => {
-          return action.fields.reduce((itemState, field) => {
-            return _.set(field, dirtyAllFields(item[field]), itemState);
-          }, item);
-        }, state[action.parentNode]);
-
-        newState = _.set(action.parentNode, updatedParentArray, state);
+        newState = action.fields.reduce((vet, field) => {
+          return _.set(field, dirtyAllFields(state[field]), vet);
+        }, state);
       } else {
         newState = action.fields.reduce((vet, field) => {
           return _.set(field, dirtyAllFields(state[field]), vet);
