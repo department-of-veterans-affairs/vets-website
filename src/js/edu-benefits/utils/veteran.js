@@ -55,5 +55,23 @@ export function createVeteran() {
         year: makeField(''),
       }
     }
+    serviceBefore1977: {
+      married: makeField(''),
+      haveDependents: makeField(''),
+      parentDependent: makeField('')
+    },
+    veteranFullName: {
+      first: makeField(''),
+      middle: makeField(''),
+      last: makeField(''),
+      suffix: makeField(''),
+    },
+    veteranSocialSecurityNumber: makeField(''),
+    veteranDateOfBirth: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
+    },
+    gender: makeField('')
   };
 }

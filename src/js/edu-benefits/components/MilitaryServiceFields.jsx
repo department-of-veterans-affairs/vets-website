@@ -48,13 +48,13 @@ export default class MilitaryServiceFields extends React.Component {
       <div className="input-section">
         <p>If you graduated from a military service academy, what year did you graduate?</p>
         <ErrorableTextInput
-            errorMessage={validateIfDirty(this.props.data, isValidYear) ? undefined : 'Please enter a valid year'}
+            errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, isValidYear) ? undefined : 'Please enter a valid year'}
             label="Year"
+            placeholder="yyyy"
             name="serviceAcademyGraduationYear"
             field={this.props.data.serviceAcademyGraduationYear}
-            onValueChange={(update) => {this.handleChange(update);}}/>
+            onValueChange={(update) => {this.props.onStateChange('serviceAcademyGraduationYear', update);}}/>
         <ErrorableRadioButtons
-            errorMessage={validateIfDirty(this.props.data.currentlyActiveDuty.yes, isNotBlank) ? '' : 'Please select a response'}
             label="Are you on active duty?"
             name="currentlyActiveDuty"
             options={yesNo}
@@ -83,7 +83,6 @@ export default class MilitaryServiceFields extends React.Component {
               isValidSection={isValidSection}
               minimumRows={1}/>
           <ErrorableRadioButtons
-              errorMessage={validateIfDirty(this.props.data.seniorRotcComissioned, isNotBlank) ? '' : 'Please select a response'}
               label="Were you commissioned as a result of senior ROTC?"
               name="seniorRotcComissioned"
               options={yesNo}

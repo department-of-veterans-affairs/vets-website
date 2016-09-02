@@ -7,6 +7,8 @@ import IntroductionSection from './containers/IntroductionSection.jsx';
 import BenefitsSelection from './containers/BenefitsSelection';
 import MilitaryServicePage from './containers/MilitaryServicePage';
 import BenefitsHistoryPage from './containers/BenefitsHistoryPage';
+import PersonalInformationPage from './containers/veteran-information/PersonalInformationPage';
+import DependentInformationPage from './containers/DependentInformationPage';
 import PlaceholderSection from './containers/PlaceholderSection';
 
 const routes = [
@@ -16,7 +18,7 @@ const routes = [
       key="/introduction"
       path="/introduction"/>,
   <Route
-      component={PlaceholderSection}
+      component={PersonalInformationPage}
       key="/veteran-information/personal-information"
       path="/veteran-information/personal-information"
       chapter={chapterNames.veteranInformation}
@@ -69,7 +71,7 @@ const routes = [
       chapter={chapterNames.militaryHistory}
       name="Benefits History"/>,
   <Route
-      component={PlaceholderSection}
+      component={DependentInformationPage}
       key="/military-history/dependents"
       path="/military-history/dependents"
       chapter={chapterNames.militaryHistory}
