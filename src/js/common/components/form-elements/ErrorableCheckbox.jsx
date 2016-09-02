@@ -58,8 +58,13 @@ class ErrorableCheckbox extends React.Component {
       requiredSpan = <span className="hca-required-span">*</span>;
     }
 
+    let className = `form-checkbox${this.props.errorMessage ? ' usa-input-error' : ''}`;
+    if (!_.isUndefined(this.props.className)) {
+      className = `${className} ${this.props.className}`;
+    }
+
     return (
-      <div className={`${this.props.errorMessage ? 'usa-input-error' : ''} ${this.props.className}`}>
+      <div className={className}>
         <input
             aria-describedby={errorSpanId}
             checked={this.props.checked}

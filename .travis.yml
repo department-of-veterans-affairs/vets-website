@@ -42,18 +42,21 @@ deploy:
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: master
+      condition: "$TEST_SUITE == e2e"
   - provider: script
     script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/production s3://staging.vets.gov/
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: staging
+      condition: "$TEST_SUITE == e2e"
   - provider: script
     script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/production s3://www.vets.gov/
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: production
+      condition: "$TEST_SUITE == e2e"
   - provider: s3
     access_key_id: AKIAIEIFFI3LJZO44VTQ
     secret_access_key:
@@ -66,6 +69,7 @@ deploy:
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: staging
+      condition: "$TEST_SUITE == e2e"
   - provider: s3
     access_key_id: AKIAJPGY3X77ZMIBM4OA
     secret_access_key:
@@ -78,3 +82,4 @@ deploy:
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: production
+      condition: "$TEST_SUITE == e2e"

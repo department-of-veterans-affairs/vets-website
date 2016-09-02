@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { glossary } from '../glossary.js';
+import { glossary } from '../config.js';
 import { loadData } from '../actions/prescriptions.js';
 import { openGlossaryModal } from '../actions/modal.js';
 
