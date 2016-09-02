@@ -150,7 +150,9 @@ function isValidAddressField(field) {
 }
 
 function isValidPersonalInfoSection(data) {
-  return isValidFullNameField(data.veteranFullName);
+  return isValidFullNameField(data.veteranFullName) &&
+      isValidRequiredField(isValidSSN, data.veteranSocialSecurityNumber) &&
+      isValidDateField(data.veteranDateOfBirth);
 }
 
 function isValidVeteranAddress(data) {
@@ -197,7 +199,7 @@ function isValidSpouseInformation(data) {
       isValidSpouseAddress;
 }
 
-function isBenefitsInformationSectionValid(data) {
+function isValidBenefitsInformationSection(data) {
   return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
 }
 
@@ -212,29 +214,31 @@ function isValidSeparatedDateField(date, dateEntered) {
   return true;
 }
 
-function isTourOfDutyValid(tour) {
+function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
     && isValidDateField(tour.fromDate)
     && isValidDateField(tour.toDate)
     && isValidSeparatedDateField(tour.toDate, tour.fromDate);
 }
 
-function isMilitaryServicePageValid(data) {
+function isValidMilitaryServicePage(data) {
   return (!data.chapter33 || isNotBlank(data.benefitsRelinquished.value))
     && data.toursOfDuty.length > 0
-    && data.toursOfDuty.every(isTourOfDutyValid);
+    && data.toursOfDuty.every(isValidTourOfDuty);
 }
 
 function isValidForm(data) {
-  return isBenefitsInformationSectionValid(data);
+  return isValidBenefitsInformationSection(data);
 }
 
 function isValidSection(completePath, sectionData) {
   switch (completePath) {
+    case '/veteran-information/personal-information':
+      return isValidPersonalInfoSection(sectionData);
     case '/benefits-eligibility/benefits-selection':
-      return isBenefitsInformationSectionValid(sectionData);
+      return isValidBenefitsInformationSection(sectionData);
     case '/military-history/military-service':
-      return isMilitaryServicePageValid(sectionData);
+      return isValidMilitaryServicePage(sectionData);
     default:
       return true;
   }
@@ -275,6 +279,6 @@ export {
   isValidVeteranAddress,
   isValidContactInformationSection,
   isValidSpouseInformation,
-  isMilitaryServicePageValid,
+  isValidMilitaryServicePage,
   isValidSection
 };
