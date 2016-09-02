@@ -11,7 +11,7 @@ import ContactCard from '../components/ContactCard';
 import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 
-class Detail extends React.Component {
+export class Detail extends React.Component {
   componentWillMount() {
     this.props.dispatch(loadData(this.props.params.id));
     this.getGlossaryTerm = this.getGlossaryTerm.bind(this);
