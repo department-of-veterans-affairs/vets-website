@@ -37,6 +37,11 @@ export function createVeteran() {
     },
     toursOfDuty: [],
     seniorRotcComissioned: makeField(''),
-    seniorRotcComissionYear: makeField('')
+    seniorRotcComissionYear: makeField(''),
+    serviceBefore1977: {
+      married: makeField(''),
+      haveDependents: makeField(''),
+      parentDependent: makeField('')
+    }
   };
 }
