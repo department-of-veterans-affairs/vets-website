@@ -223,7 +223,9 @@ function isValidMarriageDate(date, dateOfBirth, spouseDateOfBirth) {
 }
 
 function isValidPersonalInfoSection(data) {
-  return isValidFullNameField(data.veteranFullName);
+  return isValidFullNameField(data.veteranFullName) &&
+      isValidRequiredField(isValidSSN, data.veteranSocialSecurityNumber) &&
+      isValidDateField(data.veteranDateOfBirth);
 }
 
 function isValidBirthInformationSection(data) {
@@ -387,18 +389,20 @@ function isValidServiceInformation(data) {
       isNotBlank(data.dischargeType.value);
 }
 
-function isBenefitsInformationSectionValid(data) {
+function isValidBenefitsInformationSection(data) {
   return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
 }
 
 function isValidForm(data) {
-  return isBenefitsInformationSectionValid(data);
+  return isValidBenefitsInformationSection(data);
 }
 
 function isValidSection(completePath, sectionData) {
   switch (completePath) {
+    case '/veteran-information/personal-information':
+      return isValidPersonalInfoSection(sectionData);
     case '/benefits-eligibility/benefits-selection':
-      return isBenefitsInformationSectionValid(sectionData);
+      return isValidBenefitsInformationSection(sectionData);
     default:
       return true;
   }
