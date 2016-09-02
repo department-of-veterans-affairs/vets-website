@@ -216,7 +216,7 @@ function isTourOfDutyValid(tour) {
   return isNotBlank(tour.serviceBranch.value)
     && isValidDateField(tour.fromDate)
     && isValidDateField(tour.toDate)
-    && isValidSeparatedDateField(tour.fromDate, tour.toDate);
+    && isValidSeparatedDateField(tour.toDate, tour.fromDate);
 }
 
 function isMilitaryServicePageValid(data) {
