@@ -9,7 +9,10 @@ import { yesNo } from '../utils/options-for-select';
 
 export default class BenefitsHistoryFields extends React.Component {
   render() {
-    const isToDateValid = isValidRepayingPeriodToDate(this.props.data.activeDutyRepayingPeriod.fromDate, this.props.data.activeDutyRepayingPeriod.toDate);
+    const isToDateValid = isValidRepayingPeriodToDate(
+      this.props.data.activeDutyRepayingPeriod.fromDate,
+      this.props.data.activeDutyRepayingPeriod.toDate
+    );
     return (<fieldset>
       <legend>Benefits History</legend>
       <div className="input-section">

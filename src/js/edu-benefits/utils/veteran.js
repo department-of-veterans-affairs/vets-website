@@ -54,7 +54,7 @@ export function createVeteran() {
         day: makeField(''),
         year: makeField(''),
       }
-    }
+    },
     serviceBefore1977: {
       married: makeField(''),
       haveDependents: makeField(''),
