@@ -47,12 +47,6 @@ class Prescription extends React.Component {
       }
     }
 
-    const actionableContent = (
-      <div className="rx-prescription-action">
-        {action}
-      </div>
-    );
-
     return (
       <div className="rx-prescription"
           key={id}
@@ -75,7 +69,9 @@ class Prescription extends React.Component {
           <div className="rx-prescription-countaction">
             <RefillsRemainingCounter
                 remaining={attrs['refill-remaining']}/>
-            {actionableContent}
+            <div className="rx-prescription-action">
+              {action}
+            </div>
           </div>
         </div>
       </div>
