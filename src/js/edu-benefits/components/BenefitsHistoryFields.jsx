@@ -4,14 +4,14 @@ import ErrorableRadioButtons from '../../common/components/form-elements/Errorab
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 import DateInput from '../../common/components/form-elements/DateInput';
 
-import { validateIfDirty, validateIfDirtyDateObj, isNotBlank, isValidDateField, isValidRepayingPeriodToDate } from '../utils/validations';
+import { validateIfDirty, validateIfDirtyDateObj, isNotBlank, isValidDateField, isValidDateRange } from '../utils/validations';
 import { yesNo } from '../utils/options-for-select';
 
 export default class BenefitsHistoryFields extends React.Component {
   render() {
-    const isToDateValid = isValidRepayingPeriodToDate(
-      this.props.data.activeDutyRepayingPeriod.fromDate,
-      this.props.data.activeDutyRepayingPeriod.toDate
+    const isToDateValid = isValidDateRange(
+      this.props.data.activeDutyRepayingPeriod.toDate,
+      this.props.data.activeDutyRepayingPeriod.fromDate
     );
     return (<fieldset>
       <legend>Benefits History</legend>
@@ -57,7 +57,7 @@ export default class BenefitsHistoryFields extends React.Component {
                 onValueChange={(update) => {this.props.onStateChange('activeDutyRepayingPeriod.fromDate', update);}}/>
             <DateInput
                 errorMessage={isToDateValid ? 'End Date must be after Start Date' : 'Please provide a response'}
-                validation={validateIfDirtyDateObj(this.props.data.activeDutyRepayingPeriod.toDate, (date) => isValidRepayingPeriodToDate(date, this.props.data.activeDutyRepayingPeriod.fromDate))}
+                validation={validateIfDirtyDateObj(this.props.data.activeDutyRepayingPeriod.toDate, (date) => isValidDateRange(this.props.data.activeDutyRepayingPeriod.fromDate, date))}
                 label="End date"
                 name="toDate"
                 day={this.props.data.activeDutyRepayingPeriod.toDate.day}
