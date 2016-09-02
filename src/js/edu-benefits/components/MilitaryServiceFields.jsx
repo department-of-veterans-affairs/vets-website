@@ -83,7 +83,6 @@ export default class MilitaryServiceFields extends React.Component {
               isValidSection={isValidSection}
               minimumRows={1}/>
           <ErrorableRadioButtons
-              errorMessage={validateIfDirty(this.props.data.seniorRotcComissioned, isNotBlank) ? '' : 'Please select a response'}
               label="Were you commissioned as a result of senior ROTC?"
               name="seniorRotcComissioned"
               options={yesNo}

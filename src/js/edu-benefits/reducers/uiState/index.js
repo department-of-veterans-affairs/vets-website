@@ -31,7 +31,7 @@ const ui = {
     '/military-history/military-service': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty', 'toursOfDuty', 'seniorRotcComissioned', 'seniorRotcComissionYear']
     },
     '/military-history/dependents': {
       complete: false,

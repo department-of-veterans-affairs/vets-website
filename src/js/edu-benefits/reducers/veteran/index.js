@@ -23,9 +23,7 @@ export default function veteran(state = blankVeteran, action) {
         newState = _.set(action.parentNode, updatedParentArray, state);
       } else {
         newState = action.fields.reduce((vet, field) => {
-          return _.isObject(vet[field]) ?
-            _.set([field, 'dirty'], true, vet) :
-            vet;
+          return _.set(field, dirtyAllFields(state[field]), vet);
         }, state);
       }
       return newState;
