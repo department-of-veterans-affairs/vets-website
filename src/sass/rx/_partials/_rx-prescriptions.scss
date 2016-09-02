@@ -102,6 +102,11 @@ button.rx-prescription-button,
   position: relative;
 }
 
+.rx-prescription-status,
+.rx-prescription-refill-requested {
+  font-weight: bold;
+}
+
 .rx-track-package-link {
   margin: 0;  
 }
