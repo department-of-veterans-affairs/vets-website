@@ -71,7 +71,7 @@ const ui = {
     '/veteran-information/personal-information': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['veteranFullName', 'veteranSocialSecurityNumber', 'veteranDateOfBirth', 'gender']
     },
     '/veteran-information/address': {
       complete: false,
