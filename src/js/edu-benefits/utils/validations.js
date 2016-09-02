@@ -212,6 +212,17 @@ function isValidSeparatedDateField(date, dateEntered) {
   return true;
 }
 
+function isValidRepayingPeriodToDate(date, dateStarted) {
+  if (!isBlankDateField(date) && !isBlankDateField(dateStarted)) {
+    const adjustedDate = new Date(`${date.month.value}/${date.day.value}/${date.year.value}`);
+    const adjustedStartDate = new Date(`${dateStarted.month.value}/${dateStarted.day.value}/${dateStarted.year.value}`);
+
+    return adjustedStartDate < adjustedDate;
+  }
+
+  return true;
+}
+
 function isTourOfDutyValid(tour) {
   return isNotBlank(tour.serviceBranch.value)
     && isValidDateField(tour.fromDate)
@@ -270,6 +281,7 @@ export {
   isValidField,
   isValidDateField,
   isValidSeparatedDateField,
+  isValidRepayingPeriodToDate,
   isValidForm,
   isValidPersonalInfoSection,
   isValidVeteranAddress,

@@ -37,6 +37,23 @@ export function createVeteran() {
     },
     toursOfDuty: [],
     seniorRotcComissioned: makeField(''),
-    seniorRotcComissionYear: makeField('')
+    seniorRotcComissionYear: makeField(''),
+    civilianBenefitsAssistance: false,
+    additionalContributions: false,
+    activeDutyKicker: false,
+    reserveKicker: false,
+    activeDutyRepaying: makeField(''),
+    activeDutyRepayingPeriod: {
+      toDate: {
+        month: makeField(''),
+        day: makeField(''),
+        year: makeField(''),
+      },
+      fromDate: {
+        month: makeField(''),
+        day: makeField(''),
+        year: makeField(''),
+      }
+    }
   };
 }
