@@ -232,7 +232,7 @@ class HealthCareApp extends React.Component {
 
     if (this.props.location.pathname === '/review-and-submit') {
       buttons = (<div>
-        <div className="row progress-buttons">
+        <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
             {backButton}
           </div>
@@ -251,7 +251,7 @@ class HealthCareApp extends React.Component {
       </div>);
     } else if (this.props.location.pathname === '/introduction') {
       buttons = (
-        <div className="row progress-buttons">
+        <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
             <ProgressButton
                 onButtonClick={this.handleContinue}
@@ -263,7 +263,7 @@ class HealthCareApp extends React.Component {
       );
     } else if (this.props.location.pathname === '/submit-message') {
       buttons = (
-        <div className="row progress-buttons">
+        <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
             {/* TODO: Figure out where this button should take the user. */}
             <a href="/">
@@ -274,7 +274,7 @@ class HealthCareApp extends React.Component {
       );
     } else {
       buttons = (
-        <div className="row progress-buttons">
+        <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
             {backButton}
           </div>
