@@ -13,14 +13,14 @@ import NavButtons from '../components/NavButtons';
 import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
 
-import { isValidSection } from '../utils/validations';
+import { isValidPage } from '../utils/validations';
 import { ensureSectionInitialized, updateCompletedStatus } from '../actions/index';
 
 import NavHeader from '../components/NavHeader';
 
 class EduBenefitsApp extends React.Component {
   render() {
-    const { sections, currentLocation, data, submission, router, dirtySection, setComplete } = this.props;
+    const { pageState, currentLocation, data, submission, router, dirtySection, setComplete } = this.props;
     const navigateTo = path => router.push(path);
 
     let devPanel = undefined;
@@ -41,7 +41,7 @@ class EduBenefitsApp extends React.Component {
       <div className="row">
         {devPanel}
         <div className="medium-4 columns show-for-medium-up">
-          <Nav sections={sections} chapters={chapters} currentUrl={currentLocation.pathname}/>
+          <Nav pages={pageState} chapters={chapters} currentUrl={currentLocation.pathname}/>
         </div>
         <div className="medium-8 columns">
           <div className="progress-box">
@@ -51,7 +51,7 @@ class EduBenefitsApp extends React.Component {
                 submission={submission}
                 pages={pages}
                 path={currentLocation.pathname}
-                isValid={isValidSection(currentLocation.pathname, data)}
+                isValid={isValidPage(currentLocation.pathname, data)}
                 dirtySection={dirtySection}
                 onNavigate={navigateTo}
                 onComplete={setComplete}/>
@@ -65,7 +65,7 @@ class EduBenefitsApp extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    sections: state.uiState.sections,
+    pageState: state.uiState.pages,
     currentLocation: ownProps.location,
     data: state.veteran,
     submission: state.uiState.submission,
@@ -76,11 +76,11 @@ function mapStateToProps(state, ownProps) {
 // Fill this in when we start using actions
 function mapDispatchToProps(dispatch) {
   return {
-    dirtySection(section) {
-      dispatch(ensureSectionInitialized(section));
+    dirtySection(page) {
+      dispatch(ensureSectionInitialized(page));
     },
-    setComplete(section) {
-      dispatch(updateCompletedStatus(section));
+    setComplete(page) {
+      dispatch(updateCompletedStatus(page));
     }
   };
 }

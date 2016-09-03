@@ -1,15 +1,15 @@
 import React from 'react';
 
 function lastSection(chapter) {
-  return chapter.sections.slice(-1)[0].path;
+  return chapter.pages.slice(-1)[0].path;
 }
 
-function determineChapterStyles(sectionState, formChapter, currentUrl) {
+function determineChapterStyles(pageState, formChapter, currentUrl) {
   let classes = '';
-  if (formChapter.sections.some(section => section.path === currentUrl)) {
+  if (formChapter.pages.some(page => page.path === currentUrl)) {
     classes += ' section-current';
   }
-  if (formChapter.sections.length > 0 && sectionState[lastSection(formChapter)].complete) {
+  if (formChapter.pages.length > 0 && pageState[lastSection(formChapter)].complete) {
     classes += ' section-complete';
   }
   return classes;
@@ -27,32 +27,32 @@ function getStepClassFromIndex(index, length) {
 }
 
 /**
- * Component for navigation, with links to each section of the form.
- * Parent links redirect to first section link within topic.
+ * Component for navigation, with links to each page of the form.
+ * Parent links redirect to first page link within topic.
  *
  * Props:
  * `currentUrl` - String. Specifies the current url.
- * `sections` - A hash of section names and the current validation state and fields
- * `chapters` - A list of the chapters in the nav and their sub-sections
+ * `pages` - A hash of page names and the current validation state and fields
+ * `chapters` - A list of the chapters in the nav and their pages
  */
 class Nav extends React.Component {
   render() {
     const subnavStyles = 'step one wow fadeIn animated';
-    const { sections, currentUrl, chapters } = this.props;
+    const { pages, currentUrl, chapters } = this.props;
 
     return (
       <ol className="process form-process">
         {chapters.map((chapter, i) => {
           return (
             <li role="presentation" className={`${getStepClassFromIndex(i, chapters.length)} ${subnavStyles}
-              ${determineChapterStyles(sections, chapter, currentUrl)}`} key={chapter.name}>
+              ${determineChapterStyles(pages, chapter, currentUrl)}`} key={chapter.name}>
               <div>
                 <h5>{chapter.name}</h5>
                 <ul className="usa-unstyled-list">
-                  {chapter.sections.filter(section => section.name).map(section => {
+                  {chapter.pages.filter(page => page.name).map(page => {
                     return (
-                      <li className={`${determineSectionStyles(section.path, currentUrl)}`} key={section.path}>
-                        {section.name}
+                      <li className={`${determineSectionStyles(page.path, currentUrl)}`} key={page.path}>
+                        {page.name}
                       </li>
                     );
                   })}
@@ -68,7 +68,7 @@ class Nav extends React.Component {
 
 Nav.propTypes = {
   currentUrl: React.PropTypes.string.isRequired,
-  sections: React.PropTypes.object.isRequired,
+  pages: React.PropTypes.object.isRequired,
   chapters: React.PropTypes.array.isRequired
 };
 

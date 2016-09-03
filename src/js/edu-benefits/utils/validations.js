@@ -153,7 +153,7 @@ function isValidAddressField(field) {
   return initialOk && isNotBlank(field.postalCode.value);
 }
 
-function isValidPersonalInfoSection(data) {
+function isValidPersonalInfoPage(data) {
   return isValidFullNameField(data.veteranFullName) &&
       isValidRequiredField(isValidSSN, data.veteranSocialSecurityNumber) &&
       isValidDateField(data.veteranDateOfBirth);
@@ -163,7 +163,7 @@ function isValidVeteranAddress(data) {
   return isValidAddressField(data.veteranAddress);
 }
 
-function isValidContactInformationSection(data) {
+function isValidContactInformationPage(data) {
   let emailConfirmationValid = true;
 
   if (isNotBlank(data.email.value) && isBlank(data.emailConfirmation.value)) {
@@ -203,7 +203,7 @@ function isValidSpouseInformation(data) {
       isValidSpouseAddress;
 }
 
-function isValidBenefitsInformationSection(data) {
+function isValidBenefitsInformationPage(data) {
   return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
 }
 
@@ -232,17 +232,17 @@ function isValidMilitaryServicePage(data) {
 }
 
 function isValidForm(data) {
-  return isValidBenefitsInformationSection(data);
+  return isValidBenefitsInformationPage(data);
 }
 
-function isValidSection(completePath, sectionData) {
+function isValidPage(completePath, pageData) {
   switch (completePath) {
     case '/veteran-information/personal-information':
-      return isValidPersonalInfoSection(sectionData);
+      return isValidPersonalInfoPage(pageData);
     case '/benefits-eligibility/benefits-selection':
-      return isValidBenefitsInformationSection(sectionData);
+      return isValidBenefitsInformationPage(pageData);
     case '/military-history/military-service':
-      return isValidMilitaryServicePage(sectionData);
+      return isValidMilitaryServicePage(pageData);
     default:
       return true;
   }
@@ -279,10 +279,10 @@ export {
   isValidDateField,
   isValidSeparatedDateField,
   isValidForm,
-  isValidPersonalInfoSection,
+  isValidPersonalInfoPage,
   isValidVeteranAddress,
-  isValidContactInformationSection,
+  isValidContactInformationPage,
   isValidSpouseInformation,
   isValidMilitaryServicePage,
-  isValidSection
+  isValidPage
 };

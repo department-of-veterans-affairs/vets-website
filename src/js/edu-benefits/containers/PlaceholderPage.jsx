@@ -2,7 +2,7 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-class PlaceholderSection extends React.Component {
+class PlaceholderPage extends React.Component {
   render() {
     const { currentLocation } = this.props;
 
@@ -25,5 +25,5 @@ function mapDispatchToProps() {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PlaceholderSection);
-export { PlaceholderSection };
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceholderPage);
+export { PlaceholderPage };
