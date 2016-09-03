@@ -7,6 +7,7 @@ import { loadPrescriptions } from '../actions/prescriptions';
 import PrescriptionList from '../components/PrescriptionList';
 import PrintList from '../components/PrintList';
 import SortMenu from '../components/SortMenu';
+import { sortOptions } from '../config.js';
 
 class Active extends React.Component {
   componentWillMount() {
@@ -45,6 +46,8 @@ class Active extends React.Component {
     let content;
 
     if (items) {
+      const sortValue = this.props.location.query.sort;
+
       content = (
         <div>
           <SortMenu
