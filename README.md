@@ -20,7 +20,7 @@ very secret.
 | add new static content to the site. | Create new files at the right location in `content/pages`. Send a PR. |
 | build the site with dev features enabled. | `npm run build` |
 | build the production site (dev features disabled). | `npm run build -- --buildtype production` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
-| build the site with optimizaitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
+| build the site with optimizations (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
 | run the site for local development with hot reloading of javascript, and sass | `npm run watch` then visit `http://localhost:3000/webpack-dev-server/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
@@ -100,7 +100,7 @@ The build is abstracted by the command `npm run build` which really just exectue
 `scripts/build.js` --  a simple Javscript program that configures Metalscript and Webpack
 based on things in `config/`, commandline flags, and the `NODE_ENV` environment variable.
 
-*WARNING: `--buildtype` and `NODE_ENV` are unlrelated!*
+*WARNING: `--buildtype` and `NODE_ENV` are unrelated!*
 
 `--buildtype` changes what constants are defined which enables/disables features from the code.
 
@@ -110,7 +110,7 @@ enabling minification + javascript chunking.
 (Note: The `NODE_ENV` env variable dependency is a questionable design choice. It should
 
 #### Metalsmith -- Static content builds and top-level file watching.
-The `build.js` script relies on [Metalsmith's Javscript
+The `build.js` script relies on [Metalsmith's Javascript
 API](https://github.com/metalsmith/metalsmith#api) as the main build script. Metalscript,
 at the core, is just a file watcher that runs a set of files through chain of plugins.
 Using the Javascript API for Metalscript allows removal of tools like Grunt while also
@@ -218,7 +218,7 @@ These three steps have been abstracted into a script TODO(awong): actually do th
 End-to-end tests do not need to be restricted exclusively to selenium style tests
 (eg, navigate to this url, click this button, etc). At its core, it just a system
 for starting up and controlling web browser.  For mocha tests that we want to
-run on real browser, either because the tests is excercising browser quriks or because
+run on real browser, either because the tests is exercising browser quirks or because
 the test requries features that jsdom does not provide, putting them into a
 `e2e.spec.js` file is completely valid and good.
 
@@ -235,7 +235,7 @@ is stored in `.travis.yml`.
 All pushes kick off a matrix build for both `BUILDTYPE=development` and `BUILDTYPE=production`.
 Ensures that all PRs always work on both build configurations.
 
-Travis also always builds in optmized mode with `NODE_ENV=production`. See build section for
+Travis also always builds in optimized mode with `NODE_ENV=production`. See build section for
 distinction between BUILDTYPE and NODE_ENV.
 
 
