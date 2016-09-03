@@ -6,6 +6,7 @@ import { loadPrescriptions } from '../actions/prescriptions';
 import PrescriptionList from '../components/PrescriptionList';
 import PrintList from '../components/PrintList';
 import SortMenu from '../components/SortMenu';
+import { sortOptions } from '../config.js';
 
 class Active extends React.Component {
   componentWillMount() {
@@ -45,14 +46,6 @@ class Active extends React.Component {
 
     if (items) {
       const sortValue = this.props.location.query.sort;
-      // TODO: Move to a config file?
-      const sortOptions = [
-        { value: 'prescription-name',
-          label: 'Prescription name' },
-        { value: 'facility-name',
-          label: 'Facility name' },
-        { value: 'last-requested',
-          label: 'Last requested' }];
 
       content = (
         <div>
