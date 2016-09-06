@@ -7,20 +7,19 @@ import { veteranUpdateField } from '../actions/index';
 
 class BenefitsSelection extends React.Component {
   render() {
-    const { section, data, onStateChange } = this.props;
+    const { data, onStateChange } = this.props;
 
     return (
       <div className="form-panel">
-        <BenefitsSelectionFields data={data} section={section} onStateChange={onStateChange}/>
+        <BenefitsSelectionFields data={data} onStateChange={onStateChange}/>
       </div>
     );
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    data: state.veteran,
-    section: state.uiState.sections[ownProps.location.pathname],
+    data: state.veteran
   };
 }
 

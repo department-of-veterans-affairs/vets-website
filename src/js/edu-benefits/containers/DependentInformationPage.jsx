@@ -2,17 +2,16 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import PersonalInformationFields from '../../components/veteran-information/PersonalInformationFields';
+import DependentInformationFields from '../components/DependentInformationFields';
+import { veteranUpdateField } from '../actions/index';
 
-import { veteranUpdateField } from '../../actions/index';
-
-class PersonalInformationPage extends React.Component {
+class DependentInformationPage extends React.Component {
   render() {
     const { data, onStateChange } = this.props;
 
     return (
       <div className="form-panel">
-        <PersonalInformationFields data={data} onStateChange={onStateChange}/>
+        <DependentInformationFields data={data} onStateChange={onStateChange}/>
       </div>
     );
   }
@@ -32,5 +31,5 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PersonalInformationPage);
-export { PersonalInformationPage };
+export default connect(mapStateToProps, mapDispatchToProps)(DependentInformationPage);
+export { DependentInformationPage };

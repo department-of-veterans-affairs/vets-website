@@ -69,25 +69,6 @@ button.usa-button-outline {
   margin: 0 0 3rem;
 }
 
-.rx-print-list {
-  white-space: nowrap;
-
-  @media screen and (min-width: $medium-screen) {
-    float: right;
-    margin: 0;
-  }
-}
-
-.rx-print-list-option {
-  &:before {
-    content: "\a0\a0";
-  }
-
-  & + .rx-print-list-option:before {
-    content: "\a0\a0|\a0\a0";
-  }
-}
-
 // TODO: Contribute this back to core
 .va-required-span {
   color: $color-secondary-dark;

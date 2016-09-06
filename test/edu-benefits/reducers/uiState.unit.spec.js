@@ -14,47 +14,47 @@ import {
 describe('uiState reducer', () => {
   it('should set the complete status', () => {
     const uiState = {
-      sections: {
+      pages: {
         '/path': {
           complete: false
         }
       }
     };
     const newState = uiStateReducer(uiState, { type: UPDATE_COMPLETED_STATUS, path: '/path' });
-    expect(newState.sections['/path'].complete).to.be.true;
+    expect(newState.pages['/path'].complete).to.be.true;
   });
   it('should set the incomplete status', () => {
     const uiState = {
-      sections: {
+      pages: {
         '/path': {
           complete: true
         }
       }
     };
     const newState = uiStateReducer(uiState, { type: UPDATE_INCOMPLETE_STATUS, path: '/path' });
-    expect(newState.sections['/path'].complete).to.be.false;
+    expect(newState.pages['/path'].complete).to.be.false;
   });
   it('should set the review status', () => {
     const uiState = {
-      sections: {
+      pages: {
         '/path': {
           complete: true
         }
       }
     };
     const newState = uiStateReducer(uiState, { type: UPDATE_REVIEW_STATUS, path: '/path', value: false });
-    expect(newState.sections['/path'].complete).to.be.false;
+    expect(newState.pages['/path'].complete).to.be.false;
   });
   it('should set the verified status', () => {
     const uiState = {
-      sections: {
+      pages: {
         '/path': {
           verified: true
         }
       }
     };
     const newState = uiStateReducer(uiState, { type: UPDATE_VERIFIED_STATUS, path: '/path', value: false });
-    expect(newState.sections['/path'].verified).to.be.false;
+    expect(newState.pages['/path'].verified).to.be.false;
   });
   it('should set the submission status', () => {
     const uiState = {
