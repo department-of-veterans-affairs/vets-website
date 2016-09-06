@@ -13,7 +13,7 @@ export default class NavButtons extends React.Component {
       this.props.onNavigate(nextPath);
       this.props.onComplete(this.props.path);
     } else if (!this.props.isValid) {
-      this.props.dirtyFields(this.props.path);
+      this.props.dirtySection(this.props.path);
     }
   }
   handleSubmit() {
@@ -155,5 +155,5 @@ NavButtons.propTypes = {
   onSubmit: React.PropTypes.func,
   onNavigate: React.PropTypes.func,
   onComplete: React.PropTypes.func,
-  dirtyFields: React.PropTypes.func
+  dirtySection: React.PropTypes.func
 };
