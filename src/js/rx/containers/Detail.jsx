@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { glossary } from '../config.js';
 import { loadData } from '../actions/prescriptions.js';
 import { openGlossaryModal } from '../actions/modal.js';
-
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
 import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
+import { glossary, rxStatuses } from '../config.js';
 
 class Detail extends React.Component {
   componentWillMount() {
@@ -41,17 +40,13 @@ class Detail extends React.Component {
         const attrs = item.rx.attributes;
         const data = {
           Quantity: attrs.quantity,
-          // 'Prescription status': attrs[''],
-          'Prescription date': moment(
-              attrs['refill-submit-date']
-            ).format('D MMM YYYY'),
-          'Expiration date': moment(
-              attrs['expiration-date']
-            ).format('D MMM YYYY'),
+          'Prescription status': rxStatuses[attrs['refill-status']],
+          'Last fill date': moment(attrs['dispensed-date']).format('ll'),
+          'Expiration date': moment(attrs['expiration-date']).format('ll'),
           'Prescription #': attrs['prescription-number'],
           Refills: (
             <span>
-              {attrs['refill-remaining']} left
+              {attrs['refill-remaining']} remaining
               <a className="rx-refill-link">Refill prescription</a>
             </span>
           )
