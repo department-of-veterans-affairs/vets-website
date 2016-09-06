@@ -54,7 +54,13 @@
       &:before {
         font-weight: bold;
       }
+    }
+  }
+}
 
+#rx-history .rx-collapsible-table {
+  @media (max-width: $medium-screen) {
+    td {
       &:nth-child(2) {
         // Get the prescription name to appear above the other fields.
         display: table-header-group;

@@ -68,7 +68,7 @@ class History extends React.Component {
     }
 
     return (
-      <div className="va-tab-content">
+      <div id="rx-history" className="va-tab-content">
         {content}
       </div>
     );

@@ -85,7 +85,7 @@ class Detail extends React.Component {
           <div className="rx-order-history">
             <h3 className="rx-heading va-h-ruled">Order History</h3>
             <OrderHistory
-                className="usa-table-borderless rx-table"
+                className="usa-table-borderless rx-table rx-collapsible-table"
                 items={item.trackings}/>
           </div>
         );
