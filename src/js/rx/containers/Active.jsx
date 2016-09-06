@@ -4,7 +4,6 @@ import { browserHistory } from 'react-router';
 
 import { sortOptions } from '../config.js';
 import PrescriptionList from '../components/PrescriptionList';
-import PrintList from '../components/PrintList';
 import SortMenu from '../components/SortMenu';
 
 class Active extends React.Component {
@@ -49,8 +48,6 @@ class Active extends React.Component {
             clickHandler={this.handleSortOnClick}
             options={sortOptions}
             selected={sortValue}/>
-        <PrintList
-            type="active"/>
         <PrescriptionList
             items={items}
             // If we're sorting by facility, tell PrescriptionList to group 'em.

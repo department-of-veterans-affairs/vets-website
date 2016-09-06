@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import { Table } from 'reactable';
 
-import PrintList from '../components/PrintList';
 import Pagination from '../components/Pagination';
 
 class History extends React.Component {
@@ -13,8 +12,6 @@ class History extends React.Component {
     // TODO: replace reactable
     return (
       <div className="va-tab-content">
-        <PrintList
-            type="history"/>
         <Table
             className="usa-table-borderless rx-table"
             data={items}
