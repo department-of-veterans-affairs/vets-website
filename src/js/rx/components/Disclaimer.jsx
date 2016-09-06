@@ -9,6 +9,7 @@ class Disclaimer extends React.Component {
     );
 
     const openButton = classNames(
+      { fa: true },
       { 'fa-chevron-down': !this.props.isOpen },
       { 'fa-chevron-up': this.props.isOpen }
     );
@@ -28,7 +29,7 @@ class Disclaimer extends React.Component {
           <button
               className="rx-disclaimer-close usa-button-unstyled"
               onClick={this.props.handleClose}>
-            <i className={`fa ${openButton}`}></i>
+            <i className={openButton}></i>
             <i className="usa-sr-only">{buttonText}</i>
           </button>
         </div>
