@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import { isValidSeparatedDateField } from '../../../src/js/edu-benefits/utils/validations.js';
+import { isValidDateRange } from '../../../src/js/edu-benefits/utils/validations.js';
 
 describe('Validations unit tests', () => {
-  describe('isValidSeparatedDateField', () => {
-    it('validates if separated date is after entered date', () => {
-      const dateEntered = {
+  describe('isValidDateRange', () => {
+    it('validates if to date is after from date', () => {
+      const fromDate = {
         day: {
           value: 3,
           dirty: true
@@ -19,7 +19,7 @@ describe('Validations unit tests', () => {
           dirty: true
         }
       };
-      const dateSeparated = {
+      const toDate = {
         day: {
           value: 3,
           dirty: true
@@ -33,10 +33,10 @@ describe('Validations unit tests', () => {
           dirty: true
         }
       };
-      expect(isValidSeparatedDateField(dateSeparated, dateEntered)).to.be.true;
+      expect(isValidDateRange(fromDate, toDate)).to.be.true;
     });
-    it('does not validate separated date is before entered date', () => {
-      const dateEntered = {
+    it('does not validate to date is before from date', () => {
+      const fromDate = {
         day: {
           value: 3,
           dirty: true
@@ -50,7 +50,7 @@ describe('Validations unit tests', () => {
           dirty: true
         }
       };
-      const dateSeparated = {
+      const toDate = {
         day: {
           value: 3,
           dirty: true
@@ -64,7 +64,7 @@ describe('Validations unit tests', () => {
           dirty: true
         }
       };
-      expect(isValidSeparatedDateField(dateSeparated, dateEntered)).to.be.false;
+      expect(isValidDateRange(fromDate, toDate)).to.be.false;
     });
   });
 });
