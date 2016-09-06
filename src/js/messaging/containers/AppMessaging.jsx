@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-class MessagingApp extends React.Component {
+class AppMessaging extends React.Component {
   render() {
     return (
       <div className="messaging"></div>
@@ -9,7 +9,7 @@ class MessagingApp extends React.Component {
   }
 }
 
-MessagingApp.propTypes = {
+AppMessaging.propTypes = {
   children: React.PropTypes.element
 };
 
@@ -18,4 +18,4 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps)(MessagingApp);
+export default connect(mapStateToProps)(AppMessaging);
