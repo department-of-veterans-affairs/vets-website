@@ -6,7 +6,7 @@ import ErrorableTextInput from '../../common/components/form-elements/ErrorableT
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
 import DateInput from '../../common/components/form-elements/DateInput';
 
-import { validateIfDirtyDateObj, validateIfDirty, isNotBlank, isValidDateField, isValidSeparatedDateField } from '../utils/validations';
+import { validateIfDirtyDateObj, validateIfDirty, isNotBlank, isValidDateField, isValidDateRange } from '../utils/validations';
 import { serviceBranches, yesNoNA } from '../utils/options-for-select';
 
 export default class MilitaryServiceTour extends React.Component {
@@ -61,8 +61,8 @@ export default class MilitaryServiceTour extends React.Component {
             year={tour.fromDate.year}
             onValueChange={(update) => {onValueChange('fromDate', update);}}/>
         <DateInput required
-            errorMessage={isValidSeparatedDateField(tour.toDate, tour.fromDate) ? 'Please provide a response' : 'Date separated must be after date entered'}
-            validation={validateIfDirtyDateObj(tour.toDate, date => isValidSeparatedDateField(date, tour.fromDate))}
+            errorMessage={isValidDateRange(tour.fromDate, tour.toDate) ? 'Please provide a response' : 'Date separated must be after date entered'}
+            validation={validateIfDirtyDateObj(tour.toDate, date => isValidDateRange(tour.fromDate, date))}
             label="Date separated"
             name="toDate"
             day={tour.toDate.day}

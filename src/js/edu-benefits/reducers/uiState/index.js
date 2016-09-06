@@ -46,7 +46,7 @@ const ui = {
     '/military-history/benefits-history': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['civilianBenefitsAssistance', 'additionalContributions', 'activeDutyKicker', 'reserveKicker', 'activeDutyRepaying', 'activeDutyRepayingPeriod']
     },
     '/education-history/education-information': {
       complete: false,
