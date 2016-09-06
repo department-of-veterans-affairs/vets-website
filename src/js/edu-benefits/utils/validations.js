@@ -265,7 +265,7 @@ function isValidPage(completePath, pageData) {
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
     case '/employment-history/employment-information':
-      return isValidEmploymentHistory(sectionData);
+      return isValidEmploymentHistory(pageData);
     default:
       return true;
   }
