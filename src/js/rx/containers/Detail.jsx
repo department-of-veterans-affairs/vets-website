@@ -11,16 +11,21 @@ import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 import { glossary, rxStatuses } from '../config.js';
 
 class Detail extends React.Component {
-  componentWillMount() {
-    this.props.dispatch(loadData(this.props.params.id));
-    this.getGlossaryTerm = this.getGlossaryTerm.bind(this);
+  constructor(props) {
+    super(props);
+    this.openGlossaryModal = this.openGlossaryModal.bind(this);
   }
 
-  // Returns an object containing the glossary term we're seeking.
-  getGlossaryTerm(list, term) {
-    return list.filter((object) => {
-      return object.term === term;
+  componentWillMount() {
+    this.props.dispatch(loadData(this.props.params.id));
+  }
+
+  openGlossaryModal(term) {
+    const content = glossary.filter((obj) => {
+      return obj.term === term;
     });
+
+    this.props.dispatch(openGlossaryModal(content));
   }
 
   render() {
@@ -30,17 +35,19 @@ class Detail extends React.Component {
     let orderHistory;
 
     const item = this.props.prescriptions.currentItem;
-    // TODO: Replace this with the refill status
-    // const glossaryTerm = this.getGlossaryTerm(glossary, item.attributes.status);
-    const glossaryTerm = this.getGlossaryTerm(glossary, 'Discontinued');
 
     if (item) {
       // Compose components from Rx data.
       if (item.rx) {
         const attrs = item.rx.attributes;
+        const status = rxStatuses[attrs['refill-status']];
         const data = {
           Quantity: attrs.quantity,
-          'Prescription status': rxStatuses[attrs['refill-status']],
+          'Prescription status': (
+            <a onClick={() => this.openGlossaryModal(status)}>
+              {status}
+            </a>
+          ),
           'Last fill date': moment(attrs['dispensed-date']).format('ll'),
           'Expiration date': moment(attrs['expiration-date']).format('ll'),
           'Prescription #': attrs['prescription-number'],
@@ -96,11 +103,6 @@ class Detail extends React.Component {
         {rxInfo}
         {contactCard}
         {orderHistory}
-        <p>
-          <button
-              onClick={() => {this.props.dispatch(openGlossaryModal(glossaryTerm));}}
-              type="button"
-              value="Discontinued">Discontinued</button></p>
       </div>
     );
   }
