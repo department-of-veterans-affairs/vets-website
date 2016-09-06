@@ -5,23 +5,31 @@ module.exports = {
   },
   {
     term: 'Discontinued',
-    definition: 'This prescription is no longer available. Contact your VA provider if you need more of this medication.'
+    definition: 'This prescription is no longer available. Contact your VA health care team if you need more of this medication.'
   },
   {
     term: 'Expired',
-    definition: 'Prescription too old. Call your VA healthcare team if you need more.'
+    definition: 'This prescription is too old to fill. Contact your VA health care team if you need more of this medication.'
   },
   {
     term: 'On hold',
-    definition: 'This prescription cannot be refilled until a hold is resolved by the pharmacy. Contact your VA pharmacy if you need this prescription now.'
+    definition: 'This prescription cannot be refilled until a hold is resolved by the pharmacy. Contact your VA pharmacy when you need more of this medication.'
   },
   {
     term: 'Pending',
-    definition: 'Your VA provider ordered this prescription. It may not be ready for pick up at the VA pharmacy window or to be mailed to you. Contact your VA pharmacy if you need this prescription now.'
+    definition: 'This prescription was sent to the pharmacy for review. Contact your VA pharmacy if you need this medication now.'
+  },
+  {
+    term: 'Submitted',
+    definition: 'Your prescription refill has been submitted.'
   },
   {
     term: 'Suspended',
-    definition: 'You requested this prescription too early. It will be sent to you before you run out. Contact your VA pharmacy if you need this prescription now.'
+    definition: 'It is too early to request a refill for this prescription. It should be sent to you before you run out. Contact your VA pharmacy if you need this medication now.'
+  },
+  {
+    term: 'Unknown',
+    definition: 'An unknown error has occurred. Contact your VA pharmacy if you need this medication now.'
   }],
   rxStatuses: {
     active: 'Active',
