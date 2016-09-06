@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import { states } from './options-for-select';
 
 function validateIfDirty(field, validator) {
@@ -130,6 +131,25 @@ function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
 }
 
+function dateToMoment(dateField) {
+  return moment({
+    year: dateField.year.value,
+    month: dateField.month.value,
+    day: dateField.day.value
+  });
+}
+
+function isValidDateRange(fromDate, toDate) {
+  if (!isBlankDateField(fromDate) && !isBlankDateField(toDate)) {
+    const momentStart = dateToMoment(fromDate);
+    const momentEnd = dateToMoment(toDate);
+
+    return momentStart.isBefore(momentEnd);
+  }
+
+  return true;
+}
+
 function isValidFullNameField(field) {
   return isValidName(field.first.value) &&
     (isBlank(field.middle.value) || isValidName(field.middle.value)) &&
@@ -153,7 +173,7 @@ function isValidAddressField(field) {
   return initialOk && isNotBlank(field.postalCode.value);
 }
 
-function isValidPersonalInfoSection(data) {
+function isValidPersonalInfoPage(data) {
   return isValidFullNameField(data.veteranFullName) &&
       isValidRequiredField(isValidSSN, data.veteranSocialSecurityNumber) &&
       isValidDateField(data.veteranDateOfBirth);
@@ -163,7 +183,7 @@ function isValidVeteranAddress(data) {
   return isValidAddressField(data.veteranAddress);
 }
 
-function isValidContactInformationSection(data) {
+function isValidContactInformationPage(data) {
   let emailConfirmationValid = true;
 
   if (isNotBlank(data.email.value) && isBlank(data.emailConfirmation.value)) {
@@ -203,26 +223,15 @@ function isValidSpouseInformation(data) {
       isValidSpouseAddress;
 }
 
-function isValidBenefitsInformationSection(data) {
+function isValidBenefitsInformationPage(data) {
   return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
-}
-
-function isValidSeparatedDateField(date, dateEntered) {
-  if (!isBlankDateField(date) && !isBlankDateField(dateEntered)) {
-    const adjustedDate = new Date(`${date.month.value}/${date.day.value}/${date.year.value}`);
-    const adjustedEnteredDate = new Date(`${dateEntered.month.value}/${dateEntered.day.value}/${dateEntered.year.value}`);
-
-    return adjustedEnteredDate < adjustedDate;
-  }
-
-  return true;
 }
 
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
     && isValidDateField(tour.fromDate)
     && isValidDateField(tour.toDate)
-    && isValidSeparatedDateField(tour.toDate, tour.fromDate);
+    && isValidDateRange(tour.fromDate, tour.toDate);
 }
 
 function isValidMilitaryServicePage(data) {
@@ -232,17 +241,17 @@ function isValidMilitaryServicePage(data) {
 }
 
 function isValidForm(data) {
-  return isValidBenefitsInformationSection(data);
+  return isValidBenefitsInformationPage(data);
 }
 
-function isValidSection(completePath, sectionData) {
+function isValidPage(completePath, pageData) {
   switch (completePath) {
     case '/veteran-information/personal-information':
-      return isValidPersonalInfoSection(sectionData);
+      return isValidPersonalInfoPage(pageData);
     case '/benefits-eligibility/benefits-selection':
-      return isValidBenefitsInformationSection(sectionData);
+      return isValidBenefitsInformationPage(pageData);
     case '/military-history/military-service':
-      return isValidMilitaryServicePage(sectionData);
+      return isValidMilitaryServicePage(pageData);
     default:
       return true;
   }
@@ -277,12 +286,12 @@ export {
   isValidYear,
   isValidField,
   isValidDateField,
-  isValidSeparatedDateField,
+  isValidDateRange,
   isValidForm,
-  isValidPersonalInfoSection,
+  isValidPersonalInfoPage,
   isValidVeteranAddress,
-  isValidContactInformationSection,
+  isValidContactInformationPage,
   isValidSpouseInformation,
   isValidMilitaryServicePage,
-  isValidSection
+  isValidPage
 };

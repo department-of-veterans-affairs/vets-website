@@ -1,6 +1,6 @@
 import React from 'react';
 
-class IntroductionSection extends React.Component {
+class IntroductionPage extends React.Component {
   render() {
     return (
       <div>
@@ -31,4 +31,4 @@ class IntroductionSection extends React.Component {
   }
 }
 
-export default IntroductionSection;
+export default IntroductionPage;

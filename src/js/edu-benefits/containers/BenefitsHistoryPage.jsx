@@ -2,16 +2,16 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import MilitaryServiceFields from '../components/MilitaryServiceFields';
+import BenefitsHistoryFields from '../components/BenefitsHistoryFields';
 import { veteranUpdateField, ensureFieldsInitialized } from '../actions/index';
 
-class MilitaryService extends React.Component {
+class BenefitsHistory extends React.Component {
   render() {
     const { data, onStateChange, dirtyFields } = this.props;
 
     return (
       <div className="form-panel">
-        <MilitaryServiceFields data={data} onStateChange={onStateChange} initializeFields={dirtyFields}/>
+        <BenefitsHistoryFields data={data} onStateChange={onStateChange} initializeFields={dirtyFields}/>
       </div>
     );
   }
@@ -25,8 +25,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onStateChange(...args) {
-      dispatch(veteranUpdateField(...args));
+    onStateChange(field, update) {
+      dispatch(veteranUpdateField(field, update));
     },
     dirtyFields(...args) {
       dispatch(ensureFieldsInitialized(...args));
@@ -34,5 +34,5 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MilitaryService);
-export { MilitaryService };
+export default connect(mapStateToProps, mapDispatchToProps)(BenefitsHistory);
+export { BenefitsHistory };

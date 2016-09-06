@@ -8,20 +8,19 @@ import { veteranUpdateField } from '../../actions/index';
 
 class PersonalInformationPage extends React.Component {
   render() {
-    const { section, data, onStateChange } = this.props;
+    const { data, onStateChange } = this.props;
 
     return (
       <div className="form-panel">
-        <PersonalInformationFields data={data} section={section} onStateChange={onStateChange}/>
+        <PersonalInformationFields data={data} onStateChange={onStateChange}/>
       </div>
     );
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    data: state.veteran,
-    section: state.uiState.sections[ownProps.location.pathname],
+    data: state.veteran
   };
 }
 

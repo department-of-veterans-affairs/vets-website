@@ -6,7 +6,6 @@ import moment from 'moment';
 
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modal.js';
-import PrintList from '../components/PrintList';
 import Pagination from '../components/Pagination';
 import SortableTable from '../components/tables/SortableTable';
 import SortMenu from '../components/SortMenu';
@@ -80,8 +79,6 @@ class History extends React.Component {
 
       content = (
         <div>
-          <PrintList
-              type="history"/>
           <SortMenu
               changeHandler={(e) => this.handleSort(e.target.value)}
               options={fields}
