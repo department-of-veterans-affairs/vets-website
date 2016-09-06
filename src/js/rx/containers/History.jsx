@@ -33,7 +33,7 @@ class History extends React.Component {
     let content;
 
     if (items) {
-      const currentSort = this.props.prescriptions.sort;
+      const currentSort = this.props.prescriptions.history.sort;
 
       const fields = [
         { label: 'Last requested', value: 'ordered-date' },

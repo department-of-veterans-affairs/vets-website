@@ -5,7 +5,10 @@ import _ from 'lodash';
 const initialState = {
   currentItem: null,
   items: [],
-  sort: '-ordered-date'
+  history: {
+    sort: '-ordered-date',
+    page: 1
+  }
 };
 
 function sortByName(obj) {
@@ -34,7 +37,7 @@ export default function prescriptions(state = initialState, action) {
                   : sortKey;
       return merge(state, {
         items: action.data.data,
-        sort: newSort
+        history: { sort: newSort }
       });
     }
     case 'LOAD_PRESCRIPTION_SUCCESS':
