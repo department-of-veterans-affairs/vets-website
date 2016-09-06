@@ -8,7 +8,9 @@ button,
 [type="reset"],
 [type="image"] {
   background-color: $color-primary-darker;
+}
 
+.usa-button-primary {
   &:hover {
     background-color: $color-primary-darkest;
   }
