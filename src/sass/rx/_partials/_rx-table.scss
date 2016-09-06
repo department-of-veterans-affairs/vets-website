@@ -21,7 +21,8 @@
   }
 }
 
-.rx-collapsible-table {
+// Style for tables that transform into a list when viewd in a smaller screen.
+.rx-table-list {
   // Get font size to stay the same when table shrinks.
   font-size: 1.6rem;
 
@@ -58,7 +59,8 @@
   }
 }
 
-#rx-history .rx-collapsible-table {
+// Specific table styling in history view.
+#rx-history .rx-table-list {
   @media (max-width: $medium-screen) {
     td {
       &:nth-child(2) {
