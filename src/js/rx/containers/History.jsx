@@ -9,6 +9,7 @@ import { openGlossaryModal } from '../actions/modal.js';
 import PrintList from '../components/PrintList';
 import Pagination from '../components/Pagination';
 import SortableTable from '../components/tables/SortableTable';
+import SortMenu from '../components/SortMenu';
 import { glossary } from '../config.js';
 
 class History extends React.Component {
@@ -81,6 +82,10 @@ class History extends React.Component {
         <div>
           <PrintList
               type="history"/>
+          <SortMenu
+              changeHandler={(e) => this.handleSort(e.target.value)}
+              options={fields}
+              selected={currentSort}/>
           <SortableTable
               className="usa-table-borderless rx-table rx-table-list"
               currentSort={currentSort}
