@@ -57,7 +57,7 @@ class History extends React.Component {
           <PrintList
               type="history"/>
           <SortableTable
-              className="usa-table-borderless rx-table"
+              className="usa-table-borderless rx-table rx-collapsible-table"
               currentSort={currentSort}
               data={data}
               fields={fields}
