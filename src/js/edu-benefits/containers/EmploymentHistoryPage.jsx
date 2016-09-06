@@ -7,11 +7,11 @@ import { veteranUpdateField, ensureFieldsInitialized } from '../actions/index';
 
 class EmploymentHistory extends React.Component {
   render() {
-    const { section, data, onStateChange, dirtyFields } = this.props;
+    const { data, onStateChange, dirtyFields } = this.props;
 
     return (
       <div className="form-panel">
-        <EmploymentHistoryFields data={data} section={section} onStateChange={onStateChange} initializeFields={dirtyFields}/>
+        <EmploymentHistoryFields data={data} onStateChange={onStateChange} initializeFields={dirtyFields}/>
       </div>
     );
   }
