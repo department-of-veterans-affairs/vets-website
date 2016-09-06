@@ -1,25 +1,25 @@
 import _ from 'lodash';
 
 export function getPageList(routes) {
-  return routes.map(route => route.props.path).filter(section => section !== '/submit-message');
+  return routes.map(route => route.props.path).filter(page => page !== '/submit-message');
 }
 
 export function groupPagesIntoChapters(routes) {
-  const sectionList = routes
+  const pageList = routes
     .filter(route => route.props.chapter)
-    .map(section => {
+    .map(page => {
       return {
-        name: section.props.name,
-        chapter: section.props.chapter,
-        path: section.props.path
+        name: page.props.name,
+        chapter: page.props.chapter,
+        path: page.props.path
       };
     });
-  const pageGroups = _.groupBy(sectionList, section => section.chapter);
+  const pageGroups = _.groupBy(pageList, page => page.chapter);
 
   return Object.keys(pageGroups).map(chapter => {
     return {
       name: chapter,
-      sections: pageGroups[chapter]
+      pages: pageGroups[chapter]
     };
   });
 }

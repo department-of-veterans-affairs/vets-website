@@ -17,7 +17,7 @@ const ui = {
     id: false,
     timestamp: false
   },
-  sections: {
+  pages: {
     '/introduction': {
       complete: false,
       verified: false,
@@ -104,16 +104,16 @@ const ui = {
 function uiState(state = ui, action) {
   switch (action.type) {
     case UPDATE_COMPLETED_STATUS:
-      return _.set(['sections', action.path, 'complete'], true, state);
+      return _.set(['pages', action.path, 'complete'], true, state);
 
     case UPDATE_INCOMPLETE_STATUS:
-      return _.set(['sections', action.path, 'complete'], false, state);
+      return _.set(['pages', action.path, 'complete'], false, state);
 
     case UPDATE_REVIEW_STATUS:
-      return _.set(['sections', action.path, 'complete'], action.value, state);
+      return _.set(['pages', action.path, 'complete'], action.value, state);
 
     case UPDATE_VERIFIED_STATUS:
-      return _.set(['sections', action.path, 'verified'], action.value, state);
+      return _.set(['pages', action.path, 'verified'], action.value, state);
 
     case UPDATE_SUBMISSION_STATUS:
       return _.set('submission.status', action.value, state);
