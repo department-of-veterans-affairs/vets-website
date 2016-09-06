@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import { states } from './options-for-select';
 
 function validateIfDirty(field, validator) {
@@ -130,6 +131,25 @@ function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
 }
 
+function dateToMoment(dateField) {
+  return moment({
+    year: dateField.year.value,
+    month: dateField.month.value,
+    day: dateField.day.value
+  });
+}
+
+function isValidDateRange(fromDate, toDate) {
+  if (!isBlankDateField(fromDate) && !isBlankDateField(toDate)) {
+    const momentStart = dateToMoment(fromDate);
+    const momentEnd = dateToMoment(toDate);
+
+    return momentStart.isBefore(momentEnd);
+  }
+
+  return true;
+}
+
 function isValidFullNameField(field) {
   return isValidName(field.first.value) &&
     (isBlank(field.middle.value) || isValidName(field.middle.value)) &&
@@ -206,23 +226,11 @@ function isValidSpouseInformation(data) {
 function isValidBenefitsInformationSection(data) {
   return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
 }
-
-function isValidSeparatedDateField(date, dateEntered) {
-  if (!isBlankDateField(date) && !isBlankDateField(dateEntered)) {
-    const adjustedDate = new Date(`${date.month.value}/${date.day.value}/${date.year.value}`);
-    const adjustedEnteredDate = new Date(`${dateEntered.month.value}/${dateEntered.day.value}/${dateEntered.year.value}`);
-
-    return adjustedEnteredDate < adjustedDate;
-  }
-
-  return true;
-}
-
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
     && isValidDateField(tour.fromDate)
     && isValidDateField(tour.toDate)
-    && isValidSeparatedDateField(tour.toDate, tour.fromDate);
+    && isValidDateRange(tour.fromDate, tour.toDate);
 }
 
 function isValidMilitaryServicePage(data) {
@@ -277,7 +285,7 @@ export {
   isValidYear,
   isValidField,
   isValidDateField,
-  isValidSeparatedDateField,
+  isValidDateRange,
   isValidForm,
   isValidPersonalInfoSection,
   isValidVeteranAddress,
