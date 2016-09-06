@@ -7,27 +7,26 @@ import { veteranUpdateField, ensureFieldsInitialized } from '../actions/index';
 
 class MilitaryService extends React.Component {
   render() {
-    const { section, data, onStateChange, dirtyFields } = this.props;
+    const { data, onStateChange, dirtyFields } = this.props;
 
     return (
       <div className="form-panel">
-        <MilitaryServiceFields data={data} section={section} onStateChange={onStateChange} initializeFields={dirtyFields}/>
+        <MilitaryServiceFields data={data} onStateChange={onStateChange} initializeFields={dirtyFields}/>
       </div>
     );
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    data: state.veteran,
-    section: state.uiState.sections[ownProps.location.pathname],
+    data: state.veteran
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onStateChange(field, update) {
-      dispatch(veteranUpdateField(field, update));
+    onStateChange(...args) {
+      dispatch(veteranUpdateField(...args));
     },
     dirtyFields(...args) {
       dispatch(ensureFieldsInitialized(...args));

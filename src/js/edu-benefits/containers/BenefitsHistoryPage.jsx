@@ -7,20 +7,19 @@ import { veteranUpdateField, ensureFieldsInitialized } from '../actions/index';
 
 class BenefitsHistory extends React.Component {
   render() {
-    const { section, data, onStateChange, dirtyFields } = this.props;
+    const { data, onStateChange, dirtyFields } = this.props;
 
     return (
       <div className="form-panel">
-        <BenefitsHistoryFields data={data} section={section} onStateChange={onStateChange} initializeFields={dirtyFields}/>
+        <BenefitsHistoryFields data={data} onStateChange={onStateChange} initializeFields={dirtyFields}/>
       </div>
     );
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    data: state.veteran,
-    section: state.uiState.sections[ownProps.location.pathname],
+    data: state.veteran
   };
 }
 
