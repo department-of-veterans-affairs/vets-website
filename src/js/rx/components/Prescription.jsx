@@ -19,6 +19,7 @@ class Prescription extends React.Component {
     if (attrs['is-refillable'] === true) {
       action.push(<SubmitButton
           cssClass="usa-button-outline rx-prescription-button"
+          value={id}
           text="Refill Prescription"/>);
     } else {
       const callProvider = <div>Call Provider</div>;
@@ -53,12 +54,6 @@ class Prescription extends React.Component {
       }
     }
 
-    const actionableContent = (
-      <div className="rx-prescription-action">
-        {action}
-      </div>
-    );
-
     return (
       <div className="rx-prescription"
           key={id}
@@ -81,7 +76,9 @@ class Prescription extends React.Component {
           <div className="rx-prescription-countaction">
             <RefillsRemainingCounter
                 remaining={attrs['refill-remaining']}/>
-            {actionableContent}
+            <div className="rx-prescription-action">
+              {action}
+            </div>
           </div>
         </div>
       </div>
@@ -107,8 +104,7 @@ Prescription.propTypes = {
     'station-number': React.PropTypes.string,
     'is-refillable': React.PropTypes.bool.isRequired,
     'is-trackable': React.PropTypes.bool.isRequired,
-  }).isRequired,
-  onRefill: React.PropTypes.func
+  }).isRequired
 };
 
 export default Prescription;
