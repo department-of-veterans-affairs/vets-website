@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
+import { sortOptions } from '../config.js';
 import PrescriptionList from '../components/PrescriptionList';
-import PrintList from '../components/PrintList';
 import SortMenu from '../components/SortMenu';
 
 class Active extends React.Component {
@@ -41,15 +41,6 @@ class Active extends React.Component {
     const sortValue = this.props.location.query.sort;
     const items = this.props.prescriptions.items;
 
-    // TODO: Move to a config file?
-    const sortOptions = [
-      { value: 'prescription-name',
-        label: 'Prescription name' },
-      { value: 'facility-name',
-        label: 'Facility name' },
-      { value: 'last-requested',
-        label: 'Last requested' }];
-
     return (
       <div className="va-tab-content">
         <SortMenu
@@ -57,8 +48,6 @@ class Active extends React.Component {
             clickHandler={this.handleSortOnClick}
             options={sortOptions}
             selected={sortValue}/>
-        <PrintList
-            type="active"/>
         <PrescriptionList
             items={items}
             // If we're sorting by facility, tell PrescriptionList to group 'em.

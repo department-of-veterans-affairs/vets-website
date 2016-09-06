@@ -88,7 +88,8 @@
 }
 .va-pagination-inner a:hover,
 .va-pagination-inner a:focus,
-.va-pagination-active {
+.va-pagination-active,
+.va-pagination-active:visited {
   background: $color-primary;
   color: $color-white;
 }

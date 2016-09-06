@@ -71,7 +71,7 @@ class ErrorableTextInput extends React.Component {
     // Calculate required.
     let requiredSpan = undefined;
     if (this.props.required) {
-      requiredSpan = <span className="hca-required-span">*</span>;
+      requiredSpan = <span className="form-required-span">*</span>;
     }
 
     return (
