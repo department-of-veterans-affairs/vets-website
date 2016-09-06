@@ -70,16 +70,6 @@ button.usa-button-outline {
   }
 }
 
-button i.fa {
-  font-size: 0.75em;
-  &.before-text {
-    margin-right: 0.5em;
-  }
-  &.after-text {
-    margin-left: 0.5em;
-  }
-}
-
 button.hca-button-green {
   background: $color-green;
 }

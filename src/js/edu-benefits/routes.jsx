@@ -5,7 +5,9 @@ import { chapterNames, groupPagesIntoChapters, getPageList } from './utils/helpe
 
 import IntroductionSection from './containers/IntroductionSection.jsx';
 import BenefitsSelection from './containers/BenefitsSelection';
+import MilitaryServicePage from './containers/MilitaryServicePage';
 import PersonalInformationPage from './containers/veteran-information/PersonalInformationPage';
+import DependentInformationPage from './containers/DependentInformationPage';
 import PlaceholderSection from './containers/PlaceholderSection';
 
 const routes = [
@@ -50,7 +52,7 @@ const routes = [
       path="/benefits-eligibility/benefits-selection"
       chapter={chapterNames.benefitsEligibility}/>,
   <Route
-      component={PlaceholderSection}
+      component={MilitaryServicePage}
       key="/military-history/military-service"
       path="/military-history/military-service"
       chapter={chapterNames.militaryHistory}
@@ -68,7 +70,7 @@ const routes = [
       chapter={chapterNames.militaryHistory}
       name="Benefits History"/>,
   <Route
-      component={PlaceholderSection}
+      component={DependentInformationPage}
       key="/military-history/dependents"
       path="/military-history/dependents"
       chapter={chapterNames.militaryHistory}
