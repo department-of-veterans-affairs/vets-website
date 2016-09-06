@@ -8,8 +8,50 @@ button,
 [type="reset"],
 [type="image"] {
   background-color: $color-primary-darker;
+}
 
+.usa-button-primary {
   &:hover {
     background-color: $color-primary-darkest;
+  }
+}
+
+.row.form-progress-buttons {
+  max-width: 47rem;
+}
+
+button i.fa {
+  font-size: 0.75em;
+  &.before-text {
+    margin-right: 0.5em;
+  }
+  &.after-text {
+    margin-left: 0.5em;
+  }
+}
+
+button.short {
+  font-weight: 500;
+  padding: 1rem;
+}
+
+button.usa-button-outline {
+  box-shadow: $button-stroke $color-primary;
+
+  &:hover,
+  &.usa-button-hover {
+    box-shadow: $button-stroke $color-primary-darker;
+    color: $color-primary-darker;
+  }
+
+  &:active,
+  &.usa-button-active {
+    box-shadow: $button-stroke $color-primary-darkest;
+    color: $color-primary-darkest;
+  }
+
+  &:focus,
+  &.usa-button-focus {
+    box-shadow: $button-stroke $color-primary-darkest, $focus-shadow;
   }
 }

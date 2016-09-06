@@ -12,10 +12,18 @@ import { validateIfDirty, isNotBlank } from '../../utils/validations';
  */
 class Gender extends React.Component {
   render() {
+    let isValid;
+
+    if (this.props.required) {
+      isValid = validateIfDirty(this.props.value, isNotBlank);
+    } else {
+      isValid = true;
+    }
+
     return (
       <div>
         <ErrorableSelect required={this.props.required}
-            errorMessage={validateIfDirty(this.props.value, isNotBlank) ? undefined : 'Please select a gender'}
+            errorMessage={isValid ? undefined : 'Please select a gender'}
             label="Gender"
             name="gender"
             options={genders}
