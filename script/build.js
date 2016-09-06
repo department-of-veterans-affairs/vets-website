@@ -203,31 +203,6 @@ if (options.watch) {
     }
   };
 
-  // Route all API requests through webpack's node-http-proxy
-  // Useful for local development.
-  try {
-    // Check to see if we have a proxy config file
-    const api = require('../config/config.proxy.js').api;
-    devServerConfig.proxy = {
-      '/rx-api/*': {
-        target: `https://${api.host}/`,
-        auth: api.auth,
-        secure: true,
-        changeOrigin: true,
-        pathRewrite: (path, req) => {
-          /* eslint-disable no-param-reassign */
-          req.headers.host = api.host;
-          /* eslint-enable no-param-reassign */
-          return path.replace('/rx-api', api.path);
-        }
-      }
-    };
-    // eslint-disable-next-line no-console
-    console.log('API proxy enabled');
-  } catch (e) {
-    // No proxy config file found.
-  }
-
   smith.use(webpackDevServer(webpackConfig, devServerConfig));
 } else {
   // Broken link checking does not work well with watch. It continually shows broken links

@@ -1,16 +1,27 @@
+// TODO(alexose): make configurable / overridable
+const apiUrl = 'https://dev.vets.gov/api/rx/v1/prescriptions';
+
+const options = {
+  credentials: true,
+  headers: {
+    // TODO(alexose): actual credentials
+    Authorization: `Basic ${btoa('username:password')}`
+  }
+};
+
 export function loadData(id) {
   if (id) {
     // TODO: Use id param instead of test id
     // when API is able to retrieve any individual Rx.
     const testId = 1435525;
-    const rxUrl = `/rx-api/prescriptions/${testId}`;
+    const rxUrl = `${apiUrl}/${testId}`;
     const rxUrls = [rxUrl, `${rxUrl}/trackings`];
 
     // Fetch both the prescription and its tracking history and
     // wait for retrieval and read of both resources to resolve.
     return dispatch => {
       Promise.all(
-        rxUrls.map(url => fetch(url).then(res => res.json()))
+        rxUrls.map(url => fetch(url, options).then(res => res.json()))
       ).then(
         data => dispatch({
           type: 'LOAD_PRESCRIPTION_SUCCESS',
@@ -21,7 +32,7 @@ export function loadData(id) {
     };
   }
 
-  return dispatch => fetch('/rx-api/prescriptions')
+  return dispatch => fetch(apiUrl, options)
     .then(res => res.json())
     .then(
       data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
