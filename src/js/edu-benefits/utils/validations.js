@@ -226,7 +226,6 @@ function isValidSpouseInformation(data) {
 function isValidBenefitsInformationSection(data) {
   return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
 }
-
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
     && isValidDateField(tour.fromDate)
