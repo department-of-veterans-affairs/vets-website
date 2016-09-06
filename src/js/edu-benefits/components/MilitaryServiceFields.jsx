@@ -7,7 +7,7 @@ import GrowableTable from '../../common/components/form-elements/GrowableTable';
 import MilitaryServiceTour from './MilitaryServiceTour';
 import { createTour } from '../utils/veteran';
 
-import { validateIfDirty, isNotBlank, isValidYear, isValidSection } from '../utils/validations';
+import { validateIfDirty, isNotBlank, isValidYear, isValidPage } from '../utils/validations';
 import { yesNo } from '../utils/options-for-select';
 
 export default class MilitaryServiceFields extends React.Component {
@@ -80,7 +80,7 @@ export default class MilitaryServiceFields extends React.Component {
               onRowsUpdate={(update) => {this.props.onStateChange('toursOfDuty', update);}}
               path="/military-history/military-service"
               rows={this.props.data.toursOfDuty}
-              isValidSection={isValidSection}
+              isValidSection={isValidPage}
               minimumRows={1}/>
           <ErrorableRadioButtons
               label="Were you commissioned as a result of senior ROTC?"
