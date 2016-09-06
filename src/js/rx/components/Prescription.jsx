@@ -18,15 +18,18 @@ class Prescription extends React.Component {
 
     if (attrs['is-refillable'] === true) {
       action.push(<SubmitButton
+          key={`rx-${id}-refill`}
           cssClass="usa-button-outline rx-prescription-button"
           value={id}
           text="Refill Prescription"/>);
     } else {
-      const callProvider = <div>Call Provider</div>;
+      const callProvider = <div key={`rx-${id}-call`}>Call Provider</div>;
 
       if (status !== 'active') {
         action.push((
-          <div className="rx-prescription-status">
+          <div
+              key={`rx-${id}-status`}
+              className="rx-prescription-status">
             {rxStatuses[status]}
           </div>
         ));
@@ -37,11 +40,14 @@ class Prescription extends React.Component {
       } else {
         if (attrs['is-trackable'] === true) {
           action.push(<TrackPackageLink
+              key={`rx-${id}-track`}
               className="usa-button"
               text="Track package"/>);
         } else {
           action.push((
-            <div className="rx-prescription-refill-requested">
+            <div
+                key={`rx-${id}-requested`}
+                className="rx-prescription-refill-requested">
               Refill requested
             </div>
           ));
@@ -54,9 +60,7 @@ class Prescription extends React.Component {
     }
 
     return (
-      <div className="rx-prescription"
-          key={id}
-          id={`rx-${id}`}>
+      <div className="rx-prescription" id={`rx-${id}`}>
         <div className="rx-prescription-inner cf">
           <h3 className="rx-prescription-title" title={name}>
             <Link to={`/rx/prescription/${id}`}>
