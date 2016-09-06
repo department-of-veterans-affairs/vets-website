@@ -60,14 +60,31 @@
 }
 
 // Specific table styling in history view.
+
+#rx-history .rx-table {
+  tr {
+    &:last-child {
+      td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  td {
+    &:nth-child(2) {
+      a {
+        font-weight: bold;
+        text-decoration: none;
+      }
+    }
+  }
+}
+
 #rx-history .rx-table-list {
   @media (max-width: $medium-screen) {
     td {
-      &:nth-child(2) {
-        // Get the prescription name to appear above the other fields.
-        display: table-header-group;
-        font-weight: bold;
-      }
+      // Get the prescription name to appear above the other fields.
+      &:nth-child(2) { display: table-header-group; }
 
       &:nth-child(1):before { content: "Refill requested on: "; }
       &:nth-child(3):before { content: "Prescription status: "; }
