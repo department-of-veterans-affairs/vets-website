@@ -30,8 +30,7 @@ class SortableTable extends React.Component {
     return (
       <th key={index}>
         <a onClick={this.handleSort(field.value, sortOrder)}>
-          {field.label}
-          {sortIcon}
+          {field.label}&nbsp;&nbsp;&nbsp;{sortIcon}
         </a>
       </th>
     );
@@ -66,6 +65,7 @@ class SortableTable extends React.Component {
 
 SortableTable.propTypes = {
   className: React.PropTypes.string,
+  currentSort: React.PropTypes.string,
   // Mappings of each header label to the property on each data object.
   fields: React.PropTypes.arrayOf(React.PropTypes.shape({
     label: React.PropTypes.string.isRequired,
