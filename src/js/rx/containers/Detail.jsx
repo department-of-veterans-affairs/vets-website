@@ -48,8 +48,12 @@ class Detail extends React.Component {
               {status}
             </a>
           ),
-          'Last fill date': moment(attrs['dispensed-date']).format('ll'),
-          'Expiration date': moment(attrs['expiration-date']).format('ll'),
+          'Last fill date': moment(
+              attrs['dispensed-date']
+            ).format('MMM DD, YYYY'),
+          'Expiration date': moment(
+              attrs['expiration-date']
+            ).format('MMM DD, YYYY'),
           'Prescription #': attrs['prescription-number'],
           Refills: (
             <span>

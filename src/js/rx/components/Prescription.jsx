@@ -64,13 +64,13 @@ class Prescription extends React.Component {
             </Link>
           </h3>
           <div className="rx-prescription-number">
-            Prescription <abbr title="number">#</abbr>: {attrs['prescription-id']}
+            Prescription <abbr title="number">#</abbr>: {id}
           </div>
           <div className="rx-prescription-facility">
             Facility name: {attrs['facility-name']}
           </div>
           <div className="rx-prescription-refilled">
-            Last fill date: {moment(attrs['dispensed-date']).format('ll')}
+            Last fill date: {moment(attrs['dispensed-date']).format('L')}
           </div>
           <div className="rx-prescription-countaction">
             <RefillsRemainingCounter
