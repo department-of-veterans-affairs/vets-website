@@ -2,18 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { glossary } from '../config.js';
-import { loadData } from '../actions/prescriptions.js';
 import { openGlossaryModal } from '../actions/modal.js';
-
+import { loadPrescription } from '../actions/prescriptions.js';
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
 import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
+import { glossary } from '../config.js';
 
 class Detail extends React.Component {
   componentWillMount() {
-    this.props.dispatch(loadData(this.props.params.id));
+    this.props.dispatch(loadPrescription(this.props.params.id));
     this.getGlossaryTerm = this.getGlossaryTerm.bind(this);
   }
 
@@ -86,7 +85,7 @@ class Detail extends React.Component {
           <div className="rx-order-history">
             <h3 className="rx-heading va-h-ruled">Order History</h3>
             <OrderHistory
-                className="usa-table-borderless rx-table"
+                className="usa-table-borderless rx-table rx-table-list"
                 items={item.trackings}/>
           </div>
         );

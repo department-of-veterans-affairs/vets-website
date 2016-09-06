@@ -6,7 +6,7 @@
   * + ul {
     margin: 0 0 0 .5rem;
   }
-  
+
   label {
     display: inline-block;
     margin-top: 0;
@@ -16,13 +16,13 @@
 .rx-sort-active {
   font-weight: bold;
   text-decoration: none;
-} 
+}
 
 @media screen and (max-width: $medium-screen) {
   .rx-sort {
     width: 100%;
   }
-  
+
   .rx-sort-wide {
     display: none;
   }
@@ -31,7 +31,7 @@
     width: inherit;
   }
 }
-  
+
 @media screen and (min-width: $medium-screen) {
   .rx-sort-wide {
     display: inline-block;
@@ -45,15 +45,15 @@
 .va-list-ib {
   display: inline-block;
   padding: 0;
-  
+
   li {
     display: inherit;
-    
+
     &::before {
       content: '';
       display: none;
     }
-    
+
     &:nth-child(even) {
       &::before,
       &::after {
