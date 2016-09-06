@@ -1,8 +1,8 @@
-import MessagingApp from './containers/MessagingApp';
+import AppMessaging from './containers/AppMessaging';
 
 const routes = {
   path: '/messaging',
-  component: MessagingApp
+  component: AppMessaging
 };
 
 export default routes;
