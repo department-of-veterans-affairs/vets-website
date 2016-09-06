@@ -14,13 +14,13 @@ import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
 
 import { isValidPage } from '../utils/validations';
-import { ensureSectionInitialized, updateCompletedStatus } from '../actions/index';
+import { ensurePageInitialized, updateCompletedStatus } from '../actions/index';
 
 import NavHeader from '../components/NavHeader';
 
 class EduBenefitsApp extends React.Component {
   render() {
-    const { pageState, currentLocation, data, submission, router, dirtySection, setComplete } = this.props;
+    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete } = this.props;
     const navigateTo = path => router.push(path);
 
     let devPanel = undefined;
@@ -52,7 +52,7 @@ class EduBenefitsApp extends React.Component {
                 pages={pages}
                 path={currentLocation.pathname}
                 isValid={isValidPage(currentLocation.pathname, data)}
-                dirtySection={dirtySection}
+                dirtyPage={dirtyPage}
                 onNavigate={navigateTo}
                 onComplete={setComplete}/>
           </div>
@@ -76,8 +76,8 @@ function mapStateToProps(state, ownProps) {
 // Fill this in when we start using actions
 function mapDispatchToProps(dispatch) {
   return {
-    dirtySection(page) {
-      dispatch(ensureSectionInitialized(page));
+    dirtyPage(page) {
+      dispatch(ensurePageInitialized(page));
     },
     setComplete(page) {
       dispatch(updateCompletedStatus(page));

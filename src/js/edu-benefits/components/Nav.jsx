@@ -1,6 +1,6 @@
 import React from 'react';
 
-function lastSection(chapter) {
+function lastPage(chapter) {
   return chapter.pages.slice(-1)[0].path;
 }
 
@@ -9,13 +9,13 @@ function determineChapterStyles(pageState, formChapter, currentUrl) {
   if (formChapter.pages.some(page => page.path === currentUrl)) {
     classes += ' section-current';
   }
-  if (formChapter.pages.length > 0 && pageState[lastSection(formChapter)].complete) {
+  if (formChapter.pages.length > 0 && pageState[lastPage(formChapter)].complete) {
     classes += ' section-complete';
   }
   return classes;
 }
 
-function determineSectionStyles(name, currentUrl) {
+function determinePageStyles(name, currentUrl) {
   return currentUrl === name ? ' sub-section-current' : '';
 }
 
@@ -51,7 +51,7 @@ class Nav extends React.Component {
                 <ul className="usa-unstyled-list">
                   {chapter.pages.filter(page => page.name).map(page => {
                     return (
-                      <li className={`${determineSectionStyles(page.path, currentUrl)}`} key={page.path}>
+                      <li className={`${determinePageStyles(page.path, currentUrl)}`} key={page.path}>
                         {page.name}
                       </li>
                     );

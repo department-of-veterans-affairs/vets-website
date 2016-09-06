@@ -94,6 +94,7 @@ const ignoreList = ['memorial-benefits/*'];
 if (options.buildtype === 'production') {
   ignoreList.push('rx/*');
   ignoreList.push('education/apply-for-education-benefits/application.md');
+  ignoreList.push('messaging/*');
 }
 smith.use(ignore(ignoreList));
 
