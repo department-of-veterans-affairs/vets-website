@@ -48,6 +48,7 @@ class History extends React.Component {
 
       const fields = [
         { label: 'Last requested', value: 'ordered-date' },
+        { label: 'Last fill date', value: 'dispensed-date' },
         { label: 'Prescription', value: 'prescription-name' },
         { label: 'Prescription status', value: 'refill-status' }
       ];
@@ -59,6 +60,9 @@ class History extends React.Component {
         return {
           'ordered-date': moment(
               attrs['ordered-date']
+            ).format('MMM DD, YYYY'),
+          'dispensed-date': moment(
+              attrs['dispensed-date']
             ).format('MMM DD, YYYY'),
           'prescription-name': (
             <Link to={`/rx/prescription/${attrs['prescription-id']}`}>
