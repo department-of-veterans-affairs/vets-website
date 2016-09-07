@@ -7,7 +7,8 @@ const initialState = {
   items: [],
   history: {
     sort: '-ordered-date',
-    page: 1
+    page: 1,
+    pages: 1
   }
 };
 
@@ -33,11 +34,18 @@ export default function prescriptions(state = initialState, action) {
       const sortValue = action.data.meta.sort;
       const sortKey = Object.keys(sortValue)[0];
       const newSort = sortValue[sortKey] === 'DESC'
-                  ? `-${sortKey}`
-                  : sortKey;
+                    ? `-${sortKey}`
+                    : sortKey;
+
+      const pagination = action.data.meta.pagination;
+
       return merge(state, {
         items: action.data.data,
-        history: { sort: newSort }
+        history: {
+          sort: newSort,
+          page: pagination['current-page'],
+          pages: pagination['total-pages']
+        }
       });
     }
     case 'LOAD_PRESCRIPTION_SUCCESS':
