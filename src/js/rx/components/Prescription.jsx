@@ -2,56 +2,76 @@ import React from 'react';
 import moment from 'moment';
 
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 
-import MessageProviderLink from './MessageProviderLink';
+import { rxStatuses } from '../config.js';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitButton from './SubmitButton';
+import { openRefillModal } from '../actions/modal.js';
+
 
 class Prescription extends React.Component {
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(domEvent) {
+    domEvent.preventDefault();
+    const refillId = domEvent.target.refillId.value;
+    const content = this.props.prescriptions.items.find((rx) => {
+      return rx.id === refillId;
+    });
+    this.props.dispatch(openRefillModal(content.attributes));
+  }
+
   render() {
     const attrs = this.props.attributes;
     const id = this.props.id;
     const name = attrs['prescription-name'];
     const remaining = attrs['refill-remaining'];
 
-    let action;
-    let messageProvider;
+    let action = [];
 
-    // TODO: Refillable is currently always false.
-    // Switch to using refillable when it's working.
-    if (remaining === 0) {
-      messageProvider = <MessageProviderLink/>;
+    if (attrs['is-refillable'] === true) {
+      action.push(<SubmitButton
+          cssClass="usa-button-outline rx-prescription-button"
+          value={id}
+          text="Refill Prescription"/>);
     } else {
-      action = (
-        <SubmitButton
-            cssClass="usa-button-outline rx-prescription-button"
-            text="Refill Prescription"/>
-      );
-    }
+      const callProvider = <div>Call Provider</div>;
 
-    if (attrs['is-trackable']) {
-      action = (
-        <TrackPackageLink
-            className="usa-button"
-            text="Track package"/>
-      );
-    } else {
-      action = <div className="rx-prescription-refill-requested">Refill requested</div>;
-    }
+      if (attrs['refill-status'] !== 'active') {
+        action.push(<div className="rx-prescription-status">{rxStatuses[attrs['refill-status']]}</div>);
 
-    const actionableContent = (
-      <div className="rx-prescription-action">
-        {action}
-        {messageProvider}
-      </div>
-    );
+        if (attrs['refill-status'] !== 'submitted') {
+          action.push(callProvider);
+        }
+      } else {
+        if (attrs['is-trackable'] === true) {
+          action.push(<TrackPackageLink
+              className="usa-button"
+              text="Track package"/>);
+        } else {
+          action.push(<div
+              className="rx-prescription-refill-requested">Refill
+          requested</div>);
+        }
+
+        if (remaining === 0) {
+          action.push(callProvider);
+        }
+      }
+    }
 
     return (
-      <div className="rx-prescription"
+      <form className="rx-prescription"
+          id={`rx-${id}`}
           key={id}
-          id={`rx-${id}`}>
+          onSubmit={this.handleSubmit}>
         <div className="rx-prescription-inner cf">
+          <input type="hidden" name="refillId" value={id}/>
           <h3 className="rx-prescription-title" title={name}>
             <Link to={`/rx/prescription/${id}`}>
               {name}
@@ -64,13 +84,17 @@ class Prescription extends React.Component {
             Facility name: {attrs['facility-name']}
           </div>
           <div className="rx-prescription-refilled">
-            Last refilled: {moment(attrs['refill-date']).format('ll')}
+            Last filled date: {moment(attrs['refill-date']).format('ll')}
           </div>
-          <RefillsRemainingCounter
-              remaining={attrs['refill-remaining']}/>
-          {actionableContent}
+          <div className="rx-prescription-countaction">
+            <RefillsRemainingCounter
+                remaining={attrs['refill-remaining']}/>
+            <div className="rx-prescription-action">
+              {action}
+            </div>
+          </div>
         </div>
-      </div>
+      </form>
     );
   }
 }
@@ -96,4 +120,9 @@ Prescription.propTypes = {
   }).isRequired
 };
 
-export default Prescription;
+// TODO: fill this out
+const mapStateToProps = (state) => {
+  return state;
+};
+
+export default connect(mapStateToProps)(Prescription);

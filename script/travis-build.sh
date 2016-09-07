@@ -14,10 +14,23 @@
 
 set -e
 
+# If we're running the security suite, do it and exit
+
+if [[ $TEST_SUITE == 'security' ]]
+then
+  npm install -g nsp
+  nsp check
+  exit $?
+fi
+
+# If we're running the accessibility suite, but not pushing staging, exit
+
 if [[ $TEST_SUITE == 'accessibility' && $TRAVIS_BRANCH != 'staging' ]]
 then
   exit 0;
 fi
+
+# Run lint and perform a build
 
 npm run lint
 
@@ -27,6 +40,8 @@ then
 else
   npm run build;
 fi
+
+# And run the selected test suite
 
 if [[ $TEST_SUITE == 'unit' ]]
 then

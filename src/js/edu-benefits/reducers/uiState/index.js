@@ -17,7 +17,7 @@ const ui = {
     id: false,
     timestamp: false
   },
-  sections: {
+  pages: {
     '/introduction': {
       complete: false,
       verified: false,
@@ -31,9 +31,9 @@ const ui = {
     '/military-history/military-service': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty', 'toursOfDuty', 'seniorRotcComissioned', 'seniorRotcComissionYear']
     },
-    '/military-history/additional-information': {
+    '/military-history/dependents': {
       complete: false,
       verified: false,
       fields: []
@@ -46,7 +46,7 @@ const ui = {
     '/military-history/benefits-history': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['civilianBenefitsAssistance', 'additionalContributions', 'activeDutyKicker', 'reserveKicker', 'activeDutyRepaying', 'activeDutyRepayingPeriod']
     },
     '/education-history/education-information': {
       complete: false,
@@ -61,7 +61,7 @@ const ui = {
     '/employment-history/employment-information': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['hasNonMilitaryJobs', 'nonMilitaryJobs']
     },
     '/school-selection/school-information': {
       complete: false,
@@ -71,12 +71,12 @@ const ui = {
     '/veteran-information/personal-information': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['veteranFullName', 'veteranSocialSecurityNumber', 'veteranDateOfBirth', 'gender']
     },
     '/veteran-information/address': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['veteranAddress']
     },
     '/veteran-information/contact-information': {
       complete: false,
@@ -84,11 +84,6 @@ const ui = {
       fields: []
     },
     '/veteran-information/secondary-contact': {
-      complete: false,
-      verified: false,
-      fields: []
-    },
-    '/veteran-information/dependent-information': {
       complete: false,
       verified: false,
       fields: []
@@ -103,82 +98,22 @@ const ui = {
       verified: false,
       fields: []
     }
-  },
-  panels: [
-    {
-      path: '/veteran-information',
-      name: 'Veteran Information',
-      sections: [
-        { path: '/veteran-information/personal-information', name: 'Personal Information' },
-        { path: '/veteran-information/address', name: 'Address' },
-        { path: '/veteran-information/contact-information', name: 'Contact Information' },
-        { path: '/veteran-information/secondary-contact', name: 'Secondary Contact' },
-        { path: '/veteran-information/dependent-information', name: 'Dependent Information' },
-        { path: '/veteran-information/direct-deposit', name: 'Direct Deposit' },
-      ]
-    },
-    {
-      path: '/benefits-eligibility',
-      name: 'Benefits Eligibility',
-      sections: [
-        { path: '/benefits-eligibility/benefits-selection', name: 'Benefits Selection' },
-      ]
-    },
-    {
-      path: '/military-history',
-      name: 'Military History',
-      sections: [
-        { path: '/military-history/military-service', name: 'Military Service' },
-        { path: '/military-history/additional-information', name: 'Additional Information' },
-        { path: '/military-history/rotc-history', name: 'ROTC History' },
-        { path: '/military-history/benefits-history', name: 'Benefits History' }
-      ]
-    },
-    {
-      path: '/education-history',
-      name: 'Education History',
-      sections: [
-        { path: '/education-history/education-information', name: 'Education Information' },
-        { path: '/education-history/additional-information', name: 'Additional Information' },
-      ]
-    },
-    {
-      path: '/employment-history',
-      name: 'Employment History',
-      sections: [
-        { path: '/employment-history/employment-information', name: 'Employment Information' },
-      ]
-    },
-    {
-      path: '/school-selection',
-      name: 'School Selection',
-      sections: [
-        { path: '/school-selection/school-information', name: 'School Information' },
-      ]
-    },
-    {
-      path: '/review-and-submit',
-      name: 'Review',
-      sections: [
-        { path: '/review-and-submit', name: 'Review Information' },
-      ]
-    }
-  ]
+  }
 };
 
 function uiState(state = ui, action) {
   switch (action.type) {
     case UPDATE_COMPLETED_STATUS:
-      return _.set(['sections', action.path, 'complete'], true, state);
+      return _.set(['pages', action.path, 'complete'], true, state);
 
     case UPDATE_INCOMPLETE_STATUS:
-      return _.set(['sections', action.path, 'complete'], false, state);
+      return _.set(['pages', action.path, 'complete'], false, state);
 
     case UPDATE_REVIEW_STATUS:
-      return _.set(['sections', action.path, 'complete'], action.value, state);
+      return _.set(['pages', action.path, 'complete'], action.value, state);
 
     case UPDATE_VERIFIED_STATUS:
-      return _.set(['sections', action.path, 'verified'], action.value, state);
+      return _.set(['pages', action.path, 'verified'], action.value, state);
 
     case UPDATE_SUBMISSION_STATUS:
       return _.set('submission.status', action.value, state);

@@ -1,5 +1,37 @@
 {% include "content/includes/header.html" %}
 
+{% unless page.template == 'alt-1-topic-landing' %}
+
+{% unless page.showactionbar == false %}
+
+  {% if path contains 'disability-benefits' %}
+    {% include "content/includes/action-bar.html" action_text="Apply for Disability Benefits" action_url="/disability-benefits/apply-for-benefits/" action_class="va-action-bar--header" %}
+  {% endif %}
+
+  {% if path contains 'education' %}
+    {% include "content/includes/action-bar.html" action_text="Apply for Education Benefits" action_url="/education/apply-for-education-benefits/" action_class="va-action-bar--header" %}
+  {% endif %}
+
+  {% if path contains 'healthcare' %}    
+    {% if showtempbar == true %}
+    <div class="va-action-bar--header" style="background-color: #FAC922; text-align:center;">
+      <div class="row">
+        <div class="small-12 columns">
+          <h6 style="margin: 0;">Are you a caregiver or on active duty? This form’s not quite ready for you yet. <a href="#additional-forms"> Find the form you need.</a></h6>
+        </div>
+      </div>
+    </div>
+    {% else %}
+      {% include "content/includes/action-bar.html" action_text="Apply for VA Health Care" action_url="/healthcare/apply/application" action_class="va-action-bar--header" %}
+    {% endif %}
+  {% endif %}
+
+{% endunless %}
+
+{% endunless %}
+
+{% include "content/includes/breadcrumbs.html" %}
+
 <div id="content" class="interior {{ id }}">
   
   {% case template %}

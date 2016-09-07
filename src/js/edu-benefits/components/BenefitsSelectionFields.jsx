@@ -5,7 +5,7 @@ import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCh
 import RadioButtonsSubSection from '../../common/components/form-elements/RadioButtonsSubSection';
 import { validateIfDirty, isNotBlank } from '../../common/utils/validations';
 
-export default class BenefitsSectionFields extends React.Component {
+export default class BenefitsSelectionFields extends React.Component {
   render() {
     const options = [
       { label: 'Chapter 1606', value: 'chapter1606Relinquished' },
@@ -18,7 +18,7 @@ export default class BenefitsSectionFields extends React.Component {
     if (this.props.data.chapter33) {
       relinquishSection = (<RadioButtonsSubSection showIfValueChosen="chapter33">
         <p className="form-indent">I acknowledge that by choosing Chapter 33 I have to give up some other stuff</p>
-        <fieldset className="form-subsection">
+        <fieldset className="usa-alert usa-alert-info">
           <ErrorableRadioButtons required={this.props.data.chapter33}
               errorMessage={validateIfDirty(this.props.data.benefitsRelinquished, isNotBlank) ? '' : 'Please select a response'}
               label="I elect to receive Chapter 33 education benefits in lieu of the education benefit(s) I am relinquishing below:"
@@ -61,7 +61,7 @@ export default class BenefitsSectionFields extends React.Component {
   }
 }
 
-BenefitsSectionFields.propTypes = {
+BenefitsSelectionFields.propTypes = {
   onStateChange: React.PropTypes.func.isRequired,
   data: React.PropTypes.object.isRequired
 };

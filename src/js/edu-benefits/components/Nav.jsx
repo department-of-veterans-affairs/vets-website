@@ -1,23 +1,21 @@
 import React from 'react';
 
-function lastSection(panel) {
-  return panel.sections.slice(-1)[0].path;
+function lastPage(chapter) {
+  return chapter.pages.slice(-1)[0].path;
 }
 
-function determinePanelStyles(path, sectionState, formPanel, currentUrl) {
+function determineChapterStyles(pageState, formChapter, currentUrl) {
   let classes = '';
-  if (currentUrl.startsWith(path)) {
+  if (formChapter.pages.some(page => page.path === currentUrl)) {
     classes += ' section-current';
   }
-  if (sectionState[path] && sectionState[path].complete) {
-    classes += ' section-complete';
-  } else if (formPanel.sections.length > 0 && sectionState[lastSection(formPanel)].complete) {
+  if (formChapter.pages.length > 0 && pageState[lastPage(formChapter)].complete) {
     classes += ' section-complete';
   }
   return classes;
 }
 
-function determineSectionStyles(name, currentUrl) {
+function determinePageStyles(name, currentUrl) {
   return currentUrl === name ? ' sub-section-current' : '';
 }
 
@@ -29,32 +27,32 @@ function getStepClassFromIndex(index, length) {
 }
 
 /**
- * Component for navigation, with links to each section of the form.
- * Parent links redirect to first section link within topic.
+ * Component for navigation, with links to each page of the form.
+ * Parent links redirect to first page link within topic.
  *
  * Props:
  * `currentUrl` - String. Specifies the current url.
- * `sections` - A hash of section names and the current validation state and fields
- * `panels` - A list of the panels in the nav and their sub-sections
+ * `pages` - A hash of page names and the current validation state and fields
+ * `chapters` - A list of the chapters in the nav and their pages
  */
 class Nav extends React.Component {
   render() {
     const subnavStyles = 'step one wow fadeIn animated';
-    const { sections, currentUrl, panels } = this.props;
+    const { pages, currentUrl, chapters } = this.props;
 
     return (
       <ol className="process form-process">
-        {panels.map((panel, i) => {
+        {chapters.map((chapter, i) => {
           return (
-            <li role="presentation" className={`${getStepClassFromIndex(i, panels.length)} ${subnavStyles}
-              ${determinePanelStyles(panel.path, sections, panel, currentUrl)}`} key={panel.path}>
+            <li role="presentation" className={`${getStepClassFromIndex(i, chapters.length)} ${subnavStyles}
+              ${determineChapterStyles(pages, chapter, currentUrl)}`} key={chapter.name}>
               <div>
-                <h5>{panel.name}</h5>
+                <h5>{chapter.name}</h5>
                 <ul className="usa-unstyled-list">
-                  {panel.sections.map(section => {
+                  {chapter.pages.filter(page => page.name).map(page => {
                     return (
-                      <li className={`${determineSectionStyles(section.path, currentUrl)}`} key={section.path}>
-                        {section.name}
+                      <li className={`${determinePageStyles(page.path, currentUrl)}`} key={page.path}>
+                        {page.name}
                       </li>
                     );
                   })}
@@ -70,8 +68,8 @@ class Nav extends React.Component {
 
 Nav.propTypes = {
   currentUrl: React.PropTypes.string.isRequired,
-  sections: React.PropTypes.object.isRequired,
-  panels: React.PropTypes.array.isRequired
+  pages: React.PropTypes.object.isRequired,
+  chapters: React.PropTypes.array.isRequired
 };
 
 export default Nav;

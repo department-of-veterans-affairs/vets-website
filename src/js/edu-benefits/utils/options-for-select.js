@@ -1578,6 +1578,23 @@ const yesNo = [
   { label: 'No', value: 'N' }
 ];
 
+const yesNoNA = yesNo.concat([{
+  label: 'Not Applicable', value: 'N/A'
+}]);
+
+const serviceBranches = [
+  { label: 'Air Force', value: 'Air Force' },
+  { label: 'Army', value: 'Army' },
+  { label: 'Coast Guard', value: 'Coast Guard' },
+  { label: 'Marine Corps', value: 'Marine Corps' },
+  { label: 'Navy', value: 'Navy' }
+];
+
+const employmentPeriodTiming = [
+  { label: 'Before military service', value: 'before' },
+  { label: 'After military service', value: 'after' }
+];
+
 module.exports = {
   countries,
   maritalStatuses,
@@ -1590,5 +1607,8 @@ module.exports = {
   days,
   vaMedicalFacilities,
   childRelationships,
-  yesNo
+  yesNo,
+  yesNoNA,
+  serviceBranches,
+  employmentPeriodTiming
 };

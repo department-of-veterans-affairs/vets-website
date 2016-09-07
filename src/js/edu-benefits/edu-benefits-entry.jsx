@@ -20,7 +20,6 @@ if (__BUILDTYPE__ === 'development' && window.devToolsExtension) {
   store = createStore(reducer, compose(applyMiddleware(thunk)));
 }
 
-// TODO: figure out the right url here
 const browserHistory = useRouterHistory(createHistory)({
   basename: '/education/apply-for-education-benefits/application'
 });

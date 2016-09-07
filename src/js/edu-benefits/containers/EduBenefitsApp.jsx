@@ -5,19 +5,22 @@ import { connect } from 'react-redux';
 
 import { withRouter } from 'react-router';
 
+import { chapters, pages } from '../routes';
+
 import Nav from '../components/Nav';
 import NavButtons from '../components/NavButtons';
 
 import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
 
-import { isValidSection } from '../utils/validations';
-import { ensureFieldsInitialized, updateCompletedStatus } from '../actions/index';
+import { isValidPage } from '../utils/validations';
+import { ensurePageInitialized, updateCompletedStatus } from '../actions/index';
+
+import NavHeader from '../components/NavHeader';
 
 class EduBenefitsApp extends React.Component {
   render() {
-    const { panels, sections } = this.props.uiState;
-    const { currentLocation, data, submission, router, dirtyFields, setComplete } = this.props;
+    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete } = this.props;
     const navigateTo = path => router.push(path);
 
     let devPanel = undefined;
@@ -38,16 +41,18 @@ class EduBenefitsApp extends React.Component {
       <div className="row">
         {devPanel}
         <div className="medium-4 columns show-for-medium-up">
-          <Nav sections={sections} panels={panels} currentUrl={currentLocation.pathname}/>
+          <Nav pages={pageState} chapters={chapters} currentUrl={currentLocation.pathname}/>
         </div>
         <div className="medium-8 columns">
           <div className="progress-box">
+            <NavHeader path={currentLocation.pathname} chapters={chapters} className="show-for-small-only"/>
             {this.props.children}
             <NavButtons
                 submission={submission}
+                pages={pages}
                 path={currentLocation.pathname}
-                isValid={isValidSection(currentLocation.pathname, data)}
-                dirtyFields={dirtyFields}
+                isValid={isValidPage(currentLocation.pathname, data)}
+                dirtyPage={dirtyPage}
                 onNavigate={navigateTo}
                 onComplete={setComplete}/>
           </div>
@@ -60,7 +65,7 @@ class EduBenefitsApp extends React.Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    uiState: state.uiState,
+    pageState: state.uiState.pages,
     currentLocation: ownProps.location,
     data: state.veteran,
     submission: state.uiState.submission,
@@ -71,11 +76,11 @@ function mapStateToProps(state, ownProps) {
 // Fill this in when we start using actions
 function mapDispatchToProps(dispatch) {
   return {
-    dirtyFields(section) {
-      dispatch(ensureFieldsInitialized(section));
+    dirtyPage(page) {
+      dispatch(ensurePageInitialized(page));
     },
-    setComplete(section) {
-      dispatch(updateCompletedStatus(section));
+    setComplete(page) {
+      dispatch(updateCompletedStatus(page));
     }
   };
 }
