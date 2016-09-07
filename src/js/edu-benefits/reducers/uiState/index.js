@@ -76,7 +76,7 @@ const ui = {
     '/veteran-information/address': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['veteranAddress']
     },
     '/veteran-information/contact-information': {
       complete: false,
