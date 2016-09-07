@@ -1,0 +1,51 @@
+.rx-disclaimer {
+  background: $color-gold;
+  min-height: 5.5rem;
+  max-height: 11.5rem;
+  overflow: hidden;
+  padding: 1em;
+  -webkit-transition: max-height 500ms;
+  -moz-transition: max-height 500ms;
+  transition: max-height 500ms;
+  
+  @media (min-width: $small-screen) {
+    max-height: 5.5rem;
+  }
+  
+  > div {
+    position: relative;
+  }
+  
+  &-close {
+    color: $color-base;
+    margin: 0;
+    padding: .5rem;
+    position: absolute;
+    right: 0;
+    bottom: 1rem;
+    width: auto;
+    
+    &:hover {
+      background: transparent;
+      opacity: .8
+    }
+  }
+  
+  &--open {
+    height: auto;
+    max-height: 300rem;
+   
+    .rx-disclaimer-close {
+      bottom: 0rem;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+  
+  &-body {
+   // outline: 2px dashed red;
+  }
+}
+

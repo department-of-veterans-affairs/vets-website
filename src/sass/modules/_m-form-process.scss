@@ -1,0 +1,52 @@
+.form-process {
+  li {
+    h5 {
+      color: $color-gray;
+    }
+    li {
+      display: none;
+    }
+    &:before {
+      background: $color-gray;
+    }
+    &.section-complete {
+      &:before {
+        background: $color-green;
+        content: "\2714";
+      }
+    }
+    &.section-current {
+      h5 {
+        font-weight: bold;
+        color: $color-primary;
+      }
+      li {
+        display: list-item;
+        &.sub-section-current {
+          font-weight: bold;
+          color: $color-primary;
+        }
+      }
+      &:before {
+        background: $color-primary;
+      }
+    }
+  }
+}
+
+.form-process-step {
+  color:$color-white;
+  font-weight: 700;
+  text-align: center;
+  width: 2em;
+  margin-left: -.2em;
+  top: -.2em;
+  display: block;
+  border: 4px solid $color-white;
+  background: $olso-gray;
+  border-radius: 4em;
+  display: inline-block;
+  &.current {
+    background: $color-primary;
+  }
+}

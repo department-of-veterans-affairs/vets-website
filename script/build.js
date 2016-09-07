@@ -8,7 +8,6 @@ const collections = require('metalsmith-collections');
 const commandLineArgs = require('command-line-args');
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
-// const excerpts = require('metalsmith-excerpts');
 const filenames = require('metalsmith-filenames');
 const ignore = require('metalsmith-ignore');
 const inPlace = require('metalsmith-in-place');
@@ -16,13 +15,28 @@ const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdownit');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
+const redirect = require('metalsmith-redirect');
 const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
 
+const fs = require('fs');
+
 const sourceDir = '../content/pages';
+
+// Make sure git pre-commit hooks are installed
+['pre-commit'].forEach(hook => {
+  const src = `../hooks/${hook}`;
+  const dest = `../.git/hooks/${hook}`;
+  if (fs.existsSync(src)) {
+    if (!fs.existsSync(dest)) {
+      // Install hooks
+      fs.linkSync(src, dest);
+    }
+  }
+});
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
@@ -70,7 +84,6 @@ const webpackConfig = webpackConfigGenerator(options);
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
 //
-
 smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
 
@@ -80,8 +93,8 @@ smith.destination(`../build/${options.buildtype}`);
 const ignoreList = ['memorial-benefits/*'];
 if (options.buildtype === 'production') {
   ignoreList.push('rx/*');
-  ignoreList.push('facility-locator/*');
-  ignoreList.push('education/apply-for-education-benefits/apply.md');
+  ignoreList.push('education/apply-for-education-benefits/application.md');
+  ignoreList.push('messaging/*');
 }
 smith.use(ignore(ignoreList));
 
@@ -132,7 +145,7 @@ smith.use(permalinks({
   relative: false,
   linksets: [{
     match: { collection: 'posts' },
-    pattern: ':date/:slug.html'
+    pattern: ':date/:slug'
   }]
 }));
 
@@ -163,23 +176,22 @@ if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
   //   https://www.npmjs.com/package/metalsmith-watch
   smith.use(watch());
-  
+
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
     contentBase: `build/${options.buildtype}`,
     historyApiFallback: {
       rewrites: [
-        { from: '^\/rx(.*)', to: '/rx/' },
-        { from: '^\/healthcare\/apply\/application(.*)', to: '/healthcare/apply/application/' },
-        { from: '^\/education\/apply-for-education-benefits\/apply(.*)', to: '/education/apply-for-education-benefits/apply/' },
-        { from: '^\/facilities(.*)', to: '/facilities/' },
-        { from: '^\/(.*)', to: function(context){ return context.parsedUrl.pathname; }}
+        { from: '^/rx(.*)', to: '/rx/' },
+        { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
+        { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
+        { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
     hot: true,
     port: options.port,
     publicPath: '/generated/',
-    stats: { 
+    stats: {
       colors: true,
       assets: false,
       version: false,
@@ -197,18 +209,24 @@ if (options.watch) {
     // Check to see if we have a proxy config file
     const api = require('../config/config.proxy.js').api;
     devServerConfig.proxy = {
-      '/api/*': {
-        target: `https://${api.host}${api.path}`,
+      '/rx-api/*': {
+        target: `https://${api.host}/`,
         auth: api.auth,
-        rewrite: function (req) {
-          req.url = req.url.replace(/^\/api/, '');
+        secure: true,
+        changeOrigin: true,
+        rewrite: function rewrite(req) {
+          /* eslint-disable no-param-reassign */
+          req.url = req.url.replace(/rx-api/, api.path);
           req.headers.host = api.host;
+          /* eslint-enable no-param-reassign */
+          return;
         }
       }
-    }
+    };
+    // eslint-disable-next-line no-console
     console.log('API proxy enabled');
-  } catch(e){
-    // No proxy config file found.  
+  } catch (e) {
+    // No proxy config file found.
   }
 
   smith.use(webpackDevServer(webpackConfig, devServerConfig));
@@ -239,6 +257,10 @@ if (options.watch) {
 
   smith.use(webpack(webpackConfig));
 }
+
+smith.use(redirect({
+  '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/'
+}));
 
 /* eslint-disable no-console */
 smith.build((err) => {

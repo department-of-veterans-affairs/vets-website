@@ -7,11 +7,18 @@
 .rx-alert-body {
   font-size: 2rem;
   padding-left: 4.5rem;
+  vertical-align: middle;
 }
 
 .rx-alert-close {
+  background: transparent;
   color: $color-gray-dark;
   display: table-cell;
   float: right;
   font-size: 2rem;
+  
+  &:hover {
+    background: transparent;
+    color: lighten($color-gray-dark, 30%);
+  }
 }
