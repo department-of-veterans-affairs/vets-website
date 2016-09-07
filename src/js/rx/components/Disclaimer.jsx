@@ -4,8 +4,10 @@ import classNames from 'classnames';
 
 class Disclaimer extends React.Component {
   render() {
-    const openClass = classNames(
-      { 'rx-disclaimer--open': this.props.isOpen }
+    const disclaimerClass = classNames(
+      { 'rx-disclaimer--open': this.props.isOpen },
+      { 'rx-disclaimer': true },
+      { cf: true }
     );
 
     const openButton = classNames(
@@ -18,7 +20,7 @@ class Disclaimer extends React.Component {
 
     return (
       <div
-          className={`rx-disclaimer cf ${openClass}`}
+          className={disclaimerClass}
           aria-expanded={this.props.isOpen}>
         <div className="row">
           <h5>THIS LIST MAY NOT INCLUDE ALL YOUR MEDICATIONS</h5>
