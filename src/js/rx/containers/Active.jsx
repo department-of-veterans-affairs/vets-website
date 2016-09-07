@@ -2,12 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
-import { sortOptions } from '../config.js';
+import { loadPrescriptions } from '../actions/prescriptions';
 import PrescriptionList from '../components/PrescriptionList';
 import SortMenu from '../components/SortMenu';
+import { sortOptions } from '../config.js';
 
 class Active extends React.Component {
   componentWillMount() {
+    this.props.dispatch(loadPrescriptions({ active: true }));
     this.handleSortOnChange = this.handleSortOnChange.bind(this);
     this.handleSortOnClick = this.handleSortOnClick.bind(this);
     this.dispatchSortAction = this.dispatchSortAction.bind(this);
@@ -38,20 +40,30 @@ class Active extends React.Component {
   }
 
   render() {
-    const sortValue = this.props.location.query.sort;
     const items = this.props.prescriptions.items;
+    let content;
+
+    if (items) {
+      const sortValue = this.props.location.query.sort;
+
+      content = (
+        <div>
+          <SortMenu
+              changeHandler={this.handleSortOnChange}
+              clickHandler={this.handleSortOnClick}
+              options={sortOptions}
+              selected={sortValue}/>
+          <PrescriptionList
+              items={this.props.prescriptions.items}
+              // If we're sorting by facility, tell PrescriptionList to group 'em.
+              grouped={sortValue === 'facility-name'}/>
+        </div>
+      );
+    }
 
     return (
       <div className="va-tab-content">
-        <SortMenu
-            changeHandler={this.handleSortOnChange}
-            clickHandler={this.handleSortOnClick}
-            options={sortOptions}
-            selected={sortValue}/>
-        <PrescriptionList
-            items={items}
-            // If we're sorting by facility, tell PrescriptionList to group 'em.
-            grouped={sortValue === 'facility-name'}/>
+        {content}
       </div>
     );
   }
@@ -63,4 +75,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(Active);
-

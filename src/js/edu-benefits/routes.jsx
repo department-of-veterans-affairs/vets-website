@@ -9,6 +9,7 @@ import MilitaryServicePage from './containers/MilitaryServicePage';
 import BenefitsHistoryPage from './containers/BenefitsHistoryPage';
 import PersonalInformationPage from './containers/veteran-information/PersonalInformationPage';
 import DependentInformationPage from './containers/DependentInformationPage';
+import EmploymentHistoryPage from './containers/EmploymentHistoryPage';
 import PlaceholderPage from './containers/PlaceholderPage';
 
 const routes = [
@@ -82,7 +83,7 @@ const routes = [
       path="/education-history/education-information"
       chapter={chapterNames.educationHistory}/>,
   <Route
-      component={PlaceholderPage}
+      component={EmploymentHistoryPage}
       key="/employment-history/employment-information"
       path="/employment-history/employment-information"
       chapter={chapterNames.employmentHistory}/>,

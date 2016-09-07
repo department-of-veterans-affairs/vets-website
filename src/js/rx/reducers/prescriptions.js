@@ -1,9 +1,14 @@
+import merge from 'lodash/fp/merge';
 import set from 'lodash/fp/set';
 import _ from 'lodash';
 
 const initialState = {
   currentItem: null,
-  items: []
+  items: [],
+  history: {
+    sort: '-ordered-date',
+    page: 1
+  }
 };
 
 function sortByName(obj) {
@@ -24,8 +29,17 @@ function sortByLastRequested(obj) {
 
 export default function prescriptions(state = initialState, action) {
   switch (action.type) {
-    case 'LOAD_PRESCRIPTIONS_SUCCESS':
-      return set('items', action.data.data, state);
+    case 'LOAD_PRESCRIPTIONS_SUCCESS': {
+      const sortValue = action.data.meta.sort;
+      const sortKey = Object.keys(sortValue)[0];
+      const newSort = sortValue[sortKey] === 'DESC'
+                  ? `-${sortKey}`
+                  : sortKey;
+      return merge(state, {
+        items: action.data.data,
+        history: { sort: newSort }
+      });
+    }
     case 'LOAD_PRESCRIPTION_SUCCESS':
       return set('currentItem', action.data, state);
     // After the data is loaded, we can just use `state`.
