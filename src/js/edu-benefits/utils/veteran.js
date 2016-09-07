@@ -95,13 +95,13 @@ export function createVeteran() {
         provinceCode: makeField(''),
         zipcode: makeField(''),
         postalCode: makeField('')
-      },
-      educationObjective: makeField(''),
-      startDate: {
-        month: makeField(''),
-        day: makeField(''),
-        year: makeField(''),
       }
+    },
+    educationObjective: makeField(''),
+    educationStartDate: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
     }
   };
 }

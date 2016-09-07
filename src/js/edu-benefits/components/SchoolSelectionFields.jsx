@@ -6,7 +6,7 @@ import ErrorableSelect from '../../common/components/form-elements/ErrorableSele
 import DateInput from '../../common/components/form-elements/DateInput';
 import Address from '../../common/components/questions/Address';
 
-import { validateIfDirtyDateObj, isValidDateField } from '../utils/validations';
+import { validateIfDirtyDateObj, isValidFutureOrPastDateField } from '../utils/validations';
 import { schoolTypes } from '../utils/options-for-select';
 
 function showSchoolAddress(educationType) {
@@ -43,18 +43,18 @@ export default class SchoolSelectionFields extends React.Component {
         : null}
         <ErrorableTextarea
             label="Education or career objective"
-            name="serviceAcademyGraduationYear"
-            field={this.props.data.school.educationObjective}
-            onValueChange={(update) => {this.props.onStateChange('school.educationObjective', update);}}/>
+            name="educationObjective"
+            field={this.props.data.educationObjective}
+            onValueChange={(update) => {this.props.onStateChange('educationObjective', update);}}/>
         <DateInput
-            errorMessage={isValidDateField(this.props.data.school.startDate) ? undefined : 'Please enter a valid date'}
-            validation={validateIfDirtyDateObj(this.props.data.school.startDate, isValidDateField)}
+            errorMessage={isValidFutureOrPastDateField(this.props.data.educationStartDate) ? undefined : 'Please enter a valid date'}
+            validation={validateIfDirtyDateObj(this.props.data.educationStartDate, isValidFutureOrPastDateField)}
             label="Do you know when your training will begin?"
-            name="startDate"
-            day={this.props.data.school.startDate.day}
-            month={this.props.data.school.startDate.month}
-            year={this.props.data.school.startDate.year}
-            onValueChange={(update) => {this.props.onStateChange('school.startDate', update);}}/>
+            name="educationStartDate"
+            day={this.props.data.educationStartDate.day}
+            month={this.props.data.educationStartDate.month}
+            year={this.props.data.educationStartDate.year}
+            onValueChange={(update) => {this.props.onStateChange('educationStartDate', update);}}/>
       </div>
     </fieldset>
     );

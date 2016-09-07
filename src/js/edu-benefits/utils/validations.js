@@ -143,7 +143,7 @@ function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
 }
 
-function isValidFutureDateField(field) {
+function isValidFutureOrPastDateField(field) {
   if (!isBlankDateField(field)) {
     const momentDate = dateToMoment(field);
     return momentDate.isValid() && momentDate.year() > 1900;
@@ -254,7 +254,7 @@ function isValidMilitaryServicePage(data) {
 }
 
 function isValidSchoolSelectionPage(data) {
-  return isValidFutureDateField(data.school.startDate);
+  return isValidFutureOrPastDateField(data.educationStartDate);
 }
 
 function isValidEmploymentPeriod(data) {
@@ -316,7 +316,7 @@ export {
   isValidMonths,
   isValidField,
   isValidDateField,
-  isValidFutureDateField,
+  isValidFutureOrPastDateField,
   isValidDateRange,
   isValidForm,
   isValidPersonalInfoPage,

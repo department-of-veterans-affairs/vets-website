@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { isValidDateRange, isValidFutureDateField, isValidPage } from '../../../src/js/edu-benefits/utils/validations.js';
+import { isValidDateRange, isValidFutureOrPastDateField, isValidPage } from '../../../src/js/edu-benefits/utils/validations.js';
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran.js';
 
 describe('Validations unit tests', () => {
@@ -96,7 +96,7 @@ describe('Validations unit tests', () => {
       });
     });
   });
-  describe('isValidFutureDateField:', () => {
+  describe('isValidFutureOrPastDateField:', () => {
     it('validates if date is in the past', () => {
       const dateField = {
         day: {
@@ -112,7 +112,7 @@ describe('Validations unit tests', () => {
           dirty: true
         }
       };
-      expect(isValidFutureDateField(dateField)).to.be.true;
+      expect(isValidFutureOrPastDateField(dateField)).to.be.true;
     });
     it('validates if date is in the future', () => {
       const dateField = {
@@ -129,7 +129,7 @@ describe('Validations unit tests', () => {
           dirty: true
         }
       };
-      expect(isValidFutureDateField(dateField)).to.be.true;
+      expect(isValidFutureOrPastDateField(dateField)).to.be.true;
     });
     it('does not validate if date is not valid', () => {
       const dateField = {
@@ -146,7 +146,7 @@ describe('Validations unit tests', () => {
           dirty: true
         }
       };
-      expect(isValidFutureDateField(dateField)).to.be.false;
+      expect(isValidFutureOrPastDateField(dateField)).to.be.false;
     });
   });
 });
