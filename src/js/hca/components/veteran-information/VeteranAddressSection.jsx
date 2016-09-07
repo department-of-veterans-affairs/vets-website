@@ -10,19 +10,6 @@ import { veteranUpdateField } from '../../actions';
  * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
  */
 class VeteranAddressSection extends React.Component {
-  constructor() {
-    super();
-    this.confirmEmail = this.confirmEmail.bind(this);
-  }
-
-  confirmEmail() {
-    if (this.props.data.email.value !== this.props.data.emailConfirmation.value) {
-      return 'Please ensure your entries match';
-    }
-
-    return undefined;
-  }
-
   render() {
     let content;
 
@@ -56,9 +43,6 @@ class VeteranAddressSection extends React.Component {
         <legend>Permanent Address</legend>
         <p>(<span className="hca-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
-          <p>For locations outside the U.S., enter "City,Country" in the City field
-              (e.g., "Paris,France"), and select Foreign Country for State.
-          </p>
           <Address required
               value={this.props.data.veteranAddress}
               onUserInput={(update) => {this.props.onStateChange('veteranAddress', update);}}/>

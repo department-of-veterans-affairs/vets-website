@@ -32,6 +32,14 @@ function validateIfDirtyProvider(field1, field2, validator) {
   return true;
 }
 
+function dateToMoment(dateField) {
+  return moment({
+    year: dateField.year.value,
+    month: dateField.month.value - 1,
+    day: dateField.day.value
+  });
+}
+
 function isBlank(value) {
   return value === '';
 }
@@ -42,6 +50,10 @@ function isNotBlank(value) {
 
 function isValidYear(value) {
   return Number(value) >= 1900;
+}
+
+function isValidMonths(value) {
+  return Number(value) >= 0;
 }
 
 // Conditions for valid SSN from the original 1010ez pdf form:
@@ -131,12 +143,13 @@ function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
 }
 
-function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value,
-    day: dateField.day.value
-  });
+function isValidFutureOrPastDateField(field) {
+  if (!isBlankDateField(field)) {
+    const momentDate = dateToMoment(field);
+    return momentDate.isValid() && momentDate.year() > 1900;
+  }
+
+  return true;
 }
 
 function isValidDateRange(fromDate, toDate) {
@@ -240,6 +253,18 @@ function isValidMilitaryServicePage(data) {
     && data.toursOfDuty.every(isValidTourOfDuty);
 }
 
+function isValidSchoolSelectionPage(data) {
+  return isValidFutureOrPastDateField(data.educationStartDate);
+}
+
+function isValidEmploymentPeriod(data) {
+  return isNotBlank(data.name.value) && (isBlank(data.months.value) || isValidMonths(data.months.value));
+}
+
+function isValidEmploymentHistory(data) {
+  return (data.hasNonMilitaryJobs.value !== 'Y' || data.nonMilitaryJobs.every(isValidEmploymentPeriod));
+}
+
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data);
 }
@@ -248,10 +273,16 @@ function isValidPage(completePath, pageData) {
   switch (completePath) {
     case '/veteran-information/personal-information':
       return isValidPersonalInfoPage(pageData);
+    case '/veteran-information/address':
+      return isValidVeteranAddress(pageData);
     case '/benefits-eligibility/benefits-selection':
       return isValidBenefitsInformationPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
+    case '/school-selection/school-information':
+      return isValidSchoolSelectionPage(pageData);
+    case '/employment-history/employment-information':
+      return isValidEmploymentHistory(pageData);
     default:
       return true;
   }
@@ -284,12 +315,15 @@ export {
   isValidPhone,
   isValidEmail,
   isValidYear,
+  isValidMonths,
   isValidField,
   isValidDateField,
+  isValidFutureOrPastDateField,
   isValidDateRange,
   isValidForm,
   isValidPersonalInfoPage,
   isValidVeteranAddress,
+  isValidAddressField,
   isValidContactInformationPage,
   isValidSpouseInformation,
   isValidMilitaryServicePage,
