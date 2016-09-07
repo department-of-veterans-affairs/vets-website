@@ -92,7 +92,7 @@ export function createVeteran() {
       provinceCode: makeField(''),
       zipcode: makeField(''),
       postalCode: makeField(''),
-    }
+    },
     educationType: makeField(''),
     school: {
       name: makeField(''),
