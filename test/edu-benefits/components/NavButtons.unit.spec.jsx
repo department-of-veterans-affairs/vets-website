@@ -13,7 +13,7 @@ describe('<NavButtons>', () => {
     };
     const pages = ['/introduction', '/some-url'];
     const isValid = true;
-    const dirtySection = sinon.spy();
+    const dirtyPage = sinon.spy();
     const onNavigate = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -22,7 +22,7 @@ describe('<NavButtons>', () => {
           path={path}
           pages={pages}
           isValid={isValid}
-          dirtySection={dirtySection}
+          dirtyPage={dirtyPage}
           onNavigate={onNavigate}/>
     );
     it('two buttons', () => {
@@ -40,7 +40,7 @@ describe('<NavButtons>', () => {
     };
     const pages = ['/introduction', '/some-url'];
     const isValid = true;
-    const dirtySection = sinon.spy();
+    const dirtyPage = sinon.spy();
     const onNavigate = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -49,7 +49,7 @@ describe('<NavButtons>', () => {
           path={path}
           pages={pages}
           isValid={isValid}
-          dirtySection={dirtySection}
+          dirtyPage={dirtyPage}
           onNavigate={onNavigate}/>
     );
     it('one button that says get started', () => {
@@ -63,7 +63,7 @@ describe('<NavButtons>', () => {
     };
     const pages = ['/introduction', '/review-and-submit'];
     const isValid = true;
-    const dirtySection = sinon.spy();
+    const dirtyPage = sinon.spy();
     const onNavigate = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -72,7 +72,7 @@ describe('<NavButtons>', () => {
           path={path}
           pages={pages}
           isValid={isValid}
-          dirtySection={dirtySection}
+          dirtyPage={dirtyPage}
           onNavigate={onNavigate}/>
     );
     it('a back button', () => {
@@ -89,7 +89,7 @@ describe('<NavButtons>', () => {
     };
     const pages = ['/introduction', '/review-and-submit'];
     const isValid = true;
-    const dirtySection = sinon.spy();
+    const dirtyPage = sinon.spy();
     const onNavigate = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -98,7 +98,7 @@ describe('<NavButtons>', () => {
           path={path}
           pages={pages}
           isValid={isValid}
-          dirtySection={dirtySection}
+          dirtyPage={dirtyPage}
           onNavigate={onNavigate}/>
     );
     it('a back button', () => {
@@ -116,7 +116,7 @@ describe('<NavButtons>', () => {
     };
     const pages = ['/introduction', '/review-and-submit'];
     const isValid = true;
-    const dirtySection = sinon.spy();
+    const dirtyPage = sinon.spy();
     const onNavigate = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -125,7 +125,7 @@ describe('<NavButtons>', () => {
           path={path}
           pages={pages}
           isValid={isValid}
-          dirtySection={dirtySection}
+          dirtyPage={dirtyPage}
           onNavigate={onNavigate}/>
     );
     it('a back button', () => {
@@ -143,7 +143,7 @@ describe('<NavButtons>', () => {
     };
     const pages = ['/introduction', '/review-and-submit'];
     const isValid = true;
-    const dirtySection = sinon.spy();
+    const dirtyPage = sinon.spy();
     const onNavigate = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
@@ -152,7 +152,7 @@ describe('<NavButtons>', () => {
           path={path}
           pages={pages}
           isValid={isValid}
-          dirtySection={dirtySection}
+          dirtyPage={dirtyPage}
           onNavigate={onNavigate}/>
     );
     it('a back button', () => {
@@ -174,7 +174,7 @@ describe('<NavButtons>', () => {
     };
     const pages = ['/introduction', '/review-and-submit'];
     const isValid = false;
-    const dirtySection = sinon.spy();
+    const dirtyPage = sinon.spy();
     const onNavigate = sinon.spy();
     const onSubmit = sinon.spy();
 
@@ -184,7 +184,7 @@ describe('<NavButtons>', () => {
           path={path}
           pages={pages}
           isValid={isValid}
-          dirtySection={dirtySection}
+          dirtyPage={dirtyPage}
           onNavigate={onNavigate}
           onSubmit={onSubmit}/>
     );
@@ -200,7 +200,7 @@ describe('<NavButtons>', () => {
       status: false
     };
     const isValid = true;
-    const dirtySection = sinon.spy();
+    const dirtyPage = sinon.spy();
     const onNavigate = sinon.spy();
     const onSubmit = sinon.spy();
 
@@ -210,7 +210,7 @@ describe('<NavButtons>', () => {
           path={path}
           pages={pages}
           isValid={isValid}
-          dirtySection={dirtySection}
+          dirtyPage={dirtyPage}
           onNavigate={onNavigate}
           onSubmit={onSubmit}/>
     );
@@ -227,7 +227,7 @@ describe('<NavButtons>', () => {
       status: false
     };
     const isValid = true;
-    const dirtySection = sinon.spy();
+    const dirtyPage = sinon.spy();
     const onNavigate = sinon.spy();
     const onSubmit = sinon.spy();
     const onComplete = sinon.spy();
@@ -238,7 +238,7 @@ describe('<NavButtons>', () => {
           path={path}
           pages={pages}
           isValid={isValid}
-          dirtySection={dirtySection}
+          dirtyPage={dirtyPage}
           onNavigate={onNavigate}
           onSubmit={onSubmit}
           onComplete={onComplete}/>
@@ -262,7 +262,7 @@ describe('<NavButtons>', () => {
       status: false
     };
     const isValid = false;
-    const dirtySection = sinon.spy();
+    const dirtyPage = sinon.spy();
     const onNavigate = sinon.spy();
     const onSubmit = sinon.spy();
 
@@ -272,7 +272,7 @@ describe('<NavButtons>', () => {
           path={path}
           pages={pages}
           isValid={isValid}
-          dirtySection={dirtySection}
+          dirtyPage={dirtyPage}
           onNavigate={onNavigate}
           onSubmit={onSubmit}/>
     );
@@ -284,7 +284,7 @@ describe('<NavButtons>', () => {
 
     it('should dirty fields', () => {
       tree.everySubTree('ProgressButton')[1].props.onButtonClick();
-      expect(dirtySection.calledWith(path)).to.be.true;
+      expect(dirtyPage.calledWith(path)).to.be.true;
     });
 
     it('should navigate back', () => {

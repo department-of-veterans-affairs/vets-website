@@ -8,11 +8,11 @@ export const UPDATE_SUBMISSION_TIMESTAMP = 'UPDATE_SUBMISSION_TIMESTAMP';
 export const VETERAN_FIELD_UPDATE = 'VETERAN_FIELD_UPDATE';
 export const ENSURE_FIELDS_INITIALIZED = 'ENSURE_FIELDS_INITIALIZED';
 
-export function ensureSectionInitialized(section) {
+export function ensurePageInitialized(page) {
   return (dispatch, getState) => {
     return dispatch({
       type: ENSURE_FIELDS_INITIALIZED,
-      fields: getState().uiState.sections[section].fields,
+      fields: getState().uiState.pages[page].fields,
     });
   };
 }

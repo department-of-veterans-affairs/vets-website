@@ -10,7 +10,7 @@ describe('<NavHeader>', () => {
     const chapters = [
       {
         name: 'Wrong chapter',
-        sections: [
+        pages: [
           {
             path: '/some-url2',
             name: 'Testing'
@@ -19,7 +19,7 @@ describe('<NavHeader>', () => {
       },
       {
         name: 'Test chapter',
-        sections: [
+        pages: [
           {
             path: '/some-url',
             name: 'Testing'

@@ -2,24 +2,25 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import BenefitsHistoryFields from '../components/BenefitsHistoryFields';
+import EmploymentHistoryFields from '../components/EmploymentHistoryFields';
 import { veteranUpdateField, ensureFieldsInitialized } from '../actions/index';
 
-class BenefitsHistory extends React.Component {
+class EmploymentHistory extends React.Component {
   render() {
     const { data, onStateChange, dirtyFields } = this.props;
 
     return (
       <div className="form-panel">
-        <BenefitsHistoryFields data={data} onStateChange={onStateChange} initializeFields={dirtyFields}/>
+        <EmploymentHistoryFields data={data} onStateChange={onStateChange} initializeFields={dirtyFields}/>
       </div>
     );
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
-    data: state.veteran
+    data: state.veteran,
+    section: state.uiState.sections[ownProps.location.pathname],
   };
 }
 
@@ -34,5 +35,5 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BenefitsHistory);
-export { BenefitsHistory };
+export default connect(mapStateToProps, mapDispatchToProps)(EmploymentHistory);
+export { EmploymentHistory };

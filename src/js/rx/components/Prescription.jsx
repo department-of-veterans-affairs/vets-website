@@ -2,13 +2,30 @@ import React from 'react';
 import moment from 'moment';
 
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 
 import { rxStatuses } from '../config.js';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitButton from './SubmitButton';
+import { openRefillModal } from '../actions/modal.js';
+
 
 class Prescription extends React.Component {
+  constructor() {
+    super();
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(domEvent) {
+    domEvent.preventDefault();
+    const refillId = domEvent.target.refillId.value;
+    const content = this.props.prescriptions.items.find((rx) => {
+      return rx.id === refillId;
+    });
+    this.props.dispatch(openRefillModal(content.attributes));
+  }
+
   render() {
     const attrs = this.props.attributes;
     const id = this.props.id;
@@ -20,6 +37,7 @@ class Prescription extends React.Component {
     if (attrs['is-refillable'] === true) {
       action.push(<SubmitButton
           cssClass="usa-button-outline rx-prescription-button"
+          value={id}
           text="Refill Prescription"/>);
     } else {
       const callProvider = <div>Call Provider</div>;
@@ -47,17 +65,13 @@ class Prescription extends React.Component {
       }
     }
 
-    const actionableContent = (
-      <div className="rx-prescription-action">
-        {action}
-      </div>
-    );
-
     return (
-      <div className="rx-prescription"
+      <form className="rx-prescription"
+          id={`rx-${id}`}
           key={id}
-          id={`rx-${id}`}>
+          onSubmit={this.handleSubmit}>
         <div className="rx-prescription-inner cf">
+          <input type="hidden" name="refillId" value={id}/>
           <h3 className="rx-prescription-title" title={name}>
             <Link to={`/rx/prescription/${id}`}>
               {name}
@@ -75,10 +89,12 @@ class Prescription extends React.Component {
           <div className="rx-prescription-countaction">
             <RefillsRemainingCounter
                 remaining={attrs['refill-remaining']}/>
-            {actionableContent}
+            <div className="rx-prescription-action">
+              {action}
+            </div>
           </div>
         </div>
-      </div>
+      </form>
     );
   }
 }
@@ -101,8 +117,12 @@ Prescription.propTypes = {
     'station-number': React.PropTypes.string,
     'is-refillable': React.PropTypes.bool.isRequired,
     'is-trackable': React.PropTypes.bool.isRequired,
-  }).isRequired,
-  onRefill: React.PropTypes.func
+  }).isRequired
 };
 
-export default Prescription;
+// TODO: fill this out
+const mapStateToProps = (state) => {
+  return state;
+};
+
+export default connect(mapStateToProps)(Prescription);
