@@ -1590,6 +1590,11 @@ const serviceBranches = [
   { label: 'Navy', value: 'Navy' }
 ];
 
+const employmentPeriodTiming = [
+  { label: 'Before military service', value: 'before' },
+  { label: 'After military service', value: 'after' }
+];
+
 module.exports = {
   countries,
   maritalStatuses,
@@ -1604,5 +1609,6 @@ module.exports = {
   childRelationships,
   yesNo,
   yesNoNA,
-  serviceBranches
+  serviceBranches,
+  employmentPeriodTiming
 };

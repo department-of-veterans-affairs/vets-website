@@ -61,7 +61,7 @@ const ui = {
     '/employment-history/employment-information': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['hasNonMilitaryJobs', 'nonMilitaryJobs']
     },
     '/school-selection/school-information': {
       complete: false,
