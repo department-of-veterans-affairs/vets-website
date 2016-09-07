@@ -19,11 +19,11 @@ class Prescription extends React.Component {
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
-    const refillID = domEvent.target.refillID.value;
-    const content = this.props.prescriptions.items.filter((rx) => {
-      return rx.id === refillID;
+    const refillId = domEvent.target.refillId.value;
+    const content = this.props.prescriptions.items.find((rx) => {
+      return rx.id === refillId;
     });
-    this.props.dispatch(openRefillModal(content[0].attributes));
+    this.props.dispatch(openRefillModal(content.attributes));
   }
 
   render() {
@@ -71,7 +71,7 @@ class Prescription extends React.Component {
           key={id}
           onSubmit={this.handleSubmit}>
         <div className="rx-prescription-inner cf">
-          <input type="hidden" name="refillID" value={id}/>
+          <input type="hidden" name="refillId" value={id}/>
           <h3 className="rx-prescription-title" title={name}>
             <Link to={`/rx/prescription/${id}`}>
               {name}
