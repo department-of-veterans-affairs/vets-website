@@ -71,6 +71,10 @@ module.exports = {
       output: true,
       permalink: '/:collection/:path/index.html'
     },
+    vre: {
+      output: true,
+      permalink: '/:collection/:path/index.html'
+    },
     'memorial-benefits': {
       output: false
     },
