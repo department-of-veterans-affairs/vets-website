@@ -227,11 +227,7 @@ if (options.watch) {
     };
     // eslint-disable-next-line no-console
     console.log('API proxy enabled');
-<<<<<<< HEAD
   } catch (e) {
-=======
-  } catch(e){
->>>>>>> 458dc6e47a66af48af9ec136a43c2799293e6c8c
     // No proxy config file found.
   }
 
