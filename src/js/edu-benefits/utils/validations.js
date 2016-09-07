@@ -44,6 +44,10 @@ function isValidYear(value) {
   return Number(value) >= 1900;
 }
 
+function isValidMonths(value) {
+  return Number(value) >= 0;
+}
+
 // Conditions for valid SSN from the original 1010ez pdf form:
 // '123456789' is not a valid SSN
 // A value where the first 3 digits are 0 is not a valid SSN
@@ -240,6 +244,14 @@ function isValidMilitaryServicePage(data) {
     && data.toursOfDuty.every(isValidTourOfDuty);
 }
 
+function isValidEmploymentPeriod(data) {
+  return isNotBlank(data.name.value) && (isBlank(data.months.value) || isValidMonths(data.months.value));
+}
+
+function isValidEmploymentHistory(data) {
+  return (data.hasNonMilitaryJobs.value !== 'Y' || data.nonMilitaryJobs.every(isValidEmploymentPeriod));
+}
+
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data);
 }
@@ -252,6 +264,8 @@ function isValidPage(completePath, pageData) {
       return isValidBenefitsInformationPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
+    case '/employment-history/employment-information':
+      return isValidEmploymentHistory(pageData);
     default:
       return true;
   }
@@ -284,6 +298,7 @@ export {
   isValidPhone,
   isValidEmail,
   isValidYear,
+  isValidMonths,
   isValidField,
   isValidDateField,
   isValidDateRange,

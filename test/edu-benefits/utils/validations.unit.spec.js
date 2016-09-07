@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
-import { isValidDateRange } from '../../../src/js/edu-benefits/utils/validations.js';
+import { isValidDateRange, isValidPage } from '../../../src/js/edu-benefits/utils/validations.js';
+import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran.js';
 
 describe('Validations unit tests', () => {
   describe('isValidDateRange', () => {
@@ -65,6 +66,34 @@ describe('Validations unit tests', () => {
         }
       };
       expect(isValidDateRange(fromDate, toDate)).to.be.false;
+    });
+  });
+  describe('isValidPage:', () => {
+    describe('EmploymentHistory', () => {
+      it('validates page without license is valid', () => {
+        const veteran = createVeteran();
+        veteran.hasNonMilitaryJobs.value = 'N';
+        expect(isValidPage('/employment-history/employment-information', veteran)).to.be.true;
+      });
+      it('validtes page without occupation is not valid', () => {
+        const veteran = createVeteran();
+        veteran.hasNonMilitaryJobs.value = 'Y';
+        veteran.nonMilitaryJobs.push({
+          postMilitaryJob: {
+            value: 'before',
+            dirty: true
+          },
+          name: {
+            value: '',
+            dirty: false
+          },
+          months: {
+            value: '',
+            dirty: false
+          }
+        });
+        expect(isValidPage('/employment-history/employment-information', veteran)).to.be.false;
+      });
     });
   });
 });
