@@ -1,14 +1,14 @@
-export function closeRefillModal(content) {
+export function closeRefillModal(rx) {
   return {
     type: 'CLOSE_REFILL_MODAL',
-    content
+    rx
   };
 }
 
-export function openRefillModal(content) {
+export function openRefillModal(rx) {
   return {
     type: 'OPEN_REFILL_MODAL',
-    content
+    rx
   };
 }
 
