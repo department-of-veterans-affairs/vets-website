@@ -7,6 +7,11 @@
 # types, both types are built and tested with unit and e2e tests. The accessibility
 # test suite will run over master, staging and production branches, but will only
 # prevent merges to staging and production.
+#
+# Additionally, if you'd like to run accessibility tests on a branch that's not
+# staging, use a branch name that begins with 'accessibility/', such as:
+#
+#   `accessibility/fix-contrast`
 
 set -e
 
@@ -28,10 +33,15 @@ npm run selenium:bootstrap;
 npm run test:e2e;
 
 # Run accessibility tests for master, staging, and production
-if [[ $TRAVIS_BRANCH == 'master' ||
+ACCESSIBILITY_BRANCH_PATTERN="^(master|staging|production|accessibility\\/.*)$"
+
+if [[ $TRAVIS_BRANCH =~ $ACCESSIBILITY_BRANCH_PATTERN
       $TRAVIS_BRANCH == 'staging' ||
-      $TRAVIS_BRANCH == 'production' ]]
+      $TRAVIS_BRANCH == 'production' ||
+      $TRAVIS_ ]]
 then
+  npm run attest:bootstrap
+
   if [[ $TRAVIS_BRANCH == 'master' ]]
   then
     # Don't fail if we encounter problems, just report

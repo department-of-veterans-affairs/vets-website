@@ -1,32 +1,30 @@
-import axeCore from 'axe-core'; // eslint-disable-line no-unused-vars
+import fs from 'fs';
+import path from 'path';
+import process from 'process';
+
+const ATTEST_PATH = './test/util/attest-deps/node_modules/attest/attest.js';
+const ATTEST_RULES_PATH = './test/util/attest-deps/node_modules/attest-rules/VA_508_ATtest.json';
+
+// Get source of the attest module and rules config
+
+const attestSource = fs.readFileSync(path.resolve(process.cwd(), ATTEST_PATH), 'utf8');
+const attestConfig = require(path.resolve(process.cwd(), ATTEST_RULES_PATH));
 
 export function command(context, config, _callback) {
-  // Find the source of the axe module
-
-  // TODO: since this is executed in the context of the browser,
-  // we probably don't need to include this as an npm dependency,
-  // we may be able to just download it locally into a test fixtures
-  // directory and load the source.
-  const axeSource = module.children.find((el) => {
-    return (el.filename.indexOf('axe-core') !== -1);
-  }).exports.source;
-
-  // Attach the axe source to the document
-  this.execute(innerAxeSource => {
+  // Attach the attest source to the document
+  this.execute(innerAttestSource => {
     const script = document.createElement('script');
-    script.text = innerAxeSource;
+    script.text = innerAttestSource;
     document.head.appendChild(script);
-  }, [axeSource]);
+  }, [attestSource]);
 
-  // Run axe checks and report
-  this.executeAsync((innerContext, done) => {
-    axe.a11yCheck(document.querySelector(innerContext), { // eslint-disable-line no-undef
-      runOnly: {
-        type: 'tag',
-        values: ['section508']
-      }
-    }, done);
-  }, [context], results => {
+  // Run attest checks and report
+  this.executeAsync((innerContext, innerAttestConfig, done) => {
+    /* eslint-disable no-undef */
+    axe.configure(innerAttestConfig);
+    axe.a11yCheck(document.querySelector(innerContext), { }, done);
+    /* eslint-enable no-undef */
+  }, [context, attestConfig], results => {
     const { violations, passes } = results.value;
     const scope = (config || {}).scope || '[n/a]';
 

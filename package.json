@@ -11,6 +11,7 @@
     "lint:sass": "sass-lint -c config/sass-lint.yml",
     "nightwatch": "nightwatch -c config/nightwatch.js",
     "selenium:bootstrap": "selenium-standalone install",
+    "attest:bootstrap": "./script/attest-bootstrap.sh",
     "test": "npm run test:unit && npm run test:e2e",
     "test:e2e": "./script/run-nightwatch.sh",
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
