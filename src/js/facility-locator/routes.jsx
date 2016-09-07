@@ -1,6 +1,6 @@
 import { FacilityLocatorApp } from './containers/FacilityLocatorApp';
-import VAFacility from './containers/VAFacility';
-import VAMap from './containers/Map';
+import FacilityDetail from './containers/FacilityDetail';
+import VAMap from './containers/VAMap';
 
 const routes = {
   path: '/facilities',
@@ -9,7 +9,7 @@ const routes = {
     {
       indexRoute: { component: VAMap }
     },
-    { path: 'facility/:id', component: VAFacility }
+    { path: 'facility/:id', component: FacilityDetail }
   ]
 };
 

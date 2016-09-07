@@ -5,6 +5,17 @@ h1{
 }
 
 .leaflet-container {
-    height: 400px;
+    height: 500px;
     width: 100%;
+}
+
+.facility-phone-table
+{
+   border-collapse:collapse;
+}
+
+.facility-phone-table td
+{
+   border:none;
+   outline:none;
 }
