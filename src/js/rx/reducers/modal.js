@@ -1,7 +1,7 @@
 const initialState = {
   refill: {
     visible: false,
-    content: null
+    prescription: null
   },
   glossary: {
     visible: false,
@@ -15,7 +15,7 @@ export default function modal(state = initialState, action) {
       return {
         refill: {
           visible: true,
-          content: action.content
+          prescription: action.rx
         },
         glossary: {
           visible: false,
