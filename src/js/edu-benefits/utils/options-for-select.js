@@ -1578,6 +1578,33 @@ const yesNo = [
   { label: 'No', value: 'N' }
 ];
 
+const yesNoNA = yesNo.concat([{
+  label: 'Not Applicable', value: 'N/A'
+}]);
+
+const serviceBranches = [
+  { label: 'Air Force', value: 'Air Force' },
+  { label: 'Army', value: 'Army' },
+  { label: 'Coast Guard', value: 'Coast Guard' },
+  { label: 'Marine Corps', value: 'Marine Corps' },
+  { label: 'Navy', value: 'Navy' }
+];
+
+const employmentPeriodTiming = [
+  { label: 'Before military service', value: 'before' },
+  { label: 'After military service', value: 'after' }
+];
+
+const schoolTypes = [
+  { label: 'College or other school', value: 'college' },
+  { label: 'Vocational flight training', value: 'flightTraining' },
+  { label: 'National test reimbursement', value: 'testReimbursement' },
+  { label: 'Licensing or certification test reimbursement', value: 'licensingReimbursement' },
+  { label: 'Apprenticeship or on-the-job', value: 'apprentisceship' },
+  { label: 'Correspondence', value: 'correspondence' },
+  { label: 'Tuition assistance top-up', value: 'tuitionTopUp' }
+];
+
 module.exports = {
   countries,
   maritalStatuses,
@@ -1590,5 +1617,9 @@ module.exports = {
   days,
   vaMedicalFacilities,
   childRelationships,
-  yesNo
+  yesNo,
+  yesNoNA,
+  serviceBranches,
+  schoolTypes,
+  employmentPeriodTiming
 };

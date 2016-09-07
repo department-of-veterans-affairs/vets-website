@@ -1,8 +1,7 @@
 ---
 title: Apply for education benefits
 entryname: edu-benefits
-template: 6-info-page
-concurrence: incomplete
+layout: page-react.html
 ---
 <div id="main">
   <div class="section">
@@ -32,4 +31,3 @@ concurrence: incomplete
   </div>-->
   <!-- Maintenance Page End -->
 </div>
-

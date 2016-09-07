@@ -5,6 +5,12 @@ table {
   @media #{$small-only} {
     font-size: .85em;
   }
+
+  thead {
+    td {
+      background-color: $color-gray-lightest;
+    }
+  }
 }
 
 // No need to nest this since caption is only
@@ -24,15 +30,6 @@ th {
 }
 
 th {
-  &[colspan] {
-    background: $polar;
-    font-size: 1.19rem;
-    padding-top: .8em;
-    padding-bottom: .8em;
-    padding-left: .8em;
-    color: $color-primary-darkest;
-  }
-
   span {
     font-weight: normal;
   }

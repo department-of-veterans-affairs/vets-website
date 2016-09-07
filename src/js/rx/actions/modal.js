@@ -1,12 +1,26 @@
-export function closeModal(content) {
+export function closeRefillModal(rx) {
   return {
-    type: 'CLOSE_MODAL',
-    content
+    type: 'CLOSE_REFILL_MODAL',
+    rx
   };
 }
 
-export function openModal() {
+export function openRefillModal(rx) {
   return {
-    type: 'OPEN_MODAL'
+    type: 'OPEN_REFILL_MODAL',
+    rx
+  };
+}
+
+export function closeGlossaryModal() {
+  return {
+    type: 'CLOSE_GLOSSARY_MODAL'
+  };
+}
+
+export function openGlossaryModal(content) {
+  return {
+    type: 'OPEN_GLOSSARY_MODAL',
+    content
   };
 }

@@ -9,7 +9,7 @@ import React from 'react';
 class TableRowVerticalHeader extends React.Component {
   render() {
     return (
-      <tbody key={this.props.key}>
+      <tbody>
         <tr>
           <th>{this.props.headerText}</th>
           <td>{this.props.cellText}</td>
@@ -21,10 +21,7 @@ class TableRowVerticalHeader extends React.Component {
 
 TableRowVerticalHeader.propTypes = {
   headerText: React.PropTypes.string.isRequired,
-  cellText: React.PropTypes.oneOfType([
-    React.PropTypes.string,
-    React.PropTypes.number
-  ])
+  cellText: React.PropTypes.node
 };
 
 export default TableRowVerticalHeader;

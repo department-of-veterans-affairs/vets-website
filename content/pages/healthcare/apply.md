@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Apply for VA Health Care
 template: 1-topic-landing
-showactionbar: true
+showtempbar: true
 ---
 
 VA health care includes regular checkups with your primary care doctor and access to specialists, such as cardiologists, gynecologists, and mental health providers. You can also get home health care and geriatric care, as well as medical equipment, prosthetics, and prescriptions.

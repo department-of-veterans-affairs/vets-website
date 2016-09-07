@@ -1,4 +1,4 @@
-/* Prescription cards for Activity page. */
+/* Prescription cards for Active page. */
 
 .rx-prescription-items {
   padding-top: 3rem;
@@ -31,6 +31,7 @@
 
 .rx-prescription-title {
   color: $color-primary;
+  line-height: 1;
   margin: 0;
   text-overflow: ellipsis;
   overflow: hidden;
@@ -39,15 +40,24 @@
 
   a {
     text-decoration: none;
+    
+    &:hover {
+      background: transparent;
+      border-bottom: 2px solid currentColor;
+    }
   }
+}
+
+.rx-prescription-refilled {
+  margin-bottom: 5rem;
 }
 
 .rx-prescription-number {
   font-weight: bold;
 }
 
-.rx-prescription-refilled {
-  padding-bottom: 3rem;
+.rx-prescription-button {
+  white-space: nowrap;
 }
 
 button.rx-prescription-button,
@@ -55,20 +65,17 @@ button.rx-prescription-button,
   background: transparent;
   display: inline-block;
   font-weight: bold;
-  float: right;
   margin: 0;
 
   @media (max-width: $small-screen) {
-    max-width: 60%;
     padding: 1rem;
   };
 }
 
 .rx-prescription-count {
-  display: inline-block;
   position: absolute;
-  bottom: 1.5rem;
-  
+  bottom: 0;
+  display: inline-block;
   &-zero {
     color: $color-secondary;
   }
@@ -81,6 +88,40 @@ button.rx-prescription-button,
     content: '\a0';
   }
 }
+
+.rx-prescription-action {
+  bottom: 0;
+  position: absolute;
+  right: 0;
+}
+
+.rx-prescription-countaction {
+  bottom: 0;
+  line-height: 2rem;
+  padding-top: 2rem;
+  position: relative;
+}
+
+.rx-prescription-status,
+.rx-prescription-refill-requested {
+  font-weight: bold;
+}
+
+.rx-track-package-link {
+  margin: 0;  
+}
+
+//====== Prescription group
+.rx-prescription-group {
+  padding-bottom: 2rem;
+}
+
+// Abusing !important because #content .section h* is causing problems.
+.rx-pgroup-title {
+  padding-bottom: .5rem !important;
+  margin-bottom: 1rem !important;
+}
+
 
 // "Do not print" styles
 // Contributed .va-header-logo a block to vets-website.

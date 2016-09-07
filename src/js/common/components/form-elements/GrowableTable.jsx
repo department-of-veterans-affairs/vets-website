@@ -2,7 +2,7 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
-import * as validations from '../../utils/validations';
+import { isValidSection } from '../../utils/validations';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -52,7 +52,7 @@ class GrowableTable extends React.Component {
   }
 
   handleAdd() {
-    if (validations.isValidSection(this.props.path, this.props.data)) {
+    if (this.props.isValidSection(this.props.path, this.props.data)) {
       this.createNewElement();
     }
   }
@@ -64,7 +64,7 @@ class GrowableTable extends React.Component {
   handleSave(event) {
     this.props.initializeCurrentElement();
 
-    if (validations.isValidSection(this.props.path, this.props.data)) {
+    if (this.props.isValidSection(this.props.path, this.props.data)) {
       this.setState({ [event.target.dataset.key]: 'complete' });
     }
 
@@ -111,7 +111,7 @@ class GrowableTable extends React.Component {
                 <button className="usa-button-outline short" onClick={(event) => this.handleEdit(event)} data-key={obj.key}><i className="fa before-text fa-pencil"></i>Edit</button>
               </div>
               <div className="small-3 columns">
-                <button className="usa-button-outline short" onClick={this.handleRemove} data-index={index}><i className="fa before-text fa-trash-o"></i>Remove</button>
+                <button disabled={this.props.rows.length <= this.props.minimumRows} className="usa-button-outline short" onClick={this.handleRemove} data-index={index}><i className="fa before-text fa-trash-o"></i>Remove</button>
               </div>
             </div>
             <hr/>
@@ -122,7 +122,9 @@ class GrowableTable extends React.Component {
           <div key={reactKey++}>
             <div className="row">
               <div className="small-3 right columns">
-                <button className="usa-button-outline short" onClick={this.handleRemove} data-index={index}><i className="fa before-text fa-trash-o"></i>Remove</button>
+                {this.props.rows.length > this.props.minimumRows
+                  ? <button className="usa-button-outline short" onClick={this.handleRemove} data-index={index}><i className="fa before-text fa-trash-o"></i>Remove</button>
+                  : null}
               </div>
             </div>
             <div className="row" key={obj.key}>
@@ -174,7 +176,14 @@ GrowableTable.propTypes = {
   initializeCurrentElement: React.PropTypes.func.isRequired,
   onRowsUpdate: React.PropTypes.func.isRequired,
   path: React.PropTypes.string.isRequired,
-  rows: React.PropTypes.array.isRequired
+  rows: React.PropTypes.array.isRequired,
+  isValidSection: React.PropTypes.func.isRequired,
+  minimumRows: React.PropTypes.number
+};
+
+GrowableTable.defaultProps = {
+  isValidSection,
+  minimumRows: 0
 };
 
 export default GrowableTable;
