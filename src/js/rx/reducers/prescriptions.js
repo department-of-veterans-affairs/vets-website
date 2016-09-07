@@ -1,4 +1,4 @@
-import merge from 'lodash/fp/merge';
+import assign from 'lodash/fp/assign';
 import set from 'lodash/fp/set';
 import _ from 'lodash';
 
@@ -39,7 +39,7 @@ export default function prescriptions(state = initialState, action) {
 
       const pagination = action.data.meta.pagination;
 
-      return merge(state, {
+      return assign(state, {
         items: action.data.data,
         history: {
           sort: newSort,
