@@ -29,7 +29,6 @@
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "devDependencies": {
-    "axe-core": "^2.0.5",
     "babel": "^6.5.2",
     "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",

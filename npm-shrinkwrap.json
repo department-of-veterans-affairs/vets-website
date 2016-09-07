@@ -76,6 +76,11 @@
       "from": "amdefine@>=0.0.4",
       "resolved": "https://registry.npmjs.org/amdefine/-/amdefine-1.0.0.tgz"
     },
+    "animate.css": {
+      "version": "3.5.2",
+      "from": "animate.css@latest",
+      "resolved": "https://registry.npmjs.org/animate.css/-/animate.css-3.5.2.tgz"
+    },
     "ansi-escapes": {
       "version": "1.4.0",
       "from": "ansi-escapes@>=1.1.0 <2.0.0",

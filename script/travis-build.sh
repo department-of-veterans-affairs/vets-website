@@ -35,10 +35,7 @@ npm run test:e2e;
 # Run accessibility tests for master, staging, and production
 ACCESSIBILITY_BRANCH_PATTERN="^(master|staging|production|accessibility\\/.*)$"
 
-if [[ $TRAVIS_BRANCH =~ $ACCESSIBILITY_BRANCH_PATTERN
-      $TRAVIS_BRANCH == 'staging' ||
-      $TRAVIS_BRANCH == 'production' ||
-      $TRAVIS_ ]]
+if [[ $TRAVIS_BRANCH =~ $ACCESSIBILITY_BRANCH_PATTERN ]]
 then
   npm run attest:bootstrap
 
