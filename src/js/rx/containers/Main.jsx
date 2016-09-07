@@ -25,7 +25,7 @@ class Main extends React.Component {
     return (
       <div>
         <Disclaimer
-            isVisible={this.props.disclaimer.visible}
+            isOpen={this.props.disclaimer.open}
             handleClose={this.props.closeDisclaimer}/>
         <div className="rx-app row">
           {alertBox}
