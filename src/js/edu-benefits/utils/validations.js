@@ -260,6 +260,8 @@ function isValidPage(completePath, pageData) {
   switch (completePath) {
     case '/veteran-information/personal-information':
       return isValidPersonalInfoPage(pageData);
+    case '/veteran-information/address':
+      return isValidVeteranAddress(pageData);
     case '/benefits-eligibility/benefits-selection':
       return isValidBenefitsInformationPage(pageData);
     case '/military-history/military-service':
