@@ -22,6 +22,15 @@ export function createTour() {
   };
 }
 
+export function createEmploymentPeriod() {
+  return {
+    name: makeField(''),
+    months: makeField(''),
+    licenseOrRating: makeField(''),
+    postMilitaryJob: makeField('')
+  };
+}
+
 export function createVeteran() {
   return {
     benefitsRelinquished: makeField(''),
@@ -73,6 +82,8 @@ export function createVeteran() {
       year: makeField(''),
     },
     gender: makeField(''),
+    hasNonMilitaryJobs: makeField(''),
+    nonMilitaryJobs: [],
     educationType: makeField(''),
     school: {
       name: makeField(''),

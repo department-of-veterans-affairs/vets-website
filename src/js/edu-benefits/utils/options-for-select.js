@@ -1590,6 +1590,11 @@ const serviceBranches = [
   { label: 'Navy', value: 'Navy' }
 ];
 
+const employmentPeriodTiming = [
+  { label: 'Before military service', value: 'before' },
+  { label: 'After military service', value: 'after' }
+];
+
 const schoolTypes = [
   { label: 'College or other school', value: 'college' },
   { label: 'Vocational flight training', value: 'flightTraining' },
@@ -1615,5 +1620,6 @@ module.exports = {
   yesNo,
   yesNoNA,
   serviceBranches,
-  schoolTypes
+  schoolTypes,
+  employmentPeriodTiming
 };
