@@ -1595,6 +1595,16 @@ const employmentPeriodTiming = [
   { label: 'After military service', value: 'after' }
 ];
 
+const schoolTypes = [
+  { label: 'College or other school', value: 'college' },
+  { label: 'Vocational flight training', value: 'flightTraining' },
+  { label: 'National test reimbursement', value: 'testReimbursement' },
+  { label: 'Licensing or certification test reimbursement', value: 'licensingReimbursement' },
+  { label: 'Apprenticeship or on-the-job', value: 'apprentisceship' },
+  { label: 'Correspondence', value: 'correspondence' },
+  { label: 'Tuition assistance top-up', value: 'tuitionTopUp' }
+];
+
 module.exports = {
   countries,
   maritalStatuses,
@@ -1610,5 +1620,6 @@ module.exports = {
   yesNo,
   yesNoNA,
   serviceBranches,
+  schoolTypes,
   employmentPeriodTiming
 };
