@@ -4,8 +4,7 @@ export function loadPrescription(id) {
   if (id) {
     // TODO: Use id param instead of test id
     // when API is able to retrieve any individual Rx.
-    const testId = 1435525;
-    const rxUrl = `/rx-api/prescriptions/${testId}`;
+    const rxUrl = `/rx-api/prescriptions/${id}`;
     const rxUrls = [rxUrl, `${rxUrl}/trackings`];
 
     // Fetch both the prescription and its tracking history and
@@ -72,4 +71,21 @@ export function loadPrescriptions(options) {
       data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
       err => dispatch({ type: 'LOAD_PRESCRIPTIONS_FAILURE', err })
     );
+}
+
+export function refillPrescription(id) {
+  if (id) {
+    // TODO: Use id param instead of test id
+    // when API is able to retrieve any individual Rx.
+    const uri = `/rx-api/prescriptions/${id}/refill`;
+
+    return dispatch => fetch(uri, {
+      method: 'PATCH'
+    }).then(
+      data => dispatch({ type: 'REFILL_SUCCESS', id, data }),
+      err => dispatch({ type: 'REFILL_FAILURE', err })
+    );
+  }
+
+  return dispatch => dispatch({ type: 'REFILL_FAILURE' });
 }
