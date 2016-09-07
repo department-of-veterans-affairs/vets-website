@@ -11,7 +11,7 @@ class OrderHistory extends React.Component {
         <td>
           Shipped on {moment(
             attrs['shipped-date']
-          ).format('MMM D, YYYY')}
+          ).format('MMM DD, YYYY')}
         </td>
         <td>
           <TrackPackageLink
