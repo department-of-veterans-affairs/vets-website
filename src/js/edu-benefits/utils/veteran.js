@@ -84,6 +84,15 @@ export function createVeteran() {
     gender: makeField(''),
     hasNonMilitaryJobs: makeField(''),
     nonMilitaryJobs: [],
+    veteranAddress: {
+      street: makeField(''),
+      city: makeField(''),
+      country: makeField(''),
+      state: makeField(''),
+      provinceCode: makeField(''),
+      zipcode: makeField(''),
+      postalCode: makeField(''),
+    }
     educationType: makeField(''),
     school: {
       name: makeField(''),
