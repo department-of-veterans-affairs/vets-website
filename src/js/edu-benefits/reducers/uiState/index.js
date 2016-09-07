@@ -66,7 +66,7 @@ const ui = {
     '/school-selection/school-information': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['educationType', 'school']
     },
     '/veteran-information/personal-information': {
       complete: false,

@@ -72,6 +72,25 @@ export function createVeteran() {
       day: makeField(''),
       year: makeField(''),
     },
-    gender: makeField('')
+    gender: makeField(''),
+    educationType: makeField(''),
+    school: {
+      name: makeField(''),
+      address: {
+        street: makeField(''),
+        city: makeField(''),
+        country: makeField(''),
+        state: makeField(''),
+        provinceCode: makeField(''),
+        zipcode: makeField(''),
+        postalCode: makeField('')
+      },
+      educationObjective: makeField(''),
+      startDate: {
+        month: makeField(''),
+        day: makeField(''),
+        year: makeField(''),
+      }
+    }
   };
 }

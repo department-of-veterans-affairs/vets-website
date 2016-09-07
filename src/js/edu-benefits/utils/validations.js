@@ -32,6 +32,14 @@ function validateIfDirtyProvider(field1, field2, validator) {
   return true;
 }
 
+function dateToMoment(dateField) {
+  return moment({
+    year: dateField.year.value,
+    month: dateField.month.value - 1,
+    day: dateField.day.value
+  });
+}
+
 function isBlank(value) {
   return value === '';
 }
@@ -131,12 +139,13 @@ function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
 }
 
-function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value,
-    day: dateField.day.value
-  });
+function isValidFutureDateField(field) {
+  if (!isBlankDateField(field)) {
+    const momentDate = dateToMoment(field);
+    return momentDate.isValid() && momentDate.year() > 1900;
+  }
+
+  return true;
 }
 
 function isValidDateRange(fromDate, toDate) {
@@ -240,6 +249,10 @@ function isValidMilitaryServicePage(data) {
     && data.toursOfDuty.every(isValidTourOfDuty);
 }
 
+function isValidSchoolSelectionPage(data) {
+  return isValidFutureDateField(data.school.startDate);
+}
+
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data);
 }
@@ -252,6 +265,8 @@ function isValidPage(completePath, pageData) {
       return isValidBenefitsInformationPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
+    case '/school-selection/school-information':
+      return isValidSchoolSelectionPage(pageData);
     default:
       return true;
   }
@@ -286,10 +301,12 @@ export {
   isValidYear,
   isValidField,
   isValidDateField,
+  isValidFutureDateField,
   isValidDateRange,
   isValidForm,
   isValidPersonalInfoPage,
   isValidVeteranAddress,
+  isValidAddressField,
   isValidContactInformationPage,
   isValidSpouseInformation,
   isValidMilitaryServicePage,

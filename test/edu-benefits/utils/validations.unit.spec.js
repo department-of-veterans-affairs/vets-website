@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { isValidDateRange } from '../../../src/js/edu-benefits/utils/validations.js';
+import { isValidDateRange, isValidFutureDateField } from '../../../src/js/edu-benefits/utils/validations.js';
 
 describe('Validations unit tests', () => {
   describe('isValidDateRange', () => {
@@ -65,6 +65,59 @@ describe('Validations unit tests', () => {
         }
       };
       expect(isValidDateRange(fromDate, toDate)).to.be.false;
+    });
+  });
+  describe('isValidFutureDateField:', () => {
+    it('validates if date is in the past', () => {
+      const dateField = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: 2006,
+          dirty: true
+        }
+      };
+      expect(isValidFutureDateField(dateField)).to.be.true;
+    });
+    it('validates if date is in the future', () => {
+      const dateField = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: (new Date()).getFullYear() + 1,
+          dirty: true
+        }
+      };
+      expect(isValidFutureDateField(dateField)).to.be.true;
+    });
+    it('does not validate if date is not valid', () => {
+      const dateField = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: 'bad',
+          dirty: true
+        }
+      };
+      expect(isValidFutureDateField(dateField)).to.be.false;
     });
   });
 });
