@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import Nav from '../../../src/js/edu-benefits/components/Nav';
+import Nav from '../../../src/js/common/components/Nav';
 
 describe('<Nav>', () => {
   it('should render all chapters', () => {

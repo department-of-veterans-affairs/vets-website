@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import NavButtons from '../../../src/js/edu-benefits/components/NavButtons';
+import NavButtons from '../../../src/js/common/components/NavButtons';
 
 describe('<NavButtons>', () => {
   describe('should render', () => {

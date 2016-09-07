@@ -7,8 +7,8 @@ import { withRouter } from 'react-router';
 
 import { chapters, pages } from '../routes';
 
-import Nav from '../components/Nav';
-import NavButtons from '../components/NavButtons';
+import Nav from '../../common/components/Nav';
+import NavButtons from '../../common/components/NavButtons';
 
 import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
@@ -16,7 +16,7 @@ import RoutesDropdown from '../components/debug/RoutesDropdown';
 import { isValidPage } from '../utils/validations';
 import { ensurePageInitialized, updateCompletedStatus } from '../actions/index';
 
-import NavHeader from '../components/NavHeader';
+import NavHeader from '../../common/components/NavHeader';
 
 class EduBenefitsApp extends React.Component {
   render() {
