@@ -15,7 +15,7 @@ export default function modal(state = initialState, action) {
       return {
         refill: {
           visible: true,
-          content: null
+          content: action.content
         },
         glossary: {
           visible: false,
