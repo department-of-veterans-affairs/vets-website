@@ -95,6 +95,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('rx/*');
   ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('messaging/*');
+  ignoreList.push('facilities/*');
 }
 smith.use(ignore(ignoreList));
 
@@ -185,6 +186,7 @@ if (options.watch) {
         { from: '^/rx(.*)', to: '/rx/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
+        { from: '^\/facilities(.*)', to: '/facilities/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -225,7 +227,11 @@ if (options.watch) {
     };
     // eslint-disable-next-line no-console
     console.log('API proxy enabled');
+<<<<<<< HEAD
   } catch (e) {
+=======
+  } catch(e){
+>>>>>>> 458dc6e47a66af48af9ec136a43c2799293e6c8c
     // No proxy config file found.
   }
 
