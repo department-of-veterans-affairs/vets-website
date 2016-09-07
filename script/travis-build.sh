@@ -36,10 +36,12 @@ npm run lint
 
 if [[ $TRAVIS_BRANCH == 'staging' || $TRAVIS_BRANCH == 'production' ]]
 then
-  npm run build -- --buildtype production;
+  export BUILDTYPE=production;
 else
-  npm run build;
+  export BUILDTYPE=development;
 fi
+
+npm run build -- --buildtype $BUILDTYPE;
 
 # And run the selected test suite
 
