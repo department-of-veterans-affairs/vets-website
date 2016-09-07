@@ -5,12 +5,11 @@ import process from 'process';
 const ATTEST_PATH = './test/util/attest-deps/node_modules/attest/attest.js';
 const ATTEST_RULES_PATH = './test/util/attest-deps/node_modules/attest-rules/VA_508_ATtest.json';
 
-// Get source of the attest module and rules config
-
-const attestSource = fs.readFileSync(path.resolve(process.cwd(), ATTEST_PATH), 'utf8');
-const attestConfig = require(path.resolve(process.cwd(), ATTEST_RULES_PATH));
-
 export function command(context, config, _callback) {
+  // Get source of the attest module and rules config
+  const attestSource = fs.readFileSync(path.resolve(process.cwd(), ATTEST_PATH), 'utf8');
+  const attestConfig = require(path.resolve(process.cwd(), ATTEST_RULES_PATH));
+
   // Attach the attest source to the document
   this.execute(innerAttestSource => {
     const script = document.createElement('script');
