@@ -1,32 +1,38 @@
 import React from 'react';
 
-import DateInput from '../../../common/components/form-elements/DateInput';
-import FullName from '../../../common/components/questions/FullName';
-import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
-import Gender from '../../../common/components/questions/Gender';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
+import Phone from '../../../common/components/questions/Phone';
+import Address from '../../../common/components/questions/Address';
 
 export default class SecondaryContactFields extends React.Component {
   render() {
     return (
       <fieldset>
+        <legend>Secondary Contact</legend>
         <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
-        <p>Personal Information</p>
         <div className="input-section">
-          <FullName required
-              name={this.props.data.veteranFullName}
-              onUserInput={(update) => {this.props.onStateChange('veteranFullName', update);}}/>
-          <SocialSecurityNumber required
-              ssn={this.props.data.veteranSocialSecurityNumber}
-              onValueChange={(update) => {this.props.onStateChange('veteranSocialSecurityNumber', update);}}/>
-          <DateInput required
-              name="veteranBirth"
-              day={this.props.data.veteranDateOfBirth.day}
-              month={this.props.data.veteranDateOfBirth.month}
-              year={this.props.data.veteranDateOfBirth.year}
-              onValueChange={(update) => {this.props.onStateChange('veteranDateOfBirth', update);}}/>
-          <Gender
-              value={this.props.data.gender}
-              onUserInput={(update) => {this.props.onStateChange('gender', update);}}/>
+          <ErrorableTextInput
+              label="Name"
+              name="secondaryContactName"
+              field={this.props.data.secondaryContact.name}
+              onValueChange={(update) => {this.props.onStateChange('secondaryContact.name', update);}}/>
+          <Phone
+              label="Telephone number"
+              name="secondaryContactPhone"
+              field={this.props.data.secondaryContact.phone}
+              onValueChange={(update) => {this.props.onStateChange('secondaryContact.phone', update);}}/>
+          <h4>Address</h4>
+          <ErrorableCheckbox
+              label="Address for secondary contact is the same as mine."
+              name="secondaryContactSameAddress"
+              checked={this.props.data.secondaryContact.sameAddress}
+              onValueChange={(update) => {this.props.onStateChange('secondaryContact.sameAddress', update);}}/>
+          {!this.props.data.secondaryContact.sameAddress
+            ? <Address
+                value={this.props.data.secondaryContact.address}
+                onUserInput={(update) => {this.props.onStateChange('secondaryContact.address', update);}}/>
+            : null}
         </div>
       </fieldset>
     );
