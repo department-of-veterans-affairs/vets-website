@@ -20,7 +20,7 @@ class RotcHistory extends React.Component {
 function mapStateToProps(state, ownProps) {
   return {
     data: state.veteran,
-    section: state.uiState.sections[ownProps.location.pathname],
+    page: state.uiState.pages[ownProps.location.pathname],
   };
 }
 

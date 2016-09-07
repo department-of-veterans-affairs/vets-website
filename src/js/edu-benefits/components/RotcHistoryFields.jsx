@@ -3,7 +3,7 @@ import ErrorableRadioButtons from '../../common/components/form-elements/Errorab
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
-export default class BenefitsSectionFields extends React.Component {
+export default class RotcHistoryFields extends React.Component {
   constructor(props) {
     super(props);
     this.addNew = this.addNew.bind(this);
@@ -50,7 +50,7 @@ export default class BenefitsSectionFields extends React.Component {
   }
 }
 
-BenefitsSectionFields.propTypes = {
+RotcHistoryFields.propTypes = {
   onStateChange: React.PropTypes.func.isRequired,
   data: React.PropTypes.object.isRequired
 };
