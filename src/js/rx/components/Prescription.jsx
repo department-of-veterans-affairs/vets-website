@@ -1,8 +1,7 @@
 import React from 'react';
-import moment from 'moment';
-
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
+import moment from 'moment';
 
 import { rxStatuses } from '../config.js';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
@@ -30,36 +29,48 @@ class Prescription extends React.Component {
     const attrs = this.props.attributes;
     const id = this.props.id;
     const name = attrs['prescription-name'];
-    const remaining = attrs['refill-remaining'];
+    const status = attrs['refill-status'];
 
     let action = [];
 
     if (attrs['is-refillable'] === true) {
       action.push(<SubmitButton
+          key={`rx-${id}-refill`}
           cssClass="usa-button-outline rx-prescription-button"
           value={id}
           text="Refill Prescription"/>);
     } else {
-      const callProvider = <div>Call Provider</div>;
+      const callProvider = <div key={`rx-${id}-call`}>Call Provider</div>;
 
-      if (attrs['refill-status'] !== 'active') {
-        action.push(<div className="rx-prescription-status">{rxStatuses[attrs['refill-status']]}</div>);
+      if (status !== 'active') {
+        action.push((
+          <div
+              key={`rx-${id}-status`}
+              className="rx-prescription-status">
+            {rxStatuses[status]}
+          </div>
+        ));
 
-        if (attrs['refill-status'] !== 'submitted') {
+        if (status !== 'submitted') {
           action.push(callProvider);
         }
       } else {
         if (attrs['is-trackable'] === true) {
           action.push(<TrackPackageLink
+              key={`rx-${id}-track`}
               className="usa-button"
               text="Track package"/>);
         } else {
-          action.push(<div
-              className="rx-prescription-refill-requested">Refill
-          requested</div>);
+          action.push((
+            <div
+                key={`rx-${id}-requested`}
+                className="rx-prescription-refill-requested">
+              Refill requested
+            </div>
+          ));
         }
 
-        if (remaining === 0) {
+        if (attrs['refill-remaining'] === 0) {
           action.push(callProvider);
         }
       }
@@ -78,13 +89,13 @@ class Prescription extends React.Component {
             </Link>
           </h3>
           <div className="rx-prescription-number">
-            Prescription <abbr title="number">#</abbr>: {attrs['prescription-id']}
+            Prescription <abbr title="number">#</abbr>: {id}
           </div>
           <div className="rx-prescription-facility">
             Facility name: {attrs['facility-name']}
           </div>
           <div className="rx-prescription-refilled">
-            Last filled date: {moment(attrs['refill-date']).format('ll')}
+            Last fill date: {moment(attrs['dispensed-date']).format('L')}
           </div>
           <div className="rx-prescription-countaction">
             <RefillsRemainingCounter

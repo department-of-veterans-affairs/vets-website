@@ -83,6 +83,34 @@ export function createVeteran() {
     },
     gender: makeField(''),
     hasNonMilitaryJobs: makeField(''),
-    nonMilitaryJobs: []
+    nonMilitaryJobs: [],
+    veteranAddress: {
+      street: makeField(''),
+      city: makeField(''),
+      country: makeField(''),
+      state: makeField(''),
+      provinceCode: makeField(''),
+      zipcode: makeField(''),
+      postalCode: makeField(''),
+    },
+    educationType: makeField(''),
+    school: {
+      name: makeField(''),
+      address: {
+        street: makeField(''),
+        city: makeField(''),
+        country: makeField(''),
+        state: makeField(''),
+        provinceCode: makeField(''),
+        zipcode: makeField(''),
+        postalCode: makeField('')
+      }
+    },
+    educationObjective: makeField(''),
+    educationStartDate: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
+    }
   };
 }
