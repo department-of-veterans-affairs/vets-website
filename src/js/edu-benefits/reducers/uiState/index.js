@@ -86,7 +86,7 @@ const ui = {
     '/veteran-information/secondary-contact': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['secondaryContact']
     },
     '/veteran-information/direct-deposit': {
       complete: false,
