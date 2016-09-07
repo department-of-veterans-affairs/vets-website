@@ -186,7 +186,7 @@ if (options.watch) {
         { from: '^/rx(.*)', to: '/rx/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
-        { from: '^\/facilities(.*)', to: '/facilities/' },
+        { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
