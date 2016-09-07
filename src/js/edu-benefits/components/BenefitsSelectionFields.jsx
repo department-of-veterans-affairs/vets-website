@@ -5,7 +5,7 @@ import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCh
 import RadioButtonsSubSection from '../../common/components/form-elements/RadioButtonsSubSection';
 import { validateIfDirty, isNotBlank } from '../../common/utils/validations';
 
-export default class BenefitsSectionFields extends React.Component {
+export default class BenefitsSelectionFields extends React.Component {
   render() {
     const options = [
       { label: 'Chapter 1606', value: 'chapter1606Relinquished' },
@@ -61,7 +61,7 @@ export default class BenefitsSectionFields extends React.Component {
   }
 }
 
-BenefitsSectionFields.propTypes = {
+BenefitsSelectionFields.propTypes = {
   onStateChange: React.PropTypes.func.isRequired,
   data: React.PropTypes.object.isRequired
 };

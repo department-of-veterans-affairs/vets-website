@@ -9,7 +9,7 @@ export default class NavHeader extends React.Component {
     let name;
     chapters
       .forEach((chapter, index) => {
-        if (chapter.sections.some(section => section.path === path)) {
+        if (chapter.pages.some(page => page.path === path)) {
           step = index + 1;
           name = chapter.name;
         }

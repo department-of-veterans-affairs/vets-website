@@ -214,11 +214,12 @@ if (options.watch) {
         auth: api.auth,
         secure: true,
         changeOrigin: true,
-        pathRewrite: (path, req) => {
+        rewrite: function rewrite(req) {
           /* eslint-disable no-param-reassign */
+          req.url = req.url.replace(/rx-api/, api.path);
           req.headers.host = api.host;
           /* eslint-enable no-param-reassign */
-          return path.replace('/rx-api', api.path);
+          return;
         }
       }
     };
