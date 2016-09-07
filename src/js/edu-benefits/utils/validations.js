@@ -261,8 +261,12 @@ function isValidEmploymentPeriod(data) {
   return isNotBlank(data.name.value) && (isBlank(data.months.value) || isValidMonths(data.months.value));
 }
 
-function isValidEmploymentHistory(data) {
+function isValidEmploymentHistoryPage(data) {
   return (data.hasNonMilitaryJobs.value !== 'Y' || data.nonMilitaryJobs.every(isValidEmploymentPeriod));
+}
+
+function isValidSecondaryContactPage(data) {
+  return isValidField(isValidPhone, data.secondaryContact.phone);
 }
 
 function isValidForm(data) {
@@ -282,7 +286,9 @@ function isValidPage(completePath, pageData) {
     case '/school-selection/school-information':
       return isValidSchoolSelectionPage(pageData);
     case '/employment-history/employment-information':
-      return isValidEmploymentHistory(pageData);
+      return isValidEmploymentHistoryPage(pageData);
+    case '/veteran-information/secondary-contact':
+      return isValidSecondaryContactPage(pageData);
     default:
       return true;
   }

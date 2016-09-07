@@ -10,18 +10,19 @@ export default class SecondaryContactFields extends React.Component {
     return (
       <fieldset>
         <legend>Secondary Contact</legend>
-        <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
         <div className="input-section">
           <ErrorableTextInput
               label="Name"
               name="secondaryContactName"
-              field={this.props.data.secondaryContact.name}
-              onValueChange={(update) => {this.props.onStateChange('secondaryContact.name', update);}}/>
+              field={this.props.data.secondaryContact.fullName}
+              onValueChange={(update) => {this.props.onStateChange('secondaryContact.fullName', update);}}/>
           <Phone
               label="Telephone number"
               name="secondaryContactPhone"
-              field={this.props.data.secondaryContact.phone}
+              value={this.props.data.secondaryContact.phone}
               onValueChange={(update) => {this.props.onStateChange('secondaryContact.phone', update);}}/>
+        </div>
+        <div className="input-section">
           <h4>Address</h4>
           <ErrorableCheckbox
               label="Address for secondary contact is the same as mine."
