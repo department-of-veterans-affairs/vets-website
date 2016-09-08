@@ -13,6 +13,7 @@ import DependentInformationPage from './containers/DependentInformationPage';
 import SchoolSelectionPage from './containers/SchoolSelectionPage';
 import EmploymentHistoryPage from './containers/EmploymentHistoryPage';
 import SecondaryContactPage from './containers/veteran-information/SecondaryContactPage';
+import DirectDepositPage from './containers/veteran-information/DirectDepositPage';
 import PlaceholderPage from './containers/PlaceholderPage';
 
 const routes = [
@@ -40,7 +41,7 @@ const routes = [
       chapter={chapterNames.veteranInformation}
       name="Secondary Contact"/>,
   <Route
-      component={PlaceholderPage}
+      component={DirectDepositPage}
       key="/veteran-information/direct-deposit"
       path="/veteran-information/direct-deposit"
       chapter={chapterNames.veteranInformation}
