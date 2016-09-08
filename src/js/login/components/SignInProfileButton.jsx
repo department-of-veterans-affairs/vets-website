@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { updateLoggedInStatus } from '../../common/actions';
+import { updateLoggedInStatus, logOut } from '../../common/actions';
 
 
 class SignInProfileButton extends React.Component {
@@ -13,6 +13,7 @@ class SignInProfileButton extends React.Component {
   clearUserToken() {
     localStorage.removeItem('userToken');
     this.props.onUpdateLoggedInStatus(false);
+    this.props.onClearUserData();
   }
 
   render() {
@@ -45,6 +46,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
+    },
+    onClearUserData: () => {
+      dispatch(logOut());
     }
   };
 };
