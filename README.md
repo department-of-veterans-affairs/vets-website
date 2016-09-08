@@ -232,7 +232,9 @@ directory. All URLs from the generated sitemap are scanned with aXe
 rules for 508 compliance. This functionality extends the end to end testing
 features described above, but runs as a separate suite.
 
-Automated accessibility tests are run on the `staging` branch by TravisCI.
+Automated accessibility tests are run on the `master`, `staging`, and
+`production` branches, but they will only report, not fail, on the `master`
+branch.
 
 ### Continuous Integration
 Continuous integration and deployment is done via
@@ -244,12 +246,12 @@ branch and any feature branches will trigger a build with the default build type
 (development), while the staging and production branches will use the production
 build type.
 
-A push to the `staging` branch will trigger additional automated accessibility
-testing. To run these tests locally, use `$ npm run test:accessibility` after
+A push to `master`, `staging`, or `production` will trigger additional automated
+accessibility testing. To run these tests locally, use `$ npm run test:accessibility` after
 ensuring you've run a current build.
 
-Travis also always builds in optmized mode with `NODE_ENV=production`. See build section for
-distinction between BUILDTYPE and NODE_ENV.
+Travis will build with `NODE_ENV=production` and test both "production" and
+"development" `BUILDTYPE`.
 
 ### Deploy
 Because this is a static site, deployment is simply synchronizing the generated artifacts
