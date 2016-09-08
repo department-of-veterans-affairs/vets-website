@@ -7,29 +7,33 @@ class SortableTable extends React.Component {
     this.makeRow = this.makeRow.bind(this);
   }
 
-  handleSort(param, order) {
-    return () => this.props.onSort(param, order);
+  handleSort(value, order) {
+    return () => this.props.onSort(value, order);
   }
 
   makeHeader(field, index) {
     // Determine what sort order the header will yield on the next click.
     // By default, it will be ascending. Only make it descending if
     // the current field is already sorted on in ascending order.
-    let sortOrder = 'ASC';
+    let nextSortOrder = 'ASC';
     let sortIcon;
 
-    if (this.props.currentSort === field.value) {
-      // Next click will be descending.
-      sortIcon = <i className="fa fa-caret-up"></i>;
-      sortOrder = 'DESC';
-    } else if (this.props.currentSort === `-${field.value}`) {
-      // Next click will be ascending.
-      sortIcon = <i className="fa fa-caret-down"></i>;
+    if (this.props.currentSort.value === field.value) {
+      if (this.props.currentSort.order === 'DESC') {
+        // Current icon will be descending.
+        // Next click will be ascending.
+        sortIcon = <i className="fa fa-caret-down"></i>;
+      } else {
+        // Current icon will be ascending.
+        // Next click will be descending.
+        sortIcon = <i className="fa fa-caret-up"></i>;
+        nextSortOrder = 'DESC';
+      }
     }
 
     return (
       <th key={index}>
-        <a onClick={this.handleSort(field.value, sortOrder)}>
+        <a onClick={this.handleSort(field.value, nextSortOrder)}>
           {field.label}&nbsp;&nbsp;&nbsp;{sortIcon}
         </a>
       </th>
@@ -65,7 +69,10 @@ class SortableTable extends React.Component {
 
 SortableTable.propTypes = {
   className: React.PropTypes.string,
-  currentSort: React.PropTypes.string,
+  currentSort: React.PropTypes.shape({
+    value: React.PropTypes.string.isRequired,
+    order: React.PropTypes.oneOf(['ASC', 'DESC'])
+  }).isRequired,
   // Mappings of each header label to the property on each data object.
   fields: React.PropTypes.arrayOf(React.PropTypes.shape({
     label: React.PropTypes.string.isRequired,
