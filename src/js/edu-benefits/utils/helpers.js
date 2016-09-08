@@ -1,7 +1,15 @@
 import _ from 'lodash';
 
 export function getPageList(routes) {
-  return routes.map(route => route.props.path).filter(page => page !== '/submit-message');
+  return routes.map(route => {
+    const obj = {
+      name: route.props.path,
+    };
+    if (route.props.depends) {
+      obj.depends = route.props.depends;
+    }
+    return obj;
+  }).filter(page => page.name !== '/submit-message');
 }
 
 export function groupPagesIntoChapters(routes) {

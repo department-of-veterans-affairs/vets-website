@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
@@ -7,6 +8,9 @@ export default class NavButtons extends React.Component {
     super(props);
     this.handleContinue = this.handleContinue.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.findNeighbor = this.findNeighbor.bind(this);
+    this.goBack = this.goBack.bind(this);
+    this.goForward = this.goForward.bind(this);
   }
   handleContinue(nextPath) {
     if (this.props.path === '/introduction' || this.props.isValid) {
@@ -21,18 +25,34 @@ export default class NavButtons extends React.Component {
       this.props.onSubmit();
     }
   }
-  render() {
-    const { submission, path, pages } = this.props;
-    const currentIndex = pages.indexOf(path);
-    const nextPath = currentIndex + 1 < pages.length ? pages[currentIndex + 1] : null;
-    const previousPath = currentIndex - 1 >= 0 ? pages[currentIndex - 1] : null;
+  goBack() {
+    this.props.onNavigate(this.findNeighbor(-1));
+  }
+  goForward() {
+    this.handleContinue(this.findNeighbor(1));
+  }
+  findNeighbor(increment) {
+    const { pages, path, data } = this.props;
+    const currentIndex = pages.map(page => page.name).indexOf(path);
 
-    const goBack = () => this.props.onNavigate(previousPath);
-    const goForward = () => this.handleContinue(nextPath);
+    for (let i = currentIndex; i > 0 && i < pages.length; i += increment) {
+      const page = pages[i];
+
+      // If a page's dependency isn't met, we'll skip it.
+      if (page.depends !== undefined && _.matches(page.depends)(data) === false){
+        continue;
+      } else {
+        return page.name;
+      }
+    }
+    return false;
+  }
+  render() {
+    const { submission, path } = this.props;
 
     const backButton = (
       <ProgressButton
-          onButtonClick={goBack}
+          onButtonClick={this.goBack}
           buttonText="Back"
           buttonClass="usa-button-outline"
           beforeText="«"/>
@@ -40,7 +60,7 @@ export default class NavButtons extends React.Component {
 
     const nextButton = (
       <ProgressButton
-          onButtonClick={goForward}
+          onButtonClick={this.goForward}
           buttonText="Continue"
           buttonClass="usa-button-primary"
           afterText="»"/>
@@ -123,7 +143,7 @@ export default class NavButtons extends React.Component {
         <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
             <ProgressButton
-                onButtonClick={goForward}
+                onButtonClick={this.goForward}
                 buttonText="Get Started"
                 buttonClass="usa-button-primary"
                 afterText="»"/>
@@ -150,6 +170,7 @@ export default class NavButtons extends React.Component {
 NavButtons.propTypes = {
   pages: React.PropTypes.array.isRequired,
   path: React.PropTypes.string.isRequired,
+  data: React.PropTypes.object,
   isValid: React.PropTypes.bool,
   submission: React.PropTypes.object.isRequired,
   onSubmit: React.PropTypes.func,

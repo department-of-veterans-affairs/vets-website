@@ -52,6 +52,7 @@ class EduBenefitsApp extends React.Component {
             <NavHeader path={currentLocation.pathname} chapters={chapters} className="show-for-small-only"/>
             {this.props.children}
             <NavButtons
+                data={data}
                 submission={submission}
                 pages={pages}
                 path={currentLocation.pathname}

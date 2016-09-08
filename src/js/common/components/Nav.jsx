@@ -76,6 +76,7 @@ class Nav extends React.Component {
 Nav.propTypes = {
   currentUrl: React.PropTypes.string.isRequired,
   pages: React.PropTypes.object.isRequired,
+  data: React.PropTypes.object,
   chapters: React.PropTypes.array.isRequired
 };
 
