@@ -111,6 +111,20 @@ export function createVeteran() {
       month: makeField(''),
       day: makeField(''),
       year: makeField(''),
+    },
+    secondaryContact: {
+      fullName: makeField(''),
+      sameAddress: false,
+      address: {
+        street: makeField(''),
+        city: makeField(''),
+        country: makeField(''),
+        state: makeField(''),
+        provinceCode: makeField(''),
+        zipcode: makeField(''),
+        postalCode: makeField('')
+      },
+      phone: makeField('')
     }
   };
 }

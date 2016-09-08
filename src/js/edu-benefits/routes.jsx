@@ -12,6 +12,7 @@ import VeteranAddressPage from './containers/veteran-information/VeteranAddressP
 import DependentInformationPage from './containers/DependentInformationPage';
 import SchoolSelectionPage from './containers/SchoolSelectionPage';
 import EmploymentHistoryPage from './containers/EmploymentHistoryPage';
+import SecondaryContactPage from './containers/veteran-information/SecondaryContactPage';
 import PlaceholderPage from './containers/PlaceholderPage';
 
 const routes = [
@@ -39,7 +40,7 @@ const routes = [
       chapter={chapterNames.veteranInformation}
       name="Contact Information"/>,
   <Route
-      component={PlaceholderPage}
+      component={SecondaryContactPage}
       key="/veteran-information/secondary-contact"
       path="/veteran-information/secondary-contact"
       chapter={chapterNames.veteranInformation}
