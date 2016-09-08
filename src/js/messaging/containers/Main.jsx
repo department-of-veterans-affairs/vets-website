@@ -1,21 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import FolderNav from '../components/FolderNav';
-
-class AppMessaging extends React.Component {
+class Main extends React.Component {
   render() {
-    const folders = ['Inbox', 'Drafts', 'Sent', 'Deleted'];
     return (
       <div>
-        <FolderNav folders={folders}/>
         {this.props.children}
       </div>
     );
   }
 }
 
-AppMessaging.propTypes = {
+Main.propTypes = {
   children: React.PropTypes.node
 };
 
@@ -24,4 +20,4 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps)(AppMessaging);
+export default connect(mapStateToProps)(Main);
