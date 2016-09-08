@@ -8,12 +8,19 @@ export function groupPagesIntoChapters(routes) {
   const pageList = routes
     .filter(route => route.props.chapter)
     .map(page => {
-      return {
+      const obj = {
         name: page.props.name,
         chapter: page.props.chapter,
         path: page.props.path
       };
+
+      if (page.props.depends) {
+        obj.depends = page.props.depends;
+      }
+
+      return obj;
     });
+
   const pageGroups = _.groupBy(pageList, page => page.chapter);
 
   return Object.keys(pageGroups).map(chapter => {

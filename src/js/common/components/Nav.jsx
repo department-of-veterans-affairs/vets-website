@@ -1,22 +1,29 @@
 import React from 'react';
+import _ from 'lodash';
+import classnames from 'classnames';
 
 function lastPage(chapter) {
   return chapter.pages.slice(-1)[0].path;
 }
 
-function determineChapterStyles(pageState, formChapter, currentUrl) {
-  let classes = '';
-  if (formChapter.pages.some(page => page.path === currentUrl)) {
-    classes += ' section-current';
-  }
-  if (formChapter.pages.length > 0 && pageState[lastPage(formChapter)].complete) {
-    classes += ' section-complete';
-  }
-  return classes;
+// Checks to see if a page's data dependencies are met
+// i.e., has the user filled out the required information?
+function isHidden(page, data) {
+  return page.depends !== undefined && _.matches(page.depends)(data) === false;
 }
 
-function determinePageStyles(name, currentUrl) {
-  return currentUrl === name ? ' sub-section-current' : '';
+function determineChapterStyles(pageState, formChapter, currentUrl) {
+  return classnames(
+    { 'section-current': formChapter.pages.some(page => page.path === currentUrl) },
+    { 'section-complete': formChapter.pages.length > 0 && pageState[lastPage(formChapter)].complete }
+  );
+}
+
+function determinePageStyles(page, currentUrl, data) {
+  return classnames(
+    { 'sub-section-current': currentUrl === page.path },
+    { 'sub-section-hidden': isHidden(page, data) }
+  );
 }
 
 function getStepClassFromIndex(index, length) {
@@ -38,7 +45,7 @@ function getStepClassFromIndex(index, length) {
 class Nav extends React.Component {
   render() {
     const subnavStyles = 'step one wow fadeIn animated';
-    const { pages, currentUrl, chapters } = this.props;
+    const { data, pages, currentUrl, chapters } = this.props;
 
     return (
       <ol className="process form-process">
@@ -49,9 +56,9 @@ class Nav extends React.Component {
               <div>
                 <h5>{chapter.name}</h5>
                 <ul className="usa-unstyled-list">
-                  {chapter.pages.filter(page => page.name).map(page => {
+                  {chapter.pages.map(page => {
                     return (
-                      <li className={`${determinePageStyles(page.path, currentUrl)}`} key={page.path}>
+                      <li className={`${determinePageStyles(page, currentUrl, data)}`} key={page.path}>
                         {page.name}
                       </li>
                     );
