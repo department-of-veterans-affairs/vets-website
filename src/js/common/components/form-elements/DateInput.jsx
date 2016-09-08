@@ -85,7 +85,7 @@ class DateInput extends React.Component {
     // Calculate required.
     let requiredSpan = undefined;
     if (this.props.required) {
-      requiredSpan = <span className="hca-required-span">*</span>;
+      requiredSpan = <span className="form-required-span">*</span>;
     }
 
     return (
@@ -97,7 +97,7 @@ class DateInput extends React.Component {
         {errorSpan}
         <div className={isValid ? undefined : 'usa-input-error'}>
           <div className="usa-date-of-birth row">
-            <div className="hca-datefield-month">
+            <div className="form-datefield-month">
               <ErrorableSelect errorMessage={isValid ? undefined : ''}
                   label="Month"
                   name={`${this.props.name}Month`}
@@ -105,7 +105,7 @@ class DateInput extends React.Component {
                   value={this.props.month}
                   onValueChange={(update) => {this.handleChange('month', update);}}/>
             </div>
-            <div className="hca-datefield-day">
+            <div className="form-datefield-day">
               <ErrorableSelect errorMessage={isValid ? undefined : ''}
                   label="Day"
                   name={`${this.props.name}Day`}

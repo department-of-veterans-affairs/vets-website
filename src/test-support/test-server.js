@@ -20,16 +20,17 @@ const optionDefinitions = [
 const options = commandLineArgs(optionDefinitions);
 
 if (options.unexpected && options.unexpected.length !== 0) {
-    throw new Error(`Unexpected arguments: '${options.unexpected}'`);
+  throw new Error(`Unexpected arguments: '${options.unexpected}'`);
 }
 
 const app = express();
 
 const root = path.resolve(__dirname, `../../build/${options.buildtype}`);
 app.use(express.static(root));
-app.use('/healthcare/apply/application', fallback('index.html', { root: root }));
+app.use('/healthcare/apply/application', fallback('index.html', { root }));
+app.use('/rx', fallback('index.html', { root }));
 
 app.listen(options.port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Test server listening on port ${options.port} for type ${options.buildtype}`);
 });
-

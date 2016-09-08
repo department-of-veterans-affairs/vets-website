@@ -44,10 +44,6 @@ legend {
   text-align: center;
 }
 
-.row.progress-buttons {
-  max-width: 47rem;
-}
-
 button.short {
   font-weight: 500;
   padding: 1rem;
@@ -71,16 +67,6 @@ button.usa-button-outline {
   &:focus,
   &.usa-button-focus {
     box-shadow: $button-stroke $color-primary-darkest, $focus-shadow;
-  }
-}
-
-button i.fa {
-  font-size: 0.75em;
-  &.before-text {
-    margin-right: 0.5em;
-  }
-  &.after-text {
-    margin-left: 0.5em;
   }
 }
 

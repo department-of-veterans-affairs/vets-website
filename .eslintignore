@@ -1,0 +1,9 @@
+assets/*
+content/*
+docs/*
+old/*
+vendor/*
+build/*
+src/js/legacy/*
+src/hca-migrate/*
+src/rx-migrate/*

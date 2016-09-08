@@ -6,8 +6,10 @@ env:
     - NODE_ENV=production
     - secure: "BQ0BNb3D2gI3hYHXgNIgDNBfZu/koPlZS1mjFqxYizQM+Msu+Zg/QDyeIXFpR7oMU9bmTCWpL2gBFYTOwHAqdP8uDQSz42jCRVGPOmWE9rDt6MDNkyG2M6afJ5FH+bvdcnfWT387iaGfc3jqVZHTVhvy2ay3DTCy8eoovJ7KOZIE+G9YtUxKzNjQHzJaCTloKrvJGIrbebONwJ54LD4GWw4jb7NuUONMpJPwC3ukF6t0gvT83aUf5anrhiu8ghNVYJSObeIXhyiIckley08naETfoK3B/POVf9ex/DbippFhyj64UweNLZ+KAVXUhPBI/CieOG9EdeZQXm7b53ZsdsmDsItXP+nE7+ihfWM4gmv3WJnbLTy12W1D2AF0uoMI5U/jcwRwfoHxVo6OpMbpF10fUVn/yDM/90rpiaB50ufZHtB5cMQfOFGr6/PCiZI/omAi3frUC4Zx6ZbiaG019JqmFHYmrkbTL6d1DTuXL3fawW71tR5a/o4GhOePlu/pXh7nQp4hiRZVo/ZtY6Sa5iuS5UaHmu4uzkXRMurNGrySmSyAFkVxIWG/nHQVTqU1ahgxyYrbtve/aUHZH/aUKr/719N+NW+0ttRMZWAaPnRmbDNdDgyoqcvCr1GKBlaIDWFOMWc+Nd5rhHxaGXr3gthlQdqa4obpk2xdOkBijMw="
   matrix:
-    - BUILDTYPE=development
-    - BUILDTYPE=production
+    - TEST_SUITE=security
+    - TEST_SUITE=accessibility
+    - TEST_SUITE=unit
+    - TEST_SUITE=e2e
 
 notifications:
   email: false
@@ -22,8 +24,7 @@ cache:
   - node_modules
 
 script:
-  - npm run lint
-  - npm run build -- --buildtype ${BUILDTYPE}
+  - ./script/travis-build.sh
 
 addons:
   apt:
@@ -41,22 +42,22 @@ deploy:
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
-      condition: "${BUILDTYPE} = development"
       branch: master
+      condition: "$TEST_SUITE == e2e"
   - provider: script
     script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/production s3://staging.vets.gov/
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
-      condition: "${BUILDTYPE} = production"
-      branch: master
+      branch: staging
+      condition: "$TEST_SUITE == e2e"
   - provider: script
     script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/production s3://www.vets.gov/
     skip_cleanup: true
     on:
       repo: department-of-veterans-affairs/vets-website
-      condition: "${BUILDTYPE} = production"
       branch: production
+      condition: "$TEST_SUITE == e2e"
   - provider: s3
     access_key_id: AKIAIEIFFI3LJZO44VTQ
     secret_access_key:
@@ -68,8 +69,8 @@ deploy:
     acl: public_read
     on:
       repo: department-of-veterans-affairs/vets-website
-      condition: "${BUILDTYPE} = production"
-      branch: master
+      branch: staging
+      condition: "$TEST_SUITE == e2e"
   - provider: s3
     access_key_id: AKIAJPGY3X77ZMIBM4OA
     secret_access_key:
@@ -81,5 +82,5 @@ deploy:
     acl: public_read
     on:
       repo: department-of-veterans-affairs/vets-website
-      condition: "${BUILDTYPE} = production"
       branch: production
+      condition: "$TEST_SUITE == e2e"

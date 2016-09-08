@@ -1,5 +1,3 @@
-// TODO(awong): Convert to ES6
-
 import Timeouts from './timeouts';
 
 // Returns an object suitable for a nightwatch test case.
@@ -19,13 +17,15 @@ function expectNavigateAwayFrom(client, urlSubstring) {
 }
 
 function overrideVetsGovApi(client) {
-  client.execute(function() {
-      window.VetsGov.api.url = 'http://localhost:4000';
-      return window.VetsGov.api.url;
-    }, [],
-    function(val) {
-      console.log('Result of overriding VetsGov.api.url:' + JSON.stringify(val));
-    });
+  client.execute(() => {
+    window.VetsGov.api.url = 'http://localhost:4000';
+    return window.VetsGov.api.url;
+  },
+  [],
+  (val) => {
+    // eslint-disable-next-line no-console
+    console.log(`Result of overriding VetsGov.api.url${JSON.stringify(val)}`);
+  });
 }
 
 module.exports = {

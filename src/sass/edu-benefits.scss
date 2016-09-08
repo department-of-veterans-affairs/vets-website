@@ -1,6 +1,7 @@
 // Variables
 
 @import 'style';
+@import 'modules/m-form-process';
 
 $button-stroke: inset 0 0 0 1px;
 
@@ -23,4 +24,12 @@ select {
 
 legend {
   @extend h4;
+}
+
+.form-indent {
+  padding-left: 2rem;
+}
+
+.form-checkbox-group-label {
+  margin-top: 3rem;
 }

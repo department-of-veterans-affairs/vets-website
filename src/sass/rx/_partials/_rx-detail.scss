@@ -1,0 +1,100 @@
+/* Rx detail page */
+
+#rx-detail h2 {
+  font-size: 3rem;
+  // Overriding #content .section h*.
+  margin-top: 2rem !important;
+}
+
+#rx-detail h3 {
+  font-size: 2.5rem;
+}
+
+#rx-detail .rx-contact-card {
+  margin: 2rem 0;
+  width: 100%;
+
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    margin: 0;
+    width: 30rem;
+  };
+}
+
+#rx-detail .rx-table {
+  // Get font size to stay the same when table shrinks.
+  font-size: 1.6rem;
+  margin: 0;
+
+  tbody {
+    &:first-child {
+      th, td {
+        border-top: none;
+      }
+    }
+
+    &:last-child {
+      th, td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  @media (min-width: $medium-screen) {
+    margin: 0 3rem 0 0;
+    min-width: 50rem;
+  }
+}
+
+.rx-info {
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    vertical-align: top;
+
+    td {
+      width: 35rem;
+    }
+  }
+
+  td {
+    padding-right: 0;
+    vertical-align: top;
+  }
+
+  th {
+    font-weight: bold;
+    padding-left: 0;
+    padding-right: 0;
+    vertical-align: top;
+    width: 15rem;
+  }
+}
+
+.rx-refill-link {
+  display: block;
+
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    margin-left: 2rem;
+  }
+}
+
+.rx-order-history {
+  margin-top: 3.5rem;
+
+  @media (min-width: $medium-screen) {
+    h3 {
+      border-bottom: none;
+    }
+  }
+
+  @media (max-width: $medium-screen) {
+    td {
+      display: block;
+
+      &:nth-child(1):before { content: "Order status: "; }
+
+      &:nth-child(2):before {rcontent: "Tracking status: "; }
+    }
+  }
+}
