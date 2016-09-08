@@ -35,11 +35,11 @@ export default class NavButtons extends React.Component {
     const { pages, path, data } = this.props;
     const currentIndex = pages.map(page => page.name).indexOf(path);
 
-    for (let i = currentIndex; i > 0 && i < pages.length; i += increment) {
+    for (let i = currentIndex + increment; i >= 0 && i < pages.length; i += increment) {
       const page = pages[i];
 
       // If a page's dependency isn't met, we'll skip it.
-      if (page.depends !== undefined && _.matches(page.depends)(data) === false){
+      if (page.depends !== undefined && _.matches(page.depends)(data) === false) {
         continue;
       } else {
         return page.name;
