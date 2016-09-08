@@ -1,8 +1,10 @@
 import React from 'react';
 import moment from 'moment';
+import { connect } from 'react-redux';
+
+import { refillPrescription } from '../actions/prescriptions.js';
 
 class ConfirmRefillModal extends React.Component {
-
   constructor(props) {
     super(props);
     this.handlerConfirmRefill = this.handlerConfirmRefill.bind(this);
@@ -10,14 +12,16 @@ class ConfirmRefillModal extends React.Component {
   }
 
   handlerConfirmRefill(event) {
-    // This should also trigger a state update
-    // and possibly a server request.
     event.preventDefault();
+
+    const rxId = this.props['prescription-id'];
     const alertContent = (
       <b>
-        Refill for <a href={`/rx/prescription/${this.props['prescription-id']}`}>{this.props['prescription-name']}</a> has been requested.
+        Refill for <a href={`/rx/prescription/${rxId}`}>{this.props['prescription-name']}</a> has been requested.
       </b>
     );
+
+    this.props.dispatch(refillPrescription(rxId));
     this.props.openAlert('success', alertContent);
     this.props.onCloseModal();
   }
@@ -73,4 +77,11 @@ ConfirmRefillModal.propTypes = {
   lastRefilled: React.PropTypes.string
 };
 
-export default ConfirmRefillModal;
+// TODO: fill this out so that we're not sending
+// the entire state object.
+// Only need dispatch to be available in this component
+const mapStateToProps = (state) => {
+  return state;
+};
+
+export default connect(mapStateToProps)(ConfirmRefillModal);
