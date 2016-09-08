@@ -32,6 +32,14 @@ function validateIfDirtyProvider(field1, field2, validator) {
   return true;
 }
 
+function dateToMoment(dateField) {
+  return moment({
+    year: dateField.year.value,
+    month: dateField.month.value - 1,
+    day: dateField.day.value
+  });
+}
+
 function isBlank(value) {
   return value === '';
 }
@@ -135,12 +143,13 @@ function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
 }
 
-function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value,
-    day: dateField.day.value
-  });
+function isValidFutureOrPastDateField(field) {
+  if (!isBlankDateField(field)) {
+    const momentDate = dateToMoment(field);
+    return momentDate.isValid() && momentDate.year() > 1900;
+  }
+
+  return true;
 }
 
 function isValidDateRange(fromDate, toDate) {
@@ -244,12 +253,20 @@ function isValidMilitaryServicePage(data) {
     && data.toursOfDuty.every(isValidTourOfDuty);
 }
 
+function isValidSchoolSelectionPage(data) {
+  return isValidFutureOrPastDateField(data.educationStartDate);
+}
+
 function isValidEmploymentPeriod(data) {
   return isNotBlank(data.name.value) && (isBlank(data.months.value) || isValidMonths(data.months.value));
 }
 
-function isValidEmploymentHistory(data) {
+function isValidEmploymentHistoryPage(data) {
   return (data.hasNonMilitaryJobs.value !== 'Y' || data.nonMilitaryJobs.every(isValidEmploymentPeriod));
+}
+
+function isValidSecondaryContactPage(data) {
+  return isValidField(isValidPhone, data.secondaryContact.phone);
 }
 
 function isValidForm(data) {
@@ -266,8 +283,12 @@ function isValidPage(completePath, pageData) {
       return isValidBenefitsInformationPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
+    case '/school-selection/school-information':
+      return isValidSchoolSelectionPage(pageData);
     case '/employment-history/employment-information':
-      return isValidEmploymentHistory(pageData);
+      return isValidEmploymentHistoryPage(pageData);
+    case '/veteran-information/secondary-contact':
+      return isValidSecondaryContactPage(pageData);
     default:
       return true;
   }
@@ -303,10 +324,12 @@ export {
   isValidMonths,
   isValidField,
   isValidDateField,
+  isValidFutureOrPastDateField,
   isValidDateRange,
   isValidForm,
   isValidPersonalInfoPage,
   isValidVeteranAddress,
+  isValidAddressField,
   isValidContactInformationPage,
   isValidSpouseInformation,
   isValidMilitaryServicePage,

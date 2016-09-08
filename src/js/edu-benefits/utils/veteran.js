@@ -92,6 +92,39 @@ export function createVeteran() {
       provinceCode: makeField(''),
       zipcode: makeField(''),
       postalCode: makeField(''),
+    },
+    educationType: makeField(''),
+    school: {
+      name: makeField(''),
+      address: {
+        street: makeField(''),
+        city: makeField(''),
+        country: makeField(''),
+        state: makeField(''),
+        provinceCode: makeField(''),
+        zipcode: makeField(''),
+        postalCode: makeField('')
+      }
+    },
+    educationObjective: makeField(''),
+    educationStartDate: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
+    },
+    secondaryContact: {
+      fullName: makeField(''),
+      sameAddress: false,
+      address: {
+        street: makeField(''),
+        city: makeField(''),
+        country: makeField(''),
+        state: makeField(''),
+        provinceCode: makeField(''),
+        zipcode: makeField(''),
+        postalCode: makeField('')
+      },
+      phone: makeField('')
     }
   };
 }
