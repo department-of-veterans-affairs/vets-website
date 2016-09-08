@@ -6,6 +6,7 @@ import GlossaryModal from '../components/GlossaryModal';
 
 import { openAlert } from '../actions/alert.js';
 import { openRefillModal, closeRefillModal, openGlossaryModal, closeGlossaryModal } from '../actions/modal.js';
+import { refillPrescription } from '../actions/prescriptions.js';
 
 class RxRefillsApp extends React.Component {
   render() {
@@ -16,6 +17,7 @@ class RxRefillsApp extends React.Component {
             {...this.props.modal.refill.prescription}
             isVisible={this.props.modal.refill.visible}
             openAlert={this.props.openAlert}
+            refillPrescription={this.props.refillPrescription}
             onCloseModal={this.props.closeRefillModal}/>
         <GlossaryModal
             content={this.props.modal.glossary.content}
@@ -38,8 +40,9 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps, {
     openAlert,
-    openRefillModal,
-    closeRefillModal,
     openGlossaryModal,
-    closeGlossaryModal
+    openRefillModal,
+    closeGlossaryModal,
+    closeRefillModal,
+    refillPrescription
   })(RxRefillsApp);
