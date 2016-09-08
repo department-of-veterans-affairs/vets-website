@@ -1,3 +1,5 @@
+// import sampleOutput from 'json!../sampleData/sampleOutput.json';
+
 export function fetchVAFacility(id) {
   return {
     type: 'FETCH_VA_FACILITY',
