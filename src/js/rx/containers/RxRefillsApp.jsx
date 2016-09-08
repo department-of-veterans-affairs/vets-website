@@ -5,7 +5,7 @@ import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import GlossaryModal from '../components/GlossaryModal';
 
 import { openAlert } from '../actions/alert.js';
-import { openRefillModal, closeRefillModal, openGlossaryModal, closeGlossaryModal } from '../actions/modal.js';
+import { openRefillModal, closeRefillModal, closeGlossaryModal } from '../actions/modal.js';
 import { refillPrescription } from '../actions/prescriptions.js';
 
 class RxRefillsApp extends React.Component {
@@ -40,7 +40,6 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps, {
     openAlert,
-    openGlossaryModal,
     openRefillModal,
     closeGlossaryModal,
     closeRefillModal,
