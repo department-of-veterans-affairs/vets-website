@@ -15,20 +15,38 @@ const initialState = {
   }
 };
 
-function sortByName(obj) {
+function sortByName(items) {
  /*
   Making all values the same case, to prevent
   alphabetization from getting wonky.
   */
-  return obj.attributes['prescription-name'].toLowerCase();
+  return items.attributes['prescription-name'].toLowerCase();
 }
 
-function sortByFacilityName(obj) {
-  return obj.attributes['facility-name'];
+function sortByFacilityName(items) {
+  return items.attributes['facility-name'];
 }
 
-function sortByLastRequested(obj) {
-  return new Date(obj.attributes['refill-date']).getTime();
+function sortByLastRequested(items) {
+  return new Date(items.attributes['refill-date']).getTime();
+}
+
+function updateRefillStatus(items, id) {
+  const itemToUpdate = items.findIndex((item) => {
+    // The + converts to a number for comparison
+    return +item.id === id;
+  });
+
+  // Calculate the new count, then update the items array.
+  const calculateCount = items[itemToUpdate].attributes['refill-remaining'] - 1;
+  const updateCount = set('attributes[refill-remaining]', calculateCount, items[itemToUpdate]);
+
+  // Update the refill status
+  const refillStatus = set('attributes[is-refillable]', false, updateCount);
+
+  const updatedItems = set(itemToUpdate, refillStatus, items);
+
+  return updatedItems;
 }
 
 export default function prescriptions(state = initialState, action) {
@@ -60,6 +78,8 @@ export default function prescriptions(state = initialState, action) {
       return set('items', _.sortBy(state.items, sortByFacilityName), state);
     case 'last-requested':
       return set('items', _.sortBy(state.items, sortByLastRequested), state);
+    case 'REFILL_SUCCESS':
+      return set('items', updateRefillStatus(state.items, action.id), state);
     default:
       return state;
   }
