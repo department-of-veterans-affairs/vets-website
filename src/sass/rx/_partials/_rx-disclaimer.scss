@@ -3,7 +3,6 @@
   min-height: 5.5rem;
   max-height: 11.5rem;
   overflow: hidden;
-  padding: 1em;
   -webkit-transition: max-height 500ms;
   -moz-transition: max-height 500ms;
   transition: max-height 500ms;
@@ -13,6 +12,7 @@
   }
   
   > div {
+    padding: 1.5rem;
     position: relative;
   }
   
@@ -21,7 +21,7 @@
     margin: 0;
     padding: .5rem;
     position: absolute;
-    right: 0;
+    right: 2rem;
     bottom: 1rem;
     width: auto;
     
@@ -34,10 +34,6 @@
   &--open {
     height: auto;
     max-height: 300rem;
-   
-    .rx-disclaimer-close {
-      bottom: 0rem;
-    }
   }
 
   p {
