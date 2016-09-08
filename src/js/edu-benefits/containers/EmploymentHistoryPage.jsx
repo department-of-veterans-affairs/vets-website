@@ -17,10 +17,9 @@ class EmploymentHistory extends React.Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   return {
-    data: state.veteran,
-    section: state.uiState.sections[ownProps.location.pathname],
+    data: state.veteran
   };
 }
 
