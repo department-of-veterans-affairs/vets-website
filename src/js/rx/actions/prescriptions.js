@@ -2,8 +2,6 @@ import _ from 'lodash';
 
 export function loadPrescription(id) {
   if (id) {
-    // TODO: Use id param instead of test id
-    // when API is able to retrieve any individual Rx.
     const rxUrl = `/rx-api/prescriptions/${id}`;
     const rxUrls = [rxUrl, `${rxUrl}/trackings`];
 
@@ -75,8 +73,6 @@ export function loadPrescriptions(options) {
 
 export function refillPrescription(id) {
   if (id) {
-    // TODO: Use id param instead of test id
-    // when API is able to retrieve any individual Rx.
     const uri = `/rx-api/prescriptions/${id}/refill`;
 
     return dispatch => fetch(uri, {
