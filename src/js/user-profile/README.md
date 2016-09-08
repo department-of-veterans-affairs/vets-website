@@ -11,4 +11,4 @@ npm install
 npm run watch
 ```
 
-Then, visit [https://localhost:3000/profile](https://localhost:3000/profile).
+Then, visit [https://localhost:3001/profile](https://localhost:3001/profile).

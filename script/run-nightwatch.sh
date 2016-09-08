@@ -24,7 +24,7 @@ while ! echo exit | nc localhost 3000; do sleep 1; done
 #
 # Do this after the nc localhost 3000 wait to ensure the server is up
 # otherwise curl may race the server start and not actually block.
-#curl http://localhost:3000/generated/hca.entry.js > /dev/null 2>&1
+#curl http://localhost:3001/generated/hca.entry.js > /dev/null 2>&1
 
 # Execute the actual tests.
 npm run nightwatch -- "${@}"
