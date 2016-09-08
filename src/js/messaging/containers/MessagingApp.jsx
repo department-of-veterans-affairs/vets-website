@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import FolderNav from '../components/FolderNav';
 
-class AppMessaging extends React.Component {
+class MessagingApp extends React.Component {
   render() {
     const folders = ['Inbox', 'Drafts', 'Sent', 'Deleted'];
     return (
@@ -15,7 +15,7 @@ class AppMessaging extends React.Component {
   }
 }
 
-AppMessaging.propTypes = {
+MessagingApp.propTypes = {
   children: React.PropTypes.node
 };
 
@@ -24,4 +24,4 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps)(AppMessaging);
+export default connect(mapStateToProps)(MessagingApp);

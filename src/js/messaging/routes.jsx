@@ -1,10 +1,10 @@
-import AppMessaging from './containers/AppMessaging';
+import MessagingApp from './containers/MessagingApp';
 import Folder from './containers/Folder';
 import Main from './containers/Main';
 
 const routes = {
   path: '/messaging',
-  component: AppMessaging,
+  component: MessagingApp,
   childRoutes: [
     {
       component: Main,
