@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 export function loadPrescription(id) {
   if (id) {
     // TODO: Use id param instead of test id
@@ -34,12 +36,22 @@ export function loadPrescriptions(options) {
 
   // Construct segments of the final URI based on options passed in.
   if (options) {
+    // Fetching active prescriptions only.
     if (options.active) {
       uri = `${uri}/active`;
     }
+
+    // Set the sort param. Convert it into a format that the API accepts.
     if (options.sort) {
-      queries.push(`sort=${options.sort}`);
+      const formattedValue = _.snakeCase(options.sort.value);
+      const sortParam = options.sort.order === 'DESC'
+                      ? `-${formattedValue}`
+                      : formattedValue;
+
+      queries.push(`sort=${sortParam}`);
     }
+
+    // Set the current page.
     if (options.page) {
       queries.push(`page=${options.page}`);
     }
