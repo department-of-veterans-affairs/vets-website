@@ -95,6 +95,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('rx/*');
   ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('messaging/*');
+  ignoreList.push('facilities/*');
 }
 smith.use(ignore(ignoreList));
 
@@ -185,6 +186,7 @@ if (options.watch) {
         { from: '^/rx(.*)', to: '/rx/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
+        { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },

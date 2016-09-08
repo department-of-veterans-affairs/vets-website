@@ -10,7 +10,7 @@ import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 import { glossary, rxStatuses } from '../config.js';
 
-class Detail extends React.Component {
+export class Detail extends React.Component {
   constructor(props) {
     super(props);
     this.openGlossaryModal = this.openGlossaryModal.bind(this);
