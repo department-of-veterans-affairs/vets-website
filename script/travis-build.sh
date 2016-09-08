@@ -56,8 +56,9 @@ then
   npm run test:e2e;
 fi
 
-if [[ $TEST_SUITE == 'accessibility' ]]
-then
-  npm run selenium:bootstrap;
-  npm run test:accessibility;
-fi
+# TODO(james): allow disabling accessibility tests per page
+# if [[ $TEST_SUITE == 'accessibility' ]]
+# then
+#   npm run selenium:bootstrap;
+#   npm run test:accessibility;
+# fi
