@@ -14,7 +14,7 @@ class VAMap extends Component {
     const position = [38.8976763, -77.03653];
     return (
       <div>
-        <div className="small-9 columns">
+        <div className="medium-9 columns">
           <Map ref="map" center={position} zoom={13} >
             <TileLayer
                 url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
@@ -26,7 +26,7 @@ class VAMap extends Component {
             </Marker>
           </Map>
         </div>
-        <div className="columns small-3">
+        <div className="columns medium-3">
           <ResultsPane/>
         </div>
       </div>
