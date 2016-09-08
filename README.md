@@ -229,8 +229,7 @@ multiple browsers as opposed to on PhantomJS in Travis?
 
 The automated accessibility tests are contained within the `test/accessibility`
 directory. All URLs from the generated sitemap are scanned with aXe
-rules for 508 compliance. This functionality extends the end to end testing
-features described above, but runs as a separate suite.
+rules for 508 compliance.
 
 Automated accessibility tests are run on the `master`, `staging`, and
 `production` branches, but they will only report, not fail, on the `master`
