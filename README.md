@@ -28,6 +28,7 @@ very secret.
 | run all linters | `npm run lint` |
 | run only javascript linter | `npm run lint:js` |
 | run only sass linter | `npm run lint:sass` |
+| run automated accessibility tests | `npm run build && npm run test:accessibility` |
 | test for broken links | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
 | add new npm modules | `npm install -D my-module` followed by `npm shrinkwrap --dev`. There are no non-dev modules here. |
 
@@ -199,7 +200,7 @@ the unittests. This is why babel configuration is kept in `.babelrc`, so it can
 be shared between build and test.
 
 ### End-to-end Test -- nightwatch
-TODO(awong): This isn't working yet. Update docs here when it is working.
+
 All end-to-end tests are under `test/\*` and are named with the suffix `.e2e.spec.js`.
 
 Nightwatch is being used for browser-based testing. On the default configuration,
@@ -213,8 +214,6 @@ To run a nightwatch test, 3 things need to execute:
   2. The selenium server (which will spawn browsers like PhanomJS)
   3. The nightwatch client that talks to the Selenium server
 
-These three steps have been abstracted into a script TODO(awong): actually do this.
-
 End-to-end tests do not need to be restricted exclusively to selenium style tests
 (eg, navigate to this url, click this button, etc). At its core, it just a system
 for starting up and controlling web browser.  For mocha tests that we want to
@@ -224,20 +223,33 @@ the test requries features that jsdom does not provide, putting them into a
 
 TODO(awong): Figure out sauce labs integrations. Not all e2e tests should always be
 run on all browsers. That's wasteful. How do we determine what should be run on
-multiple browsers as opposed to on PhantomJS in Travis? 
+multiple browsers as opposed to on PhantomJS in Travis?
 
+### Automated Accessibility Testing -- aXe
+
+The automated accessibility tests are contained within the `test/accessibility`
+directory. All URLs from the generated sitemap are scanned with aXe
+rules for 508 compliance. This functionality extends the end to end testing
+features described above, but runs as a separate suite.
+
+Automated accessibility tests are run on the `staging` branch by TravisCI.
 
 ### Continuous Integration
 Continuous integration and deployment is done via
 [Travis CI](travis-ci.org/department-of-veterans-affairs/vets-website). All of the configuration
 is stored in `.travis.yml`.
 
-All pushes kick off a matrix build for both `BUILDTYPE=development` and `BUILDTYPE=production`.
-Ensures that all PRs always work on both build configurations.
+The build configuration will depend on the branch being pushed. The `master`
+branch and any feature branches will trigger a build with the default build type
+(development), while the staging and production branches will use the production
+build type.
+
+A push to the `staging` branch will trigger additional automated accessibility
+testing. To run these tests locally, use `$ npm run test:accessibility` after
+ensuring you've run a current build.
 
 Travis also always builds in optmized mode with `NODE_ENV=production`. See build section for
 distinction between BUILDTYPE and NODE_ENV.
-
 
 ### Deploy
 Because this is a static site, deployment is simply synchronizing the generated artifacts
@@ -305,7 +317,7 @@ documentation around React is based on a Webpack toolchain.
 
 ## More documentation
 
-TODO(awong): Verify if these are still relevant.
+TODO: Verify if these are still relevant.
 
 - [Why Is My Build Breaking?](docs/WhyIsMyBuildBreaking.md)
 - [How Breadcrumbs Work](docs/HowBreadCrumbsWork.md)

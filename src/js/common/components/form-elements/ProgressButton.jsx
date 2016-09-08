@@ -23,6 +23,7 @@ class ProgressButton extends React.Component {
 
     return (
       <button
+          disabled={this.props.disabled}
           className={`text-capitalize ${this.props.buttonClass}`}
           id={`${this.id}-continueButton`}
           onClick={this.props.onButtonClick}>{beforeText}{this.props.buttonText}{afterText}</button>
@@ -35,7 +36,8 @@ ProgressButton.propTypes = {
   buttonText: React.PropTypes.string.isRequired,
   buttonClass: React.PropTypes.string.isRequired,
   beforeText: React.PropTypes.string,
-  afterText: React.PropTypes.string
+  afterText: React.PropTypes.string,
+  disabled: React.PropTypes.bool
 };
 
 export default ProgressButton;

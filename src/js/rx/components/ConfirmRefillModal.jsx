@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 class ConfirmRefillModal extends React.Component {
 
@@ -13,11 +14,11 @@ class ConfirmRefillModal extends React.Component {
     // and possibly a server request.
     event.preventDefault();
     const alertContent = (
-      <span>
-        Refill for {this.props.drug} has been requested.
-      </span>
+      <b>
+        Refill for <a href={`/rx/prescription/${this.props['prescription-id']}`}>{this.props['prescription-name']}</a> has been requested.
+      </b>
     );
-    this.props.openAlert('info', alertContent);
+    this.props.openAlert('success', alertContent);
     this.props.onCloseModal();
   }
 
@@ -34,16 +35,21 @@ class ConfirmRefillModal extends React.Component {
           <form className="rx-modal-inner" onSubmit={this.handlerConfirmRefill}>
             <div>
               <h3 className="rx-modal-title">Confirm refill</h3>
-              <div className="rx-modal-refillinfo">
+              <div className="rx-modal-refillinfo rx-modal-body">
                 <div>
-                  <span className="rx-modal-drug">{this.props.drug}</span>
-                  <span className="rx-modal-dosage"> {this.props.dosage}</span>
+                  <span className="rx-modal-drug">{this.props['prescription-name']}</span>
+                </div>
+                <div className="rx-modal-rxnumber">
+                  Prescription <abbr title="number">#</abbr>: {this.props['prescription-number']}
+                </div>
+                <div className="rx-modal-facility">
+                  Facility name: {this.props['facility-name']}
                 </div>
                 <div className="rx-modal-lastrefilled">
-                  Last refilled: {this.props.lastRefilled}
+                  Last requested: {moment(this.props['refill-date']).format('MMM D, YYYY')}
                 </div>
                 <div className="rx-button-group cf">
-                  <button type="submit" className="usa-button">Order refill</button>
+                  <button type="submit" value={this.props['prescription-id']}>Order refill</button>
                   <button type="button" className="usa-button-outline"
                       onClick={this.handlerCloseModal}>Cancel</button>
                 </div>
@@ -63,6 +69,7 @@ class ConfirmRefillModal extends React.Component {
 ConfirmRefillModal.propTypes = {
   drug: React.PropTypes.string,
   dosage: React.PropTypes.string,
+  facilityName: React.PropTypes.string,
   lastRefilled: React.PropTypes.string
 };
 

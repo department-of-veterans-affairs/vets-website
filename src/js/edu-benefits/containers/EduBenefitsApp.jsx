@@ -3,18 +3,28 @@ import _ from 'lodash';
 
 import { connect } from 'react-redux';
 
-import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router';
 
-import { placeholderAction } from '../actions';
+import { chapters, pages } from '../routes';
+
+import Nav from '../components/Nav';
+import NavButtons from '../components/NavButtons';
+
+import PerfPanel from '../components/debug/PerfPanel';
+import RoutesDropdown from '../components/debug/RoutesDropdown';
+
+import { isValidPage } from '../utils/validations';
+import { ensurePageInitialized, updateCompletedStatus } from '../actions/index';
+
+import NavHeader from '../components/NavHeader';
 
 class EduBenefitsApp extends React.Component {
   render() {
+    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete } = this.props;
+    const navigateTo = path => router.push(path);
+
     let devPanel = undefined;
     if (__BUILDTYPE__ === 'development') {
-      // using require here allows this code to be removed in prod
-      let PerfPanel = require('./../components/debug/PerfPanel');
-      // import PopulateVeteranButton from './debug/PopulateVeteranButton';
-      let RoutesDropdown = require('./../components/debug/RoutesDropdown');
       const queryParams = _.fromPairs(
         window.location.search.substring(1).split('&').map((v) => { return v.split('='); }));
       if (queryParams.devPanel === '1') {
@@ -28,29 +38,52 @@ class EduBenefitsApp extends React.Component {
     }
 
     return (
-      <div>
+      <div className="row">
         {devPanel}
-        Get your education benefits here!
-        <span className="js-test-location hidden" data-location={this.props.location.pathname} hidden></span>
+        <div className="medium-4 columns show-for-medium-up">
+          <Nav pages={pageState} chapters={chapters} currentUrl={currentLocation.pathname}/>
+        </div>
+        <div className="medium-8 columns">
+          <div className="progress-box">
+            <NavHeader path={currentLocation.pathname} chapters={chapters} className="show-for-small-only"/>
+            {this.props.children}
+            <NavButtons
+                submission={submission}
+                pages={pages}
+                path={currentLocation.pathname}
+                isValid={isValidPage(currentLocation.pathname, data)}
+                dirtyPage={dirtyPage}
+                onNavigate={navigateTo}
+                onComplete={setComplete}/>
+          </div>
+        </div>
+        <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
       </div>
     );
   }
 }
 
-EduBenefitsApp.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
-
-function mapStateToProps(state) {
+function mapStateToProps(state, ownProps) {
   return {
-    placeholder: state.placeholder,
+    pageState: state.uiState.pages,
+    currentLocation: ownProps.location,
+    data: state.veteran,
+    submission: state.uiState.submission,
+    router: ownProps.router
   };
 }
 
+// Fill this in when we start using actions
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ placeholderAction }, dispatch);
+  return {
+    dirtyPage(page) {
+      dispatch(ensurePageInitialized(page));
+    },
+    setComplete(page) {
+      dispatch(updateCompletedStatus(page));
+    }
+  };
 }
 
-// TODO(awong): Remove the pure: false once we start using ImmutableJS.
-export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(EduBenefitsApp);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(EduBenefitsApp));
 export { EduBenefitsApp };

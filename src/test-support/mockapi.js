@@ -23,26 +23,26 @@ const optionDefinitions = [
 const options = commandLineArgs(optionDefinitions);
 
 if (options.unexpected && options.unexpected.length !== 0) {
-    throw new Error(`Unexpected arguments: '${options.unexpected}'`);
+  throw new Error(`Unexpected arguments: '${options.unexpected}'`);
 }
 
-function makeMockApiRouter(options) {
+function makeMockApiRouter(opts) {
   const mockResponses = {};
 
-  const router = express.Router();
+  const router = express.Router(); // eslint-disable-line new-cap
   router.post('/mock', (req, res) => {
     const verb = (req.body.verb || 'get').toLowerCase();
     mockResponses[verb] = mockResponses[verb] || {};
     mockResponses[verb][req.body.path] = req.body.value;
     const result = { result: `set ${verb} ${req.body.path} to ${JSON.stringify(req.body.value)}` };
-    options.logger.info(result);
+    opts.logger.info(result);
     res.status(200).json(result);
   });
 
   // Handle CORS preflight.
   router.options('*', cors());
 
-  router.all('*', cors(), (req, res, next) => {
+  router.all('*', cors(), (req, res) => {
     const verb = req.method.toLowerCase();
     const verbResponses = mockResponses[verb];
     let result = null;
@@ -54,7 +54,7 @@ function makeMockApiRouter(options) {
       res.status(500);
       result = { error: `mock not initialized for ${verb} ${req.path}` };
     }
-    options.logger.info(result);
+    opts.logger.info(result);
     res.json(result);
   });
 
@@ -67,5 +67,6 @@ const app = express();
 app.use(bodyParser.json());
 app.use(makeMockApiRouter(options));
 app.listen(options.port, () => {
+  // eslint-disable-next-line no-console
   console.log(`Mock API server listening on port ${options.port}`);
 });

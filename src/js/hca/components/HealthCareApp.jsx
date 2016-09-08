@@ -7,13 +7,11 @@ import fetch from 'isomorphic-fetch';
 
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
-import ProgressButton from './ProgressButton';
+import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp } from '../actions';
 import { veteranToApplication } from '../../common/model/veteran';
 import * as validations from '../../common/utils/validations';
 
-// TODO(awong): Find some way to remove code when in production. It might require System.import()
-// and a promise.
 import PopulateVeteranButton from './debug/PopulateVeteranButton';
 import PerfPanel from './debug/PerfPanel';
 import RoutesDropdown from './debug/RoutesDropdown';
@@ -234,7 +232,7 @@ class HealthCareApp extends React.Component {
 
     if (this.props.location.pathname === '/review-and-submit') {
       buttons = (<div>
-        <div className="row progress-buttons">
+        <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
             {backButton}
           </div>
@@ -253,7 +251,7 @@ class HealthCareApp extends React.Component {
       </div>);
     } else if (this.props.location.pathname === '/introduction') {
       buttons = (
-        <div className="row progress-buttons">
+        <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
             <ProgressButton
                 onButtonClick={this.handleContinue}
@@ -265,7 +263,7 @@ class HealthCareApp extends React.Component {
       );
     } else if (this.props.location.pathname === '/submit-message') {
       buttons = (
-        <div className="row progress-buttons">
+        <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
             {/* TODO: Figure out where this button should take the user. */}
             <a href="/">
@@ -276,7 +274,7 @@ class HealthCareApp extends React.Component {
       );
     } else {
       buttons = (
-        <div className="row progress-buttons">
+        <div className="row form-progress-buttons">
           <div className="small-6 medium-5 columns">
             {backButton}
           </div>

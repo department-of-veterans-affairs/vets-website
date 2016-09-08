@@ -5,10 +5,9 @@ const archive = require('metalsmith-archive');
 const assets = require('metalsmith-assets');
 const blc = require('metalsmith-broken-link-checker');
 const collections = require('metalsmith-collections');
-const commandLineArgs = require('command-line-args')
+const commandLineArgs = require('command-line-args');
 const dateInFilename = require('metalsmith-date-in-filename');
 const define = require('metalsmith-define');
-const excerpts = require('metalsmith-excerpts');
 const filenames = require('metalsmith-filenames');
 const ignore = require('metalsmith-ignore');
 const inPlace = require('metalsmith-in-place');
@@ -16,15 +15,30 @@ const layouts = require('metalsmith-layouts');
 const markdown = require('metalsmith-markdownit');
 const navigation = require('metalsmith-navigation');
 const permalinks = require('metalsmith-permalinks');
+const redirect = require('metalsmith-redirect');
 const sitemap = require('metalsmith-sitemap');
 const watch = require('metalsmith-watch');
 const webpack = require('metalsmith-webpack');
 const webpackConfigGenerator = require('../config/webpack.config');
 const webpackDevServer = require('metalsmith-webpack-dev-server');
 
+const fs = require('fs');
+
 const sourceDir = '../content/pages';
 
-const smith = Metalsmith(__dirname);
+// Make sure git pre-commit hooks are installed
+['pre-commit'].forEach(hook => {
+  const src = `../hooks/${hook}`;
+  const dest = `../.git/hooks/${hook}`;
+  if (fs.existsSync(src)) {
+    if (!fs.existsSync(dest)) {
+      // Install hooks
+      fs.linkSync(src, dest);
+    }
+  }
+});
+
+const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
@@ -40,7 +54,7 @@ const options = commandLineArgs(optionDefinitions);
 const env = require('get-env')();
 
 if (options.unexpected && options.unexpected.length !== 0) {
-    throw new Error(`Unexpected arguments: '${options.unexpected}'`);
+  throw new Error(`Unexpected arguments: '${options.unexpected}'`);
 }
 
 if (options.buildtype === undefined) {
@@ -54,7 +68,7 @@ switch (options.buildtype) {
 
   case 'production':
     if (options['no-sanity-check-node-env'] === false) {
-      if (env != 'prod') {
+      if (env !== 'prod') {
         throw new Error(`buildtype ${options.buildtype} expects NODE_ENV to be production, not '${process.env.NODE_ENV}'`);
       }
     }
@@ -66,21 +80,22 @@ switch (options.buildtype) {
 
 const webpackConfig = webpackConfigGenerator(options);
 
-/////
+//
 // Set up Metalsmith. BE CAREFUL if you change the order of the plugins. Read the comments and
 // add comments about any implicit dependencies you are introducing!!!
 //
-
 smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
 
 // Ignore files that aren't ready for production.
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
-const ignoreList = [ 'memorial-benefits/*' ];
+const ignoreList = ['memorial-benefits/*'];
 if (options.buildtype === 'production') {
   ignoreList.push('rx/*');
-  ignoreList.push('education/apply-for-education-benefits/apply.md');
+  ignoreList.push('education/apply-for-education-benefits/application.md');
+  ignoreList.push('messaging/*');
+  ignoreList.push('facilities/*');
 }
 smith.use(ignore(ignoreList));
 
@@ -131,7 +146,7 @@ smith.use(permalinks({
   relative: false,
   linksets: [{
     match: { collection: 'posts' },
-    pattern: ':date/:slug.html'
+    pattern: ':date/:slug'
   }]
 }));
 
@@ -164,26 +179,59 @@ if (options.watch) {
   smith.use(watch());
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
-  smith.use(webpackDevServer(
-    webpackConfig,
-    {
-      contentBase: `build/${options.buildtype}`,
-      historyApiFallback: false,
-      hot: true,
-      port: options.port,
-      publicPath: '/generated/',
-      stats: {
-        colors: true,
-        assets: false,
-        version: false,
-        hash: false,
-        timings: true,
-        chunks: false,
-        chunkModules: false,
-        children: false
-      }
+  const devServerConfig = {
+    contentBase: `build/${options.buildtype}`,
+    historyApiFallback: {
+      rewrites: [
+        { from: '^/rx(.*)', to: '/rx/' },
+        { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
+        { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
+        { from: '^/facilities(.*)', to: '/facilities/' },
+        { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
+      ],
+    },
+    hot: true,
+    port: options.port,
+    publicPath: '/generated/',
+    stats: {
+      colors: true,
+      assets: false,
+      version: false,
+      hash: false,
+      timings: true,
+      chunks: false,
+      chunkModules: false,
+      children: false
     }
-  ));
+  };
+
+  // Route all API requests through webpack's node-http-proxy
+  // Useful for local development.
+  try {
+    // Check to see if we have a proxy config file
+    const api = require('../config/config.proxy.js').api;
+    devServerConfig.proxy = {
+      '/rx-api/*': {
+        target: `https://${api.host}/`,
+        auth: api.auth,
+        secure: true,
+        changeOrigin: true,
+        rewrite: function rewrite(req) {
+          /* eslint-disable no-param-reassign */
+          req.url = req.url.replace(/rx-api/, api.path);
+          req.headers.host = api.host;
+          /* eslint-enable no-param-reassign */
+          return;
+        }
+      }
+    };
+    // eslint-disable-next-line no-console
+    console.log('API proxy enabled');
+  } catch (e) {
+    // No proxy config file found.
+  }
+
+  smith.use(webpackDevServer(webpackConfig, devServerConfig));
 } else {
   // Broken link checking does not work well with watch. It continually shows broken links
   // for permalink processed files. Only run outside of watch mode.
@@ -191,7 +239,7 @@ if (options.watch) {
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: process.env.NODE_ENV !== 'production',
     allowRegex: new RegExp(
-        [ '/disability-benefits/',
+        ['/disability-benefits/',
           '/disability-benefits/apply-for-benefits/',
           '/disability-benefits/learn/',
           '/disability-benefits/learn/eligibility/.*',
@@ -206,15 +254,20 @@ if (options.watch) {
           '/gibill/',
           '/healthcare/apply/application',
           '/veterans-employment-center/',
-          'Employment-Resources/', ].join('|'))
+          'Employment-Resources/'].join('|'))
   }));
 
   smith.use(webpack(webpackConfig));
 }
 
-smith.build(function(err) {
+smith.use(redirect({
+  '/2015/11/11/why-we-are-designing-in-beta.html': '/2015/11/11/why-we-are-designing-in-beta/'
+}));
+
+/* eslint-disable no-console */
+smith.build((err) => {
   if (err) throw err;
-  if (options.watch){
+  if (options.watch) {
     console.log('Metalsmith build finished!  Starting webpack-dev-server...');
   } else {
     console.log('Build finished!');
