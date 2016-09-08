@@ -35,11 +35,8 @@ class History extends React.Component {
     this.props.dispatch(loadPrescriptions(combinedOptions));
   }
 
-  handleSort(param, order) {
-    const formattedParam = _.snakeCase(param);
-    const sort = order === 'DESC'
-               ? `-${formattedParam}`
-               : formattedParam;
+  handleSort(value, order) {
+    const sort = { value, order };
     this.loadData({ sort });
   }
 
