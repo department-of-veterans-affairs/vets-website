@@ -3,6 +3,7 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchVAFacilities } from '../actions';
+import ResultsPane from '../components/ResultsPane';
 
 class VAMap extends Component {
   componentDidMount() {
@@ -12,16 +13,23 @@ class VAMap extends Component {
   render() {
     const position = [38.8976763, -77.03653];
     return (
-      <Map ref="map" center={position} zoom={13} >
-        <TileLayer
-            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
-        <Marker position={position}>
-          <Popup>
-            <span>A pretty CSS3 popup.<br/>Easily customizable.</span>
-          </Popup>
-        </Marker>
-      </Map>
+      <div>
+        <div className="small-9 columns">
+          <Map ref="map" center={position} zoom={13} >
+            <TileLayer
+                url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'/>
+            <Marker position={position}>
+              <Popup>
+                <span>A pretty CSS3 popup.<br/>Easily customizable.</span>
+              </Popup>
+            </Marker>
+          </Map>
+        </div>
+        <div className="columns small-3">
+          <ResultsPane/>
+        </div>
+      </div>
     );
   }
 
