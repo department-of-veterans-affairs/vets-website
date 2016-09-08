@@ -1,4 +1,4 @@
-import merge from 'lodash/fp/merge';
+import assign from 'lodash/fp/assign';
 import set from 'lodash/fp/set';
 import _ from 'lodash';
 
@@ -6,8 +6,12 @@ const initialState = {
   currentItem: null,
   items: [],
   history: {
-    sort: '-ordered-date',
-    page: 1
+    sort: {
+      value: 'ordered-date',
+      order: 'DESC',
+    },
+    page: 1,
+    pages: 1
   }
 };
 
@@ -30,14 +34,19 @@ function sortByLastRequested(obj) {
 export default function prescriptions(state = initialState, action) {
   switch (action.type) {
     case 'LOAD_PRESCRIPTIONS_SUCCESS': {
-      const sortValue = action.data.meta.sort;
-      const sortKey = Object.keys(sortValue)[0];
-      const newSort = sortValue[sortKey] === 'DESC'
-                  ? `-${sortKey}`
-                  : sortKey;
-      return merge(state, {
+      const sort = action.data.meta.sort;
+      const sortValue = Object.keys(sort)[0];
+      const sortOrder = sort[sortValue];
+
+      const pagination = action.data.meta.pagination;
+
+      return assign(state, {
         items: action.data.data,
-        history: { sort: newSort }
+        history: {
+          sort: { value: sortValue, order: sortOrder },
+          page: pagination['current-page'],
+          pages: pagination['total-pages']
+        }
       });
     }
     case 'LOAD_PRESCRIPTION_SUCCESS':
