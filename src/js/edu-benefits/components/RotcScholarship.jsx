@@ -25,7 +25,7 @@ export default class RotcScholarship extends React.Component {
             label="Year recieved"
             name="year"
             field={scholarship.year}
-            placeholder="YYYY"
+            placeholder="yyyy"
             required
             onValueChange={(update) => {onValueChange('year', update);}}/>
       </div>
