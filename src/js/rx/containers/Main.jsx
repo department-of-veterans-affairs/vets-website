@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { closeAlert } from '../actions/alert.js';
 import { closeDisclaimer } from '../actions/disclaimer.js';
 
-import AlertBox from '../components/AlertBox';
+import AlertBox from '../../common/components/AlertBox';
 import TabNav from '../components/TabNav';
 import Disclaimer from '../components/Disclaimer';
 
