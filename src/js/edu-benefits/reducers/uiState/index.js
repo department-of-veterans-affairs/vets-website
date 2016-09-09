@@ -41,7 +41,7 @@ const ui = {
     '/military-history/rotc-history': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['seniorRotcIsParticipating']
     },
     '/military-history/benefits-history': {
       complete: false,

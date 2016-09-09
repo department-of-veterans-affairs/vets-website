@@ -1,49 +1,39 @@
 import React from 'react';
 import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import ProgressButton from '../../common/components/form-elements/ProgressButton';
+import GrowableTable from '../../common/components/form-elements/GrowableTable';
+import RotcScholarship from './RotcScholarship';
+import { createRotcScholarship } from '../utils/veteran';
+import { isValidSection } from '../utils/validations';
 
 export default class RotcHistoryFields extends React.Component {
-  constructor(props) {
-    super(props);
-    this.addNew = this.addNew.bind(this);
-  }
-  addNew() {
-    // TODO: block this out
-  }
   render() {
+    const scholarshipFields = [
+      'amount',
+      'year'
+    ];
+
     return (<fieldset>
       <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
       <p>ROTC placeholder</p>
       <div className="input-section">
-        <p>Scholarship details</p>
-        <ErrorableTextInput
-            label="Amount recieved"
-            name="RotcAmount"
-            field={{ value: '', dirty: false }}
-            placeholder="$"
-            onValueChange={(update) => {this.props.onStateChange('RotcAmount', update);}}/>
-        <ErrorableTextInput
-            label="Year recieved"
-            name="RotcYear"
-            field={{ value: '', dirty: false }}
-            placeholder="YYYY"
-            onValueChange={(update) => {this.props.onStateChange('RotcYear', update);}}/>
-        <div className="row progress-buttons">
-          <div className="small-6 medium-5 columns">
-            <ProgressButton
-                onButtonClick={this.addNew}
-                buttonText="Add"
-                buttonClass="usa-button-primary"
-                beforeText=""/>
-          </div>
-        </div>
+
+        <GrowableTable
+            component={RotcScholarship}
+            createRow={createRotcScholarship}
+            data={this.props.data}
+            initializeCurrentElement={() => this.props.initializeFields(scholarshipFields, 'seniorRotcScholarships')}
+            onRowsUpdate={(update) => {this.props.onStateChange('seniorRotcScholarships', update);}}
+            path="military-history/rotc-history"
+            rows={this.props.data.seniorRotcScholarships}
+            isValidSection={isValidSection}/>
+
         <ErrorableRadioButtons
             label="Are you currently participating in a senior ROTC scholarship program that pays for your tuition, fees, books and supplies under Section 2107 of Title 10, U.S. Code?"
             options={['Yes', 'No']}
             value={{ value: 'Yes', dirty: false }}
             name="RotcTuition"
-            onValueChange={(update) => {this.props.onStateChange('RotcAmount', update);}}/>
+            onValueChange={(update) => {this.props.onStateChange('seniorRotcIsParticipating', update);}}/>
+
       </div>
     </fieldset>
     );
