@@ -4,6 +4,8 @@
 
 @import "../style";
 
+@import "_partials/messaging-thread";
+
 #messaging-app {
   margin: auto;
   max-width: $site-max-width;
