@@ -2,17 +2,29 @@ import React from 'react';
 import { Link } from 'react-router';
 
 class FolderNav extends React.Component {
+  constructor(props) {
+    super(props);
+    this.makeFolderLink = this.makeFolderLink.bind(this);
+  }
+
+  makeFolderLink(folder) {
+    const unreadCount = folder.unread_count > 0
+                      ? ` (${folder.unread_count})`
+                      : '';
+
+    return (
+      <Link
+          activeClassName="usa-current"
+          to={`/messaging/folder/${folder.folder_id}`}>
+        {folder.name}
+        {unreadCount}
+      </Link>
+    );
+  }
+
   render() {
     const folderList = this.props.folders.map((folder, i) => {
-      return (
-        <li key={i}>
-          <Link
-              activeClassName="usa-current"
-              to={`/messaging/folder/${folder.folder_id}`}>
-            {folder.name} ({folder.unread_count})
-          </Link>
-        </li>
-      );
+      return <li key={i}>{this.makeFolderLink(folder)}</li>;
     });
 
     return (
