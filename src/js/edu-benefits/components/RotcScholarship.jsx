@@ -17,6 +17,7 @@ export default class RotcScholarship extends React.Component {
             name="amount"
             field={scholarship.amount}
             placeholder="$"
+            required
             onValueChange={(update) => {onValueChange('amount', update);}}/>
         <ErrorableTextInput
             errorMessage={validateIfDirty(scholarship.year, isValidYear) ? undefined : 'Please enter a valid year.'}
@@ -25,6 +26,7 @@ export default class RotcScholarship extends React.Component {
             name="year"
             field={scholarship.year}
             placeholder="YYYY"
+            required
             onValueChange={(update) => {onValueChange('year', update);}}/>
       </div>
     );
