@@ -33,7 +33,7 @@ export default class RotcHistoryFields extends React.Component {
             options={yesNo}
             value={this.props.data.seniorRotcScholarshipProgram}
             name="RotcTuition"
-            onValueChange={(update) => {this.props.onStateChange('seniorRotcIsParticipating', update);}}/>
+            onValueChange={(update) => {this.props.onStateChange('seniorRotcScholarshipProgram', update);}}/>
 
       </div>
     </fieldset>
