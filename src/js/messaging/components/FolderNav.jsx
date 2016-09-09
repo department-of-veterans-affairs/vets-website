@@ -4,9 +4,11 @@ import ComposeButton from './ComposeButton';
 
 class FolderNav extends React.Component {
   render() {
-    const folderList = this.props.folders.map(
-      (folder, i) => <li key={i}>{folder}</li>
-    );
+    const folderList = this.props.folders.map((folder, i) => {
+      return <li key={i}>
+        {folder.name} ({folder.unread_count})
+      </li>;
+    });
 
     return (
       <div>
@@ -20,7 +22,12 @@ class FolderNav extends React.Component {
 }
 
 FolderNav.propTypes = {
-  folders: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
+  folders: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      name: React.PropTypes.string.isRequired,
+      unread_count: React.PropTypes.number.isRequired
+    })
+  ).isRequired
 };
 
 export default FolderNav;

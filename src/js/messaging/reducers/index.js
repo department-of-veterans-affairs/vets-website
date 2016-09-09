@@ -1,3 +1,7 @@
 import { combineReducers } from 'redux';
 
-export default combineReducers({});
+import folders from './folders';
+
+export default combineReducers({
+  folders
+});

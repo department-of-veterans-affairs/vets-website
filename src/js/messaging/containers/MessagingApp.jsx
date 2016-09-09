@@ -1,11 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { fetchFolders } from '../actions/folders';
 import FolderNav from '../components/FolderNav';
 
 class MessagingApp extends React.Component {
+  componentWillMount() {
+    this.props.dispatch(fetchFolders());
+  }
+
   render() {
-    const folders = ['Inbox', 'Drafts', 'Sent', 'Deleted'];
+    const folders = this.props.folders.items;
     return (
       <div>
         <FolderNav folders={folders}/>
