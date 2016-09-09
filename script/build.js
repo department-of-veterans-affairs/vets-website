@@ -211,14 +211,13 @@ if (options.watch) {
     // Check to see if we have a proxy config file
     const api = require('../config/config.proxy.js').api;
     devServerConfig.proxy = {
-      '/rx-api/*': {
+      '/api/v0/prescriptions*': {
         target: `https://${api.host}/`,
         auth: api.auth,
         secure: true,
         changeOrigin: true,
         rewrite: function rewrite(req) {
           /* eslint-disable no-param-reassign */
-          req.url = req.url.replace(/rx-api/, api.path);
           req.headers.host = api.host;
           /* eslint-enable no-param-reassign */
           return;

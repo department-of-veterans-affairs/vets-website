@@ -26,6 +26,9 @@
           font-weight: bold;
           color: $color-primary;
         }
+        &.sub-section-hidden {
+          display: none;
+        }
       }
       &:before {
         background: $color-primary;

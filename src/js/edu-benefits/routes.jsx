@@ -60,6 +60,7 @@ const routes = [
       component={PlaceholderPage}
       key="/military-history/rotc-history"
       path="/military-history/rotc-history"
+      depends={{ seniorRotcComissioned: { value: 'Y' } }}
       chapter={chapterNames.militaryHistory}
       name="ROTC History"/>,
   <Route
