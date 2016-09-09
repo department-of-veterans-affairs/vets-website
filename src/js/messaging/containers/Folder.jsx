@@ -24,16 +24,33 @@ class Folder extends React.Component {
     let folderMessages;
 
     if (currentMessages.length > 0) {
-      folderMessages = currentMessages.map(message => {
+      const rows = currentMessages.map(message => {
         return (
-          <div key={message.message_id}>
-            <p>{message.subject}</p>
-            <p>From: {message.sender_name}</p>
-            <p>To: {message.recipient_name}</p>
-            <p>{message.body}</p>
-          </div>
+          <tr key={message.message_id}>
+            <td>{message.sender_name}</td>
+            <td>{message.category}</td>
+            <td>{message.subject}</td>
+            <td>{message.sent_date}</td>
+          </tr>
         );
       });
+
+      // TODO: Use SortableTable here.
+      folderMessages = (
+        <table className="usa-table-borderless">
+          <thead>
+            <tr>
+              <th>From</th>
+              <th>Category</th>
+              <th>Subject line</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+      );
     }
 
     return (
