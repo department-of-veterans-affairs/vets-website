@@ -52,7 +52,7 @@ export function createVeteran() {
       nonVaAssistance: makeField('')
     },
     toursOfDuty: [],
-    seniorRotcComissioned: makeField(''),
+    seniorRotcCommissioned: makeField(''),
     seniorRotc: {
       commissionYear: makeField(''),
       rotcScholarshipAmounts: []
