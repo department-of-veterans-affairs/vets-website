@@ -13,6 +13,7 @@ import DependentInformationPage from './containers/DependentInformationPage';
 import SchoolSelectionPage from './containers/SchoolSelectionPage';
 import EmploymentHistoryPage from './containers/EmploymentHistoryPage';
 import SecondaryContactPage from './containers/veteran-information/SecondaryContactPage';
+import ReviewPage from './containers/ReviewPage';
 import PlaceholderPage from './containers/PlaceholderPage';
 
 const routes = [
@@ -92,7 +93,7 @@ const routes = [
       chapter={chapterNames.schoolSelection}/>,
   // Review and Submit route.
   <Route
-      component={PlaceholderPage}
+      component={ReviewPage}
       key="/review-and-submit"
       path="/review-and-submit"
       chapter={chapterNames.review}/>,
