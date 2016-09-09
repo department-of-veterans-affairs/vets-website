@@ -1,8 +1,11 @@
 import _ from 'lodash';
 
+// TODO: move this into a separate config file
+const apiUrl = '/api/v0/prescriptions';
+
 export function loadPrescription(id) {
   if (id) {
-    const rxUrl = `/rx-api/prescriptions/${id}`;
+    const rxUrl = `${apiUrl}/${id}`;
     const rxUrls = [rxUrl, `${rxUrl}/trackings`];
 
     // Fetch both the prescription and its tracking history and
@@ -28,7 +31,7 @@ export function loadPrescription(id) {
 }
 
 export function loadPrescriptions(options) {
-  let uri = '/rx-api/prescriptions';
+  let uri = apiUrl;
   const queries = [];
 
   // Construct segments of the final URI based on options passed in.
@@ -73,7 +76,7 @@ export function loadPrescriptions(options) {
 
 export function refillPrescription(id) {
   if (id) {
-    const uri = `/rx-api/prescriptions/${id}/refill`;
+    const uri = `${apiUrl}/${id}/refill`;
 
     return dispatch => fetch(uri, {
       method: 'PATCH'
