@@ -1,5 +1,5 @@
 import MessagingApp from './containers/MessagingApp';
-import Compose from './components/Compose';
+import Compose from './containers/Compose';
 import Folder from './containers/Folder';
 import Main from './containers/Main';
 import Modal from './containers/Modal';
