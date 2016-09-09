@@ -9,12 +9,12 @@
   position: relative;
   text-align: center;
   width: 100%;
-    
+
   a {
     line-height: 2;
     text-decoration: none;
   }
-   
+
   &-prev,
   &-next {
     padding: 0 1rem;
@@ -23,17 +23,15 @@
       text-decoration: underline;
     }
   }
-     
+
   &-prev,
   &-next,
   &-inner {
     display: inline-block;
-    vertical-align: middle;
   }
 
   &-inner {
     line-height: 1.5;
-    overflow: hidden;
     max-width: 66%;
     white-space: nowrap;
 
@@ -45,7 +43,7 @@
         align-items: center;
       }
     }
-    
+
     @media (min-width: $large-screen) {
       margin: 0 1rem;
       max-width: 85%;
@@ -55,15 +53,15 @@
   &-prev {
     &::before {
       content: '\003c\a0\a0';
-    }  
+    }
   }
 
   &-next {
     &::after {
       content: '\a0\a0\003e';
-    }  
+    }
   }
-  
+
   @media (max-width: $small-screen) {
     @supports (display: flex) {
       display: flex;
@@ -79,13 +77,14 @@
   display: inline-block;
   height: 3rem;
   margin: 0 .25rem;
-  width: 3rem;
-  text-decoration: none; 
-  
+  min-width: 3rem;
+  text-decoration: none;
+
   @media (max-width: $small-screen) {
     flex: 0 0 3rem;
   }
 }
+
 .va-pagination-inner a:hover,
 .va-pagination-inner a:focus,
 .va-pagination-active,

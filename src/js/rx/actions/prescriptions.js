@@ -1,9 +1,8 @@
+import _ from 'lodash';
+
 export function loadPrescription(id) {
   if (id) {
-    // TODO: Use id param instead of test id
-    // when API is able to retrieve any individual Rx.
-    const testId = 1435525;
-    const rxUrl = `/rx-api/prescriptions/${testId}`;
+    const rxUrl = `/rx-api/prescriptions/${id}`;
     const rxUrls = [rxUrl, `${rxUrl}/trackings`];
 
     // Fetch both the prescription and its tracking history and
@@ -34,12 +33,22 @@ export function loadPrescriptions(options) {
 
   // Construct segments of the final URI based on options passed in.
   if (options) {
+    // Fetching active prescriptions only.
     if (options.active) {
       uri = `${uri}/active`;
     }
+
+    // Set the sort param. Convert it into a format that the API accepts.
     if (options.sort) {
-      queries.push(`sort=${options.sort}`);
+      const formattedValue = _.snakeCase(options.sort.value);
+      const sortParam = options.sort.order === 'DESC'
+                      ? `-${formattedValue}`
+                      : formattedValue;
+
+      queries.push(`sort=${sortParam}`);
     }
+
+    // Set the current page.
     if (options.page) {
       queries.push(`page=${options.page}`);
     }
@@ -60,4 +69,19 @@ export function loadPrescriptions(options) {
       data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
       err => dispatch({ type: 'LOAD_PRESCRIPTIONS_FAILURE', err })
     );
+}
+
+export function refillPrescription(id) {
+  if (id) {
+    const uri = `/rx-api/prescriptions/${id}/refill`;
+
+    return dispatch => fetch(uri, {
+      method: 'PATCH'
+    }).then(
+      data => dispatch({ type: 'REFILL_SUCCESS', id, data }),
+      err => dispatch({ type: 'REFILL_FAILURE', err })
+    );
+  }
+
+  return dispatch => dispatch({ type: 'REFILL_FAILURE' });
 }
