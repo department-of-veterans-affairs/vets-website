@@ -5,12 +5,29 @@ import Main from './containers/Main';
 const routes = {
   path: '/messaging',
   component: MessagingApp,
+  indexRoute: {
+    onEnter: (nextState, replace) => replace('/messaging/folder/0')
+  },
   childRoutes: [
     {
+      path: '',
       component: Main,
-      indexRoute: { component: Folder }
+      childRoutes: [
+        { path: 'folder/:id', component: Folder }
+      ]
     },
-    { path: 'folder/:id', component: Folder }
+    /*
+    {
+      path: '',
+      component: Modal,
+      childRoutes: [
+        {
+          { path: 'compose', component: Compose },
+          { path: 'thread/:id', component: Thread }
+        }
+      ]
+    }
+    */
   ]
 };
 

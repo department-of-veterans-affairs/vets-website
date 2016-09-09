@@ -1,27 +1,24 @@
 import React from 'react';
-import { IndexLink} from 'react-router';
-
-import ComposeButton from './ComposeButton';
+import { Link } from 'react-router';
 
 class FolderNav extends React.Component {
   render() {
     const folderList = this.props.folders.map((folder, i) => {
-      return <li key={i}>
-        <IndexLink
-            activeClassName="usa-current"
-            to={`/messaging/folder/${folder.folder_id}`}>
-          {folder.name} ({folder.unread_count})
-        </IndexLink>
-      </li>;
+      return (
+        <li key={i}>
+          <Link
+              activeClassName="usa-current"
+              to={`/messaging/folder/${folder.folder_id}`}>
+            {folder.name} ({folder.unread_count})
+          </Link>
+        </li>
+      );
     });
 
     return (
-      <div id="messaging-folder-nav">
-        <ComposeButton/>
-        <ul className="usa-sidenav-list">
-          {folderList}
-        </ul>
-      </div>
+      <ul className="usa-sidenav-list">
+        {folderList}
+      </ul>
     );
   }
 }

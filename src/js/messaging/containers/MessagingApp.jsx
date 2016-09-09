@@ -10,10 +10,8 @@ class MessagingApp extends React.Component {
   }
 
   render() {
-    const folders = this.props.folders.items;
     return (
-      <div>
-        <FolderNav folders={folders}/>
+      <div className="rx-app row">
         {this.props.children}
       </div>
     );

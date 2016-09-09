@@ -4,3 +4,12 @@
 
 @import "../style";
 
+#main-nav {
+  display: inline-block;
+}
+
+#main-content {
+  display: inline-block;
+  margin-left: 3rem;
+  vertical-align: top;
+}
