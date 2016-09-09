@@ -5,7 +5,7 @@ import { fetchFolder } from '../actions/folders';
 
 class Folder extends React.Component {
   componentWillMount() {
-    // When the API supports getting messages for any folder,
+    // TODO: When the API supports getting messages for any folder,
     // fetch the folder with the id from the URL.
     // const id = this.props.param.id
     // this.props.dispatch(setCurrentFolder(id));
@@ -13,18 +13,14 @@ class Folder extends React.Component {
   }
 
   render() {
-    const currentFolder = this.props.folders.currentItem;
+    const folder = this.props.folders.currentItem;
     let folderName;
-
-    if (currentFolder) {
-      folderName = currentFolder.name;
-    }
-
-    const currentMessages = this.props.folders.messages;
     let folderMessages;
 
-    if (currentMessages.length > 0) {
-      const rows = currentMessages.map(message => {
+    if (folder) {
+      folderName = folder.name;
+
+      const rows = folder.messages.map(message => {
         return (
           <tr key={message.message_id}>
             <td>{message.sender_name}</td>
