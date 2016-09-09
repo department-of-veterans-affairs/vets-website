@@ -1,19 +1,16 @@
 .rx-disclaimer {
   background: $color-gold;
-  min-height: 5.5rem;
-  max-height: 11.5rem;
   overflow: hidden;
-  -webkit-transition: max-height 500ms;
-  -moz-transition: max-height 500ms;
-  transition: max-height 500ms;
-  
-  @media (min-width: $small-screen) {
-    max-height: 5.5rem;
-  }
   
   > div {
     padding: 1.5rem;
     position: relative;
+  }
+  
+  // !important is necessary because
+  // #content .section h5 still exists
+  &-title {
+    padding-bottom: 0 !important;
   }
   
   &-close {
@@ -22,7 +19,7 @@
     padding: .5rem;
     position: absolute;
     right: 2rem;
-    bottom: 1rem;
+    bottom: 1.5rem;
     width: auto;
     
     &:hover {
@@ -31,17 +28,14 @@
     }
   }
   
-  &--open {
-    height: auto;
-    max-height: 300rem;
+  &--closed {    
+    .rx-disclaimer-body {
+      max-height: 0rem;
+    }
   }
 
   p {
     margin: 0;
-  }
-  
-  &-body {
-   // outline: 2px dashed red;
   }
 }
 
