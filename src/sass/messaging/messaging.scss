@@ -1,7 +1,3 @@
-// TODO: Update the paths so they import from the
-// vets-website repo (or other designated common)
-// elements version of these files.
-
 @import "../style";
 
 @import "_partials/messaging-thread";
@@ -29,3 +25,5 @@
   vertical-align: top;
   width: 80%;
 }
+
+@import "partials/message-category";
