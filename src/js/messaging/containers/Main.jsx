@@ -8,11 +8,11 @@ class Main extends React.Component {
   render() {
     return (
       <div>
-        <div id="main-nav">
+        <div id="messaging-nav">
           <ComposeButton/>
           <FolderNav folders={this.props.folders}/>
         </div>
-        <div id="main-content">
+        <div id="messaging-content">
           {this.props.children}
         </div>
       </div>

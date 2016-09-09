@@ -5,17 +5,25 @@
 @import "../style";
 
 #messaging-app {
-  padding: 3rem 1.5rem;
   margin: auto;
   max-width: $site-max-width;
+  padding: 3rem 1.5rem;
 }
 
-#main-nav {
+#messaging-nav {
+  box-sizing: border-box;
   display: inline-block;
+  width: 20%;
+
+  .rx-compose-button {
+    width: 100%;
+  }
 }
 
-#main-content {
+#messaging-content {
+  box-sizing: border-box;
   display: inline-block;
-  margin-left: 3rem;
+  padding-left: 3rem;
   vertical-align: top;
+  width: 80%;
 }
