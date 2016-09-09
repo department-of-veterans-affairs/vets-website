@@ -14,22 +14,34 @@ import { glossary } from '../config.js';
 class History extends React.Component {
   constructor(props) {
     super(props);
+    this.loadData = this.loadData.bind(this);
     this.handleSort = this.handleSort.bind(this);
+    this.handlePageSelect = this.handlePageSelect.bind(this);
     this.openGlossaryModal = this.openGlossaryModal.bind(this);
   }
 
   componentWillMount() {
-    this.props.dispatch(loadPrescriptions());
+    this.loadData();
   }
 
-  handleSort(param, order) {
-    const formattedParam = _.snakeCase(param);
-    const sortValue = order === 'DESC'
-                    ? `-${formattedParam}`
-                    : formattedParam;
-    this.props.dispatch(loadPrescriptions({
-      sort: sortValue
-    }));
+  loadData(options) {
+    let combinedOptions;
+    if (options) {
+      combinedOptions = {
+        sort: options.sort || this.props.prescriptions.history.sort,
+        page: options.page || this.props.prescriptions.history.page
+      };
+    }
+    this.props.dispatch(loadPrescriptions(combinedOptions));
+  }
+
+  handleSort(value, order) {
+    const sort = { value, order };
+    this.loadData({ sort });
+  }
+
+  handlePageSelect(page) {
+    this.loadData({ page });
   }
 
   openGlossaryModal(term) {
@@ -89,7 +101,10 @@ class History extends React.Component {
               data={data}
               fields={fields}
               onSort={this.handleSort}/>
-          <Pagination/>
+          <Pagination
+              onPageSelect={this.handlePageSelect}
+              page={this.props.prescriptions.history.page}
+              pages={this.props.prescriptions.history.pages}/>
         </div>
       );
     }

@@ -66,27 +66,22 @@ const ui = {
     '/school-selection/school-information': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['educationType', 'school']
     },
     '/veteran-information/personal-information': {
       complete: false,
       verified: false,
       fields: ['veteranFullName', 'veteranSocialSecurityNumber', 'veteranDateOfBirth', 'gender']
     },
-    '/veteran-information/address': {
-      complete: false,
-      verified: false,
-      fields: []
-    },
     '/veteran-information/contact-information': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['veteranAddress', 'email', 'confirmationEmail', 'homePhone', 'mobilePhone', 'preferredContactMethod']
     },
     '/veteran-information/secondary-contact': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['secondaryContact']
     },
     '/veteran-information/direct-deposit': {
       complete: false,
