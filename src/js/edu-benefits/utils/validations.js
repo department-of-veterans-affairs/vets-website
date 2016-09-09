@@ -192,28 +192,6 @@ function isValidPersonalInfoPage(data) {
       isValidDateField(data.veteranDateOfBirth);
 }
 
-function isValidVeteranAddress(data) {
-  return isValidAddressField(data.veteranAddress);
-}
-
-function isValidContactInformationPage(data) {
-  let emailConfirmationValid = true;
-
-  if (isNotBlank(data.email.value) && isBlank(data.emailConfirmation.value)) {
-    emailConfirmationValid = false;
-  }
-
-  if (data.email.value.toLowerCase() !== data.emailConfirmation.value.toLowerCase()) {
-    emailConfirmationValid = false;
-  }
-
-  return isValidField(isValidEmail, data.email) &&
-      isValidField(isValidEmail, data.emailConfirmation) &&
-      emailConfirmationValid &&
-      isValidField(isValidPhone, data.homePhone) &&
-      isValidField(isValidPhone, data.mobilePhone);
-}
-
 function isValidSpouseInformation(data) {
   let isValidSpouse = true;
   let isValidSpouseAddress = true;
@@ -269,6 +247,25 @@ function isValidSecondaryContactPage(data) {
   return isValidField(isValidPhone, data.secondaryContact.phone);
 }
 
+function isValidContactInformationPage(data) {
+  let emailConfirmationValid = true;
+
+  if (isNotBlank(data.email.value) && isBlank(data.emailConfirmation.value)) {
+    emailConfirmationValid = false;
+  }
+
+  if (data.email.value.toLowerCase() !== data.emailConfirmation.value.toLowerCase()) {
+    emailConfirmationValid = false;
+  }
+
+  return isValidAddressField(data.veteranAddress) &&
+      isValidField(isValidEmail, data.email) &&
+      isValidField(isValidEmail, data.emailConfirmation) &&
+      emailConfirmationValid &&
+      isValidField(isValidPhone, data.homePhone) &&
+      isValidField(isValidPhone, data.mobilePhone);
+}
+
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data);
 }
@@ -277,8 +274,8 @@ function isValidPage(completePath, pageData) {
   switch (completePath) {
     case '/veteran-information/personal-information':
       return isValidPersonalInfoPage(pageData);
-    case '/veteran-information/address':
-      return isValidVeteranAddress(pageData);
+    case '/veteran-information/contact-information':
+      return isValidContactInformationPage(pageData);
     case '/benefits-eligibility/benefits-selection':
       return isValidBenefitsInformationPage(pageData);
     case '/military-history/military-service':
@@ -328,7 +325,6 @@ export {
   isValidDateRange,
   isValidForm,
   isValidPersonalInfoPage,
-  isValidVeteranAddress,
   isValidAddressField,
   isValidContactInformationPage,
   isValidSpouseInformation,
