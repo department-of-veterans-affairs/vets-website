@@ -34,18 +34,11 @@ export default class NavButtons extends React.Component {
   findNeighbor(increment) {
     const { pages, path, data } = this.props;
     const currentIndex = pages.map(page => page.name).indexOf(path);
-
-    for (let i = currentIndex + increment; i >= 0 && i < pages.length; i += increment) {
-      const page = pages[i];
-
-      // If a page's dependency isn't met, we'll skip it.
-      if (page.depends !== undefined && _.matches(page.depends)(data) === false) {
-        continue;
-      } else {
-        return page.name;
-      }
-    }
-    return false;
+    const filtered = pages.filter(page => {
+      return page.depends === undefined || _.matches(page.depends)(data);
+    });
+    const index = currentIndex + increment;
+    return filtered[index].name;
   }
   render() {
     const { submission, path } = this.props;
