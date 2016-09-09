@@ -32,6 +32,7 @@ class Email extends React.Component {
     return (
       <div>
         <ErrorableTextInput
+            required={this.props.required}
             errorMessage={errorMessage}
             label={this.props.label}
             name="email"
@@ -55,6 +56,7 @@ Email.propTypes = {
   }).isRequired,
   additionalClass: React.PropTypes.string,
   onValueChange: React.PropTypes.func.isRequired,
+  required: React.PropTypes.bool
 };
 
 export default Email;
