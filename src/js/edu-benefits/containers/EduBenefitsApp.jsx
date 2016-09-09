@@ -7,8 +7,9 @@ import { withRouter } from 'react-router';
 
 import { chapters, pages } from '../routes';
 
-import Nav from '../components/Nav';
-import NavButtons from '../components/NavButtons';
+import Nav from '../../common/components/Nav';
+import NavButtons from '../../common/components/NavButtons';
+import NavHeader from '../../common/components/NavHeader';
 
 import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
@@ -16,7 +17,6 @@ import RoutesDropdown from '../components/debug/RoutesDropdown';
 import { isValidPage } from '../utils/validations';
 import { ensurePageInitialized, updateCompletedStatus } from '../actions/index';
 
-import NavHeader from '../components/NavHeader';
 
 class EduBenefitsApp extends React.Component {
   render() {
@@ -41,13 +41,18 @@ class EduBenefitsApp extends React.Component {
       <div className="row">
         {devPanel}
         <div className="medium-4 columns show-for-medium-up">
-          <Nav pages={pageState} chapters={chapters} currentUrl={currentLocation.pathname}/>
+          <Nav
+              data={data}
+              pages={pageState}
+              chapters={chapters}
+              currentUrl={currentLocation.pathname}/>
         </div>
         <div className="medium-8 columns">
           <div className="progress-box">
             <NavHeader path={currentLocation.pathname} chapters={chapters} className="show-for-small-only"/>
             {this.props.children}
             <NavButtons
+                data={data}
                 submission={submission}
                 pages={pages}
                 path={currentLocation.pathname}

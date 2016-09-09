@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import NavHeader from '../../../src/js/edu-benefits/components/NavHeader';
+import NavHeader from '../../../src/js/common/components/NavHeader';
 
 describe('<NavHeader>', () => {
   it('should render', () => {
