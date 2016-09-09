@@ -22,6 +22,15 @@ export function createTour() {
   };
 }
 
+export function createEmploymentPeriod() {
+  return {
+    name: makeField(''),
+    months: makeField(''),
+    licenseOrRating: makeField(''),
+    postMilitaryJob: makeField('')
+  };
+}
+
 export function createVeteran() {
   return {
     benefitsRelinquished: makeField(''),
@@ -72,6 +81,55 @@ export function createVeteran() {
       day: makeField(''),
       year: makeField(''),
     },
-    gender: makeField('')
+    gender: makeField(''),
+    hasNonMilitaryJobs: makeField(''),
+    nonMilitaryJobs: [],
+    veteranAddress: {
+      street: makeField(''),
+      city: makeField(''),
+      country: makeField(''),
+      state: makeField(''),
+      provinceCode: makeField(''),
+      zipcode: makeField(''),
+      postalCode: makeField(''),
+    },
+    email: makeField(''),
+    emailConfirmation: makeField(''),
+    homePhone: makeField(''),
+    mobilePhone: makeField(''),
+    preferredContactMethod: makeField(''),
+    educationType: makeField(''),
+    school: {
+      name: makeField(''),
+      address: {
+        street: makeField(''),
+        city: makeField(''),
+        country: makeField(''),
+        state: makeField(''),
+        provinceCode: makeField(''),
+        zipcode: makeField(''),
+        postalCode: makeField('')
+      }
+    },
+    educationObjective: makeField(''),
+    educationStartDate: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
+    },
+    secondaryContact: {
+      fullName: makeField(''),
+      sameAddress: false,
+      address: {
+        street: makeField(''),
+        city: makeField(''),
+        country: makeField(''),
+        state: makeField(''),
+        provinceCode: makeField(''),
+        zipcode: makeField(''),
+        postalCode: makeField('')
+      },
+      phone: makeField('')
+    }
   };
 }

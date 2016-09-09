@@ -1590,6 +1590,27 @@ const serviceBranches = [
   { label: 'Navy', value: 'Navy' }
 ];
 
+const employmentPeriodTiming = [
+  { label: 'Before military service', value: 'before' },
+  { label: 'After military service', value: 'after' }
+];
+
+const schoolTypes = [
+  { label: 'College or other school', value: 'college' },
+  { label: 'Vocational flight training', value: 'flightTraining' },
+  { label: 'National test reimbursement', value: 'testReimbursement' },
+  { label: 'Licensing or certification test reimbursement', value: 'licensingReimbursement' },
+  { label: 'Apprenticeship or on-the-job', value: 'apprentisceship' },
+  { label: 'Correspondence', value: 'correspondence' },
+  { label: 'Tuition assistance top-up', value: 'tuitionTopUp' }
+];
+
+const contactOptions = [
+  { label: 'Email', value: 'email' },
+  { label: 'Phone', value: 'phone' },
+  { label: 'Mail', value: 'mail' }
+];
+
 module.exports = {
   countries,
   maritalStatuses,
@@ -1604,5 +1625,8 @@ module.exports = {
   childRelationships,
   yesNo,
   yesNoNA,
-  serviceBranches
+  serviceBranches,
+  schoolTypes,
+  employmentPeriodTiming,
+  contactOptions
 };

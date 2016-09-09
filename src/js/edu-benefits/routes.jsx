@@ -8,7 +8,11 @@ import BenefitsSelectionPage from './containers/BenefitsSelectionPage';
 import MilitaryServicePage from './containers/MilitaryServicePage';
 import BenefitsHistoryPage from './containers/BenefitsHistoryPage';
 import PersonalInformationPage from './containers/veteran-information/PersonalInformationPage';
+import ContactInformationPage from './containers/veteran-information/ContactInformationPage';
 import DependentInformationPage from './containers/DependentInformationPage';
+import SchoolSelectionPage from './containers/SchoolSelectionPage';
+import EmploymentHistoryPage from './containers/EmploymentHistoryPage';
+import SecondaryContactPage from './containers/veteran-information/SecondaryContactPage';
 import PlaceholderPage from './containers/PlaceholderPage';
 
 const routes = [
@@ -24,19 +28,13 @@ const routes = [
       chapter={chapterNames.veteranInformation}
       name="Personal Information"/>,
   <Route
-      component={PlaceholderPage}
-      key="/veteran-information/address"
-      path="/veteran-information/address"
-      chapter={chapterNames.veteranInformation}
-      name="Address"/>,
-  <Route
-      component={PlaceholderPage}
+      component={ContactInformationPage}
       key="/veteran-information/contact-information"
       path="/veteran-information/contact-information"
       chapter={chapterNames.veteranInformation}
       name="Contact Information"/>,
   <Route
-      component={PlaceholderPage}
+      component={SecondaryContactPage}
       key="/veteran-information/secondary-contact"
       path="/veteran-information/secondary-contact"
       chapter={chapterNames.veteranInformation}
@@ -62,6 +60,7 @@ const routes = [
       component={PlaceholderPage}
       key="/military-history/rotc-history"
       path="/military-history/rotc-history"
+      depends={{ seniorRotcComissioned: { value: 'Y' } }}
       chapter={chapterNames.militaryHistory}
       name="ROTC History"/>,
   <Route
@@ -82,12 +81,12 @@ const routes = [
       path="/education-history/education-information"
       chapter={chapterNames.educationHistory}/>,
   <Route
-      component={PlaceholderPage}
+      component={EmploymentHistoryPage}
       key="/employment-history/employment-information"
       path="/employment-history/employment-information"
       chapter={chapterNames.employmentHistory}/>,
   <Route
-      component={PlaceholderPage}
+      component={SchoolSelectionPage}
       key="/school-selection/school-information"
       path="/school-selection/school-information"
       chapter={chapterNames.schoolSelection}/>,

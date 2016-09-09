@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import NavButtons from '../../../src/js/edu-benefits/components/NavButtons';
+import NavButtons from '../../../src/js/common/components/NavButtons';
 
 describe('<NavButtons>', () => {
   describe('should render', () => {
@@ -195,7 +195,11 @@ describe('<NavButtons>', () => {
   });
   describe('if valid on /review-and-submit', () => {
     const path = '/review-and-submit';
-    const pages = ['/introduction', '/review-and-submit'];
+    const pages = [
+      { name: '/introduction' },
+      { name: '/review-and-submit' }
+    ];
+
     const submission = {
       status: false
     };
@@ -222,7 +226,11 @@ describe('<NavButtons>', () => {
   });
   describe('if valid', () => {
     const path = '/benefits-eligibility/benefits-selection';
-    const pages = ['/introduction', '/benefits-eligibility/benefits-selection', '/review-and-submit'];
+    const pages = [
+      { name: '/introduction' },
+      { name: '/benefits-eligibility/benefits-selection' },
+      { name: '/review-and-submit' }
+    ];
     const submission = {
       status: false
     };
@@ -255,9 +263,76 @@ describe('<NavButtons>', () => {
       expect(onNavigate.calledWith('/introduction')).to.be.true;
     });
   });
+  describe('if conditional', () => {
+    const depends = { someValue: { value: 'test' } };
+    const falseData = { someValue: { value: 'wrong' } };
+    const pages = [
+      { name: '/introduction' },
+      { name: '/benefits-eligibility/benefits-selection' },
+      { name: '/conditional-page', depends },
+      { name: '/review-and-submit' }
+    ];
+    const submission = { status: false };
+    const isValid = true;
+    const dirtyPage = sinon.spy();
+    const onNavigate = sinon.spy();
+    const onSubmit = sinon.spy();
+    const onComplete = sinon.spy();
+
+    const render = (path, data) => {
+      return SkinDeep.shallowRender(
+        <NavButtons
+            submission={submission}
+            path={path}
+            data={data}
+            pages={pages}
+            isValid={isValid}
+            dirtyPage={dirtyPage}
+            onNavigate={onNavigate}
+            onSubmit={onSubmit}
+            onComplete={onComplete}/>
+      );
+    };
+
+    it('should skip conditional pages properly when navigating forward', () => {
+      const path = '/benefits-eligibility/benefits-selection';
+      const data = falseData;
+
+      render(path, data).everySubTree('ProgressButton')[1].props.onButtonClick();
+      expect(onNavigate.calledWith('/conditional-page')).to.be.false;
+    });
+
+    it('should skip conditional pages properly when navigating back', () => {
+      const path = '/review-and-submit';
+      const data = falseData;
+
+      render(path, data).everySubTree('ProgressButton')[0].props.onButtonClick();
+      expect(onNavigate.calledWith('/conditional-page')).to.be.false;
+    });
+
+    it('should visit conditional pages properly when navigating forward', () => {
+      const path = '/benefits-eligibility/benefits-selection';
+      const data = depends;
+
+      render(path, data).everySubTree('ProgressButton')[1].props.onButtonClick();
+      expect(onNavigate.calledWith('/conditional-page')).to.be.true;
+    });
+
+    it('should visit conditional pages properly when navigating back', () => {
+      const path = '/review-and-submit';
+      const data = depends;
+
+      render(path, data).everySubTree('ProgressButton')[0].props.onButtonClick();
+      expect(onNavigate.calledWith('/conditional-page')).to.be.true;
+    });
+  });
   describe('if invalid', () => {
     const path = '/benefits-eligibility/benefits-selection';
-    const pages = ['/introduction', '/benefits-eligibility/benefits-selection', '/review-and-submit'];
+    const pages = [
+      { name: '/introduction' },
+      { name: '/benefits-eligibility/benefits-selection' },
+      { name: '/review-and-submit' }
+    ];
     const submission = {
       status: false
     };

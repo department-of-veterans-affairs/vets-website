@@ -1,13 +1,13 @@
 import React from 'react';
 
-class Page2 extends React.Component {
+class Compose extends React.Component {
   render() {
     return (
       <div>
-        <p>Page 2!</p>
+        <h2>New message</h2>
       </div>
     );
   }
 }
 
-export default Page2;
+export default Compose;
