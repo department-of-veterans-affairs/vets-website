@@ -33,6 +33,9 @@ class Thread extends React.Component {
         <div>
           {messages}
         </div>
+        <div className="messaging-thread-reply">
+          <textarea placeholder="Click here to reply"/>
+        </div>
       </div>
     );
   }

@@ -36,3 +36,14 @@
 .messaging-message-recipient {
   color: $color-gray-medium;
 }
+
+.messaging-thread-reply {
+  padding: 3rem 2rem;
+
+  textarea {
+    height: 10rem;
+    max-width: 100%;
+    width: 100%;
+  }
+
+}
