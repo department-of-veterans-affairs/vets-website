@@ -10,7 +10,7 @@ class MessagingApp extends React.Component {
 
   render() {
     return (
-      <div className="rx-app row">
+      <div id="messaging-app" className="row">
         {this.props.children}
       </div>
     );
