@@ -24,7 +24,7 @@ export default class RotcHistoryFields extends React.Component {
             data={this.props.data}
             initializeCurrentElement={() => this.props.initializeFields(scholarshipFields, propertyPath)}
             onRowsUpdate={(update) => {this.props.onStateChange(propertyPath, update);}}
-            path="military-history/rotc-history"
+            path="/military-history/rotc-history"
             rows={this.props.data.seniorRotc.rotcScholarshipAmounts}
             isValidSection={isValidSection}/>
 
