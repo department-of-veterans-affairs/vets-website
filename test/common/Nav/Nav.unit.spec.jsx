@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import Nav from '../../../src/js/edu-benefits/components/Nav';
+import Nav from '../../../src/js/common/components/Nav';
 
 describe('<Nav>', () => {
   it('should render all chapters', () => {
@@ -81,6 +81,39 @@ describe('<Nav>', () => {
     const tree = SkinDeep.shallowRender(<Nav pages={pages} chapters={chapters} currentUrl={currentUrl}/>);
     expect(tree.everySubTree('.section-current').length).to.equal(1);
   });
+
+  const depends = { someData: { value: 'test' } };
+
+  // Renders a conditional page, e.g., one with a "depends" attribute that will only render if the correct
+  // data is provided.
+  const renderConditional = (data) => {
+    const currentUrl = '/some-url/thing';
+    const chapters = [
+      {
+        path: '/some-url',
+        name: 'Some url',
+        pages: [{ path: '/some-url/thing', name: 'Test', depends }]
+      }
+    ];
+    const pages = {
+      '/some-url/thing': {
+        complete: false
+      }
+    };
+
+    return SkinDeep.shallowRender(<Nav pages={pages} data={data} chapters={chapters} currentUrl={currentUrl}/>);
+  };
+
+  it('conditional pages are rendered when the data matches', () => {
+    const tree = renderConditional(depends);
+    expect(tree.everySubTree('.sub-section-hidden').length).to.equal(0);
+  });
+
+  it('conditional pages are hidden when the data does not match', () => {
+    const tree = renderConditional({ someData: { value: 'wrong' } });
+    expect(tree.everySubTree('.sub-section-hidden').length).to.equal(1);
+  });
+
   it('active pages have sub-section-current', () => {
     const currentUrl = '/some-url/thing';
     const chapters = [

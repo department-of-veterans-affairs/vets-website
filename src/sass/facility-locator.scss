@@ -1,0 +1,21 @@
+@import 'style';
+
+h1{
+  color: grey;
+}
+
+.leaflet-container {
+    height: 500px;
+    width: 100%;
+}
+
+.facility-phone-table
+{
+   border-collapse:collapse;
+}
+
+.facility-phone-table td
+{
+   border:none;
+   outline:none;
+}

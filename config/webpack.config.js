@@ -13,6 +13,7 @@ const configGenerator = (options) => {
     entry: {
       hca: './src/js/hca/hca-entry.jsx',
       'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
+      facilities: './src/js/facility-locator/facility-locator-entry.jsx',
       'no-react': './src/js/no-react-entry.js',
       rx: './src/js/rx/rx-entry.jsx',
     },

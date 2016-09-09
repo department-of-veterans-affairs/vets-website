@@ -2,7 +2,6 @@ import React from 'react';
 import moment from 'moment';
 
 class ConfirmRefillModal extends React.Component {
-
   constructor(props) {
     super(props);
     this.handlerConfirmRefill = this.handlerConfirmRefill.bind(this);
@@ -10,14 +9,16 @@ class ConfirmRefillModal extends React.Component {
   }
 
   handlerConfirmRefill(event) {
-    // This should also trigger a state update
-    // and possibly a server request.
     event.preventDefault();
+
+    const rxId = this.props['prescription-id'];
     const alertContent = (
       <b>
-        Refill for <a href={`/rx/prescription/${this.props['prescription-id']}`}>{this.props['prescription-name']}</a> has been requested.
+        Refill for <a href={`/rx/prescription/${rxId}`}>{this.props['prescription-name']}</a> has been requested.
       </b>
     );
+
+    this.props.refillPrescription(rxId);
     this.props.openAlert('success', alertContent);
     this.props.onCloseModal();
   }

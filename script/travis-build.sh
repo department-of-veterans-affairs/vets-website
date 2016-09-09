@@ -36,10 +36,12 @@ npm run lint
 
 if [[ $TRAVIS_BRANCH == 'staging' || $TRAVIS_BRANCH == 'production' ]]
 then
-  npm run build -- --buildtype production;
+  export BUILDTYPE=production;
 else
-  npm run build;
+  export BUILDTYPE=development;
 fi
+
+npm run build -- --buildtype $BUILDTYPE;
 
 # And run the selected test suite
 
@@ -54,8 +56,9 @@ then
   npm run test:e2e;
 fi
 
-if [[ $TEST_SUITE == 'accessibility' ]]
-then
-  npm run selenium:bootstrap;
-  npm run test:accessibility;
-fi
+# TODO(james): allow disabling accessibility tests per page
+# if [[ $TEST_SUITE == 'accessibility' ]]
+# then
+#   npm run selenium:bootstrap;
+#   npm run test:accessibility;
+# fi

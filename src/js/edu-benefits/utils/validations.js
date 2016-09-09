@@ -32,6 +32,14 @@ function validateIfDirtyProvider(field1, field2, validator) {
   return true;
 }
 
+function dateToMoment(dateField) {
+  return moment({
+    year: dateField.year.value,
+    month: dateField.month.value - 1,
+    day: dateField.day.value
+  });
+}
+
 function isBlank(value) {
   return value === '';
 }
@@ -135,12 +143,13 @@ function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
 }
 
-function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value,
-    day: dateField.day.value
-  });
+function isValidFutureOrPastDateField(field) {
+  if (!isBlankDateField(field)) {
+    const momentDate = dateToMoment(field);
+    return momentDate.isValid() && momentDate.year() > 1900;
+  }
+
+  return true;
 }
 
 function isValidDateRange(fromDate, toDate) {
@@ -183,28 +192,6 @@ function isValidPersonalInfoPage(data) {
       isValidDateField(data.veteranDateOfBirth);
 }
 
-function isValidVeteranAddress(data) {
-  return isValidAddressField(data.veteranAddress);
-}
-
-function isValidContactInformationPage(data) {
-  let emailConfirmationValid = true;
-
-  if (isNotBlank(data.email.value) && isBlank(data.emailConfirmation.value)) {
-    emailConfirmationValid = false;
-  }
-
-  if (data.email.value.toLowerCase() !== data.emailConfirmation.value.toLowerCase()) {
-    emailConfirmationValid = false;
-  }
-
-  return isValidField(isValidEmail, data.email) &&
-      isValidField(isValidEmail, data.emailConfirmation) &&
-      emailConfirmationValid &&
-      isValidField(isValidPhone, data.homePhone) &&
-      isValidField(isValidPhone, data.mobilePhone);
-}
-
 function isValidSpouseInformation(data) {
   let isValidSpouse = true;
   let isValidSpouseAddress = true;
@@ -244,12 +231,39 @@ function isValidMilitaryServicePage(data) {
     && data.toursOfDuty.every(isValidTourOfDuty);
 }
 
+function isValidSchoolSelectionPage(data) {
+  return isValidFutureOrPastDateField(data.educationStartDate);
+}
+
 function isValidEmploymentPeriod(data) {
   return isNotBlank(data.name.value) && (isBlank(data.months.value) || isValidMonths(data.months.value));
 }
 
-function isValidEmploymentHistory(data) {
+function isValidEmploymentHistoryPage(data) {
   return (data.hasNonMilitaryJobs.value !== 'Y' || data.nonMilitaryJobs.every(isValidEmploymentPeriod));
+}
+
+function isValidSecondaryContactPage(data) {
+  return isValidField(isValidPhone, data.secondaryContact.phone);
+}
+
+function isValidContactInformationPage(data) {
+  let emailConfirmationValid = true;
+
+  if (isNotBlank(data.email.value) && isBlank(data.emailConfirmation.value)) {
+    emailConfirmationValid = false;
+  }
+
+  if (data.email.value.toLowerCase() !== data.emailConfirmation.value.toLowerCase()) {
+    emailConfirmationValid = false;
+  }
+
+  return isValidAddressField(data.veteranAddress) &&
+      isValidField(isValidEmail, data.email) &&
+      isValidField(isValidEmail, data.emailConfirmation) &&
+      emailConfirmationValid &&
+      isValidField(isValidPhone, data.homePhone) &&
+      isValidField(isValidPhone, data.mobilePhone);
 }
 
 function isValidForm(data) {
@@ -260,14 +274,18 @@ function isValidPage(completePath, pageData) {
   switch (completePath) {
     case '/veteran-information/personal-information':
       return isValidPersonalInfoPage(pageData);
-    case '/veteran-information/address':
-      return isValidVeteranAddress(pageData);
+    case '/veteran-information/contact-information':
+      return isValidContactInformationPage(pageData);
     case '/benefits-eligibility/benefits-selection':
       return isValidBenefitsInformationPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
+    case '/school-selection/school-information':
+      return isValidSchoolSelectionPage(pageData);
     case '/employment-history/employment-information':
-      return isValidEmploymentHistory(pageData);
+      return isValidEmploymentHistoryPage(pageData);
+    case '/veteran-information/secondary-contact':
+      return isValidSecondaryContactPage(pageData);
     default:
       return true;
   }
@@ -303,10 +321,11 @@ export {
   isValidMonths,
   isValidField,
   isValidDateField,
+  isValidFutureOrPastDateField,
   isValidDateRange,
   isValidForm,
   isValidPersonalInfoPage,
-  isValidVeteranAddress,
+  isValidAddressField,
   isValidContactInformationPage,
   isValidSpouseInformation,
   isValidMilitaryServicePage,

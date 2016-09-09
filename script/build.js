@@ -95,6 +95,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('rx/*');
   ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('messaging/*');
+  ignoreList.push('facilities/*');
 }
 smith.use(ignore(ignoreList));
 
@@ -185,6 +186,7 @@ if (options.watch) {
         { from: '^/rx(.*)', to: '/rx/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
+        { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -209,14 +211,13 @@ if (options.watch) {
     // Check to see if we have a proxy config file
     const api = require('../config/config.proxy.js').api;
     devServerConfig.proxy = {
-      '/rx-api/*': {
+      '/api/v0/prescriptions*': {
         target: `https://${api.host}/`,
         auth: api.auth,
         secure: true,
         changeOrigin: true,
         rewrite: function rewrite(req) {
           /* eslint-disable no-param-reassign */
-          req.url = req.url.replace(/rx-api/, api.path);
           req.headers.host = api.host;
           /* eslint-enable no-param-reassign */
           return;
