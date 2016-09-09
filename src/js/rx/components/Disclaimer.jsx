@@ -6,6 +6,7 @@ class Disclaimer extends React.Component {
   render() {
     const disclaimerClass = classNames(
       { 'rx-disclaimer--open': this.props.isOpen },
+      { 'rx-disclaimer--closed': !this.props.isOpen },
       { 'rx-disclaimer': true },
       { cf: true }
     );
@@ -23,7 +24,7 @@ class Disclaimer extends React.Component {
           className={disclaimerClass}
           aria-expanded={this.props.isOpen}>
         <div className="row">
-          <h5>THIS LIST MAY NOT INCLUDE ALL YOUR MEDICATIONS</h5>
+          <h5 className="rx-disclaimer-title">THIS LIST MAY NOT INCLUDE ALL YOUR MEDICATIONS</h5>
           <p
               className="rx-disclaimer-body"
               hidden={!this.props.isOpen}>
