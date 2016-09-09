@@ -1,39 +1,35 @@
 import React from 'react';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
-import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
-import Phone from '../../../common/components/questions/Phone';
-import Address from '../../../common/components/questions/Address';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+
+import { accountTypes } from '../../utils/options-for-select';
+import { validateIfDirty, isValidRoutingNumber } from '../../utils/validations';
 
 export default class DirectDepositFields extends React.Component {
   render() {
     return (
       <fieldset>
-        <legend>Secondary Contact</legend>
+        <legend>Direct Deposit</legend>
         <div className="input-section">
+          <ErrorableRadioButtons
+              label="Account Type"
+              name="accountType"
+              options={accountTypes}
+              value={this.props.data.bankAccount.accountType}
+              onValueChange={(update) => {this.props.onStateChange('bankAccount.accountType', update);}}/>
           <ErrorableTextInput
-              label="Name"
-              name="DirectDepositName"
-              field={this.props.data.DirectDeposit.fullName}
-              onValueChange={(update) => {this.props.onStateChange('DirectDeposit.fullName', update);}}/>
-          <Phone
-              label="Telephone number"
-              name="DirectDepositPhone"
-              value={this.props.data.DirectDeposit.phone}
-              onValueChange={(update) => {this.props.onStateChange('DirectDeposit.phone', update);}}/>
-        </div>
-        <div className="input-section">
-          <h4>Address</h4>
-          <ErrorableCheckbox
-              label="Address for secondary contact is the same as mine."
-              name="DirectDepositSameAddress"
-              checked={this.props.data.DirectDeposit.sameAddress}
-              onValueChange={(update) => {this.props.onStateChange('DirectDeposit.sameAddress', update);}}/>
-          {!this.props.data.DirectDeposit.sameAddress
-            ? <Address
-                value={this.props.data.DirectDeposit.address}
-                onUserInput={(update) => {this.props.onStateChange('DirectDeposit.address', update);}}/>
-            : null}
+              label="Account Number"
+              name="accountNumber"
+              field={this.props.data.bankAccount.accountNumber}
+              onValueChange={(update) => {this.props.onStateChange('bankAccount.accountNumber', update);}}/>
+          <ErrorableTextInput
+              errorMessage={validateIfDirty(this.props.data.bankAccount.routingNumber, isValidRoutingNumber) ? undefined : 'Please enter a valid nine digit routing number'}
+              validation={isValidRoutingNumber(this.props.data.bankAccount.routingNumber)}
+              label="Routing Number"
+              name="routingNumber"
+              field={this.props.data.bankAccount.routingNumber}
+              onValueChange={(update) => {this.props.onStateChange('bankAccount.routingNumber', update);}}/>
         </div>
       </fieldset>
     );
