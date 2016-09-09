@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { fetchFolders } from '../actions/folders';
-import FolderNav from '../components/FolderNav';
 
 class MessagingApp extends React.Component {
   componentWillMount() {

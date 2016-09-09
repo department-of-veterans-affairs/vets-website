@@ -15,12 +15,14 @@ const initialState = {
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
-    case FETCH_FOLDERS_SUCCESS:
-      const folders = action.data.data.map(folder => folder.attributes);
-      return set('items', folders, state);
-    case FETCH_FOLDER_SUCCESS:
+    case FETCH_FOLDERS_SUCCESS: {
+      const items = action.data.data.map(folder => folder.attributes);
+      return set('items', items, state);
+    }
+    case FETCH_FOLDER_SUCCESS: {
       const messages = action.data.data.map(message => message.attributes);
       return set('messages', messages, state);
+    }
     case FETCH_FOLDERS_FAILURE:
     case FETCH_FOLDER_FAILURE:
     default:

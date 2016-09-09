@@ -11,7 +11,7 @@ export function fetchFolders() {
     .then(res => res.json())
     .then(
       data => dispatch({ type: FETCH_FOLDERS_SUCCESS, data }),
-      err => dispatch({ type: FETCH_FOLDERS_AILURE, err })
+      err => dispatch({ type: FETCH_FOLDERS_FAILURE, err })
     );
   };
 }
@@ -22,8 +22,7 @@ export function fetchFolder(id = 1) {
     .then(res => res.json())
     .then(
       data => dispatch({ type: FETCH_FOLDER_SUCCESS, data }),
-      err => dispatch({ type: FETCH_FOLDER_AILURE, err })
+      err => dispatch({ type: FETCH_FOLDER_FAILURE, err })
     );
-
-  }
+  };
 }

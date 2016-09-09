@@ -26,9 +26,13 @@ class FolderNav extends React.Component {
 FolderNav.propTypes = {
   folders: React.PropTypes.arrayOf(
     React.PropTypes.shape({
+      // TODO: Remove when we switch to camel case.
+      // Lack of camel case makes eslint complain.
+      /* eslint-disable */
       folder_id: React.PropTypes.number.isRequired,
       name: React.PropTypes.string.isRequired,
       unread_count: React.PropTypes.number.isRequired
+      /* eslint-enable */
     })
   ).isRequired
 };

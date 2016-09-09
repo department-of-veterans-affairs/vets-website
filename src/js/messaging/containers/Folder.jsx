@@ -17,7 +17,7 @@ class Folder extends React.Component {
     let folderName;
 
     if (currentFolder) {
-      folderName = folder.name;
+      folderName = currentFolder.name;
     }
 
     const currentMessages = this.props.folders.messages;
