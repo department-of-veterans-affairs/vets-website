@@ -16,6 +16,7 @@ const configGenerator = (options) => {
       facilities: './src/js/facility-locator/facility-locator-entry.jsx',
       'no-react': './src/js/no-react-entry.js',
       rx: './src/js/rx/rx-entry.jsx',
+      messaging: './src/js/messaging/messaging-entry.jsx'
     },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
