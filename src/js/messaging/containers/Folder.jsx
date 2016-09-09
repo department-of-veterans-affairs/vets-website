@@ -13,7 +13,7 @@ class Folder extends React.Component {
   }
 
   render() {
-    const folder = this.props.folders.currentItem;
+    const folder = this.props.folder;
     let folderName;
     let folderMessages;
 
@@ -58,12 +58,10 @@ class Folder extends React.Component {
   }
 }
 
-Folder.propTypes = {
-};
-
-// TODO: fill this out
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    folder: state.folders.currentItem
+  };
 };
 
 export default connect(mapStateToProps)(Folder);

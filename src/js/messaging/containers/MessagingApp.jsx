@@ -27,9 +27,4 @@ MessagingApp.propTypes = {
   children: React.PropTypes.node
 };
 
-// TODO: fill this out
-const mapStateToProps = (state) => {
-  return state;
-};
-
-export default connect(mapStateToProps)(MessagingApp);
+export default connect()(MessagingApp);

@@ -6,13 +6,11 @@ import FolderNav from '../components/FolderNav';
 
 class Modal extends React.Component {
   render() {
-    const folders = this.props.folders.items;
-
     return (
       <div>
         <div id="main-nav">
           <ComposeButton/>
-          <FolderNav folders={folders}/>
+          <FolderNav folders={this.props.folders}/>
         </div>
         <div id="main-content">
           {this.props.children}
@@ -26,9 +24,10 @@ Modal.propTypes = {
   children: React.PropTypes.node
 };
 
-// TODO: fill this out
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    folders: state.folders.items
+  };
 };
 
 export default connect(mapStateToProps)(Modal);
