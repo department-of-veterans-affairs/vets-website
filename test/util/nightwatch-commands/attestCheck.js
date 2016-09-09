@@ -15,9 +15,9 @@ function printRules(scope, runner, heading, level, rules) {
       const summary = failures.map(node => {
         const targets = node.target.join('\n\t');
         return `${node.failureSummary}:\n\t${targets}`;
-      }).join(', ');
+      }).join('\n ');
 
-      runner.verify.fail(`${scope} [${rule.impact}] - ${rule.help}: ${summary}`);
+      runner.verify.fail(`${scope} [${rule.impact}] - ${rule.help}:\n ${summary}`);
     }
   });
 }
