@@ -53,9 +53,11 @@ export function createVeteran() {
     },
     toursOfDuty: [],
     seniorRotcComissioned: makeField(''),
-    seniorRotcComissionYear: makeField(''),
-    seniorRotcScholarships: [],
-    seniorRotcIsParticipating: false,
+    seniorRotc: {
+      commissionYear: makeField(''),
+      rotcScholarshipAmounts: []
+    },
+    seniorRotcScholarshipProgram: makeField(''),
     civilianBenefitsAssistance: false,
     additionalContributions: false,
     activeDutyKicker: false,
