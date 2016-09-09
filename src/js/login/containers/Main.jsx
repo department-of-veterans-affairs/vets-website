@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 
+import environment from '../helpers/environment.js';
+
 import { updateLoggedInStatus, updateLogInUrl, updateProfileField } from '../../common/actions';
 import SignInProfileButton from '../components/SignInProfileButton';
 
@@ -20,7 +22,7 @@ class Main extends React.Component {
       this.getUserToken();
     }
 
-    this.serverRequest = $.get('http://localhost:3000/v0/sessions/new', result => {
+    this.serverRequest = $.get(`${environment.BASE_URL}/v0/sessions/new`, result => {
       this.props.onUpdateLoginUrl(result.authenticate_via_get);
     });
 
@@ -33,14 +35,14 @@ class Main extends React.Component {
   }
 
   setMyToken() {
-    if (event.origin === 'http://localhost:3000') {
+    if (event.origin === environment.BASE_URL) {
       localStorage.setItem('userToken', event.data.token);
       this.getUserToken();
     }
   }
 
   getUserToken() {
-    fetch('http://localhost:3000/v0/user', {
+    fetch(`${environment.BASE_URL}/v0/user`, {
       method: 'GET',
       headers: new Headers({
         Authorization: `Token token=${localStorage.userToken}`
