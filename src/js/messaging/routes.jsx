@@ -1,6 +1,8 @@
 import MessagingApp from './containers/MessagingApp';
+import Compose from './components/Compose';
 import Folder from './containers/Folder';
 import Main from './containers/Main';
+import Modal from './containers/Modal';
 
 const routes = {
   path: '/messaging',
@@ -16,18 +18,14 @@ const routes = {
         { path: 'folder/:id', component: Folder }
       ]
     },
-    /*
     {
       path: '',
       component: Modal,
       childRoutes: [
-        {
-          { path: 'compose', component: Compose },
-          { path: 'thread/:id', component: Thread }
-        }
+        { path: 'compose', component: Compose }
+        // { path: 'thread/:id', component: Thread }
       ]
     }
-    */
   ]
 };
 
