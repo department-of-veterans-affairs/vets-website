@@ -5,14 +5,54 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import React, { Component } from 'react';
 import ResultsPane from '../components/ResultsPane';
 import TownHall from '../components/markers/TownHall';
+import { browserHistory } from 'react-router';
+import { map } from 'lodash';
 
 class VAMap extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = this.generateInitialState();
+  }
+
   componentDidMount() {
+    const { location } = this.props;
+
     this.mapElement = this.refs.map.leafletElement.getBounds();
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.setState({
+          position: [position.coords.latitude, position.coords.longitude],
+        }, () => {
+          const queryParams = map({
+            ...location.query,
+            location: [position.coords.latitude, position.coords.longitude].join(','),
+          }, (v, k) => {
+            return `${k}=${v}`;
+          }).join('&');
+          browserHistory.push(`${location.pathname}?${queryParams}`);
+        });
+      });
+    }
+  }
+
+  generateInitialState = () => {
+    const { location } = this.props;
+
+    if ('location' in location.query) {
+      const position = location.query.location.split(',').map(Number);
+      return {
+        position,
+      };
+    }
+    return {
+      position: [38.8976763, -77.03653],
+    };
   }
 
   render() {
-    const position = [38.8976763, -77.03653];
+    const { position } = this.state;
 
     return (
       <div>
