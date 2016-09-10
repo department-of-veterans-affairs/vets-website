@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { fetchVAFacilities } from '../actions';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import React, { Component } from 'react';
 import ResultsPane from '../components/ResultsPane';
+import TownHall from '../components/markers/TownHall';
 
 class VAMap extends Component {
   componentDidMount() {
@@ -12,8 +13,12 @@ class VAMap extends Component {
 
   render() {
     const position = [38.8976763, -77.03653];
+
     return (
       <div>
+        <div className="columns medium-3">
+          <ResultsPane/>
+        </div>
         <div className="medium-9 columns">
           <Map ref="map" center={position} zoom={13} >
             <TileLayer
@@ -24,10 +29,10 @@ class VAMap extends Component {
                 <span>A pretty CSS3 popup.<br/>Easily customizable.</span>
               </Popup>
             </Marker>
+            <TownHall position={[38.8983294, -77.0295762]}>
+              <span>Town hall</span>
+            </TownHall>
           </Map>
-        </div>
-        <div className="columns medium-3">
-          <ResultsPane/>
         </div>
       </div>
     );
