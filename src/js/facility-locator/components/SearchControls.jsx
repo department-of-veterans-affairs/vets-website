@@ -20,6 +20,7 @@ class SearchControls extends Component {
             <option value="benefits">Benefits</option>
             <option value="cemeteries">Cemeteries</option>
           </select>
+          <input type="submit" value="Search"/>
         </form>
       </div>
     );
