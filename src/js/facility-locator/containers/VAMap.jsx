@@ -19,12 +19,15 @@ class VAMap extends Component {
   componentDidMount() {
     const { location } = this.props;
 
+    // TODO (bshyong): use Mapbox Geocoding API to translate coords to addresses
+    // TODO (bshyong): move geolocation/geocoding functionality to another function
     this.mapElement = this.refs.map.leafletElement.getBounds();
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.setState({
           position: [position.coords.latitude, position.coords.longitude],
         }, () => {
+          // pushes coordinates to URL so that map link is useful for sharing
           const queryParams = map({
             ...location.query,
             location: [position.coords.latitude, position.coords.longitude].join(','),
@@ -37,6 +40,7 @@ class VAMap extends Component {
     }
   }
 
+  // defaults to White House coordinates if there are not coords in URL
   generateInitialState = () => {
     const { location } = this.props;
 
