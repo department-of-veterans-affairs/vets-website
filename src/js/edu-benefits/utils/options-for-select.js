@@ -1611,6 +1611,11 @@ const contactOptions = [
   { label: 'Mail', value: 'mail' }
 ];
 
+const accountTypes = [
+  { label: 'Checking', value: 'checking' },
+  { label: 'Savings', value: 'savings' }
+];
+
 module.exports = {
   countries,
   maritalStatuses,
@@ -1628,5 +1633,6 @@ module.exports = {
   serviceBranches,
   schoolTypes,
   employmentPeriodTiming,
-  contactOptions
+  contactOptions,
+  accountTypes
 };
