@@ -23,21 +23,21 @@ export default class BenefitsHistoryReview extends React.Component {
           </tr>
           <tr>
             <td>Do you have a period of active duty that the department of defense counts for purposes of repaying an education loan?</td>
-            <td>{this.props.data.activeDutyRepaying === 'Y' ? 'Yes' : 'No'}</td>
+            <td>{this.props.data.activeDutyRepaying.value === 'Y' ? 'Yes' : 'No'}</td>
           </tr>
-          {this.props.data.activeDutyRepaying.value === 'Y'
-            ? <tbody>
-              <tr>
-                <td>Start date:</td>
-                <td>{this.props.data.activeDutyRepayingPeriod.fromDate.month}/{this.props.data.activeDutyRepayingPeriod.fromDate.day}/{this.props.data.activeDutyRepayingPeriod.fromDate.year}</td>
-              </tr>
-              <tr>
-                <td>End date:</td>
-                <td>{this.props.data.activeDutyRepayingPeriod.toDate.month}/{this.props.data.activeDutyRepayingPeriod.toDate.day}/{this.props.data.activeDutyRepayingPeriod.toDate.year}</td>
-              </tr>
-            </tbody>
-            : null}
         </tbody>
+        {this.props.data.activeDutyRepaying.value === 'Y'
+          ? <tbody>
+            <tr>
+              <td>Start date:</td>
+              <td>{this.props.data.activeDutyRepayingPeriod.fromDate.month.value ? `${this.props.data.activeDutyRepayingPeriod.fromDate.month.value}/${this.props.data.activeDutyRepayingPeriod.fromDate.day.value}/${this.props.data.activeDutyRepayingPeriod.fromDate.year.value}` : null}</td>
+            </tr>
+            <tr>
+              <td>End date:</td>
+              <td>{this.props.data.activeDutyRepayingPeriod.toDate.month.value ? `${this.props.data.activeDutyRepayingPeriod.toDate.month.value}/${this.props.data.activeDutyRepayingPeriod.toDate.day.value}/${this.props.data.activeDutyRepayingPeriod.toDate.year.value}` : null}</td>
+            </tr>
+          </tbody>
+          : null}
       </table>
     );
   }

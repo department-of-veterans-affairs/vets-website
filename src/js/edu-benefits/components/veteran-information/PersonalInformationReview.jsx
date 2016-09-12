@@ -15,7 +15,7 @@ export default class PersonalInformationReview extends React.Component {
           </tr>
           <tr>
             <td>Date of birth:</td>
-            <td>{this.props.data.veteranDateOfBirth.month.value}/{this.props.data.veteranDateOfBirth.day.value}/{this.props.data.veteranDateOfBirth.year.value}</td>
+            <td>{this.props.data.veteranDateOfBirth.month.value ? `${this.props.data.veteranDateOfBirth.month.value}/${this.props.data.veteranDateOfBirth.day.value}/${this.props.data.veteranDateOfBirth.year.value}` : null}</td>
           </tr>
           <tr>
             <td>Gender:</td>

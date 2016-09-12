@@ -19,22 +19,22 @@ export default class EmploymentHistoryReview extends React.Component {
           return (<table key={index} className="review usa-table-borderless">
             <thead>
               <tr>
-                <td scope="col">Principal occupation - {period.name}</td>
+                <td scope="col">Principal occupation - {period.name.value}</td>
                 <td scope="col"></td>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>When was this period of employment?</td>
-                <td>{getLabel(employmentPeriodTiming, period.postMilitaryJob)}</td>
+                <td>{getLabel(employmentPeriodTiming, period.postMilitaryJob.value)}</td>
               </tr>
               <tr>
                 <td>Number of months worked:</td>
-                <td>{period.months}</td>
+                <td>{period.months.value}</td>
               </tr>
               <tr>
                 <td>Licenses or rating:</td>
-                <td>{period.licenseOrRating}</td>
+                <td>{period.licenseOrRating.value}</td>
               </tr>
             </tbody>
           </table>

@@ -3,6 +3,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import * as validations from '../utils/validations';
+import { pages } from '../routes';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -68,9 +69,11 @@ export default class ReviewCollapsiblePanel extends React.Component {
     const currentPath = this.props.updatePath;
     const pagesComplete = this.props.uiData.pages[currentPath].complete;
     const pagesVerified = this.props.uiData.pages[currentPath].verified;
-    const allpages = Object.keys(this.props.uiData.pages);
-    const pageIndexes = allpages.indexOf(currentPath);
-    const prevPath = allpages[pageIndexes - 1];
+    const filteredPages = pages.filter(page => {
+      return page.depends === undefined || _.matches(page.depends)(this.props.data);
+    });
+    const pageIndex = filteredPages.map(page => page.name).indexOf(currentPath);
+    const prevPath = filteredPages[pageIndex - 1].name;
 
     const buttonEdit = (
       <button

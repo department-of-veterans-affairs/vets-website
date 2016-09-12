@@ -30,6 +30,12 @@ import DependentInformationFields from '../components/DependentInformationFields
 import EmploymentHistoryReview from '../components/EmploymentHistoryReview';
 import EmploymentHistoryFields from '../components/EmploymentHistoryFields';
 
+import SchoolSelectionReview from '../components/SchoolSelectionReview';
+import SchoolSelectionFields from '../components/SchoolSelectionFields';
+
+import RotcHistoryReview from '../components/RotcHistoryReview';
+import RotcHistoryFields from '../components/RotcHistoryFields';
+
 import { ensureFieldsInitialized, updateIncompleteStatus, updateVerifiedStatus, updateCompletedStatus, veteranUpdateField } from '../actions';
 
 function ReviewPanel({ pageProps, label, path, component: Component, reviewComponent: ReviewComponent }) {
@@ -42,7 +48,10 @@ function ReviewPanel({ pageProps, label, path, component: Component, reviewCompo
       onUpdateVerifiedStatus={pageProps.onUpdateVerifiedStatus}
       pageLabel={label}
       updatePath={path}
-      component={<Component data={pageProps.data} onStateChange={pageProps.onStateChange} initializeFields={pageProps.onFieldsInitialized}/>}
+      component={<Component
+          data={pageProps.data}
+          onStateChange={pageProps.onStateChange}
+          initializeFields={pageProps.onFieldsInitialized}/>}
       reviewComponent={<ReviewComponent data={pageProps.data}/>}/>);
 }
 
@@ -100,6 +109,14 @@ class ReviewPage extends React.Component {
             path="/military-history/military-service"
             component={MilitaryServiceFields}
             reviewComponent={MilitaryServiceReview}/>
+        {this.props.data.seniorRotcCommissioned.value === 'Y'
+          ? <ReviewPanel
+              pageProps={this.props}
+              label="ROTC History"
+              path="/military-history/rotc-history"
+              component={RotcHistoryFields}
+              reviewComponent={RotcHistoryReview}/>
+          : null}
         <ReviewPanel
             pageProps={this.props}
             label="Benefits History"
@@ -114,10 +131,22 @@ class ReviewPage extends React.Component {
             reviewComponent={DependentInformationReview}/>
         <ReviewPanel
             pageProps={this.props}
+            label="Education History"
+            path="/education-history/education-information"
+            component={EmploymentHistoryFields}
+            reviewComponent={EmploymentHistoryReview}/>
+        <ReviewPanel
+            pageProps={this.props}
             label="Employment History"
             path="/employment-history/employment-information"
             component={EmploymentHistoryFields}
             reviewComponent={EmploymentHistoryReview}/>
+        <ReviewPanel
+            pageProps={this.props}
+            label="School Selection"
+            path="/school-selection/school-information"
+            component={SchoolSelectionFields}
+            reviewComponent={SchoolSelectionReview}/>
       </div>);
     }
     return (

@@ -15,31 +15,31 @@ export default class SecondaryContactReview extends React.Component {
           </tr>
           <tr>
             <td>Address for secondary contact is the same as mine:</td>
-            <td>{this.props.data.secondaryContact.sameAddress ? 'Yes': 'No'}</td>
+            <td>{this.props.data.secondaryContact.sameAddress ? 'Yes' : 'No'}</td>
           </tr>
-          {this.props.data.secondaryContact.sameAddress
-            ? null
-            : <tbody><tr>
-              <td>Street:</td>
-              <td>{this.props.data.secondaryContact.address.street.value}</td>
-            </tr>
-              <tr>
-                <td>City:</td>
-                <td>{this.props.data.secondaryContact.address.city.value}</td>
-              </tr>
-              <tr>
-                <td>Country:</td>
-                <td>{this.props.data.secondaryContact.address.country.value}</td>
-              </tr>
-              <tr>
-                <td>State/Province:</td>
-                <td>{this.props.data.secondaryContact.address.state.value || this.props.data.secondaryContact.address.provinceCode.value}</td>
-              </tr>
-              <tr>
-                <td>ZIP/Postal Code:</td>
-                <td>{this.props.data.secondaryContact.address.zipcode.value || this.props.data.secondaryContact.address.postalCode.value}</td>
-              </tr></tbody>}
         </tbody>
+        {this.props.data.secondaryContact.sameAddress
+          ? null
+          : <tbody><tr>
+            <td>Street:</td>
+            <td>{this.props.data.secondaryContact.address.street.value}</td>
+          </tr>
+            <tr>
+              <td>City:</td>
+              <td>{this.props.data.secondaryContact.address.city.value}</td>
+            </tr>
+            <tr>
+              <td>Country:</td>
+              <td>{this.props.data.secondaryContact.address.country.value}</td>
+            </tr>
+            <tr>
+              <td>State/Province:</td>
+              <td>{this.props.data.secondaryContact.address.state.value || this.props.data.secondaryContact.address.provinceCode.value}</td>
+            </tr>
+            <tr>
+              <td>ZIP/Postal Code:</td>
+              <td>{this.props.data.secondaryContact.address.zipcode.value || this.props.data.secondaryContact.address.postalCode.value}</td>
+            </tr></tbody>}
       </table>
     );
   }

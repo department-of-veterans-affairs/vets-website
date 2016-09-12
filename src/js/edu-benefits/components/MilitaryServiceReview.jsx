@@ -25,14 +25,13 @@ export default class MilitaryServiceReview extends React.Component {
               <td>Are you receiving, or do you anticipate receiving, any money (including but not limited to federal tuition assistance) from the armed forces or public health services for the course for which you have applied to the VA for education benefits?</td>
               <td>{this.props.data.currentlyActiveDuty.nonVaAssistance.value === 'Y' ? 'Yes' : 'No'}</td>
             </tr>
-            {}
           </tbody>
         </table>
-        {this.props.data.toursOfDury.map((tour, index) => {
+        {this.props.data.toursOfDuty.map((tour, index) => {
           return (<table key={index} className="review usa-table-borderless">
             <thead>
               <tr>
-                <td scope="col">Tour - {tour.serviceBranch}</td>
+                <td scope="col">Tour - {tour.serviceBranch.value}</td>
                 <td scope="col"></td>
               </tr>
             </thead>
@@ -63,19 +62,19 @@ export default class MilitaryServiceReview extends React.Component {
                 : null}
               <tr>
                 <td>From date:</td>
-                <td>{tour.fromDate.month}/{tour.fromDate.day}/{tour.fromDate.year}</td>
+                <td>{tour.fromDate.month.value ? `${tour.fromDate.month.value}/${tour.fromDate.day.value}/${tour.fromDate.year.value}` : null}</td>
               </tr>
               <tr>
                 <td>To date:</td>
-                <td>{tour.toDate.month}/{tour.toDate.day}/{tour.toDate.year}</td>
+                <td>{tour.toDate.month.value ? `${tour.toDate.month.value}/${tour.toDate.day.value}/${tour.toDate.year.value}` : null}</td>
               </tr>
               <tr>
                 <td>Service status:</td>
-                <td>{tour.serviceStatus}</td>
+                <td>{tour.serviceStatus.value}</td>
               </tr>
               <tr>
                 <td>Were you involuntarily called for active duty during this period?</td>
-                <td>{getLabel(yesNoNA, tour.involuntarilyCalledToDuty)}</td>
+                <td>{getLabel(yesNoNA, tour.involuntarilyCalledToDuty.value)}</td>
               </tr>
             </tbody>
           </table>
