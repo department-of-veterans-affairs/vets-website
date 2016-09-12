@@ -6,6 +6,12 @@ import ReviewCollapsiblePanel from '../components/ReviewCollapsiblePanel';
 import PersonalInformationReview from '../components/veteran-information/PersonalInformationReview';
 import PersonalInformationFields from '../components/veteran-information/PersonalInformationFields';
 
+import ContactInformationReview from '../components/veteran-information/ContactInformationReview';
+import ContactInformationFields from '../components/veteran-information/ContactInformationFields';
+
+import SecondaryContactReview from '../components/veteran-information/SecondaryContactReview';
+import SecondaryContactFields from '../components/veteran-information/SecondaryContactFields';
+
 import { ensureFieldsInitialized, updateIncompleteStatus, updateVerifiedStatus, updateCompletedStatus, veteranUpdateField } from '../actions';
 
 /*
@@ -43,6 +49,28 @@ class ReviewPage extends React.Component {
             updatePath="/veteran-information/personal-information"
             component={<PersonalInformationFields data={this.props.data} onStateChange={this.props.onStateChange}/>}
             reviewComponent={<PersonalInformationReview data={this.props.data}/>}/>
+        <ReviewCollapsiblePanel
+            uiData={this.props.uiData}
+            data={this.props.data}
+            onUpdateEditStatus={this.props.onUpdateEditStatus}
+            onUpdateSaveStatus={this.props.onUpdateSaveStatus}
+            onFieldsInitialized={this.props.onFieldsInitialized}
+            onUpdateVerifiedStatus={this.props.onUpdateVerifiedStatus}
+            pageLabel="Contact Information"
+            updatePath="/veteran-information/contact-information"
+            component={<ContactInformationFields data={this.props.data} onStateChange={this.props.onStateChange}/>}
+            reviewComponent={<ContactInformationReview data={this.props.data}/>}/>
+        <ReviewCollapsiblePanel
+            uiData={this.props.uiData}
+            data={this.props.data}
+            onUpdateEditStatus={this.props.onUpdateEditStatus}
+            onUpdateSaveStatus={this.props.onUpdateSaveStatus}
+            onFieldsInitialized={this.props.onFieldsInitialized}
+            onUpdateVerifiedStatus={this.props.onUpdateVerifiedStatus}
+            pageLabel="Secondary Contact"
+            updatePath="/veteran-information/secondary-contact"
+            component={<SecondaryContactFields data={this.props.data} onStateChange={this.props.onStateChange}/>}
+            reviewComponent={<SecondaryContactReview data={this.props.data}/>}/>
       </div>);
     }
     return (
