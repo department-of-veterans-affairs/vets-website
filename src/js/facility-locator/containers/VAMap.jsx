@@ -18,11 +18,12 @@ class VAMap extends Component {
 
   componentDidMount() {
     const { location } = this.props;
+    const { shouldGeolocate } = this.state;
 
-    // TODO (bshyong): use Mapbox Geocoding API to translate coords to addresses
+    // TODO (bshyong): use reverse Geocoding API (mapbox?) to translate coords to addresses
     // TODO (bshyong): move geolocation/geocoding functionality to another function
     this.mapElement = this.refs.map.leafletElement.getBounds();
-    if ('geolocation' in navigator) {
+    if ('geolocation' in navigator && shouldGeolocate) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.setState({
           position: [position.coords.latitude, position.coords.longitude],
@@ -35,6 +36,12 @@ class VAMap extends Component {
             return `${k}=${v}`;
           }).join('&');
           browserHistory.push(`${location.pathname}?${queryParams}`);
+          // console.log('geolocate successful');
+          // L.mapbox.geocoder('mapbox.places').reverseQuery(
+          //   [position.coords.longitude, position.coords.latitude], (err, data) => {
+          //     console.log(data);
+          //   }
+          // );
         });
       });
     }
@@ -52,6 +59,7 @@ class VAMap extends Component {
     }
     return {
       position: [38.8976763, -77.03653],
+      shouldGeolocate: true,
     };
   }
 
