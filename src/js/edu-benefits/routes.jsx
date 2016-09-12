@@ -8,11 +8,12 @@ import BenefitsSelectionPage from './containers/BenefitsSelectionPage';
 import MilitaryServicePage from './containers/MilitaryServicePage';
 import BenefitsHistoryPage from './containers/BenefitsHistoryPage';
 import PersonalInformationPage from './containers/veteran-information/PersonalInformationPage';
-import VeteranAddressPage from './containers/veteran-information/VeteranAddressPage';
+import ContactInformationPage from './containers/veteran-information/ContactInformationPage';
 import DependentInformationPage from './containers/DependentInformationPage';
 import SchoolSelectionPage from './containers/SchoolSelectionPage';
 import EmploymentHistoryPage from './containers/EmploymentHistoryPage';
 import SecondaryContactPage from './containers/veteran-information/SecondaryContactPage';
+import DirectDepositPage from './containers/veteran-information/DirectDepositPage';
 import PlaceholderPage from './containers/PlaceholderPage';
 
 const routes = [
@@ -28,13 +29,7 @@ const routes = [
       chapter={chapterNames.veteranInformation}
       name="Personal Information"/>,
   <Route
-      component={VeteranAddressPage}
-      key="/veteran-information/address"
-      path="/veteran-information/address"
-      chapter={chapterNames.veteranInformation}
-      name="Address"/>,
-  <Route
-      component={PlaceholderPage}
+      component={ContactInformationPage}
       key="/veteran-information/contact-information"
       path="/veteran-information/contact-information"
       chapter={chapterNames.veteranInformation}
@@ -46,7 +41,7 @@ const routes = [
       chapter={chapterNames.veteranInformation}
       name="Secondary Contact"/>,
   <Route
-      component={PlaceholderPage}
+      component={DirectDepositPage}
       key="/veteran-information/direct-deposit"
       path="/veteran-information/direct-deposit"
       chapter={chapterNames.veteranInformation}
@@ -66,6 +61,7 @@ const routes = [
       component={PlaceholderPage}
       key="/military-history/rotc-history"
       path="/military-history/rotc-history"
+      depends={{ seniorRotcComissioned: { value: 'Y' } }}
       chapter={chapterNames.militaryHistory}
       name="ROTC History"/>,
   <Route

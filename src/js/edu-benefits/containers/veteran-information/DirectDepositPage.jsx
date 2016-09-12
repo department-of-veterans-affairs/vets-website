@@ -2,17 +2,17 @@ import React from 'react';
 
 import { connect } from 'react-redux';
 
-import VeteranAddressFields from '../../components/veteran-information/VeteranAddressFields';
+import DirectDepositFields from '../../components/veteran-information/DirectDepositFields';
 
 import { veteranUpdateField } from '../../actions/index';
 
-class VeteranAddressPage extends React.Component {
+class DirectDepositPage extends React.Component {
   render() {
     const { data, onStateChange } = this.props;
 
     return (
       <div className="form-panel">
-        <VeteranAddressFields data={data} onStateChange={onStateChange}/>
+        <DirectDepositFields data={data} onStateChange={onStateChange}/>
       </div>
     );
   }
@@ -32,5 +32,5 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(VeteranAddressPage);
-export { VeteranAddressPage };
+export default connect(mapStateToProps, mapDispatchToProps)(DirectDepositPage);
+export { DirectDepositPage };

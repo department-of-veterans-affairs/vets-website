@@ -73,15 +73,10 @@ const ui = {
       verified: false,
       fields: ['veteranFullName', 'veteranSocialSecurityNumber', 'veteranDateOfBirth', 'gender']
     },
-    '/veteran-information/address': {
-      complete: false,
-      verified: false,
-      fields: ['veteranAddress']
-    },
     '/veteran-information/contact-information': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['veteranAddress', 'email', 'confirmationEmail', 'homePhone', 'mobilePhone', 'preferredContactMethod']
     },
     '/veteran-information/secondary-contact': {
       complete: false,
@@ -91,7 +86,7 @@ const ui = {
     '/veteran-information/direct-deposit': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['bankAccount']
     },
     '/review-and-submit': {
       complete: false,
