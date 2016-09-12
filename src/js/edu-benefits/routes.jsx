@@ -6,6 +6,7 @@ import { chapterNames, groupPagesIntoChapters, getPageList } from './utils/helpe
 import IntroductionPage from './containers/IntroductionPage.jsx';
 import BenefitsSelectionPage from './containers/BenefitsSelectionPage';
 import MilitaryServicePage from './containers/MilitaryServicePage';
+import RotcHistoryPage from './containers/RotcHistoryPage';
 import BenefitsHistoryPage from './containers/BenefitsHistoryPage';
 import PersonalInformationPage from './containers/veteran-information/PersonalInformationPage';
 import ContactInformationPage from './containers/veteran-information/ContactInformationPage';
@@ -58,10 +59,10 @@ const routes = [
       chapter={chapterNames.militaryHistory}
       name="Military Service"/>,
   <Route
-      component={PlaceholderPage}
+      component={RotcHistoryPage}
       key="/military-history/rotc-history"
       path="/military-history/rotc-history"
-      depends={{ seniorRotcComissioned: { value: 'Y' } }}
+      depends={{ seniorRotcCommissioned: { value: 'Y' } }}
       chapter={chapterNames.militaryHistory}
       name="ROTC History"/>,
   <Route
