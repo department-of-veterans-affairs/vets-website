@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { isValidDateRange, isValidFutureOrPastDateField, isValidPage } from '../../../src/js/edu-benefits/utils/validations.js';
+import { isValidDateRange, isValidFutureOrPastDateField, isValidPage, isValidRoutingNumber } from '../../../src/js/edu-benefits/utils/validations.js';
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran.js';
 
 describe('Validations unit tests', () => {
@@ -147,6 +147,30 @@ describe('Validations unit tests', () => {
         }
       };
       expect(isValidFutureOrPastDateField(dateField)).to.be.false;
+    });
+  });
+  describe('isValidRoutingNumber', () => {
+    const routingNumbers = [
+      '211075086',
+      '114926012',
+      '061219694',
+      '307086691',
+      '302386587'
+    ];
+    const invalidRoutingNumbers = [
+      'asdf',
+      '12344',
+      '923456890'
+    ];
+    it('should validate real routing numbers', () => {
+      routingNumbers.forEach((num) => {
+        expect(isValidRoutingNumber(num)).to.be.true;
+      });
+    });
+    it('should not validate real routing numbers', () => {
+      invalidRoutingNumbers.forEach((num) => {
+        expect(isValidRoutingNumber(num)).to.be.false;
+      });
     });
   });
 });
