@@ -35,6 +35,7 @@ class VAMap extends Component {
           }, (v, k) => {
             return `${k}=${v}`;
           }).join('&');
+
           browserHistory.push(`${location.pathname}?${queryParams}`);
           // TODO (bshyong): use reverse Geocoding API (mapbox?) to translate coords to addresses
         });

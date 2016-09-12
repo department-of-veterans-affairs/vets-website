@@ -74,6 +74,7 @@
     "jsdom": "^9.4.2",
     "json-loader": "^0.5.4",
     "leaflet": "^1.0.0-rc.3",
+    "leaflet-control-geocoder": "^1.5.1",
     "libxmljs": "^0.18.0",
     "lodash": "^4.5.1",
     "lodash-deep": "^2.0.0",

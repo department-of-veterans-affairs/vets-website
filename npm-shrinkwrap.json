@@ -4173,6 +4173,18 @@
       "from": "leaflet@>=1.0.0-rc.3 <2.0.0",
       "resolved": "http://registry.npmjs.org/leaflet/-/leaflet-1.0.0-rc.3.tgz"
     },
+    "leaflet-control-geocoder": {
+      "version": "1.5.1",
+      "from": "leaflet-control-geocoder@latest",
+      "resolved": "http://registry.npmjs.org/leaflet-control-geocoder/-/leaflet-control-geocoder-1.5.1.tgz",
+      "dependencies": {
+        "leaflet": {
+          "version": "0.7.7",
+          "from": "leaflet@>=0.7.7 <0.8.0",
+          "resolved": "http://registry.npmjs.org/leaflet/-/leaflet-0.7.7.tgz"
+        }
+      }
+    },
     "levn": {
       "version": "0.3.0",
       "from": "levn@>=0.3.0 <0.4.0",
