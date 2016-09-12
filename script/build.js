@@ -44,7 +44,7 @@ const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
-  { name: 'port', type: Number, defaultValue: 3001 },
+  { name: 'port', type: Number, defaultValue: 3000 },
   { name: 'watch', type: Boolean, defaultValue: false },
 
   // Catch-all for bad arguments.
