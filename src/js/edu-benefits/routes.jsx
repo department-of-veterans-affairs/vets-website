@@ -11,6 +11,7 @@ import BenefitsHistoryPage from './containers/BenefitsHistoryPage';
 import PersonalInformationPage from './containers/veteran-information/PersonalInformationPage';
 import ContactInformationPage from './containers/veteran-information/ContactInformationPage';
 import DependentInformationPage from './containers/DependentInformationPage';
+import EducationHistoryPage from './containers/EducationHistoryPage';
 import SchoolSelectionPage from './containers/SchoolSelectionPage';
 import EmploymentHistoryPage from './containers/EmploymentHistoryPage';
 import SecondaryContactPage from './containers/veteran-information/SecondaryContactPage';
@@ -78,7 +79,7 @@ const routes = [
       chapter={chapterNames.militaryHistory}
       name="Dependents"/>,
   <Route
-      component={PlaceholderPage}
+      component={EducationHistoryPage}
       key="/education-history/education-information"
       path="/education-history/education-information"
       chapter={chapterNames.educationHistory}/>,
