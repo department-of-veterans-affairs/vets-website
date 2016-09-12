@@ -12,13 +12,39 @@ import ContactInformationFields from '../components/veteran-information/ContactI
 import SecondaryContactReview from '../components/veteran-information/SecondaryContactReview';
 import SecondaryContactFields from '../components/veteran-information/SecondaryContactFields';
 
+import DirectDepositReview from '../components/veteran-information/DirectDepositReview';
+import DirectDepositFields from '../components/veteran-information/DirectDepositFields';
+
+import BenefitsSelectionReview from '../components/BenefitsSelectionReview';
+import BenefitsSelectionFields from '../components/BenefitsSelectionFields';
+
+import MilitaryServiceReview from '../components/MilitaryServiceReview';
+import MilitaryServiceFields from '../components/MilitaryServiceFields';
+
+import BenefitsHistoryReview from '../components/BenefitsHistoryReview';
+import BenefitsHistoryFields from '../components/BenefitsHistoryFields';
+
+import DependentInformationReview from '../components/DependentInformationReview';
+import DependentInformationFields from '../components/DependentInformationFields';
+
+import EmploymentHistoryReview from '../components/EmploymentHistoryReview';
+import EmploymentHistoryFields from '../components/EmploymentHistoryFields';
+
 import { ensureFieldsInitialized, updateIncompleteStatus, updateVerifiedStatus, updateCompletedStatus, veteranUpdateField } from '../actions';
 
-/*
-    TODO(crew): Get components from store and create array to check if ReviewCollapsiblePanel is
-    open or closed. Also, potentially generate ReviewCollapsiblePanel components with routes from
-    json object.
-*/
+function ReviewPanel({ pageProps, label, path, component: Component, reviewComponent: ReviewComponent }) {
+  return (<ReviewCollapsiblePanel
+      uiData={pageProps.uiData}
+      data={pageProps.data}
+      onUpdateEditStatus={pageProps.onUpdateEditStatus}
+      onUpdateSaveStatus={pageProps.onUpdateSaveStatus}
+      onFieldsInitialized={pageProps.onFieldsInitialized}
+      onUpdateVerifiedStatus={pageProps.onUpdateVerifiedStatus}
+      pageLabel={label}
+      updatePath={path}
+      component={<Component data={pageProps.data} onStateChange={pageProps.onStateChange} initializeFields={pageProps.onFieldsInitialized}/>}
+      reviewComponent={<ReviewComponent data={pageProps.data}/>}/>);
+}
 
 class ReviewPage extends React.Component {
   render() {
@@ -38,39 +64,60 @@ class ReviewPage extends React.Component {
     } else {
       content = (<div>
         <p>Please make sure all your information is correct before submitting your application.</p>
-        <ReviewCollapsiblePanel
-            uiData={this.props.uiData}
-            data={this.props.data}
-            onUpdateEditStatus={this.props.onUpdateEditStatus}
-            onUpdateSaveStatus={this.props.onUpdateSaveStatus}
-            onFieldsInitialized={this.props.onFieldsInitialized}
-            onUpdateVerifiedStatus={this.props.onUpdateVerifiedStatus}
-            pageLabel="Personal Information"
-            updatePath="/veteran-information/personal-information"
-            component={<PersonalInformationFields data={this.props.data} onStateChange={this.props.onStateChange}/>}
-            reviewComponent={<PersonalInformationReview data={this.props.data}/>}/>
-        <ReviewCollapsiblePanel
-            uiData={this.props.uiData}
-            data={this.props.data}
-            onUpdateEditStatus={this.props.onUpdateEditStatus}
-            onUpdateSaveStatus={this.props.onUpdateSaveStatus}
-            onFieldsInitialized={this.props.onFieldsInitialized}
-            onUpdateVerifiedStatus={this.props.onUpdateVerifiedStatus}
-            pageLabel="Contact Information"
-            updatePath="/veteran-information/contact-information"
-            component={<ContactInformationFields data={this.props.data} onStateChange={this.props.onStateChange}/>}
-            reviewComponent={<ContactInformationReview data={this.props.data}/>}/>
-        <ReviewCollapsiblePanel
-            uiData={this.props.uiData}
-            data={this.props.data}
-            onUpdateEditStatus={this.props.onUpdateEditStatus}
-            onUpdateSaveStatus={this.props.onUpdateSaveStatus}
-            onFieldsInitialized={this.props.onFieldsInitialized}
-            onUpdateVerifiedStatus={this.props.onUpdateVerifiedStatus}
-            pageLabel="Secondary Contact"
-            updatePath="/veteran-information/secondary-contact"
-            component={<SecondaryContactFields data={this.props.data} onStateChange={this.props.onStateChange}/>}
-            reviewComponent={<SecondaryContactReview data={this.props.data}/>}/>
+        <ReviewPanel
+            pageProps={this.props}
+            label="Personal Information"
+            path="/veteran-information/personal-information"
+            component={PersonalInformationFields}
+            reviewComponent={PersonalInformationReview}/>
+        <ReviewPanel
+            pageProps={this.props}
+            label="Contact Information"
+            path="/veteran-information/contact-information"
+            component={ContactInformationFields}
+            reviewComponent={ContactInformationReview}/>
+        <ReviewPanel
+            pageProps={this.props}
+            label="Secondary Contact"
+            path="/veteran-information/secondary-contact"
+            component={SecondaryContactFields}
+            reviewComponent={SecondaryContactReview}/>
+        <ReviewPanel
+            pageProps={this.props}
+            label="Direct Deposit"
+            path="/veteran-information/direct-deposit"
+            component={DirectDepositFields}
+            reviewComponent={DirectDepositReview}/>
+        <ReviewPanel
+            pageProps={this.props}
+            label="Benefits Selection"
+            path="/benefits-eligibility/benefits-selection"
+            component={BenefitsSelectionFields}
+            reviewComponent={BenefitsSelectionReview}/>
+        <ReviewPanel
+            pageProps={this.props}
+            label="Military Service"
+            path="/military-history/military-service"
+            component={MilitaryServiceFields}
+            reviewComponent={MilitaryServiceReview}/>
+        <ReviewPanel
+            pageProps={this.props}
+            label="Benefits History"
+            path="/military-history/benefits-history"
+            component={BenefitsHistoryFields}
+            reviewComponent={BenefitsHistoryReview}/>
+        <ReviewPanel
+            pageProps={this.props}
+            label="Dependent Information"
+            path="/military-history/dependents"
+            component={DependentInformationFields}
+            reviewComponent={DependentInformationReview}/>
+        <ReviewPanel
+            pageProps={this.props}
+            label="Employment History"
+            path="/employment-history/employment-information"
+            component={EmploymentHistoryFields}
+            reviewComponent={EmploymentHistoryReview}/>
       </div>);
     }
     return (
