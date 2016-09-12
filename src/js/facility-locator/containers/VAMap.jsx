@@ -1,17 +1,21 @@
 import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { fetchVAFacilities } from '../actions';
+import { map } from 'lodash';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import MapboxClient from 'mapbox';
 import React, { Component } from 'react';
 import ResultsPane from '../components/ResultsPane';
 import TownHall from '../components/markers/TownHall';
-import { browserHistory } from 'react-router';
-import { map } from 'lodash';
 
 class VAMap extends Component {
 
   constructor(props) {
     super(props);
+
+    // TODO (bshyong): Use env variables for mapbox token
+    this.mapboxClient = new MapboxClient('pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g');
 
     this.state = this.generateInitialState();
   }
@@ -38,6 +42,13 @@ class VAMap extends Component {
 
           browserHistory.push(`${location.pathname}?${queryParams}`);
           // TODO (bshyong): use reverse Geocoding API (mapbox?) to translate coords to addresses
+          this.mapboxClient.geocodeReverse(position.coords, {
+            types: 'address',
+          }, (err, res) => {
+            // TODO (bshyong): fire action to update currentQuery in reducer
+            // TODO (bshyong): handle error case
+            console.log(res.features[0].place_name)
+          });
         });
       });
     }
