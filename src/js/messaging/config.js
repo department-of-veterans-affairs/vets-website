@@ -23,5 +23,8 @@ module.exports = {
       value: 'Other'
     }
   ],
-  messageCategoryError: 'Please select a category'
+  composeMessageErrors: {
+    category: 'Please select a category.',
+    subject: 'Please add subject description.'
+  }
 };
