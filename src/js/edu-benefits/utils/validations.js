@@ -127,6 +127,20 @@ function isValidEmail(value) {
   return /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(value);
 }
 
+// Pulled from https://en.wikipedia.org/wiki/Routing_transit_number#Check_digit
+function isValidRoutingNumber(value) {
+  if (/^\d{9}$/.test(value)) {
+    const digits = value.split('').map(val => parseInt(val, 10));
+    const weighted =
+      3 * (digits[0] + digits[3] + digits[6]) +
+      7 * (digits[1] + digits[4] + digits[7]) +
+      (digits[2] + digits[5] + digits[8]);
+
+    return (weighted % 10) === 0;
+  }
+  return false;
+}
+
 function isValidField(validator, field) {
   return isBlank(field.value) || validator(field.value);
 }
@@ -266,6 +280,10 @@ function isValidContactInformationPage(data) {
       isValidField(isValidPhone, data.mobilePhone);
 }
 
+function isValidDirectDepositPage(data) {
+  return isValidField(isValidRoutingNumber, data.bankAccount.routingNumber);
+}
+
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data);
 }
@@ -286,6 +304,8 @@ function isValidPage(completePath, pageData) {
       return isValidEmploymentHistoryPage(pageData);
     case '/veteran-information/secondary-contact':
       return isValidSecondaryContactPage(pageData);
+    case '/veteran-information/direct-deposit':
+      return isValidDirectDepositPage(pageData);
     default:
       return true;
   }
@@ -319,6 +339,7 @@ export {
   isValidEmail,
   isValidYear,
   isValidMonths,
+  isValidRoutingNumber,
   isValidField,
   isValidDateField,
   isValidFutureOrPastDateField,
