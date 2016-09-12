@@ -9,9 +9,11 @@ class LoginApp extends React.Component {
   }
 
   setMyToken() {
-    var samlURL = 'http://localhost:4000/auth/saml/callback?SAMLResponse=' + this.props.location.query.SAMLResponse;
-    fetch(`${samlURL}`, {
-      method: 'GET'
+    var saml = new FormData();
+    saml.append('SAMLResponse', this.props.location.query.SAMLResponse);
+    fetch('http://localhost:4000/auth/saml/callback', {
+      method: 'POST',
+      body: saml
     }).then(response => {
       return response.json();
     }).then(json => {
@@ -38,7 +40,7 @@ class LoginApp extends React.Component {
     this.setMyToken();
     return (
       <div>
-        You are logged in as {this.props.profile.email}
+        Logging you in ...
       </div>
     );
   }
