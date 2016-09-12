@@ -24,7 +24,7 @@ very secret.
 | run the site for local development with hot reloading of javascript, and sass | `npm run watch` then visit `http://localhost:3000/webpack-dev-server/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
-| run only e2e tests | `npm run test:e2e`.  Note, on a fresh checkout, run `npm run selenium:bootstrap` to install the selenium server into `node_modules`. This only needs to be done once per install. |
+| run only e2e tests | `npm run test:e2e`.  Note that `selenium-server` must be running on its default port 4000.  On a fresh checkout, run `npm run selenium:bootstrap` to install the selenium server into `node_modules`. This only needs to be done once per install. |
 | run all linters | `npm run lint` |
 | run only javascript linter | `npm run lint:js` |
 | run only sass linter | `npm run lint:sass` |
