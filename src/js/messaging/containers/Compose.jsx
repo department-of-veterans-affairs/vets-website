@@ -4,13 +4,24 @@ import { connect } from 'react-redux';
 import { messageCategories, composeMessageErrors } from '../config.js';
 import MessageCategory from '../components/compose/MessageCategory';
 import MessageSubject from '../components/compose/MessageSubject';
-import { setCategory, setSubject } from '../actions/compose.js';
+import MessageRecipient from '../components/compose/MessageRecipient';
+import {
+  setCategory,
+  setRecipient,
+  setSubject,
+  fetchRecipients
+} from '../actions/compose.js';
 
 class Compose extends React.Component {
   constructor() {
     super();
     this.dispatchCategoryChange = this.dispatchCategoryChange.bind(this);
     this.dispatchSubjectChange = this.dispatchSubjectChange.bind(this);
+    this.dispatchRecipientChange = this.dispatchRecipientChange.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.fetchRecipients();
   }
 
   dispatchCategoryChange(valueObj) {
@@ -22,6 +33,10 @@ class Compose extends React.Component {
     this.props.setSubject(valueObj);
   }
 
+  dispatchRecipientChange(event) {
+    this.props.setRecipient(event);
+  }
+
   render() {
     return (
       <div>
@@ -30,6 +45,13 @@ class Compose extends React.Component {
           <strong>Note:</strong> Messages may be saved to your health record at
           your team's discretion.
         </p>
+
+        <MessageRecipient
+            categories={messageCategories}
+            errorMessage={composeMessageErrors.recipient}
+            onValueChange={this.dispatchRecipientChange}
+            options={this.props.compose.recipients}
+            value={this.props.compose.recipient}/>
         <MessageCategory
             categories={messageCategories}
             errorMessage={composeMessageErrors.category}
@@ -51,7 +73,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   setCategory,
-  setSubject
+  setSubject,
+  setRecipient,
+  fetchRecipients
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);
