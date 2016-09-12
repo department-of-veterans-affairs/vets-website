@@ -84,17 +84,17 @@ export default class MilitaryServiceFields extends React.Component {
               minimumRows={1}/>
           <ErrorableRadioButtons
               label="Were you commissioned as a result of senior ROTC?"
-              name="seniorRotcComissioned"
+              name="seniorRotcCommissioned"
               options={yesNo}
-              value={this.props.data.seniorRotcComissioned}
-              onValueChange={(update) => {this.props.onStateChange('seniorRotcComissioned', update);}}/>
-            {this.props.data.seniorRotcComissioned.value === 'Y'
+              value={this.props.data.seniorRotcCommissioned}
+              onValueChange={(update) => {this.props.onStateChange('seniorRotcCommissioned', update);}}/>
+            {this.props.data.seniorRotcCommissioned.value === 'Y'
               ? <ErrorableTextInput
-                  errorMessage={validateIfDirty(this.props.data.seniorRotcComissionYear, isValidYear) ? undefined : 'Please enter a valid year'}
+                  errorMessage={validateIfDirty(this.props.data.seniorRotc.commissionYear, isValidYear) ? undefined : 'Please enter a valid year'}
                   label="Year of commission"
-                  name="seniorRotcComissionYear"
-                  field={this.props.data.seniorRotcComissionYear}
-                  onValueChange={(update) => {this.props.onStateChange('seniorRotcComissionYear', update);}}/>
+                  name="commissionYear"
+                  field={this.props.data.seniorRotc.commissionYear}
+                  onValueChange={(update) => {this.props.onStateChange('seniorRotc.commissionYear', update);}}/>
                 : null}
         </div>
       </div>
