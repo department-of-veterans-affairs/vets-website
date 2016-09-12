@@ -29,9 +29,7 @@ module.exports = {
 
   composeMessageErrors: {
     category: 'Please select a category.',
-    subject: 'Please add subject description.'
-  },
-  composeMessagePlaceholders: {
-    subject: 'Add an additional subject line',
+    subject: 'Please add subject description.',
+    recipient: 'Please select a recipient from your health care team.'
   }
 };

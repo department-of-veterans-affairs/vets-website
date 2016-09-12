@@ -1,0 +1,41 @@
+import React from 'react';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import { makeField } from '../../../common/model/fields.js';
+
+class MessageRecipient extends React.Component {
+  render() {
+    const recipientValue = makeField(this.props.value);
+    return (
+      <div className="messaging-recipient">
+        <div className="messaging-recipient">
+          <ErrorableSelect
+              label="Recipient:"
+              name="messageRecipient"
+              onValueChange={this.props.onValueChange}
+              options={this.props.options}
+              required
+              value={recipientValue}/>
+        </div>
+      </div>
+    );
+  }
+}
+
+MessageRecipient.propTypes = {
+  errorMessage: React.PropTypes.string,
+  menuClass: React.PropTypes.string,
+  name: React.PropTypes.string,
+  onValueChange: React.PropTypes.func,
+  categories: React.PropTypes.arrayOf(
+    React.PropTypes.oneOfType([
+      React.PropTypes.string,
+      React.PropTypes.shape({
+        label: React.PropTypes.string,
+        value: React.PropTypes.number }),
+      React.PropTypes.shape({
+        label: React.PropTypes.string,
+        value: React.PropTypes.string }),
+    ])).isRequired
+};
+
+export default MessageRecipient;
