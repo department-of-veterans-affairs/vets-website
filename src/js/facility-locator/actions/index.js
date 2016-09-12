@@ -1,8 +1,12 @@
 // import sampleOutput from 'json!../sampleData/sampleOutput.json';
 
+export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
+export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
+export const SEARCH_QUERY_CHANGED = 'SEARCH_QUERY_CHANGED';
+
 export function fetchVAFacility(id) {
   return {
-    type: 'FETCH_VA_FACILITY',
+    type: FETCH_VA_FACILITY,
     payload: {
       id,
       name: 'National Capital Region Benefits Office, Specially Adapted Housing Office',
@@ -88,7 +92,7 @@ export function fetchVAFacility(id) {
 
 export function fetchVAFacilities() {
   return {
-    type: 'FETCH_VA_FACILITY',
+    type: FETCH_VA_FACILITIES,
     payload: [
       {
         name: 'VA Facility One',
