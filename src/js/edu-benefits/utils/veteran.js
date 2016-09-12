@@ -31,6 +31,13 @@ export function createEmploymentPeriod() {
   };
 }
 
+export function createRotcScholarship() {
+  return {
+    amount: makeField(''),
+    year: makeField('')
+  };
+}
+
 export function createVeteran() {
   return {
     benefitsRelinquished: makeField(''),
@@ -45,8 +52,12 @@ export function createVeteran() {
       nonVaAssistance: makeField('')
     },
     toursOfDuty: [],
-    seniorRotcComissioned: makeField(''),
-    seniorRotcComissionYear: makeField(''),
+    seniorRotcCommissioned: makeField(''),
+    seniorRotc: {
+      commissionYear: makeField(''),
+      rotcScholarshipAmounts: []
+    },
+    seniorRotcScholarshipProgram: makeField(''),
     civilianBenefitsAssistance: false,
     additionalContributions: false,
     activeDutyKicker: false,
