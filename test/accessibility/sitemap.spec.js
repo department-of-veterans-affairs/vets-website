@@ -26,7 +26,7 @@ module.exports = {
   },
 
   'test accesssibility': (client) => {
-    // Iterate through each of the sitemap urls run the axe checks
+    // Iterate through each of the sitemap urls run the attest checks
     if (!sitemapURLs.length) {
       this.verify.fail('No URLs found in sitemap');
     }
@@ -35,7 +35,7 @@ module.exports = {
       client
         .url(url)
         .waitForElementVisible('body', Timeouts.normal)
-        .axeCheck('document', { scope: url });
+        .attestCheck('document', { scope: url });
     });
 
     client.end();
