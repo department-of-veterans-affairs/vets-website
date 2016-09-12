@@ -1,0 +1,49 @@
+.messaging-thread-note {
+  border-bottom: 1px solid $color-black;
+  border-top: 1px solid $color-black;
+  font-size: 1.5rem;
+  margin: 0;
+  padding: 1.5rem 2rem;
+}
+
+.messaging-thread-name {
+  // Overriding `#content .section h*`.
+  padding: 2.25rem 2rem !important;
+  border-bottom: 2px solid $color-black;
+}
+
+.messaging-thread-message {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid $color-black;
+}
+
+.messaging-message-sender {
+  width: 75%;
+}
+
+.messaging-message-sent-date {
+  text-align: right;
+  width: 25%;
+}
+
+.messaging-message-sender,
+.messaging-message-sent-date {
+  display: inline-block;
+  font-weight: bold;
+  vertical-align: top;
+}
+
+.messaging-message-recipient {
+  color: $color-gray-medium;
+}
+
+.messaging-thread-reply {
+  padding: 3rem 2rem;
+
+  textarea {
+    height: 10rem;
+    max-width: 100%;
+    width: 100%;
+  }
+
+}
