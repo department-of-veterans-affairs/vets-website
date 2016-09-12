@@ -86,7 +86,7 @@ const ui = {
     '/veteran-information/direct-deposit': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['bankAccount']
     },
     '/review-and-submit': {
       complete: false,

@@ -141,6 +141,11 @@ export function createVeteran() {
         postalCode: makeField('')
       },
       phone: makeField('')
+    },
+    bankAccount: {
+      accountType: makeField(''),
+      accountNumber: makeField(''),
+      routingNumber: makeField('')
     }
   };
 }

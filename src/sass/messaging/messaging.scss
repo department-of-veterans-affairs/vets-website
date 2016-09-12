@@ -4,3 +4,18 @@
 
 @import "../style";
 
+#messaging-app {
+  padding: 3rem 1.5rem;
+  margin: auto;
+  max-width: $site-max-width;
+}
+
+#main-nav {
+  display: inline-block;
+}
+
+#main-content {
+  display: inline-block;
+  margin-left: 3rem;
+  vertical-align: top;
+}
