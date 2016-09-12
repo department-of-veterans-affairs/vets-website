@@ -6,6 +6,6 @@ import compose from './compose';
 
 export default combineReducers({
   folders,
-  messages
+  messages,
   compose
 });
