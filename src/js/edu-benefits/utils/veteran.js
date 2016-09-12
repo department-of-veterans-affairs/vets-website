@@ -93,6 +93,11 @@ export function createVeteran() {
       zipcode: makeField(''),
       postalCode: makeField(''),
     },
+    email: makeField(''),
+    emailConfirmation: makeField(''),
+    homePhone: makeField(''),
+    mobilePhone: makeField(''),
+    preferredContactMethod: makeField(''),
     educationType: makeField(''),
     school: {
       name: makeField(''),
@@ -125,6 +130,11 @@ export function createVeteran() {
         postalCode: makeField('')
       },
       phone: makeField('')
+    },
+    bankAccount: {
+      accountType: makeField(''),
+      accountNumber: makeField(''),
+      routingNumber: makeField('')
     }
   };
 }

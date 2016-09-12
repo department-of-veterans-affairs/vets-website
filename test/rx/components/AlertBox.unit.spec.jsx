@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import AlertBox from '../../../src/js/rx/components/AlertBox.jsx';
+import AlertBox from '../../../src/js/common/components/AlertBox.jsx';
 
 // Placeholder for required "content" element
 const Content = (<p/>);

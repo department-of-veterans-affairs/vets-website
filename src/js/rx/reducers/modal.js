@@ -26,33 +26,33 @@ export default function modal(state = initialState, action) {
       return {
         refill: {
           visible: false,
-          content: null
+          prescription: null
         },
         glossary: {
           visible: false,
           content: null
-        }
-      };
-    case 'CLOSE_GLOSSARY_MODAL':
-      return {
-        refill: {
-          visible: false,
-          content: null
-        },
-        glossary: {
-          visible: false,
-          content: action.content
         }
       };
     case 'OPEN_GLOSSARY_MODAL':
       return {
         refill: {
           visible: false,
-          content: null
+          prescription: null
         },
         glossary: {
           visible: true,
           content: action.content
+        }
+      };
+    case 'CLOSE_GLOSSARY_MODAL':
+      return {
+        refill: {
+          visible: false,
+          prescription: null
+        },
+        glossary: {
+          visible: false,
+          content: null
         }
       };
     default:

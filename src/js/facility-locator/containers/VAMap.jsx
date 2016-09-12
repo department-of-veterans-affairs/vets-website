@@ -20,7 +20,7 @@ class VAMap extends Component {
     const { location } = this.props;
     const { shouldGeolocate } = this.state;
 
-    // TODO (bshyong): use reverse Geocoding API (mapbox?) to translate coords to addresses
+
     // TODO (bshyong): move geolocation/geocoding functionality to another function
     this.mapElement = this.refs.map.leafletElement.getBounds();
     if ('geolocation' in navigator && shouldGeolocate) {
@@ -36,12 +36,7 @@ class VAMap extends Component {
             return `${k}=${v}`;
           }).join('&');
           browserHistory.push(`${location.pathname}?${queryParams}`);
-          // console.log('geolocate successful');
-          // L.mapbox.geocoder('mapbox.places').reverseQuery(
-          //   [position.coords.longitude, position.coords.latitude], (err, data) => {
-          //     console.log(data);
-          //   }
-          // );
+          // TODO (bshyong): use reverse Geocoding API (mapbox?) to translate coords to addresses
         });
       });
     }

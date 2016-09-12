@@ -1605,6 +1605,17 @@ const schoolTypes = [
   { label: 'Tuition assistance top-up', value: 'tuitionTopUp' }
 ];
 
+const contactOptions = [
+  { label: 'Email', value: 'email' },
+  { label: 'Phone', value: 'phone' },
+  { label: 'Mail', value: 'mail' }
+];
+
+const accountTypes = [
+  { label: 'Checking', value: 'checking' },
+  { label: 'Savings', value: 'savings' }
+];
+
 module.exports = {
   countries,
   maritalStatuses,
@@ -1621,5 +1632,7 @@ module.exports = {
   yesNoNA,
   serviceBranches,
   schoolTypes,
-  employmentPeriodTiming
+  employmentPeriodTiming,
+  contactOptions,
+  accountTypes
 };
