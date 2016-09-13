@@ -1,7 +1,5 @@
 @import "../style";
 
-@import "_partials/messaging-thread";
-
 #messaging-app {
   margin: auto;
   max-width: $site-max-width;
@@ -26,4 +24,6 @@
   width: 80%;
 }
 
+@import "partials/messaging-btn-delete";
 @import "partials/message-category";
+@import "partials/messaging-thread";
