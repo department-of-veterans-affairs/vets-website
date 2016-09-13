@@ -8,13 +8,7 @@ import Address from '../../common/components/questions/Address';
 
 import { validateIfDirtyDateObj, isValidFutureOrPastDateField } from '../utils/validations';
 import { schoolTypes } from '../utils/options-for-select';
-
-function showSchoolAddress(educationType) {
-  return educationType === 'college'
-    || educationType === 'flightTraining'
-    || educationType === 'apprenticeship'
-    || educationType === 'correspondence';
-}
+import { showSchoolAddress } from '../utils/helpers';
 
 export default class SchoolSelectionFields extends React.Component {
   render() {
