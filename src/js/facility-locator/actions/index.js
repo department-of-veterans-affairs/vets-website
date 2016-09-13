@@ -104,10 +104,12 @@ export function fetchVAFacilities() {
     type: FETCH_VA_FACILITIES,
     payload: [
       {
+        id: 1,
         name: 'VA Facility One',
         coord: [38.89767, -77.0365]
       },
       {
+        id: 2,
         name: 'VA Facility Two',
         coord: [38.89769, -77.0369]
       }

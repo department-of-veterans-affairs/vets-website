@@ -27,8 +27,14 @@ class VAMap extends Component {
     const { shouldGeolocate, position } = this.state;
 
     if (location.query.address) {
+      // populate search bar with address in Url
       this.props.updateSearchQuery(location.query.address);
     }
+
+    this.props.fetchVAFacilities({
+      latitude: position[0],
+      longitude: position[1],
+    });
 
     this.mapElement = this.refs.map.leafletElement.getBounds();
     if ('geolocation' in navigator && shouldGeolocate) {
@@ -39,7 +45,7 @@ class VAMap extends Component {
           this.updateUrlParams({
             location: [currentPosition.coords.latitude, currentPosition.coords.longitude].join(','),
           });
-
+          this.props.fetchVAFacilities(currentPosition.coords);
           this.reverseGeocode(currentPosition.coords);
         });
       });
