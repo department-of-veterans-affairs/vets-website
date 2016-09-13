@@ -4,6 +4,7 @@ export function getPageList(routes) {
   return routes.map(route => {
     const obj = {
       name: route.props.path,
+      label: route.props.name
     };
     if (route.props.depends) {
       obj.depends = route.props.depends;
@@ -48,3 +49,22 @@ export const chapterNames = {
   schoolSelection: 'School Selection',
   review: 'Review'
 };
+
+export function getLabel(options, value) {
+  const matched = _.find(options, option => option.value === value);
+
+  return matched ? matched.label : null;
+}
+
+export function getActivePages(pages, data) {
+  return pages.filter(page => {
+    return page.depends === undefined || _.matches(page.depends)(data);
+  });
+}
+
+export function showSchoolAddress(educationType) {
+  return educationType === 'college'
+    || educationType === 'flightTraining'
+    || educationType === 'apprenticeship'
+    || educationType === 'correspondence';
+}
