@@ -9,8 +9,8 @@ import {
 
 const initialState = {
   currentItem: {
-    messages: [],
-    attrs: {}
+    id: null,
+    messages: []
   },
   items: []
 };
@@ -22,13 +22,12 @@ export default function folders(state = initialState, action) {
       return set('items', items, state);
     }
     case FETCH_FOLDER_SUCCESS: {
-      const data = action.data.data;
-      const meta = action.data.meta;
+      const id = action.data.meta.id;
+      const messages = action.data.data.map(
+        message => message.attributes
+      );
+      const newItem = { id, messages };
 
-      const attrs = state.items.find(folder => folder.folder_id === meta.id);
-      const messages = data.map(message => message.attributes);
-
-      const newItem = { attrs, messages };
       return set('currentItem', newItem, state);
     }
     case FETCH_FOLDERS_FAILURE:

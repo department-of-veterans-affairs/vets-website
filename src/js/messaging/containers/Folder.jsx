@@ -24,8 +24,8 @@ class Folder extends React.Component {
     let folderMessages;
 
     if (folder) {
-      if (!_.isEmpty(folder.attrs)) {
-        folderName = folder.attrs.name;
+      if (!_.isEmpty(folder.attributes)) {
+        folderName = folder.attributes.name;
       }
 
       const rows = folder.messages.map(message => {
@@ -67,8 +67,14 @@ class Folder extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const id = state.folders.currentItem.id;
+  const attributes = state.folders.items.find(
+    folder => folder.folder_id === id
+  );
+  const messages = state.folders.currentItem.messages;
+
   return {
-    folder: state.folders.currentItem
+    folder: { attributes, messages }
   };
 };
 
