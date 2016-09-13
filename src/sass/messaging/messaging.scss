@@ -1,29 +1,7 @@
 @import "../style";
 
-#messaging-app {
-  margin: auto;
-  max-width: $site-max-width;
-  padding: 3rem 1.5rem;
-}
-
-#messaging-nav {
-  box-sizing: border-box;
-  display: inline-block;
-  width: 20%;
-
-  .rx-compose-button {
-    width: 100%;
-  }
-}
-
-#messaging-content {
-  box-sizing: border-box;
-  display: inline-block;
-  padding-left: 3rem;
-  vertical-align: top;
-  width: 80%;
-}
-
+@import "partials/messaging-app";
 @import "partials/messaging-btn-delete";
 @import "partials/message-category";
 @import "partials/messaging-thread";
+@import "partials/message-subject";
