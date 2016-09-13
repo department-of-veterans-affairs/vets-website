@@ -30,7 +30,6 @@ import BenefitsHistoryReview from './components/BenefitsHistoryReview';
 import BenefitsHistoryFields from './components/BenefitsHistoryFields';
 import DependentInformationPage from './containers/DependentInformationPage';
 import EducationHistoryPage from './containers/EducationHistoryPage';
-import SchoolSelectionPage from './containers/SchoolSelectionPage';
 import DependentInformationReview from './components/DependentInformationReview';
 import DependentInformationFields from './components/DependentInformationFields';
 import EmploymentHistoryPage from './containers/EmploymentHistoryPage';
