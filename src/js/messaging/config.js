@@ -26,7 +26,9 @@ module.exports = {
       value: 'Other'
     }
   ],
-
+  composeMessagePlaceholders: {
+    subject: 'Add an additional subject line'
+  },
   composeMessageErrors: {
     category: 'Please select a category.',
     subject: 'Please add subject description.',

@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { messageCategories, composeMessageErrors, composeMessagePlaceholders } from '../config';
+import {
+  messageCategories,
+  composeMessageErrors,
+  composeMessagePlaceholders
+} from '../config';
+
 import MessageCategory from '../components/compose/MessageCategory';
 import MessageSubject from '../components/compose/MessageSubject';
 import MessageRecipient from '../components/compose/MessageRecipient';
@@ -9,11 +14,13 @@ import {
   setCategory,
   setRecipient,
   setSubject,
+  setSubjectRequired,
   fetchRecipients
 } from '../actions/compose';
 
 class Compose extends React.Component {
   constructor() {
+    super();
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleSubjectChange = this.handleSubjectChange.bind(this);
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
@@ -32,8 +39,8 @@ class Compose extends React.Component {
     this.props.setSubject(valueObj);
   }
 
-  dispatchRecipientChange(event) {
-    this.props.setRecipient(event);
+  handleRecipientChange(valueObj) {
+    this.props.setRecipient(valueObj);
   }
 
   render() {
@@ -44,26 +51,6 @@ class Compose extends React.Component {
           <strong>Note:</strong> Messages may be saved to your health record at
           your team's discretion.
         </p>
-<<<<<<< 28c8e780f1b738c0fbcb50c64fbc43aeb8accd35
-        <fieldset className="messaging-subject-group">
-          <legend>Subject line:</legend>
-          <div>
-            <MessageCategory
-                categories={messageCategories}
-                errorMessage={composeMessageErrors.category}
-                onValueChange={this.handleCategoryChange}
-                value={this.props.compose.category}/>
-            <MessageSubject
-                additionalClass="messaging-subject-subject"
-                errorMessage={composeMessageErrors.subjet}
-                onValueChange={this.handleSubjectChange}
-                placeholder={composeMessagePlaceholders.subject}
-                required={this.props.compose.subject.required}
-                value={this.props.compose.subject.value}/>
-          </div>
-        </fieldset>
-=======
-
         <MessageRecipient
             categories={messageCategories}
             errorMessage={composeMessageErrors.recipient}
@@ -73,13 +60,15 @@ class Compose extends React.Component {
         <MessageCategory
             categories={messageCategories}
             errorMessage={composeMessageErrors.category}
-            onValueChange={this.dispatchCategoryChange}
+            onValueChange={this.handleCategoryChange}
             value={this.props.compose.category}/>
         <MessageSubject
-            errorMessage={composeMessageErrors.subjet}
-            onValueChange={this.dispatchSubjectChange}
-            value={this.props.compose.subject}/>
->>>>>>> Adds MessageRecipient component
+            additionalClass="messaging-subject-subject"
+            errorMessage={composeMessageErrors.subject}
+            onValueChange={this.handleSubjectChange}
+            placeholder={composeMessagePlaceholders.subject}
+            required={this.props.compose.subject.required}
+            value={this.props.compose.subject.value}/>
       </div>
     );
   }
@@ -93,12 +82,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setCategory,
   setSubject,
-<<<<<<< 28c8e780f1b738c0fbcb50c64fbc43aeb8accd35
-  setSubjectRequired
-=======
+  setSubjectRequired,
   setRecipient,
   fetchRecipients
->>>>>>> Adds MessageRecipient component
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);

@@ -1,21 +1,19 @@
 import React from 'react';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
-import { makeField } from '../../../common/model/fields.js';
+import { makeField } from '../../../common/model/fields';
 
 class MessageRecipient extends React.Component {
   render() {
     const recipientValue = makeField(this.props.value);
     return (
       <div className="messaging-recipient">
-        <div className="messaging-recipient">
-          <ErrorableSelect
-              label="Recipient:"
-              name="messageRecipient"
-              onValueChange={this.props.onValueChange}
-              options={this.props.options}
-              required
-              value={recipientValue}/>
-        </div>
+        <ErrorableSelect
+            label="To:"
+            name="messageRecipient"
+            onValueChange={this.props.onValueChange}
+            options={this.props.options}
+            required
+            value={recipientValue}/>
       </div>
     );
   }

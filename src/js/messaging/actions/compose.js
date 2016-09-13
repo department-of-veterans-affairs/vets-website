@@ -1,13 +1,13 @@
 export const SET_CATEGORY = 'SET_CATEGORY';
 export const SET_SUBJECT = 'SET_SUBJECT';
 export const SET_RECIPIENT = 'SET_RECIPIENT';
-
+export const SET_SUBJECT_REQUIRED = 'SET_SUBJECT_REQUIRED';
 export const FETCH_RECIPIENTS_SUCCESS = 'FETCH_RECIPIENTS_SUCCESS';
 export const FETCH_RECIPIENTS_FAILURE = 'FETCH_RECIPIENTS_FAILURE';
 
 const baseUri = 'http://mock-prescriptions-api.herokuapp.com/v0/messaging/health';
 
-export function setCategory(value) {
+export function setCategory(field) {
   return {
     type: SET_CATEGORY,
     field
@@ -31,10 +31,10 @@ export function setSubjectRequired(field) {
   };
 }
 
-export function setRecipient(recipient) {
+export function setRecipient(field) {
   return {
     type: SET_RECIPIENT,
-    recipient
+    field
   };
 }
 
