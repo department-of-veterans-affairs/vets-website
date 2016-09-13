@@ -17,11 +17,11 @@ export function setSubject(field) {
 }
 
 export function setSubjectRequired(field) {
-  const fieldstate = field;
-  fieldstate.required = field.value === 'Other';
+  const fieldState = field;
+  fieldState.required = field.value === 'Other';
 
   return {
     type: SET_SUBJECT_REQUIRED,
-    fieldstate
+    fieldState
   };
 }

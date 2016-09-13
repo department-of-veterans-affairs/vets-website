@@ -20,7 +20,7 @@ export default function compose(state = initialState, action) {
     case SET_SUBJECT:
       return set('subject.value', action.field.value, state);
     case SET_SUBJECT_REQUIRED:
-      return set('subject.required', action.fieldstate.required, state);
+      return set('subject.required', action.fieldState.required, state);
     default:
       return state;
   }
