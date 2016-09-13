@@ -15,13 +15,16 @@ import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
 
 import { isValidPage } from '../utils/validations';
-import { ensurePageInitialized, updateCompletedStatus } from '../actions/index';
+import { ensurePageInitialized, updateCompletedStatus, submitForm } from '../actions/index';
 
 
 class EduBenefitsApp extends React.Component {
   render() {
-    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete } = this.props;
+    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm } = this.props;
     const navigateTo = path => router.push(path);
+    const onSubmit = () => {
+      submitBenefitsForm(this.props.data);
+    };
 
     let devPanel = undefined;
     if (__BUILDTYPE__ === 'development') {
@@ -59,7 +62,8 @@ class EduBenefitsApp extends React.Component {
                 isValid={isValidPage(currentLocation.pathname, data)}
                 dirtyPage={dirtyPage}
                 onNavigate={navigateTo}
-                onComplete={setComplete}/>
+                onComplete={setComplete}
+                onSubmit={onSubmit}/>
           </div>
         </div>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
@@ -86,6 +90,9 @@ function mapDispatchToProps(dispatch) {
     },
     setComplete(page) {
       dispatch(updateCompletedStatus(page));
+    },
+    submitBenefitsForm(...args) {
+      dispatch(submitForm(...args));
     }
   };
 }

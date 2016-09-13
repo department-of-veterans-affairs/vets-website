@@ -1,4 +1,6 @@
+import _ from 'lodash/fp';
 import { makeField } from '../../common/model/fields';
+import { dateToMoment } from './helpers';
 
 export function createTour() {
   return {
@@ -177,4 +179,44 @@ export function createVeteran() {
       routingNumber: makeField('')
     }
   };
+}
+
+function convertFieldToValue(field) {
+  if (field.value !== undefined && field.dirty !== undefined) {
+    return field.value;
+  } else if (field.month !== undefined && field.year !== undefined && field.day !== undefined) {
+    return dateToMoment(field).format('YYYY-MM-DD');
+  } else if (_.isArray(field)) {
+    return field.map(convertFieldToValue);
+  } else if (_.isObject(field)) {
+    return Object.keys(field).reduce((fieldData, prop) => {
+      return _.set(prop, convertFieldToValue(field[prop]), fieldData);
+    }, {});
+  }
+
+  return field;
+}
+
+export function veteranToApplication(data) {
+  // Convert { value, dirty } to just the value
+  let vetData = convertFieldToValue(data);
+
+  // Replace Yes/No radio button values with booleans
+  const yesNoFields = [
+    'currentlyActiveDuty.yes',
+    'currentlyActiveDuty.onTerminalLeave',
+    'currentlyActiveDuty.nonVaAssistance',
+    'seniorRotcCommissioned',
+    'seniorRotcScholarshipProgram',
+    'activeDutyRepaying',
+    'serviceBefore1977.married',
+    'serviceBefore1977.haveDependents',
+    'serviceBefore1977.parentDependents',
+    'hasNonMilitaryJobs'
+  ];
+  yesNoFields.forEach(field => {
+    vetData = _.set(field, _.get(field, data) === 'Y', vetData);
+  });
+
+  return vetData;
 }

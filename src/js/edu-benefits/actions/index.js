@@ -1,3 +1,5 @@
+import { veteranToApplication } from '../utils/veteran';
+
 export const UPDATE_COMPLETED_STATUS = 'UPDATE_COMPLETED_STATUS';
 export const UPDATE_INCOMPLETE_STATUS = 'UPDATE_INCOMPLETE_STATUS';
 export const UPDATE_REVIEW_STATUS = 'UPDATE_REVIEW_STATUS';
@@ -81,5 +83,12 @@ export function updateSubmissionTimestamp(value) {
   return {
     type: UPDATE_SUBMISSION_TIMESTAMP,
     value
+  };
+}
+
+export function submitForm(data) {
+  console.log(veteranToApplication(data));
+  return dispatch => {
+    dispatch(updateSubmissionStatus(true));
   };
 }

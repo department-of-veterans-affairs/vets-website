@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import moment from 'moment';
 import { states } from './options-for-select';
+import { dateToMoment } from './helpers';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -30,14 +30,6 @@ function validateIfDirtyProvider(field1, field2, validator) {
   }
 
   return true;
-}
-
-function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value - 1,
-    day: dateField.day.value
-  });
 }
 
 function isBlank(value) {
