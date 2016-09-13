@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import ReviewCollapsiblePanel from '../../../src/js/edu-benefits/components/ReviewCollapsiblePanel';
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran';
 
-describe.only('<ReviewCollapsiblePanel>', () => {
+describe('<ReviewCollapsiblePanel>', () => {
   function FakeFields() {}
   function FakeReview() {}
   it('should render fields to update', () => {
