@@ -26,7 +26,6 @@ class Compose extends React.Component {
 
   dispatchCategoryChange(valueObj) {
     this.props.setCategory(valueObj);
-    this.props.setSubject(valueObj);
   }
 
   dispatchSubjectChange(valueObj) {
