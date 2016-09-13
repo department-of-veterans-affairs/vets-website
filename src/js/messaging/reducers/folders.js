@@ -10,7 +10,7 @@ import {
 const initialState = {
   currentItem: {
     messages: [],
-    name: ''
+    attrs: {}
   },
   items: []
 };
@@ -22,10 +22,13 @@ export default function folders(state = initialState, action) {
       return set('items', items, state);
     }
     case FETCH_FOLDER_SUCCESS: {
-      // TODO: Remove when the API supports getting getting any folder.
-      const name = 'Test Folder';
-      const messages = action.data.data.map(message => message.attributes);
-      const newItem = { name, messages };
+      const data = action.data.data;
+      const meta = action.data.meta;
+
+      const attrs = state.items.find(folder => folder.folder_id === meta.id);
+      const messages = data.map(message => message.attributes);
+
+      const newItem = { attrs, messages };
       return set('currentItem', newItem, state);
     }
     case FETCH_FOLDERS_FAILURE:

@@ -1,14 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 import { fetchFolder } from '../actions/folders';
 
 class Folder extends React.Component {
   componentWillMount() {
-    // TODO: When the API supports getting messages for any folder,
-    // fetch the folder with the id from the URL.
-    // const id = this.props.param.id
-    this.props.dispatch(fetchFolder());
+    const id = this.props.params.id;
+    this.props.fetchFolder(id);
+  }
+
+  componentDidUpdate(prevProps) {
+    const oldId = prevProps.params.id;
+    const newId = this.props.params.id;
+    if (oldId !== newId) {
+      this.props.fetchFolder(newId);
+    }
   }
 
   render() {
@@ -17,7 +24,9 @@ class Folder extends React.Component {
     let folderMessages;
 
     if (folder) {
-      folderName = folder.name;
+      if (!_.isEmpty(folder.attrs)) {
+        folderName = folder.attrs.name;
+      }
 
       const rows = folder.messages.map(message => {
         return (
@@ -63,4 +72,8 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Folder);
+const mapDispatchToProps = {
+  fetchFolder
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Folder);
