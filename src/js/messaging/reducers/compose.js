@@ -6,7 +6,7 @@ import {
   SET_SUBJECT,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_RECIPIENTS_FAILURE
-} from '../actions/compose.js';
+} from '../actions/compose';
 
 const initialState = {
   category: undefined,

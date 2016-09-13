@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { messageCategories, composeMessageErrors } from '../config.js';
+import { messageCategories, composeMessageErrors } from '../config';
 import MessageCategory from '../components/compose/MessageCategory';
 import MessageSubject from '../components/compose/MessageSubject';
 import MessageRecipient from '../components/compose/MessageRecipient';
