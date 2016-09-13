@@ -1,6 +1,9 @@
 module.exports = {
-// An array of objects containing the category name (label) and a
-// value for use with select, radio button inputs.
+  // Base URL to be used in API requests.
+  apiUrl: '/api/v0/messaging/health',
+
+  // An array of objects containing the category name (label) and a
+  // value for use with select, radio button inputs.
   messageCategories: [
     {
       label: 'Appointments',
@@ -23,5 +26,9 @@ module.exports = {
       value: 'Other'
     }
   ],
-  messageCategoryError: 'Please select a category'
+
+  composeMessageErrors: {
+    category: 'Please select a category.',
+    subject: 'Please add subject description.'
+  }
 };

@@ -1,0 +1,18 @@
+.messaging-btn-delete {
+  background: transparent;
+  color: $color-base;
+  
+  .fa-trash {
+    font-size: 1.5rem;
+  }
+  
+  span {
+    padding-left: .5rem;
+  }
+  
+  &:hover,
+  &:focus {
+    background: transparent;
+    color: $color-primary;
+  }
+}

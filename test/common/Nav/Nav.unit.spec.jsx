@@ -92,11 +92,14 @@ describe('<Nav>', () => {
       {
         path: '/some-url',
         name: 'Some url',
-        pages: [{ path: '/some-url/thing', name: 'Test', depends }]
+        pages: [{ path: '/some-url/thing', name: 'Test', depends }, { path: '/some-url/other-thing', name: 'Test' }]
       }
     ];
     const pages = {
       '/some-url/thing': {
+        complete: false
+      },
+      '/some-url/other-thing': {
         complete: false
       }
     };
@@ -120,11 +123,14 @@ describe('<Nav>', () => {
       {
         path: '/some-url',
         name: 'Some url',
-        pages: [{ path: '/some-url/thing', name: 'Test' }]
+        pages: [{ path: '/some-url/thing', name: 'Test' }, { path: '/some-url/other-thing', name: 'Test' }]
       }
     ];
     const pages = {
       '/some-url/thing': {
+        complete: false
+      },
+      '/some-url/other-thing': {
         complete: false
       }
     };
