@@ -8,9 +8,13 @@ class FolderNav extends React.Component {
   }
 
   makeFolderLink(folder) {
-    const unreadCount = folder.unread_count > 0
-                      ? ` (${folder.unread_count})`
-                      : '';
+    let count;
+
+    if (folder.name === 'Inbox' && folder.unread_count > 0) {
+      count = ` (${folder.unread_count})`;
+    } else if (folder.name === 'Drafts' && folder.count > 0) {
+      count = ` (${folder.count})`;
+    }
 
     return (
       <Link
@@ -18,7 +22,7 @@ class FolderNav extends React.Component {
           className="messaging-folder-nav-link"
           to={`/messaging/folder/${folder.folder_id}`}>
         {folder.name}
-        {unreadCount}
+        {count}
       </Link>
     );
   }
@@ -44,6 +48,7 @@ FolderNav.propTypes = {
       /* eslint-disable */
       folder_id: React.PropTypes.number.isRequired,
       name: React.PropTypes.string.isRequired,
+      count: React.PropTypes.number.isRequired,
       unread_count: React.PropTypes.number.isRequired
       /* eslint-enable */
     })
