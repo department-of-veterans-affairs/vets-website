@@ -30,7 +30,6 @@ class VAMap extends Component {
       this.props.updateSearchQuery(location.query.address);
     }
 
-    // TODO (bshyong): move geolocation/geocoding functionality to another function
     this.mapElement = this.refs.map.leafletElement.getBounds();
     if ('geolocation' in navigator && shouldGeolocate) {
       navigator.geolocation.getCurrentPosition((currentPosition) => {
