@@ -7,24 +7,24 @@ export const FETCH_RECIPIENTS_FAILURE = 'FETCH_RECIPIENTS_FAILURE';
 
 const baseUri = 'http://mock-prescriptions-api.herokuapp.com/v0/messaging/health';
 
-export function setCategory(value) {
+export function setCategory(field) {
   return {
     type: SET_CATEGORY,
-    value
+    field
   };
 }
 
-export function setSubject(value) {
+export function setSubject(field) {
   return {
     type: SET_SUBJECT,
-    value
+    field
   };
 }
 
-export function setRecipient(recipient) {
+export function setRecipient(field) {
   return {
     type: SET_RECIPIENT,
-    recipient
+    field
   };
 }
 

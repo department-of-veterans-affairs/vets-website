@@ -32,11 +32,11 @@ function getRecipients(recipients) {
 export default function compose(state = initialState, action) {
   switch (action.type) {
     case SET_CATEGORY:
-      return set('category', action.value.value, state);
+      return set('category', action.field.value, state);
     case SET_SUBJECT:
-      return set('subject', action.value.value, state);
+      return set('subject', action.field.value, state);
     case SET_RECIPIENT:
-      return set('recipient', action.recipient.value, state);
+      return set('recipient', action.field.value, state);
     case FETCH_RECIPIENTS_SUCCESS:
       return set('recipients', getRecipients(action.recipients.data), state);
     case FETCH_RECIPIENTS_FAILURE:
