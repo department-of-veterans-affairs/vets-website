@@ -30,7 +30,7 @@ import BenefitsHistoryReview from './components/BenefitsHistoryReview';
 import BenefitsHistoryFields from './components/BenefitsHistoryFields';
 import DependentInformationPage from './containers/DependentInformationPage';
 import EducationHistoryPage from './containers/EducationHistoryPage';
-import SchoolSelectionPage from './containers/SchoolSelectionPage';
+import EducationHistoryReview from './components/EducationHistoryReview';
 import DependentInformationReview from './components/DependentInformationReview';
 import DependentInformationFields from './components/DependentInformationFields';
 import EmploymentHistoryPage from './containers/EmploymentHistoryPage';
@@ -123,6 +123,7 @@ const routes = [
       name="Dependents"/>,
   <Route
       component={EducationHistoryPage}
+      reviewComponent={EducationHistoryReview}
       key="/education-history/education-information"
       path="/education-history/education-information"
       chapter={chapterNames.educationHistory}
