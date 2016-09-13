@@ -64,7 +64,7 @@ class ReviewPage extends React.Component {
         // TODO(crew): We need to figure out why the css isn't working here.
         <div className="usa-alert usa-alert-success">
           <div className="usa-alert-body">
-            <h3 className="usa-alert-heading">You have submitted your application for health care!</h3>
+            <h3 className="usa-alert-heading">You have submitted your application for education benefits!</h3>
             <p className="usa-alert-text">We are processing your application. You should receive a phone call from the VA in the next week.</p>
             <p className="usa-alert-text">If you do not receive a call from the VA within a week, or you have questions, call 1-877-222-VETS (8387) and press 2.</p>
           </div>

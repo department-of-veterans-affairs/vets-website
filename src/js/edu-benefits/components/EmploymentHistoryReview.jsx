@@ -11,7 +11,7 @@ export default class EmploymentHistoryReview extends React.Component {
           <tbody>
             <tr>
               <td>Have you held a license or journeyman rating to practice a profession??</td>
-              <td>{this.props.data.hasNonMilitaryJobs.value}</td>
+              <td>{this.props.data.hasNonMilitaryJobs.value === 'Y' ? 'Yes' : 'No'}</td>
             </tr>
           </tbody>
         </table>

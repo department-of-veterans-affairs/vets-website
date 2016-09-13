@@ -6,7 +6,7 @@ import GrowableTable from '../../common/components/form-elements/GrowableTable';
 import EmploymentPeriod from './EmploymentPeriod';
 import { createEmploymentPeriod } from '../utils/veteran';
 
-import { isValidSection } from '../utils/validations';
+import { isValidPage } from '../utils/validations';
 import { yesNo } from '../utils/options-for-select';
 
 export default class EmploymentHistoryFields extends React.Component {
@@ -41,7 +41,7 @@ export default class EmploymentHistoryFields extends React.Component {
                 onRowsUpdate={(update) => {this.props.onStateChange('nonMilitaryJobs', update);}}
                 path="/employment-history/employment-information"
                 rows={this.props.data.nonMilitaryJobs}
-                isValidSection={isValidSection}/>
+                isValidSection={isValidPage}/>
           </div>
         </div>
       : null}

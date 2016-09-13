@@ -53,7 +53,7 @@ export default class SchoolSelectionReview extends React.Component {
           </tr>
           <tr>
             <td>Do you know when your training will begin?</td>
-            <td>{this.props.data.educationStartDate.month.value ? `${this.props.data.educationStartDate.month.value}/${this.props.data.school.educationStartDate.day.value}/${this.props.data.school.educationStartDate.year.value}` : null}</td>
+            <td>{this.props.data.educationStartDate.month.value ? `${this.props.data.educationStartDate.month.value}/${this.props.data.educationStartDate.day.value}/${this.props.data.educationStartDate.year.value}` : null}</td>
           </tr>
         </tbody>
       </table>

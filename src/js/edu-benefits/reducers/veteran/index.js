@@ -1,10 +1,10 @@
 import _ from 'lodash/fp';
 
 import { VETERAN_FIELD_UPDATE, ENSURE_FIELDS_INITIALIZED } from '../../actions';
-import { createPopulatedVeteran } from '../../utils/veteran';
+import { createVeteran } from '../../utils/veteran';
 import { dirtyAllFields } from '../../../common/model/fields';
 
-const blankVeteran = createPopulatedVeteran();
+const blankVeteran = createVeteran();
 
 export default function veteran(state = blankVeteran, action) {
   switch (action.type) {

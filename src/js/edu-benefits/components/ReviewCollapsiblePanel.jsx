@@ -61,77 +61,57 @@ export default class ReviewCollapsiblePanel extends React.Component {
     this.scrollToTop();
   }
 
-  render() {
-    let panelAction;
-    let buttonGroup;
-    let hiddenpage;
-    let scrollHelper;
-    const currentPath = this.props.updatePath;
-    const pagesComplete = this.props.uiData.pages[currentPath].complete;
-    const pagesVerified = this.props.uiData.pages[currentPath].verified;
+  allPreviousPagesVerified(pageState, data, currentPath) {
     const filteredPages = pages.filter(page => {
-      return page.depends === undefined || _.matches(page.depends)(this.props.data);
+      return page.depends === undefined || _.matches(page.depends)(data);
     });
     const pageIndex = filteredPages.map(page => page.name).indexOf(currentPath);
     const prevPath = filteredPages[pageIndex - 1].name;
+    return pageIndex === 1 || pageState[prevPath].verified;
+  }
 
+  render() {
+    const currentPath = this.props.updatePath;
+    const pageComplete = this.props.uiData.pages[currentPath].complete;
+    const pageVerified = this.props.uiData.pages[currentPath].verified;
+
+    const prevPagesVerified = this.allPreviousPagesVerified(this.props.uiData.pages, this.props.data, currentPath);
+    const panelActive = !pageVerified && prevPagesVerified;
+
+    const editButtonVisible = (pageVerified || pageComplete) && prevPagesVerified;
+    const nextButtonVisible = !pageVerified && pageComplete && prevPagesVerified;
+
+    const editButtonClasses = pageVerified ? 'medium-6 medium-offset-6 columns' : 'small-6 columns';
     const buttonEdit = (
-      <button
-          className="edit-btn primary-outline"
-          onClick={this.handleEdit}><i className="fa before-text fa-pencil"></i>Edit</button>
+      <div className={editButtonClasses}>
+        <button
+            className="edit-btn primary-outline"
+            onClick={this.handleEdit}><i className="fa before-text fa-pencil"></i>Edit</button>
+      </div>
     );
-
     const buttonNext = (
-      <button
-          className="edit-btn"
-          onClick={this.handleNext}>Next<i className="fa after-text fa-angle-double-right"></i></button>
+      <div className="small-6 columns">
+        <button
+            className="edit-btn"
+            onClick={this.handleNext}>Next<i className="fa after-text fa-angle-double-right"></i></button>
+      </div>
     );
 
-    if (pagesComplete) {
-      buttonGroup = (<div>
-        <div className="small-6 columns">
-          {buttonEdit}
-        </div>
-        <div className="small-6 columns">
-          {buttonNext}
-        </div>
+    const panelAction = (<button
+        className="usa-button-outline"
+        onClick={this.handleSave}>Update page</button>
+    );
+
+    const pageContent = (
+      <div id={`collapsible-${this.id}`} className="usa-accordion-content">
+          {pageComplete ? this.props.reviewComponent : this.props.component}
+          {!pageComplete ? panelAction : null}
       </div>
-      );
-    } else {
-      panelAction = (<button
-          className="usa-button-outline"
-          onClick={this.handleSave}>Update page</button>
-        );
-    }
-
-    if (pagesVerified) {
-      hiddenpage = (<div></div>);
-      buttonGroup = (<div>
-        <div className="medium-6 medium-offset-6 columns">
-          {buttonEdit}
-        </div>
-      </div>
-      );
-    } else {
-      if (this.props.uiData.pages[prevPath].verified || currentPath === '/veteran-information/personal-information') {
-        scrollHelper = (<Element name="topScrollReviewPanel"/>);
-        hiddenpage = (
-          <div id={`collapsible-${this.id}`} className="usa-accordion-content">
-              {pagesComplete ? this.props.reviewComponent : this.props.component}
-              {panelAction}
-          </div>
-        );
-      } else {
-        hiddenpage = (<div></div>);
-
-        buttonGroup = (<div></div>);
-      }
-    }
-
+    );
 
     return (
       <div id={`${this.id}-collapsiblePanel`} className="usa-accordion-bordered form-review-panel">
-        {scrollHelper}
+        {panelActive ? <Element name="topScrollReviewPanel"/> : null}
         <ul className="usa-unstyled-list">
           <li>
             <div className="accordion-header clearfix" aria-expanded="true" aria-controls={`collapsible-${this.id}`}>
@@ -139,10 +119,13 @@ export default class ReviewCollapsiblePanel extends React.Component {
                 {this.props.pageLabel}
               </div>
               <div className="medium-7 columns">
-                {buttonGroup}
+                <div>
+                  {editButtonVisible ? buttonEdit : null}
+                  {nextButtonVisible ? buttonNext : null}
+                </div>
               </div>
             </div>
-            {hiddenpage}
+            {panelActive ? pageContent : null}
           </li>
         </ul>
       </div>
@@ -151,7 +134,14 @@ export default class ReviewCollapsiblePanel extends React.Component {
 }
 
 ReviewCollapsiblePanel.propTypes = {
+  data: React.PropTypes.object.isRequired,
+  uiData: React.PropTypes.object.isRequired,
   pageLabel: React.PropTypes.string.isRequired,
   updatePath: React.PropTypes.string.isRequired,
-  component: React.PropTypes.object.isRequired
+  component: React.PropTypes.object.isRequired,
+  reviewComponent: React.PropTypes.object.isRequired,
+  onFieldsInitialized: React.PropTypes.func.isRequired,
+  onUpdateSaveStatus: React.PropTypes.func.isRequired,
+  onUpdateVerifiedStatus: React.PropTypes.func.isRequired,
+  onUpdateEditStatus: React.PropTypes.func.isRequired
 };
