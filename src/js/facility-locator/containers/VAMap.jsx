@@ -109,7 +109,7 @@ class VAMap extends Component {
                 attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
             <Marker position={position}>
               <Popup>
-                <span>A pretty CSS3 popup.<br/>Easily customizable.</span>
+                <span>You are here.</span>
               </Popup>
             </Marker>
             <TownHall position={[38.8983294, -77.0295762]}>
