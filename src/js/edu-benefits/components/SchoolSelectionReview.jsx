@@ -1,14 +1,7 @@
 import React from 'react';
 
-import { getLabel } from '../utils/helpers';
+import { getLabel, showSchoolAddress } from '../utils/helpers';
 import { schoolTypes } from '../utils/options-for-select';
-
-function showSchoolAddress(educationType) {
-  return educationType === 'college'
-    || educationType === 'flightTraining'
-    || educationType === 'apprenticeship'
-    || educationType === 'correspondence';
-}
 
 export default class SchoolSelectionReview extends React.Component {
   render() {

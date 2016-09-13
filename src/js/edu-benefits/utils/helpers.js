@@ -55,3 +55,16 @@ export function getLabel(options, value) {
 
   return matched ? matched.label : null;
 }
+
+export function getActivePages(pages, data) {
+  return pages.filter(page => {
+    return page.depends === undefined || _.matches(page.depends)(data);
+  });
+}
+
+export function showSchoolAddress(educationType) {
+  return educationType === 'college'
+    || educationType === 'flightTraining'
+    || educationType === 'apprenticeship'
+    || educationType === 'correspondence';
+}
