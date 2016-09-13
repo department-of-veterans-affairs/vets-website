@@ -24,6 +24,17 @@
   white-space: nowrap;
 }
 
+.messaging-folder-nav-actions {
+  a {
+    color: $color-primary;
+    text-decoration: underline;
+
+    i {
+      text-decoration: inherit;
+    }
+  }
+}
+
 #messaging-content {
   box-sizing: border-box;
   display: inline-block;

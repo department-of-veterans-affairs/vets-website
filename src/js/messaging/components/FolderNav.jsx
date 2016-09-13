@@ -32,9 +32,23 @@ class FolderNav extends React.Component {
       return <li key={i}>{this.makeFolderLink(folder)}</li>;
     });
 
+    const folderActions = (
+      <li className="messaging-folder-nav-actions">
+        <a>
+          <i className="fa fa-folder"></i>
+          &nbsp;Manage folders
+        </a>
+        <a>
+          <i className="fa fa-plus"></i>
+          &nbsp;Create new folder
+        </a>
+      </li>
+    );
+
     return (
       <ul className="messaging-folder-nav usa-sidenav-list">
         {folderList}
+        {folderActions}
       </ul>
     );
   }
