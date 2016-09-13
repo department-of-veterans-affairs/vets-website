@@ -29,7 +29,27 @@ export default class EducationHistoryReview extends React.Component {
               </tr>
               <tr>
                 <td scope="col">State</td>
-                <td>{period.state.value}</td>
+                <td scope="col">{period.state.value}</td>
+              </tr>
+              <tr>
+                <td scope="col">From</td>
+                <td scope="col">{period.fromDate.value ? `${period.fromDate.value}/${period.fromDate.value}/${period.fromDate.value}` : null}</td>
+              </tr>
+              <tr>
+                <td scope="col">To</td>
+                <td scope="col">{period.toDate.value ? `${period.toDate.value}/${period.toDate.value}/${period.toDate.value}` : null}</td>
+              </tr>
+              <tr>
+                <td scope="col">Hours</td>
+                <td scope="col">{period.state.hours}</td>
+              </tr>
+              <tr>
+                <td scope="col">Type of hours</td>
+                <td scope="col">{period.state.hoursType}</td>
+              </tr>
+              <tr>
+                <td scope="col">Degree, diploma or certificate received</td>
+                <td scope="col">{period.state.degreeReceived}</td>
               </tr>
             </tbody>
           </table>
