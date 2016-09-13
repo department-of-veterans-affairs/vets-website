@@ -6,7 +6,7 @@ import GrowableTable from '../../common/components/form-elements/GrowableTable';
 import EducationPeriod from './EducationPeriod';
 import { createEducationPeriod } from '../utils/veteran';
 
-import { isValidSection } from '../utils/validations';
+import { isValidSection, isValidDate } from '../utils/validations';
 
 export default class EducationHistoryFields extends React.Component {
   render() {
@@ -22,18 +22,19 @@ export default class EducationHistoryFields extends React.Component {
     ];
 
     const completionDate = this.props.data.highSchoolOrGedCompletionDate;
+    const { day, month, year } = completionDate;
 
     return (<fieldset>
       <div className="input-section">
         <DateInput
             label="If you received a high school diploma or high school equivalency certificate, what date was it received? (month, day, year)"
             name="highSchoolOrGedCompletionDate"
-            day={completionDate.day}
-            month={completionDate.month}
-            year={completionDate.year}
-            onValueChange={(update) => {this.props.onValueChange('completionDate', update);}}/>
+            day={day}
+            month={month}
+            year={year}
+            onValueChange={(update) => {this.props.onStateChange('highSchoolOrGedCompletionDate', update);}}/>
       </div>
-      {this.props.data.highSchoolOrGedCompletionDate.value !== ''
+      {isValidDate(day.value, month.value, year.value)
         ? <div className="input-section">
           <h4>Education after High School (Including apprenticeship, on-the-job training, and flight training)</h4>
           <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
