@@ -4,41 +4,31 @@ import { Route } from 'react-router';
 import { chapterNames, groupPagesIntoChapters, getPageList } from './utils/helpers';
 
 import IntroductionPage from './containers/IntroductionPage.jsx';
-import PersonalInformationPage from './containers/veteran-information/PersonalInformationPage';
 import PersonalInformationReview from './components/veteran-information/PersonalInformationReview';
 import PersonalInformationFields from './components/veteran-information/PersonalInformationFields';
-import ContactInformationPage from './containers/veteran-information/ContactInformationPage';
 import ContactInformationReview from './components/veteran-information/ContactInformationReview';
 import ContactInformationFields from './components/veteran-information/ContactInformationFields';
-import SecondaryContactPage from './containers/veteran-information/SecondaryContactPage';
 import SecondaryContactReview from './components/veteran-information/SecondaryContactReview';
 import SecondaryContactFields from './components/veteran-information/SecondaryContactFields';
-import DirectDepositPage from './containers/veteran-information/DirectDepositPage';
 import DirectDepositReview from './components/veteran-information/DirectDepositReview';
 import DirectDepositFields from './components/veteran-information/DirectDepositFields';
-import BenefitsSelectionPage from './containers/BenefitsSelectionPage';
-import BenefitsSelectionReview from './components/BenefitsSelectionReview';
-import BenefitsSelectionFields from './components/BenefitsSelectionFields';
-import MilitaryServicePage from './containers/MilitaryServicePage';
-import MilitaryServiceReview from './components/MilitaryServiceReview';
-import MilitaryServiceFields from './components/MilitaryServiceFields';
-import RotcHistoryPage from './containers/RotcHistoryPage';
-import RotcHistoryReview from './components/RotcHistoryReview';
-import RotcHistoryFields from './components/RotcHistoryFields';
-import BenefitsHistoryPage from './containers/BenefitsHistoryPage';
-import BenefitsHistoryReview from './components/BenefitsHistoryReview';
-import BenefitsHistoryFields from './components/BenefitsHistoryFields';
-import DependentInformationPage from './containers/DependentInformationPage';
-import EducationHistoryPage from './containers/EducationHistoryPage';
-import DependentInformationReview from './components/DependentInformationReview';
-import DependentInformationFields from './components/DependentInformationFields';
-import EmploymentHistoryPage from './containers/EmploymentHistoryPage';
-import EmploymentHistoryReview from './components/EmploymentHistoryReview';
-import EmploymentHistoryFields from './components/EmploymentHistoryFields';
-import SchoolSelectionPage from './containers/SchoolSelectionPage';
-import SchoolSelectionReview from './components/SchoolSelectionReview';
-import SchoolSelectionFields from './components/SchoolSelectionFields';
+import BenefitsSelectionReview from './components/benefits-eligibility/BenefitsSelectionReview';
+import BenefitsSelectionFields from './components/benefits-eligibility/BenefitsSelectionFields';
+import MilitaryServiceReview from './components/military-history/MilitaryServiceReview';
+import MilitaryServiceFields from './components/military-history/MilitaryServiceFields';
+import RotcHistoryReview from './components/military-history/RotcHistoryReview';
+import RotcHistoryFields from './components/military-history/RotcHistoryFields';
+import BenefitsHistoryReview from './components/military-history/BenefitsHistoryReview';
+import BenefitsHistoryFields from './components/military-history/BenefitsHistoryFields';
+import DependentInformationReview from './components/military-history/DependentInformationReview';
+import DependentInformationFields from './components/military-history/DependentInformationFields';
+import EmploymentHistoryReview from './components/employment-history/EmploymentHistoryReview';
+import EmploymentHistoryFields from './components/employment-history/EmploymentHistoryFields';
+import SchoolSelectionReview from './components/school-selection/SchoolSelectionReview';
+import SchoolSelectionFields from './components/school-selection/SchoolSelectionFields';
+import EducationHistoryFields from './components/education-history/EducationHistoryFields';
 import ReviewPage from './containers/ReviewPage';
+import FormPage from './containers/FormPage';
 import PlaceholderPage from './containers/PlaceholderPage';
 
 const routes = [
@@ -48,7 +38,7 @@ const routes = [
       key="/introduction"
       path="/introduction"/>,
   <Route
-      component={PersonalInformationPage}
+      component={FormPage}
       fieldsComponent={PersonalInformationFields}
       reviewComponent={PersonalInformationReview}
       key="/veteran-information/personal-information"
@@ -56,7 +46,7 @@ const routes = [
       chapter={chapterNames.veteranInformation}
       name="Personal Information"/>,
   <Route
-      component={ContactInformationPage}
+      component={FormPage}
       fieldsComponent={ContactInformationFields}
       reviewComponent={ContactInformationReview}
       key="/veteran-information/contact-information"
@@ -64,7 +54,7 @@ const routes = [
       chapter={chapterNames.veteranInformation}
       name="Contact Information"/>,
   <Route
-      component={SecondaryContactPage}
+      component={FormPage}
       fieldsComponent={SecondaryContactFields}
       reviewComponent={SecondaryContactReview}
       key="/veteran-information/secondary-contact"
@@ -72,7 +62,7 @@ const routes = [
       chapter={chapterNames.veteranInformation}
       name="Secondary Contact"/>,
   <Route
-      component={DirectDepositPage}
+      component={FormPage}
       fieldsComponent={DirectDepositFields}
       reviewComponent={DirectDepositReview}
       key="/veteran-information/direct-deposit"
@@ -80,7 +70,7 @@ const routes = [
       chapter={chapterNames.veteranInformation}
       name="Direct Deposit"/>,
   <Route
-      component={BenefitsSelectionPage}
+      component={FormPage}
       fieldsComponent={BenefitsSelectionFields}
       reviewComponent={BenefitsSelectionReview}
       key="/benefits-eligibility/benefits-selection"
@@ -88,7 +78,7 @@ const routes = [
       chapter={chapterNames.benefitsEligibility}
       name="Benefits Selection"/>,
   <Route
-      component={MilitaryServicePage}
+      component={FormPage}
       fieldsComponent={MilitaryServiceFields}
       reviewComponent={MilitaryServiceReview}
       key="/military-history/military-service"
@@ -96,7 +86,7 @@ const routes = [
       chapter={chapterNames.militaryHistory}
       name="Military Service"/>,
   <Route
-      component={RotcHistoryPage}
+      component={FormPage}
       fieldsComponent={RotcHistoryFields}
       reviewComponent={RotcHistoryReview}
       key="/military-history/rotc-history"
@@ -105,7 +95,7 @@ const routes = [
       chapter={chapterNames.militaryHistory}
       name="ROTC History"/>,
   <Route
-      component={BenefitsHistoryPage}
+      component={FormPage}
       fieldsComponent={BenefitsHistoryFields}
       reviewComponent={BenefitsHistoryReview}
       key="/military-history/benefits-history"
@@ -113,7 +103,7 @@ const routes = [
       chapter={chapterNames.militaryHistory}
       name="Benefits History"/>,
   <Route
-      component={DependentInformationPage}
+      component={FormPage}
       fieldsComponent={DependentInformationFields}
       reviewComponent={DependentInformationReview}
       key="/military-history/dependents"
@@ -121,13 +111,15 @@ const routes = [
       chapter={chapterNames.militaryHistory}
       name="Dependents"/>,
   <Route
-      component={EducationHistoryPage}
+      component={FormPage}
+      fieldsComponent={EducationHistoryFields}
+      reviewComponent={EmploymentHistoryReview}
       key="/education-history/education-information"
       path="/education-history/education-information"
       chapter={chapterNames.educationHistory}
       name="Education History"/>,
   <Route
-      component={EmploymentHistoryPage}
+      component={FormPage}
       fieldsComponent={EmploymentHistoryFields}
       reviewComponent={EmploymentHistoryReview}
       key="/employment-history/employment-information"
@@ -135,7 +127,7 @@ const routes = [
       chapter={chapterNames.employmentHistory}
       name="Employment History"/>,
   <Route
-      component={SchoolSelectionPage}
+      component={FormPage}
       fieldsComponent={SchoolSelectionFields}
       reviewComponent={SchoolSelectionReview}
       key="/school-selection/school-information"

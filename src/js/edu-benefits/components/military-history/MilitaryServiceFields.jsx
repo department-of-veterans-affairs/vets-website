@@ -1,14 +1,14 @@
 import React from 'react';
 
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import GrowableTable from '../../common/components/form-elements/GrowableTable';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 
 import MilitaryServiceTour from './MilitaryServiceTour';
-import { createTour } from '../utils/veteran';
+import { createTour } from '../../utils/veteran';
 
-import { validateIfDirty, isNotBlank, isValidYear, isValidPage } from '../utils/validations';
-import { yesNo } from '../utils/options-for-select';
+import { validateIfDirty, isNotBlank, isValidYear, isValidPage } from '../../utils/validations';
+import { yesNo } from '../../utils/options-for-select';
 
 export default class MilitaryServiceFields extends React.Component {
   render() {
