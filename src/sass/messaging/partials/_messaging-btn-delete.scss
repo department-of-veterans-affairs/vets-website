@@ -12,9 +12,7 @@
   
   &:hover,
   &:focus {
-    // Copies styles from the usa-button-outline class
     background: transparent;
-    box-shadow: inset 0 0 0 2px $color-primary;
     color: $color-primary;
   }
 }
