@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { getLabel, showSchoolAddress } from '../utils/helpers';
-import { schoolTypes } from '../utils/options-for-select';
+import { getLabel, showSchoolAddress } from '../../utils/helpers';
+import { schoolTypes } from '../../utils/options-for-select';
 
 export default class SchoolSelectionReview extends React.Component {
   render() {
