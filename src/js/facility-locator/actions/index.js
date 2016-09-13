@@ -2,7 +2,16 @@
 
 export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
 export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
-export const SEARCH_QUERY_CHANGED = 'SEARCH_QUERY_CHANGED';
+export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
+
+export function updateSearchQuery(query) {
+  return {
+    type: SEARCH_QUERY_UPDATED,
+    payload: {
+      query,
+    }
+  };
+}
 
 export function fetchVAFacility(id) {
   return {

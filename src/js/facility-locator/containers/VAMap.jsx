@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchVAFacilities } from '../actions';
+import { fetchVAFacilities, updateSearchQuery } from '../actions';
 import { map } from 'lodash';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import MapboxClient from 'mapbox';
@@ -9,49 +9,74 @@ import React, { Component } from 'react';
 import ResultsPane from '../components/ResultsPane';
 import TownHall from '../components/markers/TownHall';
 
+const mapboxToken = 'pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g';
+
 class VAMap extends Component {
 
   constructor(props) {
     super(props);
 
     // TODO (bshyong): Use env variables for mapbox token
-    this.mapboxClient = new MapboxClient('pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g');
+    this.mapboxClient = new MapboxClient(mapboxToken);
 
     this.state = this.generateInitialState();
   }
 
   componentDidMount() {
     const { location } = this.props;
-    const { shouldGeolocate } = this.state;
+    const { shouldGeolocate, position } = this.state;
 
+    if (location.query.address) {
+      this.props.updateSearchQuery(location.query.address);
+    }
 
     // TODO (bshyong): move geolocation/geocoding functionality to another function
     this.mapElement = this.refs.map.leafletElement.getBounds();
     if ('geolocation' in navigator && shouldGeolocate) {
-      navigator.geolocation.getCurrentPosition((position) => {
+      navigator.geolocation.getCurrentPosition((currentPosition) => {
         this.setState({
-          position: [position.coords.latitude, position.coords.longitude],
+          position: [currentPosition.coords.latitude, currentPosition.coords.longitude],
         }, () => {
-          // pushes coordinates to URL so that map link is useful for sharing
-          const queryParams = map({
-            ...location.query,
-            location: [position.coords.latitude, position.coords.longitude].join(','),
-          }, (v, k) => {
-            return `${k}=${v}`;
-          }).join('&');
-
-          browserHistory.push(`${location.pathname}?${queryParams}`);
-          // TODO (bshyong): use reverse Geocoding API (mapbox?) to translate coords to addresses
-          this.mapboxClient.geocodeReverse(position.coords, {
-            types: 'address',
-          }, (err, res) => {
-            // TODO (bshyong): fire action to update currentQuery in reducer
-            // TODO (bshyong): handle error case
-            console.log(res.features[0].place_name)
+          this.updateUrlParams({
+            location: [currentPosition.coords.latitude, currentPosition.coords.longitude].join(','),
           });
+
+          this.reverseGeocode(currentPosition.coords);
         });
       });
+    } else if (!location.query.address) {
+      this.reverseGeocode({
+        latitude: position[0],
+        longitude: position[1],
+      });
     }
+  }
+
+  // pushes coordinates to URL so that map link is useful for sharing
+  updateUrlParams(params) {
+    const { location } = this.props;
+
+    const queryParams = map({
+      ...location.query,
+      ...params,
+    }, (v, k) => {
+      return `${k}=${v}`;
+    }).join('&');
+    browserHistory.push(`${location.pathname}?${queryParams}`);
+  }
+
+  // takes obj of form {latitude: 0, longitude: 0}
+  reverseGeocode(position) {
+    this.mapboxClient.geocodeReverse(position, {
+      types: 'address',
+    }, (err, res) => {
+      // TODO (bshyong): handle error case
+      const placeName = res.features[0].place_name;
+      this.props.updateSearchQuery(placeName);
+      this.updateUrlParams({
+        address: placeName,
+      });
+    });
   }
 
   // defaults to White House coordinates if there are not coords in URL
@@ -81,7 +106,7 @@ class VAMap extends Component {
         <div className="medium-9 columns">
           <Map ref="map" center={position} zoom={13} >
             <TileLayer
-                url="https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g"
+                url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                 attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
             <Marker position={position}>
               <Popup>
@@ -96,11 +121,13 @@ class VAMap extends Component {
       </div>
     );
   }
-
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchVAFacilities }, dispatch);
+  return bindActionCreators({
+    fetchVAFacilities,
+    updateSearchQuery,
+  }, dispatch);
 }
 
 export default connect(null, mapDispatchToProps)(VAMap);

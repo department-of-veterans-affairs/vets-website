@@ -1,6 +1,6 @@
 import { FETCH_VA_FACILITY } from '../actions';
 
-const INITIAL_STATE = { currentQuery: null, facilities: [], facilityDetail: null };
+const INITIAL_STATE = { facilities: [], facilityDetail: null };
 
 export default function (state = INITIAL_STATE, action) {
   switch (action.type) {
