@@ -18,7 +18,7 @@ export class Detail extends React.Component {
   }
 
   componentWillMount() {
-    this.props.loadPrescription(this.props.params.id);
+    this.props.dispatch(loadPrescription(this.props.params.id));
   }
 
   openGlossaryModal(term) {
@@ -126,7 +126,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  loadPrescription,
   openGlossaryModal,
   openRefillModal
 };
