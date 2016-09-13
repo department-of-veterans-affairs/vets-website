@@ -7,11 +7,31 @@ import ReviewCollapsiblePanel from '../../../src/js/edu-benefits/components/Revi
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran';
 
 describe('<ReviewCollapsiblePanel>', () => {
-  function FakeFields() {}
-  function FakeReview() {}
-  it('should render fields to update', () => {
+  function renderCollapsiblePanel(uiData, path = '/veteran-information/personal-information') {
+    function FakeFields() {}
+    function FakeReview() {}
     let data = createVeteran();
-    let uiData = {
+    const onFieldsInitialized = sinon.spy();
+    const onUpdateSaveStatus = sinon.spy();
+    const onUpdateVerifiedStatus = sinon.spy();
+    const onUpdateEditStatus = sinon.spy();
+
+    return SkinDeep.shallowRender(
+      <ReviewCollapsiblePanel
+          data={data}
+          uiData={uiData}
+          pageLabel="Test"
+          updatePath={path}
+          component={<FakeFields/>}
+          reviewComponent={<FakeReview/>}
+          onFieldsInitialized={onFieldsInitialized}
+          onUpdateSaveStatus={onUpdateSaveStatus}
+          onUpdateVerifiedStatus={onUpdateVerifiedStatus}
+          onUpdateEditStatus={onUpdateEditStatus}/>
+    );
+  }
+  it('should render fields to update', () => {
+    const uiData = {
       pages: {
         '/veteran-information/personal-information': {
           complete: false,
@@ -19,31 +39,14 @@ describe('<ReviewCollapsiblePanel>', () => {
         }
       }
     };
-    const onFieldsInitialized = sinon.spy();
-    const onUpdateSaveStatus = sinon.spy();
-    const onUpdateVerifiedStatus = sinon.spy();
-    const onUpdateEditStatus = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <ReviewCollapsiblePanel
-          data={data}
-          uiData={uiData}
-          pageLabel="Test"
-          updatePath="/veteran-information/personal-information"
-          component={<FakeFields/>}
-          reviewComponent={<FakeReview/>}
-          onFieldsInitialized={onFieldsInitialized}
-          onUpdateSaveStatus={onUpdateSaveStatus}
-          onUpdateVerifiedStatus={onUpdateVerifiedStatus}
-          onUpdateEditStatus={onUpdateEditStatus}/>
-    );
+    const tree = renderCollapsiblePanel(uiData);
 
     expect(tree.everySubTree('FakeFields').length).to.equal(1);
     expect(tree.everySubTree('button')[0].text()).to.equal('Update page');
   });
   it('should render review fields', () => {
-    let data = createVeteran();
-    let uiData = {
+    const uiData = {
       pages: {
         '/veteran-information/personal-information': {
           complete: true,
@@ -51,32 +54,15 @@ describe('<ReviewCollapsiblePanel>', () => {
         }
       }
     };
-    const onFieldsInitialized = sinon.spy();
-    const onUpdateSaveStatus = sinon.spy();
-    const onUpdateVerifiedStatus = sinon.spy();
-    const onUpdateEditStatus = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <ReviewCollapsiblePanel
-          data={data}
-          uiData={uiData}
-          pageLabel="Test"
-          updatePath="/veteran-information/personal-information"
-          component={<FakeFields/>}
-          reviewComponent={<FakeReview/>}
-          onFieldsInitialized={onFieldsInitialized}
-          onUpdateSaveStatus={onUpdateSaveStatus}
-          onUpdateVerifiedStatus={onUpdateVerifiedStatus}
-          onUpdateEditStatus={onUpdateEditStatus}/>
-    );
+    const tree = renderCollapsiblePanel(uiData);
 
     expect(tree.everySubTree('FakeReview').length).to.equal(1);
     expect(tree.everySubTree('button')[0].text()).to.equal('Edit');
     expect(tree.everySubTree('button')[1].text()).to.equal('Next');
   });
   it('should render nothing', () => {
-    let data = createVeteran();
-    let uiData = {
+    const uiData = {
       pages: {
         '/veteran-information/personal-information': {
           complete: true,
@@ -88,32 +74,15 @@ describe('<ReviewCollapsiblePanel>', () => {
         }
       }
     };
-    const onFieldsInitialized = sinon.spy();
-    const onUpdateSaveStatus = sinon.spy();
-    const onUpdateVerifiedStatus = sinon.spy();
-    const onUpdateEditStatus = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <ReviewCollapsiblePanel
-          data={data}
-          uiData={uiData}
-          pageLabel="Test"
-          updatePath="/veteran-information/contact-information"
-          component={<FakeFields/>}
-          reviewComponent={<FakeReview/>}
-          onFieldsInitialized={onFieldsInitialized}
-          onUpdateSaveStatus={onUpdateSaveStatus}
-          onUpdateVerifiedStatus={onUpdateVerifiedStatus}
-          onUpdateEditStatus={onUpdateEditStatus}/>
-    );
+    const tree = renderCollapsiblePanel(uiData, '/veteran-information/contact-information');
 
     expect(tree.everySubTree('FakeReview').length).to.equal(0);
     expect(tree.everySubTree('FakeFields').length).to.equal(0);
     expect(tree.everySubTree('button').length).to.equal(0);
   });
   it('should render just an edit button', () => {
-    let data = createVeteran();
-    let uiData = {
+    const uiData = {
       pages: {
         '/veteran-information/personal-information': {
           complete: true,
@@ -125,24 +94,8 @@ describe('<ReviewCollapsiblePanel>', () => {
         }
       }
     };
-    const onFieldsInitialized = sinon.spy();
-    const onUpdateSaveStatus = sinon.spy();
-    const onUpdateVerifiedStatus = sinon.spy();
-    const onUpdateEditStatus = sinon.spy();
 
-    const tree = SkinDeep.shallowRender(
-      <ReviewCollapsiblePanel
-          data={data}
-          uiData={uiData}
-          pageLabel="Test"
-          updatePath="/veteran-information/contact-information"
-          component={<FakeFields/>}
-          reviewComponent={<FakeReview/>}
-          onFieldsInitialized={onFieldsInitialized}
-          onUpdateSaveStatus={onUpdateSaveStatus}
-          onUpdateVerifiedStatus={onUpdateVerifiedStatus}
-          onUpdateEditStatus={onUpdateEditStatus}/>
-    );
+    const tree = renderCollapsiblePanel(uiData);
 
     expect(tree.everySubTree('FakeReview').length).to.equal(0);
     expect(tree.everySubTree('FakeFields').length).to.equal(0);
