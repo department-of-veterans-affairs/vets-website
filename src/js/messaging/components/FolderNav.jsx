@@ -28,19 +28,41 @@ class FolderNav extends React.Component {
   }
 
   render() {
-    const folderList = this.props.folders.map((folder, i) => {
-      return <li key={i}>{this.makeFolderLink(folder)}</li>;
+    let folderList = this.props.folders.map(folder => {
+      return (
+        <li key={folder.folder_id}>
+          {this.makeFolderLink(folder)}
+        </li>
+      );
     });
+
+    let myFolders;
+
+    // If there are more than 5 folders, move all the non-default folders
+    // into a expandable sublist called 'My folders'.
+    if (folderList.length > 5) {
+      myFolders = (
+        <li key="myFolders">
+          <a>My folders</a>
+          <ul className="usa-sidenav-sub_list">
+            {folderList.slice(4)}
+          </ul>
+        </li>
+      );
+
+      folderList = folderList.slice(0, 4);
+      folderList.push(myFolders);
+    }
 
     const folderActions = (
       <li className="messaging-folder-nav-actions">
         <a>
           <i className="fa fa-folder"></i>
-          &nbsp;Manage folders
+          &nbsp;&nbsp;Manage folders
         </a>
         <a>
           <i className="fa fa-plus"></i>
-          &nbsp;Create new folder
+          &nbsp;&nbsp;Create new folder
         </a>
       </li>
     );
