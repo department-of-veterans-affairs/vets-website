@@ -29,6 +29,7 @@ import BenefitsHistoryPage from './containers/BenefitsHistoryPage';
 import BenefitsHistoryReview from './components/BenefitsHistoryReview';
 import BenefitsHistoryFields from './components/BenefitsHistoryFields';
 import DependentInformationPage from './containers/DependentInformationPage';
+import EducationHistoryPage from './containers/EducationHistoryPage';
 import DependentInformationReview from './components/DependentInformationReview';
 import DependentInformationFields from './components/DependentInformationFields';
 import EmploymentHistoryPage from './containers/EmploymentHistoryPage';
@@ -120,7 +121,7 @@ const routes = [
       chapter={chapterNames.militaryHistory}
       name="Dependents"/>,
   <Route
-      component={PlaceholderPage}
+      component={EducationHistoryPage}
       key="/education-history/education-information"
       path="/education-history/education-information"
       chapter={chapterNames.educationHistory}
