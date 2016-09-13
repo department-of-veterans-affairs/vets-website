@@ -10,7 +10,7 @@ import {
   setRecipient,
   setSubject,
   fetchRecipients
-} from '../actions/compose.js';
+} from '../actions/compose';
 
 class Compose extends React.Component {
   constructor() {
@@ -33,8 +33,8 @@ class Compose extends React.Component {
     this.props.setSubject(valueObj);
   }
 
-  dispatchRecipientChange(event) {
-    this.props.setRecipient(event);
+  dispatchRecipientChange(valueObj) {
+    this.props.setRecipient(valueObj);
   }
 
   render() {
@@ -58,7 +58,7 @@ class Compose extends React.Component {
             onValueChange={this.dispatchCategoryChange}
             value={this.props.compose.category}/>
         <MessageSubject
-            errorMessage={composeMessageErrors.subjet}
+            errorMessage={composeMessageErrors.subject}
             onValueChange={this.dispatchSubjectChange}
             value={this.props.compose.subject}/>
       </div>

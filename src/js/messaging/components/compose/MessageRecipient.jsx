@@ -7,15 +7,13 @@ class MessageRecipient extends React.Component {
     const recipientValue = makeField(this.props.value);
     return (
       <div className="messaging-recipient">
-        <div className="messaging-recipient">
-          <ErrorableSelect
-              label="To:"
-              name="messageRecipient"
-              onValueChange={this.props.onValueChange}
-              options={this.props.options}
-              required
-              value={recipientValue}/>
-        </div>
+        <ErrorableSelect
+            label="To:"
+            name="messageRecipient"
+            onValueChange={this.props.onValueChange}
+            options={this.props.options}
+            required
+            value={recipientValue}/>
       </div>
     );
   }
