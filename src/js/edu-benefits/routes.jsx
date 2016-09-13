@@ -26,9 +26,10 @@ import EmploymentHistoryReview from './components/employment-history/EmploymentH
 import EmploymentHistoryFields from './components/employment-history/EmploymentHistoryFields';
 import SchoolSelectionReview from './components/school-selection/SchoolSelectionReview';
 import SchoolSelectionFields from './components/school-selection/SchoolSelectionFields';
+import EducationHistoryFields from './components/education-history/EducationHistoryFields';
 import ReviewPage from './containers/ReviewPage';
-import PlaceholderPage from './containers/PlaceholderPage';
 import FormPage from './containers/FormPage';
+import PlaceholderPage from './containers/PlaceholderPage';
 
 const routes = [
   // Introduction route.
@@ -111,6 +112,8 @@ const routes = [
       name="Dependents"/>,
   <Route
       component={FormPage}
+      fieldsComponent={EducationHistoryFields}
+      reviewComponent={EmploymentHistoryReview}
       key="/education-history/education-information"
       path="/education-history/education-information"
       chapter={chapterNames.educationHistory}
