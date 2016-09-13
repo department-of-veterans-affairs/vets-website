@@ -212,7 +212,7 @@ if (options.watch) {
     // Check to see if we have a proxy config file
     const api = require('../config/config.proxy.js').api;
     devServerConfig.proxy = {
-      '/api/v0/prescriptions*': {
+      '/api/v0/*': {
         target: `https://${api.host}/`,
         auth: api.auth,
         secure: true,

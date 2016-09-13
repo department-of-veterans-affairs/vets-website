@@ -1,4 +1,7 @@
 module.exports = {
+  // Base URL to be used in API requests.
+  apiUrl: '/api/v0/prescriptions/',
+
   glossary: [{
     term: 'Active',
     definition: 'If you have refills, you may request a refill of this prescription from your VA pharmacy.'
@@ -31,6 +34,7 @@ module.exports = {
     term: 'Unknown',
     definition: 'An unknown error has occurred. Contact your VA pharmacy if you need this medication now.'
   }],
+
   rxStatuses: {
     active: 'Active',
     discontinued: 'Discontinued',
@@ -41,6 +45,7 @@ module.exports = {
     refillinprocess: 'Refill in procress',
     unknown: 'Unknown'
   },
+
   sortOptions: [
     { value: 'prescription-name',
       label: 'Prescription name'
