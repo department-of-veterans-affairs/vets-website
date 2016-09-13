@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { getLabel } from '../utils/helpers';
-import { yesNoNA } from '../utils/options-for-select';
+import { getLabel } from '../../utils/helpers';
+import { yesNoNA } from '../../utils/options-for-select';
 
 export default class MilitaryServiceReview extends React.Component {
   render() {

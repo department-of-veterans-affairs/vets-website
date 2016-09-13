@@ -1,8 +1,8 @@
 import React from 'react';
 
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 
-import { isValidYear, validateIfDirty, isNotBlank } from '../utils/validations';
+import { isValidYear, validateIfDirty, isNotBlank } from '../../utils/validations';
 
 export default class RotcScholarship extends React.Component {
   render() {
