@@ -15,6 +15,7 @@ class FolderNav extends React.Component {
     return (
       <Link
           activeClassName="usa-current"
+          className="messaging-folder-nav-link"
           to={`/messaging/folder/${folder.folder_id}`}>
         {folder.name}
         {unreadCount}
@@ -28,7 +29,7 @@ class FolderNav extends React.Component {
     });
 
     return (
-      <ul className="usa-sidenav-list">
+      <ul className="messaging-folder-nav usa-sidenav-list">
         {folderList}
       </ul>
     );

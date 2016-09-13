@@ -18,6 +18,12 @@
   }
 }
 
+.messaging-folder-nav-link {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 #messaging-content {
   box-sizing: border-box;
   display: inline-block;
