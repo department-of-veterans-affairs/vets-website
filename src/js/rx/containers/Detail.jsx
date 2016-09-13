@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { openGlossaryModal } from '../actions/modal.js';
 import { loadPrescription } from '../actions/prescriptions.js';
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
 import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 import { glossary, rxStatuses } from '../config.js';
+import SubmitRefill from '../components/SubmitRefill';
+import { openGlossaryModal, openRefillModal } from '../actions/modal';
 
 export class Detail extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ export class Detail extends React.Component {
   }
 
   componentWillMount() {
-    this.props.dispatch(loadPrescription(this.props.params.id));
+    this.props.loadPrescription(this.props.params.id);
   }
 
   openGlossaryModal(term) {
@@ -25,7 +26,7 @@ export class Detail extends React.Component {
       return obj.term === term;
     });
 
-    this.props.dispatch(openGlossaryModal(content));
+    this.props.openGlossaryModal(content);
   }
 
   render() {
@@ -44,9 +45,12 @@ export class Detail extends React.Component {
         const data = {
           Quantity: attrs.quantity,
           'Prescription status': (
-            <a onClick={() => this.openGlossaryModal(status)}>
+            <button
+                className="rx-trigger"
+                onClick={() => this.openGlossaryModal(status)}
+                type="button">
               {status}
-            </a>
+            </button>
           ),
           'Last fill date': moment(
               attrs['dispensed-date']
@@ -56,10 +60,15 @@ export class Detail extends React.Component {
             ).format('MMM DD, YYYY'),
           'Prescription #': attrs['prescription-number'],
           Refills: (
-            <span>
+            <div>
               {attrs['refill-remaining']} remaining
-              <a className="rx-refill-link">Refill prescription</a>
-            </span>
+              <SubmitRefill
+                  cssClass="rx-trigger"
+                  mode="compact"
+                  onSubmit={(e) => { e.preventDefault(); this.props.openRefillModal(attrs); }}
+                  refillId={item.rx.id}
+                  text="Refill Prescription"/>
+            </div>
           )
         };
 
@@ -116,4 +125,10 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps)(Detail);
+const mapDispatchToProps = {
+  loadPrescription,
+  openGlossaryModal,
+  openRefillModal
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Detail);

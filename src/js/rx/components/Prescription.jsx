@@ -6,8 +6,8 @@ import moment from 'moment';
 import { rxStatuses } from '../config.js';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
-import SubmitButton from './SubmitButton';
-import { openRefillModal } from '../actions/modal.js';
+import SubmitRefill from './SubmitRefill';
+import { openRefillModal } from '../actions/modal';
 
 
 class Prescription extends React.Component {
@@ -22,7 +22,7 @@ class Prescription extends React.Component {
     const content = this.props.prescriptions.items.find((rx) => {
       return rx.id === refillId;
     });
-    this.props.dispatch(openRefillModal(content.attributes));
+    this.props.openRefillModal(content.attributes);
   }
 
   render() {
@@ -34,10 +34,11 @@ class Prescription extends React.Component {
     let action = [];
 
     if (attrs['is-refillable'] === true) {
-      action.push(<SubmitButton
+      action.push(<SubmitRefill
           key={`rx-${id}-refill`}
-          cssClass="usa-button-outline rx-prescription-button"
-          value={id}
+          cssClass="rx-prescription-button"
+          onSubmit={this.handleSubmit}
+          refillId={id}
           text="Refill Prescription"/>);
     } else {
       const callProvider = <div key={`rx-${id}-call`}>Call Provider</div>;
@@ -77,10 +78,7 @@ class Prescription extends React.Component {
     }
 
     return (
-      <form className="rx-prescription"
-          id={`rx-${id}`}
-          key={id}
-          onSubmit={this.handleSubmit}>
+      <div className="rx-prescription">
         <div className="rx-prescription-inner cf">
           <input type="hidden" name="refillId" value={id}/>
           <h3 className="rx-prescription-title" title={name}>
@@ -105,7 +103,7 @@ class Prescription extends React.Component {
             </div>
           </div>
         </div>
-      </form>
+      </div>
     );
   }
 }
@@ -136,4 +134,8 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps)(Prescription);
+const mapDispatchToProps = {
+  openRefillModal
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Prescription);
