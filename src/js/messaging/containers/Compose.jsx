@@ -6,6 +6,8 @@ import MessageCategory from '../components/compose/MessageCategory';
 import MessageSubject from '../components/compose/MessageSubject';
 import { setCategory, setSubject } from '../actions/compose.js';
 
+import ButtonDelete from '../components/buttons/ButtonDelete';
+
 class Compose extends React.Component {
   constructor() {
     super();
@@ -39,6 +41,11 @@ class Compose extends React.Component {
             errorMessage={composeMessageErrors.subjet}
             onValueChange={this.dispatchSubjectChange}
             value={this.props.compose.subject}/>
+        <ButtonDelete
+            compact
+            onClick={() => {}}/>
+        <ButtonDelete
+            onClick={() => {}}/>
       </div>
     );
   }
