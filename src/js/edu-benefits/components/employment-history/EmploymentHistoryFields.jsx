@@ -1,13 +1,13 @@
 import React from 'react';
 
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
-import GrowableTable from '../../common/components/form-elements/GrowableTable';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 
 import EmploymentPeriod from './EmploymentPeriod';
-import { createEmploymentPeriod } from '../utils/veteran';
+import { createEmploymentPeriod } from '../../utils/veteran';
 
-import { isValidPage } from '../utils/validations';
-import { yesNo } from '../utils/options-for-select';
+import { isValidPage } from '../../utils/validations';
+import { yesNo } from '../../utils/options-for-select';
 
 export default class EmploymentHistoryFields extends React.Component {
   render() {

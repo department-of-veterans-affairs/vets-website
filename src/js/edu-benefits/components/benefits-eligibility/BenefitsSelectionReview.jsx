@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { getLabel } from '../utils/helpers';
-import { relinquishableBenefits } from '../utils/options-for-select';
+import { getLabel } from '../../utils/helpers';
+import { relinquishableBenefits } from '../../utils/options-for-select';
 
 export default class BenefitsSelectionReview extends React.Component {
   render() {

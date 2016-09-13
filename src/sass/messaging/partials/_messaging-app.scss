@@ -1,0 +1,47 @@
+#messaging-app {
+  margin: auto;
+  max-width: $site-max-width;
+  padding: 3rem 1.5rem;
+}
+
+#messaging-nav {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 20%;
+
+  .rx-compose-button {
+    width: 100%;
+  }
+}
+
+// Override square bullets and excessive padding
+// when only using .usa-sidenav-sub_list.
+.messaging-folder-subnav {
+  list-style: none;
+  padding-left: 0.5rem;
+}
+
+.messaging-folder-nav-link {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.messaging-folder-nav-actions {
+  a {
+    color: $color-primary;
+    text-decoration: underline;
+
+    i {
+      text-decoration: inherit;
+    }
+  }
+}
+
+#messaging-content {
+  box-sizing: border-box;
+  display: inline-block;
+  padding-left: 3rem;
+  vertical-align: top;
+  width: 80%;
+}

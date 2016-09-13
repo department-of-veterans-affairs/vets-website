@@ -1,12 +1,12 @@
 import React from 'react';
 
-import DateInput from '../../common/components/form-elements/DateInput';
-import GrowableTable from '../../common/components/form-elements/GrowableTable';
+import DateInput from '../../../common/components/form-elements/DateInput';
+import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 
 import EducationPeriod from './EducationPeriod';
-import { createEducationPeriod } from '../utils/veteran';
+import { createEducationPeriod } from '../../utils/veteran';
 
-import { isValidPage, isValidDate } from '../utils/validations';
+import { isValidPage, isValidDate } from '../../utils/validations';
 
 export default class EducationHistoryFields extends React.Component {
   render() {

@@ -44,7 +44,7 @@ class FolderNav extends React.Component {
       myFolders = (
         <li key="myFolders">
           <a>My folders</a>
-          <ul className="usa-sidenav-sub_list">
+          <ul className="messaging-folder-subnav usa-sidenav-sub_list">
             {folderList.slice(4)}
           </ul>
         </li>
