@@ -1,13 +1,13 @@
 import React from 'react';
 
-import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
-import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
-import DateInput from '../../common/components/form-elements/DateInput';
+import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import DateInput from '../../../common/components/form-elements/DateInput';
 
-import { validateIfDirtyDateObj, validateIfDirty, isNotBlank, isValidDateField, isValidDateRange } from '../utils/validations';
-import { serviceBranches, yesNoNA } from '../utils/options-for-select';
+import { validateIfDirtyDateObj, validateIfDirty, isNotBlank, isValidDateField, isValidDateRange } from '../../utils/validations';
+import { serviceBranches, yesNoNA } from '../../utils/options-for-select';
 
 export default class MilitaryServiceTour extends React.Component {
   render() {

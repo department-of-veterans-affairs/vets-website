@@ -1,10 +1,10 @@
 import React from 'react';
 
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
-import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
-import RadioButtonsSubSection from '../../common/components/form-elements/RadioButtonsSubSection';
-import { validateIfDirty, isNotBlank } from '../../common/utils/validations';
-import { relinquishableBenefits } from '../utils/options-for-select';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
+import RadioButtonsSubSection from '../../../common/components/form-elements/RadioButtonsSubSection';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
+import { relinquishableBenefits } from '../../utils/options-for-select';
 
 export default class BenefitsSelectionFields extends React.Component {
   render() {

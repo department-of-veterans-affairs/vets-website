@@ -1,14 +1,14 @@
 import React from 'react';
 
-import ErrorableTextarea from '../../common/components/form-elements/ErrorableTextarea';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
-import DateInput from '../../common/components/form-elements/DateInput';
-import Address from '../../common/components/questions/Address';
+import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import DateInput from '../../../common/components/form-elements/DateInput';
+import Address from '../../../common/components/questions/Address';
 
-import { validateIfDirtyDateObj, isValidFutureOrPastDateField } from '../utils/validations';
-import { schoolTypes } from '../utils/options-for-select';
-import { showSchoolAddress } from '../utils/helpers';
+import { validateIfDirtyDateObj, isValidFutureOrPastDateField } from '../../utils/validations';
+import { schoolTypes } from '../../utils/options-for-select';
+import { showSchoolAddress } from '../../utils/helpers';
 
 export default class SchoolSelectionFields extends React.Component {
   render() {
