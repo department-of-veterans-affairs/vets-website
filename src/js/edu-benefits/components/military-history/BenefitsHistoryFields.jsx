@@ -1,11 +1,11 @@
 import React from 'react';
 
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
-import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
-import DateInput from '../../common/components/form-elements/DateInput';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
+import DateInput from '../../../common/components/form-elements/DateInput';
 
-import { validateIfDirty, validateIfDirtyDateObj, isNotBlank, isValidDateField, isValidDateRange } from '../utils/validations';
-import { yesNo } from '../utils/options-for-select';
+import { validateIfDirty, validateIfDirtyDateObj, isNotBlank, isValidDateField, isValidDateRange } from '../../utils/validations';
+import { yesNo } from '../../utils/options-for-select';
 
 export default class BenefitsHistoryFields extends React.Component {
   render() {

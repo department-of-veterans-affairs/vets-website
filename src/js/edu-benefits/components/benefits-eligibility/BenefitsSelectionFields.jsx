@@ -1,19 +1,13 @@
 import React from 'react';
 
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
-import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
-import RadioButtonsSubSection from '../../common/components/form-elements/RadioButtonsSubSection';
-import { validateIfDirty, isNotBlank } from '../../common/utils/validations';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
+import RadioButtonsSubSection from '../../../common/components/form-elements/RadioButtonsSubSection';
+import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
+import { relinquishableBenefits } from '../../utils/options-for-select';
 
 export default class BenefitsSelectionFields extends React.Component {
   render() {
-    const options = [
-      { label: 'Chapter 1606', value: 'chapter1606Relinquished' },
-      { label: 'Chapter 30', value: 'chapter30Relinquished' },
-      { label: 'Chapter 1607', value: 'chapter1607Relinquished' },
-      { label: 'I don\'t have anything to relinquish', value: 'nothingToRelinquish' }
-    ];
-
     let relinquishSection;
     if (this.props.data.chapter33) {
       relinquishSection = (<RadioButtonsSubSection showIfValueChosen="chapter33">
@@ -23,7 +17,7 @@ export default class BenefitsSelectionFields extends React.Component {
               errorMessage={validateIfDirty(this.props.data.benefitsRelinquished, isNotBlank) ? '' : 'Please select a response'}
               label="I elect to receive Chapter 33 education benefits in lieu of the education benefit(s) I am relinquishing below:"
               name="benefitsRelinquished"
-              options={options}
+              options={relinquishableBenefits}
               value={this.props.data.benefitsRelinquished}
               onValueChange={(update) => {this.props.onStateChange('benefitsRelinquished', update);}}/>
         </fieldset>

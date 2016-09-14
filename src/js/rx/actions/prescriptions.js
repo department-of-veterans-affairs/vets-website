@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
-// TODO: move this into a separate config file
-const apiUrl = '/api/v0/prescriptions';
+import { apiUrl } from '../config';
 
 export function loadPrescription(id) {
   if (id) {
@@ -31,14 +30,14 @@ export function loadPrescription(id) {
 }
 
 export function loadPrescriptions(options) {
-  let uri = apiUrl;
+  let url = apiUrl;
   const queries = [];
 
-  // Construct segments of the final URI based on options passed in.
+  // Construct segments of the final URL based on options passed in.
   if (options) {
     // Fetching active prescriptions only.
     if (options.active) {
-      uri = `${uri}/active`;
+      url = `${url}/active`;
     }
 
     // Set the sort param. Convert it into a format that the API accepts.
@@ -57,13 +56,13 @@ export function loadPrescriptions(options) {
     }
   }
 
-  // Append query parameters to the base URI.
+  // Append query parameters.
   if (queries.length > 0) {
     const queryString = queries.join('&');
-    uri = `${uri}?${queryString}`;
+    url = `${url}?${queryString}`;
   }
 
-  return dispatch => fetch(uri, {
+  return dispatch => fetch(url, {
     headers: {
       'X-Key-Inflection': 'dash'
     }
@@ -76,9 +75,9 @@ export function loadPrescriptions(options) {
 
 export function refillPrescription(id) {
   if (id) {
-    const uri = `${apiUrl}/${id}/refill`;
+    const url = `${apiUrl}/${id}/refill`;
 
-    return dispatch => fetch(uri, {
+    return dispatch => fetch(url, {
       method: 'PATCH'
     }).then(
       data => dispatch({ type: 'REFILL_SUCCESS', id, data }),

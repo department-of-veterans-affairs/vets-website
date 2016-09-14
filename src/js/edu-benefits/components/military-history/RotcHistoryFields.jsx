@@ -1,10 +1,10 @@
 import React from 'react';
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
-import GrowableTable from '../../common/components/form-elements/GrowableTable';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 import RotcScholarship from './RotcScholarship';
-import { createRotcScholarship } from '../utils/veteran';
-import { isValidSection } from '../utils/validations';
-import { yesNo } from '../utils/options-for-select';
+import { createRotcScholarship } from '../../utils/veteran';
+import { isValidPage } from '../../utils/validations';
+import { yesNo } from '../../utils/options-for-select';
 
 export default class RotcHistoryFields extends React.Component {
   render() {
@@ -15,7 +15,7 @@ export default class RotcHistoryFields extends React.Component {
     const propertyPath = 'seniorRotc.rotcScholarshipAmounts';
     return (<fieldset>
       <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
-      <p>ROTC placeholder</p>
+      <p>ROTC Scholarship</p>
       <div className="input-section">
 
         <GrowableTable
@@ -26,7 +26,7 @@ export default class RotcHistoryFields extends React.Component {
             onRowsUpdate={(update) => {this.props.onStateChange(propertyPath, update);}}
             path="/military-history/rotc-history"
             rows={this.props.data.seniorRotc.rotcScholarshipAmounts}
-            isValidSection={isValidSection}/>
+            isValidSection={isValidPage}/>
 
         <ErrorableRadioButtons
             label="Are you currently participating in a senior ROTC scholarship program that pays for your tuition, fees, books and supplies under Section 2107 of Title 10, U.S. Code?"

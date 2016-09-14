@@ -1,10 +1,10 @@
 import React from 'react';
 
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
-import { isValidMonths, validateIfDirty, isNotBlank } from '../utils/validations';
-import { employmentPeriodTiming } from '../utils/options-for-select';
+import { isValidMonths, validateIfDirty, isNotBlank } from '../../utils/validations';
+import { employmentPeriodTiming } from '../../utils/options-for-select';
 
 export default class EmploymentPeriod extends React.Component {
   render() {

@@ -1,6 +1,5 @@
 import React from 'react';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
-import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import { makeField } from '../../../common/model/fields.js';
 
 class MessageCategory extends React.Component {
@@ -9,26 +8,14 @@ class MessageCategory extends React.Component {
     const categoryValue = makeField(this.props.value);
 
     return (
-      <div className="messaging-categories">
-        <fieldset className="messaging-categories--lg">
-          <legend className="usa-sr-only">Category</legend>
-          <ErrorableRadioButtons
-              label="Category: "
-              name="messageCategory"
-              onValueChange={this.props.onValueChange}
-              options={categories}
-              required
-              value={categoryValue}/>
-        </fieldset>
-        <div className="messaging-categories--sm">
-          <ErrorableSelect
-              label="Category: "
-              name="messageCategory"
-              onValueChange={this.props.onValueChange}
-              options={categories}
-              required
-              value={categoryValue}/>
-        </div>
+      <div className="messaging-category">
+        <ErrorableSelect
+            additionalClass="messaging-category-select"
+            label="Category"
+            name="messageCategory"
+            onValueChange={this.props.onValueChange}
+            options={categories}
+            value={categoryValue}/>
       </div>
     );
   }
