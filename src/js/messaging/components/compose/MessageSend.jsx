@@ -8,14 +8,13 @@ class MessageSend extends React.Component {
     return (
       <div className={this.props.cssClass}>
         <button
-            name="mode"
-            type="submit"
-            value="send">Send</button>
+            type="button"
+            onClick={this.props.onSend}>Send</button>
         <button
             className="usa-button-outline messaging-btn-save"
-            name="mode"
-            type="submit"
-            value="save">Save As Draft</button>
+            type="button"
+            value="save"
+            onClick={this.props.onSave}>Save As Draft</button>
         <ButtonDelete
             compact
             onClickHandler={() => {
@@ -28,7 +27,9 @@ class MessageSend extends React.Component {
 }
 
 MessageSend.propTypes = {
-  cssClass: React.PropTypes.string
+  cssClass: React.PropTypes.string,
+  onSave: React.PropTypes.func.isRequired,
+  onSend: React.PropTypes.func.isRequired
 };
 
 export default MessageSend;
