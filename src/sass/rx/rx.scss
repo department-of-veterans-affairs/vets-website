@@ -70,6 +70,31 @@ button.usa-button-outline {
   margin: 0 0 3rem;
 }
 
+.rx-refill-form {
+  display: inline-block;
+  padding: 0;
+}
+
+// Used to make functional buttons look like links.
+.rx-trigger {
+  background: transparent;
+  color: $color-link-default;
+  font-size: inherit;
+  font-weight: normal;
+  display: inline-block;
+  margin: 0;
+  padding: 0 !important;
+  text-align: left;
+  text-decoration: underline;
+  width: auto !important;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.05);
+    color: $color-link-default;
+    text-decoration: inherit;
+  }
+}
+
 // TODO: Contribute this back to core
 .va-required-span {
   color: $color-secondary-dark;
