@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import { isValidDate } from './validations.js';
 
 export function getPageList(routes) {
   return routes.map(route => {
@@ -67,4 +68,12 @@ export function showSchoolAddress(educationType) {
     || educationType === 'flightTraining'
     || educationType === 'apprenticeship'
     || educationType === 'correspondence';
+}
+
+export function displayDateIfValid(dateObject) {
+  const { day, month, year } = dateObject;
+  if (isValidDate(day.value, month.value, year.value)) {
+    return `${month.value}/${day.value}/${year.value}`;
+  }
+  return null;
 }

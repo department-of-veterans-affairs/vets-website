@@ -1,16 +1,16 @@
 import React from 'react';
+import { displayDateIfValid } from '../../utils/helpers.js';
 
 export default class EducationHistoryReview extends React.Component {
   render() {
     const completionDate = this.props.data.highSchoolOrGedCompletionDate;
-    const { day, month, year } = completionDate;
     return (
       <div>
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
               <td>If you received a high school diploma or high school equivalency certificate, what date was it received? (month, day, year)</td>
-              <td>{month.value ? `${month.value}/${day.value}/${year.value}` : null}</td>
+              <td>{displayDateIfValid(completionDate)}</td>
             </tr>
           </tbody>
         </table>
@@ -33,11 +33,11 @@ export default class EducationHistoryReview extends React.Component {
               </tr>
               <tr>
                 <td scope="col">From</td>
-                <td scope="col">{period.fromDate.value ? `${period.fromDate.value}/${period.fromDate.value}/${period.fromDate.value}` : null}</td>
+                <td scope="col">{displayDateIfValid(period.fromDate)}</td>
               </tr>
               <tr>
                 <td scope="col">To</td>
-                <td scope="col">{period.toDate.value ? `${period.toDate.value}/${period.toDate.value}/${period.toDate.value}` : null}</td>
+                <td scope="col">{displayDateIfValid(period.toDate)}</td>
               </tr>
               <tr>
                 <td scope="col">Hours</td>
