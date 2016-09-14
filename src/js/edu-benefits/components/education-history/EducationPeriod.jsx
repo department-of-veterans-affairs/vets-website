@@ -1,12 +1,12 @@
 import React from 'react';
 
-import DateInput from '../../common/components/form-elements/DateInput';
-import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
+import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
-import { isValidDateRange, isValidDateField, validateIfDirtyDateObj } from '../utils/validations';
-import { states } from '../../common/utils/options-for-select';
+import { isValidDateRange, isValidDateField, validateIfDirtyDateObj } from '../../utils/validations';
+import { states } from '../../../common/utils/options-for-select';
 
 export default class EducationPeriod extends React.Component {
   render() {

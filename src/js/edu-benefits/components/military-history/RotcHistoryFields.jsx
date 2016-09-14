@@ -1,10 +1,10 @@
 import React from 'react';
-import ErrorableRadioButtons from '../../common/components/form-elements/ErrorableRadioButtons';
-import GrowableTable from '../../common/components/form-elements/GrowableTable';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 import RotcScholarship from './RotcScholarship';
-import { createRotcScholarship } from '../utils/veteran';
-import { isValidPage } from '../utils/validations';
-import { yesNo } from '../utils/options-for-select';
+import { createRotcScholarship } from '../../utils/veteran';
+import { isValidPage } from '../../utils/validations';
+import { yesNo } from '../../utils/options-for-select';
 
 export default class RotcHistoryFields extends React.Component {
   render() {
