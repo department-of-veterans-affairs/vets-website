@@ -50,6 +50,7 @@ class Compose extends React.Component {
         <MessageRecipient
             categories={messageCategories}
             errorMessage={composeMessageErrors.recipient}
+            cssClass="messaging-recipient"
             onValueChange={this.handleRecipientChange}
             options={this.props.compose.recipients}
             value={this.props.compose.recipient}/>
@@ -59,16 +60,16 @@ class Compose extends React.Component {
           <div>
             <MessageCategory
                 categories={messageCategories}
+                cssClass="messaging-category"
                 errorMessage={composeMessageErrors.category}
                 onValueChange={this.handleCategoryChange}
                 value={this.props.compose.category}/>
             <MessageSubject
-                additionalClass="messaging-subject-subject"
+                cssClass="messaging-subject"
                 errorMessage={composeMessageErrors.subjet}
                 onValueChange={this.handleSubjectChange}
                 placeholder={composeMessagePlaceholders.subject}
-                required={this.props.compose.subject.required}
-                value={this.props.compose.subject.value}/>
+                required={this.props.compose.subject.required}/>
           </div>
         </fieldset>
       </form>

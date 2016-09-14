@@ -6,7 +6,7 @@ class MessageRecipient extends React.Component {
   render() {
     const recipientValue = makeField(this.props.value);
     return (
-      <div className="messaging-recipient">
+      <div className={this.props.cssClass}>
         <ErrorableSelect
             label="To:"
             name="messageRecipient"
@@ -20,19 +20,20 @@ class MessageRecipient extends React.Component {
 
 MessageRecipient.propTypes = {
   errorMessage: React.PropTypes.string,
-  menuClass: React.PropTypes.string,
+  cssClass: React.PropTypes.string,
   name: React.PropTypes.string,
   onValueChange: React.PropTypes.func,
-  categories: React.PropTypes.arrayOf(
-    React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.number }),
-      React.PropTypes.shape({
-        label: React.PropTypes.string,
-        value: React.PropTypes.string }),
-    ])).isRequired
+  options: React.PropTypes.arrayOf(
+  React.PropTypes.oneOfType([
+    React.PropTypes.string,
+    React.PropTypes.shape({
+      label: React.PropTypes.string,
+      value: React.PropTypes.number }),
+    React.PropTypes.shape({
+      label: React.PropTypes.string,
+      value: React.PropTypes.string }),
+  ])).isRequired
+
 };
 
 export default MessageRecipient;

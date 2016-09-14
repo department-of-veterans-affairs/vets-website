@@ -8,9 +8,9 @@ class MessageCategory extends React.Component {
     const categoryValue = makeField(this.props.value);
 
     return (
-      <div className="messaging-category">
+      <div className={this.props.cssClass}>
         <ErrorableSelect
-            additionalClass="messaging-category-select"
+            additionalClass={`${this.props.cssClass}-category`}
             label="Category"
             name="messageCategory"
             onValueChange={this.props.onValueChange}
@@ -22,8 +22,8 @@ class MessageCategory extends React.Component {
 }
 
 MessageCategory.propTypes = {
+  cssClass: React.PropTypes.string,
   errorMessage: React.PropTypes.string,
-  menuClass: React.PropTypes.string,
   name: React.PropTypes.string,
   onValueChange: React.PropTypes.func,
   categories: React.PropTypes.arrayOf(
