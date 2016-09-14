@@ -5,7 +5,7 @@ import { makeField } from '../../../common/model/fields.js';
 class MessageCategory extends React.Component {
   render() {
     const categories = this.props.categories;
-    const categoryValue = makeField(this.props.value);
+    const categoryValue = makeField(undefined);
 
     return (
       <div className={this.props.cssClass}>
@@ -24,7 +24,6 @@ class MessageCategory extends React.Component {
 MessageCategory.propTypes = {
   cssClass: React.PropTypes.string,
   errorMessage: React.PropTypes.string,
-  name: React.PropTypes.string,
   onValueChange: React.PropTypes.func,
   categories: React.PropTypes.arrayOf(
     React.PropTypes.oneOfType([
