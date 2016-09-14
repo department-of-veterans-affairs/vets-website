@@ -8,18 +8,25 @@ import {
 } from '../actions/folders';
 
 const initialState = {
-  currentItem: {
-    id: null,
-    messages: []
+  data: {
+    currentItem: {
+      id: null,
+      messages: []
+    },
+    items: []
   },
-  items: []
+  ui: {
+    nav: {
+      expanded: false
+    }
+  }
 };
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
     case FETCH_FOLDERS_SUCCESS: {
       const items = action.data.data.map(folder => folder.attributes);
-      return set('items', items, state);
+      return set('data.items', items, state);
     }
     case FETCH_FOLDER_SUCCESS: {
       const id = action.data.meta.folder_id;
@@ -28,7 +35,7 @@ export default function folders(state = initialState, action) {
       );
       const newItem = { id, messages };
 
-      return set('currentItem', newItem, state);
+      return set('data.currentItem', newItem, state);
     }
     case FETCH_FOLDERS_FAILURE:
     case FETCH_FOLDER_FAILURE:

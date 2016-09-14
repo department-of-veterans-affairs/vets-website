@@ -26,7 +26,7 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    folders: state.folders.items
+    folders: state.folders.data.items
   };
 };
 

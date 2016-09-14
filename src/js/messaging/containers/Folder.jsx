@@ -67,11 +67,11 @@ class Folder extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const id = state.folders.currentItem.id;
-  const attributes = state.folders.items.find(
+  const id = state.folders.data.currentItem.id;
+  const attributes = state.folders.data.items.find(
     folder => folder.folder_id === id
   );
-  const messages = state.folders.currentItem.messages;
+  const messages = state.folders.data.currentItem.messages;
 
   return {
     folder: { attributes, messages }
