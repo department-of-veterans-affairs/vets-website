@@ -1,21 +1,7 @@
-// TODO: Update the paths so they import from the
-// vets-website repo (or other designated common)
-// elements version of these files.
-
 @import "../style";
 
-#messaging-app {
-  padding: 3rem 1.5rem;
-  margin: auto;
-  max-width: $site-max-width;
-}
-
-#main-nav {
-  display: inline-block;
-}
-
-#main-content {
-  display: inline-block;
-  margin-left: 3rem;
-  vertical-align: top;
-}
+@import "partials/messaging-app";
+@import "partials/messaging-btn-delete";
+@import "partials/message-category";
+@import "partials/messaging-thread";
+@import "partials/message-subject";

@@ -1616,6 +1616,13 @@ const accountTypes = [
   { label: 'Savings', value: 'savings' }
 ];
 
+const relinquishableBenefits = [
+  { label: 'Chapter 1606', value: 'chapter1606Relinquished' },
+  { label: 'Chapter 30', value: 'chapter30Relinquished' },
+  { label: 'Chapter 1607', value: 'chapter1607Relinquished' },
+  { label: 'I don\'t have anything to relinquish', value: 'nothingToRelinquish' }
+];
+
 module.exports = {
   countries,
   maritalStatuses,
@@ -1634,5 +1641,6 @@ module.exports = {
   schoolTypes,
   employmentPeriodTiming,
   contactOptions,
-  accountTypes
+  accountTypes,
+  relinquishableBenefits
 };

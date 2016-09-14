@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import SchoolSelectionFields from '../../../src/js/edu-benefits/components/SchoolSelectionFields';
+import SchoolSelectionFields from '../../../src/js/edu-benefits/components/school-selection/SchoolSelectionFields';
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran';
 
 describe('<SchoolSelectionFields>', () => {
