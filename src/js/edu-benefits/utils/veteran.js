@@ -183,9 +183,15 @@ export function createVeteran() {
 
 function convertFieldToValue(field) {
   if (field.value !== undefined && field.dirty !== undefined) {
-    return field.value;
+    return field.value === '' ? undefined : field.value;
   } else if (field.month !== undefined && field.year !== undefined && field.day !== undefined) {
-    return dateToMoment(field).format('YYYY-MM-DD');
+    if (field.month.value !== '' && field.day.value !== '' && field.year.value !== '') {
+      return dateToMoment(field).format('YYYY-MM-DD');
+    }
+    return undefined;
+  } else if (field.street !== undefined && field.country !== undefined && field.city !== undefined &&
+    (field.street.value === '' || field.country.value === '' || field.city.value === '')) {
+    return undefined;
   } else if (_.isArray(field)) {
     return field.map(convertFieldToValue);
   } else if (_.isObject(field)) {
@@ -198,6 +204,7 @@ function convertFieldToValue(field) {
 }
 
 export function veteranToApplication(data) {
+  console.log(data);
   // Convert { value, dirty } to just the value
   let vetData = convertFieldToValue(data);
 
@@ -206,16 +213,69 @@ export function veteranToApplication(data) {
     'currentlyActiveDuty.yes',
     'currentlyActiveDuty.onTerminalLeave',
     'currentlyActiveDuty.nonVaAssistance',
-    'seniorRotcCommissioned',
     'seniorRotcScholarshipProgram',
-    'activeDutyRepaying',
     'serviceBefore1977.married',
     'serviceBefore1977.haveDependents',
-    'serviceBefore1977.parentDependents',
-    'hasNonMilitaryJobs'
+    'serviceBefore1977.parentDependent'
   ];
   yesNoFields.forEach(field => {
-    vetData = _.set(field, _.get(field, data) === 'Y', vetData);
+    vetData = _.set(field, _.get(field, vetData) === 'Y', vetData);
+  });
+
+  // Convert strings to numbers
+  const numberFields = [
+    'serviceAcademyGraduationYear',
+    'seniorRotc.commissionYear',
+  ];
+  numberFields.forEach(field => {
+    const num = parseInt(_.get(field, vetData), 10);
+    if (isNaN(num)) {
+      _.unset(field, vetData);
+    } else {
+      vetData = _.set(field, num, vetData);
+    }
+  });
+
+  vetData.seniorRotc.rotcScholarshipAmounts = vetData.seniorRotc.rotcScholarshipAmounts.map(ship => ({
+    amount: ship.amount !== '' ? parseInt(ship.amount.replace(/\D/g, ''), 10) : undefined,
+    year: parseInt(ship.year, 10)
+  }));
+
+  vetData.veteranSocialSecurityNumber = vetData.veteranSocialSecurityNumber.replace(/\D/g, '');
+
+  vetData.toursOfDuty = vetData.toursOfDuty.map(tour => {
+    let involuntarilyCalledToDuty;
+    if (tour.involuntarilyCalledToDuty === 'Y') {
+      involuntarilyCalledToDuty = 'yes';
+    } else if (tour.involuntarilyCalledToDuty === 'N') {
+      involuntarilyCalledToDuty = 'no';
+    } else {
+      involuntarilyCalledToDuty = 'n/a';
+    }
+
+    return _.set('involuntarilyCalledToDuty', involuntarilyCalledToDuty, tour);
+  });
+
+  vetData.nonMilitaryJobs = vetData.nonMilitaryJobs.map(job => {
+    let jobData = _.set('months', parseInt(job.months, 10), job);
+    jobData = _.set('postMilitaryJob', job.postMilitaryJob === 'after', jobData);
+
+    return jobData;
+  });
+
+  if (!vetData.seniorRotcCommissioned) {
+    vetData = _.unset('seniorRotc', vetData);
+  }
+
+  // Remove UI only fields
+  const fieldsToRemove = [
+    'seniorRotcCommissioned',
+    'activeDutyRepaying',
+    'hasNonMilitaryJobs',
+    'emailConfirmation'
+  ];
+  fieldsToRemove.forEach(field => {
+    vetData = _.unset(field, vetData);
   });
 
   return vetData;

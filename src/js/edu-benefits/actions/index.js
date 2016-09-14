@@ -87,8 +87,27 @@ export function updateSubmissionTimestamp(value) {
 }
 
 export function submitForm(data) {
-  console.log(veteranToApplication(data));
+  const application = veteranToApplication(data);
+  console.log(application);
   return dispatch => {
-    dispatch(updateSubmissionStatus(true));
+    dispatch(updateSubmissionStatus('submitPending'));
+    fetch('/api/v0/education_benefits_claims', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel'
+      },
+      body: JSON.stringify({
+        educationBenefitsClaim: {
+          form: JSON.stringify(application)
+        }
+      })
+    }).then(res => {
+      if (res.ok) {
+        dispatch(updateSubmissionStatus('applicationSubmitted'));
+      } else {
+        dispatch(updateSubmissionStatus('error'));
+      }
+    });
   };
 }

@@ -6,7 +6,7 @@ import ErrorableSelect from '../../../common/components/form-elements/ErrorableS
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
 import { isValidDateRange, isValidDateField, validateIfDirtyDateObj } from '../../utils/validations';
-import { states } from '../../../common/utils/options-for-select';
+import { states, hoursTypes } from '../../utils/options-for-select';
 
 export default class EducationPeriod extends React.Component {
   render() {
@@ -58,7 +58,7 @@ export default class EducationPeriod extends React.Component {
             label="Type of hours"
             name="hoursType"
             value={period.hoursType}
-            options={['Semester', 'Quarter', 'Clock']}
+            options={hoursTypes}
             onValueChange={(update) => {onValueChange('hoursType', update);}}/>
         <ErrorableTextInput
             label="Degree, diploma or certificate received"
