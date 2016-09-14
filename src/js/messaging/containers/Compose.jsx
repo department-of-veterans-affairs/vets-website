@@ -7,11 +7,13 @@ import MessageSend from '../components/compose/MessageSend';
 import MessageSubject from '../components/compose/MessageSubject';
 import MessageRecipient from '../components/compose/MessageRecipient';
 import {
+  saveMessage,
+  sendMessage,
   setCategory,
   setRecipient,
   setSubject,
   setSubjectRequired,
-  fetchRecipients
+  fetchRecipients,
 } from '../actions/compose';
 
 class Compose extends React.Component {
@@ -21,6 +23,7 @@ class Compose extends React.Component {
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
     this.handleSubjectChange = this.handleSubjectChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillMount() {
@@ -29,6 +32,12 @@ class Compose extends React.Component {
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
+    console.log('handle submit!');
+  }
+
+  handleChange(domEvent) {
+    domEvent.preventDefault();
+    console.log('change event!');
   }
 
   handleCategoryChange(valueObj) {
@@ -45,10 +54,13 @@ class Compose extends React.Component {
   }
 
   render() {
+    const message = this.props.compose.message;
+
     return (
       <form
           id="messaging-compose"
-          onSubmit={this.handleSubmit}>
+          onSubmit={this.handleSubmit}
+          onChange={this.handleChange}>
         <h2>New message</h2>
         <p>
           <strong>Note:</strong> Messages may be saved to your health record at
@@ -61,7 +73,7 @@ class Compose extends React.Component {
             cssClass="messaging-recipient"
             onValueChange={this.handleRecipientChange}
             options={this.props.compose.recipients}
-            value={this.props.compose.recipient}/>
+            value={message.recipient}/>
 
         <fieldset className="messaging-subject-group">
           <legend>Subject line:</legend>
@@ -71,16 +83,19 @@ class Compose extends React.Component {
                 cssClass="messaging-category"
                 errorMessage={composeMessageErrors.category}
                 onValueChange={this.handleCategoryChange}
-                value={this.props.compose.category}/>
+                value={message.category}/>
             <MessageSubject
                 cssClass="messaging-subject"
                 errorMessage={composeMessageErrors.subjet}
                 onValueChange={this.handleSubjectChange}
                 placeholder={composeMessagePlaceholders.subject}
-                required={this.props.compose.subject.required}/>
+                required={message.subject.required}/>
           </div>
         </fieldset>
         <MessageSend
+            onSave={this.props.saveMessage}
+            onSend={this.props.sendMessage}
+            onDelete={() => {console.log('ondelete');}}
             cssClass="messaging-send-group"/>
       </form>
     );
@@ -93,6 +108,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  saveMessage,
+  sendMessage,
   setCategory,
   setSubject,
   setSubjectRequired,

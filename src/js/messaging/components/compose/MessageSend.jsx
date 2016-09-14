@@ -17,10 +17,7 @@ class MessageSend extends React.Component {
             onClick={this.props.onSave}>Save As Draft</button>
         <ButtonDelete
             compact
-            onClickHandler={() => {
-              // TODO: Fill out this action.
-              // Need to launch the ConfirmDelete modal.
-            }}/>
+            onClickHandler={this.props.onDelete}/>
       </div>
     );
   }
@@ -29,7 +26,8 @@ class MessageSend extends React.Component {
 MessageSend.propTypes = {
   cssClass: React.PropTypes.string,
   onSave: React.PropTypes.func.isRequired,
-  onSend: React.PropTypes.func.isRequired
+  onSend: React.PropTypes.func.isRequired,
+  onDelete: React.PropTypes.func.isRequired
 };
 
 export default MessageSend;

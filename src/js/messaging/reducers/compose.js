@@ -5,14 +5,22 @@ import {
   SET_RECIPIENT,
   SET_SUBJECT,
   SET_SUBJECT_REQUIRED,
+  SEND_MESSAGE,
+  SAVE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_RECIPIENTS_FAILURE
 } from '../actions/compose';
 
 const initialState = {
-  category: undefined,
-  recipients: [],
-  subject: ''
+  message: {
+    category: undefined,
+    recipient: undefined,
+    subject: {
+      value: undefined,
+      required: false
+    }
+  },
+  recipients: []
 };
 
 /*
@@ -33,16 +41,24 @@ function getRecipients(recipients) {
 export default function compose(state = initialState, action) {
   switch (action.type) {
     case SET_CATEGORY:
-      return set('category', action.field.value, state);
+      return set('message.category', action.field.value, state);
     case SET_SUBJECT:
-      return set('subject.value', action.field.value, state);
+      return set('message.subject.value', action.field.value, state);
     case SET_SUBJECT_REQUIRED:
-      return set('subject.required', action.fieldState.required, state);
+      return set('message.subject.required', action.fieldState.required, state);
     case SET_RECIPIENT:
-      return set('recipient', action.field.value, state);
+      return set('message.recipient', action.field.value, state);
     case FETCH_RECIPIENTS_SUCCESS:
       return set('recipients', getRecipients(action.recipients.data), state);
     case FETCH_RECIPIENTS_FAILURE:
+    case SEND_MESSAGE:
+      // TODO: Make this post to the send message endpoint
+      // instead
+      return state;
+    case SAVE_MESSAGE:
+      // TODO: Make this post to the save message endpoint
+      // instead
+      return state;
     default:
       return state;
   }
