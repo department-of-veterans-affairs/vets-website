@@ -1,6 +1,5 @@
 .messaging-subject-group {
-  
-  > div {
+   > div {
     display: -webkit-flex;
     display: flex;
     -webkit-justify-content: space-between;
@@ -17,7 +16,9 @@
     float: left;
     // Vertically centering with input fields.
     line-height: 2.9;
-    padding-right: 1rem;
+    margin-right: 1rem;
+    text-align: right;
+    width: $messaging-label-width;
   }
 }
 
@@ -31,4 +32,25 @@
 .messaging-subject {
   -webkit-flex: 1 1 auto;
   flex: 1 1 auto;
+}
+
+.messaging-recipient {
+  > div {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center; 
+  }
+  label {
+    font-weight: bold;
+    margin: 0 1rem 0 0;
+    width: $messaging-label-width;
+    text-align: right;
+  }
+}
+
+[id=messaging-compose] {
+  > div, fieldset {
+    margin-bottom: 1.5rem;
+  }
 }
