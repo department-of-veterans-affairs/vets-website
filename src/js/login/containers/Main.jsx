@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 
-import environment from '../helpers/environment.js';
+import environment from '../../common/helpers/environment.js';
 
 import { updateLoggedInStatus, updateLogInUrl, updateProfileField } from '../../common/actions';
 import SignInProfileButton from '../components/SignInProfileButton';
@@ -13,36 +13,35 @@ class Main extends React.Component {
     super(props);
     this.handleOpenPopup = this.handleOpenPopup.bind(this);
     this.setMyToken = this.setMyToken.bind(this);
-    this.getUserToken = this.getUserToken.bind(this);
+    this.getUserData = this.getUserData.bind(this);
   }
 
   componentDidMount() {
-    if (localStorage.userToken) {
+    if (localStorage.length > 0) {
       this.props.onUpdateLoggedInStatus(true);
-      this.getUserToken();
+      this.getUserData();
     }
 
-    this.serverRequest = $.get(`${environment.BASE_URL}/v0/sessions/new`, result => {
+    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new`, result => {
       this.props.onUpdateLoginUrl(result.authenticate_via_get);
     });
 
+    // TODO (crew): Change to just listen for localStorage update but currently known bug in Chrome prevents this from firing (https://bugs.chromium.org/p/chromium/issues/detail?id=136356).
     window.addEventListener('message', this.setMyToken);
   }
 
   componentWillUnmount() {
     this.serverRequest.abort();
-    window.removeEventListener('message', this.setMyToken);
   }
 
   setMyToken() {
-    if (event.origin === environment.BASE_URL) {
-      localStorage.setItem('userToken', event.data.token);
-      this.getUserToken();
+    if (event.data === localStorage.userToken) {
+      this.getUserData();
     }
   }
 
-  getUserToken() {
-    fetch(`${environment.BASE_URL}/v0/user`, {
+  getUserData() {
+    fetch(`${environment.API_URL}/v0/user`, {
       method: 'GET',
       headers: new Headers({
         Authorization: `Token token=${localStorage.userToken}`
