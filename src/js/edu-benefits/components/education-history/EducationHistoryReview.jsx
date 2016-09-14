@@ -3,7 +3,7 @@ import { displayDateIfValid } from '../../utils/helpers.js';
 
 export default class EducationHistoryReview extends React.Component {
   render() {
-    const completionDate = this.props.data.highSchoolOrGedCompletionDate;
+    const { completionDate, faaFlightCertificatesInformation } = this.props.data;
     return (
       <div>
         <table className="review usa-table-borderless">
@@ -55,6 +55,14 @@ export default class EducationHistoryReview extends React.Component {
           </table>
           );
         })}
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>FAA certificates (ad infinitum)</td>
+              <td scope="col">{faaFlightCertificatesInformation.value}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     );
   }

@@ -71,9 +71,11 @@ export function showSchoolAddress(educationType) {
 }
 
 export function displayDateIfValid(dateObject) {
-  const { day, month, year } = dateObject;
-  if (isValidDate(day.value, month.value, year.value)) {
-    return `${month.value}/${day.value}/${year.value}`;
+  if (typeof dateObject === 'object') {
+    const { day, month, year } = dateObject;
+    if (isValidDate(day.value, month.value, year.value)) {
+      return `${month.value}/${day.value}/${year.value}`;
+    }
   }
   return null;
 }
