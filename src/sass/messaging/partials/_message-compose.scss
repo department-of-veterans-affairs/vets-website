@@ -22,6 +22,8 @@
   }
 }
 
+
+.messaging-from,
 .messaging-category {
   -webkit-flex: none;
   flex: none;
@@ -47,6 +49,14 @@
     width: $messaging-label-width;
     text-align: right;
   }
+}
+
+.messaging-from-label {
+  display: inline-block;
+  font-weight: bold;
+  margin: 0 1rem 0 0;
+  width: $messaging-label-width;
+  text-align: right;
 }
 
 [id=messaging-compose] {
