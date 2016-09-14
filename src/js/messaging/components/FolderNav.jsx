@@ -69,7 +69,7 @@ class FolderNav extends React.Component {
       }
 
       const iconClass = classNames({
-        'fa': true,
+        fa: true,
         'fa-caret-down': !this.props.expanded,
         'fa-caret-up': this.props.expanded
       });
