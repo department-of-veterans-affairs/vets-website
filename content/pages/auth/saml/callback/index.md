@@ -1,5 +1,6 @@
 ---
 title: Auth
+layout: page-react.html
 entryname: auth
 ---
 

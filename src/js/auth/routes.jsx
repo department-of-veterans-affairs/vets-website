@@ -1,8 +1,8 @@
-import Login from './containers/Login';
+import LoginApp from './containers/LoginApp';
 
 const routes = {
   path: '/auth/saml/callback',
-  component: Login
+  component: LoginApp
 };
 
 export default routes;
