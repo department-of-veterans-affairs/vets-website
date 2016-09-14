@@ -6,11 +6,6 @@ class FolderNav extends React.Component {
   constructor(props) {
     super(props);
     this.makeFolderLink = this.makeFolderLink.bind(this);
-    this.isLinkActive = this.isLinkActive.bind(this);
-  }
-
-  isLinkActive(link) {
-    return this.context.router.isActive(link.props.to, true);
   }
 
   makeFolderLink(folder) {
@@ -44,16 +39,21 @@ class FolderNav extends React.Component {
       folderList = folderList.slice(0, 4);
 
       const myFolderLinks = myFolders.map(this.makeFolderLink);
-      const isLinkActive = myFolderLinks.find(this.isLinkActive);
-      const myFoldersClass = classNames({ 'usa-current': isLinkActive });
-
-      myFolders = myFolderLinks.map((link, index) => {
+      myFolders = myFolders.map((folder, index) => {
         return (
-          <li key={index}>
-            {link}
+          <li key={folder.folder_id}>
+            {myFolderLinks[index]}
           </li>
         );
       });
+
+      // Determine if 'My folders' needs to be displayed as active based on
+      // whether it contains the currently viewed folder.
+      const isLinkActive = (link) => {
+        return this.context.router.isActive(link.props.to, true);
+      };
+      const myFoldersActive = myFolderLinks.find(isLinkActive);
+      const myFoldersClass = classNames({ 'usa-current': myFoldersActive });
 
       myFolders = (
         <li key="myFolders">
