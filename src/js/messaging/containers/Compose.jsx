@@ -52,7 +52,7 @@ class Compose extends React.Component {
             errorMessage={composeMessageErrors.recipient}
             onValueChange={this.handleRecipientChange}
             options={this.props.compose.recipients}
-            value={this.props.compose.recipient}/> 
+            value={this.props.compose.recipient}/>
 
         <fieldset className="messaging-subject-group">
           <legend>Subject line:</legend>
