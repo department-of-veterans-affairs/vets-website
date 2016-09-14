@@ -12,7 +12,6 @@ class MessageRecipient extends React.Component {
             name="messageRecipient"
             onValueChange={this.props.onValueChange}
             options={this.props.options}
-            required
             value={recipientValue}/>
       </div>
     );

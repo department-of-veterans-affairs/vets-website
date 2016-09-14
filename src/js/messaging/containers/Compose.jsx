@@ -1,12 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {
-  messageCategories,
-  composeMessageErrors,
-  composeMessagePlaceholders
-} from '../config';
-
+import { messageCategories, composeMessageErrors, composeMessagePlaceholders } from '../config';
 import MessageCategory from '../components/compose/MessageCategory';
 import MessageSubject from '../components/compose/MessageSubject';
 import MessageRecipient from '../components/compose/MessageRecipient';
@@ -45,31 +40,38 @@ class Compose extends React.Component {
 
   render() {
     return (
-      <div>
+      <form id="messaging-compose">
         <h2>New message</h2>
         <p>
           <strong>Note:</strong> Messages may be saved to your health record at
           your team's discretion.
         </p>
+
         <MessageRecipient
             categories={messageCategories}
             errorMessage={composeMessageErrors.recipient}
-            onValueChange={this.dispatchRecipientChange}
+            onValueChange={this.handleRecipientChange}
             options={this.props.compose.recipients}
-            value={this.props.compose.recipient}/>
-        <MessageCategory
-            categories={messageCategories}
-            errorMessage={composeMessageErrors.category}
-            onValueChange={this.handleCategoryChange}
-            value={this.props.compose.category}/>
-        <MessageSubject
-            additionalClass="messaging-subject-subject"
-            errorMessage={composeMessageErrors.subject}
-            onValueChange={this.handleSubjectChange}
-            placeholder={composeMessagePlaceholders.subject}
-            required={this.props.compose.subject.required}
-            value={this.props.compose.subject.value}/>
-      </div>
+            value={this.props.compose.recipient}/> 
+
+        <fieldset className="messaging-subject-group">
+          <legend>Subject line:</legend>
+          <div>
+            <MessageCategory
+                categories={messageCategories}
+                errorMessage={composeMessageErrors.category}
+                onValueChange={this.handleCategoryChange}
+                value={this.props.compose.category}/>
+            <MessageSubject
+                additionalClass="messaging-subject-subject"
+                errorMessage={composeMessageErrors.subjet}
+                onValueChange={this.handleSubjectChange}
+                placeholder={composeMessagePlaceholders.subject}
+                required={this.props.compose.subject.required}
+                value={this.props.compose.subject.value}/>
+          </div>
+        </fieldset>
+      </form>
     );
   }
 }
