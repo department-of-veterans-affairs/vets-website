@@ -24,7 +24,7 @@ export default class EducationHistoryReview extends React.Component {
             </thead>
             <tbody>
               <tr>
-                <td scope="col">City></td>
+                <td scope="col">City</td>
                 <td scope="col">{period.city.value}</td>
               </tr>
               <tr>
@@ -41,15 +41,15 @@ export default class EducationHistoryReview extends React.Component {
               </tr>
               <tr>
                 <td scope="col">Hours</td>
-                <td scope="col">{period.state.hours}</td>
+                <td scope="col">{period.hours.value}</td>
               </tr>
               <tr>
                 <td scope="col">Type of hours</td>
-                <td scope="col">{period.state.hoursType}</td>
+                <td scope="col">{period.hoursType.value}</td>
               </tr>
               <tr>
                 <td scope="col">Degree, diploma or certificate received</td>
-                <td scope="col">{period.state.degreeReceived}</td>
+                <td scope="col">{period.degreeReceived.value}</td>
               </tr>
             </tbody>
           </table>
