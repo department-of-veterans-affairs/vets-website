@@ -1,29 +1,52 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { messageCategories, messageCategoryError } from '../config.js';
+import { messageCategories, composeMessageErrors, composeMessagePlaceholders } from '../config';
 import MessageCategory from '../components/compose/MessageCategory';
-import { setCategory } from '../actions/compose.js';
+import MessageSubject from '../components/compose/MessageSubject';
+import { setCategory, setSubject, setSubjectRequired } from '../actions/compose';
 
 class Compose extends React.Component {
   constructor() {
     super();
-    this.dispatchCategoryChange = this.dispatchCategoryChange.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
+    this.handleSubjectChange = this.handleSubjectChange.bind(this);
   }
 
-  dispatchCategoryChange(event) {
-    this.props.dispatch(setCategory(event));
+  handleCategoryChange(valueObj) {
+    this.props.setCategory(valueObj);
+    this.props.setSubjectRequired(valueObj);
+  }
+
+  handleSubjectChange(valueObj) {
+    this.props.setSubject(valueObj);
   }
 
   render() {
     return (
       <div>
         <h2>New message</h2>
-        <MessageCategory
-            categories={messageCategories}
-            errorMessage={messageCategoryError}
-            onValueChange={this.dispatchCategoryChange}
-            value={this.props.compose.category}/>
+        <p>
+          <strong>Note:</strong> Messages may be saved to your health record at
+          your team's discretion.
+        </p>
+        <fieldset className="messaging-subject-group">
+          <legend>Subject line:</legend>
+          <div>
+            <MessageCategory
+                categories={messageCategories}
+                errorMessage={composeMessageErrors.category}
+                onValueChange={this.handleCategoryChange}
+                value={this.props.compose.category}/>
+            <MessageSubject
+                additionalClass="messaging-subject-subject"
+                errorMessage={composeMessageErrors.subjet}
+                onValueChange={this.handleSubjectChange}
+                placeholder={composeMessagePlaceholders.subject}
+                required={this.props.compose.subject.required}
+                value={this.props.compose.subject.value}/>
+          </div>
+        </fieldset>
       </div>
     );
   }
@@ -34,6 +57,10 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps)(Compose);
+const mapDispatchToProps = {
+  setCategory,
+  setSubject,
+  setSubjectRequired
+};
 
-// export default Compose;
+export default connect(mapStateToProps, mapDispatchToProps)(Compose);

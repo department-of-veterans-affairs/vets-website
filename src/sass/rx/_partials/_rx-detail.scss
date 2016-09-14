@@ -66,13 +66,14 @@
     padding-left: 0;
     padding-right: 0;
     vertical-align: top;
-    width: 15rem;
+    width: 10rem;
   }
 }
 
-.rx-refill-link {
-  display: block;
 
+.rx-refill-form .rx-trigger {
+  margin: 0;
+  
   @media (min-width: $medium-screen) {
     display: inline-block;
     margin-left: 2rem;

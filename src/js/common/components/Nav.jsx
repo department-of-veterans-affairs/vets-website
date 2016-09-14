@@ -56,13 +56,13 @@ class Nav extends React.Component {
               <div>
                 <h5>{chapter.name}</h5>
                 <ul className="usa-unstyled-list">
-                  {chapter.pages.map(page => {
+                  {chapter.pages.length > 1 ? chapter.pages.map(page => {
                     return (
                       <li className={`${determinePageStyles(page, currentUrl, data)}`} key={page.path}>
                         {page.name}
                       </li>
                     );
-                  })}
+                  }) : null}
                 </ul>
               </div>
             </li>
