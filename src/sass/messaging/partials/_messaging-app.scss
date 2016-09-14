@@ -27,6 +27,13 @@
   white-space: nowrap;
 }
 
+.messaging-my-folders {
+  i {
+    float: right;
+    line-height: 2rem;
+  }
+}
+
 .messaging-folder-nav-actions {
   a {
     color: $color-primary;

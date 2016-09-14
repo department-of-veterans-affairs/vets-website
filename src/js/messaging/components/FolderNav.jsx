@@ -38,6 +38,8 @@ class FolderNav extends React.Component {
       myFolders = folderList.slice(4);
       folderList = folderList.slice(0, 4);
 
+      // Transform folders to links in order to determine via router
+      // whether 'My folders' should be styled as active.
       const myFolderLinks = myFolders.map(this.makeFolderLink);
       myFolders = myFolders.map((folder, index) => {
         return (
@@ -55,12 +57,30 @@ class FolderNav extends React.Component {
       const myFoldersActive = myFolderLinks.find(isLinkActive);
       const myFoldersClass = classNames({ 'usa-current': myFoldersActive });
 
-      myFolders = (
-        <li key="myFolders">
-          <a className={myFoldersClass}>My folders</a>
+      /* Render 'My folders' as expanded or collapsed. */
+
+      let myFoldersList;
+      if (this.props.expanded) {
+        myFoldersList = (
           <ul className="messaging-folder-subnav usa-sidenav-sub_list">
             {myFolders}
           </ul>
+        );
+      }
+
+      const iconClass = classNames({
+        'fa': true,
+        'fa-caret-down': !this.props.expanded,
+        'fa-caret-up': this.props.expanded
+      });
+
+      myFolders = (
+        <li key="myFolders" className="messaging-my-folders">
+          <a className={myFoldersClass} onClick={this.props.onToggleFolders}>
+            <span>My folders</span>
+            <i className={iconClass}></i>
+          </a>
+          {myFoldersList}
         </li>
       );
     }
@@ -113,7 +133,9 @@ FolderNav.propTypes = {
       unread_count: React.PropTypes.number.isRequired
       /* eslint-enable */
     })
-  ).isRequired
+  ).isRequired,
+  expanded: React.PropTypes.bool,
+  onToggleFolders: React.PropTypes.func
 };
 
 export default FolderNav;

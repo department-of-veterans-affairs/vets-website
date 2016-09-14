@@ -4,7 +4,8 @@ import {
   FETCH_FOLDERS_SUCCESS,
   FETCH_FOLDERS_FAILURE,
   FETCH_FOLDER_SUCCESS,
-  FETCH_FOLDER_FAILURE
+  FETCH_FOLDER_FAILURE,
+  TOGGLE_FOLDER_NAV
 } from '../actions/folders';
 
 const initialState = {
@@ -37,6 +38,8 @@ export default function folders(state = initialState, action) {
 
       return set('data.currentItem', newItem, state);
     }
+    case TOGGLE_FOLDER_NAV:
+      return set('ui.nav.expanded', !state.ui.nav.expanded, state);
     case FETCH_FOLDERS_FAILURE:
     case FETCH_FOLDER_FAILURE:
     default:
