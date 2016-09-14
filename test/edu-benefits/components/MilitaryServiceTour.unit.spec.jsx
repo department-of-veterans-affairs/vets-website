@@ -3,7 +3,7 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import MilitaryServiceTour from '../../../src/js/edu-benefits/components/MilitaryServiceTour';
+import MilitaryServiceTour from '../../../src/js/edu-benefits/components/military-history/MilitaryServiceTour';
 import { createTour } from '../../../src/js/edu-benefits/utils/veteran';
 
 describe('<MilitaryServiceTour>', () => {

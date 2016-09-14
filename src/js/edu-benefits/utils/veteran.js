@@ -31,6 +31,28 @@ export function createEmploymentPeriod() {
   };
 }
 
+export function createEducationPeriod() {
+  return {
+    name: makeField(''),
+    city: makeField(''),
+    state: makeField(''),
+    toDate: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
+    },
+    fromDate: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
+    },
+    hours: makeField(''),
+    hoursType: makeField(''),
+    degreeReceived: makeField(''),
+    major: makeField('')
+  };
+}
+
 export function createRotcScholarship() {
   return {
     amount: makeField(''),
@@ -52,6 +74,13 @@ export function createVeteran() {
       nonVaAssistance: makeField('')
     },
     toursOfDuty: [],
+    postHighSchoolTrainings: [],
+    faaFlightCertificatesInformation: makeField(''),
+    highSchoolOrGedCompletionDate: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
+    },
     seniorRotcCommissioned: makeField(''),
     seniorRotc: {
       commissionYear: makeField(''),

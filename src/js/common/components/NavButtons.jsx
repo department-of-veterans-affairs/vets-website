@@ -33,10 +33,10 @@ export default class NavButtons extends React.Component {
   }
   findNeighbor(increment) {
     const { pages, path, data } = this.props;
-    const currentIndex = pages.map(page => page.name).indexOf(path);
     const filtered = pages.filter(page => {
       return page.depends === undefined || _.matches(page.depends)(data);
     });
+    const currentIndex = filtered.map(page => page.name).indexOf(path);
     const index = currentIndex + increment;
     return filtered[index].name;
   }
