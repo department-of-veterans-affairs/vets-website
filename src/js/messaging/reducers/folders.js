@@ -22,7 +22,7 @@ export default function folders(state = initialState, action) {
       return set('items', items, state);
     }
     case FETCH_FOLDER_SUCCESS: {
-      const id = action.data.meta.id;
+      const id = action.data.meta.folder_id;
       const messages = action.data.data.map(
         message => message.attributes
       );
