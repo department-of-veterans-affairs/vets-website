@@ -226,9 +226,9 @@ function isValidBenefitsInformationPage(data) {
 
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
-    && isValidDateField(tour.fromDate)
-    && isValidDateField(tour.toDate)
-    && isValidDateRange(tour.fromDate, tour.toDate);
+    && isValidDateField(tour.dateRange.from)
+    && isValidDateField(tour.dateRange.to)
+    && isValidDateRange(tour.dateRange.from, tour.dateRange.to);
 }
 
 function isValidMilitaryServicePage(data) {

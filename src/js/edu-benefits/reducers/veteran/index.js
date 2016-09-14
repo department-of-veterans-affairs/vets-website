@@ -14,15 +14,17 @@ export default function veteran(state = blankVeteran, action) {
     case ENSURE_FIELDS_INITIALIZED: {
       let newState;
       if (action.parentNode) {
+        const filteredFields = action.fields.filter(field => state[action.parentNode][field] !== undefined);
         const updatedParentArray = _.get(action.parentNode, state).map(item => {
-          return action.fields.reduce((itemState, field) => {
+          return filteredFields.reduce((itemState, field) => {
             return _.set(field, dirtyAllFields(item[field]), itemState);
           }, item);
         }, state[action.parentNode]);
 
         newState = _.set(action.parentNode, updatedParentArray, state);
       } else {
-        newState = action.fields.reduce((vet, field) => {
+        const filteredFields = action.fields.filter(field => state[field] !== undefined);
+        newState = filteredFields.reduce((vet, field) => {
           return _.set(field, dirtyAllFields(state[field]), vet);
         }, state);
       }

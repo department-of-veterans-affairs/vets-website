@@ -18,8 +18,7 @@ export default class MilitaryServiceFields extends React.Component {
       'applyToChapter1606',
       'applyToChapter32',
       'serviceBranch',
-      'toDate',
-      'fromDate',
+      'dateRange',
       'serviceStatus',
       'involuntarilyCalledToDuty'
     ];

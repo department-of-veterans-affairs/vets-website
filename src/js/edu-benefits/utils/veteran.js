@@ -4,15 +4,17 @@ import { dateToMoment } from './helpers';
 
 export function createTour() {
   return {
-    toDate: {
-      month: makeField(''),
-      day: makeField(''),
-      year: makeField(''),
-    },
-    fromDate: {
-      month: makeField(''),
-      day: makeField(''),
-      year: makeField(''),
+    dateRange: {
+      to: {
+        month: makeField(''),
+        day: makeField(''),
+        year: makeField(''),
+      },
+      from: {
+        month: makeField(''),
+        day: makeField(''),
+        year: makeField(''),
+      }
     },
     serviceBranch: makeField(''),
     serviceStatus: makeField(''),
@@ -38,15 +40,17 @@ export function createEducationPeriod() {
     name: makeField(''),
     city: makeField(''),
     state: makeField(''),
-    toDate: {
+    dateRange: {
+      to: {
       month: makeField(''),
       day: makeField(''),
       year: makeField(''),
-    },
-    fromDate: {
-      month: makeField(''),
-      day: makeField(''),
-      year: makeField(''),
+      },
+      from: {
+        month: makeField(''),
+        day: makeField(''),
+        year: makeField(''),
+      }
     },
     hours: makeField(''),
     hoursType: makeField(''),
@@ -95,12 +99,12 @@ export function createVeteran() {
     reserveKicker: false,
     activeDutyRepaying: makeField(''),
     activeDutyRepayingPeriod: {
-      toDate: {
+      to: {
         month: makeField(''),
         day: makeField(''),
         year: makeField(''),
       },
-      fromDate: {
+      from: {
         month: makeField(''),
         day: makeField(''),
         year: makeField(''),
@@ -216,7 +220,9 @@ export function veteranToApplication(data) {
     'seniorRotcScholarshipProgram',
     'serviceBefore1977.married',
     'serviceBefore1977.haveDependents',
-    'serviceBefore1977.parentDependent'
+    'serviceBefore1977.parentDependent',
+    'seniorRotcCommissioned',
+    'activeDutyRepaying'
   ];
   yesNoFields.forEach(field => {
     vetData = _.set(field, _.get(field, vetData) === 'Y', vetData);
@@ -257,14 +263,36 @@ export function veteranToApplication(data) {
   });
 
   vetData.nonMilitaryJobs = vetData.nonMilitaryJobs.map(job => {
-    let jobData = _.set('months', parseInt(job.months, 10), job);
+    const num = parseInt(job.months, 10);
+    let jobData;
+    if (isNaN(num)) {
+      jobData = _.unset('months', job);
+    } else {
+      jobData = _.set('months', num, job);
+    }
     jobData = _.set('postMilitaryJob', job.postMilitaryJob === 'after', jobData);
 
     return jobData;
   });
 
+  vetData.postHighSchoolTrainings = vetData.postHighSchoolTrainings.map(training => {
+    const num = parseInt(training.hours, 10);
+    let trainingData;
+    if (isNaN(num)) {
+      trainingData = _.unset('hours', training);
+    } else {
+      trainingData = _.set('hours', num, training);
+    }
+
+    return trainingData;
+  });
+
   if (!vetData.seniorRotcCommissioned) {
     vetData = _.unset('seniorRotc', vetData);
+  }
+
+  if (!vetData.activeDutyRepaying) {
+    vetData = _.unset('activeDutyRepayingPeriod', vetData);
   }
 
   // Remove UI only fields
