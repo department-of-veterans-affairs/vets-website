@@ -14,7 +14,7 @@ module.exports = {
       value: 'Patient Education Materials'
     },
     {
-      label: 'Medication',
+      label: 'Medications',
       value: 'Medication Inquiry'
     },
     {
@@ -22,13 +22,16 @@ module.exports = {
       value: 'Test Results Inquiry'
     },
     {
-      label: 'Other (please fill in the subject line below)',
+      label: 'Other (please add a subject)',
       value: 'Other'
     }
   ],
-
+  composeMessagePlaceholders: {
+    subject: 'Add an additional subject line'
+  },
   composeMessageErrors: {
     category: 'Please select a category.',
-    subject: 'Please add subject description.'
+    subject: 'Please add subject description.',
+    recipient: 'Please select a recipient from your health care team.'
   }
 };

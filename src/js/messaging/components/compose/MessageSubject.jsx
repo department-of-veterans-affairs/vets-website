@@ -4,17 +4,18 @@ import { makeField } from '../../../common/model/fields.js';
 
 class MessageSubject extends React.Component {
   render() {
-    const subjectValue = makeField(this.props.value);
+    const subjectValue = makeField(undefined);
 
     return (
-      <div className="messaging-subject">
+      <div className={this.props.cssClass}>
         <ErrorableTextInput
+            additionalClass={`${this.props.cssClass}-input`}
             errorMessage={this.props.errorMessage}
-            label="Subject Line:"
+            label="Subject"
             onValueChange={this.props.onValueChange}
+            required={this.props.required}
             placeholder={this.props.placeholder}
             name="messageSubject"
-            required
             field={subjectValue}/>
       </div>
     );
@@ -22,11 +23,11 @@ class MessageSubject extends React.Component {
 }
 
 MessageSubject.propTypes = {
+  cssClass: React.PropTypes.string,
   errorMessage: React.PropTypes.string,
-  subjectClass: React.PropTypes.string,
-  name: React.PropTypes.string,
   onValueChange: React.PropTypes.func,
-  value: React.PropTypes.string
+  placeholder: React.PropTypes.string,
+  required: React.PropTypes.bool
 };
 
 export default MessageSubject;
