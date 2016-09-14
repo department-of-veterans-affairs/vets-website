@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { messageCategories, composeMessageErrors, composeMessagePlaceholders } from '../config';
 import MessageCategory from '../components/compose/MessageCategory';
+import MessageSend from '../components/compose/MessageSend';
 import MessageSubject from '../components/compose/MessageSubject';
 import MessageRecipient from '../components/compose/MessageRecipient';
 import {
@@ -17,12 +18,17 @@ class Compose extends React.Component {
   constructor() {
     super();
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
-    this.handleSubjectChange = this.handleSubjectChange.bind(this);
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
+    this.handleSubjectChange = this.handleSubjectChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillMount() {
     this.props.fetchRecipients();
+  }
+
+  handleSubmit(domEvent) {
+    domEvent.preventDefault();
   }
 
   handleCategoryChange(valueObj) {
@@ -40,7 +46,9 @@ class Compose extends React.Component {
 
   render() {
     return (
-      <form id="messaging-compose">
+      <form
+          id="messaging-compose"
+          onSubmit={this.handleSubmit}>
         <h2>New message</h2>
         <p>
           <strong>Note:</strong> Messages may be saved to your health record at
@@ -72,6 +80,8 @@ class Compose extends React.Component {
                 required={this.props.compose.subject.required}/>
           </div>
         </fieldset>
+        <MessageSend
+            cssClass="messaging-send-group"/>
       </form>
     );
   }
