@@ -19,14 +19,14 @@ export default class DirectDepositFields extends React.Component {
               value={this.props.data.bankAccount.accountType}
               onValueChange={(update) => {this.props.onStateChange('bankAccount.accountType', update);}}/>
           <ErrorableTextInput
-              label="Account Number"
+              label="Account number"
               name="accountNumber"
               field={this.props.data.bankAccount.accountNumber}
               onValueChange={(update) => {this.props.onStateChange('bankAccount.accountNumber', update);}}/>
           <ErrorableTextInput
               errorMessage={validateIfDirty(this.props.data.bankAccount.routingNumber, isValidRoutingNumber) ? undefined : 'Please enter a valid nine digit routing number'}
               validation={isValidRoutingNumber(this.props.data.bankAccount.routingNumber)}
-              label="Routing Number"
+              label="Routing number"
               name="routingNumber"
               field={this.props.data.bankAccount.routingNumber}
               onValueChange={(update) => {this.props.onStateChange('bankAccount.routingNumber', update);}}/>
