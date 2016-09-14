@@ -1,10 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router';
+import classNames from 'classnames';
 
 class FolderNav extends React.Component {
   constructor(props) {
     super(props);
     this.makeFolderLink = this.makeFolderLink.bind(this);
+    this.isLinkActive = this.isLinkActive.bind(this);
+  }
+
+  isLinkActive(link) {
+    return this.context.router.isActive(link.props.to, true);
   }
 
   makeFolderLink(folder) {
@@ -28,7 +34,38 @@ class FolderNav extends React.Component {
   }
 
   render() {
-    let folderList = this.props.folders.map(folder => {
+    let folderList = this.props.folders;
+    let myFolders;
+
+    // If there are more than 5 folders, move all the non-default folders
+    // into a expandable sublist called 'My folders'.
+    if (folderList.length > 5) {
+      myFolders = folderList.slice(4);
+      folderList = folderList.slice(0, 4);
+
+      const myFolderLinks = myFolders.map(this.makeFolderLink);
+      const isLinkActive = myFolderLinks.find(this.isLinkActive);
+      const myFoldersClass = classNames({ 'usa-current': isLinkActive });
+
+      myFolders = myFolderLinks.map((link, index) => {
+        return (
+          <li key={index}>
+            {link}
+          </li>
+        );
+      });
+
+      myFolders = (
+        <li key="myFolders">
+          <a className={myFoldersClass}>My folders</a>
+          <ul className="messaging-folder-subnav usa-sidenav-sub_list">
+            {myFolders}
+          </ul>
+        </li>
+      );
+    }
+
+    folderList = folderList.map(folder => {
       return (
         <li key={folder.folder_id}>
           {this.makeFolderLink(folder)}
@@ -36,23 +73,7 @@ class FolderNav extends React.Component {
       );
     });
 
-    let myFolders;
-
-    // If there are more than 5 folders, move all the non-default folders
-    // into a expandable sublist called 'My folders'.
-    if (folderList.length > 5) {
-      myFolders = (
-        <li key="myFolders">
-          <a>My folders</a>
-          <ul className="messaging-folder-subnav usa-sidenav-sub_list">
-            {folderList.slice(4)}
-          </ul>
-        </li>
-      );
-
-      folderList = folderList.slice(0, 4);
-      folderList.push(myFolders);
-    }
+    folderList.push(myFolders);
 
     const folderActions = (
       <li className="messaging-folder-nav-actions">
@@ -75,6 +96,10 @@ class FolderNav extends React.Component {
     );
   }
 }
+
+FolderNav.contextTypes = {
+  router: React.PropTypes.object
+};
 
 FolderNav.propTypes = {
   folders: React.PropTypes.arrayOf(
