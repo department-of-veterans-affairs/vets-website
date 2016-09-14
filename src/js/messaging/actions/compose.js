@@ -7,22 +7,21 @@ export const SET_SUBJECT_REQUIRED = 'SET_SUBJECT_REQUIRED';
 
 export const FETCH_RECIPIENTS_SUCCESS = 'FETCH_RECIPIENTS_SUCCESS';
 export const FETCH_RECIPIENTS_FAILURE = 'FETCH_RECIPIENTS_FAILURE';
+export const FETCH_SENDER_SUCCESS = 'FETCH_SENDER_SUCCESS';
 
 export const SAVE_MESSAGE = 'SAVE_MESSAGE';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 
+export const DELETE_DRAFT = 'DELETE_DRAFT';
+export const SHOW_CONFIRM_DELETE = 'SHOW_CONFIRM_DELETE';
+export const SET_MESSAGE = 'SET_MESSAGE';
+
 const baseUrl = `${apiUrl}/recipients`;
 
-export function setCategory(field) {
+export function setMessageField(path, field) {
   return {
-    type: SET_CATEGORY,
-    field
-  };
-}
-
-export function setSubject(field) {
-  return {
-    type: SET_SUBJECT,
+    type: SET_MESSAGE,
+    path,
     field
   };
 }
@@ -37,13 +36,6 @@ export function setSubjectRequired(field) {
   };
 }
 
-export function setRecipient(field) {
-  return {
-    type: SET_RECIPIENT,
-    field
-  };
-}
-
 export function sendMessage() {
   return {
     type: SEND_MESSAGE
@@ -53,6 +45,27 @@ export function sendMessage() {
 export function saveMessage() {
   return {
     type: SAVE_MESSAGE
+  };
+}
+
+export function confirmDelete() {
+  return {
+    type: SHOW_CONFIRM_DELETE
+  };
+}
+
+export function fetchSenderName() {
+  /*
+  TODO: Make this conduct an actual
+  fetch operation for this data
+  */
+  return {
+    type: FETCH_SENDER_SUCCESS,
+    sender: {
+      lastName: 'Veteran',
+      firstName: 'Jane',
+      middleName: 'Q.'
+    }
   };
 }
 

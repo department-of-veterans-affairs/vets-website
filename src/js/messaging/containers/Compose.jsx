@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { messageCategories, composeMessageErrors, composeMessagePlaceholders } from '../config';
+import {
+  composeMessageErrors,
+  composeMessagePlaceholders,
+  messageCategories
+} from '../config';
+
 import MessageCategory from '../components/compose/MessageCategory';
 import MessageFrom from '../components/compose/MessageFrom';
 import MessageSubject from '../components/compose/MessageSubject';
@@ -9,13 +14,13 @@ import MessageRecipient from '../components/compose/MessageRecipient';
 import MessageSend from '../components/compose/MessageSend';
 
 import {
+  confirmDelete,
   saveMessage,
   sendMessage,
-  setCategory,
-  setRecipient,
-  setSubject,
+  setMessageField,
   setSubjectRequired,
   fetchRecipients,
+  fetchSenderName
 } from '../actions/compose';
 
 class Compose extends React.Component {
@@ -24,45 +29,34 @@ class Compose extends React.Component {
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
     this.handleSubjectChange = this.handleSubjectChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
   }
 
   componentWillMount() {
+    this.props.fetchSenderName();
     this.props.fetchRecipients();
   }
 
-  handleSubmit(domEvent) {
-    domEvent.preventDefault();
-    console.log('handle submit!');
-  }
-
-  handleChange(domEvent) {
-    domEvent.preventDefault();
-    console.log('change event!');
-  }
-
   handleCategoryChange(valueObj) {
-    this.props.setCategory(valueObj);
+    this.props.setMessageField('message.category', valueObj);
     this.props.setSubjectRequired(valueObj);
   }
 
   handleSubjectChange(valueObj) {
-    this.props.setSubject(valueObj);
+    this.props.setMessageField('message.subject.value', valueObj);
   }
 
   handleRecipientChange(valueObj) {
-    this.props.setRecipient(valueObj);
+    this.props.setMessageField('message.recipient', valueObj);
   }
 
   render() {
     const message = this.props.compose.message;
+    const recipients = this.props.compose.recipients;
 
     return (
       <form
           id="messaging-compose"
-          onSubmit={this.handleSubmit}
-          onChange={this.handleChange}>
+          onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
         <h2>New message</h2>
         <p>
           <strong>Note:</strong> Messages may be saved to your health record at
@@ -70,15 +64,15 @@ class Compose extends React.Component {
         </p>
         <MessageFrom
             cssClass="messaging-from"
-            lastName="Veteran"
-            firstName="Jane"
-            middleName="Q."/>
+            lastName={message.sender.lastName}
+            firstName={message.sender.firstName}
+            middleName={message.sender.middleName}/>
         <MessageRecipient
             categories={messageCategories}
             errorMessage={composeMessageErrors.recipient}
             cssClass="messaging-recipient"
             onValueChange={this.handleRecipientChange}
-            options={this.props.compose.recipients}
+            options={recipients}
             value={message.recipient}/>
 
         <fieldset className="messaging-subject-group">
@@ -101,7 +95,7 @@ class Compose extends React.Component {
         <MessageSend
             onSave={this.props.saveMessage}
             onSend={this.props.sendMessage}
-            onDelete={() => {console.log('ondelete');}}
+            onDelete={this.props.confirmDelete}
             cssClass="messaging-send-group"/>
       </form>
     );
@@ -114,13 +108,13 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  confirmDelete,
   saveMessage,
   sendMessage,
-  setCategory,
-  setSubject,
+  setMessageField,
   setSubjectRequired,
-  setRecipient,
-  fetchRecipients
+  fetchRecipients,
+  fetchSenderName
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);
