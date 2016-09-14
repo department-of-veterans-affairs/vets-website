@@ -3,9 +3,11 @@ import { connect } from 'react-redux';
 
 import { messageCategories, composeMessageErrors, composeMessagePlaceholders } from '../config';
 import MessageCategory from '../components/compose/MessageCategory';
-import MessageSend from '../components/compose/MessageSend';
+import MessageFrom from '../components/compose/MessageFrom';
 import MessageSubject from '../components/compose/MessageSubject';
 import MessageRecipient from '../components/compose/MessageRecipient';
+import MessageSend from '../components/compose/MessageSend';
+
 import {
   saveMessage,
   sendMessage,
@@ -66,7 +68,11 @@ class Compose extends React.Component {
           <strong>Note:</strong> Messages may be saved to your health record at
           your team's discretion.
         </p>
-
+        <MessageFrom
+            cssClass="messaging-from"
+            lastName="Veteran"
+            firstName="Jane"
+            middleName="Q."/>
         <MessageRecipient
             categories={messageCategories}
             errorMessage={composeMessageErrors.recipient}
