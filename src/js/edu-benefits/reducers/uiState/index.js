@@ -31,12 +31,12 @@ const ui = {
     '/military-history/military-service': {
       complete: false,
       verified: false,
-      fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty', 'toursOfDuty', 'seniorRotcCommissioned', 'seniorRotcComissionYear']
+      fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty', 'toursOfDuty', 'seniorRotcCommissioned']
     },
     '/military-history/dependents': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['serviceBefore1977']
     },
     '/military-history/rotc-history': {
       complete: false,
@@ -51,12 +51,7 @@ const ui = {
     '/education-history/education-information': {
       complete: false,
       verified: false,
-      fields: []
-    },
-    '/education-history/additional-information': {
-      complete: false,
-      verified: false,
-      fields: []
+      fields: ['highSchoolOrGedCompletionDate', 'postHighSchoolTrainings']
     },
     '/employment-history/employment-information': {
       complete: false,
@@ -76,7 +71,7 @@ const ui = {
     '/veteran-information/contact-information': {
       complete: false,
       verified: false,
-      fields: ['veteranAddress', 'email', 'confirmationEmail', 'homePhone', 'mobilePhone', 'preferredContactMethod']
+      fields: ['veteranAddress', 'email', 'emailConfirmation', 'homePhone', 'mobilePhone', 'preferredContactMethod']
     },
     '/veteran-information/secondary-contact': {
       complete: false,
