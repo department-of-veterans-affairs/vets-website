@@ -1,7 +1,7 @@
 import set from 'lodash/fp/set';
 
 import {
-  CONFIRM_DELETE_MODAL,
+  SHOW_CONFIRM_DELETE,
   SET_MESSAGE,
   SET_SUBJECT_REQUIRED,
   SEND_MESSAGE,
