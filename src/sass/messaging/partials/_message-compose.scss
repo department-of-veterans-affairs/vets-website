@@ -64,3 +64,27 @@
     margin-bottom: 1.5rem;
   }
 }
+
+.messaging-btn-delete {
+  margin: 0;
+}
+  
+.messaging-send-group {
+  background: $color-gray-lightest;
+  border-bottom: 1px solid $color-gray-light;
+  border-top: 1px solid $color-gray-light;
+  padding: 1rem;
+ 
+  [type="button"] {
+    display: inline-block;
+    margin: 0 1rem 0 0;
+  }
+    
+  .messaging-btn-delete {
+    float: right;
+    margin-right: 0;
+  }
+}
+.messaging-btn-save {
+  background: transparent !important;
+}
