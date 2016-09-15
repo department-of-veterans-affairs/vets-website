@@ -22,18 +22,4 @@ describe('<MilitaryServiceFields>', () => {
     expect(tree.everySubTree('ErrorableRadioButtons').some(buttons => buttons.props.name === 'onTerminalLeave')).to.be.true;
     expect(tree.everySubTree('ErrorableRadioButtons').some(buttons => buttons.props.name === 'nonVaAssistance')).to.be.true;
   });
-  it('should render rotc commissioned year', () => {
-    let veteran = createVeteran();
-    veteran.seniorRotcCommissioned.value = 'Y';
-    const onStateChange = sinon.spy();
-    const initializeFields = sinon.spy();
-
-    const tree = SkinDeep.shallowRender(
-      <MilitaryServiceFields
-          data={veteran}
-          onStateChange={onStateChange}
-          initializeFields={initializeFields}/>
-    );
-    expect(tree.everySubTree('ErrorableTextInput').some(input => input.props.name === 'commissionYear')).to.be.true;
-  });
 });
