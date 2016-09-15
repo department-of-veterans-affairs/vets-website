@@ -102,9 +102,13 @@ class Compose extends React.Component {
   }
 }
 
-// TODO: fill this out
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    compose: {
+      message: state.compose.message,
+      recipients: state.compose.recipients
+    }
+  };
 };
 
 const mapDispatchToProps = {
