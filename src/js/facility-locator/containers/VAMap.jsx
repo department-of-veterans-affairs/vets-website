@@ -18,8 +18,8 @@ class VAMap extends Component {
   }
 
   componentDidMount() {
-    const { location } = this.props;
-    const { shouldGeolocate, position } = this.state;
+    const { location, position } = this.props;
+    const { shouldGeolocate } = this.state;
 
     if (location.query.address) {
       // populate search bar with address in Url
@@ -28,29 +28,32 @@ class VAMap extends Component {
       });
     }
 
-    this.props.fetchVAFacilities({
-      latitude: position[0],
-      longitude: position[1],
-    });
+    if (location.query.location) {
+      const coords = location.query.location.split(',').map(Number);
+      this.props.updateSearchQuery({
+        position: {
+          latitude: coords[0],
+          longitude: coords[1],
+        }
+      });
+    }
+
+    this.props.fetchVAFacilities(position);
 
     this.mapElement = this.refs.map.leafletElement.getBounds();
     if ('geolocation' in navigator && shouldGeolocate) {
       navigator.geolocation.getCurrentPosition((currentPosition) => {
-        this.setState({
-          position: [currentPosition.coords.latitude, currentPosition.coords.longitude],
-        }, () => {
-          this.updateUrlParams({
-            location: [currentPosition.coords.latitude, currentPosition.coords.longitude].join(','),
-          });
-          this.props.fetchVAFacilities(currentPosition.coords);
-          this.reverseGeocode(currentPosition.coords);
+        this.props.updateSearchQuery({
+          position: currentPosition.coords,
         });
+        this.updateUrlParams({
+          location: [currentPosition.coords.latitude, currentPosition.coords.longitude].join(','),
+        });
+        this.props.fetchVAFacilities(currentPosition.coords);
+        this.reverseGeocode(currentPosition.coords);
       });
     } else if (!location.query.address) {
-      this.reverseGeocode({
-        latitude: position[0],
-        longitude: position[1],
-      });
+      this.reverseGeocode(position);
     }
   }
 
@@ -87,20 +90,18 @@ class VAMap extends Component {
   generateInitialState = () => {
     const { location } = this.props;
 
-    if ('location' in location.query) {
-      const position = location.query.location.split(',').map(Number);
-      return {
-        position,
-      };
+    if (location.query.location) {
+      return {};
     }
+
     return {
-      position: [38.8976763, -77.03653],
       shouldGeolocate: true,
     };
   }
 
   render() {
-    const { position } = this.state;
+    const coords = this.props.currentQuery.position;
+    const position = [coords.latitude, coords.longitude];
 
     return (
       <div>
@@ -127,6 +128,13 @@ class VAMap extends Component {
   }
 }
 
+function mapStateToProps(state) {
+  return {
+    currentQuery: state.searchQuery,
+    facilities: state.facilities.facilities,
+  };
+}
+
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     fetchVAFacilities,
@@ -134,4 +142,4 @@ function mapDispatchToProps(dispatch) {
   }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(VAMap);
+export default connect(mapStateToProps, mapDispatchToProps)(VAMap);
