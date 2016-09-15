@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import fetch from 'isomorphic-fetch';
 
 import IntroductionSection from './IntroductionSection.jsx';
-import Nav from './Nav.jsx';
+import Nav from './Nav.jsx'; // TODO: use Nav and NavButtons from the common folder
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp } from '../actions';
 import { veteranToApplication } from '../../common/model/veteran';

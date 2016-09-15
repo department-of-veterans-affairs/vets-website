@@ -1605,6 +1605,24 @@ const schoolTypes = [
   { label: 'Tuition assistance top-up', value: 'tuitionTopUp' }
 ];
 
+const contactOptions = [
+  { label: 'Email', value: 'email' },
+  { label: 'Phone', value: 'phone' },
+  { label: 'Mail', value: 'mail' }
+];
+
+const accountTypes = [
+  { label: 'Checking', value: 'checking' },
+  { label: 'Savings', value: 'savings' }
+];
+
+const relinquishableBenefits = [
+  { label: 'Chapter 1606', value: 'chapter1606Relinquished' },
+  { label: 'Chapter 30', value: 'chapter30Relinquished' },
+  { label: 'Chapter 1607', value: 'chapter1607Relinquished' },
+  { label: 'I don\'t have anything to relinquish', value: 'nothingToRelinquish' }
+];
+
 module.exports = {
   countries,
   maritalStatuses,
@@ -1621,5 +1639,8 @@ module.exports = {
   yesNoNA,
   serviceBranches,
   schoolTypes,
-  employmentPeriodTiming
+  employmentPeriodTiming,
+  contactOptions,
+  accountTypes,
+  relinquishableBenefits
 };

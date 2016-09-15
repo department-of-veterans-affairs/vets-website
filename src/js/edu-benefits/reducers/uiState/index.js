@@ -31,7 +31,7 @@ const ui = {
     '/military-history/military-service': {
       complete: false,
       verified: false,
-      fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty', 'toursOfDuty', 'seniorRotcComissioned', 'seniorRotcComissionYear']
+      fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty', 'toursOfDuty', 'seniorRotcCommissioned', 'seniorRotcComissionYear']
     },
     '/military-history/dependents': {
       complete: false,
@@ -41,7 +41,7 @@ const ui = {
     '/military-history/rotc-history': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['seniorRotc', 'seniorRotcScholarshipProgram']
     },
     '/military-history/benefits-history': {
       complete: false,
@@ -73,15 +73,10 @@ const ui = {
       verified: false,
       fields: ['veteranFullName', 'veteranSocialSecurityNumber', 'veteranDateOfBirth', 'gender']
     },
-    '/veteran-information/address': {
-      complete: false,
-      verified: false,
-      fields: ['veteranAddress']
-    },
     '/veteran-information/contact-information': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['veteranAddress', 'email', 'confirmationEmail', 'homePhone', 'mobilePhone', 'preferredContactMethod']
     },
     '/veteran-information/secondary-contact': {
       complete: false,
@@ -91,7 +86,7 @@ const ui = {
     '/veteran-information/direct-deposit': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['bankAccount']
     },
     '/review-and-submit': {
       complete: false,
