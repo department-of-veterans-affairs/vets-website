@@ -46,7 +46,7 @@ export default class BenefitsHistoryFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('activeDutyRepaying', update);}}/>
           {this.props.data.activeDutyRepaying.value === 'Y'
           ? <div>
-            <DateInput
+            <DateInput required
                 errorMessage="Please provide a response"
                 validation={validateIfDirtyDateObj(this.props.data.activeDutyRepayingPeriod.from, isValidDateField)}
                 label="Start date"
@@ -55,7 +55,7 @@ export default class BenefitsHistoryFields extends React.Component {
                 month={this.props.data.activeDutyRepayingPeriod.from.month}
                 year={this.props.data.activeDutyRepayingPeriod.from.year}
                 onValueChange={(update) => {this.props.onStateChange('activeDutyRepayingPeriod.from', update);}}/>
-            <DateInput
+            <DateInput required
                 errorMessage={isToDateValid ? 'End Date must be after Start Date' : 'Please provide a response'}
                 validation={validateIfDirtyDateObj(this.props.data.activeDutyRepayingPeriod.to, (date) => isValidDateRange(this.props.data.activeDutyRepayingPeriod.from, date))}
                 label="End date"

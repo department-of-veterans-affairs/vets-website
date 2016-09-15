@@ -288,6 +288,13 @@ function isValidDirectDepositPage(data) {
   return isValidField(isValidRoutingNumber, data.bankAccount.routingNumber);
 }
 
+function isValidBenefitsHistoryPage(data) {
+  return data.activeDutyRepaying.value !== 'Y' ||
+    (!isBlankDateField(data.activeDutyRepayingPeriod.from)
+    && !isBlankDateField(data.activeDutyRepayingPeriod.to)
+    && isValidDateRange(data.activeDutyRepayingPeriod.from, data.activeDutyRepayingPeriod.to));
+}
+
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data)
     && isValidPersonalInfoPage(data)
@@ -297,7 +304,8 @@ function isValidForm(data) {
     && isValidEmploymentHistoryPage(data)
     && isValidEducationHistoryPage(data)
     && isValidSecondaryContactPage(data)
-    && isValidDirectDepositPage(data);
+    && isValidDirectDepositPage(data)
+    && isValidBenefitsHistoryPage(data);
 }
 
 function isValidPage(completePath, pageData) {
@@ -310,6 +318,8 @@ function isValidPage(completePath, pageData) {
       return isValidBenefitsInformationPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
+    case '/military-history/benefits-history':
+      return isValidBenefitsHistoryPage(pageData);
     case '/school-selection/school-information':
       return isValidSchoolSelectionPage(pageData);
     case '/employment-history/employment-information':
