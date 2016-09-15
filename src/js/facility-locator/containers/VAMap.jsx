@@ -11,15 +11,9 @@ import TownHall from '../components/markers/TownHall';
 
 class VAMap extends Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = this.generateInitialState();
-  }
-
   componentDidMount() {
     const { location, position } = this.props;
-    const { shouldGeolocate } = this.state;
+    let shouldGeolocate = true;
 
     if (location.query.address) {
       // populate search bar with address in Url
@@ -29,6 +23,7 @@ class VAMap extends Component {
     }
 
     if (location.query.location) {
+      shouldGeolocate = false;
       const coords = location.query.location.split(',').map(Number);
       this.props.updateSearchQuery({
         position: {
@@ -86,20 +81,8 @@ class VAMap extends Component {
     });
   }
 
-  // defaults to White House coordinates if there are not coords in URL
-  generateInitialState = () => {
-    const { location } = this.props;
-
-    if (location.query.location) {
-      return {};
-    }
-
-    return {
-      shouldGeolocate: true,
-    };
-  }
-
   render() {
+  // defaults to White House coordinates initially
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
 
