@@ -12,6 +12,7 @@ import MessageFrom from '../components/compose/MessageFrom';
 import MessageSubject from '../components/compose/MessageSubject';
 import MessageRecipient from '../components/compose/MessageRecipient';
 import MessageSend from '../components/compose/MessageSend';
+import MessageWrite from '../components/compose/MessageWrite';
 
 import {
   confirmDelete,
@@ -29,6 +30,7 @@ class Compose extends React.Component {
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
     this.handleSubjectChange = this.handleSubjectChange.bind(this);
+    this.handleMessageChange = this.handleMessageChange.bind(this);
   }
 
   componentWillMount() {
@@ -43,6 +45,10 @@ class Compose extends React.Component {
 
   handleSubjectChange(valueObj) {
     this.props.setMessageField('message.subject.value', valueObj);
+  }
+
+  handleMessageChange(valueObj) {
+    this.props.setMessageField('message.text', valueObj);
   }
 
   handleRecipientChange(valueObj) {
@@ -86,12 +92,16 @@ class Compose extends React.Component {
                 value={message.category}/>
             <MessageSubject
                 cssClass="messaging-subject"
-                errorMessage={composeMessageErrors.subjet}
+                errorMessage={composeMessageErrors.subject}
                 onValueChange={this.handleSubjectChange}
                 placeholder={composeMessagePlaceholders.subject}
                 required={message.subject.required}/>
           </div>
         </fieldset>
+        <MessageWrite
+            cssClass="messaging-write"
+            onValueChange={this.handleMessageChange}
+            placeholder={composeMessagePlaceholders.message}/>
         <MessageSend
             onSave={this.props.saveMessage}
             onSend={this.props.sendMessage}

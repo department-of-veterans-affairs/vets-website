@@ -173,7 +173,7 @@ describe('<NavButtons>', () => {
       status: false
     };
     const pages = ['/introduction', '/review-and-submit'];
-    const isValid = false;
+    const canSubmit = false;
     const dirtyPage = sinon.spy();
     const onNavigate = sinon.spy();
     const onSubmit = sinon.spy();
@@ -183,7 +183,7 @@ describe('<NavButtons>', () => {
           submission={submission}
           path={path}
           pages={pages}
-          isValid={isValid}
+          canSubmit={canSubmit}
           dirtyPage={dirtyPage}
           onNavigate={onNavigate}
           onSubmit={onSubmit}/>
@@ -203,7 +203,7 @@ describe('<NavButtons>', () => {
     const submission = {
       status: false
     };
-    const isValid = true;
+    const canSubmit = true;
     const dirtyPage = sinon.spy();
     const onNavigate = sinon.spy();
     const onSubmit = sinon.spy();
@@ -213,7 +213,7 @@ describe('<NavButtons>', () => {
           submission={submission}
           path={path}
           pages={pages}
-          isValid={isValid}
+          canSubmit={canSubmit}
           dirtyPage={dirtyPage}
           onNavigate={onNavigate}
           onSubmit={onSubmit}/>

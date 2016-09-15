@@ -2,7 +2,7 @@ import MessagingApp from './containers/MessagingApp';
 import Compose from './containers/Compose';
 import Folder from './containers/Folder';
 import Main from './containers/Main';
-import Modal from './containers/Modal';
+import MainMobile from './containers/MainMobile';
 import Thread from './containers/Thread';
 
 const routes = {
@@ -21,7 +21,7 @@ const routes = {
     },
     {
       path: '',
-      component: Modal,
+      component: MainMobile,
       childRoutes: [
         { path: 'compose', component: Compose },
         { path: 'thread/:id', component: Thread }
