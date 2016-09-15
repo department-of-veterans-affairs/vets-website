@@ -62,7 +62,7 @@ export default function compose(state = initialState, action) {
     case FETCH_SENDER_SUCCESS:
       return set('message.sender', action.sender, state);
     case TOGGLE_CONFIRM_DELETE:
-      return set('modals.deleteconfirm.visible', !state.modals.deleteconfirm.visible, state);
+      return set('modals.deleteConfirm.visible', !state.modals.deleteConfirm.visible, state);
     case FETCH_RECIPIENTS_FAILURE:
     case SEND_MESSAGE:
     case SAVE_MESSAGE:
