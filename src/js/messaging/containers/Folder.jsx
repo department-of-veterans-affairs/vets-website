@@ -28,7 +28,7 @@ class Folder extends React.Component {
         folderName = folder.attributes.name;
       }
 
-      const rows = folder.messages.map(message => {
+      const rows = folder.messages.map((message) => {
         return (
           <tr key={message.message_id}>
             <td>{message.sender_name}</td>
@@ -68,9 +68,9 @@ class Folder extends React.Component {
 
 const mapStateToProps = (state) => {
   const currentFolder = state.folders.data.currentItem;
-  const attributes = state.folders.data.items.find(
-    folder => folder.folder_id === currentFolder.id
-  );
+  const attributes = state.folders.data.items.find((folder) => {
+    return folder.folder_id === currentFolder.id;
+  });
   const messages = currentFolder.messages;
 
   return {
