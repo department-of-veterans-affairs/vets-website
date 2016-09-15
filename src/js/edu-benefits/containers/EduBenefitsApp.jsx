@@ -14,7 +14,7 @@ import NavHeader from '../../common/components/NavHeader';
 import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
 
-import { isValidPage } from '../utils/validations';
+import { isValidPage, isValidForm } from '../utils/validations';
 import { ensurePageInitialized, updateCompletedStatus, submitForm } from '../actions/index';
 
 
@@ -60,6 +60,7 @@ class EduBenefitsApp extends React.Component {
                 pages={pages}
                 path={currentLocation.pathname}
                 isValid={isValidPage(currentLocation.pathname, data)}
+                canSubmit={isValidForm(data)}
                 dirtyPage={dirtyPage}
                 onNavigate={navigateTo}
                 onComplete={setComplete}

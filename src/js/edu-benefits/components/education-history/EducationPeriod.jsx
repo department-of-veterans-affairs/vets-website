@@ -14,7 +14,7 @@ export default class EducationPeriod extends React.Component {
     const period = this.props.data;
     const formFields = (
       <div>
-        <ErrorableTextInput
+        <ErrorableTextInput required
             label="Name of college or other training provider"
             name="name"
             field={period.name}

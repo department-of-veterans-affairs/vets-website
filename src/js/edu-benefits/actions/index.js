@@ -88,7 +88,6 @@ export function updateSubmissionTimestamp(value) {
 
 export function submitForm(data) {
   const application = veteranToApplication(data);
-  console.log(application);
   return dispatch => {
     dispatch(updateSubmissionStatus('submitPending'));
     fetch('/api/v0/education_benefits_claims', {

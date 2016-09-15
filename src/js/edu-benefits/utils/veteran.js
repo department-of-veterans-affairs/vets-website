@@ -42,9 +42,9 @@ export function createEducationPeriod() {
     state: makeField(''),
     dateRange: {
       to: {
-      month: makeField(''),
-      day: makeField(''),
-      year: makeField(''),
+        month: makeField(''),
+        day: makeField(''),
+        year: makeField(''),
       },
       from: {
         month: makeField(''),
@@ -207,13 +207,47 @@ function convertFieldToValue(field) {
   return field;
 }
 
+function convertToNumber(data, field) {
+  const numString = (data[field] || '').replace(/\D/g, '');
+  const num = parseInt(numString, 10);
+
+  return isNaN(num)
+    ? _.unset(field, data)
+    : _.set(field, num, data);
+}
+
+function convertYesNoNA(data, field) {
+  const value = data[field];
+  if (value !== undefined) {
+    let convertedValue;
+    if (value === 'Y') {
+      convertedValue = 'yes';
+    } else if (value === 'N') {
+      convertedValue = 'no';
+    } else {
+      convertedValue = 'n/a';
+    }
+
+    return _.set(field, convertedValue, data);
+  }
+
+  return _.unset(field, data);
+}
+
+function convertYesNo(data, field) {
+  const value = _.get(field, data);
+
+  return value
+    ? _.set(field, value === 'Y', data)
+    : _.unset(field, data);
+}
+
 export function veteranToApplication(data) {
-  console.log(data);
   // Convert { value, dirty } to just the value
   let vetData = convertFieldToValue(data);
 
   // Replace Yes/No radio button values with booleans
-  const yesNoFields = [
+  vetData = [
     'currentlyActiveDuty.yes',
     'currentlyActiveDuty.onTerminalLeave',
     'currentlyActiveDuty.nonVaAssistance',
@@ -223,72 +257,44 @@ export function veteranToApplication(data) {
     'serviceBefore1977.parentDependent',
     'seniorRotcCommissioned',
     'activeDutyRepaying'
-  ];
-  yesNoFields.forEach(field => {
-    vetData = _.set(field, _.get(field, vetData) === 'Y', vetData);
-  });
+  ].reduce(convertYesNo, vetData);
 
   // Convert strings to numbers
-  const numberFields = [
+  vetData = [
     'serviceAcademyGraduationYear',
     'seniorRotc.commissionYear',
-  ];
-  numberFields.forEach(field => {
-    const num = parseInt(_.get(field, vetData), 10);
-    if (isNaN(num)) {
-      _.unset(field, vetData);
-    } else {
-      vetData = _.set(field, num, vetData);
-    }
-  });
+  ].reduce(convertToNumber, vetData);
 
-  vetData.seniorRotc.rotcScholarshipAmounts = vetData.seniorRotc.rotcScholarshipAmounts.map(ship => ({
-    amount: ship.amount !== '' ? parseInt(ship.amount.replace(/\D/g, ''), 10) : undefined,
-    year: parseInt(ship.year, 10)
-  }));
-
-  vetData.veteranSocialSecurityNumber = vetData.veteranSocialSecurityNumber.replace(/\D/g, '');
-
-  vetData.toursOfDuty = vetData.toursOfDuty.map(tour => {
-    let involuntarilyCalledToDuty;
-    if (tour.involuntarilyCalledToDuty === 'Y') {
-      involuntarilyCalledToDuty = 'yes';
-    } else if (tour.involuntarilyCalledToDuty === 'N') {
-      involuntarilyCalledToDuty = 'no';
-    } else {
-      involuntarilyCalledToDuty = 'n/a';
-    }
-
-    return _.set('involuntarilyCalledToDuty', involuntarilyCalledToDuty, tour);
-  });
+  // Update growable table data rows
+  vetData.toursOfDuty = vetData.toursOfDuty.map(tour => convertYesNoNA(tour, 'involuntarilyCalledToDuty'));
 
   vetData.nonMilitaryJobs = vetData.nonMilitaryJobs.map(job => {
-    const num = parseInt(job.months, 10);
-    let jobData;
-    if (isNaN(num)) {
-      jobData = _.unset('months', job);
+    let jobData = convertToNumber(job, 'months');
+    if (job.postMilitaryJob) {
+      jobData = _.set('postMilitaryJob', job.postMilitaryJob === 'after', jobData);
     } else {
-      jobData = _.set('months', num, job);
+      jobData = _.unset('postMilitaryJob', jobData);
     }
-    jobData = _.set('postMilitaryJob', job.postMilitaryJob === 'after', jobData);
 
     return jobData;
   });
 
-  vetData.postHighSchoolTrainings = vetData.postHighSchoolTrainings.map(training => {
-    const num = parseInt(training.hours, 10);
-    let trainingData;
-    if (isNaN(num)) {
-      trainingData = _.unset('hours', training);
-    } else {
-      trainingData = _.set('hours', num, training);
-    }
-
-    return trainingData;
-  });
+  vetData.postHighSchoolTrainings = vetData.postHighSchoolTrainings.map(training => convertToNumber(training, 'hours'));
 
   if (!vetData.seniorRotcCommissioned) {
     vetData = _.unset('seniorRotc', vetData);
+  } else {
+    vetData.seniorRotc.rotcScholarshipAmounts = vetData.seniorRotc.rotcScholarshipAmounts.map(ship => {
+      let shipData = convertToNumber(ship, 'amount');
+      shipData = convertToNumber(ship, 'year');
+
+      return shipData;
+    });
+  }
+
+  // Individual field tweaks
+  if (vetData.veteranSocialSecurityNumber) {
+    vetData.veteranSocialSecurityNumber = vetData.veteranSocialSecurityNumber.replace(/\D/g, '');
   }
 
   if (!vetData.activeDutyRepaying) {
@@ -296,15 +302,12 @@ export function veteranToApplication(data) {
   }
 
   // Remove UI only fields
-  const fieldsToRemove = [
+  vetData = [
     'seniorRotcCommissioned',
     'activeDutyRepaying',
     'hasNonMilitaryJobs',
     'emailConfirmation'
-  ];
-  fieldsToRemove.forEach(field => {
-    vetData = _.unset(field, vetData);
-  });
+  ].reduce((current, field) => _.unset(field, current), vetData);
 
   return vetData;
 }

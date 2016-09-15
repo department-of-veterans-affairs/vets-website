@@ -249,6 +249,18 @@ function isValidEmploymentHistoryPage(data) {
   return (data.hasNonMilitaryJobs.value !== 'Y' || data.nonMilitaryJobs.every(isValidEmploymentPeriod));
 }
 
+function isValidEducationPeriod(data) {
+  return isNotBlank(data.name)
+    && !isBlankDateField(data.dateRange.from)
+    && !isBlankDateField(data.dateRange.to)
+    && isValidDateRange(data.dateRange.from, data.dateRange.to);
+}
+
+function isValidEducationHistoryPage(data) {
+  return (isBlankDateField(data.highSchoolOrGedCompletionDate) || isValidDateField(data.highSchoolOrGedCompletionDate))
+    && data.postHighSchoolTrainings.every(isValidEducationPeriod);
+}
+
 function isValidSecondaryContactPage(data) {
   return isValidField(isValidPhone, data.secondaryContact.phone);
 }
@@ -277,7 +289,15 @@ function isValidDirectDepositPage(data) {
 }
 
 function isValidForm(data) {
-  return isValidBenefitsInformationPage(data);
+  return isValidBenefitsInformationPage(data)
+    && isValidPersonalInfoPage(data)
+    && isValidContactInformationPage(data)
+    && isValidMilitaryServicePage(data)
+    && isValidSchoolSelectionPage(data)
+    && isValidEmploymentHistoryPage(data)
+    && isValidEducationHistoryPage(data)
+    && isValidSecondaryContactPage(data)
+    && isValidDirectDepositPage(data);
 }
 
 function isValidPage(completePath, pageData) {
@@ -294,6 +314,8 @@ function isValidPage(completePath, pageData) {
       return isValidSchoolSelectionPage(pageData);
     case '/employment-history/employment-information':
       return isValidEmploymentHistoryPage(pageData);
+    case '/education-history/education-information':
+      return isValidEducationHistoryPage(pageData);
     case '/veteran-information/secondary-contact':
       return isValidSecondaryContactPage(pageData);
     case '/veteran-information/direct-deposit':
