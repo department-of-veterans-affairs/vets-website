@@ -84,8 +84,8 @@ function mapDispatchToProps(dispatch) {
     onUpdateVerifiedStatus: (path, update) => {
       dispatch(updateVerifiedStatus(path, update));
     },
-    onFieldsInitialized: (field) => {
-      dispatch(ensureFieldsInitialized(field));
+    onFieldsInitialized(...args) {
+      dispatch(ensureFieldsInitialized(...args));
     },
     onStateChange(...args) {
       dispatch(veteranUpdateField(...args));
