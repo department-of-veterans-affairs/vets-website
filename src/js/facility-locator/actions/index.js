@@ -13,39 +13,37 @@ export function updateSearchQuery(query) {
   return {
     type: SEARCH_QUERY_UPDATED,
     payload: {
-      query,
+      ...query,
     }
   };
 }
 
 export function search(query) {
-  console.log('search called', query);
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
     });
 
-    mapboxClient.geoCode()
-
-
-    mapboxClient.geocodeReverse(position, {
-      types: 'address',
-    }, (err, res) => {
-      // TODO (bshyong): handle error case
-      const placeName = res.features[0].place_name;
-      this.props.updateSearchQuery(placeName);
-      this.updateUrlParams({
-        address: placeName,
-      });
+    mapboxClient.geocodeForward(query.searchString, (err, res) => {
+      const coordinates = res.features[0].center;
+      if (!err) {
+        dispatch({
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            ...query,
+            position: {
+              latitude: coordinates[1],
+              longitude: coordinates[0],
+            }
+          }
+        });
+      } else {
+        dispatch({
+          type: SEARCH_FAILED,
+          err,
+        });
+      }
     });
-
-    // fetch(`API_URL/${query.queryString}`).then(
-    //   data => dispatch({
-    //     type: SEARCH_SUCCEEDED,
-    //     payload: data,
-    //   }),
-    //   err => dispatch({ type: SEARCH_FAILED, err })
-    // );
   };
 }
 

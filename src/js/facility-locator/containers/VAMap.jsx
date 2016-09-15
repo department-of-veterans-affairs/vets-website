@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchVAFacilities, updateSearchQuery } from '../actions';
+import { fetchVAFacilities, updateSearchQuery, search } from '../actions';
 import { map } from 'lodash';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
@@ -18,7 +18,7 @@ class VAMap extends Component {
     if (location.query.address) {
       // populate search bar with address in Url
       this.props.updateSearchQuery({
-        queryString: location.query.address,
+        searchString: location.query.address,
       });
     }
 
@@ -52,7 +52,19 @@ class VAMap extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { currentQuery } = this.props;
+    const newQuery = nextProps.currentQuery;
+
+    if (currentQuery.position !== newQuery.position) {
+      this.updateUrlParams({
+        location: `${nextProps.currentQuery.position.latitude},${nextProps.currentQuery.position.longitude}`,
+      });
+    }
+  }
+
   // pushes coordinates to URL so that map link is useful for sharing
+  // TODO (bshyong): try out existing query-string npm library
   updateUrlParams(params) {
     const { location } = this.props;
 
@@ -73,12 +85,22 @@ class VAMap extends Component {
       // TODO (bshyong): handle error case
       const placeName = res.features[0].place_name;
       this.props.updateSearchQuery({
-        queryString: placeName,
+        searchString: placeName,
       });
       this.updateUrlParams({
         address: placeName,
       });
     });
+  }
+
+  handleSearch = () => {
+    const { currentQuery } = this.props;
+
+    this.updateUrlParams({
+      address: currentQuery.searchString,
+      location: `${currentQuery.position.latitude},${currentQuery.position.longitude}`,
+    });
+    this.props.search(currentQuery);
   }
 
   render() {
@@ -89,7 +111,7 @@ class VAMap extends Component {
     return (
       <div>
         <div className="columns medium-3">
-          <ResultsPane/>
+          <ResultsPane onSearch={this.handleSearch}/>
         </div>
         <div className="medium-9 columns">
           <Map ref="map" center={position} zoom={13} >
@@ -122,6 +144,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     fetchVAFacilities,
     updateSearchQuery,
+    search,
   }, dispatch);
 }
 

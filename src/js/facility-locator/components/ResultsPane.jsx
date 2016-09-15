@@ -25,11 +25,11 @@ class ResultsPane extends Component {
   }
 
   render() {
-    const { currentQuery } = this.props;
+    const { currentQuery, onSearch } = this.props;
 
     return (
       <div>
-        <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery}/>
+        <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={onSearch}/>
         <hr/>
         <div className="facility-search-results">
           <h4>Search Results:</h4>

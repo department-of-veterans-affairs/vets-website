@@ -8,7 +8,7 @@ class SearchControls extends Component {
   // TODO (bshyong): generalize to be able to handle Select box changes
   handleQueryChange = (e) => {
     this.props.onChange({
-      queryString: e.target.value,
+      searchString: e.target.value,
     });
   }
 
@@ -17,10 +17,10 @@ class SearchControls extends Component {
   }
 
   handleSearch = (e) => {
-    const { currentQuery } = this.props;
+    const { onSearch } = this.props;
     e.preventDefault();
 
-    this.props.search(currentQuery);
+    onSearch();
   }
 
   render() {
@@ -36,7 +36,7 @@ class SearchControls extends Component {
         <div>Search for facilities near you or for a specific service or benefit.</div>
         <form className="usa-form">
           <label htmlFor="Street, City, State or Zip">Enter Street, City, State or Zip</label>
-          <input name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.queryString}/>
+          <input name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
           <label htmlFor="serviceType">Service Type</label>
           <select name="services" defaultValue="all" onChange={this.handleFacilityTypeChange}>
             <option value="all">All</option>
