@@ -4,20 +4,15 @@ import { connect } from 'react-redux';
 import { fetchVAFacilities, updateSearchQuery } from '../actions';
 import { map } from 'lodash';
 import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
-import MapboxClient from 'mapbox';
+import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import React, { Component } from 'react';
 import ResultsPane from '../components/ResultsPane';
 import TownHall from '../components/markers/TownHall';
-
-const mapboxToken = 'pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g';
 
 class VAMap extends Component {
 
   constructor(props) {
     super(props);
-
-    // TODO (bshyong): Use env variables for mapbox token
-    this.mapboxClient = new MapboxClient(mapboxToken);
 
     this.state = this.generateInitialState();
   }
@@ -72,7 +67,7 @@ class VAMap extends Component {
 
   // takes obj of form {latitude: 0, longitude: 0}
   reverseGeocode(position) {
-    this.mapboxClient.geocodeReverse(position, {
+    mapboxClient.geocodeReverse(position, {
       types: 'address',
     }, (err, res) => {
       // TODO (bshyong): handle error case
