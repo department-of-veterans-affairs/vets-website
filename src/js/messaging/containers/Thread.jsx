@@ -14,26 +14,18 @@ class Thread extends React.Component {
   render() {
     const thread = this.props.thread;
     let subject;
-    let messageCount;
     let messages;
 
     if (thread.length > 0) {
       subject = thread[0].subject;
-      messages = thread.map((message, i) => <Message key={i} attrs={message}/>);
-
-      if (thread.length > 1) {
-        messageCount = <span> ({thread.length})</span>;
-      }
+      messages = thread.map((message) => {
+        return <Message key={message.message_id} attrs={message}/>;
+      });
     }
 
     return (
       <div>
-        <p className="messaging-thread-note">
-          <strong>Note:</strong> This message may not be from the person you
-          originally messaged. It may have been reassigned in an effort to
-          address your question as effectively and efficiently as possible.
-        </p>
-        <h2 className="messaging-thread-name">{subject}{messageCount}</h2>
+        <h2 className="messaging-thread-name">{subject}</h2>
         <div>
           {messages}
         </div>
