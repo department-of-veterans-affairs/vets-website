@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { fetchThread } from '../actions/messages';
 import Message from '../components/Message';
+import NoticeBox from '../components/NoticeBox';
 
 class Thread extends React.Component {
   componentWillMount() {
@@ -39,6 +40,7 @@ class Thread extends React.Component {
         <div className="messaging-thread-reply">
           <textarea placeholder="Click here to reply"/>
         </div>
+        <NoticeBox/>
       </div>
     );
   }
