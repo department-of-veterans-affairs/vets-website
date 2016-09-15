@@ -4,11 +4,39 @@
   padding: 3rem 1.5rem;
 }
 
+// TODO: Refactor these styles so that they're 
+// reusable across projects.
 #messaging-nav {
-  box-sizing: border-box;
-  display: inline-block;
-  width: 20%;
-
+  @media(max-width: ($medium-screen - 1)) {
+    -webkit-transform: translateX(-100%);
+    -ms-transform: translateX(-100%);
+    transform: translateX(-100%);
+    
+    -webkit-transition: -webkit-transform 250ms;
+    transition: transform 250ms;
+    
+    background: $color-white;
+    height: 100%;
+    left: 0;
+    padding: 5rem;
+    position: fixed;
+    overflow-y: auto;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  &.opened {
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
+  }
+  
+  @media(min-width: $medium-screen) {
+    display: inline-block;
+    width: 20%;
+  }
+  
   .rx-compose-button {
     width: 100%;
   }
