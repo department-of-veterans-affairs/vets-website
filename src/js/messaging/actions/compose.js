@@ -15,6 +15,7 @@ export const SEND_MESSAGE = 'SEND_MESSAGE';
 export const DELETE_DRAFT = 'DELETE_DRAFT';
 export const TOGGLE_CONFIRM_DELETE = 'TOGGLE_CONFIRM_DELETE';
 export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
+export const UPDATE_CHARACTER_COUNT = 'UPDATE_CHARACTER_COUNT';
 
 const baseUrl = `${apiUrl}/recipients`;
 
@@ -77,5 +78,13 @@ export function fetchRecipients() {
       recipients => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
       err => dispatch({ type: FETCH_RECIPIENTS_FAILURE, err })
     );
+  };
+}
+
+export function updateCharacterCount(field, maxLength) {
+  const chars = maxLength - field.value.length;
+  return {
+    type: UPDATE_CHARACTER_COUNT,
+    chars
   };
 }

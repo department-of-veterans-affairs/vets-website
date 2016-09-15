@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   composeMessageErrors,
   composeMessagePlaceholders,
+  composeMessageMaxChars,
   messageCategories
 } from '../config';
 
@@ -21,7 +22,8 @@ import {
   setMessageField,
   setSubjectRequired,
   fetchRecipients,
-  fetchSenderName
+  fetchSenderName,
+  updateCharacterCount
 } from '../actions/compose';
 
 class Compose extends React.Component {
@@ -49,6 +51,7 @@ class Compose extends React.Component {
 
   handleMessageChange(valueObj) {
     this.props.setMessageField('message.text', valueObj);
+    this.props.updateCharacterCount(valueObj, composeMessageMaxChars);
   }
 
   handleRecipientChange(valueObj) {
@@ -103,10 +106,11 @@ class Compose extends React.Component {
             onValueChange={this.handleMessageChange}
             placeholder={composeMessagePlaceholders.message}/>
         <MessageSend
+            charLength={message.length}
+            cssClass="messaging-send-group"
             onSave={this.props.saveMessage}
             onSend={this.props.sendMessage}
-            onDelete={this.props.confirmDelete}
-            cssClass="messaging-send-group"/>
+            onDelete={this.props.confirmDelete}/>
       </form>
     );
   }
@@ -128,7 +132,8 @@ const mapDispatchToProps = {
   setMessageField,
   setSubjectRequired,
   fetchRecipients,
-  fetchSenderName
+  fetchSenderName,
+  updateCharacterCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);
