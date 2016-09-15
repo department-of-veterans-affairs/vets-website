@@ -53,22 +53,22 @@ export default class MilitaryServiceTour extends React.Component {
             onValueChange={(update) => {onValueChange('serviceBranch', update);}}/>
         <DateInput required
             errorMessage="Please provide a response"
-            validation={validateIfDirtyDateObj(tour.fromDate, isValidDateField)}
+            validation={validateIfDirtyDateObj(tour.dateRange.from, isValidDateField)}
             label="Date entered"
             name="fromDate"
-            day={tour.fromDate.day}
-            month={tour.fromDate.month}
-            year={tour.fromDate.year}
-            onValueChange={(update) => {onValueChange('fromDate', update);}}/>
+            day={tour.dateRange.from.day}
+            month={tour.dateRange.from.month}
+            year={tour.dateRange.from.year}
+            onValueChange={(update) => {onValueChange('dateRange.from', update);}}/>
         <DateInput required
-            errorMessage={isValidDateRange(tour.fromDate, tour.toDate) ? 'Please provide a response' : 'Date separated must be after date entered'}
-            validation={validateIfDirtyDateObj(tour.toDate, date => isValidDateRange(tour.fromDate, date))}
+            errorMessage={isValidDateRange(tour.dateRange.from, tour.dateRange.to) ? 'Please provide a response' : 'Date separated must be after date entered'}
+            validation={validateIfDirtyDateObj(tour.dateRange.to, date => isValidDateRange(tour.dateRange.from, date))}
             label="Date separated"
             name="toDate"
-            day={tour.toDate.day}
-            month={tour.toDate.month}
-            year={tour.toDate.year}
-            onValueChange={(update) => {onValueChange('toDate', update);}}/>
+            day={tour.dateRange.to.day}
+            month={tour.dateRange.to.month}
+            year={tour.dateRange.to.year}
+            onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
         <ErrorableTextInput
             label="Service Status"
             name="serviceStatus"

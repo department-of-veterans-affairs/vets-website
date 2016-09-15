@@ -7,7 +7,7 @@ import GrowableTable from '../../../common/components/form-elements/GrowableTabl
 import EducationPeriod from './EducationPeriod';
 import { createEducationPeriod } from '../../utils/veteran';
 
-import { isValidPage, isValidDate } from '../../utils/validations';
+import { isValidPage } from '../../utils/validations';
 
 export default class EducationHistoryFields extends React.Component {
   render() {
@@ -18,7 +18,7 @@ export default class EducationHistoryFields extends React.Component {
       'dateRange',
       'hours',
       'hoursType',
-      'degreeRecieved',
+      'degreeReceived',
       'major'
     ];
 
@@ -35,29 +35,29 @@ export default class EducationHistoryFields extends React.Component {
             year={year}
             onValueChange={(update) => {this.props.onStateChange('highSchoolOrGedCompletionDate', update);}}/>
       </div>
-      {isValidDate(day.value, month.value, year.value)
-        ? <div className="input-section">
-          <h4>Education after High School (Including apprenticeship, on-the-job training, and flight training)</h4>
-          <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
-          <hr/>
-          <div className="input-section">
-            <GrowableTable
-                component={EducationPeriod}
-                createRow={createEducationPeriod}
-                data={this.props.data}
-                initializeCurrentElement={() => this.props.initializeFields(periodFields, 'postHighSchoolTrainings')}
-                onRowsUpdate={(update) => {this.props.onStateChange('postHighSchoolTrainings', update);}}
-                path="/education-history/education-information"
-                rows={this.props.data.postHighSchoolTrainings}
-                isValidSection={isValidPage}/>
-          </div>
+      <div className="input-section">
+        <h4>Education after High School (Including apprenticeship, on-the-job training, and flight training)</h4>
+        <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
+        <hr/>
+        <div className="input-section">
+          <GrowableTable
+              component={EducationPeriod}
+              createRow={createEducationPeriod}
+              data={this.props.data}
+              initializeCurrentElement={() => this.props.initializeFields(periodFields, 'postHighSchoolTrainings')}
+              onRowsUpdate={(update) => {this.props.onStateChange('postHighSchoolTrainings', update);}}
+              path="/education-history/education-information"
+              rows={this.props.data.postHighSchoolTrainings}
+              isValidSection={isValidPage}/>
         </div>
-      : null}
-      <ErrorableTextInput
-          label="FAA certificates (ad infinitum)"
-          name="faaFlightCertificatesInformation"
-          field={this.props.data.faaFlightCertificatesInformation}
-          onValueChange={(update) => {this.props.onStateChange('faaFlightCertificatesInformation', update);}}/>
+      </div>
+      <div className="input-section">
+        <ErrorableTextInput
+            label="FAA certificates"
+            name="faaFlightCertificatesInformation"
+            field={this.props.data.faaFlightCertificatesInformation}
+            onValueChange={(update) => {this.props.onStateChange('faaFlightCertificatesInformation', update);}}/>
+      </div>
     </fieldset>
     );
   }
