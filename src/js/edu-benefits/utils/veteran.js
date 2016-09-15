@@ -66,6 +66,24 @@ export function createRotcScholarship() {
   };
 }
 
+export function createPreviousClaim() {
+  return {
+    claimType: makeField(''),
+    previouslyAppliedWithSomeoneElsesService: makeField(''),
+    fileNumber: makeField(''),
+    sponsorVeteran: {
+      fullName: {
+        first: makeField(''),
+        middle: makeField(''),
+        last: makeField(''),
+        suffix: makeField('')
+      },
+      fileNumber: makeField(''),
+      payeeNumber: makeField('')
+    }
+  };
+}
+
 export function createVeteran() {
   return {
     benefitsRelinquished: makeField(''),
@@ -181,7 +199,9 @@ export function createVeteran() {
       accountType: makeField(''),
       accountNumber: makeField(''),
       routingNumber: makeField('')
-    }
+    },
+    previousVaClaims: [],
+    previouslyFiledClaimWithVa: makeField('')
   };
 }
 
