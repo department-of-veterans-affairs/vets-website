@@ -98,7 +98,7 @@ export function submitForm(data) {
       },
       body: JSON.stringify({
         educationBenefitsClaim: {
-          form: JSON.stringify(application)
+          form: application
         }
       })
     }).then(res => {
