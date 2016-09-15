@@ -4,6 +4,7 @@ export const FETCH_FOLDERS_SUCCESS = 'FETCH_FOLDERS_SUCCESS';
 export const FETCH_FOLDERS_FAILURE = 'FETCH_FOLDERS_FAILURE';
 export const FETCH_FOLDER_SUCCESS = 'FETCH_FOLDER_SUCCESS';
 export const FETCH_FOLDER_FAILURE = 'FETCH_FOLDER_FAILURE';
+export const TOGGLE_FOLDER_NAV = 'TOGGLE_FOLDER_NAV';
 
 const baseUrl = `${apiUrl}/folders`;
 
@@ -27,4 +28,8 @@ export function fetchFolder(id) {
       err => dispatch({ type: FETCH_FOLDER_FAILURE, err })
     );
   };
+}
+
+export function toggleFolderNav() {
+  return { type: TOGGLE_FOLDER_NAV };
 }

@@ -10,7 +10,10 @@ class Modal extends React.Component {
       <div>
         <div id="messaging-nav">
           <ComposeButton/>
-          <FolderNav folders={this.props.folders}/>
+          <FolderNav
+              folders={this.props.folders}
+              expanded={this.props.navExpanded}
+              onToggleFolders={this.props.toggleFolderNav}/>
         </div>
         <div id="messaging-content">
           {this.props.children}
@@ -26,7 +29,8 @@ Modal.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    folders: state.folders.items
+    folders: state.folders.data.items,
+    navExpanded: state.folders.ui.nav.expanded
   };
 };
 
