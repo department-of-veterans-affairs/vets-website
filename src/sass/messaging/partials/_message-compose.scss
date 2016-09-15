@@ -46,6 +46,7 @@
   label {
     font-weight: bold;
     margin: 0 1rem 0 0;
+    padding-right: .2rem;
     width: $messaging-label-width;
     text-align: right;
   }
@@ -54,6 +55,7 @@
 .messaging-from-label {
   display: inline-block;
   font-weight: bold;
+  padding-right: .1rem;
   margin: 0 1rem 0 0;
   width: $messaging-label-width;
   text-align: right;
@@ -94,8 +96,15 @@
     font-weight: bold;
   }
   textarea {
-    margin: 0;
+    margin: 1rem 0 0 0;
     max-width: 100%;
     resize: vertical;
+  }
+}
+
+.messaging-characters {
+  display: inline-block;
+  &.isnegative {
+    color: $color-secondary;
   }
 }

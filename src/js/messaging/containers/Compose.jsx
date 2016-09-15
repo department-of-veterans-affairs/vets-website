@@ -5,8 +5,9 @@ import { browserHistory } from 'react-router';
 import {
   composeMessageErrors,
   composeMessagePlaceholders,
+  composeMessageMaxChars,
   messageCategories,
-  paths,
+  paths
 } from '../config';
 
 import MessageCategory from '../components/compose/MessageCategory';
@@ -23,7 +24,8 @@ import {
   setMessageField,
   setSubjectRequired,
   fetchRecipients,
-  fetchSenderName
+  fetchSenderName,
+  updateCharacterCount
 } from '../actions/compose';
 
 import {
@@ -52,6 +54,7 @@ class Compose extends React.Component {
 
   handleMessageChange(valueObj) {
     this.props.setMessageField('message.text', valueObj);
+    this.props.updateCharacterCount(valueObj, composeMessageMaxChars);
   }
 
   handleSubjectChange(valueObj) {
@@ -153,7 +156,8 @@ const mapDispatchToProps = {
   setSubjectRequired,
   fetchRecipients,
   fetchSenderName,
-  toggleConfirmDelete
+  toggleConfirmDelete,
+  updateCharacterCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);

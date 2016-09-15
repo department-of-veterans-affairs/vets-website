@@ -39,5 +39,6 @@ module.exports = {
     message: 'Please enter your message.',
     subject: 'Please add subject description.',
     recipient: 'Please select a recipient from your health care team.'
-  }
+  },
+  composeMessageMaxChars: 2000
 };
