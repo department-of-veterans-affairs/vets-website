@@ -8,7 +8,7 @@ class ButtonDelete extends React.Component {
   }
 
   handleClick() {
-    this.props.onClick();
+    this.props.onClickHandler();
   }
 
   render() {
@@ -19,7 +19,8 @@ class ButtonDelete extends React.Component {
     return (
       <button
           onClick={this.handleClick}
-          className="messaging-btn-delete">
+          className="messaging-btn-delete"
+          type="button">
         <i className="fa fa-trash"></i>
         <span className={isTextVisible}>Delete</span>
       </button>
@@ -29,7 +30,7 @@ class ButtonDelete extends React.Component {
 
 ButtonDelete.propTypes = {
   compact: React.PropTypes.bool,
-  onClick: React.PropTypes.func.required
+  onClickHandler: React.PropTypes.func.isRequired
 };
 
 export default ButtonDelete;
