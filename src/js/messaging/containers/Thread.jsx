@@ -6,10 +6,8 @@ import Message from '../components/Message';
 
 class Thread extends React.Component {
   componentWillMount() {
-    // TODO: When the API supports getting any thread,
-    // fetch the thread with the id from the URL.
-    // const id = this.props.param.id
-    this.props.dispatch(fetchThread());
+    const id = this.props.params.id;
+    this.props.dispatch(fetchThread(id));
   }
 
   render() {

@@ -5,7 +5,7 @@ export const FETCH_THREAD_FAILURE = 'FETCH_THREAD_FAILURE';
 
 const baseUrl = `${apiUrl}/messages`;
 
-export function fetchThread(id = 12345) {
+export function fetchThread(id) {
   return dispatch => {
     fetch(`${baseUrl}/${id}/thread`)
     .then(res => res.json())
