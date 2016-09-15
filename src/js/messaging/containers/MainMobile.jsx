@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
 
-class Modal extends React.Component {
+class MainMobile extends React.Component {
   render() {
     return (
       <div>
@@ -20,7 +20,7 @@ class Modal extends React.Component {
   }
 }
 
-Modal.propTypes = {
+MainMobile.propTypes = {
   children: React.PropTypes.node
 };
 
@@ -30,4 +30,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(Modal);
+export default connect(mapStateToProps)(MainMobile);
