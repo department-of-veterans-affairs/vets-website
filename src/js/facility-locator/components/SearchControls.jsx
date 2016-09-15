@@ -6,10 +6,14 @@ import React, { Component } from 'react';
 class SearchControls extends Component {
 
   // TODO (bshyong): generalize to be able to handle Select box changes
-  handleOnChange = (e) => {
+  handleQueryChange = (e) => {
     this.props.onChange({
       queryString: e.target.value,
     });
+  }
+
+  handleFacilityTypeChange = () => {
+    // TODO: define shape of query object for facility/service types
   }
 
   handleSearch = (e) => {
@@ -32,9 +36,9 @@ class SearchControls extends Component {
         <div>Search for facilities near you or for a specific service or benefit.</div>
         <form className="usa-form">
           <label htmlFor="Street, City, State or Zip">Enter Street, City, State or Zip</label>
-          <input name="streetCityStateZip" type="text" onChange={this.handleOnChange} value={currentQuery.queryString}/>
+          <input name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.queryString}/>
           <label htmlFor="serviceType">Service Type</label>
-          <select name="services" defaultValue="all">
+          <select name="services" defaultValue="all" onChange={this.handleFacilityTypeChange}>
             <option value="all">All</option>
             <option value="health">Health</option>
             <option value="benefits">Benefits</option>
