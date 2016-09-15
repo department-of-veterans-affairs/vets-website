@@ -4,6 +4,44 @@ import moment from 'moment';
 
 class Message extends React.Component {
   render() {
+    const messageDetails = (
+      <div className="messaging-message-details-control">
+        <button>
+          <i className="fa fa-caret-down"></i>
+        </button>
+        <div className="messaging-message-details">
+          <table>
+            <tbody>
+              <tr>
+                <th>From:</th>
+                <td>{this.props.attrs.sender_name}</td>
+              </tr>
+              <tr>
+                <th>To:</th>
+                <td>{this.props.attrs.recipient_name}</td>
+              </tr>
+              <tr>
+                <th>Date:</th>
+                <td>{this.props.attrs.sent_date}</td>
+              </tr>
+              <tr>
+                <th>Message ID:</th>
+                <td>{this.props.attrs.message_id}</td>
+              </tr>
+              <tr>
+                <th>Category:</th>
+                <td>{this.props.attrs.category}</td>
+              </tr>
+              <tr>
+                <th>Subject Line:</th>
+                <td>{this.props.attrs.subject}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    );
+
     return (
       <div className="messaging-thread-message">
         <div className="messaging-message-sender">
@@ -18,6 +56,7 @@ class Message extends React.Component {
         </div>
         <div className="messaging-message-recipient">
           to {this.props.attrs.recipient_name}
+          {messageDetails}
         </div>
         <p className="messaging-message-body">
           {this.props.attrs.body}
