@@ -18,7 +18,7 @@ export default class EducationHistoryFields extends React.Component {
       'dateRange',
       'hours',
       'hoursType',
-      'degreeRecieved',
+      'degreeReceived',
       'major'
     ];
 

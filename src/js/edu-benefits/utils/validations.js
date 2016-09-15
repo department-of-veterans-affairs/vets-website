@@ -295,6 +295,14 @@ function isValidBenefitsHistoryPage(data) {
     && isValidDateRange(data.activeDutyRepayingPeriod.from, data.activeDutyRepayingPeriod.to));
 }
 
+function isValidRotcScholarshipAmount(data) {
+  return isValidField(isValidMonetaryValue, data.amount) && isValidField(isValidYear, data.year);
+}
+
+function isValidRotcHistoryPage(data) {
+  return data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount);
+}
+
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data)
     && isValidPersonalInfoPage(data)
@@ -305,7 +313,8 @@ function isValidForm(data) {
     && isValidEducationHistoryPage(data)
     && isValidSecondaryContactPage(data)
     && isValidDirectDepositPage(data)
-    && isValidBenefitsHistoryPage(data);
+    && isValidBenefitsHistoryPage(data)
+    && isValidRotcHistoryPage(data);
 }
 
 function isValidPage(completePath, pageData) {
@@ -330,6 +339,8 @@ function isValidPage(completePath, pageData) {
       return isValidSecondaryContactPage(pageData);
     case '/veteran-information/direct-deposit':
       return isValidDirectDepositPage(pageData);
+    case '/military-history/rotc-history':
+      return isValidRotcHistoryPage(pageData);
     default:
       return true;
   }

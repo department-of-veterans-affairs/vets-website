@@ -36,7 +36,7 @@ const ui = {
     '/military-history/dependents': {
       complete: false,
       verified: false,
-      fields: []
+      fields: ['serviceBefore1977']
     },
     '/military-history/rotc-history': {
       complete: false,
