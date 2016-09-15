@@ -26,7 +26,6 @@ MessageWrite.propTypes = {
   errorMessage: React.PropTypes.string,
   placeholder: React.PropTypes.string,
   onValueChange: React.PropTypes.func.isRequired,
-  value: React.PropTypes.string
 };
 
 export default MessageWrite;
