@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 
 import EducationPeriod from './EducationPeriod';
@@ -52,6 +53,11 @@ export default class EducationHistoryFields extends React.Component {
           </div>
         </div>
       : null}
+      <ErrorableTextInput
+          label="FAA certificates (ad infinitum)"
+          name="faaFlightCertificatesInformation"
+          field={this.props.data.faaFlightCertificatesInformation}
+          onValueChange={(update) => {this.props.onStateChange('faaFlightCertificatesInformation', update);}}/>
     </fieldset>
     );
   }
