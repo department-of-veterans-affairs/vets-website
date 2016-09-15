@@ -9,7 +9,6 @@ class MessageWrite extends React.Component {
     return (
       <div className={this.props.cssClass}>
         <ErrorableTextarea
-            additionalClass={`${this.props.cssClass}-text`}
             errorMessage={this.props.errorMessage}
             label="Message:"
             onValueChange={this.props.onValueChange}
