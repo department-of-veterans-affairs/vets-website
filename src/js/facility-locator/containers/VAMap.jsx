@@ -23,7 +23,9 @@ class VAMap extends Component {
 
     if (location.query.address) {
       // populate search bar with address in Url
-      this.props.updateSearchQuery(location.query.address);
+      this.props.updateSearchQuery({
+        queryString: location.query.address,
+      });
     }
 
     this.props.fetchVAFacilities({
@@ -72,7 +74,9 @@ class VAMap extends Component {
     }, (err, res) => {
       // TODO (bshyong): handle error case
       const placeName = res.features[0].place_name;
-      this.props.updateSearchQuery(placeName);
+      this.props.updateSearchQuery({
+        queryString: placeName,
+      });
       this.updateUrlParams({
         address: placeName,
       });

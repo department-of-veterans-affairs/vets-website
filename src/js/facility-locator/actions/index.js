@@ -1,8 +1,13 @@
 // import sampleOutput from 'json!../sampleData/sampleOutput.json';
+import { mapboxClient } from '../components/MapboxClient';
+
 
 export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
 export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
 export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
+export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
+export const SEARCH_FAILED = 'SEARCH_FAILED';
+export const SEARCH_STARTED = 'SEARCH_STARTED';
 
 export function updateSearchQuery(query) {
   return {
@@ -10,6 +15,37 @@ export function updateSearchQuery(query) {
     payload: {
       query,
     }
+  };
+}
+
+export function search(query) {
+  console.log('search called', query);
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+    });
+
+    mapboxClient.geoCode()
+
+
+    mapboxClient.geocodeReverse(position, {
+      types: 'address',
+    }, (err, res) => {
+      // TODO (bshyong): handle error case
+      const placeName = res.features[0].place_name;
+      this.props.updateSearchQuery(placeName);
+      this.updateUrlParams({
+        address: placeName,
+      });
+    });
+
+    // fetch(`API_URL/${query.queryString}`).then(
+    //   data => dispatch({
+    //     type: SEARCH_SUCCEEDED,
+    //     payload: data,
+    //   }),
+    //   err => dispatch({ type: SEARCH_FAILED, err })
+    // );
   };
 }
 

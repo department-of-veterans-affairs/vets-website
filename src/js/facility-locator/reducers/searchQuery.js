@@ -7,7 +7,7 @@ export default function (state = INITIAL_STATE, action) {
     case SEARCH_QUERY_UPDATED:
       return {
         ...state,
-        queryString: action.payload.query,
+        ...action.payload.query,
       };
     default:
       return state;

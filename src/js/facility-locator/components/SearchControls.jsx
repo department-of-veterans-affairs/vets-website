@@ -1,10 +1,22 @@
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { search } from '../actions';
 import React, { Component } from 'react';
 
 class SearchControls extends Component {
 
   // TODO (bshyong): generalize to be able to handle Select box changes
   handleOnChange = (e) => {
-    this.props.onChange(e.target.value);
+    this.props.onChange({
+      queryString: e.target.value,
+    });
+  }
+
+  handleSearch = (e) => {
+    const { currentQuery } = this.props;
+    e.preventDefault();
+
+    this.props.search(currentQuery);
   }
 
   render() {
@@ -28,11 +40,17 @@ class SearchControls extends Component {
             <option value="benefits">Benefits</option>
             <option value="cemeteries">Cemeteries</option>
           </select>
-          <input type="submit" value="Search"/>
+          <input type="submit" value="Search" onClick={this.handleSearch}/>
         </form>
       </div>
     );
   }
 }
 
-export default SearchControls;
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({
+    search,
+  }, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(SearchControls);
