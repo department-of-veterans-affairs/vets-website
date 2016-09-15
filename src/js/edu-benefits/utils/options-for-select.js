@@ -1600,7 +1600,7 @@ const schoolTypes = [
   { label: 'Vocational flight training', value: 'flightTraining' },
   { label: 'National test reimbursement', value: 'testReimbursement' },
   { label: 'Licensing or certification test reimbursement', value: 'licensingReimbursement' },
-  { label: 'Apprenticeship or on-the-job', value: 'apprentisceship' },
+  { label: 'Apprenticeship or on-the-job', value: 'apprenticeship' },
   { label: 'Correspondence', value: 'correspondence' },
   { label: 'Tuition assistance top-up', value: 'tuitionTopUp' }
 ];
