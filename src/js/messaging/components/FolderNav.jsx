@@ -95,14 +95,14 @@ class FolderNav extends React.Component {
 
     const folderActions = (
       <li className="messaging-folder-nav-actions">
-        <a>
+        <button>
           <i className="fa fa-folder"></i>
           &nbsp;&nbsp;Manage folders
-        </a>
-        <a>
+        </button>
+        <button>
           <i className="fa fa-plus"></i>
           &nbsp;&nbsp;Create new folder
-        </a>
+        </button>
       </li>
     );
 
