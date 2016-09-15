@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { toggleFolderNav } from '../actions/folders';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
 
@@ -10,7 +11,10 @@ class Main extends React.Component {
       <div>
         <div id="messaging-nav">
           <ComposeButton/>
-          <FolderNav folders={this.props.folders}/>
+          <FolderNav
+              folders={this.props.folders}
+              expanded={this.props.navExpanded}
+              onToggleFolders={this.props.toggleFolderNav}/>
         </div>
         <div id="messaging-content">
           {this.props.children}
@@ -26,8 +30,13 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    folders: state.folders.items
+    folders: state.folders.data.items,
+    navExpanded: state.folders.ui.nav.expanded
   };
 };
 
-export default connect(mapStateToProps)(Main);
+const mapDispatchToProps = {
+  toggleFolderNav
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
