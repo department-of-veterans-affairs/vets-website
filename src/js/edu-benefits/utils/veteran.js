@@ -31,6 +31,35 @@ export function createEmploymentPeriod() {
   };
 }
 
+export function createEducationPeriod() {
+  return {
+    name: makeField(''),
+    city: makeField(''),
+    state: makeField(''),
+    toDate: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
+    },
+    fromDate: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
+    },
+    hours: makeField(''),
+    hoursType: makeField(''),
+    degreeReceived: makeField(''),
+    major: makeField('')
+  };
+}
+
+export function createRotcScholarship() {
+  return {
+    amount: makeField(''),
+    year: makeField('')
+  };
+}
+
 export function createVeteran() {
   return {
     benefitsRelinquished: makeField(''),
@@ -45,8 +74,19 @@ export function createVeteran() {
       nonVaAssistance: makeField('')
     },
     toursOfDuty: [],
-    seniorRotcComissioned: makeField(''),
-    seniorRotcComissionYear: makeField(''),
+    postHighSchoolTrainings: [],
+    faaFlightCertificatesInformation: makeField(''),
+    highSchoolOrGedCompletionDate: {
+      month: makeField(''),
+      day: makeField(''),
+      year: makeField(''),
+    },
+    seniorRotcCommissioned: makeField(''),
+    seniorRotc: {
+      commissionYear: makeField(''),
+      rotcScholarshipAmounts: []
+    },
+    seniorRotcScholarshipProgram: makeField(''),
     civilianBenefitsAssistance: false,
     additionalContributions: false,
     activeDutyKicker: false,
@@ -93,6 +133,11 @@ export function createVeteran() {
       zipcode: makeField(''),
       postalCode: makeField(''),
     },
+    email: makeField(''),
+    emailConfirmation: makeField(''),
+    homePhone: makeField(''),
+    mobilePhone: makeField(''),
+    preferredContactMethod: makeField(''),
     educationType: makeField(''),
     school: {
       name: makeField(''),
@@ -125,6 +170,11 @@ export function createVeteran() {
         postalCode: makeField('')
       },
       phone: makeField('')
+    },
+    bankAccount: {
+      accountType: makeField(''),
+      accountNumber: makeField(''),
+      routingNumber: makeField('')
     }
   };
 }
