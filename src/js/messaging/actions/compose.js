@@ -13,14 +13,14 @@ export const SAVE_MESSAGE = 'SAVE_MESSAGE';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 
 export const DELETE_DRAFT = 'DELETE_DRAFT';
-export const SHOW_CONFIRM_DELETE = 'SHOW_CONFIRM_DELETE';
-export const SET_MESSAGE = 'SET_MESSAGE';
+export const TOGGLE_CONFIRM_DELETE = 'TOGGLE_CONFIRM_DELETE';
+export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
 
 const baseUrl = `${apiUrl}/recipients`;
 
 export function setMessageField(path, field) {
   return {
-    type: SET_MESSAGE,
+    type: SET_MESSAGE_FIELD,
     path,
     field
   };
@@ -50,7 +50,7 @@ export function saveMessage() {
 
 export function confirmDelete() {
   return {
-    type: SHOW_CONFIRM_DELETE
+    type: TOGGLE_CONFIRM_DELETE
   };
 }
 

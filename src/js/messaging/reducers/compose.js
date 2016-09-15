@@ -1,8 +1,8 @@
 import set from 'lodash/fp/set';
 
 import {
-  SHOW_CONFIRM_DELETE,
-  SET_MESSAGE,
+  TOGGLE_CONFIRM_DELETE,
+  SET_MESSAGE_FIELD,
   SET_SUBJECT_REQUIRED,
   SEND_MESSAGE,
   SAVE_MESSAGE,
@@ -28,7 +28,7 @@ const initialState = {
     attachments: []
   },
   modals: {
-    deleteconfirm: {
+    deleteConfirm: {
       visible: false
     }
   },
@@ -53,7 +53,7 @@ function getRecipients(recipients) {
 
 export default function compose(state = initialState, action) {
   switch (action.type) {
-    case SET_MESSAGE:
+    case SET_MESSAGE_FIELD:
       return set(action.path, action.field.value, state);
     case SET_SUBJECT_REQUIRED:
       return set('message.subject.required', action.fieldState.required, state);
@@ -61,7 +61,7 @@ export default function compose(state = initialState, action) {
       return set('recipients', getRecipients(action.recipients.data), state);
     case FETCH_SENDER_SUCCESS:
       return set('message.sender', action.sender, state);
-    case SHOW_CONFIRM_DELETE:
+    case TOGGLE_CONFIRM_DELETE:
       return set('modals.deleteconfirm.visible', !state.modals.deleteconfirm.visible, state);
     case FETCH_RECIPIENTS_FAILURE:
     case SEND_MESSAGE:
