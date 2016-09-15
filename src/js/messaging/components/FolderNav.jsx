@@ -6,6 +6,7 @@ class FolderNav extends React.Component {
   constructor(props) {
     super(props);
     this.makeFolderLink = this.makeFolderLink.bind(this);
+    this.makeMyFolders = this.makeMyFolders.bind(this);
   }
 
   makeFolderLink(folder) {
@@ -28,6 +29,49 @@ class FolderNav extends React.Component {
     );
   }
 
+  makeMyFolders(folderList) {
+    // Determine if 'My folders' needs to be displayed as active based on
+    // whether it contains the currently viewed folder.
+    const myFolderLinks = folderList.map(this.makeFolderLink);
+    const isLinkActive = (link) => {
+      return this.context.router.isActive(link.props.to, true);
+    };
+    const myFoldersActive = myFolderLinks.find(isLinkActive);
+    const myFoldersClass = classNames({ 'usa-current': myFoldersActive });
+
+    /* Render 'My folders' as expanded or collapsed. */
+
+    let myFoldersList;
+
+    if (this.props.expanded) {
+      const myFolderListItems = folderList.map((folder, i) => {
+        return <li key={folder.folder_id}>{myFolderLinks[i]}</li>;
+      });
+
+      myFoldersList = (
+        <ul className="messaging-folder-subnav usa-sidenav-sub_list">
+          {myFolderListItems}
+        </ul>
+      );
+    }
+
+    const iconClass = classNames({
+      fa: true,
+      'fa-caret-down': !this.props.expanded,
+      'fa-caret-up': this.props.expanded
+    });
+
+    return (
+      <li key="myFolders" className="messaging-my-folders">
+        <a className={myFoldersClass} onClick={this.props.onToggleFolders}>
+          <span>My folders</span>
+          <i className={iconClass}></i>
+        </a>
+        {myFoldersList}
+      </li>
+    );
+  }
+
   render() {
     let folderList = this.props.folders;
     let myFolders;
@@ -35,54 +79,8 @@ class FolderNav extends React.Component {
     // If there are more than 5 folders, move all the non-default folders
     // into a expandable sublist called 'My folders'.
     if (folderList.length > 5) {
-      myFolders = folderList.slice(4);
+      myFolders = this.makeMyFolders(folderList.slice(4));
       folderList = folderList.slice(0, 4);
-
-      // Transform folders to links in order to determine via router
-      // whether 'My folders' should be styled as active.
-      const myFolderLinks = myFolders.map(this.makeFolderLink);
-      myFolders = myFolders.map((folder, index) => {
-        return (
-          <li key={folder.folder_id}>
-            {myFolderLinks[index]}
-          </li>
-        );
-      });
-
-      // Determine if 'My folders' needs to be displayed as active based on
-      // whether it contains the currently viewed folder.
-      const isLinkActive = (link) => {
-        return this.context.router.isActive(link.props.to, true);
-      };
-      const myFoldersActive = myFolderLinks.find(isLinkActive);
-      const myFoldersClass = classNames({ 'usa-current': myFoldersActive });
-
-      /* Render 'My folders' as expanded or collapsed. */
-
-      let myFoldersList;
-      if (this.props.expanded) {
-        myFoldersList = (
-          <ul className="messaging-folder-subnav usa-sidenav-sub_list">
-            {myFolders}
-          </ul>
-        );
-      }
-
-      const iconClass = classNames({
-        fa: true,
-        'fa-caret-down': !this.props.expanded,
-        'fa-caret-up': this.props.expanded
-      });
-
-      myFolders = (
-        <li key="myFolders" className="messaging-my-folders">
-          <a className={myFoldersClass} onClick={this.props.onToggleFolders}>
-            <span>My folders</span>
-            <i className={iconClass}></i>
-          </a>
-          {myFoldersList}
-        </li>
-      );
     }
 
     folderList = folderList.map(folder => {
