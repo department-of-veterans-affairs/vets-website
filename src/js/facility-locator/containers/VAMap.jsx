@@ -7,7 +7,6 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import React, { Component } from 'react';
 import ResultsPane from '../components/ResultsPane';
-import TownHall from '../components/markers/TownHall';
 
 class VAMap extends Component {
 
@@ -123,9 +122,6 @@ class VAMap extends Component {
                 <span>You are here.</span>
               </Popup>
             </Marker>
-            <TownHall position={[38.8983294, -77.0295762]}>
-              <span>Town hall</span>
-            </TownHall>
           </Map>
         </div>
       </div>
