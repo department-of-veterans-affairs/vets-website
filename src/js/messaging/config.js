@@ -27,10 +27,12 @@ module.exports = {
     }
   ],
   composeMessagePlaceholders: {
-    subject: 'Add an additional subject line'
+    subject: 'Add an additional subject line',
+    message: 'Please enter your message.'
   },
   composeMessageErrors: {
     category: 'Please select a category.',
+    message: 'Type your message here',
     subject: 'Please add subject description.',
     recipient: 'Please select a recipient from your health care team.'
   }
