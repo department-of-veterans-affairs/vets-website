@@ -4,12 +4,12 @@ import { makeField } from '../../../common/model/fields.js';
 
 class MessageSubject extends React.Component {
   render() {
-    const subjectValue = makeField(this.props.value);
+    const subjectValue = makeField(undefined);
 
     return (
-      <div className="messaging-subject">
+      <div className={this.props.cssClass}>
         <ErrorableTextInput
-            additionalClass="messaging-subject-input"
+            additionalClass={`${this.props.cssClass}-input`}
             errorMessage={this.props.errorMessage}
             label="Subject"
             onValueChange={this.props.onValueChange}
@@ -23,13 +23,11 @@ class MessageSubject extends React.Component {
 }
 
 MessageSubject.propTypes = {
+  cssClass: React.PropTypes.string,
   errorMessage: React.PropTypes.string,
-  subjectClass: React.PropTypes.string,
-  name: React.PropTypes.string,
   onValueChange: React.PropTypes.func,
   placeholder: React.PropTypes.string,
-  required: React.PropTypes.bool,
-  value: React.PropTypes.string
+  required: React.PropTypes.bool
 };
 
 export default MessageSubject;

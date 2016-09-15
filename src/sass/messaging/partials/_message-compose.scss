@@ -1,0 +1,66 @@
+.messaging-subject-group {
+   > div {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+  }
+  
+  label {
+    position: absolute;
+    left: -999em;
+  }  
+  
+  legend {
+    font-size: inherit;
+    float: left;
+    // Vertically centering with input fields.
+    line-height: 2.9;
+    margin-right: 1rem;
+    text-align: right;
+    width: $messaging-label-width;
+  }
+}
+
+
+.messaging-from,
+.messaging-category {
+  -webkit-flex: none;
+  flex: none;
+  margin-right: 1rem;
+  width: 25rem;
+}
+
+.messaging-subject {
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.messaging-recipient {
+  > div {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center; 
+  }
+  label {
+    font-weight: bold;
+    margin: 0 1rem 0 0;
+    width: $messaging-label-width;
+    text-align: right;
+  }
+}
+
+.messaging-from-label {
+  display: inline-block;
+  font-weight: bold;
+  margin: 0 1rem 0 0;
+  width: $messaging-label-width;
+  text-align: right;
+}
+
+[id=messaging-compose] {
+  > div, fieldset {
+    margin-bottom: 1.5rem;
+  }
+}
