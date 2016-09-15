@@ -28,16 +28,8 @@ npm run selenium:bootstrap;
 npm run test:e2e;
 
 # Run accessibility tests for master, staging, and production
-if [[ $TRAVIS_BRANCH == 'master' ||
-      $TRAVIS_BRANCH == 'staging' ||
+if [[ $TRAVIS_BRANCH == 'staging' ||
       $TRAVIS_BRANCH == 'production' ]]
 then
-  if [[ $TRAVIS_BRANCH == 'master' ]]
-  then
-    # Don't fail if we encounter problems, just report
-    set +e; npm run test:accessibility; set -e;
-    exit 0;
-  else
-    npm run test:accessibility;
-  fi
+  npm run test:accessibility;
 fi
