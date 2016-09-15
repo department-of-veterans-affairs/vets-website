@@ -1,7 +1,9 @@
 import React from 'react';
+import { displayDateIfValid } from '../../utils/helpers.js';
 
 export default class BenefitsHistoryReview extends React.Component {
   render() {
+    const { fromDate, toDate } = this.props.data.activeDutyRepayingPeriod;
     return (
       <table className="review usa-table-borderless">
         <tbody>
@@ -30,11 +32,11 @@ export default class BenefitsHistoryReview extends React.Component {
           ? <tbody>
             <tr>
               <td>Start date:</td>
-              <td>{this.props.data.activeDutyRepayingPeriod.fromDate.month.value ? `${this.props.data.activeDutyRepayingPeriod.fromDate.month.value}/${this.props.data.activeDutyRepayingPeriod.fromDate.day.value}/${this.props.data.activeDutyRepayingPeriod.fromDate.year.value}` : null}</td>
+              <td>{displayDateIfValid(fromDate)}</td>
             </tr>
             <tr>
               <td>End date:</td>
-              <td>{this.props.data.activeDutyRepayingPeriod.toDate.month.value ? `${this.props.data.activeDutyRepayingPeriod.toDate.month.value}/${this.props.data.activeDutyRepayingPeriod.toDate.day.value}/${this.props.data.activeDutyRepayingPeriod.toDate.year.value}` : null}</td>
+              <td>{displayDateIfValid(toDate)}</td>
             </tr>
           </tbody>
           : null}
