@@ -114,20 +114,25 @@ class VAMap extends Component {
 
     return (
       <div>
-        <div className="columns medium-3">
-          <ResultsPane onSearch={this.handleSearch}/>
+        <div className="primary row">
+          <h3>Service and Facility Locator</h3>
         </div>
-        <div className="medium-9 columns">
-          <Map ref="map" center={position} zoom={13} >
-            <TileLayer
-                url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
-            <Marker position={position}>
-              <Popup>
-                <span>You are here.</span>
-              </Popup>
-            </Marker>
-          </Map>
+        <div>
+          <div className="columns medium-3">
+            <ResultsPane onSearch={this.handleSearch}/>
+          </div>
+          <div className="medium-9 columns">
+            <Map ref="map" center={position} zoom={13} >
+              <TileLayer
+                  url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
+                  attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
+              <Marker position={position}>
+                <Popup>
+                  <span>You are here.</span>
+                </Popup>
+              </Marker>
+            </Map>
+          </div>
         </div>
       </div>
     );
