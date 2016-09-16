@@ -303,6 +303,14 @@ function isValidRotcHistoryPage(data) {
   return data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount);
 }
 
+function isValidPreviousClaim(data) {
+  return isNotBlank(data.claimType.value);
+}
+
+function isValidPreviousClaimsPage(data) {
+  return data.previousVaClaims.every(isValidPreviousClaim);
+}
+
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data)
     && isValidPersonalInfoPage(data)
@@ -314,7 +322,8 @@ function isValidForm(data) {
     && isValidSecondaryContactPage(data)
     && isValidDirectDepositPage(data)
     && isValidBenefitsHistoryPage(data)
-    && isValidRotcHistoryPage(data);
+    && isValidRotcHistoryPage(data)
+    && isValidPreviousClaimsPage(data);
 }
 
 function isValidPage(completePath, pageData) {
@@ -341,6 +350,8 @@ function isValidPage(completePath, pageData) {
       return isValidDirectDepositPage(pageData);
     case '/military-history/rotc-history':
       return isValidRotcHistoryPage(pageData);
+    case '/benefits-eligibility/previous-claims':
+      return isValidPreviousClaimsPage(pageData);
     default:
       return true;
   }
