@@ -1,0 +1,24 @@
+.messaging-message-row {
+  &--unread {
+    font-weight: bold;
+  }
+
+  a {
+    color: $color-black;
+    display: block;
+    padding: 1.5rem;
+    text-decoration: none;
+
+    &:hover {
+      background: transparent;
+    }
+
+    &:visited {
+      color: $color-black;
+    }
+  }
+
+  td {
+    padding: 0;
+  }
+}
