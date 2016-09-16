@@ -90,11 +90,6 @@ export function displayDateIfValid(dateObject) {
 }
 
 export function showSomeonElseServiceQuestion(claimType) {
-  return claimType === 'chapter30'
-    || claimType === 'chapter32'
-    || claimType === 'chapter33'
-    || claimType === 'chapter34'
-    || claimType === 'chapter35'
-    || claimType === 'chapter1606'
-    || claimType === 'chapter1607';
+  return claimType !== ''
+    && claimType !== 'vocationalRehab';
 }
