@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
+import { compact } from 'lodash';
 
 class FacilityInfo extends Component {
   render() {
+    const { info } = this.props;
+
     let facilityOperations;
     if (!this.props.info) {
       return (
         <div></div>
       );
     }
-    if (this.props.info.address.street2) {
-      this.street2 = this.props.info.address.street2;
-    }
-    const street2 = this.props.info.address.street2;
-    if (this.props.info.facilityType === 'facility') {
+
+    if (info.facilityType === 'facility') {
       facilityOperations = (
         <div className="mb2">
           <h5>Phone:</h5>
@@ -21,7 +21,7 @@ class FacilityInfo extends Component {
                 Main Number:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.phone.main}
+                {info.phone.main}
             </div>
           </div>
           <div className="row">
@@ -29,7 +29,7 @@ class FacilityInfo extends Component {
                 Fax:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.phone.fax}
+                {info.phone.fax}
             </div>
           </div>
           <div className="row">
@@ -37,7 +37,7 @@ class FacilityInfo extends Component {
                 After Hours:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.phone.afterHours}
+                {info.phone.afterHours}
             </div>
           </div>
           <div className="row">
@@ -45,7 +45,7 @@ class FacilityInfo extends Component {
                 Pharmacy:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.phone.pharmacy}
+                {info.phone.pharmacy}
             </div>
           </div>
           <div className="row">
@@ -53,7 +53,7 @@ class FacilityInfo extends Component {
                 Enrollment Coordinator:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.phone.enrollmentCoordinator}
+                {info.phone.enrollmentCoordinator}
             </div>
           </div>
           <div className="row">
@@ -61,7 +61,7 @@ class FacilityInfo extends Component {
                 Patient Advocate:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.phone.patientAdvocate}
+                {info.phone.patientAdvocate}
             </div>
           </div>
         </div>
@@ -74,7 +74,7 @@ class FacilityInfo extends Component {
                 Cemetary Type:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.cemetary.cemetaryType}
+                {info.cemetary.cemetaryType}
             </div>
           </div>
           <div className="row">
@@ -82,19 +82,28 @@ class FacilityInfo extends Component {
                 Cemetery Operations:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.cemetary.operations}
+                {info.cemetary.operations}
             </div>
           </div>
         </div>
       );
     }
 
+    const addressString = compact([
+      info.address.street1,
+      info.address.street2,
+      info.address.city,
+      info.address.state,
+      info.address.zip,
+    ]).join(', ');
+
     return (
       <div>
         <p className="facility-details">
-          {this.props.info.address.street1}
-          {street2 ? `${street2}, ` : ', '}
-          {this.props.info.address.city}, {this.props.info.address.state} {this.props.info.address.zip}
+          {addressString}
+        </p>
+        <p>
+          <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString}`} target="_blank">Driving Directions</a>
         </p>
         {facilityOperations}
       </div>

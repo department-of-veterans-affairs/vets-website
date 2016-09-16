@@ -18,7 +18,7 @@ class FacilityDetail extends Component {
         <div className="medium-8 columns">
           <div className="details-map">
             <h3>{this.props.facility ? this.props.facility.name : ''}</h3>
-            <FacilityInfo info={this.props.facility}/>
+            <FacilityInfo info={this.props.facility} currentQuery={this.props.currentQuery}/>
             <ServicesAtFacility info={this.props.facility}/>
           </div>
         </div>
@@ -38,7 +38,10 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { facility: state.facilities.facilityDetail };
+  return {
+    facility: state.facilities.facilityDetail,
+    currentQuery: state.searchQuery,
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FacilityDetail);
