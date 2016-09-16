@@ -59,12 +59,6 @@ export function getLabel(options, value) {
   return matched ? matched.label : null;
 }
 
-export function getActivePages(pages, data) {
-  return pages.filter(page => {
-    return page.depends === undefined || _.matches(page.depends)(data);
-  });
-}
-
 export function showSchoolAddress(educationType) {
   return educationType === 'college'
     || educationType === 'flightTraining'
@@ -93,4 +87,11 @@ export function displayDateIfValid(dateObject) {
 export function showSomeoneElseServiceQuestion(claimType) {
   return claimType !== ''
     && claimType !== 'vocationalRehab';
+}
+
+export function hasServiceBefore1978(data) {
+  return data.toursOfDuty.some(tour => {
+    const fromDate = dateToMoment(tour.dateRange.from);
+    return fromDate.isValid() && fromDate.isBefore('1978-01-02');
+  });
 }
