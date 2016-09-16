@@ -18,7 +18,9 @@ class ThreadHeader extends React.Component {
       <div className="messaging-thread-header">
         <h2 className="messaging-thread-subject">{this.props.title}</h2>
         <div className="messaging-thread-controls">
-          <ToggleThread/>
+          <ToggleThread
+              messagesCollapsed={this.props.messagesCollapsed}
+              onClick={this.props.onToggleThread}/>
           <ButtonDelete
               onClickHandler={this.handleDelete}/>
           <ButtonPrint/>
@@ -29,7 +31,9 @@ class ThreadHeader extends React.Component {
 }
 
 ThreadHeader.propTypes = {
-  title: React.PropTypes.string.isRequired
+  title: React.PropTypes.string.isRequired,
+  messagesCollapsed: React.PropTypes.bool,
+  onToggleThread: React.PropTypes.func
 };
 
 export default ThreadHeader;

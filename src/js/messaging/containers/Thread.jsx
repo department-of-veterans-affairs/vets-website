@@ -1,7 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchThread, setVisibleDetails } from '../actions/messages';
+import {
+  fetchThread,
+  setVisibleDetails,
+  toggleMessagesCollapsed
+} from '../actions/messages';
+
 import Message from '../components/Message';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
@@ -43,9 +48,17 @@ class Thread extends React.Component {
 
     if (thread.length > 0) {
       lastSender = thread[thread.length - 1].sender_name;
-      header = <ThreadHeader title={thread[0].subject}/>;
+
+      header = (
+        <ThreadHeader
+            title={thread[0].subject}
+            messagesCollapsed={this.props.messagesCollapsed}
+            onToggleThread={this.props.toggleMessagesCollapsed}/>
+      );
+
       messages = thread.map((message, i) => {
-        const isCollapsed = i !== thread.length - 1;
+        const isCollapsed = this.props.messagesCollapsed &&
+                            (i !== thread.length - 1);
         const detailsVisible =
           this.props.visibleDetailsId === message.message_id;
 
@@ -90,12 +103,14 @@ class Thread extends React.Component {
 const mapStateToProps = (state) => {
   return {
     thread: state.messages.data.thread,
+    messagesCollapsed: state.messages.ui.messagesCollapsed,
     visibleDetailsId: state.messages.ui.visibleDetailsId
   };
 };
 
 const mapDispatchToProps = {
   fetchThread,
+  toggleMessagesCollapsed,
   setVisibleDetails
 };
 
