@@ -8,6 +8,8 @@ class MessageDetails extends React.Component {
   }
 
   componentDidUpdate() {
+    // Focus on the details box if it has popped up so that
+    // clicking outside of it can trigger the blur event to hide it.
     if (this.refs.messageDetails) {
       this.refs.messageDetails.focus();
     }
@@ -81,14 +83,9 @@ MessageDetails.propTypes = {
     message_id: React.PropTypes.number.isRequired,
     category: React.PropTypes.string.isRequired,
     subject: React.PropTypes.string.isRequired,
-    body: React.PropTypes.string.isRequired,
-    attachment: React.PropTypes.bool.isRequired,
     sent_date: React.PropTypes.string.isRequired,
-    sender_id: React.PropTypes.number.isRequired,
     sender_name: React.PropTypes.string.isRequired,
-    recipient_id: React.PropTypes.number.isRequired,
     recipient_name: React.PropTypes.string.isRequired,
-    read_receipt: React.PropTypes.oneOf(['READ', 'UNREAD']).isRequired
     /* eslint-enable */
   }).isRequired,
   detailsVisible: React.PropTypes.bool,
