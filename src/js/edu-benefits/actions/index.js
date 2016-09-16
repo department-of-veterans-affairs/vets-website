@@ -1,3 +1,5 @@
+import { veteranToApplication } from '../utils/veteran';
+
 export const UPDATE_COMPLETED_STATUS = 'UPDATE_COMPLETED_STATUS';
 export const UPDATE_INCOMPLETE_STATUS = 'UPDATE_INCOMPLETE_STATUS';
 export const UPDATE_REVIEW_STATUS = 'UPDATE_REVIEW_STATUS';
@@ -8,12 +10,20 @@ export const UPDATE_SUBMISSION_TIMESTAMP = 'UPDATE_SUBMISSION_TIMESTAMP';
 export const VETERAN_FIELD_UPDATE = 'VETERAN_FIELD_UPDATE';
 export const ENSURE_FIELDS_INITIALIZED = 'ENSURE_FIELDS_INITIALIZED';
 
-export function ensureFieldsInitialized(section) {
+export function ensurePageInitialized(page) {
   return (dispatch, getState) => {
     return dispatch({
       type: ENSURE_FIELDS_INITIALIZED,
-      fields: getState().uiState.sections[section].fields,
+      fields: getState().uiState.pages[page].fields,
     });
+  };
+}
+
+export function ensureFieldsInitialized(fields, parentNode) {
+  return {
+    type: ENSURE_FIELDS_INITIALIZED,
+    fields,
+    parentNode
   };
 }
 
@@ -73,5 +83,30 @@ export function updateSubmissionTimestamp(value) {
   return {
     type: UPDATE_SUBMISSION_TIMESTAMP,
     value
+  };
+}
+
+export function submitForm(data) {
+  const application = veteranToApplication(data);
+  return dispatch => {
+    dispatch(updateSubmissionStatus('submitPending'));
+    fetch('/api/v0/education_benefits_claims', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel'
+      },
+      body: JSON.stringify({
+        educationBenefitsClaim: {
+          form: application
+        }
+      })
+    }).then(res => {
+      if (res.ok) {
+        dispatch(updateSubmissionStatus('applicationSubmitted'));
+      } else {
+        dispatch(updateSubmissionStatus('error'));
+      }
+    });
   };
 }

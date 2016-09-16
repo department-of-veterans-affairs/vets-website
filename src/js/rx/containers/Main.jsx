@@ -3,16 +3,12 @@ import { connect } from 'react-redux';
 
 import { closeAlert } from '../actions/alert.js';
 import { closeDisclaimer } from '../actions/disclaimer.js';
-import { loadData } from '../actions/prescriptions.js';
 
-import AlertBox from '../components/AlertBox';
+import AlertBox from '../../common/components/AlertBox';
 import TabNav from '../components/TabNav';
 import Disclaimer from '../components/Disclaimer';
 
 class Main extends React.Component {
-  componentWillMount() {
-    this.props.loadData();
-  }
   render() {
     let alertBox;
 
@@ -29,7 +25,7 @@ class Main extends React.Component {
     return (
       <div>
         <Disclaimer
-            isVisible={this.props.disclaimer.visible}
+            isOpen={this.props.disclaimer.open}
             handleClose={this.props.closeDisclaimer}/>
         <div className="rx-app row">
           {alertBox}
@@ -48,6 +44,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   closeAlert,
-  closeDisclaimer,
-  loadData
+  closeDisclaimer
 })(Main);

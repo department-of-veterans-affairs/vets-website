@@ -18,7 +18,9 @@ import { makeField } from '../../model/fields.js';
  * `autocomplete` - String for the select autocomplete attribute.
  * `options` - Array of options to populate select.
  * `required` - boolean. Render marker indicating field is required.
- * `value` - string. Value of the select field.
+ * `value` - object containing:
+ *   - `value`: Value of the select field.
+ *   - `dirty`: boolean. Whether a field has been touched by the user.
  * `onValueChange` - a function with this prototype: (newValue)
  */
 class ErrorableSelect extends React.Component {
@@ -59,7 +61,7 @@ class ErrorableSelect extends React.Component {
     // Calculate required.
     let requiredSpan = undefined;
     if (this.props.required) {
-      requiredSpan = <span className="hca-required-span">*</span>;
+      requiredSpan = <span className="form-required-span">*</span>;
     }
 
     // Calculate options for select

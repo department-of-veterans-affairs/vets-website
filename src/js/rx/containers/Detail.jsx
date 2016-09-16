@@ -2,70 +2,110 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { glossary } from '../glossary.js';
-import { loadData } from '../actions/prescriptions.js';
-import { openModal } from '../actions/modal.js';
-
+import { loadPrescription } from '../actions/prescriptions.js';
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
+import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
+import { glossary, rxStatuses } from '../config.js';
+import SubmitRefill from '../components/SubmitRefill';
+import { openGlossaryModal, openRefillModal } from '../actions/modal';
 
-class Detail extends React.Component {
-  componentWillMount() {
-    this.props.dispatch(loadData(this.props.params.id));
-    this.getGlossaryTerm = this.getGlossaryTerm.bind(this);
+export class Detail extends React.Component {
+  constructor(props) {
+    super(props);
+    this.openGlossaryModal = this.openGlossaryModal.bind(this);
   }
 
-  // Returns an object containing the glossary term we're seeking.
-  getGlossaryTerm(list, term) {
-    return list.filter((object) => {
-      return object.term === term;
+  componentWillMount() {
+    this.props.dispatch(loadPrescription(this.props.params.id));
+  }
+
+  openGlossaryModal(term) {
+    const content = glossary.filter((obj) => {
+      return obj.term === term;
     });
+
+    this.props.openGlossaryModal(content);
   }
 
   render() {
     let header;
-    let content;
+    let rxInfo;
+    let contactCard;
+    let orderHistory;
 
     const item = this.props.prescriptions.currentItem;
-    // TODO: Replace this with the refill status
-    // const glossaryTerm = this.getGlossaryTerm(glossary, item.attributes.status);
-    const glossaryTerm = this.getGlossaryTerm(glossary, 'Suspended');
 
     if (item) {
-      const attrs = item.attributes;
-      const data = {
-        Quantity: attrs.quantity,
-        // 'Prescription status': attrs[''],
-        'Prescription date': moment(
-            attrs['refill-submit-date']
-          ).format('D MMM YYYY'),
-        'Expiration date': moment(
-            attrs['expiration-date']
-          ).format('D MMM YYYY'),
-        'Prescription #': attrs['prescription-number'],
-        Refills: (
-          <span>
-            {attrs['refill-remaining']} left
-            &nbsp;&nbsp;&nbsp;<a>Refill prescription</a>
-          </span>
-        )
-      };
+      // Compose components from Rx data.
+      if (item.rx) {
+        const attrs = item.rx.attributes;
+        const status = rxStatuses[attrs['refill-status']];
+        const data = {
+          Quantity: attrs.quantity,
+          'Prescription status': (
+            <button
+                className="rx-trigger"
+                onClick={() => this.openGlossaryModal(status)}
+                type="button">
+              {status}
+            </button>
+          ),
+          'Last fill date': moment(
+              attrs['dispensed-date']
+            ).format('MMM DD, YYYY'),
+          'Expiration date': moment(
+              attrs['expiration-date']
+            ).format('MMM DD, YYYY'),
+          'Prescription #': attrs['prescription-number'],
+          Refills: (
+            <div>
+              {attrs['refill-remaining']} remaining
+              <SubmitRefill
+                  cssClass="rx-trigger"
+                  mode="compact"
+                  onSubmit={(e) => { e.preventDefault(); this.props.openRefillModal(attrs); }}
+                  refillId={item.rx.id}
+                  text="Refill Prescription"/>
+            </div>
+          )
+        };
 
-      header = (
-        <h2 className="rx-detail-header">
-          {attrs['prescription-name']}
-        </h2>
-      );
+        header = (
+          <h2 className="rx-heading">
+            {attrs['prescription-name']}
+          </h2>
+        );
 
-      content = (
-        <div>
+        rxInfo = (
           <TableVerticalHeader
-              className="usa-table-borderless rx-table"
+              className="usa-table-borderless rx-table rx-info"
               data={data}/>
-          <ContactCard/>
-        </div>
-      );
+        );
+      }
+
+      // Compose components from tracking data.
+      if (item.trackings) {
+        const currentPackage = item.trackings[0].attributes;
+        const facilityName = currentPackage['facility-name'];
+        const phoneNumber = currentPackage['rx-info-phone-number'];
+
+        contactCard = (
+          <ContactCard
+              facilityName={facilityName}
+              phoneNumber={phoneNumber}/>
+        );
+
+        orderHistory = (
+          <div className="rx-order-history">
+            <h3 className="rx-heading va-h-ruled">Order History</h3>
+            <OrderHistory
+                className="usa-table-borderless rx-table rx-table-list"
+                items={item.trackings}/>
+          </div>
+        );
+      }
     }
 
     return (
@@ -73,12 +113,9 @@ class Detail extends React.Component {
         <h1>Mail Order Prescriptions</h1>
         <BackLink text="Back to list"/>
         {header}
-        {content}
-        <p>
-          <button
-              onClick={() => {this.props.dispatch(openModal(glossaryTerm));}}
-              type="button"
-              value="Discontinued">Discontinued</button></p>
+        {rxInfo}
+        {contactCard}
+        {orderHistory}
       </div>
     );
   }
@@ -88,4 +125,9 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps)(Detail);
+const mapDispatchToProps = {
+  openGlossaryModal,
+  openRefillModal
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Detail);

@@ -20,10 +20,7 @@ relatedlinks:
     description: ""
   - url: /disability-benefits/claims-process/what-happens-after-rating/
     title: What can I expect after getting a disability rating?
-    description: ""  
-  - url: /disability-benefits/claims-process/claim-exam/
-    title: What can I expect at my VA claim exam?
-    description: ""    
+    description: ""   
 ---
 
 

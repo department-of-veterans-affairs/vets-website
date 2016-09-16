@@ -26,10 +26,60 @@
           font-weight: bold;
           color: $color-primary;
         }
+        &.sub-section-hidden {
+          display: none;
+        }
       }
       &:before {
         background: $color-primary;
       }
     }
+  }
+}
+
+.form-process-step {
+  color:$color-white;
+  font-weight: 700;
+  text-align: center;
+  width: 2em;
+  margin-left: -.2em;
+  top: -.2em;
+  display: block;
+  border: 4px solid $color-white;
+  background: $olso-gray;
+  border-radius: 4em;
+  display: inline-block;
+  &.current {
+    background: $color-primary;
+  }
+}
+
+.form-review-panel {
+  button {
+      background-color: $color-primary;
+      color: $white;
+      &:hover {
+        background-color: $color-primary-darker;
+        color: $white;
+      }
+    }
+    .edit-btn {
+      padding: 1rem;
+      &.primary-outline {
+        background-color: transparent;
+        border: 1px solid $color-primary;
+        color: $color-primary;
+        &:hover {
+        border: 1px solid $color-primary-darker;
+        color: $color-primary-darker;
+        }
+      }
+    }
+  .accordion-header {
+    min-height: 7rem;
+    padding: 1rem;
+  }
+  .section-label {
+    padding-bottom: 1rem;
   }
 }

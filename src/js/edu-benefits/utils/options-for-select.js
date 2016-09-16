@@ -1578,6 +1578,57 @@ const yesNo = [
   { label: 'No', value: 'N' }
 ];
 
+const yesNoNA = yesNo.concat([{
+  label: 'Not Applicable', value: 'N/A'
+}]);
+
+const serviceBranches = [
+  { label: 'Air Force', value: 'Air Force' },
+  { label: 'Army', value: 'Army' },
+  { label: 'Coast Guard', value: 'Coast Guard' },
+  { label: 'Marine Corps', value: 'Marine Corps' },
+  { label: 'Navy', value: 'Navy' }
+];
+
+const employmentPeriodTiming = [
+  { label: 'Before military service', value: 'before' },
+  { label: 'After military service', value: 'after' }
+];
+
+const schoolTypes = [
+  { label: 'College or other school', value: 'college' },
+  { label: 'Vocational flight training', value: 'flightTraining' },
+  { label: 'National test reimbursement', value: 'testReimbursement' },
+  { label: 'Licensing or certification test reimbursement', value: 'licensingReimbursement' },
+  { label: 'Apprenticeship or on-the-job', value: 'apprenticeship' },
+  { label: 'Correspondence', value: 'correspondence' },
+  { label: 'Tuition assistance top-up', value: 'tuitionTopUp' }
+];
+
+const contactOptions = [
+  { label: 'Email', value: 'email' },
+  { label: 'Phone', value: 'phone' },
+  { label: 'Mail', value: 'mail' }
+];
+
+const accountTypes = [
+  { label: 'Checking', value: 'checking' },
+  { label: 'Savings', value: 'savings' }
+];
+
+const relinquishableBenefits = [
+  { label: 'Chapter 1606', value: 'chapter1606' },
+  { label: 'Chapter 30', value: 'chapter30' },
+  { label: 'Chapter 1607', value: 'chapter1607' },
+  { label: 'I don\'t have anything to relinquish', value: 'unknown' }
+];
+
+const hoursTypes = [
+  { label: 'Semester', value: 'semester' },
+  { label: 'Quarter', value: 'quarter' },
+  { label: 'Clock', value: 'clock' }
+];
+
 module.exports = {
   countries,
   maritalStatuses,
@@ -1590,5 +1641,13 @@ module.exports = {
   days,
   vaMedicalFacilities,
   childRelationships,
-  yesNo
+  yesNo,
+  yesNoNA,
+  serviceBranches,
+  schoolTypes,
+  employmentPeriodTiming,
+  contactOptions,
+  accountTypes,
+  relinquishableBenefits,
+  hoursTypes
 };

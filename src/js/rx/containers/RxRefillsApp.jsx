@@ -5,7 +5,8 @@ import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import GlossaryModal from '../components/GlossaryModal';
 
 import { openAlert } from '../actions/alert.js';
-import { openModal, closeModal } from '../actions/modal.js';
+import { openRefillModal, closeRefillModal, closeGlossaryModal } from '../actions/modal.js';
+import { refillPrescription } from '../actions/prescriptions.js';
 
 class RxRefillsApp extends React.Component {
   render() {
@@ -13,16 +14,15 @@ class RxRefillsApp extends React.Component {
       <div>
         {this.props.children}
         <ConfirmRefillModal
-            isVisible={this.props.modal.visible}
-            drug="Acetaminophen"
-            dosage="250mg"
-            lastRefilled="06/07/2016"
+            {...this.props.modal.refill.prescription}
+            isVisible={this.props.modal.refill.visible}
             openAlert={this.props.openAlert}
-            onCloseModal={this.props.closeModal}/>
+            refillPrescription={this.props.refillPrescription}
+            onCloseModal={this.props.closeRefillModal}/>
         <GlossaryModal
-            content={this.props.modal.content}
-            isVisible={this.props.modal.visible}
-            onCloseModal={this.props.closeModal}/>
+            content={this.props.modal.glossary.content}
+            isVisible={this.props.modal.glossary.visible}
+            onCloseModal={this.props.closeGlossaryModal}/>
       </div>
     );
   }
@@ -40,6 +40,8 @@ const mapStateToProps = (state) => {
 export default connect(
   mapStateToProps, {
     openAlert,
-    openModal,
-    closeModal
+    openRefillModal,
+    closeGlossaryModal,
+    closeRefillModal,
+    refillPrescription
   })(RxRefillsApp);
