@@ -37,7 +37,10 @@ class FolderNav extends React.Component {
       return this.context.router.isActive(link.props.to, true);
     };
     const myFoldersActive = myFolderLinks.find(isLinkActive);
-    const myFoldersClass = classNames({ 'usa-current': myFoldersActive });
+    const myFoldersClass = classNames({
+      'messaging-my-folders': true,
+      'usa-current': myFoldersActive
+    });
 
     /* Render 'My folders' as expanded or collapsed. */
 
@@ -62,7 +65,7 @@ class FolderNav extends React.Component {
     });
 
     return (
-      <li key="myFolders" className="messaging-my-folders">
+      <li key="myFolders">
         <a className={myFoldersClass} onClick={this.props.onToggleFolders}>
           <span>My folders</span>
           <i className={iconClass}></i>

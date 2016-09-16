@@ -8,14 +8,15 @@
   // Overriding `#content .section h*`.
   padding: 2.25rem 2rem !important;
   vertical-align: middle;
-  width: 65%;
+  width: 60%;
 }
 
 .messaging-thread-controls {
   display: inline-block;
+  padding-right: 1rem;
   text-align: right;
   vertical-align: middle;
-  width: 35%;
+  width: 40%;
 
   button {
     background: transparent;
@@ -34,6 +35,10 @@
     &:active,
     &:focus {
       outline: 0;
+    }
+
+    i {
+      font-size: 1.8rem;
     }
   }
 
@@ -65,10 +70,10 @@
     &:focus {
       color: $color-gray;
     }
-  }
 
-  i {
-    font-size: 2rem;
+    i {
+      font-size: 1.8rem;
+    }
   }
 
   table {
