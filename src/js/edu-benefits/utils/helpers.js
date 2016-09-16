@@ -49,6 +49,7 @@ export const chapterNames = {
   educationHistory: 'Education History',
   employmentHistory: 'Employment History',
   schoolSelection: 'School Selection',
+  personalInformation: 'Personal Information',
   review: 'Review'
 };
 
