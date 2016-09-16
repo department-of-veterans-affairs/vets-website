@@ -1,7 +1,10 @@
 module.exports = {
   // Base URL to be used in API requests.
   apiUrl: '/api/v0/messaging/health',
-
+  paths: {
+    BASE_URL: '/messaging',
+    COMPOSE_URL: '/messaging/compose'
+  },
   // An array of objects containing the category name (label) and a
   // value for use with select, radio button inputs.
   messageCategories: [
