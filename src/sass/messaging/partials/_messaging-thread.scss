@@ -18,9 +18,16 @@
 
   button {
     background: transparent;
+    box-shadow: none;
     color: $color-black;
     margin: 0;
+    outline: 0;
     padding: 0;
+
+    &:active,
+    &:focus {
+      color: $color-gray;
+    }
   }
 
   i {
