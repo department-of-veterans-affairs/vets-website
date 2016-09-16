@@ -6,6 +6,7 @@ import Message from '../components/Message';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
 import NoticeBox from '../components/NoticeBox';
+import ThreadHeader from '../components/ThreadHeader';
 import { composeMessagePlaceholders } from '../config';
 
 class Thread extends React.Component {
@@ -36,13 +37,13 @@ class Thread extends React.Component {
 
   render() {
     const thread = this.props.thread;
-    let subject;
     let lastSender;
+    let header;
     let messages;
 
     if (thread.length > 0) {
-      subject = thread[0].subject;
       lastSender = thread[thread.length - 1].sender_name;
+      header = <ThreadHeader title={thread[0].subject}/>;
       messages = thread.map((message) => {
         const detailsVisible =
           this.props.visibleDetailsId === message.message_id;
@@ -59,8 +60,8 @@ class Thread extends React.Component {
 
     return (
       <div>
-        <h2 className="messaging-thread-name">{subject}</h2>
-        <div>
+        {header}
+        <div className="messaging-thread-messages">
           {messages}
         </div>
         <div className="messaging-thread-reply">
