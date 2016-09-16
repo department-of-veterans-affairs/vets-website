@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { fetchFolder } from '../actions/folders';
 
 class Folder extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     const id = this.props.params.id;
     this.props.fetchFolder(id);
   }

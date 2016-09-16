@@ -6,7 +6,7 @@ import Message from '../components/Message';
 import NoticeBox from '../components/NoticeBox';
 
 class Thread extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     const id = this.props.params.id;
     this.props.fetchThread(id);
   }
