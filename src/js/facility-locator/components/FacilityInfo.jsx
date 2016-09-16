@@ -14,7 +14,7 @@ class FacilityInfo extends Component {
     const street2 = this.props.info.address.street2;
     if (this.props.info.facilityType === 'facility') {
       facilityOperations = (
-        <div>
+        <div className="mb2">
           <h5>Phone:</h5>
           <div className="row">
             <div className="medium-6 columns details-map">

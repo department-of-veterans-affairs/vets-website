@@ -19,10 +19,7 @@ class FacilityDetail extends Component {
           <div className="details-map">
             <h3>{this.props.facility ? this.props.facility.name : ''}</h3>
             <FacilityInfo info={this.props.facility}/>
-            <div>
-              <h4>Services at this Facility</h4>
-              <ServicesAtFacility info={this.props.facility}/>
-            </div>
+            <ServicesAtFacility info={this.props.facility}/>
           </div>
         </div>
         <div className="medium-4 columns">
