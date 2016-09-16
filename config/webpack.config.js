@@ -72,7 +72,7 @@ const configGenerator = (options) => {
         { test: /\.(jpe?g|png|gif)$/i,
           loader: 'url?limit=10000!img?progressive=true&-minimize'
         },
-        { test: /\.svg/, loader: 'svg-url-loader' },
+        { test: /\.svg/, loader: 'svg-url' },
         {
           test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'url-loader?limit=10000&minetype=application/font-woff'
