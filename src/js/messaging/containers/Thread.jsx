@@ -44,7 +44,8 @@ class Thread extends React.Component {
     if (thread.length > 0) {
       lastSender = thread[thread.length - 1].sender_name;
       header = <ThreadHeader title={thread[0].subject}/>;
-      messages = thread.map((message) => {
+      messages = thread.map((message, i) => {
+        const isCollapsed = i !== thread.length - 1;
         const detailsVisible =
           this.props.visibleDetailsId === message.message_id;
 
@@ -52,8 +53,9 @@ class Thread extends React.Component {
           <Message
               key={message.message_id}
               attrs={message}
-              setVisibleDetails={this.props.setVisibleDetails}
-              detailsVisible={detailsVisible}/>
+              isCollapsed={isCollapsed}
+              detailsVisible={detailsVisible}
+              setVisibleDetails={this.props.setVisibleDetails}/>
         );
       });
     }

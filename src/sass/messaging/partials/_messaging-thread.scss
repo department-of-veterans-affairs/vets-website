@@ -50,6 +50,17 @@
 .messaging-thread-message {
   padding: 1.5rem 2rem;
   border-bottom: 1px solid $color-black;
+
+  &--collapsed {
+    background: $color-gray-lightest;
+
+    p {
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }
 
 .messaging-message-details-control {
