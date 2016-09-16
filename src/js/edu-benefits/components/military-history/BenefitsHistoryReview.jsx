@@ -3,7 +3,7 @@ import { displayDateIfValid } from '../../utils/helpers.js';
 
 export default class BenefitsHistoryReview extends React.Component {
   render() {
-    const { fromDate, toDate } = this.props.data.activeDutyRepayingPeriod;
+    const { from, to } = this.props.data.activeDutyRepayingPeriod;
     return (
       <table className="review usa-table-borderless">
         <tbody>
@@ -32,11 +32,11 @@ export default class BenefitsHistoryReview extends React.Component {
           ? <tbody>
             <tr>
               <td>Start date:</td>
-              <td>{displayDateIfValid(fromDate)}</td>
+              <td>{displayDateIfValid(from)}</td>
             </tr>
             <tr>
               <td>End date:</td>
-              <td>{displayDateIfValid(toDate)}</td>
+              <td>{displayDateIfValid(to)}</td>
             </tr>
           </tbody>
           : null}
