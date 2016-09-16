@@ -42,7 +42,7 @@ module.exports = {
     onHold: 'On hold',
     submitted: 'Pending',
     suspended: 'Suspended',
-    refillinprocess: 'Refill in procress',
+    refillinprocess: 'Refill in process',
     unknown: 'Unknown'
   },
 

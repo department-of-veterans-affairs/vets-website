@@ -49,6 +49,7 @@ export const chapterNames = {
   educationHistory: 'Education History',
   employmentHistory: 'Employment History',
   schoolSelection: 'School Selection',
+  personalInformation: 'Personal Information',
   review: 'Review'
 };
 
@@ -87,4 +88,9 @@ export function displayDateIfValid(dateObject) {
     }
   }
   return null;
+}
+
+export function showSomeoneElseServiceQuestion(claimType) {
+  return claimType !== ''
+    && claimType !== 'vocationalRehab';
 }
