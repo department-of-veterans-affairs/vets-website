@@ -4,7 +4,7 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
 import RadioButtonsSubSection from '../../../common/components/form-elements/RadioButtonsSubSection';
 import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
-import { relinquishableBenefits } from '../../utils/options-for-select';
+import { relinquishableBenefits, yesNo } from '../../utils/options-for-select';
 
 export default class BenefitsSelectionFields extends React.Component {
   render() {
@@ -25,7 +25,6 @@ export default class BenefitsSelectionFields extends React.Component {
     }
 
     return (<fieldset>
-      <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
       <p>Which education benefit are you applying for?</p>
       <div className="input-section">
         <ErrorableCheckbox
@@ -49,6 +48,14 @@ export default class BenefitsSelectionFields extends React.Component {
             name="chapter32"
             checked={this.props.data.chapter32}
             onValueChange={(update) => {this.props.onStateChange('chapter32', update);}}/>
+      </div>
+      <div className="input-section">
+        <ErrorableRadioButtons
+            label="Have you filed a previous claim for Education or Vocational Rehabilitation and Employment?"
+            name="previouslyFiledClaimWithVa"
+            options={yesNo}
+            value={this.props.data.previouslyFiledClaimWithVa}
+            onValueChange={(update) => {this.props.onStateChange('previouslyFiledClaimWithVa', update);}}/>
       </div>
     </fieldset>
     );

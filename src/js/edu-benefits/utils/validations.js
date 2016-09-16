@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import moment from 'moment';
 import { states } from './options-for-select';
+import { dateToMoment } from './helpers';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -30,14 +30,6 @@ function validateIfDirtyProvider(field1, field2, validator) {
   }
 
   return true;
-}
-
-function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value - 1,
-    day: dateField.day.value
-  });
 }
 
 function isBlank(value) {
@@ -234,9 +226,9 @@ function isValidBenefitsInformationPage(data) {
 
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
-    && isValidDateField(tour.fromDate)
-    && isValidDateField(tour.toDate)
-    && isValidDateRange(tour.fromDate, tour.toDate);
+    && isValidDateField(tour.dateRange.from)
+    && isValidDateField(tour.dateRange.to)
+    && isValidDateRange(tour.dateRange.from, tour.dateRange.to);
 }
 
 function isValidMilitaryServicePage(data) {
@@ -255,6 +247,18 @@ function isValidEmploymentPeriod(data) {
 
 function isValidEmploymentHistoryPage(data) {
   return (data.hasNonMilitaryJobs.value !== 'Y' || data.nonMilitaryJobs.every(isValidEmploymentPeriod));
+}
+
+function isValidEducationPeriod(data) {
+  return isNotBlank(data.name)
+    && !isBlankDateField(data.dateRange.from)
+    && !isBlankDateField(data.dateRange.to)
+    && isValidDateRange(data.dateRange.from, data.dateRange.to);
+}
+
+function isValidEducationHistoryPage(data) {
+  return (isBlankDateField(data.highSchoolOrGedCompletionDate) || isValidDateField(data.highSchoolOrGedCompletionDate))
+    && data.postHighSchoolTrainings.every(isValidEducationPeriod);
 }
 
 function isValidSecondaryContactPage(data) {
@@ -284,8 +288,42 @@ function isValidDirectDepositPage(data) {
   return isValidField(isValidRoutingNumber, data.bankAccount.routingNumber);
 }
 
+function isValidBenefitsHistoryPage(data) {
+  return data.activeDutyRepaying.value !== 'Y' ||
+    (!isBlankDateField(data.activeDutyRepayingPeriod.from)
+    && !isBlankDateField(data.activeDutyRepayingPeriod.to)
+    && isValidDateRange(data.activeDutyRepayingPeriod.from, data.activeDutyRepayingPeriod.to));
+}
+
+function isValidRotcScholarshipAmount(data) {
+  return isValidField(isValidMonetaryValue, data.amount) && isValidField(isValidYear, data.year);
+}
+
+function isValidRotcHistoryPage(data) {
+  return data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount);
+}
+
+function isValidPreviousClaim(data) {
+  return isNotBlank(data.claimType.value);
+}
+
+function isValidPreviousClaimsPage(data) {
+  return data.previousVaClaims.every(isValidPreviousClaim);
+}
+
 function isValidForm(data) {
-  return isValidBenefitsInformationPage(data);
+  return isValidBenefitsInformationPage(data)
+    && isValidPersonalInfoPage(data)
+    && isValidContactInformationPage(data)
+    && isValidMilitaryServicePage(data)
+    && isValidSchoolSelectionPage(data)
+    && isValidEmploymentHistoryPage(data)
+    && isValidEducationHistoryPage(data)
+    && isValidSecondaryContactPage(data)
+    && isValidDirectDepositPage(data)
+    && isValidBenefitsHistoryPage(data)
+    && isValidRotcHistoryPage(data)
+    && isValidPreviousClaimsPage(data);
 }
 
 function isValidPage(completePath, pageData) {
@@ -298,14 +336,22 @@ function isValidPage(completePath, pageData) {
       return isValidBenefitsInformationPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
+    case '/military-history/benefits-history':
+      return isValidBenefitsHistoryPage(pageData);
     case '/school-selection/school-information':
       return isValidSchoolSelectionPage(pageData);
     case '/employment-history/employment-information':
       return isValidEmploymentHistoryPage(pageData);
+    case '/education-history/education-information':
+      return isValidEducationHistoryPage(pageData);
     case '/veteran-information/secondary-contact':
       return isValidSecondaryContactPage(pageData);
     case '/veteran-information/direct-deposit':
       return isValidDirectDepositPage(pageData);
+    case '/military-history/rotc-history':
+      return isValidRotcHistoryPage(pageData);
+    case '/benefits-eligibility/previous-claims':
+      return isValidPreviousClaimsPage(pageData);
     default:
       return true;
   }

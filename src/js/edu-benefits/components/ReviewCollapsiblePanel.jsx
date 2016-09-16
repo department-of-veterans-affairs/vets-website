@@ -3,7 +3,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import * as validations from '../utils/validations';
-import { getActivePages } from '../utils/helpers';
+import { getActivePages } from '../../common/utils/helpers';
 import { pages } from '../routes';
 
 const Element = Scroll.Element;

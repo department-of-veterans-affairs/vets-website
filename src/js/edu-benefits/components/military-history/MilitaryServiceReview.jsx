@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getLabel } from '../../utils/helpers';
+import { getLabel, displayDateIfValid } from '../../utils/helpers';
 import { yesNoNA } from '../../utils/options-for-select';
 
 export default class MilitaryServiceReview extends React.Component {
@@ -24,6 +24,10 @@ export default class MilitaryServiceReview extends React.Component {
             <tr>
               <td>Are you receiving, or do you anticipate receiving, any money (including but not limited to federal tuition assistance) from the armed forces or public health services for the course for which you have applied to the VA for education benefits?</td>
               <td>{this.props.data.currentlyActiveDuty.nonVaAssistance.value === 'Y' ? 'Yes' : 'No'}</td>
+            </tr>
+            <tr>
+              <td>Were you commissioned as a result of senior ROTC?</td>
+              <td>{getLabel(yesNoNA, this.props.data.seniorRotcCommissioned.value)}</td>
             </tr>
           </tbody>
         </table>
@@ -62,11 +66,11 @@ export default class MilitaryServiceReview extends React.Component {
                 : null}
               <tr>
                 <td>From date:</td>
-                <td>{tour.fromDate.month.value ? `${tour.fromDate.month.value}/${tour.fromDate.day.value}/${tour.fromDate.year.value}` : null}</td>
+                <td>{displayDateIfValid(tour.dateRange.from)}</td>
               </tr>
               <tr>
                 <td>To date:</td>
-                <td>{tour.toDate.month.value ? `${tour.toDate.month.value}/${tour.toDate.day.value}/${tour.toDate.year.value}` : null}</td>
+                <td>{displayDateIfValid(tour.dateRange.to)}</td>
               </tr>
               <tr>
                 <td>Service status:</td>

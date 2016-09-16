@@ -7,7 +7,7 @@ import ReviewCollapsiblePanel from '../../../src/js/edu-benefits/components/Revi
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran';
 
 describe('<ReviewCollapsiblePanel>', () => {
-  function renderCollapsiblePanel(uiData, path = '/veteran-information/personal-information') {
+  function renderCollapsiblePanel(uiData, path = '/personal-information/contact-information') {
     function FakeFields() {}
     function FakeReview() {}
     let data = createVeteran();
@@ -33,7 +33,11 @@ describe('<ReviewCollapsiblePanel>', () => {
   it('should render fields to update', () => {
     const uiData = {
       pages: {
-        '/veteran-information/personal-information': {
+        '/school-selection/school-information': {
+          complete: true,
+          verified: true
+        },
+        '/personal-information/contact-information': {
           complete: false,
           verified: false
         }
@@ -48,7 +52,11 @@ describe('<ReviewCollapsiblePanel>', () => {
   it('should render review fields', () => {
     const uiData = {
       pages: {
-        '/veteran-information/personal-information': {
+        '/school-selection/school-information': {
+          complete: true,
+          verified: true
+        },
+        '/personal-information/contact-information': {
           complete: true,
           verified: false
         }
@@ -64,18 +72,22 @@ describe('<ReviewCollapsiblePanel>', () => {
   it('should render nothing', () => {
     const uiData = {
       pages: {
-        '/veteran-information/personal-information': {
+        '/school-selection/school-information': {
+          complete: true,
+          verified: true
+        },
+        '/personal-information/contact-information': {
           complete: true,
           verified: false
         },
-        '/veteran-information/contact-information': {
+        '/personal-information/secondary-contact': {
           complete: false,
           verified: false
         }
       }
     };
 
-    const tree = renderCollapsiblePanel(uiData, '/veteran-information/contact-information');
+    const tree = renderCollapsiblePanel(uiData, '/personal-information/secondary-contact');
 
     expect(tree.everySubTree('FakeReview').length).to.equal(0);
     expect(tree.everySubTree('FakeFields').length).to.equal(0);
@@ -84,11 +96,15 @@ describe('<ReviewCollapsiblePanel>', () => {
   it('should render just an edit button', () => {
     const uiData = {
       pages: {
-        '/veteran-information/personal-information': {
+        '/school-selection/school-information': {
           complete: true,
           verified: true
         },
-        '/veteran-information/contact-information': {
+        '/personal-information/contact-information': {
+          complete: true,
+          verified: true
+        },
+        '/personal-information/secondary-contact': {
           complete: true,
           verified: true
         }
