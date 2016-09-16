@@ -14,6 +14,9 @@ export default class SubmitMessage extends React.Component {
       </span>
     );
 
+    // TODO: common address componment?
+    const address = this.props.address;
+
     return (
       <div>
         <AlertBox
@@ -48,7 +51,12 @@ export default class SubmitMessage extends React.Component {
             </li>
             <li>
               <b>Your claim was sent to</b><br/>
-              <span>{this.props.address}</span>
+              <address>
+                {address.name}<br/>
+                {address.street1}<br/>
+                {address.street2}<br/>
+                {address.city}, {address.state} {address.zip}
+              </address>
             </li>
             <li>
               <b>Your claimed benefits</b><br/>
@@ -69,7 +77,14 @@ SubmitMessage.propTypes = {
   claimType: React.PropTypes.string.isRequired,
   confirmation: React.PropTypes.string.isRequired,
   date: React.PropTypes.string.isRequired,
-  address: React.PropTypes.element.isRequired,
+  address: React.PropTypes.shape({
+    name: React.PropTypes.string.isRequired,
+    street1: React.PropTypes.string.isRequired,
+    street2: React.PropTypes.string,
+    city: React.PropTypes.string.isRequired,
+    state: React.PropTypes.string.isRequired,
+    zip: React.PropTypes.string.isRequired,
+  }).isRequired,
   claimedBenefits: React.PropTypes.string.isRequired,
   relinquishedBenefits: React.PropTypes.string
 };

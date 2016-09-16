@@ -2,17 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SubmitMessage from '../components/SubmitMessage';
 
+
 class SubmitPage extends React.Component {
   render() {
-		// TODO: shared address component?
-    const address = (
-      <address>
-        Western Region<br/>
-        VA Regional Office<br/>
-        P.O. Box 8888<br/>
-				Muskogee, OK 74402-8888
-      </address>
-		);
+    const address = {
+      name: 'Western Region',
+      street1: 'VA Regional Office',
+      street2: 'P.O. Box 8888',
+      city: 'Muskogee',
+      state: 'OK',
+      zip: '74402-8888'
+    };
 
 		// TODO: replace this with actual data from the API
     return (
