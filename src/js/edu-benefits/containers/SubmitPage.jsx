@@ -1,20 +1,28 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import AlertBox from '../../common/components/AlertBox.jsx';
+import SubmitMessage from '../components/SubmitMessage';
 
 class SubmitPage extends React.Component {
   render() {
-    const content = (
-      <span>Claim Received!</span>
-    );
+		// TODO: shared address component?
+    const address = (
+      <address>
+        Western Region<br/>
+        VA Regional Office<br/>
+        P.O. Box 8888<br/>
+				Muskogee, OK 74402-8888
+      </address>
+		);
 
+		// TODO: replace this with actual data from the API
     return (
-      <div className="form-panel">
-        <AlertBox
-            content={content}
-            isVisible
-            status="success"/>
-      </div>
+      <SubmitMessage
+          claimType="Education Benefits"
+          confirmation="8-910fks-76"
+          date="Jul 12, 2016"
+          address={address}
+          claimedBenefits="Chapter 33"
+          relinquishedBenefits="Chapter 1607"/>
     );
   }
 }
