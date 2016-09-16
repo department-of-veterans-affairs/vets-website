@@ -1,14 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchThread } from '../actions/messages';
+import { fetchThread, setVisibleDetails } from '../actions/messages';
 import Message from '../components/Message';
 import NoticeBox from '../components/NoticeBox';
 
 class Thread extends React.Component {
   componentWillMount() {
     const id = this.props.params.id;
-    this.props.dispatch(fetchThread(id));
+    this.props.fetchThread(id);
   }
 
   render() {
@@ -19,7 +19,16 @@ class Thread extends React.Component {
     if (thread.length > 0) {
       subject = thread[0].subject;
       messages = thread.map((message) => {
-        return <Message key={message.message_id} attrs={message}/>;
+        const detailsVisible =
+          this.props.visibleDetailsId === message.message_id;
+
+        return (
+          <Message
+              key={message.message_id}
+              attrs={message}
+              showDetails={this.props.setVisibleDetails}
+              detailsVisible={detailsVisible}/>
+        );
       });
     }
 
@@ -40,8 +49,14 @@ class Thread extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    thread: state.messages.thread
+    thread: state.messages.data.thread,
+    visibleDetailsId: state.messages.ui.visibleDetailsId
   };
 };
 
-export default connect(mapStateToProps)(Thread);
+const mapDispatchToProps = {
+  fetchThread,
+  setVisibleDetails
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Thread);
