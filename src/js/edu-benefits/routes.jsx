@@ -28,6 +28,8 @@ import SchoolSelectionReview from './components/school-selection/SchoolSelection
 import SchoolSelectionFields from './components/school-selection/SchoolSelectionFields';
 import EducationHistoryFields from './components/education-history/EducationHistoryFields';
 import EducationHistoryReview from './components/education-history/EducationHistoryReview';
+import PreviousClaimsFields from './components/benefits-eligibility/PreviousClaimsFields';
+import PreviousClaimsReview from './components/benefits-eligibility/PreviousClaimsReview';
 import ReviewPage from './containers/ReviewPage';
 import FormPage from './containers/FormPage';
 import PlaceholderPage from './containers/PlaceholderPage';
@@ -78,6 +80,15 @@ const routes = [
       path="/benefits-eligibility/benefits-selection"
       chapter={chapterNames.benefitsEligibility}
       name="Benefits Selection"/>,
+  <Route
+      component={FormPage}
+      fieldsComponent={PreviousClaimsFields}
+      reviewComponent={PreviousClaimsReview}
+      key="/benefits-eligibility/previous-claims"
+      path="/benefits-eligibility/previous-claims"
+      chapter={chapterNames.benefitsEligibility}
+      depends={{ previouslyFiledClaimWithVa: { value: 'Y' } }}
+      name="Previous Claims"/>,
   <Route
       component={FormPage}
       fieldsComponent={MilitaryServiceFields}

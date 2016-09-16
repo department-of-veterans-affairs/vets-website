@@ -10,7 +10,7 @@ export default class PersonalInformationFields extends React.Component {
     return (
       <fieldset>
         <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
-        <p>Personal Information</p>
+        <legend>Personal Information</legend>
         <div className="input-section">
           <FullName required
               name={this.props.data.veteranFullName}
