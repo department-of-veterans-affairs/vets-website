@@ -1,20 +1,55 @@
-.messaging-thread-note {
-  border-bottom: 1px solid $color-black;
-  border-top: 1px solid $color-black;
-  font-size: 1.5rem;
-  margin: 0;
-  padding: 1.5rem 2rem;
-}
-
 .messaging-thread-name {
+  border-bottom: 2px solid $color-black;
+  font-weight: normal;
   // Overriding `#content .section h*`.
   padding: 2.25rem 2rem !important;
-  border-bottom: 2px solid $color-black;
 }
 
 .messaging-thread-message {
   padding: 1.5rem 2rem;
   border-bottom: 1px solid $color-black;
+}
+
+.messaging-message-details-control {
+  color: $color-black;
+  display: inline-block;
+  margin-left: 1rem;
+  position: relative;
+
+  button {
+    background: transparent;
+    color: $color-black;
+    margin: 0;
+    padding: 0;
+  }
+
+  i {
+    font-size: 1.8rem;
+  }
+
+  table {
+    margin: 0;
+  }
+
+  td, th {
+    border: none;
+    padding: 0.25rem 0.75rem;
+    white-space: nowrap;
+  }
+
+  th {
+    font-weight: bold;
+    text-align: right;
+  }
+}
+
+.messaging-message-details {
+  background: $color-white;
+  border: 1px solid $color-black;
+  font-size: 1.5rem;
+  padding: 1rem;
+  position: absolute;
+  z-index: 100;
 }
 
 .messaging-message-sender {
@@ -45,5 +80,19 @@
     max-width: 100%;
     width: 100%;
   }
+}
 
+.messaging-notice-box {
+  background: $color-primary-alt-lightest;
+  padding: 1.5rem 2rem;
+
+  i {
+    width: 3rem;
+  }
+
+  span {
+    display: inline-block;
+    vertical-align: top;
+    width: 95%;
+  }
 }
