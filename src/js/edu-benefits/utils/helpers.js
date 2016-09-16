@@ -88,3 +88,13 @@ export function displayDateIfValid(dateObject) {
   }
   return null;
 }
+
+export function showSomeonElseServiceQuestion(claimType) {
+  return claimType === 'chapter30'
+    || claimType === 'chapter32'
+    || claimType === 'chapter33'
+    || claimType === 'chapter34'
+    || claimType === 'chapter35'
+    || claimType === 'chapter1606'
+    || claimType === 'chapter1607';
+}

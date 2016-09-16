@@ -7,7 +7,7 @@ import FullName from '../../../common/components/questions/FullName';
 
 import { validateIfDirty, isNotBlank } from '../../utils/validations';
 import { claimTypes, yesNo } from '../../utils/options-for-select';
-import { getLabel } from '../../utils/helpers';
+import { getLabel, showSomeonElseServiceQuestion } from '../../utils/helpers';
 
 export default class MilitaryServiceTour extends React.Component {
   render() {
@@ -47,14 +47,16 @@ export default class MilitaryServiceTour extends React.Component {
               name="fileNumber"
               field={claim.fileNumber}
               onValueChange={(update) => {onValueChange('fileNumber', update);}}/>
-          <ErrorableRadioButtons
-              label="Was this claim for education benefits filed using someone else's service?"
-              name="previouslyAppliedWithSomeoneElsesService"
-              options={yesNo}
-              value={claim.previouslyAppliedWithSomeoneElsesService}
-              onValueChange={(update) => {onValueChange('previouslyAppliedWithSomeoneElsesService', update);}}/>
+          {showSomeonElseServiceQuestion(claim.claimType.value)
+            ? <ErrorableRadioButtons
+                label="Was this claim for education benefits filed using someone else's service?"
+                name="previouslyAppliedWithSomeoneElsesService"
+                options={yesNo}
+                value={claim.previouslyAppliedWithSomeoneElsesService}
+                onValueChange={(update) => {onValueChange('previouslyAppliedWithSomeoneElsesService', update);}}/>
+            : null}
         </div>
-        {claim.previouslyAppliedWithSomeoneElsesService.value === 'Y'
+        {claim.previouslyAppliedWithSomeoneElsesService.value === 'Y' && showSomeonElseServiceQuestion(claim.claimType.value)
           ? sponsorVeteranFields
           : null}
       </div>

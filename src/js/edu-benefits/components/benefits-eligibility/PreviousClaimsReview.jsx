@@ -1,41 +1,52 @@
 import React from 'react';
 
-import { getLabel } from '../../utils/helpers';
-import { relinquishableBenefits } from '../../utils/options-for-select';
+import { getLabel, showSomeonElseServiceQuestion } from '../../utils/helpers';
+import { claimTypes } from '../../utils/options-for-select';
 
 export default class PreviousClaimsReview extends React.Component {
   render() {
     return (
-      <table className="review usa-table-borderless">
-        <tbody>
-          <tr>
-            <td>Chapter 33 - Post-9/11 GI Bill:</td>
-            <td>{this.props.data.chapter33 ? 'Yes' : 'No'}</td>
-          </tr>
-        </tbody>
-        {this.props.data.chapter33
-          ? <tbody>
+      <div>{this.props.data.previousVaClaims.map((claim, index) => {
+        return (<table key={index} className="review usa-table-borderless">
+          <thead>
             <tr>
-              <td>I elect to receive Chapter 33 education benefits in lieu of the education benefit(s) I am relinquishing below:</td>
-              <td>{getLabel(relinquishableBenefits, this.props.data.benefitsRelinquished.value)}</td>
+              <td scope="col">Claim - {getLabel(claimTypes, claim.claimType.value)}</td>
+              <td scope="col"></td>
             </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>File number:</td>
+              <td>{claim.fileNumber.value}</td>
+            </tr>
+            {showSomeonElseServiceQuestion(claim.claimType.value)
+              ? <tr>
+                <td>Was this claim for education benefits filed using someone else's service?</td>
+                <td>{claim.previouslyAppliedWithSomeoneElsesService.value === 'Y' ? 'Yes' : 'No'}</td>
+              </tr>
+              : null}
           </tbody>
-          : null}
-        <tbody>
-          <tr>
-            <td>Chapter 30 - Montgomery GI Bill Educational Assistance Program:</td>
-            <td>{this.props.data.chapter30 ? 'Yes' : 'No'}</td>
-          </tr>
-          <tr>
-            <td>Chapter 1606 - Montgomery GI Bill - Selected Reserve Educational Assistance Program:</td>
-            <td>{this.props.data.chapter1606 ? 'Yes' : 'No'}</td>
-          </tr>
-          <tr>
-            <td>Chapter 32 / Section 903 - Post-Vietnam Era Veterans' Educational Assistance Program:</td>
-            <td>{this.props.data.chapter32 ? 'Yes' : 'No'}</td>
-          </tr>
-        </tbody>
-      </table>
+          {showSomeonElseServiceQuestion(claim.claimType.value)
+            && claim.previouslyAppliedWithSomeoneElsesService.value === 'Y'
+              ? <tbody>
+                <tr>
+                  <td>Name:</td>
+                  <td>{claim.sponsorVeteran.fullName.first.value} {claim.sponsorVeteran.fullName.middle.value} {claim.sponsorVeteran.fullName.last.value} {claim.sponsorVeteran.fullName.suffix.value}</td>
+                </tr>
+                <tr>
+                  <td>File number:</td>
+                  <td>{claim.sponsorVeteran.fileNumber.value}</td>
+                </tr>
+                <tr>
+                  <td>Payee number:</td>
+                  <td>{claim.sponsorVeteran.payeeNumber.value}</td>
+                </tr>
+              </tbody>
+              : null}
+        </table>
+        );
+      })}
+      </div>
     );
   }
 }
