@@ -27,10 +27,8 @@ class SubmitPage extends React.Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  return {
-    currentLocation: ownProps.location.pathname
-  };
+function mapStateToProps(state) {
+  return state;
 }
 
 // Fill this in when we start using actions
