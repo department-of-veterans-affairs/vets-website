@@ -7,9 +7,9 @@ import FullName from '../../../common/components/questions/FullName';
 
 import { validateIfDirty, isNotBlank } from '../../utils/validations';
 import { claimTypes, yesNo } from '../../utils/options-for-select';
-import { getLabel, showSomeonElseServiceQuestion } from '../../utils/helpers';
+import { getLabel, showSomeoneElseServiceQuestion } from '../../utils/helpers';
 
-export default class MilitaryServiceTour extends React.Component {
+export default class PreviousClaim extends React.Component {
   render() {
     const { view, onValueChange } = this.props;
     const claim = this.props.data;
@@ -47,7 +47,7 @@ export default class MilitaryServiceTour extends React.Component {
               name="fileNumber"
               field={claim.fileNumber}
               onValueChange={(update) => {onValueChange('fileNumber', update);}}/>
-          {showSomeonElseServiceQuestion(claim.claimType.value)
+          {showSomeoneElseServiceQuestion(claim.claimType.value)
             ? <ErrorableRadioButtons
                 label="Was this claim for education benefits filed using someone else's service?"
                 name="previouslyAppliedWithSomeoneElsesService"
@@ -56,7 +56,7 @@ export default class MilitaryServiceTour extends React.Component {
                 onValueChange={(update) => {onValueChange('previouslyAppliedWithSomeoneElsesService', update);}}/>
             : null}
         </div>
-        {claim.previouslyAppliedWithSomeoneElsesService.value === 'Y' && showSomeonElseServiceQuestion(claim.claimType.value)
+        {claim.previouslyAppliedWithSomeoneElsesService.value === 'Y' && showSomeoneElseServiceQuestion(claim.claimType.value)
           ? sponsorVeteranFields
           : null}
       </div>
@@ -66,7 +66,7 @@ export default class MilitaryServiceTour extends React.Component {
   }
 }
 
-MilitaryServiceTour.propTypes = {
+PreviousClaim.propTypes = {
   data: React.PropTypes.object.isRequired,
   view: React.PropTypes.string,
   onValueChange: React.PropTypes.func.isRequired

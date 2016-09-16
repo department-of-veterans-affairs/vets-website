@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getLabel, showSomeonElseServiceQuestion } from '../../utils/helpers';
+import { getLabel, showSomeoneElseServiceQuestion } from '../../utils/helpers';
 import { claimTypes } from '../../utils/options-for-select';
 
 export default class PreviousClaimsReview extends React.Component {
@@ -19,14 +19,14 @@ export default class PreviousClaimsReview extends React.Component {
               <td>File number:</td>
               <td>{claim.fileNumber.value}</td>
             </tr>
-            {showSomeonElseServiceQuestion(claim.claimType.value)
+            {showSomeoneElseServiceQuestion(claim.claimType.value)
               ? <tr>
                 <td>Was this claim for education benefits filed using someone else's service?</td>
                 <td>{claim.previouslyAppliedWithSomeoneElsesService.value === 'Y' ? 'Yes' : 'No'}</td>
               </tr>
               : null}
           </tbody>
-          {showSomeonElseServiceQuestion(claim.claimType.value)
+          {showSomeoneElseServiceQuestion(claim.claimType.value)
             && claim.previouslyAppliedWithSomeoneElsesService.value === 'Y'
               ? <tbody>
                 <tr>

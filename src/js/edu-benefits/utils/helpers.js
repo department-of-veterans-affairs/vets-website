@@ -89,7 +89,7 @@ export function displayDateIfValid(dateObject) {
   return null;
 }
 
-export function showSomeonElseServiceQuestion(claimType) {
+export function showSomeoneElseServiceQuestion(claimType) {
   return claimType !== ''
     && claimType !== 'vocationalRehab';
 }
