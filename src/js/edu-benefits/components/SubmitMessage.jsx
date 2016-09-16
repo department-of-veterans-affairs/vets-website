@@ -29,18 +29,36 @@ export default class SubmitMessage extends React.Component {
         <div className="inset">
           <h4>Claim details</h4>
           <hr/>
-          <h5>Claim type</h5>
-          <span>{this.props.claimType}</span>
-          <h5>Confirmation number</h5>
-          <span>{this.props.confirmation}</span>
-          <h5>Date receieved</h5>
-          <span>{this.props.date}</span>
-          <h5>Your claim was sent to</h5>
-          <span>{this.props.address}</span>
-          <h5>Your claimed benefits</h5>
-          <span>{this.props.claimedBenefits}</span>
-          <h5>Your relinquished benefits</h5>
-          <span>{this.props.relinquishedBenefits}</span>
+          <ul className="claim-list">
+            <li>
+              <b>Claim type</b><br/>
+              <span>{this.props.claimType}</span>
+            </li>
+            <li>
+              <b>Claim type</b><br/>
+              <span>{this.props.claimType}</span>
+            </li>
+            <li>
+              <b>Confirmation number</b><br/>
+              <span>{this.props.confirmation}</span>
+            </li>
+            <li>
+              <b>Date receieved</b><br/>
+              <span>{this.props.date}</span>
+            </li>
+            <li>
+              <b>Your claim was sent to</b><br/>
+              <span>{this.props.address}</span>
+            </li>
+            <li>
+              <b>Your claimed benefits</b><br/>
+              <span>{this.props.claimedBenefits}</span>
+            </li>
+            <li>
+              <b>Your relinquished benefits</b><br/>
+              <span>{this.props.relinquishedBenefits}</span>
+            </li>
+          </ul>
         </div>
       </div>
     );

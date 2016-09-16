@@ -35,7 +35,15 @@ legend {
 }
 
 .inset {
-  margin: 2rem;
+  margin: 4rem;
   padding: 2rem;
   border: 1px solid #eee;
+}
+
+.claim-list{
+  list-style: none;
+  margin-left: none;
+  li {
+    margin-bottom: 1rem;
+  }
 }
