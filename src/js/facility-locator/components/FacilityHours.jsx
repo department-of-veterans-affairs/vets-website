@@ -8,61 +8,62 @@ export default class FacilityHours extends Component {
     }
 
     return (
-      <div>
-        <h5>Hours of Operation:</h5>
+      <div className="mb2">
+        <h4>Hours of Operation:</h4>
+        <hr className="title"/>
         <div className="row">
-          <div className="medium-6 columns details-map">
+          <div className="medium-6 columns">
               Monday:
           </div>
-          <div className="medium-6 columns column1">
+          <div className="medium-6 columns">
               {info.monday}
           </div>
         </div>
         <div className="row">
-          <div className="medium-6 columns details-map">
+          <div className="medium-6 columns">
               Tuesday:
           </div>
-          <div className="medium-6 columns column1">
+          <div className="medium-6 columns">
               {info.tuesday}
           </div>
         </div>
         <div className="row">
-          <div className="medium-6 columns details-map">
+          <div className="medium-6 columns">
               Wednesday:
           </div>
-          <div className="medium-6 columns column1">
+          <div className="medium-6 columns">
               {info.wednesday}
           </div>
         </div>
         <div className="row">
-          <div className="medium-6 columns details-map">
+          <div className="medium-6 columns">
               Thursday:
           </div>
-          <div className="medium-6 columns column1">
+          <div className="medium-6 columns">
               {info.thursday}
           </div>
         </div>
         <div className="row">
-          <div className="medium-6 columns details-map">
+          <div className="medium-6 columns">
               Friday:
           </div>
-          <div className="medium-6 columns column1">
+          <div className="medium-6 columns">
               {info.friday}
           </div>
         </div>
         <div className="row">
-          <div className="medium-6 columns details-map">
+          <div className="medium-6 columns">
               Saturday:
           </div>
-          <div className="medium-6 columns column1">
+          <div className="medium-6 columns">
               {info.saturday}
           </div>
         </div>
         <div className="row">
-          <div className="medium-6 columns details-map">
+          <div className="medium-6 columns">
               Sunday:
           </div>
-          <div className="medium-6 columns column1">
+          <div className="medium-6 columns">
               {info.sunday}
           </div>
         </div>

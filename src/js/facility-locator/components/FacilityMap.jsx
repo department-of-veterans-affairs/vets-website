@@ -14,8 +14,9 @@ class HowToGetHere extends Component {
     // const address = this.props.info.address;
     // const src2 = `${domain2}${address.street1} ${address.street2} ${address.city} ${address.state} ${address.zip}`;
     return (
-      <div>
+      <div className="mb2">
         <h4>View On Map</h4>
+        <hr className="title"/>
         <img src={src} alt="Static map"/>
       </div>
 

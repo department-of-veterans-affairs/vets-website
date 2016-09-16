@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { fetchVAFacility } from '../actions';
 import FacilityInfo from '../components/FacilityInfo';
 import ServicesAtFacility from '../components/ServicesAtFacility';
-import HowToGetHere from '../components/HowToGetHere';
+import FacilityMap from '../components/FacilityMap';
 import FacilityHours from '../components/FacilityHours';
 
 class FacilityDetail extends Component {
@@ -27,8 +27,7 @@ class FacilityDetail extends Component {
         </div>
         <div className="medium-4 columns">
           <div>
-            <h4>How to Get Here</h4>
-            <HowToGetHere info={this.props.facility}/>
+            <FacilityMap info={this.props.facility}/>
             <FacilityHours info={this.props.facility}/>
           </div>
         </div>

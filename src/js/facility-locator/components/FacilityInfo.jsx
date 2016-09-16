@@ -91,11 +91,10 @@ class FacilityInfo extends Component {
 
     return (
       <div>
-        <h5>Street Address:</h5>
         <p className="facility-details">
-        {this.props.info.address.street1}<br/>
-        {street2 ? `${street2}<br/>` : ''}
-        {this.props.info.address.city}, {this.props.info.address.state} {this.props.info.address.zip}
+          {this.props.info.address.street1}
+          {street2 ? `${street2}, ` : ', '}
+          {this.props.info.address.city}, {this.props.info.address.state} {this.props.info.address.zip}
         </p>
         {facilityOperations}
       </div>
