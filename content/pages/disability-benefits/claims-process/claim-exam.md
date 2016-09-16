@@ -3,11 +3,11 @@ layout: page-breadcrumbs.html
 title: What to Expect at Your VA Claim Exam
 template: 6-info-page
 ---
-After you [file your disability benefits claim](/disability-benefits/apply-for-benefits/), VA may ask you to undergo a claim exam. This is also known as a compensation and pension (C&P) exam.
+After you [file your disability benefits claim](/disability-benefits/apply-for-benefits/), VA may ask you to get a claim exam to help us decide on your [disability rating](/disability-benefits/claims-process/ratings/). The claim exam is also known as a compensation and pension (C&P) exam.
 
-VA uses a claim exam to help determine your [disability rating](/disability-benefits/claims-process/ratings/). VA may also ask you to come in for a VA claim exam if you [appeal your disability benefits decision](/disability-benefits/claims-appeal/).
+VA may also ask you to come in for a VA claim exam if you [appeal your disability benefits decision](/disability-benefits/claims-appeal/).
 
-A claim exam is not like a normal doctor’s visit. The purpose of the exam is to gather information specific to your claim, not to treat or diagnose your condition(s). Here’s what you can expect:  
+ Here’s what you can expect:  
 
 -	The examiner will address only the service-connected conditions you've claimed and any related conditions.
 -	The examiner will ask you a standardized series of questions about your injury or illness. These questions are from the [Disability Benefits Questionnaire (DBQ)](http://benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp), and based on each condition.
@@ -16,9 +16,6 @@ A claim exam is not like a normal doctor’s visit. The purpose of the exam is t
 
 If you have enough medical evidence in your file to support your claim, VA may not require a claim exam to rate your disability. 
 
-### Who will examine me?
-
-The examiner may be a VA clinician or a private-sector clinician who VA has contracted to perform the exam. Your own doctor may also [examine you and fill out the necessary forms](http://benefits.va.gov/COMPENSATION/dbq_veteraninstruct.asp).  
 
 CALL OUT BOX
 ### Don’t miss your exam appointment
@@ -36,6 +33,7 @@ To reschedule your appointment:
 -	Call 1-800-827-1000, or
 -	Contact VA through an [online chat](https://www.ebenefits.va.gov/chat/chatstart.aspx?domain=1010ez), or
 -	Go to your nearest [benefits regional office](https://www.vets.gov/facility-locator/).
+END CALL OUT BOX
 
 ### Keep in touch
 
@@ -43,9 +41,11 @@ It’s important to keep your contact information up to date in [eBenefits] (htt
 
 #### Common questions
 
-##### What information will the VA claims processor have?
+##### Is a claim exam like a normal doctor's appointment?
+No. The purpose of the exam is to gather information specific to your claim, not to treat or diagnose your condition(s).
 
-This person can see the medical records you have given to VA, statements from you and others about your claim, and your military medical and personnel records. If you have new non-VA medical records that you haven't given to VA yet, such as records for a recent surgery, bring them to the exam.
+##### Who will examine me?
+The examiner may be a VA clinician or a private-sector clinician who VA has contracted to perform the exam. Your own doctor may also [examine you and fill out the necessary forms](http://benefits.va.gov/COMPENSATION/dbq_veteraninstruct.asp).  
 
 ##### Will I get my exam results at the VA claim exam?
 
@@ -57,6 +57,10 @@ After your exam, it takes VA an average of two weeks to send you a letter with y
 ##### What happens after the exam?
 
 VA will review all the evidence in your file, determine your rating, and send you a decision notice, which includes details about your exam rating. You will get a decision notice about two weeks after the exam.
+
+##### What information will the VA claims processor have?
+
+This person can see the medical records you have given to VA, statements from you and others about your claim, and your military medical and personnel records. If you have new non-VA medical records that you haven't given to VA yet, such as records for a recent surgery, bring them to the exam.
 
 ##### What will happen if I don't go to my VA claim exam?
 
