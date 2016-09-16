@@ -59,10 +59,10 @@
   text-align: right;
 }
 
-[id=messaging-compose] {
-  > div, fieldset {
-    margin-bottom: 1.5rem;
-  }
+.messaging-from,
+.messaging-recipient,
+.messaging-subject-group {
+  margin-bottom: 1.5rem;
 }
 
 .messaging-btn-delete {
@@ -71,8 +71,8 @@
   
 .messaging-send-group {
   background: $color-gray-lightest;
-  border-bottom: 1px solid $color-gray-light;
-  border-top: 1px solid $color-gray-light;
+  border: 1px solid $color-gray;
+  border-top-width: 0;
   padding: 1rem;
  
   [type="button"] {
@@ -87,4 +87,15 @@
 }
 .messaging-btn-save {
   background: transparent !important;
+}
+
+.messaging-write {
+  label {
+    font-weight: bold;
+  }
+  textarea {
+    margin: 0;
+    max-width: 100%;
+    resize: vertical;
+  }
 }
