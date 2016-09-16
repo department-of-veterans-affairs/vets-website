@@ -30,12 +30,19 @@ class VAMap extends Component {
           longitude: coords[1],
         }
       });
+
+      if (!location.query.address) {
+        this.reverseGeocode({
+          latitude: coords[0],
+          longitude: coords[1],
+        });
+      }
     }
 
     this.props.fetchVAFacilities(position);
 
     this.mapElement = this.refs.map.leafletElement.getBounds();
-    if ('geolocation' in navigator && shouldGeolocate) {
+    if (navigator.geolocation && shouldGeolocate) {
       navigator.geolocation.getCurrentPosition((currentPosition) => {
         this.props.updateSearchQuery({
           position: currentPosition.coords,
@@ -46,8 +53,6 @@ class VAMap extends Component {
         this.props.fetchVAFacilities(currentPosition.coords);
         this.reverseGeocode(currentPosition.coords);
       });
-    } else if (!location.query.address) {
-      this.reverseGeocode(position);
     }
   }
 
