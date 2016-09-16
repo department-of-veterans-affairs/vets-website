@@ -1,26 +1,71 @@
 import set from 'lodash/fp/set';
+
 import {
-  SET_CATEGORY,
-  SET_SUBJECT,
-  SET_SUBJECT_REQUIRED
+  TOGGLE_CONFIRM_DELETE,
+  SET_MESSAGE_FIELD,
+  SET_SUBJECT_REQUIRED,
+  SEND_MESSAGE,
+  SAVE_MESSAGE,
+  FETCH_RECIPIENTS_SUCCESS,
+  FETCH_SENDER_SUCCESS,
+  FETCH_RECIPIENTS_FAILURE
 } from '../actions/compose';
 
 const initialState = {
-  category: undefined,
-  subject: {
-    value: '',
-    required: false
-  }
+  message: {
+    sender: {
+      firstName: '',
+      lastName: '',
+      middleName: ''
+    },
+    category: undefined,
+    recipient: undefined,
+    subject: {
+      value: undefined,
+      required: false
+    },
+    text: undefined,
+    attachments: []
+  },
+  modals: {
+    deleteConfirm: {
+      visible: false
+    }
+  },
+  // List of potential recipients
+  recipients: []
 };
+
+/*
+* Take the recipients object returned during the fetch operation
+* and one return {label, value} object for each object in the
+* action.recipients.data array.
+* That's all we need.
+*/
+function getRecipients(recipients) {
+  return recipients.map((item) => {
+    return {
+      label: item.attributes.name,
+      value: item.attributes.triage_team_id
+    };
+  });
+}
 
 export default function compose(state = initialState, action) {
   switch (action.type) {
-    case SET_CATEGORY:
-      return set('category', action.field.value, state);
-    case SET_SUBJECT:
-      return set('subject.value', action.field.value, state);
+    case SET_MESSAGE_FIELD:
+      return set(action.path, action.field.value, state);
     case SET_SUBJECT_REQUIRED:
-      return set('subject.required', action.fieldState.required, state);
+      return set('message.subject.required', action.fieldState.required, state);
+    case FETCH_RECIPIENTS_SUCCESS:
+      return set('recipients', getRecipients(action.recipients.data), state);
+    case FETCH_SENDER_SUCCESS:
+      return set('message.sender', action.sender, state);
+    case TOGGLE_CONFIRM_DELETE:
+      return set('modals.deleteConfirm.visible', !state.modals.deleteConfirm.visible, state);
+    case FETCH_RECIPIENTS_FAILURE:
+    case SEND_MESSAGE:
+    case SAVE_MESSAGE:
     default:
       return state;
   }
