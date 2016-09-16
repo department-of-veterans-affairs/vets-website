@@ -80,12 +80,27 @@
 }
 
 .messaging-thread-reply {
+  font-size: 1.8rem;
   padding: 3rem 2rem;
 
+  .messaging-write label {
+    display: none;
+  }
+
+  &-recipient {
+    border: 1px solid $color-black;
+    border-bottom-width: 0;
+    padding: 1rem 1.5rem;
+
+    label {
+      display: inline-block;
+      font-weight: bold;
+      margin: 0 1rem 0 0;
+    }
+  }
+
   textarea {
-    height: 10rem;
-    max-width: 100%;
-    width: 100%;
+    padding: 1rem 1.5rem;
   }
 }
 
