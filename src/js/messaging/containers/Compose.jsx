@@ -33,7 +33,7 @@ class Compose extends React.Component {
     this.handleMessageChange = this.handleMessageChange.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchSenderName();
     this.props.fetchRecipients();
   }
