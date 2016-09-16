@@ -1,8 +1,45 @@
-.messaging-thread-name {
+.messaging-thread-header {
   border-bottom: 2px solid $color-black;
+}
+
+.messaging-thread-subject {
+  display: inline-block;
   font-weight: normal;
   // Overriding `#content .section h*`.
   padding: 2.25rem 2rem !important;
+  vertical-align: middle;
+  width: 65%;
+}
+
+.messaging-thread-controls {
+  display: inline-block;
+  text-align: right;
+  vertical-align: middle;
+  width: 35%;
+
+  button {
+    background: transparent;
+    color: $color-black;
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin: 0;
+    padding: 0.5rem 1rem;
+
+    &:hover,
+    &:focus {
+      background: transparent;
+      color: $color-primary;
+    }
+
+    &:active,
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  span {
+    margin-left: 0.5rem;
+  }
 }
 
 .messaging-thread-message {
@@ -31,7 +68,7 @@
   }
 
   i {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
 
   table {
