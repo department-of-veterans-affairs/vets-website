@@ -5,6 +5,7 @@ import { fetchVAFacility } from '../actions';
 import FacilityInfo from '../components/FacilityInfo';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 import HowToGetHere from '../components/HowToGetHere';
+import FacilityHours from '../components/FacilityHours';
 
 class FacilityDetail extends Component {
   componentWillMount() {
@@ -13,20 +14,23 @@ class FacilityDetail extends Component {
 
   render() {
     return (
-      <div>
-        <h2>{this.props.facility ? this.props.facility.name : ''}</h2>
-
-        <div className="medium-4 columns details-map">
-          <h4>Facility Details</h4>
-          <FacilityInfo info={this.props.facility}/>
+      <div className="row">
+        <div className="medium-8 columns">
+          <div className="details-map">
+            <h3>{this.props.facility ? this.props.facility.name : ''}</h3>
+            <FacilityInfo info={this.props.facility}/>
+            <div>
+              <h4>Services at this Facility</h4>
+              <ServicesAtFacility info={this.props.facility}/>
+            </div>
+          </div>
         </div>
-        <div className="medium-4 columns column1">
-          <h4>Services at this Facility</h4>
-          <ServicesAtFacility info={this.props.facility}/>
-        </div>
-        <div className="medium-4 columns clearfix column1">
-          <h4>How to Get Here</h4>
-          <HowToGetHere info={this.props.facility}/>
+        <div className="medium-4 columns">
+          <div>
+            <h4>How to Get Here</h4>
+            <HowToGetHere info={this.props.facility}/>
+            <FacilityHours info={this.props.facility}/>
+          </div>
         </div>
       </div>
     );

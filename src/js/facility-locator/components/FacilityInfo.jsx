@@ -64,64 +64,6 @@ class FacilityInfo extends Component {
                 {this.props.info.phone.patientAdvocate}
             </div>
           </div>
-          <br/>
-          <h5>Hours of Operation:</h5>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Monday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.monday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Tuesday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.tuesday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Wednesday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.wednesday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Thursday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.thursday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Friday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.friday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Saturday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.saturday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Sunday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.sunday}
-            </div>
-          </div>
         </div>
       );
     } else {

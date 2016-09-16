@@ -5,10 +5,15 @@ class ServicesAtFacility extends Component {
   renderService(l1Service = '') {
     const services = this.props.info;
     const label = l1Service.replace(/([A-Z])/g, ' $1');
+
+    if (services[l1Service] === 'NO') {
+      return null;
+    }
+
     return (
       <div className="service-block">
         <span className="l1-services">
-          {label}: {services[l1Service]}
+          {label}
         </span>
       </div>
     );
