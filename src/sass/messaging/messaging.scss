@@ -8,3 +8,7 @@ $messaging-label-width: 10rem;
 @import "partials/messaging-btn-delete";
 @import "partials/messaging-folder";
 @import "partials/messaging-thread";
+
+// TODO: Swap with common modal styles once
+// they exist.
+@import "../rx/_partials/rx-modal";

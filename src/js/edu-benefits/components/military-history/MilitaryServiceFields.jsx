@@ -18,8 +18,7 @@ export default class MilitaryServiceFields extends React.Component {
       'applyToChapter1606',
       'applyToChapter32',
       'serviceBranch',
-      'toDate',
-      'fromDate',
+      'dateRange',
       'serviceStatus',
       'involuntarilyCalledToDuty'
     ];
@@ -88,14 +87,6 @@ export default class MilitaryServiceFields extends React.Component {
               options={yesNo}
               value={this.props.data.seniorRotcCommissioned}
               onValueChange={(update) => {this.props.onStateChange('seniorRotcCommissioned', update);}}/>
-            {this.props.data.seniorRotcCommissioned.value === 'Y'
-              ? <ErrorableTextInput
-                  errorMessage={validateIfDirty(this.props.data.seniorRotc.commissionYear, isValidYear) ? undefined : 'Please enter a valid year'}
-                  label="Year of commission"
-                  name="commissionYear"
-                  field={this.props.data.seniorRotc.commissionYear}
-                  onValueChange={(update) => {this.props.onStateChange('seniorRotc.commissionYear', update);}}/>
-                : null}
         </div>
       </div>
     </fieldset>
