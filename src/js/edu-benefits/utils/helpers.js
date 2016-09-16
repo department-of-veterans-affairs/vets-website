@@ -88,3 +88,8 @@ export function displayDateIfValid(dateObject) {
   }
   return null;
 }
+
+export function showSomeoneElseServiceQuestion(claimType) {
+  return claimType !== ''
+    && claimType !== 'vocationalRehab';
+}
