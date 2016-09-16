@@ -3,18 +3,33 @@ import React from 'react';
 class MessageDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.handleShowDetails = this.handleShowDetails.bind(this);
+    this.hideDetails = this.hideDetails.bind(this);
+    this.showDetails = this.showDetails.bind(this);
   }
 
-  handleShowDetails() {
-    this.props.showDetails(this.props.attrs.message_id);
+  componentDidUpdate() {
+    if (this.refs.messageDetails) {
+      this.refs.messageDetails.focus();
+    }
+  }
+
+  hideDetails() {
+    this.props.setVisibleDetails(null);
+  }
+
+  showDetails() {
+    this.props.setVisibleDetails(this.props.attrs.message_id);
   }
 
   render() {
     let messageDetails;
     if (this.props.detailsVisible) {
       messageDetails = (
-        <div className="messaging-message-details">
+        <div
+            className="messaging-message-details"
+            ref="messageDetails"
+            tabIndex="-1"
+            onBlur={this.hideDetails}>
           <table>
             <tbody>
               <tr>
@@ -49,7 +64,7 @@ class MessageDetails extends React.Component {
 
     return (
       <div className="messaging-message-details-control">
-        <button onClick={this.handleShowDetails}>
+        <button onClick={this.showDetails}>
           <i className="fa fa-caret-down"></i>
         </button>
         {messageDetails}
@@ -77,7 +92,7 @@ MessageDetails.propTypes = {
     /* eslint-enable */
   }).isRequired,
   detailsVisible: React.PropTypes.bool,
-  showDetails: React.PropTypes.func
+  setVisibleDetails: React.PropTypes.func
 };
 
 export default MessageDetails;

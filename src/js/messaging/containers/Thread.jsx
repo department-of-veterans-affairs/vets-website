@@ -26,7 +26,7 @@ class Thread extends React.Component {
           <Message
               key={message.message_id}
               attrs={message}
-              showDetails={this.props.setVisibleDetails}
+              setVisibleDetails={this.props.setVisibleDetails}
               detailsVisible={detailsVisible}/>
         );
       });

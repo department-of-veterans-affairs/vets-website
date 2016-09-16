@@ -48,7 +48,7 @@ Message.propTypes = {
     /* eslint-enable */
   }).isRequired,
   detailsVisible: React.PropTypes.bool,
-  showDetails: React.PropTypes.func
+  setVisibleDetails: React.PropTypes.func
 };
 
 export default Message;
