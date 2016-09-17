@@ -104,6 +104,9 @@
 
 .messaging-characters {
   display: inline-block;
+  float: right;
+  line-height: 2.25;
+  
   &.isnegative {
     color: $color-secondary;
   }

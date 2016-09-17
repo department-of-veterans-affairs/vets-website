@@ -20,12 +20,12 @@ class MessageSend extends React.Component {
             type="button"
             value="save"
             onClick={this.props.onSave}>Save As Draft</button>
-        <CharacterCount
-            count={this.props.charLength}
-            cssClass="messaging-characters"/>
         <ButtonDelete
             compact
             onClickHandler={this.props.onDelete}/>
+        <CharacterCount
+            count={this.props.charLength}
+            cssClass="messaging-characters"/>
       </div>
     );
   }
@@ -36,7 +36,7 @@ MessageSend.propTypes = {
   cssClass: React.PropTypes.string,
   onSave: React.PropTypes.func.isRequired,
   onSend: React.PropTypes.func.isRequired,
-  onDelete: React.PropTypes.func.isRequired,
+  onDelete: React.PropTypes.func.isRequired
 };
 
 export default MessageSend;
