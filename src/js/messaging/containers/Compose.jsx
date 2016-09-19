@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
 import {
+  allowedMimeTypes,
   composeMessageErrors,
   composeMessagePlaceholders,
   messageCategories,
@@ -117,6 +118,7 @@ class Compose extends React.Component {
               onValueChange={this.handleMessageChange}
               placeholder={composeMessagePlaceholders.message}/>
           <MessageSend
+              allowedMimeTypes={allowedMimeTypes}
               cssClass="messaging-send-group"
               onSave={this.props.saveMessage}
               onSend={this.props.sendMessage}

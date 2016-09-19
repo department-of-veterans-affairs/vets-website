@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ButtonDelete from '../buttons/ButtonDelete';
+import MessageAddAttachment from './MessageAddAttachment';
 
 // TODO: Add attachments button / components
 class MessageSend extends React.Component {
@@ -15,6 +16,12 @@ class MessageSend extends React.Component {
             type="button"
             value="save"
             onClick={this.props.onSave}>Save As Draft</button>
+        <MessageAddAttachment
+            cssClass="messaging-attach"
+            allowedMimeTypes={this.props.allowedMimeTypes}
+            id="messaging-attachments"
+            label="Attach a file"
+            name="messageAttachments"/>
         <ButtonDelete
             compact
             onClickHandler={this.props.onDelete}/>
@@ -27,7 +34,8 @@ MessageSend.propTypes = {
   cssClass: React.PropTypes.string,
   onSave: React.PropTypes.func.isRequired,
   onSend: React.PropTypes.func.isRequired,
-  onDelete: React.PropTypes.func.isRequired
+  onDelete: React.PropTypes.func.isRequired,
+  allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 export default MessageSend;
