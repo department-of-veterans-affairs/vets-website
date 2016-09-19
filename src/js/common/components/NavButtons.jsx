@@ -1,5 +1,6 @@
 import React from 'react';
-import _ from 'lodash';
+
+import { getActivePages } from '../utils/helpers';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 
@@ -33,9 +34,7 @@ export default class NavButtons extends React.Component {
   }
   findNeighbor(increment) {
     const { pages, path, data } = this.props;
-    const filtered = pages.filter(page => {
-      return page.depends === undefined || _.matches(page.depends)(data);
-    });
+    const filtered = getActivePages(pages, data);
     const currentIndex = filtered.map(page => page.name).indexOf(path);
     const index = currentIndex + increment;
     return filtered[index].name;
