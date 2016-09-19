@@ -38,8 +38,8 @@ class Compose extends React.Component {
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleMessageChange = this.handleMessageChange.bind(this);
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
-    this.handleSubjectChange = this.handleSubjectChange.bind(this);
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
+    this.handleSubjectChange = this.handleSubjectChange.bind(this);
   }
 
   componentDidMount() {
@@ -52,13 +52,13 @@ class Compose extends React.Component {
     this.props.setSubjectRequired(valueObj);
   }
 
+  handleSubjectChange(valueObj) {
+    this.props.setMessageField('message.subject', valueObj);
+  }
+
   handleMessageChange(valueObj) {
     this.props.setMessageField('message.text', valueObj);
     this.props.updateCharacterCount(valueObj, composeMessageMaxChars);
-  }
-
-  handleSubjectChange(valueObj) {
-    this.props.setMessageField('message.subject.value', valueObj);
   }
 
   handleRecipientChange(valueObj) {
@@ -120,6 +120,7 @@ class Compose extends React.Component {
               onValueChange={this.handleMessageChange}
               placeholder={composeMessagePlaceholders.message}/>
           <MessageSend
+              charCount={this.props.compose.message.charCount}
               cssClass="messaging-send-group"
               onSave={this.props.saveMessage}
               onSend={this.props.sendMessage}

@@ -10,6 +10,7 @@ import {
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_SENDER_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
+  TOGGLE_CONFIRM_DELETE,
   UPDATE_CHARACTER_COUNT
 } from '../actions/compose';
 
@@ -27,7 +28,7 @@ const initialState = {
       required: false
     },
     text: undefined,
-    length: composeMessageMaxChars,
+    charCount: composeMessageMaxChars,
     attachments: []
   },
   // List of potential recipients
@@ -62,7 +63,7 @@ export default function compose(state = initialState, action) {
     case TOGGLE_CONFIRM_DELETE:
       return set('modals.deleteConfirm.visible', !state.modals.deleteConfirm.visible, state);
     case UPDATE_CHARACTER_COUNT:
-      return set('message.length', action.chars, state);
+      return set('message.charCount', action.chars, state);
     case FETCH_RECIPIENTS_FAILURE:
     case SEND_MESSAGE:
     case SAVE_MESSAGE:
