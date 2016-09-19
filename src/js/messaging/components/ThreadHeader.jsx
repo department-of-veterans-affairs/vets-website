@@ -1,7 +1,9 @@
 import React from 'react';
 
 import ButtonDelete from './buttons/ButtonDelete';
+import ButtonMove from './buttons/ButtonMove';
 import ButtonPrint from './buttons/ButtonPrint';
+import MessageNav from './MessageNav';
 import ToggleThread from './ToggleThread';
 
 class ThreadHeader extends React.Component {
@@ -26,12 +28,19 @@ class ThreadHeader extends React.Component {
 
     return (
       <div className="messaging-thread-header">
-        <h2 className="messaging-thread-subject">{this.props.title}</h2>
-        <div className="messaging-thread-controls">
-          {toggleThread}
-          <ButtonDelete
-              onClickHandler={this.handleDelete}/>
-          <ButtonPrint/>
+        <div className="messaging-thread-nav-line">
+          <a>Back to Inbox</a>
+          <ButtonMove/>
+          <MessageNav/>
+        </div>
+        <div className="messaging-thread-title-line">
+          <h2 className="messaging-thread-subject">{this.props.title}</h2>
+          <div className="messaging-thread-controls">
+            {toggleThread}
+            <ButtonDelete
+                onClickHandler={this.handleDelete}/>
+            <ButtonPrint/>
+          </div>
         </div>
       </div>
     );
