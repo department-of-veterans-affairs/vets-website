@@ -52,6 +52,7 @@ class Thread extends React.Component {
       header = (
         <ThreadHeader
             title={thread[0].subject}
+            messagesCount={thread.length}
             messagesCollapsed={this.props.messagesCollapsed}
             onToggleThread={this.props.toggleMessagesCollapsed}/>
       );

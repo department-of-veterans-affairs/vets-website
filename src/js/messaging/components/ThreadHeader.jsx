@@ -14,13 +14,21 @@ class ThreadHeader extends React.Component {
   }
 
   render() {
+    let toggleThread;
+
+    if (this.props.messagesCount > 1) {
+      toggleThread = (
+        <ToggleThread
+            messagesCollapsed={this.props.messagesCollapsed}
+            onClick={this.props.onToggleThread}/>
+      );
+    }
+
     return (
       <div className="messaging-thread-header">
         <h2 className="messaging-thread-subject">{this.props.title}</h2>
         <div className="messaging-thread-controls">
-          <ToggleThread
-              messagesCollapsed={this.props.messagesCollapsed}
-              onClick={this.props.onToggleThread}/>
+          {toggleThread}
           <ButtonDelete
               onClickHandler={this.handleDelete}/>
           <ButtonPrint/>
@@ -32,6 +40,7 @@ class ThreadHeader extends React.Component {
 
 ThreadHeader.propTypes = {
   title: React.PropTypes.string.isRequired,
+  messagesCount: React.PropTypes.number.isRequired,
   messagesCollapsed: React.PropTypes.bool,
   onToggleThread: React.PropTypes.func
 };
