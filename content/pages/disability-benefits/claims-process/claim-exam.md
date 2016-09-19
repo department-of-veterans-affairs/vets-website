@@ -16,10 +16,11 @@ The clinician, who may be a doctor or other medical professional:
 
 The amount of time you spend at your exam depends on many factors. For example, the required questions for a documented knee injury may take only a few minutes, while the questions for a more complicated injury could take much longer.  
 
-If you have enough medical evidence in your file to support your claim, VA won't ask you to undergo a claim exam. 
+If you have enough medical evidence in your file to support your claim, VA won't ask you to undergo a claim exam.
 
+<div class="call-out">
 
-### Don’t miss your exam appointment {BLUE BOX around this content}
+### Don’t miss your exam appointment
 
 It's very important for you to go to your appointment. The exam is part of the evidence used to rate your overall disability.
 
@@ -27,11 +28,13 @@ It's very important for you to go to your appointment. The exam is part of the e
 -	If you can’t make your appointment, let VA know immediately.
 -	You can reschedule the appointment, but it may delay your claim.
 
-To reschedule your appointment:
+#### To reschedule your appointment:
 
 -	Call 1-800-827-1000, or
 -	Contact VA through an [online chat](https://www.ebenefits.va.gov/chat/chatstart.aspx?domain=1010ez), or
 -	Go to your nearest [benefits regional office](https://www.vets.gov/facility-locator/).
+
+</div>
 
 ### Keep in touch
 
@@ -47,7 +50,7 @@ Either a VA clinician, who may be a doctor or other medical professional, or you
 
 #### Will I get my exam results at the VA claim exam?
 
-No. The doctor will give the exam results to VA claims processors, who will make a decision about your claim based on this evidence along with your other medical and military records. 
+No. The doctor will give the exam results to VA claims processors, who will make a decision about your claim based on this evidence along with your other medical and military records.
 
 You will get a decision notice with your rating about two weeks after the exam. If you would like a copy of the final report, go to [MyHealtheVet](https://www.myhealth.va.gov) or call VA at 1-800-827-1000.  
 
@@ -73,4 +76,3 @@ If you miss your claim exam, you’ll need to let VA know why you didn’t make 
 #### Is there any other reason I would need to undergo a claim exam?
 
 If you [appeal your disability benefits decision](/disability-benefits/claims-appeal/), VA may ask you to come in for a claim exam.
-
