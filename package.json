@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "devDependencies": {
+    "ajv": "^4.7.1",
     "axe-core": "^2.0.5",
     "babel": "^6.5.2",
     "babel-core": "^6.11.4",
@@ -104,6 +105,7 @@
     "null-loader": "^0.1.1",
     "phantomjs-prebuilt": "^2.1.4",
     "polyfill-function-prototype-bind": "0.0.1",
+    "quick_check": "^0.7.0",
     "react": "^15.2.1",
     "react-addons-perf": "^15.3.0",
     "react-addons-test-utils": "^15.3.0",
