@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import Ajv from 'ajv';
-import schema from './schema.json';
+import schema from '../../../schema/dist/edu-benefits-schema.json';
 import qc from 'quick_check';
 import _ from 'lodash';
 
@@ -188,7 +188,7 @@ function createTestVeteran() {
   };
 }
 
-describe.only('Edu benefits json schema', () => {
+describe('Edu benefits json schema', () => {
   it('should have matching test veteran and blank veteran shape', () => {
     const testForm = qc.objectLike(createTestVeteran())(1);
     const blankForm = createVeteran();
