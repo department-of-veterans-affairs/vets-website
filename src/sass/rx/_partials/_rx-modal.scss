@@ -46,6 +46,25 @@
   &-rxnumber {
     font-weight: bold;
   }
+  // TODO: Somewhere in the code is an actual close button style
+  // Refactor to make that work.
+  &-close {
+    color: $color-base;
+    background-color: inherit;
+    font-size: 2.5rem;
+    margin: 0;
+    padding: 0 1rem;
+    position: absolute;
+    right: .5rem;
+    top: .5rem;
+    width: auto;
+    
+    &:focus,
+    &:hover {
+      background-color: inherit;
+      color: rgba($color-base, .8);
+    }
+  }
   
   .rx-button-group {
     bottom: 0;
