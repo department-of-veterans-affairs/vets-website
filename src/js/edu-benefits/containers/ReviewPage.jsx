@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import routes from '../routes';
@@ -7,6 +6,7 @@ import routes from '../routes';
 import ReviewCollapsiblePanel from '../components/ReviewCollapsiblePanel';
 
 import { ensureFieldsInitialized, updateIncompleteStatus, updateVerifiedStatus, updateCompletedStatus, veteranUpdateField } from '../actions';
+import { isActivePage } from '../../common/utils/helpers';
 
 class ReviewPage extends React.Component {
   render() {
@@ -33,7 +33,7 @@ class ReviewPage extends React.Component {
             return route.chapter &&
               route.path !== '/review-and-submit' &&
               route.reviewComponent &&
-              (route.depends === undefined || _.matches(route.depends)(data));
+              isActivePage(route, data);
           })
           .map(route => {
             const Component = route.fieldsComponent;
