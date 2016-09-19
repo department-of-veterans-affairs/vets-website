@@ -4,7 +4,7 @@ import Modal from '../Modal';
 
 class ModalAttachmentsTooBig extends React.Component {
   render() {
-    const modalcontents = (
+    const modalContents = (
       <div>
         <h3 className="messaging-modal-title">
           Attachment size limit
@@ -26,7 +26,7 @@ class ModalAttachmentsTooBig extends React.Component {
     return (
       <Modal
           cssClass={this.props.cssClass}
-          contents={modalcontents}
+          contents={modalContents}
           id={this.props.id}
           onClose={this.props.onClose}
           visible={this.props.visible}/>
