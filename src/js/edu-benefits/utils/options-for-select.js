@@ -1629,6 +1629,19 @@ const hoursTypes = [
   { label: 'Clock', value: 'clock' }
 ];
 
+const claimTypes = [
+  { label: 'Chapter 30', value: 'chapter30' },
+  { label: 'Chapter 32', value: 'chapter32' },
+  { label: 'Chapter 33', value: 'chapter33' },
+  { label: 'Chapter 34', value: 'chapter34' },
+  { label: 'Chapter 35', value: 'chapter35' },
+  { label: 'Chapter 1606', value: 'chapter1606' },
+  { label: 'Chapter 1607', value: 'chapter1607' },
+  { label: 'National Call of Service', value: 'nationalService' },
+  { label: 'Use of Transferred Benefits', value: 'transferredBenefits' },
+  { label: 'Vocational Rehabilitation', value: 'vocationalRehab' },
+];
+
 module.exports = {
   countries,
   maritalStatuses,
@@ -1649,5 +1662,6 @@ module.exports = {
   contactOptions,
   accountTypes,
   relinquishableBenefits,
-  hoursTypes
+  hoursTypes,
+  claimTypes
 };

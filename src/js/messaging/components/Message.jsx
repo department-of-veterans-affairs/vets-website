@@ -1,6 +1,7 @@
 import React from 'react';
-
 import moment from 'moment';
+
+import MessageDetails from './MessageDetails';
 
 class Message extends React.Component {
   render() {
@@ -18,6 +19,7 @@ class Message extends React.Component {
         </div>
         <div className="messaging-message-recipient">
           to {this.props.attrs.recipient_name}
+          <MessageDetails { ...this.props }/>
         </div>
         <p className="messaging-message-body">
           {this.props.attrs.body}
@@ -44,7 +46,9 @@ Message.propTypes = {
     recipient_name: React.PropTypes.string.isRequired,
     read_receipt: React.PropTypes.oneOf(['READ', 'UNREAD']).isRequired
     /* eslint-enable */
-  }).isRequired
+  }).isRequired,
+  detailsVisible: React.PropTypes.bool,
+  setVisibleDetails: React.PropTypes.func
 };
 
 export default Message;
