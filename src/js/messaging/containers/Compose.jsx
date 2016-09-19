@@ -135,6 +135,7 @@ class Compose extends React.Component {
             visible={this.props.modals.deleteConfirm.visible}/>
         <ModalAttachmentsTooBig
             cssClass="messaging-modal"
+            id="messaging-add-attachments"
             onClose={this.props.toggleAttachmentsModal}
             visible={this.props.modals.attachments.visible}/>
       </div>
