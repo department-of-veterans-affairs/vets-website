@@ -121,8 +121,8 @@ class Compose extends React.Component {
               onValueChange={this.handleMessageChange}
               placeholder={composeMessagePlaceholders.message}/>
           <MessageSend
-              charCount={this.props.compose.message.charsRemaining}
               allowedMimeTypes={allowedMimeTypes}
+              charCount={this.props.compose.message.charsRemaining}
               cssClass="messaging-send-group"
               onSave={this.props.saveMessage}
               onSend={this.props.sendMessage}

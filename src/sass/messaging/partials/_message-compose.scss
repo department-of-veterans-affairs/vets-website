@@ -91,6 +91,7 @@
     margin-right: 0;
   }
 }
+
 .messaging-btn-save {
   background: transparent !important;
 
@@ -105,6 +106,7 @@
   label {
     font-weight: bold;
   }
+  
   textarea {
     margin: 1rem 0 0 0;
     max-width: 100%;
@@ -147,10 +149,12 @@
   .fa {
     padding-right: .5ex;
   }
+  
   span {
     color: $color-primary;
     text-decoration: underline;
   }
+  
   input{
     border: 0;
     height: auto;
