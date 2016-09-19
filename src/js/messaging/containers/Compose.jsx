@@ -16,6 +16,7 @@ import MessageRecipient from '../components/compose/MessageRecipient';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
+import ModalAttachmentsTooBig from '../components/compose/ModalAttachmentsTooBig';
 
 import {
   saveMessage,
@@ -27,7 +28,8 @@ import {
 } from '../actions/compose';
 
 import {
-  toggleConfirmDelete
+  toggleConfirmDelete,
+  toggleAttachmentsModal
 } from '../actions/modals';
 
 class Compose extends React.Component {
@@ -127,6 +129,10 @@ class Compose extends React.Component {
             onClose={this.props.toggleConfirmDelete}
             onDelete={this.handleConfirmDelete}
             visible={this.props.modals.deleteConfirm.visible}/>
+        <ModalAttachmentsTooBig
+            cssClass="messaging-modal"
+            onClose={this.props.toggleAttachmentsModal}
+            visible={this.props.modals.attachments.visible}/>
       </div>
     );
   }
@@ -141,6 +147,9 @@ const mapStateToProps = (state) => {
     modals: {
       deleteConfirm: {
         visible: state.modals.deleteConfirm.visible
+      },
+      attachments: {
+        visible: state.modals.attachments.visible
       }
     }
   };
@@ -153,7 +162,8 @@ const mapDispatchToProps = {
   setSubjectRequired,
   fetchRecipients,
   fetchSenderName,
-  toggleConfirmDelete
+  toggleConfirmDelete,
+  toggleAttachmentsModal
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);
