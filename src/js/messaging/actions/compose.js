@@ -13,7 +13,6 @@ export const SAVE_MESSAGE = 'SAVE_MESSAGE';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 
 export const DELETE_DRAFT = 'DELETE_DRAFT';
-export const TOGGLE_CONFIRM_DELETE = 'TOGGLE_CONFIRM_DELETE';
 export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
 
 const baseUrl = `${apiUrl}/recipients`;
@@ -48,12 +47,6 @@ export function saveMessage() {
   };
 }
 
-export function confirmDelete() {
-  return {
-    type: TOGGLE_CONFIRM_DELETE
-  };
-}
-
 export function fetchSenderName() {
   /*
   TODO: Make this conduct an actual
@@ -79,3 +72,4 @@ export function fetchRecipients() {
     );
   };
 }
+

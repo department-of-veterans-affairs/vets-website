@@ -1,46 +1,100 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { fetchThread } from '../actions/messages';
+import {
+  fetchThread,
+  setVisibleDetails,
+  toggleMessagesCollapsed
+} from '../actions/messages';
+
 import Message from '../components/Message';
+import MessageSend from '../components/compose/MessageSend';
+import MessageWrite from '../components/compose/MessageWrite';
+import NoticeBox from '../components/NoticeBox';
+import ThreadHeader from '../components/ThreadHeader';
+import { composeMessagePlaceholders } from '../config';
 
 class Thread extends React.Component {
-  componentWillMount() {
-    // TODO: When the API supports getting any thread,
-    // fetch the thread with the id from the URL.
-    // const id = this.props.param.id
-    this.props.dispatch(fetchThread());
+  constructor(props) {
+    super(props);
+    this.handleReplyChange = this.handleReplyChange.bind(this);
+    this.handleReplySave = this.handleReplySave.bind(this);
+    this.handleReplySend = this.handleReplySend.bind(this);
+    this.handleReplyDelete = this.handleReplyDelete.bind(this);
+  }
+
+  componentDidMount() {
+    const id = this.props.params.id;
+    this.props.fetchThread(id);
+  }
+
+  handleReplyChange() {
+  }
+
+  handleReplySave() {
+  }
+
+  handleReplySend() {
+  }
+
+  handleReplyDelete() {
   }
 
   render() {
     const thread = this.props.thread;
-    let subject;
-    let messageCount;
+    let lastSender;
+    let header;
     let messages;
 
     if (thread.length > 0) {
-      subject = thread[0].subject;
-      messages = thread.map((message, i) => <Message key={i} attrs={message}/>);
+      lastSender = thread[thread.length - 1].sender_name;
 
-      if (thread.length > 1) {
-        messageCount = <span> ({thread.length})</span>;
-      }
+      header = (
+        <ThreadHeader
+            title={thread[0].subject}
+            messagesCollapsed={this.props.messagesCollapsed}
+            onToggleThread={this.props.toggleMessagesCollapsed}/>
+      );
+
+      messages = thread.map((message, i) => {
+        const isCollapsed = this.props.messagesCollapsed &&
+                            (i !== thread.length - 1);
+        const detailsVisible =
+          this.props.visibleDetailsId === message.message_id;
+
+        return (
+          <Message
+              key={message.message_id}
+              attrs={message}
+              isCollapsed={isCollapsed}
+              detailsVisible={detailsVisible}
+              setVisibleDetails={this.props.setVisibleDetails}/>
+        );
+      });
     }
 
     return (
       <div>
-        <p className="messaging-thread-note">
-          <strong>Note:</strong> This message may not be from the person you
-          originally messaged. It may have been reassigned in an effort to
-          address your question as effectively and efficiently as possible.
-        </p>
-        <h2 className="messaging-thread-name">{subject}{messageCount}</h2>
-        <div>
+        {header}
+        <div className="messaging-thread-messages">
           {messages}
         </div>
         <div className="messaging-thread-reply">
-          <textarea placeholder="Click here to reply"/>
+          <div className="messaging-thread-reply-recipient">
+            <label>To:</label>
+            {lastSender}
+          </div>
+          <MessageWrite
+              cssClass="messaging-write"
+              onValueChange={this.handleReplyChange}
+              placeholder={composeMessagePlaceholders.message}/>
+          <MessageSend
+              cssClass="messaging-send-group"
+              onSave={this.handleReplySave}
+              onSend={this.handleReplySend}
+              onDelete={this.handleReplyDelete}/>
         </div>
+        <NoticeBox/>
       </div>
     );
   }
@@ -48,8 +102,16 @@ class Thread extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    thread: state.messages.thread
+    thread: state.messages.data.thread,
+    messagesCollapsed: state.messages.ui.messagesCollapsed,
+    visibleDetailsId: state.messages.ui.visibleDetailsId
   };
 };
 
-export default connect(mapStateToProps)(Thread);
+const mapDispatchToProps = {
+  fetchThread,
+  toggleMessagesCollapsed,
+  setVisibleDetails
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Thread);

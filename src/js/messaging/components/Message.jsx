@@ -1,11 +1,29 @@
 import React from 'react';
-
+import classNames from 'classnames';
 import moment from 'moment';
+
+import MessageDetails from './MessageDetails';
 
 class Message extends React.Component {
   render() {
+    const messageClass = classNames({
+      'messaging-thread-message': true,
+      'messaging-thread-message--collapsed': this.props.isCollapsed
+    });
+
+    let details;
+
+    if (!this.props.isCollapsed) {
+      details = (
+        <div className="messaging-message-recipient">
+          to {this.props.attrs.recipient_name}
+          <MessageDetails { ...this.props }/>
+        </div>
+      );
+    }
+
     return (
-      <div className="messaging-thread-message">
+      <div className={messageClass}>
         <div className="messaging-message-sender">
           {this.props.attrs.sender_name}
         </div>
@@ -16,9 +34,7 @@ class Message extends React.Component {
             ).format('DD MMM YYYY [@] HH[:]mm')
           }
         </div>
-        <div className="messaging-message-recipient">
-          to {this.props.attrs.recipient_name}
-        </div>
+        {details}
         <p className="messaging-message-body">
           {this.props.attrs.body}
         </p>
@@ -44,7 +60,10 @@ Message.propTypes = {
     recipient_name: React.PropTypes.string.isRequired,
     read_receipt: React.PropTypes.oneOf(['READ', 'UNREAD']).isRequired
     /* eslint-enable */
-  }).isRequired
+  }).isRequired,
+  isCollapsed: React.PropTypes.bool,
+  detailsVisible: React.PropTypes.bool,
+  setVisibleDetails: React.PropTypes.func
 };
 
 export default Message;

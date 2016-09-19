@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchFolders } from '../actions/folders';
 
 class MessagingApp extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     this.props.dispatch(fetchFolders());
   }
 
