@@ -170,7 +170,7 @@ const mapDispatchToProps = {
   fetchRecipients,
   fetchSenderName,
   toggleConfirmDelete,
-  toggleAttachmentsModal
+  toggleAttachmentsModal,
   updateCharacterCount
 };
 
