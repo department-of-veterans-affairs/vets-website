@@ -34,7 +34,7 @@ class ThreadHeader extends React.Component {
           <MessageNav/>
         </div>
         <div className="messaging-thread-title-line">
-          <h2 className="messaging-thread-subject">{this.props.title}</h2>
+          <h2 className="messaging-thread-subject">{this.props.subject}</h2>
           <div className="messaging-thread-controls">
             {toggleThread}
             <ButtonDelete
@@ -48,7 +48,7 @@ class ThreadHeader extends React.Component {
 }
 
 ThreadHeader.propTypes = {
-  title: React.PropTypes.string.isRequired,
+  subject: React.PropTypes.string.isRequired,
   messagesCount: React.PropTypes.number.isRequired,
   messagesCollapsed: React.PropTypes.bool,
   onToggleThread: React.PropTypes.func
