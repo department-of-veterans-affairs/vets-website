@@ -28,7 +28,7 @@ const initialState = {
       required: false
     },
     text: undefined,
-    charCount: composeMessageMaxChars,
+    charsRemaining: composeMessageMaxChars,
     attachments: []
   },
   // List of potential recipients
@@ -63,7 +63,7 @@ export default function compose(state = initialState, action) {
     case TOGGLE_CONFIRM_DELETE:
       return set('modals.deleteConfirm.visible', !state.modals.deleteConfirm.visible, state);
     case UPDATE_CHARACTER_COUNT:
-      return set('message.charCount', action.chars, state);
+      return set('message.charsRemaining', action.chars, state);
     case FETCH_RECIPIENTS_FAILURE:
     case SEND_MESSAGE:
     case SAVE_MESSAGE:
