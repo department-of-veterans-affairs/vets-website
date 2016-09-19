@@ -1,13 +1,66 @@
-.messaging-thread-name {
+.messaging-thread-header {
   border-bottom: 2px solid $color-black;
+}
+
+.messaging-thread-subject {
+  display: inline-block;
   font-weight: normal;
   // Overriding `#content .section h*`.
   padding: 2.25rem 2rem !important;
+  vertical-align: middle;
+  width: 60%;
+}
+
+.messaging-thread-controls {
+  display: inline-block;
+  padding-right: 1rem;
+  text-align: right;
+  vertical-align: middle;
+  width: 40%;
+
+  button {
+    background: transparent;
+    color: $color-black;
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin: 0;
+    padding: 0.5rem 1rem;
+
+    &:hover,
+    &:focus {
+      background: transparent;
+      color: $color-primary;
+    }
+
+    &:active,
+    &:focus {
+      outline: 0;
+    }
+
+    i {
+      font-size: 1.8rem;
+    }
+  }
+
+  span {
+    margin-left: 0.5rem;
+  }
 }
 
 .messaging-thread-message {
   padding: 1.5rem 2rem;
   border-bottom: 1px solid $color-black;
+
+  &--collapsed {
+    background: $color-gray-lightest;
+
+    p {
+      margin: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }
 
 .messaging-message-details-control {
@@ -18,13 +71,20 @@
 
   button {
     background: transparent;
+    box-shadow: none;
     color: $color-black;
     margin: 0;
+    outline: 0;
     padding: 0;
-  }
 
-  i {
-    font-size: 1.8rem;
+    &:active,
+    &:focus {
+      color: $color-gray;
+    }
+
+    i {
+      font-size: 1.8rem;
+    }
   }
 
   table {
@@ -73,12 +133,27 @@
 }
 
 .messaging-thread-reply {
+  font-size: 1.8rem;
   padding: 3rem 2rem;
 
+  .messaging-write label {
+    display: none;
+  }
+
+  &-recipient {
+    border: 1px solid $color-black;
+    border-bottom-width: 0;
+    padding: 1rem 1.5rem;
+
+    label {
+      display: inline-block;
+      font-weight: bold;
+      margin: 0 1rem 0 0;
+    }
+  }
+
   textarea {
-    height: 10rem;
-    max-width: 100%;
-    width: 100%;
+    padding: 1rem 1.5rem;
   }
 }
 

@@ -56,9 +56,16 @@
 }
 
 .messaging-my-folders {
+  span {
+    display: inline-block;
+    width: 90%;
+  }
+
   i {
-    float: right;
-    line-height: 2rem;
+    display: inline-block;
+    font-size: 1.8rem;
+    text-align: right;
+    width: 10%;
   }
 }
 

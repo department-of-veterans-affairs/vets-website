@@ -3,7 +3,8 @@ import set from 'lodash/fp/set';
 import {
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_FAILURE,
-  SET_VISIBLE_DETAILS
+  SET_VISIBLE_DETAILS,
+  TOGGLE_MESSAGES_COLLAPSED
 } from '../actions/messages';
 
 const initialState = {
@@ -11,7 +12,7 @@ const initialState = {
     thread: []
   },
   ui: {
-    // messagesCollapsed: true,
+    messagesCollapsed: true,
     visibleDetailsId: null
   }
 };
@@ -24,6 +25,8 @@ export default function folders(state = initialState, action) {
     }
     case SET_VISIBLE_DETAILS:
       return set('ui.visibleDetailsId', action.messageId, state);
+    case TOGGLE_MESSAGES_COLLAPSED:
+      return set('ui.messagesCollapsed', !state.ui.messagesCollapsed, state);
     case FETCH_THREAD_FAILURE:
     default:
       return state;

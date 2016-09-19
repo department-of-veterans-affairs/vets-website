@@ -3,6 +3,7 @@ import { apiUrl } from '../config';
 export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
 export const FETCH_THREAD_FAILURE = 'FETCH_THREAD_FAILURE';
 export const SET_VISIBLE_DETAILS = 'SET_VISIBLE_DETAILS';
+export const TOGGLE_MESSAGES_COLLAPSED = 'TOGGLE_MESSAGES_COLLAPSED';
 
 const baseUrl = `${apiUrl}/messages`;
 
@@ -19,4 +20,8 @@ export function fetchThread(id) {
 
 export function setVisibleDetails(messageId) {
   return { type: SET_VISIBLE_DETAILS, messageId };
+}
+
+export function toggleMessagesCollapsed() {
+  return { type: TOGGLE_MESSAGES_COLLAPSED };
 }
