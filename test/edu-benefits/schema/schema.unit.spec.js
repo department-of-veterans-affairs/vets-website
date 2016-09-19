@@ -4,7 +4,16 @@ import schema from './schema.json';
 import qc from 'quick_check';
 import _ from 'lodash';
 
-import { createVeteran, veteranToApplication, createTour, createEducationPeriod, createPreviousClaim, createRotcScholarship, createEmploymentPeriod } from '../../../src/js/edu-benefits/utils/veteran';
+import {
+  createVeteran,
+  veteranToApplication,
+  createTour,
+  createEducationPeriod,
+  createPreviousClaim,
+  createRotcScholarship,
+  createEmploymentPeriod
+} from '../../../src/js/edu-benefits/utils/veteran';
+
 import {
   relinquishableBenefits,
   states, contactOptions,
@@ -95,6 +104,17 @@ const previousClaimGen = () => qc.objectLike({
     payeeNumber: makeField(qc.string)
   })
 });
+const matches = (source, target) => {
+  if (!_.isUndefined(source) && !_.isUndefined(target)) {
+    if (_.isObject(source)) {
+      return Object.keys(source).every(key => matches(source[key], target[key]));
+    }
+
+    return true;
+  }
+
+  return false;
+};
 
 function createTestVeteran() {
   return {
@@ -169,17 +189,6 @@ function createTestVeteran() {
 }
 
 describe.only('Edu benefits json schema', () => {
-  function matches(source, target) {
-    if (!_.isUndefined(source) && !_.isUndefined(target)) {
-      if (_.isObject(source)) {
-        return Object.keys(source).every(key => matches(source[key], target[key]));
-      }
-
-      return true;
-    }
-
-    return false;
-  }
   it('should have matching test veteran and blank veteran shape', () => {
     const testForm = qc.objectLike(createTestVeteran())(1);
     const blankForm = createVeteran();
@@ -238,9 +247,10 @@ describe.only('Edu benefits json schema', () => {
     const result = validate(application);
     expect(result).to.be.true;
   });
-  it('should pass validation with valid generated data', () => {
-    qc.forAll(qc.objectLike(createTestVeteran()), (o) => {
-      const application = JSON.parse(veteranToApplication(o));
+  it('should pass validation with valid generated data', function schemaTest() {
+    this.timeout(5000);
+    qc.forAll(qc.objectLike(createTestVeteran()), (vetForm) => {
+      const application = JSON.parse(veteranToApplication(vetForm));
       const result = validate(application);
 
       if (!result) {
