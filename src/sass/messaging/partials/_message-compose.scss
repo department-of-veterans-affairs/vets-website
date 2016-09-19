@@ -80,8 +80,12 @@
   [type="button"] {
     display: inline-block;
     margin: 0 1rem 0 0;
-  }
     
+    &[disabled] {
+      background: $color-gray;
+    }
+  }
+     
   .messaging-btn-delete {
     float: right;
     margin-right: 0;
@@ -89,6 +93,12 @@
 }
 .messaging-btn-save {
   background: transparent !important;
+
+  &[disabled] {
+    color: $color-gray !important;
+    box-shadow: inset 0 0 0 2px $color-gray !important;
+  }
+  
 }
 
 .messaging-write {
