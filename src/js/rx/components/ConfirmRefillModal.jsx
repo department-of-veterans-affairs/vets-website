@@ -32,11 +32,11 @@ class ConfirmRefillModal extends React.Component {
     let element;
     if (this.props.isVisible) {
       element = (
-        <section className="rx-modal" id="rx-confirm-refill">
-          <form className="rx-modal-inner" onSubmit={this.handlerConfirmRefill}>
+        <section className="va-modal rx-modal" id="rx-confirm-refill">
+          <form className="va-modal-inner" onSubmit={this.handlerConfirmRefill}>
             <div>
               <h3 className="rx-modal-title">Confirm refill</h3>
-              <div className="rx-modal-refillinfo rx-modal-body">
+              <div className="rx-modal-refillinfo va-modal-body">
                 <div>
                   <span className="rx-modal-drug">{this.props['prescription-name']}</span>
                 </div>
@@ -49,7 +49,7 @@ class ConfirmRefillModal extends React.Component {
                 <div className="rx-modal-lastrefilled">
                   Last requested: {moment(this.props['refill-date']).format('MMM D, YYYY')}
                 </div>
-                <div className="rx-button-group cf">
+                <div className="va-modal-button-group cf">
                   <button type="submit" value={this.props['prescription-id']}>Order refill</button>
                   <button type="button" className="usa-button-outline"
                       onClick={this.handlerCloseModal}>Cancel</button>
