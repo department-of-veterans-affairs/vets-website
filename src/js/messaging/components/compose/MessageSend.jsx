@@ -6,7 +6,7 @@ import CharacterCount from '../compose/CharacterCount';
 // TODO: Add attachments button / components
 class MessageSend extends React.Component {
   render() {
-    const isDisabled = this.props.charLength < 0;
+    const isDisabled = this.props.charCount < 0;
 
     return (
       <div className={this.props.cssClass}>
@@ -24,7 +24,7 @@ class MessageSend extends React.Component {
             compact
             onClickHandler={this.props.onDelete}/>
         <CharacterCount
-            count={this.props.charLength}
+            count={this.props.charCount}
             cssClass="messaging-characters"/>
       </div>
     );
@@ -32,7 +32,7 @@ class MessageSend extends React.Component {
 }
 
 MessageSend.propTypes = {
-  charLength: React.PropTypes.number,
+  charCount: React.PropTypes.number,
   cssClass: React.PropTypes.string,
   onSave: React.PropTypes.func.isRequired,
   onSend: React.PropTypes.func.isRequired,
