@@ -108,3 +108,24 @@
   vertical-align: top;
   width: 80%;
 }
+
+
+.messaging-modal {
+  .rx-modal-inner {
+    @media(min-width: $medium-screen) {
+      max-width: 40rem;
+    }
+  }
+  form [type=submit] {
+    display: inline;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.messaging-modal-title {
+  margin: 0;
+  + * {
+    margin-top: 0;
+  }
+}
