@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 
 import {
+  allowedMimeTypes,
   composeMessageErrors,
   composeMessagePlaceholders,
   composeMessageMaxChars,
@@ -121,6 +122,7 @@ class Compose extends React.Component {
               placeholder={composeMessagePlaceholders.message}/>
           <MessageSend
               charCount={this.props.compose.message.charsRemaining}
+              allowedMimeTypes={allowedMimeTypes}
               cssClass="messaging-send-group"
               onSave={this.props.saveMessage}
               onSend={this.props.sendMessage}
