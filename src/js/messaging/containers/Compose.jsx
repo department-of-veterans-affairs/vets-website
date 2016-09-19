@@ -37,8 +37,7 @@ class Compose extends React.Component {
     this.handleMessageChange = this.handleMessageChange.bind(this);
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
     this.handleSubjectChange = this.handleSubjectChange.bind(this);
-    this.handleDeleteDraft = this.handleDeleteDraft.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
+    this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
   }
 
   componentDidMount() {
@@ -63,14 +62,10 @@ class Compose extends React.Component {
     this.props.setMessageField('message.recipient', valueObj);
   }
 
-  handleDeleteDraft() {
-    this.props.toggleConfirmDelete();
-  }
-
-  handleDelete(domEvent) {
+  handleConfirmDelete(domEvent) {
     // TODO: Dispatch an action that makes this API call
     domEvent.preventDefault();
-    browserHistory.push(paths.BASE_URL);
+    browserHistory.push(paths.DRAFTS_URL);
     this.props.toggleConfirmDelete();
   }
 
@@ -125,12 +120,12 @@ class Compose extends React.Component {
               cssClass="messaging-send-group"
               onSave={this.props.saveMessage}
               onSend={this.props.sendMessage}
-              onDelete={this.handleDeleteDraft}/>
+              onDelete={this.props.toggleConfirmDelete}/>
         </form>
         <ModalConfirmDelete
             cssClass="messaging-modal"
             onClose={this.props.toggleConfirmDelete}
-            onDelete={this.handleDelete}
+            onDelete={this.handleConfirmDelete}
             visible={this.props.modals.deleteConfirm.visible}/>
       </div>
     );
