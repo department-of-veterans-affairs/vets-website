@@ -1,13 +1,18 @@
+/*****************
+ * Thread Header *
+ *****************/
+
 .messaging-thread-header {
   border-bottom: 2px solid $color-black;
+  padding: 2.25rem 0;
 }
 
 .messaging-thread-subject {
   display: inline-block;
   font-weight: normal;
   // Overriding `#content .section h*`.
-  padding: 2.25rem 2rem !important;
-  vertical-align: middle;
+  padding: 0 2rem !important;
+  vertical-align: top;
   width: 60%;
 }
 
@@ -15,7 +20,7 @@
   display: inline-block;
   padding-right: 1rem;
   text-align: right;
-  vertical-align: middle;
+  vertical-align: top;
   width: 40%;
 
   button {
@@ -46,6 +51,10 @@
     margin-left: 0.5rem;
   }
 }
+
+/******************
+ * Thread Message *
+ ******************/
 
 .messaging-thread-message {
   padding: 1.5rem 2rem;
@@ -131,6 +140,10 @@
 .messaging-message-recipient {
   color: $color-gray-medium;
 }
+
+/****************
+ * Thread Reply *
+ ****************/
 
 .messaging-thread-reply {
   font-size: 1.8rem;
