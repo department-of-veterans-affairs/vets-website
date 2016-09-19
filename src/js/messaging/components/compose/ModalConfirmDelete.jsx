@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Modal from '../Modal';
+import Modal from '../../../common/components/Modal';
 
 class ModalConfirmDelete extends React.Component {
   render() {
@@ -10,7 +10,7 @@ class ModalConfirmDelete extends React.Component {
             Are you sure you want to delete this draft?
         </h3>
         <p>This draft will not be recoverable after deletion.</p>
-        <div>
+        <div className="va-modal-button-group">
           <button type="submit">Yes, delete forever</button>
           <button
               className="usa-button-outline"
