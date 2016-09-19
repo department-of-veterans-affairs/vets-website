@@ -1,0 +1,67 @@
+// Styles for application modals
+// Used in prescriptions, messaging.
+
+.va-modal {
+  background: rgba($color-primary-darkest, .8);
+  content: ' ';
+  display: block;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 3;
+
+  &-inner {
+    background: $color-white;
+    margin: auto;
+    max-width: 40rem;
+    min-width: 320px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+  }
+
+  &-body {
+    padding: 2rem;
+  }
+  
+  &-button-group {
+    bottom: 0;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: flex-start;
+    align-items: flex-start;
+    position: relative;
+    margin-top: 5rem;
+  
+    button {
+      margin: 0 1rem 0 0;
+    }
+  
+    .usa-button-outline:hover {
+      background: transparent !important;
+    }
+  }
+}
+
+.va-modal button {
+  white-space: nowrap;
+} 
+
+.va-modal-close {
+  background-color: inherit;
+  color: rgba($color-base, .8);
+  font-size: 2.5rem;
+  padding: .5rem 1rem;
+  position: absolute;
+  margin: .25rem;
+  right: 0;
+  top: 0;
+  
+  &:hover {
+    background-color: inherit;
+    color: $color-base;
+  }
+} 
