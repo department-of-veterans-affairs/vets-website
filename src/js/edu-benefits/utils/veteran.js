@@ -276,6 +276,15 @@ export function veteranToApplication(veteran) {
         }
         return undefined;
 
+      case 'applyingUsingOwnBenefits':
+        if (value.value === 'ownBenefits') {
+          return true;
+        } else if (value.value === '') {
+          return undefined;
+        }
+
+        return false;
+
       case 'address':
         if (value.city.value === '' && value.street.value === '' && value.country.value === '') {
           return undefined;
