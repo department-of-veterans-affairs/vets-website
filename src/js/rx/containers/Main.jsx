@@ -12,13 +12,15 @@ class Main extends React.Component {
   render() {
     let alertBox;
 
-    alertBox = (
-      <AlertBox
-          content={this.props.alert.content}
-          isVisible
-          onCloseAlert={this.props.closeAlert}
-          status={this.props.alert.status}/>
-    );
+    if (this.props.alert.visible) {
+      alertBox = (
+        <AlertBox
+            content={this.props.alert.content}
+            isVisible={this.props.alert.visible}
+            onCloseAlert={this.props.closeAlert}
+            status={this.props.alert.status}/>
+      );
+    }
 
     return (
       <div>
