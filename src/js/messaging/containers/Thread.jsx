@@ -69,16 +69,16 @@ class Thread extends React.Component {
          Then pass these functions to the navigation components. */
 
       let fetchPrevMessage;
-      if (currentIndex + 1 < folderMessageCount) {
-        const prevId = folderMessages[currentIndex + 1].message_id;
+      if (currentIndex - 1 >= 0) {
+        const prevId = folderMessages[currentIndex - 1].message_id;
         fetchPrevMessage = () => {
           this.props.fetchThread(prevId);
         };
       }
 
       let fetchNextMessage;
-      if (currentIndex - 1 >= 0) {
-        const nextId = folderMessages[currentIndex - 1].message_id;
+      if (currentIndex + 1 < folderMessageCount) {
+        const nextId = folderMessages[currentIndex + 1].message_id;
         fetchNextMessage = () => {
           this.props.fetchThread(nextId);
         };
