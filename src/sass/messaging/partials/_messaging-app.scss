@@ -7,7 +7,7 @@
 // TODO: Refactor these styles so that they're 
 // reusable across projects.
 #messaging-nav {
-  @media(max-width: ($medium-screen - 1)) {
+  @media (max-width: $medium-screen) {
     -webkit-transform: translateX(-100%);
     -ms-transform: translateX(-100%);
     transform: translateX(-100%);
@@ -103,11 +103,12 @@
 }
 
 #messaging-content {
-  box-sizing: border-box;
-  display: inline-block;
-  padding-left: 3rem;
-  vertical-align: top;
-  width: 80%;
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    padding-left: 3rem;
+    vertical-align: top;
+    width: 80%;
+  }
 }
 
 
