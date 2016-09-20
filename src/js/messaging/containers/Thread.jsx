@@ -5,6 +5,7 @@ import {
   fetchThread,
   setVisibleDetails,
   toggleMessagesCollapsed,
+  toggleMoveTo,
   updateReplyCharacterCount
 } from '../actions/messages';
 
@@ -99,7 +100,11 @@ class Thread extends React.Component {
             subject={thread[0].subject}
             threadMessageCount={thread.length}
             messagesCollapsed={this.props.messagesCollapsed}
-            onToggleThread={this.props.toggleMessagesCollapsed}/>
+            moveToIsOpen={this.props.moveToOpened}
+            onChooseFolder={(e) => {e.preventDefault();}}
+            onCreateFolder={(e) => {e.preventDefault();}}
+            onToggleThread={this.props.toggleMessagesCollapsed}
+            onToggleMoveTo={this.props.toggleMoveTo}/>
       );
 
       lastSender = currentMessage.sender_name;
@@ -154,6 +159,7 @@ const mapStateToProps = (state) => {
     charsRemaining: state.messages.ui.charsRemaining,
     folderMessages: state.folders.data.currentItem.messages,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
+    moveToOpened: state.messages.ui.moveToOpened,
     thread: state.messages.data.thread,
     visibleDetailsId: state.messages.ui.visibleDetailsId
   };
@@ -161,8 +167,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchThread,
-  toggleMessagesCollapsed,
   setVisibleDetails,
+  toggleMessagesCollapsed,
+  toggleMoveTo,
   updateReplyCharacterCount
 };
 
