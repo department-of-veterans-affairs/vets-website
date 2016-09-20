@@ -32,7 +32,8 @@ class MessageDetails extends React.Component {
             className="messaging-message-details"
             ref="messageDetails"
             tabIndex="-1"
-            onBlur={this.hideDetails}>
+            onBlur={this.hideDetails}
+            onClick={(domEvent) => domEvent.stopPropagation()}>
           <table>
             <tbody>
               <tr>
