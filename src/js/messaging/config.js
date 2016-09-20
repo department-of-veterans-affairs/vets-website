@@ -39,5 +39,17 @@ module.exports = {
     message: 'Please enter your message.',
     subject: 'Please add subject description.',
     recipient: 'Please select a recipient from your health care team.'
-  }
+  },
+  composeMessageMaxChars: 2000,
+  allowedMimeTypes: ['text/plain',
+    'application/pdf',
+    'application/msword',
+    'application/excel',
+    'application/vnd.ms-excel',
+    'image/gif',
+    'image/jpg',
+    'application/rtf',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    'image/png']
 };

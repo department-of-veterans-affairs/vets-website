@@ -14,6 +14,7 @@ export const SEND_MESSAGE = 'SEND_MESSAGE';
 
 export const DELETE_DRAFT = 'DELETE_DRAFT';
 export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
+export const UPDATE_COMPOSE_CHARACTER_COUNT = 'UPDATE_COMPOSE_CHARACTER_COUNT';
 
 const baseUrl = `${apiUrl}/recipients`;
 
@@ -73,3 +74,10 @@ export function fetchRecipients() {
   };
 }
 
+export function updateComposeCharacterCount(field, maxLength) {
+  const chars = maxLength - field.value.length;
+  return {
+    type: UPDATE_COMPOSE_CHARACTER_COUNT,
+    chars
+  };
+}
