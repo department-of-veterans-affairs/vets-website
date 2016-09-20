@@ -91,6 +91,7 @@
     margin-right: 0;
   }
 }
+
 .messaging-btn-save {
   background: transparent !important;
 
@@ -105,6 +106,7 @@
   label {
     font-weight: bold;
   }
+  
   textarea {
     margin: 1rem 0 0 0;
     max-width: 100%;
@@ -119,5 +121,49 @@
   
   &.isnegative {
     color: $color-secondary;
+  }
+}
+
+.messaging-attach {
+  display: inline-block;
+  position: relative;
+  top: -1.8rem;
+ 
+  label{
+    background-color: inherit;
+    cursor: pointer;
+    left: 0;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+    width: auto;
+    z-index: 1;
+    
+    &:focus span,
+    &:hover span {
+      color: $color-primary-darker;
+    }
+  }
+  
+  .fa {
+    padding-right: .5ex;
+  }
+  
+  span {
+    color: $color-primary;
+    text-decoration: underline;
+  }
+  
+  input{
+    border: 0;
+    height: auto;
+    left: 0;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    width: auto;
   }
 }
