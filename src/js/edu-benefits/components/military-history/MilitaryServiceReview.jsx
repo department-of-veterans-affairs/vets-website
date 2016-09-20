@@ -45,12 +45,10 @@ export default class MilitaryServiceReview extends React.Component {
                 <td>{tour.doNotApplyPeriodToSelected ? 'Yes' : 'No'}</td>
               </tr>
               {tour.doNotApplyPeriodToSelected
-                ? <tbody>
-                  <tr>
-                    <td>Which benefit should this period of service be applied to?</td>
-                    <td>{getLabel(tourBenefits, tour.benefitsToApplyTo.value)}</td>
-                  </tr>
-                </tbody>
+                ? <tr>
+                  <td>Which benefit should this period of service be applied to?</td>
+                  <td>{getLabel(tourBenefits, tour.benefitsToApplyTo.value)}</td>
+                </tr>
                 : null}
               <tr>
                 <td>From date:</td>

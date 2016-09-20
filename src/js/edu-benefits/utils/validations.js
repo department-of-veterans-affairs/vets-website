@@ -310,9 +310,9 @@ function isValidForm(data) {
 
 function isValidPage(completePath, pageData) {
   switch (completePath) {
-    case '/veteran-information/personal-information':
+    case '/veteran-information':
       return isValidPersonalInfoPage(pageData);
-    case '/veteran-information/contact-information':
+    case '/personal-information/contact-information':
       return isValidContactInformationPage(pageData);
     case '/benefits-eligibility/benefits-selection':
       return isValidBenefitsInformationPage(pageData);
@@ -326,9 +326,9 @@ function isValidPage(completePath, pageData) {
       return isValidEmploymentHistoryPage(pageData);
     case '/education-history/education-information':
       return isValidEducationHistoryPage(pageData);
-    case '/veteran-information/secondary-contact':
+    case '/personal-information/secondary-contact':
       return isValidSecondaryContactPage(pageData);
-    case '/veteran-information/direct-deposit':
+    case '/personal-information/direct-deposit':
       return isValidDirectDepositPage(pageData);
     case '/military-history/rotc-history':
       return isValidRotcHistoryPage(pageData);
