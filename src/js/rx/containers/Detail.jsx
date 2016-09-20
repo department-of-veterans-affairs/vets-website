@@ -110,7 +110,7 @@ export class Detail extends React.Component {
 
     return (
       <div id="rx-detail" className="rx-app row">
-        <h1>Mail Order Prescriptions</h1>
+        <h1>Prescription Refill</h1>
         <BackLink text="Back to list"/>
         {header}
         {rxInfo}
