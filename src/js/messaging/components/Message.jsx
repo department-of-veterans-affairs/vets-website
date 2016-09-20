@@ -81,8 +81,8 @@ Message.propTypes = {
     /* eslint-enable */
   }).isRequired,
   isCollapsed: React.PropTypes.bool,
-  detailsVisible: React.PropTypes.bool,
   onToggleCollapsed: React.PropTypes.func,
+  hasVisibleDetails: React.PropTypes.bool,
   setVisibleDetails: React.PropTypes.func
 };
 

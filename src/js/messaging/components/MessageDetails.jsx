@@ -26,7 +26,7 @@ class MessageDetails extends React.Component {
 
   render() {
     let messageDetails;
-    if (this.props.detailsVisible) {
+    if (this.props.hasVisibleDetails) {
       messageDetails = (
         <div
             className="messaging-message-details"
@@ -90,7 +90,7 @@ MessageDetails.propTypes = {
     recipient_name: React.PropTypes.string.isRequired,
     /* eslint-enable */
   }).isRequired,
-  detailsVisible: React.PropTypes.bool,
+  hasVisibleDetails: React.PropTypes.bool,
   setVisibleDetails: React.PropTypes.func
 };
 

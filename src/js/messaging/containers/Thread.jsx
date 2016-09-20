@@ -109,7 +109,7 @@ class Thread extends React.Component {
         const isCollapsed =
           this.props.messagesCollapsed.has(message.message_id);
 
-        const detailsVisible =
+        const hasVisibleDetails =
           this.props.visibleDetailsId === message.message_id;
 
         return (
@@ -117,9 +117,9 @@ class Thread extends React.Component {
               key={message.message_id}
               attrs={message}
               isCollapsed={isCollapsed}
-              detailsVisible={detailsVisible}
-              setVisibleDetails={this.props.setVisibleDetails}
-              onToggleCollapsed={this.props.toggleMessageCollapsed}/>
+              onToggleCollapsed={this.props.toggleMessageCollapsed}
+              hasVisibleDetails={hasVisibleDetails}
+              setVisibleDetails={this.props.setVisibleDetails}/>
         );
       });
     }
