@@ -18,6 +18,7 @@ import MessageRecipient from '../components/compose/MessageRecipient';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
+import ModalAttachmentsTooBig from '../components/compose/ModalAttachmentsTooBig';
 
 import {
   saveMessage,
@@ -26,11 +27,12 @@ import {
   setSubjectRequired,
   fetchRecipients,
   fetchSenderName,
-  updateCharacterCount
+  updateComposeCharacterCount
 } from '../actions/compose';
 
 import {
-  toggleConfirmDelete
+  toggleConfirmDelete,
+  toggleAttachmentsModal
 } from '../actions/modals';
 
 class Compose extends React.Component {
@@ -59,7 +61,7 @@ class Compose extends React.Component {
 
   handleMessageChange(valueObj) {
     this.props.setMessageField('message.text', valueObj);
-    this.props.updateCharacterCount(valueObj, composeMessageMaxChars);
+    this.props.updateComposeCharacterCount(valueObj, composeMessageMaxChars);
   }
 
   handleRecipientChange(valueObj) {
@@ -133,6 +135,11 @@ class Compose extends React.Component {
             onClose={this.props.toggleConfirmDelete}
             onDelete={this.handleConfirmDelete}
             visible={this.props.modals.deleteConfirm.visible}/>
+        <ModalAttachmentsTooBig
+            cssClass="messaging-modal"
+            id="messaging-add-attachments"
+            onClose={this.props.toggleAttachmentsModal}
+            visible={this.props.modals.attachments.visible}/>
       </div>
     );
   }
@@ -147,6 +154,9 @@ const mapStateToProps = (state) => {
     modals: {
       deleteConfirm: {
         visible: state.modals.deleteConfirm.visible
+      },
+      attachments: {
+        visible: state.modals.attachments.visible
       }
     }
   };
@@ -160,7 +170,8 @@ const mapDispatchToProps = {
   fetchRecipients,
   fetchSenderName,
   toggleConfirmDelete,
-  updateCharacterCount
+  toggleAttachmentsModal,
+  updateComposeCharacterCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);
