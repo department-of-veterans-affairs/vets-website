@@ -1,6 +1,55 @@
+// import sampleOutput from 'json!../sampleData/sampleOutput.json';
+import { mapboxClient } from '../components/MapboxClient';
+
+
+export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
+export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
+export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
+export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
+export const SEARCH_FAILED = 'SEARCH_FAILED';
+export const SEARCH_STARTED = 'SEARCH_STARTED';
+
+export function updateSearchQuery(query) {
+  return {
+    type: SEARCH_QUERY_UPDATED,
+    payload: {
+      ...query,
+    }
+  };
+}
+
+export function search(query) {
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+    });
+
+    mapboxClient.geocodeForward(query.searchString, (err, res) => {
+      const coordinates = res.features[0].center;
+      if (!err) {
+        dispatch({
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            ...query,
+            position: {
+              latitude: coordinates[1],
+              longitude: coordinates[0],
+            }
+          }
+        });
+      } else {
+        dispatch({
+          type: SEARCH_FAILED,
+          err,
+        });
+      }
+    });
+  };
+}
+
 export function fetchVAFacility(id) {
   return {
-    type: 'FETCH_VA_FACILITY',
+    type: FETCH_VA_FACILITY,
     payload: {
       id,
       name: 'National Capital Region Benefits Office, Specially Adapted Housing Office',
@@ -86,13 +135,15 @@ export function fetchVAFacility(id) {
 
 export function fetchVAFacilities() {
   return {
-    type: 'FETCH_VA_FACILITY',
+    type: FETCH_VA_FACILITIES,
     payload: [
       {
+        id: 1,
         name: 'VA Facility One',
         coord: [38.89767, -77.0365]
       },
       {
+        id: 2,
         name: 'VA Facility Two',
         coord: [38.89769, -77.0369]
       }
