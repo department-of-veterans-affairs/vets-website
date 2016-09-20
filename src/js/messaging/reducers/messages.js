@@ -19,7 +19,7 @@ const initialState = {
     charsRemaining: composeMessageMaxChars,
     messagesCollapsed: true,
     visibleDetailsId: null,
-    moveToOpened: false
+    moveToOpened: true
   }
 };
 
