@@ -9,11 +9,18 @@ export const UPDATE_REPLY_CHARACTER_COUNT = 'UPDATE_REPLY_CHARACTER_COUNT';
 const baseUrl = `${apiUrl}/messages`;
 
 export function fetchThread(id) {
+  const messageUrl = `${baseUrl}/${id}`;
+  const threadUrl = `${messageUrl}/thread`;
+
   return dispatch => {
-    fetch(`${baseUrl}/${id}/thread`)
-    .then(res => res.json())
-    .then(
-      data => dispatch({ type: FETCH_THREAD_SUCCESS, data }),
+    Promise.all([messageUrl, threadUrl].map(url =>
+      fetch(url).then(res => res.json())
+    )).then(
+      data => dispatch({
+        type: FETCH_THREAD_SUCCESS,
+        message: data[0].data,
+        thread: data[1].data
+      }),
       err => dispatch({ type: FETCH_THREAD_FAILURE, err })
     );
   };

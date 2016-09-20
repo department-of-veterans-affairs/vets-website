@@ -24,8 +24,10 @@ const initialState = {
 export default function folders(state = initialState, action) {
   switch (action.type) {
     case FETCH_THREAD_SUCCESS: {
-      const messages = action.data.data.map(message => message.attributes);
-      return set('data.thread', messages, state);
+      const currentMessage = action.message.attributes;
+      const thread = action.thread.map(message => message.attributes);
+      thread.reverse().push(currentMessage);
+      return set('data.thread', thread, state);
     }
     case SET_VISIBLE_DETAILS:
       return set('ui.visibleDetailsId', action.messageId, state);

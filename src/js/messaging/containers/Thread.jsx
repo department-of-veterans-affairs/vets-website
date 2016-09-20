@@ -48,21 +48,63 @@ class Thread extends React.Component {
 
   render() {
     const thread = this.props.thread;
+    const folderMessages = this.props.folderMessages;
+    const folderMessageCount = folderMessages.length;
     let lastSender;
     let header;
-    let messages;
+    let threadMessages;
 
     if (thread.length > 0) {
-      lastSender = thread[thread.length - 1].sender_name;
+      const currentMessage = thread[thread.length - 1];
+
+      // TODO: Presumably, when the API provides pagination,
+      // we will be able to directly pull information about
+      // the next and previous messages. Until then, we rely
+      // on logic around the array of folder messages we get.
+
+      // Find the current message's position
+      // among the messages in the current folder.
+      const currentIndex = folderMessages.findIndex((message) => {
+        return message.message_id === currentMessage.message_id;
+      });
+
+      /* Once the position of current position has been determined,
+         create functions to navigate to the previous and next
+         messages within the folder.
+
+         Then pass these functions to the navigation components. */
+
+      let fetchPrevMessage;
+      if (currentIndex - 1 >= 0) {
+        const prevId = folderMessages[currentIndex - 1].message_id;
+        fetchPrevMessage = () => {
+          this.props.fetchThread(prevId);
+        };
+      }
+
+      let fetchNextMessage;
+      if (currentIndex + 1 < folderMessageCount) {
+        const nextId = folderMessages[currentIndex + 1].message_id;
+        fetchNextMessage = () => {
+          this.props.fetchThread(nextId);
+        };
+      }
 
       header = (
         <ThreadHeader
-            title={thread[0].subject}
+            currentMessageNumber={currentIndex + 1}
+            folderMessageCount={folderMessageCount}
+            handlePrev={fetchPrevMessage}
+            handleNext={fetchNextMessage}
+            subject={thread[0].subject}
+            threadMessageCount={thread.length}
             messagesCollapsed={this.props.messagesCollapsed}
             onToggleThread={this.props.toggleMessagesCollapsed}/>
       );
 
-      messages = thread.map((message, i) => {
+      lastSender = currentMessage.sender_name;
+
+      threadMessages = thread.map((message, i) => {
         const isCollapsed = this.props.messagesCollapsed &&
                             (i !== thread.length - 1);
         const detailsVisible =
@@ -83,7 +125,7 @@ class Thread extends React.Component {
       <div>
         {header}
         <div className="messaging-thread-messages">
-          {messages}
+          {threadMessages}
         </div>
         <form className="messaging-thread-reply">
           <div className="messaging-thread-reply-recipient">
