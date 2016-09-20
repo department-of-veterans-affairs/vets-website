@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import { chapterNames, groupPagesIntoChapters, getPageList } from './utils/helpers';
+import { chapterNames, groupPagesIntoChapters, getPageList, hasServiceBefore1978 } from './utils/helpers';
 
 import IntroductionPage from './containers/IntroductionPage.jsx';
 import VeteranInformationReview from './components/veteran-information/VeteranInformationReview';
@@ -137,6 +137,7 @@ const routes = [
       key="/personal-information/dependents"
       path="/personal-information/dependents"
       chapter={chapterNames.personalInformation}
+      depends={hasServiceBefore1978}
       name="Dependents"/>,
   <Route
       component={FormPage}

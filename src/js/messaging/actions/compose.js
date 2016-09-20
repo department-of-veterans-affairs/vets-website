@@ -13,8 +13,8 @@ export const SAVE_MESSAGE = 'SAVE_MESSAGE';
 export const SEND_MESSAGE = 'SEND_MESSAGE';
 
 export const DELETE_DRAFT = 'DELETE_DRAFT';
-export const TOGGLE_CONFIRM_DELETE = 'TOGGLE_CONFIRM_DELETE';
 export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
+export const UPDATE_COMPOSE_CHARACTER_COUNT = 'UPDATE_COMPOSE_CHARACTER_COUNT';
 
 const baseUrl = `${apiUrl}/recipients`;
 
@@ -48,12 +48,6 @@ export function saveMessage() {
   };
 }
 
-export function confirmDelete() {
-  return {
-    type: TOGGLE_CONFIRM_DELETE
-  };
-}
-
 export function fetchSenderName() {
   /*
   TODO: Make this conduct an actual
@@ -77,5 +71,13 @@ export function fetchRecipients() {
       recipients => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
       err => dispatch({ type: FETCH_RECIPIENTS_FAILURE, err })
     );
+  };
+}
+
+export function updateComposeCharacterCount(field, maxLength) {
+  const chars = maxLength - field.value.length;
+  return {
+    type: UPDATE_COMPOSE_CHARACTER_COUNT,
+    chars
   };
 }
