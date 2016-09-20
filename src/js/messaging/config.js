@@ -4,8 +4,7 @@ module.exports = {
   paths: {
     INBOX_URL: '/messaging',
     COMPOSE_URL: '/messaging/compose',
-    DRAFTS_URL: '/messaging/folder/-2',
-    DELETED_URL: '/messaging/folder/-3'
+    DRAFTS_URL: '/messaging/folder/-2'
   },
   folderIds: {
     DELETED: -3
