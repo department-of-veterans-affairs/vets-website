@@ -102,9 +102,7 @@
   }
 }
 
-#messaging-content {
-//  padding: 1.5rem;
-  
+#messaging-content { 
   @media (min-width: $medium-screen) {
     display: inline-block;
     padding-left: 3rem;
