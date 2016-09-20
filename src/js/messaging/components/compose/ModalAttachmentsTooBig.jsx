@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Modal from '../Modal';
+import Modal from '../../../common/components/Modal';
 
 class ModalAttachmentsTooBig extends React.Component {
   render() {
