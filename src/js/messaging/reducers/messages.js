@@ -41,7 +41,6 @@ export default function folders(state = initialState, action) {
       return set('ui.visibleDetailsId', action.messageId, state);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
-      console.log('TOGGLE_MESSAGE_COLLAPSED');
       // Don't allow the currently viewed message (last in thread)
       // to be collapsed.
       const thread = state.data.thread;
