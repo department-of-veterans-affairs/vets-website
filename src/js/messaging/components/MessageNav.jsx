@@ -5,7 +5,7 @@ class MessageNav extends React.Component {
     return (
       <div className="messaging-message-nav">
         <span className="messaging-count">
-          <b>{this.props.currentMessageNumber}</b>
+          <b>{this.props.currentRange}</b>
           &nbsp;of&nbsp;
           <b>{this.props.messageCount}</b>
         </span>
@@ -23,7 +23,7 @@ class MessageNav extends React.Component {
 }
 
 MessageNav.propTypes = {
-  currentMessageNumber: React.PropTypes.number.isRequired,
+  currentRange: React.PropTypes.string.isRequired,
   messageCount: React.PropTypes.number.isRequired,
   handlePrev: React.PropTypes.func,
   handleNext: React.PropTypes.func

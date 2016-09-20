@@ -36,7 +36,7 @@ class ThreadHeader extends React.Component {
             <ButtonMove/>
           </div>
           <MessageNav
-              currentMessageNumber={this.props.currentMessageNumber}
+              currentRange={this.props.currentMessageNumber}
               messageCount={this.props.folderMessageCount}
               handlePrev={this.props.handlePrev}
               handleNext={this.props.handleNext}/>
