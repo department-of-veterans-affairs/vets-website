@@ -9,7 +9,7 @@ import { openGlossaryModal } from '../actions/modal.js';
 import Pagination from '../components/Pagination';
 import SortableTable from '../components/tables/SortableTable';
 import SortMenu from '../components/SortMenu';
-import { glossary } from '../config.js';
+import { glossary, rxStatuses } from '../config.js';
 
 class History extends React.Component {
   constructor(props) {
@@ -67,7 +67,7 @@ class History extends React.Component {
 
       const data = items.map(item => {
         const attrs = item.attributes;
-        const status = _.capitalize(attrs['refill-status']);
+        const status = _.capitalize(rxStatuses[attrs['refill-status']]);
 
         return {
           'ordered-date': moment(
