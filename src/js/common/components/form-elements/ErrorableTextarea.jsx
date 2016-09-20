@@ -26,6 +26,7 @@ class ErrorableTextarea extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   componentWillMount() {
@@ -99,7 +100,8 @@ class ErrorableTextarea extends React.Component {
             tabIndex={this.props.tabIndex}
             maxLength={this.props.charMax}
             value={this.props.field.value}
-            onChange={this.handleChange}/>
+            onChange={this.handleChange}
+            onBlur={this.handleBlur}/>
             {maxCharacters}
             {toolTip}
       </div>
