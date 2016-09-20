@@ -11,7 +11,7 @@ import {
   FETCH_SENDER_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
   TOGGLE_CONFIRM_DELETE,
-  UPDATE_CHARACTER_COUNT
+  UPDATE_COMPOSE_CHARACTER_COUNT
 } from '../actions/compose';
 
 const initialState = {
@@ -62,7 +62,7 @@ export default function compose(state = initialState, action) {
       return set('message.sender', action.sender, state);
     case TOGGLE_CONFIRM_DELETE:
       return set('modals.deleteConfirm.visible', !state.modals.deleteConfirm.visible, state);
-    case UPDATE_CHARACTER_COUNT:
+    case UPDATE_COMPOSE_CHARACTER_COUNT:
       return set('message.charsRemaining', action.chars, state);
     case FETCH_RECIPIENTS_FAILURE:
     case SEND_MESSAGE:

@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import {
   fetchThread,
   setVisibleDetails,
-  toggleMessagesCollapsed
+  toggleMessagesCollapsed,
+  updateReplyCharacterCount
 } from '../actions/messages';
 
 import Message from '../components/Message';
@@ -12,7 +13,11 @@ import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
-import { composeMessagePlaceholders } from '../config';
+
+import {
+  composeMessageMaxChars,
+  composeMessagePlaceholders
+} from '../config';
 
 class Thread extends React.Component {
   constructor(props) {
@@ -28,7 +33,8 @@ class Thread extends React.Component {
     this.props.fetchThread(id);
   }
 
-  handleReplyChange() {
+  handleReplyChange(valueObj) {
+    this.props.updateReplyCharacterCount(valueObj, composeMessageMaxChars);
   }
 
   handleReplySave() {
@@ -121,7 +127,7 @@ class Thread extends React.Component {
         <div className="messaging-thread-messages">
           {threadMessages}
         </div>
-        <div className="messaging-thread-reply">
+        <form className="messaging-thread-reply">
           <div className="messaging-thread-reply-recipient">
             <label>To:</label>
             {lastSender}
@@ -131,11 +137,12 @@ class Thread extends React.Component {
               onValueChange={this.handleReplyChange}
               placeholder={composeMessagePlaceholders.message}/>
           <MessageSend
+              charCount={this.props.charsRemaining}
               cssClass="messaging-send-group"
               onSave={this.handleReplySave}
               onSend={this.handleReplySend}
               onDelete={this.handleReplyDelete}/>
-        </div>
+        </form>
         <NoticeBox/>
       </div>
     );
@@ -144,9 +151,10 @@ class Thread extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    charsRemaining: state.messages.ui.charsRemaining,
     folderMessages: state.folders.data.currentItem.messages,
-    thread: state.messages.data.thread,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
+    thread: state.messages.data.thread,
     visibleDetailsId: state.messages.ui.visibleDetailsId
   };
 };
@@ -154,7 +162,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   fetchThread,
   toggleMessagesCollapsed,
-  setVisibleDetails
+  setVisibleDetails,
+  updateReplyCharacterCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Thread);
