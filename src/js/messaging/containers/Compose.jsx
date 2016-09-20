@@ -5,8 +5,9 @@ import { browserHistory } from 'react-router';
 import {
   composeMessageErrors,
   composeMessagePlaceholders,
+  composeMessageMaxChars,
   messageCategories,
-  paths,
+  paths
 } from '../config';
 
 import MessageCategory from '../components/compose/MessageCategory';
@@ -23,7 +24,8 @@ import {
   setMessageField,
   setSubjectRequired,
   fetchRecipients,
-  fetchSenderName
+  fetchSenderName,
+  updateCharacterCount
 } from '../actions/compose';
 
 import {
@@ -36,8 +38,8 @@ class Compose extends React.Component {
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleMessageChange = this.handleMessageChange.bind(this);
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
-    this.handleSubjectChange = this.handleSubjectChange.bind(this);
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
+    this.handleSubjectChange = this.handleSubjectChange.bind(this);
   }
 
   componentDidMount() {
@@ -50,12 +52,13 @@ class Compose extends React.Component {
     this.props.setSubjectRequired(valueObj);
   }
 
-  handleMessageChange(valueObj) {
-    this.props.setMessageField('message.text', valueObj);
+  handleSubjectChange(valueObj) {
+    this.props.setMessageField('message.subject', valueObj);
   }
 
-  handleSubjectChange(valueObj) {
-    this.props.setMessageField('message.subject.value', valueObj);
+  handleMessageChange(valueObj) {
+    this.props.setMessageField('message.text', valueObj);
+    this.props.updateCharacterCount(valueObj, composeMessageMaxChars);
   }
 
   handleRecipientChange(valueObj) {
@@ -117,6 +120,7 @@ class Compose extends React.Component {
               onValueChange={this.handleMessageChange}
               placeholder={composeMessagePlaceholders.message}/>
           <MessageSend
+              charCount={this.props.compose.message.charsRemaining}
               cssClass="messaging-send-group"
               onSave={this.props.saveMessage}
               onSend={this.props.sendMessage}
@@ -153,7 +157,8 @@ const mapDispatchToProps = {
   setSubjectRequired,
   fetchRecipients,
   fetchSenderName,
-  toggleConfirmDelete
+  toggleConfirmDelete,
+  updateCharacterCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);

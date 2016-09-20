@@ -41,7 +41,7 @@ deploy:
     on:
       repo: department-of-veterans-affairs/vets-website
       branch: master
-      condition: "$BUILDTYPE == production"
+      condition: "$BUILDTYPE == development"
   - provider: script
     script: s3-cli sync --acl-public --delete-removed --recursive --region us-gov-west-1 build/production s3://staging.vets.gov/
     skip_cleanup: true
