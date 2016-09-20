@@ -78,6 +78,7 @@
 
   &--collapsed {
     background: $color-gray-lightest;
+    cursor: pointer;
 
     p {
       margin: 0;
@@ -86,6 +87,10 @@
       white-space: nowrap;
     }
   }
+}
+
+.messaging-message-header {
+  cursor: pointer;
 }
 
 .messaging-message-details-control {
@@ -155,6 +160,18 @@
 
 .messaging-message-recipient {
   color: $color-gray-medium;
+
+  span {
+    cursor: pointer;
+  }
+}
+
+// The last message in a thread should not be collapsible.
+.messaging-thread-message:last-child {
+  .messaging-message-header,
+  .messaging-message-recipient span {
+    cursor: auto;
+  }
 }
 
 /****************

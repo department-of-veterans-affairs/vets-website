@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {
   fetchThread,
   setVisibleDetails,
+  toggleMessageCollapsed,
   toggleMessagesCollapsed,
   updateReplyCharacterCount
 } from '../actions/messages';
@@ -98,15 +99,16 @@ class Thread extends React.Component {
             handleNext={fetchNextMessage}
             subject={thread[0].subject}
             threadMessageCount={thread.length}
-            messagesCollapsed={this.props.messagesCollapsed}
+            messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
             onToggleThread={this.props.toggleMessagesCollapsed}/>
       );
 
       lastSender = currentMessage.sender_name;
 
-      threadMessages = thread.map((message, i) => {
-        const isCollapsed = this.props.messagesCollapsed &&
-                            (i !== thread.length - 1);
+      threadMessages = thread.map((message) => {
+        const isCollapsed =
+          this.props.messagesCollapsed.has(message.message_id);
+
         const detailsVisible =
           this.props.visibleDetailsId === message.message_id;
 
@@ -116,7 +118,8 @@ class Thread extends React.Component {
               attrs={message}
               isCollapsed={isCollapsed}
               detailsVisible={detailsVisible}
-              setVisibleDetails={this.props.setVisibleDetails}/>
+              setVisibleDetails={this.props.setVisibleDetails}
+              onToggleCollapsed={this.props.toggleMessageCollapsed}/>
         );
       });
     }
@@ -161,6 +164,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchThread,
+  toggleMessageCollapsed,
   toggleMessagesCollapsed,
   setVisibleDetails,
   updateReplyCharacterCount
