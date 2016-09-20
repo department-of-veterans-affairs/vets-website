@@ -1,0 +1,50 @@
+.messaging-count {
+  margin-right: 1rem;
+  vertical-align: middle;
+}
+
+.messaging-message-nav {
+  position: absolute;
+  right: 0;
+  top: 0;
+
+  i {
+    margin-left: .5rem;
+  }
+
+  button:first-of-type {
+    border-right: none;
+
+    i {
+      margin-left: 0;
+      margin-right: .5rem;
+    }
+  }
+}
+
+.messaging-message-nav button,
+.messaging-move {
+  background: $color-white;
+  border-radius: 0;
+  border: 1px solid $color-black;
+  color: $color-black;
+  font-size: 1.3rem;
+  padding: .5rem;
+  margin: 0;
+
+  &:hover,
+  &:active {
+    background: $color-white;
+    color: $color-black;
+    border-bottom: 1px solid $color-black;
+  }
+
+  i {
+    font-size: 1.5rem !important;
+    vertical-align: middle;
+  }
+
+  span {
+    vertical-align: middle;
+  }
+}
