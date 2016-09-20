@@ -19,7 +19,8 @@ class MessageDetails extends React.Component {
     this.props.setVisibleDetails(null);
   }
 
-  showDetails() {
+  showDetails(domEvent) {
+    domEvent.stopPropagation();
     this.props.setVisibleDetails(this.props.attrs.message_id);
   }
 

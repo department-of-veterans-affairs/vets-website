@@ -160,16 +160,11 @@
 
 .messaging-message-recipient {
   color: $color-gray-medium;
-
-  span {
-    cursor: pointer;
-  }
 }
 
 // The last message in a thread should not be collapsible.
 .messaging-thread-message:last-child {
-  .messaging-message-header,
-  .messaging-message-recipient span {
+  .messaging-message-header {
     cursor: auto;
   }
 }

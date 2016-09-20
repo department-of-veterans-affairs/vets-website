@@ -29,9 +29,7 @@ class Message extends React.Component {
     } else {
       details = (
         <div className="messaging-message-recipient">
-          <span onClick={this.handleToggleCollapsed}>
-            to {this.props.attrs.recipient_name}
-          </span>
+          to {this.props.attrs.recipient_name}
           <MessageDetails { ...this.props }/>
         </div>
       );
@@ -54,8 +52,8 @@ class Message extends React.Component {
               ).format('DD MMM YYYY [@] HH[:]mm')
             }
           </div>
+          {details}
         </div>
-        {details}
         <p className="messaging-message-body">
           {this.props.attrs.body}
         </p>
