@@ -242,6 +242,8 @@ export function veteranToApplication(veteran) {
       case 'married':
       case 'haveDependents':
       case 'parentDependent':
+      case 'previouslyFiledClaimWithVa':
+      case 'previouslyAppliedWithSomeoneElsesService':
         return value.value === 'Y';
 
       case 'postMilitaryJob':
