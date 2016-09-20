@@ -36,8 +36,12 @@ class ErrorableTextarea extends React.Component {
     const val = domEvent.target.value;
     // IE9 doesn't support max length on textareas
     if (!this.props.charMax || val.length <= this.props.charMax) {
-      this.props.onValueChange(makeField(val, true));
+      this.props.onValueChange(makeField(val, this.props.field.dirty));
     }
+  }
+
+  handleBlur() {
+    this.props.onValueChange(makeField(this.props.field.value, true));
   }
 
   render() {
