@@ -7,7 +7,7 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 import DateInput from '../../../common/components/form-elements/DateInput';
 
 import { validateIfDirtyDateObj, validateIfDirty, isNotBlank, isValidDateField, isValidDateRange } from '../../utils/validations';
-import { serviceBranches, yesNoNA } from '../../utils/options-for-select';
+import { serviceBranches, yesNoNA, tourBenefits } from '../../utils/options-for-select';
 
 export default class MilitaryServiceTour extends React.Component {
   render() {
@@ -23,24 +23,15 @@ export default class MilitaryServiceTour extends React.Component {
               checked={tour.doNotApplyPeriodToSelected}
               onValueChange={(update) => {onValueChange('doNotApplyPeriodToSelected', update);}}/>
             {tour.doNotApplyPeriodToSelected
-              ? <fieldset>
-                <p className="form-checkbox-group-label">Which benefit should this period of service be applied to?</p>
-                <ErrorableCheckbox
-                    label="Chapter 30"
-                    name="applyToChapter30"
-                    checked={tour.applyToChapter30}
-                    onValueChange={(update) => {onValueChange('applyToChapter30', update);}}/>
-                <ErrorableCheckbox
-                    label="Chapter 1606"
-                    name="applyToChapter1606"
-                    checked={tour.applyToChapter1606}
-                    onValueChange={(update) => {onValueChange('applyToChapter1606', update);}}/>
-                <ErrorableCheckbox
-                    label="Chapter 32 / Section 903"
-                    name="applyToChapter32"
-                    checked={tour.applyToChapter32}
-                    onValueChange={(update) => {onValueChange('applyToChapter32', update);}}/>
-              </fieldset>
+              ? <ErrorableRadioButtons
+                  errorMessage={validateIfDirty(tour.benefitsToApplyTo, isNotBlank) ? undefined : 'Please provide a response'}
+                  required={tour.doNotApplyPeriodToSelected}
+                  validation={validateIfDirty(tour.benefitsToApplyTo, isNotBlank)}
+                  label="Which benefit should this period of service be applied to?"
+                  name="benefitsToApplyTo"
+                  options={tourBenefits}
+                  value={tour.benefitsToApplyTo}
+                  onValueChange={(update) => {onValueChange('benefitsToApplyTo', update);}}/>
               : null
             }
         </div>

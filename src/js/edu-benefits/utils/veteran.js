@@ -20,9 +20,7 @@ export function createTour() {
     serviceStatus: makeField(''),
     involuntarilyCalledToDuty: makeField(''),
     doNotApplyPeriodToSelected: false,
-    applyToChapter30: false,
-    applyToChapter1606: false,
-    applyToChapter32: false
+    benefitsToApplyTo: makeField('')
   };
 }
 
@@ -84,6 +82,12 @@ export function createPreviousClaim() {
   };
 }
 
+export function createFlightCertificate() {
+  return {
+    name: makeField('')
+  };
+}
+
 export function createVeteran() {
   return {
     benefitsRelinquished: makeField(''),
@@ -99,7 +103,7 @@ export function createVeteran() {
     },
     toursOfDuty: [],
     postHighSchoolTrainings: [],
-    faaFlightCertificatesInformation: makeField(''),
+    faaFlightCertificatesInformation: [],
     highSchoolOrGedCompletionDate: {
       month: makeField(''),
       day: makeField(''),
@@ -201,7 +205,13 @@ export function createVeteran() {
       routingNumber: makeField('')
     },
     previousVaClaims: [],
-    previouslyFiledClaimWithVa: makeField('')
+    previouslyFiledClaimWithVa: makeField(''),
+    applyingUsingOwnBenefits: makeField(''),
+    benefitsRelinquishedDate: {
+      day: makeField(''),
+      month: makeField(''),
+      year: makeField('')
+    }
   };
 }
 

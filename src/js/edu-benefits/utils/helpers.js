@@ -95,3 +95,7 @@ export function hasServiceBefore1978(data) {
     return fromDate.isValid() && fromDate.isBefore('1978-01-02');
   });
 }
+
+export function showRelinquishedEffectiveDate(benefitsRelinquished) {
+  return benefitsRelinquished !== '' && benefitsRelinquished !== 'unknown';
+}

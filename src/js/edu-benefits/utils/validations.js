@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { states } from './options-for-select';
-import { dateToMoment } from './helpers';
+import { dateToMoment, showRelinquishedEffectiveDate } from './helpers';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -198,34 +198,16 @@ function isValidPersonalInfoPage(data) {
       isValidDateField(data.veteranDateOfBirth);
 }
 
-function isValidSpouseInformation(data) {
-  let isValidSpouse = true;
-  let isValidSpouseAddress = true;
-
-  if (data.maritalStatus.value === 'Married' || data.maritalStatus.value === 'Separated') {
-    isValidSpouse = isValidFullNameField(data.spouseFullName) &&
-      isValidSSN(data.spouseSocialSecurityNumber.value) &&
-      isValidDateField(data.spouseDateOfBirth) &&
-      isValidDateField(data.dateOfMarriage) &&
-      isNotBlank(data.sameAddress.value);
-  }
-
-  if (data.sameAddress === 'N') {
-    isValidSpouseAddress = isValidAddressField(data.spouseAddress) &&
-        isValidField(isValidPhone, data.spousePhone);
-  }
-
-  return isNotBlank(data.maritalStatus.value) &&
-      isValidSpouse &&
-      isValidSpouseAddress;
-}
-
 function isValidBenefitsInformationPage(data) {
-  return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
+  return !data.chapter33 ||
+    (isNotBlank(data.benefitsRelinquished.value) &&
+      (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
+        (!isBlankDateField(data.benefitsRelinquishedDate) && isValidDateField(data.benefitsRelinquishedDate))));
 }
 
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
+    && (!tour.doNotApplyPeriodToSelected || isNotBlank(tour.benefitsToApplyTo.value))
     && isValidDateField(tour.dateRange.from)
     && isValidDateField(tour.dateRange.to)
     && isValidDateRange(tour.dateRange.from, tour.dateRange.to);
@@ -394,7 +376,6 @@ export {
   isValidPersonalInfoPage,
   isValidAddressField,
   isValidContactInformationPage,
-  isValidSpouseInformation,
   isValidMilitaryServicePage,
   isValidPage
 };
