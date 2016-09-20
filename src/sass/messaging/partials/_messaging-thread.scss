@@ -178,8 +178,12 @@
   font-size: 1.8rem;
   padding: 3rem 2rem;
 
-  .messaging-write label {
-    display: none;
+  .messaging-write {
+    padding-top: 0;
+
+    label {
+      display: none;
+    }
   }
 
   &-recipient {
