@@ -29,7 +29,10 @@ class MessageNav extends React.Component {
 }
 
 MessageNav.propTypes = {
-  currentRange: React.PropTypes.string.isRequired,
+  currentRange: React.PropTypes.oneOfType([
+    React.PropTypes.number,
+    React.PropTypes.string
+  ]).isRequired,
   messageCount: React.PropTypes.number.isRequired,
   handlePrev: React.PropTypes.func,
   handleNext: React.PropTypes.func
