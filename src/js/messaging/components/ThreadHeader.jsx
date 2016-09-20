@@ -1,5 +1,7 @@
 import React from 'react';
+import { Link } from 'react-router';
 
+import { paths } from '../config';
 import ButtonDelete from './buttons/ButtonDelete';
 import ButtonMove from './buttons/ButtonMove';
 import ButtonPrint from './buttons/ButtonPrint';
@@ -18,7 +20,7 @@ class ThreadHeader extends React.Component {
   render() {
     let toggleThread;
 
-    if (this.props.messagesCount > 1) {
+    if (this.props.threadMessageCount > 1) {
       toggleThread = (
         <ToggleThread
             messagesCollapsed={this.props.messagesCollapsed}
@@ -28,12 +30,18 @@ class ThreadHeader extends React.Component {
 
     return (
       <div className="messaging-thread-header">
-        <div className="messaging-thread-nav-line">
-          <a>Back to Inbox</a>
-          <ButtonMove/>
-          <MessageNav/>
+        <div className="messaging-thread-nav">
+          <div>
+            <Link to={paths.INBOX_URL}>&lt; Back to Inbox</Link>
+            <ButtonMove/>
+          </div>
+          <MessageNav
+              currentMessageNumber={this.props.currentMessageNumber}
+              messageCount={this.props.folderMessageCount}
+              handlePrev={this.props.handlePrev}
+              handleNext={this.props.handleNext}/>
         </div>
-        <div className="messaging-thread-title-line">
+        <div className="messaging-thread-title">
           <h2 className="messaging-thread-subject">{this.props.subject}</h2>
           <div className="messaging-thread-controls">
             {toggleThread}
@@ -48,8 +56,12 @@ class ThreadHeader extends React.Component {
 }
 
 ThreadHeader.propTypes = {
+  currentMessageNumber: React.PropTypes.number.isRequired,
+  folderMessageCount: React.PropTypes.number.isRequired,
+  handlePrev: React.PropTypes.func,
+  handleNext: React.PropTypes.func,
   subject: React.PropTypes.string.isRequired,
-  messagesCount: React.PropTypes.number.isRequired,
+  threadMessageCount: React.PropTypes.number.isRequired,
   messagesCollapsed: React.PropTypes.bool,
   onToggleThread: React.PropTypes.func
 };

@@ -1,25 +1,21 @@
 import React from 'react';
 
 class MessageNav extends React.Component {
-  goToPrevious() {
-  }
-
-  goToNext() {
-  }
-
   render() {
     return (
-      <div className="messaging-nav">
+      <div className="messaging-message-nav">
         <span className="messaging-count">
-          {this.props.current} of {this.props.total}
+          <b>{this.props.currentMessageNumber}</b>
+          &nbsp;of&nbsp;
+          <b>{this.props.messageCount}</b>
         </span>
-        <button type="button">
+        <button type="button" onClick={this.props.handlePrev}>
           <i className="fa fa-chevron-left"></i>
-          Previous
+          <span>Previous</span>
         </button>
-        <button type="button">
+        <button type="button" onClick={this.props.handleNext}>
+          <span>Next</span>
           <i className="fa fa-chevron-right"></i>
-          Next
         </button>
       </div>
     );
@@ -27,8 +23,10 @@ class MessageNav extends React.Component {
 }
 
 MessageNav.propTypes = {
-  currentMessage: React.PropTypes.number.isRequired,
-  messageCount: React.PropTypes.number.isRequired
+  currentMessageNumber: React.PropTypes.number.isRequired,
+  messageCount: React.PropTypes.number.isRequired,
+  handlePrev: React.PropTypes.func,
+  handleNext: React.PropTypes.func
 };
 
 export default MessageNav;
