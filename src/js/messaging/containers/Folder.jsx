@@ -99,7 +99,7 @@ const mapStateToProps = (state) => {
 
   return {
     folder: { attributes, messages },
-    currentRange: `${startCount}-${endCount}`,
+    currentRange: `${startCount} - ${endCount}`,
     messageCount: currentFolder.totalCount
   };
 };
