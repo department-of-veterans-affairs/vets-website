@@ -56,9 +56,16 @@
 }
 
 .messaging-my-folders {
+  span {
+    display: inline-block;
+    width: 90%;
+  }
+
   i {
-    float: right;
-    line-height: 2rem;
+    display: inline-block;
+    font-size: 1.8rem;
+    text-align: right;
+    width: 10%;
   }
 }
 
@@ -100,4 +107,25 @@
   padding-left: 3rem;
   vertical-align: top;
   width: 80%;
+}
+
+
+.messaging-modal {
+  .rx-modal-inner {
+    @media(min-width: $medium-screen) {
+      max-width: 40rem;
+    }
+  }
+  form [type=submit] {
+    display: inline;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+.messaging-modal-title {
+  margin: 0;
+  + * {
+    margin-top: 0;
+  }
 }
