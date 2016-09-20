@@ -248,7 +248,7 @@ describe('Edu benefits json schema', () => {
     expect(result).to.be.true;
   });
   it('should pass validation with valid generated data', function schemaTest() {
-    this.timeout(5000);
+    this.timeout(10000);
     qc.forAll(qc.objectLike(createTestVeteran()), (vetForm) => {
       const application = JSON.parse(veteranToApplication(vetForm));
       const result = validate(application);
