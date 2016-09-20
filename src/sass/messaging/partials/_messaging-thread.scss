@@ -1,13 +1,34 @@
+/*****************
+ * Thread Header *
+ *****************/
+
+.messaging-thread-nav {
+  border-bottom: 1px solid $color-black;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  position: relative;
+
+  a {
+    margin-right: 1rem;
+    vertical-align: middle;
+  }
+
+  i {
+    margin-left: .5rem;
+  }
+}
+
 .messaging-thread-header {
   border-bottom: 2px solid $color-black;
+  padding: 2.25rem 0;
 }
 
 .messaging-thread-subject {
   display: inline-block;
   font-weight: normal;
   // Overriding `#content .section h*`.
-  padding: 2.25rem 2rem !important;
-  vertical-align: middle;
+  padding: 0 2rem !important;
+  vertical-align: top;
   width: 60%;
 }
 
@@ -15,7 +36,7 @@
   display: inline-block;
   padding-right: 1rem;
   text-align: right;
-  vertical-align: middle;
+  vertical-align: top;
   width: 40%;
 
   button {
@@ -43,9 +64,13 @@
   }
 
   span {
-    margin-left: 0.5rem;
+    padding-left: 0.5rem;
   }
 }
+
+/******************
+ * Thread Message *
+ ******************/
 
 .messaging-thread-message {
   padding: 1.5rem 2rem;
@@ -132,6 +157,10 @@
   color: $color-gray-medium;
 }
 
+/****************
+ * Thread Reply *
+ ****************/
+
 .messaging-thread-reply {
   font-size: 1.8rem;
   padding: 3rem 2rem;
@@ -153,6 +182,7 @@
   }
 
   textarea {
+    margin: 0;
     padding: 1rem 1.5rem;
   }
 }
