@@ -107,6 +107,11 @@ class VAMap extends Component {
     this.props.search(currentQuery);
   }
 
+  handleMove = (e) => {
+    console.log('new center: ', e.target.getCenter())
+    console.log('new bounds: ', e.target.getBounds())
+  }
+
   render() {
   // defaults to White House coordinates initially
     const coords = this.props.currentQuery.position;
@@ -122,7 +127,7 @@ class VAMap extends Component {
             <ResultsPane onSearch={this.handleSearch}/>
           </div>
           <div className="medium-9 columns">
-            <Map ref="map" center={position} zoom={13} >
+            <Map ref="map" center={position} zoom={13} onMoveEnd={this.handleMove} >
               <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
