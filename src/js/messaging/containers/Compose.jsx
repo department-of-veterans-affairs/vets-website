@@ -26,7 +26,7 @@ import {
   setSubjectRequired,
   fetchRecipients,
   fetchSenderName,
-  updateCharacterCount
+  updateComposeCharacterCount
 } from '../actions/compose';
 
 import {
@@ -59,7 +59,7 @@ class Compose extends React.Component {
 
   handleMessageChange(valueObj) {
     this.props.setMessageField('message.text', valueObj);
-    this.props.updateCharacterCount(valueObj, composeMessageMaxChars);
+    this.props.updateComposeCharacterCount(valueObj, composeMessageMaxChars);
   }
 
   handleRecipientChange(valueObj) {
@@ -160,7 +160,7 @@ const mapDispatchToProps = {
   fetchRecipients,
   fetchSenderName,
   toggleConfirmDelete,
-  updateCharacterCount
+  updateComposeCharacterCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);
