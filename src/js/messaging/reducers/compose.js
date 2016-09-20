@@ -1,14 +1,17 @@
 import set from 'lodash/fp/set';
 
+import { composeMessageMaxChars } from '../config';
+
 import {
-  TOGGLE_CONFIRM_DELETE,
   SET_MESSAGE_FIELD,
   SET_SUBJECT_REQUIRED,
   SEND_MESSAGE,
   SAVE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_SENDER_SUCCESS,
-  FETCH_RECIPIENTS_FAILURE
+  FETCH_RECIPIENTS_FAILURE,
+  TOGGLE_CONFIRM_DELETE,
+  UPDATE_COMPOSE_CHARACTER_COUNT
 } from '../actions/compose';
 
 const initialState = {
@@ -25,12 +28,8 @@ const initialState = {
       required: false
     },
     text: undefined,
+    charsRemaining: composeMessageMaxChars,
     attachments: []
-  },
-  modals: {
-    deleteConfirm: {
-      visible: false
-    }
   },
   // List of potential recipients
   recipients: []
@@ -63,6 +62,8 @@ export default function compose(state = initialState, action) {
       return set('message.sender', action.sender, state);
     case TOGGLE_CONFIRM_DELETE:
       return set('modals.deleteConfirm.visible', !state.modals.deleteConfirm.visible, state);
+    case UPDATE_COMPOSE_CHARACTER_COUNT:
+      return set('message.charsRemaining', action.chars, state);
     case FETCH_RECIPIENTS_FAILURE:
     case SEND_MESSAGE:
     case SAVE_MESSAGE:

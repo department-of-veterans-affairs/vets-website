@@ -5,6 +5,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { fetchFolder } from '../actions/folders';
+import MessageNav from '../components/MessageNav';
 
 class Folder extends React.Component {
   componentDidMount() {
@@ -76,6 +77,11 @@ class Folder extends React.Component {
     return (
       <div>
         <h2>{folderName}</h2>
+        <div className="messaging-folder-controls">
+          <MessageNav
+              currentRange={this.props.currentRange}
+              messageCount={this.props.messageCount}/>
+        </div>
         {folderMessages}
       </div>
     );
@@ -88,9 +94,13 @@ const mapStateToProps = (state) => {
     return folder.folder_id === currentFolder.id;
   });
   const messages = currentFolder.messages;
+  const startCount = currentFolder.startCount;
+  const endCount = currentFolder.endCount;
 
   return {
-    folder: { attributes, messages }
+    folder: { attributes, messages },
+    currentRange: `${startCount}-${endCount}`,
+    messageCount: currentFolder.totalCount
   };
 };
 

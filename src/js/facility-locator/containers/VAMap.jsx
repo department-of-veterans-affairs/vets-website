@@ -108,8 +108,9 @@ class VAMap extends Component {
   }
 
   handleMove = (e) => {
-    console.log('new center: ', e.target.getCenter())
-    console.log('new bounds: ', e.target.getBounds())
+    // use these methods to get map attributes
+    e.target.getCenter();
+    e.target.getBounds();
   }
 
   render() {

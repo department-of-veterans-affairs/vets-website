@@ -1,29 +1,13 @@
-// Styles for confirm refill modal
-// Also affects messaging modals.
-// TODO: Make into a common partial
+// Styles for application modals
+// Used in prescriptions, messaging.
 
 .rx-modal {
-  background: rgba($color-primary-darkest, .8);
-  content: ' ';
-  display: block;
-  height: 100%;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 3;
-
-  &-inner {
-    background: $color-white;
-    margin: auto;
-    max-width: 30rem;
-    min-width: 320px;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
+  &-drug, &-dosage {
+    color: $color-primary;
+    font-size: 2.4rem;
+    font-weight: bold;
   }
-
+  
   &-title {
     background: $color-primary-darkest;
     color: $color-white;
@@ -32,41 +16,13 @@
     // Abusing important until #content .section h3 is cleared up.
     padding: .5rem 2rem !important;
   }
-
-  &-body {
-    padding: 2rem;
-  }
-
-  &-drug, &-dosage {
-    color: $color-primary;
-    font-size: 2.4rem;
-    font-weight: bold;
-  }
-
+  
   &-rxnumber {
     font-weight: bold;
   }
-  
-  .rx-button-group {
-    bottom: 0;
-    display: flex;
-    align-items: flex-start;
-    position: relative;
-    margin-top: 5rem;
     
-    button {
-      margin: 0 1rem 0 0;
-    }
-    
-    .usa-button-outline:hover {
-      background: transparent !important;
-    }
-  }
-  
   .rx-glossary {
     margin: 0 auto;
   }
 }
-.rx-button-group button {
-  white-space: nowrap;
-}
+

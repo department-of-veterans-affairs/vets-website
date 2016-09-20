@@ -1,4 +1,5 @@
 @import "../style";
+@import "../modules/m-modal";
 
 $messaging-label-width: 10rem;
 
@@ -6,9 +7,7 @@ $messaging-label-width: 10rem;
 @import "partials/message-compose";
 @import "partials/messaging-app";
 @import "partials/messaging-btn-delete";
+@import "partials/messaging-count-nav";
 @import "partials/messaging-folder";
 @import "partials/messaging-thread";
-
-// TODO: Swap with common modal styles once
-// they exist.
-@import "../rx/_partials/rx-modal";
+@import "partials/messaging-modal";

@@ -1,15 +1,10 @@
 import React from 'react';
-import _ from 'lodash';
 import classnames from 'classnames';
+
+import { isActivePage } from '../utils/helpers';
 
 function lastPage(chapter) {
   return chapter.pages.slice(-1)[0].path;
-}
-
-// Checks to see if a page's data dependencies are met
-// i.e., has the user filled out the required information?
-function isHidden(page, data) {
-  return page.depends !== undefined && _.matches(page.depends)(data) === false;
 }
 
 function determineChapterStyles(pageState, formChapter, currentUrl) {
@@ -22,7 +17,7 @@ function determineChapterStyles(pageState, formChapter, currentUrl) {
 function determinePageStyles(page, currentUrl, data) {
   return classnames(
     { 'sub-section-current': currentUrl === page.path },
-    { 'sub-section-hidden': isHidden(page, data) }
+    { 'sub-section-hidden': !isActivePage(page, data) }
   );
 }
 
