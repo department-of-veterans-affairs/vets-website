@@ -6987,6 +6987,23 @@
       "from": "supports-color@>=2.0.0 <3.0.0",
       "resolved": "http://registry.npmjs.org/supports-color/-/supports-color-2.0.0.tgz"
     },
+    "svg-url-loader": {
+      "version": "1.1.0",
+      "from": "svg-url-loader@>=1.1.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/svg-url-loader/-/svg-url-loader-1.1.0.tgz",
+      "dependencies": {
+        "json5": {
+          "version": "0.5.0",
+          "from": "json5@>=0.5.0 <0.6.0",
+          "resolved": "http://registry.npmjs.org/json5/-/json5-0.5.0.tgz"
+        },
+        "loader-utils": {
+          "version": "0.2.15",
+          "from": "loader-utils@0.2.15",
+          "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-0.2.15.tgz"
+        }
+      }
+    },
     "symbol-observable": {
       "version": "1.0.2",
       "from": "symbol-observable@>=1.0.2 <2.0.0",

@@ -25,6 +25,6 @@ describe('<AlertBox>', () => {
           status={'info'}
           isVisible/>
     );
-    expect(tree.props.className).to.equal('rx-alert usa-alert usa-alert-info');
+    expect(tree.props.className).to.equal('va-alert usa-alert usa-alert-info');
   });
 });
