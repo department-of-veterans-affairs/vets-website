@@ -12,7 +12,7 @@ import $ from 'jQuery';
 class VAMap extends Component {
 
   componentDidMount() {
-    const { location, position } = this.props;
+    const { location, currentQuery } = this.props;
     let shouldGeolocate = true;
 
     if (location.query.address) {
@@ -40,7 +40,7 @@ class VAMap extends Component {
       }
     }
 
-    this.props.fetchVAFacilities(position);
+    this.props.fetchVAFacilities(currentQuery.position);
 
     this.mapElement = this.refs.map.leafletElement.getBounds();
     if (navigator.geolocation && shouldGeolocate) {
@@ -63,8 +63,9 @@ class VAMap extends Component {
 
     if (currentQuery.position !== newQuery.position) {
       this.updateUrlParams({
-        location: `${nextProps.currentQuery.position.latitude},${nextProps.currentQuery.position.longitude}`,
+        location: `${newQuery.position.latitude},${newQuery.position.longitude}`,
       });
+      this.props.fetchVAFacilities(newQuery.position);
     }
   }
 
@@ -108,6 +109,20 @@ class VAMap extends Component {
     this.props.search(currentQuery);
   }
 
+  renderFacilityMarkers() {
+    const facilities = this.props.facilities;
+
+    return facilities.map(f => {
+      return (
+        <Marker key={f.id} position={[f.lat, f.long]}>
+          <Popup>
+            <span>{`Facility ${f.id}: ${f.attributes.name}`}</span>
+          </Popup>
+        </Marker>
+      );
+    });
+  }
+
   render() {
   // defaults to White House coordinates initially
     const coords = this.props.currentQuery.position;
@@ -127,9 +142,10 @@ class VAMap extends Component {
                 attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
             <Marker position={position}>
               <Popup>
-                <span>You are here.</span>
+                <span>You are here</span>
               </Popup>
             </Marker>
+            {this.renderFacilityMarkers()}
           </Map>
         </div>
       </div>
