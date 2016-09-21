@@ -5,6 +5,15 @@ import moment from 'moment';
 import MessageDetails from './MessageDetails';
 
 class Message extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleToggleCollapsed = this.handleToggleCollapsed.bind(this);
+  }
+
+  handleToggleCollapsed() {
+    this.props.onToggleCollapsed(this.props.attrs.message_id);
+  }
+
   render() {
     const messageClass = classNames({
       'messaging-thread-message': true,
@@ -12,29 +21,39 @@ class Message extends React.Component {
     });
 
     let details;
+    let headerOnClick;
+    let messageOnClick;
 
-    if (!this.props.isCollapsed) {
+    if (this.props.isCollapsed) {
+      messageOnClick = this.handleToggleCollapsed;
+    } else {
       details = (
         <div className="messaging-message-recipient">
           to {this.props.attrs.recipient_name}
           <MessageDetails { ...this.props }/>
         </div>
       );
+
+      headerOnClick = this.handleToggleCollapsed;
     }
 
     return (
-      <div className={messageClass}>
-        <div className="messaging-message-sender">
-          {this.props.attrs.sender_name}
+      <div className={messageClass} onClick={messageOnClick}>
+        <div
+            className="messaging-message-header"
+            onClick={headerOnClick}>
+          <div className="messaging-message-sender">
+            {this.props.attrs.sender_name}
+          </div>
+          <div className="messaging-message-sent-date">
+            {
+              moment(
+                this.props.attrs.sent_date
+              ).format('DD MMM YYYY [@] HH[:]mm')
+            }
+          </div>
+          {details}
         </div>
-        <div className="messaging-message-sent-date">
-          {
-            moment(
-              this.props.attrs.sent_date
-            ).format('DD MMM YYYY [@] HH[:]mm')
-          }
-        </div>
-        {details}
         <p className="messaging-message-body">
           {this.props.attrs.body}
         </p>
@@ -62,7 +81,8 @@ Message.propTypes = {
     /* eslint-enable */
   }).isRequired,
   isCollapsed: React.PropTypes.bool,
-  detailsVisible: React.PropTypes.bool,
+  onToggleCollapsed: React.PropTypes.func,
+  hasVisibleDetails: React.PropTypes.bool,
   setVisibleDetails: React.PropTypes.func
 };
 
