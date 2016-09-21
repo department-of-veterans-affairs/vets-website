@@ -51,7 +51,6 @@ class VAMap extends Component {
         this.updateUrlParams({
           location: [currentPosition.coords.latitude, currentPosition.coords.longitude].join(','),
         });
-        this.props.fetchVAFacilities(currentPosition.coords);
         this.reverseGeocode(currentPosition.coords);
       });
     }
