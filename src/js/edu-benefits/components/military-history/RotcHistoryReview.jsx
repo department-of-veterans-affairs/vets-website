@@ -4,6 +4,14 @@ export default class RotcHistoryReview extends React.Component {
   render() {
     return (
       <div>
+        <table className="review usa-table-borderless">
+          <tbody>
+            <tr>
+              <td>Year of commission</td>
+              <td>{this.props.data.seniorRotc.yearOfCommission.value}</td>
+            </tr>
+          </tbody>
+        </table>
         {this.props.data.seniorRotc.rotcScholarshipAmounts.map((scholarship, index) => {
           return (<table key={index} className="review usa-table-borderless">
             <thead>

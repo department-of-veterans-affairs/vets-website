@@ -18,6 +18,6 @@ describe('<MilitaryServiceTour>', () => {
           view="expanded"
           onStateChange={onStateChange}/>
     );
-    expect(tree.everySubTree('ErrorableCheckbox').some(box => box.props.name === 'applyToChapter30')).to.be.true;
+    expect(tree.everySubTree('ErrorableRadioButtons').some(box => box.props.name === 'benefitsToApplyTo')).to.be.true;
   });
 });

@@ -3,8 +3,10 @@ import React from 'react';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
 import RadioButtonsSubSection from '../../../common/components/form-elements/RadioButtonsSubSection';
-import { validateIfDirty, isNotBlank } from '../../../common/utils/validations';
-import { relinquishableBenefits, yesNo } from '../../utils/options-for-select';
+import DateInput from '../../../common/components/form-elements/DateInput';
+import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidDateField } from '../../utils/validations';
+import { relinquishableBenefits, yesNo, ownBenefitsOptions } from '../../utils/options-for-select';
+import { showRelinquishedEffectiveDate } from '../../utils/helpers';
 
 export default class BenefitsSelectionFields extends React.Component {
   render() {
@@ -20,11 +22,31 @@ export default class BenefitsSelectionFields extends React.Component {
               options={relinquishableBenefits}
               value={this.props.data.benefitsRelinquished}
               onValueChange={(update) => {this.props.onStateChange('benefitsRelinquished', update);}}/>
+          {showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)
+            ? <DateInput required={showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)}
+                errorMessage="Please provide a response"
+                validation={validateIfDirtyDateObj(this.props.data.benefitsRelinquishedDate, isValidDateField)}
+                label="Effective date"
+                name="benefitsRelinquishedDate"
+                day={this.props.data.benefitsRelinquishedDate.day}
+                month={this.props.data.benefitsRelinquishedDate.month}
+                year={this.props.data.benefitsRelinquishedDate.year}
+                onValueChange={(update) => {this.props.onStateChange('benefitsRelinquishedDate', update);}}/>
+          : null}
         </fieldset>
       </RadioButtonsSubSection>);
     }
 
     return (<fieldset>
+      <legend>Benefits Selection</legend>
+      <div className="input-section" style={{ display: 'none' }}>
+        <ErrorableRadioButtons
+            label="Are you applying using your own benefits or those of a spouse or parent?"
+            name="applyingUsingOwnBenefits"
+            options={ownBenefitsOptions}
+            value={this.props.data.applyingUsingOwnBenefits}
+            onValueChange={(update) => {this.props.onStateChange('applyingUsingOwnBenefits', update);}}/>
+      </div>
       <p>Which education benefit are you applying for?</p>
       <div className="input-section">
         <ErrorableCheckbox
