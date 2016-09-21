@@ -1,4 +1,4 @@
-import { apiUrl } from '../config';
+import { api } from '../config';
 
 export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
 export const FETCH_THREAD_FAILURE = 'FETCH_THREAD_FAILURE';
@@ -8,7 +8,7 @@ export const TOGGLE_MESSAGES_COLLAPSED = 'TOGGLE_MESSAGES_COLLAPSED';
 export const TOGGLE_MOVE_TO = 'TOGGLE_MOVE_TO';
 export const UPDATE_REPLY_CHARACTER_COUNT = 'UPDATE_REPLY_CHARACTER_COUNT';
 
-const baseUrl = `${apiUrl}/messages`;
+const baseUrl = `${api.url}/messages`;
 
 export function fetchThread(id) {
   const messageUrl = `${baseUrl}/${id}`;
@@ -16,7 +16,7 @@ export function fetchThread(id) {
 
   return dispatch => {
     Promise.all([messageUrl, threadUrl].map(url =>
-      fetch(url).then(res => res.json())
+      fetch(url, api.settings).then(res => res.json())
     )).then(
       data => dispatch({
         type: FETCH_THREAD_SUCCESS,

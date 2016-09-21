@@ -67,7 +67,7 @@ class Thread extends React.Component {
       // Find the current message's position
       // among the messages in the current folder.
       const currentIndex = folderMessages.findIndex((message) => {
-        return message.message_id === currentMessage.message_id;
+        return message.messageId === currentMessage.messageId;
       });
 
       /* Once the position of current position has been determined,
@@ -78,7 +78,7 @@ class Thread extends React.Component {
 
       let fetchPrevMessage;
       if (currentIndex - 1 >= 0) {
-        const prevId = folderMessages[currentIndex - 1].message_id;
+        const prevId = folderMessages[currentIndex - 1].messageId;
         fetchPrevMessage = () => {
           this.props.fetchThread(prevId);
         };
@@ -86,7 +86,7 @@ class Thread extends React.Component {
 
       let fetchNextMessage;
       if (currentIndex + 1 < folderMessageCount) {
-        const nextId = folderMessages[currentIndex + 1].message_id;
+        const nextId = folderMessages[currentIndex + 1].messageId;
         fetchNextMessage = () => {
           this.props.fetchThread(nextId);
         };
@@ -108,18 +108,18 @@ class Thread extends React.Component {
             onToggleMoveTo={this.props.toggleMoveTo}/>
       );
 
-      lastSender = currentMessage.sender_name;
+      lastSender = currentMessage.senderName;
 
       threadMessages = thread.map((message) => {
         const isCollapsed =
-          this.props.messagesCollapsed.has(message.message_id);
+          this.props.messagesCollapsed.has(message.messageId);
 
         const hasVisibleDetails =
-          this.props.visibleDetailsId === message.message_id;
+          this.props.visibleDetailsId === message.messageId;
 
         return (
           <Message
-              key={message.message_id}
+              key={message.messageId}
               attrs={message}
               isCollapsed={isCollapsed}
               onToggleCollapsed={this.props.toggleMessageCollapsed}
