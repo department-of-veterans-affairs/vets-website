@@ -22,20 +22,19 @@ class Folder extends React.Component {
   }
 
   render() {
-    const folder = this.props.folder;
     let folderName;
     let folderMessages;
 
-    if (folder) {
-      if (!_.isEmpty(folder.attributes)) {
-        folderName = folder.attributes.name;
-      }
+    if (!_.isEmpty(this.props.attributes)) {
+      folderName = this.props.attributes.name;
+    }
 
+    if (this.props.messages.length > 0) {
       const makeMessageLink = (content, id) => {
         return <Link to={`/messaging/thread/${id}`}>{content}</Link>;
       };
 
-      const rows = folder.messages.map((message) => {
+      const rows = this.props.messages.map((message) => {
         const id = message.messageId;
         const rowClass = classNames({
           'messaging-message-row': true,
@@ -90,15 +89,12 @@ class Folder extends React.Component {
 
 const mapStateToProps = (state) => {
   const currentFolder = state.folders.data.currentItem;
-  const attributes = state.folders.data.items.find((folder) => {
-    return folder.folderId === currentFolder.id;
-  });
-  const messages = currentFolder.messages;
   const startCount = currentFolder.startCount;
   const endCount = currentFolder.endCount;
 
   return {
-    folder: { attributes, messages },
+    attributes: currentFolder.attributes,
+    messages: currentFolder.messages,
     currentRange: `${startCount} - ${endCount}`,
     messageCount: currentFolder.totalCount
   };

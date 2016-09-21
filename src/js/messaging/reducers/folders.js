@@ -11,7 +11,7 @@ import {
 const initialState = {
   data: {
     currentItem: {
-      id: null,
+      attributes: {},
       messages: [],
       startCount: 0,
       endCount: 0,
@@ -33,11 +33,11 @@ export default function folders(state = initialState, action) {
       return set('data.items', items, state);
     }
     case FETCH_FOLDER_SUCCESS: {
-      const id = action.folderId;
-      const meta = action.data.meta;
+      const attributes = action.folder.data.attributes;
+      const meta = action.messages.meta;
 
       // Set the messages of the currently viewed folder.
-      const messages = action.data.data.map(
+      const messages = action.messages.data.map(
         message => message.attributes
       );
 
@@ -51,7 +51,7 @@ export default function folders(state = initialState, action) {
       const endCount = Math.min(totalCount, currentPage * perPage);
 
       const newItem = {
-        id,
+        attributes,
         messages,
         startCount,
         endCount,

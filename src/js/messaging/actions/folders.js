@@ -20,14 +20,17 @@ export function fetchFolders() {
 }
 
 export function fetchFolder(id) {
+  const folderUrl = `${baseUrl}/${id}`;
+  const messagesUrl = `${folderUrl}/messages`;
+
   return dispatch => {
-    fetch(`${baseUrl}/${id}/messages`, api.settings)
-    .then(res => res.json())
-    .then(
+    Promise.all([folderUrl, messagesUrl].map(url =>
+      fetch(url, api.settings).then(res => res.json())
+    )).then(
       data => dispatch({
         type: FETCH_FOLDER_SUCCESS,
-        folderId: Number(id),
-        data
+        folder: data[0],
+        messages: data[1]
       }),
       err => dispatch({ type: FETCH_FOLDER_FAILURE, err })
     );
