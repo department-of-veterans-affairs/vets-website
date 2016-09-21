@@ -16,6 +16,7 @@
     font-weight: normal;
     margin: 0;
     padding: 0.5rem 1rem;
+    width: auto;
 
     &:hover,
     &:focus {
@@ -187,12 +188,23 @@
 }
 
 .messaging-message-sender {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   width: 75%;
+
+  @media (max-width: $medium-screen) {
+    width: 50%;
+  }
 }
 
 .messaging-message-sent-date {
   text-align: right;
   width: 25%;
+
+  @media (max-width: $medium-screen) {
+    width: 50%;
+  }
 }
 
 .messaging-message-sender,
