@@ -5,7 +5,7 @@ import ErrorableCheckbox from '../../../common/components/form-elements/Errorabl
 import RadioButtonsSubSection from '../../../common/components/form-elements/RadioButtonsSubSection';
 import DateInput from '../../../common/components/form-elements/DateInput';
 import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidDateField } from '../../utils/validations';
-import { relinquishableBenefits, yesNo, ownBenefitsOptions } from '../../utils/options-for-select';
+import { relinquishableBenefits, yesNo } from '../../utils/options-for-select';
 import { showRelinquishedEffectiveDate } from '../../utils/helpers';
 
 export default class BenefitsSelectionFields extends React.Component {
@@ -37,16 +37,16 @@ export default class BenefitsSelectionFields extends React.Component {
       </RadioButtonsSubSection>);
     }
 
+    // <div className="input-section">
+    //   <ErrorableRadioButtons
+    //       label="Are you applying using your own benefits or those of a spouse or parent?"
+    //       name="applyingUsingOwnBenefits"
+    //       options={ownBenefitsOptions}
+    //       value={this.props.data.applyingUsingOwnBenefits}
+    //       onValueChange={(update) => {this.props.onStateChange('applyingUsingOwnBenefits', update);}}/>
+    // </div>
     return (<fieldset>
       <legend>Benefits Selection</legend>
-      <div className="input-section">
-        <ErrorableRadioButtons
-            label="Are you applying using your own benefits or those of a spouse or parent?"
-            name="applyingUsingOwnBenefits"
-            options={ownBenefitsOptions}
-            value={this.props.data.applyingUsingOwnBenefits}
-            onValueChange={(update) => {this.props.onStateChange('applyingUsingOwnBenefits', update);}}/>
-      </div>
       <p>Which education benefit are you applying for?</p>
       <div className="input-section">
         <ErrorableCheckbox
