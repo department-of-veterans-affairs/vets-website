@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 
 import { paths } from '../config';
 import ButtonDelete from './buttons/ButtonDelete';
-import ButtonMove from './buttons/ButtonMove';
+import MoveTo from './MoveTo';
 import ButtonPrint from './buttons/ButtonPrint';
 import MessageNav from './MessageNav';
 import ToggleThread from './ToggleThread';
@@ -33,7 +33,11 @@ class ThreadHeader extends React.Component {
         <div className="messaging-thread-nav">
           <div>
             <Link to={paths.INBOX_URL}>&lt; Back to Inbox</Link>
-            <ButtonMove/>
+            <MoveTo
+                isOpen={!this.props.moveToIsOpen}
+                onChooseFolder={this.props.onChooseFolder}
+                onCreateFolder={this.props.onCreateFolder}
+                onToggleMoveTo={this.props.onToggleMoveTo}/>
           </div>
           <MessageNav
               currentRange={this.props.currentMessageNumber}
@@ -63,7 +67,12 @@ ThreadHeader.propTypes = {
   subject: React.PropTypes.string.isRequired,
   threadMessageCount: React.PropTypes.number.isRequired,
   messagesCollapsed: React.PropTypes.bool,
-  onToggleThread: React.PropTypes.func
+  moveToIsOpen: React.PropTypes.bool,
+  onChooseFolder: React.PropTypes.func,
+  onCreateFolder: React.PropTypes.func,
+  onToggleThread: React.PropTypes.func,
+  onToggleMoveTo: React.PropTypes.func,
+
 };
 
 export default ThreadHeader;
