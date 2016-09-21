@@ -4,21 +4,31 @@ import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
 import SearchControls from './SearchControls';
 import { Link } from 'react-router';
+import { compact } from 'lodash';
 
 
 class ResultsPane extends Component {
+
+
+  // TODO (bshyong): refactor this method to use a FacilitySearchResult component
   renderResults() {
     const { facilities } = this.props;
 
     return (
       facilities.map(f => {
+        const { address } = f.attributes;
+
         return (
-          <div key={f.id} className="facility-result">
-            <h5>{f.name}</h5>
+          <li key={f.id} className="facility-result">
             <Link to={`facilities/facility/${f.id}`}>
-              Facility details
+              <h5>{f.name}</h5>
             </Link>
-          </div>
+            <strong>Facility type: {f.type}</strong>
+            <p>
+              {compact([address.building, address.street, address.suite].join(' '))}<br/>
+              {`${address.city}, ${address.state} ${address.zip}-${address.zip4}`}
+            </p>
+          </li>
         );
       })
     );
@@ -30,10 +40,12 @@ class ResultsPane extends Component {
     return (
       <div style={{ maxHeight, overflowY: 'auto' }}>
         <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={onSearch}/>
-        <hr/>
+        <hr className="light"/>
         <div className="facility-search-results">
           <h4>Search Results:</h4>
-          {this.renderResults()}
+          <ol>
+            {this.renderResults()}
+          </ol>
         </div>
       </div>
     );

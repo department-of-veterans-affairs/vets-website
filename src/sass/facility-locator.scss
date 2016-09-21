@@ -27,6 +27,19 @@ h1{
 
 .facility-search-results {
   padding: 1rem;
+
+  ol {
+    padding: 0;
+  }
+}
+
+a {
+  color: $color-link-default;
+  text-decoration: none;
+
+  &:visited {
+    color: $color-link-default;
+  }
 }
 
 .mb2 {
@@ -35,6 +48,12 @@ h1{
 
 #content .section h4 {
   padding: 0 0 .25em 0;
+}
+
+hr.light {
+  color: $color-va-gray-medium;
+  margin: 0 0 2rem;
+  border: 1px solid $color-va-gray-medium;
 }
 
 hr.title {

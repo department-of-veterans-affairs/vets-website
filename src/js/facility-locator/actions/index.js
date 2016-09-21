@@ -138,40 +138,55 @@ export function fetchVAFacilities() {
     type: FETCH_VA_FACILITIES,
     payload: [
       {
-        id: 1,
-        name: 'VA Facility One',
-        coord: [38.89767, -77.0365]
-      },
-      {
-        id: 2,
-        name: 'VA Facility Two',
-        coord: [38.89769, -77.0369]
-      },
-      {
-        id: 3,
-        name: 'VA Facility Three',
-        coord: [38.89769, -77.0369]
-      },
-      {
-        id: 4,
-        name: 'VA Facility Four',
-        coord: [38.89769, -77.0369]
-      },
-      {
-        id: 5,
-        name: 'VA Facility Five',
-        coord: [38.89769, -77.0369]
-      },
-      {
-        id: 6,
-        name: 'VA Facility Six',
-        coord: [38.89769, -77.0369]
-      },
-      {
-        id: 7,
-        name: 'VA Facility Seven',
-        coord: [38.89769, -77.0369]
-      },
+        id: 539,
+        type: 'va_health_facility',
+        attributes: {
+          visnId: 20,
+          name: 'Portland VA Medical Center-Vancouver',
+          classification: 'VA Medical Center (VAMC)',
+          address: {
+            building: null,
+            street: '1601 East 4th Plain Boulevard',
+            suite: null,
+            city: 'Vancouver',
+            state: 'WA',
+            zip: '98661',
+            zip4: '3753'
+          },
+          phone: {
+            main: '360-759-1901 x',
+            fax: '360-690-0864 x',
+            afterHours: '360-696-4061 x',
+            patientAdvocate: '503-273-5308 x',
+            enrollmentCoordinator: '503-273-5069 x',
+            pharmacy: '503-273-5183 x',
+          },
+          hours: {
+            monday: '730AM-430PM',
+            tuesday: '730AM-630PM',
+            wednesday: '730AM-430PM',
+            thursday: '730AM-430PM',
+            friday: '730AM-430PM',
+            saturday: '800AM-1000AM',
+            sunday: '-',
+          },
+          services: [
+            ['Audiology', []],
+            ['DentalServices', []],
+            ['DiagnosticServices', ['ImagingAndRadiology']],
+            ['EyeCare', []],
+            ['MentalHealthCare', ['OutpatientMHCare', 'OutpatientSpecMHCare',
+              'VocationalAssistance'
+            ]],
+            ['OutpatientSurgicalSpecialty', ['Podiatry']],
+            ['PrimaryCare', []],
+            ['Rehabilitation', []],
+            ['WellnessAndPreventativeCare', []]
+          ],
+          lat: 45.63941626,
+          'long': -122.65528736,
+        }
+      }
     ]
   };
 }

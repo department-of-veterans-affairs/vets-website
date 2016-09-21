@@ -29,7 +29,7 @@ class FacilityLocatorApp extends React.Component {
   render() {
     return (
       <div>
-        <div className="primary row">
+        <div className="row">
           <div className="title-section">
             <nav className="va-nav-breadcrumbs">
               <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
