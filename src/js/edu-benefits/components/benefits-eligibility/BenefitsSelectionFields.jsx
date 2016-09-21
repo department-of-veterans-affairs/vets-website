@@ -25,6 +25,7 @@ export default class BenefitsSelectionFields extends React.Component {
     }
 
     return (<fieldset>
+      <legend className="hide-for-small-only">Benefits eligibility</legend>
       <p>Which education benefit are you applying for?</p>
       <div className="input-section">
         <ErrorableCheckbox
