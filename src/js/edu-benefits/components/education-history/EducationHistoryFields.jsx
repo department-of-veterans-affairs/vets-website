@@ -1,11 +1,11 @@
 import React from 'react';
 
 import DateInput from '../../../common/components/form-elements/DateInput';
-import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 
 import EducationPeriod from './EducationPeriod';
-import { createEducationPeriod } from '../../utils/veteran';
+import FlightCertificate from './FlightCertificate';
+import { createEducationPeriod, createFlightCertificate } from '../../utils/veteran';
 
 import { isValidPage } from '../../utils/validations';
 
@@ -20,6 +20,9 @@ export default class EducationHistoryFields extends React.Component {
       'hoursType',
       'degreeReceived',
       'major'
+    ];
+    const certificateFields = [
+      'name'
     ];
 
     const completionDate = this.props.data.highSchoolOrGedCompletionDate;
@@ -36,7 +39,7 @@ export default class EducationHistoryFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('highSchoolOrGedCompletionDate', update);}}/>
       </div>
       <div className="input-section">
-        <h4>Education after High School (Including apprenticeship, on-the-job training, and flight training)</h4>
+        <p>Education after High School (Including apprenticeship, on-the-job training, and flight training)</p>
         <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
         <hr/>
         <div className="input-section">
@@ -51,12 +54,18 @@ export default class EducationHistoryFields extends React.Component {
               isValidSection={isValidPage}/>
         </div>
       </div>
+      <hr/>
       <div className="input-section">
-        <ErrorableTextInput
-            label="FAA certificates"
-            name="faaFlightCertificatesInformation"
-            field={this.props.data.faaFlightCertificatesInformation}
-            onValueChange={(update) => {this.props.onStateChange('faaFlightCertificatesInformation', update);}}/>
+        <p>FAA certificates</p>
+        <GrowableTable
+            component={FlightCertificate}
+            createRow={createFlightCertificate}
+            data={this.props.data}
+            initializeCurrentElement={() => this.props.initializeFields(certificateFields, 'faaFlightCertificatesInformation')}
+            onRowsUpdate={(update) => {this.props.onStateChange('faaFlightCertificatesInformation', update);}}
+            path="/education-history/education-information"
+            rows={this.props.data.faaFlightCertificatesInformation}
+            isValidSection={isValidPage}/>
       </div>
     </fieldset>
     );
