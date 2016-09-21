@@ -41,7 +41,6 @@ export default function folders(state = initialState, action) {
 
     case SET_VISIBLE_DETAILS:
       return set('ui.visibleDetailsId', action.messageId, state);
-<<<<<<< HEAD
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       // Don't allow the currently viewed message (last in thread)
