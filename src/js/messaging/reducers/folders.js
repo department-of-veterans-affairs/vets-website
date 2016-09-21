@@ -33,18 +33,22 @@ export default function folders(state = initialState, action) {
       return set('data.items', items, state);
     }
     case FETCH_FOLDER_SUCCESS: {
+      const id = action.folderId;
       const meta = action.data.meta;
 
       // Set the messages of the currently viewed folder.
-      const id = meta.folderId;
       const messages = action.data.data.map(
         message => message.attributes
       );
 
       // Set the pagination data for the folder.
-      const totalCount = meta.count;
-      const startCount = 1 + (meta.currentPage - 1) * meta.perPage;
-      const endCount = Math.min(totalCount, meta.currentPage * meta.perPage);
+      const pagination = meta.pagination;
+      const currentPage = pagination.currentPage;
+      const perPage = pagination.perPage;
+
+      const totalCount = pagination.totalEntries;
+      const startCount = 1 + (currentPage - 1) * perPage;
+      const endCount = Math.min(totalCount, currentPage * perPage);
 
       const newItem = {
         id,

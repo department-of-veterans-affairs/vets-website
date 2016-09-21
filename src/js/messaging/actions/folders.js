@@ -24,7 +24,11 @@ export function fetchFolder(id) {
     fetch(`${baseUrl}/${id}/messages`, api.settings)
     .then(res => res.json())
     .then(
-      data => dispatch({ type: FETCH_FOLDER_SUCCESS, data }),
+      data => dispatch({
+        type: FETCH_FOLDER_SUCCESS,
+        folderId: Number(id),
+        data
+      }),
       err => dispatch({ type: FETCH_FOLDER_FAILURE, err })
     );
   };
