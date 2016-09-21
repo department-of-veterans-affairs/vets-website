@@ -1,4 +1,5 @@
 .msg-move-to {
+  display: inline-block;
   position: relative;
 }
 
@@ -11,10 +12,6 @@
   width: auto;
   
   & + label {
-    display: block;
-    padding: .5rem;
-    margin: 0;
-    
     &:hover {
       background: $color-gray-lightest;
     }
@@ -37,13 +34,22 @@
   margin: -1px 0 0 0;
   padding-left: 0;
   position: absolute;
-  width: 20rem;
-  z-index: 1;
+  z-index: 3;
   
   .msg-btn-newfolder[type="button"] {
     display: block;
     padding: .5rem;
+    white-space: nowrap;
     width: 100%;
   }
 }
 
+.msg-move-to-label {
+  display: block;
+  margin: 0;
+  overflow: hidden;
+  padding: 1rem;
+  text-overflow: ellipsis;
+  width: 25rem;
+  white-space: nowrap;
+}
