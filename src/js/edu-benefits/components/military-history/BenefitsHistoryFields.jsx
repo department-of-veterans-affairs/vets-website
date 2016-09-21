@@ -14,7 +14,7 @@ export default class BenefitsHistoryFields extends React.Component {
       this.props.data.activeDutyRepayingPeriod.from
     );
     return (<fieldset>
-      <legend>Benefits History</legend>
+      <legend>Benefits history</legend>
       <div className="input-section">
         <p>Select all that apply:</p>
         <ErrorableCheckbox

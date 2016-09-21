@@ -40,7 +40,7 @@ export default class MilitaryServiceFields extends React.Component {
     );
 
     return (<fieldset>
-      <legend>Military Service</legend>
+      <legend>Military service</legend>
       <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
       <div className="input-section">
         <p>If you graduated from a military service academy, what year did you graduate?</p>
