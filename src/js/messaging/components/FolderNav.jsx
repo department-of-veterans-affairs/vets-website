@@ -105,7 +105,7 @@ class FolderNav extends React.Component {
           <i className="fa fa-folder"></i>
           &nbsp;Manage folders
         </button>
-        <ButtonCreateFolder onClick={() => {}}/>
+        <ButtonCreateFolder onClick={this.props.onCreateNewFolder}/>
       </li>
     );
 
@@ -132,6 +132,7 @@ FolderNav.propTypes = {
     })
   ).isRequired,
   isExpanded: React.PropTypes.bool,
+  onCreateNewFolder: React.PropTypes.func,
   onToggleFolders: React.PropTypes.func
 };
 
