@@ -3,8 +3,7 @@ import ReactDOM from 'react-dom';
 import { createHistory } from 'history';
 import { IndexRedirect, Route, Router, useRouterHistory } from 'react-router';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import { createStore } from 'redux';
 
 import DisabilityBenefitsApp from './containers/DisabilityBenefitsApp.jsx';
 import initReact from '../common/init-react';
@@ -13,15 +12,10 @@ import routes from './routes.jsx';
 
 require('../../sass/disability-benefits.scss');
 
-let store;
-if (__BUILDTYPE__ === 'development' && window.devToolsExtension) {
-  store = createStore(reducer, compose(applyMiddleware(thunk), window.devToolsExtension()));
-} else {
-  store = createStore(reducer, compose(applyMiddleware(thunk)));
-}
+const store = createStore(reducer);
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/disability/apply-for-disability-benefits/application'
+  basename: '/disability-benefits/track-claims'
 });
 
 function init() {
