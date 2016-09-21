@@ -19,13 +19,13 @@ describe('<BenefitsSelectionFields>', () => {
   );
 
   it('should render a subsection for chapter 33', () => {
-    expect(tree.everySubTree('ErrorableRadioButtons').length).to.equal(2);
+    expect(tree.everySubTree('ErrorableRadioButtons').length).to.equal(3);
   });
   it('should render a value for benefits relinquished', () => {
-    expect(tree.everySubTree('ErrorableRadioButtons')[0].props.value.value).to.equal(data.benefitsRelinquished.value);
+    expect(tree.everySubTree('ErrorableRadioButtons')[1].props.value.value).to.equal(data.benefitsRelinquished.value);
   });
   it('should call state change with benefitsChosen', () => {
-    tree.everySubTree('ErrorableRadioButtons')[0].props.onValueChange(data.benefitsRelinquished);
+    tree.everySubTree('ErrorableRadioButtons')[1].props.onValueChange(data.benefitsRelinquished);
     expect(onStateChange.calledWith('benefitsRelinquished', data.benefitsRelinquished)).to.be.true;
   });
 });
