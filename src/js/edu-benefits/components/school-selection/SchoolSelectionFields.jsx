@@ -13,6 +13,7 @@ import { showSchoolAddress } from '../../utils/helpers';
 export default class SchoolSelectionFields extends React.Component {
   render() {
     return (<fieldset>
+      <legend className="hide-for-small-only">School selection</legend>
       <div className="input-section">
         <ErrorableSelect
             label="Type of education or training"

@@ -14,7 +14,7 @@ const claimFields = [
 export default class PreviousClaimsFields extends React.Component {
   render() {
     return (<fieldset>
-      <legend>Previous Claims</legend>
+      <legend>Previous claims</legend>
       <div className="input-section">
         <hr/>
         <GrowableTable

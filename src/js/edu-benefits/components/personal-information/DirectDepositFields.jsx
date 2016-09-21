@@ -10,7 +10,7 @@ export default class DirectDepositFields extends React.Component {
   render() {
     return (
       <fieldset>
-        <legend>Direct Deposit</legend>
+        <legend>Direct deposit</legend>
         <div className="input-section">
           <ErrorableRadioButtons
               label="Account Type"

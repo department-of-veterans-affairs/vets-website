@@ -29,6 +29,7 @@ export default class EducationHistoryFields extends React.Component {
     const { day, month, year } = completionDate;
 
     return (<fieldset>
+      <legend className="hide-for-small-only">Education history</legend>
       <div className="input-section">
         <DateInput
             label="If you received a high school diploma or high school equivalency certificate, what date was it received? (month, day, year)"
