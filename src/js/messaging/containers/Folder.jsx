@@ -77,8 +77,10 @@ class Folder extends React.Component {
 
     return (
       <div>
-        <div id="messaging-folder-header">
-          <button className="usa-button messaging-menu-button">
+        <div id="messaging-content-header">
+          <button
+              className="messaging-menu-button"
+              type="button">
             Menu
           </button>
           <h2>{folderName}</h2>

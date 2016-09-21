@@ -129,6 +129,57 @@ button.msg-btn-newfolder[type="button"],
   }
 }
 
+#messaging-content-header {
+  position: relative;
+
+  @media (max-width: $medium-screen) {
+    background: $color-gray-lightest;
+    text-align: center;
+
+    .messaging-cancel-link,
+    .messaging-menu-button,
+    .messaging-send-button {
+      display: block;
+    }
+
+    h2 {
+      padding: 1rem !important;
+    }
+  }
+}
+
+.messaging-cancel-link,
+.messaging-menu-button,
+.messaging-send-button {
+  display: none;
+  height: 100%;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  width: auto;
+}
+
+.messaging-cancel-link {
+  color: $color-primary;
+  left: 0;
+  padding: 1.25rem 1.5rem;
+}
+
+.messaging-menu-button,
+.messaging-send-button {
+  background: $color-primary;
+  border-radius: 0;
+  padding: 1rem;
+}
+
+.messaging-menu-button {
+  left: 0;
+}
+
+.messaging-send-button {
+  right: 0;
+}
+
 .messaging-modal {
   .va-modal-inner {
     @media(min-width: $medium-screen) {

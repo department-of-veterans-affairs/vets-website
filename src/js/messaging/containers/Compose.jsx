@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
 import {
   allowedMimeTypes,
@@ -81,8 +81,18 @@ class Compose extends React.Component {
 
     return (
       <div>
-        <div id="messaging-compose-header">
+        <div id="messaging-content-header">
+          <Link
+              className="messaging-cancel-link"
+              to={paths.DRAFTS_URL}>
+            Cancel
+          </Link>
           <h2>New message</h2>
+          <button
+              className="messaging-send-button"
+              type="button">
+            Send
+          </button>
         </div>
         <form
             id="messaging-compose"
