@@ -32,6 +32,14 @@ h1{
       color: $color-link-default;
     }
   }
+
+  h5 {
+    color: $color-link-default;
+  }
+
+  [href^=http] {
+    background: none;
+  }
 }
 
 .facility-search-results {
