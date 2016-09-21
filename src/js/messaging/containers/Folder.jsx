@@ -36,22 +36,22 @@ class Folder extends React.Component {
       };
 
       const rows = folder.messages.map((message) => {
-        const id = message.message_id;
+        const id = message.messageId;
         const rowClass = classNames({
           'messaging-message-row': true,
-          'messaging-message-row--unread': message.read_receipt === 'UNREAD'
+          'messaging-message-row--unread': message.readReceipt === 'UNREAD'
         });
 
         return (
           <tr key={id} className={rowClass}>
             <td>
-              {makeMessageLink(message.sender_name, id)}
+              {makeMessageLink(message.senderName, id)}
             </td>
             <td>
               {makeMessageLink(message.subject, id)}
             </td>
             <td>
-              {makeMessageLink(message.sent_date, id)}
+              {makeMessageLink(message.sentDate, id)}
             </td>
           </tr>
         );
@@ -91,7 +91,7 @@ class Folder extends React.Component {
 const mapStateToProps = (state) => {
   const currentFolder = state.folders.data.currentItem;
   const attributes = state.folders.data.items.find((folder) => {
-    return folder.folder_id === currentFolder.id;
+    return folder.folderId === currentFolder.id;
   });
   const messages = currentFolder.messages;
   const startCount = currentFolder.startCount;
