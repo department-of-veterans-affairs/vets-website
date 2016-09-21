@@ -21,7 +21,7 @@ class MessageDetails extends React.Component {
 
   showDetails(domEvent) {
     domEvent.stopPropagation();
-    this.props.setVisibleDetails(this.props.attrs.message_id);
+    this.props.setVisibleDetails(this.props.attrs.messageId);
   }
 
   render() {
@@ -38,19 +38,19 @@ class MessageDetails extends React.Component {
             <tbody>
               <tr>
                 <th>From:</th>
-                <td>{this.props.attrs.sender_name}</td>
+                <td>{this.props.attrs.senderName}</td>
               </tr>
               <tr>
                 <th>To:</th>
-                <td>{this.props.attrs.recipient_name}</td>
+                <td>{this.props.attrs.recipientName}</td>
               </tr>
               <tr>
                 <th>Date:</th>
-                <td>{this.props.attrs.sent_date}</td>
+                <td>{this.props.attrs.sentDate}</td>
               </tr>
               <tr>
                 <th>Message ID:</th>
-                <td>{this.props.attrs.message_id}</td>
+                <td>{this.props.attrs.messageId}</td>
               </tr>
               <tr>
                 <th>Category:</th>
@@ -79,16 +79,12 @@ class MessageDetails extends React.Component {
 
 MessageDetails.propTypes = {
   attrs: React.PropTypes.shape({
-    // TODO: Remove when we switch to camel case.
-    // Lack of camel case makes eslint complain.
-    /* eslint-disable */
-    message_id: React.PropTypes.number.isRequired,
+    messageId: React.PropTypes.number.isRequired,
     category: React.PropTypes.string.isRequired,
     subject: React.PropTypes.string.isRequired,
-    sent_date: React.PropTypes.string.isRequired,
-    sender_name: React.PropTypes.string.isRequired,
-    recipient_name: React.PropTypes.string.isRequired,
-    /* eslint-enable */
+    sentDate: React.PropTypes.string.isRequired,
+    senderName: React.PropTypes.string.isRequired,
+    recipientName: React.PropTypes.string.isRequired,
   }).isRequired,
   hasVisibleDetails: React.PropTypes.bool,
   setVisibleDetails: React.PropTypes.func

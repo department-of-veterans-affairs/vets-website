@@ -1,4 +1,4 @@
-import { apiUrl } from '../config';
+import { api } from '../config';
 
 export const SET_CATEGORY = 'SET_CATEGORY';
 export const SET_SUBJECT = 'SET_SUBJECT';
@@ -16,7 +16,7 @@ export const DELETE_DRAFT = 'DELETE_DRAFT';
 export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
 export const UPDATE_COMPOSE_CHARACTER_COUNT = 'UPDATE_COMPOSE_CHARACTER_COUNT';
 
-const baseUrl = `${apiUrl}/recipients`;
+const baseUrl = `${api.url}/recipients`;
 
 export function setMessageField(path, field) {
   return {
@@ -65,7 +65,7 @@ export function fetchSenderName() {
 
 export function fetchRecipients() {
   return dispatch => {
-    fetch(baseUrl)
+    fetch(baseUrl, api.settings)
     .then(res => res.json())
     .then(
       recipients => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
