@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import {
   fetchThread,
   setVisibleDetails,
+  toggleMessageCollapsed,
   toggleMessagesCollapsed,
+  toggleMoveTo,
   updateReplyCharacterCount
 } from '../actions/messages';
 
@@ -98,16 +100,21 @@ class Thread extends React.Component {
             handleNext={fetchNextMessage}
             subject={thread[0].subject}
             threadMessageCount={thread.length}
-            messagesCollapsed={this.props.messagesCollapsed}
-            onToggleThread={this.props.toggleMessagesCollapsed}/>
+            messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
+            moveToIsOpen={this.props.moveToOpened}
+            onChooseFolder={(e) => {e.preventDefault();}}
+            onCreateFolder={(e) => {e.preventDefault();}}
+            onToggleThread={this.props.toggleMessagesCollapsed}
+            onToggleMoveTo={this.props.toggleMoveTo}/>
       );
 
       lastSender = currentMessage.sender_name;
 
-      threadMessages = thread.map((message, i) => {
-        const isCollapsed = this.props.messagesCollapsed &&
-                            (i !== thread.length - 1);
-        const detailsVisible =
+      threadMessages = thread.map((message) => {
+        const isCollapsed =
+          this.props.messagesCollapsed.has(message.message_id);
+
+        const hasVisibleDetails =
           this.props.visibleDetailsId === message.message_id;
 
         return (
@@ -115,7 +122,8 @@ class Thread extends React.Component {
               key={message.message_id}
               attrs={message}
               isCollapsed={isCollapsed}
-              detailsVisible={detailsVisible}
+              onToggleCollapsed={this.props.toggleMessageCollapsed}
+              hasVisibleDetails={hasVisibleDetails}
               setVisibleDetails={this.props.setVisibleDetails}/>
         );
       });
@@ -154,6 +162,7 @@ const mapStateToProps = (state) => {
     charsRemaining: state.messages.ui.charsRemaining,
     folderMessages: state.folders.data.currentItem.messages,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
+    moveToOpened: state.messages.ui.moveToOpened,
     thread: state.messages.data.thread,
     visibleDetailsId: state.messages.ui.visibleDetailsId
   };
@@ -161,8 +170,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchThread,
-  toggleMessagesCollapsed,
   setVisibleDetails,
+  toggleMessageCollapsed,
+  toggleMessagesCollapsed,
+  toggleMoveTo,
   updateReplyCharacterCount
 };
 

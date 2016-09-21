@@ -1,0 +1,49 @@
+.msg-move-to {
+  position: relative;
+}
+
+// Creates a radio input but with a hidden
+// control. Using high-specificity selector because
+// USWDS does.
+.msg-hidden-radio[type=radio] {
+  // Overrides some silly USWDS input stuff 
+  height: auto;
+  width: auto;
+  
+  & + label {
+    display: block;
+    padding: .5rem;
+    margin: 0;
+    
+    &:hover {
+      background: $color-gray-lightest;
+    }
+  }
+  
+  &:checked + label,
+  + label {
+
+    &::before {
+      display: none;
+      content: '';
+    }
+  }
+}
+
+.msg-move-to-options {
+  background: $color-white;
+  border: 1px solid $color-gray;
+  list-style: none;
+  margin: -1px 0 0 0;
+  padding-left: 0;
+  position: absolute;
+  width: 20rem;
+  z-index: 1;
+  
+  .msg-btn-newfolder[type="button"] {
+    display: block;
+    padding: .5rem;
+    width: 100%;
+  }
+}
+
