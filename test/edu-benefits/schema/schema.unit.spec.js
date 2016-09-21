@@ -22,7 +22,9 @@ import {
   suffixes,
   claimTypes,
   serviceBranches,
-  hoursTypes
+  hoursTypes,
+  ownBenefitsOptions,
+  tourBenefits
 } from '../../../src/js/edu-benefits/utils/options-for-select';
 
 const ajv = new Ajv();
@@ -67,12 +69,10 @@ const tourOfDutyGen = () => qc.objectLike({
   serviceStatus: makeField(qc.string),
   involuntarilyCalledToDuty: makeField(yesNoGen()),
   doNotApplyPeriodToSelected: qc.bool,
-  applyToChapter30: qc.bool,
-  applyToChapter1606: qc.bool,
-  applyToChapter32: qc.bool
+  benefitsToApplyTo: makeField(qc.choose(...tourBenefits.map(x => x.value)))
 });
 const scholarshipGen = () => qc.objectLike({
-  amount: makeField(qc.int.between(1, 100000)),
+  amount: makeField(qc.string.matching(/^[$]{0,1}\d{1-5}\.\d{1,2}$/)),
   year: makeField(qc.int.between(1900, 2016))
 });
 const educationGen = () => qc.objectLike({
@@ -104,6 +104,9 @@ const previousClaimGen = () => qc.objectLike({
     payeeNumber: makeField(qc.string)
   })
 });
+const faaGen = () => qc.objectLike({
+  name: makeField(qc.string)
+});
 const matches = (source, target) => {
   if (!_.isUndefined(source) && !_.isUndefined(target)) {
     if (_.isObject(source)) {
@@ -131,7 +134,7 @@ function createTestVeteran() {
     }),
     toursOfDuty: qc.arrayOf(tourOfDutyGen()),
     postHighSchoolTrainings: qc.arrayOf(educationGen()),
-    faaFlightCertificatesInformation: makeField(qc.string),
+    faaFlightCertificatesInformation: qc.arrayOf(faaGen()),
     highSchoolOrGedCompletionDate: dateGen(),
     seniorRotcCommissioned: makeField(yesNoGen()),
     seniorRotc: qc.objectLike({
@@ -184,7 +187,9 @@ function createTestVeteran() {
       routingNumber: makeField(qc.choose(...routingNumbers))
     }),
     previousVaClaims: qc.arrayOf(previousClaimGen()),
-    previouslyFiledClaimWithVa: makeField(yesNoGen())
+    previouslyFiledClaimWithVa: makeField(yesNoGen()),
+    applyingUsingOwnBenefits: makeField(qc.choose(...ownBenefitsOptions.map(x => x.value))),
+    benefitsRelinquishedDate: dateGen()
   };
 }
 

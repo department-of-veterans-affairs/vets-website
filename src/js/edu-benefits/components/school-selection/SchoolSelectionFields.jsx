@@ -13,6 +13,7 @@ import { showSchoolAddress } from '../../utils/helpers';
 export default class SchoolSelectionFields extends React.Component {
   render() {
     return (<fieldset>
+      <legend className="hide-for-small-only">School selection</legend>
       <div className="input-section">
         <ErrorableSelect
             label="Type of education or training"
@@ -24,15 +25,20 @@ export default class SchoolSelectionFields extends React.Component {
       <div className="input-section">
           {showSchoolAddress(this.props.data.educationType.value)
           ? <div>
-            <p>Do you know what school you will be attending?</p>
-            <ErrorableTextInput
-                label="Name of school"
-                name="schoolName"
-                field={this.props.data.school.name}
-                onValueChange={(update) => {this.props.onStateChange('school.name', update);}}/>
-            <Address
-                value={this.props.data.school.address}
-                onUserInput={(update) => {this.props.onStateChange('school.address', update);}}/>
+            <div className="input-section">
+              <p>Do you know what school you will be attending?</p>
+              <ErrorableTextInput
+                  label="Name of school"
+                  name="schoolName"
+                  field={this.props.data.school.name}
+                  onValueChange={(update) => {this.props.onStateChange('school.name', update);}}/>
+            </div>
+            <div className="input-section">
+              <h4>Address</h4>
+              <Address
+                  value={this.props.data.school.address}
+                  onUserInput={(update) => {this.props.onStateChange('school.address', update);}}/>
+            </div>
           </div>
         : null}
         <ErrorableTextarea

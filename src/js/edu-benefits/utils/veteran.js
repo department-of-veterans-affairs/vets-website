@@ -20,9 +20,7 @@ export function createTour() {
     serviceStatus: makeField(''),
     involuntarilyCalledToDuty: makeField(''),
     doNotApplyPeriodToSelected: false,
-    applyToChapter30: false,
-    applyToChapter1606: false,
-    applyToChapter32: false
+    benefitsToApplyTo: makeField('')
   };
 }
 
@@ -84,6 +82,12 @@ export function createPreviousClaim() {
   };
 }
 
+export function createFlightCertificate() {
+  return {
+    name: makeField('')
+  };
+}
+
 export function createVeteran() {
   return {
     benefitsRelinquished: makeField(''),
@@ -99,7 +103,7 @@ export function createVeteran() {
     },
     toursOfDuty: [],
     postHighSchoolTrainings: [],
-    faaFlightCertificatesInformation: makeField(''),
+    faaFlightCertificatesInformation: [],
     highSchoolOrGedCompletionDate: {
       month: makeField(''),
       day: makeField(''),
@@ -201,7 +205,13 @@ export function createVeteran() {
       routingNumber: makeField('')
     },
     previousVaClaims: [],
-    previouslyFiledClaimWithVa: makeField('')
+    previouslyFiledClaimWithVa: makeField(''),
+    applyingUsingOwnBenefits: makeField(''),
+    benefitsRelinquishedDate: {
+      day: makeField(''),
+      month: makeField(''),
+      year: makeField('')
+    }
   };
 }
 
@@ -226,7 +236,6 @@ export function veteranToApplication(veteran) {
 
       case 'serviceAcademyGraduationYear':
       case 'commissionYear':
-      case 'amount':
       case 'year':
       case 'months':
       case 'hours':
@@ -266,12 +275,28 @@ export function veteranToApplication(veteran) {
         }
         return undefined;
 
+      case 'applyingUsingOwnBenefits':
+        if (value.value === 'ownBenefits') {
+          return true;
+        } else if (value.value === '') {
+          return undefined;
+        }
+
+        return false;
+
       case 'address':
         if (value.city.value === '' && value.street.value === '' && value.country.value === '') {
           return undefined;
         }
 
         return value;
+
+      case 'amount':
+        if (value.value === '') {
+          return undefined;
+        }
+
+        return Number(value.value.replace('$', ''));
 
       default:
         // fall through.
