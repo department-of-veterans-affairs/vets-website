@@ -19,6 +19,7 @@ export default class PersonalInformationFields extends React.Component {
               ssn={this.props.data.veteranSocialSecurityNumber}
               onValueChange={(update) => {this.props.onStateChange('veteranSocialSecurityNumber', update);}}/>
           <DateInput required
+              errorMessage="Please provide a valid date of birth"
               name="veteranBirth"
               day={this.props.data.veteranDateOfBirth.day}
               month={this.props.data.veteranDateOfBirth.month}
