@@ -14,9 +14,7 @@ export default class MilitaryServiceFields extends React.Component {
   render() {
     const tourFields = [
       'doNotApplyPeriodToSelected',
-      'applyToChapter30',
-      'applyToChapter1606',
-      'applyToChapter32',
+      'benefitsToApplyTo',
       'serviceBranch',
       'dateRange',
       'serviceStatus',
@@ -65,7 +63,7 @@ export default class MilitaryServiceFields extends React.Component {
       <div className="input-section">
         <h4>Military Service</h4>
         <div className="usa-alert usa-alert-info">
-          <p className="usa-alert-text">You must enter at least one period of service.
+          <p className="usa-alert-text">You must enter at least one period of service.<br/><br/>
           Every period of service that you identify will be applied to the single, specific benefit you are applying for.
           If there are specific periods of service that you do not want applied to the benefit, please identify the period and
           the corresponding benefit program(s) to which you would like them applied.</p>

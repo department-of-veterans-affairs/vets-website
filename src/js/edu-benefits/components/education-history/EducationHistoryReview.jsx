@@ -56,11 +56,19 @@ export default class EducationHistoryReview extends React.Component {
           );
         })}
         <table className="review usa-table-borderless">
-          <tbody>
+          <thead>
             <tr>
-              <td>FAA certificates (ad infinitum)</td>
-              <td scope="col">{faaFlightCertificatesInformation.value}</td>
+              <td scope="col">FAA certificates</td>
+              <td scope="col"></td>
             </tr>
+          </thead>
+          <tbody>
+          {faaFlightCertificatesInformation.map((cert, index) => {
+            return (<tr key={index}>
+              <td>{cert.name.value}</td>
+              <td></td>
+            </tr>);
+          })}
           </tbody>
         </table>
       </div>

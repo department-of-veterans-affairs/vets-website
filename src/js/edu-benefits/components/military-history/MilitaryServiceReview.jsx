@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getLabel, displayDateIfValid } from '../../utils/helpers';
-import { yesNoNA } from '../../utils/options-for-select';
+import { yesNoNA, tourBenefits } from '../../utils/options-for-select';
 
 export default class MilitaryServiceReview extends React.Component {
   render() {
@@ -45,24 +45,10 @@ export default class MilitaryServiceReview extends React.Component {
                 <td>{tour.doNotApplyPeriodToSelected ? 'Yes' : 'No'}</td>
               </tr>
               {tour.doNotApplyPeriodToSelected
-                ? <tbody>
-                  <tr>
-                    <td>Which benefit should this period of service be applied to?</td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Chapter 30</td>
-                    <td>{tour.applyToChapter30 ? 'Yes' : 'No'}</td>
-                  </tr>
-                  <tr>
-                    <td>Chapter 1606</td>
-                    <td>{tour.applyToChapter1606 ? 'Yes' : 'No'}</td>
-                  </tr>
-                  <tr>
-                    <td>Chapter 32 / Section 903</td>
-                    <td>{tour.applyToChapter32 ? 'Yes' : 'No'}</td>
-                  </tr>
-                </tbody>
+                ? <tr>
+                  <td>Which benefit should this period of service be applied to?</td>
+                  <td>{getLabel(tourBenefits, tour.benefitsToApplyTo.value)}</td>
+                </tr>
                 : null}
               <tr>
                 <td>From date:</td>

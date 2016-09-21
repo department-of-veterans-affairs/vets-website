@@ -3,7 +3,9 @@ import React from 'react';
 import DateInput from '../../../common/components/form-elements/DateInput';
 import FullName from '../../../common/components/questions/FullName';
 import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
-import Gender from '../../../common/components/questions/Gender';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+
+import { binaryGenders } from '../../utils/options-for-select';
 
 export default class PersonalInformationFields extends React.Component {
   render() {
@@ -25,9 +27,12 @@ export default class PersonalInformationFields extends React.Component {
               month={this.props.data.veteranDateOfBirth.month}
               year={this.props.data.veteranDateOfBirth.year}
               onValueChange={(update) => {this.props.onStateChange('veteranDateOfBirth', update);}}/>
-          <Gender
+          <ErrorableRadioButtons
+              label="Gender"
+              name="gender"
+              options={binaryGenders}
               value={this.props.data.gender}
-              onUserInput={(update) => {this.props.onStateChange('gender', update);}}/>
+              onValueChange={(update) => {this.props.onStateChange('gender', update);}}/>
         </div>
       </fieldset>
     );
