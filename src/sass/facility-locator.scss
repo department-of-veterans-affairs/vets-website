@@ -23,6 +23,15 @@ h1{
 .facility-result {
   padding: 1rem;
   border-bottom: solid 1px $color-va-gray-medium;
+
+  a {
+    color: $color-link-default;
+    text-decoration: none;
+
+    &:visited {
+      color: $color-link-default;
+    }
+  }
 }
 
 .facility-search-results {
@@ -30,15 +39,6 @@ h1{
 
   ol {
     padding: 0;
-  }
-}
-
-a {
-  color: $color-link-default;
-  text-decoration: none;
-
-  &:visited {
-    color: $color-link-default;
   }
 }
 
