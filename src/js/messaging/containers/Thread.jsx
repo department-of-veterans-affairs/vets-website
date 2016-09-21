@@ -28,6 +28,7 @@ class Thread extends React.Component {
     this.handleReplySave = this.handleReplySave.bind(this);
     this.handleReplySend = this.handleReplySend.bind(this);
     this.handleReplyDelete = this.handleReplyDelete.bind(this);
+    this.handleMoveTo = this.handleMoveTo.bind(this);
   }
 
   componentDidMount() {
@@ -46,6 +47,15 @@ class Thread extends React.Component {
   }
 
   handleReplyDelete() {
+  }
+
+  handleMoveTo() {
+    // TODO: Make this call a function that dispatches an action
+    // domEvent will bubble up from the radio button
+    // to the form, which is why we're using currentTarget.
+    // instead of target.
+    // const folderId = domEvent.currentTarget.messagingMoveToFolder.value;
+    // const threadId = domEvent.currentTarget.threadId.value;
   }
 
   render() {
@@ -95,14 +105,16 @@ class Thread extends React.Component {
       header = (
         <ThreadHeader
             currentMessageNumber={currentIndex + 1}
+            folders={this.props.folders}
             folderMessageCount={folderMessageCount}
             handlePrev={fetchPrevMessage}
             handleNext={fetchNextMessage}
             subject={thread[0].subject}
             threadMessageCount={thread.length}
+            threadId={this.props.params.id}
             messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
             moveToIsOpen={this.props.moveToOpened}
-            onChooseFolder={(e) => {e.preventDefault();}}
+            onChooseFolder={this.handleMoveTo}
             onCreateFolder={(e) => {e.preventDefault();}}
             onToggleThread={this.props.toggleMessagesCollapsed}
             onToggleMoveTo={this.props.toggleMoveTo}/>
@@ -160,6 +172,7 @@ class Thread extends React.Component {
 const mapStateToProps = (state) => {
   return {
     charsRemaining: state.messages.ui.charsRemaining,
+    folders: state.folders.data.items,
     folderMessages: state.folders.data.currentItem.messages,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     moveToOpened: state.messages.ui.moveToOpened,
