@@ -19,6 +19,13 @@ import { ensurePageInitialized, updateCompletedStatus, submitForm } from '../act
 
 
 class EduBenefitsApp extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    const a = nextProps.submission.status;
+    const b = this.props.submission.status;
+    if (a !== b && a === 'applicationSubmitted') {
+      this.props.router.push('/submit-message');
+    }
+  }
   render() {
     const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm } = this.props;
     const navigateTo = path => router.push(path);
