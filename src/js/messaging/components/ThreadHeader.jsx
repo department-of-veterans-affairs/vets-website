@@ -82,8 +82,7 @@ ThreadHeader.propTypes = {
   onChooseFolder: React.PropTypes.func,
   onCreateFolder: React.PropTypes.func,
   onToggleThread: React.PropTypes.func,
-  onToggleMoveTo: React.PropTypes.func,
-
+  onToggleMoveTo: React.PropTypes.func
 };
 
 export default ThreadHeader;

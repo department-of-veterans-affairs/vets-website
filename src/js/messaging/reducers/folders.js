@@ -1,6 +1,7 @@
 import set from 'lodash/fp/set';
 
 import {
+  CREATE_NEW_FOLDER,
   FETCH_FOLDERS_SUCCESS,
   FETCH_FOLDERS_FAILURE,
   FETCH_FOLDER_SUCCESS,
@@ -58,6 +59,8 @@ export default function folders(state = initialState, action) {
     }
     case TOGGLE_FOLDER_NAV:
       return set('ui.nav.expanded', !state.ui.nav.expanded, state);
+    // TODO: Make CREATE_NEW_FOLDER request a new folder creation.
+    case CREATE_NEW_FOLDER:
     case FETCH_FOLDERS_FAILURE:
     case FETCH_FOLDER_FAILURE:
     default:
