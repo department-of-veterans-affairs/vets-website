@@ -4,6 +4,7 @@ export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
 export const FETCH_THREAD_FAILURE = 'FETCH_THREAD_FAILURE';
 export const SET_VISIBLE_DETAILS = 'SET_VISIBLE_DETAILS';
 export const TOGGLE_MESSAGES_COLLAPSED = 'TOGGLE_MESSAGES_COLLAPSED';
+export const TOGGLE_MOVE_TO = 'TOGGLE_MOVE_TO';
 export const UPDATE_REPLY_CHARACTER_COUNT = 'UPDATE_REPLY_CHARACTER_COUNT';
 
 const baseUrl = `${apiUrl}/messages`;
@@ -40,4 +41,8 @@ export function updateReplyCharacterCount(field, maxLength) {
     type: UPDATE_REPLY_CHARACTER_COUNT,
     chars
   };
+}
+
+export function toggleMoveTo() {
+  return { type: TOGGLE_MOVE_TO };
 }

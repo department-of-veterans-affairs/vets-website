@@ -4,7 +4,11 @@ module.exports = {
   paths: {
     INBOX_URL: '/messaging',
     COMPOSE_URL: '/messaging/compose',
-    DRAFTS_URL: '/messaging/folder/-2'
+    DRAFTS_URL: '/messaging/folder/-2',
+    DELETED_URL: '/messaging/folder/-3'
+  },
+  folderIds: {
+    DELETED: -3
   },
   // An array of objects containing the category name (label) and a
   // value for use with select, radio button inputs.

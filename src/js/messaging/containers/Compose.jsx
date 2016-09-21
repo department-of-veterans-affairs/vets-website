@@ -81,14 +81,14 @@ class Compose extends React.Component {
 
     return (
       <div>
+        <h2>New message</h2>
+        <p>
+          <strong>Note:</strong> Messages may be saved to your health record at
+          your team's discretion.
+        </p>
         <form
             id="messaging-compose"
             onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
-          <h2>New message</h2>
-          <p>
-            <strong>Note:</strong> Messages may be saved to your health record at
-            your team's discretion.
-          </p>
           <MessageFrom
               cssClass="messaging-from"
               lastName={message.sender.lastName}

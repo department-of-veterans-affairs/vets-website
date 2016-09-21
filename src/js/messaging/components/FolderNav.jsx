@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router';
 import classNames from 'classnames';
 
+import ButtonCreateFolder from './buttons/ButtonCreateFolder';
+
+
 class FolderNav extends React.Component {
   constructor(props) {
     super(props);
@@ -102,10 +105,7 @@ class FolderNav extends React.Component {
           <i className="fa fa-folder"></i>
           &nbsp;Manage folders
         </button>
-        <button>
-          <i className="fa fa-plus"></i>
-          &nbsp;Create new folder
-        </button>
+        <ButtonCreateFolder onClick={() => {}}/>
       </li>
     );
 
