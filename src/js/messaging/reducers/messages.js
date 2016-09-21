@@ -30,7 +30,7 @@ export default function folders(state = initialState, action) {
       const currentMessage = action.message.attributes;
       const thread = action.thread.map(message => message.attributes);
       const messagesCollapsed = new Set(thread.map((message) => {
-        return message.message_id;
+        return message.messageId;
       }));
       thread.reverse();
 
@@ -46,7 +46,7 @@ export default function folders(state = initialState, action) {
       // Don't allow the currently viewed message (last in thread)
       // to be collapsed.
       const thread = state.data.thread;
-      const currentMessageId = thread[thread.length - 1].message_id;
+      const currentMessageId = thread[thread.length - 1].messageId;
       if (action.messageId === currentMessageId) {
         return state;
       }
@@ -73,7 +73,7 @@ export default function folders(state = initialState, action) {
         const messagesExceptCurrent = state.data.thread.slice(0, -1);
         newMessagesCollapsed =
           new Set(messagesExceptCurrent.map((message) => {
-            return message.message_id;
+            return message.messageId;
           }));
       }
 

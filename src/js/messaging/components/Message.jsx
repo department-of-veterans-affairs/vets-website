@@ -11,7 +11,7 @@ class Message extends React.Component {
   }
 
   handleToggleCollapsed() {
-    this.props.onToggleCollapsed(this.props.attrs.message_id);
+    this.props.onToggleCollapsed(this.props.attrs.messageId);
   }
 
   render() {
@@ -29,7 +29,7 @@ class Message extends React.Component {
     } else {
       details = (
         <div className="messaging-message-recipient">
-          to {this.props.attrs.recipient_name}
+          to {this.props.attrs.recipientName}
           <MessageDetails { ...this.props }/>
         </div>
       );
@@ -43,12 +43,12 @@ class Message extends React.Component {
             className="messaging-message-header"
             onClick={headerOnClick}>
           <div className="messaging-message-sender">
-            {this.props.attrs.sender_name}
+            {this.props.attrs.senderName}
           </div>
           <div className="messaging-message-sent-date">
             {
               moment(
-                this.props.attrs.sent_date
+                this.props.attrs.sentDate
               ).format('DD MMM YYYY [@] HH[:]mm')
             }
           </div>
@@ -64,21 +64,17 @@ class Message extends React.Component {
 
 Message.propTypes = {
   attrs: React.PropTypes.shape({
-    // TODO: Remove when we switch to camel case.
-    // Lack of camel case makes eslint complain.
-    /* eslint-disable */
-    message_id: React.PropTypes.number.isRequired,
+    messageId: React.PropTypes.number.isRequired,
     category: React.PropTypes.string.isRequired,
     subject: React.PropTypes.string.isRequired,
     body: React.PropTypes.string.isRequired,
     attachment: React.PropTypes.bool.isRequired,
-    sent_date: React.PropTypes.string.isRequired,
-    sender_id: React.PropTypes.number.isRequired,
-    sender_name: React.PropTypes.string.isRequired,
-    recipient_id: React.PropTypes.number.isRequired,
-    recipient_name: React.PropTypes.string.isRequired,
-    read_receipt: React.PropTypes.oneOf(['READ', 'UNREAD']).isRequired
-    /* eslint-enable */
+    sentDate: React.PropTypes.string.isRequired,
+    senderId: React.PropTypes.number.isRequired,
+    senderName: React.PropTypes.string.isRequired,
+    recipientId: React.PropTypes.number.isRequired,
+    recipientName: React.PropTypes.string.isRequired,
+    readReceipt: React.PropTypes.oneOf(['READ', 'UNREAD']).isRequired
   }).isRequired,
   isCollapsed: React.PropTypes.bool,
   onToggleCollapsed: React.PropTypes.func,

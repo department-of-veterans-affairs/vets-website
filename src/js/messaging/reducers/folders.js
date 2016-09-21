@@ -36,15 +36,15 @@ export default function folders(state = initialState, action) {
       const meta = action.data.meta;
 
       // Set the messages of the currently viewed folder.
-      const id = meta.folder_id;
+      const id = meta.folderId;
       const messages = action.data.data.map(
         message => message.attributes
       );
 
       // Set the pagination data for the folder.
       const totalCount = meta.count;
-      const startCount = 1 + (meta.current_page - 1) * meta.per_page;
-      const endCount = Math.min(totalCount, meta.current_page * meta.per_page);
+      const startCount = 1 + (meta.currentPage - 1) * meta.perPage;
+      const endCount = Math.min(totalCount, meta.currentPage * meta.perPage);
 
       const newItem = {
         id,
