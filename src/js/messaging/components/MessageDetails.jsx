@@ -19,19 +19,21 @@ class MessageDetails extends React.Component {
     this.props.setVisibleDetails(null);
   }
 
-  showDetails() {
+  showDetails(domEvent) {
+    domEvent.stopPropagation();
     this.props.setVisibleDetails(this.props.attrs.message_id);
   }
 
   render() {
     let messageDetails;
-    if (this.props.detailsVisible) {
+    if (this.props.hasVisibleDetails) {
       messageDetails = (
         <div
             className="messaging-message-details"
             ref="messageDetails"
             tabIndex="-1"
-            onBlur={this.hideDetails}>
+            onBlur={this.hideDetails}
+            onClick={(domEvent) => domEvent.stopPropagation()}>
           <table>
             <tbody>
               <tr>
@@ -88,7 +90,7 @@ MessageDetails.propTypes = {
     recipient_name: React.PropTypes.string.isRequired,
     /* eslint-enable */
   }).isRequired,
-  detailsVisible: React.PropTypes.bool,
+  hasVisibleDetails: React.PropTypes.bool,
   setVisibleDetails: React.PropTypes.func
 };
 
