@@ -1,13 +1,13 @@
 import React from 'react';
 
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
-import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableNumberInput from '../../../common/components/form-elements/ErrorableNumberInput';
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 
 import MilitaryServiceTour from './MilitaryServiceTour';
 import { createTour } from '../../utils/veteran';
 
-import { validateIfDirty, isNotBlank, isValidYear, isValidPage } from '../../utils/validations';
+import { validateIfDirty, isNotBlank, isValidYear, isValidPage, isValidField } from '../../utils/validations';
 import { yesNo } from '../../utils/options-for-select';
 
 export default class MilitaryServiceFields extends React.Component {
@@ -46,11 +46,12 @@ export default class MilitaryServiceFields extends React.Component {
       <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
       <div className="input-section">
         <p>If you graduated from a military service academy, what year did you graduate?</p>
-        <ErrorableTextInput
-            errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, isValidYear) ? undefined : 'Please enter a valid year'}
+        <ErrorableNumberInput
+            errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, (value) => isValidField(isValidYear, { value })) ? undefined : 'Please enter a valid year'}
             label="Year"
             placeholder="yyyy"
             name="serviceAcademyGraduationYear"
+            min="1900"
             field={this.props.data.serviceAcademyGraduationYear}
             onValueChange={(update) => {this.props.onStateChange('serviceAcademyGraduationYear', update);}}/>
         <ErrorableRadioButtons

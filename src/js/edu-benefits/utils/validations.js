@@ -328,7 +328,7 @@ function isValidForm(data) {
 
 function isValidPage(completePath, pageData) {
   switch (completePath) {
-    case '/veteran-information/personal-information':
+    case '/veteran-information':
       return isValidPersonalInfoPage(pageData);
     case '/veteran-information/contact-information':
       return isValidContactInformationPage(pageData);
