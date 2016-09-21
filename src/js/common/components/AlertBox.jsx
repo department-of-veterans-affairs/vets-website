@@ -9,7 +9,7 @@ class AlertBox extends React.Component {
     }
 
     const alertClass = classNames(
-      'rx-alert',
+      'va-alert',
       'usa-alert',
       `usa-alert-${this.props.status}`
     );
@@ -17,7 +17,7 @@ class AlertBox extends React.Component {
     let closeButton;
     if (this.props.onCloseAlert) {
       closeButton = (
-        <button className="rx-alert-close" onClick={this.props.onCloseAlert}>
+        <button className="va-alert-close" onClick={this.props.onCloseAlert}>
           <i className="fa fa-close"></i>
         </button>
       );
@@ -25,8 +25,8 @@ class AlertBox extends React.Component {
 
     return (
       <div className={alertClass}>
-        <div className="rx-alert-body usa-alert-body">
-          <p className="rx-alert-text usa-alert-heading">
+        <div className="va-alert-body usa-alert-body">
+          <p className="va-alert-text usa-alert-heading">
             {this.props.content}
           </p>
         </div>
