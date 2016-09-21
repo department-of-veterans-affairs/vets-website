@@ -146,7 +146,32 @@ export function fetchVAFacilities() {
         id: 2,
         name: 'VA Facility Two',
         coord: [38.89769, -77.0369]
-      }
+      },
+      {
+        id: 3,
+        name: 'VA Facility Three',
+        coord: [38.89769, -77.0369]
+      },
+      {
+        id: 4,
+        name: 'VA Facility Four',
+        coord: [38.89769, -77.0369]
+      },
+      {
+        id: 5,
+        name: 'VA Facility Five',
+        coord: [38.89769, -77.0369]
+      },
+      {
+        id: 6,
+        name: 'VA Facility Six',
+        coord: [38.89769, -77.0369]
+      },
+      {
+        id: 7,
+        name: 'VA Facility Seven',
+        coord: [38.89769, -77.0369]
+      },
     ]
   };
 }

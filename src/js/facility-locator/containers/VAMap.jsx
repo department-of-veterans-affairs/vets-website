@@ -7,6 +7,7 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import React, { Component } from 'react';
 import ResultsPane from '../components/ResultsPane';
+import $ from 'jQuery';
 
 class VAMap extends Component {
 
@@ -111,14 +112,16 @@ class VAMap extends Component {
   // defaults to White House coordinates initially
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
+    // used for setting a proper map height
+    const mapHeight = window.innerHeight - $('.header').height() - 175;
 
     return (
       <div>
-        <div className="columns medium-3">
-          <ResultsPane onSearch={this.handleSearch}/>
+        <div className="columns medium-4">
+          <ResultsPane onSearch={this.handleSearch} maxHeight={mapHeight}/>
         </div>
-        <div className="medium-9 columns">
-          <Map ref="map" center={position} zoom={13} >
+        <div className="medium-8 columns" style={{ minHeight: mapHeight }}>
+          <Map ref="map" center={position} zoom={13} style={{ minHeight: mapHeight, width: '100%' }}>
             <TileLayer
                 url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                 attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>

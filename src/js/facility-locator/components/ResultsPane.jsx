@@ -25,10 +25,10 @@ class ResultsPane extends Component {
   }
 
   render() {
-    const { currentQuery, onSearch } = this.props;
+    const { currentQuery, onSearch, maxHeight } = this.props;
 
     return (
-      <div>
+      <div style={{ maxHeight, overflowY: 'auto' }}>
         <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={onSearch}/>
         <hr/>
         <div className="facility-search-results">
