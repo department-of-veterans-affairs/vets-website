@@ -14,14 +14,16 @@ export default class BenefitsSelectionFields extends React.Component {
     if (this.props.data.chapter33) {
       relinquishSection = (<RadioButtonsSubSection showIfValueChosen="chapter33">
         <p className="form-indent">I acknowledge that by choosing Chapter 33 I have to give up some other stuff</p>
-        <fieldset className="usa-alert usa-alert-info">
-          <ErrorableRadioButtons required={this.props.data.chapter33}
-              errorMessage={validateIfDirty(this.props.data.benefitsRelinquished, isNotBlank) ? '' : 'Please select a response'}
-              label="I elect to receive Chapter 33 education benefits in lieu of the education benefit(s) I am relinquishing below:"
-              name="benefitsRelinquished"
-              options={relinquishableBenefits}
-              value={this.props.data.benefitsRelinquished}
-              onValueChange={(update) => {this.props.onStateChange('benefitsRelinquished', update);}}/>
+        <fieldset className="usa-alert usa-alert-info edu-benefits-info-no-icon">
+          <div className="edu-benefits-no-top-margin">
+            <ErrorableRadioButtons required={this.props.data.chapter33}
+                errorMessage={validateIfDirty(this.props.data.benefitsRelinquished, isNotBlank) ? '' : 'Please select a response'}
+                label="I elect to receive Chapter 33 education benefits in lieu of the education benefit(s) I am relinquishing below:"
+                name="benefitsRelinquished"
+                options={relinquishableBenefits}
+                value={this.props.data.benefitsRelinquished}
+                onValueChange={(update) => {this.props.onStateChange('benefitsRelinquished', update);}}/>
+          </div>
           {showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)
             ? <DateInput required={showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)}
                 errorMessage="Please provide a response"
