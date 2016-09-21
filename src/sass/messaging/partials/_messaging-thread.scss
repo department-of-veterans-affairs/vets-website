@@ -168,6 +168,10 @@
   background: $color-primary-alt-lightest;
   padding: 1.5rem 2rem;
 
+  @media (max-width: $medium-screen) {
+    padding: 1.5rem 5rem;
+  }
+
   i {
     width: 3rem;
   }
@@ -175,6 +179,6 @@
   span {
     display: inline-block;
     vertical-align: top;
-    width: 95%;
+    width: 90%;
   }
 }
