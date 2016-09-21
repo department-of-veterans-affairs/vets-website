@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { toggleManagedFolders } from '../actions/folders';
+import { toggleFolderNav, toggleManagedFolders } from '../actions/folders';
+import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
 
@@ -15,6 +16,9 @@ class Main extends React.Component {
     return (
       <div id="messaging-main">
         <div id="messaging-nav" className={navClass}>
+          <ButtonClose
+              className="messaging-folder-nav-close"
+              onClick={this.props.toggleFolderNav}/>
           <ComposeButton/>
           <FolderNav
               folders={this.props.folders}
@@ -42,6 +46,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  toggleFolderNav,
   toggleManagedFolders
 };
 

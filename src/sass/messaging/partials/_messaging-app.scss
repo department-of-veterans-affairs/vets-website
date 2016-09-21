@@ -20,6 +20,24 @@
 // TODO: Refactor these styles so that they're
 // reusable across projects.
 #messaging-nav {
+  display: inline-block;
+  width: 20%;
+
+  .messaging-folder-nav-close {
+    background: transparent;
+    color: $color-black;
+    display: none;
+    font-size: 2.5rem;
+    margin: 0 0 2rem 0;
+    text-align: right;
+    width: 100%;
+  }
+
+  .messaging-compose-button {
+    margin: 0 0 2rem 0;
+    width: 100%;
+  }
+
   @media (max-width: $medium-screen) {
     -webkit-transform: translateX(-100%);
     -ms-transform: translateX(-100%);
@@ -37,22 +55,20 @@
     top: 0;
     width: 100%;
     z-index: 1;
+
+    .messaging-compose-button {
+      display: none;
+    }
+
+    .messaging-folder-nav-close {
+      display: block;
+    }
   }
 
   &.opened {
     -webkit-transform: translateX(0);
     -ms-transform: translateX(0);
     transform: translateX(0);
-  }
-
-  @media(min-width: $medium-screen) {
-    display: inline-block;
-    width: 20%;
-  }
-
-  .messaging-compose-button {
-    margin: 0 0 2rem 0;
-    width: 100%;
   }
 }
 
