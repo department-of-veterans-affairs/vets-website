@@ -72,7 +72,7 @@ const tourOfDutyGen = () => qc.objectLike({
   benefitsToApplyTo: makeField(qc.choose(...tourBenefits.map(x => x.value)))
 });
 const scholarshipGen = () => qc.objectLike({
-  amount: makeField(qc.int.between(1, 100000)),
+  amount: makeField(qc.string.matching(/^[$]{0,1}\d{1-5}\.\d{1,2}$/)),
   year: makeField(qc.int.between(1900, 2016))
 });
 const educationGen = () => qc.objectLike({

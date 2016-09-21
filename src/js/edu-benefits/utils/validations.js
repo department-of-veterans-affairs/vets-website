@@ -104,7 +104,7 @@ function isValidName(value) {
 
 function isValidMonetaryValue(value) {
   if (value !== null) {
-    return /^\d+\.?\d*$/.test(value);
+    return /^[$]{0,1}\d+\.?\d*$/.test(value);
   }
   return true;
 }
@@ -278,7 +278,10 @@ function isValidBenefitsHistoryPage(data) {
 }
 
 function isValidRotcScholarshipAmount(data) {
-  return isValidField(isValidMonetaryValue, data.amount) && isValidField(isValidYear, data.year);
+  return isNotBlank(data.amount)
+    && isNotBlank(data.year)
+    && isValidField(isValidMonetaryValue, data.amount)
+    && isValidField(isValidYear, data.year);
 }
 
 function isValidRotcHistoryPage(data) {

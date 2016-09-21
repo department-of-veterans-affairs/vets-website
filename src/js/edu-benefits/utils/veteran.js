@@ -236,7 +236,6 @@ export function veteranToApplication(veteran) {
 
       case 'serviceAcademyGraduationYear':
       case 'commissionYear':
-      case 'amount':
       case 'year':
       case 'months':
       case 'hours':
@@ -291,6 +290,13 @@ export function veteranToApplication(veteran) {
         }
 
         return value;
+
+      case 'amount':
+        if (value.value === '') {
+          return undefined;
+        }
+
+        return Number(value.value.replace('$', ''));
 
       default:
         // fall through.
