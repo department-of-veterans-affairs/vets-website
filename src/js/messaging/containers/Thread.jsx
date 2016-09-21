@@ -105,7 +105,7 @@ class Thread extends React.Component {
       header = (
         <ThreadHeader
             currentMessageNumber={currentIndex + 1}
-            folders={this.props.folders.data.items}
+            folders={this.props.folders}
             folderMessageCount={folderMessageCount}
             handlePrev={fetchPrevMessage}
             handleNext={fetchNextMessage}
@@ -172,7 +172,7 @@ class Thread extends React.Component {
 const mapStateToProps = (state) => {
   return {
     charsRemaining: state.messages.ui.charsRemaining,
-    folders: state.folders,
+    folders: state.folders.data.items,
     folderMessages: state.folders.data.currentItem.messages,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     moveToOpened: state.messages.ui.moveToOpened,
