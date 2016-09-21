@@ -2,46 +2,16 @@
  * Thread Header *
  *****************/
 
-.messaging-thread-nav {
-  border-bottom: 1px solid $color-black;
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
-  position: relative;
-
-  a {
-    margin-right: 1rem;
-    vertical-align: middle;
-  }
-
-  i {
-    margin-left: .5rem;
-  }
-}
-
 .messaging-thread-header {
   border-bottom: 2px solid $color-black;
   padding: 2.25rem 0;
-}
 
-.messaging-thread-subject {
-  display: inline-block;
-  font-weight: normal;
-  // Overriding `#content .section h*`.
-  padding: 0 2rem !important;
-  vertical-align: top;
-  width: 60%;
-}
-
-.messaging-thread-controls {
-  display: inline-block;
-  padding-right: 1rem;
-  text-align: right;
-  vertical-align: top;
-  width: 40%;
-
-  button {
+  .messaging-toggle-thread,
+  .messaging-btn-delete,
+  .messaging-btn-print {
     background: transparent;
     color: $color-black;
+    float: none;
     font-size: 1.5rem;
     font-weight: normal;
     margin: 0;
@@ -61,10 +31,83 @@
     i {
       font-size: 1.8rem;
     }
+
+    span {
+      padding-left: 0.5rem;
+    }
+  }
+}
+
+.messaging-thread-nav {
+  border-bottom: 1px solid $color-black;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  position: relative;
+
+  .msg-move-to {
+    display: inline-block;
+    vertical-align: top;
   }
 
-  span {
-    padding-left: 0.5rem;
+  button {
+    width: auto;
+  }
+
+  a {
+    margin-right: 1rem;
+    vertical-align: middle;
+  }
+
+  i {
+    margin-left: .5rem;
+  }
+
+  .messaging-btn-delete,
+  .messaging-btn-print {
+    display: none;
+  }
+
+  @media (max-width: $medium-screen) {
+    background: $color-gray-lightest;
+    border: none;
+    padding: 1rem;
+    text-align: right;
+
+    .messaging-btn-delete,
+    .messaging-btn-print {
+      display: inline-block;
+    }
+
+    a {
+      left: 0;
+      padding: 1.25rem 2rem;
+      position: absolute;
+      top: 0;
+    }
+  }
+}
+
+.messaging-thread-subject {
+  display: inline-block;
+  font-weight: normal;
+  // Overriding `#content .section h*`.
+  padding: 0 2rem !important;
+  vertical-align: top;
+  width: 60%;
+}
+
+.messaging-thread-controls {
+  display: inline-block;
+  padding-right: 1rem;
+  text-align: right;
+  vertical-align: top;
+  width: 40%;
+
+  @media (max-width: $medium-screen) {
+    .messaging-btn-delete,
+    .messaging-btn-print {
+      display: none;
+    }
   }
 }
 
@@ -165,6 +208,10 @@
 
 // The last message in a thread should not be collapsible.
 .messaging-thread-message:last-child {
+  @media (max-width: $medium-screen) {
+    border: none;
+  }
+
   .messaging-message-header {
     cursor: auto;
   }
@@ -177,6 +224,23 @@
 .messaging-thread-reply {
   font-size: 1.8rem;
   padding: 3rem 2rem;
+
+  & > button {
+    display: none;
+  }
+
+  @media (max-width: $medium-screen) {
+    background: $color-gray-lightest;
+    padding: 1rem 2rem;
+
+    & > form {
+      display: none;
+    }
+
+    & > button {
+      display: block;
+    }
+  }
 
   .messaging-write {
     padding-top: 0;
