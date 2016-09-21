@@ -1,6 +1,54 @@
-.messaging-folder-controls {
+#messaging-folder-header {
+  position: relative;
+
+  @media (max-width: $medium-screen) {
+    background: $color-gray-lightest;
+    text-align: center;
+
+    .messaging-menu-button {
+      display: block;
+    }
+
+    h2 {
+      padding: 1rem !important;
+    }
+  }
+}
+
+.messaging-menu-button {
+  background: $color-primary;
+  border-radius: 0;
+  display: none;
+  height: 100%;
+  left: 0;
+  margin: 0;
+  padding: 1rem;
+  position: absolute;
+  top: 0;
+}
+
+#messaging-folder-controls {
   position: relative;
   margin-bottom: 4.5rem;
+
+  .messaging-compose-button {
+    display: none;
+    margin: 0;
+    width: 100%;
+  }
+
+  @media (max-width: $medium-screen) {
+    margin: 0;
+    padding: 2rem;
+
+    .messaging-compose-button {
+      display: block;
+    }
+
+    .messaging-message-nav {
+      display: none;
+    }
+  }
 }
 
 .messaging-message-row {

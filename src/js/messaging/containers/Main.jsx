@@ -8,7 +8,7 @@ import FolderNav from '../components/FolderNav';
 class Main extends React.Component {
   render() {
     return (
-      <div>
+      <div id="messaging-main">
         <div id="messaging-nav">
           <ComposeButton/>
           <FolderNav
