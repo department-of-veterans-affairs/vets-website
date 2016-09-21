@@ -39,7 +39,7 @@ export default class BenefitsSelectionFields extends React.Component {
 
     return (<fieldset>
       <legend>Benefits Selection</legend>
-      <div className="input-section">
+      <div className="input-section" style={{ display: 'none' }}>
         <ErrorableRadioButtons
             label="Are you applying using your own benefits or those of a spouse or parent?"
             name="applyingUsingOwnBenefits"
