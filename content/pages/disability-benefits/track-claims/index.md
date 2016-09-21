@@ -1,5 +1,5 @@
 ---
-title: Apply for disability benefits
+title: Track Claims
 entryname: disability-benefits
 layout: page-react.html
 ---
