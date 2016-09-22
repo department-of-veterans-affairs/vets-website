@@ -7,7 +7,8 @@ import {
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDER_FAILURE,
   TOGGLE_FOLDER_NAV,
-  TOGGLE_MANAGED_FOLDERS
+  TOGGLE_MANAGED_FOLDERS,
+  SET_CURRENT_FOLDER
 } from '../actions/folders';
 
 const initialState = {
@@ -29,7 +30,8 @@ const initialState = {
       foldersExpanded: false,
       visible: false
     }
-  }
+  },
+  inFolder: null
 };
 
 export default function folders(state = initialState, action) {
@@ -55,6 +57,9 @@ export default function folders(state = initialState, action) {
       return set('ui.nav.visible', !state.ui.nav.visible, state);
     case TOGGLE_MANAGED_FOLDERS:
       return set('ui.nav.foldersExpanded', !state.ui.nav.foldersExpanded, state);
+    case SET_CURRENT_FOLDER:
+      // The + forces +action.folderId to be a number
+      return set('inFolder', +action.folderId, state);
     // TODO: Make CREATE_NEW_FOLDER request a new folder creation.
     case CREATE_NEW_FOLDER:
     case FETCH_FOLDERS_FAILURE:
