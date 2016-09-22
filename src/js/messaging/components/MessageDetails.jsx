@@ -7,14 +7,20 @@ class MessageDetails extends React.Component {
     this.hideDetails = this.hideDetails.bind(this);
   }
 
-  focusDetails(e) {
-    if (e.target.checked) {
+  focusDetails(domEvent) {
+    // This event only results from from the regular trigger.
+    // If it's being used, the compact trigger should not be
+    // visible, so it should be safe to turn it off.
+    this.refs.compactDetailsTrigger.checked = false;
+
+    if (domEvent.target.checked) {
+      // Focus the control so that it can hide the details on blur.
       this.refs.detailsControl.focus();
     }
   }
 
-  hideDetails(e) {
-    this.refs.showDetailsInput.checked = false;
+  hideDetails() {
+    this.refs.detailsTrigger.checked = false;
   }
 
   render() {
@@ -53,6 +59,7 @@ class MessageDetails extends React.Component {
     );
 
     const inputId = `message-details-${this.props.attrs.messageId}`;
+    const compactInputId = `compact-${inputId}`;
 
     return (
       <div
@@ -65,10 +72,17 @@ class MessageDetails extends React.Component {
           <i className="fa fa-caret-down"></i>
         </label>
         <input
-            ref="showDetailsInput"
+            ref="detailsTrigger"
             id={inputId}
             type="checkbox"
             onChange={this.focusDetails}/>
+        <input
+            ref="compactDetailsTrigger"
+            id={compactInputId}
+            className="messaging-compact-details-trigger"
+            type="checkbox"/>
+        <span>{this.props.attrs.sentDate}</span>
+        <label htmlFor={compactInputId}></label>
         {messageDetails}
       </div>
     );
