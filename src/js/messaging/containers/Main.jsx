@@ -4,8 +4,10 @@ import classNames from 'classnames';
 
 import { toggleFolderNav, toggleManagedFolders } from '../actions/folders';
 import ButtonClose from '../components/buttons/ButtonClose';
+import { toggleCreateFolderModal } from '../actions/modals';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
+import ModalCreateFolder from '../components/ModalCreateFolder';
 
 class Main extends React.Component {
   render() {
@@ -22,12 +24,19 @@ class Main extends React.Component {
           <ComposeButton/>
           <FolderNav
               folders={this.props.folders}
-              isExpanded={this.props.foldersExpanded}
-              onToggleFolders={this.props.toggleManagedFolders}/>
+              isExpanded={this.props.navIsExpanded}
+              onToggleFolders={this.props.toggleManagedFolders}
+              onCreateNewFolder={this.props.toggleCreateFolderModal}/>
         </div>
         <div id="messaging-content">
           {this.props.children}
         </div>
+        <ModalCreateFolder
+            cssClass="messaging-modal"
+            folders={this.props.folders}
+            id="messaging-create-folder"
+            onClose={this.props.toggleCreateFolderModal}
+            visible={this.props.createFolderModalIsOpen}/>
       </div>
     );
   }
@@ -39,6 +48,7 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    createFolderModalIsOpen: state.modals.createFolder.visible,
     folders: state.folders.data.items,
     foldersExpanded: state.folders.ui.nav.foldersExpanded,
     isNavVisible: state.folders.ui.nav.visible
@@ -46,6 +56,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  toggleCreateFolderModal,
   toggleFolderNav,
   toggleManagedFolders
 };
