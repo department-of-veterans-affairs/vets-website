@@ -52,7 +52,27 @@
   }
 
   .numbered-icon {
+    height: 32px;
+    margin-left: -12px;
+    margin-top: -12px;
+    text-align:center;
+    padding-top: 3px;
+    width: 32px;
+    z-index: 999;
     background: url('/img/icons/map-pin.svg') no-repeat center center;
+    background-size: contain;
+    color: white;
+  }
+
+  .current-position-icon {
+    height: 32px;
+    margin-left: -12px;
+    margin-top: -12px;
+    text-align:center;
+    padding-top: 3px;
+    width: 32px;
+    z-index: 999;
+    background: url('/img/icons/map-pin-current.svg') no-repeat center center;
     background-size: contain;
     color: white;
   }

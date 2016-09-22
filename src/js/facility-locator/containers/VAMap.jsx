@@ -3,11 +3,12 @@ import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { fetchVAFacilities, updateSearchQuery, search } from '../actions';
 import { map } from 'lodash';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Map, TileLayer } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import React, { Component } from 'react';
 import ResultsPane from '../components/ResultsPane';
 import NumberedIcon from '../components/markers/NumberedIcon';
+import DivMarker from '../components/markers/DivMarker';
 
 class VAMap extends Component {
 
@@ -136,11 +137,11 @@ class VAMap extends Component {
             <TileLayer
                 url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                 attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
-            <Marker position={position}>
-              <Popup>
-                <span>You are here</span>
-              </Popup>
-            </Marker>
+            <DivMarker position={position} popupContent={<span>You are here</span>}>
+              <div className="current-position-icon">
+                <i className="fa fa-star"></i>
+              </div>
+            </DivMarker>
             {this.renderFacilityMarkers()}
           </Map>
         </div>
