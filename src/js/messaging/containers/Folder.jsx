@@ -21,6 +21,33 @@ class Folder extends React.Component {
     }
   }
 
+  makeMessageNav() {
+    const { folder, currentRange, messageCount, page, totalPages } = this.props;
+    const folderId = folder.attributes.folderId;
+    let handleClickPrev;
+    let handleClickNext;
+
+    if (page > 1) {
+      handleClickPrev = () => {
+        this.props.fetchFolder(folderId, { page: page - 1 });
+      };
+    };
+
+    if (page < totalPages) {
+      handleClickNext = () => {
+        this.props.fetchFolder(folderId, { page: page + 1 });
+      };
+    }
+
+    return (
+      <MessageNav
+          currentRange={currentRange}
+          messageCount={messageCount}
+          onClickPrev={handleClickPrev}
+          onClickNext={handleClickNext}/>
+    );
+  }
+
   render() {
     const { attributes, messages } = this.props.folder;
     let folderName;
@@ -30,28 +57,7 @@ class Folder extends React.Component {
       folderName = attributes.name;
     }
 
-    let handleClickPrev;
-    let handleClickNext;
-
-    if (this.props.page > 1) {
-      handleClickPrev = () => {
-          this.props.fetchFolder(attributes.folderId, { page: this.props.page - 1 });
-      };
-    };
-
-    if (this.props.page < this.props.totalPages) {
-      handleClickNext = () => {
-          this.props.fetchFolder(attributes.folderId, { page: this.props.page + 1 });
-      };
-    }
-
-    const messageNav = (
-      <MessageNav
-          currentRange={this.props.currentRange}
-          messageCount={this.props.messageCount}
-          onClickPrev={handleClickPrev}
-          onClickNext={handleClickNext}/>
-    );
+    const messageNav = this.makeMessageNav();
 
     if (messages.length > 0) {
       const makeMessageLink = (content, id) => {
