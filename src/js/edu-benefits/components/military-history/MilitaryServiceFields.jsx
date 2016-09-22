@@ -62,14 +62,6 @@ export default class MilitaryServiceFields extends React.Component {
       </div>
       <div className="input-section">
         <h4>Military Service</h4>
-        <div className="usa-alert usa-alert-info">
-          <div className="usa-alert-body">
-            <p className="usa-alert-text">You must enter at least one period of service.<br/><br/>
-            Every period of service that you identify will be applied to the single, specific benefit you are applying for.
-            If there are specific periods of service that you do not want applied to the benefit, please identify the period and
-            the corresponding benefit program(s) to which you would like them applied.</p>
-          </div>
-        </div>
         <hr/>
         <div className="input-section">
           <GrowableTable
