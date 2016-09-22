@@ -4,36 +4,61 @@ import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
 import SearchControls from './SearchControls';
 import { Link } from 'react-router';
+import { compact } from 'lodash';
 
 
 class ResultsPane extends Component {
+
+  // TODO (bshyong): refactor this method to use a FacilitySearchResult component
   renderResults() {
     const { facilities } = this.props;
 
     return (
       facilities.map(f => {
+        const { address, phone, name } = f.attributes;
+        const addressString = [
+          compact([address.building, address.street, address.suite]).join(' '),
+          `${address.city}, ${address.state} ${address.zip}-${address.zip4}`
+        ];
+
         return (
-          <div key={f.id} className="facility-result">
-            <h5>{f.name}</h5>
+          <li key={f.id} className="facility-result">
             <Link to={`facilities/facility/${f.id}`}>
-              Facility details
+              <h5>{name}</h5>
             </Link>
-          </div>
+            <strong>Facility type: {f.type}</strong>
+            <p>
+              {addressString[0]}<br/>
+              {addressString[1]}
+            </p>
+            <span style={{ marginRight: '1rem' }}>
+              <a href={`tel:${phone.main}`}>
+                <i className="fa fa-phone"/> {phone.main}
+              </a>
+            </span>
+            <span>
+              <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString.join(' ')}`} target="_blank">
+                <i className="fa fa-map"/> Directions
+              </a>
+            </span>
+          </li>
         );
       })
     );
   }
 
   render() {
-    const { currentQuery, onSearch } = this.props;
+    const { currentQuery, onSearch, maxHeight } = this.props;
 
     return (
-      <div>
+      <div style={{ maxHeight, overflowY: 'auto' }}>
         <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={onSearch}/>
-        <hr/>
+        <hr className="light"/>
         <div className="facility-search-results">
-          <h4>Search Results:</h4>
-          {this.renderResults()}
+          <p>Search Results near <strong>{currentQuery.context}</strong></p>
+          <ol>
+            {this.renderResults()}
+          </ol>
         </div>
       </div>
     );
