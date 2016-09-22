@@ -103,7 +103,6 @@ class VAMap extends Component {
 
     this.updateUrlParams({
       address: currentQuery.searchString,
-      location: `${currentQuery.position.latitude},${currentQuery.position.longitude}`,
     });
     this.props.search(currentQuery);
   }

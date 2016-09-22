@@ -26,11 +26,14 @@ export function search(query) {
 
     mapboxClient.geocodeForward(query.searchString, (err, res) => {
       const coordinates = res.features[0].center;
+      const zipCode = res.features[0].context[0].text;
+
       if (!err) {
         dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
+            context: zipCode,
             position: {
               latitude: coordinates[1],
               longitude: coordinates[0],

@@ -39,7 +39,7 @@ class FacilityLocatorApp extends React.Component {
             </nav>
             <h3>Facility and Service Locator</h3>
           </div>
-          <div>
+          <div className="facility-locator">
             {this.props.children}
           </div>
         </div>

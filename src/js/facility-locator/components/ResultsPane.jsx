@@ -9,7 +9,6 @@ import { compact } from 'lodash';
 
 class ResultsPane extends Component {
 
-
   // TODO (bshyong): refactor this method to use a FacilitySearchResult component
   renderResults() {
     const { facilities } = this.props;
@@ -56,7 +55,7 @@ class ResultsPane extends Component {
         <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={onSearch}/>
         <hr className="light"/>
         <div className="facility-search-results">
-          <h4>Search Results:</h4>
+          <p>Search Results near <strong>{currentQuery.context}</strong></p>
           <ol>
             {this.renderResults()}
           </ol>
