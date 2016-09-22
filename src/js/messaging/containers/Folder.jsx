@@ -30,6 +30,29 @@ class Folder extends React.Component {
       folderName = attributes.name;
     }
 
+    let handleClickPrev;
+    let handleClickNext;
+
+    if (this.props.page > 1) {
+      handleClickPrev = () => {
+          this.props.fetchFolder(attributes.folderId, { page: this.props.page - 1 });
+      };
+    };
+
+    if (this.props.page < this.props.totalPages) {
+      handleClickNext = () => {
+          this.props.fetchFolder(attributes.folderId, { page: this.props.page + 1 });
+      };
+    }
+
+    const messageNav = (
+      <MessageNav
+          currentRange={this.props.currentRange}
+          messageCount={this.props.messageCount}
+          onClickPrev={handleClickPrev}
+          onClickNext={handleClickNext}/>
+    );
+
     if (messages.length > 0) {
       const makeMessageLink = (content, id) => {
         return <Link to={`/messaging/thread/${id}`}>{content}</Link>;
@@ -78,9 +101,7 @@ class Folder extends React.Component {
       <div>
         <h2>{folderName}</h2>
         <div className="messaging-folder-controls">
-          <MessageNav
-              currentRange={this.props.currentRange}
-              messageCount={this.props.messageCount}/>
+          {messageNav}
         </div>
         {folderMessages}
       </div>
@@ -90,13 +111,21 @@ class Folder extends React.Component {
 
 const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
-  const startCount = folder.startCount;
-  const endCount = folder.endCount;
+  const pagination = folder.pagination;
+  const page = pagination.currentPage;
+  const perPage = pagination.perPage;
+  const totalPages = pagination.totalPages;
+
+  const totalCount = pagination.totalEntries;
+  const startCount = 1 + (page - 1) * perPage;
+  const endCount = Math.min(totalCount, page * perPage);
 
   return {
     folder,
     currentRange: `${startCount} - ${endCount}`,
-    messageCount: folder.totalCount
+    messageCount: totalCount,
+    page,
+    totalPages
   };
 };
 
