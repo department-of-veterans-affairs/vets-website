@@ -7,7 +7,6 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import React, { Component } from 'react';
 import ResultsPane from '../components/ResultsPane';
-import $ from 'jQuery';
 
 class VAMap extends Component {
 
@@ -126,7 +125,7 @@ class VAMap extends Component {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
     // used for setting a proper map height
-    const mapHeight = window.innerHeight - $('.header').height() - 175;
+    const mapHeight = window.innerHeight - document.getElementsByClassName('header')[0].clientHeight - 175;
 
     return (
       <div>
