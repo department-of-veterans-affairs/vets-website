@@ -12,18 +12,14 @@ class IntroductionPage extends React.Component {
 
         <div className="row">
           <div className="small-12 columns">
-            <p>
-              Fill out this application with the most accurate information you have. The more accurate it is, the more likely you are to get a rapid response.
-            </p>
-            <p>
-              VA uses the information you submit to determine your eligibility and to provide you with the best service.
-            </p>
-            <p>
-              Federal law provides criminal penalties, including a fine and/or imprisonment for up to 5 years, for concealing a material fact or making a materially false statement. (See <a href="https://www.justice.gov/usam/criminal-resource-manual-903-false-statements-concealment-18-usc-1001" target="_blank">18 U.S.C. 1001</a>)
-            </p>
+            <p>Complete this application to receive your official certificate of eligibility for the benefit you wish to receive.</p>
             <div className="usa-alert usa-alert-info">
-              <strong>Note:</strong> You will not be able to save your progress once you have started the form.
+              <div className="usa-alert-body">
+                <span><b>You will not be able to save your work or come back later to finish.</b> So it's helpful to have paperwork related to your military history, and information about the school you want to attend, if you have it.</span>
+              </div>
             </div>
+            <p>This application is based on VA Form 22-1990.</p>
+            <strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)
           </div>
         </div>
       </div>
