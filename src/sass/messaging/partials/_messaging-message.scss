@@ -170,6 +170,11 @@
       padding: 0 0 0.5rem 0;
       text-align: left;
     }
+
+    tr:first-child,
+    tr:last-child {
+      display: none;
+    }
   }
 }
 
