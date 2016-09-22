@@ -19,7 +19,6 @@ const initialState = {
   ui: {
     charsRemaining: composeMessageMaxChars,
     messagesCollapsed: new Set(),
-    visibleDetailsId: null,
     moveToOpened: false
   }
 };
@@ -38,9 +37,6 @@ export default function folders(state = initialState, action) {
       thread.push(currentMessage);
       return set('data.thread', thread, newState);
     }
-
-    case SET_VISIBLE_DETAILS:
-      return set('ui.visibleDetailsId', action.messageId, state);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       // Don't allow the currently viewed message (last in thread)
