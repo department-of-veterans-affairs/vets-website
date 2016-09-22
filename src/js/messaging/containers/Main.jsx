@@ -12,7 +12,7 @@ import ModalCreateFolder from '../components/ModalCreateFolder';
 class Main extends React.Component {
   render() {
     const navClass = classNames({
-      opened: this.props.navIsVisible
+      opened: this.props.isNavVisible
     });
 
     return (
@@ -50,8 +50,8 @@ const mapStateToProps = (state) => {
   return {
     createFolderModalIsOpen: state.modals.createFolder.visible,
     folders: state.folders.data.items,
-    navIsExpanded: state.folders.ui.nav.expanded,
-    navIsVisible: state.folders.ui.nav.visible
+    foldersExpanded: state.folders.ui.nav.foldersExpanded,
+    isNavVisible: state.folders.ui.nav.visible
   };
 };
 

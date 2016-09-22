@@ -109,8 +109,8 @@ class Thread extends React.Component {
             currentMessageNumber={currentIndex + 1}
             folders={this.props.folders}
             folderMessageCount={folderMessageCount}
-            handlePrev={fetchPrevMessage}
-            handleNext={fetchNextMessage}
+            onClickPrev={fetchPrevMessage}
+            onClickNext={fetchNextMessage}
             subject={thread[0].subject}
             threadMessageCount={thread.length}
             threadId={this.props.params.id}
