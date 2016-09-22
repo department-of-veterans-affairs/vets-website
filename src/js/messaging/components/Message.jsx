@@ -17,7 +17,8 @@ class Message extends React.Component {
   render() {
     const messageClass = classNames({
       'messaging-thread-message': true,
-      'messaging-thread-message--collapsed': this.props.isCollapsed
+      'messaging-thread-message--collapsed': this.props.isCollapsed,
+      'messaging-thread-message--expanded': !this.props.isCollapsed
     });
 
     let details;

@@ -1,11 +1,3 @@
-[id=messaging-compose] {
-  @media (max-width: $medium-screen) {
-    // Negative margin should be inverse of padding for 
-    // #messaging-content
-    margin: 0 -1.5rem;
-  }  
-}
-
 .messaging-subject-group {
   position: relative;
 
