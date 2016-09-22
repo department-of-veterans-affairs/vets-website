@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import { api } from '../config';
+import { createUrlWithQuery } from '../utils/helpers';
 
 export const FETCH_FOLDERS_SUCCESS = 'FETCH_FOLDERS_SUCCESS';
 export const FETCH_FOLDERS_FAILURE = 'FETCH_FOLDERS_FAILURE';
@@ -10,28 +11,6 @@ export const TOGGLE_FOLDER_NAV = 'TOGGLE_FOLDER_NAV';
 export const TOGGLE_MANAGED_FOLDERS = 'TOGGLE_MANAGED_FOLDERS';
 
 const baseUrl = `${api.url}/folders`;
-
-const createQueryString = (query) => {
-  const segments = [];
-
-  for (const key of Object.keys(query)) {
-    // Linter only accepts camelCase keys, but API only
-    // recognizes snake_case for query string parameters.
-    const formattedKey = _.snakeCase(key);
-    segments.push(`${formattedKey}=${query[key]}`);
-  }
-
-  return segments.join('&');
-};
-
-const createUrlWithQuery = (url, query) => {
-  const queryString = createQueryString(query);
-  const fullUrl = queryString
-                ? `${url}?${queryString}`
-                : url;
-
-  return fullUrl;
-};
 
 export function fetchFolders() {
   // Get the max number of folders.
