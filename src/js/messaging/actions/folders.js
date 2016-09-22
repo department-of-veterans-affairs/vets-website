@@ -6,6 +6,7 @@ export const FETCH_FOLDER_SUCCESS = 'FETCH_FOLDER_SUCCESS';
 export const FETCH_FOLDER_FAILURE = 'FETCH_FOLDER_FAILURE';
 export const TOGGLE_FOLDER_NAV = 'TOGGLE_FOLDER_NAV';
 export const TOGGLE_MANAGED_FOLDERS = 'TOGGLE_MANAGED_FOLDERS';
+export const CREATE_NEW_FOLDER = 'CREATE_NEW_FOLDER';
 
 const baseUrl = `${api.url}/folders`;
 
@@ -39,4 +40,13 @@ export function toggleFolderNav() {
 // Expands the list of named folders.
 export function toggleManagedFolders() {
   return { type: TOGGLE_MANAGED_FOLDERS };
+}
+
+export function createNewFolder(folderName) {
+  // TODO: Actually make the request
+  // that creates the folder
+  return {
+    type: CREATE_NEW_FOLDER,
+    folderName
+  };
 }
