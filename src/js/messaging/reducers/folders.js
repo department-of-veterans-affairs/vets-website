@@ -25,7 +25,7 @@ const initialState = {
   },
   ui: {
     nav: {
-      expanded: false,
+      foldersExpanded: false,
       visible: false
     }
   }
@@ -53,7 +53,7 @@ export default function folders(state = initialState, action) {
     case TOGGLE_FOLDER_NAV:
       return set('ui.nav.visible', !state.ui.nav.visible, state);
     case TOGGLE_MANAGED_FOLDERS:
-      return set('ui.nav.expanded', !state.ui.nav.expanded, state);
+      return set('ui.nav.foldersExpanded', !state.ui.nav.foldersExpanded, state);
     case FETCH_FOLDERS_FAILURE:
     case FETCH_FOLDER_FAILURE:
     default:

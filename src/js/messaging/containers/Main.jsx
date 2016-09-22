@@ -10,7 +10,7 @@ import FolderNav from '../components/FolderNav';
 class Main extends React.Component {
   render() {
     const navClass = classNames({
-      opened: this.props.navIsVisible
+      opened: this.props.isNavVisible
     });
 
     return (
@@ -22,7 +22,7 @@ class Main extends React.Component {
           <ComposeButton/>
           <FolderNav
               folders={this.props.folders}
-              isExpanded={this.props.navIsExpanded}
+              isExpanded={this.props.foldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}/>
         </div>
         <div id="messaging-content">
@@ -40,8 +40,8 @@ Main.propTypes = {
 const mapStateToProps = (state) => {
   return {
     folders: state.folders.data.items,
-    navIsExpanded: state.folders.ui.nav.expanded,
-    navIsVisible: state.folders.ui.nav.visible
+    foldersExpanded: state.folders.ui.nav.foldersExpanded,
+    isNavVisible: state.folders.ui.nav.visible
   };
 };
 
