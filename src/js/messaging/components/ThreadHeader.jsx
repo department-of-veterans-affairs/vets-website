@@ -33,10 +33,12 @@ class ThreadHeader extends React.Component {
         <div className="messaging-thread-nav">
           <Link to={paths.INBOX_URL}>&lt; Back to Inbox</Link>
           <MoveTo
+              folders={this.props.folders}
               isOpen={!this.props.moveToIsOpen}
               onChooseFolder={this.props.onChooseFolder}
               onCreateFolder={this.props.onCreateFolder}
-              onToggleMoveTo={this.props.onToggleMoveTo}/>
+              onToggleMoveTo={this.props.onToggleMoveTo}
+              threadId={this.props.threadId}/>
           <MessageNav
               currentRange={this.props.currentMessageNumber}
               messageCount={this.props.folderMessageCount}
@@ -62,10 +64,19 @@ class ThreadHeader extends React.Component {
 
 ThreadHeader.propTypes = {
   currentMessageNumber: React.PropTypes.number.isRequired,
+  folders: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      folderId: React.PropTypes.number.isRequired,
+      name: React.PropTypes.string.isRequired,
+      count: React.PropTypes.number.isRequired,
+      unreadCount: React.PropTypes.number.isRequired
+    })
+  ).isRequired,
   folderMessageCount: React.PropTypes.number.isRequired,
   handlePrev: React.PropTypes.func,
   handleNext: React.PropTypes.func,
   subject: React.PropTypes.string.isRequired,
+  threadId: React.PropTypes.string.isRequired,
   threadMessageCount: React.PropTypes.number.isRequired,
   messagesCollapsed: React.PropTypes.bool,
   moveToIsOpen: React.PropTypes.bool,
