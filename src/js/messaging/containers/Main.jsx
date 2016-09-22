@@ -1,20 +1,29 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
-import { toggleFolderNav } from '../actions/folders';
+import { toggleFolderNav, toggleManagedFolders } from '../actions/folders';
+import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
 
 class Main extends React.Component {
   render() {
+    const navClass = classNames({
+      opened: this.props.navIsVisible
+    });
+
     return (
-      <div>
-        <div id="messaging-nav">
+      <div id="messaging-main">
+        <div id="messaging-nav" className={navClass}>
+          <ButtonClose
+              className="messaging-folder-nav-close"
+              onClick={this.props.toggleFolderNav}/>
           <ComposeButton/>
           <FolderNav
               folders={this.props.folders}
-              expanded={this.props.navExpanded}
-              onToggleFolders={this.props.toggleFolderNav}/>
+              isExpanded={this.props.navIsExpanded}
+              onToggleFolders={this.props.toggleManagedFolders}/>
         </div>
         <div id="messaging-content">
           {this.props.children}
@@ -31,12 +40,14 @@ Main.propTypes = {
 const mapStateToProps = (state) => {
   return {
     folders: state.folders.data.items,
-    navExpanded: state.folders.ui.nav.expanded
+    navIsExpanded: state.folders.ui.nav.expanded,
+    navIsVisible: state.folders.ui.nav.visible
   };
 };
 
 const mapDispatchToProps = {
-  toggleFolderNav
+  toggleFolderNav,
+  toggleManagedFolders
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

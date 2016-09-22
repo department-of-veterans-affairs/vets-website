@@ -31,21 +31,22 @@ class ThreadHeader extends React.Component {
     return (
       <div className="messaging-thread-header">
         <div className="messaging-thread-nav">
-          <div>
-            <Link to={paths.INBOX_URL}>&lt; Back to Inbox</Link>
-            <MoveTo
-                folders={this.props.folders}
-                isOpen={!this.props.moveToIsOpen}
-                onChooseFolder={this.props.onChooseFolder}
-                onCreateFolder={this.props.onCreateFolder}
-                onToggleMoveTo={this.props.onToggleMoveTo}
-                threadId={this.props.threadId}/>
-          </div>
+          <Link to={paths.INBOX_URL}>&lt; Back to Inbox</Link>
+          <MoveTo
+              folders={this.props.folders}
+              isOpen={!this.props.moveToIsOpen}
+              onChooseFolder={this.props.onChooseFolder}
+              onCreateFolder={this.props.onCreateFolder}
+              onToggleMoveTo={this.props.onToggleMoveTo}
+              threadId={this.props.threadId}/>
           <MessageNav
               currentRange={this.props.currentMessageNumber}
               messageCount={this.props.folderMessageCount}
               handlePrev={this.props.handlePrev}
               handleNext={this.props.handleNext}/>
+          <ButtonDelete
+              onClickHandler={this.handleDelete}/>
+          <ButtonPrint/>
         </div>
         <div className="messaging-thread-title">
           <h2 className="messaging-thread-subject">{this.props.subject}</h2>
