@@ -25,8 +25,7 @@ class MessageDetails extends React.Component {
   }
 
   render() {
-    let messageDetails;
-    messageDetails = (
+    const messageDetails = (
       <div className="messaging-message-details">
         <table>
           <tbody>
