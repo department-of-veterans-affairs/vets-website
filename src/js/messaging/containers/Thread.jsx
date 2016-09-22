@@ -184,6 +184,7 @@ const mapStateToProps = (state) => {
     folders: state.folders.data.items,
     folderMessages: state.folders.data.currentItem.messages,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
+    modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
     thread: state.messages.data.thread,
     visibleDetailsId: state.messages.ui.visibleDetailsId
