@@ -44,8 +44,8 @@ class ThreadHeader extends React.Component {
           <MessageNav
               currentRange={this.props.currentMessageNumber}
               messageCount={this.props.folderMessageCount}
-              handlePrev={this.props.handlePrev}
-              handleNext={this.props.handleNext}/>
+              onClickPrev={this.props.onClickPrev}
+              onClickNext={this.props.onClickNext}/>
         </div>
         <div className="messaging-thread-title">
           <h2 className="messaging-thread-subject">{this.props.subject}</h2>
@@ -72,8 +72,8 @@ ThreadHeader.propTypes = {
     })
   ).isRequired,
   folderMessageCount: React.PropTypes.number.isRequired,
-  handlePrev: React.PropTypes.func,
-  handleNext: React.PropTypes.func,
+  onClickPrev: React.PropTypes.func,
+  onClickNext: React.PropTypes.func,
   subject: React.PropTypes.string.isRequired,
   threadId: React.PropTypes.string.isRequired,
   threadMessageCount: React.PropTypes.number.isRequired,
