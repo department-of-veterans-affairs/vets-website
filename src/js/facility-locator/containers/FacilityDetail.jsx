@@ -16,6 +16,9 @@ class FacilityDetail extends Component {
     return (
       <div className="row">
         <div className="medium-8 columns">
+          <a href="#" className="facility-back-link show-for-small-only">
+            <i className="fa fa-chevron-left" aria-hidden="true"></i>Back to list
+          </a>
           <div className="details-map">
             <h3>{this.props.facility ? this.props.facility.name : ''}</h3>
             <FacilityInfo info={this.props.facility} currentQuery={this.props.currentQuery}/>

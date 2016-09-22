@@ -5,7 +5,7 @@ class FacilityInfo extends Component {
   render() {
     const { info } = this.props;
 
-    let facilityOperations;
+    let facilityPhoneNumbers;
     if (!this.props.info) {
       return (
         <div></div>
@@ -13,7 +13,7 @@ class FacilityInfo extends Component {
     }
 
     if (info.facilityType === 'facility') {
-      facilityOperations = (
+      facilityPhoneNumbers = (
         <div className="mb2">
           <h5>Phone:</h5>
           <div className="row">
@@ -67,7 +67,7 @@ class FacilityInfo extends Component {
         </div>
       );
     } else {
-      facilityOperations = (
+      facilityPhoneNumbers = (
         <div>
           <div className="row">
             <div className="medium-6 columns details-map">
@@ -102,10 +102,23 @@ class FacilityInfo extends Component {
         <p className="facility-details">
           {addressString}
         </p>
-        <p>
-          <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString}`} target="_blank">Driving Directions</a>
+        <p className="facility-details">
+          Distance: 0.5 miles
         </p>
-        {facilityOperations}
+        <div className="small-6 medium-6 columns">
+          <a href="#" className="facility-conact-link">
+            <i className="fa fa-phone" aria-hidden="true"></i>{info.phone.main}
+          </a>
+        </div>
+        <div className="small-6 medium-6 columns">
+          <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString}`} target="_blank" className="facility-conact-link">
+            <i className="fa fa-road" aria-hidden="true"></i>Directions
+          </a>
+        </div>
+        <hr className="show-for-small-only"/>
+        <div className="show-for-medium-up">
+          {facilityPhoneNumbers}
+        </div>
       </div>
     );
   }

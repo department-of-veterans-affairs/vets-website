@@ -46,3 +46,19 @@ hr.title {
 ul {
   margin: 0;
 }
+
+.facility-conact-link {
+  font-size: 2rem;
+  text-decoration: none;
+  i {
+    margin-right: 1em;
+    width: 18px;
+  }
+}
+
+.facility-back-link {
+  margin-bottom: 1.5em;
+  i {
+    margin-right: 0.75rem;
+  }
+}
