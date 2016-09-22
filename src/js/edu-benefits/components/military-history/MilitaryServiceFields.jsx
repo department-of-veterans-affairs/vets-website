@@ -1,22 +1,20 @@
 import React from 'react';
 
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
-import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableNumberInput from '../../../common/components/form-elements/ErrorableNumberInput';
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 
 import MilitaryServiceTour from './MilitaryServiceTour';
 import { createTour } from '../../utils/veteran';
 
-import { validateIfDirty, isNotBlank, isValidYear, isValidPage } from '../../utils/validations';
+import { validateIfDirty, isNotBlank, isValidYear, isValidPage, isValidField } from '../../utils/validations';
 import { yesNo } from '../../utils/options-for-select';
 
 export default class MilitaryServiceFields extends React.Component {
   render() {
     const tourFields = [
       'doNotApplyPeriodToSelected',
-      'applyToChapter30',
-      'applyToChapter1606',
-      'applyToChapter32',
+      'benefitsToApplyTo',
       'serviceBranch',
       'dateRange',
       'serviceStatus',
@@ -42,15 +40,16 @@ export default class MilitaryServiceFields extends React.Component {
     );
 
     return (<fieldset>
-      <legend>Military Service</legend>
+      <legend>Military service</legend>
       <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
       <div className="input-section">
         <p>If you graduated from a military service academy, what year did you graduate?</p>
-        <ErrorableTextInput
-            errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, isValidYear) ? undefined : 'Please enter a valid year'}
+        <ErrorableNumberInput
+            errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, (value) => isValidField(isValidYear, { value })) ? undefined : 'Please enter a valid year'}
             label="Year"
             placeholder="yyyy"
             name="serviceAcademyGraduationYear"
+            min="1900"
             field={this.props.data.serviceAcademyGraduationYear}
             onValueChange={(update) => {this.props.onStateChange('serviceAcademyGraduationYear', update);}}/>
         <ErrorableRadioButtons
@@ -64,10 +63,12 @@ export default class MilitaryServiceFields extends React.Component {
       <div className="input-section">
         <h4>Military Service</h4>
         <div className="usa-alert usa-alert-info">
-          <p className="usa-alert-text">You must enter at least one period of service.
-          Every period of service that you identify will be applied to the single, specific benefit you are applying for.
-          If there are specific periods of service that you do not want applied to the benefit, please identify the period and
-          the corresponding benefit program(s) to which you would like them applied.</p>
+          <div className="usa-alert-body">
+            <p className="usa-alert-text">You must enter at least one period of service.<br/><br/>
+            Every period of service that you identify will be applied to the single, specific benefit you are applying for.
+            If there are specific periods of service that you do not want applied to the benefit, please identify the period and
+            the corresponding benefit program(s) to which you would like them applied.</p>
+          </div>
         </div>
         <hr/>
         <div className="input-section">

@@ -3,6 +3,7 @@
 // elements version of these files.
 
 @import "../style";
+@import "../modules/m-modal";
 
 // TODO: Contributed these back to core / Vanguard.
 @import "_partials/va-tabs";
@@ -18,7 +19,6 @@
 @import "_partials/rx-prescriptions";
 @import "_partials/rx-sort-list";
 @import "_partials/rx-table";
-@import "_partials/rx-alerts";
 
 // TODO: Replace this with a clearfix mixin
 // from USWDS or something

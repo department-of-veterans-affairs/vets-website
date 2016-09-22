@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { states } from './options-for-select';
-import { dateToMoment } from './helpers';
+import { dateToMoment, showRelinquishedEffectiveDate } from './helpers';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -104,7 +104,7 @@ function isValidName(value) {
 
 function isValidMonetaryValue(value) {
   if (value !== null) {
-    return /^\d+\.?\d*$/.test(value);
+    return /^[$]{0,1}\d+\.?\d*$/.test(value);
   }
   return true;
 }
@@ -198,34 +198,16 @@ function isValidPersonalInfoPage(data) {
       isValidDateField(data.veteranDateOfBirth);
 }
 
-function isValidSpouseInformation(data) {
-  let isValidSpouse = true;
-  let isValidSpouseAddress = true;
-
-  if (data.maritalStatus.value === 'Married' || data.maritalStatus.value === 'Separated') {
-    isValidSpouse = isValidFullNameField(data.spouseFullName) &&
-      isValidSSN(data.spouseSocialSecurityNumber.value) &&
-      isValidDateField(data.spouseDateOfBirth) &&
-      isValidDateField(data.dateOfMarriage) &&
-      isNotBlank(data.sameAddress.value);
-  }
-
-  if (data.sameAddress === 'N') {
-    isValidSpouseAddress = isValidAddressField(data.spouseAddress) &&
-        isValidField(isValidPhone, data.spousePhone);
-  }
-
-  return isNotBlank(data.maritalStatus.value) &&
-      isValidSpouse &&
-      isValidSpouseAddress;
-}
-
 function isValidBenefitsInformationPage(data) {
-  return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
+  return !data.chapter33 ||
+    (isNotBlank(data.benefitsRelinquished.value) &&
+      (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
+        (!isBlankDateField(data.benefitsRelinquishedDate) && isValidDateField(data.benefitsRelinquishedDate))));
 }
 
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
+    && (!tour.doNotApplyPeriodToSelected || isNotBlank(tour.benefitsToApplyTo.value))
     && isValidDateField(tour.dateRange.from)
     && isValidDateField(tour.dateRange.to)
     && isValidDateRange(tour.dateRange.from, tour.dateRange.to);
@@ -296,7 +278,10 @@ function isValidBenefitsHistoryPage(data) {
 }
 
 function isValidRotcScholarshipAmount(data) {
-  return isValidField(isValidMonetaryValue, data.amount) && isValidField(isValidYear, data.year);
+  return isNotBlank(data.amount)
+    && isNotBlank(data.year)
+    && isValidField(isValidMonetaryValue, data.amount)
+    && isValidField(isValidYear, data.year);
 }
 
 function isValidRotcHistoryPage(data) {
@@ -328,9 +313,9 @@ function isValidForm(data) {
 
 function isValidPage(completePath, pageData) {
   switch (completePath) {
-    case '/veteran-information/personal-information':
+    case '/veteran-information':
       return isValidPersonalInfoPage(pageData);
-    case '/veteran-information/contact-information':
+    case '/personal-information/contact-information':
       return isValidContactInformationPage(pageData);
     case '/benefits-eligibility/benefits-selection':
       return isValidBenefitsInformationPage(pageData);
@@ -344,9 +329,9 @@ function isValidPage(completePath, pageData) {
       return isValidEmploymentHistoryPage(pageData);
     case '/education-history/education-information':
       return isValidEducationHistoryPage(pageData);
-    case '/veteran-information/secondary-contact':
+    case '/personal-information/secondary-contact':
       return isValidSecondaryContactPage(pageData);
-    case '/veteran-information/direct-deposit':
+    case '/personal-information/direct-deposit':
       return isValidDirectDepositPage(pageData);
     case '/military-history/rotc-history':
       return isValidRotcHistoryPage(pageData);
@@ -394,7 +379,6 @@ export {
   isValidPersonalInfoPage,
   isValidAddressField,
   isValidContactInformationPage,
-  isValidSpouseInformation,
   isValidMilitaryServicePage,
   isValidPage
 };

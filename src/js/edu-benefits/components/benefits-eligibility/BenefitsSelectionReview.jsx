@@ -1,13 +1,17 @@
 import React from 'react';
 
-import { getLabel } from '../../utils/helpers';
-import { relinquishableBenefits } from '../../utils/options-for-select';
+import { getLabel, displayDateIfValid, showRelinquishedEffectiveDate } from '../../utils/helpers';
+import { relinquishableBenefits, ownBenefitsOptions } from '../../utils/options-for-select';
 
 export default class BenefitsSelectionReview extends React.Component {
   render() {
     return (
       <table className="review usa-table-borderless">
         <tbody>
+          <tr>
+            <td>Are you applying using your own benefits or those of a spouse or parent?</td>
+            <td>{getLabel(ownBenefitsOptions, this.props.data.applyingUsingOwnBenefits.value)}</td>
+          </tr>
           <tr>
             <td>Chapter 33 - Post-9/11 GI Bill:</td>
             <td>{this.props.data.chapter33 ? 'Yes' : 'No'}</td>
@@ -19,6 +23,12 @@ export default class BenefitsSelectionReview extends React.Component {
               <td>I elect to receive Chapter 33 education benefits in lieu of the education benefit(s) I am relinquishing below:</td>
               <td>{getLabel(relinquishableBenefits, this.props.data.benefitsRelinquished.value)}</td>
             </tr>
+            {showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)
+              ? <tr>
+                <td>Effective date:</td>
+                <td>{displayDateIfValid(this.props.data.benefitsRelinquishedDate)}</td>
+              </tr>
+              : null}
           </tbody>
           : null}
         <tbody>

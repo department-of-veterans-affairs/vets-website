@@ -5,6 +5,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { fetchFolder } from '../actions/folders';
+import MessageNav from '../components/MessageNav';
 
 class Folder extends React.Component {
   componentDidMount() {
@@ -35,22 +36,22 @@ class Folder extends React.Component {
       };
 
       const rows = folder.messages.map((message) => {
-        const id = message.message_id;
+        const id = message.messageId;
         const rowClass = classNames({
           'messaging-message-row': true,
-          'messaging-message-row--unread': message.read_receipt === 'UNREAD'
+          'messaging-message-row--unread': message.readReceipt === 'UNREAD'
         });
 
         return (
           <tr key={id} className={rowClass}>
             <td>
-              {makeMessageLink(message.sender_name, id)}
+              {makeMessageLink(message.senderName, id)}
             </td>
             <td>
               {makeMessageLink(message.subject, id)}
             </td>
             <td>
-              {makeMessageLink(message.sent_date, id)}
+              {makeMessageLink(message.sentDate, id)}
             </td>
           </tr>
         );
@@ -76,6 +77,11 @@ class Folder extends React.Component {
     return (
       <div>
         <h2>{folderName}</h2>
+        <div className="messaging-folder-controls">
+          <MessageNav
+              currentRange={this.props.currentRange}
+              messageCount={this.props.messageCount}/>
+        </div>
         {folderMessages}
       </div>
     );
@@ -85,12 +91,16 @@ class Folder extends React.Component {
 const mapStateToProps = (state) => {
   const currentFolder = state.folders.data.currentItem;
   const attributes = state.folders.data.items.find((folder) => {
-    return folder.folder_id === currentFolder.id;
+    return folder.folderId === currentFolder.id;
   });
   const messages = currentFolder.messages;
+  const startCount = currentFolder.startCount;
+  const endCount = currentFolder.endCount;
 
   return {
-    folder: { attributes, messages }
+    folder: { attributes, messages },
+    currentRange: `${startCount} - ${endCount}`,
+    messageCount: currentFolder.totalCount
   };
 };
 

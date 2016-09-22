@@ -26,7 +26,7 @@ const ui = {
     '/benefits-eligibility/benefits-selection': {
       complete: false,
       verified: false,
-      fields: ['benefitsRelinquished', 'chapter30', 'chapter32', 'chapter33', 'chapter1606', 'previouslyFiledClaimWithVa']
+      fields: ['benefitsRelinquished', 'chapter30', 'chapter32', 'chapter33', 'chapter1606', 'previouslyFiledClaimWithVa', 'benefitsRelinquishedDate', 'applyingUsingOwnBenefits']
     },
     '/benefits-eligibility/previous-claims': {
       complete: false,
