@@ -36,7 +36,7 @@ class Folder extends React.Component {
       handleClickPrev = () => {
         this.props.fetchFolder(folderId, { page: page - 1 });
       };
-    };
+    }
 
     if (page < totalPages) {
       handleClickNext = () => {
