@@ -11,12 +11,9 @@ class MessagingApp extends React.Component {
   render() {
     return (
       <div id="messaging-app" className="row">
-        <h1>Message your health care team</h1>
-        <p>
-          <strong>Important:</strong> Secure messaging is not instantly read.
-          It can take up to 2 hours for a message to be seen
-          and/or a response to be sent.
-        </p>
+        <div id="messaging-app-header">
+          <h1>Message your health care team</h1>
+        </div>
         {this.props.children}
       </div>
     );

@@ -8,6 +8,10 @@
   right: 0;
   top: 0;
 
+  @media (max-width: $medium-screen) {
+    display: none;
+  }
+
   button {
     padding: .5rem;
   }

@@ -4,7 +4,8 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { fetchFolder } from '../actions/folders';
+import { fetchFolder, toggleFolderNav } from '../actions/folders';
+import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
 
 class Folder extends React.Component {
@@ -76,8 +77,17 @@ class Folder extends React.Component {
 
     return (
       <div>
-        <h2>{folderName}</h2>
-        <div className="messaging-folder-controls">
+        <div id="messaging-content-header">
+          <button
+              className="messaging-menu-button"
+              type="button"
+              onClick={this.props.toggleFolderNav}>
+            Menu
+          </button>
+          <h2>{folderName}</h2>
+        </div>
+        <div id="messaging-folder-controls">
+          <ComposeButton/>
           <MessageNav
               currentRange={this.props.currentRange}
               messageCount={this.props.messageCount}/>
@@ -105,7 +115,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  fetchFolder
+  fetchFolder,
+  toggleFolderNav
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Folder);

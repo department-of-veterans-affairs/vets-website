@@ -147,22 +147,29 @@ class Thread extends React.Component {
         <div className="messaging-thread-messages">
           {threadMessages}
         </div>
-        <form className="messaging-thread-reply">
-          <div className="messaging-thread-reply-recipient">
-            <label>To:</label>
-            {lastSender}
-          </div>
-          <MessageWrite
-              cssClass="messaging-write"
-              onValueChange={this.handleReplyChange}
-              placeholder={composeMessagePlaceholders.message}/>
-          <MessageSend
-              charCount={this.props.charsRemaining}
-              cssClass="messaging-send-group"
-              onSave={this.handleReplySave}
-              onSend={this.handleReplySend}
-              onDelete={this.handleReplyDelete}/>
-        </form>
+        <div className="messaging-thread-reply">
+          <form>
+            <div className="messaging-thread-reply-recipient">
+              <label>To:</label>
+              {lastSender}
+            </div>
+            <MessageWrite
+                cssClass="messaging-write"
+                onValueChange={this.handleReplyChange}
+                placeholder={composeMessagePlaceholders.message}/>
+            <MessageSend
+                charCount={this.props.charsRemaining}
+                cssClass="messaging-send-group"
+                onSave={this.handleReplySave}
+                onSend={this.handleReplySend}
+                onDelete={this.handleReplyDelete}/>
+          </form>
+          <button
+              className="usa-button"
+              type="button">
+            Reply
+          </button>
+        </div>
         <NoticeBox/>
       </div>
     );

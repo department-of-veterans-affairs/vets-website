@@ -49,7 +49,7 @@ class FolderNav extends React.Component {
 
     let myFoldersList;
 
-    if (this.props.expanded) {
+    if (this.props.isExpanded) {
       const myFolderListItems = folderList.map((folder, i) => {
         return <li key={folder.folderId}>{myFolderLinks[i]}</li>;
       });
@@ -63,8 +63,8 @@ class FolderNav extends React.Component {
 
     const iconClass = classNames({
       fa: true,
-      'fa-caret-down': !this.props.expanded,
-      'fa-caret-up': this.props.expanded
+      'fa-caret-down': !this.props.isExpanded,
+      'fa-caret-up': this.props.isExpanded
     });
 
     return (
@@ -131,7 +131,7 @@ FolderNav.propTypes = {
       unreadCount: React.PropTypes.number.isRequired
     })
   ).isRequired,
-  expanded: React.PropTypes.bool,
+  isExpanded: React.PropTypes.bool,
   onToggleFolders: React.PropTypes.func
 };
 
