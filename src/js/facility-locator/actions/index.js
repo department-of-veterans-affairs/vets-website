@@ -1,6 +1,6 @@
 // import sampleOutput from 'json!../sampleData/sampleOutput.json';
 import { mapboxClient } from '../components/MapboxClient';
-
+import { find } from 'lodash';
 
 export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
 export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
@@ -15,38 +15,6 @@ export function updateSearchQuery(query) {
     payload: {
       ...query,
     }
-  };
-}
-
-export function search(query) {
-  return dispatch => {
-    dispatch({
-      type: SEARCH_STARTED,
-    });
-
-    mapboxClient.geocodeForward(query.searchString, (err, res) => {
-      const coordinates = res.features[0].center;
-      const zipCode = res.features[0].context[0].text;
-
-      if (!err) {
-        dispatch({
-          type: SEARCH_QUERY_UPDATED,
-          payload: {
-            ...query,
-            context: zipCode,
-            position: {
-              latitude: coordinates[1],
-              longitude: coordinates[0],
-            }
-          }
-        });
-      } else {
-        dispatch({
-          type: SEARCH_FAILED,
-          err,
-        });
-      }
-    });
   };
 }
 
@@ -200,5 +168,65 @@ export function fetchVAFacilities(bounds) {
   return {
     type: FETCH_VA_FACILITIES,
     payload: mockResults,
+  };
+}
+
+export function searchWithAddress(query) {
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+      payload: {
+        active: true,
+      },
+    });
+
+    mapboxClient.geocodeForward(query.searchString, (err, res) => {
+      const coordinates = res.features[0].center;
+      const zipCode = find(res.features[0].context, (v) => {
+        return v.id.includes('postcode');
+      }).text;
+
+      if (!err) {
+        dispatch({
+          type: SEARCH_QUERY_UPDATED,
+          payload: {
+            ...query,
+            context: zipCode,
+            position: {
+              latitude: coordinates[1],
+              longitude: coordinates[0],
+            },
+          }
+        });
+
+        // TODO (bshyong): replace this with a call to the API
+        dispatch(fetchVAFacilities({
+          latitude: coordinates[1],
+          longitude: coordinates[0],
+        }));
+      } else {
+        dispatch({
+          type: SEARCH_FAILED,
+          err,
+        });
+      }
+    });
+  };
+}
+
+export function searchWithCoordinates(bounds) {
+  // TODO (bshyong): replace this with a call to the API
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+      payload: {
+        active: true,
+      },
+    });
+
+    dispatch(fetchVAFacilities({
+      latitude: bounds.latitude,
+      longitude: bounds.longitude,
+    }));
   };
 }

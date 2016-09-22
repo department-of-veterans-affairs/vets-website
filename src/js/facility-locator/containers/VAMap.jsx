@@ -1,14 +1,14 @@
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchVAFacilities, updateSearchQuery, search } from '../actions';
-import { map } from 'lodash';
+import { fetchVAFacilities, updateSearchQuery, searchWithAddress, searchWithCoordinates } from '../actions';
+import { map, find } from 'lodash';
 import { Map, TileLayer } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
+import DivMarker from '../components/markers/DivMarker';
+import NumberedIcon from '../components/markers/NumberedIcon';
 import React, { Component } from 'react';
 import ResultsPane from '../components/ResultsPane';
-import NumberedIcon from '../components/markers/NumberedIcon';
-import DivMarker from '../components/markers/DivMarker';
 
 class VAMap extends Component {
 
@@ -16,10 +16,16 @@ class VAMap extends Component {
     const { location, currentQuery } = this.props;
     let shouldGeolocate = true;
 
+    this.updateUrlParams({
+      location: [currentQuery.position.latitude, currentQuery.position.longitude].join(','),
+      context: currentQuery.context,
+    });
+
+    // populate search bar with address in Url
     if (location.query.address) {
-      // populate search bar with address in Url
       this.props.updateSearchQuery({
         searchString: location.query.address,
+        context: location.query.context,
       });
     }
 
@@ -41,8 +47,6 @@ class VAMap extends Component {
       }
     }
 
-    this.props.fetchVAFacilities(currentQuery.position);
-
     this.mapElement = this.refs.map.leafletElement.getBounds();
     if (navigator.geolocation && shouldGeolocate) {
       navigator.geolocation.getCurrentPosition((currentPosition) => {
@@ -55,6 +59,8 @@ class VAMap extends Component {
         this.reverseGeocode(currentPosition.coords);
       });
     }
+
+    this.props.searchWithCoordinates(currentQuery.position);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -64,8 +70,9 @@ class VAMap extends Component {
     if (currentQuery.position !== newQuery.position) {
       this.updateUrlParams({
         location: `${newQuery.position.latitude},${newQuery.position.longitude}`,
+        context: newQuery.context,
       });
-      this.props.fetchVAFacilities(newQuery.position);
+      this.props.searchWithCoordinates(newQuery.position);
     }
   }
 
@@ -78,7 +85,8 @@ class VAMap extends Component {
       ...location.query,
       ...params,
     }, (v, k) => {
-      return `${k}=${v}`;
+      if (v) { return `${k}=${v}`; }
+      return null;
     }).join('&');
     browserHistory.push(`${location.pathname}?${queryParams}`);
   }
@@ -90,11 +98,17 @@ class VAMap extends Component {
     }, (err, res) => {
       // TODO (bshyong): handle error case
       const placeName = res.features[0].place_name;
+      const zipCode = find(res.features[0].context, (v) => {
+        return v.id.includes('postcode');
+      }).text;
+
       this.props.updateSearchQuery({
         searchString: placeName,
+        context: zipCode,
       });
       this.updateUrlParams({
         address: placeName,
+        context: zipCode,
       });
     });
   }
@@ -105,7 +119,7 @@ class VAMap extends Component {
     this.updateUrlParams({
       address: currentQuery.searchString,
     });
-    this.props.search(currentQuery);
+    this.props.searchWithAddress(currentQuery);
   }
 
   renderFacilityMarkers() {
@@ -161,7 +175,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     fetchVAFacilities,
     updateSearchQuery,
-    search,
+    searchWithAddress,
+    searchWithCoordinates,
   }, dispatch);
 }
 

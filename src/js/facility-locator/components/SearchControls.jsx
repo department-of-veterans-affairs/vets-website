@@ -1,17 +1,9 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { search } from '../actions';
+import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
 
 class SearchControls extends Component {
-
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      hidden: false,
-    };
-  }
 
   // TODO (bshyong): generalize to be able to handle Select box changes
   handleQueryChange = (e) => {
@@ -27,24 +19,23 @@ class SearchControls extends Component {
   handleSearch = (e) => {
     const { onSearch } = this.props;
     e.preventDefault();
-    this.toggleVisibility();
 
     onSearch();
   }
 
-  toggleVisibility = () => {
-    this.setState({
-      hidden: !this.state.hidden,
+  handleEditSearch = () => {
+    this.props.updateSearchQuery({
+      active: false,
     });
   }
 
   render() {
     const { currentQuery } = this.props;
 
-    if (this.state.hidden) {
+    if (currentQuery.active) {
       return (
         <div className="search-controls-container">
-          <button className="small-12" onClick={this.toggleVisibility}>
+          <button className="small-12" onClick={this.handleEditSearch}>
             Edit Search
           </button>
         </div>
@@ -57,7 +48,7 @@ class SearchControls extends Component {
         <div>Search for facilities near you or for a specific service or benefit.</div>
         <form className="usa-form">
           <label htmlFor="Street, City, State or Zip">Enter Street, City, State or Zip</label>
-          <input name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
+          <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
           <label htmlFor="serviceType">Service Type</label>
           <select name="services" defaultValue="all" onChange={this.handleFacilityTypeChange}>
             <option value="all">All</option>
@@ -74,7 +65,7 @@ class SearchControls extends Component {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    search,
+    updateSearchQuery,
   }, dispatch);
 }
 
