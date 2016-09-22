@@ -26,8 +26,8 @@ const createQueryString = (query) => {
 const createUrlWithQuery = (url, query) => {
   const queryString = createQueryString(query);
   const fullUrl = queryString
-                ? `${baseUrl}?${queryString}`
-                : baseUrl;
+                ? `${url}?${queryString}`
+                : url;
 
   return fullUrl;
 };
@@ -47,9 +47,9 @@ export function fetchFolders() {
   };
 }
 
-export function fetchFolder(id) {
+export function fetchFolder(id, query = {}) {
   const folderUrl = `${baseUrl}/${id}`;
-  const messagesUrl = `${folderUrl}/messages`;
+  const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
 
   return dispatch => {
     Promise.all([folderUrl, messagesUrl].map(url =>
