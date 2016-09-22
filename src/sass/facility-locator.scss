@@ -51,6 +51,12 @@
     }
   }
 
+  .numbered-icon {
+    background: url('/img/icons/map-pin.svg') no-repeat center center;
+    background-size: contain;
+    color: white;
+  }
+
   .search-controls-container {
     padding: 1.5rem 1rem;
   }

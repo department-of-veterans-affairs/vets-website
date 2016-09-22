@@ -7,6 +7,7 @@ import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import React, { Component } from 'react';
 import ResultsPane from '../components/ResultsPane';
+import NumberedIcon from '../components/markers/NumberedIcon';
 
 class VAMap extends Component {
 
@@ -111,11 +112,9 @@ class VAMap extends Component {
 
     return facilities.map(f => {
       return (
-        <Marker key={f.id} position={[f.lat, f.long]}>
-          <Popup>
-            <span>{`Facility ${f.id}: ${f.attributes.name}`}</span>
-          </Popup>
-        </Marker>
+        <NumberedIcon key={f.id} position={[f.lat, f.long]} number={f.id}>
+          <span>{`Facility ${f.id}: ${f.attributes.name}`}</span>
+        </NumberedIcon>
       );
     });
   }

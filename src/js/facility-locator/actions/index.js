@@ -191,7 +191,7 @@ export function fetchVAFacilities(bounds) {
   const mockResults = [...Array(10)].map((_, i) => {
     return {
       ...mockFacility,
-      id: 500 + i,
+      id: i + 1,
       lat: bounds.latitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
       'long': bounds.longitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
     };
