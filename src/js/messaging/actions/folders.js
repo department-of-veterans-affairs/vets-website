@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { api } from '../config';
 import { createUrlWithQuery } from '../utils/helpers';
 
