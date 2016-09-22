@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { search } from '../actions';
+import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
 
 class SearchControls extends Component {
@@ -23,20 +23,32 @@ class SearchControls extends Component {
     onSearch();
   }
 
-  render() {
-    const style = {
-      padding: '1.5rem 1rem',
-    };
+  handleEditSearch = () => {
+    this.props.updateSearchQuery({
+      active: false,
+    });
+  }
 
+  render() {
     const { currentQuery } = this.props;
 
+    if (currentQuery.active) {
+      return (
+        <div className="search-controls-container">
+          <button className="small-12" onClick={this.handleEditSearch}>
+            Edit Search
+          </button>
+        </div>
+      );
+    }
+
     return (
-      <div style={style}>
+      <div className="search-controls-container">
         <h4>Find a VA Facility</h4>
         <div>Search for facilities near you or for a specific service or benefit.</div>
         <form className="usa-form">
           <label htmlFor="Street, City, State or Zip">Enter Street, City, State or Zip</label>
-          <input name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
+          <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
           <label htmlFor="serviceType">Service Type</label>
           <select name="services" defaultValue="all" onChange={this.handleFacilityTypeChange}>
             <option value="all">All</option>
@@ -44,7 +56,7 @@ class SearchControls extends Component {
             <option value="benefits">Benefits</option>
             <option value="cemeteries">Cemeteries</option>
           </select>
-          <input type="submit" value="Search" onClick={this.handleSearch}/>
+          <input type="submit" className="full-width" value="Search" onClick={this.handleSearch}/>
         </form>
       </div>
     );
@@ -53,7 +65,7 @@ class SearchControls extends Component {
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
-    search,
+    updateSearchQuery,
   }, dispatch);
 }
 

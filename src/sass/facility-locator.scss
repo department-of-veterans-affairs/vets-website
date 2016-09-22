@@ -1,30 +1,111 @@
 @import 'style';
 
-h1{
-  color: grey;
-}
+.facility-locator {
+  .leaflet-container {
+      height: 500px;
+      width: 100%;
+  }
 
-.leaflet-container {
-    height: 500px;
+  .facility-phone-table
+  {
+     border-collapse:collapse;
+  }
+
+  .facility-phone-table td
+  {
+     border:none;
+     outline:none;
+  }
+
+  .facility-result {
+    padding: 1rem;
+    border-bottom: solid 1px $color-va-gray-medium;
+
+    a {
+      color: $color-link-default;
+      text-decoration: none;
+
+      &:visited {
+        color: $color-link-default;
+      }
+    }
+
+    h5 {
+      color: $color-link-default;
+    }
+
+    [href^=http] {
+      background: none;
+    }
+  }
+
+  .facility-search-results {
+    padding: 1rem;
+
+    ol {
+      padding: 0;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .numbered-icon {
+    height: 32px;
+    margin-left: -12px;
+    margin-top: -12px;
+    text-align:center;
+    padding-top: 3px;
+    width: 32px;
+    z-index: 999;
+    background: url('/img/icons/map-pin.svg') no-repeat center center;
+    background-size: contain;
+    color: white;
+  }
+
+  .current-position-icon {
+    height: 32px;
+    margin-left: -12px;
+    margin-top: -12px;
+    text-align:center;
+    padding-top: 3px;
+    width: 32px;
+    z-index: 999;
+    background: url('/img/icons/map-pin-current.svg') no-repeat center center;
+    background-size: contain;
+    color: white;
+  }
+
+  .search-controls-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .mb2 {
+    margin-bottom: 2rem;
+  }
+
+  #content .section h4 {
+    padding: 0 0 .25em 0;
+  }
+
+  hr.light {
+    color: $color-va-gray-medium;
+    margin: 0;
+    border: 1px solid $color-va-gray-medium;
+  }
+
+  hr.title {
+    color: $color-primary-darker;
+    margin: 0 0 2rem;
+    border: 1px solid #003E73;
+  }
+
+  ul {
+    margin: 0;
+  }
+
+  input.full-width {
     width: 100%;
-}
-
-.facility-phone-table
-{
-   border-collapse:collapse;
-}
-
-.facility-phone-table td
-{
-   border:none;
-   outline:none;
-}
-
-.facility-result {
-  padding: 1rem;
-  border-bottom: solid 1px $color-va-gray-medium;
-}
-
-.facility-search-results {
-  padding: 1rem;
+  }
 }
