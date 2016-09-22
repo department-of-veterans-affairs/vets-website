@@ -23,6 +23,11 @@ class Folder extends React.Component {
 
   makeMessageNav() {
     const { folder, currentRange, messageCount, page, totalPages } = this.props;
+
+    if (messageCount === 0) {
+      return null;
+    }
+
     const folderId = folder.attributes.folderId;
     let handleClickPrev;
     let handleClickNext;
