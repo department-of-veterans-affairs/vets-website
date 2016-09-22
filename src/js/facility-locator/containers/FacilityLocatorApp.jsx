@@ -29,17 +29,19 @@ class FacilityLocatorApp extends React.Component {
   render() {
     return (
       <div>
-        <div className="primary row">
-          <nav className="va-nav-breadcrumbs">
-            <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
-              <li><a href="/">Home</a></li>
-              {this.renderBreadcrumbs()}
-            </ul>
-          </nav>
-          <h3>Facility Locator</h3>
-        </div>
-        <div>
-          {this.props.children}
+        <div className="row">
+          <div className="title-section">
+            <nav className="va-nav-breadcrumbs">
+              <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+                <li><a href="/">Home</a></li>
+                {this.renderBreadcrumbs()}
+              </ul>
+            </nav>
+            <h3>Facility and Service Locator</h3>
+          </div>
+          <div className="facility-locator">
+            {this.props.children}
+          </div>
         </div>
       </div>
     );
