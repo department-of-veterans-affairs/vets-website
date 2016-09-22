@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 class MessageDetails extends React.Component {
   constructor(props) {
@@ -39,7 +40,13 @@ class MessageDetails extends React.Component {
             </tr>
             <tr>
               <th>Date:</th>
-              <td>{this.props.attrs.sentDate}</td>
+              <td>
+                {
+                  moment(
+                    this.props.attrs.sentDate
+                  ).format('MMMM DD[,] YYYY[,] HH[:]mm zz')
+                }
+              </td>
             </tr>
             <tr>
               <th>Message ID:</th>
@@ -81,7 +88,13 @@ class MessageDetails extends React.Component {
             id={compactInputId}
             className="messaging-compact-details-trigger"
             type="checkbox"/>
-        <span>{this.props.attrs.sentDate}</span>
+        <span>
+          {
+            moment(
+              this.props.attrs.sentDate
+            ).format('MMMM DD[,] YYYY[,] HH[:]mm zz')
+          }
+        </span>
         <label htmlFor={compactInputId}></label>
         {messageDetails}
       </div>
