@@ -174,6 +174,7 @@ class Thread extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    inFolder: state.folders.inFolder,
     charsRemaining: state.messages.ui.charsRemaining,
     folders: state.folders.data.items,
     folderMessages: state.folders.data.currentItem.messages,
