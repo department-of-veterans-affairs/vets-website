@@ -48,60 +48,64 @@ class Folder extends React.Component {
     );
   }
 
+  makeMessagesTable(messages) {
+    if (messages.length === 0) {
+      return null;
+    }
+
+    const makeMessageLink = (content, id) => {
+      return <Link to={`/messaging/thread/${id}`}>{content}</Link>;
+    };
+
+    const rows = messages.map((message) => {
+      const id = message.messageId;
+      const rowClass = classNames({
+        'messaging-message-row': true,
+        'messaging-message-row--unread': message.readReceipt === 'UNREAD'
+      });
+
+      return (
+        <tr key={id} className={rowClass}>
+          <td>
+            {makeMessageLink(message.senderName, id)}
+          </td>
+          <td>
+            {makeMessageLink(message.subject, id)}
+          </td>
+          <td>
+            {makeMessageLink(message.sentDate, id)}
+          </td>
+        </tr>
+      );
+    });
+
+    // TODO: Use SortableTable here.
+    return (
+      <table className="usa-table-borderless">
+        <thead>
+          <tr>
+            <th>From</th>
+            <th>Subject line</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows}
+        </tbody>
+      </table>
+    );
+  }
+
   render() {
     const { attributes, messages } = this.props.folder;
     let folderName;
-    let folderMessages;
 
     if (!_.isEmpty(attributes)) {
       folderName = attributes.name;
     }
 
     const messageNav = this.makeMessageNav();
-
-    if (messages.length > 0) {
-      const makeMessageLink = (content, id) => {
-        return <Link to={`/messaging/thread/${id}`}>{content}</Link>;
-      };
-
-      const rows = messages.map((message) => {
-        const id = message.messageId;
-        const rowClass = classNames({
-          'messaging-message-row': true,
-          'messaging-message-row--unread': message.readReceipt === 'UNREAD'
-        });
-
-        return (
-          <tr key={id} className={rowClass}>
-            <td>
-              {makeMessageLink(message.senderName, id)}
-            </td>
-            <td>
-              {makeMessageLink(message.subject, id)}
-            </td>
-            <td>
-              {makeMessageLink(message.sentDate, id)}
-            </td>
-          </tr>
-        );
-      });
-
-      // TODO: Use SortableTable here.
-      folderMessages = (
-        <table className="usa-table-borderless">
-          <thead>
-            <tr>
-              <th>From</th>
-              <th>Subject line</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
-      );
-    }
+    const folderMessages = this.makeMessagesTable(messages);
 
     return (
       <div>
