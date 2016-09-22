@@ -25,7 +25,7 @@ class Main extends React.Component {
           <FolderNav
               folders={this.props.folders}
               isExpanded={this.props.navIsExpanded}
-              onToggleFolders={this.props.toggleManagedFolders}/>
+              onToggleFolders={this.props.toggleManagedFolders}
               onCreateNewFolder={this.props.toggleCreateFolderModal}/>
         </div>
         <div id="messaging-content">
@@ -36,7 +36,7 @@ class Main extends React.Component {
             folders={this.props.folders}
             id="messaging-create-folder"
             onClose={this.props.toggleCreateFolderModal}
-            visible={this.props.modals.createFolder.visible}/>
+            visible={this.props.createFolderModalIsOpen}/>
       </div>
     );
   }
@@ -48,16 +48,16 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    createFolderModalIsOpen: state.modals.createFolder.visible,
     folders: state.folders.data.items,
     navIsExpanded: state.folders.ui.nav.expanded,
     navIsVisible: state.folders.ui.nav.visible
-    modals: state.modals
   };
 };
 
 const mapDispatchToProps = {
   toggleCreateFolderModal,
-  toggleFolderNav
+  toggleFolderNav,
   toggleManagedFolders
 };
 
