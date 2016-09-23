@@ -3,7 +3,8 @@ import set from 'lodash/fp/set';
 import {
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_FAILURE,
-  SEND_MESSAGE,
+  SEND_MESSAGE_SUCCESS,
+  SEND_MESSAGE_FAILURE,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -37,6 +38,11 @@ export default function folders(state = initialState, action) {
       thread.push(currentMessage);
       return set('data.thread', thread, newState);
     }
+
+    case SEND_MESSAGE_SUCCESS:
+      // console.log("SEND SUCCESS!");
+      // console.log(action.data);
+      return state;
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       // Don't allow the currently viewed message (last in thread)
@@ -82,8 +88,8 @@ export default function folders(state = initialState, action) {
     case UPDATE_REPLY_CHARACTER_COUNT:
       return set('ui.charsRemaining', action.chars, state);
 
-    case SEND_MESSAGE:
     case FETCH_THREAD_FAILURE:
+    case SEND_MESSAGE_FAILURE:
     default:
       return state;
   }

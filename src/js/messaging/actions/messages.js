@@ -2,7 +2,8 @@ import { api } from '../config';
 
 export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
 export const FETCH_THREAD_FAILURE = 'FETCH_THREAD_FAILURE';
-export const SEND_MESSAGE = 'SEND_MESSAGE';
+export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
+export const SEND_MESSAGE_FAILURE = 'SEND_MESSAGE_FAILURE';
 export const TOGGLE_MESSAGE_COLLAPSED = 'TOGGLE_MESSAGE_COLLAPSED';
 export const TOGGLE_MESSAGES_COLLAPSED = 'TOGGLE_MESSAGES_COLLAPSED';
 export const TOGGLE_MOVE_TO = 'TOGGLE_MOVE_TO';
@@ -29,8 +30,27 @@ export function fetchThread(id) {
 }
 
 export function sendMessage(message) {
-  return {
-    type: SEND_MESSAGE
+  const payload = {
+    message: {
+      category: message.category.value,
+      subject: message.subject.value,
+      body: message.text.value,
+      recipientId: +message.recipient.value
+    }
+  };
+
+  const settings = Object.assign({}, api.settings, {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  });
+
+  return dispatch => {
+    fetch(baseUrl, settings)
+    .then(res => res.json())
+    .then(
+      data => dispatch({ type: SEND_MESSAGE_SUCCESS, data }),
+      err => dispatch({ type: SEND_MESSAGE_FAILURE, err })
+    );
   };
 }
 
