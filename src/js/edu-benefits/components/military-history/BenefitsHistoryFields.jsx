@@ -18,7 +18,7 @@ export default class BenefitsHistoryFields extends React.Component {
       <div className="input-section">
         <p>Select all that apply:</p>
         <ErrorableCheckbox
-            label="I am receiving benefits from the US Government as a civilian employee for the same term I am seeking benefits from the VA."
+            label="I am receiving benefits from the US Government as a civilian employee for the same term I am seeking benefits from VA."
             name="civilianBenefitsAssistance"
             checked={this.props.data.civilianBenefitsAssistance}
             onValueChange={(update) => {this.props.onStateChange('civilianBenefitsAssistance', update);}}/>
@@ -28,18 +28,18 @@ export default class BenefitsHistoryFields extends React.Component {
             checked={this.props.data.additionalContributions}
             onValueChange={(update) => {this.props.onStateChange('additionalContributions', update);}}/>
         <ErrorableCheckbox
-            label="I qualify for an Active Duty Kicker (sometimes called a 'college fund')"
+            label="I qualify for an Active Duty Kicker (sometimes called a ‘college fund’)."
             name="activeDutyKicker"
             checked={this.props.data.activeDutyKicker}
             onValueChange={(update) => {this.props.onStateChange('activeDutyKicker', update);}}/>
         <ErrorableCheckbox
-            label="I qualify for a Reserve Kicker (sometimes called a 'college fund')"
+            label="I qualify for a Reserve Kicker (sometimes called a ‘college fund’)."
             name="reserveKicker"
             checked={this.props.data.reserveKicker}
             onValueChange={(update) => {this.props.onStateChange('reserveKicker', update);}}/>
         <ErrorableRadioButtons
             errorMessage={validateIfDirty(this.props.data.activeDutyRepaying, isNotBlank) ? '' : 'Please select a response'}
-            label="Do you have a period of active duty that the department of defense counts for purposes of repaying an education loan?"
+            label="Do you have a period of active duty that the Department of Defense counts towards an education loan payment?"
             name="activeDutyRepaying"
             options={yesNo}
             value={this.props.data.activeDutyRepaying}
