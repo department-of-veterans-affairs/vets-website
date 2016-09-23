@@ -113,7 +113,7 @@ class Compose extends React.Component {
               cssClass="messaging-recipient"
               onValueChange={this.handleRecipientChange}
               options={this.props.recipients}
-              value={message.recipient}/>
+              recipient={message.recipient}/>
           <fieldset className="messaging-subject-group">
             <legend>Subject line:</legend>
             <div>
@@ -122,21 +122,21 @@ class Compose extends React.Component {
                   cssClass="messaging-category"
                   errorMessage={composeMessageErrors.category}
                   onValueChange={this.handleCategoryChange}
-                  value={message.category}/>
+                  category={message.category}/>
               <MessageSubject
                   cssClass="messaging-subject"
                   errorMessage={composeMessageErrors.subject}
                   onValueChange={this.handleSubjectChange}
                   placeholder={composeMessagePlaceholders.subject}
                   required={subjectRequired}
-                  value={message.subject}/>
+                  subject={message.subject}/>
             </div>
           </fieldset>
           <MessageWrite
               cssClass="messaging-write"
               onValueChange={this.handleMessageChange}
               placeholder={composeMessagePlaceholders.message}
-              value={message.text}/>
+              text={message.text}/>
           <MessageSend
               allowedMimeTypes={allowedMimeTypes}
               charCount={message.charsRemaining}

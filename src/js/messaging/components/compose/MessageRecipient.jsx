@@ -10,7 +10,7 @@ class MessageRecipient extends React.Component {
             name="messageRecipient"
             onValueChange={this.props.onValueChange}
             options={this.props.options}
-            value={this.props.value}/>
+            value={this.props.recipient}/>
       </div>
     );
   }
@@ -30,7 +30,7 @@ MessageRecipient.propTypes = {
         label: React.PropTypes.string,
         value: React.PropTypes.string })
     ])).isRequired,
-  value: React.PropTypes.shape({
+  recipient: React.PropTypes.shape({
     value: React.PropTypes.string,
     dirty: React.PropTypes.bool
   }).isRequired

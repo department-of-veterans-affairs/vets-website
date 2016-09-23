@@ -14,7 +14,7 @@ class MessageSubject extends React.Component {
             required={this.props.required}
             placeholder={this.props.placeholder}
             name="messageSubject"
-            field={this.props.value}/>
+            field={this.props.subject}/>
       </div>
     );
   }
@@ -26,7 +26,7 @@ MessageSubject.propTypes = {
   onValueChange: React.PropTypes.func,
   placeholder: React.PropTypes.string,
   required: React.PropTypes.bool,
-  value: React.PropTypes.shape({
+  subject: React.PropTypes.shape({
     value: React.PropTypes.string,
     dirty: React.PropTypes.bool
   }).isRequired,

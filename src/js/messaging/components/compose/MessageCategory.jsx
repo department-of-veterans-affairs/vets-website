@@ -13,7 +13,7 @@ class MessageCategory extends React.Component {
             name="messageCategory"
             onValueChange={this.props.onValueChange}
             options={categories}
-            value={this.props.value}/>
+            value={this.props.category}/>
       </div>
     );
   }
@@ -33,7 +33,7 @@ MessageCategory.propTypes = {
         label: React.PropTypes.string,
         value: React.PropTypes.string }),
     ])).isRequired,
-  value: React.PropTypes.shape({
+  category: React.PropTypes.shape({
     value: React.PropTypes.string,
     dirty: React.PropTypes.bool
   }).isRequired
