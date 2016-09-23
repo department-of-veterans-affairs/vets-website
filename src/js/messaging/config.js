@@ -65,5 +65,13 @@ module.exports = {
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'image/png'
-  ]
+  ],
+  createNewFolder: {
+    maxLength: 50,
+    errorMessages: {
+      empty: 'Please enter a folder name.',
+      exists: 'You already have a folder with that name. Try again?',
+      patternMismatch: 'Only the letters A through Z, numbers, and spaces are allowed in folder names.'
+    }
+  }
 };

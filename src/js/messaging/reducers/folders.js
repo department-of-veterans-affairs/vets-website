@@ -1,4 +1,5 @@
 import set from 'lodash/fp/set';
+import { makeField } from '../../common/model/fields.js';
 
 import {
   CREATE_NEW_FOLDER,
@@ -8,7 +9,8 @@ import {
   FETCH_FOLDER_FAILURE,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS,
-  SET_CURRENT_FOLDER
+  SET_CURRENT_FOLDER,
+  SET_FOLDER_NAME
 } from '../actions/folders';
 
 const initialState = {
@@ -24,7 +26,8 @@ const initialState = {
       },
       persistFolder: null
     },
-    items: []
+    items: [],
+    newFolderName: makeField('')
   },
   ui: {
     nav: {
@@ -62,6 +65,8 @@ export default function folders(state = initialState, action) {
     case SET_CURRENT_FOLDER:
       // The + forces +action.folderId to be a number
       return set('data.currentItem.persistFolder', +action.folderId, state);
+    case SET_FOLDER_NAME:
+      return set('data.newFolderName', action.folderName, state);
     // TODO: Make CREATE_NEW_FOLDER request a new folder creation.
     case CREATE_NEW_FOLDER:
     case FETCH_FOLDERS_FAILURE:

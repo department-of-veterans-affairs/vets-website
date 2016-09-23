@@ -5,7 +5,8 @@ import classNames from 'classnames';
 import {
   toggleFolderNav,
   toggleManagedFolders,
-  setCurrentFolder
+  setCurrentFolder,
+  setFolderName
 } from '../actions/folders';
 
 import ButtonClose from '../components/buttons/ButtonClose';
@@ -18,12 +19,20 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.handleOnFolderChange = this.handleOnFolderChange.bind(this);
+    this.handleOnFolderNameChange = this.handleOnFolderNameChange.bind(this);
+    this.handleOnSubmit = this.handleOnSubmit.bind(this);
   }
 
   handleOnFolderChange(domEvent) {
     const folderId = domEvent.target.dataset.folderid;
     this.props.setCurrentFolder(folderId);
   }
+
+  handleOnFolderNameChange(field) {
+    this.props.setFolderName(field);
+  }
+
+  handleOnSubmit() {}
 
   render() {
     const navClass = classNames({
@@ -53,7 +62,10 @@ class Main extends React.Component {
             folders={this.props.folders}
             id="messaging-create-folder"
             onClose={this.props.toggleCreateFolderModal}
-            visible={this.props.createFolderModalIsOpen}/>
+            onValueChange={this.handleOnFolderNameChange}
+            onSubmit={this.handleOnSubmit}
+            visible={this.props.createFolderModalIsOpen}
+            folderName={this.props.newFolderName}/>
       </div>
     );
   }
@@ -65,11 +77,12 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    persistFolder: state.folders.data.currentItem.persistFolder,
     createFolderModalIsOpen: state.modals.createFolder.visible,
     folders: state.folders.data.items,
     foldersExpanded: state.folders.ui.nav.foldersExpanded,
-    isNavVisible: state.folders.ui.nav.visible
+    isNavVisible: state.folders.ui.nav.visible,
+    newFolderName: state.folders.data.newFolderName,
+    persistFolder: state.folders.data.currentItem.persistFolder,
   };
 };
 
@@ -77,7 +90,8 @@ const mapDispatchToProps = {
   toggleCreateFolderModal,
   toggleFolderNav,
   toggleManagedFolders,
-  setCurrentFolder
+  setCurrentFolder,
+  setFolderName
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
