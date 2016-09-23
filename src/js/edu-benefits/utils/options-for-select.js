@@ -466,10 +466,10 @@ const accountTypes = [
 ];
 
 const relinquishableBenefits = [
-  { label: 'I don\'t have anything to relinquish', value: 'unknown' },
-  { label: 'Chapter 30', value: 'chapter30' },
-  { label: 'Chapter 1606', value: 'chapter1606' },
-  { label: 'Chapter 1607', value: 'chapter1607' }
+  { label: 'I don\'t have anything to give up', value: 'unknown' },
+  { label: 'Montgomery GI Bill (MGIB or Chapter 30) Education Assistance Program', value: 'chapter30' },
+  { label: 'Montgomery GI Bill Selected Reserve (MGIB-SR or Chapter 1606)  Educational Assistance Program', value: 'chapter1606' },
+  { label: 'Reserve Educational Assistance Program (REAP or Chapter 1607)', value: 'chapter1607' }
 ];
 
 const hoursTypes = [
@@ -479,16 +479,15 @@ const hoursTypes = [
 ];
 
 const claimTypes = [
-  { label: 'Chapter 30', value: 'chapter30' },
-  { label: 'Chapter 32', value: 'chapter32' },
-  { label: 'Chapter 33', value: 'chapter33' },
-  { label: 'Chapter 34', value: 'chapter34' },
-  { label: 'Chapter 35', value: 'chapter35' },
-  { label: 'Chapter 1606', value: 'chapter1606' },
-  { label: 'Chapter 1607', value: 'chapter1607' },
-  { label: 'National Call of Service', value: 'nationalService' },
+  { label: 'Montgomery GI Bill – Active Duty (Chapter 30)', value: 'chapter30' },
+  { label: 'Post-Vietnam Era Veterans’ Educational Assistance Program (VEAP or Chapter 32)', value: 'chapter32' },
+  { label: 'Post-9/11 GI Bill (Chapter 33)', value: 'chapter33' },
+  { label: 'Survivors’ and Dependents’ Educational Assistance Program (Chapter 35)', value: 'chapter35' },
+  { label: 'Montgomery GI Bill – Selected Reserve (MGIB-SR or chapter 1606)', value: 'chapter1606' },
+  { label: 'Reserve Educational Assistance Program (REAP or Chapter 1607)', value: 'chapter1607' },
+  { label: 'National Call to Service', value: 'nationalService' },
   { label: 'Use of Transferred Benefits', value: 'transferredBenefits' },
-  { label: 'Vocational Rehabilitation', value: 'vocationalRehab' },
+  { label: 'Vocational Rehabilitation and Employment (VR&E)', value: 'vocationalRehab' },
 ];
 
 const binaryGenders = [
@@ -502,9 +501,9 @@ const ownBenefitsOptions = [
 ];
 
 const tourBenefits = [
-  { label: 'Chapter 30', value: 'chapter30' },
-  { label: 'Chapter 1606', value: 'chapter1606' },
-  { label: 'Chapter 32 / Section 903', value: 'chapter32' }
+  { label: 'Montgomery GI Bill – Active Duty (Chapter 30)', value: 'chapter30' },
+  { label: 'Montgomery GI Bill – Selected Reserve (MGIB-SR or chapter 1606)', value: 'chapter1606' },
+  { label: 'Post-Vietnam Era Veterans’ Educational Assistance Program (VEAP or Chapter 32)', value: 'chapter32' }
 ];
 
 module.exports = {
