@@ -3,15 +3,19 @@ import React, { Component, PropTypes } from 'react';
 
 class NumberedIcon extends Component {
   render() {
-    const { position, children, number, style } = this.props;
+    const { position, children, number, style, onClick } = this.props;
 
     return (
-      <DivMarker position={position} popupContent={children}>
+      <DivMarker position={position} popupContent={<div>{children}</div>} onClick={onClick}>
         <div className="numbered-icon" style={style}>{number}</div>
       </DivMarker>
     );
   }
 }
+
+NumberedIcon.defaultProps = {
+  onClick: () => {},
+};
 
 NumberedIcon.propTypes = {
   position: PropTypes.array,
