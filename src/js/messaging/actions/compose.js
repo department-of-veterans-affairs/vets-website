@@ -75,7 +75,8 @@ export function fetchRecipients() {
 }
 
 export function updateComposeCharacterCount(field, maxLength) {
-  const chars = maxLength - field.value.length;
+  const fieldLength = field.value ? field.value.length : 0;
+  const chars = maxLength - fieldLength;
   return {
     type: UPDATE_COMPOSE_CHARACTER_COUNT,
     chars
