@@ -57,6 +57,7 @@
 .form-review-panel {
   button {
       background-color: $color-primary;
+      background-image: none;
       color: $white;
       &:hover {
         background-color: $color-primary-darker;

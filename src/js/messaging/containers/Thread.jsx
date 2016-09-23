@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import {
   fetchThread,
-  setVisibleDetails,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
@@ -128,17 +127,12 @@ class Thread extends React.Component {
         const isCollapsed =
           this.props.messagesCollapsed.has(message.messageId);
 
-        const hasVisibleDetails =
-          this.props.visibleDetailsId === message.messageId;
-
         return (
           <Message
               key={message.messageId}
               attrs={message}
               isCollapsed={isCollapsed}
-              onToggleCollapsed={this.props.toggleMessageCollapsed}
-              hasVisibleDetails={hasVisibleDetails}
-              setVisibleDetails={this.props.setVisibleDetails}/>
+              onToggleCollapsed={this.props.toggleMessageCollapsed}/>
         );
       });
     }
@@ -180,6 +174,7 @@ class Thread extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    persistFolder: state.folders.persistFolder,
     charsRemaining: state.messages.ui.charsRemaining,
     folders: state.folders.data.items,
     folderMessages: state.folders.data.currentItem.messages,
@@ -187,13 +182,11 @@ const mapStateToProps = (state) => {
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
     thread: state.messages.data.thread,
-    visibleDetailsId: state.messages.ui.visibleDetailsId
   };
 };
 
 const mapDispatchToProps = {
   fetchThread,
-  setVisibleDetails,
   toggleCreateFolderModal,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
