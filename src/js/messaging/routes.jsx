@@ -15,6 +15,10 @@ const routes = {
       path: '',
       component: Main,
       childRoutes: [
+        {
+          path: 'folder/',
+          onEnter: (nextState, replace) => { replace('/messaging/folder/0'); }
+        },
         { path: 'folder/:id', component: Folder },
         { path: 'compose', component: Compose },
         { path: 'thread/:id', component: Thread }
