@@ -20,23 +20,23 @@ module.exports = {
   messageCategories: [
     {
       label: 'Appointments',
-      value: 'Appointment Inquiry'
+      value: 'APPOINTMENTS'
     },
     {
       label: 'Education',
-      value: 'Patient Education Materials'
+      value: 'EDUCATION'
     },
     {
       label: 'Medications',
-      value: 'Medication Inquiry'
+      value: 'MEDICATIONS'
     },
     {
       label: 'Test results',
-      value: 'Test Results Inquiry'
+      value: 'TEST_RESULTS'
     },
     {
       label: 'Other (please add a subject)',
-      value: 'Other'
+      value: 'OTHER'
     }
   ],
 
