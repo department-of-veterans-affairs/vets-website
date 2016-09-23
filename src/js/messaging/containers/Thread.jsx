@@ -112,7 +112,7 @@ class Thread extends React.Component {
       header = (
         <ThreadHeader
             currentMessageNumber={currentIndex + 1}
-            folders={folders}
+            moveToFolders={folders}
             folderMessageCount={folderMessageCount}
             onClickPrev={fetchPrevMessage}
             onClickNext={fetchNextMessage}
