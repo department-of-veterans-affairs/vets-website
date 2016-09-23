@@ -6,6 +6,7 @@ import {
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
+  updateReplyBody,
   updateReplyCharacterCount
 } from '../actions/messages';
 
@@ -38,6 +39,7 @@ class Thread extends React.Component {
   }
 
   handleReplyChange(valueObj) {
+    this.props.updateReplyBody(valueObj);
     this.props.updateReplyCharacterCount(valueObj, composeMessageMaxChars);
   }
 
@@ -158,7 +160,8 @@ class Thread extends React.Component {
             <MessageWrite
                 cssClass="messaging-write"
                 onValueChange={this.handleReplyChange}
-                placeholder={composeMessagePlaceholders.message}/>
+                placeholder={composeMessagePlaceholders.message}
+                text={this.props.reply}/>
             <MessageSend
                 charCount={this.props.charsRemaining}
                 cssClass="messaging-send-group"
@@ -187,7 +190,8 @@ const mapStateToProps = (state) => {
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
-    thread: state.messages.data.thread,
+    reply: state.messages.data.reply,
+    thread: state.messages.data.thread
   };
 };
 
@@ -197,6 +201,7 @@ const mapDispatchToProps = {
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
+  updateReplyBody,
   updateReplyCharacterCount
 };
 

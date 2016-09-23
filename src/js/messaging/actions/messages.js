@@ -7,6 +7,7 @@ export const SEND_MESSAGE_FAILURE = 'SEND_MESSAGE_FAILURE';
 export const TOGGLE_MESSAGE_COLLAPSED = 'TOGGLE_MESSAGE_COLLAPSED';
 export const TOGGLE_MESSAGES_COLLAPSED = 'TOGGLE_MESSAGES_COLLAPSED';
 export const TOGGLE_MOVE_TO = 'TOGGLE_MOVE_TO';
+export const UPDATE_REPLY_BODY = 'UPDATE_REPLY_BODY';
 export const UPDATE_REPLY_CHARACTER_COUNT = 'UPDATE_REPLY_CHARACTER_COUNT';
 
 const baseUrl = `${api.url}/messages`;
@@ -55,11 +56,21 @@ export function sendMessage(message) {
 }
 
 export function toggleMessageCollapsed(messageId) {
-  return { type: TOGGLE_MESSAGE_COLLAPSED, messageId };
+  return {
+    type: TOGGLE_MESSAGE_COLLAPSED,
+    messageId
+  };
 }
 
 export function toggleMessagesCollapsed() {
   return { type: TOGGLE_MESSAGES_COLLAPSED };
+}
+
+export function updateReplyBody(text) {
+  return {
+    type: UPDATE_REPLY_BODY,
+    text
+  };
 }
 
 export function updateReplyCharacterCount(field, maxLength) {

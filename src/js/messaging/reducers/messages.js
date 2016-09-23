@@ -1,5 +1,7 @@
 import set from 'lodash/fp/set';
 
+import { makeField } from '../../common/model/fields';
+
 import {
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_FAILURE,
@@ -8,6 +10,7 @@ import {
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
+  UPDATE_REPLY_BODY,
   UPDATE_REPLY_CHARACTER_COUNT
 } from '../actions/messages';
 
@@ -15,7 +18,8 @@ import { composeMessageMaxChars } from '../config';
 
 const initialState = {
   data: {
-    thread: []
+    thread: [],
+    reply: makeField('')
   },
   ui: {
     charsRemaining: composeMessageMaxChars,
@@ -84,6 +88,9 @@ export default function folders(state = initialState, action) {
 
     case TOGGLE_MOVE_TO:
       return set('ui.moveToOpened', !state.ui.moveToOpened, state);
+
+    case UPDATE_REPLY_BODY:
+      return set('data.reply', action.text, state);
 
     case UPDATE_REPLY_CHARACTER_COUNT:
       return set('ui.charsRemaining', action.chars, state);
