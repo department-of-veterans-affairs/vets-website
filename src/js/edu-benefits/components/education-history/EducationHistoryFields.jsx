@@ -2,10 +2,10 @@ import React from 'react';
 
 import DateInput from '../../../common/components/form-elements/DateInput';
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
+import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
 
 import EducationPeriod from './EducationPeriod';
-import FlightCertificate from './FlightCertificate';
-import { createEducationPeriod, createFlightCertificate } from '../../utils/veteran';
+import { createEducationPeriod } from '../../utils/veteran';
 
 import { isValidPage } from '../../utils/validations';
 
@@ -20,9 +20,6 @@ export default class EducationHistoryFields extends React.Component {
       'hoursType',
       'degreeReceived',
       'major'
-    ];
-    const certificateFields = [
-      'name'
     ];
 
     const completionDate = this.props.data.highSchoolOrGedCompletionDate;
@@ -56,16 +53,11 @@ export default class EducationHistoryFields extends React.Component {
       </div>
       <hr/>
       <div className="input-section">
-        <p>FAA certificates</p>
-        <GrowableTable
-            component={FlightCertificate}
-            createRow={createFlightCertificate}
-            data={this.props.data}
-            initializeCurrentElement={() => this.props.initializeFields(certificateFields, 'faaFlightCertificatesInformation')}
-            onRowsUpdate={(update) => {this.props.onStateChange('faaFlightCertificatesInformation', update);}}
-            path="/education-history/education-information"
-            rows={this.props.data.faaFlightCertificatesInformation}
-            isValidSection={isValidPage}/>
+        <ErrorableTextarea
+            label="FAA certificates"
+            name="faaFlightCertificatesInformation"
+            field={this.props.data.faaFlightCertificatesInformation}
+            onValueChange={(update) => {this.props.onStateChange('faaFlightCertificatesInformation', update);}}/>
       </div>
     </fieldset>
     );
