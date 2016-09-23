@@ -7,7 +7,8 @@ import {
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDER_FAILURE,
   TOGGLE_FOLDER_NAV,
-  TOGGLE_MANAGED_FOLDERS
+  TOGGLE_MANAGED_FOLDERS,
+  SET_CURRENT_FOLDER
 } from '../actions/folders';
 
 const initialState = {
@@ -20,7 +21,8 @@ const initialState = {
         perPage: 0,
         totalEntries: 0,
         totalPages: 0
-      }
+      },
+      persistFolder: null
     },
     items: []
   },
@@ -42,11 +44,13 @@ export default function folders(state = initialState, action) {
       const attributes = action.folder.data.attributes;
       const messages = action.messages.data.map(message => message.attributes);
       const pagination = action.messages.meta.pagination;
+      const persistFolder = action.folder.data.attributes.folderId;
 
       const newItem = {
         attributes,
         messages,
-        pagination
+        pagination,
+        persistFolder
       };
 
       return set('data.currentItem', newItem, state);
@@ -55,6 +59,9 @@ export default function folders(state = initialState, action) {
       return set('ui.nav.visible', !state.ui.nav.visible, state);
     case TOGGLE_MANAGED_FOLDERS:
       return set('ui.nav.foldersExpanded', !state.ui.nav.foldersExpanded, state);
+    case SET_CURRENT_FOLDER:
+      // The + forces +action.folderId to be a number
+      return set('data.currentItem.persistFolder', +action.folderId, state);
     // TODO: Make CREATE_NEW_FOLDER request a new folder creation.
     case CREATE_NEW_FOLDER:
     case FETCH_FOLDERS_FAILURE:
