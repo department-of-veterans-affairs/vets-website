@@ -31,7 +31,7 @@ const initialState = {
       foldersExpanded: false,
       visible: false
     }
-  },
+  }
 };
 
 export default function folders(state = initialState, action) {

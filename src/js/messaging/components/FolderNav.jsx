@@ -22,7 +22,7 @@ class FolderNav extends React.Component {
     // Using this to persist usa-current class when veteran
     // enters a thread. Link does this automatically when the
     // URL and href match.
-    const ispersistFolder = classNames({
+    const isPersistFolder = classNames({
       'messaging-folder-nav-link': true,
       'usa-current': this.props.persistFolder === folder.folderId
     });
@@ -30,7 +30,7 @@ class FolderNav extends React.Component {
     return (
       <Link
           activeClassName="usa-current"
-          className={ispersistFolder}
+          className={isPersistFolder}
           data-folderid={folder.folderId}
           to={`/messaging/folder/${folder.folderId}`}
           onClick={this.props.onFolderChange}>
