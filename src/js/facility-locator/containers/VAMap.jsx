@@ -162,7 +162,7 @@ class VAMap extends Component {
     const { selectedFacility } = this.props;
 
     if (selectedFacility) {
-      return <SearchResult facility={selectedFacility}/>
+      return <SearchResult facility={selectedFacility}/>;
     }
 
     return null;
