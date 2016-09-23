@@ -61,3 +61,12 @@ legend {
 .edu-benefits-pre {
   white-space: pre;
 }
+.edu-benefits-list {
+  margin-top: 0;
+  margin-bottom: 1em;
+  list-style: disc;
+  > li {
+    line-height: 1.5;
+    margin-bottom: 0.5em;
+  }
+}
