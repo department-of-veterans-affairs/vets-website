@@ -3,7 +3,7 @@ import React from 'react';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
-import { isValidMonths, validateIfDirty, isNotBlank } from '../../utils/validations';
+import { isValidMonths, validateIfDirty } from '../../utils/validations';
 import { employmentPeriodTiming } from '../../utils/options-for-select';
 
 export default class EmploymentPeriod extends React.Component {
@@ -18,8 +18,7 @@ export default class EmploymentPeriod extends React.Component {
             options={employmentPeriodTiming}
             value={period.postMilitaryJob}
             onValueChange={(update) => {onValueChange('postMilitaryJob', update);}}/>
-        <ErrorableTextInput required
-            errorMessage={validateIfDirty(period.name, isNotBlank) ? undefined : 'Please provide your occupation'}
+        <ErrorableTextInput
             label="Principal occupation"
             name="name"
             field={period.name}

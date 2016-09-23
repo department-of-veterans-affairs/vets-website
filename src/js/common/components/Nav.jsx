@@ -3,14 +3,14 @@ import classnames from 'classnames';
 
 import { isActivePage } from '../utils/helpers';
 
-function lastPage(chapter) {
-  return chapter.pages.slice(-1)[0].path;
+function allPagesComplete(data, pageState, pages) {
+  return pages.filter(page => isActivePage(page, data)).every(page => pageState[page.path].complete);
 }
 
-function determineChapterStyles(pageState, formChapter, currentUrl) {
+function determineChapterStyles(data, pageState, formChapter, currentUrl) {
   return classnames(
     { 'section-current': formChapter.pages.some(page => page.path === currentUrl) },
-    { 'section-complete': formChapter.pages.length > 0 && pageState[lastPage(formChapter)].complete }
+    { 'section-complete': formChapter.pages.length > 0 && allPagesComplete(data, pageState, formChapter.pages) }
   );
 }
 
@@ -47,7 +47,7 @@ class Nav extends React.Component {
         {chapters.map((chapter, i) => {
           return (
             <li role="presentation" className={`${getStepClassFromIndex(i, chapters.length)} ${subnavStyles}
-              ${determineChapterStyles(pages, chapter, currentUrl)}`} key={chapter.name}>
+              ${determineChapterStyles(data, pages, chapter, currentUrl)}`} key={chapter.name}>
               <div>
                 <h5>{chapter.name}</h5>
                 <ul className="usa-unstyled-list">
