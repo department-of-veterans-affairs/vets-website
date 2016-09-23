@@ -12,6 +12,7 @@ import NumberedIcon from '../components/markers/NumberedIcon';
 import React, { Component } from 'react';
 import ResultsList from '../components/ResultsList';
 import SearchControls from '../components/SearchControls';
+import SearchResult from '../components/SearchResult';
 
 class VAMap extends Component {
 
@@ -161,11 +162,7 @@ class VAMap extends Component {
     const { selectedFacility } = this.props;
 
     if (selectedFacility) {
-      return (
-        <div>
-          {selectedFacility.attributes.name}
-        </div>
-      );
+      return <SearchResult facility={selectedFacility}/>
     }
 
     return null;
@@ -176,8 +173,6 @@ class VAMap extends Component {
     const position = [coords.latitude, coords.longitude];
     const { currentQuery, facilities } = this.props;
 
-    // TODO: action to set selectedFacility
-    // TODO: center map in tab on selectedFacility
     return (
       <div>
         <div className="columns small-12">
