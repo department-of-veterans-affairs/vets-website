@@ -9,6 +9,7 @@ export const TOGGLE_FOLDER_NAV = 'TOGGLE_FOLDER_NAV';
 export const TOGGLE_MANAGED_FOLDERS = 'TOGGLE_MANAGED_FOLDERS';
 export const CREATE_NEW_FOLDER = 'CREATE_NEW_FOLDER';
 export const SET_CURRENT_FOLDER = 'SET_CURRENT_FOLDER';
+export const SET_FOLDER_NAME = 'SET_FOLDER_NAME';
 
 const baseUrl = `${api.url}/folders`;
 
@@ -69,5 +70,12 @@ export function setCurrentFolder(folderId) {
   return {
     type: SET_CURRENT_FOLDER,
     folderId
+  };
+}
+
+export function setFolderName(folderName) {
+  return {
+    type: SET_FOLDER_NAME,
+    folderName
   };
 }

@@ -21,4 +21,3 @@ export function toggleCreateFolderModal() {
     type: TOGGLE_CREATE_FOLDER
   };
 }
-

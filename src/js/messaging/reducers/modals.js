@@ -14,7 +14,7 @@ const initialState = {
     visible: false
   },
   createFolder: {
-    visible: false
+    visible: true
   }
 };
 
