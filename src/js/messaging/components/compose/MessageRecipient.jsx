@@ -30,7 +30,10 @@ MessageRecipient.propTypes = {
         label: React.PropTypes.string,
         value: React.PropTypes.string })
     ])).isRequired,
-  value: React.PropTypes.object
+  value: React.PropTypes.shape({
+    value: React.PropTypes.string,
+    dirty: React.PropTypes.bool
+  }).isRequired
 };
 
 export default MessageRecipient;
