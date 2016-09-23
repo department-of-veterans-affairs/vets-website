@@ -3,7 +3,6 @@ import set from 'lodash/fp/set';
 import {
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_FAILURE,
-  SET_VISIBLE_DETAILS,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -19,7 +18,6 @@ const initialState = {
   ui: {
     charsRemaining: composeMessageMaxChars,
     messagesCollapsed: new Set(),
-    visibleDetailsId: null,
     moveToOpened: false
   }
 };
@@ -38,9 +36,6 @@ export default function folders(state = initialState, action) {
       thread.push(currentMessage);
       return set('data.thread', thread, newState);
     }
-
-    case SET_VISIBLE_DETAILS:
-      return set('ui.visibleDetailsId', action.messageId, state);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       // Don't allow the currently viewed message (last in thread)

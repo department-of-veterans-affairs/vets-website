@@ -2,7 +2,6 @@ import { api } from '../config';
 
 export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
 export const FETCH_THREAD_FAILURE = 'FETCH_THREAD_FAILURE';
-export const SET_VISIBLE_DETAILS = 'SET_VISIBLE_DETAILS';
 export const TOGGLE_MESSAGE_COLLAPSED = 'TOGGLE_MESSAGE_COLLAPSED';
 export const TOGGLE_MESSAGES_COLLAPSED = 'TOGGLE_MESSAGES_COLLAPSED';
 export const TOGGLE_MOVE_TO = 'TOGGLE_MOVE_TO';
@@ -26,10 +25,6 @@ export function fetchThread(id) {
       err => dispatch({ type: FETCH_THREAD_FAILURE, err })
     );
   };
-}
-
-export function setVisibleDetails(messageId) {
-  return { type: SET_VISIBLE_DETAILS, messageId };
 }
 
 export function toggleMessageCollapsed(messageId) {

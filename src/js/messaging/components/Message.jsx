@@ -79,8 +79,6 @@ Message.propTypes = {
   }).isRequired,
   isCollapsed: React.PropTypes.bool,
   onToggleCollapsed: React.PropTypes.func,
-  hasVisibleDetails: React.PropTypes.bool,
-  setVisibleDetails: React.PropTypes.func
 };
 
 export default Message;
