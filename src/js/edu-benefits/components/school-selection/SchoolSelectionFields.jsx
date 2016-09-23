@@ -14,6 +14,7 @@ export default class SchoolSelectionFields extends React.Component {
   render() {
     return (<fieldset>
       <legend className="hide-for-small-only">School selection</legend>
+      <p>In what type of education or training do you plan to enroll?</p>
       <div className="input-section">
         <ErrorableSelect
             label="Type of education or training"
@@ -26,9 +27,9 @@ export default class SchoolSelectionFields extends React.Component {
           {showSchoolAddress(this.props.data.educationType.value)
           ? <div>
             <div className="input-section">
-              <p>Do you know what school you will be attending?</p>
+              <p>Enter the name of the school you are attending if you already know. It’s okay if you don’t have a school picked out yet.</p>
               <ErrorableTextInput
-                  label="Name of school"
+                  label="Name of school, university, or training facility"
                   name="schoolName"
                   field={this.props.data.school.name}
                   onValueChange={(update) => {this.props.onStateChange('school.name', update);}}/>
@@ -42,7 +43,7 @@ export default class SchoolSelectionFields extends React.Component {
           </div>
         : null}
         <ErrorableTextarea
-            label="Education or career objective"
+            label="Education or career goal (for example, ‘Get a degree in journalism’ or ‘Become a computer programmer.’)"
             name="educationObjective"
             field={this.props.data.educationObjective}
             onValueChange={(update) => {this.props.onStateChange('educationObjective', update);}}/>
