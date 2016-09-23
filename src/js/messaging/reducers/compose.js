@@ -1,10 +1,10 @@
 import set from 'lodash/fp/set';
 
 import { composeMessageMaxChars } from '../config';
+import { makeField } from '../../common/model/fields.js';
 
 import {
   SET_MESSAGE_FIELD,
-  SET_SUBJECT_REQUIRED,
   SEND_MESSAGE,
   SAVE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
@@ -23,11 +23,8 @@ const initialState = {
     },
     category: undefined,
     recipient: undefined,
-    subject: {
-      value: undefined,
-      required: false
-    },
-    text: undefined,
+    subject: makeField(''),
+    text: makeField(''),
     charsRemaining: composeMessageMaxChars,
     attachments: []
   },
@@ -53,9 +50,7 @@ function getRecipients(recipients) {
 export default function compose(state = initialState, action) {
   switch (action.type) {
     case SET_MESSAGE_FIELD:
-      return set(action.path, action.field.value, state);
-    case SET_SUBJECT_REQUIRED:
-      return set('message.subject.required', action.fieldState.required, state);
+      return set(action.path, action.field, state);
     case FETCH_RECIPIENTS_SUCCESS:
       return set('recipients', getRecipients(action.recipients.data), state);
     case FETCH_SENDER_SUCCESS:

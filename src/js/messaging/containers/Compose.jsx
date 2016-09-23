@@ -123,13 +123,14 @@ class Compose extends React.Component {
                   errorMessage={composeMessageErrors.subject}
                   onValueChange={this.handleSubjectChange}
                   placeholder={composeMessagePlaceholders.subject}
-                  required={message.subject.required}/>
+                  subject={message.subject}/>
             </div>
           </fieldset>
           <MessageWrite
               cssClass="messaging-write"
               onValueChange={this.handleMessageChange}
-              placeholder={composeMessagePlaceholders.message}/>
+              placeholder={composeMessagePlaceholders.message}
+              text={message.text}/>
           <MessageSend
               allowedMimeTypes={allowedMimeTypes}
               charCount={this.props.compose.message.charsRemaining}
