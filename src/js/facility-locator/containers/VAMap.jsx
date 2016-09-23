@@ -3,7 +3,7 @@ import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { fetchVAFacilities, updateSearchQuery, searchWithAddress, searchWithCoordinates } from '../actions';
 import { map, find } from 'lodash';
-import { Map, TileLayer } from 'react-leaflet';
+import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import DivMarker from '../components/markers/DivMarker';
@@ -126,6 +126,16 @@ class VAMap extends Component {
     this.props.searchWithAddress(currentQuery);
   }
 
+  centerMap = () => {
+    setTimeout(() => {
+      if (this.refs.map && this.refs.facilityMarkers) {
+        this.refs.map.leafletElement.fitBounds(
+          this.refs.facilityMarkers.leafletElement.getBounds()
+        );
+      }
+    }, 1);
+  }
+
   renderFacilityMarkers() {
     const facilities = this.props.facilities;
 
@@ -159,7 +169,7 @@ class VAMap extends Component {
       <div>
         <div className="columns small-12">
           <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch}/>
-          <Tabs>
+          <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
               <Tab className="small-6 tab">View Map</Tab>
@@ -180,7 +190,9 @@ class VAMap extends Component {
                     <i className="fa fa-star"></i>
                   </div>
                 </DivMarker>
-                {this.renderFacilityMarkers()}
+                <FeatureGroup ref="facilityMarkers">
+                  {this.renderFacilityMarkers()}
+                </FeatureGroup>
               </Map>
             </TabPanel>
           </Tabs>
@@ -219,7 +231,9 @@ class VAMap extends Component {
                 <i className="fa fa-star"></i>
               </div>
             </DivMarker>
-            {this.renderFacilityMarkers()}
+            <FeatureGroup ref="facilityMarkers">
+              {this.renderFacilityMarkers()}
+            </FeatureGroup>
           </Map>
         </div>
       </div>
