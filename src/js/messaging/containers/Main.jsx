@@ -38,7 +38,7 @@ class Main extends React.Component {
               onClick={this.props.toggleFolderNav}/>
           <ComposeButton/>
           <FolderNav
-              inFolder={this.props.inFolder}
+              persistFolder={this.props.persistFolder}
               folders={this.props.folders}
               isExpanded={this.props.navIsExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
@@ -65,7 +65,7 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    inFolder: state.folders.inFolder,
+    persistFolder: state.folders.data.currentItem.persistFolder,
     createFolderModalIsOpen: state.modals.createFolder.visible,
     folders: state.folders.data.items,
     foldersExpanded: state.folders.ui.nav.foldersExpanded,
