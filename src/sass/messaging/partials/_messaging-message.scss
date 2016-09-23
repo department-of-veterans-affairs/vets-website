@@ -38,57 +38,6 @@
   cursor: pointer;
 }
 
-.messaging-message-details-control {
-  color: $color-black;
-  display: inline-block;
-  margin-left: 1rem;
-  position: relative;
-
-  button {
-    background: transparent;
-    box-shadow: none;
-    color: $color-black;
-    margin: 0;
-    outline: 0;
-    padding: 0;
-
-    &:active,
-    &:focus,
-    &:hover {
-      color: $color-gray;
-    }
-
-    i {
-      font-size: 1.8rem;
-    }
-  }
-
-  table {
-    margin: 0;
-  }
-
-  td, th {
-    border: none;
-    padding: 0.25rem 0.75rem;
-    white-space: nowrap;
-  }
-
-  th {
-    font-weight: bold;
-    text-align: right;
-  }
-}
-
-.messaging-message-details {
-  background: $color-white;
-  border: 1px solid $color-black;
-  cursor: auto;
-  font-size: 1.5rem;
-  padding: 1rem;
-  position: absolute;
-  z-index: 100;
-}
-
 .messaging-message-sender,
 .messaging-message-sent-date {
   display: inline-block;
@@ -116,13 +65,150 @@
   color: $color-gray-medium;
 }
 
-// The last message in a thread should not be collapsible.
 .messaging-thread-message:last-child {
   @media (max-width: $medium-screen) {
     border: none;
   }
 
+  // The last message in a thread should not be collapsible,
+  // so the header should be look interactive.
   .messaging-message-header {
     cursor: auto;
+  }
+}
+
+/*******************
+ * Message Details *
+ *******************/
+
+.messaging-message-details-control {
+  color: $color-black;
+  display: inline-block;
+  margin-left: 1rem;
+  outline: none;
+  position: relative;
+
+  label {
+    cursor: pointer;
+    margin-top: 0;
+  }
+
+  input {
+    display: none;
+
+    &:checked {
+      & ~ .messaging-message-details {
+        display: block;
+      }
+    }
+  }
+
+  button {
+    background: transparent;
+    box-shadow: none;
+    color: $color-black;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $color-gray;
+    }
+
+    i {
+      font-size: 1.8rem;
+    }
+  }
+
+  @media (max-width: $medium-screen) {
+    display: block;
+    margin: 0;
+
+    label {
+      display: none;
+    }
+  }
+}
+
+.messaging-message-details {
+  background: $color-white;
+  border: 1px solid $color-black;
+  cursor: auto;
+  display: none;
+  font-size: 1.5rem;
+  padding: 1rem;
+  position: absolute;
+  z-index: 5;
+
+  table {
+    margin: 0;
+  }
+
+  td, th {
+    border: none;
+    padding: 0.25rem 0.75rem;
+    white-space: nowrap;
+  }
+
+  th {
+    font-weight: bold;
+    text-align: right;
+  }
+
+  @media (max-width: $medium-screen) {
+    background: transparent;
+    border-width: 0;
+    font-size: 1.8rem;
+    margin: 0.5rem 0 0 0;
+    padding: 0;
+    position: static;
+    z-index: 0;
+
+    td, th {
+      padding: 0 0 0.5rem 0;
+      text-align: left;
+    }
+
+    tr:first-child,
+    tr:last-child {
+      display: none;
+    }
+  }
+}
+
+.messaging-compact-details-trigger {
+  & ~ label {
+    color: $color-primary;
+    display: none;
+    text-decoration: underline;
+
+    &:after {
+      content: 'Details';
+    }
+
+    @media (max-width: $medium-screen) {
+      display: inline-block;
+    }
+  }
+
+  & ~ span {
+    display: none;
+    margin-right: 0.5rem;
+
+    @media (max-width: $medium-screen) {
+      display: inline-block;
+    }
+  }
+
+  &:checked {
+    & ~ label:after {
+      content: 'Hide details';
+    }
+
+    & ~ span {
+      display: none;
+    }
   }
 }
