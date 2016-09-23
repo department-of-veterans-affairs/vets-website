@@ -29,7 +29,7 @@ export default class EducationHistoryFields extends React.Component {
       <legend className="hide-for-small-only">Education history</legend>
       <div className="input-section">
         <DateInput
-            label="If you received a high school diploma or high school equivalency certificate, what date was it received? (month, day, year)"
+            label="When did you earn your high school diploma or equivalency certificate?"
             name="highSchoolOrGedCompletionDate"
             day={day}
             month={month}
@@ -37,7 +37,8 @@ export default class EducationHistoryFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('highSchoolOrGedCompletionDate', update);}}/>
       </div>
       <div className="input-section">
-        <p>Education after High School (Including apprenticeship, on-the-job training, and flight training)</p>
+        <h4>Education after high school</h4>
+        <p>Enter the name of the college or training facility where you completed educational programs after high school (including apprenticeships, on-the-job training, and flight training).</p>
         <hr/>
         <div className="input-section">
           <GrowableTable
