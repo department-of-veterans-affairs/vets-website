@@ -43,6 +43,20 @@
     }
   }
 
+  .leaflet-popup-content {
+    h5 {
+      color: $color-link-default;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
   .tab {
     border-color: $color-black;
     text-align: center;

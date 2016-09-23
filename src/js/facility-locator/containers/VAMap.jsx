@@ -1,5 +1,5 @@
 import { bindActionCreators } from 'redux';
-import { browserHistory } from 'react-router';
+import { browserHistory, Link } from 'react-router';
 import { connect } from 'react-redux';
 import { fetchVAFacilities, updateSearchQuery, searchWithAddress, searchWithCoordinates } from '../actions';
 import { map, find } from 'lodash';
@@ -129,10 +129,19 @@ class VAMap extends Component {
   renderFacilityMarkers() {
     const facilities = this.props.facilities;
 
+    // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
+    const linkAction = (id, e) => {
+      e.preventDefault();
+      browserHistory.push(`facilities/facility/${id}`);
+    };
+
     return facilities.map(f => {
       return (
         <NumberedIcon key={f.id} position={[f.lat, f.long]} number={f.id}>
-          <span>{`Facility ${f.id}: ${f.attributes.name}`}</span>
+          <a onClick={linkAction.bind(this, f.id)}>
+            <h5>{f.attributes.name} asdfasfasdf</h5>
+          </a>
+          <p>Facility type: {f.type}</p>
         </NumberedIcon>
       );
     });
