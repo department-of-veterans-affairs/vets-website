@@ -1,10 +1,8 @@
 import React from 'react';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
-import { makeField } from '../../../common/model/fields';
 
 class MessageRecipient extends React.Component {
   render() {
-    const recipientValue = makeField(undefined);
     return (
       <div className={this.props.cssClass}>
         <ErrorableSelect
@@ -12,7 +10,7 @@ class MessageRecipient extends React.Component {
             name="messageRecipient"
             onValueChange={this.props.onValueChange}
             options={this.props.options}
-            value={recipientValue}/>
+            value={this.props.value}/>
       </div>
     );
   }
@@ -31,7 +29,8 @@ MessageRecipient.propTypes = {
       React.PropTypes.shape({
         label: React.PropTypes.string,
         value: React.PropTypes.string })
-    ])).isRequired
+    ])).isRequired,
+  value: React.PropTypes.object
 };
 
 export default MessageRecipient;

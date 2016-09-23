@@ -23,7 +23,6 @@ import ModalAttachmentsTooBig from '../components/compose/ModalAttachmentsTooBig
 import {
   saveMessage,
   setMessageField,
-  setSubjectRequired,
   fetchRecipients,
   fetchSenderName,
   updateComposeCharacterCount
@@ -59,7 +58,6 @@ class Compose extends React.Component {
 
   handleCategoryChange(valueObj) {
     this.props.setMessageField('message.category', valueObj);
-    this.props.setSubjectRequired(valueObj);
   }
 
   handleSubjectChange(valueObj) {
@@ -84,6 +82,8 @@ class Compose extends React.Component {
 
   render() {
     const message = this.props.message;
+    const subjectRequired = message.category &&
+                            message.category.value === 'OTHER';
 
     return (
       <div>
@@ -109,7 +109,6 @@ class Compose extends React.Component {
               firstName={message.sender.firstName}
               middleName={message.sender.middleName}/>
           <MessageRecipient
-              categories={messageCategories}
               errorMessage={composeMessageErrors.recipient}
               cssClass="messaging-recipient"
               onValueChange={this.handleRecipientChange}
@@ -129,13 +128,15 @@ class Compose extends React.Component {
                   errorMessage={composeMessageErrors.subject}
                   onValueChange={this.handleSubjectChange}
                   placeholder={composeMessagePlaceholders.subject}
-                  required={message.subject.required}/>
+                  required={subjectRequired}
+                  value={message.subject}/>
             </div>
           </fieldset>
           <MessageWrite
               cssClass="messaging-write"
               onValueChange={this.handleMessageChange}
-              placeholder={composeMessagePlaceholders.message}/>
+              placeholder={composeMessagePlaceholders.message}
+              value={message.text}/>
           <MessageSend
               allowedMimeTypes={allowedMimeTypes}
               charCount={message.charsRemaining}
@@ -178,7 +179,6 @@ const mapDispatchToProps = {
   saveMessage,
   sendMessage,
   setMessageField,
-  setSubjectRequired,
   fetchRecipients,
   fetchSenderName,
   toggleConfirmDelete,

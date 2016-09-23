@@ -3,7 +3,6 @@ import { api } from '../config';
 export const SET_CATEGORY = 'SET_CATEGORY';
 export const SET_SUBJECT = 'SET_SUBJECT';
 export const SET_RECIPIENT = 'SET_RECIPIENT';
-export const SET_SUBJECT_REQUIRED = 'SET_SUBJECT_REQUIRED';
 
 export const FETCH_RECIPIENTS_SUCCESS = 'FETCH_RECIPIENTS_SUCCESS';
 export const FETCH_RECIPIENTS_FAILURE = 'FETCH_RECIPIENTS_FAILURE';
@@ -20,16 +19,6 @@ export function setMessageField(path, field) {
     type: SET_MESSAGE_FIELD,
     path,
     field
-  };
-}
-
-export function setSubjectRequired(field) {
-  const fieldState = field;
-  fieldState.required = field.value === 'Other';
-
-  return {
-    type: SET_SUBJECT_REQUIRED,
-    fieldState
   };
 }
 
