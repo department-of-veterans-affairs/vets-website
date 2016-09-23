@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchVAFacilities, updateSearchQuery, searchWithAddress, searchWithCoordinates } from '../actions';
+import { fetchVAFacilities, updateSearchQuery, searchWithAddress, searchWithCoordinates, fetchVAFacility } from '../actions';
 import { map, find } from 'lodash';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
@@ -137,7 +137,7 @@ class VAMap extends Component {
   }
 
   renderFacilityMarkers() {
-    const facilities = this.props.facilities;
+    const { facilities } = this.props;
 
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, e) => {
@@ -147,7 +147,7 @@ class VAMap extends Component {
 
     return facilities.map(f => {
       return (
-        <NumberedIcon key={f.id} position={[f.lat, f.long]} number={f.id}>
+        <NumberedIcon key={f.id} position={[f.lat, f.long]} number={f.id} onClick={() => {this.props.fetchVAFacility(f.id, f);}}>
           <a onClick={linkAction.bind(this, f.id)}>
             <h5>{f.attributes.name} asdfasfasdf</h5>
           </a>
@@ -157,6 +157,20 @@ class VAMap extends Component {
     });
   }
 
+  renderSelectedFacility() {
+    const { selectedFacility } = this.props;
+
+    if (selectedFacility) {
+      return (
+        <div>
+          {selectedFacility.attributes.name}
+        </div>
+      );
+    }
+
+    return null;
+  }
+
   renderMobileView() {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
@@ -164,7 +178,6 @@ class VAMap extends Component {
 
     // TODO: action to set selectedFacility
     // TODO: center map in tab on selectedFacility
-
     return (
       <div>
         <div className="columns small-12">
@@ -194,6 +207,7 @@ class VAMap extends Component {
                   {this.renderFacilityMarkers()}
                 </FeatureGroup>
               </Map>
+              {this.renderSelectedFacility()}
             </TabPanel>
           </Tabs>
         </div>
@@ -254,11 +268,13 @@ function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
     facilities: state.facilities.facilities,
+    selectedFacility: state.facilities.selectedFacility,
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
+    fetchVAFacility,
     fetchVAFacilities,
     updateSearchQuery,
     searchWithAddress,
