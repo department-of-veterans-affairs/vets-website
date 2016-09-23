@@ -104,9 +104,6 @@ const previousClaimGen = () => qc.objectLike({
     payeeNumber: makeField(qc.string)
   })
 });
-const faaGen = () => qc.objectLike({
-  name: makeField(qc.string)
-});
 const matches = (source, target) => {
   if (!_.isUndefined(source) && !_.isUndefined(target)) {
     if (_.isObject(source)) {
@@ -134,7 +131,7 @@ function createTestVeteran() {
     }),
     toursOfDuty: qc.arrayOf(tourOfDutyGen()),
     postHighSchoolTrainings: qc.arrayOf(educationGen()),
-    faaFlightCertificatesInformation: qc.arrayOf(faaGen()),
+    faaFlightCertificatesInformation: makeField(qc.string),
     highSchoolOrGedCompletionDate: dateGen(),
     seniorRotcCommissioned: makeField(yesNoGen()),
     seniorRotc: qc.objectLike({
