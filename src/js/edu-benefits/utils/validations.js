@@ -133,8 +133,12 @@ function isValidRoutingNumber(value) {
   return false;
 }
 
+function isValidValue(validator, value) {
+  return isBlank(value) || validator(value);
+}
+
 function isValidField(validator, field) {
-  return isBlank(field.value) || validator(field.value);
+  return isValidValue(validator, field.value);
 }
 
 function isValidRequiredField(validator, field) {
@@ -372,5 +376,6 @@ export {
   isValidAddressField,
   isValidContactInformationPage,
   isValidMilitaryServicePage,
-  isValidPage
+  isValidPage,
+  isValidValue
 };
