@@ -44,7 +44,7 @@ function getRecipients(recipients) {
   return recipients.map((item) => {
     return {
       label: item.attributes.name,
-      value: item.attributes.triage_team_id
+      value: item.attributes.triageTeamId
     };
   });
 }
@@ -52,7 +52,7 @@ function getRecipients(recipients) {
 export default function compose(state = initialState, action) {
   switch (action.type) {
     case SET_MESSAGE_FIELD:
-      return set(action.path, action.field, state);
+      return set(action.path, action.field.value, state);
     case SET_SUBJECT_REQUIRED:
       return set('message.subject.required', action.fieldState.required, state);
     case FETCH_RECIPIENTS_SUCCESS:
