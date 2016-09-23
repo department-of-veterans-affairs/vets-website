@@ -24,7 +24,7 @@ class Main extends React.Component {
           <ComposeButton/>
           <FolderNav
               folders={this.props.folders}
-              isExpanded={this.props.navIsExpanded}
+              isExpanded={this.props.hasFoldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
               onCreateNewFolder={this.props.toggleCreateFolderModal}/>
         </div>
@@ -36,7 +36,7 @@ class Main extends React.Component {
             folders={this.props.folders}
             id="messaging-create-folder"
             onClose={this.props.toggleCreateFolderModal}
-            visible={this.props.createFolderModalIsOpen}/>
+            visible={this.props.isCreateFolderModalOpen}/>
       </div>
     );
   }
@@ -48,9 +48,9 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    createFolderModalIsOpen: state.modals.createFolder.visible,
     folders: state.folders.data.items,
-    foldersExpanded: state.folders.ui.nav.foldersExpanded,
+    hasFoldersExpanded: state.folders.ui.nav.foldersExpanded,
+    isCreateFolderModalOpen: state.modals.createFolder.visible,
     isNavVisible: state.folders.ui.nav.visible
   };
 };
