@@ -4,14 +4,12 @@ import classNames from 'classnames';
 
 import ButtonCreateFolder from './buttons/ButtonCreateFolder';
 
-
 class FolderNav extends React.Component {
   constructor(props) {
     super(props);
     this.makeFolderLink = this.makeFolderLink.bind(this);
     this.makeMyFolders = this.makeMyFolders.bind(this);
   }
-
   makeFolderLink(folder) {
     let count;
 
@@ -21,11 +19,21 @@ class FolderNav extends React.Component {
       count = ` (${folder.count})`;
     }
 
+    // Using this to persist usa-current class when veteran
+    // enters a thread. Link does this automatically when the
+    // URL and href match.
+    const isPersistFolder = classNames({
+      'messaging-folder-nav-link': true,
+      'usa-current': this.props.persistFolder === folder.folderId
+    });
+
     return (
       <Link
           activeClassName="usa-current"
-          className="messaging-folder-nav-link"
-          to={`/messaging/folder/${folder.folderId}`}>
+          className={isPersistFolder}
+          data-folderid={folder.folderId}
+          to={`/messaging/folder/${folder.folderId}`}
+          onClick={this.props.onFolderChange}>
         {folder.name}
         {count}
       </Link>
@@ -123,6 +131,7 @@ FolderNav.contextTypes = {
 };
 
 FolderNav.propTypes = {
+  persistFolder: React.PropTypes.number,
   folders: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       folderId: React.PropTypes.number.isRequired,
