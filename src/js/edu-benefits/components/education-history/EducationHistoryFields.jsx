@@ -41,7 +41,6 @@ export default class EducationHistoryFields extends React.Component {
       </div>
       <div className="input-section">
         <p>Education after High School (Including apprenticeship, on-the-job training, and flight training)</p>
-        <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
         <hr/>
         <div className="input-section">
           <GrowableTable

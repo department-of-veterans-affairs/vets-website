@@ -2,15 +2,9 @@ import React from 'react';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 
-import { isValidYear, validateIfDirty, isNotBlank, isValidMonetaryValue } from '../../utils/validations';
+import { isValidYear, validateIfDirty, isValidMonetaryValue, isBlank } from '../../utils/validations';
 
-function isValidRequiredAmount(val) {
-  return isNotBlank(val) && isValidMonetaryValue(val);
-}
-
-function isValidRequiredYear(val) {
-  return isNotBlank(val) && isValidYear(val);
-}
+const validateIfNotBlank = (validator) => (val) => isBlank(val) || validator(val);
 
 export default class RotcScholarship extends React.Component {
   render() {
@@ -20,24 +14,22 @@ export default class RotcScholarship extends React.Component {
       <div className="row">
         <div className="columns small-4">
           <ErrorableTextInput
-              errorMessage={validateIfDirty(scholarship.year, isValidRequiredYear) ? undefined : 'Please enter a valid year.'}
-              validation={validateIfDirty(scholarship.year, isValidRequiredYear)}
+              errorMessage={validateIfDirty(scholarship.year, validateIfNotBlank(isValidYear)) ? undefined : 'Please enter a valid year.'}
+              validation={validateIfDirty(scholarship.year, validateIfNotBlank(isValidYear))}
               label="Year"
               name="year"
               field={scholarship.year}
               placeholder="yyyy"
-              required
               onValueChange={(update) => {onValueChange('year', update);}}/>
         </div>
         <div className="columns small-8">
           <ErrorableTextInput
-              errorMessage={validateIfDirty(scholarship.amount, isValidRequiredAmount) ? undefined : 'Please enter the amount received.'}
-              validation={validateIfDirty(scholarship.amount, isValidRequiredAmount)}
+              errorMessage={validateIfDirty(scholarship.amount, validateIfNotBlank(isValidMonetaryValue)) ? undefined : 'Please enter the amount received.'}
+              validation={validateIfDirty(scholarship.amount, validateIfNotBlank(isValidMonetaryValue))}
               label="Scholarship amount"
               name="amount"
               field={scholarship.amount}
               placeholder="$"
-              required
               onValueChange={(update) => {onValueChange('amount', update);}}/>
         </div>
       </div>

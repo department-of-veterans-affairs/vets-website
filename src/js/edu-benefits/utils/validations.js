@@ -224,7 +224,7 @@ function isValidSchoolSelectionPage(data) {
 }
 
 function isValidEmploymentPeriod(data) {
-  return isNotBlank(data.name.value) && (isBlank(data.months.value) || isValidMonths(data.months.value));
+  return isBlank(data.months.value) || isValidMonths(data.months.value);
 }
 
 function isValidEmploymentHistoryPage(data) {
@@ -232,10 +232,7 @@ function isValidEmploymentHistoryPage(data) {
 }
 
 function isValidEducationPeriod(data) {
-  return isNotBlank(data.name)
-    && !isBlankDateField(data.dateRange.from)
-    && !isBlankDateField(data.dateRange.to)
-    && isValidDateRange(data.dateRange.from, data.dateRange.to);
+  return isValidDateRange(data.dateRange.from, data.dateRange.to);
 }
 
 function isValidEducationHistoryPage(data) {
@@ -278,22 +275,17 @@ function isValidBenefitsHistoryPage(data) {
 }
 
 function isValidRotcScholarshipAmount(data) {
-  return isNotBlank(data.amount)
-    && isNotBlank(data.year)
-    && isValidField(isValidMonetaryValue, data.amount)
+  return isValidField(isValidMonetaryValue, data.amount)
     && isValidField(isValidYear, data.year);
 }
 
 function isValidRotcHistoryPage(data) {
-  return data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount);
+  return isNotBlank(data.seniorRotc.commissionYear.value)
+    && data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount);
 }
 
-function isValidPreviousClaim(data) {
-  return isNotBlank(data.claimType.value);
-}
-
-function isValidPreviousClaimsPage(data) {
-  return data.previousVaClaims.every(isValidPreviousClaim);
+function isValidPreviousClaimsPage() {
+  return true;
 }
 
 function isValidForm(data) {
