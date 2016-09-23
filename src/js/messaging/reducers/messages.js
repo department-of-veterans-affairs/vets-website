@@ -3,6 +3,7 @@ import set from 'lodash/fp/set';
 import {
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_FAILURE,
+  SEND_MESSAGE,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -81,6 +82,7 @@ export default function folders(state = initialState, action) {
     case UPDATE_REPLY_CHARACTER_COUNT:
       return set('ui.charsRemaining', action.chars, state);
 
+    case SEND_MESSAGE:
     case FETCH_THREAD_FAILURE:
     default:
       return state;

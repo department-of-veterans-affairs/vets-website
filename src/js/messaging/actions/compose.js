@@ -10,13 +10,10 @@ export const FETCH_RECIPIENTS_FAILURE = 'FETCH_RECIPIENTS_FAILURE';
 export const FETCH_SENDER_SUCCESS = 'FETCH_SENDER_SUCCESS';
 
 export const SAVE_MESSAGE = 'SAVE_MESSAGE';
-export const SEND_MESSAGE = 'SEND_MESSAGE';
 
 export const DELETE_DRAFT = 'DELETE_DRAFT';
 export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
 export const UPDATE_COMPOSE_CHARACTER_COUNT = 'UPDATE_COMPOSE_CHARACTER_COUNT';
-
-const baseUrl = `${api.url}/recipients`;
 
 export function setMessageField(path, field) {
   return {
@@ -33,12 +30,6 @@ export function setSubjectRequired(field) {
   return {
     type: SET_SUBJECT_REQUIRED,
     fieldState
-  };
-}
-
-export function sendMessage() {
-  return {
-    type: SEND_MESSAGE
   };
 }
 
@@ -64,8 +55,9 @@ export function fetchSenderName() {
 }
 
 export function fetchRecipients() {
+  const url = `${api.url}/recipients`;
   return dispatch => {
-    fetch(baseUrl, api.settings)
+    fetch(url, api.settings)
     .then(res => res.json())
     .then(
       recipients => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),

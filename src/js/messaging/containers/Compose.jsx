@@ -22,13 +22,14 @@ import ModalAttachmentsTooBig from '../components/compose/ModalAttachmentsTooBig
 
 import {
   saveMessage,
-  sendMessage,
   setMessageField,
   setSubjectRequired,
   fetchRecipients,
   fetchSenderName,
   updateComposeCharacterCount
 } from '../actions/compose';
+
+import { sendMessage } from '../actions/messages';
 
 import {
   toggleConfirmDelete,
@@ -43,12 +44,18 @@ class Compose extends React.Component {
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
     this.handleSubjectChange = this.handleSubjectChange.bind(this);
+    this.sendNewMessage = this.sendNewMessage.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchSenderName();
     this.props.fetchRecipients();
   }
+
+  sendNewMessage() {
+    this.props.sendMessage(this.props.message);
+  }
+
 
   handleCategoryChange(valueObj) {
     this.props.setMessageField('message.category', valueObj);
@@ -76,8 +83,7 @@ class Compose extends React.Component {
   }
 
   render() {
-    const message = this.props.compose.message;
-    const recipients = this.props.compose.recipients;
+    const message = this.props.message;
 
     return (
       <div>
@@ -107,7 +113,7 @@ class Compose extends React.Component {
               errorMessage={composeMessageErrors.recipient}
               cssClass="messaging-recipient"
               onValueChange={this.handleRecipientChange}
-              options={recipients}
+              options={this.props.recipients}
               value={message.recipient}/>
           <fieldset className="messaging-subject-group">
             <legend>Subject line:</legend>
@@ -132,10 +138,10 @@ class Compose extends React.Component {
               placeholder={composeMessagePlaceholders.message}/>
           <MessageSend
               allowedMimeTypes={allowedMimeTypes}
-              charCount={this.props.compose.message.charsRemaining}
+              charCount={message.charsRemaining}
               cssClass="messaging-send-group"
               onSave={this.props.saveMessage}
-              onSend={this.props.sendMessage}
+              onSend={this.sendNewMessage}
               onDelete={this.props.toggleConfirmDelete}/>
         </form>
         <ModalConfirmDelete
@@ -155,10 +161,8 @@ class Compose extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    compose: {
-      message: state.compose.message,
-      recipients: state.compose.recipients
-    },
+    message: state.compose.message,
+    recipients: state.compose.recipients,
     modals: {
       deleteConfirm: {
         visible: state.modals.deleteConfirm.visible
