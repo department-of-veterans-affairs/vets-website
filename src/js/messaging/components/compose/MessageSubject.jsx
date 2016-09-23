@@ -29,7 +29,7 @@ MessageSubject.propTypes = {
   subject: React.PropTypes.shape({
     value: React.PropTypes.string,
     dirty: React.PropTypes.bool
-  }).isRequired,
+  }).isRequired
 };
 
 export default MessageSubject;

@@ -33,7 +33,7 @@ class ThreadHeader extends React.Component {
         <div className="messaging-thread-nav">
           <Link to={paths.INBOX_URL}>&lt; Back to Inbox</Link>
           <MoveTo
-              folders={this.props.folders}
+              folders={this.props.moveToFolders}
               isOpen={!this.props.moveToIsOpen}
               onChooseFolder={this.props.onChooseFolder}
               onCreateFolder={this.props.onCreateFolder}
@@ -64,7 +64,7 @@ class ThreadHeader extends React.Component {
 
 ThreadHeader.propTypes = {
   currentMessageNumber: React.PropTypes.number.isRequired,
-  folders: React.PropTypes.arrayOf(
+  moveToFolders: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       folderId: React.PropTypes.number.isRequired,
       name: React.PropTypes.string.isRequired,
