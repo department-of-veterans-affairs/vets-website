@@ -13,7 +13,7 @@ class FacilityInfo extends Component {
 
     const {
       type,
-      attributes: { address, phone, hours }
+      attributes: { address, phone }
     } = this.props.info;
 
     const addressString = [
@@ -71,64 +71,6 @@ class FacilityInfo extends Component {
             </div>
             <div className="medium-6 columns column1">
                 {phone.patientAdvocate}
-            </div>
-          </div>
-          <br/>
-          <h5>Hours of Operation:</h5>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Monday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.monday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Tuesday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.tuesday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Wednesday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.wednesday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Thursday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.thursday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Friday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.friday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Saturday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.saturday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Sunday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.sunday}
             </div>
           </div>
         </div>
