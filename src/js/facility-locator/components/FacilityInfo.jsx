@@ -99,10 +99,10 @@ class FacilityInfo extends Component {
 
     return (
       <div>
-        <p className="facility-details">
+        <p>
           {addressString}
         </p>
-        <p className="facility-details">
+        <p>
           Distance: 0.5 miles
         </p>
         <div className="small-6 medium-6 columns">
@@ -115,7 +115,7 @@ class FacilityInfo extends Component {
             <i className="fa fa-road" aria-hidden="true"></i>Directions
           </a>
         </div>
-        <hr className="show-for-small-only"/>
+        <hr className="show-for-small-only light"/>
         <div className="show-for-medium-up">
           {facilityPhoneNumbers}
         </div>

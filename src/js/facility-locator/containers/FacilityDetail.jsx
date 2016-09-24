@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { fetchVAFacility } from '../actions';
@@ -14,11 +15,11 @@ class FacilityDetail extends Component {
 
   render() {
     return (
-      <div className="row">
+      <div className="row facility-detail">
         <div className="medium-8 columns">
-          <a href="#" className="facility-back-link show-for-small-only">
+          <Link to="/facilities" className="facility-back-link show-for-small-only">
             <i className="fa fa-chevron-left" aria-hidden="true"></i>Back to list
-          </a>
+          </Link>
           <div className="details-map">
             <h3>{this.props.facility ? this.props.facility.name : ''}</h3>
             <FacilityInfo info={this.props.facility} currentQuery={this.props.currentQuery}/>
