@@ -31,15 +31,19 @@ const initialState = {
   }
 };
 
+const resetReply = (state) => {
+  const newReply = {
+    body: makeField(''),
+    charsRemaining: composeMessageMaxChars
+  };
+
+  return set('data.reply', newReply, state);
+};
+
 export default function folders(state = initialState, action) {
   switch (action.type) {
     case DELETE_REPLY: {
-      const newReply = {
-        body: makeField(''),
-        charsRemaining: composeMessageMaxChars
-      };
-
-      return set('data.reply', newReply, state);
+      return resetReply(state);
     }
 
     case FETCH_THREAD_SUCCESS: {
@@ -54,13 +58,8 @@ export default function folders(state = initialState, action) {
         movedToOpened: false
       };
 
-      const newReply = {
-        body: makeField(''),
-        charsRemaining: composeMessageMaxChars
-      };
-
       let newState = set('ui', newUi, state);
-      newState = set('data.reply', newReply, newState);
+      newState = resetReply(newState);
 
       thread.reverse();
       thread.push(currentMessage);
