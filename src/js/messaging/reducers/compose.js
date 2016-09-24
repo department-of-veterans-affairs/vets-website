@@ -6,6 +6,7 @@ import { composeMessageMaxChars } from '../config';
 import {
   SET_MESSAGE_FIELD,
   SAVE_MESSAGE,
+  DELETE_COMPOSE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_SENDER_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
@@ -47,6 +48,8 @@ function getRecipients(recipients) {
 
 export default function compose(state = initialState, action) {
   switch (action.type) {
+    case DELETE_COMPOSE_MESSAGE:
+      return initialState;
     case SET_MESSAGE_FIELD:
       return set(action.path, action.field, state);
     case FETCH_RECIPIENTS_SUCCESS:

@@ -1,5 +1,6 @@
 import { api } from '../config';
 
+export const DELETE_REPLY = 'DELETE_REPLY';
 export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
 export const FETCH_THREAD_FAILURE = 'FETCH_THREAD_FAILURE';
 export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
@@ -11,6 +12,10 @@ export const UPDATE_REPLY_BODY = 'UPDATE_REPLY_BODY';
 export const UPDATE_REPLY_CHARACTER_COUNT = 'UPDATE_REPLY_CHARACTER_COUNT';
 
 const baseUrl = `${api.url}/messages`;
+
+export function deleteReply() {
+  return { type: DELETE_REPLY };
+}
 
 export function fetchThread(id) {
   const messageUrl = `${baseUrl}/${id}`;
@@ -66,10 +71,10 @@ export function toggleMessagesCollapsed() {
   return { type: TOGGLE_MESSAGES_COLLAPSED };
 }
 
-export function updateReplyBody(text) {
+export function updateReplyBody(field) {
   return {
     type: UPDATE_REPLY_BODY,
-    text
+    field
   };
 }
 

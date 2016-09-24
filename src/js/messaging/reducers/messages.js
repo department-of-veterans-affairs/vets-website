@@ -3,6 +3,7 @@ import set from 'lodash/fp/set';
 import { makeField } from '../../common/model/fields';
 
 import {
+  DELETE_REPLY,
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_FAILURE,
   SEND_MESSAGE_SUCCESS,
@@ -19,10 +20,12 @@ import { composeMessageMaxChars } from '../config';
 const initialState = {
   data: {
     thread: [],
-    reply: makeField('')
+    reply: {
+      body: makeField(''),
+      charsRemaining: composeMessageMaxChars
+    }
   },
   ui: {
-    charsRemaining: composeMessageMaxChars,
     messagesCollapsed: new Set(),
     moveToOpened: false
   }
@@ -30,15 +33,36 @@ const initialState = {
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
+    case DELETE_REPLY: {
+      const newReply = {
+        body: makeField(''),
+        charsRemaining: composeMessageMaxChars
+      };
+
+      return set('data.reply', newReply, state);
+    }
+
     case FETCH_THREAD_SUCCESS: {
       const currentMessage = action.message.attributes;
       const thread = action.thread.map(message => message.attributes);
       const messagesCollapsed = new Set(thread.map((message) => {
         return message.messageId;
       }));
-      thread.reverse();
 
-      const newState = set('ui.messagesCollapsed', messagesCollapsed, state);
+      const newUi = {
+        messagesCollapsed,
+        movedToOpened: false
+      };
+
+      const newReply = {
+        body: makeField(''),
+        charsRemaining: composeMessageMaxChars
+      };
+
+      let newState = set('ui', newUi, state);
+      newState = set('data.reply', newReply, newState);
+
+      thread.reverse();
       thread.push(currentMessage);
       return set('data.thread', thread, newState);
     }
@@ -90,10 +114,10 @@ export default function folders(state = initialState, action) {
       return set('ui.moveToOpened', !state.ui.moveToOpened, state);
 
     case UPDATE_REPLY_BODY:
-      return set('data.reply', action.text, state);
+      return set('data.reply.body', action.field, state);
 
     case UPDATE_REPLY_CHARACTER_COUNT:
-      return set('ui.charsRemaining', action.chars, state);
+      return set('data.reply.charsRemaining', action.chars, state);
 
     case FETCH_THREAD_FAILURE:
     case SEND_MESSAGE_FAILURE:

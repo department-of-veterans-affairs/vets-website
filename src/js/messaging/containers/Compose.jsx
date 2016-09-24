@@ -21,6 +21,7 @@ import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import ModalAttachmentsTooBig from '../components/compose/ModalAttachmentsTooBig';
 
 import {
+  deleteComposeMessage,
   saveMessage,
   setMessageField,
   fetchRecipients,
@@ -77,6 +78,7 @@ class Compose extends React.Component {
     // TODO: Dispatch an action that makes this API call
     domEvent.preventDefault();
     browserHistory.push(paths.DRAFTS_URL);
+    this.props.deleteComposeMessage();
     this.props.toggleConfirmDelete();
   }
 
@@ -176,6 +178,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  deleteComposeMessage,
   saveMessage,
   sendMessage,
   setMessageField,

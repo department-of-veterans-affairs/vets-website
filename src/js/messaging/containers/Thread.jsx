@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
+  deleteReply,
   fetchThread,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
@@ -50,6 +51,7 @@ class Thread extends React.Component {
   }
 
   handleReplyDelete() {
+    this.props.deleteReply();
   }
 
   handleMoveTo() {
@@ -161,9 +163,9 @@ class Thread extends React.Component {
                 cssClass="messaging-write"
                 onValueChange={this.handleReplyChange}
                 placeholder={composeMessagePlaceholders.message}
-                text={this.props.reply}/>
+                text={this.props.reply.body}/>
             <MessageSend
-                charCount={this.props.charsRemaining}
+                charCount={this.props.reply.charsRemaining}
                 cssClass="messaging-send-group"
                 onSave={this.handleReplySave}
                 onSend={this.handleReplySend}
@@ -184,7 +186,6 @@ class Thread extends React.Component {
 const mapStateToProps = (state) => {
   return {
     persistFolder: state.folders.data.currentItem.persistFolder,
-    charsRemaining: state.messages.ui.charsRemaining,
     folders: state.folders.data.items,
     folderMessages: state.folders.data.currentItem.messages,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
@@ -196,6 +197,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  deleteReply,
   fetchThread,
   toggleCreateFolderModal,
   toggleMessageCollapsed,
