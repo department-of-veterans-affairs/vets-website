@@ -78,8 +78,8 @@ class Compose extends React.Component {
     // TODO: Dispatch an action that makes this API call
     domEvent.preventDefault();
     browserHistory.push(paths.DRAFTS_URL);
-    this.props.deleteComposeMessage();
     this.props.toggleConfirmDelete();
+    this.props.deleteComposeMessage();
   }
 
   render() {

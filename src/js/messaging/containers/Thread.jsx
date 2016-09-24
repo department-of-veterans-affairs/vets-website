@@ -11,11 +11,15 @@ import {
   updateReplyCharacterCount
 } from '../actions/messages';
 
-import { toggleCreateFolderModal } from '../actions/modals';
+import {
+  toggleConfirmDelete,
+  toggleCreateFolderModal
+} from '../actions/modals';
 
 import Message from '../components/Message';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
+import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
 
@@ -51,6 +55,7 @@ class Thread extends React.Component {
   }
 
   handleReplyDelete() {
+    this.props.toggleConfirmDelete();
     this.props.deleteReply();
   }
 
@@ -169,7 +174,7 @@ class Thread extends React.Component {
                 cssClass="messaging-send-group"
                 onSave={this.handleReplySave}
                 onSend={this.handleReplySend}
-                onDelete={this.handleReplyDelete}/>
+                onDelete={this.props.toggleConfirmDelete}/>
           </form>
           <button
               className="usa-button"
@@ -178,6 +183,11 @@ class Thread extends React.Component {
           </button>
         </div>
         <NoticeBox/>
+        <ModalConfirmDelete
+            cssClass="messaging-modal"
+            onClose={this.props.toggleConfirmDelete}
+            onDelete={this.handleReplyDelete}
+            visible={this.props.modals.deleteConfirm.visible}/>
       </div>
     );
   }
@@ -199,6 +209,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   deleteReply,
   fetchThread,
+  toggleConfirmDelete,
   toggleCreateFolderModal,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
