@@ -1,12 +1,13 @@
-import { apiUrl } from '../config';
+import { api } from '../config';
 
 export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
 export const FETCH_THREAD_FAILURE = 'FETCH_THREAD_FAILURE';
-export const SET_VISIBLE_DETAILS = 'SET_VISIBLE_DETAILS';
+export const TOGGLE_MESSAGE_COLLAPSED = 'TOGGLE_MESSAGE_COLLAPSED';
 export const TOGGLE_MESSAGES_COLLAPSED = 'TOGGLE_MESSAGES_COLLAPSED';
+export const TOGGLE_MOVE_TO = 'TOGGLE_MOVE_TO';
 export const UPDATE_REPLY_CHARACTER_COUNT = 'UPDATE_REPLY_CHARACTER_COUNT';
 
-const baseUrl = `${apiUrl}/messages`;
+const baseUrl = `${api.url}/messages`;
 
 export function fetchThread(id) {
   const messageUrl = `${baseUrl}/${id}`;
@@ -14,7 +15,7 @@ export function fetchThread(id) {
 
   return dispatch => {
     Promise.all([messageUrl, threadUrl].map(url =>
-      fetch(url).then(res => res.json())
+      fetch(url, api.settings).then(res => res.json())
     )).then(
       data => dispatch({
         type: FETCH_THREAD_SUCCESS,
@@ -26,8 +27,8 @@ export function fetchThread(id) {
   };
 }
 
-export function setVisibleDetails(messageId) {
-  return { type: SET_VISIBLE_DETAILS, messageId };
+export function toggleMessageCollapsed(messageId) {
+  return { type: TOGGLE_MESSAGE_COLLAPSED, messageId };
 }
 
 export function toggleMessagesCollapsed() {
@@ -40,4 +41,8 @@ export function updateReplyCharacterCount(field, maxLength) {
     type: UPDATE_REPLY_CHARACTER_COUNT,
     chars
   };
+}
+
+export function toggleMoveTo() {
+  return { type: TOGGLE_MOVE_TO };
 }

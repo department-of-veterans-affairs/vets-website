@@ -1,74 +1,90 @@
 .messaging-subject-group {
-   > div {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-justify-content: space-between;
-    justify-content: space-between;
+  position: relative;
+
+  @media (min-width: $medium-screen) {
+    > div {
+      display: flex;
+      left: 11rem;
+      position: absolute;
+      top: 0;
+      width: 70%;
+    }
+
+    margin: 0 -1.5rem;
   }
-  
+     
   label {
     position: absolute;
     left: -999em;
-  }  
+  }
   
   legend {
     font-size: inherit;
-    float: left;
-    // Vertically centering with input fields.
-    line-height: 2.9;
+    padding-top: 1.25rem;
+    margin-bottom: -1rem;
+  }   
+} 
+
+@media (min-width: $medium-screen) {
+  .messaging-category {
     margin-right: 1rem;
-    text-align: right;
-    width: $messaging-label-width;
+    -webkit-flex: 0 1 40%;
+    flex: 0 1 40%; 
+  }
+  .messaging-subject {
+    -webkit-flex: 1 1 60%;
+    flex: 1 1 60%;
   }
 }
 
-
+.messaging-recipient > div,
 .messaging-from,
-.messaging-category {
-  -webkit-flex: none;
-  flex: none;
-  margin-right: 1rem;
-  width: 25rem;
+.messaging-subject-group {
+  -webkit-align-items: center;
+  align-items: center; 
+  display: -webkit-flex;
+  display: flex;
+  margin-bottom: 0;
 }
 
-.messaging-subject {
-  -webkit-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
-.messaging-recipient {
-  > div {
-    display: -webkit-flex;
-    display: flex;
-    -webkit-align-items: center;
-    align-items: center; 
-  }
-  label {
-    font-weight: bold;
-    margin: 0 1rem 0 0;
-    padding-right: .2rem;
-    width: $messaging-label-width;
-    text-align: right;
-  }
-}
-
-.messaging-from-label {
-  display: inline-block;
-  font-weight: bold;
-  padding-right: .1rem;
-  margin: 0 1rem 0 0;
-  width: $messaging-label-width;
-  text-align: right;
+.messaging-recipient > div,
+.messaging-from,
+.messaging-subject-group,
+.messaging-write {
+  padding: 1.5rem;
 }
 
 .messaging-from,
+.messaging-write,
 .messaging-recipient,
 .messaging-subject-group {
-  margin-bottom: 1.5rem;
+  @media (max-width: $medium-screen) {
+    border-bottom: 1px solid $color-gray;
+  }
+}
+
+[id=messaging-compose] label,
+.messaging-from-label {
+  margin: 0;
+  font-weight: bold;
+}
+
+.messaging-recipient label,
+.messaging-from-label {
+  padding-right: 1rem;
+  
+  @media (min-width: $medium-screen) {
+    -webkit-flex: 0 0 8rem;
+    flex:  0 0 8rem;
+    text-align: right;
+	}
 }
 
 .messaging-btn-delete {
   margin: 0;
+  @media (min-width: $medium-screen) {
+    float: right;
+  }
 }
   
 .messaging-send-group {
@@ -76,17 +92,35 @@
   border: 1px solid $color-gray;
   border-top-width: 0;
   padding: 1rem;
- 
+  position: relative;
+  
+  @media (max-width: $medium-screen) {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+  
   [type="button"] {
-    display: inline-block;
     margin: 0 1rem 0 0;
     
+    @media (max-width: $medium-screen) {
+      -webkit-flex: 0 0 48%;
+      flex: 0 0 48%;
+      margin: 1.5rem 0rem .5rem; 
+    }
+
     &[disabled] {
       background: $color-gray;
     }
   }
      
   .messaging-btn-delete {
+    @media (max-width: $medium-screen) {
+      display: none;
+    }
     float: right;
     margin-right: 0;
   }
@@ -98,27 +132,44 @@
   &[disabled] {
     color: $color-gray !important;
     box-shadow: inset 0 0 0 2px $color-gray !important;
-  }
-  
+  }  
 }
 
 .messaging-write {
-  label {
-    font-weight: bold;
+  @media (min-width: $medium-screen) {
+    padding: 1.5rem 0 0 0;
   }
-  
+    
   textarea {
     margin: 1rem 0 0 0;
     max-width: 100%;
-    resize: vertical;
+    resize: none;
+
+    @media (max-width: $medium-screen) {
+      border: none;
+      padding: 0;
+    }
+    
+    @media (min-width: $medium-screen) {
+      resize: vertical;
+    }
   }
 }
 
 .messaging-characters {
-  display: inline-block;
-  float: right;
-  line-height: 2.25;
+  @media (max-width: $medium-screen) {
+    -webkit-flex: 0 0 50%;
+    flex: 0 0 50%;
+    -webkit-order: -1;
+    order: -1;
+    text-align: right;
+  }
   
+  @media (min-width: $medium-screen) {
+    float: right;
+    margin-top: .7rem;
+  }
+    
   &.isnegative {
     color: $color-secondary;
   }
@@ -127,14 +178,22 @@
 .messaging-attach {
   display: inline-block;
   position: relative;
-  top: -1.8rem;
+  
+  @media (max-width: $medium-screen) {
+    display: inherit;
+    -webkit-flex: 1 1 50%;
+    flex: 0 0 50%;
+    -webkit-order: -2;
+    order: -2;
+  }
  
   label{
     background-color: inherit;
     cursor: pointer;
+    font-weight: inherit;
     left: 0;
     margin: 0;
-    position: absolute;
+    position: relative;
     top: 0;
     white-space: nowrap;
     width: auto;
@@ -158,12 +217,12 @@
   input{
     border: 0;
     height: auto;
-    left: 0;
+    left: -9999px;
     margin: 0;
-    opacity: 0;
     padding: 0;
     position: absolute;
     top: 0;
     width: auto;
-  }
+  } 
 }
+

@@ -3,25 +3,34 @@ import { compact } from 'lodash';
 
 class FacilityInfo extends Component {
   render() {
-    const { info } = this.props;
+    let facilityOperations;
 
-    let facilityPhoneNumbers;
     if (!this.props.info) {
       return (
         <div></div>
       );
     }
 
-    if (info.facilityType === 'facility') {
-      facilityPhoneNumbers = (
-        <div className="mb2">
+    const {
+      type,
+      attributes: { address, phone, hours }
+    } = this.props.info;
+
+    const addressString = [
+      compact([address.street, address.suite]).join(' '),
+      `${address.city}, ${address.state} ${address.zip}-${address.zip4}`
+    ];
+
+    if (type === 'va_health_facility') {
+      facilityOperations = (
+        <div>
           <h5>Phone:</h5>
           <div className="row">
             <div className="medium-6 columns details-map">
                 Main Number:
             </div>
             <div className="medium-6 columns column1">
-                {info.phone.main}
+                {phone.main}
             </div>
           </div>
           <div className="row">
@@ -29,7 +38,7 @@ class FacilityInfo extends Component {
                 Fax:
             </div>
             <div className="medium-6 columns column1">
-                {info.phone.fax}
+                {phone.fax}
             </div>
           </div>
           <div className="row">
@@ -37,7 +46,7 @@ class FacilityInfo extends Component {
                 After Hours:
             </div>
             <div className="medium-6 columns column1">
-                {info.phone.afterHours}
+                {phone.afterHours}
             </div>
           </div>
           <div className="row">
@@ -45,7 +54,7 @@ class FacilityInfo extends Component {
                 Pharmacy:
             </div>
             <div className="medium-6 columns column1">
-                {info.phone.pharmacy}
+                {phone.pharmacy}
             </div>
           </div>
           <div className="row">
@@ -53,7 +62,7 @@ class FacilityInfo extends Component {
                 Enrollment Coordinator:
             </div>
             <div className="medium-6 columns column1">
-                {info.phone.enrollmentCoordinator}
+                {phone.enrollmentCoordinator}
             </div>
           </div>
           <div className="row">
@@ -61,20 +70,78 @@ class FacilityInfo extends Component {
                 Patient Advocate:
             </div>
             <div className="medium-6 columns column1">
-                {info.phone.patientAdvocate}
+                {phone.patientAdvocate}
+            </div>
+          </div>
+          <br/>
+          <h5>Hours of Operation:</h5>
+          <div className="row">
+            <div className="medium-6 columns details-map">
+                Monday:
+            </div>
+            <div className="medium-6 columns column1">
+                {hours.monday}
+            </div>
+          </div>
+          <div className="row">
+            <div className="medium-6 columns details-map">
+                Tuesday:
+            </div>
+            <div className="medium-6 columns column1">
+                {hours.tuesday}
+            </div>
+          </div>
+          <div className="row">
+            <div className="medium-6 columns details-map">
+                Wednesday:
+            </div>
+            <div className="medium-6 columns column1">
+                {hours.wednesday}
+            </div>
+          </div>
+          <div className="row">
+            <div className="medium-6 columns details-map">
+                Thursday:
+            </div>
+            <div className="medium-6 columns column1">
+                {hours.thursday}
+            </div>
+          </div>
+          <div className="row">
+            <div className="medium-6 columns details-map">
+                Friday:
+            </div>
+            <div className="medium-6 columns column1">
+                {hours.friday}
+            </div>
+          </div>
+          <div className="row">
+            <div className="medium-6 columns details-map">
+                Saturday:
+            </div>
+            <div className="medium-6 columns column1">
+                {hours.saturday}
+            </div>
+          </div>
+          <div className="row">
+            <div className="medium-6 columns details-map">
+                Sunday:
+            </div>
+            <div className="medium-6 columns column1">
+                {hours.sunday}
             </div>
           </div>
         </div>
       );
     } else {
-      facilityPhoneNumbers = (
+      facilityOperations = (
         <div>
           <div className="row">
             <div className="medium-6 columns details-map">
                 Cemetary Type:
             </div>
             <div className="medium-6 columns column1">
-                {info.cemetary.cemetaryType}
+                {this.props.info.cemetary.cemetaryType}
             </div>
           </div>
           <div className="row">
@@ -82,32 +149,27 @@ class FacilityInfo extends Component {
                 Cemetery Operations:
             </div>
             <div className="medium-6 columns column1">
-                {info.cemetary.operations}
+                {this.props.info.cemetary.operations}
             </div>
           </div>
         </div>
       );
     }
 
-    const addressString = compact([
-      info.address.street1,
-      info.address.street2,
-      info.address.city,
-      info.address.state,
-      info.address.zip,
-    ]).join(', ');
-
     return (
       <div>
         <p>
-          {addressString}
-        </p>
-        <p>
           Distance: 0.5 miles
+        </p>
+        <h5>Street Address:</h5>
+        <p className="facility-details">
+        {address.building}<br/>
+        {addressString[0]}<br/>
+        {addressString[1]}<br/>
         </p>
         <div className="small-6 medium-6 columns">
           <a href="#" className="facility-conact-link">
-            <i className="fa fa-phone" aria-hidden="true"></i>{info.phone.main}
+            <i className="fa fa-phone" aria-hidden="true"></i>{phone.main}
           </a>
         </div>
         <div className="small-6 medium-6 columns">
@@ -116,9 +178,7 @@ class FacilityInfo extends Component {
           </a>
         </div>
         <hr className="show-for-small-only light"/>
-        <div className="show-for-medium-up">
-          {facilityPhoneNumbers}
-        </div>
+        {facilityOperations}
       </div>
     );
   }

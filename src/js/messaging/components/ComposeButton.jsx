@@ -15,7 +15,7 @@ class ComposeButton extends React.Component {
     return (
       <button
           onClick={this.goToComposeMessage}
-          className="va-button-primary rx-compose-button">
+          className="va-button-primary messaging-compose-button">
         Compose a message
       </button>
     );

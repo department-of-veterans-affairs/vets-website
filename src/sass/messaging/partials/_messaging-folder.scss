@@ -1,6 +1,21 @@
-.messaging-folder-controls {
+#messaging-folder-controls {
   position: relative;
   margin-bottom: 4.5rem;
+
+  .messaging-compose-button {
+    display: none;
+    margin: 0;
+    width: 100%;
+  }
+
+  @media (max-width: $medium-screen) {
+    margin: 0;
+    padding: 2rem;
+
+    .messaging-compose-button {
+      display: block;
+    }
+  }
 }
 
 .messaging-message-row {

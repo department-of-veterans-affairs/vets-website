@@ -2,11 +2,56 @@
  * Thread Header *
  *****************/
 
+.messaging-thread-header {
+  border-bottom: 2px solid $color-black;
+  padding: 2.25rem 0;
+
+  .messaging-toggle-thread,
+  .messaging-btn-delete,
+  .messaging-btn-print {
+    background: transparent;
+    color: $color-black;
+    float: none;
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    width: auto;
+
+    &:hover,
+    &:focus {
+      background: transparent;
+      color: $color-primary;
+    }
+
+    &:active,
+    &:focus {
+      outline: 0;
+    }
+
+    i {
+      font-size: 1.8rem;
+    }
+
+    span {
+      padding-left: 0.5rem;
+    }
+  }
+}
+
 .messaging-thread-nav {
   border-bottom: 1px solid $color-black;
   margin-bottom: 2rem;
   padding-bottom: 2rem;
   position: relative;
+
+  .msg-move-to {
+    vertical-align: top;
+  }
+
+  button {
+    width: auto;
+  }
 
   a {
     margin-right: 1rem;
@@ -16,11 +61,30 @@
   i {
     margin-left: .5rem;
   }
-}
 
-.messaging-thread-header {
-  border-bottom: 2px solid $color-black;
-  padding: 2.25rem 0;
+  .messaging-btn-delete,
+  .messaging-btn-print {
+    display: none;
+  }
+
+  @media (max-width: $medium-screen) {
+    background: $color-gray-lightest;
+    border: none;
+    padding: 1rem;
+    text-align: right;
+
+    .messaging-btn-delete,
+    .messaging-btn-print {
+      display: inline-block;
+    }
+
+    a {
+      left: 0;
+      padding: 1.25rem 2rem;
+      position: absolute;
+      top: 0;
+    }
+  }
 }
 
 .messaging-thread-subject {
@@ -39,122 +103,12 @@
   vertical-align: top;
   width: 40%;
 
-  button {
-    background: transparent;
-    color: $color-black;
-    font-size: 1.5rem;
-    font-weight: normal;
-    margin: 0;
-    padding: 0.5rem 1rem;
-
-    &:hover,
-    &:focus {
-      background: transparent;
-      color: $color-primary;
-    }
-
-    &:active,
-    &:focus {
-      outline: 0;
-    }
-
-    i {
-      font-size: 1.8rem;
+  @media (max-width: $medium-screen) {
+    .messaging-btn-delete,
+    .messaging-btn-print {
+      display: none;
     }
   }
-
-  span {
-    padding-left: 0.5rem;
-  }
-}
-
-/******************
- * Thread Message *
- ******************/
-
-.messaging-thread-message {
-  padding: 1.5rem 2rem;
-  border-bottom: 1px solid $color-black;
-
-  &--collapsed {
-    background: $color-gray-lightest;
-
-    p {
-      margin: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-}
-
-.messaging-message-details-control {
-  color: $color-black;
-  display: inline-block;
-  margin-left: 1rem;
-  position: relative;
-
-  button {
-    background: transparent;
-    box-shadow: none;
-    color: $color-black;
-    margin: 0;
-    outline: 0;
-    padding: 0;
-
-    &:active,
-    &:focus {
-      color: $color-gray;
-    }
-
-    i {
-      font-size: 1.8rem;
-    }
-  }
-
-  table {
-    margin: 0;
-  }
-
-  td, th {
-    border: none;
-    padding: 0.25rem 0.75rem;
-    white-space: nowrap;
-  }
-
-  th {
-    font-weight: bold;
-    text-align: right;
-  }
-}
-
-.messaging-message-details {
-  background: $color-white;
-  border: 1px solid $color-black;
-  font-size: 1.5rem;
-  padding: 1rem;
-  position: absolute;
-  z-index: 100;
-}
-
-.messaging-message-sender {
-  width: 75%;
-}
-
-.messaging-message-sent-date {
-  text-align: right;
-  width: 25%;
-}
-
-.messaging-message-sender,
-.messaging-message-sent-date {
-  display: inline-block;
-  font-weight: bold;
-  vertical-align: top;
-}
-
-.messaging-message-recipient {
-  color: $color-gray-medium;
 }
 
 /****************
@@ -165,8 +119,30 @@
   font-size: 1.8rem;
   padding: 3rem 2rem;
 
-  .messaging-write label {
+  & > button {
     display: none;
+    width: 100%;
+  }
+
+  @media (max-width: $medium-screen) {
+    background: $color-gray-lightest;
+    padding: 1rem 2rem;
+
+    & > form {
+      display: none;
+    }
+
+    & > button {
+      display: block;
+    }
+  }
+
+  .messaging-write {
+    padding-top: 0;
+
+    label {
+      display: none;
+    }
   }
 
   &-recipient {
@@ -191,6 +167,10 @@
   background: $color-primary-alt-lightest;
   padding: 1.5rem 2rem;
 
+  @media (max-width: $medium-screen) {
+    padding: 1.5rem 5rem;
+  }
+
   i {
     width: 3rem;
   }
@@ -198,6 +178,6 @@
   span {
     display: inline-block;
     vertical-align: top;
-    width: 95%;
+    width: 90%;
   }
 }

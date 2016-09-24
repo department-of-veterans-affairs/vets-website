@@ -1,20 +1,51 @@
 #messaging-app {
   margin: auto;
   max-width: $site-max-width;
-  padding: 3rem 1.5rem;
+  padding: 3rem 0;
 }
 
-// TODO: Refactor these styles so that they're 
+
+#messaging-app-header {
+  padding: 0 1.5rem;
+}
+
+#messaging-main {
+  padding: 0 1.5rem;
+
+  @media (max-width: $medium-screen) {
+    padding: 0;
+  }
+}
+
+// TODO: Refactor these styles so that they're
 // reusable across projects.
 #messaging-nav {
-  @media(max-width: ($medium-screen - 1)) {
+  display: inline-block;
+  width: 20%;
+
+  .messaging-folder-nav-close {
+    background: transparent;
+    color: $color-black;
+    display: none;
+    font-size: 2.5rem;
+    margin: 0 0 2rem 0;
+    text-align: right;
+    width: 100%;
+  }
+
+  .messaging-compose-button {
+    margin: 0 0 2rem 0;
+    width: 100%;
+  }
+
+  @media (max-width: $medium-screen) {
     -webkit-transform: translateX(-100%);
     -ms-transform: translateX(-100%);
     transform: translateX(-100%);
-    
+
     -webkit-transition: -webkit-transform 250ms;
     transition: transform 250ms;
-    
+
     background: $color-white;
     height: 100%;
     left: 0;
@@ -24,21 +55,20 @@
     top: 0;
     width: 100%;
     z-index: 1;
+
+    .messaging-compose-button {
+      display: none;
+    }
+
+    .messaging-folder-nav-close {
+      display: block;
+    }
   }
-  
+
   &.opened {
     -webkit-transform: translateX(0);
     -ms-transform: translateX(0);
     transform: translateX(0);
-  }
-  
-  @media(min-width: $medium-screen) {
-    display: inline-block;
-    width: 20%;
-  }
-  
-  .rx-compose-button {
-    width: 100%;
   }
 }
 
@@ -69,54 +99,110 @@
   }
 }
 
-.messaging-folder-nav-actions {
-  button {
-    background: transparent;
-    border-radius: 0;
-    color: $color-primary;
-    font-weight: normal;
-    line-height: 1.3;
-    margin: 0;
-    text-align: left;
-    text-decoration: underline;
-    width: 100%;
+// TODO: Refactor so that these styles are more reusable.
+button.msg-btn-newfolder[type="button"],
+.messaging-folder-nav-actions button {
+  background: transparent;
+  border-radius: 0;
+  color: $color-primary;
+  font-weight: normal;
+  line-height: 1.3;
+  margin: 0;
+  text-align: left;
+  text-decoration: underline;
 
-    -webkit-transition-duration: 0.3s;
-            transition-duration: 0.3s;
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
 
-    -webkit-transition-timing-function: ease-in-out;
-            transition-timing-function: ease-in-out;
+  -webkit-transition-timing-function: ease-in-out;
+          transition-timing-function: ease-in-out;
 
-    // Transition only these properties.
-    -webkit-transition-property: color, background-color, border-color;
-            transition-property: color, background-color, border-color;
+  // Transition only these properties.
+  -webkit-transition-property: color, background-color, border-color;
+          transition-property: color, background-color, border-color;
 
-    &:hover {
-      background: $color-gray-lightest;
+  &:hover {
+    background: $color-gray-lightest;
+  }
+
+  i {
+    display: inline;
+    font-size: 1.8rem;
+  }
+}
+
+.messaging-folder-nav-actions .msg-btn-newfolder {
+  padding: 1rem 2rem;
+  width: 100%;
+}
+
+#messaging-content {
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    padding-left: 3rem;
+    vertical-align: top;
+    width: 80%;
+  }
+}
+
+#messaging-content-header {
+  position: relative;
+
+  @media (max-width: $medium-screen) {
+    background: $color-gray-lightest;
+    text-align: center;
+
+    .messaging-cancel-link,
+    .messaging-menu-button,
+    .messaging-send-button {
+      display: block;
     }
 
-    i {
-      display: inline;
-      font-size: 1.8rem;
+    h2 {
+      padding: 1rem !important;
     }
   }
 }
 
-#messaging-content {
-  box-sizing: border-box;
-  display: inline-block;
-  padding-left: 3rem;
-  vertical-align: top;
-  width: 80%;
+.messaging-cancel-link,
+.messaging-menu-button,
+.messaging-send-button {
+  display: none;
+  height: 100%;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  width: auto;
 }
 
+.messaging-cancel-link {
+  color: $color-primary;
+  left: 0;
+  padding: 1.25rem 1.5rem;
+}
+
+.messaging-menu-button,
+.messaging-send-button {
+  background: $color-primary;
+  border-radius: 0;
+  padding: 1rem;
+}
+
+.messaging-menu-button {
+  left: 0;
+}
+
+.messaging-send-button {
+  right: 0;
+}
 
 .messaging-modal {
-  .rx-modal-inner {
+  .va-modal-inner {
     @media(min-width: $medium-screen) {
       max-width: 40rem;
     }
   }
+
   form [type=submit] {
     display: inline;
     margin-top: 0;

@@ -19,6 +19,7 @@ export default class EmploymentHistoryFields extends React.Component {
     ];
 
     return (<fieldset>
+      <legend className="hide-for-small-only">Employment history</legend>
       <div className="input-section">
         <ErrorableRadioButtons
             label="Have you held a license or journeyman rating to practice a profession?"
@@ -30,7 +31,6 @@ export default class EmploymentHistoryFields extends React.Component {
       {this.props.data.hasNonMilitaryJobs.value === 'Y'
         ? <div className="input-section">
           <h4>Employment</h4>
-          <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
           <hr/>
           <div className="input-section">
             <GrowableTable

@@ -15,9 +15,9 @@ export default class NavHeader extends React.Component {
         }
       });
 
-    return (
-      <h4 className={className}><span className="form-process-step current">{step}</span> of {total} {name}</h4>
-    );
+    return step
+      ? <h4 className={className}><span className="form-process-step current">{step}</span> of {total} {name}</h4>
+      : null;
   }
 }
 

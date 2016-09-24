@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import Scroll from 'react-scroll';
 
 import { connect } from 'react-redux';
 
@@ -17,8 +18,26 @@ import RoutesDropdown from '../components/debug/RoutesDropdown';
 import { isValidPage, isValidForm } from '../utils/validations';
 import { ensurePageInitialized, updateCompletedStatus, submitForm } from '../actions/index';
 
+const Element = Scroll.Element;
+const scroller = Scroll.scroller;
+
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
 
 class EduBenefitsApp extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    const a = nextProps.submission.status;
+    const b = this.props.submission.status;
+    if (a !== b && a === 'applicationSubmitted') {
+      this.props.router.push('/submit-message');
+      scrollToTop();
+    }
+  }
   render() {
     const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm } = this.props;
     const navigateTo = path => router.push(path);
@@ -44,6 +63,7 @@ class EduBenefitsApp extends React.Component {
       <div className="row">
         {devPanel}
         <div className="medium-4 columns show-for-medium-up">
+          <Element name="topScrollElement"/>
           <Nav
               data={data}
               pages={pageState}
