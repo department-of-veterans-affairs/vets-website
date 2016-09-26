@@ -21,21 +21,21 @@ import ModalCreateFolder from '../components/ModalCreateFolder';
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.handleOnFolderChange = this.handleOnFolderChange.bind(this);
-    this.handleOnFolderNameChange = this.handleOnFolderNameChange.bind(this);
-    this.handleOnSubmit = this.handleOnSubmit.bind(this);
+    this.handleFolderChange = this.handleFolderChange.bind(this);
+    this.handleFolderNameChange = this.handleFolderNameChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleOnFolderChange(domEvent) {
+  handleFolderChange(domEvent) {
     const folderId = domEvent.target.dataset.folderid;
     this.props.setCurrentFolder(folderId);
   }
 
-  handleOnFolderNameChange(field) {
-    this.props.setFolderName(field);
+  handleFolderNameChange(field) {
+    this.props.setNewFolderName(field);
   }
 
-  handleOnSubmit() {}
+  handleSubmit() {}
 
   render() {
     const navClass = classNames({
@@ -65,8 +65,8 @@ class Main extends React.Component {
             folders={this.props.folders}
             id="messaging-create-folder"
             onClose={this.props.toggleCreateFolderModal}
-            onValueChange={this.handleOnFolderNameChange}
-            onSubmit={this.handleOnSubmit}
+            onValueChange={this.handleFolderNameChange}
+            onSubmit={this.handleSubmit}
             visible={this.props.isCreateFolderModalOpen}
             newFolderName={this.props.newFolderName}/>
       </div>
