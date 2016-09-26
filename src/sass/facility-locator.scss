@@ -1,5 +1,9 @@
 @import 'style';
 
+.title-section {
+  padding: 0 1.5rem;
+}
+
 .facility-locator {
   .leaflet-container {
       height: 500px;
@@ -39,6 +43,46 @@
     }
   }
 
+  .leaflet-popup-content {
+    h5 {
+      color: $color-link-default;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .tab {
+    border-color: $color-black;
+    text-align: center;
+    background: #eee;
+    border-top: solid 1px $color-black;
+    border-left: solid 1px $color-black;
+    border-right: solid 1px $color-black;
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+
+    &.ReactTabs__Tab--selected {
+      border-top: solid 3px $color-primary-darker;
+      background: white;
+    }
+  }
+
+  .react-tabs [role=tab][aria-selected=true] {
+    border-left-color: $color-black;
+    border-right-color: $color-black;
+  }
+
+  .ReactTabs__Tab + .ReactTabs__Tab {
+    border-left: none;
+  }
+
   .facility-search-results {
     padding: 1rem;
 
@@ -46,8 +90,12 @@
       padding: 0;
     }
 
-    p {
-      margin: 0;
+    li {
+      color: $color-link-default;
+
+      p {
+        color: $color-black;
+      }
     }
   }
 
@@ -79,6 +127,8 @@
 
   .search-controls-container {
     padding: 1.5rem 1rem;
+    border: solid thin #eee;
+    margin-bottom: 2rem;
   }
 
   .mb2 {
@@ -98,7 +148,7 @@
   hr.title {
     color: $color-primary-darker;
     margin: 0 0 2rem;
-    border: 1px solid #003E73;
+    border: 1px solid $color-primary-darker;
   }
 
   ul {
