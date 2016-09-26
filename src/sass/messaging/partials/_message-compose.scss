@@ -1,6 +1,8 @@
 .messaging-subject-group {
   position: relative;
 
+  // Needed to make the element expand to 100% width
+  // on small screen in Firefox.
   > div {
     width: 100%;
   }
