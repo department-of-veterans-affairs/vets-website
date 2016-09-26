@@ -38,7 +38,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { facility: state.facilities.facilityDetail };
+  return { facility: state.facilities.selectedFacility };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(FacilityDetail);
