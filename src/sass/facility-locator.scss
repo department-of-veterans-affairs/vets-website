@@ -213,4 +213,8 @@ ul {
     border-color: $color-gray-lighter;
     margin: 6rem 0 2rem;
   }
+
+  [href^=http] {
+    background: none;
+  }
 }
