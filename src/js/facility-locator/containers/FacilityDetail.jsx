@@ -56,13 +56,13 @@ class FacilityDetail extends Component {
           </Link>
           <div className="details-map">
             {this.renderFacilityInfo()}
-            <ServicesAtFacility info={this.props.facility}/>
+            <ServicesAtFacility facility={facility}/>
           </div>
         </div>
         <div className="medium-4 columns">
           <div>
-            <FacilityMap info={this.props.facility}/>
-            <FacilityHours info={this.props.facility}/>
+            <FacilityMap info={facility}/>
+            <FacilityHours info={facility}/>
           </div>
         </div>
       </div>
