@@ -5,12 +5,15 @@ import classNames from 'classnames';
 import {
   toggleFolderNav,
   toggleManagedFolders,
-  setCurrentFolder,
-  setFolderName
+  setCurrentFolder
 } from '../actions/folders';
 
+import {
+  setNewFolderName,
+  toggleCreateFolderModal
+} from '../actions/modals';
+
 import ButtonClose from '../components/buttons/ButtonClose';
-import { toggleCreateFolderModal } from '../actions/modals';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
 import ModalCreateFolder from '../components/ModalCreateFolder';
@@ -65,7 +68,7 @@ class Main extends React.Component {
             onValueChange={this.handleOnFolderNameChange}
             onSubmit={this.handleOnSubmit}
             visible={this.props.isCreateFolderModalOpen}
-            folderName={this.props.newFolderName}/>
+            newFolderName={this.props.newFolderName}/>
       </div>
     );
   }
@@ -82,7 +85,7 @@ const mapStateToProps = (state) => {
     hasFoldersExpanded: state.folders.ui.nav.foldersExpanded,
     isCreateFolderModalOpen: state.modals.createFolder.visible,
     isNavVisible: state.folders.ui.nav.visible,
-    newFolderName: state.folders.data.newFolderName,
+    newFolderName: state.modals.createFolder.newFolderName,
     persistFolder: state.folders.data.currentItem.persistFolder,
   };
 };
@@ -92,7 +95,7 @@ const mapDispatchToProps = {
   toggleFolderNav,
   toggleManagedFolders,
   setCurrentFolder,
-  setFolderName
+  setNewFolderName
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
