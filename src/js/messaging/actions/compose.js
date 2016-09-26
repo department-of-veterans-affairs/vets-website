@@ -52,7 +52,7 @@ export function fetchSenderName() {
 export function fetchRecipients() {
   const url = `${api.url}/recipients`;
   return dispatch => {
-    fetch(url, api.settings)
+    fetch(url, api.settings.get)
     .then(res => res.json())
     .then(
       recipients => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
