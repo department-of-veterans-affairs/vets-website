@@ -28,6 +28,7 @@ export default class RotcHistoryFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('seniorRotc.commissionYear', update);}}/>
       </div>
       <div className="input-section">
+        <p>ROTC scholarship</p>
         <GrowableTable
             component={RotcScholarship}
             createRow={createRotcScholarship}
@@ -39,7 +40,7 @@ export default class RotcHistoryFields extends React.Component {
             isValidSection={isValidPage}/>
 
         <ErrorableRadioButtons
-            label="Are you currently participating in a senior ROTC scholarship program that pays for your tuition, fees, books and supplies under Section 2107 of Title 10, U.S. Code?"
+            label="Are you currently participating in a senior ROTC scholarship program that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)"
             options={yesNo}
             value={this.props.data.seniorRotcScholarshipProgram}
             name="RotcTuition"

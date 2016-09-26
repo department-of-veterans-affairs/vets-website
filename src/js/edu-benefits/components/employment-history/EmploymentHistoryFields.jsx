@@ -22,7 +22,7 @@ export default class EmploymentHistoryFields extends React.Component {
       <legend className="hide-for-small-only">Employment history</legend>
       <div className="input-section">
         <ErrorableRadioButtons
-            label="Have you held a license or journeyman rating to practice a profession?"
+            label="Have you ever held a license (for example, as a contractor or plumber) or a journeyman rating to practice a profession?"
             name="hasNonMilitaryJobs"
             options={yesNo}
             value={this.props.data.hasNonMilitaryJobs}

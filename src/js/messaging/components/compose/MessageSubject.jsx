@@ -26,7 +26,10 @@ MessageSubject.propTypes = {
   onValueChange: React.PropTypes.func,
   placeholder: React.PropTypes.string,
   required: React.PropTypes.bool,
-  subject: React.PropTypes.object
+  subject: React.PropTypes.shape({
+    value: React.PropTypes.string,
+    dirty: React.PropTypes.bool
+  }).isRequired
 };
 
 export default MessageSubject;

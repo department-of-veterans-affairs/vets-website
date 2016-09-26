@@ -15,7 +15,7 @@ export default class EducationPeriod extends React.Component {
     const formFields = (
       <div>
         <ErrorableTextInput
-            label="Name of college or other training provider"
+            label="College, university, or other training provider"
             name="name"
             field={period.name}
             onValueChange={(update) => {onValueChange('name', update);}}/>
@@ -50,7 +50,7 @@ export default class EducationPeriod extends React.Component {
             year={period.dateRange.to.year}
             onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
         <ErrorableTextInput
-            label="Hours"
+            label="Hours completed"
             name="hours"
             field={period.hours}
             onValueChange={(update) => {onValueChange('hours', update);}}/>
