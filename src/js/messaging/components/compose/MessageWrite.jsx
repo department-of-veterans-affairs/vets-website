@@ -21,8 +21,11 @@ MessageWrite.propTypes = {
   cssClass: React.PropTypes.string,
   errorMessage: React.PropTypes.string,
   placeholder: React.PropTypes.string,
-  text: React.PropTypes.object,
   onValueChange: React.PropTypes.func.isRequired,
+  text: React.PropTypes.shape({
+    value: React.PropTypes.string,
+    dirty: React.PropTypes.bool
+  }).isRequired
 };
 
 export default MessageWrite;

@@ -2,18 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
+  deleteReply,
   fetchThread,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
+  updateReplyBody,
   updateReplyCharacterCount
 } from '../actions/messages';
 
-import { toggleCreateFolderModal } from '../actions/modals';
+import {
+  toggleConfirmDelete,
+  toggleCreateFolderModal
+} from '../actions/modals';
 
 import Message from '../components/Message';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
+import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
 
@@ -38,6 +44,7 @@ class Thread extends React.Component {
   }
 
   handleReplyChange(valueObj) {
+    this.props.updateReplyBody(valueObj);
     this.props.updateReplyCharacterCount(valueObj, composeMessageMaxChars);
   }
 
@@ -48,6 +55,8 @@ class Thread extends React.Component {
   }
 
   handleReplyDelete() {
+    this.props.toggleConfirmDelete();
+    this.props.deleteReply();
   }
 
   handleMoveTo() {
@@ -158,13 +167,14 @@ class Thread extends React.Component {
             <MessageWrite
                 cssClass="messaging-write"
                 onValueChange={this.handleReplyChange}
-                placeholder={composeMessagePlaceholders.message}/>
+                placeholder={composeMessagePlaceholders.message}
+                text={this.props.reply.body}/>
             <MessageSend
-                charCount={this.props.charsRemaining}
+                charCount={this.props.reply.charsRemaining}
                 cssClass="messaging-send-group"
                 onSave={this.handleReplySave}
                 onSend={this.handleReplySend}
-                onDelete={this.handleReplyDelete}/>
+                onDelete={this.props.toggleConfirmDelete}/>
           </form>
           <button
               className="usa-button"
@@ -173,6 +183,11 @@ class Thread extends React.Component {
           </button>
         </div>
         <NoticeBox/>
+        <ModalConfirmDelete
+            cssClass="messaging-modal"
+            onClose={this.props.toggleConfirmDelete}
+            onDelete={this.handleReplyDelete}
+            visible={this.props.modals.deleteConfirm.visible}/>
       </div>
     );
   }
@@ -181,22 +196,25 @@ class Thread extends React.Component {
 const mapStateToProps = (state) => {
   return {
     persistFolder: state.folders.data.currentItem.persistFolder,
-    charsRemaining: state.messages.ui.charsRemaining,
     folders: state.folders.data.items,
     folderMessages: state.folders.data.currentItem.messages,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
-    thread: state.messages.data.thread,
+    reply: state.messages.data.reply,
+    thread: state.messages.data.thread
   };
 };
 
 const mapDispatchToProps = {
+  deleteReply,
   fetchThread,
+  toggleConfirmDelete,
   toggleCreateFolderModal,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
+  updateReplyBody,
   updateReplyCharacterCount
 };
 
