@@ -1,6 +1,18 @@
 .messaging-subject-group {
   position: relative;
 
+  > div {
+    width: 100%;
+  }
+
+  legend {
+    font-size: inherit;
+    margin: 0;
+    padding-top: 1.5rem;
+    position: relative;
+    transform: none;
+  }
+
   @media (min-width: $medium-screen) {
     > div {
       display: flex;
@@ -10,22 +22,22 @@
       width: 70%;
     }
 
+    legend {
+      margin-top: 1rem;
+      padding: 0;
+      position: absolute;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+
     margin: 0 -1.5rem;
   }
 
   label {
     position: absolute;
     left: -999em;
-  }
-
-  legend {
-    font-size: inherit;
-    margin-top: 1rem;
-    position: absolute;
-    top: 50%;
-    -webkit-transform: translateY(-50%);
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
   }
 }
 
