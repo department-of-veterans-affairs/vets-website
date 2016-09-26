@@ -91,6 +91,16 @@
   label {
     cursor: pointer;
     margin-top: 0;
+
+    &:active,
+    &:focus,
+    &:hover {
+      color: $color-gray;
+    }
+  }
+
+  i {
+    font-size: 1.8rem;
   }
 
   input {
@@ -100,25 +110,6 @@
       & ~ .messaging-message-details {
         display: block;
       }
-    }
-  }
-
-  button {
-    background: transparent;
-    box-shadow: none;
-    color: $color-black;
-    margin: 0;
-    outline: 0;
-    padding: 0;
-
-    &:active,
-    &:focus,
-    &:hover {
-      color: $color-gray;
-    }
-
-    i {
-      font-size: 1.8rem;
     }
   }
 

@@ -18,7 +18,7 @@ export function fetchFolders() {
   const url = createUrlWithQuery(baseUrl, query);
 
   return dispatch => {
-    fetch(`${url}`, api.settings)
+    fetch(`${url}`, api.settings.get)
     .then(res => res.json())
     .then(
       data => dispatch({ type: FETCH_FOLDERS_SUCCESS, data }),
@@ -33,7 +33,7 @@ export function fetchFolder(id, query = {}) {
 
   return dispatch => {
     Promise.all([folderUrl, messagesUrl].map(url =>
-      fetch(url, api.settings).then(res => res.json())
+      fetch(url, api.settings.get).then(res => res.json())
     )).then(
       data => dispatch({
         type: FETCH_FOLDER_SUCCESS,

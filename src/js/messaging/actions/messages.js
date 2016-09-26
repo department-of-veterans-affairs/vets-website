@@ -23,7 +23,7 @@ export function fetchThread(id) {
 
   return dispatch => {
     Promise.all([messageUrl, threadUrl].map(url =>
-      fetch(url, api.settings).then(res => res.json())
+      fetch(url, api.settings.get).then(res => res.json())
     )).then(
       data => dispatch({
         type: FETCH_THREAD_SUCCESS,
@@ -45,8 +45,7 @@ export function sendMessage(message) {
     }
   };
 
-  const settings = Object.assign({}, api.settings, {
-    method: 'POST',
+  const settings = Object.assign({}, api.settings.post, {
     body: JSON.stringify(payload)
   });
 

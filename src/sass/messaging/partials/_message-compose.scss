@@ -1,6 +1,6 @@
 .messaging-subject-group {
   position: relative;
-
+ 
   @media (min-width: $medium-screen) {
     > div {
       display: flex;
@@ -20,9 +20,13 @@
   
   legend {
     font-size: inherit;
-    padding-top: 1.25rem;
-    margin-bottom: -1rem;
-  }   
+    margin-top: 1rem;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);  
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
 } 
 
 @media (min-width: $medium-screen) {
@@ -49,8 +53,7 @@
 
 .messaging-recipient > div,
 .messaging-from,
-.messaging-subject-group,
-.messaging-write {
+.messaging-subject-group {
   padding: 1.5rem;
 }
 
@@ -136,10 +139,8 @@
 }
 
 .messaging-write {
-  @media (min-width: $medium-screen) {
-    padding: 1.5rem 0 0 0;
-  }
-    
+  margin-top: 3rem;
+     
   textarea {
     margin: 1rem 0 0 0;
     max-width: 100%;
