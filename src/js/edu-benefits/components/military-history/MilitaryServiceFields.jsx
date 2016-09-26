@@ -31,7 +31,7 @@ export default class MilitaryServiceFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('currentlyActiveDuty.onTerminalLeave', update);}}/>
         <ErrorableRadioButtons
             errorMessage={validateIfDirty(this.props.data.currentlyActiveDuty.nonVaAssistance, isNotBlank) ? '' : 'Please select a response'}
-            label="Are you receiving, or do you anticipate receiving, any money (including but not limited to federal tuition assistance) from the armed forces or public health services for the course for which you have applied to the VA for education benefits?"
+            label="Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?"
             name="nonVaAssistance"
             options={yesNo}
             value={this.props.data.currentlyActiveDuty.nonVaAssistance}

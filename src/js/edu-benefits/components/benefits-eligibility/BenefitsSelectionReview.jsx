@@ -29,7 +29,7 @@ export default class BenefitsSelectionReview extends React.Component {
           : null}
         <tbody>
           <tr>
-            <td>Montgomery GI Bill Active Duty (MGIB or Chapter 30) Education Assistance Program:</td>
+            <td>Montgomery GI Bill (MGIB or Chapter 30) Education Assistance Program:</td>
             <td>{this.props.data.chapter30 ? 'Yes' : 'No'}</td>
           </tr>
           <tr>
