@@ -72,7 +72,7 @@ export default class SubmitMessage extends React.Component {
           <li></li>
         </ul>
         <p>You can upload these documents, if you have them, through the <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/account%252">GI Bill site.</a></p>
-        <p>Need help? If you have questions, call 1-888-442-4551 (I-888-GI-Bill)</p>
+        <p>Need help? If you have questions, call 1-888-442-4551 (1-888-GI-Bill)</p>
       </div>
     );
   }
