@@ -43,7 +43,7 @@ class ModalCreateFolder extends React.Component {
   }
 
   render() {
-    const error = this.validateFolderName(this.props.folderName.value, this.props.folderName.dirty);
+    const error = this.validateFolderName(this.props.newFolderName.value, this.props.newFolderName.dirty);
 
     const modalContents = (
       <form onSubmit={this.props.onSubmit}>
@@ -54,9 +54,9 @@ class ModalCreateFolder extends React.Component {
             errorMessage={error.hasError ? createNewFolder.errorMessages[error.type] : undefined}
             label="Please enter a new folder name:"
             onValueChange={this.props.onValueChange}
-            name="folderName"
+            name="newFolderName"
             charMax={createNewFolder.maxLength}
-            field={this.props.folderName}/>
+            field={this.props.newFolderName}/>
 
         <div className="va-modal-button-group">
           <button
@@ -85,7 +85,7 @@ ModalCreateFolder.propTypes = {
   errorMessage: React.PropTypes.string,
   cssClass: React.PropTypes.string,
   folders: React.PropTypes.array,
-  folderName: React.PropTypes.object,
+  newFolderName: React.PropTypes.object,
   id: React.PropTypes.string,
   onClose: React.PropTypes.func,
   onValueChange: React.PropTypes.func,
