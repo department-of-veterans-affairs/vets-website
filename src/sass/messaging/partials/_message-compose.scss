@@ -82,13 +82,6 @@
   }
 }
 
-.messaging-btn-delete {
-  margin: 0;
-  @media (min-width: $medium-screen) {
-    float: right;
-  }
-}
-
 .messaging-send-group {
   background: $color-gray-lightest;
   border: 1px solid $color-gray;
@@ -125,8 +118,10 @@
     @media (max-width: $medium-screen) {
       display: none;
     }
+
     float: right;
-    margin-right: 0;
+    margin: 0 0 0 1rem;
+    padding: 1rem;
   }
 }
 
