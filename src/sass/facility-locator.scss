@@ -195,6 +195,20 @@ ul {
 }
 
 .facility-detail {
+  padding: 0 1.5rem;
+
+  a {
+    text-decoration: none;
+  }
+
+  p {
+    margin: 1rem 0;
+  }
+
+  a:visited, .edit-checkbox label:visited  {
+    color: $color-link-default;
+  }
+
   hr {
     border-color: $color-gray-lighter;
     margin: 6rem 0 2rem;
