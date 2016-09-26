@@ -36,7 +36,7 @@ export default class ContactInformationFields extends React.Component {
         <h4>Other contact information</h4>
         <p>Please enter as much contact information as possible so VA can get in touch with you, if necessary.</p>
         <div className="input-section">
-          <Email label="Email address "
+          <Email label="Email address"
               required
               error={validateIfDirty(this.props.data.email, isNotBlank) ? undefined : 'Please enter a response'}
               email={this.props.data.email}

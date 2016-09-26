@@ -8,7 +8,7 @@ export default class BenefitsHistoryReview extends React.Component {
       <table className="review usa-table-borderless">
         <tbody>
           <tr>
-            <td>I am receiving benefits from the US Government as a civilian employee for the same term I am seeking benefits from VA. (note: removed the before VA):</td>
+            <td>I am receiving benefits from the US Government as a civilian employee for the same term I am seeking benefits from VA.:</td>
             <td>{this.props.data.civilianBenefitsAssistance ? 'Yes' : 'No'}</td>
           </tr>
           <tr>
