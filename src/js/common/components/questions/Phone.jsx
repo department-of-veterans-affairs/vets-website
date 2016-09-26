@@ -37,6 +37,7 @@ class Phone extends React.Component {
             autocomplete="tel"
             placeholder="xxxxxxxxxx"
             field={this.props.value}
+            required={this.props.required}
             additionalClass={this.props.additionalClass}
             onValueChange={this.props.onValueChange}/>
       </div>
