@@ -22,7 +22,7 @@ export default class MilitaryServiceReview extends React.Component {
               <td>{this.props.data.currentlyActiveDuty.onTerminalLeave.value === 'Y' ? 'Yes' : 'No'}</td>
             </tr>
             <tr>
-              <td>Are you receiving, or do you anticipate receiving, any money (including but not limited to federal tuition assistance) from the armed forces or public health services for the course for which you have applied to the VA for education benefits?</td>
+              <td>Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?</td>
               <td>{this.props.data.currentlyActiveDuty.nonVaAssistance.value === 'Y' ? 'Yes' : 'No'}</td>
             </tr>
             <tr>
@@ -41,7 +41,7 @@ export default class MilitaryServiceReview extends React.Component {
             </thead>
             <tbody>
               <tr>
-                <td>Do not apply this period of service to my selected benefit:</td>
+                <td>This period of service should be counted towards another education benefit.</td>
                 <td>{tour.doNotApplyPeriodToSelected ? 'Yes' : 'No'}</td>
               </tr>
               {tour.doNotApplyPeriodToSelected

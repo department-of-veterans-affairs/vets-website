@@ -445,13 +445,13 @@ const employmentPeriodTiming = [
 ];
 
 const schoolTypes = [
-  { label: 'College or other school', value: 'college' },
+  { label: 'College, university, or other educational program, including online courses', value: 'college' },
   { label: 'Vocational flight training', value: 'flightTraining' },
-  { label: 'National test reimbursement', value: 'testReimbursement' },
-  { label: 'Licensing or certification test reimbursement', value: 'licensingReimbursement' },
-  { label: 'Apprenticeship or on-the-job', value: 'apprenticeship' },
+  { label: 'National test reimbursement (for example, SAT or CLEP)', value: 'testReimbursement' },
+  { label: 'Licensing or certification test reimbursement (for example, MCSE, CCNA, EMT, or NCLEX)', value: 'licensingReimbursement' },
+  { label: 'Apprenticeship or on-the-job training', value: 'apprenticeship' },
   { label: 'Correspondence', value: 'correspondence' },
-  { label: 'Tuition assistance top-up', value: 'tuitionTopUp' }
+  { label: 'Tuition assistance top-up (Post 9/11 GI Bill and MGIB-AD only)', value: 'tuitionTopUp' }
 ];
 
 const contactOptions = [

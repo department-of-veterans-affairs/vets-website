@@ -13,13 +13,13 @@ export default class EmploymentPeriod extends React.Component {
     const formFields = (
       <div>
         <ErrorableRadioButtons
-            label="When was this period of employment?"
+            label="When did you do this work?"
             name="postMilitaryJob"
             options={employmentPeriodTiming}
             value={period.postMilitaryJob}
             onValueChange={(update) => {onValueChange('postMilitaryJob', update);}}/>
         <ErrorableTextInput
-            label="Principal occupation"
+            label="Main job"
             name="name"
             field={period.name}
             onValueChange={(update) => {onValueChange('name', update);}}/>

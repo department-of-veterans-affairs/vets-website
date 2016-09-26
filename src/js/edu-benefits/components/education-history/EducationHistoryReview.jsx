@@ -18,7 +18,7 @@ export default class EducationHistoryReview extends React.Component {
           return (<table key={index} className="review usa-table-borderless">
             <thead>
               <tr>
-                <td scope="col">Name of college or other training provider</td>
+                <td scope="col">College, university, or other training provider</td>
                 <td scope="col">{period.name.value}</td>
               </tr>
             </thead>
@@ -40,7 +40,7 @@ export default class EducationHistoryReview extends React.Component {
                 <td scope="col">{displayDateIfValid(period.toDate)}</td>
               </tr>
               <tr>
-                <td scope="col">Hours</td>
+                <td scope="col">Hours completed</td>
                 <td scope="col">{period.hours.value}</td>
               </tr>
               <tr>

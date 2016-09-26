@@ -84,7 +84,7 @@ export default class BenefitsSelectionFields extends React.Component {
       </div>
       <div className="input-section">
         <ErrorableRadioButtons
-            label="Have you ever filed a claim with VA for VR&E or education benefits?"
+            label="Have you ever filed a claim with VA for VR&E or other education benefits?"
             name="previouslyFiledClaimWithVa"
             options={yesNo}
             value={this.props.data.previouslyFiledClaimWithVa}

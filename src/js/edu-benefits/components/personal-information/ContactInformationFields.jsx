@@ -34,6 +34,7 @@ export default class ContactInformationFields extends React.Component {
               onUserInput={(update) => {this.props.onStateChange('veteranAddress', update);}}/>
         </div>
         <h4>Other contact information</h4>
+        <p>Please enter as much contact information as possible so VA can get in touch with you, if necessary.</p>
         <div className="input-section">
           <Email label="Email address"
               required
@@ -57,7 +58,7 @@ export default class ContactInformationFields extends React.Component {
               additionalClass="mobile-phone"
               onValueChange={(update) => {this.props.onStateChange('mobilePhone', update);}}/>
           <ErrorableRadioButtons
-              label="How would you prefer to be contacted if there are questions about your application?"
+              label="How would you prefer to be contacted if VA has questions about your application?"
               name="preferredContactMethod"
               options={contactOptions}
               value={this.props.data.preferredContactMethod}
