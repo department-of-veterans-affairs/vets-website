@@ -45,8 +45,7 @@ export function sendMessage(message) {
     }
   };
 
-  const settings = Object.assign({}, api.settings, {
-    method: 'POST',
+  const settings = Object.assign({}, api.settings.post, {
     body: JSON.stringify(payload)
   });
 

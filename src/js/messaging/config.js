@@ -3,8 +3,18 @@ module.exports = {
   api: {
     url: '/api/v0/messaging/health',
     settings: {
-      headers: {
-        'X-Key-Inflection': 'camel'
+      get: {
+        method: 'GET',
+        headers: {
+          'X-Key-Inflection': 'camel'
+        }
+      },
+      post: {
+        method: 'POST',
+        headers: {
+          'X-Key-Inflection': 'camel',
+          'Content-Type': 'application/json'
+        }
       }
     }
   },
