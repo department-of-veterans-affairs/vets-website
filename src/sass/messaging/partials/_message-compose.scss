@@ -58,7 +58,6 @@
 }
 
 .messaging-from,
-.messaging-write,
 .messaging-recipient,
 .messaging-subject-group {
   @media (max-width: $medium-screen) {
@@ -98,12 +97,14 @@
   position: relative;
 
   @media (max-width: $medium-screen) {
+    border-width: 0;
     display: -webkit-flex;
     display: flex;
     -webkit-justify-content: space-between;
     justify-content: space-between;
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
+    padding: 1.5rem;
   }
 
   [type="button"] {
