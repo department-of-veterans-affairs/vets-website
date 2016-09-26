@@ -76,7 +76,7 @@ module.exports = {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'image/png'
   ],
-  createNewFolder: {
+  createNewFolderSettings: {
     maxLength: 50,
     errorMessages: {
       empty: 'Please enter a folder name.',

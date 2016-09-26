@@ -67,8 +67,6 @@ export default function folders(state = initialState, action) {
     }
 
     case SEND_MESSAGE_SUCCESS:
-      // console.log("SEND SUCCESS!");
-      // console.log(action.data);
       return state;
 
     case TOGGLE_MESSAGE_COLLAPSED: {
