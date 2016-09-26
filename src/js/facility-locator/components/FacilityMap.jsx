@@ -1,5 +1,6 @@
 import { compact } from 'lodash';
 import React, { Component } from 'react';
+import { mapboxToken } from './MapboxClient';
 
 class HowToGetHere extends Component {
   render() {
@@ -14,9 +15,8 @@ class HowToGetHere extends Component {
       `${address.city}, ${address.state} ${address.zip}-${address.zip4}`
     ];
 
-    const domain = 'https://api.mapbox.com/v4/mapbox.streets/pin-m-star+88c(';
-    const key = ',13/500x300.png?access_token=pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g';
-    const mapUrl = `${domain}${long},${lat})/${long},${lat}${key}`;
+    const mapUrl = `https://api.mapbox.com/v4/mapbox.streets/pin-l-star+cd2026(${long},${lat})/${long},${lat},16/500x300.png?access_token=${mapboxToken}`;
+
     const domain2 = 'https://maps.google.com?saddr=Current+Location&daddr=';
     const directionsUrl = `${domain2}${addressString}`;
     return (
