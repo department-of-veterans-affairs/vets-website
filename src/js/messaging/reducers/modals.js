@@ -16,7 +16,7 @@ const initialState = {
     visible: false
   },
   createFolder: {
-    visible: false,
+    visible: true,
     newFolderName: makeField('')
   }
 };
@@ -30,7 +30,7 @@ export default function modals(state = initialState, action) {
     case TOGGLE_CREATE_FOLDER:
       return set('createFolder.visible', !state.createFolder.visible, state);
     case SET_FOLDER_NAME:
-      return set('createFolder.folderName', action.folderName, state);
+      return set('createFolder.newFolderName', action.folderName, state);
     default:
       return state;
   }
