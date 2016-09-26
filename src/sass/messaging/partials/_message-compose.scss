@@ -47,6 +47,7 @@
     -webkit-flex: 0 1 40%;
     flex: 0 1 40%;
   }
+
   .messaging-subject {
     -webkit-flex: 1 1 60%;
     flex: 1 1 60%;
@@ -156,15 +157,17 @@
   textarea {
     margin: 1rem 0 0 0;
     max-width: 100%;
-    resize: none;
+    resize: vertical;
+  }
 
-    @media (max-width: $medium-screen) {
+  @media (max-width: $medium-screen) {
+    margin: 0;
+    padding: 1.5rem;
+
+    textarea {
       border: none;
       padding: 0;
-    }
-
-    @media (min-width: $medium-screen) {
-      resize: vertical;
+      resize: none;
     }
   }
 }
