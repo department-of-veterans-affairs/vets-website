@@ -34,7 +34,7 @@
     -webkit-align-items: flex-start;
     align-items: flex-start;
     position: relative;
-    margin-top: 5rem;
+    margin-top: 3rem;
   
     button {
       margin: 0 1rem 0 0;
@@ -44,24 +44,24 @@
       background: transparent !important;
     }
   }
-}
 
-.va-modal button {
-  white-space: nowrap;
-} 
+  button {
+    white-space: nowrap;
+  } 
 
-.va-modal-close {
-  background-color: inherit;
-  color: rgba($color-base, .8);
-  font-size: 2.5rem;
-  padding: .5rem 1rem;
-  position: absolute;
-  margin: .25rem;
-  right: 0;
-  top: 0;
-  
-  &:hover {
+  &-close {
     background-color: inherit;
-    color: $color-base;
-  }
-} 
+    color: rgba($color-base, .8);
+    font-size: 2.5rem;
+    padding: .5rem 1rem;
+    position: absolute;
+    margin: .25rem;
+    right: 0;
+    top: 0;
+  
+    &:hover {
+      background-color: inherit;
+      color: $color-base;
+    }
+  } 
+}
