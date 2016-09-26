@@ -41,19 +41,6 @@
   }
 }
 
-@media (min-width: $medium-screen) {
-  .messaging-category {
-    margin-right: 1rem;
-    -webkit-flex: 0 1 40%;
-    flex: 0 1 40%;
-  }
-
-  .messaging-subject {
-    -webkit-flex: 1 1 60%;
-    flex: 1 1 60%;
-  }
-}
-
 .messaging-recipient > div,
 .messaging-from,
 .messaging-subject-group {
@@ -152,7 +139,7 @@
 }
 
 .messaging-write {
-  margin-top: 3rem;
+  margin-top: 4rem;
 
   textarea {
     margin: 1rem 0 0 0;
@@ -239,5 +226,23 @@
     position: absolute;
     top: 0;
     width: auto;
+  }
+}
+
+@media (min-width: $medium-screen) {
+  .messaging-from {
+    padding: 0 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .messaging-category {
+    margin-right: 1rem;
+    -webkit-flex: 0 1 40%;
+    flex: 0 1 40%;
+  }
+
+  .messaging-subject {
+    -webkit-flex: 1 1 60%;
+    flex: 1 1 60%;
   }
 }
