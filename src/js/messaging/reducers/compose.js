@@ -1,16 +1,15 @@
 import set from 'lodash/fp/set';
 
+import { makeField } from '../../common/model/fields';
 import { composeMessageMaxChars } from '../config';
-import { makeField } from '../../common/model/fields.js';
 
 import {
   SET_MESSAGE_FIELD,
-  SEND_MESSAGE,
   SAVE_MESSAGE,
+  DELETE_COMPOSE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_SENDER_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
-  TOGGLE_CONFIRM_DELETE,
   UPDATE_COMPOSE_CHARACTER_COUNT
 } from '../actions/compose';
 
@@ -21,8 +20,8 @@ const initialState = {
       lastName: '',
       middleName: ''
     },
-    category: undefined,
-    recipient: undefined,
+    category: makeField(''),
+    recipient: makeField(''),
     subject: makeField(''),
     text: makeField(''),
     charsRemaining: composeMessageMaxChars,
@@ -42,25 +41,24 @@ function getRecipients(recipients) {
   return recipients.map((item) => {
     return {
       label: item.attributes.name,
-      value: item.attributes.triage_team_id
+      value: item.attributes.triageTeamId
     };
   });
 }
 
 export default function compose(state = initialState, action) {
   switch (action.type) {
+    case DELETE_COMPOSE_MESSAGE:
+      return initialState;
     case SET_MESSAGE_FIELD:
       return set(action.path, action.field, state);
     case FETCH_RECIPIENTS_SUCCESS:
       return set('recipients', getRecipients(action.recipients.data), state);
     case FETCH_SENDER_SUCCESS:
       return set('message.sender', action.sender, state);
-    case TOGGLE_CONFIRM_DELETE:
-      return set('modals.deleteConfirm.visible', !state.modals.deleteConfirm.visible, state);
     case UPDATE_COMPOSE_CHARACTER_COUNT:
       return set('message.charsRemaining', action.chars, state);
     case FETCH_RECIPIENTS_FAILURE:
-    case SEND_MESSAGE:
     case SAVE_MESSAGE:
     default:
       return state;
