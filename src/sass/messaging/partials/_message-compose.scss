@@ -20,12 +20,15 @@
   
   legend {
     font-size: inherit;
-    margin-top: 1rem;
-    position: absolute;
-    top: 50%;
-    -webkit-transform: translateY(-50%);  
-    -ms-transform: translateY(-50%);
-    transform: translateY(-50%);
+    padding-top: 1.5rem;
+    
+    @media (min-width: $medium-screen) {
+	    position: absolute;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
   }
 } 
 
