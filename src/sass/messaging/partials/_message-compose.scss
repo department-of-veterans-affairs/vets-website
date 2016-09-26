@@ -7,10 +7,7 @@
 
   legend {
     font-size: inherit;
-    margin: 0;
     padding-top: 1.5rem;
-    position: relative;
-    transform: none;
   }
 
   @media (min-width: $medium-screen) {
@@ -23,8 +20,6 @@
     }
 
     legend {
-      margin-top: 1rem;
-      padding: 0;
       position: absolute;
       top: 50%;
       -webkit-transform: translateY(-50%);
