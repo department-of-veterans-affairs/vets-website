@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import _ from 'lodash';
 import moment from 'moment';
 
 import { loadPrescriptions } from '../actions/prescriptions';
@@ -59,29 +58,32 @@ class History extends React.Component {
       const currentSort = this.props.prescriptions.history.sort;
 
       const fields = [
-        { label: 'Last requested', value: 'ordered-date' },
-        { label: 'Last fill date', value: 'dispensed-date' },
-        { label: 'Prescription', value: 'prescription-name' },
-        { label: 'Prescription status', value: 'refill-status' }
+        { label: 'Last requested', value: 'orderedDate' },
+        { label: 'Last fill date', value: 'dispensedDate' },
+        { label: 'Prescription', value: 'prescriptionName' },
+        { label: 'Prescription status', value: 'refillStatus' }
       ];
 
       const data = items.map(item => {
         const attrs = item.attributes;
-        const status = _.capitalize(rxStatuses[attrs['refill-status']]);
+        const status = rxStatuses[attrs.refillStatus];
 
         return {
-          'ordered-date': moment(
-              attrs['ordered-date']
+          orderedDate: moment(
+              attrs.orderedDate
             ).format('MMM DD, YYYY'),
-          'dispensed-date': moment(
-              attrs['dispensed-date']
+
+          dispensedDate: moment(
+              attrs.dispensedDate
             ).format('MMM DD, YYYY'),
-          'prescription-name': (
-            <Link to={`/rx/prescription/${attrs['prescription-id']}`}>
-              {attrs['prescription-name']}
+
+          prescriptionName: (
+            <Link to={`/rx/prescription/${attrs.prescriptionId}`}>
+              {attrs.prescriptionName}
             </Link>
             ),
-          'refill-status': (
+
+          refillStatus: (
             <a onClick={() => this.openGlossaryModal(status)}>
               {status}
             </a>
