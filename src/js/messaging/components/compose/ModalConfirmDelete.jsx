@@ -25,7 +25,7 @@ class ModalConfirmDelete extends React.Component {
           cssClass={this.props.cssClass}
           contents={modalContents}
           id={this.props.id}
-          onClose={this.props.onDelete}
+          onClose={this.props.onClose}
           visible={this.props.visible}/>
     );
   }
