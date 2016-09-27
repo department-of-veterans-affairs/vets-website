@@ -5,14 +5,14 @@ import { renderToStaticMarkup } from 'react-dom/server';
 
 export default class DivMarker extends Component {
   render() {
-    const { className, children, popupContent, position } = this.props;
+    const { className, children, popupContent, position, onClick } = this.props;
     const icon = divIcon({
       className,
       html: renderToStaticMarkup(children),
     });
 
     return (
-      <Marker icon={icon} position={position}>
+      <Marker icon={icon} position={position} onClick={onClick}>
         <Popup>
           {popupContent}
         </Popup>
@@ -20,6 +20,10 @@ export default class DivMarker extends Component {
     );
   }
 }
+
+DivMarker.defaultProps = {
+  onClick: () => {},
+};
 
 DivMarker.propTypes = {
   className: PropTypes.string,

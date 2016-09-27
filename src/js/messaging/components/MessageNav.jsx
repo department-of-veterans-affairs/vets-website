@@ -11,15 +11,15 @@ class MessageNav extends React.Component {
         </span>
         <button
             type="button"
-            disabled={!this.props.handlePrev}
-            onClick={this.props.handlePrev}>
+            disabled={!this.props.onClickPrev}
+            onClick={this.props.onClickPrev}>
           <i className="fa fa-chevron-left"></i>
           <span>Previous</span>
         </button>
         <button
             type="button"
-            disabled={!this.props.handleNext}
-            onClick={this.props.handleNext}>
+            disabled={!this.props.onClickNext}
+            onClick={this.props.onClickNext}>
           <span>Next</span>
           <i className="fa fa-chevron-right"></i>
         </button>
@@ -34,8 +34,8 @@ MessageNav.propTypes = {
     React.PropTypes.string
   ]).isRequired,
   messageCount: React.PropTypes.number.isRequired,
-  handlePrev: React.PropTypes.func,
-  handleNext: React.PropTypes.func
+  onClickPrev: React.PropTypes.func,
+  onClickNext: React.PropTypes.func
 };
 
 export default MessageNav;

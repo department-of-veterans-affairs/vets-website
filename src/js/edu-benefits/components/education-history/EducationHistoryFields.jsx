@@ -1,8 +1,8 @@
 import React from 'react';
 
 import DateInput from '../../../common/components/form-elements/DateInput';
-import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
+import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
 
 import EducationPeriod from './EducationPeriod';
 import { createEducationPeriod } from '../../utils/veteran';
@@ -26,9 +26,10 @@ export default class EducationHistoryFields extends React.Component {
     const { day, month, year } = completionDate;
 
     return (<fieldset>
+      <legend className="hide-for-small-only">Education history</legend>
       <div className="input-section">
         <DateInput
-            label="If you received a high school diploma or high school equivalency certificate, what date was it received? (month, day, year)"
+            label="When did you earn your high school diploma or equivalency certificate?"
             name="highSchoolOrGedCompletionDate"
             day={day}
             month={month}
@@ -36,8 +37,8 @@ export default class EducationHistoryFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('highSchoolOrGedCompletionDate', update);}}/>
       </div>
       <div className="input-section">
-        <h4>Education after High School (Including apprenticeship, on-the-job training, and flight training)</h4>
-        <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
+        <h4>Education after high school</h4>
+        <p>Enter the name of the college or training facility where you completed educational programs after high school (including apprenticeships, on-the-job training, and flight training).</p>
         <hr/>
         <div className="input-section">
           <GrowableTable
@@ -51,8 +52,9 @@ export default class EducationHistoryFields extends React.Component {
               isValidSection={isValidPage}/>
         </div>
       </div>
+      <hr/>
       <div className="input-section">
-        <ErrorableTextInput
+        <ErrorableTextarea
             label="FAA certificates"
             name="faaFlightCertificatesInformation"
             field={this.props.data.faaFlightCertificatesInformation}

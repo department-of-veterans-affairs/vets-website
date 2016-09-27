@@ -26,7 +26,8 @@ class ReviewPage extends React.Component {
       );
     } else {
       content = (<div>
-        <p>Please make sure all your information is correct before submitting your application.</p>
+        <p>You can review your application information here. When you're done, click submit.</p>
+        <p>VA will process your claim in 1 month. VA will send you a letter by U.S. mail with your claim decision.</p>
         {routes
           .map(route => route.props)
           .filter(route => {
@@ -60,7 +61,9 @@ class ReviewPage extends React.Component {
     return (
       <div>
         <h4>Review Application</h4>
-        {content}
+        <div className="input-section">
+          {content}
+        </div>
       </div>
     );
   }

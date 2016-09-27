@@ -1,6 +1,13 @@
 module.exports = {
   // Base URL to be used in API requests.
-  apiUrl: '/api/v0/prescriptions/',
+  api: {
+    url: '/api/v0/prescriptions/',
+    settings: {
+      headers: {
+        'X-Key-Inflection': 'camel'
+      }
+    }
+  },
 
   glossary: [{
     term: 'Active',
@@ -47,13 +54,13 @@ module.exports = {
   },
 
   sortOptions: [
-    { value: 'prescription-name',
+    { value: 'prescriptionName',
       label: 'Prescription name'
     },
-    { value: 'facility-name',
+    { value: 'facilityName',
       label: 'Facility name'
     },
-    { value: 'last-requested',
+    { value: 'lastRequested',
       label: 'Last requested'
     }]
 };

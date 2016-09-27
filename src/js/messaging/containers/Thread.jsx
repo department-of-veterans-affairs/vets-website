@@ -2,16 +2,24 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
+  deleteReply,
   fetchThread,
-  setVisibleDetails,
+  toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
+  updateReplyBody,
   updateReplyCharacterCount
 } from '../actions/messages';
+
+import {
+  toggleConfirmDelete,
+  toggleCreateFolderModal
+} from '../actions/modals';
 
 import Message from '../components/Message';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
+import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
 
@@ -27,6 +35,7 @@ class Thread extends React.Component {
     this.handleReplySave = this.handleReplySave.bind(this);
     this.handleReplySend = this.handleReplySend.bind(this);
     this.handleReplyDelete = this.handleReplyDelete.bind(this);
+    this.handleMoveTo = this.handleMoveTo.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +44,7 @@ class Thread extends React.Component {
   }
 
   handleReplyChange(valueObj) {
+    this.props.updateReplyBody(valueObj);
     this.props.updateReplyCharacterCount(valueObj, composeMessageMaxChars);
   }
 
@@ -45,6 +55,17 @@ class Thread extends React.Component {
   }
 
   handleReplyDelete() {
+    this.props.toggleConfirmDelete();
+    this.props.deleteReply();
+  }
+
+  handleMoveTo() {
+    // TODO: Make this call a function that dispatches an action
+    // domEvent will bubble up from the radio button
+    // to the form, which is why we're using currentTarget.
+    // instead of target.
+    // const folderId = domEvent.currentTarget.messagingMoveToFolder.value;
+    // const threadId = domEvent.currentTarget.threadId.value;
   }
 
   render() {
@@ -54,6 +75,12 @@ class Thread extends React.Component {
     let lastSender;
     let header;
     let threadMessages;
+
+    // Exclude the current folder from the list of folders
+    // that are passed down to the MoveTo component.
+    const folders = this.props.folders.filter((folder) => {
+      return folder.folderId !== this.props.persistFolder && folder.name !== 'Sent';
+    });
 
     if (thread.length > 0) {
       const currentMessage = thread[thread.length - 1];
@@ -66,7 +93,7 @@ class Thread extends React.Component {
       // Find the current message's position
       // among the messages in the current folder.
       const currentIndex = folderMessages.findIndex((message) => {
-        return message.message_id === currentMessage.message_id;
+        return message.messageId === currentMessage.messageId;
       });
 
       /* Once the position of current position has been determined,
@@ -77,7 +104,7 @@ class Thread extends React.Component {
 
       let fetchPrevMessage;
       if (currentIndex - 1 >= 0) {
-        const prevId = folderMessages[currentIndex - 1].message_id;
+        const prevId = folderMessages[currentIndex - 1].messageId;
         fetchPrevMessage = () => {
           this.props.fetchThread(prevId);
         };
@@ -85,7 +112,7 @@ class Thread extends React.Component {
 
       let fetchNextMessage;
       if (currentIndex + 1 < folderMessageCount) {
-        const nextId = folderMessages[currentIndex + 1].message_id;
+        const nextId = folderMessages[currentIndex + 1].messageId;
         fetchNextMessage = () => {
           this.props.fetchThread(nextId);
         };
@@ -94,34 +121,33 @@ class Thread extends React.Component {
       header = (
         <ThreadHeader
             currentMessageNumber={currentIndex + 1}
+            moveToFolders={folders}
             folderMessageCount={folderMessageCount}
-            handlePrev={fetchPrevMessage}
-            handleNext={fetchNextMessage}
+            onClickPrev={fetchPrevMessage}
+            onClickNext={fetchNextMessage}
             subject={thread[0].subject}
             threadMessageCount={thread.length}
-            messagesCollapsed={this.props.messagesCollapsed}
+            threadId={this.props.params.id}
+            messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
             moveToIsOpen={this.props.moveToOpened}
-            onChooseFolder={(e) => {e.preventDefault();}}
-            onCreateFolder={(e) => {e.preventDefault();}}
+            onChooseFolder={this.handleMoveTo}
+            onCreateFolder={this.props.toggleCreateFolderModal}
             onToggleThread={this.props.toggleMessagesCollapsed}
             onToggleMoveTo={this.props.toggleMoveTo}/>
       );
 
-      lastSender = currentMessage.sender_name;
+      lastSender = currentMessage.senderName;
 
-      threadMessages = thread.map((message, i) => {
-        const isCollapsed = this.props.messagesCollapsed &&
-                            (i !== thread.length - 1);
-        const detailsVisible =
-          this.props.visibleDetailsId === message.message_id;
+      threadMessages = thread.map((message) => {
+        const isCollapsed =
+          this.props.messagesCollapsed.has(message.messageId);
 
         return (
           <Message
-              key={message.message_id}
+              key={message.messageId}
               attrs={message}
               isCollapsed={isCollapsed}
-              detailsVisible={detailsVisible}
-              setVisibleDetails={this.props.setVisibleDetails}/>
+              onToggleCollapsed={this.props.toggleMessageCollapsed}/>
         );
       });
     }
@@ -132,23 +158,36 @@ class Thread extends React.Component {
         <div className="messaging-thread-messages">
           {threadMessages}
         </div>
-        <form className="messaging-thread-reply">
-          <div className="messaging-thread-reply-recipient">
-            <label>To:</label>
-            {lastSender}
-          </div>
-          <MessageWrite
-              cssClass="messaging-write"
-              onValueChange={this.handleReplyChange}
-              placeholder={composeMessagePlaceholders.message}/>
-          <MessageSend
-              charCount={this.props.charsRemaining}
-              cssClass="messaging-send-group"
-              onSave={this.handleReplySave}
-              onSend={this.handleReplySend}
-              onDelete={this.handleReplyDelete}/>
-        </form>
+        <div className="messaging-thread-reply">
+          <form>
+            <div className="messaging-thread-reply-recipient">
+              <label>To:</label>
+              {lastSender}
+            </div>
+            <MessageWrite
+                cssClass="messaging-write"
+                onValueChange={this.handleReplyChange}
+                placeholder={composeMessagePlaceholders.message}
+                text={this.props.reply.body}/>
+            <MessageSend
+                charCount={this.props.reply.charsRemaining}
+                cssClass="messaging-send-group"
+                onSave={this.handleReplySave}
+                onSend={this.handleReplySend}
+                onDelete={this.props.toggleConfirmDelete}/>
+          </form>
+          <button
+              className="usa-button"
+              type="button">
+            Reply
+          </button>
+        </div>
         <NoticeBox/>
+        <ModalConfirmDelete
+            cssClass="messaging-modal"
+            onClose={this.props.toggleConfirmDelete}
+            onDelete={this.handleReplyDelete}
+            visible={this.props.modals.deleteConfirm.visible}/>
       </div>
     );
   }
@@ -156,20 +195,26 @@ class Thread extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    charsRemaining: state.messages.ui.charsRemaining,
+    persistFolder: state.folders.data.currentItem.persistFolder,
+    folders: state.folders.data.items,
     folderMessages: state.folders.data.currentItem.messages,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
+    modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
-    thread: state.messages.data.thread,
-    visibleDetailsId: state.messages.ui.visibleDetailsId
+    reply: state.messages.data.reply,
+    thread: state.messages.data.thread
   };
 };
 
 const mapDispatchToProps = {
+  deleteReply,
   fetchThread,
-  setVisibleDetails,
+  toggleConfirmDelete,
+  toggleCreateFolderModal,
+  toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
+  updateReplyBody,
   updateReplyCharacterCount
 };
 
