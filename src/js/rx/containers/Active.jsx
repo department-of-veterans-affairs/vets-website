@@ -56,7 +56,7 @@ class Active extends React.Component {
           <PrescriptionList
               items={this.props.prescriptions.items}
               // If we're sorting by facility, tell PrescriptionList to group 'em.
-              grouped={sortValue === 'facility-name'}/>
+              grouped={sortValue === 'facilityName'}/>
         </div>
       );
     }

@@ -41,7 +41,7 @@ export class Detail extends React.Component {
       // Compose components from Rx data.
       if (item.rx) {
         const attrs = item.rx.attributes;
-        const status = rxStatuses[attrs['refill-status']];
+        const status = rxStatuses[attrs.refillStatus];
         const data = {
           Quantity: attrs.quantity,
           'Prescription status': (
@@ -53,15 +53,15 @@ export class Detail extends React.Component {
             </button>
           ),
           'Last fill date': moment(
-              attrs['dispensed-date']
+              attrs.dispensedDate
             ).format('MMM DD, YYYY'),
           'Expiration date': moment(
-              attrs['expiration-date']
+              attrs.expirationDate
             ).format('MMM DD, YYYY'),
-          'Prescription #': attrs['prescription-number'],
+          'Prescription #': attrs.prescriptionNumber,
           Refills: (
             <div>
-              {attrs['refill-remaining']} remaining
+              {attrs.refillRemaining} remaining
               <SubmitRefill
                   cssClass="rx-trigger"
                   mode="compact"
@@ -74,7 +74,7 @@ export class Detail extends React.Component {
 
         header = (
           <h2 className="rx-heading">
-            {attrs['prescription-name']}
+            {attrs.prescriptionName}
           </h2>
         );
 
@@ -88,8 +88,8 @@ export class Detail extends React.Component {
       // Compose components from tracking data.
       if (item.trackings) {
         const currentPackage = item.trackings[0].attributes;
-        const facilityName = currentPackage['facility-name'];
-        const phoneNumber = currentPackage['rx-info-phone-number'];
+        const facilityName = currentPackage.facilityName;
+        const phoneNumber = currentPackage.rxInfoPhoneNumber;
 
         contactCard = (
           <ContactCard

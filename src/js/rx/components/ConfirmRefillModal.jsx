@@ -11,10 +11,10 @@ class ConfirmRefillModal extends React.Component {
   handlerConfirmRefill(event) {
     event.preventDefault();
 
-    const rxId = this.props['prescription-id'];
+    const rxId = this.props.prescriptionId;
     const alertContent = (
       <b>
-        Refill for <a href={`/rx/prescription/${rxId}`}>{this.props['prescription-name']}</a> has been requested.
+        Refill for <a href={`/rx/prescription/${rxId}`}>{this.props.prescriptionName}</a> has been requested.
       </b>
     );
 
@@ -38,19 +38,19 @@ class ConfirmRefillModal extends React.Component {
               <h3 className="rx-modal-title">Confirm refill</h3>
               <div className="rx-modal-refillinfo va-modal-body">
                 <div>
-                  <span className="rx-modal-drug">{this.props['prescription-name']}</span>
+                  <span className="rx-modal-drug">{this.props.prescriptionName}</span>
                 </div>
                 <div className="rx-modal-rxnumber">
-                  Prescription <abbr title="number">#</abbr>: {this.props['prescription-number']}
+                  Prescription <abbr title="number">#</abbr>: {this.props.prescriptionNumber}
                 </div>
                 <div className="rx-modal-facility">
-                  Facility name: {this.props['facility-name']}
+                  Facility name: {this.props.facilityName}
                 </div>
                 <div className="rx-modal-lastrefilled">
-                  Last requested: {moment(this.props['refill-date']).format('MMM D, YYYY')}
+                  Last requested: {moment(this.props.refillDate).format('MMM D, YYYY')}
                 </div>
                 <div className="va-modal-button-group cf">
-                  <button type="submit" value={this.props['prescription-id']}>Order refill</button>
+                  <button type="submit" value={this.props.prescriptionId}>Order refill</button>
                   <button type="button" className="usa-button-outline"
                       onClick={this.handlerCloseModal}>Cancel</button>
                 </div>
