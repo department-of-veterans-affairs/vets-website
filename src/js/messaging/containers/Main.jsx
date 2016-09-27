@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import {
+  createNewFolder,
+  setCurrentFolder,
   toggleFolderNav,
-  toggleManagedFolders,
-  setCurrentFolder
+  toggleManagedFolders
 } from '../actions/folders';
 
 import {
@@ -13,6 +14,7 @@ import {
   toggleCreateFolderModal
 } from '../actions/modals';
 
+import { makeField } from '../../common/model/fields';
 import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
@@ -23,7 +25,8 @@ class Main extends React.Component {
     super(props);
     this.handleFolderChange = this.handleFolderChange.bind(this);
     this.handleFolderNameChange = this.handleFolderNameChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleCreateNewFolderModal = this.handleCreateNewFolderModal.bind(this);
+    this.handleSubmitCreateNewFolder = this.handleSubmitCreateNewFolder.bind(this);
   }
 
   handleFolderChange(domEvent) {
@@ -35,7 +38,25 @@ class Main extends React.Component {
     this.props.setNewFolderName(field);
   }
 
-  handleSubmit() {}
+  handleCreateNewFolderModal() {
+    // Reset the form / state object when closed
+    const resetForm = makeField('');
+    this.props.setNewFolderName(resetForm);
+    this.props.toggleCreateFolderModal();
+  }
+
+  handleSubmitCreateNewFolder(domEvent) {
+    domEvent.preventDefault();
+    const input = domEvent.target.getElementsByTagName('input')[0];
+    // If, by chance, the veteran has submitted this form without touching the
+    // folder name field, trigger an action that will trigger an error.
+    if (input.value === '') {
+      this.props.setNewFolderName({ value: '', dirty: true });
+    } else {
+      this.props.createNewFolder(input.value);
+    }
+    this.handleCreateNewFolderModal();
+  }
 
   render() {
     const navClass = classNames({
@@ -64,9 +85,9 @@ class Main extends React.Component {
             cssClass="messaging-modal"
             folders={this.props.folders}
             id="messaging-create-folder"
-            onClose={this.props.toggleCreateFolderModal}
+            onClose={this.handleCreateNewFolderModal}
             onValueChange={this.handleFolderNameChange}
-            onSubmit={this.handleSubmit}
+            onSubmit={this.handleSubmitCreateNewFolder}
             visible={this.props.isCreateFolderModalOpen}
             newFolderName={this.props.newFolderName}/>
       </div>
@@ -91,6 +112,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  createNewFolder,
   toggleCreateFolderModal,
   toggleFolderNav,
   toggleManagedFolders,
