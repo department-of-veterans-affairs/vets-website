@@ -1,7 +1,7 @@
 import LoginApp from './containers/LoginApp';
 
 const routes = {
-  path: '/auth/saml/callback',
+  path: '/auth/login/callback',
   component: LoginApp
 };
 

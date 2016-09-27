@@ -125,6 +125,10 @@ const configGenerator = (options) => {
       test: /debug\/RoutesDropdown/,
       loader: 'null'
     });
+    baseConfig.module.loaders.push({
+      test: /components\/SignInProfileButton/,
+      loader: 'null'
+    });
     baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());

@@ -18,7 +18,7 @@ class LoginApp extends React.Component {
   setMyToken() {
     const saml = new FormData();
     saml.append('SAMLResponse', this.props.location.query.SAMLResponse);
-    fetch(`${environment.API_URL}/auth/saml/callback`, {
+    fetch(`${environment.API_URL}/auth/login/callback`, {
       method: 'POST',
       body: saml
     }).then(response => {
