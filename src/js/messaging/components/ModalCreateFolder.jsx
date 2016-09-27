@@ -1,7 +1,7 @@
 import React from 'react';
 
+import { createNewFolderSettings } from '../config';
 import { isBlank } from '../../common/utils/validations';
-import { createNewFolder } from '../config';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 import Modal from '../../common/components/Modal';
 
@@ -11,9 +11,8 @@ class ModalCreateFolder extends React.Component {
     this.validateFolderName = this.validateFolderName.bind(this);
   }
 
-  validateFolderName(folderName, dirty = false) {
+  validateFolderName(folderName, dirty = false, existingFolders = []) {
     const err = {};
-    const existingFolders = this.props.folders;
     const trimmedFolderName = folderName.trim();
 
     if (dirty === false) {
@@ -43,7 +42,11 @@ class ModalCreateFolder extends React.Component {
   }
 
   render() {
-    const error = this.validateFolderName(this.props.newFolderName.value, this.props.newFolderName.dirty);
+    const foldersWeHave = this.props.folders;
+    const formValue = this.props.newFolderName.value;
+    const isFieldDirty = this.props.newFolderName.dirty;
+
+    const error = this.validateFolderName(formValue, isFieldDirty, foldersWeHave);
 
     const modalContents = (
       <form onSubmit={this.props.onSubmit}>
@@ -51,16 +54,16 @@ class ModalCreateFolder extends React.Component {
           Create new folder
         </h3>
         <ErrorableTextInput
-            errorMessage={error.hasError ? createNewFolder.errorMessages[error.type] : undefined}
+            errorMessage={error.hasError ? createNewFolderSettings.errorMessages[error.type] : undefined}
             label="Please enter a new folder name:"
             onValueChange={this.props.onValueChange}
             name="newFolderName"
-            charMax={createNewFolder.maxLength}
+            charMax={createNewFolderSettings.maxLength}
             field={this.props.newFolderName}/>
 
         <div className="va-modal-button-group">
           <button
-              disabled={error.hasError}
+              disabled={!!this.props.errorMessage}
               type="submit">Create</button>
           <button
               className="usa-button-outline"
