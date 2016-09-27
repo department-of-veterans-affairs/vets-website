@@ -149,7 +149,7 @@ class Thread extends React.Component {
       });
 
       if (this.props.message.sentDate) {
-        currentMessage = <Message attrs={this.props.message}/>
+        currentMessage = <Message attrs={this.props.message}/>;
       }
     }
 
