@@ -57,7 +57,7 @@ class ServicesAtFacility extends Component {
     const label = service.replace(/([A-Z])/g, ' $1');
 
     return (
-      <li className="service-block">
+      <li key={service} className="service-block">
         <span className="l1-services">
           {label}
         </span>
