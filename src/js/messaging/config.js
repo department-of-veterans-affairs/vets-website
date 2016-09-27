@@ -1,20 +1,27 @@
+const headers = {
+  'X-Key-Inflection': 'camel'
+};
+
 module.exports = {
-  // Basic pieces of data for making API requests.
+  // Basic config for making API requests.
   api: {
     url: '/api/v0/messaging/health',
     settings: {
       get: {
         method: 'GET',
-        headers: {
-          'X-Key-Inflection': 'camel'
-        }
+        headers
       },
       post: {
         method: 'POST',
-        headers: {
-          'X-Key-Inflection': 'camel',
+        headers: Object.assign({}, headers, {
           'Content-Type': 'application/json'
-        }
+        })
+      },
+      put: {
+        method: 'PUT',
+        headers: Object.assign({}, headers, {
+          'Content-Type': 'application/json'
+        })
       }
     }
   },
@@ -63,6 +70,7 @@ module.exports = {
   },
 
   composeMessageMaxChars: 2000,
+
   allowedMimeTypes: [
     'text/plain',
     'application/pdf',
@@ -76,6 +84,7 @@ module.exports = {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'image/png'
   ],
+
   createNewFolderSettings: {
     maxLength: 50,
     errorMessages: {
