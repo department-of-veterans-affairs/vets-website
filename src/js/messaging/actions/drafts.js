@@ -5,7 +5,7 @@ export const SAVE_DRAFT_FAILURE = 'SAVE_DRAFT_FAILURE';
 
 const baseUrl = `${api.url}/message_drafts`;
 
-export function saveDraft(message) {
+export function saveDraft(message, update = false) {
   const payload = {
     messageDraft: {
       category: message.category.value,
@@ -14,6 +14,10 @@ export function saveDraft(message) {
       recipientId: +message.recipient.value
     }
   };
+
+  const defaultSettings = update
+                        ? api.settings.put
+                        : api.settings.post;
 
   const settings = Object.assign({}, api.settings.post, {
     body: JSON.stringify(payload)
