@@ -66,9 +66,9 @@ export default function folders(state = initialState, action) {
       if (!currentMessage.sentDate) {
         const body = makeField(currentMessage.body);
         const charsRemaining =
-          composeMessage.maxChars.currentMessage - currentMessage.body.length;
-        const reply = { body, charsRemaining };
+          composeMessage.maxChars.message - currentMessage.body.length;
 
+        const reply = { body, charsRemaining };
         newState = set('data.reply', reply, newState);
       }
 
