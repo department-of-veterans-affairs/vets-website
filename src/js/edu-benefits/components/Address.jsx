@@ -4,7 +4,8 @@ import { set } from 'lodash/fp';
 
 import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
-import { isBlank, isNotBlank, validateIfDirty, isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/validations';
+import { isNotBlank, validateIfDirty, isValidUSZipCode, isValidCanPostalCode } from '../../common/utils/validations';
+import { isBlankAddress } from '../utils/validations';
 import { countries, states } from '../utils/options-for-select';
 
 /**
@@ -37,25 +38,25 @@ class Address extends React.Component {
   }
 
   validateAddressField(field) {
-    if (this.props.required) {
+    if (this.props.required || !isBlankAddress(this.props.value)) {
       return validateIfDirty(field, isNotBlank);
     }
 
-    return validateIfDirty(field, isBlank) || validateIfDirty(field, isNotBlank);
+    return true;
   }
 
   validatePostalCode(postalCodeField) {
     let isValid = true;
 
-    if (this.props.required) {
+    if (this.props.required || !isBlankAddress(this.props.value)) {
       isValid = isValid && validateIfDirty(postalCodeField, isNotBlank);
     }
 
-    if (this.props.value.country.value === 'USA') {
+    if (this.props.value.country.value === 'USA' && isNotBlank(postalCodeField.value)) {
       isValid = isValid && validateIfDirty(postalCodeField, isValidUSZipCode);
     }
 
-    if (this.props.value.country.value === 'CAN') {
+    if (this.props.value.country.value === 'CAN' && isNotBlank(postalCodeField.value)) {
       isValid = isValid && validateIfDirty(postalCodeField, isValidCanPostalCode);
     }
 
@@ -96,7 +97,7 @@ class Address extends React.Component {
 
     return (
       <div>
-        <ErrorableSelect errorMessage={this.validateAddressField(this.props.value.country) ? undefined : 'Please enter a valid country'}
+        <ErrorableSelect errorMessage={this.validateAddressField(this.props.value.country) ? undefined : 'Please enter a country'}
             label="Country"
             name="country"
             autocomplete="country"
@@ -104,7 +105,7 @@ class Address extends React.Component {
             value={this.props.value.country}
             required={this.props.required}
             onValueChange={(update) => {this.handleChange('country', update);}}/>
-        <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.street) ? undefined : 'Please enter a valid street address'}
+        <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.street) ? undefined : 'Please enter a street address'}
             label="Street"
             name="address"
             autocomplete="street-address"
@@ -112,7 +113,7 @@ class Address extends React.Component {
             field={this.props.value.street}
             required={this.props.required}
             onValueChange={(update) => {this.handleChange('street', update);}}/>
-        <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.city) ? undefined : 'Please enter a valid city'}
+        <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.city) ? undefined : 'Please enter a city'}
             label="City"
             name="city"
             autocomplete="address-level2"

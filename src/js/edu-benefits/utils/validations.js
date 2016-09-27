@@ -41,6 +41,13 @@ function isNotBlank(value) {
   return value !== '';
 }
 
+function isBlankAddress(address) {
+  return isBlank(address.city.value)
+    && isBlank(address.state.value)
+    && isBlank(address.street.value)
+    && isBlank(address.postalCode.value);
+}
+
 function isValidYear(value) {
   return Number(value) >= 1900;
 }
@@ -261,7 +268,8 @@ function isValidEducationHistoryPage(data) {
 }
 
 function isValidSecondaryContactPage(data) {
-  return isValidField(isValidPhone, data.secondaryContact.phone);
+  return isValidField(isValidPhone, data.secondaryContact.phone)
+    && (isBlankAddress(data.secondaryContact.address) || isValidAddressField(data.secondaryContact.address));
 }
 
 function isValidContactInformationPage(data) {
@@ -394,5 +402,6 @@ export {
   isValidMilitaryServicePage,
   isValidPage,
   isValidValue,
-  isValidFutureDateField
+  isValidFutureDateField,
+  isBlankAddress
 };
