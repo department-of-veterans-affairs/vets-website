@@ -15,14 +15,14 @@ import {
   UPDATE_REPLY_CHARACTER_COUNT
 } from '../actions/messages';
 
-import { composeMessageMaxChars } from '../config';
+import { composeMessage } from '../config';
 
 const initialState = {
   data: {
     thread: [],
     reply: {
       body: makeField(''),
-      charsRemaining: composeMessageMaxChars
+      charsRemaining: composeMessage.maxChars.message
     }
   },
   ui: {
@@ -34,7 +34,7 @@ const initialState = {
 const resetReply = (state) => {
   const newReply = {
     body: makeField(''),
-    charsRemaining: composeMessageMaxChars
+    charsRemaining: composeMessage.maxChars.message
   };
 
   return set('data.reply', newReply, state);

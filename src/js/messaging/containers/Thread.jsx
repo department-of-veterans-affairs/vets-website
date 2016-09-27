@@ -23,10 +23,7 @@ import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
 
-import {
-  composeMessageMaxChars,
-  composeMessagePlaceholders
-} from '../config';
+import { composeMessage } from '../config';
 
 class Thread extends React.Component {
   constructor(props) {
@@ -45,7 +42,7 @@ class Thread extends React.Component {
 
   handleReplyChange(valueObj) {
     this.props.updateReplyBody(valueObj);
-    this.props.updateReplyCharacterCount(valueObj, composeMessageMaxChars);
+    this.props.updateReplyCharacterCount(valueObj, composeMessage.maxChars.message);
   }
 
   handleReplySave() {
@@ -167,7 +164,7 @@ class Thread extends React.Component {
             <MessageWrite
                 cssClass="messaging-write"
                 onValueChange={this.handleReplyChange}
-                placeholder={composeMessagePlaceholders.message}
+                placeholder={composeMessage.placeholders.message}
                 text={this.props.reply.body}/>
             <MessageSend
                 charCount={this.props.reply.charsRemaining}
