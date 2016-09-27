@@ -315,6 +315,9 @@ const states = {
   USA: [
     { label: 'Alabama', value: 'AL' },
     { label: 'Alaska', value: 'AK' },
+    { label: 'Armed Forces Americas (AA)', value: 'AA' },
+    { label: 'Armed Forces Europe (AE)', value: 'AE' },
+    { label: 'Armed Forces Pacific (AP)', value: 'AP' },
     { label: 'American Samoa', value: 'AS' },
     { label: 'Arizona', value: 'AZ' },
     { label: 'Arkansas', value: 'AR' },
