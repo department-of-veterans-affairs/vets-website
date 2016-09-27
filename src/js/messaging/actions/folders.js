@@ -58,8 +58,8 @@ export function toggleManagedFolders() {
 
 export function createNewFolder(folderName) {
   // create JSON payload
-  const folderData = {};
-  folderData.folder = folderName;
+  const folderData = { folder: {} };
+  folderData.folder.name = folderName;
 
   const settings = Object.assign({}, api.settings.post, {
     body: JSON.stringify(folderData)

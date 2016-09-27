@@ -1,4 +1,5 @@
 import set from 'lodash/fp/set';
+import concat from 'lodash/fp/concat';
 
 import {
   CREATE_NEW_FOLDER_FAILURE,
@@ -64,7 +65,10 @@ export default function folders(state = initialState, action) {
       // The + forces +action.folderId to be a number
       return set('data.currentItem.persistFolder', +action.folderId, state);
     // TODO: Handle the response in an appropriate way
-    case CREATE_NEW_FOLDER_SUCCESS:
+    case CREATE_NEW_FOLDER_SUCCESS: {
+      const newFolderList = concat(state.data.items, action.data.data.attributes);
+      return set('data.items', newFolderList, state);
+    }
     case CREATE_NEW_FOLDER_FAILURE:
     case FETCH_FOLDERS_FAILURE:
     case FETCH_FOLDER_FAILURE:

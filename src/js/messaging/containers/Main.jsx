@@ -2,9 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import { createNewFolderSettings } from '../config';
-import { isBlank } from '../../common/utils/validations';
-
 import {
   createNewFolder,
   setCurrentFolder,
@@ -17,6 +14,7 @@ import {
   toggleCreateFolderModal
 } from '../actions/modals';
 
+import { makeField } from '../../common/model/fields';
 import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
@@ -28,8 +26,7 @@ class Main extends React.Component {
     this.handleFolderChange = this.handleFolderChange.bind(this);
     this.handleFolderNameChange = this.handleFolderNameChange.bind(this);
     this.handleCreateNewFolderModal = this.handleCreateNewFolderModal.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.validateFolderName = this.validateFolderName.bind(this);
+    this.handleSubmitCreateNewFolder = this.handleSubmitCreateNewFolder.bind(this);
   }
 
   handleFolderChange(domEvent) {
@@ -43,12 +40,12 @@ class Main extends React.Component {
 
   handleCreateNewFolderModal() {
     // Reset the form / state object when closed
-    const resetForm = { value: '', dirty: false };
+    const resetForm = makeField('');
     this.props.setNewFolderName(resetForm);
     this.props.toggleCreateFolderModal();
   }
 
-  handleSubmit(domEvent) {
+  handleSubmitCreateNewFolder(domEvent) {
     domEvent.preventDefault();
     const input = domEvent.target.getElementsByTagName('input')[0];
     // If, by chance, the veteran has submitted this form without touching the
@@ -58,48 +55,13 @@ class Main extends React.Component {
     } else {
       this.props.createNewFolder(input.value);
     }
-  }
-
-  validateFolderName(existingFolders = [], folderName, dirty = false) {
-    const err = {};
-    const trimmedFolderName = folderName.trim();
-
-    if (dirty === false) {
-      return false;
-    }
-
-    if (isBlank(trimmedFolderName)) {
-      err.hasError = true;
-      err.type = 'empty';
-    }
-    // Disallows anything other than a-z, 0-9, and space
-    // (case insensitive)
-    const allowedRegExp = /[^a-z0-9\s]/ig;
-    if (allowedRegExp.test(trimmedFolderName)) {
-      err.hasError = true;
-      err.type = 'patternMismatch';
-    }
-
-    const doesFolderExist = (folder) => { return trimmedFolderName === folder.name; };
-
-    if (!!existingFolders.find(doesFolderExist)) {
-      err.hasError = true;
-      err.type = 'exists';
-    }
-
-    return err;
+    this.handleCreateNewFolderModal();
   }
 
   render() {
     const navClass = classNames({
       opened: this.props.isNavVisible
     });
-
-    const foldersWeHave = this.props.folders;
-    const formValue = this.props.newFolderName.value;
-    const isFieldDirty = this.props.newFolderName.dirty;
-
-    const error = this.validateFolderName(foldersWeHave, formValue, isFieldDirty);
 
     return (
       <div id="messaging-main">
@@ -120,13 +82,12 @@ class Main extends React.Component {
           {this.props.children}
         </div>
         <ModalCreateFolder
-            errorMessage={error.hasError ? createNewFolderSettings.errorMessages[error.type] : undefined}
             cssClass="messaging-modal"
             folders={this.props.folders}
             id="messaging-create-folder"
             onClose={this.handleCreateNewFolderModal}
             onValueChange={this.handleFolderNameChange}
-            onSubmit={this.handleSubmit}
+            onSubmit={this.handleSubmitCreateNewFolder}
             visible={this.props.isCreateFolderModalOpen}
             newFolderName={this.props.newFolderName}/>
       </div>
