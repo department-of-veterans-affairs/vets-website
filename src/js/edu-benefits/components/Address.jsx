@@ -73,7 +73,7 @@ class Address extends React.Component {
     const selectedCountry = this.props.value.country.value;
     if (states[selectedCountry]) {
       stateList = states[selectedCountry];
-      if (this.isMilitaryCity(this.props.value.city.value)) {
+      if (this.props.value.city.value && this.isMilitaryCity(this.props.value.city.value)) {
         stateList = stateList.filter(state => state.value === 'AE' || state.value === 'AP' || state.value === 'AA');
       }
     }

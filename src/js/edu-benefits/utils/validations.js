@@ -189,7 +189,7 @@ function isValidAddressField(field) {
   if (_.hasIn(states, field.country.value)) {
     return initialOk &&
       isNotBlank(field.state.value) &&
-      isNotBlank(field.zipcode.value);
+      isNotBlank(field.postalCode.value);
   }
   // if the entry was non-USA/CAN/MEX, only postal is
   // required, not provinceCode
