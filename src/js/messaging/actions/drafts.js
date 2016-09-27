@@ -19,7 +19,7 @@ export function saveDraft(message, update = false) {
                         ? api.settings.put
                         : api.settings.post;
 
-  const settings = Object.assign({}, api.settings.post, {
+  const settings = Object.assign({}, defaultSettings, {
     body: JSON.stringify(payload)
   });
 
