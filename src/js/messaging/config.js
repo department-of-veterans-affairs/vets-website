@@ -22,8 +22,13 @@ module.exports = {
   paths: {
     INBOX_URL: '/messaging',
     COMPOSE_URL: '/messaging/compose',
-    DRAFTS_URL: '/messaging/folder/-2'
+    FOLDERS_URL: '/messaging/folder'
   },
+
+  // The indices of systemFolders are positive. The
+  // actual folder IDs are negative. Remember to invert
+  // when needed.
+  systemFolders: ['Inbox', 'Sent', 'Drafts', 'Deleted'],
 
   // An array of objects containing the category name (label) and a
   // value for use with select, radio button inputs.
