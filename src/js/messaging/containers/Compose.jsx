@@ -54,7 +54,6 @@ class Compose extends React.Component {
     this.props.sendMessage(this.props.message);
   }
 
-
   handleCategoryChange(valueObj) {
     this.props.setMessageField('message.category', valueObj);
   }
@@ -166,7 +165,6 @@ class Compose extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    persistFolder: state.folders.data.currentItem.persistFolder,
     message: state.compose.message,
     recipients: state.compose.recipients,
     modals: {
