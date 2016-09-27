@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import { states } from './options-for-select';
 import { dateToMoment, showRelinquishedEffectiveDate } from './helpers';
 
@@ -151,6 +152,21 @@ function isBlankDateField(field) {
 
 function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
+}
+
+function isValidFutureDate(day, month, year) {
+  const today = moment().startOf('day');
+  const date = moment({
+    day,
+    month: parseInt(month, 10) - 1,
+    year
+  });
+
+  return date.isValid() && date.isSameOrAfter(today);
+}
+
+function isValidFutureDateField(field) {
+  return isValidFutureDate(field.day.value, field.month.value, field.year.value);
 }
 
 function isValidFutureOrPastDateField(field) {
@@ -377,5 +393,6 @@ export {
   isValidContactInformationPage,
   isValidMilitaryServicePage,
   isValidPage,
-  isValidValue
+  isValidValue,
+  isValidFutureDateField
 };
