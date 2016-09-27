@@ -1,7 +1,7 @@
 import set from 'lodash/fp/set';
 
 import { makeField } from '../../common/model/fields';
-import { composeMessageMaxChars } from '../config';
+import { composeMessage } from '../config';
 
 import {
   SET_MESSAGE_FIELD,
@@ -24,7 +24,7 @@ const initialState = {
     recipient: makeField(''),
     subject: makeField(''),
     text: makeField(''),
-    charsRemaining: composeMessageMaxChars,
+    charsRemaining: composeMessage.maxChars.message,
     attachments: []
   },
   // List of potential recipients

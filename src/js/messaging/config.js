@@ -49,20 +49,22 @@ module.exports = {
       value: 'OTHER'
     }
   ],
-
-  composeMessagePlaceholders: {
-    subject: 'Add an additional subject line',
-    message: 'Type your message here'
+  composeMessage: {
+    placeholders: {
+      subject: 'Add an additional subject line (optional)',
+      message: 'Type your message here'
+    },
+    errors: {
+      category: 'Please select a category.',
+      message: 'Please enter your message.',
+      subject: 'Please add subject description.',
+      recipient: 'Please select a recipient from your health care team.'
+    },
+    maxChars: {
+      message: 2000,
+      subject: 512
+    }
   },
-
-  composeMessageErrors: {
-    category: 'Please select a category.',
-    message: 'Please enter your message.',
-    subject: 'Please add subject description.',
-    recipient: 'Please select a recipient from your health care team.'
-  },
-
-  composeMessageMaxChars: 2000,
   allowedMimeTypes: [
     'text/plain',
     'application/pdf',
