@@ -22,13 +22,13 @@ import ModalAttachmentsTooBig from '../components/compose/ModalAttachmentsTooBig
 
 import {
   deleteComposeMessage,
-  saveMessage,
   setMessageField,
   fetchRecipients,
   fetchSenderName,
   updateComposeCharacterCount
 } from '../actions/compose';
 
+import { saveDraft } from '../actions/drafts';
 import { sendMessage } from '../actions/messages';
 
 import {
@@ -45,6 +45,7 @@ class Compose extends React.Component {
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
     this.handleSubjectChange = this.handleSubjectChange.bind(this);
     this.sendNewMessage = this.sendNewMessage.bind(this);
+    this.saveDraft = this.saveDraft.bind(this);
   }
 
   componentDidMount() {
@@ -56,6 +57,9 @@ class Compose extends React.Component {
     this.props.sendMessage(this.props.message);
   }
 
+  saveDraft() {
+    this.props.saveDraft(this.props.message);
+  }
 
   handleCategoryChange(valueObj) {
     this.props.setMessageField('message.category', valueObj);
@@ -143,7 +147,7 @@ class Compose extends React.Component {
               allowedMimeTypes={allowedMimeTypes}
               charCount={message.charsRemaining}
               cssClass="messaging-send-group"
-              onSave={this.props.saveMessage}
+              onSave={this.saveDraft}
               onSend={this.sendNewMessage}
               onDelete={this.props.toggleConfirmDelete}/>
         </form>
@@ -179,7 +183,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   deleteComposeMessage,
-  saveMessage,
+  saveDraft,
   sendMessage,
   setMessageField,
   fetchRecipients,
