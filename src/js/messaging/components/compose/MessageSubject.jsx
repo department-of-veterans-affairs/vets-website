@@ -8,6 +8,7 @@ class MessageSubject extends React.Component {
     return (
       <div className={this.props.cssClass}>
         <ErrorableTextInput
+            charMax={this.props.charMax}
             additionalClass={`${this.props.cssClass}-input`}
             label="Subject"
             onValueChange={this.props.onValueChange}
