@@ -13,14 +13,12 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.form-panel', Timeouts.slow)  // First render of React may be slow.
       .axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.
     HcaHelpers.completePersonalInformation(client, HcaHelpers.testValues, true);
     client
       .axeCheck('.main')
       .click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/personal-information');
 
     // Birth information page.
     HcaHelpers.completeBirthInformation(client, HcaHelpers.testValues, true);
@@ -115,7 +113,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Submit message
     client
-      .expect.element('.success-alert-box').to.be.visible
       .axeCheck('.main');
 
     client.end();
