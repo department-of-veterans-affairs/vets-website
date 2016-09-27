@@ -19,6 +19,7 @@ import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
 import ModalCreateFolder from '../components/ModalCreateFolder';
+import MessageSearch from '../components/MessageSearch';
 
 class Main extends React.Component {
   constructor(props) {
@@ -79,6 +80,7 @@ class Main extends React.Component {
               onFolderChange={this.handleOnFolderChange}/>
         </div>
         <div id="messaging-content">
+          <MessageSearch onSubmit={(e) => { e.preventDefault(); }}/>
           {this.props.children}
         </div>
         <ModalCreateFolder
