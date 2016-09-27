@@ -1,22 +1,20 @@
 import React from 'react';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
-import { makeField } from '../../../common/model/fields.js';
 
 class MessageSubject extends React.Component {
+  // TODO: Add errorMessage property to ErrorableTextInput conditionally
+  // when the fields are validated.
   render() {
-    const subjectValue = makeField(undefined);
-
     return (
       <div className={this.props.cssClass}>
         <ErrorableTextInput
             additionalClass={`${this.props.cssClass}-input`}
-            errorMessage={this.props.errorMessage}
             label="Subject"
             onValueChange={this.props.onValueChange}
             required={this.props.required}
             placeholder={this.props.placeholder}
             name="messageSubject"
-            field={subjectValue}/>
+            field={this.props.subject}/>
       </div>
     );
   }
@@ -27,7 +25,11 @@ MessageSubject.propTypes = {
   errorMessage: React.PropTypes.string,
   onValueChange: React.PropTypes.func,
   placeholder: React.PropTypes.string,
-  required: React.PropTypes.bool
+  required: React.PropTypes.bool,
+  subject: React.PropTypes.shape({
+    value: React.PropTypes.string,
+    dirty: React.PropTypes.bool
+  }).isRequired
 };
 
 export default MessageSubject;

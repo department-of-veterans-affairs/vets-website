@@ -9,7 +9,8 @@ export default class SecondaryContactFields extends React.Component {
   render() {
     return (
       <fieldset>
-        <legend>Secondary Contact</legend>
+        <legend>Secondary contact</legend>
+        <p>This person should know where you can be reached at all times.</p>
         <div className="input-section">
           <ErrorableTextInput
               label="Name"

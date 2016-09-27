@@ -28,7 +28,7 @@ export default class ContactInformationReview extends React.Component {
             <td>{this.props.data.veteranAddress.zipcode.value || this.props.data.veteranAddress.postalCode.value}</td>
           </tr>
           <tr>
-            <td>Email:</td>
+            <td>Email address:</td>
             <td>{this.props.data.email.value}</td>
           </tr>
           <tr>

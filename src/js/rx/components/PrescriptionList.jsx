@@ -22,7 +22,7 @@ class PrescriptionList extends React.Component {
       // Extract facilities from items as an array.
       // Make it an array of unique values.
       facilities = _.uniq(_.map(items, (obj) => {
-        return obj.attributes['facility-name'];
+        return obj.attributes.facilityName;
       }));
 
       /*
@@ -36,7 +36,7 @@ class PrescriptionList extends React.Component {
 
       _.map(facilities, (value) => {
         groupByFacility[value] = _.filter(items, (obj) => {
-          return obj.attributes['facility-name'] === value;
+          return obj.attributes.facilityName === value;
         });
       });
 

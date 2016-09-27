@@ -1,3 +1,4 @@
+import { compact } from 'lodash';
 import React, { Component } from 'react';
 
 class HowToGetHere extends Component {
@@ -7,16 +8,21 @@ class HowToGetHere extends Component {
         <div></div>
       );
     }
+    const { attributes: { lat, long, address } } = this.props.info;
+    const addressString = [
+      compact([address.building, address.street, address.suite]).join(' '),
+      `${address.city}, ${address.state} ${address.zip}-${address.zip4}`
+    ];
+
     const domain = 'https://api.mapbox.com/v4/mapbox.streets/pin-m-star+88c(';
     const key = ',13/500x300.png?access_token=pk.eyJ1IjoiYXlhbGVsb2VociIsImEiOiJjaWtmdnA1MHAwMDN4dHdtMnBqbGR3djJxIn0.fuqVOKCu8mE-9IdxTa4R8g';
-    const src = `${domain}${this.props.info.longitude},${this.props.info.latitude})/${this.props.info.longitude},${this.props.info.latitude}${key}`;
-    const domain2 = 'https://www.google.com/maps/dir/';
-    const address = this.props.info.address;
-    const src2 = `${domain2}${address.street1} ${address.street2} ${address.city} ${address.state} ${address.zip}`;
+    const mapUrl = `${domain}${long},${lat})/${long},${lat}${key}`;
+    const domain2 = 'https://maps.google.com?saddr=Current+Location&daddr=';
+    const directionsUrl = `${domain2}${addressString}`;
     return (
       <div>
-        <a target="_blank" href={src2}>Driving Directions</a>
-        <img src={src} alt="Static map"/>
+        <a target="_blank" href={directionsUrl}>Driving Directions</a>
+        <img src={mapUrl} alt="Static map"/>
       </div>
 
     );

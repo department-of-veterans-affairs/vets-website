@@ -2,11 +2,12 @@ import React from 'react';
 
 import DateInput from '../../../common/components/form-elements/DateInput';
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
+import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
 
 import EducationPeriod from './EducationPeriod';
 import { createEducationPeriod } from '../../utils/veteran';
 
-import { isValidPage, isValidDate } from '../../utils/validations';
+import { isValidPage } from '../../utils/validations';
 
 export default class EducationHistoryFields extends React.Component {
   render() {
@@ -17,7 +18,7 @@ export default class EducationHistoryFields extends React.Component {
       'dateRange',
       'hours',
       'hoursType',
-      'degreeRecieved',
+      'degreeReceived',
       'major'
     ];
 
@@ -25,33 +26,40 @@ export default class EducationHistoryFields extends React.Component {
     const { day, month, year } = completionDate;
 
     return (<fieldset>
+      <legend className="hide-for-small-only">Education history</legend>
       <div className="input-section">
         <DateInput
-            label="If you received a high school diploma or high school equivalency certificate, what date was it received? (month, day, year)"
+            label="When did you earn your high school diploma or equivalency certificate?"
             name="highSchoolOrGedCompletionDate"
             day={day}
             month={month}
             year={year}
             onValueChange={(update) => {this.props.onStateChange('highSchoolOrGedCompletionDate', update);}}/>
       </div>
-      {isValidDate(day.value, month.value, year.value)
-        ? <div className="input-section">
-          <h4>Education after High School (Including apprenticeship, on-the-job training, and flight training)</h4>
-          <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
-          <hr/>
-          <div className="input-section">
-            <GrowableTable
-                component={EducationPeriod}
-                createRow={createEducationPeriod}
-                data={this.props.data}
-                initializeCurrentElement={() => this.props.initializeFields(periodFields, 'postHighSchoolTrainings')}
-                onRowsUpdate={(update) => {this.props.onStateChange('postHighSchoolTrainings', update);}}
-                path="/education-history/education-information"
-                rows={this.props.data.postHighSchoolTrainings}
-                isValidSection={isValidPage}/>
-          </div>
+      <div className="input-section">
+        <h4>Education after high school</h4>
+        <p>Enter the name of the college or training facility where you completed educational programs after high school (including apprenticeships, on-the-job training, and flight training).</p>
+        <hr/>
+        <div className="input-section">
+          <GrowableTable
+              component={EducationPeriod}
+              createRow={createEducationPeriod}
+              data={this.props.data}
+              initializeCurrentElement={() => this.props.initializeFields(periodFields, 'postHighSchoolTrainings')}
+              onRowsUpdate={(update) => {this.props.onStateChange('postHighSchoolTrainings', update);}}
+              path="/education-history/education-information"
+              rows={this.props.data.postHighSchoolTrainings}
+              isValidSection={isValidPage}/>
         </div>
-      : null}
+      </div>
+      <hr/>
+      <div className="input-section">
+        <ErrorableTextarea
+            label="FAA certificates"
+            name="faaFlightCertificatesInformation"
+            field={this.props.data.faaFlightCertificatesInformation}
+            onValueChange={(update) => {this.props.onStateChange('faaFlightCertificatesInformation', update);}}/>
+      </div>
     </fieldset>
     );
   }
