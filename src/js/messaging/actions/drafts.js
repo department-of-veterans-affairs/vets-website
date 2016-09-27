@@ -23,7 +23,18 @@ export function saveDraft(message) {
     fetch(baseUrl, settings)
     .then(res => res.json())
     .then(
-      data => dispatch({ type: SAVE_DRAFT_SUCCESS, data }),
+      data => {
+        let action = { type: SAVE_DRAFT_SUCCESS, data };
+
+        if (data.errors) {
+          action = {
+            type: SAVE_DRAFT_FAILURE,
+            errors: data.errors
+          };
+        }
+
+        return dispatch(action);
+      },
       err => dispatch({ type: SAVE_DRAFT_FAILURE, err })
     );
   };
