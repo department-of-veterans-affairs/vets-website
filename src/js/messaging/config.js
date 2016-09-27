@@ -76,11 +76,11 @@ module.exports = {
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'image/png'
   ],
-  createNewFolder: {
+  createNewFolderSettings: {
     maxLength: 50,
     errorMessages: {
       empty: 'Please enter a folder name.',
-      exists: 'You already have a folder with that name. Try again?',
+      exists: 'The folder name you have chosen already exists. Please try another name.',
       patternMismatch: 'Only the letters A through Z, numbers, and spaces are allowed in folder names.'
     }
   }
