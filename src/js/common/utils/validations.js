@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import { states } from './options-for-select';
 
 function validateIfDirty(field, validator) {
@@ -81,6 +82,14 @@ function isValidDate(day, month, year) {
   return date.getDate() === Number(day) &&
     date.getMonth() === adjustedMonth &&
     date.getFullYear() === Number(year);
+}
+
+function isValidAnyDate(day, month, year) {
+  return moment({
+    day,
+    month: parseInt(month, 10) - 1,
+    year
+  }).isValid();
 }
 
 function isValidName(value) {
@@ -496,5 +505,6 @@ export {
   isValidGeneralInsurance,
   isValidMedicareMedicaid,
   isValidServiceInformation,
-  isValidSection
+  isValidSection,
+  isValidAnyDate
 };

@@ -4,7 +4,7 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
 import RadioButtonsSubSection from '../../../common/components/form-elements/RadioButtonsSubSection';
 import DateInput from '../../../common/components/form-elements/DateInput';
-import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidDateField } from '../../utils/validations';
+import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidFutureDateField } from '../../utils/validations';
 import { relinquishableBenefits, yesNo, ownBenefitsOptions } from '../../utils/options-for-select';
 import { showRelinquishedEffectiveDate } from '../../utils/helpers';
 
@@ -35,8 +35,9 @@ export default class BenefitsSelectionFields extends React.Component {
           </div>
           {showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)
             ? <DateInput required={showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)}
-                errorMessage="Please provide a response"
-                validation={validateIfDirtyDateObj(this.props.data.benefitsRelinquishedDate, isValidDateField)}
+                allowFutureDates
+                errorMessage="Please provide a date that's the same as or later than today"
+                validation={validateIfDirtyDateObj(this.props.data.benefitsRelinquishedDate, isValidFutureDateField)}
                 label="Effective date"
                 name="benefitsRelinquishedDate"
                 day={this.props.data.benefitsRelinquishedDate.day}
