@@ -16,7 +16,7 @@ const initialState = {
     visible: false
   },
   createFolder: {
-    visible: true,
+    visible: false,
     newFolderName: makeField('')
   }
 };
