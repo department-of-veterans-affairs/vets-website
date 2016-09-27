@@ -31,7 +31,9 @@ class ModalCreateFolder extends React.Component {
       err.type = 'patternMismatch';
     }
 
-    const doesFolderExist = (folder) => { return trimmedFolderName === folder.name; };
+    const doesFolderExist = (folder) => {
+      return trimmedFolderName.toLowerCase() === folder.name.toLowerCase();
+    };
 
     if (!!existingFolders.find(doesFolderExist)) {
       err.hasError = true;
