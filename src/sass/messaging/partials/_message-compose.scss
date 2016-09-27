@@ -1,6 +1,17 @@
 .messaging-subject-group {
   position: relative;
 
+  // Needed to make the element expand to 100% width
+  // on small screen in Firefox.
+  > div {
+    width: 100%;
+  }
+
+  legend {
+    font-size: inherit;
+    padding-top: 1.5rem;
+  }
+
   @media (min-width: $medium-screen) {
     > div {
       display: flex;
@@ -10,30 +21,20 @@
       width: 70%;
     }
 
+    legend {
+      position: absolute;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+    }
+
     margin: 0 -1.5rem;
   }
-     
+
   label {
     position: absolute;
     left: -999em;
-  }
-  
-  legend {
-    font-size: inherit;
-    padding-top: 1.25rem;
-    margin-bottom: -1rem;
-  }   
-} 
-
-@media (min-width: $medium-screen) {
-  .messaging-category {
-    margin-right: 1rem;
-    -webkit-flex: 0 1 40%;
-    flex: 0 1 40%; 
-  }
-  .messaging-subject {
-    -webkit-flex: 1 1 60%;
-    flex: 1 1 60%;
   }
 }
 
@@ -41,7 +42,7 @@
 .messaging-from,
 .messaging-subject-group {
   -webkit-align-items: center;
-  align-items: center; 
+  align-items: center;
   display: -webkit-flex;
   display: flex;
   margin-bottom: 0;
@@ -49,13 +50,11 @@
 
 .messaging-recipient > div,
 .messaging-from,
-.messaging-subject-group,
-.messaging-write {
+.messaging-subject-group {
   padding: 1.5rem;
 }
 
 .messaging-from,
-.messaging-write,
 .messaging-recipient,
 .messaging-subject-group {
   @media (max-width: $medium-screen) {
@@ -72,57 +71,54 @@
 .messaging-recipient label,
 .messaging-from-label {
   padding-right: 1rem;
-  
+
   @media (min-width: $medium-screen) {
     -webkit-flex: 0 0 8rem;
     flex:  0 0 8rem;
     text-align: right;
-	}
-}
-
-.messaging-btn-delete {
-  margin: 0;
-  @media (min-width: $medium-screen) {
-    float: right;
   }
 }
-  
+
 .messaging-send-group {
   background: $color-gray-lightest;
   border: 1px solid $color-gray;
   border-top-width: 0;
   padding: 1rem;
   position: relative;
-  
+
   @media (max-width: $medium-screen) {
+    border-width: 0;
     display: -webkit-flex;
     display: flex;
     -webkit-justify-content: space-between;
     justify-content: space-between;
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
+    padding: 1.5rem;
   }
-  
+
   [type="button"] {
     margin: 0 1rem 0 0;
-    
+
     @media (max-width: $medium-screen) {
       -webkit-flex: 0 0 48%;
       flex: 0 0 48%;
-      margin: 1.5rem 0rem .5rem; 
+      margin: 1.5rem 0rem .5rem;
     }
 
     &[disabled] {
       background: $color-gray;
     }
   }
-     
+
   .messaging-btn-delete {
     @media (max-width: $medium-screen) {
       display: none;
     }
+
     float: right;
-    margin-right: 0;
+    margin: 0 0 0 1rem;
+    padding: 1rem;
   }
 }
 
@@ -132,26 +128,26 @@
   &[disabled] {
     color: $color-gray !important;
     box-shadow: inset 0 0 0 2px $color-gray !important;
-  }  
+  }
 }
 
 .messaging-write {
-  @media (min-width: $medium-screen) {
-    padding: 1.5rem 0 0 0;
-  }
-    
+  margin-top: 4rem;
+
   textarea {
     margin: 1rem 0 0 0;
     max-width: 100%;
-    resize: none;
+    resize: vertical;
+  }
 
-    @media (max-width: $medium-screen) {
+  @media (max-width: $medium-screen) {
+    margin: 0;
+    padding: 1.5rem;
+
+    textarea {
       border: none;
       padding: 0;
-    }
-    
-    @media (min-width: $medium-screen) {
-      resize: vertical;
+      resize: none;
     }
   }
 }
@@ -164,12 +160,12 @@
     order: -1;
     text-align: right;
   }
-  
+
   @media (min-width: $medium-screen) {
     float: right;
     margin-top: .7rem;
   }
-    
+
   &.isnegative {
     color: $color-secondary;
   }
@@ -178,7 +174,7 @@
 .messaging-attach {
   display: inline-block;
   position: relative;
-  
+
   @media (max-width: $medium-screen) {
     display: inherit;
     -webkit-flex: 1 1 50%;
@@ -186,8 +182,8 @@
     -webkit-order: -2;
     order: -2;
   }
- 
-  label{
+
+  label {
     background-color: inherit;
     cursor: pointer;
     font-weight: inherit;
@@ -198,23 +194,23 @@
     white-space: nowrap;
     width: auto;
     z-index: 1;
-    
+
     &:focus span,
     &:hover span {
       color: $color-primary-darker;
     }
   }
-  
+
   .fa {
     padding-right: .5ex;
   }
-  
+
   span {
     color: $color-primary;
     text-decoration: underline;
   }
-  
-  input{
+
+  input {
     border: 0;
     height: auto;
     left: -9999px;
@@ -223,6 +219,23 @@
     position: absolute;
     top: 0;
     width: auto;
-  } 
+  }
 }
 
+@media (min-width: $medium-screen) {
+  .messaging-from {
+    padding: 0 1.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .messaging-category {
+    margin-right: 1rem;
+    -webkit-flex: 0 1 40%;
+    flex: 0 1 40%;
+  }
+
+  .messaging-subject {
+    -webkit-flex: 1 1 60%;
+    flex: 1 1 60%;
+  }
+}
