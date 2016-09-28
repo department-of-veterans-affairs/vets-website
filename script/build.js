@@ -240,7 +240,7 @@ if (options.watch) {
   // for permalink processed files. Only run outside of watch mode.
   smith.use(blc({
     allowRedirects: true,  // Don't require trailing slash for index.html links.
-    warn: process.env.NODE_ENV !== 'production',
+    warn: false,           // Throw an Error when encountering the first broken link not just a warning.
     allowRegex: new RegExp(
         ['/disability-benefits/',
           '/disability-benefits/apply-for-benefits/',

@@ -7,7 +7,7 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 import DateInput from '../../../common/components/form-elements/DateInput';
 
 import { validateIfDirtyDateObj, validateIfDirty, isNotBlank, isValidDateField, isValidDateRange } from '../../utils/validations';
-import { serviceBranches, yesNoNA } from '../../utils/options-for-select';
+import { serviceBranches, yesNoNA, tourBenefits } from '../../utils/options-for-select';
 
 export default class MilitaryServiceTour extends React.Component {
   render() {
@@ -15,32 +15,23 @@ export default class MilitaryServiceTour extends React.Component {
     const tour = this.props.data;
     const formFields = (
       <div>
-        <div className="usa-alert usa-alert-info">
+        <div className="usa-alert usa-alert-info edu-benefits-info-no-icon">
           <ErrorableCheckbox
               className="form-field-alert"
-              label="Do not apply this period of service to my selected benefit."
+              label="This period of service should be counted towards another education benefit."
               name="doNotApplyPeriodToSelected"
               checked={tour.doNotApplyPeriodToSelected}
               onValueChange={(update) => {onValueChange('doNotApplyPeriodToSelected', update);}}/>
             {tour.doNotApplyPeriodToSelected
-              ? <fieldset>
-                <p className="form-checkbox-group-label">Which benefit should this period of service be applied to?</p>
-                <ErrorableCheckbox
-                    label="Chapter 30"
-                    name="applyToChapter30"
-                    checked={tour.applyToChapter30}
-                    onValueChange={(update) => {onValueChange('applyToChapter30', update);}}/>
-                <ErrorableCheckbox
-                    label="Chapter 1606"
-                    name="applyToChapter1606"
-                    checked={tour.applyToChapter1606}
-                    onValueChange={(update) => {onValueChange('applyToChapter1606', update);}}/>
-                <ErrorableCheckbox
-                    label="Chapter 32 / Section 903"
-                    name="applyToChapter32"
-                    checked={tour.applyToChapter32}
-                    onValueChange={(update) => {onValueChange('applyToChapter32', update);}}/>
-              </fieldset>
+              ? <ErrorableRadioButtons
+                  errorMessage={validateIfDirty(tour.benefitsToApplyTo, isNotBlank) ? undefined : 'Please provide a response'}
+                  required={tour.doNotApplyPeriodToSelected}
+                  validation={validateIfDirty(tour.benefitsToApplyTo, isNotBlank)}
+                  label="Which benefit should this period of service be applied to?"
+                  name="benefitsToApplyTo"
+                  options={tourBenefits}
+                  value={tour.benefitsToApplyTo}
+                  onValueChange={(update) => {onValueChange('benefitsToApplyTo', update);}}/>
               : null
             }
         </div>
@@ -52,23 +43,23 @@ export default class MilitaryServiceTour extends React.Component {
             value={tour.serviceBranch}
             onValueChange={(update) => {onValueChange('serviceBranch', update);}}/>
         <DateInput required
-            errorMessage="Please provide a response"
-            validation={validateIfDirtyDateObj(tour.fromDate, isValidDateField)}
+            errorMessage="Please provide a valid date"
+            validation={validateIfDirtyDateObj(tour.dateRange.from, isValidDateField)}
             label="Date entered"
             name="fromDate"
-            day={tour.fromDate.day}
-            month={tour.fromDate.month}
-            year={tour.fromDate.year}
-            onValueChange={(update) => {onValueChange('fromDate', update);}}/>
+            day={tour.dateRange.from.day}
+            month={tour.dateRange.from.month}
+            year={tour.dateRange.from.year}
+            onValueChange={(update) => {onValueChange('dateRange.from', update);}}/>
         <DateInput required
-            errorMessage={isValidDateRange(tour.fromDate, tour.toDate) ? 'Please provide a response' : 'Date separated must be after date entered'}
-            validation={validateIfDirtyDateObj(tour.toDate, date => isValidDateRange(tour.fromDate, date))}
+            errorMessage={isValidDateRange(tour.dateRange.from, tour.dateRange.to) ? 'Please provide a valid date' : 'Date separated must be after date entered'}
+            validation={validateIfDirtyDateObj(tour.dateRange.to, date => isValidDateRange(tour.dateRange.from, date))}
             label="Date separated"
             name="toDate"
-            day={tour.toDate.day}
-            month={tour.toDate.month}
-            year={tour.toDate.year}
-            onValueChange={(update) => {onValueChange('toDate', update);}}/>
+            day={tour.dateRange.to.day}
+            month={tour.dateRange.to.month}
+            year={tour.dateRange.to.year}
+            onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
         <ErrorableTextInput
             label="Service Status"
             name="serviceStatus"

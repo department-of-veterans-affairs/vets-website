@@ -1,98 +1,192 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link, browserHistory } from 'react-router';
 
-import { messageCategories, composeMessageErrors, composeMessagePlaceholders } from '../config';
+import {
+  allowedMimeTypes,
+  composeMessageErrors,
+  composeMessagePlaceholders,
+  composeMessageMaxChars,
+  messageCategories,
+  paths
+} from '../config';
+
 import MessageCategory from '../components/compose/MessageCategory';
 import MessageFrom from '../components/compose/MessageFrom';
 import MessageSubject from '../components/compose/MessageSubject';
 import MessageRecipient from '../components/compose/MessageRecipient';
+import MessageSend from '../components/compose/MessageSend';
+import MessageWrite from '../components/compose/MessageWrite';
+import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
+import ModalAttachmentsTooBig from '../components/compose/ModalAttachmentsTooBig';
+
 import {
-  setCategory,
-  setRecipient,
-  setSubject,
-  setSubjectRequired,
-  fetchRecipients
+  deleteComposeMessage,
+  saveMessage,
+  setMessageField,
+  fetchRecipients,
+  fetchSenderName,
+  updateComposeCharacterCount
 } from '../actions/compose';
+
+import { sendMessage } from '../actions/messages';
+
+import {
+  toggleConfirmDelete,
+  toggleAttachmentsModal
+} from '../actions/modals';
 
 class Compose extends React.Component {
   constructor() {
     super();
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
-    this.handleSubjectChange = this.handleSubjectChange.bind(this);
+    this.handleMessageChange = this.handleMessageChange.bind(this);
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
+    this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
+    this.handleSubjectChange = this.handleSubjectChange.bind(this);
+    this.sendNewMessage = this.sendNewMessage.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this.props.fetchSenderName();
     this.props.fetchRecipients();
   }
 
+  sendNewMessage() {
+    this.props.sendMessage(this.props.message);
+  }
+
+
   handleCategoryChange(valueObj) {
-    this.props.setCategory(valueObj);
-    this.props.setSubjectRequired(valueObj);
+    this.props.setMessageField('message.category', valueObj);
   }
 
   handleSubjectChange(valueObj) {
-    this.props.setSubject(valueObj);
+    this.props.setMessageField('message.subject', valueObj);
+  }
+
+  handleMessageChange(valueObj) {
+    this.props.setMessageField('message.text', valueObj);
+    this.props.updateComposeCharacterCount(valueObj, composeMessageMaxChars);
   }
 
   handleRecipientChange(valueObj) {
-    this.props.setRecipient(valueObj);
+    this.props.setMessageField('message.recipient', valueObj);
+  }
+
+  handleConfirmDelete(domEvent) {
+    // TODO: Dispatch an action that makes this API call
+    domEvent.preventDefault();
+    browserHistory.push(paths.DRAFTS_URL);
+    this.props.toggleConfirmDelete();
+    this.props.deleteComposeMessage();
   }
 
   render() {
-    return (
-      <form id="messaging-compose">
-        <h2>New message</h2>
-        <p>
-          <strong>Note:</strong> Messages may be saved to your health record at
-          your team's discretion.
-        </p>
-        <MessageFrom
-            cssClass="messaging-from"
-            lastName="Veteran"
-            firstName="Jane"
-            middleName="Q."/>
-        <MessageRecipient
-            categories={messageCategories}
-            errorMessage={composeMessageErrors.recipient}
-            cssClass="messaging-recipient"
-            onValueChange={this.handleRecipientChange}
-            options={this.props.compose.recipients}
-            value={this.props.compose.recipient}/>
+    const message = this.props.message;
+    const subjectRequired = message.category &&
+                            message.category.value === 'OTHER';
 
-        <fieldset className="messaging-subject-group">
-          <legend>Subject line:</legend>
-          <div>
-            <MessageCategory
-                categories={messageCategories}
-                cssClass="messaging-category"
-                errorMessage={composeMessageErrors.category}
-                onValueChange={this.handleCategoryChange}
-                value={this.props.compose.category}/>
-            <MessageSubject
-                cssClass="messaging-subject"
-                errorMessage={composeMessageErrors.subjet}
-                onValueChange={this.handleSubjectChange}
-                placeholder={composeMessagePlaceholders.subject}
-                required={this.props.compose.subject.required}/>
-          </div>
-        </fieldset>
-      </form>
+    return (
+      <div>
+        <div id="messaging-content-header">
+          <Link
+              className="messaging-cancel-link"
+              to={paths.DRAFTS_URL}>
+            Cancel
+          </Link>
+          <h2>New message</h2>
+          <button
+              className="messaging-send-button"
+              type="button">
+            Send
+          </button>
+        </div>
+        <form
+            id="messaging-compose"
+            onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
+          <MessageFrom
+              cssClass="messaging-from"
+              lastName={message.sender.lastName}
+              firstName={message.sender.firstName}
+              middleName={message.sender.middleName}/>
+          <MessageRecipient
+              errorMessage={composeMessageErrors.recipient}
+              cssClass="messaging-recipient"
+              onValueChange={this.handleRecipientChange}
+              options={this.props.recipients}
+              recipient={message.recipient}/>
+          <fieldset className="messaging-subject-group">
+            <legend>Subject line:</legend>
+            <div>
+              <MessageCategory
+                  categories={messageCategories}
+                  cssClass="messaging-category"
+                  errorMessage={composeMessageErrors.category}
+                  onValueChange={this.handleCategoryChange}
+                  category={message.category}/>
+              <MessageSubject
+                  cssClass="messaging-subject"
+                  errorMessage={composeMessageErrors.subject}
+                  onValueChange={this.handleSubjectChange}
+                  placeholder={composeMessagePlaceholders.subject}
+                  required={subjectRequired}
+                  subject={message.subject}/>
+            </div>
+          </fieldset>
+          <MessageWrite
+              cssClass="messaging-write"
+              onValueChange={this.handleMessageChange}
+              placeholder={composeMessagePlaceholders.message}
+              text={message.text}/>
+          <MessageSend
+              allowedMimeTypes={allowedMimeTypes}
+              charCount={message.charsRemaining}
+              cssClass="messaging-send-group"
+              onSave={this.props.saveMessage}
+              onSend={this.sendNewMessage}
+              onDelete={this.props.toggleConfirmDelete}/>
+        </form>
+        <ModalConfirmDelete
+            cssClass="messaging-modal"
+            onClose={this.props.toggleConfirmDelete}
+            onDelete={this.handleConfirmDelete}
+            visible={this.props.modals.deleteConfirm.visible}/>
+        <ModalAttachmentsTooBig
+            cssClass="messaging-modal"
+            id="messaging-add-attachments"
+            onClose={this.props.toggleAttachmentsModal}
+            visible={this.props.modals.attachments.visible}/>
+      </div>
     );
   }
 }
 
-// TODO: fill this out
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    message: state.compose.message,
+    recipients: state.compose.recipients,
+    modals: {
+      deleteConfirm: {
+        visible: state.modals.deleteConfirm.visible
+      },
+      attachments: {
+        visible: state.modals.attachments.visible
+      }
+    }
+  };
 };
 
 const mapDispatchToProps = {
-  setCategory,
-  setSubject,
-  setSubjectRequired,
-  setRecipient,
-  fetchRecipients
+  deleteComposeMessage,
+  saveMessage,
+  sendMessage,
+  setMessageField,
+  fetchRecipients,
+  fetchSenderName,
+  toggleConfirmDelete,
+  toggleAttachmentsModal,
+  updateComposeCharacterCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);

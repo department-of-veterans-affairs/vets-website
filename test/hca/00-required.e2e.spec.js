@@ -12,14 +12,12 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('body', Timeouts.normal)
       .assert.title('Apply for Health Care: Vets.gov')
       .waitForElementVisible('.form-panel', Timeouts.slow)  // First render of React may be slow.
-      .axeCheck('#react-root')
       .click('.form-panel .usa-button-primary');
     E2eHelpers.overrideVetsGovApi(client);
     E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
     // Personal Information page.
     client
-      .axeCheck('#react-root')
       .expect.element('input[name="fname"]').to.be.visible;
     HcaHelpers.completePersonalInformation(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
@@ -27,7 +25,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Birth information page.
     client
-      .axeCheck('#react-root')
       .expect.element('select[name="veteranBirthMonth"]').to.be.visible;
     HcaHelpers.completeBirthInformation(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
@@ -35,7 +32,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Demographic information page.
     client
-      .axeCheck('#react-root')
       .expect.element('select[name="gender"]').to.be.visible;
     HcaHelpers.completeDemographicInformation(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
@@ -43,7 +39,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Veteran Address page.
     client
-      .axeCheck('#react-root')
       .expect.element('input[name="address"]').to.be.visible;
     HcaHelpers.completeVeteranAddress(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
@@ -51,14 +46,12 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Contact Information Page.
     client
-      .axeCheck('#react-root')
       .expect.element('input[name="email"]').to.be.visible;
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information/contact-information');
 
     // Military Service Information Page.
     client
-      .axeCheck('#react-root')
       .expect.element('select[name="lastServiceBranch"]').to.be.visible;
     HcaHelpers.completeMilitaryService(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
@@ -66,14 +59,12 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Military Service Additional Information Page.
     client
-      .axeCheck('#react-root')
       .expect.element('input[name="purpleHeartRecipient"] + label').to.be.visible;
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/military-service/additional-information');
 
     // VA Benefits Basic Info page.
     client
-      .axeCheck('#react-root')
       .expect.element('input[name="compensableVaServiceConnected-0"] + label').to.be.visible;
     HcaHelpers.completeVaBenefits(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
@@ -81,7 +72,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Financial disclosure page.
     client
-      .axeCheck('#react-root')
       .expect.element('input[name="understandsFinancialDisclosure"] + label').to.be.visible;
     HcaHelpers.completeFinancialDisclosure(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
@@ -89,7 +79,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Spouse information Page.
     client
-      .axeCheck('#react-root')
       .expect.element('select[name="maritalStatus"]').to.be.visible;
     HcaHelpers.completeSpouseInformation(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
@@ -97,7 +86,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Child Information Page.
     client
-      .axeCheck('#react-root')
       .expect.element('input[name="hasChildrenToReport-0"] + label').to.be.visible;
     HcaHelpers.completeChildInformation(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
@@ -105,21 +93,18 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Annual Income Page.
     client
-      .axeCheck('#react-root')
       .expect.element('input[name="veteranGrossIncome"]').to.be.visible;
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/annual-income');
 
     // Deductible Expenses Page.
     client
-      .axeCheck('#react-root')
       .expect.element('input[name="deductibleMedicalExpenses"]').to.be.visible;
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/deductible-expenses');
 
     // Medicare and Medicaid Page.
     client
-      .axeCheck('#react-root')
       .expect.element('input[name="isMedicaidEligible-0"] + label').to.be.visible;
     HcaHelpers.completeMedicareAndMedicaid(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
@@ -127,7 +112,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Insurance Information Page.
     client
-      .axeCheck('#react-root')
       .expect.element('input[name="isCoveredByHealthInsurance-0"] + label').to.be.visible;
     HcaHelpers.completeInsuranceInformation(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
@@ -135,7 +119,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Additional VA Insurance Information Page.
     client
-      .axeCheck('#react-root')
       .expect.element('select[name="state"]').to.be.visible;
     HcaHelpers.completeVaInsuranceInformation(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
@@ -144,7 +127,6 @@ module.exports = E2eHelpers.createE2eTest(
     // Review and Submit Page.
     client.expect.element('button.edit-btn').to.be.visible;
     client
-      .axeCheck('#react-root')
       .click('.form-panel .usa-button-primary');
     // E2eHelpers.expectNavigateAwayFrom(client, '/review-and-submit');
     client.expect.element('.js-test-location').attribute('data-location')
@@ -152,7 +134,6 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Submit message
     client
-      .axeCheck('#react-root')
       .expect.element('.success-alert-box').to.be.visible;
 
     client.end();

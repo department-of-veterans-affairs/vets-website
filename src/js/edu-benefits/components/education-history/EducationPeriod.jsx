@@ -6,7 +6,7 @@ import ErrorableSelect from '../../../common/components/form-elements/ErrorableS
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
 import { isValidDateRange, isValidDateField, validateIfDirtyDateObj } from '../../utils/validations';
-import { states } from '../../../common/utils/options-for-select';
+import { states, hoursTypes } from '../../utils/options-for-select';
 
 export default class EducationPeriod extends React.Component {
   render() {
@@ -15,7 +15,7 @@ export default class EducationPeriod extends React.Component {
     const formFields = (
       <div>
         <ErrorableTextInput
-            label="Name of college or other training provider"
+            label="College, university, or other training provider"
             name="name"
             field={period.name}
             onValueChange={(update) => {onValueChange('name', update);}}/>
@@ -31,26 +31,26 @@ export default class EducationPeriod extends React.Component {
             value={period.state}
             options={states.USA}
             onValueChange={(update) => {onValueChange('state', update);}}/>
-        <DateInput required
+        <DateInput
             errorMessage="Please provide a response"
-            validation={validateIfDirtyDateObj(period.fromDate, isValidDateField)}
+            validation={validateIfDirtyDateObj(period.dateRange.from, isValidDateField)}
             label="From"
             name="fromDate"
-            day={period.fromDate.day}
-            month={period.fromDate.month}
-            year={period.fromDate.year}
-            onValueChange={(update) => {onValueChange('fromDate', update);}}/>
-        <DateInput required
-            errorMessage={isValidDateRange(period.fromDate, period.toDate) ? 'Please provide a response' : 'Date separated must be after date entered'}
-            validation={validateIfDirtyDateObj(period.toDate, date => isValidDateRange(period.fromDate, date))}
+            day={period.dateRange.from.day}
+            month={period.dateRange.from.month}
+            year={period.dateRange.from.year}
+            onValueChange={(update) => {onValueChange('dateRange.from', update);}}/>
+        <DateInput
+            errorMessage={isValidDateRange(period.dateRange.from, period.dateRange.to) ? 'Please provide a response' : 'Date separated must be after date entered'}
+            validation={validateIfDirtyDateObj(period.dateRange.to, date => isValidDateRange(period.dateRange.from, date))}
             label="To"
             name="toDate"
-            day={period.toDate.day}
-            month={period.toDate.month}
-            year={period.toDate.year}
-            onValueChange={(update) => {onValueChange('toDate', update);}}/>
+            day={period.dateRange.to.day}
+            month={period.dateRange.to.month}
+            year={period.dateRange.to.year}
+            onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
         <ErrorableTextInput
-            label="Hours"
+            label="Hours completed"
             name="hours"
             field={period.hours}
             onValueChange={(update) => {onValueChange('hours', update);}}/>
@@ -58,7 +58,7 @@ export default class EducationPeriod extends React.Component {
             label="Type of hours"
             name="hoursType"
             value={period.hoursType}
-            options={['Semester', 'Quarter', 'Clock']}
+            options={hoursTypes}
             onValueChange={(update) => {onValueChange('hoursType', update);}}/>
         <ErrorableTextInput
             label="Degree, diploma or certificate received"

@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import { connect } from 'react-redux';
 
 import routes from '../routes';
@@ -7,6 +6,7 @@ import routes from '../routes';
 import ReviewCollapsiblePanel from '../components/ReviewCollapsiblePanel';
 
 import { ensureFieldsInitialized, updateIncompleteStatus, updateVerifiedStatus, updateCompletedStatus, veteranUpdateField } from '../actions';
+import { isActivePage } from '../../common/utils/helpers';
 
 class ReviewPage extends React.Component {
   render() {
@@ -26,14 +26,15 @@ class ReviewPage extends React.Component {
       );
     } else {
       content = (<div>
-        <p>Please make sure all your information is correct before submitting your application.</p>
+        <p>You can review your application information here. When you're done, click submit.</p>
+        <p>VA will process your claim in 1 month. VA will send you a letter by U.S. mail with your claim decision.</p>
         {routes
           .map(route => route.props)
           .filter(route => {
             return route.chapter &&
               route.path !== '/review-and-submit' &&
               route.reviewComponent &&
-              (route.depends === undefined || _.matches(route.depends)(data));
+              isActivePage(route, data);
           })
           .map(route => {
             const Component = route.fieldsComponent;
@@ -60,7 +61,9 @@ class ReviewPage extends React.Component {
     return (
       <div>
         <h4>Review Application</h4>
-        {content}
+        <div className="input-section">
+          {content}
+        </div>
       </div>
     );
   }
@@ -84,8 +87,8 @@ function mapDispatchToProps(dispatch) {
     onUpdateVerifiedStatus: (path, update) => {
       dispatch(updateVerifiedStatus(path, update));
     },
-    onFieldsInitialized: (field) => {
-      dispatch(ensureFieldsInitialized(field));
+    onFieldsInitialized(...args) {
+      dispatch(ensureFieldsInitialized(...args));
     },
     onStateChange(...args) {
       dispatch(veteranUpdateField(...args));
