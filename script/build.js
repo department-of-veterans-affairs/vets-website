@@ -40,10 +40,11 @@ const sourceDir = '../content/pages';
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
+// TODO(crew): Change port back before merge to master.
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
-  { name: 'port', type: Number, defaultValue: 3000 },
+  { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
 
   // Catch-all for bad arguments.
@@ -96,6 +97,8 @@ if (options.buildtype === 'production') {
   ignoreList.push('facilities/*');
   ignoreList.push('messaging/*');
   ignoreList.push('rx/*');
+  ignoreList.push('profile/*');
+  ignoreList.push('auth/*');
 }
 smith.use(ignore(ignoreList));
 

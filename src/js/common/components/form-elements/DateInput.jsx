@@ -6,7 +6,7 @@ import ErrorableNumberInput from './ErrorableNumberInput';
 
 import ToolTip from './ToolTip';
 
-import { validateIfDirtyDate, isBlank, isValidDate } from '../../utils/validations';
+import { validateIfDirtyDate, isBlank, isValidDate, isValidAnyDate } from '../../utils/validations';
 import { months, days } from '../../utils/options-for-select.js';
 
 /**
@@ -55,16 +55,17 @@ class DateInput extends React.Component {
     const day = this.props.day;
     const month = this.props.month;
     const year = this.props.year;
+    const dateValidator = this.props.allowFutureDates ? isValidAnyDate : isValidDate;
 
     if (month.value) {
       daysForSelectedMonth = days[month.value];
     }
 
     if (this.props.required) {
-      isValid = validateIfDirtyDate(day, month, year, isValidDate) && (this.props.validation !== undefined ? this.props.validation : true);
+      isValid = validateIfDirtyDate(day, month, year, dateValidator) && (this.props.validation !== undefined ? this.props.validation : true);
     } else {
       isValid = (isBlank(day.value) && isBlank(month.value) && isBlank(year.value)) ||
-        (validateIfDirtyDate(day, month, year, isValidDate) && (this.props.validation !== undefined ? this.props.validation : true));
+        (validateIfDirtyDate(day, month, year, dateValidator) && (this.props.validation !== undefined ? this.props.validation : true));
     }
 
     if (!isValid && this.props.errorMessage) {
@@ -136,6 +137,7 @@ DateInput.propTypes = {
   required: React.PropTypes.bool,
   errorMessage: React.PropTypes.string,
   validation: React.PropTypes.bool,
+  allowFutureDates: React.PropTypes.bool,
   label: React.PropTypes.string,
   name: React.PropTypes.string.isRequired,
   day: React.PropTypes.shape({

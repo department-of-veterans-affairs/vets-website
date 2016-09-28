@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { paths } from '../config';
+import { paths, systemFolders } from '../config';
 import ButtonDelete from './buttons/ButtonDelete';
 import MoveTo from './MoveTo';
 import ButtonPrint from './buttons/ButtonPrint';
@@ -19,6 +19,8 @@ class ThreadHeader extends React.Component {
 
   render() {
     let toggleThread;
+    let returnUrlText;
+    let returnUrlPath;
 
     if (this.props.threadMessageCount > 1) {
       toggleThread = (
@@ -28,12 +30,20 @@ class ThreadHeader extends React.Component {
       );
     }
 
+    if (this.props.persistedFolder === undefined) {
+      returnUrlText = 'Inbox';
+      returnUrlPath = `${paths.FOLDERS_URL}/0`;
+    } else {
+      returnUrlText = systemFolders[Math.abs(this.props.persistedFolder)];
+      returnUrlPath = `${paths.FOLDERS_URL}/${this.props.persistedFolder}`;
+    }
+
     return (
       <div className="messaging-thread-header">
         <div className="messaging-thread-nav">
-          <Link to={paths.INBOX_URL}>&lt; Back to Inbox</Link>
+          <Link to={returnUrlPath}>&lt; Back to {returnUrlText}</Link>
           <MoveTo
-              folders={this.props.folders}
+              folders={this.props.moveToFolders}
               isOpen={!this.props.moveToIsOpen}
               onChooseFolder={this.props.onChooseFolder}
               onCreateFolder={this.props.onCreateFolder}
@@ -42,8 +52,8 @@ class ThreadHeader extends React.Component {
           <MessageNav
               currentRange={this.props.currentMessageNumber}
               messageCount={this.props.folderMessageCount}
-              handlePrev={this.props.handlePrev}
-              handleNext={this.props.handleNext}/>
+              onClickPrev={this.props.onClickPrev}
+              onClickNext={this.props.onClickNext}/>
           <ButtonDelete
               onClickHandler={this.handleDelete}/>
           <ButtonPrint/>
@@ -64,7 +74,7 @@ class ThreadHeader extends React.Component {
 
 ThreadHeader.propTypes = {
   currentMessageNumber: React.PropTypes.number.isRequired,
-  folders: React.PropTypes.arrayOf(
+  moveToFolders: React.PropTypes.arrayOf(
     React.PropTypes.shape({
       folderId: React.PropTypes.number.isRequired,
       name: React.PropTypes.string.isRequired,
@@ -73,8 +83,8 @@ ThreadHeader.propTypes = {
     })
   ).isRequired,
   folderMessageCount: React.PropTypes.number.isRequired,
-  handlePrev: React.PropTypes.func,
-  handleNext: React.PropTypes.func,
+  onClickPrev: React.PropTypes.func,
+  onClickNext: React.PropTypes.func,
   subject: React.PropTypes.string.isRequired,
   threadId: React.PropTypes.string.isRequired,
   threadMessageCount: React.PropTypes.number.isRequired,
@@ -84,7 +94,7 @@ ThreadHeader.propTypes = {
   onCreateFolder: React.PropTypes.func,
   onToggleThread: React.PropTypes.func,
   onToggleMoveTo: React.PropTypes.func,
-
+  persistedFolder: React.PropTypes.number
 };
 
 export default ThreadHeader;

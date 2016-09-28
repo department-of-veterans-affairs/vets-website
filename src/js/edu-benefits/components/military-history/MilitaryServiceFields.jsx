@@ -31,7 +31,7 @@ export default class MilitaryServiceFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('currentlyActiveDuty.onTerminalLeave', update);}}/>
         <ErrorableRadioButtons
             errorMessage={validateIfDirty(this.props.data.currentlyActiveDuty.nonVaAssistance, isNotBlank) ? '' : 'Please select a response'}
-            label="Are you receiving, or do you anticipate receiving, any money (including but not limited to federal tuition assistance) from the armed forces or public health services for the course for which you have applied to the VA for education benefits?"
+            label="Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?"
             name="nonVaAssistance"
             options={yesNo}
             value={this.props.data.currentlyActiveDuty.nonVaAssistance}
@@ -62,14 +62,6 @@ export default class MilitaryServiceFields extends React.Component {
       </div>
       <div className="input-section">
         <h4>Military Service</h4>
-        <div className="usa-alert usa-alert-info">
-          <div className="usa-alert-body">
-            <p className="usa-alert-text">You must enter at least one period of service.<br/><br/>
-            Every period of service that you identify will be applied to the single, specific benefit you are applying for.
-            If there are specific periods of service that you do not want applied to the benefit, please identify the period and
-            the corresponding benefit program(s) to which you would like them applied.</p>
-          </div>
-        </div>
         <hr/>
         <div className="input-section">
           <GrowableTable

@@ -18,7 +18,7 @@ export default class MilitaryServiceTour extends React.Component {
         <div className="usa-alert usa-alert-info edu-benefits-info-no-icon">
           <ErrorableCheckbox
               className="form-field-alert"
-              label="Do not apply this period of service to my selected benefit."
+              label="This period of service should be counted towards another education benefit."
               name="doNotApplyPeriodToSelected"
               checked={tour.doNotApplyPeriodToSelected}
               onValueChange={(update) => {onValueChange('doNotApplyPeriodToSelected', update);}}/>

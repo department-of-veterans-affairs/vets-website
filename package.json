@@ -16,6 +16,7 @@
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
     "test:unit": "mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:unit:rx": "mocha --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
+    "test:unit:login": "mocha --recursive 'test/login/**/*.unit.spec.js?(x)' ",
     "test:watch": "mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
     "watch": "node script/build.js --watch"
   },
@@ -71,6 +72,7 @@
     "http-server": "^0.9.0",
     "img-loader": "^1.3.1",
     "imports-loader": "^0.6.5",
+    "ismobilejs": "^0.4.0",
     "jquery-accessible-simple-tooltip-aria": "^2.0.0",
     "jsdom": "^9.4.2",
     "json-loader": "^0.5.4",

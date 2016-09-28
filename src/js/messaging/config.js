@@ -1,10 +1,31 @@
+const headers = {
+  'X-Key-Inflection': 'camel'
+};
+
 module.exports = {
-  // Basic pieces of data for making API requests.
+  // Basic config for making API requests.
   api: {
     url: '/api/v0/messaging/health',
     settings: {
-      headers: {
-        'X-Key-Inflection': 'camel'
+      get: {
+        method: 'GET',
+        headers
+      },
+      post: {
+        method: 'POST',
+        headers: Object.assign({}, headers, {
+          'Content-Type': 'application/json'
+        })
+      },
+      put: {
+        method: 'PUT',
+        headers: Object.assign({}, headers, {
+          'Content-Type': 'application/json'
+        })
+      },
+      'delete': {
+        method: 'DELETE',
+        headers
       }
     }
   },
@@ -12,47 +33,56 @@ module.exports = {
   paths: {
     INBOX_URL: '/messaging',
     COMPOSE_URL: '/messaging/compose',
-    DRAFTS_URL: '/messaging/folder/-2'
+    FOLDERS_URL: '/messaging/folder'
   },
+
+  // The indices of systemFolders are positive. The
+  // actual folder IDs are negative. Remember to invert
+  // when needed.
+  systemFolders: ['Inbox', 'Sent', 'Drafts', 'Deleted'],
 
   // An array of objects containing the category name (label) and a
   // value for use with select, radio button inputs.
   messageCategories: [
     {
       label: 'Appointments',
-      value: 'Appointment Inquiry'
+      value: 'APPOINTMENTS'
     },
     {
       label: 'Education',
-      value: 'Patient Education Materials'
+      value: 'EDUCATION'
     },
     {
       label: 'Medications',
-      value: 'Medication Inquiry'
+      value: 'MEDICATIONS'
     },
     {
       label: 'Test results',
-      value: 'Test Results Inquiry'
+      value: 'TEST_RESULTS'
     },
     {
       label: 'Other (please add a subject)',
-      value: 'Other'
+      value: 'OTHER'
     }
   ],
 
-  composeMessagePlaceholders: {
-    subject: 'Add an additional subject line',
-    message: 'Type your message here'
+  composeMessage: {
+    placeholders: {
+      subject: 'Add an additional subject line (optional)',
+      message: 'Type your message here'
+    },
+    errors: {
+      category: 'Please select a category.',
+      message: 'Please enter your message.',
+      subject: 'Please add subject description.',
+      recipient: 'Please select a recipient from your health care team.'
+    },
+    maxChars: {
+      message: 2000,
+      subject: 512
+    }
   },
 
-  composeMessageErrors: {
-    category: 'Please select a category.',
-    message: 'Please enter your message.',
-    subject: 'Please add subject description.',
-    recipient: 'Please select a recipient from your health care team.'
-  },
-
-  composeMessageMaxChars: 2000,
   allowedMimeTypes: [
     'text/plain',
     'application/pdf',
@@ -65,5 +95,14 @@ module.exports = {
     'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     'image/png'
-  ]
+  ],
+
+  createNewFolderSettings: {
+    maxLength: 50,
+    errorMessages: {
+      empty: 'Please enter a folder name.',
+      exists: 'The folder name you have chosen already exists. Please try another name.',
+      patternMismatch: 'Only the letters A through Z, numbers, and spaces are allowed in folder names.'
+    }
+  }
 };
