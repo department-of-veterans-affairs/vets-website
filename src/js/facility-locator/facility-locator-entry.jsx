@@ -10,6 +10,8 @@ import { store } from './store';
 
 require('../../sass/facility-locator.scss');
 
+require('../login/login-entry.jsx');
+
 function init() {
   ReactDOM.render((
     <Provider store={store}>

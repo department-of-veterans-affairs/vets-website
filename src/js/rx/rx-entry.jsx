@@ -11,6 +11,8 @@ import { store } from './store';
 require('../common');  // Bring in the common javascript.
 require('../../sass/rx/rx.scss');
 
+require('../login/login-entry.jsx');
+
 function init() {
   /*
    * Invoked when the URL changes. A way to handle query
