@@ -6,7 +6,7 @@ import { UPDATE_PROFILE_FIELD, LOG_OUT } from '../actions';
 // Add deep object manipulation routines to lodash.
 _.mixin(lodashDeep);
 
-
+// TODO(crew): Romove before this goes to production.
 const initialState = {
   userFullName: {
     first: 'Shonda',
