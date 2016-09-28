@@ -64,7 +64,7 @@ class Address extends React.Component {
   }
 
   isMilitaryCity(city) {
-    const lowerCity = city.toLowerCase();
+    const lowerCity = city.toLowerCase().trim();
 
     return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';
   }
