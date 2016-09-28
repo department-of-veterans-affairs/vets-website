@@ -26,7 +26,7 @@ export function saveDraft(message) {
   const defaultSettings = isNewDraft
                         ? api.settings.post
                         : api.settings.put;
-  
+
   const settings = Object.assign({}, defaultSettings, {
     body: JSON.stringify(payload)
   });

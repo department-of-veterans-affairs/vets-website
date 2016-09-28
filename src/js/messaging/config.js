@@ -23,7 +23,7 @@ module.exports = {
           'Content-Type': 'application/json'
         })
       },
-      delete: {
+      'delete': {
         method: 'DELETE',
         headers
       }
