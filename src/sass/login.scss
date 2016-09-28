@@ -2,6 +2,9 @@
 
 @import 'style';
 
-.signned-in-link {
-  background: transparent;
+.sign-in-link {
+  a {
+    color: $white;
+    text-decoration: none;
+  }
 };

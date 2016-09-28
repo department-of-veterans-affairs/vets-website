@@ -179,7 +179,14 @@ smith.use(sitemap('http://www.vets.gov'));
 if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
   //   https://www.npmjs.com/package/metalsmith-watch
-  smith.use(watch());
+  smith.use(
+    watch({
+      paths: {
+        '../content/**/*': '**/*.{md,html}',
+      },
+      livereload: true,
+    })
+  );
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
