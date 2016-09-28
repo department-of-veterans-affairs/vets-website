@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 import { makeField } from '../../common/model/fields';
 import { dateToMoment } from './helpers';
 
-function makeAddressField() {
+export function makeAddressField() {
   return {
     street: makeField(''),
     city: makeField(''),
