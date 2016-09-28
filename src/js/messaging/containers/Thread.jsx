@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
+  deleteMessage,
   deleteReply,
   fetchThread,
+  saveDraft,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
@@ -33,11 +35,16 @@ class Thread extends React.Component {
     this.handleReplySend = this.handleReplySend.bind(this);
     this.handleReplyDelete = this.handleReplyDelete.bind(this);
     this.handleMoveTo = this.handleMoveTo.bind(this);
+    this.isDraft = this.isDraft.bind(this);
   }
 
   componentDidMount() {
     const id = this.props.params.id;
     this.props.fetchThread(id);
+  }
+
+  isDraft() {
+    return !this.props.message.sentDate;
   }
 
   handleReplyChange(valueObj) {
@@ -46,6 +53,12 @@ class Thread extends React.Component {
   }
 
   handleReplySave() {
+    const draft = {
+      body: this.props.reply.body.value
+    };
+
+    const message = Object.assign({}, this.props.message, draft);
+    this.props.saveDraft(message);
   }
 
   handleReplySend() {
@@ -54,6 +67,10 @@ class Thread extends React.Component {
   handleReplyDelete() {
     this.props.toggleConfirmDelete();
     this.props.deleteReply();
+
+    if (this.isDraft()) {
+      this.props.deleteMessage(this.props.message.messageId);
+    }
   }
 
   handleMoveTo() {
@@ -69,9 +86,11 @@ class Thread extends React.Component {
     const thread = this.props.thread;
     const folderMessages = this.props.folderMessages;
     const folderMessageCount = folderMessages.length;
+
     let lastSender;
     let header;
     let threadMessages;
+    let currentMessage;
 
     // Exclude the current folder from the list of folders
     // that are passed down to the MoveTo component.
@@ -79,9 +98,7 @@ class Thread extends React.Component {
       return folder.folderId !== this.props.persistFolder && folder.name !== 'Sent';
     });
 
-    if (thread.length > 0) {
-      const currentMessage = thread[thread.length - 1];
-
+    if (this.props.message) {
       // TODO: Presumably, when the API provides pagination,
       // we will be able to directly pull information about
       // the next and previous messages. Until then, we rely
@@ -90,7 +107,7 @@ class Thread extends React.Component {
       // Find the current message's position
       // among the messages in the current folder.
       const currentIndex = folderMessages.findIndex((message) => {
-        return message.messageId === currentMessage.messageId;
+        return message.messageId === this.props.message.messageId;
       });
 
       /* Once the position of current position has been determined,
@@ -123,8 +140,8 @@ class Thread extends React.Component {
             persistedFolder={this.props.persistFolder}
             onClickPrev={fetchPrevMessage}
             onClickNext={fetchNextMessage}
-            subject={thread[0].subject}
-            threadMessageCount={thread.length}
+            subject={this.props.message.subject}
+            threadMessageCount={thread.length + 1}
             threadId={this.props.params.id}
             messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
             moveToIsOpen={this.props.moveToOpened}
@@ -134,7 +151,7 @@ class Thread extends React.Component {
             onToggleMoveTo={this.props.toggleMoveTo}/>
       );
 
-      lastSender = currentMessage.senderName;
+      lastSender = this.props.message.senderName;
 
       threadMessages = thread.map((message) => {
         const isCollapsed =
@@ -148,6 +165,10 @@ class Thread extends React.Component {
               onToggleCollapsed={this.props.toggleMessageCollapsed}/>
         );
       });
+
+      if (!this.isDraft()) {
+        currentMessage = <Message attrs={this.props.message}/>;
+      }
     }
 
     return (
@@ -155,6 +176,7 @@ class Thread extends React.Component {
         {header}
         <div className="messaging-thread-messages">
           {threadMessages}
+          {currentMessage}
         </div>
         <div className="messaging-thread-reply">
           <form>
@@ -196,6 +218,7 @@ const mapStateToProps = (state) => {
     persistFolder: state.folders.data.currentItem.persistFolder,
     folders: state.folders.data.items,
     folderMessages: state.folders.data.currentItem.messages,
+    message: state.messages.data.message,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
@@ -205,8 +228,10 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  deleteMessage,
   deleteReply,
   fetchThread,
+  saveDraft,
   toggleConfirmDelete,
   toggleCreateFolderModal,
   toggleMessageCollapsed,
