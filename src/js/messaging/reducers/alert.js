@@ -15,48 +15,44 @@ import {
   OPEN_ALERT
 } from '../actions/alert';
 
-const initialState = {
-  content: '',
-  status: 'info',
-  visible: false
+const alertStatus = {
+  ERROR: 'error',
+  INFO: 'info',
+  SUCCESS: 'success',
+  WARNING: 'warning'
 };
+
+const createAlert = (content, status, visible = true) => {
+  return { content, status, visible };
+};
+
+const initialState = createAlert('', alertStatus.INFO, false);
 
 export default function alert(state = initialState, action) {
   switch (action.type) {
     case CLOSE_ALERT:
-      return {
-        content: '',
-        status: 'info',
-        visible: false
-      };
+      return createAlert('', alertStatus.INFO, false);
 
     case OPEN_ALERT:
-      return {
-        content: action.content,
-        status: action.status,
-        visible: true
-      };
+      return createAlert(action.content, action.status);
 
     case DELETE_MESSAGE_FAILURE:
-      return {
-        content: <b>Failed to delete message.</b>,
-        status: 'error',
-        visible: true
-      };
+      return createAlert(
+        <b>Failed to delete message.</b>,
+        alertStatus.ERROR
+      );
 
     case DELETE_MESSAGE_SUCCESS:
-      return {
-        content: <b>Your message has been deleted.</b>,
-        status: 'success',
-        visible: true
-      };
+      return createAlert(
+        <b>Your message has been deleted.</b>,
+        alertStatus.SUCCESS
+      );
 
     case SAVE_DRAFT_FAILURE:
-      return {
-        content: <b>Failed to save draft.</b>,
-        status: 'error',
-        visible: true
-      };
+      return createAlert(
+        <b>Failed to save draft.</b>,
+        alertStatus.ERROR
+      );
 
     case SAVE_DRAFT_SUCCESS: {
       const id = action.data.data.attributes.messageId;
@@ -66,22 +62,21 @@ export default function alert(state = initialState, action) {
         </Link>
       );
 
-      return {
-        content: <b>Your draft has been saved. {link}</b>,
-        status: 'success',
-        visible: true
-      };
+      return createAlert(
+        <b>Your draft has been saved. {link}</b>,
+        alertStatus.SUCCESS
+      );
     }
 
     case SEND_MESSAGE_FAILURE:
-      return {
-        content: 'Failed to send message.',
-        status: 'error',
-        visible: true
-      };
+      return createAlert(
+        <b>Failed to send message.</b>,
+        alertStatus.ERROR
+      );
 
-    case SEND_MESSAGE_SUCCESS:
+    case SEND_MESSAGE_SUCCESS: {
       const id = action.data.data.attributes.messageId;
+
       const link = (
         <Link to={`/messaging/thread/${id}`}>
           View message.
@@ -96,11 +91,8 @@ export default function alert(state = initialState, action) {
         </b>
       );
 
-      return {
-        content,
-        status: 'success',
-        visible: true
-      };
+      return createAlert(content, alertStatus.SUCCESS);
+    }
 
     default:
       return state;
