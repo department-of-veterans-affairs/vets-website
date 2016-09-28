@@ -271,7 +271,7 @@ export function veteranToApplication(veteran) {
         return false;
 
       case 'address':
-        if (value.city.value === '' && value.street.value === '' && value.country.value === '') {
+        if (value.city.value === '' && value.street.value === '') {
           return undefined;
         }
 
