@@ -16,8 +16,8 @@ const configGenerator = (options) => {
       hca: './src/js/hca/hca-entry.jsx',
       messaging: './src/js/messaging/messaging-entry.jsx',
       rx: './src/js/rx/rx-entry.jsx',
-      'no-react': ['./src/js/no-react-entry.js', './src/js/login/login-entry.jsx'],
-      'user-profile': ['./src/js/user-profile/user-profile-entry.jsx', './src/js/login/login-entry.jsx'],
+      'no-react': './src/js/no-react-entry.js',
+      'user-profile': './src/js/user-profile/user-profile-entry.jsx',
       auth: './src/js/auth/auth-entry.jsx'
     },
     output: {
