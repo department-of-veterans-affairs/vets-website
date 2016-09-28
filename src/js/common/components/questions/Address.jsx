@@ -102,7 +102,7 @@ class Address extends React.Component {
               onValueChange={(update) => {this.handleChange('state', update);}}/>
 
           <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.zipcode) ? undefined : 'Please enter a valid ZIP code'}
-              label="ZIP Code"
+              label="ZIP code"
               name="zip"
               autocomplete="postal-code"
               field={this.props.value.zipcode}
@@ -121,7 +121,7 @@ class Address extends React.Component {
               onValueChange={(update) => {this.handleChange('provinceCode', update);}}/>
 
           <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.postalCode) ? undefined : 'Please enter a valid Postal code'}
-              label="Postal Code"
+              label="Postal code"
               name="postalCode"
               autocomplete="postal-code"
               field={this.props.value.postalCode}
