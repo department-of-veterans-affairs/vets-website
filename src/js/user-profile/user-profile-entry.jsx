@@ -6,10 +6,11 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import routes from './routes';
-import { store } from './store';
+import { commonStore } from '../common/store';
 
 require('../common');  // Bring in the common javascript.
 require('../../sass/rx/rx.scss');
+require('../../sass/user-profile.scss');
 
 require('../login/login-entry.jsx');
 
@@ -29,7 +30,7 @@ function init() {
   // End URL listening
 
   ReactDOM.render((
-    <Provider store={store}>
+    <Provider store={commonStore}>
       <Router history={browserHistory} routes={routes}/>
     </Provider>
     ), document.getElementById('react-root'));
