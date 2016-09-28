@@ -6,12 +6,11 @@ import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
 import routes from './routes';
-import { store } from './store';
+import { commonStore } from '../common/store';
+
 
 require('../common');  // Bring in the common javascript.
-require('../../sass/rx/rx.scss');
-
-require('../login/login-entry.jsx');
+require('../../sass/login.scss');
 
 function init() {
   /*
@@ -21,6 +20,7 @@ function init() {
    * Plan is to make this trigger a sort when the query
    * parameter is `sortby`.
    */
+
   const handleChangedURL = (event) => {
     // Here so eslint doesn't tell us about an unused variable.
     return event;
@@ -29,7 +29,7 @@ function init() {
   // End URL listening
 
   ReactDOM.render((
-    <Provider store={store}>
+    <Provider store={commonStore}>
       <Router history={browserHistory} routes={routes}/>
     </Provider>
     ), document.getElementById('react-root'));
