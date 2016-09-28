@@ -92,6 +92,7 @@ class ErrorableSelect extends React.Component {
         </label>
         {errorSpan}
         <select
+            className={this.props.additionalClass}
             aria-describedby={errorSpanId}
             id={this.selectId}
             name={this.props.name}

@@ -79,3 +79,9 @@ button.form-button-disabled {
 .form-field-alert label {
   margin-top: 0.5em;
 }
+
+@media #{$medium} {
+  .form-select-medium {
+    max-width: 12rem;
+  }
+}

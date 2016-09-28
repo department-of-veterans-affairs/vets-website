@@ -20,6 +20,7 @@ export default class RotcHistoryFields extends React.Component {
       <div className="input-section">
 
         <ErrorableTextInput required
+            additionalClass="usa-input-medium"
             errorMessage={validateIfDirty(this.props.data.seniorRotc.commissionYear, (val) => isValidValue(isValidYear, val)) ? undefined : 'Please enter a valid year'}
             label="Year of commission"
             placeholder="yyyy"
