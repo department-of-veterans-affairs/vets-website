@@ -1,4 +1,5 @@
 @import 'style';
+@import 'rx/partials/va-pagination';
 
 .title-section {
   padding: 0 1.5rem;
@@ -157,5 +158,64 @@
 
   input.full-width {
     width: 100%;
+  }
+}
+
+.mb2 {
+  margin-bottom: 2rem;
+}
+
+#content .section h4 {
+  padding: 0 0 .25em 0;
+}
+
+hr.title {
+  color: $color-primary-darker;
+  margin: 0 0 2rem;
+  border: 1px solid #003E73;
+}
+
+ul {
+  margin: 0;
+}
+
+.facility-conact-link {
+  font-size: 2rem;
+  text-decoration: none;
+  i {
+    margin-right: 1rem;
+    width: 18px;
+  }
+}
+
+.facility-back-link {
+  margin-bottom: 1.5em;
+  i {
+    margin-right: 0.75rem;
+  }
+}
+
+.facility-detail {
+  padding: 0 1.5rem;
+
+  a {
+    text-decoration: none;
+  }
+
+  p {
+    margin: 1rem 0;
+  }
+
+  a:visited, .edit-checkbox label:visited  {
+    color: $color-link-default;
+  }
+
+  hr {
+    border-color: $color-gray-lighter;
+    margin: 6rem 0 2rem;
+  }
+
+  [href^=http] {
+    background: none;
   }
 }
