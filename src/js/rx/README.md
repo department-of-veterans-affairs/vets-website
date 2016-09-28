@@ -23,4 +23,4 @@ npm install
 npm run watch
 ```
 
-Then, visit [https://localhost:3000/rx](https://localhost:3000/rx).
+Then, visit [https://localhost:3001/rx](https://localhost:3001/rx).

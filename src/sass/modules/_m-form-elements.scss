@@ -46,6 +46,16 @@ button.form-button-disabled {
   label {
     margin-top: 1em;
   }
+  > input[type="radio"] + label::before {
+    display: block;
+    float: left;
+    margin-left: -1.7em;
+    margin-top: 0.14em;
+    margin-right: 0;
+  }
+  > input[type="radio"] + label {
+    margin-left: 1.7em;
+  }
 }
 
 .form-required-span {

@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
+import { compact } from 'lodash';
 
 class FacilityInfo extends Component {
   render() {
     let facilityOperations;
+
     if (!this.props.info) {
       return (
         <div></div>
       );
     }
-    if (this.props.info.address.street2) {
-      this.street2 = this.props.info.address.street2;
-    }
-    const street2 = this.props.info.address.street2;
-    if (this.props.info.facilityType === 'facility') {
+
+    const {
+      type,
+      attributes: { address, phone }
+    } = this.props.info;
+
+    const addressString = [
+      compact([address.street, address.suite]).join(' '),
+      `${address.city}, ${address.state} ${address.zip}-${address.zip4}`
+    ];
+
+    if (type === 'va_health_facility') {
       facilityOperations = (
         <div>
           <h5>Phone:</h5>
@@ -21,7 +30,7 @@ class FacilityInfo extends Component {
                 Main Number:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.phone.main}
+                {phone.main}
             </div>
           </div>
           <div className="row">
@@ -29,7 +38,7 @@ class FacilityInfo extends Component {
                 Fax:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.phone.fax}
+                {phone.fax}
             </div>
           </div>
           <div className="row">
@@ -37,7 +46,7 @@ class FacilityInfo extends Component {
                 After Hours:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.phone.afterHours}
+                {phone.afterHours}
             </div>
           </div>
           <div className="row">
@@ -45,7 +54,7 @@ class FacilityInfo extends Component {
                 Pharmacy:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.phone.pharmacy}
+                {phone.pharmacy}
             </div>
           </div>
           <div className="row">
@@ -53,7 +62,7 @@ class FacilityInfo extends Component {
                 Enrollment Coordinator:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.phone.enrollmentCoordinator}
+                {phone.enrollmentCoordinator}
             </div>
           </div>
           <div className="row">
@@ -61,65 +70,7 @@ class FacilityInfo extends Component {
                 Patient Advocate:
             </div>
             <div className="medium-6 columns column1">
-                {this.props.info.phone.patientAdvocate}
-            </div>
-          </div>
-          <br/>
-          <h5>Hours of Operation:</h5>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Monday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.monday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Tuesday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.tuesday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Wednesday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.wednesday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Thursday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.thursday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Friday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.friday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Saturday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.saturday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Sunday:
-            </div>
-            <div className="medium-6 columns column1">
-                {this.props.info.sunday}
+                {phone.patientAdvocate}
             </div>
           </div>
         </div>
@@ -149,12 +100,26 @@ class FacilityInfo extends Component {
 
     return (
       <div>
+        <p>
+          Distance: 0.5 miles
+        </p>
         <h5>Street Address:</h5>
         <p className="facility-details">
-        {this.props.info.address.street1}<br/>
-        {street2 ? `${street2}<br/>` : ''}
-        {this.props.info.address.city}, {this.props.info.address.state} {this.props.info.address.zip}
+        {address.building}<br/>
+        {addressString[0]}<br/>
+        {addressString[1]}<br/>
         </p>
+        <div className="small-6 medium-6 columns">
+          <a href="#" className="facility-conact-link">
+            <i className="fa fa-phone" aria-hidden="true"></i>{phone.main}
+          </a>
+        </div>
+        <div className="small-6 medium-6 columns">
+          <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString}`} target="_blank" className="facility-conact-link">
+            <i className="fa fa-road" aria-hidden="true"></i>Directions
+          </a>
+        </div>
+        <hr className="show-for-small-only light"/>
         {facilityOperations}
       </div>
     );

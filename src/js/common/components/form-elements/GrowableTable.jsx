@@ -1,6 +1,7 @@
 import React from 'react';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
+import { set } from 'lodash/fp';
 
 import { isValidSection } from '../../utils/validations';
 
@@ -99,11 +100,8 @@ class GrowableTable extends React.Component {
                   { data: obj,
                     view: 'collapsed',
                     onValueChange: (subfield, update) => {
-                      const rows = this.props.rows.slice();
-                      const newRow = Object.assign({}, rows[index]);
-                      newRow[subfield] = update;
-                      rows[index] = newRow;
-                      this.props.onRowsUpdate(rows);
+                      const newRows = set(`[${index}].${subfield}`, update, this.props.rows);
+                      this.props.onRowsUpdate(newRows);
                     }
                   })}
               </div>
@@ -133,11 +131,8 @@ class GrowableTable extends React.Component {
                   { data: obj,
                     view: 'expanded',
                     onValueChange: (subfield, update) => {
-                      const rows = this.props.rows.slice();
-                      const newRow = Object.assign({}, rows[index]);
-                      newRow[subfield] = update;
-                      rows[index] = newRow;
-                      this.props.onRowsUpdate(rows);
+                      const newRows = set(`[${index}].${subfield}`, update, this.props.rows);
+                      this.props.onRowsUpdate(newRows);
                     }
                   })}
               </div>

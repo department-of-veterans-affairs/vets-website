@@ -41,7 +41,7 @@ export default class SchoolSelectionReview extends React.Component {
             </tbody>
           : null}
           <tr>
-            <td>Education or career objective:</td>
+            <td>Education or career goal:</td>
             <td>{this.props.data.educationObjective.value}</td>
           </tr>
           <tr>

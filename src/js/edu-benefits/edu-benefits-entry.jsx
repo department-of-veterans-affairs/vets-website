@@ -13,6 +13,8 @@ import routes from './routes.jsx';
 
 require('../../sass/edu-benefits.scss');
 
+require('../login/login-entry.jsx');
+
 let store;
 if (__BUILDTYPE__ === 'development' && window.devToolsExtension) {
   store = createStore(reducer, compose(applyMiddleware(thunk), window.devToolsExtension()));
