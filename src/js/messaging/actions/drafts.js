@@ -5,26 +5,59 @@ export const SAVE_DRAFT_FAILURE = 'SAVE_DRAFT_FAILURE';
 
 const baseUrl = `${api.url}/message_drafts`;
 
-export function saveDraft(message, update = false) {
+export function saveDraft(message) {
   const payload = {
     messageDraft: {
-      category: message.category.value,
-      subject: message.subject.value,
-      body: message.text.value,
-      recipientId: +message.recipient.value
+      category: message.category,
+      subject: message.subject,
+      body: message.body,
+      recipientId: message.recipientId
     }
   };
-
-  const defaultSettings = update
-                        ? api.settings.put
-                        : api.settings.post;
-
-  const settings = Object.assign({}, defaultSettings, {
+  
+  const settings = Object.assign({}, api.settings.post, {
     body: JSON.stringify(payload)
   });
 
   return dispatch => {
     fetch(baseUrl, settings)
+    .then(res => res.json())
+    .then(
+      data => {
+        let action = { type: SAVE_DRAFT_SUCCESS, data };
+
+        if (data.errors) {
+          action = {
+            type: SAVE_DRAFT_FAILURE,
+            errors: data.errors
+          };
+        }
+
+        return dispatch(action);
+      },
+      err => dispatch({ type: SAVE_DRAFT_FAILURE, err })
+    );
+  };
+}
+
+export function updateDraft(message) {
+  const payload = {
+    messageDraft: {
+      category: message.category,
+      subject: message.subject,
+      body: message.body,
+      recipientId: message.recipientId
+    }
+  };
+
+  const url = `${baseUrl}/${message.messageId}`;
+  
+  const settings = Object.assign({}, api.settings.put, {
+    body: JSON.stringify(payload)
+  });
+
+  return dispatch => {
+    fetch(url, settings)
     .then(res => res.json())
     .then(
       data => {

@@ -37,6 +37,7 @@ import {
 class Compose extends React.Component {
   constructor() {
     super();
+    this.apiFormattedMessage = this.apiFormattedMessage.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleMessageChange = this.handleMessageChange.bind(this);
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
@@ -51,12 +52,22 @@ class Compose extends React.Component {
     this.props.fetchRecipients();
   }
 
+  apiFormattedMessage() {
+    const message = this.props.message;
+    return {
+      category: message.category.value,
+      subject: message.subject.value,
+      body: message.text.value,
+      recipientId: +message.recipient.value
+    };
+  }
+
   sendNewMessage() {
-    this.props.sendMessage(this.props.message);
+    this.props.sendMessage(this.apiFormattedMessage());
   }
 
   saveDraft() {
-    this.props.saveDraft(this.props.message);
+    this.props.saveDraft(this.apiFormattedMessage());
   }
 
   handleCategoryChange(valueObj) {

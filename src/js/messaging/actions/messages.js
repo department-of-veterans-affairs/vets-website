@@ -38,10 +38,10 @@ export function fetchThread(id) {
 export function sendMessage(message) {
   const payload = {
     message: {
-      category: message.category.value,
-      subject: message.subject.value,
-      body: message.text.value,
-      recipientId: +message.recipient.value
+      category: message.category,
+      subject: message.subject,
+      body: message.body,
+      recipientId: message.recipientId
     }
   };
 

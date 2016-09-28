@@ -11,6 +11,8 @@ import {
   updateReplyCharacterCount
 } from '../actions/messages';
 
+import { updateDraft } from '../actions/drafts';
+
 import {
   toggleConfirmDelete,
   toggleCreateFolderModal
@@ -46,6 +48,12 @@ class Thread extends React.Component {
   }
 
   handleReplySave() {
+    const draft = {
+      body: this.props.reply.body.value
+    };
+
+    const message = Object.assign({}, this.props.message, draft);
+    this.props.updateDraft(message);
   }
 
   handleReplySend() {
@@ -212,6 +220,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   deleteReply,
   fetchThread,
+  updateDraft,
   toggleConfirmDelete,
   toggleCreateFolderModal,
   toggleMessageCollapsed,
