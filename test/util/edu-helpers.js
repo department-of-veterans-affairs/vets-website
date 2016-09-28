@@ -3,6 +3,7 @@ const E2eHelpers = require('./e2e-helpers');
 
 // Disable eslint for JSON
 /* eslint-disable */
+//TODO: add example api response
 const data = {};
 /* eslint-enable */
 
@@ -12,8 +13,8 @@ function initApplicationSubmitMock() {
     uri: `${E2eHelpers.apiUrl}/mock`,
     method: 'POST',
     json: {
-      path: '/api/edu-benefits',
-      verb: 'get',
+      path: '/api/v0/education_benefits_claims',
+      verb: 'post',
       value: data
     }
   });

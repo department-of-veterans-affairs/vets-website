@@ -1,5 +1,3 @@
-// TODO(james): address this with a feature flag
-
 if (process.env.BUILDTYPE !== 'production') {
   const E2eHelpers = require('../util/e2e-helpers');
   const Timeouts = require('../util/timeouts.js');
@@ -14,7 +12,7 @@ if (process.env.BUILDTYPE !== 'production') {
         .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/`)
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Apply for education benefits: Vets.gov')
-        .waitForElementVisible('#1-continueButton', Timeouts.slow);
+        .waitForElementVisible('div.form-progress-buttons', Timeouts.slow);
     }
   );
 }
