@@ -1,3 +1,6 @@
+import React from 'react';
+import { Link } from 'react-router';
+
 import {
   DELETE_MESSAGE_FAILURE,
   DELETE_MESSAGE_SUCCESS,
@@ -34,31 +37,39 @@ export default function alert(state = initialState, action) {
 
     case DELETE_MESSAGE_FAILURE:
       return {
-        content: 'Failed to delete message.',
-        status: 'success',
+        content: <b>Failed to delete message.</b>,
+        status: 'error',
         visible: true
       };
 
     case DELETE_MESSAGE_SUCCESS:
       return {
-        content: 'Your message has been deleted.',
+        content: <b>Your message has been deleted.</b>,
         status: 'success',
         visible: true
       };
 
     case SAVE_DRAFT_FAILURE:
       return {
-        content: 'Failed to save draft.',
+        content: <b>Failed to save draft.</b>,
         status: 'error',
         visible: true
       };
 
-    case SAVE_DRAFT_SUCCESS:
+    case SAVE_DRAFT_SUCCESS: {
+      const id = action.data.data.attributes.messageId;
+      const link = (
+        <Link to={`/messaging/thread/${id}`}>
+          View message.
+        </Link>
+      );
+
       return {
-        content: 'Your draft has been saved. View message',
+        content: <b>Your draft has been saved. {link}</b>,
         status: 'success',
         visible: true
       };
+    }
 
     default:
       return state;
