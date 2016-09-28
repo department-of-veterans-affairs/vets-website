@@ -3,59 +3,59 @@
 - **Main page**
   - Uses both card and list navigation, not clear why
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/careers-nav.png)
+![](images/careers-nav.png)
 
 ### Job seekers
 
 - **Less than one year**
   - Callout box headings shouldn't be bulleted
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/careers-callout.png)
+![](images/careers-callout.png)
 
 - **Skills translator**
   - Error message style is not US web design standard
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/skills-error.png)
+![](images/skills-error.png)
 
   - Consider vertical columns for the skills list, easier to scan
   - Rounded checkbox containers in skills list feel off-brand
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/skills-checkbox.png)
+![](images/skills-checkbox.png)
 
   - "Import into Résumé Builder" button color is not the default green
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/skills-import-button.png)
+![](images/skills-import-button.png)
 
 - **Résumé Builder**
   - Column width is wider than standard
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/resume-width.png)
+![](images/resume-width.png)
 
   - Visible boxes encompassing sections haven't been used before - consider instead using HRs or Process List pattern to denote sections
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/resume-box.png)
+![](images/resume-box.png)
 
   - Error message style is not US web design standard
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/resume-error.png)
+![](images/resume-error.png)
 
   - Preview
     - Grey background feels off-brand
     - Mobile - "Edit Résumé" CTA button positioned below my name is odd, should be outside of the résumé preview area
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/resume-preview.png)
+![](images/resume-preview.png)
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/resume-preview-mobile-2.png)
+![](images/resume-preview-mobile-2.png)
 
 - **Federal Employment**
   - Additional information below the eligibility text should be included in the callout box
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/careers-federal.png)
+![](images/careers-federal.png)
 
 - **Service-Disabled Vets**
   - Secondary heading styles aren't consistent with other parts of the site
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/careers-service-disabled.png)
+![](images/careers-service-disabled.png)
 
 - **Job Search**
   - Hitting search button w/ empty fields doesn't do anything and doesn't give me an error message
@@ -65,10 +65,10 @@
 - **Main page**
   - "Learn more" section header not styled correctly
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/employers-header.png)
+![](images/employers-header.png)
 
 - **Commitments**
   - Table border styles aren't US web design standard thickness / color
   - Column widths aren't ideal for the content
 
-![](https://github.com/department-of-veterans-affairs/vets.gov-frontend/blob/interface-audit/docs/interface-audit/images/commitments-table.png)
+![](images/commitments-table.png)

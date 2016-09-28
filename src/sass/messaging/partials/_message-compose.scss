@@ -117,8 +117,9 @@
     }
 
     float: right;
+    line-height: 3.5rem;
     margin: 0 0 0 1rem;
-    padding: 1rem;
+    padding: 0 1rem;
   }
 }
 
@@ -163,7 +164,7 @@
 
   @media (min-width: $medium-screen) {
     float: right;
-    margin-top: .7rem;
+    line-height: 3.5rem;
   }
 
   &.isnegative {
