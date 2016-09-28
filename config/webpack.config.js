@@ -112,7 +112,7 @@ const configGenerator = (options) => {
     ],
   };
 
-  if (process.env.NODE_ENV === 'production') {
+  if (options.buildtype === 'production') {
     baseConfig.devtool = '#source-map';
     baseConfig.module.loaders.push({
       test: /debug\/PopulateVeteranButton/,
