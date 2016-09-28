@@ -1,8 +1,12 @@
 import { api } from '../config';
 
 export const DELETE_REPLY = 'DELETE_REPLY';
+export const DELETE_MESSAGE_SUCCESS = 'DELETE_MESSAGE_SUCCESS';
+export const DELETE_MESSAGE_FAILURE = 'DELETE_MESSAGE_FAILURE';
 export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
 export const FETCH_THREAD_FAILURE = 'FETCH_THREAD_FAILURE';
+export const SAVE_DRAFT_SUCCESS = 'SAVE_DRAFT_SUCCESS';
+export const SAVE_DRAFT_FAILURE = 'SAVE_DRAFT_FAILURE';
 export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
 export const SEND_MESSAGE_FAILURE = 'SEND_MESSAGE_FAILURE';
 export const TOGGLE_MESSAGE_COLLAPSED = 'TOGGLE_MESSAGE_COLLAPSED';
@@ -12,6 +16,30 @@ export const UPDATE_REPLY_BODY = 'UPDATE_REPLY_BODY';
 export const UPDATE_REPLY_CHARACTER_COUNT = 'UPDATE_REPLY_CHARACTER_COUNT';
 
 const baseUrl = `${api.url}/messages`;
+
+export function deleteMessage(id) {
+  const url = `${baseUrl}/${id}`;
+
+  return dispatch => {
+    fetch(url, api.settings.delete)
+    .then(res => res.json())
+    .then(
+      data => {
+        let action = { type: DELETE_MESSAGE_SUCCESS, data };
+
+        if (data.errors) {
+          action = {
+            type: DELETE_MESSAGE_FAILURE,
+            errors: data.errors
+          };
+        }
+
+        return dispatch(action);
+      },
+      err => dispatch({ type: DELETE_MESSAGE_FAILURE, err })
+    );
+  };
+}
 
 export function deleteReply() {
   return { type: DELETE_REPLY };
@@ -35,13 +63,61 @@ export function fetchThread(id) {
   };
 }
 
+export function saveDraft(message) {
+  const draftsUrl = `${api.url}/message_drafts`;
+  const payload = {
+    messageDraft: {
+      category: message.category,
+      subject: message.subject,
+      body: message.body,
+      recipientId: message.recipientId
+    }
+  };
+
+  // Save the message as a new draft if it doesn't have an id yet.
+  // Update the draft if it does have an id.
+  const isNewDraft = message.messageId === undefined;
+
+  const url = isNewDraft
+            ? draftsUrl
+            : `${draftsUrl}/${message.messageId}`;
+
+  const defaultSettings = isNewDraft
+                        ? api.settings.post
+                        : api.settings.put;
+
+  const settings = Object.assign({}, defaultSettings, {
+    body: JSON.stringify(payload)
+  });
+
+  return dispatch => {
+    fetch(url, settings)
+    .then(res => res.json())
+    .then(
+      data => {
+        let action = { type: SAVE_DRAFT_SUCCESS, data };
+
+        if (data.errors) {
+          action = {
+            type: SAVE_DRAFT_FAILURE,
+            errors: data.errors
+          };
+        }
+
+        return dispatch(action);
+      },
+      err => dispatch({ type: SAVE_DRAFT_FAILURE, err })
+    );
+  };
+}
+
 export function sendMessage(message) {
   const payload = {
     message: {
-      category: message.category.value,
-      subject: message.subject.value,
-      body: message.text.value,
-      recipientId: +message.recipient.value
+      category: message.category,
+      subject: message.subject,
+      body: message.body,
+      recipientId: message.recipientId
     }
   };
 
