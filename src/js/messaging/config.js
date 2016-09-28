@@ -22,6 +22,10 @@ module.exports = {
         headers: Object.assign({}, headers, {
           'Content-Type': 'application/json'
         })
+      },
+      delete: {
+        method: 'DELETE',
+        headers
       }
     }
   },

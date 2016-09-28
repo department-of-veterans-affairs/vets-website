@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
+  deleteMessage,
   deleteReply,
   fetchThread,
   toggleMessageCollapsed,
@@ -35,11 +36,16 @@ class Thread extends React.Component {
     this.handleReplySend = this.handleReplySend.bind(this);
     this.handleReplyDelete = this.handleReplyDelete.bind(this);
     this.handleMoveTo = this.handleMoveTo.bind(this);
+    this.isDraft = this.isDraft.bind(this);
   }
 
   componentDidMount() {
     const id = this.props.params.id;
     this.props.fetchThread(id);
+  }
+
+  isDraft() {
+    return !this.props.message.sentDate;
   }
 
   handleReplyChange(valueObj) {
@@ -62,6 +68,10 @@ class Thread extends React.Component {
   handleReplyDelete() {
     this.props.toggleConfirmDelete();
     this.props.deleteReply();
+
+    if (this.isDraft()) {
+      this.props.deleteMessage(this.props.message.messageId);
+    }
   }
 
   handleMoveTo() {
@@ -156,7 +166,7 @@ class Thread extends React.Component {
         );
       });
 
-      if (this.props.message.sentDate) {
+      if (!this.isDraft()) {
         currentMessage = <Message attrs={this.props.message}/>;
       }
     }
@@ -218,6 +228,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  deleteMessage,
   deleteReply,
   fetchThread,
   saveDraft,
