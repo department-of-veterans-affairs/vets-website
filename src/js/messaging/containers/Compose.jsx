@@ -20,14 +20,16 @@ import ModalAttachmentsTooBig from '../components/compose/ModalAttachmentsTooBig
 
 import {
   deleteComposeMessage,
-  saveMessage,
   setMessageField,
   fetchRecipients,
   fetchSenderName,
   updateComposeCharacterCount
 } from '../actions/compose';
 
-import { sendMessage } from '../actions/messages';
+import {
+  saveDraft,
+  sendMessage
+} from '../actions/messages';
 
 import {
   toggleConfirmDelete,
@@ -37,12 +39,14 @@ import {
 class Compose extends React.Component {
   constructor() {
     super();
+    this.apiFormattedMessage = this.apiFormattedMessage.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleMessageChange = this.handleMessageChange.bind(this);
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
     this.handleSubjectChange = this.handleSubjectChange.bind(this);
-    this.sendNewMessage = this.sendNewMessage.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
+    this.saveDraft = this.saveDraft.bind(this);
   }
 
   componentDidMount() {
@@ -50,8 +54,22 @@ class Compose extends React.Component {
     this.props.fetchRecipients();
   }
 
-  sendNewMessage() {
-    this.props.sendMessage(this.props.message);
+  apiFormattedMessage() {
+    const message = this.props.message;
+    return {
+      category: message.category.value,
+      subject: message.subject.value,
+      body: message.text.value,
+      recipientId: +message.recipient.value
+    };
+  }
+
+  sendMessage() {
+    this.props.sendMessage(this.apiFormattedMessage());
+  }
+
+  saveDraft() {
+    this.props.saveDraft(this.apiFormattedMessage());
   }
 
   handleCategoryChange(valueObj) {
@@ -144,8 +162,8 @@ class Compose extends React.Component {
               allowedMimeTypes={allowedMimeTypes}
               charCount={message.charsRemaining}
               cssClass="messaging-send-group"
-              onSave={this.props.saveMessage}
-              onSend={this.sendNewMessage}
+              onSave={this.saveDraft}
+              onSend={this.sendMessage}
               onDelete={this.props.toggleConfirmDelete}/>
         </form>
         <ModalConfirmDelete
@@ -180,7 +198,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   deleteComposeMessage,
-  saveMessage,
+  saveDraft,
   sendMessage,
   setMessageField,
   fetchRecipients,
