@@ -10,9 +10,6 @@ export const FETCH_RECIPIENTS_SUCCESS = 'FETCH_RECIPIENTS_SUCCESS';
 export const FETCH_RECIPIENTS_FAILURE = 'FETCH_RECIPIENTS_FAILURE';
 export const FETCH_SENDER_SUCCESS = 'FETCH_SENDER_SUCCESS';
 
-export const SAVE_MESSAGE = 'SAVE_MESSAGE';
-
-export const DELETE_DRAFT = 'DELETE_DRAFT';
 export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
 export const UPDATE_COMPOSE_CHARACTER_COUNT = 'UPDATE_COMPOSE_CHARACTER_COUNT';
 
@@ -25,12 +22,6 @@ export function setMessageField(path, field) {
     type: SET_MESSAGE_FIELD,
     path,
     field
-  };
-}
-
-export function saveMessage() {
-  return {
-    type: SAVE_MESSAGE
   };
 }
 

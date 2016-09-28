@@ -251,11 +251,14 @@ class VAMap extends Component {
 
   render() {
     // render mobile view for mobile devices
-    if (isMobile.any) {
-      return this.renderMobileView();
-    }
-
-    return this.renderDesktopView();
+    return (
+      <div>
+        <div className="title-section">
+          <h3>Facility and Service Locator</h3>
+        </div>
+        {isMobile.any ? this.renderMobileView() : this.renderDesktopView()}
+      </div>
+    );
   }
 }
 
