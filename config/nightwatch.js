@@ -13,10 +13,9 @@ module.exports = {
   parallel_process_delay: 10,
   disable_colors: false,
   test_workers: false,
-
   test_settings: {
     'default': {
-      launch_url: 'localhost:3000',
+      launch_url: 'localhost:3001',
       filter: './test/**/*.e2e.spec.js',
       selenium_host: 'localhost',
       selenium_port: 4444,

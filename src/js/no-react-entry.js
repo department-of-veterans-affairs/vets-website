@@ -10,3 +10,5 @@ require('jquery-accessible-simple-tooltip-aria/jquery-accessible-simple-tooltip-
 // Used in the footer.
 require('./legacy/menu.js');
 require('./legacy/toggle-veterans-crisis-line.js');
+
+require('./login/login-entry.jsx');
