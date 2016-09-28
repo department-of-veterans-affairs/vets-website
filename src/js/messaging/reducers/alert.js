@@ -5,7 +5,9 @@ import {
   DELETE_MESSAGE_FAILURE,
   DELETE_MESSAGE_SUCCESS,
   SAVE_DRAFT_FAILURE,
-  SAVE_DRAFT_SUCCESS
+  SAVE_DRAFT_SUCCESS,
+  SEND_MESSAGE_FAILURE,
+  SEND_MESSAGE_SUCCESS
 } from '../actions/messages';
 
 import {
@@ -70,6 +72,35 @@ export default function alert(state = initialState, action) {
         visible: true
       };
     }
+
+    case SEND_MESSAGE_FAILURE:
+      return {
+        content: 'Failed to send message.',
+        status: 'error',
+        visible: true
+      };
+
+    case SEND_MESSAGE_SUCCESS:
+      const id = action.data.data.attributes.messageId;
+      const link = (
+        <Link to={`/messaging/thread/${id}`}>
+          View message.
+        </Link>
+      );
+
+      const content = (
+        <b>
+          Your message has been sent. {link} It can take
+          up to 72 hours for a message to be seen and/or
+          a response to be sent.
+        </b>
+      );
+
+      return {
+        content,
+        status: 'success',
+        visible: true
+      };
 
     default:
       return state;
