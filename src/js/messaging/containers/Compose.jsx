@@ -26,8 +26,10 @@ import {
   updateComposeCharacterCount
 } from '../actions/compose';
 
-import { saveDraft } from '../actions/drafts';
-import { sendMessage } from '../actions/messages';
+import {
+  saveDraft,
+  sendMessage
+} from '../actions/messages';
 
 import {
   toggleConfirmDelete,
