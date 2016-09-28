@@ -1,5 +1,5 @@
-import { compact } from 'lodash';
 import React, { Component } from 'react';
+import { compact } from 'lodash';
 
 class FacilityInfo extends Component {
   render() {
@@ -13,7 +13,7 @@ class FacilityInfo extends Component {
 
     const {
       type,
-      attributes: { address, phone, hours }
+      attributes: { address, phone }
     } = this.props.info;
 
     const addressString = [
@@ -73,64 +73,6 @@ class FacilityInfo extends Component {
                 {phone.patientAdvocate}
             </div>
           </div>
-          <br/>
-          <h5>Hours of Operation:</h5>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Monday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.monday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Tuesday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.tuesday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Wednesday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.wednesday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Thursday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.thursday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Friday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.friday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Saturday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.saturday}
-            </div>
-          </div>
-          <div className="row">
-            <div className="medium-6 columns details-map">
-                Sunday:
-            </div>
-            <div className="medium-6 columns column1">
-                {hours.sunday}
-            </div>
-          </div>
         </div>
       );
     } else {
@@ -158,12 +100,26 @@ class FacilityInfo extends Component {
 
     return (
       <div>
+        <p>
+          Distance: 0.5 miles
+        </p>
         <h5>Street Address:</h5>
         <p className="facility-details">
         {address.building}<br/>
         {addressString[0]}<br/>
         {addressString[1]}<br/>
         </p>
+        <div className="small-6 medium-6 columns">
+          <a href="#" className="facility-conact-link">
+            <i className="fa fa-phone" aria-hidden="true"></i>{phone.main}
+          </a>
+        </div>
+        <div className="small-6 medium-6 columns">
+          <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString}`} target="_blank" className="facility-conact-link">
+            <i className="fa fa-road" aria-hidden="true"></i>Directions
+          </a>
+        </div>
+        <hr className="show-for-small-only light"/>
         {facilityOperations}
       </div>
     );
