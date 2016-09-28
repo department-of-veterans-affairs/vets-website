@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import SearchResult from './SearchResult';
-import Pagination from '../../rx/components/pagination';
+import Pagination from '../../rx/components/Pagination';
 
 class ResultsList extends Component {
   render() {
