@@ -5,14 +5,13 @@ import {
   deleteMessage,
   deleteReply,
   fetchThread,
+  saveDraft,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
   updateReplyBody,
   updateReplyCharacterCount
 } from '../actions/messages';
-
-import { saveDraft } from '../actions/drafts';
 
 import {
   toggleConfirmDelete,

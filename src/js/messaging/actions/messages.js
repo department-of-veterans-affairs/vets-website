@@ -5,6 +5,8 @@ export const DELETE_MESSAGE_SUCCESS = 'DELETE_MESSAGE_SUCCESS';
 export const DELETE_MESSAGE_FAILURE = 'DELETE_MESSAGE_FAILURE';
 export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
 export const FETCH_THREAD_FAILURE = 'FETCH_THREAD_FAILURE';
+export const SAVE_DRAFT_SUCCESS = 'SAVE_DRAFT_SUCCESS';
+export const SAVE_DRAFT_FAILURE = 'SAVE_DRAFT_FAILURE';
 export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
 export const SEND_MESSAGE_FAILURE = 'SEND_MESSAGE_FAILURE';
 export const TOGGLE_MESSAGE_COLLAPSED = 'TOGGLE_MESSAGE_COLLAPSED';
@@ -57,6 +59,54 @@ export function fetchThread(id) {
         thread: data[1].data
       }),
       err => dispatch({ type: FETCH_THREAD_FAILURE, err })
+    );
+  };
+}
+
+export function saveDraft(message) {
+  const draftsUrl = `${api.url}/message_drafts`;
+  const payload = {
+    messageDraft: {
+      category: message.category,
+      subject: message.subject,
+      body: message.body,
+      recipientId: message.recipientId
+    }
+  };
+
+  // Save the message as a new draft if it doesn't have an id yet.
+  // Update the draft if it does have an id.
+  const isNewDraft = message.messageId === undefined;
+
+  const url = isNewDraft
+            ? draftsUrl
+            : `${draftsUrl}/${message.messageId}`;
+
+  const defaultSettings = isNewDraft
+                        ? api.settings.post
+                        : api.settings.put;
+
+  const settings = Object.assign({}, defaultSettings, {
+    body: JSON.stringify(payload)
+  });
+
+  return dispatch => {
+    fetch(url, settings)
+    .then(res => res.json())
+    .then(
+      data => {
+        let action = { type: SAVE_DRAFT_SUCCESS, data };
+
+        if (data.errors) {
+          action = {
+            type: SAVE_DRAFT_FAILURE,
+            errors: data.errors
+          };
+        }
+
+        return dispatch(action);
+      },
+      err => dispatch({ type: SAVE_DRAFT_FAILURE, err })
     );
   };
 }
