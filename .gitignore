@@ -10,3 +10,5 @@ logs/
 npm-debug.log
 
 config/config.proxy.js
+
+.babelcache

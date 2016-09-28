@@ -31,7 +31,7 @@ const configGenerator = (options) => {
           loader: 'babel',
           query: {
             // Speed up compilation.
-            cacheDirectory: true
+            cacheDirectory: '.babelcache'
 
             // Also see .babelrc
           }
@@ -43,7 +43,7 @@ const configGenerator = (options) => {
           query: {
             presets: ['react'],
             // Speed up compilation.
-            cacheDirectory: true
+            cacheDirectory: '.babelcache'
 
             // Also see .babelrc
           }
@@ -128,7 +128,7 @@ const configGenerator = (options) => {
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
   } else {
-    baseConfig.devtool = '#cheap-module-eval-source-map';
+    baseConfig.devtool = '#eval-source-map';
   }
 
 
