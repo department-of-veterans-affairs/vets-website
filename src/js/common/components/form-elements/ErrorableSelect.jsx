@@ -129,6 +129,7 @@ ErrorableSelect.propTypes = {
     dirty: React.PropTypes.bool
   }).isRequired,
   onValueChange: React.PropTypes.func.isRequired,
+  additionalClass: React.PropTypes.string
 };
 
 export default ErrorableSelect;

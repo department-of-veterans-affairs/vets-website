@@ -67,6 +67,7 @@ class ErrorableNumberInput extends React.Component {
         </label>
         {errorSpan}
         <input
+            className={this.props.additionalClass}
             aria-describedby={errorSpanId}
             id={this.inputId}
             name={this.props.name}
@@ -103,6 +104,7 @@ ErrorableNumberInput.propTypes = {
   placeholder: React.PropTypes.string,
   required: React.PropTypes.bool,
   onValueChange: React.PropTypes.func.isRequired,
+  additionalClass: React.PropTypes.string
 };
 
 export default ErrorableNumberInput;
