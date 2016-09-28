@@ -5,6 +5,7 @@ import { composeMessage } from '../config';
 
 import {
   SET_MESSAGE_FIELD,
+  SET_ATTACHMENTS,
   DELETE_COMPOSE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_SENDER_SUCCESS,
@@ -49,12 +50,14 @@ export default function compose(state = initialState, action) {
   switch (action.type) {
     case DELETE_COMPOSE_MESSAGE:
       return initialState;
-    case SET_MESSAGE_FIELD:
-      return set(action.path, action.field, state);
     case FETCH_RECIPIENTS_SUCCESS:
       return set('recipients', getRecipients(action.recipients.data), state);
     case FETCH_SENDER_SUCCESS:
       return set('message.sender', action.sender, state);
+    case SET_MESSAGE_FIELD:
+      return set(action.path, action.field, state);
+    case SET_ATTACHMENTS:
+      return set('message.attachments', action.files, state);
     case UPDATE_COMPOSE_CHARACTER_COUNT:
       return set('message.charsRemaining', action.chars, state);
     case FETCH_RECIPIENTS_FAILURE:
