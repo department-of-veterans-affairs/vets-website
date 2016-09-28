@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import Scroll from 'react-scroll';
 
 import { connect } from 'react-redux';
 
@@ -14,14 +15,35 @@ import NavHeader from '../../common/components/NavHeader';
 import PerfPanel from '../components/debug/PerfPanel';
 import RoutesDropdown from '../components/debug/RoutesDropdown';
 
-import { isValidPage } from '../utils/validations';
-import { ensurePageInitialized, updateCompletedStatus } from '../actions/index';
+import { isValidPage, isValidForm } from '../utils/validations';
+import { ensurePageInitialized, updateCompletedStatus, submitForm } from '../actions/index';
 
+const Element = Scroll.Element;
+const scroller = Scroll.scroller;
+
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
 
 class EduBenefitsApp extends React.Component {
+  componentWillReceiveProps(nextProps) {
+    const a = nextProps.submission.status;
+    const b = this.props.submission.status;
+    if (a !== b && a === 'applicationSubmitted') {
+      this.props.router.push('/submit-message');
+      scrollToTop();
+    }
+  }
   render() {
-    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete } = this.props;
+    const { pageState, currentLocation, data, submission, router, dirtyPage, setComplete, submitBenefitsForm } = this.props;
     const navigateTo = path => router.push(path);
+    const onSubmit = () => {
+      submitBenefitsForm(this.props.data);
+    };
 
     let devPanel = undefined;
     if (__BUILDTYPE__ === 'development') {
@@ -41,6 +63,7 @@ class EduBenefitsApp extends React.Component {
       <div className="row">
         {devPanel}
         <div className="medium-4 columns show-for-medium-up">
+          <Element name="topScrollElement"/>
           <Nav
               data={data}
               pages={pageState}
@@ -57,9 +80,11 @@ class EduBenefitsApp extends React.Component {
                 pages={pages}
                 path={currentLocation.pathname}
                 isValid={isValidPage(currentLocation.pathname, data)}
+                canSubmit={isValidForm(data)}
                 dirtyPage={dirtyPage}
                 onNavigate={navigateTo}
-                onComplete={setComplete}/>
+                onComplete={setComplete}
+                onSubmit={onSubmit}/>
           </div>
         </div>
         <span className="js-test-location hidden" data-location={currentLocation.pathname} hidden></span>
@@ -86,6 +111,9 @@ function mapDispatchToProps(dispatch) {
     },
     setComplete(page) {
       dispatch(updateCompletedStatus(page));
+    },
+    submitBenefitsForm(...args) {
+      dispatch(submitForm(...args));
     }
   };
 }

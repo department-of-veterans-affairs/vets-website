@@ -1,14 +1,15 @@
 import set from 'lodash/fp/set';
 
+import { makeField } from '../../common/model/fields';
+import { composeMessage } from '../config';
+
 import {
-  TOGGLE_CONFIRM_DELETE,
   SET_MESSAGE_FIELD,
-  SET_SUBJECT_REQUIRED,
-  SEND_MESSAGE,
-  SAVE_MESSAGE,
+  DELETE_COMPOSE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_SENDER_SUCCESS,
-  FETCH_RECIPIENTS_FAILURE
+  FETCH_RECIPIENTS_FAILURE,
+  UPDATE_COMPOSE_CHARACTER_COUNT
 } from '../actions/compose';
 
 const initialState = {
@@ -18,19 +19,12 @@ const initialState = {
       lastName: '',
       middleName: ''
     },
-    category: undefined,
-    recipient: undefined,
-    subject: {
-      value: undefined,
-      required: false
-    },
-    text: undefined,
+    category: makeField(''),
+    recipient: makeField(''),
+    subject: makeField(''),
+    text: makeField(''),
+    charsRemaining: composeMessage.maxChars.message,
     attachments: []
-  },
-  modals: {
-    deleteConfirm: {
-      visible: false
-    }
   },
   // List of potential recipients
   recipients: []
@@ -46,26 +40,24 @@ function getRecipients(recipients) {
   return recipients.map((item) => {
     return {
       label: item.attributes.name,
-      value: item.attributes.triage_team_id
+      value: item.attributes.triageTeamId
     };
   });
 }
 
 export default function compose(state = initialState, action) {
   switch (action.type) {
+    case DELETE_COMPOSE_MESSAGE:
+      return initialState;
     case SET_MESSAGE_FIELD:
-      return set(action.path, action.field.value, state);
-    case SET_SUBJECT_REQUIRED:
-      return set('message.subject.required', action.fieldState.required, state);
+      return set(action.path, action.field, state);
     case FETCH_RECIPIENTS_SUCCESS:
       return set('recipients', getRecipients(action.recipients.data), state);
     case FETCH_SENDER_SUCCESS:
       return set('message.sender', action.sender, state);
-    case TOGGLE_CONFIRM_DELETE:
-      return set('modals.deleteConfirm.visible', !state.modals.deleteConfirm.visible, state);
+    case UPDATE_COMPOSE_CHARACTER_COUNT:
+      return set('message.charsRemaining', action.chars, state);
     case FETCH_RECIPIENTS_FAILURE:
-    case SEND_MESSAGE:
-    case SAVE_MESSAGE:
     default:
       return state;
   }

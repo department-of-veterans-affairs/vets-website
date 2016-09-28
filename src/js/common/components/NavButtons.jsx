@@ -1,7 +1,19 @@
 import React from 'react';
-import _ from 'lodash';
+import Scroll from 'react-scroll';
+
+import { getActivePages } from '../utils/helpers';
 
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
+
+const scroller = Scroll.scroller;
+
+const scrollToTop = () => {
+  scroller.scrollTo('topScrollElement', {
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
 
 export default class NavButtons extends React.Component {
   constructor(props) {
@@ -21,21 +33,21 @@ export default class NavButtons extends React.Component {
     }
   }
   handleSubmit() {
-    if (this.props.isValid) {
+    if (this.props.canSubmit) {
       this.props.onSubmit();
     }
   }
   goBack() {
     this.props.onNavigate(this.findNeighbor(-1));
+    scrollToTop();
   }
   goForward() {
     this.handleContinue(this.findNeighbor(1));
+    scrollToTop();
   }
   findNeighbor(increment) {
     const { pages, path, data } = this.props;
-    const filtered = pages.filter(page => {
-      return page.depends === undefined || _.matches(page.depends)(data);
-    });
+    const filtered = getActivePages(pages, data);
     const currentIndex = filtered.map(page => page.name).indexOf(path);
     const index = currentIndex + increment;
     return filtered[index].name;
@@ -67,6 +79,7 @@ export default class NavButtons extends React.Component {
       if (submission.status === false) {
         submitButton = (
           <ProgressButton
+              disabled={!this.props.canSubmit}
               onButtonClick={this.handleSubmit}
               buttonText="Submit Application"
               buttonClass="usa-button-primary"/>
@@ -164,7 +177,8 @@ NavButtons.propTypes = {
   pages: React.PropTypes.array.isRequired,
   path: React.PropTypes.string.isRequired,
   data: React.PropTypes.object,
-  isValid: React.PropTypes.bool,
+  isValid: React.PropTypes.bool.isRequired,
+  canSubmit: React.PropTypes.bool.isRequired,
   submission: React.PropTypes.object.isRequired,
   onSubmit: React.PropTypes.func,
   onNavigate: React.PropTypes.func,

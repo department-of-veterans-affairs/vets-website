@@ -10,7 +10,7 @@ export default class EmploymentHistoryReview extends React.Component {
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
-              <td>Have you held a license or journeyman rating to practice a profession??</td>
+              <td>Have you ever held a license (for example, as a contractor or plumber) or a journeyman rating to practice a profession?</td>
               <td>{this.props.data.hasNonMilitaryJobs.value === 'Y' ? 'Yes' : 'No'}</td>
             </tr>
           </tbody>
@@ -19,13 +19,13 @@ export default class EmploymentHistoryReview extends React.Component {
           return (<table key={index} className="review usa-table-borderless">
             <thead>
               <tr>
-                <td scope="col">Principal occupation - {period.name.value}</td>
+                <td scope="col">Main job - {period.name.value}</td>
                 <td scope="col"></td>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>When was this period of employment?</td>
+                <td>When did you do this work?</td>
                 <td>{getLabel(employmentPeriodTiming, period.postMilitaryJob.value)}</td>
               </tr>
               <tr>

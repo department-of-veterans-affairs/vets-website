@@ -1,49 +1,184 @@
-.messaging-thread-note {
-  border-bottom: 1px solid $color-black;
-  border-top: 1px solid $color-black;
-  font-size: 1.5rem;
-  margin: 0;
-  padding: 1.5rem 2rem;
-}
+/*****************
+ * Thread Header *
+ *****************/
 
-.messaging-thread-name {
-  // Overriding `#content .section h*`.
-  padding: 2.25rem 2rem !important;
+.messaging-thread-header {
   border-bottom: 2px solid $color-black;
+  padding: 2.25rem 0;
+
+  .messaging-toggle-thread,
+  .messaging-btn-delete,
+  .messaging-btn-print {
+    background: transparent;
+    color: $color-black;
+    float: none;
+    font-size: 1.5rem;
+    font-weight: normal;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    width: auto;
+
+    &:hover,
+    &:focus {
+      background: transparent;
+      color: $color-primary;
+    }
+
+    &:active,
+    &:focus {
+      outline: 0;
+    }
+
+    i {
+      font-size: 1.8rem;
+    }
+
+    span {
+      padding-left: 0.5rem;
+    }
+  }
 }
 
-.messaging-thread-message {
-  padding: 1.5rem 2rem;
+.messaging-thread-nav {
   border-bottom: 1px solid $color-black;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  position: relative;
+
+  .msg-move-to {
+    vertical-align: top;
+  }
+
+  button {
+    width: auto;
+  }
+
+  a {
+    margin-right: 1rem;
+    vertical-align: middle;
+  }
+
+  i {
+    margin-left: .5rem;
+  }
+
+  .messaging-btn-delete,
+  .messaging-btn-print {
+    display: none;
+  }
+
+  @media (max-width: $medium-screen) {
+    background: $color-gray-lightest;
+    border: none;
+    padding: 1rem;
+    text-align: right;
+
+    .messaging-btn-delete,
+    .messaging-btn-print {
+      display: inline-block;
+    }
+
+    a {
+      left: 0;
+      padding: 1.25rem 2rem;
+      position: absolute;
+      top: 0;
+    }
+  }
 }
 
-.messaging-message-sender {
-  width: 75%;
-}
-
-.messaging-message-sent-date {
-  text-align: right;
-  width: 25%;
-}
-
-.messaging-message-sender,
-.messaging-message-sent-date {
+.messaging-thread-subject {
   display: inline-block;
-  font-weight: bold;
+  font-weight: normal;
+  // Overriding `#content .section h*`.
+  padding: 0 2rem !important;
   vertical-align: top;
+  width: 60%;
 }
 
-.messaging-message-recipient {
-  color: $color-gray-medium;
+.messaging-thread-controls {
+  display: inline-block;
+  padding-right: 1rem;
+  text-align: right;
+  vertical-align: top;
+  width: 40%;
+
+  @media (max-width: $medium-screen) {
+    .messaging-btn-delete,
+    .messaging-btn-print {
+      display: none;
+    }
+  }
 }
+
+/****************
+ * Thread Reply *
+ ****************/
 
 .messaging-thread-reply {
+  font-size: 1.8rem;
   padding: 3rem 2rem;
 
-  textarea {
-    height: 10rem;
-    max-width: 100%;
+  & > button {
+    display: none;
     width: 100%;
   }
 
+  @media (max-width: $medium-screen) {
+    background: $color-gray-lightest;
+    padding: 1rem 2rem;
+
+    & > form {
+      display: none;
+    }
+
+    & > button {
+      display: block;
+    }
+  }
+
+  .messaging-write {
+    margin: 0;
+    padding: 0;
+
+    label {
+      display: none;
+    }
+  }
+
+  &-recipient {
+    border: 1px solid $color-black;
+    border-bottom-width: 0;
+    padding: 1rem 1.5rem;
+
+    label {
+      display: inline-block;
+      font-weight: bold;
+      margin: 0 1rem 0 0;
+    }
+  }
+
+  textarea {
+    margin: 0;
+    padding: 1rem 1.5rem;
+  }
+}
+
+.messaging-notice-box {
+  background: $color-primary-alt-lightest;
+  padding: 1.5rem 2rem;
+
+  @media (max-width: $medium-screen) {
+    padding: 1.5rem 5rem;
+  }
+
+  i {
+    width: 3rem;
+  }
+
+  span {
+    display: inline-block;
+    vertical-align: top;
+    width: 90%;
+  }
 }
