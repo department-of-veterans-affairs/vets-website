@@ -137,6 +137,7 @@ class Thread extends React.Component {
             currentMessageNumber={currentIndex + 1}
             moveToFolders={folders}
             folderMessageCount={folderMessageCount}
+            persistedFolder={this.props.persistFolder}
             onClickPrev={fetchPrevMessage}
             onClickNext={fetchNextMessage}
             subject={this.props.message.subject}
