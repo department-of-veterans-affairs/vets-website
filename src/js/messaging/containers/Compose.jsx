@@ -45,7 +45,7 @@ class Compose extends React.Component {
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
     this.handleSubjectChange = this.handleSubjectChange.bind(this);
-    this.sendNewMessage = this.sendNewMessage.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
     this.saveDraft = this.saveDraft.bind(this);
   }
 
@@ -64,7 +64,7 @@ class Compose extends React.Component {
     };
   }
 
-  sendNewMessage() {
+  sendMessage() {
     this.props.sendMessage(this.apiFormattedMessage());
   }
 
@@ -163,7 +163,7 @@ class Compose extends React.Component {
               charCount={message.charsRemaining}
               cssClass="messaging-send-group"
               onSave={this.saveDraft}
-              onSend={this.sendNewMessage}
+              onSend={this.sendMessage}
               onDelete={this.props.toggleConfirmDelete}/>
         </form>
         <ModalConfirmDelete
