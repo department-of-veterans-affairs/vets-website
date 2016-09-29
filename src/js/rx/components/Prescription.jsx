@@ -28,12 +28,12 @@ class Prescription extends React.Component {
   render() {
     const attrs = this.props.attributes;
     const id = this.props.id;
-    const name = attrs['prescription-name'];
-    const status = attrs['refill-status'];
+    const name = attrs.prescriptionName;
+    const status = attrs.refillStatus;
 
     let action = [];
 
-    if (attrs['is-refillable'] === true) {
+    if (attrs.isRefillable === true) {
       action.push(<SubmitRefill
           key={`rx-${id}-refill`}
           cssClass="rx-prescription-button"
@@ -56,7 +56,7 @@ class Prescription extends React.Component {
           action.push(callProvider);
         }
       } else {
-        if (attrs['is-trackable'] === true) {
+        if (attrs.isTrackable === true) {
           action.push(<TrackPackageLink
               key={`rx-${id}-track`}
               className="usa-button"
@@ -71,7 +71,7 @@ class Prescription extends React.Component {
           ));
         }
 
-        if (attrs['refill-remaining'] === 0) {
+        if (attrs.refillRemaining === 0) {
           action.push(callProvider);
         }
       }
@@ -87,17 +87,17 @@ class Prescription extends React.Component {
             </Link>
           </h3>
           <div className="rx-prescription-number">
-            Prescription <abbr title="number">#</abbr>: {attrs['prescription-number']}
+            Prescription <abbr title="number">#</abbr>: {attrs.prescriptionNumber}
           </div>
           <div className="rx-prescription-facility">
-            Facility name: {attrs['facility-name']}
+            Facility name: {attrs.facilityName}
           </div>
           <div className="rx-prescription-refilled">
-            Last fill date: {moment(attrs['dispensed-date']).format('L')}
+            Last fill date: {moment(attrs.dispensedDate).format('L')}
           </div>
           <div className="rx-prescription-countaction">
             <RefillsRemainingCounter
-                remaining={attrs['refill-remaining']}/>
+                remaining={attrs.refillRemaining}/>
             <div className="rx-prescription-action">
               {action}
             </div>
@@ -112,20 +112,20 @@ Prescription.propTypes = {
   id: React.PropTypes.string.isRequired,
   type: React.PropTypes.string.isRequired,
   attributes: React.PropTypes.shape({
-    'prescription-id': React.PropTypes.number.isRequired,
-    'prescription-number': React.PropTypes.string.isRequired,
-    'prescription-name': React.PropTypes.string.isRequired,
-    'refill-submit-date': React.PropTypes.string,
-    'refill-date': React.PropTypes.string.isRequired,
-    'refill-remaining': React.PropTypes.number.isRequired,
-    'facility-name': React.PropTypes.string.isRequired,
-    'ordered-date': React.PropTypes.string.isRequired,
+    prescriptionId: React.PropTypes.number.isRequired,
+    prescriptionNumber: React.PropTypes.string.isRequired,
+    prescriptionName: React.PropTypes.string.isRequired,
+    refillSubmitDate: React.PropTypes.string,
+    refillDate: React.PropTypes.string.isRequired,
+    refillRemaining: React.PropTypes.number.isRequired,
+    facilityName: React.PropTypes.string.isRequired,
+    orderedDate: React.PropTypes.string.isRequired,
     quantity: React.PropTypes.number.isRequired,
-    'expiration-date': React.PropTypes.string.isRequired,
-    'dispensed-date': React.PropTypes.string,
-    'station-number': React.PropTypes.string,
-    'is-refillable': React.PropTypes.bool.isRequired,
-    'is-trackable': React.PropTypes.bool.isRequired,
+    expirationDate: React.PropTypes.string.isRequired,
+    dispensedDate: React.PropTypes.string,
+    stationNumber: React.PropTypes.string,
+    isRefillable: React.PropTypes.bool.isRequired,
+    isTrackable: React.PropTypes.bool.isRequired,
   }).isRequired
 };
 

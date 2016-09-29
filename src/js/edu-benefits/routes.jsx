@@ -32,7 +32,7 @@ import PreviousClaimsFields from './components/benefits-eligibility/PreviousClai
 import PreviousClaimsReview from './components/benefits-eligibility/PreviousClaimsReview';
 import ReviewPage from './containers/ReviewPage';
 import FormPage from './containers/FormPage';
-import PlaceholderPage from './containers/PlaceholderPage';
+import SubmitPage from './containers/SubmitPage';
 
 const routes = [
   // Introduction route.
@@ -155,7 +155,7 @@ const routes = [
       chapter={chapterNames.review}/>,
   // Submit Message route.
   <Route
-      component={PlaceholderPage}
+      component={SubmitPage}
       key="/submit-message"
       path="/submit-message"/>
 ];

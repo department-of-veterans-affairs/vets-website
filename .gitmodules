@@ -1,0 +1,3 @@
+[submodule "schema"]
+	path = schema
+	url = https://github.com/department-of-veterans-affairs/vets-json-schema.git

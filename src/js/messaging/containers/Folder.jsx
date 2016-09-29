@@ -4,7 +4,9 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { fetchFolder } from '../actions/folders';
+import { fetchFolder, toggleFolderNav } from '../actions/folders';
+import ComposeButton from '../components/ComposeButton';
+import MessageNav from '../components/MessageNav';
 
 class Folder extends React.Component {
   componentDidMount() {
@@ -20,62 +22,112 @@ class Folder extends React.Component {
     }
   }
 
-  render() {
-    const folder = this.props.folder;
-    let folderName;
-    let folderMessages;
+  makeMessageNav() {
+    const { folder, currentRange, messageCount, page, totalPages } = this.props;
 
-    if (folder) {
-      if (!_.isEmpty(folder.attributes)) {
-        folderName = folder.attributes.name;
-      }
+    if (messageCount === 0) {
+      return null;
+    }
 
-      const makeMessageLink = (content, id) => {
-        return <Link to={`/messaging/thread/${id}`}>{content}</Link>;
+    const folderId = folder.attributes.folderId;
+    let handleClickPrev;
+    let handleClickNext;
+
+    if (page > 1) {
+      handleClickPrev = () => {
+        this.props.fetchFolder(folderId, { page: page - 1 });
       };
+    }
 
-      const rows = folder.messages.map((message) => {
-        const id = message.message_id;
-        const rowClass = classNames({
-          'messaging-message-row': true,
-          'messaging-message-row--unread': message.read_receipt === 'UNREAD'
-        });
-
-        return (
-          <tr key={id} className={rowClass}>
-            <td>
-              {makeMessageLink(message.sender_name, id)}
-            </td>
-            <td>
-              {makeMessageLink(message.subject, id)}
-            </td>
-            <td>
-              {makeMessageLink(message.sent_date, id)}
-            </td>
-          </tr>
-        );
-      });
-
-      // TODO: Use SortableTable here.
-      folderMessages = (
-        <table className="usa-table-borderless">
-          <thead>
-            <tr>
-              <th>From</th>
-              <th>Subject line</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
-      );
+    if (page < totalPages) {
+      handleClickNext = () => {
+        this.props.fetchFolder(folderId, { page: page + 1 });
+      };
     }
 
     return (
+      <MessageNav
+          currentRange={currentRange}
+          messageCount={messageCount}
+          onClickPrev={handleClickPrev}
+          onClickNext={handleClickNext}/>
+    );
+  }
+
+  makeMessagesTable(messages) {
+    if (messages.length === 0) {
+      return null;
+    }
+
+    const makeMessageLink = (content, id) => {
+      return <Link to={`/messaging/thread/${id}`}>{content}</Link>;
+    };
+
+    const rows = messages.map((message) => {
+      const id = message.messageId;
+      const rowClass = classNames({
+        'messaging-message-row': true,
+        'messaging-message-row--unread': message.readReceipt === 'UNREAD'
+      });
+
+      return (
+        <tr key={id} className={rowClass}>
+          <td>
+            {makeMessageLink(message.senderName, id)}
+          </td>
+          <td>
+            {makeMessageLink(message.subject, id)}
+          </td>
+          <td>
+            {makeMessageLink(message.sentDate, id)}
+          </td>
+        </tr>
+      );
+    });
+
+    // TODO: Use SortableTable here.
+    return (
+      <table className="usa-table-borderless">
+        <thead>
+          <tr>
+            <th>From</th>
+            <th>Subject line</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows}
+        </tbody>
+      </table>
+    );
+  }
+
+  render() {
+    const { attributes, messages } = this.props.folder;
+    let folderName;
+
+    if (!_.isEmpty(attributes)) {
+      folderName = attributes.name;
+    }
+
+    const messageNav = this.makeMessageNav();
+    const folderMessages = this.makeMessagesTable(messages);
+
+    return (
       <div>
-        <h2>{folderName}</h2>
+        <div id="messaging-content-header">
+          <button
+              className="messaging-menu-button"
+              type="button"
+              onClick={this.props.toggleFolderNav}>
+            Menu
+          </button>
+          <h2>{folderName}</h2>
+        </div>
+        <div id="messaging-folder-controls">
+          <ComposeButton/>
+          {messageNav}
+        </div>
         {folderMessages}
       </div>
     );
@@ -83,19 +135,28 @@ class Folder extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  const currentFolder = state.folders.data.currentItem;
-  const attributes = state.folders.data.items.find((folder) => {
-    return folder.folder_id === currentFolder.id;
-  });
-  const messages = currentFolder.messages;
+  const folder = state.folders.data.currentItem;
+  const pagination = folder.pagination;
+  const page = pagination.currentPage;
+  const perPage = pagination.perPage;
+  const totalPages = pagination.totalPages;
+
+  const totalCount = pagination.totalEntries;
+  const startCount = 1 + (page - 1) * perPage;
+  const endCount = Math.min(totalCount, page * perPage);
 
   return {
-    folder: { attributes, messages }
+    folder,
+    currentRange: `${startCount} - ${endCount}`,
+    messageCount: totalCount,
+    page,
+    totalPages
   };
 };
 
 const mapDispatchToProps = {
-  fetchFolder
+  fetchFolder,
+  toggleFolderNav
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Folder);

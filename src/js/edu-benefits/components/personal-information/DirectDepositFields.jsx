@@ -10,7 +10,10 @@ export default class DirectDepositFields extends React.Component {
   render() {
     return (
       <fieldset>
-        <legend>Direct Deposit</legend>
+        <legend>Direct deposit</legend>
+        <p>VA makes payments only through direct deposit, also called electronic funds transfer (EFT). The only exception is for participants in the Post-Vietnam Era Veterans' Educational Assistance Program (VEAP).</p>
+
+        <p>If you don’t have a bank account, VA will pay you through the Direct Express® Debit MasterCard®. Apply for a Direct Express® Debit MasterCard® at <a href="https://www.usdirectexpress.com/">www.usdirectexpress.com</a> or by calling 1-800-333-1795. To request a waiver, contact the Department of Treasury Electronic Solution Center at 1-888-224-2950.</p>
         <div className="input-section">
           <ErrorableRadioButtons
               label="Account Type"
@@ -28,6 +31,7 @@ export default class DirectDepositFields extends React.Component {
               validation={isValidRoutingNumber(this.props.data.bankAccount.routingNumber)}
               label="Routing number"
               name="routingNumber"
+              placeholder="xxxxxxxxx"
               field={this.props.data.bankAccount.routingNumber}
               onValueChange={(update) => {this.props.onStateChange('bankAccount.routingNumber', update);}}/>
         </div>

@@ -10,13 +10,13 @@ class OrderHistory extends React.Component {
       <tr key={index}>
         <td>
           Shipped on {moment(
-            attrs['shipped-date']
+            attrs.shippedDate
           ).format('MMM DD, YYYY')}
         </td>
         <td>
           <TrackPackageLink
-              text={attrs['tracking-number']}/>
-          &nbsp;({attrs['delivery-service']})
+              text={attrs.trackingNumber}/>
+          &nbsp;({attrs.deliveryService})
         </td>
       </tr>
     );

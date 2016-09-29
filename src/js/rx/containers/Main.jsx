@@ -29,7 +29,7 @@ class Main extends React.Component {
             handleClose={this.props.closeDisclaimer}/>
         <div className="rx-app row">
           {alertBox}
-          <h1>Mail Order Prescriptions</h1>
+          <h1>Prescription Refill</h1>
           <TabNav/>
           {this.props.children}
         </div>

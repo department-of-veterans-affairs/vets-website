@@ -1,24 +1,37 @@
 import set from 'lodash/fp/set';
+import concat from 'lodash/fp/concat';
 
 import {
+  CREATE_NEW_FOLDER_FAILURE,
+  CREATE_NEW_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
   FETCH_FOLDERS_FAILURE,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDER_FAILURE,
-  TOGGLE_FOLDER_NAV
+  TOGGLE_FOLDER_NAV,
+  TOGGLE_MANAGED_FOLDERS,
+  SET_CURRENT_FOLDER
 } from '../actions/folders';
 
 const initialState = {
   data: {
     currentItem: {
-      id: null,
-      messages: []
+      attributes: {},
+      messages: [],
+      pagination: {
+        currentPage: 0,
+        perPage: 0,
+        totalEntries: 0,
+        totalPages: 0
+      },
+      persistFolder: null
     },
     items: []
   },
   ui: {
     nav: {
-      expanded: false
+      foldersExpanded: false,
+      visible: false
     }
   }
 };
@@ -30,16 +43,33 @@ export default function folders(state = initialState, action) {
       return set('data.items', items, state);
     }
     case FETCH_FOLDER_SUCCESS: {
-      const id = action.data.meta.folder_id;
-      const messages = action.data.data.map(
-        message => message.attributes
-      );
-      const newItem = { id, messages };
+      const attributes = action.folder.data.attributes;
+      const messages = action.messages.data.map(message => message.attributes);
+      const pagination = action.messages.meta.pagination;
+      const persistFolder = action.folder.data.attributes.folderId;
+
+      const newItem = {
+        attributes,
+        messages,
+        pagination,
+        persistFolder
+      };
 
       return set('data.currentItem', newItem, state);
     }
     case TOGGLE_FOLDER_NAV:
-      return set('ui.nav.expanded', !state.ui.nav.expanded, state);
+      return set('ui.nav.visible', !state.ui.nav.visible, state);
+    case TOGGLE_MANAGED_FOLDERS:
+      return set('ui.nav.foldersExpanded', !state.ui.nav.foldersExpanded, state);
+    case SET_CURRENT_FOLDER:
+      // The + forces +action.folderId to be a number
+      return set('data.currentItem.persistFolder', +action.folderId, state);
+    // TODO: Handle the response in an appropriate way
+    case CREATE_NEW_FOLDER_SUCCESS: {
+      const newFolderList = concat(state.data.items, action.data.data.attributes);
+      return set('data.items', newFolderList, state);
+    }
+    case CREATE_NEW_FOLDER_FAILURE:
     case FETCH_FOLDERS_FAILURE:
     case FETCH_FOLDER_FAILURE:
     default:

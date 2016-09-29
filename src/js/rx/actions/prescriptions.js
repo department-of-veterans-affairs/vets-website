@@ -1,22 +1,18 @@
 import _ from 'lodash';
 
-import { apiUrl } from '../config';
+import { api } from '../config';
 
 export function loadPrescription(id) {
   if (id) {
-    const rxUrl = `${apiUrl}/${id}`;
+    const rxUrl = `${api.url}/${id}`;
     const rxUrls = [rxUrl, `${rxUrl}/trackings`];
 
     // Fetch both the prescription and its tracking history and
     // wait for retrieval and read of both resources to resolve.
     return dispatch => {
-      Promise.all(
-        rxUrls.map(url => fetch(url, {
-          headers: {
-            'X-Key-Inflection': 'dash'
-          }
-        }).then(res => res.json()))
-      ).then(
+      Promise.all(rxUrls.map(url => {
+        return fetch(url, api.settings).then(res => res.json());
+      })).then(
         data => dispatch({
           type: 'LOAD_PRESCRIPTION_SUCCESS',
           data: { rx: data[0].data, trackings: data[1].data }
@@ -30,7 +26,7 @@ export function loadPrescription(id) {
 }
 
 export function loadPrescriptions(options) {
-  let url = apiUrl;
+  let url = api.url;
   const queries = [];
 
   // Construct segments of the final URL based on options passed in.
@@ -62,11 +58,8 @@ export function loadPrescriptions(options) {
     url = `${url}?${queryString}`;
   }
 
-  return dispatch => fetch(url, {
-    headers: {
-      'X-Key-Inflection': 'dash'
-    }
-  }).then(res => res.json())
+  return dispatch => fetch(url, api.settings)
+    .then(res => res.json())
     .then(
       data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
       err => dispatch({ type: 'LOAD_PRESCRIPTIONS_FAILURE', err })
@@ -75,7 +68,7 @@ export function loadPrescriptions(options) {
 
 export function refillPrescription(id) {
   if (id) {
-    const url = `${apiUrl}/${id}/refill`;
+    const url = `${api.url}/${id}/refill`;
 
     return dispatch => fetch(url, {
       method: 'PATCH'
