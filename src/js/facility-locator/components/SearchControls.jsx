@@ -1,6 +1,6 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { updateSearchQuery, updateLocation } from '../actions';
+import { updateSearchQuery } from '../actions';
 import React, { Component } from 'react';
 
 class SearchControls extends Component {
@@ -17,19 +17,8 @@ class SearchControls extends Component {
   }
 
   handleSearch = (e) => {
-    const { onSearch, currentQuery } = this.props;
+    const { onSearch } = this.props;
     e.preventDefault();
-
-    fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${currentQuery.searchString}&key=AIzaSyCJI5rs8s_N42z1hrrls3HSIgtUNw_iy30`, {
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      const location = json.results[0].geometry.location;
-      updateLocation('position.latitude', location.lat);
-      updateLocation('position.longitude', location.lng);
-    }).catch(error => {
-      return error;
-    });
 
     onSearch();
   }

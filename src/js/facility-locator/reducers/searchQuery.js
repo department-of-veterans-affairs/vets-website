@@ -1,4 +1,4 @@
-import { SEARCH_QUERY_UPDATED, SEARCH_STARTED, LOCATION_UPDATED } from '../actions';
+import { SEARCH_QUERY_UPDATED, SEARCH_STARTED } from '../actions';
 // TODO (bshyong): flesh out shape of service Type object/options
 const INITIAL_STATE = {
   searchString: '',
@@ -18,11 +18,6 @@ export default function (state = INITIAL_STATE, action) {
         ...action.payload,
       };
     case SEARCH_QUERY_UPDATED:
-      return {
-        ...state,
-        ...action.payload,
-      };
-    case LOCATION_UPDATED:
       return {
         ...state,
         ...action.payload,

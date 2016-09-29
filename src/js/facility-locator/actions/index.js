@@ -4,7 +4,6 @@ import { find } from 'lodash';
 
 export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
 export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
-export const LOCATION_UPDATED = 'LOCATION_UPDATED';
 export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
 export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
@@ -19,13 +18,6 @@ export function updateSearchQuery(query) {
   };
 }
 
-export function updateLocation(propertyPath, value) {
-  return {
-    type: LOCATION_UPDATED,
-    propertyPath,
-    value
-  };
-}
 const mockFacility = {
   id: 539,
   type: 'va_health_facility',
