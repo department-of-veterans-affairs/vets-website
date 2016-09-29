@@ -25,7 +25,10 @@ import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
 
-import { composeMessage } from '../config';
+import {
+  composeMessage,
+  paths
+} from '../config';
 
 class Thread extends React.Component {
   constructor(props) {
@@ -70,7 +73,11 @@ class Thread extends React.Component {
     this.props.deleteReply();
 
     if (this.isDraft()) {
-      this.props.deleteMessage(this.props.message.messageId);
+      const options = {
+        redirect: `${paths.FOLDERS_URL}/-2`
+      };
+
+      this.props.deleteMessage(this.props.message.messageId, options);
     }
   }
 

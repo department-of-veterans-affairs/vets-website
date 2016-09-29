@@ -17,15 +17,15 @@ export const UPDATE_REPLY_CHARACTER_COUNT = 'UPDATE_REPLY_CHARACTER_COUNT';
 
 const baseUrl = `${api.url}/messages`;
 
-export function deleteMessage(id) {
+export function deleteMessage(id, options = {}) {
   const url = `${baseUrl}/${id}`;
 
   return dispatch => {
     fetch(url, api.settings.delete)
     .then(response => {
-      let action = { type: DELETE_MESSAGE_FAILURE };
+      let action = { ...options, type: DELETE_MESSAGE_FAILURE };
       if (response.ok) {
-        action = { type: DELETE_MESSAGE_SUCCESS };
+        action = { ...options, type: DELETE_MESSAGE_SUCCESS };
       }
       return dispatch(action);
     });
