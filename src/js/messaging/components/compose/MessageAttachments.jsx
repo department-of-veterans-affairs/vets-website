@@ -1,5 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 import { formatFileSize } from '../../utils/helpers';
 
@@ -14,8 +15,10 @@ class MessageAttachments extends React.Component {
 
     const files = this.props.files.map((file, index) => {
       const fileSize = formatFileSize(file.size);
+      const key = _.uniqueId('msg-att-');
+
       return (
-        <li key={index}>
+        <li key={key}>
           <MessageUploadedAttachment
               attachmentIndex={index}
               fileName={file.name}
