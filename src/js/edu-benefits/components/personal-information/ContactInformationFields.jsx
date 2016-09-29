@@ -15,7 +15,8 @@ export default class ContactInformationFields extends React.Component {
   }
 
   confirmEmail() {
-    if (this.props.data.email.value.toLowerCase() !== this.props.data.emailConfirmation.value.toLowerCase()) {
+    if (this.props.data.emailConfirmation.dirty
+      && this.props.data.email.value.toLowerCase() !== this.props.data.emailConfirmation.value.toLowerCase()) {
       return 'Please ensure your entries match';
     }
 

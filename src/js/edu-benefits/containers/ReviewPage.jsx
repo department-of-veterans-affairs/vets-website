@@ -60,7 +60,7 @@ class ReviewPage extends React.Component {
     }
     return (
       <div>
-        <h4>Review Application</h4>
+        <h4>Review application</h4>
         <div className="input-section">
           {content}
         </div>
