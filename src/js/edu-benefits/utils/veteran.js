@@ -2,6 +2,16 @@ import _ from 'lodash/fp';
 import { makeField } from '../../common/model/fields';
 import { dateToMoment } from './helpers';
 
+export function makeAddressField() {
+  return {
+    street: makeField(''),
+    city: makeField(''),
+    country: makeField('USA'),
+    state: makeField(''),
+    postalCode: makeField(''),
+  };
+}
+
 export function createTour() {
   return {
     dateRange: {
@@ -152,15 +162,7 @@ export function createVeteran() {
     gender: makeField(''),
     hasNonMilitaryJobs: makeField(''),
     nonMilitaryJobs: [],
-    veteranAddress: {
-      street: makeField(''),
-      city: makeField(''),
-      country: makeField(''),
-      state: makeField(''),
-      provinceCode: makeField(''),
-      zipcode: makeField(''),
-      postalCode: makeField(''),
-    },
+    veteranAddress: makeAddressField(),
     email: makeField(''),
     emailConfirmation: makeField(''),
     homePhone: makeField(''),
@@ -169,15 +171,7 @@ export function createVeteran() {
     educationType: makeField(''),
     school: {
       name: makeField(''),
-      address: {
-        street: makeField(''),
-        city: makeField(''),
-        country: makeField(''),
-        state: makeField(''),
-        provinceCode: makeField(''),
-        zipcode: makeField(''),
-        postalCode: makeField('')
-      }
+      address: makeAddressField()
     },
     educationObjective: makeField(''),
     educationStartDate: {
@@ -188,15 +182,7 @@ export function createVeteran() {
     secondaryContact: {
       fullName: makeField(''),
       sameAddress: false,
-      address: {
-        street: makeField(''),
-        city: makeField(''),
-        country: makeField(''),
-        state: makeField(''),
-        provinceCode: makeField(''),
-        zipcode: makeField(''),
-        postalCode: makeField('')
-      },
+      address: makeAddressField(),
       phone: makeField('')
     },
     bankAccount: {
@@ -285,7 +271,7 @@ export function veteranToApplication(veteran) {
         return false;
 
       case 'address':
-        if (value.city.value === '' && value.street.value === '' && value.country.value === '') {
+        if (value.city.value === '' && value.street.value === '') {
           return undefined;
         }
 

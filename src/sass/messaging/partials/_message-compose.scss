@@ -1,24 +1,49 @@
-.messaging-subject-group {
+.messaging-subject-field {
+  padding: 1.5rem 0;
   position: relative;
 
-  // Needed to make the element expand to 100% width
-  // on small screen in Firefox.
-  > div {
-    width: 100%;
+  label {
+    position: absolute;
+    left: -999em;
+  }
+  
+  legend { 
+    font-size: inherit;
   }
 
-  legend {
-    font-size: inherit;
-    padding-top: 1.5rem;
+  @media (min-width: $medium-screen) {    
+    legend {
+      position: absolute;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+    } 
   }
+}
+
+.messaging-subject-group {
+   display: inline-block;
+   width: 100%;
+
+  @media (min-width: $medium-screen) {
+    legend {
+      position: absolute;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+    } 
+  }
+}
+
+.messaging-subject-group {
+   display: inline-block;
+   width: 100%;
 
   @media (min-width: $medium-screen) {
     > div {
       display: flex;
-      left: 11rem;
-      position: absolute;
-      top: 0;
-      width: 70%;
+      margin-left: 10rem;
+      width: 80%;
     }
 
     legend {
@@ -27,20 +52,15 @@
       -webkit-transform: translateY(-50%);
       -ms-transform: translateY(-50%);
       transform: translateY(-50%);
-    }
-
-    margin: 0 -1.5rem;
+    } 
   }
 
-  label {
-    position: absolute;
-    left: -999em;
-  }
 }
+
 
 .messaging-recipient > div,
 .messaging-from,
-.messaging-subject-group {
+.messaging-subject-field {
   -webkit-align-items: center;
   align-items: center;
   display: -webkit-flex;
@@ -50,15 +70,33 @@
 
 .messaging-recipient > div,
 .messaging-from,
-.messaging-subject-group {
+.messaging-subject-field {
   padding: 1.5rem;
+
+  @media (min-width: $medium-screen) {
+    padding-top: .75rem;
+    padding-bottom: .75rem;
+  }
+}
+
+.messaging-subject-field legend {
+  // Should match padding above;
+  @media (max-width: $medium-screen) {
+    padding-top: 1.5rem;
+  }
 }
 
 .messaging-from,
 .messaging-recipient,
-.messaging-subject-group {
+.messaging-subject-field {
   @media (max-width: $medium-screen) {
     border-bottom: 1px solid $color-gray;
+  }
+}
+
+[id=messaging-compose] {
+  @media (min-width: $medium-screen) {
+    margin-bottom: 3rem;
   }
 }
 
@@ -73,8 +111,8 @@
   padding-right: 1rem;
 
   @media (min-width: $medium-screen) {
-    -webkit-flex: 0 0 8rem;
-    flex:  0 0 8rem;
+    -webkit-flex: 0 0 10rem;
+    flex:  0 0 10rem;
     text-align: right;
   }
 }
@@ -133,23 +171,47 @@
 }
 
 .messaging-write {
-  margin-top: 4rem;
-
   textarea {
-    margin: 1rem 0 0 0;
+    border: 0;
+    padding: 0;
+    margin: 1rem 0 0;
     max-width: 100%;
-    resize: vertical;
+    resize: none;
+
+    @media (min-width: $medium-screen) {
+      border-color: $color-base;
+      border-style: solid;
+      border-width: 1px 1px 0 1px;
+      padding: 1rem;
+    }
   }
 
   @media (max-width: $medium-screen) {
     margin: 0;
-    padding: 1.5rem;
+    padding: 1rem 1rem 0;
+  }
+}
 
-    textarea {
-      border: none;
-      padding: 0;
-      resize: none;
-    }
+.messaging-write-group {
+  clear: both;
+}
+
+.msg-attachments {
+  margin: 0 1rem;
+
+  @media (min-width: $medium-screen) {
+    border-width: 0 1px;
+    border-style: solid;
+    border-color: $color-base;
+    margin: 0;
+    padding: 1rem;
+  }
+
+  &-title {
+    border-top: 2px solid $color-gray-light;
+    font-size: inherit;
+    font-weight: bold;
+    padding: 1rem 0;
   }
 }
 
@@ -172,7 +234,7 @@
   }
 }
 
-.messaging-attach {
+.msg-attach {
   display: inline-block;
   position: relative;
 
@@ -210,11 +272,11 @@
     color: $color-primary;
     text-decoration: underline;
   }
-
+  
   input {
     border: 0;
     height: auto;
-    left: -9999px;
+    left: -9999rem;
     margin: 0;
     padding: 0;
     position: absolute;
@@ -239,4 +301,46 @@
     -webkit-flex: 1 1 60%;
     flex: 1 1 60%;
   }
+}
+
+.msg-attachment {
+  @include clearfix;
+  background: $color-gray-lightest;
+  border: 1px solid $color-gray;
+  line-height: 2;
+  margin-bottom: .5rem;
+
+  span {
+    display: inline-block;
+    font-weight: bold;
+  }
+
+  &-name {
+    padding: .5rem .75rem;
+  }
+
+  &-size {
+    padding: .5rem 0;
+  }
+}
+
+.msg-attachment-close {
+  color: rgba($color-base, .7);
+  background: transparent;
+  font-size: 1.25em;
+  float: right;
+  margin: 0;
+  padding: 1rem;
+
+  &:focus,
+  &:hover {
+    background: inherit;
+    color: $color-base;
+  }
+}
+
+.msg-attachments-list {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
 }

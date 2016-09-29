@@ -96,7 +96,7 @@ class DateInput extends React.Component {
           {requiredSpan}
         </label>
         {errorSpan}
-        <div className={isValid ? undefined : 'usa-input-error'}>
+        <div className={isValid ? undefined : 'usa-input-error form-error-date'}>
           <div className="usa-date-of-birth row">
             <div className="form-datefield-month">
               <ErrorableSelect errorMessage={isValid ? undefined : ''}

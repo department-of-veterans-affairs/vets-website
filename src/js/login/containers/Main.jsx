@@ -22,9 +22,12 @@ class Main extends React.Component {
       this.getUserData();
     }
 
-    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new`, result => {
-      this.props.onUpdateLoginUrl(result.authenticate_via_get);
-    });
+    // TODO: Remove this conditional statement when going to production.
+    if (__BUILDTYPE__ === 'development') {
+      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new`, result => {
+        this.props.onUpdateLoginUrl(result.authenticate_via_get);
+      });
+    }
 
     // TODO (crew): Change to just listen for localStorage update but currently known bug in Chrome prevents this from firing (https://bugs.chromium.org/p/chromium/issues/detail?id=136356).
     window.addEventListener('message', this.setMyToken);
@@ -61,9 +64,16 @@ class Main extends React.Component {
   }
 
   render() {
-    return (
-      <SignInProfileButton onButtonClick={this.handleOpenPopup}/>
-    );
+    let content;
+
+    if (__BUILDTYPE__ === 'development') {
+      content = (
+        <SignInProfileButton onButtonClick={this.handleOpenPopup}/>
+      );
+    } else {
+      content = null;
+    }
+    return content;
   }
 }
 

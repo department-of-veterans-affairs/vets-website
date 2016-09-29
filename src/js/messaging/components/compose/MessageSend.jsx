@@ -4,7 +4,6 @@ import ButtonDelete from '../buttons/ButtonDelete';
 import CharacterCount from '../compose/CharacterCount';
 import MessageAddAttachment from './MessageAddAttachment';
 
-// TODO: Add attachments button / components
 class MessageSend extends React.Component {
   render() {
     const isDisabled = this.props.charCount < 0;
@@ -22,11 +21,12 @@ class MessageSend extends React.Component {
             value="save"
             onClick={this.props.onSave}>Save As Draft</button>
         <MessageAddAttachment
-            cssClass="messaging-attach"
+            cssClass="msg-attach"
             allowedMimeTypes={this.props.allowedMimeTypes}
-            id="messaging-attachments"
+            id="msg-attachments"
             label="Attach a file"
-            name="messageAttachments"/>
+            name="messageAttachments"
+            onChange={this.props.onAttachmentUpload}/>
         <ButtonDelete
             compact
             onClickHandler={this.props.onDelete}/>
@@ -39,8 +39,11 @@ class MessageSend extends React.Component {
 }
 
 MessageSend.propTypes = {
+  attachedFiles: React.PropTypes.array,
+  multipleUploads: React.PropTypes.bool,
   charCount: React.PropTypes.number,
   cssClass: React.PropTypes.string,
+  onAttachmentUpload: React.PropTypes.func, // TODO: make this required
   onSave: React.PropTypes.func.isRequired,
   onSend: React.PropTypes.func.isRequired,
   onDelete: React.PropTypes.func.isRequired,

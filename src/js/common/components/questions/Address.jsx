@@ -103,7 +103,7 @@ class Address extends React.Component {
 
           <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.zipcode) ? undefined : 'Please enter a valid ZIP code'}
               additionalClass="usa-input-medium"
-              label="ZIP Code"
+              label="ZIP code"
               name="zip"
               autocomplete="postal-code"
               field={this.props.value.zipcode}
@@ -123,7 +123,7 @@ class Address extends React.Component {
 
           <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.postalCode) ? undefined : 'Please enter a valid Postal code'}
               additionalClass="usa-input-medium"
-              label="Postal Code"
+              label="Postal code"
               name="postalCode"
               autocomplete="postal-code"
               field={this.props.value.postalCode}

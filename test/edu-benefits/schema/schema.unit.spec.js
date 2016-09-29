@@ -46,19 +46,17 @@ const dateGen = () => qc.objectLike({
   year: makeField(qc.int.between(1900, 2016)),
 });
 const nameGen = () => qc.objectLike({
-  first: makeField(qc.string.matching(/^.{1-30}$/)),
-  middle: makeField(qc.string.matching(/^.{1-30}$/)),
-  last: makeField(qc.string.matching(/^.{1-30}$/)),
+  first: makeField(qc.string.matching(/^.{1,30}$/)),
+  middle: makeField(qc.string.matching(/^.{1,30}$/)),
+  last: makeField(qc.string.matching(/^.{1,30}$/)),
   suffix: makeField(qc.choose(...suffixes)),
 });
 const addressGen = () => qc.objectLike({
-  street: makeField(qc.string.matching(/^.{1-50}$/)),
-  city: makeField(qc.string.matching(/^.{1-50}$/)),
+  street: makeField(qc.string.matching(/^.{1,50}$/)),
+  city: makeField(qc.string.matching(/^.{1,50}$/)),
   country: makeField('USA'),
   state: makeField(qc.choose(...states.USA.map(x => x.value))),
-  provinceCode: makeField(''),
-  zipcode: makeField(qc.string.matching(/^\d{5-10}$/)),
-  postalCode: makeField(''),
+  postalCode: makeField(qc.string.matching(/^(\d{5}|\d{9})$/)),
 });
 const tourOfDutyGen = () => qc.objectLike({
   dateRange: qc.objectLike({
@@ -72,7 +70,7 @@ const tourOfDutyGen = () => qc.objectLike({
   benefitsToApplyTo: makeField(qc.choose(...tourBenefits.map(x => x.value)))
 });
 const scholarshipGen = () => qc.objectLike({
-  amount: makeField(qc.string.matching(/^[$]{0,1}\d{1-5}\.\d{1,2}$/)),
+  amount: makeField(qc.string.matching(/^[$]{0,1}\d{1,5}\.\d{1,2}$/)),
   year: makeField(qc.int.between(1900, 2016))
 });
 const educationGen = () => qc.objectLike({

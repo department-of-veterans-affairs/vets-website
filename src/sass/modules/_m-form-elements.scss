@@ -80,6 +80,10 @@ button.form-button-disabled {
   margin-top: 0.5em;
 }
 
+.form-error-date {
+  margin-top: 0;
+}
+
 @media #{$medium} {
   .form-select-medium {
     max-width: 12rem;
