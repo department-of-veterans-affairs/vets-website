@@ -61,7 +61,7 @@ export default class MilitaryServiceTour extends React.Component {
             year={tour.dateRange.to.year}
             onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
         <ErrorableTextInput
-            label="Service Status"
+            label="Service status"
             name="serviceStatus"
             field={tour.serviceStatus}
             onValueChange={(update) => {onValueChange('serviceStatus', update);}}/>
