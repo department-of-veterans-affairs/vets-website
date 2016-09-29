@@ -11,6 +11,8 @@ import { store } from './store';
 require('../common');  // Bring in the common javascript.
 require('../../sass/messaging/messaging.scss');
 
+require('../login/login-entry.jsx');
+
 function init() {
   ReactDOM.render((
     <Provider store={store}>

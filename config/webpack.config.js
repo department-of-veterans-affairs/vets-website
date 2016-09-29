@@ -15,8 +15,10 @@ const configGenerator = (options) => {
       facilities: './src/js/facility-locator/facility-locator-entry.jsx',
       hca: './src/js/hca/hca-entry.jsx',
       messaging: './src/js/messaging/messaging-entry.jsx',
-      'no-react': './src/js/no-react-entry.js',
       rx: './src/js/rx/rx-entry.jsx',
+      'no-react': './src/js/no-react-entry.js',
+      'user-profile': './src/js/user-profile/user-profile-entry.jsx',
+      auth: './src/js/auth/auth-entry.jsx'
     },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
@@ -94,7 +96,7 @@ const configGenerator = (options) => {
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
         'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
         }
       }),
 
@@ -110,7 +112,7 @@ const configGenerator = (options) => {
     ],
   };
 
-  if (process.env.NODE_ENV === 'production') {
+  if (options.buildtype === 'production') {
     baseConfig.devtool = '#source-map';
     baseConfig.module.loaders.push({
       test: /debug\/PopulateVeteranButton/,
@@ -124,6 +126,7 @@ const configGenerator = (options) => {
       test: /debug\/RoutesDropdown/,
       loader: 'null'
     });
+
     baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());

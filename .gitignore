@@ -12,3 +12,6 @@ npm-debug.log
 config/config.proxy.js
 
 .babelcache
+jsconfig.json
+typings.json
+typings/
