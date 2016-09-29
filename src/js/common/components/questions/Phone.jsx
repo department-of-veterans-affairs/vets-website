@@ -24,7 +24,7 @@ class Phone extends React.Component {
     let errorMessage = 'Phone numbers must be 10 digits and include only numbers (no dashes)';
     const additional = this.props.additionalError;
     if (additional) {
-      errorMessage = `${errorMessage}. ${additional}`;
+      errorMessage = `${additional} ${errorMessage}`;
     }
     if (this.props.required) {
       errorMessage = validateIfDirty(this.props.value, isValidPhone) ? undefined : errorMessage;
