@@ -19,6 +19,10 @@
       z-index: 1;
     }
   }
+
+  @media (max-width: $medium-screen) {
+    margin: 0 1.5rem 1.5rem;
+  }
 }
 
 .msg-search-btn {
