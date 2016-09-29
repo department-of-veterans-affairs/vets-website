@@ -1,12 +1,11 @@
 .va-alert {
-  background-size: 4rem;
   display: table;
+  margin: 0;
   width: 100%;
 }
 
 .va-alert-body {
   font-size: 2rem;
-  padding-left: 4.5rem;
   vertical-align: middle;
 }
 
@@ -15,10 +14,15 @@
   color: $color-gray-dark;
   display: table-cell;
   float: right;
-  font-size: 2rem;
-  
+  margin: 0;
+
   &:hover {
     background: transparent;
     color: lighten($color-gray-dark, 30%);
+  }
+
+  i {
+    // Override fa font-size.
+    font-size: 2rem !important;
   }
 }
