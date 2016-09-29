@@ -11,10 +11,6 @@ class LoginApp extends React.Component {
     this.setMyToken = this.setMyToken.bind(this);
   }
 
-  componentDidMount() {
-    this.setMyToken();
-  }
-
   setMyToken() {
     const saml = new FormData();
     saml.append('SAMLResponse', this.props.location.query.SAMLResponse);
@@ -35,6 +31,7 @@ class LoginApp extends React.Component {
     return (
       <div>
         Logging you in ...
+        <button onClick={this.setMyToken()}>Close</button>
       </div>
     );
   }
