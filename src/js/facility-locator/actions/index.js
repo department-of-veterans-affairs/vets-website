@@ -4,11 +4,11 @@ import { find } from 'lodash';
 
 export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
 export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
-export const LOCATION_UPDATED = 'LOCATION_UPDATED';
 export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
 export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
+export const LOCATION_UPDATED = 'LOCATION_UPDATED';
 
 export function updateSearchQuery(query) {
   return {
@@ -149,8 +149,6 @@ export function searchWithAddress(query) {
             },
           }
         });
-
-        console.log(res);
 
         // TODO (bshyong): replace this with a call to the API
         dispatch(fetchVAFacilities({
