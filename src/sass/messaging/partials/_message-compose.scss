@@ -6,10 +6,24 @@
     position: absolute;
     left: -999em;
   }
-
-  legend {
+  
+  legend { 
     font-size: inherit;
   }
+
+  @media (min-width: $medium-screen) {    
+    legend {
+      position: absolute;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+      transform: translateY(-50%);
+    } 
+  }
+}
+
+.messaging-subject-group {
+   display: inline-block;
+   width: 100%;
 
   @media (min-width: $medium-screen) {
     legend {
@@ -42,6 +56,7 @@
   }
 
 }
+
 
 .messaging-recipient > div,
 .messaging-from,
@@ -257,7 +272,7 @@
     color: $color-primary;
     text-decoration: underline;
   }
-
+  
   input {
     border: 0;
     height: auto;

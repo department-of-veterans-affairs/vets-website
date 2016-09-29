@@ -27,6 +27,7 @@ class MessageAddAttachment extends React.Component {
 }
 
 MessageAddAttachment.propTypes = {
+  multipleUploads: React.PropTypes.bool,
   cssClass: React.PropTypes.string,
   allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string),
   id: React.PropTypes.string,

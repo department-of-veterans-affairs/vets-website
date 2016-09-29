@@ -142,7 +142,7 @@ class Compose extends React.Component {
           </button>
         </div>
         <form
-            id="messaging-compose"
+            id="messmaging-compose"
             onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
           <MessageFrom
               cssClass="messaging-from"
