@@ -1,7 +1,12 @@
 import React from 'react';
 import { Route } from 'react-router';
 
+import YourClaimsPage from './containers/YourClaimsPage.jsx';
+import CompensationClaimsPage from './containers/CompensationClaimsPage.jsx';
 import IntroductionPage from './containers/IntroductionPage.jsx';
+import StatusPage from './containers/StatusPage.jsx';
+import FilesPage from './containers/FilesPage.jsx';
+import DetailsPage from './containers/DetailsPage.jsx';
 
 const routes = [
   // Introduction route.
@@ -15,8 +20,20 @@ const routes = [
       path="/your-claims"/>,
   <Route
       component={CompensationClaimsPage}
-      key="/compensation-claims"
-      path="/compensation-claims"/>,
+      key="/your-claims/compensation-claims/"
+      path="/your-claims/compensation-claims/"/>,
+  <Route
+      component={StatusPage}
+      key="/your-claims/status"
+      path="/your-claims/status"/>,
+  <Route
+      component={FilesPage}
+      key="/your-claims/files"
+      path="/your-claims/files"/>,
+  <Route
+      component={DetailsPage}
+      key="/your-claims/details"
+      path="/your-claims/details"/>,
 ];
 
 export default routes;

@@ -5,13 +5,14 @@ class IntroductionPage extends React.Component {
     return (
       <div>
         <div className="row">
-          <div className="small-12 columns">
-            <h3>Your Claims!!!</h3>
+          <div className="small-8 columns">
+            <h4>Introduction</h4>
+            <p>Email Notification: {"On"} </p>
           </div>
         </div>
 
         <div className="row">
-          <div className="small-12 columns">
+          <div className="small-4 columns">
             <p>
               Fill out this application with the most accurate information you have. The more accurate it is, the more likely you are to get a rapid response.
             </p>
