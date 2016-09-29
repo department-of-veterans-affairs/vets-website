@@ -11,7 +11,7 @@ VA will call you to schedule the exam using the phone number you entered in [eBe
 
 The amount of time you spend at your exam depends on many factors. For example, the required questions for a documented knee injury may take only a few minutes, while the questions for a more complicated injury could take much longer. The doctor or technician will:
 -	Address only the service-connected conditions you've claimed and any related conditions
--	Ask you a standardized series of questions taken from the [Disability Benefits Questionnaire (DBQ)](http://benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp) for each condition
+-	Ask you a series of questions taken from the [Disability Benefits Questionnaire (DBQ)](http://benefits.va.gov/COMPENSATION/dbq_ListByDBQFormName.asp) for each condition
 -	Ask you to get other tests, such as X-rays or blood work, if needed
 
 If you have new non-VA medical records that you haven't given to VA yet, like records for a recent surgery, bring them to the exam.
