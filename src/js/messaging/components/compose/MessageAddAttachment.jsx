@@ -15,7 +15,7 @@ class MessageAddAttachment extends React.Component {
           <span>{this.props.label}</span>
         </label>
         <input
-            multiple={this.props.multipleUploads}
+            multiple
             accept={mimeTypes}
             id={this.props.id}
             name={this.props.name}
@@ -27,7 +27,6 @@ class MessageAddAttachment extends React.Component {
 }
 
 MessageAddAttachment.propTypes = {
-  multipleUploads: React.PropTypes.bool,
   cssClass: React.PropTypes.string,
   allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string),
   id: React.PropTypes.string,

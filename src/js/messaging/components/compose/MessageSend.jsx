@@ -22,7 +22,6 @@ class MessageSend extends React.Component {
             onClick={this.props.onSave}>Save As Draft</button>
         <MessageAddAttachment
             cssClass="msg-attach"
-            multipleUploads={this.props.multipleUploads}
             allowedMimeTypes={this.props.allowedMimeTypes}
             id="msg-attachments"
             label="Attach a file"
