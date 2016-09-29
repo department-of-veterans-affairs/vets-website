@@ -10,3 +10,7 @@ logs/
 npm-debug.log
 
 config/config.proxy.js
+
+jsconfig.json
+typings.json
+typings/
