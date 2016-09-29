@@ -5,9 +5,6 @@ import { makeField } from '../../common/model/fields';
 import {
   DELETE_REPLY,
   FETCH_THREAD_SUCCESS,
-  FETCH_THREAD_FAILURE,
-  SEND_MESSAGE_SUCCESS,
-  SEND_MESSAGE_FAILURE,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -43,9 +40,8 @@ const resetReply = (state) => {
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
-    case DELETE_REPLY: {
+    case DELETE_REPLY:
       return resetReply(state);
-    }
 
     case FETCH_THREAD_SUCCESS: {
       const currentMessage = action.message.attributes;
@@ -74,9 +70,6 @@ export default function folders(state = initialState, action) {
 
       return set('data.message', currentMessage, newState);
     }
-
-    case SEND_MESSAGE_SUCCESS:
-      return state;
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
@@ -115,8 +108,6 @@ export default function folders(state = initialState, action) {
     case UPDATE_REPLY_CHARACTER_COUNT:
       return set('data.reply.charsRemaining', action.chars, state);
 
-    case FETCH_THREAD_FAILURE:
-    case SEND_MESSAGE_FAILURE:
     default:
       return state;
   }
