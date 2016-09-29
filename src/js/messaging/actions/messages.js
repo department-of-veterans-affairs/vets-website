@@ -23,10 +23,10 @@ export function deleteMessage(id) {
   return dispatch => {
     fetch(url, api.settings.delete)
     .then(response => {
-      let action = { type: DELETE_MESSAGE_FAILURE };
-      if (response.ok) {
-        action = { type: DELETE_MESSAGE_SUCCESS };
-      }
+      const action = response.ok
+                   ? { type: DELETE_MESSAGE_SUCCESS }
+                   : { type: DELETE_MESSAGE_FAILURE };
+
       return dispatch(action);
     });
   };
