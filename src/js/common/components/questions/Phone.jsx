@@ -21,11 +21,15 @@ import { validateIfDirty, isBlank, isValidPhone } from '../../utils/validations.
  */
 class Phone extends React.Component {
   render() {
-    let errorMessage;
+    let errorMessage = 'Phone numbers must be 10 digits and include only numbers (no dashes)';
+    const additional = this.props.additionalError;
+    if (additional) {
+      errorMessage = `${errorMessage}. ${additional}`;
+    }
     if (this.props.required) {
-      errorMessage = validateIfDirty(this.props.value, isValidPhone) ? undefined : 'Phone numbers must be 10 digits and include only numbers (no dashes)';
+      errorMessage = validateIfDirty(this.props.value, isValidPhone) ? undefined : errorMessage;
     } else {
-      errorMessage = isBlank(this.props.value.value) || validateIfDirty(this.props.value, isValidPhone) ? undefined : 'Phone numbers must be 10 digits and include only numbers (no dashes)';
+      errorMessage = isBlank(this.props.value.value) || validateIfDirty(this.props.value, isValidPhone) ? undefined : errorMessage;
     }
 
     return (
@@ -53,6 +57,7 @@ Phone.propTypes = {
     dirty: React.PropTypes.bool,
   }).isRequired,
   additionalClass: React.PropTypes.string,
+  additionalError: React.PropTypes.string,
   onValueChange: React.PropTypes.func.isRequired,
 };
 
