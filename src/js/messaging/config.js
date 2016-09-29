@@ -68,7 +68,7 @@ module.exports = {
 
   composeMessage: {
     placeholders: {
-      subject: 'Add an additional subject line (optional)',
+      subject: 'Add an additional subject line',
       message: 'Type your message here'
     },
     errors: {

@@ -15,21 +15,25 @@ class MessageAddAttachment extends React.Component {
           <span>{this.props.label}</span>
         </label>
         <input
-            name={this.props.name}
-            type="file"
+            multiple
+            accept={mimeTypes}
             id={this.props.id}
-            accept={mimeTypes}/>
+            name={this.props.name}
+            onChange={this.props.onChange}
+            type="file"/>
       </div>
     );
   }
 }
 
 MessageAddAttachment.propTypes = {
+  multipleUploads: React.PropTypes.bool,
   cssClass: React.PropTypes.string,
   allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string),
-  name: React.PropTypes.string,
   id: React.PropTypes.string,
   label: React.PropTypes.string.isRequired,
+  name: React.PropTypes.string,
+  onChange: React.PropTypes.func
 };
 
 export default MessageAddAttachment;
