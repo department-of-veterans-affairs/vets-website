@@ -121,9 +121,9 @@ export function searchWithAddress(query) {
 
     mapboxClient.geocodeForward(query.searchString, (err, res) => {
       const coordinates = res.features[0].center;
-      const zipCode = find(res.features[0].context, (v) => {
+      const zipCode = (find(res.features[0].context, (v) => {
         return v.id.includes('postcode');
-      }).text;
+      }) || {}).text || res.features[0].place_name;
 
       if (!err) {
         dispatch({
