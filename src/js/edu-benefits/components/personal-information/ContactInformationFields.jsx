@@ -29,6 +29,14 @@ export default class ContactInformationFields extends React.Component {
       <fieldset>
         <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
         <legend>Contact information</legend>
+        <div className="input-section">
+          <ErrorableRadioButtons
+              label="How would you prefer to be contacted if VA has questions about your application?"
+              name="preferredContactMethod"
+              options={contactOptions}
+              value={this.props.data.preferredContactMethod}
+              onValueChange={(update) => {this.props.onStateChange('preferredContactMethod', update);}}/>
+        </div>
         <h4>Address</h4>
         <div className="input-section">
           <Address required
@@ -60,12 +68,6 @@ export default class ContactInformationFields extends React.Component {
               value={this.props.data.mobilePhone}
               additionalClass="mobile-phone usa-input-medium"
               onValueChange={(update) => {this.props.onStateChange('mobilePhone', update);}}/>
-          <ErrorableRadioButtons
-              label="How would you prefer to be contacted if VA has questions about your application?"
-              name="preferredContactMethod"
-              options={contactOptions}
-              value={this.props.data.preferredContactMethod}
-              onValueChange={(update) => {this.props.onStateChange('preferredContactMethod', update);}}/>
         </div>
       </fieldset>
     );
