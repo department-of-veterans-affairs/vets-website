@@ -92,8 +92,8 @@ class Compose extends React.Component {
   handleConfirmDelete(domEvent) {
     domEvent.preventDefault();
 
-    // Send back to Inbox
-    const returnUrl = `${paths.FOLDERS_URL}/0`;
+    // Go back to the folder before compose button was clicked.
+    const returnUrl = `${paths.FOLDERS_URL}/${this.props.lastFolderId}`;
     browserHistory.push(returnUrl);
 
     this.props.toggleConfirmDelete();
@@ -183,6 +183,7 @@ class Compose extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
+    lastFolderId: state.folders.data.currentItem.persistFolder,
     message: state.compose.message,
     recipients: state.compose.recipients,
     modals: {
