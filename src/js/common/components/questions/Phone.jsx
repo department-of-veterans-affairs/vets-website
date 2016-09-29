@@ -21,7 +21,7 @@ import { validateIfDirty, isBlank, isValidPhone } from '../../utils/validations.
  */
 class Phone extends React.Component {
   render() {
-    let errorMessage = 'Phone numbers must be 10 digits and include only numbers (no dashes)';
+    let errorMessage = 'Phone numbers must be 10 digits';
     const additional = this.props.additionalError;
     if (additional) {
       errorMessage = `${additional} ${errorMessage}`;
