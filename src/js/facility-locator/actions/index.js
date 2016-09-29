@@ -103,9 +103,9 @@ export function fetchVAFacilities(bounds) {
         ...mockFacility.attributes,
         address: {
           ...sampleData[i].attributes.address,
-          city: 'Seattle',
-          state: 'WA',
-          zip: 98101,
+          city: 'Denver',
+          state: 'CO',
+          zip: 80123,
         },
         name: sampleData[i].attributes.name.slice(3),
       },
