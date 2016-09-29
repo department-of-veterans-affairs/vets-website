@@ -43,7 +43,6 @@
 
 }
 
-
 .messaging-recipient > div,
 .messaging-from,
 .messaging-subject-field {
@@ -184,7 +183,7 @@
 
 .msg-attachments {
   margin: 0 1rem;
-  
+
   @media (min-width: $medium-screen) {
     border-width: 0 1px;
     border-style: solid;
@@ -258,7 +257,7 @@
     color: $color-primary;
     text-decoration: underline;
   }
-  
+
   input {
     border: 0;
     height: auto;
@@ -300,7 +299,7 @@
     display: inline-block;
     font-weight: bold;
   }
-  
+
   &-name {
     padding: .5rem .75rem;
   }
