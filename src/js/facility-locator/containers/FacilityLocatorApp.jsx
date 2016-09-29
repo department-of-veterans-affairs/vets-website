@@ -37,7 +37,6 @@ class FacilityLocatorApp extends React.Component {
                 {this.renderBreadcrumbs()}
               </ul>
             </nav>
-            <h3>Facility and Service Locator</h3>
           </div>
           <div className="facility-locator">
             {this.props.children}
