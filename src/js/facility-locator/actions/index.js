@@ -1,4 +1,4 @@
-// import sampleOutput from 'json!../sampleData/sampleOutput.json';
+import sampleData from 'json!../sampleData/sampleData.json';
 import { mapboxClient } from '../components/MapboxClient';
 import { find } from 'lodash';
 
@@ -26,6 +26,7 @@ export function updateLocation(propertyPath, value) {
     value
   };
 }
+
 const mockFacility = {
   id: 539,
   type: 'va_health_facility',
@@ -98,6 +99,17 @@ export function fetchVAFacilities(bounds) {
   const mockResults = [...Array(10)].map((_, i) => {
     return {
       ...mockFacility,
+      attributes: {
+        ...mockFacility.attributes,
+        address: {
+          ...sampleData[i].attributes.address,
+          city: 'Seattle',
+          state: 'WA',
+          zip: 98101,
+        },
+        name: sampleData[i].attributes.name.slice(3),
+      },
+      type: sampleData[i].type,
       id: i + 1,
       lat: bounds.latitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
       'long': bounds.longitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
@@ -137,6 +149,8 @@ export function searchWithAddress(query) {
             },
           }
         });
+
+        console.log(res);
 
         // TODO (bshyong): replace this with a call to the API
         dispatch(fetchVAFacilities({
