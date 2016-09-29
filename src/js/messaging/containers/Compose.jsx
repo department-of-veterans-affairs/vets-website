@@ -24,6 +24,7 @@ import {
   deleteComposeMessage,
   setMessageField,
   setAttachments,
+  deleteAttachment,
   fetchRecipients,
   fetchSenderName,
   updateComposeCharacterCount
@@ -114,11 +115,8 @@ class Compose extends React.Component {
   }
 
   handleAttachmentDelete(domEvent) {
-    const attachment = JSON.parse(domEvent.currentTarget.dataset.args).attachment;
-    // Remove the requested attachment
-    this.props.message.attachments.splice(attachment, 1);
-    // Reset the attachments array
-    this.props.setAttachments(this.props.message.attachments);
+    const attachmentIndex = JSON.parse(domEvent.currentTarget.dataset.args).attachment;
+    this.props.deleteAttachment(attachmentIndex);
   }
 
   render() {
@@ -142,7 +140,7 @@ class Compose extends React.Component {
           </button>
         </div>
         <form
-            id="messmaging-compose"
+            id="messaging-compose"
             onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
           <MessageFrom
               cssClass="messaging-from"
@@ -230,6 +228,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  deleteAttachment,
   deleteComposeMessage,
   saveDraft,
   sendMessage,

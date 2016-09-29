@@ -6,6 +6,7 @@ import { composeMessage } from '../config';
 import {
   SET_MESSAGE_FIELD,
   SET_ATTACHMENTS,
+  DELETE_ATTACHMENT,
   DELETE_COMPOSE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_SENDER_SUCCESS,
@@ -48,6 +49,10 @@ function getRecipients(recipients) {
 
 export default function compose(state = initialState, action) {
   switch (action.type) {
+    case DELETE_ATTACHMENT:
+      // Remove the attachment at the requested index.
+      state.message.attachments.splice(action.index, 1);
+      return set('message.attachments', state.message.attachments, state);
     case DELETE_COMPOSE_MESSAGE:
       return initialState;
     case FETCH_RECIPIENTS_SUCCESS:
