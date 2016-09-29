@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
 import {
   allowedMimeTypes,
@@ -91,11 +91,6 @@ class Compose extends React.Component {
 
   handleConfirmDelete(domEvent) {
     domEvent.preventDefault();
-
-    // Go back to the folder before compose button was clicked.
-    const returnUrl = `${paths.FOLDERS_URL}/${this.props.lastFolderId}`;
-    browserHistory.push(returnUrl);
-
     this.props.toggleConfirmDelete();
     this.props.deleteComposeMessage();
   }
@@ -183,7 +178,6 @@ class Compose extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    lastFolderId: state.folders.data.currentItem.persistFolder,
     message: state.compose.message,
     recipients: state.compose.recipients,
     modals: {
