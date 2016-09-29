@@ -23,7 +23,7 @@ function init() {
     <Provider store={store}>
       <Router history={browserHistory}>
         <Route path="/" component={DisabilityBenefitsApp}>
-          <IndexRedirect to="/introduction"/>
+          <IndexRedirect to="/your-claims"/>
           {routes}
         </Route>
       </Router>

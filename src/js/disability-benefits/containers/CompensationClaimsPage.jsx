@@ -6,7 +6,7 @@ class CompensationClaimsPage extends React.Component {
       <div>
         <div className="row">
           <div className="small-12 columns">
-            <h3>Compensation Claims!!!</h3>
+            <h3>Compensation Claims!</h3>
           </div>
         </div>
 
