@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
 import {
   allowedMimeTypes,
@@ -96,12 +96,7 @@ class Compose extends React.Component {
   }
 
   handleConfirmDelete(domEvent) {
-    // TODO: Dispatch an action that makes this API call
     domEvent.preventDefault();
-    // Send back to Inbox
-    const returnUrl = `${paths.FOLDERS_URL}/0`;
-
-    browserHistory.push(returnUrl);
     this.props.toggleConfirmDelete();
     this.props.deleteComposeMessage();
   }
