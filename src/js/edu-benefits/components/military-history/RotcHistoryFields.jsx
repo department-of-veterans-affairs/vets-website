@@ -1,6 +1,7 @@
 import React from 'react';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 import RotcScholarship from './RotcScholarship';
 import { createRotcScholarship } from '../../utils/veteran';
@@ -17,36 +18,45 @@ export default class RotcHistoryFields extends React.Component {
     return (<fieldset>
       <legend>ROTC history</legend>
       <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
-      <div className="input-section">
-
-        <ErrorableTextInput required
-            errorMessage={validateIfDirty(this.props.data.seniorRotc.commissionYear, (val) => isValidValue(isValidYear, val)) ? undefined : 'Please enter a valid year'}
-            label="Year of commission"
-            placeholder="yyyy"
-            name="commissionYear"
-            field={this.props.data.seniorRotc.commissionYear}
-            onValueChange={(update) => {this.props.onStateChange('seniorRotc.commissionYear', update);}}/>
-      </div>
-      <div className="input-section">
-        <p>ROTC scholarship</p>
-        <GrowableTable
-            component={RotcScholarship}
-            createRow={createRotcScholarship}
-            data={this.props.data}
-            initializeCurrentElement={() => this.props.initializeFields(scholarshipFields, propertyPath)}
-            onRowsUpdate={(update) => {this.props.onStateChange(propertyPath, update);}}
-            path="/military-history/rotc-history"
-            rows={this.props.data.seniorRotc.rotcScholarshipAmounts}
-            isValidSection={isValidPage}/>
-
+      <ExpandingGroup open={this.props.data.seniorRotcCommissioned.value === 'Y'} adjustment="-30px">
         <ErrorableRadioButtons
-            label="Are you currently participating in a senior ROTC scholarship program that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)"
+            label="Were you commissioned as a result of senior ROTC?"
+            name="seniorRotcCommissioned"
             options={yesNo}
-            value={this.props.data.seniorRotcScholarshipProgram}
-            name="RotcTuition"
-            onValueChange={(update) => {this.props.onStateChange('seniorRotcScholarshipProgram', update);}}/>
+            value={this.props.data.seniorRotcCommissioned}
+            onValueChange={(update) => {this.props.onStateChange('seniorRotcCommissioned', update);}}/>
+        <div>
+          <div className="input-section">
+            <ErrorableTextInput required
+                errorMessage={validateIfDirty(this.props.data.seniorRotc.commissionYear, (val) => isValidValue(isValidYear, val)) ? undefined : 'Please enter a valid year'}
+                label="Year of commission"
+                placeholder="yyyy"
+                name="commissionYear"
+                field={this.props.data.seniorRotc.commissionYear}
+                onValueChange={(update) => {this.props.onStateChange('seniorRotc.commissionYear', update);}}/>
+          </div>
+          <div className="input-section">
+            <p>ROTC scholarship</p>
+            <GrowableTable
+                component={RotcScholarship}
+                createRow={createRotcScholarship}
+                data={this.props.data}
+                initializeCurrentElement={() => this.props.initializeFields(scholarshipFields, propertyPath)}
+                onRowsUpdate={(update) => {this.props.onStateChange(propertyPath, update);}}
+                path="/military-history/rotc-history"
+                rows={this.props.data.seniorRotc.rotcScholarshipAmounts}
+                isValidSection={isValidPage}/>
 
-      </div>
+            <ErrorableRadioButtons
+                label="Are you currently participating in a senior ROTC scholarship program that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)"
+                options={yesNo}
+                value={this.props.data.seniorRotcScholarshipProgram}
+                name="RotcTuition"
+                onValueChange={(update) => {this.props.onStateChange('seniorRotcScholarshipProgram', update);}}/>
+
+          </div>
+        </div>
+      </ExpandingGroup>
     </fieldset>
     );
   }

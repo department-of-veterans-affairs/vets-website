@@ -53,7 +53,7 @@ export default class MilitaryServiceFields extends React.Component {
             min="1900"
             field={this.props.data.serviceAcademyGraduationYear}
             onValueChange={(update) => {this.props.onStateChange('serviceAcademyGraduationYear', update);}}/>
-        <ExpandingGroup open={this.props.data.currentlyActiveDuty.yes.value === 'Y'}>
+        <ExpandingGroup open={this.props.data.currentlyActiveDuty.yes.value === 'Y'} adjustment="-30px">
           <ErrorableRadioButtons
               label="Are you on active duty?"
               name="currentlyActiveDuty"
@@ -77,12 +77,6 @@ export default class MilitaryServiceFields extends React.Component {
               rows={this.props.data.toursOfDuty}
               isValidSection={isValidPage}
               minimumRows={1}/>
-          <ErrorableRadioButtons
-              label="Were you commissioned as a result of senior ROTC?"
-              name="seniorRotcCommissioned"
-              options={yesNo}
-              value={this.props.data.seniorRotcCommissioned}
-              onValueChange={(update) => {this.props.onStateChange('seniorRotcCommissioned', update);}}/>
         </div>
       </div>
     </fieldset>
