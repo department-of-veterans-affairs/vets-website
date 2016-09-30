@@ -1,6 +1,6 @@
 const _Environments = {
-  staging: { API_URL: 'https://dev.vets.gov/api', BASE_URL: 'https://dev.vets.gov/' },
-  production: { API_URL: 'https://dev.vets.gov/api', BASE_URL: 'https://dev.vets.gov/' },
+  staging: { API_URL: 'https://dev-api.vets.gov/api', BASE_URL: 'https://dev.vets.gov/' },
+  production: { API_URL: 'https://dev-api.vets.gov/api', BASE_URL: 'https://dev.vets.gov/' },
   development: { API_URL: 'http://localhost:3000', BASE_URL: 'http://localhost:3001' },
 };
 
