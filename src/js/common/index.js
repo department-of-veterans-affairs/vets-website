@@ -6,7 +6,9 @@
 // frameworks and it belongs in a lower-level module.
 
 // Global site style.
-require('../../sass/style.scss');
+// 2016-09-30 Removing until we can figure out how to require this and still have
+// access to project-wide variables. -tbbrown
+// require('../../sass/style.scss');
 
 // TODO(awong): This shouldn't be required with the correct babel transform, yet IE9 broke
 // without it. Test.
