@@ -1,11 +1,184 @@
 @import 'style';
 
-.claims {
+.claim-list {
+  margin-bottom: 2em;
+}
+
+.claim-file-border {
+  border-bottom: 2px solid #0071bc;
+  margin: 0.3em 0;
+}
+
+.submit-additional-evidence {
+  margin-top: 1.5em;
+  p {
+    padding: 0;
+    margin: 0.5em 0;
+  }
+  .button-container {
+    float: right;
+  }
+}
+
+.reviewed-file {
+  color: #236621;
+}
+
+.due-file {
+  color: #cd2026;
+}
+
+.past-due {
+  color: #323a45;
+}
+
+.submitted-files-list {
+  margin-top: 1.5em;
+  margin-bottom: 2em;
+  .submitted-file-list-item {
+    margin: 0.5em 0;
+    border-bottom: 1px solid #979797;
+    h6 {
+      display: inline-block;
+      padding: 0;
+      text-transform: capitalize;
+      i {
+        margin-right: 6px;
+      }
+    }
+    p {
+      margin: 0;
+      padding: 0;
+    }
+    .submission-file-type {
+      color: #112e51;
+      font-size: 1.15em;
+      line-height: 1.5;
+      font-weight: bold;
+    }
+    .submisstion-date {
+      display: inline-block;
+      margin-left: 0.5em;
+    }
+    &:last-child {
+      border: none;
+    }
+  }
+}
+
+
+
+.file-request-list-item {
+  border-bottom: 1px solid #979797;
+  .item-container {
+    margin: 0.5em 0;
+    float: left;
+    h6 {
+      display: inline-block;
+      text-transform: none;
+      i {
+        margin-right: 6px;
+      }
+    }
+    p {
+      display: inline-block;
+      margin: 0;
+    }
+    button {
+      float: right;
+    }
+  }
+  .button-container {
+    float: right;
+  }
+  &:last-child {
+    border: none;
+  }
+}
+
+.claims-evidence {
+  border-bottom: 1px solid #979797;
+  .claims-evidence-date {
+    display:inline-block;
+    font-weight: bold;
+    width: 85px;
+    margin-right: 10px;
+  }
+  .claims-evidence-item {
+    display:inline-block;
+  }
+  &:last-child {
+    border: none;
+  }
+}
+
+.completion-container {
+  margin-left: 8px;
+}
+
+.claim-completion-estimation {
+  p {
+    margin: 0;
+  }
+  .date-estimation {
+    display:inline-block;
+    font-weight: bold;
+    margin-right: 10px;
+  }
+
+}
+
+.claim-decision-is-ready {
+  padding: 1em;
+  background-color: #e0f3f3;
+  margin-bottom: 1em;
+  h4, p {
+    margin: 0.5em 0;
+    padding: 0;
+  }
+}
+
+.you-have-no-claims {
+  padding: 1em;
+  background-color: #e0f3f3;
+  margin-bottom: 5em;
+  h4, p {
+    margin: 0.5em 0;
+    padding: 0;
+  }
+}
+
+.form-process li.section-complete:before {
+  background: #2e8540;
+  content: "\2714";
+}
+
+.form-process li.section-current {
+  h5 {
+    font-weight: bold;
+    color: $color-primary;
+  }
+  li {
+    display: list-item;
+    &.sub-section-current {
+      font-weight: bold;
+      color: $color-primary;
+    }
+  }
+  &:before {
+    background: $color-primary;
+  }
+}
+
+.claim-list-item {
   background-color: #f1f1f1;
   padding: 1em;
   margin-bottom: 1em;
   i {
     margin-right: 5px;
+  }
+  p {
+    margin: 0;
   }
   p.status {
     font-weight: bold;
@@ -14,7 +187,7 @@
 
 .your-claims {
   h1, h3 {
-    margin-top: 1.5em;
+    margin-top: 1em;
   }
 }
 
@@ -32,8 +205,12 @@
     padding: 0;
   }
   .phone-number {
-    font-weight: bold;
     margin: 0.5em 0;
+    a {
+      font-weight: bold;
+      text-decoration: none;
+      margin: 0.5em 0;
+    }
   }
 }
 
@@ -56,6 +233,9 @@
   .request-decision-button {
     margin-bottom: 1
   }
+  .list {
+    margin-left: 6px;
+  }
 }
 
 .claim-details {
@@ -70,6 +250,7 @@
     }
   }
   .claim-conditions-list {
+
   }
   .claim-date-recieved {
 
@@ -146,5 +327,13 @@
   border-top: 1px solid $color-gray;
   padding-top: 4rem;
 }
+
+.clearfix:after {
+  content: " ";
+  visibility: hidden;
+  display: block;
+  height: 0;
+  clear: both;
+ }
 
 // TODO: Add media queries for responsiveness
