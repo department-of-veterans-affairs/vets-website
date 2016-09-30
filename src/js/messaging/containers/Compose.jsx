@@ -49,8 +49,6 @@ class Compose extends React.Component {
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
     this.handleSubjectChange = this.handleSubjectChange.bind(this);
-    this.handleAttachmentsChange = this.handleAttachmentsChange.bind(this);
-    this.handleAttachmentDelete = this.handleAttachmentDelete.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.saveDraft = this.saveDraft.bind(this);
   }
@@ -99,19 +97,6 @@ class Compose extends React.Component {
     domEvent.preventDefault();
     this.props.toggleConfirmDelete();
     this.props.deleteComposeMessage();
-  }
-
-  handleAttachmentsChange(domEvent) {
-    const input = domEvent.target;
-    if (window.File && window.FileList) {
-      const files = Array.from(input.files);
-      this.props.setAttachments(files);
-    }
-  }
-
-  handleAttachmentDelete(domEvent) {
-    const attachmentIndex = JSON.parse(domEvent.currentTarget.dataset.args).attachment;
-    this.props.deleteAttachment(attachmentIndex);
   }
 
   render() {
@@ -178,7 +163,7 @@ class Compose extends React.Component {
             <MessageAttachments
                 hidden={!this.props.message.attachments.length}
                 files={this.props.message.attachments}
-                onClose={this.handleAttachmentDelete}/>
+                onClose={this.props.deleteAttachment}/>
           </div>
           <MessageSend
               allowedMimeTypes={allowedMimeTypes}
@@ -186,7 +171,7 @@ class Compose extends React.Component {
               charCount={message.charsRemaining}
               cssClass="messaging-send-group"
               multipleUploads
-              onAttachmentUpload={this.handleAttachmentsChange}
+              onAttachmentUpload={this.props.setAttachments}
               onSave={this.saveDraft}
               onSend={this.sendMessage}
               onDelete={this.props.toggleConfirmDelete}/>
