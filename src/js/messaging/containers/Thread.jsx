@@ -2,15 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
+  clearDraft,
   deleteMessage,
-  deleteReply,
   fetchThread,
   saveDraft,
+  sendMessage,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
-  updateReplyBody,
-  updateReplyCharacterCount
+  updateDraftBody,
+  updateDraftCharacterCount
 } from '../actions/messages';
 
 import {
@@ -30,12 +31,12 @@ import { composeMessage } from '../config';
 class Thread extends React.Component {
   constructor(props) {
     super(props);
+    this.apiFormattedDraft = this.apiFormattedDraft.bind(this);
     this.handleReplyChange = this.handleReplyChange.bind(this);
     this.handleReplySave = this.handleReplySave.bind(this);
     this.handleReplySend = this.handleReplySend.bind(this);
     this.handleReplyDelete = this.handleReplyDelete.bind(this);
     this.handleMoveTo = this.handleMoveTo.bind(this);
-    this.isDraft = this.isDraft.bind(this);
   }
 
   componentDidMount() {
@@ -43,33 +44,38 @@ class Thread extends React.Component {
     this.props.fetchThread(id);
   }
 
-  isDraft() {
-    // The current message is a draft if it hasn't been sent.
-    return !this.props.message.sentDate;
+  apiFormattedDraft() {
+    const draft = Object.assign({}, this.props.draft);
+    draft.body = draft.body.value;
+    return draft;
   }
 
   handleReplyChange(valueObj) {
-    this.props.updateReplyBody(valueObj);
-    this.props.updateReplyCharacterCount(valueObj, composeMessage.maxChars.message);
+    this.props.updateDraftBody(valueObj);
+    this.props.updateDraftCharacterCount(valueObj, composeMessage.maxChars.message);
   }
 
   handleReplySave() {
-    const draft = {
-      body: this.props.reply.body.value
-    };
-
-    const message = Object.assign({}, this.props.message, draft);
-    this.props.saveDraft(message);
+    this.props.saveDraft(this.apiFormattedDraft());
   }
 
   handleReplySend() {
+    if (this.props.isSavedDraft) {
+      if (this.props.isNewMessage) {
+        this.props.sendMessage(this.apiFormattedDraft());
+      } else {
+        // Reply with draft.
+      }
+    } else {
+      // Reply to current message.
+    }
   }
 
   handleReplyDelete() {
     this.props.toggleConfirmDelete();
-    this.props.deleteReply();
+    this.props.clearDraft();
 
-    if (this.isDraft()) {
+    if (this.props.isSavedDraft) {
       this.props.deleteMessage(this.props.message.messageId);
     }
   }
@@ -162,7 +168,7 @@ class Thread extends React.Component {
         );
       });
 
-      if (!this.isDraft()) {
+      if (!this.props.isSavedDraft) {
         currentMessage = <Message attrs={this.props.message}/>;
       }
     }
@@ -184,9 +190,9 @@ class Thread extends React.Component {
                 cssClass="messaging-write"
                 onValueChange={this.handleReplyChange}
                 placeholder={composeMessage.placeholders.message}
-                text={this.props.reply.body}/>
+                text={this.props.draft.body}/>
             <MessageSend
-                charCount={this.props.reply.charsRemaining}
+                charCount={this.props.draft.charsRemaining}
                 cssClass="messaging-send-group"
                 onSave={this.handleReplySave}
                 onSend={this.handleReplySend}
@@ -210,31 +216,41 @@ class Thread extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const folder = state.folders.data.currentItem;
+  const thread = state.messages.data.thread;
+  const message = state.messages.data.message;
+
+  const isSavedDraft = message && !message.sentDate;
+  const isNewMessage = isSavedDraft && thread.length === 0;
+
   return {
-    persistFolder: state.folders.data.currentItem.persistFolder,
     folders: state.folders.data.items,
-    folderMessages: state.folders.data.currentItem.messages,
-    message: state.messages.data.message,
+    folderMessages: folder.messages,
+    isNewMessage,
+    isSavedDraft,
+    message,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
-    reply: state.messages.data.reply,
-    thread: state.messages.data.thread
+    persistFolder: folder.persistFolder,
+    draft: state.messages.data.draft,
+    thread
   };
 };
 
 const mapDispatchToProps = {
+  clearDraft,
   deleteMessage,
-  deleteReply,
   fetchThread,
   saveDraft,
+  sendMessage,
   toggleConfirmDelete,
   toggleCreateFolderModal,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
-  updateReplyBody,
-  updateReplyCharacterCount
+  updateDraftBody,
+  updateDraftCharacterCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Thread);

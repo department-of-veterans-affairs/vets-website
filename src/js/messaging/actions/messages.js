@@ -1,6 +1,6 @@
 import { api } from '../config';
 
-export const DELETE_REPLY = 'DELETE_REPLY';
+export const CLEAR_DRAFT = 'CLEAR_DRAFT';
 export const DELETE_MESSAGE_SUCCESS = 'DELETE_MESSAGE_SUCCESS';
 export const DELETE_MESSAGE_FAILURE = 'DELETE_MESSAGE_FAILURE';
 export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
@@ -12,10 +12,14 @@ export const SEND_MESSAGE_FAILURE = 'SEND_MESSAGE_FAILURE';
 export const TOGGLE_MESSAGE_COLLAPSED = 'TOGGLE_MESSAGE_COLLAPSED';
 export const TOGGLE_MESSAGES_COLLAPSED = 'TOGGLE_MESSAGES_COLLAPSED';
 export const TOGGLE_MOVE_TO = 'TOGGLE_MOVE_TO';
-export const UPDATE_REPLY_BODY = 'UPDATE_REPLY_BODY';
-export const UPDATE_REPLY_CHARACTER_COUNT = 'UPDATE_REPLY_CHARACTER_COUNT';
+export const UPDATE_DRAFT_BODY = 'UPDATE_DRAFT_BODY';
+export const UPDATE_DRAFT_CHARACTER_COUNT = 'UPDATE_DRAFT_CHARACTER_COUNT';
 
 const baseUrl = `${api.url}/messages`;
+
+export function clearDraft() {
+  return { type: CLEAR_DRAFT };
+}
 
 export function deleteMessage(id) {
   const url = `${baseUrl}/${id}`;
@@ -30,10 +34,6 @@ export function deleteMessage(id) {
       return dispatch(action);
     });
   };
-}
-
-export function deleteReply() {
-  return { type: DELETE_REPLY };
 }
 
 export function fetchThread(id) {
@@ -82,29 +82,40 @@ export function saveDraft(message) {
   });
 
   return dispatch => {
-    fetch(url, settings)
-    .then(res => res.json())
-    .then(
-      data => {
-        let action = { type: SAVE_DRAFT_SUCCESS, data };
+    const request = fetch(url, settings).then(response => {
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.indexOf('application/json') !== -1) {
+        return response.json().then(
+          data => {
+            if (data.errors) {
+              return dispatch({
+                type: SAVE_DRAFT_FAILURE,
+                error: data.errors
+              });
+            }
 
-        if (data.errors) {
-          action = {
-            type: SAVE_DRAFT_FAILURE,
-            errors: data.errors
-          };
-        }
-
-        return dispatch(action);
-      },
-      err => dispatch({ type: SAVE_DRAFT_FAILURE, err })
-    );
+            return dispatch({
+              type: SAVE_DRAFT_SUCCESS,
+              message: data.data.attributes
+            });
+          },
+          error => dispatch({ type: SAVE_DRAFT_FAILURE, error })
+        );
+      } else if (response.ok && !isNewDraft) {
+          return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
+      } else {
+        return dispatch({ type: SAVE_DRAFT_FAILURE });
+      }
+    });
   };
 }
 
 export function sendMessage(message) {
   const payload = {
     message: {
+      // Include id when API supports automatically deleting
+      // the draft when sending a message.
+      // id: message.messageId,
       category: message.category,
       subject: message.subject,
       body: message.body,
@@ -120,8 +131,11 @@ export function sendMessage(message) {
     fetch(baseUrl, settings)
     .then(res => res.json())
     .then(
-      data => dispatch({ type: SEND_MESSAGE_SUCCESS, data }),
-      err => dispatch({ type: SEND_MESSAGE_FAILURE, err })
+      data => dispatch({
+        type: SEND_MESSAGE_SUCCESS,
+        message: data.data.attributes
+      }),
+      error => dispatch({ type: SEND_MESSAGE_FAILURE, error })
     );
   };
 }
@@ -137,17 +151,17 @@ export function toggleMessagesCollapsed() {
   return { type: TOGGLE_MESSAGES_COLLAPSED };
 }
 
-export function updateReplyBody(field) {
+export function updateDraftBody(field) {
   return {
-    type: UPDATE_REPLY_BODY,
+    type: UPDATE_DRAFT_BODY,
     field
   };
 }
 
-export function updateReplyCharacterCount(field, maxLength) {
+export function updateDraftCharacterCount(field, maxLength) {
   const chars = maxLength - field.value.length;
   return {
-    type: UPDATE_REPLY_CHARACTER_COUNT,
+    type: UPDATE_DRAFT_CHARACTER_COUNT,
     chars
   };
 }

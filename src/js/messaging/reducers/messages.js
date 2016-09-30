@@ -1,15 +1,16 @@
+import _ from 'lodash';
 import set from 'lodash/fp/set';
 
 import { makeField } from '../../common/model/fields';
 
 import {
-  DELETE_REPLY,
+  CLEAR_DRAFT,
   FETCH_THREAD_SUCCESS,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
-  UPDATE_REPLY_BODY,
-  UPDATE_REPLY_CHARACTER_COUNT
+  UPDATE_DRAFT_BODY,
+  UPDATE_DRAFT_CHARACTER_COUNT
 } from '../actions/messages';
 
 import { composeMessage } from '../config';
@@ -18,7 +19,7 @@ const initialState = {
   data: {
     message: null,
     thread: [],
-    reply: {
+    draft: {
       body: makeField(''),
       charsRemaining: composeMessage.maxChars.message
     }
@@ -29,19 +30,14 @@ const initialState = {
   }
 };
 
-const resetReply = (state) => {
-  const newReply = {
-    body: makeField(''),
-    charsRemaining: composeMessage.maxChars.message
-  };
-
-  return set('data.reply', newReply, state);
+const resetDraft = (state) => {
+  return set('data.draft', initialState.data.draft, state);
 };
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
-    case DELETE_REPLY:
-      return resetReply(state);
+    case CLEAR_DRAFT:
+      return resetDraft(state);
 
     case FETCH_THREAD_SUCCESS: {
       const currentMessage = action.message.attributes;
@@ -56,16 +52,18 @@ export default function folders(state = initialState, action) {
       };
 
       let newState = set('ui', newUi, state);
-      newState = resetReply(newState);
+      newState = resetDraft(newState);
       newState = set('data.thread', thread, newState);
 
+      // If the message hasn't been sent, treat it as a draft.
       if (!currentMessage.sentDate) {
-        const body = makeField(currentMessage.body);
-        const charsRemaining =
-          composeMessage.maxChars.message - currentMessage.body.length;
+        const draft = Object.assign({}, currentMessage, {
+          body: makeField(currentMessage.body),
+          charsRemaining: composeMessage.maxChars.message -
+                          currentMessage.body.length
+        });
 
-        const reply = { body, charsRemaining };
-        newState = set('data.reply', reply, newState);
+        newState = set('data.draft', draft, newState);
       }
 
       return set('data.message', currentMessage, newState);
@@ -102,11 +100,11 @@ export default function folders(state = initialState, action) {
     case TOGGLE_MOVE_TO:
       return set('ui.moveToOpened', !state.ui.moveToOpened, state);
 
-    case UPDATE_REPLY_BODY:
-      return set('data.reply.body', action.field, state);
+    case UPDATE_DRAFT_BODY:
+      return set('data.draft.body', action.field, state);
 
-    case UPDATE_REPLY_CHARACTER_COUNT:
-      return set('data.reply.charsRemaining', action.chars, state);
+    case UPDATE_DRAFT_CHARACTER_COUNT:
+      return set('data.draft.charsRemaining', action.chars, state);
 
     default:
       return state;
