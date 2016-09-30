@@ -1,8 +1,8 @@
 import { api } from '../config';
 import { createUrlWithQuery } from '../utils/helpers';
 
-export const CREATE_NEW_FOLDER_SUCCESS = 'CREATE_NEW_FOLDER_SUCCESS';
-export const CREATE_NEW_FOLDER_FAILURE = 'CREATE_NEW_FOLDER_FAILURE';
+export const CREATE_FOLDER_SUCCESS = 'CREATE_FOLDER_SUCCESS';
+export const CREATE_FOLDER_FAILURE = 'CREATE_FOLDER_FAILURE';
 export const DELETE_FOLDER_SUCCESS = 'DELETE_FOLDER_SUCCESS';
 export const DELETE_FOLDER_FAILURE = 'DELETE_FOLDER_FAILURE';
 export const FETCH_FOLDERS_SUCCESS = 'FETCH_FOLDERS_SUCCESS';
@@ -72,10 +72,10 @@ export function createNewFolder(folderName) {
     .then(res => res.json())
     .then(
       data => dispatch({
-        type: CREATE_NEW_FOLDER_SUCCESS,
+        type: CREATE_FOLDER_SUCCESS,
         folder: data.data.attributes
       }),
-      error => dispatch({ type: CREATE_NEW_FOLDER_FAILURE, error })
+      error => dispatch({ type: CREATE_FOLDER_FAILURE, error })
     );
   };
 }

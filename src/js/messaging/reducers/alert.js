@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import {
-  CREATE_NEW_FOLDER_FAILURE,
-  CREATE_NEW_FOLDER_SUCCESS,
+  CREATE_FOLDER_FAILURE,
+  CREATE_FOLDER_SUCCESS,
   DELETE_FOLDER_FAILURE,
   DELETE_FOLDER_SUCCESS
 } from '../actions/folders';
@@ -43,13 +43,13 @@ export default function alert(state = initialState, action) {
     case OPEN_ALERT:
       return createAlert(action.content, action.status);
 
-    case CREATE_NEW_FOLDER_FAILURE:
+    case CREATE_FOLDER_FAILURE:
       return createAlert(
         <b>Failed to create folder.</b>,
         alertStatus.ERROR
       );
 
-    case CREATE_NEW_FOLDER_SUCCESS: {
+    case CREATE_FOLDER_SUCCESS: {
       const link = (
         <Link to={`/messaging/folder/${action.folder.folderId}`}>
           {action.folder.name}
