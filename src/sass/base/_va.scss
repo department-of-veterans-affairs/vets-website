@@ -1981,3 +1981,23 @@ pre[class*='language-']  {
   border-left: 2px solid $color-primary;
   padding-left: 1rem;
 }
+
+// Flexbox related utilities 
+.va-flex {
+  display: -webkit-flex;
+  display: flex;
+}
+
+// Vertically aligns at top when flex-direction: row;
+// Aligns flush left when flex-direction: column
+.va-flex--top {
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+// Stretches all flexbox items to be the same height when
+// flex-direction: row
+.va-flex--stretch {
+  -webkit-align-items: stretch;
+  align-items: stretch;
+}

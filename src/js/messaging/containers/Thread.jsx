@@ -44,6 +44,7 @@ class Thread extends React.Component {
   }
 
   isDraft() {
+    // The current message is a draft if it hasn't been sent.
     return !this.props.message.sentDate;
   }
 
@@ -99,11 +100,6 @@ class Thread extends React.Component {
     });
 
     if (this.props.message) {
-      // TODO: Presumably, when the API provides pagination,
-      // we will be able to directly pull information about
-      // the next and previous messages. Until then, we rely
-      // on logic around the array of folder messages we get.
-
       // Find the current message's position
       // among the messages in the current folder.
       const currentIndex = folderMessages.findIndex((message) => {

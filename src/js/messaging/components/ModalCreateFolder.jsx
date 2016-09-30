@@ -93,6 +93,7 @@ ModalCreateFolder.propTypes = {
   newFolderName: React.PropTypes.object,
   id: React.PropTypes.string,
   onClose: React.PropTypes.func,
+  onSubmit: React.PropTypes.func,
   onValueChange: React.PropTypes.func,
   visible: React.PropTypes.bool.isRequired
 };
