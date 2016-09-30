@@ -9,10 +9,6 @@ import MessageNav from './MessageNav';
 import ToggleThread from './ToggleThread';
 
 class ThreadHeader extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     let toggleThread;
     let returnUrlText;

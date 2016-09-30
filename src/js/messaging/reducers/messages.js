@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import set from 'lodash/fp/set';
 
 import { makeField } from '../../common/model/fields';

@@ -82,7 +82,7 @@ export function saveDraft(message) {
   });
 
   return dispatch => {
-    const request = fetch(url, settings).then(response => {
+    fetch(url, settings).then(response => {
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.indexOf('application/json') !== -1) {
         return response.json().then(
@@ -102,10 +102,9 @@ export function saveDraft(message) {
           error => dispatch({ type: SAVE_DRAFT_FAILURE, error })
         );
       } else if (response.ok && !isNewDraft) {
-          return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
-      } else {
-        return dispatch({ type: SAVE_DRAFT_FAILURE });
+        return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
       }
+      return dispatch({ type: SAVE_DRAFT_FAILURE });
     });
   };
 }
