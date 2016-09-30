@@ -7,6 +7,16 @@ import { formatFileSize } from '../../utils/helpers';
 import MessageUploadedAttachment from './MessageUploadedAttachment';
 
 class MessageAttachments extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleAttachmentDelete = this.handleAttachmentDelete.bind(this);
+  }
+
+  handleAttachmentDelete(domEvent) {
+    const attachmentIndex = JSON.parse(domEvent.currentTarget.dataset.args).attachment;
+    this.props.onClose(attachmentIndex);
+  }
+
   render() {
     const cssClass = classNames(
       'msg-attachments',
@@ -23,7 +33,7 @@ class MessageAttachments extends React.Component {
               attachmentIndex={index}
               fileName={file.name}
               fileSize={fileSize}
-              onClose={this.props.onClose}/>
+              onClose={this.handleAttachmentDelete}/>
         </li>
       );
     });
