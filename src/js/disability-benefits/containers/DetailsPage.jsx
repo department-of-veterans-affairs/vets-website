@@ -12,7 +12,7 @@ class DetailsPage extends React.Component {
             <div className="claim-conditions">
               <h1>Your {"Compensation"} Claim</h1>
               <h6>Your Claimed Conditions:</h6>
-              <p>{"Tinnitus, Arthritis, PTSD"}</p>
+              <p className="list">{"Tinnitus, Arthritis, PTSD"}</p>
               <TabNav />
             </div>
 
