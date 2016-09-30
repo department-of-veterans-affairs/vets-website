@@ -5,7 +5,7 @@ import ExpandingGroup from '../../../common/components/form-elements/ExpandingGr
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 import RotcScholarship from './RotcScholarship';
 import { createRotcScholarship } from '../../utils/veteran';
-import { isValidPage, validateIfDirty, isValidYear, isValidValue } from '../../utils/validations';
+import { isValidPage, validateIfDirty, isValidYear } from '../../utils/validations';
 import { yesNo } from '../../utils/options-for-select';
 
 export default class RotcHistoryFields extends React.Component {
@@ -29,7 +29,7 @@ export default class RotcHistoryFields extends React.Component {
           <div className="input-section">
             <ErrorableNumberInput required
                 additionalClass="usa-input-medium"
-                errorMessage={validateIfDirty(this.props.data.seniorRotc.commissionYear, (val) => isValidValue(isValidYear, val)) ? undefined : 'Please enter a valid year'}
+                errorMessage={validateIfDirty(this.props.data.seniorRotc.commissionYear, isValidYear) ? undefined : 'Please enter a valid year'}
                 label="Year of commission"
                 placeholder="yyyy"
                 min="1900"
