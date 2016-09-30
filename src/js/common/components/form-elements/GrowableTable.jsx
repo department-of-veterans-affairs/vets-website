@@ -103,7 +103,7 @@ class GrowableTable extends React.Component {
       if (stateKey && stateKey === 'complete') {
         rowContent = (
           <div key={reactKey++} className={stateKey}>
-            <div className="row" key={obj.key}>
+            <div className="row slideOutDown" key={obj.key}>
               <div className="small-6 columns">
                 {React.createElement(this.props.component,
                   { data: obj,
@@ -118,7 +118,6 @@ class GrowableTable extends React.Component {
                 <button className="usa-button-outline short" onClick={(event) => this.handleEdit(event)} data-key={obj.key}><i className="fa before-text fa-pencil"></i>Edit</button>
               </div>
             </div>
-            <hr/>
           </div>
         );
       } else {
@@ -150,7 +149,6 @@ class GrowableTable extends React.Component {
               </div>
             </div>
             {buttons}
-            <hr/>
           </div>
         );
       }
@@ -163,8 +161,8 @@ class GrowableTable extends React.Component {
         <Element name="topOfTable"/>
         {rowElements}
         <div className="row">
-          <div className="small-3 small-centered columns">
-            <button className="usa-button-outline short" onClick={this.handleAdd}><i className="fa before-text fa-plus"></i>Add another</button>
+          <div className="small-5 left columns">
+            <button className="usa-button-outline short" onClick={this.handleAdd}>{this.props.addNewMessage || 'Add another'}</button>
           </div>
         </div>
       </div>
@@ -181,6 +179,7 @@ GrowableTable.propTypes = {
   path: React.PropTypes.string.isRequired,
   rows: React.PropTypes.array.isRequired,
   isValidSection: React.PropTypes.func.isRequired,
+  addNewMessage: React.PropTypes.string,
   minimumRows: React.PropTypes.number
 };
 

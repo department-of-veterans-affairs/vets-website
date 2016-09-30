@@ -73,6 +73,7 @@ export default class MilitaryServiceFields extends React.Component {
               path="/military-history/military-service"
               rows={this.props.data.toursOfDuty}
               isValidSection={isValidPage}
+              addNewMessage="Add another tour"
               minimumRows={1}/>
           <ErrorableRadioButtons
               label="Were you commissioned as a result of senior ROTC?"
