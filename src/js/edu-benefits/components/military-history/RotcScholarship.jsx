@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableNumberInput from '../../../common/components/form-elements/ErrorableNumberInput';
 
 import { isValidYear, validateIfDirty, isValidMonetaryValue, isValidValue } from '../../utils/validations';
 
@@ -11,13 +12,14 @@ export default class RotcScholarship extends React.Component {
     const formFields = (
       <div className="row">
         <div className="columns small-4">
-          <ErrorableTextInput
+          <ErrorableNumberInput
               errorMessage={validateIfDirty(scholarship.year, (val) => isValidValue(isValidYear, val)) ? undefined : 'Please enter a valid year.'}
               validation={validateIfDirty(scholarship.year, (val) => isValidValue(isValidYear, val))}
               label="Year"
               name="year"
               field={scholarship.year}
               placeholder="yyyy"
+              min="1900"
               onValueChange={(update) => {onValueChange('year', update);}}/>
         </div>
         <div className="columns small-8">

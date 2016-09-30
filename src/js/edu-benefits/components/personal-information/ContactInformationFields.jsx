@@ -51,12 +51,12 @@ export default class ContactInformationFields extends React.Component {
           <Phone
               label="Primary telephone number"
               value={this.props.data.homePhone}
-              additionalClass="home-phone"
+              additionalClass="home-phone usa-input-medium"
               onValueChange={(update) => {this.props.onStateChange('homePhone', update);}}/>
           <Phone
               label="Mobile telephone number"
               value={this.props.data.mobilePhone}
-              additionalClass="mobile-phone"
+              additionalClass="mobile-phone usa-input-medium"
               onValueChange={(update) => {this.props.onStateChange('mobilePhone', update);}}/>
           <ErrorableRadioButtons
               label="How would you prefer to be contacted if VA has questions about your application?"

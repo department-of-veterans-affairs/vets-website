@@ -123,6 +123,7 @@ class Address extends React.Component {
             onValueChange={(update) => {this.handleChange('city', update);}}/>
         {stateProvince}
         <ErrorableTextInput errorMessage={this.validatePostalCode(this.props.value.postalCode) ? undefined : 'Please enter a valid Postal code'}
+            additionalClass="usa-input-medium"
             label="Postal code"
             name="postalCode"
             autocomplete="postal-code"
