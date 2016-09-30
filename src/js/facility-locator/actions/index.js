@@ -156,7 +156,6 @@ export function searchWithAddress(query) {
           }
         });
 
-        console.log('query', query)
         // TODO (bshyong): replace this with a call to the API
         dispatch(
           fetchVAFacilities({
