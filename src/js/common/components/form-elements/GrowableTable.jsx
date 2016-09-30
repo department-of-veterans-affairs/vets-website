@@ -59,7 +59,7 @@ class GrowableTable extends React.Component {
   }
 
   handleEdit(event) {
-    this.setState({ [event.target.dataset.key]: 'incomplete' });
+    this.setState({ [event.target.dataset.key]: 'edit' });
   }
 
   handleSave(event) {
@@ -91,9 +91,10 @@ class GrowableTable extends React.Component {
     let rowContent;
     const state = this.state;
     const rowElements = this.props.rows.map((obj, index) => {
-      if (state[obj.key] && state[obj.key] === 'complete') {
+      const stateKey = state[obj.key];
+      if (stateKey && stateKey === 'complete') {
         rowContent = (
-          <div key={reactKey++}>
+          <div key={reactKey++} className={stateKey}>
             <div className="row" key={obj.key}>
               <div className="small-6 columns">
                 {React.createElement(this.props.component,
@@ -117,7 +118,7 @@ class GrowableTable extends React.Component {
         );
       } else {
         rowContent = (
-          <div key={reactKey++}>
+          <div key={reactKey++} className={stateKey}>
             <div className="row">
               <div className="small-3 right columns">
                 {this.props.rows.length > this.props.minimumRows
@@ -151,7 +152,7 @@ class GrowableTable extends React.Component {
     });
 
     return (
-      <div>
+      <div className="va-growable">
         <Element name="topOfTable"/>
         {rowElements}
         <div className="row">
