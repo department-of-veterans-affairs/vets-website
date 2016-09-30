@@ -21,7 +21,8 @@ const initialState = {
     thread: [],
     draft: {
       body: makeField(''),
-      charsRemaining: composeMessage.maxChars.message
+      charsRemaining: composeMessage.maxChars.message,
+      replyMessageId: null
     }
   },
   ui: {
@@ -41,10 +42,14 @@ export default function folders(state = initialState, action) {
 
     case FETCH_THREAD_SUCCESS: {
       const currentMessage = action.message.attributes;
-      const thread = action.thread.map(message => message.attributes).reverse();
+      const thread = action.thread.map(message => message.attributes);
       const messagesCollapsed = new Set(thread.map((message) => {
         return message.messageId;
       }));
+
+      // Thread is received in most recent order.
+      // Reverse to display most recent message at the bottom.
+      thread.reverse();
 
       const newUi = {
         messagesCollapsed,
@@ -52,20 +57,28 @@ export default function folders(state = initialState, action) {
       };
 
       let newState = set('ui', newUi, state);
-      newState = resetDraft(newState);
-      newState = set('data.thread', thread, newState);
+      let draft = initialState.data.draft;
 
-      // If the message hasn't been sent, treat it as a draft.
+      // If the message hasn't been sent, treat it as the draft
+      // and reply to the thread (if it exists).
+      // Otherwise, treat the draft as the reply to the message.
       if (!currentMessage.sentDate) {
         const draft = Object.assign({}, currentMessage, {
           body: makeField(currentMessage.body),
           charsRemaining: composeMessage.maxChars.message -
-                          currentMessage.body.length
+                          currentMessage.body.length,
+          replyMessageId: null
         });
 
-        newState = set('data.draft', draft, newState);
+        if (thread.length > 0) {
+          draft.replyMessageId = thread[thread.length - 1].messageId;
+        }
+      } else {
+        draft.replyMessageId = currentMessage.messageId;
       }
 
+      newState = set('data.thread', thread, newState);
+      newState = set('data.draft', draft, newState);
       return set('data.message', currentMessage, newState);
     }
 

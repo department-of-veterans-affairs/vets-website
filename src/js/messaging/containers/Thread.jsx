@@ -7,6 +7,7 @@ import {
   fetchThread,
   saveDraft,
   sendMessage,
+  sendReply,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
@@ -67,7 +68,7 @@ class Thread extends React.Component {
         // Reply with draft.
       }
     } else {
-      // Reply to current message.
+      this.props.sendReply(this.apiFormattedDraft());
     }
   }
 
@@ -244,6 +245,7 @@ const mapDispatchToProps = {
   fetchThread,
   saveDraft,
   sendMessage,
+  sendReply,
   toggleConfirmDelete,
   toggleCreateFolderModal,
   toggleMessageCollapsed,

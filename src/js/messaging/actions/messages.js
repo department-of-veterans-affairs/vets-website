@@ -140,6 +140,26 @@ export function sendMessage(message) {
   };
 }
 
+export function sendReply(message) {
+  const url = `${baseUrl}/${message.replyMessageId}/reply`;
+  const payload = { message: { body: message.body } };
+  const settings = Object.assign({}, api.settings.post, {
+    body: JSON.stringify(payload)
+  });
+
+  return dispatch => {
+    fetch(url, settings)
+    .then(res => res.json())
+    .then(
+      data => dispatch({
+        type: SEND_MESSAGE_SUCCESS,
+        message: data.data.attributes
+      }),
+      error => dispatch({ type: SEND_MESSAGE_FAILURE, error })
+    );
+  };
+}
+
 export function toggleMessageCollapsed(messageId) {
   return {
     type: TOGGLE_MESSAGE_COLLAPSED,
