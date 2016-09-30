@@ -61,7 +61,7 @@ class Main extends React.Component {
 
   render() {
     const navClass = classNames({
-      opened: this.props.isNavVisible
+      opened: this.props.nav.visible
     });
 
     return (
@@ -74,7 +74,7 @@ class Main extends React.Component {
           <FolderNav
               persistFolder={this.props.persistFolder}
               folders={this.props.folders}
-              isExpanded={this.props.hasFoldersExpanded}
+              isExpanded={this.props.nav.foldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
               onCreateNewFolder={this.props.toggleCreateFolderModal}
               onFolderChange={this.handleOnFolderChange}/>
@@ -90,8 +90,8 @@ class Main extends React.Component {
             onClose={this.handleCreateNewFolderModal}
             onValueChange={this.handleFolderNameChange}
             onSubmit={this.handleSubmitCreateNewFolder}
-            visible={this.props.isCreateFolderModalOpen}
-            newFolderName={this.props.newFolderName}/>
+            visible={this.props.createFolderModal.visible}
+            newFolderName={this.props.createFolderModal.newFolderName}/>
       </div>
     );
   }
@@ -103,13 +103,10 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    createFolderModal: state.modals.createFolder,
     folders: state.folders.data.items,
-    foldersExpanded: state.folders.ui.nav.foldersExpanded,
-    hasFoldersExpanded: state.folders.ui.nav.foldersExpanded,
-    isCreateFolderModalOpen: state.modals.createFolder.visible,
-    isNavVisible: state.folders.ui.nav.visible,
-    newFolderName: state.modals.createFolder.newFolderName,
-    persistFolder: state.folders.data.currentItem.persistFolder,
+    nav: state.folders.ui.nav,
+    persistFolder: state.folders.data.currentItem.persistFolder
   };
 };
 

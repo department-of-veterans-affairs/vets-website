@@ -2,6 +2,11 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import {
+  CREATE_NEW_FOLDER_FAILURE,
+  CREATE_NEW_FOLDER_SUCCESS
+} from '../actions/folders';
+
+import {
   DELETE_MESSAGE_FAILURE,
   DELETE_MESSAGE_SUCCESS,
   SAVE_DRAFT_FAILURE,
@@ -35,6 +40,25 @@ export default function alert(state = initialState, action) {
 
     case OPEN_ALERT:
       return createAlert(action.content, action.status);
+
+    case CREATE_NEW_FOLDER_FAILURE:
+      return createAlert(
+        <b>Failed to create folder.</b>,
+        alertStatus.ERROR
+      );
+
+    case CREATE_NEW_FOLDER_SUCCESS: {
+      const link = (
+        <Link to={`/messaging/folder/${action.folder.folderId}`}>
+          {action.folder.name}
+        </Link>
+      );
+
+      return createAlert(
+        <b>You have successfully created {link}.</b>,
+        alertStatus.SUCCESS
+      );
+    }
 
     case DELETE_MESSAGE_FAILURE:
       return createAlert(

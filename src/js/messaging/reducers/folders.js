@@ -74,7 +74,7 @@ export default function folders(state = initialState, action) {
       return set('data.currentItem.persistFolder', +action.folderId, state);
     // TODO: Handle the response in an appropriate way
     case CREATE_NEW_FOLDER_SUCCESS: {
-      const newFolderList = concat(state.data.items, action.data.data.attributes);
+      const newFolderList = concat(state.data.items, action.folder);
       return set('data.items', newFolderList, state);
     }
 

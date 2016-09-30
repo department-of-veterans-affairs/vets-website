@@ -69,8 +69,11 @@ export function createNewFolder(folderName) {
     fetch(baseUrl, settings)
     .then(res => res.json())
     .then(
-      data => dispatch({ type: CREATE_NEW_FOLDER_SUCCESS, data }),
-      err => dispatch({ type: CREATE_NEW_FOLDER_FAILURE, err })
+      data => dispatch({
+        type: CREATE_NEW_FOLDER_SUCCESS,
+        folder: data.data.attributes
+      }),
+      error => dispatch({ type: CREATE_NEW_FOLDER_FAILURE, error })
     );
   };
 }
