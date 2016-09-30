@@ -18,6 +18,7 @@ export default class SecondaryContactFields extends React.Component {
               field={this.props.data.secondaryContact.fullName}
               onValueChange={(update) => {this.props.onStateChange('secondaryContact.fullName', update);}}/>
           <Phone
+              additionalClass="usa-input-medium"
               label="Telephone number"
               name="secondaryContactPhone"
               value={this.props.data.secondaryContact.phone}
