@@ -5,6 +5,19 @@ import CharacterCount from '../compose/CharacterCount';
 import MessageAddAttachment from './MessageAddAttachment';
 
 class MessageSend extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleAttachmentsChange = this.handleAttachmentsChange.bind(this);
+  }
+
+  handleAttachmentsChange(domEvent) {
+    const input = domEvent.target;
+    if (window.File && window.FileList) {
+      const files = Array.from(input.files);
+      this.props.onAttachmentUpload(files);
+    }
+  }
+
   render() {
     const isDisabled = this.props.charCount < 0;
 
@@ -26,7 +39,7 @@ class MessageSend extends React.Component {
             id="msg-attachments"
             label="Attach a file"
             name="messageAttachments"
-            onChange={this.props.onAttachmentUpload}/>
+            onChange={this.handleAttachmentsChange}/>
         <ButtonDelete
             compact
             onClickHandler={this.props.onDelete}/>
