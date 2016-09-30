@@ -33,6 +33,7 @@ class Thread extends React.Component {
   constructor(props) {
     super(props);
     this.apiFormattedDraft = this.apiFormattedDraft.bind(this);
+    this.handleMessageDelete = this.handleMessageDelete.bind(this);
     this.handleReplyChange = this.handleReplyChange.bind(this);
     this.handleReplySave = this.handleReplySave.bind(this);
     this.handleReplySend = this.handleReplySend.bind(this);
@@ -49,6 +50,10 @@ class Thread extends React.Component {
     const draft = Object.assign({}, this.props.draft);
     draft.body = draft.body.value;
     return draft;
+  }
+
+  handleMessageDelete() {
+    this.props.deleteMessage(this.props.message.messageId);
   }
 
   handleReplyChange(valueObj) {
@@ -146,6 +151,7 @@ class Thread extends React.Component {
             moveToIsOpen={this.props.moveToOpened}
             onChooseFolder={this.handleMoveTo}
             onCreateFolder={this.props.toggleCreateFolderModal}
+            onDeleteMessage={this.handleMessageDelete}
             onToggleThread={this.props.toggleMessagesCollapsed}
             onToggleMoveTo={this.props.toggleMoveTo}/>
       );
