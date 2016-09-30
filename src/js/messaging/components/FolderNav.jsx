@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import classNames from 'classnames';
 
 import ButtonCreateFolder from './buttons/ButtonCreateFolder';
@@ -7,9 +7,15 @@ import ButtonCreateFolder from './buttons/ButtonCreateFolder';
 class FolderNav extends React.Component {
   constructor(props) {
     super(props);
+    this.goToFolderSettings = this.goToFolderSettings.bind(this);
     this.makeFolderLink = this.makeFolderLink.bind(this);
     this.makeMyFolders = this.makeMyFolders.bind(this);
   }
+
+  goToFolderSettings() {
+    browserHistory.push('/messaging/settings');
+  }
+
   makeFolderLink(folder) {
     let count;
 
@@ -109,7 +115,7 @@ class FolderNav extends React.Component {
 
     const folderActions = (
       <li className="messaging-folder-nav-actions">
-        <button>
+        <button onClick={this.goToFolderSettings}>
           <i className="fa fa-folder"></i>
           &nbsp;Manage folders
         </button>

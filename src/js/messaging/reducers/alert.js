@@ -3,7 +3,9 @@ import { Link } from 'react-router';
 
 import {
   CREATE_NEW_FOLDER_FAILURE,
-  CREATE_NEW_FOLDER_SUCCESS
+  CREATE_NEW_FOLDER_SUCCESS,
+  DELETE_FOLDER_FAILURE,
+  DELETE_FOLDER_SUCCESS
 } from '../actions/folders';
 
 import {
@@ -59,6 +61,18 @@ export default function alert(state = initialState, action) {
         alertStatus.SUCCESS
       );
     }
+
+    case DELETE_FOLDER_FAILURE:
+      return createAlert(
+        <b>Failed to delete folder.</b>,
+        alertStatus.ERROR
+      );
+
+    case DELETE_FOLDER_SUCCESS:
+      return createAlert(
+        <b>You have successfully deleted {action.folder.name}</b>,
+        alertStatus.SUCCESS
+      );
 
     case DELETE_MESSAGE_FAILURE:
       return createAlert(

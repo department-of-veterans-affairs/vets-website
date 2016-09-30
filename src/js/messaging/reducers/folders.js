@@ -6,6 +6,7 @@ import { DELETE_COMPOSE_MESSAGE } from '../actions/compose';
 
 import {
   CREATE_NEW_FOLDER_SUCCESS,
+  DELETE_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
   FETCH_FOLDER_SUCCESS,
   TOGGLE_FOLDER_NAV,
@@ -46,6 +47,14 @@ const initialState = {
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
+    case DELETE_FOLDER_SUCCESS: {
+      const newFolders = state.data.items.filter(folder => {
+        return folder.folderId !== action.folder.folderId;
+      });
+
+      return set('data.items', newFolders, state);
+    }
+
     case FETCH_FOLDERS_SUCCESS: {
       const items = action.data.data.map(folder => folder.attributes);
       return set('data.items', items, state);
