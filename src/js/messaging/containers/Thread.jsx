@@ -61,12 +61,8 @@ class Thread extends React.Component {
   }
 
   handleReplySend() {
-    if (this.props.isSavedDraft) {
-      if (this.props.isNewMessage) {
-        this.props.sendMessage(this.apiFormattedDraft());
-      } else {
-        // Reply with draft.
-      }
+    if (this.props.isNewMessage) {
+      this.props.sendMessage(this.apiFormattedDraft());
     } else {
       this.props.sendReply(this.apiFormattedDraft());
     }
@@ -220,9 +216,10 @@ const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
   const thread = state.messages.data.thread;
   const message = state.messages.data.message;
+  const draft = state.messages.data.draft;
 
   const isSavedDraft = message && !message.sentDate;
-  const isNewMessage = isSavedDraft && thread.length === 0;
+  const isNewMessage = draft.replyMessageId === undefined;
 
   return {
     folders: state.folders.data.items,
@@ -234,7 +231,7 @@ const mapStateToProps = (state) => {
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
     persistFolder: folder.persistFolder,
-    draft: state.messages.data.draft,
+    draft,
     thread
   };
 };

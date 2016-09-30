@@ -131,30 +131,56 @@ export function sendMessage(message) {
     fetch(baseUrl, settings)
     .then(res => res.json())
     .then(
-      data => dispatch({
-        type: SEND_MESSAGE_SUCCESS,
-        message: data.data.attributes
-      }),
+      data => {
+        if (data.errors) {
+          return dispatch({
+            type: SEND_MESSAGE_FAILURE,
+            error: data.errors
+          });
+        }
+
+        return dispatch({
+          type: SEND_MESSAGE_SUCCESS,
+          message: data.data.attributes
+        });
+      },
       error => dispatch({ type: SEND_MESSAGE_FAILURE, error })
     );
   };
 }
 
 export function sendReply(message) {
-  const url = `${baseUrl}/${message.replyMessageId}/reply`;
+  const replyUrl = `${baseUrl}/${message.replyMessageId}/reply`;
   const payload = { message: { body: message.body } };
   const settings = Object.assign({}, api.settings.post, {
     body: JSON.stringify(payload)
   });
 
   return dispatch => {
-    fetch(url, settings)
-    .then(res => res.json())
-    .then(
-      data => dispatch({
-        type: SEND_MESSAGE_SUCCESS,
-        message: data.data.attributes
-      }),
+    fetch(replyUrl, settings)
+    .then(response => {
+      // Delete the draft (if it exists) once the reply is successfully sent.
+      const isSavedDraft = message.messageId !== undefined;
+      if (response.ok && isSavedDraft) {
+        const messageUrl = `${baseUrl}/${message.messageId}`;
+        fetch(messageUrl, api.settings.delete);
+      }
+
+      return response.json();
+    }).then(
+      data => {
+        if (data.errors) {
+          return dispatch({
+            type: SEND_MESSAGE_FAILURE,
+            error: data.errors
+          });
+        }
+
+        return dispatch({
+          type: SEND_MESSAGE_SUCCESS,
+          message: data.data.attributes
+        });
+      },
       error => dispatch({ type: SEND_MESSAGE_FAILURE, error })
     );
   };

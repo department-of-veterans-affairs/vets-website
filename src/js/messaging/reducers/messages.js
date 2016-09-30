@@ -21,8 +21,7 @@ const initialState = {
     thread: [],
     draft: {
       body: makeField(''),
-      charsRemaining: composeMessage.maxChars.message,
-      replyMessageId: null
+      charsRemaining: composeMessage.maxChars.message
     }
   },
   ui: {
@@ -51,30 +50,31 @@ export default function folders(state = initialState, action) {
       // Reverse to display most recent message at the bottom.
       thread.reverse();
 
-      const newUi = {
+      let newState = set('ui', {
         messagesCollapsed,
-        movedToOpened: false
-      };
-
-      let newState = set('ui', newUi, state);
-      let draft = initialState.data.draft;
+        moveToOpened: false
+      }, state);
 
       // If the message hasn't been sent, treat it as the draft
-      // and reply to the thread (if it exists).
-      // Otherwise, treat the draft as the reply to the message.
+      // and a reply to the thread (if it exists).
+      // Otherwise, treat the draft as a reply to the message.
+      let draft;
       if (!currentMessage.sentDate) {
-        const draft = Object.assign({}, currentMessage, {
+        draft = Object.assign({}, currentMessage, {
           body: makeField(currentMessage.body),
           charsRemaining: composeMessage.maxChars.message -
                           currentMessage.body.length,
-          replyMessageId: null
+          replyMessageId: thread.length === 0 ?
+                          undefined :
+                          thread[thread.length - 1].messageId
         });
-
-        if (thread.length > 0) {
-          draft.replyMessageId = thread[thread.length - 1].messageId;
-        }
       } else {
-        draft.replyMessageId = currentMessage.messageId;
+        draft = Object.assign({}, initialState.data.draft, {
+          category: currentMessage.category,
+          recipientId: currentMessage.senderId,
+          replyMessageId: currentMessage.messageId,
+          subject: currentMessage.subject
+        });
       }
 
       newState = set('data.thread', thread, newState);
