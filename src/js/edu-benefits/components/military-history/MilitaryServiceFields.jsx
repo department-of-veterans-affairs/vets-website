@@ -45,6 +45,7 @@ export default class MilitaryServiceFields extends React.Component {
       <div className="input-section">
         <p>If you graduated from a military service academy, what year did you graduate?</p>
         <ErrorableNumberInput
+            additionalClass="usa-input-medium"
             errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, (value) => isValidField(isValidYear, { value })) ? undefined : 'Please enter a valid year'}
             label="Year"
             placeholder="yyyy"

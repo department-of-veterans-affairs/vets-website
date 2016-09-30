@@ -34,6 +34,7 @@ class SocialSecurityNumber extends React.Component {
     return (
       <div>
         <ErrorableTextInput
+            additionalClass="usa-input-medium"
             errorMessage={errorMessage}
             label={this.props.label || 'Social Security Number'}
             name="ssn"
