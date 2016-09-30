@@ -3,6 +3,7 @@ import React from 'react';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableNumberInput from '../../../common/components/form-elements/ErrorableNumberInput';
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
+import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 
 import MilitaryServiceTour from './MilitaryServiceTour';
 import { createTour } from '../../utils/veteran';
@@ -52,13 +53,15 @@ export default class MilitaryServiceFields extends React.Component {
             min="1900"
             field={this.props.data.serviceAcademyGraduationYear}
             onValueChange={(update) => {this.props.onStateChange('serviceAcademyGraduationYear', update);}}/>
-        <ErrorableRadioButtons
-            label="Are you on active duty?"
-            name="currentlyActiveDuty"
-            options={yesNo}
-            value={this.props.data.currentlyActiveDuty.yes}
-            onValueChange={(update) => {this.props.onStateChange('currentlyActiveDuty.yes', update);}}/>
-          {this.props.data.currentlyActiveDuty.yes.value === 'Y' ? activeDutyQuestions : null}
+        <ExpandingGroup open={this.props.data.currentlyActiveDuty.yes.value === 'Y'}>
+          <ErrorableRadioButtons
+              label="Are you on active duty?"
+              name="currentlyActiveDuty"
+              options={yesNo}
+              value={this.props.data.currentlyActiveDuty.yes}
+              onValueChange={(update) => {this.props.onStateChange('currentlyActiveDuty.yes', update);}}/>
+          {activeDutyQuestions}
+        </ExpandingGroup>
       </div>
       <div className="input-section">
         <h4>Military service</h4>

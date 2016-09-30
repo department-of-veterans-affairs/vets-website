@@ -83,3 +83,27 @@ button.form-button-disabled {
 .form-error-date {
   margin-top: 0;
 }
+
+.form-expanding-group-inner-closed {
+  transition: margin-top 500ms 0ms, max-height 300ms 0ms, opacity 300ms 0ms;
+  max-height: 0;
+  opacity: 0;
+  margin-top: -30px;
+}
+
+.form-expanding-group-inner-open {
+  transition: margin-top 300ms 0ms, max-height 700ms 0ms, opacity 500ms 200ms;
+  max-height: 800px;
+  opacity: 1;
+  margin-top: 0;
+}
+
+.form-expanding-group {
+  margin-left: -2rem;
+  padding-left: 2rem;
+}
+
+.form-expanding-group-open { 
+  padding-left: calc(2rem - 7px);
+  border-left: 7px solid #9BDAF1;
+}

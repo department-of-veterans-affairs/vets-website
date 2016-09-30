@@ -70,3 +70,12 @@ legend {
     margin-bottom: 0.5em;
   }
 }
+
+@media (max-width: 40.063em) {
+  .progress-box {
+    border:none;
+    padding-left: 2rem - .9375rem;
+    padding-right: 2rem - .9375rem;
+  }
+}
+
