@@ -1982,7 +1982,7 @@ pre[class*='language-']  {
   padding-left: 1rem;
 }
 
-// Flexbox related utilities 
+//====== Flexbox related utility classes
 .va-flex {
   display: -webkit-flex;
   display: flex;
@@ -1993,6 +1993,13 @@ pre[class*='language-']  {
 .va-flex--top {
   -webkit-align-items: flex-start;
   align-items: flex-start;
+}
+
+// Vertically aligns in the middle when flex-direction: row;
+// Aligns center when flex-direction: column
+.va-flex--ctr {
+  -webkit-align-items: center;
+  align-items: center;
 }
 
 // Stretches all flexbox items to be the same height when
