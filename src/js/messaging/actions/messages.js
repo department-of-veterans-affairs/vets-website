@@ -22,22 +22,13 @@ export function deleteMessage(id) {
 
   return dispatch => {
     fetch(url, api.settings.delete)
-    .then(res => res.json())
-    .then(
-      data => {
-        let action = { type: DELETE_MESSAGE_SUCCESS, data };
+    .then(response => {
+      const action = response.ok
+                   ? { type: DELETE_MESSAGE_SUCCESS }
+                   : { type: DELETE_MESSAGE_FAILURE };
 
-        if (data.errors) {
-          action = {
-            type: DELETE_MESSAGE_FAILURE,
-            errors: data.errors
-          };
-        }
-
-        return dispatch(action);
-      },
-      err => dispatch({ type: DELETE_MESSAGE_FAILURE, err })
-    );
+      return dispatch(action);
+    });
   };
 }
 

@@ -1,17 +1,25 @@
+import { browserHistory } from 'react-router';
 import set from 'lodash/fp/set';
 import concat from 'lodash/fp/concat';
 
+import { DELETE_COMPOSE_MESSAGE } from '../actions/compose';
+
 import {
-  CREATE_NEW_FOLDER_FAILURE,
   CREATE_NEW_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
-  FETCH_FOLDERS_FAILURE,
   FETCH_FOLDER_SUCCESS,
-  FETCH_FOLDER_FAILURE,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS,
   SET_CURRENT_FOLDER
 } from '../actions/folders';
+
+import {
+  DELETE_MESSAGE_SUCCESS,
+  SAVE_DRAFT_SUCCESS,
+  SEND_MESSAGE_SUCCESS
+} from '../actions/messages';
+
+import { paths } from '../config';
 
 const initialState = {
   data: {
@@ -24,7 +32,7 @@ const initialState = {
         totalEntries: 0,
         totalPages: 0
       },
-      persistFolder: null
+      persistFolder: 0
     },
     items: []
   },
@@ -69,9 +77,18 @@ export default function folders(state = initialState, action) {
       const newFolderList = concat(state.data.items, action.data.data.attributes);
       return set('data.items', newFolderList, state);
     }
-    case CREATE_NEW_FOLDER_FAILURE:
-    case FETCH_FOLDERS_FAILURE:
-    case FETCH_FOLDER_FAILURE:
+
+    case DELETE_COMPOSE_MESSAGE:
+    case DELETE_MESSAGE_SUCCESS:
+    case SAVE_DRAFT_SUCCESS:
+    case SEND_MESSAGE_SUCCESS: {
+      // Upon completing any of these actions, go to the most recent folder.
+      const currentFolderId = state.data.currentItem.persistFolder;
+      const returnUrl = `${paths.FOLDERS_URL}/${currentFolderId}`;
+      browserHistory.replace(returnUrl);
+      return state;
+    }
+
     default:
       return state;
   }
