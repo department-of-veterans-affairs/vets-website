@@ -84,6 +84,11 @@ button.form-button-disabled {
   margin-top: 0;
 }
 
+@media #{$medium} {
+  .form-select-medium {
+    max-width: 12rem;
+  }
+}
 .form-expanding-group-inner-closed {
   transition: margin-top 500ms 0ms, max-height 300ms 0ms, opacity 300ms 0ms;
   max-height: 0;
