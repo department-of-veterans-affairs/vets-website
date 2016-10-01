@@ -5,6 +5,8 @@ export const DELETE_MESSAGE_SUCCESS = 'DELETE_MESSAGE_SUCCESS';
 export const DELETE_MESSAGE_FAILURE = 'DELETE_MESSAGE_FAILURE';
 export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
 export const FETCH_THREAD_FAILURE = 'FETCH_THREAD_FAILURE';
+export const MOVE_MESSAGE_SUCCESS = 'MOVE_MESSAGE_SUCCESS';
+export const MOVE_MESSAGE_FAILURE = 'MOVE_MESSAGE_FAILURE';
 export const SAVE_DRAFT_SUCCESS = 'SAVE_DRAFT_SUCCESS';
 export const SAVE_DRAFT_FAILURE = 'SAVE_DRAFT_FAILURE';
 export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
@@ -51,6 +53,22 @@ export function fetchThread(id) {
       }),
       err => dispatch({ type: FETCH_THREAD_FAILURE, err })
     );
+  };
+}
+
+export function moveMessageToFolder(message, folder) {
+  const messageId = message.messageId;
+  const folderId = folder.folderId;
+  const url = `${baseUrl}/${messageId}/move?folder_id=${folderId}`;
+  return dispatch => {
+    fetch(url, api.settings.patch)
+    .then(response => {
+      const action = response.ok
+                   ? { type: MOVE_MESSAGE_SUCCESS, message, folder }
+                   : { type: MOVE_MESSAGE_FAILURE };
+
+      return dispatch(action);
+    });
   };
 }
 

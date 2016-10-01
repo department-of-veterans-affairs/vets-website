@@ -11,6 +11,8 @@ import {
 import {
   DELETE_MESSAGE_FAILURE,
   DELETE_MESSAGE_SUCCESS,
+  MOVE_MESSAGE_FAILURE,
+  MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_FAILURE,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_FAILURE,
@@ -85,6 +87,25 @@ export default function alert(state = initialState, action) {
         <b>Your message has been deleted.</b>,
         alertStatus.SUCCESS
       );
+
+    case MOVE_MESSAGE_FAILURE:
+      return createAlert(
+        <b>Failed to move message.</b>,
+        alertStatus.ERROR
+      );
+
+    case MOVE_MESSAGE_SUCCESS: {
+      const link = (
+        <Link to={`/messaging/folder/${action.folder.folderId}`}>
+          {action.folder.name}
+        </Link>
+      );
+
+      return createAlert(
+        <b>Your message has been moved to {link}.</b>,
+        alertStatus.SUCCESS
+      );
+    }
 
     case SAVE_DRAFT_FAILURE:
       return createAlert(

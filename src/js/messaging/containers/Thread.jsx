@@ -5,6 +5,7 @@ import {
   deleteMessage,
   deleteReply,
   fetchThread,
+  moveMessageToFolder,
   saveDraft,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
@@ -74,13 +75,12 @@ class Thread extends React.Component {
     }
   }
 
-  handleMoveTo() {
-    // TODO: Make this call a function that dispatches an action
-    // domEvent will bubble up from the radio button
-    // to the form, which is why we're using currentTarget.
-    // instead of target.
-    // const folderId = domEvent.currentTarget.messagingMoveToFolder.value;
-    // const threadId = domEvent.currentTarget.threadId.value;
+  handleMoveTo(folderId) {
+    const moveToFolder = this.props.folders.find((folder) => {
+      return folder.folderId === folderId;
+    });
+
+    this.props.moveMessageToFolder(this.props.message, moveToFolder);
   }
 
   render() {
@@ -138,7 +138,6 @@ class Thread extends React.Component {
             onClickNext={fetchNextMessage}
             subject={this.props.message.subject}
             threadMessageCount={thread.length + 1}
-            threadId={this.props.params.id}
             messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
             moveToIsOpen={this.props.moveToOpened}
             onChooseFolder={this.handleMoveTo}
@@ -227,6 +226,7 @@ const mapDispatchToProps = {
   deleteMessage,
   deleteReply,
   fetchThread,
+  moveMessageToFolder,
   saveDraft,
   toggleConfirmDelete,
   toggleCreateFolderModal,

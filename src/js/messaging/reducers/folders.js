@@ -16,6 +16,7 @@ import {
 
 import {
   DELETE_MESSAGE_SUCCESS,
+  MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS
 } from '../actions/messages';
@@ -89,6 +90,7 @@ export default function folders(state = initialState, action) {
 
     case DELETE_COMPOSE_MESSAGE:
     case DELETE_MESSAGE_SUCCESS:
+    case MOVE_MESSAGE_SUCCESS:
     case SAVE_DRAFT_SUCCESS:
     case SEND_MESSAGE_SUCCESS: {
       // Upon completing any of these actions, go to the most recent folder.

@@ -5,6 +5,19 @@ import ButtonMove from './buttons/ButtonMove';
 import MoveToOption from './MoveToOption';
 
 class MoveTo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChooseFolder = this.handleChooseFolder.bind(this);
+  }
+
+  handleChooseFolder(domEvent) {
+    // domEvent will bubble up from the radio button
+    // to the form, which is why we're using currentTarget.
+    // instead of target.
+    const folderId = domEvent.currentTarget.messagingMoveToFolder.value;
+    this.props.onChooseFolder(+folderId);
+  }
+
   render() {
     const folderOptions = this.props.folders.map((folder) => {
       return (
@@ -21,11 +34,7 @@ class MoveTo extends React.Component {
         <ButtonMove onClick={this.props.onToggleMoveTo}/>
         <form
             hidden={this.props.isOpen}
-            onChange={this.props.onChooseFolder}>
-          <input
-              name="threadId"
-              type="hidden"
-              value={this.props.threadId}/>
+            onChange={this.handleChooseFolder}>
           <fieldset>
             <legend className="usa-sr-only">
               Move this message to
@@ -51,7 +60,6 @@ MoveTo.propTypes = {
     })
   ).isRequired,
   isOpen: React.PropTypes.bool,
-  threadId: React.PropTypes.string.isRequired,
   onChooseFolder: React.PropTypes.func.isRequired,
   onCreateFolder: React.PropTypes.func.isRequired,
   onToggleMoveTo: React.PropTypes.func.isRequired,
