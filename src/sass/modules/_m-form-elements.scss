@@ -83,3 +83,9 @@ button.form-button-disabled {
 .form-error-date {
   margin-top: 0;
 }
+
+@media #{$medium} {
+  .form-select-medium {
+    max-width: 12rem;
+  }
+}
