@@ -102,12 +102,14 @@ button.form-button-disabled {
 }
 
 .form-expanding-group-inner-leave.form-expanding-group-inner-leave-active {
+  -webkit-transition: margin-top 500ms 0ms, max-height 300ms 0ms, opacity 300ms 0ms;
   transition: margin-top 500ms 0ms, max-height 300ms 0ms, opacity 300ms 0ms;
   max-height: 0;
   opacity: 0;
 }
 
 .form-expanding-group-inner-enter.form-expanding-group-inner-enter-active {
+  -webkit-transition: margin-top 300ms 0ms, max-height 700ms 0ms, opacity 500ms 200ms;
   transition: margin-top 300ms 0ms, max-height 700ms 0ms, opacity 500ms 200ms;
   max-height: 800px;
   opacity: 1;
