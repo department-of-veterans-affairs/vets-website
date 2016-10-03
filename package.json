@@ -115,6 +115,7 @@
     "react": "^15.2.1",
     "react-addons-perf": "^15.3.0",
     "react-addons-test-utils": "^15.3.0",
+    "react-datepicker": "^0.29.0",
     "react-dom": "^15.2.1",
     "react-leaflet": "^1.0.0-beta.3",
     "react-redux": "^4.4.5",
