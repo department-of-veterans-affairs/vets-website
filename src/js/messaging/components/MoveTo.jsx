@@ -8,14 +8,22 @@ class MoveTo extends React.Component {
   constructor(props) {
     super(props);
     this.handleChooseFolder = this.handleChooseFolder.bind(this);
+    this.openCreateFolderModal = this.openCreateFolderModal.bind(this);
+  }
+
+  openCreateFolderModal() {
+    this.props.onCreateFolder(this.props.messageId);
   }
 
   handleChooseFolder(domEvent) {
     // domEvent will bubble up from the radio button
     // to the form, which is why we're using currentTarget.
     // instead of target.
-    const folderId = domEvent.currentTarget.messagingMoveToFolder.value;
-    this.props.onChooseFolder(+folderId);
+    const folderId = +domEvent.currentTarget.messagingMoveToFolder.value;
+    const moveToFolder = this.props.folders.find((folder) => {
+      return folder.folderId === folderId;
+    });
+    this.props.onChooseFolder(this.props.messageId, moveToFolder);
   }
 
   render() {
@@ -43,7 +51,7 @@ class MoveTo extends React.Component {
               {folderOptions}
               <li>
                 <ButtonCreateFolder
-                    onClick={() => this.props.onCreateFolder(true)}/>
+                    onClick={this.openCreateFolderModal}/>
               </li>
             </ul>
           </fieldset>
@@ -63,6 +71,7 @@ MoveTo.propTypes = {
     })
   ).isRequired,
   isOpen: React.PropTypes.bool,
+  messageId: React.PropTypes.number,
   onChooseFolder: React.PropTypes.func.isRequired,
   onCreateFolder: React.PropTypes.func.isRequired,
   onToggleMoveTo: React.PropTypes.func.isRequired,

@@ -20,7 +20,7 @@ const initialState = {
   createFolder: {
     visible: false,
     newFolderName: makeField(''),
-    moveAfterCreate: false
+    moveMessage: undefined
   }
 };
 
@@ -37,7 +37,7 @@ export default function modals(state = initialState, action) {
       return set('createFolder', {
         visible: true,
         newFolderName: makeField(''),
-        moveAfterCreate: action.moveAfterCreate
+        moveMessage: action.moveMessage
       }, state);
     case SET_NEW_FOLDER_NAME:
       return set('createFolder.newFolderName', action.folderName, state);

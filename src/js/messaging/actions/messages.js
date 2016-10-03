@@ -1,4 +1,5 @@
 import { api } from '../config';
+import { CREATE_FOLDER_FAILURE } from './folders';
 
 export const DELETE_REPLY = 'DELETE_REPLY';
 export const DELETE_MESSAGE_SUCCESS = 'DELETE_MESSAGE_SUCCESS';
@@ -18,6 +19,28 @@ export const UPDATE_REPLY_BODY = 'UPDATE_REPLY_BODY';
 export const UPDATE_REPLY_CHARACTER_COUNT = 'UPDATE_REPLY_CHARACTER_COUNT';
 
 const baseUrl = `${api.url}/messages`;
+
+export function createFolderAndMoveMessage(folderName, messageId) {
+  const foldersUrl = `${api.url}/folders`;
+  const folderData = { folder: { name: folderName } };
+  const settings = Object.assign({}, api.settings.post, {
+    body: JSON.stringify(folderData)
+  });
+
+  return dispatch => {
+    fetch(foldersUrl, settings)
+    .then(response => {
+      if (!response.ok) {
+        return dispatch({ type: CREATE_FOLDER_FAILURE, error });
+      }
+
+      return response.json().then(
+        data => dispatch(moveMessageToFolder(messageId, data.data.attributes)),
+        error => dispatch({ type: MOVE_MESSAGE_FAILURE, error })
+      );
+    })
+  };
+}
 
 export function deleteMessage(id) {
   const url = `${baseUrl}/${id}`;
@@ -56,15 +79,14 @@ export function fetchThread(id) {
   };
 }
 
-export function moveMessageToFolder(message, folder) {
-  const messageId = message.messageId;
+export function moveMessageToFolder(messageId, folder) {
   const folderId = folder.folderId;
   const url = `${baseUrl}/${messageId}/move?folder_id=${folderId}`;
   return dispatch => {
     fetch(url, api.settings.patch)
     .then(response => {
       const action = response.ok
-                   ? { type: MOVE_MESSAGE_SUCCESS, message, folder }
+                   ? { type: MOVE_MESSAGE_SUCCESS, folder }
                    : { type: MOVE_MESSAGE_FAILURE };
 
       return dispatch(action);

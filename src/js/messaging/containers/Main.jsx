@@ -9,6 +9,8 @@ import {
   toggleManagedFolders
 } from '../actions/folders';
 
+import { createFolderAndMoveMessage } from '../actions/messages';
+
 import {
   setNewFolderName,
   closeCreateFolderModal,
@@ -40,8 +42,14 @@ class Main extends React.Component {
   }
 
   handleSubmitCreateNewFolder(folderName) {
-    this.props.createNewFolder(folderName);
-    this.props.closeCreateFolderModal();
+    const messageId = this.props.createFolderModal.moveMessage;
+    if (messageId !== undefined) {
+      this.props.createFolderAndMoveMessage(folderName, messageId);
+      this.props.closeCreateFolderModal();
+    } else {
+      this.props.createNewFolder(folderName);
+      this.props.closeCreateFolderModal();
+    }
   }
 
   render() {
@@ -97,6 +105,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   closeCreateFolderModal,
+  createFolderAndMoveMessage,
   createNewFolder,
   openCreateFolderModal,
   toggleFolderNav,

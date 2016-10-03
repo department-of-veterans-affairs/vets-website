@@ -35,7 +35,6 @@ class Thread extends React.Component {
     this.handleReplySave = this.handleReplySave.bind(this);
     this.handleReplySend = this.handleReplySend.bind(this);
     this.handleReplyDelete = this.handleReplyDelete.bind(this);
-    this.handleMoveTo = this.handleMoveTo.bind(this);
     this.isDraft = this.isDraft.bind(this);
   }
 
@@ -73,14 +72,6 @@ class Thread extends React.Component {
     if (this.isDraft()) {
       this.props.deleteMessage(this.props.message.messageId);
     }
-  }
-
-  handleMoveTo(folderId) {
-    const moveToFolder = this.props.folders.find((folder) => {
-      return folder.folderId === folderId;
-    });
-
-    this.props.moveMessageToFolder(this.props.message, moveToFolder);
   }
 
   render() {
@@ -133,14 +124,14 @@ class Thread extends React.Component {
             currentMessageNumber={currentIndex + 1}
             moveToFolders={folders}
             folderMessageCount={folderMessageCount}
-            persistedFolder={this.props.persistFolder}
+            message={this.props.message}
             onClickPrev={fetchPrevMessage}
             onClickNext={fetchNextMessage}
-            subject={this.props.message.subject}
+            persistedFolder={this.props.persistFolder}
             threadMessageCount={thread.length + 1}
             messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
             moveToIsOpen={this.props.moveToOpened}
-            onChooseFolder={this.handleMoveTo}
+            onChooseFolder={this.props.moveMessageToFolder}
             onCreateFolder={this.props.openCreateFolderModal}
             onToggleThread={this.props.toggleMessagesCollapsed}
             onToggleMoveTo={this.props.toggleMoveTo}/>

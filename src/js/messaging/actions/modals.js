@@ -10,10 +10,12 @@ export function closeCreateFolderModal() {
   };
 }
 
-export function openCreateFolderModal(moveAfterCreate = false) {
+export function openCreateFolderModal(moveMessage) {
+  // If defined, moveMessage is the id of the message
+  // to move to the newly created folder.
   return {
     type: OPEN_CREATE_FOLDER,
-    moveAfterCreate
+    moveMessage
   };
 }
 
