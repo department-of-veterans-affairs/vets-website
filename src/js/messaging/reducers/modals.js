@@ -31,7 +31,6 @@ export default function modals(state = initialState, action) {
     case TOGGLE_ATTACHMENTS:
       return set('attachments.visible', !state.attachments.visible, state);
     case CLOSE_CREATE_FOLDER:
-      // Reset the form when closed.
       return set('createFolder', initialState.createFolder, state);
     case OPEN_CREATE_FOLDER:
       return set('createFolder', {
