@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 import {
   deleteFolder,
@@ -7,14 +8,19 @@ import {
 } from '../actions/folders';
 
 import ButtonDelete from '../components/buttons/ButtonDelete';
+import { paths } from '../config';
 
 class Settings extends React.Component {
   render() {
     const folderRows = this.props.folders.map(folder => {
+      const link = `${paths.FOLDERS_URL}/${folder.folderId}`;
+
       return (
         <tr key={folder.folderId}>
           <td>
-            {folder.name}
+            <Link to={link}>
+              {folder.name}
+            </Link>
           </td>
           <td>
             {folder.count}
@@ -38,18 +44,20 @@ class Settings extends React.Component {
           </button>
           <h2>Settings</h2>
         </div>
-        <table className="usa-table-borderless">
-          <thead>
-            <tr>
-              <th>Folder name</th>
-              <th>Total messages</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {folderRows}
-          </tbody>
-        </table>
+        <div id="messaging-settings">
+          <table className="usa-table-borderless">
+            <thead>
+              <tr>
+                <th>Folder name</th>
+                <th>Total messages</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {folderRows}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }

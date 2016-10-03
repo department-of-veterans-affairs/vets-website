@@ -1,0 +1,14 @@
+#messaging-settings {
+  @media(max-width: $medium-screen) {
+    padding: 0 2rem;
+  }
+
+  table {
+    button {
+      float: right;
+      font-weight: normal;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}
