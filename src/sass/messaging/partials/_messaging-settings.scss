@@ -1,0 +1,23 @@
+#messaging-settings {
+  padding: 2rem 0;
+
+  @media(max-width: $medium-screen) {
+    padding: 2rem;
+  }
+
+  table {
+    margin: 0;
+
+    button {
+      float: right;
+      font-weight: normal;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .msg-btn-newfolder {
+    margin: 2rem;
+    width: auto;
+  }
+}
