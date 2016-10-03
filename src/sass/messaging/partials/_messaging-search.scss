@@ -143,8 +143,8 @@
 
 .msg-search-date-range {
   margin-left: 7rem;
-  position: absolute;
-  top: 0;
+  position: relative;
+  top: -3.2rem;
   
   @media (min-width: $medium-screen) {
     margin-left: 10rem;
