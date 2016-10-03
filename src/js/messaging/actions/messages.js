@@ -1,5 +1,9 @@
 import { api } from '../config';
-import { CREATE_FOLDER_FAILURE } from './folders';
+
+import {
+  CREATE_FOLDER_FAILURE,
+  CREATE_FOLDER_SUCCESS
+} from './folders';
 
 export const DELETE_REPLY = 'DELETE_REPLY';
 export const DELETE_MESSAGE_SUCCESS = 'DELETE_MESSAGE_SUCCESS';
@@ -35,7 +39,11 @@ export function createFolderAndMoveMessage(folderName, messageId) {
       }
 
       return response.json().then(
-        data => dispatch(moveMessageToFolder(messageId, data.data.attributes)),
+        data => {
+          const folder = data.data.attributes;
+          dispatch({ type: CREATE_FOLDER_SUCCESS, folder, noAlert: true });
+          return dispatch(moveMessageToFolder(messageId, folder));
+        },
         error => dispatch({ type: MOVE_MESSAGE_FAILURE, error })
       );
     })

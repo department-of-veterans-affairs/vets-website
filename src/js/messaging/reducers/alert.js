@@ -38,6 +38,10 @@ const createAlert = (content, status, visible = true) => {
 const initialState = createAlert('', alertStatus.INFO, false);
 
 export default function alert(state = initialState, action) {
+  if (action.noAlert) {
+    return state;
+  }
+
   switch (action.type) {
     case CLOSE_ALERT:
       return createAlert('', alertStatus.INFO, false);
