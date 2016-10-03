@@ -63,6 +63,7 @@ export default class MilitaryServiceFields extends React.Component {
       </div>
       <div className="input-section">
         <h4>Military service</h4>
+        <p>Please record all your tours of duty.</p>
         <hr/>
         <div className="input-section">
           <GrowableTable
