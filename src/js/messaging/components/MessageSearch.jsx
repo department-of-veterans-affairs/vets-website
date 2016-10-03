@@ -1,4 +1,5 @@
 import React from 'react';
+import MessageSearchAdvanced from './MessageSearchAdvanced';
 
 class MessageSearch extends React.Component {
   render() {
@@ -20,6 +21,7 @@ class MessageSearch extends React.Component {
             <span className="msg-search-btn-text">Search</span>
           </button>
         </div>
+        <MessageSearchAdvanced isOpen/>
       </form>);
   }
 }
