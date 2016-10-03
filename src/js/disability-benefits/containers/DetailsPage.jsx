@@ -1,6 +1,6 @@
 import React from 'react';
 import TabNav from '../components/TabNav';
-import AskVAQuestions from '../components/AskVAQuestions'
+import AskVAQuestions from '../components/AskVAQuestions';
 
 class DetailsPage extends React.Component {
   render() {
@@ -13,7 +13,7 @@ class DetailsPage extends React.Component {
               <h1>Your {"Compensation"} Claim</h1>
               <h6>Your Claimed Conditions:</h6>
               <p className="list">{"Tinnitus, Arthritis, PTSD"}</p>
-              <TabNav />
+              <TabNav/>
             </div>
 
             <div className="claim-details">
@@ -38,7 +38,7 @@ class DetailsPage extends React.Component {
             </div>
           </div>
 
-          <AskVAQuestions />
+          <AskVAQuestions/>
         </div>
       </div>
     );
