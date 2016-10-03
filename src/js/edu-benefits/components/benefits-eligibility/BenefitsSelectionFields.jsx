@@ -59,7 +59,7 @@ export default class BenefitsSelectionFields extends React.Component {
             value={this.props.data.applyingUsingOwnBenefits}
             onValueChange={(update) => {this.props.onStateChange('applyingUsingOwnBenefits', update);}}/>
       </div>
-      <p>Choose an education benefit:</p>
+      <p>Select the benefit that is the best match for you. If you are eligible for more than one, we can help you make the best choice.</p>
       <div className="input-section">
         <ErrorableCheckbox
             label="Post-9/11 GI Bill (Chapter 33)"

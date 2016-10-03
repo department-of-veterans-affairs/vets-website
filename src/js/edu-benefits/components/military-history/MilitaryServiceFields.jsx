@@ -24,7 +24,7 @@ export default class MilitaryServiceFields extends React.Component {
       <div>
         <ErrorableRadioButtons
             errorMessage={validateIfDirty(this.props.data.currentlyActiveDuty.onTerminalLeave, isNotBlank) ? '' : 'Please select a response'}
-            label="Are you on terminal leave?"
+            label="Are you currently on terminal leave?"
             name="onTerminalLeave"
             options={yesNo}
             value={this.props.data.currentlyActiveDuty.onTerminalLeave}
@@ -43,7 +43,7 @@ export default class MilitaryServiceFields extends React.Component {
       <legend>Military service</legend>
       <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
       <div className="input-section">
-        <p>If you graduated from a military service academy, what year did you graduate?</p>
+        <p>If you received a commission from a military service academy, what year did you graduate?</p>
         <ErrorableNumberInput
             additionalClass="usa-input-medium"
             errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, (value) => isValidField(isValidYear, { value })) ? undefined : 'Please enter a valid year'}
@@ -54,7 +54,7 @@ export default class MilitaryServiceFields extends React.Component {
             field={this.props.data.serviceAcademyGraduationYear}
             onValueChange={(update) => {this.props.onStateChange('serviceAcademyGraduationYear', update);}}/>
         <ErrorableRadioButtons
-            label="Are you on active duty?"
+            label="Are you currently on active duty?"
             name="currentlyActiveDuty"
             options={yesNo}
             value={this.props.data.currentlyActiveDuty.yes}
