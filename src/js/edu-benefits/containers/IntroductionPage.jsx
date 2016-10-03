@@ -20,7 +20,6 @@ class IntroductionPage extends React.Component {
                 </div>
               </div>
               <p>This application is based on VA Form 22-1990.</p>
-              <strong>Note:</strong> According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information. (See 18 U.S.C. 1001)
             </div>
           </div>
         </div>
