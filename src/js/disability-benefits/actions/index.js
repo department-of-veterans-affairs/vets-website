@@ -1,26 +1,27 @@
-export function fetchData(data) {
-  // TODO: fix fetch json function
+export const SET_CLAIMS = 'SET_CLAIMS';
 
-  // const application = veteranToApplication(data);
-  // return dispatch => {
-  //   dispatch(updateSubmissionStatus('submitPending'));
-  //   fetch('/v0/disability_benefits', {
-  //     method: 'GET',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'X-Key-Inflection': 'camel'
-  //     },
-  //     body: JSON.stringify({
-  //       educationBenefitsClaim: {
-  //         form: application
-  //       }
-  //     })
-  //   }).then(res => {
-  //     if (res.ok) {
-  //       dispatch(updateSubmissionStatus('applicationSubmitted'));
-  //     } else {
-  //       dispatch(updateSubmissionStatus('error'));
-  //     }
-  //   });
-  // };
+export function getClaims() {
+  return (dispatch) => {
+    // fetch('/api/v0/disability_claims', {
+    //   method: 'GET',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     'X-Key-Inflection': 'camel'
+    //   }
+    // })
+    //   .then(res => res.json())
+    //   .then(
+    //     claims => dispatch({ type: 'SET_CLAIMS', claims })
+    //   );
+    dispatch({
+      type: SET_CLAIMS,
+      claims: [{
+        id: '1234',
+        type: 'disability_claims',
+        attributes: {
+          dateFiled: '2016-06-01'
+        }
+      }]
+    });
+  };
 }
