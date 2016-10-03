@@ -29,7 +29,6 @@ class ModalCreateFolder extends React.Component {
       return;
     }
 
-    const foldersWeHave = this.props.folders;
     this.props.onSubmit(newFolderName);
   }
 
