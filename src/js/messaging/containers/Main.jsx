@@ -46,16 +46,8 @@ class Main extends React.Component {
     this.props.toggleCreateFolderModal();
   }
 
-  handleSubmitCreateNewFolder(domEvent) {
-    domEvent.preventDefault();
-    const input = domEvent.target.getElementsByTagName('input')[0];
-    // If, by chance, the veteran has submitted this form without touching the
-    // folder name field, trigger an action that will trigger an error.
-    if (input.value === '') {
-      this.props.setNewFolderName({ value: '', dirty: true });
-    } else {
-      this.props.createNewFolder(input.value);
-    }
+  handleSubmitCreateNewFolder(folderName) {
+    this.props.createNewFolder(folderName);
     this.handleCreateNewFolderModal();
   }
 
