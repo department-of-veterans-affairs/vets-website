@@ -5,9 +5,6 @@
 // other such libraries in here. Most of the site does not use these legacy
 // frameworks and it belongs in a lower-level module.
 
-// Global site style.
-require('../../sass/style.scss');
-
 // TODO(awong): This shouldn't be required with the correct babel transform, yet IE9 broke
 // without it. Test.
 require('babel-polyfill');
