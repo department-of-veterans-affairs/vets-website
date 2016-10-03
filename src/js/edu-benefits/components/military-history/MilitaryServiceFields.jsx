@@ -54,7 +54,7 @@ export default class MilitaryServiceFields extends React.Component {
             min="1900"
             field={this.props.data.serviceAcademyGraduationYear}
             onValueChange={(update) => {this.props.onStateChange('serviceAcademyGraduationYear', update);}}/>
-        <ExpandingGroup open={this.props.data.currentlyActiveDuty.yes.value === 'Y'} adjustment="-30px">
+        <ExpandingGroup open={this.props.data.currentlyActiveDuty.yes.value === 'Y'} additionalClass="edu-benefits-mil-group">
           <ErrorableRadioButtons
               label="Are you on active duty?"
               name="currentlyActiveDuty"

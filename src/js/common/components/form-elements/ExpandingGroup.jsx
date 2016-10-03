@@ -1,16 +1,17 @@
 import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
-export default function ExpandingGroup({ children, open, adjustment }) {
-  const style = {
-    marginTop: open ? '' : adjustment
-  };
-
+export default function ExpandingGroup({ children, open, additionalClass }) {
   return (
     <div className={open ? 'form-expanding-group form-expanding-group-open' : 'form-expanding-group'}>
       {children[0]}
-      <div style={style} className={open ? 'form-expanding-group-inner-open' : 'form-expanding-group-inner-closed'}>
-        {children[1]}
-      </div>
+      <ReactCSSTransitionGroup transitionName="form-expanding-group-inner" transitionEnterTimeout={700} transitionLeaveTimeout={500}>
+        {open
+          ? <div key="removable-group" className={additionalClass}>
+            {children[1]}
+          </div>
+          : null}
+      </ReactCSSTransitionGroup>
     </div>
   );
 }

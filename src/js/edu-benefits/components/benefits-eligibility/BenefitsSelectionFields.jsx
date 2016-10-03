@@ -59,7 +59,7 @@ export default class BenefitsSelectionFields extends React.Component {
       </div>
       <p>Choose an education benefit:</p>
       <div className="input-section">
-        <ExpandingGroup open={this.props.data.chapter33} adjustment="-15px">
+        <ExpandingGroup open={this.props.data.chapter33} additionalClass="edu-benefits-chapter33-group">
           <ErrorableCheckbox
               label="Post-9/11 GI Bill (Chapter 33)"
               name="chapter33"

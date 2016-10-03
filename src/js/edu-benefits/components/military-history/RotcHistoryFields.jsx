@@ -18,7 +18,7 @@ export default class RotcHistoryFields extends React.Component {
     return (<fieldset>
       <legend>ROTC history</legend>
       <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
-      <ExpandingGroup open={this.props.data.seniorRotcCommissioned.value === 'Y'} adjustment="-30px">
+      <ExpandingGroup open={this.props.data.seniorRotcCommissioned.value === 'Y'} additionalClass="edu-benefits-rotc-group">
         <ErrorableRadioButtons
             label="Were you commissioned as a result of senior ROTC?"
             name="seniorRotcCommissioned"
