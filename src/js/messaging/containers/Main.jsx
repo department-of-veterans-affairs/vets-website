@@ -17,7 +17,6 @@ import {
   openCreateFolderModal
 } from '../actions/modals';
 
-import { makeField } from '../../common/model/fields';
 import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';

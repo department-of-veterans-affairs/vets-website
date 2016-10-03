@@ -24,32 +24,6 @@ export const UPDATE_REPLY_CHARACTER_COUNT = 'UPDATE_REPLY_CHARACTER_COUNT';
 
 const baseUrl = `${api.url}/messages`;
 
-export function createFolderAndMoveMessage(folderName, messageId) {
-  const foldersUrl = `${api.url}/folders`;
-  const folderData = { folder: { name: folderName } };
-  const settings = Object.assign({}, api.settings.post, {
-    body: JSON.stringify(folderData)
-  });
-
-  return dispatch => {
-    fetch(foldersUrl, settings)
-    .then(response => {
-      if (!response.ok) {
-        return dispatch({ type: CREATE_FOLDER_FAILURE, error });
-      }
-
-      return response.json().then(
-        data => {
-          const folder = data.data.attributes;
-          dispatch({ type: CREATE_FOLDER_SUCCESS, folder, noAlert: true });
-          return dispatch(moveMessageToFolder(messageId, folder));
-        },
-        error => dispatch({ type: MOVE_MESSAGE_FAILURE, error })
-      );
-    })
-  };
-}
-
 export function deleteMessage(id) {
   const url = `${baseUrl}/${id}`;
 
@@ -98,6 +72,32 @@ export function moveMessageToFolder(messageId, folder) {
                    : { type: MOVE_MESSAGE_FAILURE };
 
       return dispatch(action);
+    });
+  };
+}
+
+export function createFolderAndMoveMessage(folderName, messageId) {
+  const foldersUrl = `${api.url}/folders`;
+  const folderData = { folder: { name: folderName } };
+  const settings = Object.assign({}, api.settings.post, {
+    body: JSON.stringify(folderData)
+  });
+
+  return dispatch => {
+    fetch(foldersUrl, settings)
+    .then(response => {
+      if (!response.ok) {
+        return dispatch({ type: CREATE_FOLDER_FAILURE });
+      }
+
+      return response.json().then(
+        data => {
+          const folder = data.data.attributes;
+          dispatch({ type: CREATE_FOLDER_SUCCESS, folder, noAlert: true });
+          return dispatch(moveMessageToFolder(messageId, folder));
+        },
+        error => dispatch({ type: MOVE_MESSAGE_FAILURE, error })
+      );
     });
   };
 }

@@ -11,8 +11,6 @@ import ButtonDelete from '../components/buttons/ButtonDelete';
 class Settings extends React.Component {
   render() {
     const folderRows = this.props.folders.map(folder => {
-      const deleteFolder = () => this.props.deleteFolder(folder);
-
       return (
         <tr key={folder.folderId}>
           <td>
@@ -23,7 +21,7 @@ class Settings extends React.Component {
           </td>
           <td>
             <ButtonDelete
-              onClickHandler={deleteFolder}/>
+                onClickHandler={() => this.props.deleteFolder(folder)}/>
           </td>
         </tr>
       );
@@ -32,13 +30,13 @@ class Settings extends React.Component {
     return (
       <div>
         <div id="messaging-content-header">
-            <button
-                className="messaging-menu-button"
-                type="button"
-                onClick={this.props.toggleFolderNav}>
-              Menu
-            </button>
-            <h2>Settings</h2>
+          <button
+              className="messaging-menu-button"
+              type="button"
+              onClick={this.props.toggleFolderNav}>
+            Menu
+          </button>
+          <h2>Settings</h2>
         </div>
         <table className="usa-table-borderless">
           <thead>
