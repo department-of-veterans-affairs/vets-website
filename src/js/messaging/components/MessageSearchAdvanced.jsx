@@ -49,7 +49,7 @@ class MessageSearchAdvanced extends React.Component {
               <DatePicker
                   id="msg-search-date-start"
                   onChange={() => {}}
-                  placeholder="MM/DD/YYYY"/>
+                  placeholderText="MM/DD/YYYY"/>
               <span>to</span>
               <label
                   className="usa-sr-only"
@@ -57,7 +57,7 @@ class MessageSearchAdvanced extends React.Component {
               <DatePicker
                   id="msg-search-date-end"
                   onChange={() => {}}
-                  placeholder="MM/DD/YYYY"/>
+                  placeholderText="MM/DD/YYYY"/>
             </div>
           </fieldset>
           <button
