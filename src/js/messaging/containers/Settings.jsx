@@ -7,6 +7,8 @@ import {
   toggleFolderNav
 } from '../actions/folders';
 
+import { openCreateFolderModal } from '../actions/modals';
+import ButtonCreateFolder from '../components/buttons/ButtonCreateFolder';
 import ButtonDelete from '../components/buttons/ButtonDelete';
 import { paths } from '../config';
 
@@ -57,6 +59,7 @@ class Settings extends React.Component {
               {folderRows}
             </tbody>
           </table>
+          <ButtonCreateFolder onClick={this.props.openCreateFolderModal}/>
         </div>
       </div>
     );
@@ -71,6 +74,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   deleteFolder,
+  openCreateFolderModal,
   toggleFolderNav
 };
 
