@@ -11,7 +11,8 @@ import {
 
 import {
   setNewFolderName,
-  toggleCreateFolderModal
+  closeCreateFolderModal,
+  openCreateFolderModal
 } from '../actions/modals';
 
 import { makeField } from '../../common/model/fields';
@@ -26,7 +27,6 @@ class Main extends React.Component {
     super(props);
     this.handleFolderChange = this.handleFolderChange.bind(this);
     this.handleFolderNameChange = this.handleFolderNameChange.bind(this);
-    this.handleCreateNewFolderModal = this.handleCreateNewFolderModal.bind(this);
     this.handleSubmitCreateNewFolder = this.handleSubmitCreateNewFolder.bind(this);
   }
 
@@ -39,16 +39,9 @@ class Main extends React.Component {
     this.props.setNewFolderName(field);
   }
 
-  handleCreateNewFolderModal() {
-    // Reset the form / state object when closed
-    const resetForm = makeField('');
-    this.props.setNewFolderName(resetForm);
-    this.props.toggleCreateFolderModal();
-  }
-
   handleSubmitCreateNewFolder(folderName) {
     this.props.createNewFolder(folderName);
-    this.handleCreateNewFolderModal();
+    this.props.closeCreateFolderModal();
   }
 
   render() {
@@ -68,7 +61,7 @@ class Main extends React.Component {
               folders={this.props.folders}
               isExpanded={this.props.nav.foldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
-              onCreateNewFolder={this.props.toggleCreateFolderModal}
+              onCreateNewFolder={this.props.openCreateFolderModal}
               onFolderChange={this.handleOnFolderChange}/>
         </div>
         <div id="messaging-content">
@@ -79,7 +72,7 @@ class Main extends React.Component {
             cssClass="messaging-modal"
             folders={this.props.folders}
             id="messaging-create-folder"
-            onClose={this.handleCreateNewFolderModal}
+            onClose={this.props.closeCreateFolderModal}
             onValueChange={this.handleFolderNameChange}
             onSubmit={this.handleSubmitCreateNewFolder}
             visible={this.props.createFolderModal.visible}
@@ -103,8 +96,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  closeCreateFolderModal,
   createNewFolder,
-  toggleCreateFolderModal,
+  openCreateFolderModal,
   toggleFolderNav,
   toggleManagedFolders,
   setCurrentFolder,

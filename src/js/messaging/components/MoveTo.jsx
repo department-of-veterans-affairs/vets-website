@@ -41,7 +41,10 @@ class MoveTo extends React.Component {
             </legend>
             <ul className="msg-move-to-options">
               {folderOptions}
-              <li><ButtonCreateFolder onClick={this.props.onCreateFolder}/></li>
+              <li>
+                <ButtonCreateFolder
+                    onClick={() => this.props.onCreateFolder(true)}/>
+              </li>
             </ul>
           </fieldset>
         </form>
