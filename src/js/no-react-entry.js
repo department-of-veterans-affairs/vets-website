@@ -1,5 +1,5 @@
 // Global site style.
-require('../../sass/style.scss');
+require('../sass/style.scss');
 
 require('./common');
 
