@@ -26,6 +26,10 @@ module.exports = {
       'delete': {
         method: 'DELETE',
         headers
+      },
+      patch: {
+        method: 'PATCH',
+        headers
       }
     }
   },
