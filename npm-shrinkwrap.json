@@ -762,11 +762,6 @@
       "from": "binary-extensions@>=1.0.0 <2.0.0",
       "resolved": "http://registry.npmjs.org/binary-extensions/-/binary-extensions-1.6.0.tgz"
     },
-    "bindings": {
-      "version": "1.2.1",
-      "from": "bindings@1.2.1",
-      "resolved": "https://registry.npmjs.org/bindings/-/bindings-1.2.1.tgz"
-    },
     "bl": {
       "version": "1.1.2",
       "from": "bl@>=1.1.2 <1.2.0",
@@ -1538,7 +1533,8 @@
         },
         "esprima-fb": {
           "version": "15001.1001.0-dev-harmony-fb",
-          "from": "esprima-fb@>=15001.1001.0-dev-harmony-fb <15001.1002.0"
+          "from": "esprima-fb@>=15001.1001.0-dev-harmony-fb <15001.1002.0",
+          "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-15001.1001.0-dev-harmony-fb.tgz"
         },
         "window-size": {
           "version": "0.1.4",
@@ -4094,18 +4090,6 @@
       "from": "levn@>=0.3.0 <0.4.0",
       "resolved": "http://registry.npmjs.org/levn/-/levn-0.3.0.tgz"
     },
-    "libxmljs": {
-      "version": "0.18.0",
-      "from": "libxmljs@>=0.18.0 <0.19.0",
-      "resolved": "https://registry.npmjs.org/libxmljs/-/libxmljs-0.18.0.tgz",
-      "dependencies": {
-        "nan": {
-          "version": "2.3.2",
-          "from": "nan@2.3.2",
-          "resolved": "https://registry.npmjs.org/nan/-/nan-2.3.2.tgz"
-        }
-      }
-    },
     "linkify-it": {
       "version": "2.0.0",
       "from": "linkify-it@>=2.0.0 <3.0.0",
@@ -6042,6 +6026,11 @@
       "from": "react-addons-test-utils@>=15.3.0 <16.0.0",
       "resolved": "https://registry.npmjs.org/react-addons-test-utils/-/react-addons-test-utils-15.3.2.tgz"
     },
+    "react-datepicker": {
+      "version": "0.29.0",
+      "from": "react-datepicker@>=0.29.0 <0.30.0",
+      "resolved": "https://registry.npmjs.org/react-datepicker/-/react-datepicker-0.29.0.tgz"
+    },
     "react-deep-force-update": {
       "version": "1.0.1",
       "from": "react-deep-force-update@>=1.0.0 <2.0.0",
@@ -6056,6 +6045,11 @@
       "version": "1.0.0-beta.3",
       "from": "react-leaflet@>=1.0.0-beta.3 <2.0.0",
       "resolved": "http://registry.npmjs.org/react-leaflet/-/react-leaflet-1.0.0-beta.3.tgz"
+    },
+    "react-onclickoutside": {
+      "version": "4.9.0",
+      "from": "react-onclickoutside@>=4.8.0 <5.0.0",
+      "resolved": "https://registry.npmjs.org/react-onclickoutside/-/react-onclickoutside-4.9.0.tgz"
     },
     "react-proxy": {
       "version": "1.1.8",
@@ -6139,7 +6133,8 @@
       "dependencies": {
         "esprima-fb": {
           "version": "15001.1001.0-dev-harmony-fb",
-          "from": "esprima-fb@>=15001.1001.0-dev-harmony-fb <15001.1002.0"
+          "from": "esprima-fb@15001.1001.0-dev-harmony-fb",
+          "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-15001.1001.0-dev-harmony-fb.tgz"
         }
       }
     },
@@ -7052,6 +7047,11 @@
       "from": "test-value@>=2.0.0 <3.0.0",
       "resolved": "http://registry.npmjs.org/test-value/-/test-value-2.1.0.tgz"
     },
+    "tether": {
+      "version": "1.3.7",
+      "from": "tether@>=1.3.2 <2.0.0",
+      "resolved": "https://registry.npmjs.org/tether/-/tether-1.3.7.tgz"
+    },
     "text-table": {
       "version": "0.2.0",
       "from": "text-table@>=0.2.0 <0.3.0",
@@ -7770,7 +7770,14 @@
     "wowjs": {
       "version": "1.1.3",
       "from": "wowjs@>=1.1.3 <2.0.0",
-      "resolved": "http://registry.npmjs.org/wowjs/-/wowjs-1.1.3.tgz"
+      "resolved": "http://registry.npmjs.org/wowjs/-/wowjs-1.1.3.tgz",
+      "dependencies": {
+        "animate.css": {
+          "version": "3.5.2",
+          "from": "animate.css@latest",
+          "resolved": "http://registry.npmjs.org/animate.css/-/animate.css-3.5.2.tgz"
+        }
+      }
     },
     "wrap-ansi": {
       "version": "2.0.0",
