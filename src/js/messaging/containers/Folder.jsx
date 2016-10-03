@@ -5,6 +5,8 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { fetchFolder, toggleFolderNav } from '../actions/folders';
+import { toggleAdvancedSearch } from '../actions/search';
+
 import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
 import MessageSearch from '../components/MessageSearch';
@@ -125,7 +127,10 @@ class Folder extends React.Component {
           </button>
           <h2>{folderName}</h2>
         </div>
-        <MessageSearch onSubmit={(e) => { e.preventDefault(); }}/>
+        <MessageSearch
+            isAdvancedVisible={this.props.isAdvancedVisible}
+            onAdvancedSearch={this.props.toggleAdvancedSearch}
+            onSubmit={(e) => { e.preventDefault(); }}/>
         <div id="messaging-folder-controls">
           <ComposeButton/>
           {messageNav}
@@ -152,13 +157,15 @@ const mapStateToProps = (state) => {
     currentRange: `${startCount} - ${endCount}`,
     messageCount: totalCount,
     page,
-    totalPages
+    totalPages,
+    isAdvancedVisible: state.search.advanced.visible
   };
 };
 
 const mapDispatchToProps = {
   fetchFolder,
-  toggleFolderNav
+  toggleFolderNav,
+  toggleAdvancedSearch
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Folder);
