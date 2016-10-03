@@ -19,8 +19,7 @@ const initialState = {
   },
   createFolder: {
     visible: false,
-    newFolderName: makeField(''),
-    moveMessage: undefined
+    newFolderName: makeField('')
   }
 };
 
@@ -33,10 +32,11 @@ export default function modals(state = initialState, action) {
     case CLOSE_CREATE_FOLDER:
       return set('createFolder', initialState.createFolder, state);
     case OPEN_CREATE_FOLDER:
+      // If a message is provided, it gets moved to the newly created folder.
       return set('createFolder', {
         visible: true,
         newFolderName: makeField(''),
-        moveMessage: action.moveMessage
+        messageId: action.messageId
       }, state);
     case SET_NEW_FOLDER_NAME:
       return set('createFolder.newFolderName', action.folderName, state);

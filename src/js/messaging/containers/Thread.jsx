@@ -15,7 +15,7 @@ import {
 } from '../actions/messages';
 
 import {
-  openCreateFolderModal,
+  openMoveToNewFolderModal,
   toggleConfirmDelete
 } from '../actions/modals';
 
@@ -132,7 +132,7 @@ class Thread extends React.Component {
             messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
             moveToIsOpen={this.props.moveToOpened}
             onChooseFolder={this.props.moveMessageToFolder}
-            onCreateFolder={this.props.openCreateFolderModal}
+            onCreateFolder={this.props.openMoveToNewFolderModal}
             onToggleThread={this.props.toggleMessagesCollapsed}
             onToggleMoveTo={this.props.toggleMoveTo}/>
       );
@@ -218,7 +218,7 @@ const mapDispatchToProps = {
   deleteReply,
   fetchThread,
   moveMessageToFolder,
-  openCreateFolderModal,
+  openMoveToNewFolderModal,
   saveDraft,
   toggleConfirmDelete,
   toggleMessageCollapsed,

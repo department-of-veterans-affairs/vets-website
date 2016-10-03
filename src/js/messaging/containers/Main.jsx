@@ -41,7 +41,7 @@ class Main extends React.Component {
   }
 
   handleSubmitCreateNewFolder(folderName) {
-    const messageId = this.props.createFolderModal.moveMessage;
+    const messageId = this.props.createFolderModal.messageId;
 
     if (messageId !== undefined) {
       this.props.createFolderAndMoveMessage(folderName, messageId);
