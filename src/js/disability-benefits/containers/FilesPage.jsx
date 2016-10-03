@@ -1,6 +1,6 @@
 import React from 'react';
 import TabNav from '../components/TabNav';
-import AskVAQuestions from '../components/AskVAQuestions'
+import AskVAQuestions from '../components/AskVAQuestions';
 
 
 class FilesPage extends React.Component {
@@ -13,7 +13,7 @@ class FilesPage extends React.Component {
               <h1>Your {"Compensation"} Claim</h1>
               <h6>Your Claimed Conditions:</h6>
               <p className="list">{"Tinnitus, Arthritis, PTSD"}</p>
-              <TabNav />
+              <TabNav/>
             </div>
             <div className="file-request-list">
               <h4 className="hightlight claim-file-border">File Requests</h4>
@@ -81,7 +81,7 @@ class FilesPage extends React.Component {
               </div>
             </div>
           </div>
-          <AskVAQuestions />
+          <AskVAQuestions/>
 
         </div>
       </div>
