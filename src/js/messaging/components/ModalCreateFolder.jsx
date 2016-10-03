@@ -15,21 +15,20 @@ class ModalCreateFolder extends React.Component {
   }
 
   handleValueChange(field) {
-    this.props.onValueChange(field);
+    this.props.onValueChange(makeField(field.value, true));
   }
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
-    const newFolderName = this.props.newFolderName.value;
+    const newFolderName = this.props.newFolderName;
 
     // Mark the field dirty upon submit to trigger validation
     // that only works on dirty fields.
-    if (!this.props.newFolderName.dirty) {
-      this.handleValueChange(makeField(newFolderName, true));
-      return;
+    if (!newFolderName.dirty) {
+      this.handleValueChange(newFolderName);
+    } else {
+      this.props.onSubmit(newFolderName.value);
     }
-
-    this.props.onSubmit(newFolderName);
   }
 
   validateFolderName(folderName, existingFolders = []) {
