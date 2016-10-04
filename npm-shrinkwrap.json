@@ -1538,7 +1538,8 @@
         },
         "esprima-fb": {
           "version": "15001.1001.0-dev-harmony-fb",
-          "from": "esprima-fb@>=15001.1001.0-dev-harmony-fb <15001.1002.0"
+          "from": "esprima-fb@>=15001.1001.0-dev-harmony-fb <15001.1002.0",
+          "resolved": "https://registry.npmjs.org/esprima-fb/-/esprima-fb-15001.1001.0-dev-harmony-fb.tgz"
         },
         "window-size": {
           "version": "0.1.4",
@@ -5306,9 +5307,9 @@
       }
     },
     "node-sass": {
-      "version": "3.10.0",
-      "from": "node-sass@>=3.4.0 <4.0.0",
-      "resolved": "http://registry.npmjs.org/node-sass/-/node-sass-3.10.0.tgz"
+      "version": "3.10.1",
+      "from": "node-sass@latest",
+      "resolved": "https://registry.npmjs.org/node-sass/-/node-sass-3.10.1.tgz"
     },
     "node-status-codes": {
       "version": "1.0.0",
@@ -6042,6 +6043,11 @@
       "from": "react-addons-test-utils@>=15.3.0 <16.0.0",
       "resolved": "https://registry.npmjs.org/react-addons-test-utils/-/react-addons-test-utils-15.3.2.tgz"
     },
+    "react-datepicker": {
+      "version": "0.29.0",
+      "from": "react-datepicker@latest",
+      "resolved": "https://registry.npmjs.org/react-datepicker/-/react-datepicker-0.29.0.tgz"
+    },
     "react-deep-force-update": {
       "version": "1.0.1",
       "from": "react-deep-force-update@>=1.0.0 <2.0.0",
@@ -6056,6 +6062,11 @@
       "version": "1.0.0-beta.3",
       "from": "react-leaflet@>=1.0.0-beta.3 <2.0.0",
       "resolved": "http://registry.npmjs.org/react-leaflet/-/react-leaflet-1.0.0-beta.3.tgz"
+    },
+    "react-onclickoutside": {
+      "version": "4.9.0",
+      "from": "react-onclickoutside@>=4.8.0 <5.0.0",
+      "resolved": "https://registry.npmjs.org/react-onclickoutside/-/react-onclickoutside-4.9.0.tgz"
     },
     "react-proxy": {
       "version": "1.1.8",
@@ -6139,7 +6150,8 @@
       "dependencies": {
         "esprima-fb": {
           "version": "15001.1001.0-dev-harmony-fb",
-          "from": "esprima-fb@>=15001.1001.0-dev-harmony-fb <15001.1002.0"
+          "from": "esprima-fb@15001.1001.0-dev-harmony-fb",
+          "resolved": "http://registry.npmjs.org/esprima-fb/-/esprima-fb-15001.1001.0-dev-harmony-fb.tgz"
         }
       }
     },
@@ -7052,6 +7064,11 @@
       "from": "test-value@>=2.0.0 <3.0.0",
       "resolved": "http://registry.npmjs.org/test-value/-/test-value-2.1.0.tgz"
     },
+    "tether": {
+      "version": "1.3.7",
+      "from": "tether@>=1.3.2 <2.0.0",
+      "resolved": "https://registry.npmjs.org/tether/-/tether-1.3.7.tgz"
+    },
     "text-table": {
       "version": "0.2.0",
       "from": "text-table@>=0.2.0 <0.3.0",
@@ -7770,7 +7787,14 @@
     "wowjs": {
       "version": "1.1.3",
       "from": "wowjs@>=1.1.3 <2.0.0",
-      "resolved": "http://registry.npmjs.org/wowjs/-/wowjs-1.1.3.tgz"
+      "resolved": "http://registry.npmjs.org/wowjs/-/wowjs-1.1.3.tgz",
+      "dependencies": {
+        "animate.css": {
+          "version": "3.5.2",
+          "from": "animate.css@latest",
+          "resolved": "http://registry.npmjs.org/animate.css/-/animate.css-3.5.2.tgz"
+        }
+      }
     },
     "wrap-ansi": {
       "version": "2.0.0",
