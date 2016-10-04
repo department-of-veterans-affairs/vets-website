@@ -22,16 +22,21 @@ class SignInProfileButton extends React.Component {
     if (this.props.login.currentlyLoggedIn) {
       content = (
         <span>
-          <button className="usa-button usa-button-outline-inverse">{this.props.profile.email}</button>
-          <button className="usa-button usa-button-outline-inverse" onClick={this.clearUserToken}>Sign Out</button>
+          <span>Hello, {this.props.profile.email}</span><span className="signin-spacer">|</span>
+          <a href="/profile">Profile</a><span className="signin-spacer">|</span>
+          <a href="#" onClick={this.clearUserToken}>Sign Out</a>
         </span>
       );
     } else {
       content = (
-        <button className="usa-button usa-button-outline-inverse" onClick={this.props.onButtonClick}>Sign In</button>
+        <a href="#" onClick={this.props.onButtonClick}>Sign In<span className="signin-spacer">|</span>Register</a>
       );
     }
-    return content;
+    return (
+      <div className="sign-in-link">
+        {content}
+      </div>
+    );
   }
 }
 
