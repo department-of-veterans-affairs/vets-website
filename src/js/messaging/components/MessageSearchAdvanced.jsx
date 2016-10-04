@@ -7,15 +7,28 @@ import ErrorableTextInput from '../../common/components/form-elements/ErrorableT
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 
 class MessageSearchAdvanced extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleAdvancedSearchToggle = this.handleAdvancedSearchToggle.bind(this);
+  }
+
+  handleAdvancedSearchToggle() {
+    this.props.onAdvancedSearch();
+  }
+
   render() {
+    let advancedSearchForm;
+
     const toggleClass = classNames({
       fa: true,
-      'fa-chevron-up': this.props.isOpen,
-      'fa-chevron-down': !this.props.isOpen
+      'fa-chevron-up': this.props.isVisible,
+      'fa-chevron-down': !this.props.isVisible
     });
 
-    return (
-      <div className="msg-search-advanced">
+    if (this.props.isVisible === false) {
+      advancedSearchForm = <div/>;
+    } else {
+      advancedSearchForm = (
         <fieldset className="msg-search-advanced-controls">
           <legend className="usa-sr-only">Search using additional criteria</legend>
           <div className="va-flex va-flex--ctr msg-search-advanced-group">
@@ -29,17 +42,18 @@ class MessageSearchAdvanced extends React.Component {
                 label="Exact match"
                 onValueChange={() => {}}/>
           </div>
+
           <div className="va-flex va-flex--ctr msg-search-advanced-group">
             <ErrorableTextInput
                 field={makeField('')}
                 label="Subject line"
                 onValueChange={() => {}}/>
-
             <ErrorableCheckbox
                 field={makeField('')}
                 label="Exact match"
                 onValueChange={() => {}}/>
           </div>
+
           <fieldset className="va-flex va-flex--ctr msg-search-advanced-group">
             <legend className="msg-search-date-range-legend">Date range</legend>
             <div className="msg-search-date-range">
@@ -63,10 +77,15 @@ class MessageSearchAdvanced extends React.Component {
           <button
               className="msg-search-advanced-submit"
               type="submit">Search</button>
-        </fieldset>
+        </fieldset>);
+    }
+
+    return (
+      <div className="msg-search-advanced">
+        {advancedSearchForm}
         <button
             className="msg-search-advanced-toggle usa-button-unstyled"
-            onClick={() => {}}
+            onClick={this.props.onAdvancedSearch}
             type="button">
           <i className={toggleClass}></i> Advanced Search</button>
       </div>);
@@ -74,7 +93,8 @@ class MessageSearchAdvanced extends React.Component {
 }
 
 MessageSearchAdvanced.propTypes = {
-  isOpen: React.PropTypes.bool.isRequired
+  isVisible: React.PropTypes.bool.isRequired,
+  onAdvancedSearch: React.PropTypes.func.isRequired
 };
 
 export default MessageSearchAdvanced;
