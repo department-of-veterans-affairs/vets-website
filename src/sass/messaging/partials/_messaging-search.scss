@@ -1,0 +1,176 @@
+// Nesting because USWDS uses high-specificity selectors.
+[id=msg-search] {
+  padding: 2rem 0;
+  position: relative;
+  
+  @media (max-width: $medium-screen) {
+    margin: 0 2rem;
+  }
+
+  label {margin-top: 0;}
+ 
+  .msg-search-btn {
+    border-radius: 0 0.3rem 0.3rem 0;
+    margin: 0;
+  }
+
+  [type=search],
+  [type=text] {
+    margin: 0;
+    max-width: 100%;
+  }
+
+  button {
+    width: auto;
+  }
+
+  .msg-search-btn,
+  [name=mquery] {
+    position: relative;
+    &:focus, 
+    &:hover {
+      z-index: 1;
+    }
+  }
+  
+  .va-flex {
+    width: 100%;
+  }
+}
+
+.msg-search-btn {
+  -webkit-flex: 0 1 4rem;
+  flex: 0 1 4rem;
+
+  .fa.fa-search {
+    font-size: 2rem;
+  }
+
+  @media (min-width: $medium-screen) {
+    .fa.fa-search {
+      display: none;
+    }
+  }
+
+  &-text {
+    position: absolute;
+    left: -9999rem;
+    
+    @media (min-width: $medium-screen) {
+      position: static;
+    }
+  }
+}
+
+.msg-search-advanced {
+  text-align: right;
+}
+
+.msg-search-advanced-controls {
+  padding-top: 1.5rem;
+  text-align: left;
+
+  &::after {
+    content: '\a0';
+    display: block;
+  }
+}
+
+.msg-search-advanced-group {
+  position: relative;
+
+  @media (max-width: $medium-screen) {
+    -webkit-flex-wrap: wrap;
+    flex-wrap: wrap;
+  }
+
+  > div:not(.form-checkbox) { 
+    -webkit-align-items: inherit;  
+    align-items: inherit;
+    display: inherit;
+    -webkit-flex: 1 1 100%;
+    flex: 1 1 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-checkbox {
+    -webkit-flex: 0 1 25%;
+    flex: 0 1 25%;
+
+    @media (min-width: $medium-screen) {
+      padding-left: 1.5rem;
+    }
+
+    label {
+      white-space: nowrap;
+      
+      @media (min-width: $medium-screen) {
+        margin: -1.5rem 0 0 1.5rem;
+        padding-left: 1.5rem;
+      }
+    }
+  }
+  
+  label {
+    width: 7rem;
+
+    @media (min-width: $medium-screen) {
+      -webkit-flex: 1 0 10rem;
+      flex:  1 0 10rem; 
+      width: auto;
+    }
+  }
+  
+  [type=text] {
+    -webkit-flex: 1 1 100%;
+    flex: 1 1 100%;
+  } 
+}
+
+.msg-search-date-range-legend {
+  font: inherit;
+  padding-top: 1rem;
+
+  @media (max-width: $medium-screen) {
+    padding-top: 0;
+    width: 7rem;
+  }
+}
+
+.msg-search-date-range {
+  margin-left: 7rem;
+  position: relative;
+  top: -3.2rem;
+  
+  @media (min-width: $medium-screen) {
+    margin-left: 10rem;
+  }
+ 
+  span {
+    padding: 0 1.5rem;
+  }
+}
+
+.msg-search-advanced-toggle {
+  background: $color-white;
+  color: $color-primary;
+  margin-right: 0;
+  text-align: inherit;
+  text-decoration: underline;
+  width: auto;
+
+  &:hover {
+    background: inherit;
+    color: $color-primary-darker;
+  }
+}
+
+// Using an longer selector because of a form[type="submit"]
+// somewhere in the CSS
+form .msg-search-advanced-submit[type="submit"] {
+  margin: 0 0 0 7rem;
+
+  @media (min-width: $medium-screen) {
+    margin-left: 10rem;
+  }
+}

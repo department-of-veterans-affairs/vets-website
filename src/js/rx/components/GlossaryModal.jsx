@@ -17,12 +17,12 @@ class GlossaryModal extends React.Component {
 
     if (this.props.isVisible) {
       element = (
-        <section className="rx-modal" id="rx-glossary-modal">
-          <div className="rx-modal-inner">
+        <section className="va-modal rx-modal" id="rx-glossary-modal">
+          <div className="va-modal-inner">
             <h3 className="rx-modal-title">Glossary</h3>
-            <div className="rx-modal-body">
+            <div className="va-modal-body rx-modal-body">
               <GlossaryList terms={this.props.content}/>
-              <div className="rx-button-group cf">
+              <div className="va-modal-button-group cf">
                 <button type="button" onClick={this.handlerCloseModal}>Close</button>
                 <a href="/rx/glossary/">See all status definitions</a>
               </div>

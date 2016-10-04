@@ -1,0 +1,44 @@
+#messaging-folder-controls {
+  position: relative;
+  margin-bottom: 4.5rem;
+
+  .messaging-compose-button {
+    display: none;
+    margin: 0;
+    width: 100%;
+  }
+
+  @media (max-width: $medium-screen) {
+    margin: 0;
+    padding: 2rem;
+
+    .messaging-compose-button {
+      display: block;
+    }
+  }
+}
+
+.messaging-message-row {
+  &--unread {
+    font-weight: bold;
+  }
+
+  a {
+    color: $color-black;
+    display: block;
+    padding: 1.5rem;
+    text-decoration: none;
+
+    &:hover {
+      background: transparent;
+    }
+
+    &:visited {
+      color: $color-black;
+    }
+  }
+
+  td {
+    padding: 0;
+  }
+}

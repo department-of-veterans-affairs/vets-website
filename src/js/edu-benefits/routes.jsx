@@ -1,17 +1,11 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import { chapterNames, groupPagesIntoChapters, getPageList } from './utils/helpers';
+import { chapterNames, groupPagesIntoChapters, getPageList, hasServiceBefore1978 } from './utils/helpers';
 
 import IntroductionPage from './containers/IntroductionPage.jsx';
-import PersonalInformationReview from './components/veteran-information/PersonalInformationReview';
-import PersonalInformationFields from './components/veteran-information/PersonalInformationFields';
-import ContactInformationReview from './components/veteran-information/ContactInformationReview';
-import ContactInformationFields from './components/veteran-information/ContactInformationFields';
-import SecondaryContactReview from './components/veteran-information/SecondaryContactReview';
-import SecondaryContactFields from './components/veteran-information/SecondaryContactFields';
-import DirectDepositReview from './components/veteran-information/DirectDepositReview';
-import DirectDepositFields from './components/veteran-information/DirectDepositFields';
+import VeteranInformationReview from './components/veteran-information/VeteranInformationReview';
+import VeteranInformationFields from './components/veteran-information/VeteranInformationFields';
 import BenefitsSelectionReview from './components/benefits-eligibility/BenefitsSelectionReview';
 import BenefitsSelectionFields from './components/benefits-eligibility/BenefitsSelectionFields';
 import MilitaryServiceReview from './components/military-history/MilitaryServiceReview';
@@ -20,17 +14,25 @@ import RotcHistoryReview from './components/military-history/RotcHistoryReview';
 import RotcHistoryFields from './components/military-history/RotcHistoryFields';
 import BenefitsHistoryReview from './components/military-history/BenefitsHistoryReview';
 import BenefitsHistoryFields from './components/military-history/BenefitsHistoryFields';
-import DependentInformationReview from './components/military-history/DependentInformationReview';
-import DependentInformationFields from './components/military-history/DependentInformationFields';
 import EmploymentHistoryReview from './components/employment-history/EmploymentHistoryReview';
 import EmploymentHistoryFields from './components/employment-history/EmploymentHistoryFields';
 import SchoolSelectionReview from './components/school-selection/SchoolSelectionReview';
 import SchoolSelectionFields from './components/school-selection/SchoolSelectionFields';
 import EducationHistoryFields from './components/education-history/EducationHistoryFields';
 import EducationHistoryReview from './components/education-history/EducationHistoryReview';
+import ContactInformationReview from './components/personal-information/ContactInformationReview';
+import ContactInformationFields from './components/personal-information/ContactInformationFields';
+import DependentInformationReview from './components/personal-information/DependentInformationReview';
+import DependentInformationFields from './components/personal-information/DependentInformationFields';
+import SecondaryContactReview from './components/personal-information/SecondaryContactReview';
+import SecondaryContactFields from './components/personal-information/SecondaryContactFields';
+import DirectDepositReview from './components/personal-information/DirectDepositReview';
+import DirectDepositFields from './components/personal-information/DirectDepositFields';
+import PreviousClaimsFields from './components/benefits-eligibility/PreviousClaimsFields';
+import PreviousClaimsReview from './components/benefits-eligibility/PreviousClaimsReview';
 import ReviewPage from './containers/ReviewPage';
 import FormPage from './containers/FormPage';
-import PlaceholderPage from './containers/PlaceholderPage';
+import SubmitPage from './containers/SubmitPage';
 
 const routes = [
   // Introduction route.
@@ -40,36 +42,12 @@ const routes = [
       path="/introduction"/>,
   <Route
       component={FormPage}
-      fieldsComponent={PersonalInformationFields}
-      reviewComponent={PersonalInformationReview}
-      key="/veteran-information/personal-information"
-      path="/veteran-information/personal-information"
+      fieldsComponent={VeteranInformationFields}
+      reviewComponent={VeteranInformationReview}
+      key="/veteran-information"
+      path="/veteran-information"
       chapter={chapterNames.veteranInformation}
-      name="Personal Information"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={ContactInformationFields}
-      reviewComponent={ContactInformationReview}
-      key="/veteran-information/contact-information"
-      path="/veteran-information/contact-information"
-      chapter={chapterNames.veteranInformation}
-      name="Contact Information"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={SecondaryContactFields}
-      reviewComponent={SecondaryContactReview}
-      key="/veteran-information/secondary-contact"
-      path="/veteran-information/secondary-contact"
-      chapter={chapterNames.veteranInformation}
-      name="Secondary Contact"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={DirectDepositFields}
-      reviewComponent={DirectDepositReview}
-      key="/veteran-information/direct-deposit"
-      path="/veteran-information/direct-deposit"
-      chapter={chapterNames.veteranInformation}
-      name="Direct Deposit"/>,
+      name="Veteran information"/>,
   <Route
       component={FormPage}
       fieldsComponent={BenefitsSelectionFields}
@@ -77,7 +55,16 @@ const routes = [
       key="/benefits-eligibility/benefits-selection"
       path="/benefits-eligibility/benefits-selection"
       chapter={chapterNames.benefitsEligibility}
-      name="Benefits Selection"/>,
+      name="Benefits selection"/>,
+  <Route
+      component={FormPage}
+      fieldsComponent={PreviousClaimsFields}
+      reviewComponent={PreviousClaimsReview}
+      key="/benefits-eligibility/previous-claims"
+      path="/benefits-eligibility/previous-claims"
+      chapter={chapterNames.benefitsEligibility}
+      depends={{ previouslyFiledClaimWithVa: { value: 'Y' } }}
+      name="Previous claims"/>,
   <Route
       component={FormPage}
       fieldsComponent={MilitaryServiceFields}
@@ -85,7 +72,7 @@ const routes = [
       key="/military-history/military-service"
       path="/military-history/military-service"
       chapter={chapterNames.militaryHistory}
-      name="Military Service"/>,
+      name="Military service"/>,
   <Route
       component={FormPage}
       fieldsComponent={RotcHistoryFields}
@@ -94,7 +81,7 @@ const routes = [
       path="/military-history/rotc-history"
       depends={{ seniorRotcCommissioned: { value: 'Y' } }}
       chapter={chapterNames.militaryHistory}
-      name="ROTC History"/>,
+      name="ROTC history"/>,
   <Route
       component={FormPage}
       fieldsComponent={BenefitsHistoryFields}
@@ -102,15 +89,7 @@ const routes = [
       key="/military-history/benefits-history"
       path="/military-history/benefits-history"
       chapter={chapterNames.militaryHistory}
-      name="Benefits History"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={DependentInformationFields}
-      reviewComponent={DependentInformationReview}
-      key="/military-history/dependents"
-      path="/military-history/dependents"
-      chapter={chapterNames.militaryHistory}
-      name="Dependents"/>,
+      name="Benefits history"/>,
   <Route
       component={FormPage}
       fieldsComponent={EducationHistoryFields}
@@ -118,7 +97,7 @@ const routes = [
       key="/education-history/education-information"
       path="/education-history/education-information"
       chapter={chapterNames.educationHistory}
-      name="Education History"/>,
+      name="Education history"/>,
   <Route
       component={FormPage}
       fieldsComponent={EmploymentHistoryFields}
@@ -126,7 +105,7 @@ const routes = [
       key="/employment-history/employment-information"
       path="/employment-history/employment-information"
       chapter={chapterNames.employmentHistory}
-      name="Employment History"/>,
+      name="Employment history"/>,
   <Route
       component={FormPage}
       fieldsComponent={SchoolSelectionFields}
@@ -134,7 +113,40 @@ const routes = [
       key="/school-selection/school-information"
       path="/school-selection/school-information"
       chapter={chapterNames.schoolSelection}
-      name="School Selection"/>,
+      name="School selection"/>,
+  <Route
+      component={FormPage}
+      fieldsComponent={ContactInformationFields}
+      reviewComponent={ContactInformationReview}
+      key="/personal-information/contact-information"
+      path="/personal-information/contact-information"
+      chapter={chapterNames.personalInformation}
+      name="Contact information"/>,
+  <Route
+      component={FormPage}
+      fieldsComponent={SecondaryContactFields}
+      reviewComponent={SecondaryContactReview}
+      key="/personal-information/secondary-contact"
+      path="/personal-information/secondary-contact"
+      chapter={chapterNames.personalInformation}
+      name="Secondary contact"/>,
+  <Route
+      component={FormPage}
+      fieldsComponent={DependentInformationFields}
+      reviewComponent={DependentInformationReview}
+      key="/personal-information/dependents"
+      path="/personal-information/dependents"
+      chapter={chapterNames.personalInformation}
+      depends={hasServiceBefore1978}
+      name="Dependents"/>,
+  <Route
+      component={FormPage}
+      fieldsComponent={DirectDepositFields}
+      reviewComponent={DirectDepositReview}
+      key="/personal-information/direct-deposit"
+      path="/personal-information/direct-deposit"
+      chapter={chapterNames.personalInformation}
+      name="Direct deposit"/>,
   // Review and Submit route.
   <Route
       component={ReviewPage}
@@ -143,7 +155,7 @@ const routes = [
       chapter={chapterNames.review}/>,
   // Submit Message route.
   <Route
-      component={PlaceholderPage}
+      component={SubmitPage}
       key="/submit-message"
       path="/submit-message"/>
 ];

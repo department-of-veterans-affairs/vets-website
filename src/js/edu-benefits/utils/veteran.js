@@ -2,6 +2,16 @@ import _ from 'lodash/fp';
 import { makeField } from '../../common/model/fields';
 import { dateToMoment } from './helpers';
 
+export function makeAddressField() {
+  return {
+    street: makeField(''),
+    city: makeField(''),
+    country: makeField('USA'),
+    state: makeField(''),
+    postalCode: makeField(''),
+  };
+}
+
 export function createTour() {
   return {
     dateRange: {
@@ -20,9 +30,7 @@ export function createTour() {
     serviceStatus: makeField(''),
     involuntarilyCalledToDuty: makeField(''),
     doNotApplyPeriodToSelected: false,
-    applyToChapter30: false,
-    applyToChapter1606: false,
-    applyToChapter32: false
+    benefitsToApplyTo: makeField('')
   };
 }
 
@@ -63,6 +71,30 @@ export function createRotcScholarship() {
   return {
     amount: makeField(''),
     year: makeField('')
+  };
+}
+
+export function createPreviousClaim() {
+  return {
+    claimType: makeField(''),
+    previouslyAppliedWithSomeoneElsesService: makeField(''),
+    fileNumber: makeField(''),
+    sponsorVeteran: {
+      fullName: {
+        first: makeField(''),
+        middle: makeField(''),
+        last: makeField(''),
+        suffix: makeField('')
+      },
+      fileNumber: makeField(''),
+      payeeNumber: makeField('')
+    }
+  };
+}
+
+export function createFlightCertificate() {
+  return {
+    name: makeField('')
   };
 }
 
@@ -130,15 +162,7 @@ export function createVeteran() {
     gender: makeField(''),
     hasNonMilitaryJobs: makeField(''),
     nonMilitaryJobs: [],
-    veteranAddress: {
-      street: makeField(''),
-      city: makeField(''),
-      country: makeField(''),
-      state: makeField(''),
-      provinceCode: makeField(''),
-      zipcode: makeField(''),
-      postalCode: makeField(''),
-    },
+    veteranAddress: makeAddressField(),
     email: makeField(''),
     emailConfirmation: makeField(''),
     homePhone: makeField(''),
@@ -147,15 +171,7 @@ export function createVeteran() {
     educationType: makeField(''),
     school: {
       name: makeField(''),
-      address: {
-        street: makeField(''),
-        city: makeField(''),
-        country: makeField(''),
-        state: makeField(''),
-        provinceCode: makeField(''),
-        zipcode: makeField(''),
-        postalCode: makeField('')
-      }
+      address: makeAddressField()
     },
     educationObjective: makeField(''),
     educationStartDate: {
@@ -166,21 +182,21 @@ export function createVeteran() {
     secondaryContact: {
       fullName: makeField(''),
       sameAddress: false,
-      address: {
-        street: makeField(''),
-        city: makeField(''),
-        country: makeField(''),
-        state: makeField(''),
-        provinceCode: makeField(''),
-        zipcode: makeField(''),
-        postalCode: makeField('')
-      },
+      address: makeAddressField(),
       phone: makeField('')
     },
     bankAccount: {
       accountType: makeField(''),
       accountNumber: makeField(''),
       routingNumber: makeField('')
+    },
+    previousVaClaims: [],
+    previouslyFiledClaimWithVa: makeField(''),
+    applyingUsingOwnBenefits: makeField(''),
+    benefitsRelinquishedDate: {
+      day: makeField(''),
+      month: makeField(''),
+      year: makeField('')
     }
   };
 }
@@ -206,7 +222,6 @@ export function veteranToApplication(veteran) {
 
       case 'serviceAcademyGraduationYear':
       case 'commissionYear':
-      case 'amount':
       case 'year':
       case 'months':
       case 'hours':
@@ -222,6 +237,8 @@ export function veteranToApplication(veteran) {
       case 'married':
       case 'haveDependents':
       case 'parentDependent':
+      case 'previouslyFiledClaimWithVa':
+      case 'previouslyAppliedWithSomeoneElsesService':
         return value.value === 'Y';
 
       case 'postMilitaryJob':
@@ -244,12 +261,28 @@ export function veteranToApplication(veteran) {
         }
         return undefined;
 
+      case 'applyingUsingOwnBenefits':
+        if (value.value === 'ownBenefits') {
+          return true;
+        } else if (value.value === '') {
+          return undefined;
+        }
+
+        return false;
+
       case 'address':
-        if (value.city.value === '' && value.street.value === '' && value.country.value === '') {
+        if (value.city.value === '' && value.street.value === '') {
           return undefined;
         }
 
         return value;
+
+      case 'amount':
+        if (value.value === '') {
+          return undefined;
+        }
+
+        return Number(value.value.replace('$', ''));
 
       default:
         // fall through.

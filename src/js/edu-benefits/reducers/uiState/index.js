@@ -26,17 +26,17 @@ const ui = {
     '/benefits-eligibility/benefits-selection': {
       complete: false,
       verified: false,
-      fields: ['benefitsRelinquished', 'chapter30', 'chapter32', 'chapter33', 'chapter1606']
+      fields: ['benefitsRelinquished', 'chapter30', 'chapter32', 'chapter33', 'chapter1606', 'previouslyFiledClaimWithVa', 'benefitsRelinquishedDate', 'applyingUsingOwnBenefits']
+    },
+    '/benefits-eligibility/previous-claims': {
+      complete: false,
+      verified: false,
+      fields: ['previousVaClaims']
     },
     '/military-history/military-service': {
       complete: false,
       verified: false,
       fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty', 'toursOfDuty', 'seniorRotcCommissioned']
-    },
-    '/military-history/dependents': {
-      complete: false,
-      verified: false,
-      fields: ['serviceBefore1977']
     },
     '/military-history/rotc-history': {
       complete: false,
@@ -63,22 +63,27 @@ const ui = {
       verified: false,
       fields: ['educationType', 'school']
     },
-    '/veteran-information/personal-information': {
+    '/veteran-information': {
       complete: false,
       verified: false,
       fields: ['veteranFullName', 'veteranSocialSecurityNumber', 'veteranDateOfBirth', 'gender']
     },
-    '/veteran-information/contact-information': {
+    '/personal-information/contact-information': {
       complete: false,
       verified: false,
       fields: ['veteranAddress', 'email', 'emailConfirmation', 'homePhone', 'mobilePhone', 'preferredContactMethod']
     },
-    '/veteran-information/secondary-contact': {
+    '/personal-information/secondary-contact': {
       complete: false,
       verified: false,
       fields: ['secondaryContact']
     },
-    '/veteran-information/direct-deposit': {
+    '/personal-information/dependents': {
+      complete: false,
+      verified: false,
+      fields: ['serviceBefore1977']
+    },
+    '/personal-information/direct-deposit': {
       complete: false,
       verified: false,
       fields: ['bankAccount']

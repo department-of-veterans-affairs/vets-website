@@ -40,10 +40,11 @@ const sourceDir = '../content/pages';
 
 const smith = Metalsmith(__dirname); // eslint-disable-line new-cap
 
+// TODO(crew): Change port back before merge to master.
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
-  { name: 'port', type: Number, defaultValue: 3000 },
+  { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
 
   // Catch-all for bad arguments.
@@ -92,10 +93,13 @@ smith.destination(`../build/${options.buildtype}`);
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
 const ignoreList = ['memorial-benefits/*'];
 if (options.buildtype === 'production') {
+  ignoreList.push('disability-benefits/track-claims/*');
   ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('facilities/*');
   ignoreList.push('messaging/*');
   ignoreList.push('rx/*');
+  ignoreList.push('profile/*');
+  ignoreList.push('auth/*');
 }
 smith.use(ignore(ignoreList));
 
@@ -176,13 +180,21 @@ smith.use(sitemap('http://www.vets.gov'));
 if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
   //   https://www.npmjs.com/package/metalsmith-watch
-  smith.use(watch());
+  smith.use(
+    watch({
+      paths: {
+        '../content/**/*': '**/*.{md,html}',
+      },
+      livereload: true,
+    })
+  );
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
     contentBase: `build/${options.buildtype}`,
     historyApiFallback: {
       rewrites: [
+        { from: '^/disability-benefits/track-claims(.*)', to: '/disability-benefits/track-claims/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
@@ -237,7 +249,7 @@ if (options.watch) {
   // for permalink processed files. Only run outside of watch mode.
   smith.use(blc({
     allowRedirects: true,  // Don't require trailing slash for index.html links.
-    warn: process.env.NODE_ENV !== 'production',
+    warn: false,           // Throw an Error when encountering the first broken link not just a warning.
     allowRegex: new RegExp(
         ['/disability-benefits/',
           '/disability-benefits/apply-for-benefits/',
