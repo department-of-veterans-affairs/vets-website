@@ -43,11 +43,10 @@ export default class MilitaryServiceFields extends React.Component {
       <legend>Military service</legend>
       <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
       <div className="input-section">
-        <p>If you received a commission from a military service academy, what year did you graduate?</p>
         <ErrorableNumberInput
             additionalClass="usa-input-medium"
             errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, (value) => isValidField(isValidYear, { value })) ? undefined : 'Please enter a valid year'}
-            label="Year"
+            label="If you received a commission from a military service academy, what year did you graduate?"
             placeholder="yyyy"
             name="serviceAcademyGraduationYear"
             min="1900"
