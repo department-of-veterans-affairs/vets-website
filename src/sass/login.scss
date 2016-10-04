@@ -2,6 +2,19 @@
 
 @import 'style';
 
-.signned-in-link {
-  background: transparent;
+.sign-in-link {
+  a {
+    color: $white;
+    text-decoration: none;
+    &:visited{
+      color: $white;
+    }
+    &:hover{
+      text-decoration: none;
+    }
+  }
 };
+
+.signin-spacer{
+  margin: 0 1rem;
+}
