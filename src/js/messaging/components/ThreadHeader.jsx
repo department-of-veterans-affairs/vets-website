@@ -9,14 +9,6 @@ import MessageNav from './MessageNav';
 import ToggleThread from './ToggleThread';
 
 class ThreadHeader extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleDelete = this.handleDelete.bind(this);
-  }
-
-  handleDelete() {
-  }
-
   render() {
     let toggleThread;
     let returnUrlText;
@@ -55,7 +47,7 @@ class ThreadHeader extends React.Component {
               onClickPrev={this.props.onClickPrev}
               onClickNext={this.props.onClickNext}/>
           <ButtonDelete
-              onClickHandler={this.handleDelete}/>
+              onClickHandler={this.props.onDeleteMessage}/>
           <ButtonPrint/>
         </div>
         <div className="messaging-thread-title">
@@ -63,7 +55,7 @@ class ThreadHeader extends React.Component {
           <div className="messaging-thread-controls">
             {toggleThread}
             <ButtonDelete
-                onClickHandler={this.handleDelete}/>
+                onClickHandler={this.props.onDeleteMessage}/>
             <ButtonPrint/>
           </div>
         </div>
@@ -94,6 +86,7 @@ ThreadHeader.propTypes = {
   moveToIsOpen: React.PropTypes.bool,
   onChooseFolder: React.PropTypes.func,
   onCreateFolder: React.PropTypes.func,
+  onDeleteMessage: React.PropTypes.func,
   onToggleThread: React.PropTypes.func,
   onToggleMoveTo: React.PropTypes.func,
   persistedFolder: React.PropTypes.number

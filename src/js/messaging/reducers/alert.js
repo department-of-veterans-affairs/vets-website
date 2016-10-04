@@ -118,9 +118,8 @@ export default function alert(state = initialState, action) {
       );
 
     case SAVE_DRAFT_SUCCESS: {
-      const id = action.data.data.attributes.messageId;
       const link = (
-        <Link to={`/messaging/thread/${id}`}>
+        <Link to={`/messaging/thread/${action.message.messageId}`}>
           View message.
         </Link>
       );
@@ -138,10 +137,8 @@ export default function alert(state = initialState, action) {
       );
 
     case SEND_MESSAGE_SUCCESS: {
-      const id = action.data.data.attributes.messageId;
-
       const link = (
-        <Link to={`/messaging/thread/${id}`}>
+        <Link to={`/messaging/thread/${action.message.messageId}`}>
           View message.
         </Link>
       );
