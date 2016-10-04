@@ -1,4 +1,5 @@
 import { api } from '../config';
+import { isJson } from '../utils/helpers';
 
 import {
   CREATE_FOLDER_FAILURE,
@@ -131,8 +132,7 @@ export function saveDraft(message) {
 
   return dispatch => {
     fetch(url, settings).then(response => {
-      const contentType = response.headers.get('content-type');
-      if (contentType && contentType.indexOf('application/json') !== -1) {
+      if (isJson(response)) {
         return response.json().then(
           data => {
             if (data.errors) {
