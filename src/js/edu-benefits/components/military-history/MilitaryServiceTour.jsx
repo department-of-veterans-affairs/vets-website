@@ -15,26 +15,24 @@ export default class MilitaryServiceTour extends React.Component {
     const tour = this.props.data;
     const formFields = (
       <div>
-        <div className="usa-alert usa-alert-info edu-benefits-info-no-icon">
-          <ErrorableCheckbox
-              className="form-field-alert"
-              label="This period of service should be counted towards another education benefit."
-              name="doNotApplyPeriodToSelected"
-              checked={tour.doNotApplyPeriodToSelected}
-              onValueChange={(update) => {onValueChange('doNotApplyPeriodToSelected', update);}}/>
-            {tour.doNotApplyPeriodToSelected
-              ? <ErrorableRadioButtons
-                  errorMessage={validateIfDirty(tour.benefitsToApplyTo, isNotBlank) ? undefined : 'Please provide a response'}
-                  required={tour.doNotApplyPeriodToSelected}
-                  validation={validateIfDirty(tour.benefitsToApplyTo, isNotBlank)}
-                  label="Which benefit should this period of service be applied to?"
-                  name="benefitsToApplyTo"
-                  options={tourBenefits}
-                  value={tour.benefitsToApplyTo}
-                  onValueChange={(update) => {onValueChange('benefitsToApplyTo', update);}}/>
-              : null
-            }
-        </div>
+        <ErrorableCheckbox
+            className="form-field-alert"
+            label="This period of service should be counted towards another education benefit."
+            name="doNotApplyPeriodToSelected"
+            checked={tour.doNotApplyPeriodToSelected}
+            onValueChange={(update) => {onValueChange('doNotApplyPeriodToSelected', update);}}/>
+          {tour.doNotApplyPeriodToSelected
+            ? <ErrorableRadioButtons
+                errorMessage={validateIfDirty(tour.benefitsToApplyTo, isNotBlank) ? undefined : 'Please provide a response'}
+                required={tour.doNotApplyPeriodToSelected}
+                validation={validateIfDirty(tour.benefitsToApplyTo, isNotBlank)}
+                label="Which benefit should this period of service be applied to?"
+                name="benefitsToApplyTo"
+                options={tourBenefits}
+                value={tour.benefitsToApplyTo}
+                onValueChange={(update) => {onValueChange('benefitsToApplyTo', update);}}/>
+            : null
+          }
         <ErrorableSelect required
             errorMessage={validateIfDirty(tour.serviceBranch, isNotBlank) ? undefined : 'Please select a service branch'}
             label="Branch of service"

@@ -124,19 +124,18 @@ class GrowableTable extends React.Component {
           </div>
         );
       } else {
-        let buttons;
-        if (this.props.rows.length > this.props.minimumRows && stateKey !== 'incomplete') {
-          buttons = (
-            <div className="row small-collapse">
-              <div className="small-3 left columns">
+        const buttons = (
+          <div className="row small-collapse">
+            {this.props.rows.length > this.props.minimumRows && stateKey !== 'incomplete'
+              ? <div className="small-3 left columns">
                 <button className="short" onClick={(event) => this.handleSave(event, index)} data-key={obj.key}><i className="fa before-text fa-check"></i>Update</button>
               </div>
-              <div className="small-3 right columns">
-                <button className="usa-button-outline short" onClick={this.handleRemove} data-index={index}><i className="fa before-text fa-trash-o"></i>Remove</button>
-              </div>
+              : null}
+            <div className="small-3 right columns">
+              <button className="usa-button-outline short" onClick={this.handleRemove} data-index={index}><i className="fa before-text fa-trash-o"></i>Remove</button>
             </div>
-          );
-        }
+          </div>
+        );
         rowContent = (
           <div key={reactKey++} className={this.props.rows.length > 1 ? 'va-growable-background' : null}>
             <div className="row small-collapse" key={obj.key}>
