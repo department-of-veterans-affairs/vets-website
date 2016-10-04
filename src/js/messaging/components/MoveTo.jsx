@@ -5,6 +5,27 @@ import ButtonMove from './buttons/ButtonMove';
 import MoveToOption from './MoveToOption';
 
 class MoveTo extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChooseFolder = this.handleChooseFolder.bind(this);
+    this.openCreateFolderModal = this.openCreateFolderModal.bind(this);
+  }
+
+  openCreateFolderModal() {
+    this.props.onCreateFolder(this.props.messageId);
+  }
+
+  handleChooseFolder(domEvent) {
+    // domEvent will bubble up from the radio button
+    // to the form, which is why we're using currentTarget.
+    // instead of target.
+    const folderId = +domEvent.currentTarget.messagingMoveToFolder.value;
+    const moveToFolder = this.props.folders.find((folder) => {
+      return folder.folderId === folderId;
+    });
+    this.props.onChooseFolder(this.props.messageId, moveToFolder);
+  }
+
   render() {
     const folderOptions = this.props.folders.map((folder) => {
       return (
@@ -21,18 +42,17 @@ class MoveTo extends React.Component {
         <ButtonMove onClick={this.props.onToggleMoveTo}/>
         <form
             hidden={this.props.isOpen}
-            onChange={this.props.onChooseFolder}>
-          <input
-              name="threadId"
-              type="hidden"
-              value={this.props.threadId}/>
+            onChange={this.handleChooseFolder}>
           <fieldset>
             <legend className="usa-sr-only">
               Move this message to
             </legend>
             <ul className="msg-move-to-options">
               {folderOptions}
-              <li><ButtonCreateFolder onClick={this.props.onCreateFolder}/></li>
+              <li>
+                <ButtonCreateFolder
+                    onClick={this.openCreateFolderModal}/>
+              </li>
             </ul>
           </fieldset>
         </form>
@@ -51,7 +71,7 @@ MoveTo.propTypes = {
     })
   ).isRequired,
   isOpen: React.PropTypes.bool,
-  threadId: React.PropTypes.string.isRequired,
+  messageId: React.PropTypes.number,
   onChooseFolder: React.PropTypes.func.isRequired,
   onCreateFolder: React.PropTypes.func.isRequired,
   onToggleMoveTo: React.PropTypes.func.isRequired,

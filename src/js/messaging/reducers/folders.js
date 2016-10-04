@@ -5,7 +5,8 @@ import concat from 'lodash/fp/concat';
 import { DELETE_COMPOSE_MESSAGE } from '../actions/compose';
 
 import {
-  CREATE_NEW_FOLDER_SUCCESS,
+  CREATE_FOLDER_SUCCESS,
+  DELETE_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
   FETCH_FOLDER_SUCCESS,
   TOGGLE_FOLDER_NAV,
@@ -15,6 +16,7 @@ import {
 
 import {
   DELETE_MESSAGE_SUCCESS,
+  MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS
 } from '../actions/messages';
@@ -46,6 +48,14 @@ const initialState = {
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
+    case DELETE_FOLDER_SUCCESS: {
+      const newFolders = state.data.items.filter(folder => {
+        return folder.folderId !== action.folder.folderId;
+      });
+
+      return set('data.items', newFolders, state);
+    }
+
     case FETCH_FOLDERS_SUCCESS: {
       const items = action.data.data.map(folder => folder.attributes);
       return set('data.items', items, state);
@@ -73,13 +83,14 @@ export default function folders(state = initialState, action) {
       // The + forces +action.folderId to be a number
       return set('data.currentItem.persistFolder', +action.folderId, state);
     // TODO: Handle the response in an appropriate way
-    case CREATE_NEW_FOLDER_SUCCESS: {
-      const newFolderList = concat(state.data.items, action.data.data.attributes);
+    case CREATE_FOLDER_SUCCESS: {
+      const newFolderList = concat(state.data.items, action.folder);
       return set('data.items', newFolderList, state);
     }
 
     case DELETE_COMPOSE_MESSAGE:
     case DELETE_MESSAGE_SUCCESS:
+    case MOVE_MESSAGE_SUCCESS:
     case SAVE_DRAFT_SUCCESS:
     case SEND_MESSAGE_SUCCESS: {
       // Upon completing any of these actions, go to the most recent folder.
