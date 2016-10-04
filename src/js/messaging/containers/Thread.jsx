@@ -2,16 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
+  clearDraft,
   deleteMessage,
-  deleteReply,
   fetchThread,
   moveMessageToFolder,
   saveDraft,
+  sendMessage,
+  sendReply,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
-  updateReplyBody,
-  updateReplyCharacterCount
+  updateDraft
 } from '../actions/messages';
 
 import {
@@ -31,11 +32,11 @@ import { composeMessage } from '../config';
 class Thread extends React.Component {
   constructor(props) {
     super(props);
-    this.handleReplyChange = this.handleReplyChange.bind(this);
+    this.apiFormattedDraft = this.apiFormattedDraft.bind(this);
+    this.handleMessageDelete = this.handleMessageDelete.bind(this);
     this.handleReplySave = this.handleReplySave.bind(this);
     this.handleReplySend = this.handleReplySend.bind(this);
     this.handleReplyDelete = this.handleReplyDelete.bind(this);
-    this.isDraft = this.isDraft.bind(this);
   }
 
   componentDidMount() {
@@ -43,33 +44,33 @@ class Thread extends React.Component {
     this.props.fetchThread(id);
   }
 
-  isDraft() {
-    // The current message is a draft if it hasn't been sent.
-    return !this.props.message.sentDate;
+  apiFormattedDraft() {
+    const draft = Object.assign({}, this.props.draft);
+    draft.body = draft.body.value;
+    return draft;
   }
 
-  handleReplyChange(valueObj) {
-    this.props.updateReplyBody(valueObj);
-    this.props.updateReplyCharacterCount(valueObj, composeMessage.maxChars.message);
+  handleMessageDelete() {
+    this.props.deleteMessage(this.props.message.messageId);
   }
 
   handleReplySave() {
-    const draft = {
-      body: this.props.reply.body.value
-    };
-
-    const message = Object.assign({}, this.props.message, draft);
-    this.props.saveDraft(message);
+    this.props.saveDraft(this.apiFormattedDraft());
   }
 
   handleReplySend() {
+    if (this.props.isNewMessage) {
+      this.props.sendMessage(this.apiFormattedDraft());
+    } else {
+      this.props.sendReply(this.apiFormattedDraft());
+    }
   }
 
   handleReplyDelete() {
     this.props.toggleConfirmDelete();
-    this.props.deleteReply();
+    this.props.clearDraft();
 
-    if (this.isDraft()) {
+    if (this.props.isSavedDraft) {
       this.props.deleteMessage(this.props.message.messageId);
     }
   }
@@ -133,6 +134,7 @@ class Thread extends React.Component {
             moveToIsOpen={this.props.moveToOpened}
             onChooseFolder={this.props.moveMessageToFolder}
             onCreateFolder={this.props.openMoveToNewFolderModal}
+            onDeleteMessage={this.handleMessageDelete}
             onToggleThread={this.props.toggleMessagesCollapsed}
             onToggleMoveTo={this.props.toggleMoveTo}/>
       );
@@ -152,7 +154,7 @@ class Thread extends React.Component {
         );
       });
 
-      if (!this.isDraft()) {
+      if (!this.props.isSavedDraft) {
         currentMessage = <Message attrs={this.props.message}/>;
       }
     }
@@ -172,11 +174,11 @@ class Thread extends React.Component {
             </div>
             <MessageWrite
                 cssClass="messaging-write"
-                onValueChange={this.handleReplyChange}
+                onValueChange={this.props.updateDraft}
                 placeholder={composeMessage.placeholders.message}
-                text={this.props.reply.body}/>
+                text={this.props.draft.body}/>
             <MessageSend
-                charCount={this.props.reply.charsRemaining}
+                charCount={this.props.draft.charsRemaining}
                 cssClass="messaging-send-group"
                 onSave={this.handleReplySave}
                 onSend={this.handleReplySend}
@@ -200,32 +202,43 @@ class Thread extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const folder = state.folders.data.currentItem;
+  const thread = state.messages.data.thread;
+  const message = state.messages.data.message;
+  const draft = state.messages.data.draft;
+
+  const isSavedDraft = message && !message.sentDate;
+  const isNewMessage = draft.replyMessageId === undefined;
+
   return {
-    persistFolder: state.folders.data.currentItem.persistFolder,
     folders: state.folders.data.items,
-    folderMessages: state.folders.data.currentItem.messages,
-    message: state.messages.data.message,
+    folderMessages: folder.messages,
+    isNewMessage,
+    isSavedDraft,
+    message,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
-    reply: state.messages.data.reply,
-    thread: state.messages.data.thread
+    persistFolder: folder.persistFolder,
+    draft,
+    thread
   };
 };
 
 const mapDispatchToProps = {
+  clearDraft,
   deleteMessage,
-  deleteReply,
   fetchThread,
   moveMessageToFolder,
   openMoveToNewFolderModal,
   saveDraft,
+  sendMessage,
+  sendReply,
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
-  updateReplyBody,
-  updateReplyCharacterCount
+  updateDraft
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Thread);
