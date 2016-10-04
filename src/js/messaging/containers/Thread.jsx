@@ -6,19 +6,16 @@ import {
   deleteMessage,
   fetchThread,
   moveMessageToFolder,
+  openMoveToNewFolderModal,
   saveDraft,
   sendMessage,
   sendReply,
+  toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
   updateDraft
-} from '../actions/messages';
-
-import {
-  openMoveToNewFolderModal,
-  toggleConfirmDelete
-} from '../actions/modals';
+} from '../actions';
 
 import Message from '../components/Message';
 import MessageSend from '../components/compose/MessageSend';

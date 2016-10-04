@@ -21,24 +21,18 @@ import ModalAttachmentsTooBig from '../components/compose/ModalAttachmentsTooBig
 import NoticeBox from '../components/NoticeBox';
 
 import {
-  deleteComposeMessage,
-  setMessageField,
-  setAttachments,
   deleteAttachment,
+  deleteComposeMessage,
   fetchRecipients,
   fetchSenderName,
-  updateComposeCharacterCount
-} from '../actions/compose';
-
-import {
   saveDraft,
-  sendMessage
-} from '../actions/messages';
-
-import {
+  sendMessage,
+  setAttachments,
+  setMessageField,
+  toggleAttachmentsModal,
   toggleConfirmDelete,
-  toggleAttachmentsModal
-} from '../actions/modals';
+  updateComposeCharacterCount
+} from '../actions';
 
 class Compose extends React.Component {
   constructor() {
@@ -210,14 +204,14 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   deleteAttachment,
   deleteComposeMessage,
+  fetchRecipients,
+  fetchSenderName,
   saveDraft,
   sendMessage,
   setAttachments,
   setMessageField,
-  fetchRecipients,
-  fetchSenderName,
-  toggleConfirmDelete,
   toggleAttachmentsModal,
+  toggleConfirmDelete,
   updateComposeCharacterCount
 };
 
