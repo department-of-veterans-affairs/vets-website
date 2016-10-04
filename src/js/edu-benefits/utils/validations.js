@@ -404,5 +404,6 @@ export {
   isValidValue,
   isValidFutureDateField,
   isBlankAddress,
-  isValidTourOfDuty
+  isValidTourOfDuty,
+  isValidEmploymentPeriod
 };
