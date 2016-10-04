@@ -26,7 +26,8 @@ function loginStuff(state = initialState, action) {
       return newState;
 
     case LOG_OUT:
-      newState = initialState;
+      newState = Object.assign({}, state);
+      _.set(newState, 'currentlyLoggedIn', false);
       return newState;
 
     default:
