@@ -12,8 +12,7 @@ import {
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
-  updateDraftBody,
-  updateDraftCharacterCount
+  updateDraft
 } from '../actions/messages';
 
 import {
@@ -35,7 +34,6 @@ class Thread extends React.Component {
     super(props);
     this.apiFormattedDraft = this.apiFormattedDraft.bind(this);
     this.handleMessageDelete = this.handleMessageDelete.bind(this);
-    this.handleReplyChange = this.handleReplyChange.bind(this);
     this.handleReplySave = this.handleReplySave.bind(this);
     this.handleReplySend = this.handleReplySend.bind(this);
     this.handleReplyDelete = this.handleReplyDelete.bind(this);
@@ -54,11 +52,6 @@ class Thread extends React.Component {
 
   handleMessageDelete() {
     this.props.deleteMessage(this.props.message.messageId);
-  }
-
-  handleReplyChange(valueObj) {
-    this.props.updateDraftBody(valueObj);
-    this.props.updateDraftCharacterCount(valueObj, composeMessage.maxChars.message);
   }
 
   handleReplySave() {
@@ -181,7 +174,7 @@ class Thread extends React.Component {
             </div>
             <MessageWrite
                 cssClass="messaging-write"
-                onValueChange={this.handleReplyChange}
+                onValueChange={this.props.updateDraft}
                 placeholder={composeMessage.placeholders.message}
                 text={this.props.draft.body}/>
             <MessageSend
@@ -245,8 +238,7 @@ const mapDispatchToProps = {
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
-  updateDraftBody,
-  updateDraftCharacterCount
+  updateDraft
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Thread);

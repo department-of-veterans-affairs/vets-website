@@ -19,7 +19,7 @@ export const SEND_MESSAGE_FAILURE = 'SEND_MESSAGE_FAILURE';
 export const TOGGLE_MESSAGE_COLLAPSED = 'TOGGLE_MESSAGE_COLLAPSED';
 export const TOGGLE_MESSAGES_COLLAPSED = 'TOGGLE_MESSAGES_COLLAPSED';
 export const TOGGLE_MOVE_TO = 'TOGGLE_MOVE_TO';
-export const UPDATE_DRAFT_BODY = 'UPDATE_DRAFT_BODY';
+export const UPDATE_DRAFT = 'UPDATE_DRAFT';
 export const UPDATE_DRAFT_CHARACTER_COUNT = 'UPDATE_DRAFT_CHARACTER_COUNT';
 
 const baseUrl = `${api.url}/messages`;
@@ -234,29 +234,15 @@ export function sendReply(message) {
 }
 
 export function toggleMessageCollapsed(messageId) {
-  return {
-    type: TOGGLE_MESSAGE_COLLAPSED,
-    messageId
-  };
+  return { type: TOGGLE_MESSAGE_COLLAPSED, messageId };
 }
 
 export function toggleMessagesCollapsed() {
   return { type: TOGGLE_MESSAGES_COLLAPSED };
 }
 
-export function updateDraftBody(field) {
-  return {
-    type: UPDATE_DRAFT_BODY,
-    field
-  };
-}
-
-export function updateDraftCharacterCount(field, maxLength) {
-  const chars = maxLength - field.value.length;
-  return {
-    type: UPDATE_DRAFT_CHARACTER_COUNT,
-    chars
-  };
+export function updateDraft(field) {
+  return { type: UPDATE_DRAFT, field };
 }
 
 export function toggleMoveTo() {

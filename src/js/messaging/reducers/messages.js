@@ -8,7 +8,7 @@ import {
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
-  UPDATE_DRAFT_BODY,
+  UPDATE_DRAFT,
   UPDATE_DRAFT_CHARACTER_COUNT
 } from '../actions/messages';
 
@@ -111,11 +111,12 @@ export default function folders(state = initialState, action) {
     case TOGGLE_MOVE_TO:
       return set('ui.moveToOpened', !state.ui.moveToOpened, state);
 
-    case UPDATE_DRAFT_BODY:
-      return set('data.draft.body', action.field, state);
-
-    case UPDATE_DRAFT_CHARACTER_COUNT:
-      return set('data.draft.charsRemaining', action.chars, state);
+    case UPDATE_DRAFT:
+      return set('data.draft', {
+        body: action.field,
+        charsRemaining: composeMessage.maxChars.message -
+                        action.field.value.length
+      }, state);
 
     default:
       return state;
