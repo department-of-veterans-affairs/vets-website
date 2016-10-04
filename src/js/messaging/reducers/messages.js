@@ -54,9 +54,8 @@ export default function folders(state = initialState, action) {
         moveToOpened: false
       }, state);
 
-      // If the message hasn't been sent, treat it as the draft
-      // and a reply to the thread (if it exists).
-      // Otherwise, treat the draft as a reply to the message.
+      // The message is the draft if it hasn't been sent yet.
+      // Otherwise, the draft is an new, unsaved reply to the message.
       let draft;
       if (!currentMessage.sentDate) {
         draft = Object.assign({}, currentMessage, {
