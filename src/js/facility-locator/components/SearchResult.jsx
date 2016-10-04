@@ -11,12 +11,20 @@ class SearchResult extends Component {
       `${address.city}, ${address.state} ${address.zip}-${address.zip4}`
     ];
 
+    /* eslint-disable camelcase */
+    const facilityTypes = {
+      va_health_facility: 'Health',
+      va_cemetary: 'Cemetary',
+      va_benefits_facility: 'Benefits',
+    };
+    /* eslint-enable camelcase */
+
     return (
       <div className="facility-result">
         <Link to={`facilities/facility/${facility.id}`}>
           <h5>{name}</h5>
         </Link>
-        <strong>Facility type: {facility.type}</strong>
+        <strong>Facility type: {facilityTypes[facility.type]}</strong>
         <p>
           {addressString[0]}<br/>
           {addressString[1]}
