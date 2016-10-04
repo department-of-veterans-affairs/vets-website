@@ -64,6 +64,15 @@ button.form-button-disabled {
 }
 
 .form-checkbox {
+  // There's a too-broad type selector in USWDS that causes checkbox
+  // inputs to have a ridiculously wide, yet invisible click area in some browsers.
+  // See 18F/web-design-standards#1490
+  // This fixes things in the meantime.
+  [type="checkbox"] {
+    height: auto !important;
+    margin: 0;
+    width: auto !important;
+  }
   > input[type="checkbox"] + label::before {
     display: block;
     float: left;
