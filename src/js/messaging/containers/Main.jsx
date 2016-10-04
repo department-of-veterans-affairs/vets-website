@@ -3,19 +3,15 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import {
+  closeCreateFolderModal,
+  createFolderAndMoveMessage,
   createNewFolder,
+  openCreateFolderModal,
   setCurrentFolder,
+  setNewFolderName,
   toggleFolderNav,
   toggleManagedFolders
-} from '../actions/folders';
-
-import { createFolderAndMoveMessage } from '../actions/messages';
-
-import {
-  setNewFolderName,
-  closeCreateFolderModal,
-  openCreateFolderModal
-} from '../actions/modals';
+} from '../actions';
 
 import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
@@ -106,10 +102,10 @@ const mapDispatchToProps = {
   createFolderAndMoveMessage,
   createNewFolder,
   openCreateFolderModal,
-  toggleFolderNav,
-  toggleManagedFolders,
   setCurrentFolder,
-  setNewFolderName
+  setNewFolderName,
+  toggleFolderNav,
+  toggleManagedFolders
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
