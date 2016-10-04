@@ -11,7 +11,9 @@ class Message extends React.Component {
   }
 
   handleToggleCollapsed() {
-    this.props.onToggleCollapsed(this.props.attrs.messageId);
+    if (this.props.onToggleCollapsed) {
+      this.props.onToggleCollapsed(this.props.attrs.messageId);
+    }
   }
 
   render() {
@@ -75,7 +77,7 @@ Message.propTypes = {
     senderName: React.PropTypes.string.isRequired,
     recipientId: React.PropTypes.number.isRequired,
     recipientName: React.PropTypes.string.isRequired,
-    readReceipt: React.PropTypes.oneOf(['READ', 'UNREAD']).isRequired
+    readReceipt: React.PropTypes.oneOf(['READ', 'UNREAD'])
   }).isRequired,
   isCollapsed: React.PropTypes.bool,
   onToggleCollapsed: React.PropTypes.func,
