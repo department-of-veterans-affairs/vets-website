@@ -1,11 +1,8 @@
 import React from 'react';
 import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
-import { makeField } from '../../../common/model/fields';
 
 class MessageWrite extends React.Component {
   render() {
-    const messageValue = makeField(undefined);
-
     return (
       <div className={this.props.cssClass}>
         <ErrorableTextarea
@@ -14,7 +11,7 @@ class MessageWrite extends React.Component {
             onValueChange={this.props.onValueChange}
             placeholder={this.props.placeholder}
             name="messageSubject"
-            field={messageValue}/>
+            field={this.props.text}/>
       </div>
     );
   }
@@ -25,6 +22,10 @@ MessageWrite.propTypes = {
   errorMessage: React.PropTypes.string,
   placeholder: React.PropTypes.string,
   onValueChange: React.PropTypes.func.isRequired,
+  text: React.PropTypes.shape({
+    value: React.PropTypes.string,
+    dirty: React.PropTypes.bool
+  }).isRequired
 };
 
 export default MessageWrite;

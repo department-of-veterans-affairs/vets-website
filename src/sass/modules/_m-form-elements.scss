@@ -46,6 +46,16 @@ button.form-button-disabled {
   label {
     margin-top: 1em;
   }
+  > input[type="radio"] + label::before {
+    display: block;
+    float: left;
+    margin-left: -1.7em;
+    margin-top: 0.14em;
+    margin-right: 0;
+  }
+  > input[type="radio"] + label {
+    margin-left: 1.7em;
+  }
 }
 
 .form-required-span {
@@ -54,6 +64,15 @@ button.form-button-disabled {
 }
 
 .form-checkbox {
+  // There's a too-broad type selector in USWDS that causes checkbox
+  // inputs to have a ridiculously wide, yet invisible click area in some browsers.
+  // See 18F/web-design-standards#1490
+  // This fixes things in the meantime.
+  [type="checkbox"] {
+    height: auto !important;
+    margin: 0;
+    width: auto !important;
+  }
   > input[type="checkbox"] + label::before {
     display: block;
     float: left;
@@ -68,4 +87,14 @@ button.form-button-disabled {
 
 .form-field-alert label {
   margin-top: 0.5em;
+}
+
+.form-error-date {
+  margin-top: 0;
+}
+
+@media #{$medium} {
+  .form-select-medium {
+    max-width: 12rem;
+  }
 }

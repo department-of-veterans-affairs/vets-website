@@ -3,13 +3,14 @@ import React from 'react';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
 import Phone from '../../../common/components/questions/Phone';
-import Address from '../../../common/components/questions/Address';
+import Address from '../Address';
 
 export default class SecondaryContactFields extends React.Component {
   render() {
     return (
       <fieldset>
-        <legend>Secondary Contact</legend>
+        <legend>Secondary contact</legend>
+        <p>This person should know where you can be reached at all times.</p>
         <div className="input-section">
           <ErrorableTextInput
               label="Name"
@@ -17,6 +18,7 @@ export default class SecondaryContactFields extends React.Component {
               field={this.props.data.secondaryContact.fullName}
               onValueChange={(update) => {this.props.onStateChange('secondaryContact.fullName', update);}}/>
           <Phone
+              additionalClass="usa-input-medium"
               label="Telephone number"
               name="secondaryContactPhone"
               value={this.props.data.secondaryContact.phone}

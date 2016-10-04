@@ -1,33 +1,37 @@
 import React from 'react';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableNumberInput from '../../../common/components/form-elements/ErrorableNumberInput';
 
-import { isValidYear, validateIfDirty, isNotBlank } from '../../utils/validations';
+import { isValidYear, validateIfDirty, isValidMonetaryValue, isValidValue } from '../../utils/validations';
 
 export default class RotcScholarship extends React.Component {
   render() {
     const { view, onValueChange } = this.props;
     const scholarship = this.props.data;
     const formFields = (
-      <div>
-        <ErrorableTextInput
-            errorMessage={validateIfDirty(scholarship.amount, isNotBlank) ? undefined : 'Please enter the amount received.'}
-            validation={validateIfDirty(scholarship.amount, isNotBlank)}
-            label="Amount recieved"
-            name="amount"
-            field={scholarship.amount}
-            placeholder="$"
-            required
-            onValueChange={(update) => {onValueChange('amount', update);}}/>
-        <ErrorableTextInput
-            errorMessage={validateIfDirty(scholarship.year, isValidYear) ? undefined : 'Please enter a valid year.'}
-            validation={validateIfDirty(scholarship.year, isValidYear)}
-            label="Year recieved"
-            name="year"
-            field={scholarship.year}
-            placeholder="yyyy"
-            required
-            onValueChange={(update) => {onValueChange('year', update);}}/>
+      <div className="row">
+        <div className="columns small-4">
+          <ErrorableNumberInput
+              errorMessage={validateIfDirty(scholarship.year, (val) => isValidValue(isValidYear, val)) ? undefined : 'Please enter a valid year.'}
+              validation={validateIfDirty(scholarship.year, (val) => isValidValue(isValidYear, val))}
+              label="Year"
+              name="year"
+              field={scholarship.year}
+              placeholder="yyyy"
+              min="1900"
+              onValueChange={(update) => {onValueChange('year', update);}}/>
+        </div>
+        <div className="columns small-8">
+          <ErrorableTextInput
+              errorMessage={validateIfDirty(scholarship.amount, (val) => isValidValue(isValidMonetaryValue, val)) ? undefined : 'Please enter the amount received.'}
+              validation={validateIfDirty(scholarship.amount, (val) => isValidValue(isValidMonetaryValue, val))}
+              label="Scholarship amount"
+              name="amount"
+              field={scholarship.amount}
+              placeholder="$"
+              onValueChange={(update) => {onValueChange('amount', update);}}/>
+        </div>
       </div>
     );
 

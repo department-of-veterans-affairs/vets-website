@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 import { states } from './options-for-select';
 
 function validateIfDirty(field, validator) {
@@ -10,7 +11,7 @@ function validateIfDirty(field, validator) {
 }
 
 function validateIfDirtyDate(dayField, monthField, yearField, validator) {
-  if (dayField.dirty || monthField.dirty || yearField.dirty) {
+  if (dayField.dirty && monthField.dirty && yearField.dirty) {
     return validator(dayField.value, monthField.value, yearField.value);
   }
 
@@ -83,6 +84,14 @@ function isValidDate(day, month, year) {
     date.getFullYear() === Number(year);
 }
 
+function isValidAnyDate(day, month, year) {
+  return moment({
+    day,
+    month: parseInt(month, 10) - 1,
+    year
+  }).isValid();
+}
+
 function isValidName(value) {
   return /^[a-zA-Z][a-zA-Z '\-]*$/.test(value);
 }
@@ -92,6 +101,14 @@ function isValidMonetaryValue(value) {
     return /^\d+\.?\d*$/.test(value);
   }
   return true;
+}
+
+function isValidUSZipCode(value) {
+  return /(^\d{5}$)|(^\d{5}[ -]{0,1}\d{4}$)/.test(value);
+}
+
+function isValidCanPostalCode(value) {
+  return /^[a-zA-Z]\d[a-zA-Z][ -]{0,1}\d[a-zA-Z]\d$/.test(value);
 }
 
 // TODO: look into validation libraries (npm "validator")
@@ -473,6 +490,8 @@ export {
   isValidName,
   isValidSSN,
   isValidMonetaryValue,
+  isValidUSZipCode,
+  isValidCanPostalCode,
   isValidPhone,
   isValidEmail,
   isValidInsurancePolicy,
@@ -496,5 +515,6 @@ export {
   isValidGeneralInsurance,
   isValidMedicareMedicaid,
   isValidServiceInformation,
-  isValidSection
+  isValidSection,
+  isValidAnyDate
 };

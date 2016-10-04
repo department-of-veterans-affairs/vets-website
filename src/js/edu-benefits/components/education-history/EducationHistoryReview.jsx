@@ -3,7 +3,7 @@ import { displayDateIfValid } from '../../utils/helpers.js';
 
 export default class EducationHistoryReview extends React.Component {
   render() {
-    const { completionDate, faaFlightCertificatesInformation } = this.props.data;
+    const { completionDate } = this.props.data;
     return (
       <div>
         <table className="review usa-table-borderless">
@@ -18,7 +18,7 @@ export default class EducationHistoryReview extends React.Component {
           return (<table key={index} className="review usa-table-borderless">
             <thead>
               <tr>
-                <td scope="col">Name of college or other training provider></td>
+                <td scope="col">College, university, or other training provider</td>
                 <td scope="col">{period.name.value}</td>
               </tr>
             </thead>
@@ -40,7 +40,7 @@ export default class EducationHistoryReview extends React.Component {
                 <td scope="col">{displayDateIfValid(period.toDate)}</td>
               </tr>
               <tr>
-                <td scope="col">Hours</td>
+                <td scope="col">Hours completed</td>
                 <td scope="col">{period.hours.value}</td>
               </tr>
               <tr>
@@ -58,8 +58,8 @@ export default class EducationHistoryReview extends React.Component {
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
-              <td>FAA certificates (ad infinitum)</td>
-              <td scope="col">{faaFlightCertificatesInformation.value}</td>
+              <td>FAA certificates</td>
+              <td className="edu-benefits-pre">{this.props.data.faaFlightCertificatesInformation.value}</td>
             </tr>
           </tbody>
         </table>

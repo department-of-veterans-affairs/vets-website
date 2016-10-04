@@ -7,3 +7,4 @@ build/*
 src/js/legacy/*
 src/hca-migrate/*
 src/rx-migrate/*
+schema/*

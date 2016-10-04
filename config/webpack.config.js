@@ -11,12 +11,15 @@ require('babel-polyfill');
 const configGenerator = (options) => {
   const baseConfig = {
     entry: {
+      'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
       'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
       facilities: './src/js/facility-locator/facility-locator-entry.jsx',
       hca: './src/js/hca/hca-entry.jsx',
       messaging: './src/js/messaging/messaging-entry.jsx',
-      'no-react': './src/js/no-react-entry.js',
       rx: './src/js/rx/rx-entry.jsx',
+      'no-react': './src/js/no-react-entry.js',
+      'user-profile': './src/js/user-profile/user-profile-entry.jsx',
+      auth: './src/js/auth/auth-entry.jsx'
     },
     output: {
       path: path.join(__dirname, `../build/${options.buildtype}/generated`),
@@ -31,7 +34,7 @@ const configGenerator = (options) => {
           loader: 'babel',
           query: {
             // Speed up compilation.
-            cacheDirectory: true
+            cacheDirectory: '.babelcache'
 
             // Also see .babelrc
           }
@@ -43,7 +46,7 @@ const configGenerator = (options) => {
           query: {
             presets: ['react'],
             // Speed up compilation.
-            cacheDirectory: true
+            cacheDirectory: '.babelcache'
 
             // Also see .babelrc
           }
@@ -69,15 +72,16 @@ const configGenerator = (options) => {
           test: /\.scss$/,
           loader: ExtractTextPlugin.extract('style-loader', `css!resolve-url!sass?includePaths[]=${bourbon}&includePaths[]=${neat}&includePaths[]=~/uswds/src/stylesheets&sourceMap`)
         },
-        { test: /\.(jpe?g|png|gif|svg)$/i,
+        { test: /\.(jpe?g|png|gif)$/i,
           loader: 'url?limit=10000!img?progressive=true&-minimize'
         },
+        { test: /\.svg/, loader: 'svg-url' },
         {
           test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'url-loader?limit=10000&minetype=application/font-woff'
         },
         {
-          test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          test: /\.(ttf|eot)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: 'file-loader'
         }
       ]
@@ -93,7 +97,7 @@ const configGenerator = (options) => {
       new webpack.DefinePlugin({
         __BUILDTYPE__: JSON.stringify(options.buildtype),
         'process.env': {
-          NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+          NODE_ENV: JSON.stringify(process.env.NODE_ENV || 'development')
         }
       }),
 
@@ -109,7 +113,7 @@ const configGenerator = (options) => {
     ],
   };
 
-  if (process.env.NODE_ENV === 'production') {
+  if (options.buildtype === 'production') {
     baseConfig.devtool = '#source-map';
     baseConfig.module.loaders.push({
       test: /debug\/PopulateVeteranButton/,
@@ -123,11 +127,12 @@ const configGenerator = (options) => {
       test: /debug\/RoutesDropdown/,
       loader: 'null'
     });
+
     baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
   } else {
-    baseConfig.devtool = '#cheap-module-eval-source-map';
+    baseConfig.devtool = '#eval-source-map';
   }
 
 

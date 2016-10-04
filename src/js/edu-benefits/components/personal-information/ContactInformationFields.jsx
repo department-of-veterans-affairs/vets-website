@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Address from '../../../common/components/questions/Address';
+import Address from '../Address';
 import Email from '../../../common/components/questions/Email';
 import Phone from '../../../common/components/questions/Phone';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
@@ -15,7 +15,8 @@ export default class ContactInformationFields extends React.Component {
   }
 
   confirmEmail() {
-    if (this.props.data.email.value.toLowerCase() !== this.props.data.emailConfirmation.value.toLowerCase()) {
+    if (this.props.data.emailConfirmation.dirty
+      && this.props.data.email.value.toLowerCase() !== this.props.data.emailConfirmation.value.toLowerCase()) {
       return 'Please ensure your entries match';
     }
 
@@ -26,13 +27,7 @@ export default class ContactInformationFields extends React.Component {
     return (
       <fieldset>
         <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
-        <legend>Contact Information</legend>
-        <div className="input-section">
-          <div className="usa-alert usa-alert-info">
-            <p className="usa-alert-text">Providing as much contact information as possible will help the VA
-            get in touch more efficiently, should we need more information.</p>
-          </div>
-        </div>
+        <legend>Contact information</legend>
         <h4>Address</h4>
         <div className="input-section">
           <Address required
@@ -40,6 +35,7 @@ export default class ContactInformationFields extends React.Component {
               onUserInput={(update) => {this.props.onStateChange('veteranAddress', update);}}/>
         </div>
         <h4>Other contact information</h4>
+        <p>Please enter as much contact information as possible so VA can get in touch with you, if necessary.</p>
         <div className="input-section">
           <Email label="Email address"
               required
@@ -55,15 +51,15 @@ export default class ContactInformationFields extends React.Component {
           <Phone
               label="Primary telephone number"
               value={this.props.data.homePhone}
-              additionalClass="home-phone"
+              additionalClass="home-phone usa-input-medium"
               onValueChange={(update) => {this.props.onStateChange('homePhone', update);}}/>
           <Phone
               label="Mobile telephone number"
               value={this.props.data.mobilePhone}
-              additionalClass="mobile-phone"
+              additionalClass="mobile-phone usa-input-medium"
               onValueChange={(update) => {this.props.onStateChange('mobilePhone', update);}}/>
           <ErrorableRadioButtons
-              label="How would you prefer to be contacted if there are questions about your application?"
+              label="How would you prefer to be contacted if VA has questions about your application?"
               name="preferredContactMethod"
               options={contactOptions}
               value={this.props.data.preferredContactMethod}

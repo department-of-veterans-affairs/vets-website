@@ -18,14 +18,6 @@ body, .home {
   color: $color-white;
 }
 
-// TODO: look into alert / error spacing issues
-.usa-input-error {
-  right: 1rem;
-  padding-bottom: 0;
-  padding-top: 0;
-  margin-top: 0;
-}
-
 // Skip link
 .show-on-focus {
   position: absolute;
@@ -1988,4 +1980,31 @@ pre[class*='language-']  {
   margin-left: 5rem;
   border-left: 2px solid $color-primary;
   padding-left: 1rem;
+}
+
+//====== Flexbox related utility classes
+.va-flex {
+  display: -webkit-flex;
+  display: flex;
+}
+
+// Vertically aligns at top when flex-direction: row;
+// Aligns flush left when flex-direction: column
+.va-flex--top {
+  -webkit-align-items: flex-start;
+  align-items: flex-start;
+}
+
+// Vertically aligns in the middle when flex-direction: row;
+// Aligns center when flex-direction: column
+.va-flex--ctr {
+  -webkit-align-items: center;
+  align-items: center;
+}
+
+// Stretches all flexbox items to be the same height when
+// flex-direction: row
+.va-flex--stretch {
+  -webkit-align-items: stretch;
+  align-items: stretch;
 }

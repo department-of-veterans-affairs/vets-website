@@ -1,43 +1,56 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
 
 import {
-  composeMessageErrors,
-  composeMessagePlaceholders,
+  allowedMimeTypes,
+  composeMessage,
   messageCategories,
-  paths,
+  paths
 } from '../config';
 
 import MessageCategory from '../components/compose/MessageCategory';
 import MessageFrom from '../components/compose/MessageFrom';
+import MessageAttachments from '../components/compose/MessageAttachments';
 import MessageSubject from '../components/compose/MessageSubject';
 import MessageRecipient from '../components/compose/MessageRecipient';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
+import ModalAttachmentsTooBig from '../components/compose/ModalAttachmentsTooBig';
+import NoticeBox from '../components/NoticeBox';
 
 import {
-  saveMessage,
-  sendMessage,
+  deleteComposeMessage,
   setMessageField,
-  setSubjectRequired,
+  setAttachments,
+  deleteAttachment,
   fetchRecipients,
-  fetchSenderName
+  fetchSenderName,
+  updateComposeCharacterCount
 } from '../actions/compose';
 
 import {
-  toggleConfirmDelete
+  saveDraft,
+  sendMessage
+} from '../actions/messages';
+
+import {
+  toggleConfirmDelete,
+  toggleAttachmentsModal
 } from '../actions/modals';
 
 class Compose extends React.Component {
   constructor() {
     super();
+    this.apiFormattedMessage = this.apiFormattedMessage.bind(this);
     this.handleCategoryChange = this.handleCategoryChange.bind(this);
     this.handleMessageChange = this.handleMessageChange.bind(this);
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
-    this.handleSubjectChange = this.handleSubjectChange.bind(this);
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
+    this.handleSubjectChange = this.handleSubjectChange.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
+    this.saveDraft = this.saveDraft.bind(this);
   }
 
   componentDidMount() {
@@ -45,17 +58,35 @@ class Compose extends React.Component {
     this.props.fetchRecipients();
   }
 
+  apiFormattedMessage() {
+    const message = this.props.message;
+    return {
+      category: message.category.value,
+      subject: message.subject.value,
+      body: message.text.value,
+      recipientId: +message.recipient.value
+    };
+  }
+
+  sendMessage() {
+    this.props.sendMessage(this.apiFormattedMessage());
+  }
+
+  saveDraft() {
+    this.props.saveDraft(this.apiFormattedMessage());
+  }
+
   handleCategoryChange(valueObj) {
     this.props.setMessageField('message.category', valueObj);
-    this.props.setSubjectRequired(valueObj);
+  }
+
+  handleSubjectChange(valueObj) {
+    this.props.setMessageField('message.subject', valueObj);
   }
 
   handleMessageChange(valueObj) {
     this.props.setMessageField('message.text', valueObj);
-  }
-
-  handleSubjectChange(valueObj) {
-    this.props.setMessageField('message.subject.value', valueObj);
+    this.props.updateComposeCharacterCount(valueObj, composeMessage.maxChars.message);
   }
 
   handleRecipientChange(valueObj) {
@@ -63,70 +94,99 @@ class Compose extends React.Component {
   }
 
   handleConfirmDelete(domEvent) {
-    // TODO: Dispatch an action that makes this API call
     domEvent.preventDefault();
-    browserHistory.push(paths.DRAFTS_URL);
     this.props.toggleConfirmDelete();
+    this.props.deleteComposeMessage();
   }
 
   render() {
-    const message = this.props.compose.message;
-    const recipients = this.props.compose.recipients;
+    const message = this.props.message;
+    const subjectRequired = message.category &&
+                            message.category.value === 'OTHER';
 
     return (
       <div>
+        <div id="messaging-content-header">
+          <Link
+              className="messaging-cancel-link"
+              to={paths.DRAFTS_URL}>
+            Cancel
+          </Link>
+          <h2>New message</h2>
+          <button
+              className="messaging-send-button"
+              type="button">
+            Send
+          </button>
+        </div>
         <form
             id="messaging-compose"
             onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
-          <h2>New message</h2>
-          <p>
-            <strong>Note:</strong> Messages may be saved to your health record at
-            your team's discretion.
-          </p>
           <MessageFrom
               cssClass="messaging-from"
               lastName={message.sender.lastName}
               firstName={message.sender.firstName}
               middleName={message.sender.middleName}/>
           <MessageRecipient
-              categories={messageCategories}
-              errorMessage={composeMessageErrors.recipient}
+              errorMessage={composeMessage.errors.recipient}
               cssClass="messaging-recipient"
               onValueChange={this.handleRecipientChange}
-              options={recipients}
-              value={message.recipient}/>
-          <fieldset className="messaging-subject-group">
+              options={this.props.recipients}
+              recipient={message.recipient}/>
+          <fieldset className="messaging-subject-field">
             <legend>Subject line:</legend>
-            <div>
-              <MessageCategory
-                  categories={messageCategories}
-                  cssClass="messaging-category"
-                  errorMessage={composeMessageErrors.category}
-                  onValueChange={this.handleCategoryChange}
-                  value={message.category}/>
-              <MessageSubject
-                  cssClass="messaging-subject"
-                  errorMessage={composeMessageErrors.subject}
-                  onValueChange={this.handleSubjectChange}
-                  placeholder={composeMessagePlaceholders.subject}
-                  required={message.subject.required}/>
+            <div className="messaging-subject-group">
+              <div>
+                <MessageCategory
+                    categories={messageCategories}
+                    cssClass="messaging-category"
+                    errorMessage={composeMessage.errors.category}
+                    onValueChange={this.handleCategoryChange}
+                    category={message.category}/>
+                <MessageSubject
+                    charMax={composeMessage.maxChars.subject}
+                    cssClass="messaging-subject"
+                    errorMessage={composeMessage.errors.subject}
+                    onValueChange={this.handleSubjectChange}
+                    placeholder={composeMessage.placeholders.subject}
+                    required={subjectRequired}
+                    subject={message.subject}/>
+              </div>
             </div>
           </fieldset>
-          <MessageWrite
-              cssClass="messaging-write"
-              onValueChange={this.handleMessageChange}
-              placeholder={composeMessagePlaceholders.message}/>
+          <div className="messaging-write-group">
+            <MessageWrite
+                cssClass="messaging-write"
+                onValueChange={this.handleMessageChange}
+                placeholder={composeMessage.placeholders.message}
+                text={message.text}/>
+            <MessageAttachments
+                hidden={!this.props.message.attachments.length}
+                files={this.props.message.attachments}
+                onClose={this.props.deleteAttachment}/>
+          </div>
           <MessageSend
+              allowedMimeTypes={allowedMimeTypes}
+              attachedFiles={this.props.message.attachments}
+              charCount={message.charsRemaining}
               cssClass="messaging-send-group"
-              onSave={this.props.saveMessage}
-              onSend={this.props.sendMessage}
+              multipleUploads
+              onAttachmentUpload={this.props.setAttachments}
+              onSave={this.saveDraft}
+              onSend={this.sendMessage}
               onDelete={this.props.toggleConfirmDelete}/>
         </form>
+        <NoticeBox/>
         <ModalConfirmDelete
             cssClass="messaging-modal"
             onClose={this.props.toggleConfirmDelete}
             onDelete={this.handleConfirmDelete}
             visible={this.props.modals.deleteConfirm.visible}/>
+        <ModalAttachmentsTooBig
+            cssClass="messaging-modal"
+            id="messaging-add-attachments"
+            onClose={this.props.toggleAttachmentsModal}
+            visible={this.props.modals.attachments.visible}/>
       </div>
     );
   }
@@ -134,26 +194,31 @@ class Compose extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    compose: {
-      message: state.compose.message,
-      recipients: state.compose.recipients
-    },
+    message: state.compose.message,
+    recipients: state.compose.recipients,
     modals: {
       deleteConfirm: {
         visible: state.modals.deleteConfirm.visible
+      },
+      attachments: {
+        visible: state.modals.attachments.visible
       }
     }
   };
 };
 
 const mapDispatchToProps = {
-  saveMessage,
+  deleteAttachment,
+  deleteComposeMessage,
+  saveDraft,
   sendMessage,
+  setAttachments,
   setMessageField,
-  setSubjectRequired,
   fetchRecipients,
   fetchSenderName,
-  toggleConfirmDelete
+  toggleConfirmDelete,
+  toggleAttachmentsModal,
+  updateComposeCharacterCount
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Compose);

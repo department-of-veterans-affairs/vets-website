@@ -23,6 +23,7 @@ class ErrorableNumberInput extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   componentWillMount() {
@@ -30,7 +31,11 @@ class ErrorableNumberInput extends React.Component {
   }
 
   handleChange(domEvent) {
-    this.props.onValueChange(makeField(domEvent.target.value, true));
+    this.props.onValueChange(makeField(domEvent.target.value, this.props.field.dirty));
+  }
+
+  handleBlur() {
+    this.props.onValueChange(makeField(this.props.field.value, true));
   }
 
   render() {
@@ -62,6 +67,7 @@ class ErrorableNumberInput extends React.Component {
         </label>
         {errorSpan}
         <input
+            className={this.props.additionalClass}
             aria-describedby={errorSpanId}
             id={this.inputId}
             name={this.props.name}
@@ -71,7 +77,8 @@ class ErrorableNumberInput extends React.Component {
             placeholder={this.props.placeholder}
             type="number"
             value={this.props.field.value}
-            onChange={this.handleChange}/>
+            onChange={this.handleChange}
+            onBlur={this.handleBlur}/>
       </div>
     );
   }
@@ -97,6 +104,7 @@ ErrorableNumberInput.propTypes = {
   placeholder: React.PropTypes.string,
   required: React.PropTypes.bool,
   onValueChange: React.PropTypes.func.isRequired,
+  additionalClass: React.PropTypes.string
 };
 
 export default ErrorableNumberInput;

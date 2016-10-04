@@ -5,7 +5,6 @@ import ErrorableTextInput from '../../../common/components/form-elements/Errorab
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import FullName from '../../../common/components/questions/FullName';
 
-import { validateIfDirty, isNotBlank } from '../../utils/validations';
 import { claimTypes, yesNo } from '../../utils/options-for-select';
 import { getLabel, showSomeoneElseServiceQuestion } from '../../utils/helpers';
 
@@ -35,8 +34,7 @@ export default class PreviousClaim extends React.Component {
     const formFields = (
       <div>
         <div className="input-section">
-          <ErrorableSelect required
-              errorMessage={validateIfDirty(claim.claimType, isNotBlank) ? undefined : 'Please select a claim type'}
+          <ErrorableSelect
               label="Claim type"
               name="claimType"
               options={claimTypes}

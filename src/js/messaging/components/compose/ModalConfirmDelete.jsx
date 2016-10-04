@@ -1,16 +1,16 @@
 import React from 'react';
 
-import Modal from '../Modal';
+import Modal from '../../../common/components/Modal';
 
 class ModalConfirmDelete extends React.Component {
   render() {
-    const modalcontents = (
+    const modalContents = (
       <form onSubmit={this.props.onDelete}>
         <h3 className="messaging-modal-title">
             Are you sure you want to delete this draft?
         </h3>
         <p>This draft will not be recoverable after deletion.</p>
-        <div>
+        <div className="va-modal-button-group">
           <button type="submit">Yes, delete forever</button>
           <button
               className="usa-button-outline"
@@ -23,7 +23,7 @@ class ModalConfirmDelete extends React.Component {
     return (
       <Modal
           cssClass={this.props.cssClass}
-          contents={modalcontents}
+          contents={modalContents}
           id={this.props.id}
           onClose={this.props.onClose}
           visible={this.props.visible}/>

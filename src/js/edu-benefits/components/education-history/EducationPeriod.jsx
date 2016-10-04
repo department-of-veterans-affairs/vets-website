@@ -14,8 +14,8 @@ export default class EducationPeriod extends React.Component {
     const period = this.props.data;
     const formFields = (
       <div>
-        <ErrorableTextInput required
-            label="Name of college or other training provider"
+        <ErrorableTextInput
+            label="College, university, or other training provider"
             name="name"
             field={period.name}
             onValueChange={(update) => {onValueChange('name', update);}}/>
@@ -31,7 +31,7 @@ export default class EducationPeriod extends React.Component {
             value={period.state}
             options={states.USA}
             onValueChange={(update) => {onValueChange('state', update);}}/>
-        <DateInput required
+        <DateInput
             errorMessage="Please provide a response"
             validation={validateIfDirtyDateObj(period.dateRange.from, isValidDateField)}
             label="From"
@@ -40,7 +40,7 @@ export default class EducationPeriod extends React.Component {
             month={period.dateRange.from.month}
             year={period.dateRange.from.year}
             onValueChange={(update) => {onValueChange('dateRange.from', update);}}/>
-        <DateInput required
+        <DateInput
             errorMessage={isValidDateRange(period.dateRange.from, period.dateRange.to) ? 'Please provide a response' : 'Date separated must be after date entered'}
             validation={validateIfDirtyDateObj(period.dateRange.to, date => isValidDateRange(period.dateRange.from, date))}
             label="To"
@@ -50,7 +50,7 @@ export default class EducationPeriod extends React.Component {
             year={period.dateRange.to.year}
             onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
         <ErrorableTextInput
-            label="Hours"
+            label="Hours completed"
             name="hours"
             field={period.hours}
             onValueChange={(update) => {onValueChange('hours', update);}}/>
