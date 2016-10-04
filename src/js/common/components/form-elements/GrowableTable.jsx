@@ -166,7 +166,7 @@ class GrowableTable extends React.Component {
       <div className="va-growable">
         <Element name="topOfTable"/>
         {rowElements}
-        <button className="usa-button-outline" onClick={this.handleAdd}>{this.props.addNewMessage || 'Add another'}</button>
+        <button className="usa-button-outline" onClick={this.handleAdd}>{this.props.addNewMessage || 'Add Another'}</button>
       </div>
     );
   }

@@ -73,7 +73,7 @@ export default class MilitaryServiceFields extends React.Component {
               path="/military-history/military-service"
               rows={this.props.data.toursOfDuty}
               isValidSection={isValidPage}
-              addNewMessage="Add another tour"
+              addNewMessage="Add Another Tour"
               minimumRows={1}
               isValidRow={isValidTourOfDuty}/>
           <ErrorableRadioButtons
