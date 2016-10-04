@@ -10,10 +10,21 @@ class MessageSearchAdvanced extends React.Component {
   constructor(props) {
     super(props);
     this.handleAdvancedSearchToggle = this.handleAdvancedSearchToggle.bind(this);
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleEndDateChange = this.handleEndDateChange.bind(this);
   }
 
   handleAdvancedSearchToggle() {
     this.props.onAdvancedSearch();
+  }
+
+  // `date` is a Moment.js object, not a timestamp.
+  handleStartDateChange(date) {
+    this.props.onDateChange(date, true);
+  }
+
+  handleEndDateChange(date) {
+    this.props.onDateChange(date, false);
   }
 
   render() {
@@ -25,9 +36,7 @@ class MessageSearchAdvanced extends React.Component {
       'fa-chevron-down': !this.props.isVisible
     });
 
-    if (this.props.isVisible === false) {
-      advancedSearchForm = <div/>;
-    } else {
+    if (this.props.isVisible) {
       advancedSearchForm = (
         <fieldset className="msg-search-advanced-controls">
           <legend className="usa-sr-only">Search using additional criteria</legend>
@@ -62,16 +71,18 @@ class MessageSearchAdvanced extends React.Component {
                   htmlFor="msg-search-date-start">Start date range</label>
               <DatePicker
                   id="msg-search-date-start"
-                  onChange={() => {}}
-                  placeholderText="MM/DD/YYYY"/>
+                  onChange={this.handleStartDateChange}
+                  placeholderText="MM/DD/YYYY"
+                  selected={this.props.startDateRange}/>
               <span>to</span>
               <label
                   className="usa-sr-only"
                   htmlFor="msg-search-date-end">End date range</label>
               <DatePicker
                   id="msg-search-date-end"
-                  onChange={() => {}}
-                  placeholderText="MM/DD/YYYY"/>
+                  onChange={this.handleEndDateChange}
+                  placeholderText="MM/DD/YYYY"
+                  selected={this.props.endDateRange}/>
             </div>
           </fieldset>
           <button
@@ -93,8 +104,11 @@ class MessageSearchAdvanced extends React.Component {
 }
 
 MessageSearchAdvanced.propTypes = {
+  endDateRange: React.PropTypes.object,
   isVisible: React.PropTypes.bool.isRequired,
-  onAdvancedSearch: React.PropTypes.func.isRequired
+  onAdvancedSearch: React.PropTypes.func.isRequired,
+  onDateChange: React.PropTypes.func,
+  startDateRange: React.PropTypes.object
 };
 
 export default MessageSearchAdvanced;
