@@ -8,8 +8,7 @@ import {
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
-  UPDATE_DRAFT,
-  UPDATE_DRAFT_CHARACTER_COUNT
+  UPDATE_DRAFT
 } from '../actions/messages';
 
 import { composeMessage } from '../config';
