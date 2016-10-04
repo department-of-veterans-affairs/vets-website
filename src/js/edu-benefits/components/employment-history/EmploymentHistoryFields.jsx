@@ -31,7 +31,6 @@ export default class EmploymentHistoryFields extends React.Component {
       {this.props.data.hasNonMilitaryJobs.value === 'Y'
         ? <div className="input-section">
           <h4>Employment</h4>
-          <hr/>
           <div className="input-section">
             <GrowableTable
                 component={EmploymentPeriod}
