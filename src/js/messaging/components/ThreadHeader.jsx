@@ -47,7 +47,7 @@ class ThreadHeader extends React.Component {
               onClickPrev={this.props.onClickPrev}
               onClickNext={this.props.onClickNext}/>
           <ButtonDelete
-              onClickHandler={this.props.onDelete}/>
+              onClickHandler={this.props.onDeleteMessage}/>
           <ButtonPrint/>
         </div>
         <div className="messaging-thread-title">
