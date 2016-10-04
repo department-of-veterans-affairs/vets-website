@@ -77,10 +77,6 @@
 }
 
 .msg-search-advanced-group {
-  &::after {
-    content: '\a0';
-    display: block;
-  }
   position: relative;
 
   @media (max-width: $medium-screen) {
