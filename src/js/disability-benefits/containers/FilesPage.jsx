@@ -70,13 +70,13 @@ class FilesPage extends React.Component {
                   <p className="submission-file-type">DD214</p>
                   <p>dd214-l-webber.pdf</p>
                   <h6>Submitted</h6>
-                  <p className="submisstion-date">Jul 17, 2016 {' (pending)'}</p>
+                  <p className="submission-date">Jul 17, 2016 {' (pending)'}</p>
                 </div>
                 <div className="submitted-file-list-item">
                   <p className="submission-file-type">Accrued wages from last employer</p>
                   <p>{"wage-statement-2016.pdf"}</p>
                   <h6 className="reviewed-file"><i className="fa fa-check-circle"></i>Reviewed by VA</h6>
-                  <p className="submisstion-date reviewed-file">Jul 17, 2016 {' (pending)'}</p>
+                  <p className="submission-date reviewed-file">Jul 17, 2016 {' (pending)'}</p>
                 </div>
               </div>
             </div>
