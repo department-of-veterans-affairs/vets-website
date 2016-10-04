@@ -42,6 +42,10 @@
     [href^=http] {
       background: none;
     }
+
+    span {
+      font-size: 2rem;
+    }
   }
 
   .leaflet-popup-content {

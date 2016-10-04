@@ -33,7 +33,7 @@ class SearchResult extends Component {
           <a href={`tel:${phone.main}`}>
             <i className="fa fa-phone"/> {phone.main}
           </a>
-        </span>
+        </span><br/>
         <span>
           <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString.join(' ')}`} target="_blank">
             <i className="fa fa-map"/> Directions
