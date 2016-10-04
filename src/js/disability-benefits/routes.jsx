@@ -3,17 +3,12 @@ import { Route } from 'react-router';
 
 import YourClaimsPage from './containers/YourClaimsPage.jsx';
 import CompensationClaimsPage from './containers/CompensationClaimsPage.jsx';
-import IntroductionPage from './containers/IntroductionPage.jsx';
 import StatusPage from './containers/StatusPage.jsx';
 import FilesPage from './containers/FilesPage.jsx';
 import DetailsPage from './containers/DetailsPage.jsx';
 
 const routes = [
   // Introduction route.
-  <Route
-      component={IntroductionPage}
-      key="/introduction"
-      path="/introduction"/>,
   <Route
       component={YourClaimsPage}
       key="/your-claims"
