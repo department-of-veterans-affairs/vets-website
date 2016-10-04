@@ -45,10 +45,10 @@ class ThreadHeader extends React.Component {
           <MoveTo
               folders={this.props.moveToFolders}
               isOpen={!this.props.moveToIsOpen}
+              messageId={this.props.message.messageId}
               onChooseFolder={this.props.onChooseFolder}
               onCreateFolder={this.props.onCreateFolder}
-              onToggleMoveTo={this.props.onToggleMoveTo}
-              threadId={this.props.threadId}/>
+              onToggleMoveTo={this.props.onToggleMoveTo}/>
           <MessageNav
               currentRange={this.props.currentMessageNumber}
               messageCount={this.props.folderMessageCount}
@@ -59,7 +59,7 @@ class ThreadHeader extends React.Component {
           <ButtonPrint/>
         </div>
         <div className="messaging-thread-title">
-          <h2 className="messaging-thread-subject">{this.props.subject}</h2>
+          <h2 className="messaging-thread-subject">{this.props.message.subject}</h2>
           <div className="messaging-thread-controls">
             {toggleThread}
             <ButtonDelete
@@ -85,8 +85,10 @@ ThreadHeader.propTypes = {
   folderMessageCount: React.PropTypes.number.isRequired,
   onClickPrev: React.PropTypes.func,
   onClickNext: React.PropTypes.func,
-  subject: React.PropTypes.string.isRequired,
-  threadId: React.PropTypes.string.isRequired,
+  message: React.PropTypes.shape({
+    messageId: React.PropTypes.number,
+    subject: React.PropTypes.string
+  }).isRequired,
   threadMessageCount: React.PropTypes.number.isRequired,
   messagesCollapsed: React.PropTypes.bool,
   moveToIsOpen: React.PropTypes.bool,

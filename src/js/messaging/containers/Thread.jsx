@@ -5,6 +5,7 @@ import {
   deleteMessage,
   deleteReply,
   fetchThread,
+  moveMessageToFolder,
   saveDraft,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
@@ -14,8 +15,8 @@ import {
 } from '../actions/messages';
 
 import {
-  toggleConfirmDelete,
-  toggleCreateFolderModal
+  openMoveToNewFolderModal,
+  toggleConfirmDelete
 } from '../actions/modals';
 
 import Message from '../components/Message';
@@ -34,7 +35,6 @@ class Thread extends React.Component {
     this.handleReplySave = this.handleReplySave.bind(this);
     this.handleReplySend = this.handleReplySend.bind(this);
     this.handleReplyDelete = this.handleReplyDelete.bind(this);
-    this.handleMoveTo = this.handleMoveTo.bind(this);
     this.isDraft = this.isDraft.bind(this);
   }
 
@@ -72,15 +72,6 @@ class Thread extends React.Component {
     if (this.isDraft()) {
       this.props.deleteMessage(this.props.message.messageId);
     }
-  }
-
-  handleMoveTo() {
-    // TODO: Make this call a function that dispatches an action
-    // domEvent will bubble up from the radio button
-    // to the form, which is why we're using currentTarget.
-    // instead of target.
-    // const folderId = domEvent.currentTarget.messagingMoveToFolder.value;
-    // const threadId = domEvent.currentTarget.threadId.value;
   }
 
   render() {
@@ -133,16 +124,15 @@ class Thread extends React.Component {
             currentMessageNumber={currentIndex + 1}
             moveToFolders={folders}
             folderMessageCount={folderMessageCount}
-            persistedFolder={this.props.persistFolder}
+            message={this.props.message}
             onClickPrev={fetchPrevMessage}
             onClickNext={fetchNextMessage}
-            subject={this.props.message.subject}
+            persistedFolder={this.props.persistFolder}
             threadMessageCount={thread.length + 1}
-            threadId={this.props.params.id}
             messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
             moveToIsOpen={this.props.moveToOpened}
-            onChooseFolder={this.handleMoveTo}
-            onCreateFolder={this.props.toggleCreateFolderModal}
+            onChooseFolder={this.props.moveMessageToFolder}
+            onCreateFolder={this.props.openMoveToNewFolderModal}
             onToggleThread={this.props.toggleMessagesCollapsed}
             onToggleMoveTo={this.props.toggleMoveTo}/>
       );
@@ -227,9 +217,10 @@ const mapDispatchToProps = {
   deleteMessage,
   deleteReply,
   fetchThread,
+  moveMessageToFolder,
+  openMoveToNewFolderModal,
   saveDraft,
   toggleConfirmDelete,
-  toggleCreateFolderModal,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
   toggleMoveTo,
