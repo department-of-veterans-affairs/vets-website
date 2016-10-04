@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import { getClaims } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
+import ClaimsListItem from '../components/ClaimsListItem';
+import NoClaims from '../components/NoClaims';
 
 class YourClaimsPage extends React.Component {
   componentDidMount() {
@@ -11,24 +13,16 @@ class YourClaimsPage extends React.Component {
   render() {
     const { claims } = this.props;
 
-    let claimsList;
-    if (claims.length > 0) {
-      claimsList = (<div className="claim-list">
-        {claims.map(claim =>
-          <div key={claim.id} className="claim-list-item">
-            <h4>Compensation Claim</h4>
-            <p className="status">Status: Complete</p>
-            <p><i className="fa fa-exclamation-triangle"></i>We need 2 files from you</p>
-            <p><i className="fa fa-envelope"></i>We sent you a development letter</p>
-            <p>Last Update: {claim.attributes.dateField}</p>
-          </div>
-        )}
+    let content;
+
+    if (claims === null) {
+      content = <div>Loading...</div>;
+    } else if (claims.length > 0) {
+      content = (<div className="claim-list">
+        {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
       </div>);
     } else {
-      claimsList = (<div className="you-have-no-claims">
-        <h4>You do not have any submitted claims</h4>
-        <p>Claims that you have submitted will appear here. If you have an open application for a claim but have not yet submitted it, you can continue your application on <a href="https://www.ebenefits.va.gov/">ebenefits</a></p>
-      </div>);
+      content = <NoClaims/>;
     }
 
     return (
@@ -38,7 +32,7 @@ class YourClaimsPage extends React.Component {
             <div>
               <h1>Your Claims</h1>
             </div>
-            {claimsList}
+            {content}
           </div>
           <AskVAQuestions/>
         </div>
@@ -49,7 +43,7 @@ class YourClaimsPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    claims: state.claimsList
+    claims: state.claims.list
   };
 }
 

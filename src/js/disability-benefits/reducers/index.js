@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import claimsList from './claims-list';
+import claims from './claims-list';
 
 export default combineReducers({
-  claimsList
+  claims
 });

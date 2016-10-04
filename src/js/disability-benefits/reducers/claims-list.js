@@ -2,12 +2,16 @@
 
 import { SET_CLAIMS } from '../actions';
 
-const initialState = [];
+const initialState = {
+  list: null
+};
 
 export default function claimsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIMS: {
-      return action.claims;
+      return {
+        list: action.claims
+      };
     }
     default:
       return state;

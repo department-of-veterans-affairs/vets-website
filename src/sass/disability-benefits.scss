@@ -185,6 +185,16 @@
   }
 }
 
+a.claim-list-item {
+  text-decoration: none;
+  display: block;
+  color: inherit;
+  &:visited, &:hover, &:active {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
 .your-claims {
   h1, h3 {
     margin-top: 1em;
