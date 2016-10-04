@@ -5,7 +5,7 @@
 }
 
 .claim-file-border {
-  border-bottom: 2px solid #0071bc;
+  border-bottom: 2px solid $color-primary;
   margin: 0.3em 0;
 }
 
@@ -21,15 +21,15 @@
 }
 
 .reviewed-file {
-  color: #236621;
+  color: $color-green;
 }
 
 .due-file {
-  color: #cd2026;
+  color: $color-secondary-dark;
 }
 
 .past-due {
-  color: #323a45;
+  color: $color-gray-dark;
 }
 
 .submitted-files-list {
@@ -37,7 +37,7 @@
   margin-bottom: 2em;
   .submitted-file-list-item {
     margin: 0.5em 0;
-    border-bottom: 1px solid #979797;
+    border-bottom: 1px solid $color-gray-light;
     h6 {
       display: inline-block;
       padding: 0;
@@ -51,7 +51,7 @@
       padding: 0;
     }
     .submission-file-type {
-      color: #112e51;
+      color: $color-primary-darkest;
       font-size: 1.15em;
       line-height: 1.5;
       font-weight: bold;
@@ -69,7 +69,7 @@
 
 
 .file-request-list-item {
-  border-bottom: 1px solid #979797;
+  border-bottom: 1px solid $color-gray-light;
   .item-container {
     margin: 0.5em 0;
     float: left;
@@ -97,7 +97,7 @@
 }
 
 .claims-evidence {
-  border-bottom: 1px solid #979797;
+  border-bottom: 1px solid $color-gray-light;
   .claims-evidence-date {
     display:inline-block;
     font-weight: bold;
@@ -130,7 +130,7 @@
 
 .claim-decision-is-ready {
   padding: 1em;
-  background-color: #e0f3f3;
+  background-color: #e0f3f3; // Create variable - no matching color found
   margin-bottom: 1em;
   h4, p {
     margin: 0.5em 0;
@@ -140,7 +140,7 @@
 
 .you-have-no-claims {
   padding: 1em;
-  background-color: #e0f3f3;
+  background-color: #e0f3f3; // Create variable - no matching color found
   margin-bottom: 5em;
   h4, p {
     margin: 0.5em 0;
@@ -149,7 +149,7 @@
 }
 
 .form-process li.section-complete:before {
-  background: #2e8540;
+  background: $color-green;
   content: "\2714";
 }
 
@@ -171,7 +171,7 @@
 }
 
 .claim-list-item {
-  background-color: #f1f1f1;
+  background-color: $color-gray-lightest;
   padding: 1em;
   margin-bottom: 1em;
   i {
@@ -194,7 +194,7 @@
 .ask-va-questions {
   margin-top: 1.5em;
   h4 {
-    border-bottom: 2px solid #0071bc;
+    border-bottom: 2px solid $color-primary;
   }
   p {
     padding: 0;
