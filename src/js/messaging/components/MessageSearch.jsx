@@ -23,9 +23,13 @@ class MessageSearch extends React.Component {
             <span className="msg-search-btn-text">Search</span>
           </button>
         </div>
+
         <MessageSearchAdvanced
             isVisible={this.props.isAdvancedVisible}
-            onAdvancedSearch={this.props.onAdvancedSearch}/>
+            onAdvancedSearch={this.props.onAdvancedSearch}
+            onDateChange={this.props.onDateChange}
+            startDateRange={this.props.searchDateRangeStart}
+            endDateRange={this.props.searchDateRangeEnd}/>
       </form>);
   }
 }
@@ -34,7 +38,10 @@ MessageSearch.propTypes = {
   cssClass: React.PropTypes.string,
   isAdvancedVisible: React.PropTypes.bool.isRequired,
   onAdvancedSearch: React.PropTypes.func.isRequired,
-  onSubmit: React.PropTypes.func
+  onDateChange: React.PropTypes.func.isRequired,
+  onSubmit: React.PropTypes.func.isRequired,
+  searchDateRangeStart: React.PropTypes.object,
+  searchDateRangeEnd: React.PropTypes.object
 };
 
 export default MessageSearch;

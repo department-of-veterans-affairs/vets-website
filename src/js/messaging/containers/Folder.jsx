@@ -5,7 +5,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { fetchFolder, toggleFolderNav } from '../actions/folders';
-import { toggleAdvancedSearch } from '../actions/search';
+import { toggleAdvancedSearch, setDateRange } from '../actions/search';
 
 import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
@@ -129,7 +129,10 @@ class Folder extends React.Component {
         </div>
         <MessageSearch
             isAdvancedVisible={this.props.isAdvancedVisible}
+            searchDateRangeEnd={this.props.searchDateRangeEnd}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
+            onDateChange={this.props.setDateRange}
+            searchDateRangeStart={this.props.searchDateRangeStart}
             onSubmit={(e) => { e.preventDefault(); }}/>
         <div id="messaging-folder-controls">
           <ComposeButton/>
@@ -158,14 +161,17 @@ const mapStateToProps = (state) => {
     messageCount: totalCount,
     page,
     totalPages,
-    isAdvancedVisible: state.search.advanced.visible
+    isAdvancedVisible: state.search.advanced.visible,
+    searchDateRangeStart: state.search.advanced.params.dateRange.start,
+    searchDateRangeEnd: state.search.advanced.params.dateRange.end
   };
 };
 
 const mapDispatchToProps = {
   fetchFolder,
   toggleFolderNav,
-  toggleAdvancedSearch
+  toggleAdvancedSearch,
+  setDateRange
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Folder);
