@@ -62,8 +62,7 @@ export default class MilitaryServiceFields extends React.Component {
           {this.props.data.currentlyActiveDuty.yes.value === 'Y' ? activeDutyQuestions : null}
       </div>
       <div className="input-section">
-        <h4>Military service</h4>
-        <hr/>
+        <h4>Tours of duty</h4>
         <div className="input-section">
           <GrowableTable
               component={MilitaryServiceTour}

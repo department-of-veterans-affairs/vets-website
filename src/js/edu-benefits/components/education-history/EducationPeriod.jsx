@@ -13,7 +13,7 @@ export default class EducationPeriod extends React.Component {
     const { view, onValueChange } = this.props;
     const period = this.props.data;
     const formFields = (
-      <div>
+      <div className="input-section">
         <ErrorableTextInput
             label="College, university, or other training provider"
             name="name"

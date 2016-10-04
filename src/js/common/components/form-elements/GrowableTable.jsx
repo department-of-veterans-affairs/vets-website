@@ -16,7 +16,7 @@ class GrowableTable extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.state = {};
+    this.state = { edited: false };
   }
 
   componentWillMount() {
@@ -62,6 +62,7 @@ class GrowableTable extends React.Component {
 
     if (this.props.isValidSection(this.props.path, this.props.data)) {
       this.createNewElement();
+      this.setState({ edited: true });
     }
   }
 
@@ -107,7 +108,7 @@ class GrowableTable extends React.Component {
         rowContent = (
           <div key={reactKey++} className="va-growable-background">
             <div className="row slideOutDown small-collapse" key={obj.key}>
-              <div className="small-6 columns">
+              <div className="small-9 columns">
                 {React.createElement(this.props.component,
                   { data: obj,
                     view: 'collapsed',
@@ -118,26 +119,29 @@ class GrowableTable extends React.Component {
                   })}
               </div>
               <div className="small-3 columns">
-                <button className="usa-button-outline short" onClick={(event) => this.handleEdit(event)} data-key={obj.key}><i className="fa before-text fa-pencil"></i>Edit</button>
+                <button className="usa-button-outline float-right" onClick={(event) => this.handleEdit(event)} data-key={obj.key}>Edit</button>
               </div>
             </div>
           </div>
         );
       } else {
-        const buttons = (
-          <div className="row small-collapse">
-            {this.props.rows.length > this.props.minimumRows && stateKey !== 'incomplete'
-              ? <div className="small-3 left columns">
-                <button className="short" onClick={(event) => this.handleSave(event, index)} data-key={obj.key}><i className="fa before-text fa-check"></i>Update</button>
+        let buttons;
+        if (this.props.rows.length > 1) {
+          buttons = (
+            <div className="row small-collapse">
+              {stateKey !== 'incomplete'
+                ? <div className="small-6 left columns">
+                  <button className="float-left" onClick={(event) => this.handleSave(event, index)} data-key={obj.key}>Update</button>
+                </div>
+                : null}
+              <div className="small-6 right columns">
+                <button className="usa-button-outline float-right" onClick={this.handleRemove} data-index={index}>Remove</button>
               </div>
-              : null}
-            <div className="small-3 right columns">
-              <button className="usa-button-outline short" onClick={this.handleRemove} data-index={index}><i className="fa before-text fa-trash-o"></i>Remove</button>
             </div>
-          </div>
-        );
+          );
+        }
         rowContent = (
-          <div key={reactKey++} className={this.props.rows.length > 1 ? 'va-growable-background' : null}>
+          <div key={reactKey++} className={this.state.edited || stateKey === 'edit' || this.props.rows.length > 1 ? 'va-growable-background' : null}>
             <div className="row small-collapse" key={obj.key}>
               <div className="small-12 columns">
                 {React.createElement(this.props.component,
@@ -162,11 +166,7 @@ class GrowableTable extends React.Component {
       <div className="va-growable">
         <Element name="topOfTable"/>
         {rowElements}
-        <div className="row">
-          <div className="small-5 left columns">
-            <button className="usa-button-outline short" onClick={this.handleAdd}>{this.props.addNewMessage || 'Add another'}</button>
-          </div>
-        </div>
+        <button className="usa-button-outline" onClick={this.handleAdd}>{this.props.addNewMessage || 'Add another'}</button>
       </div>
     );
   }
