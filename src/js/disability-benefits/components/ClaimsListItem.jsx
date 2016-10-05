@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 export default function ClaimsListItem({ claim }) {
   const filesNeeded = claim.attributes.trackedItems.stillNeedFromYouList ? claim.attributes.trackedItems.stillNeedFromYouList.length : null;
   return (
-    <Link className="claim-list-item" to={`/your-claims/${claim.attributes.evssId}/status`}>
+    <Link className="claim-list-item" to={`/your-claims/${claim.id}/status`}>
       <h4 className="claim-list-item-header">Compensation Claim</h4>
       <p className="status">Status: {claim.attributes.phaseDates.latestPhaseType}</p>
       {filesNeeded !== null
