@@ -130,8 +130,6 @@
 }
 
 .claim-decision-is-ready {
-  padding: 1em;
-  background-color: #e0f3f3; // Create variable - no matching color found
   margin-bottom: 1em;
   h4, p {
     margin: 0.5em 0;
@@ -139,9 +137,16 @@
   }
 }
 
-.you-have-no-claims {
-  padding: 1em;
+.ask-va-to-decide,
+.claim-decision-is-ready,
+.you-have-no-claims,
+.we-are-adding-your-details {
   background-color: #e0f3f3; // Create variable - no matching color found
+  padding: 1em;
+  margin: 1em 0;
+}
+
+.you-have-no-claims {
   margin-bottom: 5em;
   h4, p {
     margin: 0.5em 0;
@@ -238,7 +243,7 @@ a.claim-list-item {
 }
 
 .claim-conditions {
-  margin-top: 1.5em;
+  margin: 1.5em;
   margin-bottom: 2em;
   h1, p {
     margin: 0;
@@ -356,3 +361,24 @@ a.claim-list-item {
  }
 
 // TODO: Add media queries for responsiveness
+
+.need-files-from-you {
+  background-color: #fff1d0; // TODO: replace with vaiable
+  padding: 1em;
+  margin: 1em 0;
+  .warning-title {
+    color: $color-gray-dark;
+    float: left;
+    .fa {
+      margin-right: 6px;
+    }
+  }
+  .va-button-secondary {
+    float: right;
+    margin: 0;
+  }
+}
+
+.va-claim-form {
+  margin: 1.5em 0;
+}
