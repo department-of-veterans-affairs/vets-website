@@ -34,11 +34,11 @@ export default class SecondaryContactReview extends React.Component {
             </tr>
             <tr>
               <td>State/Province:</td>
-              <td>{this.props.data.secondaryContact.address.state.value || this.props.data.secondaryContact.address.provinceCode.value}</td>
+              <td>{this.props.data.secondaryContact.address.state.value}</td>
             </tr>
             <tr>
-              <td>ZIP/Postal Code:</td>
-              <td>{this.props.data.secondaryContact.address.zipcode.value || this.props.data.secondaryContact.address.postalCode.value}</td>
+              <td>Postal code:</td>
+              <td>{this.props.data.secondaryContact.address.postalCode.value}</td>
             </tr></tbody>}
       </table>
     );
