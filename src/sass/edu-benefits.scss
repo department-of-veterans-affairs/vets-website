@@ -71,3 +71,31 @@ legend {
     margin-bottom: 0.5em;
   }
 }
+
+@media (max-width: 40.063em) {
+  .progress-box {
+    border:none;
+    padding-left: 2rem - .9375rem;
+    padding-right: 2rem - .9375rem;
+  }
+}
+
+.edu-benefits-mil-group.form-expanding-group-inner-enter, 
+  .edu-benefits-mil-group.form-expanding-group-inner-leave-active {
+  margin-top: -30px;
+}
+
+.edu-benefits-rotc-group.form-expanding-group-inner-enter, 
+  .edu-benefits-rotc-group.form-expanding-group-inner-leave-active {
+  margin-top: -53px;
+}
+
+.edu-benefits-chapter33-group.form-expanding-group-inner-enter, 
+  .edu-benefits-chapter33-group.form-expanding-group-inner-leave-active {
+  margin-top: -16px;
+}
+
+.edu-benefits-employ-group.form-expanding-group-inner-enter, 
+  .edu-benefits-employ-group.form-expanding-group-inner-leave-active {
+  margin-top: -30px;
+}

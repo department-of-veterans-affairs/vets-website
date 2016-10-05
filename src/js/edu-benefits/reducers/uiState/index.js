@@ -36,12 +36,12 @@ const ui = {
     '/military-history/military-service': {
       complete: false,
       verified: false,
-      fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty', 'toursOfDuty', 'seniorRotcCommissioned']
+      fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty', 'toursOfDuty']
     },
     '/military-history/rotc-history': {
       complete: false,
       verified: false,
-      fields: ['seniorRotc', 'seniorRotcScholarshipProgram']
+      fields: ['seniorRotc', 'seniorRotcScholarshipProgram', 'seniorRotcCommissioned']
     },
     '/military-history/benefits-history': {
       complete: false,

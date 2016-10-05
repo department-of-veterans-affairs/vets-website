@@ -79,7 +79,6 @@ const routes = [
       reviewComponent={RotcHistoryReview}
       key="/military-history/rotc-history"
       path="/military-history/rotc-history"
-      depends={{ seniorRotcCommissioned: { value: 'Y' } }}
       chapter={chapterNames.militaryHistory}
       name="ROTC history"/>,
   <Route
