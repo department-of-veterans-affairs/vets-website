@@ -229,6 +229,7 @@ if (options.watch) {
         auth: api.auth,
         secure: true,
         changeOrigin: true,
+        pathRewrite: { '^/api': '' },
         rewrite: function rewrite(req) {
           /* eslint-disable no-param-reassign */
           req.headers.host = api.host;
