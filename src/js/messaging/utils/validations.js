@@ -7,14 +7,9 @@ export function validateFileSize(files, max) {
 }
 
 export function validateTotalFileSize(files, max) {
-  // Get sizes for each file.
-  const sizes = files.map((f) => {
-    return f.size;
-  });
-
-  const total = sizes.reduce((a, b) => {
-    return a + b;
-  });
+  const total = files.reduce((sum, file) => {
+    return sum + file.size;
+  }, 0);
 
   return total > max;
 }
