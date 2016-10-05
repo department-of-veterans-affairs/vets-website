@@ -106,7 +106,13 @@ export function submitForm(data) {
         }
       })
     })
-    .then(res => res.json())
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+
+      return Promise.reject(res.statusText);
+    })
     .then(
       () => dispatch(updateSubmissionStatus('applicationSubmitted')),
       () => dispatch(updateSubmissionStatus('error'))
