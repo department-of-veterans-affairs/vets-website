@@ -8,6 +8,25 @@ import { isValidSection } from '../../utils/validations';
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
 
+/*
+ * Each row can be three states: edit, complete, incomplete.
+ *
+ * The Add Another button is always displayed at the bottom, no matter the state of the rest of the rows.
+ *
+ * If there's only one row, the form will always show expanded (i.e. fields are visible) with no grey box.
+ *
+ * With more than one row:
+ *
+ * edit: Form is expanded inside grey box with Update/Remove buttons
+ * complete: Form is collapsed inside grey box with Edit button
+ * incomplete: Form is expanded inside grey box with Remove button
+ *
+ * The edit state is set when you click the Edit button. Complete is set for the current row when you add
+ * another or update an existing one. Incomplete is set for the new row added after clicking Add Another.
+ *
+ * All rows are set to complete when the component is mounted (i.e. you're coming back to the page after adding a row previously).
+*/
+
 class GrowableTable extends React.Component {
   constructor(props) {
     super(props);
