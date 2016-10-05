@@ -184,6 +184,9 @@
   p.status {
     font-weight: bold;
   }
+  p.communications, p.status {
+    margin-bottom: 0.5em;
+  }
 }
 
 a.claim-list-item {
