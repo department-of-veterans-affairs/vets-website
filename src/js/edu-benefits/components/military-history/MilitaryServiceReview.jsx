@@ -31,10 +31,6 @@ export default class MilitaryServiceReview extends React.Component {
             </tbody>
             : null}
           <tbody>
-            <tr>
-              <td>Were you commissioned as a result of senior ROTC?</td>
-              <td>{getLabel(yesNoNA, this.props.data.seniorRotcCommissioned.value)}</td>
-            </tr>
           </tbody>
         </table>
         {this.props.data.toursOfDuty.map((tour, index) => {

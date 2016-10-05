@@ -4,9 +4,16 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { fetchFolder, toggleFolderNav } from '../actions/folders';
+import {
+  fetchFolder,
+  setDateRange,
+  toggleAdvancedSearch,
+  toggleFolderNav
+} from '../actions';
+
 import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
+import MessageSearch from '../components/MessageSearch';
 
 class Folder extends React.Component {
   componentDidMount() {
@@ -124,6 +131,13 @@ class Folder extends React.Component {
           </button>
           <h2>{folderName}</h2>
         </div>
+        <MessageSearch
+            isAdvancedVisible={this.props.isAdvancedVisible}
+            searchDateRangeEnd={this.props.searchDateRangeEnd}
+            onAdvancedSearch={this.props.toggleAdvancedSearch}
+            onDateChange={this.props.setDateRange}
+            searchDateRangeStart={this.props.searchDateRangeStart}
+            onSubmit={(e) => { e.preventDefault(); }}/>
         <div id="messaging-folder-controls">
           <ComposeButton/>
           {messageNav}
@@ -150,12 +164,17 @@ const mapStateToProps = (state) => {
     currentRange: `${startCount} - ${endCount}`,
     messageCount: totalCount,
     page,
-    totalPages
+    totalPages,
+    isAdvancedVisible: state.search.advanced.visible,
+    searchDateRangeStart: state.search.advanced.params.dateRange.start,
+    searchDateRangeEnd: state.search.advanced.params.dateRange.end
   };
 };
 
 const mapDispatchToProps = {
   fetchFolder,
+  setDateRange,
+  toggleAdvancedSearch,
   toggleFolderNav
 };
 
