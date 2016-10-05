@@ -79,7 +79,7 @@ module.exports = {
       attachments: {
         tooLarge: {
           title: 'Attachment size limit',
-          text: 'The file(s) you are trying to attach exceed the 3<abbr title="megabyte">MB</abbr> attachment size limit and the total size of attachments cannot exceed 6<abbr title="megabytes">MB</abbr>'
+          text: 'The file(s) you are trying to attach exceed the 3MB attachment size limit and the total size of attachments cannot exceed 6MB'
         },
         tooMany: {
           title: 'Attachments limit',

@@ -4,14 +4,12 @@ import Modal from '../../../common/components/Modal';
 
 class ModalAttachments extends React.Component {
   render() {
-    const outputAsHtml = () => { return {__html: this.props.text}; };
-
     const modalContents = (
       <div>
         <h3 className="messaging-modal-title">
           {this.props.title}
         </h3>
-        <p dangerouslySetInnerHTML={outputAsHtml()}/>
+        <p>{this.props.text}</p>
         <div>
           <button
               onClick={this.props.onClose}

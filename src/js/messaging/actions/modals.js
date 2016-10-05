@@ -25,9 +25,9 @@ export function toggleConfirmDelete() {
 }
 
 export function openAttachmentsModal(error) {
-  return { 
+  return {
     type: OPEN_ATTACHMENTS_MODAL,
-    error 
+    error
   };
 }
 

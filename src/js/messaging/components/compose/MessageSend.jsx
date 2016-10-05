@@ -10,7 +10,7 @@ class MessageSend extends React.Component {
     this.handleAttachmentsChange = this.handleAttachmentsChange.bind(this);
     this.validateNumAttachments = this.validateNumAttachments.bind(this);
     this.validateFileSize = this.validateFileSize.bind(this);
-    this.validateTotalFileSize = this.validateTotalFileSize.bind(this);    
+    this.validateTotalFileSize = this.validateTotalFileSize.bind(this);
   }
 
   validateNumAttachments(files, maxAttachments) {
@@ -37,24 +37,24 @@ class MessageSend extends React.Component {
   handleAttachmentsChange(domEvent) {
     const input = domEvent.target;
     let hasError = null;
-  
+
     if (window.File && window.FileList) {
       if (input.files.length) {
         const files = Array.from(input.files);
 
         if (this.validateNumAttachments(files, this.props.maxFiles)) {
-          hasError = {type: 'tooMany'};
+          hasError = { type: 'tooMany' };
         } else if (this.validateFileSize(files, this.props.maxFileSize) || this.validateTotalFileSize(files, this.props.maxTotalFileSize)) {
-          hasError = {type: 'tooLarge'};
+          hasError = { type: 'tooLarge' };
         }
 
         if (hasError) {
           this.props.onAttachmentsError(hasError);
           // Resets the value of the input.
           input.value = '';
-        } else {  
+        } else {
           this.props.onAttachmentUpload(files);
-        }    
+        }
       }
     }
   }
