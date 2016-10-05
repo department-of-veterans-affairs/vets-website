@@ -2,19 +2,16 @@ import React from 'react';
 
 import Modal from '../../../common/components/Modal';
 
-class ModalAttachmentsTooBig extends React.Component {
+class ModalAttachments extends React.Component {
   render() {
+    const outputAsHtml = () => { return {__html: this.props.text}; };
+
     const modalContents = (
       <div>
         <h3 className="messaging-modal-title">
-          Attachment size limit
+          {this.props.title}
         </h3>
-        <p>
-          The file(s) you are trying to attach exceed the
-          3<abbr title="megabyte">MB</abbr> attachment
-          size limit and the total size of attachments cannot
-          exceed 6<abbr title="megabytes">MB</abbr>.
-        </p>
+        <p dangerouslySetInnerHTML={outputAsHtml()}/>
         <div>
           <button
               onClick={this.props.onClose}
@@ -34,11 +31,13 @@ class ModalAttachmentsTooBig extends React.Component {
   }
 }
 
-ModalAttachmentsTooBig.propTypes = {
+ModalAttachments.propTypes = {
   cssClass: React.PropTypes.string,
+  title: React.PropTypes.node,
+  text: React.PropTypes.node,
   id: React.PropTypes.string,
   onClose: React.PropTypes.func.isRequired,
   visible: React.PropTypes.bool.isRequired
 };
 
-export default ModalAttachmentsTooBig;
+export default ModalAttachments;
