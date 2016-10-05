@@ -1,4 +1,5 @@
 @import 'style';
+@import 'modules/va-pagination';
 
 .claim-list {
   margin-bottom: 2em;
@@ -193,6 +194,14 @@ a.claim-list-item {
     color: inherit;
     text-decoration: none;
   }
+}
+
+.claim-list-item-header {
+  color: $color-primary;
+}
+
+.claim-list-item:hover .claim-list-item-header {
+  color: $color-primary-darker;
 }
 
 .your-claims {
