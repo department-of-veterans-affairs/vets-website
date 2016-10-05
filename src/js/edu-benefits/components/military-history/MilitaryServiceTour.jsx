@@ -17,13 +17,15 @@ export default class MilitaryServiceTour extends React.Component {
     const formFields = (
       <div>
         <div className="input-section">
-          <ErrorableSelect required
-              errorMessage={validateIfDirty(tour.serviceBranch, isNotBlank) ? undefined : 'Please select a service branch'}
-              label="Branch of service"
-              name="serviceBranch"
-              options={serviceBranches}
-              value={tour.serviceBranch}
-              onValueChange={(update) => {onValueChange('serviceBranch', update);}}/>
+          <div className="edu-benefits-first-label">
+            <ErrorableSelect required
+                errorMessage={validateIfDirty(tour.serviceBranch, isNotBlank) ? undefined : 'Please select a service branch'}
+                label="Branch of service"
+                name="serviceBranch"
+                options={serviceBranches}
+                value={tour.serviceBranch}
+                onValueChange={(update) => {onValueChange('serviceBranch', update);}}/>
+          </div>
           <DateInput required
               errorMessage="Please provide a valid date"
               validation={validateIfDirtyDateObj(tour.dateRange.from, isValidDateField)}

@@ -80,3 +80,14 @@ legend {
   float: left;
 }
 
+.edu-benefits-first-label {
+  label {
+    margin-top: 1em;
+  }
+}
+
+.va-growable-background .edu-benefits-first-label {
+  label {
+    margin-top: 0;
+  }
+}

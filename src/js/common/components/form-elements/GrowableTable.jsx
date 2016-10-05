@@ -16,7 +16,7 @@ class GrowableTable extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
     this.handleSave = this.handleSave.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.state = { edited: false };
+    this.state = {};
   }
 
   componentWillMount() {
@@ -39,6 +39,7 @@ class GrowableTable extends React.Component {
       duration: 500,
       delay: 0,
       smooth: true,
+      offset: -40
     });
   }
 
@@ -62,7 +63,6 @@ class GrowableTable extends React.Component {
 
     if (this.props.isValidSection(this.props.path, this.props.data)) {
       this.createNewElement();
-      this.setState({ edited: true });
     }
   }
 
@@ -94,6 +94,7 @@ class GrowableTable extends React.Component {
       return true;
     });
     this.props.onRowsUpdate(rows);
+    this.scrollToTop();
   }
 
   // TODO: change this to not use reaactKey, and instead perhaps add
@@ -104,7 +105,7 @@ class GrowableTable extends React.Component {
     const state = this.state;
     const rowElements = this.props.rows.map((obj, index) => {
       const stateKey = state[obj.key];
-      if (stateKey && stateKey === 'complete') {
+      if (stateKey && stateKey === 'complete' && this.props.rows.length > 1) {
         rowContent = (
           <div key={reactKey++} className="va-growable-background">
             <div className="row slideOutDown small-collapse" key={obj.key}>
@@ -141,9 +142,9 @@ class GrowableTable extends React.Component {
           );
         }
         rowContent = (
-          <div key={reactKey++} className={this.state.edited || stateKey === 'edit' || this.props.rows.length > 1 ? 'va-growable-background' : null}>
+          <div key={reactKey++} className={(stateKey === 'edit' || this.props.rows.length > 1) ? 'va-growable-background' : null}>
             <div className="row small-collapse" key={obj.key}>
-              <div className="small-12 columns">
+              <div className="small-12 columns va-growable-expanded">
                 {React.createElement(this.props.component,
                   { data: obj,
                     view: 'expanded',
