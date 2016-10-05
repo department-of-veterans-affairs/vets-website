@@ -8,7 +8,7 @@ import ExpandingGroup from '../../../common/components/form-elements/ExpandingGr
 import MilitaryServiceTour from './MilitaryServiceTour';
 import { createTour } from '../../utils/veteran';
 
-import { validateIfDirty, isNotBlank, isValidYear, isValidPage, isValidField, isValidTourOfDuty } from '../../utils/validations';
+import { validateIfDirty, isValidYear, isValidPage, isValidField, isValidTourOfDuty } from '../../utils/validations';
 import { yesNo } from '../../utils/options-for-select';
 
 export default class MilitaryServiceFields extends React.Component {
@@ -24,14 +24,12 @@ export default class MilitaryServiceFields extends React.Component {
     const activeDutyQuestions = (
       <div>
         <ErrorableRadioButtons
-            errorMessage={validateIfDirty(this.props.data.currentlyActiveDuty.onTerminalLeave, isNotBlank) ? '' : 'Please select a response'}
             label="Are you on terminal leave?"
             name="onTerminalLeave"
             options={yesNo}
             value={this.props.data.currentlyActiveDuty.onTerminalLeave}
             onValueChange={(update) => {this.props.onStateChange('currentlyActiveDuty.onTerminalLeave', update);}}/>
         <ErrorableRadioButtons
-            errorMessage={validateIfDirty(this.props.data.currentlyActiveDuty.nonVaAssistance, isNotBlank) ? '' : 'Please select a response'}
             label="Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?"
             name="nonVaAssistance"
             options={yesNo}
