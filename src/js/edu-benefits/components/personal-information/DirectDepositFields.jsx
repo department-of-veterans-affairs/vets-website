@@ -4,7 +4,7 @@ import ErrorableTextInput from '../../../common/components/form-elements/Errorab
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
 import { accountTypes } from '../../utils/options-for-select';
-import { validateIfDirty, isValidRoutingNumber } from '../../utils/validations';
+import { validateIfDirty, isValidRoutingNumber, isBlank } from '../../utils/validations';
 
 export default class DirectDepositFields extends React.Component {
   render() {
@@ -27,7 +27,7 @@ export default class DirectDepositFields extends React.Component {
               field={this.props.data.bankAccount.accountNumber}
               onValueChange={(update) => {this.props.onStateChange('bankAccount.accountNumber', update);}}/>
           <ErrorableTextInput
-              errorMessage={validateIfDirty(this.props.data.bankAccount.routingNumber, isValidRoutingNumber) ? undefined : 'Please enter a valid nine digit routing number'}
+              errorMessage={validateIfDirty(this.props.data.bankAccount.routingNumber, (val) => isBlank(val) || isValidRoutingNumber(val)) ? undefined : 'Please enter a valid nine digit routing number'}
               validation={isValidRoutingNumber(this.props.data.bankAccount.routingNumber)}
               label="Routing number"
               name="routingNumber"

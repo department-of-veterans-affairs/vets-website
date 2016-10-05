@@ -21,11 +21,11 @@ export default class ContactInformationReview extends React.Component {
           </tr>
           <tr>
             <td>State/Province:</td>
-            <td>{this.props.data.veteranAddress.state.value || this.props.data.veteranAddress.provinceCode.value}</td>
+            <td>{this.props.data.veteranAddress.state.value}</td>
           </tr>
           <tr>
-            <td>ZIP/Postal Code:</td>
-            <td>{this.props.data.veteranAddress.zipcode.value || this.props.data.veteranAddress.postalCode.value}</td>
+            <td>Postal code:</td>
+            <td>{this.props.data.veteranAddress.postalCode.value}</td>
           </tr>
           <tr>
             <td>Email address:</td>

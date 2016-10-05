@@ -15,7 +15,7 @@ export default class RotcHistoryReview extends React.Component {
             </tr>
             <tr>
               <td>Year of commission</td>
-              <td>{this.props.data.seniorRotc.yearOfCommission.value}</td>
+              <td>{this.props.data.seniorRotc.commissionYear.value}</td>
             </tr>
           </tbody>
         </table>
