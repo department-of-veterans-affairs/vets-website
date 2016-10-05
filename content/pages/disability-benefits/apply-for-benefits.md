@@ -49,7 +49,7 @@ relatedlinks:
 <div class="small-12 medium-3 columns"  markdown="0">
 
 <div class="card information" markdown="0">
-<span class="number" markdown="0">122</span>
+<span class="number" markdown="0">125.2</span>
 <span class="description" markdown="0">Days</span>
 <span class="heading" markdown="0">(Average time)</span>
 
@@ -61,7 +61,7 @@ relatedlinks:
 
 <div class="info-block usa-content" markdown="1">
 
-Average number of days to process disability-related claims during August 2016.
+Average number of days to process disability-related claims during September 2016.
 
 If you’ve already filed a claim, check on its progress through [eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
 

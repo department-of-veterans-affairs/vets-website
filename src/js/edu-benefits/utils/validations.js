@@ -308,8 +308,8 @@ function isValidRotcScholarshipAmount(data) {
 }
 
 function isValidRotcHistoryPage(data) {
-  return isNotBlank(data.seniorRotc.commissionYear.value)
-    && data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount);
+  return data.seniorRotcCommissioned.value !== 'Y' || (isNotBlank(data.seniorRotc.commissionYear.value)
+    && data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount));
 }
 
 function isValidPreviousClaimsPage() {
