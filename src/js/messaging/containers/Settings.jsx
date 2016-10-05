@@ -4,10 +4,10 @@ import { Link } from 'react-router';
 
 import {
   deleteFolder,
+  openCreateFolderModal,
   toggleFolderNav
-} from '../actions/folders';
+} from '../actions';
 
-import { openCreateFolderModal } from '../actions/modals';
 import ButtonCreateFolder from '../components/buttons/ButtonCreateFolder';
 import ButtonDelete from '../components/buttons/ButtonDelete';
 import { paths } from '../config';

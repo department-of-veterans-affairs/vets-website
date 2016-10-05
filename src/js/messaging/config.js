@@ -76,6 +76,16 @@ module.exports = {
       message: 'Type your message here'
     },
     errors: {
+      attachments: {
+        tooLarge: {
+          title: 'Attachment size limit',
+          text: 'The file(s) you are trying to attach exceed the 3MB attachment size limit and the total size of attachments cannot exceed 6MB'
+        },
+        tooMany: {
+          title: 'Attachments limit',
+          text: 'You may not attach more than four files.'
+        }
+      },
       category: 'Please select a category.',
       message: 'Please enter your message.',
       subject: 'Please add subject description.',
@@ -84,6 +94,12 @@ module.exports = {
     maxChars: {
       message: 2000,
       subject: 512
+    },
+    // Using bytes
+    attachments: {
+      maxNum: 4,
+      maxSingleFile: 3000000,
+      maxTotalFiles: 6000000
     }
   },
 

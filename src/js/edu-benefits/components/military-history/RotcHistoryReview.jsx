@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { yesNoNA } from '../../utils/options-for-select';
+import { getLabel } from '../../utils/helpers';
+
 export default class RotcHistoryReview extends React.Component {
   render() {
     return (
@@ -7,8 +10,12 @@ export default class RotcHistoryReview extends React.Component {
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
+              <td>Were you commissioned as a result of senior ROTC?</td>
+              <td>{getLabel(yesNoNA, this.props.data.seniorRotcCommissioned.value)}</td>
+            </tr>
+            <tr>
               <td>Year of commission</td>
-              <td>{this.props.data.seniorRotc.yearOfCommission.value}</td>
+              <td>{this.props.data.seniorRotc.commissionYear.value}</td>
             </tr>
           </tbody>
         </table>

@@ -4,8 +4,12 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import { fetchFolder, toggleFolderNav } from '../actions/folders';
-import { toggleAdvancedSearch, setDateRange } from '../actions/search';
+import {
+  fetchFolder,
+  setDateRange,
+  toggleAdvancedSearch,
+  toggleFolderNav
+} from '../actions';
 
 import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
@@ -169,9 +173,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchFolder,
-  toggleFolderNav,
+  setDateRange,
   toggleAdvancedSearch,
-  setDateRange
+  toggleFolderNav
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Folder);
