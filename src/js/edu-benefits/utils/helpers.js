@@ -99,3 +99,25 @@ export function hasServiceBefore1978(data) {
 export function showRelinquishedEffectiveDate(benefitsRelinquished) {
   return benefitsRelinquished !== '' && benefitsRelinquished !== 'unknown';
 }
+
+export function getListOfBenefits(veteran) {
+  const benefitList = [];
+
+  if (veteran.chapter30) {
+    benefitList.push('Chapter 30');
+  }
+
+  if (veteran.chapter33) {
+    benefitList.push('Chapter 33');
+  }
+
+  if (veteran.chapter1606) {
+    benefitList.push('Chapter 1606');
+  }
+
+  if (veteran.chapter32) {
+    benefitList.push('Chapter 32');
+  }
+
+  return benefitList.join(', ');
+}

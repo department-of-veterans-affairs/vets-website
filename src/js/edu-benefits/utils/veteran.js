@@ -284,6 +284,12 @@ export function veteranToApplication(veteran) {
 
         return Number(value.value.replace('$', ''));
 
+      case 'dateRange':
+        if (value.from.month.value === '' && value.to.month.value === '') {
+          return undefined;
+        }
+
+        return value;
       default:
         // fall through.
     }
