@@ -25,10 +25,6 @@ export default class MilitaryServiceReview extends React.Component {
               <td>Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?</td>
               <td>{this.props.data.currentlyActiveDuty.nonVaAssistance.value === 'Y' ? 'Yes' : 'No'}</td>
             </tr>
-            <tr>
-              <td>Were you commissioned as a result of senior ROTC?</td>
-              <td>{getLabel(yesNoNA, this.props.data.seniorRotcCommissioned.value)}</td>
-            </tr>
           </tbody>
         </table>
         {this.props.data.toursOfDuty.map((tour, index) => {
