@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: VA Claim Exam
+title: VA Claim Exam (C&P Exam)
 template: 6-info-page
 ---
 After you [file your disability benefits claim](/disability-benefits/apply-for-benefits/), VA may ask you to undergo a claim exam to help us [rate your disability](/disability-benefits/claims-process/ratings/). The VA claim exam is also known as a compensation and pension (C&P) exam.
@@ -32,7 +32,7 @@ It's very important for you to go to your appointment. The exam is part of the e
 
 -	Call 1-800-827-1000, or
 -	Contact VA through an [online chat](https://www.ebenefits.va.gov/chat/chatstart.aspx?domain=1010ez), or
--	Go to your nearest [benefits regional office](https://www.vets.gov/facility-locator/).
+-	Go to your nearest [regional benefits office](https://www.vets.gov/facility-locator/).
 
 </div>
 
@@ -62,7 +62,7 @@ VA may make a decision about your disability benefit based on the evidence it al
 - An illness or hospitalization
 - Serious illness or injury of someone in your immediate family
 - Bad weather
-- A previously scheduled and paid-for commitment, such as a vacation
+- A previously planned and paid-for event, such as a vacation
 
 If you miss your claim exam, you’ll need to let VA know why you didn’t make it.
 
