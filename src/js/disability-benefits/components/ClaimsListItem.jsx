@@ -10,7 +10,7 @@ export default function ClaimsListItem({ claim }) {
       {filesNeeded !== null
         ? <p><i className="fa fa-exclamation-triangle"></i>We need {filesNeeded} {filesNeeded > 1 ? 'files' : 'file'} from you</p>
         : null}
-      <p><i className="fa fa-envelope"></i>We sent you a development letter</p>
+      <p><i className="fa fa-envelope"></i>We sent you a development letter (TODO)</p>
       <p>Last Update: TODO</p>
     </Link>
   );
