@@ -14,9 +14,6 @@ class MessageSend extends React.Component {
   constructor(props) {
     super(props);
     this.handleAttachmentsChange = this.handleAttachmentsChange.bind(this);
-//    this.validateNumAttachments = this.validateNumAttachments.bind(this);
-//    this.validateFileSize = this.validateFileSize.bind(this);
-//    this.validateTotalFileSize = this.validateTotalFileSize.bind(this);
   }
 
   handleAttachmentsChange(domEvent) {
