@@ -20,8 +20,8 @@ const initialState = {
   attachments: {
     visible: false,
     message: {
-      title: 'hi',
-      text: 'bye'
+      title: null,
+      text: null
     }
   },
   createFolder: {

@@ -8,7 +8,6 @@ class MessageSend extends React.Component {
   constructor(props) {
     super(props);
     this.handleAttachmentsChange = this.handleAttachmentsChange.bind(this);
-    this.validateAttachments = this.validateAttachments.bind(this);
     this.validateNumAttachments = this.validateNumAttachments.bind(this);
     this.validateFileSize = this.validateFileSize.bind(this);
     this.validateTotalFileSize = this.validateTotalFileSize.bind(this);    
@@ -33,24 +32,6 @@ class MessageSend extends React.Component {
     });
 
     return total > max;
-  }
-
-  validateAttachments(files, maxTotal, maxFile, maxNumFiles) {
-    let err = null;
-    
-    if (this.validateNumAttachments(files, maxNumFiles)) {
-      err = {};
-      err.hasError = true;
-      err.type = 'tooMany';
-    }
-
-    if (this.validateFileSize(files, maxFile) || this.validateTotalFileSize(files, maxTotal)) {
-      err = {};
-      err.hasError = true;
-      err.type = 'tooLarge';
-    }
-
-    return err;
   }
 
   handleAttachmentsChange(domEvent) {
