@@ -121,3 +121,11 @@ export function getListOfBenefits(veteran) {
 
   return benefitList;
 }
+
+export function showYesNo(field) {
+  if (field.value === '') {
+    return '';
+  }
+
+  return field.value === 'Y' ? 'Yes' : 'No';
+}
