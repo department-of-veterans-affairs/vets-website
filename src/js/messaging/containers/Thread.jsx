@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
+  addDraftAttachments,
   clearDraft,
+  deleteDraftAttachment,
   deleteMessage,
   fetchThread,
   moveMessageToFolder,
@@ -11,7 +13,6 @@ import {
   saveDraft,
   sendMessage,
   sendReply,
-  setAttachments,
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
@@ -20,6 +21,7 @@ import {
 } from '../actions';
 
 import Message from '../components/Message';
+import MessageAttachments from '../components/compose/MessageAttachments';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
@@ -176,6 +178,10 @@ class Thread extends React.Component {
                 onValueChange={this.props.updateDraft}
                 placeholder={composeMessage.placeholders.message}
                 text={this.props.draft.body}/>
+            <MessageAttachments
+                hidden={!this.props.draft.attachments.length}
+                files={this.props.draft.attachments}
+                onClose={this.props.deleteDraftAttachment}/>
             <MessageSend
                 allowedMimeTypes={allowedMimeTypes}
                 charCount={this.props.draft.charsRemaining}
@@ -183,7 +189,7 @@ class Thread extends React.Component {
                 maxFiles={composeMessage.attachments.maxNum}
                 maxFileSize={composeMessage.attachments.maxSingleFile}
                 maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
-                onAttachmentUpload={this.props.setAttachments}
+                onAttachmentUpload={this.props.addDraftAttachments}
                 onAttachmentsError={this.props.openAttachmentsModal}
                 onSave={this.handleReplySave}
                 onSend={this.handleReplySend}
@@ -231,7 +237,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  addDraftAttachments,
   clearDraft,
+  deleteDraftAttachment,
   deleteMessage,
   fetchThread,
   moveMessageToFolder,
@@ -240,7 +248,6 @@ const mapDispatchToProps = {
   saveDraft,
   sendMessage,
   sendReply,
-  setAttachments,
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
