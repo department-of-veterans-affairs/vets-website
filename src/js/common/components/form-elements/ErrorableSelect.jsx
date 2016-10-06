@@ -27,6 +27,7 @@ class ErrorableSelect extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
   }
 
   componentWillMount() {
@@ -35,6 +36,10 @@ class ErrorableSelect extends React.Component {
 
   handleChange(domEvent) {
     this.props.onValueChange(makeField(domEvent.target.value, true));
+  }
+
+  handleBlur() {
+    this.props.onValueChange(makeField(this.props.value.value, true));
   }
 
   render() {
@@ -98,6 +103,7 @@ class ErrorableSelect extends React.Component {
             name={this.props.name}
             autoComplete={this.props.autocomplete}
             value={selectedValue}
+            onBlur={this.handleBlur}
             onChange={this.handleChange}>
           <option value=""></option>
           {optionElements}
