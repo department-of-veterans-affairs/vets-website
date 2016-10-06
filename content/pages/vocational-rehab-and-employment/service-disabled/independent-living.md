@@ -9,7 +9,7 @@ template: 6-info-page
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/vre/apply-vre/">Apply for VR&amp;E Benefits</a>
+      <a class="usa-button-primary va-button-primary" href="/vocational-rehab-and-employment/apply-vre/">Apply for VR&amp;E Benefits</a>
     </div>
   </div>
 </div>
@@ -27,7 +27,7 @@ Yes, if:
 - You are eligible for VR&amp;E benefits.
 - You have a service-connected disability rating of 20&#37; or higher.
 - Your injuries prevent you from immediately seeking or returning to employment.
-- Your case manager refers you after enrolling in the [VR&amp;E](/vre/apply-vre/) program.
+- Your case manager refers you after enrolling in the [VR&amp;E](/vocational-rehab-and-employment/apply-vre/) program.
 
 </div>
 
@@ -36,7 +36,7 @@ Yes, if:
 <ol class="process" markdown="0">
 
 <li class="step one wow fadeIn animated" markdown="1">
-A Vocational Rehabilitation Counselor (VRC) appointed through [VR&E](/vre/apply-vre/) will work with you to determine the severity of your service-connected disabilities, if you are ready to work, and if you will benefit from independent-living services.
+A Vocational Rehabilitation Counselor (VRC) appointed through [VR&E](/vocational-rehab-and-employment/apply-vre/) will work with you to determine the severity of your service-connected disabilities, if you are ready to work, and if you will benefit from independent-living services.
 </li>
 
 <li class="step two wow fadeIn animated" markdown="1">

@@ -9,7 +9,7 @@ template: 6-info-page
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/vre/apply-vre/">Apply for VR&amp;E Benefits</a>
+      <a class="usa-button-primary va-button-primary" href="/vocational-rehab-and-employment/apply-vre/">Apply for VR&amp;E Benefits</a>
     </div>
   </div>
 </div>
@@ -27,7 +27,7 @@ Your VR&amp;E counselor can provide a full range of rehabilitation services, and
 
 Yes, if:
 
-- You are a Veteran with a service-connected disability and an employment barrier/handicap [enrolled in VR&amp;E](/vre/apply-vre/).
+- You are a Veteran with a service-connected disability and an employment barrier/handicap [enrolled in VR&amp;E](/vocational-rehab-and-employment/apply-vre/).
 - You would like to return to your previous place of employment.
 
 #### Who can apply

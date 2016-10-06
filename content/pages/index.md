@@ -15,7 +15,7 @@ majorlinks:
   - url: /healthcare/apply/
     title: Health Care
     description: Apply for VA health care, including preventive care, primary care, and more.
-  - url: /vre/
+  - url: /vocational-rehab-and-employment/
     title: Vocational Rehab and Employment
     description: Help to get you back in the workforce.
 

@@ -9,7 +9,7 @@ template: 6-info-page
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/vre/apply-vre/">Apply for VR&amp;E Benefits</a>
+      <a class="usa-button-primary va-button-primary" href="/vocational-rehab-and-employment/apply-vre/">Apply for VR&amp;E Benefits</a>
     </div>
   </div>
 </div>
@@ -47,6 +47,6 @@ You
 
 ### How it works
 
-[Apply for VR&amp;E](/vre/apply-vre/) to find a Vocational Rehabilitation Counselor (VRC) who can assist you.
+[Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/) to find a Vocational Rehabilitation Counselor (VRC) who can assist you.
 
-Some dependents of Veterans with a service-connected disability may also qualify for career counseling. Learn how [family members may apply for VR&amp;E](/vre/family-members/).
+Some dependents of Veterans with a service-connected disability may also qualify for career counseling. Learn how [family members may apply for VR&amp;E](/vocational-rehab-and-employment/family-members/).

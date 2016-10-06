@@ -9,7 +9,7 @@ template: 6-info-page
 <div class="action-bar">
   <div class="row">
     <div class="small-12 columns">
-      <a class="usa-button-primary va-button-primary" href="/vre/apply-vre/">Apply for VR&amp; Benefits</a>
+      <a class="usa-button-primary va-button-primary" href="/vocational-rehab-and-employment/apply-vre/">Apply for VR&amp; Benefits</a>
     </div>
   </div>
 </div>
@@ -27,7 +27,7 @@ You may be eligible for this even if you also qualify for [GI Bill benefits](/ed
 
 Yes, if:
 
-- You are a Veteran or Servicemember with a service-connected disability, have an employment barrier or handicap, and are [enrolled in VR&amp;E](/vre/apply-vre/).
+- You are a Veteran or Servicemember with a service-connected disability, have an employment barrier or handicap, and are [enrolled in VR&amp;E](/vocational-rehab-and-employment/apply-vre/).
 - Your service-connected disabilities make it difficult for you to prepare for, get, and keep suitable employment.
 
 </div>
@@ -46,6 +46,6 @@ You and your family
 
 ### How it works
 
-[Apply for VR&amp;E](/vre/apply-vre/) to find a Vocational Rehabilitation Counselor who can assist you.
+[Apply for VR&amp;E](/vocational-rehab-and-employment/apply-vre/) to find a Vocational Rehabilitation Counselor who can assist you.
 
 VR&amp;E is an employment program different from the GI Bill that may be used to pay for education needed to train you for suitable employment.

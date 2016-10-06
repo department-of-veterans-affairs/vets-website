@@ -38,7 +38,7 @@ Yes, if:
 
 ### Who can apply
 
-You and [eligible family members](/vre/family-members/)
+You and [eligible family members](/vocational-rehab-and-employment/family-members/)
 
 </div>
 

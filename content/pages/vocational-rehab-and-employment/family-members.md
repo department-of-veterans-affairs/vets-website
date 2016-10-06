@@ -8,7 +8,7 @@ template: 6-info-page
   <div class="row">
     <div class="small-12 columns">
 
-      <a class="usa-button-primary va-button-primary" href="/vre/apply-vre/">Apply for VR&amp;E Benefits</a>
+      <a class="usa-button-primary va-button-primary" href="/vocational-rehab-and-employment/apply-vre/">Apply for VR&amp;E Benefits</a>
 
     </div>
   </div>
