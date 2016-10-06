@@ -21,7 +21,7 @@ very secret.
 | build the site with dev features enabled. | `npm run build` |
 | build the production site (dev features disabled). | `npm run build -- --buildtype production` Note the extra `--` is required otherwise npm eats the buildtype argument instead of passing it on. |
 | build the site with optimizaitons (minification, chunking etc) on. | Set `NODE_ENV=production` before running build. |
-| run the site for local development with hot reloading of javascript, and sass | `npm run watch` then visit `http://localhost:3000/webpack-dev-server/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
+| run the site for local development with hot reloading of javascript, and sass | `npm run watch` then visit `http://localhost:3001/webpack-dev-server/`. You may also set `buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow. |
 | run all tests | `npm run test` |
 | run only unit tests | `npm run test:unit` |
 | run only e2e tests | `npm run test:e2e`.  Note, on a fresh checkout, run `npm run selenium:bootstrap` to install the selenium server into `node_modules`. This only needs to be done once per install. |
@@ -170,7 +170,7 @@ Similarly, everything in `src/\*` is dependent on the webpack configuration.
 Quirks:
   * metalsmith-watch cannot do broken link detection during incrementals.
   * Webpack Dev Server uses an in-memory filesystem so nothing shows up in `build/${}/generated`
-  * Visit `http://localhost:3000/webpack-dev-server` (no trailing slash!) to see the contents of generated files.
+  * Visit `http://localhost:3001/webpack-dev-server` (no trailing slash!) to see the contents of generated files.
 
 Overall, this runs pretty well.
 

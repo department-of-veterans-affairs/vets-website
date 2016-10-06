@@ -8,7 +8,7 @@ relatedlinks:
     title: What is the fastest way to file a claim?
   - url: /disability-benefits/apply-for-benefits/ways/
     title: What are the different ways I can file a claim?
-  - url: /disability-benefits/apply-for-benefits/active-duty/
+  - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
     title: How do I file while on active duty?
   - url: /disability-benefits/claims-process/claim-types/predischarge-claim/
     title: How do I file for disabilities that appear within one year after discharge?

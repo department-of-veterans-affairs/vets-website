@@ -1,15 +1,15 @@
 .messaging-btn-delete {
   background: transparent;
   color: $color-base;
-  
+
   .fa-trash {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
-  
+
   span {
     padding-left: .5rem;
   }
-  
+
   &:hover,
   &:focus {
     background: transparent;

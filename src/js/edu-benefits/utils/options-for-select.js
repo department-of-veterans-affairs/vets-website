@@ -318,6 +318,9 @@ const states = {
     { label: 'American Samoa', value: 'AS' },
     { label: 'Arizona', value: 'AZ' },
     { label: 'Arkansas', value: 'AR' },
+    { label: 'Armed Forces Americas (AA)', value: 'AA' },
+    { label: 'Armed Forces Europe (AE)', value: 'AE' },
+    { label: 'Armed Forces Pacific (AP)', value: 'AP' },
     { label: 'California', value: 'CA' },
     { label: 'Colorado', value: 'CO' },
     { label: 'Connecticut', value: 'CT' },
@@ -428,7 +431,7 @@ const yesNo = [
 ];
 
 const yesNoNA = yesNo.concat([{
-  label: 'Not Applicable', value: 'N/A'
+  label: 'Does not apply', value: 'N/A'
 }]);
 
 const serviceBranches = [

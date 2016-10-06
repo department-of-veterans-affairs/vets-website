@@ -3,18 +3,16 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import {
+  closeCreateFolderModal,
+  createFolderAndMoveMessage,
   createNewFolder,
+  openCreateFolderModal,
   setCurrentFolder,
+  setNewFolderName,
   toggleFolderNav,
   toggleManagedFolders
-} from '../actions/folders';
+} from '../actions';
 
-import {
-  setNewFolderName,
-  toggleCreateFolderModal
-} from '../actions/modals';
-
-import { makeField } from '../../common/model/fields';
 import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
@@ -25,7 +23,6 @@ class Main extends React.Component {
     super(props);
     this.handleFolderChange = this.handleFolderChange.bind(this);
     this.handleFolderNameChange = this.handleFolderNameChange.bind(this);
-    this.handleCreateNewFolderModal = this.handleCreateNewFolderModal.bind(this);
     this.handleSubmitCreateNewFolder = this.handleSubmitCreateNewFolder.bind(this);
   }
 
@@ -38,29 +35,21 @@ class Main extends React.Component {
     this.props.setNewFolderName(field);
   }
 
-  handleCreateNewFolderModal() {
-    // Reset the form / state object when closed
-    const resetForm = makeField('');
-    this.props.setNewFolderName(resetForm);
-    this.props.toggleCreateFolderModal();
-  }
+  handleSubmitCreateNewFolder(folderName) {
+    const messageId = this.props.createFolderModal.messageId;
 
-  handleSubmitCreateNewFolder(domEvent) {
-    domEvent.preventDefault();
-    const input = domEvent.target.getElementsByTagName('input')[0];
-    // If, by chance, the veteran has submitted this form without touching the
-    // folder name field, trigger an action that will trigger an error.
-    if (input.value === '') {
-      this.props.setNewFolderName({ value: '', dirty: true });
+    if (messageId !== undefined) {
+      this.props.createFolderAndMoveMessage(folderName, messageId);
     } else {
-      this.props.createNewFolder(input.value);
+      this.props.createNewFolder(folderName);
     }
-    this.handleCreateNewFolderModal();
+
+    this.props.closeCreateFolderModal();
   }
 
   render() {
     const navClass = classNames({
-      opened: this.props.isNavVisible
+      opened: this.props.nav.visible
     });
 
     return (
@@ -73,9 +62,9 @@ class Main extends React.Component {
           <FolderNav
               persistFolder={this.props.persistFolder}
               folders={this.props.folders}
-              isExpanded={this.props.hasFoldersExpanded}
+              isExpanded={this.props.nav.foldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
-              onCreateNewFolder={this.props.toggleCreateFolderModal}
+              onCreateNewFolder={this.props.openCreateFolderModal}
               onFolderChange={this.handleOnFolderChange}/>
         </div>
         <div id="messaging-content">
@@ -85,11 +74,11 @@ class Main extends React.Component {
             cssClass="messaging-modal"
             folders={this.props.folders}
             id="messaging-create-folder"
-            onClose={this.handleCreateNewFolderModal}
+            onClose={this.props.closeCreateFolderModal}
             onValueChange={this.handleFolderNameChange}
             onSubmit={this.handleSubmitCreateNewFolder}
-            visible={this.props.isCreateFolderModalOpen}
-            newFolderName={this.props.newFolderName}/>
+            visible={this.props.createFolderModal.visible}
+            newFolderName={this.props.createFolderModal.newFolderName}/>
       </div>
     );
   }
@@ -101,23 +90,22 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    createFolderModal: state.modals.createFolder,
     folders: state.folders.data.items,
-    foldersExpanded: state.folders.ui.nav.foldersExpanded,
-    hasFoldersExpanded: state.folders.ui.nav.foldersExpanded,
-    isCreateFolderModalOpen: state.modals.createFolder.visible,
-    isNavVisible: state.folders.ui.nav.visible,
-    newFolderName: state.modals.createFolder.newFolderName,
-    persistFolder: state.folders.data.currentItem.persistFolder,
+    nav: state.folders.ui.nav,
+    persistFolder: state.folders.data.currentItem.persistFolder
   };
 };
 
 const mapDispatchToProps = {
+  closeCreateFolderModal,
+  createFolderAndMoveMessage,
   createNewFolder,
-  toggleCreateFolderModal,
-  toggleFolderNav,
-  toggleManagedFolders,
+  openCreateFolderModal,
   setCurrentFolder,
-  setNewFolderName
+  setNewFolderName,
+  toggleFolderNav,
+  toggleManagedFolders
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

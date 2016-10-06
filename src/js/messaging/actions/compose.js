@@ -1,19 +1,12 @@
 import { api } from '../config';
 
-export const SET_CATEGORY = 'SET_CATEGORY';
-export const SET_SUBJECT = 'SET_SUBJECT';
-export const SET_RECIPIENT = 'SET_RECIPIENT';
-
+export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
+export const SET_ATTACHMENTS = 'SET_ATTACHMENTS';
 export const DELETE_COMPOSE_MESSAGE = 'DELETE_COMPOSE_MESSAGE';
-
+export const DELETE_ATTACHMENT = 'DELETE_ATTACHMENT';
 export const FETCH_RECIPIENTS_SUCCESS = 'FETCH_RECIPIENTS_SUCCESS';
 export const FETCH_RECIPIENTS_FAILURE = 'FETCH_RECIPIENTS_FAILURE';
 export const FETCH_SENDER_SUCCESS = 'FETCH_SENDER_SUCCESS';
-
-export const SAVE_MESSAGE = 'SAVE_MESSAGE';
-
-export const DELETE_DRAFT = 'DELETE_DRAFT';
-export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
 export const UPDATE_COMPOSE_CHARACTER_COUNT = 'UPDATE_COMPOSE_CHARACTER_COUNT';
 
 export function deleteComposeMessage() {
@@ -28,9 +21,17 @@ export function setMessageField(path, field) {
   };
 }
 
-export function saveMessage() {
+export function setAttachments(files) {
   return {
-    type: SAVE_MESSAGE
+    type: SET_ATTACHMENTS,
+    files
+  };
+}
+
+export function deleteAttachment(index) {
+  return {
+    type: DELETE_ATTACHMENT,
+    index
   };
 }
 
