@@ -10,18 +10,18 @@ export default class MilitaryServiceReview extends React.Component {
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
-              <td>If you graduated from a military service academy, what year did you graduate?</td>
+              <td>If you received a commission from a military service academy, what year did you graduate?</td>
               <td>{this.props.data.serviceAcademyGraduationYear.value}</td>
             </tr>
             <tr>
-              <td>Are you on active duty?</td>
+              <td>Are you currently on active duty?</td>
               <td>{this.props.data.currentlyActiveDuty.yes.value === 'Y' ? 'Yes' : 'No'}</td>
             </tr>
           </tbody>
           {this.props.data.currentlyActiveDuty.yes.value === 'Y'
             ? <tbody>
               <tr>
-                <td>Are you on terminal leave?</td>
+                <td>Are you currently on terminal leave?</td>
                 <td>{this.props.data.currentlyActiveDuty.onTerminalLeave.value === 'Y' ? 'Yes' : 'No'}</td>
               </tr>
               <tr>
@@ -30,8 +30,6 @@ export default class MilitaryServiceReview extends React.Component {
               </tr>
             </tbody>
             : null}
-          <tbody>
-          </tbody>
         </table>
         {this.props.data.toursOfDuty.map((tour, index) => {
           return (<table key={index} className="review usa-table-borderless">
