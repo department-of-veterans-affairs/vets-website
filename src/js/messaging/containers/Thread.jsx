@@ -26,7 +26,7 @@ import ThreadHeader from '../components/ThreadHeader';
 
 import { composeMessage } from '../config';
 
-class Thread extends React.Component {
+export class Thread extends React.Component {
   constructor(props) {
     super(props);
     this.apiFormattedDraft = this.apiFormattedDraft.bind(this);
@@ -208,6 +208,7 @@ const mapStateToProps = (state) => {
   const isNewMessage = draft.replyMessageId === undefined;
 
   return {
+    draft,
     folders: state.folders.data.items,
     folderMessages: folder.messages,
     isNewMessage,
@@ -217,7 +218,6 @@ const mapStateToProps = (state) => {
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
     persistFolder: folder.persistFolder,
-    draft,
     thread
   };
 };
