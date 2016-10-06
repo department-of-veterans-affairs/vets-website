@@ -7,7 +7,7 @@ import ErrorableTextarea from '../../../common/components/form-elements/Errorabl
 import EducationPeriod from './EducationPeriod';
 import { createEducationPeriod } from '../../utils/veteran';
 
-import { isValidPage } from '../../utils/validations';
+import { isValidPage, isValidEducationPeriod } from '../../utils/validations';
 
 export default class EducationHistoryFields extends React.Component {
   render() {
@@ -49,7 +49,8 @@ export default class EducationHistoryFields extends React.Component {
               onRowsUpdate={(update) => {this.props.onStateChange('postHighSchoolTrainings', update);}}
               path="/education-history/education-information"
               rows={this.props.data.postHighSchoolTrainings}
-              isValidSection={isValidPage}/>
+              isValidSection={isValidPage}
+              isValidRow={isValidEducationPeriod}/>
         </div>
       </div>
       <hr/>

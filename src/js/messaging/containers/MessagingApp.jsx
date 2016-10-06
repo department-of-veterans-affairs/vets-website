@@ -2,8 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AlertBox from '../../common/components/AlertBox';
-import { closeAlert } from '../actions/alert.js';
-import { fetchFolders } from '../actions/folders';
+
+import {
+  closeAlert,
+  fetchFolders
+} from '../actions';
 
 class MessagingApp extends React.Component {
   componentDidMount() {

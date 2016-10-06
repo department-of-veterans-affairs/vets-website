@@ -1,11 +1,12 @@
 import { api } from '../config';
+import { isJson } from '../utils/helpers';
 
 import {
   CREATE_FOLDER_FAILURE,
   CREATE_FOLDER_SUCCESS
 } from './folders';
 
-export const DELETE_REPLY = 'DELETE_REPLY';
+export const CLEAR_DRAFT = 'CLEAR_DRAFT';
 export const DELETE_MESSAGE_SUCCESS = 'DELETE_MESSAGE_SUCCESS';
 export const DELETE_MESSAGE_FAILURE = 'DELETE_MESSAGE_FAILURE';
 export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
@@ -19,10 +20,13 @@ export const SEND_MESSAGE_FAILURE = 'SEND_MESSAGE_FAILURE';
 export const TOGGLE_MESSAGE_COLLAPSED = 'TOGGLE_MESSAGE_COLLAPSED';
 export const TOGGLE_MESSAGES_COLLAPSED = 'TOGGLE_MESSAGES_COLLAPSED';
 export const TOGGLE_MOVE_TO = 'TOGGLE_MOVE_TO';
-export const UPDATE_REPLY_BODY = 'UPDATE_REPLY_BODY';
-export const UPDATE_REPLY_CHARACTER_COUNT = 'UPDATE_REPLY_CHARACTER_COUNT';
+export const UPDATE_DRAFT = 'UPDATE_DRAFT';
 
 const baseUrl = `${api.url}/messages`;
+
+export function clearDraft() {
+  return { type: CLEAR_DRAFT };
+}
 
 export function deleteMessage(id) {
   const url = `${baseUrl}/${id}`;
@@ -37,10 +41,6 @@ export function deleteMessage(id) {
       return dispatch(action);
     });
   };
-}
-
-export function deleteReply() {
-  return { type: DELETE_REPLY };
 }
 
 export function fetchThread(id) {
@@ -130,29 +130,38 @@ export function saveDraft(message) {
   });
 
   return dispatch => {
-    fetch(url, settings)
-    .then(res => res.json())
-    .then(
-      data => {
-        let action = { type: SAVE_DRAFT_SUCCESS, data };
+    fetch(url, settings).then(response => {
+      if (isJson(response)) {
+        return response.json().then(
+          data => {
+            if (data.errors) {
+              return dispatch({
+                type: SAVE_DRAFT_FAILURE,
+                error: data.errors
+              });
+            }
 
-        if (data.errors) {
-          action = {
-            type: SAVE_DRAFT_FAILURE,
-            errors: data.errors
-          };
-        }
-
-        return dispatch(action);
-      },
-      err => dispatch({ type: SAVE_DRAFT_FAILURE, err })
-    );
+            return dispatch({
+              type: SAVE_DRAFT_SUCCESS,
+              message: data.data.attributes
+            });
+          },
+          error => dispatch({ type: SAVE_DRAFT_FAILURE, error })
+        );
+      } else if (response.ok && !isNewDraft) {
+        return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
+      }
+      return dispatch({ type: SAVE_DRAFT_FAILURE });
+    });
   };
 }
 
 export function sendMessage(message) {
   const payload = {
     message: {
+      // Include id when API supports automatically deleting
+      // the draft when sending a message.
+      // id: message.messageId,
       category: message.category,
       subject: message.subject,
       body: message.body,
@@ -168,36 +177,71 @@ export function sendMessage(message) {
     fetch(baseUrl, settings)
     .then(res => res.json())
     .then(
-      data => dispatch({ type: SEND_MESSAGE_SUCCESS, data }),
-      err => dispatch({ type: SEND_MESSAGE_FAILURE, err })
+      data => {
+        if (data.errors) {
+          return dispatch({
+            type: SEND_MESSAGE_FAILURE,
+            error: data.errors
+          });
+        }
+
+        return dispatch({
+          type: SEND_MESSAGE_SUCCESS,
+          message: data.data.attributes
+        });
+      },
+      error => dispatch({ type: SEND_MESSAGE_FAILURE, error })
+    );
+  };
+}
+
+export function sendReply(message) {
+  const replyUrl = `${baseUrl}/${message.replyMessageId}/reply`;
+  const payload = { message: { body: message.body } };
+  const settings = Object.assign({}, api.settings.post, {
+    body: JSON.stringify(payload)
+  });
+
+  return dispatch => {
+    fetch(replyUrl, settings)
+    .then(response => {
+      // Delete the draft (if it exists) once the reply is successfully sent.
+      const isSavedDraft = message.messageId !== undefined;
+      if (response.ok && isSavedDraft) {
+        const messageUrl = `${baseUrl}/${message.messageId}`;
+        fetch(messageUrl, api.settings.delete);
+      }
+
+      return response.json();
+    }).then(
+      data => {
+        if (data.errors) {
+          return dispatch({
+            type: SEND_MESSAGE_FAILURE,
+            error: data.errors
+          });
+        }
+
+        return dispatch({
+          type: SEND_MESSAGE_SUCCESS,
+          message: data.data.attributes
+        });
+      },
+      error => dispatch({ type: SEND_MESSAGE_FAILURE, error })
     );
   };
 }
 
 export function toggleMessageCollapsed(messageId) {
-  return {
-    type: TOGGLE_MESSAGE_COLLAPSED,
-    messageId
-  };
+  return { type: TOGGLE_MESSAGE_COLLAPSED, messageId };
 }
 
 export function toggleMessagesCollapsed() {
   return { type: TOGGLE_MESSAGES_COLLAPSED };
 }
 
-export function updateReplyBody(field) {
-  return {
-    type: UPDATE_REPLY_BODY,
-    field
-  };
-}
-
-export function updateReplyCharacterCount(field, maxLength) {
-  const chars = maxLength - field.value.length;
-  return {
-    type: UPDATE_REPLY_CHARACTER_COUNT,
-    chars
-  };
+export function updateDraft(field) {
+  return { type: UPDATE_DRAFT, field };
 }
 
 export function toggleMoveTo() {
