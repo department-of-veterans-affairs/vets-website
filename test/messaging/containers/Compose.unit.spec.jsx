@@ -33,6 +33,7 @@ const props = {
       visible: false
     }
   },
+
   // No-op function to override dispatch
   dispatch: () => {}
 };

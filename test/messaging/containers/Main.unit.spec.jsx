@@ -17,6 +17,7 @@ const props = {
     visible: false
   },
   persistFolder: 0,
+
   // No-op function to override dispatch
   dispatch: () => {}
 };

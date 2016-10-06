@@ -23,6 +23,7 @@ const props = {
   moveToOpened: false,
   persistFolder: 0,
   thread: [],
+
   // No-op function to override dispatch
   dispatch: () => {}
 };
