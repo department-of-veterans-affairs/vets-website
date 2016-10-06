@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-const createQueryString = (query) => {
+export function createQueryString(query) {
   const segments = [];
 
   for (const key of Object.keys(query)) {
@@ -11,16 +11,16 @@ const createQueryString = (query) => {
   }
 
   return segments.join('&');
-};
+}
 
-export const createUrlWithQuery = (url, query) => {
+export function createUrlWithQuery(url, query) {
   const queryString = createQueryString(query);
   const fullUrl = queryString
                 ? `${url}?${queryString}`
                 : url;
 
   return fullUrl;
-};
+}
 
 export function formatFileSize(bytes, decimalplaces = 2) {
   const kilo = 1000;
@@ -43,4 +43,9 @@ export function formatFileSize(bytes, decimalplaces = 2) {
   }
 
   return size;
+}
+
+export function isJson(response) {
+  const contentType = response.headers.get('content-type');
+  return contentType && contentType.indexOf('application/json') !== -1;
 }
