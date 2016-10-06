@@ -12,7 +12,17 @@ if (process.env.BUILDTYPE !== 'production') {
         .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/`)
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Apply for education benefits: Vets.gov')
-        .waitForElementVisible('div.form-progress-buttons', Timeouts.slow);
+        .waitForElementVisible('div.form-progress-buttons', Timeouts.molasses)
+        .click('.form-panel .usa-button-primary');
+      E2eHelpers.overrideVetsGovApi(client);
+      E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
+
+      // Veteran information page.
+      client
+        .expect.element('input[name="fname"]').to.be.visible;
+      EduHelpers.completeVeteranInformation(client, EduHelpers.testValues, true);
+      client.click('.form-panel .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information');
     }
   );
 }
