@@ -252,22 +252,13 @@ if (options.watch) {
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
     allowRegex: new RegExp(
-        ['/disability-benefits/',
-          '/disability-benefits/apply-for-benefits/',
-          '/disability-benefits/learn/',
-          '/disability-benefits/learn/eligibility/.*',
-          '/employment/commitments',
+        ['/employment/commitments',
           '/employment/employers',
-          '/employment/employers/',
           '/employment/job-seekers/create-resume',
           '/employment/job-seekers/search-jobs',
           '/employment/job-seekers/skills-translator',
-          '/employment/users/sign_in',
           '/gi-bill-comparison-tool/',
-          '/gibill/',
-          '/healthcare/apply/application',
-          '/veterans-employment-center/',
-          'Employment-Resources/'].join('|'))
+          '/healthcare/apply/application'].join('|'))
   }));
 
   smith.use(webpack(webpackConfig));

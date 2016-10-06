@@ -17,19 +17,20 @@ import MessageRecipient from '../components/compose/MessageRecipient';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
-import ModalAttachmentsTooBig from '../components/compose/ModalAttachmentsTooBig';
+import ModalAttachments from '../components/compose/ModalAttachments';
 import NoticeBox from '../components/NoticeBox';
 
 import {
+  closeAttachmentsModal,
   deleteAttachment,
   deleteComposeMessage,
   fetchRecipients,
   fetchSenderName,
+  openAttachmentsModal,
   saveDraft,
   sendMessage,
   setAttachments,
   setMessageField,
-  toggleAttachmentsModal,
   toggleConfirmDelete,
   updateComposeCharacterCount
 } from '../actions';
@@ -38,11 +39,7 @@ class Compose extends React.Component {
   constructor() {
     super();
     this.apiFormattedMessage = this.apiFormattedMessage.bind(this);
-    this.handleCategoryChange = this.handleCategoryChange.bind(this);
-    this.handleMessageChange = this.handleMessageChange.bind(this);
-    this.handleRecipientChange = this.handleRecipientChange.bind(this);
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
-    this.handleSubjectChange = this.handleSubjectChange.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.saveDraft = this.saveDraft.bind(this);
   }
@@ -68,23 +65,6 @@ class Compose extends React.Component {
 
   saveDraft() {
     this.props.saveDraft(this.apiFormattedMessage());
-  }
-
-  handleCategoryChange(valueObj) {
-    this.props.setMessageField('message.category', valueObj);
-  }
-
-  handleSubjectChange(valueObj) {
-    this.props.setMessageField('message.subject', valueObj);
-  }
-
-  handleMessageChange(valueObj) {
-    this.props.setMessageField('message.text', valueObj);
-    this.props.updateComposeCharacterCount(valueObj, composeMessage.maxChars.message);
-  }
-
-  handleRecipientChange(valueObj) {
-    this.props.setMessageField('message.recipient', valueObj);
   }
 
   handleConfirmDelete(domEvent) {
@@ -124,7 +104,7 @@ class Compose extends React.Component {
           <MessageRecipient
               errorMessage={composeMessage.errors.recipient}
               cssClass="messaging-recipient"
-              onValueChange={this.handleRecipientChange}
+              onValueChange={this.props.setMessageField}
               options={this.props.recipients}
               recipient={message.recipient}/>
           <fieldset className="messaging-subject-field">
@@ -135,13 +115,13 @@ class Compose extends React.Component {
                     categories={messageCategories}
                     cssClass="messaging-category"
                     errorMessage={composeMessage.errors.category}
-                    onValueChange={this.handleCategoryChange}
+                    onValueChange={this.props.setMessageField}
                     category={message.category}/>
                 <MessageSubject
                     charMax={composeMessage.maxChars.subject}
                     cssClass="messaging-subject"
                     errorMessage={composeMessage.errors.subject}
-                    onValueChange={this.handleSubjectChange}
+                    onValueChange={this.props.setMessageField}
                     placeholder={composeMessage.placeholders.subject}
                     required={subjectRequired}
                     subject={message.subject}/>
@@ -151,7 +131,9 @@ class Compose extends React.Component {
           <div className="messaging-write-group">
             <MessageWrite
                 cssClass="messaging-write"
-                onValueChange={this.handleMessageChange}
+                maxChars={composeMessage.maxChars.message}
+                onValueChange={this.props.setMessageField}
+                onCharCountChange={this.props.updateComposeCharacterCount}
                 placeholder={composeMessage.placeholders.message}
                 text={message.text}/>
             <MessageAttachments
@@ -164,8 +146,11 @@ class Compose extends React.Component {
               attachedFiles={this.props.message.attachments}
               charCount={message.charsRemaining}
               cssClass="messaging-send-group"
-              multipleUploads
+              maxFiles={composeMessage.attachments.maxNum}
+              maxFileSize={composeMessage.attachments.maxSingleFile}
+              maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
               onAttachmentUpload={this.props.setAttachments}
+              onAttachmentsError={this.props.openAttachmentsModal}
               onSave={this.saveDraft}
               onSend={this.sendMessage}
               onDelete={this.props.toggleConfirmDelete}/>
@@ -176,10 +161,12 @@ class Compose extends React.Component {
             onClose={this.props.toggleConfirmDelete}
             onDelete={this.handleConfirmDelete}
             visible={this.props.modals.deleteConfirm.visible}/>
-        <ModalAttachmentsTooBig
+        <ModalAttachments
             cssClass="messaging-modal"
+            text={this.props.modals.attachments.message.text}
+            title={this.props.modals.attachments.message.title}
             id="messaging-add-attachments"
-            onClose={this.props.toggleAttachmentsModal}
+            onClose={this.props.closeAttachmentsModal}
             visible={this.props.modals.attachments.visible}/>
       </div>
     );
@@ -195,22 +182,24 @@ const mapStateToProps = (state) => {
         visible: state.modals.deleteConfirm.visible
       },
       attachments: {
-        visible: state.modals.attachments.visible
+        visible: state.modals.attachments.visible,
+        message: state.modals.attachments.message
       }
     }
   };
 };
 
 const mapDispatchToProps = {
+  closeAttachmentsModal,
   deleteAttachment,
   deleteComposeMessage,
   fetchRecipients,
   fetchSenderName,
+  openAttachmentsModal,
   saveDraft,
   sendMessage,
   setAttachments,
   setMessageField,
-  toggleAttachmentsModal,
   toggleConfirmDelete,
   updateComposeCharacterCount
 };

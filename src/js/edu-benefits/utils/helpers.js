@@ -99,3 +99,25 @@ export function hasServiceBefore1978(data) {
 export function showRelinquishedEffectiveDate(benefitsRelinquished) {
   return benefitsRelinquished !== '' && benefitsRelinquished !== 'unknown';
 }
+
+export function getListOfBenefits(veteran) {
+  const benefitList = [];
+
+  if (veteran.chapter30) {
+    benefitList.push('Montgomery GI Bill (MGIB or Chapter 30) Education Assistance Program');
+  }
+
+  if (veteran.chapter33) {
+    benefitList.push('Post-9/11 GI Bill (Chapter 33)');
+  }
+
+  if (veteran.chapter1606) {
+    benefitList.push('Montgomery GI Bill Selected Reserve (MGIB-SR or Chapter 1606) Educational Assistance Program');
+  }
+
+  if (veteran.chapter32) {
+    benefitList.push('Post-Vietnam Era Veterans\' Educational Assistance Program (VEAP or chapter 32)');
+  }
+
+  return benefitList;
+}

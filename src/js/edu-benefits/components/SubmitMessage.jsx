@@ -1,4 +1,6 @@
 import React from 'react';
+import moment from 'moment';
+
 import AlertBox from '../../common/components/AlertBox.jsx';
 
 export default class SubmitMessage extends React.Component {
@@ -14,15 +16,13 @@ export default class SubmitMessage extends React.Component {
       </span>
     );
 
-    // TODO: common address componment?
-    const address = this.props.address;
-
     return (
       <div>
         <AlertBox
             content={received}
             isVisible
             status="success"/>
+        <br/>
         <AlertBox
             content={processingTime}
             isVisible
@@ -43,20 +43,15 @@ export default class SubmitMessage extends React.Component {
             </li>
             <li>
               <b>Date receieved</b><br/>
-              <span>{this.props.date}</span>
+              <span>{moment(this.props.date).format('MMM M, YYYY')}</span>
             </li>
             <li>
               <b>Your claim was sent to</b><br/>
-              <address>
-                {address.name}<br/>
-                {address.street1}<br/>
-                {address.street2}<br/>
-                {address.city}, {address.state} {address.zip}
-              </address>
+              <address className="edu-benefits-pre">{this.props.address}</address>
             </li>
             <li>
               <b>Your claimed benefits</b><br/>
-              <span>{this.props.claimedBenefits}</span>
+              {this.props.claimedBenefits.map((benefit, index) => <span key={index}>{index === 0 ? null : <br/>}{benefit}</span>)}
             </li>
             <li>
               <b>Benefits you gave up</b><br/>
@@ -82,14 +77,7 @@ SubmitMessage.propTypes = {
   claimType: React.PropTypes.string.isRequired,
   confirmation: React.PropTypes.string.isRequired,
   date: React.PropTypes.string.isRequired,
-  address: React.PropTypes.shape({
-    name: React.PropTypes.string.isRequired,
-    street1: React.PropTypes.string.isRequired,
-    street2: React.PropTypes.string,
-    city: React.PropTypes.string.isRequired,
-    state: React.PropTypes.string.isRequired,
-    zip: React.PropTypes.string.isRequired,
-  }).isRequired,
+  address: React.PropTypes.string.isRequired,
   claimedBenefits: React.PropTypes.string.isRequired,
   relinquishedBenefits: React.PropTypes.string
 };
