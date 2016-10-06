@@ -18,7 +18,7 @@ import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
 import ModalCreateFolder from '../components/ModalCreateFolder';
 
-class Main extends React.Component {
+export class Main extends React.Component {
   constructor(props) {
     super(props);
     this.handleFolderChange = this.handleFolderChange.bind(this);
