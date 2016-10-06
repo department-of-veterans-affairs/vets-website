@@ -21,7 +21,6 @@ import ModalAttachments from '../components/compose/ModalAttachments';
 import NoticeBox from '../components/NoticeBox';
 
 import {
-  closeAttachmentsModal,
   deleteAttachment,
   deleteComposeMessage,
   fetchRecipients,
@@ -160,14 +159,7 @@ class Compose extends React.Component {
             cssClass="messaging-modal"
             onClose={this.props.toggleConfirmDelete}
             onDelete={this.handleConfirmDelete}
-            visible={this.props.modals.deleteConfirm.visible}/>
-        <ModalAttachments
-            cssClass="messaging-modal"
-            text={this.props.modals.attachments.message.text}
-            title={this.props.modals.attachments.message.title}
-            id="messaging-add-attachments"
-            onClose={this.props.closeAttachmentsModal}
-            visible={this.props.modals.attachments.visible}/>
+            visible={this.props.deleteConfirmModal.visible}/>
       </div>
     );
   }
@@ -177,20 +169,11 @@ const mapStateToProps = (state) => {
   return {
     message: state.compose.message,
     recipients: state.compose.recipients,
-    modals: {
-      deleteConfirm: {
-        visible: state.modals.deleteConfirm.visible
-      },
-      attachments: {
-        visible: state.modals.attachments.visible,
-        message: state.modals.attachments.message
-      }
-    }
+    deleteConfirmModal: state.modals.deleteConfirm
   };
 };
 
 const mapDispatchToProps = {
-  closeAttachmentsModal,
   deleteAttachment,
   deleteComposeMessage,
   fetchRecipients,
