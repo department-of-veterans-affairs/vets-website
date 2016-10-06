@@ -16,7 +16,9 @@ const props = {
     foldersExpanded: false,
     visible: false
   },
-  persistFolder: 0
+  persistFolder: 0,
+  // No-op function to override dispatch
+  dispatch: () => {}
 };
 
 describe('Main', () => {
