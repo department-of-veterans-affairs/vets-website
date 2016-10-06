@@ -39,6 +39,7 @@ class Compose extends React.Component {
     super();
     this.apiFormattedMessage = this.apiFormattedMessage.bind(this);
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
+    this.handleMessageChange = this.handleMessageChange.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.saveDraft = this.saveDraft.bind(this);
   }
@@ -70,6 +71,11 @@ class Compose extends React.Component {
     domEvent.preventDefault();
     this.props.toggleConfirmDelete();
     this.props.deleteComposeMessage();
+  }
+
+  handleMessageChange(valueObj) {
+    this.props.setMessageField('message.text', valueObj);
+    this.props.updateComposeCharacterCount(valueObj, composeMessage.maxChars.message);
   }
 
   render() {
@@ -130,9 +136,7 @@ class Compose extends React.Component {
           <div className="messaging-write-group">
             <MessageWrite
                 cssClass="messaging-write"
-                maxChars={composeMessage.maxChars.message}
-                onValueChange={this.props.setMessageField}
-                onCharCountChange={this.props.updateComposeCharacterCount}
+                onValueChange={this.handleMessageChange}
                 placeholder={composeMessage.placeholders.message}
                 text={message.text}/>
             <MessageAttachments
