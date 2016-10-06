@@ -12,8 +12,11 @@ class SearchControls extends Component {
     });
   }
 
-  handleFacilityTypeChange = () => {
-    // TODO: define shape of query object for facility/service types
+  handleFacilityTypeChange = (e) => {
+    this.props.updateSearchQuery({
+      serviceType: e.target.value,
+    });
+    // TODO: better define shape of query object for facility/service types
   }
 
   handleSearch = (e) => {
