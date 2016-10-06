@@ -45,5 +45,3 @@ describe('Compose', () => {
     expect(vdom).to.not.be.undefined;
   });
 });
-
-

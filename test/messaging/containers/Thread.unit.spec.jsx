@@ -35,4 +35,3 @@ describe('Thread', () => {
     expect(vdom).to.not.be.undefined;
   });
 });
-
