@@ -21,14 +21,14 @@ import ModalAttachments from '../components/compose/ModalAttachments';
 import NoticeBox from '../components/NoticeBox';
 
 import {
-  deleteAttachment,
+  deleteComposeAttachment,
   deleteComposeMessage,
   fetchRecipients,
   fetchSenderName,
   openAttachmentsModal,
   saveDraft,
   sendMessage,
-  setAttachments,
+  setComposeAttachments,
   setMessageField,
   toggleConfirmDelete,
   updateComposeCharacterCount
@@ -142,7 +142,7 @@ class Compose extends React.Component {
             <MessageAttachments
                 hidden={!this.props.message.attachments.length}
                 files={this.props.message.attachments}
-                onClose={this.props.deleteAttachment}/>
+                onClose={this.props.deleteComposeAttachment}/>
           </div>
           <MessageSend
               allowedMimeTypes={allowedMimeTypes}
@@ -151,7 +151,7 @@ class Compose extends React.Component {
               maxFiles={composeMessage.attachments.maxNum}
               maxFileSize={composeMessage.attachments.maxSingleFile}
               maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
-              onAttachmentUpload={this.props.setAttachments}
+              onAttachmentUpload={this.props.setComposeAttachments}
               onAttachmentsError={this.props.openAttachmentsModal}
               onSave={this.saveDraft}
               onSend={this.sendMessage}
@@ -177,14 +177,14 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  deleteAttachment,
+  deleteComposeAttachment,
   deleteComposeMessage,
   fetchRecipients,
   fetchSenderName,
   openAttachmentsModal,
   saveDraft,
   sendMessage,
-  setAttachments,
+  setComposeAttachments,
   setMessageField,
   toggleConfirmDelete,
   updateComposeCharacterCount
