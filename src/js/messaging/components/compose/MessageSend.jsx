@@ -1,5 +1,11 @@
 import React from 'react';
 
+import {
+  validateFileSize,
+  validateNumAttachments,
+  validateTotalFileSize
+} from '../../utils/validations.js';
+
 import ButtonDelete from '../buttons/ButtonDelete';
 import CharacterCount from '../compose/CharacterCount';
 import MessageAddAttachment from './MessageAddAttachment';
@@ -8,30 +14,6 @@ class MessageSend extends React.Component {
   constructor(props) {
     super(props);
     this.handleAttachmentsChange = this.handleAttachmentsChange.bind(this);
-    this.validateNumAttachments = this.validateNumAttachments.bind(this);
-    this.validateFileSize = this.validateFileSize.bind(this);
-    this.validateTotalFileSize = this.validateTotalFileSize.bind(this);
-  }
-
-  validateNumAttachments(files, maxAttachments) {
-    return files.length > maxAttachments;
-  }
-
-  validateFileSize(files, max) {
-    return !!files.find((file) => { return file.size > max; });
-  }
-
-  validateTotalFileSize(files, max) {
-    // Get sizes for each file.
-    const sizes = files.map((f) => {
-      return f.size;
-    });
-
-    const total = sizes.reduce((a, b) => {
-      return a + b;
-    });
-
-    return total > max;
   }
 
   handleAttachmentsChange(domEvent) {
@@ -42,9 +24,9 @@ class MessageSend extends React.Component {
       if (input.files.length) {
         const files = Array.from(input.files);
 
-        if (this.validateNumAttachments(files, this.props.maxFiles)) {
+        if (validateNumAttachments(files, this.props.maxFiles)) {
           hasError = { type: 'tooMany' };
-        } else if (this.validateFileSize(files, this.props.maxFileSize) || this.validateTotalFileSize(files, this.props.maxTotalFileSize)) {
+        } else if (validateFileSize(files, this.props.maxFileSize) || validateTotalFileSize(files, this.props.maxTotalFileSize)) {
           hasError = { type: 'tooLarge' };
         }
 
