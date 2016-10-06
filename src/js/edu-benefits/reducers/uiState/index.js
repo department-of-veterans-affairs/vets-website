@@ -7,7 +7,8 @@ import {
   UPDATE_VERIFIED_STATUS,
   UPDATE_SUBMISSION_STATUS,
   UPDATE_SUBMISSION_ID,
-  UPDATE_SUBMISSION_TIMESTAMP
+  UPDATE_SUBMISSION_TIMESTAMP,
+  UPDATE_SUBMISSION_DETAILS
 } from '../../actions';
 
 const ui = {
@@ -15,7 +16,8 @@ const ui = {
     status: false,
     errorMessage: false,
     id: false,
-    timestamp: false
+    timestamp: false,
+    regionalAddress: null
   },
   pages: {
     '/introduction': {
@@ -119,6 +121,16 @@ function uiState(state = ui, action) {
     case UPDATE_SUBMISSION_TIMESTAMP:
       return _.set('submission.timestamp', action.value, state);
 
+    case UPDATE_SUBMISSION_DETAILS: {
+      const submission = _.merge(state.submission, {
+        id: action.attributes.confirmationNumber,
+        regionalAddress: action.attributes.regionalOffice,
+        timestamp: action.attributes.submittedAt,
+        status: 'applicationSubmitted'
+      });
+
+      return _.set('submission', submission, state);
+    }
     default:
       return state;
   }
