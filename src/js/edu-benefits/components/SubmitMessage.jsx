@@ -51,7 +51,7 @@ export default class SubmitMessage extends React.Component {
             </li>
             <li>
               <b>Your claimed benefits</b><br/>
-              <span>{this.props.claimedBenefits}</span>
+              {this.props.claimedBenefits.map((benefit, index) => <span key={index}>{index === 0 ? null : <br/>}{benefit}</span>)}
             </li>
             <li>
               <b>Benefits you gave up</b><br/>
