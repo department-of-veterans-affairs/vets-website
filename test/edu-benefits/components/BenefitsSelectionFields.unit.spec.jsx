@@ -19,7 +19,7 @@ describe('<BenefitsSelectionFields>', () => {
   );
 
   it('should render a subsection for chapter 33', () => {
-    expect(tree.everySubTree('ErrorableRadioButtons').length).to.equal(3);
+    expect(tree.everySubTree('ErrorableRadioButtons').length).to.equal(2);
   });
   it('should render a value for benefits relinquished', () => {
     expect(tree.everySubTree('ErrorableRadioButtons')[1].props.value.value).to.equal(data.benefitsRelinquished.value);
