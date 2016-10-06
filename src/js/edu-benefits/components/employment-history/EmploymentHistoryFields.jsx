@@ -7,7 +7,7 @@ import ExpandingGroup from '../../../common/components/form-elements/ExpandingGr
 import EmploymentPeriod from './EmploymentPeriod';
 import { createEmploymentPeriod } from '../../utils/veteran';
 
-import { isValidPage } from '../../utils/validations';
+import { isValidPage, isValidEmploymentPeriod } from '../../utils/validations';
 import { yesNo } from '../../utils/options-for-select';
 
 export default class EmploymentHistoryFields extends React.Component {
@@ -33,7 +33,6 @@ export default class EmploymentHistoryFields extends React.Component {
           </div>
           <div className="input-section">
             <h4>Employment</h4>
-            <hr/>
             <div className="input-section">
               <GrowableTable
                   component={EmploymentPeriod}
@@ -43,7 +42,8 @@ export default class EmploymentHistoryFields extends React.Component {
                   onRowsUpdate={(update) => {this.props.onStateChange('nonMilitaryJobs', update);}}
                   path="/employment-history/employment-information"
                   rows={this.props.data.nonMilitaryJobs}
-                  isValidSection={isValidPage}/>
+                  isValidSection={isValidPage}
+                  isValidRow={isValidEmploymentPeriod}/>
             </div>
           </div>
         </ExpandingGroup>

@@ -8,7 +8,7 @@ import ExpandingGroup from '../../../common/components/form-elements/ExpandingGr
 import MilitaryServiceTour from './MilitaryServiceTour';
 import { createTour } from '../../utils/veteran';
 
-import { validateIfDirty, isNotBlank, isValidYear, isValidPage, isValidField } from '../../utils/validations';
+import { validateIfDirty, isValidYear, isValidPage, isValidField, isValidTourOfDuty } from '../../utils/validations';
 import { yesNo } from '../../utils/options-for-select';
 
 export default class MilitaryServiceFields extends React.Component {
@@ -24,14 +24,12 @@ export default class MilitaryServiceFields extends React.Component {
     const activeDutyQuestions = (
       <div>
         <ErrorableRadioButtons
-            errorMessage={validateIfDirty(this.props.data.currentlyActiveDuty.onTerminalLeave, isNotBlank) ? '' : 'Please select a response'}
             label="Are you on terminal leave?"
             name="onTerminalLeave"
             options={yesNo}
             value={this.props.data.currentlyActiveDuty.onTerminalLeave}
             onValueChange={(update) => {this.props.onStateChange('currentlyActiveDuty.onTerminalLeave', update);}}/>
         <ErrorableRadioButtons
-            errorMessage={validateIfDirty(this.props.data.currentlyActiveDuty.nonVaAssistance, isNotBlank) ? '' : 'Please select a response'}
             label="Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?"
             name="nonVaAssistance"
             options={yesNo}
@@ -65,8 +63,7 @@ export default class MilitaryServiceFields extends React.Component {
         </ExpandingGroup>
       </div>
       <div className="input-section">
-        <h4>Military service</h4>
-        <hr/>
+        <h4>Tours of duty</h4>
         <div className="input-section">
           <GrowableTable
               component={MilitaryServiceTour}
@@ -77,7 +74,9 @@ export default class MilitaryServiceFields extends React.Component {
               path="/military-history/military-service"
               rows={this.props.data.toursOfDuty}
               isValidSection={isValidPage}
-              minimumRows={1}/>
+              addNewMessage="Add Another Tour"
+              minimumRows={1}
+              isValidRow={isValidTourOfDuty}/>
         </div>
       </div>
     </fieldset>

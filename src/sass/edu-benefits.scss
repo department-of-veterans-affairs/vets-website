@@ -72,6 +72,18 @@ legend {
   }
 }
 
+.edu-benefits-first-label {
+  label {
+    margin-top: 1em;
+  }
+}
+
+.va-growable-background .edu-benefits-first-label {
+  label {
+    margin-top: 0;
+  }
+}
+
 @media (max-width: 40.063em) {
   .progress-box {
     border:none;
