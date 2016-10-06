@@ -41,14 +41,14 @@ export default function folders(state = initialState, action) {
       return set('data.draft.attachments', [
         ...state.data.draft.attachments,
         ...action.files
-        ], state);
+      ], state);
 
     case CLEAR_DRAFT:
       return resetDraft(state);
 
     case DELETE_DRAFT_ATTACHMENT:
       state.message.attachments.splice(action.index, 1);
-      return('data.draft.attachments', state.data.draft.attachments, state);
+      return set('data.draft.attachments', state.data.draft.attachments, state);
 
     case FETCH_THREAD_SUCCESS: {
       const currentMessage = action.message.attributes;

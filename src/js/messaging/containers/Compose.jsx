@@ -17,7 +17,6 @@ import MessageRecipient from '../components/compose/MessageRecipient';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
-import ModalAttachments from '../components/compose/ModalAttachments';
 import NoticeBox from '../components/NoticeBox';
 
 import {
