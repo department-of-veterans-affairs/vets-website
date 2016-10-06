@@ -142,7 +142,7 @@
 .you-have-no-claims,
 .we-are-adding-your-details,
 .agreement {
-  background-color: #e0f3f3; // Create variable - no matching color found
+  background-color: $color-primary-alt-lightest;
   padding: 1em;
   margin: 1em 0;
 }
