@@ -12,8 +12,8 @@ if (process.env.BUILDTYPE !== 'production') {
         .url(`${E2eHelpers.baseUrl}/education/apply-for-education-benefits/application/`)
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Apply for education benefits: Vets.gov')
-        .waitForElementVisible('div.form-progress-buttons', Timeouts.molasses)
-        .click('.form-panel .usa-button-primary');
+        .waitForElementVisible('div.form-progress-buttons', Timeouts.slow)
+        .click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.overrideVetsGovApi(client);
       E2eHelpers.expectNavigateAwayFrom(client, '/introduction');
 
@@ -21,8 +21,67 @@ if (process.env.BUILDTYPE !== 'production') {
       client
         .expect.element('input[name="fname"]').to.be.visible;
       EduHelpers.completeVeteranInformation(client, EduHelpers.testValues, true);
-      client.click('.form-panel .usa-button-primary');
+      client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/veteran-information');
+
+      // Benefits eligibility
+      client.click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-selection');
+
+      // Military service page.
+      client
+        .expect.element('input[name="serviceAcademyGraduationYear"]').to.be.visible;
+      EduHelpers.completeMilitaryService(client, EduHelpers.testValues, true);
+      client.click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/military-history/military-service');
+
+      // ROTC History
+      client.click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/military-history/rotc-history');
+
+      // Benefits history
+      client.click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/military-history/benefits-history');
+
+      // Education history
+      client.click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/education-history/education-information');
+
+      // Employment history
+      client.click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/employment-history/employment-information');
+
+      // School selection
+      client.click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/school-selection/school-information');
+
+      // Contact information page.
+      client
+        .expect.element('select[name="country"]').to.be.visible;
+      EduHelpers.completeContactInformation(client, EduHelpers.testValues, true);
+      client.click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
+
+      // Secondary contact page
+      client.click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/secondary-contact');
+
+      // Direct deposit page
+      client.click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
+
+      // Review and Submit Page.
+      client.expect.element('button.edit-btn').to.be.visible;
+      client
+        .click('.form-progress-buttons .usa-button-primary');
+      client.expect.element('.js-test-location').attribute('data-location')
+        .to.not.contain('/review-and-submit').before(Timeouts.submission);
+
+      // Submit message
+      client
+        .expect.element('.success-alert-box').to.be.visible;
+
+      client.end();
     }
   );
 }

@@ -13,11 +13,38 @@ const testValues = {
   },
   veteranSocialSecurityNumber: '123456677',
   veteranDateOfBirth: {
-    month: '5',
+    month: 'May',
     day: '2',
     year: '1984'
   },
-  gender: 'F'
+  gender: 'F',
+  toursOfDuty: [
+    {
+      serviceBranch: 'Air Force',
+      fromDate: {
+        month: 'May',
+        day: '2',
+        year: '1996'
+      },
+      toDate: {
+        month: 'May',
+        day: '2',
+        year: '1999'
+      },
+      serviceStatus: 'Drilling',
+      involuntarilyCalledToDuty: 'Y',
+      doNotApplyPeriodToSelected: true
+    }
+  ],
+  veteranAddress: {
+    country: 'USA',
+    street: '123 vet st',
+    city: 'The VA',
+    state: 'DC',
+    postalCode: '12345'
+  },
+  email: 'test@test.com',
+  phone: '555555566'
 };
 /* eslint-enable */
 
@@ -27,9 +54,15 @@ function initApplicationSubmitMock() {
     uri: `${E2eHelpers.apiUrl}/mock`,
     method: 'POST',
     json: {
-      path: '/api/v0/education_benefits_claims',
+      path: '/v0/education_benefits_claims',
       verb: 'post',
-      value: testValues
+      value: {
+        data: {
+          confirmationNumber: '123fake-submission-id-567',
+          submittedAt: '2016-05-16',
+          regionalOffice: 'Test'
+        }
+      }
     }
   });
 }
@@ -40,10 +73,10 @@ function completeVeteranInformation(client, data, onlyRequiredFields) {
     .setValue('input[name="fname"]', data.veteranFullName.first)
     .clearValue('input[name="lname"]')
     .setValue('input[name="lname"]', data.veteranFullName.last)
-    .clearValue('input[name="veteranBirthMonth"]')
-    .setValue('input[name="veteranBirthMonth"]', data.veteranDateOfBirth.month)
-    .clearValue('input[name="veteranBirthDay"]')
-    .setValue('input[name="veteranBirthDay"]', data.veteranDateOfBirth.day)
+    .clearValue('select[name="veteranBirthMonth"]')
+    .setValue('select[name="veteranBirthMonth"]', data.veteranDateOfBirth.month)
+    .clearValue('select[name="veteranBirthDay"]')
+    .setValue('select[name="veteranBirthDay"]', data.veteranDateOfBirth.day)
     .clearValue('input[name="veteranBirthYear"]')
     .setValue('input[name="veteranBirthYear"]', data.veteranDateOfBirth.year)
     .clearValue('input[name="ssn"]')
@@ -57,8 +90,54 @@ function completeVeteranInformation(client, data, onlyRequiredFields) {
   }
 }
 
+function completeMilitaryService(client, data, onlyRequiredFields) {
+  client
+    .clearValue('select[name="serviceBranch"]')
+    .setValue('select[name="serviceBranch"]', data.toursOfDuty[0].serviceBranch)
+    .clearValue('select[name="fromDateMonth"]')
+    .setValue('select[name="fromDateMonth"]', data.toursOfDuty[0].fromDate.month)
+    .clearValue('select[name="fromDateDay"]')
+    .setValue('select[name="fromDateDay"]', data.toursOfDuty[0].fromDate.day)
+    .clearValue('input[name="fromDateYear"]')
+    .setValue('input[name="fromDateYear"]', data.toursOfDuty[0].fromDate.year)
+    .clearValue('select[name="toDateMonth"]')
+    .setValue('select[name="toDateMonth"]', data.toursOfDuty[0].toDate.month)
+    .clearValue('select[name="toDateDay"]')
+    .setValue('select[name="toDateDay"]', data.toursOfDuty[0].toDate.day)
+    .clearValue('input[name="toDateYear"]')
+    .setValue('input[name="toDateYear"]', data.toursOfDuty[0].toDate.year);
+
+  if (!onlyRequiredFields) {
+    client
+      .setValue('input[name="serviceStatus"]', data.toursOfDuty[0].serviceStatus);
+  }
+}
+
+function completeContactInformation(client, data, onlyRequiredFields) {
+  client
+    .clearValue('input[name="address"]')
+    .setValue('input[name="address"]', data.veteranAddress.street)
+    .clearValue('input[name="city"]')
+    .setValue('input[name="city"]', data.veteranAddress.city)
+    .clearValue('select[name="state"]')
+    .setValue('select[name="state"]', data.veteranAddress.state)
+    .clearValue('input[name="postalCode"]')
+    .setValue('input[name="postalCode"]', data.veteranAddress.postalCode)
+    .clearValue('input[name="email"]')
+    .setValue('input[name="email"]', data.email)
+    .clearValue('input[name="emailConfirmation"]')
+    .setValue('input[name="emailConfirmation"]', data.email);
+
+  if (!onlyRequiredFields) {
+    client
+      .setValue('input[name="phone"]', data.phone);
+  }
+}
+
 module.exports = {
   testValues,
   initApplicationSubmitMock,
-  completeVeteranInformation
+  completeVeteranInformation,
+  completeMilitaryService,
+  completeContactInformation
 };
