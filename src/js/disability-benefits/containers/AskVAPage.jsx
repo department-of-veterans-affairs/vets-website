@@ -1,11 +1,12 @@
 import React from 'react';
+
 import AskVAQuestions from '../components/AskVAQuestions';
+import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 
 class AskVAPage extends React.Component {
   render() {
     return (
       <div>
-
         <div className="row">
           <div className="medium-8 columns">
             <div className="va-claim-form">
@@ -21,11 +22,13 @@ class AskVAPage extends React.Component {
                 <li>The date any benefits will begin if your claim is granted.</li>
               </ul>
               <div className="agreement">
-                
+                <ErrorableCheckbox
+                    label="I have submitted all information or evidence that will support my claim to include identifying records from Federal treating facilities, or I have no other information or evidence to give VA to support my claim. Please decide my claim as soon as possible."/>
               </div>
+              <button type="submit" className="usa-button-disabled" href="/">Submit</button>
+              <button className="usa-button-outline request-decision-button" href="/">Cancel</button>
             </div>
           </div>
-
           <AskVAQuestions/>
         </div>
       </div>

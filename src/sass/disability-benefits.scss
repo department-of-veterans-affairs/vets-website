@@ -140,7 +140,8 @@
 .ask-va-to-decide,
 .claim-decision-is-ready,
 .you-have-no-claims,
-.we-are-adding-your-details {
+.we-are-adding-your-details,
+.agreement {
   background-color: #e0f3f3; // Create variable - no matching color found
   padding: 1em;
   margin: 1em 0;
@@ -243,7 +244,7 @@ a.claim-list-item {
 }
 
 .claim-conditions {
-  margin: 1.5em;
+  margin: 1.5em 0;
   margin-bottom: 2em;
   h1, p {
     margin: 0;
