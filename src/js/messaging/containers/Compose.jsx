@@ -142,7 +142,6 @@ class Compose extends React.Component {
           </div>
           <MessageSend
               allowedMimeTypes={allowedMimeTypes}
-              attachedFiles={this.props.message.attachments}
               charCount={message.charsRemaining}
               cssClass="messaging-send-group"
               maxFiles={composeMessage.attachments.maxNum}
