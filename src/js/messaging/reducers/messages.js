@@ -3,16 +3,12 @@ import set from 'lodash/fp/set';
 import { makeField } from '../../common/model/fields';
 
 import {
-  DELETE_REPLY,
+  CLEAR_DRAFT,
   FETCH_THREAD_SUCCESS,
-  FETCH_THREAD_FAILURE,
-  SEND_MESSAGE_SUCCESS,
-  SEND_MESSAGE_FAILURE,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
-  UPDATE_REPLY_BODY,
-  UPDATE_REPLY_CHARACTER_COUNT
+  UPDATE_DRAFT
 } from '../actions/messages';
 
 import { composeMessage } from '../config';
@@ -21,7 +17,7 @@ const initialState = {
   data: {
     message: null,
     thread: [],
-    reply: {
+    draft: {
       body: makeField(''),
       charsRemaining: composeMessage.maxChars.message
     }
@@ -32,51 +28,56 @@ const initialState = {
   }
 };
 
-const resetReply = (state) => {
-  const newReply = {
-    body: makeField(''),
-    charsRemaining: composeMessage.maxChars.message
-  };
-
-  return set('data.reply', newReply, state);
+const resetDraft = (state) => {
+  return set('data.draft', initialState.data.draft, state);
 };
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
-    case DELETE_REPLY: {
-      return resetReply(state);
-    }
+    case CLEAR_DRAFT:
+      return resetDraft(state);
 
     case FETCH_THREAD_SUCCESS: {
       const currentMessage = action.message.attributes;
-      const thread = action.thread.map(message => message.attributes).reverse();
+      const thread = action.thread.map(message => message.attributes);
       const messagesCollapsed = new Set(thread.map((message) => {
         return message.messageId;
       }));
 
-      const newUi = {
+      // Thread is received in most recent order.
+      // Reverse to display most recent message at the bottom.
+      thread.reverse();
+
+      let newState = set('ui', {
         messagesCollapsed,
-        movedToOpened: false
-      };
+        moveToOpened: false
+      }, state);
 
-      let newState = set('ui', newUi, state);
-      newState = resetReply(newState);
-      newState = set('data.thread', thread, newState);
-
+      // The message is the draft if it hasn't been sent yet.
+      // Otherwise, the draft is an new, unsaved reply to the message.
+      let draft;
       if (!currentMessage.sentDate) {
-        const body = makeField(currentMessage.body);
-        const charsRemaining =
-          composeMessage.maxChars.message - currentMessage.body.length;
-
-        const reply = { body, charsRemaining };
-        newState = set('data.reply', reply, newState);
+        draft = Object.assign({}, currentMessage, {
+          body: makeField(currentMessage.body),
+          charsRemaining: composeMessage.maxChars.message -
+                          currentMessage.body.length,
+          replyMessageId: thread.length === 0 ?
+                          undefined :
+                          thread[thread.length - 1].messageId
+        });
+      } else {
+        draft = Object.assign({}, initialState.data.draft, {
+          category: currentMessage.category,
+          recipientId: currentMessage.senderId,
+          replyMessageId: currentMessage.messageId,
+          subject: currentMessage.subject
+        });
       }
 
+      newState = set('data.thread', thread, newState);
+      newState = set('data.draft', draft, newState);
       return set('data.message', currentMessage, newState);
     }
-
-    case SEND_MESSAGE_SUCCESS:
-      return state;
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
@@ -109,14 +110,13 @@ export default function folders(state = initialState, action) {
     case TOGGLE_MOVE_TO:
       return set('ui.moveToOpened', !state.ui.moveToOpened, state);
 
-    case UPDATE_REPLY_BODY:
-      return set('data.reply.body', action.field, state);
+    case UPDATE_DRAFT:
+      return set('data.draft', {
+        body: action.field,
+        charsRemaining: composeMessage.maxChars.message -
+                        action.field.value.length
+      }, state);
 
-    case UPDATE_REPLY_CHARACTER_COUNT:
-      return set('data.reply.charsRemaining', action.chars, state);
-
-    case FETCH_THREAD_FAILURE:
-    case SEND_MESSAGE_FAILURE:
     default:
       return state;
   }

@@ -8,5 +8,11 @@ logs/
 .cache
 .DS_Store
 npm-debug.log
+*.log
 
 config/config.proxy.js
+
+.babelcache
+jsconfig.json
+typings.json
+typings/

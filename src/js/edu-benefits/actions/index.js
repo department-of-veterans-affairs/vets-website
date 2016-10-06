@@ -1,5 +1,7 @@
 import { veteranToApplication } from '../utils/veteran';
 
+import environment from '../../common/helpers/environment';
+
 export const UPDATE_COMPLETED_STATUS = 'UPDATE_COMPLETED_STATUS';
 export const UPDATE_INCOMPLETE_STATUS = 'UPDATE_INCOMPLETE_STATUS';
 export const UPDATE_REVIEW_STATUS = 'UPDATE_REVIEW_STATUS';
@@ -91,8 +93,9 @@ export function submitForm(data) {
   return dispatch => {
     dispatch(updateCompletedStatus('/review-and-submit'));
     dispatch(updateSubmissionStatus('submitPending'));
-    fetch('/api/v0/education_benefits_claims', {
+    fetch(`${environment.API_URL}/v0/education_benefits_claims`, {
       method: 'POST',
+      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
         'X-Key-Inflection': 'camel'
@@ -102,12 +105,17 @@ export function submitForm(data) {
           form: application
         }
       })
-    }).then(res => {
+    })
+    .then(res => {
       if (res.ok) {
-        dispatch(updateSubmissionStatus('applicationSubmitted'));
-      } else {
-        dispatch(updateSubmissionStatus('error'));
+        return res.json();
       }
-    });
+
+      return Promise.reject(res.statusText);
+    })
+    .then(
+      () => dispatch(updateSubmissionStatus('applicationSubmitted')),
+      () => dispatch(updateSubmissionStatus('error'))
+    );
   };
 }
