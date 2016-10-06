@@ -35,7 +35,7 @@ import {
   updateComposeCharacterCount
 } from '../actions';
 
-class Compose extends React.Component {
+export class Compose extends React.Component {
   constructor() {
     super();
     this.apiFormattedMessage = this.apiFormattedMessage.bind(this);
