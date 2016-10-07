@@ -2,24 +2,20 @@ import { browserHistory } from 'react-router';
 import set from 'lodash/fp/set';
 import concat from 'lodash/fp/concat';
 
-import { DELETE_COMPOSE_MESSAGE } from '../actions/compose';
-
 import {
   CREATE_FOLDER_SUCCESS,
+  DELETE_COMPOSE_MESSAGE,
   DELETE_FOLDER_SUCCESS,
-  FETCH_FOLDERS_SUCCESS,
-  FETCH_FOLDER_SUCCESS,
-  TOGGLE_FOLDER_NAV,
-  TOGGLE_MANAGED_FOLDERS,
-  SET_CURRENT_FOLDER
-} from '../actions/folders';
-
-import {
   DELETE_MESSAGE_SUCCESS,
+  FETCH_FOLDER_SUCCESS,
+  FETCH_FOLDERS_SUCCESS,
   MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_SUCCESS,
-  SEND_MESSAGE_SUCCESS
-} from '../actions/messages';
+  SEND_MESSAGE_SUCCESS,
+  SET_CURRENT_FOLDER,
+  TOGGLE_FOLDER_NAV,
+  TOGGLE_MANAGED_FOLDERS
+} from '../utils/constants';
 
 import { paths } from '../config';
 
