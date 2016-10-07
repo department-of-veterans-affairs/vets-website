@@ -54,28 +54,53 @@
   }
 }
 
+// Overriding the accordion button styles that are too broad
 .form-review-panel {
   button {
-      background-color: $color-primary;
-      background-image: none;
+    background-image: none;
+    background-color: $color-primary;
+    padding: 1rem 2rem;
+    color: white;
+    &:hover {
+      color: white;
+      background-color: $color-primary-darker;
+    }
+    &:active {
+      background-color: $color-primary-darkest;
+    }
+  }
+  .usa-button-outline {
+    color: $color-primary;
+    background-color: white;
+    &:hover {
+      background-color: white;
+      color: $color-primary-darker;
+    }
+    &:active {
+      background-color: white;
+      color: $color-primary-darkest;
+    }
+  }
+  .edit-btn {
+    background-color: $color-primary;
+    color: $white;
+    &:hover {
+      background-color: $color-primary-darker;
       color: $white;
+    }
+  }
+  .edit-btn {
+    &.primary-outline {
+      background-color: white;
+      box-shadow: inset 0 0 0 2px $color-primary;
+      color: $color-primary;
       &:hover {
-        background-color: $color-primary-darker;
-        color: $white;
-      }
-    }
-    .edit-btn {
-      padding: 1rem;
-      &.primary-outline {
-        background-color: transparent;
-        border: 1px solid $color-primary;
-        color: $color-primary;
-        &:hover {
-        border: 1px solid $color-primary-darker;
+        background-color: white;
+        box-shadow: inset 0 0 0 2px $color-primary-darker;
         color: $color-primary-darker;
-        }
       }
     }
+  }
   .accordion-header {
     min-height: 7rem;
     padding: 1rem;

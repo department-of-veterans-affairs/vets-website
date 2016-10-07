@@ -5,7 +5,7 @@ import ExpandingGroup from '../../../common/components/form-elements/ExpandingGr
 import GrowableTable from '../../../common/components/form-elements/GrowableTable';
 import RotcScholarship from './RotcScholarship';
 import { createRotcScholarship } from '../../utils/veteran';
-import { isValidPage, validateIfDirty, isValidYear } from '../../utils/validations';
+import { isValidPage, validateIfDirty, isValidYear, isValidRotcScholarshipAmount } from '../../utils/validations';
 import { yesNo } from '../../utils/options-for-select';
 
 export default class RotcHistoryFields extends React.Component {
@@ -38,7 +38,7 @@ export default class RotcHistoryFields extends React.Component {
                 onValueChange={(update) => {this.props.onStateChange('seniorRotc.commissionYear', update);}}/>
           </div>
           <div className="input-section">
-            <p>ROTC scholarship</p>
+            <h4>ROTC scholarships</h4>
             <GrowableTable
                 component={RotcScholarship}
                 createRow={createRotcScholarship}
@@ -47,6 +47,7 @@ export default class RotcHistoryFields extends React.Component {
                 onRowsUpdate={(update) => {this.props.onStateChange(propertyPath, update);}}
                 path="/military-history/rotc-history"
                 rows={this.props.data.seniorRotc.rotcScholarshipAmounts}
+                isValidRow={isValidRotcScholarshipAmount}
                 isValidSection={isValidPage}/>
 
             <ErrorableRadioButtons
