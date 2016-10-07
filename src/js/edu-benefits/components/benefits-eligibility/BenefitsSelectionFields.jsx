@@ -6,7 +6,7 @@ import RadioButtonsSubSection from '../../../common/components/form-elements/Rad
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 import DateInput from '../../../common/components/form-elements/DateInput';
 import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidFutureDateField } from '../../utils/validations';
-import { relinquishableBenefits, yesNo, ownBenefitsOptions } from '../../utils/options-for-select';
+import { relinquishableBenefits, ownBenefitsOptions } from '../../utils/options-for-select';
 import { showRelinquishedEffectiveDate } from '../../utils/helpers';
 
 export default class BenefitsSelectionFields extends React.Component {
@@ -57,7 +57,7 @@ export default class BenefitsSelectionFields extends React.Component {
             value={this.props.data.applyingUsingOwnBenefits}
             onValueChange={(update) => {this.props.onStateChange('applyingUsingOwnBenefits', update);}}/>
       </div>
-      <p>Choose an education benefit:</p>
+      <p>Select the benefit that is the best match for you. If you are eligible for more than one, we can help you make the best choice.</p>
       <div className="input-section">
         <ExpandingGroup open={this.props.data.chapter33} additionalClass="edu-benefits-chapter33-group">
           <ErrorableCheckbox
@@ -82,14 +82,6 @@ export default class BenefitsSelectionFields extends React.Component {
             name="chapter32"
             checked={this.props.data.chapter32}
             onValueChange={(update) => {this.props.onStateChange('chapter32', update);}}/>
-      </div>
-      <div className="input-section">
-        <ErrorableRadioButtons
-            label="Have you ever filed a claim with VA for VR&E or other education benefits?"
-            name="previouslyFiledClaimWithVa"
-            options={yesNo}
-            value={this.props.data.previouslyFiledClaimWithVa}
-            onValueChange={(update) => {this.props.onStateChange('previouslyFiledClaimWithVa', update);}}/>
       </div>
     </fieldset>
     );

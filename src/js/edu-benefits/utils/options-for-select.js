@@ -431,7 +431,7 @@ const yesNo = [
 ];
 
 const yesNoNA = yesNo.concat([{
-  label: 'Not Applicable', value: 'N/A'
+  label: 'Does not apply', value: 'N/A'
 }]);
 
 const serviceBranches = [

@@ -229,7 +229,7 @@ function isValidBenefitsInformationPage(data) {
   return !data.chapter33 ||
     (isNotBlank(data.benefitsRelinquished.value) &&
       (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
-        (!isBlankDateField(data.benefitsRelinquishedDate) && isValidDateField(data.benefitsRelinquishedDate))));
+        (!isBlankDateField(data.benefitsRelinquishedDate) && isValidFutureDateField(data.benefitsRelinquishedDate))));
 }
 
 function isValidTourOfDuty(tour) {
@@ -274,6 +274,7 @@ function isValidSecondaryContactPage(data) {
 
 function isValidContactInformationPage(data) {
   let emailConfirmationValid = true;
+  let isPhoneRequired = false;
 
   if (isNotBlank(data.email.value) && isBlank(data.emailConfirmation.value)) {
     emailConfirmationValid = false;
@@ -283,11 +284,15 @@ function isValidContactInformationPage(data) {
     emailConfirmationValid = false;
   }
 
+  if (data.preferredContactMethod.value === 'phone') {
+    isPhoneRequired = true;
+  }
+
   return isValidAddressField(data.veteranAddress) &&
       isValidField(isValidEmail, data.email) &&
       isValidField(isValidEmail, data.emailConfirmation) &&
       emailConfirmationValid &&
-      isValidField(isValidPhone, data.homePhone) &&
+      isPhoneRequired ? isValidRequiredField(isValidPhone, data.homePhone) : isValidField(isValidPhone, data.homePhone) &&
       isValidField(isValidPhone, data.mobilePhone);
 }
 
@@ -303,17 +308,13 @@ function isValidBenefitsHistoryPage(data) {
 }
 
 function isValidRotcScholarshipAmount(data) {
-  return isValidField(isValidMonetaryValue, data.amount)
-    && isValidField(isValidYear, data.year);
+  return (isBlank(data.amount.value) || isValidField(isValidMonetaryValue, data.amount))
+    && (isBlank(data.year.value) || isValidField(isValidYear, data.year));
 }
 
 function isValidRotcHistoryPage(data) {
   return data.seniorRotcCommissioned.value !== 'Y' || (isNotBlank(data.seniorRotc.commissionYear.value)
     && data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount));
-}
-
-function isValidPreviousClaimsPage() {
-  return true;
 }
 
 function isValidForm(data) {
@@ -327,8 +328,7 @@ function isValidForm(data) {
     && isValidSecondaryContactPage(data)
     && isValidDirectDepositPage(data)
     && isValidBenefitsHistoryPage(data)
-    && isValidRotcHistoryPage(data)
-    && isValidPreviousClaimsPage(data);
+    && isValidRotcHistoryPage(data);
 }
 
 function isValidPage(completePath, pageData) {
@@ -355,8 +355,6 @@ function isValidPage(completePath, pageData) {
       return isValidDirectDepositPage(pageData);
     case '/military-history/rotc-history':
       return isValidRotcHistoryPage(pageData);
-    case '/benefits-eligibility/previous-claims':
-      return isValidPreviousClaimsPage(pageData);
     default:
       return true;
   }
@@ -405,5 +403,6 @@ export {
   isValidFutureDateField,
   isBlankAddress,
   isValidTourOfDuty,
-  isValidEmploymentPeriod
+  isValidEmploymentPeriod,
+  isValidRotcScholarshipAmount
 };

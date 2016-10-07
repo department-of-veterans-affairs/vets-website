@@ -8,16 +8,16 @@ export default class ContactInformationReview extends React.Component {
       <table className="review usa-table-borderless">
         <tbody>
           <tr>
+            <td>Country:</td>
+            <td>{this.props.data.veteranAddress.country.value}</td>
+          </tr>
+          <tr>
             <td>Street:</td>
             <td>{this.props.data.veteranAddress.street.value}</td>
           </tr>
           <tr>
             <td>City:</td>
             <td>{this.props.data.veteranAddress.city.value}</td>
-          </tr>
-          <tr>
-            <td>Country:</td>
-            <td>{this.props.data.veteranAddress.country.value}</td>
           </tr>
           <tr>
             <td>State/Province:</td>

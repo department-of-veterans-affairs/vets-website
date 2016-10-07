@@ -95,7 +95,13 @@ export function fetchVAFacility(id, facility = null) {
   };
 }
 
-export function fetchVAFacilities(bounds) {
+export function fetchVAFacilities(bounds, type) {
+  const serviceTypes = {
+    health: 'VA Medical Center',
+    benefits: 'VA Benefits Office',
+    cemeteries: 'VA Cemetery',
+  };
+
   const mockResults = [...Array(10)].map((_, i) => {
     return {
       ...mockFacility,
@@ -107,9 +113,9 @@ export function fetchVAFacilities(bounds) {
           state: 'CO',
           zip: 80123,
         },
-        name: sampleData[i].attributes.name.slice(3),
+        name: ((type === undefined || type === 'all') ? sampleData[i].attributes.name.slice(3) : `${serviceTypes[type]}-${sampleData[i].attributes.name.split('-')[1]}`),
       },
-      type: sampleData[i].type,
+      type: ((type === undefined || type === 'all') ? sampleData[i].type : serviceTypes[type]),
       id: i + 1,
       lat: bounds.latitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
       'long': bounds.longitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
@@ -151,10 +157,12 @@ export function searchWithAddress(query) {
         });
 
         // TODO (bshyong): replace this with a call to the API
-        dispatch(fetchVAFacilities({
-          latitude: coordinates[1],
-          longitude: coordinates[0],
-        }));
+        dispatch(
+          fetchVAFacilities({
+            latitude: coordinates[1],
+            longitude: coordinates[0],
+          }, query.serviceType)
+        );
       } else {
         dispatch({
           type: SEARCH_FAILED,

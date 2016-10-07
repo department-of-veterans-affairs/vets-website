@@ -24,7 +24,7 @@ export default class MilitaryServiceFields extends React.Component {
     const activeDutyQuestions = (
       <div>
         <ErrorableRadioButtons
-            label="Are you on terminal leave?"
+            label="Are you currently on terminal leave?"
             name="onTerminalLeave"
             options={yesNo}
             value={this.props.data.currentlyActiveDuty.onTerminalLeave}
@@ -42,11 +42,10 @@ export default class MilitaryServiceFields extends React.Component {
       <legend>Military service</legend>
       <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
       <div className="input-section">
-        <p>If you graduated from a military service academy, what year did you graduate?</p>
         <ErrorableNumberInput
             additionalClass="usa-input-medium"
             errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, (value) => isValidField(isValidYear, { value })) ? undefined : 'Please enter a valid year'}
-            label="Year"
+            label="If you received a commission from a military service academy, what year did you graduate?"
             placeholder="yyyy"
             name="serviceAcademyGraduationYear"
             min="1900"
@@ -54,7 +53,7 @@ export default class MilitaryServiceFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('serviceAcademyGraduationYear', update);}}/>
         <ExpandingGroup open={this.props.data.currentlyActiveDuty.yes.value === 'Y'} additionalClass="edu-benefits-mil-group">
           <ErrorableRadioButtons
-              label="Are you on active duty?"
+              label="Are you currently on active duty?"
               name="currentlyActiveDuty"
               options={yesNo}
               value={this.props.data.currentlyActiveDuty.yes}
@@ -64,6 +63,7 @@ export default class MilitaryServiceFields extends React.Component {
       </div>
       <div className="input-section">
         <h4>Tours of duty</h4>
+        <p>Please record all your tours of duty.</p>
         <div className="input-section">
           <GrowableTable
               component={MilitaryServiceTour}
