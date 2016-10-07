@@ -1,8 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import TabNav from '../components/TabNav';
 import AskVAQuestions from '../components/AskVAQuestions';
 
+import { getClaimDetail } from '../actions';
+
 class StatusPage extends React.Component {
+  componentDidMount() {
+    this.props.getClaimDetail(this.props.params.id);
+  }
   render() {
     return (
       <div className="row">
@@ -73,4 +79,17 @@ class StatusPage extends React.Component {
   }
 }
 
-export default StatusPage;
+function mapStateToProps(state) {
+  return {
+    loading: state.claimDetail.loading,
+    claim: state.claimDetail.detail
+  };
+}
+
+const mapDispatchToProps = {
+  getClaimDetail
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
+
+export { StatusPage };
