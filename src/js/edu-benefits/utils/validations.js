@@ -304,7 +304,7 @@ function isValidBenefitsHistoryPage(data) {
 
 function isValidRotcScholarshipAmount(data) {
   return (isBlank(data.amount.value) || isValidField(isValidMonetaryValue, data.amount))
-    && (isBlank(data.amount.value) || isValidField(isValidYear, data.year));
+    && (isBlank(data.year.value) || isValidField(isValidYear, data.year));
 }
 
 function isValidRotcHistoryPage(data) {
