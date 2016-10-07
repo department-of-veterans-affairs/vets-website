@@ -274,6 +274,7 @@ function isValidSecondaryContactPage(data) {
 
 function isValidContactInformationPage(data) {
   let emailConfirmationValid = true;
+  let isPhoneRequired = false;
 
   if (isNotBlank(data.email.value) && isBlank(data.emailConfirmation.value)) {
     emailConfirmationValid = false;
@@ -283,11 +284,15 @@ function isValidContactInformationPage(data) {
     emailConfirmationValid = false;
   }
 
+  if (data.preferredContactMethod.value === 'phone') {
+    isPhoneRequired = true;
+  }
+
   return isValidAddressField(data.veteranAddress) &&
       isValidField(isValidEmail, data.email) &&
       isValidField(isValidEmail, data.emailConfirmation) &&
       emailConfirmationValid &&
-      isValidField(isValidPhone, data.homePhone) &&
+      isPhoneRequired ? isValidRequiredField(isValidPhone, data.homePhone) : isValidField(isValidPhone, data.homePhone) &&
       isValidField(isValidPhone, data.mobilePhone);
 }
 
