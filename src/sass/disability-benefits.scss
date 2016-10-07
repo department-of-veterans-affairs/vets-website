@@ -129,7 +129,8 @@
 
 }
 
-.claim-decision-is-ready {
+.claim-decision-is-ready,
+.you-have-no-claims {
   margin-bottom: 1em;
   h4, p {
     margin: 0.5em 0;
@@ -137,22 +138,10 @@
   }
 }
 
-.ask-va-to-decide,
-.claim-decision-is-ready,
-.you-have-no-claims,
-.we-are-adding-your-details,
-.agreement {
+.claims-alert {
   background-color: $color-primary-alt-lightest;
   padding: 1em;
   margin: 1em 0;
-}
-
-.you-have-no-claims {
-  margin-bottom: 5em;
-  h4, p {
-    margin: 0.5em 0;
-    padding: 0;
-  }
 }
 
 .form-process li.section-complete:before {
@@ -237,10 +226,6 @@ a.claim-list-item {
       margin: 0.5em 0;
     }
   }
-}
-
-.ask-va-to-decide {
- // TODO
 }
 
 .claim-conditions {

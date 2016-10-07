@@ -21,7 +21,7 @@ class AskVAPage extends React.Component {
                 <li>The assistance VA will provide you in obtaining evidence to support your claims; or</li>
                 <li>The date any benefits will begin if your claim is granted.</li>
               </ul>
-              <div className="agreement">
+              <div className="claims-alert">
                 <ErrorableCheckbox
                     label="I have submitted all information or evidence that will support my claim to include identifying records from Federal treating facilities, or I have no other information or evidence to give VA to support my claim. Please decide my claim as soon as possible."/>
               </div>
