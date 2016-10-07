@@ -21,7 +21,7 @@ class StatusPage extends React.Component {
             <h1>Your {"Compensation"} Claim</h1>
             <h6>Your Claimed Conditions:</h6>
             <p className="list">{"Tinnitus, Arthritis, PTSD"}</p>
-            <TabNav/>
+            <TabNav id={this.props.params.id}/>
             <div className="va-tab-content">
               <AddingDetails/>
               <NeedFilesFromYou/>
