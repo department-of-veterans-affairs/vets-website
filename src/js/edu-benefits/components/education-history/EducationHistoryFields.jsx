@@ -56,7 +56,7 @@ export default class EducationHistoryFields extends React.Component {
       <hr/>
       <div className="input-section">
         <ErrorableTextarea
-            label="FAA certificates"
+            label="If you have any FAA flight certificates, please list them here."
             name="faaFlightCertificatesInformation"
             field={this.props.data.faaFlightCertificatesInformation}
             onValueChange={(update) => {this.props.onStateChange('faaFlightCertificatesInformation', update);}}/>
