@@ -40,7 +40,7 @@ if (process.env.BUILDTYPE !== 'production') {
 
       // ROTC History
       client
-        .expect.element('input[name="commissionYear"]').to.be.visible;
+        .expect.element('input[name="seniorRotcCommissioned-0"]').to.be.visible;
       EduHelpers.completeRotcHistory(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/military-history/rotc-history');
@@ -54,16 +54,22 @@ if (process.env.BUILDTYPE !== 'production') {
 
       // Education history
       client
-        .expect.element('input[name="highSchoolOrGedCompletionDateMonth"]').to.be.visible;
+        .expect.element('select[name="highSchoolOrGedCompletionDateMonth"]').to.be.visible;
       EduHelpers.completeEducationHistory(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/education-history/education-information');
 
       // Employment history
+      client
+        .expect.element('input[name="hasNonMilitaryJobs-0"]').to.be.visible;
+      EduHelpers.completeEmploymentHistory(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/employment-history/employment-information');
 
       // School selection
+      client
+        .expect.element('select[name="educationType"]').to.be.visible;
+      EduHelpers.completeSchoolSelection(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/school-selection/school-information');
 
@@ -75,10 +81,16 @@ if (process.env.BUILDTYPE !== 'production') {
       E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/contact-information');
 
       // Secondary contact page
+      client
+        .expect.element('input[name="secondaryContactName"]').to.be.visible;
+      EduHelpers.completeSecondaryContact(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/secondary-contact');
 
       // Direct deposit page
+      client
+        .expect.element('input[name="accountNumber"]').to.be.visible;
+      EduHelpers.completeDirectDeposit(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/personal-information/direct-deposit');
 
