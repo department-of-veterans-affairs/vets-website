@@ -184,7 +184,7 @@
   p.status {
     font-weight: bold;
   }
-  p.communications, p.status {
+  .communications, p.status {
     margin-bottom: 0.5em;
   }
 }
@@ -359,3 +359,11 @@ a.claim-list-item {
  }
 
 // TODO: Add media queries for responsiveness
+
+.loading-message-center-spinner {
+  > img {
+    width: 100px;
+    margin: 2rem auto;
+    display: block;
+  }
+}

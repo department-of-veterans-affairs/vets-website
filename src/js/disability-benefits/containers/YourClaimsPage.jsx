@@ -7,6 +7,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsListItem from '../components/ClaimsListItem';
 import NoClaims from '../components/NoClaims';
 import Pagination from '../../common/components/Pagination';
+import Loading from '../components/Loading';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -37,7 +38,7 @@ class YourClaimsPage extends React.Component {
     let content;
 
     if (loading) {
-      content = <div>Loading...</div>;
+      content = <Loading/>;
     } else if (claims.length > 0) {
       content = (<div className="claim-list">
         {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
