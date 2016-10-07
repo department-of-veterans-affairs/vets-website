@@ -111,3 +111,22 @@ legend {
   .edu-benefits-employ-group.form-expanding-group-inner-leave-active {
   margin-top: -30px;
 }
+
+// Overriding a way too broad style in the base va sass
+.form-review-panel {
+  ul li p {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+  .edu-benefits-save-note {
+    display: none;
+  }
+}
+
+.no-pad-left {
+  padding-left: 0 !important;
+}
+
+.no-pad-right {
+  padding-right: 0 !important;
+}
