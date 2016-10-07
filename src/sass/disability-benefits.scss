@@ -291,20 +291,20 @@ a.claim-list-item {
   }
 }
 
-// TODO: clean up duplicate scss
+// CSS for Tab-based navigation
+// TODO: Move these to vets-website
+
 .va-tabs {
   list-style: none;
   // Prevents wrapping, forces horizontal scrolling
   // at QVGA widths in portrait orientation.
   margin-bottom: -1px;
-  // min-width: 260px;
-  max-width: 460px;
+  min-width: 260px;
   padding-left: 0;
 
   > li {
     background: $color-gray-lightest;
     border-width: 1px 0px 0 1px;
-    width: 33.33%;
     &:last-child {
       border-right-width: 1px;
     }
@@ -326,12 +326,10 @@ a.claim-list-item {
   border-bottom-color: $color-gray;
   color: $color-gray;
   display: inline-block;
-  // font-size: 1.17rem; // TODO: This is causing the tab text to be too small on mobile.
-  text-align: center;
+  // font-size: 1.17rem;
   padding: 1rem;
   margin: 0px -1px;
   text-decoration: none;
-  width: 100%;
 
   &:hover,
   &:focus,
@@ -347,8 +345,8 @@ a.claim-list-item {
 
   @media (min-width: $small-screen) {
     font-size: inherit;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
   }
 }
 
@@ -356,6 +354,7 @@ a.claim-list-item {
   border-top: 1px solid $color-gray;
   padding-top: 4rem;
 }
+
 
 .clearfix:after {
   content: " ";
