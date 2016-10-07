@@ -58,11 +58,14 @@
 .form-review-panel {
   button {
     background-image: none;
-    background-color: $color-primary-darker;
+    background-color: $color-primary;
     padding: 1rem 2rem;
     color: white;
     &:hover {
       color: white;
+      background-color: $color-primary-darker;
+    }
+    &:active {
       background-color: $color-primary-darkest;
     }
   }
@@ -71,14 +74,18 @@
     background-color: white;
     &:hover {
       background-color: white;
+      color: $color-primary-darker;
+    }
+    &:active {
+      background-color: white;
       color: $color-primary-darkest;
     }
   }
-  .usa-button-primary, .edit-btn {
-    background-color: $color-primary-darker;
+  .edit-btn {
+    background-color: $color-primary;
     color: $white;
     &:hover {
-      background-color: $color-primary-darkest;
+      background-color: $color-primary-darker;
       color: $white;
     }
   }
@@ -89,7 +96,7 @@
       color: $color-primary;
       &:hover {
         box-shadow: inset 0 0 0 2px $color-primary-darker;
-        color: $color-primary-darkest;
+        color: $color-primary-darker;
       }
     }
   }
