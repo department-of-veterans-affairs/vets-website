@@ -229,7 +229,7 @@ function isValidBenefitsInformationPage(data) {
   return !data.chapter33 ||
     (isNotBlank(data.benefitsRelinquished.value) &&
       (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
-        (!isBlankDateField(data.benefitsRelinquishedDate) && isValidDateField(data.benefitsRelinquishedDate))));
+        (!isBlankDateField(data.benefitsRelinquishedDate) && isValidFutureDateField(data.benefitsRelinquishedDate))));
 }
 
 function isValidTourOfDuty(tour) {
@@ -303,8 +303,8 @@ function isValidBenefitsHistoryPage(data) {
 }
 
 function isValidRotcScholarshipAmount(data) {
-  return isValidField(isValidMonetaryValue, data.amount)
-    && isValidField(isValidYear, data.year);
+  return (isBlank(data.amount.value) || isValidField(isValidMonetaryValue, data.amount))
+    && (isBlank(data.year.value) || isValidField(isValidYear, data.year));
 }
 
 function isValidRotcHistoryPage(data) {
@@ -398,5 +398,6 @@ export {
   isValidFutureDateField,
   isBlankAddress,
   isValidTourOfDuty,
-  isValidEmploymentPeriod
+  isValidEmploymentPeriod,
+  isValidRotcScholarshipAmount
 };
