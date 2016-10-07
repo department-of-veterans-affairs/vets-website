@@ -297,12 +297,14 @@ a.claim-list-item {
   // Prevents wrapping, forces horizontal scrolling
   // at QVGA widths in portrait orientation.
   margin-bottom: -1px;
-  min-width: 260px;
+  // min-width: 260px;
+  max-width: 460px;
   padding-left: 0;
 
   > li {
     background: $color-gray-lightest;
     border-width: 1px 0px 0 1px;
+    width: 33.33%;
     &:last-child {
       border-right-width: 1px;
     }
@@ -324,10 +326,12 @@ a.claim-list-item {
   border-bottom-color: $color-gray;
   color: $color-gray;
   display: inline-block;
-  font-size: 1.17rem;
+  // font-size: 1.17rem; // TODO: This is causing the tab text to be too small on mobile.
+  text-align: center;
   padding: 1rem;
   margin: 0px -1px;
   text-decoration: none;
+  width: 100%;
 
   &:hover,
   &:focus,
@@ -362,6 +366,13 @@ a.claim-list-item {
  }
 
 // TODO: Add media queries for responsiveness
+@media only screen {
+  .claim-conditions,
+  .ask-va-questions {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+  }
+}
 
 .need-files-from-you {
   background-color: #fff1d0; // TODO: replace with vaiable

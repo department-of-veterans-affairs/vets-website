@@ -10,7 +10,7 @@ class StatusPage extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="medium-8 columns show-for-medium-up">
+        <div className="small-12 medium-8 columns usa-content">
           <div className="claim-conditions">
             <h1>Your {"Compensation"} Claim</h1>
             <h6>Your Claimed Conditions:</h6>
@@ -35,7 +35,7 @@ class StatusPage extends React.Component {
             </li>
             <li role="presentation" className="three  step one wow fadeIn animated section-current" >
               <div>
-                <h5>Evidence Gathering and Review</h5>
+                <h5>Evidence gathering, Review, and Decision</h5>
                 <p>
                   If VA needs more information, the Veterans Service Representative (VSR) will request it from you on your behalf. Once VA has all the information it needs, the VSR will confirm, issue by issue, that the claim is ready for a decision.
                 </p>
