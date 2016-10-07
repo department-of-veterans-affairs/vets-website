@@ -9,7 +9,6 @@ import {
   veteranToApplication,
   createTour,
   createEducationPeriod,
-  createPreviousClaim,
   createRotcScholarship,
   createEmploymentPeriod
 } from '../../../src/js/edu-benefits/utils/veteran';
@@ -20,7 +19,6 @@ import {
   schoolTypes,
   accountTypes,
   suffixes,
-  claimTypes,
   serviceBranches,
   hoursTypes,
   ownBenefitsOptions,
@@ -91,16 +89,6 @@ const employmentGen = () => qc.objectLike({
   months: makeField(qc.int.between(1, 600)),
   licenseOrRating: makeField(qc.string),
   postMilitaryJob: makeField(qc.string)
-});
-const previousClaimGen = () => qc.objectLike({
-  claimType: makeField(qc.choose(...claimTypes.map(x => x.value))),
-  previouslyAppliedWithSomeoneElsesService: makeField(yesNoGen()),
-  fileNumber: makeField(qc.string),
-  sponsorVeteran: qc.objectLike({
-    fullName: nameGen(),
-    fileNumber: makeField(qc.string),
-    payeeNumber: makeField(qc.string)
-  })
 });
 const matches = (source, target) => {
   if (!_.isUndefined(source) && !_.isUndefined(target)) {
@@ -181,8 +169,6 @@ function createTestVeteran() {
       accountNumber: makeField(qc.string),
       routingNumber: makeField(qc.choose(...routingNumbers))
     }),
-    previousVaClaims: qc.arrayOf(previousClaimGen()),
-    previouslyFiledClaimWithVa: makeField(yesNoGen()),
     applyingUsingOwnBenefits: makeField(qc.choose(...ownBenefitsOptions.map(x => x.value))),
     benefitsRelinquishedDate: dateGen()
   };
@@ -211,12 +197,6 @@ describe('Edu benefits json schema', () => {
     it('nonMilitaryJobs', () => {
       const testForm = employmentGen()(1);
       const blankForm = createEmploymentPeriod();
-
-      expect(matches(blankForm, testForm)).to.be.true;
-    });
-    it('previousVaClaims', () => {
-      const testForm = previousClaimGen()(1);
-      const blankForm = createPreviousClaim();
 
       expect(matches(blankForm, testForm)).to.be.true;
     });

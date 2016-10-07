@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { isValidDateRange, isValidFutureOrPastDateField, isValidPage, isValidRoutingNumber } from '../../../src/js/edu-benefits/utils/validations.js';
-import { createVeteran, createPreviousClaim } from '../../../src/js/edu-benefits/utils/veteran.js';
+import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran.js';
 
 describe('Validations unit tests', () => {
   describe('isValidDateRange', () => {
@@ -93,14 +93,6 @@ describe('Validations unit tests', () => {
           }
         });
         expect(isValidPage('/employment-history/employment-information', veteran)).to.be.true;
-      });
-    });
-    describe('PreviousClaims', () => {
-      it('validates page with blank claim type', () => {
-        const veteran = createVeteran();
-        const previousClaim = createPreviousClaim();
-        veteran.previousVaClaims.push(previousClaim);
-        expect(isValidPage('/benefits-eligibility/previous-claims', veteran)).to.be.true;
       });
     });
   });

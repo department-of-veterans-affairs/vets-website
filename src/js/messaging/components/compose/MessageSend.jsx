@@ -1,5 +1,11 @@
 import React from 'react';
 
+import {
+  validateFileSize,
+  validateNumAttachments,
+  validateTotalFileSize
+} from '../../utils/validations.js';
+
 import ButtonDelete from '../buttons/ButtonDelete';
 import CharacterCount from '../compose/CharacterCount';
 import MessageAddAttachment from './MessageAddAttachment';
@@ -12,9 +18,26 @@ class MessageSend extends React.Component {
 
   handleAttachmentsChange(domEvent) {
     const input = domEvent.target;
+    let hasError = null;
+
     if (window.File && window.FileList) {
-      const files = Array.from(input.files);
-      this.props.onAttachmentUpload(files);
+      if (input.files.length) {
+        const files = Array.from(input.files);
+
+        if (validateNumAttachments(files, this.props.maxFiles)) {
+          hasError = { type: 'tooMany' };
+        } else if (validateFileSize(files, this.props.maxFileSize) || validateTotalFileSize(files, this.props.maxTotalFileSize)) {
+          hasError = { type: 'tooLarge' };
+        }
+
+        if (hasError) {
+          this.props.onAttachmentsError(hasError);
+          // Resets the value of the input.
+          input.value = '';
+        } else {
+          this.props.onAttachmentUpload(files);
+        }
+      }
     }
   }
 
@@ -52,15 +75,18 @@ class MessageSend extends React.Component {
 }
 
 MessageSend.propTypes = {
+  allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string),
   attachedFiles: React.PropTypes.array,
-  multipleUploads: React.PropTypes.bool,
   charCount: React.PropTypes.number,
   cssClass: React.PropTypes.string,
-  onAttachmentUpload: React.PropTypes.func, // TODO: make this required
+  maxFiles: React.PropTypes.number,
+  maxFileSize: React.PropTypes.number,
+  maxTotalFileSize: React.PropTypes.number,
+  onAttachmentUpload: React.PropTypes.func.isRequired,
+  onAttachmentsError: React.PropTypes.func.isRequired,
   onSave: React.PropTypes.func.isRequired,
   onSend: React.PropTypes.func.isRequired,
   onDelete: React.PropTypes.func.isRequired,
-  allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string)
 };
 
 export default MessageSend;
