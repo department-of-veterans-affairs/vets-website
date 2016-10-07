@@ -44,12 +44,12 @@ const mockFacility = {
       zip4: '3753'
     },
     phone: {
-      main: '360-759-1901 x',
-      fax: '360-690-0864 x',
-      afterHours: '360-696-4061 x',
-      patientAdvocate: '503-273-5308 x',
-      enrollmentCoordinator: '503-273-5069 x',
-      pharmacy: '503-273-5183 x',
+      main: '360-759-1901',
+      fax: '360-690-0864',
+      afterHours: '360-696-4061',
+      patientAdvocate: '503-273-5308',
+      enrollmentCoordinator: '503-273-5069',
+      pharmacy: '503-273-5183',
     },
     hours: {
       monday: '730AM-430PM',
