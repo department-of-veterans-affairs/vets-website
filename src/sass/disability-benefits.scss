@@ -138,10 +138,9 @@
   }
 }
 
-.claims-alert {
-  background-color: $color-primary-alt-lightest;
-  padding: 1em;
-  margin: 1em 0;
+.claims-no-icon,
+.usa-alert-info.claims-no-icon {
+  background-image: none;
 }
 
 .form-process li.section-complete:before {
@@ -337,7 +336,6 @@ a.claim-list-item {
 
 .va-tab-content {
   border-top: 1px solid $color-gray;
-  padding-top: 4rem;
 }
 
 
@@ -359,9 +357,9 @@ a.claim-list-item {
 }
 
 .need-files-from-you {
-  background-color: #fff1d0; // TODO: replace with vaiable
-  padding: 1em;
-  margin: 1em 0;
+  // background-color: #fff1d0; // TODO: replace with vaiable
+  // padding: 1em;
+  // margin: 1em 0;
   .warning-title {
     color: $color-gray-dark;
     float: left;

@@ -3,7 +3,7 @@ import React from 'react';
 class AskVAToDecide extends React.Component {
   render() {
     return (
-      <div className="claims-alert">
+      <div className="usa-alert usa-alert-info claims-no-icon">
         <h4>Ask VA to decide your claims</h4>
         <p>
           You can ask VA to start evaluating your claim if you don't have anymore documents or evidence to file.
