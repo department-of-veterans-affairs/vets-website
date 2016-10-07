@@ -14,13 +14,18 @@ class StatusPage extends React.Component {
     this.props.getClaimDetail(this.props.params.id);
   }
   render() {
+    const { claim } = this.props;
     return (
       <div className="row">
         <div className="small-12 medium-8 columns usa-content">
           <div className="claim-conditions">
             <h1>Your {"Compensation"} Claim</h1>
             <h6>Your Claimed Conditions:</h6>
-            <p className="list">{"Tinnitus, Arthritis, PTSD"}</p>
+            <p className="list">
+              {claim.contentionList.map((contention, index) => {
+                return <span key={index}>{index !== 0 ? <br/> : null}{contention}</span>;
+              })}
+            </p>
             <TabNav id={this.props.params.id}/>
             <div className="va-tab-content">
               <AddingDetails/>
