@@ -140,6 +140,14 @@ class VAMap extends Component {
   renderFacilityMarkers() {
     const { facilities } = this.props;
 
+    /* eslint-disable camelcase */
+    const facilityTypes = {
+      va_health_facility: 'Health',
+      va_cemetary: 'Cemetary',
+      va_benefits_facility: 'Benefits',
+    };
+    /* eslint-enable camelcase */
+
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, e) => {
       e.preventDefault();
@@ -150,9 +158,9 @@ class VAMap extends Component {
       return (
         <NumberedIcon key={f.id} position={[f.lat, f.long]} number={f.id} onClick={() => {this.props.fetchVAFacility(f.id, f);}}>
           <a onClick={linkAction.bind(this, f.id)}>
-            <h5>{f.attributes.name} asdfasfasdf</h5>
+            <h5>{f.attributes.name}</h5>
           </a>
-          <p>Facility type: {f.type}</p>
+          <p>Facility type: <strong>{facilityTypes[f.type]}</strong></p>
         </NumberedIcon>
       );
     });

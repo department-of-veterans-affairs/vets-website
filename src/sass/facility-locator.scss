@@ -42,10 +42,6 @@
     [href^=http] {
       background: none;
     }
-
-    span {
-      font-size: 2rem;
-    }
   }
 
   .leaflet-popup-content {
@@ -96,8 +92,6 @@
     }
 
     li {
-      color: $color-link-default;
-
       p {
         color: $color-black;
       }
@@ -183,7 +177,7 @@ ul {
   margin: 0;
 }
 
-.facility-conact-link {
+.facility-contact-link {
   font-size: 2rem;
   text-decoration: none;
   i {

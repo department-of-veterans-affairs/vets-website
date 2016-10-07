@@ -24,21 +24,27 @@ class SearchResult extends Component {
         <Link to={`facilities/facility/${facility.id}`}>
           <h5>{name}</h5>
         </Link>
-        <strong>Facility type: {facilityTypes[facility.type]}</strong>
+        <span>Facility type: <strong>{facilityTypes[facility.type]}</strong></span>
         <p>
           {addressString[0]}<br/>
           {addressString[1]}
         </p>
-        <span style={{ marginRight: '1rem' }}>
-          <a href={`tel:${phone.main}`}>
-            <i className="fa fa-phone"/> {phone.main}
-          </a>
-        </span><br/>
-        <span>
-          <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString.join(' ')}`} target="_blank">
-            <i className="fa fa-map"/> Directions
-          </a>
-        </span>
+        <div className="row">
+          <div className="columns small-12 large-6" style={{ paddingRight: 0 }}>
+            <span>
+              <a href={`tel:${phone.main}`}>
+                <i className="fa fa-phone" style={{ marginRight: '0.5rem' }}/> {phone.main}
+              </a>
+            </span>
+          </div>
+          <div className="columns small-12 large-6" style={{ paddingRight: 0 }}>
+            <span>
+              <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString.join(' ')}`} target="_blank">
+                <i className="fa fa-map" style={{ marginRight: '0.5rem' }}/> Directions
+              </a>
+            </span>
+          </div>
+        </div>
       </div>
     );
   }

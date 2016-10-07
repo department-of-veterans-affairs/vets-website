@@ -115,7 +115,7 @@ class FacilityInfo extends Component {
           </a>
         </div>
         <div className="small-6 medium-6 columns">
-          <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString}`} target="_blank" className="facility-conact-link">
+          <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString}`} target="_blank" className="facility-contact-link">
             <i className="fa fa-road" aria-hidden="true"></i>Directions
           </a>
         </div>
