@@ -28,8 +28,6 @@ import SecondaryContactReview from './components/personal-information/SecondaryC
 import SecondaryContactFields from './components/personal-information/SecondaryContactFields';
 import DirectDepositReview from './components/personal-information/DirectDepositReview';
 import DirectDepositFields from './components/personal-information/DirectDepositFields';
-import PreviousClaimsFields from './components/benefits-eligibility/PreviousClaimsFields';
-import PreviousClaimsReview from './components/benefits-eligibility/PreviousClaimsReview';
 import ReviewPage from './containers/ReviewPage';
 import FormPage from './containers/FormPage';
 import SubmitPage from './containers/SubmitPage';
@@ -56,15 +54,6 @@ const routes = [
       path="/benefits-eligibility/benefits-selection"
       chapter={chapterNames.benefitsEligibility}
       name="Benefits selection"/>,
-  <Route
-      component={FormPage}
-      fieldsComponent={PreviousClaimsFields}
-      reviewComponent={PreviousClaimsReview}
-      key="/benefits-eligibility/previous-claims"
-      path="/benefits-eligibility/previous-claims"
-      chapter={chapterNames.benefitsEligibility}
-      depends={{ previouslyFiledClaimWithVa: { value: 'Y' } }}
-      name="Previous claims"/>,
   <Route
       component={FormPage}
       fieldsComponent={MilitaryServiceFields}

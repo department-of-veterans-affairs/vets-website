@@ -5,7 +5,7 @@ import ErrorableCheckbox from '../../../common/components/form-elements/Errorabl
 import DateInput from '../../../common/components/form-elements/DateInput';
 
 import { validateIfDirty, validateIfDirtyDateObj, isNotBlank, isValidDateField, isValidDateRange } from '../../utils/validations';
-import { yesNo } from '../../utils/options-for-select';
+import { yesNoNA } from '../../utils/options-for-select';
 
 export default class BenefitsHistoryFields extends React.Component {
   render() {
@@ -41,7 +41,7 @@ export default class BenefitsHistoryFields extends React.Component {
             errorMessage={validateIfDirty(this.props.data.activeDutyRepaying, isNotBlank) ? '' : 'Please select a response'}
             label="Do you have a period of active duty that the Department of Defense counts towards an education loan payment?"
             name="activeDutyRepaying"
-            options={yesNo}
+            options={yesNoNA}
             value={this.props.data.activeDutyRepaying}
             onValueChange={(update) => {this.props.onStateChange('activeDutyRepaying', update);}}/>
           {this.props.data.activeDutyRepaying.value === 'Y'
