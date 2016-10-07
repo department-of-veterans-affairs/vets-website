@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getLabel, displayDateIfValid } from '../../utils/helpers';
+import { getLabel, displayDateIfValid, showYesNo } from '../../utils/helpers';
 import { yesNoNA, tourBenefits } from '../../utils/options-for-select';
 
 export default class MilitaryServiceReview extends React.Component {
@@ -15,18 +15,18 @@ export default class MilitaryServiceReview extends React.Component {
             </tr>
             <tr>
               <td>Are you currently on active duty?</td>
-              <td>{this.props.data.currentlyActiveDuty.yes.value === 'Y' ? 'Yes' : 'No'}</td>
+              <td>{showYesNo(this.props.data.currentlyActiveDuty.yes)}</td>
             </tr>
           </tbody>
           {this.props.data.currentlyActiveDuty.yes.value === 'Y'
             ? <tbody>
               <tr>
                 <td>Are you currently on terminal leave?</td>
-                <td>{this.props.data.currentlyActiveDuty.onTerminalLeave.value === 'Y' ? 'Yes' : 'No'}</td>
+                <td>{showYesNo(this.props.data.currentlyActiveDuty.onTerminalLeave)}</td>
               </tr>
               <tr>
                 <td>Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?</td>
-                <td>{this.props.data.currentlyActiveDuty.nonVaAssistance.value === 'Y' ? 'Yes' : 'No'}</td>
+                <td>{showYesNo(this.props.data.currentlyActiveDuty.nonVaAssistance)}</td>
               </tr>
             </tbody>
             : null}

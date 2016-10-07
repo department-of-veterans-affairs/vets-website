@@ -24,10 +24,19 @@ export default class ContactInformationFields extends React.Component {
   }
 
   render() {
+    const isPhoneRequired = this.props.data.preferredContactMethod.value === 'phone';
     return (
       <fieldset>
         <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
         <legend>Contact information</legend>
+        <div className="input-section">
+          <ErrorableRadioButtons
+              label="How would you prefer to be contacted if VA has questions about your application?"
+              name="preferredContactMethod"
+              options={contactOptions}
+              value={this.props.data.preferredContactMethod}
+              onValueChange={(update) => {this.props.onStateChange('preferredContactMethod', update);}}/>
+        </div>
         <h4>Address</h4>
         <div className="input-section">
           <Address required
@@ -52,18 +61,14 @@ export default class ContactInformationFields extends React.Component {
               label="Primary telephone number"
               value={this.props.data.homePhone}
               additionalClass="home-phone usa-input-medium"
+              additionalError="This is required due to your preferred contact method."
+              required={isPhoneRequired}
               onValueChange={(update) => {this.props.onStateChange('homePhone', update);}}/>
           <Phone
               label="Mobile telephone number"
               value={this.props.data.mobilePhone}
               additionalClass="mobile-phone usa-input-medium"
               onValueChange={(update) => {this.props.onStateChange('mobilePhone', update);}}/>
-          <ErrorableRadioButtons
-              label="How would you prefer to be contacted if VA has questions about your application?"
-              name="preferredContactMethod"
-              options={contactOptions}
-              value={this.props.data.preferredContactMethod}
-              onValueChange={(update) => {this.props.onStateChange('preferredContactMethod', update);}}/>
         </div>
       </fieldset>
     );

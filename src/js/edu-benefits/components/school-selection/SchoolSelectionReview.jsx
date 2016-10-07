@@ -19,6 +19,10 @@ export default class SchoolSelectionReview extends React.Component {
                 <td>{this.props.data.school.name.value}</td>
               </tr>
               <tr>
+                <td>Country:</td>
+                <td>{this.props.data.school.address.country.value}</td>
+              </tr>
+              <tr>
                 <td>Street:</td>
                 <td>{this.props.data.school.address.street.value}</td>
               </tr>
@@ -27,16 +31,12 @@ export default class SchoolSelectionReview extends React.Component {
                 <td>{this.props.data.school.address.city.value}</td>
               </tr>
               <tr>
-                <td>Country:</td>
-                <td>{this.props.data.school.address.country.value}</td>
-              </tr>
-              <tr>
                 <td>State/Province:</td>
-                <td>{this.props.data.school.address.state.value || this.props.data.school.address.provinceCode.value}</td>
+                <td>{this.props.data.school.address.state.value}</td>
               </tr>
               <tr>
-                <td>ZIP/Postal Code:</td>
-                <td>{this.props.data.school.address.zipcode.value || this.props.data.school.address.postalCode.value}</td>
+                <td>Postal code:</td>
+                <td>{this.props.data.school.address.postalCode}</td>
               </tr>
             </tbody>
           : null}
