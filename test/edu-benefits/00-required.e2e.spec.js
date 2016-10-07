@@ -79,7 +79,7 @@ if (process.env.BUILDTYPE !== 'production') {
 
       // Submit message
       client
-        .expect.element('.success-alert-box').to.be.visible;
+        .expect.element('.usa-alert-success').to.be.visible;
 
       client.end();
     }

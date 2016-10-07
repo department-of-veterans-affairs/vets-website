@@ -58,9 +58,11 @@ function initApplicationSubmitMock() {
       verb: 'post',
       value: {
         data: {
-          confirmationNumber: '123fake-submission-id-567',
-          submittedAt: '2016-05-16',
-          regionalOffice: 'Test'
+          attributes: {
+            confirmationNumber: '123fake-submission-id-567',
+            submittedAt: '2016-05-16',
+            regionalOffice: 'Test'
+          }
         }
       }
     }

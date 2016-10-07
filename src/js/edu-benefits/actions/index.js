@@ -14,9 +14,8 @@ export const VETERAN_FIELD_UPDATE = 'VETERAN_FIELD_UPDATE';
 export const ENSURE_FIELDS_INITIALIZED = 'ENSURE_FIELDS_INITIALIZED';
 
 function getApiUrl() {
-  console.log(window.VetsGov.api.url);
   if (window.VetsGov.api.url) {
-    return window.mockApiUrl;
+    return window.VetsGov.api.url;
   }
 
   return environment.API_URL;
