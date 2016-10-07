@@ -129,9 +129,8 @@
 
 }
 
-.claim-decision-is-ready {
-  padding: 1em;
-  background-color: #e0f3f3; // Create variable - no matching color found
+.claim-decision-is-ready,
+.you-have-no-claims {
   margin-bottom: 1em;
   h4, p {
     margin: 0.5em 0;
@@ -139,14 +138,9 @@
   }
 }
 
-.you-have-no-claims {
-  padding: 1em;
-  background-color: #e0f3f3; // Create variable - no matching color found
-  margin-bottom: 5em;
-  h4, p {
-    margin: 0.5em 0;
-    padding: 0;
-  }
+.claims-no-icon,
+.usa-alert-info.claims-no-icon {
+  background-image: none;
 }
 
 .form-process li.section-complete:before {
@@ -233,12 +227,8 @@ a.claim-list-item {
   }
 }
 
-.ask-va-to-decide {
- // TODO
-}
-
 .claim-conditions {
-  margin-top: 1.5em;
+  margin: 1.5em 0;
   margin-bottom: 2em;
   h1, p {
     margin: 0;
@@ -285,7 +275,9 @@ a.claim-list-item {
   }
 }
 
-// TODO: clean up duplicate scss
+// CSS for Tab-based navigation
+// TODO: Move these to vets-website
+
 .va-tabs {
   list-style: none;
   // Prevents wrapping, forces horizontal scrolling
@@ -318,7 +310,7 @@ a.claim-list-item {
   border-bottom-color: $color-gray;
   color: $color-gray;
   display: inline-block;
-  font-size: 1.17rem;
+  // font-size: 1.17rem;
   padding: 1rem;
   margin: 0px -1px;
   text-decoration: none;
@@ -337,15 +329,15 @@ a.claim-list-item {
 
   @media (min-width: $small-screen) {
     font-size: inherit;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
   }
 }
 
 .va-tab-content {
   border-top: 1px solid $color-gray;
-  padding-top: 4rem;
 }
+
 
 .clearfix:after {
   content: " ";
@@ -356,3 +348,31 @@ a.claim-list-item {
  }
 
 // TODO: Add media queries for responsiveness
+@media only screen {
+  .claim-conditions,
+  .ask-va-questions {
+    padding-left: 0.9375rem;
+    padding-right: 0.9375rem;
+  }
+}
+
+.need-files-from-you {
+  // background-color: #fff1d0; // TODO: replace with vaiable
+  // padding: 1em;
+  // margin: 1em 0;
+  .warning-title {
+    color: $color-gray-dark;
+    float: left;
+    .fa {
+      margin-right: 6px;
+    }
+  }
+  .va-button-secondary {
+    float: right;
+    margin: 0;
+  }
+}
+
+.va-claim-form {
+  margin: 1.5em 0;
+}
