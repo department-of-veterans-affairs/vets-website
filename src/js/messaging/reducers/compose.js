@@ -12,7 +12,7 @@ import {
   FETCH_SENDER_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
   UPDATE_COMPOSE_CHARACTER_COUNT
-} from '../actions/compose';
+} from '../utils/constants';
 
 const initialState = {
   message: {
