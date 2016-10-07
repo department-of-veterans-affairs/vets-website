@@ -97,7 +97,7 @@ export default class ReviewCollapsiblePanel extends React.Component {
     );
 
     const panelAction = (<button
-        className="usa-button-outline"
+        className="usa-button-primary"
         onClick={this.handleSave}>Update page</button>
     );
 

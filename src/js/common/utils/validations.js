@@ -113,7 +113,10 @@ function isValidCanPostalCode(value) {
 
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
-  return /^\d{10}$/.test(value);
+  // Strip spaces, dashes, and parens
+  const stripped = value.replace(/[- )(]/g, '');
+  // Count number of digits
+  return /^\d{10}$/.test(stripped);
 }
 
 function isValidEmail(value) {
