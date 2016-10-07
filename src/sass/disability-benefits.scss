@@ -178,6 +178,9 @@
   p.status {
     font-weight: bold;
   }
+  .communications, p.status {
+    margin-bottom: 0.5em;
+  }
 }
 
 a.claim-list-item {
@@ -348,6 +351,14 @@ a.claim-list-item {
  }
 
 // TODO: Add media queries for responsiveness
+
+.loading-message-center-spinner {
+  > img {
+    width: 100px;
+    margin: 2rem auto;
+    display: block;
+  }
+}
 @media only screen {
   .claim-conditions,
   .ask-va-questions {
