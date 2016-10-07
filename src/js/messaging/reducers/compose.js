@@ -12,7 +12,7 @@ import {
   FETCH_RECIPIENTS_FAILURE,
   SET_MESSAGE_FIELD,
   UPDATE_COMPOSE_CHARACTER_COUNT
-} from '../actions/compose';
+} from '../utils/constants';
 
 const initialState = {
   message: {
