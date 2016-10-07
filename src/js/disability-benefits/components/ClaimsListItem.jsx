@@ -14,11 +14,11 @@ export default function ClaimsListItem({ claim }) {
         {claim.attributes.decisionLetterSent
           ? <p><i className="fa fa-envelope"></i>We sent you a decision letter</p>
           : null}
-        {!claim.attributes.decisionLetterSent
-          ? <p><i className="fa fa-exclamation-triangle"></i>We need files from you TODO</p>
+        {!claim.attributes.decisionLetterSent && claim.attributes.documentsNeeded
+          ? <p><i className="fa fa-exclamation-triangle"></i>We need files from you</p>
           : null}
       </p>
-      <p>Last update: {moment(claim.attributes.phaseChangeDate).format('MMM M, YYYY')}</p>
+      <p>Last update: {moment(claim.attributes.updatedAt).format('MMM M, YYYY')}</p>
     </Link>
   );
 }
