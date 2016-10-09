@@ -4,7 +4,7 @@ import { GET_CLAIM_DETAIL, SET_CLAIM_DETAIL } from '../actions';
 
 const initialState = {
   detail: null,
-  loading: null
+  loading: true
 };
 
 export default function claimDetailReducer(state = initialState, action) {

@@ -15,7 +15,7 @@ class TabNav extends React.Component {
 }
 
 TabNav.propTypes = {
-  id: React.PropTypes.number
+  id: React.PropTypes.string
 };
 
 export default TabNav;
