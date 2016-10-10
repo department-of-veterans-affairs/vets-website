@@ -109,6 +109,7 @@ function createTestVeteran() {
     chapter1606: qc.bool,
     chapter32: qc.bool,
     chapter33: qc.bool,
+    checkedBenefit: makeField(''),
     serviceAcademyGraduationYear: makeField(qc.int.between(1900, 2016)),
     currentlyActiveDuty: qc.objectLike({
       yes: makeField(yesNoGen()),

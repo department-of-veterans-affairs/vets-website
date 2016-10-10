@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import BenefitsSelectionFields from '../../../src/js/edu-benefits/components/benefits-eligibility/BenefitsSelectionFields';
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran';
 
-describe('<BenefitsSelectionFields>', () => {
+describe.skip('<BenefitsSelectionFields>', () => {
   const data = createVeteran();
   data.benefitsRelinquished.value = 'chapter30';
   data.chapter33 = true;

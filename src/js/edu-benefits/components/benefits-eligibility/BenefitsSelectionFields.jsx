@@ -4,9 +4,10 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
 import RadioButtonsSubSection from '../../../common/components/form-elements/RadioButtonsSubSection';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
+import ErrorableGroup from '../../../common/components/form-elements/ErrorableGroup';
 import DateInput from '../../../common/components/form-elements/DateInput';
 import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidFutureDateField } from '../../utils/validations';
-import { relinquishableBenefits, ownBenefitsOptions } from '../../utils/options-for-select';
+import { relinquishableBenefits } from '../../utils/options-for-select';
 import { showRelinquishedEffectiveDate } from '../../utils/helpers';
 
 export default class BenefitsSelectionFields extends React.Component {
@@ -49,39 +50,36 @@ export default class BenefitsSelectionFields extends React.Component {
 
     return (<fieldset>
       <legend className="hide-for-small-only">Benefits eligibility</legend>
-      <div className="input-section" style={{ display: 'none' }}>
-        <ErrorableRadioButtons
-            label="Are you applying using your own benefits or those of a spouse or parent?"
-            name="applyingUsingOwnBenefits"
-            options={ownBenefitsOptions}
-            value={this.props.data.applyingUsingOwnBenefits}
-            onValueChange={(update) => {this.props.onStateChange('applyingUsingOwnBenefits', update);}}/>
-      </div>
-      <p>Select the benefit that is the best match for you. If you are eligible for more than one, we can help you make the best choice.</p>
       <div className="input-section">
-        <ExpandingGroup open={this.props.data.chapter33} additionalClass="edu-benefits-chapter33-group">
+        <ErrorableGroup
+            label="Select the benefit that is the best match for you. If you are eligible for more than one, we can help you make the best choice."
+            validation={this.props.data.chapter33 || this.props.data.chapter30 || this.props.data.chapter1606 || this.props.data.chapter32}
+            errorMessage="Please select at least one benefit"
+            isDirty={this.props.data.checkedBenefit.dirty}>
+          <ExpandingGroup open={this.props.data.chapter33} additionalClass="edu-benefits-chapter33-group">
+            <ErrorableCheckbox
+                label="Post-9/11 GI Bill (Chapter 33)"
+                name="chapter33"
+                checked={this.props.data.chapter33}
+                onValueChange={(update) => {this.props.onStateChange('chapter33', update);}}/>
+            {relinquishSection}
+          </ExpandingGroup>
           <ErrorableCheckbox
-              label="Post-9/11 GI Bill (Chapter 33)"
-              name="chapter33"
-              checked={this.props.data.chapter33}
-              onValueChange={(update) => {this.props.onStateChange('chapter33', update);}}/>
-          {relinquishSection}
-        </ExpandingGroup>
-        <ErrorableCheckbox
-            label="Montgomery GI Bill Active Duty (MGIB or Chapter 30) Education Assistance Program"
-            name="chapter30"
-            checked={this.props.data.chapter30}
-            onValueChange={(update) => {this.props.onStateChange('chapter30', update);}}/>
-        <ErrorableCheckbox
-            label="Montgomery GI Bill Selected Reserve (MGIB-SR or Chapter 1606) Educational Assistance Program"
-            name="chapter1606"
-            checked={this.props.data.chapter1606}
-            onValueChange={(update) => {this.props.onStateChange('chapter1606', update);}}/>
-        <ErrorableCheckbox
-            label="Post-Vietnam Era Veterans' Educational Assistance Program (VEAP or chapter 32)"
-            name="chapter32"
-            checked={this.props.data.chapter32}
-            onValueChange={(update) => {this.props.onStateChange('chapter32', update);}}/>
+              label="Montgomery GI Bill Active Duty (MGIB or Chapter 30) Education Assistance Program"
+              name="chapter30"
+              checked={this.props.data.chapter30}
+              onValueChange={(update) => {this.props.onStateChange('chapter30', update);}}/>
+          <ErrorableCheckbox
+              label="Montgomery GI Bill Selected Reserve (MGIB-SR or Chapter 1606) Educational Assistance Program"
+              name="chapter1606"
+              checked={this.props.data.chapter1606}
+              onValueChange={(update) => {this.props.onStateChange('chapter1606', update);}}/>
+          <ErrorableCheckbox
+              label="Post-Vietnam Era Veterans' Educational Assistance Program (VEAP or chapter 32)"
+              name="chapter32"
+              checked={this.props.data.chapter32}
+              onValueChange={(update) => {this.props.onStateChange('chapter32', update);}}/>
+        </ErrorableGroup>
       </div>
     </fieldset>
     );

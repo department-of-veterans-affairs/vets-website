@@ -226,10 +226,11 @@ function isValidPersonalInfoPage(data) {
 }
 
 function isValidBenefitsInformationPage(data) {
-  return !data.chapter33 ||
+  return (data.chapter33 || data.chapter1606 || data.chapter30 || data.chapter32)
+    && (!data.chapter33 ||
     (isNotBlank(data.benefitsRelinquished.value) &&
       (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
-        (!isBlankDateField(data.benefitsRelinquishedDate) && isValidFutureDateField(data.benefitsRelinquishedDate))));
+        (!isBlankDateField(data.benefitsRelinquishedDate) && isValidFutureDateField(data.benefitsRelinquishedDate)))));
 }
 
 function isValidTourOfDuty(tour) {
