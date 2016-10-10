@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import moment from 'moment';
-import { isValidDate } from './validations.js';
 
 export function getPageList(routes) {
   return routes.map(route => {
@@ -76,9 +75,9 @@ export function dateToMoment(dateField) {
 
 export function displayDateIfValid(dateObject) {
   if (typeof dateObject === 'object') {
-    const { day, month, year } = dateObject;
-    if (isValidDate(day.value, month.value, year.value)) {
-      return `${month.value}/${day.value}/${year.value}`;
+    const momentDate = dateToMoment(dateObject);
+    if (momentDate.isValid()) {
+      return momentDate.format('M/D/YYYY');
     }
   }
   return null;
@@ -120,4 +119,12 @@ export function getListOfBenefits(veteran) {
   }
 
   return benefitList;
+}
+
+export function showYesNo(field) {
+  if (field.value === '') {
+    return '';
+  }
+
+  return field.value === 'Y' ? 'Yes' : 'No';
 }

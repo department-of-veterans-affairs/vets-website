@@ -78,9 +78,9 @@ class GrowableTable extends React.Component {
 
   handleAdd() {
     // Save existing
-    this.handleSave();
+    const success = this.handleSave();
 
-    if (this.props.isValidSection(this.props.path, this.props.data)) {
+    if (success) {
       this.createNewElement();
     }
   }
@@ -89,8 +89,11 @@ class GrowableTable extends React.Component {
     this.setState({ [event.target.dataset.key]: 'edit' });
   }
 
-  handleSave(event, rowIndex) {
+  handleSave(event, index) {
     const key = event ? event.target.dataset.key : this.findIncomplete();
+    const rowIndex = index !== undefined ? index : (this.props.rows.length - 1);
+
+    let success = true;
 
     if (rowIndex !== undefined && this.props.isValidRow && this.props.isValidRow(this.props.rows[rowIndex])) {
       this.setState({ [key]: 'complete' });
@@ -98,9 +101,12 @@ class GrowableTable extends React.Component {
       this.setState({ [key]: 'complete' });
     } else {
       this.props.initializeCurrentElement();
+      success = false;
     }
 
     this.scrollToTop();
+
+    return success;
   }
 
   handleRemove(event) {
