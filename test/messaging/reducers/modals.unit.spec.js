@@ -45,7 +45,7 @@ describe('modals reducer', () => {
     });
     expect(newState.attachments.visible).to.be.true;
     expect(newState.attachments.message)
-      .to.eql(composeMessage.errors.attachments['tooLarge']);
+      .to.eql(composeMessage.errors.attachments.tooLarge);
   });
 
   it('should open an error modal for too many attachments', () => {
@@ -55,7 +55,7 @@ describe('modals reducer', () => {
     });
     expect(newState.attachments.visible).to.be.true;
     expect(newState.attachments.message)
-      .to.eql(composeMessage.errors.attachments['tooMany']);
+      .to.eql(composeMessage.errors.attachments.tooMany);
   });
 
   it('should close the attachments error modal', () => {
