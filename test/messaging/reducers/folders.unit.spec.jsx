@@ -11,6 +11,8 @@ import {
 
 import foldersReducer from '../../../src/js/messaging/reducers/folders';
 
+import { testData } from '../../util/messaging-helpers';
+
 describe('folders reducer', () => {
   const initialState = {
     data: {
@@ -36,16 +38,11 @@ describe('folders reducer', () => {
   };
 
   it('should create a folder', () => {
-    const folder = {
-      folderId: 1,
-      name: 'test folder 1'
-    };
-
+    const folder = testData.folders.data[0].attributes;
     const newState = foldersReducer(initialState, {
       type: CREATE_FOLDER_SUCCESS,
       folder
     });
-
     expect(newState.data.items).to.have.lengthOf(1);
     expect(newState.data.items).to.contain(folder);
   });
@@ -53,20 +50,7 @@ describe('folders reducer', () => {
   it('should delete a folder', () => {
     const state = {
       data: {
-        items: [
-          {
-            folderId: 1,
-            name: 'test folder 1'
-          },
-          {
-            folderId: 2,
-            name: 'test folder 2'
-          },
-          {
-            folderId: 3,
-            name: 'test folder 3'
-          }
-        ]
+        items: testData.folders.data.map(folder => folder.attributes)
       }
     };
 
@@ -81,45 +65,8 @@ describe('folders reducer', () => {
   });
 
   it('should set a folder fetched from the server', () => {
-    const messages = {
-      data: [
-        {
-          attributes: {
-            messageId: 123,
-            body: 'testing 123'
-          }
-        },
-        {
-          attributes: {
-            messageId: 456,
-            body: 'testing 456'
-          }
-        },
-        {
-          attributes: {
-            messageId: 789,
-            body: 'testing 789'
-          }
-        }
-      ],
-      meta: {
-        pagination: {
-          currentPage: 1,
-          perPage: 25,
-          totalEntries: 3,
-          totalPages: 1
-        }
-      }
-    };
-
-    const folder = {
-      data: {
-        attributes: {
-          folderId: 1,
-          name: 'test folder 1'
-        }
-      }
-    };
+    const messages = testData.folderMessages;
+    const folder = { data: testData.folders.data[0] };
 
     const newState = foldersReducer(initialState, {
       type: FETCH_FOLDER_SUCCESS,
@@ -136,32 +83,11 @@ describe('folders reducer', () => {
   });
 
   it('should set folders fetched from the server', () => {
-    const data = {
-      data: [
-        {
-          attributes: {
-            folderId: 123,
-            name: 'test folder 123'
-          }
-        },
-        {
-          attributes: {
-            folderId: 456,
-            name: 'test folder 456'
-          }
-        },
-        {
-          attributes: {
-            folderId: 789,
-            name: 'test folder 789'
-          }
-        }
-      ]
-    };
+    const data = testData.folders;
 
     const newState = foldersReducer(initialState, {
       type: FETCH_FOLDERS_SUCCESS,
-      data,
+      data
     });
 
     expect(newState.data.items)
