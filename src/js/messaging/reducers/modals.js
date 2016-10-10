@@ -34,7 +34,7 @@ export default function modals(state = initialState, action) {
     case TOGGLE_CONFIRM_DELETE:
       return set('deleteConfirm.visible', !state.deleteConfirm.visible, state);
     case CLOSE_ATTACHMENTS_MODAL:
-      return set('attachments.visible', false, state);
+      return set('attachments', initialState.attachments, state);
     case CLOSE_CREATE_FOLDER:
       return set('createFolder', initialState.createFolder, state);
     case OPEN_ATTACHMENTS_MODAL:
