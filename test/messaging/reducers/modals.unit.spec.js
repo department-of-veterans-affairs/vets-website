@@ -8,6 +8,8 @@ import {
   CLOSE_ATTACHMENTS_MODAL,
   CLOSE_CREATE_FOLDER,
   OPEN_ATTACHMENTS_MODAL,
+  OPEN_CREATE_FOLDER,
+  SET_NEW_FOLDER_NAME,
   TOGGLE_CONFIRM_DELETE
 } from '../../../src/js/messaging/utils/constants';
 
@@ -62,9 +64,54 @@ describe('modals reducer', () => {
     expect(newState.attachments).to.eql(initialState.attachments);
   });
 
+  it('should open the create folder modal (not for moving a message)', () => {
+    const newState = modalsReducer(initialState, { type: OPEN_CREATE_FOLDER });
+    expect(newState.createFolder.visible).to.be.true;
+    expect(newState.createFolder.newFolderName).to.eql(makeField(''));
+    expect(newState.createFolder.messageId).to.be.undefined;
+  });
+
+  it('should open the create folder modal (for moving a message)', () => {
+    const messageId = 12345;
+    const newState = modalsReducer(initialState, {
+      type: OPEN_CREATE_FOLDER,
+      messageId
+    });
+    expect(newState.createFolder.visible).to.be.true;
+    expect(newState.createFolder.newFolderName).to.eql(makeField(''));
+    expect(newState.createFolder.messageId).to.eql(messageId);
+  });
+
   it('should close the create folder modal', () => {
     const state = { attachments: { visible: true } };
     const newState = modalsReducer(state, { type: CLOSE_CREATE_FOLDER });
     expect(newState.createFolder).to.eql(initialState.createFolder);
+  });
+
+  it('should set the new folder name in the create folder modal', () => {
+    const state = {
+      createFolder: {
+        visible: true,
+        folderName: makeField('')
+      }
+    };
+
+    let folderName = makeField('testing 12345', true);
+    let newState = modalsReducer(state, {
+      type: SET_NEW_FOLDER_NAME,
+      folderName
+    });
+
+    expect(newState.createFolder.visible).to.be.true;
+    expect(newState.createFolder.newFolderName).to.eql(folderName);
+
+    folderName = makeField('foo bar 67890', true);
+    newState = modalsReducer(newState, {
+      type: SET_NEW_FOLDER_NAME,
+      folderName
+    });
+
+    expect(newState.createFolder.visible).to.be.true;
+    expect(newState.createFolder.newFolderName).to.eql(folderName);
   });
 });
