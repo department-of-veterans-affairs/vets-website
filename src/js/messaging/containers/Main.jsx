@@ -20,7 +20,7 @@ import FolderNav from '../components/FolderNav';
 import ModalAttachments from '../components/compose/ModalAttachments';
 import ModalCreateFolder from '../components/ModalCreateFolder';
 
-class Main extends React.Component {
+export class Main extends React.Component {
   constructor(props) {
     super(props);
     this.handleFolderChange = this.handleFolderChange.bind(this);
