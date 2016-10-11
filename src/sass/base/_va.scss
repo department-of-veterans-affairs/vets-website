@@ -2030,7 +2030,8 @@ pre[class*='language-']  {
     width: 35rem;
   }
 
-  p, h3 {
+  #content & p, 
+  #content & h3 {
     padding: 0;
     margin: 0;
   }
