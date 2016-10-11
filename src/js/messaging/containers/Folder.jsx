@@ -15,7 +15,7 @@ import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
 import MessageSearch from '../components/MessageSearch';
 
-class Folder extends React.Component {
+export class Folder extends React.Component {
   componentDidMount() {
     const id = this.props.params.id;
     this.props.fetchFolder(id);
