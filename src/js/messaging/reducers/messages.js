@@ -11,7 +11,7 @@ import {
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
   UPDATE_DRAFT
-} from '../actions/messages';
+} from '../utils/constants';
 
 import { composeMessage } from '../config';
 
