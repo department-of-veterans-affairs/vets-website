@@ -37,7 +37,7 @@ export class Folder extends React.Component {
   }
 
   makeMessageNav() {
-    const { folder, currentRange, messageCount, page, totalPages } = this.props;
+    const { currentRange, messageCount, page, totalPages } = this.props;
 
     if (messageCount === 0) {
       return null;
