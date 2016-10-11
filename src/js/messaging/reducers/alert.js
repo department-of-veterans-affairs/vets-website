@@ -2,37 +2,29 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import {
+  alertStatus,
+  CLOSE_ALERT,
   CREATE_FOLDER_FAILURE,
   CREATE_FOLDER_SUCCESS,
   DELETE_FOLDER_FAILURE,
-  DELETE_FOLDER_SUCCESS
-} from '../actions/folders';
-
-import {
+  DELETE_FOLDER_SUCCESS,
   DELETE_MESSAGE_FAILURE,
   DELETE_MESSAGE_SUCCESS,
   MOVE_MESSAGE_FAILURE,
   MOVE_MESSAGE_SUCCESS,
+  OPEN_ALERT,
   SAVE_DRAFT_FAILURE,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_FAILURE,
   SEND_MESSAGE_SUCCESS
-} from '../actions/messages';
-
-import {
-  CLOSE_ALERT,
-  OPEN_ALERT
-} from '../actions/alert';
-
-const alertStatus = {
-  ERROR: 'error',
-  INFO: 'info',
-  SUCCESS: 'success',
-  WARNING: 'warning'
-};
+} from '../utils/constants';
 
 const createAlert = (content, status, visible = true) => {
-  return { content, status, visible };
+  return {
+    content,
+    status,
+    visible
+  };
 };
 
 const initialState = createAlert('', alertStatus.INFO, false);

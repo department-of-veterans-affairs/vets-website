@@ -1,5 +1,7 @@
-export const CLOSE_ALERT = 'CLOSE_ALERT';
-export const OPEN_ALERT = 'OPEN_ALERT';
+import {
+  CLOSE_ALERT,
+  OPEN_ALERT
+} from '../utils/constants';
 
 export function closeAlert() {
   return {
