@@ -43,7 +43,6 @@ export class Folder extends React.Component {
       return null;
     }
 
-    const folderId = folder.attributes.folderId;
     let handleClickPrev;
     let handleClickNext;
 
