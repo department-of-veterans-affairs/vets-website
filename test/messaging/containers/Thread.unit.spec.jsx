@@ -2,12 +2,14 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
+import { makeField } from '../../../src/js/common/model/fields';
 import { composeMessage } from '../../../src/js/messaging/config';
 import { Thread } from '../../../src/js/messaging/containers/Thread';
 
 const props = {
   draft: {
-    body: '',
+    attachments: [],
+    body: makeField(''),
     charsRemaining: composeMessage.maxChars.message
   },
   folders: [],
@@ -17,8 +19,12 @@ const props = {
   message: null,
   messagesCollapsed: new Set(),
   modals: {
-    createFolderModal: {},
-    deleteConfirm: {}
+    createFolderModal: {
+      visible: false
+    },
+    deleteConfirm: {
+      visible: false
+    }
   },
   moveToOpened: false,
   persistFolder: 0,

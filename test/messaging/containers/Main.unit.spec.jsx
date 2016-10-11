@@ -6,6 +6,13 @@ import { makeField } from '../../../src/js/common/model/fields';
 import { Main } from '../../../src/js/messaging/containers/Main';
 
 const props = {
+  attachmentsModal: {
+    message: {
+      text: null,
+      title: null
+    },
+    visible: false
+  },
   createFolderModal: {
     newFolderName: makeField(''),
     visible: false

@@ -21,17 +21,8 @@ const props = {
     attachments: []
   },
   recipients: [],
-  modals: {
-    deleteConfirm: {
-      visible: false
-    },
-    attachments: {
-      message: {
-        title: null,
-        text: null
-      },
-      visible: false
-    }
+  deleteConfirmModal: {
+    visible: false
   },
 
   // No-op function to override dispatch
