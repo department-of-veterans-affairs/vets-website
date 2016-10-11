@@ -23,13 +23,13 @@ export class Folder extends React.Component {
     this.props.fetchFolder(id, query);
   }
 
-  componentDidUpdate(prevProps) {
-    const newId = this.props.params.id;
-    const oldId = prevProps.params.id;
+  componentDidUpdate() {
+    const newId = +this.props.params.id;
+    const oldId = this.props.folder.attributes.folderId;
 
     const query = _.pick(this.props.location.query, ['page']);
-    const newPage = query.page;
-    const oldPage = prevProps.location.query.page;
+    const newPage = +query.page;
+    const oldPage = this.props.page;
 
     if (newId !== oldId || newPage !== oldPage) {
       this.props.fetchFolder(newId, query);
