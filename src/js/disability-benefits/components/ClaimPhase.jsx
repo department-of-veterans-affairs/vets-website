@@ -44,10 +44,16 @@ export default class ClaimPhase extends React.Component {
         <div key={index} className="claims-evidence">
           <p className="claims-evidence-date">{moment(activity.date).format('MMM D, YYYY')}</p>
           {activity.type === 'still_need_from_you_list'
-            ? <p className="claims-evidence-item">We requested {activity.trackedItemStatus !== 'ACCEPTED' ? <Link to={filesPath}>{activity.displayName}</Link> : activity.displayName} from you</p>
+            ? <p className="claims-evidence-item">We requested <Link to={filesPath}>{activity.displayName}</Link> from you</p>
+            : null}
+          {activity.type === 'still_need_from_others_list'
+            ? <p className="claims-evidence-item">We requested <Link to={filesPath}>{activity.displayName}</Link> from others</p>
             : null}
           {activity.type === 'received_from_others_list'
-            ? <p className="claims-evidence-item">We requested {activity.trackedItemStatus !== 'ACCEPTED' ? <Link to={filesPath}>{activity.displayName}</Link> : activity.displayName} from others</p>
+            ? <p className="claims-evidence-item">We received {activity.displayName} from others</p>
+            : null}
+          {activity.type === 'received_from_you_list'
+            ? <p className="claims-evidence-item">We received {activity.displayName} from you</p>
             : null}
           {activity.type === 'phase_entered'
             ? <p className="claims-evidence-item">Your claim moved to {getUserPhaseDescription(this.props.phase)}</p>
