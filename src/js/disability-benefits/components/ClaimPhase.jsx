@@ -37,10 +37,15 @@ export default class ClaimPhase extends React.Component {
     this.showAllActivity = this.showAllActivity.bind(this);
   }
   displayActivity() {
-    if (this.props.activity) {
+    const activityList = this.props.activity[this.props.phase];
+
+    if (activityList) {
       const filesPath = `your-claims/${this.props.id}/files`;
-      const limitList = this.state.showAll ? _.identity : _.take(INITIAL_ACTIVITY_ROWS);
-      const activityList = limitList(this.props.activity).map((activity, index) =>
+      const limitedList = this.state.showAll || activityList.length <= INITIAL_ACTIVITY_ROWS
+        ? activityList
+        : _.take(INITIAL_ACTIVITY_ROWS, activityList);
+
+      const activityListContent = limitedList.map((activity, index) =>
         <div key={index} className="claims-evidence">
           <p className="claims-evidence-date">{moment(activity.date).format('MMM D, YYYY')}</p>
           {activity.type === 'still_need_from_you_list'
@@ -69,13 +74,13 @@ export default class ClaimPhase extends React.Component {
       if (!this.state.showAll && this.props.activity.length > INITIAL_ACTIVITY_ROWS) {
         return (<div>
           <div>
-            {activityList}
+            {activityListContent}
           </div>
           <button className="usa-button-outline" onClick={this.showAllActivity}>See older updates</button>
         </div>);
       }
 
-      return activityList;
+      return activityListContent;
     }
 
     return null;
@@ -106,7 +111,7 @@ export default class ClaimPhase extends React.Component {
 }
 
 ClaimPhase.propTypes = {
-  activity: React.PropTypes.array,
+  activity: React.PropTypes.object,
   phase: React.PropTypes.number.isRequired,
   current: React.PropTypes.number,
   id: React.PropTypes.string.isRequired
