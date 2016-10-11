@@ -3,7 +3,9 @@ import set from 'lodash/fp/set';
 import { makeField } from '../../common/model/fields';
 
 import {
+  ADD_DRAFT_ATTACHMENTS,
   CLEAR_DRAFT,
+  DELETE_DRAFT_ATTACHMENT,
   FETCH_THREAD_SUCCESS,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
@@ -18,6 +20,7 @@ const initialState = {
     message: null,
     thread: [],
     draft: {
+      attachments: [],
       body: makeField(''),
       charsRemaining: composeMessage.maxChars.message
     }
@@ -34,8 +37,18 @@ const resetDraft = (state) => {
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
+    case ADD_DRAFT_ATTACHMENTS:
+      return set('data.draft.attachments', [
+        ...state.data.draft.attachments,
+        ...action.files
+      ], state);
+
     case CLEAR_DRAFT:
       return resetDraft(state);
+
+    case DELETE_DRAFT_ATTACHMENT:
+      state.message.attachments.splice(action.index, 1);
+      return set('data.draft.attachments', state.data.draft.attachments, state);
 
     case FETCH_THREAD_SUCCESS: {
       const currentMessage = action.message.attributes;
@@ -58,6 +71,8 @@ export default function folders(state = initialState, action) {
       let draft;
       if (!currentMessage.sentDate) {
         draft = Object.assign({}, currentMessage, {
+          // TODO: Get attachments from the draft.
+          attachments: [],
           body: makeField(currentMessage.body),
           charsRemaining: composeMessage.maxChars.message -
                           currentMessage.body.length,
@@ -67,6 +82,7 @@ export default function folders(state = initialState, action) {
         });
       } else {
         draft = Object.assign({}, initialState.data.draft, {
+          attachments: [],
           category: currentMessage.category,
           recipientId: currentMessage.senderId,
           replyMessageId: currentMessage.messageId,
