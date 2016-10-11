@@ -83,7 +83,7 @@ describe('modals reducer', () => {
   });
 
   it('should close the create folder modal', () => {
-    const state = { attachments: { visible: true } };
+    const state = { createFolder: { visible: true } };
     const newState = modalsReducer(state, { type: CLOSE_CREATE_FOLDER });
     expect(newState.createFolder).to.eql(initialState.createFolder);
   });
@@ -102,7 +102,6 @@ describe('modals reducer', () => {
       folderName
     });
 
-    expect(newState.createFolder.visible).to.be.true;
     expect(newState.createFolder.newFolderName).to.eql(folderName);
 
     folderName = makeField('foo bar 67890', true);
@@ -111,7 +110,6 @@ describe('modals reducer', () => {
       folderName
     });
 
-    expect(newState.createFolder.visible).to.be.true;
     expect(newState.createFolder.newFolderName).to.eql(folderName);
   });
 });
