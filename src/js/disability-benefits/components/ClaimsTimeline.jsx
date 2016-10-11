@@ -14,8 +14,7 @@ function getUserPhase(phase) {
 
 function groupActivity(events) {
   const phases = {};
-  const phaseEvents = events
-    .filter(event => event.type !== 'completed' && event.type !== 'filed');
+  const phaseEvents = events;
   let activity = [];
   let lastPhaseNumber = 0;
 
@@ -51,21 +50,19 @@ export default class ClaimsTimeline extends React.Component {
     const activityByPhase = groupActivity(events);
     return (
       <ol className="process form-process">
-        <ClaimPhase phase={1} current={userPhase} activity={activityByPhase[1]} id={id}>
-          <p>Thank you. VA received your claim</p>
-        </ClaimPhase>
+        <ClaimPhase phase={1} current={userPhase} activity={activityByPhase[1]} id={id}/>
         <ClaimPhase phase={2} current={userPhase} activity={activityByPhase[2]} id={id}/>
         <ClaimPhase phase={3} current={userPhase} activity={activityByPhase[3]} id={id}>
           <p>If VA needs more information, the Veterans Service Representative (VSR) will request it from you on your behalf. Once VA has all the information it needs, the VSR will confirm, issue by issue, that the claim is ready for a decision.</p>
         </ClaimPhase>
         <ClaimPhase phase={4} current={userPhase} activity={activityByPhase[4]} id={id}/>
         <ClaimPhase phase={5} current={userPhase} activity={activityByPhase[5]} id={id}>
-          {userPhase === 5
-            ? <p>Your claim is complete.</p>
-            : <div className="claim-completion-estimation">
+          {userPhase !== 5
+            ? <div className="claim-completion-estimation">
               <p className="date-estimation">Estimated {moment(estimatedDate).format('MMM D, YYYY')}</p>
               <p><a href="/">Learn about this estimation</a></p>
-            </div>}
+            </div>
+            : null}
         </ClaimPhase>
       </ol>
     );

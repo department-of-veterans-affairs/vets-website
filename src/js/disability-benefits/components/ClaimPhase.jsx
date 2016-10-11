@@ -52,6 +52,12 @@ export default class ClaimPhase extends React.Component {
           {activity.type === 'phase_entered'
             ? <p className="claims-evidence-item">Your claim moved to {getUserPhaseDescription(this.props.phase)}</p>
             : null}
+          {activity.type === 'filed'
+            ? <p className="claims-evidence-item">Thank you. VA received your claim</p>
+            : null}
+          {activity.type === 'completed'
+            ? <p className="claims-evidence-item">Your claim is complete</p>
+            : null}
         </div>);
 
       if (!this.state.showAll && this.props.activity.length > INITIAL_ACTIVITY_ROWS) {
@@ -68,8 +74,9 @@ export default class ClaimPhase extends React.Component {
 
     return null;
   }
-  showAllActivity() {
+  showAllActivity(event) {
     this.setState({ showAll: true });
+    event.stopPropagation();
   }
   expandCollapse() {
     if (this.props.phase <= this.props.current) {
