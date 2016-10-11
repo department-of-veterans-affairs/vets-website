@@ -2017,13 +2017,13 @@ pre[class*='language-']  {
 .sticky-action-box {
   background-color: $color-gray-lightest;
   padding: 1.5rem;
+  z-index: 1;
 
   .show-for-large-up & {
     position: absolute;
     right: 0;
     top: 30px;
     width: 22rem;
-    z-index: 1;
   }
 
   .hide-for-large-up & {
