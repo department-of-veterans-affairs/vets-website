@@ -22,7 +22,7 @@ describe('<YourClaimsPage>', () => {
           getClaims={getClaims}
           changePage={changePage}/>
     );
-    expect(tree.everySubTree('div').some(el => el.text() === 'Loading...')).to.be.true;
+    expect(tree.everySubTree('Loading').length).to.equal(1);
   });
 
   it('should render no claims message', () => {

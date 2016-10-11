@@ -74,24 +74,6 @@ export function createRotcScholarship() {
   };
 }
 
-export function createPreviousClaim() {
-  return {
-    claimType: makeField(''),
-    previouslyAppliedWithSomeoneElsesService: makeField(''),
-    fileNumber: makeField(''),
-    sponsorVeteran: {
-      fullName: {
-        first: makeField(''),
-        middle: makeField(''),
-        last: makeField(''),
-        suffix: makeField('')
-      },
-      fileNumber: makeField(''),
-      payeeNumber: makeField('')
-    }
-  };
-}
-
 export function createFlightCertificate() {
   return {
     name: makeField('')
@@ -190,8 +172,6 @@ export function createVeteran() {
       accountNumber: makeField(''),
       routingNumber: makeField('')
     },
-    previousVaClaims: [],
-    previouslyFiledClaimWithVa: makeField(''),
     applyingUsingOwnBenefits: makeField(''),
     benefitsRelinquishedDate: {
       day: makeField(''),
@@ -237,7 +217,6 @@ export function veteranToApplication(veteran) {
       case 'married':
       case 'haveDependents':
       case 'parentDependent':
-      case 'previouslyFiledClaimWithVa':
       case 'previouslyAppliedWithSomeoneElsesService':
         return value.value === 'Y';
 

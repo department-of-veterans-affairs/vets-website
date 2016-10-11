@@ -1,12 +1,12 @@
 import { api } from '../config';
 
-export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
-export const SET_ATTACHMENTS = 'SET_ATTACHMENTS';
+export const ADD_COMPOSE_ATTACHMENTS = 'ADD_COMPOSE_ATTACHMENTS';
 export const DELETE_COMPOSE_MESSAGE = 'DELETE_COMPOSE_MESSAGE';
-export const DELETE_ATTACHMENT = 'DELETE_ATTACHMENT';
+export const DELETE_COMPOSE_ATTACHMENT = 'DELETE_COMPOSE_ATTACHMENT';
 export const FETCH_RECIPIENTS_SUCCESS = 'FETCH_RECIPIENTS_SUCCESS';
 export const FETCH_RECIPIENTS_FAILURE = 'FETCH_RECIPIENTS_FAILURE';
 export const FETCH_SENDER_SUCCESS = 'FETCH_SENDER_SUCCESS';
+export const SET_MESSAGE_FIELD = 'SET_MESSAGE_FIELD';
 export const UPDATE_COMPOSE_CHARACTER_COUNT = 'UPDATE_COMPOSE_CHARACTER_COUNT';
 
 export function deleteComposeMessage() {
@@ -21,16 +21,16 @@ export function setMessageField(path, field) {
   };
 }
 
-export function setAttachments(files) {
+export function addComposeAttachments(files) {
   return {
-    type: SET_ATTACHMENTS,
+    type: ADD_COMPOSE_ATTACHMENTS,
     files
   };
 }
 
-export function deleteAttachment(index) {
+export function deleteComposeAttachment(index) {
   return {
-    type: DELETE_ATTACHMENT,
+    type: DELETE_COMPOSE_ATTACHMENT,
     index
   };
 }
