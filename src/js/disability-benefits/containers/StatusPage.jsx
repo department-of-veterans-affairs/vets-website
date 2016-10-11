@@ -28,10 +28,10 @@ class StatusPage extends React.Component {
           <TabNav id={this.props.params.id}/>
           <div className="va-tab-content">
             <AddingDetails/>
-            {claim.attributes.documentsNeeded ? <NeedFilesFromYou/> : null}
+            {claim.attributes.documentsNeeded && !claim.attributes.decisionLetterSent ? <NeedFilesFromYou/> : null}
             <AskVAToDecide/>
             {claim.attributes.decisionLetterSent ? <ClaimsDecision/> : null}
-            <ClaimsTimeline phase={claim.attributes.phase} events={claim.attributes.eventsTimeline}/>
+            <ClaimsTimeline id={claim.id} estimatedDate={claim.attributes.maxEstDate} phase={claim.attributes.phase} events={claim.attributes.eventsTimeline}/>
           </div>
         </div>
       );
