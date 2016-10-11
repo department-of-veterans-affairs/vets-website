@@ -44,6 +44,12 @@ const initialState = {
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
+    // TODO: Handle the response in an appropriate way
+    case CREATE_FOLDER_SUCCESS: {
+      const newFolderList = concat(state.data.items, action.folder);
+      return set('data.items', newFolderList, state);
+    }
+
     case DELETE_FOLDER_SUCCESS: {
       const newFolders = state.data.items.filter(folder => {
         return folder.folderId !== action.folder.folderId;
@@ -52,10 +58,6 @@ export default function folders(state = initialState, action) {
       return set('data.items', newFolders, state);
     }
 
-    case FETCH_FOLDERS_SUCCESS: {
-      const items = action.data.data.map(folder => folder.attributes);
-      return set('data.items', items, state);
-    }
     case FETCH_FOLDER_SUCCESS: {
       const attributes = action.folder.data.attributes;
       const messages = action.messages.data.map(message => message.attributes);
@@ -71,18 +73,21 @@ export default function folders(state = initialState, action) {
 
       return set('data.currentItem', newItem, state);
     }
+
+    case FETCH_FOLDERS_SUCCESS: {
+      const items = action.data.data.map(folder => folder.attributes);
+      return set('data.items', items, state);
+    }
+
     case TOGGLE_FOLDER_NAV:
       return set('ui.nav.visible', !state.ui.nav.visible, state);
+
     case TOGGLE_MANAGED_FOLDERS:
       return set('ui.nav.foldersExpanded', !state.ui.nav.foldersExpanded, state);
+
     case SET_CURRENT_FOLDER:
       // The + forces +action.folderId to be a number
       return set('data.currentItem.persistFolder', +action.folderId, state);
-    // TODO: Handle the response in an appropriate way
-    case CREATE_FOLDER_SUCCESS: {
-      const newFolderList = concat(state.data.items, action.folder);
-      return set('data.items', newFolderList, state);
-    }
 
     case DELETE_COMPOSE_MESSAGE:
     case DELETE_MESSAGE_SUCCESS:
