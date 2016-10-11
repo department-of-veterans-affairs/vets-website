@@ -44,7 +44,7 @@ export function groupTimelineActivity(events) {
   const phases = {};
   const phaseEvents = events;
   let activity = [];
-  let lastPhaseNumber = 0;
+  let lastPhaseNumber = 1;
 
   phaseEvents.forEach(event => {
     if (event.type.startsWith('phase')) {

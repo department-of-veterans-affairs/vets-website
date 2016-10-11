@@ -27,7 +27,6 @@ function getClasses(phase, current) {
   return `${stepClass} ${processClass}`;
 }
 
-
 export default class ClaimPhase extends React.Component {
   constructor(props) {
     super();
@@ -71,7 +70,7 @@ export default class ClaimPhase extends React.Component {
             : null}
         </div>);
 
-      if (!this.state.showAll && this.props.activity.length > INITIAL_ACTIVITY_ROWS) {
+      if (!this.state.showAll && activityList.length > INITIAL_ACTIVITY_ROWS) {
         return (<div>
           <div>
             {activityListContent}
