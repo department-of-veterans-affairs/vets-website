@@ -12,7 +12,7 @@ relatedlinks:
     description: ""
 ---
 
-Benefits decisions can be appealed. The VA appeals process is set in law and is different from other judicial appeals processes.  
+All benefits decisions can be appealed. The VA appeals process is set in law and is different from other judicial appeals processes.  
 
 <div class="call-out" markdown="0">
 
