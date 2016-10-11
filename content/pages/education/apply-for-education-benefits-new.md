@@ -6,7 +6,7 @@ concurrence: complete
 showactionbar: false
 stickyactionbox: true
 relatedlinks:
-  - url: /VRE
+  - url: /
     title: Apply for Vocational Rehabilitation and Employment (VR&E) benefits 
   - url: https://www.vets.gov/education/gi-bill/survivors-dependent-assistance/
     title: Apply for Dependents’ Educational Assistance (DEA) benefits
