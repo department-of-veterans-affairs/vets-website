@@ -14,3 +14,18 @@ const phaseMap = {
 export function getPhaseDescription(phase) {
   return phaseMap[phase];
 }
+
+export function getUserPhaseDescription(phase) {
+  if (phase < 3) {
+    return phaseMap[phase];
+  } else if (phase === 3) {
+    return evidenceGathering;
+  }
+
+  return phaseMap[phase + 3];
+}
+
+export function getPhaseDescriptionFromEvent(event) {
+  const phase = parseInt(event.type.replace('phase', ''), 10);
+  return phaseMap[phase];
+}
