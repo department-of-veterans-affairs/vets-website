@@ -44,10 +44,10 @@ export default class ClaimPhase extends React.Component {
         <div key={index} className="claims-evidence">
           <p className="claims-evidence-date">{moment(activity.date).format('MMM D, YYYY')}</p>
           {activity.type === 'still_need_from_you_list'
-            ? <p className="claims-evidence-item">We requested <Link to={filesPath}>{activity.displayName}</Link> from you</p>
+            ? <p className="claims-evidence-item">We requested {activity.trackedItemStatus !== 'ACCEPTED' ? <Link to={filesPath}>{activity.displayName}</Link> : activity.displayName} from you</p>
             : null}
           {activity.type === 'received_from_others_list'
-            ? <p className="claims-evidence-item">We requested <Link to={filesPath}>{activity.displayName}</Link> from others</p>
+            ? <p className="claims-evidence-item">We requested {activity.trackedItemStatus !== 'ACCEPTED' ? <Link to={filesPath}>{activity.displayName}</Link> : activity.displayName} from others</p>
             : null}
           {activity.type === 'phase_entered'
             ? <p className="claims-evidence-item">Your claim moved to {getUserPhaseDescription(this.props.phase)}</p>
@@ -72,7 +72,9 @@ export default class ClaimPhase extends React.Component {
     this.setState({ showAll: true });
   }
   expandCollapse() {
-    this.setState({ open: !this.state.open });
+    if (this.props.phase <= this.props.current) {
+      this.setState({ open: !this.state.open });
+    }
   }
   render() {
     const { phase, current, children } = this.props;
