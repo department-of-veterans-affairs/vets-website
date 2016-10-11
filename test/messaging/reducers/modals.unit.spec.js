@@ -13,24 +13,24 @@ import {
   TOGGLE_CONFIRM_DELETE
 } from '../../../src/js/messaging/utils/constants';
 
-describe('modals reducer', () => {
-  const initialState = {
-    deleteConfirm: {
-      visible: false
-    },
-    attachments: {
-      visible: false,
-      message: {
-        title: null,
-        text: null
-      }
-    },
-    createFolder: {
-      visible: false,
-      newFolderName: makeField('')
+const initialState = {
+  deleteConfirm: {
+    visible: false
+  },
+  attachments: {
+    visible: false,
+    message: {
+      title: null,
+      text: null
     }
-  };
+  },
+  createFolder: {
+    visible: false,
+    newFolderName: makeField('')
+  }
+};
 
+describe('modals reducer', () => {
   it('should open and close the delete confirmation modal', () => {
     let newState = modalsReducer(initialState, { type: TOGGLE_CONFIRM_DELETE });
     expect(newState.deleteConfirm.visible).to.be.true;

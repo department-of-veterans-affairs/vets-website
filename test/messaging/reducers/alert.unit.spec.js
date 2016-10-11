@@ -2,6 +2,7 @@ import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
 import { paths } from '../../../src/js/messaging/config';
+import alertReducer from '../../../src/js/messaging/reducers/alert';
 
 import {
   CLOSE_ALERT,
@@ -20,24 +21,15 @@ import {
   SEND_MESSAGE_SUCCESS
 } from '../../../src/js/messaging/utils/constants';
 
-import alertReducer from '../../../src/js/messaging/reducers/alert';
+import { testData } from '../../util/messaging-helpers';
+
+const initialState = {
+  content: '',
+  status: 'info',
+  visible: false
+};
 
 describe('alert reducer', () => {
-  const initialState = {
-    content: '',
-    status: 'info',
-    visible: false
-  };
-
-  const folder = {
-    folderId: 12345,
-    name: 'new folder'
-  };
-
-  const message = {
-    messageId: 67890
-  };
-
   it('should open a general alert', () => {
     const newState = alertReducer(initialState, {
       type: OPEN_ALERT,
@@ -94,6 +86,7 @@ describe('alert reducer', () => {
   });
 
   it('should alert when creating a folder succeeds', () => {
+    const folder = testData.folders.data[0].attributes;
     const newState = alertReducer(initialState, {
       type: CREATE_FOLDER_SUCCESS,
       folder
@@ -112,6 +105,7 @@ describe('alert reducer', () => {
   });
 
   it('should alert when deleting a folder succeeds', () => {
+    const folder = testData.folders.data[0].attributes;
     const newState = alertReducer(initialState, {
       type: DELETE_FOLDER_SUCCESS,
       folder
@@ -130,10 +124,7 @@ describe('alert reducer', () => {
   });
 
   it('should alert when deleting a message succeeds', () => {
-    const newState = alertReducer(initialState, {
-      type: DELETE_MESSAGE_SUCCESS,
-      folder
-    });
+    const newState = alertReducer(initialState, { type: DELETE_MESSAGE_SUCCESS });
     expect(newState.visible).to.be.true;
     expect(newState.status).to.eql('success');
   });
@@ -145,6 +136,7 @@ describe('alert reducer', () => {
   });
 
   it('should alert when moving a message succeeds', () => {
+    const folder = testData.folders.data[0].attributes;
     const newState = alertReducer(initialState, {
       type: MOVE_MESSAGE_SUCCESS,
       folder
@@ -163,6 +155,7 @@ describe('alert reducer', () => {
   });
 
   it('should alert when saving a draft succeeds', () => {
+    const message = testData.folderMessages.data[0].attributes;
     const newState = alertReducer(initialState, {
       type: SAVE_DRAFT_SUCCESS,
       message
@@ -181,6 +174,7 @@ describe('alert reducer', () => {
   });
 
   it('should alert when sending a message succeeds', () => {
+    const message = testData.folderMessages.data[0].attributes;
     const newState = alertReducer(initialState, {
       type: SEND_MESSAGE_SUCCESS,
       message

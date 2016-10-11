@@ -1,5 +1,7 @@
 import { expect } from 'chai';
 
+import foldersReducer from '../../../src/js/messaging/reducers/folders';
+
 import {
   CREATE_FOLDER_SUCCESS,
   DELETE_FOLDER_SUCCESS,
@@ -9,34 +11,32 @@ import {
   TOGGLE_MANAGED_FOLDERS
 } from '../../../src/js/messaging/utils/constants';
 
-import foldersReducer from '../../../src/js/messaging/reducers/folders';
-
 import { testData } from '../../util/messaging-helpers';
 
-describe('folders reducer', () => {
-  const initialState = {
-    data: {
-      currentItem: {
-        attributes: {},
-        messages: [],
-        pagination: {
-          currentPage: 0,
-          perPage: 0,
-          totalEntries: 0,
-          totalPages: 0
-        },
-        persistFolder: 0
+const initialState = {
+  data: {
+    currentItem: {
+      attributes: {},
+      messages: [],
+      pagination: {
+        currentPage: 0,
+        perPage: 0,
+        totalEntries: 0,
+        totalPages: 0
       },
-      items: []
+      persistFolder: 0
     },
-    ui: {
-      nav: {
-        foldersExpanded: false,
-        visible: false
-      }
+    items: []
+  },
+  ui: {
+    nav: {
+      foldersExpanded: false,
+      visible: false
     }
-  };
+  }
+};
 
+describe('folders reducer', () => {
   it('should create a folder', () => {
     const folder = testData.folders.data[0].attributes;
     const newState = foldersReducer(initialState, {
