@@ -3,17 +3,26 @@ layout: page-breadcrumbs.html
 title: Apply for Education Benefits
 template: 6-info-page
 concurrence: complete
+showactionbar: false
+stickyactionbox: true
+relatedlinks:
+  - url: /VRE
+    title: Apply for Vocational Rehabilitation and Employment (VR&E) benefits 
+  - url: https://www.vets.gov/education/gi-bill/survivors-dependent-assistance/
+    title: Apply for Dependents’ Educational Assistance (DEA) benefits
+  - url: https://www.vets.gov/education/gi-bill/transfer/)
+    title: Apply for Transfer of Entitlement
+  - url: https://www.vets.gov/education/other-educational-assistance-programs/call-to-service/
+    title: Learn about the National Call to Service program
 ---
 
 <p>
 
-The Vets.gov Education Benefits application is for servicemembers or veterans seeking their <strong>certificate of eligibility</strong> for education benefits under their own veteran status [form 22-1990]. Applicants for other veteran education benefits, including spouses and dependents, can find more information below on how to complete those applications.
+Servicemembers and Veterans who are interested in education and training can use this online application (Form 22-1990) to get their Certificate of Eligibility (COE).
 
 </p>
 
-
 ### What are the steps?
-
 
 <div class="small-12 columns" markdown="0">
 <ol class="process" markdown="0">
@@ -27,21 +36,34 @@ The Vets.gov Education Benefits application is for servicemembers or veterans se
 
 <div markdown="1">
 
-###### Understand Your Eligibility and Benefit Options
+###### Check your eligibility
 
-You may be eligible for multiple benefits, based on your service, but you will need to choose which one you would like to use.
+You may be eligible for more than one benefit, based on your service. When you apply, you have to pick which one you want to use: 
 
-- Post-9/11 GI Bill (Chapter 33)
-- Montgomery GI Bill (MGIB or Chapter 30)
+[An accredited representative]( http://www.va.gov/ogc/apps/accreditation/index.asp) with a Veterans Service Organization (VSO) can help you pick the right program.
+
+- [Post- 9/11 GI Bill](https://www.vets.gov/education/gi-bill/post-9-11/) (Chapter 33)
+- [Montgomery GI Bill - Active Duty](https://www.vets.gov/education/gi-bill/montgomery-active-duty/) (MGIB-AD or Chapter 30)
+- [Montgomery GI Bill - Selected Reserve](https://www.vets.gov/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR or Chapter 1606)
+- [Post-Vietnam Era Veterans' Educational Assistance Program](https://www.vets.gov/education/other-educational-assistance-programs/veap/) (VEAP or Chapter 32)
+
+
+###### Learn about educational programs
+
+- Compare estimated benefits by school using the [GI Bill Comparison Tool](https://www.vets.gov/gi-bill-comparison-tool/).
 
 </div>
 
+<a class="usa-button-primary usa-button-outline" href="https://www.vets.gov/gi-bill-comparison-tool/">GI Bill Benefit Estimation Tool</a>
 
-<div class="feature usa-content" markdown="1">
+<div markdown="1">
 
-- Learn about schools offering VA-approved programs by using the [GI Bill Comparison Tool](/gi-bill-comparison-tool/).
--	Decide [which school](http://www.benefits.va.gov/gibill/choosing_a_school.asp) is best for you.
--	You may apply for the school or schools you choose before you apply for benefits.
+###### What will you need to fill out this application?
+
+- Social Security number 
+- Bank account direct deposit information 
+- Education, military, and employment history (for example, journeyman or licensed plumber)
+- Basic information about the school you want to attend
 
 </div>
 
@@ -51,17 +73,19 @@ You may be eligible for multiple benefits, based on your service, but you will n
 
 <div markdown="1">
 
-##### Gather Your Documents
-
-The following documents will help VA process your claim:
+##### Apply
 
 </div>
 
-<div class="feature usa-content" markdown="1">
+<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application">Begin Application</a>
 
--	DD214 (Member 4), discharge or separation papers, for all periods of active-duty service, excluding active duty for training
--	DD2384, Notice of Basic Eligibility (NOBE), which you can get through your Reserve unit
--	Orders, if activated from the Guard or the Reserves
+<div markdown="1">
+
+###### Other Ways to Apply
+
+- Go to a VA regional office and have a VA employee assist you.
+- Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
+- Call 888-GI-Bill (888-442-4551) to have the application mailed to you. After you complete it, mail it to your VA regional claims processing office.
 
 </div>
 
@@ -71,18 +95,19 @@ The following documents will help VA process your claim:
 
 <div markdown="1">
 
-##### Apply
+##### VA Review
 
-You have four options for filing your claim:
+###### How long does it take VA to make a decision?
 
-</div>
+- It takes about 1 month to process your claim.
 
-<div class="feature usa-content" markdown="1">
+###### What should I do while I wait?
 
--	Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/vonapp).
--	Go to a [VA regional office](/education/apply-for-education-benefits/regional-office/) and have a VA employee assist you.
--	Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
--	Call 888-GI Bill (888-442-4551) to have the application mailed to you. After you complete it, mail it to your [VA regional claims processing office](/education/apply-for-education-benefits/regional-office/).
+- The transition from military to civilian life can be challenging. VA offers [tools and counseling programs](https://www.vets.gov/education/tools-programs/education-career-counseling/) to help you make the most of your educational options. 
+
+###### What if VA needs more information?
+
+- We will contact you if we need more information.
 
 </div>
 
@@ -92,12 +117,26 @@ You have four options for filing your claim:
 
 <div markdown="1">
 
-##### VA Review
+##### Decision
 
-You can track the status of your application on [eBenefits](https://www.ebenefits.va.gov/ebenefits/manage/status).
+- It usually takes VA 1 month to process your application. 
+- You will get a COE in the mail. Bring this to the Veterans services office at your school.
 
 </div>
 
 </li>
 
 </ol>
+
+<div class="feature usa-content" markdown="1">
+
+##### Checking in on your application?
+
+- It takes VA about 1 month to review your application.
+- If we’ve asked for documents, please upload them through the [GI Bill site](https://gibill.custhelp.com/app/home).
+- You can’t make changes to your application.
+- Call 888-442-4551 if you have questions. 
+
+</div>
+
+<br/>
