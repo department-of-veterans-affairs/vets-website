@@ -17,19 +17,17 @@ import MessageRecipient from '../components/compose/MessageRecipient';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
-import ModalAttachments from '../components/compose/ModalAttachments';
 import NoticeBox from '../components/NoticeBox';
 
 import {
-  closeAttachmentsModal,
-  deleteAttachment,
+  addComposeAttachments,
+  deleteComposeAttachment,
   deleteComposeMessage,
   fetchRecipients,
   fetchSenderName,
   openAttachmentsModal,
   saveDraft,
   sendMessage,
-  setAttachments,
   setMessageField,
   toggleConfirmDelete,
   updateComposeCharacterCount
@@ -40,6 +38,7 @@ class Compose extends React.Component {
     super();
     this.apiFormattedMessage = this.apiFormattedMessage.bind(this);
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
+    this.handleMessageChange = this.handleMessageChange.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.saveDraft = this.saveDraft.bind(this);
   }
@@ -71,6 +70,11 @@ class Compose extends React.Component {
     domEvent.preventDefault();
     this.props.toggleConfirmDelete();
     this.props.deleteComposeMessage();
+  }
+
+  handleMessageChange(valueObj) {
+    this.props.setMessageField('message.text', valueObj);
+    this.props.updateComposeCharacterCount(valueObj, composeMessage.maxChars.message);
   }
 
   render() {
@@ -131,25 +135,22 @@ class Compose extends React.Component {
           <div className="messaging-write-group">
             <MessageWrite
                 cssClass="messaging-write"
-                maxChars={composeMessage.maxChars.message}
-                onValueChange={this.props.setMessageField}
-                onCharCountChange={this.props.updateComposeCharacterCount}
+                onValueChange={this.handleMessageChange}
                 placeholder={composeMessage.placeholders.message}
                 text={message.text}/>
             <MessageAttachments
                 hidden={!this.props.message.attachments.length}
                 files={this.props.message.attachments}
-                onClose={this.props.deleteAttachment}/>
+                onClose={this.props.deleteComposeAttachment}/>
           </div>
           <MessageSend
               allowedMimeTypes={allowedMimeTypes}
-              attachedFiles={this.props.message.attachments}
               charCount={message.charsRemaining}
               cssClass="messaging-send-group"
               maxFiles={composeMessage.attachments.maxNum}
               maxFileSize={composeMessage.attachments.maxSingleFile}
               maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
-              onAttachmentUpload={this.props.setAttachments}
+              onAttachmentUpload={this.props.addComposeAttachments}
               onAttachmentsError={this.props.openAttachmentsModal}
               onSave={this.saveDraft}
               onSend={this.sendMessage}
@@ -160,14 +161,7 @@ class Compose extends React.Component {
             cssClass="messaging-modal"
             onClose={this.props.toggleConfirmDelete}
             onDelete={this.handleConfirmDelete}
-            visible={this.props.modals.deleteConfirm.visible}/>
-        <ModalAttachments
-            cssClass="messaging-modal"
-            text={this.props.modals.attachments.message.text}
-            title={this.props.modals.attachments.message.title}
-            id="messaging-add-attachments"
-            onClose={this.props.closeAttachmentsModal}
-            visible={this.props.modals.attachments.visible}/>
+            visible={this.props.deleteConfirmModal.visible}/>
       </div>
     );
   }
@@ -177,28 +171,19 @@ const mapStateToProps = (state) => {
   return {
     message: state.compose.message,
     recipients: state.compose.recipients,
-    modals: {
-      deleteConfirm: {
-        visible: state.modals.deleteConfirm.visible
-      },
-      attachments: {
-        visible: state.modals.attachments.visible,
-        message: state.modals.attachments.message
-      }
-    }
+    deleteConfirmModal: state.modals.deleteConfirm
   };
 };
 
 const mapDispatchToProps = {
-  closeAttachmentsModal,
-  deleteAttachment,
+  addComposeAttachments,
+  deleteComposeAttachment,
   deleteComposeMessage,
   fetchRecipients,
   fetchSenderName,
   openAttachmentsModal,
   saveDraft,
   sendMessage,
-  setAttachments,
   setMessageField,
   toggleConfirmDelete,
   updateComposeCharacterCount

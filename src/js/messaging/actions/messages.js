@@ -6,7 +6,9 @@ import {
   CREATE_FOLDER_SUCCESS
 } from './folders';
 
+export const ADD_DRAFT_ATTACHMENTS = 'ADD_DRAFT_ATTACHMENTS';
 export const CLEAR_DRAFT = 'CLEAR_DRAFT';
+export const DELETE_DRAFT_ATTACHMENT = 'DELETE_DRAFT_ATTACHMENT';
 export const DELETE_MESSAGE_SUCCESS = 'DELETE_MESSAGE_SUCCESS';
 export const DELETE_MESSAGE_FAILURE = 'DELETE_MESSAGE_FAILURE';
 export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
@@ -24,8 +26,16 @@ export const UPDATE_DRAFT = 'UPDATE_DRAFT';
 
 const baseUrl = `${api.url}/messages`;
 
+export function addDraftAttachments(files) {
+  return { type: ADD_DRAFT_ATTACHMENTS, files };
+}
+
 export function clearDraft() {
   return { type: CLEAR_DRAFT };
+}
+
+export function deleteDraftAttachment(index) {
+  return { type: DELETE_DRAFT_ATTACHMENT, index };
 }
 
 export function deleteMessage(id) {
