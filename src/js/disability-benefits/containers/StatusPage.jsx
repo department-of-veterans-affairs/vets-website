@@ -20,18 +20,31 @@ class StatusPage extends React.Component {
 
     let content;
     if (!loading) {
+      const phase = claim.attributes.phase;
       content = (
         <div className="claim-conditions">
           <h1>Your {"Compensation"} Claim</h1>
           <h6>Your Claimed Conditions:</h6>
-          <p className="list">{claim.attributes.contentionList ? claim.attributes.contentionList.join(', ') : null}</p>
+          <p className="list">
+            {claim.attributes.contentionList
+              ? claim.attributes.contentionList.join(', ')
+              : null}
+          </p>
           <TabNav id={this.props.params.id}/>
           <div className="va-tab-content">
-            <AddingDetails/>
-            {claim.attributes.documentsNeeded && !claim.attributes.decisionLetterSent ? <NeedFilesFromYou/> : null}
+            {phase === null ? <AddingDetails/> : null}
+            {claim.attributes.documentsNeeded && !claim.attributes.decisionLetterSent
+              ? <NeedFilesFromYou events={claim.attributes.eventsTimeline}/>
+              : null}
             <AskVAToDecide/>
             {claim.attributes.decisionLetterSent ? <ClaimsDecision/> : null}
-            <ClaimsTimeline id={claim.id} estimatedDate={claim.attributes.maxEstDate} phase={claim.attributes.phase} events={claim.attributes.eventsTimeline}/>
+            {phase !== null
+              ? <ClaimsTimeline
+                  id={claim.id}
+                  estimatedDate={claim.attributes.maxEstDate}
+                  phase={phase}
+                  events={claim.attributes.eventsTimeline}/>
+              : null}
           </div>
         </div>
       );

@@ -24,7 +24,7 @@ function getClasses(phase, current) {
     return `${stepClass} ${processClass} section-complete`;
   }
 
-  return processClass;
+  return `${stepClass} ${processClass}`;
 }
 
 
