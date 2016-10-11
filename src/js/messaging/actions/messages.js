@@ -2,9 +2,11 @@ import { api } from '../config';
 import { isJson } from '../utils/helpers';
 
 import {
+  ADD_DRAFT_ATTACHMENTS,
   CLEAR_DRAFT,
   CREATE_FOLDER_FAILURE,
   CREATE_FOLDER_SUCCESS,
+  DELETE_DRAFT_ATTACHMENT,
   DELETE_MESSAGE_SUCCESS,
   DELETE_MESSAGE_FAILURE,
   FETCH_THREAD_SUCCESS,
