@@ -6,9 +6,11 @@ window.onload = function stickyActionBox() {
     if (document.body.scrollTop > offset.top) {
       actionBox.style.position = 'fixed';
       actionBox.style.right = `${(document.body.offsetWidth - 1000) / 2}px`;
+      actionBox.style.top = '10px';
     } else {
       actionBox.style.position = 'absolute';
       actionBox.style.right = 0;
+      actionBox.style.top = 0;
     }
   });
 };

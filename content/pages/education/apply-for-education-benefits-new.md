@@ -16,11 +16,7 @@ relatedlinks:
     title: Learn about the National Call to Service program
 ---
 
-<p>
-
 Servicemembers and Veterans who are interested in education and training can use this online application (Form 22-1990) to get their Certificate of Eligibility (COE).
-
-</p>
 
 ### What are the steps?
 
