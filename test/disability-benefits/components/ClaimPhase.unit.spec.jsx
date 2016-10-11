@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import ClaimPhase from '../../../src/js/disability-benefits/components/ClaimPhase';
 
-describe.only('<ClaimPhase>', () => {
+describe('<ClaimPhase>', () => {
   it('should render activity when on current phase', () => {
     const activity = {
       1: [
