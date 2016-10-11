@@ -1,3 +1,6 @@
+// Global site style.
+require('../sass/style.scss');
+
 require('./common');
 
 // Bring in foundation and custom libraries.

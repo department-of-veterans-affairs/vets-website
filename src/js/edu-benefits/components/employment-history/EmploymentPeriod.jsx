@@ -11,7 +11,7 @@ export default class EmploymentPeriod extends React.Component {
     const { view, onValueChange } = this.props;
     const period = this.props.data;
     const formFields = (
-      <div>
+      <div className="input-section">
         <ErrorableRadioButtons
             label="When did you do this work?"
             name="postMilitaryJob"

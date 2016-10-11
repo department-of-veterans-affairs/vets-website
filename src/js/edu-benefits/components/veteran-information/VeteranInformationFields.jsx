@@ -12,7 +12,7 @@ export default class PersonalInformationFields extends React.Component {
     return (
       <fieldset>
         <p>Apply online for education benefits with Form 22-1990</p>
-        <div className="usa-alert usa-alert-info">
+        <div className="usa-alert usa-alert-info edu-benefits-save-note">
           <div className="usa-alert-body">
             <span>Note: You must complete this form in one session. There isn’t a way for you to save your progress.</span>
           </div>

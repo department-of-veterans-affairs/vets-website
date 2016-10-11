@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Address from '../../../common/components/questions/Address';
+import Address from '../Address';
 import Email from '../../../common/components/questions/Email';
 import Phone from '../../../common/components/questions/Phone';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
@@ -15,7 +15,8 @@ export default class ContactInformationFields extends React.Component {
   }
 
   confirmEmail() {
-    if (this.props.data.email.value.toLowerCase() !== this.props.data.emailConfirmation.value.toLowerCase()) {
+    if (this.props.data.emailConfirmation.dirty
+      && this.props.data.email.value.toLowerCase() !== this.props.data.emailConfirmation.value.toLowerCase()) {
       return 'Please ensure your entries match';
     }
 
@@ -23,10 +24,19 @@ export default class ContactInformationFields extends React.Component {
   }
 
   render() {
+    const isPhoneRequired = this.props.data.preferredContactMethod.value === 'phone';
     return (
       <fieldset>
         <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
         <legend>Contact information</legend>
+        <div className="input-section">
+          <ErrorableRadioButtons
+              label="How would you prefer to be contacted if VA has questions about your application?"
+              name="preferredContactMethod"
+              options={contactOptions}
+              value={this.props.data.preferredContactMethod}
+              onValueChange={(update) => {this.props.onStateChange('preferredContactMethod', update);}}/>
+        </div>
         <h4>Address</h4>
         <div className="input-section">
           <Address required
@@ -50,19 +60,15 @@ export default class ContactInformationFields extends React.Component {
           <Phone
               label="Primary telephone number"
               value={this.props.data.homePhone}
-              additionalClass="home-phone"
+              additionalClass="home-phone usa-input-medium"
+              additionalError="This is required due to your preferred contact method."
+              required={isPhoneRequired}
               onValueChange={(update) => {this.props.onStateChange('homePhone', update);}}/>
           <Phone
               label="Mobile telephone number"
               value={this.props.data.mobilePhone}
-              additionalClass="mobile-phone"
+              additionalClass="mobile-phone usa-input-medium"
               onValueChange={(update) => {this.props.onStateChange('mobilePhone', update);}}/>
-          <ErrorableRadioButtons
-              label="How would you prefer to be contacted if VA has questions about your application?"
-              name="preferredContactMethod"
-              options={contactOptions}
-              value={this.props.data.preferredContactMethod}
-              onValueChange={(update) => {this.props.onStateChange('preferredContactMethod', update);}}/>
         </div>
       </fieldset>
     );

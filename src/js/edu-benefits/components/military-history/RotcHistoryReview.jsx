@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { yesNoNA } from '../../utils/options-for-select';
+import { getLabel, showYesNo } from '../../utils/helpers';
+
 export default class RotcHistoryReview extends React.Component {
   render() {
     return (
@@ -7,8 +10,12 @@ export default class RotcHistoryReview extends React.Component {
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
+              <td>Were you commissioned as a result of senior ROTC?</td>
+              <td>{getLabel(yesNoNA, this.props.data.seniorRotcCommissioned.value)}</td>
+            </tr>
+            <tr>
               <td>Year of commission</td>
-              <td>{this.props.data.seniorRotc.yearOfCommission.value}</td>
+              <td>{this.props.data.seniorRotc.commissionYear.value}</td>
             </tr>
           </tbody>
         </table>
@@ -33,7 +40,7 @@ export default class RotcHistoryReview extends React.Component {
           <tbody>
             <tr>
               <td>Are you currently participating in a senior ROTC scholarship program that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)</td>
-              <td>{this.props.data.seniorRotcScholarshipProgram.value === 'Y' ? 'Yes' : 'No'}</td>
+              <td>{showYesNo(this.props.data.seniorRotcScholarshipProgram)}</td>
             </tr>
           </tbody>
         </table>

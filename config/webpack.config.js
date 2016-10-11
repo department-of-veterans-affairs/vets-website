@@ -11,6 +11,7 @@ require('babel-polyfill');
 const configGenerator = (options) => {
   const baseConfig = {
     entry: {
+      'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
       'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
       facilities: './src/js/facility-locator/facility-locator-entry.jsx',
       hca: './src/js/hca/hca-entry.jsx',
@@ -33,7 +34,7 @@ const configGenerator = (options) => {
           loader: 'babel',
           query: {
             // Speed up compilation.
-            cacheDirectory: true
+            cacheDirectory: '.babelcache'
 
             // Also see .babelrc
           }
@@ -45,7 +46,7 @@ const configGenerator = (options) => {
           query: {
             presets: ['react'],
             // Speed up compilation.
-            cacheDirectory: true
+            cacheDirectory: '.babelcache'
 
             // Also see .babelrc
           }
@@ -126,15 +127,12 @@ const configGenerator = (options) => {
       test: /debug\/RoutesDropdown/,
       loader: 'null'
     });
-    baseConfig.module.loaders.push({
-      test: /components\/SignInProfileButton/,
-      loader: 'null'
-    });
+
     baseConfig.plugins.push(new webpack.optimize.DedupePlugin());
     baseConfig.plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
     baseConfig.plugins.push(new webpack.optimize.UglifyJsPlugin());
   } else {
-    baseConfig.devtool = '#cheap-module-eval-source-map';
+    baseConfig.devtool = '#eval-source-map';
   }
 
 

@@ -1,9 +1,23 @@
 {% include "content/includes/header.html" %}
 <div id="content">
 <div class="main" role="main">
-  <div class="section">
-    {{ contents }}
-  </div>
+  {% if in_maintenance == true %}
+    <div class="section main-menu">
+      <div class="row">
+        <div class="small-12 columns">
+          <div style="padding: 2em 0;">
+          <h3>{{ maintenance_line1 }}</h3>
+          <h4>{{ maintenance_line2 }}</h4>
+          <a href="/"><button>Go back to Vets.gov</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+      <div class="section">
+        {{ contents }}
+      </div>
+      {% endif %}
 </div>
 </div>
 {% include "content/includes/footer.html" %}

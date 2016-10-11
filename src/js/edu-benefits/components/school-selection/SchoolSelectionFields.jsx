@@ -4,7 +4,7 @@ import ErrorableTextarea from '../../../common/components/form-elements/Errorabl
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import DateInput from '../../../common/components/form-elements/DateInput';
-import Address from '../../../common/components/questions/Address';
+import Address from '../Address';
 
 import { validateIfDirtyDateObj, isValidFutureOrPastDateField } from '../../utils/validations';
 import { schoolTypes } from '../../utils/options-for-select';

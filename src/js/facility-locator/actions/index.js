@@ -1,4 +1,4 @@
-// import sampleOutput from 'json!../sampleData/sampleOutput.json';
+import sampleData from 'json!../sampleData/sampleData.json';
 import { mapboxClient } from '../components/MapboxClient';
 import { find } from 'lodash';
 
@@ -8,6 +8,7 @@ export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
 export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
 export const SEARCH_FAILED = 'SEARCH_FAILED';
 export const SEARCH_STARTED = 'SEARCH_STARTED';
+export const LOCATION_UPDATED = 'LOCATION_UPDATED';
 
 export function updateSearchQuery(query) {
   return {
@@ -15,6 +16,14 @@ export function updateSearchQuery(query) {
     payload: {
       ...query,
     }
+  };
+}
+
+export function updateLocation(propertyPath, value) {
+  return {
+    type: LOCATION_UPDATED,
+    propertyPath,
+    value
   };
 }
 
@@ -86,10 +95,27 @@ export function fetchVAFacility(id, facility = null) {
   };
 }
 
-export function fetchVAFacilities(bounds) {
+export function fetchVAFacilities(bounds, type) {
+  const serviceTypes = {
+    health: 'VA Medical Center',
+    benefits: 'VA Benefits Office',
+    cemeteries: 'VA Cemetery',
+  };
+
   const mockResults = [...Array(10)].map((_, i) => {
     return {
       ...mockFacility,
+      attributes: {
+        ...mockFacility.attributes,
+        address: {
+          ...sampleData[i].attributes.address,
+          city: 'Denver',
+          state: 'CO',
+          zip: 80123,
+        },
+        name: ((type === undefined || type === 'all') ? sampleData[i].attributes.name.slice(3) : `${serviceTypes[type]}-${sampleData[i].attributes.name.split('-')[1]}`),
+      },
+      type: ((type === undefined || type === 'all') ? sampleData[i].type : serviceTypes[type]),
       id: i + 1,
       lat: bounds.latitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
       'long': bounds.longitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
@@ -113,9 +139,9 @@ export function searchWithAddress(query) {
 
     mapboxClient.geocodeForward(query.searchString, (err, res) => {
       const coordinates = res.features[0].center;
-      const zipCode = find(res.features[0].context, (v) => {
+      const zipCode = (find(res.features[0].context, (v) => {
         return v.id.includes('postcode');
-      }).text;
+      }) || {}).text || res.features[0].place_name;
 
       if (!err) {
         dispatch({
@@ -131,10 +157,12 @@ export function searchWithAddress(query) {
         });
 
         // TODO (bshyong): replace this with a call to the API
-        dispatch(fetchVAFacilities({
-          latitude: coordinates[1],
-          longitude: coordinates[0],
-        }));
+        dispatch(
+          fetchVAFacilities({
+            latitude: coordinates[1],
+            longitude: coordinates[0],
+          }, query.serviceType)
+        );
       } else {
         dispatch({
           type: SEARCH_FAILED,

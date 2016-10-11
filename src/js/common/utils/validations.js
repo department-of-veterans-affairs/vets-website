@@ -103,9 +103,20 @@ function isValidMonetaryValue(value) {
   return true;
 }
 
+function isValidUSZipCode(value) {
+  return /(^\d{5}$)|(^\d{5}[ -]{0,1}\d{4}$)/.test(value);
+}
+
+function isValidCanPostalCode(value) {
+  return /^[a-zA-Z]\d[a-zA-Z][ -]{0,1}\d[a-zA-Z]\d$/.test(value);
+}
+
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
-  return /^\d{10}$/.test(value);
+  // Strip spaces, dashes, and parens
+  const stripped = value.replace(/[- )(]/g, '');
+  // Count number of digits
+  return /^\d{10}$/.test(stripped);
 }
 
 function isValidEmail(value) {
@@ -482,6 +493,8 @@ export {
   isValidName,
   isValidSSN,
   isValidMonetaryValue,
+  isValidUSZipCode,
+  isValidCanPostalCode,
   isValidPhone,
   isValidEmail,
   isValidInsurancePolicy,

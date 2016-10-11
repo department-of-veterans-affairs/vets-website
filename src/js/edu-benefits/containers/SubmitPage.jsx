@@ -2,39 +2,35 @@ import React from 'react';
 import { connect } from 'react-redux';
 import SubmitMessage from '../components/SubmitMessage';
 
+import { getListOfBenefits, getLabel } from '../utils/helpers';
+import { relinquishableBenefits } from '../utils/options-for-select';
 
 class SubmitPage extends React.Component {
   render() {
-    const address = {
-      name: 'Western Region',
-      street1: 'VA Regional Office',
-      street2: 'P.O. Box 8888',
-      city: 'Muskogee',
-      state: 'OK',
-      zip: '74402-8888'
-    };
+    const { relinquished, benefits, confirmation, address, timestamp } = this.props;
 
 		// TODO: replace this with actual data from the API
     return (
       <SubmitMessage
           claimType="Education Benefits"
-          confirmation="8-910fks-76"
-          date="Jul 12, 2016"
+          confirmation={confirmation}
+          date={timestamp}
           address={address}
-          claimedBenefits="Chapter 33"
-          relinquishedBenefits="Chapter 1607"/>
+          claimedBenefits={benefits}
+          relinquishedBenefits={relinquished}/>
     );
   }
 }
 
 function mapStateToProps(state) {
-  return state;
+  return {
+    benefits: getListOfBenefits(state.veteran),
+    relinquished: getLabel(relinquishableBenefits, state.veteran.benefitsRelinquished.value),
+    confirmation: state.uiState.submission.id,
+    address: state.uiState.submission.regionalAddress,
+    timestamp: state.uiState.submission.timestamp
+  };
 }
 
-// Fill this in when we start using actions
-function mapDispatchToProps() {
-  return {};
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SubmitPage);
+export default connect(mapStateToProps)(SubmitPage);
 export { SubmitPage };

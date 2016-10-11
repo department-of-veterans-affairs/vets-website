@@ -17,16 +17,16 @@ describe('<SignInProfileButton>', () => {
     expect(vdom).to.not.be.undefined;
   });
 
-  it('should present login button when currentlyLoggedIn is false', () => {
-    const buttons = tree.everySubTree('button');
-    expect(buttons).to.have.lengthOf(1);
+  it('should present login link when currentlyLoggedIn is false', () => {
+    const link = tree.everySubTree('a');
+    expect(link).to.have.lengthOf(1);
   });
 
   it('should present profile and sign out buttons when currentlyLoggedIn is true', () => {
     const signedInData = { currentlyLoggedIn: true, loginUrl: '' };
     const profileData = { email: 'fake@aol.com' };
     tree = SkinDeep.shallowRender(<SignInProfileButton login={signedInData} profile={profileData}/>);
-    const buttons = tree.everySubTree('button');
-    expect(buttons).to.have.lengthOf(2);
+    const link = tree.everySubTree('a');
+    expect(link).to.have.lengthOf(2);
   });
 });
