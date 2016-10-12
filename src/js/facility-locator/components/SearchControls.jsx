@@ -46,18 +46,22 @@ class SearchControls extends Component {
     }
 
     return (
-      <div className="search-controls-container">
-        <form className="usa-form">
-          <label htmlFor="Street, City, State or Zip">Enter Street, City, State or Zip</label>
-          <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
-          <label htmlFor="serviceType">Service Type</label>
-          <select name="services" defaultValue="all" onChange={this.handleFacilityTypeChange}>
-            <option value="all">All</option>
-            <option value="health">Health</option>
-            <option value="benefits">Benefits</option>
-            <option value="cemeteries">Cemeteries</option>
-          </select>
-          <input type="submit" className="full-width" value="Search" onClick={this.handleSearch}/>
+      <div className="search-controls-container clearfix">
+        <form>
+          <div className="columns medium-5">
+            <label htmlFor="Street, City, State or Zip">Enter Street, City, State or Zip</label>
+            <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
+          </div>
+          <div className="columns medium-5">
+            <label htmlFor="serviceType">Service Type</label>
+            <select name="services" defaultValue="all" onChange={this.handleFacilityTypeChange}>
+              <option value="all">All</option>
+              <option value="health">Health</option>
+              <option value="benefits">Benefits</option>
+              <option value="cemeteries">Cemeteries</option>
+            </select>
+          </div>
+          <input type="submit" className="columns medium-2" value="Search" onClick={this.handleSearch}/>
         </form>
       </div>
     );

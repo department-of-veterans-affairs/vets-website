@@ -218,20 +218,11 @@ class VAMap extends Component {
 
     return (
       <div>
-        <div className="columns medium-4">
-          <div style={{ maxHeight: '75vh', overflowY: 'auto' }}>
-            <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch}/>
-            <hr className="light"/>
-            <div className="facility-search-results">
-              <p>Search Results near <strong>{currentQuery.context}</strong></p>
-              <div>
-                <ResultsList facilities={facilities}/>
-              </div>
-            </div>
-          </div>
+        <div>
+          <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch}/>
         </div>
-        <div className="medium-8 columns" style={{ minHeight: '75vh' }}>
-          <Map ref="map" center={position} zoom={13} style={{ minHeight: '75vh', width: '100%' }}>
+        <div>
+          <Map ref="map" center={position} zoom={13} style={{ width: '100%' }}>
             <TileLayer
                 url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                 attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
@@ -244,6 +235,12 @@ class VAMap extends Component {
               {this.renderFacilityMarkers()}
             </FeatureGroup>
           </Map>
+        </div>
+        <div className="facility-search-results">
+          <p>Search Results near <strong>{currentQuery.context}</strong></p>
+          <div>
+            <ResultsList facilities={facilities}/>
+          </div>
         </div>
       </div>
     );
