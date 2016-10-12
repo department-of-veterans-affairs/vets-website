@@ -22,16 +22,10 @@
   .label {
     font-weight: bold;
   }
-  .talk {
-    margin: .5em 0;
-    padding: 0;
+  .success {
+    color: $color-green;
   }
-  .phone-number {
-    margin: 0.5em 0;
-    a {
-      font-weight: bold;
-      text-decoration: none;
-      margin: 0.5em 0;
-    }
+  .error {
+    color: $color-secondary-darkest;
   }
 }

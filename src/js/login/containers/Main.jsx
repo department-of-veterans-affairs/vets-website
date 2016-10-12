@@ -52,6 +52,8 @@ class Main extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
+      // console.log(json);
+      this.props.onUpdateProfile('accountType', json.level_of_assurance);
       this.props.onUpdateProfile('email', json.email);
       this.props.onUpdateLoggedInStatus(true);
     });

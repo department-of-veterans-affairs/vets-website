@@ -58,4 +58,9 @@ button.usa-button-outline {
   &.usa-button-focus {
     box-shadow: $button-stroke $color-primary-darkest, $focus-shadow;
   }
+
+  &.va-button-warn {
+    box-shadow: $button-stroke $color-secondary-darkest;
+    color: $color-secondary-darkest;
+  }
 }
