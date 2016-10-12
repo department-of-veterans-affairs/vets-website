@@ -87,6 +87,7 @@ export function createVeteran() {
     chapter1606: false,
     chapter32: false,
     chapter33: false,
+    checkedBenefit: makeField(''),
     serviceAcademyGraduationYear: makeField(''),
     currentlyActiveDuty: {
       yes: makeField(''),
@@ -198,6 +199,7 @@ export function veteranToApplication(veteran) {
       case 'activeDutyRepaying':
       case 'hasNonMilitaryJobs':
       case 'emailConfirmation':
+      case 'checkedBenefit':
         return undefined;
 
       case 'serviceAcademyGraduationYear':
