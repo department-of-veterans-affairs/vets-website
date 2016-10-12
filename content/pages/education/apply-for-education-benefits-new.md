@@ -72,7 +72,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 </div>
 
-<a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/application">Begin Application</a>
+<a href="/education/apply-for-education-benefits/application" class="usa-button-primary va-button-primary">Begin Application</a>
 
 <div markdown="1">
 
