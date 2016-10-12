@@ -2,10 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import {
+  addDraftAttachments,
   clearDraft,
+  deleteDraftAttachment,
   deleteMessage,
   fetchThread,
   moveMessageToFolder,
+  openAttachmentsModal,
   openMoveToNewFolderModal,
   saveDraft,
   sendMessage,
@@ -18,15 +21,16 @@ import {
 } from '../actions';
 
 import Message from '../components/Message';
+import MessageAttachments from '../components/compose/MessageAttachments';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
 
-import { composeMessage } from '../config';
+import { allowedMimeTypes, composeMessage } from '../config';
 
-class Thread extends React.Component {
+export class Thread extends React.Component {
   constructor(props) {
     super(props);
     this.apiFormattedDraft = this.apiFormattedDraft.bind(this);
@@ -174,9 +178,19 @@ class Thread extends React.Component {
                 onValueChange={this.props.updateDraft}
                 placeholder={composeMessage.placeholders.message}
                 text={this.props.draft.body}/>
+            <MessageAttachments
+                hidden={!this.props.draft.attachments.length}
+                files={this.props.draft.attachments}
+                onClose={this.props.deleteDraftAttachment}/>
             <MessageSend
+                allowedMimeTypes={allowedMimeTypes}
                 charCount={this.props.draft.charsRemaining}
                 cssClass="messaging-send-group"
+                maxFiles={composeMessage.attachments.maxNum}
+                maxFileSize={composeMessage.attachments.maxSingleFile}
+                maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
+                onAttachmentUpload={this.props.addDraftAttachments}
+                onAttachmentsError={this.props.openAttachmentsModal}
                 onSave={this.handleReplySave}
                 onSend={this.handleReplySend}
                 onDelete={this.props.toggleConfirmDelete}/>
@@ -208,6 +222,7 @@ const mapStateToProps = (state) => {
   const isNewMessage = draft.replyMessageId === undefined;
 
   return {
+    draft,
     folders: state.folders.data.items,
     folderMessages: folder.messages,
     isNewMessage,
@@ -217,16 +232,18 @@ const mapStateToProps = (state) => {
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
     persistFolder: folder.persistFolder,
-    draft,
     thread
   };
 };
 
 const mapDispatchToProps = {
+  addDraftAttachments,
   clearDraft,
+  deleteDraftAttachment,
   deleteMessage,
   fetchThread,
   moveMessageToFolder,
+  openAttachmentsModal,
   openMoveToNewFolderModal,
   saveDraft,
   sendMessage,
