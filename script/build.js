@@ -259,6 +259,7 @@ if (options.watch) {
           '/employment/job-seekers/search-jobs',
           '/employment/job-seekers/skills-translator',
           '/gi-bill-comparison-tool/',
+          '/education/apply-for-education-benefits/application',
           '/healthcare/apply/application'].join('|'))
   }));
 
