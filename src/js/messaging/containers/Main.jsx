@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 
 import {
+  closeAttachmentsModal,
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,
@@ -16,9 +17,10 @@ import {
 import ButtonClose from '../components/buttons/ButtonClose';
 import ComposeButton from '../components/ComposeButton';
 import FolderNav from '../components/FolderNav';
+import ModalAttachments from '../components/compose/ModalAttachments';
 import ModalCreateFolder from '../components/ModalCreateFolder';
 
-class Main extends React.Component {
+export class Main extends React.Component {
   constructor(props) {
     super(props);
     this.handleFolderChange = this.handleFolderChange.bind(this);
@@ -70,6 +72,13 @@ class Main extends React.Component {
         <div id="messaging-content">
           {this.props.children}
         </div>
+        <ModalAttachments
+            cssClass="messaging-modal"
+            text={this.props.attachmentsModal.message.text}
+            title={this.props.attachmentsModal.message.title}
+            id="messaging-add-attachments"
+            onClose={this.props.closeAttachmentsModal}
+            visible={this.props.attachmentsModal.visible}/>
         <ModalCreateFolder
             cssClass="messaging-modal"
             folders={this.props.folders}
@@ -90,6 +99,7 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    attachmentsModal: state.modals.attachments,
     createFolderModal: state.modals.createFolder,
     folders: state.folders.data.items,
     nav: state.folders.ui.nav,
@@ -98,6 +108,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  closeAttachmentsModal,
   closeCreateFolderModal,
   createFolderAndMoveMessage,
   createNewFolder,

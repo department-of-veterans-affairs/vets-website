@@ -3,15 +3,14 @@ import set from 'lodash/fp/set';
 import { makeField } from '../../common/model/fields.js';
 import { composeMessage } from '../config';
 
-
 import {
   CLOSE_ATTACHMENTS_MODAL,
   CLOSE_CREATE_FOLDER,
   OPEN_ATTACHMENTS_MODAL,
   OPEN_CREATE_FOLDER,
-  TOGGLE_CONFIRM_DELETE,
-  SET_NEW_FOLDER_NAME
-} from '../actions/modals';
+  SET_NEW_FOLDER_NAME,
+  TOGGLE_CONFIRM_DELETE
+} from '../utils/constants';
 
 const initialState = {
   deleteConfirm: {
@@ -35,7 +34,7 @@ export default function modals(state = initialState, action) {
     case TOGGLE_CONFIRM_DELETE:
       return set('deleteConfirm.visible', !state.deleteConfirm.visible, state);
     case CLOSE_ATTACHMENTS_MODAL:
-      return set('attachments.visible', false, state);
+      return set('attachments', initialState.attachments, state);
     case CLOSE_CREATE_FOLDER:
       return set('createFolder', initialState.createFolder, state);
     case OPEN_ATTACHMENTS_MODAL:
