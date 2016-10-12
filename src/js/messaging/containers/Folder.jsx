@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
 
@@ -14,41 +14,53 @@ import {
 import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
 import MessageSearch from '../components/MessageSearch';
+import { paths } from '../config';
 
 export class Folder extends React.Component {
   componentDidMount() {
     const id = this.props.params.id;
-    this.props.fetchFolder(id);
+    const query = _.pick(this.props.location.query, ['page']);
+    this.props.fetchFolder(id, query);
   }
 
-  componentDidUpdate(prevProps) {
-    const oldId = prevProps.params.id;
-    const newId = this.props.params.id;
-    if (oldId !== newId) {
-      this.props.fetchFolder(newId);
+  componentDidUpdate() {
+    const newId = +this.props.params.id;
+    const oldId = this.props.folder.attributes.folderId;
+
+    const query = _.pick(this.props.location.query, ['page']);
+    const newPage = +query.page;
+    const oldPage = this.props.page;
+
+    if (newId !== oldId || newPage !== oldPage) {
+      this.props.fetchFolder(newId, query);
     }
   }
 
   makeMessageNav() {
-    const { folder, currentRange, messageCount, page, totalPages } = this.props;
+    const { currentRange, messageCount, page, totalPages } = this.props;
 
     if (messageCount === 0) {
       return null;
     }
 
-    const folderId = folder.attributes.folderId;
     let handleClickPrev;
     let handleClickNext;
 
     if (page > 1) {
       handleClickPrev = () => {
-        this.props.fetchFolder(folderId, { page: page - 1 });
+        browserHistory.push({
+          pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
+          query: { page: page - 1 }
+        });
       };
     }
 
     if (page < totalPages) {
       handleClickNext = () => {
-        this.props.fetchFolder(folderId, { page: page + 1 });
+        browserHistory.push({
+          pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
+          query: { page: page + 1 }
+        });
       };
     }
 
