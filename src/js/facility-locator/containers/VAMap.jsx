@@ -8,7 +8,9 @@ import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
 import DivMarker from '../components/markers/DivMarker';
 import isMobile from 'ismobilejs';
-import NumberedIcon from '../components/markers/NumberedIcon';
+import CemeteryMarker from '../components/markers/CemeteryMarker';
+import HealthMarker from '../components/markers/HealthMarker';
+import BenefitsMarker from '../components/markers/BenefitsMarker';
 import React, { Component } from 'react';
 import ResultsList from '../components/ResultsList';
 import SearchControls from '../components/SearchControls';
@@ -147,14 +149,44 @@ class VAMap extends Component {
     };
 
     return facilities.map(f => {
-      return (
-        <NumberedIcon key={f.id} position={[f.lat, f.long]} number={f.id} onClick={() => {this.props.fetchVAFacility(f.id, f);}}>
+      const iconProps = {
+        key: f.id,
+        position: [f.lat, f.long],
+        onClick: () => {
+          this.props.fetchVAFacility(f.id, f);
+        },
+      };
+
+      const popupContent = (
+        <div>
           <a onClick={linkAction.bind(this, f.id)}>
-            <h5>{f.attributes.name} asdfasfasdf</h5>
+            <h5>{f.attributes.name}</h5>
           </a>
           <p>Facility type: {f.type}</p>
-        </NumberedIcon>
+        </div>
       );
+      console.log('type', f.type)
+      switch (f.type) {
+        case 'va_health_facility':
+          return (
+            <HealthMarker {...iconProps}>
+              {popupContent}
+            </HealthMarker>
+          );
+        case 'va_cemetery':
+          return (
+            <CemeteryMarker {...iconProps}>
+              {popupContent}
+            </CemeteryMarker>
+          );
+        case 'va_benefits_facility':
+          return (
+            <BenefitsMarker {...iconProps}>
+              {popupContent}
+            </BenefitsMarker>
+          );
+        default: return null;
+      }
     });
   }
 
