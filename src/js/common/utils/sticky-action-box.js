@@ -10,7 +10,9 @@ function setLargeActionBoxAtTop(largeActionBox) {
 
 function setSmallActionBoxAtTop(smallActionBox) {
   smallActionBox.style.position = 'fixed';
-  smallActionBox.style.top = '10px';
+  smallActionBox.style.top = '0px';
+  smallActionBox.style.left = '0px';
+  smallActionBox.style.width = '100%';
 }
 
 function resetLargeActionBox(largeActionBox) {
@@ -22,6 +24,8 @@ function resetLargeActionBox(largeActionBox) {
 function resetSmallActionBox(smallActionBox) {
   smallActionBox.style.position = 'initial';
   smallActionBox.style.top = 'initial';
+  smallActionBox.style.left = 'initial';
+  smallActionBox.style.width = '35rem';
 }
 
 function moveActionBoxOnScroll(actionBox, offset, positionFunction, resetFunction) {
