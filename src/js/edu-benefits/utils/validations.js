@@ -226,12 +226,15 @@ function isValidPersonalInfoPage(data) {
 }
 
 function isValidBenefitsInformationPage(data) {
+  return data.chapter33 || data.chapter30 || data.chapter32 || data.chapter1606;
+}
+
+function isValidBenefitsWaiverPage(data) {
   return !data.chapter33 ||
     (isNotBlank(data.benefitsRelinquished.value) &&
       (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
         (!isBlankDateField(data.benefitsRelinquishedDate) && isValidFutureDateField(data.benefitsRelinquishedDate))));
 }
-
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
     && (!tour.doNotApplyPeriodToSelected || isNotBlank(tour.benefitsToApplyTo.value))
@@ -319,6 +322,7 @@ function isValidRotcHistoryPage(data) {
 
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data)
+    && isValidBenefitsWaiverPage(data)
     && isValidPersonalInfoPage(data)
     && isValidContactInformationPage(data)
     && isValidMilitaryServicePage(data)
@@ -339,6 +343,8 @@ function isValidPage(completePath, pageData) {
       return isValidContactInformationPage(pageData);
     case '/benefits-eligibility/benefits-selection':
       return isValidBenefitsInformationPage(pageData);
+    case '/benefits-eligibility/benefits-waiver':
+      return isValidBenefitsWaiverPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
     case '/military-history/benefits-history':
