@@ -10,6 +10,7 @@ import {
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
+  TOGGLE_REPLY_DETAILS,
   UPDATE_DRAFT
 } from '../utils/constants';
 
@@ -27,7 +28,8 @@ const initialState = {
   },
   ui: {
     messagesCollapsed: new Set(),
-    moveToOpened: false
+    moveToOpened: false,
+    replyDetailsCollapsed: true
   }
 };
 
@@ -53,6 +55,8 @@ export default function folders(state = initialState, action) {
     case FETCH_THREAD_SUCCESS: {
       const currentMessage = action.message.attributes;
       const thread = action.thread.map(message => message.attributes);
+
+      // Collapse all the previous messages in the thread.
       const messagesCollapsed = new Set(thread.map((message) => {
         return message.messageId;
       }));
@@ -60,11 +64,6 @@ export default function folders(state = initialState, action) {
       // Thread is received in most recent order.
       // Reverse to display most recent message at the bottom.
       thread.reverse();
-
-      let newState = set('ui', {
-        messagesCollapsed,
-        moveToOpened: false
-      }, state);
 
       // The message is the draft if it hasn't been sent yet.
       // Otherwise, the draft is an new, unsaved reply to the message.
@@ -90,6 +89,7 @@ export default function folders(state = initialState, action) {
         });
       }
 
+      let newState = set('ui', { ...initialState.ui, messagesCollapsed }, state);
       newState = set('data.thread', thread, newState);
       newState = set('data.draft', draft, newState);
       return set('data.message', currentMessage, newState);
@@ -125,6 +125,9 @@ export default function folders(state = initialState, action) {
 
     case TOGGLE_MOVE_TO:
       return set('ui.moveToOpened', !state.ui.moveToOpened, state);
+
+    case TOGGLE_REPLY_DETAILS:
+      return set('ui.replyDetailsCollapsed', !state.ui.replyDetailsCollapsed, state);
 
     case UPDATE_DRAFT:
       return set('data.draft', {
