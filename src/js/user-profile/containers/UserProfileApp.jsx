@@ -8,9 +8,11 @@ import AccountManagementSection from '../components/AccountManagementSection';
 
 class UserProfileApp extends React.Component {
   render() {
-    let content;
+    let components;
+    let account;
+
     if (this.props.profile.accountType === 'loa3') {
-      content = (
+      components = (
         <div>
           <UserDataSection/>
           <LoginDataSection/>
@@ -18,20 +20,22 @@ class UserProfileApp extends React.Component {
           <AccountManagementSection/>
         </div>
       );
+      account = <p>ACCOUNT TYPE: Verified</p>;
     } else {
-      content = (
+      components = (
         <div>
-          <UserDataSection/>
+          <LoginDataSection/>
           <AccountManagementSection/>
         </div>
       );
+      account = <p>ACCOUNT TYPE: Basic (<a href="#">Want to Upgrade your account?</a>)</p>;
     }
     return (
       <div className="row">
         <div className="medium-8 small-12">
           <h1>Your Vets.gov Account</h1>
-          <p>ACCOUNT TYPE: Blue Member (<a href="#">Want to Upgrade your account?</a>)</p>
-          {content}
+          {account}
+          {components}
         </div>
       </div>
     );

@@ -7,7 +7,7 @@ class LoginDataSection extends React.Component {
       <div className="profile-section medium-12 columns">
         <h4 className="section-header">Login Info</h4>
         <div className="info-conatiner medium-8 columns">
-          <p><span className="label medium-4 columns">Email Address:</span>crwallace39@gmail.com</p>
+          <p><span className="label medium-4 columns">Email Address:</span>{this.props.profile.email}</p>
         </div>
         <div className="button-container medium-4 columns">
           <button className="usa-button-outline">Change Your Password</button>

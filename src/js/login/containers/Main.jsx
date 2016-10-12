@@ -55,6 +55,12 @@ class Main extends React.Component {
       // console.log(json);
       this.props.onUpdateProfile('accountType', json.level_of_assurance);
       this.props.onUpdateProfile('email', json.email);
+      this.props.onUpdateProfile('userFullName.first', json.first_name);
+      this.props.onUpdateProfile('userFullName.middle', json.middle_name);
+      this.props.onUpdateProfile('userFullName.last', json.last_name);
+      // this.props.onUpdateProfile('userFullName.suffix', json.first_name);
+      this.props.onUpdateProfile('gender', json.gender);
+      this.props.onUpdateProfile('dob', json.birth_date);
       this.props.onUpdateLoggedInStatus(true);
     });
   }
