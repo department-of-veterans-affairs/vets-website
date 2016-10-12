@@ -234,7 +234,6 @@ function isValidBenefitsInformationPage(data) {
 
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
-    && (!tour.doNotApplyPeriodToSelected || isNotBlank(tour.benefitsToApplyTo.value))
     && isValidDateField(tour.dateRange.from)
     && isValidDateField(tour.dateRange.to)
     && isValidDateRange(tour.dateRange.from, tour.dateRange.to);

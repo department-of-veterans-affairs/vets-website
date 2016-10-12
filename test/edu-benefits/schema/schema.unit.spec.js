@@ -21,8 +21,7 @@ import {
   suffixes,
   serviceBranches,
   hoursTypes,
-  ownBenefitsOptions,
-  tourBenefits
+  ownBenefitsOptions
 } from '../../../src/js/edu-benefits/utils/options-for-select';
 
 const ajv = new Ajv();
@@ -64,8 +63,8 @@ const tourOfDutyGen = () => qc.objectLike({
   serviceBranch: makeField(qc.choose(...serviceBranches.map(x => x.value))),
   serviceStatus: makeField(qc.string),
   involuntarilyCalledToDuty: makeField(yesNoGen()),
-  doNotApplyPeriodToSelected: qc.bool,
-  benefitsToApplyTo: makeField(qc.choose(...tourBenefits.map(x => x.value)))
+  applyPeriodToSelected: qc.bool,
+  benefitsToApplyTo: makeField(qc.string)
 });
 const scholarshipGen = () => qc.objectLike({
   amount: makeField(qc.string.matching(/^[$]{0,1}\d{1,5}\.\d{1,2}$/)),
