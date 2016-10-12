@@ -96,11 +96,13 @@ export function fetchVAFacility(id, facility = null) {
 }
 
 export function fetchVAFacilities(bounds, type) {
+  /* eslint-disable camelcase */
   const serviceTypes = {
-    health: 'VA Medical Center',
-    benefits: 'VA Benefits Office',
-    cemeteries: 'VA Cemetery',
+    va_health_facility: 'VA Medical Center',
+    va_benefits_facility: 'VA Benefits Office',
+    va_cemetery: 'VA Cemetery',
   };
+  /* eslint-enable camelcase */
 
   const mockResults = [...Array(10)].map((_, i) => {
     return {
@@ -115,7 +117,7 @@ export function fetchVAFacilities(bounds, type) {
         },
         name: ((type === undefined || type === 'all') ? sampleData[i].attributes.name.slice(3) : `${serviceTypes[type]}-${sampleData[i].attributes.name.split('-')[1]}`),
       },
-      type: ((type === undefined || type === 'all') ? sampleData[i].type : serviceTypes[type]),
+      type: ((type === undefined || type === 'all') ? sampleData[i].type : type),
       id: i + 1,
       lat: bounds.latitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
       'long': bounds.longitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),

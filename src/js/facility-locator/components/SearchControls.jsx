@@ -54,11 +54,11 @@ class SearchControls extends Component {
           </div>
           <div className="columns medium-5">
             <label htmlFor="serviceType">Service Type</label>
-            <select name="services" defaultValue="all" onChange={this.handleFacilityTypeChange}>
+            <select name="services" onChange={this.handleFacilityTypeChange} value={currentQuery.serviceType}>
               <option value="all">All</option>
-              <option value="health">Health</option>
-              <option value="benefits">Benefits</option>
-              <option value="cemeteries">Cemeteries</option>
+              <option value="va_health_facility">Health</option>
+              <option value="va_benefits_facility">Benefits</option>
+              <option value="va_cemetery">Cemeteries</option>
             </select>
           </div>
           <input type="submit" className="columns medium-2" value="Search" onClick={this.handleSearch}/>

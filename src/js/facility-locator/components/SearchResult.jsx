@@ -14,7 +14,7 @@ class SearchResult extends Component {
     /* eslint-disable camelcase */
     const facilityTypes = {
       va_health_facility: 'Health',
-      va_cemetary: 'Cemetary',
+      va_cemetery: 'Cemetery',
       va_benefits_facility: 'Benefits',
     };
     /* eslint-enable camelcase */
