@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign */
+
 import _ from 'lodash';
 
 function setLargeActionBoxAtTop(largeActionBox) {
@@ -40,9 +42,9 @@ function moveActionBoxOnScroll(actionBox, offset, positionFunction, resetFunctio
 window.onload = function stickyActionBox() {
   const largeActionBox = document.querySelectorAll('.show-for-large-up .sticky-action-box')[0];
   const smallActionBox = document.querySelectorAll('.hide-for-large-up .sticky-action-box')[0];
-  let offsetLarge = largeActionBox.getBoundingClientRect();
-  let offsetSmall = smallActionBox.getBoundingClientRect();
+  const offsetLarge = largeActionBox.getBoundingClientRect();
+  const offsetSmall = smallActionBox.getBoundingClientRect();
 
-  moveActionBoxOnScroll(largeActionBox, offsetLarge, setLargeActionBoxAtTop, resetLargeActionBox);  
+  moveActionBoxOnScroll(largeActionBox, offsetLarge, setLargeActionBoxAtTop, resetLargeActionBox);
   moveActionBoxOnScroll(smallActionBox, offsetSmall, setSmallActionBoxAtTop, resetSmallActionBox);
 };
