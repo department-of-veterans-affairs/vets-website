@@ -12,7 +12,7 @@ export function getClaims() {
       mode: 'cors',
       headers: {
         'X-Key-Inflection': 'camel',
-        'Authorization': `Token token=${localStorage.userToken}`
+        Authorization: `Token token=${localStorage.userToken}`
       }
     })
       .then(res => {
@@ -43,7 +43,7 @@ export function getClaimDetail(id) {
       mode: 'cors',
       headers: {
         'X-Key-Inflection': 'camel',
-        'Authorization': `Token token=${localStorage.userToken}`
+        Authorization: `Token token=${localStorage.userToken}`
       }
     })
       .then(res => {
