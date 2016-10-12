@@ -37,7 +37,8 @@ module.exports = {
   paths: {
     INBOX_URL: '/messaging',
     COMPOSE_URL: '/messaging/compose',
-    FOLDERS_URL: '/messaging/folder'
+    FOLDERS_URL: '/messaging/folder',
+    THREADS_URL: '/messaging/thread'
   },
 
   // The indices of systemFolders are positive. The
