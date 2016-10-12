@@ -9,6 +9,7 @@ export default class BenefitsSelectionFields extends React.Component {
       <legend className="hide-for-small-only">Benefits eligibility</legend>
       <div className="input-section">
         <ErrorableGroup
+            required
             label="Select the benefit that is the best match for you. If you are eligible for more than one, we can help you make the best choice."
             validation={this.props.data.chapter33 || this.props.data.chapter30 || this.props.data.chapter1606 || this.props.data.chapter32}
             errorMessage="Please select at least one benefit"

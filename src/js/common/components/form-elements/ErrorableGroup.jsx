@@ -15,7 +15,7 @@ class ErrorableGroup extends React.Component {
   }
 
   render() {
-    const hasError = this.props.errorMessage && !this.props.validation && this.props.isDirty;
+    const hasError = this.props.required && this.props.errorMessage && !this.props.validation && this.props.isDirty;
 
     let errorSpan = '';
     let errorSpanId = undefined;
