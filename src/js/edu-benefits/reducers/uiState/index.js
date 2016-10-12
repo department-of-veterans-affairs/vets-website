@@ -28,7 +28,7 @@ const ui = {
     '/benefits-eligibility/benefits-selection': {
       complete: false,
       verified: false,
-      fields: ['chapter30', 'chapter32', 'chapter33', 'chapter1606']
+      fields: ['chapter30', 'chapter32', 'chapter33', 'chapter1606', 'checkedBenefit']
     },
     '/benefits-eligibility/benefits-waiver': {
       complete: false,
