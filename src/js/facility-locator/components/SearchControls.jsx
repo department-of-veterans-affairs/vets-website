@@ -47,8 +47,6 @@ class SearchControls extends Component {
 
     return (
       <div className="search-controls-container">
-        <h4>Find a VA Facility</h4>
-        <div>Search for facilities near you or for a specific service or benefit.</div>
         <form className="usa-form">
           <label htmlFor="Street, City, State or Zip">Enter Street, City, State or Zip</label>
           <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
