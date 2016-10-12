@@ -142,6 +142,14 @@ class VAMap extends Component {
   renderFacilityMarkers() {
     const { facilities } = this.props;
 
+    /* eslint-disable camelcase */
+    const facilityTypes = {
+      va_health_facility: 'Health',
+      va_cemetery: 'Cemetery',
+      va_benefits_facility: 'Benefits',
+    };
+    /* eslint-enable camelcase */
+
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, e) => {
       e.preventDefault();
@@ -162,10 +170,10 @@ class VAMap extends Component {
           <a onClick={linkAction.bind(this, f.id)}>
             <h5>{f.attributes.name}</h5>
           </a>
-          <p>Facility type: {f.type}</p>
+          <p>Facility type: <strong>{facilityTypes[f.type]}</strong></p>
         </div>
       );
-      console.log('type', f.type)
+
       switch (f.type) {
         case 'va_health_facility':
           return (
@@ -254,7 +262,7 @@ class VAMap extends Component {
           <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch}/>
         </div>
         <div>
-          <Map ref="map" center={position} zoom={13} style={{ width: '100%' }}>
+          <Map ref="map" center={position} zoom={13} style={{ width: '100%' }} scrollWheelZoom={false}>
             <TileLayer
                 url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                 attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>

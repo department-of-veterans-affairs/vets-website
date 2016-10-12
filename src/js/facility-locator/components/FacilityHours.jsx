@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 
 export default class FacilityHours extends Component {
+  renderHours(hours) {
+    return hours === '-' ? 'CLOSED' : hours;
+  }
+
   render() {
     if (!this.props.info) {
       return null;
@@ -19,7 +23,7 @@ export default class FacilityHours extends Component {
               Monday:
           </div>
           <div className="medium-6 columns">
-              {hours.monday}
+            {this.renderHours(hours.monday)}
           </div>
         </div>
         <div className="row">
@@ -27,7 +31,7 @@ export default class FacilityHours extends Component {
               Tuesday:
           </div>
           <div className="medium-6 columns">
-              {hours.tuesday}
+            {this.renderHours(hours.tuesday)}
           </div>
         </div>
         <div className="row">
@@ -35,7 +39,7 @@ export default class FacilityHours extends Component {
               Wednesday:
           </div>
           <div className="medium-6 columns">
-              {hours.wednesday}
+            {this.renderHours(hours.wednesday)}
           </div>
         </div>
         <div className="row">
@@ -43,7 +47,7 @@ export default class FacilityHours extends Component {
               Thursday:
           </div>
           <div className="medium-6 columns">
-              {hours.thursday}
+            {this.renderHours(hours.thursday)}
           </div>
         </div>
         <div className="row">
@@ -51,7 +55,7 @@ export default class FacilityHours extends Component {
               Friday:
           </div>
           <div className="medium-6 columns">
-              {hours.friday}
+            {this.renderHours(hours.friday)}
           </div>
         </div>
         <div className="row">
@@ -59,7 +63,7 @@ export default class FacilityHours extends Component {
               Saturday:
           </div>
           <div className="medium-6 columns">
-              {hours.saturday}
+            {this.renderHours(hours.saturday)}
           </div>
         </div>
         <div className="row">
@@ -67,7 +71,7 @@ export default class FacilityHours extends Component {
               Sunday:
           </div>
           <div className="medium-6 columns">
-              {hours.sunday}
+            {this.renderHours(hours.sunday)}
           </div>
         </div>
       </div>
