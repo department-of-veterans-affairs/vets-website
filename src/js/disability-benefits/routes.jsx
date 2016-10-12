@@ -20,16 +20,16 @@ const routes = [
       path="/your-claims/compensation-claims/"/>,
   <Route
       component={StatusPage}
-      key="/your-claims/status"
-      path="/your-claims/status"/>,
+      key="/your-claims/:id/status"
+      path="/your-claims/:id/status"/>,
   <Route
       component={FilesPage}
-      key="/your-claims/files"
-      path="/your-claims/files"/>,
+      key="/your-claims/:id/files"
+      path="/your-claims/:id/files"/>,
   <Route
       component={DetailsPage}
-      key="/your-claims/details"
-      path="/your-claims/details"/>,
+      key="/your-claims/:id/details"
+      path="/your-claims/:id/details"/>,
   <Route
       component={AskVAPage}
       key="/your-claims/ask-va-to-decide"
