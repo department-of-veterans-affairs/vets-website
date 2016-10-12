@@ -36,13 +36,12 @@ Servicemembers and Veterans who are interested in education and training can use
 
 You may be eligible for more than one benefit, based on your service. When you apply, you have to pick which one you want to use: 
 
-[An accredited representative]( http://www.va.gov/ogc/apps/accreditation/index.asp) with a Veterans Service Organization (VSO) can help you pick the right program.
-
 - [Post- 9/11 GI Bill](https://www.vets.gov/education/gi-bill/post-9-11/) (Chapter 33)
 - [Montgomery GI Bill - Active Duty](https://www.vets.gov/education/gi-bill/montgomery-active-duty/) (MGIB-AD or Chapter 30)
 - [Montgomery GI Bill - Selected Reserve](https://www.vets.gov/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR or Chapter 1606)
 - [Post-Vietnam Era Veterans' Educational Assistance Program](https://www.vets.gov/education/other-educational-assistance-programs/veap/) (VEAP or Chapter 32)
 
+[An accredited representative]( http://www.va.gov/ogc/apps/accreditation/index.asp) with a Veterans Service Organization (VSO) can help you pick the right program.
 
 ###### Learn about educational programs
 
@@ -50,11 +49,11 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 </div>
 
-<a class="usa-button-primary usa-button-outline" href="https://www.vets.gov/gi-bill-comparison-tool/">GI Bill Benefit Estimation Tool</a>
+<a class="usa-button-primary usa-button-outline" href="https://www.vets.gov/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
 
 <div markdown="1">
 
-###### What will you need to fill out this application?
+###### What you need to fill out this application
 
 - Social Security number 
 - Bank account direct deposit information 
@@ -81,7 +80,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 - Go to a VA regional office and have a VA employee assist you.
 - Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
-- Call 888-GI-Bill (888-442-4551) to have the application mailed to you. After you complete it, mail it to your VA regional claims processing office.
+- Call 888-442-4551 to have the application mailed to you. Fill it out and mail it to your VA regional claims processing office.
 
 </div>
 
@@ -126,7 +125,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 <div class="feature usa-content" markdown="1">
 
-##### Checking in on your application?
+##### Checking in on the status of your application?
 
 - It takes VA about 1 month to review your application.
 - If we’ve asked for documents, please upload them through the [GI Bill site](https://gibill.custhelp.com/app/home).
