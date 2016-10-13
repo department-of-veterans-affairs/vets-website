@@ -30,7 +30,7 @@ export default class MilitaryServiceFields extends React.Component {
             value={this.props.data.currentlyActiveDuty.onTerminalLeave}
             onValueChange={(update) => {this.props.onStateChange('currentlyActiveDuty.onTerminalLeave', update);}}/>
         <ErrorableRadioButtons
-            label="Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?"
+            label="Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework or training?"
             name="nonVaAssistance"
             options={yesNo}
             value={this.props.data.currentlyActiveDuty.nonVaAssistance}
@@ -62,8 +62,8 @@ export default class MilitaryServiceFields extends React.Component {
         </ExpandingGroup>
       </div>
       <div className="input-section">
-        <h4>Tours of duty</h4>
-        <p>Please record all your tours of duty.</p>
+        <h4>Service periods</h4>
+        <p>Please record all your periods of service.</p>
         <div className="input-section">
           <GrowableTable
               component={MilitaryServiceTour}
