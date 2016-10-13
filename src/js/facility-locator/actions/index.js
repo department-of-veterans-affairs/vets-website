@@ -79,7 +79,7 @@ const mockFacility = {
 };
 
 /* eslint-disable camelcase */
-const serviceTypes = {
+const facilityTypes = {
   va_health_facility: 'VA Medical Center',
   va_benefits_facility: 'VA Benefits Office',
   va_cemetery: 'VA Cemetery',
@@ -109,7 +109,7 @@ export function fetchVAFacility(id, facility = null) {
           state: 'CO',
           zip: 80123,
         },
-        name: ((specificSampleFacility.type === undefined || specificSampleFacility.type === 'all') ? specificSampleFacility.attributes.name.slice(3) : `${serviceTypes[specificSampleFacility.type]}-${specificSampleFacility.attributes.name.split('-')[1]}`),
+        name: ((specificSampleFacility.type === undefined || specificSampleFacility.type === 'all') ? specificSampleFacility.attributes.name.slice(3) : `${facilityTypes[specificSampleFacility.type]}-${specificSampleFacility.attributes.name.split('-')[1]}`),
       },
       id,
     },
@@ -142,7 +142,7 @@ export function fetchVAFacilities(bounds, type) {
           state: 'CO',
           zip: 80123,
         },
-        name: ((type === undefined || type === 'all') ? specificSampleFacility.attributes.name.slice(3) : `${serviceTypes[specificSampleFacility.type]}-${specificSampleFacility.attributes.name.split('-')[1]}`),
+        name: ((type === undefined || type === 'all') ? specificSampleFacility.attributes.name.slice(3) : `${facilityTypes[specificSampleFacility.type]}-${specificSampleFacility.attributes.name.split('-')[1]}`),
       },
       type: ((type === undefined || type === 'all') ? specificSampleFacility.type : type),
       id: o.id,
@@ -190,7 +190,7 @@ export function searchWithAddress(query) {
           fetchVAFacilities({
             latitude: coordinates[1],
             longitude: coordinates[0],
-          }, query.serviceType)
+          }, query.facilityType)
         );
       } else {
         dispatch({

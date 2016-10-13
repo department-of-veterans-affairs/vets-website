@@ -220,7 +220,7 @@ class VAMap extends Component {
     return (
       <div>
         <div className="columns small-12">
-          <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch}/>
+          <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch} isMobile/>
           <Tabs onSelect={this.centerMap}>
             <TabList>
               <Tab className="small-6 tab">View List</Tab>
