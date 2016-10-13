@@ -99,17 +99,19 @@
 
 .claims-evidence {
   border-bottom: 1px solid $color-gray-light;
+  padding: 1em 0;
+  &.row {
+    margin: 0 0;
+  }
   .claims-evidence-date {
-    display:inline-block;
     font-weight: bold;
-    width: 100px;
-    margin-right: 10px;
+    padding-right: 10px;
   }
   .claims-evidence-item {
-    display:inline-block;
   }
   &:last-child {
     border: none;
+    padding-bottom: 0;
   }
 }
 
@@ -386,4 +388,15 @@ a.claim-list-item {
 
 .va-claim-form {
   margin: 1.5em 0;
+}
+
+.disability-benefits-timeline {
+  > li.step:not(.section-current) {
+    cursor: pointer;
+  }
+}
+
+button.older-updates {
+  margin-top: 1em;
+  margin-bottom: 0;
 }
