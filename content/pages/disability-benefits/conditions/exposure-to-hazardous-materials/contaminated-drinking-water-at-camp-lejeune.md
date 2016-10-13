@@ -5,7 +5,7 @@ source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_le
 template: 1-topic-landing
 ---
 
-If you served at Camp Lejeune, North Carolina, for 30 days or more any time from August 1953 through December 1987, you and your family may have drank water with toxic chemicals in it (called contaminated water). If you or someone in your family has 1 of the 15 health problems linked to this contaminated water, you may be able to get free health care and other support from the VA. [Learn about these health problems >](http://www.publichealth.va.gov/exposures/camp-lejeune/index.asp)
+Did you serve at Camp Lejeune, North Carolina, for 30 days or more any time from August 1953 through December 1987? If yes, you and your family may have drank water with toxic chemicals in it (called contaminated water). If you or someone in your family has a health problem linked to this contaminated water, you may be able to get free health care and other support from the VA.
 
 <div class="call-out usa-content" markdown="1">
 
@@ -14,7 +14,8 @@ If you served at Camp Lejeune, North Carolina, for 30 days or more any time from
 Yes, if:
 
 -	You served at Camp Lejeune when the water was contaminated (August 1953 through December 1987)
--	You have a current disease and a doctor or hospital report that states the disease was caused by the contaminated water at Camp Lejeune
+-	You have a current health problem linked to the contaminated water. [Learn about the 15 health problems link to Camp LeJeune's water >](http://www.publichealth.va.gov/exposures/camp-lejeune/index.asp)
+- You have a doctor or hospital report that states the health problem was caused by the contaminated water at Camp Lejeune
 
 <br>
 
