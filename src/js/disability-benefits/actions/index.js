@@ -7,6 +7,7 @@ export const SET_CLAIM_DETAIL = 'SET_CLAIM_DETAIL';
 export const SUBMIT_DECISION_REQUEST = 'SUBMIT_DECISION_REQUEST';
 export const SET_DECISION_REQUESTED = 'SET_DECISION_REQUESTED';
 export const SET_DECISION_REQUEST_ERROR = 'SET_DECISION_REQUEST_ERROR';
+export const SET_UNAVAILABLE = 'SET_UNAVAILABLE';
 
 export function getClaims() {
   return (dispatch) => {
@@ -25,7 +26,8 @@ export function getClaims() {
 
         return Promise.reject(res.statusText);
       })
-      .then(claims => dispatch({ type: SET_CLAIMS, claims: claims.data }));
+      .then(claims => dispatch({ type: SET_CLAIMS, claims: claims.data }))
+      .catch(() => dispatch({ type: SET_UNAVAILABLE }));
   };
 }
 
@@ -33,6 +35,12 @@ export function changePage(page) {
   return {
     type: CHANGE_CLAIMS_PAGE,
     page
+  };
+}
+
+export function setUnavailable() {
+  return {
+    type: SET_UNAVAILABLE
   };
 }
 
@@ -56,7 +64,8 @@ export function getClaimDetail(id) {
 
         return Promise.reject(res.statusText);
       })
-      .then(resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data }));
+      .then(resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data }))
+      .catch(() => dispatch({ type: SET_UNAVAILABLE }));
   };
 }
 
@@ -70,6 +79,7 @@ export function submitRequest(id) {
       mode: 'cors',
       headers: {
         'X-Key-Inflection': 'camel',
+        Authorization: `Token token=${localStorage.userToken}`
       }
     })
       .then(res => {
