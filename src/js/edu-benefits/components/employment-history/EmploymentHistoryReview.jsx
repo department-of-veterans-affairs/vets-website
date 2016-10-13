@@ -10,7 +10,7 @@ export default class EmploymentHistoryReview extends React.Component {
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
-              <td>Have you ever held a license (for example, as a contractor or plumber) or a journeyman rating to practice a profession?</td>
+              <td>Have you ever held a license or a journeyman rating (for example, as a contractor or plumber) to practice a profession?</td>
               <td>{showYesNo(this.props.data.hasNonMilitaryJobs)}</td>
             </tr>
           </tbody>
