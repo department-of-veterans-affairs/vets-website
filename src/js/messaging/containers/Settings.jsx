@@ -12,7 +12,7 @@ import ButtonCreateFolder from '../components/buttons/ButtonCreateFolder';
 import ButtonDelete from '../components/buttons/ButtonDelete';
 import { paths } from '../config';
 
-class Settings extends React.Component {
+export class Settings extends React.Component {
   render() {
     const folderRows = this.props.folders.map(folder => {
       const link = `${paths.FOLDERS_URL}/${folder.folderId}`;

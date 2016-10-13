@@ -2008,3 +2008,35 @@ pre[class*='language-']  {
   -webkit-align-items: stretch;
   align-items: stretch;
 }
+
+.sticky-action-box--container {
+  position: relative;
+  width: em-calc(1000);
+}
+
+.sticky-action-box {
+  background-color: $color-gray-lightest;
+  padding: 1.5rem;
+  z-index: 1;
+
+  .show-for-large-up & {
+    position: absolute;
+    right: 0;
+    top: 30px;
+    width: 22rem;
+  }
+
+  .hide-for-large-up & {
+    width: 35rem;
+  }
+
+  #content & p, 
+  #content & h3 {
+    padding: 0;
+    margin: 0;
+  }
+
+  p.small {
+    font-size: 1em;
+  }
+}

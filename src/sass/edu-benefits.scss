@@ -112,6 +112,11 @@ legend {
   margin-top: -30px;
 }
 
+.edu-benefits-apply-group.form-expanding-group-inner-enter, 
+  .edu-benefits-apply-group.form-expanding-group-inner-leave-active {
+  margin-top: -30px;
+}
+
 // Overriding a way too broad style in the base va sass
 .form-review-panel {
   ul li p {

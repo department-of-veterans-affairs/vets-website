@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getLabel, displayDateIfValid, showYesNo } from '../../utils/helpers';
-import { yesNoNA, tourBenefits } from '../../utils/options-for-select';
+import { yesNoNA } from '../../utils/options-for-select';
 
 export default class MilitaryServiceReview extends React.Component {
   render() {
@@ -41,16 +41,6 @@ export default class MilitaryServiceReview extends React.Component {
             </thead>
             <tbody>
               <tr>
-                <td>This period of service should be counted towards another education benefit.</td>
-                <td>{tour.doNotApplyPeriodToSelected ? 'Yes' : 'No'}</td>
-              </tr>
-              {tour.doNotApplyPeriodToSelected
-                ? <tr>
-                  <td>Which benefit should this period of service be applied to?</td>
-                  <td>{getLabel(tourBenefits, tour.benefitsToApplyTo.value)}</td>
-                </tr>
-                : null}
-              <tr>
                 <td>From date:</td>
                 <td>{displayDateIfValid(tour.dateRange.from)}</td>
               </tr>
@@ -66,6 +56,16 @@ export default class MilitaryServiceReview extends React.Component {
                 <td>Were you involuntarily called for active duty during this period?</td>
                 <td>{getLabel(yesNoNA, tour.involuntarilyCalledToDuty.value)}</td>
               </tr>
+              <tr>
+                <td>Apply this service period to the benefit I'm applying for</td>
+                <td>{tour.applyPeriodToSelected ? 'Yes' : 'No'}</td>
+              </tr>
+              {!tour.applyPeriodToSelected
+                ? <tr>
+                  <td>Please explain how you'd like this service period applied.</td>
+                  <td className="edu-benefits-pre">{tour.benefitsToApplyTo.value}</td>
+                </tr>
+                : null}
             </tbody>
           </table>
           );

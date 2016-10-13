@@ -51,7 +51,7 @@ class FacilityDetail extends Component {
     return (
       <div className="row facility-detail">
         <div className="medium-8 columns">
-          <Link to="/facilities" className="facility-back-link" onClick={browserHistory.goBack}>
+          <Link className="facility-back-link" onClick={browserHistory.goBack}>
             <i className="fa fa-chevron-left" aria-hidden="true"></i>Back to list
           </Link>
           <div className="details-map">
@@ -62,7 +62,11 @@ class FacilityDetail extends Component {
         <div className="medium-4 columns">
           <div>
             <FacilityMap info={facility}/>
-            <FacilityHours info={facility}/>
+            <div className="mb2">
+              <h4>Hours of Operation:</h4>
+              <hr className="title"/>
+              <FacilityHours info={facility}/>
+            </div>
           </div>
         </div>
       </div>

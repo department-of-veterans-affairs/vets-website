@@ -21,8 +21,7 @@ import {
   suffixes,
   serviceBranches,
   hoursTypes,
-  ownBenefitsOptions,
-  tourBenefits
+  ownBenefitsOptions
 } from '../../../src/js/edu-benefits/utils/options-for-select';
 
 const ajv = new Ajv();
@@ -44,14 +43,14 @@ const dateGen = () => qc.objectLike({
   year: makeField(qc.int.between(1900, 2016)),
 });
 const nameGen = () => qc.objectLike({
-  first: makeField(qc.string.matching(/^.{1,30}$/)),
-  middle: makeField(qc.string.matching(/^.{1,30}$/)),
-  last: makeField(qc.string.matching(/^.{1,30}$/)),
+  first: makeField(qc.string.matching(/^.{4,30}$/)),
+  middle: makeField(qc.string.matching(/^.{4,30}$/)),
+  last: makeField(qc.string.matching(/^.{4,30}$/)),
   suffix: makeField(qc.choose(...suffixes)),
 });
 const addressGen = () => qc.objectLike({
-  street: makeField(qc.string.matching(/^.{1,50}$/)),
-  city: makeField(qc.string.matching(/^.{1,50}$/)),
+  street: makeField(qc.string.matching(/^.{4,50}$/)),
+  city: makeField(qc.string.matching(/^.{4,50}$/)),
   country: makeField('USA'),
   state: makeField(qc.choose(...states.USA.map(x => x.value))),
   postalCode: makeField(qc.string.matching(/^(\d{5}|\d{9})$/)),
@@ -64,8 +63,8 @@ const tourOfDutyGen = () => qc.objectLike({
   serviceBranch: makeField(qc.choose(...serviceBranches.map(x => x.value))),
   serviceStatus: makeField(qc.string),
   involuntarilyCalledToDuty: makeField(yesNoGen()),
-  doNotApplyPeriodToSelected: qc.bool,
-  benefitsToApplyTo: makeField(qc.choose(...tourBenefits.map(x => x.value)))
+  applyPeriodToSelected: qc.bool,
+  benefitsToApplyTo: makeField(qc.string)
 });
 const scholarshipGen = () => qc.objectLike({
   amount: makeField(qc.string.matching(/^[$]{0,1}\d{1,5}\.\d{1,2}$/)),
@@ -106,9 +105,10 @@ function createTestVeteran() {
   return {
     benefitsRelinquished: makeField(qc.choose(...relinquishableBenefits.map(x => x.value))),
     chapter30: qc.bool,
-    chapter1606: qc.bool,
+    chapter1606: true,
     chapter32: qc.bool,
     chapter33: qc.bool,
+    checkedBenefit: makeField(''),
     serviceAcademyGraduationYear: makeField(qc.int.between(1900, 2016)),
     currentlyActiveDuty: qc.objectLike({
       yes: makeField(yesNoGen()),
