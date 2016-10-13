@@ -1,6 +1,6 @@
 import sampleData from 'json!../sampleData/sampleData.json';
 import { mapboxClient } from '../components/MapboxClient';
-import { find } from 'lodash';
+import { find, filter } from 'lodash';
 
 export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
 export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
@@ -78,47 +78,74 @@ const mockFacility = {
   }
 };
 
+/* eslint-disable camelcase */
+const serviceTypes = {
+  va_health_facility: 'VA Medical Center',
+  va_benefits_facility: 'VA Benefits Office',
+  va_cemetery: 'VA Cemetery',
+};
+/* eslint-enable camelcase */
+
 export function fetchVAFacility(id, facility = null) {
   if (facility) {
     return {
       type: FETCH_VA_FACILITY,
-      payload: mockFacility,
+      payload: facility,
     };
   }
+
+  const specificSampleFacility = find(sampleData, d => {
+    return d.id === parseInt(id, 10);
+  });
 
   return {
     type: FETCH_VA_FACILITY,
     payload: {
-      ...mockFacility,
+      attributes: {
+        ...mockFacility.attributes,
+        address: {
+          ...specificSampleFacility.attributes.address,
+          city: 'Denver',
+          state: 'CO',
+          zip: 80123,
+        },
+        name: ((specificSampleFacility.type === undefined || specificSampleFacility.type === 'all') ? specificSampleFacility.attributes.name.slice(3) : `${serviceTypes[specificSampleFacility.type]}-${specificSampleFacility.attributes.name.split('-')[1]}`),
+      },
       id,
     },
   };
 }
 
 export function fetchVAFacilities(bounds, type) {
-  /* eslint-disable camelcase */
-  const serviceTypes = {
-    va_health_facility: 'VA Medical Center',
-    va_benefits_facility: 'VA Benefits Office',
-    va_cemetery: 'VA Cemetery',
-  };
-  /* eslint-enable camelcase */
+  let resultData;
 
-  const mockResults = [...Array(10)].map((_, i) => {
+  if (type === undefined || type === 'all') {
+    resultData = sampleData.slice(0, 10);
+  } else {
+    resultData = filter(sampleData, f => {
+      return f.type === type;
+    }).slice(0, 10);
+  }
+
+  const mockResults = resultData.map((o) => {
+    const specificSampleFacility = find(sampleData, d => {
+      return d.id === o.id;
+    });
+
     return {
       ...mockFacility,
       attributes: {
         ...mockFacility.attributes,
         address: {
-          ...sampleData[i].attributes.address,
+          ...specificSampleFacility.attributes.address,
           city: 'Denver',
           state: 'CO',
           zip: 80123,
         },
-        name: ((type === undefined || type === 'all') ? sampleData[i].attributes.name.slice(3) : `${serviceTypes[type]}-${sampleData[i].attributes.name.split('-')[1]}`),
+        name: ((type === undefined || type === 'all') ? specificSampleFacility.attributes.name.slice(3) : `${serviceTypes[specificSampleFacility.type]}-${specificSampleFacility.attributes.name.split('-')[1]}`),
       },
-      type: ((type === undefined || type === 'all') ? sampleData[i].type : type),
-      id: i + 1,
+      type: ((type === undefined || type === 'all') ? specificSampleFacility.type : type),
+      id: o.id,
       lat: bounds.latitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
       'long': bounds.longitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
     };
