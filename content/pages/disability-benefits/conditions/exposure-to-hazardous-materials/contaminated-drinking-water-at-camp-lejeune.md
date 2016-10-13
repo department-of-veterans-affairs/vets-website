@@ -5,36 +5,36 @@ source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_le
 template: 1-topic-landing
 ---
 
-If you served at Camp Lejeune, North Carolina, for 30 days or more from August 1953 through December 1987, you and your family may have been exposed to drinking water contaminated with chemical and organic compounds. There are [15 conditions](http://www.publichealth.va.gov/exposures/camp-lejeune/index.asp) linked to this exposure that qualify you for free VA health care.
+If you served at Camp Lejeune, North Carolina, for 30 days or more any time from August 1953 through December 1987, you and your family may have drank water with toxic chemicals in it (called contaminated water). If you or someone in your family has 1 of the 15 health problems linked to this contaminated water, you may be able to get free health care and other support from the VA. [Learn about these health problems >](http://www.publichealth.va.gov/exposures/camp-lejeune/index.asp)
 
 <div class="call-out usa-content" markdown="1">
 
-### Are you eligible for disability benefits?
+### Can I get support from the VA?
 
 Yes, if:
 
--	You served at Camp Lejeune during the period of contamination (August 1953 through December 1987).
--	You have a current disease and a medical opinion that states the disease is a result of exposure to the contaminated water at Camp Lejeune.
+-	You served at Camp Lejeune when the water was contaminated (August 1953 through December 1987)
+-	You have a current disease and a doctor or hospital report that states the disease was caused by the contaminated water at Camp Lejeune
 
 <br>
 
-### Who is covered
+### Who is covered?
 
 You and your family
 </div>
 
-### Available benefits
+### What support might I get?
 
-- Compensation
+- Monthly payments (called compensation)
 - Health care
 
 --------
 
-### How it works
+### How do I get this support?
 
-Claims are evaluated on a case-by-case basis, and additional evidence may be necessary to support your claim. VA may require you to have a medical exam to supplement the existing records.
+Send in your claim through our online application. We look at claims on a case-by-case basis. If we need more information about your claim, we'll reach out to you. We may also ask you to have a health exam to support the claim.
 
-If you have any of the following material, upload it with your online application:
+To help support your claim, upload this information (if you have it) along with your online application:
 
--	Discharge papers (DD214 or equivalent) and other proof you served at Camp Lejeune for longer than 30 days during the eligible period.
--	Current medical evidence (doctor and hospital reports) stating the disease is a result of contaminated water at Camp Lejeune.
+-	Your discharge papers (DD214 or other documents with the same information) and other proof you served at Camp Lejeune for longer than 30 days when the water was contaminated (August 1953 through December 1987)
+-	Doctor or hospital reports stating that your disease was caused by the contaminated water at Camp Lejeune
