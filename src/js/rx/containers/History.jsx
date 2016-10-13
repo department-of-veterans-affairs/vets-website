@@ -68,14 +68,21 @@ class History extends React.Component {
         const attrs = item.attributes;
         const status = rxStatuses[attrs.refillStatus];
 
+        let dispensed;
+        if (attrs.dispensedDate) {
+          dispensed = moment(
+              attrs.dispensedDate
+            ).format('MMM DD, YYYY');
+        } else {
+          dispensed = 'Not available';
+        }
+
         return {
           orderedDate: moment(
               attrs.orderedDate
             ).format('MMM DD, YYYY'),
 
-          dispensedDate: moment(
-              attrs.dispensedDate
-            ).format('MMM DD, YYYY'),
+          dispensedDate: dispensed,
 
           prescriptionName: (
             <Link to={`/rx/prescription/${attrs.prescriptionId}`}>
