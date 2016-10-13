@@ -6,7 +6,7 @@
 }
 
 .claim-file-border {
-  border-bottom: 2px solid $color-primary;
+  border-bottom: 3px solid $color-primary;
   margin: 0.3em 0;
 }
 
@@ -53,9 +53,13 @@
     }
     .submission-file-type {
       color: $color-primary-darkest;
+      display: block;
       font-size: 1.15em;
       line-height: 1.5;
       font-weight: bold;
+    }
+    .submission-item {
+      display: block;
     }
     .submission-date {
       display: inline-block;
@@ -72,7 +76,6 @@
 }
 
 .file-request-list-item {
-  border-bottom: 1px solid $color-gray-light;
   .item-container {
     margin: 0.5em 0;
     float: left;
@@ -365,6 +368,7 @@ a.claim-list-item {
     display: block;
   }
 }
+
 @media only screen {
   .claim-conditions,
   .ask-va-questions {
@@ -421,4 +425,51 @@ p.first-of-type {
   color: $color-primary-darker;
   letter-spacing: normal;
   font-size: 1.25em;
+
+.turn-in-evidence-warning {
+  h3 {
+    margin-left: 2em;
+  }
+  h3.warning, .warning-text {
+    margin-left: 2em;
+  }
+}
+
+.file-requirements {
+  .file-requirement-header {
+    font-weight: bold;
+    margin-bottom: 0;
+  }
+  .file-requirement-text {
+    margin: 0;
+    &:last-child {
+      margin-bottom: 1em;
+    }
+  }
+}
+
+.document-item-container {
+  background-color: $color-gray-lightest;
+  .document-title-size {
+    float: left;
+    .title {
+      padding: 0;
+    }
+  }
+
+  .documet-size-text {
+    p {
+      margin: 0;
+    }
+  }
+
+  .remove-document-button {
+    float: right;
+  }
+}
+
+.document-title-header {
+  .title {
+    padding: 0;
+  }
 }
