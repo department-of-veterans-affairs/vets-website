@@ -7,7 +7,9 @@ class AccountManagementSection extends React.Component {
       <div className="profile-section medium-12 columns">
         <h4 className="section-header">Account Management</h4>
         <div className="button-container medium-4 columns">
-          <button className="usa-button-outline va-button-warn">Delete Your Account</button>
+          <a href="#">
+            <button className="usa-button-outline va-button-warn">Delete Your Account</button>
+          </a>
         </div>
       </div>
     );

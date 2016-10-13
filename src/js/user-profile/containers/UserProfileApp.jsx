@@ -24,7 +24,9 @@ class UserProfileApp extends React.Component {
     } else {
       components = (
         <div>
+          <UserDataSection/>
           <LoginDataSection/>
+          <AuthApplicationSection/>
           <AccountManagementSection/>
         </div>
       );
@@ -32,7 +34,7 @@ class UserProfileApp extends React.Component {
     }
     return (
       <div className="row">
-        <div className="medium-8 small-12">
+        <div className="medium-8 small-12 columns">
           <h1>Your Vets.gov Account</h1>
           {account}
           {components}

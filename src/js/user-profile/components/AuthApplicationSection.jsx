@@ -8,10 +8,10 @@ class AuthApplicationSection extends React.Component {
         <h4 className="section-header">Authorized Applications</h4>
         <div className="info-conatiner medium-8 columns">
           <p><span className="label">Your account will allow you to:</span></p>
-          <p><a href="#"><i className="success fa fa-check-circle"></i> Apply for Healthcare</a></p>
-          <p><a href="#"><i className="success fa fa-check-circle"></i> Apply for Education Benefits</a></p>
-          <p><a href="#"><i className="error fa fa-exclamation-triangle"></i> Refill Your Prescription</a></p>
-          <p><a href="#"><i className="error fa fa-exclamation-triangle"></i> Check Your Claim Status</a></p>
+          <p><a href="/healthcare/apply"><i className="success fa fa-check-circle"></i> Apply for Healthcare</a></p>
+          <p><a href="/education/apply-for-education-benefits"><i className="success fa fa-check-circle"></i> Apply for Education Benefits</a></p>
+          <p><a href="/rx"><i className="error fa fa-exclamation-triangle"></i> Refill Your Prescription</a></p>
+          <p><a href="/disability-benefits/track-claims"><i className="error fa fa-exclamation-triangle"></i> Check Your Claim Status</a></p>
         </div>
       </div>
     );

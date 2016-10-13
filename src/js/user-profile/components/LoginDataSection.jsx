@@ -10,7 +10,9 @@ class LoginDataSection extends React.Component {
           <p><span className="label medium-4 columns">Email Address:</span>{this.props.profile.email}</p>
         </div>
         <div className="button-container medium-4 columns">
-          <button className="usa-button-outline">Change Your Password</button>
+          <a href="#">
+            <button className="usa-button-outline">Change Your Password</button>
+          </a>
         </div>
       </div>
     );
