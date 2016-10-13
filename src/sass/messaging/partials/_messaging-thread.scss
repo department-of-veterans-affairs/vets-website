@@ -146,15 +146,16 @@
     }
   }
 
-  &-recipient {
+  &-details {
     border: 1px solid $color-black;
     border-bottom-width: 0;
+    cursor: pointer;
     padding: 1rem 1.5rem;
 
     label {
       display: inline-block;
       font-weight: bold;
-      margin: 0 1rem 0 0;
+      margin: 0;
     }
   }
 
