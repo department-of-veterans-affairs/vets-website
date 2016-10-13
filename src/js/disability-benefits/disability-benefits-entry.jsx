@@ -12,6 +12,7 @@ import reducer from './reducers';
 import routes from './routes.jsx';
 
 require('../../sass/disability-benefits.scss');
+require('../login/login-entry.jsx');
 
 let store;
 if (__BUILDTYPE__ === 'development' && window.devToolsExtension) {

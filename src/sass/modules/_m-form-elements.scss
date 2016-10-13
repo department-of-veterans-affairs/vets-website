@@ -141,3 +141,17 @@ button.form-button-disabled {
   padding-left: calc(2rem - 7px);
   border-left: 7px solid $color-primary-alt-light;
 }
+
+.form-errorable-group {
+  > .usa-input-error {
+    label {
+      margin-top: 3rem;
+    }
+    .usa-input-error-label {
+      margin-top: 0;
+    }
+    .usa-input-error-message {
+      margin-bottom: -2rem;
+    }
+  }
+}

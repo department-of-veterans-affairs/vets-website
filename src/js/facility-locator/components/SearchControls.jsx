@@ -12,9 +12,9 @@ class SearchControls extends Component {
     });
   }
 
-  handleFacilityTypeChange = (e) => {
+  handleFilterChange = (e) => {
     this.props.updateSearchQuery({
-      serviceType: e.target.value,
+      [e.target.name]: e.target.value,
     });
     // TODO: better define shape of query object for facility/service types
   }
@@ -32,10 +32,24 @@ class SearchControls extends Component {
     });
   }
 
-  render() {
+  renderServiceFilterOptions() {
     const { currentQuery } = this.props;
 
-    if (currentQuery.active) {
+    if (currentQuery.facilityType === 'va_health_facility') {
+      return [
+        <option key="primary_care" value="primary_care">Primary Care</option>,
+        <option key="mental_health" value="mental_health">Mental Health</option>,
+        <option key="more_services" value="more_services" disabled>More services coming soon</option>,
+      ];
+    }
+
+    return null;
+  }
+
+  render() {
+    const { currentQuery, isMobile } = this.props;
+
+    if (currentQuery.active && isMobile) {
       return (
         <div className="search-controls-container">
           <button className="small-12" onClick={this.handleEditSearch}>
@@ -46,20 +60,29 @@ class SearchControls extends Component {
     }
 
     return (
-      <div className="search-controls-container">
-        <h4>Find a VA Facility</h4>
-        <div>Search for facilities near you or for a specific service or benefit.</div>
-        <form className="usa-form">
-          <label htmlFor="Street, City, State or Zip">Enter Street, City, State or Zip</label>
-          <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
-          <label htmlFor="serviceType">Service Type</label>
-          <select name="services" defaultValue="all" onChange={this.handleFacilityTypeChange}>
-            <option value="all">All</option>
-            <option value="health">Health</option>
-            <option value="benefits">Benefits</option>
-            <option value="cemeteries">Cemeteries</option>
-          </select>
-          <input type="submit" className="full-width" value="Search" onClick={this.handleSearch}/>
+      <div className="search-controls-container clearfix">
+        <form>
+          <div className="columns medium-4">
+            <label htmlFor="Street, City, State or Zip">Enter Street, City, State or Zip</label>
+            <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
+          </div>
+          <div className="columns medium-3">
+            <label htmlFor="facilityType">Facility Type</label>
+            <select name="facilityType" onChange={this.handleFilterChange} value={currentQuery.facilityType}>
+              <option value="all">All</option>
+              <option value="va_health_facility">Health</option>
+              <option value="va_benefits_facility">Benefits</option>
+              <option value="va_cemetery">Cemeteries</option>
+            </select>
+          </div>
+          <div className="columns medium-3">
+            <label htmlFor="serviceType">Service Type</label>
+            <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType}>
+              <option value="all">All</option>
+              {this.renderServiceFilterOptions()}
+            </select>
+          </div>
+          <input type="submit" className="columns medium-2" value="Search" onClick={this.handleSearch}/>
         </form>
       </div>
     );
