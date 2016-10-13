@@ -29,7 +29,7 @@ export function createTour() {
     serviceBranch: makeField(''),
     serviceStatus: makeField(''),
     involuntarilyCalledToDuty: makeField(''),
-    doNotApplyPeriodToSelected: false,
+    applyPeriodToSelected: true,
     benefitsToApplyTo: makeField('')
   };
 }
