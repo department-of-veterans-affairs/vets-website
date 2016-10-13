@@ -1,9 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { submitRequest } from '../actions';
 
 import AskVAQuestions from '../components/AskVAQuestions';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 
 class AskVAPage extends React.Component {
+  constructor() {
+    super();
+    this.goBack = this.goBack.bind(this);
+    this.setSubmittedDocs = this.setSubmittedDocs.bind(this);
+    this.state = { submittedDocs: false };
+  }
+  componentWillMount() {
+    if (this.props.decisionRequested) {
+      this.goBack();
+    }
+  }
+  setSubmittedDocs(val) {
+    this.setState({ submittedDocs: val });
+  }
+  goBack() {
+    this.props.router.push(`/your-claims/${this.props.id}`);
+  }
   render() {
     return (
       <div>
@@ -23,10 +42,18 @@ class AskVAPage extends React.Component {
               </ul>
               <div className="claims-alert">
                 <ErrorableCheckbox
+                    checked={this.state.submittedDocs}
+                    onValueChange={(update) => this.setSubmittedDocs(update)}
+
                     label="I have submitted all information or evidence that will support my claim to include identifying records from Federal treating facilities, or I have no other information or evidence to give VA to support my claim. Please decide my claim as soon as possible."/>
               </div>
-              <button type="submit" className="usa-button-disabled" href="/">Submit</button>
-              <button className="usa-button-outline request-decision-button" href="/">Cancel</button>
+              <button
+                  disabled={!this.state.submittedDocs}
+                  className={!this.state.submittedDocs ? 'usa-button-primary usa-button-disabled' : 'usa-button-primary'}
+                  onClick={() => this.props.submitRequest(this.props.params.id)}>
+                Submit
+              </button>
+              <button className="usa-button-outline request-decision-button" onClick={this.goBack}>Cancel</button>
             </div>
           </div>
           <AskVAQuestions/>
@@ -36,4 +63,18 @@ class AskVAPage extends React.Component {
   }
 }
 
-export default AskVAPage;
+
+function mapStateToProps(state) {
+  return {
+    loadingDecisionRequest: state.claimDetail.loadingDecisionRequest,
+    decisionRequested: state.claimDetail.decisionRequested
+  };
+}
+
+const mapDispatchToProps = {
+  submitRequest
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AskVAPage);
+
+export { AskVAPage };

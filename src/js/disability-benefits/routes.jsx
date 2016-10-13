@@ -32,8 +32,8 @@ const routes = [
       path="/your-claims/:id/details"/>,
   <Route
       component={AskVAPage}
-      key="/your-claims/ask-va-to-decide"
-      path="/your-claims/ask-va-to-decide"/>,
+      key="/your-claims/:id/ask-va-to-decide"
+      path="/your-claims/:id/ask-va-to-decide"/>,
 ];
 
 export default routes;

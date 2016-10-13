@@ -21,6 +21,10 @@ class StatusPage extends React.Component {
     let content;
     if (!loading) {
       const phase = claim.attributes.phase;
+      // TODO: figure out what tracked item to look for
+      const showDecision = claim.attributes.eventsTimeline.some(event => !!event.type)
+        && !claim.attributes.waiverSubmitted;
+
       content = (
         <div className="claim-conditions">
           <h1>Your {"Compensation"} Claim</h1>
@@ -36,7 +40,9 @@ class StatusPage extends React.Component {
             {claim.attributes.documentsNeeded && !claim.attributes.decisionLetterSent
               ? <NeedFilesFromYou events={claim.attributes.eventsTimeline}/>
               : null}
-            <AskVAToDecide/>
+            {showDecision
+              ? <AskVAToDecide id={this.props.params.id}/>
+              : null}
             {claim.attributes.decisionLetterSent ? <ClaimsDecision/> : null}
             {phase !== null
               ? <ClaimsTimeline
