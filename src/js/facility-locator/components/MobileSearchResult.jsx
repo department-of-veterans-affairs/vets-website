@@ -6,6 +6,38 @@ import React, { Component, PropTypes } from 'react';
 
 
 class MobileSearchResult extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      expandHours: false,
+    };
+
+    this.toggleHours = this.toggleHours.bind(this);
+  }
+
+  toggleHours() {
+    this.setState({
+      expandHours: !this.state.expandHours,
+    });
+  }
+
+  renderHours() {
+    const { expandHours } = this.state;
+    const { facility } = this.props;
+
+    return (
+      <div>
+        <p onClick={this.toggleHours} className="pointer">
+          <span className="fa fa-clock-o blue"></span> Hours of operation <span className={`fa ${expandHours ? 'fa-chevron-up' : 'fa-chevron-down'}`}></span>
+        </p>
+        <div style={{ paddingLeft: '1.3em' }}>
+          {expandHours ? <FacilityHours facility={facility}/> : null}
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const { facility } = this.props;
 
@@ -18,9 +50,9 @@ class MobileSearchResult extends Component {
         <p>
           <FacilityDirectionsLink facility={facility}/>
         </p>
-        <p>
-          <FacilityHours facility={facility}/>
-        </p>
+        <div>
+          {this.renderHours()}
+        </div>
       </div>
     );
   }

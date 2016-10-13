@@ -203,7 +203,9 @@ class VAMap extends Component {
 
     if (selectedFacility) {
       return (
-        <MobileSearchResult facility={selectedFacility}/>
+        <div className="mobile-search-result">
+          <MobileSearchResult facility={selectedFacility}/>
+        </div>
       );
     }
 

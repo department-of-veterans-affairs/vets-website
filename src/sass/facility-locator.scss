@@ -17,6 +17,10 @@
      border-collapse:collapse;
   }
 
+  .pointer {
+    cursor: pointer;
+  }
+
   .facility-phone-table td
   {
      border:none;
@@ -28,6 +32,11 @@
   }
 
   .facility-result {
+
+    span.fa {
+      margin-right: 0.5rem;
+    }
+
     a {
       color: $color-link-default;
       text-decoration: none;
@@ -107,13 +116,21 @@
      }
   }
 
-  li.mobile-search-result {
-    padding: 1em 0;
-    border-top: none;
+  .fa.blue {
+    color: $color-link-default;
   }
 
-  li.mobile-search-result + li.mobile-search-result{
-    border-top: solid 1px $color-va-gray-medium;
+  .mobile-search-result {
+    padding: 1em 0;
+
+    li {
+      padding: 1em 0;
+      border-top: none;
+    }
+
+    li + li{
+      border-top: solid 1px $color-va-gray-medium;
+    }
   }
 
   p {
