@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import { makeField } from '../../common/model/fields';
 import { dateToMoment } from './helpers';
+import moment from 'moment';
 
 export function makeAddressField() {
   return {
@@ -81,6 +82,7 @@ export function createFlightCertificate() {
 }
 
 export function createVeteran() {
+  const today = moment();
   return {
     benefitsRelinquished: makeField(''),
     chapter30: false,
@@ -175,9 +177,9 @@ export function createVeteran() {
     },
     applyingUsingOwnBenefits: makeField(''),
     benefitsRelinquishedDate: {
-      day: makeField(''),
-      month: makeField(''),
-      year: makeField('')
+      day: makeField(today.date().toString()),
+      month: makeField((today.month() + 1).toString()),
+      year: makeField(today.year().toString())
     }
   };
 }
