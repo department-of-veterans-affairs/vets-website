@@ -1,7 +1,7 @@
 module.exports = {
   // Base URL to be used in API requests.
   api: {
-    url: '/api/v0/prescriptions/',
+    url: '/api/v0/prescriptions',
     settings: {
       headers: {
         'X-Key-Inflection': 'camel'
