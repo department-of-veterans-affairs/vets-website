@@ -27,7 +27,7 @@ if (process.env.BUILDTYPE !== 'production') {
       // Benefits eligibility
       client
         .expect.element('input[name="chapter33"]').to.be.visible;
-      EduHelpers.completeBenefitInformation(client, EduHelpers.testValues, true);
+      EduHelpers.completeBenefitsSelection(client, EduHelpers.testValues, true);
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-selection');
 

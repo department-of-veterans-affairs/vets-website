@@ -33,6 +33,7 @@ const testValues = {
         year: '1999'
       },
       serviceStatus: 'Drilling',  
+      benefitsToApplyTo: 'Apply to whatever benefits make sense'
     }
   ],
   veteranAddress: {
@@ -175,33 +176,29 @@ function completeVeteranInformation(client, data, onlyRequiredFields) {
 }
 
 function completeBenefitsSelection(client, data, onlyRequiredFields) {
+  client
+    .click('input[name="chapter30"]');
+
   if (!onlyRequiredFields) {
     client
       .click('input[name="chapter33"]')
+      .click('input[name="chapter1606"]')
+      .click('input[name="chapter32"]');
+  }
+}
+
+function completeBenefitsWaiver(client, data, onlyRequiredFields) {
+  if (!onlyRequiredFields) {
+    client
       .click('input[name="benefitsRelinquished-1"]')
       .waitForElementVisible('select[name="benefitsRelinquishedDateMonth"]', Timeouts.slow)
       .clearValue('select[name="benefitsRelinquishedDateMonth"]')
       .setValue('select[name="benefitsRelinquishedDateMonth"]', data.benefitsRelinquishedDate.month)
       .clearValue('select[name="benefitsRelinquishedDateDay"]')
       .setValue('select[name="benefitsRelinquishedDateDay"]', data.benefitsRelinquishedDate.day)
-      .setValue('input[name="benefitsRelinquishedDateYear"]', data.benefitsRelinquishedDate.year)
-      .click('input[name="chapter30"]')
-      .click('input[name="chapter1606"]')
-      .click('input[name="chapter32"]');
+      .setValue('input[name="benefitsRelinquishedDateYear"]', data.benefitsRelinquishedDate.year);
   }
 }
-
-function completeBenefitInformation(client, data, onlyRequiredFields) {
-  client
-    .click('input[name="chapter30"]');
-
-  if (!onlyRequiredFields) {
-    client
-      .click('input[name="chapter33"]');
-  }
-}
-
-
 function completeMilitaryService(client, data, onlyRequiredFields) {
   client
     .clearValue('select[name="serviceBranch"]')
@@ -226,8 +223,8 @@ function completeMilitaryService(client, data, onlyRequiredFields) {
       .click('input[name="currentlyActiveDuty-0"]')
       .click('input[name="onTerminalLeave-0"]')
       .click('input[name="nonVaAssistance-1"]')
-      .click('input[name="doNotApplyPeriodToSelected"]')
-      .click('input[name="benefitsToApplyTo-1"]');
+      .click('input[name="applyPeriodToSelected"]')
+      .setValue('textarea[name="benefitsToApplyTo"]', data.toursOfDuty[0].benefitsToApplyTo);
   }
 }
 
@@ -396,6 +393,7 @@ module.exports = {
   completeMilitaryService,
   completeContactInformation,
   completeBenefitsSelection,
+  completeBenefitsWaiver,
   completeRotcHistory,
   completeBenefitsHistory,
   completeEducationHistory,

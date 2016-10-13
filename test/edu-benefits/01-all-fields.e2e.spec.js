@@ -31,6 +31,13 @@ if (process.env.BUILDTYPE !== 'production') {
       client.click('.form-progress-buttons .usa-button-primary');
       E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-selection');
 
+      // Benefits waiver
+      client
+        .expect.element('input[name="benefitsRelinquished-1"]').to.be.visible;
+      EduHelpers.completeBenefitsWaiver(client, EduHelpers.testValues, false);
+      client.click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-waiver');
+
       // Military service page.
       client
         .expect.element('input[name="serviceAcademyGraduationYear"]').to.be.visible;
