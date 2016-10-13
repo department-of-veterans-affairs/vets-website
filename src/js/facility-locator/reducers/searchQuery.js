@@ -3,6 +3,7 @@ import { SEARCH_QUERY_UPDATED, SEARCH_STARTED } from '../actions';
 const INITIAL_STATE = {
   searchString: '',
   serviceType: 'all',
+  facilityType: 'all',
   position: {
     latitude: 38.8976763,
     longitude: -77.03653,
