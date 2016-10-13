@@ -9,12 +9,19 @@ class TrackPackageLink extends React.Component {
       this.props.className
     );
 
+    let rel;
+    let target;
+    if (this.props.external) {
+      rel = 'external noopener noreferrer';
+      target = '_blank';
+    }
+
     return (
       <Link
           className={linkClass}
           to={this.props.url}
-          rel="noopener noreferrer"
-          target="_blank">
+          rel={rel}
+          target={target}>
         {this.props.text}
       </Link>
     );
@@ -23,6 +30,7 @@ class TrackPackageLink extends React.Component {
 
 TrackPackageLink.propTypes = {
   className: React.PropTypes.string,
+  external: React.PropTypes.bool,
   text: React.PropTypes.string.isRequired,
   url: React.PropTypes.string.isRequired
 };
