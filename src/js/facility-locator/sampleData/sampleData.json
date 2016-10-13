@@ -1,513 +1,6 @@
 [
   {
     "attributes": {
-      "long": "76.544308",
-      "lat": "58.878487",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(878) 565-2471",
-        "fax": "(831) 441-2789",
-        "main": "(831) 523-2056"
-      },
-      "address": {
-        "zip4": 5878,
-        "zip": 3442,
-        "state": "RI",
-        "city": "Graball",
-        "suite": null,
-        "street": "492 Nautilus Avenue",
-        "building": null
-      },
-      "classification": " VA Cemetary",
-      "state": "RI",
-      "city": "Graball",
-      "name": "RI VA Cemetary-Graball",
-      "visnId": 178
-    },
-    "state": "RI",
-    "city": "Graball",
-    "type": "va_cemetary",
-    "id": 138
-  },
-  {
-    "attributes": {
-      "long": "70.955666",
-      "lat": "-78.457155",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(920) 413-2568",
-        "fax": "(882) 513-2906",
-        "main": "(933) 403-3416"
-      },
-      "address": {
-        "zip4": 8002,
-        "zip": 1144,
-        "state": "TX",
-        "city": "Grandview",
-        "suite": null,
-        "street": "455 Willow Place",
-        "building": null
-      },
-      "classification": " VA Benfits Office",
-      "state": "TX",
-      "city": "Grandview",
-      "name": "TX VA Benfits Office-Grandview",
-      "visnId": 276
-    },
-    "state": "TX",
-    "city": "Grandview",
-    "type": "va_benefits_facility",
-    "id": 875
-  },
-  {
-    "attributes": {
-      "long": "-98.993452",
-      "lat": "-34.82664",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(936) 546-3517",
-        "fax": "(929) 556-3273",
-        "main": "(898) 545-2288"
-      },
-      "address": {
-        "zip4": 2982,
-        "zip": 4665,
-        "state": "MT",
-        "city": "Dalton",
-        "suite": null,
-        "street": "617 Conduit Boulevard",
-        "building": null
-      },
-      "classification": " VA Cemetary",
-      "state": "MT",
-      "city": "Dalton",
-      "name": "MT VA Cemetary-Dalton",
-      "visnId": 558
-    },
-    "state": "MT",
-    "city": "Dalton",
-    "type": "va_cemetary",
-    "id": 177
-  },
-  {
-    "attributes": {
-      "long": "-9.030443",
-      "lat": "-71.350662",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(956) 518-3872",
-        "fax": "(966) 506-3015",
-        "main": "(896) 569-2777"
-      },
-      "address": {
-        "zip4": 6575,
-        "zip": 2257,
-        "state": "FL",
-        "city": "Templeton",
-        "suite": null,
-        "street": "836 Neptune Court",
-        "building": null
-      },
-      "classification": " VA Cemetary",
-      "state": "FL",
-      "city": "Templeton",
-      "name": "FL VA Cemetary-Templeton",
-      "visnId": 312
-    },
-    "state": "FL",
-    "city": "Templeton",
-    "type": "va_cemetary",
-    "id": 659
-  },
-  {
-    "attributes": {
-      "long": "-17.611584",
-      "lat": "-19.395657",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(868) 577-2036",
-        "fax": "(880) 574-2148",
-        "main": "(996) 514-3837"
-      },
-      "address": {
-        "zip4": 4456,
-        "zip": 3688,
-        "state": "SC",
-        "city": "Lloyd",
-        "suite": null,
-        "street": "141 Kane Place",
-        "building": null
-      },
-      "classification": " VA Benfits Office",
-      "state": "SC",
-      "city": "Lloyd",
-      "name": "SC VA Benfits Office-Lloyd",
-      "visnId": 597
-    },
-    "state": "SC",
-    "city": "Lloyd",
-    "type": "va_benefits_facility",
-    "id": 228
-  },
-  {
-    "attributes": {
-      "long": "120.471185",
-      "lat": "18.748535",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(871) 456-2595",
-        "fax": "(813) 589-3974",
-        "main": "(894) 520-3808"
-      },
-      "address": {
-        "zip4": 7956,
-        "zip": 7668,
-        "state": "PA",
-        "city": "Stockdale",
-        "suite": null,
-        "street": "535 Nassau Avenue",
-        "building": null
-      },
-      "classification": " VA Cemetary",
-      "state": "PA",
-      "city": "Stockdale",
-      "name": "PA VA Cemetary-Stockdale",
-      "visnId": 707
-    },
-    "state": "PA",
-    "city": "Stockdale",
-    "type": "va_cemetary",
-    "id": 479
-  },
-  {
-    "attributes": {
-      "long": "36.577374",
-      "lat": "-10.137608",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(990) 595-3725",
-        "fax": "(863) 528-3021",
-        "main": "(898) 478-3160"
-      },
-      "address": {
-        "zip4": 4984,
-        "zip": 8780,
-        "state": "AK",
-        "city": "Cucumber",
-        "suite": null,
-        "street": "509 Juliana Place",
-        "building": null
-      },
-      "classification": " VA Cemetary",
-      "state": "AK",
-      "city": "Cucumber",
-      "name": "AK VA Cemetary-Cucumber",
-      "visnId": 721
-    },
-    "state": "AK",
-    "city": "Cucumber",
-    "type": "va_cemetary",
-    "id": 598
-  },
-  {
-    "attributes": {
-      "long": "-73.956499",
-      "lat": "38.820109",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(919) 531-3270",
-        "fax": "(808) 548-2554",
-        "main": "(935) 487-3831"
-      },
-      "address": {
-        "zip4": 5191,
-        "zip": 9363,
-        "state": "OK",
-        "city": "Jugtown",
-        "suite": null,
-        "street": "432 Fulton Street",
-        "building": null
-      },
-      "classification": " VA Benfits Office",
-      "state": "OK",
-      "city": "Jugtown",
-      "name": "OK VA Benfits Office-Jugtown",
-      "visnId": 559
-    },
-    "state": "OK",
-    "city": "Jugtown",
-    "type": "va_benefits_facility",
-    "id": 129
-  },
-  {
-    "attributes": {
-      "long": "165.044307",
-      "lat": "-13.757154",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(841) 480-2625",
-        "fax": "(850) 591-3459",
-        "main": "(916) 570-2636"
-      },
-      "address": {
-        "zip4": 5587,
-        "zip": 8045,
-        "state": "VT",
-        "city": "Duryea",
-        "suite": null,
-        "street": "708 Dekalb Avenue",
-        "building": null
-      },
-      "classification": " VA Benfits Office",
-      "state": "VT",
-      "city": "Duryea",
-      "name": "VT VA Benfits Office-Duryea",
-      "visnId": 727
-    },
-    "state": "VT",
-    "city": "Duryea",
-    "type": "va_benefits_facility",
-    "id": 653
-  },
-  {
-    "attributes": {
-      "long": "91.842149",
-      "lat": "41.433095",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(958) 597-3415",
-        "fax": "(957) 547-2735",
-        "main": "(867) 546-3019"
-      },
-      "address": {
-        "zip4": 6790,
-        "zip": 1006,
-        "state": "LA",
-        "city": "Beechmont",
-        "suite": null,
-        "street": "297 Chester Street",
-        "building": null
-      },
-      "classification": " VA Cemetary",
-      "state": "LA",
-      "city": "Beechmont",
-      "name": "LA VA Cemetary-Beechmont",
-      "visnId": 736
-    },
-    "state": "LA",
-    "city": "Beechmont",
-    "type": "va_cemetary",
-    "id": 892
-  },
-  {
-    "attributes": {
-      "long": "60.116733",
-      "lat": "-10.577773",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(883) 538-3409",
-        "fax": "(975) 585-3785",
-        "main": "(937) 520-3820"
-      },
-      "address": {
-        "zip4": 3127,
-        "zip": 3099,
-        "state": "IN",
-        "city": "Bluffview",
-        "suite": null,
-        "street": "631 Fillmore Place",
-        "building": null
-      },
-      "classification": " VA Cemetary",
-      "state": "IN",
-      "city": "Bluffview",
-      "name": "IN VA Cemetary-Bluffview",
-      "visnId": 998
-    },
-    "state": "IN",
-    "city": "Bluffview",
-    "type": "va_cemetary",
-    "id": 423
-  },
-  {
-    "attributes": {
-      "long": "13.215996",
-      "lat": "-32.596162",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(881) 508-2848",
-        "fax": "(973) 439-2268",
-        "main": "(846) 560-3817"
-      },
-      "address": {
-        "zip4": 4841,
-        "zip": 2213,
-        "state": "WI",
-        "city": "Bluetown",
-        "suite": null,
-        "street": "330 Anthony Street",
-        "building": null
-      },
-      "classification": " VA Benfits Office",
-      "state": "WI",
-      "city": "Bluetown",
-      "name": "WI VA Benfits Office-Bluetown",
-      "visnId": 191
-    },
-    "state": "WI",
-    "city": "Bluetown",
-    "type": "va_benefits_facility",
-    "id": 813
-  },
-  {
-    "attributes": {
-      "long": "-130.498027",
-      "lat": "15.679878",
-      "services": null,
-      "hours": {
-        "sunday": "-",
-        "saturday": "800AM-1000AM",
-        "friday": "730AM-430PM",
-        "thursday": "730AM-430PM",
-        "wednesday": "730AM-430PM",
-        "tuesday": "730AM-630PM",
-        "monday": "730AM-430PM"
-      },
-      "phone": {
-        "afterHours": "(928) 500-2796",
-        "fax": "(843) 483-3779",
-        "main": "(865) 553-3243"
-      },
-      "address": {
-        "zip4": 6265,
-        "zip": 7863,
-        "state": "ID",
-        "city": "Welch",
-        "suite": null,
-        "street": "607 Elliott Place",
-        "building": null
-      },
-      "classification": " VA Cemetary",
-      "state": "ID",
-      "city": "Welch",
-      "name": "ID VA Cemetary-Welch",
-      "visnId": 969
-    },
-    "state": "ID",
-    "city": "Welch",
-    "type": "va_cemetary",
-    "id": 244
-  },
-  {
-    "attributes": {
       "long": "42.624774",
       "lat": "55.1362",
       "services": [
@@ -706,6 +199,513 @@
   },
   {
     "attributes": {
+      "long": "76.544308",
+      "lat": "58.878487",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(878) 565-2471",
+        "fax": "(831) 441-2789",
+        "main": "(831) 523-2056"
+      },
+      "address": {
+        "zip4": 5878,
+        "zip": 3442,
+        "state": "RI",
+        "city": "Graball",
+        "suite": null,
+        "street": "492 Nautilus Avenue",
+        "building": null
+      },
+      "classification": " VA Cemetery",
+      "state": "RI",
+      "city": "Graball",
+      "name": "RI VA Cemetery-Graball",
+      "visnId": 178
+    },
+    "state": "RI",
+    "city": "Graball",
+    "type": "va_cemetery",
+    "id": 138
+  },
+  {
+    "attributes": {
+      "long": "70.955666",
+      "lat": "-78.457155",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(920) 413-2568",
+        "fax": "(882) 513-2906",
+        "main": "(933) 403-3416"
+      },
+      "address": {
+        "zip4": 8002,
+        "zip": 1144,
+        "state": "TX",
+        "city": "Grandview",
+        "suite": null,
+        "street": "455 Willow Place",
+        "building": null
+      },
+      "classification": " VA Benfits Office",
+      "state": "TX",
+      "city": "Grandview",
+      "name": "TX VA Benfits Office-Grandview",
+      "visnId": 276
+    },
+    "state": "TX",
+    "city": "Grandview",
+    "type": "va_benefits_facility",
+    "id": 875
+  },
+  {
+    "attributes": {
+      "long": "-98.993452",
+      "lat": "-34.82664",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(936) 546-3517",
+        "fax": "(929) 556-3273",
+        "main": "(898) 545-2288"
+      },
+      "address": {
+        "zip4": 2982,
+        "zip": 4665,
+        "state": "MT",
+        "city": "Dalton",
+        "suite": null,
+        "street": "617 Conduit Boulevard",
+        "building": null
+      },
+      "classification": " VA Cemetery",
+      "state": "MT",
+      "city": "Dalton",
+      "name": "MT VA Cemetery-Dalton",
+      "visnId": 558
+    },
+    "state": "MT",
+    "city": "Dalton",
+    "type": "va_cemetery",
+    "id": 177
+  },
+  {
+    "attributes": {
+      "long": "-9.030443",
+      "lat": "-71.350662",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(956) 518-3872",
+        "fax": "(966) 506-3015",
+        "main": "(896) 569-2777"
+      },
+      "address": {
+        "zip4": 6575,
+        "zip": 2257,
+        "state": "FL",
+        "city": "Templeton",
+        "suite": null,
+        "street": "836 Neptune Court",
+        "building": null
+      },
+      "classification": " VA Cemetery",
+      "state": "FL",
+      "city": "Templeton",
+      "name": "FL VA Cemetery-Templeton",
+      "visnId": 312
+    },
+    "state": "FL",
+    "city": "Templeton",
+    "type": "va_cemetery",
+    "id": 659
+  },
+  {
+    "attributes": {
+      "long": "-17.611584",
+      "lat": "-19.395657",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(868) 577-2036",
+        "fax": "(880) 574-2148",
+        "main": "(996) 514-3837"
+      },
+      "address": {
+        "zip4": 4456,
+        "zip": 3688,
+        "state": "SC",
+        "city": "Lloyd",
+        "suite": null,
+        "street": "141 Kane Place",
+        "building": null
+      },
+      "classification": " VA Benfits Office",
+      "state": "SC",
+      "city": "Lloyd",
+      "name": "SC VA Benfits Office-Lloyd",
+      "visnId": 597
+    },
+    "state": "SC",
+    "city": "Lloyd",
+    "type": "va_benefits_facility",
+    "id": 228
+  },
+  {
+    "attributes": {
+      "long": "120.471185",
+      "lat": "18.748535",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(871) 456-2595",
+        "fax": "(813) 589-3974",
+        "main": "(894) 520-3808"
+      },
+      "address": {
+        "zip4": 7956,
+        "zip": 7668,
+        "state": "PA",
+        "city": "Stockdale",
+        "suite": null,
+        "street": "535 Nassau Avenue",
+        "building": null
+      },
+      "classification": " VA Cemetery",
+      "state": "PA",
+      "city": "Stockdale",
+      "name": "PA VA Cemetery-Stockdale",
+      "visnId": 707
+    },
+    "state": "PA",
+    "city": "Stockdale",
+    "type": "va_cemetery",
+    "id": 479
+  },
+  {
+    "attributes": {
+      "long": "36.577374",
+      "lat": "-10.137608",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(990) 595-3725",
+        "fax": "(863) 528-3021",
+        "main": "(898) 478-3160"
+      },
+      "address": {
+        "zip4": 4984,
+        "zip": 8780,
+        "state": "AK",
+        "city": "Cucumber",
+        "suite": null,
+        "street": "509 Juliana Place",
+        "building": null
+      },
+      "classification": " VA Cemetery",
+      "state": "AK",
+      "city": "Cucumber",
+      "name": "AK VA Cemetery-Cucumber",
+      "visnId": 721
+    },
+    "state": "AK",
+    "city": "Cucumber",
+    "type": "va_cemetery",
+    "id": 598
+  },
+  {
+    "attributes": {
+      "long": "-73.956499",
+      "lat": "38.820109",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(919) 531-3270",
+        "fax": "(808) 548-2554",
+        "main": "(935) 487-3831"
+      },
+      "address": {
+        "zip4": 5191,
+        "zip": 9363,
+        "state": "OK",
+        "city": "Jugtown",
+        "suite": null,
+        "street": "432 Fulton Street",
+        "building": null
+      },
+      "classification": " VA Benfits Office",
+      "state": "OK",
+      "city": "Jugtown",
+      "name": "OK VA Benfits Office-Jugtown",
+      "visnId": 559
+    },
+    "state": "OK",
+    "city": "Jugtown",
+    "type": "va_benefits_facility",
+    "id": 129
+  },
+  {
+    "attributes": {
+      "long": "165.044307",
+      "lat": "-13.757154",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(841) 480-2625",
+        "fax": "(850) 591-3459",
+        "main": "(916) 570-2636"
+      },
+      "address": {
+        "zip4": 5587,
+        "zip": 8045,
+        "state": "VT",
+        "city": "Duryea",
+        "suite": null,
+        "street": "708 Dekalb Avenue",
+        "building": null
+      },
+      "classification": " VA Benfits Office",
+      "state": "VT",
+      "city": "Duryea",
+      "name": "VT VA Benfits Office-Duryea",
+      "visnId": 727
+    },
+    "state": "VT",
+    "city": "Duryea",
+    "type": "va_benefits_facility",
+    "id": 653
+  },
+  {
+    "attributes": {
+      "long": "91.842149",
+      "lat": "41.433095",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(958) 597-3415",
+        "fax": "(957) 547-2735",
+        "main": "(867) 546-3019"
+      },
+      "address": {
+        "zip4": 6790,
+        "zip": 1006,
+        "state": "LA",
+        "city": "Beechmont",
+        "suite": null,
+        "street": "297 Chester Street",
+        "building": null
+      },
+      "classification": " VA Cemetery",
+      "state": "LA",
+      "city": "Beechmont",
+      "name": "LA VA Cemetery-Beechmont",
+      "visnId": 736
+    },
+    "state": "LA",
+    "city": "Beechmont",
+    "type": "va_cemetery",
+    "id": 892
+  },
+  {
+    "attributes": {
+      "long": "60.116733",
+      "lat": "-10.577773",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(883) 538-3409",
+        "fax": "(975) 585-3785",
+        "main": "(937) 520-3820"
+      },
+      "address": {
+        "zip4": 3127,
+        "zip": 3099,
+        "state": "IN",
+        "city": "Bluffview",
+        "suite": null,
+        "street": "631 Fillmore Place",
+        "building": null
+      },
+      "classification": " VA Cemetery",
+      "state": "IN",
+      "city": "Bluffview",
+      "name": "IN VA Cemetery-Bluffview",
+      "visnId": 998
+    },
+    "state": "IN",
+    "city": "Bluffview",
+    "type": "va_cemetery",
+    "id": 423
+  },
+  {
+    "attributes": {
+      "long": "13.215996",
+      "lat": "-32.596162",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(881) 508-2848",
+        "fax": "(973) 439-2268",
+        "main": "(846) 560-3817"
+      },
+      "address": {
+        "zip4": 4841,
+        "zip": 2213,
+        "state": "WI",
+        "city": "Bluetown",
+        "suite": null,
+        "street": "330 Anthony Street",
+        "building": null
+      },
+      "classification": " VA Benfits Office",
+      "state": "WI",
+      "city": "Bluetown",
+      "name": "WI VA Benfits Office-Bluetown",
+      "visnId": 191
+    },
+    "state": "WI",
+    "city": "Bluetown",
+    "type": "va_benefits_facility",
+    "id": 813
+  },
+  {
+    "attributes": {
+      "long": "-130.498027",
+      "lat": "15.679878",
+      "services": null,
+      "hours": {
+        "sunday": "-",
+        "saturday": "800AM-1000AM",
+        "friday": "730AM-430PM",
+        "thursday": "730AM-430PM",
+        "wednesday": "730AM-430PM",
+        "tuesday": "730AM-630PM",
+        "monday": "730AM-430PM"
+      },
+      "phone": {
+        "afterHours": "(928) 500-2796",
+        "fax": "(843) 483-3779",
+        "main": "(865) 553-3243"
+      },
+      "address": {
+        "zip4": 6265,
+        "zip": 7863,
+        "state": "ID",
+        "city": "Welch",
+        "suite": null,
+        "street": "607 Elliott Place",
+        "building": null
+      },
+      "classification": " VA Cemetery",
+      "state": "ID",
+      "city": "Welch",
+      "name": "ID VA Cemetery-Welch",
+      "visnId": 969
+    },
+    "state": "ID",
+    "city": "Welch",
+    "type": "va_cemetery",
+    "id": 244
+  },
+  {
+    "attributes": {
       "long": "63.360633",
       "lat": "-25.99405",
       "services": null,
@@ -732,15 +732,15 @@
         "street": "962 Radde Place",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "NE",
       "city": "Ironton",
-      "name": "NE VA Cemetary-Ironton",
+      "name": "NE VA Cemetery-Ironton",
       "visnId": 942
     },
     "state": "NE",
     "city": "Ironton",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 462
   },
   {
@@ -810,15 +810,15 @@
         "street": "531 Anchorage Place",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "MI",
       "city": "Klondike",
-      "name": "MI VA Cemetary-Klondike",
+      "name": "MI VA Cemetery-Klondike",
       "visnId": 128
     },
     "state": "MI",
     "city": "Klondike",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 185
   },
   {
@@ -1020,15 +1020,15 @@
         "street": "975 Woodrow Court",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "WV",
       "city": "Gracey",
-      "name": "WV VA Cemetary-Gracey",
+      "name": "WV VA Cemetery-Gracey",
       "visnId": 390
     },
     "state": "WV",
     "city": "Gracey",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 932
   },
   {
@@ -1545,15 +1545,15 @@
         "street": "387 Knickerbocker Avenue",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "PW",
       "city": "Dante",
-      "name": "PW VA Cemetary-Dante",
+      "name": "PW VA Cemetery-Dante",
       "visnId": 169
     },
     "state": "PW",
     "city": "Dante",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 571
   },
   {
@@ -1623,15 +1623,15 @@
         "street": "824 Lyme Avenue",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "DC",
       "city": "Gila",
-      "name": "DC VA Cemetary-Gila",
+      "name": "DC VA Cemetery-Gila",
       "visnId": 876
     },
     "state": "DC",
     "city": "Gila",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 810
   },
   {
@@ -1662,15 +1662,15 @@
         "street": "722 Graham Avenue",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "OH",
       "city": "Morgandale",
-      "name": "OH VA Cemetary-Morgandale",
+      "name": "OH VA Cemetery-Morgandale",
       "visnId": 362
     },
     "state": "OH",
     "city": "Morgandale",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 617
   },
   {
@@ -1767,15 +1767,15 @@
         "street": "322 Miller Avenue",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "PR",
       "city": "Katonah",
-      "name": "PR VA Cemetary-Katonah",
+      "name": "PR VA Cemetery-Katonah",
       "visnId": 285
     },
     "state": "PR",
     "city": "Katonah",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 320
   },
   {
@@ -1806,15 +1806,15 @@
         "street": "676 Canarsie Road",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "UT",
       "city": "Conway",
-      "name": "UT VA Cemetary-Conway",
+      "name": "UT VA Cemetery-Conway",
       "visnId": 836
     },
     "state": "UT",
     "city": "Conway",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 186
   },
   {
@@ -1911,15 +1911,15 @@
         "street": "475 Lancaster Avenue",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "IA",
       "city": "Wells",
-      "name": "IA VA Cemetary-Wells",
+      "name": "IA VA Cemetery-Wells",
       "visnId": 823
     },
     "state": "IA",
     "city": "Wells",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 400
   },
   {
@@ -1950,15 +1950,15 @@
         "street": "798 Matthews Place",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "AL",
       "city": "Kapowsin",
-      "name": "AL VA Cemetary-Kapowsin",
+      "name": "AL VA Cemetery-Kapowsin",
       "visnId": 940
     },
     "state": "AL",
     "city": "Kapowsin",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 836
   },
   {
@@ -2067,15 +2067,15 @@
         "street": "719 Montauk Court",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "MP",
       "city": "Hamilton",
-      "name": "MP VA Cemetary-Hamilton",
+      "name": "MP VA Cemetery-Hamilton",
       "visnId": 909
     },
     "state": "MP",
     "city": "Hamilton",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 110
   },
   {
@@ -2106,15 +2106,15 @@
         "street": "554 Rodney Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "KS",
       "city": "Wright",
-      "name": "KS VA Cemetary-Wright",
+      "name": "KS VA Cemetery-Wright",
       "visnId": 565
     },
     "state": "KS",
     "city": "Wright",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 374
   },
   {
@@ -2145,15 +2145,15 @@
         "street": "268 Butler Place",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "ND",
       "city": "Boomer",
-      "name": "ND VA Cemetary-Boomer",
+      "name": "ND VA Cemetery-Boomer",
       "visnId": 312
     },
     "state": "ND",
     "city": "Boomer",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 886
   },
   {
@@ -2184,15 +2184,15 @@
         "street": "319 Union Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "HI",
       "city": "Wescosville",
-      "name": "HI VA Cemetary-Wescosville",
+      "name": "HI VA Cemetery-Wescosville",
       "visnId": 890
     },
     "state": "HI",
     "city": "Wescosville",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 720
   },
   {
@@ -2262,15 +2262,15 @@
         "street": "908 Noble Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "GU",
       "city": "Allendale",
-      "name": "GU VA Cemetary-Allendale",
+      "name": "GU VA Cemetery-Allendale",
       "visnId": 322
     },
     "state": "GU",
     "city": "Allendale",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 756
   },
   {
@@ -2301,15 +2301,15 @@
         "street": "441 Fay Court",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "MD",
       "city": "Waiohinu",
-      "name": "MD VA Cemetary-Waiohinu",
+      "name": "MD VA Cemetery-Waiohinu",
       "visnId": 941
     },
     "state": "MD",
     "city": "Waiohinu",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 226
   },
   {
@@ -2340,15 +2340,15 @@
         "street": "697 Canal Avenue",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "MS",
       "city": "Adelino",
-      "name": "MS VA Cemetary-Adelino",
+      "name": "MS VA Cemetery-Adelino",
       "visnId": 629
     },
     "state": "MS",
     "city": "Adelino",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 201
   },
   {
@@ -2535,15 +2535,15 @@
         "street": "761 Stryker Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "SD",
       "city": "Bellfountain",
-      "name": "SD VA Cemetary-Bellfountain",
+      "name": "SD VA Cemetery-Bellfountain",
       "visnId": 423
     },
     "state": "SD",
     "city": "Bellfountain",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 580
   },
   {
@@ -2574,15 +2574,15 @@
         "street": "400 Meeker Avenue",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "CT",
       "city": "Gorst",
-      "name": "CT VA Cemetary-Gorst",
+      "name": "CT VA Cemetery-Gorst",
       "visnId": 345
     },
     "state": "CT",
     "city": "Gorst",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 780
   },
   {
@@ -2823,15 +2823,15 @@
         "street": "307 Kane Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "SC",
       "city": "Caroleen",
-      "name": "SC VA Cemetary-Caroleen",
+      "name": "SC VA Cemetery-Caroleen",
       "visnId": 277
     },
     "state": "SC",
     "city": "Caroleen",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 900
   },
   {
@@ -2901,15 +2901,15 @@
         "street": "418 Howard Avenue",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "AK",
       "city": "Dawn",
-      "name": "AK VA Cemetary-Dawn",
+      "name": "AK VA Cemetery-Dawn",
       "visnId": 692
     },
     "state": "AK",
     "city": "Dawn",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 887
   },
   {
@@ -3084,15 +3084,15 @@
         "street": "104 Centre Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "IN",
       "city": "Dragoon",
-      "name": "IN VA Cemetary-Dragoon",
+      "name": "IN VA Cemetery-Dragoon",
       "visnId": 786
     },
     "state": "IN",
     "city": "Dragoon",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 996
   },
   {
@@ -3189,15 +3189,15 @@
         "street": "607 Bergen Court",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "ID",
       "city": "Emory",
-      "name": "ID VA Cemetary-Emory",
+      "name": "ID VA Cemetery-Emory",
       "visnId": 829
     },
     "state": "ID",
     "city": "Emory",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 361
   },
   {
@@ -3228,15 +3228,15 @@
         "street": "947 Williams Court",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "MN",
       "city": "Fostoria",
-      "name": "MN VA Cemetary-Fostoria",
+      "name": "MN VA Cemetery-Fostoria",
       "visnId": 492
     },
     "state": "MN",
     "city": "Fostoria",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 297
   },
   {
@@ -3267,15 +3267,15 @@
         "street": "489 Withers Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "NH",
       "city": "Bath",
-      "name": "NH VA Cemetary-Bath",
+      "name": "NH VA Cemetery-Bath",
       "visnId": 557
     },
     "state": "NH",
     "city": "Bath",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 651
   },
   {
@@ -3306,15 +3306,15 @@
         "street": "605 Robert Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "MO",
       "city": "Cloverdale",
-      "name": "MO VA Cemetary-Cloverdale",
+      "name": "MO VA Cemetery-Cloverdale",
       "visnId": 651
     },
     "state": "MO",
     "city": "Cloverdale",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 514
   },
   {
@@ -3804,15 +3804,15 @@
         "street": "246 Elton Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "NM",
       "city": "Farmers",
-      "name": "NM VA Cemetary-Farmers",
+      "name": "NM VA Cemetery-Farmers",
       "visnId": 158
     },
     "state": "NM",
     "city": "Farmers",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 795
   },
   {
@@ -3843,15 +3843,15 @@
         "street": "112 Junius Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "VA",
       "city": "Yonah",
-      "name": "VA VA Cemetary-Yonah",
+      "name": "VA VA Cemetery-Yonah",
       "visnId": 242
     },
     "state": "VA",
     "city": "Yonah",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 204
   },
   {
@@ -3882,15 +3882,15 @@
         "street": "660 Amherst Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "FM",
       "city": "Helen",
-      "name": "FM VA Cemetary-Helen",
+      "name": "FM VA Cemetery-Helen",
       "visnId": 186
     },
     "state": "FM",
     "city": "Helen",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 347
   },
   {
@@ -3921,15 +3921,15 @@
         "street": "444 Metropolitan Avenue",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "DE",
       "city": "Watchtower",
-      "name": "DE VA Cemetary-Watchtower",
+      "name": "DE VA Cemetery-Watchtower",
       "visnId": 275
     },
     "state": "DE",
     "city": "Watchtower",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 118
   },
   {
@@ -3960,15 +3960,15 @@
         "street": "390 Dank Court",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "WA",
       "city": "Barstow",
-      "name": "WA VA Cemetary-Barstow",
+      "name": "WA VA Cemetery-Barstow",
       "visnId": 279
     },
     "state": "WA",
     "city": "Barstow",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 475
   },
   {
@@ -4104,15 +4104,15 @@
         "street": "439 Herkimer Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "PW",
       "city": "Bakersville",
-      "name": "PW VA Cemetary-Bakersville",
+      "name": "PW VA Cemetery-Bakersville",
       "visnId": 509
     },
     "state": "PW",
     "city": "Bakersville",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 475
   },
   {
@@ -4143,15 +4143,15 @@
         "street": "782 Tapscott Street",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "ME",
       "city": "Winston",
-      "name": "ME VA Cemetary-Winston",
+      "name": "ME VA Cemetery-Winston",
       "visnId": 993
     },
     "state": "ME",
     "city": "Winston",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 694
   },
   {
@@ -4182,15 +4182,15 @@
         "street": "973 Grant Avenue",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "DC",
       "city": "Alafaya",
-      "name": "DC VA Cemetary-Alafaya",
+      "name": "DC VA Cemetery-Alafaya",
       "visnId": 835
     },
     "state": "DC",
     "city": "Alafaya",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 732
   },
   {
@@ -4221,15 +4221,15 @@
         "street": "468 Whitney Avenue",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "OH",
       "city": "Kidder",
-      "name": "OH VA Cemetary-Kidder",
+      "name": "OH VA Cemetery-Kidder",
       "visnId": 307
     },
     "state": "OH",
     "city": "Kidder",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 796
   },
   {
@@ -4392,15 +4392,15 @@
         "street": "396 Turner Place",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "UT",
       "city": "Hanover",
-      "name": "UT VA Cemetary-Hanover",
+      "name": "UT VA Cemetery-Hanover",
       "visnId": 598
     },
     "state": "UT",
     "city": "Hanover",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 617
   },
   {
@@ -4536,15 +4536,15 @@
         "street": "359 Harrison Place",
         "building": null
       },
-      "classification": " VA Cemetary",
+      "classification": " VA Cemetery",
       "state": "AL",
       "city": "Yettem",
-      "name": "AL VA Cemetary-Yettem",
+      "name": "AL VA Cemetery-Yettem",
       "visnId": 667
     },
     "state": "AL",
     "city": "Yettem",
-    "type": "va_cemetary",
+    "type": "va_cemetery",
     "id": 456
   }
 ]
