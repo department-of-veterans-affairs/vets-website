@@ -4,9 +4,7 @@ class MessageAttachmentsView extends React.Component {
   render() {
     return (
       <li>
-        <a href={this.props.url}
-           className="msg-attachment-item"
-           download>
+        <a href={this.props.url} className="msg-attachment-item" download>
           <i className="fa fa-paperclip msg-attachment-icon"></i>
           {this.props.name}
         </a>

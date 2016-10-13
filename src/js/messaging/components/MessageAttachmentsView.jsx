@@ -14,7 +14,7 @@ class MessageAttachmentsView extends React.Component {
             url={attachment.url}/>
       );
     });
- 
+
     return (
       <div className="msg-attachments-received">
         <h5 className="msg-attachments-received-title">Attachments:</h5>
