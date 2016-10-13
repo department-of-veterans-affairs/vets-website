@@ -10,7 +10,7 @@ class DocumentRequest extends React.Component {
           <div className="medium-8 columns">
             <div className="upload-error usa-alert usa-alert-error">
               <div className="usa-alert-body">
-                <h3 class="usa-alert-heading">Error uploading Files</h3>
+                <h3 className="usa-alert-heading">Error uploading Files</h3>
                 <p className="usa-alert-text">{"There was an error uploading your files. Please try again"}</p>
               </div>
             </div>
@@ -25,7 +25,7 @@ class DocumentRequest extends React.Component {
               <p></p>
             </div>
             <div className="mail-or-fax-files">
-              <p><a href='/'>Need to mail or fax your files?</a></p>
+              <p><a href="/">Need to mail or fax your files?</a></p>
             </div>
             <AddFilesForm/>
           </div>

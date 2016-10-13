@@ -10,7 +10,7 @@ class TurnInEvidence extends React.Component {
           <div className="medium-8 columns">
             <div className="upload-error usa-alert usa-alert-error">
               <div className="usa-alert-body">
-                <h3 class="usa-alert-heading">Error uploading Files</h3>
+                <h3 className="usa-alert-heading">Error uploading Files</h3>
                 <p className="usa-alert-text">{"There was an error uploading your files. Please try again"}</p>
               </div>
             </div>
@@ -20,12 +20,12 @@ class TurnInEvidence extends React.Component {
             </div>
             <div className="turn-in-evidence-warning usa-alert usa-alert-warning">
               <div className="usa-alert-body">
-                <h3 class="usa-alert-heading">Warning</h3>
+                <h3 className="usa-alert-heading">Warning</h3>
                 <p className="usa-alert-text">It takes time for us to review any new evidence you file, so please upload only the documents that support your claim.</p>
               </div>
             </div>
             <div className="mail-or-fax-files">
-              <p><a href='/'>Need to mail or fax your files?</a></p>
+              <p><a href="/">Need to mail or fax your files?</a></p>
             </div>
             <AddFilesForm/>
           </div>
