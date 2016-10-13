@@ -1,16 +1,24 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
+
+import ClaimsUnavailable from '../components/ClaimsUnavailable';
+import ClaimSyncWarning from '../components/ClaimSyncWarning';
 
 class DisabilityBenefitsApp extends React.Component {
 
   render() {
     const { available, synced, syncedDate } = this.props;
-    const updatedDate = moment(syncedDate).format('MMM D, YYYY');
     return (
-      <div className="row">
-        <div>
-          {this.props.children}
+      <div>
+        {available && !synced
+          ? <ClaimSyncWarning syncedDate={syncedDate}/>
+          : null}
+        <div className="row">
+          {available
+            ? <div>
+              {this.props.children}
+            </div>
+            : <div className="columns medium-8"><ClaimsUnavailable/></div>}
         </div>
       </div>
     );
