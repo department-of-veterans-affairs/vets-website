@@ -10,7 +10,7 @@ export default class ClaimsTimeline extends React.Component {
     const activityByPhase = groupTimelineActivity(events);
 
     return (
-      <ol className="process form-process">
+      <ol className="process form-process disability-benefits-timeline">
         <ClaimPhase phase={1} current={userPhase} activity={activityByPhase} id={id}/>
         <ClaimPhase phase={2} current={userPhase} activity={activityByPhase} id={id}/>
         <ClaimPhase phase={3} current={userPhase} activity={activityByPhase} id={id}>
