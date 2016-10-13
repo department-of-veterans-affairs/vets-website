@@ -20,10 +20,10 @@ class MessageSubjectGroup extends React.Component {
       { 'msg-compose-error-message': hasErrorMsg },
       { 'usa-input-error-message': hasErrorMsg },
     );
-  
+
     let errMessage;
     if (hasErrorMsg) {
-      errorMessage = <div className={errMsgClass}>{this.props.errorMessage}</div>;
+      errMessage = <div className={errMsgClass}>{this.props.errorMessage}</div>;
     }
 
     return (
