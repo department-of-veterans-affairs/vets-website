@@ -6,7 +6,7 @@ class IntroductionPage extends React.Component {
       <div>
         <div className="row">
           <div className="small-12 columns">
-            <h3>Apply online for education benefits</h3>
+            <h3>Apply for education benefits (Form 22-1990)</h3>
           </div>
         </div>
 
