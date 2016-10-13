@@ -92,7 +92,7 @@ export class Detail extends React.Component {
       }
 
       // Compose components from tracking data.
-      if (item.trackings) {
+      if (item.trackings.length > 0) {
         const currentPackage = item.trackings[0].attributes;
         const facilityName = currentPackage.facilityName;
         const phoneNumber = currentPackage.rxInfoPhoneNumber;
