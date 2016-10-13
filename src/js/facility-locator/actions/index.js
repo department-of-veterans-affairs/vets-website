@@ -52,12 +52,12 @@ const mockFacility = {
       pharmacy: '503-273-5183',
     },
     hours: {
-      monday: '730AM-430PM',
-      tuesday: '730AM-630PM',
-      wednesday: '730AM-430PM',
-      thursday: '730AM-430PM',
-      friday: '730AM-430PM',
-      saturday: '800AM-1000AM',
+      monday: '7:30am-4:30pm',
+      tuesday: '7:30am-6:30pm',
+      wednesday: '7:30am-4:30pm',
+      thursday: '7:30am-4:30pm',
+      friday: '7:30am-4:30pm',
+      saturday: '8:00am-10:00am',
       sunday: '-',
     },
     services: [

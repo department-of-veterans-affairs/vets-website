@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 
 export default class FacilityHours extends Component {
   renderHours(hours) {
-    return hours === '-' ? 'CLOSED' : hours;
+    return hours === '-' ? 'Closed' : hours;
   }
 
   render() {
-    if (!this.props.info) {
+    const { facility } = this.props;
+
+    if (!facility) {
       return null;
     }
 
     const {
       attributes: { hours }
-    } = this.props.info;
+    } = facility;
 
     return (
-      <div className="mb2">
-        <h4>Hours of Operation:</h4>
-        <hr className="title"/>
+      <div>
         <div className="row">
           <div className="medium-6 columns">
               Monday:

@@ -62,7 +62,11 @@ class FacilityDetail extends Component {
         <div className="medium-4 columns">
           <div>
             <FacilityMap info={facility}/>
-            <FacilityHours info={facility}/>
+            <div className="mb2">
+              <h4>Hours of Operation:</h4>
+              <hr className="title"/>
+              <FacilityHours info={facility}/>
+            </div>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import FacilityInfoBlock from './search-results/FacilityInfoBlock';
 import FacilityDirectionsLink from './search-results/FacilityDirectionsLink';
 import FacilityPhoneLink from './search-results/FacilityPhoneLink';
 import Pagination from '../../rx/components/Pagination';
+import FacilityHours from './FacilityHours';
 
 class ResultsList extends Component {
   render() {
@@ -28,7 +29,7 @@ class ResultsList extends Component {
                     <td><FacilityInfoBlock facility={f}/></td>
                     <td><FacilityPhoneLink facility={f}/></td>
                     <td><FacilityDirectionsLink facility={f}/></td>
-                    <td>Hours</td>
+                    <td><FacilityHours facility={f}/></td>
                   </tr>
                 );
               })
