@@ -29,10 +29,10 @@ export default class MilitaryServiceFields extends React.Component {
             options={yesNo}
             value={this.props.data.currentlyActiveDuty.onTerminalLeave}
             onValueChange={(update) => {this.props.onStateChange('currentlyActiveDuty.onTerminalLeave', update);}}/>
-          <ErrorableRadioButtons
-              label="Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?"
-              name="nonVaAssistance"
-              options={yesNo}
+        <ErrorableRadioButtons
+            label="Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?"
+            name="nonVaAssistance"
+            options={yesNo}
             value={this.props.data.currentlyActiveDuty.nonVaAssistance}
             onValueChange={(update) => {this.props.onStateChange('currentlyActiveDuty.nonVaAssistance', update);}}/>
       </div>

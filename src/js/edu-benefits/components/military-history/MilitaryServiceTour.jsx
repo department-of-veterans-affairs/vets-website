@@ -29,10 +29,10 @@ export default class MilitaryServiceTour extends React.Component {
                 onValueChange={(update) => {onValueChange('serviceBranch', update);}}/>
           </div>
           <ErrorableTextInput
-            label="Type of service (Active duty, drilling reservist, IRR, etc.)"
-            name="serviceStatus"
-            field={tour.serviceStatus}
-            onValueChange={(update) => {onValueChange('serviceStatus', update);}}/>
+              label="Type of service (Active duty, drilling reservist, IRR, etc.)"
+              name="serviceStatus"
+              field={tour.serviceStatus}
+              onValueChange={(update) => {onValueChange('serviceStatus', update);}}/>
           <DateInput required
               errorMessage="Please provide a valid date"
               validation={validateIfDirtyDateObj(tour.dateRange.from, isValidDateField)}
