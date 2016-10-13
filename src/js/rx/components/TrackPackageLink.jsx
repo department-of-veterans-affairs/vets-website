@@ -12,6 +12,7 @@ class TrackPackageLink extends React.Component {
     return (
       <a
           className={linkClass}
+          href={this.props.url}
           rel="noopener noreferrer"
           target="_blank">
         {this.props.text}
@@ -22,7 +23,8 @@ class TrackPackageLink extends React.Component {
 
 TrackPackageLink.propTypes = {
   className: React.PropTypes.string,
-  text: React.PropTypes.string.isRequired
+  text: React.PropTypes.string.isRequired,
+  url: React.PropTypes.string.isRequired
 };
 
 export default TrackPackageLink;
