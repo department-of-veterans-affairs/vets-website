@@ -3,11 +3,13 @@ import React from 'react';
 import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 import DateInput from '../../../common/components/form-elements/DateInput';
 
 import { validateIfDirtyDateObj, validateIfDirty, isNotBlank, isValidDateField, isValidDateRange } from '../../utils/validations';
-import { serviceBranches, yesNoNA, tourBenefits } from '../../utils/options-for-select';
+import { serviceBranches, yesNoNA } from '../../utils/options-for-select';
 import { displayDateIfValid } from '../../utils/helpers';
 
 export default class MilitaryServiceTour extends React.Component {
@@ -57,24 +59,25 @@ export default class MilitaryServiceTour extends React.Component {
               onValueChange={(update) => {onValueChange('involuntarilyCalledToDuty', update);}}/>
         </div>
         <div className="input-section">
-          <ErrorableCheckbox
-              className="form-field-alert"
-              label="This period of service should be counted towards another education benefit."
-              name="doNotApplyPeriodToSelected"
-              checked={tour.doNotApplyPeriodToSelected}
-              onValueChange={(update) => {onValueChange('doNotApplyPeriodToSelected', update);}}/>
-            {tour.doNotApplyPeriodToSelected
-              ? <ErrorableRadioButtons
-                  errorMessage={validateIfDirty(tour.benefitsToApplyTo, isNotBlank) ? undefined : 'Please provide a response'}
-                  required={tour.doNotApplyPeriodToSelected}
-                  validation={validateIfDirty(tour.benefitsToApplyTo, isNotBlank)}
-                  label="Which benefit should this period of service be applied to?"
+          <ExpandingGroup
+              open={!tour.applyPeriodToSelected}
+              additionalClass="edu-benefits-apply-group">
+            <ErrorableCheckbox
+                className="form-field-alert"
+                label="Apply this service period to the benefit I'm applying for."
+                name="applyPeriodToSelected"
+                checked={tour.applyPeriodToSelected}
+                onValueChange={(update) => {onValueChange('applyPeriodToSelected', update);}}/>
+            <div>
+              <ErrorableTextarea
+                  label="Please explain how you'd like this service period applied."
                   name="benefitsToApplyTo"
-                  options={tourBenefits}
-                  value={tour.benefitsToApplyTo}
+                  field={tour.benefitsToApplyTo}
                   onValueChange={(update) => {onValueChange('benefitsToApplyTo', update);}}/>
-              : null
-            }
+              <p>A single period of service may not be applied toward more than one benefit.</p>
+              <p>There is one exception: If your period of service began before August 1, 2011, you may use it to establish eligibility to Chapter 33 even if it has already been used to establish eligibility to a different benefit.</p>
+            </div>
+          </ExpandingGroup>
         </div>
       </div>
     );
