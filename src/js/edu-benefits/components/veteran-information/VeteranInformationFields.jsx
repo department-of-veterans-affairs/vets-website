@@ -11,7 +11,7 @@ export default class PersonalInformationFields extends React.Component {
   render() {
     return (
       <fieldset>
-        <p>You aren't required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>
+        <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>
         <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
         <legend className="hide-for-small-only">Veteran information</legend>
         <div className="input-section">

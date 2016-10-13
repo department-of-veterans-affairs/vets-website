@@ -70,7 +70,7 @@ export default class MilitaryServiceTour extends React.Component {
                 onValueChange={(update) => {onValueChange('applyPeriodToSelected', update);}}/>
             <div>
               <ErrorableTextarea
-                  label="Please explain how you'd like this service period applied."
+                  label="Please tell us which benefit you’d like this service applied to."
                   name="benefitsToApplyTo"
                   field={tour.benefitsToApplyTo}
                   onValueChange={(update) => {onValueChange('benefitsToApplyTo', update);}}/>
