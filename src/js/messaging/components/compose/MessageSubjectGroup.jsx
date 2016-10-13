@@ -32,7 +32,7 @@ class MessageSubjectGroup extends React.Component {
           <div className="msg-subject-group-inner">
             <legend>Subject line:</legend>
             <div>
-              {errorMessage}
+              {errMessage}
               <div className="msg-subject-line">
                 <MessageCategory
                     categories={this.props.categories}
