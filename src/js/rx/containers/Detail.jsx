@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { loadPrescription } from '../actions/prescriptions.js';
+import { openGlossaryModal, openRefillModal } from '../actions/modal';
+import { loadPrescription } from '../actions/prescriptions';
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
 import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
-import { glossary, rxStatuses } from '../config.js';
 import SubmitRefill from '../components/SubmitRefill';
-import { openGlossaryModal, openRefillModal } from '../actions/modal';
+import { glossary, rxStatuses } from '../config';
 
 export class Detail extends React.Component {
   constructor(props) {
@@ -19,6 +19,12 @@ export class Detail extends React.Component {
 
   componentDidMount() {
     this.props.loadPrescription(this.props.params.id);
+  }
+
+  componentDidUpdate() {
+    if (this.props.location.hash === '#rx-order-history' && this._orderHistory) {
+      this._orderHistory.scrollIntoView();
+    }
   }
 
   openGlossaryModal(term) {
@@ -98,7 +104,9 @@ export class Detail extends React.Component {
         );
 
         orderHistory = (
-          <div className="rx-order-history">
+          <div
+              ref={(ref) => { this._orderHistory = ref; }}
+              id="rx-order-history">
             <h3 className="rx-heading va-h-ruled">Order History</h3>
             <OrderHistory
                 className="usa-table-borderless rx-table rx-table-list"
