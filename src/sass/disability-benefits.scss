@@ -270,12 +270,7 @@ a.claim-list-item {
       padding: 0;
     }
   }
-  .claim-conditions-list {
 
-  }
-  .claim-date-recieved {
-
-  }
   .claim-va-representative {
     margin-bottom: 2em;
   }
@@ -425,6 +420,7 @@ p.first-of-type {
   color: $color-primary-darker;
   letter-spacing: normal;
   font-size: 1.25em;
+}
 
 .turn-in-evidence-warning {
   h3 {
@@ -456,13 +452,11 @@ p.first-of-type {
       padding: 0;
     }
   }
-
   .documet-size-text {
     p {
       margin: 0;
     }
   }
-
   .remove-document-button {
     float: right;
   }
