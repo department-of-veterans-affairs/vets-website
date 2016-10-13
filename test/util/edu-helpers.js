@@ -196,6 +196,7 @@ function completeBenefitsWaiver(client, data, onlyRequiredFields) {
       .setValue('select[name="benefitsRelinquishedDateMonth"]', data.benefitsRelinquishedDate.month)
       .clearValue('select[name="benefitsRelinquishedDateDay"]')
       .setValue('select[name="benefitsRelinquishedDateDay"]', data.benefitsRelinquishedDate.day)
+      .clearValue('input[name="benefitsRelinquishedDateYear"]')
       .setValue('input[name="benefitsRelinquishedDateYear"]', data.benefitsRelinquishedDate.year);
   }
 }
