@@ -100,6 +100,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('rx/*');
   ignoreList.push('profile/*');
   ignoreList.push('auth/*');
+  ignoreList.push('education/apply-for-education-benefits-new');
 }
 smith.use(ignore(ignoreList));
 
@@ -258,6 +259,7 @@ if (options.watch) {
           '/employment/job-seekers/search-jobs',
           '/employment/job-seekers/skills-translator',
           '/gi-bill-comparison-tool/',
+          '/education/apply-for-education-benefits/application',
           '/healthcare/apply/application'].join('|'))
   }));
 
