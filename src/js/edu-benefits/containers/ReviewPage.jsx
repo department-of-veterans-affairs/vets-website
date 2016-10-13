@@ -15,7 +15,7 @@ class ReviewPage extends React.Component {
 
     if (this.props.uiData.isApplicationSubmitted) {
       content = (
-        // TODO(crew): We need to figure out why the css isn't working here.
+        // TODO(crew): We need to figure out why the css isn’t working here.
         <div className="usa-alert usa-alert-success">
           <div className="usa-alert-body">
             <h3 className="usa-alert-heading">You have submitted your application for education benefits!</h3>
@@ -26,8 +26,8 @@ class ReviewPage extends React.Component {
       );
     } else {
       content = (<div>
-        <p>You can review your application information here. When you're done, click submit.</p>
-        <p>VA will process your claim in 1 month. VA will send you a letter by U.S. mail with your claim decision.</p>
+        <p>You can review your application information here. When you’re done, click submit.</p>
+        <p>VA will usually process your claim within 30 days. VA will send you a letter by U.S. mail with your claim decision.</p>
         {routes
           .map(route => route.props)
           .filter(route => {

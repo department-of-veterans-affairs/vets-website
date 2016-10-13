@@ -21,6 +21,10 @@ class Pagination extends React.Component {
   }
 
   render() {
+    if (this.props.pages === 1) {
+      return <div/>;
+    }
+
     const pageList = Array(this.props.pages).fill().map((e, i) => {
       const pageNumber = i + 1;
       const pageClass = classNames({

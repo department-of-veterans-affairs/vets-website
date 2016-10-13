@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modal.js';
-import Pagination from '../components/Pagination';
+import Pagination from '../../common/components/Pagination';
 import SortableTable from '../components/tables/SortableTable';
 import SortMenu from '../components/SortMenu';
 import { glossary, rxStatuses } from '../config.js';

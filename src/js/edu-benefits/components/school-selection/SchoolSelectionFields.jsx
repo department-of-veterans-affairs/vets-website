@@ -43,7 +43,7 @@ export default class SchoolSelectionFields extends React.Component {
           </div>
         : null}
         <ErrorableTextarea
-            label="Education or career goal (for example, ‘Get a degree in journalism’ or ‘Become a computer programmer.’)"
+            label="Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)"
             name="educationObjective"
             field={this.props.data.educationObjective}
             onValueChange={(update) => {this.props.onStateChange('educationObjective', update);}}/>
