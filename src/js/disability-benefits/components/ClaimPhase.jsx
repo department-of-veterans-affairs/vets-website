@@ -48,43 +48,46 @@ export default class ClaimPhase extends React.Component {
             Your claim moved to {getUserPhaseDescription(this.props.phase)}
           </div>
         );
+
       case 'filed':
         return <div className="claims-evidence-item columns medium-9">Thank you. VA received your claim</div>;
+
       case 'completed':
         return <div className="claims-evidence-item columns medium-9">Your claim is complete</div>;
+
+      case 'still_need_from_you_list':
+      case 'still_need_from_others_list':
+        if (event.uploaded || event.status === 'SUBMITTED_AWAITING_REVIEW') {
+          return (
+            <div className="claims-evidence-item columns medium-9">
+              {fromVet ? 'You' : 'Others'} submitted {event.displayName}. We will notify you when we have reviewed it.
+            </div>
+          );
+        }
+        return (
+          <div className="claims-evidence-item columns medium-9">
+            We requested <Link to={filesPath}>{event.displayName}</Link> from {fromVet ? 'you' : 'others'}
+          </div>
+        );
+
+      case 'received_from_you_list':
+      case 'received_from_others_list':
+        if (event.status === 'SUBMITTED_AWAITING_REVIEW') {
+          return (
+            <div className="claims-evidence-item columns medium-9">
+              {fromVet ? 'You' : 'Others'} submitted {event.displayName}. We will notify you when we have reviewed it.
+            </div>
+          );
+        }
+        return (
+          <div className="claims-evidence-item columns medium-9">
+            We have reviewed your submitted evidence for {event.displayName}. We will notify you if we need additional information.
+          </div>
+        );
+
       default:
-        break;
+        return null;
     }
-
-    if (event.type === 'still_need_from_you_list' || event.type === 'still_need_from_others_list') {
-      if (event.uploaded || event.status === 'SUBMITTED_AWAITING_REVIEW') {
-        return (
-          <div className="claims-evidence-item columns medium-9">
-            {fromVet ? 'You' : 'Others'} submitted {event.displayName}. We will notify you when we have reviewed it.
-          </div>
-        );
-      }
-      return (
-        <div className="claims-evidence-item columns medium-9">
-          We requested <Link to={filesPath}>{event.displayName}</Link> from {fromVet ? 'you' : 'others'}
-        </div>
-      );
-    } else if (event.type === 'received_from_you_list' || event.type === 'received_from_others_list') {
-      if (event.status === 'SUBMITTED_AWAITING_REVIEW') {
-        return (
-          <div className="claims-evidence-item columns medium-9">
-            {fromVet ? 'You' : 'Others'} submitted {event.displayName}. We will notify you when we have reviewed it.
-          </div>
-        );
-      }
-      return (
-        <div className="claims-evidence-item columns medium-9">
-          We have reviewed your submitted evidence for {event.displayName}. We will notify you if we need additional information.
-        </div>
-      );
-    }
-
-    return null;
   }
   displayActivity() {
     const activityList = this.props.activity[this.props.phase];
