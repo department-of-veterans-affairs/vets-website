@@ -1,65 +1,51 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import TabNav from '../components/TabNav';
-import AskVAQuestions from '../components/AskVAQuestions';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import ClaimsDecision from '../components/ClaimsDecision';
 import AskVAToDecide from '../components/AskVAToDecide';
 import AddingDetails from '../components/AddingDetails';
-import Loading from '../components/Loading';
 import ClaimsTimeline from '../components/ClaimsTimeline';
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
 
-import { getClaimDetail } from '../actions';
+const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
 class StatusPage extends React.Component {
-  componentDidMount() {
-    this.props.getClaimDetail(this.props.params.id);
-  }
   render() {
     const { claim, loading } = this.props;
 
-    let content;
+    let content = null;
     if (!loading) {
       const phase = claim.attributes.phase;
+      const showDecision = phase === FIRST_GATHERING_EVIDENCE_PHASE
+        && !claim.attributes.waiverSubmitted;
+
       content = (
-        <div className="claim-conditions">
-          <h1>Your {"Compensation"} Claim</h1>
-          <h6>Your Claimed Conditions:</h6>
-          <p className="list">
-            {claim.attributes.contentionList
-              ? claim.attributes.contentionList.join(', ')
-              : null}
-          </p>
-          <TabNav id={this.props.params.id}/>
-          <div className="va-tab-content">
-            {phase === null ? <AddingDetails/> : null}
-            {claim.attributes.documentsNeeded && !claim.attributes.decisionLetterSent
-              ? <NeedFilesFromYou events={claim.attributes.eventsTimeline}/>
-              : null}
-            <AskVAToDecide/>
-            {claim.attributes.decisionLetterSent ? <ClaimsDecision/> : null}
-            {phase !== null
-              ? <ClaimsTimeline
-                  id={claim.id}
-                  estimatedDate={claim.attributes.maxEstDate}
-                  phase={phase}
-                  events={claim.attributes.eventsTimeline}/>
-              : null}
-          </div>
+        <div >
+          {phase === null ? <AddingDetails/> : null}
+          {claim.attributes.documentsNeeded && !claim.attributes.decisionLetterSent
+            ? <NeedFilesFromYou events={claim.attributes.eventsTimeline}/>
+            : null}
+          {showDecision
+            ? <AskVAToDecide id={this.props.params.id}/>
+            : null}
+          {claim.attributes.decisionLetterSent ? <ClaimsDecision/> : null}
+          {phase !== null
+            ? <ClaimsTimeline
+                id={claim.id}
+                estimatedDate={claim.attributes.maxEstDate}
+                phase={phase}
+                events={claim.attributes.eventsTimeline}/>
+            : null}
         </div>
       );
-    } else {
-      content = <Loading/>;
     }
 
     return (
-      <div className="row">
-        <div className="small-12 medium-8 columns usa-content">
-          {content}
-          <div name="topScrollElement"></div>
-        </div>
-        <AskVAQuestions/>
-      </div>
+      <ClaimDetailLayout
+          claim={claim}
+          loading={loading}>
+        {content}
+      </ClaimDetailLayout>
     );
   }
 }
@@ -71,10 +57,7 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = {
-  getClaimDetail
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
+export default connect(mapStateToProps)(StatusPage);
 
 export { StatusPage };
+

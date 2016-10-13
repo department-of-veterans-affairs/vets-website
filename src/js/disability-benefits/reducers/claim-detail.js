@@ -1,6 +1,9 @@
 import _ from 'lodash/fp';
 
-import { GET_CLAIM_DETAIL, SET_CLAIM_DETAIL } from '../actions';
+import {
+  GET_CLAIM_DETAIL,
+  SET_CLAIM_DETAIL,
+} from '../actions';
 
 const initialState = {
   detail: null,

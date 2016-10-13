@@ -67,7 +67,9 @@
   }
 }
 
-
+.file-request-list {
+  margin-top: 1.5em;
+}
 
 .file-request-list-item {
   border-bottom: 1px solid $color-gray-light;
@@ -253,6 +255,8 @@ a.claim-list-item {
 }
 
 .claim-details {
+  margin-top: 1.5em;
+
   .claim-conditions-list,
   .claim-date-recieved,
   .claim-va-representative {
@@ -399,4 +403,22 @@ a.claim-list-item {
 button.older-updates {
   margin-top: 1em;
   margin-bottom: 0;
+}
+
+.claims-alert {
+  margin-bottom: 1.5em;
+}
+
+.claims-alert-checkbox {
+  > label {
+    margin-top: 0;
+    margin-bottom: 0;
+    max-width: 100%;
+  }
+}
+
+p.first-of-type {
+  color: $color-primary-darker;
+  letter-spacing: normal;
+  font-size: 1.25em;
 }
