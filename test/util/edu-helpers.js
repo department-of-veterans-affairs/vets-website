@@ -92,6 +92,17 @@ function completeVeteranInformation(client, data, onlyRequiredFields) {
   }
 }
 
+function completeBenefitInformation(client, data, onlyRequiredFields) {
+  client
+    .click('input[name="chapter30"]');
+
+  if (!onlyRequiredFields) {
+    client
+      .click('input[name="chapter33"]');
+  }
+}
+
+
 function completeMilitaryService(client, data, onlyRequiredFields) {
   client
     .clearValue('select[name="serviceBranch"]')
@@ -141,5 +152,7 @@ module.exports = {
   initApplicationSubmitMock,
   completeVeteranInformation,
   completeMilitaryService,
-  completeContactInformation
+  completeContactInformation,
+  completeBenefitInformation
 };
+
