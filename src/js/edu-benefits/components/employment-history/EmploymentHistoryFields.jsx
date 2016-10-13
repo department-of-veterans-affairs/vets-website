@@ -25,7 +25,7 @@ export default class EmploymentHistoryFields extends React.Component {
         <ExpandingGroup open={this.props.data.hasNonMilitaryJobs.value === 'Y'} additionalClass="edu-benefits-employ-group">
           <div className="input-section">
             <ErrorableRadioButtons
-                label="Have you ever held a license (for example, as a contractor or plumber) or a journeyman rating to practice a profession?"
+                label="Have you ever held a license or a journeyman rating (for example, as a contractor or plumber) to practice a profession?"
                 name="hasNonMilitaryJobs"
                 options={yesNo}
                 value={this.props.data.hasNonMilitaryJobs}

@@ -10,7 +10,7 @@ export default class PersonalInformationReview extends React.Component {
             <td>{this.props.data.veteranFullName.first.value} {this.props.data.veteranFullName.middle.value} {this.props.data.veteranFullName.last.value} {this.props.data.veteranFullName.suffix.value}</td>
           </tr>
           <tr>
-            <td>Social Security Number:</td>
+            <td>Social Security number:</td>
             <td>{this.props.data.veteranSocialSecurityNumber.value}</td>
           </tr>
           <tr>

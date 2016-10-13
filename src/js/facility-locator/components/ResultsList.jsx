@@ -3,7 +3,7 @@ import FacilityHours from './FacilityHours';
 import FacilityInfoBlock from './search-results/FacilityInfoBlock';
 import FacilityPhoneLink from './search-results/FacilityPhoneLink';
 import MobileSearchResult from './MobileSearchResult';
-import Pagination from '../../rx/components/Pagination';
+import Pagination from '../../common/components/Pagination';
 import React, { Component, PropTypes } from 'react';
 
 class ResultsList extends Component {
