@@ -44,7 +44,7 @@ export default class SchoolSelectionFields extends React.Component {
           </div>
         : null}
         <ErrorableTextarea
-            label="Education or career goal (for example, ‘Get a degree in journalism’ or ‘Become a computer programmer.’)"
+            label="Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)"
             name="educationObjective"
             field={this.props.data.educationObjective}
             onValueChange={(update) => {this.props.onStateChange('educationObjective', update);}}/>
@@ -59,7 +59,7 @@ export default class SchoolSelectionFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('educationStartDate', update);}}/>
         {this.props.data.currentlyActiveDuty.yes.value === 'Y'
           ? <ErrorableRadioButtons
-              label="Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?"
+              label="Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework or training?"
               name="nonVaAssistance"
               options={yesNo}
               value={this.props.data.currentlyActiveDuty.nonVaAssistance}

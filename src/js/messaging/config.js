@@ -87,9 +87,11 @@ module.exports = {
           text: 'You may not attach more than four files.'
         }
       },
-      category: 'Please select a category.',
+      subjectLine: {
+        category: 'Please select a category.',
+        subject: 'Please add subject description.'
+      },
       message: 'Please enter your message.',
-      subject: 'Please add subject description.',
       recipient: 'Please select a recipient from your health care team.'
     },
     maxChars: {
