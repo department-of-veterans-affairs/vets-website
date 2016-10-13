@@ -67,6 +67,7 @@ export default class ContactInformationFields extends React.Component {
               onValueChange={(update) => {this.props.onStateChange('homePhone', update);}}/>
           <Phone
               label="Mobile telephone number"
+              name="mobilePhone"
               value={this.props.data.mobilePhone}
               additionalClass="mobile-phone usa-input-medium"
               onValueChange={(update) => {this.props.onStateChange('mobilePhone', update);}}/>
