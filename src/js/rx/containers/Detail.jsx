@@ -97,7 +97,7 @@ export class Detail extends React.Component {
       }
 
       // Compose components from tracking data.
-      if (item.trackings.length > 0) {
+      if (item.trackings && item.trackings.length > 0) {
         const currentPackage = item.trackings[0].attributes;
 
         // Get phone number for contact info.
