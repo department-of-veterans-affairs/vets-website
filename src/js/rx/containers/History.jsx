@@ -72,11 +72,10 @@ class History extends React.Component {
         if (attrs.dispensedDate) {
           dispensed = moment(
               attrs.dispensedDate
-            ).format('MMM DD, YYYY');  
+            ).format('MMM DD, YYYY');
         } else {
           dispensed = 'Not available';
         }
-
 
         return {
           orderedDate: moment(
