@@ -6,6 +6,7 @@ export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
 export const SET_CLAIM_DETAIL = 'SET_CLAIM_DETAIL';
 export const SUBMIT_DECISION_REQUEST = 'SUBMIT_DECISION_REQUEST';
 export const SET_DECISION_REQUESTED = 'SET_DECISION_REQUESTED';
+export const SET_DECISION_REQUEST_ERROR = 'SET_DECISION_REQUEST_ERROR';
 
 export function getClaims() {
   return (dispatch) => {
@@ -24,7 +25,7 @@ export function getClaims() {
 
         return Promise.reject(res.statusText);
       })
-      .then(claims => dispatch({ type: 'SET_CLAIMS', claims: claims.data }));
+      .then(claims => dispatch({ type: SET_CLAIMS, claims: claims.data }));
   };
 }
 
@@ -55,7 +56,7 @@ export function getClaimDetail(id) {
 
         return Promise.reject(res.statusText);
       })
-      .then(resp => dispatch({ type: 'SET_CLAIM_DETAIL', claim: resp.data }));
+      .then(resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data }));
   };
 }
 
@@ -72,12 +73,13 @@ export function submitRequest(id) {
       }
     })
       .then(res => {
-        if (res.ok) {
-          return res.json();
+        if (!res.ok) {
+          return Promise.reject(res.statusText);
         }
 
-        return Promise.reject(res.statusText);
+        return Promise.resolve();
       })
-      .then(() => dispatch({ type: 'SET_DECISION_REQUESTED' }));
+      .then(() => dispatch({ type: SET_DECISION_REQUESTED }))
+      .catch(error => dispatch({ type: SET_DECISION_REQUEST_ERROR, error }));
   };
 }

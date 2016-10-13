@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { submitRequest } from '../actions';
 
 import AskVAQuestions from '../components/AskVAQuestions';
@@ -8,22 +9,31 @@ import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCh
 class AskVAPage extends React.Component {
   constructor() {
     super();
-    this.goBack = this.goBack.bind(this);
+    this.goToStatusPage = this.goToStatusPage.bind(this);
     this.setSubmittedDocs = this.setSubmittedDocs.bind(this);
     this.state = { submittedDocs: false };
   }
-  componentWillMount() {
-    if (this.props.decisionRequested) {
-      this.goBack();
+  componentWillReceiveProps(props) {
+    if (props.decisionRequested) {
+      this.goToStatusPage();
     }
   }
   setSubmittedDocs(val) {
     this.setState({ submittedDocs: val });
   }
-  goBack() {
-    this.props.router.push(`/your-claims/${this.props.id}`);
+  goToStatusPage() {
+    this.props.router.push(`your-claims/${this.props.params.id}`);
   }
   render() {
+    const { loadingDecisionRequest, decisionRequestError } = this.props;
+    const submitDisabled = !this.state.submittedDocs || loadingDecisionRequest || decisionRequestError;
+
+    let buttonMsg = 'Submit';
+    if (loadingDecisionRequest) {
+      buttonMsg = 'Submitting...';
+    } else if (decisionRequestError !== null) {
+      buttonMsg = 'Something went wrong...';
+    }
     return (
       <div>
         <div className="row">
@@ -40,20 +50,23 @@ class AskVAPage extends React.Component {
                 <li>The assistance VA will provide you in obtaining evidence to support your claims; or</li>
                 <li>The date any benefits will begin if your claim is granted.</li>
               </ul>
-              <div className="claims-alert">
+              <div className="usa-alert usa-alert-info claims-no-icon claims-alert">
                 <ErrorableCheckbox
+                    className="claims-alert-checkbox"
                     checked={this.state.submittedDocs}
                     onValueChange={(update) => this.setSubmittedDocs(update)}
 
                     label="I have submitted all information or evidence that will support my claim to include identifying records from Federal treating facilities, or I have no other information or evidence to give VA to support my claim. Please decide my claim as soon as possible."/>
               </div>
               <button
-                  disabled={!this.state.submittedDocs}
-                  className={!this.state.submittedDocs ? 'usa-button-primary usa-button-disabled' : 'usa-button-primary'}
+                  disabled={submitDisabled}
+                  className={submitDisabled ? 'usa-button-primary usa-button-disabled' : 'usa-button-primary'}
                   onClick={() => this.props.submitRequest(this.props.params.id)}>
-                Submit
+                {buttonMsg}
               </button>
-              <button className="usa-button-outline request-decision-button" onClick={this.goBack}>Cancel</button>
+              {!loadingDecisionRequest
+                ? <button className="usa-button-outline request-decision-button" onClick={this.goToStatusPage}>Cancel</button>
+                : null}
             </div>
           </div>
           <AskVAQuestions/>
@@ -66,8 +79,9 @@ class AskVAPage extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    loadingDecisionRequest: state.claimDetail.loadingDecisionRequest,
-    decisionRequested: state.claimDetail.decisionRequested
+    loadingDecisionRequest: state.claimAsk.loadingDecisionRequest,
+    decisionRequested: state.claimAsk.decisionRequested,
+    decisionRequestError: state.claimAsk.decisionRequestError
   };
 }
 
@@ -75,6 +89,6 @@ const mapDispatchToProps = {
   submitRequest
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AskVAPage);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AskVAPage));
 
 export { AskVAPage };

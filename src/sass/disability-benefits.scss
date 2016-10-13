@@ -67,7 +67,9 @@
   }
 }
 
-
+.file-request-list {
+  margin-top: 1.5em;
+}
 
 .file-request-list-item {
   border-bottom: 1px solid $color-gray-light;
@@ -251,6 +253,8 @@ a.claim-list-item {
 }
 
 .claim-details {
+  margin-top: 1.5em;
+
   .claim-conditions-list,
   .claim-date-recieved,
   .claim-va-representative {
@@ -386,4 +390,16 @@ a.claim-list-item {
 
 .va-claim-form {
   margin: 1.5em 0;
+}
+
+.claims-alert {
+  margin-bottom: 1.5em;
+}
+
+.claims-alert-checkbox {
+  > label {
+    margin-top: 0;
+    margin-bottom: 0;
+    max-width: 100%;
+  }
 }
