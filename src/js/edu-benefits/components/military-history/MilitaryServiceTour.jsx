@@ -28,6 +28,11 @@ export default class MilitaryServiceTour extends React.Component {
                 value={tour.serviceBranch}
                 onValueChange={(update) => {onValueChange('serviceBranch', update);}}/>
           </div>
+          <ErrorableTextInput
+              label="Type of service (Active duty, drilling reservist, IRR, etc.)"
+              name="serviceStatus"
+              field={tour.serviceStatus}
+              onValueChange={(update) => {onValueChange('serviceStatus', update);}}/>
           <DateInput required
               errorMessage="Please provide a valid date"
               validation={validateIfDirtyDateObj(tour.dateRange.from, isValidDateField)}
@@ -46,11 +51,6 @@ export default class MilitaryServiceTour extends React.Component {
               month={tour.dateRange.to.month}
               year={tour.dateRange.to.year}
               onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
-          <ErrorableTextInput
-              label="Service status (Active duty, drilling reservist, IRR, etc.)"
-              name="serviceStatus"
-              field={tour.serviceStatus}
-              onValueChange={(update) => {onValueChange('serviceStatus', update);}}/>
           <ErrorableRadioButtons
               label="Were you involuntarily called for active duty during this period?"
               name="involuntarilyCalledToDuty"
@@ -70,7 +70,7 @@ export default class MilitaryServiceTour extends React.Component {
                 onValueChange={(update) => {onValueChange('applyPeriodToSelected', update);}}/>
             <div>
               <ErrorableTextarea
-                  label="Please explain how you'd like this service period applied."
+                  label="Please tell us which benefit you’d like this service applied to."
                   name="benefitsToApplyTo"
                   field={tour.benefitsToApplyTo}
                   onValueChange={(update) => {onValueChange('benefitsToApplyTo', update);}}/>
