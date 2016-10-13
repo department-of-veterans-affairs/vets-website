@@ -1,13 +1,40 @@
-import React, { Component, PropTypes } from 'react';
-import FacilityInfoBlock from './search-results/FacilityInfoBlock';
 import FacilityDirectionsLink from './search-results/FacilityDirectionsLink';
-import FacilityPhoneLink from './search-results/FacilityPhoneLink';
-import Pagination from '../../rx/components/Pagination';
 import FacilityHours from './FacilityHours';
+import FacilityInfoBlock from './search-results/FacilityInfoBlock';
+import FacilityPhoneLink from './search-results/FacilityPhoneLink';
+import MobileSearchResult from './MobileSearchResult';
+import Pagination from '../../rx/components/Pagination';
+import React, { Component, PropTypes } from 'react';
 
 class ResultsList extends Component {
-  render() {
+
+  renderMobileView() {
     const { facilities } = this.props;
+
+    return (
+      <div>
+        <ol>
+          {
+            facilities.map(f => {
+              return (
+                <li key={f.id} className="mobile-search-result">
+                  <MobileSearchResult facility={f}/>
+                </li>
+              );
+            })
+          }
+        </ol>
+        <Pagination onPageSelect={() => {}} page={1} pages={1}/>
+      </div>
+    );
+  }
+
+  render() {
+    const { facilities, isMobile } = this.props;
+
+    if (isMobile) {
+      return this.renderMobileView();
+    }
 
     return (
       <div>
@@ -24,7 +51,7 @@ class ResultsList extends Component {
             {
               facilities.map((f, i) => {
                 return (
-                  <tr key={f.id}>
+                  <tr key={f.id} className="facility-result">
                     <td>{i + 1}.</td>
                     <td><FacilityInfoBlock facility={f}/></td>
                     <td><FacilityPhoneLink facility={f}/></td>
@@ -39,29 +66,12 @@ class ResultsList extends Component {
         <Pagination onPageSelect={() => {}} page={1} pages={1}/>
       </div>
     );
-
-    // return (
-    //   <div>
-    //     <ol>
-    //       {
-    //         facilities.map(f => {
-    //           return (
-    //             <li key={f.id}>
-    //               <SearchResult facility={f}/>
-    //             </li>
-    //           );
-    //         })
-    //       }
-    //     </ol>
-    //     <Pagination onPageSelect={() => {}} page={1} pages={1}/>
-    //   </div>
-    // );
   }
 }
 
 ResultsList.propTypes = {
   facilities: PropTypes.array,
-  mobile: PropTypes.bool,
+  isMobile: PropTypes.bool,
 };
 
 export default ResultsList;

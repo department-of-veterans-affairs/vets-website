@@ -14,7 +14,7 @@ import BenefitsMarker from '../components/markers/BenefitsMarker';
 import React, { Component } from 'react';
 import ResultsList from '../components/ResultsList';
 import SearchControls from '../components/SearchControls';
-import SearchResult from '../components/SearchResult';
+import MobileSearchResult from '../components/MobileSearchResult';
 
 class VAMap extends Component {
 
@@ -202,7 +202,9 @@ class VAMap extends Component {
     const { selectedFacility } = this.props;
 
     if (selectedFacility) {
-      return <SearchResult facility={selectedFacility}/>;
+      return (
+        <MobileSearchResult facility={selectedFacility}/>
+      );
     }
 
     return null;
@@ -225,11 +227,11 @@ class VAMap extends Component {
             <TabPanel>
               <div className="facility-search-results">
                 <p>Search Results near <strong>{currentQuery.context}</strong></p>
-                <ResultsList facilities={facilities}/>
+                <ResultsList facilities={facilities} isMobile/>
               </div>
             </TabPanel>
             <TabPanel>
-              <Map ref="map" center={position} zoom={13} style={{ width: '100%', maxHeight: '55vh' }}>
+              <Map ref="map" center={position} zoom={13} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}>
                 <TileLayer
                     url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                     attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>

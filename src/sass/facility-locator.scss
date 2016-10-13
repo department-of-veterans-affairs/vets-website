@@ -102,6 +102,22 @@
         color: $color-black;
       }
     }
+     a {
+       text-decoration: none;
+     }
+  }
+
+  li.mobile-search-result {
+    padding: 1em 0;
+    border-top: none;
+  }
+
+  li.mobile-search-result + li.mobile-search-result{
+    border-top: solid 1px $color-va-gray-medium;
+  }
+
+  p {
+    margin: 0.5em 0;
   }
 
   .map-marker {
@@ -251,9 +267,9 @@
       border-color: $color-gray-lighter;
       margin: 6rem 0 2rem;
     }
+  }
 
-    [href^=http] {
-      background: none;
-    }
+  [href^=http] {
+    background: none;
   }
 }

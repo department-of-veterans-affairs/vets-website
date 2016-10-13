@@ -20,7 +20,7 @@ class FacilityInfoBlock extends Component {
     /* eslint-enable camelcase */
 
     return (
-      <div className="facility-result">
+      <div>
         <Link to={`facilities/facility/${facility.id}`}>
           <h5>{name}</h5>
         </Link>
@@ -28,7 +28,9 @@ class FacilityInfoBlock extends Component {
           {addressString[0]}<br/>
           {addressString[1]}
         </p>
-        <span>Facility type: <strong>{facilityTypes[facility.type]}</strong></span>
+        <p>
+          <span>Facility type: <strong>{facilityTypes[facility.type]}</strong></span>
+        </p>
       </div>
     );
   }
