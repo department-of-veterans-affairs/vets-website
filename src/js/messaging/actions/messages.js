@@ -20,6 +20,7 @@ import {
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
+  TOGGLE_REPLY_DETAILS,
   UPDATE_DRAFT
 } from '../utils/constants';
 
@@ -247,6 +248,10 @@ export function toggleMessageCollapsed(messageId) {
 
 export function toggleMessagesCollapsed() {
   return { type: TOGGLE_MESSAGES_COLLAPSED };
+}
+
+export function toggleReplyDetails() {
+  return { type: TOGGLE_REPLY_DETAILS };
 }
 
 export function updateDraft(field) {
