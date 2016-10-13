@@ -40,6 +40,8 @@ export class Detail extends React.Component {
     let rxInfo;
     let contactCard;
     let orderHistory;
+    let facilityName;
+    let phoneNumber;
 
     const item = this.props.prescriptions.currentItem;
 
@@ -89,19 +91,17 @@ export class Detail extends React.Component {
               className="usa-table-borderless rx-table rx-info"
               data={data}/>
         );
+
+        // Get facility name for contact info.
+        facilityName = attrs.facilityName;
       }
 
       // Compose components from tracking data.
       if (item.trackings.length > 0) {
         const currentPackage = item.trackings[0].attributes;
-        const facilityName = currentPackage.facilityName;
-        const phoneNumber = currentPackage.rxInfoPhoneNumber;
 
-        contactCard = (
-          <ContactCard
-              facilityName={facilityName}
-              phoneNumber={phoneNumber}/>
-        );
+        // Get phone number for contact info.
+        phoneNumber = currentPackage.rxInfoPhoneNumber;
 
         orderHistory = (
           <div
@@ -114,6 +114,12 @@ export class Detail extends React.Component {
           </div>
         );
       }
+
+      contactCard = (
+        <ContactCard
+            facilityName={facilityName}
+            phoneNumber={phoneNumber}/>
+      );
     }
 
     return (
