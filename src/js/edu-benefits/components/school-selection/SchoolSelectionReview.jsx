@@ -48,7 +48,7 @@ export default class SchoolSelectionReview extends React.Component {
             <td>Do you know when your training will begin?</td>
             <td>{this.props.data.educationStartDate.month.value ? `${this.props.data.educationStartDate.month.value}/${this.props.data.educationStartDate.day.value}/${this.props.data.educationStartDate.year.value}` : null}</td>
           </tr>
-          {this.props.data.currentlyActiveDuty.yes.value === 'Y' && this.props.data.currentlyActiveDuty.nonVaAssistance.value !== ''
+          {this.props.data.currentlyActiveDuty.yes.value === 'Y'
             ? <tr>
               <td>Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?</td>
               <td>{showYesNo(this.props.data.currentlyActiveDuty.nonVaAssistance)}</td>
