@@ -6,35 +6,48 @@ source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-asb
 template: 1-topic-landing
 ---
 
-If you served in Iraq or other countries in the Middle East and Southeast Asia, you may have been exposed to asbestos when older buildings were damaged, releasing the contaminant into the air. Additionally, some service occupations, tasks, and workplaces may have exposed you to asbestos, including shipyards, construction, and vehicle repair.
+Asbestos is a fiber that was once used in many buildings and products, but is now known to be toxic. If you served in Iraq or other countries in the Middle East and Southeast Asia, you may have had contact with asbestos as it was released into the air when old buildings were damaged. You may have also had contact with asbestos if you worked in certain jobs or settings—like shipyards, construction, or vehicle repair. You may be able to get a monthly payment (called compensation) and care for health problems linked to asbestos.
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for compensation?
+### Can I get a monthly payment and health care?
 
 Yes, if:
 
-- You were exposed to asbestos while in military service.
-- You have a condition related to the asbestos exposure that occurred in military service.
+- You had contact with asbestos while serving in the military
+- You have a health problem that's linked to your contact with asbestos while serving in the military
 
 <br>
 
-### Who is covered
+### Who's covered by these benefits?
 
 You
 </div>
 
-### Available benefits
-
-- Compensation
-- Health care
-
 --------
 
-### How it works
+### What should I do if I think I've had contact with asbestos?
 
-Several military occupational specialties have a risk of exposure to asbestos, including mining, milling, shipyard work, insulation work, demolition of old buildings, carpentry, and construction. VA also recognizes a risk of exposure in the manufacturing and installation of flooring, roofing, cement sheet, and pipe products, and the servicing of friction products such as clutch facings and brake linings. If you served in one of these specialties, you should be tested for related health risks. You must have been discharged under conditions other than dishonorable.
+If you think you've had contact with asbestos, you should get tested for certain health problems that affect your lungs.
+
+Get tested if you've worked in:
+- Mining
+- Milling
+- Shipyards
+- Construction
+- Carpentry
+- Demolition (knocking down old buildings) 
+
+Get tested if you've made or worked with products like:
+- Flooring
+- Roofing
+- Cement sheet
+- Pipes
+- Insulation, or pipe product manufacturing and installation
+- Servicing friction products such as clutch facings and brake linings
+
+To get compensation, you must have been discharged under conditions other than dishonorable.
 
 ### Learn more
 
-[Health risks related to asbestos exposure](http://www.publichealth.va.gov/exposures/asbestos/index.asp)
+[Health problems linked to contact with asbestos](http://www.publichealth.va.gov/exposures/asbestos/index.asp)
