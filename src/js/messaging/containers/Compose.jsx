@@ -153,7 +153,6 @@ export class Compose extends React.Component {
               subjectPlaceholder={composeMessage.placeholders.subject}/>
           <MessageWriteGroup
               allowedMimeTypes={allowedMimeTypes}
-              attachmentsVisible={!this.props.message.attachments.length}
               charCount={message.charsRemaining}
               errorMessage={validations.isValidMessageBody(message.text) ? undefined : composeMessage.errors.message}
               files={this.props.message.attachments}

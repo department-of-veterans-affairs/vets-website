@@ -7,13 +7,7 @@ import MessageAttachments from './MessageAttachments';
 class MessageWriteGroup extends React.Component {
   constructor(props) {
     super(props);
-    this.handleAttachmentsClose = this.handleAttachmentsClose.bind(this);
     this.handleMessageChange = this.handleMessageChange.bind(this);
-    this.handleSubjectChange = this.handleSubjectChange.bind(this);
-  }
-
-  handleAttachmentsClose() {
-    this.props.onAttachmentsClose();
   }
 
   handleMessageChange(valueObj) {
@@ -36,14 +30,12 @@ class MessageWriteGroup extends React.Component {
             cssClass="msg-write"
             errorMessage={this.props.errorMessage}
             maxChars={this.props.maxChars}
-            onCharCountChange={this.props.onCharCountChange}
             onValueChange={this.handleMessageChange}
             placeholder={this.props.placeholder}
             text={this.props.messageText}/>
         <MessageAttachments
-            hidden={this.props.attachmentsVisible}
             files={this.props.files}
-            onClose={this.handleAttachmentsClose}/>
+            onClose={this.props.onAttachmentsClose}/>
         <MessageSend
             allowedMimeTypes={this.props.allowedMimeTypes}
             attachedFiles={this.props.files}
@@ -64,7 +56,6 @@ class MessageWriteGroup extends React.Component {
 
 MessageWriteGroup.propTypes = {
   allowedMimeTypes: React.PropTypes.array,
-  attachmentsVisible: React.PropTypes.bool,
   charCount: React.PropTypes.number,
   errorMessage: React.PropTypes.string,
   files: React.PropTypes.array,
@@ -85,7 +76,6 @@ MessageWriteGroup.propTypes = {
   onSend: React.PropTypes.func,
   onTextChange: React.PropTypes.func,
   placeholder: React.PropTypes.string,
-  subjectPlaceholder: React.PropTypes.string
 };
 
 export default MessageWriteGroup;

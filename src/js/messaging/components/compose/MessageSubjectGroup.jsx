@@ -9,22 +9,20 @@ class MessageSubjectGroup extends React.Component {
   render() {
     const hasErrorMsg = !!this.props.errorMessage;
 
+    let errMessage;
+    if (hasErrorMsg) {
+      errMessage = (
+        <div className="usa-input-error-message msg-compose-error-message">
+          {this.props.errorMessage}
+        </div>);
+    }
+
     const errItemClass = classNames(
       this.props.cssErrorClass,
       'msg-subject-group',
       { 'usa-input-error': hasErrorMsg },
       { 'msg-compose-error': hasErrorMsg }
     );
-
-    const errMsgClass = classNames(
-      { 'msg-compose-error-message': hasErrorMsg },
-      { 'usa-input-error-message': hasErrorMsg },
-    );
-
-    let errMessage;
-    if (hasErrorMsg) {
-      errMessage = <div className={errMsgClass}>{this.props.errorMessage}</div>;
-    }
 
     return (
       <fieldset>
