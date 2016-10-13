@@ -21,13 +21,6 @@ class MessageWriteGroup extends React.Component {
     this.props.onCharCountChange(valueObj, this.props.maxChars);
   }
 
-  handleSubjectChange(valueObj) {
-    this.props.onSubjectChange('message.subject', valueObj);
-  }
-
-
-  // TODO: Add errorMessage property to ErrorableTextInput conditionally
-  // when the fields are validated.
   render() {
     const errItemClass = classNames(
       this.props.cssClass,

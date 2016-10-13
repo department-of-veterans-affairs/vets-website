@@ -20,15 +20,19 @@ class MessageSubjectGroup extends React.Component {
       { 'msg-compose-error-message': hasErrorMsg },
       { 'usa-input-error-message': hasErrorMsg },
     );
-
-    const errorMessage = !!this.props.errorMessage ? <div className={errMsgClass}>{this.props.errorMessage}</div> : undefined;
+  
+    let errMessage;
+    if (hasErrorMsg) {
+      errorMessage = <div className={errMsgClass}>{this.props.errorMessage}</div>;
+    }
 
     return (
       <fieldset>
         <div className={errItemClass}>
           <div className="msg-subject-group-inner">
             <legend>Subject line:</legend>
-            <div>{errorMessage}
+            <div>
+              {errorMessage}
               <div className="msg-subject-line">
                 <MessageCategory
                     categories={this.props.categories}

@@ -13,7 +13,7 @@ class MessageRecipient extends React.Component {
   }
 
   render() {
-    let error = undefined;
+    let error;
 
     if (!!this.props.errorMessage) {
       error = (
