@@ -25,7 +25,7 @@ export default class MilitaryServiceReview extends React.Component {
                 <td>{showYesNo(this.props.data.currentlyActiveDuty.onTerminalLeave)}</td>
               </tr>
               <tr>
-                <td>Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework?</td>
+                <td>Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework or training?</td>
                 <td>{showYesNo(this.props.data.currentlyActiveDuty.nonVaAssistance)}</td>
               </tr>
             </tbody>

@@ -10,10 +10,20 @@ export default class BenefitsSelectionFields extends React.Component {
       <div className="input-section">
         <ErrorableGroup
             required
-            label="Select the benefit that is the best match for you. If you are eligible for more than one, we can help you make the best choice."
+            label="Select the benefit that is the best match for you."
             validation={this.props.data.chapter33 || this.props.data.chapter30 || this.props.data.chapter1606 || this.props.data.chapter32}
             errorMessage="Please select at least one benefit"
             isDirty={this.props.data.checkedBenefit.dirty}>
+          <div className="usa-alert usa-alert-info">
+            <div className="usa-alert-body">
+              <ul>
+                <li>You may be eligible for more than 1 education benefit program.</li>
+                <li>You can only get payments from 1 program at a time.</li>
+                <li>You can’t get more than 48 months of benefits under any combination of VA education programs.</li>
+              </ul>
+            </div>
+          </div>
+
           <ErrorableCheckbox
               label="Post-9/11 GI Bill (Chapter 33)"
               name="chapter33"
