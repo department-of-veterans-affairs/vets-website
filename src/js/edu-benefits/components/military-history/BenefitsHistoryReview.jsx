@@ -1,5 +1,5 @@
 import React from 'react';
-import { displayDateIfValid, showYesNo } from '../../utils/helpers.js';
+import { displayDateIfValid } from '../../utils/helpers.js';
 
 export default class BenefitsHistoryReview extends React.Component {
   render() {
@@ -25,10 +25,10 @@ export default class BenefitsHistoryReview extends React.Component {
           </tr>
           <tr>
             <td>Do you have a period of active duty that the Department of Defense counts towards an education loan payment?</td>
-            <td>{showYesNo(this.props.data.activeDutyRepaying)}</td>
+            <td>{this.props.data.activeDutyRepaying ? 'Yes' : 'No'}</td>
           </tr>
         </tbody>
-        {this.props.data.activeDutyRepaying.value === 'Y'
+        {this.props.data.activeDutyRepaying
           ? <tbody>
             <tr>
               <td>Start date:</td>

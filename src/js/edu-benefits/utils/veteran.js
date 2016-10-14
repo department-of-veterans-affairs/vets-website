@@ -114,7 +114,7 @@ export function createVeteran() {
     additionalContributions: false,
     activeDutyKicker: false,
     reserveKicker: false,
-    activeDutyRepaying: makeField(''),
+    activeDutyRepaying: false,
     activeDutyRepayingPeriod: {
       to: {
         month: makeField(''),
@@ -187,7 +187,7 @@ export function createVeteran() {
 export function veteranToApplication(veteran) {
   let data = veteran;
 
-  if (data.activeDutyRepaying.value !== 'Y') {
+  if (!data.activeDutyRepaying) {
     data = _.unset('activeDutyRepayingPeriod', data);
   }
 
