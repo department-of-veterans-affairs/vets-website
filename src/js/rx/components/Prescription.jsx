@@ -47,7 +47,8 @@ class Prescription extends React.Component {
           <div
               key={`rx-${id}-status`}
               className="rx-prescription-status">
-            {rxStatuses[status]}
+            Refill status:
+            <span> {rxStatuses[status]}</span>
           </div>
         ));
 

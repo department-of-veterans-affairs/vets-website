@@ -49,7 +49,7 @@ module.exports = {
     hold: 'On hold',
     submitted: 'Pending',
     suspended: 'Suspended',
-    refillinprocess: 'Refill in process',
+    refillinprocess: 'In process',
     unknown: 'Unknown'
   },
 
