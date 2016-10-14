@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router';
 import classNames from 'classnames';
 
 class TrackPackageLink extends React.Component {
@@ -9,20 +9,29 @@ class TrackPackageLink extends React.Component {
       this.props.className
     );
 
+    let rel;
+    let target;
+
+    if (this.props.external) {
+      rel = 'external noopener noreferrer';
+      target = '_blank';
+    }
+
     return (
-      <a
+      <Link
           className={linkClass}
           href={this.props.url}
-          rel="noopener noreferrer"
-          target="_blank">
+          rel={rel}
+          target={target}>
         {this.props.text}
-      </a>
+      </Link>
     );
   }
 }
 
 TrackPackageLink.propTypes = {
   className: React.PropTypes.string,
+  external: React.PropTypes.bool,
   text: React.PropTypes.string.isRequired,
   url: React.PropTypes.string.isRequired
 };

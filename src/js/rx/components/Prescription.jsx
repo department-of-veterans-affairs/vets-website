@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
 
-import { rxStatuses } from '../config.js';
+import { openRefillModal } from '../actions/modal';
+import { rxStatuses } from '../config';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitRefill from './SubmitRefill';
-import { openRefillModal } from '../actions/modal';
 
 class Prescription extends React.Component {
   constructor() {
@@ -60,7 +60,8 @@ class Prescription extends React.Component {
           action.push(<TrackPackageLink
               key={`rx-${id}-track`}
               className="usa-button"
-              text="Track package"/>);
+              text="Track package"
+              url={`/rx/prescription/${id}#rx-order-history`}/>);
         } else {
           action.push((
             <div

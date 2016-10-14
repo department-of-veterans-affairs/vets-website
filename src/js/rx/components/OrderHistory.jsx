@@ -15,6 +15,7 @@ class OrderHistory extends React.Component {
         </td>
         <td>
           <TrackPackageLink
+              external
               text={attrs.trackingNumber}
               url={item.links.trackingUrl}/>
           &nbsp;({attrs.deliveryService.toUpperCase()})
