@@ -48,7 +48,8 @@ export class Detail extends React.Component {
     let header;
     let rxInfo;
     let contactCard;
-    let orderHistory;
+    let orderHistorySection;
+    let orderHistoryTable;
     let facilityName;
     let phoneNumber;
 
@@ -112,17 +113,22 @@ export class Detail extends React.Component {
         // Get phone number for contact info.
         phoneNumber = currentPackage.rxInfoPhoneNumber;
 
-        orderHistory = (
-          <ScrollElement
-              id="rx-order-history"
-              name="orderHistory">
-            <h3 className="rx-heading va-h-ruled">Order History</h3>
-            <OrderHistory
-                className="usa-table-borderless rx-table rx-table-list"
-                items={item.trackings}/>
-          </ScrollElement>
+        orderHistoryTable = (
+          <OrderHistory
+              className="usa-table-borderless rx-table rx-table-list"
+              items={item.trackings}/>
         );
       }
+
+      orderHistorySection = (
+        <ScrollElement
+            id="rx-order-history"
+            name="orderHistory">
+          <h3 className="rx-heading va-h-ruled">Order History</h3>
+          <p>* Tracking information for each order expires 30 days after shipment.</p>
+          {orderHistoryTable}
+        </ScrollElement>
+      );
 
       contactCard = (
         <ContactCard
@@ -138,7 +144,7 @@ export class Detail extends React.Component {
         {header}
         {rxInfo}
         {contactCard}
-        {orderHistory}
+        {orderHistorySection}
       </div>
     );
   }

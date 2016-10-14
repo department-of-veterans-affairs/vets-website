@@ -87,9 +87,17 @@
     h3 {
       border-bottom: none;
     }
+
+    p {
+      margin-top: 0;
+    }
   }
 
   @media (max-width: $medium-screen) {
+    p {
+      margin-bottom: 0;
+    }
+
     td {
       display: block;
 
