@@ -17,12 +17,12 @@ class ContactCard extends React.Component {
     return (
       <div className="rx-contact-card">
         <h3 className="rx-heading va-h-ruled">Contact</h3>
-        <MessageProviderLink/>
         <div className="rx-contact-line">
           <span className="rx-contact-header">Facility:&nbsp;</span>
           {this.props.facilityName}
         </div>
         {phoneNumber}
+        <MessageProviderLink/>
       </div>
     );
   }
