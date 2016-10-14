@@ -72,12 +72,8 @@
 
 
 .rx-refill-form .rx-trigger {
-  margin: 0;
-  
-  @media (min-width: $medium-screen) {
-    display: inline-block;
-    margin-left: 2rem;
-  }
+  display: inline-block;
+  margin: 0 0 0 2rem;
 }
 
 #rx-order-history {
