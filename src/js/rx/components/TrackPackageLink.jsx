@@ -19,9 +19,9 @@ class TrackPackageLink extends React.Component {
     return (
       <Link
           className={linkClass}
-          to={this.props.url}
-          rel={rel}
-          target={target}>
+          href={this.props.url}
+          rel="noopener noreferrer"
+          target="_blank">
         {this.props.text}
       </Link>
     );
