@@ -46,9 +46,9 @@ export default class SubmitMessage extends React.Component {
             </li>
           </ul>
         </div>
-        <div className="inset secondary expandable" onClick={this.handleClick}>
+        <div className="inset secondary expandable">
           <ExpandingGroup open={this.state.isExpanded} showPlus>
-            <div>
+            <div onClick={this.handleClick} className="clickable">
               <b>No documents required at this time</b>
             </div>
             <div>

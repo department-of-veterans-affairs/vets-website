@@ -42,11 +42,13 @@ legend {
     background-color: #eee;
   }
   &.expandable {
-    cursor: pointer;
     .form-expanding-group,
     .form-expanding-group-open {
       padding-left: 0;
       border-left: 0;
+    }
+    .clickable {
+      cursor: pointer;
     }
   }
 }
