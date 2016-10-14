@@ -1,29 +1,20 @@
 // Styles for contact card
-
 .rx-contact {
-  &-card {
-    & .rx-message-provider-link {
-      background: $color-primary;
-      border-radius: 3px;
-      color: #ffffff;
-      display: inline-block;
-      font-weight: bold;
-      margin: 2rem 0;
-      width: 100%;
-      padding: 1rem;
-      text-align: center;
-      text-decoration: none;
-    }
-  }
-
   &-line {
+    margin: 1rem 0;
 
-    & + & {
-      margin-top: 1rem;
+    &:nth-child(2) {
+      margin-top: 1.5rem;
     }
   }
 
   &-header {
     font-weight: bold;
   }
+}
+
+.rx-message-provider-link {
+  display: inline-block;
+  margin: 1rem 0;
+  width: 100%;
 }
