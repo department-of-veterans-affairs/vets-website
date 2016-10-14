@@ -50,6 +50,7 @@ export default class SchoolSelectionFields extends React.Component {
         <DateInput
             errorMessage={isValidFutureOrPastDateField(this.props.data.educationStartDate) ? undefined : 'Please enter a valid date'}
             validation={validateIfDirtyDateObj(this.props.data.educationStartDate, isValidFutureOrPastDateField)}
+            allowFutureDates
             label="Do you know when your training will begin?"
             name="educationStartDate"
             day={this.props.data.educationStartDate.day}

@@ -8,7 +8,7 @@ import ExpandingGroup from '../../../common/components/form-elements/ExpandingGr
 import MilitaryServiceTour from './MilitaryServiceTour';
 import { createTour } from '../../utils/veteran';
 
-import { validateIfDirty, isValidYear, isValidPage, isValidField, isValidTourOfDuty } from '../../utils/validations';
+import { validateIfDirty, isValidCurrentOrPastYear, isValidPage, isValidField, isValidTourOfDuty } from '../../utils/validations';
 import { yesNo } from '../../utils/options-for-select';
 
 export default class MilitaryServiceFields extends React.Component {
@@ -44,7 +44,7 @@ export default class MilitaryServiceFields extends React.Component {
       <div className="input-section">
         <ErrorableNumberInput
             additionalClass="usa-input-medium"
-            errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, (value) => isValidField(isValidYear, { value })) ? undefined : 'Please enter a valid year'}
+            errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, (value) => isValidField(isValidCurrentOrPastYear, { value })) ? undefined : 'Please enter a valid year (cannot be future year)'}
             label="If you received a commission from a military service academy, what year did you graduate?"
             placeholder="yyyy"
             name="serviceAcademyGraduationYear"
