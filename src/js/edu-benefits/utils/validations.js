@@ -303,7 +303,7 @@ function isValidDirectDepositPage(data) {
 }
 
 function isValidBenefitsHistoryPage(data) {
-  return data.activeDutyRepaying.value !== 'Y' ||
+  return !data.activeDutyRepaying ||
     (!isBlankDateField(data.activeDutyRepayingPeriod.from)
     && !isBlankDateField(data.activeDutyRepayingPeriod.to)
     && isValidDateRange(data.activeDutyRepayingPeriod.from, data.activeDutyRepayingPeriod.to));
