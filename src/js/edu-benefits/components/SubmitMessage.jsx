@@ -1,7 +1,17 @@
 import React from 'react';
 import moment from 'moment';
+import ExpandingGroup from '../../common/components/form-elements/ExpandingGroup';
 
 export default class SubmitMessage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { isExpanded: false };
+    this.handleClick = this.handleClick.bind(this);
+  }
+  handleClick(e) {
+    e.preventDefault();
+    this.setState({ isExpanded: !this.state.isExpanded });
+  }
   render() {
     return (
       <div>
@@ -36,8 +46,20 @@ export default class SubmitMessage extends React.Component {
             </li>
           </ul>
         </div>
-        <div className="inset secondary">
-          <b>No documents required at this time</b>
+        <div className="inset secondary expandable" onClick={this.handleClick}>
+          <ExpandingGroup open={this.state.isExpanded}>
+            <div>
+              <b>No documents required at this time</b>
+            </div>
+            <div>
+              <p>In the future, you might need:</p>
+              <ul>
+                <li>Your reserve kicker</li>
+                <li>Documentation of additional contributions that would increase your monthly benefits.</li>
+              </ul>
+              <p>Documents can be uploaded using the <a href="https://gibill.custhelp.com/app/utils/login_form/redirect/account%252">GI Bill site</a>.</p>
+            </div>
+          </ExpandingGroup>
         </div>
         <p>Need help? If you have questions, call 1-888-442-4551 (1-888-GI-Bill)</p>
       </div>

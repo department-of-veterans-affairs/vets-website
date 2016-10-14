@@ -40,10 +40,13 @@ legend {
   background-color: #e0f3f8; // TODO: move these colors to variables.scss 
   &.secondary {
     background-color: #eee;
-    &::after {
-      content: '+';
-      font-size: 20px;
-      float: right; 
+  }
+  &.expandable {
+    cursor: pointer;
+    .form-expanding-group,
+    .form-expanding-group-open {
+      padding-left: 0;
+      border-left: 0;
     }
   }
 }
