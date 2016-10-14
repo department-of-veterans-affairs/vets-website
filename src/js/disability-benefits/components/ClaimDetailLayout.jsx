@@ -3,7 +3,7 @@ import TabNav from '../components/TabNav';
 import AskVAQuestions from '../components/AskVAQuestions';
 import Loading from '../components/Loading';
 
-export default class DetailLayout extends React.Component {
+export default class ClaimDetailLayout extends React.Component {
   render() {
     const { claim, loading } = this.props;
 
@@ -40,7 +40,7 @@ export default class DetailLayout extends React.Component {
   }
 }
 
-DetailLayout.propTypes = {
+ClaimDetailLayout.propTypes = {
   claim: React.PropTypes.object,
   loading: React.PropTypes.bool
 };
