@@ -5,6 +5,16 @@ import React, { Component } from 'react';
 
 class SearchControls extends Component {
 
+  constructor() {
+    super();
+
+    this.state = {
+      facilityDropdownActive: false,
+    };
+
+    this.toggleFacilityDropdown = this.toggleFacilityDropdown.bind(this);
+  }
+
   // TODO (bshyong): generalize to be able to handle Select box changes
   handleQueryChange = (e) => {
     this.props.onChange({
@@ -32,6 +42,18 @@ class SearchControls extends Component {
     });
   }
 
+  toggleFacilityDropdown() {
+    this.setState({
+      facilityDropdownActive: !this.state.facilityDropdownActive,
+    });
+  }
+
+  handleFacilityFilterSelect(facilityType) {
+    this.props.updateSearchQuery({
+      facilityType,
+    });
+  }
+
   renderServiceFilterOptions() {
     const { currentQuery } = this.props;
 
@@ -48,6 +70,16 @@ class SearchControls extends Component {
 
   render() {
     const { currentQuery, isMobile } = this.props;
+    const { facilityDropdownActive } = this.state;
+
+    /* eslint-disable camelcase */
+    const facilityTypes = {
+      all: 'All Facilities',
+      va_health_facility: 'Health',
+      va_cemetery: 'Cemetery',
+      va_benefits_facility: 'Benefits',
+    };
+    /* eslint-enable camelcase */
 
     if (currentQuery.active && isMobile) {
       return (
@@ -68,12 +100,16 @@ class SearchControls extends Component {
           </div>
           <div className="columns medium-3">
             <label htmlFor="facilityType">Facility Type</label>
-            <select name="facilityType" onChange={this.handleFilterChange} value={currentQuery.facilityType}>
-              <option value="all">All</option>
-              <option value="va_health_facility">Health</option>
-              <option value="va_benefits_facility">Benefits</option>
-              <option value="va_cemetery">Cemeteries</option>
-            </select>
+
+            <div tabIndex="1" className={`facility-dropdown-wrapper ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown} onBlur={() => {this.setState({ facilityDropdownActive: false });}}>
+              <span>{facilityTypes[currentQuery.facilityType] || 'All Facilities'}</span>
+              <ul className="dropdown">
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'all')}>All</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_health_facility')}><span className="legend fa fa-plus red"></span>Health</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_benefits_facility')}><span className="legend fa fa-check green"></span>Benefits</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_cemetery')}><span className="legend fa fa-cemetery blue"></span>Cemetery</li>
+              </ul>
+            </div>
           </div>
           <div className="columns medium-3">
             <label htmlFor="serviceType">Service Type</label>

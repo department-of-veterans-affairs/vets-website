@@ -31,6 +31,7 @@
 
 .rx-prescription-title {
   color: $color-primary;
+  font-size: 1.4em;
   line-height: 1;
   margin: 0;
   text-overflow: ellipsis;
@@ -50,10 +51,6 @@
 
 .rx-prescription-refilled {
   margin-bottom: 5rem;
-}
-
-.rx-prescription-number {
-  font-weight: bold;
 }
 
 .rx-prescription-button {
@@ -102,7 +99,7 @@ button.rx-prescription-button,
   position: relative;
 }
 
-.rx-prescription-status,
+.rx-prescription-status span,
 .rx-prescription-refill-requested {
   font-weight: bold;
 }

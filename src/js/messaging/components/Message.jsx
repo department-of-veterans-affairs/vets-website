@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import moment from 'moment';
 
 import MessageDetails from './MessageDetails';
+import MessageAttachmentsView from './MessageAttachmentsView';
 
 class Message extends React.Component {
   constructor(props) {
@@ -40,6 +41,17 @@ class Message extends React.Component {
       headerOnClick = this.handleToggleCollapsed;
     }
 
+    let attachments;
+    if (this.props.attrs.attachment) {
+      // TODO: Replace with actual attachments data
+      attachments = (<MessageAttachmentsView attachments={[
+        { name: 'file1.jpg', url: 'path/to/file1.jpg' },
+        { name: 'file2.jpg', url: 'path/to/file2.jpg' },
+        { name: 'file3.jpg', url: 'path/to/file3.jpg' },
+        { name: 'file4.jpg', url: 'path/to/file4.jpg' }
+      ]}/>);
+    }
+
     return (
       <div className={messageClass} onClick={messageOnClick}>
         <div
@@ -57,9 +69,10 @@ class Message extends React.Component {
           </div>
           {details}
         </div>
-        <p className="messaging-message-body">
+        <div className="messaging-message-body">
           {this.props.attrs.body}
-        </p>
+        </div>
+        {attachments}
       </div>
     );
   }

@@ -52,6 +52,10 @@ function isValidYear(value) {
   return Number(value) >= 1900;
 }
 
+function isValidCurrentOrPastYear(value) {
+  return Number(value) >= 1900 && Number(value) < moment().year() + 1;
+}
+
 function isValidMonths(value) {
   return Number(value) >= 0;
 }
@@ -119,7 +123,10 @@ function isValidMonetaryValue(value) {
 
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
-  return /^\d{10}$/.test(value);
+  // Strip spaces, dashes, and parens
+  const stripped = value.replace(/[- )(]/g, '');
+  // Count number of digits
+  return /^\d{10}$/.test(stripped);
 }
 
 function isValidEmail(value) {
@@ -303,7 +310,7 @@ function isValidDirectDepositPage(data) {
 }
 
 function isValidBenefitsHistoryPage(data) {
-  return data.activeDutyRepaying.value !== 'Y' ||
+  return !data.activeDutyRepaying ||
     (!isBlankDateField(data.activeDutyRepayingPeriod.from)
     && !isBlankDateField(data.activeDutyRepayingPeriod.to)
     && isValidDateRange(data.activeDutyRepayingPeriod.from, data.activeDutyRepayingPeriod.to));
@@ -392,6 +399,7 @@ export {
   isValidPhone,
   isValidEmail,
   isValidYear,
+  isValidCurrentOrPastYear,
   isValidMonths,
   isValidRoutingNumber,
   isValidField,

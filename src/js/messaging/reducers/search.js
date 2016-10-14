@@ -9,7 +9,7 @@ import {
 const initialState = {
   basic: null,
   advanced: {
-    visible: true,
+    visible: false,
     params: {
       dateRange: {
         start: null,

@@ -29,7 +29,7 @@ class MobileSearchResult extends Component {
     return (
       <div>
         <p onClick={this.toggleHours} className="pointer">
-          <span className="fa fa-clock-o blue"></span> Hours of operation <span className={`fa ${expandHours ? 'fa-chevron-up' : 'fa-chevron-down'}`}></span>
+          <span className="fa fa-clock blue"></span> Hours of operation <span className={`fa ${expandHours ? 'fa-chevron-up' : 'fa-chevron-down'}`}></span>
         </p>
         <div style={{ paddingLeft: '1.3em' }}>
           {expandHours ? <FacilityHours facility={facility}/> : null}
@@ -46,6 +46,13 @@ class MobileSearchResult extends Component {
         <FacilityInfoBlock facility={facility}/>
         <p>
           <FacilityPhoneLink facility={facility}/>
+        </p>
+        <p>
+          <span>
+            <a href="#" target="_blank">
+              <i className="fa fa-globe-o" style={{ marginRight: '0.5rem' }}/> Website
+            </a>
+          </span>
         </p>
         <p>
           <FacilityDirectionsLink facility={facility}/>
