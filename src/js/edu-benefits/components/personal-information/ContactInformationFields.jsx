@@ -61,7 +61,7 @@ export default class ContactInformationFields extends React.Component {
               label="Primary telephone number"
               value={this.props.data.homePhone}
               additionalClass="home-phone usa-input-medium"
-              additionalError="This is required due to your preferred contact method."
+              additionalError={this.props.data.preferredContactMethod.value === 'phone' ? 'This is required due to your preferred contact method.' : ''}
               required={isPhoneRequired}
               onValueChange={(update) => {this.props.onStateChange('homePhone', update);}}/>
           <Phone
