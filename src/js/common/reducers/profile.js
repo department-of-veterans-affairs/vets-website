@@ -9,13 +9,15 @@ _.mixin(lodashDeep);
 // TODO(crew): Romove before this goes to production.
 const initialState = {
   userFullName: {
-    first: 'Shonda',
-    middle: 'Eileen',
-    last: 'Rhimes',
-    suffix: '',
+    first: null,
+    middle: null,
+    last: null,
+    suffix: null,
   },
-  email: 'yearofyes@va.gov',
-  zip: ''
+  email: null,
+  dob: null,
+  gender: null,
+  accountType: null
 };
 
 function profileInformation(state = initialState, action) {

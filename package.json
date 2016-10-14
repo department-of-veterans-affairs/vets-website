@@ -107,6 +107,7 @@
     "mocha": "^3.0.0",
     "modernizr": "^3.3.1",
     "modernizr-loader": "0.0.5",
+    "moment": "^2.15.1",
     "nightwatch": "^0.9.6",
     "node-fetch": "https://registry.npmjs.org/node-fetch/-/node-fetch-1.5.3.tgz",
     "node-sass": "^3.10.1",
