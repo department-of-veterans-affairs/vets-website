@@ -41,17 +41,23 @@ class Pagination extends React.Component {
       );
     });
 
-    const prevPage = (
-      <a className="va-pagination-prev" onClick={this.selectPrev}>
-        <abbr title="Previous">Prev</abbr>
-      </a>
-    );
+    let prevPage;
+    if (this.props.page > 1) {
+      prevPage = (
+        <a className="va-pagination-prev" onClick={this.selectPrev}>
+          Previous
+        </a>
+      );
+    }
 
-    const nextPage = (
-      <a className="va-pagination-next" onClick={this.selectNext}>
-        Next
-      </a>
-    );
+    let nextPage;
+    if (this.props.pages > this.props.page) {
+      nextPage = (
+        <a className="va-pagination-next" onClick={this.selectNext}>
+          Next
+        </a>
+      );
+    }
 
     return (
       <div className="va-pagination">
