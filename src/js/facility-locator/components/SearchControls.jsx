@@ -104,10 +104,10 @@ class SearchControls extends Component {
             <div tabIndex="1" className={`facility-dropdown-wrapper ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown} onBlur={() => {this.setState({ facilityDropdownActive: false });}}>
               <span>{facilityTypes[currentQuery.facilityType] || 'All'}</span>
               <ul className="dropdown">
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'all')}><span className="icon-envelope icon-large"></span>All</li>
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_health_facility')}><i className="icon-envelope icon-large"></i>Health</li>
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_benefits_facility')}><i className="icon-truck icon-large"></i>Benefits</li>
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_cemetery')}><i className="icon-plane icon-large"></i>Cemetery</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'all')}>All</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_health_facility')}><span className="legend fa fa-plus red"></span>Health</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_benefits_facility')}><span className="legend fa fa-check green"></span>Benefits</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_cemetery')}><span className="legend fa fa-cemetery blue"></span>Cemetery</li>
               </ul>
             </div>
           </div>
