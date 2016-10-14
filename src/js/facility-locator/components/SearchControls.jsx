@@ -74,7 +74,7 @@ class SearchControls extends Component {
 
     /* eslint-disable camelcase */
     const facilityTypes = {
-      all: 'All',
+      all: 'All Facilities',
       va_health_facility: 'Health',
       va_cemetery: 'Cemetery',
       va_benefits_facility: 'Benefits',
@@ -102,7 +102,7 @@ class SearchControls extends Component {
             <label htmlFor="facilityType">Facility Type</label>
 
             <div tabIndex="1" className={`facility-dropdown-wrapper ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown} onBlur={() => {this.setState({ facilityDropdownActive: false });}}>
-              <span>{facilityTypes[currentQuery.facilityType] || 'All'}</span>
+              <span>{facilityTypes[currentQuery.facilityType] || 'All Facilities'}</span>
               <ul className="dropdown">
                 <li onClick={this.handleFacilityFilterSelect.bind(this, 'all')}>All</li>
                 <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_health_facility')}><span className="legend fa fa-plus red"></span>Health</li>
