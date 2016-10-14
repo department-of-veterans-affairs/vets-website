@@ -9,7 +9,6 @@ import TrackPackageLink from './TrackPackageLink';
 import SubmitRefill from './SubmitRefill';
 import { openRefillModal } from '../actions/modal';
 
-
 class Prescription extends React.Component {
   constructor() {
     super();
@@ -48,7 +47,7 @@ class Prescription extends React.Component {
           <div
               key={`rx-${id}-status`}
               className="rx-prescription-status">
-            Refill status: 
+            Refill status:
             <span> {rxStatuses[status]}</span>
           </div>
         ));
