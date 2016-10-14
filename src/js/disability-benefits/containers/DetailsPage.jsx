@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 
 class DetailsPage extends React.Component {
@@ -17,17 +18,20 @@ class DetailsPage extends React.Component {
           </div>
           <div className="claim-conditions-list">
             <h6>Your Claimed Conditions</h6>
-            <li>{"Tinnitus"} {"(new)"}</li>
-            <li>{"PTSD"} {"(reopened)"}</li>
-            <li>{"Diabetes"} {"(increase)"}</li>
+            { claim.attributes.contentionList
+              ? claim.attributes.contentionList.map((contention) =>
+                  <li>{contention}</li>
+                )
+              : 'Not Available'
+            }
           </div>
           <div className="claim-date-recieved">
             <h6>Date Recieved</h6>
-            <p>{"Jun 12, 2016"}</p>
+            <p>{moment(claim.attributes.dateFiled).format('MMM M, YYYY')}</p>
           </div>
           <div className="claim-va-representative">
             <h6>Your Representative for VA Claims</h6>
-            <p>{"Disabled American Veterans"}</p>
+            <p>{claim.attributes.vaRepresentative || 'Not Available'}</p>
           </div>
         </div>
       </ClaimDetailLayout>
