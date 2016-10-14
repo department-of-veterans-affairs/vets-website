@@ -27,7 +27,7 @@ export default class RotcHistoryFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('seniorRotcCommissioned', update);}}/>
         <div>
           <div className="input-section">
-            <ErrorableNumberInput required
+            <ErrorableNumberInput
                 additionalClass="usa-input-medium"
                 errorMessage={validateIfDirty(this.props.data.seniorRotc.commissionYear, isValidYear) ? undefined : 'Please enter a valid year'}
                 label="Year of commission"
