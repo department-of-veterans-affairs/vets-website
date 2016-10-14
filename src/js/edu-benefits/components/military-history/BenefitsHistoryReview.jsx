@@ -24,11 +24,11 @@ export default class BenefitsHistoryReview extends React.Component {
             <td>{this.props.data.reserveKicker ? 'Yes' : 'No'}</td>
           </tr>
           <tr>
-            <td>Do you have a period of active duty that the Department of Defense counts towards an education loan payment?</td>
-            <td>{this.props.data.activeDutyRepaying.value === 'Y' ? 'Yes' : 'No'}</td>
+            <td>I have a period of service that the Department of Defense counts towards an education loan payment.</td>
+            <td>{this.props.data.activeDutyRepaying ? 'Yes' : 'No'}</td>
           </tr>
         </tbody>
-        {this.props.data.activeDutyRepaying.value === 'Y'
+        {this.props.data.activeDutyRepaying
           ? <tbody>
             <tr>
               <td>Start date:</td>

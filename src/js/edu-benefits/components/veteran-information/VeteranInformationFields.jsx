@@ -11,13 +11,7 @@ export default class PersonalInformationFields extends React.Component {
   render() {
     return (
       <fieldset>
-        <p>Apply online for education benefits with Form 22-1990</p>
-        <div className="usa-alert usa-alert-info">
-          <div className="usa-alert-body">
-            <span>Note: You must complete this form in one session. There isn’t a way for you to save your progress.</span>
-          </div>
-        </div>
-        <p>You aren't required to fill in all fields, but VA can evaluate your claim faster if you provide more information.</p>
+        <p>You aren’t required to fill in <strong>all</strong> fields, but VA can evaluate your claim faster if you provide more information.</p>
         <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
         <legend className="hide-for-small-only">Veteran information</legend>
         <div className="input-section">

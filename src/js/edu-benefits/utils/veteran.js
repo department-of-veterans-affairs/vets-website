@@ -1,6 +1,7 @@
 import _ from 'lodash/fp';
 import { makeField } from '../../common/model/fields';
 import { dateToMoment } from './helpers';
+import moment from 'moment';
 
 export function makeAddressField() {
   return {
@@ -29,7 +30,7 @@ export function createTour() {
     serviceBranch: makeField(''),
     serviceStatus: makeField(''),
     involuntarilyCalledToDuty: makeField(''),
-    doNotApplyPeriodToSelected: false,
+    applyPeriodToSelected: true,
     benefitsToApplyTo: makeField('')
   };
 }
@@ -81,12 +82,14 @@ export function createFlightCertificate() {
 }
 
 export function createVeteran() {
+  const today = moment();
   return {
     benefitsRelinquished: makeField(''),
     chapter30: false,
     chapter1606: false,
     chapter32: false,
     chapter33: false,
+    checkedBenefit: makeField(''),
     serviceAcademyGraduationYear: makeField(''),
     currentlyActiveDuty: {
       yes: makeField(''),
@@ -111,7 +114,7 @@ export function createVeteran() {
     additionalContributions: false,
     activeDutyKicker: false,
     reserveKicker: false,
-    activeDutyRepaying: makeField(''),
+    activeDutyRepaying: false,
     activeDutyRepayingPeriod: {
       to: {
         month: makeField(''),
@@ -174,9 +177,9 @@ export function createVeteran() {
     },
     applyingUsingOwnBenefits: makeField(''),
     benefitsRelinquishedDate: {
-      day: makeField(''),
-      month: makeField(''),
-      year: makeField('')
+      day: makeField(today.date().toString()),
+      month: makeField((today.month() + 1).toString()),
+      year: makeField(today.year().toString())
     }
   };
 }
@@ -184,7 +187,7 @@ export function createVeteran() {
 export function veteranToApplication(veteran) {
   let data = veteran;
 
-  if (data.activeDutyRepaying.value !== 'Y') {
+  if (!data.activeDutyRepaying) {
     data = _.unset('activeDutyRepayingPeriod', data);
   }
 
@@ -198,6 +201,7 @@ export function veteranToApplication(veteran) {
       case 'activeDutyRepaying':
       case 'hasNonMilitaryJobs':
       case 'emailConfirmation':
+      case 'checkedBenefit':
         return undefined;
 
       case 'serviceAcademyGraduationYear':

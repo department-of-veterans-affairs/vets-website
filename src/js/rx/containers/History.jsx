@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modal.js';
-import Pagination from '../components/Pagination';
+import Pagination from '../../common/components/Pagination';
 import SortableTable from '../components/tables/SortableTable';
 import SortMenu from '../components/SortMenu';
 import { glossary, rxStatuses } from '../config.js';
@@ -68,14 +68,21 @@ class History extends React.Component {
         const attrs = item.attributes;
         const status = rxStatuses[attrs.refillStatus];
 
+        let dispensed;
+        if (attrs.dispensedDate) {
+          dispensed = moment(
+              attrs.dispensedDate
+            ).format('MMM DD, YYYY');
+        } else {
+          dispensed = 'Not available';
+        }
+
         return {
           orderedDate: moment(
               attrs.orderedDate
             ).format('MMM DD, YYYY'),
 
-          dispensedDate: moment(
-              attrs.dispensedDate
-            ).format('MMM DD, YYYY'),
+          dispensedDate: dispensed,
 
           prescriptionName: (
             <Link to={`/rx/prescription/${attrs.prescriptionId}`}>

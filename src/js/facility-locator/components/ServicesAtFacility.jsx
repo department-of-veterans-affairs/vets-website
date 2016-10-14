@@ -1,5 +1,6 @@
-import { flattenDeep } from 'lodash';
+// import { flattenDeep } from 'lodash';
 import React, { Component } from 'react';
+import moment from 'moment';
 
 class ServicesAtFacility extends Component {
 
@@ -100,6 +101,26 @@ class ServicesAtFacility extends Component {
     );
   }
 
+  renderHealthServices() {
+    // const { facility } = this.props;
+    // const availableServices = flattenDeep(facility.attributes.services);
+    // TODO: clean up once we have real data
+
+    const availableServices = ['Mental Health', 'Primary Care'];
+
+    return (
+      <div className="mb2">
+        <h5 style={{ marginTop: '1.5em' }}>Health Services</h5>
+        <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment().format('MMMM D, YYYY')}</strong></p>
+        <ul>
+          {availableServices.map(s => {
+            return this.renderService(s);
+          })}
+        </ul>
+      </div>
+    );
+  }
+
   render() {
     const { facility } = this.props;
 
@@ -107,18 +128,18 @@ class ServicesAtFacility extends Component {
       return null;
     }
 
-    const availableServices = ServicesAtFacility.services.filter(s => {
-      return flattenDeep(facility.attributes.services).includes(s);
-    });
-
+    // TODO: clean up once we have real data
     return (
-      <div className="mb2">
-        <h5>Health Services</h5>
-        <ul>
-          {availableServices.map(s => {
-            return this.renderService(s);
-          })}
-        </ul>
+      <div>
+        {facility.type === 'va_health_facility' ? this.renderHealthServices() : null}
+        <div className="call-out clearfix">
+          <div className="columns small-1">
+            <h3><i className="fa fa-exclamation-circle"></i></h3>
+          </div>
+          <div className="columns small-11">
+            <strong>To find out about additional services at this location — please call.</strong> We are working on collecting information from all VA facilities so that you know what services are offered, where — but we don't have it all yet. We hope to have this information on vets.gov soon!
+          </div>
+        </div>
       </div>
     );
   }

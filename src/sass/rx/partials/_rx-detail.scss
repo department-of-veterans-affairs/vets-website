@@ -80,7 +80,7 @@
   }
 }
 
-.rx-order-history {
+#rx-order-history {
   margin-top: 3.5rem;
 
   @media (min-width: $medium-screen) {
@@ -95,7 +95,7 @@
 
       &:nth-child(1):before { content: "Order status: "; }
 
-      &:nth-child(2):before {rcontent: "Tracking status: "; }
+      &:nth-child(2):before { content: "Tracking status: "; }
     }
   }
 }

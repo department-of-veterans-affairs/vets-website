@@ -2,14 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
-import { loadPrescription } from '../actions/prescriptions.js';
+import { openGlossaryModal, openRefillModal } from '../actions/modal';
+import { loadPrescription } from '../actions/prescriptions';
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
 import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
-import { glossary, rxStatuses } from '../config.js';
 import SubmitRefill from '../components/SubmitRefill';
-import { openGlossaryModal, openRefillModal } from '../actions/modal';
+import { glossary, rxStatuses } from '../config';
 
 export class Detail extends React.Component {
   constructor(props) {
@@ -19,6 +19,12 @@ export class Detail extends React.Component {
 
   componentDidMount() {
     this.props.loadPrescription(this.props.params.id);
+  }
+
+  componentDidUpdate() {
+    if (this.props.location.hash === '#rx-order-history' && this._orderHistory) {
+      this._orderHistory.scrollIntoView();
+    }
   }
 
   openGlossaryModal(term) {
@@ -34,6 +40,8 @@ export class Detail extends React.Component {
     let rxInfo;
     let contactCard;
     let orderHistory;
+    let facilityName;
+    let phoneNumber;
 
     const item = this.props.prescriptions.currentItem;
 
@@ -83,22 +91,22 @@ export class Detail extends React.Component {
               className="usa-table-borderless rx-table rx-info"
               data={data}/>
         );
+
+        // Get facility name for contact info.
+        facilityName = attrs.facilityName;
       }
 
       // Compose components from tracking data.
-      if (item.trackings) {
+      if (item.trackings && item.trackings.length > 0) {
         const currentPackage = item.trackings[0].attributes;
-        const facilityName = currentPackage.facilityName;
-        const phoneNumber = currentPackage.rxInfoPhoneNumber;
 
-        contactCard = (
-          <ContactCard
-              facilityName={facilityName}
-              phoneNumber={phoneNumber}/>
-        );
+        // Get phone number for contact info.
+        phoneNumber = currentPackage.rxInfoPhoneNumber;
 
         orderHistory = (
-          <div className="rx-order-history">
+          <div
+              ref={(ref) => { this._orderHistory = ref; }}
+              id="rx-order-history">
             <h3 className="rx-heading va-h-ruled">Order History</h3>
             <OrderHistory
                 className="usa-table-borderless rx-table rx-table-list"
@@ -106,6 +114,12 @@ export class Detail extends React.Component {
           </div>
         );
       }
+
+      contactCard = (
+        <ContactCard
+            facilityName={facilityName}
+            phoneNumber={phoneNumber}/>
+      );
     }
 
     return (
