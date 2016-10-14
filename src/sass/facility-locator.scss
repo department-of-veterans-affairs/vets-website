@@ -122,15 +122,11 @@
 
   .mobile-search-result {
     padding: 1em 0;
+    border-top: none;
+  }
 
-    li {
-      padding: 1em 0;
-      border-top: none;
-    }
-
-    li + li{
-      border-top: solid 1px $color-va-gray-medium;
-    }
+  .mobile-search-result + .mobile-search-result {
+    border-top: solid 1px $color-va-gray-medium;
   }
 
   p {
@@ -239,12 +235,6 @@
     margin-bottom: 2rem;
   }
 
-  hr.title {
-    color: $color-primary-darker;
-    margin: 0 0 2rem;
-    border: 1px solid #003E73;
-  }
-
   ul {
     margin: 0;
   }
@@ -272,8 +262,12 @@
       text-decoration: none;
     }
 
+    h5 {
+      padding-bottom: 0;
+    }
+
     p {
-      margin: 1rem 0;
+      margin: 0.5em 0;
     }
 
     a:visited, .edit-checkbox label:visited  {
@@ -282,7 +276,14 @@
 
     hr {
       border-color: $color-gray-lighter;
-      margin: 6rem 0 2rem;
+      margin: 0rem 0 2rem;
+      color: $color-primary-darker;
+    }
+
+    hr.title {
+      color: $color-primary-darker;
+      margin: 0 0 2rem;
+      border: 1px solid #003E73;
     }
   }
 

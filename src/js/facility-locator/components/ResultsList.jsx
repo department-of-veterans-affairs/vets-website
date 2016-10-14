@@ -13,17 +13,17 @@ class ResultsList extends Component {
 
     return (
       <div>
-        <ol>
+        <div>
           {
             facilities.map(f => {
               return (
-                <li key={f.id} className="mobile-search-result">
+                <div key={f.id} className="mobile-search-result">
                   <MobileSearchResult facility={f}/>
-                </li>
+                </div>
               );
             })
           }
-        </ol>
+        </div>
         <Pagination onPageSelect={() => {}} page={1} pages={1}/>
       </div>
     );
@@ -41,7 +41,7 @@ class ResultsList extends Component {
         <table className="usa-table-borderless facility-result">
           <thead>
             <tr>
-              <th scope="col" colSpan={2}>Facility Information</th>
+              <th scope="col">Facility Information</th>
               <th scope="col">Contact</th>
               <th scope="col">Getting There</th>
               <th scope="col">Hours of Operation</th>
@@ -49,10 +49,9 @@ class ResultsList extends Component {
           </thead>
           <tbody>
             {
-              facilities.map((f, i) => {
+              facilities.map(f => {
                 return (
                   <tr key={f.id} className="facility-result">
-                    <td>{i + 1}.</td>
                     <td><FacilityInfoBlock facility={f}/></td>
                     <td><FacilityPhoneLink facility={f}/></td>
                     <td><FacilityDirectionsLink facility={f}/></td>
