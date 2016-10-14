@@ -18,6 +18,7 @@ export class Detail extends React.Component {
   }
 
   componentDidMount() {
+    scrollTo(0, 0);
     this.props.loadPrescription(this.props.params.id);
   }
 
