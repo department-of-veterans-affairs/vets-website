@@ -101,6 +101,7 @@ export function fetchVAFacility(id, facility = null) {
   return {
     type: FETCH_VA_FACILITY,
     payload: {
+      ...specificSampleFacility,
       attributes: {
         ...mockFacility.attributes,
         address: {
