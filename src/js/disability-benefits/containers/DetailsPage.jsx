@@ -14,7 +14,7 @@ class DetailsPage extends React.Component {
         <div className="claim-details">
           <div className="claim-types">
             <h6>Claim Type</h6>
-            <p>{"Disability Compensation"}</p>
+            <p>{claim.attributes.claimType || 'Not Available'}</p>
           </div>
           <div className="claim-conditions-list">
             <h6>Your Claimed Conditions</h6>
