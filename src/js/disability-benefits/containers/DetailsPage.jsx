@@ -26,7 +26,7 @@ class DetailsPage extends React.Component {
             }
           </div>
           <div className="claim-date-recieved">
-            <h6>Date Recieved</h6>
+            <h6>Date Received</h6>
             <p>{moment(claim.attributes.dateFiled).format('MMM M, YYYY')}</p>
           </div>
           <div className="claim-va-representative">
