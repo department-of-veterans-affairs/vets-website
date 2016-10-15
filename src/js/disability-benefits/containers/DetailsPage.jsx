@@ -18,11 +18,11 @@ class DetailsPage extends React.Component {
           </div>
           <div className="claim-conditions-list">
             <h6>Your Claimed Conditions</h6>
-            { claim.attributes.contentionList
-              ? claim.attributes.contentionList.map((contention) =>
-                  <li>{contention}</li>
-                )
-              : 'Not Available'
+            {claim.attributes.contentionList
+            ? claim.attributes.contentionList.map((contention, index) =>
+              <li key={index}>{contention}</li>
+              )
+            : 'Not Available'
             }
           </div>
           <div className="claim-date-recieved">
