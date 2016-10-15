@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getLabel, displayDateIfValid, showYesNo } from '../../utils/helpers';
-import { yesNoNA } from '../../utils/options-for-select';
+import { yesNo } from '../../utils/options-for-select';
 
 export default class MilitaryServiceReview extends React.Component {
   render() {
@@ -23,10 +23,6 @@ export default class MilitaryServiceReview extends React.Component {
               <tr>
                 <td>Are you currently on terminal leave?</td>
                 <td>{showYesNo(this.props.data.currentlyActiveDuty.onTerminalLeave)}</td>
-              </tr>
-              <tr>
-                <td>Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework or training?</td>
-                <td>{showYesNo(this.props.data.currentlyActiveDuty.nonVaAssistance)}</td>
               </tr>
             </tbody>
             : null}
@@ -54,7 +50,7 @@ export default class MilitaryServiceReview extends React.Component {
               </tr>
               <tr>
                 <td>Were you involuntarily called for active duty during this period?</td>
-                <td>{getLabel(yesNoNA, tour.involuntarilyCalledToDuty.value)}</td>
+                <td>{getLabel(yesNo, tour.involuntarilyCalledToDuty.value)}</td>
               </tr>
               <tr>
                 <td>Apply this service period to the benefit I'm applying for</td>

@@ -9,7 +9,7 @@ import ExpandingGroup from '../../../common/components/form-elements/ExpandingGr
 import DateInput from '../../../common/components/form-elements/DateInput';
 
 import { validateIfDirtyDateObj, validateIfDirty, isNotBlank, isValidDateField, isValidDateRange } from '../../utils/validations';
-import { serviceBranches, yesNoNA } from '../../utils/options-for-select';
+import { serviceBranches, yesNo } from '../../utils/options-for-select';
 import { displayDateIfValid } from '../../utils/helpers';
 
 export default class MilitaryServiceTour extends React.Component {
@@ -54,7 +54,7 @@ export default class MilitaryServiceTour extends React.Component {
           <ErrorableRadioButtons
               label="Were you involuntarily called for active duty during this period?"
               name="involuntarilyCalledToDuty"
-              options={yesNoNA}
+              options={yesNo}
               value={tour.involuntarilyCalledToDuty}
               onValueChange={(update) => {onValueChange('involuntarilyCalledToDuty', update);}}/>
         </div>
