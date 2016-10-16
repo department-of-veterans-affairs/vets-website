@@ -1,6 +1,5 @@
 import React from 'react';
 
-import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
@@ -43,7 +42,7 @@ export default class SchoolSelectionFields extends React.Component {
             </div>
           </div>
         : null}
-        <ErrorableTextarea
+        <ErrorableTextInput
             label="Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)"
             name="educationObjective"
             field={this.props.data.educationObjective}

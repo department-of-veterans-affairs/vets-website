@@ -1,7 +1,6 @@
 import React from 'react';
 
 import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
-import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import ErrorableTextarea from '../../../common/components/form-elements/ErrorableTextarea';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
@@ -9,7 +8,7 @@ import ExpandingGroup from '../../../common/components/form-elements/ExpandingGr
 import DateInput from '../../../common/components/form-elements/DateInput';
 
 import { validateIfDirtyDateObj, validateIfDirty, isNotBlank, isValidDateField, isValidDateRange } from '../../utils/validations';
-import { serviceBranches, yesNo } from '../../utils/options-for-select';
+import { yesNo } from '../../utils/options-for-select';
 import { displayDateIfValid } from '../../utils/helpers';
 
 export default class MilitaryServiceTour extends React.Component {
@@ -20,12 +19,11 @@ export default class MilitaryServiceTour extends React.Component {
       <div>
         <div className="input-section">
           <div className="edu-benefits-first-label">
-            <ErrorableSelect required
+            <ErrorableTextInput required
                 errorMessage={validateIfDirty(tour.serviceBranch, isNotBlank) ? undefined : 'Please select a service branch'}
                 label="Branch of service"
                 name="serviceBranch"
-                options={serviceBranches}
-                value={tour.serviceBranch}
+                field={tour.serviceBranch}
                 onValueChange={(update) => {onValueChange('serviceBranch', update);}}/>
           </div>
           <ErrorableTextInput
