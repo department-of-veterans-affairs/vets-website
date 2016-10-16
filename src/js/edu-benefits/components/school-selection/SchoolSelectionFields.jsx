@@ -43,7 +43,7 @@ export default class SchoolSelectionFields extends React.Component {
                 onUserInput={(update) => {this.props.onStateChange('school.address', update);}}/>
           </div>
         </div>
-      </ExpandingGroup> 
+      </ExpandingGroup>
       <div className="input-section">
         <ErrorableTextInput
             label="Education or career goal (for example, “Get a bachelor’s degree in criminal justice” or “Get an HVAC technician certificate” or “Become a police officer.”)"
