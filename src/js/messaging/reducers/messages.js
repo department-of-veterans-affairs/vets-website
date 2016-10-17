@@ -7,6 +7,8 @@ import {
   CLEAR_DRAFT,
   DELETE_DRAFT_ATTACHMENT,
   FETCH_THREAD_SUCCESS,
+  SEND_MESSAGE_FAILURE,
+  SEND_MESSAGE_SUCCESS,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -94,6 +96,9 @@ export default function folders(state = initialState, action) {
       newState = set('data.draft', draft, newState);
       return set('data.message', currentMessage, newState);
     }
+
+    case SEND_MESSAGE_SUCCESS:
+      return set('data.message', null, state);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);

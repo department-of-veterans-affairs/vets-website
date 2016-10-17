@@ -17,6 +17,14 @@ module.exports = {
           'Content-Type': 'application/json'
         })
       },
+      postMultiPart: {
+        method: 'POST',
+        headers: Object.assign({}, headers, {
+          'Content-Type': 'multipart/form-data',
+          'Accept' : 'application/json'
+        })
+      },
+
       put: {
         method: 'PUT',
         headers: Object.assign({}, headers, {

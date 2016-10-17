@@ -179,9 +179,14 @@ export function sendMessage(message) {
     }
   };
 
-  const settings = Object.assign({}, api.settings.post, {
+  const newPayload = new FormData();
+  newPayload.append('message',JSON.stringify(payload.message));
+  
+  const settings = Object.assign({}, api.settings.postMultiPart,  {
     body: JSON.stringify(payload)
   });
+
+  
 
   return dispatch => {
     fetch(baseUrl, settings)
