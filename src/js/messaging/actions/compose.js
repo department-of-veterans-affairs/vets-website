@@ -7,6 +7,7 @@ import {
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
   FETCH_SENDER_SUCCESS,
+  RESET_MESSAGE_OBJECT,
   SET_MESSAGE_FIELD,
   UPDATE_COMPOSE_CHARACTER_COUNT
 } from '../utils/constants';
@@ -69,5 +70,11 @@ export function updateComposeCharacterCount(field, maxLength) {
   return {
     type: UPDATE_COMPOSE_CHARACTER_COUNT,
     chars
+  };
+}
+
+export function resetMessage() {
+  return {
+    type: RESET_MESSAGE_OBJECT
   };
 }
