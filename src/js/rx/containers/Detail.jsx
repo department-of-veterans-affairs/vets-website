@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Scroll from 'react-scroll';
 import moment from 'moment';
 
 import { openGlossaryModal, openRefillModal } from '../actions/modal';
@@ -11,6 +12,9 @@ import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 import SubmitRefill from '../components/SubmitRefill';
 import { glossary, rxStatuses } from '../config';
 
+const ScrollElement = Scroll.Element;
+const scroller = Scroll.scroller;
+
 export class Detail extends React.Component {
   constructor(props) {
     super(props);
@@ -18,12 +22,17 @@ export class Detail extends React.Component {
   }
 
   componentDidMount() {
+    scrollTo(0, 0);
     this.props.loadPrescription(this.props.params.id);
   }
 
   componentDidUpdate() {
-    if (this.props.location.hash === '#rx-order-history' && this._orderHistory) {
-      this._orderHistory.scrollIntoView();
+    if (this.props.location.hash === '#rx-order-history') {
+      scroller.scrollTo('orderHistory', {
+        duration: 500,
+        delay: 0,
+        smooth: true,
+      });
     }
   }
 
@@ -104,14 +113,14 @@ export class Detail extends React.Component {
         phoneNumber = currentPackage.rxInfoPhoneNumber;
 
         orderHistory = (
-          <div
-              ref={(ref) => { this._orderHistory = ref; }}
-              id="rx-order-history">
+          <ScrollElement
+              id="rx-order-history"
+              name="orderHistory">
             <h3 className="rx-heading va-h-ruled">Order History</h3>
             <OrderHistory
                 className="usa-table-borderless rx-table rx-table-list"
                 items={item.trackings}/>
-          </div>
+          </ScrollElement>
         );
       }
 

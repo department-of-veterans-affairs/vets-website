@@ -1,13 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router';
 import GlossaryList from './GlossaryList';
 
 class GlossaryModal extends React.Component {
   constructor(props) {
     super(props);
-    this.handlerCloseModal = this.handlerCloseModal.bind(this);
+    this.handleCloseModal = this.handleCloseModal.bind(this);
   }
 
-  handlerCloseModal(event) {
+  handleCloseModal(event) {
     event.preventDefault();
     this.props.onCloseModal();
   }
@@ -23,8 +24,12 @@ class GlossaryModal extends React.Component {
             <div className="va-modal-body rx-modal-body">
               <GlossaryList terms={this.props.content}/>
               <div className="va-modal-button-group cf">
-                <button type="button" onClick={this.handlerCloseModal}>Close</button>
-                <a href="/rx/glossary/">See all status definitions</a>
+                <button type="button" onClick={this.handleCloseModal}>Close</button>
+                <Link
+                    to="/rx/glossary"
+                    onClick={this.props.onCloseModal}>
+                  See all status definitions
+                </Link>
               </div>
             </div>
           </div>
