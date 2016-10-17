@@ -12,7 +12,22 @@ export default class SubmitMessage extends React.Component {
     e.preventDefault();
     this.setState({ isExpanded: !this.state.isExpanded });
   }
+  makeList(arr) {
+    if (arr && arr.length) {
+      return (
+        <ul className="claim-list">
+        {
+          arr.map((d, i) => {
+            return (<li key={i}>{d}</li>);
+          })
+        }
+        </ul>
+      );
+    }
+    return null;
+  }
   render() {
+    const name = this.props.name;
     return (
       <div>
         <h3>Claim received</h3>
@@ -23,14 +38,14 @@ export default class SubmitMessage extends React.Component {
         </p>
         <div className="inset">
           <h4>Education Benefit Claim <span className="additional">(Form 22-1990)</span></h4>
-          <span>for {this.props.name}</span>
+          <span>for {name.first.value} {name.middle.value} {name.last.value} {name.suffix.value}</span>
 
           <ul className="claim-list">
             <li>
               <b>Benefit claimed</b><br/>
-              {this.props.claimedBenefits.map((benefit, index) => <span key={index}>{index === 0 ? null : <br/>}{benefit}</span>)}
+              {this.makeList(this.props.claimedBenefits)}
               <span><i>Relinquished:</i></span>
-              <span>{this.props.relinquishedBenefits}</span>
+              {this.makeList([this.props.relinquishedBenefits])}
             </li>
             <li>
               <b>Confirmation number</b><br/>
@@ -71,7 +86,7 @@ SubmitMessage.propTypes = {
   claimType: React.PropTypes.string.isRequired,
   confirmation: React.PropTypes.string.isRequired,
   date: React.PropTypes.string.isRequired,
-  address: React.PropTypes.string.isRequired,
-  claimedBenefits: React.PropTypes.string.isRequired,
+  address: React.PropTypes.string,
+  claimedBenefits: React.PropTypes.array.isRequired,
   relinquishedBenefits: React.PropTypes.string
 };
