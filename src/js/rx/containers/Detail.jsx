@@ -114,9 +114,14 @@ export class Detail extends React.Component {
         phoneNumber = currentPackage.rxInfoPhoneNumber;
 
         orderHistoryTable = (
-          <OrderHistory
-              className="usa-table-borderless rx-table rx-table-list"
-              items={item.trackings}/>
+          <ScrollElement
+              id="rx-order-history"
+              name="orderHistory">
+            <h3 className="rx-heading va-h-ruled">Order History</h3>
+            <OrderHistory
+                className="usa-table-borderless rx-table rx-table-list"
+                items={item.trackings}/>
+          </ScrollElement>
         );
       }
 
