@@ -40,7 +40,7 @@ export default class RotcScholarship extends React.Component {
         </div>
       </div>
     );
-    
+
 
     let reviewFields;
     if (scholarship.amount.value) {
