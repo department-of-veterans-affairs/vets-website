@@ -20,6 +20,8 @@ class Main extends React.Component {
     if (localStorage.length > 0) {
       this.props.onUpdateLoggedInStatus(true);
       this.getUserData();
+    } else {
+      this.props.onUpdateLoggedInStatus(false);
     }
 
     // TODO: Remove this conditional statement when going to production.
