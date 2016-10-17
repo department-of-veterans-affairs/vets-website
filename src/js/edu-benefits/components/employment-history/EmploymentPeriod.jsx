@@ -38,7 +38,19 @@ export default class EmploymentPeriod extends React.Component {
       </div>
     );
 
-    return view === 'collapsed' ? (<div>{period.name.value}</div>) : formFields;
+    let reviewFields;
+    if (period.name.value) {
+      reviewFields = (
+        <div>
+          <div><strong>{period.name.value}</strong></div>
+          <div>{period.postMilitaryJob.value === 'before' ? 'Before military service' : 'After military service'}</div>
+        </div>
+      );
+    } else {
+      reviewFields = (<div>This entry may be missing information</div>);
+    }
+
+    return view === 'collapsed' ? reviewFields : formFields;
   }
 }
 
