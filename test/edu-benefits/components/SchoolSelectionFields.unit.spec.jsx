@@ -7,7 +7,7 @@ import SchoolSelectionFields from '../../../src/js/edu-benefits/components/schoo
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran';
 
 describe('<SchoolSelectionFields>', () => {
-  it('should not render school address for empty education type', () => {
+  xit('should not render school address for empty education type', () => {
     let data = createVeteran();
     const onStateChange = sinon.spy();
 
@@ -19,6 +19,7 @@ describe('<SchoolSelectionFields>', () => {
 
     expect(tree.everySubTree('Address').length).to.equal(0);
   });
+
   it('should render school address for college education type', () => {
     let data = createVeteran();
     data.educationType.value = 'college';
