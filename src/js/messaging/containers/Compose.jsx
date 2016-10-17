@@ -29,6 +29,7 @@ import {
   fetchRecipients,
   fetchSenderName,
   openAttachmentsModal,
+  resetMessage,
   saveDraft,
   sendMessage,
   setMessageField,
@@ -45,6 +46,10 @@ export class Compose extends React.Component {
     this.isValidForm = this.isValidForm.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.saveDraft = this.saveDraft.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.resetMessage();
   }
 
   componentDidMount() {
@@ -106,6 +111,7 @@ export class Compose extends React.Component {
   handleMessageChange(valueObj) {
     this.props.setMessageField('message.text', valueObj);
   }
+
 
   render() {
     const message = this.props.message;
@@ -195,6 +201,7 @@ const mapDispatchToProps = {
   fetchRecipients,
   fetchSenderName,
   openAttachmentsModal,
+  resetMessage,
   saveDraft,
   sendMessage,
   setMessageField,
