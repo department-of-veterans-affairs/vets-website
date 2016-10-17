@@ -45,7 +45,7 @@ export default class SchoolSelectionReview extends React.Component {
             <td>{this.props.data.educationObjective.value}</td>
           </tr>
           <tr>
-            <td>Do you know when your training will begin?</td>
+            <td>The date your training began or will begin.</td>
             <td>{this.props.data.educationStartDate.month.value ? `${this.props.data.educationStartDate.month.value}/${this.props.data.educationStartDate.day.value}/${this.props.data.educationStartDate.year.value}` : null}</td>
           </tr>
           {this.props.data.currentlyActiveDuty.yes.value === 'Y'

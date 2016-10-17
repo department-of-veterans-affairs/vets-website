@@ -28,7 +28,7 @@ export default class SchoolSelectionFields extends React.Component {
           {showSchoolAddress(this.props.data.educationType.value)
           ? <div>
             <div className="input-section">
-              <p>Enter the name of the school you are attending if you already know. It’s okay if you don’t have a school picked out yet.</p>
+              <p>Enter the name of the school you plan to attend. It's okay if you don't have a school picked out yet.</p>
               <ErrorableTextInput
                   label="Name of school, university, or training facility"
                   name="schoolName"
@@ -52,7 +52,7 @@ export default class SchoolSelectionFields extends React.Component {
             errorMessage={isValidFutureOrPastDateField(this.props.data.educationStartDate) ? undefined : 'Please enter a valid date'}
             validation={validateIfDirtyDateObj(this.props.data.educationStartDate, isValidFutureOrPastDateField)}
             allowFutureDates
-            label="Do you know when your training will begin?"
+            label="Enter the date your training began or will begin."
             name="educationStartDate"
             day={this.props.data.educationStartDate.day}
             month={this.props.data.educationStartDate.month}
