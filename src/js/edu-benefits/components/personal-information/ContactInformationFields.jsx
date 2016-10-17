@@ -60,14 +60,14 @@ export default class ContactInformationFields extends React.Component {
           <Phone
               label="Primary telephone number"
               value={this.props.data.homePhone}
-              additionalClass="home-phone usa-input-medium"
+              additionalClass="home-phone va-input-medium-large"
               additionalError={this.props.data.preferredContactMethod.value === 'phone' ? 'This is required due to your preferred contact method.' : ''}
               required={isPhoneRequired}
               onValueChange={(update) => {this.props.onStateChange('homePhone', update);}}/>
           <Phone
               label="Mobile telephone number"
               value={this.props.data.mobilePhone}
-              additionalClass="mobile-phone usa-input-medium"
+              additionalClass="mobile-phone va-input-medium-large"
               onValueChange={(update) => {this.props.onStateChange('mobilePhone', update);}}/>
         </div>
       </fieldset>
