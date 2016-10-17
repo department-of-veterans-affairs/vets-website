@@ -19,20 +19,38 @@ export class Detail extends React.Component {
   constructor(props) {
     super(props);
     this.openGlossaryModal = this.openGlossaryModal.bind(this);
+    this.scrollToOrderHistory = this.scrollToOrderHistory.bind(this);
   }
 
   componentDidMount() {
     scrollTo(0, 0);
     this.props.loadPrescription(this.props.params.id);
+
+    // If order history was requested, scroll to it immediately if it's for
+    // the same prescription that was viewed previously. Any updates from newly
+    // fetched data for that prescription can load in the background.
+    const shouldScrollToOrderHistory =
+      this.props.location.hash === '#rx-order-history' &&
+      this.props.prescriptions.currentItem &&
+      this.props.prescriptions.currentItem.rx.id === this.props.params.id;
+
+    if (shouldScrollToOrderHistory) {
+      this.scrollToOrderHistory();
+    }
   }
 
-  componentDidUpdate() {
-    if (this.props.location.hash === '#rx-order-history') {
-      scroller.scrollTo('orderHistory', {
-        duration: 500,
-        delay: 0,
-        smooth: true,
-      });
+  componentDidUpdate(prevProps) {
+    const isDifferentRx =
+      !prevProps.prescriptions.currentItem ||
+      prevProps.prescriptions.currentItem.rx.id !== this.props.prescriptions.currentItem.rx.id;
+
+    const shouldScrollToOrderHistory =
+      isDifferentRx && this.props.location.hash === '#rx-order-history';
+
+    // If order history was requested, scroll to it after the prescription data
+    // has been fetched and the page has updated.
+    if (shouldScrollToOrderHistory) {
+      this.scrollToOrderHistory();
     }
   }
 
@@ -42,6 +60,14 @@ export class Detail extends React.Component {
     });
 
     this.props.openGlossaryModal(content);
+  }
+
+  scrollToOrderHistory() {
+     scroller.scrollTo('orderHistory', {
+      duration: 500,
+      delay: 0,
+      smooth: true,
+     });
   }
 
   render() {
