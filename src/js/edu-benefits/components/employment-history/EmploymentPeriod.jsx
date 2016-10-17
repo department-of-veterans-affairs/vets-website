@@ -43,7 +43,7 @@ export default class EmploymentPeriod extends React.Component {
       reviewFields = (
         <div>
           <div><strong>{period.name.value}</strong></div>
-          <div>{period.postMilitaryJob.value}</div>
+          <div>{period.postMilitaryJob.value === 'before' ? 'Before military service' : 'After military service'}</div>
         </div>
       );
     } else {

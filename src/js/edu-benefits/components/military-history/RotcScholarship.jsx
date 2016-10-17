@@ -41,12 +41,18 @@ export default class RotcScholarship extends React.Component {
       </div>
     );
 
-    const reviewFields = (
-      <div>
-        <div><strong>${scholarship.amount.value}</strong></div>
-        <div>{scholarship.year}</div>
-      </div>
-    );
+    let reviewFields 
+    if (scholarship.amount.value) {
+      reviewFields = (
+        <div>
+          <div><strong>${scholarship.amount.value}</strong></div>
+          <div>{scholarship.year.value}</div>
+        </div>
+      );
+    } else {
+      reviewFields = (<div>This entry may be missing information</div>);
+    }
+    
 
     return view === 'collapsed' ? reviewFields : formFields;
   }
