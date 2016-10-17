@@ -41,7 +41,7 @@ export default class RotcScholarship extends React.Component {
       </div>
     );
 
-    let reviewFields 
+    let reviewFields;
     if (scholarship.amount.value) {
       reviewFields = (
         <div>
@@ -52,7 +52,6 @@ export default class RotcScholarship extends React.Component {
     } else {
       reviewFields = (<div>This entry may be missing information</div>);
     }
-    
 
     return view === 'collapsed' ? reviewFields : formFields;
   }
