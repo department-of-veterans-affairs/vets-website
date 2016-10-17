@@ -74,10 +74,19 @@
   }
 }
 
+#rx-detail .rx-refill-form {
+  .rx-trigger {
+    display: inline-block;
+    margin: 0 0 0 2rem;
+  }
 
-.rx-refill-form .rx-trigger {
-  display: inline-block;
-  margin: 0 0 0 2rem;
+  @media (max-width: $medium-screen) {
+    display: block;
+
+    .rx-trigger {
+      margin: 0;
+    }
+  }
 }
 
 #rx-order-history {
