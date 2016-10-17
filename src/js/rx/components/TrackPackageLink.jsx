@@ -20,7 +20,7 @@ class TrackPackageLink extends React.Component {
     return (
       <Link
           className={linkClass}
-          href={this.props.url}
+          to={this.props.url}
           rel={rel}
           target={target}>
         {this.props.text}
