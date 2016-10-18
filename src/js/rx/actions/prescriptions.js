@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import { api } from '../config';
 
 export function loadPrescription(id) {
@@ -31,22 +29,14 @@ export function loadPrescriptions(options) {
 
   // Construct segments of the final URL based on options passed in.
   if (options) {
-    // Fetching active prescriptions only.
     if (options.active) {
       url = `${url}/active`;
     }
 
-    // Set the sort param. Convert it into a format that the API accepts.
     if (options.sort) {
-      const formattedValue = _.snakeCase(options.sort.value);
-      const sortParam = options.sort.order === 'DESC'
-                      ? `-${formattedValue}`
-                      : formattedValue;
-
-      queries.push(`sort=${sortParam}`);
+      queries.push(`sort=${options.sort}`);
     }
 
-    // Set the current page.
     if (options.page) {
       queries.push(`page=${options.page}`);
     }
