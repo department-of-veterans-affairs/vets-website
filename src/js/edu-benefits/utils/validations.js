@@ -322,7 +322,7 @@ function isValidRotcScholarshipAmount(data) {
 }
 
 function isValidRotcHistoryPage(data) {
-  return data.seniorRotcCommissioned.value !== 'Y' && data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount);
+  return data.seniorRotcCommissioned.value !== 'Y' || data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount);
 }
 
 function isValidForm(data) {
