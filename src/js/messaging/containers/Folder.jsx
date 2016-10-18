@@ -21,6 +21,7 @@ import { paths } from '../config';
 export class Folder extends React.Component {
   constructor(props) {
     super(props);
+    this.formattedSortParam = this.formattedSortParam.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.makeMessageNav = this.makeMessageNav.bind(this);
     this.makeMessagesTable = this.makeMessagesTable.bind(this);
@@ -36,16 +37,36 @@ export class Folder extends React.Component {
     const oldId = this.props.attributes.folderId;
     const newId = +this.props.params.id;
 
-    const query = _.pick(this.props.location.query, ['page']);
+    const query = _.pick(this.props.location.query, ['page', 'sort']);
+
     const oldPage = this.props.page;
     const newPage = +query.page || oldPage;
 
-    if (newId !== oldId || newPage !== oldPage) {
+    const oldSort = this.formattedSortParam(
+      this.props.sort.value,
+      this.props.sort.order
+    );
+    const newSort = query.sort || oldSort;
+
+    if (newId !== oldId || newPage !== oldPage || newSort !== oldSort) {
       this.props.fetchFolder(newId, query);
     }
   }
 
-  handleSort() {
+  formattedSortParam(value, order) {
+    const formattedValue = _.snakeCase(value);
+    const sort = order === 'DESC'
+                    ? `-${formattedValue}`
+                    : formattedValue;
+    return sort;
+  }
+
+  handleSort(value, order) {
+    const sort = this.formattedSortParam(value, order);
+    browserHistory.push({
+      pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
+      query: { ...this.props.location.query, sort }
+    });
   }
 
   makeMessageNav() {
@@ -62,7 +83,7 @@ export class Folder extends React.Component {
       handleClickPrev = () => {
         browserHistory.push({
           pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
-          query: { page: page - 1 }
+          query: { ...this.props.location.query, page: page - 1 }
         });
       };
     }
@@ -71,7 +92,7 @@ export class Folder extends React.Component {
       handleClickNext = () => {
         browserHistory.push({
           pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
-          query: { page: page + 1 }
+          query: { ...this.props.location.query, page: page + 1 }
         });
       };
     }
