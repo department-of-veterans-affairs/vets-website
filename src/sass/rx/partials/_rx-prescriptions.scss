@@ -25,6 +25,7 @@
 
 .rx-prescription-inner {
   background: $color-gray-lightest;
+  height: 25.7rem;
   padding: 2rem;
   position: relative;
 }
@@ -70,7 +71,6 @@ button.rx-prescription-button,
 }
 
 .rx-prescription-count {
-  position: absolute;
   bottom: 0;
   display: inline-block;
   &-zero {
@@ -93,7 +93,7 @@ button.rx-prescription-button,
 }
 
 .rx-prescription-countaction {
-  bottom: 0;
+  bottom: -2rem;
   line-height: 2rem;
   padding-top: 2rem;
   position: relative;
