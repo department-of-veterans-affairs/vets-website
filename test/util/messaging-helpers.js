@@ -45,7 +45,7 @@ export const testData = {
     ],
     meta: {
       sort: {
-        'sentDate': 'DESC'
+        sentDate: 'DESC'
       },
       pagination: {
         currentPage: 1,
