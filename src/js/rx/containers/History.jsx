@@ -22,7 +22,7 @@ class History extends React.Component {
 
   componentDidMount() {
     const query = _.pick(this.props.location.query, ['page', 'sort']);
-    this.props.dispatch(loadPrescriptions(query));
+    this.props.loadPrescriptions(query);
   }
 
   componentDidUpdate() {
@@ -40,7 +40,7 @@ class History extends React.Component {
     );
 
     if (newPage !== oldPage || newSort !== oldSort) {
-      this.props.dispatch(loadPrescriptions(query));
+      this.props.loadPrescriptions(query);
     }
   }
 
@@ -71,7 +71,7 @@ class History extends React.Component {
     const content = glossary.filter(obj => {
       return obj.term === term;
     });
-    this.props.dispatch(openGlossaryModal(content));
+    this.props.openGlossaryModal(content);
   }
 
   render() {
@@ -152,4 +152,9 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(History);
+const mapDispatchToProps = {
+  loadPrescriptions,
+  openGlossaryModal
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(History);
