@@ -33,11 +33,6 @@ class Main extends React.Component {
 
     // TODO (crew): Change to just listen for localStorage update but currently known bug in Chrome prevents this from firing (https://bugs.chromium.org/p/chromium/issues/detail?id=136356).
     window.addEventListener('message', this.setMyToken);
-
-    // This removes a user token and signs a user out of vets.gov when they close their browser window.
-    window.onunload = () => {
-      localStorage.removeItem('userToken');
-    };
   }
 
   componentWillUnmount() {
@@ -60,14 +55,15 @@ class Main extends React.Component {
       return response.json();
     }).then(json => {
       // console.log(json);
-      this.props.onUpdateProfile('accountType', json.level_of_assurance);
-      this.props.onUpdateProfile('email', json.email);
-      this.props.onUpdateProfile('userFullName.first', json.first_name);
-      this.props.onUpdateProfile('userFullName.middle', json.middle_name);
-      this.props.onUpdateProfile('userFullName.last', json.last_name);
-      // this.props.onUpdateProfile('userFullName.suffix', json.first_name);
-      this.props.onUpdateProfile('gender', json.gender);
-      this.props.onUpdateProfile('dob', json.birth_date);
+      const userData = json.data.attributes.profile;
+      this.props.onUpdateProfile('accountType', userData.loa.current);
+      this.props.onUpdateProfile('email', userData.email);
+      this.props.onUpdateProfile('userFullName.first', userData.first_name);
+      this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
+      this.props.onUpdateProfile('userFullName.last', userData.last_name);
+      // this.props.onUpdateProfile('userFullName.suffix', userData.first_name);
+      this.props.onUpdateProfile('gender', userData.gender);
+      this.props.onUpdateProfile('dob', userData.birth_date);
       this.props.onUpdateLoggedInStatus(true);
     });
   }

@@ -24,9 +24,7 @@ class UserProfileApp extends React.Component {
     } else {
       components = (
         <div>
-          <UserDataSection/>
           <LoginDataSection/>
-          <AuthApplicationSection/>
           <AccountManagementSection/>
         </div>
       );
