@@ -33,10 +33,18 @@ class FacilityDetail extends Component {
           </a>
         </p>
         <p>
+          <span>
+            <a href="#" target="_blank">
+              <i className="fa fa-globe" style={{ marginRight: '0.5rem' }}/> Website
+            </a>
+          </span>
+        </p>
+        <p>
           <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString.join(' ')}`} target="_blank">
             <i className="fa fa-map"/> Directions
           </a>
         </p>
+        <p>Planning to visit? Please call first as information on this page may change.</p>
       </div>
     );
   }
@@ -54,7 +62,7 @@ class FacilityDetail extends Component {
           <Link className="facility-back-link" onClick={browserHistory.goBack}>
             <i className="fa fa-chevron-left" aria-hidden="true"></i>Back to list
           </Link>
-          <div className="details-map">
+          <div>
             {this.renderFacilityInfo()}
             <ServicesAtFacility facility={facility}/>
           </div>
@@ -65,7 +73,7 @@ class FacilityDetail extends Component {
             <div className="mb2">
               <h4>Hours of Operation:</h4>
               <hr className="title"/>
-              <FacilityHours info={facility}/>
+              <FacilityHours facility={facility}/>
             </div>
           </div>
         </div>

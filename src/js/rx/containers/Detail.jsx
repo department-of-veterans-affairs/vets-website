@@ -1,15 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Scroll from 'react-scroll';
 import moment from 'moment';
 
-import { loadPrescription } from '../actions/prescriptions.js';
+import { openGlossaryModal, openRefillModal } from '../actions/modal';
+import { loadPrescription } from '../actions/prescriptions';
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
 import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
-import { glossary, rxStatuses } from '../config.js';
 import SubmitRefill from '../components/SubmitRefill';
-import { openGlossaryModal, openRefillModal } from '../actions/modal';
+import { glossary, rxStatuses } from '../config';
+
+const ScrollElement = Scroll.Element;
+const scroller = Scroll.scroller;
 
 export class Detail extends React.Component {
   constructor(props) {
@@ -18,7 +22,18 @@ export class Detail extends React.Component {
   }
 
   componentDidMount() {
+    scrollTo(0, 0);
     this.props.loadPrescription(this.props.params.id);
+  }
+
+  componentDidUpdate() {
+    if (this.props.location.hash === '#rx-order-history') {
+      scroller.scrollTo('orderHistory', {
+        duration: 500,
+        delay: 0,
+        smooth: true,
+      });
+    }
   }
 
   openGlossaryModal(term) {
@@ -33,7 +48,10 @@ export class Detail extends React.Component {
     let header;
     let rxInfo;
     let contactCard;
-    let orderHistory;
+    let orderHistorySection;
+    let orderHistoryTable;
+    let facilityName;
+    let phoneNumber;
 
     const item = this.props.prescriptions.currentItem;
 
@@ -83,29 +101,40 @@ export class Detail extends React.Component {
               className="usa-table-borderless rx-table rx-info"
               data={data}/>
         );
+
+        // Get facility name for contact info.
+        facilityName = attrs.facilityName;
       }
 
       // Compose components from tracking data.
-      if (item.trackings) {
+      if (item.trackings && item.trackings.length > 0) {
         const currentPackage = item.trackings[0].attributes;
-        const facilityName = currentPackage.facilityName;
-        const phoneNumber = currentPackage.rxInfoPhoneNumber;
 
-        contactCard = (
-          <ContactCard
-              facilityName={facilityName}
-              phoneNumber={phoneNumber}/>
-        );
+        // Get phone number for contact info.
+        phoneNumber = currentPackage.rxInfoPhoneNumber;
 
-        orderHistory = (
-          <div className="rx-order-history">
-            <h3 className="rx-heading va-h-ruled">Order History</h3>
-            <OrderHistory
-                className="usa-table-borderless rx-table rx-table-list"
-                items={item.trackings}/>
-          </div>
+        orderHistoryTable = (
+          <OrderHistory
+              className="usa-table-borderless rx-table rx-table-list"
+              items={item.trackings}/>
         );
       }
+
+      orderHistorySection = (
+        <ScrollElement
+            id="rx-order-history"
+            name="orderHistory">
+          <h3 className="rx-heading va-h-ruled">Order History</h3>
+          <p>* Tracking information for each order expires 30 days after shipment.</p>
+          {orderHistoryTable}
+        </ScrollElement>
+      );
+
+      contactCard = (
+        <ContactCard
+            facilityName={facilityName}
+            phoneNumber={phoneNumber}/>
+      );
     }
 
     return (
@@ -115,7 +144,7 @@ export class Detail extends React.Component {
         {header}
         {rxInfo}
         {contactCard}
-        {orderHistory}
+        {orderHistorySection}
       </div>
     );
   }
