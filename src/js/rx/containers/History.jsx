@@ -26,18 +26,15 @@ class History extends React.Component {
   }
 
   componentDidUpdate() {
-    const query = _.pick(this.props.location.query, ['page', 'sort']);
-
-    const defaultPage = 1;
-    const newPage = +query.page || defaultPage;
     const oldPage = this.props.page;
-
-    const defaultSort = '-ordered_date';
-    const newSort = query.sort || defaultSort;
     const oldSort = this.formattedSortParam(
       this.props.sort.value,
       this.props.sort.order
     );
+
+    const query = _.pick(this.props.location.query, ['page', 'sort']);
+    const newPage = +query.page || oldPage;
+    const newSort = query.sort || oldSort;
 
     if (newPage !== oldPage || newSort !== oldSort) {
       this.props.loadPrescriptions(query);
