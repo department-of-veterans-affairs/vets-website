@@ -31,8 +31,8 @@ export default class ClaimDetailLayout extends React.Component {
     return (
       <div className="row">
         <div className="small-12 medium-8 columns usa-content">
-          {content}
           <div name="topScrollElement"></div>
+          {content}
         </div>
         <AskVAQuestions/>
       </div>

@@ -8,7 +8,7 @@ import StatusPage from './containers/StatusPage.jsx';
 import FilesPage from './containers/FilesPage.jsx';
 import DetailsPage from './containers/DetailsPage.jsx';
 import AskVAPage from './containers/AskVAPage.jsx';
-import DocumentRequest from './containers/DocumentRequest.jsx';
+import DocumentRequestPage from './containers/DocumentRequestPage.jsx';
 import TurnInEvidence from './containers/TurnInEvidence.jsx';
 
 const routes = [
@@ -20,10 +20,6 @@ const routes = [
       component={CompensationClaimsPage}
       key="/your-claims/compensation-claims/"
       path="/your-claims/compensation-claims/"/>,
-  <Route
-      component={DocumentRequest}
-      key="/your-claims/document-request"
-      path="/your-claims/document-request"/>,
   <Route
       component={TurnInEvidence}
       key="/your-claims/turn-in-evidence"
@@ -45,6 +41,9 @@ const routes = [
     <Route
         component={AskVAPage}
         path="ask-va-to-decide"/>
+    <Route
+        component={DocumentRequestPage}
+        path="document-request/:trackedItemId"/>
   </Route>,
 ];
 
