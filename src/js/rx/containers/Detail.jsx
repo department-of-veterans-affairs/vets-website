@@ -165,11 +165,11 @@ export class Detail extends React.Component {
   }
 
   scrollToOrderHistory() {
-     scroller.scrollTo('orderHistory', {
+    scroller.scrollTo('orderHistory', {
       duration: 500,
       delay: 0,
       smooth: true,
-     });
+    });
   }
 
   render() {
