@@ -7,6 +7,7 @@ export default class BenefitsSelectionFields extends React.Component {
   render() {
     return (<fieldset>
       <legend className="hide-for-small-only">Benefits eligibility</legend>
+      <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
       <div className="input-section">
         <ErrorableGroup
             required

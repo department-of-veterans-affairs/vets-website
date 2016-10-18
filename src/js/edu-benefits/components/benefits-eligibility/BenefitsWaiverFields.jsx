@@ -11,6 +11,7 @@ export default class BenefitsSelectionFields extends React.Component {
   render() {
     return (<fieldset>
       <legend>Benefits relinquishment</legend>
+      <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
       <div className="input-section">
         <p>If you are eligible for both the Post 9/11 GI Bill and another program, such as the Montgomery GI Bill – Active Duty (MGIB-AD), you have to choose which one you want to use. <b>Once you apply for one or the other, you can’t change it.</b></p>
         <fieldset className="edu-benefits-info-no-icon">
