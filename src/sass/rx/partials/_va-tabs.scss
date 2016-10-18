@@ -19,11 +19,6 @@
     border-style: solid;
     display: inline-block;
   }
-     
-  // Center navigation in viewports < 600px;
-  @media (max-width: $medium-screen) {
-    text-align: center;
-  } 
 }
 
 .va-tab-trigger { 
