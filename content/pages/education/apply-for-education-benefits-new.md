@@ -37,9 +37,9 @@ Servicemembers and Veterans who are interested in education and training can use
 You may be eligible for more than one benefit, based on your service. When you apply, you have to pick which one you want to use: 
 
 - [Post- 9/11 GI Bill](https://www.vets.gov/education/gi-bill/post-9-11/) (Chapter 33)
-- [Montgomery GI Bill - Active Duty](https://www.vets.gov/education/gi-bill/montgomery-active-duty/) (MGIB-AD or Chapter 30)
-- [Montgomery GI Bill - Selected Reserve](https://www.vets.gov/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR or Chapter 1606)
-- [Post-Vietnam Era Veterans' Educational Assistance Program](https://www.vets.gov/education/other-educational-assistance-programs/veap/) (VEAP or Chapter 32)
+- [Montgomery GI Bill](https://www.vets.gov/education/gi-bill/montgomery-active-duty/) (MGIB-AD, Chapter 30)
+- [Montgomery GI Bill Selected Reserve](https://www.vets.gov/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR, Chapter 1606)
+- [Post-Vietnam Era Veterans' Educational Assistance Program](https://www.vets.gov/education/other-educational-assistance-programs/veap/) (VEAP, Chapter 32)
 
 [An accredited representative]( http://www.va.gov/ogc/apps/accreditation/index.asp) with a Veterans Service Organization (VSO) can help you pick the right program.
 
@@ -115,7 +115,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 ##### Decision
 
 - We usually review claims within 30 days. 
-- You will get a COE in the mail. Bring this to the Veterans services office at your school.
+- You'll get a COE in the mail if your application was approved. Bring this to the VA certifying official at your school.
 
 </div>
 
