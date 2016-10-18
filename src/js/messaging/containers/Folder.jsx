@@ -4,6 +4,8 @@ import { Link, browserHistory } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import SortableTable from '../../common/components/SortableTable';
+
 import {
   fetchFolder,
   setDateRange,
@@ -17,6 +19,13 @@ import MessageSearch from '../components/MessageSearch';
 import { paths } from '../config';
 
 export class Folder extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSort = this.handleSort.bind(this);
+    this.makeMessageNav = this.makeMessageNav.bind(this);
+    this.makeMessagesTable = this.makeMessagesTable.bind(this);
+  }
+
   componentDidMount() {
     const id = this.props.params.id;
     const query = _.pick(this.props.location.query, ['page']);
@@ -34,6 +43,9 @@ export class Folder extends React.Component {
     if (newId !== oldId || newPage !== oldPage) {
       this.props.fetchFolder(newId, query);
     }
+  }
+
+  handleSort() {
   }
 
   makeMessageNav() {
@@ -81,42 +93,37 @@ export class Folder extends React.Component {
       return <Link to={`/messaging/thread/${id}`}>{content}</Link>;
     };
 
-    const rows = messages.map((message) => {
+    const currentSort = this.props.sort;
+
+    const fields = [
+      { label: 'From', value: 'senderName' },
+      { label: 'Subject line', value: 'subject' },
+      { label: 'Date', value: 'sentDate' }
+    ];
+
+    const data = this.props.messages.map(message => {
       const id = message.messageId;
       const rowClass = classNames({
         'messaging-message-row': true,
         'messaging-message-row--unread': message.readReceipt === 'UNREAD'
       });
 
-      return (
-        <tr key={id} className={rowClass}>
-          <td>
-            {makeMessageLink(message.senderName, id)}
-          </td>
-          <td>
-            {makeMessageLink(message.subject, id)}
-          </td>
-          <td>
-            {makeMessageLink(message.sentDate, id)}
-          </td>
-        </tr>
-      );
+      return {
+        id,
+        rowClass,
+        senderName: makeMessageLink(message.senderName, id),
+        subject: makeMessageLink(message.subject, id),
+        sentDate: makeMessageLink(message.sentDate, id)
+      };
     });
 
-    // TODO: Use SortableTable here.
     return (
-      <table className="usa-table-borderless">
-        <thead>
-          <tr>
-            <th>From</th>
-            <th>Subject line</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
+      <SortableTable
+          className="usa-table-borderless"
+          currentSort={currentSort}
+          data={data}
+          fields={fields}
+          onSort={this.handleSort}/>
     );
   }
 
@@ -174,7 +181,8 @@ const mapStateToProps = (state) => {
     totalPages,
     isAdvancedVisible: state.search.advanced.visible,
     searchDateRangeStart: state.search.advanced.params.dateRange.start,
-    searchDateRangeEnd: state.search.advanced.params.dateRange.end
+    searchDateRangeEnd: state.search.advanced.params.dateRange.end,
+    sort: folder.sort
   };
 };
 
