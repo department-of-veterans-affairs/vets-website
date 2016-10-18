@@ -39,16 +39,15 @@ class AskVAPage extends React.Component {
         <div className="row">
           <div className="medium-8 columns">
             <div className="va-claim-form">
-              <h1>Ask VA to Decide Your Claim</h1>
-              <p className="first-of-type">Have you submitted all of your evidence in support of this claim? If so, you can request that VA decide your claim as soon as possible.</p>
-              <p>We provide a notice to you about the evidence and information VA needs to support your claim for benefits. At this time, you may choose to indicate whether you intend to submit additional information or evidence that would help support your claim.</p>
-              <p>By checking the box below and submitting, you are letting us know you want to decide your claim without waiting 30 days. If you select “Cancel”, you are advising us to give you more time to provide us with information or evidence.</p>
-              <p>Your selection will not affect:</p>
+              <h1>Ask VA for a Claim Decision</h1>
+              <p className="first-of-type">You should have received a letter in the mail requesting additional evidence VA needs to support your claim.</p>
+              <p>We will wait 30 days to receive your evidence but if you don't have anything more to submit, let us know and we will go ahead and prepare to make a decision on your claim.</p>
+              <p>Taking the full 30 days won’t affect:</p>
               <ul>
-                <li>Whether or not you are entitled to VA benefits;</li>
-                <li>The amount of benefits to which you may be entitled;</li>
-                <li>The assistance VA will provide you in obtaining evidence to support your claims; or</li>
-                <li>The date any benefits will begin if your claim is granted.</li>
+                <li>Whether you get VA benefits</li>
+                <li>The payment amount</li>
+                <li>Whether you get help from VA to gather evidence to support your claim</li>
+                <li>The date benefits will begin if VA approves your claim</li>
               </ul>
               <div className="usa-alert usa-alert-info claims-no-icon claims-alert">
                 <ErrorableCheckbox
@@ -56,7 +55,7 @@ class AskVAPage extends React.Component {
                     checked={this.state.submittedDocs}
                     onValueChange={(update) => this.setSubmittedDocs(update)}
 
-                    label="I have submitted all information or evidence that will support my claim to include identifying records from Federal treating facilities, or I have no other information or evidence to give VA to support my claim. Please decide my claim as soon as possible."/>
+                    label="I have submitted all evidence that will support my claim and I'm not going to turn in any more information. I would like VA to make a decision on my claim based on the information already provided."/>
               </div>
               <button
                   disabled={submitDisabled}
@@ -65,7 +64,7 @@ class AskVAPage extends React.Component {
                 {buttonMsg}
               </button>
               {!loadingDecisionRequest
-                ? <button className="usa-button-outline request-decision-button" onClick={this.goToStatusPage}>Cancel</button>
+                ? <a className="usa-button-outline request-decision-button" onClick={this.goToStatusPage}>Not yet, I still have more evidence to submit</a>
                 : null}
             </div>
           </div>
