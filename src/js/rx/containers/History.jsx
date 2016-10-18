@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
+import _ from 'lodash';
 import moment from 'moment';
 
 import { loadPrescriptions } from '../actions/prescriptions';
@@ -13,34 +14,57 @@ import { glossary, rxStatuses } from '../config.js';
 class History extends React.Component {
   constructor(props) {
     super(props);
-    this.loadData = this.loadData.bind(this);
+    this.formattedSortParam = this.formattedSortParam.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
     this.openGlossaryModal = this.openGlossaryModal.bind(this);
   }
 
-  componentWillMount() {
-    this.loadData();
+  componentDidMount() {
+    const query = _.pick(this.props.location.query, ['page', 'sort']);
+    this.props.dispatch(loadPrescriptions(query));
   }
 
-  loadData(options) {
-    let combinedOptions;
-    if (options) {
-      combinedOptions = {
-        sort: options.sort || this.props.history.sort,
-        page: options.page || this.props.history.page
-      };
+  componentDidUpdate() {
+    const query = _.pick(this.props.location.query, ['page', 'sort']);
+
+    const defaultPage = 1;
+    const newPage = +query.page || defaultPage;
+    const oldPage = this.props.page;
+
+    const defaultSort = '-ordered_date';
+    const newSort = query.sort || defaultSort;
+    const oldSort = this.formattedSortParam(
+      this.props.sort.value,
+      this.props.sort.order
+    );
+
+    if (newPage !== oldPage || newSort !== oldSort) {
+      this.props.dispatch(loadPrescriptions(query));
     }
-    this.props.dispatch(loadPrescriptions(combinedOptions));
+  }
+
+  formattedSortParam(value, order) {
+    const formattedValue = _.snakeCase(value);
+    const sort = order === 'DESC'
+               ? `-${formattedValue}`
+               : formattedValue;
+    return sort;
   }
 
   handleSort(value, order) {
-    const sort = { value, order };
-    this.loadData({ sort });
+    const sort = this.formattedSortParam(value, order);
+    browserHistory.push({
+      pathname: '/rx/history',
+      query: { ...this.props.location.query, sort }
+    });
   }
 
   handlePageSelect(page) {
-    this.loadData({ page });
+    browserHistory.push({
+      pathname: '/rx/history',
+      query: { ...this.props.location.query, page }
+    });
   }
 
   openGlossaryModal(term) {
@@ -55,7 +79,7 @@ class History extends React.Component {
     let content;
 
     if (items) {
-      const currentSort = this.props.history.sort;
+      const currentSort = this.props.sort;
 
       const fields = [
         { label: 'Last requested', value: 'orderedDate' },
@@ -107,8 +131,8 @@ class History extends React.Component {
               onSort={this.handleSort}/>
           <Pagination
               onPageSelect={this.handlePageSelect}
-              page={this.props.history.page}
-              pages={this.props.history.pages}/>
+              page={this.props.page}
+              pages={this.props.pages}/>
         </div>
       );
     }
@@ -123,7 +147,7 @@ class History extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    history: state.prescriptions.history,
+    ...state.prescriptions.history,
     prescriptions: state.prescriptions.items
   };
 };
