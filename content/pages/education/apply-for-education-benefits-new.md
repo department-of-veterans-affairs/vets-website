@@ -94,7 +94,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ###### How long does it take VA to make a decision?
 
-- It takes about 1 month to process your claim.
+- We usually review claims within 30 days.
 
 ###### What should I do while I wait?
 
@@ -114,7 +114,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ##### Decision
 
-- It usually takes VA 1 month to process your application. 
+- We usually review claims within 30 days. 
 - You will get a COE in the mail. Bring this to the Veterans services office at your school.
 
 </div>
@@ -127,7 +127,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ##### Checking in on the status of your application?
 
-- It takes VA about 1 month to review your application.
+- We usually review claims within 30 days.
 - If we’ve asked for documents, please upload them through the [GI Bill site](https://gibill.custhelp.com/app/home).
 - You can’t make changes to your application.
 - Call 888-442-4551 if you have questions. 
