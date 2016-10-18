@@ -27,8 +27,8 @@ class History extends React.Component {
     let combinedOptions;
     if (options) {
       combinedOptions = {
-        sort: options.sort || this.props.prescriptions.history.sort,
-        page: options.page || this.props.prescriptions.history.page
+        sort: options.sort || this.props.history.sort,
+        page: options.page || this.props.history.page
       };
     }
     this.props.dispatch(loadPrescriptions(combinedOptions));
@@ -51,11 +51,11 @@ class History extends React.Component {
   }
 
   render() {
-    const items = this.props.prescriptions.items;
+    const items = this.props.prescriptions;
     let content;
 
     if (items) {
-      const currentSort = this.props.prescriptions.history.sort;
+      const currentSort = this.props.history.sort;
 
       const fields = [
         { label: 'Last requested', value: 'orderedDate' },
@@ -107,8 +107,8 @@ class History extends React.Component {
               onSort={this.handleSort}/>
           <Pagination
               onPageSelect={this.handlePageSelect}
-              page={this.props.prescriptions.history.page}
-              pages={this.props.prescriptions.history.pages}/>
+              page={this.props.history.page}
+              pages={this.props.history.pages}/>
         </div>
       );
     }
@@ -122,7 +122,10 @@ class History extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    history: state.prescriptions.history,
+    prescriptions: state.prescriptions.items
+  };
 };
 
 export default connect(mapStateToProps)(History);
