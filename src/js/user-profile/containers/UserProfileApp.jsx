@@ -6,10 +6,13 @@ import LoginDataSection from '../components/LoginDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
 import AccountManagementSection from '../components/AccountManagementSection';
 
+import LoginAccess from '../../common/components/LoginAccess';
+
 class UserProfileApp extends React.Component {
   render() {
     let components;
     let account;
+    let view;
 
     if (this.props.profile.accountType === 'loa3') {
       components = (
@@ -30,15 +33,21 @@ class UserProfileApp extends React.Component {
       );
       account = <p>ACCOUNT TYPE: Basic (<a href="#">Want to Upgrade your account?</a>)</p>;
     }
-    return (
-      <div className="row">
-        <div className="medium-8 small-12 columns">
-          <h1>Your Vets.gov Account</h1>
-          {account}
-          {components}
+
+    if (localStorage.length > 0) {
+      view = (
+        <div className="row">
+          <div className="medium-8 small-12 columns">
+            <h1>Your Vets.gov Account</h1>
+            {account}
+            {components}
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      view = (<LoginAccess loginUrl={this.props.login.loginUrl}/>);
+    }
+    return view;
   }
 }
 
