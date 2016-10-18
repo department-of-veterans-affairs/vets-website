@@ -97,7 +97,7 @@ export class Folder extends React.Component {
 
   makeMessagesTable() {
     const messages = this.props.messages;
-    if (messages && messages.length === 0) { return null; }
+    if (!messages || messages.length === 0) { return null; }
 
     const makeMessageLink = (content, id) => {
       return <Link to={`/messaging/thread/${id}`}>{content}</Link>;
