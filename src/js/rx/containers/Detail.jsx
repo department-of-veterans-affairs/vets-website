@@ -199,7 +199,7 @@ export class Detail extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { prescription: state.prescriptions.currentItem  };
+  return { prescription: state.prescriptions.currentItem };
 };
 
 const mapDispatchToProps = {
