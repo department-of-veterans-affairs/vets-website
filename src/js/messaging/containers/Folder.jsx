@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link, browserHistory } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
+import moment from 'moment';
 
 import SortableTable from '../../common/components/SortableTable';
 
@@ -62,18 +63,18 @@ export class Folder extends React.Component {
     return sort;
   }
 
+  handlePageSelect(page) {
+    browserHistory.push({
+      pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
+      query: { ...this.props.location.query, page }
+    });
+  }
+
   handleSort(value, order) {
     const sort = this.formattedSortParam(value, order);
     browserHistory.push({
       pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
       query: { ...this.props.location.query, sort }
-    });
-  }
-
-  handlePageSelect(page) {
-    browserHistory.push({
-      pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
-      query: { ...this.props.location.query, page }
     });
   }
 
@@ -112,6 +113,7 @@ export class Folder extends React.Component {
 
     const data = this.props.messages.map(message => {
       const id = message.messageId;
+      const sentDate = moment().calendar(message.sentDate);
       const rowClass = classNames({
         'messaging-message-row': true,
         'messaging-message-row--unread': message.readReceipt === 'UNREAD'
@@ -122,7 +124,7 @@ export class Folder extends React.Component {
         rowClass,
         senderName: makeMessageLink(message.senderName, id),
         subject: makeMessageLink(message.subject, id),
-        sentDate: makeMessageLink(message.sentDate, id)
+        sentDate: makeMessageLink(sentDate, id)
       };
     });
 
