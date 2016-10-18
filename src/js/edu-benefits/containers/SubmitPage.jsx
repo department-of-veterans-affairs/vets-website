@@ -17,6 +17,7 @@ function mapStateToProps(state) {
   // TODO: replace this with actual data from the API
   return {
     name: state.veteran.veteranFullName,
+    chapter33: state.veteran.chapter33,
     claimedBenefits: getListOfBenefits(state.veteran),
     relinquishedBenefits: getLabel(relinquishableBenefits, state.veteran.benefitsRelinquished.value),
     confirmation: state.uiState.submission.id,

@@ -28,6 +28,14 @@ export default class SubmitMessage extends React.Component {
   }
   render() {
     const name = this.props.name;
+    let relinquished = null;
+
+    if (this.props.chapter33) {
+      relinquished = (<div>
+        <span><i>Relinquished:</i></span>
+        {this.makeList([this.props.relinquishedBenefits])}
+      </div>);
+    }
     return (
       <div>
         <h3>Claim received</h3>
@@ -44,8 +52,7 @@ export default class SubmitMessage extends React.Component {
             <li>
               <b>Benefit claimed</b><br/>
               {this.makeList(this.props.claimedBenefits)}
-              <span><i>Relinquished:</i></span>
-              {this.makeList([this.props.relinquishedBenefits])}
+              {relinquished}
             </li>
             <li>
               <b>Confirmation number</b><br/>
