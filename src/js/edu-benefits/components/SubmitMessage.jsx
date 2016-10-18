@@ -31,7 +31,7 @@ export default class SubmitMessage extends React.Component {
     let relinquished = null;
 
     if (this.props.chapter33) {
-      relinquished = (<div>
+      relinquished = (<div className="claim-relinquished">
         <span><i>Relinquished:</i></span>
         {this.makeList([this.props.relinquishedBenefits])}
       </div>);
@@ -90,10 +90,11 @@ export default class SubmitMessage extends React.Component {
 }
 
 SubmitMessage.propTypes = {
-  claimType: React.PropTypes.string.isRequired,
-  confirmation: React.PropTypes.string.isRequired,
-  date: React.PropTypes.string.isRequired,
-  address: React.PropTypes.string,
-  claimedBenefits: React.PropTypes.array.isRequired,
-  relinquishedBenefits: React.PropTypes.string
+  name: React.PropTypes.object,
+  claimedBenefits: React.PropTypes.array,
+  relinquishedBenefits: React.PropTypes.string,
+  claimType: React.PropTypes.string,
+  confirmation: React.PropTypes.string,
+  date: React.PropTypes.string,
+  address: React.PropTypes.string
 };
