@@ -30,7 +30,7 @@ export class Folder extends React.Component {
 
   componentDidMount() {
     const id = this.props.params.id;
-    const query = _.pick(this.props.location.query, ['page']);
+    const query = _.pick(this.props.location.query, ['page', 'sort']);
     this.props.fetchFolder(id, query);
   }
 
