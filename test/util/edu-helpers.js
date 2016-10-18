@@ -202,8 +202,8 @@ function completeBenefitsWaiver(client, data, onlyRequiredFields) {
 }
 function completeMilitaryService(client, data, onlyRequiredFields) {
   client
-    .clearValue('select[name="serviceBranch"]')
-    .setValue('select[name="serviceBranch"]', data.toursOfDuty[0].serviceBranch)
+    .clearValue('input[name="serviceBranch"]')
+    .setValue('input[name="serviceBranch"]', data.toursOfDuty[0].serviceBranch)
     .clearValue('select[name="fromDateMonth"]')
     .setValue('select[name="fromDateMonth"]', data.toursOfDuty[0].fromDate.month)
     .clearValue('select[name="fromDateDay"]')
@@ -223,7 +223,6 @@ function completeMilitaryService(client, data, onlyRequiredFields) {
       .setValue('input[name="serviceAcademyGraduationYear"]', data.serviceAcademyGraduationYear)
       .click('input[name="currentlyActiveDuty-0"]')
       .click('input[name="onTerminalLeave-0"]')
-      .click('input[name="nonVaAssistance-1"]')
       .click('input[name="applyPeriodToSelected"]')
       .setValue('textarea[name="benefitsToApplyTo"]', data.toursOfDuty[0].benefitsToApplyTo);
   }
@@ -247,7 +246,7 @@ function completeBenefitsHistory(client, data, onlyRequiredFields) {
       .click('input[name="additionalContributions"]')
       .click('input[name="activeDutyKicker"]')
       .click('input[name="reserveKicker"]')
-      .click('input[name="activeDutyRepaying-0"]')
+      .click('input[name="activeDutyRepaying"]')
       .clearValue('select[name="fromMonth"]')
       .setValue('select[name="fromMonth"]', data.activeDutyRange.from.month)
       .clearValue('select[name="fromDay"]')
@@ -351,7 +350,7 @@ function completeSchoolSelection(client, data, onlyRequiredFields) {
       .setValue('select[name="state"]', data.schoolAddress.state)
       .clearValue('input[name="postalCode"]')
       .setValue('input[name="postalCode"]', data.schoolAddress.postalCode)
-      .setValue('textarea[name="educationObjective"]', data.educationObjective)
+      .setValue('input[name="educationObjective"]', data.educationObjective)
       .clearValue('select[name="educationStartDateMonth"]')
       .setValue('select[name="educationStartDateMonth"]', data.educationStartDate.month)
       .clearValue('select[name="educationStartDateDay"]')
