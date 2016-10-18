@@ -104,8 +104,20 @@ button.rx-prescription-button,
   font-weight: bold;
 }
 
+.rx-prescription-status,
+.rx-call-provider {
+  margin-top: .75rem;
+  text-align: right;
+}
+
+.rx-prescription-refill-requested {
+  margin-bottom: .75rem;
+  text-align: right;
+} 
+
 .rx-track-package-link {
-  margin: 0;  
+  display: block;
+  margin: 0 0 1rem;  
 }
 
 //====== Prescription group
