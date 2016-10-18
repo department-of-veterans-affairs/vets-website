@@ -24,7 +24,7 @@ export class Folder extends React.Component {
   }
 
   componentDidUpdate() {
-    const oldId = this.props.folder.attributes.folderId;
+    const oldId = this.props.attributes.folderId;
     const newId = +this.props.params.id;
 
     const query = _.pick(this.props.location.query, ['page']);
@@ -73,10 +73,9 @@ export class Folder extends React.Component {
     );
   }
 
-  makeMessagesTable(messages) {
-    if (messages.length === 0) {
-      return null;
-    }
+  makeMessagesTable() {
+    const messages = this.props.messages;
+    if (messages && messages.length === 0) { return null; }
 
     const makeMessageLink = (content, id) => {
       return <Link to={`/messaging/thread/${id}`}>{content}</Link>;
@@ -122,15 +121,9 @@ export class Folder extends React.Component {
   }
 
   render() {
-    const { attributes, messages } = this.props.folder;
-    let folderName;
-
-    if (!_.isEmpty(attributes)) {
-      folderName = attributes.name;
-    }
-
+    const folderName = _.get(this.props.attributes, 'name');
     const messageNav = this.makeMessageNav();
-    const folderMessages = this.makeMessagesTable(messages);
+    const folderMessages = this.makeMessagesTable();
 
     return (
       <div>
@@ -162,6 +155,7 @@ export class Folder extends React.Component {
 
 const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
+  const { attributes, messages } = folder;
   const pagination = folder.pagination;
   const page = pagination.currentPage;
   const perPage = pagination.perPage;
@@ -172,9 +166,10 @@ const mapStateToProps = (state) => {
   const endCount = Math.min(totalCount, page * perPage);
 
   return {
-    folder,
+    attributes,
     currentRange: `${startCount} - ${endCount}`,
     messageCount: totalCount,
+    messages,
     page,
     totalPages,
     isAdvancedVisible: state.search.advanced.visible,
