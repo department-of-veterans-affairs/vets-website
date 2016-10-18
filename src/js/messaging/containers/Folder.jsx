@@ -22,6 +22,7 @@ export class Folder extends React.Component {
   constructor(props) {
     super(props);
     this.formattedSortParam = this.formattedSortParam.bind(this);
+    this.handlePageSelect = this.handlePageSelect.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.makeMessageNav = this.makeMessageNav.bind(this);
     this.makeMessagesTable = this.makeMessagesTable.bind(this);
@@ -69,6 +70,13 @@ export class Folder extends React.Component {
     });
   }
 
+  handlePageSelect(page) {
+    browserHistory.push({
+      pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
+      query: { ...this.props.location.query, page }
+    });
+  }
+
   makeMessageNav() {
     const { currentRange, messageCount, page, totalPages } = this.props;
 
@@ -76,33 +84,13 @@ export class Folder extends React.Component {
       return null;
     }
 
-    let handleClickPrev;
-    let handleClickNext;
-
-    if (page > 1) {
-      handleClickPrev = () => {
-        browserHistory.push({
-          pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
-          query: { ...this.props.location.query, page: page - 1 }
-        });
-      };
-    }
-
-    if (page < totalPages) {
-      handleClickNext = () => {
-        browserHistory.push({
-          pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
-          query: { ...this.props.location.query, page: page + 1 }
-        });
-      };
-    }
-
     return (
       <MessageNav
           currentRange={currentRange}
           messageCount={messageCount}
-          onClickPrev={handleClickPrev}
-          onClickNext={handleClickNext}/>
+          onPageSelect={this.handlePageSelect}
+          page={page}
+          totalPages={totalPages}/>
     );
   }
 
