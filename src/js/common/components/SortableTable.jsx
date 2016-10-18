@@ -11,7 +11,7 @@ class SortableTable extends React.Component {
     return () => this.props.onSort(value, order);
   }
 
-  makeHeader(field, index) {
+  makeHeader(field) {
     // Determine what sort order the header will yield on the next click.
     // By default, it will be ascending. Only make it descending if
     // the current field is already sorted on in ascending order.
@@ -40,8 +40,7 @@ class SortableTable extends React.Component {
     );
   }
 
-  makeRow(item, index) {
-    let cellIndex = 0;
+  makeRow(item) {
     const cells = this.props.fields.map(field => {
       return <td key={`${item.id}-${field.value}`}>{item[field.value]}</td>;
     });
