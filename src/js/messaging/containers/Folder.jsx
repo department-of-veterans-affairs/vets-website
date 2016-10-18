@@ -24,12 +24,12 @@ export class Folder extends React.Component {
   }
 
   componentDidUpdate() {
-    const newId = +this.props.params.id;
     const oldId = this.props.folder.attributes.folderId;
+    const newId = +this.props.params.id;
 
     const query = _.pick(this.props.location.query, ['page']);
-    const newPage = +query.page;
     const oldPage = this.props.page;
+    const newPage = +query.page || oldPage;
 
     if (newId !== oldId || newPage !== oldPage) {
       this.props.fetchFolder(newId, query);
