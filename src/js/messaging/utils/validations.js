@@ -54,3 +54,33 @@ export function isValidSubjectLine(category, subject) {
   }
   return err;
 }
+
+export function validateFolderName(folderName, existingFolders = []) {
+  const err = {};
+  // TODO: Refactor isNotBlank validator to trim input.
+  const trimmedFolderName = makeField(folderName.value.trim(), folderName.dirty);
+
+  if (!validateIfDirty(trimmedFolderName, isNotBlank)) {
+    err.hasError = true;
+    err.type = 'empty';
+  }
+
+  // Disallows anything other than a-z, 0-9, and space
+  // (case insensitive)
+  const allowedRegExp = /[^a-z0-9\s]/ig;
+  if (allowedRegExp.test(trimmedFolderName.value)) {
+    err.hasError = true;
+    err.type = 'patternMismatch';
+  }
+
+  const doesFolderExist = (folder) => {
+    return trimmedFolderName.value.toLowerCase() === folder.name.toLowerCase();
+  };
+
+  if (!!existingFolders.find(doesFolderExist)) {
+    err.hasError = true;
+    err.type = 'exists';
+  }
+
+  return err;
+}
