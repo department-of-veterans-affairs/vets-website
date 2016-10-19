@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 
+import { formattedDate } from '../utils/helpers';
 import MessageDetails from './MessageDetails';
 import MessageAttachmentsView from './MessageAttachmentsView';
 
@@ -61,11 +61,7 @@ class Message extends React.Component {
             {this.props.attrs.senderName}
           </div>
           <div className="messaging-message-sent-date">
-            {
-              moment(
-                this.props.attrs.sentDate
-              ).format('DD MMM YYYY [@] HH[:]mm')
-            }
+            {formattedDate(this.props.attrs.sentDate)}
           </div>
           {details}
         </div>
