@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import Loading from '../components/Loading';
@@ -45,11 +46,24 @@ class DocumentRequestPage extends React.Component {
             </div>
             : null}
           <h1>{trackedItem.displayName}</h1>
-          {trackedItem.type.endsWith('others_list')
+          {trackedItem.overdue && trackedItem.type.endsWith('you_list')
+            ? <div>
+              <h6 className="past-due"><i className="fa fa-exclamation-triangle"></i> Needed from you</h6>
+              <span className="past-due"> - due {moment(trackedItem.suspenseDate).fromNow()}</span>
+            </div>
+            : null}
+          {!trackedItem.overdue && trackedItem.type.endsWith('you_list')
+            ? <div>
+              <h6 className="due-file"><i className="fa fa-exclamation-triangle"></i> Needed from you</h6>
+              <span className="due-file"> - due {moment(trackedItem.suspenseDate).fromNow()}</span>
+            </div>
+            : null}
+          {!trackedItem.overdue && trackedItem.type.endsWith('others_list')
             ? <div className="optional-upload">
               <p><strong>Optional</strong> - we've requested this from others, but you may upload it if you have it.</p>
             </div>
             : null}
+          <p>{trackedItem.description}</p>
           <AddFilesForm
               field={this.props.uploadField}
               progress={this.props.progress}
