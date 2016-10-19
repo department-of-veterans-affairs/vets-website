@@ -72,7 +72,6 @@ class Address extends React.Component {
             label="City"
             name="city"
             autocomplete="address-level2"
-            placeholder="City or APO/FPO/DPO"
             charMax={30}
             field={this.props.value.city}
             required={this.props.required}
