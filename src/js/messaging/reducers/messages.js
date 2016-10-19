@@ -37,7 +37,7 @@ const resetDraft = (state) => {
   return set('data.draft', initialState.data.draft, state);
 };
 
-export default function folders(state = initialState, action) {
+export default function messages(state = initialState, action) {
   switch (action.type) {
     case ADD_DRAFT_ATTACHMENTS:
       return set('data.draft.attachments', [
