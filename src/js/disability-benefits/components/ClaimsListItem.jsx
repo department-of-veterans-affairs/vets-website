@@ -17,7 +17,7 @@ export default function ClaimsListItem({ claim }) {
           ? <p><i className="fa fa-envelope"></i>We sent you a decision letter</p>
           : null}
         {!claim.attributes.decisionLetterSent && claim.attributes.documentsNeeded
-          ? <p><i className="fa fa-exclamation-triangle"></i>We need files from you</p>
+          ? <p><i className="fa fa-exclamation-triangle"></i>Items need your attention</p>
           : null}
       </div>
       <p>Last update: {moment(claim.attributes.phaseChangeDate).format('MMM M, YYYY')}</p>
