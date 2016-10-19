@@ -219,7 +219,7 @@ hr {
 // Logo and Header
 .header {
   clear: both;
-  padding: 0 0 .5em 0;
+  padding: 0;
   margin: 0;
 
   .login-container {
@@ -308,29 +308,50 @@ h6 {
 }
 
 #content .splash {
-  padding: 0 0 .5em 0;
   margin: 0;
+  background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
+  background-size: contain;
 
   p {
     color: $color-white;
     font-family: $font-sans;
   }
 
-  @media #{$small} {padding: 1em 0;}
-  @media #{$medium} {padding: 2em 0;}
-  @media #{$large} {padding: 2.5em 0;}
+  @media #{$small} {
+    padding: 1em 0;
+    min-height: 0;
+  }
+  @media #{$medium} {
+    padding: 2em 0;
+    min-height: 289px;
+  }
+
+  @media #{$large} {
+    padding: 2.5em 0;
+    min-height: 289px;
+  }
+
+  h2.tagline {
+    max-width: 12em;
+  }
 
   span, h2 {
     padding: 0;
     display: inline;
     line-height: 1.3em;
-    margin: .5em 0 0 0;
+    margin: 0;
     white-space: pre-wrap;
     color: $color-gray-dark;
-    a {background: $color-gold; color: $color-va-gray-cool-dark;}
+    a {background: $color-white; color: $color-primary-darker;}
   }
 
-  h2 span {clear: both; padding: .04em; display: inline-block; background: $color-gold; font-weight: normal;}
+  h2 span {
+    clear: both;
+    padding: 0.75em 1em;
+    display: inline-block;
+    background: $color-white;
+    font-weight: bold;
+  }
   h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
   h2 {
     font-size: 1em;
@@ -375,6 +396,8 @@ h6 {
 
 
 .pitch {
+  text-align: center;
+
   @media #{$small} {
     padding: .5em 0;
   }
