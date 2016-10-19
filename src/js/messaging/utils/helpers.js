@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import moment from 'moment';
 
 export function createQueryString(query) {
   const segments = [];
@@ -43,6 +44,21 @@ export function formatFileSize(bytes, decimalplaces = 2) {
   }
 
   return size;
+}
+
+export function formattedDate(date) {
+  if (!date) { return 'Not available'; }
+
+  const now = moment();
+  const momentDate = moment(date);
+
+  if (momentDate.isSame(now, 'd')) {
+    return momentDate.format('h:mm a');
+  } else if (momentDate.isSame(now, 'y')) {
+    return momentDate.format('MMM D');
+  }
+
+  return momentDate.format('M/D/YYYY');
 }
 
 export function isJson(response) {
