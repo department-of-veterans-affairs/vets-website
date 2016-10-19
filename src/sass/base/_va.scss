@@ -226,6 +226,16 @@ hr {
     background: $color-white;
     padding: 0.5em 0;
   }
+
+  .top-banner {
+    padding: 1em;
+  }
+
+  .flex-auto {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+  }
 }
 
 .va-header-logo {
@@ -1247,6 +1257,7 @@ a.twitter {
   .va-notice--banner {
     background: $color-gray-lightest;
     color: $color-base;
+    margin: 0;
 
     a {
       color: $color-base;
