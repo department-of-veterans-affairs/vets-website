@@ -49,13 +49,6 @@ tr {
   // Get font size to stay the same when table shrinks.
   font-size: 1.6rem;
 
-  th {
-    a {
-      color: $color-gray-dark;
-      text-decoration: none;
-    }
-  }
-
   @media (max-width: $medium-screen) {
     thead {
       left: -9999rem;
@@ -79,6 +72,19 @@ tr {
     td {
       display: table-row;
       border: none;
+    }
+  }
+}
+
+.va-sortable-table {
+  th {
+    a {
+      color: $color-gray-dark;
+      text-decoration: none;
+
+      i {
+        margin-left: 1rem;
+      }
     }
   }
 }
