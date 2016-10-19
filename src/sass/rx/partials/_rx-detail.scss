@@ -111,15 +111,7 @@
       margin-bottom: 0;
     }
 
-    tr {
-      padding: 1.5rem 0;
-    }
-
     td {
-      &:before {
-        font-weight: bold;
-      }
-
       &:nth-child(1):before { content: "Order status: "; }
       &:nth-child(2):before { content: "Tracking status: "; }
     }

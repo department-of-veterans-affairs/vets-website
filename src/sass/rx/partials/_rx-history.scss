@@ -23,15 +23,7 @@
   }
 
   @media (max-width: $medium-screen) {
-    tr {
-      padding: 1.5rem 0;
-    }
-
     td {
-      &:before {
-        font-weight: bold
-      };
-
       // Get the prescription name to appear above the other fields.
       &:nth-child(3) {
         display: table-header-group;
