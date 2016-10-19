@@ -1,12 +1,19 @@
 // TODO: Remove !important when .footer a selector gets simplified
 
+.header {
+  .message {
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+}
+
 .va-crisis-panel {
   color: $color-primary-darkest;
   list-style: none;
   margin: 0;
   padding: 0;
   position: relative;
-  z-index: 2;
+  z-index: -1;
 
   a {
     padding: 0;
@@ -74,13 +81,6 @@
     font-weight: bold;
   }
 
-  &:hover {
-    background-color: $color-gold;
-    border-bottom: none;
-    color: rgb(0,0,0);
-    text-decoration: none;
-  }
-
   @media #{$small-only} {
     padding: .25em 0;
   }
@@ -92,18 +92,18 @@
   margin: 2.5em 0;
 }
 
-.va-crisis-line--notouch {
-  background: $color-gold url(/img/arrow-up.png) no-repeat 97% center;
+a.va-crisis-line {
+  background: $color-white url(/img/arrow-down.png) no-repeat 97% center;
   background-size: .8em auto;
-  border-radius: .2em .2em 0 0;
-  font-size: 1.7rem;
   margin: 0;
-  padding: 1.25rem;
+  padding: 1em;
   text-align: left;
   width: 100%;
+}
 
-  .va-crisis-panel--open & {
-    background-image: url(/img/arrow-down.png);
+.va-crisis-panel--open {
+  a.va-crisis-line {
+    background-image: url(/img/arrow-up.png);
   }
 }
 
