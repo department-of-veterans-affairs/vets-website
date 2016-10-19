@@ -17,23 +17,57 @@ majorlinks:
     description: Apply for VA health care, including preventive care, primary care, and more.
 
 ---
-
 <div class="splash">
+  <div class="row">
+    <div class="small-12 columns">
+      <div class="pitch">
+        <h2 class="tagline"><span>Get the VA services that you've earned.</span></h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="popular-container">
 <div class="row">
-<div class="small-12 columns">
-<div class="pitch">
-<h2 class="tagline"><span>Get the VA services that you've earned.</span></h2>
+  <div class="small-4 mx-auto text-center">
+  <h2 class="gold-ruled">Popular on Vets.gov</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="small-4 columns">
+    <a href='#'>
+      <div class="outline-link-block">
+        Apply for Health Care
+      </div>
+    </a>
+  </div>
+  <div class="small-4 columns">
+    <a href='#'>
+      <div class="outline-link-block">
+        Check Disability Claim Status
+      </div>
+    </a>
+  </div>
+  <div class="small-4 columns">
+    <a href='#'>
+      <div class="outline-link-block">
+        Refill a Prescription
+      </div>
+    </a>
+  </div>
+</div>
+
+<div class="row text-center">
+<div class="text-center mx-auto medium-8 stars-tagline">
+  <h2>The Department of Veterans Affairs is working hard to make it easier for you to get the services you've earned.</h2>
 </div>
 </div>
 </div>
-</div>
+
 
 
 <div class="main" role="main">
-
-<div class="section main-menu">
-{% include "content/includes/main-navigation.html" %}
-</div>
-
-{% include "content/includes/common-and-popular.html" %}
+  <div class="section main-menu">
+    {% include "content/includes/main-navigation.html" %}
+  </div>
 </div>

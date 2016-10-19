@@ -10,6 +10,10 @@
     display: flex;
     align-items: center;
   }
+
+  .crisis-line-container {
+    background: $color-white;
+  }
 }
 
 .va-crisis-panel {
@@ -104,6 +108,17 @@ a.va-crisis-line {
   padding: 1em;
   text-align: left;
   width: 100%;
+
+  &:after{
+    content: "";
+    background: url(/img/vcl-logo.png) no-repeat right 40%;
+    background-size: 100%;
+    display: inline-block;
+    width: 2em;
+    float: right;
+    height: 2em;
+    margin-right: 1.5em;
+  }
 }
 
 .va-crisis-panel--open {

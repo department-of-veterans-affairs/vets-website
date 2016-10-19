@@ -307,6 +307,49 @@ h6 {
   color: $color-gray-dark;
 }
 
+#content .popular-container {
+  background: $color-white;
+  text-align: center;
+
+  .mx-auto {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  h2.gold-ruled {
+    color: $color-primary-darker;
+    padding-bottom: 0.5em;
+    border-bottom: #988530 solid 2px;
+  }
+
+  a {
+    text-decoration: none;
+    color: $color-base;
+
+    &:hover {
+      background: $color-white;
+    }
+  }
+
+  .outline-link-block {
+    border: $color-gray-light solid 1px;
+    margin: 0.5em 1em;
+    padding: 1em;
+  }
+
+  .stars-tagline {
+    &:before{
+      content: "";
+      background: url(/img/stars.png) no-repeat top center;
+      background-size: 100%;
+      display: inline-block;
+      height: 2em;
+      width: 12em;
+      margin-top: 2em;
+    }
+  }
+}
+
 #content .splash {
   margin: 0;
   background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
@@ -351,6 +394,7 @@ h6 {
     display: inline-block;
     background: $color-white;
     font-weight: bold;
+    color: $color-primary-darker;
   }
   h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
   h2 {
