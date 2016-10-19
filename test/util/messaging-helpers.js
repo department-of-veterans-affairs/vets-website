@@ -44,6 +44,9 @@ export const testData = {
       }
     ],
     meta: {
+      sort: {
+        sentDate: 'DESC'
+      },
       pagination: {
         currentPage: 1,
         perPage: 25,
