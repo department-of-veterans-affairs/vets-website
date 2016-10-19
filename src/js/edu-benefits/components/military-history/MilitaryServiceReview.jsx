@@ -31,7 +31,7 @@ export default class MilitaryServiceReview extends React.Component {
           return (<table key={index} className="review usa-table-borderless">
             <thead>
               <tr>
-                <td scope="col">Tour - {tour.serviceBranch.value}</td>
+                <td scope="col">Service Period - {tour.serviceBranch.value}</td>
                 <td scope="col"></td>
               </tr>
             </thead>
