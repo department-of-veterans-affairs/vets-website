@@ -21,7 +21,7 @@
   };
 }
 
-#rx-detail .rx-table {
+#rx-detail table {
   // Get font size to stay the same when table shrinks.
   display: block;
   font-size: 1.6rem;
@@ -40,7 +40,7 @@
     }
   }
 
-  th, td {
+  th {
     white-space: nowrap;
   }
 
@@ -51,6 +51,7 @@
   @media (min-width: $medium-screen) {
     display: inline-block;
     min-width: 45rem;
+    width: 45rem;
   }
 }
 
@@ -92,6 +93,10 @@
 #rx-order-history {
   margin: 3.5rem 0 0 0;
 
+  .rx-track-package-link {
+    display: inline-block;
+  }
+
   table {
     margin: 0;
   }
@@ -104,6 +109,10 @@
     p {
       margin-top: 0;
     }
+
+    td {
+      white-space: nowrap;
+    }
   }
 
   @media (max-width: $medium-screen) {
@@ -111,15 +120,8 @@
       margin-bottom: 0;
     }
 
-    tbody {
-      display: block;
-    }
-
     td {
-      display: block;
-
       &:nth-child(1):before { content: "Order status: "; }
-
       &:nth-child(2):before { content: "Tracking status: "; }
     }
   }
