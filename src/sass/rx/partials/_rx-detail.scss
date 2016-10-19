@@ -40,7 +40,7 @@
     }
   }
 
-  th, td {
+  th {
     white-space: nowrap;
   }
 
@@ -51,6 +51,7 @@
   @media (min-width: $medium-screen) {
     display: inline-block;
     min-width: 45rem;
+    width: 45rem;
   }
 }
 
@@ -92,6 +93,10 @@
 #rx-order-history {
   margin: 3.5rem 0 0 0;
 
+  .rx-track-package-link {
+    display: inline-block;
+  }
+
   table {
     margin: 0;
   }
@@ -103,6 +108,10 @@
 
     p {
       margin-top: 0;
+    }
+
+    td {
+      white-space: nowrap;
     }
   }
 
