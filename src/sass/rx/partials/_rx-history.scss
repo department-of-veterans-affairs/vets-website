@@ -4,7 +4,7 @@
   display: none;
 }
 
-#rx-history .rx-table {
+#rx-history table {
   tr {
     &:last-child {
       td {
@@ -21,9 +21,7 @@
       }
     }
   }
-}
 
-#rx-history .rx-table-list {
   @media (max-width: $medium-screen) {
     td {
       display: table-row;

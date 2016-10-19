@@ -130,7 +130,7 @@ export class Folder extends React.Component {
 
     return (
       <SortableTable
-          className="usa-table-borderless"
+          className="usa-table-borderless va-table-list"
           currentSort={currentSort}
           data={data}
           fields={fields}
