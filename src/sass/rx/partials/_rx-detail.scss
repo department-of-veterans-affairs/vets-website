@@ -21,7 +21,7 @@
   };
 }
 
-#rx-detail .rx-table {
+#rx-detail table {
   // Get font size to stay the same when table shrinks.
   display: block;
   font-size: 1.6rem;
@@ -120,15 +120,8 @@
       margin-bottom: 0;
     }
 
-    tbody {
-      display: block;
-    }
-
     td {
-      display: block;
-
       &:nth-child(1):before { content: "Order status: "; }
-
       &:nth-child(2):before { content: "Tracking status: "; }
     }
   }
