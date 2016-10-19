@@ -35,7 +35,7 @@ class Email extends React.Component {
             required={this.props.required}
             errorMessage={errorMessage}
             label={this.props.label}
-            name="email"
+            name={this.props.name}
             autocomplete="email"
             charMax={50}
             field={this.props.email}
@@ -55,7 +55,12 @@ Email.propTypes = {
   }).isRequired,
   additionalClass: React.PropTypes.string,
   onValueChange: React.PropTypes.func.isRequired,
-  required: React.PropTypes.bool
+  required: React.PropTypes.bool,
+  name: React.PropTypes.string
+};
+
+Email.defaultProps = {
+  name: 'email'
 };
 
 export default Email;
