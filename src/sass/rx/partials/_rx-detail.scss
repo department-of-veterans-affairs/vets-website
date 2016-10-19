@@ -111,15 +111,16 @@
       margin-bottom: 0;
     }
 
-    tbody {
-      display: block;
+    tr {
+      padding: 1.5rem 0;
     }
 
     td {
-      display: block;
+      &:before {
+        font-weight: bold;
+      }
 
       &:nth-child(1):before { content: "Order status: "; }
-
       &:nth-child(2):before { content: "Tracking status: "; }
     }
   }

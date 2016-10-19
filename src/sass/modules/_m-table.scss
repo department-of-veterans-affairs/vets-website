@@ -44,13 +44,14 @@ tr {
   width: 100%;
 }
 
-// Style for tables that transform into a list when viewd in a smaller screen.
+// Tables that transform into lists when viewed in a smaller screen.
 .va-table-list {
   // Get font size to stay the same when table shrinks.
   font-size: 1.6rem;
 
   th {
     a {
+      color: $color-gray-dark;
       text-decoration: none;
     }
   }
@@ -62,22 +63,22 @@ tr {
       top: -9999rem;
     }
 
+    tbody {
+      display: block;
+    }
+
     tr {
       display: block;
-      padding: 1.5rem 0;
 
+      // Line between every row. No border above first row.
       &:nth-child(n+2) {
         border-top: 1px solid $color-gray-light;
       }
     }
 
     td {
+      display: table-row;
       border: none;
-      padding: 0;
-
-      &:before {
-        font-weight: bold;
-      }
     }
   }
 }

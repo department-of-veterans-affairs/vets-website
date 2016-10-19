@@ -23,11 +23,19 @@
   }
 
   @media (max-width: $medium-screen) {
+    tr {
+      padding: 1.5rem 0;
+    }
+
     td {
-      display: table-row;
+      &:before {
+        font-weight: bold
+      };
 
       // Get the prescription name to appear above the other fields.
-      &:nth-child(3) { display: table-header-group; }
+      &:nth-child(3) {
+        display: table-header-group;
+      }
 
       &:nth-child(1):before { content: "Refill requested on: "; }
       &:nth-child(2):before { content: "Fill date: "; }
