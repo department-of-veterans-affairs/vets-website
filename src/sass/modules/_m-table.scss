@@ -44,6 +44,20 @@ tr {
   width: 100%;
 }
 
+// Tables with rows that are sortable by the headers.
+.va-sortable-table {
+  th {
+    & > a {
+      color: $color-gray-dark;
+      text-decoration: none;
+
+      & > i {
+        margin-left: 1rem;
+      }
+    }
+  }
+}
+
 // Tables that transform into lists when viewed in a smaller screen.
 .va-table-list {
   // Get font size to stay the same when table shrinks.
@@ -72,19 +86,6 @@ tr {
     td {
       display: table-row;
       border: none;
-    }
-  }
-}
-
-.va-sortable-table {
-  th {
-    a {
-      color: $color-gray-dark;
-      text-decoration: none;
-
-      i {
-        margin-left: 1rem;
-      }
     }
   }
 }
