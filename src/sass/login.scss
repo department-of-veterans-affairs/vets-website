@@ -4,13 +4,15 @@
 
 .sign-in-link {
   a {
-    color: $white;
+    color: $color-base;
     text-decoration: none;
     &:visited{
-      color: $white;
+      color: $color-base;
     }
     &:hover{
       text-decoration: none;
+      color: $color-base;
+      background: none;
     }
   }
 };
