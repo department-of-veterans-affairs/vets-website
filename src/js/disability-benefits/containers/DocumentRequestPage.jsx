@@ -5,7 +5,16 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import Loading from '../components/Loading';
 
-import { addFile, removeFile, submitFiles, getTrackedItem, updateField, showMailOrFaxModal } from '../actions';
+import {
+  addFile,
+  removeFile,
+  submitFiles,
+  getTrackedItem,
+  updateField,
+  showMailOrFaxModal,
+  cancelUpload,
+  getClaimDetail
+} from '../actions';
 
 class DocumentRequestPage extends React.Component {
   componentWillReceiveProps(props) {
@@ -14,6 +23,7 @@ class DocumentRequestPage extends React.Component {
     }
   }
   goToFilesPage() {
+    this.props.getClaimDetail(this.props.claim.id);
     this.props.router.push(`your-claims/${this.props.claim.id}/files`);
   }
   render() {
@@ -47,13 +57,14 @@ class DocumentRequestPage extends React.Component {
               showMailOrFax={this.props.showMailOrFax}
               onSubmit={() => this.props.submitFiles(
                 this.props.claim.id,
-                this.props.trackedItem.trackedItemId,
+                this.props.trackedItem,
                 this.props.files
               )}
               onAddFile={this.props.addFile}
               onRemoveFile={this.props.removeFile}
               onFieldChange={this.props.updateField}
-              onShowMailOrFax={this.props.showMailOrFaxModal}/>
+              onShowMailOrFax={this.props.showMailOrFaxModal}
+              onCancel={this.props.cancelUpload}/>
         </div>
       );
     }
@@ -96,7 +107,9 @@ const mapDispatchToProps = {
   submitFiles,
   getTrackedItem,
   updateField,
-  showMailOrFaxModal
+  showMailOrFaxModal,
+  cancelUpload,
+  getClaimDetail
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DocumentRequestPage));

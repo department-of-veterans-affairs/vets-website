@@ -240,8 +240,6 @@ a.claim-list-item {
 }
 
 .claim-conditions {
-  margin: 1.5em 0;
-  margin-bottom: 2em;
   h1, p {
     margin: 0;
   }
@@ -512,4 +510,21 @@ p.first-of-type {
 .claim-container {
   margin: 1.5em 0;
   margin-bottom: 2em;
+}
+
+.evidence-submitted-alert {
+  position: relative;
+  margin-bottom: 0.5em;
+  &.usa-alert {
+    background-size: 4.2rem;
+    background-position: 1rem 1.9rem;
+  }
+  > .usa-alert-body {
+    padding-left: 4.2rem;
+  }
+  > button {
+    position: absolute;
+    top: 0.5em;
+    right: 0;
+  }
 }

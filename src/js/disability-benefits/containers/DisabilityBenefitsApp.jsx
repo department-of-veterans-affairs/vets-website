@@ -17,7 +17,7 @@ class DisabilityBenefitsApp extends React.Component {
           ? <div>
             {this.props.children}
           </div>
-          : <div className="columns medium-8"><ClaimsUnavailable/></div>}
+          : <div className="row"><div className="columns medium-8"><ClaimsUnavailable/></div></div>}
       </div>
     );
   }

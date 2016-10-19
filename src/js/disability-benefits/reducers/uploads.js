@@ -8,7 +8,9 @@ import {
   DONE_UPLOADING,
   SET_UPLOAD_ERROR,
   UPDATE_FIELD,
-  SHOW_MAIL_OR_FAX
+  SHOW_MAIL_OR_FAX,
+  CANCEL_UPLOAD,
+  CLEAR_UPLOADED_ITEM
 } from '../actions';
 
 import { makeField } from '../../common/model/fields';
@@ -20,7 +22,8 @@ const initialState = {
   uploadComplete: false,
   uploadError: false,
   uploadField: makeField(''),
-  showMailOrFax: false
+  showMailOrFax: false,
+  uploader: null
 };
 
 export default function claimDetailReducer(state = initialState, action) {
@@ -38,7 +41,9 @@ export default function claimDetailReducer(state = initialState, action) {
       return _.merge(state, {
         uploading: action.uploading,
         uploadError: false,
-        uploadComplete: false
+        uploadComplete: false,
+        uploader: action.uploader,
+        uploadedItem: null
       });
     }
     case SET_PROGRESS: {
@@ -47,13 +52,16 @@ export default function claimDetailReducer(state = initialState, action) {
     case DONE_UPLOADING: {
       return _.merge(state, {
         uploading: false,
-        uploadComplete: true
+        uploadComplete: true,
+        uploader: null,
+        uploadedItem: action.itemName
       });
     }
     case SET_UPLOAD_ERROR: {
       return _.merge(state, {
         uploading: false,
-        uploadError: true
+        uploadError: true,
+        uploader: null
       });
     }
     case UPDATE_FIELD: {
@@ -61,6 +69,15 @@ export default function claimDetailReducer(state = initialState, action) {
     }
     case SHOW_MAIL_OR_FAX: {
       return _.set('showMailOrFax', action.visible, state);
+    }
+    case CANCEL_UPLOAD: {
+      return _.merge(state, {
+        uploading: false,
+        uploader: null
+      });
+    }
+    case CLEAR_UPLOADED_ITEM: {
+      return _.set('uploadedItem', null, state);
     }
     default:
       return state;

@@ -19,6 +19,8 @@ export const SET_PROGRESS = 'SET_PROGRESS';
 export const SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR';
 export const UPDATE_FIELD = 'UPDATE_FIELD';
 export const SHOW_MAIL_OR_FAX = 'SHOW_MAIL_OR_FAX';
+export const CANCEL_UPLOAD = 'CANCEL_UPLOAD';
+export const CLEAR_UPLOADED_ITEM = 'CLEAR_UPLOADED_ITEM';
 
 export function getClaims() {
   return (dispatch) => {
@@ -136,24 +138,15 @@ export function removeFile(index) {
   };
 }
 
-export function submitFiles(claimId, trackedItemId, files) {
+export function submitFiles(claimId, trackedItem, files) {
   let filesComplete = 0;
   let hasError = false;
   return (dispatch) => {
-    dispatch({
-      type: SET_UPLOADING,
-      uploading: true
-    });
-    dispatch({
-      type: SET_PROGRESS,
-      progress: filesComplete / files.length
-    });
-
     const uploader = new FineUploaderBasic({
       request: {
         endpoint: `${environment.API_URL}/v0/disability_claims/${claimId}/documents`,
         params: {
-          trackedItemId
+          trackedItem: trackedItem.trackedItemId
         },
         inputName: 'file'
       },
@@ -166,7 +159,8 @@ export function submitFiles(claimId, trackedItemId, files) {
         onAllComplete: () => {
           if (!hasError) {
             dispatch({
-              type: DONE_UPLOADING
+              type: DONE_UPLOADING,
+              itemName: trackedItem.displayName
             });
           } else {
             dispatch({
@@ -181,11 +175,23 @@ export function submitFiles(claimId, trackedItemId, files) {
             progress: filesComplete / files.length
           });
         },
-        onError: () => {
-          hasError = true;
+        onError: (id, name, reason) => {
+          if (!reason.endsWith('204')) {
+            hasError = true;
+          }
         }
       }
     });
+    dispatch({
+      type: SET_UPLOADING,
+      uploading: true,
+      uploader
+    });
+    dispatch({
+      type: SET_PROGRESS,
+      progress: filesComplete / files.length
+    });
+
     uploader.addFiles(files);
   };
 }
@@ -201,5 +207,25 @@ export function showMailOrFaxModal(visible) {
   return {
     type: SHOW_MAIL_OR_FAX,
     visible
+  };
+}
+
+export function cancelUpload() {
+  return (dispatch, getState) => {
+    const uploader = getState().uploads.uploader;
+
+    if (uploader) {
+      uploader.cancelAll();
+    }
+
+    dispatch({
+      type: CANCEL_UPLOAD
+    });
+  };
+}
+
+export function clearUploadedItem() {
+  return {
+    type: CLEAR_UPLOADED_ITEM
   };
 }

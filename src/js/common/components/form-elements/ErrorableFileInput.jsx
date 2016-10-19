@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 
-class FileInput extends React.Component {
+class ErrorableFileInput extends React.Component {
   constructor() {
     super();
     this.handleChange = this.handleChange.bind(this);
@@ -59,7 +59,7 @@ class FileInput extends React.Component {
   }
 }
 
-FileInput.propTypes = {
+ErrorableFileInput.propTypes = {
   multiple: React.PropTypes.bool,
   buttonText: React.PropTypes.string,
   additionalClass: React.PropTypes.string,
@@ -69,10 +69,10 @@ FileInput.propTypes = {
   errorMessage: React.PropTypes.string
 };
 
-FileInput.defaultProps = {
+ErrorableFileInput.defaultProps = {
   buttonText: 'Add Files',
   mimeTypes: '',
   multiple: false
 };
 
-export default FileInput;
+export default ErrorableFileInput;

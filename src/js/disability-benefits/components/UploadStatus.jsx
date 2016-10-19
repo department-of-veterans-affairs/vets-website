@@ -10,7 +10,10 @@ export default function UploadStatus({ progress, files, onCancel }) {
         <ProgressBar percent={progress * 100}/>
         Your files are uploading. Please do not close this window.
         <p>
-          <a onClick={onCancel} href>Cancel</a>
+          <a onClick={(evt) => {
+            evt.preventDefault();
+            onCancel();
+          }} href>Cancel</a>
         </p>
       </div>
     </div>

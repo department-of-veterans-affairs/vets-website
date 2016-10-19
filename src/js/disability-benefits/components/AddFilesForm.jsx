@@ -1,6 +1,6 @@
 import React from 'react';
 
-import FileInput from '../../common/components/form-elements/FileInput';
+import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
 import Modal from '../../common/components/Modal';
 import { validateIfDirty } from '../../common/utils/validations';
 
@@ -58,7 +58,7 @@ class AddFilesForm extends React.Component {
           }}>Need to mail or fax your files?</a></p>
         </div>
         <div className="button-container">
-          <FileInput
+          <ErrorableFileInput
               errorMessage={this.getErrorMessage()}
               label={<h5>Select files to upload</h5>}
               accept={FILE_TYPES.map(type => `.${type}`).join(',')}
@@ -102,7 +102,8 @@ class AddFilesForm extends React.Component {
             cssClass="claims-upload-modal"
             contents={<UploadStatus
                 progress={this.props.progress}
-                files={this.props.files.length}/>}/>
+                files={this.props.files.length}
+                onCancel={this.props.onCancel}/>}/>
         <Modal
             onClose={() => true}
             visible={this.props.showMailOrFax}
@@ -122,7 +123,8 @@ AddFilesForm.propTypes = {
   onSubmit: React.PropTypes.func.isRequired,
   onAddFile: React.PropTypes.func.isRequired,
   onRemoveFile: React.PropTypes.func.isRequired,
-  onFieldChange: React.PropTypes.func.isRequired
+  onFieldChange: React.PropTypes.func.isRequired,
+  onCancel: React.PropTypes.func.isRequired
 };
 
 export default AddFilesForm;
