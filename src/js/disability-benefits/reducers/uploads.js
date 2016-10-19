@@ -10,10 +10,11 @@ import {
   UPDATE_FIELD,
   SHOW_MAIL_OR_FAX,
   CANCEL_UPLOAD,
-  CLEAR_UPLOADED_ITEM
+  CLEAR_UPLOADED_ITEM,
+  SET_FIELDS_DIRTY
 } from '../actions';
 
-import { makeField } from '../../common/model/fields';
+import { makeField, dirtyAllFields } from '../../common/model/fields';
 
 const initialState = {
   files: [],
@@ -32,7 +33,14 @@ export default function claimDetailReducer(state = initialState, action) {
       return initialState;
     }
     case ADD_FILE: {
-      return _.set('files', state.files.concat(Array.prototype.slice.call(action.files)), state);
+      const files = Array.prototype.map.call(action.files, (file) => {
+        return {
+          file,
+          docType: makeField('')
+        };
+      });
+
+      return _.set('files', state.files.concat(files), state);
     }
     case REMOVE_FILE: {
       return _.set('files', state.files.filter((file, index) => index !== action.index), state);
@@ -54,7 +62,8 @@ export default function claimDetailReducer(state = initialState, action) {
         uploading: false,
         uploadComplete: true,
         uploader: null,
-        uploadedItem: action.itemName
+        uploadedItem: action.itemName,
+        files: []
       });
     }
     case SET_UPLOAD_ERROR: {
@@ -65,7 +74,7 @@ export default function claimDetailReducer(state = initialState, action) {
       });
     }
     case UPDATE_FIELD: {
-      return _.set('uploadField', action.field, state);
+      return _.set(action.path, action.field, state);
     }
     case SHOW_MAIL_OR_FAX: {
       return _.set('showMailOrFax', action.visible, state);
@@ -78,6 +87,9 @@ export default function claimDetailReducer(state = initialState, action) {
     }
     case CLEAR_UPLOADED_ITEM: {
       return _.set('uploadedItem', null, state);
+    }
+    case SET_FIELDS_DIRTY: {
+      return dirtyAllFields(state);
     }
     default:
       return state;

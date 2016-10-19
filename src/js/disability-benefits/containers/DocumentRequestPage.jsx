@@ -13,7 +13,8 @@ import {
   updateField,
   showMailOrFaxModal,
   cancelUpload,
-  getClaimDetail
+  getClaimDetail,
+  setFieldsDirty
 } from '../actions';
 
 class DocumentRequestPage extends React.Component {
@@ -64,7 +65,8 @@ class DocumentRequestPage extends React.Component {
               onRemoveFile={this.props.removeFile}
               onFieldChange={this.props.updateField}
               onShowMailOrFax={this.props.showMailOrFaxModal}
-              onCancel={this.props.cancelUpload}/>
+              onCancel={this.props.cancelUpload}
+              onDirtyFields={this.props.setFieldsDirty}/>
         </div>
       );
     }
@@ -109,7 +111,8 @@ const mapDispatchToProps = {
   updateField,
   showMailOrFaxModal,
   cancelUpload,
-  getClaimDetail
+  getClaimDetail,
+  setFieldsDirty
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DocumentRequestPage));

@@ -1,3 +1,5 @@
+import { isNotBlank } from '../../common/utils/validations';
+
 const MAX_FILE_SIZE = 25 * 1024 * 1024;
 export const FILE_TYPES = [
   'pdf',
@@ -20,4 +22,8 @@ export function isValidFileType(file) {
 
 export function isValidFile(file) {
   return isValidFileSize(file) && isValidFileType(file);
+}
+
+export function isValidDocument({ file, docType }) {
+  return isNotBlank(docType.value) && isValidFile(file);
 }

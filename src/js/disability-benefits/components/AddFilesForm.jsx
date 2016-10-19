@@ -1,13 +1,15 @@
 import React from 'react';
 
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
+import ErrorableSelect from '../../common/components/form-elements/ErrorableSelect';
+
 import Modal from '../../common/components/Modal';
-import { validateIfDirty } from '../../common/utils/validations';
+import { validateIfDirty, isNotBlank } from '../../common/utils/validations';
 
 import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';
-import { displayFileSize } from '../utils/helpers';
-import { isValidFile, isValidFileSize, isValidFileType, FILE_TYPES } from '../utils/validations';
+import { displayFileSize, DOC_TYPES } from '../utils/helpers';
+import { isValidFile, isValidDocument, isValidFileSize, isValidFileType, FILE_TYPES } from '../utils/validations';
 
 const displayTypes = FILE_TYPES.map(type => (type === 'pdf' ? 'pdf (unlocked)' : type)).join(', ');
 
@@ -42,10 +44,10 @@ class AddFilesForm extends React.Component {
     }
   }
   submit() {
-    if (this.props.files.length > 0 && this.props.files.every(isValidFile)) {
+    if (this.props.files.length > 0 && this.props.files.every(isValidDocument)) {
       this.props.onSubmit();
     } else {
-      this.props.onFieldChange({ dirty: true, value: '' });
+      this.props.onDirtyFields();
     }
   }
   render() {
@@ -71,9 +73,9 @@ class AddFilesForm extends React.Component {
           <p className="file-requirement-header">Accepted file types:</p>
           <p className="file-requirement-text">{displayTypes}</p>
           <p className="file-requirement-header">Maximum file size:</p>
-          <p className="file-requirement-text">{"25MB"}</p>
+          <p className="file-requirement-text">25MB</p>
         </div>
-        {this.props.files.map((file, index) =>
+        {this.props.files.map(({ file, docType }, index) =>
           <div key={index} className="document-item-container">
             <div className="document-title-size">
               <div className="document-title-header">
@@ -82,6 +84,15 @@ class AddFilesForm extends React.Component {
               <div className="document-size-text">
                 <p className="size">{displayFileSize(file.size)}</p>
               </div>
+              <ErrorableSelect
+                  required
+                  errorMessage={validateIfDirty(docType, isNotBlank) ? undefined : 'Please provide a response'}
+                  name="docType"
+                  label="What type of document is this?"
+                  options={DOC_TYPES}
+                  value={docType}
+                  emptyDescription="Select a description"
+                  onValueChange={(update) => this.props.onFieldChange(`files[${index}].docType`, update)}/>
             </div>
             <div className="remove-document-button">
               <button className="usa-button-outline" onClick={() => this.props.onRemoveFile(index)}>Remove</button>
@@ -124,7 +135,8 @@ AddFilesForm.propTypes = {
   onAddFile: React.PropTypes.func.isRequired,
   onRemoveFile: React.PropTypes.func.isRequired,
   onFieldChange: React.PropTypes.func.isRequired,
-  onCancel: React.PropTypes.func.isRequired
+  onCancel: React.PropTypes.func.isRequired,
+  onDirtyFields: React.PropTypes.func.isRequired
 };
 
 export default AddFilesForm;

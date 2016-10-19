@@ -1,6 +1,8 @@
 import environment from '../../common/helpers/environment';
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
 
+import { getDocTypeDescription } from '../utils/helpers';
+
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
 export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
@@ -21,6 +23,7 @@ export const UPDATE_FIELD = 'UPDATE_FIELD';
 export const SHOW_MAIL_OR_FAX = 'SHOW_MAIL_OR_FAX';
 export const CANCEL_UPLOAD = 'CANCEL_UPLOAD';
 export const CLEAR_UPLOADED_ITEM = 'CLEAR_UPLOADED_ITEM';
+export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
 
 export function getClaims() {
   return (dispatch) => {
@@ -192,13 +195,19 @@ export function submitFiles(claimId, trackedItem, files) {
       progress: filesComplete / files.length
     });
 
-    uploader.addFiles(files);
+    files.forEach(({ file, docType }) => {
+      uploader.addFiles(file, {
+        docType: docType.value,
+        docTypeDescription: getDocTypeDescription(docType.value)
+      });
+    });
   };
 }
 
-export function updateField(field) {
+export function updateField(path, field) {
   return {
     type: UPDATE_FIELD,
+    path,
     field
   };
 }
@@ -227,5 +236,11 @@ export function cancelUpload() {
 export function clearUploadedItem() {
   return {
     type: CLEAR_UPLOADED_ITEM
+  };
+}
+
+export function setFieldsDirty() {
+  return {
+    type: SET_FIELDS_DIRTY
   };
 }
