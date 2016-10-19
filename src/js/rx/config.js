@@ -14,10 +14,6 @@ module.exports = {
     definition: 'A prescription that can be filled at the local VA pharmacy. If you have refills, you may request a refill of this prescription from your VA pharmacy.'
   },
   {
-    term: 'Deleted',
-    definition: ''
-  },
-  {
     term: 'Discontinued',
     definition: 'A prescription your provider has stopped. It is no longer available to be sent to you or pick up at the VA pharmacy window. Contact your VA healthcare team if you need more of this medication.'
   },
@@ -28,10 +24,6 @@ module.exports = {
   {
     term: 'Hold',
     definition: 'This prescription cannot be refilled until a hold is resolved by the pharmacy. Contact your VA pharmacy if you need this prescription now.'
-  },
-  {
-    term: 'nonVerified',
-    definition: ''
   },
   {
     term: 'Pending',
@@ -52,12 +44,17 @@ module.exports = {
 
   rxStatuses: {
     active: 'Active',
+    deleted: 'Unknown',
     discontinued: 'Discontinued',
+    discontinuedByProvider: 'Discontinued',
+    discontinuedEdit: 'Discontinued',
     expired: 'Expired',
     hold: 'Hold',
+    nonVerified: 'Unknown',
+    providerHold: 'Hold',
     submitted: 'Pending',
     suspended: 'Suspended',
-    refillinprocess: 'In process',
+    refillinprocess: 'Refill in process',
     unknown: 'Unknown'
   },
 
