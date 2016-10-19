@@ -99,14 +99,14 @@ If your claim is complex, it may take us longer to review.
 
 ###### Documents you’ll need
 
-For the first compensation claim you send VA, you'll need:
+For the first compensation claim you send us, please provide:
 
 - Discharge papers (DD214 or equivalent)
 - Service treatment records
 
 Order these through the [National Archives]( https://www.archives.gov/veterans/military-service-records/).
 
-For all compensation claims, please give us:
+For all compensation claims, please provide:
 
 - VA medical records and hospital reports that relate to your claimed conditions
 - Private medical records and hospital reports that relate to your claimed conditions
@@ -139,7 +139,7 @@ Choose 1 of 3 ways:
 
 ##### VA Review
 
-###### The amount of time it takes to process your claim depends on:
+###### The amount of time it takes to review your claim depends on:
 
 - The type of claim you filed, such as compensation or claim for increased evaluation
 - How many injuries or disabilities you claimed and how complex they are
@@ -150,7 +150,7 @@ Choose 1 of 3 ways:
 
 <div class="feature" markdown="1">
 
-###### Here’s what happens once you’ve filed your claim:
+###### Here’s what happens after you file your claim:
 
 1. VA receives your claim. **(Claim Received)**
 2. A Veterans Service Representative (VSR) examines your claim to determine if we need any more information to make a decision. **(Under Review)**
@@ -191,7 +191,7 @@ No. You don't need to do anything else unless we send you a letter asking for mo
 - The RVSR decides your claim after reviewing all evidence in your record, including the initial application, VA claim exam reports, and service treatment records.
 - After deciding the claim, the RVSR routes it to a VSR to record the decision and write the decision notice (the letter you'll get). A Senior Veterans Service Representative (SVSR) reviews the completed documents, then approves release of the decision notice and any payment.
 
-If you disagree with the decision, you can appeal it. The decision letter has appeal information. [File an appeal](/disability-benefits/claims-appeal/).
+If you disagree with the decision, you can appeal it. The decision notice has appeal information. [File an appeal](/disability-benefits/claims-appeal/).
 
 </div>
 
