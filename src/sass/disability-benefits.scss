@@ -366,14 +366,6 @@ a.claim-list-item {
   }
 }
 
-@media only screen {
-  .claim-conditions,
-  .ask-va-questions {
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
-  }
-}
-
 .need-files-from-you {
   // background-color: #fff1d0; // TODO: replace with vaiable
   // padding: 1em;
@@ -499,5 +491,25 @@ p.first-of-type {
 
   .claims-status-upload-inner {
     padding: 1em;
+    p:first-child {
+      margin-top: 0;
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
   }
+}
+
+.claims-upload-input {
+  h5 {
+    padding-bottom: 0 !important;
+  }
+  .usa-input-error-message {
+    margin-bottom: 1em;
+  }
+}
+
+.claim-container {
+  margin: 1.5em 0;
+  margin-bottom: 2em;
 }

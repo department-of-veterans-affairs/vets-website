@@ -2,48 +2,70 @@ import React from 'react';
 
 import FileInput from '../../common/components/form-elements/FileInput';
 import Modal from '../../common/components/Modal';
+import { validateIfDirty } from '../../common/utils/validations';
 
 import UploadStatus from './UploadStatus';
+import MailOrFax from './MailOrFax';
+import { displayFileSize } from '../utils/helpers';
+import { isValidFile, isValidFileSize, isValidFileType, FILE_TYPES } from '../utils/validations';
 
-function displayFileSize(size) {
-  if (size < 1024) {
-    return `${size}B`;
-  }
-
-  const kbSize = size / 1024;
-  if (kbSize < 1024) {
-    return `${Math.round(kbSize)}KB`;
-  }
-
-  const mbSize = kbSize / 1024;
-  return `${Math.round(mbSize)}MB`;
-}
-
-const mimeTypes = [
-  'pdf',
-  'gif',
-  'tiff',
-  'tif',
-  'jpeg',
-  'jpg',
-  'bmp',
-  'txt'
-];
-
-const displayTypes = mimeTypes.map(type => (type === 'pdf' ? 'pdf (unlocked)' : type)).join(', ');
-
+const displayTypes = FILE_TYPES.map(type => (type === 'pdf' ? 'pdf (unlocked)' : type)).join(', ');
 
 class AddFilesForm extends React.Component {
+  constructor() {
+    super();
+    this.add = this.add.bind(this);
+    this.getErrorMessage = this.getErrorMessage.bind(this);
+    this.submit = this.submit.bind(this);
+    this.state = { errorMessage: null };
+  }
+  getErrorMessage() {
+    if (this.state.errorMessage) {
+      return this.state.errorMessage;
+    }
+    return validateIfDirty(this.props.field, () => this.props.files.length > 0)
+      ? undefined
+      : 'Please select a file first';
+  }
+  add(files) {
+    const file = files[0];
+
+    if (isValidFile(file)) {
+      this.setState({ errorMessage: null });
+      this.props.onAddFile(files);
+    } else if (!isValidFileType(file)) {
+      this.setState({ errorMessage: 'Please choose a file from one of the accepted types.' });
+    } else if (!isValidFileSize(file)) {
+      this.setState({
+        errorMessage: 'The file you selected is larger than the 25MB maximum file size and could not be added.'
+      });
+    }
+  }
+  submit() {
+    if (this.props.files.length > 0 && this.props.files.every(isValidFile)) {
+      this.props.onSubmit();
+    } else {
+      this.props.onFieldChange({ dirty: true, value: '' });
+    }
+  }
   render() {
     return (
       <div className="upload-files">
-        <h4>Select files to upload</h4>
+        <div className="mail-or-fax-files">
+          <p><a href onClick={(evt) => {
+            evt.preventDefault();
+            this.props.onShowMailOrFax(true);
+          }}>Need to mail or fax your files?</a></p>
+        </div>
         <div className="button-container">
           <FileInput
-              mimeTypes={mimeTypes.join(',')}
-              onChange={files => this.props.onAddFile(files[0])}
+              errorMessage={this.getErrorMessage()}
+              label={<h5>Select files to upload</h5>}
+              accept={FILE_TYPES.map(type => `.${type}`).join(',')}
+              onChange={this.add}
               buttonText="Add Files"
-              name="fileUpload"/>
+              name="fileUpload"
+              additionalClass="claims-upload-input"/>
         </div>
         <div className="file-requirements">
           <p className="file-requirement-header">Accepted file types:</p>
@@ -52,7 +74,7 @@ class AddFilesForm extends React.Component {
           <p className="file-requirement-text">{"25MB"}</p>
         </div>
         {this.props.files.map((file, index) =>
-          <div key={file.name} className="document-item-container">
+          <div key={index} className="document-item-container">
             <div className="document-title-size">
               <div className="document-title-header">
                 <h4 className="title">{file.name}</h4>
@@ -68,9 +90,8 @@ class AddFilesForm extends React.Component {
           </div>)}
         <div className="button-container">
           <button
-              disabled={this.props.files.length === 0}
-              className={this.props.files.length === 0 ? 'usa-button usa-button-disabled' : 'usa-button'}
-              onClick={this.props.onSubmit}>
+              className="usa-button"
+              onClick={this.submit}>
             Submit Files for Review
           </button>
         </div>
@@ -82,6 +103,12 @@ class AddFilesForm extends React.Component {
             contents={<UploadStatus
                 progress={this.props.progress}
                 files={this.props.files.length}/>}/>
+        <Modal
+            onClose={() => true}
+            visible={this.props.showMailOrFax}
+            hideCloseButton
+            cssClass="claims-upload-modal"
+            contents={<MailOrFax onClose={() => this.props.onShowMailOrFax(false)}/>}/>
       </div>
     );
   }
@@ -89,9 +116,13 @@ class AddFilesForm extends React.Component {
 
 AddFilesForm.propTypes = {
   files: React.PropTypes.array.isRequired,
+  field: React.PropTypes.object.isRequired,
+  uploading: React.PropTypes.bool,
+  showMailOrFax: React.PropTypes.bool,
   onSubmit: React.PropTypes.func.isRequired,
   onAddFile: React.PropTypes.func.isRequired,
-  onRemoveFile: React.PropTypes.func.isRequired
+  onRemoveFile: React.PropTypes.func.isRequired,
+  onFieldChange: React.PropTypes.func.isRequired
 };
 
 export default AddFilesForm;

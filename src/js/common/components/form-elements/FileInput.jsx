@@ -16,17 +16,44 @@ class FileInput extends React.Component {
   }
 
   render() {
+    let errorSpan = '';
+    let errorSpanId = undefined;
+    let inputErrorClass = undefined;
+    let labelErrorClass = undefined;
+
+    if (this.props.errorMessage) {
+      errorSpanId = `${this.inputId}-error-message`;
+      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
+      inputErrorClass = 'usa-input-error';
+      labelErrorClass = 'usa-input-error-label';
+    }
+
+    // Calculate required.
+    let requiredSpan = undefined;
+    if (this.props.required) {
+      requiredSpan = <span className="form-required-span">*</span>;
+    }
+
     return (
       <div className={this.props.additionalClass}>
-        <label htmlFor={this.inputId} className="usa-button usa-button-outline">{this.props.buttonText}</label>
-        <input
-            multiple={this.props.multiple}
-            style={{ display: 'none' }}
-            type="file"
-            accept={this.props.mimeTypes}
-            id={this.inputId}
-            name={this.props.name}
-            onChange={this.handleChange}/>
+        <div className={inputErrorClass}>
+          <label
+              className={labelErrorClass}
+              htmlFor={this.inputId}>
+                {this.props.label}
+                {requiredSpan}
+          </label>
+          {errorSpan}
+          <label htmlFor={this.inputId} className="usa-button usa-button-outline">{this.props.buttonText}</label>
+          <input
+              multiple={this.props.multiple}
+              style={{ display: 'none' }}
+              type="file"
+              accept={this.props.accept}
+              id={this.inputId}
+              name={this.props.name}
+              onChange={this.handleChange}/>
+        </div>
       </div>
     );
   }
@@ -37,8 +64,9 @@ FileInput.propTypes = {
   buttonText: React.PropTypes.string,
   additionalClass: React.PropTypes.string,
   onChange: React.PropTypes.func.isRequired,
-  mimeTypes: React.PropTypes.string,
-  name: React.PropTypes.string.isRequired
+  accept: React.PropTypes.string,
+  name: React.PropTypes.string.isRequired,
+  errorMessage: React.PropTypes.string
 };
 
 FileInput.defaultProps = {

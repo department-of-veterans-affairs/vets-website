@@ -17,6 +17,8 @@ export const SET_UPLOADING = 'SET_UPLOADING';
 export const DONE_UPLOADING = 'DONE_UPLOADING';
 export const SET_PROGRESS = 'SET_PROGRESS';
 export const SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR';
+export const UPDATE_FIELD = 'UPDATE_FIELD';
+export const SHOW_MAIL_OR_FAX = 'SHOW_MAIL_OR_FAX';
 
 export function getClaims() {
   return (dispatch) => {
@@ -73,8 +75,10 @@ export function getClaimDetail(id) {
 
         return Promise.reject(res.statusText);
       })
-      .then(resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data }))
-      .catch(() => dispatch({ type: SET_UNAVAILABLE }));
+      .then(
+        resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data }),
+        () => dispatch({ type: SET_UNAVAILABLE })
+      );
   };
 }
 
@@ -114,18 +118,14 @@ export function getTrackedItem(id) {
         type: SET_TRACKED_ITEM,
         item
       });
-    } else {
-      dispatch({
-        type: SET_UNAVAILABLE
-      });
     }
   };
 }
 
-export function addFile(file) {
+export function addFile(files) {
   return {
     type: ADD_FILE,
-    file
+    files
   };
 }
 
@@ -137,11 +137,16 @@ export function removeFile(index) {
 }
 
 export function submitFiles(claimId, trackedItemId, files) {
-  const totalBytes = files.reduce((sum, file) => sum + file.size, 0);
-  return (dispatch, getState) => {
+  let filesComplete = 0;
+  let hasError = false;
+  return (dispatch) => {
     dispatch({
       type: SET_UPLOADING,
       uploading: true
+    });
+    dispatch({
+      type: SET_PROGRESS,
+      progress: filesComplete / files.length
     });
 
     const uploader = new FineUploaderBasic({
@@ -159,25 +164,42 @@ export function submitFiles(claimId, trackedItemId, files) {
       multiple: false,
       callbacks: {
         onAllComplete: () => {
-          if (!getState().trackedItem.uploads.uploadError) {
+          if (!hasError) {
             dispatch({
               type: DONE_UPLOADING
             });
+          } else {
+            dispatch({
+              type: SET_UPLOAD_ERROR
+            });
           }
         },
-        onTotalProgress: (bytes) => {
+        onComplete: () => {
+          filesComplete++;
           dispatch({
             type: SET_PROGRESS,
-            progress: bytes / totalBytes
+            progress: filesComplete / files.length
           });
         },
         onError: () => {
-          dispatch({
-            type: SET_UPLOAD_ERROR
-          });
+          hasError = true;
         }
       }
     });
     uploader.addFiles(files);
+  };
+}
+
+export function updateField(field) {
+  return {
+    type: UPDATE_FIELD,
+    field
+  };
+}
+
+export function showMailOrFaxModal(visible) {
+  return {
+    type: SHOW_MAIL_OR_FAX,
+    visible
   };
 }

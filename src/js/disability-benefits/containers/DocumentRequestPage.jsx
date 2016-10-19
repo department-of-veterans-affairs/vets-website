@@ -5,7 +5,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import Loading from '../components/Loading';
 
-import { addFile, removeFile, submitFiles, getTrackedItem } from '../actions';
+import { addFile, removeFile, submitFiles, getTrackedItem, updateField, showMailOrFaxModal } from '../actions';
 
 class DocumentRequestPage extends React.Component {
   componentWillReceiveProps(props) {
@@ -22,34 +22,38 @@ class DocumentRequestPage extends React.Component {
     if (this.props.loading) {
       content = <Loading/>;
     } else {
+      const trackedItem = this.props.trackedItem;
       content = (
-        <div>
+        <div className="claim-container">
           {this.props.uploadError
             ? <div className="upload-error usa-alert usa-alert-error">
               <div className="usa-alert-body">
                 <h3 className="usa-alert-heading">Error uploading Files</h3>
-                <p className="usa-alert-text">{"There was an error uploading your files. Please try again"}</p>
+                <p className="usa-alert-text">There was an error uploading your files. Please try again</p>
               </div>
             </div>
             : null}
-          <h1>{this.props.trackedItem.displayName}</h1>
-          <div className="optional-upload">
-            <p><strong>Optional</strong> - we've requested this from others, but you may upload it if you have it.</p>
-          </div>
-          <div className="mail-or-fax-files">
-            <p><a href="/">Need to mail or fax your files?</a></p>
-          </div>
+          <h1>{trackedItem.displayName}</h1>
+          {trackedItem.type.endsWith('others_list')
+            ? <div className="optional-upload">
+              <p><strong>Optional</strong> - we've requested this from others, but you may upload it if you have it.</p>
+            </div>
+            : null}
           <AddFilesForm
+              field={this.props.uploadField}
               progress={this.props.progress}
               uploading={this.props.uploading}
               files={this.props.files}
+              showMailOrFax={this.props.showMailOrFax}
               onSubmit={() => this.props.submitFiles(
                 this.props.claim.id,
                 this.props.trackedItem.trackedItemId,
                 this.props.files
               )}
               onAddFile={this.props.addFile}
-              onRemoveFile={this.props.removeFile}/>
+              onRemoveFile={this.props.removeFile}
+              onFieldChange={this.props.updateField}
+              onShowMailOrFax={this.props.showMailOrFaxModal}/>
         </div>
       );
     }
@@ -76,11 +80,13 @@ function mapStateToProps(state, ownProps) {
     loading: state.claimDetail.loading,
     claim: state.claimDetail.detail,
     trackedItem,
-    files: state.trackedItem.uploads.files,
-    uploading: state.trackedItem.uploads.uploading,
-    progress: state.trackedItem.uploads.progress,
-    uploadError: state.trackedItem.uploads.uploadError,
-    uploadComplete: state.trackedItem.uploads.uploadComplete
+    files: state.uploads.files,
+    uploading: state.uploads.uploading,
+    progress: state.uploads.progress,
+    uploadError: state.uploads.uploadError,
+    uploadComplete: state.uploads.uploadComplete,
+    uploadField: state.uploads.uploadField,
+    showMailOrFax: state.uploads.showMailOrFax
   };
 }
 
@@ -88,7 +94,9 @@ const mapDispatchToProps = {
   addFile,
   removeFile,
   submitFiles,
-  getTrackedItem
+  getTrackedItem,
+  updateField,
+  showMailOrFaxModal
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DocumentRequestPage));
