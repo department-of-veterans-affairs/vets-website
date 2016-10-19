@@ -1171,13 +1171,20 @@ a.twitter {
 
 }
 
+.header {
+  .va-notice--banner {
+  background: $color-gray-lightest;
+  }
+}
+
 // Notice / feedback banners
 .va-notice--banner {
   background: $color-primary-darker;
   margin: 0 0 .75em 0;
-  padding: .5em;
+  padding: 1em .5em;
   font-size: .9em;
   font-weight: 300;
+  color: $color-base;
 
   p {
     margin: 0;
@@ -1185,7 +1192,7 @@ a.twitter {
 
   a {
     background-image: none;
-    color: $color-white;
+    color: $color-base;
     padding: 0;
   }
 
@@ -2034,7 +2041,7 @@ pre[class*='language-']  {
     width: 35rem;
   }
 
-  #content & p, 
+  #content & p,
   #content & h3 {
     padding: 0;
     margin: 0;
