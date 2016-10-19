@@ -167,26 +167,21 @@ export function saveDraft(message) {
 }
 
 export function sendMessage(message) {
-  const payload = {
-    message: {
-      // Include id when API supports automatically deleting
-      // the draft when sending a message.
-      // id: message.messageId,
-      category: message.category,
-      subject: message.subject,
-      body: message.body,
-      recipientId: message.recipientId
-    }
-  };
+  const payload = new FormData();
+  payload.append('message[recipient_id]', message.recipientId);
+  payload.append('message[category]', message.category);
+  payload.append('message[subject]', message.subject);
+  payload.append('message[body]', message.body);
 
-  const newPayload = new FormData();
-  newPayload.append('message',JSON.stringify(payload.message));
-  
-  const settings = Object.assign({}, api.settings.postMultiPart,  {
-    body: JSON.stringify(payload)
+  // Add each attachment as a separate item
+  message.attachments.map((file) => {
+    payload.append('uploads[]', file);
+    return true;
   });
 
-  
+  const settings = Object.assign({}, api.settings.postFormData, {
+    body: payload
+  });
 
   return dispatch => {
     fetch(baseUrl, settings)

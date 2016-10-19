@@ -17,14 +17,10 @@ module.exports = {
           'Content-Type': 'application/json'
         })
       },
-      postMultiPart: {
-        method: 'POST',
-        headers: Object.assign({}, headers, {
-          'Content-Type': 'multipart/form-data',
-          'Accept' : 'application/json'
-        })
+     // For sending binary data requests. Assumes use of FormData API.
+      postFormData: {
+        method: 'POST'
       },
-
       put: {
         method: 'PUT',
         headers: Object.assign({}, headers, {
