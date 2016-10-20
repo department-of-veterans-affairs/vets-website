@@ -528,11 +528,12 @@ p.first-of-type {
   > .usa-alert-body {
     padding-left: 4.2rem;
   }
-  button {
+  a.usa-button {
     position: absolute;
-    top: 0.5em;
-    right: 0;
+    top: .75em;
+    right: 1em;
     width: auto;
+    margin: 0;
   }
 }
 
