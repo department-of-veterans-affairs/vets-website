@@ -2,7 +2,7 @@
 import { expect } from 'chai';
 
 import claimsList from '../../../src/js/disability-benefits/reducers/claims-list';
-import { SET_CLAIMS, CHANGE_CLAIMS_PAGE } from '../../../src/js/disability-benefits/actions';
+import { SET_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL } from '../../../src/js/disability-benefits/actions';
 
 describe('Claims list reducer', () => {
   it('should populate the claims list', () => {
@@ -31,5 +31,14 @@ describe('Claims list reducer', () => {
 
     expect(state.visibleRows).to.deep.equal(claims.slice(10, 12));
     expect(state.page).to.equal(2);
+  });
+
+  it('should toggle modal flag', () => {
+    const state = claimsList({}, {
+      type: SHOW_CONSOLIDATED_MODAL,
+      visible: true
+    });
+
+    expect(state.consolidatedModal).to.be.true;
   });
 });
