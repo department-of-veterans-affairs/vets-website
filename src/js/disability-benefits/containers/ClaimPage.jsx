@@ -6,6 +6,7 @@ import { getClaimDetail } from '../actions';
 class ClaimPage extends React.Component {
   componentDidMount() {
     this.props.getClaimDetail(this.props.params.id);
+    document.title = 'Your Compensation Claim';
   }
   render() {
     return this.props.children;

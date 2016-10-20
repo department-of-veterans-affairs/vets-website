@@ -11,11 +11,16 @@ module.exports = {
         method: 'GET',
         headers
       },
-      post: {
+      postJson: {
         method: 'POST',
         headers: Object.assign({}, headers, {
           'Content-Type': 'application/json'
         })
+      },
+     // For sending binary data requests. Assumes use of FormData API.
+      postFormData: {
+        method: 'POST',
+        headers
       },
       put: {
         method: 'PUT',
