@@ -17,7 +17,7 @@
       }
     }
 
-    p {
+    .messaging-message-body {
       margin: 0;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -61,6 +61,10 @@
 
 .messaging-message-recipient {
   color: $color-gray-medium;
+}
+
+.messaging-message-body {
+  margin-top: 2rem;
 }
 
 .messaging-thread-message:last-child {
