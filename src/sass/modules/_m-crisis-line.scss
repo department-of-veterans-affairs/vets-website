@@ -13,6 +13,9 @@
 
   .crisis-line-container {
     background: $color-white;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
   }
 }
 
@@ -23,6 +26,8 @@
   padding: 0;
   position: relative;
   z-index: -1;
+  width: 100%;
+  left: 0.03em;
 
   a {
     padding: 0;
@@ -53,8 +58,6 @@
 
 .va-crisis-panel--notouch {
   top: 0;
-  right: 0.5em;
-  width: calc(100% - 1em);
   position: absolute;
   opacity: 0;
   -webkit-transition: transform 250ms;
@@ -76,25 +79,6 @@
   }
 }
 
-.va-crisis-line {
-  background-color: $color-gold;
-  color: rgb(0,0,0);
-  display: block;
-  font-weight: bold !important;
-  margin: 0 auto;
-  padding: .25rem 0;
-  text-align: center;
-  text-decoration: none !important;
-
-  span {
-    font-weight: bold;
-  }
-
-  @media #{$small-only} {
-    padding: .25em 0;
-  }
-}
-
 //===== VA CRISIS LINE BUTTONS
 .va-crisis-line--touch {
   border-radius: .2em;
@@ -108,16 +92,25 @@ a.va-crisis-line {
   padding: 1em;
   text-align: left;
   width: 100%;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 
-  &:after{
+  span.vcl {
     content: "";
     background: url(/img/vcl-logo.png) no-repeat right 40%;
     background-size: 100%;
     display: inline-block;
     width: 2em;
-    float: right;
     height: 2em;
-    margin-right: 1.5em;
+    margin: 0.5em 0.5em 0 0.5em;
+  }
+
+  @media #{$small-only} {
+    span.vcl {
+      width: 3em;
+      height: 3em;
+    }
   }
 }
 

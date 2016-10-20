@@ -3,7 +3,7 @@ $(function() {
     e.preventDefault();
     // Only affects Desktop version of the Veterans Crisis line.
     // Mobile is handled via menu.js and works with all overlays.
-    $(this).parent().toggleClass('va-crisis-panel--open');
+    $(this).parents('.crisis-line-container').toggleClass('va-crisis-panel--open');
   }
   $('a.va-overlay-trigger').on('click', toggleVCL);
 });
