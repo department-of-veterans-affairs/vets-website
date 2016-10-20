@@ -1,7 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router';
 import TabNav from '../components/TabNav';
 import AskVAQuestions from '../components/AskVAQuestions';
 import Loading from '../components/Loading';
+import AddingDetails from '../components/AddingDetails';
+
+import { isCompleteClaim } from '../utils/helpers';
 
 export default class ClaimDetailLayout extends React.Component {
   render() {
@@ -11,6 +15,12 @@ export default class ClaimDetailLayout extends React.Component {
     if (!loading) {
       content = (
         <div className="claim-container">
+          <nav className="va-nav-breadcrumbs">
+            <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+              <li><Link to="your-claims">Your claims</Link></li>
+              <li className="active">Your Compensation Claim</li>
+            </ul>
+          </nav>
           {message}
           <div className="claim-conditions">
             <h1>Your {"Compensation"} Claim</h1>
@@ -23,6 +33,7 @@ export default class ClaimDetailLayout extends React.Component {
           </div>
           <TabNav id={this.props.claim.id}/>
           <div className="va-tab-content">
+            {isCompleteClaim(claim) ? null : <AddingDetails/>}
             {this.props.children}
           </div>
         </div>

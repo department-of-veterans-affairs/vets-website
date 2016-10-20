@@ -7,8 +7,7 @@ import {
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
   FETCH_SENDER_SUCCESS,
-  SET_MESSAGE_FIELD,
-  UPDATE_COMPOSE_CHARACTER_COUNT
+  SET_MESSAGE_FIELD
 } from '../utils/constants';
 
 export function deleteComposeMessage() {
@@ -64,10 +63,3 @@ export function fetchRecipients() {
   };
 }
 
-export function updateComposeCharacterCount(field, maxLength) {
-  const chars = maxLength - field.value.length;
-  return {
-    type: UPDATE_COMPOSE_CHARACTER_COUNT,
-    chars
-  };
-}
