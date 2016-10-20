@@ -162,6 +162,9 @@
 .claims-no-icon,
 .usa-alert-info.claims-no-icon {
   background-image: none;
+  h4 {
+    padding-bottom: 0 !important;
+  }
 }
 
 .form-process li.section-complete:before {
@@ -528,7 +531,7 @@ p.first-of-type {
   > .usa-alert-body {
     padding-left: 4.2rem;
   }
-  > button {
+  button {
     position: absolute;
     top: 0.5em;
     right: 0;
