@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import TabNav from '../components/TabNav';
 import AskVAQuestions from '../components/AskVAQuestions';
 import Loading from '../components/Loading';
@@ -14,6 +15,12 @@ export default class ClaimDetailLayout extends React.Component {
     if (!loading) {
       content = (
         <div className="claim-container">
+          <nav className="va-nav-breadcrumbs">
+            <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+              <li><Link to="your-claims">Your claims</Link></li>
+              <li className="active">Your Compensation Claim</li>
+            </ul>
+          </nav>
           {message}
           <div className="claim-conditions">
             <h1>Your {"Compensation"} Claim</h1>
