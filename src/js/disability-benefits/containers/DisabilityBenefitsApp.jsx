@@ -13,13 +13,11 @@ class DisabilityBenefitsApp extends React.Component {
         {available && !synced
           ? <ClaimSyncWarning syncedDate={syncedDate}/>
           : null}
-        <div className="row">
-          {available
-            ? <div>
-              {this.props.children}
-            </div>
-            : <div className="columns medium-8"><ClaimsUnavailable/></div>}
-        </div>
+        {available
+          ? <div>
+            {this.props.children}
+          </div>
+          : <div className="row"><div className="columns medium-8"><ClaimsUnavailable/></div></div>}
       </div>
     );
   }
