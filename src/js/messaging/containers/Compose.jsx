@@ -54,7 +54,9 @@ export class Compose extends React.Component {
 
   apiFormattedMessage() {
     const message = this.props.message;
+
     return {
+      attachments: message.attachments,
       category: message.category.value,
       subject: message.subject.value,
       body: message.text.value,
