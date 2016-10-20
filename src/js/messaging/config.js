@@ -19,7 +19,8 @@ module.exports = {
       },
      // For sending binary data requests. Assumes use of FormData API.
       postFormData: {
-        method: 'POST'
+        method: 'POST',
+        headers
       },
       put: {
         method: 'PUT',
