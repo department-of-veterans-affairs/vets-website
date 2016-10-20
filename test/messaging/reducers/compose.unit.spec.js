@@ -9,8 +9,6 @@ import {
   DELETE_COMPOSE_ATTACHMENT,
   DELETE_COMPOSE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
-  FETCH_SENDER_SUCCESS,
-  FETCH_RECIPIENTS_FAILURE,
   SET_MESSAGE_FIELD,
 } from '../../../src/js/messaging/utils/constants';
 
@@ -42,7 +40,7 @@ describe('compose reducer', () => {
 
   it('should add attachments to a new message', () => {
     const fileSet = ['test1.txt', 'test2.gif'];
-    let newState = composeReducer(initialState, {
+    const newState = composeReducer(initialState, {
       type: ADD_COMPOSE_ATTACHMENTS,
       files: fileSet
     });
@@ -94,7 +92,7 @@ describe('compose reducer', () => {
 
     expect(newState.message.attachments).to.have.lengthOf(1);
     expect(newState.message.attachments).to.contain('test1');
-  })
+  });
 
   it('should populate the list of possible recipients', () => {
     const recipients = testData.recipients;
