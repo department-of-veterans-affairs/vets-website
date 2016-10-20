@@ -14,14 +14,14 @@ export default class MilitaryServiceReview extends React.Component {
               <td>{this.props.data.serviceAcademyGraduationYear.value}</td>
             </tr>
             <tr>
-              <td>Are you currently on active duty?</td>
+              <td>Are you on active duty now?</td>
               <td>{showYesNo(this.props.data.currentlyActiveDuty.yes)}</td>
             </tr>
           </tbody>
           {this.props.data.currentlyActiveDuty.yes.value === 'Y'
             ? <tbody>
               <tr>
-                <td>Are you currently on terminal leave?</td>
+                <td>Are you on terminal leave now?</td>
                 <td>{showYesNo(this.props.data.currentlyActiveDuty.onTerminalLeave)}</td>
               </tr>
             </tbody>
@@ -37,6 +37,10 @@ export default class MilitaryServiceReview extends React.Component {
             </thead>
             <tbody>
               <tr>
+              <td>Service status:</td>
+              <td>{tour.serviceStatus.value}</td>
+              </tr>
+              <tr>
                 <td>From date:</td>
                 <td>{displayDateIfValid(tour.dateRange.from)}</td>
               </tr>
@@ -45,20 +49,12 @@ export default class MilitaryServiceReview extends React.Component {
                 <td>{displayDateIfValid(tour.dateRange.to)}</td>
               </tr>
               <tr>
-                <td>Service status:</td>
-                <td>{tour.serviceStatus.value}</td>
-              </tr>
-              <tr>
-                <td>Were you involuntarily called for active duty during this period?</td>
-                <td>{getLabel(yesNo, tour.involuntarilyCalledToDuty.value)}</td>
-              </tr>
-              <tr>
-                <td>Apply this service period to the benefit I'm applying for</td>
+                <td>Apply this service period to the benefit I’m applying for.</td>
                 <td>{tour.applyPeriodToSelected ? 'Yes' : 'No'}</td>
               </tr>
               {!tour.applyPeriodToSelected
                 ? <tr>
-                  <td>Please explain how you'd like this service period applied.</td>
+                  <td>Please explain how you’d like this service period applied.</td>
                   <td className="edu-benefits-pre">{tour.benefitsToApplyTo.value}</td>
                 </tr>
                 : null}

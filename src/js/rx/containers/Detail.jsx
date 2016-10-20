@@ -140,7 +140,7 @@ export class Detail extends React.Component {
     if (trackings && trackings.length) {
       orderHistoryTable = (
         <OrderHistory
-            className="usa-table-borderless rx-table rx-table-list"
+            className="usa-table-borderless va-table-list rx-table rx-table-list"
             items={trackings}/>
       );
     }
