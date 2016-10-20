@@ -1,51 +1,16 @@
-// Borderless table
-
-[class*=rx-table] {
+.rx-table {
   th, td {
     border-color: $color-gray-light;
   }
 }
 
-.rx-table {
-  thead tr {
-    // TODO: Figure out where the tr{background: #fff !important}
-    // is coming from, and remove it there so we can remove it here.
-    // (Suspect it's Foundation-related)
-    background: $color-gray-lightest !important;
-  }
-}
-
-// Style for tables that transform into a list when viewd in a smaller screen.
 .rx-table-list {
-  // Get font size to stay the same when table shrinks.
-  font-size: 1.6rem;
-
-  th {
-    a {
-      text-decoration: none;
-    }
-  }
-
   @media (max-width: $medium-screen) {
-    thead {
-      left: -9999rem;
-      position: absolute;
-      top: -9999rem;
-    }
-
     tr {
-      display: block;
       padding: 1.5rem 0;
-
-      &:nth-child(n+2) {
-        border-top: 1px solid $color-gray-light;
-      }
     }
 
     td {
-      border: none;
-      padding: 0;
-
       &:before {
         font-weight: bold;
       }
