@@ -377,9 +377,6 @@ a.claim-list-item {
 }
 
 .need-files-from-you {
-  // background-color: #fff1d0; // TODO: replace with vaiable
-  // padding: 1em;
-  // margin: 1em 0;
   .warning-title {
     color: $color-gray-dark;
     float: left;
@@ -387,7 +384,7 @@ a.claim-list-item {
       margin-right: 6px;
     }
   }
-  .va-button-secondary {
+  a.usa-button {
     float: right;
     margin: 0;
   }
@@ -511,7 +508,7 @@ p.first-of-type {
 }
 
 .claim-container {
-  margin: 1.5em 0;
+  margin: 0;
   margin-bottom: 2em;
 }
 
@@ -534,4 +531,8 @@ p.first-of-type {
     right: 0;
     width: auto;
   }
+}
+
+.claims-header {
+  margin: 0;
 }

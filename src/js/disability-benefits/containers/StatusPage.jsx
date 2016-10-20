@@ -23,7 +23,7 @@ class StatusPage extends React.Component {
         <div >
           {phase === null ? <AddingDetails/> : null}
           {claim.attributes.documentsNeeded && !claim.attributes.decisionLetterSent
-            ? <NeedFilesFromYou events={claim.attributes.eventsTimeline}/>
+            ? <NeedFilesFromYou claimId={claim.id} events={claim.attributes.eventsTimeline}/>
             : null}
           {showDecision
             ? <AskVAToDecide id={this.props.params.id}/>

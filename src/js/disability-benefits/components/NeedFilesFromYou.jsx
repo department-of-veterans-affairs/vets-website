@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 class NeedFilesFromYou extends React.Component {
   render() {
@@ -9,7 +10,7 @@ class NeedFilesFromYou extends React.Component {
           <i className="fa fa-exclamation-triangle"></i>
           {filesNeeded} {filesNeeded === 1 ? 'item needs' : 'items need'} your attention
         </h4>
-        <button className="va-button-secondary">View Details</button>
+        <Link to={`your-claims/${this.props.claimId}/files`} className="usa-button">View Details</Link>
         <div className="clearfix"></div>
       </div>
     );
