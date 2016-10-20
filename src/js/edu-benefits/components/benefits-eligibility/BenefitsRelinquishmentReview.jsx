@@ -3,7 +3,7 @@ import React from 'react';
 import { getLabel, displayDateIfValid, showRelinquishedEffectiveDate } from '../../utils/helpers';
 import { relinquishableBenefits } from '../../utils/options-for-select';
 
-export default class BenefitsSelectionReview extends React.Component {
+export default class BenefitsRelinquishmentReview extends React.Component {
   render() {
     return (
       <table className="review usa-table-borderless">
@@ -24,6 +24,6 @@ export default class BenefitsSelectionReview extends React.Component {
   }
 }
 
-BenefitsSelectionReview.propTypes = {
+BenefitsRelinquishmentReview.propTypes = {
   data: React.PropTypes.object.isRequired
 };
