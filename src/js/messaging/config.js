@@ -11,7 +11,7 @@ module.exports = {
         method: 'GET',
         headers
       },
-      post: {
+      postJson: {
         method: 'POST',
         headers: Object.assign({}, headers, {
           'Content-Type': 'application/json'

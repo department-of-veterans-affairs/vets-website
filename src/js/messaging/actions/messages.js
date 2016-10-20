@@ -89,7 +89,7 @@ export function moveMessageToFolder(messageId, folder) {
 export function createFolderAndMoveMessage(folderName, messageId) {
   const foldersUrl = `${api.url}/folders`;
   const folderData = { folder: { name: folderName } };
-  const settings = Object.assign({}, api.settings.post, {
+  const settings = Object.assign({}, api.settings.postJson, {
     body: JSON.stringify(folderData)
   });
 
@@ -132,7 +132,7 @@ export function saveDraft(message) {
             : `${draftsUrl}/${message.messageId}`;
 
   const defaultSettings = isNewDraft
-                        ? api.settings.post
+                        ? api.settings.postJson
                         : api.settings.put;
 
   const settings = Object.assign({}, defaultSettings, {
@@ -207,7 +207,7 @@ export function sendMessage(message) {
 export function sendReply(message) {
   const replyUrl = `${baseUrl}/${message.replyMessageId}/reply`;
   const payload = { message: { body: message.body } };
-  const settings = Object.assign({}, api.settings.post, {
+  const settings = Object.assign({}, api.settings.postJson, {
     body: JSON.stringify(payload)
   });
 
