@@ -225,10 +225,44 @@ hr {
   .login-container {
     background: $color-white;
     padding: 0.5em 0;
+
+    @media #{$small} {
+      .row {
+        padding: 0 0.5em;
+      }
+    }
+
+    @media #{$medium} {
+      .row {
+        padding: 0;
+      }
+    }
+
+    @media #{$large} {
+      .row {
+        padding: 0;
+      }
+    }
   }
 
   .top-banner {
-    padding: 1em 0;
+    @media #{$small} {
+      .row {
+        padding: 1em 0.5em;
+      }
+    }
+
+    @media #{$medium} {
+      .row {
+        padding: 1em 0;
+      }
+    }
+
+    @media #{$large} {
+      .row {
+        padding: 1em 0;
+      }
+    }
   }
 
   .flex-auto {
@@ -321,6 +355,10 @@ h6 {
   background: $color-white;
   text-align: center;
 
+  .flex {
+    display: flex;
+  }
+
   .mx-auto {
     margin-right: auto;
     margin-left: auto;
@@ -344,7 +382,12 @@ h6 {
   .outline-link-block {
     border: $color-gray-light solid 1px;
     margin: 0.5em 0;
-    padding: 1em;
+    padding: 0.5em 1em;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    justify-content: center;
+    font-size: 1.2em;
   }
 
   .stars-tagline {
@@ -357,6 +400,8 @@ h6 {
       width: 12em;
       margin-top: 2em;
     }
+
+    margin-top: 1.5em;
   }
 }
 
@@ -1294,6 +1339,10 @@ a.twitter {
 
     .flex {
       display: flex;
+    }
+
+    .row {
+      padding: 0 0.25em;
     }
   }
 }

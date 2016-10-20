@@ -33,7 +33,7 @@ majorlinks:
   <h2 class="gold-ruled">Popular on Vets.gov</h2>
   </div>
 </div>
-<div class="row">
+<div class="row flex">
   <div class="medium-4 columns">
     <a href="/healthcare/apply/">
       <div class="outline-link-block">

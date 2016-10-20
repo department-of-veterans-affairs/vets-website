@@ -62,6 +62,9 @@
   opacity: 0;
   -webkit-transition: transform 250ms;
           transition: transform 250ms;
+  -webkit-box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
+  -moz-box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
+  box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
 
   li {
     padding: 2.5rem 0 0;
