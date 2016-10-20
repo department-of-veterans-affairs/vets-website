@@ -27,22 +27,25 @@
   color: $color-green;
 }
 
-.due-file {
-  color: $color-secondary-dark;
-  font-size: 0.9em;
+.tracked-item-due {
+  > .due-file {
+    color: $color-gray-dark;
+    font-size: 0.9em;
+  }
+
+  > .past-due {
+    color: $color-secondary-dark;
+    font-size: 0.9em;
+  }
+
+  h6.past-due, h6.due-file, span.past-due, span.due-file {
+    display: inline-block;
+    margin: 0;
+    text-transform: none;
+    padding-right: 5px !important;
+  }
 }
 
-.past-due {
-  color: $color-gray-dark;
-  font-size: 0.9em;
-}
-
-h6.past-due, h6.due-file, p.past-due, p.due-file {
-  display: inline-block;
-  margin: 0;
-  text-transform: none;
-  padding-right: 5px;
-}
 
 .submitted-files-list {
   margin-top: 1.5em;

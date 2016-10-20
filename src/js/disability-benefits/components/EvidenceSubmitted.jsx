@@ -7,9 +7,9 @@ export default function EvidenceSubmitted({ item, onClose }) {
         <i className="fa fa-close"></i>
       </button>
       <div className="usa-alert-body">
-        <h4 className="usa-alert-heading">Evidence Submitted</h4>
+        <h4 className="usa-alert-heading">We have your evidence</h4>
         <p className="usa-alert-text">
-          Thank you. Your evidence for {item} has been submitted. We will let you know when the VA has received it.
+          Thank you for filing {item}. We'll let you know when we’ve reviewed it.
         </p>
       </div>
     </div>
