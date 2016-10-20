@@ -174,9 +174,8 @@ export function sendMessage(message) {
   payload.append('message[body]', message.body);
 
   // Add each attachment as a separate item
-  message.attachments.map((file) => {
+  message.attachments.forEach((file) => {
     payload.append('uploads[]', file);
-    return true;
   });
 
   const settings = Object.assign({}, api.settings.postFormData, {
