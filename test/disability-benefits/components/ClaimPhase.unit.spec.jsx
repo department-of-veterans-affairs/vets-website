@@ -80,7 +80,7 @@ describe('<ClaimPhase>', () => {
           phase={1}
           activity={activity}/>
     );
-    expect(tree.everySubTree('.claims-evidence-item')[0].text()).to.equal('We requested <Link /> from you');
+    expect(tree.everySubTree('.claims-evidence-item')[0].text()).to.equal('We added a notice for: <Link />');
   });
   it('should display show older updates button', () => {
     const activity = {
@@ -128,4 +128,3 @@ describe('<ClaimPhase>', () => {
     expect(tree.everySubTree('button').length).to.equal(1);
   });
 });
-
