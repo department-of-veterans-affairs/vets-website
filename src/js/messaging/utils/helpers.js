@@ -54,28 +54,27 @@ export function formattedDate(date, options = {}) {
   let dateString;
 
   if (momentDate.isSame(now, 'd')) {
-    const formatAmPm = options.lowerCaseAmPm ? 'a' : 'A';
-    dateString = momentDate.format(`h:mm ${formatAmPm}`);
+    dateString = momentDate.format(`HH:mm`);
   } else if (momentDate.isSame(now, 'y')) {
     dateString = momentDate.format('MMM D');
   } else {
-    return momentDate.format('M/D/YYYY');
+    return momentDate.format('MM/DD/YYYY');
   }
 
   if (options.fromNow) {
-    // Overwrite defaults for singular units ('a(n)' -> '1') when
-    // displaying the 'ago' string. Use the defaults for plural.
-    moment.locale('en', {
-      relativeTime: {
-        m: '1 minute',
-        h: '1 hour',
-        d: '1 day'
-      }
-    });
-
     const weeksAgo = now.diff(momentDate, 'w');
 
     if (weeksAgo < 2) {
+      // Overwrite defaults for singular units ('a(n)' -> '1') when
+      // displaying the 'ago' string. Use the defaults for plural.
+      moment.locale('en', {
+        relativeTime: {
+          m: '1 minute',
+          h: '1 hour',
+          d: '1 day'
+        }
+      });
+
       dateString = `${dateString} (${momentDate.fromNow()})`;
     }
   }

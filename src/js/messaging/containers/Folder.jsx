@@ -123,10 +123,7 @@ export class Folder extends React.Component {
         rowClass,
         senderName: makeMessageLink(message.senderName, id),
         subject: makeMessageLink(message.subject, id),
-        sentDate: makeMessageLink(
-          formattedDate(message.sentDate, {
-            lowerCaseAmPm: true
-          }), id)
+        sentDate: makeMessageLink(formattedDate(message.sentDate), id)
       };
     });
 
