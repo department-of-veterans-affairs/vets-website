@@ -61,7 +61,7 @@ class Message extends React.Component {
             {this.props.attrs.senderName}
           </div>
           <div className="messaging-message-sent-date">
-            {formattedDate(this.props.attrs.sentDate)}
+            {formattedDate(this.props.attrs.sentDate, { fromNow: true })}
           </div>
           {details}
         </div>

@@ -90,7 +90,7 @@ class MessageDetails extends React.Component {
             className="messaging-compact-details-trigger"
             type="checkbox"/>
         <span>
-          {formattedDate(this.props.attrs.sentDate)}
+          {formattedDate(this.props.attrs.sentDate, { fromNow: true })}
         </span>
         <label htmlFor={compactInputId}></label>
         {messageDetails}

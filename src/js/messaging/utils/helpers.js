@@ -46,20 +46,39 @@ export function formatFileSize(bytes, decimalplaces = 2) {
   return size;
 }
 
-export function formattedDate(date, lowerCaseAmPm = false) {
+export function formattedDate(date, options = {}) {
   if (!date) { return 'Not available'; }
 
   const now = moment();
   const momentDate = moment(date);
+  let dateString;
 
   if (momentDate.isSame(now, 'd')) {
-    const formatAmPm = lowerCaseAmPm ? 'a' : 'A';
-    return momentDate.format(`h:mm ${formatAmPm}`);
+    const formatAmPm = options.lowerCaseAmPm ? 'a' : 'A';
+    dateString = momentDate.format(`h:mm ${formatAmPm}`);
   } else if (momentDate.isSame(now, 'y')) {
-    return momentDate.format('MMM D');
+    dateString = momentDate.format('MMM D');
+  } else {
+    return momentDate.format('M/D/YYYY');
   }
 
-  return momentDate.format('M/D/YYYY');
+  if (options.fromNow) {
+    moment.locale('en', {
+      relativeTime: {
+        m: '1 minute',
+        h: '1 hour',
+        d: '1 day'
+      }
+    });
+
+    const weeksAgo = now.diff(momentDate, 'w');
+
+    if (weeksAgo < 2) {
+      dateString = `${dateString} (${momentDate.fromNow()})`;
+    }
+  }
+
+  return dateString;
 }
 
 export function isJson(response) {
