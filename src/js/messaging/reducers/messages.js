@@ -15,16 +15,13 @@ import {
   UPDATE_DRAFT
 } from '../utils/constants';
 
-import { composeMessage } from '../config';
-
 const initialState = {
   data: {
     message: null,
     thread: [],
     draft: {
       attachments: [],
-      body: makeField(''),
-      charsRemaining: composeMessage.maxChars.message
+      body: makeField('')
     }
   },
   ui: {
@@ -74,8 +71,6 @@ export default function messages(state = initialState, action) {
           // TODO: Get attachments from the draft.
           attachments: [],
           body: makeField(currentMessage.body),
-          charsRemaining: composeMessage.maxChars.message -
-                          currentMessage.body.length,
           replyMessageId: thread.length === 0 ?
                           undefined :
                           thread[thread.length - 1].messageId
@@ -135,9 +130,7 @@ export default function messages(state = initialState, action) {
 
     case UPDATE_DRAFT:
       return set('data.draft', {
-        body: action.field,
-        charsRemaining: composeMessage.maxChars.message -
-                        action.field.value.length
+        body: action.field
       }, state);
 
     default:
