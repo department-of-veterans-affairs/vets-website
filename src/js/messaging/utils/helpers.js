@@ -46,14 +46,15 @@ export function formatFileSize(bytes, decimalplaces = 2) {
   return size;
 }
 
-export function formattedDate(date) {
+export function formattedDate(date, lowerCaseAmPm = false) {
   if (!date) { return 'Not available'; }
 
   const now = moment();
   const momentDate = moment(date);
 
   if (momentDate.isSame(now, 'd')) {
-    return momentDate.format('h:mm a');
+    const formatAmPm = lowerCaseAmPm ? 'a' : 'A';
+    return momentDate.format(`h:mm ${formatAmPm}`);
   } else if (momentDate.isSame(now, 'y')) {
     return momentDate.format('MMM D');
   }
