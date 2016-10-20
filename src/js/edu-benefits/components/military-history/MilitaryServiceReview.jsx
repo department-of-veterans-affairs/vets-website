@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { getLabel, displayDateIfValid, showYesNo } from '../../utils/helpers';
-import { yesNo } from '../../utils/options-for-select';
+import { displayDateIfValid, showYesNo } from '../../utils/helpers';
 
 export default class MilitaryServiceReview extends React.Component {
   render() {
