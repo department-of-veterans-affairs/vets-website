@@ -65,7 +65,7 @@ export function createNewFolder(folderName) {
   const folderData = { folder: {} };
   folderData.folder.name = folderName;
 
-  const settings = Object.assign({}, api.settings.post, {
+  const settings = Object.assign({}, api.settings.postJson, {
     body: JSON.stringify(folderData)
   });
 

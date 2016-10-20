@@ -55,6 +55,11 @@
   }
 }
 
+.messaging-send-group [type=submit] {
+  display: inline-block;
+  margin: .5rem;
+}
+
 .msg-subject-group-inner {
   @media (min-width: $medium-screen) {
     -webkit-align-items: center;
@@ -226,7 +231,12 @@
     padding: 0rem;
     margin: 1rem 0 0 0;
     max-width: 100%;
+    position: relative;
     resize: none;
+
+    &:focus {
+      z-index: 1;
+    }
 
     @media (min-width: $medium-screen) {
       border-color: $color-base;

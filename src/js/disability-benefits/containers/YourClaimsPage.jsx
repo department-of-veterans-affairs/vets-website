@@ -27,6 +27,7 @@ class YourClaimsPage extends React.Component {
   }
   componentDidMount() {
     this.props.getClaims();
+    document.title = 'Your Claims';
   }
   changePage(page) {
     this.props.changePage(page);

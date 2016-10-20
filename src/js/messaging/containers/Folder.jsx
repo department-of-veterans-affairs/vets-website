@@ -89,9 +89,9 @@ export class Folder extends React.Component {
       <MessageNav
           currentRange={currentRange}
           messageCount={messageCount}
-          onPageSelect={this.handlePageSelect}
-          page={page}
-          totalPages={totalPages}/>
+          onItemSelect={this.handlePageSelect}
+          itemNumber={page}
+          totalItems={totalPages}/>
     );
   }
 
@@ -130,7 +130,7 @@ export class Folder extends React.Component {
 
     return (
       <SortableTable
-          className="usa-table-borderless"
+          className="usa-table-borderless va-table-list"
           currentSort={currentSort}
           data={data}
           fields={fields}
