@@ -63,7 +63,7 @@ export default class SchoolSelectionFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('educationStartDate', update);}}/>
         {this.props.data.currentlyActiveDuty.yes.value === 'Y'
           ? <ErrorableRadioButtons
-              label="Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework or training?"
+              label="Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?"
               name="nonVaAssistance"
               options={yesNo}
               value={this.props.data.currentlyActiveDuty.nonVaAssistance}
