@@ -204,7 +204,6 @@ export class Thread extends React.Component {
             onClose={this.props.deleteDraftAttachment}/>
         <MessageSend
             allowedMimeTypes={allowedMimeTypes}
-            charCount={this.props.draft.charsRemaining}
             cssClass="messaging-send-group"
             maxFiles={composeMessage.attachments.maxNum}
             maxFileSize={composeMessage.attachments.maxSingleFile}
