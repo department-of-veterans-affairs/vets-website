@@ -29,26 +29,26 @@ majorlinks:
 
 <div class="popular-container">
 <div class="row">
-  <div class="small-4 mx-auto text-center">
+  <div class="small-10 medium-4 mx-auto text-center">
   <h2 class="gold-ruled">Popular on Vets.gov</h2>
   </div>
 </div>
 <div class="row">
-  <div class="small-4 columns">
+  <div class="medium-4 columns">
     <a href='#'>
       <div class="outline-link-block">
         Apply for Health Care
       </div>
     </a>
   </div>
-  <div class="small-4 columns">
+  <div class="medium-4 columns">
     <a href='#'>
       <div class="outline-link-block">
         Check Disability Claim Status
       </div>
     </a>
   </div>
-  <div class="small-4 columns">
+  <div class="medium-4 columns">
     <a href='#'>
       <div class="outline-link-block">
         Refill a Prescription

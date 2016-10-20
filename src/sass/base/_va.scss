@@ -363,7 +363,10 @@ h6 {
 #content .splash {
   margin: 0;
   background: $color-white url(/img/design/background/veterans.jpg) center center no-repeat;
-  background-size: contain;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+
 
   p {
     color: $color-white;
@@ -376,12 +379,12 @@ h6 {
   }
   @media #{$medium} {
     padding: 2em 0;
-    min-height: 289px;
+    min-height: 422px;
   }
 
   @media #{$large} {
     padding: 2.5em 0;
-    min-height: 289px;
+    min-height: 422px;
   }
 
   h2.tagline {
@@ -400,7 +403,7 @@ h6 {
 
   h2 span {
     clear: both;
-    padding: 0.75em 1em;
+    padding: 0.5em .75em;
     display: inline-block;
     background: $color-white;
     font-weight: bold;
