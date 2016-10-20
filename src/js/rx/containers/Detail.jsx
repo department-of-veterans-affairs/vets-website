@@ -92,7 +92,9 @@ export class Detail extends React.Component {
     const attrs = _.get(this.props.prescription, 'rx.attributes', {});
     const status = rxStatuses[attrs.refillStatus];
     const data = {
-      Quantity: attrs.quantity,
+      'Prescription #': attrs.prescriptionNumber,
+
+      Quantity: `${attrs.quantity} CAP`,
 
       'Prescription status': (
         <button
@@ -104,14 +106,12 @@ export class Detail extends React.Component {
       ),
 
       'Last fill date': attrs.dispensedDate
-        ? moment(attrs.dispensedDate).format('MMM DD, YYYY')
+        ? moment(attrs.dispensedDate).format('MMM D, YYYY')
         : 'Not available',
 
       'Expiration date': attrs.expirationDate
-        ? moment(attrs.expirationDate).format('MMM DD, YYYY')
+        ? moment(attrs.expirationDate).format('MMM D, YYYY')
         : 'Not available',
-
-      'Prescription #': attrs.prescriptionNumber,
 
       Refills: (
         <div>
