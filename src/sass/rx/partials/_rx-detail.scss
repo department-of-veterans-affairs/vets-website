@@ -10,17 +10,6 @@
   font-size: 2.5rem;
 }
 
-#rx-detail .rx-contact-card {
-  margin-top: 3.5rem;
-  width: 100%;
-
-  @media (min-width: $medium-screen) {
-    display: inline-block;
-    margin: 0;
-    width: 30rem;
-  };
-}
-
 #rx-detail table {
   // Get font size to stay the same when table shrinks.
   display: inline-block;
@@ -57,9 +46,11 @@
 }
 
 #rx-info {
+  margin-bottom: 3.5rem;
+
   @media (min-width: $medium-screen) {
     display: inline-block;
-    margin-right: 3rem;
+    margin-right: 3.5rem;
     vertical-align: top;
   }
 
@@ -84,9 +75,17 @@
   }
 }
 
-#rx-order-history {
-  margin: 3.5rem 0 0 0;
+#rx-detail .rx-contact-card {
+  margin-bottom: 3.5rem;
+  width: 100%;
 
+  @media (min-width: $medium-screen) {
+    display: inline-block;
+    width: 30rem;
+  };
+}
+
+#rx-order-history {
   .rx-track-package-link {
     display: inline-block;
   }
