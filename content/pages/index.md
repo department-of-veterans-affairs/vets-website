@@ -35,21 +35,21 @@ majorlinks:
 </div>
 <div class="row">
   <div class="medium-4 columns">
-    <a href='#'>
+    <a href="/healthcare/apply/">
       <div class="outline-link-block">
         Apply for Health Care
       </div>
     </a>
   </div>
   <div class="medium-4 columns">
-    <a href='#'>
+    <a href="/disability-benefits/apply-for-benefits/">
       <div class="outline-link-block">
         Check Disability Claim Status
       </div>
     </a>
   </div>
   <div class="medium-4 columns">
-    <a href='#'>
+    <a href='/rx'>
       <div class="outline-link-block">
         Refill a Prescription
       </div>

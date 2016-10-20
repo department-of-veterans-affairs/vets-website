@@ -228,7 +228,7 @@ hr {
   }
 
   .top-banner {
-    padding: 1em;
+    padding: 1em 0;
   }
 
   .flex-auto {
@@ -343,7 +343,7 @@ h6 {
 
   .outline-link-block {
     border: $color-gray-light solid 1px;
-    margin: 0.5em 1em;
+    margin: 0.5em 0;
     padding: 1em;
   }
 
@@ -375,7 +375,7 @@ h6 {
 
   @media #{$small} {
     padding: 1em 0;
-    min-height: 0;
+    min-height: 8em;
   }
   @media #{$medium} {
     padding: 2em 0;
@@ -388,13 +388,14 @@ h6 {
   }
 
   h2.tagline {
-    max-width: 12em;
+    max-width: 11em;
+    font-size: 2.5rem;
   }
 
   span, h2 {
     padding: 0;
     display: inline;
-    line-height: 1.3em;
+    line-height: 1em;
     margin: 0;
     white-space: pre-wrap;
     color: $color-gray-dark;
@@ -403,12 +404,37 @@ h6 {
 
   h2 span {
     clear: both;
-    padding: 0.5em .75em;
+    padding: 0.2em 0.3em;
     display: inline-block;
     background: $color-white;
     font-weight: bold;
     color: $color-primary-darker;
   }
+
+  @media #{$medium} {
+    h2 span {
+      padding: 0.5em .75em;
+      line-height: 1.3em;
+      font-size: 3.5rem;
+    }
+
+    h2.tagline {
+      max-width: 15em;
+    }
+  }
+
+  @media #{$large} {
+    h2 span {
+      padding: 0.5em .75em;
+      line-height: 1.3em;
+      font-size: 3.5rem;
+    }
+
+    h2.tagline {
+      max-width: 15em;
+    }
+  }
+
   h2, h3, p {margin: 0; display: inline-block; font-family: $font-serif;}
   h2 {
     font-size: 1em;
