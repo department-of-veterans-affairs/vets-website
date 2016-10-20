@@ -54,7 +54,7 @@ export function formattedDate(date, options = {}) {
   let dateString;
 
   if (momentDate.isSame(now, 'd')) {
-    dateString = momentDate.format(`HH:mm`);
+    dateString = momentDate.format('HH:mm');
   } else if (momentDate.isSame(now, 'y')) {
     dateString = momentDate.format('MMM D');
   } else {

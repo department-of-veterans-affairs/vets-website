@@ -45,7 +45,7 @@ class MessageDetails extends React.Component {
                 {
                   moment(
                     this.props.attrs.sentDate
-                  ).format('ddd, MMM D, YYYY [at] h:mm A')
+                  ).format('ddd, MMM D, YYYY [at] HH:mm')
                 }
               </td>
             </tr>
