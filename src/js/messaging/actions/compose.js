@@ -7,13 +7,8 @@ import {
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
   FETCH_SENDER_SUCCESS,
-<<<<<<< 87f640df20dc12ebf01f73ab47f00cda657b55ac
-  SET_MESSAGE_FIELD
-=======
   RESET_MESSAGE_OBJECT,
   SET_MESSAGE_FIELD,
-  UPDATE_COMPOSE_CHARACTER_COUNT
->>>>>>> Reset message object when user first visits Compose page.
 } from '../utils/constants';
 
 export function deleteComposeMessage() {
