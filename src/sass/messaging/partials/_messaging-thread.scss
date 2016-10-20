@@ -93,7 +93,10 @@
   // Overriding `#content .section h*`.
   padding: 0 2rem !important;
   vertical-align: top;
-  width: 60%;
+
+  @media (min-width: $medium-screen) {
+    width: 60%;
+  }
 }
 
 .messaging-thread-controls {
@@ -146,20 +149,22 @@
     }
   }
 
-  &-recipient {
+  &-details {
     border: 1px solid $color-black;
     border-bottom-width: 0;
+    cursor: pointer;
     padding: 1rem 1.5rem;
 
     label {
       display: inline-block;
       font-weight: bold;
-      margin: 0 1rem 0 0;
+      margin: 0;
     }
   }
 
   textarea {
     margin: 0;
+    max-width: 100%;
     padding: 1rem 1.5rem;
   }
 }

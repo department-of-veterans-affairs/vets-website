@@ -52,7 +52,7 @@ class MessageSend extends React.Component {
             onClick={this.props.onSend}>Send</button>
         <button
             disabled={isDisabled}
-            className="usa-button-outline messaging-btn-save"
+            className="usa-button-outline msg-btn-save"
             type="button"
             value="save"
             onClick={this.props.onSave}>Save As Draft</button>
@@ -68,7 +68,7 @@ class MessageSend extends React.Component {
             onClickHandler={this.props.onDelete}/>
         <CharacterCount
             count={this.props.charCount}
-            cssClass="messaging-characters"/>
+            cssClass="msg-characters"/>
       </div>
     );
   }
@@ -76,7 +76,6 @@ class MessageSend extends React.Component {
 
 MessageSend.propTypes = {
   allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string),
-  attachedFiles: React.PropTypes.array,
   charCount: React.PropTypes.number,
   cssClass: React.PropTypes.string,
   maxFiles: React.PropTypes.number,

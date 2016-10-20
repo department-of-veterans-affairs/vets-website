@@ -1,13 +1,7 @@
-// TODO: Update the paths so they import from the
-// vets-website repo (or other designated common)
-// elements version of these files.
-
 @import "../style";
 @import "../modules/m-modal";
-
-// TODO: Contributed these back to core / Vanguard.
-@import "partials/va-tabs";
-@import "partials/va-pagination";
+@import "../modules/va-pagination";
+@import "../modules/va-tabs";
 
 // RX-specific partials
 @import "partials/rx-contact-card";
@@ -87,15 +81,10 @@ button.usa-button-outline {
   text-align: left;
   text-decoration: underline;
   width: auto !important;
-  
+
   &:hover {
     background: rgba(0, 0, 0, 0.05);
     color: $color-link-default;
     text-decoration: inherit;
   }
-}
-
-// TODO: Contribute this back to core
-.va-required-span {
-  color: $color-secondary-dark;
 }

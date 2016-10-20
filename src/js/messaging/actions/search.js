@@ -1,6 +1,8 @@
-export const TOGGLE_ADVANCED_SEARCH = 'TOGGLE_ADVANCED_SEARCH';
-export const SET_ADVSEARCH_START_DATE = 'SET_ADVSEARCH_START_DATE';
-export const SET_ADVSEARCH_END_DATE = 'SET_ADVSEARCH_END_DATE';
+import {
+  TOGGLE_ADVANCED_SEARCH,
+  SET_ADVSEARCH_START_DATE,
+  SET_ADVSEARCH_END_DATE
+} from '../utils/constants';
 
 export function toggleAdvancedSearch() {
   return {
@@ -9,7 +11,10 @@ export function toggleAdvancedSearch() {
 }
 
 export function setDateRange(date, start = true) {
-  const mode = (start === true) ? SET_ADVSEARCH_START_DATE : SET_ADVSEARCH_END_DATE;
+  const mode = start
+             ? SET_ADVSEARCH_START_DATE
+             : SET_ADVSEARCH_END_DATE;
+
   return {
     type: mode,
     date

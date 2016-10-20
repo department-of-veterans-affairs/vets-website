@@ -52,6 +52,10 @@ function isValidYear(value) {
   return Number(value) >= 1900;
 }
 
+function isValidCurrentOrPastYear(value) {
+  return Number(value) >= 1900 && Number(value) < moment().year() + 1;
+}
+
 function isValidMonths(value) {
   return Number(value) >= 0;
 }
@@ -119,7 +123,10 @@ function isValidMonetaryValue(value) {
 
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
-  return /^\d{10}$/.test(value);
+  // Strip spaces, dashes, and parens
+  const stripped = value.replace(/[- )(]/g, '');
+  // Count number of digits
+  return /^\d{10}$/.test(stripped);
 }
 
 function isValidEmail(value) {
@@ -226,15 +233,17 @@ function isValidPersonalInfoPage(data) {
 }
 
 function isValidBenefitsInformationPage(data) {
+  return data.chapter33 || data.chapter30 || data.chapter32 || data.chapter1606;
+}
+
+function isValidBenefitsWaiverPage(data) {
   return !data.chapter33 ||
     (isNotBlank(data.benefitsRelinquished.value) &&
       (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
         (!isBlankDateField(data.benefitsRelinquishedDate) && isValidFutureDateField(data.benefitsRelinquishedDate))));
 }
-
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
-    && (!tour.doNotApplyPeriodToSelected || isNotBlank(tour.benefitsToApplyTo.value))
     && isValidDateField(tour.dateRange.from)
     && isValidDateField(tour.dateRange.to)
     && isValidDateRange(tour.dateRange.from, tour.dateRange.to);
@@ -292,7 +301,7 @@ function isValidContactInformationPage(data) {
       isValidField(isValidEmail, data.email) &&
       isValidField(isValidEmail, data.emailConfirmation) &&
       emailConfirmationValid &&
-      isPhoneRequired ? isValidRequiredField(isValidPhone, data.homePhone) : isValidField(isValidPhone, data.homePhone) &&
+      (isPhoneRequired ? isValidRequiredField(isValidPhone, data.homePhone) : isValidField(isValidPhone, data.homePhone)) &&
       isValidField(isValidPhone, data.mobilePhone);
 }
 
@@ -301,7 +310,7 @@ function isValidDirectDepositPage(data) {
 }
 
 function isValidBenefitsHistoryPage(data) {
-  return data.activeDutyRepaying.value !== 'Y' ||
+  return !data.activeDutyRepaying ||
     (!isBlankDateField(data.activeDutyRepayingPeriod.from)
     && !isBlankDateField(data.activeDutyRepayingPeriod.to)
     && isValidDateRange(data.activeDutyRepayingPeriod.from, data.activeDutyRepayingPeriod.to));
@@ -319,6 +328,7 @@ function isValidRotcHistoryPage(data) {
 
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data)
+    && isValidBenefitsWaiverPage(data)
     && isValidPersonalInfoPage(data)
     && isValidContactInformationPage(data)
     && isValidMilitaryServicePage(data)
@@ -339,6 +349,8 @@ function isValidPage(completePath, pageData) {
       return isValidContactInformationPage(pageData);
     case '/benefits-eligibility/benefits-selection':
       return isValidBenefitsInformationPage(pageData);
+    case '/benefits-eligibility/benefits-waiver':
+      return isValidBenefitsWaiverPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
     case '/military-history/benefits-history':
@@ -387,6 +399,7 @@ export {
   isValidPhone,
   isValidEmail,
   isValidYear,
+  isValidCurrentOrPastYear,
   isValidMonths,
   isValidRoutingNumber,
   isValidField,

@@ -3,17 +3,19 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
 
-import { rxStatuses } from '../config.js';
+import { openRefillModal } from '../actions/modal';
+import { rxStatuses } from '../config';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitRefill from './SubmitRefill';
-import { openRefillModal } from '../actions/modal';
-
 
 class Prescription extends React.Component {
   constructor() {
     super();
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.showTracking = this.showTracking.bind(this);
+    this.showMessageProvider = this.showMessageProvider.bind(this);
+    this.showRefillStatus = this.showRefillStatus.bind(this);
   }
 
   handleSubmit(domEvent) {
@@ -25,57 +27,95 @@ class Prescription extends React.Component {
     this.props.openRefillModal(content.attributes);
   }
 
+  showTracking() {
+    let trackMessage;
+
+    const trackable = this.props.attributes.isTrackable;
+    const id = this.props.id;
+
+    if (trackable) {
+      trackMessage = (
+        <TrackPackageLink
+            key={`rx-${id}-track`}
+            className="usa-button"
+            text="Track package"
+            url={`/rx/prescription/${id}#rx-order-history`}/>
+      );
+    } else {
+      trackMessage = (
+        <div
+            key={`rx-${id}-requested`}
+            className="rx-prescription-refill-requested">
+          Refill requested
+        </div>
+      );
+    }
+
+    return trackMessage;
+  }
+
+  showMessageProvider() {
+    let msgProvider;
+    const id = this.props.id;
+    const remaining = this.props.attributes.refillRemaining;
+
+    if (remaining === 0) {
+      msgProvider = (
+        <div className="rx-call-provider">
+          <Link
+              key={`rx-${id}-call`}
+              to="/messaging">Message Provider</Link>
+        </div>
+      );
+    }
+    return msgProvider;
+  }
+
+  showRefillStatus() {
+    const refillable = this.props.attributes.isRefillable;
+    const id = this.props.id;
+    const status = this.props.attributes.refillStatus;
+
+    let refillStatus;
+
+    if (refillable === true) {
+      refillStatus = (
+        <SubmitRefill
+            key={`rx-${id}-refill`}
+            cssClass="rx-prescription-button"
+            onSubmit={this.handleSubmit}
+            refillId={id}
+            text="Refill Prescription"/>
+      );
+    } else {
+      refillStatus = (
+        <div
+            key={`rx-${id}-status`}
+            className="rx-prescription-status">
+            Refill status:
+          <span> {rxStatuses[status]}</span>
+        </div>
+      );
+    }
+
+    return refillStatus;
+  }
+
   render() {
     const attrs = this.props.attributes;
     const id = this.props.id;
     const name = attrs.prescriptionName;
-    const status = attrs.refillStatus;
 
     let action = [];
 
-    if (attrs.isRefillable === true) {
-      action.push(<SubmitRefill
-          key={`rx-${id}-refill`}
-          cssClass="rx-prescription-button"
-          onSubmit={this.handleSubmit}
-          refillId={id}
-          text="Refill Prescription"/>);
-    } else {
-      const callProvider = <div key={`rx-${id}-call`}>Call Provider</div>;
+    // Show tracking if applicable
+    action.push(this.showTracking());
 
-      if (status !== 'active') {
-        action.push((
-          <div
-              key={`rx-${id}-status`}
-              className="rx-prescription-status">
-            {rxStatuses[status]}
-          </div>
-        ));
+    // Show Refill prescription button or refill status
+    action.push(this.showRefillStatus());
 
-        if (status !== 'submitted') {
-          action.push(callProvider);
-        }
-      } else {
-        if (attrs.isTrackable === true) {
-          action.push(<TrackPackageLink
-              key={`rx-${id}-track`}
-              className="usa-button"
-              text="Track package"/>);
-        } else {
-          action.push((
-            <div
-                key={`rx-${id}-requested`}
-                className="rx-prescription-refill-requested">
-              Refill requested
-            </div>
-          ));
-        }
-
-        if (attrs.refillRemaining === 0) {
-          action.push(callProvider);
-        }
-      }
-    }
+    // Show 'Message Provider' link when refillsRemaining === 0
+    action.push(this.showMessageProvider());
 
     return (
       <div className="rx-prescription">

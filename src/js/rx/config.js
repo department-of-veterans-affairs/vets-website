@@ -1,7 +1,7 @@
 module.exports = {
   // Base URL to be used in API requests.
   api: {
-    url: '/api/v0/prescriptions/',
+    url: '/api/v0/prescriptions',
     settings: {
       headers: {
         'X-Key-Inflection': 'camel'
@@ -11,19 +11,19 @@ module.exports = {
 
   glossary: [{
     term: 'Active',
-    definition: 'If you have refills, you may request a refill of this prescription from your VA pharmacy.'
+    definition: 'A prescription that can be filled at the local VA pharmacy. If you have refills, you may request a refill of this prescription from your VA pharmacy.'
   },
   {
     term: 'Discontinued',
-    definition: 'This prescription is no longer available. Contact your VA health care team if you need more of this medication.'
+    definition: 'A prescription your provider has stopped. It is no longer available to be sent to you or pick up at the VA pharmacy window. Contact your VA healthcare team if you need more of this medication.'
   },
   {
     term: 'Expired',
-    definition: 'This prescription is too old to fill. Contact your VA health care team if you need more of this medication.'
+    definition: 'A prescription which is too old to fill. This does not refer to the expiration date of the medication in the bottle. Contact your VA healthcare team if you need more.'
   },
   {
-    term: 'On hold',
-    definition: 'This prescription cannot be refilled until a hold is resolved by the pharmacy. Contact your VA pharmacy when you need more of this medication.'
+    term: 'Hold',
+    definition: 'This prescription cannot be refilled until a hold is resolved by the pharmacy. Contact your VA pharmacy if you need this prescription now.'
   },
   {
     term: 'Pending',
@@ -35,18 +35,23 @@ module.exports = {
   },
   {
     term: 'Suspended',
-    definition: 'It is too early to request a refill for this prescription. It should be sent to you before you run out. Contact your VA pharmacy if you need this medication now.'
+    definition: 'An active prescription that is not scheduled to be filled yet. You should receive it before you run out. Contact your VA pharmacy if you need this medication now.'
   },
   {
     term: 'Unknown',
-    definition: 'An unknown error has occurred. Contact your VA pharmacy if you need this medication now.'
+    definition: 'There has been an unknown error from our end. Contact your VA healthcare team for more information.'
   }],
 
   rxStatuses: {
     active: 'Active',
+    deleted: 'Unknown',
     discontinued: 'Discontinued',
+    discontinuedByProvider: 'Discontinued',
+    discontinuedEdit: 'Discontinued',
     expired: 'Expired',
-    hold: 'On hold',
+    hold: 'Hold',
+    nonVerified: 'Unknown',
+    providerHold: 'Hold',
     submitted: 'Pending',
     suspended: 'Suspended',
     refillinprocess: 'Refill in process',

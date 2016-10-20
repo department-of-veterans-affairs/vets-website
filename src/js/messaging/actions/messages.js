@@ -2,30 +2,40 @@ import { api } from '../config';
 import { isJson } from '../utils/helpers';
 
 import {
+  ADD_DRAFT_ATTACHMENTS,
+  CLEAR_DRAFT,
   CREATE_FOLDER_FAILURE,
-  CREATE_FOLDER_SUCCESS
-} from './folders';
-
-export const CLEAR_DRAFT = 'CLEAR_DRAFT';
-export const DELETE_MESSAGE_SUCCESS = 'DELETE_MESSAGE_SUCCESS';
-export const DELETE_MESSAGE_FAILURE = 'DELETE_MESSAGE_FAILURE';
-export const FETCH_THREAD_SUCCESS = 'FETCH_THREAD_SUCCESS';
-export const FETCH_THREAD_FAILURE = 'FETCH_THREAD_FAILURE';
-export const MOVE_MESSAGE_SUCCESS = 'MOVE_MESSAGE_SUCCESS';
-export const MOVE_MESSAGE_FAILURE = 'MOVE_MESSAGE_FAILURE';
-export const SAVE_DRAFT_SUCCESS = 'SAVE_DRAFT_SUCCESS';
-export const SAVE_DRAFT_FAILURE = 'SAVE_DRAFT_FAILURE';
-export const SEND_MESSAGE_SUCCESS = 'SEND_MESSAGE_SUCCESS';
-export const SEND_MESSAGE_FAILURE = 'SEND_MESSAGE_FAILURE';
-export const TOGGLE_MESSAGE_COLLAPSED = 'TOGGLE_MESSAGE_COLLAPSED';
-export const TOGGLE_MESSAGES_COLLAPSED = 'TOGGLE_MESSAGES_COLLAPSED';
-export const TOGGLE_MOVE_TO = 'TOGGLE_MOVE_TO';
-export const UPDATE_DRAFT = 'UPDATE_DRAFT';
+  CREATE_FOLDER_SUCCESS,
+  DELETE_DRAFT_ATTACHMENT,
+  DELETE_MESSAGE_SUCCESS,
+  DELETE_MESSAGE_FAILURE,
+  FETCH_THREAD_SUCCESS,
+  FETCH_THREAD_FAILURE,
+  MOVE_MESSAGE_SUCCESS,
+  MOVE_MESSAGE_FAILURE,
+  SAVE_DRAFT_SUCCESS,
+  SAVE_DRAFT_FAILURE,
+  SEND_MESSAGE_SUCCESS,
+  SEND_MESSAGE_FAILURE,
+  TOGGLE_MESSAGE_COLLAPSED,
+  TOGGLE_MESSAGES_COLLAPSED,
+  TOGGLE_MOVE_TO,
+  TOGGLE_REPLY_DETAILS,
+  UPDATE_DRAFT
+} from '../utils/constants';
 
 const baseUrl = `${api.url}/messages`;
 
+export function addDraftAttachments(files) {
+  return { type: ADD_DRAFT_ATTACHMENTS, files };
+}
+
 export function clearDraft() {
   return { type: CLEAR_DRAFT };
+}
+
+export function deleteDraftAttachment(index) {
+  return { type: DELETE_DRAFT_ATTACHMENT, index };
 }
 
 export function deleteMessage(id) {
@@ -238,6 +248,10 @@ export function toggleMessageCollapsed(messageId) {
 
 export function toggleMessagesCollapsed() {
   return { type: TOGGLE_MESSAGES_COLLAPSED };
+}
+
+export function toggleReplyDetails() {
+  return { type: TOGGLE_REPLY_DETAILS };
 }
 
 export function updateDraft(field) {

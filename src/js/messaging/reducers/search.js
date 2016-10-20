@@ -4,12 +4,12 @@ import {
   SET_ADVSEARCH_END_DATE,
   SET_ADVSEARCH_START_DATE,
   TOGGLE_ADVANCED_SEARCH
-} from '../actions/search';
+} from '../utils/constants';
 
 const initialState = {
   basic: null,
   advanced: {
-    visible: true,
+    visible: false,
     params: {
       dateRange: {
         start: null,

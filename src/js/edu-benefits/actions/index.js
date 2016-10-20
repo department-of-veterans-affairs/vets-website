@@ -13,6 +13,14 @@ export const UPDATE_SUBMISSION_DETAILS = 'UPDATE_SUBMISSION_DETAILS';
 export const VETERAN_FIELD_UPDATE = 'VETERAN_FIELD_UPDATE';
 export const ENSURE_FIELDS_INITIALIZED = 'ENSURE_FIELDS_INITIALIZED';
 
+function getApiUrl() {
+  if (window.VetsGov.api.url) {
+    return window.VetsGov.api.url;
+  }
+
+  return environment.API_URL;
+}
+
 export function ensurePageInitialized(page) {
   return (dispatch, getState) => {
     return dispatch({
@@ -101,7 +109,7 @@ export function submitForm(data) {
   return dispatch => {
     dispatch(updateCompletedStatus('/review-and-submit'));
     dispatch(updateSubmissionStatus('submitPending'));
-    fetch(`${environment.API_URL}/v0/education_benefits_claims`, {
+    fetch(`${getApiUrl()}/v0/education_benefits_claims`, {
       method: 'POST',
       mode: 'cors',
       headers: {

@@ -53,6 +53,7 @@ export default class ContactInformationFields extends React.Component {
               additionalClass="first-email"
               onValueChange={(update) => {this.props.onStateChange('email', update);}}/>
           <Email error={this.confirmEmail()} required
+              name="emailConfirmation"
               label="Re-enter email address"
               email={this.props.data.emailConfirmation}
               additionalClass="second-email"
@@ -60,14 +61,15 @@ export default class ContactInformationFields extends React.Component {
           <Phone
               label="Primary telephone number"
               value={this.props.data.homePhone}
-              additionalClass="home-phone usa-input-medium"
-              additionalError="This is required due to your preferred contact method."
+              additionalClass="home-phone va-input-medium-large"
+              additionalError={this.props.data.preferredContactMethod.value === 'phone' ? 'This is required due to your preferred contact method.' : ''}
               required={isPhoneRequired}
               onValueChange={(update) => {this.props.onStateChange('homePhone', update);}}/>
           <Phone
               label="Mobile telephone number"
+              name="mobilePhone"
               value={this.props.data.mobilePhone}
-              additionalClass="mobile-phone usa-input-medium"
+              additionalClass="mobile-phone va-input-medium-large"
               onValueChange={(update) => {this.props.onStateChange('mobilePhone', update);}}/>
         </div>
       </fieldset>

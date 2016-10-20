@@ -4,15 +4,15 @@ import { makeField } from '../../common/model/fields';
 import { composeMessage } from '../config';
 
 import {
-  SET_MESSAGE_FIELD,
-  SET_ATTACHMENTS,
-  DELETE_ATTACHMENT,
+  ADD_COMPOSE_ATTACHMENTS,
+  DELETE_COMPOSE_ATTACHMENT,
   DELETE_COMPOSE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_SENDER_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
+  SET_MESSAGE_FIELD,
   UPDATE_COMPOSE_CHARACTER_COUNT
-} from '../actions/compose';
+} from '../utils/constants';
 
 const initialState = {
   message: {
@@ -49,7 +49,12 @@ function getRecipients(recipients) {
 
 export default function compose(state = initialState, action) {
   switch (action.type) {
-    case DELETE_ATTACHMENT:
+    case ADD_COMPOSE_ATTACHMENTS:
+      return set('message.attachments', [
+        ...state.message.attachments,
+        ...action.files
+      ], state);
+    case DELETE_COMPOSE_ATTACHMENT:
       // Remove the attachment at the requested index.
       state.message.attachments.splice(action.index, 1);
       return set('message.attachments', state.message.attachments, state);
@@ -61,8 +66,6 @@ export default function compose(state = initialState, action) {
       return set('message.sender', action.sender, state);
     case SET_MESSAGE_FIELD:
       return set(action.path, action.field, state);
-    case SET_ATTACHMENTS:
-      return set('message.attachments', action.files, state);
     case UPDATE_COMPOSE_CHARACTER_COUNT:
       return set('message.charsRemaining', action.chars, state);
     case FETCH_RECIPIENTS_FAILURE:

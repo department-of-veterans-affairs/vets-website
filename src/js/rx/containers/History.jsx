@@ -1,61 +1,82 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
+import _ from 'lodash';
 import moment from 'moment';
 
+import SortableTable from '../../common/components/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modal.js';
-import Pagination from '../components/Pagination';
-import SortableTable from '../components/tables/SortableTable';
+import Pagination from '../../common/components/Pagination';
 import SortMenu from '../components/SortMenu';
 import { glossary, rxStatuses } from '../config.js';
 
 class History extends React.Component {
   constructor(props) {
     super(props);
-    this.loadData = this.loadData.bind(this);
+    this.formattedSortParam = this.formattedSortParam.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
     this.openGlossaryModal = this.openGlossaryModal.bind(this);
   }
 
-  componentWillMount() {
-    this.loadData();
+  componentDidMount() {
+    const query = _.pick(this.props.location.query, ['page', 'sort']);
+    this.props.loadPrescriptions(query);
   }
 
-  loadData(options) {
-    let combinedOptions;
-    if (options) {
-      combinedOptions = {
-        sort: options.sort || this.props.prescriptions.history.sort,
-        page: options.page || this.props.prescriptions.history.page
-      };
+  componentDidUpdate() {
+    const oldPage = this.props.page;
+    const oldSort = this.formattedSortParam(
+      this.props.sort.value,
+      this.props.sort.order
+    );
+
+    const query = _.pick(this.props.location.query, ['page', 'sort']);
+    const newPage = +query.page || oldPage;
+    const newSort = query.sort || oldSort;
+
+    if (newPage !== oldPage || newSort !== oldSort) {
+      this.props.loadPrescriptions(query);
     }
-    this.props.dispatch(loadPrescriptions(combinedOptions));
+  }
+
+  formattedSortParam(value, order) {
+    const formattedValue = _.snakeCase(value);
+    const sort = order === 'DESC'
+               ? `-${formattedValue}`
+               : formattedValue;
+    return sort;
   }
 
   handleSort(value, order) {
-    const sort = { value, order };
-    this.loadData({ sort });
+    const sort = this.formattedSortParam(value, order);
+    browserHistory.push({
+      pathname: '/rx/history',
+      query: { ...this.props.location.query, sort }
+    });
   }
 
   handlePageSelect(page) {
-    this.loadData({ page });
+    browserHistory.push({
+      pathname: '/rx/history',
+      query: { ...this.props.location.query, page }
+    });
   }
 
   openGlossaryModal(term) {
     const content = glossary.filter(obj => {
       return obj.term === term;
     });
-    this.props.dispatch(openGlossaryModal(content));
+    this.props.openGlossaryModal(content);
   }
 
   render() {
-    const items = this.props.prescriptions.items;
+    const items = this.props.prescriptions;
     let content;
 
     if (items) {
-      const currentSort = this.props.prescriptions.history.sort;
+      const currentSort = this.props.sort;
 
       const fields = [
         { label: 'Last requested', value: 'orderedDate' },
@@ -69,13 +90,17 @@ class History extends React.Component {
         const status = rxStatuses[attrs.refillStatus];
 
         return {
-          orderedDate: moment(
-              attrs.orderedDate
-            ).format('MMM DD, YYYY'),
+          id: item.id,
 
-          dispensedDate: moment(
-              attrs.dispensedDate
-            ).format('MMM DD, YYYY'),
+          orderedDate:
+            attrs.orderedDate
+            ? moment(attrs.orderedDate).format('MMM DD, YYYY')
+            : 'Not available',
+
+          dispensedDate:
+            attrs.dispensedDate
+            ? moment(attrs.dispensedDate).format('MMM DD, YYYY')
+            : 'Not available',
 
           prescriptionName: (
             <Link to={`/rx/prescription/${attrs.prescriptionId}`}>
@@ -98,15 +123,15 @@ class History extends React.Component {
               options={fields}
               selected={currentSort}/>
           <SortableTable
-              className="usa-table-borderless rx-table rx-table-list"
+              className="usa-table-borderless va-table-list rx-table rx-table-list"
               currentSort={currentSort}
               data={data}
               fields={fields}
               onSort={this.handleSort}/>
           <Pagination
               onPageSelect={this.handlePageSelect}
-              page={this.props.prescriptions.history.page}
-              pages={this.props.prescriptions.history.pages}/>
+              page={this.props.page}
+              pages={this.props.pages}/>
         </div>
       );
     }
@@ -120,7 +145,15 @@ class History extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    ...state.prescriptions.history,
+    prescriptions: state.prescriptions.items
+  };
 };
 
-export default connect(mapStateToProps)(History);
+const mapDispatchToProps = {
+  loadPrescriptions,
+  openGlossaryModal
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(History);
