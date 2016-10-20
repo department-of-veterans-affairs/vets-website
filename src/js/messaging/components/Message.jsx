@@ -57,11 +57,11 @@ class Message extends React.Component {
         <div
             className="messaging-message-header"
             onClick={headerOnClick}>
-          <div className="messaging-message-sender">
-            {this.props.attrs.senderName}
-          </div>
           <div className="messaging-message-sent-date">
             {formattedDate(this.props.attrs.sentDate, { fromNow: true })}
+          </div>
+          <div className="messaging-message-sender">
+            {this.props.attrs.senderName}
           </div>
           {details}
         </div>
