@@ -37,8 +37,8 @@ export default class MilitaryServiceReview extends React.Component {
             </thead>
             <tbody>
               <tr>
-              <td>Service status:</td>
-              <td>{tour.serviceStatus.value}</td>
+                <td>Service status:</td>
+                <td>{tour.serviceStatus.value}</td>
               </tr>
               <tr>
                 <td>From date:</td>
