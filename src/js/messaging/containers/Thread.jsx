@@ -101,27 +101,12 @@ export class Thread extends React.Component {
       return message.messageId === this.props.message.messageId;
     });
 
-    /* Once the position of current position has been determined,
-       create functions to navigate to the previous and next
-       messages within the folder.
-
-       Then pass these functions to the navigation components. */
-
-    let fetchPrevMessage;
-    if (currentIndex - 1 >= 0) {
-      const prevId = folderMessages[currentIndex - 1].messageId;
-      fetchPrevMessage = () => {
-        this.props.fetchThread(prevId);
-      };
-    }
-
-    let fetchNextMessage;
-    if (currentIndex + 1 < folderMessageCount) {
-      const nextId = folderMessages[currentIndex + 1].messageId;
-      fetchNextMessage = () => {
-        this.props.fetchThread(nextId);
-      };
-    }
+    // TODO: Enable navigating to messages outside of the current page.
+    const handleMessageSelect = (messageNumber) => {
+      const index = messageNumber - 1;
+      const selectedId = folderMessages[index].messageId;
+      this.props.fetchThread(selectedId);
+    };
 
     return (
       <ThreadHeader
@@ -129,8 +114,7 @@ export class Thread extends React.Component {
           moveToFolders={moveToFolders}
           folderMessageCount={folderMessageCount}
           message={this.props.message}
-          onClickPrev={fetchPrevMessage}
-          onClickNext={fetchNextMessage}
+          onMessageSelect={handleMessageSelect}
           persistedFolder={this.props.persistFolder}
           threadMessageCount={this.props.thread.length + 1}
           messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
