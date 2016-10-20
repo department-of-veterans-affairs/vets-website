@@ -89,7 +89,7 @@ export function moveMessageToFolder(messageId, folder) {
 export function createFolderAndMoveMessage(folderName, messageId) {
   const foldersUrl = `${api.url}/folders`;
   const folderData = { folder: { name: folderName } };
-  const settings = Object.assign({}, api.settings.post, {
+  const settings = Object.assign({}, api.settings.postJson, {
     body: JSON.stringify(folderData)
   });
 
@@ -132,7 +132,7 @@ export function saveDraft(message) {
             : `${draftsUrl}/${message.messageId}`;
 
   const defaultSettings = isNewDraft
-                        ? api.settings.post
+                        ? api.settings.postJson
                         : api.settings.put;
 
   const settings = Object.assign({}, defaultSettings, {
@@ -167,20 +167,19 @@ export function saveDraft(message) {
 }
 
 export function sendMessage(message) {
-  const payload = {
-    message: {
-      // Include id when API supports automatically deleting
-      // the draft when sending a message.
-      // id: message.messageId,
-      category: message.category,
-      subject: message.subject,
-      body: message.body,
-      recipientId: message.recipientId
-    }
-  };
+  const payload = new FormData();
+  payload.append('message[recipient_id]', message.recipientId);
+  payload.append('message[category]', message.category);
+  payload.append('message[subject]', message.subject);
+  payload.append('message[body]', message.body);
 
-  const settings = Object.assign({}, api.settings.post, {
-    body: JSON.stringify(payload)
+  // Add each attachment as a separate item
+  message.attachments.forEach((file) => {
+    payload.append('uploads[]', file);
+  });
+
+  const settings = Object.assign({}, api.settings.postFormData, {
+    body: payload
   });
 
   return dispatch => {
@@ -208,7 +207,7 @@ export function sendMessage(message) {
 export function sendReply(message) {
   const replyUrl = `${baseUrl}/${message.replyMessageId}/reply`;
   const payload = { message: { body: message.body } };
-  const settings = Object.assign({}, api.settings.post, {
+  const settings = Object.assign({}, api.settings.postJson, {
     body: JSON.stringify(payload)
   });
 

@@ -4,6 +4,9 @@ import moment from 'moment';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 
 class DetailsPage extends React.Component {
+  componentDidMount() {
+    document.title = 'Your Disability Compensation Claim';
+  }
   render() {
     const { claim, loading } = this.props;
 
