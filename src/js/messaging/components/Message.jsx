@@ -43,13 +43,7 @@ class Message extends React.Component {
 
     let attachments;
     if (this.props.attrs.attachment) {
-      // TODO: Replace with actual attachments data
-      attachments = (<MessageAttachmentsView attachments={[
-        { name: 'file1.jpg', url: 'path/to/file1.jpg' },
-        { name: 'file2.jpg', url: 'path/to/file2.jpg' },
-        { name: 'file3.jpg', url: 'path/to/file3.jpg' },
-        { name: 'file4.jpg', url: 'path/to/file4.jpg' }
-      ]}/>);
+      attachments = (<MessageAttachmentsView attachments={this.props.attrs.attachments}/>);
     }
 
     return (
