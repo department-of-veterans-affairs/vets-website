@@ -11,7 +11,7 @@ export const SUBMIT_DECISION_REQUEST = 'SUBMIT_DECISION_REQUEST';
 export const SET_DECISION_REQUESTED = 'SET_DECISION_REQUESTED';
 export const SET_DECISION_REQUEST_ERROR = 'SET_DECISION_REQUEST_ERROR';
 export const SET_UNAVAILABLE = 'SET_UNAVAILABLE';
-export const SET_TRACKED_ITEM = 'SET_TRACKED_ITEM';
+export const RESET_UPLOADS = 'RESET_UPLOADS';
 export const ADD_FILE = 'ADD_FILE';
 export const REMOVE_FILE = 'REMOVE_FILE';
 export const SUBMIT_FILES = 'SUBMIT_FILES';
@@ -112,18 +112,9 @@ export function submitRequest(id) {
   };
 }
 
-export function getTrackedItem(id) {
-  return (dispatch, getState) => {
-    const item = getState()
-      .claimDetail.detail.attributes.eventsTimeline
-      .filter(event => event.trackedItemId === parseInt(id, 10))[0];
-
-    if (item) {
-      dispatch({
-        type: SET_TRACKED_ITEM,
-        item
-      });
-    }
+export function resetUploads() {
+  return {
+    type: RESET_UPLOADS
   };
 }
 
@@ -141,9 +132,18 @@ export function removeFile(index) {
   };
 }
 
+function calcProgress(totalFiles, totalSize, filesComplete, bytesComplete) {
+  const ratio = 0.8;
+
+  return ((filesComplete / totalFiles) * (1 - ratio)) + ((bytesComplete / totalSize) * ratio);
+}
+
 export function submitFiles(claimId, trackedItem, files) {
   let filesComplete = 0;
+  let bytesComplete = 0;
   let hasError = false;
+  const totalSize = files.reduce((sum, file) => sum + file.file.size, 0);
+  const totalFiles = files.length;
   const trackedItemId = trackedItem ? trackedItem.trackedItemId : null;
 
   return (dispatch) => {
@@ -177,11 +177,18 @@ export function submitFiles(claimId, trackedItem, files) {
             });
           }
         },
+        onTotalProgress: (bytes) => {
+          bytesComplete = bytes;
+          dispatch({
+            type: SET_PROGRESS,
+            progress: calcProgress(totalFiles, totalSize, filesComplete, bytesComplete)
+          });
+        },
         onComplete: () => {
           filesComplete++;
           dispatch({
             type: SET_PROGRESS,
-            progress: filesComplete / files.length
+            progress: calcProgress(totalFiles, totalSize, filesComplete, bytesComplete)
           });
         },
         onError: (id, name, reason) => {

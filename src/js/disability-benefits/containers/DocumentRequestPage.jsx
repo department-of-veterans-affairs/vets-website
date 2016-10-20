@@ -11,7 +11,7 @@ import {
   addFile,
   removeFile,
   submitFiles,
-  getTrackedItem,
+  resetUploads,
   updateField,
   showMailOrFaxModal,
   cancelUpload,
@@ -20,6 +20,14 @@ import {
 } from '../actions';
 
 class DocumentRequestPage extends React.Component {
+  componentDidMount() {
+    this.props.resetUploads();
+    if (this.props.trackedItem) {
+      document.title = `Request for ${this.props.trackedItem.displayName}`;
+    } else {
+      document.title = 'Document Request';
+    }
+  }
   componentWillReceiveProps(props) {
     if (props.uploadComplete) {
       this.goToFilesPage();
@@ -106,12 +114,12 @@ const mapDispatchToProps = {
   addFile,
   removeFile,
   submitFiles,
-  getTrackedItem,
   updateField,
   showMailOrFaxModal,
   cancelUpload,
   getClaimDetail,
-  setFieldsDirty
+  setFieldsDirty,
+  resetUploads
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DocumentRequestPage));

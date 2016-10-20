@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import uploads from '../../../src/js/disability-benefits/reducers/uploads';
 import {
-  SET_TRACKED_ITEM,
+  RESET_UPLOADS,
   ADD_FILE,
   REMOVE_FILE,
   SET_UPLOADING,
@@ -21,7 +21,7 @@ describe('Uploads reducer', () => {
     const state = uploads({
       things: null
     }, {
-      type: SET_TRACKED_ITEM
+      type: RESET_UPLOADS
     });
 
     expect(state.things).to.be.undefined;

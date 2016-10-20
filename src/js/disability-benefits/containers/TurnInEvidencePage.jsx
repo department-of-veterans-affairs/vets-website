@@ -15,10 +15,15 @@ import {
   showMailOrFaxModal,
   cancelUpload,
   getClaimDetail,
-  setFieldsDirty
+  setFieldsDirty,
+  resetUploads
 } from '../actions';
 
 class TurnInEvidencePage extends React.Component {
+  componentDidMount() {
+    this.props.resetUploads();
+    document.title = 'Turn in More Evidence';
+  }
   componentWillReceiveProps(props) {
     if (props.uploadComplete) {
       this.goToFilesPage();
@@ -96,7 +101,8 @@ const mapDispatchToProps = {
   showMailOrFaxModal,
   cancelUpload,
   getClaimDetail,
-  setFieldsDirty
+  setFieldsDirty,
+  resetUploads
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TurnInEvidencePage));

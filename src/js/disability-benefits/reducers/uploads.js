@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 import {
-  SET_TRACKED_ITEM,
+  RESET_UPLOADS,
   ADD_FILE,
   REMOVE_FILE,
   SET_UPLOADING,
@@ -29,7 +29,7 @@ const initialState = {
 
 export default function claimDetailReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_TRACKED_ITEM: {
+    case RESET_UPLOADS: {
       return initialState;
     }
     case ADD_FILE: {
