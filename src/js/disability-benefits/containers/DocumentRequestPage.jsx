@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
 import DueDate from '../components/DueDate';
 import AskVAQuestions from '../components/AskVAQuestions';
@@ -46,10 +46,17 @@ class DocumentRequestPage extends React.Component {
       const trackedItem = this.props.trackedItem;
       content = (
         <div className="claim-container">
+          <nav className="va-nav-breadcrumbs">
+            <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+              <li><Link to="your-claims">Your claims</Link></li>
+              <li><Link to={`your-claims/${this.props.claim.id}`}>Your Compensation Claim</Link></li>
+              <li className="active">{trackedItem.displayName}</li>
+            </ul>
+          </nav>
           {this.props.uploadError
             ? <UploadError/>
             : null}
-          <h1>{trackedItem.displayName}</h1>
+          <h1 className="claims-header">{trackedItem.displayName}</h1>
           {trackedItem.type.endsWith('you_list') ? <DueDate date={trackedItem.suspenseDate}/> : null}
           {trackedItem.type.endsWith('others_list')
             ? <div className="optional-upload">
