@@ -40,25 +40,23 @@
 
 .messaging-message-sender,
 .messaging-message-sent-date {
-  display: inline-block;
   font-weight: bold;
-  vertical-align: top;
 }
 
 .messaging-message-sender {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 75%;
 
   @media (max-width: $medium-screen) {
+    margin: 0;
     width: 100%;
   }
 }
 
 .messaging-message-sent-date {
-  text-align: right;
-  width: 25%;
+  float: right;
+  padding-left: 3rem;
 }
 
 .messaging-message-recipient {
