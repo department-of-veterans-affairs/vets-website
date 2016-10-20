@@ -113,23 +113,30 @@ export class Detail extends React.Component {
         ? moment(attrs.expirationDate).format('MMM D, YYYY')
         : 'Not available',
 
-      Refills: (
-        <div>
-          {attrs.refillRemaining} remaining
-          <SubmitRefill
-              cssClass="rx-trigger"
-              mode="compact"
-              onSubmit={(e) => { e.preventDefault(); this.props.openRefillModal(attrs); }}
-              refillId={attrs.id}
-              text="Refill Prescription"/>
-        </div>
-      )
+      Refills: `${attrs.refillRemaining} remaining`
     };
 
+    let refillButton;
+
+    if (attrs.isRefillable) {
+      refillButton = (
+        <SubmitRefill
+            onSubmit={(e) => {
+              e.preventDefault();
+              this.props.openRefillModal(attrs);
+            }}
+            refillId={attrs.id}
+            text="Refill Prescription"/>
+      );
+    }
+
     return (
-      <TableVerticalHeader
-          className="usa-table-borderless rx-table rx-info"
-          data={data}/>
+      <div id="rx-info">
+        <TableVerticalHeader
+            className="usa-table-borderless rx-table"
+            data={data}/>
+        {refillButton}
+      </div>
     );
   }
 
