@@ -1,17 +1,16 @@
 import React from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
-import DueDate from '../components/DueDate';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import Loading from '../components/Loading';
 import UploadError from '../components/UploadError';
+import EvidenceWarning from '../components/EvidenceWarning';
 
 import {
   addFile,
   removeFile,
   submitFiles,
-  getTrackedItem,
   updateField,
   showMailOrFaxModal,
   cancelUpload,
@@ -19,7 +18,7 @@ import {
   setFieldsDirty
 } from '../actions';
 
-class DocumentRequestPage extends React.Component {
+class TurnInEvidencePage extends React.Component {
   componentWillReceiveProps(props) {
     if (props.uploadComplete) {
       this.goToFilesPage();
@@ -35,20 +34,13 @@ class DocumentRequestPage extends React.Component {
     if (this.props.loading) {
       content = <Loading/>;
     } else {
-      const trackedItem = this.props.trackedItem;
       content = (
         <div className="claim-container">
           {this.props.uploadError
             ? <UploadError/>
             : null}
-          <h1>{trackedItem.displayName}</h1>
-          {trackedItem.type.endsWith('you_list') ? <DueDate date={trackedItem.suspenseDate}/> : null}
-          {trackedItem.type.endsWith('others_list')
-            ? <div className="optional-upload">
-              <p><strong>Optional</strong> - we've asked others to send this to us, but you may upload it if you have it.</p>
-            </div>
-            : null}
-          <p>{trackedItem.description}</p>
+          <h1>Turn in More Evidence</h1>
+          <EvidenceWarning/>
           <AddFilesForm
               field={this.props.uploadField}
               progress={this.props.progress}
@@ -57,7 +49,7 @@ class DocumentRequestPage extends React.Component {
               showMailOrFax={this.props.showMailOrFax}
               onSubmit={() => this.props.submitFiles(
                 this.props.claim.id,
-                this.props.trackedItem,
+                null,
                 this.props.files
               )}
               onAddFile={this.props.addFile}
@@ -82,16 +74,10 @@ class DocumentRequestPage extends React.Component {
   }
 }
 
-function mapStateToProps(state, ownProps) {
-  let trackedItem = null;
-  if (state.claimDetail.detail) {
-    trackedItem = state.claimDetail.detail.attributes.eventsTimeline
-      .filter(event => event.trackedItemId === parseInt(ownProps.params.trackedItemId, 10))[0];
-  }
+function mapStateToProps(state) {
   return {
     loading: state.claimDetail.loading,
     claim: state.claimDetail.detail,
-    trackedItem,
     files: state.uploads.files,
     uploading: state.uploads.uploading,
     progress: state.uploads.progress,
@@ -106,7 +92,6 @@ const mapDispatchToProps = {
   addFile,
   removeFile,
   submitFiles,
-  getTrackedItem,
   updateField,
   showMailOrFaxModal,
   cancelUpload,
@@ -114,6 +99,6 @@ const mapDispatchToProps = {
   setFieldsDirty
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DocumentRequestPage));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TurnInEvidencePage));
 
-export { DocumentRequestPage };
+export { TurnInEvidencePage };

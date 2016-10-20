@@ -8,7 +8,7 @@ import FilesPage from './containers/FilesPage.jsx';
 import DetailsPage from './containers/DetailsPage.jsx';
 import AskVAPage from './containers/AskVAPage.jsx';
 import DocumentRequestPage from './containers/DocumentRequestPage.jsx';
-import TurnInEvidence from './containers/TurnInEvidence.jsx';
+import TurnInEvidencePage from './containers/TurnInEvidencePage.jsx';
 
 const routes = [
   <Route
@@ -33,7 +33,7 @@ const routes = [
         component={AskVAPage}
         path="ask-va-to-decide"/>
     <Route
-        component={TurnInEvidence}
+        component={TurnInEvidencePage}
         key="turn-in-evidence"
         path="turn-in-evidence"/>,
     <Route

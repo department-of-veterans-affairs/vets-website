@@ -144,12 +144,14 @@ export function removeFile(index) {
 export function submitFiles(claimId, trackedItem, files) {
   let filesComplete = 0;
   let hasError = false;
+  const trackedItemId = trackedItem ? trackedItem.trackedItemId : null;
+
   return (dispatch) => {
     const uploader = new FineUploaderBasic({
       request: {
         endpoint: `${environment.API_URL}/v0/disability_claims/${claimId}/documents`,
         params: {
-          trackedItem: trackedItem.trackedItemId
+          trackedItem: trackedItemId
         },
         inputName: 'file',
         customHeaders: {
@@ -167,7 +169,7 @@ export function submitFiles(claimId, trackedItem, files) {
           if (!hasError) {
             dispatch({
               type: DONE_UPLOADING,
-              itemName: trackedItem.displayName
+              itemName: trackedItem ? trackedItem.displayName : null
             });
           } else {
             dispatch({

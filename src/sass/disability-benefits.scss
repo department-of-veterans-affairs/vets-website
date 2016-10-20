@@ -426,15 +426,6 @@ p.first-of-type {
   font-size: 1.25em;
 }
 
-.turn-in-evidence-warning {
-  h3 {
-    margin-left: 2em;
-  }
-  h3.warning, .warning-text {
-    margin-left: 2em;
-  }
-}
-
 .file-requirements {
   margin-bottom: 1.5em;
   .file-requirement-header {
@@ -524,12 +515,15 @@ p.first-of-type {
   margin-bottom: 2em;
 }
 
-.evidence-submitted-alert {
+.claims-alert {
   position: relative;
   margin-bottom: 0.5em;
   &.usa-alert {
-    background-size: 4.2rem;
+    background-size: 4.1rem;
     background-position: 1rem 1.9rem;
+  }
+  .usa-alert-heading {
+    padding-bottom: 0 !important;
   }
   > .usa-alert-body {
     padding-left: 4.2rem;

@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function EvidenceSubmitted({ item, onClose }) {
   return (
-    <div className="usa-alert usa-alert-success evidence-submitted-alert">
+    <div className="usa-alert usa-alert-success claims-alert">
       <button className="va-alert-close" onClick={onClose}>
         <i className="fa fa-close"></i>
       </button>
