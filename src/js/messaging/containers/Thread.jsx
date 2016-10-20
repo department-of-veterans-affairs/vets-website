@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import {
   addDraftAttachments,
@@ -47,6 +48,13 @@ export class Thread extends React.Component {
   componentDidMount() {
     const id = this.props.params.id;
     this.props.fetchThread(id);
+  }
+
+  componentDidUpdate() {
+    const newId = +this.props.params.id;
+    if (newId !== this.props.message.messageId) {
+      this.props.fetchThread(newId);
+    }
   }
 
   apiFormattedDraft() {
@@ -105,7 +113,7 @@ export class Thread extends React.Component {
     const handleMessageSelect = (messageNumber) => {
       const index = messageNumber - 1;
       const selectedId = folderMessages[index].messageId;
-      this.props.fetchThread(selectedId);
+      browserHistory.push(`/messaging/thread/${selectedId}`);
     };
 
     return (
