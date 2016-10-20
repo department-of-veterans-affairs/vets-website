@@ -63,6 +63,8 @@ export function formattedDate(date, options = {}) {
   }
 
   if (options.fromNow) {
+    // Overwrite defaults for singular units ('a(n)' -> '1') when
+    // displaying the 'ago' string. Use the defaults for plural.
     moment.locale('en', {
       relativeTime: {
         m: '1 minute',
