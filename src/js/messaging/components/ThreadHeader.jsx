@@ -44,9 +44,9 @@ class ThreadHeader extends React.Component {
           <MessageNav
               currentRange={this.props.currentMessageNumber}
               messageCount={this.props.folderMessageCount}
-              onPageSelect={this.props.onMessageSelect}
-              page={this.props.currentMessageNumber}
-              totalPages={this.props.folderMessageCount}/>
+              onItemSelect={this.props.onMessageSelect}
+              itemNumber={this.props.currentMessageNumber}
+              totalItems={this.props.folderMessageCount}/>
           <ButtonDelete
               onClickHandler={this.props.onDeleteMessage}/>
           <ButtonPrint/>
