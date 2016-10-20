@@ -13,6 +13,9 @@ class AskVAPage extends React.Component {
     this.setSubmittedDocs = this.setSubmittedDocs.bind(this);
     this.state = { submittedDocs: false };
   }
+  componentDidMount() {
+    document.title = 'Ask VA To Decide Your Claim';
+  }
   componentWillReceiveProps(props) {
     if (props.decisionRequested) {
       this.goToStatusPage();

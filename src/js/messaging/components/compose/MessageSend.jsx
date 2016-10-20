@@ -32,8 +32,6 @@ class MessageSend extends React.Component {
 
         if (hasError) {
           this.props.onAttachmentsError(hasError);
-          // Resets the value of the input.
-          input.value = '';
         } else {
           this.props.onAttachmentUpload(files);
         }
