@@ -3,6 +3,9 @@ import { Link } from 'react-router';
 import TabNav from '../components/TabNav';
 import AskVAQuestions from '../components/AskVAQuestions';
 import Loading from '../components/Loading';
+import AddingDetails from '../components/AddingDetails';
+
+import { isCompleteClaim } from '../utils/helpers';
 
 export default class ClaimDetailLayout extends React.Component {
   render() {
@@ -30,6 +33,7 @@ export default class ClaimDetailLayout extends React.Component {
           </div>
           <TabNav id={this.props.claim.id}/>
           <div className="va-tab-content">
+            {isCompleteClaim(claim) ? null : <AddingDetails/>}
             {this.props.children}
           </div>
         </div>
