@@ -33,11 +33,11 @@ export default class EducationHistoryReview extends React.Component {
               </tr>
               <tr>
                 <td scope="col">From</td>
-                <td scope="col">{displayDateIfValid(period.fromDate)}</td>
+                <td scope="col">{displayDateIfValid(period.dateRange.from)}</td>
               </tr>
               <tr>
                 <td scope="col">To</td>
-                <td scope="col">{displayDateIfValid(period.toDate)}</td>
+                <td scope="col">{displayDateIfValid(period.dateRange.to)}</td>
               </tr>
               <tr>
                 <td scope="col">Hours completed</td>
