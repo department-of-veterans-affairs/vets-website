@@ -48,11 +48,8 @@ export class Compose extends React.Component {
     this.saveDraft = this.saveDraft.bind(this);
   }
 
-  componentWillMount() {
-    this.props.resetMessage();
-  }
-
   componentDidMount() {
+    this.props.resetMessage();
     this.props.fetchSenderName();
     this.props.fetchRecipients();
   }
