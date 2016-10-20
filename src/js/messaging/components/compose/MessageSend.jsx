@@ -7,7 +7,6 @@ import {
 } from '../../utils/validations.js';
 
 import ButtonDelete from '../buttons/ButtonDelete';
-import CharacterCount from '../compose/CharacterCount';
 import MessageAddAttachment from './MessageAddAttachment';
 
 class MessageSend extends React.Component {
@@ -64,9 +63,6 @@ class MessageSend extends React.Component {
         <ButtonDelete
             compact
             onClickHandler={this.props.onDelete}/>
-        <CharacterCount
-            count={this.props.charCount}
-            cssClass="msg-characters"/>
       </div>
     );
   }
@@ -74,7 +70,6 @@ class MessageSend extends React.Component {
 
 MessageSend.propTypes = {
   allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string),
-  charCount: React.PropTypes.number,
   cssClass: React.PropTypes.string,
   maxFiles: React.PropTypes.number,
   maxFileSize: React.PropTypes.number,
