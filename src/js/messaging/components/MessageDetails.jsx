@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
+import { formattedDate } from '../utils/helpers';
+
 class MessageDetails extends React.Component {
   constructor(props) {
     super(props);
@@ -43,7 +45,7 @@ class MessageDetails extends React.Component {
                 {
                   moment(
                     this.props.attrs.sentDate
-                  ).format('MMMM DD[,] YYYY[,] HH[:]mm zz')
+                  ).format('ddd, MMM D, YYYY [at] HH:mm')
                 }
               </td>
             </tr>
@@ -88,11 +90,7 @@ class MessageDetails extends React.Component {
             className="messaging-compact-details-trigger"
             type="checkbox"/>
         <span>
-          {
-            moment(
-              this.props.attrs.sentDate
-            ).format('MMMM DD[,] YYYY[,] HH[:]mm zz')
-          }
+          {formattedDate(this.props.attrs.sentDate, { fromNow: true })}
         </span>
         <label htmlFor={compactInputId}></label>
         {messageDetails}
