@@ -96,7 +96,10 @@ class FilesPage extends React.Component {
               {documentsTurnedIn.map(item => (
                 <div className="submitted-file-list-item" key={item.trackedItemId}>
                   <p className="submission-file-type">{item.displayName}</p>
-                  <p className="submission-item">{'file-name.pdf'}</p>
+                  {item.documents
+                    ? item.documents.map((doc, index) =>
+                      <p key={index} className="submission-item">{doc.filename}</p>)
+                    : null}
                   {hasBeenReviewed(item)
                     ?
                     <div>
