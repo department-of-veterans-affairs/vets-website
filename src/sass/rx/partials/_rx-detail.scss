@@ -12,7 +12,7 @@
 
 #rx-detail table {
   // Get font size to stay the same when table shrinks.
-  display: inline-block;
+  display: block;
   font-size: 1.6rem;
   margin: 0;
 
@@ -67,6 +67,7 @@
 
   .rx-refill-form {
     display: block;
+    margin-top: .5rem;
   }
 
   button {
