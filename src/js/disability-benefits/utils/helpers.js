@@ -40,7 +40,7 @@ export function getUserPhase(phase) {
   return phase - 3;
 }
 
-export function groupTimelineActivity2(events) {
+export function groupTimelineActivity(events) {
   const phases = {};
   const phaseEvents = events;
   let activity = [];
@@ -57,7 +57,7 @@ export function groupTimelineActivity2(events) {
         });
       } else {
         activity.push({
-          type: 'phase_entered',
+          type: 'micro_phase',
           phaseNumber,
           date: event.date
         });
@@ -76,12 +76,6 @@ export function groupTimelineActivity2(events) {
   }
 
   return phases;
-}
-
-export function groupTimelineActivity(events) {
-  let lastPhaseNumber = null;
-  const phases = {};
-  events.forEach()
 }
 
 export function displayFileSize(size) {
