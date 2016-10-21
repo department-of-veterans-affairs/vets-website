@@ -1,8 +1,8 @@
-const evidenceGathering = 'Evidence gathering & review';
+const evidenceGathering = 'Evidence gathering, review, and decision';
 
 const phaseMap = {
   1: 'Claim received',
-  2: 'Initial processing',
+  2: 'Initial review',
   3: evidenceGathering,
   4: evidenceGathering,
   5: evidenceGathering,
