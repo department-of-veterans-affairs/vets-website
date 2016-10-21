@@ -5,9 +5,9 @@ permalink: /million-veteran-program/enroll/index.html
 template: L2-section-landing
 concurrence: complete
 relatedlinks:
-  - url: /million-veteran-program/enroll/
-    title: Enroll in the Million Veterans Program
-    description: ""
+  - url: /million-veteran-program/privacy/
+    title: Your Privacy and the Million Veterans Program
+    description: ""  
 ---
 
 If you get VA health care at a [VA medical center with an MVP enrollment site](http://www.research.va.gov/MVP/all-clinics.cfm), VA will mail you a letter inviting you to be a part of MVP and asking you to schedule an appointment.
