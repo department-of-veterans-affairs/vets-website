@@ -25,7 +25,6 @@ const initialState = {
     recipient: makeField(''),
     subject: makeField(''),
     text: makeField(''),
-    charsRemaining: composeMessage.maxChars.message,
     attachments: []
   },
   // List of potential recipients
