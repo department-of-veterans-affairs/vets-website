@@ -29,7 +29,7 @@ majorlinks:
 
 <div class="popular-container">
 <div class="row">
-  <div class="small-10 medium-4 mx-auto text-center">
+  <div class="small-12 medium-4 mx-auto text-center">
   <h2 class="gold-ruled">Popular on Vets.gov</h2>
   </div>
 </div>
