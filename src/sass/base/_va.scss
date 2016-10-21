@@ -438,6 +438,7 @@ h6 {
   h2.tagline {
     max-width: 11em;
     font-size: 2.5rem;
+    font-family: 'Source Sans Pro','Helvetica','Arial',sans-serif;
   }
 
   span, h2 {
@@ -786,7 +787,7 @@ ul, ol {
   }
 
   .section.main-menu {
-    padding: .5em .5em 2.35em .5em;
+    padding: 0em .5em 4em .5em;
     overflow: hidden;
 
     @media #{$small} {

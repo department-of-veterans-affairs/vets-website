@@ -84,19 +84,21 @@
 }
 
 a.va-crisis-line {
-  background: $color-white url(/img/arrow-down.png) no-repeat 97% center;
+  background: $color-white url(/img/arrow-down.png) no-repeat 95% center;
   background-size: .8em auto;
   margin: 0;
-  padding: 0 1em;
+  padding: 0.25em 1em;
   text-align: left;
+  font-size: 1em;
   width: 100%;
   display: flex;
   align-items: center;
   text-decoration: none;
+  font-weight: bold;
 
   span.vcl {
     content: "";
-    background: url(/img/vcl-logo.png) no-repeat right 40%;
+    background: url(/img/vcl-logo.png) no-repeat right 29%;
     background-size: 100%;
     display: inline-block;
     width: 2em;
