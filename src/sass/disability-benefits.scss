@@ -498,6 +498,9 @@ p.first-of-type {
     p:last-child {
       margin-bottom: 0;
     }
+    > .modal-title {
+      padding-bottom: 0 !important;
+    }
   }
 }
 
