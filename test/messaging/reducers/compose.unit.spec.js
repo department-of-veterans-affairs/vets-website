@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 
 import { makeField } from '../../../src/js/common/model/fields';
-import { composeMessage } from '../../../src/js/messaging/config';
 import composeReducer from '../../../src/js/messaging/reducers/compose';
 
 import {
