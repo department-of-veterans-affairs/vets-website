@@ -10,19 +10,9 @@
   font-size: 2.5rem;
 }
 
-#rx-detail .rx-contact-card {
-  margin: 2rem 0;
-  width: 100%;
-
-  @media (min-width: $medium-screen) {
-    display: inline-block;
-    margin: 0;
-    width: 30rem;
-  };
-}
-
-#rx-detail .rx-table {
+#rx-detail table {
   // Get font size to stay the same when table shrinks.
+  display: block;
   font-size: 1.6rem;
   margin: 0;
 
@@ -40,20 +30,28 @@
     }
   }
 
+  th {
+    white-space: nowrap;
+  }
+
+  td:last-child {
+    width: 99%;
+  }
+
   @media (min-width: $medium-screen) {
-    margin: 0 3rem 0 0;
-    min-width: 50rem;
+    display: inline-block;
+    min-width: 45rem;
+    width: 45rem;
   }
 }
 
-.rx-info {
+#rx-info {
+  margin-bottom: 3.5rem;
+
   @media (min-width: $medium-screen) {
     display: inline-block;
+    margin-right: 3.5rem;
     vertical-align: top;
-
-    td {
-      width: 35rem;
-    }
   }
 
   td {
@@ -64,37 +62,60 @@
   th {
     font-weight: bold;
     padding-left: 0;
-    padding-right: 0;
     vertical-align: top;
-    width: 10rem;
+  }
+
+  .rx-refill-form {
+    display: block;
+    margin-top: .5rem;
+  }
+
+  button {
+    margin: 0;
+    width: 100%;
   }
 }
 
+#rx-detail .rx-contact-card {
+  margin-bottom: 3.5rem;
+  width: 100%;
 
-.rx-refill-form .rx-trigger {
-  margin: 0;
-  
   @media (min-width: $medium-screen) {
     display: inline-block;
-    margin-left: 2rem;
-  }
+    width: 30rem;
+  };
 }
 
 #rx-order-history {
-  margin-top: 3.5rem;
+  .rx-track-package-link {
+    display: inline-block;
+  }
+
+  table {
+    margin: 0;
+  }
 
   @media (min-width: $medium-screen) {
     h3 {
       border-bottom: none;
     }
+
+    p {
+      margin-top: 0;
+    }
+
+    td {
+      white-space: nowrap;
+    }
   }
 
   @media (max-width: $medium-screen) {
+    p {
+      margin-bottom: 0;
+    }
+
     td {
-      display: block;
-
       &:nth-child(1):before { content: "Order status: "; }
-
       &:nth-child(2):before { content: "Tracking status: "; }
     }
   }

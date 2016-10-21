@@ -30,7 +30,11 @@ const initialState = {
         totalEntries: 0,
         totalPages: 0
       },
-      persistFolder: 0
+      persistFolder: 0,
+      sort: {
+        value: 'sentDate',
+        order: 'DESC'
+      }
     },
     items: []
   },
@@ -63,12 +67,16 @@ export default function folders(state = initialState, action) {
       const messages = action.messages.data.map(message => message.attributes);
       const pagination = action.messages.meta.pagination;
       const persistFolder = action.folder.data.attributes.folderId;
+      const sort = action.messages.meta.sort;
+      const sortValue = Object.keys(sort)[0];
+      const sortOrder = sort[sortValue];
 
       const newItem = {
         attributes,
         messages,
         pagination,
-        persistFolder
+        persistFolder,
+        sort: { value: sortValue, order: sortOrder },
       };
 
       return set('data.currentItem', newItem, state);
