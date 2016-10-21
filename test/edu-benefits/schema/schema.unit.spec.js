@@ -62,6 +62,7 @@ const tourOfDutyGen = () => qc.objectLike({
   }),
   serviceBranch: makeField(qc.choose(...serviceBranches.map(x => x.value))),
   serviceStatus: makeField(qc.string),
+  involuntarilyCalledToDuty: makeField(yesNoGen()),
   applyPeriodToSelected: qc.bool,
   benefitsToApplyTo: makeField(qc.string)
 });

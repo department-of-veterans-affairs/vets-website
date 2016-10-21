@@ -1,6 +1,6 @@
 import _ from 'lodash/fp';
 
-import { SET_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL } from '../actions';
+import { SET_CLAIMS, CHANGE_CLAIMS_PAGE } from '../actions';
 
 const ROWS_PER_PAGE = 10;
 
@@ -8,8 +8,7 @@ const initialState = {
   list: null,
   visibleRows: [],
   page: 1,
-  pages: 1,
-  consolidatedModal: false
+  pages: 1
 };
 
 export default function claimsReducer(state = initialState, action) {
@@ -28,9 +27,6 @@ export default function claimsReducer(state = initialState, action) {
         page: action.page,
         visibleRows: state.list.slice(current, current + ROWS_PER_PAGE)
       });
-    }
-    case SHOW_CONSOLIDATED_MODAL: {
-      return _.set('consolidatedModal', action.visible, state);
     }
     default:
       return state;

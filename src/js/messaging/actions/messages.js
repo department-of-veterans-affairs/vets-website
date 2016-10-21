@@ -63,7 +63,7 @@ export function fetchThread(id) {
     )).then(
       data => dispatch({
         type: FETCH_THREAD_SUCCESS,
-        message: data[0],
+        message: data[0].data,
         thread: data[1].data
       }),
       err => dispatch({ type: FETCH_THREAD_FAILURE, err })

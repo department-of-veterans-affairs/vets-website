@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { displayDateIfValid, showYesNo } from '../../utils/helpers';
+import { getLabel, displayDateIfValid, showYesNo } from '../../utils/helpers';
+import { yesNo } from '../../utils/options-for-select';
 
 export default class MilitaryServiceReview extends React.Component {
   render() {
@@ -46,6 +47,10 @@ export default class MilitaryServiceReview extends React.Component {
               <tr>
                 <td>Service status:</td>
                 <td>{tour.serviceStatus.value}</td>
+              </tr>
+              <tr>
+                <td>Were you involuntarily called for active duty during this period?</td>
+                <td>{getLabel(yesNo, tour.involuntarilyCalledToDuty.value)}</td>
               </tr>
               <tr>
                 <td>Apply this service period to the benefit I'm applying for</td>

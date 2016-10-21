@@ -1,11 +1,11 @@
 ---
 layout: page-breadcrumbs.html
 title: Enroll in the Million Veterans Program
-permalink: /million-veterans-program/enroll/index.html
+permalink: /million-veteran-program/enroll/index.html
 template: L2-section-landing
 concurrence: complete
 relatedlinks:
-  - url: /million-veterans-program/enroll/
+  - url: /million-veteran-program/enroll/
     title: Enroll in the Million Veterans Program
     description: ""
 ---

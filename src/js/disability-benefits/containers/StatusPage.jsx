@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import ClaimsDecision from '../components/ClaimsDecision';
 import AskVAToDecide from '../components/AskVAToDecide';
+import AddingDetails from '../components/AddingDetails';
 import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 
@@ -20,8 +21,9 @@ class StatusPage extends React.Component {
 
       content = (
         <div >
+          {phase === null ? <AddingDetails/> : null}
           {claim.attributes.documentsNeeded && !claim.attributes.decisionLetterSent
-            ? <NeedFilesFromYou claimId={claim.id} events={claim.attributes.eventsTimeline}/>
+            ? <NeedFilesFromYou events={claim.attributes.eventsTimeline}/>
             : null}
           {showDecision
             ? <AskVAToDecide id={this.props.params.id}/>

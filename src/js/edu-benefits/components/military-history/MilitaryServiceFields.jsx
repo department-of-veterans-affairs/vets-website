@@ -14,11 +14,12 @@ import { yesNo } from '../../utils/options-for-select';
 export default class MilitaryServiceFields extends React.Component {
   render() {
     const tourFields = [
-      'applyPeriodToSelected',
+      'doNotApplyPeriodToSelected',
       'benefitsToApplyTo',
       'serviceBranch',
       'dateRange',
       'serviceStatus',
+      'involuntarilyCalledToDuty'
     ];
     const activeDutyQuestions = (
       <div>

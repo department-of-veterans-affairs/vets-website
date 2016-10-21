@@ -44,9 +44,8 @@ class ThreadHeader extends React.Component {
           <MessageNav
               currentRange={this.props.currentMessageNumber}
               messageCount={this.props.folderMessageCount}
-              onItemSelect={this.props.onMessageSelect}
-              itemNumber={this.props.currentMessageNumber}
-              totalItems={this.props.folderMessageCount}/>
+              onClickPrev={this.props.onClickPrev}
+              onClickNext={this.props.onClickNext}/>
           <ButtonDelete
               onClickHandler={this.props.onDeleteMessage}/>
           <ButtonPrint/>
@@ -76,6 +75,8 @@ ThreadHeader.propTypes = {
     })
   ).isRequired,
   folderMessageCount: React.PropTypes.number.isRequired,
+  onClickPrev: React.PropTypes.func,
+  onClickNext: React.PropTypes.func,
   message: React.PropTypes.shape({
     messageId: React.PropTypes.number,
     subject: React.PropTypes.string
@@ -86,7 +87,6 @@ ThreadHeader.propTypes = {
   onChooseFolder: React.PropTypes.func,
   onCreateFolder: React.PropTypes.func,
   onDeleteMessage: React.PropTypes.func,
-  onMessageSelect: React.PropTypes.func,
   onToggleThread: React.PropTypes.func,
   onToggleMoveTo: React.PropTypes.func,
   persistedFolder: React.PropTypes.number

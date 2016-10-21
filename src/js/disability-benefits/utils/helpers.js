@@ -112,10 +112,3 @@ export const DOC_TYPES = [
 export function getDocTypeDescription(docType) {
   return DOC_TYPES.filter(type => type.value === docType)[0].label;
 }
-
-export function isCompleteClaim({ attributes }) {
-  return !!attributes.claimType
-    && !!attributes.contentionList.length
-    && !!attributes.dateFiled
-    && !!attributes.vaRepresentative;
-}

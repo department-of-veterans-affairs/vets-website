@@ -14,7 +14,6 @@ describe('<AskVAPage>', () => {
     const tree = SkinDeep.shallowRender(
       <AskVAPage
           decisionRequestError={null}
-          params={{ id: 1 }}
           router={router}/>
     );
     expect(tree.everySubTree('button')[0].props.disabled).to.be.true;

@@ -7,6 +7,7 @@ import {
   CLEAR_DRAFT,
   DELETE_DRAFT_ATTACHMENT,
   FETCH_THREAD_SUCCESS,
+  SEND_MESSAGE_SUCCESS,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -14,13 +15,16 @@ import {
   UPDATE_DRAFT
 } from '../utils/constants';
 
+import { composeMessage } from '../config';
+
 const initialState = {
   data: {
     message: null,
     thread: [],
     draft: {
       attachments: [],
-      body: makeField('')
+      body: makeField(''),
+      charsRemaining: composeMessage.maxChars.message
     }
   },
   ui: {
@@ -50,8 +54,7 @@ export default function messages(state = initialState, action) {
       return set('data.draft.attachments', state.data.draft.attachments, state);
 
     case FETCH_THREAD_SUCCESS: {
-      // Consolidate message attributes and attachments
-      const currentMessage = Object.assign({}, action.message.data.attributes, { attachments: action.message.included });
+      const currentMessage = action.message.attributes;
       const thread = action.thread.map(message => message.attributes);
 
       // Collapse all the previous messages in the thread.
@@ -71,6 +74,8 @@ export default function messages(state = initialState, action) {
           // TODO: Get attachments from the draft.
           attachments: [],
           body: makeField(currentMessage.body),
+          charsRemaining: composeMessage.maxChars.message -
+                          currentMessage.body.length,
           replyMessageId: thread.length === 0 ?
                           undefined :
                           thread[thread.length - 1].messageId
@@ -90,6 +95,9 @@ export default function messages(state = initialState, action) {
       newState = set('data.draft', draft, newState);
       return set('data.message', currentMessage, newState);
     }
+
+    case SEND_MESSAGE_SUCCESS:
+      return set('data.message', null, state);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
@@ -127,7 +135,9 @@ export default function messages(state = initialState, action) {
 
     case UPDATE_DRAFT:
       return set('data.draft', {
-        body: action.field
+        body: action.field,
+        charsRemaining: composeMessage.maxChars.message -
+                        action.field.value.length
       }, state);
 
     default:

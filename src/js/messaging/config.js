@@ -100,6 +100,7 @@ module.exports = {
       recipient: 'Please select a recipient from your health care team.'
     },
     maxChars: {
+      message: 2000,
       subject: 512
     },
     // Using bytes

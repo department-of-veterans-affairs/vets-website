@@ -162,9 +162,6 @@
 .claims-no-icon,
 .usa-alert-info.claims-no-icon {
   background-image: none;
-  h4 {
-    padding-bottom: 0 !important;
-  }
 }
 
 .form-process li.section-complete:before {
@@ -380,6 +377,9 @@ a.claim-list-item {
 }
 
 .need-files-from-you {
+  // background-color: #fff1d0; // TODO: replace with vaiable
+  // padding: 1em;
+  // margin: 1em 0;
   .warning-title {
     color: $color-gray-dark;
     float: left;
@@ -387,7 +387,7 @@ a.claim-list-item {
       margin-right: 6px;
     }
   }
-  a.usa-button {
+  .va-button-secondary {
     float: right;
     margin: 0;
   }
@@ -498,9 +498,6 @@ p.first-of-type {
     p:last-child {
       margin-bottom: 0;
     }
-    > .modal-title {
-      padding-bottom: 0 !important;
-    }
   }
 }
 
@@ -514,7 +511,7 @@ p.first-of-type {
 }
 
 .claim-container {
-  margin: 0;
+  margin: 1.5em 0;
   margin-bottom: 2em;
 }
 
@@ -531,15 +528,10 @@ p.first-of-type {
   > .usa-alert-body {
     padding-left: 4.2rem;
   }
-  a.usa-button {
+  > button {
     position: absolute;
-    top: .75em;
-    right: 1em;
+    top: 0.5em;
+    right: 0;
     width: auto;
-    margin: 0;
   }
-}
-
-.claims-header {
-  margin: 0;
 }

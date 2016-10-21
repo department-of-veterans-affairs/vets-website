@@ -15,8 +15,8 @@ class NoticeBox extends React.Component {
         <p>
           <i className="fa fa-user-md"></i>
           <span>
-            The VA staff member who responds will vary depending
-            on what you ask and may be anyone on your health care team.
+            In order to reply back quickly, somebody else on your
+            health care team may reply back to your messages.
           </span>
         </p>
       </div>

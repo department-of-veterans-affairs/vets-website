@@ -2,14 +2,12 @@ import React from 'react';
 import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 
-import Modal from '../../common/components/Modal';
-import { getClaims, changePage, showConsolidatedMessage } from '../actions';
+import { getClaims, changePage } from '../actions';
 import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsListItem from '../components/ClaimsListItem';
 import NoClaims from '../components/NoClaims';
 import Pagination from '../../common/components/Pagination';
 import Loading from '../components/Loading';
-import ConsolidatedClaims from '../components/ConsolidatedClaims';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -59,19 +57,7 @@ class YourClaimsPage extends React.Component {
             <div>
               <h1>Your Claims</h1>
             </div>
-            <p>
-              <a href onClick={(evt) => {
-                evt.preventDefault();
-                this.props.showConsolidatedMessage(true);
-              }}>Sometimes claims get combined. Find out why.</a>
-            </p>
             {content}
-            <Modal
-                onClose={() => true}
-                visible={this.props.consolidatedModal}
-                hideCloseButton
-                cssClass="claims-upload-modal"
-                contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>
           <AskVAQuestions/>
         </div>
@@ -85,15 +71,13 @@ function mapStateToProps(state) {
     loading: state.claims.list === null,
     claims: state.claims.visibleRows,
     pages: state.claims.pages,
-    page: state.claims.page,
-    consolidatedModal: state.claims.consolidatedModal
+    page: state.claims.page
   };
 }
 
 const mapDispatchToProps = {
   getClaims,
-  changePage,
-  showConsolidatedMessage
+  changePage
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(YourClaimsPage);

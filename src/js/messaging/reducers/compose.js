@@ -1,6 +1,7 @@
 import set from 'lodash/fp/set';
 
 import { makeField } from '../../common/model/fields';
+import { composeMessage } from '../config';
 
 import {
   ADD_COMPOSE_ATTACHMENTS,
@@ -9,7 +10,8 @@ import {
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_SENDER_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
-  SET_MESSAGE_FIELD
+  SET_MESSAGE_FIELD,
+  UPDATE_COMPOSE_CHARACTER_COUNT
 } from '../utils/constants';
 
 const initialState = {
@@ -23,6 +25,7 @@ const initialState = {
     recipient: makeField(''),
     subject: makeField(''),
     text: makeField(''),
+    charsRemaining: composeMessage.maxChars.message,
     attachments: []
   },
   // List of potential recipients
@@ -63,6 +66,8 @@ export default function compose(state = initialState, action) {
       return set('message.sender', action.sender, state);
     case SET_MESSAGE_FIELD:
       return set(action.path, action.field, state);
+    case UPDATE_COMPOSE_CHARACTER_COUNT:
+      return set('message.charsRemaining', action.chars, state);
     case FETCH_RECIPIENTS_FAILURE:
     default:
       return state;

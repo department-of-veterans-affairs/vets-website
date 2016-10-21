@@ -1,11 +1,11 @@
 ---
 layout: page-breadcrumbs.html
-title: Million Veterans Program - Privacy
-permalink: /million-veterans-program/privacy/index.html
+title: Your Privacy and the Million Veterans Program
+permalink: /million-veteran-program/privacy/index.html
 template: L2-section-landing
 concurrence: complete
 relatedlinks:
-  - url: /million-veterans-program/enroll/
+  - url: /million-veteran-program/enroll/
     title: Enroll in the Million Veterans Program
     description: ""
 ---
@@ -18,7 +18,7 @@ If you decide to be a part of MVP, researchers using the data will be able to se
 
 The MVP database uses a special code to store your information in order to protect your privacy. Select MVP staff members have access to these codes, but researchers don’t. They can’t see your information.
 
-Researchers also use strict security processes so that only authorized personnel can access computers or areas with MVP information.
+Researchers also use strict security processes to make sure only authorized personnel can access computers or areas with MVP information.
 
 ### If you have questions about privacy, you can:
 
