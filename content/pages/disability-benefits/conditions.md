@@ -43,8 +43,6 @@ Yes, if:
 
 ### What kind of benefits can I get?
 
-You may get benefits, including:
-
 -	Free health care
 -	Financial support (monthly payments)
 
