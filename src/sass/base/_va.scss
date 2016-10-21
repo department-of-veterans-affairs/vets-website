@@ -696,6 +696,18 @@ ul, ol {
 
 // Home page, 404 page
 .navigation--major {
+  .va-cards--2across {
+    @media #{$small} {
+      display:block;
+    }
+
+    @media #{$medium} {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+
   .fourohfour &,
   .home & {
     padding-top: 1.5em;

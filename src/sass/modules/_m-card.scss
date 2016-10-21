@@ -2,7 +2,7 @@
 
 .va-cards {
   display: block;
-  // TODO: Remove !important when 
+  // TODO: Remove !important when
   // #content .main .section.one ul is cleared up
   margin: 0 !important;
   min-width: 300px;
@@ -15,25 +15,25 @@
   .va-cards--2across {
     @include clearfix;
   }
-  
+
   .va-cards--3across {
     > .va-card {
       width: 32%;
-    } 
+    }
   }
-  
+
   .va-cards--2across {
     > .va-card {
       width: 48.7%
-    } 
+    }
   }
 }
 
-.va-card { 
+.va-card {
   list-style: none !important;
   position: relative;
   padding: 0;
-  
+
   @media #{$medium} {
     float: left;
     margin: 0 0.625rem 1.25rem 0.67rem;
@@ -42,7 +42,7 @@
   @media #{$small} {
     margin: 0 0.625rem 1.25rem 0.67rem;
   }
-  
+
   a {
     color: inherit;
   }
@@ -72,7 +72,7 @@
   + ol {
     margin: 1em 1.2em 0 2em !important;
   }
-   
+
   // Using $medium instead of $medium-screen
   // because this grid uses Foundation, not USWDS
   // Roughly a 640px breakpoint.
@@ -82,7 +82,7 @@
     text-align: left;
     border-radius: .2em;
   }
-  
+
   @media #{$medium} {
     padding: 1.2em 1.5em;
   }
@@ -93,10 +93,9 @@
   font: 600 1.35em / 1.3em $font-sans !important;
   margin: 0 !important;
   padding: 0 0 .25em 0 !important;
-  
+
   a {
     text-decoration: none;
     background-color: transparent;
   }
 }
-
