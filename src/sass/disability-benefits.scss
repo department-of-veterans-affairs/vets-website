@@ -1,5 +1,7 @@
 @import 'style';
 @import 'modules/va-pagination';
+@import 'modules/m-modal';
+@import 'modules/m-progress-bar';
 
 .claim-list {
   margin-bottom: 2em;
@@ -25,13 +27,25 @@
   color: $color-green;
 }
 
-.due-file {
-  color: $color-secondary-dark;
+.tracked-item-due {
+  > .due-file {
+    color: $color-gray-dark;
+    font-size: 0.9em;
+  }
+
+  > .past-due {
+    color: $color-secondary-dark;
+    font-size: 0.9em;
+  }
+
+  h6.past-due, h6.due-file, span.past-due, span.due-file {
+    display: inline-block;
+    margin: 0;
+    text-transform: none;
+    padding-right: 5px !important;
+  }
 }
 
-.past-due {
-  color: $color-gray-dark;
-}
 
 .submitted-files-list {
   margin-top: 1.5em;
@@ -148,6 +162,9 @@
 .claims-no-icon,
 .usa-alert-info.claims-no-icon {
   background-image: none;
+  h4 {
+    padding-bottom: 0 !important;
+  }
 }
 
 .form-process li.section-complete:before {
@@ -238,8 +255,6 @@ a.claim-list-item {
 }
 
 .claim-conditions {
-  margin: 1.5em 0;
-  margin-bottom: 2em;
   h1, p {
     margin: 0;
   }
@@ -364,18 +379,7 @@ a.claim-list-item {
   }
 }
 
-@media only screen {
-  .claim-conditions,
-  .ask-va-questions {
-    padding-left: 0.9375rem;
-    padding-right: 0.9375rem;
-  }
-}
-
 .need-files-from-you {
-  // background-color: #fff1d0; // TODO: replace with vaiable
-  // padding: 1em;
-  // margin: 1em 0;
   .warning-title {
     color: $color-gray-dark;
     float: left;
@@ -383,7 +387,7 @@ a.claim-list-item {
       margin-right: 6px;
     }
   }
-  .va-button-secondary {
+  a.usa-button {
     float: right;
     margin: 0;
   }
@@ -422,16 +426,8 @@ p.first-of-type {
   font-size: 1.25em;
 }
 
-.turn-in-evidence-warning {
-  h3 {
-    margin-left: 2em;
-  }
-  h3.warning, .warning-text {
-    margin-left: 2em;
-  }
-}
-
 .file-requirements {
+  margin-bottom: 1.5em;
   .file-requirement-header {
     font-weight: bold;
     margin-bottom: 0;
@@ -446,24 +442,26 @@ p.first-of-type {
 
 .document-item-container {
   background-color: $color-gray-lightest;
+  padding: 1em;
+  margin-bottom: 1.5em;
   .document-title-size {
     float: left;
-    .title {
-      padding: 0;
-    }
   }
-  .documet-size-text {
+  .document-size-text {
     p {
       margin: 0;
     }
   }
   .remove-document-button {
     float: right;
+    > button {
+      margin: 0;
+    }
   }
 }
 
-.document-title-header {
-  .title {
+#content .section {
+  .document-title-header > .title {
     padding: 0;
   }
 }
@@ -476,4 +474,72 @@ p.first-of-type {
 
 .claims-unavailable {
   margin-bottom: 1.5em;
+}
+
+.claims-upload-modal {
+  .va-modal-body {
+    padding: 0;
+  }
+
+  .claims-status-upload-header {
+    font-size: 1.35em;
+    line-height: 1.5;
+    font-weight: bold;
+    background-color: $color-primary-darker;
+    color: $color-white;
+    padding: .5em .75em;
+  }
+
+  .claims-status-upload-inner {
+    padding: 1em;
+    p:first-child {
+      margin-top: 0;
+    }
+    p:last-child {
+      margin-bottom: 0;
+    }
+    > .modal-title {
+      padding-bottom: 0 !important;
+    }
+  }
+}
+
+.claims-upload-input {
+  h5 {
+    padding-bottom: 0 !important;
+  }
+  .usa-input-error-message {
+    margin-bottom: 1em;
+  }
+}
+
+.claim-container {
+  margin: 0;
+  margin-bottom: 2em;
+}
+
+.claims-alert {
+  position: relative;
+  margin-bottom: 0.5em;
+  &.usa-alert {
+    background-size: 4.1rem;
+    background-position: 1rem 1.9rem;
+  }
+  .usa-alert-heading {
+    padding-bottom: 0 !important;
+  }
+  > .usa-alert-body {
+    padding-left: 4.2rem;
+  }
+  a.usa-button {
+    position: absolute;
+    top: .75em;
+    right: 1em;
+    width: auto;
+    margin: 0;
+  }
+}
+
+.claims-header {
+  margin: 0;
 }
