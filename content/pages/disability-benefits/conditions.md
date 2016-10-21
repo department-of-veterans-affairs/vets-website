@@ -34,7 +34,7 @@ Yes, if:
 
 <br>
 
-### Who can get these benefits?
+### Who is covered?
 
 - Veterans
 - Dependents
@@ -72,4 +72,4 @@ You may also be able to get support for:
 - Anxiety
 
 
-[Get a full list of health problems >](http://www.benefits.va.gov/warms/bookc.asp)
+[Get a full list of health problems](http://www.benefits.va.gov/warms/bookc.asp)
