@@ -50,7 +50,8 @@ export default function messages(state = initialState, action) {
       return set('data.draft.attachments', state.data.draft.attachments, state);
 
     case FETCH_THREAD_SUCCESS: {
-      const currentMessage = action.message.attributes;
+      // Consolidate message attributes and attachments
+      const currentMessage = Object.assign({}, action.message.data.attributes, { attachments: action.message.included });
       const thread = action.thread.map(message => message.attributes);
 
       // Collapse all the previous messages in the thread.
