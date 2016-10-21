@@ -2,8 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
+
+import EvidenceSubmitted from '../components/EvidenceSubmitted';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import DueDate from '../components/DueDate';
+
 import { clearUploadedItem } from '../actions';
 import { hasBeenReviewed } from '../utils/helpers';
 
@@ -16,7 +19,11 @@ class FilesPage extends React.Component {
     this.props.clearUploadedItem();
   }
   render() {
-    const { claim, loading } = this.props;
+    const { claim, loading, uploadedItem } = this.props;
+
+    const message = uploadedItem
+      ? <EvidenceSubmitted item={uploadedItem} onClose={this.closeAlert}/>
+      : null;
 
     let content = null;
     if (!loading) {
@@ -113,7 +120,8 @@ class FilesPage extends React.Component {
     return (
       <ClaimDetailLayout
           claim={claim}
-          loading={loading}>
+          loading={loading}
+          message={message}>
         {content}
       </ClaimDetailLayout>
     );
