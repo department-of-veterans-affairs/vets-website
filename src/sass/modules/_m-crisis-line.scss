@@ -1,11 +1,6 @@
 // TODO: Remove !important when .footer a selector gets simplified
 
 .header {
-  .message {
-    padding-top: 1em;
-    padding-bottom: 1em;
-  }
-
   .flex-center {
     display: flex;
     align-items: center;
@@ -92,7 +87,7 @@ a.va-crisis-line {
   background: $color-white url(/img/arrow-down.png) no-repeat 97% center;
   background-size: .8em auto;
   margin: 0;
-  padding: 1em;
+  padding: 0 1em;
   text-align: left;
   width: 100%;
   display: flex;

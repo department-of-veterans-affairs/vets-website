@@ -247,21 +247,15 @@ hr {
 
   .top-banner {
     @media #{$small} {
-      .row {
-        padding: 1em 0.5em;
-      }
+      padding: 1em 0.5em;
     }
 
     @media #{$medium} {
-      .row {
-        padding: 1em 0;
-      }
+      padding: 1em 0;
     }
 
     @media #{$large} {
-      .row {
-        padding: 1em 0;
-      }
+      padding: 1em 0;
     }
   }
 
@@ -298,7 +292,7 @@ hr {
     }
 
     @media #{$small} {
-      width: 263px;
+      width: 215px;
       height: 50px;
     }
   }
@@ -356,7 +350,16 @@ h6 {
   text-align: center;
 
   .flex {
-    display: flex;
+    @media #{$small} {
+      display: block;
+    }
+    @media #{$medium} {
+      display: flex;
+    }
+
+    @media #{$large} {
+      display: flex;
+    }
   }
 
   .mx-auto {
@@ -1332,6 +1335,11 @@ a.twitter {
     background: $color-gray-lightest;
     color: $color-base;
     margin: 0;
+    padding: 0;
+
+    .header {
+      padding: 0.5em 0;
+    }
 
     a {
       color: $color-base;
@@ -1342,7 +1350,7 @@ a.twitter {
     }
 
     .row {
-      padding: 0 0.25em;
+      padding: 0;
     }
   }
 }

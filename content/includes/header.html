@@ -123,22 +123,18 @@
     </div>
     <div class="flex-auto"></div>
     {% if search != 'false' %}
-      <!-- Mobile search button -->
       <!-- htmllint attr-bans="[]" id-no-dup="false" -->
-      <div id="mobile-menu" class="va-overlay" role="dialog">
-        <div class="">
-          <button type="button" class="va-mobile-searchclose va-overlay-close" aria-label="close search form - mobile only">Close</button>
-          <div class="menu">
-            <form class="usa-search usa-search-small">
-              <div role="search">
-                <label class="usa-sr-only" for="search-field-small">Search small</label>
-                <input id="search-field-small" type="search" name="search">
-                <button type="submit">
-                  <span class="usa-sr-only">Search</span>
-                </button>
-              </div>
-            </form>
-          </div>
+      <div>
+        <div class="menu">
+          <form class="usa-search usa-search-small">
+            <div role="search">
+              <label class="usa-sr-only" for="search-field-small">Search small</label>
+              <input id="search-field-small" type="search" name="search">
+              <button type="submit">
+                <span class="usa-sr-only">Search</span>
+              </button>
+            </div>
+          </form>
         </div>
       </div>
       <!-- htmllint attr-bans="$previous" id-no-dup="$previous" -->
