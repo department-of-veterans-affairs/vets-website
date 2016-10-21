@@ -112,6 +112,7 @@ export class Compose extends React.Component {
 
   render() {
     const message = this.props.message;
+    const sender = this.props.sender;
 
     // Tests the subject group for errors
     const subjectError = validations.isValidSubjectLine(message.category, message.subject);
@@ -136,9 +137,9 @@ export class Compose extends React.Component {
             onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
           <MessageFrom
               cssClass="msg-from"
-              lastName={message.sender.lastName}
-              firstName={message.sender.firstName}
-              middleName={message.sender.middleName}/>
+              lastName={sender.lastName}
+              firstName={sender.firstName}
+              middleName={sender.middleName}/>
           <MessageRecipient
               errorMessage={validations.isValidRecipient(message.recipient) ? '' : composeMessage.errors.recipient}
               cssClass="msg-recipient msg-field"
@@ -187,6 +188,7 @@ const mapStateToProps = (state) => {
   return {
     message: state.compose.message,
     recipients: state.compose.recipients,
+    sender: state.compose.sender,
     deleteConfirmModal: state.modals.deleteConfirm
   };
 };

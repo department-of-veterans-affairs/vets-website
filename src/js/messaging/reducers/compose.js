@@ -14,12 +14,12 @@ import {
 } from '../utils/constants';
 
 const initialState = {
+  sender: {
+    firstName: '',
+    lastName: '',
+    middleName: ''
+  },
   message: {
-    sender: {
-      firstName: '',
-      lastName: '',
-      middleName: ''
-    },
     category: makeField(''),
     recipient: makeField(''),
     subject: makeField(''),
@@ -70,7 +70,7 @@ export default function compose(state = initialState, action) {
     case FETCH_RECIPIENTS_SUCCESS:
       return set('recipients', getRecipients(action.recipients.data), state);
     case FETCH_SENDER_SUCCESS:
-      return set('message.sender', action.sender, state);
+      return set('sender', action.sender, state);
     case RESET_MESSAGE_OBJECT:
       return resetMessage(state);
     case SET_MESSAGE_FIELD:
