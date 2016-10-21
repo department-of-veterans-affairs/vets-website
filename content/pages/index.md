@@ -49,9 +49,9 @@ majorlinks:
     </a>
   </div>
   <div class="medium-4 columns">
-    <a href='/rx'>
+    <a href="/education/apply-for-education-benefits/">
       <div class="outline-link-block">
-        Refill a Prescription
+        Apply for Education Benefits
       </div>
     </a>
   </div>
