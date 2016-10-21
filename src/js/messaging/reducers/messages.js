@@ -7,7 +7,6 @@ import {
   CLEAR_DRAFT,
   DELETE_DRAFT_ATTACHMENT,
   FETCH_THREAD_SUCCESS,
-  SEND_MESSAGE_SUCCESS,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -51,7 +50,8 @@ export default function messages(state = initialState, action) {
       return set('data.draft.attachments', state.data.draft.attachments, state);
 
     case FETCH_THREAD_SUCCESS: {
-      const currentMessage = action.message.attributes;
+      // Consolidate message attributes and attachments
+      const currentMessage = Object.assign({}, action.message.data.attributes, { attachments: action.message.included });
       const thread = action.thread.map(message => message.attributes);
 
       // Collapse all the previous messages in the thread.
@@ -90,9 +90,6 @@ export default function messages(state = initialState, action) {
       newState = set('data.draft', draft, newState);
       return set('data.message', currentMessage, newState);
     }
-
-    case SEND_MESSAGE_SUCCESS:
-      return set('data.message', null, state);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
