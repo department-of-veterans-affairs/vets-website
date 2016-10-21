@@ -34,7 +34,7 @@ Yes, if:
 
 <br>
 
-### Who is covered?
+### Who's covered?
 
 - Veterans
 - Dependents
