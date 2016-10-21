@@ -789,10 +789,6 @@ ul, ol {
   .section.main-menu {
     padding: 0em .5em 4em .5em;
     overflow: hidden;
-
-    @media #{$small} {
-      padding: 1em 0 1.5em 0;
-    }
   }
 
 
