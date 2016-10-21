@@ -94,7 +94,7 @@ export class Detail extends React.Component {
     const data = {
       'Prescription #': attrs.prescriptionNumber,
 
-      Quantity: `${attrs.quantity} CAP`,
+      Quantity: attrs.quantity,
 
       'Prescription status': (
         <button
