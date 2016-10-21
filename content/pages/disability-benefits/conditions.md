@@ -1,59 +1,75 @@
 ---
 layout: page-breadcrumbs.html
-title: Conditions
+title: Health Problems Linked to Military Service
 source: https://eauth.va.gov/ebenefits/learn/compensation
+plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
 template: 1-topic-landing
 relatedlinks:
   - url: /disability-benefits/conditions/ptsd/
     title: PTSD
-    description: "The basics: symptoms and help."
+    description: Learn about the symptoms of post-traumatic stress—and how to get help.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/
-    title: Exposure to Hazardous Materials
-    description: Asbestos, Agent Orange, chemicals, weapons testing, Camp Lejeune, radiation, and more.
+    title: Contact with Toxins and Other Dangers
+    description: Find out if you may have had contact with toxic chemicals or other dangers (like Agent Orange or radiation)—and what to do if you have. 
   - url: /disability-benefits/conditions/pow/
     title: Prisoners of War (<abbr>POW</abbr>s)
-    description: Physical and emotional conditions resulting from captivity.
+    description: Get support for issues that can affect prisoners’ bodies and minds.
   - url: /disability-benefits/conditions/special-claims/
     title: Special Claims
-    description: Adaptive equipment, hospitalization and convalescence, dentistry, individual unemployability, and more.
+    description: Get help with needs such as special equipment, hospital or rehab care, dental care, being unable to work, and more.
 ---
 
 
-Do you have physical or emotional conditions that started—or became worse—during your active military service? If so, they may be considered service connected, and you may be eligible for monthly benefits no matter when or where you served.
+Do you have health problems that started—or got worse—while you were serving in the military? If yes, you may be able to get support (known as compensation) from VA.
 
 <div class="call-out" markdown="0">
 
-### Are you eligible for compensation?
+### Can I get compensation from VA?
+
 Yes, if:
 
-- You have a current physical or mental disability.
-- You became ill or were injured while serving in the military, and you are able to link your current disability to this illness or injury.
-- You had a disability before you entered the military, and activities, injury, or illness during your service made your condition worse.
+- You have a current health problem that affects your body or mind, and
+- You got sick or injured while serving in the military—and can link the health problem you have now to this sickness or injury, or
+- You had a health problem before you joined the military—and serving made it worse
 
 <br>
 
-### Who is covered
+### Who can get these benefits?
 
-You and your dependents
+- Veterans
+- Dependents
+
 </div>
 
-### How it works
+### What kind of benefits can I get?
 
-When you apply for benefits, you will need to prove your conditions were caused by, or became worse because of, your service.
+You may get benefits, including:
 
-#### What sorts of physical and mental health conditions may qualify me for benefits?
+-	Free health care
+-	Financial support (monthly payments)
 
-- Chronic back pain
-- Respiratory disease
-- Significant loss of hearing
+### How do I get these benefits?
+
+You’ll need to apply for benefits. When you apply, you‘ll have to prove your health problems were caused by—or got worse because of—your service.
+
+#### What health problems are covered by these benefits?
+
+You may be able to get support for health problems such as:
+
+- Chronic (long-lasting) back pain
+- Breathing problems or lung disease
+- Severe hearing loss
 - Scar tissue
-- Loss of range of motion
+- Loss of range of motion (problems moving your body)
 - Ulcers
-- Cancer (due to hazardous exposures)
-- Traumatic brain injury
+- Cancers caused by contact with toxic chemicals or other dangers
+
+You may also be able to get support for:
+
+- Traumatic brain injury (an injury caused by a blow to the head or an object piercing the skull)
 - PTSD
-- Major depressive disorder
-- Anxiety disorder
+- Depression
+- Anxiety
 
 
-Access the [complete schedule of disabilities](http://www.benefits.va.gov/warms/bookc.asp).
+[Get a full list of health problems >](http://www.benefits.va.gov/warms/bookc.asp)
