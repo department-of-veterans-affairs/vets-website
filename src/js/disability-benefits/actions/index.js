@@ -24,6 +24,7 @@ export const SHOW_MAIL_OR_FAX = 'SHOW_MAIL_OR_FAX';
 export const CANCEL_UPLOAD = 'CANCEL_UPLOAD';
 export const CLEAR_UPLOADED_ITEM = 'CLEAR_UPLOADED_ITEM';
 export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
+export const SHOW_CONSOLIDATED_MODAL = 'SHOW_CONSOLIDATED_MODAL';
 
 export function getClaims() {
   return (dispatch) => {
@@ -255,5 +256,12 @@ export function clearUploadedItem() {
 export function setFieldsDirty() {
   return {
     type: SET_FIELDS_DIRTY
+  };
+}
+
+export function showConsolidatedMessage(visible) {
+  return {
+    type: SHOW_CONSOLIDATED_MODAL,
+    visible
   };
 }
