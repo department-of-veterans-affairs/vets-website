@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 class NeedFilesFromYou extends React.Component {
   render() {
@@ -7,7 +8,7 @@ class NeedFilesFromYou extends React.Component {
       <div className="usa-alert usa-alert-warning claims-alert">
         <div className="usa-alert-body">
           <h4 className="usa-alert-heading">{filesNeeded} {filesNeeded === 1 ? 'item needs' : 'items need'} your attention</h4>
-          <button className="va-button-secondary">View Details</button>
+          <Link to={`your-claims/${this.props.claimId}/files`} className="usa-button">View Details</Link>
           <div className="clearfix"></div>
         </div>
       </div>
