@@ -15,7 +15,6 @@ import {
 
 import * as validations from '../utils/validations';
 
-import MessageFrom from '../components/compose/MessageFrom';
 import MessageRecipient from '../components/compose/MessageRecipient';
 import MessageSubjectGroup from '../components/compose/MessageSubjectGroup';
 import MessageWriteGroup from '../components/compose/MessageWriteGroup';
@@ -27,7 +26,6 @@ import {
   deleteComposeAttachment,
   deleteComposeMessage,
   fetchRecipients,
-  fetchSenderName,
   openAttachmentsModal,
   resetMessage,
   saveDraft,
@@ -50,7 +48,6 @@ export class Compose extends React.Component {
 
   componentDidMount() {
     this.props.resetMessage();
-    this.props.fetchSenderName();
     this.props.fetchRecipients();
   }
 
@@ -191,7 +188,6 @@ const mapDispatchToProps = {
   deleteComposeAttachment,
   deleteComposeMessage,
   fetchRecipients,
-  fetchSenderName,
   openAttachmentsModal,
   resetMessage,
   saveDraft,
