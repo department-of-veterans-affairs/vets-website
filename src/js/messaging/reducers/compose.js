@@ -14,11 +14,6 @@ import {
 } from '../utils/constants';
 
 const initialState = {
-  sender: {
-    firstName: '',
-    lastName: '',
-    middleName: ''
-  },
   message: {
     category: makeField(''),
     recipient: makeField(''),
