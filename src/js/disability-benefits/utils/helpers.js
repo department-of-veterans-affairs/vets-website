@@ -115,7 +115,11 @@ export function getDocTypeDescription(docType) {
 
 export function isCompleteClaim({ attributes }) {
   return !!attributes.claimType
-    && !!attributes.contentionList.length
+    && (attributes.contentionList && !!attributes.contentionList.length)
     && !!attributes.dateFiled
     && !!attributes.vaRepresentative;
+}
+
+export function hasBeenReviewed(trackedItem) {
+  return trackedItem.type.startsWith('received_from') && trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW';
 }
