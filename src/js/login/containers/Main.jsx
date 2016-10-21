@@ -20,17 +20,24 @@ class Main extends React.Component {
     if (localStorage.length > 0) {
       this.props.onUpdateLoggedInStatus(true);
       this.getUserData();
+    } else {
+      this.props.onUpdateLoggedInStatus(false);
     }
 
     // TODO: Remove this conditional statement when going to production.
     if (__BUILDTYPE__ === 'development') {
-      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new`, result => {
+      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
         this.props.onUpdateLoginUrl(result.authenticate_via_get);
       });
     }
 
     // TODO (crew): Change to just listen for localStorage update but currently known bug in Chrome prevents this from firing (https://bugs.chromium.org/p/chromium/issues/detail?id=136356).
     window.addEventListener('message', this.setMyToken);
+
+    // This removes a user token and signs a user out of vets.gov when they close their browser window.
+    window.onunload = () => {
+      localStorage.removeItem('userToken');
+    };
   }
 
   componentWillUnmount() {
