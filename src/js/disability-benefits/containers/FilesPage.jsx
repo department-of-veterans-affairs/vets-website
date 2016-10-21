@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
-import EvidenceSubmitted from '../components/EvidenceSubmitted';
 import DueDate from '../components/DueDate';
 import { clearUploadedItem } from '../actions';
 import { hasBeenReviewed } from '../utils/helpers';
@@ -30,7 +29,7 @@ class FilesPage extends React.Component {
           <div className="file-request-list">
             <h4 className="hightlight claim-file-border">File Requests</h4>
 
-            {filesNeeded.length == 0
+            {filesNeeded.length === 0
               ? <div className="no-documents"><p>You don't need to turn in any documents to VA.</p></div>
               : null}
 
@@ -66,22 +65,24 @@ class FilesPage extends React.Component {
             <div className="submit-additional-evidence">
               <h4 className="hightlight claim-file-border">Turn in more evidence</h4>
               {claim.attributes.waiverSubmitted
-                ? <div className="va-to-make-decision">
-                    <p>You asked VA to make a decision on your claims based on the evidence you filed. You don't have to do anything else.</p>
+                ?
+                <div className="va-to-make-decision">
+                  <p>You asked VA to make a decision on your claims based on the evidence you filed. You don't have to do anything else.</p>
+                </div>
+                :
+                <div className="usa-alert">
+                  <p>Do you have additional evidence to submit in order to support your claim? Upload it here now.</p>
+                  <div className="button-container">
+                    <Link className="usa-button usa-button-outline" to={`your-claims/${claim.id}/turn-in-evidence`}>View Details</Link>
                   </div>
-                : <div className="usa-alert">
-                    <p>Do you have additional evidence to submit in order to support your claim? Upload it here now.</p>
-                    <div className="button-container">
-                      <Link className="usa-button usa-button-outline" to={`your-claims/${claim.id}/turn-in-evidence`}>View Details</Link>
-                    </div>
-                    <div className="clearfix"></div>
-                  </div>
+                  <div className="clearfix"></div>
+                </div>
               }
             </div>
 
             <div className="submitted-files-list">
               <h4 className="hightlight claim-file-border">Documents Filed</h4>
-              {documentsTurnedIn.length == 0
+              {documentsTurnedIn.length === 0
                 ? <div className="no-documents-turned-in"><p>You haven't turned in any documents to VA.</p></div>
                 : null}
 
@@ -90,14 +91,16 @@ class FilesPage extends React.Component {
                   <p className="submission-file-type">{item.displayName}</p>
                   <p className="submission-item">{'file-name.pdf'}</p>
                   {hasBeenReviewed(item)
-                    ? <div>
-                        <h6 className="reviewed-file"><i className="fa fa-check-circle"></i>Reviewed by VA</h6>
-                        <p className="submission-date reviewed-file">{moment(item.receivedDate).format('MMM M, YYYY')}</p>
-                      </div>
-                    : <div>
-                        <h6>Submitted</h6>
-                        <p className="submission-date">{moment(item.receivedDate).format('MMM M, YYYY')}{' (pending)'}</p>
-                      </div>
+                    ?
+                    <div>
+                      <h6 className="reviewed-file"><i className="fa fa-check-circle"></i>Reviewed by VA</h6>
+                      <p className="submission-date reviewed-file">{moment(item.receivedDate).format('MMM M, YYYY')}</p>
+                    </div>
+                    :
+                    <div>
+                      <h6>Submitted</h6>
+                      <p className="submission-date">{moment(item.receivedDate).format('MMM M, YYYY')}{' (pending)'}</p>
+                    </div>
                   }
                 </div>
               ))}
