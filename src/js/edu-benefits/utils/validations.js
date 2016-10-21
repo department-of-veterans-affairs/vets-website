@@ -52,6 +52,10 @@ function isValidYear(value) {
   return Number(value) >= 1900;
 }
 
+function isValidCurrentOrPastYear(value) {
+  return Number(value) >= 1900 && Number(value) < moment().year() + 1;
+}
+
 function isValidMonths(value) {
   return Number(value) >= 0;
 }
@@ -66,8 +70,6 @@ function isValidMonths(value) {
 function isValidSSN(value) {
   if (value === '123456789' || value === '123-45-6789') {
     return false;
-  } else if (/1{9}|2{9}|3{9}|4{9}|5{9}|6{9}|7{9}|8{9}|9{9}/.test(value)) {
-    return false;
   } else if (/^0{3}-?\d{2}-?\d{4}$/.test(value)) {
     return false;
   } else if (/^\d{3}-?0{2}-?\d{4}$/.test(value)) {
@@ -76,11 +78,14 @@ function isValidSSN(value) {
     return false;
   }
 
-  for (let i = 1; i < 10; i++) {
-    const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
-    if (sameDigitRegex.test(value)) {
-      return false;
-    }
+  const noBadSameDigitNumber = _.without(_.range(0, 10), 2, 4, 5)
+    .every(i => {
+      const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
+      return !sameDigitRegex.test(value);
+    });
+
+  if (!noBadSameDigitNumber) {
+    return false;
   }
 
   return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
@@ -119,7 +124,10 @@ function isValidMonetaryValue(value) {
 
 // TODO: look into validation libraries (npm "validator")
 function isValidPhone(value) {
-  return /^\d{10}$/.test(value);
+  // Strip spaces, dashes, and parens
+  const stripped = value.replace(/[- )(]/g, '');
+  // Count number of digits
+  return /^\d{10}$/.test(stripped);
 }
 
 function isValidEmail(value) {
@@ -294,7 +302,7 @@ function isValidContactInformationPage(data) {
       isValidField(isValidEmail, data.email) &&
       isValidField(isValidEmail, data.emailConfirmation) &&
       emailConfirmationValid &&
-      isPhoneRequired ? isValidRequiredField(isValidPhone, data.homePhone) : isValidField(isValidPhone, data.homePhone) &&
+      (isPhoneRequired ? isValidRequiredField(isValidPhone, data.homePhone) : isValidField(isValidPhone, data.homePhone)) &&
       isValidField(isValidPhone, data.mobilePhone);
 }
 
@@ -303,7 +311,7 @@ function isValidDirectDepositPage(data) {
 }
 
 function isValidBenefitsHistoryPage(data) {
-  return data.activeDutyRepaying.value !== 'Y' ||
+  return !data.activeDutyRepaying ||
     (!isBlankDateField(data.activeDutyRepayingPeriod.from)
     && !isBlankDateField(data.activeDutyRepayingPeriod.to)
     && isValidDateRange(data.activeDutyRepayingPeriod.from, data.activeDutyRepayingPeriod.to));
@@ -392,6 +400,7 @@ export {
   isValidPhone,
   isValidEmail,
   isValidYear,
+  isValidCurrentOrPastYear,
   isValidMonths,
   isValidRoutingNumber,
   isValidField,

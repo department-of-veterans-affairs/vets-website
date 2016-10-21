@@ -54,7 +54,9 @@ export class Compose extends React.Component {
 
   apiFormattedMessage() {
     const message = this.props.message;
+
     return {
+      attachments: message.attachments,
       category: message.category.value,
       subject: message.subject.value,
       body: message.text.value,
@@ -103,7 +105,6 @@ export class Compose extends React.Component {
 
   handleMessageChange(valueObj) {
     this.props.setMessageField('message.text', valueObj);
-    this.props.updateComposeCharacterCount(valueObj, composeMessage.maxChars.message);
   }
 
   render() {
@@ -144,7 +145,6 @@ export class Compose extends React.Component {
           <MessageSubjectGroup
               categories={messageCategories}
               category={message.category}
-              charMax={composeMessage.maxChars.subject}
               cssErrorClass={subjectError.type ? `msg-compose-error--${subjectError.type}` : undefined}
               errorMessage={subjectError.hasError ? composeMessage.errors.subjectLine[subjectError.type] : undefined}
               onCategoryChange={this.props.setMessageField}
@@ -153,10 +153,8 @@ export class Compose extends React.Component {
               subjectPlaceholder={composeMessage.placeholders.subject}/>
           <MessageWriteGroup
               allowedMimeTypes={allowedMimeTypes}
-              charCount={message.charsRemaining}
               errorMessage={validations.isValidMessageBody(message.text) ? undefined : composeMessage.errors.message}
               files={this.props.message.attachments}
-              maxChars={composeMessage.maxChars.message}
               maxFiles={composeMessage.attachments.maxNum}
               maxFileSize={composeMessage.attachments.maxSingleFile}
               maxTotalFileSize={composeMessage.attachments.maxTotalFiles}

@@ -7,6 +7,7 @@ import {
   CLEAR_DRAFT,
   DELETE_DRAFT_ATTACHMENT,
   FETCH_THREAD_SUCCESS,
+  SEND_MESSAGE_SUCCESS,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -14,16 +15,13 @@ import {
   UPDATE_DRAFT
 } from '../utils/constants';
 
-import { composeMessage } from '../config';
-
 const initialState = {
   data: {
     message: null,
     thread: [],
     draft: {
       attachments: [],
-      body: makeField(''),
-      charsRemaining: composeMessage.maxChars.message
+      body: makeField('')
     }
   },
   ui: {
@@ -37,7 +35,7 @@ const resetDraft = (state) => {
   return set('data.draft', initialState.data.draft, state);
 };
 
-export default function folders(state = initialState, action) {
+export default function messages(state = initialState, action) {
   switch (action.type) {
     case ADD_DRAFT_ATTACHMENTS:
       return set('data.draft.attachments', [
@@ -73,8 +71,6 @@ export default function folders(state = initialState, action) {
           // TODO: Get attachments from the draft.
           attachments: [],
           body: makeField(currentMessage.body),
-          charsRemaining: composeMessage.maxChars.message -
-                          currentMessage.body.length,
           replyMessageId: thread.length === 0 ?
                           undefined :
                           thread[thread.length - 1].messageId
@@ -94,6 +90,9 @@ export default function folders(state = initialState, action) {
       newState = set('data.draft', draft, newState);
       return set('data.message', currentMessage, newState);
     }
+
+    case SEND_MESSAGE_SUCCESS:
+      return set('data.message', null, state);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
@@ -131,9 +130,7 @@ export default function folders(state = initialState, action) {
 
     case UPDATE_DRAFT:
       return set('data.draft', {
-        body: action.field,
-        charsRemaining: composeMessage.maxChars.message -
-                        action.field.value.length
+        body: action.field
       }, state);
 
     default:

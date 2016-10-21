@@ -66,7 +66,7 @@ export default class ClaimPhase extends React.Component {
         }
         return (
           <div className="claims-evidence-item columns medium-9">
-            We requested <Link to={filesPath}>{event.displayName}</Link> from {fromVet ? 'you' : 'others'}
+            We added a notice for: <Link to={filesPath}>{event.displayName}</Link>
           </div>
         );
 
@@ -152,4 +152,3 @@ ClaimPhase.propTypes = {
   current: React.PropTypes.number,
   id: React.PropTypes.string.isRequired
 };
-

@@ -93,7 +93,10 @@
   // Overriding `#content .section h*`.
   padding: 0 2rem !important;
   vertical-align: top;
-  width: 60%;
+
+  @media (min-width: $medium-screen) {
+    width: 60%;
+  }
 }
 
 .messaging-thread-controls {
@@ -161,6 +164,7 @@
 
   textarea {
     margin: 0;
+    max-width: 100%;
     padding: 1rem 1.5rem;
   }
 }
