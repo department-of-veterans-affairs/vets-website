@@ -1,8 +1,8 @@
-const evidenceGathering = 'Evidence gathering & review';
+const evidenceGathering = 'Evidence gathering, review, and decision';
 
 const phaseMap = {
   1: 'Claim received',
-  2: 'Initial processing',
+  2: 'Initial review',
   3: evidenceGathering,
   4: evidenceGathering,
   5: evidenceGathering,
@@ -115,7 +115,11 @@ export function getDocTypeDescription(docType) {
 
 export function isCompleteClaim({ attributes }) {
   return !!attributes.claimType
-    && !!attributes.contentionList.length
+    && (attributes.contentionList && !!attributes.contentionList.length)
     && !!attributes.dateFiled
     && !!attributes.vaRepresentative;
+}
+
+export function hasBeenReviewed(trackedItem) {
+  return trackedItem.type.startsWith('received_from') && trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW';
 }
