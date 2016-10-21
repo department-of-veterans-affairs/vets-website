@@ -1,12 +1,12 @@
 ---
 layout: page-breadcrumbs.html
-title: Your Privacy and the Million Veterans Program
+title: Your Privacy and the Million Veteran Program
 permalink: /million-veteran-program/privacy/index.html
 template: L2-section-landing
 concurrence: complete
 relatedlinks:
   - url: /million-veteran-program/enroll/
-    title: Enroll in the Million Veterans Program
+    title: Enroll in the Million Veteran Program
     description: ""
 ---
 
