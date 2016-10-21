@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
@@ -41,10 +41,17 @@ class TurnInEvidencePage extends React.Component {
     } else {
       content = (
         <div className="claim-container">
+          <nav className="va-nav-breadcrumbs">
+            <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+              <li><Link to="your-claims">Your claims</Link></li>
+              <li><Link to={`your-claims/${this.props.claim.id}`}>Your Compensation Claim</Link></li>
+              <li className="active">Turn in More Evidence</li>
+            </ul>
+          </nav>
           {this.props.uploadError
             ? <UploadError/>
             : null}
-          <h1>Turn in More Evidence</h1>
+          <h1 className="claims-header">Turn in More Evidence</h1>
           <EvidenceWarning/>
           <AddFilesForm
               field={this.props.uploadField}
