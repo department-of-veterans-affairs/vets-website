@@ -34,7 +34,7 @@ class FilesPage extends React.Component {
       content = (
         <div>
           <div className="file-request-list">
-            <h4 className="hightlight claim-file-border">File Requests</h4>
+            <h4 className="hightlight claim-file-border">File requests</h4>
 
             {filesNeeded.length === 0
               ? <div className="no-documents"><p>You don't need to turn in any documents to VA.</p></div>
@@ -88,7 +88,7 @@ class FilesPage extends React.Component {
             </div>
 
             <div className="submitted-files-list">
-              <h4 className="hightlight claim-file-border">Documents Filed</h4>
+              <h4 className="hightlight claim-file-border">Documents filed</h4>
               {documentsTurnedIn.length === 0
                 ? <div className="no-documents-turned-in"><p>You haven't turned in any documents to VA.</p></div>
                 : null}
@@ -101,12 +101,12 @@ class FilesPage extends React.Component {
                     ?
                     <div>
                       <h6 className="reviewed-file"><i className="fa fa-check-circle"></i>Reviewed by VA</h6>
-                      <p className="submission-date reviewed-file">{moment(item.receivedDate).format('MMM M, YYYY')}</p>
+                      <p className="submission-date reviewed-file">{moment(item.receivedDate).format('MMM D, YYYY')}</p>
                     </div>
                     :
                     <div>
                       <h6>Submitted</h6>
-                      <p className="submission-date">{moment(item.receivedDate).format('MMM M, YYYY')}{' (pending)'}</p>
+                      <p className="submission-date">{moment(item.receivedDate).format('MMM D, YYYY')}{' (pending)'}</p>
                     </div>
                   }
                 </div>
