@@ -92,6 +92,8 @@ export class Detail extends React.Component {
     const attrs = _.get(this.props.prescription, 'rx.attributes', {});
     const status = rxStatuses[attrs.refillStatus];
     const data = {
+      'Prescription #': attrs.prescriptionNumber,
+
       Quantity: attrs.quantity,
 
       'Prescription status': (
@@ -104,32 +106,37 @@ export class Detail extends React.Component {
       ),
 
       'Last fill date': attrs.dispensedDate
-        ? moment(attrs.dispensedDate).format('MMM DD, YYYY')
+        ? moment(attrs.dispensedDate).format('MMM D, YYYY')
         : 'Not available',
 
       'Expiration date': attrs.expirationDate
-        ? moment(attrs.expirationDate).format('MMM DD, YYYY')
+        ? moment(attrs.expirationDate).format('MMM D, YYYY')
         : 'Not available',
 
-      'Prescription #': attrs.prescriptionNumber,
-
-      Refills: (
-        <div>
-          {attrs.refillRemaining} remaining
-          <SubmitRefill
-              cssClass="rx-trigger"
-              mode="compact"
-              onSubmit={(e) => { e.preventDefault(); this.props.openRefillModal(attrs); }}
-              refillId={attrs.id}
-              text="Refill Prescription"/>
-        </div>
-      )
+      Refills: `${attrs.refillRemaining} remaining`
     };
 
+    let refillButton;
+
+    if (attrs.isRefillable) {
+      refillButton = (
+        <SubmitRefill
+            onSubmit={(e) => {
+              e.preventDefault();
+              this.props.openRefillModal(attrs);
+            }}
+            refillId={attrs.id}
+            text="Refill Prescription"/>
+      );
+    }
+
     return (
-      <TableVerticalHeader
-          className="usa-table-borderless rx-table rx-info"
-          data={data}/>
+      <div id="rx-info">
+        <TableVerticalHeader
+            className="usa-table-borderless rx-table"
+            data={data}/>
+        {refillButton}
+      </div>
     );
   }
 
