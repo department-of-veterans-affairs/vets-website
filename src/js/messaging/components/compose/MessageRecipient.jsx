@@ -3,8 +3,8 @@ import ErrorableSelect from '../../../common/components/form-elements/ErrorableS
 import classNames from 'classnames';
 
 class MessageRecipient extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.handleRecipientChange = this.handleRecipientChange.bind(this);
   }
 
