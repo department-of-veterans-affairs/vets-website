@@ -6,8 +6,8 @@ import {
   DELETE_COMPOSE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
-  FETCH_SENDER_SUCCESS,
-  SET_MESSAGE_FIELD
+  RESET_MESSAGE_OBJECT,
+  SET_MESSAGE_FIELD,
 } from '../utils/constants';
 
 export function deleteComposeMessage() {
@@ -36,21 +36,6 @@ export function deleteComposeAttachment(index) {
   };
 }
 
-export function fetchSenderName() {
-  /*
-  TODO: Make this conduct an actual
-  fetch operation for this data
-  */
-  return {
-    type: FETCH_SENDER_SUCCESS,
-    sender: {
-      lastName: 'Veteran',
-      firstName: 'Jane',
-      middleName: 'Q.'
-    }
-  };
-}
-
 export function fetchRecipients() {
   const url = `${api.url}/recipients`;
   return dispatch => {
@@ -63,3 +48,8 @@ export function fetchRecipients() {
   };
 }
 
+export function resetMessage() {
+  return {
+    type: RESET_MESSAGE_OBJECT
+  };
+}
