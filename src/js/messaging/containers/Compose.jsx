@@ -15,7 +15,6 @@ import {
 
 import * as validations from '../utils/validations';
 
-import MessageFrom from '../components/compose/MessageFrom';
 import MessageRecipient from '../components/compose/MessageRecipient';
 import MessageSubjectGroup from '../components/compose/MessageSubjectGroup';
 import MessageWriteGroup from '../components/compose/MessageWriteGroup';
@@ -27,8 +26,8 @@ import {
   deleteComposeAttachment,
   deleteComposeMessage,
   fetchRecipients,
-  fetchSenderName,
   openAttachmentsModal,
+  resetMessage,
   saveDraft,
   sendMessage,
   setMessageField,
@@ -48,7 +47,7 @@ export class Compose extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchSenderName();
+    this.props.resetMessage();
     this.props.fetchRecipients();
   }
 
@@ -107,6 +106,7 @@ export class Compose extends React.Component {
     this.props.setMessageField('message.text', valueObj);
   }
 
+
   render() {
     const message = this.props.message;
 
@@ -131,11 +131,6 @@ export class Compose extends React.Component {
         <form
             id="msg-compose"
             onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
-          <MessageFrom
-              cssClass="msg-from"
-              lastName={message.sender.lastName}
-              firstName={message.sender.firstName}
-              middleName={message.sender.middleName}/>
           <MessageRecipient
               errorMessage={validations.isValidRecipient(message.recipient) ? '' : composeMessage.errors.recipient}
               cssClass="msg-recipient msg-field"
@@ -193,8 +188,8 @@ const mapDispatchToProps = {
   deleteComposeAttachment,
   deleteComposeMessage,
   fetchRecipients,
-  fetchSenderName,
   openAttachmentsModal,
+  resetMessage,
   saveDraft,
   sendMessage,
   setMessageField,
