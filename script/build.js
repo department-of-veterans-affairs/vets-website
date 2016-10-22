@@ -93,7 +93,6 @@ smith.destination(`../build/${options.buildtype}`);
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
 const ignoreList = ['memorial-benefits/*'];
 if (options.buildtype === 'production') {
-  ignoreList.push('disability-benefits/track-claims/*');
   ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('facilities/*');
   ignoreList.push('messaging/*');
