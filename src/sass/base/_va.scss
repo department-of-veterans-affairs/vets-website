@@ -226,20 +226,10 @@ hr {
     background: $color-white;
     padding: 0.5em 0;
 
-    @media #{$small} {
-      .row {
-        padding: 0 0.5em;
-      }
-    }
+    .row {
+      padding: 0 0.75em;
 
-    @media #{$medium} {
-      .row {
-        padding: 0;
-      }
-    }
-
-    @media #{$large} {
-      .row {
+      @media #{$medium} {
         padding: 0;
       }
     }
@@ -247,7 +237,7 @@ hr {
 
   .top-banner {
     @media #{$small} {
-      padding: 1em 0.5em;
+      padding: 1em 0.75em;
     }
 
     @media #{$medium} {
@@ -348,6 +338,11 @@ h6 {
 #content .popular-container {
   background: $color-white;
   text-align: center;
+
+  .column-padded {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
 
   .flex {
     @media #{$small} {
@@ -1341,8 +1336,7 @@ a.twitter {
 
 .header {
   .message {
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
+    padding-top: 0.5em 0.75em;
   }
 
   .va-notice--banner {
@@ -1389,7 +1383,7 @@ a.twitter {
   }
 
   .row {
-    max-width: 70em;
+    max-width: 69.4em;
   }
 }
 

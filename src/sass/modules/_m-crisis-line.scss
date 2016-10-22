@@ -10,7 +10,7 @@
     background: $color-white;
     display: flex;
     flex-direction: column;
-    padding: 0;
+    padding: 0em 0.75em;
   }
 }
 
@@ -108,8 +108,8 @@ a.va-crisis-line {
 
   @media #{$small-only} {
     span.vcl {
-      width: 3em;
-      height: 3em;
+      width: 2.5em;
+      height: 2.5em;
     }
   }
 }

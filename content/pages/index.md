@@ -29,7 +29,7 @@ majorlinks:
 
 <div class="popular-container">
 <div class="row">
-  <div class="small-12 medium-4 mx-auto text-center">
+  <div class="small-12 medium-5 mx-auto text-center column-padded">
   <h2 class="gold-ruled">Popular on Vets.gov</h2>
   </div>
 </div>
@@ -58,7 +58,7 @@ majorlinks:
 </div>
 
 <div class="row text-center">
-<div class="text-center mx-auto medium-8 stars-tagline">
+<div class="column-padded text-center mx-auto medium-8 stars-tagline">
   <h2>The Department of Veterans Affairs is working hard to make it easier for you to get the services you've earned.</h2>
 </div>
 </div>
