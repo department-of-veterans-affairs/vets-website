@@ -112,14 +112,17 @@ export class Compose extends React.Component {
         <MessageForm
             message={this.props.message}
             recipients={this.props.recipients}
-            isDeleteModalVisible={this.props.deleteModal.visible}
+            isDeleteModalVisible={this.props.deleteConfirmModal.visible}
             onAttachmentsClose={this.props.deleteComposeAttachment}
             onAttachmentUpload={this.props.addComposeAttachments}
             onAttachmentsError={this.props.openAttachmentsModal}
+            onBodyChange={this.props.setMessageField.bind(null, 'message.text')}
+            onCategoryChange={this.props.setMessageField.bind(null, 'message.category')}
             onDeleteMessage={this.handleConfirmDelete}
+            onRecipientChange={this.props.setMessageField.bind(null, 'message.recipient')}
             onSaveMessage={this.saveDraft}
             onSendMessage={this.sendMessage}
-            onValueChange={this.props.setMessageField}
+            onSubjectChange={this.props.setMessageField.bind(null, 'message.subject')}
             toggleConfirmDelete={this.props.toggleConfirmDelete}/>
       </div>
     );
@@ -130,7 +133,7 @@ const mapStateToProps = (state) => {
   return {
     message: state.compose.message,
     recipients: state.compose.recipients,
-    deleteModal: state.modals.deleteConfirm
+    deleteConfirmModal: state.modals.deleteConfirm
   };
 };
 

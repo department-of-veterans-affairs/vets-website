@@ -28,7 +28,7 @@ export class MessageForm extends React.Component {
           <MessageRecipient
               errorMessage={validations.isValidRecipient(message.recipient) ? '' : composeMessage.errors.recipient}
               cssClass="msg-recipient msg-field"
-              onValueChange={this.props.onValueChange}
+              onValueChange={this.props.onRecipientChange}
               options={this.props.recipients}
               recipient={message.recipient}/>
           <MessageSubjectGroup
@@ -36,8 +36,8 @@ export class MessageForm extends React.Component {
               category={message.category}
               cssErrorClass={subjectError.type ? `msg-compose-error--${subjectError.type}` : undefined}
               errorMessage={subjectError.hasError ? composeMessage.errors.subjectLine[subjectError.type] : undefined}
-              onCategoryChange={this.props.onValueChange}
-              onSubjectChange={this.props.onValueChange}
+              onCategoryChange={this.props.onCategoryChange}
+              onSubjectChange={this.props.onSubjectChange}
               subject={message.subject}
               subjectPlaceholder={composeMessage.placeholders.subject}/>
           <MessageWriteGroup
@@ -51,7 +51,7 @@ export class MessageForm extends React.Component {
               onAttachmentUpload={this.props.onAttachmentUpload}
               onAttachmentsError={this.props.onAttachmentsError}
               onDelete={this.props.toggleConfirmDelete}
-              onTextChange={this.props.onValueChange}
+              onTextChange={this.props.onBodyChange}
               onSave={this.props.onSaveMessage}
               onSend={this.props.onSendMessage}
               messageText={message.text}
@@ -111,7 +111,6 @@ MessageForm.propTypes = {
   onSaveMessage: React.PropTypes.func.isRequired,
   onSendMessage: React.PropTypes.func.isRequired,
   onSubjectChange: React.PropTypes.func,
-  onValueChange: React.PropTypes.func,
   toggleConfirmDelete: React.PropTypes.func.isRequired,
 };
 
