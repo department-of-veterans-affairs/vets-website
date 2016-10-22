@@ -5,7 +5,7 @@ const _Environments = {
 };
 
 function getEnvironment() {
-  const platform = process.env.NODE_ENV;
+  const platform = __BUILDTYPE__;
   return _Environments[platform];
 }
 

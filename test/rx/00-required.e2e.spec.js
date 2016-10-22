@@ -1,6 +1,6 @@
 // TODO(james): address this with a feature flag
 
-if (process.env.BUILDTYPE !== 'production') {
+if (process.env.BUILDTYPE === 'development') {
   const E2eHelpers = require('../util/e2e-helpers');
   const Timeouts = require('../util/timeouts.js');
   const RxHelpers = require('../util/rx-helpers');
