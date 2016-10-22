@@ -2,24 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import {
-  allowedMimeTypes,
-  composeMessage,
-  messageCategories,
-  paths
-} from '../config';
-
-import {
-  dirtyAllFields
-} from '../../common/model/fields';
-
+import { dirtyAllFields } from '../../common/model/fields';
+import MessageForm from '../components/MessageForm';
+import { paths } from '../config';
 import * as validations from '../utils/validations';
-
-import MessageRecipient from '../components/compose/MessageRecipient';
-import MessageSubjectGroup from '../components/compose/MessageSubjectGroup';
-import MessageWriteGroup from '../components/compose/MessageWriteGroup';
-import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
-import NoticeBox from '../components/NoticeBox';
 
 import {
   addComposeAttachments,
@@ -108,11 +94,6 @@ export class Compose extends React.Component {
 
 
   render() {
-    const message = this.props.message;
-
-    // Tests the subject group for errors
-    const subjectError = validations.isValidSubjectLine(message.category, message.subject);
-
     return (
       <div>
         <div id="messaging-content-header">
@@ -128,48 +109,18 @@ export class Compose extends React.Component {
             Send
           </button>
         </div>
-        <form
-            id="msg-compose"
-            onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
-          <MessageRecipient
-              errorMessage={validations.isValidRecipient(message.recipient) ? '' : composeMessage.errors.recipient}
-              cssClass="msg-recipient msg-field"
-              onValueChange={this.props.setMessageField}
-              options={this.props.recipients}
-              recipient={message.recipient}/>
-          <MessageSubjectGroup
-              categories={messageCategories}
-              category={message.category}
-              cssErrorClass={subjectError.type ? `msg-compose-error--${subjectError.type}` : undefined}
-              errorMessage={subjectError.hasError ? composeMessage.errors.subjectLine[subjectError.type] : undefined}
-              onCategoryChange={this.props.setMessageField}
-              onSubjectChange={this.props.setMessageField}
-              subject={message.subject}
-              subjectPlaceholder={composeMessage.placeholders.subject}/>
-          <MessageWriteGroup
-              allowedMimeTypes={allowedMimeTypes}
-              errorMessage={validations.isValidMessageBody(message.text) ? undefined : composeMessage.errors.message}
-              files={this.props.message.attachments}
-              maxFiles={composeMessage.attachments.maxNum}
-              maxFileSize={composeMessage.attachments.maxSingleFile}
-              maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
-              onAttachmentsClose={this.props.deleteComposeAttachment}
-              onAttachmentUpload={this.props.addComposeAttachments}
-              onAttachmentsError={this.props.openAttachmentsModal}
-              onCharCountChange={this.props.updateComposeCharacterCount}
-              onDelete={this.props.toggleConfirmDelete}
-              onTextChange={this.props.setMessageField}
-              onSave={this.saveDraft}
-              onSend={this.sendMessage}
-              messageText={message.text}
-              placeholder={composeMessage.placeholders.message}/>
-        </form>
-        <NoticeBox/>
-        <ModalConfirmDelete
-            cssClass="messaging-modal"
-            onClose={this.props.toggleConfirmDelete}
-            onDelete={this.handleConfirmDelete}
-            visible={this.props.deleteConfirmModal.visible}/>
+        <MessageForm
+            message={this.props.message}
+            recipients={this.props.recipients}
+            isDeleteModalVisible={this.props.deleteModal.visible}
+            onAttachmentsClose={this.props.deleteComposeAttachment}
+            onAttachmentUpload={this.props.addComposeAttachments}
+            onAttachmentsError={this.props.openAttachmentsModal}
+            onDeleteMessage={this.handleConfirmDelete}
+            onSaveMessage={this.saveDraft}
+            onSendMessage={this.sendMessage}
+            onValueChange={this.props.setMessageField}
+            toggleConfirmDelete={this.props.toggleConfirmDelete}/>
       </div>
     );
   }
@@ -179,7 +130,7 @@ const mapStateToProps = (state) => {
   return {
     message: state.compose.message,
     recipients: state.compose.recipients,
-    deleteConfirmModal: state.modals.deleteConfirm
+    deleteModal: state.modals.deleteConfirm
   };
 };
 

@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { dirtyAllFields } from '../../common/model/fields';
-
 import {
   allowedMimeTypes,
   composeMessage,
