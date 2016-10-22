@@ -15,11 +15,6 @@ import { testData } from '../../util/messaging-helpers';
 
 const initialState = {
   message: {
-    sender: {
-      firstName: '',
-      lastName: '',
-      middleName: ''
-    },
     category: makeField(''),
     recipient: makeField(''),
     subject: makeField(''),
