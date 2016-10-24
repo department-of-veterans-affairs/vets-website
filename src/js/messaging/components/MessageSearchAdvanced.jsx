@@ -2,7 +2,6 @@ import React from 'react';
 import classNames from 'classnames';
 import DatePicker from 'react-datepicker';
 
-import { makeField } from '../../common/model/fields';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
 
@@ -12,10 +11,30 @@ class MessageSearchAdvanced extends React.Component {
     this.handleAdvancedSearchToggle = this.handleAdvancedSearchToggle.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
+    this.handleFromChange = this.handleFromChange.bind(this);
+    this.handleFromExactChange = this.handleFromExactChange.bind(this);
+    this.handleSubjectChange = this.handleSubjectChange.bind(this);
+    this.handleSubjectExactChange = this.handleSubjectExactChange.bind(this);
   }
 
   handleAdvancedSearchToggle() {
     this.props.onAdvancedSearch();
+  }
+
+  handleFromChange(field) {
+    this.props.onFieldChange('params.from.field', field);
+  }
+
+  handleFromExactChange(field) {
+    this.props.onFieldChange('params.from.exact', field);
+  }
+
+  handleSubjectChange(field) {
+    this.props.onFieldChange('params.subject.field', field);
+  }
+
+  handleSubjectExactChange(field) {
+    this.props.onFieldChange('params.subject.exact', field);
   }
 
   // `date` is a Moment.js object, not a timestamp.
@@ -42,25 +61,25 @@ class MessageSearchAdvanced extends React.Component {
           <legend className="usa-sr-only">Search using additional criteria</legend>
           <div className="va-flex va-flex--ctr msg-search-advanced-group">
             <ErrorableTextInput
-                field={makeField('')}
+                field={this.props.params.from.field}
                 label="From"
-                onValueChange={() => {}}/>
+                onValueChange={this.handleFromChange}/>
 
             <ErrorableCheckbox
-                field={makeField('')}
+                checked={this.props.params.from.exact}
                 label="Exact match"
-                onValueChange={() => {}}/>
+                onValueChange={this.handleFromExactChange}/>
           </div>
 
           <div className="va-flex va-flex--ctr msg-search-advanced-group">
             <ErrorableTextInput
-                field={makeField('')}
+                field={this.props.params.subject.field}
                 label="Subject line"
-                onValueChange={() => {}}/>
+                onValueChange={this.handleSubjectChange}/>
             <ErrorableCheckbox
-                field={makeField('')}
+                checked={this.props.params.subject.exact}
                 label="Exact match"
-                onValueChange={() => {}}/>
+                onValueChange={this.handleSubjectExactChange}/>
           </div>
 
           <fieldset className="va-flex va-flex--ctr msg-search-advanced-group">
@@ -73,7 +92,7 @@ class MessageSearchAdvanced extends React.Component {
                   id="msg-search-date-start"
                   onChange={this.handleStartDateChange}
                   placeholderText="MM/DD/YYYY"
-                  selected={this.props.startDateRange}/>
+                  selected={this.props.params.dateRange.start}/>
               <span>to</span>
               <label
                   className="usa-sr-only"
@@ -82,7 +101,7 @@ class MessageSearchAdvanced extends React.Component {
                   id="msg-search-date-end"
                   onChange={this.handleEndDateChange}
                   placeholderText="MM/DD/YYYY"
-                  selected={this.props.endDateRange}/>
+                  selected={this.props.params.dateRange.end}/>
             </div>
           </fieldset>
           <button
