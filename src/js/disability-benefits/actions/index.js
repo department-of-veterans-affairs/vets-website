@@ -167,7 +167,7 @@ export function submitFiles(claimId, trackedItem, files) {
       multiple: false,
       callbacks: {
         onAllComplete: () => {
-          if (hasError) {
+          if (!hasError) {
             dispatch({
               type: DONE_UPLOADING,
               itemName: trackedItem ? trackedItem.displayName : null

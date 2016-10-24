@@ -9,7 +9,7 @@ import { validateIfDirty, isNotBlank } from '../../common/utils/validations';
 
 import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';
-import { displayFileSize, DOC_TYPES } from '../utils/helpers';
+import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
 import { isValidFile, isValidDocument, isValidFileSize, isValidFileType, FILE_TYPES } from '../utils/validations';
 
 const displayTypes = FILE_TYPES.map(type => (type === 'pdf' ? 'pdf (unlocked)' : type)).join(', ');
@@ -21,6 +21,18 @@ const scrollToFile = (position) => {
     offset: -25,
     smooth: true
   });
+};
+const scrollToError = () => {
+  const errors = document.querySelectorAll('.usa-input-error');
+  if (errors.length) {
+    const errorPosition = getTopPosition(errors[0]);
+    Scroll.animateScroll.scrollTo(errorPosition, {
+      duration: 500,
+      delay: 0,
+      offset: -15,
+      smooth: true
+    });
+  }
 };
 const Element = Scroll.Element;
 
@@ -60,6 +72,7 @@ class AddFilesForm extends React.Component {
       this.props.onSubmit();
     } else {
       this.props.onDirtyFields();
+      setTimeout(scrollToError);
     }
   }
   render() {
