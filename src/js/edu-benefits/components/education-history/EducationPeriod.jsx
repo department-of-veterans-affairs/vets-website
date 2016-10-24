@@ -33,7 +33,7 @@ export default class EducationPeriod extends React.Component {
             options={states.USA}
             onValueChange={(update) => {onValueChange('state', update);}}/>
         <DateInput
-            errorMessage="Please provide a response"
+            errorMessage="Please provide a valid date in the past"
             validation={validateIfDirtyDateObj(period.dateRange.from, isValidDateField)}
             label="From"
             name="fromDate"

@@ -20,7 +20,6 @@ export default class RotcScholarship extends React.Component {
                   label="Year"
                   name="year"
                   field={scholarship.year}
-                  placeholder="yyyy"
                   min="1900"
                   onValueChange={(update) => {onValueChange('year', update);}}/>
             </div>

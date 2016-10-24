@@ -118,13 +118,11 @@ if (options.buildtype === 'production') {
   ignoreList.push('auth/*');
   ignoreList.push('education/apply-for-education-benefits-new');
 } else if (options.buildtype === 'staging') {
-  ignoreList.push('disability-benefits/track-claims/*');
   ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('facilities/*');
   ignoreList.push('messaging/*');
   ignoreList.push('rx/*');
   ignoreList.push('profile/*');
-  ignoreList.push('auth/*');
   ignoreList.push('education/apply-for-education-benefits-new');
 }
 
