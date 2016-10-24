@@ -114,7 +114,7 @@ class Address extends React.Component {
             required={this.props.required}
             onValueChange={(update) => {this.handleChange('street', update);}}/>
         <ErrorableTextInput errorMessage={this.validateAddressField(this.props.value.city) ? undefined : 'Please enter a city'}
-            label="City"
+            label={<span>City <em>(or APO/FPO/DPO)</em></span>}
             name="city"
             autocomplete="address-level2"
             charMax={30}
