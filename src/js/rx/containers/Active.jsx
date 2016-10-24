@@ -42,11 +42,11 @@ class Active extends React.Component {
   render() {
     const items = this.props.prescriptions.items;
     let content;
-    
+
     const sortParam = this.props.location.query.sort;
 
     if (items) {
-      const sortValue = sortParam ? sortParam : 'lastRequested';
+      const sortValue = sortParam || 'lastRequested';
 
       content = (
         <div>
