@@ -46,7 +46,7 @@ Yes, if:
 
 ### How do I get these benefits for my child?
 
-You'll need to apply for benefits for your child. When you apply, you’ll need to prove that your child’s birth defect was likely caused by your contact with certain chemicals while serving in the military. 
+You'll need to apply for benefits for your child. When you apply, you’ll need to show that your child’s birth defect was likely caused by your contact with certain chemicals while serving in the military. 
 
 We provide financial support at 1 of 3 disability levels. Your child's level will depend on how severe his or her disability is. 
 
