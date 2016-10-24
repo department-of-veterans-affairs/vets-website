@@ -7,6 +7,7 @@ export default class BenefitsSelectionFields extends React.Component {
   render() {
     return (<fieldset>
       <legend className="hide-for-small-only">Benefits eligibility</legend>
+      <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <ErrorableGroup
             required
@@ -30,12 +31,12 @@ export default class BenefitsSelectionFields extends React.Component {
               checked={this.props.data.chapter33}
               onValueChange={(update) => {this.props.onStateChange('chapter33', update);}}/>
           <ErrorableCheckbox
-              label="Montgomery GI Bill Active Duty (MGIB or Chapter 30) Education Assistance Program"
+              label="Montgomery GI Bill (MGIB-AD, Chapter 30)"
               name="chapter30"
               checked={this.props.data.chapter30}
               onValueChange={(update) => {this.props.onStateChange('chapter30', update);}}/>
           <ErrorableCheckbox
-              label="Montgomery GI Bill Selected Reserve (MGIB-SR or Chapter 1606) Educational Assistance Program"
+              label="Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)"
               name="chapter1606"
               checked={this.props.data.chapter1606}
               onValueChange={(update) => {this.props.onStateChange('chapter1606', update);}}/>
