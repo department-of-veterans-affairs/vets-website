@@ -265,25 +265,29 @@ class VAMap extends Component {
         <div>
           <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch}/>
         </div>
-        <div>
-          <Map ref="map" center={position} zoom={13} style={{ width: '100%' }} scrollWheelZoom={false}>
-            <TileLayer
-                url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
-                attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
-            <DivMarker position={position} popupContent={<span>You are here</span>}>
-              <div className="current-position-icon">
-                <i className="fa fa-star"></i>
+        <div className="row">
+          <div className="columns medium-4 small-12" style={{ maxHeight: '75vh', overflowY: 'auto' }}>
+            <div className="facility-search-results">
+              <p className="text-center">Search Results near <strong>{currentQuery.context}</strong></p>
+              <div>
+                <ResultsList facilities={facilities}/>
               </div>
-            </DivMarker>
-            <FeatureGroup ref="facilityMarkers">
-              {this.renderFacilityMarkers()}
-            </FeatureGroup>
-          </Map>
-        </div>
-        <div className="facility-search-results">
-          <p>Search Results near <strong>{currentQuery.context}</strong></p>
-          <div>
-            <ResultsList facilities={facilities}/>
+            </div>
+          </div>
+          <div className="columns medium-8 small-12" style={{ minHeight: '75vh' }}>
+            <Map ref="map" center={position} zoom={13} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false}>
+              <TileLayer
+                  url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
+                  attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
+              <DivMarker position={position} popupContent={<span>You are here</span>}>
+                <div className="current-position-icon">
+                  <i className="fa fa-star"></i>
+                </div>
+              </DivMarker>
+              <FeatureGroup ref="facilityMarkers">
+                {this.renderFacilityMarkers()}
+              </FeatureGroup>
+            </Map>
           </div>
         </div>
       </div>

@@ -32,6 +32,8 @@
   }
 
   .facility-result {
+    padding: 1em;
+    border-bottom: none;
 
     span.fa {
       margin-right: 0.5rem;
@@ -59,6 +61,10 @@
     }
   }
 
+  .facility-result + .facility-result {
+    border-top: solid 3px $color-gray-lightest;
+  }
+
   .leaflet-popup-content {
     h5 {
       color: $color-link-default;
@@ -71,6 +77,10 @@
     p {
       margin: 0;
     }
+  }
+
+  .text-center {
+    text-align: center;
   }
 
   .tab {
@@ -101,6 +111,7 @@
 
   .facility-search-results {
     padding: 1rem;
+    border: solid 1px $color-gray-lightest;
 
     ol {
       padding: 0;

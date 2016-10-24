@@ -103,7 +103,7 @@ class SearchControls extends Component {
             <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
           </div>
           <div className="columns medium-3">
-            <label htmlFor="facilityType">Facility Type</label>
+            <label htmlFor="facilityType">Select Facility Type</label>
             <div tabIndex="1" className={`facility-dropdown-wrapper ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown} onBlur={() => {this.setState({ facilityDropdownActive: false });}}>
               {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
               <ul className="dropdown">
@@ -115,7 +115,7 @@ class SearchControls extends Component {
             </div>
           </div>
           <div className="columns medium-3">
-            <label htmlFor="serviceType">Service Type</label>
+            <label htmlFor="serviceType">Select Service Type</label>
             <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType} disabled={currentQuery.facilityType !== 'va_benefits_facility'}>
               <option value="all">All</option>
               {this.renderServiceFilterOptions()}
