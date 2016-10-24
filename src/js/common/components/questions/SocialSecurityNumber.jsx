@@ -38,7 +38,6 @@ class SocialSecurityNumber extends React.Component {
             errorMessage={errorMessage}
             label={this.props.label || 'Social Security Number'}
             name="ssn"
-            placeholder="xxx-xx-xxxx"
             required={this.props.required !== undefined ? this.props.required : true}
             field={this.props.ssn}
             onValueChange={this.props.onValueChange}/>

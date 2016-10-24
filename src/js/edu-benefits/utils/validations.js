@@ -236,7 +236,7 @@ function isValidBenefitsInformationPage(data) {
   return data.chapter33 || data.chapter30 || data.chapter32 || data.chapter1606;
 }
 
-function isValidBenefitsWaiverPage(data) {
+function isValidBenefitsRelinquishmentPage(data) {
   return !data.chapter33 ||
     (isNotBlank(data.benefitsRelinquished.value) &&
       (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
@@ -328,7 +328,7 @@ function isValidRotcHistoryPage(data) {
 
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data)
-    && isValidBenefitsWaiverPage(data)
+    && isValidBenefitsRelinquishmentPage(data)
     && isValidPersonalInfoPage(data)
     && isValidContactInformationPage(data)
     && isValidMilitaryServicePage(data)
@@ -349,8 +349,8 @@ function isValidPage(completePath, pageData) {
       return isValidContactInformationPage(pageData);
     case '/benefits-eligibility/benefits-selection':
       return isValidBenefitsInformationPage(pageData);
-    case '/benefits-eligibility/benefits-waiver':
-      return isValidBenefitsWaiverPage(pageData);
+    case '/benefits-eligibility/benefits-relinquishment':
+      return isValidBenefitsRelinquishmentPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
     case '/military-history/benefits-history':
