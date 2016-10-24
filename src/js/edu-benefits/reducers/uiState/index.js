@@ -30,7 +30,7 @@ const ui = {
       verified: false,
       fields: ['chapter30', 'chapter32', 'chapter33', 'chapter1606', 'checkedBenefit']
     },
-    '/benefits-eligibility/benefits-waiver': {
+    '/benefits-eligibility/benefits-relinquishment': {
       complete: false,
       verified: false,
       fields: ['benefitsRelinquished', 'benefitsRelinquishedDate']

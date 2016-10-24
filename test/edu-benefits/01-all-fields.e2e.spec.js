@@ -29,14 +29,14 @@ if (process.env.BUILDTYPE === 'development') {
         .expect.element('input[name="chapter30"]').to.be.visible;
       EduHelpers.completeBenefitsSelection(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
-      E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-selection');
+      E2eHelpers.expectNavigateAwayFrom(client, '/benefits-eligibility/benefits-selection');
 
-      // Benefits waiver
+      // Benefits relinquishment
       client
         .expect.element('input[name="benefitsRelinquished-1"]').to.be.visible;
-      EduHelpers.completeBenefitsWaiver(client, EduHelpers.testValues, false);
+      EduHelpers.completeBenefitsRelinquishment(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
-      E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-waiver');
+      E2eHelpers.expectNavigateAwayFrom(client, '/benefits-eligibility/benefits-relinquishment');
 
       // Military service page.
       client
