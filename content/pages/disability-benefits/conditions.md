@@ -20,11 +20,11 @@ relatedlinks:
 ---
 
 
-Do you have health problems that started—or got worse—while you were serving in the military? If yes, you may be able to get support (known as compensation) from VA.
+Do you have health problems that started—or got worse—while you were serving in the military? If yes, you may be able to get VA support (known as disability compensation or benefits) for these health problems.
 
 <div class="call-out" markdown="0">
 
-### Can I get compensation from VA?
+### Can I get disability compensation from VA?
 
 Yes, if:
 
@@ -37,18 +37,18 @@ Yes, if:
 ### Who's covered?
 
 - Veterans
-- Dependents
+- Dependents of Veterans
 
 </div>
 
 ### What kind of benefits can I get?
 
--	Free health care
+-	Health care
 -	Financial support (monthly payments)
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you‘ll have to prove your health problems were caused by—or got worse because of—your service.
+You’ll need to apply for benefits. When you apply, you‘ll have to show that your health problems were likely caused by—or got worse because of—your service.
 
 #### What health problems are covered by these benefits?
 
@@ -70,4 +70,4 @@ You may also be able to get support for:
 - Anxiety
 
 
-[Get a full list of health problems](http://www.benefits.va.gov/warms/bookc.asp)
+[Get a full list of health problems](http://www.benefits.va.gov/warms/bookc.asp).
