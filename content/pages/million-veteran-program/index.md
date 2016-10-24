@@ -43,7 +43,7 @@ Just take these 3 simple steps:
 
 Researchers use MVP data to look for connections between Veterans’ genes, health history, lifestyles, military training, and combat experiences.  
 
-[Learn more about current research](direct them to the other website or we can provide a pdf fact sheet that can be put here).  
+[Learn more about current research](http://www.research.va.gov/currents/default.cfm).  
 
 ### Privacy
 
