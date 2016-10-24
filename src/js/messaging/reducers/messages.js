@@ -20,7 +20,10 @@ const initialState = {
     thread: [],
     draft: {
       attachments: [],
-      body: makeField('')
+      body: makeField(''),
+      category: makeField(''),
+      recipient: makeField(''),
+      subject: makeField('')
     }
   },
   ui: {
@@ -63,26 +66,22 @@ export default function messages(state = initialState, action) {
       // Reverse to display most recent message at the bottom.
       thread.reverse();
 
+      let draft = initialState.data.draft;
+      draft.category = makeField(currentMessage.category);
+      draft.subject = makeField(currentMessage.subject);
+
       // The message is the draft if it hasn't been sent yet.
       // Otherwise, the draft is an new, unsaved reply to the message.
-      let draft;
       if (!currentMessage.sentDate) {
-        draft = Object.assign({}, currentMessage, {
-          // TODO: Get attachments from the draft.
-          attachments: [],
-          body: makeField(currentMessage.body),
-          replyMessageId: thread.length === 0 ?
-                          undefined :
-                          thread[thread.length - 1].messageId
-        });
+        draft.attachments = currentMessage.attachments || [];
+        draft.body = makeField(currentMessage.body);
+        draft.recipient = makeField(currentMessage.recipientId.toString());
+        draft.replyMessageId = thread.length === 0
+                             ? undefined
+                             : thread[thread.length - 1].messageId;
       } else {
-        draft = Object.assign({}, initialState.data.draft, {
-          attachments: [],
-          category: currentMessage.category,
-          recipientId: currentMessage.senderId,
-          replyMessageId: currentMessage.messageId,
-          subject: currentMessage.subject
-        });
+        draft.recipient = makeField(currentMessage.senderId.toString());
+        draft.replyMessageId = currentMessage.messageId;
       }
 
       let newState = set('ui', { ...initialState.ui, messagesCollapsed }, state);

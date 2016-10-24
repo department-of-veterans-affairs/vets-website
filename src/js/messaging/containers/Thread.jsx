@@ -53,7 +53,7 @@ export class Thread extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.isNewMessage && this.props.recipients) {
+    if (this.props.isNewMessage && this.props.recipients.length === 0) {
       this.props.fetchRecipients();
     }
 
@@ -66,6 +66,9 @@ export class Thread extends React.Component {
   apiFormattedDraft() {
     const draft = Object.assign({}, this.props.draft);
     draft.body = draft.body.value;
+    draft.category = draft.category.value;
+    draft.recipient = draft.recipient.value;
+    draft.subject = draft.subject.value;
     return draft;
   }
 
@@ -180,7 +183,7 @@ export class Thread extends React.Component {
       if (this.props.isNewMessage) {
         return (
           <MessageForm
-              message={this.props.message}
+              message={this.props.draft}
               recipients={this.props.recipients}
               isDeleteModalVisible={this.props.modals.deleteConfirm.visible}
               onAttachmentsClose={this.props.deleteDraftAttachment}
@@ -221,7 +224,7 @@ export class Thread extends React.Component {
         {replyDetails}
         <MessageWrite
             cssClass="messaging-write"
-            onValueChange={this.props.updateDraft}
+            onValueChange={this.props.updateDraft.bind(null, 'body')}
             placeholder={composeMessage.placeholders.message}
             text={this.props.draft.body}/>
         <MessageAttachments
