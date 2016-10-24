@@ -27,6 +27,7 @@ export default class EducationHistoryFields extends React.Component {
 
     return (<fieldset>
       <legend className="hide-for-small-only">Education history</legend>
+      <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <DateInput
             label="When did you earn your high school diploma or equivalency certificate?"
