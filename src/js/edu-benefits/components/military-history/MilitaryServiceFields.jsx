@@ -14,12 +14,11 @@ import { yesNo } from '../../utils/options-for-select';
 export default class MilitaryServiceFields extends React.Component {
   render() {
     const tourFields = [
-      'doNotApplyPeriodToSelected',
+      'applyPeriodToSelected',
       'benefitsToApplyTo',
       'serviceBranch',
       'dateRange',
       'serviceStatus',
-      'involuntarilyCalledToDuty'
     ];
     const activeDutyQuestions = (
       <div>
@@ -34,13 +33,12 @@ export default class MilitaryServiceFields extends React.Component {
 
     return (<fieldset>
       <legend>Military service</legend>
-      <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
+      <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <ErrorableNumberInput
             additionalClass="usa-input-medium"
             errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, (value) => isValidField(isValidCurrentOrPastYear, { value })) ? undefined : 'Please enter a valid year (cannot be future year)'}
             label="If you received a commission from a military service academy, what year did you graduate?"
-            placeholder="yyyy"
             name="serviceAcademyGraduationYear"
             min="1900"
             field={this.props.data.serviceAcademyGraduationYear}

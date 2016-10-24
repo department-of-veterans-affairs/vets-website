@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash/fp';
-import { getUserPhaseDescription } from '../utils/helpers';
+import { getHistoryPhaseDescription, getUserPhaseDescription, getMicroPhaseDescription } from '../utils/helpers';
 
 const stepClasses = {
   1: 'one',
@@ -45,7 +45,14 @@ export default class ClaimPhase extends React.Component {
       case 'phase_entered':
         return (
           <div className="claims-evidence-item columns medium-9">
-            Your claim moved to {getUserPhaseDescription(this.props.phase)}
+            Your claim moved to {getHistoryPhaseDescription(this.props.phase)}
+          </div>
+        );
+
+      case 'micro_phase':
+        return (
+          <div className="claims-evidence-item columns medium-9">
+            Your claim moved to {getMicroPhaseDescription(event.phaseNumber)}
           </div>
         );
 
@@ -66,7 +73,7 @@ export default class ClaimPhase extends React.Component {
         }
         return (
           <div className="claims-evidence-item columns medium-9">
-            We requested <Link to={filesPath}>{event.displayName}</Link> from {fromVet ? 'you' : 'others'}
+            We added a notice for: <Link to={filesPath}>{event.displayName}</Link>
           </div>
         );
 
@@ -111,7 +118,7 @@ export default class ClaimPhase extends React.Component {
           <button
               className="older-updates usa-button-outline"
               onClick={this.showAllActivity}>
-            See older updates&nbsp;<i className="fa fa-chevron-down" ariaHidden="true"></i>
+            See older updates&nbsp;<i className="fa fa-chevron-down"></i>
           </button>
         </div>);
       }
@@ -152,4 +159,3 @@ ClaimPhase.propTypes = {
   current: React.PropTypes.number,
   id: React.PropTypes.string.isRequired
 };
-
