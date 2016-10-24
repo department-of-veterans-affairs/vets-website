@@ -14,6 +14,7 @@ export default class BenefitsHistoryFields extends React.Component {
     );
     return (<fieldset>
       <legend>Benefits history</legend>
+      <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <p>Select all that apply:</p>
         <ErrorableCheckbox
