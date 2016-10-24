@@ -42,7 +42,7 @@ export class MessageForm extends React.Component {
               subjectPlaceholder={composeMessage.placeholders.subject}/>
           <MessageWriteGroup
               allowedMimeTypes={allowedMimeTypes}
-              errorMessage={validations.isValidMessageBody(message.text) ? undefined : composeMessage.errors.message}
+              errorMessage={validations.isValidMessageBody(message.body) ? undefined : composeMessage.errors.message}
               files={this.props.message.attachments}
               maxFiles={composeMessage.attachments.maxNum}
               maxFileSize={composeMessage.attachments.maxSingleFile}
@@ -54,7 +54,7 @@ export class MessageForm extends React.Component {
               onTextChange={this.props.onBodyChange}
               onSave={this.props.onSaveMessage}
               onSend={this.props.onSendMessage}
-              messageText={message.text}
+              messageText={message.body}
               placeholder={composeMessage.placeholders.message}/>
         </form>
         <NoticeBox/>
