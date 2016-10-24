@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import {
   addDraftAttachments,
@@ -47,6 +48,13 @@ export class Thread extends React.Component {
   componentDidMount() {
     const id = this.props.params.id;
     this.props.fetchThread(id);
+  }
+
+  componentDidUpdate() {
+    const newId = +this.props.params.id;
+    if (newId !== this.props.message.messageId) {
+      this.props.fetchThread(newId);
+    }
   }
 
   apiFormattedDraft() {
@@ -101,27 +109,12 @@ export class Thread extends React.Component {
       return message.messageId === this.props.message.messageId;
     });
 
-    /* Once the position of current position has been determined,
-       create functions to navigate to the previous and next
-       messages within the folder.
-
-       Then pass these functions to the navigation components. */
-
-    let fetchPrevMessage;
-    if (currentIndex - 1 >= 0) {
-      const prevId = folderMessages[currentIndex - 1].messageId;
-      fetchPrevMessage = () => {
-        this.props.fetchThread(prevId);
-      };
-    }
-
-    let fetchNextMessage;
-    if (currentIndex + 1 < folderMessageCount) {
-      const nextId = folderMessages[currentIndex + 1].messageId;
-      fetchNextMessage = () => {
-        this.props.fetchThread(nextId);
-      };
-    }
+    // TODO: Enable navigating to messages outside of the current page.
+    const handleMessageSelect = (messageNumber) => {
+      const index = messageNumber - 1;
+      const selectedId = folderMessages[index].messageId;
+      browserHistory.push(`/messaging/thread/${selectedId}`);
+    };
 
     return (
       <ThreadHeader
@@ -129,8 +122,7 @@ export class Thread extends React.Component {
           moveToFolders={moveToFolders}
           folderMessageCount={folderMessageCount}
           message={this.props.message}
-          onClickPrev={fetchPrevMessage}
-          onClickNext={fetchNextMessage}
+          onMessageSelect={handleMessageSelect}
           persistedFolder={this.props.persistFolder}
           threadMessageCount={this.props.thread.length + 1}
           messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
@@ -212,7 +204,6 @@ export class Thread extends React.Component {
             onClose={this.props.deleteDraftAttachment}/>
         <MessageSend
             allowedMimeTypes={allowedMimeTypes}
-            charCount={this.props.draft.charsRemaining}
             cssClass="messaging-send-group"
             maxFiles={composeMessage.attachments.maxNum}
             maxFileSize={composeMessage.attachments.maxSingleFile}

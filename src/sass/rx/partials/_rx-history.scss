@@ -4,7 +4,7 @@
   display: none;
 }
 
-#rx-history .rx-table {
+#rx-history table {
   tr {
     &:last-child {
       td {
@@ -21,13 +21,9 @@
       }
     }
   }
-}
 
-#rx-history .rx-table-list {
   @media (max-width: $medium-screen) {
     td {
-      display: table-row;
-
       // Get the prescription name to appear above the other fields.
       &:nth-child(3) { display: table-header-group; }
 

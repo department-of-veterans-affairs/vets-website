@@ -4,10 +4,10 @@ import { Link, browserHistory } from 'react-router';
 import _ from 'lodash';
 import moment from 'moment';
 
+import SortableTable from '../../common/components/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modal.js';
 import Pagination from '../../common/components/Pagination';
-import SortableTable from '../components/tables/SortableTable';
 import SortMenu from '../components/SortMenu';
 import { glossary, rxStatuses } from '../config.js';
 
@@ -90,6 +90,8 @@ class History extends React.Component {
         const status = rxStatuses[attrs.refillStatus];
 
         return {
+          id: item.id,
+
           orderedDate:
             attrs.orderedDate
             ? moment(attrs.orderedDate).format('MMM DD, YYYY')
@@ -121,7 +123,7 @@ class History extends React.Component {
               options={fields}
               selected={currentSort}/>
           <SortableTable
-              className="usa-table-borderless rx-table rx-table-list"
+              className="usa-table-borderless va-table-list rx-table rx-table-list"
               currentSort={currentSort}
               data={data}
               fields={fields}

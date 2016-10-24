@@ -15,7 +15,6 @@ import {
 
 import * as validations from '../utils/validations';
 
-import MessageFrom from '../components/compose/MessageFrom';
 import MessageRecipient from '../components/compose/MessageRecipient';
 import MessageSubjectGroup from '../components/compose/MessageSubjectGroup';
 import MessageWriteGroup from '../components/compose/MessageWriteGroup';
@@ -27,8 +26,8 @@ import {
   deleteComposeAttachment,
   deleteComposeMessage,
   fetchRecipients,
-  fetchSenderName,
   openAttachmentsModal,
+  resetMessage,
   saveDraft,
   sendMessage,
   setMessageField,
@@ -48,13 +47,15 @@ export class Compose extends React.Component {
   }
 
   componentDidMount() {
-    this.props.fetchSenderName();
+    this.props.resetMessage();
     this.props.fetchRecipients();
   }
 
   apiFormattedMessage() {
     const message = this.props.message;
+
     return {
+      attachments: message.attachments,
       category: message.category.value,
       subject: message.subject.value,
       body: message.text.value,
@@ -103,8 +104,8 @@ export class Compose extends React.Component {
 
   handleMessageChange(valueObj) {
     this.props.setMessageField('message.text', valueObj);
-    this.props.updateComposeCharacterCount(valueObj, composeMessage.maxChars.message);
   }
+
 
   render() {
     const message = this.props.message;
@@ -130,11 +131,6 @@ export class Compose extends React.Component {
         <form
             id="msg-compose"
             onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
-          <MessageFrom
-              cssClass="msg-from"
-              lastName={message.sender.lastName}
-              firstName={message.sender.firstName}
-              middleName={message.sender.middleName}/>
           <MessageRecipient
               errorMessage={validations.isValidRecipient(message.recipient) ? '' : composeMessage.errors.recipient}
               cssClass="msg-recipient msg-field"
@@ -144,7 +140,6 @@ export class Compose extends React.Component {
           <MessageSubjectGroup
               categories={messageCategories}
               category={message.category}
-              charMax={composeMessage.maxChars.subject}
               cssErrorClass={subjectError.type ? `msg-compose-error--${subjectError.type}` : undefined}
               errorMessage={subjectError.hasError ? composeMessage.errors.subjectLine[subjectError.type] : undefined}
               onCategoryChange={this.props.setMessageField}
@@ -153,10 +148,8 @@ export class Compose extends React.Component {
               subjectPlaceholder={composeMessage.placeholders.subject}/>
           <MessageWriteGroup
               allowedMimeTypes={allowedMimeTypes}
-              charCount={message.charsRemaining}
               errorMessage={validations.isValidMessageBody(message.text) ? undefined : composeMessage.errors.message}
               files={this.props.message.attachments}
-              maxChars={composeMessage.maxChars.message}
               maxFiles={composeMessage.attachments.maxNum}
               maxFileSize={composeMessage.attachments.maxSingleFile}
               maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
@@ -195,8 +188,8 @@ const mapDispatchToProps = {
   deleteComposeAttachment,
   deleteComposeMessage,
   fetchRecipients,
-  fetchSenderName,
   openAttachmentsModal,
+  resetMessage,
   saveDraft,
   sendMessage,
   setMessageField,
