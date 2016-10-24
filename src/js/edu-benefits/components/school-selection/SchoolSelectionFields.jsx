@@ -15,6 +15,7 @@ export default class SchoolSelectionFields extends React.Component {
   render() {
     return (<fieldset>
       <legend className="hide-for-small-only">School selection</legend>
+      <p><span className="form-required-span">*</span>Indicates a required field</p>
       <p>In what type of education or training do you plan to enroll?</p>
       <ExpandingGroup
           additionalClass="edu-benefits-active-group"
@@ -62,7 +63,7 @@ export default class SchoolSelectionFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('educationStartDate', update);}}/>
         {this.props.data.currentlyActiveDuty.yes.value === 'Y'
           ? <ErrorableRadioButtons
-              label="Are you receiving, or do you expect to receive any money (including, but not limited to, federal tuition assistance) from the armed forces or public health services for any part of your coursework or training?"
+              label="Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?"
               name="nonVaAssistance"
               options={yesNo}
               value={this.props.data.currentlyActiveDuty.nonVaAssistance}
