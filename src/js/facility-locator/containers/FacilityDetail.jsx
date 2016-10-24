@@ -64,6 +64,8 @@ class FacilityDetail extends Component {
           </Link>
           <div>
             {this.renderFacilityInfo()}
+            <h4>Services</h4>
+            <hr className="title"/>
             <ServicesAtFacility facility={facility}/>
           </div>
         </div>

@@ -386,6 +386,11 @@
       color: $color-link-default;
     }
 
+    .call-out {
+      border: solid thin $color-black;
+      background: $color-white;
+    }
+
     hr {
       border-color: $color-gray-lighter;
       margin: 0rem 0 2rem;
