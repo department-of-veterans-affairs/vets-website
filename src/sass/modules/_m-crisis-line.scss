@@ -106,10 +106,19 @@ a.va-crisis-line {
     margin: 0.5em 0.5em 0 0.5em;
   }
 
+  @media #{$medium-only} {
+    span.vcl {
+      width: 3em;
+      height: 3em;
+      margin: 0.5em 1em 0 0;
+    }
+  }
+
   @media #{$small-only} {
     span.vcl {
-      width: 2.5em;
-      height: 2.5em;
+      width: 4em;
+      height: 2em;
+      margin: 0.5em 1em 0 0;
     }
   }
 }

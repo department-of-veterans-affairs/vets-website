@@ -418,7 +418,7 @@ h6 {
 
   @media #{$small} {
     padding: 1em 0;
-    min-height: 8em;
+    min-height: 14em;
   }
   @media #{$medium} {
     padding: 2em 0;
@@ -448,8 +448,9 @@ h6 {
 
   h2 span {
     clear: both;
-    padding: 0.2em 0.3em;
+    padding: 0.5em 0.4em;
     display: inline-block;
+    line-height: 30px;
     background: $color-white;
     font-weight: bold;
     color: $color-primary-darker;
@@ -469,7 +470,7 @@ h6 {
 
   @media #{$large} {
     h2 span {
-      padding: 0.5em .75em;
+      padding: 0.5em 0.4em;
       line-height: 1.3em;
       font-size: 3.5rem;
     }
