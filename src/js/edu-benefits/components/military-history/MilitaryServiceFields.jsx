@@ -39,7 +39,6 @@ export default class MilitaryServiceFields extends React.Component {
             additionalClass="usa-input-medium"
             errorMessage={validateIfDirty(this.props.data.serviceAcademyGraduationYear, (value) => isValidField(isValidCurrentOrPastYear, { value })) ? undefined : 'Please enter a valid year (cannot be future year)'}
             label="If you received a commission from a military service academy, what year did you graduate?"
-            placeholder="yyyy"
             name="serviceAcademyGraduationYear"
             min="1900"
             field={this.props.data.serviceAcademyGraduationYear}
