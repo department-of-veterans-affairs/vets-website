@@ -35,6 +35,10 @@
     padding: 1em;
     border-bottom: none;
 
+    &:hover {
+      box-shadow: inset 0px 0px 7px $color-link-default;
+    }
+
     span.fa {
       margin-right: 0.5rem;
     }
