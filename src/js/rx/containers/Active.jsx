@@ -22,10 +22,8 @@ class Active extends React.Component {
   handleSortOnChange(domEvent) {
     if (domEvent.type === 'change') {
       browserHistory.push({
-        pathname: '/rx',
-        query: {
-          sort: domEvent.target.value
-        }
+        pathname: '/',
+        query: { sort: domEvent.target.value }
       });
     }
     this.dispatchSortAction(domEvent.target.value);

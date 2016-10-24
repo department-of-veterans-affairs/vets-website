@@ -14,7 +14,7 @@ class SortMenu extends React.Component {
         return (<li key={ind}><Link
             activeClassName="rx-sort-active"
             to={{
-              pathname: '/rx',
+              pathname: '/',
               query: { sort: `${o.value}` }
             }}>{o.label}</Link></li>);
       });

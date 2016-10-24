@@ -14,7 +14,7 @@ class ConfirmRefillModal extends React.Component {
     const rxId = this.props.prescriptionId;
     const alertContent = (
       <b>
-        Refill for <a href={`/rx/prescription/${rxId}`}>{this.props.prescriptionName}</a> has been requested.
+        Refill for <a href={`/${rxId}`}>{this.props.prescriptionName}</a> has been requested.
       </b>
     );
 
