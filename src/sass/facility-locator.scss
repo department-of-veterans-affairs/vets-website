@@ -237,6 +237,28 @@
         padding: 0;
       }
 
+      span.legend {
+        border-radius: 1em;
+        padding: 0.2em;
+        margin-right: 0.5em;
+        width: 1.4em;
+        height: 1.4em;
+        text-align: center;
+        color: $color-white;
+
+        &.red {
+          background: #cd2026;
+        }
+
+        &.green {
+          background: #195c27;
+        }
+
+        &.blue {
+          background: $color-link-default;
+        }
+      }
+
       .dropdown {
         position: absolute;
         top: 0;
@@ -247,28 +269,6 @@
         opacity: 0;
         pointer-events: none;
         z-index: 999;
-
-        span.legend {
-          border-radius: 1em;
-          padding: 0.2em;
-          margin-right: 0.5em;
-          width: 1.4em;
-          height: 1.4em;
-          text-align: center;
-          color: $color-white;
-
-          &.red {
-            background: #cd2026;
-          }
-
-          &.green {
-            background: #195c27;
-          }
-
-          &.blue {
-            background: $color-link-default;
-          }
-        }
 
         li {
           color: $color-black;
