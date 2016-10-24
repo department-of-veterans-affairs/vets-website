@@ -9,7 +9,7 @@ export default class EducationHistoryReview extends React.Component {
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
-              <td>If you received a high school diploma or high school equivalency certificate, what date was it received? (month, day, year)</td>
+              <td>If you got a high school diploma or high school equivalency certificate, what date did you get it? (month, day, year)</td>
               <td>{displayDateIfValid(completionDate)}</td>
             </tr>
           </tbody>
@@ -48,7 +48,7 @@ export default class EducationHistoryReview extends React.Component {
                 <td scope="col">{period.hoursType.value}</td>
               </tr>
               <tr>
-                <td scope="col">Degree, diploma or certificate received</td>
+                <td scope="col">Name of degree, diploma, or certificate</td>
                 <td scope="col">{period.degreeReceived.value}</td>
               </tr>
             </tbody>
