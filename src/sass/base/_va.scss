@@ -697,7 +697,7 @@ ul, ol {
       display:block;
     }
 
-    @media #{$medium} {
+    @media #{$medium-only} {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
