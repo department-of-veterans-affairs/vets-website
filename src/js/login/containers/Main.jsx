@@ -23,7 +23,7 @@ class Main extends React.Component {
     }
 
     // TODO: Remove this conditional statement when going to production.
-    if (__BUILDTYPE__ === 'development') {
+    if (__BUILDTYPE__ !== 'production') {
       this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new`, result => {
         this.props.onUpdateLoginUrl(result.authenticate_via_get);
       });
@@ -74,7 +74,7 @@ class Main extends React.Component {
   render() {
     let content;
 
-    if (__BUILDTYPE__ === 'development') {
+    if (__BUILDTYPE__ !== 'production') {
       content = (
         <SignInProfileButton onButtonClick={this.handleOpenPopup}/>
       );
