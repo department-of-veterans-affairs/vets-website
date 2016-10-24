@@ -16,7 +16,7 @@ If you get VA health care at a [VA medical center with an MVP enrollment site](h
 ## If you haven’t gotten a letter, or would like to find out if you may enroll:
 
 -	Call 1-866-441-6075 to make an appointment at your nearest MVP enrollment site.
--	[Go to an MVP enrollment site](http://www.research.va.gov/MVP/all-clinics.cfm). Call first to make sure it’s open when you want to come in: 1-866-441-6075. Please feel free to stop by an MVP enrollment site if you happen to be at a VA medical center already for a medical appointment.
+-	[Go to an MVP enrollment site](http://www.research.va.gov/MVP/all-clinics.cfm). Call first to make sure it’s open when you want to come in: 1-866-441-6075. Please feel free to stop by an MVP enrollment site if you happen to be at a VA medical center already for another reason.
 
 ### What happens before my appointment?
 
