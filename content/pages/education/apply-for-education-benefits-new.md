@@ -6,8 +6,6 @@ concurrence: complete
 showactionbar: false
 stickyactionbox: true
 relatedlinks:
-  - url: /
-    title: Apply for Vocational Rehabilitation and Employment (VR&E) benefits 
   - url: https://www.vets.gov/education/gi-bill/survivors-dependent-assistance/
     title: Apply for Dependents’ Educational Assistance (DEA) benefits
   - url: https://www.vets.gov/education/gi-bill/transfer/)
@@ -16,7 +14,7 @@ relatedlinks:
     title: Learn about the National Call to Service program
 ---
 
-Servicemembers and Veterans who are interested in education and training can use this online application (Form 22-1990) to get their Certificate of Eligibility (COE).
+If you are a Servicemember or Veteran interested in education and training opportunities, use this form (22-1990) to apply for your Certificate of Eligibility (COE).
 
 ### What are the steps?
 
@@ -37,9 +35,9 @@ Servicemembers and Veterans who are interested in education and training can use
 You may be eligible for more than one benefit, based on your service. When you apply, you have to pick which one you want to use: 
 
 - [Post- 9/11 GI Bill](https://www.vets.gov/education/gi-bill/post-9-11/) (Chapter 33)
-- [Montgomery GI Bill - Active Duty](https://www.vets.gov/education/gi-bill/montgomery-active-duty/) (MGIB-AD or Chapter 30)
-- [Montgomery GI Bill - Selected Reserve](https://www.vets.gov/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR or Chapter 1606)
-- [Post-Vietnam Era Veterans' Educational Assistance Program](https://www.vets.gov/education/other-educational-assistance-programs/veap/) (VEAP or Chapter 32)
+- [Montgomery GI Bill](https://www.vets.gov/education/gi-bill/montgomery-active-duty/) (MGIB-AD, Chapter 30)
+- [Montgomery GI Bill Selected Reserve](https://www.vets.gov/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR, Chapter 1606)
+- [Post-Vietnam Era Veterans' Educational Assistance Program](https://www.vets.gov/education/other-educational-assistance-programs/veap/) (VEAP, Chapter 32)
 
 [An accredited representative]( http://www.va.gov/ogc/apps/accreditation/index.asp) with a Veterans Service Organization (VSO) can help you pick the right program.
 
@@ -94,7 +92,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ###### How long does it take VA to make a decision?
 
-- It takes about 1 month to process your claim.
+- We usually review claims within 30 days.
 
 ###### What should I do while I wait?
 
@@ -114,8 +112,8 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ##### Decision
 
-- It usually takes VA 1 month to process your application. 
-- You will get a COE in the mail. Bring this to the Veterans services office at your school.
+- We usually review claims within 30 days. 
+- You'll get a COE in the mail if your application was approved. Bring this to the VA certifying official at your school.
 
 </div>
 
@@ -127,7 +125,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ##### Checking in on the status of your application?
 
-- It takes VA about 1 month to review your application.
+- We usually review claims within 30 days.
 - If we’ve asked for documents, please upload them through the [GI Bill site](https://gibill.custhelp.com/app/home).
 - You can’t make changes to your application.
 - Call 888-442-4551 if you have questions. 

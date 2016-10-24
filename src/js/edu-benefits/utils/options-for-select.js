@@ -470,8 +470,8 @@ const accountTypes = [
 
 const relinquishableBenefits = [
   { label: 'I don\'t have anything to give up', value: 'unknown' },
-  { label: 'Montgomery GI Bill (MGIB or Chapter 30) Education Assistance Program', value: 'chapter30' },
-  { label: 'Montgomery GI Bill Selected Reserve (MGIB-SR or Chapter 1606)  Educational Assistance Program', value: 'chapter1606' },
+  { label: 'Montgomery GI Bill (MGIB-AD, Chapter 30)', value: 'chapter30' },
+  { label: 'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)', value: 'chapter1606' },
   { label: 'Reserve Educational Assistance Program (REAP or Chapter 1607)', value: 'chapter1607' }
 ];
 
@@ -482,11 +482,11 @@ const hoursTypes = [
 ];
 
 const claimTypes = [
-  { label: 'Montgomery GI Bill – Active Duty (Chapter 30)', value: 'chapter30' },
+  { label: 'Montgomery GI Bill (MGIB-AD, Chapter 30)', value: 'chapter30' },
   { label: 'Post-Vietnam Era Veterans’ Educational Assistance Program (VEAP or Chapter 32)', value: 'chapter32' },
   { label: 'Post-9/11 GI Bill (Chapter 33)', value: 'chapter33' },
   { label: 'Survivors’ and Dependents’ Educational Assistance Program (Chapter 35)', value: 'chapter35' },
-  { label: 'Montgomery GI Bill – Selected Reserve (MGIB-SR or chapter 1606)', value: 'chapter1606' },
+  { label: 'Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)', value: 'chapter1606' },
   { label: 'Reserve Educational Assistance Program (REAP or Chapter 1607)', value: 'chapter1607' },
   { label: 'National Call to Service', value: 'nationalService' },
   { label: 'Use of Transferred Benefits', value: 'transferredBenefits' },

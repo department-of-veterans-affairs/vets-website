@@ -9,7 +9,7 @@ export default class BenefitsSelectionReview extends React.Component {
       <table className="review usa-table-borderless">
         <tbody>
           <tr>
-            <td>I elect to receive Chapter 33 education benefits in lieu of the education benefit(s) I am giving up below:</td>
+            <td>I choose to get Chapter 33 education benefits instead of the education benefit(s) listed here:</td>
             <td>{getLabel(relinquishableBenefits, this.props.data.benefitsRelinquished.value)}</td>
           </tr>
           {showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)
