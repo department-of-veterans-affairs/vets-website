@@ -259,10 +259,11 @@ with a remote s3 bucket.  Travis handles the synchronization by using the
 [s3-cli](https://www.npmjs.com/package/s3-cli) commandline tool.
 
 Commits to `master` pushes `buildtype=development` to `dev.vets.gov` and
-`buildtype=production` to `staging.vets.gov`.  This means `dev.vets.gov` shows all
-in development features where `staging.vets.gov` mirror real production. Staging's
-build is intentionally conflated with production so that it does not become another
-axis of divergence.
+`buildtype=staging` to `staging.vets.gov`. When absolutely necessary, such as
+when testing features against external services before they make their way to
+production, the `staging` environment may differ slightly from the `production`
+environment. These variations are defined in the `script/webpack.config.js`
+file along with the warning statement.
 
 Commits to `production` pushes `buildtype=production` to `www.vets.gov`.
 
