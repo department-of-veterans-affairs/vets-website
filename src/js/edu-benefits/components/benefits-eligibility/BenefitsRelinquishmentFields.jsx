@@ -7,10 +7,11 @@ import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidFutureDateF
 import { relinquishableBenefits } from '../../utils/options-for-select';
 import { showRelinquishedEffectiveDate } from '../../utils/helpers';
 
-export default class BenefitsSelectionFields extends React.Component {
+export default class BenefitsRelinquishmentFields extends React.Component {
   render() {
     return (<fieldset>
-      <legend>Benefits waiver</legend>
+      <legend>Benefits relinquishment</legend>
+      <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <p>If you are eligible for both the Post 9/11 GI Bill and another program, such as the Montgomery GI Bill – Active Duty (MGIB-AD), you have to choose which one you want to use. <b>Once you apply for one or the other, you can’t change it.</b></p>
         <fieldset className="edu-benefits-info-no-icon">
@@ -48,7 +49,7 @@ export default class BenefitsSelectionFields extends React.Component {
   }
 }
 
-BenefitsSelectionFields.propTypes = {
+BenefitsRelinquishmentFields.propTypes = {
   onStateChange: React.PropTypes.func.isRequired,
   data: React.PropTypes.object.isRequired
 };

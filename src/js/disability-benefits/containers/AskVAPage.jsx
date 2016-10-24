@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import { withRouter, Link } from 'react-router';
 import { submitRequest } from '../actions';
 
 import AskVAQuestions from '../components/AskVAQuestions';
@@ -12,6 +12,9 @@ class AskVAPage extends React.Component {
     this.goToStatusPage = this.goToStatusPage.bind(this);
     this.setSubmittedDocs = this.setSubmittedDocs.bind(this);
     this.state = { submittedDocs: false };
+  }
+  componentDidMount() {
+    document.title = 'Ask VA for a Claim Decision';
   }
   componentWillReceiveProps(props) {
     if (props.decisionRequested) {
@@ -38,7 +41,14 @@ class AskVAPage extends React.Component {
       <div>
         <div className="row">
           <div className="medium-8 columns">
-            <div className="va-claim-form">
+            <nav className="va-nav-breadcrumbs">
+              <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+                <li><Link to="your-claims">Your claims</Link></li>
+                <li><Link to={`your-claims/${this.props.params.id}`}>Your Compensation Claim</Link></li>
+                <li className="active">Ask VA for a Claim Decision</li>
+              </ul>
+            </nav>
+            <div>
               <h1>Ask VA for a Claim Decision</h1>
               <p className="first-of-type">You should have received a letter in the mail requesting additional evidence VA needs to support your claim.</p>
               <p>We will wait 30 days to receive your evidence but if you don't have anything more to submit, let us know and we will go ahead and prepare to make a decision on your claim.</p>

@@ -37,9 +37,8 @@ class Phone extends React.Component {
         <ErrorableTextInput
             errorMessage={errorMessage}
             label={this.props.label}
-            name="phone"
+            name={this.props.name}
             autocomplete="tel"
-            placeholder="xxxxxxxxxx"
             field={this.props.value}
             required={this.props.required}
             additionalClass={this.props.additionalClass}
@@ -59,6 +58,11 @@ Phone.propTypes = {
   additionalClass: React.PropTypes.string,
   additionalError: React.PropTypes.string,
   onValueChange: React.PropTypes.func.isRequired,
+  name: React.PropTypes.string
+};
+
+Phone.defaultProps = {
+  name: 'phone'
 };
 
 export default Phone;
