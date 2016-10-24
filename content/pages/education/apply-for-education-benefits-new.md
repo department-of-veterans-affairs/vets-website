@@ -16,6 +16,10 @@ relatedlinks:
 
 If you are a Servicemember or Veteran interested in education and training opportunities, use this form (22-1990) to apply for your Certificate of Eligibility (COE).
 
+[Spouses or dependent children can apply for Post 9/11 GI Bill benefits](/education/gi-bill/transfer/) if the Department of Defense approves a transfer from the Servicemember.
+
+[Dependents or survivors of a Veteran](/education/gi-bill/survivors-dependent-assistance/) may also be eligible for education help through a GI Bill program.
+
 ### What are the steps?
 
 <div class="small-12 columns" markdown="0">
@@ -32,7 +36,7 @@ If you are a Servicemember or Veteran interested in education and training oppor
 
 ###### Check your eligibility
 
-You may be eligible for more than one benefit, based on your service. When you apply, you have to pick which one you want to use: 
+You may be eligible for more than one benefit, based on your service. When you apply, you have to pick which one you want to use:
 
 - [Post- 9/11 GI Bill](https://www.vets.gov/education/gi-bill/post-9-11/) (Chapter 33)
 - [Montgomery GI Bill](https://www.vets.gov/education/gi-bill/montgomery-active-duty/) (MGIB-AD, Chapter 30)
@@ -53,8 +57,8 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ###### What you need to fill out this application
 
-- Social Security number 
-- Bank account direct deposit information 
+- Social Security number
+- Bank account direct deposit information
 - Education, military, and employment history (for example, journeyman or licensed plumber)
 - Basic information about the school you want to attend
 
@@ -96,7 +100,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ###### What should I do while I wait?
 
-- The transition from military to civilian life can be challenging. VA offers [tools and counseling programs](https://www.vets.gov/education/tools-programs/education-career-counseling/) to help you make the most of your educational options. 
+- The transition from military to civilian life can be challenging. VA offers [tools and counseling programs](https://www.vets.gov/education/tools-programs/education-career-counseling/) to help you make the most of your educational options.
 
 ###### What if VA needs more information?
 
@@ -112,7 +116,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ##### Decision
 
-- We usually review claims within 30 days. 
+- We usually review claims within 30 days.
 - You'll get a COE in the mail if your application was approved. Bring this to the VA certifying official at your school.
 
 </div>
@@ -128,7 +132,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 - We usually review claims within 30 days.
 - If we’ve asked for documents, please upload them through the [GI Bill site](https://gibill.custhelp.com/app/home).
 - You can’t make changes to your application.
-- Call 888-442-4551 if you have questions. 
+- Call 888-442-4551 if you have questions.
 
 </div>
 
