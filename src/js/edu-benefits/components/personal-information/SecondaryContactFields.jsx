@@ -11,6 +11,7 @@ export default class SecondaryContactFields extends React.Component {
       <fieldset>
         <legend>Secondary contact</legend>
         <p>This person should know where you can be reached at all times.</p>
+        <p><span className="form-required-span">*</span>Indicates a required field</p>
         <div className="input-section">
           <ErrorableTextInput
               label="Name"
