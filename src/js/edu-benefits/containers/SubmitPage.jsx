@@ -14,7 +14,6 @@ class SubmitPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  // TODO: populate this with confirmation data from the API?
   return {
     name: state.veteran.veteranFullName,
     chapter33: state.veteran.chapter33,
