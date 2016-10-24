@@ -11,7 +11,7 @@ if (process.env.BUILDTYPE === 'development') {
 
       // Ensure introduction page renders.
       client
-        .url(`${E2eHelpers.baseUrl}/rx/`)
+        .url(`${E2eHelpers.baseUrl}/healthcare/prescriptions`)
                           .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Refill your prescriptions: Vets.gov')
         .waitForElementVisible('.va-tab-content', Timeouts.slow)
