@@ -39,7 +39,7 @@ describe('Disability benefits helpers:', () => {
       const phaseActivity = groupTimelineActivity(events);
 
       expect(phaseActivity[1][0].type).to.equal('filed');
-      expect(phaseActivity[2].length).to.equal(2);
+      expect(phaseActivity[2].length).to.equal(3);
     });
   });
   describe('isCompleteClaim', () => {
