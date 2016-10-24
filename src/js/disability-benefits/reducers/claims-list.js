@@ -2,7 +2,7 @@ import _ from 'lodash/fp';
 
 import { SET_CLAIMS, CHANGE_CLAIMS_PAGE, SHOW_CONSOLIDATED_MODAL } from '../actions';
 
-const ROWS_PER_PAGE = 10;
+const ROWS_PER_PAGE = 4;
 
 const initialState = {
   list: null,
