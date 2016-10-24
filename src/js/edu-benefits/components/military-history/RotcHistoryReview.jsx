@@ -14,7 +14,7 @@ export default class RotcHistoryReview extends React.Component {
               <td>{getLabel(yesNoNA, this.props.data.seniorRotcCommissioned.value)}</td>
             </tr>
             <tr>
-              <td>Year of commission</td>
+              <td>Year of commission:</td>
               <td>{this.props.data.seniorRotc.commissionYear.value}</td>
             </tr>
           </tbody>
@@ -39,7 +39,7 @@ export default class RotcHistoryReview extends React.Component {
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
-              <td>Are you currently participating in a senior ROTC scholarship program that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)</td>
+              <td>Are you in a senior ROTC scholarship program right now that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)</td>
               <td>{showYesNo(this.props.data.seniorRotcScholarshipProgram)}</td>
             </tr>
           </tbody>
