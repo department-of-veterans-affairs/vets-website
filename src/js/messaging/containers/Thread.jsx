@@ -7,6 +7,7 @@ import {
   clearDraft,
   deleteDraftAttachment,
   deleteMessage,
+  fetchRecipients,
   fetchThread,
   moveMessageToFolder,
   openAttachmentsModal,
@@ -24,6 +25,7 @@ import {
 
 import Message from '../components/Message';
 import MessageAttachments from '../components/compose/MessageAttachments';
+import MessageForm from '../components/MessageForm';
 import MessageSend from '../components/compose/MessageSend';
 import MessageWrite from '../components/compose/MessageWrite';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
@@ -51,6 +53,10 @@ export class Thread extends React.Component {
   }
 
   componentDidUpdate() {
+    if (this.props.isNewMessage && this.props.recipients) {
+      this.props.fetchRecipients();
+    }
+
     const newId = +this.props.params.id;
     if (newId !== this.props.message.messageId) {
       this.props.fetchThread(newId);
@@ -171,23 +177,43 @@ export class Thread extends React.Component {
     const message = this.props.message;
 
     if (message) {
-      let from;
-      let subject;
+      if (this.props.isNewMessage) {
+        return (
+          <MessageForm
+              message={this.props.message}
+              recipients={this.props.recipients}
+              isDeleteModalVisible={this.props.modals.deleteConfirm.visible}
+              onAttachmentsClose={this.props.deleteDraftAttachment}
+              onAttachmentUpload={this.props.addDraftAttachments}
+              onAttachmentsError={this.props.openAttachmentsModal}
+              onBodyChange={this.props.updateDraft.bind(null, 'body')}
+              onCategoryChange={this.props.updateDraft.bind(null, 'category')}
+              onDeleteMessage={this.handleReplyDelete}
+              onRecipientChange={this.props.updateDraft.bind(null, 'recipient')}
+              onSaveMessage={this.handleReplySave}
+              onSendMessage={this.handleReplySend}
+              onSubjectChange={this.props.updateDraft.bind(null, 'subject')}
+              toggleConfirmDelete={this.props.toggleConfirmDelete}/>
+        );
+      } else {
+        let from;
+        let subject;
 
-      if (!this.props.replyDetailsCollapsed) {
-        from = <div><label>From:</label> {message.recipientName}</div>;
-        subject = <div><label>Subject line:</label> {message.subject}</div>;
+        if (!this.props.replyDetailsCollapsed) {
+          from = <div><label>From:</label> {message.recipientName}</div>;
+          subject = <div><label>Subject line:</label> {message.subject}</div>;
+        }
+
+        replyDetails = (
+          <div
+              className="messaging-thread-reply-details"
+              onClick={this.props.toggleReplyDetails}>
+            <div><label>To:</label> {message.senderName}</div>
+            {from}
+            {subject}
+          </div>
+        );
       }
-
-      replyDetails = (
-        <div
-            className="messaging-thread-reply-details"
-            onClick={this.props.toggleReplyDetails}>
-          <div><label>To:</label> {message.senderName}</div>
-          {from}
-          {subject}
-        </div>
-      );
     }
 
     return (
@@ -264,6 +290,7 @@ const mapStateToProps = (state) => {
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
     persistFolder: folder.persistFolder,
+    recipients: state.compose.recipients,
     replyDetailsCollapsed: state.messages.ui.replyDetailsCollapsed,
     thread: state.messages.data.thread
   };
@@ -274,6 +301,7 @@ const mapDispatchToProps = {
   clearDraft,
   deleteDraftAttachment,
   deleteMessage,
+  fetchRecipients,
   fetchThread,
   moveMessageToFolder,
   openAttachmentsModal,

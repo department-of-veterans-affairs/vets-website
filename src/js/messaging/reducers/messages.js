@@ -126,9 +126,7 @@ export default function messages(state = initialState, action) {
       return set('ui.replyDetailsCollapsed', !state.ui.replyDetailsCollapsed, state);
 
     case UPDATE_DRAFT:
-      return set('data.draft', {
-        body: action.field
-      }, state);
+      return set(`data.draft.${action.key}`, action.field, state);
 
     default:
       return state;
