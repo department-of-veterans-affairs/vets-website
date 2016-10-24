@@ -37,7 +37,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. When you apply, you’ll need to prove that your health problems were caused by your contact with asbestos while serving in the military.
+You'll need to apply for benefits. When you apply, you’ll need to show that your health problems were caused by your contact with asbestos while serving in the military.
 
 If you think you've had contact with asbestos, you should get tested for certain health problems that affect your lungs.
 
