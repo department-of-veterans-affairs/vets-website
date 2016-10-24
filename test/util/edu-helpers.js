@@ -187,7 +187,7 @@ function completeBenefitsSelection(client, data, onlyRequiredFields) {
   }
 }
 
-function completeBenefitsWaiver(client, data, onlyRequiredFields) {
+function completeBenefitsRelinquishment(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
       .click('input[name="benefitsRelinquished-1"]')
@@ -393,7 +393,7 @@ module.exports = {
   completeMilitaryService,
   completeContactInformation,
   completeBenefitsSelection,
-  completeBenefitsWaiver,
+  completeBenefitsRelinquishment,
   completeRotcHistory,
   completeBenefitsHistory,
   completeEducationHistory,
