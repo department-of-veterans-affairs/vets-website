@@ -7,7 +7,7 @@ import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidFutureDateF
 import { relinquishableBenefits } from '../../utils/options-for-select';
 import { showRelinquishedEffectiveDate } from '../../utils/helpers';
 
-export default class BenefitsSelectionFields extends React.Component {
+export default class BenefitsRelinquishmentFields extends React.Component {
   render() {
     return (<fieldset>
       <legend>Benefits relinquishment</legend>
@@ -49,7 +49,7 @@ export default class BenefitsSelectionFields extends React.Component {
   }
 }
 
-BenefitsSelectionFields.propTypes = {
+BenefitsRelinquishmentFields.propTypes = {
   onStateChange: React.PropTypes.func.isRequired,
   data: React.PropTypes.object.isRequired
 };
