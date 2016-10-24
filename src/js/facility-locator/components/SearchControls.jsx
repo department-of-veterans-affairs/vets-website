@@ -116,7 +116,7 @@ class SearchControls extends Component {
           </div>
           <div className="columns medium-3">
             <label htmlFor="serviceType">Service Type</label>
-            <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType}>
+            <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType} disabled={currentQuery.facilityType !== 'va_benefits_facility'}>
               <option value="all">All</option>
               {this.renderServiceFilterOptions()}
             </select>
