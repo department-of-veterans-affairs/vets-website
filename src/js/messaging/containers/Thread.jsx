@@ -24,15 +24,13 @@ import {
 } from '../actions';
 
 import Message from '../components/Message';
-import MessageAttachments from '../components/compose/MessageAttachments';
 import MessageForm from '../components/MessageForm';
-import MessageSend from '../components/compose/MessageSend';
-import MessageWrite from '../components/compose/MessageWrite';
+import MessageWriteGroup from '../components/compose/MessageWriteGroup';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
-
 import { allowedMimeTypes, composeMessage } from '../config';
+import * as validations from '../utils/validations';
 
 export class Thread extends React.Component {
   constructor(props) {
@@ -57,8 +55,10 @@ export class Thread extends React.Component {
       this.props.fetchRecipients();
     }
 
+    const message = this.props.message;
     const newId = +this.props.params.id;
-    if (newId !== this.props.message.messageId) {
+
+    if (!message || newId !== message.messageId) {
       this.props.fetchThread(newId);
     }
   }
@@ -176,72 +176,69 @@ export class Thread extends React.Component {
   }
 
   makeForm() {
+    if (this.props.isNewMessage) {
+      return (
+        <MessageForm
+            message={this.props.draft}
+            recipients={this.props.recipients}
+            isDeleteModalVisible={this.props.modals.deleteConfirm.visible}
+            onAttachmentsClose={this.props.deleteDraftAttachment}
+            onAttachmentUpload={this.props.addDraftAttachments}
+            onAttachmentsError={this.props.openAttachmentsModal}
+            onBodyChange={this.props.updateDraft.bind(null, 'body')}
+            onCategoryChange={this.props.updateDraft.bind(null, 'category')}
+            onDeleteMessage={this.handleReplyDelete}
+            onRecipientChange={this.props.updateDraft.bind(null, 'recipient')}
+            onSaveMessage={this.handleReplySave}
+            onSendMessage={this.handleReplySend}
+            onSubjectChange={this.props.updateDraft.bind(null, 'subject')}
+            toggleConfirmDelete={this.props.toggleConfirmDelete}/>
+      );
+    }
+
     let replyDetails;
     const message = this.props.message;
+    const draft = this.props.draft;
 
     if (message) {
-      if (this.props.isNewMessage) {
-        return (
-          <MessageForm
-              message={this.props.draft}
-              recipients={this.props.recipients}
-              isDeleteModalVisible={this.props.modals.deleteConfirm.visible}
-              onAttachmentsClose={this.props.deleteDraftAttachment}
-              onAttachmentUpload={this.props.addDraftAttachments}
-              onAttachmentsError={this.props.openAttachmentsModal}
-              onBodyChange={this.props.updateDraft.bind(null, 'body')}
-              onCategoryChange={this.props.updateDraft.bind(null, 'category')}
-              onDeleteMessage={this.handleReplyDelete}
-              onRecipientChange={this.props.updateDraft.bind(null, 'recipient')}
-              onSaveMessage={this.handleReplySave}
-              onSendMessage={this.handleReplySend}
-              onSubjectChange={this.props.updateDraft.bind(null, 'subject')}
-              toggleConfirmDelete={this.props.toggleConfirmDelete}/>
-        );
-      } else {
-        let from;
-        let subject;
+      let from;
+      let subject;
 
-        if (!this.props.replyDetailsCollapsed) {
-          from = <div><label>From:</label> {message.recipientName}</div>;
-          subject = <div><label>Subject line:</label> {message.subject}</div>;
-        }
-
-        replyDetails = (
-          <div
-              className="messaging-thread-reply-details"
-              onClick={this.props.toggleReplyDetails}>
-            <div><label>To:</label> {message.senderName}</div>
-            {from}
-            {subject}
-          </div>
-        );
+      if (!this.props.replyDetailsCollapsed) {
+        from = <div><label>From:</label> {message.recipientName}</div>;
+        subject = <div><label>Subject line:</label> {message.subject}</div>;
       }
+
+      replyDetails = (
+        <div
+            className="messaging-thread-reply-details"
+            onClick={this.props.toggleReplyDetails}>
+          <div><label>To:</label> {message.senderName}</div>
+          {from}
+          {subject}
+        </div>
+      );
     }
 
     return (
-      <form>
+      <form id="messaging-draft">
         {replyDetails}
-        <MessageWrite
-            cssClass="messaging-write"
-            onValueChange={this.props.updateDraft.bind(null, 'body')}
-            placeholder={composeMessage.placeholders.message}
-            text={this.props.draft.body}/>
-        <MessageAttachments
-            hidden={!this.props.draft.attachments.length}
-            files={this.props.draft.attachments}
-            onClose={this.props.deleteDraftAttachment}/>
-        <MessageSend
+        <MessageWriteGroup
             allowedMimeTypes={allowedMimeTypes}
-            cssClass="messaging-send-group"
+            errorMessage={validations.isValidMessageBody(draft.body) ? undefined : composeMessage.errors.message}
+            files={draft.attachments}
             maxFiles={composeMessage.attachments.maxNum}
             maxFileSize={composeMessage.attachments.maxSingleFile}
             maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
+            onAttachmentsClose={this.props.deleteDraftAttachment}
             onAttachmentUpload={this.props.addDraftAttachments}
             onAttachmentsError={this.props.openAttachmentsModal}
+            onDelete={this.props.toggleConfirmDelete}
+            onTextChange={this.props.updateDraft.bind(null, 'body')}
             onSave={this.handleReplySave}
             onSend={this.handleReplySend}
-            onDelete={this.props.toggleConfirmDelete}/>
+            messageText={draft.body}
+            placeholder={composeMessage.placeholders.message}/>
       </form>
     );
   }
