@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
 
@@ -64,7 +64,7 @@ export class Folder extends React.Component {
   }
 
   handlePageSelect(page) {
-    browserHistory.push({
+    this.context.router.push({
       pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
       query: { ...this.props.location.query, page }
     });
@@ -72,7 +72,7 @@ export class Folder extends React.Component {
 
   handleSort(value, order) {
     const sort = this.formattedSortParam(value, order);
-    browserHistory.push({
+    this.context.router.push({
       pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
       query: { ...this.props.location.query, sort }
     });
@@ -100,7 +100,7 @@ export class Folder extends React.Component {
     if (!messages || messages.length === 0) { return null; }
 
     const makeMessageLink = (content, id) => {
-      return <Link to={`/messaging/thread/${id}`}>{content}</Link>;
+      return <Link to={`/thread/${id}`}>{content}</Link>;
     };
 
     const currentSort = this.props.sort;
@@ -169,6 +169,10 @@ export class Folder extends React.Component {
     );
   }
 }
+
+Folder.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
 
 const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
