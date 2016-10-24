@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class LoginAccess extends React.Component {
+export default class RequiredLoginView extends React.Component {
   constructor(props) {
     super(props);
     this.handleOpenPopup = this.handleOpenPopup.bind(this);

@@ -7,7 +7,6 @@ import environment from '../../common/helpers/environment.js';
 import { updateLoggedInStatus, updateLogInUrl, updateProfileField } from '../../common/actions';
 import SignInProfileButton from '../components/SignInProfileButton';
 
-// TODO(crew): Redux-ify the state and how it is stored here.
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -61,7 +60,6 @@ class Main extends React.Component {
       this.props.onUpdateProfile('userFullName.first', userData.first_name);
       this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
       this.props.onUpdateProfile('userFullName.last', userData.last_name);
-      // this.props.onUpdateProfile('userFullName.suffix', userData.first_name);
       this.props.onUpdateProfile('gender', userData.gender);
       this.props.onUpdateProfile('dob', userData.birth_date);
       this.props.onUpdateLoggedInStatus(true);

@@ -6,7 +6,8 @@ import LoginDataSection from '../components/LoginDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
 import AccountManagementSection from '../components/AccountManagementSection';
 
-import LoginAccess from '../../common/components/LoginAccess';
+import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredVerifyView from '../../common/components/RequiredVerifyView';
 
 class UserProfileApp extends React.Component {
   render() {
@@ -35,17 +36,21 @@ class UserProfileApp extends React.Component {
     }
 
     if (localStorage.length > 0) {
-      view = (
-        <div className="row">
-          <div className="medium-8 small-12 columns">
-            <h1>Your Vets.gov Account</h1>
-            {account}
-            {components}
+      if (this.props.profile.accountType === 1) {
+        view = (<RequiredVerifyView/>);
+      } else {
+        view = (
+          <div className="row">
+            <div className="medium-8 small-12 columns">
+              <h1>Your Vets.gov Account</h1>
+              {account}
+              {components}
+            </div>
           </div>
-        </div>
-      );
+        );
+      }
     } else {
-      view = (<LoginAccess loginUrl={this.props.login.loginUrl}/>);
+      view = (<RequiredLoginView loginUrl={this.props.login.loginUrl}/>);
     }
     return view;
   }
