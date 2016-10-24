@@ -14,16 +14,13 @@ import {
   UPDATE_DRAFT
 } from '../utils/constants';
 
-import { composeMessage } from '../config';
-
 const initialState = {
   data: {
     message: null,
     thread: [],
     draft: {
       attachments: [],
-      body: makeField(''),
-      charsRemaining: composeMessage.maxChars.message
+      body: makeField('')
     }
   },
   ui: {
@@ -37,7 +34,7 @@ const resetDraft = (state) => {
   return set('data.draft', initialState.data.draft, state);
 };
 
-export default function folders(state = initialState, action) {
+export default function messages(state = initialState, action) {
   switch (action.type) {
     case ADD_DRAFT_ATTACHMENTS:
       return set('data.draft.attachments', [
@@ -53,7 +50,8 @@ export default function folders(state = initialState, action) {
       return set('data.draft.attachments', state.data.draft.attachments, state);
 
     case FETCH_THREAD_SUCCESS: {
-      const currentMessage = action.message.attributes;
+      // Consolidate message attributes and attachments
+      const currentMessage = Object.assign({}, action.message.data.attributes, { attachments: action.message.included });
       const thread = action.thread.map(message => message.attributes);
 
       // Collapse all the previous messages in the thread.
@@ -73,8 +71,6 @@ export default function folders(state = initialState, action) {
           // TODO: Get attachments from the draft.
           attachments: [],
           body: makeField(currentMessage.body),
-          charsRemaining: composeMessage.maxChars.message -
-                          currentMessage.body.length,
           replyMessageId: thread.length === 0 ?
                           undefined :
                           thread[thread.length - 1].messageId
@@ -131,9 +127,7 @@ export default function folders(state = initialState, action) {
 
     case UPDATE_DRAFT:
       return set('data.draft', {
-        body: action.field,
-        charsRemaining: composeMessage.maxChars.message -
-                        action.field.value.length
+        body: action.field
       }, state);
 
     default:

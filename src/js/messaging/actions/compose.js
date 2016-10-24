@@ -6,9 +6,8 @@ import {
   DELETE_COMPOSE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
   FETCH_RECIPIENTS_FAILURE,
-  FETCH_SENDER_SUCCESS,
+  RESET_MESSAGE_OBJECT,
   SET_MESSAGE_FIELD,
-  UPDATE_COMPOSE_CHARACTER_COUNT
 } from '../utils/constants';
 
 export function deleteComposeMessage() {
@@ -37,21 +36,6 @@ export function deleteComposeAttachment(index) {
   };
 }
 
-export function fetchSenderName() {
-  /*
-  TODO: Make this conduct an actual
-  fetch operation for this data
-  */
-  return {
-    type: FETCH_SENDER_SUCCESS,
-    sender: {
-      lastName: 'Veteran',
-      firstName: 'Jane',
-      middleName: 'Q.'
-    }
-  };
-}
-
 export function fetchRecipients() {
   const url = `${api.url}/recipients`;
   return dispatch => {
@@ -64,10 +48,8 @@ export function fetchRecipients() {
   };
 }
 
-export function updateComposeCharacterCount(field, maxLength) {
-  const chars = maxLength - field.value.length;
+export function resetMessage() {
   return {
-    type: UPDATE_COMPOSE_CHARACTER_COUNT,
-    chars
+    type: RESET_MESSAGE_OBJECT
   };
 }

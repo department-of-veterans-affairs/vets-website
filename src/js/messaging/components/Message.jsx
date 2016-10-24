@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 
+import { formattedDate } from '../utils/helpers';
 import MessageDetails from './MessageDetails';
 import MessageAttachmentsView from './MessageAttachmentsView';
 
@@ -43,13 +43,7 @@ class Message extends React.Component {
 
     let attachments;
     if (this.props.attrs.attachment) {
-      // TODO: Replace with actual attachments data
-      attachments = (<MessageAttachmentsView attachments={[
-        { name: 'file1.jpg', url: 'path/to/file1.jpg' },
-        { name: 'file2.jpg', url: 'path/to/file2.jpg' },
-        { name: 'file3.jpg', url: 'path/to/file3.jpg' },
-        { name: 'file4.jpg', url: 'path/to/file4.jpg' }
-      ]}/>);
+      attachments = (<MessageAttachmentsView attachments={this.props.attrs.attachments}/>);
     }
 
     return (
@@ -57,15 +51,11 @@ class Message extends React.Component {
         <div
             className="messaging-message-header"
             onClick={headerOnClick}>
+          <div className="messaging-message-sent-date">
+            {formattedDate(this.props.attrs.sentDate, { fromNow: true })}
+          </div>
           <div className="messaging-message-sender">
             {this.props.attrs.senderName}
-          </div>
-          <div className="messaging-message-sent-date">
-            {
-              moment(
-                this.props.attrs.sentDate
-              ).format('DD MMM YYYY [@] HH[:]mm')
-            }
           </div>
           {details}
         </div>
