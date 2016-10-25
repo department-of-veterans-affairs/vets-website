@@ -8,17 +8,11 @@ import { Compose } from '../../../src/js/messaging/containers/Compose';
 
 const props = {
   message: {
-    sender: {
-      firstName: '',
-      lastName: '',
-      middleName: ''
-    },
+    attachments: [],
+    body: makeField(''),
     category: makeField(''),
     recipient: makeField(''),
-    subject: makeField(''),
-    text: makeField(''),
-    charsRemaining: composeMessage.maxChars.message,
-    attachments: []
+    subject: makeField('')
   },
   recipients: [],
   deleteConfirmModal: {
@@ -26,6 +20,7 @@ const props = {
   },
 
   // No-op function to override dispatch
+  setMessageField: () => {},
   dispatch: () => {}
 };
 
