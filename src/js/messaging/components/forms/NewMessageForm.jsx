@@ -11,7 +11,7 @@ import MessageRecipient from '../compose/MessageRecipient';
 import MessageSubjectGroup from '../compose/MessageSubjectGroup';
 import MessageWriteGroup from '../compose/MessageWriteGroup';
 
-export class MessageForm extends React.Component {
+export class NewMessageForm extends React.Component {
   render() {
     const message = this.props.message;
 
@@ -60,7 +60,7 @@ export class MessageForm extends React.Component {
   }
 }
 
-MessageForm.propTypes = {
+NewMessageForm.propTypes = {
   message: React.PropTypes.shape({
     recipient: React.PropTypes.shape({
       value: React.PropTypes.string,
@@ -104,4 +104,4 @@ MessageForm.propTypes = {
   toggleConfirmDelete: React.PropTypes.func.isRequired,
 };
 
-export default MessageForm;
+export default NewMessageForm;
