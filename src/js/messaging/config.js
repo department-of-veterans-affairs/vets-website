@@ -1,6 +1,10 @@
 const headers = {
-  'X-Key-Inflection': 'camel'
+  'X-Key-Inflection': 'camel',
 };
+
+if (typeof localStorage !== 'undefined' && localStorage !== null) {
+  headers.Authorization = `Token token=${localStorage.userToken}`;
+}
 
 module.exports = {
   // Basic config for making API requests.
@@ -40,10 +44,10 @@ module.exports = {
   },
 
   paths: {
-    INBOX_URL: '/messaging',
-    COMPOSE_URL: '/messaging/compose',
-    FOLDERS_URL: '/messaging/folder',
-    THREADS_URL: '/messaging/thread'
+    INBOX_URL: '/',
+    COMPOSE_URL: '/compose',
+    FOLDERS_URL: '/folder',
+    THREADS_URL: '/thread'
   },
 
   // The indices of systemFolders are positive. The
