@@ -25,5 +25,5 @@ export default function ClaimEstimate({ maxDate }) {
 }
 
 ClaimEstimate.propTypes = {
-  maxDate: React.PropTypes.string.required
+  maxDate: React.PropTypes.string.isRequired
 };
