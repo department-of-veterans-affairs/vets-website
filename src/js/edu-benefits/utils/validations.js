@@ -52,6 +52,10 @@ function isValidYear(value) {
   return Number(value) >= 1900;
 }
 
+function isValidYearOrBlank(value) {
+  return Number(value) >= 1900 || value === '';
+}
+
 function isValidCurrentOrPastYear(value) {
   return Number(value) >= 1900 && Number(value) < moment().year() + 1;
 }
@@ -323,8 +327,7 @@ function isValidRotcScholarshipAmount(data) {
 }
 
 function isValidRotcHistoryPage(data) {
-  return data.seniorRotcCommissioned.value !== 'Y' || (isNotBlank(data.seniorRotc.commissionYear.value)
-    && data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount));
+  return data.seniorRotcCommissioned.value !== 'Y' || data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount);
 }
 
 function isValidForm(data) {
@@ -400,6 +403,7 @@ export {
   isValidPhone,
   isValidEmail,
   isValidYear,
+  isValidYearOrBlank,
   isValidCurrentOrPastYear,
   isValidMonths,
   isValidRoutingNumber,
