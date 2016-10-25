@@ -58,14 +58,15 @@ class Main extends React.Component {
       return response.json();
     }).then(json => {
       // console.log(json);
-      this.props.onUpdateProfile('accountType', json.level_of_assurance);
-      this.props.onUpdateProfile('email', json.email);
-      this.props.onUpdateProfile('userFullName.first', json.first_name);
-      this.props.onUpdateProfile('userFullName.middle', json.middle_name);
-      this.props.onUpdateProfile('userFullName.last', json.last_name);
-      // this.props.onUpdateProfile('userFullName.suffix', json.first_name);
-      this.props.onUpdateProfile('gender', json.gender);
-      this.props.onUpdateProfile('dob', json.birth_date);
+      const userData = json.data.attributes.profile;
+      this.props.onUpdateProfile('accountType', userData.level_of_assurance);
+      this.props.onUpdateProfile('email', userData.email);
+      this.props.onUpdateProfile('userFullName.first', userData.first_name);
+      this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
+      this.props.onUpdateProfile('userFullName.last', userData.last_name);
+      // this.props.onUpdateProfile('userFullName.suffix', userData.first_name);
+      this.props.onUpdateProfile('gender', userData.gender);
+      this.props.onUpdateProfile('dob', userData.birth_date);
       this.props.onUpdateLoggedInStatus(true);
     });
   }
