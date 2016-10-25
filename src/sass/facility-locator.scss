@@ -7,6 +7,11 @@
     padding: 0 1.5rem;
   }
 
+  .flex-center {
+    display: flex;
+    align-items: center;
+  }
+
   .leaflet-container {
       height: 500px;
       width: 100%;

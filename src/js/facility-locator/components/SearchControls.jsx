@@ -61,7 +61,6 @@ class SearchControls extends Component {
       return [
         <option key="primary_care" value="primary_care">Primary Care</option>,
         <option key="mental_health" value="mental_health">Mental Health</option>,
-        <option key="more_services" value="more_services" disabled>More services coming soon</option>,
       ];
     }
 
@@ -71,11 +70,11 @@ class SearchControls extends Component {
   renderSelectOptionWithIcon(facilityType) {
     switch (facilityType) {
       case 'va_health_facility':
-        return (<span><span className="legend fa fa-plus red"></span>Health</span>);
+        return (<span className="flex-center"><span className="legend fa fa-plus red"></span>Health</span>);
       case 'va_benefits_facility':
-        return (<span><span className="legend fa fa-check green"></span>Benefits</span>);
+        return (<span className="flex-center"><span className="legend fa fa-check green"></span>Benefits</span>);
       case 'va_cemetery':
-        return (<span><span className="legend fa fa-cemetery blue"></span>Cemetery</span>);
+        return (<span className="flex-center"><span className="legend fa fa-cemetery blue"></span>Cemetery</span>);
       default:
         return (<span>All Facilities</span>);
     }
