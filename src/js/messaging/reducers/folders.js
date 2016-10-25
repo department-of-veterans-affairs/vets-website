@@ -1,6 +1,8 @@
-import { browserHistory } from 'react-router';
 import set from 'lodash/fp/set';
 import concat from 'lodash/fp/concat';
+
+import { paths } from '../config';
+import history from '../history';
 
 import {
   CREATE_FOLDER_SUCCESS,
@@ -16,8 +18,6 @@ import {
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS
 } from '../utils/constants';
-
-import { paths } from '../config';
 
 const initialState = {
   data: {
@@ -105,7 +105,7 @@ export default function folders(state = initialState, action) {
       // Upon completing any of these actions, go to the most recent folder.
       const currentFolderId = state.data.currentItem.persistFolder;
       const returnUrl = `${paths.FOLDERS_URL}/${currentFolderId}`;
-      browserHistory.replace(returnUrl);
+      history.replace(returnUrl);
       return state;
     }
 
