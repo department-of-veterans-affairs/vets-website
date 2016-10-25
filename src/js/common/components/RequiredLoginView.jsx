@@ -3,21 +3,70 @@ import { connect } from 'react-redux';
 
 import { commonStore } from '../store';
 
+import environment from '../helpers/environment.js';
+import { updateLoggedInStatus, updateLogInUrl, updateProfileField } from '../actions';
+
 class RequiredLoginView extends React.Component {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleVerify = this.handleVerify.bind(this);
+    this.setMyToken = this.setMyToken.bind(this);
+    this.getUserData = this.getUserData.bind(this);
+  }
+
+  componentDidMount() {
+    if (localStorage.length > 0) {
+      this.props.onUpdateLoggedInStatus(true);
+      this.getUserData();
+    } else {
+      this.props.onUpdateLoggedInStatus(false);
+    }
+
+    window.addEventListener('message', this.setMyToken);
+  }
+
+  setMyToken() {
+    if (event.data === localStorage.userToken) {
+      this.getUserData();
+    }
+  }
+
+  getUserData() {
+    fetch(`${environment.API_URL}/v0/user`, {
+      method: 'GET',
+      headers: new Headers({
+        Authorization: `Token token=${localStorage.userToken}`
+      })
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      // console.log(json);
+      const userData = json.data.attributes.profile;
+      this.props.onUpdateProfile('accountType', userData.loa.current);
+      this.props.onUpdateProfile('email', userData.email);
+      this.props.onUpdateProfile('userFullName.first', userData.first_name);
+      this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
+      this.props.onUpdateProfile('userFullName.last', userData.last_name);
+      // this.props.onUpdateProfile('userFullName.suffix', userData.first_name);
+      this.props.onUpdateProfile('gender', userData.gender);
+      this.props.onUpdateProfile('dob', userData.birth_date);
+      this.props.onUpdateLoggedInStatus(true);
+    });
   }
 
   handleLogin() {
-    const myLoginUrl = this.props.login.loginUrl.first;
+    const myStore = commonStore.getState();
+    const login = myStore.login;
+    const myLoginUrl = login.loginUrl.first;
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 
   handleVerify() {
-    const myVerifyUrl = this.props.login.loginUrl.third;
+    const myStore = commonStore.getState();
+    const login = myStore.login;
+    const myVerifyUrl = login.loginUrl.third;
     const receiver = window.open(myVerifyUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
@@ -85,6 +134,19 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-// TODO(awong): Remove the pure: false once we start using ImmutableJS.
-export default connect(mapStateToProps)(RequiredLoginView);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    onUpdateLoginUrl: (field, update) => {
+      dispatch(updateLogInUrl(field, update));
+    },
+    onUpdateLoggedInStatus: (update) => {
+      dispatch(updateLoggedInStatus(update));
+    },
+    onUpdateProfile: (field, update) => {
+      dispatch(updateProfileField(field, update));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(RequiredLoginView);
 export { RequiredLoginView };
