@@ -49,7 +49,7 @@ export default function alert(state = initialState, action) {
 
     case CREATE_FOLDER_SUCCESS: {
       const link = (
-        <Link to={`/messaging/folder/${action.folder.folderId}`}>
+        <Link to={`/folder/${action.folder.folderId}`}>
           {action.folder.name}
         </Link>
       );
@@ -92,7 +92,7 @@ export default function alert(state = initialState, action) {
 
     case MOVE_MESSAGE_SUCCESS: {
       const link = (
-        <Link to={`/messaging/folder/${action.folder.folderId}`}>
+        <Link to={`/folder/${action.folder.folderId}`}>
           {action.folder.name}
         </Link>
       );
@@ -111,7 +111,7 @@ export default function alert(state = initialState, action) {
 
     case SAVE_DRAFT_SUCCESS: {
       const link = (
-        <Link to={`/messaging/thread/${action.message.messageId}`}>
+        <Link to={`/thread/${action.message.messageId}`}>
           View message.
         </Link>
       );
@@ -130,7 +130,7 @@ export default function alert(state = initialState, action) {
 
     case SEND_MESSAGE_SUCCESS: {
       const link = (
-        <Link to={`/messaging/thread/${action.message.messageId}`}>
+        <Link to={`/thread/${action.message.messageId}`}>
           View message.
         </Link>
       );
