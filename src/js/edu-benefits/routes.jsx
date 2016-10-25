@@ -8,8 +8,8 @@ import VeteranInformationReview from './components/veteran-information/VeteranIn
 import VeteranInformationFields from './components/veteran-information/VeteranInformationFields';
 import BenefitsSelectionReview from './components/benefits-eligibility/BenefitsSelectionReview';
 import BenefitsSelectionFields from './components/benefits-eligibility/BenefitsSelectionFields';
-import BenefitsWaiverReview from './components/benefits-eligibility/BenefitsWaiverReview';
-import BenefitsWaiverFields from './components/benefits-eligibility/BenefitsWaiverFields';
+import BenefitsRelinquishmentReview from './components/benefits-eligibility/BenefitsRelinquishmentReview';
+import BenefitsRelinquishmentFields from './components/benefits-eligibility/BenefitsRelinquishmentFields';
 import MilitaryServiceReview from './components/military-history/MilitaryServiceReview';
 import MilitaryServiceFields from './components/military-history/MilitaryServiceFields';
 import RotcHistoryReview from './components/military-history/RotcHistoryReview';
@@ -58,13 +58,13 @@ const routes = [
       name="Benefits selection"/>,
   <Route
       component={FormPage}
-      fieldsComponent={BenefitsWaiverFields}
-      reviewComponent={BenefitsWaiverReview}
-      key="/benefits-eligibility/benefits-waiver"
-      path="/benefits-eligibility/benefits-waiver"
+      fieldsComponent={BenefitsRelinquishmentFields}
+      reviewComponent={BenefitsRelinquishmentReview}
+      key="/benefits-eligibility/benefits-relinquishment"
+      path="/benefits-eligibility/benefits-relinquishment"
       chapter={chapterNames.benefitsEligibility}
       depends={{ chapter33: true }}
-      name="Benefits waiver"/>,
+      name="Benefits relinquishment"/>,
   <Route
       component={FormPage}
       fieldsComponent={MilitaryServiceFields}

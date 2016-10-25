@@ -1,14 +1,21 @@
-const evidenceGathering = 'Evidence gathering & review';
+const evidenceGathering = 'Evidence gathering, review, and decision';
 
 const phaseMap = {
   1: 'Claim received',
-  2: 'Initial processing',
+  2: 'Initial review',
   3: evidenceGathering,
   4: evidenceGathering,
   5: evidenceGathering,
   6: evidenceGathering,
   7: 'Preparation for decision notification',
   8: 'Complete'
+};
+
+const microPhaseMap = {
+  3: 'Gathering of evidence',
+  4: 'Review of evidence',
+  5: 'Preparation for decision',
+  6: 'Pending Decision approval'
 };
 
 export function getPhaseDescription(phase) {
@@ -23,6 +30,18 @@ export function getUserPhaseDescription(phase) {
   }
 
   return phaseMap[phase + 3];
+}
+
+export function getHistoryPhaseDescription(phase) {
+  if (phase === 3) {
+    return microPhaseMap[phase];
+  }
+
+  return getUserPhaseDescription(phase);
+}
+
+export function getMicroPhaseDescription(phase) {
+  return microPhaseMap[phase] || phaseMap[phase];
 }
 
 export function getPhaseDescriptionFromEvent(event) {
@@ -45,20 +64,28 @@ export function groupTimelineActivity(events) {
   const phaseEvents = events;
   let activity = [];
   let lastPhaseNumber = 1;
+  let firstPhase = true;
 
   phaseEvents.forEach(event => {
     if (event.type.startsWith('phase')) {
       const phaseNumber = parseInt(event.type.replace('phase', ''), 10);
       const userPhaseNumber = getUserPhase(phaseNumber);
-      if (userPhaseNumber !== lastPhaseNumber) {
+      if (userPhaseNumber !== lastPhaseNumber || firstPhase) {
         activity.push({
           type: 'phase_entered',
           date: event.date
         });
+        phases[userPhaseNumber + 1] = (phases[userPhaseNumber + 1] || []).concat(activity);
+        activity = [];
+        lastPhaseNumber = userPhaseNumber;
+        firstPhase = false;
+      } else {
+        activity.push({
+          type: 'micro_phase',
+          phaseNumber: phaseNumber + 1,
+          date: event.date
+        });
       }
-      phases[userPhaseNumber + 1] = (phases[userPhaseNumber + 1] || []).concat(activity);
-      activity = [];
-      lastPhaseNumber = userPhaseNumber;
     } else {
       activity.push(event);
     }
@@ -115,7 +142,11 @@ export function getDocTypeDescription(docType) {
 
 export function isCompleteClaim({ attributes }) {
   return !!attributes.claimType
-    && !!attributes.contentionList.length
+    && (attributes.contentionList && !!attributes.contentionList.length)
     && !!attributes.dateFiled
     && !!attributes.vaRepresentative;
+}
+
+export function hasBeenReviewed(trackedItem) {
+  return trackedItem.type.startsWith('received_from') && trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW';
 }
