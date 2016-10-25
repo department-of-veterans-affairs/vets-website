@@ -129,7 +129,6 @@ class ServicesAtFacility extends Component {
     // TODO: clean up once we have real data
     return (
       <div>
-        <h5 style={{ marginTop: '1.5em' }}>Health Services</h5>
         <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment().format('MMMM D, YYYY')}</strong></p>
         <div className="call-out clearfix">
           <div className="columns small-1">

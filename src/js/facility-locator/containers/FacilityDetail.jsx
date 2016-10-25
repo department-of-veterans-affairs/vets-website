@@ -73,7 +73,7 @@ class FacilityDetail extends Component {
           <div>
             <FacilityMap info={facility}/>
             <div className="mb2">
-              <h4>Hours of Operation:</h4>
+              <h4>Hours of Operation</h4>
               <hr className="title"/>
               <FacilityHours facility={facility}/>
             </div>
