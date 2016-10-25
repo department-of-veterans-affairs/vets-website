@@ -291,13 +291,14 @@
         list-style: none;
         opacity: 0;
         pointer-events: none;
-        z-index: 999;
+        z-index: 1001;
 
         li {
           color: $color-black;
           display: block;
           padding: 0.5em 1em;
           text-decoration: none;
+          z-index: 1001;
         }
 
         li:hover {
