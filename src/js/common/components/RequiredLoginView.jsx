@@ -1,8 +1,6 @@
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 
-// import initReact from '../init-react';
 import { commonStore } from '../store';
 
 class RequiredLoginView extends React.Component {
@@ -11,7 +9,13 @@ class RequiredLoginView extends React.Component {
     this.handleOpenPopup = this.handleOpenPopup.bind(this);
   }
 
-  handleOpenPopup() {
+  handleLogin() {
+    const myLoginUrl = this.props.login.loginUrl;
+    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  }
+
+  handleVerify() {
     const myLoginUrl = this.props.login.loginUrl;
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
@@ -30,8 +34,8 @@ class RequiredLoginView extends React.Component {
           <p>We must meet increased security standards to keep your information secure. To safely verify your identity to these standards, we are using <strong>ID.me</strong>, at third-party service.</p>
           <p>When you create an account on vets.gov, you will need to verifty your identity through <strong>ID.me</strong> in order for the VA to identify you and locate your records.</p>
           <p>
-            <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleOpenPopup}><strong>Sign In</strong></button>
-            <button className="usa-button-big" onClick={this.handleOpenPopup}><strong>Create an account</strong></button>
+            <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Sign In</strong></button>
+            <button className="usa-button-big" onClick={this.handleLogin}><strong>Create an account</strong></button>
           </p>
           <p>Having trouble signing in or creating an account? See <a href="#">Frequently Asked Questions</a></p>
         </div>
@@ -46,7 +50,7 @@ class RequiredLoginView extends React.Component {
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
           <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           <p>
-            <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleOpenPopup}><strong>Continue</strong></button>
+            <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleVerify}><strong>Continue</strong></button>
           </p>
           <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </div>
