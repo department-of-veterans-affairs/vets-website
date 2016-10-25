@@ -8,9 +8,13 @@ import AlertBox from '../../common/components/AlertBox';
 import TabNav from '../components/TabNav';
 import Disclaimer from '../components/Disclaimer';
 
+import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredVerifyView from '../../common/components/RequiredVerifyView';
+
 class Main extends React.Component {
   render() {
     let alertBox;
+    let view;
 
     if (this.props.alert.visible) {
       alertBox = (
@@ -22,19 +26,28 @@ class Main extends React.Component {
       );
     }
 
-    return (
-      <div>
-        <Disclaimer
-            isOpen={this.props.disclaimer.open}
-            handleClose={this.props.closeDisclaimer}/>
-        <div className="rx-app row">
-          {alertBox}
-          <h1>Prescription Refill</h1>
-          <TabNav/>
-          {this.props.children}
-        </div>
-      </div>
-    );
+    if (localStorage.length > 0) {
+      if (this.props.profile.accountType === 1) {
+        view = (<RequiredVerifyView/>);
+      } else {
+        view = (
+          <div>
+            <Disclaimer
+                isOpen={this.props.disclaimer.open}
+                handleClose={this.props.closeDisclaimer}/>
+            <div className="rx-app row">
+              {alertBox}
+              <h1>Prescription Refill</h1>
+              <TabNav/>
+              {this.props.children}
+            </div>
+          </div>
+        );
+      }
+    } else {
+      view = (<RequiredLoginView authRequired={1}/>);
+    }
+    return view;
   }
 }
 
