@@ -44,7 +44,7 @@ const resetMessage = (state) => {
   msg = set('message.recipient', initialState.message.recipient, msg);
   msg = set('message.subject', initialState.message.subject, msg);
   msg = set('message.attachments', initialState.message.attachments, msg);
-  msg = set('message.text', initialState.message.text, msg);
+  msg = set('message.body', initialState.message.body, msg);
   return msg;
 };
 

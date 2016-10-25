@@ -28,7 +28,6 @@ export class Compose extends React.Component {
     super();
     this.apiFormattedMessage = this.apiFormattedMessage.bind(this);
     this.handleConfirmDelete = this.handleConfirmDelete.bind(this);
-    this.handleMessageChange = this.handleMessageChange.bind(this);
     this.isValidForm = this.isValidForm.bind(this);
     this.sendMessage = this.sendMessage.bind(this);
     this.saveDraft = this.saveDraft.bind(this);
@@ -46,7 +45,7 @@ export class Compose extends React.Component {
       attachments: message.attachments,
       category: message.category.value,
       subject: message.subject.value,
-      body: message.text.value,
+      body: message.body.value,
       recipientId: +message.recipient.value
     };
   }
@@ -59,7 +58,7 @@ export class Compose extends React.Component {
     this.props.setMessageField('message.recipient', message.recipient);
     this.props.setMessageField('message.category', message.category);
     this.props.setMessageField('message.subject', message.subject);
-    this.props.setMessageField('message.text', message.text);
+    this.props.setMessageField('message.body', message.body);
 
     // return dirtied fields
     return message;
@@ -70,7 +69,7 @@ export class Compose extends React.Component {
     const valid = validations.isValidRecipient(message.recipient) &&
                   validations.isValidCategory(message.category) &&
                   validations.isValidSubject(message.subject) &&
-                  validations.isValidMessageBody(message.text);
+                  validations.isValidMessageBody(message.body);
     return valid;
   }
 
@@ -89,11 +88,6 @@ export class Compose extends React.Component {
     this.props.toggleConfirmDelete();
     this.props.deleteComposeMessage();
   }
-
-  handleMessageChange(valueObj) {
-    this.props.setMessageField('message.text', valueObj);
-  }
-
 
   render() {
     return (
@@ -117,7 +111,7 @@ export class Compose extends React.Component {
             onAttachmentsClose={this.props.deleteComposeAttachment}
             onAttachmentUpload={this.props.addComposeAttachments}
             onAttachmentsError={this.props.openAttachmentsModal}
-            onBodyChange={this.props.setMessageField.bind(null, 'message.text')}
+            onBodyChange={this.props.setMessageField.bind(null, 'message.body')}
             onCategoryChange={this.props.setMessageField.bind(null, 'message.category')}
             onRecipientChange={this.props.setMessageField.bind(null, 'message.recipient')}
             onSaveMessage={this.saveDraft}
