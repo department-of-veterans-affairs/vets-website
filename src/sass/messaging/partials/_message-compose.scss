@@ -148,7 +148,7 @@
   @media (min-width: $medium-screen) {
     display: -webkit-flex;
     display: flex;
-  }  
+  }
 }
 
 .msg-recipient label,
@@ -162,10 +162,13 @@
   }
 }
 
+.msg-recipient {
+  border-top: none;
+}
+
 .msg-send-group {
   background: $color-gray-lightest;
   border: 1px solid $color-gray;
-  border-top-width: 0;
   padding: 1rem;
   position: relative;
 
@@ -216,6 +219,7 @@
 }
 
 .msg-write-group {
+  border-bottom: none;
   margin-top: 0;
 
   .usa-input-error {
@@ -338,7 +342,7 @@
     color: $color-primary;
     text-decoration: underline;
   }
-  
+
   input {
     border: 0;
     height: auto;
@@ -416,7 +420,7 @@
   legend {
     @media (min-width: $medium-screen) {
       transform: translateY(50%);
-    }  
+    }
   }
 
   textarea {
@@ -432,7 +436,7 @@
 .msg-compose-error-message {
   margin: 0;
   padding: 0;
-} 
+}
 
 .msg-compose-error--subject {
   select {
@@ -447,7 +451,7 @@
 }
 
 // Overrides some USWDS shenanigans
-.msg-compose-error { 
+.msg-compose-error {
   select,
   textarea,
   input {
