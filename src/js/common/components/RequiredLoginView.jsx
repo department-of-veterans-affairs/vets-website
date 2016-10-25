@@ -6,18 +6,19 @@ import { commonStore } from '../store';
 class RequiredLoginView extends React.Component {
   constructor(props) {
     super(props);
-    this.handleOpenPopup = this.handleOpenPopup.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleVerify = this.handleVerify.bind(this);
   }
 
   handleLogin() {
-    const myLoginUrl = this.props.login.loginUrl;
+    const myLoginUrl = this.props.login.loginUrl.first;
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 
   handleVerify() {
-    const myLoginUrl = this.props.login.loginUrl;
-    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
+    const myVerifyUrl = this.props.login.loginUrl.third;
+    const receiver = window.open(myVerifyUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 
