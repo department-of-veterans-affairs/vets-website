@@ -1,5 +1,6 @@
 import React from 'react';
 import { Route, IndexRedirect } from 'react-router';
+import Scroll from 'react-scroll';
 
 import YourClaimsPage from './containers/YourClaimsPage.jsx';
 import ClaimPage from './containers/ClaimPage.jsx';
@@ -10,15 +11,27 @@ import AskVAPage from './containers/AskVAPage.jsx';
 import DocumentRequestPage from './containers/DocumentRequestPage.jsx';
 import TurnInEvidencePage from './containers/TurnInEvidencePage.jsx';
 
+const scroller = Scroll.animateScroll;
+
+const scrollToTop = () => {
+  scroller.scrollToTop({
+    duration: 500,
+    delay: 0,
+    smooth: true,
+  });
+};
+
 const routes = [
   <Route
       component={YourClaimsPage}
       key="/your-claims"
-      path="/your-claims"/>,
+      path="/your-claims"
+      onEnter={scrollToTop}/>,
   <Route
       component={ClaimPage}
       key="/your-claims/:id"
-      path="/your-claims/:id">
+      path="/your-claims/:id"
+      onEnter={scrollToTop}>
     <IndexRedirect to="status"/>
     <Route
         component={StatusPage}
@@ -31,14 +44,17 @@ const routes = [
         path="details"/>,
     <Route
         component={AskVAPage}
-        path="ask-va-to-decide"/>
+        path="ask-va-to-decide"
+        onEnter={scrollToTop}/>
     <Route
         component={TurnInEvidencePage}
         key="turn-in-evidence"
-        path="turn-in-evidence"/>,
+        path="turn-in-evidence"
+        onEnter={scrollToTop}/>,
     <Route
         component={DocumentRequestPage}
-        path="document-request/:trackedItemId"/>
+        path="document-request/:trackedItemId"
+        onEnter={scrollToTop}/>
   </Route>,
 ];
 
