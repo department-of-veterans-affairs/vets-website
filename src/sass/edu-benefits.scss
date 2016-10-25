@@ -11,7 +11,6 @@ $button-stroke: inset 0 0 0 1px;
   }
 }
 
-// TODO: Look into why svgs aren't rendering
 select {
   background-image: url('/img/arrow-down.svg');
   background-image: url('/img/arrow-down.png');
@@ -35,14 +34,32 @@ legend {
 }
 
 .inset {
-  margin: 4rem;
-  padding: 2rem;
-  border: 1px solid #eee;
+  margin: 2rem 0rem;
+  padding: 2rem 3rem;
+  line-height: 2.2rem;
+  background-color: #e0f3f8; // TODO: move these colors to variables.scss 
+  &.secondary {
+    background-color: #eee;
+  }
+  &.expandable {
+    .form-expanding-group,
+    .form-expanding-group-open {
+      padding-left: 0;
+      border-left: 0;
+    }
+    .clickable {
+      cursor: pointer;
+    }
+  }
 }
 
-.claim-list{
+.additional {
+  font-weight: normal;
+}
+
+ul.claim-list{
   list-style: none;
-  margin-left: none;
+  padding-left: 0;
   li {
     margin-bottom: 1rem;
   }

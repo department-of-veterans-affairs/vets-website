@@ -26,7 +26,7 @@ class GlossaryModal extends React.Component {
               <div className="va-modal-button-group cf">
                 <button type="button" onClick={this.handleCloseModal}>Close</button>
                 <Link
-                    to="/rx/glossary"
+                    to="/glossary"
                     onClick={this.props.onCloseModal}>
                   See all status definitions
                 </Link>

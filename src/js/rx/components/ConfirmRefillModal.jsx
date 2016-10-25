@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import moment from 'moment';
 
 class ConfirmRefillModal extends React.Component {
@@ -14,7 +15,7 @@ class ConfirmRefillModal extends React.Component {
     const rxId = this.props.prescriptionId;
     const alertContent = (
       <b>
-        Refill for <a href={`/rx/prescription/${rxId}`}>{this.props.prescriptionName}</a> has been requested.
+        Refill for <Link to={`/${rxId}`}>{this.props.prescriptionName}</Link> has been requested.
       </b>
     );
 
