@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 import classNames from 'classnames';
 
 import ButtonCreateFolder from './buttons/ButtonCreateFolder';
@@ -13,7 +13,7 @@ class FolderNav extends React.Component {
   }
 
   goToFolderSettings() {
-    browserHistory.push('/messaging/settings');
+    this.context.router.push('/settings');
   }
 
   makeFolderLink(folder) {
@@ -38,7 +38,7 @@ class FolderNav extends React.Component {
           activeClassName="usa-current"
           className={isPersistFolder}
           data-folderid={folder.folderId}
-          to={`/messaging/folder/${folder.folderId}`}
+          to={`/folder/${folder.folderId}`}
           onClick={this.props.onFolderChange}>
         {folder.name}
         {count}
@@ -133,7 +133,7 @@ class FolderNav extends React.Component {
 }
 
 FolderNav.contextTypes = {
-  router: React.PropTypes.object
+  router: React.PropTypes.object.isRequired
 };
 
 FolderNav.propTypes = {
