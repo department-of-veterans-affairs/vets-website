@@ -65,7 +65,6 @@ To update your personal, insurance, or financial information from a previous app
 <span id="additional-forms"></span>
 ### Additional forms for caregivers and active-duty Servicemembers
 
-- [Apply as active-duty military (10-10AD)](/healthcare/forms/1010ez-AD.pdf)
 - [Apply as a caregiver (10-10CG)](/healthcare/forms/vha-10-10CG.pdf)
 - [Apply as National Guard and Reserve (10-10EZ-Demob)](/healthcare/forms/10-10EZ-DEMOB.pdf)
 - [Apply as a member of the Justice Outreach Program (10-10EZ-JO)](/healthcare/forms/10-10EZ-JO.pdf)
