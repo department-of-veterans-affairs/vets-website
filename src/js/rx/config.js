@@ -1,11 +1,17 @@
+const headers = {
+  'X-Key-Inflection': 'camel'
+};
+
+if (typeof localStorage !== 'undefined' && localStorage !== null) {
+  headers.Authorization = `Token token=${localStorage.userToken}`;
+}
+
 module.exports = {
   // Base URL to be used in API requests.
   api: {
     url: '/api/v0/prescriptions',
     settings: {
-      headers: {
-        'X-Key-Inflection': 'camel'
-      }
+      headers
     }
   },
 
