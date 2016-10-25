@@ -66,7 +66,7 @@ export default function messages(state = initialState, action) {
       // Reverse to display most recent message at the bottom.
       thread.reverse();
 
-      let draft = initialState.data.draft;
+      const draft = initialState.data.draft;
       draft.category = makeField(currentMessage.category);
       draft.subject = makeField(currentMessage.subject);
 
