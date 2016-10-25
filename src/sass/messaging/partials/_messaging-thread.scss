@@ -187,19 +187,3 @@
     width: 90%;
   }
 }
-
-/*********
- * Draft *
- *********/
-
-#messaging-draft {
-  .msg-field {
-    border: none;
-  }
-
-  .msg-write {
-    label {
-      display: none;
-    }
-  }
-}

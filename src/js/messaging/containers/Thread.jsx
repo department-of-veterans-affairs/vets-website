@@ -25,12 +25,11 @@ import {
 
 import Message from '../components/Message';
 import MessageForm from '../components/MessageForm';
-import MessageWriteGroup from '../components/compose/MessageWriteGroup';
+import ReplyForm from '../components/ReplyForm';
+
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
-import { allowedMimeTypes, composeMessage } from '../config';
-import * as validations from '../utils/validations';
 
 export class Thread extends React.Component {
   constructor(props) {
@@ -176,8 +175,10 @@ export class Thread extends React.Component {
   }
 
   makeForm() {
+    let form;
+
     if (this.props.isNewMessage) {
-      return (
+      form = (
         <MessageForm
             message={this.props.draft}
             recipients={this.props.recipients}
@@ -194,53 +195,25 @@ export class Thread extends React.Component {
             onSubjectChange={this.props.updateDraft.bind(null, 'subject')}
             toggleConfirmDelete={this.props.toggleConfirmDelete}/>
       );
-    }
-
-    let replyDetails;
-    const message = this.props.message;
-    const draft = this.props.draft;
-
-    if (message) {
-      let from;
-      let subject;
-
-      if (!this.props.replyDetailsCollapsed) {
-        from = <div><label>From:</label> {message.recipientName}</div>;
-        subject = <div><label>Subject line:</label> {message.subject}</div>;
-      }
-
-      replyDetails = (
-        <div
-            className="messaging-thread-reply-details"
-            onClick={this.props.toggleReplyDetails}>
-          <div><label>To:</label> {message.senderName}</div>
-          {from}
-          {subject}
-        </div>
-      );
-    }
-
-    return (
-      <form id="messaging-draft">
-        {replyDetails}
-        <MessageWriteGroup
-            allowedMimeTypes={allowedMimeTypes}
-            errorMessage={validations.isValidMessageBody(draft.body) ? undefined : composeMessage.errors.message}
-            files={draft.attachments}
-            maxFiles={composeMessage.attachments.maxNum}
-            maxFileSize={composeMessage.attachments.maxSingleFile}
-            maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
+    } else if (this.props.message) {
+      form = (
+        <ReplyForm
+            detailsCollapsed={this.props.replyDetailsCollapsed}
+            recipient={this.props.message.senderName}
+            subject={this.props.message.subject}
+            reply={this.props.draft}
             onAttachmentsClose={this.props.deleteDraftAttachment}
             onAttachmentUpload={this.props.addDraftAttachments}
             onAttachmentsError={this.props.openAttachmentsModal}
-            onDelete={this.props.toggleConfirmDelete}
-            onTextChange={this.props.updateDraft.bind(null, 'body')}
-            onSave={this.handleReplySave}
-            onSend={this.handleReplySend}
-            messageText={draft.body}
-            placeholder={composeMessage.placeholders.message}/>
-      </form>
-    );
+            onBodyChange={this.props.updateDraft.bind(null, 'body')}
+            onSaveReply={this.handleReplySave}
+            onSendReply={this.handleReplySend}
+            toggleConfirmDelete={this.props.toggleConfirmDelete}
+            toggleDetails={this.props.toggleReplyDetails}/>
+      );
+    }
+
+    return form;
   }
 
   render() {

@@ -457,3 +457,15 @@
     }
   }
 }
+
+#messaging-reply {
+  .msg-field {
+    border: none;
+  }
+
+  .msg-write {
+    label {
+      display: none;
+    }
+  }
+}
