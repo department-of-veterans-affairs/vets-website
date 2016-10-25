@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
 
 import {
   addDraftAttachments,
@@ -113,7 +112,7 @@ export class Thread extends React.Component {
     const handleMessageSelect = (messageNumber) => {
       const index = messageNumber - 1;
       const selectedId = folderMessages[index].messageId;
-      browserHistory.push(`/messaging/thread/${selectedId}`);
+      this.context.router.push(`/thread/${selectedId}`);
     };
 
     return (
@@ -244,6 +243,10 @@ export class Thread extends React.Component {
     );
   }
 }
+
+Thread.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
 
 const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;

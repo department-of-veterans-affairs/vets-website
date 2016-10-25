@@ -39,7 +39,7 @@ class Prescription extends React.Component {
             key={`rx-${id}-track`}
             className="usa-button"
             text="Track package"
-            url={`/rx/prescription/${id}#rx-order-history`}/>
+            url={`/${id}#rx-order-history`}/>
       );
     } else {
       trackMessage = (
@@ -122,7 +122,7 @@ class Prescription extends React.Component {
         <div className="rx-prescription-inner cf">
           <input type="hidden" name="refillId" value={id}/>
           <h3 className="rx-prescription-title" title={name}>
-            <Link to={`/rx/prescription/${id}`}>
+            <Link to={`/${id}`}>
               {name}
             </Link>
           </h3>

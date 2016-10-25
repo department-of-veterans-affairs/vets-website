@@ -6,10 +6,10 @@ import Thread from './containers/Thread';
 import Settings from './containers/Settings';
 
 const routes = {
-  path: '/messaging',
+  path: '/',
   component: MessagingApp,
   indexRoute: {
-    onEnter: (nextState, replace) => replace('/messaging/folder/0')
+    onEnter: (nextState, replace) => replace('/folder/0')
   },
   childRoutes: [
     {
@@ -18,7 +18,7 @@ const routes = {
       childRoutes: [
         {
           path: 'folder',
-          onEnter: (nextState, replace) => { replace('/messaging/folder/0'); }
+          onEnter: (nextState, replace) => { replace('/folder/0'); }
         },
         { path: 'compose', component: Compose },
         { path: 'folder/:id', component: Folder },
