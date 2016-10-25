@@ -2,49 +2,58 @@
 layout: page-breadcrumbs.html
 title: Agent Orange Registry Health Exam for Veterans
 concurrence: incomplete
+plainlanguage: 10.25.16 Ready for Beth review
 template: 4-action-page
 ---
 
-If you suspect you were exposed to Agent Orange or other herbicides during your military service, you can request a VA Agent Orange Registry health exam. Even if you don’t have a known illness, the exam could alert you to health problems that may be related to herbicide exposure. Your participation also helps VA better understand and serve those affected by Agent Orange–related health problems.
+If you think you had contact with Agent Orange (a toxic chemical, also called an herbicide, used to clear trees and plants during the Vietnam War) or other herbicides while serving in the military, you can request a VA Agent Orange Registry health exam. Even if you don’t have a known illness, the exam could alert you to health problems that may be related to contact with herbicides. By being part of this registry, you're also helping your fellow Veterans by helping us better understand and serve those affected by Agent Orange–related health problems.
 
-Contact your local [VA Environmental Health Coordinator](http://www.publichealth.va.gov/exposures/coordinators.asp) if you are interested in getting an Agent Orange Registry health exam.
+Contact your local VA Environmental Health Coordinator to schedule an Agent Orange Registry health exam. [Find a VA Environmental Health Coordinator near you](http://www.publichealth.va.gov/exposures/coordinators.asp).
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for an Agent Orange Registry health exam?
+### Can I get an Agent Orange Registry health exam?
 
 Yes, if you served in:
 
-  - Vietnam between 1962 and 1975, regardless of length of time.
-  - Vietnam on smaller river patrol and swift boats that operated on the inland waterways of Vietnam (also known as “Brown Water Veterans”). Check VA’s list of [U.S. Navy and Coast Guard ships that operated in Vietnam](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
-  - Korea in a unit in or near the Demilitarized Zone (DMZ) anytime between April 1, 1968, and August 31, 1971.
-  - Thailand (U.S. Air Force Veterans) on Royal Thai Air Force (RTAF) bases near U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, and Don Muang near the air base perimeter anytime between February 28, 1961, and May 7, 1975.
-  - Thailand (U.S. Army Veterans) as perimeter security personnel on RTAF bases in Thailand anytime between February 28, 1961, and May 7, 1975.
-  - Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975. You must have been a member of a military police (MP) unit or assigned a military occupational specialty with duty placing you at or near the base perimeter.
-  - Other locations but were exposed to herbicides during a military operation or as a result of testing, transporting, or spraying herbicides for military purposes. Learn about [herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp).
+  - Vietnam between 1962 and 1975 for any length of time, or
+  - Vietnam on smaller river patrol and swift boats that ran on the inland waterways of Vietnam (also known as “Brown Water Veterans”), or 
+  - Korea in a unit in or near the Demilitarized Zone (DMZ) anytime between April 1, 1968 and August 31, 1971, or
+  - Thailand (U.S. Air Force Veterans) on Royal Thai Air Force (RTAF) bases near U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, and Don Muang near the air base perimeter anytime between February 28, 1961 and May 7, 1975, or
+  - Thailand (U.S. Army Veterans) as perimeter security personnel on RTAF bases in Thailand anytime between February 28, 1961 and May 7, 1975, or
+  - Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961 and May 7, 1975—if you were a member of a military police (MP) unit or assigned a job with duty placing you at or near the base perimeter—or
+  - Other locations but you had contact with herbicides during a military operation or while testing, transporting, or spraying herbicides for military purposes
+ 
+ [See the Agent Orange U.S. Navy and Coast Guard ship list](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
+ 
+ [Learn about herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp).
 
-### Who is covered
-You
+### Who's covered?
+Veterans
 </div>
 
-### How it works
+### How do I get these benefits?
 
-Contact your VA Environmental Health Coordinator to [make an appointment for your exam](http://www.publichealth.va.gov/exposures/coordinators.asp).
+To schedule your exam, contact your local VA Environmental Health Coordinator. If you qualify, you won't have to pay anything for this exam. It's free for qualified Veterans. [Find a VA Environmental Health Coordinator near you](http://www.publichealth.va.gov/exposures/coordinators.asp).
 
-This comprehensive health exam is free to eligible Veterans and includes:
+### What should I expect at the exam?
 
-- Your exposure history
-- Your medical history
+The exam will include:
+
+- Your history of contact with Agent Orange and other herbicides
+- Your health history (including any major illnesses or surgeries you may have had)
 - A physical exam
-- Medical tests that may be needed
+- Medical tests that may be needed (like blood tests, xrays, or other imaging tests)
 
-A VA health professional will discuss your results with you and will follow up with a letter detailing your results.
+A VA health care provider will go over your exam and test results with you. You'll also get a letter with the details of your results.
 
-Important points about the Agent Orange Registry health exam:
+### What else should I know about the exam?
 
-- It is not a disability compensation exam, nor is it required for other VA benefits. If you want to be considered for disability compensation, [you must file a claim](/disability-benefits/apply-for-benefits/).
-- You do not need to enroll in VA’s health care system to receive a registry health exam.
-- The exam is based on your recollection of service, not on your military records.
-- The exam will not confirm exposure to Agent Orange.
-- You can receive additional, free Registry exams if new problems develop.
-- Veterans' family members are not eligible for an Agent Orange Registry health exam.
+You should know that:
+
+- This exam isn't a disability compensation exam. And you don't have to have this exam to get other VA benefits. To get disability compensation, you'll need to file a claim. [File a claim now](/disability-benefits/apply-for-benefits/).
+- You don't need to sign up for the VA health care system to get a registry health exam.
+- The exam is based on your memory of service, not on your military records.
+- The exam will not confirm if you had contact with Agent Orange.
+- You can receive additional, free Registry exams if you have new health problems in the future.
+- Your family members can't get an Agent Orange Registry health exam. The exam is only for qualified Veterans.
