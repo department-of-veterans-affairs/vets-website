@@ -11,21 +11,28 @@ import SignInProfileButton from '../components/SignInProfileButton';
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.handleOpenPopup = this.handleOpenPopup.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleVerify = this.handleVerify.bind(this);
     this.setMyToken = this.setMyToken.bind(this);
     this.getUserData = this.getUserData.bind(this);
   }
 
   componentDidMount() {
-    if (localStorage.length > 0) {
+    if (localStorage.userToken) {
       this.props.onUpdateLoggedInStatus(true);
       this.getUserData();
+    } else {
+      this.props.onUpdateLoggedInStatus(false);
     }
 
     // TODO: Remove this conditional statement when going to production.
     if (__BUILDTYPE__ !== 'production') {
       this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new`, result => {
-        this.props.onUpdateLoginUrl(result.authenticate_via_get);
+        this.props.onUpdateLoginUrl('first', result.authenticate_via_get);
+      });
+
+      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
+        this.props.onUpdateLoginUrl('third', result.authenticate_via_get);
       });
     }
 
@@ -53,20 +60,27 @@ class Main extends React.Component {
       return response.json();
     }).then(json => {
       // console.log(json);
-      this.props.onUpdateProfile('accountType', json.level_of_assurance);
-      this.props.onUpdateProfile('email', json.email);
-      this.props.onUpdateProfile('userFullName.first', json.first_name);
-      this.props.onUpdateProfile('userFullName.middle', json.middle_name);
-      this.props.onUpdateProfile('userFullName.last', json.last_name);
-      // this.props.onUpdateProfile('userFullName.suffix', json.first_name);
-      this.props.onUpdateProfile('gender', json.gender);
-      this.props.onUpdateProfile('dob', json.birth_date);
+      const userData = json.data.attributes.profile;
+      this.props.onUpdateProfile('accountType', userData.loa.current);
+      this.props.onUpdateProfile('email', userData.email);
+      this.props.onUpdateProfile('userFullName.first', userData.first_name);
+      this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
+      this.props.onUpdateProfile('userFullName.last', userData.last_name);
+      // this.props.onUpdateProfile('userFullName.suffix', userData.first_name);
+      this.props.onUpdateProfile('gender', userData.gender);
+      this.props.onUpdateProfile('dob', userData.birth_date);
       this.props.onUpdateLoggedInStatus(true);
     });
   }
 
-  handleOpenPopup() {
-    const myLoginUrl = this.props.login.loginUrl;
+  handleLogin() {
+    const myLoginUrl = this.props.login.loginUrl.first;
+    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  }
+
+  handleVerify() {
+    const myLoginUrl = this.props.login.loginUrl.third;
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
@@ -76,7 +90,7 @@ class Main extends React.Component {
 
     if (__BUILDTYPE__ !== 'production') {
       content = (
-        <SignInProfileButton onButtonClick={this.handleOpenPopup}/>
+        <SignInProfileButton onUserLogin={this.handleLogin}/>
       );
     } else {
       content = null;
@@ -95,8 +109,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUpdateLoginUrl: (update) => {
-      dispatch(updateLogInUrl(update));
+    onUpdateLoginUrl: (field, update) => {
+      dispatch(updateLogInUrl(field, update));
     },
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
