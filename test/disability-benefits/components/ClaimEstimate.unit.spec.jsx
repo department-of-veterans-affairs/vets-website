@@ -13,6 +13,7 @@ describe('<ClaimEstimate>', () => {
           maxDate={date.format('YYYY-MM-DD')}/>
     );
     expect(tree.subTree('.date-estimation').text()).to.contain(`Estimated ${date.format('MMM D, YYYY')}`);
+    expect(tree.subTree('.claim-completion-estimation').text()).to.contain('This date is based on claims similar to yours and is not an exact date.');
   });
   it('should render estimated date warning', () => {
     const date = moment().startOf('day').subtract(2, 'days');
