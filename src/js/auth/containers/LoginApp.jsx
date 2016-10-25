@@ -25,6 +25,7 @@ class LoginApp extends React.Component {
       return response.json();
     }).then(json => {
       // console.log(json);
+      window.opener.localStorage.clear();
       window.opener.localStorage.setItem('userToken', json.token);
       window.opener.postMessage(json.token, environment.BASE_URL);
       localStorage.setItem('userToken', json.token);

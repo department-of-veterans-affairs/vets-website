@@ -30,12 +30,12 @@ export default class RequiredVerifyView extends React.Component {
         <div className="medium-12 small-12 columns">
           <h1>Verify your Vets.gov Account</h1>
           <p>You need to verify your identity to access this part of Vets.gov</p>
-          <p>We must meet increased security standards to keep your information secure. To safely verify your identity to these standards, we are using <strong>ID.me</strong>, at third-party service.</p>
-          <p>When you create an account on vets.gov, you will need to verifty your identity through <strong>ID.me</strong> in order for the VA to identify you and locate your records.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
           <p>
             <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleOpenPopup}><strong>Continue</strong></button>
           </p>
-          <p>Having trouble signing in or creating  an account? See <a href="#">Frequently Asked Questions</a></p>
+          <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </div>
       </div>
     );
