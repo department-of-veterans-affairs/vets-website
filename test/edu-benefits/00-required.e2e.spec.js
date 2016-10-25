@@ -82,7 +82,7 @@ if (process.env.BUILDTYPE === 'development') {
 
       // Submit message
       client
-        .expect.element('.usa-alert-success').to.be.visible;
+        .expect.element('.edu-benefits-submit-success').to.be.visible;
 
       client.end();
     }
