@@ -1,5 +1,6 @@
 const headers = {
-  'X-Key-Inflection': 'camel'
+  'X-Key-Inflection': 'camel',
+  Authorization: `Token token=${localStorage.userToken}`
 };
 
 module.exports = {

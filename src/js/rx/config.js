@@ -4,7 +4,8 @@ module.exports = {
     url: '/api/v0/prescriptions',
     settings: {
       headers: {
-        'X-Key-Inflection': 'camel'
+        'X-Key-Inflection': 'camel',
+        Authorization: `Token token=${localStorage.userToken}`
       }
     }
   },
