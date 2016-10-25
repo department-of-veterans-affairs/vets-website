@@ -3,22 +3,15 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
 import { makeField } from '../../../src/js/common/model/fields';
-import { composeMessage } from '../../../src/js/messaging/config';
 import { Compose } from '../../../src/js/messaging/containers/Compose';
 
 const props = {
   message: {
-    sender: {
-      firstName: '',
-      lastName: '',
-      middleName: ''
-    },
+    attachments: [],
+    body: makeField(''),
     category: makeField(''),
     recipient: makeField(''),
-    subject: makeField(''),
-    text: makeField(''),
-    charsRemaining: composeMessage.maxChars.message,
-    attachments: []
+    subject: makeField('')
   },
   recipients: [],
   deleteConfirmModal: {
@@ -26,6 +19,7 @@ const props = {
   },
 
   // No-op function to override dispatch
+  setMessageField: () => {},
   dispatch: () => {}
 };
 
