@@ -49,7 +49,7 @@ export default function messages(state = initialState, action) {
       return resetDraft(state);
 
     case DELETE_DRAFT_ATTACHMENT:
-      state.message.attachments.splice(action.index, 1);
+      state.data.draft.attachments.splice(action.index, 1);
       return set('data.draft.attachments', state.data.draft.attachments, state);
 
     case FETCH_THREAD_SUCCESS: {
