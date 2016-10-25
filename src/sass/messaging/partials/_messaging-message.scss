@@ -10,13 +10,6 @@
     background: $color-gray-lightest;
     cursor: pointer;
 
-    @media (max-width: $medium-screen) {
-      .messaging-message-sender,
-      .messaging-message-sent-date {
-        width: 50%;
-      }
-    }
-
     .messaging-message-body {
       margin: 0;
       overflow: hidden;
@@ -50,7 +43,6 @@
 
   @media (max-width: $medium-screen) {
     margin: 0;
-    width: 100%;
   }
 }
 
