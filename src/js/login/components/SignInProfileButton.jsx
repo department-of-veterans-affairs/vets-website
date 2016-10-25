@@ -24,12 +24,13 @@ class SignInProfileButton extends React.Component {
         <span>
           <span>Hello, {this.props.profile.email}</span><span className="signin-spacer">|</span>
           <a href="/profile">Profile</a><span className="signin-spacer">|</span>
+          <a href="#" onClick={this.props.onUserVerify}>Verify ID</a><span className="signin-spacer">|</span>
           <a href="#" onClick={this.clearUserToken}>Sign Out</a>
         </span>
       );
     } else {
       content = (
-        <a href="#" onClick={this.props.onButtonClick}>Sign In<span className="signin-spacer">|</span>Register</a>
+        <a href="#" onClick={this.props.onUserLogin}>Sign In<span className="signin-spacer">|</span>Register</a>
       );
     }
     return (

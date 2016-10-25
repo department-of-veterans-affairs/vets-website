@@ -11,7 +11,8 @@ import SignInProfileButton from '../components/SignInProfileButton';
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.handleOpenPopup = this.handleOpenPopup.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.handleVerify = this.handleVerify.bind(this);
     this.setMyToken = this.setMyToken.bind(this);
     this.getUserData = this.getUserData.bind(this);
   }
@@ -25,7 +26,11 @@ class Main extends React.Component {
     // TODO: Remove this conditional statement when going to production.
     if (__BUILDTYPE__ !== 'production') {
       this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new`, result => {
-        this.props.onUpdateLoginUrl(result.authenticate_via_get);
+        this.props.onUpdateLoginUrl('first', result.authenticate_via_get);
+      });
+
+      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
+        this.props.onUpdateLoginUrl('third', result.authenticate_via_get);
       });
     }
 
@@ -65,8 +70,14 @@ class Main extends React.Component {
     });
   }
 
-  handleOpenPopup() {
-    const myLoginUrl = this.props.login.loginUrl;
+  handleLogin() {
+    const myLoginUrl = this.props.login.loginUrl.first;
+    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  }
+
+  handleVerify() {
+    const myLoginUrl = this.props.login.loginUrl.third;
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
@@ -76,7 +87,7 @@ class Main extends React.Component {
 
     if (__BUILDTYPE__ !== 'production') {
       content = (
-        <SignInProfileButton onButtonClick={this.handleOpenPopup}/>
+        <SignInProfileButton onUserLogin={this.handleLogin} onUserVerify={this.handleVerify}/>
       );
     } else {
       content = null;
@@ -95,8 +106,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onUpdateLoginUrl: (update) => {
-      dispatch(updateLogInUrl(update));
+    onUpdateLoginUrl: (field, update) => {
+      dispatch(updateLogInUrl(field, update));
     },
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
