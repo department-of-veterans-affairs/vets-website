@@ -19,43 +19,41 @@ export class NewMessageForm extends React.Component {
     const subjectError = validations.isValidSubjectLine(message.category, message.subject);
 
     return (
-      <div>
-        <form
-            id="msg-compose"
-            onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
-          <MessageRecipient
-              errorMessage={validations.isValidRecipient(message.recipient) ? '' : composeMessage.errors.recipient}
-              cssClass="msg-recipient msg-field"
-              onValueChange={this.props.onRecipientChange}
-              options={this.props.recipients}
-              recipient={message.recipient}/>
-          <MessageSubjectGroup
-              categories={messageCategories}
-              category={message.category}
-              cssErrorClass={subjectError.type ? `msg-compose-error--${subjectError.type}` : undefined}
-              errorMessage={subjectError.hasError ? composeMessage.errors.subjectLine[subjectError.type] : undefined}
-              onCategoryChange={this.props.onCategoryChange}
-              onSubjectChange={this.props.onSubjectChange}
-              subject={message.subject}
-              subjectPlaceholder={composeMessage.placeholders.subject}/>
-          <MessageWriteGroup
-              allowedMimeTypes={allowedMimeTypes}
-              errorMessage={validations.isValidMessageBody(message.body) ? undefined : composeMessage.errors.message}
-              files={this.props.message.attachments}
-              maxFiles={composeMessage.attachments.maxNum}
-              maxFileSize={composeMessage.attachments.maxSingleFile}
-              maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
-              onAttachmentsClose={this.props.onAttachmentsClose}
-              onAttachmentUpload={this.props.onAttachmentUpload}
-              onAttachmentsError={this.props.onAttachmentsError}
-              onDelete={this.props.toggleConfirmDelete}
-              onTextChange={this.props.onBodyChange}
-              onSave={this.props.onSaveMessage}
-              onSend={this.props.onSendMessage}
-              messageText={message.body}
-              placeholder={composeMessage.placeholders.message}/>
-        </form>
-      </div>
+      <form
+          id="msg-compose"
+          onSubmit={(domEvent) => { domEvent.preventDefault(); }}>
+        <MessageRecipient
+            errorMessage={validations.isValidRecipient(message.recipient) ? '' : composeMessage.errors.recipient}
+            cssClass="msg-recipient msg-field"
+            onValueChange={this.props.onRecipientChange}
+            options={this.props.recipients}
+            recipient={message.recipient}/>
+        <MessageSubjectGroup
+            categories={messageCategories}
+            category={message.category}
+            cssErrorClass={subjectError.type ? `msg-compose-error--${subjectError.type}` : undefined}
+            errorMessage={subjectError.hasError ? composeMessage.errors.subjectLine[subjectError.type] : undefined}
+            onCategoryChange={this.props.onCategoryChange}
+            onSubjectChange={this.props.onSubjectChange}
+            subject={message.subject}
+            subjectPlaceholder={composeMessage.placeholders.subject}/>
+        <MessageWriteGroup
+            allowedMimeTypes={allowedMimeTypes}
+            errorMessage={validations.isValidMessageBody(message.body) ? undefined : composeMessage.errors.message}
+            files={this.props.message.attachments}
+            maxFiles={composeMessage.attachments.maxNum}
+            maxFileSize={composeMessage.attachments.maxSingleFile}
+            maxTotalFileSize={composeMessage.attachments.maxTotalFiles}
+            onAttachmentsClose={this.props.onAttachmentsClose}
+            onAttachmentUpload={this.props.onAttachmentUpload}
+            onAttachmentsError={this.props.onAttachmentsError}
+            onDelete={this.props.toggleConfirmDelete}
+            onTextChange={this.props.onBodyChange}
+            onSave={this.props.onSaveMessage}
+            onSend={this.props.onSendMessage}
+            messageText={message.body}
+            placeholder={composeMessage.placeholders.message}/>
+      </form>
     );
   }
 }
