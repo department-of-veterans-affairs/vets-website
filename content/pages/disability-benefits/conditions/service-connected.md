@@ -1,7 +1,8 @@
 ---
 layout: page-breadcrumbs.html
-title: Service Connected
+title: Disabilities Linked to Military Service
 source: https://eauth.va.gov/ebenefits/learn/compensation
+plainlanguage: 10-25-16 Ready for Beth review
 ---
 
 
@@ -10,34 +11,39 @@ source: https://eauth.va.gov/ebenefits/learn/compensation
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-Do you have disabilities that are the result of a disease or injury incurred or aggravated during active military service? If so, you may be eligible for monthly benefits no matter when or where you served. To receive compensation, you must meet the following criteria:
+Do you have a disability caused by an illnesss or injury that happened—or got worse—while you were actively serving in the military? If yes, you may be able to get VA support (called disability compensation or benefits)—no matter when or where you served. 
 
-- You have a current physical or mental disability.
-- You incurred an injury or disease in service that caused a disability or aggravated a disability that existed prior to service.
-- You are able to link your current disability to an injury or disease experienced during military service.
+###Can I get compensation?
+
+Yes, if:
+
+- You have a current physical or mental disability (damage to your body or mind that makes you less able—or totally unable—to do everyday life tasks, including meaningful work), and
+- You got injured or sick while actively serving in the military—and your injury or illness caused your disability or made a disability you already had worse, and 
+- You can link your current disability to an injury or illness that happened while you were actively serving in the military
 
 <div class="call-out" markdown="1">
-### What sorts of conditions may qualify me for benefits, including compensation?
 
-Examples of physical conditions and diseases that may qualify you for a disability rating (if determined to be service connected):
+###What types of health problems may qualify me for benefits?
 
-- Chronic back pain
-- Significant loss of hearing
+You may be able to get benefits for health problems linked to military service, including:
+
+- Chronic (long-lasting) back pain
+- Severe hearing loss
 - Scar tissue
-- Loss of range of motion
-- Ulcers
-- Cancer (due to hazardous exposures)
-- Traumatic brain injury
+- Loss of range of motion (problems moving your body)
+- Ulcers (painful sores in your stomach or small intestine)
+- Cancer (if caused by contact with toxic chemicals or other dangers)
+- Traumatic brain injury (an injury caused by a blow to the head or an object piercing the skull)
 
 <br>
 
-Examples of mental disorders and conditions that may qualify you for a disability rating (if determined to be service connected):
+You may also be able to get benefits for mental health problems linked to military service, including:
 
 - PTSD
-- Major depressive disorder
-- Anxiety disorder
+- Severe depression
+- Severe anxiety
 
-[Access the complete schedule of disabilities here](http://www.benefits.va.gov/warms/bookc.asp).
+[See the full list of disabilities](http://www.benefits.va.gov/warms/bookc.asp).
 </div>
 
 </div>
