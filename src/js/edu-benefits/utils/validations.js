@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
 import { dateToMoment, showRelinquishedEffectiveDate } from './helpers';
+import { isValidDateOver17 } from '../../common/utils/validations';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -234,7 +235,10 @@ function isValidAddressField(field) {
 function isValidPersonalInfoPage(data) {
   return isValidFullNameField(data.veteranFullName) &&
       isValidRequiredField(isValidSSN, data.veteranSocialSecurityNumber) &&
-      isValidDateField(data.veteranDateOfBirth);
+      isValidDateField(data.veteranDateOfBirth) &&
+      isValidDateOver17(data.veteranDateOfBirth.day.value,
+                        data.veteranDateOfBirth.month.value,
+                        data.veteranDateOfBirth.year.value);
 }
 
 function isValidBenefitsInformationPage(data) {
