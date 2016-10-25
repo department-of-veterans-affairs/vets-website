@@ -10,10 +10,9 @@ class DetailsPage extends React.Component {
   render() {
     const { claim, loading } = this.props;
 
-    return (
-      <ClaimDetailLayout
-          claim={claim}
-          loading={loading}>
+    let content = null;
+    if (!loading) {
+      content = (
         <div className="claim-details">
           <div className="claim-types">
             <h6>Claim Type</h6>
@@ -37,6 +36,14 @@ class DetailsPage extends React.Component {
             <p>{claim.attributes.vaRepresentative || 'Not Available'}</p>
           </div>
         </div>
+      );
+    }
+
+    return (
+      <ClaimDetailLayout
+          claim={claim}
+          loading={loading}>
+        {content}
       </ClaimDetailLayout>
     );
   }
