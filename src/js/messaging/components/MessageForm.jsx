@@ -7,11 +7,9 @@ import {
 } from '../config';
 
 import * as validations from '../utils/validations';
-import NoticeBox from './NoticeBox';
 import MessageRecipient from './compose/MessageRecipient';
 import MessageSubjectGroup from './compose/MessageSubjectGroup';
 import MessageWriteGroup from './compose/MessageWriteGroup';
-import ModalConfirmDelete from './compose/ModalConfirmDelete';
 
 export class MessageForm extends React.Component {
   render() {
@@ -57,12 +55,6 @@ export class MessageForm extends React.Component {
               messageText={message.body}
               placeholder={composeMessage.placeholders.message}/>
         </form>
-        <NoticeBox/>
-        <ModalConfirmDelete
-            cssClass="messaging-modal"
-            onClose={this.props.toggleConfirmDelete}
-            onDelete={this.props.onDeleteMessage}
-            visible={this.props.isDeleteModalVisible}/>
       </div>
     );
   }
@@ -100,13 +92,11 @@ MessageForm.propTypes = {
         value: React.PropTypes.string })
     ])).isRequired,
 
-  isDeleteModalVisible: React.PropTypes.bool,
   onAttachmentsClose: React.PropTypes.func,
   onAttachmentUpload: React.PropTypes.func,
   onAttachmentsError: React.PropTypes.func,
   onBodyChange: React.PropTypes.func,
   onCategoryChange: React.PropTypes.func,
-  onDeleteMessage: React.PropTypes.func,
   onRecipientChange: React.PropTypes.func,
   onSaveMessage: React.PropTypes.func.isRequired,
   onSendMessage: React.PropTypes.func.isRequired,

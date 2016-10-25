@@ -4,6 +4,8 @@ import { Link } from 'react-router';
 
 import { dirtyAllFields } from '../../common/model/fields';
 import MessageForm from '../components/MessageForm';
+import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
+import NoticeBox from '../components/NoticeBox';
 import { paths } from '../config';
 import * as validations from '../utils/validations';
 
@@ -112,18 +114,22 @@ export class Compose extends React.Component {
         <MessageForm
             message={this.props.message}
             recipients={this.props.recipients}
-            isDeleteModalVisible={this.props.deleteConfirmModal.visible}
             onAttachmentsClose={this.props.deleteComposeAttachment}
             onAttachmentUpload={this.props.addComposeAttachments}
             onAttachmentsError={this.props.openAttachmentsModal}
             onBodyChange={this.props.setMessageField.bind(null, 'message.text')}
             onCategoryChange={this.props.setMessageField.bind(null, 'message.category')}
-            onDeleteMessage={this.handleConfirmDelete}
             onRecipientChange={this.props.setMessageField.bind(null, 'message.recipient')}
             onSaveMessage={this.saveDraft}
             onSendMessage={this.sendMessage}
             onSubjectChange={this.props.setMessageField.bind(null, 'message.subject')}
             toggleConfirmDelete={this.props.toggleConfirmDelete}/>
+        <NoticeBox/>
+        <ModalConfirmDelete
+            cssClass="messaging-modal"
+            onClose={this.props.toggleConfirmDelete}
+            onDelete={this.handleConfirmDelete}
+            visible={this.props.deleteConfirmModal.visible}/>
       </div>
     );
   }
