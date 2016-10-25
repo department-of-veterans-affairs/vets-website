@@ -18,4 +18,4 @@ relatedlinks:
     description: ""
 ---
 
-You can use the GI Bill for more than just college. Get advanced training and certifications to work as a certified mechanic, medical technician, attorney, therapist, website developer, or in other professions and we will help you pay the fees.   
+You can use the GI Bill for more than just college. Get advanced training and certifications to work as a certified mechanic, medical technician, attorney, therapist, website developer, or in other professions and we'll help you pay the fees.   
