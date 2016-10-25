@@ -43,7 +43,7 @@ export default class SubmitMessage extends React.Component {
             </li>
             <li>
               <b>Date receieved</b><br/>
-              <span>{moment(this.props.date).format('MMM M, YYYY')}</span>
+              <span>{moment(this.props.date).format('MMM D, YYYY')}</span>
             </li>
             <li>
               <b>Your claim was sent to</b><br/>
