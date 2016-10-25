@@ -93,6 +93,15 @@ function isValidAnyDate(day, month, year) {
   }).isValid();
 }
 
+function isValidDateOver17(day, month, year) {
+  const momentDate = moment({
+    day,
+    month: parseInt(month, 10) - 1,
+    year
+  });
+  return momentDate.isBefore(moment().endOf('day').subtract(17, 'years'));
+}
+
 function isValidName(value) {
   return /^[a-zA-Z][a-zA-Z '\-]*$/.test(value);
 }
@@ -520,5 +529,6 @@ export {
   isValidMedicareMedicaid,
   isValidServiceInformation,
   isValidSection,
-  isValidAnyDate
+  isValidAnyDate,
+  isValidDateOver17
 };
