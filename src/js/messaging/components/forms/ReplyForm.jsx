@@ -1,8 +1,8 @@
 import React from 'react';
 
-import MessageWriteGroup from '../components/compose/MessageWriteGroup';
-import { allowedMimeTypes, composeMessage } from '../config';
-import * as validations from '../utils/validations';
+import { allowedMimeTypes, composeMessage } from '../../config';
+import * as validations from '../../utils/validations';
+import MessageWriteGroup from '../compose/MessageWriteGroup';
 
 class ReplyForm extends React.Component {
   render() {

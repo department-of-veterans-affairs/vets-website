@@ -24,12 +24,11 @@ import {
 } from '../actions';
 
 import Message from '../components/Message';
-import MessageForm from '../components/MessageForm';
-import ReplyForm from '../components/ReplyForm';
-
-import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import NoticeBox from '../components/NoticeBox';
 import ThreadHeader from '../components/ThreadHeader';
+import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
+import NewMessageForm from '../components/forms/NewMessageForm';
+import ReplyForm from '../components/forms/ReplyForm';
 
 export class Thread extends React.Component {
   constructor(props) {
@@ -179,7 +178,7 @@ export class Thread extends React.Component {
 
     if (this.props.isNewMessage) {
       form = (
-        <MessageForm
+        <NewMessageForm
             message={this.props.draft}
             recipients={this.props.recipients}
             isDeleteModalVisible={this.props.modals.deleteConfirm.visible}

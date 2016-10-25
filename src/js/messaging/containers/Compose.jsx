@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
 import { dirtyAllFields } from '../../common/model/fields';
-import MessageForm from '../components/MessageForm';
-import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import NoticeBox from '../components/NoticeBox';
+import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
+import NewMessageForm from '../components/forms/NewMessageForm';
 import { paths } from '../config';
 import * as validations from '../utils/validations';
 
@@ -111,7 +111,7 @@ export class Compose extends React.Component {
             Send
           </button>
         </div>
-        <MessageForm
+        <NewMessageForm
             message={this.props.message}
             recipients={this.props.recipients}
             onAttachmentsClose={this.props.deleteComposeAttachment}

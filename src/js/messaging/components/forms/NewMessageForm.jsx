@@ -4,12 +4,12 @@ import {
   allowedMimeTypes,
   composeMessage,
   messageCategories
-} from '../config';
+} from '../../config';
 
-import * as validations from '../utils/validations';
-import MessageRecipient from './compose/MessageRecipient';
-import MessageSubjectGroup from './compose/MessageSubjectGroup';
-import MessageWriteGroup from './compose/MessageWriteGroup';
+import * as validations from '../../utils/validations';
+import MessageRecipient from '../compose/MessageRecipient';
+import MessageSubjectGroup from '../compose/MessageSubjectGroup';
+import MessageWriteGroup from '../compose/MessageWriteGroup';
 
 export class MessageForm extends React.Component {
   render() {
