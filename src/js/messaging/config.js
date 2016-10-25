@@ -1,7 +1,10 @@
 const headers = {
   'X-Key-Inflection': 'camel',
-  Authorization: `Token token=${localStorage.userToken}`
 };
+
+if (typeof localStorage !== 'undefined' && localStorage !== null) {
+  headers.Authorization = `Token token=${localStorage.userToken}`;
+}
 
 module.exports = {
   // Basic config for making API requests.
