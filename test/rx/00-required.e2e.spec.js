@@ -12,11 +12,13 @@ if (process.env.BUILDTYPE === 'development') {
       // Ensure introduction page renders.
       client
         .url(`${E2eHelpers.baseUrl}/rx/`)
-                          .waitForElementVisible('body', Timeouts.normal)
-        .assert.title('Refill your prescriptions: Vets.gov')
-        .waitForElementVisible('.va-tab-content', Timeouts.slow)
-        .click('.va-tabs li:last-child a')
-        .waitForElementVisible('.rx-table', Timeouts.normal);
+                          .waitForElementVisible('body', Timeouts.normal);
+
+        // TODO(crew): add tests for login component
+        // .assert.title('Refill your prescriptions: Vets.gov')
+        // .waitForElementVisible('.va-tab-content', Timeouts.slow)
+        // .click('.va-tabs li:last-child a')
+        // .waitForElementVisible('.rx-table', Timeouts.normal);
     }
   );
 }
