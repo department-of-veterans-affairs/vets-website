@@ -120,8 +120,6 @@ if (options.buildtype === 'production') {
 } else if (options.buildtype === 'staging') {
   ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('facilities/*');
-  ignoreList.push('healthcare/messaging/*');
-  ignoreList.push('healthcare/prescriptions/*');
   ignoreList.push('profile/*');
   ignoreList.push('education/apply-for-education-benefits-new');
 }
