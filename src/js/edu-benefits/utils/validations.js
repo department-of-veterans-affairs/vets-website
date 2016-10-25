@@ -52,6 +52,10 @@ function isValidYear(value) {
   return Number(value) >= 1900;
 }
 
+function isValidYearOrBlank(value) {
+  return Number(value) >= 1900 || value === '';
+}
+
 function isValidCurrentOrPastYear(value) {
   return Number(value) >= 1900 && Number(value) < moment().year() + 1;
 }
@@ -399,6 +403,7 @@ export {
   isValidPhone,
   isValidEmail,
   isValidYear,
+  isValidYearOrBlank,
   isValidCurrentOrPastYear,
   isValidMonths,
   isValidRoutingNumber,
