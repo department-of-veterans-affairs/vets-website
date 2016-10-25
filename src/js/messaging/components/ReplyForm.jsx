@@ -14,7 +14,7 @@ class ReplyForm extends React.Component {
 
     const replyDetails = (
       <div
-          className="messaging-thread-reply-details"
+          className="msg-reply-details"
           onClick={this.props.toggleDetails}>
         <div><label>To:</label> {this.props.recipient}</div>
         {subject}
@@ -22,7 +22,7 @@ class ReplyForm extends React.Component {
     );
 
     return (
-      <form id="messaging-reply">
+      <form id="msg-reply">
         {replyDetails}
         <MessageWriteGroup
             allowedMimeTypes={allowedMimeTypes}

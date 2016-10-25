@@ -225,7 +225,7 @@ export class Thread extends React.Component {
       <div>
         {header}
         {thread}
-        <div className="messaging-thread-reply">
+        <div className="messaging-thread-form">
           {form}
           <button
               className="usa-button"
