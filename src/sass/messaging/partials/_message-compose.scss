@@ -19,8 +19,7 @@
   }
 }
 
-[id=msg-compose] label,
-.msg-from-label {
+[id=msg-compose] label {
   margin: 0;
   font-weight: bold;
 }
@@ -112,8 +111,7 @@
   }
 }
 
-.msg-recipient > div,
-.msg-from {
+.msg-recipient > div {
   -webkit-align-items: center;
   align-items: center;
   display: -webkit-flex;
@@ -122,7 +120,6 @@
 }
 
 .msg-recipient > div,
-.msg-from,
 .msg-subject-group {
   padding: 1.5rem;
 
@@ -140,6 +137,8 @@
 
 .msg-subject {
   @media (min-width: $medium-screen) {
+    -webkit-flex: 1 1 60%;
+    flex: 1 1 60%;
     margin-left: 1rem;
   }
 }
@@ -151,8 +150,7 @@
   }
 }
 
-.msg-recipient label,
-.msg-from-label {
+.msg-recipient label {
   padding-right: 1rem;
 
   @media (min-width: $medium-screen) {
@@ -352,18 +350,6 @@
     position: absolute;
     top: 0;
     width: auto;
-  }
-}
-
-@media (min-width: $medium-screen) {
-  .msg-from {
-    padding: 0 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .msg-subject {
-    -webkit-flex: 1 1 60%;
-    flex: 1 1 60%;
   }
 }
 
