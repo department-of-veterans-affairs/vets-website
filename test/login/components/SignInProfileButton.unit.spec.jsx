@@ -27,6 +27,6 @@ describe('<SignInProfileButton>', () => {
     const profileData = { email: 'fake@aol.com' };
     tree = SkinDeep.shallowRender(<SignInProfileButton login={signedInData} profile={profileData}/>);
     const link = tree.everySubTree('a');
-    expect(link).to.have.lengthOf(3);
+    expect(link).to.have.lengthOf(2);
   });
 });
