@@ -43,7 +43,7 @@ class Main extends React.Component {
       <div>
         <RequiredLoginView authRequired={3} component={view}/>
       </div>
-      );
+    );
   }
 }
 

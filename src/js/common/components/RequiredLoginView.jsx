@@ -16,7 +16,7 @@ class RequiredLoginView extends React.Component {
   }
 
   componentDidMount() {
-    if (localStorage.length > 0) {
+    if (localStorage.userToken) {
       this.props.onUpdateLoggedInStatus(true);
       this.getUserData();
     } else {
@@ -41,14 +41,12 @@ class RequiredLoginView extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      // console.log(json);
       const userData = json.data.attributes.profile;
       this.props.onUpdateProfile('accountType', userData.loa.current);
       this.props.onUpdateProfile('email', userData.email);
       this.props.onUpdateProfile('userFullName.first', userData.first_name);
       this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
       this.props.onUpdateProfile('userFullName.last', userData.last_name);
-      // this.props.onUpdateProfile('userFullName.suffix', userData.first_name);
       this.props.onUpdateProfile('gender', userData.gender);
       this.props.onUpdateProfile('dob', userData.birth_date);
       this.props.onUpdateLoggedInStatus(true);
@@ -59,6 +57,7 @@ class RequiredLoginView extends React.Component {
     const myStore = commonStore.getState();
     const login = myStore.login;
     const myLoginUrl = login.loginUrl.first;
+    // TODO(crew): Check on how this opens on mobile.
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
@@ -87,6 +86,7 @@ class RequiredLoginView extends React.Component {
             <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Sign In</strong></button>
             <button className="usa-button-big" onClick={this.handleLogin}><strong>Create an account</strong></button>
           </p>
+          // TODO(crew): replace FQA link.
           <p>Having trouble signing in or creating an account? See <a href="#">Frequently Asked Questions</a></p>
         </div>
       </div>

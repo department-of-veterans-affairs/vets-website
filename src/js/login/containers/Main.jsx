@@ -18,7 +18,7 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    if (localStorage.length > 0) {
+    if (localStorage.userToken) {
       this.props.onUpdateLoggedInStatus(true);
       this.getUserData();
     } else {
