@@ -5,7 +5,7 @@ export default function ClaimEstimate({ maxDate }) {
   const estimatedDate = moment(maxDate);
   const today = moment().startOf('day');
 
-  if (!maxDate || !estimatedDate.isValid() || estimatedDate.isAfter(moment(today).add(2, 'years'))) {
+  if (maxDate === undefined || !estimatedDate.isValid() || estimatedDate.isAfter(moment(today).add(2, 'years'))) {
     return (
       <div className="claim-completion-estimation">
         <p>Estimate not available</p>
