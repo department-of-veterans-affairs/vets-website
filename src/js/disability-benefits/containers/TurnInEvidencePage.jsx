@@ -1,4 +1,5 @@
 import React from 'react';
+import Scroll from 'react-scroll';
 import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
 import AskVAQuestions from '../components/AskVAQuestions';
@@ -19,6 +20,15 @@ import {
   resetUploads
 } from '../actions';
 
+const scrollToError = () => {
+  Scroll.scroller.scrollTo('uploadError', {
+    duration: 500,
+    offset: -25,
+    delay: 0,
+    smooth: true
+  });
+};
+
 class TurnInEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
@@ -27,6 +37,11 @@ class TurnInEvidencePage extends React.Component {
   componentWillReceiveProps(props) {
     if (props.uploadComplete) {
       this.goToFilesPage();
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (this.props.uploadError && !prevProps.uploadError) {
+      scrollToError();
     }
   }
   goToFilesPage() {
