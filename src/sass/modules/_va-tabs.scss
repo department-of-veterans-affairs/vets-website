@@ -1,5 +1,4 @@
 // CSS for Tab-based navigation
-// TODO: Move these to vets-website
 
 .va-tabs {
   list-style: none;
@@ -28,7 +27,6 @@
   border-bottom-color: $color-gray;
   color: $color-gray;
   display: inline-block;
-  font-size: 1.17rem;
   padding: 1rem;
   margin: 0px -1px;
   text-decoration: none;
@@ -46,7 +44,6 @@
   }
   
   @media (min-width: $small-screen) {
-    font-size: inherit;
     padding-left: 2rem;
     padding-right: 2rem;
   } 
