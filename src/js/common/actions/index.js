@@ -10,9 +10,10 @@ export function updateLoggedInStatus(value) {
   };
 }
 
-export function updateLogInUrl(value) {
+export function updateLogInUrl(propertyPath, value) {
   return {
     type: UPDATE_LOGIN_URL,
+    propertyPath,
     value
   };
 }
