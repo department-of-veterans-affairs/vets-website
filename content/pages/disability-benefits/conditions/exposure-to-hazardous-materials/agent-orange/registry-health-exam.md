@@ -24,7 +24,7 @@ Yes, if you served in:
   - Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975—if you were a member of a military police (MP) unit or assigned a job with duty placing you at or near the base perimeter, or
   - Other locations but you had contact with herbicides during a military operation or while testing, transporting, or spraying herbicides for military purposes
  
- [See the Agent Orange U.S. Navy and Coast Guard ship list](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
+ [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
  
  [Learn about herbicide tests and storage outside Vietnam](http://www.publichealth.va.gov/exposures/agentorange/locations/tests-storage/index.asp).
 
@@ -57,3 +57,7 @@ We want you to know that:
 - The exam will not confirm if you had contact with Agent Orange.
 - You can get another free Registry exam if you have a new health problem in the future.
 - Your family members can't get an Agent Orange Registry health exam. The exam is only for qualified Veterans.
+
+### Get more information
+
+Want to learn more about the Agent Orange Registry health exam? [Learn more about the exam](http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp). 
