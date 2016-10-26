@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import moment from 'moment';
-import { makeField } from '../../common/model/fields';
+import { makeField } from '../../../src/js/common/model/fields';
 
 import searchReducer from '../../../src/js/messaging/reducers/search';
 
