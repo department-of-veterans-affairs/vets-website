@@ -121,8 +121,6 @@ if (options.buildtype === 'production') {
 } else if (options.buildtype === 'staging') {
   ignoreList.push('facilities/*');
   ignoreList.push('profile/*');
-  ignoreList.push('education/apply-for-education-benefits-new');
-  ignoreList.push('education/index-new');
 }
 
 smith.use(ignore(ignoreList));
