@@ -175,7 +175,7 @@ class VAMap extends Component {
     return facilities.map(f => {
       const iconProps = {
         key: f.id,
-        position: [f.lat, f.long],
+        position: [f.attributes.lat, f.attributes.long],
         onClick: () => {
           this.props.fetchVAFacility(f.id, f);
         },
@@ -186,11 +186,11 @@ class VAMap extends Component {
           <a onClick={linkAction.bind(this, f.id)}>
             <h5>{f.attributes.name}</h5>
           </a>
-          <p>Facility type: <strong>{facilityTypes[f.type]}</strong></p>
+          <p>Facility type: <strong>{facilityTypes[f.attributes.facility_type]}</strong></p>
         </div>
       );
 
-      switch (f.type) {
+      switch (f.attributes.facility_type) {
         case 'va_health_facility':
           return (
             <HealthMarker {...iconProps}>
@@ -249,7 +249,7 @@ class VAMap extends Component {
               </div>
             </TabPanel>
             <TabPanel>
-              <Map ref="map" center={position} zoom={13} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}>
+              <Map ref="map" center={position} zoom={12} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}>
                 <TileLayer
                     url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                     attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
@@ -284,14 +284,14 @@ class VAMap extends Component {
         <div className="row">
           <div className="columns medium-4 small-12" style={{ maxHeight: '75vh', overflowY: 'auto' }}>
             <div className="facility-search-results">
-              <p className="text-center">Search Results near <strong>{currentQuery.context}</strong></p>
+              <p>Search Results near <strong>{currentQuery.context}</strong></p>
               <div>
                 <ResultsList facilities={facilities}/>
               </div>
             </div>
           </div>
           <div className="columns medium-8 small-12" style={{ minHeight: '75vh' }}>
-            <Map ref="map" center={position} zoom={13} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged}>
+            <Map ref="map" center={position} zoom={12} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged}>
               <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
