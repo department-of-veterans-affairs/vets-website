@@ -6,7 +6,7 @@ plainlanguage: 10.25.16 Ready for Beth review
 template: 4-action-page
 ---
 
-If you think you had contact with Agent Orange (a toxic chemical, also called an herbicide, used to clear trees and plants during the Vietnam War) or other herbicides while serving in the military, you can request a VA Agent Orange Registry health exam. Even if you don’t have a known illness, the exam could alert you to health problems that may be related to contact with herbicides. By being part of this registry, you're also helping your fellow Veterans by helping us better understand and serve those affected by Agent Orange–related health problems.
+If you think you had contact with Agent Orange (a toxic chemical, also called an herbicide, used to clear trees and plants during the Vietnam War) or other herbicides while serving in the military, you can request a VA Agent Orange Registry health exam. Even if you don’t have a known illness, the exam could alert you to health problems that may be related to contact with herbicides. By being part of this registry, you're also helping your fellow Veterans by giving us information so we can better understand and serve those affected by Agent Orange–related health problems.
 
 Contact your local VA Environmental Health Coordinator to schedule an Agent Orange Registry health exam. [Find a VA Environmental Health Coordinator near you](http://www.publichealth.va.gov/exposures/coordinators.asp).
 
@@ -17,11 +17,11 @@ Contact your local VA Environmental Health Coordinator to schedule an Agent Oran
 Yes, if you served in:
 
   - Vietnam between 1962 and 1975 for any length of time, or
-  - Vietnam on smaller river patrol and swift boats that ran on the inland waterways of Vietnam (also known as “Brown Water Veterans”), or 
-  - Korea in a unit in or near the Demilitarized Zone (DMZ) anytime between April 1, 1968 and August 31, 1971, or
-  - Thailand (U.S. Air Force Veterans) on Royal Thai Air Force (RTAF) bases near U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, and Don Muang near the air base perimeter anytime between February 28, 1961 and May 7, 1975, or
-  - Thailand (U.S. Army Veterans) as perimeter security personnel on RTAF bases in Thailand anytime between February 28, 1961 and May 7, 1975, or
-  - Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961 and May 7, 1975—if you were a member of a military police (MP) unit or assigned a job with duty placing you at or near the base perimeter—or
+  - Vietnam on smaller river patrol and swift boats that were on the inland waterways of Vietnam (also known as “Brown Water Veterans”), or 
+  - Korea in a unit in or near the Demilitarized Zone (DMZ) anytime between April 1, 1968, and August 31, 1971, or
+  - Thailand (U.S. Air Force Veterans) on Royal Thai Air Force (RTAF) bases near U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, and Don Muang near the air base perimeter anytime between February 28, 1961, and May 7, 1975, or
+  - Thailand (U.S. Army Veterans) as perimeter security personnel on RTAF bases in Thailand anytime between February 28, 1961, and May 7, 1975, or
+  - Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975—if you were a member of a military police (MP) unit or assigned a job with duty placing you at or near the base perimeter, or
   - Other locations but you had contact with herbicides during a military operation or while testing, transporting, or spraying herbicides for military purposes
  
  [See the Agent Orange U.S. Navy and Coast Guard ship list](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
@@ -49,11 +49,11 @@ A VA health care provider will go over your exam and test results with you. You'
 
 ### What else should I know about the exam?
 
-You should know that:
+We want you to know that:
 
-- This exam isn't a disability compensation exam. And you don't have to have this exam to get other VA benefits. To get disability compensation, you'll need to file a claim. [File a claim now](/disability-benefits/apply-for-benefits/).
+- This exam isn't a VA claim exam (also knows as a C&P exam). And you don't have to have this exam to get other VA benefits. To get disability compensation, you'll need to file a claim. [File a claim now](/disability-benefits/apply-for-benefits/).
 - You don't need to sign up for the VA health care system to get a registry health exam.
 - The exam is based on your memory of service, not on your military records.
 - The exam will not confirm if you had contact with Agent Orange.
-- You can receive additional, free Registry exams if you have new health problems in the future.
+- You can get another free Registry exam if you have a new health problem in the future.
 - Your family members can't get an Agent Orange Registry health exam. The exam is only for qualified Veterans.
