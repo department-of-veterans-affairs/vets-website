@@ -358,10 +358,9 @@ a.claim-list-item {
 }
 
 .va-tab-content {
-  padding-top: 2.5em;
+  padding-top: 2em;
   border-top: 1px solid $color-gray;
 }
-
 
 .clearfix:after {
   content: " ";
@@ -401,7 +400,7 @@ a.claim-list-item {
 
 .disability-benefits-timeline {
   padding-top: 0;
-  > li.step:not(.section-current) {
+  > li.step.section-current:not(.last), > li.step.section-complete:not(.last) {
     cursor: pointer;
   }
   > li > h5 {
