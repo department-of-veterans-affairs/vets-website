@@ -93,7 +93,10 @@
   // Overriding `#content .section h*`.
   padding: 0 2rem !important;
   vertical-align: top;
-  width: 60%;
+
+  @media (min-width: $medium-screen) {
+    width: 60%;
+  }
 }
 
 .messaging-thread-controls {
@@ -115,9 +118,9 @@
  * Thread Reply *
  ****************/
 
-.messaging-thread-reply {
+.messaging-thread-form {
   font-size: 1.8rem;
-  padding: 3rem 2rem;
+  margin: 1rem 0;
 
   & > button {
     display: none;
@@ -137,29 +140,13 @@
     }
   }
 
-  .messaging-write {
-    margin: 0;
-    padding: 0;
-
-    label {
-      display: none;
-    }
-  }
-
-  &-recipient {
-    border: 1px solid $color-black;
-    border-bottom-width: 0;
-    padding: 1rem 1.5rem;
-
-    label {
-      display: inline-block;
-      font-weight: bold;
-      margin: 0 1rem 0 0;
-    }
+  .msg-field {
+    border: none;
   }
 
   textarea {
     margin: 0;
+    max-width: 100%;
     padding: 1rem 1.5rem;
   }
 }

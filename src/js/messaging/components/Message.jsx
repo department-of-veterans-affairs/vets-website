@@ -1,8 +1,9 @@
 import React from 'react';
 import classNames from 'classnames';
-import moment from 'moment';
 
+import { formattedDate } from '../utils/helpers';
 import MessageDetails from './MessageDetails';
+import MessageAttachmentsView from './MessageAttachmentsView';
 
 class Message extends React.Component {
   constructor(props) {
@@ -11,7 +12,9 @@ class Message extends React.Component {
   }
 
   handleToggleCollapsed() {
-    this.props.onToggleCollapsed(this.props.attrs.messageId);
+    if (this.props.onToggleCollapsed) {
+      this.props.onToggleCollapsed(this.props.attrs.messageId);
+    }
   }
 
   render() {
@@ -38,26 +41,28 @@ class Message extends React.Component {
       headerOnClick = this.handleToggleCollapsed;
     }
 
+    let attachments;
+    if (this.props.attrs.attachment) {
+      attachments = (<MessageAttachmentsView attachments={this.props.attrs.attachments}/>);
+    }
+
     return (
       <div className={messageClass} onClick={messageOnClick}>
         <div
             className="messaging-message-header"
             onClick={headerOnClick}>
+          <div className="messaging-message-sent-date">
+            {formattedDate(this.props.attrs.sentDate, { fromNow: true })}
+          </div>
           <div className="messaging-message-sender">
             {this.props.attrs.senderName}
           </div>
-          <div className="messaging-message-sent-date">
-            {
-              moment(
-                this.props.attrs.sentDate
-              ).format('DD MMM YYYY [@] HH[:]mm')
-            }
-          </div>
           {details}
         </div>
-        <p className="messaging-message-body">
+        <div className="messaging-message-body">
           {this.props.attrs.body}
-        </p>
+        </div>
+        {attachments}
       </div>
     );
   }
@@ -75,7 +80,7 @@ Message.propTypes = {
     senderName: React.PropTypes.string.isRequired,
     recipientId: React.PropTypes.number.isRequired,
     recipientName: React.PropTypes.string.isRequired,
-    readReceipt: React.PropTypes.oneOf(['READ', 'UNREAD']).isRequired
+    readReceipt: React.PropTypes.oneOf(['READ', 'UNREAD'])
   }).isRequired,
   isCollapsed: React.PropTypes.bool,
   onToggleCollapsed: React.PropTypes.func,

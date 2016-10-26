@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getLabel, showSchoolAddress } from '../../utils/helpers';
+import { getLabel, showSchoolAddress, showYesNo } from '../../utils/helpers';
 import { schoolTypes } from '../../utils/options-for-select';
 
 export default class SchoolSelectionReview extends React.Component {
@@ -19,6 +19,10 @@ export default class SchoolSelectionReview extends React.Component {
                 <td>{this.props.data.school.name.value}</td>
               </tr>
               <tr>
+                <td>Country:</td>
+                <td>{this.props.data.school.address.country.value}</td>
+              </tr>
+              <tr>
                 <td>Street:</td>
                 <td>{this.props.data.school.address.street.value}</td>
               </tr>
@@ -27,16 +31,12 @@ export default class SchoolSelectionReview extends React.Component {
                 <td>{this.props.data.school.address.city.value}</td>
               </tr>
               <tr>
-                <td>Country:</td>
-                <td>{this.props.data.school.address.country.value}</td>
-              </tr>
-              <tr>
                 <td>State/Province:</td>
-                <td>{this.props.data.school.address.state.value || this.props.data.school.address.provinceCode.value}</td>
+                <td>{this.props.data.school.address.state.value}</td>
               </tr>
               <tr>
-                <td>ZIP/Postal Code:</td>
-                <td>{this.props.data.school.address.zipcode.value || this.props.data.school.address.postalCode.value}</td>
+                <td>Postal code:</td>
+                <td>{this.props.data.school.address.postalCode}</td>
               </tr>
             </tbody>
           : null}
@@ -45,9 +45,15 @@ export default class SchoolSelectionReview extends React.Component {
             <td>{this.props.data.educationObjective.value}</td>
           </tr>
           <tr>
-            <td>Do you know when your training will begin?</td>
+            <td>The date your training began or will begin:</td>
             <td>{this.props.data.educationStartDate.month.value ? `${this.props.data.educationStartDate.month.value}/${this.props.data.educationStartDate.day.value}/${this.props.data.educationStartDate.year.value}` : null}</td>
           </tr>
+          {this.props.data.currentlyActiveDuty.yes.value === 'Y'
+            ? <tr>
+              <td>Are you getting, or do you expect to get any money (including, but not limited to, federal tuition assistance) from the Armed Forces or public health services for any part of your coursework or training?</td>
+              <td>{showYesNo(this.props.data.currentlyActiveDuty.nonVaAssistance)}</td>
+            </tr>
+            : null}
         </tbody>
       </table>
     );

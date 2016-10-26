@@ -1,15 +1,19 @@
 import { api } from '../config';
 import { createUrlWithQuery } from '../utils/helpers';
 
-export const FETCH_FOLDERS_SUCCESS = 'FETCH_FOLDERS_SUCCESS';
-export const FETCH_FOLDERS_FAILURE = 'FETCH_FOLDERS_FAILURE';
-export const FETCH_FOLDER_SUCCESS = 'FETCH_FOLDER_SUCCESS';
-export const FETCH_FOLDER_FAILURE = 'FETCH_FOLDER_FAILURE';
-export const TOGGLE_FOLDER_NAV = 'TOGGLE_FOLDER_NAV';
-export const TOGGLE_MANAGED_FOLDERS = 'TOGGLE_MANAGED_FOLDERS';
-export const CREATE_NEW_FOLDER_SUCCESS = 'CREATE_NEW_FOLDER_SUCCESS';
-export const CREATE_NEW_FOLDER_FAILURE = 'CREATE_NEW_FOLDER_FAILURE';
-export const SET_CURRENT_FOLDER = 'SET_CURRENT_FOLDER';
+import {
+  CREATE_FOLDER_SUCCESS,
+  CREATE_FOLDER_FAILURE,
+  DELETE_FOLDER_SUCCESS,
+  DELETE_FOLDER_FAILURE,
+  FETCH_FOLDERS_SUCCESS,
+  FETCH_FOLDERS_FAILURE,
+  FETCH_FOLDER_SUCCESS,
+  FETCH_FOLDER_FAILURE,
+  TOGGLE_FOLDER_NAV,
+  TOGGLE_MANAGED_FOLDERS,
+  SET_CURRENT_FOLDER
+} from '../utils/constants';
 
 const baseUrl = `${api.url}/folders`;
 
@@ -61,7 +65,7 @@ export function createNewFolder(folderName) {
   const folderData = { folder: {} };
   folderData.folder.name = folderName;
 
-  const settings = Object.assign({}, api.settings.post, {
+  const settings = Object.assign({}, api.settings.postJson, {
     body: JSON.stringify(folderData)
   });
 
@@ -69,9 +73,26 @@ export function createNewFolder(folderName) {
     fetch(baseUrl, settings)
     .then(res => res.json())
     .then(
-      data => dispatch({ type: CREATE_NEW_FOLDER_SUCCESS, data }),
-      err => dispatch({ type: CREATE_NEW_FOLDER_FAILURE, err })
+      data => dispatch({
+        type: CREATE_FOLDER_SUCCESS,
+        folder: data.data.attributes
+      }),
+      error => dispatch({ type: CREATE_FOLDER_FAILURE, error })
     );
+  };
+}
+
+export function deleteFolder(folder) {
+  const url = `${baseUrl}/${folder.folderId}`;
+  return dispatch => {
+    fetch(url, api.settings.delete)
+    .then(response => {
+      const action = response.ok
+                   ? { type: DELETE_FOLDER_SUCCESS, folder }
+                   : { type: DELETE_FOLDER_FAILURE };
+
+      return dispatch(action);
+    });
   };
 }
 

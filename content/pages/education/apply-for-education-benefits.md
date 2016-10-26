@@ -79,7 +79,7 @@ You have four options for filing your claim:
 -	Apply online using [eBenefits](https://www.ebenefits.va.gov/ebenefits/vonapp).
 -	Go to a [VA regional office](/education/apply-for-education-benefits/regional-office/) and have a VA employee assist you.
 -	Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
--	Call 888-GI Bill (888-442-4551) to have the application mailed to you. After you complete it, mail it to your [VA regional claims processing office](/education/apply-for-education-benefits/regional-office/).
+-	Call 888-442-4551 to have the application mailed to you. After you complete it, mail it to your [VA regional claims processing office](/education/apply-for-education-benefits/regional-office/).
 
 </div>
 

@@ -1,7 +1,18 @@
-// Variables
+.sign-in-link {
+  a {
+    color: #fff;
+    text-decoration: none;
 
-@import 'style';
+    &:visited {
+      color: #fff;
+    }
 
-.signned-in-link {
-  background: transparent;
+    &:hover {
+      text-decoration: none;
+    }
+  }
 };
+
+.signin-spacer {
+  margin: 0 1rem;
+}

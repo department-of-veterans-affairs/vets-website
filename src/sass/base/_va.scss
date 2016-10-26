@@ -175,6 +175,10 @@ button,
   }
 }
 
+input.va-input-medium-large {
+  max-width: 18rem;
+}
+
 hr {
   margin: 2.5em 0;
   margin: 3rem 0 2.5rem;
@@ -245,7 +249,7 @@ hr {
     }
 
     @media #{$small} {
-      width: 263px;
+      width: 225px;
       height: 50px;
     }
   }
@@ -1490,6 +1494,7 @@ margin: 0;
     margin: 0 !important;
   &.last {
     border-left: 0;
+    padding-left: calc(2em + 8px);
   }
 
   }
@@ -1500,7 +1505,7 @@ margin: 0;
   &.step.seven.last
    {
     &:before {
-    margin-left: -2.4em
+    margin-left: -2.7em
     }
   }
 
@@ -1982,7 +1987,7 @@ pre[class*='language-']  {
   padding-left: 1rem;
 }
 
-// Flexbox related utilities 
+//====== Flexbox related utility classes
 .va-flex {
   display: -webkit-flex;
   display: flex;
@@ -1995,9 +2000,48 @@ pre[class*='language-']  {
   align-items: flex-start;
 }
 
+// Vertically aligns in the middle when flex-direction: row;
+// Aligns center when flex-direction: column
+.va-flex--ctr {
+  -webkit-align-items: center;
+  align-items: center;
+}
+
 // Stretches all flexbox items to be the same height when
 // flex-direction: row
 .va-flex--stretch {
   -webkit-align-items: stretch;
   align-items: stretch;
+}
+
+.sticky-action-box--container {
+  position: relative;
+  width: em-calc(1000);
+}
+
+.sticky-action-box {
+  background-color: $color-gray-lightest;
+  padding: 1.5rem;
+  z-index: 1;
+
+  .show-for-large-up & {
+    position: absolute;
+    right: 0;
+    top: 30px;
+    width: 22rem;
+  }
+
+  .hide-for-large-up & {
+    width: 35rem;
+  }
+
+  #content & p, 
+  #content & h3 {
+    padding: 0;
+    margin: 0;
+  }
+
+  p.small {
+    font-size: 1em;
+  }
 }

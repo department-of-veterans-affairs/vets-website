@@ -1,11 +1,10 @@
 import React from 'react';
 
-import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
+import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 import DateInput from '../../../common/components/form-elements/DateInput';
 
-import { validateIfDirty, validateIfDirtyDateObj, isNotBlank, isValidDateField, isValidDateRange } from '../../utils/validations';
-import { yesNo } from '../../utils/options-for-select';
+import { validateIfDirtyDateObj, isValidDateField, isValidDateRange } from '../../utils/validations';
 
 export default class BenefitsHistoryFields extends React.Component {
   render() {
@@ -15,6 +14,7 @@ export default class BenefitsHistoryFields extends React.Component {
     );
     return (<fieldset>
       <legend>Benefits history</legend>
+      <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <p>Select all that apply:</p>
         <ErrorableCheckbox
@@ -37,15 +37,15 @@ export default class BenefitsHistoryFields extends React.Component {
             name="reserveKicker"
             checked={this.props.data.reserveKicker}
             onValueChange={(update) => {this.props.onStateChange('reserveKicker', update);}}/>
-        <ErrorableRadioButtons
-            errorMessage={validateIfDirty(this.props.data.activeDutyRepaying, isNotBlank) ? '' : 'Please select a response'}
-            label="Do you have a period of active duty that the Department of Defense counts towards an education loan payment?"
-            name="activeDutyRepaying"
-            options={yesNo}
-            value={this.props.data.activeDutyRepaying}
-            onValueChange={(update) => {this.props.onStateChange('activeDutyRepaying', update);}}/>
-          {this.props.data.activeDutyRepaying.value === 'Y'
-          ? <div>
+        <ExpandingGroup
+            additionalClass="edu-benefits-active-group"
+            open={this.props.data.activeDutyRepaying}>
+          <ErrorableCheckbox
+              label="I have a period of service that the Department of Defense counts towards an education loan payment."
+              name="activeDutyRepaying"
+              checked={this.props.data.activeDutyRepaying}
+              onValueChange={(update) => {this.props.onStateChange('activeDutyRepaying', update);}}/>
+          <div>
             <DateInput required
                 errorMessage="Please provide a response"
                 validation={validateIfDirtyDateObj(this.props.data.activeDutyRepayingPeriod.from, isValidDateField)}
@@ -65,7 +65,7 @@ export default class BenefitsHistoryFields extends React.Component {
                 year={this.props.data.activeDutyRepayingPeriod.to.year}
                 onValueChange={(update) => {this.props.onStateChange('activeDutyRepayingPeriod.to', update);}}/>
           </div>
-        : null}
+        </ExpandingGroup>
       </div>
     </fieldset>
     );

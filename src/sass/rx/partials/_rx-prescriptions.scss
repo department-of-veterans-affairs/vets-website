@@ -25,12 +25,14 @@
 
 .rx-prescription-inner {
   background: $color-gray-lightest;
+  height: 25.7rem;
   padding: 2rem;
   position: relative;
 }
 
 .rx-prescription-title {
   color: $color-primary;
+  font-size: 1.4em;
   line-height: 1;
   margin: 0;
   text-overflow: ellipsis;
@@ -52,10 +54,6 @@
   margin-bottom: 5rem;
 }
 
-.rx-prescription-number {
-  font-weight: bold;
-}
-
 .rx-prescription-button {
   white-space: nowrap;
 }
@@ -73,7 +71,6 @@ button.rx-prescription-button,
 }
 
 .rx-prescription-count {
-  position: absolute;
   bottom: 0;
   display: inline-block;
   &-zero {
@@ -96,19 +93,31 @@ button.rx-prescription-button,
 }
 
 .rx-prescription-countaction {
-  bottom: 0;
+  bottom: -2rem;
   line-height: 2rem;
   padding-top: 2rem;
   position: relative;
 }
 
-.rx-prescription-status,
+.rx-prescription-status span,
 .rx-prescription-refill-requested {
   font-weight: bold;
 }
 
+.rx-prescription-status,
+.rx-call-provider {
+  margin-top: .75rem;
+  text-align: right;
+}
+
+.rx-prescription-refill-requested {
+  margin-bottom: .75rem;
+  text-align: right;
+} 
+
 .rx-track-package-link {
-  margin: 0;  
+  display: block;
+  margin: 0 0 1rem;  
 }
 
 //====== Prescription group

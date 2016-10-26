@@ -10,7 +10,7 @@ class MessageWrite extends React.Component {
             label="Message:"
             onValueChange={this.props.onValueChange}
             placeholder={this.props.placeholder}
-            name="messageSubject"
+            name="messageText"
             field={this.props.text}/>
       </div>
     );
@@ -20,8 +20,8 @@ class MessageWrite extends React.Component {
 MessageWrite.propTypes = {
   cssClass: React.PropTypes.string,
   errorMessage: React.PropTypes.string,
-  placeholder: React.PropTypes.string,
   onValueChange: React.PropTypes.func.isRequired,
+  placeholder: React.PropTypes.string,
   text: React.PropTypes.shape({
     value: React.PropTypes.string,
     dirty: React.PropTypes.bool

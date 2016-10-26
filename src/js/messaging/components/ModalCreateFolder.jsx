@@ -1,71 +1,56 @@
 import React from 'react';
 
-import { createNewFolderSettings } from '../config';
-import { isBlank } from '../../common/utils/validations';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 import Modal from '../../common/components/Modal';
+import { makeField } from '../../common/model/fields';
+import { validateFolderName } from '../utils/validations';
+import { createNewFolderSettings } from '../config';
 
 class ModalCreateFolder extends React.Component {
   constructor(props) {
     super(props);
-    this.validateFolderName = this.validateFolderName.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleValueChange = this.handleValueChange.bind(this);
   }
 
-  validateFolderName(folderName, dirty = false, existingFolders = []) {
-    const err = {};
-    const trimmedFolderName = folderName.trim();
+  handleValueChange(field) {
+    this.props.onValueChange(makeField(field.value, true));
+  }
 
-    if (dirty === false) {
-      return false;
+  handleSubmit(domEvent) {
+    domEvent.preventDefault();
+    const newFolderName = this.props.newFolderName;
+
+    // Mark the field dirty upon submit to trigger validation
+    // that only works on dirty fields.
+    if (!newFolderName.dirty) {
+      this.handleValueChange(newFolderName);
+    } else {
+      this.props.onSubmit(newFolderName.value);
     }
-
-    if (isBlank(trimmedFolderName)) {
-      err.hasError = true;
-      err.type = 'empty';
-    }
-    // Disallows anything other than a-z, 0-9, and space
-    // (case insensitive)
-    const allowedRegExp = /[^a-z0-9\s]/ig;
-    if (allowedRegExp.test(trimmedFolderName)) {
-      err.hasError = true;
-      err.type = 'patternMismatch';
-    }
-
-    const doesFolderExist = (folder) => {
-      return trimmedFolderName.toLowerCase() === folder.name.toLowerCase();
-    };
-
-    if (!!existingFolders.find(doesFolderExist)) {
-      err.hasError = true;
-      err.type = 'exists';
-    }
-
-    return err;
   }
 
   render() {
     const foldersWeHave = this.props.folders;
-    const formValue = this.props.newFolderName.value;
-    const isFieldDirty = this.props.newFolderName.dirty;
-
-    const error = this.validateFolderName(formValue, isFieldDirty, foldersWeHave);
+    const newFolderName = this.props.newFolderName;
+    const error = validateFolderName(newFolderName, foldersWeHave);
 
     const modalContents = (
-      <form onSubmit={this.props.onSubmit}>
+      <form onSubmit={this.handleSubmit}>
         <h3 className="messaging-modal-title">
           Create new folder
         </h3>
         <ErrorableTextInput
             errorMessage={error.hasError ? createNewFolderSettings.errorMessages[error.type] : undefined}
             label="Please enter a new folder name:"
-            onValueChange={this.props.onValueChange}
+            onValueChange={this.handleValueChange}
             name="newFolderName"
             charMax={createNewFolderSettings.maxLength}
             field={this.props.newFolderName}/>
 
         <div className="va-modal-button-group">
           <button
-              disabled={!!this.props.errorMessage}
+              disabled={error.hasError}
               type="submit">Create</button>
           <button
               className="usa-button-outline"

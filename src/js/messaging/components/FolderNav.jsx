@@ -7,9 +7,15 @@ import ButtonCreateFolder from './buttons/ButtonCreateFolder';
 class FolderNav extends React.Component {
   constructor(props) {
     super(props);
+    this.goToFolderSettings = this.goToFolderSettings.bind(this);
     this.makeFolderLink = this.makeFolderLink.bind(this);
     this.makeMyFolders = this.makeMyFolders.bind(this);
   }
+
+  goToFolderSettings() {
+    this.context.router.push('/settings');
+  }
+
   makeFolderLink(folder) {
     let count;
 
@@ -32,7 +38,7 @@ class FolderNav extends React.Component {
           activeClassName="usa-current"
           className={isPersistFolder}
           data-folderid={folder.folderId}
-          to={`/messaging/folder/${folder.folderId}`}
+          to={`/folder/${folder.folderId}`}
           onClick={this.props.onFolderChange}>
         {folder.name}
         {count}
@@ -109,7 +115,7 @@ class FolderNav extends React.Component {
 
     const folderActions = (
       <li className="messaging-folder-nav-actions">
-        <button>
+        <button onClick={this.goToFolderSettings}>
           <i className="fa fa-folder"></i>
           &nbsp;Manage folders
         </button>
@@ -127,7 +133,7 @@ class FolderNav extends React.Component {
 }
 
 FolderNav.contextTypes = {
-  router: React.PropTypes.object
+  router: React.PropTypes.object.isRequired
 };
 
 FolderNav.propTypes = {

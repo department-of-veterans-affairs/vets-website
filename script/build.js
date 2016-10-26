@@ -67,6 +67,9 @@ switch (options.buildtype) {
     // No extra checks needed in dev.
     break;
 
+  case 'staging':
+    break;
+
   case 'production':
     if (options['no-sanity-check-node-env'] === false) {
       if (env !== 'prod') {
@@ -89,17 +92,37 @@ smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
 
 // Ignore files that aren't ready for production.
+//
+// Maintain as minimal a difference between the staging and production
+// environments as possible. The staging environment is simply the easiest
+// workaround to allow end to end testing of resources outside of our direct
+// control. This becomes an axis of divergence that may cause _major_ problems
+// with the production build that cannot be easily detected, so it should
+// be used sparingly.
+//
+// Ideally, as soon as a feature has been tested, it should be added to the
+// ignoreList again to maintain parity between the staging and production
+// environments.
+//
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
 const ignoreList = ['memorial-benefits/*'];
+
 if (options.buildtype === 'production') {
+  ignoreList.push('disability-benefits/track-claims/*');
   ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('facilities/*');
-  ignoreList.push('messaging/*');
-  ignoreList.push('rx/*');
+  ignoreList.push('healthcare/messaging/*');
+  ignoreList.push('healthcare/prescriptions/*');
   ignoreList.push('profile/*');
   ignoreList.push('auth/*');
+  ignoreList.push('education/apply-for-education-benefits-new');
+} else if (options.buildtype === 'staging') {
+  ignoreList.push('facilities/*');
+  ignoreList.push('profile/*');
+  ignoreList.push('education/apply-for-education-benefits-new');
 }
+
 smith.use(ignore(ignoreList));
 
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
@@ -179,18 +202,26 @@ smith.use(sitemap('http://www.vets.gov'));
 if (options.watch) {
   // TODO(awong): Enable live reload of metalsmith pages per instructions at
   //   https://www.npmjs.com/package/metalsmith-watch
-  smith.use(watch());
+  smith.use(
+    watch({
+      paths: {
+        '../content/**/*': '**/*.{md,html}',
+      },
+      livereload: true,
+    })
+  );
 
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
     contentBase: `build/${options.buildtype}`,
     historyApiFallback: {
       rewrites: [
+        { from: '^/disability-benefits/track-claims(.*)', to: '/disability-benefits/track-claims/' },
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
-        { from: '^/messaging(.*)', to: '/messaging/' },
-        { from: '^/rx(.*)', to: '/rx/' },
+        { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
+        { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },
@@ -220,6 +251,7 @@ if (options.watch) {
         auth: api.auth,
         secure: true,
         changeOrigin: true,
+        pathRewrite: { '^/api': '' },
         rewrite: function rewrite(req) {
           /* eslint-disable no-param-reassign */
           req.headers.host = api.host;
@@ -242,22 +274,14 @@ if (options.watch) {
     allowRedirects: true,  // Don't require trailing slash for index.html links.
     warn: false,           // Throw an Error when encountering the first broken link not just a warning.
     allowRegex: new RegExp(
-        ['/disability-benefits/',
-          '/disability-benefits/apply-for-benefits/',
-          '/disability-benefits/learn/',
-          '/disability-benefits/learn/eligibility/.*',
-          '/employment/commitments',
+        ['/employment/commitments',
           '/employment/employers',
-          '/employment/employers/',
           '/employment/job-seekers/create-resume',
           '/employment/job-seekers/search-jobs',
           '/employment/job-seekers/skills-translator',
-          '/employment/users/sign_in',
           '/gi-bill-comparison-tool/',
-          '/gibill/',
-          '/healthcare/apply/application',
-          '/veterans-employment-center/',
-          'Employment-Resources/'].join('|'))
+          '/education/apply-for-education-benefits/application',
+          '/healthcare/apply/application'].join('|'))
   }));
 
   smith.use(webpack(webpackConfig));

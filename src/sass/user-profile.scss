@@ -2,25 +2,50 @@
 
 @import 'style';
 
-$button-stroke: inset 0 0 0 1px;
+.profile-section {
+  margin-top: 1.5em;
+  padding: 0;
 
-@media screen and (min-width: 600px) {
-  form {
-    max-width: 32em;
+  h4 {
+    border-bottom: 2px solid $color-primary;
+    margin-bottom: 0.5em !important;
   }
-}
 
-// TODO: Look into why svgs aren't rendering
-select {
-  background-image: url('/img/arrow-down.svg');
-  background-image: url('/img/arrow-down.png');
-}
+  p {
+    padding: 0;
+    margin-top: 0;
+  }
 
-.loading-message {
-  text-align: center;
-  padding: 2em 0;
-}
+  button {
+    width: 100%;
+    margin-top: 0;
+  }
 
-legend {
-  @extend h4;
+  .columns {
+    padding: 0;
+  }
+
+  .label {
+    font-weight: bold;
+  }
+
+  .success {
+    color: $color-green;
+  }
+
+  .error {
+    color: $color-secondary-darkest;
+  }
+
+  .va-callout {
+    color: $color-primary-darker;
+
+    &.grey {
+      background-color: $color-gray-lighter;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
 }

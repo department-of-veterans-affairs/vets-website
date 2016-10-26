@@ -1,6 +1,6 @@
 import sampleData from 'json!../sampleData/sampleData.json';
 import { mapboxClient } from '../components/MapboxClient';
-import { find } from 'lodash';
+import { find, filter } from 'lodash';
 
 export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
 export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
@@ -44,20 +44,20 @@ const mockFacility = {
       zip4: '3753'
     },
     phone: {
-      main: '360-759-1901 x',
-      fax: '360-690-0864 x',
-      afterHours: '360-696-4061 x',
-      patientAdvocate: '503-273-5308 x',
-      enrollmentCoordinator: '503-273-5069 x',
-      pharmacy: '503-273-5183 x',
+      main: '360-759-1901',
+      fax: '360-690-0864',
+      afterHours: '360-696-4061',
+      patientAdvocate: '503-273-5308',
+      enrollmentCoordinator: '503-273-5069',
+      pharmacy: '503-273-5183',
     },
     hours: {
-      monday: '730AM-430PM',
-      tuesday: '730AM-630PM',
-      wednesday: '730AM-430PM',
-      thursday: '730AM-430PM',
-      friday: '730AM-430PM',
-      saturday: '800AM-1000AM',
+      monday: '7:30am-4:30pm',
+      tuesday: '7:30am-6:30pm',
+      wednesday: '7:30am-4:30pm',
+      thursday: '7:30am-4:30pm',
+      friday: '7:30am-4:30pm',
+      saturday: '8:00am-10:00am',
       sunday: '-',
     },
     services: [
@@ -78,39 +78,75 @@ const mockFacility = {
   }
 };
 
+/* eslint-disable camelcase */
+const facilityTypes = {
+  va_health_facility: 'VA Medical Center',
+  va_benefits_facility: 'VA Benefits Office',
+  va_cemetery: 'VA Cemetery',
+};
+/* eslint-enable camelcase */
+
 export function fetchVAFacility(id, facility = null) {
   if (facility) {
     return {
       type: FETCH_VA_FACILITY,
-      payload: mockFacility,
+      payload: facility,
     };
   }
+
+  const specificSampleFacility = find(sampleData, d => {
+    return d.id === parseInt(id, 10);
+  });
 
   return {
     type: FETCH_VA_FACILITY,
     payload: {
-      ...mockFacility,
+      ...specificSampleFacility,
+      attributes: {
+        ...mockFacility.attributes,
+        address: {
+          ...specificSampleFacility.attributes.address,
+          city: 'Denver',
+          state: 'CO',
+          zip: 80123,
+        },
+        name: ((specificSampleFacility.type === undefined || specificSampleFacility.type === 'all') ? specificSampleFacility.attributes.name.slice(3) : `${facilityTypes[specificSampleFacility.type]}-${specificSampleFacility.attributes.name.split('-')[1]}`),
+      },
       id,
     },
   };
 }
 
-export function fetchVAFacilities(bounds) {
-  const mockResults = [...Array(10)].map((_, i) => {
+export function fetchVAFacilities(bounds, type) {
+  let resultData;
+
+  if (type === undefined || type === 'all') {
+    resultData = sampleData.slice(0, 10);
+  } else {
+    resultData = filter(sampleData, f => {
+      return f.type === type;
+    }).slice(0, 10);
+  }
+
+  const mockResults = resultData.map((o) => {
+    const specificSampleFacility = find(sampleData, d => {
+      return d.id === o.id;
+    });
+
     return {
       ...mockFacility,
       attributes: {
         ...mockFacility.attributes,
         address: {
-          ...sampleData[i].attributes.address,
+          ...specificSampleFacility.attributes.address,
           city: 'Denver',
           state: 'CO',
           zip: 80123,
         },
-        name: sampleData[i].attributes.name.slice(3),
+        name: ((type === undefined || type === 'all') ? specificSampleFacility.attributes.name.slice(3) : `${facilityTypes[specificSampleFacility.type]}-${specificSampleFacility.attributes.name.split('-')[1]}`),
       },
-      type: sampleData[i].type,
-      id: i + 1,
+      type: ((type === undefined || type === 'all') ? specificSampleFacility.type : type),
+      id: o.id,
       lat: bounds.latitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
       'long': bounds.longitude + (Math.random() / 25 * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)),
     };
@@ -151,10 +187,12 @@ export function searchWithAddress(query) {
         });
 
         // TODO (bshyong): replace this with a call to the API
-        dispatch(fetchVAFacilities({
-          latitude: coordinates[1],
-          longitude: coordinates[0],
-        }));
+        dispatch(
+          fetchVAFacilities({
+            latitude: coordinates[1],
+            longitude: coordinates[0],
+          }, query.facilityType)
+        );
       } else {
         dispatch({
           type: SEARCH_FAILED,

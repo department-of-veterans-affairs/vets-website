@@ -7,7 +7,8 @@ import {
   UPDATE_VERIFIED_STATUS,
   UPDATE_SUBMISSION_STATUS,
   UPDATE_SUBMISSION_ID,
-  UPDATE_SUBMISSION_TIMESTAMP
+  UPDATE_SUBMISSION_TIMESTAMP,
+  UPDATE_SUBMISSION_DETAILS
 } from '../../actions';
 
 const ui = {
@@ -15,7 +16,8 @@ const ui = {
     status: false,
     errorMessage: false,
     id: false,
-    timestamp: false
+    timestamp: false,
+    regionalAddress: null
   },
   pages: {
     '/introduction': {
@@ -26,22 +28,22 @@ const ui = {
     '/benefits-eligibility/benefits-selection': {
       complete: false,
       verified: false,
-      fields: ['benefitsRelinquished', 'chapter30', 'chapter32', 'chapter33', 'chapter1606', 'previouslyFiledClaimWithVa', 'benefitsRelinquishedDate', 'applyingUsingOwnBenefits']
+      fields: ['chapter30', 'chapter32', 'chapter33', 'chapter1606', 'checkedBenefit']
     },
-    '/benefits-eligibility/previous-claims': {
+    '/benefits-eligibility/benefits-relinquishment': {
       complete: false,
       verified: false,
-      fields: ['previousVaClaims']
+      fields: ['benefitsRelinquished', 'benefitsRelinquishedDate']
     },
     '/military-history/military-service': {
       complete: false,
       verified: false,
-      fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty', 'toursOfDuty', 'seniorRotcCommissioned']
+      fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty', 'toursOfDuty']
     },
     '/military-history/rotc-history': {
       complete: false,
       verified: false,
-      fields: ['seniorRotc', 'seniorRotcScholarshipProgram']
+      fields: ['seniorRotc', 'seniorRotcScholarshipProgram', 'seniorRotcCommissioned']
     },
     '/military-history/benefits-history': {
       complete: false,
@@ -119,6 +121,16 @@ function uiState(state = ui, action) {
     case UPDATE_SUBMISSION_TIMESTAMP:
       return _.set('submission.timestamp', action.value, state);
 
+    case UPDATE_SUBMISSION_DETAILS: {
+      const submission = _.merge(state.submission, {
+        id: action.attributes.confirmationNumber,
+        regionalAddress: action.attributes.regionalOffice,
+        timestamp: action.attributes.submittedAt,
+        status: 'applicationSubmitted'
+      });
+
+      return _.set('submission', submission, state);
+    }
     default:
       return state;
   }

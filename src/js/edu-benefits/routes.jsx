@@ -8,6 +8,8 @@ import VeteranInformationReview from './components/veteran-information/VeteranIn
 import VeteranInformationFields from './components/veteran-information/VeteranInformationFields';
 import BenefitsSelectionReview from './components/benefits-eligibility/BenefitsSelectionReview';
 import BenefitsSelectionFields from './components/benefits-eligibility/BenefitsSelectionFields';
+import BenefitsRelinquishmentReview from './components/benefits-eligibility/BenefitsRelinquishmentReview';
+import BenefitsRelinquishmentFields from './components/benefits-eligibility/BenefitsRelinquishmentFields';
 import MilitaryServiceReview from './components/military-history/MilitaryServiceReview';
 import MilitaryServiceFields from './components/military-history/MilitaryServiceFields';
 import RotcHistoryReview from './components/military-history/RotcHistoryReview';
@@ -28,8 +30,6 @@ import SecondaryContactReview from './components/personal-information/SecondaryC
 import SecondaryContactFields from './components/personal-information/SecondaryContactFields';
 import DirectDepositReview from './components/personal-information/DirectDepositReview';
 import DirectDepositFields from './components/personal-information/DirectDepositFields';
-import PreviousClaimsFields from './components/benefits-eligibility/PreviousClaimsFields';
-import PreviousClaimsReview from './components/benefits-eligibility/PreviousClaimsReview';
 import ReviewPage from './containers/ReviewPage';
 import FormPage from './containers/FormPage';
 import SubmitPage from './containers/SubmitPage';
@@ -58,13 +58,13 @@ const routes = [
       name="Benefits selection"/>,
   <Route
       component={FormPage}
-      fieldsComponent={PreviousClaimsFields}
-      reviewComponent={PreviousClaimsReview}
-      key="/benefits-eligibility/previous-claims"
-      path="/benefits-eligibility/previous-claims"
+      fieldsComponent={BenefitsRelinquishmentFields}
+      reviewComponent={BenefitsRelinquishmentReview}
+      key="/benefits-eligibility/benefits-relinquishment"
+      path="/benefits-eligibility/benefits-relinquishment"
       chapter={chapterNames.benefitsEligibility}
-      depends={{ previouslyFiledClaimWithVa: { value: 'Y' } }}
-      name="Previous claims"/>,
+      depends={{ chapter33: true }}
+      name="Benefits relinquishment"/>,
   <Route
       component={FormPage}
       fieldsComponent={MilitaryServiceFields}
@@ -79,7 +79,6 @@ const routes = [
       reviewComponent={RotcHistoryReview}
       key="/military-history/rotc-history"
       path="/military-history/rotc-history"
-      depends={{ seniorRotcCommissioned: { value: 'Y' } }}
       chapter={chapterNames.militaryHistory}
       name="ROTC history"/>,
   <Route

@@ -7,7 +7,7 @@ import ErrorableTextarea from '../../../common/components/form-elements/Errorabl
 import EducationPeriod from './EducationPeriod';
 import { createEducationPeriod } from '../../utils/veteran';
 
-import { isValidPage } from '../../utils/validations';
+import { isValidPage, isValidEducationPeriod } from '../../utils/validations';
 
 export default class EducationHistoryFields extends React.Component {
   render() {
@@ -27,6 +27,7 @@ export default class EducationHistoryFields extends React.Component {
 
     return (<fieldset>
       <legend className="hide-for-small-only">Education history</legend>
+      <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <DateInput
             label="When did you earn your high school diploma or equivalency certificate?"
@@ -49,13 +50,14 @@ export default class EducationHistoryFields extends React.Component {
               onRowsUpdate={(update) => {this.props.onStateChange('postHighSchoolTrainings', update);}}
               path="/education-history/education-information"
               rows={this.props.data.postHighSchoolTrainings}
-              isValidSection={isValidPage}/>
+              isValidSection={isValidPage}
+              isValidRow={isValidEducationPeriod}/>
         </div>
       </div>
       <hr/>
       <div className="input-section">
         <ErrorableTextarea
-            label="FAA certificates"
+            label="If you have any FAA flight certificates, please list them here."
             name="faaFlightCertificatesInformation"
             field={this.props.data.faaFlightCertificatesInformation}
             onValueChange={(update) => {this.props.onStateChange('faaFlightCertificatesInformation', update);}}/>

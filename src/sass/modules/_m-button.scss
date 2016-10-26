@@ -7,12 +7,12 @@ button,
 [type="submit"],
 [type="reset"],
 [type="image"] {
-  background-color: $color-primary-darker;
+  background-color: $color-primary;
 }
 
 .usa-button-primary {
   &:hover {
-    background-color: $color-primary-darkest;
+    background-color: $color-primary-darker;
   }
 }
 
@@ -57,5 +57,10 @@ button.usa-button-outline {
   &:focus,
   &.usa-button-focus {
     box-shadow: $button-stroke $color-primary-darkest, $focus-shadow;
+  }
+
+  &.va-button-warn {
+    box-shadow: $button-stroke $color-secondary-darkest;
+    color: $color-secondary-darkest;
   }
 }

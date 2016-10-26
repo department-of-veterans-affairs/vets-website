@@ -3,12 +3,13 @@ import Compose from './containers/Compose';
 import Folder from './containers/Folder';
 import Main from './containers/Main';
 import Thread from './containers/Thread';
+import Settings from './containers/Settings';
 
 const routes = {
-  path: '/messaging',
+  path: '/',
   component: MessagingApp,
   indexRoute: {
-    onEnter: (nextState, replace) => replace('/messaging/folder/0')
+    onEnter: (nextState, replace) => replace('/folder/0')
   },
   childRoutes: [
     {
@@ -16,12 +17,13 @@ const routes = {
       component: Main,
       childRoutes: [
         {
-          path: 'folder/',
-          onEnter: (nextState, replace) => { replace('/messaging/folder/0'); }
+          path: 'folder',
+          onEnter: (nextState, replace) => { replace('/folder/0'); }
         },
-        { path: 'folder/:id', component: Folder },
         { path: 'compose', component: Compose },
-        { path: 'thread/:id', component: Thread }
+        { path: 'folder/:id', component: Folder },
+        { path: 'thread/:id', component: Thread },
+        { path: 'settings', component: Settings }
       ]
     }
   ]

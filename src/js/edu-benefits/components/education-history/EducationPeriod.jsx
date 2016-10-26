@@ -2,18 +2,20 @@ import React from 'react';
 
 import DateInput from '../../../common/components/form-elements/DateInput';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableNumberInput from '../../../common/components/form-elements/ErrorableNumberInput';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
 import { isValidDateRange, isValidDateField, validateIfDirtyDateObj } from '../../utils/validations';
 import { states, hoursTypes } from '../../utils/options-for-select';
+import { displayDateIfValid } from '../../utils/helpers';
 
 export default class EducationPeriod extends React.Component {
   render() {
     const { view, onValueChange } = this.props;
     const period = this.props.data;
     const formFields = (
-      <div>
+      <div className="input-section">
         <ErrorableTextInput
             label="College, university, or other training provider"
             name="name"
@@ -32,7 +34,7 @@ export default class EducationPeriod extends React.Component {
             options={states.USA}
             onValueChange={(update) => {onValueChange('state', update);}}/>
         <DateInput
-            errorMessage="Please provide a response"
+            errorMessage="Please provide a valid date in the past"
             validation={validateIfDirtyDateObj(period.dateRange.from, isValidDateField)}
             label="From"
             name="fromDate"
@@ -49,7 +51,8 @@ export default class EducationPeriod extends React.Component {
             month={period.dateRange.to.month}
             year={period.dateRange.to.year}
             onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
-        <ErrorableTextInput
+        <ErrorableNumberInput
+            min={0}
             label="Hours completed"
             name="hours"
             field={period.hours}
@@ -73,7 +76,19 @@ export default class EducationPeriod extends React.Component {
       </div>
     );
 
-    return view === 'collapsed' ? (<div>{period.name.value}</div>) : formFields;
+    let reviewFields;
+    if (period.name.value) {
+      reviewFields = (
+        <div>
+          <div><strong>{period.name.value}</strong></div>
+          <div>{displayDateIfValid(period.dateRange.from)} &mdash; {displayDateIfValid(period.dateRange.to)}</div>
+        </div>
+      );
+    } else {
+      reviewFields = (<div>This entry may be missing information</div>);
+    }
+
+    return view === 'collapsed' ? reviewFields : formFields;
   }
 }
 
