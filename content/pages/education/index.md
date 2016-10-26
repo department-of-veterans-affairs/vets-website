@@ -24,4 +24,4 @@ majorlinks:
    description: REAP, VEAP, and Call to Service.
 ---
 
-VA gives Veterans, Servicemembers, and their families generous educational opportunities and benefits such as tuition, help finding the right school or training program, and career counseling.   
+VA gives Veterans, Servicemembers, and their families generous educational opportunities and benefits such as help finding the right school or training program, tuition, and career counseling.   
