@@ -110,7 +110,7 @@ class AddFilesForm extends React.Component {
                   <h4 className="title">{file.name}</h4>
                 </div>
                 <div className="document-size-text">
-                  <p className="size">{displayFileSize(file.size)}</p>
+                  {displayFileSize(file.size)}
                 </div>
               </div>
               <div className="remove-document-button">
