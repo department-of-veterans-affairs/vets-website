@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Agent Orange Registry Health Exam for Veterans
 concurrence: incomplete
-plainlanguage: 10.25.16 Ready for Beth review
+plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
 template: 4-action-page
 ---
 
