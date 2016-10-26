@@ -11,7 +11,7 @@ BUILDTYPE=${BUILDTYPE:-development}
 
 # Run the api server and the webserver.
 node src/test-support/mockapi.js &
-node src/test-support/test-server.js --buildtype ${BUILDTYPE} &
+npm run serve &
 
 # Wait for api server and web server to begin accepting connections
 # via http://unix.stackexchange.com/questions/5277
