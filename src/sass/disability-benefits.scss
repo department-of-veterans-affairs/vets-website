@@ -400,7 +400,7 @@ a.claim-list-item {
 
 .disability-benefits-timeline {
   padding-top: 0;
-  > li.step:not(.last) {
+  > li.step.section-current:not(.last), > li.step.section-complete:not(.last) {
     cursor: pointer;
   }
   > li > h5 {
