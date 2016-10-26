@@ -51,7 +51,7 @@ A VA health care provider will go over your exam and test results with you. You'
 
 We want you to know that:
 
-- This exam isn't a VA claim exam (also knows as a C&P exam). And you don't have to have this exam to get other VA benefits. To get disability compensation, you'll need to file a claim. [File a claim now](/disability-benefits/apply-for-benefits/).
+- This exam isn't a VA claim exam (also known as a C&P exam). And you don't have to have this exam to get other VA benefits. To get disability compensation, you'll need to file a claim. [File a claim now](/disability-benefits/apply-for-benefits/).
 - You don't need to sign up for the VA health care system to get a registry health exam.
 - The exam is based on your memory of service, not on your military records.
 - The exam will not confirm if you had contact with Agent Orange.
