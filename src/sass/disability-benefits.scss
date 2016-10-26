@@ -358,10 +358,9 @@ a.claim-list-item {
 }
 
 .va-tab-content {
-  padding-top: 2.5em;
+  padding-top: 2em;
   border-top: 1px solid $color-gray;
 }
-
 
 .clearfix:after {
   content: " ";
@@ -401,7 +400,7 @@ a.claim-list-item {
 
 .disability-benefits-timeline {
   padding-top: 0;
-  > li.step:not(.section-current) {
+  > li.step.section-current:not(.last), > li.step.section-complete:not(.last) {
     cursor: pointer;
   }
   > li > h5 {
@@ -452,12 +451,16 @@ p.first-of-type {
   background-color: $color-gray-lightest;
   padding: 1em;
   margin-bottom: 1.5em;
-  .document-title-size {
+  .document-title-text-container {
     float: left;
-  }
-  .document-size-text {
-    p {
-      margin: 0;
+    word-break: break-all;
+    .document-title-header {
+      width: 17.5em;
+    }
+    .document-size-text {
+      p {
+        margin: 0;
+      }
     }
   }
   .remove-document-button {
@@ -555,4 +558,3 @@ p.first-of-type {
 .claims-header {
   margin: 0;
 }
-
