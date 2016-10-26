@@ -192,9 +192,9 @@ export function searchWithAddress(query) {
   };
 }
 
-export function searchWithBounds(bounds) {
+export function searchWithBounds(bounds, type) {
   const bboxString = bounds.map(c => `bbox[]=${c}`).join('&');
-  const url = `${api.url}?${bboxString}`;
+  const url = `${api.url}?${bboxString}${type ? `&type=${type}` : ''}`;
 
   return dispatch => {
     dispatch({

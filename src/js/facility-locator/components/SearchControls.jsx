@@ -69,11 +69,11 @@ class SearchControls extends Component {
 
   renderSelectOptionWithIcon(facilityType) {
     switch (facilityType) {
-      case 'va_health_facility':
+      case 'health':
         return (<span className="flex-center"><span className="legend fa fa-plus red"></span>Health</span>);
-      case 'va_benefits_facility':
+      case 'benefits':
         return (<span className="flex-center"><span className="legend fa fa-check green"></span>Benefits</span>);
-      case 'va_cemetery':
+      case 'cemetery':
         return (<span className="flex-center"><span className="legend fa fa-cemetery blue"></span>Cemetery</span>);
       default:
         return (<span>All Facilities</span>);
@@ -106,16 +106,16 @@ class SearchControls extends Component {
             <div tabIndex="1" className={`facility-dropdown-wrapper ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown} onBlur={() => {this.setState({ facilityDropdownActive: false });}}>
               {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
               <ul className="dropdown">
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'all')}>{this.renderSelectOptionWithIcon()}</li>
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_health_facility')}>{this.renderSelectOptionWithIcon('va_health_facility')}</li>
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_benefits_facility')}>{this.renderSelectOptionWithIcon('va_benefits_facility')}</li>
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_cemetery')}>{this.renderSelectOptionWithIcon('va_cemetery')}</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, null)}>{this.renderSelectOptionWithIcon()}</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'health')}>{this.renderSelectOptionWithIcon('health')}</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'benefits')}>{this.renderSelectOptionWithIcon('benefits')}</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'cemetery')}>{this.renderSelectOptionWithIcon('cemetery')}</li>
               </ul>
             </div>
           </div>
           <div className="columns medium-3">
             <label htmlFor="serviceType">Select Service Type</label>
-            <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType} disabled={currentQuery.facilityType !== 'va_benefits_facility'}>
+            <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType} disabled={currentQuery.facilityType !== 'benefits'}>
               <option value="all">All</option>
               {this.renderServiceFilterOptions()}
             </select>

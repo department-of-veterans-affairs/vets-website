@@ -124,9 +124,11 @@ class VAMap extends Component {
       address: currentQuery.searchString,
     });
     this.props.searchWithAddress(currentQuery);
+    this.handleBoundsChanged();
   }
 
   handleBoundsChanged = () => {
+    const { currentQuery: { facilityType } } = this.props;
     const bounds = this.refs.map.leafletElement.getBounds();
     const boundsArray = [
       bounds._southWest.lng,
@@ -139,7 +141,7 @@ class VAMap extends Component {
       bounds: boundsArray,
     });
 
-    this.props.searchWithBounds(boundsArray);
+    this.props.searchWithBounds(boundsArray, facilityType);
   }
 
   centerMap = () => {
@@ -296,7 +298,7 @@ class VAMap extends Component {
             </div>
           </div>
           <div className="columns medium-8 small-12" style={{ minHeight: '75vh' }}>
-            <Map ref="map" center={position} zoom={12} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged}>
+            <Map ref="map" center={position} zoom={12} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
               <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
