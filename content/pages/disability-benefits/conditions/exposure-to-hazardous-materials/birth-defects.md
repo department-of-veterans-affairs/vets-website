@@ -54,4 +54,4 @@ We provide financial support at 1 of 3 disability levels. Your child's level wil
 
 ### Get more information
 
-Does your child have spina bifidia? [Learn more about spina bifida and Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/birth-defects/spina-bifida.asp).
+Does your child have spina bifida? [Learn more about spina bifida and Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/birth-defects/spina-bifida.asp).
