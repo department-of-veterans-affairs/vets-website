@@ -46,6 +46,7 @@ const optionDefinitions = [
   { name: 'no-sanity-check-node-env', type: Boolean, defaultValue: false },
   { name: 'port', type: Number, defaultValue: 3001 },
   { name: 'watch', type: Boolean, defaultValue: false },
+  { name: 'serve', type: Boolean, defaultValue: false },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },
@@ -132,7 +133,9 @@ smith.use(filenames());
 
 smith.use(define({
   // Does anything even look at `site`?
+  /* eslint-disable */
   site: require('../config/site'),
+  /* eslint-disable */
   buildtype: options.buildtype
 }));
 
@@ -200,8 +203,6 @@ smith.use(sitemap('http://www.vets.gov'));
 // TODO(awong): Does anything even use the results of this plugin?
 
 if (options.watch) {
-  // TODO(awong): Enable live reload of metalsmith pages per instructions at
-  //   https://www.npmjs.com/package/metalsmith-watch
   smith.use(
     watch({
       paths: {
@@ -210,7 +211,9 @@ if (options.watch) {
       livereload: true,
     })
   );
+}
 
+if (options.watch || options.serve) {
   // If in watch mode, assume hot reloading for JS and use webpack devserver.
   const devServerConfig = {
     contentBase: `build/${options.buildtype}`,
@@ -267,7 +270,9 @@ if (options.watch) {
   }
 
   smith.use(webpackDevServer(webpackConfig, devServerConfig));
-} else {
+}
+
+if (!options.watch) {
   // Broken link checking does not work well with watch. It continually shows broken links
   // for permalink processed files. Only run outside of watch mode.
   smith.use(blc({

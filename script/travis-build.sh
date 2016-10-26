@@ -10,6 +10,10 @@
 
 set -e
 
+# Set source timestamps equal to their git modified dates
+# This is necessary for hard-source-plugin to work.
+bash script/set-timestamps.sh
+
 # Run package security checks
 npm install -g nsp
 nsp check
@@ -32,10 +36,10 @@ echo "TRAVIS_BRANCH=$TRAVIS_BRANCH" >> $BUILD_DETAILS_FILE
 npm run test:unit;
 
 # Bootstrap selenium for all nightwatch-based tests
-npm run selenium:bootstrap;
+# npm run selenium:bootstrap;
 
 # Run end to end tests
-npm run test:e2e;
+# npm run test:e2e;
 
 # Run accessibility tests for master, staging, and production
 if [[ $TRAVIS_BRANCH == 'staging' ||

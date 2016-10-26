@@ -19,7 +19,8 @@
     "test:unit:rx": "mocha --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
     "test:unit:login": "mocha --recursive 'test/login/**/*.unit.spec.js?(x)' ",
     "test:watch": "mocha --watch --recursive 'test/**/*.unit.spec.js?(x)' ",
-    "watch": "node script/build.js --watch"
+    "watch": "node script/build.js --watch",
+    "serve": "node script/build.js --serve"
   },
   "repository": {
     "type": "git",
@@ -71,6 +72,7 @@
     "foundation-sites": "^5.5.3",
     "get-env": "^0.4.0",
     "glob": "^7.0.5",
+    "hard-source-webpack-plugin": "0.0.39",
     "http-server": "^0.9.0",
     "img-loader": "^1.3.1",
     "imports-loader": "^0.6.5",
