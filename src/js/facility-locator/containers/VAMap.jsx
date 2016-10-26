@@ -65,8 +65,6 @@ class VAMap extends Component {
       });
     }
 
-    // this.props.searchWithBounds(currentQuery.position);
-
     Tabs.setUseDefaultStyles(false);
   }
 
@@ -79,7 +77,6 @@ class VAMap extends Component {
         location: `${newQuery.position.latitude},${newQuery.position.longitude}`,
         context: newQuery.context,
       });
-      // this.props.searchWithBounds(newQuery.position);
     }
   }
 
@@ -169,7 +166,7 @@ class VAMap extends Component {
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, e) => {
       e.preventDefault();
-      browserHistory.push(`facilities/facility/${id}`);
+      browserHistory.push(`/facilities/facility/${id}`);
     };
 
     return facilities.map(f => {
@@ -177,6 +174,8 @@ class VAMap extends Component {
         key: f.id,
         position: [f.attributes.lat, f.attributes.long],
         onClick: () => {
+          const searchResultPosition = (document.getElementById(f.id) || {}).offsetTop;
+          document.getElementById('searchResultsContainer').scrollTop = searchResultPosition;
           this.props.fetchVAFacility(f.id, f);
         },
       };
@@ -282,7 +281,7 @@ class VAMap extends Component {
           <SearchControls onChange={this.props.updateSearchQuery} currentQuery={currentQuery} onSearch={this.handleSearch}/>
         </div>
         <div className="row">
-          <div className="columns medium-4 small-12" style={{ maxHeight: '75vh', overflowY: 'auto' }}>
+          <div className="columns medium-4 small-12" style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
             <div className="facility-search-results">
               <p>Search Results near <strong>{currentQuery.context}</strong></p>
               <div>

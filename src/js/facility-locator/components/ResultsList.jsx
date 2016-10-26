@@ -41,7 +41,7 @@ class ResultsList extends Component {
           {
             facilities.map(f => {
               return (
-                <div key={f.id} className="facility-result">
+                <div key={f.id} className="facility-result" id={f.id}>
                   <FacilityInfoBlock facility={f}/>
                   <FacilityPhoneLink facility={f}/><br/>
                   <FacilityDirectionsLink facility={f}/>
