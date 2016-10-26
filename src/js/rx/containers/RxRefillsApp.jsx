@@ -1,16 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ConfirmRefillModal from '../components/ConfirmRefillModal';
-import GlossaryModal from '../components/GlossaryModal';
-
+import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { openAlert } from '../actions/alert.js';
 import { openRefillModal, closeRefillModal, closeGlossaryModal } from '../actions/modal.js';
 import { refillPrescription } from '../actions/prescriptions.js';
+import ConfirmRefillModal from '../components/ConfirmRefillModal';
+import GlossaryModal from '../components/GlossaryModal';
 
 class RxRefillsApp extends React.Component {
   render() {
-    return (
+    const view = (
       <div>
         {this.props.children}
         <ConfirmRefillModal
@@ -24,6 +24,10 @@ class RxRefillsApp extends React.Component {
             isVisible={this.props.modal.glossary.visible}
             onCloseModal={this.props.closeGlossaryModal}/>
       </div>
+    );
+
+    return (
+      <RequiredLoginView authRequired={3} component={view}/>
     );
   }
 }

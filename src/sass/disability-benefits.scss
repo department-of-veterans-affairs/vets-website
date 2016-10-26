@@ -3,6 +3,11 @@
 @import 'modules/m-modal';
 @import 'modules/m-progress-bar';
 
+.claim-alert-status {
+  margin-top: 0;
+  margin-bottom: 2em;
+}
+
 .claim-list {
   margin-bottom: 2em;
 }
@@ -85,11 +90,8 @@
   }
 }
 
-.file-request-list {
-  margin-top: 1.5em;
-}
-
 .file-request-list-item {
+  margin-top: 1.5em;
   .item-container {
     margin: 0.5em 0;
     float: left;
@@ -152,7 +154,6 @@
 
 .claim-decision-is-ready,
 .you-have-no-claims {
-  margin-bottom: 1em;
   h4, p {
     margin: 0.5em 0;
     padding: 0;
@@ -254,27 +255,27 @@ a.claim-list-item {
   }
 }
 
+.claim-title {
+  margin: 0;
+  display: inline-block;
+}
+
 .claim-conditions {
-  h1, p {
+  margin-top: 0.5em;
+  margin-bottom: 2em;
+  p {
     margin: 0;
   }
   h6, p {
     display: inline-block;
   }
-  p {
-    margin-top: 10px;
-  }
-  .request-decision-button {
-    margin-bottom: 1
-  }
-  .list {
-    margin-left: 6px;
+  h6 {
+    margin-right: 6px !important;
+    padding-bottom: 0 !important;
   }
 }
 
 .claim-details {
-  margin-top: 1.5em;
-
   .claim-conditions-list,
   .claim-date-recieved,
   .claim-va-representative {
@@ -357,9 +358,9 @@ a.claim-list-item {
 }
 
 .va-tab-content {
+  padding-top: 2em;
   border-top: 1px solid $color-gray;
 }
-
 
 .clearfix:after {
   content: " ";
@@ -398,18 +399,24 @@ a.claim-list-item {
 }
 
 .disability-benefits-timeline {
-  > li.step:not(.section-current) {
+  padding-top: 0;
+  > li.step.section-current:not(.last), > li.step.section-complete:not(.last) {
     cursor: pointer;
   }
+  > li > h5 {
+    padding-right: 23px !important;
+  }
+}
+
+.claim-timeline-icon {
+  float: right;
+  margin-top: 6px;
+  font-size: 17px;
 }
 
 button.older-updates {
   margin-top: 1em;
   margin-bottom: 0;
-}
-
-.claims-alert {
-  margin-bottom: 1.5em;
 }
 
 .claims-alert-checkbox {
@@ -444,12 +451,16 @@ p.first-of-type {
   background-color: $color-gray-lightest;
   padding: 1em;
   margin-bottom: 1.5em;
-  .document-title-size {
+  .document-title-text-container {
     float: left;
-  }
-  .document-size-text {
-    p {
-      margin: 0;
+    word-break: break-all;
+    .document-title-header {
+      width: 17.5em;
+    }
+    .document-size-text {
+      p {
+        margin: 0;
+      }
     }
   }
   .remove-document-button {
@@ -467,7 +478,7 @@ p.first-of-type {
 }
 
 .disability-claims-warning {
-  background-color: #FAC922;
+  background-color: $color-warning-message;
   text-align: left;
   font-weight: bold;
 }
@@ -520,7 +531,6 @@ p.first-of-type {
 
 .claims-alert {
   position: relative;
-  margin-bottom: 0.5em;
   &.usa-alert {
     background-size: 4.1rem;
     background-position: 1rem 1.9rem;
@@ -538,6 +548,11 @@ p.first-of-type {
     width: auto;
     margin: 0;
   }
+}
+
+.claims-alert-status {
+  margin-top: 0;
+  margin-bottom: 2em;
 }
 
 .claims-header {

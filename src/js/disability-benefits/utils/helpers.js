@@ -11,6 +11,13 @@ const phaseMap = {
   8: 'Complete'
 };
 
+const microPhaseMap = {
+  3: 'Gathering of evidence',
+  4: 'Review of evidence',
+  5: 'Preparation for decision',
+  6: 'Pending Decision approval'
+};
+
 export function getPhaseDescription(phase) {
   return phaseMap[phase];
 }
@@ -23,6 +30,18 @@ export function getUserPhaseDescription(phase) {
   }
 
   return phaseMap[phase + 3];
+}
+
+export function getHistoryPhaseDescription(phase) {
+  if (phase === 3) {
+    return microPhaseMap[phase];
+  }
+
+  return getUserPhaseDescription(phase);
+}
+
+export function getMicroPhaseDescription(phase) {
+  return microPhaseMap[phase] || phaseMap[phase];
 }
 
 export function getPhaseDescriptionFromEvent(event) {
@@ -45,20 +64,28 @@ export function groupTimelineActivity(events) {
   const phaseEvents = events;
   let activity = [];
   let lastPhaseNumber = 1;
+  let firstPhase = true;
 
   phaseEvents.forEach(event => {
     if (event.type.startsWith('phase')) {
       const phaseNumber = parseInt(event.type.replace('phase', ''), 10);
       const userPhaseNumber = getUserPhase(phaseNumber);
-      if (userPhaseNumber !== lastPhaseNumber) {
+      if (userPhaseNumber !== lastPhaseNumber || firstPhase) {
         activity.push({
           type: 'phase_entered',
           date: event.date
         });
+        phases[userPhaseNumber + 1] = (phases[userPhaseNumber + 1] || []).concat(activity);
+        activity = [];
+        lastPhaseNumber = userPhaseNumber;
+        firstPhase = false;
+      } else {
+        activity.push({
+          type: 'micro_phase',
+          phaseNumber: phaseNumber + 1,
+          date: event.date
+        });
       }
-      phases[userPhaseNumber + 1] = (phases[userPhaseNumber + 1] || []).concat(activity);
-      activity = [];
-      lastPhaseNumber = userPhaseNumber;
     } else {
       activity.push(event);
     }
@@ -123,3 +150,16 @@ export function isCompleteClaim({ attributes }) {
 export function hasBeenReviewed(trackedItem) {
   return trackedItem.type.startsWith('received_from') && trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW';
 }
+
+// Adapted from http://stackoverflow.com/a/26230989/487883
+export function getTopPosition(elem) {
+  const box = elem.getBoundingClientRect();
+  const body = document.body;
+  const docEl = document.documentElement;
+
+  const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+  const clientTop = docEl.clientTop || body.clientTop || 0;
+
+  return Math.round(box.top + scrollTop - clientTop);
+}
+

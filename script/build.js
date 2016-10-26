@@ -112,16 +112,13 @@ if (options.buildtype === 'production') {
   ignoreList.push('disability-benefits/track-claims/*');
   ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('facilities/*');
-  ignoreList.push('messaging/*');
-  ignoreList.push('rx/*');
+  ignoreList.push('healthcare/messaging/*');
+  ignoreList.push('healthcare/prescriptions/*');
   ignoreList.push('profile/*');
   ignoreList.push('auth/*');
   ignoreList.push('education/apply-for-education-benefits-new');
 } else if (options.buildtype === 'staging') {
-  ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('facilities/*');
-  ignoreList.push('messaging/*');
-  ignoreList.push('rx/*');
   ignoreList.push('profile/*');
   ignoreList.push('education/apply-for-education-benefits-new');
 }
@@ -223,8 +220,8 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
-        { from: '^/messaging(.*)', to: '/messaging/' },
-        { from: '^/rx(.*)', to: '/rx/' },
+        { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
+        { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },

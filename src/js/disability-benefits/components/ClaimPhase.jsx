@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash/fp';
-import { getUserPhaseDescription } from '../utils/helpers';
+import { getHistoryPhaseDescription, getUserPhaseDescription, getMicroPhaseDescription } from '../utils/helpers';
 
 const stepClasses = {
   1: 'one',
@@ -45,7 +45,14 @@ export default class ClaimPhase extends React.Component {
       case 'phase_entered':
         return (
           <div className="claims-evidence-item columns medium-9">
-            Your claim moved to {getUserPhaseDescription(this.props.phase)}
+            Your claim moved to {getHistoryPhaseDescription(this.props.phase)}
+          </div>
+        );
+
+      case 'micro_phase':
+        return (
+          <div className="claims-evidence-item columns medium-9">
+            Your claim moved to {getMicroPhaseDescription(event.phaseNumber)}
           </div>
         );
 
@@ -111,7 +118,7 @@ export default class ClaimPhase extends React.Component {
           <button
               className="older-updates usa-button-outline"
               onClick={this.showAllActivity}>
-            See older updates&nbsp;<i className="fa fa-chevron-down" ariaHidden="true"></i>
+            See older updates&nbsp;<i className="fa fa-chevron-down"></i>
           </button>
         </div>);
       }
@@ -132,8 +139,13 @@ export default class ClaimPhase extends React.Component {
   }
   render() {
     const { phase, current, children } = this.props;
+    const expandCollapseIcon = phase <= current && phase !== COMPLETE_PHASE
+      ? <i className={this.state.open ? 'fa fa-minus claim-timeline-icon' : 'fa fa-plus claim-timeline-icon'}></i>
+      : null;
+
     return (
       <li onClick={() => this.expandCollapse()} role="presentation" className={`${getClasses(phase, current)}`}>
+        {expandCollapseIcon}
         <h5>{getUserPhaseDescription(phase)}</h5>
         {this.state.open || phase === COMPLETE_PHASE
           ? <div>
