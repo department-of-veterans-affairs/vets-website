@@ -1,7 +1,7 @@
 import React from 'react';
-import moment from 'moment';
 import ClaimPhase from './ClaimPhase';
 import { getUserPhase, groupTimelineActivity } from '../utils/helpers';
+import ClaimEstimate from '../components/ClaimEstimate';
 
 export default class ClaimsTimeline extends React.Component {
   render() {
@@ -23,10 +23,7 @@ export default class ClaimsTimeline extends React.Component {
         </ClaimPhase>
         <ClaimPhase phase={5} current={userPhase} activity={activityByPhase} id={id}>
           {userPhase !== 5
-            ? <div className="claim-completion-estimation">
-              <p className="date-estimation">Estimated {moment(estimatedDate).format('MMM D, YYYY')}</p>
-              <p><a href="/">Learn about this estimation</a></p>
-            </div>
+            ? <ClaimEstimate maxDate={estimatedDate}/>
             : null}
         </ClaimPhase>
       </ol>

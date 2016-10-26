@@ -38,7 +38,7 @@ export default class ClaimPhase extends React.Component {
     this.getEventDescription = this.getEventDescription.bind(this);
   }
   getEventDescription(event) {
-    const filesPath = `your-claims/${this.props.id}/files`;
+    const filesPath = `your-claims/${this.props.id}/document-request/${event.trackedItemId}`;
     const fromVet = event.type.endsWith('you_list');
 
     switch (event.type) {
@@ -139,8 +139,13 @@ export default class ClaimPhase extends React.Component {
   }
   render() {
     const { phase, current, children } = this.props;
+    const expandCollapseIcon = phase <= current && phase !== COMPLETE_PHASE
+      ? <i className={this.state.open ? 'fa fa-minus claim-timeline-icon' : 'fa fa-plus claim-timeline-icon'}></i>
+      : null;
+
     return (
       <li onClick={() => this.expandCollapse()} role="presentation" className={`${getClasses(phase, current)}`}>
+        {expandCollapseIcon}
         <h5>{getUserPhaseDescription(phase)}</h5>
         {this.state.open || phase === COMPLETE_PHASE
           ? <div>
