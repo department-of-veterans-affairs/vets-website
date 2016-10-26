@@ -454,6 +454,10 @@ p.first-of-type {
   margin-bottom: 1.5em;
   .document-title-text-container {
     float: left;
+    word-break: break-all;
+    .document-title-header {
+      width: 17.5em;
+    }
     .document-size-text {
       p {
         margin: 0;
