@@ -451,12 +451,16 @@ p.first-of-type {
   background-color: $color-gray-lightest;
   padding: 1em;
   margin-bottom: 1.5em;
-  .document-title-size {
+  .document-title-text-container {
     float: left;
-  }
-  .document-size-text {
-    p {
-      margin: 0;
+    word-break: break-all;
+    .document-title-header {
+      width: 17.5em;
+    }
+    .document-size-text {
+      p {
+        margin: 0;
+      }
     }
   }
   .remove-document-button {
@@ -554,4 +558,3 @@ p.first-of-type {
 .claims-header {
   margin: 0;
 }
-
