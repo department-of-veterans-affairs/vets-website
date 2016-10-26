@@ -13,7 +13,7 @@ export default class ContributionsFields extends React.Component {
       this.props.data.activeDutyRepayingPeriod.from
     );
     return (<fieldset>
-      <legend>Benefits history</legend>
+      <legend>Contributions</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <p>Select all that apply:</p>
