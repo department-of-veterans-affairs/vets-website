@@ -143,6 +143,7 @@ export class Folder extends React.Component {
     const folderName = _.get(this.props.attributes, 'name');
     const messageNav = this.makeMessageNav();
     const folderMessages = this.makeMessagesTable();
+    const folderId = _.get(this.props.attributes, 'folderId')
 
     return (
       <div>
@@ -156,7 +157,7 @@ export class Folder extends React.Component {
           <h2>{folderName}</h2>
         </div>
         <MessageSearch
-            folder={this.props.params.id}
+            folder={folderId}
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}
