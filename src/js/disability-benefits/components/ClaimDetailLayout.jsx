@@ -22,8 +22,8 @@ export default class ClaimDetailLayout extends React.Component {
             </ul>
           </nav>
           {message}
+          <h1 className="claim-title">Your {"Compensation"} Claim</h1>
           <div className="claim-conditions">
-            <h1>Your {"Compensation"} Claim</h1>
             <h6>Your Claimed Conditions:</h6>
             <p className="list">
               {claim.attributes.contentionList
