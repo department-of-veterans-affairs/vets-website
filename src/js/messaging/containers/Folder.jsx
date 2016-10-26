@@ -141,7 +141,7 @@ export class Folder extends React.Component {
 
   render() {
     const folderName = _.get(this.props.attributes, 'name');
-    const folderId = _.get(this.props.params, 'id', 0);
+    const folderId = _.get(this.props.attributes, 'folderId', 0);
     const messageNav = this.makeMessageNav();
     const folderMessages = this.makeMessagesTable();
 

@@ -3,7 +3,6 @@ import set from 'lodash/fp/set';
 import { makeField } from '../../common/model/fields';
 
 import {
-  SEARCH_SUCCESS,
   SET_ADVSEARCH_END_DATE,
   SET_ADVSEARCH_START_DATE,
   SET_SEARCH_PARAM,
@@ -38,10 +37,7 @@ export default function modals(state = initialState, action) {
     case SET_ADVSEARCH_START_DATE:
       return set('params.dateRange.start', action.date, state);
     case SET_SEARCH_PARAM:
-      return set(action.path, action.field, state);
-    case SEARCH_SUCCESS:
-      // TODO: Need to update state, and think about how it's displayed
-      return state;
+      return set(`params.${action.path}`, action.field, state);
     case TOGGLE_ADVANCED_SEARCH:
       return set('advanced.visible', !state.advanced.visible, state);
     default:

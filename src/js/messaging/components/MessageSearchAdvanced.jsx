@@ -22,19 +22,19 @@ class MessageSearchAdvanced extends React.Component {
   }
 
   handleFromChange(field) {
-    this.props.onFieldChange('params.from.field', field);
+    this.props.onFieldChange('from.field', field);
   }
 
   handleFromExactChange(field) {
-    this.props.onFieldChange('params.from.exact', field);
+    this.props.onFieldChange('from.exact', field);
   }
 
   handleSubjectChange(field) {
-    this.props.onFieldChange('params.subject.field', field);
+    this.props.onFieldChange('subject.field', field);
   }
 
   handleSubjectExactChange(field) {
-    this.props.onFieldChange('params.subject.exact', field);
+    this.props.onFieldChange('subject.exact', field);
   }
 
   // `date` is a Moment.js object, not a timestamp.
@@ -126,8 +126,26 @@ MessageSearchAdvanced.propTypes = {
   endDateRange: React.PropTypes.object,
   isVisible: React.PropTypes.bool.isRequired,
   onAdvancedSearch: React.PropTypes.func.isRequired,
-  onDateChange: React.PropTypes.func,
-  startDateRange: React.PropTypes.object
+  onDateChange: React.PropTypes.func.isRequired,
+  onFieldChange: React.PropTypes.func.isRequired,
+  params: React.PropTypes.shape({
+    dateRange: React.PropTypes.shape({
+      start: React.PropTypes.object,
+      end: React.PropTypes.object
+    }),
+    term: React.PropTypes.shape({
+      value: React.PropTypes.string,
+      dirty: React.PropTypes.bool
+    }),
+    from: React.PropTypes.shape({
+      value: React.PropTypes.string,
+      dirty: React.PropTypes.bool
+    }),
+    subject: React.PropTypes.shape({
+      value: React.PropTypes.string,
+      dirty: React.PropTypes.bool
+    })
+  }).isRequired
 };
 
 export default MessageSearchAdvanced;

@@ -31,7 +31,7 @@ class MessageSearch extends React.Component {
   }
 
   handleSearchTermChange(field) {
-    this.props.onFieldChange('params.term', field);
+    this.props.onFieldChange('term', field);
   }
 
   handleSubmit(domEvent) {
@@ -94,7 +94,7 @@ MessageSearch.propTypes = {
       value: React.PropTypes.string,
       dirty: React.PropTypes.bool
     })
-  })
+  }).isRequired
 };
 
 export default MessageSearch;
