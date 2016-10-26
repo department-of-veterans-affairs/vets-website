@@ -174,8 +174,14 @@ class VAMap extends Component {
         key: f.id,
         position: [f.attributes.lat, f.attributes.long],
         onClick: () => {
-          const searchResultPosition = (document.getElementById(f.id) || {}).offsetTop;
-          document.getElementById('searchResultsContainer').scrollTop = searchResultPosition;
+          const searchResult = document.getElementById(f.id);
+          if (searchResult) {
+            Array.from(document.getElementsByClassName('facility-result')).forEach((e) => {
+              e.classList.remove('active');
+            });
+            searchResult.classList.add('active');
+            document.getElementById('searchResultsContainer').scrollTop = searchResult.offsetTop;
+          }
           this.props.fetchVAFacility(f.id, f);
         },
       };

@@ -40,7 +40,7 @@
     padding: 1em;
     border-bottom: none;
 
-    &:hover {
+    &.active {
       box-shadow: inset 0px 0px 7px $color-link-default;
     }
 
