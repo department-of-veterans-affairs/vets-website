@@ -9,7 +9,7 @@ relatedlinks:
     description: If you served in or near Vietnam during the Vietnam War Era—or in certain related jobs—you may have had contact with Agent Orange and other toxic chemicals used to clear plants and trees during the war.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/asbestos/
     title: Asbestos
-    description: If you've worked in certain military jobs, you may have had contact with asbestos (fibers once used in many buildings and products that are now known to be toxic).
+    description: If you worked in certain military jobs, you may have had contact with asbestos (fibers once used in many buildings and products that are now known to be toxic).
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/
     title: Birth Defects (like Spina Bifida)
     description: If you served in South Vietnam or the Republic of Korea during certain time periods, you may have had contact with chemicals (like Agent Orange) believed to cause birth defects in the children of Veterans.
