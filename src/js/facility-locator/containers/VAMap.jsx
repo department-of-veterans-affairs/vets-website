@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchVAFacilities, updateSearchQuery, searchWithAddress, searchWithCoordinates, fetchVAFacility } from '../actions';
+import { fetchVAFacilities, updateSearchQuery, searchWithAddress, searchWithBounds, fetchVAFacility } from '../actions';
 import { map, find } from 'lodash';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
@@ -65,7 +65,7 @@ class VAMap extends Component {
       });
     }
 
-    this.props.searchWithCoordinates(currentQuery.position);
+    // this.props.searchWithBounds(currentQuery.position);
 
     Tabs.setUseDefaultStyles(false);
   }
@@ -79,7 +79,7 @@ class VAMap extends Component {
         location: `${newQuery.position.latitude},${newQuery.position.longitude}`,
         context: newQuery.context,
       });
-      this.props.searchWithCoordinates(newQuery.position);
+      // this.props.searchWithBounds(newQuery.position);
     }
   }
 
@@ -127,6 +127,22 @@ class VAMap extends Component {
       address: currentQuery.searchString,
     });
     this.props.searchWithAddress(currentQuery);
+  }
+
+  handleBoundsChanged = () => {
+    const bounds = this.refs.map.leafletElement.getBounds();
+    const boundsArray = [
+      bounds._southWest.lng,
+      bounds._southWest.lat,
+      bounds._northEast.lng,
+      bounds._northEast.lat,
+    ];
+
+    this.props.updateSearchQuery({
+      bounds: boundsArray,
+    });
+
+    this.props.searchWithBounds(boundsArray);
   }
 
   centerMap = () => {
@@ -275,7 +291,7 @@ class VAMap extends Component {
             </div>
           </div>
           <div className="columns medium-8 small-12" style={{ minHeight: '75vh' }}>
-            <Map ref="map" center={position} zoom={13} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false}>
+            <Map ref="map" center={position} zoom={13} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged}>
               <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
@@ -321,7 +337,7 @@ function mapDispatchToProps(dispatch) {
     fetchVAFacilities,
     updateSearchQuery,
     searchWithAddress,
-    searchWithCoordinates,
+    searchWithBounds,
   }, dispatch);
 }
 

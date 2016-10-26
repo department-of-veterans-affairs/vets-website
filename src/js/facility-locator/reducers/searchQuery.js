@@ -8,6 +8,7 @@ const INITIAL_STATE = {
     latitude: 38.8976763,
     longitude: -77.03653,
   },
+  bounds: null,
   context: 20500,
 };
 

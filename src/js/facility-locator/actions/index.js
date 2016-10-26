@@ -1,14 +1,15 @@
-import sampleData from 'json!../sampleData/sampleData.json';
-import { mapboxClient } from '../components/MapboxClient';
+import { api } from '../config';
 import { find, filter } from 'lodash';
+import { mapboxClient } from '../components/MapboxClient';
+import sampleData from 'json!../sampleData/sampleData.json';
 
-export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
 export const FETCH_VA_FACILITIES = 'FETCH_VA_FACILITIES';
-export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
-export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
-export const SEARCH_FAILED = 'SEARCH_FAILED';
-export const SEARCH_STARTED = 'SEARCH_STARTED';
+export const FETCH_VA_FACILITY = 'FETCH_VA_FACILITY';
 export const LOCATION_UPDATED = 'LOCATION_UPDATED';
+export const SEARCH_FAILED = 'SEARCH_FAILED';
+export const SEARCH_QUERY_UPDATED = 'SEARCH_QUERY_UPDATED';
+export const SEARCH_STARTED = 'SEARCH_STARTED';
+export const SEARCH_SUCCEEDED = 'SEARCH_SUCCEEDED';
 
 export function updateSearchQuery(query) {
   return {
@@ -185,14 +186,6 @@ export function searchWithAddress(query) {
             },
           }
         });
-
-        // TODO (bshyong): replace this with a call to the API
-        dispatch(
-          fetchVAFacilities({
-            latitude: coordinates[1],
-            longitude: coordinates[0],
-          }, query.facilityType)
-        );
       } else {
         dispatch({
           type: SEARCH_FAILED,
@@ -203,8 +196,10 @@ export function searchWithAddress(query) {
   };
 }
 
-export function searchWithCoordinates(bounds) {
-  // TODO (bshyong): replace this with a call to the API
+export function searchWithBounds(bounds) {
+  const bboxString = bounds.map(c => `bbox[]=${c}`).join('&');
+  const url = `${api.url}?${bboxString}`;
+
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
@@ -213,9 +208,11 @@ export function searchWithCoordinates(bounds) {
       },
     });
 
-    dispatch(fetchVAFacilities({
-      latitude: bounds.latitude,
-      longitude: bounds.longitude,
-    }));
+    return fetch(url, api.settings)
+      .then(res => res.json())
+      .then(
+        data => dispatch({ type: FETCH_VA_FACILITIES, payload: data.data }),
+        err => dispatch({ type: SEARCH_FAILED, err })
+      );
   };
 }

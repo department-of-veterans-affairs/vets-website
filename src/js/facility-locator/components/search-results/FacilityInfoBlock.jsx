@@ -3,13 +3,42 @@ import { compact } from 'lodash';
 import { Link } from 'react-router';
 
 class FacilityInfoBlock extends Component {
-  render() {
+
+  renderNCAAddress() {
     const { facility } = this.props;
-    const { address, name } = facility.attributes;
+    const { address: { physical: address } } = facility.attributes;
+    const addressString = compact([
+      address.address1,
+      address.address2,
+      `${address.city}, ${address.state} ${address.zip}`
+    ]);
+    return addressString;
+  }
+
+  renderVHAAddress() {
+    const { facility } = this.props;
+    const { address: { physical: address } } = facility.attributes;
     const addressString = [
       compact([address.building, address.street, address.suite]).join(' '),
-      `${address.city}, ${address.state} ${address.zip}-${address.zip4}`
+      `${address.city}, ${address.state} ${address.zip}`
     ];
+    return addressString;
+  }
+
+  render() {
+    const { facility } = this.props;
+    const { name, facility_type: facilityType } = facility.attributes;
+
+    const addressString = ((type) => {
+      switch (type) {
+        case 'va_health_facility':
+          return this.renderVHAAddress();
+        case 'va_cemetery':
+          return this.renderNCAAddress();
+        default:
+          return [];
+      }
+    })(facilityType);
 
     /* eslint-disable camelcase */
     const facilityTypes = {
@@ -25,11 +54,10 @@ class FacilityInfoBlock extends Component {
           <h5>{name}</h5>
         </Link>
         <p>
-          {addressString[0]}<br/>
-          {addressString[1]}
+          {[].concat(...addressString.map(e => [<br key={e}/>, e])).slice(1)}
         </p>
         <p>
-          <span>Facility type: <strong>{facilityTypes[facility.type]}</strong></span>
+          <span>Facility type: <strong>{facilityTypes[facilityType]}</strong></span>
         </p>
       </div>
     );
