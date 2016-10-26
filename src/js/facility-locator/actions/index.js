@@ -95,26 +95,22 @@ export function fetchVAFacility(id, facility = null) {
     };
   }
 
-  const specificSampleFacility = find(sampleData, d => {
-    return d.id === parseInt(id, 10);
-  });
+  const url = `${api.url}/${id}`;
 
-  return {
-    type: FETCH_VA_FACILITY,
-    payload: {
-      ...specificSampleFacility,
-      attributes: {
-        ...mockFacility.attributes,
-        address: {
-          ...specificSampleFacility.attributes.address,
-          city: 'Denver',
-          state: 'CO',
-          zip: 80123,
-        },
-        name: ((specificSampleFacility.type === undefined || specificSampleFacility.type === 'all') ? specificSampleFacility.attributes.name.slice(3) : `${facilityTypes[specificSampleFacility.type]}-${specificSampleFacility.attributes.name.split('-')[1]}`),
+  return dispatch => {
+    dispatch({
+      type: SEARCH_STARTED,
+      payload: {
+        active: true,
       },
-      id,
-    },
+    });
+
+    return fetch(url, api.settings)
+      .then(res => res.json())
+      .then(
+        data => dispatch({ type: FETCH_VA_FACILITY, payload: data.data }),
+        err => dispatch({ type: SEARCH_FAILED, err })
+      );
   };
 }
 
