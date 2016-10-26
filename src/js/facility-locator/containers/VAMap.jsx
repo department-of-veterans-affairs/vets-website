@@ -251,7 +251,7 @@ class VAMap extends Component {
             </TabList>
             <TabPanel>
               <div className="facility-search-results">
-                <p>Search Results near <strong>{currentQuery.context}</strong></p>
+                <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
                 <ResultsList facilities={facilities} isMobile/>
               </div>
             </TabPanel>
@@ -291,7 +291,7 @@ class VAMap extends Component {
         <div className="row">
           <div className="columns medium-4 small-12" style={{ maxHeight: '75vh', overflowY: 'auto' }} id="searchResultsContainer">
             <div className="facility-search-results">
-              <p>Search Results near <strong>{currentQuery.context}</strong></p>
+              <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
               <div>
                 <ResultsList facilities={facilities}/>
               </div>
