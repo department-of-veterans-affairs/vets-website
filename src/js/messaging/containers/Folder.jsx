@@ -29,6 +29,7 @@ export class Folder extends React.Component {
     this.handleSort = this.handleSort.bind(this);
     this.makeMessageNav = this.makeMessageNav.bind(this);
     this.makeMessagesTable = this.makeMessagesTable.bind(this);
+
   }
 
   componentDidMount() {
@@ -144,6 +145,13 @@ export class Folder extends React.Component {
     const messageNav = this.makeMessageNav();
     const folderMessages = this.makeMessagesTable();
 
+    let folderId;
+    if(this.props.attributes.folderId === undefined) {
+      folderId = 0;
+    } else {
+      folderId = this.props.attributes.folderId;
+    }
+
     return (
       <div>
         <div id="messaging-content-header">
@@ -156,7 +164,7 @@ export class Folder extends React.Component {
           <h2>{folderName}</h2>
         </div>
         <MessageSearch
-            folder={this.props.attributes.folderId || 0}
+            folder={folderId}
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}
