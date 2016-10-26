@@ -17,17 +17,17 @@ Spina bifida is a birth defect of the spinal cord that happens when a baby is st
 Yes, if:
 
   - The child's biological mother or father served in:
-    - South Vietnam (the Republic of Vietnam) any time from January 9, 1962 - May 7, 1975, or
-    - The Korean Demilitarized Zone (DMZ) any time from April 1, 1968 - August 31, 1971, and
+    - South Vietnam (the Republic of Vietnam) any time from January 9, 1962, through May 7, 1975, or
+    - The Korean Demilitarized Zone (DMZ) any time from April 1, 1968, through August 31, 1971, and
   - The child was conceived after the parent served in either South Vietnam or the Republic of Korea, and
   - The child was diagnosed with a form of spina bifida other than spina bifida occulta
 
 ### For Other Birth Defects
 Yes, if:
 
-  - The child's biological mother served in South Vietnam any time from January 9, 1962 - May 7, 1975, and
+  - The child's biological mother served in South Vietnam any time from January 9, 1962, through May 7, 1975, and
   - The child was conceived after the mother served in South Vietnam, and
-  - The child has a covered birth defect that caused a permanent physical or mental disability (a disability is damage to a person’s body or mind that makes them less able—or totally unable—to do everyday life tasks, including meaningful work; a permanent disability is one that does not go away)
+  - The child has a covered birth defect that caused a permanent physical or mental disability. (A disability is damage to a person’s body or mind that makes them less able—or totally unable—to do everyday tasks in life, including meaningful work. A permanent disability is one that does not go away.)
 
 ### Who's covered?
 
@@ -46,9 +46,9 @@ Yes, if:
 
 ### How do I get these benefits for my child?
 
-You'll need to apply for benefits for your child. When you apply, you’ll need to show that your child’s birth defect was likely caused by your contact with certain chemicals while serving in the military. 
+You'll need to apply for benefits for your child. When you apply, you’ll have to show that your contact with certain chemicals while serving in the military likely caused your child’s birth defect. 
 
-We provide financial support at 1 of 3 disability levels. Your child's level will depend on how severe his or her disability is. 
+We provide financial support at 1 of 3 disability levels. Your child's level will depend on how severe the disability is. 
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
