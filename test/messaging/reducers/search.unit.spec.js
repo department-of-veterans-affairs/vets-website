@@ -39,7 +39,7 @@ describe('search reducer', () => {
       date: today
     });
 
-    expect(newState.advanced.params.dateRange.end.toString())
+    expect(newState.params.dateRange.end.toString())
       .to.eql(today.toString());
 
     const weekAgo = today.clone().subtract(1, 'weeks');
@@ -48,7 +48,7 @@ describe('search reducer', () => {
       date: weekAgo
     });
 
-    expect(newState.advanced.params.dateRange.end.toString())
+    expect(newState.params.dateRange.end.toString())
       .to.eql(weekAgo.toString());
   });
 
@@ -59,7 +59,7 @@ describe('search reducer', () => {
       date: today
     });
 
-    expect(newState.advanced.params.dateRange.start.toString())
+    expect(newState.params.dateRange.start.toString())
       .to.eql(today.toString());
 
     const weekAgo = today.clone().subtract(1, 'weeks');
@@ -68,7 +68,7 @@ describe('search reducer', () => {
       date: weekAgo
     });
 
-    expect(newState.advanced.params.dateRange.start.toString())
+    expect(newState.params.dateRange.start.toString())
       .to.eql(weekAgo.toString());
   });
 
