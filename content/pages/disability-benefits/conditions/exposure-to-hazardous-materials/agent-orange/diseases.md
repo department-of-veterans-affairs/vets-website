@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Agent Orange-Related Health Problems
-plainlanguage: 10.25.16 Ready for Beth review
+plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
 template: 6-info-page
 ---
 
