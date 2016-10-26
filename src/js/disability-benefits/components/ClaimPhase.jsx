@@ -38,7 +38,7 @@ export default class ClaimPhase extends React.Component {
     this.getEventDescription = this.getEventDescription.bind(this);
   }
   getEventDescription(event) {
-    const filesPath = `your-claims/${this.props.id}/files`;
+    const filesPath = `your-claims/${this.props.id}/document-request/${event.trackedItemId}`;
     const fromVet = event.type.endsWith('you_list');
 
     switch (event.type) {
