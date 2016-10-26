@@ -139,7 +139,7 @@ export default class ClaimPhase extends React.Component {
   }
   render() {
     const { phase, current, children } = this.props;
-    const expandCollapseIcon = phase < current && phase !== COMPLETE_PHASE
+    const expandCollapseIcon = phase <= current && phase !== COMPLETE_PHASE
       ? <i className={this.state.open ? 'fa fa-minus claim-timeline-icon' : 'fa fa-plus claim-timeline-icon'}></i>
       : null;
 
