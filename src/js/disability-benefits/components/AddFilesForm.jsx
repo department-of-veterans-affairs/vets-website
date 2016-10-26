@@ -105,12 +105,18 @@ class AddFilesForm extends React.Component {
           <div key={index} className="document-item-container">
             <Element name={`documentScroll${index}`}/>
             <div className="document-title-size">
-              <div className="document-title-header">
-                <h4 className="title">{file.name}</h4>
+              <div className="document-title-text-container">
+                <div className="document-title-header">
+                  <h4 className="title">{file.name}</h4>
+                </div>
+                <div className="document-size-text">
+                  {displayFileSize(file.size)}
+                </div>
               </div>
-              <div className="document-size-text">
-                <p className="size">{displayFileSize(file.size)}</p>
+              <div className="remove-document-button">
+                <button className="usa-button-outline" onClick={() => this.props.onRemoveFile(index)}>Remove</button>
               </div>
+              <div className="clearfix"></div>
               <ErrorableSelect
                   required
                   errorMessage={validateIfDirty(docType, isNotBlank) ? undefined : 'Please provide a response'}
@@ -121,10 +127,6 @@ class AddFilesForm extends React.Component {
                   emptyDescription="Select a description"
                   onValueChange={(update) => this.props.onFieldChange(`files[${index}].docType`, update)}/>
             </div>
-            <div className="remove-document-button">
-              <button className="usa-button-outline" onClick={() => this.props.onRemoveFile(index)}>Remove</button>
-            </div>
-            <div className="clearfix"></div>
           </div>)}
         <div className="button-container">
           <button
