@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import { Router, browserHistory } from 'react-router';
+import { Router } from 'react-router';
 import { Provider } from 'react-redux';
 
 import initReact from '../common/init-react';
+import history from './history';
 import routes from './routes';
 import { store } from './store';
 
@@ -16,7 +16,7 @@ require('../login/login-entry.jsx');
 function init() {
   ReactDOM.render((
     <Provider store={store}>
-      <Router history={browserHistory} routes={routes}/>
+      <Router history={history} routes={routes}/>
     </Provider>
     ), document.getElementById('react-root'));
 }
