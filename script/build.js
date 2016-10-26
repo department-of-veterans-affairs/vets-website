@@ -118,7 +118,6 @@ if (options.buildtype === 'production') {
   ignoreList.push('auth/*');
   ignoreList.push('education/apply-for-education-benefits-new');
 } else if (options.buildtype === 'staging') {
-  ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('facilities/*');
   ignoreList.push('profile/*');
   ignoreList.push('education/apply-for-education-benefits-new');
