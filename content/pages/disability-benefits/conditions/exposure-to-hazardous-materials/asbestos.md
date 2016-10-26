@@ -59,6 +59,6 @@ Get tested if you've made or worked with products like:
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
-### Learn more
+### Get more information
 
-[Learn about asbestos-related health problems](http://www.publichealth.va.gov/exposures/asbestos/index.asp).
+Do you think you may have had contact with asbestos? [Learn about asbestos-related health problems](http://www.publichealth.va.gov/exposures/asbestos/index.asp).
