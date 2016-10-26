@@ -35,8 +35,6 @@ export class Folder extends React.Component {
     const id = this.props.params.id;
     const query = _.pick(this.props.location.query, ['page', 'sort']);
     this.props.fetchFolder(id, query);
-    console.log(this.props);
-    console.log(this.context);
   }
 
   componentDidUpdate() {
@@ -158,7 +156,7 @@ export class Folder extends React.Component {
           <h2>{folderName}</h2>
         </div>
         <MessageSearch
-            folder={+this.props.attributes.folderId}
+            folder={this.props.attributes.folderId}
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}

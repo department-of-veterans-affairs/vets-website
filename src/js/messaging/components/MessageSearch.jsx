@@ -71,7 +71,7 @@ class MessageSearch extends React.Component {
 
 MessageSearch.propTypes = {
   cssClass: React.PropTypes.string,
-  folder: React.PropTypes.number.isRequired,
+  folder: React.PropTypes.number,
   isAdvancedVisible: React.PropTypes.bool.isRequired,
   onAdvancedSearch: React.PropTypes.func.isRequired,
   onFieldChange: React.PropTypes.func.isRequired,
