@@ -29,7 +29,7 @@ Do you have health problems that started—or got worse—while you were serving
 Yes, if:
 
 - You have a current health problem that affects your body or mind, and
-- You got sick or injured while serving in the military—and can link the health problem you have now to this sickness or injury, or
+- You got sick or injured while serving in the military—and can link the health problem you have now to this illness or injury, or
 - You had a health problem before you joined the military—and serving made it worse
 
 <br>
