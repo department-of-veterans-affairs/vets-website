@@ -29,7 +29,6 @@ export class Folder extends React.Component {
     this.handleSort = this.handleSort.bind(this);
     this.makeMessageNav = this.makeMessageNav.bind(this);
     this.makeMessagesTable = this.makeMessagesTable.bind(this);
-
   }
 
   componentDidMount() {
@@ -146,7 +145,7 @@ export class Folder extends React.Component {
     const folderMessages = this.makeMessagesTable();
 
     let folderId;
-    if(this.props.attributes.folderId === undefined) {
+    if (this.props.attributes.folderId === undefined) {
       folderId = 0;
     } else {
       folderId = this.props.attributes.folderId;
