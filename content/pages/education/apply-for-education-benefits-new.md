@@ -16,10 +16,6 @@ relatedlinks:
 
 If you are a Servicemember or Veteran interested in education and training opportunities, use this form (22-1990) to apply for your Certificate of Eligibility (COE).
 
-[Spouses or dependent children can apply for Post 9/11 GI Bill benefits](/education/gi-bill/transfer/) if the Department of Defense approves a transfer from the Servicemember.
-
-[Dependents or survivors of a Veteran](/education/gi-bill/survivors-dependent-assistance/) may also be eligible for education help through a GI Bill program.
-
 ### What are the steps?
 
 <div class="small-12 columns" markdown="0">
@@ -82,7 +78,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 - Go to a VA regional office and have a VA employee assist you.
 - Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
-- Call 888-442-4551 to have the application mailed to you. Fill it out and mail it to your VA regional claims processing office.
+- Call 888-442-4551 (888-GI-BILL-1) to have the application mailed to you. Fill it out and mail it to your VA regional claims processing office.
 
 </div>
 
@@ -132,7 +128,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 - We usually review claims within 30 days.
 - If we’ve asked for documents, please upload them through the [GI Bill site](https://gibill.custhelp.com/app/home).
 - You can’t make changes to your application.
-- Call 888-442-4551 if you have questions.
+- Call 888-442-4551 (888-GI-BILL-1) if you have questions.
 
 </div>
 
