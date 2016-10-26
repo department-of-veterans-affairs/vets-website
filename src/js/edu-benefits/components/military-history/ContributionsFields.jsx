@@ -6,7 +6,7 @@ import DateInput from '../../../common/components/form-elements/DateInput';
 
 import { validateIfDirtyDateObj, isValidDateField, isValidDateRange } from '../../utils/validations';
 
-export default class BenefitsHistoryFields extends React.Component {
+export default class ContributionsFields extends React.Component {
   render() {
     const isToDateValid = isValidDateRange(
       this.props.data.activeDutyRepayingPeriod.to,
@@ -72,7 +72,7 @@ export default class BenefitsHistoryFields extends React.Component {
   }
 }
 
-BenefitsHistoryFields.propTypes = {
+ContributionsFields.propTypes = {
   onStateChange: React.PropTypes.func.isRequired,
   data: React.PropTypes.object.isRequired,
   initializeFields: React.PropTypes.func.isRequired
