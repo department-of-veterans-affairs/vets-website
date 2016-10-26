@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AlertBox from '../../common/components/AlertBox';
+import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 import {
   closeAlert,
@@ -14,7 +15,7 @@ class MessagingApp extends React.Component {
   }
 
   render() {
-    return (
+    const view = (
       <div id="messaging-app" className="row">
         <div id="messaging-app-header">
           <AlertBox
@@ -26,6 +27,10 @@ class MessagingApp extends React.Component {
         </div>
         {this.props.children}
       </div>
+    );
+
+    return (
+      <RequiredLoginView authRequired={3} component={view}/>
     );
   }
 }

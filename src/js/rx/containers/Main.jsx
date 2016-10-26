@@ -8,12 +8,9 @@ import AlertBox from '../../common/components/AlertBox';
 import TabNav from '../components/TabNav';
 import Disclaimer from '../components/Disclaimer';
 
-import RequiredLoginView from '../../common/components/RequiredLoginView';
-
 class Main extends React.Component {
   render() {
     let alertBox;
-    let view;
 
     if (this.props.alert.visible) {
       alertBox = (
@@ -25,7 +22,7 @@ class Main extends React.Component {
       );
     }
 
-    view = (
+    return (
       <div>
         <Disclaimer
             isOpen={this.props.disclaimer.open}
@@ -36,12 +33,6 @@ class Main extends React.Component {
           <TabNav/>
           {this.props.children}
         </div>
-      </div>
-    );
-
-    return (
-      <div>
-        <RequiredLoginView authRequired={3} component={view}/>
       </div>
     );
   }
