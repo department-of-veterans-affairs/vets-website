@@ -22,11 +22,11 @@ Under MGIB or REAP, we pay you back for part of flight training costs at an appr
 Yes, if:
 
 - You have at least a private pilot’s license.
-- You have at least a second-class medical certificate valid for second-class privileges—or a first-class medical certificate if you want to pursue the Airline Transport Pilot (ATP) certificate.
+- You have at least a second-class medical certificate valid for second-class privileges or a first-class medical certificate if you want to pursue the Airline Transport Pilot (ATP) certificate.
 
 ------
 
-### How it works
+### How do I get these benefits? 
 
 #### The benefits depend on the benefit program you use:
 
@@ -38,8 +38,11 @@ Yes, if:
 
 *Your level of eligibility and remaining entitlement will limit the payment amount.
 
-#### Some examples of avaiable flight training licenses and ratings:
+#### Some examples of avaiable flight training licenses and ratings include:
 
-Commercial pilot, instrument rating, certified flight instructor (airplane, instrument, multi-engine), multi-engine rating, flight engineer certification, fixed wing and rotorcraft, and others. 
+-Commercial pilot
+-Certified flight instructor (airplane, instrument, multi-engine)
+-Flight engineer certification
+-Fixed wing and rotorcraft
 
 Find out more about the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) or [apply for education benefits](/education/apply-for-education-benefits/).
