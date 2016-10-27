@@ -5,7 +5,7 @@ class MessageProviderLink extends React.Component {
     return (
       <a
           className="usa-button rx-message-provider-link"
-          href="/healthcare/messaging">
+          href="/messaging">
         Message my provider
       </a>
     );

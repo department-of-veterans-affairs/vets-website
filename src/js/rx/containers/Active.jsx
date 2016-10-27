@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { browserHistory } from 'react-router';
 
 import { loadPrescriptions } from '../actions/prescriptions';
 import PrescriptionList from '../components/PrescriptionList';
@@ -20,9 +21,11 @@ class Active extends React.Component {
 
   handleSortOnChange(domEvent) {
     if (domEvent.type === 'change') {
-      this.context.router.push({
-        pathname: '/',
-        query: { sort: domEvent.target.value }
+      browserHistory.push({
+        pathname: '/rx',
+        query: {
+          sort: domEvent.target.value
+        }
       });
     }
     this.dispatchSortAction(domEvent.target.value);
@@ -67,10 +70,6 @@ class Active extends React.Component {
     );
   }
 }
-
-Active.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
 
 // TODO: fill this out
 const mapStateToProps = (state) => {

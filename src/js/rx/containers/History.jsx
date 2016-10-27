@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import _ from 'lodash';
 import moment from 'moment';
 
@@ -51,15 +51,15 @@ class History extends React.Component {
 
   handleSort(value, order) {
     const sort = this.formattedSortParam(value, order);
-    this.context.router.push({
-      pathname: '/history',
+    browserHistory.push({
+      pathname: '/rx/history',
       query: { ...this.props.location.query, sort }
     });
   }
 
   handlePageSelect(page) {
-    this.context.router.push({
-      pathname: '/history',
+    browserHistory.push({
+      pathname: '/rx/history',
       query: { ...this.props.location.query, page }
     });
   }
@@ -103,7 +103,7 @@ class History extends React.Component {
             : 'Not available',
 
           prescriptionName: (
-            <Link to={`/${attrs.prescriptionId}`}>
+            <Link to={`/rx/prescription/${attrs.prescriptionId}`}>
               {attrs.prescriptionName}
             </Link>
             ),
@@ -143,10 +143,6 @@ class History extends React.Component {
     );
   }
 }
-
-History.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
 
 const mapStateToProps = (state) => {
   return {
