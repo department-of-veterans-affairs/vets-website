@@ -1,41 +1,51 @@
 ---
 layout: page-breadcrumbs.html
-title: Automobile Use Claims
+title: Disabilities That Prevent You from Driving
 concurrence: incomplete
+plainlanguage: 10-26-16 Ready for Beth review
 template: 4-action-page-pending
 ---
 
-If you have a service-connected disability that prevents you from driving an automobile or other conveyance, you may be eligible for a one-time payment of $20,114.34 toward buying a specially outfitted vehicle. You may also qualify for more than one adaptive-equipment grant to modify a vehicle with power steering, brakes, seats, windows, or lift equipment to assist you with getting into and out of the vehicle.
+Do you have a disability (damage to your body or mind that makes you less able—or totally unable—to do everyday life tasks, including meaningful work) caused by your service in the military that prevents you from driving? If yes, you may be able to get VA support (known as disability compensation or benefits). 
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for compensation?
+### Can I get compensation from VA?
+
 Yes, if:
-Your service-connected disability includes at least one of the following conditions:
 
-  - Loss, or permanent loss of use, of one or both feet.
-  - Loss, or permanent loss of use, of one or both hands.
-  - Permanent impairment of vision in both eyes: Central Visual acuity of 20/200 or less in the better eye with glasses, or Central Visual acuity that is greater than 20/200, accompanied by a visual field defect in which your peripheral field has contracted to such an extent that the widest diameter of visual fields subtends an angular distance no greater than 20 degrees in the better eye.
-  - Severe burn injury.
-  - Amyotrophic lateral sclerosis (ALS).
-  - Ankylosis (immobility of the joint) in one or both knees or hips (adaptive equipment grant only).
+- Your disability is believed to be caused by service in the military (called a service-connected disability), and 
+- Your service-connected disability includes at least 1 of the following:
+  - Loss, or permanent loss of use, of 1 or both feet
+  - Loss, or permanent loss of use, of 1 or both hands
+  - Permanent (long-lasting) loss of vision in both eyes: 20/200 vision or less in your better eye with glasses, or greater than 20/200 vision but with a visual field defect that has reduced your peripheral vision to 20 degrees or less in your better eye
+  - A severe burn injury
+  - Amyotrophic lateral sclerosis (or ALS, a disease that affects the nerve cells in your brain and spinal cord and leads to loss of muscle control that gets worse over time)
+  - Ankylosis (a stiffness or locking of a joint caused by bones fusing together) in 1 or both knees or hips (qualifies you for adaptive-equipment grant only)
 
-### Who is covered
-Veterans and Servicemembers
+### Who's covered?
+
+- Veterans
+- Servicemembers
 </div>
 
-### Available benefits
+### What kind of benefits can I get?
 
-Compensation
+- A 1-time payment of $20,114.34 to help you buy a specially equiped vehicle
+- Possibly 1 or more adaptive-equipment grants to change a vehicle with power steering, brakes, seats, windows, or lift equipment to help you with getting into and out of the vehicle
 
 -----
 
-### How it works
+### How do I get these benefits?
 
-In the case of these allowances, you must gain VA approval before purchasing an automobile or adaptive equipment. For the adaptive-equipment grant, the compensation may be paid to you or to the seller. For the one-time vehicle purchase grant, the compensation must be paid directly to the seller. You may request and receive either grant before or after military discharge.
+You'll need to apply for benefits and get our approval *before* buying a vehicle or adaptive equipment. You can apply for—and use—either grant before or after military discharge.
 
-You must show that your disability is service connected or is treated as if service connected under [38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
+For the 1-time payment to help you buy a specially equipped vehicle, we'll pay the vehicle's seller directly. For the adaptive-equipment grant, we may pay you or we may pay the seller of the equipment directly.  
 
-You will need to complete [VA Form 21-4502](http://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf) (Application for Automobile or Other Conveyance and Adaptive Equipment).
+When you apply, you'll need to show that your disability is service connected or is treated as if service connected under 38 U.S.C. 1151. [Learn more about 38 U.S.C. 1151](/disability-benefits/conditions/special-claims/title-38-USC-1151/).
 
-If you are entitled to adaptive equipment only (for example, you have a service-connected disability due to ankylosis of the knees or hips), you should complete [VA Form 10-1394](http://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf) (Application for Adaptive Equipment—Motor Vehicle).
+You'll also need to complete VA Form 21-4502: Application for Automobile or Other Conveyance and Adaptive Equipment.
+[Download VA Form 21-4502](http://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf). 
+
+If you are entitled to adaptive equipment only (for example, you have a service-connected disability due to ankylosis of the knees or hips), you should complete VA Form 10-1394: Application for Adaptive Equipment—Motor Vehicle.
+[Download VA Form 10-1394](http://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf).
