@@ -29,10 +29,10 @@ export default class ServicePeriodsFields extends React.Component {
               data={this.props.data}
               initializeCurrentElement={() => this.props.initializeFields(tourFields, 'toursOfDuty')}
               onRowsUpdate={(update) => {this.props.onStateChange('toursOfDuty', update);}}
-              path="/military-history/military-service"
+              path="/military-history/service-periods"
               rows={this.props.data.toursOfDuty}
               isValidSection={isValidPage}
-              addNewMessage="Add Another Tour"
+              addNewMessage="Add Another Service Period"
               minimumRows={1}
               isValidRow={isValidTourOfDuty}/>
         </div>
