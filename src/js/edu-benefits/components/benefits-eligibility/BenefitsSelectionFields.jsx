@@ -11,15 +11,15 @@ export default class BenefitsSelectionFields extends React.Component {
       <legend className="hide-for-small-only">Benefits eligibility</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
-      <div className="usa-alert usa-alert-info">
-      <div className="usa-alert-body">
-      <ul>
-      <li>You may be eligible for more than 1 education benefit program.</li>
-      <li>You can only get payments from 1 program at a time.</li>
-      <li>You can’t get more than 48 months of benefits under any combination of VA education programs.</li>
-      </ul>
-      </div>
-      </div>
+        <div className="usa-alert usa-alert-info">
+          <div className="usa-alert-body">
+            <ul>
+              <li>You may be eligible for more than 1 education benefit program.</li>
+              <li>You can only get payments from 1 program at a time.</li>
+              <li>You can’t get more than 48 months of benefits under any combination of VA education programs.</li>
+            </ul>
+          </div>
+        </div>
         <ErrorableGroup
             required
             label="Select the benefit that is the best match for you."
@@ -29,13 +29,13 @@ export default class BenefitsSelectionFields extends React.Component {
 
           <ExpandingGroup open={this.props.data.chapter33} additionalClass="edu-benefits-selection-group">
             <ErrorableCheckbox
-              label={<p>Post-9/11 GI Bill (Chapter 33)<br/><a href="/education/gi-bill/post-9-11/" target="_blank">Learn more</a></p>}
-              name="chapter33"
-              checked={this.props.data.chapter33}
-              onValueChange={(update) => {this.props.onStateChange('chapter33', update);}}/>
-              <div className="edu-benefits-chapter33-extra">
+                label={<p>Post-9/11 GI Bill (Chapter 33)<br/><a href="/education/gi-bill/post-9-11/" target="_blank">Learn more</a></p>}
+                name="chapter33"
+                checked={this.props.data.chapter33}
+                onValueChange={(update) => {this.props.onStateChange('chapter33', update);}}/>
+            <div className="edu-benefits-chapter33-extra">
               <p>When you choose to apply for your Post-9/11 benefit, you have to relinquish (give up) other benefits you may be eligible for. You’ll make this decision on the next page.</p>
-              </div>
+            </div>
           </ExpandingGroup>
           <ErrorableCheckbox
               label={<p>Montgomery GI Bill (MGIB-AD, Chapter 30)<br/><a href="/education/gi-bill/montgomery-active-duty/" target="_blank">Learn more</a></p>}
