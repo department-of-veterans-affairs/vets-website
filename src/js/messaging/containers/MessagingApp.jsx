@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AlertBox from '../../common/components/AlertBox';
-import RequiredLoginView from '../../common/components/RequiredLoginView';
+// import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 import {
   closeAlert,
