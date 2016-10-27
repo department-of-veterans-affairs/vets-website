@@ -64,3 +64,7 @@ export const SET_ADVSEARCH_END_DATE = 'SET_ADVSEARCH_END_DATE';
 export const SET_ADVSEARCH_START_DATE = 'SET_ADVSEARCH_START_DATE';
 export const SET_SEARCH_PARAM = 'SET_SEARCH_PARAM';
 export const TOGGLE_ADVANCED_SEARCH = 'TOGGLE_ADVANCED_SEARCH';
+
+// Search is restricted to a folder and messages returned use the same model
+export const FOLDER_SEARCH_SUCCESS = 'FOLDER_SEARCH_SUCCESS';
+export const FOLDER_SEARCH_FAILURE = 'FOLDER_SEARCH_FAILURE';

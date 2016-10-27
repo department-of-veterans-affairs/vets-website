@@ -1,6 +1,8 @@
 import React from 'react';
 import MessageSearchAdvanced from './MessageSearchAdvanced';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
+import { browserHistory } from 'react-router';
+import { createQueryString } from '../utils/helpers';
 
 class MessageSearch extends React.Component {
   constructor(props) {
@@ -12,22 +14,36 @@ class MessageSearch extends React.Component {
 
   formatParams() {
     const params = this.props.params;
+    const term = params.term.value;
+    const from = params.from;
+    const subject = params.subject;
+    const dateRange = params.dateRange;
 
-    return {
-      dateRange: {
-        start: params.dateRange.start,
-        end: params.dateRange.end
-      },
-      term: params.term,
-      from: {
-        field: params.from.field,
-        exact: params.from.exact
-      },
-      subject: {
-        field: params.subject.field,
-        exact: params.subject.exact
-      }
-    };
+    const filters = {};
+
+    if (params.term.value) {
+      filters['filter[[subject][match]]'] = term;
+    }
+
+    if (from.field.value) {
+      const fromExact = from.exact ? 'eq' : 'match';
+      filters[`filter[[sender_name][${fromExact}]]`] = params.from.field.value;
+    }
+
+    if (subject.field.value) {
+      const subjectExact = subject.exact ? 'eq' : 'match';
+      filters[`filter[[subject][${subjectExact}]]`] = params.subject.field.value;
+    }
+
+    if (dateRange.start) {
+      filters['filter[[sent_date][gteq]]'] = dateRange.start.format();
+    }
+
+    if (dateRange.end) {
+      filters['filter[[sent_date][lteq]]'] = dateRange.end.format();
+    }
+    filters.search = '';
+    return filters;
   }
 
   handleSearchTermChange(field) {
@@ -36,7 +52,13 @@ class MessageSearch extends React.Component {
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
-    this.props.onSubmit(this.formatParams(), this.props.folder);
+    const searchQuery = createQueryString(this.formatParams(), false);
+    const baseUrl = this.props.location.pathname;
+    const searchUrl = `${baseUrl}?${searchQuery}`;
+
+    browserHistory.push(searchUrl);
+
+    this.props.onSubmit(this.props.folder, this.formatParams());
   }
 
   render() {

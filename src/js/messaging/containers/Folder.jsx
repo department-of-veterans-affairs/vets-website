@@ -29,19 +29,19 @@ export class Folder extends React.Component {
     this.handleSort = this.handleSort.bind(this);
     this.makeMessageNav = this.makeMessageNav.bind(this);
     this.makeMessagesTable = this.makeMessagesTable.bind(this);
+    this.getQueryParams = this.getQueryParams.bind(this);
   }
 
   componentDidMount() {
     const id = this.props.params.id;
-    const query = _.pick(this.props.location.query, ['page', 'sort']);
+    const query = this.getQueryParams();
     this.props.fetchFolder(id, query);
   }
 
   componentDidUpdate() {
     const oldId = this.props.attributes.folderId;
     const newId = +this.props.params.id;
-
-    const query = _.pick(this.props.location.query, ['page', 'sort']);
+    const query = this.getQueryParams();
 
     const oldPage = this.props.page;
     const newPage = +query.page || oldPage;
@@ -50,11 +50,35 @@ export class Folder extends React.Component {
       this.props.sort.value,
       this.props.sort.order
     );
+
     const newSort = query.sort || oldSort;
 
-    if (newId !== oldId || newPage !== oldPage || newSort !== oldSort) {
-      this.props.fetchFolder(newId, query);
+    // If we are displaying search results, keep us in the same folder.
+    if (query.search) {
+      if (newPage !== oldPage || newSort !== oldSort) {
+        this.props.sendSearch(oldId, query);
+      }
+    } else {
+      if (newId !== oldId || newPage !== oldPage || newSort !== oldSort) {
+        this.props.fetchFolder(newId, query);
+      }
     }
+  }
+
+  getQueryParams() {
+    const queryParams = [
+      'page',
+      'sort',
+      'filter[[subject][match]]',
+      'filter[[sent_date][gteq]]',
+      'filter[[sent_date][lteq]]',
+      'filter[[sender_name][eq]]',
+      'filter[[sender_name][match]]',
+      'filter[[subject][eq]]',
+      'filter[[subject][match]]',
+      'search'
+    ];
+    return _.pick(this.props.location.query, queryParams);
   }
 
   formattedSortParam(value, order) {
@@ -140,8 +164,8 @@ export class Folder extends React.Component {
   }
 
   render() {
-    const folderName = _.get(this.props.attributes, 'name');
     const folderId = _.get(this.props.attributes, 'folderId', 0);
+    const folderName = _.get(this.props.attributes, 'name');
     const messageNav = this.makeMessageNav();
     const folderMessages = this.makeMessagesTable();
 
@@ -157,6 +181,7 @@ export class Folder extends React.Component {
           <h2>{folderName}</h2>
         </div>
         <MessageSearch
+            {...this.props}
             folder={+folderId}
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
@@ -186,6 +211,9 @@ const mapStateToProps = (state) => {
   const perPage = pagination.perPage;
   const totalPages = pagination.totalPages;
 
+  // Are we showing folder search results?
+  const isSearch = state.folders.data.currentItem.isSearch;
+
   const totalCount = pagination.totalEntries;
   const startCount = 1 + (page - 1) * perPage;
   const endCount = Math.min(totalCount, page * perPage);
@@ -198,6 +226,7 @@ const mapStateToProps = (state) => {
     page,
     totalPages,
     isAdvancedVisible: state.search.advanced.visible,
+    isSearch,
     searchParams: state.search.params,
     sort: folder.sort
   };
