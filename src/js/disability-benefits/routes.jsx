@@ -10,6 +10,7 @@ import DetailsPage from './containers/DetailsPage.jsx';
 import AskVAPage from './containers/AskVAPage.jsx';
 import DocumentRequestPage from './containers/DocumentRequestPage.jsx';
 import TurnInEvidencePage from './containers/TurnInEvidencePage.jsx';
+import ClaimEstimationPage from './components/ClaimEstimationPage.jsx';
 
 const scroller = Scroll.animateScroll;
 
@@ -26,6 +27,11 @@ const routes = [
       component={YourClaimsPage}
       key="/your-claims"
       path="/your-claims"
+      onEnter={scrollToTop}/>,
+  <Route
+      component={ClaimEstimationPage}
+      key="/claim-estimate"
+      path="/claim-estimate"
       onEnter={scrollToTop}/>,
   <Route
       component={ClaimPage}

@@ -19,7 +19,7 @@ export default function ClaimEstimate({ maxDate }) {
       {estimatedDate.isBefore(today)
         ? <p>We estimated your claim would be completed by now but we need more time.</p>
         : <p>This date is based on claims similar to yours and is not an exact date.</p>}
-      <p><a href="/">Learn about this estimation</a></p>
+      <p><a href="claim-estimate">Learn about this estimation</a></p>
     </div>
   );
 }
