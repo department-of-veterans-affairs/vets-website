@@ -31,7 +31,7 @@ class Main extends React.Component {
         this.props.onUpdateLoginUrl('first', result.authenticate_via_get);
       });
 
-      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
+      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3&location=/auth/login/callback/`, result => {
         this.props.onUpdateLoginUrl('third', result.authenticate_via_get);
       });
     }
