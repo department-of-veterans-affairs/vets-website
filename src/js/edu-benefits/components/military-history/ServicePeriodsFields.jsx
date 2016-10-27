@@ -34,6 +34,7 @@ export default class ServicePeriodsFields extends React.Component {
               isValidSection={isValidPage}
               addNewMessage="Add Another Service Period"
               minimumRows={1}
+              rowTitle="New service period"
               isValidRow={isValidTourOfDuty}/>
         </div>
       </div>
