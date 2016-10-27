@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import Scroll from 'react-scroll';
 import { withRouter, Link } from 'react-router';
@@ -78,7 +79,7 @@ class DocumentRequestPage extends React.Component {
               <p><strong>Optional</strong> - we've asked others to send this to us, but you may upload it if you have it.</p>
             </div>
             : null}
-          <p>{trackedItem.description}</p>
+          <p dangerouslySetInnerHTML={{ __html: trackedItem.description }}/>
           <AddFilesForm
               field={this.props.uploadField}
               progress={this.props.progress}
