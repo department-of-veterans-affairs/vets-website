@@ -253,8 +253,8 @@ export function toggleReplyDetails() {
   return { type: TOGGLE_REPLY_DETAILS };
 }
 
-export function updateDraft(field) {
-  return { type: UPDATE_DRAFT, field };
+export function updateDraft(key, field) {
+  return { type: UPDATE_DRAFT, key, field };
 }
 
 export function toggleMoveTo() {

@@ -4,17 +4,24 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+import classNames from 'classnames';
 
 class SortMenu extends React.Component {
   render() {
     const sortBys = this.props.options;
-
     const sortLinks = (options) => {
       return options.map((o, ind) => {
+        // Sets an rx-sort-active class when the option value
+        // matches the selected / default value
+        const defaultCssClass = classNames({
+          'rx-sort-active': o.value === this.props.selected
+        });
+
         return (<li key={ind}><Link
+            className={defaultCssClass}
             activeClassName="rx-sort-active"
             to={{
-              pathname: '/rx',
+              pathname: '/',
               query: { sort: `${o.value}` }
             }}>{o.label}</Link></li>);
       });

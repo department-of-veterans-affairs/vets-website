@@ -11,11 +11,10 @@ import Pagination from '../../common/components/Pagination';
 import Loading from '../components/Loading';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 
-const Element = Scroll.Element;
-const scroller = Scroll.scroller;
+const scroller = Scroll.animateScroll;
 
 const scrollToTop = () => {
-  scroller.scrollTo('topScrollElement', {
+  scroller.scrollToTop({
     duration: 500,
     delay: 0,
     smooth: true,
@@ -45,7 +44,7 @@ class YourClaimsPage extends React.Component {
     } else if (claims.length > 0) {
       content = (<div className="claim-list">
         {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
-        <Pagination page={page} pages={pages} onPageSelect={this.props.changePage}/>
+        <Pagination page={page} pages={pages} onPageSelect={this.changePage}/>
       </div>);
     } else {
       content = <NoClaims/>;
@@ -53,7 +52,6 @@ class YourClaimsPage extends React.Component {
 
     return (
       <div>
-        <Element name="topScrollElement"/>
         <div className="row">
           <div className="large-8 columns your-claims">
             <div>

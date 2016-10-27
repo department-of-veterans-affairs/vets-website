@@ -249,7 +249,7 @@ hr {
     }
 
     @media #{$small} {
-      width: 263px;
+      width: 225px;
       height: 50px;
     }
   }
@@ -1494,6 +1494,7 @@ margin: 0;
     margin: 0 !important;
   &.last {
     border-left: 0;
+    padding-left: calc(2em + 8px);
   }
 
   }
@@ -1504,7 +1505,7 @@ margin: 0;
   &.step.seven.last
    {
     &:before {
-    margin-left: -2.4em
+    margin-left: -2.7em
     }
   }
 

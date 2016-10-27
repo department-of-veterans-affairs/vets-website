@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, browserHistory } from 'react-router';
+import { Link } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
 
@@ -8,7 +8,9 @@ import SortableTable from '../../common/components/SortableTable';
 
 import {
   fetchFolder,
+  sendSearch,
   setDateRange,
+  setSearchParam,
   toggleAdvancedSearch,
   toggleFolderNav
 } from '../actions';
@@ -64,7 +66,7 @@ export class Folder extends React.Component {
   }
 
   handlePageSelect(page) {
-    browserHistory.push({
+    this.context.router.push({
       pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
       query: { ...this.props.location.query, page }
     });
@@ -72,7 +74,7 @@ export class Folder extends React.Component {
 
   handleSort(value, order) {
     const sort = this.formattedSortParam(value, order);
-    browserHistory.push({
+    this.context.router.push({
       pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
       query: { ...this.props.location.query, sort }
     });
@@ -100,7 +102,7 @@ export class Folder extends React.Component {
     if (!messages || messages.length === 0) { return null; }
 
     const makeMessageLink = (content, id) => {
-      return <Link to={`/messaging/thread/${id}`}>{content}</Link>;
+      return <Link to={`/thread/${id}`}>{content}</Link>;
     };
 
     const currentSort = this.props.sort;
@@ -139,6 +141,7 @@ export class Folder extends React.Component {
 
   render() {
     const folderName = _.get(this.props.attributes, 'name');
+    const folderId = _.get(this.props.attributes, 'folderId', 0);
     const messageNav = this.makeMessageNav();
     const folderMessages = this.makeMessagesTable();
 
@@ -154,12 +157,13 @@ export class Folder extends React.Component {
           <h2>{folderName}</h2>
         </div>
         <MessageSearch
+            folder={+folderId}
             isAdvancedVisible={this.props.isAdvancedVisible}
-            searchDateRangeEnd={this.props.searchDateRangeEnd}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}
-            searchDateRangeStart={this.props.searchDateRangeStart}
-            onSubmit={(e) => { e.preventDefault(); }}/>
+            params={this.props.searchParams}
+            onFieldChange={this.props.setSearchParam}
+            onSubmit={this.props.sendSearch}/>
         <div id="messaging-folder-controls">
           <ComposeButton/>
           {messageNav}
@@ -169,6 +173,10 @@ export class Folder extends React.Component {
     );
   }
 }
+
+Folder.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
 
 const mapStateToProps = (state) => {
   const folder = state.folders.data.currentItem;
@@ -190,15 +198,16 @@ const mapStateToProps = (state) => {
     page,
     totalPages,
     isAdvancedVisible: state.search.advanced.visible,
-    searchDateRangeStart: state.search.advanced.params.dateRange.start,
-    searchDateRangeEnd: state.search.advanced.params.dateRange.end,
+    searchParams: state.search.params,
     sort: folder.sort
   };
 };
 
 const mapDispatchToProps = {
   fetchFolder,
+  sendSearch,
   setDateRange,
+  setSearchParam,
   toggleAdvancedSearch,
   toggleFolderNav
 };
