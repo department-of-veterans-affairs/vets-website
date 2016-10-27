@@ -211,9 +211,6 @@ const mapStateToProps = (state) => {
   const perPage = pagination.perPage;
   const totalPages = pagination.totalPages;
 
-  // Are we showing folder search results?
-  const isSearch = state.folders.data.currentItem.isSearch;
-
   const totalCount = pagination.totalEntries;
   const startCount = 1 + (page - 1) * perPage;
   const endCount = Math.min(totalCount, page * perPage);
@@ -226,7 +223,6 @@ const mapStateToProps = (state) => {
     page,
     totalPages,
     isAdvancedVisible: state.search.advanced.visible,
-    isSearch,
     searchParams: state.search.params,
     sort: folder.sort
   };
