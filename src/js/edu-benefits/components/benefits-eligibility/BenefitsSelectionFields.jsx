@@ -26,22 +26,22 @@ export default class BenefitsSelectionFields extends React.Component {
           </div>
 
           <ErrorableCheckbox
-              label={<p>Post-9/11 GI Bill (Chapter 33)<br />More info...</p>}
+              label={<p>Post-9/11 GI Bill (Chapter 33)<br/>More info...</p>}
               name="chapter33"
               checked={this.props.data.chapter33}
               onValueChange={(update) => {this.props.onStateChange('chapter33', update);}}/>
           <ErrorableCheckbox
-              label={<p>Montgomery GI Bill (MGIB-AD, Chapter 30)<br />More info...</p>}
+              label={<p>Montgomery GI Bill (MGIB-AD, Chapter 30)<br/>More info...</p>}
               name="chapter30"
               checked={this.props.data.chapter30}
               onValueChange={(update) => {this.props.onStateChange('chapter30', update);}}/>
           <ErrorableCheckbox
-              label={<p>Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)<br />More info...</p>}
+              label={<p>Montgomery GI Bill Selected Reserve (MGIB-SR, Chapter 1606)<br/>More info...</p>}
               name="chapter1606"
               checked={this.props.data.chapter1606}
               onValueChange={(update) => {this.props.onStateChange('chapter1606', update);}}/>
           <ErrorableCheckbox
-              label={<p>Post-Vietnam Era Veterans' Educational Assistance Program<br />(VEAP, Chapter 32) More info...</p>}
+              label={<p>Post-Vietnam Era Veterans' Educational Assistance Program<br/>(VEAP, Chapter 32) More info...</p>}
               name="chapter32"
               checked={this.props.data.chapter32}
               onValueChange={(update) => {this.props.onStateChange('chapter32', update);}}/>
