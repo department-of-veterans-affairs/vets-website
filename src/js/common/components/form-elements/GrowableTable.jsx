@@ -170,6 +170,9 @@ class GrowableTable extends React.Component {
           <div key={reactKey++} className={(stateKey === 'edit' || this.props.rows.length > 1) ? 'va-growable-background' : null}>
             <div className="row small-collapse" key={obj.key}>
               <div className="small-12 columns va-growable-expanded">
+                {(stateKey === 'incomplete' && this.props.rowTitle && this.props.rows.length > 1)
+                    ? <h5>{this.props.rowTitle}</h5>
+                    : null}
                 {React.createElement(this.props.component,
                   { data: obj,
                     view: 'expanded',
@@ -208,7 +211,8 @@ GrowableTable.propTypes = {
   rows: React.PropTypes.array.isRequired,
   isValidSection: React.PropTypes.func.isRequired,
   addNewMessage: React.PropTypes.string,
-  minimumRows: React.PropTypes.number
+  minimumRows: React.PropTypes.number,
+  rowTitle: React.PropTypes.string
 };
 
 GrowableTable.defaultProps = {

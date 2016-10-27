@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import RequiredLoginView from '../../common/components/RequiredLoginView';
+// import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { openAlert } from '../actions/alert.js';
 import { openRefillModal, closeRefillModal, closeGlossaryModal } from '../actions/modal.js';
 import { refillPrescription } from '../actions/prescriptions.js';
@@ -26,9 +26,13 @@ class RxRefillsApp extends React.Component {
       </div>
     );
 
+    return view;
+
+    /*
     return (
       <RequiredLoginView authRequired={3} component={view}/>
     );
+    */
   }
 }
 
