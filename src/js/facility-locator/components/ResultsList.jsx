@@ -31,6 +31,12 @@ class ResultsList extends Component {
   render() {
     const { facilities, isMobile } = this.props;
 
+    if (!facilities || facilities.length < 1) {
+      return (
+        <div className="facility-result">No facilities found.</div>
+      );
+    }
+
     if (isMobile) {
       return this.renderMobileView();
     }
