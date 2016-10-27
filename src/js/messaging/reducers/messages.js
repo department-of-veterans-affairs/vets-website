@@ -75,6 +75,7 @@ export default function messages(state = initialState, action) {
       if (!currentMessage.sentDate) {
         draft.attachments = currentMessage.attachments || [];
         draft.body = makeField(currentMessage.body);
+        draft.messageId = currentMessage.messageId;
         draft.recipient = makeField(currentMessage.recipientId.toString());
         draft.replyMessageId = thread.length === 0
                              ? undefined

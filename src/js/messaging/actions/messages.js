@@ -116,24 +116,28 @@ export function saveDraft(message) {
   const draftsUrl = `${api.url}/message_drafts`;
   const payload = {
     messageDraft: {
-      category: message.category,
-      subject: message.subject,
       body: message.body,
-      recipientId: message.recipientId
+      category: message.category,
+      recipientId: message.recipientId,
+      subject: message.subject
     }
   };
 
-  // Save the message as a new draft if it doesn't have an id yet.
-  // Update the draft if it does have an id.
-  const isNewDraft = message.messageId === undefined;
+  const isReply = message.replyMessageId !== undefined;
+  const isSavedDraft = message.messageId !== undefined;
+  let url = draftsUrl;
+  let defaultSettings = api.settings.postJson;
 
-  const url = isNewDraft
-            ? draftsUrl
-            : `${draftsUrl}/${message.messageId}`;
+  if (isReply) {
+    url = `${url}/${message.replyMessageId}/replydraft`
+  }
 
-  const defaultSettings = isNewDraft
-                        ? api.settings.postJson
-                        : api.settings.put;
+  // Update the draft if it already has an id.
+  // Save a new draft if it doesn't have an id yet.
+  if (isSavedDraft) {
+    url = `${url}/${message.messageId}`;
+    defaultSettings = api.settings.put;
+  }
 
   const settings = Object.assign({}, defaultSettings, {
     body: JSON.stringify(payload)
@@ -158,7 +162,7 @@ export function saveDraft(message) {
           },
           error => dispatch({ type: SAVE_DRAFT_FAILURE, error })
         );
-      } else if (response.ok && !isNewDraft) {
+      } else if (response.ok && isSavedDraft) {
         return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
       }
       return dispatch({ type: SAVE_DRAFT_FAILURE });
