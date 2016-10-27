@@ -13,7 +13,6 @@ import {
   openMoveToNewFolderModal,
   saveDraft,
   sendMessage,
-  sendReply,
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
@@ -83,11 +82,7 @@ export class Thread extends React.Component {
   }
 
   handleReplySend() {
-    if (this.props.isNewMessage) {
-      this.props.sendMessage(this.apiFormattedDraft());
-    } else {
-      this.props.sendReply(this.apiFormattedDraft());
-    }
+    this.props.sendMessage(this.apiFormattedDraft());
   }
 
   handleReplyDelete() {
@@ -288,7 +283,6 @@ const mapDispatchToProps = {
   openMoveToNewFolderModal,
   saveDraft,
   sendMessage,
-  sendReply,
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,

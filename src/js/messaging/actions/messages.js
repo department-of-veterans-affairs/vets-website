@@ -172,9 +172,17 @@ export function saveDraft(message) {
 
 export function sendMessage(message) {
   const payload = new FormData();
-  payload.append('message[recipient_id]', message.recipientId);
-  payload.append('message[category]', message.category);
-  payload.append('message[subject]', message.subject);
+  const isReply = message.replyMessageId !== undefined;
+  let url = baseUrl;
+
+  if (isReply) {
+    url = `${url}/${message.replyMessageId}/reply`;
+  } else {
+    payload.append('message[recipient_id]', message.recipientId);
+    payload.append('message[category]', message.category);
+    payload.append('message[subject]', message.subject);
+  }
+
   payload.append('message[body]', message.body);
 
   // Add each attachment as a separate item
@@ -187,38 +195,10 @@ export function sendMessage(message) {
   });
 
   return dispatch => {
-    fetch(baseUrl, settings)
-    .then(res => res.json())
-    .then(
-      data => {
-        if (data.errors) {
-          return dispatch({
-            type: SEND_MESSAGE_FAILURE,
-            error: data.errors
-          });
-        }
-
-        return dispatch({
-          type: SEND_MESSAGE_SUCCESS,
-          message: data.data.attributes
-        });
-      },
-      error => dispatch({ type: SEND_MESSAGE_FAILURE, error })
-    );
-  };
-}
-
-export function sendReply(message) {
-  const replyUrl = `${baseUrl}/${message.replyMessageId}/reply`;
-  const payload = { message: { body: message.body } };
-  const settings = Object.assign({}, api.settings.postJson, {
-    body: JSON.stringify(payload)
-  });
-
-  return dispatch => {
-    fetch(replyUrl, settings)
+    fetch(url, settings)
     .then(response => {
-      // Delete the draft (if it exists) once the reply is successfully sent.
+      // If the message has an id, it was a saved draft.
+      // Delete the draft once message is successfully sent.
       const isSavedDraft = message.messageId !== undefined;
       if (response.ok && isSavedDraft) {
         const messageUrl = `${baseUrl}/${message.messageId}`;
