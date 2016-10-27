@@ -26,9 +26,13 @@ class RxRefillsApp extends React.Component {
       </div>
     );
 
+    return view;
+
+    /*
     return (
       <RequiredLoginView authRequired={3} component={view}/>
     );
+    */
   }
 }
 
