@@ -18,11 +18,9 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    if (localStorage.userToken) {
+    if (localStorage.length > 0) {
       this.props.onUpdateLoggedInStatus(true);
       this.getUserData();
-    } else {
-      this.props.onUpdateLoggedInStatus(false);
     }
 
     // TODO: Remove this conditional statement when going to production.
@@ -61,7 +59,7 @@ class Main extends React.Component {
     }).then(json => {
       // console.log(json);
       const userData = json.data.attributes.profile;
-      this.props.onUpdateProfile('accountType', userData.loa.current);
+      this.props.onUpdateProfile('accountType', userData.level_of_assurance);
       this.props.onUpdateProfile('email', userData.email);
       this.props.onUpdateProfile('userFullName.first', userData.first_name);
       this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
@@ -90,7 +88,7 @@ class Main extends React.Component {
 
     if (__BUILDTYPE__ !== 'production') {
       content = (
-        <SignInProfileButton onUserLogin={this.handleLogin}/>
+        <SignInProfileButton onUserLogin={this.handleLogin} onUserVerify={this.handleVerify}/>
       );
     } else {
       content = null;

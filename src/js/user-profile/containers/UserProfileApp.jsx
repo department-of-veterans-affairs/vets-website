@@ -6,13 +6,10 @@ import LoginDataSection from '../components/LoginDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
 import AccountManagementSection from '../components/AccountManagementSection';
 
-import RequiredLoginView from '../../common/components/RequiredLoginView';
-
 class UserProfileApp extends React.Component {
   render() {
     let components;
     let account;
-    let view;
 
     if (this.props.profile.accountType === 'loa3') {
       components = (
@@ -27,14 +24,15 @@ class UserProfileApp extends React.Component {
     } else {
       components = (
         <div>
+          <UserDataSection/>
           <LoginDataSection/>
+          <AuthApplicationSection/>
           <AccountManagementSection/>
         </div>
       );
       account = <p>ACCOUNT TYPE: Basic (<a href="#">Want to Upgrade your account?</a>)</p>;
     }
-
-    view = (
+    return (
       <div className="row">
         <div className="medium-8 small-12 columns">
           <h1>Your Vets.gov Account</h1>
@@ -43,12 +41,6 @@ class UserProfileApp extends React.Component {
         </div>
       </div>
     );
-
-    return (
-      <div>
-        <RequiredLoginView authRequired={1} component={view}/>
-      </div>
-      );
   }
 }
 
