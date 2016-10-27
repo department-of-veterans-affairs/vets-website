@@ -11,7 +11,7 @@ if (process.env.BUILDTYPE === 'development') {
 
       // Ensure introduction page renders.
       client
-        .url(`${E2eHelpers.baseUrl}/healthcare/prescriptions`)
+        .url(`${E2eHelpers.baseUrl}/rx/`)
                           .waitForElementVisible('body', Timeouts.normal);
 
         // TODO(crew): add tests for login component

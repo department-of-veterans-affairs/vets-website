@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 
 class ComposeButton extends React.Component {
   constructor(props) {
@@ -7,7 +8,7 @@ class ComposeButton extends React.Component {
   }
 
   goToComposeMessage() {
-    this.context.router.push('/compose');
+    browserHistory.push('/messaging/compose');
   }
 
   render() {
@@ -20,9 +21,5 @@ class ComposeButton extends React.Component {
     );
   }
 }
-
-ComposeButton.contextTypes = {
-  router: React.PropTypes.object.isRequired
-};
 
 export default ComposeButton;

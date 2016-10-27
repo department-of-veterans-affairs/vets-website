@@ -21,7 +21,7 @@ class SortMenu extends React.Component {
             className={defaultCssClass}
             activeClassName="rx-sort-active"
             to={{
-              pathname: '/',
+              pathname: '/rx',
               query: { sort: `${o.value}` }
             }}>{o.label}</Link></li>);
       });
