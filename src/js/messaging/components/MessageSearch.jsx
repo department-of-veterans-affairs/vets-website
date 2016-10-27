@@ -56,7 +56,10 @@ class MessageSearch extends React.Component {
       </div>
     );
 
-    const showBasicSearch = this.props.isAdvancedVisible ? <div/> : basicSearch;
+    let showBasicSearch;
+    if (!this.props.isAdvancedVisible) {
+      showBasicSearch = basicSearch;
+    }
 
     return (
       <form
