@@ -46,7 +46,7 @@ class UserProfileApp extends React.Component {
 
     return (
       <div>
-        <RequiredLoginView authRequired={3} component={view}/>
+        <RequiredLoginView authRequired={1} component={view}/>
       </div>
       );
   }
