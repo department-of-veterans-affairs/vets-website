@@ -12,10 +12,12 @@ import BenefitsRelinquishmentReview from './components/benefits-eligibility/Bene
 import BenefitsRelinquishmentFields from './components/benefits-eligibility/BenefitsRelinquishmentFields';
 import MilitaryServiceReview from './components/military-history/MilitaryServiceReview';
 import MilitaryServiceFields from './components/military-history/MilitaryServiceFields';
+import ServicePeriodsFields from './components/military-history/ServicePeriodsFields';
+import ServicePeriodsReview from './components/military-history/ServicePeriodsReview';
 import RotcHistoryReview from './components/military-history/RotcHistoryReview';
 import RotcHistoryFields from './components/military-history/RotcHistoryFields';
-import BenefitsHistoryReview from './components/military-history/BenefitsHistoryReview';
-import BenefitsHistoryFields from './components/military-history/BenefitsHistoryFields';
+import ContributionsReview from './components/military-history/ContributionsReview';
+import ContributionsFields from './components/military-history/ContributionsFields';
 import EmploymentHistoryReview from './components/employment-history/EmploymentHistoryReview';
 import EmploymentHistoryFields from './components/employment-history/EmploymentHistoryFields';
 import SchoolSelectionReview from './components/school-selection/SchoolSelectionReview';
@@ -67,6 +69,14 @@ const routes = [
       name="Benefits relinquishment"/>,
   <Route
       component={FormPage}
+      fieldsComponent={ServicePeriodsFields}
+      reviewComponent={ServicePeriodsReview}
+      key="/military-history/service-periods"
+      path="/military-history/service-periods"
+      chapter={chapterNames.militaryHistory}
+      name="Service periods"/>,
+  <Route
+      component={FormPage}
       fieldsComponent={MilitaryServiceFields}
       reviewComponent={MilitaryServiceReview}
       key="/military-history/military-service"
@@ -83,12 +93,12 @@ const routes = [
       name="ROTC history"/>,
   <Route
       component={FormPage}
-      fieldsComponent={BenefitsHistoryFields}
-      reviewComponent={BenefitsHistoryReview}
-      key="/military-history/benefits-history"
-      path="/military-history/benefits-history"
+      fieldsComponent={ContributionsFields}
+      reviewComponent={ContributionsReview}
+      key="/military-history/contributions"
+      path="/military-history/contributions"
       chapter={chapterNames.militaryHistory}
-      name="Benefits history"/>,
+      name="Contributions"/>,
   <Route
       component={FormPage}
       fieldsComponent={EducationHistoryFields}
