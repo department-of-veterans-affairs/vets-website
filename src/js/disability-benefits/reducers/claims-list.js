@@ -15,10 +15,11 @@ const initialState = {
 export default function claimsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIMS: {
+      const sortedList = _.orderBy('attributes.updatedAt', 'desc', action.claims);
       const current = (state.page - 1) * ROWS_PER_PAGE;
       return _.merge(state, {
-        list: action.claims,
-        visibleRows: action.claims.slice(current, current + ROWS_PER_PAGE),
+        list: sortedList,
+        visibleRows: sortedList.slice(current, current + ROWS_PER_PAGE),
         pages: Math.ceil(action.claims.length / ROWS_PER_PAGE)
       });
     }
