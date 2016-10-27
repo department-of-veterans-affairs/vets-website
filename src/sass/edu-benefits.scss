@@ -91,7 +91,10 @@ ul.claim-list{
 
 .edu-benefits-first-label {
   label {
-    margin-top: 1em;
+    margin-top: 0;
+  }
+  .usa-input-error {
+    margin-top: 0;
   }
 }
 
