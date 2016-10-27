@@ -1,5 +1,5 @@
 import { api } from '../config';
-import { find, filter } from 'lodash';
+import { find, filter, compact } from 'lodash';
 import { mapboxClient } from '../components/MapboxClient';
 import sampleData from 'json!../sampleData/sampleData.json';
 
@@ -192,9 +192,13 @@ export function searchWithAddress(query) {
   };
 }
 
-export function searchWithBounds(bounds, type) {
-  const bboxString = bounds.map(c => `bbox[]=${c}`).join('&');
-  const url = `${api.url}?${bboxString}${type ? `&type=${type}` : ''}`;
+export function searchWithBounds(bounds, facilityType, serviceType) {
+  const params = compact([
+    ...bounds.map(c => `bbox[]=${c}`),
+    facilityType ? `type=${facilityType}` : null,
+    serviceType ? `services[]=${serviceType}` : null,
+  ]).join('&');
+  const url = `${api.url}?${params}`;
 
   return dispatch => {
     dispatch({

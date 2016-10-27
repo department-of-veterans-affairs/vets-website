@@ -55,16 +55,40 @@ class SearchControls extends Component {
   }
 
   renderServiceFilterOptions() {
-    const { currentQuery } = this.props;
+    const { currentQuery: { facilityType } } = this.props;
 
-    if (currentQuery.facilityType === 'va_health_facility') {
-      return [
-        <option key="primary_care" value="primary_care">Primary Care</option>,
-        <option key="mental_health" value="mental_health">Mental Health</option>,
-      ];
+    switch (facilityType) {
+      case 'health':
+        return [
+          <option key="primary_care" value="primary_care">Primary Care</option>,
+          <option key="mental_health" value="mental_health">Mental Health</option>,
+        ];
+      case 'benefits':
+        return [
+          <option key="ApplyingForBenefits" value="ApplyingForBenefits">Applying For Benefits</option>,
+          <option key="CareerCounseling" value="CareerCounseling">Career Counseling</option>,
+          <option key="SchoolAssistance" value="SchoolAssistance">School Assistance</option>,
+          <option key="VocationalRehabilitationCareerAssistance" value="VocationalRehabilitationCareerAssistance">Vocational Rehabilitation Career Assistance</option>,
+          <option key="TransitionAssistance" value="TransitionAssistance">Transition Assistance</option>,
+          <option key="Pre-dischargeAssistance" value="Pre-dischargeAssistance">Pre-discharge Assistance</option>,
+          <option key="EmploymentAssistance" value="EmploymentAssistance">Employment Assistance</option>,
+          <option key="FinancialCounseling" value="FinancialCounseling">Financial Counseling</option>,
+          <option key="HousingAssistance" value="HousingAssistance">Housing Assistance</option>,
+          <option key="DisabilityClaimAssistance" value="DisabilityClaimAssistance">Disability Claim Assistance</option>,
+          <option key="EducationClaimAssistance" value="EducationClaimAssistance">Education Claim Assistance</option>,
+          <option key="InsuranceClaimAssistance" value="InsuranceClaimAssistance">Insurance Claim Assistance</option>,
+          <option key="VocationalRehabilitationClaimAssistance" value="VocationalRehabilitationClaimAssistance">Vocational Rehabilitation Claim Assistance</option>,
+          <option key="SurvivorClaimAssistance" value="SurvivorClaimAssistance">Survivor Claim Assistance</option>,
+          <option key="UpdatingContactInformation" value="UpdatingContactInformation">Updating Contact Information</option>,
+          <option key="UpdatingDirectDepositInformation" value="UpdatingDirectDepositInformation">Updating Direct Deposit Information</option>,
+          <option key="BurialClaimAssistance" value="BurialClaimAssistance">Burial Claim Assistance</option>,
+          <option key="eBenefitsLogonAssistance" value="eBenefitsLogonAssistance">eBenefits Logon Assistance</option>,
+          <option key="IntegratedDisabilityEvaluationSystem" value="IntegratedDisabilityEvaluationSystem">Integrated Disability Evaluation System</option>,
+          <option key="HomelessAssistance" value="HomelessAssistance">Homeless Assistance</option>,
+        ];
+      default:
+        return null;
     }
-
-    return null;
   }
 
   renderSelectOptionWithIcon(facilityType) {
@@ -115,8 +139,8 @@ class SearchControls extends Component {
           </div>
           <div className="columns medium-3">
             <label htmlFor="serviceType">Select Service Type</label>
-            <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType} disabled={currentQuery.facilityType !== 'benefits'}>
-              <option value="all">All</option>
+            <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType || ''} disabled={currentQuery.facilityType !== 'benefits'}>
+              <option>All</option>
               {this.renderServiceFilterOptions()}
             </select>
           </div>

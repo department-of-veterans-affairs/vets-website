@@ -128,7 +128,7 @@ class VAMap extends Component {
   }
 
   handleBoundsChanged = () => {
-    const { currentQuery: { facilityType } } = this.props;
+    const { currentQuery: { facilityType, serviceType } } = this.props;
     const bounds = this.refs.map.leafletElement.getBounds();
     const boundsArray = [
       bounds._southWest.lng,
@@ -141,7 +141,7 @@ class VAMap extends Component {
       bounds: boundsArray,
     });
 
-    this.props.searchWithBounds(boundsArray, facilityType);
+    this.props.searchWithBounds(boundsArray, facilityType, serviceType);
   }
 
   centerMap = () => {
