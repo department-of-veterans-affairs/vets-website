@@ -10,15 +10,15 @@ Do you have a disability (damage to your body or mind that makes you less able�
 
 <div class="call-out" markdown="1">
 
-### Can I get compensation from VA?
+### Can I get disability compensation from VA?
 
 Yes, if:
 
 - Your disability is believed to be caused by service in the military (called a service-connected disability), and 
 - Your service-connected disability includes at least 1 of the following:
-  - Loss, or permanent loss of use, of 1 or both feet
+  - Loss, or permanent (long-lasting) loss of use, of 1 or both feet
   - Loss, or permanent loss of use, of 1 or both hands
-  - Permanent (long-lasting) loss of vision in both eyes: 20/200 vision or less in your better eye with glasses, or greater than 20/200 vision but with a visual field defect that has reduced your peripheral vision to 20 degrees or less in your better eye
+  - Permanent loss of vision in both eyes: 20/200 vision or less in your better eye with glasses, or greater than 20/200 vision but with a visual field defect that has reduced your peripheral vision to 20 degrees or less in your better eye
   - A severe burn injury
   - Amyotrophic lateral sclerosis (or ALS, a disease that affects the nerve cells in your brain and spinal cord and leads to loss of muscle control that gets worse over time)
   - Ankylosis (a stiffness or locking of a joint caused by bones fusing together) in 1 or both knees or hips (qualifies you for adaptive-equipment grant only)
@@ -31,7 +31,7 @@ Yes, if:
 
 ### What kind of benefits can I get?
 
-- A 1-time payment of $20,114.34 to help you buy a specially equiped vehicle
+- A 1-time payment of $20,114.34 to help you buy a specially equipped vehicle
 - Possibly 1 or more adaptive-equipment grants to change a vehicle with power steering, brakes, seats, windows, or lift equipment to help you with getting into and out of the vehicle
 
 -----
@@ -47,5 +47,5 @@ When you apply, you'll need to show that your disability is service connected or
 You'll also need to complete VA Form 21-4502: Application for Automobile or Other Conveyance and Adaptive Equipment.
 [Download VA Form 21-4502](http://www.vba.va.gov/pubs/forms/VBA-21-4502-ARE.pdf). 
 
-If you are entitled to adaptive equipment only (for example, you have a service-connected disability due to ankylosis of the knees or hips), you should complete VA Form 10-1394: Application for Adaptive Equipment—Motor Vehicle.
+If you qualify for adaptive equipment only (for example, you have a service-connected disability due to ankylosis of the knees or hips), you should complete VA Form 10-1394: Application for Adaptive Equipment—Motor Vehicle.
 [Download VA Form 10-1394](http://www.va.gov/vaforms/medical/pdf/10-1394-fill.pdf).
