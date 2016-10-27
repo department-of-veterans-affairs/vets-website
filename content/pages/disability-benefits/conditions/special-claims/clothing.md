@@ -10,12 +10,12 @@ Has your clothing been damaged by your prosthetic or orthopedic device (such as 
 
 <div class="call-out" markdown="1">
 
-### Can I get compensation from VA?
+### Can I get disability compensation from VA?
 
 Yes, if:
 
   - Your prosthetic or orthopedic device or your skin medicine causes damage to your clothes, and
-  - Your need for this device or skin medication is related to an injury or illness caused by your military service (called a service-connected condition)
+  - You need this device or skin medicine because of an injury or illness related to your military service (called a service-connected condition)
 
 
 
