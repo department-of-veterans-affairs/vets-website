@@ -42,8 +42,8 @@ relatedlinks:
     description: ""
 ---
 
-Since 1944, the GI Bill has helped millions of Veterans pay for college so they can have successful civilian careers. The Post-9/11 GI Bill, available for Veterans with active-duty service after September 11, 2001, also offers a living allowance, money for books, and the option to transfer education benefits you don't use to your spouse or children.
+Since 1944, the GI Bill has helped millions of Veterans pay for college so they can make the move to a civilian careers. Veterans with active-duty service after September 11, 2001, can get a living allowance, money for books, and the option to transfer education benefits you don't use to your spouse or children with the Post 9/11 GI Bill. 
 
-You have several options from which to choose. [Veterans Service Organizations](http://www.va.gov/vso/) and the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) can help you pick the best program.
+[Veterans Service Organizations](http://www.va.gov/vso/) and the [GI Bill Comparison Tool](/gi-bill-comparison-tool/) can help you pickan  education program and see what benefits you'll get.
 
 <a class="usa-button-primary va-button-primary" href="/education/apply-for-education-benefits/">Apply for Education Benefits</a> <a class="usa-button-primary va-button-secondary" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
