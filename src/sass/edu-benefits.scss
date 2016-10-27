@@ -37,7 +37,7 @@ legend {
   margin: 2rem 0rem;
   padding: 2rem 3rem;
   line-height: 2.2rem;
-  background-color: #e0f3f8; // TODO: move these colors to variables.scss 
+  background-color: #e0f3f8; // TODO: move these colors to variables.scss
   &.secondary {
     background-color: #eee;
   }
@@ -112,32 +112,41 @@ ul.claim-list{
   }
 }
 
-.edu-benefits-mil-group.form-expanding-group-inner-enter, 
+.edu-benefits-mil-group.form-expanding-group-inner-enter,
   .edu-benefits-mil-group.form-expanding-group-inner-leave-active {
   margin-top: -30px;
 }
 
-.edu-benefits-rotc-group.form-expanding-group-inner-enter, 
+.edu-benefits-selection-group.form-expanding-group-inner-enter,
+  .edu-benefits-selection-group.form-expanding-group-inner-leave-active {
+  margin-top: -16px;
+}
+
+.edu-benefits-chapter33-extra {
+  margin-left: 29px;
+}
+
+.edu-benefits-rotc-group.form-expanding-group-inner-enter,
   .edu-benefits-rotc-group.form-expanding-group-inner-leave-active {
   margin-top: -53px;
 }
 
-.edu-benefits-chapter33-group.form-expanding-group-inner-enter, 
+.edu-benefits-chapter33-group.form-expanding-group-inner-enter,
   .edu-benefits-chapter33-group.form-expanding-group-inner-leave-active {
   margin-top: -16px;
 }
 
-.edu-benefits-employ-group.form-expanding-group-inner-enter, 
+.edu-benefits-employ-group.form-expanding-group-inner-enter,
   .edu-benefits-employ-group.form-expanding-group-inner-leave-active {
   margin-top: -30px;
 }
 
-.edu-benefits-apply-group.form-expanding-group-inner-enter, 
+.edu-benefits-apply-group.form-expanding-group-inner-enter,
   .edu-benefits-apply-group.form-expanding-group-inner-leave-active {
   margin-top: -30px;
 }
 
-.edu-benefits-active-group.form-expanding-group-inner-enter, 
+.edu-benefits-active-group.form-expanding-group-inner-enter,
   .edu-benefits-active-group.form-expanding-group-inner-leave-active {
   margin-top: -30px;
 }
@@ -162,6 +171,7 @@ ul.claim-list{
 // Testing a slightly modified required asterisk
 .form-required-span {
   font-size: 1.7em;
+  line-height: 1;
   position: relative;
   top: 10px;
 }
