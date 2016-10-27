@@ -70,7 +70,7 @@ export class Thread extends React.Component {
       recipientId: +draft.recipient.value,
       replyMessageId: draft.replyMessageId,
       subject: draft.subject.value
-    }
+    };
   }
 
   handleMessageDelete() {

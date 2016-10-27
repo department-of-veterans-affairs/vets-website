@@ -129,7 +129,7 @@ export function saveDraft(message) {
   let defaultSettings = api.settings.postJson;
 
   if (isReply) {
-    url = `${url}/${message.replyMessageId}/replydraft`
+    url = `${url}/${message.replyMessageId}/replydraft`;
   }
 
   // Update the draft if it already has an id.
