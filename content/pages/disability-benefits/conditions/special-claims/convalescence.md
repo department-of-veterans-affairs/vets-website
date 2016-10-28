@@ -1,9 +1,9 @@
 ---
 layout: page-breadcrumbs.html
-title: Recovery from Surgery or an Immobilizing Disability
+title: Recovery from Surgery or an Immobilizing Disability (Convalescence)
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-convalescence.asp
-plainlanguage: 10-26-16 Ready for Beth review
+plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
@@ -16,14 +16,14 @@ Are you recovering from surgery or a disability related to your military service
 Yes, if:
 
   -	You've had a surgery or other treatment performed at a VA hospital or an approved hospital or outpatient center for a disability related to your military service (called a service-connected disability), and
-  -	The surgery required a recovery time (also known as convalescence) of at least 1 month, or
+  -	The surgery required a recovery time of at least 1 month, or
   -	Reports show that the surgery or treatment was for a service-connected disability, and
   -	The surgery resulted in severe issues, such as:
-      - surgical wounds that haven't healed all the way
-      - stumps of recent amputations
-      - being unable to move due to being put in splints or casts to help with healing (known as therapeutic immobilizations)
-      - being unable to leave your house (known as house confinement)
-      - being required to use a wheelchair or crutches, or
+      - Surgical wounds that haven't healed all the way
+      - Stumps of recent amputations
+      - Being unable to move due to being put in splints or casts to help with healing (known as therapeutic immobilizations)
+      - Being unable to leave your house (known as house confinement)
+      - Being required to use a wheelchair or crutches, or
   -	1 major joint or more was immobilized by a cast without surgery
 
 ### Who's covered?
