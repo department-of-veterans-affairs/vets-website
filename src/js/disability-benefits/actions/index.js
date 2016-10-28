@@ -148,11 +148,12 @@ export function submitFiles(claimId, trackedItem, files) {
   const trackedItemId = trackedItem ? trackedItem.trackedItemId : null;
 
   return (dispatch) => {
+    /* eslint-disable camelcase */
     const uploader = new FineUploaderBasic({
       request: {
         endpoint: `${environment.API_URL}/v0/disability_claims/${claimId}/documents`,
         params: {
-          trackedItem: trackedItemId
+          tracked_item_id: trackedItemId
         },
         inputName: 'file',
         customHeaders: {
@@ -211,10 +212,11 @@ export function submitFiles(claimId, trackedItem, files) {
 
     files.forEach(({ file, docType }) => {
       uploader.addFiles(file, {
-        docType: docType.value,
-        docTypeDescription: getDocTypeDescription(docType.value)
+        document_type: docType.value,
+        document_type_description: getDocTypeDescription(docType.value)
       });
     });
+    /* eslint-enable camelcase */
   };
 }
 
