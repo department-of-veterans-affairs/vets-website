@@ -32,29 +32,29 @@ If you are a Servicemember or Veteran interested in education and training oppor
 
 ###### Check your eligibility
 
-You may be eligible for more than one benefit, based on your service. When you apply, you have to pick which one you want to use: 
+You may be eligible for more than one benefit, based on your service. When you apply, you have to pick which one you want to use:
 
-- [Post- 9/11 GI Bill](https://www.vets.gov/education/gi-bill/post-9-11/) (Chapter 33)
-- [Montgomery GI Bill](https://www.vets.gov/education/gi-bill/montgomery-active-duty/) (MGIB-AD, Chapter 30)
-- [Montgomery GI Bill Selected Reserve](https://www.vets.gov/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR, Chapter 1606)
-- [Post-Vietnam Era Veterans' Educational Assistance Program](https://www.vets.gov/education/other-educational-assistance-programs/veap/) (VEAP, Chapter 32)
+- [Post- 9/11 GI Bill](/education/gi-bill/post-9-11/) (Chapter 33)
+- [Montgomery GI Bill](/education/gi-bill/montgomery-active-duty/) (MGIB-AD, Chapter 30)
+- [Montgomery GI Bill Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR, Chapter 1606)
+- [Post-Vietnam Era Veterans' Educational Assistance Program](/education/other-educational-assistance-programs/veap/) (VEAP, Chapter 32)
 
 [An accredited representative]( http://www.va.gov/ogc/apps/accreditation/index.asp) with a Veterans Service Organization (VSO) can help you pick the right program.
 
 ###### Learn about educational programs
 
-- Compare estimated benefits by school using the [GI Bill Comparison Tool](https://www.vets.gov/gi-bill-comparison-tool/).
+- Compare estimated benefits by school using the [GI Bill Comparison Tool](/gi-bill-comparison-tool/).
 
 </div>
 
-<a class="usa-button-primary usa-button-outline" href="https://www.vets.gov/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
+<a class="usa-button-primary usa-button-outline" href="/gi-bill-comparison-tool/">GI Bill Comparison Tool</a>
 
 <div markdown="1">
 
 ###### What you need to fill out this application
 
-- Social Security number 
-- Bank account direct deposit information 
+- Social Security number
+- Bank account direct deposit information
 - Education, military, and employment history (for example, journeyman or licensed plumber)
 - Basic information about the school you want to attend
 
@@ -78,7 +78,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 - Go to a VA regional office and have a VA employee assist you.
 - Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
-- Call 888-442-4551 to have the application mailed to you. Fill it out and mail it to your VA regional claims processing office.
+- Call 888-442-4551 (888-GI-BILL-1) to have the application mailed to you. Fill it out and mail it to your VA regional claims processing office.
 
 </div>
 
@@ -96,7 +96,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ###### What should I do while I wait?
 
-- The transition from military to civilian life can be challenging. VA offers [tools and counseling programs](https://www.vets.gov/education/tools-programs/education-career-counseling/) to help you make the most of your educational options. 
+- The transition from military to civilian life can be challenging. VA offers [tools and counseling programs](/education/tools-programs/education-career-counseling/) to help you make the most of your educational options.
 
 ###### What if VA needs more information?
 
@@ -112,7 +112,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ##### Decision
 
-- We usually review claims within 30 days. 
+- We usually review claims within 30 days.
 - You'll get a COE in the mail if your application was approved. Bring this to the VA certifying official at your school.
 
 </div>
@@ -128,7 +128,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 - We usually review claims within 30 days.
 - If we’ve asked for documents, please upload them through the [GI Bill site](https://gibill.custhelp.com/app/home).
 - You can’t make changes to your application.
-- Call 888-442-4551 if you have questions. 
+- Call 888-442-4551 (888-GI-BILL-1) if you have questions.
 
 </div>
 

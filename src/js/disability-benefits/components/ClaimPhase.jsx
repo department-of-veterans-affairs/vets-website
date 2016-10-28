@@ -91,6 +91,13 @@ export default class ClaimPhase extends React.Component {
             We have reviewed your submitted evidence for {event.displayName}. We will notify you if we need additional information.
           </div>
         );
+      case 'never_received_from_you_list':
+      case 'never_received_from_others_list':
+        return (
+          <div className="claims-evidence-item columns medium-9">
+            We closed the notice for {event.displayName}
+          </div>
+        );
 
       default:
         return null;

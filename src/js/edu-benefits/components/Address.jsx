@@ -88,7 +88,7 @@ class Address extends React.Component {
           value={this.props.value.state}
           required={this.props.required}
           onValueChange={(update) => {this.handleChange('state', update);}}/>
-      : <ErrorableTextInput label="State/Province"
+      : <ErrorableTextInput label="State/province"
           name="province"
           autocomplete="address-level1"
           field={this.props.value.state}
@@ -124,7 +124,7 @@ class Address extends React.Component {
         {stateProvince}
         <ErrorableTextInput errorMessage={this.validatePostalCode(this.props.value.postalCode) ? undefined : 'Please enter a valid Postal code'}
             additionalClass="usa-input-medium"
-            label="Postal code"
+            label={this.props.value.country.value === 'USA' ? 'Zip code' : 'Postal code'}
             name="postalCode"
             autocomplete="postal-code"
             field={this.props.value.postalCode}

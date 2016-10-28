@@ -8,7 +8,9 @@ import SortableTable from '../../common/components/SortableTable';
 
 import {
   fetchFolder,
+  sendSearch,
   setDateRange,
+  setSearchParam,
   toggleAdvancedSearch,
   toggleFolderNav
 } from '../actions';
@@ -97,7 +99,9 @@ export class Folder extends React.Component {
 
   makeMessagesTable() {
     const messages = this.props.messages;
-    if (!messages || messages.length === 0) { return null; }
+    if (!messages || messages.length === 0) {
+      return <h1 className="msg-nomessages">No messages</h1>;
+    }
 
     const makeMessageLink = (content, id) => {
       return <Link to={`/thread/${id}`}>{content}</Link>;
@@ -139,6 +143,7 @@ export class Folder extends React.Component {
 
   render() {
     const folderName = _.get(this.props.attributes, 'name');
+    const folderId = _.get(this.props.attributes, 'folderId', 0);
     const messageNav = this.makeMessageNav();
     const folderMessages = this.makeMessagesTable();
 
@@ -154,12 +159,13 @@ export class Folder extends React.Component {
           <h2>{folderName}</h2>
         </div>
         <MessageSearch
+            folder={+folderId}
             isAdvancedVisible={this.props.isAdvancedVisible}
-            searchDateRangeEnd={this.props.searchDateRangeEnd}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}
-            searchDateRangeStart={this.props.searchDateRangeStart}
-            onSubmit={(e) => { e.preventDefault(); }}/>
+            params={this.props.searchParams}
+            onFieldChange={this.props.setSearchParam}
+            onSubmit={this.props.sendSearch}/>
         <div id="messaging-folder-controls">
           <ComposeButton/>
           {messageNav}
@@ -194,15 +200,16 @@ const mapStateToProps = (state) => {
     page,
     totalPages,
     isAdvancedVisible: state.search.advanced.visible,
-    searchDateRangeStart: state.search.advanced.params.dateRange.start,
-    searchDateRangeEnd: state.search.advanced.params.dateRange.end,
+    searchParams: state.search.params,
     sort: folder.sort
   };
 };
 
 const mapDispatchToProps = {
   fetchFolder,
+  sendSearch,
   setDateRange,
+  setSearchParam,
   toggleAdvancedSearch,
   toggleFolderNav
 };
