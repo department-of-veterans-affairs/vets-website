@@ -14,7 +14,7 @@ If you had contact with mustard gas (also known as sulfur mustard, yperite, or n
 
 Yes, if:
 
--	You have a disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks in life, including meaningful work) believed to be caused by contact with mustard gas or lewisite, and 
+-	You have a disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work) believed to be caused by contact with mustard gas or lewisite, and 
 - Your military record shows you had contact with mustard gas or lewisite:
     - During field or chamber testing, or
     - At the German air raid on the harbor of Bari, Italy, in World War II, or
