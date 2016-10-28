@@ -80,7 +80,7 @@ class History extends React.Component {
 
       const fields = [
         { label: 'Last requested date', value: 'refillSubmitDate' },
-        { label: 'Last fill date', value: 'dispensedDate' },
+        { label: 'Last fill date', value: 'refillDate' },
         { label: 'Prescription', value: 'prescriptionName' },
         { label: 'Prescription status', value: 'refillStatus' }
       ];
@@ -97,9 +97,9 @@ class History extends React.Component {
             ? moment(attrs.refillSubmitDate).format('MMM DD, YYYY')
             : 'Not available',
 
-          dispensedDate:
-            attrs.dispensedDate
-            ? moment(attrs.dispensedDate).format('MMM DD, YYYY')
+          refillDate:
+            attrs.refillDate
+            ? moment(attrs.refillDate).format('MMM DD, YYYY')
             : 'Not available',
 
           prescriptionName: (

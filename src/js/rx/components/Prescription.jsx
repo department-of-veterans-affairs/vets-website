@@ -133,7 +133,7 @@ class Prescription extends React.Component {
             Facility name: {attrs.facilityName}
           </div>
           <div className="rx-prescription-refilled">
-            Last fill date: {moment(attrs.dispensedDate).format('L')}
+            Last fill date: {moment(attrs.refillDate).format('L')}
           </div>
           <div className="rx-prescription-countaction">
             <RefillsRemainingCounter

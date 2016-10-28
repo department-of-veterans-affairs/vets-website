@@ -105,8 +105,8 @@ export class Detail extends React.Component {
         </button>
       ),
 
-      'Last fill date': attrs.dispensedDate
-        ? moment(attrs.dispensedDate).format('MMM D, YYYY')
+      'Last fill date': attrs.refillDate
+        ? moment(attrs.refillDate).format('MMM D, YYYY')
         : 'Not available',
 
       'Expiration date': attrs.expirationDate
