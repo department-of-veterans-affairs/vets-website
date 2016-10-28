@@ -40,25 +40,23 @@ class MessageSearch extends React.Component {
   }
 
   render() {
-    const basicSearch = (
-      <div className="va-flex va-flex--stretch msg-search-simple-wrap">
-        <ErrorableTextInput
-            field={this.props.params.term}
-            name="msg-search-simple"
-            label="Search messages"
-            onValueChange={this.handleSearchTermChange}/>
-        <button
-            type="submit"
-            className="msg-search-btn">
-          <i className="fa fa-search"></i>
-          <span className="msg-search-btn-text">Search</span>
-        </button>
-      </div>
-    );
-
-    let showBasicSearch;
+    let basicSearch;
     if (!this.props.isAdvancedVisible) {
-      showBasicSearch = basicSearch;
+      basicSearch = (
+        <div className="va-flex va-flex--stretch msg-search-simple-wrap">
+          <ErrorableTextInput
+              field={this.props.params.term}
+              name="msg-search-simple"
+              label="Search messages"
+              onValueChange={this.handleSearchTermChange}/>
+          <button
+              type="submit"
+              className="msg-search-btn">
+            <i className="fa fa-search"></i>
+            <span className="msg-search-btn-text">Search</span>
+          </button>
+        </div>
+      );
     }
 
     return (
@@ -66,7 +64,7 @@ class MessageSearch extends React.Component {
           className={this.props.cssClass}
           id="msg-search"
           onSubmit={this.handleSubmit}>
-        {showBasicSearch}
+        {basicSearch}
         <MessageSearchAdvanced
             params={this.props.params}
             isVisible={this.props.isAdvancedVisible}
