@@ -117,10 +117,10 @@ if (options.buildtype === 'production') {
   ignoreList.push('profile/*');
   ignoreList.push('auth/*');
   ignoreList.push('education/apply-for-education-benefits-new');
+  ignoreList.push('education/index-new');
 } else if (options.buildtype === 'staging') {
   ignoreList.push('facilities/*');
   ignoreList.push('profile/*');
-  ignoreList.push('education/apply-for-education-benefits-new');
 }
 
 smith.use(ignore(ignoreList));
