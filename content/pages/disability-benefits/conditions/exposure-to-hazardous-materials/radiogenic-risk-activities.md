@@ -2,39 +2,48 @@
 layout: page-breadcrumbs.html
 title: Radiogenic Risk Activities
 source: http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-environmental_hazards.asp,http://www.benefits.va.gov/COMPENSATION/claims-postservice-exposures-radiogenic_diseases.asp
+plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page-pending
 ---
 
-Radiogenic diseases can be caused by exposure to radiation. If you participated in an activity while on active duty that has a radiation risk, you may have developed one of these [associated diseases](http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309).
+Radiogenic diseases are illnesses that can be caused by coming into contact with radiation. If your work while on active duty may have put you into contact with radiation, you may be at risk of radiation-related illnesses. Find out if you can get VA support (known as disability compensation or benefits) for these illnesses. 
+
+[Learn about radiation-related illnesses]( http://www.ecfr.gov/cgi-bin/text-idx?rgn=div5&node=38:1.0.1.1.4#se38.1.3_1309). 
 
 <div class="call-out" markdown="1">
 
-### Are you eligible for disability benefits?
+### Can I get disability compensation from VA?
+
 Yes, if:
 
-  - You were interned as a prisoner of war in Japan.
-  - You participated in the postwar occupation of Hiroshima or Nagasaki.
-  - You participated in atmospheric nuclear weapons testing.
-  - You participated in underground nuclear weapons testing at Amchitka Island, Alaska.
-  - You were assigned to a gaseous diffusion plant at one of the following:
-    -	Paducah, Kentucky
-    -	Portsmouth, Ohio, or
-    -	Area K-25 at Oak Ridge, Tennessee
+- You have an illness believed to be caused by radiation, and
+- You were interned as a prisoner of war (POW) in Japan, or
+- You were part of the postwar occupation of Hiroshima or Nagasaki, or
+- You were part of atmospheric nuclear weapons testing, or
+- You were part of underground nuclear weapons testing at Amchitka Island, Alaska, or
+- You were assigned to a gaseous diffusion plant at: 
+  - Paducah, Kentucky, or
+  - Portsmouth, Ohio, or
+  - Area K-25 at Oak Ridge, Tennessee, and 
+- You were not dishonorably discharged from the military
 
-### Who is covered
-You
+
+### Who’s covered?
+Veterans
 
 </div>
 
-### Available benefits
+### What kind of support can I get?
 
-- Compensation
 - Health care
+- Financial support (monthly payments)
 
 ------
 
-### How it works
+### How do I get these benefits?
 
-- Your service records must prove you participated in one of the radiation risk activities described above and in 38 CFR 3.309(d)(3)(ii).
-- You have to claim an actual disease or disability. It is not enough to state that you were exposed to radiation during service.
-- You must have been discharged under conditions other than dishonorable.
+You’ll need to apply for benefits.
+
+Your service records must show that you were part of 1 of the radiation risk activities described above and in 38 CFR 3.309(d)(3)(ii). And you’ll need to claim an actual illness or disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work). It’s not enough to state that you had contact with radiation during service.
+
+[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
