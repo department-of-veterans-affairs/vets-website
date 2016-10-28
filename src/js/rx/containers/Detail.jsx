@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
+import AlertBox from '../../common/components/AlertBox';
+import { closeAlert } from '../actions/alert.js';
 import { openGlossaryModal, openRefillModal } from '../actions/modal';
 import { loadPrescription } from '../actions/prescriptions';
 import BackLink from '../components/BackLink';
@@ -179,6 +181,18 @@ export class Detail extends React.Component {
   }
 
   render() {
+    let alertBox;
+
+    if (this.props.alert.visible) {
+      alertBox = (
+        <AlertBox
+            content={this.props.alert.content}
+            isVisible={this.props.alert.visible}
+            onCloseAlert={this.props.closeAlert}
+            status={this.props.alert.status}/>
+      );
+    }
+
     let header;
     let rxInfo;
     let contactCard;
@@ -192,7 +206,8 @@ export class Detail extends React.Component {
     }
 
     return (
-      <div id="rx-detail" className="rx-app row">
+      <div id="rx-detail">
+        {alertBox}
         <h1>Prescription Refill</h1>
         <BackLink text="Back to list"/>
         {header}
@@ -205,10 +220,14 @@ export class Detail extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { prescription: state.prescriptions.currentItem };
+  return {
+    alert: state.alert,
+    prescription: state.prescriptions.currentItem
+  };
 };
 
 const mapDispatchToProps = {
+  closeAlert,
   loadPrescription,
   openGlossaryModal,
   openRefillModal
