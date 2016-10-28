@@ -10,7 +10,7 @@ class GlossaryPage extends React.Component {
 
   render() {
     return (
-      <section className="rx-app row">
+      <section>
         <BackLink text="Back to detail page"/>
         <h1>Glossary</h1>
         <GlossaryList terms={glossary}/>

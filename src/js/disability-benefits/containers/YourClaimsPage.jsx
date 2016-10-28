@@ -53,7 +53,7 @@ class YourClaimsPage extends React.Component {
     return (
       <div>
         <div className="row">
-          <div className="large-8 columns your-claims">
+          <div className="small-12 medium-8 columns your-claims">
             <div>
               <h1>Your Claims</h1>
             </div>
