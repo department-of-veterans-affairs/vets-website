@@ -2,11 +2,11 @@
 layout: page-breadcrumbs.html
 title: Disabilities That Prevent You from Driving
 concurrence: incomplete
-plainlanguage: 10-26-16 Ready for Beth review
+plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page-pending
 ---
 
-Do you have a disability (damage to your body or mind that makes you less able—or totally unable—to do everyday life tasks, including meaningful work) caused by your service in the military that prevents you from driving? If yes, you may be able to get VA support (known as disability compensation or benefits). 
+Do you have a disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work) caused by your service in the military that prevents you from driving? If yes, you may be able to get VA support (known as disability compensation or benefits). 
 
 <div class="call-out" markdown="1">
 
@@ -18,10 +18,10 @@ Yes, if:
 - Your service-connected disability includes at least 1 of the following:
   - Loss, or permanent (long-lasting) loss of use, of 1 or both feet
   - Loss, or permanent loss of use, of 1 or both hands
-  - Permanent loss of vision in both eyes: 20/200 vision or less in your better eye with glasses, or greater than 20/200 vision but with a visual field defect that has reduced your peripheral vision to 20 degrees or less in your better eye
+  - Permanent decreased vision in both eyes: 20/200 vision or less in your better eye with glasses, or greater than 20/200 vision but with a visual field defect that has reduced your peripheral vision to 20 degrees or less in your better eye
   - A severe burn injury
   - Amyotrophic lateral sclerosis (or ALS, a disease that affects the nerve cells in your brain and spinal cord and leads to loss of muscle control that gets worse over time)
-  - Ankylosis (a stiffness or locking of a joint caused by bones fusing together) in 1 or both knees or hips (qualifies you for adaptive-equipment grant only)
+  - Ankylosis (a stiffness or locking of a joint caused by bones fusing together) in 1 or both knees or hips (**Note:** This qualifies you for an adaptive-equipment grant only)
 
 ### Who's covered?
 
