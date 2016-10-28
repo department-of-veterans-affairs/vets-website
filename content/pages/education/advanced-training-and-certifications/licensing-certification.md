@@ -5,27 +5,27 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-If you are a Veteran looking for employment in a field that requires a license or certification, you may be eligible for GI Bill reimbursement for licensing or certification exams.
+VA may pay Veterans back for licensing or certification exam costs.
+
 <div class="call-out" markdown="1">
 
-### Are you eligible for compensation?
+### Can I get paid back for licensing and certification test fees?
 Yes, if:
 
-  -	You are eligible for the GI Bill.
-  -	You are taking an exam that costs less than $2,000.
+  -	You qualify for the GI Bill.
+  -	You're taking an exam that costs less than $2,000.
 
-### Who is covered
-You
+### Who is covered?
+Veterans
+
 </div>
 
-### Available benefits
-Reimbursement under the GI Bill
+### What kind of benefits can I get?
+VA may pay you back for tests that you need to take to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional.
 
-### How it works
-VA may reimburse you for tests necessary for you to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional.
+### How do I get this benefit?
+After you turn in proof of payment, VA may pay you back. There's no limit to the number of tests you can take, or the number of times you take the same test. We pay for tests even when you don’t score high enough to get your license or certification.
 
-After you submit proof of payment, VA will reimburse you. There is no limit to the number of tests you can take, or the number of times you take the same test. VA pays for tests even when you don’t score high enough to achieve your license or certification.
+Find out [how your GI Bill entitlement will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) if you use the licensing and certification benefit.
 
-Find out [how your GI Bill entitlement will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for using a licensing and certification benefit.
-
-Fees associated with obtaining a license or certification are not reimbursable.
+VA won't pay for fees or costs you need to pay to get your license or certification.
