@@ -12,7 +12,6 @@ import GlossaryModal from '../components/GlossaryModal';
 
 class RxRefillsApp extends React.Component {
   render() {
-
     const view = (
       <div>
         <Disclaimer
