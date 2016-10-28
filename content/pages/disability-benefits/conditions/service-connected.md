@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Disabilities Linked to Military Service
 source: https://eauth.va.gov/ebenefits/learn/compensation
-plainlanguage: 10-25-16 Ready for Beth review
+plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 ---
 
 
@@ -17,7 +17,7 @@ Do you have a disability caused by an illnesss or injury that happened—or got 
 
 Yes, if:
 
-- You have a current physical or mental disability (damage to your body or mind that makes you less able—or totally unable—to do everyday life tasks, including meaningful work), and
+- You have a current physical or mental disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work), and
 - You got injured or sick while actively serving in the military—and your injury or illness caused your disability or made a disability you already had worse, and 
 - You can link your current disability to an injury or illness that happened while you were actively serving in the military
 
@@ -33,13 +33,13 @@ You may be able to get benefits for health problems linked to military service, 
 - Loss of range of motion (problems moving your body)
 - Ulcers (painful sores in your stomach or small intestine)
 - Cancer (if caused by contact with toxic chemicals or other dangers)
-- Traumatic brain injury (an injury caused by a blow to the head or an object piercing the skull)
+- Traumatic brain injury or TBI (an injury caused by a blow to the head or an object piercing the skull)
 
 <br>
 
 You may also be able to get benefits for mental health problems linked to military service, including:
 
-- PTSD
+- PTSD (post-traumatic stress disorder)
 - Severe depression
 - Severe anxiety
 
