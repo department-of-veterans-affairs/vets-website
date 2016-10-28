@@ -29,11 +29,6 @@ const routes = [
       path="/your-claims"
       onEnter={scrollToTop}/>,
   <Route
-      component={ClaimEstimationPage}
-      key="/claim-estimate"
-      path="/claim-estimate"
-      onEnter={scrollToTop}/>,
-  <Route
       component={ClaimPage}
       key="/your-claims/:id"
       path="/your-claims/:id"
@@ -61,6 +56,11 @@ const routes = [
         component={DocumentRequestPage}
         path="document-request/:trackedItemId"
         onEnter={scrollToTop}/>
+    <Route
+        component={ClaimEstimationPage}
+        key="claim-estimate"
+        path="claim-estimate"
+        onEnter={scrollToTop}/>,
   </Route>,
 ];
 
