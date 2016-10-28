@@ -5,19 +5,25 @@ permalink: /employment/index.html
 template: L2-section-landing
 concurrence: complete
 relatedlinks:
-  - url: /employment/job-seekers/family-members
-    title: Military Spouses and Family Job Seekers
-    description: ""
   - url: /employment/job-seekers/start
     title: Start or Grow Your Business
     description: ""
+  - url: /employment/job-seekers/family-members
+    title: Explore Resources for Military Families or Spouses
+    description: ""
+  - url: https://www.surveymonkey.com/r/QSGQRFN
+    title: Take a Free Online Class with Coursera
+    description: ""
+  - url: https://veterans.linkedin.com/
+    title: Get a Free 1-Year Subscription to LinkedIn Premium
+    description: ""
 majorlinks:
-  - url: /employment/job-seekers/
-    title: Job Seekers
-    description: Map your military skills, build a civilian résumé, search career opportunities, and discover organizations that can assist you with career development and employment.
-  - url: /employment/employers/
-    title: Employers
-    description: Make a public hiring commitment when you post open positions. You’ll benefit from Veteran experience and skills, and you’ll hire the best!
+  - url: http://www.dol.gov/veterans/findajob/
+    title: Find a Job
+    description: Search for jobs and check out our career-development resources.
+  - url: http://www.dol.gov/veterans/hireaveteran
+    title: Hire a Veteran
+    description: Post jobs and commit to hiring qualified Veterans.
 ---
 
-The Veterans Employment Center&#8482; (VEC) connects Veterans and their families with meaningful employment and career-development opportunities.
+We can support you in all stages of your job search. We've teamed up with the Department of Labor to give you career advice, help building your résumé, and access to employers who want to hire Veterans and military spouses.
