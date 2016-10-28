@@ -6,7 +6,7 @@ export function formatDate(date, options = {}) {
   const isValidDate =
     momentDate.isValid() &&
     (!options.validateInFuture ||
-    momentDate.isAfter(moment().startOf('day')));
+    momentDate.isSameOrAfter(moment()));
 
   return isValidDate
          ? momentDate.format(options.format || 'MMM DD, YYYY')
