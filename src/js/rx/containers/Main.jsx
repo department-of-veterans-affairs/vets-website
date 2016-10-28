@@ -2,11 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { closeAlert } from '../actions/alert.js';
-import { closeDisclaimer } from '../actions/disclaimer.js';
 
 import AlertBox from '../../common/components/AlertBox';
 import TabNav from '../components/TabNav';
-import Disclaimer from '../components/Disclaimer';
 
 class Main extends React.Component {
   render() {
@@ -24,9 +22,6 @@ class Main extends React.Component {
 
     return (
       <div>
-        <Disclaimer
-            isOpen={this.props.disclaimer.open}
-            handleClose={this.props.closeDisclaimer}/>
         <div className="rx-app row">
           {alertBox}
           <h1>Prescription Refill</h1>
@@ -44,5 +39,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   closeAlert,
-  closeDisclaimer
 })(Main);
