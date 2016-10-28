@@ -17,7 +17,7 @@ class FacilityDetail extends Component {
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name } = facility.attributes;
+    const { name, website } = facility.attributes;
 
     return (
       <div>
@@ -30,7 +30,7 @@ class FacilityDetail extends Component {
         </p>
         <p>
           <span>
-            <a href="#" target="_blank">
+            <a href={website} target="_blank">
               <i className="fa fa-globe" style={{ marginRight: '0.5rem' }}/> Website
             </a>
           </span>
