@@ -250,7 +250,7 @@ function isValidRelinquishedDate(field) {
   const pastDate = moment().subtract(2, 'years');
   const date = dateToMoment(field);
 
-  return !isBlankDateField(field) && date.isAfter(pastDate);
+  return !isBlankDateField(field) && date.isValid() && date.isAfter(pastDate);
 }
 
 function isValidBenefitsRelinquishmentPage(data) {
