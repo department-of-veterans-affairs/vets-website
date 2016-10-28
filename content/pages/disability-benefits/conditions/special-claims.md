@@ -2,17 +2,17 @@
 layout: page-breadcrumbs.html
 title: Special Claims
 concurrence: complete
-plainlanguage: 10-25-16 Ready for Beth review
+plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 2-detailed-landing
 relatedlinks:
   - url: /disability-benefits/conditions/special-claims/automobile/
-    title: Disabilities That Prevent You From Driving
+    title: Disabilities That Prevent You from Driving
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/index.html
     title: Birth Defects (Like Spina Bifida)
   - url: /disability-benefits/conditions/special-claims/clothing/
     title: Replacing Damaged Clothes
   - url: /disability-benefits/conditions/special-claims/convalescence/
-    title: Recovery from Surgery or an Immobilizing Disability
+    title: Recovery from Surgery or an Immobilizing Disability (Convalescence)
   - url: /disability-benefits/conditions/special-claims/dentistry/
     title: Dental Care
   - url: /disability-benefits/conditions/special-claims/hospitalization/
