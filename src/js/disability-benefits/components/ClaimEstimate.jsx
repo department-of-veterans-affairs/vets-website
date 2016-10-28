@@ -1,7 +1,8 @@
 import React from 'react';
 import moment from 'moment';
+import { Link } from 'react-router';
 
-export default function ClaimEstimate({ maxDate }) {
+export default function ClaimEstimate({ maxDate, id }) {
   const estimatedDate = moment(maxDate);
   const today = moment().startOf('day');
 
@@ -19,11 +20,12 @@ export default function ClaimEstimate({ maxDate }) {
       {estimatedDate.isBefore(today)
         ? <p>We estimated your claim would be completed by now but we need more time.</p>
         : <p>This date is based on claims similar to yours and is not an exact date.</p>}
-      <p><a href="/">Learn about this estimation</a></p>
+      <p><Link to={`your-claims/${id}/claim-estimate`}>Learn about this estimation</Link></p>
     </div>
   );
 }
 
 ClaimEstimate.propTypes = {
-  maxDate: React.PropTypes.string.isRequired
+  maxDate: React.PropTypes.string.isRequired,
+  id: React.PropTypes.string.isRequired
 };
