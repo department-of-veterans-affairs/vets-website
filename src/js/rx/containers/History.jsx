@@ -79,7 +79,7 @@ class History extends React.Component {
       const currentSort = this.props.sort;
 
       const fields = [
-        { label: 'Last requested', value: 'orderedDate' },
+        { label: 'Last requested date', value: 'refillSubmitDate' },
         { label: 'Last fill date', value: 'dispensedDate' },
         { label: 'Prescription', value: 'prescriptionName' },
         { label: 'Prescription status', value: 'refillStatus' }
@@ -92,9 +92,9 @@ class History extends React.Component {
         return {
           id: item.id,
 
-          orderedDate:
-            attrs.orderedDate
-            ? moment(attrs.orderedDate).format('MMM DD, YYYY')
+          refillSubmitDate:
+            attrs.refillSubmitDate
+            ? moment(attrs.refillSubmitDate).format('MMM DD, YYYY')
             : 'Not available',
 
           dispensedDate:

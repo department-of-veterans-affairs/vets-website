@@ -7,7 +7,7 @@ const initialState = {
   items: [],
   history: {
     sort: {
-      value: 'orderedDate',
+      value: 'refillSubmitDate',
       order: 'DESC',
     },
     page: 1,
@@ -27,8 +27,8 @@ function sortByFacilityName(items) {
   return items.attributes.facilityName;
 }
 
-function sortByLastRequested(items) {
-  return new Date(items.attributes.refillDate).getTime();
+function sortByLastRequestedDate(items) {
+  return new Date(items.attributes.refillSubmitDate).getTime();
 }
 
 function updateRefillStatus(items, id) {
@@ -77,7 +77,7 @@ export default function prescriptions(state = initialState, action) {
     case 'facilityName':
       return set('items', _.sortBy(state.items, sortByFacilityName), state);
     case 'lastRequested':
-      return set('items', _.sortBy(state.items, sortByLastRequested), state);
+      return set('items', _.sortBy(state.items, sortByLastRequestedDate), state);
     case 'REFILL_SUCCESS':
       return set('items', updateRefillStatus(state.items, action.id), state);
     default:
