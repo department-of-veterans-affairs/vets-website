@@ -30,7 +30,7 @@ export default class BenefitsRelinquishmentFields extends React.Component {
             <div>
               <DateInput required={showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)}
                   allowFutureDates
-                  errorMessage="Date cannot be earlier than two years ago"
+                  errorMessage="Date cannot be earlier than 2 years ago"
                   validation={validateIfDirtyDateObj(this.props.data.benefitsRelinquishedDate, isValidRelinquishedDate)}
                   label="Effective date"
                   name="benefitsRelinquishedDate"
