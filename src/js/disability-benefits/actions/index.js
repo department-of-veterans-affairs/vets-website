@@ -1,8 +1,6 @@
 import environment from '../../common/helpers/environment';
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
 
-import { getDocTypeDescription } from '../utils/helpers';
-
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
 export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
@@ -151,9 +149,6 @@ export function submitFiles(claimId, trackedItem, files) {
     const uploader = new FineUploaderBasic({
       request: {
         endpoint: `${environment.API_URL}/v0/disability_claims/${claimId}/documents`,
-        params: {
-          trackedItem: trackedItemId
-        },
         inputName: 'file',
         customHeaders: {
           'X-Key-Inflection': 'camel',
@@ -209,12 +204,14 @@ export function submitFiles(claimId, trackedItem, files) {
       progress: filesComplete / files.length
     });
 
+    /* eslint-disable camelcase */
     files.forEach(({ file, docType }) => {
       uploader.addFiles(file, {
-        docType: docType.value,
-        docTypeDescription: getDocTypeDescription(docType.value)
+        tracked_item_id: trackedItemId,
+        document_type: docType.value
       });
     });
+    /* eslint-enable camelcase */
   };
 }
 
