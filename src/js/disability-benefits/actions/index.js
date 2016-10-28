@@ -152,9 +152,6 @@ export function submitFiles(claimId, trackedItem, files) {
     const uploader = new FineUploaderBasic({
       request: {
         endpoint: `${environment.API_URL}/v0/disability_claims/${claimId}/documents`,
-        params: {
-          tracked_item_id: trackedItemId
-        },
         inputName: 'file',
         customHeaders: {
           'X-Key-Inflection': 'camel',
@@ -212,6 +209,7 @@ export function submitFiles(claimId, trackedItem, files) {
 
     files.forEach(({ file, docType }) => {
       uploader.addFiles(file, {
+        tracked_item_id: trackedItemId,
         document_type: docType.value,
         document_type_description: getDocTypeDescription(docType.value)
       });
