@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import FeaturesWarning from '../components/FeaturesWarning';
-// import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 class DisabilityBenefitsApp extends React.Component {
 
@@ -27,7 +27,9 @@ class DisabilityBenefitsApp extends React.Component {
       </div>
     );
 
-    return view;
+    return (
+      <RequiredLoginView authRequired={3} component={view}/>
+    );
   }
 
 }
