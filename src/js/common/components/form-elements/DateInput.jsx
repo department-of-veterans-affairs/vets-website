@@ -61,6 +61,13 @@ class DateInput extends React.Component {
       daysForSelectedMonth = days[month.value];
     }
 
+    // Our validations require that there is always a "day" field, so
+    // we'll assume the first day of the month even if we're not displaying it.
+    if (this.props.hideDayField) {
+      day.dirty = true;
+      day.value = 1;
+    }
+
     if (this.props.required) {
       isValid = validateIfDirtyDate(day, month, year, dateValidator) && (this.props.validation !== undefined ? this.props.validation : true);
     } else {
@@ -89,6 +96,21 @@ class DateInput extends React.Component {
       requiredSpan = <span className="form-required-span">*</span>;
     }
 
+    let dayField;
+
+    if (!this.props.hideDayField) {
+      dayField = (
+        <div className="form-datefield-day">
+          <ErrorableSelect errorMessage={isValid ? undefined : ''}
+              label="Day"
+              name={`${this.props.name}Day`}
+              options={daysForSelectedMonth}
+              value={this.props.day}
+              onValueChange={(update) => {this.handleChange('day', update);}}/>
+        </div>
+      );
+    }
+
     return (
       <div>
         <label>
@@ -106,14 +128,7 @@ class DateInput extends React.Component {
                   value={this.props.month}
                   onValueChange={(update) => {this.handleChange('month', update);}}/>
             </div>
-            <div className="form-datefield-day">
-              <ErrorableSelect errorMessage={isValid ? undefined : ''}
-                  label="Day"
-                  name={`${this.props.name}Day`}
-                  options={daysForSelectedMonth}
-                  value={this.props.day}
-                  onValueChange={(update) => {this.handleChange('day', update);}}/>
-            </div>
+            {dayField}
             <div className="usa-datefield usa-form-group usa-form-group-year">
               <ErrorableNumberInput errorMessage={isValid ? undefined : ''}
                   label="Year"
@@ -152,6 +167,7 @@ DateInput.propTypes = {
     dirty: React.PropTypes.bool,
   }).isRequired,
   onValueChange: React.PropTypes.func.isRequired,
+  hideDayField: React.PropTypes.bool,
 };
 
 export default DateInput;
