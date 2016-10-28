@@ -94,13 +94,13 @@ class SearchControls extends Component {
   renderSelectOptionWithIcon(facilityType) {
     switch (facilityType) {
       case 'health':
-        return (<span className="flex-center"><span className="legend fa fa-plus red"></span>Health</span>);
+        return (<span className="flex-center"><span className="legend health-icon"></span>Health</span>);
       case 'benefits':
-        return (<span className="flex-center"><span className="legend fa fa-check green"></span>Benefits</span>);
+        return (<span className="flex-center"><span className="legend benefits-icon"></span>Benefits</span>);
       case 'cemetery':
-        return (<span className="flex-center"><span className="legend fa fa-cemetery blue"></span>Cemetery</span>);
+        return (<span className="flex-center"><span className="legend cemetery-icon"></span>Cemetery</span>);
       default:
-        return (<span>All Facilities</span>);
+        return (<span className="flex-center">All Facilities</span>);
     }
   }
 

@@ -245,7 +245,7 @@
       margin: 0.2em 0;
       max-width: 46rem;
       outline: none;
-      padding: 1rem 0.7em;
+      padding: 0 0.5em;
       width: 100%;
 
       &:after {
@@ -260,30 +260,21 @@
         color: $color-black;
       }
 
+      span {
+        min-height: 2.4em;
+      }
+
       ul.dropdown {
         padding: 0;
       }
 
       span.legend {
         border-radius: 1em;
-        padding: 0.2em;
         margin-right: 0.5em;
-        width: 1.4em;
-        height: 1.4em;
+        width: 2.4em;
+        height: 2.4em;
         text-align: center;
         color: $color-white;
-
-        &.red {
-          background: #cd2026;
-        }
-
-        &.green {
-          background: #195c27;
-        }
-
-        &.blue {
-          background: $color-link-default;
-        }
       }
 
       .dropdown {
@@ -300,7 +291,7 @@
         li {
           color: $color-black;
           display: block;
-          padding: 0.5em 1em;
+          padding: 0.25em 1em;
           text-decoration: none;
           z-index: 1001;
         }
