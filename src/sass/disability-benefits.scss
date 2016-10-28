@@ -233,7 +233,7 @@ a.claim-list-item {
 }
 
 .ask-va-questions {
-  margin-top: 1.5em;
+  margin-top: 5em;
   h4 {
     border-bottom: 2px solid $color-primary;
   }
@@ -242,11 +242,11 @@ a.claim-list-item {
     margin-top: 0;
   }
   .talk {
-    margin: .5em 0;
+    margin: 0.5em 0 0 0;
     padding: 0;
   }
   .phone-number {
-    margin: 0.5em 0;
+    margin:  0 0 0.5em 0;
     a {
       font-weight: bold;
       text-decoration: none;
