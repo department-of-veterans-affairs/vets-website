@@ -10,16 +10,22 @@ export default class RotcHistoryReview extends React.Component {
         <table className="review usa-table-borderless">
           <tbody>
             <tr>
+              <td>Are you in a senior ROTC scholarship program right now that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)</td>
+              <td>{showYesNo(this.props.data.seniorRotcScholarshipProgram)}</td>
+            </tr>
+            <tr>
               <td>Were you commissioned as a result of senior ROTC?</td>
               <td>{getLabel(yesNoNA, this.props.data.seniorRotcCommissioned.value)}</td>
             </tr>
-            <tr>
-              <td>Year of commission:</td>
-              <td>{this.props.data.seniorRotc.commissionYear.value}</td>
-            </tr>
+            {this.props.data.seniorRotcCommissioned.value === 'Y'
+              ? <tr>
+                <td>Year of commission:</td>
+                <td>{this.props.data.seniorRotc.commissionYear.value}</td>
+              </tr>
+              : null}
           </tbody>
         </table>
-        {this.props.data.seniorRotc.rotcScholarshipAmounts.map((scholarship, index) => {
+        {this.props.data.seniorRotcCommissioned.value === 'Y' && this.props.data.seniorRotc.rotcScholarshipAmounts.map((scholarship, index) => {
           return (<table key={index} className="review usa-table-borderless">
             <thead>
               <tr>
@@ -36,14 +42,6 @@ export default class RotcHistoryReview extends React.Component {
           </table>
           );
         })}
-        <table className="review usa-table-borderless">
-          <tbody>
-            <tr>
-              <td>Are you in a senior ROTC scholarship program right now that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)</td>
-              <td>{showYesNo(this.props.data.seniorRotcScholarshipProgram)}</td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     );
   }
