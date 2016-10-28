@@ -12,7 +12,7 @@
     &.section-complete {
       &:before {
         background: $color-green;
-        content: "\2714";
+        content: "\2714\fe0e";
       }
     }
     &.section-current {
