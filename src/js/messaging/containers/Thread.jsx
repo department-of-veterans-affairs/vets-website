@@ -13,7 +13,6 @@ import {
   openMoveToNewFolderModal,
   saveDraft,
   sendMessage,
-  sendReply,
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
@@ -61,12 +60,17 @@ export class Thread extends React.Component {
   }
 
   apiFormattedDraft() {
-    const draft = Object.assign({}, this.props.draft);
-    draft.body = draft.body.value;
-    draft.category = draft.category.value;
-    draft.recipient = draft.recipient.value;
-    draft.subject = draft.subject.value;
-    return draft;
+    const draft = this.props.draft;
+
+    return {
+      attachments: draft.attachments,
+      body: draft.body.value,
+      category: draft.category.value,
+      messageId: draft.messageId,
+      recipientId: +draft.recipient.value,
+      replyMessageId: draft.replyMessageId,
+      subject: draft.subject.value
+    };
   }
 
   handleMessageDelete() {
@@ -78,11 +82,7 @@ export class Thread extends React.Component {
   }
 
   handleReplySend() {
-    if (this.props.isNewMessage) {
-      this.props.sendMessage(this.apiFormattedDraft());
-    } else {
-      this.props.sendReply(this.apiFormattedDraft());
-    }
+    this.props.sendMessage(this.apiFormattedDraft());
   }
 
   handleReplyDelete() {
@@ -283,7 +283,6 @@ const mapDispatchToProps = {
   openMoveToNewFolderModal,
   saveDraft,
   sendMessage,
-  sendReply,
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,

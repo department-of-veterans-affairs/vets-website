@@ -40,11 +40,9 @@ class MessageSearch extends React.Component {
   }
 
   render() {
-    return (
-      <form
-          className={this.props.cssClass}
-          id="msg-search"
-          onSubmit={this.handleSubmit}>
+    let basicSearch;
+    if (!this.props.isAdvancedVisible) {
+      basicSearch = (
         <div className="va-flex va-flex--stretch msg-search-simple-wrap">
           <ErrorableTextInput
               field={this.props.params.term}
@@ -58,7 +56,15 @@ class MessageSearch extends React.Component {
             <span className="msg-search-btn-text">Search</span>
           </button>
         </div>
+      );
+    }
 
+    return (
+      <form
+          className={this.props.cssClass}
+          id="msg-search"
+          onSubmit={this.handleSubmit}>
+        {basicSearch}
         <MessageSearchAdvanced
             params={this.props.params}
             isVisible={this.props.isAdvancedVisible}

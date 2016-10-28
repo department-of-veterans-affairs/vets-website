@@ -66,7 +66,7 @@ export default function messages(state = initialState, action) {
       // Reverse to display most recent message at the bottom.
       thread.reverse();
 
-      const draft = initialState.data.draft;
+      const draft = Object.assign({}, initialState.data.draft);
       draft.category = makeField(currentMessage.category);
       draft.subject = makeField(currentMessage.subject);
 
@@ -75,6 +75,7 @@ export default function messages(state = initialState, action) {
       if (!currentMessage.sentDate) {
         draft.attachments = currentMessage.attachments || [];
         draft.body = makeField(currentMessage.body);
+        draft.messageId = currentMessage.messageId;
         draft.recipient = makeField(currentMessage.recipientId.toString());
         draft.replyMessageId = thread.length === 0
                              ? undefined
