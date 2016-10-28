@@ -38,3 +38,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(DisabilityBenefitsApp);
+
+export { DisabilityBenefitsApp };
