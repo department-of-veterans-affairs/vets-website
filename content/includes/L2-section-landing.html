@@ -13,10 +13,13 @@
     {% include "content/includes/main-navigation.html" %}
   </div>
 </div>
-{% if path contains 'disability-benefits' %}
-  {% include "content/includes/action-bar.html" action_text="Go to eBenefits to apply" action_url="https://www.ebenefits.va.gov/ebenefits/homepage" action_class="va-action-bar--footer va-action-bar--start" %}
-{% endif %}
 
-{% if path contains 'education' %}
-  {% include "content/includes/action-bar.html" action_text="Apply for Education Benefits" action_url="/education/apply-for-education-benefits/" action_class="va-action-bar--footer" %}
-{% endif %}
+{% unless showactionbar == false %}
+  {% if path contains 'disability-benefits' %}
+    {% include "content/includes/action-bar.html" action_text="Go to eBenefits to apply" action_url="https://www.ebenefits.va.gov/ebenefits/homepage" action_class="va-action-bar--footer va-action-bar--start" %}
+  {% endif %}
+
+  {% if path contains 'education' %}
+    {% include "content/includes/action-bar.html" action_text="Apply for Education Benefits" action_url="/education/apply-for-education-benefits/" action_class="va-action-bar--footer" %}
+  {% endif %}
+{% endunless %}
