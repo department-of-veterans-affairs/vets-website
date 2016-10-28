@@ -23,7 +23,7 @@ export default class ClaimsTimeline extends React.Component {
         </ClaimPhase>
         <ClaimPhase phase={5} current={userPhase} activity={activityByPhase} id={id}>
           {userPhase !== 5
-            ? <ClaimEstimate maxDate={estimatedDate}/>
+            ? <ClaimEstimate maxDate={estimatedDate} id={id}/>
             : null}
         </ClaimPhase>
       </ol>
