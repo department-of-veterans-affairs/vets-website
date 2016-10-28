@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { closeAlert } from '../actions/alert.js';
-
 import AlertBox from '../../common/components/AlertBox';
+import { closeAlert } from '../actions/alert.js';
 import TabNav from '../components/TabNav';
 
 class Main extends React.Component {
@@ -22,12 +21,10 @@ class Main extends React.Component {
 
     return (
       <div>
-        <div className="rx-app row">
-          {alertBox}
-          <h1>Prescription Refill</h1>
-          <TabNav/>
-          {this.props.children}
-        </div>
+        {alertBox}
+        <h1>Prescription Refill</h1>
+        <TabNav/>
+        {this.props.children}
       </div>
     );
   }

@@ -12,12 +12,15 @@ import GlossaryModal from '../components/GlossaryModal';
 
 class RxRefillsApp extends React.Component {
   render() {
+
     const view = (
       <div>
         <Disclaimer
             isOpen={this.props.disclaimer.open}
             handleClose={this.props.closeDisclaimer}/>
-        {this.props.children}
+        <div className="rx-app row">
+          {this.props.children}
+        </div>
         <ConfirmRefillModal
             {...this.props.modal.refill.prescription}
             isVisible={this.props.modal.refill.visible}
