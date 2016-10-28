@@ -1,21 +1,34 @@
 #messaging-folder-controls {
+  margin: 0;  
   position: relative;
-  margin-bottom: 4.5rem;
+  width: 100%;
 
   .messaging-compose-button {
-    display: none;
-    margin: 0;
-    width: 100%;
+    margin: 2rem 0;
   }
 
   @media (max-width: $medium-screen) {
-    margin: 0;
-    padding: 2rem;
+    padding: 0 2rem;
+  }
+
+  @media (min-width: $medium-screen) {
+    &::after {
+      content: '\A0';
+      display: block;
+      clear: both;
+    }
+
+    padding: 0;
 
     .messaging-compose-button {
-      display: block;
+      display: none;
+      margin-bottom: 4.5rem;
     }
   }
+}
+
+.msg-nomessages {
+  margin: 0;
 }
 
 .messaging-message-row {
