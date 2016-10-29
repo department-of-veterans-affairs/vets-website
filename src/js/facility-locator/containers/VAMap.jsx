@@ -1,7 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import { fetchVAFacilities, updateSearchQuery, searchWithAddress, searchWithBounds, fetchVAFacility } from '../actions';
+import { updateSearchQuery, searchWithAddress, searchWithBounds, fetchVAFacility } from '../actions';
 import { map, find } from 'lodash';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
@@ -341,7 +341,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     fetchVAFacility,
-    fetchVAFacilities,
     updateSearchQuery,
     searchWithAddress,
     searchWithBounds,
