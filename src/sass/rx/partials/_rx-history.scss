@@ -5,6 +5,8 @@
 }
 
 #rx-history table {
+  margin-top: 0;
+
   tr {
     &:last-child {
       td {
@@ -23,6 +25,8 @@
   }
 
   @media (max-width: $medium-screen) {
+    margin-top: 2rem;
+
     td {
       // Get the prescription name to appear above the other fields.
       &:nth-child(3) { display: table-header-group; }
