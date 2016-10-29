@@ -27,7 +27,7 @@ class Main extends React.Component {
 
     // TODO: Remove this conditional statement when going to production.
     if (__BUILDTYPE__ !== 'production') {
-      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new`, result => {
+      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
         this.props.onUpdateLoginUrl('first', result.authenticate_via_get);
       });
 

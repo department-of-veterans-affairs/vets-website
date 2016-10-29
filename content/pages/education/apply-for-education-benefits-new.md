@@ -92,7 +92,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ###### How long does it take VA to make a decision?
 
-- We usually review claims within 30 days.
+- We usually process claims within 30 days.
 
 ###### What should I do while I wait?
 
