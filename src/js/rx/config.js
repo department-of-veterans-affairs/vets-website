@@ -72,6 +72,6 @@ module.exports = {
       label: 'Facility name'
     },
     { value: 'lastRequested',
-      label: 'Last requested'
+      label: 'Last requested date'
     }]
 };
