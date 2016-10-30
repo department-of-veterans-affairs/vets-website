@@ -1,15 +1,38 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="40px" height="48px" viewBox="0 0 40 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 39.1 (31720) - http://www.bohemiancoding.com/sketch -->
-    <title>Artboard</title>
+<svg width="28px" height="41px" viewBox="0 0 28 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.2 (33826) - http://www.bohemiancoding.com/sketch -->
+    <title>Health (shadow)</title>
     <desc>Created with Sketch.</desc>
-    <defs></defs>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <path d="M0.0653030303,9.81698824 C0.0653030303,11.9534235 0.784242424,13.9782118 2.05681818,15.665 L9.58166667,25.6730118 C9.74742424,25.8981412 10.134697,25.9541176 10.3560606,25.7855765 C10.4115152,25.7291412 10.4115152,25.7291412 10.4663636,25.6730118 L17.9912121,15.665 C19.2637879,13.9782118 19.9827273,11.9534235 19.9827273,9.81698824 C19.9827273,4.41938824 15.5010606,0.0336470588 10.0243939,0.0336470588 C4.5469697,0.0336470588 0.0653030303,4.41938824 0.0653030303,9.81698824 L0.0653030303,9.81698824 Z" id="path-2"></path>
+        <polygon id="path-4" points="5.41052069 10.8210034 10.8209655 10.8210034 10.8209655 3.79310345e-05 5.41052069 3.79310345e-05 7.5862069e-05 3.79310345e-05 7.5862069e-05 10.8210034 5.41052069 10.8210034"></polygon>
+    </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Artboard" fill="#cd2026">
-            <g id="noun_626096_cc-(1)" transform="translate(2.000000, 1.000000)">
-                <g id="Png-48px-Solid---70-Basic-Icons">
-                    <path d="M0,17.4 C0,21.2 1.3,24.8 3.6,27.8 L17.2,45.6 C17.5,46 18.2,46.1 18.6,45.8 C18.7,45.7 18.7,45.7 18.8,45.6 L32.4,27.8 C34.7,24.8 36,21.2 36,17.4 C36,7.8 27.9,0 18,0 C8.1,0 0,7.8 0,17.4 Z" id="Shape"></path>
+        <g id="Health-(shadow)">
+            <g id="Page-1" filter="url(#filter-1)" transform="translate(4.000000, 8.000000)">
+                <g id="Group-3">
+                    <mask id="mask-3" fill="white">
+                        <use xlink:href="#path-2"></use>
+                    </mask>
+                    <g id="Clip-2"></g>
+                    <polygon id="Fill-1" fill="#D0021B" mask="url(#mask-3)" points="-6.09954545 32.8309647 26.1478788 32.8309647 26.1478788 -6.91416471 -6.09954545 -6.91416471"></polygon>
                 </g>
+            </g>
+            <g id="Page-1" transform="translate(9.000000, 13.000000)">
+                <mask id="mask-5" fill="white">
+                    <use xlink:href="#path-4"></use>
+                </mask>
+                <g id="Clip-2"></g>
+                <path d="M10.8210414,4.20696897 C10.8210414,3.99834828 10.6503517,3.82765862 10.441731,3.82765862 L7.46907586,3.82765862 C7.26045517,3.82765862 7.08976552,3.65696897 7.08976552,3.44834828 L7.08976552,0.379348276 C7.08976552,0.170727586 6.91907586,3.79310345e-05 6.71045517,3.79310345e-05 L4.11066207,3.79310345e-05 C3.90204138,3.79310345e-05 3.73135172,0.170727586 3.73135172,0.379348276 L3.73135172,3.44834828 C3.73135172,3.65696897 3.56066207,3.82765862 3.35204138,3.82765862 L0.379386207,3.82765862 C0.170765517,3.82765862 7.5862069e-05,3.99834828 7.5862069e-05,4.20696897 L7.5862069e-05,6.80638276 C7.5862069e-05,7.01500345 0.170765517,7.1856931 0.379386207,7.1856931 L3.35204138,7.1856931 C3.56066207,7.1856931 3.73135172,7.35638276 3.73135172,7.56500345 L3.73135172,10.4416931 C3.73135172,10.6503138 3.90204138,10.8210034 4.11066207,10.8210034 L6.71045517,10.8210034 C6.91907586,10.8210034 7.08976552,10.6503138 7.08976552,10.4416931 L7.08976552,7.56500345 C7.08976552,7.35638276 7.26045517,7.1856931 7.46907586,7.1856931 L10.441731,7.1856931 C10.6503517,7.1856931 10.8210414,7.01500345 10.8210414,6.80638276 L10.8210414,4.20696897 Z" id="Fill-1" fill="#FEFEFE" mask="url(#mask-5)"></path>
             </g>
         </g>
     </g>

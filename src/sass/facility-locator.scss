@@ -7,6 +7,11 @@
     padding: 0 1.5rem;
   }
 
+  .flex-center {
+    display: flex;
+    align-items: center;
+  }
+
   .leaflet-container {
       height: 500px;
       width: 100%;
@@ -32,6 +37,12 @@
   }
 
   .facility-result {
+    padding: 1em;
+    border-bottom: none;
+
+    &.active {
+      box-shadow: inset 0px 0px 7px $color-link-default;
+    }
 
     span.fa {
       margin-right: 0.5rem;
@@ -59,6 +70,10 @@
     }
   }
 
+  .facility-result + .facility-result {
+    border-top: solid 3px $color-gray-lightest;
+  }
+
   .leaflet-popup-content {
     h5 {
       color: $color-link-default;
@@ -71,6 +86,10 @@
     p {
       margin: 0;
     }
+  }
+
+  .text-center {
+    text-align: center;
   }
 
   .tab {
@@ -101,6 +120,7 @@
 
   .facility-search-results {
     padding: 1rem;
+    border: solid 1px $color-gray-lightest;
 
     ol {
       padding: 0;
@@ -135,14 +155,18 @@
 
   .map-marker {
     font-size: 15px;
-    height: 32px;
-    margin-left: -12px;
-    margin-top: -12px;
+    height: 50px;
+    margin-left: -25px;
+    margin-top: -25px;
     text-align:center;
-    padding-top: 3px;
-    width: 32px;
+    width: 50px;
     z-index: 999;
     color: white;
+  }
+
+  .fa-cemetery {
+    height: 15px;
+    width: 15px;
   }
 
   .fa-cemetery:before {
@@ -200,8 +224,11 @@
     padding: 1.5rem 1rem;
     border: solid thin #eee;
     margin-bottom: 2rem;
-    background: $polar;
+    background: $color-gray-lightest;
 
+    select:disabled {
+      background: $color-gray-lightest;
+    }
 
     .facility-dropdown-wrapper {
       position: relative;
@@ -218,7 +245,7 @@
       margin: 0.2em 0;
       max-width: 46rem;
       outline: none;
-      padding: 1rem 0.7em;
+      padding: 0 0.5em;
       width: 100%;
 
       &:after {
@@ -233,8 +260,21 @@
         color: $color-black;
       }
 
+      span {
+        min-height: 2.4em;
+      }
+
       ul.dropdown {
         padding: 0;
+      }
+
+      span.legend {
+        border-radius: 1em;
+        margin-right: 0.5em;
+        width: 2.4em;
+        height: 2.4em;
+        text-align: center;
+        color: $color-white;
       }
 
       .dropdown {
@@ -246,35 +286,14 @@
         list-style: none;
         opacity: 0;
         pointer-events: none;
-        z-index: 999;
-
-        span.legend {
-          border-radius: 1em;
-          padding: 0.2em;
-          margin-right: 0.5em;
-          width: 1.4em;
-          height: 1.4em;
-          text-align: center;
-          color: $color-white;
-
-          &.red {
-            background: #cd2026;
-          }
-
-          &.green {
-            background: #195c27;
-          }
-
-          &.blue {
-            background: $color-link-default;
-          }
-        }
+        z-index: 1001;
 
         li {
           color: $color-black;
           display: block;
-          padding: 0.5em 1em;
+          padding: 0.25em 1em;
           text-decoration: none;
+          z-index: 1001;
         }
 
         li:hover {
@@ -361,6 +380,11 @@
 
     a:visited, .edit-checkbox label:visited  {
       color: $color-link-default;
+    }
+
+    .call-out {
+      border: solid thin $color-black;
+      background: $color-white;
     }
 
     hr {

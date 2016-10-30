@@ -8,7 +8,6 @@ class CemeteryMarker extends Component {
     return (
       <DivMarker position={position} popupContent={<div>{children}</div>} onClick={onClick}>
         <div className="cemetery-icon map-marker" style={style}>
-          <span className="fa fa-cemetery"></span>
         </div>
       </DivMarker>
     );
