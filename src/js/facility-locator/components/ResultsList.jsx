@@ -1,5 +1,4 @@
 import FacilityDirectionsLink from './search-results/FacilityDirectionsLink';
-import FacilityHours from './FacilityHours';
 import FacilityInfoBlock from './search-results/FacilityInfoBlock';
 import FacilityPhoneLink from './search-results/FacilityPhoneLink';
 import MobileSearchResult from './MobileSearchResult';
@@ -32,36 +31,31 @@ class ResultsList extends Component {
   render() {
     const { facilities, isMobile } = this.props;
 
+    if (!facilities || facilities.length < 1) {
+      return (
+        <div className="facility-result">No facilities found.</div>
+      );
+    }
+
     if (isMobile) {
       return this.renderMobileView();
     }
 
     return (
       <div>
-        <table className="usa-table-borderless facility-result">
-          <thead>
-            <tr>
-              <th scope="col">Facility Information</th>
-              <th scope="col">Contact</th>
-              <th scope="col">Getting There</th>
-              <th scope="col">Hours of Operation</th>
-            </tr>
-          </thead>
-          <tbody>
-            {
-              facilities.map(f => {
-                return (
-                  <tr key={f.id} className="facility-result">
-                    <td><FacilityInfoBlock facility={f}/></td>
-                    <td><FacilityPhoneLink facility={f}/></td>
-                    <td><FacilityDirectionsLink facility={f}/></td>
-                    <td><FacilityHours facility={f}/></td>
-                  </tr>
-                );
-              })
-            }
-          </tbody>
-        </table>
+        <div>
+          {
+            facilities.map(f => {
+              return (
+                <div key={f.id} className="facility-result" id={f.id}>
+                  <FacilityInfoBlock facility={f}/>
+                  <FacilityPhoneLink facility={f}/><br/>
+                  <FacilityDirectionsLink facility={f}/>
+                </div>
+              );
+            })
+          }
+        </div>
         <Pagination onPageSelect={() => {}} page={1} pages={1}/>
       </div>
     );

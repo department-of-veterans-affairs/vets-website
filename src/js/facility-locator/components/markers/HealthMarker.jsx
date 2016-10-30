@@ -8,7 +8,6 @@ class HealthMarker extends Component {
     return (
       <DivMarker position={position} popupContent={<div>{children}</div>} onClick={onClick}>
         <div className="health-icon map-marker" style={style}>
-          <span className="fa fa-plus"></span>
         </div>
       </DivMarker>
     );
