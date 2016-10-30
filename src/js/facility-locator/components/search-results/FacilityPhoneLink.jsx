@@ -7,7 +7,7 @@ class FacilityPhoneLink extends Component {
     return (
       <span>
         <a href={`tel:${phone.main}`}>
-          <i className="fa fa-phone" style={{ marginRight: '0.5rem' }}/> {phone.main}
+          <i className="fa fa-phone" style={{ marginRight: '0.5rem' }}/> {phone.main.replace(/ +x */, '')}
         </a>
       </span>
     );
