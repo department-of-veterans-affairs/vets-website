@@ -166,7 +166,7 @@ export function getTopPosition(elem) {
 export function truncateDescription(text) {
   const maxLength = 120;
   if (text && text.length > maxLength) {
-    return `${text.substr(0, maxLength)}&hellip;`;
+    return `${text.substr(0, maxLength)}…`;
   }
 
   return text;

@@ -125,7 +125,7 @@ describe('Disability benefits helpers:', () => {
   describe('truncateDescription', () => {
     it('should truncate text longer than 120 characters', () => {
       const userText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
-      const userTextEllipsed = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq&hellip;';
+      const userTextEllipsed = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq…';
 
       const text = truncateDescription(userText);
       expect(text).to.equal(userTextEllipsed);
