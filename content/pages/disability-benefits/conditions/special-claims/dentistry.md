@@ -7,7 +7,7 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
-If you're a Veteran in certain life situations, you may be able to get dental treatment from VA. 
+If you're a Veteran with certain life situations, you may be able to get dental treatment from VA. 
 
 We look at many factors to decide who qualifies for VA dental care—and which dental care benefits each Veteran will receive. Both the Veterans Benefits Administration (VBA) and the Veterans Health Administration (VHA) may make decisions about dental benefits and treatment. 
 
