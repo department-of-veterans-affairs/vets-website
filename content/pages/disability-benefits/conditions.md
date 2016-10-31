@@ -26,11 +26,10 @@ Do you have health problems that started—or got worse—while you were serving
 
 ### Can I get disability compensation from VA?
 
-Yes, if:
-
-- You have a current health problem that affects your body or mind, and
-- You got sick or injured while serving in the military—and can link the health problem you have now to this illness or injury, or
-- You had a health problem before you joined the military—and serving made it worse
+You can get compensation if you have a current health problem that affects your body or mind **and** that health problem is directly connected to:
+- Getting sick or injured while serving in the military
+OR
+- A health problem you had before you joined, but serving in the military made it worse
 
 <br>
 
@@ -41,7 +40,7 @@ Yes, if:
 
 </div>
 
-### What kind of benefits can I get?
+### What kind of disability benefits can I get?
 
 -	Health care
 -	Financial support (monthly payments)
