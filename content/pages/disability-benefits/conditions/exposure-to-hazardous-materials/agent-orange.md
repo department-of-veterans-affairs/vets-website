@@ -11,9 +11,9 @@ Agent Orange is a toxic chemical the U.S. military used to clear plants and tree
 
 ### Can I get disability compensation from VA?
 
-Yes, if:
+Yes, if both are true:
 
-- You came into contact with Agent Orange while serving in the military, and
+- You came into contact with Agent Orange while serving in the military
 - You have a health problem believed to be caused by Agent Orange
 
 [See the list of Agent Orange-related health problems](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
@@ -25,7 +25,7 @@ Yes, if:
 
 </div>
 
-### What kind of benefits can I get?
+### What kind of disability benefits can I get?
 
 - Health care
 - Financial support (monthly payments)
@@ -34,7 +34,7 @@ Yes, if:
 
 You'll need to apply for benefits. 
 
-If you have a health problem that is believed to be caused by Agent Orange, you won't need to show the problem started during—or got worse because of—your military service.[See the list of Agent Orange-related health problems](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+If you have a health problem that is linked to Agent Orange, you won't need to show the problem started during—or got worse because of—your military service.[See the list of Agent Orange-related health problems](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
 If you have a health problem that’s not on this list, but you believe it was caused by Agent Orange, you'll need to show the problem started during—or got worse because of—your military service.
 
@@ -42,7 +42,7 @@ If you have a health problem that’s not on this list, but you believe it was c
 
 ### Get more information
 
-Do you think you may have had contact with Agent Orange or other herbicides while serving in the military? [Get an Agent Orange Registry Health Exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
+Do you think you may have had contact with Agent Orange or other herbicides (chemicals to clear plants) while serving in the military? [Get an Agent Orange Registry Health Exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
 
 Do you have non-Hodkin's lymphoma (a type of cancer of the lymph glands and other lymphatic tissue—a part of your immune system that helps to fight infection and illness)? You can get VA support. [Learn about Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/)
 
