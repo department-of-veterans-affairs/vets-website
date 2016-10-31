@@ -1,15 +1,11 @@
-import React, { Component, PropTypes } from 'react';
-import { compact } from 'lodash';
 import { Link } from 'react-router';
+import FacilityAddress from './FacilityAddress';
+import React, { Component, PropTypes } from 'react';
 
 class FacilityInfoBlock extends Component {
   render() {
     const { facility } = this.props;
-    const { address, name } = facility.attributes;
-    const addressString = [
-      compact([address.building, address.street, address.suite]).join(' '),
-      `${address.city}, ${address.state} ${address.zip}-${address.zip4}`
-    ];
+    const { name, facility_type: facilityType } = facility.attributes;
 
     /* eslint-disable camelcase */
     const facilityTypes = {
@@ -21,15 +17,14 @@ class FacilityInfoBlock extends Component {
 
     return (
       <div>
-        <Link to={`facilities/facility/${facility.id}`}>
+        <Link to={`/facilities/facility/${facility.id}`}>
           <h5>{name}</h5>
         </Link>
         <p>
-          {addressString[0]}<br/>
-          {addressString[1]}
+          <FacilityAddress facility={facility}/>
         </p>
         <p>
-          <span>Facility type: <strong>{facilityTypes[facility.type]}</strong></span>
+          <span>Facility type: <strong>{facilityTypes[facilityType]}</strong></span>
         </p>
       </div>
     );
