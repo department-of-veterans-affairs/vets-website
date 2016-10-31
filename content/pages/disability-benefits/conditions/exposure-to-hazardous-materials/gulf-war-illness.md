@@ -13,25 +13,26 @@ If you served in Southwest Asia or in Afghanistan, you may suffer from health pr
 
 ### Can I get disability compensation from VA?
 
-Yes, if:
--	You served in Southwest Asia during the Gulf War period, or in Afghanistan on or after September 19, 2001, and 
--	You have 1 or more health problems linked to serving in this region, and
--	Your chronic (long-lasting) health problems started while you were on active duty or before December 31, 2016 (see below for more about illnesses caused by infection while serving in Afghanistan), and
--	Your health problems have caused you to be disabled (meaning damage to your body or mind that makes you less able—or totally unable—to do everyday tasks in life, including meaningful work) for at least 6 months, and
--	Your health problems have been given a disability rating (measuring how severe your disability is) of 10% or more, and
--	Your health problems were not caused by anything except your service in Southwest Asia or Afghanistan, and
+Yes, if **all** of the following are true:
+-	You served in Southwest Asia during the Gulf War period, or in Afghanistan on or after September 19, 2001
+-	You have 1 or more health problems linked to serving in this region
+-	Your chronic (long-lasting) health problems started while you were on active duty or before December 31, 2016 (see below for more about illnesses caused by infection while serving in Afghanistan)
+-	Your health problems have caused you to be disabled (meaning damage to your body or mind that makes you less able—or totally unable—to do everyday tasks in life, including meaningful work) for at least 6 months
+-	Your health problems have been given a disability rating (measuring how severe your disability is) of 10% or more
+-	Your health problems were not caused by anything except your service in Southwest Asia or Afghanistan
 -	You were not dishonorably discharged from the military
 
-If you served in Afghanistan, you may get support for an illness caused by infection that:
+If you served in Afghanistan, you may get support for an illness caused by infection that either:
 -	Began while you were serving or within 1 year after your service ended, including:
-  -	 Brucellosis
+  -	Brucellosis
   - Campylobacter jejuni
   - Coxiella burnetii (Q fever)
   - Mycobacterium tuberculosis
   - Nontyphoid salmonella
   - Shigella
   - West Nile virus
-- Or may have been found more than 1 year after your service ended, including:
+OR
+- Was found more than 1 year after your service ended, including:
   - Malaria (if doctor’s tests show that you got the infection while you were serving)
   - Tuberculosis
   - Visceral leishmaniasis
@@ -48,7 +49,7 @@ Veterans
 </div>
 
 
-### What kind of benefits can I get?
+### What kind of disability benefits can I get?
 
 - Health care
 - Financial support (monthly payments)
@@ -59,7 +60,7 @@ Veterans
 
 You’ll need to apply for benefits. 
 
-Many different health problems may be part of Gulf War Illness. Send in a claim if you have any of these:
+Many different health problems may be part of Gulf War Illness. Send in a claim if you have any of the following:
 -	Fibromyalgia (an illness that can cause you to be tired, have pain in different areas of your body, and have sleep, memory, and mood problems)
 -	Chronic fatigue syndrome (a long-lasting illness that causes you to feel extremely tired for no reason)
 -	Functional gastrointestinal disorders (illnesses that affect your stomach and bowels)
