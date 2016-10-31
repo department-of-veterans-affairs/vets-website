@@ -13,7 +13,8 @@ Were you part of testing or storing Agent Orange (a toxic chemical used to clear
 ### Can I get disability compensation from VA?
 
 Yes, if:
-- You have 1 or more health problems believed to be caused by Agent Orange, and
+- You have 1 or more health problems believed to be caused by Agent Orange
+AND
 - You were part of testing or storing Agent Orange during your military service
 
 [See a list of Agent Orange‒related health problems](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
@@ -25,7 +26,7 @@ Yes, if:
 </div>
 
 
-### What kind of benefits can I get?
+### What kind of disability benefits can I get?
 
 - Health care
 - Financial support (monthly payments)
