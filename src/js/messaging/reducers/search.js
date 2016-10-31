@@ -23,7 +23,8 @@ const initialState = {
     subject: {
       field: makeField(''),
       exact: false
-    }
+    },
+    search: false
   },
   advanced: {
     visible: false
