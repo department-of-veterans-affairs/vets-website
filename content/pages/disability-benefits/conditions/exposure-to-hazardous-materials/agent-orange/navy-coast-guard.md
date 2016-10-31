@@ -14,7 +14,8 @@ If you served on a Navy or Coast Guard ship in or around Vietnam during the Viet
 
 Yes, if:
 
-- You have 1 or more health problems believed to be caused by Agent Orange, and
+- You have 1 or more health problems believed to be caused by Agent Orange
+AND
 - You served on ships or boats that were part of the Mobile Riverine Force or Inshore Fire Support Division 93, or had 1 of the following designations:
 
   - AGP (Assault Group Patrol/Patrol Craft Tender)
@@ -45,7 +46,7 @@ Yes, if:
 
 </div>
 
-### What kind of benefits can I get?
+### What kind of disability benefits can I get?
 
 - Health care
 - Financial support (monthly payments)
@@ -59,7 +60,7 @@ You'll need to apply for benefits.
 
 If you served on 1 of the ships or boats listed above—and you have 1 or more health problems believed to be caused by Agent Orange—we'll conclude that your health problem is likely caused by contact with Agent Orange.
 
-Don’t have an Agent Orange–related disability (damage to your body or mind that makes you less able—or totally unable—to do everyday life tasks, including meaningful work) at this time? You and your family can still be part of the Agent Orange Health Registry.
+If you don’t have an Agent Orange–related disability at this time, you and your family can still be part of the Agent Orange Health Registry.
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
