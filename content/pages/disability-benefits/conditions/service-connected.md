@@ -15,15 +15,15 @@ Do you have a disability caused by an illnesss or injury that happened—or got 
 
 ###Can I get compensation?
 
-Yes, if:
+Yes, if all of the following are true:
 
-- You have a current physical or mental disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work), and
-- You got injured or sick while actively serving in the military—and your injury or illness caused your disability or made a disability you already had worse, and 
+- You have a current physical or mental disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work)
+- You were injured or sick while actively serving in the military—and your injury or illness caused your disability or made a disability you already had worse
 - You can link your current disability to an injury or illness that happened while you were actively serving in the military
 
 <div class="call-out" markdown="1">
 
-###What types of health problems may qualify me for benefits?
+###What types of health problems may qualify me for disability benefits?
 
 You may be able to get benefits for health problems linked to military service, including:
 
@@ -33,7 +33,7 @@ You may be able to get benefits for health problems linked to military service, 
 - Loss of range of motion (problems moving your body)
 - Ulcers (painful sores in your stomach or small intestine)
 - Cancer (if caused by contact with toxic chemicals or other dangers)
-- Traumatic brain injury or TBI (an injury caused by a blow to the head or an object piercing the skull)
+- Traumatic brain injury (TBI) (an injury caused by a blow to the head or an object piercing the skull)
 
 <br>
 
