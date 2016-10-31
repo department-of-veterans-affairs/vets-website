@@ -14,14 +14,14 @@ Contact your local VA Environmental Health Coordinator to schedule an Agent Oran
 
 ### Can I get an Agent Orange Registry health exam?
 
-Yes, if you served in:
+Yes, if you served in any of these locations:
 
-  - Vietnam between 1962 and 1975 for any length of time, or
-  - Vietnam on smaller river patrol and swift boats that were on the inland waterways of Vietnam (also known as “Brown Water Veterans”), or 
-  - Korea in a unit in or near the Demilitarized Zone (DMZ) anytime between April 1, 1968, and August 31, 1971, or
-  - Thailand (U.S. Air Force Veterans) on Royal Thai Air Force (RTAF) bases near U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, and Don Muang near the air base perimeter anytime between February 28, 1961, and May 7, 1975, or
-  - Thailand (U.S. Army Veterans) as perimeter security personnel on RTAF bases in Thailand anytime between February 28, 1961, and May 7, 1975, or
-  - Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975—if you were a member of a military police (MP) unit or assigned a job with duty placing you at or near the base perimeter, or
+  - Vietnam between 1962 and 1975 for any length of time
+  - Vietnam on smaller river patrol and swift boats that were on the inland waterways of Vietnam (also known as “Brown Water Veterans”) 
+  - Korea in a unit in or near the Demilitarized Zone (DMZ) anytime between April 1, 1968, and August 31, 1971
+  - Thailand (U.S. Air Force Veterans) on Royal Thai Air Force (RTAF) bases near U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, and Don Muang near the air base perimeter anytime between February 28, 1961, and May 7, 1975
+  - Thailand (U.S. Army Veterans) as perimeter security personnel on RTAF bases in Thailand anytime between February 28, 1961, and May 7, 1975
+  - Thailand (U.S. Army Veterans) on some small Army installations in Thailand anytime between February 28, 1961, and May 7, 1975—if you were a member of a military police (MP) unit or assigned a job with duty placing you at or near the base perimeter
   - Other locations but you had contact with herbicides during a military operation or while testing, transporting, or spraying herbicides for military purposes
  
  [See the list of ships that had contact with Agent Orange](http://www.publichealth.va.gov/exposures/agentorange/shiplist/index.asp).
@@ -51,8 +51,8 @@ A VA health care provider will go over your exam and test results with you. You'
 
 We want you to know that:
 
-- This exam isn't a VA claim exam (also known as a C&P exam). And you don't have to have this exam to get other VA benefits. To get disability compensation, you'll need to file a claim. [File a claim now](/disability-benefits/apply-for-benefits/).
-- You don't need to sign up for the VA health care system to get a registry health exam.
+- This exam isn't a VA claim exam (also known as a C&P exam). And you don't need to have this exam to get other VA benefits. To get disability compensation, you'll need to file a claim. [File a claim now](/disability-benefits/apply-for-benefits/).
+- You don't need to sign up for the VA health care system to get a Registry exam.
 - The exam is based on your memory of service, not on your military records.
 - The exam will not confirm if you had contact with Agent Orange.
 - You can get another free Registry exam if you have a new health problem in the future.
