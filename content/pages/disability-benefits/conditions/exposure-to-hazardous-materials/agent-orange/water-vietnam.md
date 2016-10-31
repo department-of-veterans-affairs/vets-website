@@ -12,9 +12,9 @@ If you served on a Blue Water Navy ship on the coastal or inland waterways of Vi
 
 ### Can I get disability compensation from VA?
 
-Yes, if:
-  - You have 1 or more health problems believed to be caused by contact with Agent Orange, and
-  - Your military record shows that you were aboard 1 of the U.S. Navy and Coast Guard ships that entered Vietnam’s inland waterways, or
+Yes, if you have 1 or more health problems linked to Agent Orange:
+  - Your military record shows that you were aboard 1 of the U.S. Navy and Coast Guard ships that entered Vietnam’s inland waterways
+  OR
   - You came ashore in Vietnam
 
 [See a list of Agent Orange‒related health problems](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
@@ -26,7 +26,7 @@ Yes, if:
 - Survivors of Veterans
 </div>
 
-### What kind of benefits can I get?
+### What kind of disability benefits can I get?
 
 - Health care
 - Financial support (monthly payments)
