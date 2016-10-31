@@ -6,37 +6,17 @@ class MessageSearch extends React.Component {
   constructor(props) {
     super(props);
     this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
-    this.formatParams = this.formatParams.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  formatParams() {
-    const params = this.props.params;
-
-    return {
-      dateRange: {
-        start: params.dateRange.start,
-        end: params.dateRange.end
-      },
-      term: params.term,
-      from: {
-        field: params.from.field,
-        exact: params.from.exact
-      },
-      subject: {
-        field: params.subject.field,
-        exact: params.subject.exact
-      }
-    };
   }
 
   handleSearchTermChange(field) {
     this.props.onFieldChange('term', field);
+    this.props.onFieldChange('search', true);
   }
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
-    this.props.onSubmit(this.formatParams(), this.props.folder);
+    this.props.onSubmit(this.props.params);
   }
 
   render() {
