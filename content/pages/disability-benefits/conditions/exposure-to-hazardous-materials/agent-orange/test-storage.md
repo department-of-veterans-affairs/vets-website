@@ -13,7 +13,7 @@ Were you part of testing or storing Agent Orange (a toxic chemical used to clear
 ### Can I get disability compensation from VA?
 
 Yes, if:
-- You have 1 or more health problems believed to be caused by Agent Orange
+- You have 1 or more health problems linked to Agent Orange
 AND
 - You were part of testing or storing Agent Orange during your military service
 
