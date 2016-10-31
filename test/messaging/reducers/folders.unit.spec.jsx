@@ -24,7 +24,11 @@ const initialState = {
         totalEntries: 0,
         totalPages: 0
       },
-      persistFolder: 0
+      persistFolder: 0,
+      sort: {
+        value: 'sentDate',
+        order: 'DESC'
+      }
     },
     items: []
   },
