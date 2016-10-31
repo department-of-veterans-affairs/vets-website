@@ -31,7 +31,7 @@ We believe the following health problems are likely caused by contact with Agent
 
 {:.va-list--feature}
 
-If you have a health problem you think is caused by contact with Agent Orange—and you don't see it listed here—you can still apply for benefits. You'll need to show that you have a disability (damage to your body or mind that makes you less able—or totally unable—to do everyday life tasks, including meaningful work) and include doctor or hospital reports stating that your illness is believed to be caused by contact with Agent Orange.
+If you have a health problem you think is caused by contact with Agent Orange—and you don't see it listed here—you can still apply for benefits. You'll need to show that you have a disability (damage to your body or mind that makes you less able—or totally unable—to do everyday life tasks, including meaningful work) **and** include doctor or hospital reports stating that your illness is believed to be caused by contact with Agent Orange.
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
