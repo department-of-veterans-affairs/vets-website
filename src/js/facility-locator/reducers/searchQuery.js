@@ -2,12 +2,13 @@ import { SEARCH_QUERY_UPDATED, SEARCH_STARTED } from '../actions';
 // TODO (bshyong): flesh out shape of service Type object/options
 const INITIAL_STATE = {
   searchString: '',
-  serviceType: 'all',
-  facilityType: 'all',
+  serviceType: null,
+  facilityType: null,
   position: {
     latitude: 38.8976763,
     longitude: -77.03653,
   },
+  bounds: null,
   context: 20500,
 };
 

@@ -3,7 +3,7 @@ import React from 'react';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 import DateInput from '../../../common/components/form-elements/DateInput';
-import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidFutureDateField } from '../../utils/validations';
+import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidRelinquishedDate } from '../../utils/validations';
 import { relinquishableBenefits } from '../../utils/options-for-select';
 import { showRelinquishedEffectiveDate } from '../../utils/helpers';
 
@@ -30,8 +30,8 @@ export default class BenefitsRelinquishmentFields extends React.Component {
             <div>
               <DateInput required={showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)}
                   allowFutureDates
-                  errorMessage="Please provide a date that's the same as or later than today"
-                  validation={validateIfDirtyDateObj(this.props.data.benefitsRelinquishedDate, isValidFutureDateField)}
+                  errorMessage="Date cannot be earlier than 2 years ago"
+                  validation={validateIfDirtyDateObj(this.props.data.benefitsRelinquishedDate, isValidRelinquishedDate)}
                   label="Effective date"
                   name="benefitsRelinquishedDate"
                   day={this.props.data.benefitsRelinquishedDate.day}
