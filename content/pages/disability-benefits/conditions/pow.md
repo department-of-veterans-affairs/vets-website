@@ -12,9 +12,9 @@ Are you a former POW now living with a disability (damage to your body or mind t
 <div class="call-out" markdown="1">
 
 ### Can I get disability compensation from VA?
-Yes, if:
--	You are a former POW, and
--	You have 1 or more of the health problems (called presumptive disabilities) that we believe are likely caused by time spent as a POW, and
+Yes, if you: 
+-	Have 1 or more of the health problems (called presumptive disabilities) that we believe are likely caused by time spent as a POW
+AND
 -	At any time following active-duty service, your health problem has become at least 10% disabling (a rating used to measure how severe your disability is)
 
 ### What are the health problems believed to be caused by time spent as a POW?
@@ -22,8 +22,8 @@ We believe the health problems listed below are likely caused by time spent as a
 
 **For former POWs held captive for any length of time:**
 **Problems that affect your body, including:**
--	Osteoporosis (brittle bones) (for claims filed on or after October 10, 2008, and you have a diagnosis of post-traumatic stress, or PTSD)
--	Lasting damage from frostbite (if you were held in areas cold enough to cause frostbite)
+-	Osteoporosis (brittle bones) (for claims filed on or after October 10, 2008, and you have a diagnosis of post-traumatic stress (PTSD))
+-	Lasting damage from frostbite
 -	Post-traumatic osteoarthritis (pain and swelling in your joints that happens when a past injury causes a joint—such as your knee or elbow—to wear out)
 -	A stroke (a “brain attack” that happens when blood flow to an area of your brain is cut off, causing brain cells to die) or problems (such as memory loss, loss of speech, or weakness in an arm or leg) caused by a stroke
 -	Hypertensive vascular disease (problems with your veins and arteries—also called blood vessels—caused by high blood pressure), including hypertensive heart disease (damage to your heart caused by high blood pressure), and related problems (such as stroke, blood clots, or other serious issues)
@@ -54,7 +54,7 @@ We believe the health problems listed below are likely caused by time spent as a
 Veterans
 </div>
 
-### What kind of benefits can I get?
+### What kind of disability benefits can I get?
 
 -	Health care
 - Financial support (monthly payments)
