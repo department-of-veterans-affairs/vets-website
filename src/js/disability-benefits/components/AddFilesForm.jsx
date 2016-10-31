@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
 import ErrorableFileInput from '../../common/components/form-elements/ErrorableFileInput';
@@ -134,6 +135,7 @@ class AddFilesForm extends React.Component {
               onClick={this.submit}>
             Submit Files for Review
           </button>
+          <Link to={this.props.backUrl} className="claims-files-cancel">Cancel</Link>
         </div>
         <Modal
             onClose={() => true}
@@ -160,6 +162,7 @@ AddFilesForm.propTypes = {
   field: React.PropTypes.object.isRequired,
   uploading: React.PropTypes.bool,
   showMailOrFax: React.PropTypes.bool,
+  backUrl: React.PropTypes.string,
   onSubmit: React.PropTypes.func.isRequired,
   onAddFile: React.PropTypes.func.isRequired,
   onRemoveFile: React.PropTypes.func.isRequired,
