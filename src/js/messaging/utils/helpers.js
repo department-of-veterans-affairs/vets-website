@@ -1,14 +1,18 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-export function createQueryString(query) {
+export function createQueryString(query, snakeCase = true) {
   const segments = [];
 
   for (const key of Object.keys(query)) {
     // Linter only accepts camelCase keys, but API only
     // recognizes snake_case for query string parameters.
-    const formattedKey = _.snakeCase(key);
-    segments.push(`${formattedKey}=${query[key]}`);
+    if (snakeCase) {
+      const formattedKey = _.snakeCase(key);
+      segments.push(`${formattedKey}=${query[key]}`);
+    } else {
+      segments.push(`${key}=${query[key]}`);
+    }
   }
 
   return segments.join('&');
