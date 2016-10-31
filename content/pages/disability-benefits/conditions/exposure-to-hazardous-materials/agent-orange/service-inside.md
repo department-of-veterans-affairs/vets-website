@@ -12,11 +12,12 @@ Did you serve in Vietnam (including aboard a ship on the inland waterways) or in
 
 ### Can I get disability compensation from VA?
 
-Yes, if:
+Yes, if both are true:
 
-- You have 1 or more health problems believed to be caused by Agent Orange, and
+- You have 1 or more health problems believed to be caused by Agent Orange
 - You served in:
-  - Vietnam (including aboard a ship on the inland waterways) for any length of time between January 9, 1962, and May 7, 1975, or
+  - Vietnam (including aboard a ship on the inland waterways) for any length of time between January 9, 1962, and May 7, 1975
+  OR
   - The Korean Demilitarized Zone for any length of time between April 1, 1968, and August 31, 1971
 
 [See a list of Agent Orange‒related health problems](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
