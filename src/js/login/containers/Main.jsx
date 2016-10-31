@@ -59,17 +59,20 @@ class Main extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      // console.log(json);
       const userData = json.data.attributes.profile;
-      this.props.onUpdateProfile('accountType', userData.loa.current);
-      this.props.onUpdateProfile('email', userData.email);
-      this.props.onUpdateProfile('userFullName.first', userData.first_name);
-      this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
-      this.props.onUpdateProfile('userFullName.last', userData.last_name);
-      // this.props.onUpdateProfile('userFullName.suffix', userData.first_name);
-      this.props.onUpdateProfile('gender', userData.gender);
-      this.props.onUpdateProfile('dob', userData.birth_date);
-      this.props.onUpdateLoggedInStatus(true);
+      if (userData.loa.current === 1 && userData.loa.highest === 3) {
+        this.handleVerify();
+      } else {
+        // console.log(json);
+        this.props.onUpdateProfile('accountType', userData.loa.current);
+        this.props.onUpdateProfile('email', userData.email);
+        this.props.onUpdateProfile('userFullName.first', userData.first_name);
+        this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
+        this.props.onUpdateProfile('userFullName.last', userData.last_name);
+        this.props.onUpdateProfile('gender', userData.gender);
+        this.props.onUpdateProfile('dob', userData.birth_date);
+        this.props.onUpdateLoggedInStatus(true);
+      }
     });
   }
 

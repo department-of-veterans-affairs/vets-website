@@ -5,7 +5,7 @@ import environment from '../../common/helpers/environment.js';
 
 import { updateLoggedInStatus, updateProfileField } from '../../common/actions';
 
-class LoginApp extends React.Component {
+class AuthApp extends React.Component {
   constructor(props) {
     super(props);
     this.setMyToken = this.setMyToken.bind(this);
@@ -51,5 +51,5 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(LoginApp);
-export { LoginApp };
+export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(AuthApp);
+export { AuthApp };

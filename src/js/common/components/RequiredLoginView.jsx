@@ -108,7 +108,7 @@ class RequiredLoginView extends React.Component {
     );
 
     if (this.props.authRequired === 1) {
-      if (profile.accountType === 1) {
+      if (profile.accountType >= 1) {
         view = this.props.component;
       } else {
         view = loginComponent;
