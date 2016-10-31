@@ -1,10 +1,12 @@
 import { bindActionCreators } from 'redux';
-import { compact } from 'lodash';
 import { connect } from 'react-redux';
 import { fetchVAFacility } from '../actions';
 import { Link, browserHistory } from 'react-router';
+import FacilityAddress from '../components/search-results/FacilityAddress';
+import FacilityDirectionsLink from '../components/search-results/FacilityDirectionsLink';
 import FacilityHours from '../components/FacilityHours';
 import FacilityMap from '../components/FacilityMap';
+import FacilityPhoneLink from '../components/search-results/FacilityPhoneLink';
 import React, { Component } from 'react';
 import ServicesAtFacility from '../components/ServicesAtFacility';
 
@@ -15,34 +17,26 @@ class FacilityDetail extends Component {
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { address, phone, name } = facility.attributes;
-    const addressString = [
-      compact([address.building, address.street, address.suite]).join(' '),
-      `${address.city}, ${address.state} ${address.zip}-${address.zip4}`
-    ];
+    const { name, website } = facility.attributes;
 
     return (
       <div>
         <h3>{name}</h3>
         <div>
-          {addressString[0]} {addressString[1]}
+          <FacilityAddress facility={facility}/>
         </div>
         <p>
-          <a href={`tel:${phone.main}`}>
-            <i className="fa fa-phone"/> {phone.main}
-          </a>
+          <FacilityPhoneLink facility={facility}/>
         </p>
         <p>
           <span>
-            <a href="#" target="_blank">
+            <a href={website} target="_blank">
               <i className="fa fa-globe" style={{ marginRight: '0.5rem' }}/> Website
             </a>
           </span>
         </p>
         <p>
-          <a href={`https://maps.google.com?saddr=Current+Location&daddr=${addressString.join(' ')}`} target="_blank">
-            <i className="fa fa-map"/> Directions
-          </a>
+          <FacilityDirectionsLink facility={facility}/>
         </p>
         <p>Planning to visit? Please call first as information on this page may change.</p>
       </div>
@@ -64,6 +58,8 @@ class FacilityDetail extends Component {
           </Link>
           <div>
             {this.renderFacilityInfo()}
+            <h4>Services</h4>
+            <hr className="title"/>
             <ServicesAtFacility facility={facility}/>
           </div>
         </div>
@@ -71,7 +67,7 @@ class FacilityDetail extends Component {
           <div>
             <FacilityMap info={facility}/>
             <div className="mb2">
-              <h4>Hours of Operation:</h4>
+              <h4>Hours of Operation</h4>
               <hr className="title"/>
               <FacilityHours facility={facility}/>
             </div>
