@@ -4,7 +4,7 @@ import { withRouter, Link } from 'react-router';
 import { connect } from 'react-redux';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
-import Loading from '../components/Loading';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import UploadError from '../components/UploadError';
 import EvidenceWarning from '../components/EvidenceWarning';
 
@@ -52,7 +52,7 @@ class TurnInEvidencePage extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <Loading/>;
+      content = <LoadingIndicator/>;
     } else {
       content = (
         <div className="claim-container">
