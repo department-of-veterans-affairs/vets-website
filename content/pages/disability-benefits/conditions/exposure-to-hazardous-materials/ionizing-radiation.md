@@ -12,16 +12,15 @@ Find out if you can get VA support (known as disability compensation or benefits
 
 ### Can I get disability compensation from VA?
 
-Yes, if:
-
--	You had contact with ionizing radiation while serving in the military:
-  -	As part of atmospheric nuclear weapons testing, or
-  -	As part of the postwar occupation of Hiroshima or Nagasaki, or
-  -	As a prisoner of war (POW) in Japan, or
-  -	As an x-ray technician, in a reactor plant, or in nuclear medicine or radiography (while on active duty or during active or inactive duty for training in the Reserves)
-  -	While doing tasks like those of a Department of Energy (DOE) employee that make them a member of the Special Exposure Cohort ([See 42 U.S.C. 7384L(14)](https://www.law.cornell.edu/uscode/text/42/7384l)), and 
--	You have a health problem on the list of those believed to be caused by radiation—or that doctors say may be caused by radiation, and
--	Your health problem has appeared within a certain period of time, and
+Yes, if you had contact with ionizing radiation while serving in the military through being either:
+  -	Involved in atmospheric nuclear weapons testing
+  -	In the postwar occupation of Hiroshima or Nagasaki
+  -	A prisoner of war (POW) in Japan
+  -	An x-ray technician, in a reactor plant, or in nuclear medicine or radiography (while on active duty or during active or inactive duty for training in the Reserves)
+  -	Doing tasks like those of a Department of Energy (DOE) employee that make them a member of the Special Exposure Cohort ([See 42 U.S.C. 7384L(14)](https://www.law.cornell.edu/uscode/text/42/7384l))
+AND
+-	You have a health problem on the list of those linked to radiation—or that doctors say may be caused by radiation
+-	Your health problem has appeared within a certain period of time
 -	You were not dishonorably discharged from the military
   
 <br>
@@ -31,7 +30,7 @@ Yes, if:
 Veterans
 </div>
 
-### What kind of benefits can I get?
+### What kind of disability benefits can I get?
 
 - Health care
 - Financial support (monthly payments)
