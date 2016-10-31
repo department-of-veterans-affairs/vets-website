@@ -42,6 +42,7 @@
         flex-wrap: nowrap;
         align-items: center;
       }
+      max-width: 100%;
     }
 
     @media (min-width: $large-screen) {
@@ -79,10 +80,6 @@
   margin: 0 .25rem;
   min-width: 3rem;
   text-decoration: none;
-
-  @media (max-width: $small-screen) {
-    flex: 0 0 3rem;
-  }
 }
 
 .va-pagination-inner a:hover,
