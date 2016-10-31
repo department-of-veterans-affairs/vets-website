@@ -30,10 +30,6 @@ const scrollToError = () => {
 };
 
 class TurnInEvidencePage extends React.Component {
-  constructor() {
-    super();
-    this.goBack = this.goBack.bind(this);
-  }
   componentDidMount() {
     this.props.resetUploads();
     document.title = 'Turn in More Evidence';
@@ -47,9 +43,6 @@ class TurnInEvidencePage extends React.Component {
     if (this.props.uploadError && !prevProps.uploadError) {
       scrollToError();
     }
-  }
-  goBack() {
-    this.props.router.pop();
   }
   goToFilesPage() {
     this.props.getClaimDetail(this.props.claim.id);
