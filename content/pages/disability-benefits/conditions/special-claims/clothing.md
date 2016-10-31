@@ -14,7 +14,8 @@ Has your clothing been damaged by your prosthetic or orthopedic device (such as 
 
 Yes, if:
 
-  - Your prosthetic or orthopedic device or your skin medicine causes damage to your clothes, and
+  - Your prosthetic or orthopedic device or your skin medicine causes damage to your clothes
+  AND
   - You need this device or skin medicine because of an injury or illness related to your military service (called a service-connected condition)
 
 
@@ -23,7 +24,7 @@ Yes, if:
 Veterans
 </div>
 
-### What benefits can I get?
+### What disability benefits can I get?
 
 A 1-time or yearly payment for buying new clothes
 
