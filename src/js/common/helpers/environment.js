@@ -9,7 +9,7 @@ function getEnvironment() {
   let platform;
 
   if (location.host === 'localhost:3001') {
-    platform = 'local';
+    platform = 'development';
   } else {
     platform = __BUILDTYPE__;
   }
