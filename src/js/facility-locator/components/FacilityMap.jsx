@@ -14,7 +14,7 @@ class HowToGetHere extends Component {
 
     return (
       <div className="mb2">
-        <h4>View on Map:</h4>
+        <h4>View on Map</h4>
         <hr className="title"/>
         <img src={mapUrl} alt="Static map"/>
       </div>
