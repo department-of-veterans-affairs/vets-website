@@ -8,7 +8,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsListItem from '../components/ClaimsListItem';
 import NoClaims from '../components/NoClaims';
 import Pagination from '../../common/components/Pagination';
-import Loading from '../components/Loading';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 
 const scroller = Scroll.animateScroll;
@@ -40,7 +40,7 @@ class YourClaimsPage extends React.Component {
     let content;
 
     if (loading) {
-      content = <Loading/>;
+      content = <LoadingIndicator/>;
     } else if (claims.length > 0) {
       content = (<div className="claim-list">
         {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
