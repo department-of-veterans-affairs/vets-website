@@ -116,6 +116,9 @@
   &:last-child {
     border: none;
   }
+  .file-request-title {
+    padding-bottom: 0 !important;
+  }
 }
 
 .claims-evidence {
@@ -170,7 +173,7 @@
 
 .form-process li.section-complete:before {
   background: $color-green;
-  content: "\2714";
+  content: "\2714\fe0e";
 }
 
 .form-process li.section-current {
@@ -557,4 +560,8 @@ p.first-of-type {
 
 .claims-header {
   margin: 0;
+}
+
+.estimation-header {
+  padding: 0.5em 0 0 !important;
 }
