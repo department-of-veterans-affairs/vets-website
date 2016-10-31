@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
-import moment from 'moment';
 
 import AlertBox from '../../common/components/AlertBox';
 import { closeAlert } from '../actions/alert.js';
@@ -14,6 +13,7 @@ import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 import SubmitRefill from '../components/SubmitRefill';
 import { glossary, rxStatuses } from '../config';
+import { formatDate } from '../utils/helpers';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -107,13 +107,12 @@ export class Detail extends React.Component {
         </button>
       ),
 
-      'Last fill date': attrs.dispensedDate
-        ? moment(attrs.dispensedDate).format('MMM D, YYYY')
-        : 'Not available',
+      'Last fill date': formatDate(
+        attrs.refillDate,
+        { validateInFuture: true }
+      ),
 
-      'Expiration date': attrs.expirationDate
-        ? moment(attrs.expirationDate).format('MMM D, YYYY')
-        : 'Not available',
+      'Expiration date': formatDate(attrs.expirationDate),
 
       Refills: `${attrs.refillRemaining} remaining`
     };
