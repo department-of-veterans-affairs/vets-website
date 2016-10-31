@@ -58,7 +58,7 @@ module.exports = {
     hold: 'Hold',
     nonVerified: 'Unknown',
     providerHold: 'Hold',
-    submitted: 'Pending',
+    submitted: 'Submitted',
     suspended: 'Suspended',
     refillinprocess: 'Refill in process',
     unknown: 'Unknown'
