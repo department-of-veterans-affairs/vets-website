@@ -14,7 +14,7 @@ class UserProfileApp extends React.Component {
     let account;
     let view;
 
-    if (this.props.profile.accountType === 'loa3') {
+    if (this.props.profile.accountType === 3) {
       components = (
         <div>
           <UserDataSection/>
