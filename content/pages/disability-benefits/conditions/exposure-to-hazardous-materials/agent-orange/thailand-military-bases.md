@@ -13,7 +13,7 @@ Find out if you can get VA support (known as disability compensation or benefits
 <div class="call-out" markdown="1">
 
 ### Can I get disability compensation from VA?
-Yes, ifyYou have a health problem linked to contact with Agent Orange and: 
+Yes, if you have a health problem linked to contact with Agent Orange and: 
   - You served perimeter security duty on RTAF bases in Thailand (including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang)
   OR
   - You served perimeter security duty while stationed on a U.S. Army installation in Thailand
@@ -24,7 +24,7 @@ Yes, ifyYou have a health problem linked to contact with Agent Orange and:
 - Survivors of Veterans
 </div>
 
-### What kind of benefits can I get?
+### What kind of disability benefits can I get?
 - Heath care
 - Financial support (monthly payments)
 - [An Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
