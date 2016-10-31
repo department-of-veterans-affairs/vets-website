@@ -12,14 +12,11 @@ If you had contact with mustard gas (also known as sulfur mustard, yperite, or n
 
 ### Can I get disability compensation from VA?
 
-Yes, if:
-
--	You have a disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work) believed to be caused by contact with mustard gas or lewisite, and 
-- Your military record shows you had contact with mustard gas or lewisite:
-    - During field or chamber testing, or
-    - At the German air raid on the harbor of Bari, Italy, in World War II, or
-    - While disposing of or handling explosive ordinance (high-explosive devices and chemical and nuclear weapons) during Operation Iraqi Freedom, or
-    - While making or handling vesicant (blistering) agents during military service
+Yes, if you have a disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work) believed to be caused by contact with mustard gas or lewisite **and** your military record shows you had contact with mustard gas or lewisite at one of the following:
+ - During field or chamber testing
+ - The German air raid on the harbor of Bari, Italy, in World War II
+ - While disposing of or handling explosive ordinance (high-explosive devices and chemical and nuclear weapons) during Operation Iraqi Freedom
+  - While making or handling vesicant (blistering) agents during military service
 
 
 <br>
@@ -30,7 +27,7 @@ Veterans
 
 </div>
 
-### What kind of benefits can I get?
+### What kind of disability benefits can I get?
 
 - Health care
 - Financial support (monthly payments)
