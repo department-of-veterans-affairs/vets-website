@@ -1,5 +1,0 @@
-domain: www.vets.gov
-destination:  ./_site_production
-production: true
-
-include: []
