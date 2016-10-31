@@ -12,7 +12,7 @@ import { connect } from 'react-redux';
 class Nav extends React.Component {
 
   render() {
-    const subnavStyles = 'step one wow fadeIn animated';
+    const subnavStyles = 'step one';
     const sections = this.props.data.sections;
     const currentUrl = this.props.currentUrl;
 

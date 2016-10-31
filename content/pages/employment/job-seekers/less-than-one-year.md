@@ -42,7 +42,7 @@ relatedlinks:
 ### What are the steps?
 
 <ol class="process">
-<li class="step one wow fadeIn animated">
+<li class="step one">
 <div markdown="1">
 
 ##### 12 Months Before Leaving Active Duty
@@ -57,7 +57,7 @@ relatedlinks:
 </div>
 </li>
 
-<li class="step two wow fadeIn animated">
+<li class="step two">
 <div markdown="1">
 
 ##### 6 Months Before Leaving Active Duty
@@ -74,7 +74,7 @@ Both of these can be ordered through the [National Archives](https://www.archive
 </div>
 </li>
 
-<li class="step three wow fadeIn animated">
+<li class="step three">
 <div markdown="1">
 
 ##### 2-4 Months Before Leaving Active Duty
@@ -87,7 +87,7 @@ Both of these can be ordered through the [National Archives](https://www.archive
 
 </div>
 </li>
-<li class="step four last wow fadeIn animated">
+<li class="step four last">
 <div markdown="1">
 
 ##### 1 Month Before Leaving Active Duty

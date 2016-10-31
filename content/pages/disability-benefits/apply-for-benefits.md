@@ -83,7 +83,7 @@ If you’ve already filed a claim, check on its progress through [eBenefits](htt
 ### What are the steps?
 
 <ol class="process">
-<li class="step one wow fadeIn animated">
+<li class="step one">
 
 <div markdown="1">
 
@@ -115,7 +115,7 @@ For all compensation claims, please provide:
 
 </li>
 
-<li class="step two wow fadeIn animated">
+<li class="step two">
 
 <div markdown="1">
 
@@ -133,7 +133,7 @@ Choose one of three ways:
 
 </li>
 
-<li class="step three wow fadeIn animated">
+<li class="step three">
 
 <div markdown="1">
 
@@ -182,7 +182,7 @@ Other than attend scheduled examinations, you don't need to do anything else unl
 
 </li>
 
-<li class="step last four wow fadeIn animated">
+<li class="step last four">
 
 <div markdown="1">
 

@@ -65,10 +65,6 @@ const configGenerator = (options) => {
           loader: 'modernizr'
         },
         {
-          test: /wow\.js$/,
-          loaders: ['imports?this=>window', 'exports?this.WOW']
-        },
-        {
           test: /\.scss$/,
           loader: ExtractTextPlugin.extract('style-loader', `css!resolve-url!sass?includePaths[]=${bourbon}&includePaths[]=${neat}&includePaths[]=~/uswds/src/stylesheets&sourceMap`)
         },

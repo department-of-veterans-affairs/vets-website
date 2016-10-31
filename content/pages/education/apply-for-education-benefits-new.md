@@ -20,7 +20,7 @@ If you are a Servicemember or Veteran interested in education and training oppor
 
 <div class="small-12 columns" markdown="0">
 <ol class="process" markdown="0">
-<li class="step one wow fadeIn animated" markdown="0">
+<li class="step one" markdown="0">
 
 <div markdown="1">
 
@@ -62,7 +62,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 </li>
 
-<li class="step two wow fadeIn animated" markdown="0">
+<li class="step two" markdown="0">
 
 <div markdown="1">
 
@@ -84,7 +84,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 </li>
 
-<li class="step three wow fadeIn animated" markdown="0">
+<li class="step three" markdown="0">
 
 <div markdown="1">
 
@@ -106,7 +106,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 </li>
 
-<li class="step four last wow fadeIn animated" markdown="0">
+<li class="step four last" markdown="0">
 
 <div markdown="1">
 
