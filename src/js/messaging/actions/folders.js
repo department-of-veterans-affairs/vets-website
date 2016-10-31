@@ -103,3 +103,10 @@ export function setCurrentFolder(folderId) {
     folderId
   };
 }
+
+// Persists folder ID across threads
+export function resetPagination() {
+  return {
+    type: 'RESET_PAGINATION'
+  };
+}

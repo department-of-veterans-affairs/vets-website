@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import DueDate from '../components/DueDate';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
-import Loading from '../components/Loading';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import UploadError from '../components/UploadError';
 
 import {
@@ -56,7 +56,7 @@ class DocumentRequestPage extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <Loading/>;
+      content = <LoadingIndicator/>;
     } else {
       const trackedItem = this.props.trackedItem;
       content = (

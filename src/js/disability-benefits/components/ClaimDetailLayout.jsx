@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import TabNav from '../components/TabNav';
 import AskVAQuestions from '../components/AskVAQuestions';
-import Loading from '../components/Loading';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
 
 import { isCompleteClaim } from '../utils/helpers';
@@ -39,7 +39,7 @@ export default class ClaimDetailLayout extends React.Component {
         </div>
       );
     } else {
-      content = <Loading/>;
+      content = <LoadingIndicator/>;
     }
 
     return (
@@ -48,7 +48,9 @@ export default class ClaimDetailLayout extends React.Component {
           <div name="topScrollElement"></div>
           {content}
         </div>
-        <AskVAQuestions/>
+        <div className="small-12 medium-4 columns">
+          <AskVAQuestions/>
+        </div>
       </div>
     );
   }
