@@ -28,12 +28,10 @@ If you have symptoms of PTSD and suffered a serious injury or sexual violation, 
 
 ### Can I get disability compensation from VA?
 
-Yes, if:
-
--	You have symptoms related to a traumatic event (the “stressor”), or
--	Your experience with the stressor is related to the PTSD symptoms, and
--	The stressor happened during your service, and
--	You can’t function as well as you once could because of your symptoms, and
+Yes, if you have symptoms related to a traumatic event (the “stressor”) **or**:
+-	Your experience with the stressor is related to the PTSD symptoms
+-	The stressor happened during your service
+-	You can’t function as well as you once could because of your symptoms
 -	A doctor has stated that you have PTSD
 
 <br>
@@ -43,7 +41,7 @@ Yes, if:
 Veterans
 </div>
 
-### What kind of benefits can I get?
+### What kind of disability benefits can I get?
 
 -	Health care
 - Financial support (monthly payments)
