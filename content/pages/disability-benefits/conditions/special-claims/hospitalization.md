@@ -12,15 +12,15 @@ Did you spend time in a VA hospital or other VA-approved hospital for a disabili
 
 ### Can I get disability compensation from VA?
 
-Yes, if:
-  - You spent more than 21 days in a VA hospital or other approved hospital for a service-connected disability, or
-  - You were under hospital observation for more than 21 days at VA expense for a service-connected disability
+Yes, if you either:
+  - Spent more than 21 days in a VA hospital or other approved hospital for a service-connected disability
+  - Were under hospital observation for more than 21 days at VA expense for a service-connected disability
 
 ### Who's covered?
 Veterans
 </div>
 
-### What kind of benefits can I get?
+### What kind of disability benefits can I get?
 
 - Health care
 - Added financial support (payments) for the time you spent in the hospital
