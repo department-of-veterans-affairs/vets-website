@@ -16,7 +16,7 @@ node src/test-support/test-server.js --buildtype ${BUILDTYPE} &
 # Wait for api server and web server to begin accepting connections
 # via http://unix.stackexchange.com/questions/5277
 while ! echo exit | nc localhost 4000; do sleep 1; done
-while ! echo exit | nc localhost 3001; do sleep 1; done
+while ! echo exit | nc localhost 3333; do sleep 1; done
 
 # Webpack dev server blocks when attempting to read a generated file
 # until it is ready so executing a curl command for such a file ensures
