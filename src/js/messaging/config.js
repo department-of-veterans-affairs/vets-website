@@ -1,44 +1,56 @@
-const headers = {
-  'X-Key-Inflection': 'camel',
-};
+import environment from '../common/helpers/environment';
 
-if (typeof localStorage !== 'undefined' && localStorage !== null) {
-  headers.Authorization = `Token token=${localStorage.userToken}`;
+function getHeaders(optionalHeaders = {}) {
+  const defaultHeaders = {
+    'X-Key-Inflection': 'camel'
+  };
+
+  if (typeof localStorage !== 'undefined' && localStorage !== null) {
+    defaultHeaders.Authorization = `Token token=${localStorage.userToken}`;
+  }
+
+  return Object.assign({}, defaultHeaders, optionalHeaders);
+}
+
+function getApiUrl() {
+  let url = '/api';
+
+  if (environment && environment.BASE_URL !== 'http://localhost:3001') {
+    url = environment.API_URL;
+  }
+
+  return url;
 }
 
 module.exports = {
   // Basic config for making API requests.
   api: {
-    url: '/api/v0/messaging/health',
+    url: `${getApiUrl()}/v0/messaging/health`,
     settings: {
       get: {
         method: 'GET',
-        headers
+        headers: getHeaders()
       },
       postJson: {
         method: 'POST',
-        headers: Object.assign({}, headers, {
-          'Content-Type': 'application/json'
-        })
+        headers: getHeaders({ 'Content-Type': 'application/json' })
       },
      // For sending binary data requests. Assumes use of FormData API.
       postFormData: {
         method: 'POST',
-        headers
+        headers: getHeaders()
       },
       put: {
         method: 'PUT',
-        headers: Object.assign({}, headers, {
-          'Content-Type': 'application/json'
-        })
+        headers: getHeaders({ 'Content-Type': 'application/json' })
       },
       'delete': {
         method: 'DELETE',
-        headers
+        headers: getHeaders()
       },
       patch: {
         method: 'PATCH',
-        headers
+        headers: getHeaders()
       }
     }
   },
