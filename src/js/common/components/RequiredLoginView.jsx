@@ -3,23 +3,22 @@ import { connect } from 'react-redux';
 
 import { commonStore } from '../store';
 
-import getUserData from '../helpers/login-helpers';
-import handleVerify from '../helpers/verify-user';
-
+import environment from '../helpers/environment.js';
 import { updateLoggedInStatus, updateLogInUrl, updateProfileField } from '../actions';
 
 class RequiredLoginView extends React.Component {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
-    this.handleVerify = handleVerify();
+    this.handleVerify = this.handleVerify.bind(this);
     this.setMyToken = this.setMyToken.bind(this);
+    this.getUserData = this.getUserData.bind(this);
   }
 
   componentDidMount() {
     if (localStorage.userToken) {
       this.props.onUpdateLoggedInStatus(true);
-      getUserData();
+      this.getUserData();
     } else {
       this.props.onUpdateLoggedInStatus(false);
     }
@@ -29,8 +28,29 @@ class RequiredLoginView extends React.Component {
 
   setMyToken() {
     if (event.data === localStorage.userToken) {
-      getUserData();
+      this.getUserData();
     }
+  }
+
+  getUserData() {
+    fetch(`${environment.API_URL}/v0/user`, {
+      method: 'GET',
+      headers: new Headers({
+        Authorization: `Token token=${localStorage.userToken}`
+      })
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      const userData = json.data.attributes.profile;
+      this.props.onUpdateProfile('accountType', userData.loa.current);
+      this.props.onUpdateProfile('email', userData.email);
+      this.props.onUpdateProfile('userFullName.first', userData.first_name);
+      this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
+      this.props.onUpdateProfile('userFullName.last', userData.last_name);
+      this.props.onUpdateProfile('gender', userData.gender);
+      this.props.onUpdateProfile('dob', userData.birth_date);
+      this.props.onUpdateLoggedInStatus(true);
+    });
   }
 
   handleLogin() {
@@ -39,6 +59,14 @@ class RequiredLoginView extends React.Component {
     const myLoginUrl = login.loginUrl.first;
     // TODO(crew): Check on how this opens on mobile.
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  }
+
+  handleVerify() {
+    const myStore = commonStore.getState();
+    const login = myStore.login;
+    const myVerifyUrl = login.loginUrl.third;
+    const receiver = window.open(myVerifyUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 
@@ -80,7 +108,7 @@ class RequiredLoginView extends React.Component {
     );
 
     if (this.props.authRequired === 1) {
-      if (profile.accountType >= 1) {
+      if (profile.accountType === 1) {
         view = this.props.component;
       } else {
         view = loginComponent;
