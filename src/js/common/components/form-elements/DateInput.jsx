@@ -52,7 +52,7 @@ class DateInput extends React.Component {
     let errorSpanId;
     let errorSpan = '';
     let daysForSelectedMonth = [];
-    const day = this.props.day;
+    let day = this.props.day;
     const month = this.props.month;
     const year = this.props.year;
     const dateValidator = this.props.allowFutureDates ? isValidAnyDate : isValidDate;
@@ -64,6 +64,7 @@ class DateInput extends React.Component {
     // Our validations require that there is always a "day" field, so
     // we'll assume the first day of the month even if we're not displaying it.
     if (this.props.hideDayField) {
+      day = _.cloneDeep(day);
       day.dirty = true;
       day.value = 1;
     }
