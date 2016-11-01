@@ -1,17 +1,33 @@
-const headers = {
-  'X-Key-Inflection': 'camel'
-};
+import environment from '../common/helpers/environment';
 
-if (typeof localStorage !== 'undefined' && localStorage !== null) {
-  headers.Authorization = `Token token=${localStorage.userToken}`;
+function getHeaders() {
+  const headers = {
+    'X-Key-Inflection': 'camel'
+  };
+
+  if (typeof localStorage !== 'undefined' && localStorage !== null) {
+    headers.Authorization = `Token token=${localStorage.userToken}`;
+  }
+
+  return headers;
+}
+
+function getApiUrl() {
+  let url = '/api';
+
+  if (environment && environment.BASE_URL !== 'http://localhost:3001') {
+    url = environment.API_URL;
+  }
+
+  return url;
 }
 
 module.exports = {
   // Base URL to be used in API requests.
   api: {
-    url: '/api/v0/prescriptions',
+    url: `${getApiUrl()}/v0/prescriptions`,
     settings: {
-      headers
+      headers: getHeaders()
     }
   },
 
