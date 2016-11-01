@@ -135,8 +135,7 @@ class Prescription extends React.Component {
           <div className="rx-prescription-submitted">
             Last submit date: {
               formatDate(attrs.refillSubmitDate, {
-                format: 'L',
-                validateInFuture: true
+                format: 'L'
               })
             }
           </div>
