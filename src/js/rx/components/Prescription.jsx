@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import moment from 'moment';
 
 import { openRefillModal } from '../actions/modal';
 import { rxStatuses } from '../config';
+import { formatDate } from '../utils/helpers';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitRefill from './SubmitRefill';
@@ -133,7 +133,12 @@ class Prescription extends React.Component {
             Facility name: {attrs.facilityName}
           </div>
           <div className="rx-prescription-refilled">
-            Last fill date: {moment(attrs.dispensedDate).format('L')}
+            Last fill date: {
+              formatDate(attrs.refillDate, {
+                format: 'L',
+                validateInFuture: true
+              })
+            }
           </div>
           <div className="rx-prescription-countaction">
             <RefillsRemainingCounter

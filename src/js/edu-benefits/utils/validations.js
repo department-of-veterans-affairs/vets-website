@@ -245,11 +245,19 @@ function isValidBenefitsInformationPage(data) {
   return data.chapter33 || data.chapter30 || data.chapter32 || data.chapter1606;
 }
 
+function isValidRelinquishedDate(field) {
+  // Allow dates up to two years ago
+  const pastDate = moment().subtract(2, 'years');
+  const date = dateToMoment(field);
+
+  return !isBlankDateField(field) && date.isValid() && date.isAfter(pastDate);
+}
+
 function isValidBenefitsRelinquishmentPage(data) {
   return !data.chapter33 ||
     (isNotBlank(data.benefitsRelinquished.value) &&
       (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
-        (!isBlankDateField(data.benefitsRelinquishedDate) && isValidFutureDateField(data.benefitsRelinquishedDate))));
+        isValidRelinquishedDate(data.benefitsRelinquishedDate)));
 }
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
@@ -430,6 +438,7 @@ export {
   isValidPage,
   isValidValue,
   isValidFutureDateField,
+  isValidRelinquishedDate,
   isBlankAddress,
   isValidTourOfDuty,
   isValidEmploymentPeriod,

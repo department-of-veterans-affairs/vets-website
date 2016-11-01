@@ -1,10 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="11px" height="13px" viewBox="0 0 11 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
-    <title>Untitled</title>
-    <desc>Created with Sketch.</desc>
-    <defs></defs>
-    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <path d="M9.46,11 L8.78,11 L10,2.55 C10.0175,2.2633 9.7992,2.0168 9.5126,1.9993 C9.4884,1.9979 9.4641,1.9981 9.44,2 L8.26,2 C8.26,1.08 7.03,0 5.51,0 C3.99,0 2.77,1.08 2.77,2 L1.54,2 C1.253,1.9885 1.0111,2.2117 0.9995,2.4987 C0.9988,2.5158 0.999,2.5329 1,2.55 L2.2,11 L1.55,11 C1.2609,10.9886 1.0162,11.2112 1,11.5 L1,13 L10,13 L10,11.49 C9.9839,11.2067 9.7435,10.9886 9.46,11 L9.46,11 Z M2.5,4 L8.5,4 L8.5,5 L2.5,5 L2.5,4 L2.5,4 Z" id="Shape" fill="#fff"></path>
-    </g>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 20.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 40 48" style="enable-background:new 0 0 40 48;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+</style>
+<title>Artboard</title>
+<desc>Created with Sketch.</desc>
+<rect x="7.2" y="41.1" class="st0" width="25.5" height="2.3"/>
+<g>
+	<g>
+		<path class="st0" d="M20.1,7.2c-5.9,0-10.6,4.4-10.6,9.8v22.6h21.2V17C30.7,11.6,26,7.2,20.1,7.2z M15.2,16.6h9
+			c0.4,0,0.8,0.3,0.8,0.8s-0.3,0.8-0.8,0.8h-9c-0.4,0-0.8-0.3-0.8-0.8S14.8,16.6,15.2,16.6z M25.5,20.7h-11c-0.4,0-0.8-0.3-0.8-0.8
+			s0.3-0.8,0.8-0.8h11c0.4,0,0.8,0.3,0.8,0.8S25.9,20.7,25.5,20.7z"/>
+	</g>
+</g>
 </svg>

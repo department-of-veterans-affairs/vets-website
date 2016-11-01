@@ -110,8 +110,6 @@ class ServicesAtFacility extends Component {
 
     return (
       <div className="mb2">
-        <h5 style={{ marginTop: '1.5em' }}>Health Services</h5>
-        <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment().format('MMMM D, YYYY')}</strong></p>
         <ul>
           {availableServices.map(s => {
             return this.renderService(s);
@@ -131,15 +129,16 @@ class ServicesAtFacility extends Component {
     // TODO: clean up once we have real data
     return (
       <div>
-        {facility.type === 'va_health_facility' ? this.renderHealthServices() : null}
+        <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment().format('MMMM D, YYYY')}</strong></p>
         <div className="call-out clearfix">
           <div className="columns small-1">
             <h3><i className="fa fa-exclamation-circle"></i></h3>
           </div>
           <div className="columns small-11">
-            <strong>To find out about additional services at this location — please call.</strong> We are working on collecting information from all VA facilities so that you know what services are offered, where — but we don't have it all yet. We hope to have this information on vets.gov soon!
+            This list may not include all of the services available at this location. Please check on the facility's website or call them for this information.
           </div>
         </div>
+        {facility.type === 'va_health_facility' ? this.renderHealthServices() : null}
       </div>
     );
   }
