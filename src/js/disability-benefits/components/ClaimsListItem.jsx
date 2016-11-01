@@ -20,9 +20,8 @@ export default function ClaimsListItem({ claim }) {
           ? <p><i className="fa fa-exclamation-triangle"></i>Items need your attention</p>
           : null}
       </div>
-      {claim.attributes.eventsTimeline &&
-        claim.attributes.eventsTimeline.length &&
-        <p>Last update: {moment(claim.attributes.eventsTimeline[0].date).format('MMM D, YYYY')}</p>}
+      {claim.attributes.phaseChangeDate &&
+        <p>Last update: {moment(claim.attributes.phaseChangeDate).format('MMM D, YYYY')}</p>}
     </Link>
   );
 }

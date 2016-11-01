@@ -15,7 +15,7 @@ const initialState = {
 export default function claimsReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIMS: {
-      const sortedList = _.orderBy(['attributes.eventsTimeline[0].date', 'id'], 'desc', action.claims);
+      const sortedList = _.orderBy(['attributes.phaseChangeDate', 'id'], 'desc', action.claims);
       const current = (state.page - 1) * ROWS_PER_PAGE;
       return _.merge(state, {
         list: sortedList,
