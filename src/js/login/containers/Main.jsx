@@ -12,18 +12,12 @@ import SignInProfileButton from '../components/SignInProfileButton';
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.handleLogin = this.handleLogin.bind(this);
     this.setMyToken = this.setMyToken.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.getUserData = getUserData;
   }
 
   componentDidMount() {
-    if (localStorage.userToken) {
-      this.props.onUpdateLoggedInStatus(true);
-      getUserData();
-    } else {
-      this.props.onUpdateLoggedInStatus(false);
-    }
-
     // TODO(crew): Remove this conditional statement when going to production.
     if (__BUILDTYPE__ !== 'production') {
       this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
@@ -35,7 +29,6 @@ class Main extends React.Component {
       });
     }
 
-    // TODO(crew): Change to just listen for localStorage update but currently known bug in Chrome prevents this from firing (https://bugs.chromium.org/p/chromium/issues/detail?id=136356).
     window.addEventListener('message', this.setMyToken);
   }
 
@@ -45,7 +38,7 @@ class Main extends React.Component {
 
   setMyToken() {
     if (event.data === localStorage.userToken) {
-      getUserData();
+      this.getUserData();
     }
   }
 

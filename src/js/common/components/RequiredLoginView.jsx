@@ -1,10 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import moment from 'moment';
 
 import { commonStore } from '../store';
 
-import environment from '../helpers/environment.js';
 import handleVerify from '../helpers/verify-user.js';
 import { updateLoggedInStatus, updateLogInUrl, updateProfileField } from '../actions';
 
@@ -14,52 +12,6 @@ class RequiredLoginView extends React.Component {
     this.handleLogin = this.handleLogin.bind(this);
     this.handleVerify = handleVerify;
     this.setMyToken = this.setMyToken.bind(this);
-    this.getUserData = this.getUserData.bind(this);
-  }
-
-  componentDidMount() {
-    // TODO(crew): Make sure this only runs if the user is not logged in.
-    if (localStorage.userToken) {
-      this.props.onUpdateLoggedInStatus(true);
-      this.getUserData();
-    } else {
-      this.props.onUpdateLoggedInStatus(false);
-    }
-
-    window.addEventListener('message', this.setMyToken);
-  }
-
-  setMyToken() {
-    if (event.data === localStorage.userToken) {
-      this.getUserData();
-    }
-  }
-
-  getUserData() {
-    fetch(`${environment.API_URL}/v0/user`, {
-      method: 'GET',
-      headers: new Headers({
-        Authorization: `Token token=${localStorage.userToken}`
-      })
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      const userData = json.data.attributes.profile;
-      // This will require the user to login again after 30 mins. We can decide what the correct amount of time is later.
-      if ((userData.loa.highest === 3) && (userData.loa.current === 1 || (moment() > moment(userData.last_signed_in).add(30, 'm')))) {
-        this.handleVerify();
-      } else {
-        // console.log(json);
-        this.props.onUpdateProfile('accountType', userData.loa.current);
-        this.props.onUpdateProfile('email', userData.email);
-        this.props.onUpdateProfile('userFullName.first', userData.first_name);
-        this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
-        this.props.onUpdateProfile('userFullName.last', userData.last_name);
-        this.props.onUpdateProfile('gender', userData.gender);
-        this.props.onUpdateProfile('dob', userData.birth_date);
-        this.props.onUpdateLoggedInStatus(true);
-      }
-    });
   }
 
   handleLogin() {
