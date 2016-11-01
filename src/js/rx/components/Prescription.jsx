@@ -18,7 +18,7 @@ class Prescription extends React.Component {
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
-    this.props.confirmHandler(this.props.attributes);
+    this.props.modalHandler(this.props.attributes);
   }
 
   showTracking() {
@@ -143,6 +143,7 @@ class Prescription extends React.Component {
 
 Prescription.propTypes = {
   id: React.PropTypes.string.isRequired,
+  modalHandler: React.PropTypes.func.isRequired,
   type: React.PropTypes.string.isRequired,
   attributes: React.PropTypes.shape({
     prescriptionId: React.PropTypes.number.isRequired,

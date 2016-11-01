@@ -61,7 +61,7 @@ class Active extends React.Component {
               items={this.props.prescriptions.items}
               // If we're sorting by facility, tell PrescriptionList to group 'em.
               grouped={sortValue === 'facilityName'}
-              confirmHandler={this.props.openRefillModal}/>
+              modalHandler={this.props.openRefillModal}/>
         </div>
       );
     }
@@ -78,7 +78,6 @@ Active.contextTypes = {
   router: React.PropTypes.object.isRequired
 };
 
-// TODO: fill this out
 const mapStateToProps = (state) => {
   return {
     alert: state.alert,

@@ -15,7 +15,7 @@ class PrescriptionList extends React.Component {
       return (
         <Prescription
             { ...rx }
-            confirmHandler={this.props.confirmHandler}
+            modalHandler={this.props.modalHandler}
             key={uniqId}/>
       );
     };
@@ -49,7 +49,7 @@ class PrescriptionList extends React.Component {
         const uniqId = _.uniqueId('rx-g');
 
         return (<PrescriptionGroup
-            confirmHandler={this.props.confirmHandler}
+            modalHandler={this.props.modalHandler}
             title={value}
             key={uniqId}
             items={groupChildren}/>);
@@ -69,7 +69,7 @@ class PrescriptionList extends React.Component {
 PrescriptionList.propTypes = {
   items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
   grouped: React.PropTypes.bool,
-  confirmHandler: React.PropTypes.func.isRequired
+  modalHandler: React.PropTypes.func.isRequired
 };
 
 export default PrescriptionList;
