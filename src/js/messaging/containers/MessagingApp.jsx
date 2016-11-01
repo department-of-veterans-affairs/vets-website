@@ -22,6 +22,7 @@ class MessagingApp extends React.Component {
               content={this.props.alert.content}
               isVisible={this.props.alert.visible}
               onCloseAlert={this.props.closeAlert}
+              scrollOnShow
               status={this.props.alert.status}/>
           <h1>Message your health care team</h1>
         </div>
