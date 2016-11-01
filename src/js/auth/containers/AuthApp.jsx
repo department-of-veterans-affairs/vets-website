@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import $ from 'jquery';
 
 import environment from '../../common/helpers/environment.js';
 
@@ -9,19 +10,45 @@ class AuthApp extends React.Component {
   constructor(props) {
     super(props);
     this.setMyToken = this.setMyToken.bind(this);
+    this.checkUserLevel = this.checkUserLevel.bind(this);
   }
 
   componentDidMount() {
-    this.setMyToken();
+    if (__BUILDTYPE__ !== 'production') {
+      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
+        this.setState({ verifyUrl: result.authenticate_via_get });
+      });
+    }
+    this.checkUserLevel();
   }
 
-  setMyToken() {
-    const myToken = this.props.location.query.token;
-    window.opener.localStorage.removeItem('userToken');
-    window.opener.localStorage.setItem('userToken', myToken);
-    window.opener.postMessage(myToken, environment.BASE_URL);
-    localStorage.setItem('userToken', myToken);
+  setMyToken(token) {
+    window.opener.localStorage.setItem('userToken', token);
+    window.opener.postMessage(token, environment.BASE_URL);
     window.close();
+  }
+
+  checkUserLevel() {
+    const myToken = this.props.location.query.token;
+    fetch(`${environment.API_URL}/v0/user`, {
+      method: 'GET',
+      headers: new Headers({
+        Authorization: `Token token=${myToken}`
+      })
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      const userData = json.data.attributes.profile.loa;
+      if (userData.highest === 3) {
+        if (userData.current === 3) {
+          this.setMyToken(myToken);
+        } else {
+          window.open(this.state.verifyUrl, '_self');
+        }
+      } else {
+        this.setMyToken(myToken);
+      }
+    });
   }
 
   render() {

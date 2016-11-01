@@ -1,39 +1,61 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import $ from 'jquery';
 
 import { commonStore } from '../store';
 
-import { getUserData, handleVerify } from '../helpers/login-helpers.js';
+import environment from '../helpers/environment.js';
+import { handleVerify } from '../helpers/login-helpers.js';
 
 class RequiredLoginView extends React.Component {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
+    this.setUserLevel = this.setUserLevel.bind(this);
+    this.setInitialLevel = this.setInitialLevel.bind(this);
     this.handleVerify = handleVerify;
-    // this.setMyToken = this.setMyToken.bind(this);
-    this.getUserData = getUserData;
+    this.state = { accountType: 0 };
   }
 
   componentWillMount() {
-    if (localStorage.userToken) {
-      this.getUserData();
-      // const myStore = commonStore.getState();
-      // const profile = myStore.profile;
-      // console.log(profile);
-    } else {
-      window.addEventListener('message', this.setMyToken);
+    if (localStorage.userToken !== undefined) {
+      this.setUserLevel();
     }
   }
 
-  // componentDidMount() {
-  //   window.addEventListener('message', this.setMyToken);
-  // }
+  componentDidMount() {
+    if (__BUILDTYPE__ !== 'production') {
+      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
+        this.setState({ verifyUrl: result.authenticate_via_get });
+      });
+    }
 
-  // setMyToken() {
-  //   if (event.data === localStorage.userToken) {
-  //     this.getUserData();
-  //   }
-  // }
+    if (!localStorage.userToken) {
+      this.handleLogout();
+    }
+
+    window.addEventListener('message', this.setInitialLevel);
+  }
+
+  setInitialLevel() {
+    if (event.data === localStorage.userToken) {
+      this.setUserLevel();
+    }
+  }
+
+  setUserLevel() {
+    fetch(`${environment.API_URL}/v0/user`, {
+      method: 'GET',
+      headers: new Headers({
+        Authorization: `Token token=${localStorage.userToken}`
+      })
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      const userAccounts = json.data.attributes.profile.loa;
+      this.setState({ accountType: userAccounts.current });
+    });
+  }
 
   handleLogin() {
     const myStore = commonStore.getState();
@@ -44,11 +66,12 @@ class RequiredLoginView extends React.Component {
     receiver.focus();
   }
 
+  handleLogout() {
+    this.setState({ accountType: 0 });
+  }
+
   render() {
     let view;
-    const myStore = commonStore.getState();
-    const profile = myStore.profile;
-    // console.log(profile);
 
     const loginComponent = (
       <div className="row primary">
@@ -83,31 +106,25 @@ class RequiredLoginView extends React.Component {
     );
 
     if (this.props.authRequired === 1) {
-      if (profile.accountType >= 1) {
-        view = this.props.component;
+      if (this.state.accountType >= 1) {
+        view = this.props.children;
       } else {
         view = loginComponent;
       }
     } else if (this.props.authRequired === 3) {
-      if (profile.accountType === 3) {
-        view = this.props.component;
-      } else if (profile.accountType === 1) {
+      if (this.state.accountType === 3) {
+        view = this.props.children;
+      } else if (this.state.accountType === 1) {
         view = verifyComponent;
       } else {
         view = loginComponent;
       }
     } else {
-      view = this.props.component;
+      view = this.props.children;
     }
 
     return view;
   }
 }
 
-// TODO: fill this out
-const mapStateToProps = (state) => {
-  return state;
-};
-
-export default connect(mapStateToProps)(RequiredLoginView);
-export { RequiredLoginView };
+export default RequiredLoginView;
