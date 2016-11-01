@@ -8,7 +8,7 @@ class ContactCard extends React.Component {
     if (this.props.phoneNumber) {
       phoneNumber = (
         <div className="rx-contact-line">
-          <span className="rx-contact-header">Phone number:&nbsp;</span>
+          <span className="rx-contact-header">Facility number:&nbsp;</span>
           {this.props.phoneNumber}
         </div>
       );
