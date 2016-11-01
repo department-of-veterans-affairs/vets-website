@@ -28,7 +28,7 @@ class Active extends React.Component {
   handleSortOnChange(domEvent) {
     if (domEvent.type === 'change') {
       this.context.router.push({
-        pathname: '/',
+        ...this.props.location,
         query: { sort: domEvent.target.value }
       });
     }

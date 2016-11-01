@@ -52,14 +52,14 @@ class History extends React.Component {
   handleSort(value, order) {
     const sort = this.formattedSortParam(value, order);
     this.context.router.push({
-      pathname: '/history',
+      ...this.props.location,
       query: { ...this.props.location.query, sort }
     });
   }
 
   handlePageSelect(page) {
     this.context.router.push({
-      pathname: '/history',
+      ...this.props.location,
       query: { ...this.props.location.query, page }
     });
   }
