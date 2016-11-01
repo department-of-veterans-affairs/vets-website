@@ -12,7 +12,7 @@ majorlinks:
   - url: http://www.dol.gov/veterans/hireaveteran
     title: Hire a Veteran
     description: Post jobs and commit to hiring qualified Veterans.
-secondarylinkstitle: "Explore other ways to start a career."
+secondarylinkstitle: "Explore other ways to start a career"
 secondarylinks:
   - url: /employment/job-seekers/start
     title: Start or Grow Your Business
@@ -20,7 +20,7 @@ secondarylinks:
   - url: /employment/job-seekers/family-members
     title: Explore Resources for Military Families or Spouses
     description: ""
-relatedlinkstitle: "Learn new skills with online resources"
+relatedlinkstitle: "Learn new skills using online resources"
 relatedlinks:
   - url: https://www.surveymonkey.com/r/QSGQRFN
     title: Take a Free Online Class with Coursera
