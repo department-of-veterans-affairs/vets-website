@@ -5,18 +5,20 @@ import moment from 'moment';
 import { commonStore } from '../store';
 
 import environment from '../helpers/environment.js';
+import handleVerify from '../helpers/verify-user.js';
 import { updateLoggedInStatus, updateLogInUrl, updateProfileField } from '../actions';
 
 class RequiredLoginView extends React.Component {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
-    this.handleVerify = this.handleVerify.bind(this);
+    this.handleVerify = handleVerify;
     this.setMyToken = this.setMyToken.bind(this);
     this.getUserData = this.getUserData.bind(this);
   }
 
   componentDidMount() {
+    // TODO(crew): Make sure this only runs if the user is not logged in.
     if (localStorage.userToken) {
       this.props.onUpdateLoggedInStatus(true);
       this.getUserData();
@@ -66,14 +68,6 @@ class RequiredLoginView extends React.Component {
     const myLoginUrl = login.loginUrl.first;
     // TODO(crew): Check on how this opens on mobile.
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
-    receiver.focus();
-  }
-
-  handleVerify() {
-    const myStore = commonStore.getState();
-    const login = myStore.login;
-    const myVerifyUrl = login.loginUrl.third;
-    const receiver = window.open(myVerifyUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 
