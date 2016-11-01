@@ -94,7 +94,7 @@ class History extends React.Component {
 
           refillSubmitDate: formatDate(attrs.refillSubmitDate),
 
-          refillDate: formatDate(attrs.refillDate, { validateInFuture: true }),
+          refillDate: formatDate(attrs.refillDate, { validateInPast: true }),
 
           prescriptionName: (
             <Link to={`/${attrs.prescriptionId}`}>

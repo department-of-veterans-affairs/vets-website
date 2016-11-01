@@ -136,7 +136,7 @@ class Prescription extends React.Component {
             Last fill date: {
               formatDate(attrs.refillDate, {
                 format: 'L',
-                validateInFuture: true
+                validateInPast: true
               })
             }
           </div>
