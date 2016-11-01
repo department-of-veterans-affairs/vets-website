@@ -3,7 +3,6 @@
 */
 
 import React from 'react';
-import { Link } from 'react-router';
 import classNames from 'classnames';
 
 class SortMenu extends React.Component {
@@ -21,7 +20,7 @@ class SortMenu extends React.Component {
     return (event) => {
       event.preventDefault();
       this.props.onClick(sortValue);
-    }
+    };
   }
 
   render() {

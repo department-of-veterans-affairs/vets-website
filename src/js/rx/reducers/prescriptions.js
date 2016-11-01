@@ -76,8 +76,8 @@ export default function prescriptions(state = initialState, action) {
     case 'REFILL_SUCCESS':
       return set('items', updateRefillStatus(state.items, action.id), state);
 
-    case 'SORT_PRESCRIPTIONS':
-      let newState = set('active.sort', action.sort, state);
+    case 'SORT_PRESCRIPTIONS': {
+      const newState = set('active.sort', action.sort, state);
 
       switch (action.sort) {
         case 'prescriptionName':
@@ -86,7 +86,10 @@ export default function prescriptions(state = initialState, action) {
           return set('items', _.sortBy(state.items, sortByFacilityName), newState);
         case 'lastRequested':
           return set('items', _.sortBy(state.items, sortByLastRequestedDate), newState);
+        default:
+          return set('active.sort', 'prescriptionName', state);
       }
+    }
 
     default:
       return state;

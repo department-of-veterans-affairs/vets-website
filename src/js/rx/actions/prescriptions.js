@@ -32,7 +32,7 @@ export function loadPrescriptions(options) {
   if (options) {
     if (options.active) {
       url = `${url}/active`;
-      defaultSort = 'prescription_name'
+      defaultSort = 'prescription_name';
     }
 
     if (options.page) {
