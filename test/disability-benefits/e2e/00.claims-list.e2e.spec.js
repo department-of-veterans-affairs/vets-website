@@ -8,11 +8,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
     (client) => {
       DisabilityHelpers.initClaimsListMock();
 
-      LoginHelpers.initUserMock();
-      client
-        .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
-        .waitForElementVisible('body', Timeouts.normal);
-      LoginHelpers.setUserToken(client);
+      LoginHelpers.logIn(client, '/disability-benefits/track-claims', 3);
 
       client
         .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)

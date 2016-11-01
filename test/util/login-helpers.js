@@ -1,5 +1,6 @@
 const request = require('request');
 const E2eHelpers = require('./e2e-helpers');
+const Timeouts = require('./timeouts');
 
 function setUserToken(client) {
   client.execute(() => {
@@ -13,7 +14,7 @@ function setUserToken(client) {
 }
 
 /* eslint-disable camelcase */
-function initUserMock(loa = 3) {
+function initUserMock(level) {
   request({
     uri: `${E2eHelpers.apiUrl}/mock`,
     method: 'POST',
@@ -26,7 +27,7 @@ function initUserMock(loa = 3) {
             profile: {
               email: 'fake@fake.com',
               loa: {
-                current: loa
+                current: level
               },
               first_name: 'Jane',
               middle_name: '',
@@ -42,7 +43,16 @@ function initUserMock(loa = 3) {
 }
 /* eslint-enable camelcase */
 
+function logIn(client, url, level) {
+  initUserMock(level);
+  client
+    .url(`${E2eHelpers.baseUrl}${url}`)
+    .waitForElementVisible('body', Timeouts.normal);
+  setUserToken(client);
+}
+
 module.exports = {
   setUserToken,
-  initUserMock
+  initUserMock,
+  logIn
 };

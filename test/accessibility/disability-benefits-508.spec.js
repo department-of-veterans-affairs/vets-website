@@ -7,12 +7,7 @@ module.exports = E2eHelpers.createE2eTest(
   (client) => {
     DisabilityHelpers.initClaimsListMock();
 
-    // Authenticate
-    LoginHelpers.initUserMock();
-    client
-      .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
-      .waitForElementVisible('body', Timeouts.normal);
-    LoginHelpers.setUserToken(client);
+    LoginHelpers.logIn(client, '/disability-benefits/track-claims', 3);
 
     client
       .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
