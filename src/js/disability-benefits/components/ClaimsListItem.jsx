@@ -7,7 +7,7 @@ import { getPhaseDescription } from '../utils/helpers';
 export default function ClaimsListItem({ claim }) {
   return (
     <Link className="claim-list-item" to={`your-claims/${claim.id}/status`}>
-      <h4 className="claim-list-item-header">Compensation Claim</h4>
+      <h4 className="claim-list-item-header">Disability Compensation Claim</h4>
       <p className="status">Status: {getPhaseDescription(claim.attributes.phase)}</p>
       <div className="communications">
         {claim.attributes.developmentLetterSent && !claim.attributes.decisionLetterSent
