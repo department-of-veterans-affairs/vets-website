@@ -32,10 +32,6 @@ module.exports = {
     definition: 'This prescription cannot be refilled until a hold is resolved by the pharmacy. Contact your VA pharmacy if you need this prescription now.'
   },
   {
-    term: 'Pending',
-    definition: 'This prescription was sent to the pharmacy for review. Contact your VA pharmacy if you need this medication now.'
-  },
-  {
     term: 'Submitted',
     definition: 'Your prescription refill has been submitted.'
   },
@@ -58,7 +54,7 @@ module.exports = {
     hold: 'Hold',
     nonVerified: 'Unknown',
     providerHold: 'Hold',
-    submitted: 'Pending',
+    submitted: 'Submitted',
     suspended: 'Suspended',
     refillinprocess: 'Refill in process',
     unknown: 'Unknown'

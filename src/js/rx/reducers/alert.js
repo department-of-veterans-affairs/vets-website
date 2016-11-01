@@ -1,7 +1,7 @@
 import set from 'lodash/fp/set';
 
 const initialState = {
-  content: null,
+  content: '',
   status: 'info',
   visible: false
 };
