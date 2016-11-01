@@ -99,7 +99,7 @@ module.exports = {
       label: 'Facility name'
     },
     {
-      value: 'lastRequested',
+      value: 'lastSubmitDate',
       label: 'Last submit date'
     }
   ]

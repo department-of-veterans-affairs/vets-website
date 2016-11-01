@@ -30,7 +30,7 @@ function sortByFacilityName(items) {
   return items.attributes.facilityName;
 }
 
-function sortByLastRequestedDate(items) {
+function sortByLastSubmitDate(items) {
   return new Date(items.attributes.refillSubmitDate).getTime();
 }
 
@@ -84,8 +84,8 @@ export default function prescriptions(state = initialState, action) {
           return set('items', _.sortBy(state.items, sortByName), newState);
         case 'facilityName':
           return set('items', _.sortBy(state.items, sortByFacilityName), newState);
-        case 'lastRequested':
-          return set('items', _.sortBy(state.items, sortByLastRequestedDate), newState);
+        case 'lastSubmitDate':
+          return set('items', _.sortBy(state.items, sortByLastSubmitDate), newState);
         default:
           return set('active.sort', 'prescriptionName', state);
       }
