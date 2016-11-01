@@ -18,7 +18,7 @@ class Active extends React.Component {
 
   componentDidUpdate() {
     const newSort = this.props.location.query.sort;
-    const oldSort = this.props.prescriptions.active.sort;
+    const oldSort = this.props.sort;
 
     if (newSort !== oldSort) {
       this.props.sortPrescriptions(newSort);
@@ -33,13 +33,11 @@ class Active extends React.Component {
   }
 
   render() {
-    const items = this.props.prescriptions.items;
+    const prescriptions = this.props.prescriptions;
     let content;
 
-    const sortParam = this.props.location.query.sort;
-
-    if (items) {
-      const sortValue = sortParam || 'prescriptionName';
+    if (prescriptions) {
+      const sortValue = this.props.sort;
 
       content = (
         <div>
@@ -48,7 +46,7 @@ class Active extends React.Component {
               options={sortOptions}
               selected={sortValue}/>
           <PrescriptionList
-              items={this.props.prescriptions.items}
+              items={this.props.prescriptions}
               // If we're sorting by facility, tell PrescriptionList to group 'em.
               grouped={sortValue === 'facilityName'}/>
         </div>
@@ -67,9 +65,11 @@ Active.contextTypes = {
   router: React.PropTypes.object.isRequired
 };
 
-// TODO: fill this out
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    prescriptions: state.prescriptions.items,
+    sort: state.prescriptions.active.sort
+  };
 };
 
 const mapDispatchToProps = {
