@@ -1,4 +1,3 @@
-
 import { expect } from 'chai';
 
 import claimsList from '../../../src/js/disability-benefits/reducers/claims-list';
@@ -8,19 +7,40 @@ describe('Claims list reducer', () => {
   it('should sort and populate the claims list', () => {
     const claims = Array(12).fill({
       attributes: {
-        updatedAt: '2010-01-04'
+        eventsTimeline: [
+          {
+            date: '2010-01-01'
+          }
+        ]
       }
     });
-    claims[11].attributes.updatedAt = '2011-01-05';
+    claims[11] = {
+      attributes: {
+        eventsTimeline: [
+          {
+            date: '2011-01-05'
+          }
+        ]
+      }
+    };
+    claims[10] = {
+      attributes: {
+      }
+    };
+    claims[9] = {
+      attributes: {
+        eventsTimeline: []
+      }
+    };
     const state = claimsList(undefined, {
       type: SET_CLAIMS,
       claims
     });
 
     expect(state.list.length).to.equal(12);
-    expect(state.list[0].attributes.updatedAt).to.equal('2011-01-05');
+    expect(state.list[2].attributes.eventsTimeline[0].date).to.equal('2011-01-05');
     expect(state.visibleRows.length).to.equal(10);
-    expect(state.visibleRows[0].attributes.updatedAt).to.equal('2011-01-05');
+    expect(state.visibleRows[2].attributes.eventsTimeline[0].date).to.equal('2011-01-05');
   });
 
   it('should change the claims list page', () => {
