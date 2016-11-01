@@ -181,18 +181,6 @@ export class Detail extends React.Component {
   }
 
   render() {
-    let alertBox;
-
-    if (this.props.alert.visible) {
-      alertBox = (
-        <AlertBox
-            content={this.props.alert.content}
-            isVisible={this.props.alert.visible}
-            onCloseAlert={this.props.closeAlert}
-            status={this.props.alert.status}/>
-      );
-    }
-
     let header;
     let rxInfo;
     let contactCard;
@@ -207,7 +195,12 @@ export class Detail extends React.Component {
 
     return (
       <div id="rx-detail">
-        {alertBox}
+        <AlertBox
+            content={this.props.alert.content}
+            isVisible={this.props.alert.visible}
+            onCloseAlert={this.props.closeAlert}
+            scrollOnShow
+            status={this.props.alert.status}/>
         <h1>Prescription Refill</h1>
         <BackLink text="Back to list"/>
         {header}
