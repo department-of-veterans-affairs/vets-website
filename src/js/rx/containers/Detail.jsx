@@ -109,7 +109,7 @@ export class Detail extends React.Component {
 
       'Last fill date': formatDate(
         attrs.refillDate,
-        { validateInFuture: true }
+        { validateInPast: true }
       ),
 
       'Expiration date': formatDate(attrs.expirationDate),
