@@ -39,7 +39,7 @@ Researchers may use your blood sample and information in different research stud
 ### Will MVP keep my information private?
 
 Yes, MVP stores blood samples and health information without your name, address, date of birth, or Social Security number. Participating in MVP won’t affect your health care or VA benefits in any way.
-[Learn more about how MVP keeps your information private](/MVP/privacy).
+[Learn more about how MVP keeps your information private](/million-veteran-program/privacy).
 
 ### Can I withdraw from the program at any time?
 
