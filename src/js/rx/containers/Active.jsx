@@ -43,6 +43,7 @@ class Active extends React.Component {
         <div>
           <SortMenu
               onChange={this.handleSort}
+              onClick={this.handleSort}
               options={sortOptions}
               selected={sortValue}/>
           <PrescriptionList
