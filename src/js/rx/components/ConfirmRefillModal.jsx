@@ -1,5 +1,7 @@
 import React from 'react';
-import moment from 'moment';
+import { Link } from 'react-router';
+
+import { formatDate } from '../utils/helpers';
 
 class ConfirmRefillModal extends React.Component {
   constructor(props) {
@@ -14,7 +16,7 @@ class ConfirmRefillModal extends React.Component {
     const rxId = this.props.prescriptionId;
     const alertContent = (
       <b>
-        Refill for <a href={`/rx/prescription/${rxId}`}>{this.props.prescriptionName}</a> has been requested.
+        Refill for <Link to={`/${rxId}`}>{this.props.prescriptionName}</Link> has been requested.
       </b>
     );
 
@@ -47,7 +49,7 @@ class ConfirmRefillModal extends React.Component {
                   Facility name: {this.props.facilityName}
                 </div>
                 <div className="rx-modal-lastrefilled">
-                  Last requested: {moment(this.props.refillDate).format('MMM D, YYYY')}
+                  Last requested date: {formatDate(this.props.refillSubmitDate)}
                 </div>
                 <div className="va-modal-button-group cf">
                   <button type="submit" value={this.props.prescriptionId}>Order refill</button>

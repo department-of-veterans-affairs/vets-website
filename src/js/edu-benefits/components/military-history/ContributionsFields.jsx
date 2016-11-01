@@ -6,14 +6,15 @@ import DateInput from '../../../common/components/form-elements/DateInput';
 
 import { validateIfDirtyDateObj, isValidDateField, isValidDateRange } from '../../utils/validations';
 
-export default class BenefitsHistoryFields extends React.Component {
+export default class ContributionsFields extends React.Component {
   render() {
     const isToDateValid = isValidDateRange(
       this.props.data.activeDutyRepayingPeriod.to,
       this.props.data.activeDutyRepayingPeriod.from
     );
     return (<fieldset>
-      <legend>Benefits history</legend>
+      <legend>Contributions</legend>
+      <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <p>Select all that apply:</p>
         <ErrorableCheckbox
@@ -71,7 +72,7 @@ export default class BenefitsHistoryFields extends React.Component {
   }
 }
 
-BenefitsHistoryFields.propTypes = {
+ContributionsFields.propTypes = {
   onStateChange: React.PropTypes.func.isRequired,
   data: React.PropTypes.object.isRequired,
   initializeFields: React.PropTypes.func.isRequired

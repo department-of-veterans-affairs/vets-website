@@ -10,10 +10,9 @@ class DetailsPage extends React.Component {
   render() {
     const { claim, loading } = this.props;
 
-    return (
-      <ClaimDetailLayout
-          claim={claim}
-          loading={loading}>
+    let content = null;
+    if (!loading) {
+      content = (
         <div className="claim-details">
           <div className="claim-types">
             <h6>Claim Type</h6>
@@ -30,13 +29,21 @@ class DetailsPage extends React.Component {
           </div>
           <div className="claim-date-recieved">
             <h6>Date Received</h6>
-            <p>{moment(claim.attributes.dateFiled).format('MMM M, YYYY')}</p>
+            <p>{moment(claim.attributes.dateFiled).format('MMM D, YYYY')}</p>
           </div>
           <div className="claim-va-representative">
             <h6>Your Representative for VA Claims</h6>
             <p>{claim.attributes.vaRepresentative || 'Not Available'}</p>
           </div>
         </div>
+      );
+    }
+
+    return (
+      <ClaimDetailLayout
+          claim={claim}
+          loading={loading}>
+        {content}
       </ClaimDetailLayout>
     );
   }

@@ -67,6 +67,9 @@ switch (options.buildtype) {
     // No extra checks needed in dev.
     break;
 
+  case 'staging':
+    break;
+
   case 'production':
     if (options['no-sanity-check-node-env'] === false) {
       if (env !== 'prod') {
@@ -89,19 +92,36 @@ smith.source(sourceDir);
 smith.destination(`../build/${options.buildtype}`);
 
 // Ignore files that aren't ready for production.
+//
+// Maintain as minimal a difference between the staging and production
+// environments as possible. The staging environment is simply the easiest
+// workaround to allow end to end testing of resources outside of our direct
+// control. This becomes an axis of divergence that may cause _major_ problems
+// with the production build that cannot be easily detected, so it should
+// be used sparingly.
+//
+// Ideally, as soon as a feature has been tested, it should be added to the
+// ignoreList again to maintain parity between the staging and production
+// environments.
+//
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
 const ignoreList = ['memorial-benefits/*'];
+
 if (options.buildtype === 'production') {
   ignoreList.push('disability-benefits/track-claims/*');
-  ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('facilities/*');
-  ignoreList.push('messaging/*');
-  ignoreList.push('rx/*');
+  ignoreList.push('healthcare/messaging/*');
+  ignoreList.push('healthcare/prescriptions/*');
   ignoreList.push('profile/*');
   ignoreList.push('auth/*');
   ignoreList.push('education/apply-for-education-benefits-new');
+  ignoreList.push('education/index-new');
+} else if (options.buildtype === 'staging') {
+  ignoreList.push('facilities/*');
+  ignoreList.push('profile/*');
 }
+
 smith.use(ignore(ignoreList));
 
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
@@ -199,8 +219,8 @@ if (options.watch) {
         { from: '^/education/apply-for-education-benefits/application(.*)', to: '/education/apply-for-education-benefits/application/' },
         { from: '^/facilities(.*)', to: '/facilities/' },
         { from: '^/healthcare/apply/application(.*)', to: '/healthcare/apply/application/' },
-        { from: '^/messaging(.*)', to: '/messaging/' },
-        { from: '^/rx(.*)', to: '/rx/' },
+        { from: '^/healthcare/messaging(.*)', to: '/healthcare/messaging/' },
+        { from: '^/healthcare/prescriptions(.*)', to: '/healthcare/prescriptions/' },
         { from: '^/(.*)', to(context) { return context.parsedUrl.pathname; } }
       ],
     },

@@ -9,11 +9,19 @@ class GlossaryPage extends React.Component {
   }
 
   render() {
+    let key = 0;
+    const sections = Object.keys(glossary).map((sect) => {
+      return (<GlossaryList
+          key={key++}
+          title={`${sect} statuses`}
+          terms={glossary[sect]}/>);
+    });
+
     return (
-      <section className="rx-app row">
+      <section>
         <BackLink text="Back to detail page"/>
         <h1>Glossary</h1>
-        <GlossaryList terms={glossary}/>
+        {sections}
       </section>
     );
   }

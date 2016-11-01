@@ -35,6 +35,10 @@
   padding: 3rem 1.5rem;
   margin: auto;
   max-width: $site-max-width;
+
+  .va-alert {
+    margin-bottom: 2rem;
+  }
 }
 
 // Enhances a USWDS style that has higher specificity.

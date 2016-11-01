@@ -10,7 +10,7 @@ class MessageWrite extends React.Component {
             label="Message:"
             onValueChange={this.props.onValueChange}
             placeholder={this.props.placeholder}
-            name="messageSubject"
+            name="messageText"
             field={this.props.text}/>
       </div>
     );

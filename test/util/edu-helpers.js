@@ -187,7 +187,7 @@ function completeBenefitsSelection(client, data, onlyRequiredFields) {
   }
 }
 
-function completeBenefitsWaiver(client, data, onlyRequiredFields) {
+function completeBenefitsRelinquishment(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
       .click('input[name="benefitsRelinquished-1"]')
@@ -200,7 +200,8 @@ function completeBenefitsWaiver(client, data, onlyRequiredFields) {
       .setValue('input[name="benefitsRelinquishedDateYear"]', data.benefitsRelinquishedDate.year);
   }
 }
-function completeMilitaryService(client, data, onlyRequiredFields) {
+
+function completeServicePeriods(client, data, onlyRequiredFields) {
   client
     .clearValue('input[name="serviceBranch"]')
     .setValue('input[name="serviceBranch"]', data.toursOfDuty[0].serviceBranch)
@@ -220,11 +221,17 @@ function completeMilitaryService(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
       .setValue('input[name="serviceStatus"]', data.toursOfDuty[0].serviceStatus)
-      .setValue('input[name="serviceAcademyGraduationYear"]', data.serviceAcademyGraduationYear)
-      .click('input[name="currentlyActiveDuty-0"]')
-      .click('input[name="onTerminalLeave-0"]')
       .click('input[name="applyPeriodToSelected"]')
       .setValue('textarea[name="benefitsToApplyTo"]', data.toursOfDuty[0].benefitsToApplyTo);
+  }
+}
+
+function completeMilitaryService(client, data, onlyRequiredFields) {
+  if (!onlyRequiredFields) {
+    client
+      .setValue('input[name="serviceAcademyGraduationYear"]', data.serviceAcademyGraduationYear)
+      .click('input[name="currentlyActiveDuty-0"]')
+      .click('input[name="onTerminalLeave-0"]');
   }
 }
 
@@ -239,7 +246,7 @@ function completeRotcHistory(client, data, onlyRequiredFields) {
   }
 }
 
-function completeBenefitsHistory(client, data, onlyRequiredFields) {
+function completeContributions(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
       .click('input[name="civilianBenefitsAssistance"]')
@@ -391,11 +398,12 @@ module.exports = {
   initApplicationSubmitMock,
   completeVeteranInformation,
   completeMilitaryService,
+  completeServicePeriods,
   completeContactInformation,
   completeBenefitsSelection,
-  completeBenefitsWaiver,
+  completeBenefitsRelinquishment,
   completeRotcHistory,
-  completeBenefitsHistory,
+  completeContributions,
   completeEducationHistory,
   completeEmploymentHistory,
   completeSchoolSelection,

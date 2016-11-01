@@ -2,6 +2,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import { states } from './options-for-select';
 import { dateToMoment, showRelinquishedEffectiveDate } from './helpers';
+import { isValidDateOver17 } from '../../common/utils/validations';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -52,6 +53,10 @@ function isValidYear(value) {
   return Number(value) >= 1900;
 }
 
+function isValidYearOrBlank(value) {
+  return Number(value) >= 1900 || value === '';
+}
+
 function isValidCurrentOrPastYear(value) {
   return Number(value) >= 1900 && Number(value) < moment().year() + 1;
 }
@@ -70,8 +75,6 @@ function isValidMonths(value) {
 function isValidSSN(value) {
   if (value === '123456789' || value === '123-45-6789') {
     return false;
-  } else if (/1{9}|2{9}|3{9}|4{9}|5{9}|6{9}|7{9}|8{9}|9{9}/.test(value)) {
-    return false;
   } else if (/^0{3}-?\d{2}-?\d{4}$/.test(value)) {
     return false;
   } else if (/^\d{3}-?0{2}-?\d{4}$/.test(value)) {
@@ -80,11 +83,14 @@ function isValidSSN(value) {
     return false;
   }
 
-  for (let i = 1; i < 10; i++) {
-    const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
-    if (sameDigitRegex.test(value)) {
-      return false;
-    }
+  const noBadSameDigitNumber = _.without(_.range(0, 10), 2, 4, 5)
+    .every(i => {
+      const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
+      return !sameDigitRegex.test(value);
+    });
+
+  if (!noBadSameDigitNumber) {
+    return false;
   }
 
   return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
@@ -229,18 +235,29 @@ function isValidAddressField(field) {
 function isValidPersonalInfoPage(data) {
   return isValidFullNameField(data.veteranFullName) &&
       isValidRequiredField(isValidSSN, data.veteranSocialSecurityNumber) &&
-      isValidDateField(data.veteranDateOfBirth);
+      isValidDateField(data.veteranDateOfBirth) &&
+      isValidDateOver17(data.veteranDateOfBirth.day.value,
+                        data.veteranDateOfBirth.month.value,
+                        data.veteranDateOfBirth.year.value);
 }
 
 function isValidBenefitsInformationPage(data) {
   return data.chapter33 || data.chapter30 || data.chapter32 || data.chapter1606;
 }
 
-function isValidBenefitsWaiverPage(data) {
+function isValidRelinquishedDate(field) {
+  // Allow dates up to two years ago
+  const pastDate = moment().subtract(2, 'years');
+  const date = dateToMoment(field);
+
+  return !isBlankDateField(field) && date.isValid() && date.isAfter(pastDate);
+}
+
+function isValidBenefitsRelinquishmentPage(data) {
   return !data.chapter33 ||
     (isNotBlank(data.benefitsRelinquished.value) &&
       (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
-        (!isBlankDateField(data.benefitsRelinquishedDate) && isValidFutureDateField(data.benefitsRelinquishedDate))));
+        isValidRelinquishedDate(data.benefitsRelinquishedDate)));
 }
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
@@ -250,8 +267,11 @@ function isValidTourOfDuty(tour) {
 }
 
 function isValidMilitaryServicePage(data) {
-  return (!data.chapter33 || isNotBlank(data.benefitsRelinquished.value))
-    && data.toursOfDuty.length > 0
+  return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
+}
+
+function isValidServicePeriodsPage(data) {
+  return data.toursOfDuty.length > 0
     && data.toursOfDuty.every(isValidTourOfDuty);
 }
 
@@ -309,7 +329,7 @@ function isValidDirectDepositPage(data) {
   return isValidField(isValidRoutingNumber, data.bankAccount.routingNumber);
 }
 
-function isValidBenefitsHistoryPage(data) {
+function isValidContributionsPage(data) {
   return !data.activeDutyRepaying ||
     (!isBlankDateField(data.activeDutyRepayingPeriod.from)
     && !isBlankDateField(data.activeDutyRepayingPeriod.to)
@@ -322,22 +342,22 @@ function isValidRotcScholarshipAmount(data) {
 }
 
 function isValidRotcHistoryPage(data) {
-  return data.seniorRotcCommissioned.value !== 'Y' || (isNotBlank(data.seniorRotc.commissionYear.value)
-    && data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount));
+  return data.seniorRotcCommissioned.value !== 'Y' || data.seniorRotc.rotcScholarshipAmounts.every(isValidRotcScholarshipAmount);
 }
 
 function isValidForm(data) {
   return isValidBenefitsInformationPage(data)
-    && isValidBenefitsWaiverPage(data)
+    && isValidBenefitsRelinquishmentPage(data)
     && isValidPersonalInfoPage(data)
     && isValidContactInformationPage(data)
     && isValidMilitaryServicePage(data)
+    && isValidServicePeriodsPage(data)
     && isValidSchoolSelectionPage(data)
     && isValidEmploymentHistoryPage(data)
     && isValidEducationHistoryPage(data)
     && isValidSecondaryContactPage(data)
     && isValidDirectDepositPage(data)
-    && isValidBenefitsHistoryPage(data)
+    && isValidContributionsPage(data)
     && isValidRotcHistoryPage(data);
 }
 
@@ -349,12 +369,14 @@ function isValidPage(completePath, pageData) {
       return isValidContactInformationPage(pageData);
     case '/benefits-eligibility/benefits-selection':
       return isValidBenefitsInformationPage(pageData);
-    case '/benefits-eligibility/benefits-waiver':
-      return isValidBenefitsWaiverPage(pageData);
+    case '/benefits-eligibility/benefits-relinquishment':
+      return isValidBenefitsRelinquishmentPage(pageData);
+    case '/military-history/service-periods':
+      return isValidServicePeriodsPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
-    case '/military-history/benefits-history':
-      return isValidBenefitsHistoryPage(pageData);
+    case '/military-history/contributions':
+      return isValidContributionsPage(pageData);
     case '/school-selection/school-information':
       return isValidSchoolSelectionPage(pageData);
     case '/employment-history/employment-information':
@@ -399,6 +421,7 @@ export {
   isValidPhone,
   isValidEmail,
   isValidYear,
+  isValidYearOrBlank,
   isValidCurrentOrPastYear,
   isValidMonths,
   isValidRoutingNumber,
@@ -411,9 +434,11 @@ export {
   isValidAddressField,
   isValidContactInformationPage,
   isValidMilitaryServicePage,
+  isValidServicePeriodsPage,
   isValidPage,
   isValidValue,
   isValidFutureDateField,
+  isValidRelinquishedDate,
   isBlankAddress,
   isValidTourOfDuty,
   isValidEmploymentPeriod,

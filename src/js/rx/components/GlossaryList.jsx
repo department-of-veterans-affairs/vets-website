@@ -14,9 +14,12 @@ class GlossaryList extends React.Component {
     }
 
     return (
-      <dl className="rx-glossary">
-        {termsList}
-      </dl>
+      <section>
+        <h2 className="rx-pgroup-title va-h-ruled">{this.props.title}</h2>
+        <dl className="rx-glossary">
+          {termsList}
+        </dl>
+      </section>
     );
   }
 }

@@ -10,14 +10,7 @@
     background: $color-gray-lightest;
     cursor: pointer;
 
-    @media (max-width: $medium-screen) {
-      .messaging-message-sender,
-      .messaging-message-sent-date {
-        width: 50%;
-      }
-    }
-
-    p {
+    .messaging-message-body {
       margin: 0;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -40,29 +33,30 @@
 
 .messaging-message-sender,
 .messaging-message-sent-date {
-  display: inline-block;
   font-weight: bold;
-  vertical-align: top;
 }
 
 .messaging-message-sender {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 75%;
 
   @media (max-width: $medium-screen) {
-    width: 100%;
+    margin: 0;
   }
 }
 
 .messaging-message-sent-date {
-  text-align: right;
-  width: 25%;
+  float: right;
+  padding-left: 3rem;
 }
 
 .messaging-message-recipient {
   color: $color-gray-medium;
+}
+
+.messaging-message-body {
+  margin-top: 2rem;
 }
 
 .messaging-thread-message:last-child {

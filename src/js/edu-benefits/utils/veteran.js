@@ -29,7 +29,6 @@ export function createTour() {
     },
     serviceBranch: makeField(''),
     serviceStatus: makeField(''),
-    involuntarilyCalledToDuty: makeField(''),
     applyPeriodToSelected: true,
     benefitsToApplyTo: makeField('')
   };
@@ -208,12 +207,18 @@ export function veteranToApplication(veteran) {
       case 'commissionYear':
       case 'year':
       case 'months':
-      case 'hours':
+      case 'hours': {
         if (value.value === '') {
           return undefined;
         }
-        return Number(value.value);
 
+        const val = Number(value.value);
+        if (isNaN(val)) {
+          return undefined;
+        }
+
+        return val;
+      }
       case 'yes':
       case 'onTerminalLeave':
       case 'nonVaAssistance':
@@ -230,17 +235,6 @@ export function veteranToApplication(veteran) {
       case 'veteranSocialSecurityNumber':
         if (value.value) {
           return value.value.replace(/\D/g, '');
-        }
-        return undefined;
-
-      case 'involuntarilyCalledToDuty':
-        if (value.value) {
-          if (value.value === 'Y') {
-            return 'yes';
-          } else if (value.value === 'N') {
-            return 'no';
-          }
-          return 'n/a';
         }
         return undefined;
 

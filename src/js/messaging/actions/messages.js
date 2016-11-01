@@ -63,7 +63,7 @@ export function fetchThread(id) {
     )).then(
       data => dispatch({
         type: FETCH_THREAD_SUCCESS,
-        message: data[0].data,
+        message: data[0],
         thread: data[1].data
       }),
       err => dispatch({ type: FETCH_THREAD_FAILURE, err })
@@ -89,7 +89,7 @@ export function moveMessageToFolder(messageId, folder) {
 export function createFolderAndMoveMessage(folderName, messageId) {
   const foldersUrl = `${api.url}/folders`;
   const folderData = { folder: { name: folderName } };
-  const settings = Object.assign({}, api.settings.post, {
+  const settings = Object.assign({}, api.settings.postJson, {
     body: JSON.stringify(folderData)
   });
 
@@ -116,24 +116,28 @@ export function saveDraft(message) {
   const draftsUrl = `${api.url}/message_drafts`;
   const payload = {
     messageDraft: {
-      category: message.category,
-      subject: message.subject,
       body: message.body,
-      recipientId: message.recipientId
+      category: message.category,
+      recipientId: message.recipientId,
+      subject: message.subject
     }
   };
 
-  // Save the message as a new draft if it doesn't have an id yet.
-  // Update the draft if it does have an id.
-  const isNewDraft = message.messageId === undefined;
+  const isReply = message.replyMessageId !== undefined;
+  const isSavedDraft = message.messageId !== undefined;
+  let url = draftsUrl;
+  let defaultSettings = api.settings.postJson;
 
-  const url = isNewDraft
-            ? draftsUrl
-            : `${draftsUrl}/${message.messageId}`;
+  if (isReply) {
+    url = `${url}/${message.replyMessageId}/replydraft`;
+  }
 
-  const defaultSettings = isNewDraft
-                        ? api.settings.post
-                        : api.settings.put;
+  // Update the draft if it already has an id.
+  // Save a new draft if it doesn't have an id yet.
+  if (isSavedDraft) {
+    url = `${url}/${message.messageId}`;
+    defaultSettings = api.settings.put;
+  }
 
   const settings = Object.assign({}, defaultSettings, {
     body: JSON.stringify(payload)
@@ -158,7 +162,7 @@ export function saveDraft(message) {
           },
           error => dispatch({ type: SAVE_DRAFT_FAILURE, error })
         );
-      } else if (response.ok && !isNewDraft) {
+      } else if (response.ok && isSavedDraft) {
         return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
       }
       return dispatch({ type: SAVE_DRAFT_FAILURE });
@@ -167,55 +171,34 @@ export function saveDraft(message) {
 }
 
 export function sendMessage(message) {
-  const payload = {
-    message: {
-      // Include id when API supports automatically deleting
-      // the draft when sending a message.
-      // id: message.messageId,
-      category: message.category,
-      subject: message.subject,
-      body: message.body,
-      recipientId: message.recipientId
-    }
-  };
+  const payload = new FormData();
+  const isReply = message.replyMessageId !== undefined;
+  let url = baseUrl;
 
-  const settings = Object.assign({}, api.settings.post, {
-    body: JSON.stringify(payload)
+  if (isReply) {
+    url = `${url}/${message.replyMessageId}/reply`;
+  } else {
+    payload.append('message[recipient_id]', message.recipientId);
+    payload.append('message[category]', message.category);
+    payload.append('message[subject]', message.subject);
+  }
+
+  payload.append('message[body]', message.body);
+
+  // Add each attachment as a separate item
+  message.attachments.forEach((file) => {
+    payload.append('uploads[]', file);
+  });
+
+  const settings = Object.assign({}, api.settings.postFormData, {
+    body: payload
   });
 
   return dispatch => {
-    fetch(baseUrl, settings)
-    .then(res => res.json())
-    .then(
-      data => {
-        if (data.errors) {
-          return dispatch({
-            type: SEND_MESSAGE_FAILURE,
-            error: data.errors
-          });
-        }
-
-        return dispatch({
-          type: SEND_MESSAGE_SUCCESS,
-          message: data.data.attributes
-        });
-      },
-      error => dispatch({ type: SEND_MESSAGE_FAILURE, error })
-    );
-  };
-}
-
-export function sendReply(message) {
-  const replyUrl = `${baseUrl}/${message.replyMessageId}/reply`;
-  const payload = { message: { body: message.body } };
-  const settings = Object.assign({}, api.settings.post, {
-    body: JSON.stringify(payload)
-  });
-
-  return dispatch => {
-    fetch(replyUrl, settings)
+    fetch(url, settings)
     .then(response => {
-      // Delete the draft (if it exists) once the reply is successfully sent.
+      // If the message has an id, it was a saved draft.
+      // Delete the draft once message is successfully sent.
       const isSavedDraft = message.messageId !== undefined;
       if (response.ok && isSavedDraft) {
         const messageUrl = `${baseUrl}/${message.messageId}`;
@@ -254,8 +237,8 @@ export function toggleReplyDetails() {
   return { type: TOGGLE_REPLY_DETAILS };
 }
 
-export function updateDraft(field) {
-  return { type: UPDATE_DRAFT, field };
+export function updateDraft(key, field) {
+  return { type: UPDATE_DRAFT, key, field };
 }
 
 export function toggleMoveTo() {

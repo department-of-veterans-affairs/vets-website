@@ -1,4 +1,4 @@
-if (process.env.BUILDTYPE !== 'production') {
+if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
   const E2eHelpers = require('../util/e2e-helpers');
   const Timeouts = require('../util/timeouts.js');
   const EduHelpers = require('../util/edu-helpers');
@@ -29,14 +29,21 @@ if (process.env.BUILDTYPE !== 'production') {
         .expect.element('input[name="chapter30"]').to.be.visible;
       EduHelpers.completeBenefitsSelection(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
-      E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-selection');
+      E2eHelpers.expectNavigateAwayFrom(client, '/benefits-eligibility/benefits-selection');
 
-      // Benefits waiver
+      // Benefits relinquishment
       client
         .expect.element('input[name="benefitsRelinquished-1"]').to.be.visible;
-      EduHelpers.completeBenefitsWaiver(client, EduHelpers.testValues, false);
+      EduHelpers.completeBenefitsRelinquishment(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
-      E2eHelpers.expectNavigateAwayFrom(client, '/benefits-elibility/benefits-waiver');
+      E2eHelpers.expectNavigateAwayFrom(client, '/benefits-eligibility/benefits-relinquishment');
+
+      // Service periods page.
+      client
+        .expect.element('input[name="serviceBranch"]').to.be.visible;
+      EduHelpers.completeServicePeriods(client, EduHelpers.testValues, false);
+      client.click('.form-progress-buttons .usa-button-primary');
+      E2eHelpers.expectNavigateAwayFrom(client, '/military-history/service-periods');
 
       // Military service page.
       client
@@ -55,9 +62,9 @@ if (process.env.BUILDTYPE !== 'production') {
       // Benefits history
       client
         .expect.element('input[name="civilianBenefitsAssistance"]').to.be.visible;
-      EduHelpers.completeBenefitsHistory(client, EduHelpers.testValues, false);
+      EduHelpers.completeContributions(client, EduHelpers.testValues, false);
       client.click('.form-progress-buttons .usa-button-primary');
-      E2eHelpers.expectNavigateAwayFrom(client, '/military-history/benefits-history');
+      E2eHelpers.expectNavigateAwayFrom(client, '/military-history/contributions');
 
       // Education history
       client
@@ -110,7 +117,7 @@ if (process.env.BUILDTYPE !== 'production') {
 
       // Submit message
       client
-        .expect.element('.usa-alert-success').to.be.visible;
+        .expect.element('.edu-benefits-submit-success').to.be.visible;
 
       client.end();
     }

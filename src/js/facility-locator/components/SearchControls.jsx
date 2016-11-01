@@ -55,31 +55,58 @@ class SearchControls extends Component {
   }
 
   renderServiceFilterOptions() {
-    const { currentQuery } = this.props;
+    const { currentQuery: { facilityType } } = this.props;
 
-    if (currentQuery.facilityType === 'va_health_facility') {
-      return [
-        <option key="primary_care" value="primary_care">Primary Care</option>,
-        <option key="mental_health" value="mental_health">Mental Health</option>,
-        <option key="more_services" value="more_services" disabled>More services coming soon</option>,
-      ];
+    switch (facilityType) {
+      case 'health':
+        return [
+          <option key="primary_care" value="primary_care">Primary Care</option>,
+          <option key="mental_health" value="mental_health">Mental Health</option>,
+        ];
+      case 'benefits':
+        return [
+          <option key="ApplyingForBenefits" value="ApplyingForBenefits">Applying For Benefits</option>,
+          <option key="CareerCounseling" value="CareerCounseling">Career Counseling</option>,
+          <option key="SchoolAssistance" value="SchoolAssistance">School Assistance</option>,
+          <option key="VocationalRehabilitationCareerAssistance" value="VocationalRehabilitationCareerAssistance">Vocational Rehabilitation Career Assistance</option>,
+          <option key="TransitionAssistance" value="TransitionAssistance">Transition Assistance</option>,
+          <option key="Pre-dischargeAssistance" value="Pre-dischargeAssistance">Pre-discharge Assistance</option>,
+          <option key="EmploymentAssistance" value="EmploymentAssistance">Employment Assistance</option>,
+          <option key="FinancialCounseling" value="FinancialCounseling">Financial Counseling</option>,
+          <option key="HousingAssistance" value="HousingAssistance">Housing Assistance</option>,
+          <option key="DisabilityClaimAssistance" value="DisabilityClaimAssistance">Disability Claim Assistance</option>,
+          <option key="EducationClaimAssistance" value="EducationClaimAssistance">Education Claim Assistance</option>,
+          <option key="InsuranceClaimAssistance" value="InsuranceClaimAssistance">Insurance Claim Assistance</option>,
+          <option key="VocationalRehabilitationClaimAssistance" value="VocationalRehabilitationClaimAssistance">Vocational Rehabilitation Claim Assistance</option>,
+          <option key="SurvivorClaimAssistance" value="SurvivorClaimAssistance">Survivor Claim Assistance</option>,
+          <option key="UpdatingContactInformation" value="UpdatingContactInformation">Updating Contact Information</option>,
+          <option key="UpdatingDirectDepositInformation" value="UpdatingDirectDepositInformation">Updating Direct Deposit Information</option>,
+          <option key="BurialClaimAssistance" value="BurialClaimAssistance">Burial Claim Assistance</option>,
+          <option key="eBenefitsLogonAssistance" value="eBenefitsLogonAssistance">eBenefits Logon Assistance</option>,
+          <option key="IntegratedDisabilityEvaluationSystem" value="IntegratedDisabilityEvaluationSystem">Integrated Disability Evaluation System</option>,
+          <option key="HomelessAssistance" value="HomelessAssistance">Homeless Assistance</option>,
+        ];
+      default:
+        return null;
     }
+  }
 
-    return null;
+  renderSelectOptionWithIcon(facilityType) {
+    switch (facilityType) {
+      case 'health':
+        return (<span className="flex-center"><span className="legend health-icon"></span>Health</span>);
+      case 'benefits':
+        return (<span className="flex-center"><span className="legend benefits-icon"></span>Benefits</span>);
+      case 'cemetery':
+        return (<span className="flex-center"><span className="legend cemetery-icon"></span>Cemetery</span>);
+      default:
+        return (<span className="flex-center">All Facilities</span>);
+    }
   }
 
   render() {
     const { currentQuery, isMobile } = this.props;
     const { facilityDropdownActive } = this.state;
-
-    /* eslint-disable camelcase */
-    const facilityTypes = {
-      all: 'All Facilities',
-      va_health_facility: 'Health',
-      va_cemetery: 'Cemetery',
-      va_benefits_facility: 'Benefits',
-    };
-    /* eslint-enable camelcase */
 
     if (currentQuery.active && isMobile) {
       return (
@@ -99,22 +126,21 @@ class SearchControls extends Component {
             <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
           </div>
           <div className="columns medium-3">
-            <label htmlFor="facilityType">Facility Type</label>
-
+            <label htmlFor="facilityType">Select Facility Type</label>
             <div tabIndex="1" className={`facility-dropdown-wrapper ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown} onBlur={() => {this.setState({ facilityDropdownActive: false });}}>
-              <span>{facilityTypes[currentQuery.facilityType] || 'All Facilities'}</span>
+              {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
               <ul className="dropdown">
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'all')}>All</li>
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_health_facility')}><span className="legend fa fa-plus red"></span>Health</li>
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_benefits_facility')}><span className="legend fa fa-check green"></span>Benefits</li>
-                <li onClick={this.handleFacilityFilterSelect.bind(this, 'va_cemetery')}><span className="legend fa fa-cemetery blue"></span>Cemetery</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, null)}>{this.renderSelectOptionWithIcon()}</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'health')}>{this.renderSelectOptionWithIcon('health')}</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'benefits')}>{this.renderSelectOptionWithIcon('benefits')}</li>
+                <li onClick={this.handleFacilityFilterSelect.bind(this, 'cemetery')}>{this.renderSelectOptionWithIcon('cemetery')}</li>
               </ul>
             </div>
           </div>
           <div className="columns medium-3">
-            <label htmlFor="serviceType">Service Type</label>
-            <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType}>
-              <option value="all">All</option>
+            <label htmlFor="serviceType">Select Service Type</label>
+            <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType || ''} disabled={currentQuery.facilityType !== 'benefits'}>
+              <option>All</option>
               {this.renderServiceFilterOptions()}
             </select>
           </div>

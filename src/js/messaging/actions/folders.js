@@ -65,7 +65,7 @@ export function createNewFolder(folderName) {
   const folderData = { folder: {} };
   folderData.folder.name = folderName;
 
-  const settings = Object.assign({}, api.settings.post, {
+  const settings = Object.assign({}, api.settings.postJson, {
     body: JSON.stringify(folderData)
   });
 
@@ -101,5 +101,12 @@ export function setCurrentFolder(folderId) {
   return {
     type: SET_CURRENT_FOLDER,
     folderId
+  };
+}
+
+// Persists folder ID across threads
+export function resetPagination() {
+  return {
+    type: 'RESET_PAGINATION'
   };
 }

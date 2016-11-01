@@ -121,7 +121,6 @@ class DateInput extends React.Component {
                   max={new Date().getFullYear()}
                   min="1900"
                   pattern="[0-9]{4}"
-                  placeholder="yyyy"
                   field={this.props.year}
                   onValueChange={(update) => {this.handleChange('year', update);}}/>
             </div>

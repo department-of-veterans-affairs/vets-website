@@ -13,7 +13,7 @@ class IntroductionPage extends React.Component {
         <div className="row">
           <div className="small-12 columns">
             <div className="input-section">
-              <p>Fill out this application to get your official Certificate of Eligibility (COE) for the education benefit you want.</p>
+              <p>Fill out this application to <strong>apply for</strong> your official Certificate of Eligibility (COE) for the education benefit you want.</p>
               <div className="usa-alert usa-alert-info">
                 <div className="usa-alert-body">
                   <span><strong>You won’t be able to save your work or come back to finish</strong>. So before you start, it’s a good idea to gather information about your military and education history, and the school you want to attend.</span>

@@ -3,17 +3,17 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import BenefitsWaiverFields from '../../../src/js/edu-benefits/components/benefits-eligibility/BenefitsWaiverFields';
+import BenefitsRelinquishmentFields from '../../../src/js/edu-benefits/components/benefits-eligibility/BenefitsRelinquishmentFields';
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran';
 
-describe('<BenefitsWaiverFields>', () => {
+describe('<BenefitsRelinquishmentFields>', () => {
   const data = createVeteran();
   data.benefitsRelinquished.value = 'chapter30';
   data.chapter33 = true;
   const onStateChange = sinon.spy();
 
   const tree = SkinDeep.shallowRender(
-    <BenefitsWaiverFields
+    <BenefitsRelinquishmentFields
         data={data}
         onStateChange={onStateChange}/>
   );

@@ -5,16 +5,6 @@ import MessageSend from './MessageSend';
 import MessageAttachments from './MessageAttachments';
 
 class MessageWriteGroup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleMessageChange = this.handleMessageChange.bind(this);
-  }
-
-  handleMessageChange(valueObj) {
-    this.props.onTextChange('message.text', valueObj);
-    this.props.onCharCountChange(valueObj, this.props.maxChars);
-  }
-
   render() {
     const errItemClass = classNames(
       this.props.cssClass,
@@ -29,8 +19,7 @@ class MessageWriteGroup extends React.Component {
         <MessageWrite
             cssClass="msg-write"
             errorMessage={this.props.errorMessage}
-            maxChars={this.props.maxChars}
-            onValueChange={this.handleMessageChange}
+            onValueChange={this.props.onTextChange}
             placeholder={this.props.placeholder}
             text={this.props.messageText}/>
         <MessageAttachments
@@ -39,7 +28,6 @@ class MessageWriteGroup extends React.Component {
         <MessageSend
             allowedMimeTypes={this.props.allowedMimeTypes}
             attachedFiles={this.props.files}
-            charCount={this.props.charCount}
             cssClass="msg-send-group"
             maxFiles={this.props.maxFiles}
             maxFileSize={this.props.maxFileSize}
@@ -56,10 +44,8 @@ class MessageWriteGroup extends React.Component {
 
 MessageWriteGroup.propTypes = {
   allowedMimeTypes: React.PropTypes.array,
-  charCount: React.PropTypes.number,
   errorMessage: React.PropTypes.string,
   files: React.PropTypes.array,
-  maxChars: React.PropTypes.number,
   maxFiles: React.PropTypes.number,
   maxFileSize: React.PropTypes.number,
   maxTotalFileSize: React.PropTypes.number,
@@ -70,7 +56,6 @@ MessageWriteGroup.propTypes = {
   onAttachmentsClose: React.PropTypes.func,
   onAttachmentUpload: React.PropTypes.func,
   onAttachmentsError: React.PropTypes.func,
-  onCharCountChange: React.PropTypes.func,
   onDelete: React.PropTypes.func,
   onSave: React.PropTypes.func,
   onSend: React.PropTypes.func,

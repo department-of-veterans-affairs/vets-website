@@ -11,6 +11,7 @@
 
   @media (min-width: $medium-screen) {
     margin-bottom: 3rem;
+    margin-top: 1.5rem;
 
     .usa-input-error-message {
       margin: 0 0 0 11.5rem;
@@ -18,8 +19,7 @@
   }
 }
 
-[id=msg-compose] label,
-.msg-from-label {
+[id=msg-compose] label {
   margin: 0;
   font-weight: bold;
 }
@@ -53,6 +53,11 @@
     display: inline-block;
     width: 95%;
   }
+}
+
+.messaging-send-group [type=submit] {
+  display: inline-block;
+  margin: .5rem;
 }
 
 .msg-subject-group-inner {
@@ -106,8 +111,7 @@
   }
 }
 
-.msg-recipient > div,
-.msg-from {
+.msg-recipient > div {
   -webkit-align-items: center;
   align-items: center;
   display: -webkit-flex;
@@ -116,7 +120,6 @@
 }
 
 .msg-recipient > div,
-.msg-from,
 .msg-subject-group {
   padding: 1.5rem;
 
@@ -134,6 +137,8 @@
 
 .msg-subject {
   @media (min-width: $medium-screen) {
+    -webkit-flex: 1 1 60%;
+    flex: 1 1 60%;
     margin-left: 1rem;
   }
 }
@@ -142,11 +147,10 @@
   @media (min-width: $medium-screen) {
     display: -webkit-flex;
     display: flex;
-  }  
+  }
 }
 
-.msg-recipient label,
-.msg-from-label {
+.msg-recipient label {
   padding-right: 1rem;
 
   @media (min-width: $medium-screen) {
@@ -156,10 +160,13 @@
   }
 }
 
+.msg-recipient {
+  border-top: none;
+}
+
 .msg-send-group {
   background: $color-gray-lightest;
   border: 1px solid $color-gray;
-  border-top-width: 0;
   padding: 1rem;
   position: relative;
 
@@ -200,6 +207,10 @@
   }
 }
 
+button.msg-btn-save {
+  font-weight: bold;
+}
+
 .msg-btn-save {
   background: transparent !important;
 
@@ -210,6 +221,7 @@
 }
 
 .msg-write-group {
+  border-bottom: none;
   margin-top: 0;
 
   .usa-input-error {
@@ -226,7 +238,12 @@
     padding: 0rem;
     margin: 1rem 0 0 0;
     max-width: 100%;
+    position: relative;
     resize: none;
+
+    &:focus {
+      z-index: 1;
+    }
 
     @media (min-width: $medium-screen) {
       border-color: $color-base;
@@ -327,7 +344,7 @@
     color: $color-primary;
     text-decoration: underline;
   }
-  
+
   input {
     border: 0;
     height: auto;
@@ -337,18 +354,6 @@
     position: absolute;
     top: 0;
     width: auto;
-  }
-}
-
-@media (min-width: $medium-screen) {
-  .msg-from {
-    padding: 0 1.5rem;
-    margin-top: 1.5rem;
-  }
-
-  .msg-subject {
-    -webkit-flex: 1 1 60%;
-    flex: 1 1 60%;
   }
 }
 
@@ -405,7 +410,7 @@
   legend {
     @media (min-width: $medium-screen) {
       transform: translateY(50%);
-    }  
+    }
   }
 
   textarea {
@@ -421,7 +426,7 @@
 .msg-compose-error-message {
   margin: 0;
   padding: 0;
-} 
+}
 
 .msg-compose-error--subject {
   select {
@@ -436,7 +441,7 @@
 }
 
 // Overrides some USWDS shenanigans
-.msg-compose-error { 
+.msg-compose-error {
   select,
   textarea,
   input {
@@ -444,6 +449,29 @@
 
     @media (min-width: $medium-screen) {
       width: 100%;
+    }
+  }
+}
+
+#msg-reply {
+  margin: 3rem 2rem;
+
+  .msg-reply-details {
+    border: 1px solid $color-black;
+    border-bottom-width: 0;
+    cursor: pointer;
+    padding: 1rem 1.5rem;
+
+    label {
+      display: inline-block;
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+
+  .msg-write {
+    label {
+      display: none;
     }
   }
 }

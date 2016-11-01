@@ -54,5 +54,28 @@ export const testData = {
         totalPages: 1
       }
     }
+  },
+
+  recipients: {
+    data: [
+      {
+        attributes: {
+          name: 'Triage Team 1',
+          triageTeamId: '0'
+        }
+      },
+      {
+        attributes: {
+          name: 'Triage Team 2',
+          triageTeamId: '1'
+        }
+      },
+      {
+        attributes: {
+          name: 'Triage Team 3',
+          triageTeamId: '2'
+        }
+      }
+    ]
   }
 };

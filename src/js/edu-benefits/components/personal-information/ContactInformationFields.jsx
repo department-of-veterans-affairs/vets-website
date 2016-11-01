@@ -27,7 +27,7 @@ export default class ContactInformationFields extends React.Component {
     const isPhoneRequired = this.props.data.preferredContactMethod.value === 'phone';
     return (
       <fieldset>
-        <p>(<span className="form-required-span">*</span>) Indicates a required field</p>
+        <p><span className="form-required-span">*</span>Indicates a required field</p>
         <legend>Contact information</legend>
         <div className="input-section">
           <ErrorableRadioButtons

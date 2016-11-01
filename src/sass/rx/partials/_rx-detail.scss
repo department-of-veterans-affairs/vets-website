@@ -10,21 +10,11 @@
   font-size: 2.5rem;
 }
 
-#rx-detail .rx-contact-card {
-  margin: 2rem 0;
-  width: 100%;
-
-  @media (min-width: $medium-screen) {
-    display: inline-block;
-    margin: 0;
-    width: 30rem;
-  };
-}
-
 #rx-detail table {
   // Get font size to stay the same when table shrinks.
   display: block;
   font-size: 1.6rem;
+  margin: 0;
 
   tbody {
     &:first-child {
@@ -55,11 +45,12 @@
   }
 }
 
-.rx-info {
-  margin: 0;
+#rx-info {
+  margin-bottom: 3.5rem;
 
   @media (min-width: $medium-screen) {
-    margin-right: 3rem;
+    display: inline-block;
+    margin-right: 3.5rem;
     vertical-align: top;
   }
 
@@ -73,28 +64,32 @@
     padding-left: 0;
     vertical-align: top;
   }
+
+  .rx-refill-form {
+    display: block;
+    margin-top: .5rem;
+  }
+
+  button {
+    margin: 0;
+    width: 100%;
+  }
 }
 
-#rx-detail .rx-refill-form {
-  .rx-trigger {
+#rx-detail .rx-contact-card {
+  margin-bottom: 3.5rem;
+  width: 100%;
+
+  @media (min-width: $medium-screen) {
     display: inline-block;
-    margin: 0 0 0 2rem;
-  }
-
-  @media (max-width: $medium-screen) {
-    display: block;
-
-    .rx-trigger {
-      margin: 0;
-    }
-  }
+    width: 30rem;
+  };
 }
 
 #rx-order-history {
-  margin: 3.5rem 0 0 0;
-
   .rx-track-package-link {
     display: inline-block;
+    margin: 0;
   }
 
   table {

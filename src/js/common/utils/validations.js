@@ -44,8 +44,6 @@ function isNotBlank(value) {
 function isValidSSN(value) {
   if (value === '123456789' || value === '123-45-6789') {
     return false;
-  } else if (/1{9}|2{9}|3{9}|4{9}|5{9}|6{9}|7{9}|8{9}|9{9}/.test(value)) {
-    return false;
   } else if (/^0{3}-?\d{2}-?\d{4}$/.test(value)) {
     return false;
   } else if (/^\d{3}-?0{2}-?\d{4}$/.test(value)) {
@@ -54,11 +52,14 @@ function isValidSSN(value) {
     return false;
   }
 
-  for (let i = 1; i < 10; i++) {
-    const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
-    if (sameDigitRegex.test(value)) {
-      return false;
-    }
+  const noBadSameDigitNumber = _.without(_.range(0, 10), 2, 4, 5)
+    .every(i => {
+      const sameDigitRegex = new RegExp(`${i}{3}-?${i}{2}-?${i}{4}`);
+      return !sameDigitRegex.test(value);
+    });
+
+  if (!noBadSameDigitNumber) {
+    return false;
   }
 
   return /^\d{3}-?\d{2}-?\d{4}$/.test(value);
@@ -90,6 +91,15 @@ function isValidAnyDate(day, month, year) {
     month: parseInt(month, 10) - 1,
     year
   }).isValid();
+}
+
+function isValidDateOver17(day, month, year) {
+  const momentDate = moment({
+    day,
+    month: parseInt(month, 10) - 1,
+    year
+  });
+  return momentDate.isBefore(moment().endOf('day').subtract(17, 'years'));
 }
 
 function isValidName(value) {
@@ -519,5 +529,6 @@ export {
   isValidMedicareMedicaid,
   isValidServiceInformation,
   isValidSection,
-  isValidAnyDate
+  isValidAnyDate,
+  isValidDateOver17
 };

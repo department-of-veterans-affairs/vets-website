@@ -37,7 +37,6 @@ class Email extends React.Component {
             label={this.props.label}
             name={this.props.name}
             autocomplete="email"
-            placeholder="x@x.xxx"
             charMax={50}
             field={this.props.email}
             additionalClass={this.props.additionalClass}
