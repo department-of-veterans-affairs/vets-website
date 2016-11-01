@@ -16,20 +16,12 @@ class LoginApp extends React.Component {
   }
 
   setMyToken() {
-    const saml = new FormData();
-    saml.append('SAMLResponse', this.props.location.query.SAMLResponse);
-    fetch(`${environment.API_URL}/auth/saml/callback`, {
-      method: 'POST',
-      body: saml
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      window.opener.localStorage.removeItem('userToken');
-      window.opener.localStorage.setItem('userToken', json.token);
-      window.opener.postMessage(json.token, environment.BASE_URL);
-      localStorage.setItem('userToken', json.token);
-      window.close();
-    });
+    const myToken = this.props.location.query.token;
+    window.opener.localStorage.removeItem('userToken');
+    window.opener.localStorage.setItem('userToken', myToken);
+    window.opener.postMessage(myToken, environment.BASE_URL);
+    localStorage.setItem('userToken', myToken);
+    window.close();
   }
 
   render() {

@@ -116,6 +116,9 @@
   &:last-child {
     border: none;
   }
+  .file-request-title {
+    padding-bottom: 0 !important;
+  }
 }
 
 .claims-evidence {
@@ -170,7 +173,7 @@
 
 .form-process li.section-complete:before {
   background: $color-green;
-  content: "\2714";
+  content: "\2714\fe0e";
 }
 
 .form-process li.section-current {
@@ -227,20 +230,14 @@ a.claim-list-item {
 }
 
 .your-claims {
-  h1, h3 {
+  padding-top: 1em;
+  h3 {
     margin-top: 1em;
   }
 }
 
 .ask-va-questions {
   margin-top: 1.5em;
-  h4 {
-    border-bottom: 2px solid $color-primary;
-  }
-  p {
-    padding: 0;
-    margin-top: 0;
-  }
   .talk {
     margin: .5em 0;
     padding: 0;
@@ -252,6 +249,13 @@ a.claim-list-item {
       text-decoration: none;
       margin: 0.5em 0;
     }
+  }
+}
+
+.claims-sidebar-box {
+  padding-top: 0.3em;
+  .claims-sidebar-header {
+    border-bottom: 2px solid $color-primary;
   }
 }
 
@@ -557,4 +561,12 @@ p.first-of-type {
 
 .claims-header {
   margin: 0;
+}
+
+.estimation-header {
+  padding: 0.5em 0 0 !important;
+}
+
+.claims-files-cancel {
+  margin-left: 32px;
 }

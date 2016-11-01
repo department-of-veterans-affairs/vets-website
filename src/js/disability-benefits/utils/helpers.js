@@ -163,3 +163,11 @@ export function getTopPosition(elem) {
   return Math.round(box.top + scrollTop - clientTop);
 }
 
+export function truncateDescription(text) {
+  const maxLength = 120;
+  if (text && text.length > maxLength) {
+    return `${text.substr(0, maxLength)}…`;
+  }
+
+  return text;
+}

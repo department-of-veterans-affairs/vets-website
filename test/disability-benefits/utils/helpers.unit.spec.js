@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { groupTimelineActivity, isCompleteClaim } from '../../../src/js/disability-benefits/utils/helpers';
+import { groupTimelineActivity, isCompleteClaim, truncateDescription } from '../../../src/js/disability-benefits/utils/helpers';
 
 describe('Disability benefits helpers:', () => {
   describe('groupTimelineActivity', () => {
@@ -120,6 +120,15 @@ describe('Disability benefits helpers:', () => {
       };
 
       expect(isCompleteClaim(claim)).to.be.false;
+    });
+  });
+  describe('truncateDescription', () => {
+    it('should truncate text longer than 120 characters', () => {
+      const userText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris';
+      const userTextEllipsed = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliq…';
+
+      const text = truncateDescription(userText);
+      expect(text).to.equal(userTextEllipsed);
     });
   });
 });

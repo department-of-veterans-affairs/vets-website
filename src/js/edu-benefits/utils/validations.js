@@ -245,11 +245,19 @@ function isValidBenefitsInformationPage(data) {
   return data.chapter33 || data.chapter30 || data.chapter32 || data.chapter1606;
 }
 
+function isValidRelinquishedDate(field) {
+  // Allow dates up to two years ago
+  const pastDate = moment().subtract(2, 'years');
+  const date = dateToMoment(field);
+
+  return !isBlankDateField(field) && date.isValid() && date.isAfter(pastDate);
+}
+
 function isValidBenefitsRelinquishmentPage(data) {
   return !data.chapter33 ||
     (isNotBlank(data.benefitsRelinquished.value) &&
       (!showRelinquishedEffectiveDate(data.benefitsRelinquished.value) ||
-        (!isBlankDateField(data.benefitsRelinquishedDate) && isValidFutureDateField(data.benefitsRelinquishedDate))));
+        isValidRelinquishedDate(data.benefitsRelinquishedDate)));
 }
 function isValidTourOfDuty(tour) {
   return isNotBlank(tour.serviceBranch.value)
@@ -259,8 +267,11 @@ function isValidTourOfDuty(tour) {
 }
 
 function isValidMilitaryServicePage(data) {
-  return (!data.chapter33 || isNotBlank(data.benefitsRelinquished.value))
-    && data.toursOfDuty.length > 0
+  return !data.chapter33 || isNotBlank(data.benefitsRelinquished.value);
+}
+
+function isValidServicePeriodsPage(data) {
+  return data.toursOfDuty.length > 0
     && data.toursOfDuty.every(isValidTourOfDuty);
 }
 
@@ -318,7 +329,7 @@ function isValidDirectDepositPage(data) {
   return isValidField(isValidRoutingNumber, data.bankAccount.routingNumber);
 }
 
-function isValidBenefitsHistoryPage(data) {
+function isValidContributionsPage(data) {
   return !data.activeDutyRepaying ||
     (!isBlankDateField(data.activeDutyRepayingPeriod.from)
     && !isBlankDateField(data.activeDutyRepayingPeriod.to)
@@ -340,12 +351,13 @@ function isValidForm(data) {
     && isValidPersonalInfoPage(data)
     && isValidContactInformationPage(data)
     && isValidMilitaryServicePage(data)
+    && isValidServicePeriodsPage(data)
     && isValidSchoolSelectionPage(data)
     && isValidEmploymentHistoryPage(data)
     && isValidEducationHistoryPage(data)
     && isValidSecondaryContactPage(data)
     && isValidDirectDepositPage(data)
-    && isValidBenefitsHistoryPage(data)
+    && isValidContributionsPage(data)
     && isValidRotcHistoryPage(data);
 }
 
@@ -359,10 +371,12 @@ function isValidPage(completePath, pageData) {
       return isValidBenefitsInformationPage(pageData);
     case '/benefits-eligibility/benefits-relinquishment':
       return isValidBenefitsRelinquishmentPage(pageData);
+    case '/military-history/service-periods':
+      return isValidServicePeriodsPage(pageData);
     case '/military-history/military-service':
       return isValidMilitaryServicePage(pageData);
-    case '/military-history/benefits-history':
-      return isValidBenefitsHistoryPage(pageData);
+    case '/military-history/contributions':
+      return isValidContributionsPage(pageData);
     case '/school-selection/school-information':
       return isValidSchoolSelectionPage(pageData);
     case '/employment-history/employment-information':
@@ -420,9 +434,11 @@ export {
   isValidAddressField,
   isValidContactInformationPage,
   isValidMilitaryServicePage,
+  isValidServicePeriodsPage,
   isValidPage,
   isValidValue,
   isValidFutureDateField,
+  isValidRelinquishedDate,
   isBlankAddress,
   isValidTourOfDuty,
   isValidEmploymentPeriod,

@@ -3,17 +3,17 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import BenefitsHistoryFields from '../../../src/js/edu-benefits/components/military-history/BenefitsHistoryFields';
+import ContributionsFields from '../../../src/js/edu-benefits/components/military-history/ContributionsFields';
 import { createVeteran } from '../../../src/js/edu-benefits/utils/veteran';
 
-describe('<BenefitsHistoryFields>', () => {
+describe('<ContributionsFields>', () => {
   it('should set ExpandingGroup closed', () => {
     let data = createVeteran();
     data.activeDutyRepaying = false;
     const onStateChange = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <BenefitsHistoryFields
+      <ContributionsFields
           data={data}
           onStateChange={onStateChange}/>
     );
@@ -26,7 +26,7 @@ describe('<BenefitsHistoryFields>', () => {
     const onStateChange = sinon.spy();
 
     const tree = SkinDeep.shallowRender(
-      <BenefitsHistoryFields
+      <ContributionsFields
           data={data}
           onStateChange={onStateChange}/>
     );
