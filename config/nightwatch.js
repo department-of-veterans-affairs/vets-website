@@ -1,9 +1,11 @@
 /* eslint-disable camelcase, strict */
 'use strict';
 
-require('babel-core/register');
+const electron = require('electron-prebuilt');
+const chromedriver = require('chromedriver');
+const seleniumServer = require('selenium-server');
 
-const glob = require('glob');
+require('babel-core/register');
 
 module.exports = {
   src_folders: ['./test'],
@@ -13,6 +15,13 @@ module.exports = {
   parallel_process_delay: 10,
   disable_colors: false,
   test_workers: false,
+  selenium: {
+    start_process: true,
+    server_path: seleniumServer.path,
+    log_path: './logs/selenium',
+    host: '127.0.0.1',
+    port: 4444
+  },
   test_settings: {
     'default': {
       launch_url: 'localhost:3001',
@@ -28,22 +37,17 @@ module.exports = {
         path: 'logs/screenshots'
       },
       desiredCapabilities: {
-        // browserName: 'firefox',
-        browserName: 'phantomjs',
+        browserName: 'chrome',
         javascriptEnabled: true,
         acceptSslCerts: true,
-        'phantomjs.binary.path': require('phantomjs-prebuilt').path
-        // 'phantomjs.cli.args' : ['--remote-debugger-port=9001', '--remote-debugger-autorun=yes']
-      },
-      globals: {
+        chromeOptions: {
+          binary: electron
+        }
       },
       selenium: {
-        start_process: true,
-        server_path:
-            glob.sync('./node_modules/selenium-standalone/.selenium/selenium-server/*.jar')[0],
-        log_path: './logs/selenium',
-        host: '127.0.0.1',
-        port: 4444,
+        cli_args: {
+          'webdriver.chrome.driver': chromedriver.path
+        }
       }
     },
 
