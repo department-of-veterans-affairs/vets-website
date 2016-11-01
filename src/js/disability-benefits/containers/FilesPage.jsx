@@ -98,7 +98,6 @@ class FilesPage extends React.Component {
               {documentsTurnedIn.map(item => (
                 <div className="submitted-file-list-item" key={item.trackedItemId}>
                   <p className="submission-file-type">{item.displayName}</p>
-                  <p>{item.description}</p>
                   <p>{truncateDescription(item.description)}</p>
                   {item.documents
                     ? item.documents.map((doc, index) =>
