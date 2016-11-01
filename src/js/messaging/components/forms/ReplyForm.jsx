@@ -16,7 +16,7 @@ class ReplyForm extends React.Component {
       <div
           className="msg-reply-details"
           onClick={this.props.toggleDetails}>
-        <div><label>To:</label> {this.props.recipient}</div>
+        <div><label>Reply to:</label> {this.props.recipient}</div>
         {subject}
       </div>
     );
