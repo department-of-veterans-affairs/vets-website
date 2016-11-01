@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { commonStore } from '../store';
 
 import environment from './environment.js';
@@ -14,7 +15,8 @@ export default function getUserData() {
     return response.json();
   }).then(json => {
     const userData = json.data.attributes.profile;
-    if (userData.loa.current === 1 && userData.loa.highest === 3) {
+    // This will require the user to login again after 30 mins. We can decide what the correct amount of time is later.
+    if ((userData.loa.highest === 3) && (userData.loa.current === 1 || (moment() > moment(userData.last_signed_in).add(30, 'm')))) {
       handleVerify();
     } else {
       // console.log(json);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 
 import { commonStore } from '../store';
 
@@ -42,14 +43,20 @@ class RequiredLoginView extends React.Component {
       return response.json();
     }).then(json => {
       const userData = json.data.attributes.profile;
-      this.props.onUpdateProfile('accountType', userData.loa.current);
-      this.props.onUpdateProfile('email', userData.email);
-      this.props.onUpdateProfile('userFullName.first', userData.first_name);
-      this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
-      this.props.onUpdateProfile('userFullName.last', userData.last_name);
-      this.props.onUpdateProfile('gender', userData.gender);
-      this.props.onUpdateProfile('dob', userData.birth_date);
-      this.props.onUpdateLoggedInStatus(true);
+      // This will require the user to login again after 30 mins. We can decide what the correct amount of time is later.
+      if ((userData.loa.highest === 3) && (userData.loa.current === 1 || (moment() > moment(userData.last_signed_in).add(30, 'm')))) {
+        this.handleVerify();
+      } else {
+        // console.log(json);
+        this.props.onUpdateProfile('accountType', userData.loa.current);
+        this.props.onUpdateProfile('email', userData.email);
+        this.props.onUpdateProfile('userFullName.first', userData.first_name);
+        this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
+        this.props.onUpdateProfile('userFullName.last', userData.last_name);
+        this.props.onUpdateProfile('gender', userData.gender);
+        this.props.onUpdateProfile('dob', userData.birth_date);
+        this.props.onUpdateLoggedInStatus(true);
+      }
     });
   }
 
