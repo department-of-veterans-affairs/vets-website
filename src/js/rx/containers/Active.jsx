@@ -2,9 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { loadPrescriptions, sortPrescriptions } from '../actions/prescriptions';
+import { openRefillModal } from '../actions/modal';
 import PrescriptionList from '../components/PrescriptionList';
 import SortMenu from '../components/SortMenu';
-import { sortOptions } from '../config.js';
+import { sortOptions } from '../config';
 
 class Active extends React.Component {
   constructor(props) {
@@ -49,7 +50,8 @@ class Active extends React.Component {
           <PrescriptionList
               items={this.props.prescriptions}
               // If we're sorting by facility, tell PrescriptionList to group 'em.
-              grouped={sortValue === 'facilityName'}/>
+              grouped={sortValue === 'facilityName'}
+              modalHandler={this.props.openRefillModal}/>
         </div>
       );
     }
@@ -74,6 +76,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  openRefillModal,
   loadPrescriptions,
   sortPrescriptions
 };

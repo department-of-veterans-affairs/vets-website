@@ -79,7 +79,7 @@ class History extends React.Component {
       const currentSort = this.props.sort;
 
       const fields = [
-        { label: 'Last requested date', value: 'refillSubmitDate' },
+        { label: 'Last submit date', value: 'refillSubmitDate' },
         { label: 'Last fill date', value: 'refillDate' },
         { label: 'Prescription', value: 'prescriptionName' },
         { label: 'Prescription status', value: 'refillStatus' }
@@ -94,7 +94,7 @@ class History extends React.Component {
 
           refillSubmitDate: formatDate(attrs.refillSubmitDate),
 
-          refillDate: formatDate(attrs.refillDate, { validateInFuture: true }),
+          refillDate: formatDate(attrs.refillDate, { validateInPast: true }),
 
           prescriptionName: (
             <Link to={`/${attrs.prescriptionId}`}>
