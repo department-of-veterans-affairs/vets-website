@@ -115,7 +115,7 @@ class History extends React.Component {
           <SortMenu
               changeHandler={(e) => this.handleSort(e.target.value)}
               options={fields}
-              selected={currentSort}/>
+              selected={currentSort.value}/>
           <SortableTable
               className="usa-table-borderless va-table-list rx-table rx-table-list"
               currentSort={currentSort}

@@ -41,7 +41,7 @@ class SortMenu extends React.Component {
       <form className="rx-sort va-dnp">
         <div className="rx-sort-wide">
           <label htmlFor="sortby">Sort by </label>
-          <ul className="va-list-ib" onClick={this.props.clickHandler}>
+          <ul className="va-list-ib">
             {sortLinks(sortBys)}
           </ul>
         </div>
@@ -59,12 +59,12 @@ class SortMenu extends React.Component {
 }
 
 SortMenu.propTypes = {
+  changeHandler: React.PropTypes.func,
   options: React.PropTypes.arrayOf(React.PropTypes.shape({
     value: React.PropTypes.string,
     label: React.PropTypes.string,
   })),
-  changeHandler: React.PropTypes.func,
-  clickHandler: React.PropTypes.func,
+  selected: React.PropTypes.string
 };
 
 export default SortMenu;
