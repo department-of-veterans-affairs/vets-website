@@ -38,7 +38,7 @@ export default class ClaimPhase extends React.Component {
     this.getEventDescription = this.getEventDescription.bind(this);
   }
   getEventDescription(event) {
-    const filesPath = `your-claims/${this.props.id}/files`;
+    const filesPath = `your-claims/${this.props.id}/document-request/${event.trackedItemId}`;
     const fromVet = event.type.endsWith('you_list');
 
     switch (event.type) {
@@ -91,6 +91,13 @@ export default class ClaimPhase extends React.Component {
             We have reviewed your submitted evidence for {event.displayName}. We will notify you if we need additional information.
           </div>
         );
+      case 'never_received_from_you_list':
+      case 'never_received_from_others_list':
+        return (
+          <div className="claims-evidence-item columns medium-9">
+            We closed the notice for {event.displayName}
+          </div>
+        );
 
       default:
         return null;
@@ -139,8 +146,13 @@ export default class ClaimPhase extends React.Component {
   }
   render() {
     const { phase, current, children } = this.props;
+    const expandCollapseIcon = phase <= current && phase !== COMPLETE_PHASE
+      ? <i className={this.state.open ? 'fa fa-minus claim-timeline-icon' : 'fa fa-plus claim-timeline-icon'}></i>
+      : null;
+
     return (
       <li onClick={() => this.expandCollapse()} role="presentation" className={`${getClasses(phase, current)}`}>
+        {expandCollapseIcon}
         <h5>{getUserPhaseDescription(phase)}</h5>
         {this.state.open || phase === COMPLETE_PHASE
           ? <div>

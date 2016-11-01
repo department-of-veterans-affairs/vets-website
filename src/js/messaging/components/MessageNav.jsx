@@ -8,14 +8,14 @@ class MessageNav extends React.Component {
   }
 
   handleClickNext() {
-    if (this.props.page < this.props.totalPages) {
-      this.props.onPageSelect(this.props.page + 1);
+    if (this.props.itemNumber < this.props.totalItems) {
+      this.props.onItemSelect(this.props.itemNumber + 1);
     }
   }
 
   handleClickPrev() {
-    if (this.props.page > 1) {
-      this.props.onPageSelect(this.props.page - 1);
+    if (this.props.itemNumber > 1) {
+      this.props.onItemSelect(this.props.itemNumber - 1);
     }
   }
 
@@ -29,14 +29,14 @@ class MessageNav extends React.Component {
         </span>
         <button
             type="button"
-            disabled={this.props.page <= 1}
+            disabled={this.props.itemNumber <= 1}
             onClick={this.handleClickPrev}>
           <i className="fa fa-chevron-left"></i>
           <span>Previous</span>
         </button>
         <button
             type="button"
-            disabled={this.props.page >= this.props.totalPages}
+            disabled={this.props.itemNumber >= this.props.totalItems}
             onClick={this.handleClickNext}>
           <span>Next</span>
           <i className="fa fa-chevron-right"></i>
@@ -52,9 +52,9 @@ MessageNav.propTypes = {
     React.PropTypes.string
   ]).isRequired,
   messageCount: React.PropTypes.number.isRequired,
-  onPageSelect: React.PropTypes.func,
-  page: React.PropTypes.number.isRequired,
-  totalPages: React.PropTypes.number.isRequired
+  onItemSelect: React.PropTypes.func,
+  itemNumber: React.PropTypes.number.isRequired,
+  totalItems: React.PropTypes.number.isRequired
 };
 
 export default MessageNav;

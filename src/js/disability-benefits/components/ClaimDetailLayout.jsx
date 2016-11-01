@@ -1,7 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router';
 import TabNav from '../components/TabNav';
 import AskVAQuestions from '../components/AskVAQuestions';
-import Loading from '../components/Loading';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import AddingDetails from '../components/AddingDetails';
+
+import { isCompleteClaim } from '../utils/helpers';
 
 export default class ClaimDetailLayout extends React.Component {
   render() {
@@ -11,9 +15,15 @@ export default class ClaimDetailLayout extends React.Component {
     if (!loading) {
       content = (
         <div className="claim-container">
+          <nav className="va-nav-breadcrumbs">
+            <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
+              <li><Link to="your-claims">Your claims</Link></li>
+              <li className="active">Your Compensation Claim</li>
+            </ul>
+          </nav>
           {message}
+          <h1 className="claim-title">Your {"Compensation"} Claim</h1>
           <div className="claim-conditions">
-            <h1>Your {"Compensation"} Claim</h1>
             <h6>Your Claimed Conditions:</h6>
             <p className="list">
               {claim.attributes.contentionList
@@ -23,12 +33,13 @@ export default class ClaimDetailLayout extends React.Component {
           </div>
           <TabNav id={this.props.claim.id}/>
           <div className="va-tab-content">
+            {isCompleteClaim(claim) ? null : <AddingDetails/>}
             {this.props.children}
           </div>
         </div>
       );
     } else {
-      content = <Loading/>;
+      content = <LoadingIndicator/>;
     }
 
     return (
@@ -37,7 +48,9 @@ export default class ClaimDetailLayout extends React.Component {
           <div name="topScrollElement"></div>
           {content}
         </div>
-        <AskVAQuestions/>
+        <div className="small-12 medium-4 columns">
+          <AskVAQuestions/>
+        </div>
       </div>
     );
   }

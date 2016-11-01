@@ -2,8 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
-import moment from 'moment';
 
+import AlertBox from '../../common/components/AlertBox';
+import { closeAlert } from '../actions/alert.js';
 import { openGlossaryModal, openRefillModal } from '../actions/modal';
 import { loadPrescription } from '../actions/prescriptions';
 import BackLink from '../components/BackLink';
@@ -12,6 +13,7 @@ import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 import SubmitRefill from '../components/SubmitRefill';
 import { glossary, rxStatuses } from '../config';
+import { formatDate } from '../utils/helpers';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -92,6 +94,8 @@ export class Detail extends React.Component {
     const attrs = _.get(this.props.prescription, 'rx.attributes', {});
     const status = rxStatuses[attrs.refillStatus];
     const data = {
+      'Prescription #': attrs.prescriptionNumber,
+
       Quantity: attrs.quantity,
 
       'Prescription status': (
@@ -103,33 +107,37 @@ export class Detail extends React.Component {
         </button>
       ),
 
-      'Last fill date': attrs.dispensedDate
-        ? moment(attrs.dispensedDate).format('MMM DD, YYYY')
-        : 'Not available',
+      'Last fill date': formatDate(
+        attrs.refillDate,
+        { validateInFuture: true }
+      ),
 
-      'Expiration date': attrs.expirationDate
-        ? moment(attrs.expirationDate).format('MMM DD, YYYY')
-        : 'Not available',
+      'Expiration date': formatDate(attrs.expirationDate),
 
-      'Prescription #': attrs.prescriptionNumber,
-
-      Refills: (
-        <div>
-          {attrs.refillRemaining} remaining
-          <SubmitRefill
-              cssClass="rx-trigger"
-              mode="compact"
-              onSubmit={(e) => { e.preventDefault(); this.props.openRefillModal(attrs); }}
-              refillId={attrs.id}
-              text="Refill Prescription"/>
-        </div>
-      )
+      Refills: `${attrs.refillRemaining} remaining`
     };
 
+    let refillButton;
+
+    if (attrs.isRefillable) {
+      refillButton = (
+        <SubmitRefill
+            onSubmit={(e) => {
+              e.preventDefault();
+              this.props.openRefillModal(attrs);
+            }}
+            refillId={attrs.id}
+            text="Refill Prescription"/>
+      );
+    }
+
     return (
-      <TableVerticalHeader
-          className="usa-table-borderless rx-table rx-info"
-          data={data}/>
+      <div id="rx-info">
+        <TableVerticalHeader
+            className="usa-table-borderless rx-table"
+            data={data}/>
+        {refillButton}
+      </div>
     );
   }
 
@@ -186,7 +194,13 @@ export class Detail extends React.Component {
     }
 
     return (
-      <div id="rx-detail" className="rx-app row">
+      <div id="rx-detail">
+        <AlertBox
+            content={this.props.alert.content}
+            isVisible={this.props.alert.visible}
+            onCloseAlert={this.props.closeAlert}
+            scrollOnShow
+            status={this.props.alert.status}/>
         <h1>Prescription Refill</h1>
         <BackLink text="Back to list"/>
         {header}
@@ -199,10 +213,14 @@ export class Detail extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { prescription: state.prescriptions.currentItem };
+  return {
+    alert: state.alert,
+    prescription: state.prescriptions.currentItem
+  };
 };
 
 const mapDispatchToProps = {
+  closeAlert,
   loadPrescription,
   openGlossaryModal,
   openRefillModal

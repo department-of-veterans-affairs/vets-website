@@ -5,6 +5,8 @@
 }
 
 #rx-history table {
+  margin-top: 0;
+
   tr {
     &:last-child {
       td {
@@ -23,12 +25,14 @@
   }
 
   @media (max-width: $medium-screen) {
+    margin-top: 2rem;
+
     td {
       // Get the prescription name to appear above the other fields.
       &:nth-child(3) { display: table-header-group; }
 
-      &:nth-child(1):before { content: "Refill requested on: "; }
-      &:nth-child(2):before { content: "Fill date: "; }
+      &:nth-child(1):before { content: "Last requested date: "; }
+      &:nth-child(2):before { content: "Last fill date: "; }
       &:nth-child(4):before { content: "Prescription status: "; }
     }
   }

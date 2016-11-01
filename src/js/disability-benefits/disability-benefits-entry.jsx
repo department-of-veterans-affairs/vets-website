@@ -10,7 +10,9 @@ import DisabilityBenefitsApp from './containers/DisabilityBenefitsApp.jsx';
 import initReact from '../common/init-react';
 import reducer from './reducers';
 import routes from './routes.jsx';
+import { setLastPage } from './actions';
 
+require('../common');  // Bring in the common javascript.
 require('../../sass/disability-benefits.scss');
 require('../login/login-entry.jsx');
 
@@ -23,6 +25,10 @@ if (__BUILDTYPE__ === 'development' && window.devToolsExtension) {
 
 const browserHistory = useRouterHistory(createHistory)({
   basename: '/disability-benefits/track-claims'
+});
+
+browserHistory.listen((location) => {
+  store.dispatch(setLastPage(location.pathname));
 });
 
 function init() {

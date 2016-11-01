@@ -2,6 +2,7 @@ import React from 'react';
 
 import DateInput from '../../../common/components/form-elements/DateInput';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import ErrorableNumberInput from '../../../common/components/form-elements/ErrorableNumberInput';
 import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 
@@ -50,7 +51,8 @@ export default class EducationPeriod extends React.Component {
             month={period.dateRange.to.month}
             year={period.dateRange.to.year}
             onValueChange={(update) => {onValueChange('dateRange.to', update);}}/>
-        <ErrorableTextInput
+        <ErrorableNumberInput
+            min={0}
             label="Hours completed"
             name="hours"
             field={period.hours}

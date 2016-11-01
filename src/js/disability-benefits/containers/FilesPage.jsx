@@ -8,7 +8,7 @@ import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import DueDate from '../components/DueDate';
 
 import { clearUploadedItem } from '../actions';
-import { hasBeenReviewed } from '../utils/helpers';
+import { hasBeenReviewed, truncateDescription } from '../utils/helpers';
 
 class FilesPage extends React.Component {
   constructor() {
@@ -43,7 +43,8 @@ class FilesPage extends React.Component {
             {filesNeeded.map(item => (
               <div className="file-request-list-item usa-alert usa-alert-warning claims-no-icon" key={item.trackedItemId}>
                 <div className="item-container">
-                  <h5>{item.displayName}</h5>
+                  <h5 className="file-request-title">{item.displayName}</h5>
+                  <p>{truncateDescription(item.description)}</p>
                   <DueDate date={item.suspenseDate}/>
                 </div>
                 <div className="button-container">
@@ -56,7 +57,8 @@ class FilesPage extends React.Component {
             {optionalFiles.map(item => (
               <div className="file-request-list-item usa-alert usa-alert-warning claims-no-icon" key={item.trackedItemId}>
                 <div className="item-container">
-                  <h5>{item.displayName}</h5>
+                  <h5 className="file-request-title">{item.displayName}</h5>
+                  <p>{truncateDescription(item.description)}</p>
                   <h6>Optional</h6>
                   <p>- we requested this from others, but you may upload it if you have it.</p>
                 </div>
@@ -96,6 +98,7 @@ class FilesPage extends React.Component {
               {documentsTurnedIn.map(item => (
                 <div className="submitted-file-list-item" key={item.trackedItemId}>
                   <p className="submission-file-type">{item.displayName}</p>
+                  <p>{truncateDescription(item.description)}</p>
                   {item.documents
                     ? item.documents.map((doc, index) =>
                       <p key={index} className="submission-item">{doc.filename}</p>)

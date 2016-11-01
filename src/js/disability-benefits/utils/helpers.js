@@ -150,3 +150,24 @@ export function isCompleteClaim({ attributes }) {
 export function hasBeenReviewed(trackedItem) {
   return trackedItem.type.startsWith('received_from') && trackedItem.status !== 'SUBMITTED_AWAITING_REVIEW';
 }
+
+// Adapted from http://stackoverflow.com/a/26230989/487883
+export function getTopPosition(elem) {
+  const box = elem.getBoundingClientRect();
+  const body = document.body;
+  const docEl = document.documentElement;
+
+  const scrollTop = window.pageYOffset || docEl.scrollTop || body.scrollTop;
+  const clientTop = docEl.clientTop || body.clientTop || 0;
+
+  return Math.round(box.top + scrollTop - clientTop);
+}
+
+export function truncateDescription(text) {
+  const maxLength = 120;
+  if (text && text.length > maxLength) {
+    return `${text.substr(0, maxLength)}…`;
+  }
+
+  return text;
+}

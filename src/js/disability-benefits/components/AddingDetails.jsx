@@ -3,9 +3,9 @@ import React from 'react';
 class AddingDetails extends React.Component {
   render() {
     return (
-      <div className="usa-alert usa-alert-info claims-no-icon">
-        <h4>We have your claim information</h4>
-        <p>Thank you for filing your claim information. Don’t worry if you see “not available” here. We have all your information in the system and are preparing to send it to a Veterans Service Representative for review. Check back soon for an update.</p>
+      <div className="usa-alert usa-alert-info claims-no-icon claims-alert-status">
+        <h4>We're adding your details</h4>
+        We've received your claim and are still adding some of your information. Check back soon to see the complete details of your claim.
       </div>
     );
   }
