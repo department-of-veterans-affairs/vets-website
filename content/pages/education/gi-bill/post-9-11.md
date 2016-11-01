@@ -17,11 +17,11 @@ Yes, if:
 -  You meet the basic requirements for any GI Bill program.
 -  You have served on active duty for at least 90 days, whether continuous or interrupted, after September 10, 2001.
 
-If you are eligible for more than one VA education benefit, you may be asked to make an irrevocable election. Making an “irrevocable election” means that you cannot change back to another GI Bill program for which you may also be eligible after you receive Post-9/11 GI Bill benefits.
+If you are eligible for more than one VA education benefit, you may be asked to make an irrevocable election. Making an “irrevocable election” means that you can't change back to another GI Bill program for which you may also be eligible after you receive Post-9/11 GI Bill benefits.
 
 ### Who is covered
 
-You and your dependents
+You and your eligible dependents
 
 </div>
 
