@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 
 import environment from '../../common/helpers/environment.js';
-import getUserData from '../../common/helpers/login-helpers';
+import { getUserData } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateLogInUrl } from '../../common/actions';
 import SignInProfileButton from '../components/SignInProfileButton';

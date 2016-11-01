@@ -3,16 +3,37 @@ import { connect } from 'react-redux';
 
 import { commonStore } from '../store';
 
-import handleVerify from '../helpers/verify-user.js';
-import { updateLoggedInStatus, updateLogInUrl, updateProfileField } from '../actions';
+import { getUserData, handleVerify } from '../helpers/login-helpers.js';
 
 class RequiredLoginView extends React.Component {
   constructor(props) {
     super(props);
     this.handleLogin = this.handleLogin.bind(this);
     this.handleVerify = handleVerify;
-    this.setMyToken = this.setMyToken.bind(this);
+    // this.setMyToken = this.setMyToken.bind(this);
+    this.getUserData = getUserData;
   }
+
+  componentWillMount() {
+    if (localStorage.userToken) {
+      this.getUserData();
+      // const myStore = commonStore.getState();
+      // const profile = myStore.profile;
+      // console.log(profile);
+    } else {
+      window.addEventListener('message', this.setMyToken);
+    }
+  }
+
+  // componentDidMount() {
+  //   window.addEventListener('message', this.setMyToken);
+  // }
+
+  // setMyToken() {
+  //   if (event.data === localStorage.userToken) {
+  //     this.getUserData();
+  //   }
+  // }
 
   handleLogin() {
     const myStore = commonStore.getState();
@@ -27,6 +48,7 @@ class RequiredLoginView extends React.Component {
     let view;
     const myStore = commonStore.getState();
     const profile = myStore.profile;
+    // console.log(profile);
 
     const loginComponent = (
       <div className="row primary">
@@ -87,19 +109,5 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onUpdateLoginUrl: (field, update) => {
-      dispatch(updateLogInUrl(field, update));
-    },
-    onUpdateLoggedInStatus: (update) => {
-      dispatch(updateLoggedInStatus(update));
-    },
-    onUpdateProfile: (field, update) => {
-      dispatch(updateProfileField(field, update));
-    }
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps, undefined, { pure: false })(RequiredLoginView);
+export default connect(mapStateToProps)(RequiredLoginView);
 export { RequiredLoginView };
