@@ -2,19 +2,20 @@
 layout: home.html
 body_class: home
 title: Home
+plainlanguage: 11-1-16 Ready for Beth review
 majorlinks:
   - url: /disability-benefits/
     title: Disability Benefits
-    description: Help with service-related medical conditions.
+    description: Apply for support for health problems related to your military service.
   - url: /education/
     title: Education Benefits
-    description: Tuition assistance, training programs, and more.
+    description: Apply for help to access and pay for college and training programs.
   - url: /employment/
     title: Careers and Employment
-    description: Meaningful employment and career development for Veterans and their families.
+    description: Apply for help to build your career skills and find and keep a job.
   - url: /healthcare/apply/
     title: Health Care
-    description: Apply for VA health care, including preventive care, primary care, and more.
+    description: Apply for health coverage for everything from doctor's visits to medical equipment to prescriptions.
 
 ---
 <div class="splash">
