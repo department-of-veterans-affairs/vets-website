@@ -72,7 +72,7 @@ module.exports = E2eHelpers.createE2eTest(
     EduHelpers.completeContactInformation(client, EduHelpers.testValues, true);
     client
       .axeCheck('.main')
-      .click('.form-progress-buttons .usa-button-primary');;
+      .click('.form-progress-buttons .usa-button-primary');
 
     // School selection Page.
     EduHelpers.completeSchoolSelection(client, EduHelpers.testValues, true);
