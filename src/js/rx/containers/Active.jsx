@@ -1,21 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loadPrescriptions } from '../actions/prescriptions';
+import { loadPrescriptions, sortPrescriptions } from '../actions/prescriptions';
 import PrescriptionList from '../components/PrescriptionList';
 import SortMenu from '../components/SortMenu';
 import { sortOptions } from '../config.js';
 
 class Active extends React.Component {
-  componentWillMount() {
-    this.props.dispatch(loadPrescriptions({ active: true }));
+  constructor(props) {
+    super(props);
     this.handleSortOnChange = this.handleSortOnChange.bind(this);
-    this.handleSortOnClick = this.handleSortOnClick.bind(this);
-    this.dispatchSortAction = this.dispatchSortAction.bind(this);
   }
 
-  dispatchSortAction(action) {
-    this.props.dispatch({ type: action });
+  componentDidMount() {
+    this.props.loadPrescriptions({ active: true });
+  }
+
+  componentDidUpdate() {
+    const query = _.pick(this.props.location.query, ['sort']);
+    if (query.sort !== this.props.prescriptions.active.sort) {
+      this.props.sortPrescriptions(query.sort);
+    }
   }
 
   handleSortOnChange(domEvent) {
@@ -25,15 +30,6 @@ class Active extends React.Component {
         query: { sort: domEvent.target.value }
       });
     }
-    this.dispatchSortAction(domEvent.target.value);
-  }
-
-  handleSortOnClick(domEvent) {
-    const fullURL = domEvent.target.href;
-
-    // Find the sort parameter, split the query string on the = and retrieve value
-    const sortParam = fullURL.match(/sort=[-a-z]{1,}/i)[0].split('=')[1];
-    this.dispatchSortAction(sortParam);
   }
 
   render() {
@@ -43,13 +39,12 @@ class Active extends React.Component {
     const sortParam = this.props.location.query.sort;
 
     if (items) {
-      const sortValue = sortParam || 'lastRequested';
+      const sortValue = sortParam || 'prescriptionName';
 
       content = (
         <div>
           <SortMenu
               changeHandler={this.handleSortOnChange}
-              clickHandler={this.handleSortOnClick}
               options={sortOptions}
               selected={sortValue}/>
           <PrescriptionList
@@ -77,4 +72,9 @@ const mapStateToProps = (state) => {
   return state;
 };
 
-export default connect(mapStateToProps)(Active);
+const mapDispatchToProps = {
+  loadPrescriptions,
+  sortPrescriptions
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Active);

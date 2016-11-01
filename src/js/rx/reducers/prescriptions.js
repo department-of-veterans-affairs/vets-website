@@ -5,6 +5,9 @@ import _ from 'lodash';
 const initialState = {
   currentItem: null,
   items: [],
+  active: {
+    sort: 'prescriptionName'
+  },
   history: {
     sort: {
       value: 'refillSubmitDate',
@@ -69,17 +72,22 @@ export default function prescriptions(state = initialState, action) {
     }
     case 'LOAD_PRESCRIPTION_SUCCESS':
       return set('currentItem', action.data, state);
-    // After the data is loaded, we can just use `state`.
-    // Also breaking convention and using lower case because the query parameters
-    // are lower case.
-    case 'prescriptionName':
-      return set('items', _.sortBy(state.items, sortByName), state);
-    case 'facilityName':
-      return set('items', _.sortBy(state.items, sortByFacilityName), state);
-    case 'lastRequested':
-      return set('items', _.sortBy(state.items, sortByLastRequestedDate), state);
+
     case 'REFILL_SUCCESS':
       return set('items', updateRefillStatus(state.items, action.id), state);
+
+    case 'SORT_PRESCRIPTIONS':
+      let newState = set('active.sort', action.sort, state);
+
+      switch (action.sort) {
+        case 'prescriptionName':
+          return set('items', _.sortBy(state.items, sortByName), newState);
+        case 'facilityName':
+          return set('items', _.sortBy(state.items, sortByFacilityName), newState);
+        case 'lastRequested':
+          return set('items', _.sortBy(state.items, sortByLastRequestedDate), newState);
+      }
+
     default:
       return state;
   }
