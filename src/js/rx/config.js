@@ -74,13 +74,17 @@ module.exports = {
   },
 
   sortOptions: [
-    { value: 'prescriptionName',
+    {
+      value: 'prescriptionName',
       label: 'Prescription name'
     },
-    { value: 'facilityName',
+    {
+      value: 'facilityName',
       label: 'Facility name'
     },
-    { value: 'lastRequested',
+    {
+      value: 'lastRequested',
       label: 'Last requested date'
-    }]
+    }
+  ]
 };
