@@ -70,3 +70,9 @@ export function refillPrescription(id) {
 
   return dispatch => dispatch({ type: 'REFILL_FAILURE' });
 }
+
+export function sortPrescriptions(action) {
+  return {
+    type: action
+  };
+}
