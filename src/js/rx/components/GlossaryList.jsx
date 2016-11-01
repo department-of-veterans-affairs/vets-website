@@ -8,14 +8,20 @@ class GlossaryList extends React.Component {
 
     for (const o in terms) {
       if (terms.hasOwnProperty(o)) {
-        termsList.push(<dt key={++tKey}>{terms[o].term}</dt>);
+        let id = terms[o].term.toLowerCase().replace(/\s/g, '');
+        termsList.push(<dt id={id} key={++tKey}>{terms[o].term}</dt>);
         termsList.push(<dd key={++tKey}>{terms[o].definition}</dd>);
       }
     }
 
+    let title;
+    if (this.props.title) {
+      title = <h2 className="rx-pgroup-title va-h-ruled">{this.props.title}</h2>;
+    }
+
     return (
       <section>
-        <h2 className="rx-pgroup-title va-h-ruled">{this.props.title}</h2>
+        {title}
         <dl className="rx-glossary">
           {termsList}
         </dl>

@@ -165,7 +165,8 @@ export class Detail extends React.Component {
   }
 
   openGlossaryModal(term) {
-    const content = glossary.filter((obj) => {
+    const allTerms = glossary.Prescription.concat(glossary.Refill);
+    const content = allTerms.filter((obj) => {
       return obj.term === term;
     });
 
