@@ -13,10 +13,9 @@ describe('<DisabilityBenefitsApp>', () => {
         <div className="test-child"/>
       </DisabilityBenefitsApp>
     );
-    const view = SkinDeep.shallowRender(tree.props.component);
-    expect(view.everySubTree('.test-child')).not.to.be.empty;
-    expect(view.everySubTree('ClaimSyncWarning')).to.be.empty;
-    expect(view.everySubTree('ClaimsUnavailable')).to.be.empty;
+    expect(tree.everySubTree('.test-child')).not.to.be.empty;
+    expect(tree.everySubTree('ClaimSyncWarning')).to.be.empty;
+    expect(tree.everySubTree('ClaimsUnavailable')).to.be.empty;
   });
   it('should render sync warning', () => {
     const tree = SkinDeep.shallowRender(
@@ -25,10 +24,9 @@ describe('<DisabilityBenefitsApp>', () => {
         <div className="test-child"/>
       </DisabilityBenefitsApp>
     );
-    const view = SkinDeep.shallowRender(tree.props.component);
-    expect(view.everySubTree('.test-child')).not.to.be.empty;
-    expect(view.everySubTree('ClaimSyncWarning')).not.to.be.empty;
-    expect(view.everySubTree('ClaimsUnavailable')).to.be.empty;
+    expect(tree.everySubTree('.test-child')).not.to.be.empty;
+    expect(tree.everySubTree('ClaimSyncWarning')).not.to.be.empty;
+    expect(tree.everySubTree('ClaimsUnavailable')).to.be.empty;
   });
   it('should render unavailable', () => {
     const tree = SkinDeep.shallowRender(
@@ -36,9 +34,8 @@ describe('<DisabilityBenefitsApp>', () => {
         <div className="test-child"/>
       </DisabilityBenefitsApp>
     );
-    const view = SkinDeep.shallowRender(tree.props.component);
-    expect(view.everySubTree('.test-child')).to.be.empty;
-    expect(view.everySubTree('ClaimSyncWarning')).to.be.empty;
-    expect(view.everySubTree('ClaimsUnavailable')).not.to.be.empty;
+    expect(tree.everySubTree('.test-child')).to.be.empty;
+    expect(tree.everySubTree('ClaimSyncWarning')).to.be.empty;
+    expect(tree.everySubTree('ClaimsUnavailable')).not.to.be.empty;
   });
 });
