@@ -113,7 +113,7 @@ class History extends React.Component {
       content = (
         <div>
           <SortMenu
-              changeHandler={(e) => this.handleSort(e.target.value)}
+              onChange={this.handleSort}
               options={fields}
               selected={currentSort.value}/>
           <SortableTable

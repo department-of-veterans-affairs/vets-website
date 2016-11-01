@@ -7,6 +7,15 @@ import { Link } from 'react-router';
 import classNames from 'classnames';
 
 class SortMenu extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.props.onChange(event.target.value);
+  }
+
   render() {
     const sortBys = this.props.options;
     const sortLinks = (options) => {
@@ -21,7 +30,7 @@ class SortMenu extends React.Component {
             className={defaultCssClass}
             activeClassName="rx-sort-active"
             to={{
-              pathname: '/',
+              pathname: '',
               query: { sort: `${o.value}` }
             }}>{o.label}</Link></li>);
       });
@@ -49,7 +58,7 @@ class SortMenu extends React.Component {
           <select
               value={this.props.selected}
               id="sortby"
-              onChange={this.props.changeHandler}>
+              onChange={this.handleChange}>
             {sortOptionElements(this.props.options)}
           </select>
         </div>
@@ -59,7 +68,7 @@ class SortMenu extends React.Component {
 }
 
 SortMenu.propTypes = {
-  changeHandler: React.PropTypes.func,
+  onChange: React.PropTypes.func,
   options: React.PropTypes.arrayOf(React.PropTypes.shape({
     value: React.PropTypes.string,
     label: React.PropTypes.string,

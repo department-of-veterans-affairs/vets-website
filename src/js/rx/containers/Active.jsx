@@ -9,7 +9,7 @@ import { sortOptions } from '../config.js';
 class Active extends React.Component {
   constructor(props) {
     super(props);
-    this.handleSortOnChange = this.handleSortOnChange.bind(this);
+    this.handleSort = this.handleSort.bind(this);
   }
 
   componentDidMount() {
@@ -25,13 +25,11 @@ class Active extends React.Component {
     }
   }
 
-  handleSortOnChange(domEvent) {
-    if (domEvent.type === 'change') {
-      this.context.router.push({
-        ...this.props.location,
-        query: { sort: domEvent.target.value }
-      });
-    }
+  handleSort(sort) {
+    this.context.router.push({
+      ...this.props.location,
+      query: { sort }
+    });
   }
 
   render() {
@@ -46,7 +44,7 @@ class Active extends React.Component {
       content = (
         <div>
           <SortMenu
-              changeHandler={this.handleSortOnChange}
+              onChange={this.handleSort}
               options={sortOptions}
               selected={sortValue}/>
           <PrescriptionList
