@@ -29,7 +29,7 @@ const countries = [
   { value: 'BWA', label: 'Botswana' },
   { value: 'BVT', label: 'Bouvet Island' },
   { value: 'BRA', label: 'Brazil' },
-  { value: 'IOT', label: 'British' },
+  { value: 'IOT', label: 'British Indian Ocean Territories' },
   { value: 'BRN', label: 'Brunei Darussalam' },
   { value: 'BGR', label: 'Bulgaria' },
   { value: 'BFA', label: 'Burkina Faso' },
