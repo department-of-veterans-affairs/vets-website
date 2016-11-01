@@ -81,6 +81,6 @@ module.exports = {
       label: 'Facility name'
     },
     { value: 'lastRequested',
-      label: 'Last requested date'
+      label: 'Last submit date'
     }]
 };

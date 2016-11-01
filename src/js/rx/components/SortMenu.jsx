@@ -1,5 +1,5 @@
 /* Component that lets a veteran sort by prescription name,
- * facility, or last requested date.
+ * facility, or last submit date.
 */
 
 import React from 'react';
