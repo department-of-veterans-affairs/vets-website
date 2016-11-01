@@ -7,7 +7,9 @@ import classNames from 'classnames';
 import SortableTable from '../../common/components/SortableTable';
 
 import {
+  closeAlert,
   fetchFolder,
+  openAlert,
   sendSearch,
   setDateRange,
   setSearchParam,
@@ -144,12 +146,16 @@ export class Folder extends React.Component {
   }
 
   handleSearch(searchParams) {
+    // Resets pagination state values to 0 so that (newPage !== oldPage)
+    // conditional will be true. (See line 64)
     this.props.resetPagination();
+
     const filters = this.buildQuery(searchParams);
+    const fullQuery = { ...this.props.location.query, ...filters };
 
     this.context.router.push({
       pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
-      query: Object.assign(this.props.location.query, filters)
+      query: fullQuery
     });
   }
 
@@ -234,11 +240,14 @@ export class Folder extends React.Component {
         <MessageSearch
             folder={+folderId}
             isAdvancedVisible={this.props.isAdvancedVisible}
+            isErrorVisible={this.props.error.visible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}
-            params={this.props.searchParams}
+            onError={this.props.openAlert}
+            onErrorClose={this.props.closeAlert}
             onFieldChange={this.props.setSearchParam}
-            onSubmit={this.handleSearch}/>
+            onSubmit={this.handleSearch}
+            params={this.props.searchParams}/>
         <div id="messaging-folder-controls">
           <ComposeButton/>
           {messageNav}
@@ -266,6 +275,7 @@ const mapStateToProps = (state) => {
   const endCount = Math.min(totalCount, page * perPage);
 
   return {
+    error: state.alert,
     attributes,
     currentRange: `${startCount} - ${endCount}`,
     messageCount: totalCount,
@@ -279,7 +289,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  closeAlert,
   fetchFolder,
+  openAlert,
   sendSearch,
   setDateRange,
   setSearchParam,
