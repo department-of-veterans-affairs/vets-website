@@ -80,8 +80,7 @@ class Prescription extends React.Component {
         <div
             key={`rx-${id}-status`}
             className="rx-prescription-status">
-            Refill status:
-          <span> {rxStatuses[displayStatus]}</span>
+          Refill status: <Link to={`glossary#${status}`}>{rxStatuses[displayStatus]}</Link>
         </div>
       );
     }
