@@ -22,11 +22,6 @@ export function getUserData() {
     return response.json();
   }).then(json => {
     const userData = json.data.attributes.profile;
-    // This will require the user to login again after 30 mins. We can decide what the correct amount of time is later.
-    // if ((userData.loa.highest === 3) && (userData.loa.current === 1 || (moment() > moment(userData.last_signed_in).add(1, 'm')))) {
-    //   handleVerify();
-    // } else {
-      // console.log(json);
     commonStore.dispatch(updateProfileField('accountType', userData.loa.current));
     commonStore.dispatch(updateProfileField('email', userData.email));
     commonStore.dispatch(updateProfileField('userFullName.first', userData.first_name));
@@ -35,6 +30,5 @@ export function getUserData() {
     commonStore.dispatch(updateProfileField('gender', userData.gender));
     commonStore.dispatch(updateProfileField('dob', userData.birth_date));
     commonStore.dispatch(updateLoggedInStatus(true));
-    // }
   });
 }
