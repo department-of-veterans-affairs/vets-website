@@ -17,9 +17,11 @@ class Active extends React.Component {
   }
 
   componentDidUpdate() {
-    const query = _.pick(this.props.location.query, ['sort']);
-    if (query.sort !== this.props.prescriptions.active.sort) {
-      this.props.sortPrescriptions(query.sort);
+    const newSort = this.props.location.query.sort;
+    const oldSort = this.props.prescriptions.active.sort;
+
+    if (newSort !== oldSort) {
+      this.props.sortPrescriptions(newSort);
     }
   }
 
