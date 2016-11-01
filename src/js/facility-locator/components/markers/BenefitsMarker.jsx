@@ -8,7 +8,6 @@ class BenefitsMarker extends Component {
     return (
       <DivMarker position={position} popupContent={<div>{children}</div>} onClick={onClick}>
         <div className="benefits-icon map-marker" style={style}>
-          <span className="fa fa-check"></span>
         </div>
       </DivMarker>
     );

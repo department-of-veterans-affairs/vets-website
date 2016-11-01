@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import DueDate from '../components/DueDate';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
-import Loading from '../components/Loading';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import UploadError from '../components/UploadError';
 
 import {
@@ -56,15 +56,16 @@ class DocumentRequestPage extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <Loading/>;
+      content = <LoadingIndicator/>;
     } else {
       const trackedItem = this.props.trackedItem;
+      const filesPath = `your-claims/${this.props.claim.id}/files`;
       content = (
         <div className="claim-container">
           <nav className="va-nav-breadcrumbs">
             <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
               <li><Link to="your-claims">Your claims</Link></li>
-              <li><Link to={`your-claims/${this.props.claim.id}`}>Your Compensation Claim</Link></li>
+              <li><Link to={filesPath}>Your Compensation Claim</Link></li>
               <li className="active">{trackedItem.displayName}</li>
             </ul>
           </nav>
@@ -85,6 +86,7 @@ class DocumentRequestPage extends React.Component {
               uploading={this.props.uploading}
               files={this.props.files}
               showMailOrFax={this.props.showMailOrFax}
+              backUrl={this.props.lastPage || filesPath}
               onSubmit={() => this.props.submitFiles(
                 this.props.claim.id,
                 this.props.trackedItem,
@@ -106,7 +108,9 @@ class DocumentRequestPage extends React.Component {
           <div name="topScrollElement"></div>
           {content}
         </div>
-        <AskVAQuestions/>
+        <div className="small-12 medium-4 columns">
+          <AskVAQuestions/>
+        </div>
       </div>
     );
   }
@@ -128,7 +132,8 @@ function mapStateToProps(state, ownProps) {
     uploadError: state.uploads.uploadError,
     uploadComplete: state.uploads.uploadComplete,
     uploadField: state.uploads.uploadField,
-    showMailOrFax: state.uploads.showMailOrFax
+    showMailOrFax: state.uploads.showMailOrFax,
+    lastPage: state.routing.lastPage
   };
 }
 

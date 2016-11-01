@@ -40,7 +40,7 @@ class SortMenu extends React.Component {
     return (
       <form className="rx-sort va-dnp">
         <div className="rx-sort-wide">
-          <label htmlFor="sortby" className="va-disp-ib">Sort by </label>
+          <label htmlFor="sortby">Sort by </label>
           <ul className="va-list-ib" onClick={this.props.clickHandler}>
             {sortLinks(sortBys)}
           </ul>
