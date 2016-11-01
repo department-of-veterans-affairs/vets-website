@@ -7,21 +7,14 @@ import TabNav from '../components/TabNav';
 
 class Main extends React.Component {
   render() {
-    let alertBox;
-
-    if (this.props.alert.visible) {
-      alertBox = (
+    return (
+      <div>
         <AlertBox
             content={this.props.alert.content}
             isVisible={this.props.alert.visible}
             onCloseAlert={this.props.closeAlert}
+            scrollOnShow
             status={this.props.alert.status}/>
-      );
-    }
-
-    return (
-      <div>
-        {alertBox}
         <h1>Prescription Refill</h1>
         <TabNav/>
         {this.props.children}
@@ -31,9 +24,13 @@ class Main extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    alert: state.alert
+  };
 };
 
-export default connect(mapStateToProps, {
-  closeAlert,
-})(Main);
+const mapDispatchToProps = {
+  closeAlert
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
