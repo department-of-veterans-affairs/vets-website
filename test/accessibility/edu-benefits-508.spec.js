@@ -20,6 +20,12 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
 
+    // Benefits selection page.
+    EduHelpers.completeBenefitsSelection(client, EduHelpers.testValues, true);
+    client
+      .axeCheck('.main')
+      .click('.form-progress-buttons .usa-button-primary');
+
     // Benefits relinquishment page.
     EduHelpers.completeBenefitsRelinquishment(client, EduHelpers.testValues, true);
     client
