@@ -6,10 +6,13 @@
     "stage-2",
   ],
   "plugins": [
-    "lodash"
+    "lodash",
   ],
   // Share polyfills between files.
   "env": {
+    "test": {
+      "plugins": [ "istanbul" ]
+    },
     "hot": {
       "plugins": [
         [
