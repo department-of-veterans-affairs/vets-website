@@ -58,18 +58,6 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client
         .expect.element('.usa-alert-body h4').text.to.contain('your attention');
 
-      // decision ready
-      // DisabilityHelpers.initClaimDetailMocks(true, false, false, 8);
-      // client
-      //   .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`);
-      // client
-      //   .click('a.claim-list-item:first-child')
-      //   .waitForElementVisible('body', Timeouts.normal)
-      //   .waitForElementVisible('.claim-title', Timeouts.normal);
-      //
-      // client
-      //   .expect.element('.claims-decision-is-ready').to.be.visible;
-      // files needed
       client.end();
     }
   );
