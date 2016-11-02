@@ -70,7 +70,6 @@ MessageSearch.propTypes = {
   isAdvancedVisible: React.PropTypes.bool.isRequired,
   onAdvancedSearch: React.PropTypes.func.isRequired,
   onError: React.PropTypes.func.isRequired,
-  onErrorClose: React.PropTypes.func.isRequired,
   onFieldChange: React.PropTypes.func.isRequired,
   onDateChange: React.PropTypes.func.isRequired,
   onSubmit: React.PropTypes.func,
