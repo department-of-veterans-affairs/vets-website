@@ -98,7 +98,7 @@ class RequiredLoginView extends React.Component {
             <h1>Sign in to your Vets.gov Account</h1>
             <p>Vets.gov is a new website from the VA offering online services for Veterans</p>
             <p>We must meet increased security standards to keep your information secure. To safely verify your identity to these standards, we are using <strong>ID.me</strong>, at third-party service.</p>
-            <p>When you create an account on vets.gov, you will need to verifty your identity through <strong>ID.me</strong> in order for the VA to identify you and locate your records.</p>
+            <p>When you create an account on vets.gov, you will need to verify your identity through <strong>ID.me</strong> in order for the VA to identify you and locate your records.</p>
             <p>
               <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Sign In</strong></button>
               <button className="usa-button-big" onClick={this.handleLogin}><strong>Create an account</strong></button>
@@ -112,7 +112,7 @@ class RequiredLoginView extends React.Component {
     const verifyComponent = (
       <div className="row primary">
         <div className="medium-12 small-12 columns">
-          <div className="react-conatiner">
+          <div className="react-container">
             <h1>Verify your Vets.gov Account</h1>
             <p>You need to verify your identity to access this part of Vets.gov</p>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
