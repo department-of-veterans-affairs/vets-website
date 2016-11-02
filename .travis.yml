@@ -23,7 +23,7 @@ cache:
   - node_modules
 
 jdk:
-  - oraclejdk7
+  - oraclejdk8
 
 script:
   - ./script/travis-build.sh
