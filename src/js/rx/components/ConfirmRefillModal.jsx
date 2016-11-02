@@ -49,7 +49,7 @@ class ConfirmRefillModal extends React.Component {
                   Facility name: {this.props.facilityName}
                 </div>
                 <div className="rx-modal-lastrefilled">
-                  Last requested date: {formatDate(this.props.refillSubmitDate)}
+                  Last submit date: {formatDate(this.props.refillSubmitDate)}
                 </div>
                 <div className="va-modal-button-group cf">
                   <button type="submit" value={this.props.prescriptionId}>Order refill</button>

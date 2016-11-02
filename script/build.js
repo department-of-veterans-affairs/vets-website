@@ -119,7 +119,6 @@ if (options.buildtype === 'production') {
   ignoreList.push('education/index-new');
 } else if (options.buildtype === 'staging') {
   ignoreList.push('facilities/*');
-  ignoreList.push('profile/*');
 }
 
 smith.use(ignore(ignoreList));
