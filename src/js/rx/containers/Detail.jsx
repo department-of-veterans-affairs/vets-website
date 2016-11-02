@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import AlertBox from '../../common/components/AlertBox';
 import { closeAlert } from '../actions/alert.js';
-import { openGlossaryModal, openRefillModal } from '../actions/modal';
+import { openGlossaryModal, openRefillModal } from '../actions/modals';
 import { loadPrescription } from '../actions/prescriptions';
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';

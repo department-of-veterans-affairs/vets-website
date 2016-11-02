@@ -9,7 +9,7 @@ import {
 import {
   openGlossaryModal,
   openRefillModal
-} from '../actions/modal';
+} from '../actions/modals';
 
 import PrescriptionList from '../components/PrescriptionList';
 import SortMenu from '../components/SortMenu';
@@ -85,9 +85,6 @@ Active.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    alert: state.alert,
-    disclaimer: state.disclaimer,
-    modal: state.modal,
     prescriptions: state.prescriptions
   };
 };
