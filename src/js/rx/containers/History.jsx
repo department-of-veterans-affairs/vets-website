@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import SortableTable from '../../common/components/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
-import { openGlossaryModal } from '../actions/modal';
+import { openGlossaryModal } from '../actions/modals';
 import Pagination from '../../common/components/Pagination';
 import SortMenu from '../components/SortMenu';
 import { glossary, rxStatuses } from '../config.js';
@@ -132,6 +132,7 @@ class History extends React.Component {
 
     return (
       <div id="rx-history" className="va-tab-content">
+        <p className="rx-tab-explainer">Your VA prescription refill history.</p>
         {content}
       </div>
     );

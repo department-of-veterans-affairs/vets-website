@@ -5,7 +5,7 @@ import {
   loadPrescriptions,
   sortPrescriptions
 } from '../actions/prescriptions';
-import { openRefillModal } from '../actions/modal';
+import { openRefillModal } from '../actions/modals';
 
 
 import PrescriptionList from '../components/PrescriptionList';
@@ -68,6 +68,7 @@ class Active extends React.Component {
 
     return (
       <div className="va-tab-content">
+        <p className="rx-tab-explainer">Your active VA prescriptions.</p>
         {content}
       </div>
     );
@@ -80,9 +81,6 @@ Active.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    alert: state.alert,
-    disclaimer: state.disclaimer,
-    modal: state.modal,
     prescriptions: state.prescriptions
   };
 };
