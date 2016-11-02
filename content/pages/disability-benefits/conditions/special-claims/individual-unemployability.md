@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Being Unable to Work (Individual Unemployability)
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-individual_unemployability.asp
-plainlanguage: 11-1-16 Ready for Beth review
+plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
