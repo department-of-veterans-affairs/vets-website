@@ -16,7 +16,7 @@ class RequiredLoginView extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.setUserLevel = this.setUserLevel.bind(this);
     this.setInitialLevel = this.setInitialLevel.bind(this);
-    this.content = this.content.bind(this);
+
     this.handleVerify = handleVerify;
     this.state = {
       accountType: 0,
