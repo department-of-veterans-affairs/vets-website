@@ -31,6 +31,7 @@ class GlossaryList extends React.Component {
 }
 
 GlossaryList.propTypes = {
+  title: React.PropTypes.string,
   terms: React.PropTypes.arrayOf(React.PropTypes.shape({
     term: React.PropTypes.string.isRequired,
     definition: React.PropTypes.string.isRequired
