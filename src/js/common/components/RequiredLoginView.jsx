@@ -16,6 +16,7 @@ class RequiredLoginView extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.setUserLevel = this.setUserLevel.bind(this);
     this.setInitialLevel = this.setInitialLevel.bind(this);
+    this.content = this.content.bind(this);
     this.handleVerify = handleVerify;
     this.state = {
       accountType: 0,
@@ -142,8 +143,12 @@ class RequiredLoginView extends React.Component {
             // If you have the required service show the application view.
             view = this.props.children;
           } else {
-            // TODO(kudos): If you do not have the require service show the "we don't have your data view'"
-            view = <SystemDownView messageLine1="We're sorry we don't have any data for you."/>;
+            // If you do not have the required service in your `services` array then we will show the component but pass a prop to let them know that you don't have any data.
+            view = React.Children.map(this.props.children,
+              (child) => React.cloneElement(child, {
+                isDataAvailable: this.state.isServiceAvailableForUse
+              })
+            );
           }
         }
       } else if (this.state.accountType === 1) {
