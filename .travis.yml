@@ -16,14 +16,12 @@ notifications:
 before_install:
   - npm install -g npm@3.8.9
   - npm --version
+  - sudo apt-get install oracle-java8-set-default 
 
 cache:
   apt: true
   directories:
   - node_modules
-
-jdk:
-  - oraclejdk8
 
 script:
   - ./script/travis-build.sh
@@ -34,7 +32,6 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-    - oracle-java8-set-default 
 
 before_deploy:
   - npm install -g s3-cli
