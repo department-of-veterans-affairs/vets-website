@@ -9,4 +9,4 @@ src/hca-migrate/*
 src/rx-migrate/*
 schema/*
 coverage/*
-nyc_output/*
+.nyc_output/*
