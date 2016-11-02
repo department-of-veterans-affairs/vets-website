@@ -84,14 +84,6 @@ export class Folder extends React.Component {
       (query['filter[[subject][match]]'] !==
       _.get(this.props.filter, 'subject.match'));
 
-    console.log('idChanged', idChanged);
-    console.log('pageChanged', pageChanged);
-    console.log('sortChanged', sortChanged);
-    console.log('fromDateSearchChanged', fromDateSearchChanged);
-    console.log('toDateSearchChanged', toDateSearchChanged);
-    console.log('senderSearchChanged', senderSearchChanged);
-    console.log('subjectSearchChange', subjectSearchChanged);
-
     const shouldUpdate =
       idChanged ||
       pageChanged ||
