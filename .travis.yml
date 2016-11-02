@@ -22,6 +22,9 @@ cache:
   directories:
   - node_modules
 
+jdk:
+  - oraclejdk7
+
 script:
   - ./script/travis-build.sh
 
