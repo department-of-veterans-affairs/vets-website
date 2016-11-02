@@ -143,6 +143,7 @@ class RequiredLoginView extends React.Component {
             view = this.props.children;
           } else {
             // TODO(kudos): If you do not have the require service show the "we don't have your data view'"
+            view = <SystemDownView messageLine1="We're sorry we don't have any data for you."/>;
           }
         }
       } else if (this.state.accountType === 1) {

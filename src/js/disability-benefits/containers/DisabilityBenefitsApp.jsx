@@ -23,7 +23,7 @@ class DisabilityBenefitsApp extends React.Component {
     );
 
     return (
-      <RequiredLoginView authRequired={3}>
+      <RequiredLoginView authRequired={3} serviceRequired={"disability-benefits"}>
         {view}
       </RequiredLoginView>
     );
