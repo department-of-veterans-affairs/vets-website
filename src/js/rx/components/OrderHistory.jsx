@@ -18,6 +18,7 @@ class OrderHistory extends React.Component {
         </td>
         <td>
           <TrackPackageLink
+              className="rx-history-tracking"
               external
               text={attrs.trackingNumber}
               url={item.links.trackingUrl}/>

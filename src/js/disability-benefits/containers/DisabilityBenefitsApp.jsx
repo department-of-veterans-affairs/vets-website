@@ -23,7 +23,9 @@ class DisabilityBenefitsApp extends React.Component {
     );
 
     return (
-      <RequiredLoginView authRequired={3} component={view}/>
+      <RequiredLoginView authRequired={3}>
+        {view}
+      </RequiredLoginView>
     );
   }
 
