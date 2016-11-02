@@ -13,6 +13,9 @@
       &:before {
         background: $color-green;
         content: "\2714\fe0e";
+        @media (max-width: $small-screen) {
+          content: "\2713\fe0e";
+        }
       }
     }
     &.section-current {
