@@ -15,6 +15,7 @@
     "test:e2e": "./script/run-nightwatch.sh",
     "test:accessibility": "./script/run-nightwatch.sh --env accessibility",
     "test:unit": "mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
+    "test:coverage": "NODE_ENV=test nyc --all --reporter=text --reporter=html mocha --recursive 'test/**/*.unit.spec.js?(x)' ",
     "test:unit:msg": "mocha --recursive 'test/messaging/**/*.unit.spec.js?(x)' ",
     "test:unit:rx": "mocha --recursive 'test/rx/**/*.unit.spec.js?(x)' ",
     "test:unit:login": "mocha --recursive 'test/login/**/*.unit.spec.js?(x)' ",
@@ -28,6 +29,11 @@
   "bugs": {
     "url": "https://github.com/department-of-veterans-affairs/vets-website/issues"
   },
+  "nyc": {
+    "sourceMap": false,
+    "instrument": false,
+    "include": ["src/**"]
+  },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "devDependencies": {
     "ajv": "^4.7.1",
@@ -36,6 +42,7 @@
     "babel-core": "^6.11.4",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.2.4",
+    "babel-plugin-istanbul": "^2.0.3",
     "babel-plugin-lodash": "^3.2.8",
     "babel-plugin-react-transform": "^2.0.2",
     "babel-polyfill": "^6.13.0",
@@ -113,6 +120,7 @@
     "node-fetch": "https://registry.npmjs.org/node-fetch/-/node-fetch-1.5.3.tgz",
     "node-sass": "^3.10.1",
     "null-loader": "^0.1.1",
+    "nyc": "^8.3.2",
     "phantomjs-prebuilt": "^2.1.4",
     "polyfill-function-prototype-bind": "0.0.1",
     "quick_check": "^0.7.0",
