@@ -245,8 +245,7 @@ export class Folder extends React.Component {
             onError={this.props.openAlert}
             onErrorClose={this.props.closeAlert}
             onFieldChange={this.props.setSearchParam}
-            onSubmit={this.handleSearch}
-            params={this.props.searchParams}/>
+            onSubmit={this.handleSearch}/>
         <div id="messaging-folder-controls">
           <ComposeButton/>
           {messageNav}
