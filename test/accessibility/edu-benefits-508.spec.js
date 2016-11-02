@@ -68,14 +68,14 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
 
-    // Contact information page.
-    EduHelpers.completeContactInformation(client, EduHelpers.testValues, true);
+    // School selection Page.
+    EduHelpers.completeSchoolSelection(client, EduHelpers.testValues, true);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
 
-    // School selection Page.
-    EduHelpers.completeSchoolSelection(client, EduHelpers.testValues, true);
+    // Contact information page.
+    EduHelpers.completeContactInformation(client, EduHelpers.testValues, true);
     client
       .axeCheck('.main')
       .click('.form-progress-buttons .usa-button-primary');
@@ -103,4 +103,3 @@ module.exports = E2eHelpers.createE2eTest(
 
     client.end();
   });
-
