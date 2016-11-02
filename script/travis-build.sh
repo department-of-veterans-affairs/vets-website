@@ -31,9 +31,6 @@ echo "TRAVIS_BRANCH=$TRAVIS_BRANCH" >> $BUILD_DETAILS_FILE
 # Run unit tests
 npm run test:unit;
 
-# Bootstrap selenium for all nightwatch-based tests
-npm run selenium:bootstrap;
-
 # Run end to end tests
 npm run test:e2e;
 
