@@ -29,7 +29,7 @@ function overrideVetsGovApi(client) {
 }
 
 module.exports = {
-  baseUrl: 'http://localhost:3001',
+  baseUrl: 'http://localhost:3333',
   apiUrl: 'http://localhost:4000',
   createE2eTest,
   expectNavigateAwayFrom,
