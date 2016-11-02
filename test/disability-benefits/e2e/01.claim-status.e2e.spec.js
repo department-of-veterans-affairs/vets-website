@@ -42,6 +42,18 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client
         .expect.element('.four.step.section-complete').to.be.present;
 
+      // timeline expand
+      client
+        .click('li.step.one')
+        .waitForElementVisible('li.step.one .claims-evidence', Timeouts.normal);
+      client
+        .expect.element('.claims-evidence:nth-child(3) .claims-evidence-item').text.equals('Your claim is complete');
+      client
+        .expect.element('button.older-updates').to.be.present;
+      client
+        .click('li.step.one')
+        .waitForElementNotPresent('li.step.one .claims-evidence', Timeouts.normal);
+
       // files needed
       client
         .expect.element('.usa-alert-body h4').text.to.contain('your attention');
