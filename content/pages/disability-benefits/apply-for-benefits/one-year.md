@@ -22,16 +22,16 @@ relatedlinks:
     description: ""
 ---
 
-Have you had signs of an illness like hypertension (high blood pressure), arthritis (joint pain), diabetes (high blood sugar levels), or peptic ulcers (painful sores—also called ulcers—in your stomach or small intestine) that started within a year of ending your active military service? If yes, you may be able to get VA support (known as disability compensation or benefits).
+Have you had signs of an illness like hypertension (high blood pressure), arthritis (joint pain), diabetes (high blood sugar levels), or peptic ulcers (painful sores—also called ulcers—in your stomach or small intestine) that started within a year after being discharged from active military service? If yes, you may be able to get VA support (known as disability compensation or benefits).
 
-If your symptoms appear within 1 year of separation—even if they weren't there while you were serving—we'll conclude that they're related to your service. [See the complete list of covered illnesses](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
+If your symptoms appear within 1 year after discharge—even if they weren't there while you were serving—we'll conclude that they're related to your service. [See the complete list of covered illnesses](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
 
 <div class="call-out" markdown="1">
 
 ### Can I get disability compensation from VA?
 Yes, if:
 
-  -	You have an illness that is at least 10% disabling (a rating that measures how severe your disability is) within 1 year of ending your active military service, and
+  -	You have an illness that is at least 10% disabling (a rating that measures how severe your disability is) within 1 year after discharge, and
   -	The illness is listed in Title 38, Code of Federal Regulation, 3.09(a), and
   -	You were not dishonorably discharged from the military
 
@@ -50,14 +50,14 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. When you apply, you'll need to show that your illness is at least 10% disabling. For example, you may include a doctor's report showing that you're taking medicine for your high blood pressure. You'll also need to show that the illness appeared within 1 year of when you left active military service.
+You'll need to apply for benefits. When you apply, you'll need to show that your illness is at least 10% disabling. For example, you may include a doctor's report showing that you're taking medicine for your high blood pressure. You'll also need to show that the illness appeared within 1 year after being discharged from active service.
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
 **Exception:**<br>
-The requirement that the illness must have appeared within 1 year of ending your active service does not apply to the following:
+The requirement that the illness must have appeared within 1 year after discharge does not apply to the following:
 
--	Hansen&#8217;s disease (a long-lasting infection that affects your skin, nerves, and mucous membranes): can appear within 3 years after separation
--	Tuberculosis (an infection that attacks your lungs and sometimes other areas of your body): can appear within 3 years after separation
--	Multiple sclerosis (a long-lasting illness of the central nervous system that disrupts the messages between your brain and body and can cause numbness, weakness, and many other symptoms): can appear within 7 years after separation
--	Amyotrophic lateral sclerosis (ALS), also known as Lou Gehrig’s Disease (a long-lasting illness of the nervous system that attacks the nerve cells that control your muscles): can appear any time after separation
+-	Hansen&#8217;s disease (a long-lasting infection that affects your skin, nerves, and mucous membranes): can appear within 3 years after discharge
+-	Tuberculosis (an infection that attacks your lungs and sometimes other areas of your body): can appear within 3 years after discharge
+-	Multiple sclerosis (a long-lasting illness of the central nervous system that disrupts the messages between your brain and body and can cause numbness, weakness, and many other symptoms): can appear within 7 years after discharge
+-	Amyotrophic lateral sclerosis (ALS), also known as Lou Gehrig’s Disease (a long-lasting illness of the nervous system that attacks the nerve cells that control your muscles): can appear any time after discharge
