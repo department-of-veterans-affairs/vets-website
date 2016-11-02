@@ -1,7 +1,7 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { Link } from 'react-router';
 
-class AskVAToDecide extends React.Component {
+export default class AskVAToDecide extends React.Component {
   render() {
     return (
       <div className="usa-alert usa-alert-info claims-no-icon claims-alert-status">
@@ -9,11 +9,11 @@ class AskVAToDecide extends React.Component {
         <p>
           You can ask VA to start evaluating your claim if you don't have any more documents or evidence to file.
         </p>
-        <button
-            className="va-button-secondary request-decision-button"
-            onClick={() => this.props.router.push(`/your-claims/${this.props.id}/ask-va-to-decide`)}>
+        <Link
+            className="usa-button"
+            to={`/your-claims/${this.props.id}/ask-va-to-decide`}>
           View Details
-        </button>
+        </Link>
       </div>
     );
   }
@@ -23,4 +23,3 @@ AskVAToDecide.propTypes = {
   id: React.PropTypes.string.isRequired
 };
 
-export default withRouter(AskVAToDecide);
