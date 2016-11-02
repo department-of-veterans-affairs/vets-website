@@ -80,9 +80,6 @@ Active.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    alert: state.alert,
-    disclaimer: state.disclaimer,
-    modal: state.modal,
     prescriptions: state.prescriptions
   };
 };
