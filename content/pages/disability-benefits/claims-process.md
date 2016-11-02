@@ -1,6 +1,7 @@
 ---
 title: The Disability Claims Process
 layout: page-breadcrumbs.html
+plainlanguage: 11-2-16 Ready for Beth review
 template: L2-section-landing
 relatedlinks:
   - url: /disability-benefits/claims-process/ratings/
