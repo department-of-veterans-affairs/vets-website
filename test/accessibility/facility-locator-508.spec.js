@@ -10,6 +10,14 @@ module.exports = E2eHelpers.createE2eTest(
       .axeCheck('.main');
 
     client
+    .clearValue('input[name="streetCityStateZip"]')
+    .setValue('input[name="streetCityStateZip"]', 'Seattle, WA');
+
+    client
+      .axeCheck('.main')
+      .click('input[type="submit"]');
+
+    client
       .axeCheck('.main');
 
     client.end();
