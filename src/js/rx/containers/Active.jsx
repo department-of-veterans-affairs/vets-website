@@ -5,7 +5,7 @@ import {
   loadPrescriptions,
   sortPrescriptions
 } from '../actions/prescriptions';
-import { openRefillModal } from '../actions/modal';
+import { openRefillModal } from '../actions/modals';
 
 
 import PrescriptionList from '../components/PrescriptionList';
@@ -81,9 +81,6 @@ Active.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    alert: state.alert,
-    disclaimer: state.disclaimer,
-    modal: state.modal,
     prescriptions: state.prescriptions
   };
 };
