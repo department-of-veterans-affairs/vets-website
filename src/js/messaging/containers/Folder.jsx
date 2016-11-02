@@ -243,7 +243,8 @@ export class Folder extends React.Component {
             onDateChange={this.props.setDateRange}
             onError={this.props.openAlert}
             onFieldChange={this.props.setSearchParam}
-            onSubmit={this.handleSearch}/>
+            onSubmit={this.handleSearch}
+            params={this.props.searchParams}/>
         <div id="messaging-folder-controls">
           <ComposeButton/>
           {messageNav}
