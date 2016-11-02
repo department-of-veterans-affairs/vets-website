@@ -7,7 +7,6 @@ import classNames from 'classnames';
 import SortableTable from '../../common/components/SortableTable';
 
 import {
-  closeAlert,
   fetchFolder,
   openAlert,
   sendSearch,
@@ -286,7 +285,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  closeAlert,
   fetchFolder,
   openAlert,
   sendSearch,
