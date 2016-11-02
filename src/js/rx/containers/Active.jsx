@@ -1,21 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loadPrescriptions } from '../actions/prescriptions';
+import {
+  loadPrescriptions,
+  sortPrescriptions
+} from '../actions/prescriptions';
+import { openRefillModal } from '../actions/modal';
+
+
 import PrescriptionList from '../components/PrescriptionList';
 import SortMenu from '../components/SortMenu';
-import { sortOptions } from '../config.js';
+import { sortOptions } from '../config';
 
 class Active extends React.Component {
-  componentWillMount() {
-    this.props.dispatch(loadPrescriptions({ active: true }));
+  constructor(props) {
+    super(props);
     this.handleSortOnChange = this.handleSortOnChange.bind(this);
     this.handleSortOnClick = this.handleSortOnClick.bind(this);
-    this.dispatchSortAction = this.dispatchSortAction.bind(this);
   }
 
-  dispatchSortAction(action) {
-    this.props.dispatch({ type: action });
+  componentDidMount() {
+    this.props.loadPrescriptions({ active: true });
   }
 
   handleSortOnChange(domEvent) {
@@ -25,7 +30,7 @@ class Active extends React.Component {
         query: { sort: domEvent.target.value }
       });
     }
-    this.dispatchSortAction(domEvent.target.value);
+    this.props.sortPrescriptions(domEvent.target.value);
   }
 
   handleSortOnClick(domEvent) {
@@ -33,7 +38,7 @@ class Active extends React.Component {
 
     // Find the sort parameter, split the query string on the = and retrieve value
     const sortParam = fullURL.match(/sort=[-a-z]{1,}/i)[0].split('=')[1];
-    this.dispatchSortAction(sortParam);
+    this.props.sortPrescriptions(sortParam);
   }
 
   render() {
@@ -55,7 +60,8 @@ class Active extends React.Component {
           <PrescriptionList
               items={this.props.prescriptions.items}
               // If we're sorting by facility, tell PrescriptionList to group 'em.
-              grouped={sortValue === 'facilityName'}/>
+              grouped={sortValue === 'facilityName'}
+              modalHandler={this.props.openRefillModal}/>
         </div>
       );
     }
@@ -72,9 +78,20 @@ Active.contextTypes = {
   router: React.PropTypes.object.isRequired
 };
 
-// TODO: fill this out
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    alert: state.alert,
+    disclaimer: state.disclaimer,
+    modal: state.modal,
+    prescriptions: state.prescriptions
+  };
 };
 
-export default connect(mapStateToProps)(Active);
+const mapDispatchToProps = {
+  openRefillModal,
+  loadPrescriptions,
+  sortPrescriptions
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Active);

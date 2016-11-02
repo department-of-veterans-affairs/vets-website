@@ -14,6 +14,7 @@ class SignInProfileButton extends React.Component {
     localStorage.removeItem('userToken');
     this.props.onUpdateLoggedInStatus(false);
     this.props.onClearUserData();
+    location.reload();
   }
 
   render() {
