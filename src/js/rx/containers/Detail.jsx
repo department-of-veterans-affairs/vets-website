@@ -87,7 +87,7 @@ export class Detail extends React.Component {
       'prescriptionName'
     ]);
 
-    return <h2 className="rx-heading">{prescriptionName}</h2>;
+    return <h2>{prescriptionName}</h2>;
   }
 
   makeInfo() {
@@ -148,7 +148,7 @@ export class Detail extends React.Component {
     if (trackings && trackings.length) {
       orderHistoryTable = (
         <OrderHistory
-            className="usa-table-borderless va-table-list rx-table rx-table-list"
+            className="usa-table-borderless va-table-list rx-table rx-table-list rx-detail-history"
             items={trackings}/>
       );
     }
@@ -157,7 +157,7 @@ export class Detail extends React.Component {
       <ScrollElement
           id="rx-order-history"
           name="orderHistory">
-        <h3 className="rx-heading va-h-ruled">Order History</h3>
+        <h3>Order History</h3>
         <p>* Tracking information for each order expires 30 days after shipment.</p>
         {orderHistoryTable}
       </ScrollElement>
