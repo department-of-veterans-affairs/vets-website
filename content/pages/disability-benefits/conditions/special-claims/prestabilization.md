@@ -3,7 +3,7 @@ layout: page-breadcrumbs.html
 title: Temporary, Immediate Disability Needs (Prestabilization)
 concurrence: complete
 source: http://www.benefits.va.gov/COMPENSATION/claims-special-hospital_treatment.asp
-plainlanguage: 11-1-16 Ready for Beth review
+plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
@@ -16,7 +16,7 @@ If you qualify for this support, you will get a special disability rating known 
 ### Can I get disability compensation from VA?
 Yes, if:
 - You've recently ended your active military service, and
-- You have a severe service-connected disability that is unstable (meaning an illness or injury that is changing in nature or hasn't yet been fully treated)
+- You have a severe service-connected disability that is unstable (meaning an illness or injury that is changing in nature or hasn't yet been fully treated), and
 - Your disability is expected to continue for an unknown amount of time
 
 ### Who's covered?
@@ -35,4 +35,4 @@ You'll need to apply for benefits. When you apply, you'll need to show that you 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
 **Example**<br>
-While in active service, a Servicemember was diagnosed with Hodgkin’s disease and began chemotherapy that continued during and after her medical discharge process. She continued to get treatment through her local VA medical center and was given a prestabilization rating of 100% for 1 year from her date of discharge.
+While in active service, a Servicemember was diagnosed with Hodgkin’s disease and began chemotherapy that continued during and after her medical discharge process. She continued to get treatment through her local VA medical center, and we gave her a prestabilization rating of 100% for 1 year from her date of discharge.
