@@ -221,6 +221,7 @@ export class Folder extends React.Component {
   }
 
   render() {
+    console.log(this.props);
     const folderId = _.get(this.props.attributes, 'folderId', 0);
     const folderName = _.get(this.props.attributes, 'name');
     const messageNav = this.makeMessageNav();
@@ -240,7 +241,6 @@ export class Folder extends React.Component {
         <MessageSearch
             folder={+folderId}
             isAdvancedVisible={this.props.isAdvancedVisible}
-            isErrorVisible={this.props.error.visible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}
             onError={this.props.openAlert}
@@ -275,7 +275,6 @@ const mapStateToProps = (state) => {
   const endCount = Math.min(totalCount, page * perPage);
 
   return {
-    error: state.alert,
     attributes,
     currentRange: `${startCount} - ${endCount}`,
     messageCount: totalCount,
