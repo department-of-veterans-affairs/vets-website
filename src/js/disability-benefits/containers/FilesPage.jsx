@@ -29,7 +29,6 @@ class FilesPage extends React.Component {
 
     let content = null;
     if (!loading) {
-      debugger;
       const trackedItems = claim.attributes.eventsTimeline.filter(event => event.type.endsWith('_list'));
       const filesNeeded = trackedItems
         .filter(event => event.status === NEED_ITEMS_STATUS && event.type === 'still_need_from_you_list');
