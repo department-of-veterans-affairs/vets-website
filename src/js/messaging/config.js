@@ -13,9 +13,9 @@ function getHeaders(optionalHeaders = {}) {
 }
 
 function getApiUrl() {
-  let url = '/api';
+  let url;
 
-  if (environment && environment.BASE_URL !== 'http://localhost:3001') {
+  if (environment) {
     url = environment.API_URL;
   }
 
