@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="28px" height="41px" viewBox="0 0 28 41" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.2 (33826) - http://www.bohemiancoding.com/sketch -->
+    <title>You (shadow)</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+        <path d="M0.0653030303,9.81698824 C0.0653030303,11.9534235 0.784242424,13.9782118 2.05681818,15.665 L9.58166667,25.6730118 C9.74742424,25.8981412 10.134697,25.9541176 10.3560606,25.7855765 C10.4115152,25.7291412 10.4115152,25.7291412 10.4663636,25.6730118 L17.9912121,15.665 C19.2637879,13.9782118 19.9827273,11.9534235 19.9827273,9.81698824 C19.9827273,4.41938824 15.5010606,0.0336470588 10.0243939,0.0336470588 C4.5469697,0.0336470588 0.0653030303,4.41938824 0.0653030303,9.81698824 L0.0653030303,9.81698824 Z" id="path-2"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="You-(shadow)">
+            <g id="Group-3" filter="url(#filter-1)" transform="translate(4.000000, 8.000000)">
+                <mask id="mask-3" fill="white">
+                    <use xlink:href="#path-2"></use>
+                </mask>
+                <g id="Clip-2"></g>
+                <polygon id="Fill-1" fill="#323A45" mask="url(#mask-3)" points="-6.09954545 32.8309647 26.1478788 32.8309647 26.1478788 -6.91416471 -6.09954545 -6.91416471"></polygon>
+            </g>
+            <path d="M13.9999687,22.6852011 L10.8977797,24.3161183 C10.4090883,24.5730386 10.0887209,24.3393932 10.1819177,23.7960141 L10.7743831,20.3416759 L8.2646595,17.8953 C7.86929984,17.5099196 7.99251087,17.1330317 8.53809445,17.0537538 L12.0064472,16.5497726 L13.5575417,13.4069119 C13.8018874,12.9118134 14.1984034,12.9125293 14.4423958,13.4069119 L15.9934903,16.5497726 L19.461843,17.0537538 C20.0082166,17.1331465 20.1300659,17.5104769 19.735278,17.8953 L17.2255543,20.3416759 L17.8180197,23.7960141 C17.9113515,24.34018 17.5901425,24.5726671 17.1021577,24.3161183 L13.9999687,22.6852011 Z" id="Star" fill="#FFFFFF"></path>
+        </g>
+    </g>
+</svg>

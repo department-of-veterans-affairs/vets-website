@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import moment from 'moment';
+import { makeField } from '../../../src/js/common/model/fields';
 
 import searchReducer from '../../../src/js/messaging/reducers/search';
 
@@ -10,15 +11,23 @@ import {
 } from '../../../src/js/messaging/utils/constants';
 
 const initialState = {
-  basic: null,
-  advanced: {
-    visible: false,
-    params: {
-      dateRange: {
-        start: null,
-        end: null
-      }
+  params: {
+    dateRange: {
+      start: null,
+      end: null
+    },
+    term: makeField(''),
+    from: {
+      field: makeField(''),
+      exact: false
+    },
+    subject: {
+      field: makeField(''),
+      exact: false
     }
+  },
+  advanced: {
+    visible: false
   }
 };
 
@@ -30,7 +39,7 @@ describe('search reducer', () => {
       date: today
     });
 
-    expect(newState.advanced.params.dateRange.end.toString())
+    expect(newState.params.dateRange.end.toString())
       .to.eql(today.toString());
 
     const weekAgo = today.clone().subtract(1, 'weeks');
@@ -39,7 +48,7 @@ describe('search reducer', () => {
       date: weekAgo
     });
 
-    expect(newState.advanced.params.dateRange.end.toString())
+    expect(newState.params.dateRange.end.toString())
       .to.eql(weekAgo.toString());
   });
 
@@ -50,7 +59,7 @@ describe('search reducer', () => {
       date: today
     });
 
-    expect(newState.advanced.params.dateRange.start.toString())
+    expect(newState.params.dateRange.start.toString())
       .to.eql(today.toString());
 
     const weekAgo = today.clone().subtract(1, 'weeks');
@@ -59,7 +68,7 @@ describe('search reducer', () => {
       date: weekAgo
     });
 
-    expect(newState.advanced.params.dateRange.start.toString())
+    expect(newState.params.dateRange.start.toString())
       .to.eql(weekAgo.toString());
   });
 

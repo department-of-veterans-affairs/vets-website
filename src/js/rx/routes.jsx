@@ -7,7 +7,7 @@ import GlossaryPage from './components/GlossaryPage';
 
 
 const routes = {
-  path: '/rx',
+  path: '/',
   component: RxRefillsApp,
   childRoutes: [
     {
@@ -17,8 +17,8 @@ const routes = {
         { path: 'history', component: History },
       ]
     },
-    { path: 'prescription/:id', component: Detail },
-    { path: 'glossary', component: GlossaryPage }
+    { path: 'glossary', component: GlossaryPage },
+    { path: ':id', component: Detail }
   ]
 };
 

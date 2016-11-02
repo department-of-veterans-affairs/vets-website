@@ -3,20 +3,16 @@ import { connect } from 'react-redux';
 
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
-import FeaturesWarning from '../components/FeaturesWarning';
+import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 class DisabilityBenefitsApp extends React.Component {
 
   render() {
     const { available, synced, syncedDate } = this.props;
-    const isListPage = this.props.location.pathname === '/your-claims';
-    return (
+    const view = (
       <div>
         {available && !synced
           ? <ClaimSyncWarning syncedDate={syncedDate}/>
-          : null}
-        {available && synced && isListPage
-          ? <FeaturesWarning/>
           : null}
         {available
           ? <div>
@@ -24,6 +20,12 @@ class DisabilityBenefitsApp extends React.Component {
           </div>
           : <div className="row"><div className="columns medium-8"><ClaimsUnavailable/></div></div>}
       </div>
+    );
+
+    return (
+      <RequiredLoginView authRequired={3}>
+        {view}
+      </RequiredLoginView>
     );
   }
 
@@ -38,3 +40,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(DisabilityBenefitsApp);
+
+export { DisabilityBenefitsApp };

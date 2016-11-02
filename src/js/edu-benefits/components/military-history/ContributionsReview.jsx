@@ -1,7 +1,7 @@
 import React from 'react';
 import { displayDateIfValid } from '../../utils/helpers.js';
 
-export default class BenefitsHistoryReview extends React.Component {
+export default class ContributionsReview extends React.Component {
   render() {
     const { from, to } = this.props.data.activeDutyRepayingPeriod;
     return (
@@ -45,6 +45,6 @@ export default class BenefitsHistoryReview extends React.Component {
   }
 }
 
-BenefitsHistoryReview.propTypes = {
+ContributionsReview.propTypes = {
   data: React.PropTypes.object.isRequired
 };

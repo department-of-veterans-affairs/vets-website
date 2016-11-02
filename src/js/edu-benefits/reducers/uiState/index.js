@@ -35,17 +35,22 @@ const ui = {
       verified: false,
       fields: ['benefitsRelinquished', 'benefitsRelinquishedDate']
     },
+    '/military-history/service-periods': {
+      complete: false,
+      verified: false,
+      fields: ['toursOfDuty']
+    },
     '/military-history/military-service': {
       complete: false,
       verified: false,
-      fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty', 'toursOfDuty']
+      fields: ['serviceAcademyGraduationYear', 'currentlyActiveDuty']
     },
     '/military-history/rotc-history': {
       complete: false,
       verified: false,
       fields: ['seniorRotc', 'seniorRotcScholarshipProgram', 'seniorRotcCommissioned']
     },
-    '/military-history/benefits-history': {
+    '/military-history/contributions': {
       complete: false,
       verified: false,
       fields: ['civilianBenefitsAssistance', 'additionalContributions', 'activeDutyKicker', 'reserveKicker', 'activeDutyRepaying', 'activeDutyRepayingPeriod']

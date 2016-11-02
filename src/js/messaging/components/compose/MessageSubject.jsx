@@ -2,15 +2,6 @@ import React from 'react';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 
 class MessageSubject extends React.Component {
-  constructor() {
-    super();
-    this.handleSubjectChange = this.handleSubjectChange.bind(this);
-  }
-
-  handleSubjectChange(valueObj) {
-    this.props.onValueChange('message.subject', valueObj);
-  }
-
   // TODO: Add errorMessage property to ErrorableTextInput conditionally
   // when the fields are validated.
   render() {
@@ -20,7 +11,7 @@ class MessageSubject extends React.Component {
             charMax={this.props.charMax}
             additionalClass={`${this.props.cssClass}-input`}
             label="Subject"
-            onValueChange={this.handleSubjectChange}
+            onValueChange={this.props.onValueChange}
             required={this.props.required}
             placeholder={this.props.placeholder}
             name="messageSubject"

@@ -38,6 +38,22 @@
   }
 }
 
+.msg-search-simple-wrap {
+  > div {
+    flex: 1 1 100%
+  }
+  label {
+    position: absolute;
+    left: -9999em;
+  }
+  input {
+    &:focus {
+      position: relative;
+      z-index: 1;
+    }
+  }
+}
+
 .msg-search-btn {
   -webkit-flex: 0 1 4rem;
   flex: 0 1 4rem;
