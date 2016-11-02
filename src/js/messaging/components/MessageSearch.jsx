@@ -11,7 +11,6 @@ class MessageSearch extends React.Component {
 
   handleSearchTermChange(field) {
     this.props.onFieldChange('term', field);
-    this.props.onFieldChange('search', true);
   }
 
   handleSubmit(domEvent) {
