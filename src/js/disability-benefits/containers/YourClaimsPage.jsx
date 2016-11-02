@@ -8,8 +8,9 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsListItem from '../components/ClaimsListItem';
 import NoClaims from '../components/NoClaims';
 import Pagination from '../../common/components/Pagination';
-import Loading from '../components/Loading';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
+import FeaturesWarning from '../components/FeaturesWarning';
 
 const scroller = Scroll.animateScroll;
 
@@ -40,7 +41,7 @@ class YourClaimsPage extends React.Component {
     let content;
 
     if (loading) {
-      content = <Loading/>;
+      content = <LoadingIndicator/>;
     } else if (claims.length > 0) {
       content = (<div className="claim-list">
         {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
@@ -51,9 +52,9 @@ class YourClaimsPage extends React.Component {
     }
 
     return (
-      <div>
+      <div className="your-claims">
         <div className="row">
-          <div className="small-12 medium-8 columns your-claims">
+          <div className="small-12 medium-8 columns">
             <div>
               <h1>Your Claims</h1>
             </div>
@@ -71,7 +72,10 @@ class YourClaimsPage extends React.Component {
                 cssClass="claims-upload-modal"
                 contents={<ConsolidatedClaims onClose={() => this.props.showConsolidatedMessage(false)}/>}/>
           </div>
-          <AskVAQuestions/>
+          <div className="small-12 medium-4 columns">
+            <FeaturesWarning/>
+            <AskVAQuestions/>
+          </div>
         </div>
       </div>
     );

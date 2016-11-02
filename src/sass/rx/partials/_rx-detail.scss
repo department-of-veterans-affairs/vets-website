@@ -86,38 +86,38 @@
   };
 }
 
-#rx-order-history {
-  .rx-track-package-link {
-    display: inline-block;
-    margin: 0;
-  }
+.rx-history-tracking {
+  display: inline-block;
+  margin: 0;
+}
 
-  table {
-    margin: 0;
-  }
+.rx-detail-history {
+  margin: 0;
 
   @media (min-width: $medium-screen) {
-    h3 {
-      border-bottom: none;
-    }
-
-    p {
-      margin-top: 0;
-    }
-
     td {
       white-space: nowrap;
+    }
+  }
+  
+  @media (max-width: $medium-screen) {
+    td {
+      &:nth-child(1):before { content: "Order status: "; }
+      &:nth-child(2):before { content: "Tracking status: "; }
+    }
+  }
+}
+
+#rx-order-history {
+  @media (min-width: $medium-screen) {
+    p {
+      margin-top: 0;
     }
   }
 
   @media (max-width: $medium-screen) {
     p {
       margin-bottom: 0;
-    }
-
-    td {
-      &:nth-child(1):before { content: "Order status: "; }
-      &:nth-child(2):before { content: "Tracking status: "; }
     }
   }
 }

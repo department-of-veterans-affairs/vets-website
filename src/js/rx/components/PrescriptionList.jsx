@@ -1,21 +1,24 @@
 import React from 'react';
+import _ from 'lodash';
 
 import Prescription from '../components/Prescription';
 import PrescriptionGroup from '../components/PrescriptionGroup';
-
-import _ from 'lodash';
-
-function makeItem(props, i) {
-  return (
-    <Prescription { ...props } key={i}/>
-  );
-}
 
 class PrescriptionList extends React.Component {
   render() {
     const items = this.props.items;
     let prescriptions;
     let facilities;
+
+    const makeItem = (rx) => {
+      const uniqId = _.uniqueId('rx-');
+      return (
+        <Prescription
+            { ...rx }
+            modalHandler={this.props.modalHandler}
+            key={uniqId}/>
+      );
+    };
 
     // If we need to display the list as a grouping...
     if (this.props.grouped) {
@@ -41,12 +44,14 @@ class PrescriptionList extends React.Component {
       });
 
       // Create prescription groups containing prescriptions
-      prescriptions = facilities.map((value, index) => {
+      prescriptions = facilities.map((value) => {
         const groupChildren = groupByFacility[value].map(makeItem);
+        const uniqId = _.uniqueId('rx-g');
 
         return (<PrescriptionGroup
+            modalHandler={this.props.modalHandler}
             title={value}
-            key={index}
+            key={uniqId}
             items={groupChildren}/>);
       });
     } else {
@@ -63,7 +68,8 @@ class PrescriptionList extends React.Component {
 
 PrescriptionList.propTypes = {
   items: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  grouped: React.PropTypes.bool
+  grouped: React.PropTypes.bool,
+  modalHandler: React.PropTypes.func.isRequired
 };
 
 export default PrescriptionList;
