@@ -136,7 +136,7 @@ class RequiredLoginView extends React.Component {
       if (this.state.accountType === 3) {
         if (this.state.isServiceOffline) {
           // If there is nothing in va_profile, show system down message.
-          view = <SystemDownView messageLine1="We're sorry. The application you are looking for is currently down while we fix a few things. We will be back up as soon as we can."/>;
+          view = <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later."/>;
         } else {
           // If there is something in the va_profile attribute, continue on to check if this user can use this specific service.
           if (this.state.isServiceAvailableForUse) {
