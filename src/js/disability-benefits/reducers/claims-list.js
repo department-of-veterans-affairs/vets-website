@@ -12,6 +12,7 @@ const initialState = {
   consolidatedModal: false
 };
 
+// We want to sort claims without dates below claims with dates
 function phaseChangeDate(claim) {
   return claim.attributes && claim.attributes.phaseChangeDate
     ? claim.attributes.phaseChangeDate
