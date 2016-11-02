@@ -85,7 +85,7 @@ module.exports = {
     providerHold: 'Hold',
     submitted: 'Submitted',
     suspended: 'Suspended',
-    refillinprocess: 'Refill in process',
+    refillinprocess: 'In process',
     unknown: 'Unknown'
   },
 
