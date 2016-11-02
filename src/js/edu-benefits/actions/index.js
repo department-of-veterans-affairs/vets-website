@@ -101,6 +101,9 @@ export function submitForm(data) {
   return dispatch => {
     dispatch(updateCompletedStatus('/review-and-submit'));
     dispatch(updateSubmissionStatus('submitPending'));
+    window.dataLayer.push({
+      event: 'edu-submission',
+    });
     fetch(`${environment.API_URL}/v0/education_benefits_claims`, {
       method: 'POST',
       mode: 'cors',
@@ -116,9 +119,14 @@ export function submitForm(data) {
     })
     .then(res => {
       if (res.ok) {
+        window.dataLayer.push({
+          event: 'edu-submission-successful',
+        });
         return res.json();
       }
-
+      window.dataLayer.push({
+        event: 'edu-submission-failed',
+      });
       return Promise.reject(res.statusText);
     })
     .then(
