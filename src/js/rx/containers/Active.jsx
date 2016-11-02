@@ -5,8 +5,11 @@ import {
   loadPrescriptions,
   sortPrescriptions
 } from '../actions/prescriptions';
-import { openRefillModal } from '../actions/modal';
 
+import {
+  openGlossaryModal,
+  openRefillModal
+} from '../actions/modal';
 
 import PrescriptionList from '../components/PrescriptionList';
 import SortMenu from '../components/SortMenu';
@@ -61,7 +64,8 @@ class Active extends React.Component {
               items={this.props.prescriptions.items}
               // If we're sorting by facility, tell PrescriptionList to group 'em.
               grouped={sortValue === 'facilityName'}
-              modalHandler={this.props.openRefillModal}/>
+              refillModalHandler={this.props.openRefillModal}
+              glossaryModalHandler={this.props.openGlossaryModal}/>
         </div>
       );
     }
@@ -88,6 +92,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  openGlossaryModal,
   openRefillModal,
   loadPrescriptions,
   sortPrescriptions
