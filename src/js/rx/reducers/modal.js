@@ -1,3 +1,5 @@
+import set from 'lodash/fp/set';
+
 const initialState = {
   refill: {
     visible: false,
@@ -9,52 +11,26 @@ const initialState = {
   }
 };
 
-export default function modal(state = initialState, action) {
+export default function modals(state = initialState, action) {
   switch (action.type) {
     case 'OPEN_REFILL_MODAL':
-      return {
-        refill: {
-          visible: true,
-          prescription: action.rx
-        },
-        glossary: {
-          visible: false,
-          content: null
-        }
-      };
+      return set('refill', {
+        visible: true,
+        prescription: action.rx
+      }, initialState);
+
     case 'CLOSE_REFILL_MODAL':
-      return {
-        refill: {
-          visible: false,
-          prescription: null
-        },
-        glossary: {
-          visible: false,
-          content: null
-        }
-      };
+      return initialState;
+
     case 'OPEN_GLOSSARY_MODAL':
-      return {
-        refill: {
-          visible: false,
-          prescription: null
-        },
-        glossary: {
-          visible: true,
-          content: action.content
-        }
-      };
+      return set('glossary', {
+        visible: true,
+        content: action.content
+      }, initialState);
+
     case 'CLOSE_GLOSSARY_MODAL':
-      return {
-        refill: {
-          visible: false,
-          prescription: null
-        },
-        glossary: {
-          visible: false,
-          content: null
-        }
-      };
+      return initialState;
+
     default:
       return state;
   }
