@@ -242,7 +242,6 @@ export class Folder extends React.Component {
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}
             onError={this.props.openAlert}
-            onErrorClose={this.props.closeAlert}
             onFieldChange={this.props.setSearchParam}
             onSubmit={this.handleSearch}/>
         <div id="messaging-folder-controls">
