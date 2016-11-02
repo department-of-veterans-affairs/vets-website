@@ -14,6 +14,13 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('a.claim-list-item', Timeouts.normal)
       .axeCheck('.main');
 
+    client
+      .click('a.claims-combined')
+      .waitForElementVisible('.claims-status-upload-header', Timeouts.normal);
+
+    client
+      .axeCheck('.main');
+
     client.end();
   }
 );
