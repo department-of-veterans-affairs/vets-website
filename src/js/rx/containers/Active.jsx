@@ -58,6 +58,7 @@ class Active extends React.Component {
 
     return (
       <div className="va-tab-content">
+        <p className="rx-tab-explainer">Your active VA prescriptions.</p>
         {content}
       </div>
     );
