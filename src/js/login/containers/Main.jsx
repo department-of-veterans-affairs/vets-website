@@ -3,18 +3,18 @@ import { connect } from 'react-redux';
 import $ from 'jquery';
 
 import environment from '../../common/helpers/environment.js';
+import { getUserData } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogInUrl, updateProfileField } from '../../common/actions';
+import { updateLoggedInStatus, updateLogInUrl } from '../../common/actions';
 import SignInProfileButton from '../components/SignInProfileButton';
 
 // TODO(crew): Redux-ify the state and how it is stored here.
 class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.handleLogin = this.handleLogin.bind(this);
-    this.handleVerify = this.handleVerify.bind(this);
     this.setMyToken = this.setMyToken.bind(this);
-    this.getUserData = this.getUserData.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
+    this.getUserData = getUserData;
   }
 
   componentDidMount() {
@@ -25,7 +25,7 @@ class Main extends React.Component {
       this.props.onUpdateLoggedInStatus(false);
     }
 
-    // TODO: Remove this conditional statement when going to production.
+    // TODO(crew): Remove this conditional statement when going to production.
     if (__BUILDTYPE__ !== 'production') {
       this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
         this.props.onUpdateLoginUrl('first', result.authenticate_via_get);
@@ -36,7 +36,6 @@ class Main extends React.Component {
       });
     }
 
-    // TODO (crew): Change to just listen for localStorage update but currently known bug in Chrome prevents this from firing (https://bugs.chromium.org/p/chromium/issues/detail?id=136356).
     window.addEventListener('message', this.setMyToken);
   }
 
@@ -50,37 +49,8 @@ class Main extends React.Component {
     }
   }
 
-  getUserData() {
-    fetch(`${environment.API_URL}/v0/user`, {
-      method: 'GET',
-      headers: new Headers({
-        Authorization: `Token token=${localStorage.userToken}`
-      })
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      // console.log(json);
-      const userData = json.data.attributes.profile;
-      this.props.onUpdateProfile('accountType', userData.loa.current);
-      this.props.onUpdateProfile('email', userData.email);
-      this.props.onUpdateProfile('userFullName.first', userData.first_name);
-      this.props.onUpdateProfile('userFullName.middle', userData.middle_name);
-      this.props.onUpdateProfile('userFullName.last', userData.last_name);
-      // this.props.onUpdateProfile('userFullName.suffix', userData.first_name);
-      this.props.onUpdateProfile('gender', userData.gender);
-      this.props.onUpdateProfile('dob', userData.birth_date);
-      this.props.onUpdateLoggedInStatus(true);
-    });
-  }
-
   handleLogin() {
     const myLoginUrl = this.props.login.loginUrl.first;
-    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
-    receiver.focus();
-  }
-
-  handleVerify() {
-    const myLoginUrl = this.props.login.loginUrl.third;
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
@@ -114,9 +84,6 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
-    },
-    onUpdateProfile: (field, update) => {
-      dispatch(updateProfileField(field, update));
     }
   };
 };
