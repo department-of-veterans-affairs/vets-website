@@ -34,7 +34,7 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-    - oracle-java8-installer
+    - oracle-java8-set-default 
 
 before_deploy:
   - npm install -g s3-cli
