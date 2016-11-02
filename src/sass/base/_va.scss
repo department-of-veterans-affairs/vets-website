@@ -1940,14 +1940,6 @@ html.touchevents {
   .no-touch {display: none;}
 }
 
-// Animate CSS components
-.animated {
-  -webkit-animation-duration: 1.25s;
-  animation-duration: 1.25s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
 @-webkit-keyframes fadeIn {
   0% {
     opacity: 0;
@@ -2035,7 +2027,7 @@ pre[class*='language-']  {
     width: 35rem;
   }
 
-  #content & p, 
+  #content & p,
   #content & h3 {
     padding: 0;
     margin: 0;
