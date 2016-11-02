@@ -9,6 +9,8 @@ const item = prescriptions.data[0];
 
 const props = {
   alert: {
+    content: '',
+    status: 'info',
     visible: false
   },
   prescription: {
