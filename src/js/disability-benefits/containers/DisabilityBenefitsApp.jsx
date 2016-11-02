@@ -9,22 +9,19 @@ class DisabilityBenefitsApp extends React.Component {
 
   render() {
     const { available, synced, syncedDate } = this.props;
-    const view = (
-      <div>
-        {available && !synced
-          ? <ClaimSyncWarning syncedDate={syncedDate}/>
-          : null}
-        {available
-          ? <div>
-            {this.props.children}
-          </div>
-          : <div className="row"><div className="columns medium-8"><ClaimsUnavailable/></div></div>}
-      </div>
-    );
 
     return (
       <RequiredLoginView authRequired={3}>
-        {view}
+        <div>
+          {available && !synced
+            ? <ClaimSyncWarning syncedDate={syncedDate}/>
+            : null}
+          {available
+            ? <div>
+              {this.props.children}
+            </div>
+            : <div className="row"><div className="columns medium-8"><ClaimsUnavailable/></div></div>}
+        </div>
       </RequiredLoginView>
     );
   }

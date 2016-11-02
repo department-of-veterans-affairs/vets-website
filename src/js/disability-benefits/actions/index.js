@@ -191,7 +191,8 @@ export function submitFiles(claimId, trackedItem, files) {
           });
         },
         onError: (id, name, reason) => {
-          if (!reason.endsWith('204')) {
+          // this is a little hackish, but uploader expects a json response
+          if (!reason.substr(-3).startsWith('2')) {
             hasError = true;
           }
         }
