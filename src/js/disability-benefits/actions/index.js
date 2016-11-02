@@ -42,8 +42,10 @@ export function getClaims() {
 
         return Promise.reject(res.statusText);
       })
-      .then(claims => dispatch({ type: SET_CLAIMS, claims: claims.data }))
-      .catch(() => dispatch({ type: SET_UNAVAILABLE }));
+      .then(
+        claims => dispatch({ type: SET_CLAIMS, claims: claims.data }),
+        () => dispatch({ type: SET_UNAVAILABLE })
+      );
   };
 }
 
