@@ -143,11 +143,18 @@ class RequiredLoginView extends React.Component {
             // If you have the required service show the application view.
             view = this.props.children;
           } else {
-            // If you do not have the required service in your `services` array then we will show the component but pass a prop to let them know that you don't have any data.
+            // If you do not have the required service in your `services` array then we will show the component but pass a prop to let them know that you don't have any data. Only passes prop on React components (functions) and not elements like divs so that React does not throw a warning
             view = React.Children.map(this.props.children,
-              (child) => React.cloneElement(child, {
-                isDataAvailable: this.state.isServiceAvailableForUse
-              })
+              (child) => {
+                let props = null;
+                if (typeof child.type === 'function') {
+                  props = {
+                    isDataAvailable: this.state.isServiceAvailableForUse,
+                  };
+                }
+
+                return React.cloneElement(child, props);
+              }
             );
           }
         }
@@ -160,7 +167,11 @@ class RequiredLoginView extends React.Component {
       view = this.props.children;
     }
 
-    return view;
+    return (
+      <div>
+        {view}
+      </div>
+    );
   }
 }
 
