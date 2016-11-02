@@ -25,7 +25,7 @@
 
 .rx-prescription-inner {
   background: $color-gray-lightest;
-  height: 25.7rem;
+  height: 27rem;
   padding: 2rem;
   position: relative;
 }
@@ -71,8 +71,7 @@ button.rx-prescription-button,
 }
 
 .rx-prescription-count {
-  bottom: 0;
-  display: inline-block;
+  line-height: 1;
   &-zero {
     color: $color-secondary;
   }
@@ -86,17 +85,17 @@ button.rx-prescription-button,
   }
 }
 
+.rx-prescription-count,
 .rx-prescription-action {
-  bottom: 0;
-  position: absolute;
-  right: 0;
+  flex: 1 1 50%;
 }
 
 .rx-prescription-countaction {
-  bottom: -2rem;
-  line-height: 2rem;
-  padding-top: 2rem;
-  position: relative;
+  bottom: 2rem;
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
+  width: 91%;
 }
 
 .rx-prescription-status span,
