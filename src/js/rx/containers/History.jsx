@@ -132,7 +132,7 @@ class History extends React.Component {
 
     return (
       <div id="rx-history" className="va-tab-content">
-        <p>Your VA prescription refill history</p>
+        <p className="rx-tab-explainer">Your VA prescription refill history.</p>
         {content}
       </div>
     );
