@@ -13,7 +13,7 @@ relatedlinks:
     description: ""  
 ---
 
-Be a part of advancing health care—and leave a legacy for future generations—by [enrolling in the Million Veteran Program (MVP)]((/million-veteran-program/enroll)). When you partner with MVP, you’re helping researchers study how genes affect health so they can find new ways to treat and prevent Veterans’ health issues. Join more than 500,000 of your fellow Veterans from around the country who’ve already signed up.
+Be a part of advancing health care—and leave a legacy for future generations—by [enrolling in the Million Veteran Program (MVP)](/million-veteran-program/enroll). When you partner with MVP, you’re helping researchers study how genes affect health so they can find new ways to treat and prevent Veterans’ health issues. Join more than 500,000 of your fellow Veterans from around the country who’ve already signed up.
 
 ## Why be a part of MVP?
 
