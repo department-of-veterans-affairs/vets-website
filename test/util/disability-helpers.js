@@ -150,7 +150,7 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
               description: 'What was received item one.',
               displayName: 'Request 10',
               overdue: false,
-              status: 'ACCEPTED',
+              status: 'SUBMITTED_AWAITING_REVIEW',
               uploaded: false,
               uploadsAllowed: false,
               openedDate: null,

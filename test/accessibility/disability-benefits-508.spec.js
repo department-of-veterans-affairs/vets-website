@@ -29,6 +29,11 @@ module.exports = E2eHelpers.createE2eTest(
       .waitForElementVisible('.claim-title', Timeouts.normal)
       .axeCheck('.main');
 
+    client
+      .click('.va-tabs li:nth-child(2) > a')
+      .waitForElementVisible('.file-request-list-item', Timeouts.normal)
+      .axeCheck('.main');
+
     client.end();
   }
 );
