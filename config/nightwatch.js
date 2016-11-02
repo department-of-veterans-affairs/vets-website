@@ -15,7 +15,7 @@ module.exports = {
   test_workers: false,
   test_settings: {
     'default': {
-      launch_url: 'localhost:3001',
+      launch_url: 'localhost:3333',
       filter: './test/**/*.e2e.spec.js',
       selenium_host: 'localhost',
       selenium_port: 4444,
@@ -32,6 +32,7 @@ module.exports = {
         browserName: 'phantomjs',
         javascriptEnabled: true,
         acceptSslCerts: true,
+        webStorageEnabled: true,
         'phantomjs.binary.path': require('phantomjs-prebuilt').path
         // 'phantomjs.cli.args' : ['--remote-debugger-port=9001', '--remote-debugger-autorun=yes']
       },
@@ -56,6 +57,7 @@ module.exports = {
         browserName: 'phantomjs',
         javascriptEnabled: true,
         acceptSslCerts: true,
+        webStorageEnabled: true,
         'phantomjs.binary.path': require('phantomjs-prebuilt').path
       }
     }
