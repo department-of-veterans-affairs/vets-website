@@ -42,8 +42,10 @@ export function getClaims() {
 
         return Promise.reject(res.statusText);
       })
-      .then(claims => dispatch({ type: SET_CLAIMS, claims: claims.data }))
-      .catch(() => dispatch({ type: SET_UNAVAILABLE }));
+      .then(
+        claims => dispatch({ type: SET_CLAIMS, claims: claims.data }),
+        () => dispatch({ type: SET_UNAVAILABLE })
+      );
   };
 }
 
@@ -189,7 +191,8 @@ export function submitFiles(claimId, trackedItem, files) {
           });
         },
         onError: (id, name, reason) => {
-          if (!reason.endsWith('204')) {
+          // this is a little hackish, but uploader expects a json response
+          if (!reason.substr(-3).startsWith('2')) {
             hasError = true;
           }
         }
