@@ -5,7 +5,7 @@ import {
   loadPrescriptions,
   sortPrescriptions
 } from '../actions/prescriptions';
-import { openRefillModal } from '../actions/modal';
+import { openRefillModal } from '../actions/modals';
 
 
 import PrescriptionList from '../components/PrescriptionList';

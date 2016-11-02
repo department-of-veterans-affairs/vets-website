@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 // import RequiredLoginView from '../../common/components/RequiredLoginView';
 import { openAlert } from '../actions/alert.js';
 import { closeDisclaimer } from '../actions/disclaimer.js';
-import { openRefillModal, closeRefillModal, closeGlossaryModal } from '../actions/modal.js';
+import { openRefillModal, closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions.js';
 import Disclaimer from '../components/Disclaimer';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
