@@ -7,6 +7,13 @@ class AlertBox extends React.Component {
     this.scrollToAlert = this.scrollToAlert.bind(this);
   }
 
+  shouldComponentUpdate(nextProps) {
+    const visibilityChanged = this.props.isVisible !== nextProps.isVisible;
+    const contentChanged = this.props.content !== nextProps.content;
+    const statusChanged = this.props.status !== nextProps.status;
+    return visibilityChanged || contentChanged || statusChanged;
+  }
+
   componentDidUpdate() {
     if (this.props.isVisible && this.props.scrollOnShow) {
       this.scrollToAlert();
@@ -14,10 +21,9 @@ class AlertBox extends React.Component {
   }
 
   scrollToAlert() {
-    const isInView =
-      this._ref && window.scrollY <= this._ref.offsetTop;
+    const isInView = window.scrollY <= this._ref.offsetTop;
 
-    if (!isInView) {
+    if (this._ref && !isInView) {
       this._ref.scrollIntoView({
         block: 'end',
         behavior: 'smooth'
