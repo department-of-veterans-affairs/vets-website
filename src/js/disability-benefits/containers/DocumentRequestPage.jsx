@@ -6,7 +6,7 @@ import DueDate from '../components/DueDate';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
-import UploadError from '../components/UploadError';
+import Notification from '../components/Notification';
 
 import {
   addFile,
@@ -17,7 +17,8 @@ import {
   showMailOrFaxModal,
   cancelUpload,
   getClaimDetail,
-  setFieldsDirty
+  setFieldsDirty,
+  clearNotification
 } from '../actions';
 
 const scrollToError = () => {
@@ -44,8 +45,13 @@ class DocumentRequestPage extends React.Component {
     }
   }
   componentDidUpdate(prevProps) {
-    if (this.props.uploadError && !prevProps.uploadError) {
+    if (this.props.message && !prevProps.message) {
       scrollToError();
+    }
+  }
+  componentWillUnmount() {
+    if (!this.props.uploadComplete) {
+      this.props.clearNotification();
     }
   }
   goToFilesPage() {
@@ -60,6 +66,8 @@ class DocumentRequestPage extends React.Component {
     } else {
       const trackedItem = this.props.trackedItem;
       const filesPath = `your-claims/${this.props.claim.id}/files`;
+      const message = this.props.message;
+
       content = (
         <div className="claim-container">
           <nav className="va-nav-breadcrumbs">
@@ -69,9 +77,8 @@ class DocumentRequestPage extends React.Component {
               <li className="active">{trackedItem.displayName}</li>
             </ul>
           </nav>
-          {this.props.uploadError
-            ? <UploadError/>
-            : null}
+          {message &&
+            <Notification title={message.title} body={message.body} type={message.type}/>}
           <h1 className="claims-header">{trackedItem.displayName}</h1>
           {trackedItem.type.endsWith('you_list') ? <DueDate date={trackedItem.suspenseDate}/> : null}
           {trackedItem.type.endsWith('others_list')
@@ -133,7 +140,8 @@ function mapStateToProps(state, ownProps) {
     uploadComplete: state.uploads.uploadComplete,
     uploadField: state.uploads.uploadField,
     showMailOrFax: state.uploads.showMailOrFax,
-    lastPage: state.routing.lastPage
+    lastPage: state.routing.lastPage,
+    message: state.notifications.message
   };
 }
 
@@ -146,7 +154,8 @@ const mapDispatchToProps = {
   cancelUpload,
   getClaimDetail,
   setFieldsDirty,
-  resetUploads
+  resetUploads,
+  clearNotification
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DocumentRequestPage));

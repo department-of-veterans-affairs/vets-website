@@ -20,7 +20,6 @@ export const SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR';
 export const UPDATE_FIELD = 'UPDATE_FIELD';
 export const SHOW_MAIL_OR_FAX = 'SHOW_MAIL_OR_FAX';
 export const CANCEL_UPLOAD = 'CANCEL_UPLOAD';
-export const CLEAR_UPLOADED_ITEM = 'CLEAR_UPLOADED_ITEM';
 export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
 export const SHOW_CONSOLIDATED_MODAL = 'SHOW_CONSOLIDATED_MODAL';
 export const SET_LAST_PAGE = 'SET_LAST_PAGE';
@@ -183,7 +182,6 @@ export function submitFiles(claimId, trackedItem, files) {
           if (!hasError) {
             dispatch({
               type: DONE_UPLOADING,
-              itemName: trackedItem ? trackedItem.displayName : null
             });
             dispatch(setNotification({
               title: 'We have your evidence',
@@ -270,12 +268,6 @@ export function cancelUpload() {
     dispatch({
       type: CANCEL_UPLOAD
     });
-  };
-}
-
-export function clearUploadedItem() {
-  return {
-    type: CLEAR_UPLOADED_ITEM
   };
 }
 

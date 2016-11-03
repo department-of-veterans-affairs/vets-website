@@ -18,12 +18,18 @@ describe('<TurnInEvidencePage>', () => {
     const claim = {
       id: 1
     };
+    const message = {
+      title: 'test',
+      body: 'test',
+      type: 'error'
+    };
+
     const tree = SkinDeep.shallowRender(
       <TurnInEvidencePage
           claim={claim}
-          uploadError/>
+          message={message}/>
     );
-    expect(tree.subTree('UploadError')).not.to.be.false;
+    expect(tree.subTree('Notification')).not.to.be.false;
   });
   it('should handle submit files', () => {
     const files = [];

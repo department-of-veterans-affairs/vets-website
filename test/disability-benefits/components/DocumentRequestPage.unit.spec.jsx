@@ -22,13 +22,17 @@ describe('<DocumentRequestPage>', () => {
     const claim = {
       id: 1
     };
+    const message = {
+      title: 'Test',
+      body: 'Testing'
+    };
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
           trackedItem={trackedItem}
           claim={claim}
-          uploadError/>
+          message={message}/>
     );
-    expect(tree.subTree('UploadError')).not.to.be.false;
+    expect(tree.subTree('Notification')).not.to.be.false;
   });
   it('should render due date info', () => {
     const trackedItem = {

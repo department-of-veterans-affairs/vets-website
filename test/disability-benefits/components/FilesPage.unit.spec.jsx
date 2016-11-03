@@ -124,16 +124,20 @@ describe('<FilesPage>', () => {
         eventsTimeline: []
       }
     };
-    const clearUploadedItem = sinon.spy();
+    const clearNotification = sinon.spy();
+    const message = {
+      title: 'Test',
+      body: 'Test'
+    };
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
-          uploadedItem="Test"
-          clearUploadedItem={clearUploadedItem}
+          clearNotification={clearNotification}
+          message={message}
           claim={claim}/>
     );
-    expect(clearUploadedItem.called).to.be.false;
-    tree.props.message.props.onClose();
-    expect(clearUploadedItem.called).to.be.true;
+    expect(clearNotification.called).to.be.false;
+    tree.subTree('ClaimDetailLayout').props.clearNotification();
+    expect(clearNotification.called).to.be.true;
   });
 });

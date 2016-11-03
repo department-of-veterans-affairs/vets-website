@@ -12,7 +12,6 @@ import {
   UPDATE_FIELD,
   SHOW_MAIL_OR_FAX,
   CANCEL_UPLOAD,
-  CLEAR_UPLOADED_ITEM,
   SET_FIELDS_DIRTY
 } from '../../../src/js/disability-benefits/actions';
 
@@ -70,7 +69,6 @@ describe('Uploads reducer', () => {
     expect(state.uploadError).to.be.false;
     expect(state.uploadComplete).to.be.false;
     expect(state.uploader).to.eql(uploader);
-    expect(state.uploadedItem).to.be.null;
   });
 
   it('set upload progress', () => {
@@ -97,14 +95,12 @@ describe('Uploads reducer', () => {
   it('set upload done', () => {
     const state = uploads({
     }, {
-      type: DONE_UPLOADING,
-      itemName: 'test item'
+      type: DONE_UPLOADING
     });
 
     expect(state.uploading).to.be.false;
     expect(state.uploadComplete).to.be.true;
     expect(state.uploader).to.be.null;
-    expect(state.uploadedItem).to.equal('test item');
   });
 
   it('update form field', () => {
@@ -139,15 +135,6 @@ describe('Uploads reducer', () => {
 
     expect(state.uploading).to.be.false;
     expect(state.uploader).to.be.null;
-  });
-
-  it('clear uploaded item', () => {
-    const state = uploads({
-    }, {
-      type: CLEAR_UPLOADED_ITEM
-    });
-
-    expect(state.uploadedItem).to.be.null;
   });
 
   it('dirty fields', () => {
