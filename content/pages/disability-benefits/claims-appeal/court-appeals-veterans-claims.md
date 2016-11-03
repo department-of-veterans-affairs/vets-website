@@ -3,25 +3,25 @@ layout: page-breadcrumbs.html
 title: Court of Appeals for Veterans Claims
 concurrence: complete
 source: http://www.bva.va.gov/
+plainlanguage: 11-3-16 Ready for Beth review
 template: 6-info-page
 ---
 
-If the Board of Veterans’ Appeals (Board) has sent you a final decision with which you disagree, you may then appeal to the United States Court of Appeals for Veterans Claims (Court) should you want to pursue further action. The Court reviews Board decisions appealed by those who believe the Board erred in its decision.
+If the Board of Veterans’ Appeals (Board) has sent you a final disability benefits claim decision that you disagree with, you still have room to appeal. You can take your appeal to the United States Court of Appeals for Veterans Claims (Court). The Court reviews Board decisions appealed by those who believe the Board erred in its decision.
 
 <div class="call-out" markdown="0">
 
-### The Court is composed of:
-  - Seven permanent, active judges, and
-  - Two additional judges as part of a temporary expansion provision.
-  It has exclusive jurisdiction over decisions of the Board and is part of the United States Judiciary, not the Department of Veterans Affairs.
+### The Court is made up of:
+  - 7 permanent (long-term), active judges, **and**
+  - 2 more judges as part of a temporary expansion clause
 
-### Its review of Board decisions is based on:
-  - The record before the agency (what was in your file at the time the Board reviewed it), and
-  - Arguments of the parties.
+The Court has the sole power to accept or overturn Board decisions and is part of the United States Judiciary, not the Department of Veterans Affairs.
+
+### The Court reviews Board decisions based on:
+  - The record before the agency (what was in your file at the time the Board reviewed it), **and**
+  - Arguments of the parties (president in a written brief, with oral arguments usually held only in cases bringing up new legal issues)
 </div>
 
-These are presented in a written brief, with oral argument generally held only in cases presenting new legal issues.
+The Court’s main office is in Washington, D.C., but the Court can hold sessions anywhere in the United States. The Court does hold sessions in other parts of the country a small number of times each year.
 
-The Court’s principal office is in Washington, D.C., but the Court is authorized to sit anywhere in the United States and does so a limited number of times each year.
-
-You must have a final decision from the Board, not the regional office, before you can appeal to this Court.
+You'll need to wait until you have a final decision from the Board—not the regional office—before you can appeal to this Court.
