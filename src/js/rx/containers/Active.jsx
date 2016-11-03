@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { 
-  loadPrescriptions, 
-  sortPrescriptions 
+import {
+  loadPrescriptions,
+  sortPrescriptions
 } from '../actions/prescriptions';
 
 import {
