@@ -1,4 +1,5 @@
 import environment from '../common/helpers/environment';
+import { assign } from 'core-js/fn/object/';
 
 function getHeaders(optionalHeaders = {}) {
   const defaultHeaders = {
