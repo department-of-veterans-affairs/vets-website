@@ -59,14 +59,17 @@ class RequiredLoginView extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      const systemProfile = _.isNil(json.data.attributes.va_profile);
+      const systemProfile = json.data.attributes.va_profile;
+      // TODO(crew) : remove these before going to production. We are using these for testing purposes.
+      // const systemProfile = null;
+      // const systemProfile = 'not found';
       const requiredApp = this.props.serviceRequired;
       const userAccounts = json.data.attributes.profile.loa;
       const userServices = json.data.attributes.services;
       this.setState(
         {
           accountType: userAccounts.current,
-          isServiceOffline: systemProfile,
+          profileStatus: systemProfile,
           services: userServices,
           isServiceAvailableForUse: userServices.includes(requiredApp),
         }
@@ -134,9 +137,12 @@ class RequiredLoginView extends React.Component {
       }
     } else if (this.props.authRequired === 3) {
       if (this.state.accountType === 3) {
-        if (this.state.isServiceOffline) {
-          // If there is nothing in va_profile, show system down message.
+        if (_.isNil(this.state.profileStatus)) {
+          // If va_profile is null, the system is down and we will show system down message.
           view = <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later."/>;
+        } else if (_.isEqual(this.state.profileStatus, 'not found')) {
+          // If va_profile is "not found", we cannot find you in our system and we will show a, we can't find you message.
+          view = <SystemDownView messageLine1="Sorry, our system was not able to match your record. For more information please call 1-800-XXX-XXXX."/>;
         } else {
           // If there is something in the va_profile attribute, continue on to check if this user can use this specific service.
           if (this.state.isServiceAvailableForUse) {
