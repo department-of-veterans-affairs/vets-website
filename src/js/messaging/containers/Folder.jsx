@@ -8,6 +8,7 @@ import SortableTable from '../../common/components/SortableTable';
 
 import {
   fetchFolder,
+  openAlert,
   sendSearch,
   setDateRange,
   setSearchParam,
@@ -144,12 +145,16 @@ export class Folder extends React.Component {
   }
 
   handleSearch(searchParams) {
+    // Resets pagination state values to 0 so that (newPage !== oldPage)
+    // conditional will be true. (See line 64)
     this.props.resetPagination();
+
     const filters = this.buildQuery(searchParams);
+    const fullQuery = { ...this.props.location.query, ...filters };
 
     this.context.router.push({
       pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
-      query: Object.assign(this.props.location.query, filters)
+      query: fullQuery
     });
   }
 
@@ -236,9 +241,10 @@ export class Folder extends React.Component {
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}
-            params={this.props.searchParams}
+            onError={this.props.openAlert}
             onFieldChange={this.props.setSearchParam}
-            onSubmit={this.handleSearch}/>
+            onSubmit={this.handleSearch}
+            params={this.props.searchParams}/>
         <div id="messaging-folder-controls">
           <ComposeButton/>
           {messageNav}
@@ -280,6 +286,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchFolder,
+  openAlert,
   sendSearch,
   setDateRange,
   setSearchParam,
