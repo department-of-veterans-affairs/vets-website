@@ -1,7 +1,7 @@
 ---
 title: The Disability Claims Process
 layout: page-breadcrumbs.html
-plainlanguage: 11-2-16 Ready for Beth review
+plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: L2-section-landing
 relatedlinks:
   - url: /disability-benefits/claims-process/ratings/
@@ -14,7 +14,7 @@ relatedlinks:
     title: What are the different claim types and what do they mean?
     description: ""
   - url: /disability-benefits/claims-process/evidence/
-    title: How do I gather support (evidence) for a disability claim?
+    title: How do I gather supporting documents (evidence) for a disability claim?
     description: ""
   - url: /disability-benefits/claims-process/date/
     title: How does VA decide when my disability compensation starts?
