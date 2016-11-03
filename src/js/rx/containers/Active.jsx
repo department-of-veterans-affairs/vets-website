@@ -7,7 +7,7 @@ import {
 } from '../actions/prescriptions';
 
 import {
-  openGlossaryModal
+  openGlossaryModal,
   openRefillModal
 } from '../actions/modals';
 
