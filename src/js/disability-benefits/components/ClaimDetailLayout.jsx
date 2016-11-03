@@ -26,9 +26,9 @@ export default class ClaimDetailLayout extends React.Component {
           <div className="claim-conditions">
             <h6>Your Claimed Conditions:</h6>
             <p className="list">
-              {claim.attributes.contentionList
+              {claim.attributes.contentionList && claim.attributes.contentionList.length
                 ? claim.attributes.contentionList.join(', ')
-                : null}
+                : 'Not available'}
             </p>
           </div>
           <TabNav id={this.props.claim.id}/>
