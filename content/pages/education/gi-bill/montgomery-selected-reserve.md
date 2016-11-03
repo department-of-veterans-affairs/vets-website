@@ -43,7 +43,7 @@ Complete an application using [VA Form 22-1990](http://www.vba.va.gov/pubs/forms
 
 ### Learn more
 -	Visit the [GI Bill customer service page](http://gibill.custhelp.com/) to search Frequently Asked Questions or to ask a question online.
--	Call 1-888-GIBILL-1 (1-888-442-4551).
+-	Call 855-574-7286.
 -	For TDD/TYY, use 1-800-829-4833.
 
 GI Bill&reg; is a registered trademark of the United States Department of Veterans Affairs (VA). The absence of the registration symbol&reg; does not constitute a waiver of VA’s trademark rights in that phrase. Read our Terms of Use.

@@ -78,7 +78,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 - Go to a VA regional office and have a VA employee assist you.
 - Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
-- Call 888-442-4551 (888-GI-BILL-1) to have the application mailed to you. Fill it out and mail it to your VA regional claims processing office.
+- Call 855-574-7286 to have the application mailed to you. Fill it out and mail it to your VA regional claims processing office.
 
 </div>
 

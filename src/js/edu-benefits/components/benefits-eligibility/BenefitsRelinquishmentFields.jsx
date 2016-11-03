@@ -48,7 +48,7 @@ export default class BenefitsRelinquishmentFields extends React.Component {
             </div>
           </ExpandingGroup>
         </fieldset>
-        <p>If you have questions or don’t understand the choice, talk to a specialist at 1-888-442-4551 (888-GI-BILL-1).</p>
+        <p>If you have questions or don’t understand the choice, talk to a specialist at 855-574-7286.</p>
       </div>
     </fieldset>
     );
