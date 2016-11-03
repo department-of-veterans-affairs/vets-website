@@ -13,7 +13,6 @@ class MessageSearch extends React.Component {
 
   handleSearchTermChange(field) {
     this.props.onFieldChange('term', field);
-    this.props.onFieldChange('search', true);
   }
 
   handleSubmit(domEvent) {
@@ -66,7 +65,6 @@ class MessageSearch extends React.Component {
 
 MessageSearch.propTypes = {
   cssClass: React.PropTypes.string,
-  folder: React.PropTypes.number,
   isAdvancedVisible: React.PropTypes.bool.isRequired,
   onAdvancedSearch: React.PropTypes.func.isRequired,
   onError: React.PropTypes.func.isRequired,
