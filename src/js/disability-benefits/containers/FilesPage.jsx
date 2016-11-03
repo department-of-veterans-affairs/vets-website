@@ -8,7 +8,9 @@ import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import DueDate from '../components/DueDate';
 
 import { clearUploadedItem } from '../actions';
-import { hasBeenReviewed, truncateDescription } from '../utils/helpers';
+import { hasBeenReviewed, truncateDescription, getSubmittedItemDate } from '../utils/helpers';
+
+const NEED_ITEMS_STATUS = 'NEEDED';
 
 class FilesPage extends React.Component {
   constructor() {
@@ -27,9 +29,13 @@ class FilesPage extends React.Component {
 
     let content = null;
     if (!loading) {
-      const filesNeeded = claim.attributes.eventsTimeline.filter(event => event.type === 'still_need_from_you_list');
-      const optionalFiles = claim.attributes.eventsTimeline.filter(event => event.type === 'still_need_from_others_list');
-      const documentsTurnedIn = claim.attributes.eventsTimeline.filter(event => event.type.startsWith('received_from'));
+      const trackedItems = claim.attributes.eventsTimeline.filter(event => event.type.endsWith('_list'));
+      const filesNeeded = trackedItems
+        .filter(event => event.status === NEED_ITEMS_STATUS && event.type === 'still_need_from_you_list');
+      const optionalFiles = trackedItems
+        .filter(event => event.status === NEED_ITEMS_STATUS && event.type === 'still_need_from_others_list');
+      const documentsTurnedIn = trackedItems
+        .filter(event => event.status !== NEED_ITEMS_STATUS || event.type.startsWith('received_from'));
 
       content = (
         <div>
@@ -107,12 +113,12 @@ class FilesPage extends React.Component {
                     ?
                     <div>
                       <h6 className="reviewed-file"><i className="fa fa-check-circle"></i>Reviewed by VA</h6>
-                      <p className="submission-date reviewed-file">{moment(item.receivedDate).format('MMM D, YYYY')}</p>
+                      <p className="submission-date reviewed-file">{moment(getSubmittedItemDate(item)).format('MMM D, YYYY')}</p>
                     </div>
                     :
                     <div>
                       <h6>Submitted</h6>
-                      <p className="submission-date">{moment(item.receivedDate).format('MMM D, YYYY')}{' (pending)'}</p>
+                      <p className="submission-date">{moment(getSubmittedItemDate(item)).format('MMM D, YYYY')}{' (pending)'}</p>
                     </div>
                   }
                 </div>
