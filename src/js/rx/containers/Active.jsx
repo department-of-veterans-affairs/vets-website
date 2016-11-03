@@ -50,6 +50,7 @@ class Active extends React.Component {
 
       content = (
         <div>
+          <p className="rx-tab-explainer">Your active VA prescriptions.</p>
           <SortMenu
               onChange={this.handleSort}
               onClick={this.handleSort}
@@ -63,11 +64,16 @@ class Active extends React.Component {
               glossaryModalHandler={this.props.openGlossaryModal}/>
         </div>
       );
+    } else {
+      content = (
+        <p className="rx-tab-explainer rx-loading-error">
+          We couldn't retrieve your prescriptions.
+          Please refresh this page or try again later.
+        </p>);
     }
 
     return (
       <div className="va-tab-content">
-        <p className="rx-tab-explainer">Your active VA prescriptions.</p>
         {content}
       </div>
     );
