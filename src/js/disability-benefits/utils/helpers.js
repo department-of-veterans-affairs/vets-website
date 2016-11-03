@@ -171,3 +171,13 @@ export function truncateDescription(text) {
 
   return text;
 }
+
+export function getSubmittedItemDate(item) {
+  if (item.receivedDate) {
+    return item.receivedDate;
+  } else if (item.documents.length) {
+    return item.documents[item.documents.length - 1].uploadDate;
+  }
+
+  return item.date;
+}

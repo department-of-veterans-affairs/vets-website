@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { loadPrescriptions, sortPrescriptions } from '../actions/prescriptions';
-import { openRefillModal } from '../actions/modal';
+import { openRefillModal } from '../actions/modals';
 import PrescriptionList from '../components/PrescriptionList';
 import SortMenu from '../components/SortMenu';
 import { sortOptions } from '../config';
