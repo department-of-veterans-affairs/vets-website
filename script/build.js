@@ -106,7 +106,7 @@ smith.destination(`../build/${options.buildtype}`);
 //
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
-const ignoreList = ['memorial-benefits/*'];
+const ignoreList = [];
 
 if (options.buildtype === 'production') {
   ignoreList.push('disability-benefits/track-claims/*');

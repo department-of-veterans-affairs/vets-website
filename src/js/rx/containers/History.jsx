@@ -52,14 +52,14 @@ class History extends React.Component {
   handleSort(value, order) {
     const sort = this.formattedSortParam(value, order);
     this.context.router.push({
-      pathname: '/history',
+      ...this.props.location,
       query: { ...this.props.location.query, sort }
     });
   }
 
   handlePageSelect(page) {
     this.context.router.push({
-      pathname: '/history',
+      ...this.props.location,
       query: { ...this.props.location.query, page }
     });
   }
@@ -113,9 +113,9 @@ class History extends React.Component {
       content = (
         <div>
           <SortMenu
-              changeHandler={(e) => this.handleSort(e.target.value)}
+              onChange={this.handleSort}
               options={fields}
-              selected={currentSort}/>
+              selected={currentSort.value}/>
           <SortableTable
               className="usa-table-borderless va-table-list rx-table rx-table-list"
               currentSort={currentSort}
