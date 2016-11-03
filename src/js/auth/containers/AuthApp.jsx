@@ -53,8 +53,12 @@ class AuthApp extends React.Component {
 
   render() {
     return (
-      <div>
-        Logging you in ...
+      <div className="row">
+        <div className="small-12 columns">
+          <div>
+            <h3>Logging you in...</h3>
+          </div>
+        </div>
       </div>
     );
   }
