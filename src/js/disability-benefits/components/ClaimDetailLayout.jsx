@@ -18,17 +18,17 @@ export default class ClaimDetailLayout extends React.Component {
           <nav className="va-nav-breadcrumbs">
             <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
               <li><Link to="your-claims">Your claims</Link></li>
-              <li className="active">Your Compensation Claim</li>
+              <li className="active">Your Disability Compensation Claim</li>
             </ul>
           </nav>
           {message}
-          <h1 className="claim-title">Your {"Compensation"} Claim</h1>
+          <h1 className="claim-title">Your Disability Compensation Claim</h1>
           <div className="claim-conditions">
             <h6>Your Claimed Conditions:</h6>
             <p className="list">
-              {claim.attributes.contentionList
+              {claim.attributes.contentionList && claim.attributes.contentionList.length
                 ? claim.attributes.contentionList.join(', ')
-                : null}
+                : 'Not available'}
             </p>
           </div>
           <TabNav id={this.props.claim.id}/>

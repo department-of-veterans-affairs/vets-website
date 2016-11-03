@@ -19,7 +19,7 @@ class StatusPage extends React.Component {
         && !claim.attributes.waiverSubmitted;
 
       content = (
-        <div >
+        <div>
           {claim.attributes.documentsNeeded && !claim.attributes.decisionLetterSent
             ? <NeedFilesFromYou claimId={claim.id} events={claim.attributes.eventsTimeline}/>
             : null}

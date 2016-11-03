@@ -59,7 +59,7 @@ class YourClaimsPage extends React.Component {
               <h1>Your Claims</h1>
             </div>
             <p>
-              <a href onClick={(evt) => {
+              <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
                 this.props.showConsolidatedMessage(true);
               }}>Sometimes claims get combined. Find out why.</a>
