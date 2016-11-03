@@ -93,7 +93,7 @@ If your claim is complex, it may take us longer to review.
 ##### Prepare
 
 - Get help from an accredited representative if you need it. [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
-- Find out what kind of supporting information (or evidence) you'll need to send in along with your claim. [See evidence requirements](/disability-benefits/claims-process/evidence/).
+- Find out what kind of supporting documents (or evidence) you'll need to send in along with your claim. [See evidence requirements](/disability-benefits/claims-process/evidence/).
 - Be sure your claim is filled out completely and that you've included all supporting documents. This will help us process your claim quickly. [Learn more about fully developed claims](/disability-benefits/claims-process/claim-types/fully-developed-claim/).
 
 
@@ -112,7 +112,7 @@ For the first compensation claim you send us, please provide:
 
 For all compensation claims, please provide:
 
-- VA medical records and hospital reports that relate to your claimed illnesses or injuries
+- VA medical records and hospital reports that relate to your claimed illnesses or injuries (called conditions)
 - Private medical records and hospital reports that relate to your claimed illnesses or injuries
 
 </div>
@@ -131,7 +131,7 @@ Choose 1 of 3 ways:
 - [Work with an accredited representative](/disability-benefits/apply-for-benefits/help/index.html), or
 - [Get help at a VA regional office](http://www.benefits.va.gov/benefits/offices.asp)
 
-**Note:** If you're a Servicemember, you should know about predischarge claims. [Learn about predischarge claims](/disability-benefits/claims-process/claim-types/predischarge-claim/).
+**Note:** If you're a Servicemember, you might want to learn about predischarge claims. [Find out about predischarge claims](/disability-benefits/claims-process/claim-types/predischarge-claim/).
 
 </div>
 
@@ -148,7 +148,7 @@ The amount of time it takes to review your claim depends on:
 
 - The type of claim you filed (like a disability compensation claim vs a claim for increased evaluation)
 - How many injuries or disabilities you claimed and how complex they are
-- How long it takes us to collect the support needed to decide your claim
+- How long it takes us to collect the evidence needed to decide your claim
 
 </div>
 
@@ -159,10 +159,10 @@ The amount of time it takes to review your claim depends on:
 
 1. We receive your claim. **(Claim status = Claim Received)**
 2. A Veterans Service Representative (VSR) looks at your claim to figure out if we need any more information to make a decision. **(Claim status = Under Review)**
-3. If we need more information, the VSR asks you for it or asks other government agencies for it on your behalf. **(Claim status = Gathering of Evidence)**
+3. If we need more information, the VSR asks you for it or asks other governmental agencies for it on your behalf. **(Claim status = Gathering of Evidence)**
 4. Once we get—or we've tried to get—all the information we need, the VSR makes sure each issue claimed is ready for a decision.
 **(Claim status = Review of Evidence)**
-5. The VSR electronically sends your claim and supporting information to a Rating Veterans Service Representative (RVSR) for a final decision. **(Claim status = Preparation for a Decision)**
+5. The VSR electronically sends your claim and supporting documents to a Rating Veterans Service Representative (RVSR) for a final decision. **(Claim status = Preparation for a Decision)**
 
 </div>
 
@@ -175,7 +175,7 @@ The amount of time it takes to review your claim depends on:
 ###### What if VA needs more information?
 
 - We may reach out on your behalf to other governmental agencies (like the Department of Defense) for records.
-- If we need more health information, we may ask you for it. We may also schedule a VA claim exam (also known as a C&P exam) to get more information about the disabilities you claimed.
+- If we need more medical information, we may ask you for it. We may also schedule a VA claim exam (also known as a C&P exam) to get more information about the disabilities you claimed.
 
 **Note:**  We may schedule you for 1 or more exams based on the number and type of disabilities claimed.
 
