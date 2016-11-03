@@ -18,12 +18,61 @@ describe('<TurnInEvidencePage>', () => {
     const claim = {
       id: 1
     };
+    const message = {
+      title: 'test',
+      body: 'test',
+      type: 'error'
+    };
+
     const tree = SkinDeep.shallowRender(
       <TurnInEvidencePage
           claim={claim}
-          uploadError/>
+          message={message}/>
     );
-    expect(tree.subTree('UploadError')).not.to.be.false;
+    expect(tree.subTree('Notification')).not.to.be.false;
+  });
+  it('should clear upload error when leaving', () => {
+    const claim = {
+      id: 1
+    };
+    const message = {
+      title: 'test',
+      body: 'test',
+      type: 'error'
+    };
+    const clearNotification = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <TurnInEvidencePage
+          claim={claim}
+          clearNotification={clearNotification}
+          message={message}/>
+    );
+    expect(tree.subTree('Notification')).not.to.be.false;
+    tree.getMountedInstance().componentWillUnmount();
+    expect(clearNotification.called).to.be.true;
+  });
+  it('should not clear notification after completed upload', () => {
+    const claim = {
+      id: 1
+    };
+    const message = {
+      title: 'test',
+      body: 'test',
+      type: 'error'
+    };
+    const clearNotification = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <TurnInEvidencePage
+          claim={claim}
+          uploadComplete
+          clearNotification={clearNotification}
+          message={message}/>
+    );
+    expect(tree.subTree('Notification')).not.to.be.false;
+    tree.getMountedInstance().componentWillUnmount();
+    expect(clearNotification.called).to.be.false;
   });
   it('should handle submit files', () => {
     const files = [];
