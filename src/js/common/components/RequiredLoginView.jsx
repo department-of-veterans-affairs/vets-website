@@ -59,7 +59,7 @@ class RequiredLoginView extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      const systemProfile = _.isEmpty(json.data.attributes.va_profile);
+      const systemProfile = _.isNil(json.data.attributes.va_profile);
       const requiredApp = this.props.serviceRequired;
       const userAccounts = json.data.attributes.profile.loa;
       const userServices = json.data.attributes.services;
