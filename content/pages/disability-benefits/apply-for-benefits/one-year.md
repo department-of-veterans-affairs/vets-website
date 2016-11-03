@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Disabilities That Appear Within 1 Year After Discharge
 concurrence: incomplete
-plainlanguage: 11-2-16 Ready for Beth review
+plainlanguage: 11-2-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
@@ -22,7 +22,7 @@ relatedlinks:
     description: ""
 ---
 
-Have you had signs of an illness like hypertension (high blood pressure), arthritis (joint pain), diabetes (high blood sugar levels), or peptic ulcers (painful sores—also called ulcers—in your stomach or small intestine) that started within a year after being discharged from active military service? If yes, you may be able to get VA support (known as disability compensation or benefits).
+Have you had signs of an illness like hypertension (high blood pressure), arthritis (joint pain), diabetes (high blood-sugar levels), or peptic ulcers (painful sores—also called ulcers—in your stomach or small intestine) that started within a year after being discharged from active military service? If yes, you may be able to get VA support (known as disability compensation or benefits).
 
 If your symptoms appear within 1 year after discharge—even if they weren't there while you were serving—we'll conclude that they're related to your service. [See the complete list of covered illnesses](http://www.benefits.va.gov/warms/docs/regs/38CFR/BOOKB/PART3/S3_309.doc).
 
@@ -50,7 +50,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits. When you apply, you'll need to show that your illness is at least 10% disabling. For example, you may include a doctor's report showing that you're taking medicine for your high blood pressure. You'll also need to show that the illness appeared within 1 year after being discharged from active service.
+You'll need to apply for benefits. When you apply, you'll have to show that your illness is at least 10% disabling. (For example, you may include a doctor's report showing that you're taking medicine for your high blood pressure.) You'll also need to show that the illness appeared within 1 year after being discharged from active service.
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
