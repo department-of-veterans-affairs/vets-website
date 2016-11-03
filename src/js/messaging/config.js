@@ -10,7 +10,7 @@ function getHeaders(optionalHeaders = {}) {
     defaultHeaders.Authorization = `Token token=${localStorage.userToken}`;
   }
 
-  return assign({}, defaultHeaders, optionalHeaders);
+  return assign(defaultHeaders, optionalHeaders);
 }
 
 function getApiUrl() {
