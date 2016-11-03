@@ -9,6 +9,11 @@ import ToolTip from './ToolTip';
 import { validateIfDirtyDate, isBlank, isValidDate, isValidAnyDate } from '../../utils/validations';
 import { months, days } from '../../utils/options-for-select.js';
 
+const firstDay = {
+  dirty: true,
+  value: '1'
+};
+
 /**
  * A form input with a label that can display error messages.
  *
@@ -38,7 +43,7 @@ class DateInput extends React.Component {
   handleChange(path, update) {
     const date = {
       month: this.props.month,
-      day: this.props.day,
+      day: this.props.hideDayField ? firstDay : this.props.day,
       year: this.props.year
     };
 
@@ -52,21 +57,15 @@ class DateInput extends React.Component {
     let errorSpanId;
     let errorSpan = '';
     let daysForSelectedMonth = [];
-    let day = this.props.day;
+    // Our validations require that there is always a "day" field, so
+    // we'll assume the first day of the month even if we're not displaying it.
+    const day = this.props.hideDayField ? firstDay : this.props.day;
     const month = this.props.month;
     const year = this.props.year;
     const dateValidator = this.props.allowFutureDates ? isValidAnyDate : isValidDate;
 
     if (month.value) {
       daysForSelectedMonth = days[month.value];
-    }
-
-    // Our validations require that there is always a "day" field, so
-    // we'll assume the first day of the month even if we're not displaying it.
-    if (this.props.hideDayField) {
-      day = _.cloneDeep(day);
-      day.dirty = true;
-      day.value = 1;
     }
 
     if (this.props.required) {
