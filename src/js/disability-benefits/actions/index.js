@@ -24,6 +24,8 @@ export const CLEAR_UPLOADED_ITEM = 'CLEAR_UPLOADED_ITEM';
 export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
 export const SHOW_CONSOLIDATED_MODAL = 'SHOW_CONSOLIDATED_MODAL';
 export const SET_LAST_PAGE = 'SET_LAST_PAGE';
+export const SET_NOTIFICATION = 'SET_NOTIFICATION';
+export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 
 export function getClaims() {
   return (dispatch) => {
@@ -170,6 +172,13 @@ export function submitFiles(claimId, trackedItem, files) {
               type: DONE_UPLOADING,
               itemName: trackedItem ? trackedItem.displayName : null
             });
+            dispatch({
+              type: SET_NOTIFICATION,
+              message: {
+                title: 'We have your evidence',
+                body: `Thank you for filing ${trackedItem ? trackedItem.displayName : 'additional evidence'}. We'll let you know when we've reviewed it.`
+              }
+            });
           } else {
             dispatch({
               type: SET_UPLOAD_ERROR
@@ -271,5 +280,18 @@ export function setLastPage(page) {
   return {
     type: SET_LAST_PAGE,
     page
+  };
+}
+
+export function setNotification(message) {
+  return {
+    type: SET_NOTIFICATION,
+    message
+  };
+}
+
+export function clearNotification() {
+  return {
+    type: CLEAR_NOTIFICATION
   };
 }

@@ -62,7 +62,6 @@ export default function claimDetailReducer(state = initialState, action) {
         uploading: false,
         uploadComplete: true,
         uploader: null,
-        uploadedItem: action.itemName,
         files: []
       });
     }

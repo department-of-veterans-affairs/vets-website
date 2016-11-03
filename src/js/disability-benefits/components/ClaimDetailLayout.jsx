@@ -4,12 +4,12 @@ import TabNav from '../components/TabNav';
 import AskVAQuestions from '../components/AskVAQuestions';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
-
+import Notification from '../components/Notification';
 import { isCompleteClaim } from '../utils/helpers';
 
 export default class ClaimDetailLayout extends React.Component {
   render() {
-    const { claim, loading, message } = this.props;
+    const { claim, loading, message, clearNotification } = this.props;
 
     let content;
     if (!loading) {
@@ -21,7 +21,7 @@ export default class ClaimDetailLayout extends React.Component {
               <li className="active">Your Disability Compensation Claim</li>
             </ul>
           </nav>
-          {message}
+          {message && <Notification title={message.title} body={message.body} type={message.type} onClose={clearNotification}/>}
           <h1 className="claim-title">Your Disability Compensation Claim</h1>
           <div className="claim-conditions">
             <h6>Your Claimed Conditions:</h6>
@@ -59,6 +59,7 @@ export default class ClaimDetailLayout extends React.Component {
 ClaimDetailLayout.propTypes = {
   claim: React.PropTypes.object,
   loading: React.PropTypes.bool,
-  message: React.PropTypes.node
+  message: React.PropTypes.object,
+  clearNotification: React.PropTypes.func
 };
 
