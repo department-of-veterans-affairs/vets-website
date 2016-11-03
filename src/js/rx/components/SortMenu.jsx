@@ -3,27 +3,45 @@
 */
 
 import React from 'react';
-import { Link } from 'react-router';
 import classNames from 'classnames';
 
 class SortMenu extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleChange(event) {
+    this.props.onChange(event.target.value);
+  }
+
+  handleClick(sortValue) {
+    return (event) => {
+      event.preventDefault();
+      this.props.onClick(sortValue);
+    };
+  }
+
   render() {
     const sortBys = this.props.options;
     const sortLinks = (options) => {
       return options.map((o, ind) => {
         // Sets an rx-sort-active class when the option value
         // matches the selected / default value
-        const defaultCssClass = classNames({
+        const selectedClass = classNames({
           'rx-sort-active': o.value === this.props.selected
         });
 
-        return (<li key={ind}><Link
-            className={defaultCssClass}
-            activeClassName="rx-sort-active"
-            to={{
-              pathname: '/',
-              query: { sort: `${o.value}` }
-            }}>{o.label}</Link></li>);
+        return (
+          <li key={ind}>
+            <a
+                className={selectedClass}
+                onClick={this.handleClick(o.value)}>
+              {o.label}
+            </a>
+          </li>
+        );
       });
     };
 
@@ -41,7 +59,7 @@ class SortMenu extends React.Component {
       <form className="rx-sort va-dnp">
         <div className="rx-sort-wide">
           <label htmlFor="sortby">Sort by </label>
-          <ul className="va-list-ib" onClick={this.props.clickHandler}>
+          <ul className="va-list-ib">
             {sortLinks(sortBys)}
           </ul>
         </div>
@@ -49,7 +67,7 @@ class SortMenu extends React.Component {
           <select
               value={this.props.selected}
               id="sortby"
-              onChange={this.props.changeHandler}>
+              onChange={this.handleChange}>
             {sortOptionElements(this.props.options)}
           </select>
         </div>
@@ -59,12 +77,13 @@ class SortMenu extends React.Component {
 }
 
 SortMenu.propTypes = {
+  onChange: React.PropTypes.func,
+  onClick: React.PropTypes.func,
   options: React.PropTypes.arrayOf(React.PropTypes.shape({
     value: React.PropTypes.string,
     label: React.PropTypes.string,
   })),
-  changeHandler: React.PropTypes.func,
-  clickHandler: React.PropTypes.func,
+  selected: React.PropTypes.string
 };
 
 export default SortMenu;

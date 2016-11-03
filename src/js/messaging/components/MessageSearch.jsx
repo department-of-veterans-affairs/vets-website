@@ -2,6 +2,8 @@ import React from 'react';
 import MessageSearchAdvanced from './MessageSearchAdvanced';
 import ErrorableTextInput from '../../common/components/form-elements/ErrorableTextInput';
 
+import { isEmptySearch } from '../utils/validations';
+
 class MessageSearch extends React.Component {
   constructor(props) {
     super(props);
@@ -16,11 +18,18 @@ class MessageSearch extends React.Component {
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
-    this.props.onSubmit(this.props.params);
+    const searchParams = this.props.params;
+
+    if (isEmptySearch(searchParams)) {
+      this.props.onError('error', 'Invalid search. Please try again.');
+    } else {
+      this.props.onSubmit(searchParams);
+    }
   }
 
   render() {
     let basicSearch;
+
     if (!this.props.isAdvancedVisible) {
       basicSearch = (
         <div className="va-flex va-flex--stretch msg-search-simple-wrap">
@@ -60,6 +69,7 @@ MessageSearch.propTypes = {
   folder: React.PropTypes.number,
   isAdvancedVisible: React.PropTypes.bool.isRequired,
   onAdvancedSearch: React.PropTypes.func.isRequired,
+  onError: React.PropTypes.func.isRequired,
   onFieldChange: React.PropTypes.func.isRequired,
   onDateChange: React.PropTypes.func.isRequired,
   onSubmit: React.PropTypes.func,
