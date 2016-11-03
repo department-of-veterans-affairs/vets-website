@@ -8,6 +8,7 @@ import SortableTable from '../../common/components/SortableTable';
 
 import {
   fetchFolder,
+  openAlert,
   sendSearch,
   setDateRange,
   setSearchParam,
@@ -255,9 +256,10 @@ export class Folder extends React.Component {
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}
-            params={this.props.searchParams}
+            onError={this.props.openAlert}
             onFieldChange={this.props.setSearchParam}
-            onSubmit={this.handleSearch}/>
+            onSubmit={this.handleSearch}
+            params={this.props.searchParams}/>
         <div id="messaging-folder-controls">
           <ComposeButton/>
           {messageNav}
@@ -300,6 +302,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchFolder,
+  openAlert,
   sendSearch,
   setDateRange,
   setSearchParam,
