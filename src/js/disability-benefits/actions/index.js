@@ -142,6 +142,19 @@ function calcProgress(totalFiles, totalSize, filesComplete, bytesComplete) {
   return ((filesComplete / totalFiles) * (1 - ratio)) + ((bytesComplete / totalSize) * ratio);
 }
 
+export function setNotification(message) {
+  return {
+    type: SET_NOTIFICATION,
+    message
+  };
+}
+
+export function clearNotification() {
+  return {
+    type: CLEAR_NOTIFICATION
+  };
+}
+
 export function submitFiles(claimId, trackedItem, files) {
   let filesComplete = 0;
   let bytesComplete = 0;
@@ -172,17 +185,19 @@ export function submitFiles(claimId, trackedItem, files) {
               type: DONE_UPLOADING,
               itemName: trackedItem ? trackedItem.displayName : null
             });
-            dispatch({
-              type: SET_NOTIFICATION,
-              message: {
-                title: 'We have your evidence',
-                body: `Thank you for filing ${trackedItem ? trackedItem.displayName : 'additional evidence'}. We'll let you know when we've reviewed it.`
-              }
-            });
+            dispatch(setNotification({
+              title: 'We have your evidence',
+              body: `Thank you for filing ${trackedItem ? trackedItem.displayName : 'additional evidence'}. We'll let you know when we've reviewed it.`
+            }));
           } else {
             dispatch({
               type: SET_UPLOAD_ERROR
             });
+            dispatch(setNotification({
+              title: 'Error uploading files',
+              body: 'There was an error uploading your files. Please try again',
+              type: 'error'
+            }));
           }
         },
         onTotalProgress: (bytes) => {
@@ -207,6 +222,7 @@ export function submitFiles(claimId, trackedItem, files) {
         }
       }
     });
+    dispatch(clearNotification());
     dispatch({
       type: SET_UPLOADING,
       uploading: true,
@@ -283,15 +299,3 @@ export function setLastPage(page) {
   };
 }
 
-export function setNotification(message) {
-  return {
-    type: SET_NOTIFICATION,
-    message
-  };
-}
-
-export function clearNotification() {
-  return {
-    type: CLEAR_NOTIFICATION
-  };
-}

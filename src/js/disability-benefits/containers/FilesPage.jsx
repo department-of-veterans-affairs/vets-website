@@ -131,6 +131,7 @@ class FilesPage extends React.Component {
       <ClaimDetailLayout
           claim={claim}
           loading={loading}
+          clearNotification={this.props.clearNotification}
           message={message}>
         {content}
       </ClaimDetailLayout>
