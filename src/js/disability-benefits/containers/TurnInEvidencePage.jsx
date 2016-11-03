@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
-import UploadError from '../components/UploadError';
+import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
 
 import {
@@ -17,7 +17,8 @@ import {
   cancelUpload,
   getClaimDetail,
   setFieldsDirty,
-  resetUploads
+  resetUploads,
+  clearNotification
 } from '../actions';
 
 const scrollToError = () => {
@@ -28,6 +29,7 @@ const scrollToError = () => {
     smooth: true
   });
 };
+const Element = Scroll.Element;
 
 class TurnInEvidencePage extends React.Component {
   componentDidMount() {
@@ -40,8 +42,13 @@ class TurnInEvidencePage extends React.Component {
     }
   }
   componentDidUpdate(prevProps) {
-    if (this.props.uploadError && !prevProps.uploadError) {
+    if (this.props.message && !prevProps.message) {
       scrollToError();
+    }
+  }
+  componentWillUnmount() {
+    if (!this.props.uploadComplete) {
+      this.props.clearNotification();
     }
   }
   goToFilesPage() {
@@ -55,6 +62,8 @@ class TurnInEvidencePage extends React.Component {
       content = <LoadingIndicator/>;
     } else {
       const filesPath = `your-claims/${this.props.claim.id}/files`;
+      const message = this.props.message;
+
       content = (
         <div className="claim-container">
           <nav className="va-nav-breadcrumbs">
@@ -64,9 +73,11 @@ class TurnInEvidencePage extends React.Component {
               <li className="active">Turn in More Evidence</li>
             </ul>
           </nav>
-          {this.props.uploadError
-            ? <UploadError/>
-            : null}
+          {message &&
+            <div>
+              <Element name="uploadError"/>
+              <Notification title={message.title} body={message.body} type={message.type}/>
+            </div>}
           <h1 className="claims-header">Turn in More Evidence</h1>
           <EvidenceWarning/>
           <AddFilesForm
@@ -116,7 +127,8 @@ function mapStateToProps(state) {
     uploadComplete: state.uploads.uploadComplete,
     uploadField: state.uploads.uploadField,
     showMailOrFax: state.uploads.showMailOrFax,
-    lastPage: state.routing.lastPage
+    lastPage: state.routing.lastPage,
+    message: state.notifications.message
   };
 }
 
@@ -129,7 +141,8 @@ const mapDispatchToProps = {
   cancelUpload,
   getClaimDetail,
   setFieldsDirty,
-  resetUploads
+  resetUploads,
+  clearNotification
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(TurnInEvidencePage));

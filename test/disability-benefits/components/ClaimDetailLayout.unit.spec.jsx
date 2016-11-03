@@ -94,13 +94,17 @@ describe('<ClaimDetailLayout>', () => {
         ]
       }
     };
+    const message = {
+      title: 'Test',
+      body: 'Testing'
+    };
 
     const tree = SkinDeep.shallowRender(
       <ClaimDetailLayout
-          message="This is a message"
+          message={message}
           claim={claim}/>
     );
 
-    expect(tree.text()).to.contain('This is a message');
+    expect(tree.subTree('Notification')).not.to.be.false;
   });
 });

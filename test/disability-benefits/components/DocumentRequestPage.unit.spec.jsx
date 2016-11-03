@@ -22,13 +22,68 @@ describe('<DocumentRequestPage>', () => {
     const claim = {
       id: 1
     };
+    const message = {
+      title: 'Test',
+      body: 'Testing'
+    };
     const tree = SkinDeep.shallowRender(
       <DocumentRequestPage
           trackedItem={trackedItem}
           claim={claim}
-          uploadError/>
+          message={message}/>
     );
-    expect(tree.subTree('UploadError')).not.to.be.false;
+    expect(tree.subTree('Notification')).not.to.be.false;
+  });
+  it('should clear upload error when leaving', () => {
+    const claim = {
+      id: 1
+    };
+    const trackedItem = {
+      type: 'still_need_from_you_list',
+    };
+    const message = {
+      title: 'test',
+      body: 'test',
+      type: 'error'
+    };
+    const clearNotification = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <DocumentRequestPage
+          trackedItem={trackedItem}
+          claim={claim}
+          clearNotification={clearNotification}
+          message={message}/>
+    );
+    expect(tree.subTree('Notification')).not.to.be.false;
+    tree.getMountedInstance().componentWillUnmount();
+    expect(clearNotification.called).to.be.true;
+  });
+  it('should not clear notification after completed upload', () => {
+    const claim = {
+      id: 1
+    };
+    const trackedItem = {
+      type: 'still_need_from_you_list',
+    };
+    const message = {
+      title: 'test',
+      body: 'test',
+      type: 'error'
+    };
+    const clearNotification = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <DocumentRequestPage
+          trackedItem={trackedItem}
+          claim={claim}
+          uploadComplete
+          clearNotification={clearNotification}
+          message={message}/>
+    );
+    expect(tree.subTree('Notification')).not.to.be.false;
+    tree.getMountedInstance().componentWillUnmount();
+    expect(clearNotification.called).to.be.false;
   });
   it('should render due date info', () => {
     const trackedItem = {
