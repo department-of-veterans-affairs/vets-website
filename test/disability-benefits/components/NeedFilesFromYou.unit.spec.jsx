@@ -8,7 +8,7 @@ describe('<NeedFilesFromYou>', () => {
   it('should render single file needed', () => {
     const tree = SkinDeep.shallowRender(
       <NeedFilesFromYou
-          events={[{ type: 'still_need_from_you_list' }]}
+          events={[{ type: 'still_need_from_you_list', status: 'NEEDED' }]}
           claimId={2}/>
     );
 
@@ -19,8 +19,8 @@ describe('<NeedFilesFromYou>', () => {
     const tree = SkinDeep.shallowRender(
       <NeedFilesFromYou
           events={[
-            { type: 'still_need_from_others_list' },
-            { type: 'still_need_from_you_list' }
+            { type: 'still_need_from_others_list', status: 'NEEDED' },
+            { type: 'still_need_from_you_list', status: 'NEEDED' }
           ]}
           claimId={2}/>
     );
@@ -30,7 +30,8 @@ describe('<NeedFilesFromYou>', () => {
   });
   it('should render multiple files needed', () => {
     const events = Array(2).fill({
-      type: 'still_need_from_you_list'
+      type: 'still_need_from_you_list',
+      status: 'NEEDED'
     });
     const tree = SkinDeep.shallowRender(
       <NeedFilesFromYou

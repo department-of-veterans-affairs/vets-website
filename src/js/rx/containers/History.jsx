@@ -8,8 +8,8 @@ import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modals';
 import Pagination from '../../common/components/Pagination';
 import SortMenu from '../components/SortMenu';
-import { glossary, rxStatuses } from '../config.js';
-import { formatDate } from '../utils/helpers';
+import { rxStatuses } from '../config';
+import { formatDate, getModalTerm } from '../utils/helpers';
 
 class History extends React.Component {
   constructor(props) {
@@ -65,9 +65,7 @@ class History extends React.Component {
   }
 
   openGlossaryModal(term) {
-    const content = glossary.filter(obj => {
-      return obj.term === term;
-    });
+    const content = getModalTerm(term);
     this.props.openGlossaryModal(content);
   }
 
