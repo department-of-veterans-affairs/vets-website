@@ -10,7 +10,8 @@ import {
   getUserPhaseDescription,
   getHistoryPhaseDescription,
   getPhaseDescription,
-  truncateDescription
+  truncateDescription,
+  getSubmittedItemDate
 } from '../../../src/js/disability-benefits/utils/helpers';
 
 describe('Disability benefits helpers:', () => {
@@ -210,6 +211,41 @@ describe('Disability benefits helpers:', () => {
       const desc = getPhaseDescription(2);
 
       expect(desc).to.equal('Initial review');
+    });
+  });
+  describe('getSubmittedItemDate', () => {
+    it('should use the received date', () => {
+      const date = getSubmittedItemDate({
+        receivedDate: '2010-01-01',
+        documents: [
+          { uploadDate: '2011-01-01' }
+        ],
+        date: '2012-01-01'
+      });
+
+      expect(date).to.equal('2010-01-01');
+    });
+    it('should use the last document upload date', () => {
+      const date = getSubmittedItemDate({
+        receivedDate: null,
+        documents: [
+          { uploadDate: '2011-01-01' },
+          { uploadDate: '2012-01-01' }
+        ],
+        date: '2013-01-01'
+      });
+
+      expect(date).to.equal('2012-01-01');
+    });
+    it('should use the date', () => {
+      const date = getSubmittedItemDate({
+        receivedDate: null,
+        documents: [
+        ],
+        date: '2013-01-01'
+      });
+
+      expect(date).to.equal('2013-01-01');
     });
   });
 });

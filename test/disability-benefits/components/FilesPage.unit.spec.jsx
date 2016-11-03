@@ -37,7 +37,8 @@ describe('<FilesPage>', () => {
         eventsTimeline: [{
           type: 'still_need_from_you_list',
           displayName: 'Request 1',
-          description: 'Some description'
+          description: 'Some description',
+          status: 'NEEDED'
         }]
       }
     };
@@ -55,7 +56,8 @@ describe('<FilesPage>', () => {
     const claim = {
       attributes: {
         eventsTimeline: [{
-          type: 'still_need_from_others_list'
+          type: 'still_need_from_others_list',
+          status: 'NEEDED'
         }]
       }
     };
@@ -71,13 +73,22 @@ describe('<FilesPage>', () => {
   it('should display turned in docs', () => {
     const claim = {
       attributes: {
-        eventsTimeline: [{
-          type: 'received_from_you_list',
-          documents: [{
-            filename: 'Filename'
-          }],
-          status: 'ACCEPTED'
-        }]
+        eventsTimeline: [
+          {
+            type: 'received_from_you_list',
+            documents: [{
+              filename: 'Filename'
+            }],
+            status: 'ACCEPTED'
+          },
+          {
+            type: 'still_need_from_you_list',
+            documents: [{
+              filename: 'Filename'
+            }],
+            status: 'SUBMITTED_AWAITING_REVIEW'
+          }
+        ]
       }
     };
 
@@ -85,16 +96,18 @@ describe('<FilesPage>', () => {
       <FilesPage
           claim={claim}/>
     );
-    expect(tree.everySubTree('.submitted-file-list-item')).not.to.be.empty;
+    expect(tree.everySubTree('.submitted-file-list-item').length).to.equal(2);
     expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Filename');
     expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Reviewed by VA');
+    expect(tree.everySubTree('.submitted-file-list-item')[1].text()).to.contain('Submitted');
   });
   it('should render decision message', () => {
     const claim = {
       attributes: {
         waiverSubmitted: true,
         eventsTimeline: [{
-          type: 'still_need_from_you_list'
+          type: 'still_need_from_you_list',
+          status: 'NEEDED'
         }]
       }
     };
