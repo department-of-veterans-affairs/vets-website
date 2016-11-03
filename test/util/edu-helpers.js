@@ -73,7 +73,6 @@ const testValues = {
   },
   highSchoolOrGedCompletionDate: {
     month: 'May',
-    day: '2',
     year: '1996'
   },
   educationPeriods: [
@@ -274,8 +273,6 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
     client
       .clearValue('select[name="highSchoolOrGedCompletionDateMonth"]')
       .setValue('select[name="highSchoolOrGedCompletionDateMonth"]', data.highSchoolOrGedCompletionDate.month)
-      .clearValue('select[name="highSchoolOrGedCompletionDateDay"]')
-      .setValue('select[name="highSchoolOrGedCompletionDateDay"]', data.highSchoolOrGedCompletionDate.day)
       .clearValue('input[name="highSchoolOrGedCompletionDateYear"]')
       .setValue('input[name="highSchoolOrGedCompletionDateYear"]', data.highSchoolOrGedCompletionDate.year)
       .clearValue('input[name="name"]')
