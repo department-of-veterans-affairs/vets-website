@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Apply for Disability Benefits
-plainlanguage: 11-1-16 Ready for Beth review
+plainlanguage: 11-02-16 certified in compliance with the Plain Writing Act
 template: 7-get-page-alt
 showactionbar: false
 relatedlinks:
