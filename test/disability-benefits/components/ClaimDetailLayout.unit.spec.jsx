@@ -30,6 +30,21 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.subTree('.list').text()).to.contain('Condition 1, Condition 2');
   });
+  it('should render not available if no contention list', () => {
+    const claim = {
+      attributes: {
+        contentionList: [
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ClaimDetailLayout
+          claim={claim}/>
+    );
+
+    expect(tree.subTree('.list').text()).to.contain('Not available');
+  });
   it('should render adding details info', () => {
     const claim = {
       attributes: {

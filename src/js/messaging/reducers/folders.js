@@ -11,9 +11,7 @@ import {
   DELETE_MESSAGE_SUCCESS,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
-  FOLDER_SEARCH_SUCCESS,
   MOVE_MESSAGE_SUCCESS,
-  RESET_PAGINATION,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
   SET_CURRENT_FOLDER,
@@ -25,6 +23,7 @@ const initialState = {
   data: {
     currentItem: {
       attributes: {},
+      filter: {},
       messages: [],
       pagination: {
         currentPage: 0,
@@ -67,52 +66,29 @@ export default function folders(state = initialState, action) {
     case FETCH_FOLDER_SUCCESS: {
       const attributes = action.folder.data.attributes;
       const messages = action.messages.data.map(message => message.attributes);
-      const pagination = action.messages.meta.pagination;
       const persistFolder = action.folder.data.attributes.folderId;
-      const sort = action.messages.meta.sort;
+
+      const meta = action.messages.meta;
+      const filter = meta.filter;
+      const pagination = meta.pagination;
+      const sort = meta.sort;
       const sortValue = Object.keys(sort)[0];
       const sortOrder = sort[sortValue];
+
       const newItem = {
         attributes,
+        filter,
         messages,
         pagination,
         persistFolder,
         sort: { value: sortValue, order: sortOrder },
       };
       return set('data.currentItem', newItem, state);
-    }
-
-    case RESET_PAGINATION: {
-      const newPagination = {
-        currentPage: 0,
-        perPage: 0,
-        totalEntries: 0,
-        totalPages: 0
-      };
-      return set('data.currentItem.pagination', newPagination, state);
     }
 
     case FETCH_FOLDERS_SUCCESS: {
       const items = action.data.data.map(folder => folder.attributes);
       return set('data.items', items, state);
-    }
-
-    case FOLDER_SEARCH_SUCCESS: {
-      const attributes = state.data.currentItem.attributes;
-      const messages = action.messages.data.map(message => message.attributes);
-      const pagination = action.messages.meta.pagination;
-      const persistFolder = state.data.currentItem.persistFolder;
-      const sort = action.messages.meta.sort;
-      const sortValue = Object.keys(sort)[0];
-      const sortOrder = sort[sortValue];
-      const newItem = {
-        attributes,
-        messages,
-        pagination,
-        persistFolder,
-        sort: { value: sortValue, order: sortOrder },
-      };
-      return set('data.currentItem', newItem, state);
     }
 
     case TOGGLE_FOLDER_NAV:
