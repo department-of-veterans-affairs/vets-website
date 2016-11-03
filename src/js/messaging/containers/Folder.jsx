@@ -44,49 +44,57 @@ export class Folder extends React.Component {
 
     const oldId = this.props.attributes.folderId;
     const newId = +this.props.params.id;
-
-    const oldPage = this.props.page;
-    const newPage = +query.page || oldPage;
-
-    const oldSort = this.formattedSortParam(
-      this.props.sort.value,
-      this.props.sort.order
-    );
-
-    const newSort = query.sort || oldSort;
-
     const idChanged = newId !== oldId;
-    const pageChanged = newPage !== oldPage;
-    const sortChanged = newSort !== oldSort;
 
-    const fromDateSearchChanged =
-      query['filter[[sent_date][gteq]]'] !==
-      _.get(this.props.filter, 'sentDate.gteq');
+    const pageChanged = () => {
+      const oldPage = this.props.page;
+      const newPage = +query.page || oldPage;
+      return newPage !== oldPage;
+    };
 
-    const toDateSearchChanged =
-      query['filter[[sent_date][lteq]]'] !==
-      _.get(this.props.filter, 'sentDate.lteq');
+    const sortChanged = () => {
+      const oldSort = this.formattedSortParam(
+        this.props.sort.value,
+        this.props.sort.order
+      );
+      const newSort = query.sort || oldSort;
+      return newSort !== oldSort;
+    };
 
-    const senderSearchChanged =
-      (query['filter[[sender_name][eq]]'] !==
-      _.get(this.props.filter, 'senderName.eq')) ||
-      (query['filter[[sender_name][match]]'] !==
-      _.get(this.props.filter, 'senderName.match'));
+    const filterChanged = () => {
+      const fromDateSearchChanged =
+        query['filter[[sent_date][gteq]]'] !==
+        _.get(this.props.filter, 'sentDate.gteq');
 
-    const subjectSearchChanged =
-      (query['filter[[subject][eq]]'] !==
-      _.get(this.props.filter, 'subject.eq')) ||
-      (query['filter[[subject][match]]'] !==
-      _.get(this.props.filter, 'subject.match'));
+      const toDateSearchChanged =
+        query['filter[[sent_date][lteq]]'] !==
+        _.get(this.props.filter, 'sentDate.lteq');
+
+      const senderSearchChanged =
+        (query['filter[[sender_name][eq]]'] !==
+        _.get(this.props.filter, 'senderName.eq')) ||
+        (query['filter[[sender_name][match]]'] !==
+        _.get(this.props.filter, 'senderName.match'));
+
+      const subjectSearchChanged =
+        (query['filter[[subject][eq]]'] !==
+        _.get(this.props.filter, 'subject.eq')) ||
+        (query['filter[[subject][match]]'] !==
+        _.get(this.props.filter, 'subject.match'));
+
+      return (
+        fromDateSearchChanged ||
+        toDateSearchChanged ||
+        senderSearchChanged ||
+        subjectSearchChanged
+      );
+    };
 
     const shouldUpdate =
       idChanged ||
-      pageChanged ||
-      sortChanged ||
-      fromDateSearchChanged ||
-      toDateSearchChanged ||
-      senderSearchChanged ||
-      subjectSearchChanged;
+      pageChanged() ||
+      sortChanged() ||
+      filterChanged();
 
     if (shouldUpdate) {
       this.props.fetchFolder(newId, query);
