@@ -252,7 +252,6 @@ export class Folder extends React.Component {
           <h2>{folderName}</h2>
         </div>
         <MessageSearch
-            folder={+folderId}
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}
