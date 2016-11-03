@@ -110,6 +110,7 @@ class History extends React.Component {
 
       content = (
         <div>
+          <p className="rx-tab-explainer">Your VA prescription refill history.</p>
           <SortMenu
               onChange={this.handleSort}
               options={fields}
@@ -126,11 +127,17 @@ class History extends React.Component {
               pages={this.props.pages}/>
         </div>
       );
+    } else {
+      content = (
+        <p className="rx-tab-explainer rx-loading-error">
+          We couldn't retrieve your prescriptions.
+          Please refresh this page or try again later.
+        </p>
+      );
     }
 
     return (
       <div id="rx-history" className="va-tab-content">
-        <p className="rx-tab-explainer">Your VA prescription refill history.</p>
         {content}
       </div>
     );

@@ -69,7 +69,8 @@ class Active extends React.Component {
         <p className="rx-tab-explainer rx-loading-error">
           We couldn't retrieve your prescriptions.
           Please refresh this page or try again later.
-        </p>);
+        </p>
+      );
     }
 
     return (
