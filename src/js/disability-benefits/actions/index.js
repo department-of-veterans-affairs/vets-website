@@ -20,10 +20,11 @@ export const SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR';
 export const UPDATE_FIELD = 'UPDATE_FIELD';
 export const SHOW_MAIL_OR_FAX = 'SHOW_MAIL_OR_FAX';
 export const CANCEL_UPLOAD = 'CANCEL_UPLOAD';
-export const CLEAR_UPLOADED_ITEM = 'CLEAR_UPLOADED_ITEM';
 export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
 export const SHOW_CONSOLIDATED_MODAL = 'SHOW_CONSOLIDATED_MODAL';
 export const SET_LAST_PAGE = 'SET_LAST_PAGE';
+export const SET_NOTIFICATION = 'SET_NOTIFICATION';
+export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 
 export function getClaims() {
   return (dispatch) => {
@@ -140,6 +141,19 @@ function calcProgress(totalFiles, totalSize, filesComplete, bytesComplete) {
   return ((filesComplete / totalFiles) * (1 - ratio)) + ((bytesComplete / totalSize) * ratio);
 }
 
+export function setNotification(message) {
+  return {
+    type: SET_NOTIFICATION,
+    message
+  };
+}
+
+export function clearNotification() {
+  return {
+    type: CLEAR_NOTIFICATION
+  };
+}
+
 export function submitFiles(claimId, trackedItem, files) {
   let filesComplete = 0;
   let bytesComplete = 0;
@@ -168,12 +182,20 @@ export function submitFiles(claimId, trackedItem, files) {
           if (!hasError) {
             dispatch({
               type: DONE_UPLOADING,
-              itemName: trackedItem ? trackedItem.displayName : null
             });
+            dispatch(setNotification({
+              title: 'We have your evidence',
+              body: `Thank you for filing ${trackedItem ? trackedItem.displayName : 'additional evidence'}. We'll let you know when we've reviewed it.`
+            }));
           } else {
             dispatch({
               type: SET_UPLOAD_ERROR
             });
+            dispatch(setNotification({
+              title: 'Error uploading files',
+              body: 'There was an error uploading your files. Please try again',
+              type: 'error'
+            }));
           }
         },
         onTotalProgress: (bytes) => {
@@ -198,6 +220,7 @@ export function submitFiles(claimId, trackedItem, files) {
         }
       }
     });
+    dispatch(clearNotification());
     dispatch({
       type: SET_UPLOADING,
       uploading: true,
@@ -248,12 +271,6 @@ export function cancelUpload() {
   };
 }
 
-export function clearUploadedItem() {
-  return {
-    type: CLEAR_UPLOADED_ITEM
-  };
-}
-
 export function setFieldsDirty() {
   return {
     type: SET_FIELDS_DIRTY
@@ -273,3 +290,4 @@ export function setLastPage(page) {
     page
   };
 }
+
