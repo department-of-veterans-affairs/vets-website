@@ -122,7 +122,7 @@ export class Folder extends React.Component {
   }
 
   buildSearchQuery(object) {
-    const filters = { search: true };
+    const filters = {};
 
     if (object.term.value) {
       filters['filter[[subject][match]]'] = object.term.value;
