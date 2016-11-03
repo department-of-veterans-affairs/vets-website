@@ -27,8 +27,11 @@ export default class ClaimDetailLayout extends React.Component {
             <h6>Your Claimed Conditions:</h6>
             <p className="list">
               {claim.attributes.contentionList && claim.attributes.contentionList.length
-                ? claim.attributes.contentionList.join(', ')
+                ? claim.attributes.contentionList.slice(0, 3).join(', ')
                 : 'Not available'}
+              {claim.attributes.contentionList && claim.attributes.contentionList.length > 3
+                  ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all</Link></span>
+                : null}
             </p>
           </div>
           <TabNav id={this.props.claim.id}/>
