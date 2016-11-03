@@ -3,11 +3,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
 
-import EvidenceSubmitted from '../components/EvidenceSubmitted';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import DueDate from '../components/DueDate';
 
-import { clearUploadedItem } from '../actions';
+import { clearNotification } from '../actions';
 import { hasBeenReviewed, truncateDescription, getSubmittedItemDate } from '../utils/helpers';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
@@ -17,15 +16,14 @@ class FilesPage extends React.Component {
     super();
     this.closeAlert = this.closeAlert.bind(this);
   }
+  componentWillUnmount() {
+    this.props.clearNotification();
+  }
   closeAlert() {
-    this.props.clearUploadedItem();
+    this.props.clearNotification();
   }
   render() {
-    const { claim, loading, uploadedItem } = this.props;
-
-    const message = uploadedItem
-      ? <EvidenceSubmitted item={uploadedItem} onClose={this.closeAlert}/>
-      : null;
+    const { claim, loading, message } = this.props;
 
     let content = null;
     if (!loading) {
@@ -133,6 +131,7 @@ class FilesPage extends React.Component {
       <ClaimDetailLayout
           claim={claim}
           loading={loading}
+          clearNotification={this.props.clearNotification}
           message={message}>
         {content}
       </ClaimDetailLayout>
@@ -144,12 +143,12 @@ function mapStateToProps(state) {
   return {
     loading: state.claimDetail.loading,
     claim: state.claimDetail.detail,
-    uploadedItem: state.uploads.uploadedItem
+    message: state.notifications.message
   };
 }
 
 const mapDispatchToProps = {
-  clearUploadedItem
+  clearNotification
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilesPage);

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import { rxStatuses } from '../config';
-import { formatDate } from '../utils/helpers';
+import { formatDate, getModalTerm } from '../utils/helpers';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitRefill from './SubmitRefill';
@@ -14,11 +14,17 @@ class Prescription extends React.Component {
     this.showTracking = this.showTracking.bind(this);
     this.showMessageProvider = this.showMessageProvider.bind(this);
     this.showRefillStatus = this.showRefillStatus.bind(this);
+    this.openGlossaryModal = this.openGlossaryModal.bind(this);
   }
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
-    this.props.modalHandler(this.props.attributes);
+    this.props.refillModalHandler(this.props.attributes);
+  }
+
+  openGlossaryModal(domEvent) {
+    const content = getModalTerm(domEvent.target.dataset.term);
+    this.props.glossaryModalHandler(content);
   }
 
   showTracking() {
@@ -74,14 +80,18 @@ class Prescription extends React.Component {
             text="Refill Prescription"/>
       );
     } else {
-      const displayStatus = (status === 'active') ? 'refillinprocess' : status;
+      const displayStatus = (status === 'active') ? rxStatuses.refillinprocess : rxStatuses[status];
 
       refillStatus = (
         <div
             key={`rx-${id}-status`}
             className="rx-prescription-status">
-            Refill status:
-          <span> {rxStatuses[displayStatus]}</span>
+          Refill status:
+          <button
+              className="rx-trigger"
+              data-term={displayStatus}
+              onClick={this.openGlossaryModal}
+              type="button">{displayStatus}</button>
         </div>
       );
     }
@@ -150,7 +160,8 @@ class Prescription extends React.Component {
 
 Prescription.propTypes = {
   id: React.PropTypes.string.isRequired,
-  modalHandler: React.PropTypes.func.isRequired,
+  glossaryModalHandler: React.PropTypes.func.isRequired,
+  refillModalHandler: React.PropTypes.func.isRequired,
   type: React.PropTypes.string.isRequired,
   attributes: React.PropTypes.shape({
     prescriptionId: React.PropTypes.number.isRequired,
