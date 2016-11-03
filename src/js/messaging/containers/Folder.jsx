@@ -151,7 +151,7 @@ export class Folder extends React.Component {
 
   handlePageSelect(page) {
     this.context.router.push({
-      pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
+      ...this.props.location,
       query: { ...this.props.location.query, page }
     });
   }
@@ -159,7 +159,7 @@ export class Folder extends React.Component {
   handleSort(value, order) {
     const sort = this.formattedSortParam(value, order);
     this.context.router.push({
-      pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
+      ...this.props.location,
       query: { ...this.props.location.query, sort }
     });
   }
@@ -168,7 +168,7 @@ export class Folder extends React.Component {
     const filters = this.buildSearchQuery(searchParams);
 
     this.context.router.push({
-      pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
+      ...this.props.location,
       query: filters
     });
   }
