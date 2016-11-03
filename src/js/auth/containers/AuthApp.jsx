@@ -20,12 +20,17 @@ class AuthApp extends React.Component {
         this.setState({ verifyUrl: result.authenticate_via_get });
       });
     }
-    this.checkUserLevel();
+
+    // this.checkUserLevel();
+    const myToken = this.props.location.query.token;
+    this.setMyToken(myToken);
   }
 
   setMyToken(token) {
+    window.opener.localStorage.removeItem('userToken');
     window.opener.localStorage.setItem('userToken', token);
     window.opener.postMessage(token, environment.BASE_URL);
+    localStorage.setItem('userToken', token);
     window.close();
   }
 

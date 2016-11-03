@@ -2,8 +2,6 @@ import React from 'react';
 import $ from 'jquery';
 import _ from 'lodash';
 
-import { commonStore } from '../store';
-
 import environment from '../helpers/environment.js';
 import { handleVerify } from '../helpers/login-helpers.js';
 
@@ -24,21 +22,17 @@ class RequiredLoginView extends React.Component {
     };
   }
 
-  componentWillMount() {
-    if (localStorage.userToken !== undefined) {
-      this.setUserLevel();
-    }
-  }
-
   componentDidMount() {
-    if (__BUILDTYPE__ !== 'production') {
-      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
-        this.setState({ verifyUrl: result.authenticate_via_get });
-      });
+    if (localStorage.userToken) {
+      this.setUserLevel();
+    } else {
+      this.handleLogout();
     }
 
-    if (!localStorage.userToken) {
-      this.handleLogout();
+    if (__BUILDTYPE__ !== 'production') {
+      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
+        this.setState({ loginUrl: result.authenticate_via_get });
+      });
     }
 
     window.addEventListener('message', this.setInitialLevel);
@@ -78,9 +72,7 @@ class RequiredLoginView extends React.Component {
   }
 
   handleLogin() {
-    const myStore = commonStore.getState();
-    const login = myStore.login;
-    const myLoginUrl = login.loginUrl.first;
+    const myLoginUrl = this.state.loginUrl;
     // TODO(crew): Check on how this opens on mobile.
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
     receiver.focus();
