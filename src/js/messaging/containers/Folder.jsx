@@ -9,7 +9,6 @@ import SortableTable from '../../common/components/SortableTable';
 import {
   fetchFolder,
   openAlert,
-  sendSearch,
   setDateRange,
   setSearchParam,
   toggleAdvancedSearch,
@@ -19,7 +18,6 @@ import {
 import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
 import MessageSearch from '../components/MessageSearch';
-import { paths } from '../config';
 import { formattedDate } from '../utils/helpers';
 
 export class Folder extends React.Component {
@@ -38,11 +36,7 @@ export class Folder extends React.Component {
   componentDidMount() {
     const id = this.props.params.id;
     const query = this.getQueryParams();
-    if (query.search) {
-      this.props.sendSearch(id, query);
-    } else {
-      this.props.fetchFolder(id, query);
-    }
+    this.props.fetchFolder(id, query);
   }
 
   componentDidUpdate() {
@@ -235,7 +229,6 @@ export class Folder extends React.Component {
   }
 
   render() {
-    const folderId = _.get(this.props.attributes, 'folderId', 0);
     const folderName = _.get(this.props.attributes, 'name');
     const messageNav = this.makeMessageNav();
     const folderMessages = this.makeMessagesTable();
@@ -302,7 +295,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   fetchFolder,
   openAlert,
-  sendSearch,
   setDateRange,
   setSearchParam,
   toggleAdvancedSearch,

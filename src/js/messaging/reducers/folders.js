@@ -11,7 +11,6 @@ import {
   DELETE_MESSAGE_SUCCESS,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
-  FOLDER_SEARCH_SUCCESS,
   MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
@@ -90,24 +89,6 @@ export default function folders(state = initialState, action) {
     case FETCH_FOLDERS_SUCCESS: {
       const items = action.data.data.map(folder => folder.attributes);
       return set('data.items', items, state);
-    }
-
-    case FOLDER_SEARCH_SUCCESS: {
-      const attributes = state.data.currentItem.attributes;
-      const messages = action.messages.data.map(message => message.attributes);
-      const pagination = action.messages.meta.pagination;
-      const persistFolder = state.data.currentItem.persistFolder;
-      const sort = action.messages.meta.sort;
-      const sortValue = Object.keys(sort)[0];
-      const sortOrder = sort[sortValue];
-      const newItem = {
-        attributes,
-        messages,
-        pagination,
-        persistFolder,
-        sort: { value: sortValue, order: sortOrder },
-      };
-      return set('data.currentItem', newItem, state);
     }
 
     case TOGGLE_FOLDER_NAV:
