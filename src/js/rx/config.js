@@ -50,10 +50,6 @@ module.exports = {
         definition: 'This prescription cannot be refilled until a hold is resolved by the pharmacy. Contact your VA pharmacy if you need this prescription now.'
       },
       {
-        term: 'Submitted',
-        definition: 'Your prescription refill has been submitted.'
-      },
-      {
         term: 'Suspended',
         definition: 'An active prescription that is not scheduled to be filled yet. You should receive it before you run out. Contact your VA pharmacy if you need this medication now.'
       },
