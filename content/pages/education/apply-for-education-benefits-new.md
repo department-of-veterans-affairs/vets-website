@@ -128,7 +128,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 - We usually review claims within 30 days.
 - If we’ve asked for documents, please upload them through the [GI Bill site](https://gibill.custhelp.com/app/home).
 - You can’t make changes to your application.
-- Call 888-442-4551 (888-GI-BILL-1) if you have questions.
+- Call 855-574-7286 if you have questions.
 
 </div>
 
