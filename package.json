@@ -32,7 +32,9 @@
   "nyc": {
     "sourceMap": false,
     "instrument": false,
-    "include": ["src/**"]
+    "include": [
+      "src/**"
+    ]
   },
   "homepage": "https://github.com/department-of-veterans-affairs/vets-website#readme",
   "devDependencies": {
@@ -57,6 +59,7 @@
     "classlist-polyfill": "^1.0.3",
     "classnames": "^2.2.5",
     "command-line-args": "^3.0.1",
+    "core-js": "^2.4.1",
     "cors": "^2.7.1",
     "css-loader": "^0.23.1",
     "dataset": "^0.3.1",
