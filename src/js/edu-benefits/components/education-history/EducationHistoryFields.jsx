@@ -32,6 +32,7 @@ export default class EducationHistoryFields extends React.Component {
         <DateInput
             label="When did you earn your high school diploma or equivalency certificate?"
             name="highSchoolOrGedCompletionDate"
+            hideDayField
             day={day}
             month={month}
             year={year}
