@@ -5,11 +5,11 @@ import _ from 'lodash';
 
 import SortableTable from '../../common/components/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
-import { openGlossaryModal } from '../actions/modal';
+import { openGlossaryModal } from '../actions/modals';
 import Pagination from '../../common/components/Pagination';
 import SortMenu from '../components/SortMenu';
-import { glossary, rxStatuses } from '../config.js';
-import { formatDate } from '../utils/helpers';
+import { rxStatuses } from '../config';
+import { formatDate, getModalTerm } from '../utils/helpers';
 
 class History extends React.Component {
   constructor(props) {
@@ -52,22 +52,20 @@ class History extends React.Component {
   handleSort(value, order) {
     const sort = this.formattedSortParam(value, order);
     this.context.router.push({
-      pathname: '/history',
+      ...this.props.location,
       query: { ...this.props.location.query, sort }
     });
   }
 
   handlePageSelect(page) {
     this.context.router.push({
-      pathname: '/history',
+      ...this.props.location,
       query: { ...this.props.location.query, page }
     });
   }
 
   openGlossaryModal(term) {
-    const content = glossary.filter(obj => {
-      return obj.term === term;
-    });
+    const content = getModalTerm(term);
     this.props.openGlossaryModal(content);
   }
 
@@ -113,9 +111,9 @@ class History extends React.Component {
       content = (
         <div>
           <SortMenu
-              changeHandler={(e) => this.handleSort(e.target.value)}
+              onChange={this.handleSort}
               options={fields}
-              selected={currentSort}/>
+              selected={currentSort.value}/>
           <SortableTable
               className="usa-table-borderless va-table-list rx-table rx-table-list"
               currentSort={currentSort}
@@ -132,6 +130,7 @@ class History extends React.Component {
 
     return (
       <div id="rx-history" className="va-tab-content">
+        <p className="rx-tab-explainer">Your VA prescription refill history.</p>
         {content}
       </div>
     );

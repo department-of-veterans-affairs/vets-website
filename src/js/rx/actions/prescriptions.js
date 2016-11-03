@@ -25,22 +25,22 @@ export function loadPrescription(id) {
 
 export function loadPrescriptions(options) {
   let url = api.url;
+  let defaultSort = '-refill_submit_date';
   const queries = [];
 
   // Construct segments of the final URL based on options passed in.
   if (options) {
     if (options.active) {
       url = `${url}/active`;
-    }
-
-    if (options.sort) {
-      queries.push(`sort=${options.sort}`);
+      defaultSort = 'prescription_name';
     }
 
     if (options.page) {
       queries.push(`page=${options.page}`);
     }
   }
+
+  queries.push(`sort=${options.sort || defaultSort}`);
 
   // Append query parameters.
   if (queries.length > 0) {
@@ -71,8 +71,6 @@ export function refillPrescription(id) {
   return dispatch => dispatch({ type: 'REFILL_FAILURE' });
 }
 
-export function sortPrescriptions(action) {
-  return {
-    type: action
-  };
+export function sortPrescriptions(sort) {
+  return { type: 'SORT_PRESCRIPTIONS', sort };
 }

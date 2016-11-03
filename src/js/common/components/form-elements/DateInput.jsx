@@ -9,6 +9,11 @@ import ToolTip from './ToolTip';
 import { validateIfDirtyDate, isBlank, isValidDate, isValidAnyDate } from '../../utils/validations';
 import { months, days } from '../../utils/options-for-select.js';
 
+const firstDay = {
+  dirty: true,
+  value: '1'
+};
+
 /**
  * A form input with a label that can display error messages.
  *
@@ -38,7 +43,7 @@ class DateInput extends React.Component {
   handleChange(path, update) {
     const date = {
       month: this.props.month,
-      day: this.props.day,
+      day: this.props.hideDayField ? firstDay : this.props.day,
       year: this.props.year
     };
 
@@ -52,7 +57,9 @@ class DateInput extends React.Component {
     let errorSpanId;
     let errorSpan = '';
     let daysForSelectedMonth = [];
-    const day = this.props.day;
+    // Our validations require that there is always a "day" field, so
+    // we'll assume the first day of the month even if we're not displaying it.
+    const day = this.props.hideDayField ? firstDay : this.props.day;
     const month = this.props.month;
     const year = this.props.year;
     const dateValidator = this.props.allowFutureDates ? isValidAnyDate : isValidDate;
@@ -89,6 +96,21 @@ class DateInput extends React.Component {
       requiredSpan = <span className="form-required-span">*</span>;
     }
 
+    let dayField;
+
+    if (!this.props.hideDayField) {
+      dayField = (
+        <div className="form-datefield-day">
+          <ErrorableSelect errorMessage={isValid ? undefined : ''}
+              label="Day"
+              name={`${this.props.name}Day`}
+              options={daysForSelectedMonth}
+              value={this.props.day}
+              onValueChange={(update) => {this.handleChange('day', update);}}/>
+        </div>
+      );
+    }
+
     return (
       <div>
         <label>
@@ -106,14 +128,7 @@ class DateInput extends React.Component {
                   value={this.props.month}
                   onValueChange={(update) => {this.handleChange('month', update);}}/>
             </div>
-            <div className="form-datefield-day">
-              <ErrorableSelect errorMessage={isValid ? undefined : ''}
-                  label="Day"
-                  name={`${this.props.name}Day`}
-                  options={daysForSelectedMonth}
-                  value={this.props.day}
-                  onValueChange={(update) => {this.handleChange('day', update);}}/>
-            </div>
+            {dayField}
             <div className="usa-datefield usa-form-group usa-form-group-year">
               <ErrorableNumberInput errorMessage={isValid ? undefined : ''}
                   label="Year"
@@ -152,6 +167,7 @@ DateInput.propTypes = {
     dirty: React.PropTypes.bool,
   }).isRequired,
   onValueChange: React.PropTypes.func.isRequired,
+  hideDayField: React.PropTypes.bool,
 };
 
 export default DateInput;

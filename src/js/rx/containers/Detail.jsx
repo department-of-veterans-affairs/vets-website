@@ -5,15 +5,15 @@ import _ from 'lodash';
 
 import AlertBox from '../../common/components/AlertBox';
 import { closeAlert } from '../actions/alert.js';
-import { openGlossaryModal, openRefillModal } from '../actions/modal';
+import { openGlossaryModal, openRefillModal } from '../actions/modals';
 import { loadPrescription } from '../actions/prescriptions';
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
 import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 import SubmitRefill from '../components/SubmitRefill';
-import { glossary, rxStatuses } from '../config';
-import { formatDate } from '../utils/helpers';
+import { rxStatuses } from '../config';
+import { formatDate, getModalTerm } from '../utils/helpers';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -165,10 +165,7 @@ export class Detail extends React.Component {
   }
 
   openGlossaryModal(term) {
-    const content = glossary.filter((obj) => {
-      return obj.term === term;
-    });
-
+    const content = getModalTerm(term);
     this.props.openGlossaryModal(content);
   }
 

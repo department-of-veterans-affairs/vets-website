@@ -15,7 +15,6 @@ class GlossaryModal extends React.Component {
 
   render() {
     let element;
-
     if (this.props.isVisible) {
       element = (
         <section className="va-modal rx-modal" id="rx-glossary-modal">
