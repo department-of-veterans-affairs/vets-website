@@ -85,18 +85,22 @@ module.exports = {
     providerHold: 'Hold',
     submitted: 'Submitted',
     suspended: 'Suspended',
-    refillinprocess: 'Refill in process',
+    refillinprocess: 'In process',
     unknown: 'Unknown'
   },
 
   sortOptions: [
-    { value: 'prescriptionName',
+    {
+      value: 'prescriptionName',
       label: 'Prescription name'
     },
-    { value: 'facilityName',
+    {
+      value: 'facilityName',
       label: 'Facility name'
     },
-    { value: 'lastRequested',
+    {
+      value: 'lastSubmitDate',
       label: 'Last submit date'
-    }]
+    }
+  ]
 };
