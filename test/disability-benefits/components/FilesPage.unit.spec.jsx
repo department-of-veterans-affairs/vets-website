@@ -6,13 +6,13 @@ import sinon from 'sinon';
 import { FilesPage } from '../../../src/js/disability-benefits/containers/FilesPage';
 
 describe('<FilesPage>', () => {
-  it('should render evidence submitted component', () => {
+  it('should render notification', () => {
     const claim = {};
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
           loading
-          uploadedItem="Test"
+          message={{ title: 'Test', body: 'Body' }}
           claim={claim}/>
     );
     expect(tree.props.message).not.to.be.null;
@@ -124,16 +124,42 @@ describe('<FilesPage>', () => {
         eventsTimeline: []
       }
     };
-    const clearUploadedItem = sinon.spy();
+    const clearNotification = sinon.spy();
+    const message = {
+      title: 'Test',
+      body: 'Test'
+    };
 
     const tree = SkinDeep.shallowRender(
       <FilesPage
-          uploadedItem="Test"
-          clearUploadedItem={clearUploadedItem}
+          clearNotification={clearNotification}
+          message={message}
           claim={claim}/>
     );
-    expect(clearUploadedItem.called).to.be.false;
-    tree.props.message.props.onClose();
-    expect(clearUploadedItem.called).to.be.true;
+    expect(clearNotification.called).to.be.false;
+    tree.subTree('ClaimDetailLayout').props.clearNotification();
+    expect(clearNotification.called).to.be.true;
+  });
+  it('should clear notification when leaving', () => {
+    const claim = {
+      attributes: {
+        eventsTimeline: []
+      }
+    };
+    const clearNotification = sinon.spy();
+    const message = {
+      title: 'Test',
+      body: 'Test'
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FilesPage
+          clearNotification={clearNotification}
+          message={message}
+          claim={claim}/>
+    );
+    expect(clearNotification.called).to.be.false;
+    tree.getMountedInstance().componentWillUnmount();
+    expect(clearNotification.called).to.be.true;
   });
 });
