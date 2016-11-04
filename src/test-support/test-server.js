@@ -12,7 +12,7 @@ const path = require('path');
 
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: 'development' },
-  { name: 'port', type: Number, defaultValue: 3001 },
+  { name: 'port', type: Number, defaultValue: 3333 },
 
   // Catch-all for bad arguments.
   { name: 'unexpected', type: String, multile: true, defaultOption: true },

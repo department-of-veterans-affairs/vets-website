@@ -24,7 +24,7 @@ module.exports = {
   },
   test_settings: {
     'default': {
-      launch_url: 'localhost:3001',
+      launch_url: 'localhost:3333',
       filter: './test/**/*.e2e.spec.js',
       selenium_host: 'localhost',
       selenium_port: 4444,
@@ -40,6 +40,7 @@ module.exports = {
         browserName: 'chrome',
         javascriptEnabled: true,
         acceptSslCerts: true,
+        webStorageEnabled: true,
         chromeOptions: {
           binary: electron
         }
@@ -60,6 +61,7 @@ module.exports = {
         browserName: 'phantomjs',
         javascriptEnabled: true,
         acceptSslCerts: true,
+        webStorageEnabled: true,
         'phantomjs.binary.path': require('phantomjs-prebuilt').path
       }
     }

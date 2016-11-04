@@ -1,4 +1,5 @@
 import environment from '../common/helpers/environment';
+import assign from 'lodash/fp/assign';
 
 function getHeaders(optionalHeaders = {}) {
   const defaultHeaders = {
@@ -9,13 +10,13 @@ function getHeaders(optionalHeaders = {}) {
     defaultHeaders.Authorization = `Token token=${localStorage.userToken}`;
   }
 
-  return Object.assign({}, defaultHeaders, optionalHeaders);
+  return assign(defaultHeaders, optionalHeaders);
 }
 
 function getApiUrl() {
-  let url = '/api';
+  let url;
 
-  if (environment && environment.BASE_URL !== 'http://localhost:3001') {
+  if (environment) {
     url = environment.API_URL;
   }
 

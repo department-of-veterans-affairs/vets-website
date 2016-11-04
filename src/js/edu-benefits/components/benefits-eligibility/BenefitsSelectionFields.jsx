@@ -34,7 +34,7 @@ export default class BenefitsSelectionFields extends React.Component {
                 checked={this.props.data.chapter33}
                 onValueChange={(update) => {this.props.onStateChange('chapter33', update);}}/>
             <div className="edu-benefits-chapter33-extra">
-              <p>When you choose to apply for your Post-9/11 benefit, you have to relinquish (give up) other benefits you may be eligible for. You’ll make this decision on the next page.</p>
+              <p>When you choose to apply for your Post-9/11 benefit, you have to relinquish (give up) 1 other benefit you may be eligible for. You’ll make this decision on the next page.</p>
             </div>
           </ExpandingGroup>
           <ErrorableCheckbox

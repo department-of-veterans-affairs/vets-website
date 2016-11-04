@@ -1,4 +1,6 @@
+
 import {
+  isBlank,
   isNotBlank,
   validateIfDirty
 } from '../../common/utils/validations';
@@ -83,4 +85,22 @@ export function validateFolderName(folderName, existingFolders = []) {
   }
 
   return err;
+}
+
+function isEmpty(value) {
+  return value === null || isBlank(value);
+}
+
+export function isEmptySearch(search) {
+  const isEmptyStartDate = isEmpty(search.dateRange.start);
+  const isEmptyEndDate = isEmpty(search.dateRange.end);
+  const isEmptyFrom = isEmpty(search.from.field.value);
+  const isEmptySubject = isEmpty(search.subject.field.value);
+  const isEmptyTerm = isEmpty(search.term.value);
+
+  return isEmptyStartDate &&
+         isEmptyEndDate &&
+         isEmptyFrom &&
+         isEmptySubject &&
+         isEmptyTerm;
 }
