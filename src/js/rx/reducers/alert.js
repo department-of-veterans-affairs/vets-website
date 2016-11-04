@@ -1,4 +1,5 @@
 import set from 'lodash/fp/set';
+import assign from 'lodash/fp/assign';
 
 const initialState = {
   content: '',
@@ -9,7 +10,7 @@ const initialState = {
 export default function alert(state = initialState, action) {
   switch (action.type) {
     case 'OPEN_ALERT':
-      return Object.assign({}, state, {
+      return assign(state, {
         content: action.content,
         status: action.status,
         visible: true

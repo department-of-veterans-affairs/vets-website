@@ -1,5 +1,6 @@
 import { api } from '../config';
 import { isJson } from '../utils/helpers';
+import assign from 'lodash/fp/assign';
 
 import {
   ADD_DRAFT_ATTACHMENTS,
@@ -89,7 +90,7 @@ export function moveMessageToFolder(messageId, folder) {
 export function createFolderAndMoveMessage(folderName, messageId) {
   const foldersUrl = `${api.url}/folders`;
   const folderData = { folder: { name: folderName } };
-  const settings = Object.assign({}, api.settings.postJson, {
+  const settings = assign(api.settings.postJson, {
     body: JSON.stringify(folderData)
   });
 
@@ -139,7 +140,7 @@ export function saveDraft(message) {
     defaultSettings = api.settings.put;
   }
 
-  const settings = Object.assign({}, defaultSettings, {
+  const settings = assign(defaultSettings, {
     body: JSON.stringify(payload)
   });
 
@@ -190,7 +191,7 @@ export function sendMessage(message) {
     payload.append('uploads[]', file);
   });
 
-  const settings = Object.assign({}, api.settings.postFormData, {
+  const settings = assign(api.settings.postFormData, {
     body: payload
   });
 

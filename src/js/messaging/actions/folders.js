@@ -1,5 +1,6 @@
 import { api } from '../config';
 import { createUrlWithQuery } from '../utils/helpers';
+import assign from 'lodash/fp/assign';
 
 import {
   CREATE_FOLDER_SUCCESS,
@@ -67,7 +68,7 @@ export function createNewFolder(folderName) {
   const folderData = { folder: {} };
   folderData.folder.name = folderName;
 
-  const settings = Object.assign({}, api.settings.postJson, {
+  const settings = assign(api.settings.postJson, {
     body: JSON.stringify(folderData)
   });
 
