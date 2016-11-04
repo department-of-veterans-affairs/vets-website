@@ -14,7 +14,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client
         .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
         .waitForElementVisible('body', Timeouts.normal)
-        .assert.title('Your Claims')
+        .assert.title('Track Claims: Vets.gov')
         .waitForElementVisible('a.claim-list-item', Timeouts.normal);
 
       // Combined claim link
