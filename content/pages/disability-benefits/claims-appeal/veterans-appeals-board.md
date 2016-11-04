@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Board of Veterans' Appeals
-plainlanguage: 11-3-16 Ready for Beth review
+plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 concurrence: complete
 source: http://www.bva.va.gov/index.asp
