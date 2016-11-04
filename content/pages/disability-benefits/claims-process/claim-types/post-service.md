@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Postservice Claim
 concurrence: incomplete
+plainlanguage: 11-4-16 Ready for Beth review
 template: 6-info-page
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
