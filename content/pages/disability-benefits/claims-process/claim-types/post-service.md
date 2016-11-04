@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Postservice Claim
 concurrence: incomplete
-plainlanguage: 11-4-16 Ready for Beth review
+plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
@@ -41,4 +41,4 @@ If you have a disability that's related to your military service—but didn't ap
 - [Disabilities that appear within 1 year after discharge](/disability-benefits/apply-for-benefits/one-year/)
 - [Disabilities believed to be caused by contact with harmful chemicals and other dangers](/disability-benefits/conditions/exposure-to-hazardous-materials/)
 - [Disabilities related to service in Southwest Asia or Afghanistan (Gulf War Service)](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)
-- [Disabilities related to time spent as a prisoner of war (POW)](/disability-benefits/conditions/pow/)
+- [Disabilities related to time spent as a Prisoner of War (POW)](/disability-benefits/conditions/pow/)
