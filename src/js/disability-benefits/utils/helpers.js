@@ -175,8 +175,10 @@ export function truncateDescription(text) {
 export function getSubmittedItemDate(item) {
   if (item.receivedDate) {
     return item.receivedDate;
-  } else if (item.documents.length) {
+  } else if (item.documents && item.documents.length) {
     return item.documents[item.documents.length - 1].uploadDate;
+  } else if (item.type === 'other_documents_list') {
+    return item.uploadDate;
   }
 
   return item.date;

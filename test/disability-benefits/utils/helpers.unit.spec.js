@@ -248,6 +248,15 @@ describe('Disability benefits helpers:', () => {
 
       expect(date).to.equal('2013-01-01');
     });
+    it('should use the upload date', () => {
+      const date = getSubmittedItemDate({
+        uploadDate: '2014-01-01',
+        type: 'other_documents_list',
+        date: '2013-01-01'
+      });
+
+      expect(date).to.equal('2014-01-01');
+    });
   });
   describe('isClaimComplete', () => {
     it('should check if claim is in complete phase', () => {
