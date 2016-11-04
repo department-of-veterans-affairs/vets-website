@@ -39,7 +39,7 @@ class MessageSend extends React.Component {
   }
 
   render() {
-    const isDisabled = this.props.charCount < 0;
+    const isDisabled = this.props.disabled;
 
     return (
       <div className={this.props.cssClass}>
