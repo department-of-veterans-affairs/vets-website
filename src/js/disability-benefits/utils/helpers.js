@@ -140,7 +140,7 @@ export function getDocTypeDescription(docType) {
   return DOC_TYPES.filter(type => type.value === docType)[0].label;
 }
 
-export function isCompleteClaim({ attributes }) {
+export function isPopulatedClaim({ attributes }) {
   return !!attributes.claimType
     && (attributes.contentionList && !!attributes.contentionList.length)
     && !!attributes.dateFiled
@@ -180,4 +180,8 @@ export function getSubmittedItemDate(item) {
   }
 
   return item.date;
+}
+
+export function isClaimComplete(claim) {
+  return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;
 }

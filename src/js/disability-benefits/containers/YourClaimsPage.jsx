@@ -29,7 +29,7 @@ class YourClaimsPage extends React.Component {
   }
   componentDidMount() {
     this.props.getClaims();
-    document.title = 'Your Claims';
+    document.title = 'Track Claims: Vets.gov';
   }
   changePage(page) {
     this.props.changePage(page);

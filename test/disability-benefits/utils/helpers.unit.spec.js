@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import {
   groupTimelineActivity,
-  isCompleteClaim,
+  isPopulatedClaim,
   hasBeenReviewed,
   getDocTypeDescription,
   displayFileSize,
@@ -11,7 +11,8 @@ import {
   getHistoryPhaseDescription,
   getPhaseDescription,
   truncateDescription,
-  getSubmittedItemDate
+  getSubmittedItemDate,
+  isClaimComplete
 } from '../../../src/js/disability-benefits/utils/helpers';
 
 describe('Disability benefits helpers:', () => {
@@ -89,7 +90,7 @@ describe('Disability benefits helpers:', () => {
       expect(phaseActivity[3][2].type).to.equal('phase_entered');
     });
   });
-  describe('isCompleteClaim', () => {
+  describe('isPopulatedClaim', () => {
     it('should return false if any field is empty', () => {
       const claim = {
         attributes: {
@@ -102,7 +103,7 @@ describe('Disability benefits helpers:', () => {
         }
       };
 
-      expect(isCompleteClaim(claim)).to.be.false;
+      expect(isPopulatedClaim(claim)).to.be.false;
     });
 
     it('should return true if no field is empty', () => {
@@ -117,7 +118,7 @@ describe('Disability benefits helpers:', () => {
         }
       };
 
-      expect(isCompleteClaim(claim)).to.be.true;
+      expect(isPopulatedClaim(claim)).to.be.true;
     });
 
     it('should return false if contention list is empty', () => {
@@ -131,7 +132,7 @@ describe('Disability benefits helpers:', () => {
         }
       };
 
-      expect(isCompleteClaim(claim)).to.be.false;
+      expect(isPopulatedClaim(claim)).to.be.false;
     });
   });
   describe('truncateDescription', () => {
@@ -246,6 +247,26 @@ describe('Disability benefits helpers:', () => {
       });
 
       expect(date).to.equal('2013-01-01');
+    });
+  });
+  describe('isClaimComplete', () => {
+    it('should check if claim is in complete phase', () => {
+      const isComplete = isClaimComplete({
+        attributes: {
+          phase: 8
+        }
+      });
+
+      expect(isComplete).to.be.true;
+    });
+    it('should check if claim has decision letter', () => {
+      const isComplete = isClaimComplete({
+        attributes: {
+          decisionLetterSent: true
+        }
+      });
+
+      expect(isComplete).to.be.true;
     });
   });
 });

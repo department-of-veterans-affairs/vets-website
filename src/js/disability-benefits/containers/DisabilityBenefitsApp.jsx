@@ -11,7 +11,7 @@ class DisabilityBenefitsApp extends React.Component {
     const { available, synced, syncedDate } = this.props;
 
     return (
-      <RequiredLoginView authRequired={3}>
+      <RequiredLoginView authRequired={3} serviceRequired={"disability-benefits"}>
         <div>
           {available && !synced
             ? <ClaimSyncWarning syncedDate={syncedDate}/>
