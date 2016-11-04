@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Preservice Claim
 concurrence: complete
-plainlanguage: 11-4-16 Ready for Beth review
+plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: 2-detailed-landing
 source: http://www.benefits.va.gov/compensation/types-claims.asp
 relatedlinks:
