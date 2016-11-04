@@ -81,7 +81,9 @@ class Prescription extends React.Component {
             text="Refill Prescription"/>
       );
     } else {
-      const displayStatus = (status === 'active') ? rxStatuses.refillinprocess : rxStatuses[status];
+      const displayStatus = (status === 'active')
+                          ? rxStatuses.refillinprocess
+                          : rxStatuses[status];
 
       refillStatus = (
         <div
