@@ -1,6 +1,7 @@
+import assign from 'lodash/fp/assign';
+
 import { api } from '../config';
 import { createUrlWithQuery } from '../utils/helpers';
-import assign from 'lodash/fp/assign';
 
 import {
   CREATE_FOLDER_SUCCESS,

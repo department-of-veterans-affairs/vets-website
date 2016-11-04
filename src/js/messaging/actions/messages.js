@@ -1,6 +1,7 @@
+import assign from 'lodash/fp/assign';
+
 import { api } from '../config';
 import { isJson } from '../utils/helpers';
-import assign from 'lodash/fp/assign';
 
 import {
   ADD_DRAFT_ATTACHMENTS,

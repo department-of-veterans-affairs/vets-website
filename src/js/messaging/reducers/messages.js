@@ -1,5 +1,5 @@
-import set from 'lodash/fp/set';
 import assign from 'lodash/fp/assign';
+import set from 'lodash/fp/set';
 
 import { makeField } from '../../common/model/fields';
 
