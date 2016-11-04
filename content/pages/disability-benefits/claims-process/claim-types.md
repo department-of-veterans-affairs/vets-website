@@ -34,10 +34,10 @@ relatedlinks:
 template: 6-info-page
 ---
 
-Disability benefits claims (also called disability compensation claims) can be based on any of 3 types of disabilities (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work):
+Disability benefits claims (also called disability compensation claims) can be based on disabilities that:
 
-1. Disabilities that were there before you started serving in the military but got worse because of your service
-2. Disabilities that happened while you were serving in the military
-3. Disabilities that arose after you ended your military service
+1. Were there before you started serving in the military but got worse because of your service
+2. Happened while you were serving in the military
+3. Appeared after you ended your military service
 
 Learn more about the different types of disability benefits claims:
