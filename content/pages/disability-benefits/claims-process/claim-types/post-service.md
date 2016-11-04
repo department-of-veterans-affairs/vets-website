@@ -33,11 +33,11 @@ relatedlinks:
     description: ""
 ---
 
-If you have a service-related disability that presents itself after you have separated, you may be eligible for disability compensation.
+If you have a disability that's related to your military service—but didn't appear until after you ended your service (also known as separation)—you can file a postservice claim for disability benefits.
 
-### These sorts of disabilities include:
+### These kinds of disabilities include:
 
-- [Disabilities That Appear Within One Year After Discharge](/disability-benefits/apply-for-benefits/one-year/)
-- [Exposures to Hazardous Materials](/disability-benefits/conditions/exposure-to-hazardous-materials/)
-- [Diseases Associated with Gulf War Service](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)
-- [Prisoners of War (POWs)](/disability-benefits/conditions/pow/)
+- [Disabilities that appear within 1 year after discharge](/disability-benefits/apply-for-benefits/one-year/)
+- [Disabilities believed to be caused by contact with harmful chemicals and other dangers](/disability-benefits/conditions/exposure-to-hazardous-materials/)
+- [Disabilities related to service in Southwest Asia or Afghanistan (Gulf War Service)](/disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/)
+- [Disabilities related to time spent as a prisoner of war (POW)](/disability-benefits/conditions/pow/)
