@@ -84,7 +84,7 @@ export function getClaimDetail(id) {
         return Promise.reject(res.statusText);
       })
       .then(
-        resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data }),
+        resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
         () => dispatch({ type: SET_UNAVAILABLE })
       );
   };
