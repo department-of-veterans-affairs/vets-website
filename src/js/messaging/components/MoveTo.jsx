@@ -27,7 +27,12 @@ class MoveTo extends React.Component {
   }
 
   render() {
-    const folderOptions = this.props.folders.map((folder) => {
+    // Return only Inbox, and veteran-defined folders
+    const folders = this.props.folders.filter((folder) => {
+      return folder.folderId >= 0;
+    });
+
+    const folderOptions = folders.map((folder) => {
       return (
         <li key={folder.folderId}>
           <MoveToOption
