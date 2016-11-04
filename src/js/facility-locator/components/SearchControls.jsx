@@ -122,8 +122,8 @@ class SearchControls extends Component {
       <div className="search-controls-container clearfix">
         <form>
           <div className="columns medium-4">
-            <label htmlFor="Street, City, State or Zip">Enter Street, City, State or Zip</label>
-            <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString}/>
+            <label htmlFor="streetCityStateZip">Enter Street, City, State or Zip</label>
+            <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} ariaLabel="Street, City, State or Zip" title="Street, City, State or Zip"/>
           </div>
           <div className="columns medium-3">
             <label htmlFor="facilityType">Select Facility Type</label>
@@ -139,7 +139,7 @@ class SearchControls extends Component {
           </div>
           <div className="columns medium-3">
             <label htmlFor="serviceType">Select Service Type</label>
-            <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType || ''} disabled={currentQuery.facilityType !== 'benefits'}>
+            <select name="serviceType" onChange={this.handleFilterChange} value={currentQuery.serviceType || ''} disabled={currentQuery.facilityType !== 'benefits'} title="serviceType">
               <option>All</option>
               {this.renderServiceFilterOptions()}
             </select>

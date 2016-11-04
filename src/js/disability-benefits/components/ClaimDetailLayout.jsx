@@ -5,7 +5,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
-import { isCompleteClaim } from '../utils/helpers';
+import { isPopulatedClaim } from '../utils/helpers';
 
 export default class ClaimDetailLayout extends React.Component {
   render() {
@@ -33,7 +33,7 @@ export default class ClaimDetailLayout extends React.Component {
           </div>
           <TabNav id={this.props.claim.id}/>
           <div className="va-tab-content">
-            {isCompleteClaim(claim) ? null : <AddingDetails/>}
+            {isPopulatedClaim(claim) ? null : <AddingDetails/>}
             {this.props.children}
           </div>
         </div>
