@@ -78,7 +78,7 @@ class AskVAPage extends React.Component {
                 : null}
             </div>
           </div>
-          <div className="small-12 medium-8 columns">
+          <div className="small-12 medium-4 columns">
             <AskVAQuestions/>
           </div>
         </div>
