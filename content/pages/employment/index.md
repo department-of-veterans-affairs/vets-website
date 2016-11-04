@@ -11,7 +11,7 @@ majorlinks:
     description: Search for jobs and check out our career-development resources.
   - url: http://www.dol.gov/veterans/hireaveteran
     title: Hire a Veteran
-    description: Post jobs and commit to hiring qualified Veterans.
+    description: Post jobs and learn about hiring qualified Veterans.
 secondarylinkstitle: "Explore other ways to start a career"
 secondarylinks:
   - url: /employment/job-seekers/start
