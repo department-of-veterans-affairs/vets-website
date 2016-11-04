@@ -35,16 +35,14 @@ template: 6-info-page
 
 <div class="call-out" markdown="1">
 
-### Who can file a new claim?
+Already getting disability benefits but think you may now qualify for more? Find out by filing a new claim.
 
-You
+When you file a new claim, you may get:
+- More financial support 
+- Special monthly payments
+- A shift to Individual Unemployability status (a status given to Veterans who are unable to work because of a disability)
 
-### Why use the new claim process?
-A new claim will determine if you qualify for new or additional benefits.
+[Learn more about Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
+
 </div>
-
-### The outcome of a new claim determination may be:
-
-- Increased disability compensation
-- Special Monthly Compensation
-- A shift to [Individual Unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/) status
+ 
