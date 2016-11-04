@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Original Claim
 concurrence: complete
+plainlanguage: 11-4-16 Ready for Beth review
 template: 6-info-page
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
@@ -33,4 +34,6 @@ relatedlinks:
     description: ""
 ---
 
-VA considers the first claim you file for a given disability to be the original claim. If you are a Veteran, a survivor of a deceased Veteran, or a Servicemember within 180 days of separation, you may file an original claim.
+If you're a Veteran, a survivor of a deceased Veteran, or a Servicemember within 180 days of ending your military service (also known as separation) and you have a disability, you can file a claim to get benefits for that disability. 
+
+The first claim you file for a certain disability will be known as the original claim for that disability.
