@@ -47,7 +47,10 @@
     display: inline-block;
     margin: 0;
     text-transform: none;
-    padding-right: 5px !important;
+    padding-right: 3px !important;
+    @media (min-width: $medium-screen) {
+      padding-right: 5px !important;
+    }
   }
 }
 
@@ -98,9 +101,6 @@
     h6 {
       display: inline-block;
       text-transform: none;
-      i {
-        margin-right: 6px;
-      }
     }
     p {
       display: inline-block;
@@ -118,6 +118,13 @@
   }
   .file-request-title {
     padding-bottom: 0 !important;
+  }
+}
+
+.past-due > i {
+  margin-right: 3px;
+  @media (min-width: $medium-screen) {
+    margin-right: 6px;
   }
 }
 
@@ -571,5 +578,17 @@ p.first-of-type {
 }
 
 .claims-files-cancel {
-  margin-left: 32px;
+  margin-left: 0;
+  @media (min-width: $small-screen) {
+    margin-left: 32px;
+  }
+}
+
+.disability-benefits-content {
+  margin: 0 5px;
+}
+
+.usa-input-error {
+  padding-left: 1rem;
+  right: 0.9em;
 }
