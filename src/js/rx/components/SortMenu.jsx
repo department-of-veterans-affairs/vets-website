@@ -65,6 +65,7 @@ class SortMenu extends React.Component {
         </div>
         <div className="rx-sort-narrow">
           <select
+              aria-label={'Sort by'}
               value={this.props.selected}
               id="sortby"
               onChange={this.handleChange}>
