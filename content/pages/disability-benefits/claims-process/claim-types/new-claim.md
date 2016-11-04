@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: New Claim
 concurrence: complete
-plainlanguage: 11-4-16 Ready for Beth review
+plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
     title: Standard Claim
