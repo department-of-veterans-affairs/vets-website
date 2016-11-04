@@ -29,7 +29,7 @@ class YourClaimsPage extends React.Component {
   }
   componentDidMount() {
     this.props.getClaims();
-    document.title = 'Your Claims';
+    document.title = 'Track Claims: Vets.gov';
   }
   changePage(page) {
     this.props.changePage(page);
@@ -59,7 +59,7 @@ class YourClaimsPage extends React.Component {
               <h1>Your Claims</h1>
             </div>
             <p>
-              <a href onClick={(evt) => {
+              <a href className="claims-combined" onClick={(evt) => {
                 evt.preventDefault();
                 this.props.showConsolidatedMessage(true);
               }}>Sometimes claims get combined. Find out why.</a>

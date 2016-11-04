@@ -5,6 +5,7 @@ import claimAsk from './claim-ask';
 import claimSync from './claim-sync';
 import uploads from './uploads';
 import routing from './routing';
+import notifications from './notifications';
 
 export default combineReducers({
   claims,
@@ -12,5 +13,6 @@ export default combineReducers({
   claimAsk,
   claimSync,
   uploads,
-  routing
+  routing,
+  notifications
 });
