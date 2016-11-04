@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import $ from 'jquery';
 
 import environment from '../../common/helpers/environment.js';
@@ -19,10 +20,12 @@ class AuthApp extends React.Component {
         this.setState({ verifyUrl: result.authenticate_via_get });
       });
     }
+
     this.checkUserLevel();
   }
 
   setMyToken(token) {
+    window.opener.localStorage.removeItem('userToken');
     window.opener.localStorage.setItem('userToken', token);
     window.opener.postMessage(token, environment.BASE_URL);
     window.close();
@@ -38,12 +41,13 @@ class AuthApp extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      const userData = json.data.attributes.profile.loa;
-      if (userData.highest === 3) {
-        if (userData.current === 3) {
+      const userData = json.data.attributes.profile;
+      if (userData.loa.highest === 3) {
+        // This will require a user to MFA if they have not verified in the last 2 mins.
+        if (userData.loa.current === 3 && !(moment() > moment(userData.last_signed_in).add(2, 'm'))) {
           this.setMyToken(myToken);
         } else {
-          window.open(this.state.verifyUrl, '_self');
+          window.location.href = this.state.verifyUrl;
         }
       } else {
         this.setMyToken(myToken);
@@ -53,8 +57,12 @@ class AuthApp extends React.Component {
 
   render() {
     return (
-      <div>
-        Logging you in ...
+      <div className="row">
+        <div className="small-12 columns">
+          <div>
+            <h3>Logging you in...</h3>
+          </div>
+        </div>
       </div>
     );
   }

@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import {
   groupTimelineActivity,
-  isCompleteClaim,
+  isPopulatedClaim,
   hasBeenReviewed,
   getDocTypeDescription,
   displayFileSize,
@@ -10,7 +10,9 @@ import {
   getUserPhaseDescription,
   getHistoryPhaseDescription,
   getPhaseDescription,
-  truncateDescription
+  truncateDescription,
+  getSubmittedItemDate,
+  isClaimComplete
 } from '../../../src/js/disability-benefits/utils/helpers';
 
 describe('Disability benefits helpers:', () => {
@@ -88,7 +90,7 @@ describe('Disability benefits helpers:', () => {
       expect(phaseActivity[3][2].type).to.equal('phase_entered');
     });
   });
-  describe('isCompleteClaim', () => {
+  describe('isPopulatedClaim', () => {
     it('should return false if any field is empty', () => {
       const claim = {
         attributes: {
@@ -101,7 +103,7 @@ describe('Disability benefits helpers:', () => {
         }
       };
 
-      expect(isCompleteClaim(claim)).to.be.false;
+      expect(isPopulatedClaim(claim)).to.be.false;
     });
 
     it('should return true if no field is empty', () => {
@@ -116,7 +118,7 @@ describe('Disability benefits helpers:', () => {
         }
       };
 
-      expect(isCompleteClaim(claim)).to.be.true;
+      expect(isPopulatedClaim(claim)).to.be.true;
     });
 
     it('should return false if contention list is empty', () => {
@@ -130,7 +132,7 @@ describe('Disability benefits helpers:', () => {
         }
       };
 
-      expect(isCompleteClaim(claim)).to.be.false;
+      expect(isPopulatedClaim(claim)).to.be.false;
     });
   });
   describe('truncateDescription', () => {
@@ -210,6 +212,70 @@ describe('Disability benefits helpers:', () => {
       const desc = getPhaseDescription(2);
 
       expect(desc).to.equal('Initial review');
+    });
+  });
+  describe('getSubmittedItemDate', () => {
+    it('should use the received date', () => {
+      const date = getSubmittedItemDate({
+        receivedDate: '2010-01-01',
+        documents: [
+          { uploadDate: '2011-01-01' }
+        ],
+        date: '2012-01-01'
+      });
+
+      expect(date).to.equal('2010-01-01');
+    });
+    it('should use the last document upload date', () => {
+      const date = getSubmittedItemDate({
+        receivedDate: null,
+        documents: [
+          { uploadDate: '2011-01-01' },
+          { uploadDate: '2012-01-01' }
+        ],
+        date: '2013-01-01'
+      });
+
+      expect(date).to.equal('2012-01-01');
+    });
+    it('should use the date', () => {
+      const date = getSubmittedItemDate({
+        receivedDate: null,
+        documents: [
+        ],
+        date: '2013-01-01'
+      });
+
+      expect(date).to.equal('2013-01-01');
+    });
+    it('should use the upload date', () => {
+      const date = getSubmittedItemDate({
+        uploadDate: '2014-01-01',
+        type: 'other_documents_list',
+        date: '2013-01-01'
+      });
+
+      expect(date).to.equal('2014-01-01');
+    });
+  });
+  describe('isClaimComplete', () => {
+    it('should check if claim is in complete phase', () => {
+      const isComplete = isClaimComplete({
+        attributes: {
+          phase: 8
+        }
+      });
+
+      expect(isComplete).to.be.true;
+    });
+    it('should check if claim has decision letter', () => {
+      const isComplete = isClaimComplete({
+        attributes: {
+          decisionLetterSent: true
+        }
+      });
+
+      expect(isComplete).to.be.true;
     });
   });
 });
