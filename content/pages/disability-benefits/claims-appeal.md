@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Appeals
 concurrence: complete
-plainlanguage: 11-3-16 Ready for Beth review
+plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 relatedlinks:
   - url: /disability-benefits/claims-appeal/veterans-appeals-board/
