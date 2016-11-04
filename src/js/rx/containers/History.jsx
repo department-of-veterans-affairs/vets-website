@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import _ from 'lodash';
 
+import Pagination from '../../common/components/Pagination';
 import SortableTable from '../../common/components/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modals';
-import Pagination from '../../common/components/Pagination';
+import GlossaryLink from '../components/GlossaryLink';
 import SortMenu from '../components/SortMenu';
 import { rxStatuses } from '../config';
-import { formatDate, getModalTerm } from '../utils/helpers';
+import { formatDate } from '../utils/helpers';
 
 class History extends React.Component {
   constructor(props) {
@@ -17,7 +18,6 @@ class History extends React.Component {
     this.formattedSortParam = this.formattedSortParam.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
-    this.openGlossaryModal = this.openGlossaryModal.bind(this);
   }
 
   componentDidMount() {
@@ -64,12 +64,6 @@ class History extends React.Component {
     });
   }
 
-  openGlossaryModal(domEvent) {
-    const term = domEvent.target.dataset.term;
-    const content = getModalTerm(term);
-    this.props.openGlossaryModal(content);
-  }
-
   render() {
     const items = this.props.prescriptions;
     let content;
@@ -102,11 +96,9 @@ class History extends React.Component {
             ),
 
           refillStatus: (
-            <button
-                className="rx-trigger"
-                data-term={status}
-                onClick={this.openGlossaryModal}
-                type="button">{status}</button>
+            <GlossaryLink
+                term={status}
+                onClick={this.props.openGlossaryModal}/>
             )
         };
       });

@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import { rxStatuses } from '../config';
-import { formatDate, getModalTerm } from '../utils/helpers';
+import { formatDate } from '../utils/helpers';
+import GlossaryLink from '../components/GlossaryLink';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitRefill from './SubmitRefill';
@@ -14,18 +15,11 @@ class Prescription extends React.Component {
     this.showTracking = this.showTracking.bind(this);
     this.showMessageProvider = this.showMessageProvider.bind(this);
     this.showRefillStatus = this.showRefillStatus.bind(this);
-    this.openGlossaryModal = this.openGlossaryModal.bind(this);
   }
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
     this.props.refillModalHandler(this.props.attributes);
-  }
-
-  openGlossaryModal(domEvent) {
-    const term = domEvent.target.dataset.term;
-    const content = getModalTerm(term);
-    this.props.glossaryModalHandler(content);
   }
 
   showTracking() {
@@ -90,11 +84,9 @@ class Prescription extends React.Component {
             key={`rx-${id}-status`}
             className="rx-prescription-status">
           Refill status:
-          <button
-              className="rx-trigger"
-              data-term={displayStatus}
-              onClick={this.openGlossaryModal}
-              type="button">{displayStatus}</button>
+          <GlossaryLink
+              term={displayStatus}
+              onClick={this.props.openGlossaryModal}/>
         </div>
       );
     }
