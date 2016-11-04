@@ -27,6 +27,7 @@ class Message extends React.Component {
     let details;
     let headerOnClick;
     let messageOnClick;
+    let attachments;
 
     if (this.props.isCollapsed) {
       messageOnClick = this.handleToggleCollapsed;
@@ -39,11 +40,10 @@ class Message extends React.Component {
       );
 
       headerOnClick = this.handleToggleCollapsed;
-    }
 
-    let attachments;
-    if (this.props.attrs.attachment) {
-      attachments = (<MessageAttachmentsView attachments={this.props.attrs.attachments}/>);
+      if (this.props.attrs.attachment) {
+        attachments = (<MessageAttachmentsView attachments={this.props.attrs.attachments}/>);
+      }
     }
 
     return (
