@@ -87,14 +87,12 @@ class RequiredLoginView extends React.Component {
         <div className="medium-12 small-12 columns">
           <div className="react-conatiner">
             <h1>Sign in to your Vets.gov Account</h1>
-            <p>Vets.gov is a new website from the VA offering online services for Veterans</p>
-            <p>We must meet increased security standards to keep your information secure. To safely verify your identity to these standards, we are using <strong>ID.me</strong>, at third-party service.</p>
-            <p>When you create an account on vets.gov, you will need to verify your identity through <strong>ID.me</strong> in order for the VA to identify you and locate your records.</p>
+            <p>Vets.gov is a new website from the VA offering online services for Veterans.</p>
+            <p>To refill a prescription, send a secure message to your healthcare provider, or check the status of a disability claim, sign in to Vets.gov.</p>
             <p>
               <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleLogin}><strong>Sign In</strong></button>
-              <button className="usa-button-big" onClick={this.handleLogin}><strong>Create an account</strong></button>
+              <button className="va-button-secondary usa-button-big" onClick={this.handleLogin}><strong>Create an account</strong></button>
             </p>
-            <p>Having trouble signing in or creating an account? See <a href="#">Frequently Asked Questions</a></p>
           </div>
         </div>
       </div>
@@ -104,14 +102,17 @@ class RequiredLoginView extends React.Component {
       <div className="row primary">
         <div className="medium-12 small-12 columns">
           <div className="react-container">
-            <h1>Verify your Vets.gov Account</h1>
-            <p>You need to verify your identity to access this part of Vets.gov</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <h1>Verify your Identity with ID.me</h1>
+            <p>You need to verify your identity to access this part of Vets.gov.</p>
+            <p>To access Vets.gov services, you'll need to verify your identity through ID.me, a third party service that provides strong identity verification. We have added this protection to increase security for your information. Here's what you'll need:
+              <ul>
+                <li>Your passport or driver's license</li>
+                <li>A phone that can receive texts or calls</li>
+              </ul>
+            Don't have a supported ID? You can provide personal information and answer questions about your credit history instead.</p>
             <p>
-              <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleVerify}><strong>Continue</strong></button>
+              <button className="usa-button-primary va-button-primary usa-button-big" onClick={this.handleVerify}><strong>Get Started</strong></button>
             </p>
-            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
           </div>
         </div>
       </div>
