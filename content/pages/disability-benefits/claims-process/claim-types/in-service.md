@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: In-Service claim
-plainlanguage: 11-4-16 Ready for Beth review
+plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 concurrence: complete
 relatedlinks:
