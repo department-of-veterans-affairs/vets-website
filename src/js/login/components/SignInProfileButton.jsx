@@ -14,6 +14,7 @@ class SignInProfileButton extends React.Component {
     localStorage.removeItem('userToken');
     this.props.onUpdateLoggedInStatus(false);
     this.props.onClearUserData();
+    location.reload();
   }
 
   render() {
@@ -29,7 +30,7 @@ class SignInProfileButton extends React.Component {
       );
     } else {
       content = (
-        <a href="#" onClick={this.props.onButtonClick}>Sign In<span className="signin-spacer">|</span>Register</a>
+        <a href="#" onClick={this.props.onUserLogin}>Sign In<span className="signin-spacer">|</span>Register</a>
       );
     }
     return (

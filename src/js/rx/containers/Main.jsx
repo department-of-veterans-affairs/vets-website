@@ -1,48 +1,36 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { closeAlert } from '../actions/alert.js';
-import { closeDisclaimer } from '../actions/disclaimer.js';
-
 import AlertBox from '../../common/components/AlertBox';
+import { closeAlert } from '../actions/alert.js';
 import TabNav from '../components/TabNav';
-import Disclaimer from '../components/Disclaimer';
 
 class Main extends React.Component {
   render() {
-    let alertBox;
-
-    if (this.props.alert.visible) {
-      alertBox = (
+    return (
+      <div>
         <AlertBox
             content={this.props.alert.content}
             isVisible={this.props.alert.visible}
             onCloseAlert={this.props.closeAlert}
+            scrollOnShow
             status={this.props.alert.status}/>
-      );
-    }
-
-    return (
-      <div>
-        <Disclaimer
-            isOpen={this.props.disclaimer.open}
-            handleClose={this.props.closeDisclaimer}/>
-        <div className="rx-app row">
-          {alertBox}
-          <h1>Prescription Refill</h1>
-          <TabNav/>
-          {this.props.children}
-        </div>
+        <h1>Prescription Refill</h1>
+        <TabNav/>
+        {this.props.children}
       </div>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    alert: state.alert
+  };
 };
 
-export default connect(mapStateToProps, {
-  closeAlert,
-  closeDisclaimer
-})(Main);
+const mapDispatchToProps = {
+  closeAlert
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -7,28 +7,21 @@ import { relinquishableBenefits } from '../utils/options-for-select';
 
 class SubmitPage extends React.Component {
   render() {
-    const { relinquished, benefits, confirmation, address, timestamp } = this.props;
-
-		// TODO: replace this with actual data from the API
     return (
-      <SubmitMessage
-          claimType="Education Benefits"
-          confirmation={confirmation}
-          date={timestamp}
-          address={address}
-          claimedBenefits={benefits}
-          relinquishedBenefits={relinquished}/>
+      <SubmitMessage claimType="Education Benefits" {...this.props}/>
     );
   }
 }
 
 function mapStateToProps(state) {
   return {
-    benefits: getListOfBenefits(state.veteran),
-    relinquished: getLabel(relinquishableBenefits, state.veteran.benefitsRelinquished.value),
+    name: state.veteran.veteranFullName,
+    chapter33: state.veteran.chapter33,
+    claimedBenefits: getListOfBenefits(state.veteran),
+    relinquishedBenefits: getLabel(relinquishableBenefits, state.veteran.benefitsRelinquished.value),
     confirmation: state.uiState.submission.id,
     address: state.uiState.submission.regionalAddress,
-    timestamp: state.uiState.submission.timestamp
+    date: state.uiState.submission.timestamp
   };
 }
 

@@ -9,7 +9,10 @@ _.mixin(lodashDeep);
 
 const initialState = {
   currentlyLoggedIn: false,
-  loginUrl: '',
+  loginUrl: {
+    first: null,
+    third: null
+  },
 };
 
 function loginStuff(state = initialState, action) {
@@ -22,7 +25,7 @@ function loginStuff(state = initialState, action) {
 
     case UPDATE_LOGIN_URL:
       newState = Object.assign({}, state);
-      _.set(newState, 'loginUrl', action.value);
+      _.set(newState, `loginUrl.${action.propertyPath}`, action.value);
       return newState;
 
     case LOG_OUT:

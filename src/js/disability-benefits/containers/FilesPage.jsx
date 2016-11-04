@@ -3,33 +3,37 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import moment from 'moment';
 
-import EvidenceSubmitted from '../components/EvidenceSubmitted';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import DueDate from '../components/DueDate';
 
-import { clearUploadedItem } from '../actions';
-import { hasBeenReviewed } from '../utils/helpers';
+import { clearNotification } from '../actions';
+import { hasBeenReviewed, truncateDescription, getSubmittedItemDate } from '../utils/helpers';
+
+const NEED_ITEMS_STATUS = 'NEEDED';
 
 class FilesPage extends React.Component {
   constructor() {
     super();
     this.closeAlert = this.closeAlert.bind(this);
   }
+  componentWillUnmount() {
+    this.props.clearNotification();
+  }
   closeAlert() {
-    this.props.clearUploadedItem();
+    this.props.clearNotification();
   }
   render() {
-    const { claim, loading, uploadedItem } = this.props;
-
-    const message = uploadedItem
-      ? <EvidenceSubmitted item={uploadedItem} onClose={this.closeAlert}/>
-      : null;
+    const { claim, loading, message } = this.props;
 
     let content = null;
     if (!loading) {
-      const filesNeeded = claim.attributes.eventsTimeline.filter(event => event.type === 'still_need_from_you_list');
-      const optionalFiles = claim.attributes.eventsTimeline.filter(event => event.type === 'still_need_from_others_list');
-      const documentsTurnedIn = claim.attributes.eventsTimeline.filter(event => event.type.startsWith('received_from'));
+      const trackedItems = claim.attributes.eventsTimeline.filter(event => event.type.endsWith('_list'));
+      const filesNeeded = trackedItems
+        .filter(event => event.status === NEED_ITEMS_STATUS && event.type === 'still_need_from_you_list');
+      const optionalFiles = trackedItems
+        .filter(event => event.status === NEED_ITEMS_STATUS && event.type === 'still_need_from_others_list');
+      const documentsTurnedIn = trackedItems
+        .filter(event => event.status !== NEED_ITEMS_STATUS || event.type.startsWith('received_from'));
 
       content = (
         <div>
@@ -43,7 +47,8 @@ class FilesPage extends React.Component {
             {filesNeeded.map(item => (
               <div className="file-request-list-item usa-alert usa-alert-warning claims-no-icon" key={item.trackedItemId}>
                 <div className="item-container">
-                  <h5>{item.displayName}</h5>
+                  <h5 className="file-request-title">{item.displayName}</h5>
+                  <p>{truncateDescription(item.description)}</p>
                   <DueDate date={item.suspenseDate}/>
                 </div>
                 <div className="button-container">
@@ -56,7 +61,8 @@ class FilesPage extends React.Component {
             {optionalFiles.map(item => (
               <div className="file-request-list-item usa-alert usa-alert-warning claims-no-icon" key={item.trackedItemId}>
                 <div className="item-container">
-                  <h5>{item.displayName}</h5>
+                  <h5 className="file-request-title">{item.displayName}</h5>
+                  <p>{truncateDescription(item.description)}</p>
                   <h6>Optional</h6>
                   <p>- we requested this from others, but you may upload it if you have it.</p>
                 </div>
@@ -96,6 +102,7 @@ class FilesPage extends React.Component {
               {documentsTurnedIn.map(item => (
                 <div className="submitted-file-list-item" key={item.trackedItemId}>
                   <p className="submission-file-type">{item.displayName}</p>
+                  <p>{truncateDescription(item.description)}</p>
                   {item.documents
                     ? item.documents.map((doc, index) =>
                       <p key={index} className="submission-item">{doc.filename}</p>)
@@ -104,12 +111,12 @@ class FilesPage extends React.Component {
                     ?
                     <div>
                       <h6 className="reviewed-file"><i className="fa fa-check-circle"></i>Reviewed by VA</h6>
-                      <p className="submission-date reviewed-file">{moment(item.receivedDate).format('MMM D, YYYY')}</p>
+                      <p className="submission-date reviewed-file">{moment(getSubmittedItemDate(item)).format('MMM D, YYYY')}</p>
                     </div>
                     :
                     <div>
                       <h6>Submitted</h6>
-                      <p className="submission-date">{moment(item.receivedDate).format('MMM D, YYYY')}{' (pending)'}</p>
+                      <p className="submission-date">{moment(getSubmittedItemDate(item)).format('MMM D, YYYY')}{' (pending)'}</p>
                     </div>
                   }
                 </div>
@@ -124,6 +131,7 @@ class FilesPage extends React.Component {
       <ClaimDetailLayout
           claim={claim}
           loading={loading}
+          clearNotification={this.props.clearNotification}
           message={message}>
         {content}
       </ClaimDetailLayout>
@@ -135,12 +143,12 @@ function mapStateToProps(state) {
   return {
     loading: state.claimDetail.loading,
     claim: state.claimDetail.detail,
-    uploadedItem: state.uploads.uploadedItem
+    message: state.notifications.message
   };
 }
 
 const mapDispatchToProps = {
-  clearUploadedItem
+  clearNotification
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(FilesPage);

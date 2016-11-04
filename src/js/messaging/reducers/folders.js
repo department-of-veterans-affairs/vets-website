@@ -1,6 +1,8 @@
-import { browserHistory } from 'react-router';
 import set from 'lodash/fp/set';
 import concat from 'lodash/fp/concat';
+
+import { paths } from '../config';
+import history from '../history';
 
 import {
   CREATE_FOLDER_SUCCESS,
@@ -17,12 +19,11 @@ import {
   TOGGLE_MANAGED_FOLDERS
 } from '../utils/constants';
 
-import { paths } from '../config';
-
 const initialState = {
   data: {
     currentItem: {
       attributes: {},
+      filter: {},
       messages: [],
       pagination: {
         currentPage: 0,
@@ -65,20 +66,23 @@ export default function folders(state = initialState, action) {
     case FETCH_FOLDER_SUCCESS: {
       const attributes = action.folder.data.attributes;
       const messages = action.messages.data.map(message => message.attributes);
-      const pagination = action.messages.meta.pagination;
       const persistFolder = action.folder.data.attributes.folderId;
-      const sort = action.messages.meta.sort;
+
+      const meta = action.messages.meta;
+      const filter = meta.filter;
+      const pagination = meta.pagination;
+      const sort = meta.sort;
       const sortValue = Object.keys(sort)[0];
       const sortOrder = sort[sortValue];
 
       const newItem = {
         attributes,
+        filter,
         messages,
         pagination,
         persistFolder,
         sort: { value: sortValue, order: sortOrder },
       };
-
       return set('data.currentItem', newItem, state);
     }
 
@@ -105,7 +109,7 @@ export default function folders(state = initialState, action) {
       // Upon completing any of these actions, go to the most recent folder.
       const currentFolderId = state.data.currentItem.persistFolder;
       const returnUrl = `${paths.FOLDERS_URL}/${currentFolderId}`;
-      browserHistory.replace(returnUrl);
+      history.replace(returnUrl);
       return state;
     }
 

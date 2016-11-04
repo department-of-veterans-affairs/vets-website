@@ -1,7 +1,8 @@
 import {
-  TOGGLE_ADVANCED_SEARCH,
   SET_ADVSEARCH_START_DATE,
-  SET_ADVSEARCH_END_DATE
+  SET_ADVSEARCH_END_DATE,
+  SET_SEARCH_PARAM,
+  TOGGLE_ADVANCED_SEARCH,
 } from '../utils/constants';
 
 export function toggleAdvancedSearch() {
@@ -18,5 +19,13 @@ export function setDateRange(date, start = true) {
   return {
     type: mode,
     date
+  };
+}
+
+export function setSearchParam(path, field) {
+  return {
+    type: SET_SEARCH_PARAM,
+    path,
+    field
   };
 }

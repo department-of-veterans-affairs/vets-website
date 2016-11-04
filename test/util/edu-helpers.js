@@ -73,7 +73,6 @@ const testValues = {
   },
   highSchoolOrGedCompletionDate: {
     month: 'May',
-    day: '2',
     year: '1996'
   },
   educationPeriods: [
@@ -200,7 +199,8 @@ function completeBenefitsRelinquishment(client, data, onlyRequiredFields) {
       .setValue('input[name="benefitsRelinquishedDateYear"]', data.benefitsRelinquishedDate.year);
   }
 }
-function completeMilitaryService(client, data, onlyRequiredFields) {
+
+function completeServicePeriods(client, data, onlyRequiredFields) {
   client
     .clearValue('input[name="serviceBranch"]')
     .setValue('input[name="serviceBranch"]', data.toursOfDuty[0].serviceBranch)
@@ -220,11 +220,17 @@ function completeMilitaryService(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
       .setValue('input[name="serviceStatus"]', data.toursOfDuty[0].serviceStatus)
-      .setValue('input[name="serviceAcademyGraduationYear"]', data.serviceAcademyGraduationYear)
-      .click('input[name="currentlyActiveDuty-0"]')
-      .click('input[name="onTerminalLeave-0"]')
       .click('input[name="applyPeriodToSelected"]')
       .setValue('textarea[name="benefitsToApplyTo"]', data.toursOfDuty[0].benefitsToApplyTo);
+  }
+}
+
+function completeMilitaryService(client, data, onlyRequiredFields) {
+  if (!onlyRequiredFields) {
+    client
+      .setValue('input[name="serviceAcademyGraduationYear"]', data.serviceAcademyGraduationYear)
+      .click('input[name="currentlyActiveDuty-0"]')
+      .click('input[name="onTerminalLeave-0"]');
   }
 }
 
@@ -239,7 +245,7 @@ function completeRotcHistory(client, data, onlyRequiredFields) {
   }
 }
 
-function completeBenefitsHistory(client, data, onlyRequiredFields) {
+function completeContributions(client, data, onlyRequiredFields) {
   if (!onlyRequiredFields) {
     client
       .click('input[name="civilianBenefitsAssistance"]')
@@ -267,8 +273,6 @@ function completeEducationHistory(client, data, onlyRequiredFields) {
     client
       .clearValue('select[name="highSchoolOrGedCompletionDateMonth"]')
       .setValue('select[name="highSchoolOrGedCompletionDateMonth"]', data.highSchoolOrGedCompletionDate.month)
-      .clearValue('select[name="highSchoolOrGedCompletionDateDay"]')
-      .setValue('select[name="highSchoolOrGedCompletionDateDay"]', data.highSchoolOrGedCompletionDate.day)
       .clearValue('input[name="highSchoolOrGedCompletionDateYear"]')
       .setValue('input[name="highSchoolOrGedCompletionDateYear"]', data.highSchoolOrGedCompletionDate.year)
       .clearValue('input[name="name"]')
@@ -391,11 +395,12 @@ module.exports = {
   initApplicationSubmitMock,
   completeVeteranInformation,
   completeMilitaryService,
+  completeServicePeriods,
   completeContactInformation,
   completeBenefitsSelection,
   completeBenefitsRelinquishment,
   completeRotcHistory,
-  completeBenefitsHistory,
+  completeContributions,
   completeEducationHistory,
   completeEmploymentHistory,
   completeSchoolSelection,

@@ -15,7 +15,6 @@ class GlossaryModal extends React.Component {
 
   render() {
     let element;
-
     if (this.props.isVisible) {
       element = (
         <section className="va-modal rx-modal" id="rx-glossary-modal">
@@ -26,7 +25,7 @@ class GlossaryModal extends React.Component {
               <div className="va-modal-button-group cf">
                 <button type="button" onClick={this.handleCloseModal}>Close</button>
                 <Link
-                    to="/rx/glossary"
+                    to="/glossary"
                     onClick={this.props.onCloseModal}>
                   See all status definitions
                 </Link>

@@ -10,7 +10,6 @@ import {
   UPDATE_FIELD,
   SHOW_MAIL_OR_FAX,
   CANCEL_UPLOAD,
-  CLEAR_UPLOADED_ITEM,
   SET_FIELDS_DIRTY
 } from '../actions';
 
@@ -50,8 +49,7 @@ export default function claimDetailReducer(state = initialState, action) {
         uploading: action.uploading,
         uploadError: false,
         uploadComplete: false,
-        uploader: action.uploader,
-        uploadedItem: null
+        uploader: action.uploader
       });
     }
     case SET_PROGRESS: {
@@ -62,7 +60,6 @@ export default function claimDetailReducer(state = initialState, action) {
         uploading: false,
         uploadComplete: true,
         uploader: null,
-        uploadedItem: action.itemName,
         files: []
       });
     }
@@ -84,9 +81,6 @@ export default function claimDetailReducer(state = initialState, action) {
         uploading: false,
         uploader: null
       });
-    }
-    case CLEAR_UPLOADED_ITEM: {
-      return _.set('uploadedItem', null, state);
     }
     case SET_FIELDS_DIRTY: {
       return dirtyAllFields(state);

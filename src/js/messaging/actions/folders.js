@@ -19,7 +19,9 @@ const baseUrl = `${api.url}/folders`;
 
 export function fetchFolders() {
   // Get the max number of folders.
-  const query = { perPage: 100 };
+  const query = {};
+  const perPage = 'per_page';
+  query[perPage] = 100;
   const url = createUrlWithQuery(baseUrl, query);
 
   return dispatch => {
