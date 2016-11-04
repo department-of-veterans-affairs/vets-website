@@ -50,7 +50,7 @@ export default class ClaimEstimationPage extends React.Component {
               </ul>
             </div>
             <p>You can help speed up the process by promptly and electronically uploading the documents requested by the VA.</p>
-            <p>If you have questions, call VA at 1-800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.</p>
+            <p>If you have questions, call VA at 1-855-574-7286, Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.</p>
           </div>
           <div className="small-12 medium-4 columns">
             <AskVAQuestions/>
