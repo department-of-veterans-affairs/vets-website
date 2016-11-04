@@ -21,9 +21,7 @@ class AuthApp extends React.Component {
       });
     }
 
-    // this.checkUserLevel();
-    const myToken = this.props.location.query.token;
-    this.setMyToken(myToken);
+    this.checkUserLevel();
   }
 
   setMyToken(token) {
@@ -31,6 +29,7 @@ class AuthApp extends React.Component {
     window.opener.localStorage.setItem('userToken', token);
     window.opener.postMessage(token, environment.BASE_URL);
     localStorage.setItem('userToken', token);
+    window.opener.reload();
     window.close();
   }
 

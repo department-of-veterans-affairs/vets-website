@@ -1,6 +1,5 @@
 import React from 'react';
 import $ from 'jquery';
-import _ from 'lodash';
 
 import environment from '../helpers/environment.js';
 import { handleVerify } from '../helpers/login-helpers.js';
@@ -53,17 +52,14 @@ class RequiredLoginView extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      const systemProfile = json.data.attributes.va_profile;
-      // TODO(crew) : remove these before going to production. We are using these for testing purposes.
-      // const systemProfile = null;
-      // const systemProfile = 'not found';
+      const systemStatus = json.data.attributes.va_profile.status;
       const requiredApp = this.props.serviceRequired;
       const userAccounts = json.data.attributes.profile.loa;
       const userServices = json.data.attributes.services;
       this.setState(
         {
           accountType: userAccounts.current,
-          profileStatus: systemProfile,
+          profileStatus: systemStatus,
           services: userServices,
           isServiceAvailableForUse: userServices.includes(requiredApp),
         }
@@ -129,10 +125,10 @@ class RequiredLoginView extends React.Component {
       }
     } else if (this.props.authRequired === 3) {
       if (this.state.accountType === 3) {
-        if (_.isNil(this.state.profileStatus)) {
+        if (this.state.profileStatus === 'SERVER_ERROR') {
           // If va_profile is null, the system is down and we will show system down message.
           view = <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later."/>;
-        } else if (_.isEqual(this.state.profileStatus, 'not found')) {
+        } else if (this.state.profileStatus === 'NOT_FOUND') {
           // If va_profile is "not found", we cannot find you in our system and we will show a, we can't find you message.
           view = <SystemDownView messageLine1="Sorry, our system was not able to match your record. For more information please call 1-800-XXX-XXXX."/>;
         } else {
