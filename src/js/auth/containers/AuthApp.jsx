@@ -28,8 +28,6 @@ class AuthApp extends React.Component {
     window.opener.localStorage.removeItem('userToken');
     window.opener.localStorage.setItem('userToken', token);
     window.opener.postMessage(token, environment.BASE_URL);
-    localStorage.setItem('userToken', token);
-    window.opener.reload();
     window.close();
   }
 
