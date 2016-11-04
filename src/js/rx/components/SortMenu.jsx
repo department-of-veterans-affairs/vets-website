@@ -58,7 +58,7 @@ class SortMenu extends React.Component {
     return (
       <form className="rx-sort va-dnp">
         <div className="rx-sort-wide">
-          <label htmlFor="sortby">Sort by </label>
+          <label>Sort by </label>
           <ul className="va-list-ib">
             {sortLinks(sortBys)}
           </ul>
@@ -67,7 +67,6 @@ class SortMenu extends React.Component {
           <select
               aria-label={'Sort by'}
               value={this.props.selected}
-              id="sortby"
               onChange={this.handleChange}>
             {sortOptionElements(this.props.options)}
           </select>
