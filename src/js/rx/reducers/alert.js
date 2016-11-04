@@ -1,6 +1,3 @@
-import set from 'lodash/fp/set';
-import assign from 'lodash/fp/assign';
-
 const initialState = {
   content: '',
   status: 'info',
