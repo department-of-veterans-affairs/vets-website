@@ -71,6 +71,7 @@ class MessageSend extends React.Component {
 MessageSend.propTypes = {
   allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string),
   cssClass: React.PropTypes.string,
+  disabled: React.PropTypes.bool,
   maxFiles: React.PropTypes.number,
   maxFileSize: React.PropTypes.number,
   maxTotalFileSize: React.PropTypes.number,
