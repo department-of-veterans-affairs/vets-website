@@ -3,11 +3,11 @@ layout: page-breadcrumbs.html
 title: Court of Appeals for Veterans Claims
 concurrence: complete
 source: http://www.bva.va.gov/
-plainlanguage: 11-3-16 Ready for Beth review
+plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 ---
 
-If the Board of Veterans’ Appeals (Board) has sent you a final disability benefits claim decision that you disagree with, you still have room to appeal. You can take your appeal to the United States Court of Appeals for Veterans Claims (Court). The Court reviews Board decisions appealed by those who believe the Board erred in its decision.
+If the Board of Veterans’ Appeals (Board) has sent you a final disability benefits claim decision that you disagree with, you still have a way to appeal. You can take your appeal to the United States Court of Appeals for Veterans Claims (Court). The Court reviews Board decisions appealed by those who believe the Board erred in its decision.
 
 <div class="call-out" markdown="0">
 
@@ -19,7 +19,7 @@ The Court has the sole power to accept or overturn Board decisions and is part o
 
 ### The Court reviews Board decisions based on:
   - The record before the agency (what was in your file at the time the Board reviewed it), **and**
-  - Arguments of the parties (president in a written brief, with oral arguments usually held only in cases bringing up new legal issues)
+  - Arguments of the parties (presented in a written brief, with oral arguments usually held only in cases bringing up new legal issues)
 </div>
 
 The Court’s main office is in Washington, D.C., but the Court can hold sessions anywhere in the United States. The Court does hold sessions in other parts of the country a small number of times each year.
