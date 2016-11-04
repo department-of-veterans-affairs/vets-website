@@ -224,3 +224,8 @@ button.msg-btn-newfolder[type="button"],
     margin-top: 0;
   }
 }
+
+// Overrides USWDS styles.
+button.usa-button-outline {
+  font-weight: bold;
+}
