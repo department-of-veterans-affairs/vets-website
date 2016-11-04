@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import SortableTable from '../../common/components/SortableTable';
@@ -11,6 +12,9 @@ import SortMenu from '../components/SortMenu';
 import { rxStatuses } from '../config';
 import { formatDate, getModalTerm } from '../utils/helpers';
 
+const ScrollElement = Scroll.Element;
+const scroller = Scroll.scroller;
+
 class History extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +22,7 @@ class History extends React.Component {
     this.handleSort = this.handleSort.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
     this.openGlossaryModal = this.openGlossaryModal.bind(this);
+    this.scrollToTop = this.scrollToTop.bind(this);
   }
 
   componentDidMount() {
@@ -25,7 +30,11 @@ class History extends React.Component {
     this.props.loadPrescriptions(query);
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    if (prevProps.page !== this.props.page) {
+      this.scrollToTop();
+    }
+
     const oldPage = this.props.page;
     const oldSort = this.formattedSortParam(
       this.props.sort.value,
@@ -39,6 +48,14 @@ class History extends React.Component {
     if (newPage !== oldPage || newSort !== oldSort) {
       this.props.loadPrescriptions(query);
     }
+  }
+
+  scrollToTop() {
+    scroller.scrollTo('history', {
+      duration: 500,
+      delay: 0,
+      smooth: true
+    });
   }
 
   formattedSortParam(value, order) {
@@ -137,9 +154,12 @@ class History extends React.Component {
     }
 
     return (
-      <div id="rx-history" className="va-tab-content">
+      <ScrollElement
+          id="rx-history"
+          name="history"
+          className="va-tab-content">
         {content}
-      </div>
+      </ScrollElement>
     );
   }
 }
