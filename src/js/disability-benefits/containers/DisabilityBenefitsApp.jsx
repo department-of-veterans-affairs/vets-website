@@ -12,7 +12,7 @@ class DisabilityBenefitsApp extends React.Component {
 
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"disability-benefits"}>
-        <div>
+        <div className="disability-benefits-content">
           {available && !synced
             ? <ClaimSyncWarning syncedDate={syncedDate}/>
             : null}
