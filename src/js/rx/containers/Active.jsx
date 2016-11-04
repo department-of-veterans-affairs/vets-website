@@ -1,8 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loadPrescriptions, sortPrescriptions } from '../actions/prescriptions';
-import { openRefillModal } from '../actions/modals';
+import {
+  loadPrescriptions,
+  sortPrescriptions
+} from '../actions/prescriptions';
+
+import {
+  openGlossaryModal,
+  openRefillModal
+} from '../actions/modals';
+
 import PrescriptionList from '../components/PrescriptionList';
 import SortMenu from '../components/SortMenu';
 import { sortOptions } from '../config';
@@ -42,6 +50,7 @@ class Active extends React.Component {
 
       content = (
         <div>
+          <p className="rx-tab-explainer">Your active VA prescriptions.</p>
           <SortMenu
               onChange={this.handleSort}
               onClick={this.handleSort}
@@ -51,14 +60,20 @@ class Active extends React.Component {
               items={this.props.prescriptions}
               // If we're sorting by facility, tell PrescriptionList to group 'em.
               grouped={sortValue === 'facilityName'}
-              modalHandler={this.props.openRefillModal}/>
+              refillModalHandler={this.props.openRefillModal}
+              glossaryModalHandler={this.props.openGlossaryModal}/>
         </div>
       );
+    } else {
+      content = (
+        <p className="rx-tab-explainer rx-loading-error">
+          We couldn't retrieve your prescriptions.
+          Please refresh this page or try again later.
+        </p>);
     }
 
     return (
       <div className="va-tab-content">
-        <p className="rx-tab-explainer">Your active VA prescriptions.</p>
         {content}
       </div>
     );
@@ -77,6 +92,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
+  openGlossaryModal,
   openRefillModal,
   loadPrescriptions,
   sortPrescriptions
