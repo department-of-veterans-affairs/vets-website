@@ -44,7 +44,7 @@ majorlinks:
   <div class="medium-4 columns">
     <a href="/disability-benefits/apply-for-benefits/">
       <div class="outline-link-block">
-        Check Disability Claim Status
+        Apply for Disability Benefits
       </div>
     </a>
   </div>
