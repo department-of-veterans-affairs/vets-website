@@ -589,13 +589,23 @@ p.first-of-type {
     width: 100%;
   }
 }
+.ask-va-alert {
+  position: relative;
+  padding-bottom: 3.5em;
+  @media (min-width: $small-screen) {
+    padding-bottom: 1em;
+  }
+}
+
 .view-details-button {
   float: right;
   margin: 0;
   @media (max-width: $small-screen) {
     float: none;
-    width: 100%;
-    margin: 0.5em 0;
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
+    width: calc(100% - 2em) !important;
   }
 }
 

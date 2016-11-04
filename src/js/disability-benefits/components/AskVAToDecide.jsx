@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 export default class AskVAToDecide extends React.Component {
   render() {
     return (
-      <div className="usa-alert usa-alert-info claims-no-icon claims-alert-status">
+      <div className="usa-alert usa-alert-info claims-no-icon claims-alert-status ask-va-alert">
         <div className="item-title-container">
           <h4>Ask VA for a Claim Decision</h4>
         </div>
