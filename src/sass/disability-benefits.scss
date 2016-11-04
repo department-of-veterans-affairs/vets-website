@@ -112,6 +112,12 @@
   }
   .button-container {
     float: right;
+    a {
+      margin: 0;
+    }
+    @media (max-width: $small-screen) {
+      float: none;
+    }
   }
   &:last-child {
     border: none;
@@ -306,8 +312,6 @@ a.claim-list-item {
 }
 
 // CSS for Tab-based navigation
-// TODO: Move these to vets-website
-
 .va-tabs {
   list-style: none;
   // Prevents wrapping, forces horizontal scrolling
@@ -326,11 +330,6 @@ a.claim-list-item {
     border-style: solid;
     display: inline-block;
   }
-
-  // Center navigation in viewports < 600px;
-  @media (max-width: $medium-screen) {
-    text-align: center;
-  }
 }
 
 .va-tab-trigger {
@@ -340,7 +339,6 @@ a.claim-list-item {
   border-bottom-color: $color-gray;
   color: $color-gray;
   display: inline-block;
-  // font-size: 1.17rem;
   padding: 1rem;
   margin: 0px -1px;
   text-decoration: none;
@@ -358,7 +356,6 @@ a.claim-list-item {
   }
 
   @media (min-width: $small-screen) {
-    font-size: inherit;
     padding-left: 4rem;
     padding-right: 4rem;
   }
@@ -376,8 +373,6 @@ a.claim-list-item {
   height: 0;
   clear: both;
  }
-
-// TODO: Add media queries for responsiveness
 
 .loading-message-center-spinner {
   > img {
@@ -548,13 +543,13 @@ p.first-of-type {
   > .usa-alert-body {
     padding-left: 4.2rem;
   }
-  a.usa-button {
-    position: absolute;
-    top: .75em;
-    right: 1em;
-    width: auto;
-    margin: 0;
-  }
+  // a.usa-button {
+  //   position: absolute;
+  //   top: .75em;
+  //   right: 1em;
+  //   width: auto;
+  //   margin: 0;
+  // }
 }
 
 .claims-alert-status {
@@ -572,4 +567,35 @@ p.first-of-type {
 
 .claims-files-cancel {
   margin-left: 32px;
+}
+
+.item-title-container {
+  float: left;
+  width: 63%;
+  @media (max-width: $small-screen) {
+    float: none;
+    width: 100%;
+  }
+}
+.view-details-button {
+  float: right;
+  margin: 0;
+  @media (max-width: $small-screen) {
+    float: none;
+    width: 100%;
+    margin: 0.5em 0;
+  }
+}
+
+.tab-li {
+  @media (max-width: $small-screen) {
+    width: 33.33%;
+    text-align: center;
+  }
+  a {
+    @media (max-width: $small-screen) {
+      display: inline-block;
+      width: 100%;
+    }
+  }
 }

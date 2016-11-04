@@ -10,10 +10,11 @@ export default class AskVAToDecide extends React.Component {
           You can ask VA to start evaluating your claim if you don't have any more documents or evidence to file.
         </p>
         <Link
-            className="usa-button"
+            className="usa-button view-details-button"
             to={`/your-claims/${this.props.id}/ask-va-to-decide`}>
           View Details
         </Link>
+        <div className="clearfix"></div>
       </div>
     );
   }
@@ -22,4 +23,3 @@ export default class AskVAToDecide extends React.Component {
 AskVAToDecide.propTypes = {
   id: React.PropTypes.string.isRequired
 };
-
