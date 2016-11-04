@@ -31,22 +31,27 @@ class History extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (prevProps.page !== this.props.page) {
-      this.scrollToTop();
-    }
-
-    const oldPage = this.props.page;
-    const oldSort = this.formattedSortParam(
+    const currentPage = this.props.page;
+    const currentSort = this.formattedSortParam(
       this.props.sort.value,
       this.props.sort.order
     );
 
     const query = _.pick(this.props.location.query, ['page', 'sort']);
-    const newPage = +query.page || oldPage;
-    const newSort = query.sort || oldSort;
+    const requestedPage = +query.page || currentPage;
+    const requestedSort = query.sort || currentSort;
 
-    if (newPage !== oldPage || newSort !== oldSort) {
+    const pageChanged = requestedPage !== currentPage;
+    const sortChanged = requestedSort !== currentSort;
+
+    if (pageChanged || sortChanged) {
       this.props.loadPrescriptions(query);
+    }
+
+    const pageUpdated = prevProps.page !== currentPage;
+
+    if (pageUpdated) {
+      this.scrollToTop();
     }
   }
 
