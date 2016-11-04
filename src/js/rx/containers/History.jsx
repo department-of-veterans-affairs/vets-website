@@ -64,7 +64,8 @@ class History extends React.Component {
     });
   }
 
-  openGlossaryModal(term) {
+  openGlossaryModal(domEvent) {
+    const term = domEvent.target.dataset.term;
     const content = getModalTerm(term);
     this.props.openGlossaryModal(content);
   }
@@ -101,9 +102,11 @@ class History extends React.Component {
             ),
 
           refillStatus: (
-            <a onClick={() => this.openGlossaryModal(status)}>
-              {status}
-            </a>
+            <button
+                className="rx-trigger"
+                data-term={status}
+                onClick={this.openGlossaryModal}
+                type="button">{status}</button>
             )
         };
       });

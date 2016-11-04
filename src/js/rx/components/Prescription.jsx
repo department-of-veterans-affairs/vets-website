@@ -23,7 +23,8 @@ class Prescription extends React.Component {
   }
 
   openGlossaryModal(domEvent) {
-    const content = getModalTerm(domEvent.target.dataset.term);
+    const term = domEvent.target.dataset.term;
+    const content = getModalTerm(term);
     this.props.glossaryModalHandler(content);
   }
 

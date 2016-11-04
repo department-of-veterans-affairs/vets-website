@@ -101,10 +101,9 @@ export class Detail extends React.Component {
       'Prescription status': (
         <button
             className="rx-trigger"
-            onClick={() => this.openGlossaryModal(status)}
-            type="button">
-          {status}
-        </button>
+            data-term={status}
+            onClick={this.openGlossaryModal}
+            type="button">{status}</button>
       ),
 
       'Last fill date': formatDate(
@@ -164,7 +163,8 @@ export class Detail extends React.Component {
     );
   }
 
-  openGlossaryModal(term) {
+  openGlossaryModal(domEvent) {
+    const term = domEvent.target.dataset.term;
     const content = getModalTerm(term);
     this.props.openGlossaryModal(content);
   }
