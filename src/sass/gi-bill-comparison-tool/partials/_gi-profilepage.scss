@@ -1,0 +1,205 @@
+// Style overrides and custom styles for the school profile page
+
+
+@media(max-width: $small-screen) {
+    .add-resources {display:none;} 
+    #about-your-school{display:none;}
+    #about-you {display:none;}
+    #horiz-filters-noprint {display:none;}
+    #horiz-filters-noprint2 {display:none;}
+    }
+
+@media(max-width: $medium-screen) {
+    .add-resources {display:none;} 
+    #about-your-school{display:none;}
+    #about-you {display:none;}
+    #horiz-filters-noprint {display:none;}
+    #horiz-filters-noprint2 {display:none;}
+    }
+
+.mobile-padding{
+    padding: 0 1rem;
+}
+
+.calc-outputs{
+    padding: 0 1rem;
+}
+.back-chevron, .backlink{
+    margin-bottom: 1rem;
+}
+.back-chevron{
+    font-size: 1rem;
+    margin-right: .25rem;
+    line-height: 1rem;
+}
+.backlink {
+  font-size: 1.6rem;
+}
+.onerempadleft{
+  padding-left: 1rem;
+}
+.complaints-table{
+    th, tr, td{
+    @media(max-width: $small-screen) {
+        padding:.5rem;
+        margin: 0;
+        }
+    }
+}
+.caution-profile{
+    background-color: $va-body-accent-color;
+    height: 2.2rem;
+    padding: 0 .5rem .5rem 1rem;
+    i{
+        @media(max-width: $small-screen) {
+            display:none;
+        }
+    }
+    
+    a{
+        color: #000;
+        font-family: $font-sans;
+        text-decoration: none;
+        font-size: 1rem;
+        line-height: 2.2rem;
+        @media(max-width: $small-screen) {
+            font-size: 1.0rem;
+            line-height: 3.2rem;
+        }
+    }
+}
+.profile-head{
+    color: $va-primary-color;
+        @media(max-width: $small-screen) {
+            font-size: 2rem;
+            line-height: 2.5rem;
+        }
+}
+.profile-institute-qualifier, .profile-institute-value{
+    // font-size: .8rem;
+}
+.profile-institute-qualifier{
+    color: #444;
+    line-height: .5;
+    text-transform: uppercase;
+    padding: 1rem;
+}
+.profile-institute-descriptors{
+    text-align: left;
+    margin-top: .25rem;
+    margin-right: 1rem;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    
+    p{
+        margin-bottom: .5rem;
+    }
+}
+.profile-institute-value{
+    font-weight: 600;
+    color: $va-primary-color;
+    line-height: 1rem;
+    margin-top: 0;
+    margin-left: .5rem;
+    text-align: right;
+}
+.text-center{
+    text-align: center;
+}
+.text-left{
+    text-align: left;
+}
+
+.benefits-estimator-icon-box{
+    width: 100%;
+    height: 4.8rem;
+}
+.blueback-header{
+    background-color:#E8F5FB;
+    padding: .5rem 1rem 0 1rem;
+}
+.profile-benefits-values{
+    font-family: $source-sans;
+    font-size: 4.16rem !important;
+    color: $va-secondary-color;
+    line-height: .8;
+    text-align: center;
+}
+.benefits-cards{
+    margin-top: .85rem;
+    min-height: 19.2rem;
+    background-color: none;
+    h4{
+        font-size: 1.6rem;
+        text-align: center;
+    }
+    @media(max-width: $small-screen) {
+        min-height: 16rem;
+    }
+}
+.programs-text{
+    text-decoration: none;
+    a{
+        font-size: 1.5rem;
+        text-decoration: none;
+    }
+}
+.see-yr-rates-summary{
+    font-size: .75rem;
+    color:$va-secondary-color;
+    text-align: left;
+    line-height: 0;
+    margin: .5rem 0 0 0;
+    padding: 0;
+}
+.programs-yes, .programs-no {
+    width: 1rem;
+    height: 1rem;
+    line-height: 1rem;
+    font-size: 1rem;
+    margin: .25rem;
+}
+.programs-yes{color:$va-secondary-color}
+.programs-no{color:#888}
+.va-summary-card{
+    padding: 0rem;
+    background-color: #fff;
+    margin-bottom: .5rem;
+    ul li{
+        list-style: none;
+    }
+}
+.caution-profile-summary{
+    tr td{background-color: $va-body-accent-color;}
+        th{
+            width: 35%;
+            background-color: $va-body-accent-color;
+        }
+}
+.outcomes-learnmore{
+    font-size: 1rem;
+}
+.gi-bill-student-count{
+    font-size: 3.2rem;
+    color: #0083BE;
+}
+.border-left{
+    border-left: 1px;
+    border-left-style: solid;
+    border-left-color: #f1f1f1;
+}
+.borderless tr td{
+    border: none;
+    margin: 0;
+}
+.profile-details{
+    margin-top: 3rem;
+    max-width: 400px;
+}
+.accordion-vert-spacing{
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+}
+.access-sheet{
+    margin-top: 1rem;
+}

@@ -1,0 +1,79 @@
+.calc-outputs{
+    background-color: #E8F5FA;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.calc-results-2 {
+  margin-top: 2rem;
+}
+
+.calc-results-1,
+.calc-results-2,
+.profile-school-summary{
+
+    th, tr, td{
+      padding: 1rem;
+    }
+
+  .calc-title{
+      text-align: left;
+      border-width: 0 0 3px 0;
+  }
+}
+.calc-results-1{
+  table, tr, td, th{
+    background-color: #E8F5FA;
+  }
+}
+
+.calc-results-2 {
+  tr {
+    &:nth-child(even) {
+      background: transparent;
+    }
+  }
+}
+
+
+table{
+    margin-top: 0;
+}
+
+.noborder{
+    border: none;
+}
+
+.border-bottom{
+    border-bottom: solid $color-gray-lightest thin;
+}
+
+.align-right{
+    text-align: right;
+}
+
+.align-center{
+    text-align: center;
+}
+
+.align-left{
+    text-align: left;
+}
+
+.data-row{
+    line-height: .5rem;
+    @media(max-width: $small-screen) {
+        line-height: 1.2rem;
+    }
+}
+
+.term-calc-results{
+    th{
+        text-align: left;
+    }
+}
+
+.borderless{
+    border: none;
+    font-weight: 600;
+}

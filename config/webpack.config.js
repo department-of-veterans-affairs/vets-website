@@ -10,6 +10,7 @@ const _ = require('lodash');
 require('babel-polyfill');
 
 const entryFiles = {
+  'gi-bill-comparison-tool': './src/js/gi-bill-comparison-tool/gi-bill-comparison-tool-entry.jsx',
   'disability-benefits': './src/js/disability-benefits/disability-benefits-entry.jsx',
   'edu-benefits': './src/js/edu-benefits/edu-benefits-entry.jsx',
   facilities: './src/js/facility-locator/facility-locator-entry.jsx',

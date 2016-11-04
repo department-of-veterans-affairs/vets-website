@@ -1,0 +1,528 @@
+
+// extra colors
+
+$va-primary-color: #003F72;
+$va-secondary-color: #0083BE;
+$va-tertiary-color: #444;
+$va-highlight-color: #4FCEFF;
+$va-body-content-color: #222;
+$va-body-header-color: #000444;
+$va-body-accent-color: #FAC922;
+$va-body-background-color: #fff;
+$va-start-color: #008674;
+$va-alert-color: #741B30;
+$va-gibct-gray-lightest: #fafafa;
+$source-sans: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
+
+
+//========================================================
+// These styles override USWDS styles for visual
+// compatibility with current vets.gov look
+//========================================================
+select {
+  height: auto;
+}
+
+
+//========================================================
+// These styles override Foundation styles
+// for visual compatibility with the current vets.gov look
+// Long term goal is to drop Foundation.
+//========================================================
+
+.accordion .accordion-navigation > a,
+.accordion dd > a {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+p, ul, ol, dl {
+  font-size: inherit;
+}
+
+.section.one {
+  color: $color-base;
+
+  select, input {
+    height: auto;
+  }
+  label {
+    font-size: 1.5rem;
+  }
+
+  select {
+    background-size: 3rem;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeD0iMTJweCIgeT0iMHB4IiB3aWR0aD0iMjRweCIgaGVpZ2h0PSIzcHgiIHZpZXdCb3g9IjAgMCA2IDMiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDYgMyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBvbHlnb24gcG9pbnRzPSI1Ljk5MiwwIDIuOTkyLDMgLTAuMDA4LDAgIi8+PC9zdmc+");
+    background-position: 100% 50%;
+  }
+
+  p {
+    font-size: inherit
+  }
+}
+
+table tr th,
+table tr td,
+table thead tr th,
+table thead tr td {
+  font-size: inherit;
+}
+
+
+
+// Search
+
+
+.overlay {
+  z-index: 10000;
+}
+
+
+
+.reveal-modal #search_form {
+  margin-bottom: 1em;
+}
+
+.reveal-modal .close-reveal-modal {
+  font-size: 1em;
+  clear: both;
+  text-decoration: none;
+  color: $color-gray-dark;
+  text-align: center;
+  margin: 1em 0;
+  position: relative;
+  top: auto;
+  display: block;
+  padding: 1em 0;
+  right: auto;
+  width: 100%;
+  bottom: auto;
+}
+
+// General
+
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: $font-sans;
+  font-weight: 500;
+  // color: $va-primary-color;
+  transition: all 0.3s ease-in-out;
+}
+
+h1, h2, h3, h4, h5, h6, .usa-serif, .usa-font-lead {
+  font-family: $source-sans;
+}
+
+a{
+    font-family: $font-sans;
+    color: $va-primary-color;
+}
+
+.caption{
+    font-size: .75rem;
+    a{
+    font-size: .75rem;
+    }
+}
+
+.clearfix{
+    clear:both;
+}
+
+// Home Teaser Block - Lots of styles, I know....rl
+
+.teaser-pad{
+    padding-left: 2rem;
+}
+
+.teaser-head{
+    p {
+        font-size: 1.25rem !important;
+        line-height: 1;
+    }
+}
+
+.teaser-container{
+    padding-top: 3rem;
+
+    @media(max-width: $small-screen) {
+        display: none;
+    }
+    @media(max-width: $medium-screen) {
+        display: none;
+    }
+}
+
+.whats-your-plan{
+    @media(max-width: $small-screen) {
+        display: none;
+    }
+    @media(max-width: $medium-screen) {
+        display: none;
+    }
+}
+.teaser-figure{
+    font-family: $source-sans;
+    font-size: 2.72rem;
+    color: $va-primary-color;
+    display: block;
+}
+
+.ui-autocomplete {
+    background-color: #fff;
+    border: 1px solid $olso-gray;
+    color: rgba(0,0,0,0.75);
+    text-indent: 1rem;
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+  .ui-state-focus {
+      background-color: #ddd;
+  }
+}
+
+.ui-autocomplete.ui-widget-content {
+  padding-left: 0;
+  width: 600px !important;
+
+  @media(max-width: $small-screen) {
+    width: 93%;
+  }
+}
+
+#institution-search {
+  @media (max-width: $small-screen) {
+    width: 100%;
+  }
+}
+
+.ui-helper-hidden-accessible{
+  display: none;
+}
+
+// OVERRIDES FOR WDS
+form {
+  max-width: none;
+}
+
+.usa-grid-full {
+  max-width: 1200px;
+}
+
+.main-content {
+  margin-bottom: 10rem;
+}
+
+.clearfix{
+    @include clearfix;
+}
+
+
+
+ul li {
+  &:before {
+    content: none;
+  }
+}
+
+.pull-right {
+  float: right;
+    margin-right: 0;
+}
+
+.usa-grid-full .usa-card .usa-width-three-fourths .usa-width-one-half .usa-width-one-fourth .nested {
+  margin-right: 0;
+    margin-top: 0;
+}
+
+.usa-card + .usa-card {
+    margin-top: 0;
+}
+
+.new-row {
+  margin-top: 1rem;
+}
+
+// Adding extra because we have more words
+.usa-search.usa-search-big.extra [type="submit"], .usa-search.usa-search-big .usa-search-submit {
+  width: 20rem;
+}
+
+//.usa-search, .usa-search-big, .extra{
+//    width: 260px;
+//}
+
+.radio{
+    margin-right: 2rem;
+}
+
+.about-this-tool{
+    margin-bottom: 1.7rem;
+}
+.applinks{
+    text-align: center;
+    font-family: $font-sans;
+    font-size: 1.36rem;
+    line-height: 4rem;
+    margin-right: 2.5rem;
+    margin-bottom: 2rem;
+    @media(max-width: $small-screen) {
+        font-size: 1.2rem;
+        text-align: left;
+        margin: 0;
+        line-height: 1.2rem;
+    }
+    a.link{
+    @media(max-width: $small-screen) {
+        margin-left: 1rem;
+        padding: .5rem;
+    }
+    }
+}
+
+// All the stuff for showing the form vertically along the top
+.filter-horizontal{
+  padding: 0;
+
+  .filter-p[style] {
+    display: inline-block !important;
+    float: left;
+    line-height: 2.75;
+    margin-right: 1rem;
+    margin-left: 2rem;
+  }
+
+  .form-group {
+    float: left;
+    position: relative;
+    width: 20%;
+    margin-right: 1rem;
+
+    select {
+      background: $va-gibct-gray-lightest;
+      border-color: #cccccc;
+    }
+
+    .filter-item {
+      width: 100%;
+      float: left;
+    }
+
+    &::after {
+      font-family: FontAwesome;
+      content: "\f013";
+      display: inline;
+      float: left;
+      right: 1px;
+      margin-top: 8px;
+      background: $va-gibct-gray-lightest;
+      padding: 5px 8px;
+      position: absolute;
+      pointer-events: none;
+      border-left: solid $color-gray-lightest thin;
+    }
+  }
+}
+
+.filter-button {
+  font: inherit;
+  background-color: #0071bc;
+
+  & a{
+    color: #fff;
+  }
+  &:visited{
+    color: #fff;
+  }
+}
+
+.search-button-new{
+  height: 4rem;
+  a{color: #fff;}
+}
+
+// All the stuff for showing the left rail
+.left-rail {
+  margin-top: 43px;
+  margin-bottom: 2rem;
+  label, input, input[type="text"], input[type="email"], input[type="password"], input[type="url"], input[type="tel"], input[type="number"], input[type="search"], input[type="file"], input[type="date"], input[type="datetime-local"], input[type="month"], input[type="time"], input[type="week"], textarea, select {
+    margin-top: 1rem;
+    font-size: .75rem;
+  }
+}
+
+.ui-autocomplete-input{
+    @media(max-width: $small-screen) {
+        width: 80%;
+    }
+}
+
+.ui-menu-item{
+    list-style: none;
+    @media(max-width: $small-screen) {
+        font-size: 1.3rem;
+    }
+}
+.modal-bullets{
+    font-size: 1.3rem;
+    text-indent: 3rem;
+    li{
+    list-style-type: disc;
+    }
+}
+
+.pagination-bottom{
+    text-align: center;
+    padding: 1.7rem;
+
+    a, .cur-page{
+        margin-right: 1rem;
+        @media(max-width: $small-screen) {
+            margin-right: .25rem;
+
+    }
+    }
+}
+
+.filtermargin{
+    margin-top: 2rem;
+}
+
+.search-count{
+    margin-left: 1rem;
+
+    @media(max-width: $small-screen) {
+        font-size: 1rem;
+    }
+}
+
+.filter-box {
+  padding: 1rem 1rem;
+}
+
+.filter-p{
+    margin-bottom: -1rem;
+}
+
+.filter-box .filter-p label {
+  font-size:  1.2rem;
+}
+
+.nopad{
+    padding: 0 0 0 0;
+}
+
+label{
+    font-size: .85rem;
+    @media(max-width: $small-screen) {
+        font-size: 1.3rem;
+    }
+}
+.nomargin{margin-right: 0;}
+.nomarginall{margin: 0;}
+
+.action-bar{
+  background-color: $color-gray-lightest;
+  padding: 15px 0 5px 0;
+  margin: 2rem 0;
+}
+
+
+.multicolumn-text{
+  column-count:2;
+  -moz-column-count:2;
+  -webkit-column-count:2;
+}
+
+.text-center{
+  text-align: center;
+}
+
+.about-you{
+  padding: 0;
+  margin: 0;
+}
+
+.noback{
+  background: none;
+}
+
+.nopadding{
+    padding: 0 0 0 0;
+}
+
+.noback-icon{
+    background: none;
+    text-decoration: none;
+    &:hover{
+        background: none;
+        text-decoration: none;
+    }
+}
+.red{background-color: red;}
+
+
+#panel-filters.content{
+    padding: 0;
+}
+.search-button-div{
+    text-align: left;
+
+}
+#search-filters .usa-card-content{
+    padding: 0  1rem 1rem 1rem;
+}
+
+
+
+//========================================================
+// These styles should be removed eventually. There's just
+// too much of a difference between the current vets-website
+// code base and this one to reconcile right now.
+// (2016-06-29)
+//========================================================
+
+// One off to make the header search box work correctly
+[id=mobile_query] {
+  width: 384px;
+}
+
+.va-notice--banner p {
+  font-size: 1.44rem;
+}
+
+.usa-social-links {
+  margin-top: 3.2rem;
+}
+
+.va-list--linkgroup,
+.va-list--linkgroup--inline,
+.va-list--linkgroup-title {
+  font-size: 1.6rem;
+}
+
+.va-crisis-panel--notouch {
+  @include transform(translateY(250px));
+}
+
+.va-crisis-panel--open {
+   @include transform(translateY(0px));
+}
+
+.va-crisis-panel--touch .va-crisis-line {
+  font-family: inherit;
+}
+
+.va-nav-breadcrumbs-list {
+  font-size: 1.6rem;
+}
+
+.va-heading-sans {
+  margin: auto 0;
+  font-family:  $font-sans;
+  font-weight: bold;
+  padding-left: 0.9375rem;
+  padding-right: 0.9375rem;
+}
