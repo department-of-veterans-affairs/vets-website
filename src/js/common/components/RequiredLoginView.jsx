@@ -130,7 +130,7 @@ class RequiredLoginView extends React.Component {
           view = <SystemDownView messageLine1="Sorry, our system is temporarily down while we fix a few things. Please try again later."/>;
         } else if (this.state.profileStatus === 'NOT_FOUND') {
           // If va_profile is "not found", we cannot find you in our system and we will show a, we can't find you message.
-          view = <SystemDownView messageLine1="Sorry, our system was not able to match your record. For more information please call 1-800-XXX-XXXX."/>;
+          view = <SystemDownView messageLine1="We couldn't find your records with that information. Please call support at 1-855-574-7286."/>;
         } else {
           // If there is something in the va_profile attribute, continue on to check if this user can use this specific service.
           if (this.state.isServiceAvailableForUse) {
