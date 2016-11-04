@@ -44,7 +44,7 @@ export function getClaims() {
         return Promise.reject(res.statusText);
       })
       .then(
-        claims => dispatch({ type: SET_CLAIMS, claims: claims.data }),
+        claims => dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta }),
         () => dispatch({ type: SET_UNAVAILABLE })
       );
   };
@@ -290,4 +290,3 @@ export function setLastPage(page) {
     page
   };
 }
-
