@@ -1,6 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Types of Disability Benefits Claims
+plainlanguage: 11-4-16 Ready for Beth review
 showactionbar: false
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
