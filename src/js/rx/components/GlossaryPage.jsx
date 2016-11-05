@@ -19,7 +19,7 @@ class GlossaryPage extends React.Component {
 
     return (
       <section>
-        <BackLink text="Back to detail page"/>
+        <BackLink text="Back"/>
         <h1>Glossary</h1>
         {sections}
       </section>

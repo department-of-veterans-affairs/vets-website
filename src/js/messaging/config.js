@@ -1,3 +1,5 @@
+import assign from 'lodash/fp/assign';
+
 import environment from '../common/helpers/environment';
 
 function getHeaders(optionalHeaders = {}) {
@@ -9,7 +11,7 @@ function getHeaders(optionalHeaders = {}) {
     defaultHeaders.Authorization = `Token token=${localStorage.userToken}`;
   }
 
-  return Object.assign({}, defaultHeaders, optionalHeaders);
+  return assign(defaultHeaders, optionalHeaders);
 }
 
 function getApiUrl() {
