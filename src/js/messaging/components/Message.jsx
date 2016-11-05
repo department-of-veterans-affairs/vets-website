@@ -12,7 +12,7 @@ class Message extends React.Component {
   }
 
   componentDidUpdate() {
-    const shouldFetchMessage = 
+    const shouldFetchMessage =
       !this.props.isCollapsed &&
       this.props.attrs.attachment &&
       !this.props.attrs.attachments;

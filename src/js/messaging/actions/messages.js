@@ -86,7 +86,7 @@ export function fetchThreadMessage(id) {
         type: FETCH_THREAD_MESSAGE_SUCCESS,
         message: data
       }),
-      error => dispatch({ type: FETCH_THREAD_MESSAGE_ERROR, error })
+      error => dispatch({ type: FETCH_THREAD_MESSAGE_FAILURE, error })
     );
   };
 }
