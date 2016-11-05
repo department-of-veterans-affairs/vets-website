@@ -13,7 +13,11 @@ class Message extends React.Component {
 
   handleToggleCollapsed() {
     if (this.props.onToggleCollapsed) {
-      this.props.onToggleCollapsed(this.props.attrs.messageId);
+      const shouldFetchMessage = !this.props.attrs.attachments;
+      this.props.onToggleCollapsed(
+        this.props.attrs.messageId,
+        shouldFetchMessage
+      );
     }
   }
 
@@ -42,7 +46,10 @@ class Message extends React.Component {
       headerOnClick = this.handleToggleCollapsed;
 
       if (this.props.attrs.attachment) {
-        attachments = (<MessageAttachmentsView attachments={this.props.attrs.attachments}/>);
+        attachments = (
+          <MessageAttachmentsView
+              attachments={this.props.attrs.attachments}/>
+        );
       }
     }
 

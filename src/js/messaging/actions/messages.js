@@ -11,6 +11,8 @@ import {
   DELETE_MESSAGE_FAILURE,
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_FAILURE,
+  FETCH_THREAD_MESSAGE_SUCCESS,
+  FETCH_THREAD_MESSAGE_FAILURE,
   MOVE_MESSAGE_SUCCESS,
   MOVE_MESSAGE_FAILURE,
   SAVE_DRAFT_SUCCESS,
@@ -225,8 +227,24 @@ export function sendMessage(message) {
   };
 }
 
-export function toggleMessageCollapsed(messageId) {
-  return { type: TOGGLE_MESSAGE_COLLAPSED, messageId };
+export function toggleMessageCollapsed(messageId, fetchMessage = false) {
+  return dispatch => {
+    if (fetchMessage) {
+      const messageUrl = `${baseUrl}/${messageId}`;
+
+      fetch(messageUrl, api.settings.get)
+      .then(response => response.json())
+      .then(
+        data => dispatch({
+          type: FETCH_THREAD_MESSAGE_SUCCESS,
+          message: data
+        }),
+        error => dispatch({ type: FETCH_THREAD_MESSAGE_ERROR, error })
+      );
+    }
+
+    dispatch({ type: TOGGLE_MESSAGE_COLLAPSED, messageId });
+  }
 }
 
 export function toggleMessagesCollapsed() {
