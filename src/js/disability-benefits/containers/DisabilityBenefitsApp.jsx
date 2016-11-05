@@ -8,13 +8,13 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 class DisabilityBenefitsApp extends React.Component {
 
   render() {
-    const { available, synced, syncedDate } = this.props;
+    const { available, synced } = this.props;
 
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"disability-benefits"}>
         <div className="disability-benefits-content">
           {available && !synced
-            ? <ClaimSyncWarning syncedDate={syncedDate}/>
+            ? <ClaimSyncWarning/>
             : null}
           {available
             ? <div>
@@ -31,8 +31,7 @@ class DisabilityBenefitsApp extends React.Component {
 function mapStateToProps(state) {
   return {
     available: state.claimSync.available,
-    synced: state.claimSync.synced,
-    syncedDate: state.claimSync.syncedDate
+    synced: state.claimSync.synced
   };
 }
 
