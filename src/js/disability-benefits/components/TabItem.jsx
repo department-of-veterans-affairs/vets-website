@@ -4,7 +4,7 @@ import { IndexLink } from 'react-router';
 class TabItem extends React.Component {
   render() {
     return (
-      <li>
+      <li className="tab-li">
         <IndexLink
             className="va-tab-trigger"
             activeClassName="va-tab-trigger--current"

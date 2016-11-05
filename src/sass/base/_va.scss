@@ -1953,14 +1953,6 @@ html.touchevents {
   .no-touch {display: none;}
 }
 
-// Animate CSS components
-.animated {
-  -webkit-animation-duration: 1.25s;
-  animation-duration: 1.25s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
 @-webkit-keyframes fadeIn {
   0% {
     opacity: 0;
@@ -2057,4 +2049,8 @@ pre[class*='language-']  {
   p.small {
     font-size: 1em;
   }
+}
+
+.react-conatiner {
+  padding: 2em 0;
 }

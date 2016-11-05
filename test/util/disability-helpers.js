@@ -25,7 +25,6 @@ function initClaimsListMock() {
               documentsNeeded: true,
               developmentLetterSent: true,
               decisionLetterSent: true,
-              successfulSync: false,
               updatedAt: '2016-10-28T14:41:26.468Z',
               phase: null
             }
@@ -44,12 +43,14 @@ function initClaimsListMock() {
               documentsNeeded: true,
               developmentLetterSent: true,
               decisionLetterSent: true,
-              successfulSync: false,
               updatedAt: '2016-10-28T14:41:26.468Z',
               phase: null
             }
           }
-        ]
+        ],
+        meta: {
+          successfulSync: false
+        }
       }
     }
   });
@@ -77,7 +78,6 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
             documentsNeeded,
             developmentLetterSent: true,
             decisionLetterSent,
-            successfulSync: true,
             updatedAt: '2016-10-28T14:41:26.468Z',
             phase,
             contentionList: ['Hearing Loss (New)',
@@ -101,18 +101,6 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
               suspenseDate: null,
               documents: [],
               date: '2012-11-29'
-            }, {
-              type: 'phase7',
-              date: '2012-10-31'
-            }, {
-              type: 'phase6',
-              date: '2012-10-30'
-            }, {
-              type: 'phase5',
-              date: '2012-10-29'
-            }, {
-              type: 'phase4',
-              date: '2012-10-28'
             }, {
               type: 'phase3',
               date: '2012-10-27'
@@ -196,12 +184,12 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
               documents: [],
               date: '2010-03-15'
             }, {
-              type: 'received_from_others_list',
+              type: 'still_need_from_you_list',
               trackedItemId: 1,
               description: '21-4142',
               displayName: 'Request 9',
               overdue: false,
-              status: 'ACCEPTED',
+              status: 'SUBMITTED_AWAITING_REVIEW',
               uploaded: false,
               uploadsAllowed: false,
               openedDate: null,
@@ -217,6 +205,9 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
             }],
             claimType: 'Compensation and Pension'
           }
+        },
+        meta: {
+          successfulSync: true
         }
       }
     }
