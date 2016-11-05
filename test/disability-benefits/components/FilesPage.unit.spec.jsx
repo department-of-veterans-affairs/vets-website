@@ -101,6 +101,30 @@ describe('<FilesPage>', () => {
     expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Reviewed by VA');
     expect(tree.everySubTree('.submitted-file-list-item')[1].text()).to.contain('Submitted');
   });
+  it('should display additional evidence docs', () => {
+    const claim = {
+      attributes: {
+        eventsTimeline: [
+          {
+            filename: 'Filename',
+            fileType: 'Testing',
+            type: 'other_documents_list'
+          }
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FilesPage
+          claim={claim}/>
+    );
+    expect(tree.everySubTree('.submitted-file-list-item').length).to.equal(1);
+    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Filename');
+    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Submitted');
+    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Additional evidence');
+    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Testing');
+    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).not.to.contain('pending');
+  });
   it('should render decision message', () => {
     const claim = {
       attributes: {
