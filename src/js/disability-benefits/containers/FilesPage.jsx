@@ -40,7 +40,7 @@ class FilesPage extends React.Component {
           <div className="file-request-list">
             <h4 className="hightlight claim-file-border">File requests</h4>
 
-            {filesNeeded.length === 0
+            {filesNeeded.length + optionalFiles.length === 0
               ? <div className="no-documents"><p>You don't need to turn in any documents to VA.</p></div>
               : null}
 
@@ -63,8 +63,7 @@ class FilesPage extends React.Component {
                 <div className="item-container">
                   <h5 className="file-request-title">{item.displayName}</h5>
                   <p>{truncateDescription(item.description)}</p>
-                  <h6>Optional</h6>
-                  <p>- we requested this from others, but you may upload it if you have it.</p>
+                  <div className="claims-optional-desc"><h6>Optional</h6> - we requested this from others, but you may upload it if you have it.</div>
                 </div>
                 <div className="button-container">
                   <Link className="usa-button usa-button-outline" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
@@ -99,14 +98,16 @@ class FilesPage extends React.Component {
                 ? <div className="no-documents-turned-in"><p>You haven't turned in any documents to VA.</p></div>
                 : null}
 
-              {documentsTurnedIn.map(item => (
-                <div className="submitted-file-list-item" key={item.trackedItemId}>
-                  <p className="submission-file-type">{item.displayName}</p>
+              {documentsTurnedIn.map((item, itemIndex) => (
+                <div className="submitted-file-list-item" key={itemIndex}>
+                  <p className="submission-file-type">{item.displayName || 'Additional evidence'}</p>
+                  {item.fileType && <p>{item.fileType}</p>}
                   <p>{truncateDescription(item.description)}</p>
                   {item.documents
                     ? item.documents.map((doc, index) =>
                       <p key={index} className="submission-item">{doc.filename}</p>)
                     : null}
+                  {item.filename && <p className="submission-item">{item.filename}</p>}
                   {hasBeenReviewed(item)
                     ?
                     <div>
@@ -116,7 +117,7 @@ class FilesPage extends React.Component {
                     :
                     <div>
                       <h6>Submitted</h6>
-                      <p className="submission-date">{moment(getSubmittedItemDate(item)).format('MMM D, YYYY')}{' (pending)'}</p>
+                      <p className="submission-date">{moment(getSubmittedItemDate(item)).format('MMM D, YYYY')}{item.status && ' (pending)'}</p>
                     </div>
                   }
                 </div>
