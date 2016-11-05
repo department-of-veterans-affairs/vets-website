@@ -8,6 +8,7 @@ import {
   deleteMessage,
   fetchRecipients,
   fetchThread,
+  fetchThreadMessage,
   moveMessageToFolder,
   openAttachmentsModal,
   openMoveToNewFolderModal,
@@ -155,7 +156,8 @@ export class Thread extends React.Component {
               key={message.messageId}
               attrs={message}
               isCollapsed={isCollapsed}
-              onToggleCollapsed={this.props.toggleMessageCollapsed}/>
+              onToggleCollapsed={this.props.toggleMessageCollapsed}
+              fetchMessage={this.props.fetchThreadMessage}/>
         );
       });
     }
@@ -278,6 +280,7 @@ const mapDispatchToProps = {
   deleteMessage,
   fetchRecipients,
   fetchThread,
+  fetchThreadMessage,
   moveMessageToFolder,
   openAttachmentsModal,
   openMoveToNewFolderModal,

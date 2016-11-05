@@ -75,6 +75,22 @@ export function fetchThread(id) {
   };
 }
 
+export function fetchThreadMessage(id) {
+  return dispatch => {
+    const messageUrl = `${baseUrl}/${id}`;
+
+    fetch(messageUrl, api.settings.get)
+    .then(response => response.json())
+    .then(
+      data => dispatch({
+        type: FETCH_THREAD_MESSAGE_SUCCESS,
+        message: data
+      }),
+      error => dispatch({ type: FETCH_THREAD_MESSAGE_ERROR, error })
+    );
+  };
+}
+
 export function moveMessageToFolder(messageId, folder) {
   const folderId = folder.folderId;
   const url = `${baseUrl}/${messageId}/move?folder_id=${folderId}`;
@@ -229,24 +245,8 @@ export function sendMessage(message) {
   };
 }
 
-export function toggleMessageCollapsed(messageId, fetchMessage = false) {
-  return dispatch => {
-    if (fetchMessage) {
-      const messageUrl = `${baseUrl}/${messageId}`;
-
-      fetch(messageUrl, api.settings.get)
-      .then(response => response.json())
-      .then(
-        data => dispatch({
-          type: FETCH_THREAD_MESSAGE_SUCCESS,
-          message: data
-        }),
-        error => dispatch({ type: FETCH_THREAD_MESSAGE_ERROR, error })
-      );
-    }
-
-    dispatch({ type: TOGGLE_MESSAGE_COLLAPSED, messageId });
-  }
+export function toggleMessageCollapsed(messageId) {
+  return { type: TOGGLE_MESSAGE_COLLAPSED, messageId };
 }
 
 export function toggleMessagesCollapsed() {
