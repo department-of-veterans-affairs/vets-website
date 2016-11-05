@@ -23,7 +23,8 @@ class ThreadHeader extends React.Component {
     }
 
     if (this.props.persistedFolder === undefined) {
-      returnUrlText = 'Inbox';
+      // Returns 'Inbox'
+      returnUrlText = systemFolders[0];
       returnUrlPath = `${paths.FOLDERS_URL}/0`;
     } else {
       returnUrlText = systemFolders[Math.abs(this.props.persistedFolder)];
