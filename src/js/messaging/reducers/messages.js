@@ -69,17 +69,21 @@ export default function messages(state = initialState, action) {
 
     case FETCH_THREAD_SUCCESS: {
       // Consolidate message attributes and attachments
-      const currentMessage = assign(action.message.data.attributes, { attachments: action.message.included });
-      const thread = action.thread.map(message => message.attributes);
+      const currentMessage = assign(
+        action.message.data.attributes,
+        { attachments: action.message.included }
+      );
+
+      // Thread is received in most recent order.
+      // Reverse to display most recent message at the bottom.
+      const thread = action.thread.map(
+        message => message.attributes
+      ).reverse();
 
       // Collapse all the previous messages in the thread.
       const messagesCollapsed = new Set(thread.map((message) => {
         return message.messageId;
       }));
-
-      // Thread is received in most recent order.
-      // Reverse to display most recent message at the bottom.
-      thread.reverse();
 
       const draft = assign({}, initialState.data.draft);
       draft.category = makeField(currentMessage.category);
