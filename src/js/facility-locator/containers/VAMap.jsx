@@ -252,7 +252,7 @@ class VAMap extends Component {
             <TabPanel>
               <div className="facility-search-results">
                 <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
-                <ResultsList facilities={facilities} isMobile/>
+                <ResultsList facilities={facilities} isMobile inProgress={currentQuery.inProgress}/>
               </div>
             </TabPanel>
             <TabPanel>
@@ -293,7 +293,7 @@ class VAMap extends Component {
             <div className="facility-search-results">
               <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
               <div>
-                <ResultsList facilities={facilities}/>
+                <ResultsList facilities={facilities} inProgress={currentQuery.inProgress}/>
               </div>
             </div>
           </div>

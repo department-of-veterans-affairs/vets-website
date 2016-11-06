@@ -16,7 +16,7 @@ const COMPLETE_PHASE = 5;
 const INITIAL_ACTIVITY_ROWS = 5;
 
 function getClasses(phase, current) {
-  const processClass = 'step wow fadeIn animated';
+  const processClass = 'step';
   const stepClass = stepClasses[phase];
   if (phase === current) {
     return `${stepClass} ${processClass} section-current`;
