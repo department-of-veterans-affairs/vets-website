@@ -591,6 +591,9 @@ p.first-of-type {
 
 .need-files-alert {
   padding-bottom: 4em;
+  @media (min-width: $medium-screen) {
+    padding-bottom: 1em;
+  }
 }
 
 .view-details-button {
