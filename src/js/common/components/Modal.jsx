@@ -7,6 +7,12 @@ class Modal extends React.Component {
     this.handleClose = this.handleClose.bind(this);
   }
 
+  componentDidUpdate(prevProps) {
+    if (!prevProps.visible && this.props.visible) {
+      document.querySelector('.va-modal').focus();
+    }
+  }
+
   handleClose() {
     this.props.onClose();
   }
@@ -29,7 +35,7 @@ class Modal extends React.Component {
     );
 
     return (
-      <div className={modalCss} id={this.props.id}>
+      <div className={modalCss} id={this.props.id} role="alertdialog" tabIndex="-1">
         <div className="va-modal-inner">
           {closeButton}
           <div className="va-modal-body">

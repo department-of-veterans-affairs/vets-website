@@ -10,6 +10,13 @@ import { isPopulatedClaim } from '../utils/helpers';
 const MAX_CONDITIONS = 3;
 
 export default class ClaimDetailLayout extends React.Component {
+  componentDidUpdate(prevProps) {
+    if (prevProps.loading && !this.props.loading) {
+      const header = document.querySelector('.claim-container h1');
+      header.setAttribute('tabIndex', -1);
+      header.focus();
+    }
+  }
   render() {
     const { claim, loading, message, clearNotification } = this.props;
 

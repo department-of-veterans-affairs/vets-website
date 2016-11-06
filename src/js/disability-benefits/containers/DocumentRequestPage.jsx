@@ -29,6 +29,7 @@ const scrollToError = () => {
     smooth: true
   });
 };
+const Element = Scroll.Element;
 
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
@@ -78,7 +79,10 @@ class DocumentRequestPage extends React.Component {
             </ul>
           </nav>
           {message &&
-            <Notification title={message.title} body={message.body} type={message.type}/>}
+            <div>
+              <Element name="uploadError"/>
+              <Notification title={message.title} body={message.body} type={message.type}/>
+            </div>}
           <h1 className="claims-header">{trackedItem.displayName}</h1>
           {trackedItem.type.endsWith('you_list') ? <DueDate date={trackedItem.suspenseDate}/> : null}
           {trackedItem.type.endsWith('others_list')

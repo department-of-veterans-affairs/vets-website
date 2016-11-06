@@ -85,6 +85,7 @@ class ErrorableSelect extends React.Component {
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : undefined}>
         <label
+            role="alert"
             className={this.props.errorMessage !== undefined ? 'usa-input-error-label' : undefined}
             htmlFor={this.selectId}>
               {this.props.label}

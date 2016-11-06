@@ -7,8 +7,8 @@ export default function Notification({ title, body, onClose, type }) {
     'usa-alert-error': type === 'error'
   });
   return (
-    <div className={classes}>
-      {onClose && <button className="va-alert-close" onClick={onClose}>
+    <div className={classes} role="alert">
+      {onClose && <button className="va-alert-close" onClick={onClose} aria-label="Close notification">
         <i className="fa fa-close"></i>
       </button>}
       <div className="usa-alert-body">

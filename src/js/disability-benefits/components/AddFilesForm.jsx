@@ -33,6 +33,7 @@ const scrollToError = () => {
       offset: -15,
       smooth: true
     });
+    errors[0].querySelector('label').focus();
   }
 };
 const Element = Scroll.Element;
