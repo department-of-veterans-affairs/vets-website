@@ -1,5 +1,4 @@
 import React from 'react';
-import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
 
 import Modal from '../../common/components/Modal';
@@ -11,16 +10,7 @@ import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
-
-const scroller = Scroll.animateScroll;
-
-const scrollToTop = () => {
-  scroller.scrollToTop({
-    duration: 500,
-    delay: 0,
-    smooth: true,
-  });
-};
+import { scrollToTop, setUpPage } from '../utils/page';
 
 class YourClaimsPage extends React.Component {
   constructor(props) {
@@ -30,6 +20,7 @@ class YourClaimsPage extends React.Component {
   componentDidMount() {
     this.props.getClaims();
     document.title = 'Track Claims: Vets.gov';
+    setUpPage();
   }
   changePage(page) {
     this.props.changePage(page);

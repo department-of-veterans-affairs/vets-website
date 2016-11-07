@@ -39,7 +39,7 @@ function getStepClassFromIndex(index, length) {
  */
 class Nav extends React.Component {
   render() {
-    const subnavStyles = 'step one wow fadeIn animated';
+    const subnavStyles = 'step one';
     const { data, pages, currentUrl, chapters } = this.props;
 
     return (

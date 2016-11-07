@@ -95,35 +95,27 @@
 
 .file-request-list-item {
   margin-top: 1.5em;
-  .item-container {
-    margin: 0.5em 0;
-    float: left;
-    h6 {
-      display: inline-block;
-      text-transform: none;
-    }
-    p {
-      display: inline-block;
-      margin: 0;
-    }
-    button {
-      float: right;
-    }
-  }
-  .button-container {
-    float: right;
-    a {
-      margin: 0;
-    }
-    @media (max-width: $small-screen) {
-      float: none;
-    }
-  }
   &:last-child {
     border: none;
   }
   .file-request-title {
     padding-bottom: 0 !important;
+  }
+}
+
+.item-container {
+  margin: 0 0 0.5em 0;
+  float: left;
+  h6 {
+    display: inline-block;
+    text-transform: none;
+  }
+  p {
+    display: inline-block;
+    margin: 0;
+  }
+  @media (min-width: $medium-screen) {
+    width: 66%;
   }
 }
 
@@ -478,6 +470,9 @@ p.first-of-type {
       margin: 0;
     }
   }
+  &:focus {
+    outline: none;
+  }
 }
 
 #content .section {
@@ -550,6 +545,9 @@ p.first-of-type {
   > .usa-alert-body {
     padding-left: 4.2rem;
   }
+  &:focus {
+    outline: none;
+  }
 }
 
 .claims-alert-status {
@@ -589,10 +587,17 @@ p.first-of-type {
     width: 100%;
   }
 }
-.ask-va-alert {
+.ask-va-alert, .file-request-list-item, .additional-evidence-alert, .need-files-alert {
   position: relative;
   padding-bottom: 3.5em;
-  @media (min-width: $small-screen) {
+  @media (min-width: $medium-screen) {
+    padding-bottom: 1em;
+  }
+}
+
+.need-files-alert {
+  padding-bottom: 4em;
+  @media (min-width: $medium-screen) {
     padding-bottom: 1em;
   }
 }
@@ -600,7 +605,7 @@ p.first-of-type {
 .view-details-button {
   float: right;
   margin: 0;
-  @media (max-width: $small-screen) {
+  @media (max-width: $medium-screen) {
     float: none;
     position: absolute;
     bottom: 1em;
@@ -626,4 +631,12 @@ p.first-of-type {
   font-size: 0.9em;
   line-height: 0.3em;
   margin-top: 5px;
+}
+
+h1:focus {
+  outline: none;
+}
+
+.va-nav-breadcrumbs:focus {
+  outline: none
 }

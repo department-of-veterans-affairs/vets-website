@@ -7,6 +7,7 @@ import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Notification from '../components/Notification';
 import EvidenceWarning from '../components/EvidenceWarning';
+import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
 import {
   addFile,
@@ -35,6 +36,11 @@ class TurnInEvidencePage extends React.Component {
   componentDidMount() {
     this.props.resetUploads();
     document.title = 'Turn in More Evidence';
+    if (!this.props.loading) {
+      setUpPage();
+    } else {
+      scrollToTop();
+    }
   }
   componentWillReceiveProps(props) {
     if (props.uploadComplete) {
@@ -44,6 +50,9 @@ class TurnInEvidencePage extends React.Component {
   componentDidUpdate(prevProps) {
     if (this.props.message && !prevProps.message) {
       scrollToError();
+    }
+    if (!this.props.loading && prevProps.loading) {
+      setPageFocus();
     }
   }
   componentWillUnmount() {
