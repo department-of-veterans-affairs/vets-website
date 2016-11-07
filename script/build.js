@@ -59,7 +59,7 @@ if (options.unexpected && options.unexpected.length !== 0) {
 }
 
 if (options.buildtype === undefined) {
-  options.buildtype = 'development';
+  options.buildtype = 'production';
 }
 
 switch (options.buildtype) {
