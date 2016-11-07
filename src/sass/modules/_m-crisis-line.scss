@@ -1,13 +1,29 @@
 // TODO: Remove !important when .footer a selector gets simplified
 
+.header {
+  .flex-center {
+    display: flex;
+    align-items: center;
+  }
+
+  .crisis-line-container {
+    background: $color-white;
+    display: flex;
+    flex-direction: column;
+    padding: 0em 0.75em;
+  }
+}
+
 .va-crisis-panel {
   color: $color-primary-darkest;
   list-style: none;
   margin: 0;
   padding: 0;
   position: relative;
-  z-index: 2;
-  
+  z-index: -1;
+  width: 100%;
+  left: 0.03em;
+
   a {
     padding: 0;
     background-image: none;
@@ -36,111 +52,114 @@
 }
 
 .va-crisis-panel--notouch {
-  bottom: 0;
-  right: 0; 
-  width: 33rem;
+  top: 0;
   position: absolute;
-  
-  -webkit-transform: translateY(243px);
-      -ms-transform: translateY(243px);
-          transform: translateY(243px);
-  
-    -webkit-transition: transform 250ms;
-            transition: transform 250ms;
-           
+  opacity: 0;
+  -webkit-transition: transform 250ms;
+          transition: transform 250ms;
+  -webkit-box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
+  -moz-box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
+  box-shadow: 6px 6px 5px 0px rgba(0,0,0,0.35);
+
   li {
     padding: 2.5rem 0 0;
   }
-  
+
   @media #{$small-only} {
     display: none;
   }
 }
 
 .va-crisis-panel--open {
-  -webkit-transform: translateY(0);
-      -ms-transform: translateY(0);
-          transform: translateY(0);
-}
-
-.va-crisis-line {
-  background-color: $color-gold;
-  color: rgb(0,0,0);
-  display: block;
-  font-weight: bold !important;
-  margin: 0 auto; 
-  padding: .25rem 0;
-  text-align: center;
-  text-decoration: none !important;
-  
-  span {
-    font-weight: bold;
-  }
-  
-  &:hover {
-    background-color: $color-gold;
-    border-bottom: none;
-    color: rgb(0,0,0);
-    text-decoration: none;
-  }
-  
-  @media #{$small-only} {
-    padding: .25em 0;
+  .va-crisis-panel--notouch {
+    opacity: 1;
+    z-index: 10;
   }
 }
 
-//===== VA CRISIS LINE BUTTONS 
+//===== VA CRISIS LINE BUTTONS
 .va-crisis-line--touch {
   border-radius: .2em;
   margin: 2.5em 0;
 }
 
-.va-crisis-line--notouch {
-  background: $color-gold url(/img/arrow-up.png) no-repeat 97% center;
+a.va-crisis-line {
+  background: $color-white url(/img/arrow-down.png) no-repeat 95% center;
   background-size: .8em auto;
-  border-radius: .2em .2em 0 0;
-  font-size: 1.7rem;
   margin: 0;
-  padding: 1.25rem;
+  padding: 0.25em 1em;
   text-align: left;
+  font-size: 1em;
   width: 100%;
-  
-  .va-crisis-panel--open & {
-    background-image: url(/img/arrow-down.png);
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  font-weight: bold;
+
+  span.vcl {
+    content: "";
+    background: url(/img/vcl-logo.png) no-repeat right 29%;
+    background-size: 100%;
+    display: inline-block;
+    width: 2em;
+    height: 2em;
+    margin: 0.5em 0.5em 0 0.5em;
+  }
+
+  @media #{$medium-only} {
+    span.vcl {
+      width: 3em;
+      height: 3em;
+      margin: 0.5em 1em 0 0;
+    }
+  }
+
+  @media #{$small-only} {
+    span.vcl {
+      width: 4em;
+      height: 2em;
+      margin: 0.5em 1em 0 0;
+    }
+  }
+}
+
+.va-crisis-panel--open {
+  a.va-crisis-line {
+    background-image: url(/img/arrow-up.png);
   }
 }
 
 //==== Small viewport panel touch
 .va-crisis-panel--touch {
   padding: 0 2rem;
-  position: relative; 
+  position: relative;
   top: 50%;
   -webkit-transform: translateY(-50%);
   transform: translateY(-50%);
-            
+
   .va-crisis-panel-body {
     height: auto;
     max-height: 100%;
   }
-  
+
   li {
     &:nth-child(odd) {
       border-top: 1px solid $color-gray-lighter;
       border-bottom: 1px solid $color-gray-lighter;
     }
-    
+
     a {
       color: $color-base;
       display: block;
       padding: 1.5rem 0;
-      text-decoration: none; 
+      text-decoration: none;
     }
   }
-  
+
   p:last-child {
     font-size: .85em;
   }
-  
+
   .va-crisis-line {
     font-size: inherit;
     padding: 1.25rem;
@@ -149,10 +168,10 @@
   }
 }
 
-  
+
 @media #{$medium} {
   .va-crisis-panel--touch,
   .va-crisis-line--touch {
     display: none;
   }
-}  
+}

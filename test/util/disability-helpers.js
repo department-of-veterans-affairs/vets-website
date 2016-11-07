@@ -2,6 +2,18 @@ const request = require('request');
 const E2eHelpers = require('./e2e-helpers');
 // const Timeouts = require('../util/timeouts.js');
 
+function initAskVAMock() {
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/disability_claims/11/request_decision',
+      verb: 'post',
+      value: {}
+    }
+  });
+}
+
 function initClaimsListMock() {
   request({
     uri: `${E2eHelpers.apiUrl}/mock`,
@@ -25,7 +37,6 @@ function initClaimsListMock() {
               documentsNeeded: true,
               developmentLetterSent: true,
               decisionLetterSent: true,
-              successfulSync: false,
               updatedAt: '2016-10-28T14:41:26.468Z',
               phase: null
             }
@@ -44,12 +55,14 @@ function initClaimsListMock() {
               documentsNeeded: true,
               developmentLetterSent: true,
               decisionLetterSent: true,
-              successfulSync: false,
               updatedAt: '2016-10-28T14:41:26.468Z',
               phase: null
             }
           }
-        ]
+        ],
+        meta: {
+          successfulSync: false
+        }
       }
     }
   });
@@ -77,7 +90,6 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
             documentsNeeded,
             developmentLetterSent: true,
             decisionLetterSent,
-            successfulSync: true,
             updatedAt: '2016-10-28T14:41:26.468Z',
             phase,
             contentionList: ['Hearing Loss (New)',
@@ -205,6 +217,9 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
             }],
             claimType: 'Compensation and Pension'
           }
+        },
+        meta: {
+          successfulSync: true
         }
       }
     }
@@ -212,5 +227,6 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
 }
 module.exports = {
   initClaimsListMock,
-  initClaimDetailMocks
+  initClaimDetailMocks,
+  initAskVAMock
 };

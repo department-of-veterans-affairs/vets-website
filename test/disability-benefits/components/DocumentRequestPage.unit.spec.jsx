@@ -143,6 +143,9 @@ describe('<DocumentRequestPage>', () => {
       id: 1
     };
     const resetUploads = sinon.spy();
+    const mainDiv = document.createElement('div');
+    mainDiv.classList.add('va-nav-breadcrumbs');
+    document.body.appendChild(mainDiv);
     ReactTestUtils.renderIntoDocument(
       <DocumentRequestPage
           claim={claim}

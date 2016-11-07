@@ -1,6 +1,7 @@
 import FacilityDirectionsLink from './search-results/FacilityDirectionsLink';
 import FacilityInfoBlock from './search-results/FacilityInfoBlock';
 import FacilityPhoneLink from './search-results/FacilityPhoneLink';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import MobileSearchResult from './MobileSearchResult';
 import Pagination from '../../common/components/Pagination';
 import React, { Component, PropTypes } from 'react';
@@ -29,7 +30,15 @@ class ResultsList extends Component {
   }
 
   render() {
-    const { facilities, isMobile } = this.props;
+    const { facilities, isMobile, inProgress } = this.props;
+
+    if (inProgress) {
+      return (
+        <div>
+          <LoadingIndicator message="Loading results..."/>
+        </div>
+      );
+    }
 
     if (!facilities || facilities.length < 1) {
       return (

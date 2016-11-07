@@ -195,7 +195,7 @@ export class Folder extends React.Component {
   makeMessagesTable() {
     const messages = this.props.messages;
     if (!messages || messages.length === 0) {
-      return <h1 className="msg-nomessages">No messages</h1>;
+      return <p className="msg-nomessages">You have no messages in this folder.</p>;
     }
 
     const makeMessageLink = (content, id) => {

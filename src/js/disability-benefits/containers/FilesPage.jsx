@@ -8,18 +8,29 @@ import DueDate from '../components/DueDate';
 
 import { clearNotification } from '../actions';
 import { hasBeenReviewed, truncateDescription, getSubmittedItemDate } from '../utils/helpers';
+import { scrollToTop, setUpPage, isTab, setFocus } from '../utils/page';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
 
 class FilesPage extends React.Component {
-  constructor() {
-    super();
-    this.closeAlert = this.closeAlert.bind(this);
+  componentDidMount() {
+    document.title = 'Files - Your Disability Compensation Claim';
+    if (!isTab(this.props.lastPage)) {
+      if (!this.props.loading) {
+        setUpPage();
+      } else {
+        scrollToTop();
+      }
+    } else {
+      setFocus('.va-tab-trigger--current');
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.loading && prevProps.loading && !isTab(this.props.lastPage)) {
+      setUpPage(false);
+    }
   }
   componentWillUnmount() {
-    this.props.clearNotification();
-  }
-  closeAlert() {
     this.props.clearNotification();
   }
   render() {
@@ -51,9 +62,7 @@ class FilesPage extends React.Component {
                   <p>{truncateDescription(item.description)}</p>
                   <DueDate date={item.suspenseDate}/>
                 </div>
-                <div className="button-container">
-                  <Link className="usa-button usa-button-outline" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
-                </div>
+                <Link className="usa-button usa-button-outline view-details-button" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
                 <div className="clearfix"></div>
               </div>
             ))}
@@ -65,9 +74,7 @@ class FilesPage extends React.Component {
                   <p>{truncateDescription(item.description)}</p>
                   <div className="claims-optional-desc"><h6>Optional</h6> - we requested this from others, but you may upload it if you have it.</div>
                 </div>
-                <div className="button-container">
-                  <Link className="usa-button usa-button-outline" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
-                </div>
+                <Link className="usa-button usa-button-outline view-details-button" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
                 <div className="clearfix"></div>
               </div>
             ))}
@@ -82,11 +89,11 @@ class FilesPage extends React.Component {
                   <p>You asked VA to make a decision on your claims based on the evidence you filed. You don't have to do anything else.</p>
                 </div>
                 :
-                <div className="usa-alert">
-                  <p>Do you have additional evidence to submit in order to support your claim? Upload it here now.</p>
-                  <div className="button-container">
-                    <Link className="usa-button usa-button-outline" to={`your-claims/${claim.id}/turn-in-evidence`}>View Details</Link>
+                <div className="usa-alert additional-evidence-alert">
+                  <div className="item-container">
+                    <p>Do you have additional evidence to submit in order to support your claim? Upload it here now.</p>
                   </div>
+                  <Link className="usa-button usa-button-outline view-details-button" to={`your-claims/${claim.id}/turn-in-evidence`}>View Details</Link>
                   <div className="clearfix"></div>
                 </div>
               }
@@ -144,7 +151,8 @@ function mapStateToProps(state) {
   return {
     loading: state.claimDetail.loading,
     claim: state.claimDetail.detail,
-    message: state.notifications.message
+    message: state.notifications.message,
+    lastPage: state.routing.lastPage
   };
 }
 
