@@ -2,12 +2,12 @@ import React from 'react';
 import classNames from 'classnames';
 
 export default function Notification({ title, body, onClose, type }) {
-  const classes = classNames('usa-alert', 'claims-alert', 'claims-alert-status', {
+  const classes = classNames('usa-alert', 'claims-alert', 'claims-alert-status', 'claims-notification', {
     'usa-alert-success': type === 'success',
     'usa-alert-error': type === 'error'
   });
   return (
-    <div className={classes} role="alert" tabIndex="-1">
+    <div className={classes} role="alert">
       {onClose && <button className="va-alert-close" onClick={onClose} aria-label="Close notification">
         <i className="fa fa-close"></i>
       </button>}

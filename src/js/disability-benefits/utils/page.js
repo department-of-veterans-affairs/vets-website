@@ -11,9 +11,15 @@ export function scrollToTop() {
 }
 
 export function setPageFocus(selector = '#main h1') {
-  const el = document.querySelector(selector);
-  el.setAttribute('tabIndex', -1);
-  el.focus();
+  const notification = document.querySelector('.claims-notification');
+  if (notification) {
+    notification.setAttribute('tabIndex', -1);
+    notification.focus();
+  } else {
+    const el = document.querySelector(selector);
+    el.setAttribute('tabIndex', -1);
+    el.focus();
+  }
 }
 
 export function setUpPage(scroll = true, focusSelector = '#main h1') {
