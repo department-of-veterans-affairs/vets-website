@@ -37,12 +37,11 @@ You must apply for education benefits using eBenefits.va.gov if you are:
 
 ### What are the steps to apply with form 22-1990?
 
-- [Post- 9/11 GI Bill](/education/gi-bill/post-9-11/) (Chapter 33)
-- [Montgomery GI Bill](/education/gi-bill/montgomery-active-duty/) (MGIB-AD, Chapter 30)
-- [Montgomery GI Bill Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR, Chapter 1606)
-- [Post-Vietnam Era Veterans' Educational Assistance Program](/education/other-educational-assistance-programs/veap/) (VEAP, Chapter 32)
+<div class="small-12 columns" markdown="0">
+<ol class="process" markdown="0">
+<li class="step one" markdown="0">
 
-[An accredited representative]( http://www.va.gov/ogc/apps/accreditation/index.asp) with a Veterans Service Organization (VSO) can help you pick the right program.
+<div markdown="1">
 
 ##### Prepare
 
