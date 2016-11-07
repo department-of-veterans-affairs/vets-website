@@ -175,6 +175,11 @@ button,
   }
 }
 
+.usa-button-outline.transparent,
+.usa-button-outline.transparent:hover {
+  background-color: rgba(0,0,0,0);
+}
+
 input.va-input-medium-large {
   max-width: 18rem;
 }
@@ -579,6 +584,15 @@ h6 {
 
   h3 {
     padding: 0 0 .5em 0;
+  }
+}
+
+.secondary {
+  p:nth-child(1),
+  p:first-of-type {
+    color: initial;
+    font-size: 1em;
+    padding: 0;
   }
 }
 
