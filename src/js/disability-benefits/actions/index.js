@@ -26,6 +26,13 @@ export const SET_LAST_PAGE = 'SET_LAST_PAGE';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 
+export function setNotification(message) {
+  return {
+    type: SET_NOTIFICATION,
+    message
+  };
+}
+
 export function getClaims() {
   return (dispatch) => {
     fetch(`${environment.API_URL}/v0/disability_claims`, {
@@ -110,7 +117,13 @@ export function submitRequest(id) {
 
         return Promise.resolve();
       })
-      .then(() => dispatch({ type: SET_DECISION_REQUESTED }))
+      .then(() => {
+        dispatch({ type: SET_DECISION_REQUESTED });
+        dispatch(setNotification({
+          title: 'Request received',
+          body: 'Thank you. We have your claim request and will make a decision.'
+        }));
+      })
       .catch(error => dispatch({ type: SET_DECISION_REQUEST_ERROR, error }));
   };
 }
@@ -139,13 +152,6 @@ function calcProgress(totalFiles, totalSize, filesComplete, bytesComplete) {
   const ratio = 0.8;
 
   return ((filesComplete / totalFiles) * (1 - ratio)) + ((bytesComplete / totalSize) * ratio);
-}
-
-export function setNotification(message) {
-  return {
-    type: SET_NOTIFICATION,
-    message
-  };
 }
 
 export function clearNotification() {
