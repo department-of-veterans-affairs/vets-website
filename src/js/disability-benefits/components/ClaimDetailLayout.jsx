@@ -44,7 +44,7 @@ export default class ClaimDetailLayout extends React.Component {
         </div>
       );
     } else {
-      content = <LoadingIndicator/>;
+      content = <LoadingIndicator setFocus screenReaderMessage="Loading claim information"/>;
     }
 
     return (
