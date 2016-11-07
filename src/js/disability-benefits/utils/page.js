@@ -17,7 +17,12 @@ export function setFocus(selector) {
 }
 
 export function setPageFocus(selector = '.va-nav-breadcrumbs') {
-  setFocus(selector);
+  const el = document.querySelector(selector);
+  if (el) {
+    setFocus(el);
+  } else {
+    setFocus('#main h1');
+  }
 }
 
 export function setUpPage(scroll = true, focusSelector = '.va-nav-breadcrumbs') {
