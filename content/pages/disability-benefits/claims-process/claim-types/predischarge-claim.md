@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Predischarge Claim
 source: http://www.benefits.va.gov/predischarge/index.asp
+plainlanguage: 11-7-16 Ready for Beth review
 template: 2-detailed-landing
 showactionbar: false
 relatedlinks:
@@ -34,10 +35,23 @@ relatedlinks:
     description: ""
 ---
 
-Your disability claim may be processed faster if you file it as you get ready to leave the military. Processing times tend to be faster for claims submitted before separation than for those submitted after separation.
+If you have a disability and you're currently in predischarge status, you can file a claim for disability compensation up to 180 days prior to any of the following:
+- Separation from active duty
+- Retirement from active duty
+- Release from full-time Reserve duty
+- Release from National Guard duty
 
-If you are in predischarge status, you may file a claim for disability compensation up to 180 days prior to separation or retirement from active duty or release from full-time Reserve or National Guard periods of duty.
+Filing your claim as you get ready to leave the military may speed up the claim decision process. Processing times tend to be faster for claims submitted before separation than for those submitted after separation.
 
-If you are between 60 and 180 days from separation, you can begin the [Benefit Delivery at Discharge (BDD)](/disability-benefits/claims-process/claim-types/predischarge-claim/bdd/index.html) program. Between 1 and 59 days before separation, you can initiate the [Quick Start claim](/disability-benefits/claims-process/claim-types/predischarge-claim/quick-start/index.html).
+### How to file your claim
 
-If you are stationed overseas, you can go to an [intake site](/disability-benefits/claims-process/claim-types/predischarge-claim/overseas/index.html) in Korea or Germany.
+Are you between 60 and 180 days from separation?
+
+[Enter the Benefit Delivery at Discharge (BDD) program](/disability-benefits/claims-process/claim-types/predischarge-claim/bdd/index.html).
+
+Are you between 1 and 59 days from separation?
+[Begin a Quick Start claim](/disability-benefits/claims-process/claim-types/predischarge-claim/quick-start/index.html).
+
+Are you stationed overseas?
+
+[Go to an intake site in Korea or Germany](/disability-benefits/claims-process/claim-types/predischarge-claim/overseas/index.html).
