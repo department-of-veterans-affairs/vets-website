@@ -45,7 +45,7 @@ class ErrorableSelect extends React.Component {
     let errorSpanId = undefined;
     if (this.props.errorMessage) {
       errorSpanId = `${this.selectId}-error-message`;
-      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`}>{this.props.errorMessage}</span>;
+      errorSpan = <span className="usa-input-error-message" id={`${errorSpanId}`} role="alert">{this.props.errorMessage}</span>;
     }
 
   // Addes ToolTip if text is provided.
@@ -85,7 +85,6 @@ class ErrorableSelect extends React.Component {
     return (
       <div className={this.props.errorMessage ? 'usa-input-error' : undefined}>
         <label
-            role="alert"
             className={this.props.errorMessage !== undefined ? 'usa-input-error-label' : undefined}
             htmlFor={this.selectId}>
               {this.props.label}

@@ -8,6 +8,7 @@ import DueDate from '../components/DueDate';
 
 import { clearNotification } from '../actions';
 import { hasBeenReviewed, truncateDescription, getSubmittedItemDate } from '../utils/helpers';
+import { scrollToTop, setUpPage, isTab } from '../utils/page';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
 
@@ -15,6 +16,17 @@ class FilesPage extends React.Component {
   constructor() {
     super();
     this.closeAlert = this.closeAlert.bind(this);
+  }
+  componentDidMount() {
+    document.title = 'Files - Your Disability Compensation Claim';
+    if (!isTab(this.props.lastPage)) {
+      scrollToTop();
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.loading && prevProps.loading && !isTab(this.props.lastPage)) {
+      setUpPage(false);
+    }
   }
   componentWillUnmount() {
     this.props.clearNotification();
@@ -140,7 +152,8 @@ function mapStateToProps(state) {
   return {
     loading: state.claimDetail.loading,
     claim: state.claimDetail.detail,
-    message: state.notifications.message
+    message: state.notifications.message,
+    lastPage: state.routing.lastPage
   };
 }
 

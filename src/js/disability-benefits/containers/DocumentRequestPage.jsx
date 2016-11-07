@@ -7,6 +7,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Notification from '../components/Notification';
+import { scrollToTop, setPageFocus } from '../utils/page';
 
 import {
   addFile,
@@ -39,6 +40,7 @@ class DocumentRequestPage extends React.Component {
     } else {
       document.title = 'Document Request';
     }
+    scrollToTop();
   }
   componentWillReceiveProps(props) {
     if (props.uploadComplete) {
@@ -47,7 +49,11 @@ class DocumentRequestPage extends React.Component {
   }
   componentDidUpdate(prevProps) {
     if (this.props.message && !prevProps.message) {
+      document.querySelector('.claims-alert').focus();
       scrollToError();
+    }
+    if (!this.props.loading && prevProps.loading) {
+      setPageFocus();
     }
   }
   componentWillUnmount() {

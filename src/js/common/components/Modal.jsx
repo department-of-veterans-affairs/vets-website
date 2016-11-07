@@ -5,6 +5,15 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.handleClose = this.handleClose.bind(this);
+    this.state = { lastFocus: null };
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.visible && !this.props.visible) {
+      this.setState({ lastFocus: document.activeElement });
+    } else if (!newProps.visible && this.props.visible) {
+      this.state.lastFocus.focus();
+    }
   }
 
   componentDidUpdate(prevProps) {
