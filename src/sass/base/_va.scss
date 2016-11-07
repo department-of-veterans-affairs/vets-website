@@ -582,6 +582,15 @@ h6 {
   }
 }
 
+.secondary {
+  p:nth-child(1),
+  p:first-of-type {
+    color: initial;
+    font-size: 1em;
+    padding: 0;
+  }
+}
+
 // TODO: Integrate USWDS and elements/_typography.scss
 // and eliminate this declaration
 .usa-content {

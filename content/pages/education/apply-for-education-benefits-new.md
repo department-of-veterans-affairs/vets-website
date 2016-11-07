@@ -16,20 +16,23 @@ relatedlinks:
 
 If you are a Servicemember or Veteran interested in education and training opportunities, use this form (**22-1990**) to apply for your Certificate of Eligibility (COE).
 
-<div class="feature usa-content" markdown="1">
+<div class="feature usa-content secondary" markdown="1">
 
 ##### For Forms 1990E, 1990N, 1995, 5490, 5495
 
 You must apply for education benefits using eBenefits.va.gov if you are:
-
 - A spouse or dependent
 - A survivor of a Veteran
 - A candidate for The National Call to Service program
 - A student who wants to change programs or school
 
-<a class="usa-button-primary usa-button-outline" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
+<div markdown="0">
+	<a class="usa-button-primary usa-button-outline" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
+</div>
 
 </div>
+
+<br>
 
 ### What are the steps to apply with form 22-1990?
 
