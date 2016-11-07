@@ -51,7 +51,7 @@ majorlinks:
   <div class="medium-4 columns">
     <a href="/gi-bill-comparison-tool/">
       <div class="outline-link-block">
-        View education benefits available by school
+        View education benefits by school
       </div>
     </a>
   </div>
