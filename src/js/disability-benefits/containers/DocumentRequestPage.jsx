@@ -7,7 +7,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Notification from '../components/Notification';
-import { scrollToTop, setPageFocus } from '../utils/page';
+import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
 import {
   addFile,
@@ -40,7 +40,11 @@ class DocumentRequestPage extends React.Component {
     } else {
       document.title = 'Document Request';
     }
-    scrollToTop();
+    if (!this.props.loading) {
+      setUpPage();
+    } else {
+      scrollToTop();
+    }
   }
   componentWillReceiveProps(props) {
     if (props.uploadComplete) {

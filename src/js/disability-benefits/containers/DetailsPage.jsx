@@ -2,13 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
-import { setUpPage, isTab, scrollToTop } from '../utils/page';
+import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
 
 class DetailsPage extends React.Component {
   componentDidMount() {
     document.title = 'Details - Your Disability Compensation Claim';
     if (!isTab(this.props.lastPage)) {
-      scrollToTop();
+      if (!this.props.loading) {
+        setUpPage();
+      } else {
+        scrollToTop();
+      }
+    } else {
+      setFocus('.va-tab-trigger--current');
     }
   }
   componentDidUpdate(prevProps) {

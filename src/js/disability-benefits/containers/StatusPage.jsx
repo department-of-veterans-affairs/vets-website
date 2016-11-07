@@ -5,7 +5,7 @@ import ClaimsDecision from '../components/ClaimsDecision';
 import AskVAToDecide from '../components/AskVAToDecide';
 import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
-import { setUpPage, isTab, scrollToTop } from '../utils/page';
+import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
 
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
@@ -13,7 +13,13 @@ class StatusPage extends React.Component {
   componentDidMount() {
     document.title = 'Status - Your Disability Compensation Claim';
     if (!isTab(this.props.lastPage)) {
-      scrollToTop();
+      if (!this.props.loading) {
+        setUpPage();
+      } else {
+        scrollToTop();
+      }
+    } else {
+      setFocus('.va-tab-trigger--current');
     }
   }
   componentDidUpdate(prevProps) {

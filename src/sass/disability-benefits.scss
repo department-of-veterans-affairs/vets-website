@@ -470,6 +470,9 @@ p.first-of-type {
       margin: 0;
     }
   }
+  &:focus {
+    outline: none;
+  }
 }
 
 #content .section {

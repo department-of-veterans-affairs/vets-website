@@ -8,7 +8,7 @@ import DueDate from '../components/DueDate';
 
 import { clearNotification } from '../actions';
 import { hasBeenReviewed, truncateDescription, getSubmittedItemDate } from '../utils/helpers';
-import { scrollToTop, setUpPage, isTab } from '../utils/page';
+import { scrollToTop, setUpPage, isTab, setFocus } from '../utils/page';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
 
@@ -20,7 +20,13 @@ class FilesPage extends React.Component {
   componentDidMount() {
     document.title = 'Files - Your Disability Compensation Claim';
     if (!isTab(this.props.lastPage)) {
-      scrollToTop();
+      if (!this.props.loading) {
+        setUpPage();
+      } else {
+        scrollToTop();
+      }
+    } else {
+      setFocus('.va-tab-trigger--current');
     }
   }
   componentDidUpdate(prevProps) {

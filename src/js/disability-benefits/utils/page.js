@@ -10,15 +10,19 @@ export function scrollToTop() {
   });
 }
 
+export function setFocus(selector) {
+  const el = typeof selector === 'string' ? document.querySelector(selector) : selector;
+  el.setAttribute('tabIndex', -1);
+  el.focus();
+}
+
 export function setPageFocus(selector = '#main h1') {
   const notification = document.querySelector('.claims-notification');
   if (notification) {
     notification.setAttribute('tabIndex', -1);
     notification.focus();
   } else {
-    const el = document.querySelector(selector);
-    el.setAttribute('tabIndex', -1);
-    el.focus();
+    setFocus(selector);
   }
 }
 
