@@ -26,6 +26,7 @@ class MessageWriteGroup extends React.Component {
             files={this.props.files}
             onClose={this.props.onAttachmentsClose}/>
         <MessageSend
+            disabled={!this.props.messageText.value.length}
             allowedMimeTypes={this.props.allowedMimeTypes}
             attachedFiles={this.props.files}
             cssClass="msg-send-group"
