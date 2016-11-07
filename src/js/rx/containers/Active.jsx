@@ -11,6 +11,7 @@ import {
   openRefillModal
 } from '../actions/modals';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import PrescriptionList from '../components/PrescriptionList';
 import SortMenu from '../components/SortMenu';
 import { sortOptions } from '../config';
@@ -42,10 +43,11 @@ class Active extends React.Component {
   }
 
   render() {
-    const prescriptions = this.props.prescriptions;
     let content;
 
-    if (prescriptions) {
+    if (this.props.loading) {
+      content = <LoadingIndicator message="is loading your prescriptions..."/>;
+    } else if (this.props.prescriptions) {
       const sortValue = this.props.sort;
 
       content = (
@@ -87,8 +89,9 @@ Active.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    ...state.prescriptions.active,
+    loading: state.prescriptions.loading,
     prescriptions: state.prescriptions.items,
-    sort: state.prescriptions.active.sort
   };
 };
 

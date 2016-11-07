@@ -4,6 +4,7 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import AlertBox from '../../common/components/AlertBox';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import { closeAlert } from '../actions/alert.js';
 import { openGlossaryModal, openRefillModal } from '../actions/modals';
 import { loadPrescription } from '../actions/prescriptions';
@@ -178,16 +179,31 @@ export class Detail extends React.Component {
   }
 
   render() {
-    let header;
-    let rxInfo;
-    let contactCard;
-    let orderHistory;
+    let content;
 
-    if (this.props.prescription) {
-      header = this.makeHeader();
-      rxInfo = this.makeInfo();
-      contactCard = this.makeContactCard();
-      orderHistory = this.makeOrderHistory();
+    if (this.props.loading) {
+      content = <LoadingIndicator message="is loading your prescription..."/>;
+    } else if (this.props.prescription) {
+      const header = this.makeHeader();
+      const rxInfo = this.makeInfo();
+      const contactCard = this.makeContactCard();
+      const orderHistory = this.makeOrderHistory();
+
+      content = (
+        <div>
+          {header}
+          {rxInfo}
+          {contactCard}
+          {orderHistory}
+        </div>
+      );
+    } else {
+      content = (
+        <p>
+          We couldn't retrieve your prescription.
+          Please refresh this page or try again later.
+        </p>
+      );
     }
 
     return (
@@ -200,10 +216,7 @@ export class Detail extends React.Component {
             status={this.props.alert.status}/>
         <h1>Prescription Refill</h1>
         <BackLink text="Back to list"/>
-        {header}
-        {rxInfo}
-        {contactCard}
-        {orderHistory}
+        {content}
       </div>
     );
   }
@@ -212,6 +225,7 @@ export class Detail extends React.Component {
 const mapStateToProps = (state) => {
   return {
     alert: state.alert,
+    loading: state.prescriptions.loading,
     prescription: state.prescriptions.currentItem
   };
 };

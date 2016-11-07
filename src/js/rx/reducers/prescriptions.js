@@ -15,7 +15,8 @@ const initialState = {
     },
     page: 1,
     pages: 1
-  }
+  },
+  loading: true,
 };
 
 function sortByName(items) {
@@ -54,6 +55,15 @@ function updateRefillStatus(items, id) {
 
 export default function prescriptions(state = initialState, action) {
   switch (action.type) {
+    case 'LOADING':
+      return set('loading', true, state);
+
+    case 'LOAD_PRESCRIPTION_FAILURE':
+      return set('loading', false, state);
+
+    case 'LOAD_PRESCRIPTIONS_FAILURE':
+      return set('loading', false, state);
+
     case 'LOAD_PRESCRIPTIONS_SUCCESS': {
       const sort = action.data.meta.sort;
       const sortValue = Object.keys(sort)[0];
@@ -62,6 +72,7 @@ export default function prescriptions(state = initialState, action) {
       const pagination = action.data.meta.pagination;
 
       return assign(state, {
+        loading: false,
         items: action.data.data,
         history: {
           sort: { value: sortValue, order: sortOrder },
@@ -70,8 +81,12 @@ export default function prescriptions(state = initialState, action) {
         }
       });
     }
+
     case 'LOAD_PRESCRIPTION_SUCCESS':
-      return set('currentItem', action.data, state);
+      return assign(state, {
+        currentItem: action.data,
+        loading: false
+      });
 
     case 'REFILL_SUCCESS':
       return set('items', updateRefillStatus(state.items, action.id), state);

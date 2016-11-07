@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import SortableTable from '../../common/components/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modals';
@@ -95,7 +96,9 @@ class History extends React.Component {
     const items = this.props.prescriptions;
     let content;
 
-    if (items) {
+    if (this.props.loading) {
+      content = <LoadingIndicator message="is loading your prescriptions..."/>;
+    } else if (items) {
       const currentSort = this.props.sort;
 
       const fields = [
@@ -176,6 +179,7 @@ History.contextTypes = {
 const mapStateToProps = (state) => {
   return {
     ...state.prescriptions.history,
+    loading: state.prescriptions.loading,
     prescriptions: state.prescriptions.items
   };
 };

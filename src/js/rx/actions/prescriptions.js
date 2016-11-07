@@ -8,6 +8,8 @@ export function loadPrescription(id) {
     // Fetch both the prescription and its tracking history and
     // wait for retrieval and read of both resources to resolve.
     return dispatch => {
+      dispatch({ type: 'LOADING' });
+
       Promise.all(rxUrls.map(url => {
         return fetch(url, api.settings).then(res => res.json());
       })).then(
@@ -48,12 +50,16 @@ export function loadPrescriptions(options) {
     url = `${url}?${queryString}`;
   }
 
-  return dispatch => fetch(url, api.settings)
-    .then(res => res.json())
-    .then(
-      data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
-      err => dispatch({ type: 'LOAD_PRESCRIPTIONS_FAILURE', err })
-    );
+  return dispatch => {
+    dispatch({ type: 'LOADING' });
+
+    fetch(url, api.settings)
+      .then(res => res.json())
+      .then(
+        data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
+        err => dispatch({ type: 'LOAD_PRESCRIPTIONS_FAILURE', err })
+      );
+  }
 }
 
 export function refillPrescription(id) {
