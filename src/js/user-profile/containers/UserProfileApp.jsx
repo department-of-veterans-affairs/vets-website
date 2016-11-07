@@ -11,7 +11,6 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 class UserProfileApp extends React.Component {
   render() {
     let components;
-    let account;
     let view;
 
     if (this.props.profile.accountType === 3) {
@@ -23,7 +22,6 @@ class UserProfileApp extends React.Component {
           <AccountManagementSection/>
         </div>
       );
-      account = <p>ACCOUNT TYPE: Verified</p>;
     } else {
       components = (
         <div>
@@ -31,14 +29,12 @@ class UserProfileApp extends React.Component {
           <AccountManagementSection/>
         </div>
       );
-      account = <p>ACCOUNT TYPE: Basic (<a href="#">Want to Upgrade your account?</a>)</p>;
     }
 
     view = (
       <div className="row">
         <div className="medium-8 small-12 columns">
           <h1>Your Vets.gov Account</h1>
-          {account}
           {components}
         </div>
       </div>
