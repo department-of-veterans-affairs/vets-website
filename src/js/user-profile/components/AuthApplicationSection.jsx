@@ -20,7 +20,7 @@ class RxAlert extends React.Component {
     let stuff1;
     let stuff2;
     if (typeof x === 'undefined') {
-      stuff1 = (<p onClick={this.toggleHidden}><i className="error fa fa-exclamation-triangle"></i> Refill Your Prescription</p>);
+      stuff1 = (<p onClick={this.toggleHidden}>Refill Your Prescription</p>);
       stuff2 = (
         <div className="va-callout grey row">
           <div className="medium-8 columns">
@@ -32,7 +32,7 @@ class RxAlert extends React.Component {
         </div>
       );
     } else {
-      stuff1 = (<p><a href="/rx"><i className="success fa fa-check-circle"></i> Refill Your Prescription</a></p>);
+      stuff1 = (<p><a href="/rx">Refill Your Prescription</a></p>);
     }
     return (
       <div>
@@ -62,7 +62,7 @@ class ClaimsAlert extends React.Component {
     let stuff1;
     let stuff2;
     if (typeof x === 'undefined') {
-      stuff1 = (<p onClick={this.toggleHidden}><i className="error fa fa-exclamation-triangle"></i> Check Your Claim Status</p>);
+      stuff1 = (<p onClick={this.toggleHidden}>Check Your Claim Status</p>);
       stuff2 = (
         <div className="va-callout grey row">
           <div className="medium-8 columns">
@@ -74,7 +74,7 @@ class ClaimsAlert extends React.Component {
         </div>
       );
     } else {
-      stuff1 = (<p><a href="/disability-benefits/track-claims"><i className="success fa fa-check-circle"></i> Check Your Claim Status</a></p>);
+      stuff1 = (<p><a href="/disability-benefits/track-claims">Check Your Claim Status</a></p>);
     }
     return (
       <div>
@@ -92,8 +92,9 @@ class AuthApplicationSection extends React.Component {
         <h4 className="section-header">Authorized Applications</h4>
         <div className="info-conatiner medium-12 columns">
           <p><span className="label">Your account will allow you to:</span></p>
-          <p><a href="/healthcare/apply"><i className="success fa fa-check-circle"></i> Apply for Healthcare</a></p>
-          <p><a href="/education/apply-for-education-benefits"><i className="success fa fa-check-circle"></i> Apply for Education Benefits</a></p>
+          <p><a href="/healthcare/apply">Apply for Healthcare</a></p>
+          <p><a href="/education/apply-for-education-benefits">Apply for Education Benefits</a></p>
+          <p><span className="label">You need to verify your account in order to:</span></p>
           <RxAlert/>
           <ClaimsAlert/>
         </div>
