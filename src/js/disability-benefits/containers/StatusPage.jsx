@@ -5,12 +5,35 @@ import ClaimsDecision from '../components/ClaimsDecision';
 import AskVAToDecide from '../components/AskVAToDecide';
 import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
+import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
+
+import { clearNotification } from '../actions';
 
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
 class StatusPage extends React.Component {
+  componentDidMount() {
+    document.title = 'Status - Your Disability Compensation Claim';
+    if (!isTab(this.props.lastPage)) {
+      if (!this.props.loading) {
+        setUpPage();
+      } else {
+        scrollToTop();
+      }
+    } else {
+      setFocus('.va-tab-trigger--current');
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.loading && prevProps.loading && !isTab(this.props.lastPage)) {
+      setUpPage(false);
+    }
+  }
+  componentWillUnmount() {
+    this.props.clearNotification();
+  }
   render() {
-    const { claim, loading } = this.props;
+    const { claim, loading, message } = this.props;
 
     let content = null;
     if (!loading) {
@@ -41,7 +64,9 @@ class StatusPage extends React.Component {
     return (
       <ClaimDetailLayout
           claim={claim}
-          loading={loading}>
+          loading={loading}
+          clearNotification={this.props.clearNotification}
+          message={message}>
         {content}
       </ClaimDetailLayout>
     );
@@ -51,11 +76,17 @@ class StatusPage extends React.Component {
 function mapStateToProps(state) {
   return {
     loading: state.claimDetail.loading,
-    claim: state.claimDetail.detail
+    claim: state.claimDetail.detail,
+    message: state.notifications.message,
+    lastPage: state.routing.lastPage
   };
 }
 
-export default connect(mapStateToProps)(StatusPage);
+const mapDispatchToProps = {
+  clearNotification
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(StatusPage);
 
 export { StatusPage };
 
