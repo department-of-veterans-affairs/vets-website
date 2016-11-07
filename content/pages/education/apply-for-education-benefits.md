@@ -6,11 +6,11 @@ concurrence: complete
 showactionbar: false
 stickyactionbox: true
 relatedlinks:
-  - url: https://www.vets.gov/education/gi-bill/survivors-dependent-assistance/
+  - url: /education/gi-bill/survivors-dependent-assistance/
     title: Apply for Dependents’ Educational Assistance (DEA) benefits
-  - url: https://www.vets.gov/education/gi-bill/transfer/)
+  - url: /education/gi-bill/transfer/
     title: Apply for Transfer of Entitlement
-  - url: https://www.vets.gov/education/other-educational-assistance-programs/call-to-service/
+  - url: /education/other-educational-assistance-programs/call-to-service/
     title: Learn about the National Call to Service program
 ---
 
