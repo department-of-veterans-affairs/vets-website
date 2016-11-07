@@ -92,7 +92,7 @@ class VAMap extends Component {
       if (v) { return `${k}=${v}`; }
       return null;
     }).join('&');
-    browserHistory.push(`${location.pathname}?${queryParams}`);
+    browserHistory.push(`/facilities${location.pathname}?${queryParams}`);
   }
 
   // takes obj of form {latitude: 0, longitude: 0}

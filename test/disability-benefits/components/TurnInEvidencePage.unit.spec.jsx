@@ -94,6 +94,9 @@ describe('<TurnInEvidencePage>', () => {
       id: 1
     };
     const resetUploads = sinon.spy();
+    const mainDiv = document.createElement('div');
+    mainDiv.classList.add('va-nav-breadcrumbs');
+    document.body.appendChild(mainDiv);
     ReactTestUtils.renderIntoDocument(
       <TurnInEvidencePage
           claim={claim}

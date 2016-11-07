@@ -36,7 +36,7 @@ class ErrorableFileInput extends React.Component {
 
     return (
       <div className={this.props.additionalClass}>
-        <div className={inputErrorClass}>
+        <div className={inputErrorClass} role="alert">
           <label
               className={labelErrorClass}
               htmlFor={this.inputId}>
@@ -44,7 +44,7 @@ class ErrorableFileInput extends React.Component {
                 {requiredSpan}
           </label>
           {errorSpan}
-          <label htmlFor={this.inputId} className="usa-button usa-button-outline">{this.props.buttonText}</label>
+          <label role="button" tabIndex="0" htmlFor={this.inputId} className="usa-button usa-button-outline">{this.props.buttonText}</label>
           <input
               multiple={this.props.multiple}
               style={{ display: 'none' }}
