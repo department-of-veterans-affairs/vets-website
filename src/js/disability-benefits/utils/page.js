@@ -16,7 +16,7 @@ export function setFocus(selector) {
   el.focus();
 }
 
-export function setPageFocus(selector = '#main h1') {
+export function setPageFocus(selector = '.va-nav-breadcrumbs') {
   const notification = document.querySelector('.claims-notification');
   if (notification) {
     notification.setAttribute('tabIndex', -1);
@@ -26,7 +26,7 @@ export function setPageFocus(selector = '#main h1') {
   }
 }
 
-export function setUpPage(scroll = true, focusSelector = '#main h1') {
+export function setUpPage(scroll = true, focusSelector = '.va-nav-breadcrumbs') {
   if (!scroll) {
     scrollToTop();
   }
