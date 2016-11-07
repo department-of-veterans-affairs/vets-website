@@ -18,13 +18,14 @@ describe('Claim sync reducer', () => {
       claim: {
         attributes: {
           updatedAt: 'test',
-          successfulSync: false
         }
+      },
+      meta: {
+        successfulSync: false
       }
     });
 
     expect(state.synced).to.be.false;
-    expect(state.syncedDate).to.equal('test');
     expect(state.available).to.true;
   });
 
@@ -34,15 +35,16 @@ describe('Claim sync reducer', () => {
       claims: [
         {
           attributes: {
-            successfulSync: false,
             updatedAt: 'test'
           }
         }
-      ]
+      ],
+      meta: {
+        successfulSync: false
+      }
     });
 
     expect(state.synced).to.be.false;
-    expect(state.syncedDate).to.equal('test');
     expect(state.available).to.true;
   });
 });

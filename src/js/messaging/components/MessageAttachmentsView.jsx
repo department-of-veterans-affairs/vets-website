@@ -4,16 +4,22 @@ import _ from 'lodash';
 
 class MessageAttachmentsView extends React.Component {
   render() {
-    const attachments = this.props.attachments.map((attachment) => {
-      const key = _.uniqueId('msg-attachment-item-');
+    let attachments;
 
-      return (
-        <MessageAttachmentsViewItem
-            key={key}
-            name={attachment.attributes.name}
-            url={attachment.links.download}/>
-      );
-    });
+    if (this.props.attachments) {
+      attachments = this.props.attachments.map((attachment) => {
+        const key = _.uniqueId('msg-attachment-item-');
+
+        return (
+          <MessageAttachmentsViewItem
+              key={key}
+              name={attachment.attributes.name}
+              url={attachment.links.download}/>
+        );
+      });
+    } else {
+      attachments = <div>Loading...</div>;
+    }
 
     return (
       <div className="msg-attachments-received">
