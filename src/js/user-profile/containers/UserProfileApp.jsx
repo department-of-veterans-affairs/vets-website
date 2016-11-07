@@ -26,6 +26,7 @@ class UserProfileApp extends React.Component {
       components = (
         <div>
           <LoginDataSection/>
+          <AuthApplicationSection/>
           <AccountManagementSection/>
         </div>
       );
