@@ -14,7 +14,7 @@ class AuthApplicationSection extends React.Component {
 
     if (this.props.profile.accountType === 3) {
       content = (
-        <div className="info-conatiner medium-12 columns">
+        <div className="medium-12 columns">
           <p><span className="label">Your account will allow you to:</span></p>
           <p><a href="/healthcare/apply">Apply for Healthcare</a></p>
           <p><a href="/education/apply-for-education-benefits">Apply for Education Benefits</a></p>
@@ -24,7 +24,7 @@ class AuthApplicationSection extends React.Component {
       );
     } else {
       content = (
-        <div className="info-conatiner medium-12 columns">
+        <div className="medium-12 columns">
           <p><span className="label">Your account will allow you to:</span></p>
           <p><a href="/healthcare/apply">Apply for healthcare</a></p>
           <p><a href="/education/apply-for-education-benefits">Apply for education benefits</a></p>
