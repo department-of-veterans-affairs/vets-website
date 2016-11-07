@@ -1,4 +1,3 @@
-// import moment from 'moment';
 import { commonStore } from '../store';
 
 import environment from './environment.js';
