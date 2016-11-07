@@ -228,25 +228,11 @@ hr {
 
     .row {
       padding: 0 0.75em;
-
-      @media #{$medium} {
-        padding: 0;
-      }
     }
   }
 
   .top-banner {
-    @media #{$small} {
-      padding: 1em 0.75em;
-    }
-
-    @media #{$medium} {
-      padding: 1em 0;
-    }
-
-    @media #{$large} {
-      padding: 1em 0;
-    }
+    padding: 1em 0.75em;
   }
 
   .flex-auto {
@@ -1364,7 +1350,7 @@ a.twitter {
     }
 
     .row {
-      padding: 0;
+      padding: 0 0.75em;
     }
   }
 }
