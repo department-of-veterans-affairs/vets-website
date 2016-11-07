@@ -12,14 +12,7 @@ import { hasBeenReviewed, truncateDescription, getSubmittedItemDate } from '../u
 const NEED_ITEMS_STATUS = 'NEEDED';
 
 class FilesPage extends React.Component {
-  constructor() {
-    super();
-    this.closeAlert = this.closeAlert.bind(this);
-  }
   componentWillUnmount() {
-    this.props.clearNotification();
-  }
-  closeAlert() {
     this.props.clearNotification();
   }
   render() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
-import { submitRequest } from '../actions';
+import { submitRequest, getClaimDetail } from '../actions';
 
 import AskVAQuestions from '../components/AskVAQuestions';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
@@ -18,6 +18,7 @@ class AskVAPage extends React.Component {
   }
   componentWillReceiveProps(props) {
     if (props.decisionRequested) {
+      props.getClaimDetail(this.props.params.id);
       this.goToStatusPage();
     }
   }
@@ -97,7 +98,8 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  submitRequest
+  submitRequest,
+  getClaimDetail
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AskVAPage));
