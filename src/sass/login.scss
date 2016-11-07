@@ -1,14 +1,15 @@
 .sign-in-link {
   a {
-    color: #fff;
+    color: #000;
     text-decoration: none;
 
     &:visited {
-      color: #fff;
+      color: #000;
     }
 
     &:hover {
       text-decoration: none;
+      background: none;
     }
   }
 };

@@ -9,16 +9,18 @@ import {
   CREATE_FOLDER_FAILURE,
   CREATE_FOLDER_SUCCESS,
   DELETE_DRAFT_ATTACHMENT,
-  DELETE_MESSAGE_SUCCESS,
   DELETE_MESSAGE_FAILURE,
-  FETCH_THREAD_SUCCESS,
+  DELETE_MESSAGE_SUCCESS,
   FETCH_THREAD_FAILURE,
-  MOVE_MESSAGE_SUCCESS,
+  FETCH_THREAD_SUCCESS,
+  FETCH_THREAD_MESSAGE_FAILURE,
+  FETCH_THREAD_MESSAGE_SUCCESS,
   MOVE_MESSAGE_FAILURE,
-  SAVE_DRAFT_SUCCESS,
+  MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_FAILURE,
-  SEND_MESSAGE_SUCCESS,
+  SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_FAILURE,
+  SEND_MESSAGE_SUCCESS,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -69,6 +71,22 @@ export function fetchThread(id) {
         thread: data[1].data
       }),
       err => dispatch({ type: FETCH_THREAD_FAILURE, err })
+    );
+  };
+}
+
+export function fetchThreadMessage(id) {
+  return dispatch => {
+    const messageUrl = `${baseUrl}/${id}`;
+
+    fetch(messageUrl, api.settings.get)
+    .then(response => response.json())
+    .then(
+      data => dispatch({
+        type: FETCH_THREAD_MESSAGE_SUCCESS,
+        message: data
+      }),
+      error => dispatch({ type: FETCH_THREAD_MESSAGE_FAILURE, error })
     );
   };
 }

@@ -51,9 +51,7 @@ class FilesPage extends React.Component {
                   <p>{truncateDescription(item.description)}</p>
                   <DueDate date={item.suspenseDate}/>
                 </div>
-                <div className="button-container">
-                  <Link className="usa-button usa-button-outline" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
-                </div>
+                <Link className="usa-button usa-button-outline view-details-button" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
                 <div className="clearfix"></div>
               </div>
             ))}
@@ -65,9 +63,7 @@ class FilesPage extends React.Component {
                   <p>{truncateDescription(item.description)}</p>
                   <div className="claims-optional-desc"><h6>Optional</h6> - we requested this from others, but you may upload it if you have it.</div>
                 </div>
-                <div className="button-container">
-                  <Link className="usa-button usa-button-outline" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
-                </div>
+                <Link className="usa-button usa-button-outline view-details-button" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
                 <div className="clearfix"></div>
               </div>
             ))}
@@ -82,11 +78,11 @@ class FilesPage extends React.Component {
                   <p>You asked VA to make a decision on your claims based on the evidence you filed. You don't have to do anything else.</p>
                 </div>
                 :
-                <div className="usa-alert">
-                  <p>Do you have additional evidence to submit in order to support your claim? Upload it here now.</p>
-                  <div className="button-container">
-                    <Link className="usa-button usa-button-outline" to={`your-claims/${claim.id}/turn-in-evidence`}>View Details</Link>
+                <div className="usa-alert additional-evidence-alert">
+                  <div className="item-container">
+                    <p>Do you have additional evidence to submit in order to support your claim? Upload it here now.</p>
                   </div>
+                  <Link className="usa-button usa-button-outline view-details-button" to={`your-claims/${claim.id}/turn-in-evidence`}>View Details</Link>
                   <div className="clearfix"></div>
                 </div>
               }
