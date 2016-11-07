@@ -13,10 +13,6 @@ import { scrollToTop, setUpPage, isTab, setFocus } from '../utils/page';
 const NEED_ITEMS_STATUS = 'NEEDED';
 
 class FilesPage extends React.Component {
-  constructor() {
-    super();
-    this.closeAlert = this.closeAlert.bind(this);
-  }
   componentDidMount() {
     document.title = 'Files - Your Disability Compensation Claim';
     if (!isTab(this.props.lastPage)) {
@@ -35,9 +31,6 @@ class FilesPage extends React.Component {
     }
   }
   componentWillUnmount() {
-    this.props.clearNotification();
-  }
-  closeAlert() {
     this.props.clearNotification();
   }
   render() {
