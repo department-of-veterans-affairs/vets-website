@@ -76,7 +76,7 @@ class Active extends React.Component {
     }
 
     return (
-      <div className="va-tab-content">
+      <div id="rx-active" className="va-tab-content">
         {content}
       </div>
     );
