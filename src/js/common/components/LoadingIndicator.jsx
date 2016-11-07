@@ -3,7 +3,7 @@ import React from 'react';
 export default class LoadingIndicator extends React.Component {
   componentDidMount() {
     if (this.props.setFocus) {
-      document.querySelector('.loading-indicator').focus();
+      this.spinnerDiv.focus();
     }
   }
   render() {
@@ -11,7 +11,12 @@ export default class LoadingIndicator extends React.Component {
 
     return (
       <div className="loading-indicator-container">
-        <div className="loading-indicator" role="progressbar" aria-valuetext={message || screenReaderMessage} tabIndex="0"></div>
+        <div
+            ref={(div) => { this.spinnerDiv = div; }}
+            className="loading-indicator"
+            role="progressbar"
+            aria-valuetext={message || screenReaderMessage}
+            tabIndex="0"></div>
         {message}
       </div>
     );
