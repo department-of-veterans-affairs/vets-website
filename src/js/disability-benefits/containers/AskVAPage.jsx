@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router';
 import { submitRequest } from '../actions';
+import { setUpPage } from '../utils/page';
 
 import AskVAQuestions from '../components/AskVAQuestions';
 import ErrorableCheckbox from '../../common/components/form-elements/ErrorableCheckbox';
@@ -15,6 +16,7 @@ class AskVAPage extends React.Component {
   }
   componentDidMount() {
     document.title = 'Ask VA for a Claim Decision';
+    setUpPage();
   }
   componentWillReceiveProps(props) {
     if (props.decisionRequested) {
