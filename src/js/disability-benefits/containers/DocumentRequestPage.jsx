@@ -7,6 +7,7 @@ import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Notification from '../components/Notification';
+import { scrollToTop, setPageFocus, setUpPage } from '../utils/page';
 
 import {
   addFile,
@@ -29,6 +30,7 @@ const scrollToError = () => {
     smooth: true
   });
 };
+const Element = Scroll.Element;
 
 class DocumentRequestPage extends React.Component {
   componentDidMount() {
@@ -38,6 +40,11 @@ class DocumentRequestPage extends React.Component {
     } else {
       document.title = 'Document Request';
     }
+    if (!this.props.loading) {
+      setUpPage();
+    } else {
+      scrollToTop();
+    }
   }
   componentWillReceiveProps(props) {
     if (props.uploadComplete) {
@@ -46,7 +53,11 @@ class DocumentRequestPage extends React.Component {
   }
   componentDidUpdate(prevProps) {
     if (this.props.message && !prevProps.message) {
+      document.querySelector('.claims-alert').focus();
       scrollToError();
+    }
+    if (!this.props.loading && prevProps.loading) {
+      setPageFocus();
     }
   }
   componentWillUnmount() {
@@ -78,7 +89,10 @@ class DocumentRequestPage extends React.Component {
             </ul>
           </nav>
           {message &&
-            <Notification title={message.title} body={message.body} type={message.type}/>}
+            <div>
+              <Element name="uploadError"/>
+              <Notification title={message.title} body={message.body} type={message.type}/>
+            </div>}
           <h1 className="claims-header">{trackedItem.displayName}</h1>
           {trackedItem.type.endsWith('you_list') ? <DueDate date={trackedItem.suspenseDate}/> : null}
           {trackedItem.type.endsWith('others_list')
