@@ -112,7 +112,7 @@ export function searchWithBounds(bounds, facilityType, serviceType) {
       .then(
         data => {
           dispatch({ type: SEARCH_SUCCEEDED });
-          dispatch({ type: FETCH_VA_FACILITIES, payload: data.data });
+          dispatch({ type: FETCH_VA_FACILITIES, payload: data });
         },
         err => dispatch({ type: SEARCH_FAILED, err })
       );

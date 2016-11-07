@@ -8,8 +8,11 @@ import React, { Component, PropTypes } from 'react';
 
 class ResultsList extends Component {
 
+  handlePageSelect = () => {
+  }
+
   renderMobileView() {
-    const { facilities } = this.props;
+    const { facilities, pagination: { current_page: currentPage, total_pages: totalPages } } = this.props;
 
     return (
       <div>
@@ -24,13 +27,13 @@ class ResultsList extends Component {
             })
           }
         </div>
-        <Pagination onPageSelect={() => {}} page={1} pages={1}/>
+        <Pagination onPageSelect={() => {}} page={currentPage} pages={totalPages}/>
       </div>
     );
   }
 
   render() {
-    const { facilities, isMobile, inProgress } = this.props;
+    const { facilities, isMobile, inProgress, pagination: { current_page: currentPage, total_pages: totalPages } } = this.props;
 
     if (inProgress) {
       return (
@@ -65,7 +68,7 @@ class ResultsList extends Component {
             })
           }
         </div>
-        <Pagination onPageSelect={() => {}} page={1} pages={1}/>
+        <Pagination onPageSelect={() => {}} page={currentPage} pages={totalPages}/>
       </div>
     );
   }

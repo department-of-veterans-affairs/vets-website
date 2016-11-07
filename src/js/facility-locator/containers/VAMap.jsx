@@ -129,6 +129,7 @@ class VAMap extends Component {
 
   handleBoundsChanged = () => {
     const { currentQuery: { facilityType, serviceType } } = this.props;
+    const center = this.refs.map.leafletElement.getCenter();
     const bounds = this.refs.map.leafletElement.getBounds();
     const boundsArray = [
       bounds._southWest.lng,
@@ -139,6 +140,10 @@ class VAMap extends Component {
 
     this.props.updateSearchQuery({
       bounds: boundsArray,
+      position: {
+        latitude: center.lat,
+        longitude: center.lng,
+      }
     });
 
     this.props.searchWithBounds(boundsArray, facilityType, serviceType);
@@ -238,7 +243,7 @@ class VAMap extends Component {
   renderMobileView() {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, facilities } = this.props;
+    const { currentQuery, facilities, pagination } = this.props;
 
     return (
       <div>
@@ -252,7 +257,7 @@ class VAMap extends Component {
             <TabPanel>
               <div className="facility-search-results">
                 <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
-                <ResultsList facilities={facilities} isMobile inProgress={currentQuery.inProgress}/>
+                <ResultsList facilities={facilities} pagination={pagination} isMobile inProgress={currentQuery.inProgress}/>
               </div>
             </TabPanel>
             <TabPanel>
@@ -279,7 +284,7 @@ class VAMap extends Component {
 
   renderDesktopView() {
     // defaults to White House coordinates initially
-    const { currentQuery, facilities } = this.props;
+    const { currentQuery, facilities, pagination } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
 
@@ -293,7 +298,7 @@ class VAMap extends Component {
             <div className="facility-search-results">
               <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
               <div>
-                <ResultsList facilities={facilities} inProgress={currentQuery.inProgress}/>
+                <ResultsList facilities={facilities} pagination={pagination} inProgress={currentQuery.inProgress}/>
               </div>
             </div>
           </div>
@@ -334,6 +339,7 @@ function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
     facilities: state.facilities.facilities,
+    pagination: state.facilities.pagination,
     selectedFacility: state.facilities.selectedFacility,
   };
 }
