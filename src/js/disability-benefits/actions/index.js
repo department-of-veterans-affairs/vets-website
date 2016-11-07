@@ -1,8 +1,6 @@
 import environment from '../../common/helpers/environment';
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
 
-import { getDocTypeDescription } from '../utils/helpers';
-
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
 export const GET_CLAIM_DETAIL = 'GET_CLAIM_DETAIL';
@@ -22,9 +20,11 @@ export const SET_UPLOAD_ERROR = 'SET_UPLOAD_ERROR';
 export const UPDATE_FIELD = 'UPDATE_FIELD';
 export const SHOW_MAIL_OR_FAX = 'SHOW_MAIL_OR_FAX';
 export const CANCEL_UPLOAD = 'CANCEL_UPLOAD';
-export const CLEAR_UPLOADED_ITEM = 'CLEAR_UPLOADED_ITEM';
 export const SET_FIELDS_DIRTY = 'SET_FIELD_DIRTY';
 export const SHOW_CONSOLIDATED_MODAL = 'SHOW_CONSOLIDATED_MODAL';
+export const SET_LAST_PAGE = 'SET_LAST_PAGE';
+export const SET_NOTIFICATION = 'SET_NOTIFICATION';
+export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 
 export function getClaims() {
   return (dispatch) => {
@@ -43,8 +43,10 @@ export function getClaims() {
 
         return Promise.reject(res.statusText);
       })
-      .then(claims => dispatch({ type: SET_CLAIMS, claims: claims.data }))
-      .catch(() => dispatch({ type: SET_UNAVAILABLE }));
+      .then(
+        claims => dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta }),
+        () => dispatch({ type: SET_UNAVAILABLE })
+      );
   };
 }
 
@@ -82,7 +84,7 @@ export function getClaimDetail(id) {
         return Promise.reject(res.statusText);
       })
       .then(
-        resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data }),
+        resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
         () => dispatch({ type: SET_UNAVAILABLE })
       );
   };
@@ -139,6 +141,19 @@ function calcProgress(totalFiles, totalSize, filesComplete, bytesComplete) {
   return ((filesComplete / totalFiles) * (1 - ratio)) + ((bytesComplete / totalSize) * ratio);
 }
 
+export function setNotification(message) {
+  return {
+    type: SET_NOTIFICATION,
+    message
+  };
+}
+
+export function clearNotification() {
+  return {
+    type: CLEAR_NOTIFICATION
+  };
+}
+
 export function submitFiles(claimId, trackedItem, files) {
   let filesComplete = 0;
   let bytesComplete = 0;
@@ -151,9 +166,6 @@ export function submitFiles(claimId, trackedItem, files) {
     const uploader = new FineUploaderBasic({
       request: {
         endpoint: `${environment.API_URL}/v0/disability_claims/${claimId}/documents`,
-        params: {
-          trackedItem: trackedItemId
-        },
         inputName: 'file',
         customHeaders: {
           'X-Key-Inflection': 'camel',
@@ -170,12 +182,20 @@ export function submitFiles(claimId, trackedItem, files) {
           if (!hasError) {
             dispatch({
               type: DONE_UPLOADING,
-              itemName: trackedItem ? trackedItem.displayName : null
             });
+            dispatch(setNotification({
+              title: 'We have your evidence',
+              body: `Thank you for filing ${trackedItem ? trackedItem.displayName : 'additional evidence'}. We'll let you know when we've reviewed it.`
+            }));
           } else {
             dispatch({
               type: SET_UPLOAD_ERROR
             });
+            dispatch(setNotification({
+              title: 'Error uploading files',
+              body: 'There was an error uploading your files. Please try again',
+              type: 'error'
+            }));
           }
         },
         onTotalProgress: (bytes) => {
@@ -193,12 +213,14 @@ export function submitFiles(claimId, trackedItem, files) {
           });
         },
         onError: (id, name, reason) => {
-          if (!reason.endsWith('204')) {
+          // this is a little hackish, but uploader expects a json response
+          if (!reason.substr(-3).startsWith('2')) {
             hasError = true;
           }
         }
       }
     });
+    dispatch(clearNotification());
     dispatch({
       type: SET_UPLOADING,
       uploading: true,
@@ -209,12 +231,14 @@ export function submitFiles(claimId, trackedItem, files) {
       progress: filesComplete / files.length
     });
 
+    /* eslint-disable camelcase */
     files.forEach(({ file, docType }) => {
       uploader.addFiles(file, {
-        docType: docType.value,
-        docTypeDescription: getDocTypeDescription(docType.value)
+        tracked_item_id: trackedItemId,
+        document_type: docType.value
       });
     });
+    /* eslint-enable camelcase */
   };
 }
 
@@ -247,12 +271,6 @@ export function cancelUpload() {
   };
 }
 
-export function clearUploadedItem() {
-  return {
-    type: CLEAR_UPLOADED_ITEM
-  };
-}
-
 export function setFieldsDirty() {
   return {
     type: SET_FIELDS_DIRTY
@@ -263,5 +281,12 @@ export function showConsolidatedMessage(visible) {
   return {
     type: SHOW_CONSOLIDATED_MODAL,
     visible
+  };
+}
+
+export function setLastPage(page) {
+  return {
+    type: SET_LAST_PAGE,
+    page
   };
 }

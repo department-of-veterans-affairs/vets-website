@@ -3,7 +3,7 @@ import React from 'react';
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 import DateInput from '../../../common/components/form-elements/DateInput';
-import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidFutureDateField } from '../../utils/validations';
+import { validateIfDirty, isNotBlank, validateIfDirtyDateObj, isValidRelinquishedDate } from '../../utils/validations';
 import { relinquishableBenefits } from '../../utils/options-for-select';
 import { showRelinquishedEffectiveDate } from '../../utils/helpers';
 
@@ -30,15 +30,21 @@ export default class BenefitsRelinquishmentFields extends React.Component {
             <div>
               <DateInput required={showRelinquishedEffectiveDate(this.props.data.benefitsRelinquished.value)}
                   allowFutureDates
-                  errorMessage="Please provide a date that's the same as or later than today"
-                  validation={validateIfDirtyDateObj(this.props.data.benefitsRelinquishedDate, isValidFutureDateField)}
+                  errorMessage="Date cannot be earlier than 2 years ago"
+                  validation={validateIfDirtyDateObj(this.props.data.benefitsRelinquishedDate, isValidRelinquishedDate)}
                   label="Effective date"
                   name="benefitsRelinquishedDate"
                   day={this.props.data.benefitsRelinquishedDate.day}
                   month={this.props.data.benefitsRelinquishedDate.month}
                   year={this.props.data.benefitsRelinquishedDate.year}
                   onValueChange={(update) => {this.props.onStateChange('benefitsRelinquishedDate', update);}}/>
-                Use today’s date unless you aren't going to use your Post 9/11 GI Bill benefits (Chapter 33) until later. If you do pick a future date, you can't get benefits until then.
+              <div>
+                <ul>
+                  <li>Use today's date unless you aren't going to use your Post 9/11 GI Bill benefits until later.</li>
+                  <li>If you pick a future date, you can't get benefits until then.</li>
+                  <li>If your classes started less than 2 years ago, enter the date they began.</li>
+                </ul>
+              </div>
             </div>
           </ExpandingGroup>
         </fieldset>

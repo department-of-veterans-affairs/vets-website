@@ -8,7 +8,7 @@ import SortableTable from '../../common/components/SortableTable';
 
 import {
   fetchFolder,
-  sendSearch,
+  openAlert,
   setDateRange,
   setSearchParam,
   toggleAdvancedSearch,
@@ -18,7 +18,6 @@ import {
 import ComposeButton from '../components/ComposeButton';
 import MessageNav from '../components/MessageNav';
 import MessageSearch from '../components/MessageSearch';
-import { paths } from '../config';
 import { formattedDate } from '../utils/helpers';
 
 export class Folder extends React.Component {
@@ -27,34 +26,93 @@ export class Folder extends React.Component {
     this.formattedSortParam = this.formattedSortParam.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
     this.handleSort = this.handleSort.bind(this);
+    this.handleSearch = this.handleSearch.bind(this);
     this.makeMessageNav = this.makeMessageNav.bind(this);
     this.makeMessagesTable = this.makeMessagesTable.bind(this);
+    this.getQueryParams = this.getQueryParams.bind(this);
+    this.buildSearchQuery = this.buildSearchQuery.bind(this);
   }
 
   componentDidMount() {
     const id = this.props.params.id;
-    const query = _.pick(this.props.location.query, ['page', 'sort']);
+    const query = this.getQueryParams();
     this.props.fetchFolder(id, query);
   }
 
   componentDidUpdate() {
+    const query = this.getQueryParams();
+
     const oldId = this.props.attributes.folderId;
     const newId = +this.props.params.id;
+    const idChanged = newId !== oldId;
 
-    const query = _.pick(this.props.location.query, ['page', 'sort']);
+    const pageChanged = () => {
+      const oldPage = this.props.page;
+      const newPage = +query.page || oldPage;
+      return newPage !== oldPage;
+    };
 
-    const oldPage = this.props.page;
-    const newPage = +query.page || oldPage;
+    const sortChanged = () => {
+      const oldSort = this.formattedSortParam(
+        this.props.sort.value,
+        this.props.sort.order
+      );
+      const newSort = query.sort || oldSort;
+      return newSort !== oldSort;
+    };
 
-    const oldSort = this.formattedSortParam(
-      this.props.sort.value,
-      this.props.sort.order
-    );
-    const newSort = query.sort || oldSort;
+    const filterChanged = () => {
+      const fromDateSearchChanged =
+        query['filter[[sent_date][gteq]]'] !==
+        _.get(this.props.filter, 'sentDate.gteq');
 
-    if (newId !== oldId || newPage !== oldPage || newSort !== oldSort) {
+      const toDateSearchChanged =
+        query['filter[[sent_date][lteq]]'] !==
+        _.get(this.props.filter, 'sentDate.lteq');
+
+      const senderSearchChanged =
+        (query['filter[[sender_name][eq]]'] !==
+        _.get(this.props.filter, 'senderName.eq')) ||
+        (query['filter[[sender_name][match]]'] !==
+        _.get(this.props.filter, 'senderName.match'));
+
+      const subjectSearchChanged =
+        (query['filter[[subject][eq]]'] !==
+        _.get(this.props.filter, 'subject.eq')) ||
+        (query['filter[[subject][match]]'] !==
+        _.get(this.props.filter, 'subject.match'));
+
+      return (
+        fromDateSearchChanged ||
+        toDateSearchChanged ||
+        senderSearchChanged ||
+        subjectSearchChanged
+      );
+    };
+
+    const shouldUpdate =
+      idChanged ||
+      pageChanged() ||
+      sortChanged() ||
+      filterChanged();
+
+    if (shouldUpdate) {
       this.props.fetchFolder(newId, query);
     }
+  }
+
+  getQueryParams() {
+    const queryParams = [
+      'page',
+      'sort',
+      'filter[[sent_date][gteq]]',
+      'filter[[sent_date][lteq]]',
+      'filter[[sender_name][eq]]',
+      'filter[[sender_name][match]]',
+      'filter[[subject][eq]]',
+      'filter[[subject][match]]'
+    ];
+    return _.pick(this.props.location.query, queryParams);
   }
 
   formattedSortParam(value, order) {
@@ -65,9 +123,37 @@ export class Folder extends React.Component {
     return sort;
   }
 
+  buildSearchQuery(object) {
+    const filters = {};
+
+    if (object.term.value) {
+      filters['filter[[subject][match]]'] = object.term.value;
+    }
+
+    if (object.from.field.value) {
+      const fromExact = object.from.exact ? 'eq' : 'match';
+      filters[`filter[[sender_name][${fromExact}]]`] = object.from.field.value;
+    }
+
+    if (object.subject.field.value) {
+      const subjectExact = object.subject.exact ? 'eq' : 'match';
+      filters[`filter[[subject][${subjectExact}]]`] = object.subject.field.value;
+    }
+
+    if (object.dateRange.start) {
+      filters['filter[[sent_date][gteq]]'] = object.dateRange.start.format();
+    }
+
+    if (object.dateRange.end) {
+      filters['filter[[sent_date][lteq]]'] = object.dateRange.end.format();
+    }
+
+    return filters;
+  }
+
   handlePageSelect(page) {
     this.context.router.push({
-      pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
+      ...this.props.location,
       query: { ...this.props.location.query, page }
     });
   }
@@ -75,8 +161,17 @@ export class Folder extends React.Component {
   handleSort(value, order) {
     const sort = this.formattedSortParam(value, order);
     this.context.router.push({
-      pathname: `${paths.FOLDERS_URL}/${this.props.params.id}`,
+      ...this.props.location,
       query: { ...this.props.location.query, sort }
+    });
+  }
+
+  handleSearch(searchParams) {
+    const filters = this.buildSearchQuery(searchParams);
+
+    this.context.router.push({
+      ...this.props.location,
+      query: filters
     });
   }
 
@@ -99,7 +194,9 @@ export class Folder extends React.Component {
 
   makeMessagesTable() {
     const messages = this.props.messages;
-    if (!messages || messages.length === 0) { return null; }
+    if (!messages || messages.length === 0) {
+      return <h1 className="msg-nomessages">No messages</h1>;
+    }
 
     const makeMessageLink = (content, id) => {
       return <Link to={`/thread/${id}`}>{content}</Link>;
@@ -141,7 +238,6 @@ export class Folder extends React.Component {
 
   render() {
     const folderName = _.get(this.props.attributes, 'name');
-    const folderId = _.get(this.props.attributes, 'folderId', 0);
     const messageNav = this.makeMessageNav();
     const folderMessages = this.makeMessagesTable();
 
@@ -157,13 +253,13 @@ export class Folder extends React.Component {
           <h2>{folderName}</h2>
         </div>
         <MessageSearch
-            folder={+folderId}
             isAdvancedVisible={this.props.isAdvancedVisible}
             onAdvancedSearch={this.props.toggleAdvancedSearch}
             onDateChange={this.props.setDateRange}
-            params={this.props.searchParams}
+            onError={this.props.openAlert}
             onFieldChange={this.props.setSearchParam}
-            onSubmit={this.props.sendSearch}/>
+            onSubmit={this.handleSearch}
+            params={this.props.searchParams}/>
         <div id="messaging-folder-controls">
           <ComposeButton/>
           {messageNav}
@@ -193,6 +289,7 @@ const mapStateToProps = (state) => {
   return {
     attributes,
     currentRange: `${startCount} - ${endCount}`,
+    filter: folder.filter,
     messageCount: totalCount,
     messages,
     page,
@@ -205,7 +302,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
   fetchFolder,
-  sendSearch,
+  openAlert,
   setDateRange,
   setSearchParam,
   toggleAdvancedSearch,

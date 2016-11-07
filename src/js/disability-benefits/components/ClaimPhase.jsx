@@ -16,7 +16,7 @@ const COMPLETE_PHASE = 5;
 const INITIAL_ACTIVITY_ROWS = 5;
 
 function getClasses(phase, current) {
-  const processClass = 'step wow fadeIn animated';
+  const processClass = 'step';
   const stepClass = stepClasses[phase];
   if (phase === current) {
     return `${stepClass} ${processClass} section-current`;
@@ -89,6 +89,20 @@ export default class ClaimPhase extends React.Component {
         return (
           <div className="claims-evidence-item columns medium-9">
             We have reviewed your submitted evidence for {event.displayName}. We will notify you if we need additional information.
+          </div>
+        );
+      case 'never_received_from_you_list':
+      case 'never_received_from_others_list':
+        return (
+          <div className="claims-evidence-item columns medium-9">
+            We closed the notice for {event.displayName}
+          </div>
+        );
+
+      case 'other_documents_list':
+        return (
+          <div className="claims-evidence-item columns medium-9">
+            You or others submitted {event.fileType}. We will notify you when we've reviewed it.
           </div>
         );
 

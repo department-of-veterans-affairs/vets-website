@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import AlertBox from '../../common/components/AlertBox';
-// import RequiredLoginView from '../../common/components/RequiredLoginView';
+import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 import {
   closeAlert,
@@ -22,6 +22,7 @@ class MessagingApp extends React.Component {
               content={this.props.alert.content}
               isVisible={this.props.alert.visible}
               onCloseAlert={this.props.closeAlert}
+              scrollOnShow
               status={this.props.alert.status}/>
           <h1>Message your health care team</h1>
         </div>
@@ -29,13 +30,11 @@ class MessagingApp extends React.Component {
       </div>
     );
 
-    return view;
-
-    /*
     return (
-      <RequiredLoginView authRequired={3} component={view}/>
+      <RequiredLoginView authRequired={3} serviceRequired={"messaging"}>
+        {view}
+      </RequiredLoginView>
     );
-    */
   }
 }
 

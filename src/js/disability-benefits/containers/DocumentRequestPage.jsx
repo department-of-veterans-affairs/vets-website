@@ -5,8 +5,8 @@ import { connect } from 'react-redux';
 import DueDate from '../components/DueDate';
 import AskVAQuestions from '../components/AskVAQuestions';
 import AddFilesForm from '../components/AddFilesForm';
-import Loading from '../components/Loading';
-import UploadError from '../components/UploadError';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Notification from '../components/Notification';
 
 import {
   addFile,
@@ -17,7 +17,8 @@ import {
   showMailOrFaxModal,
   cancelUpload,
   getClaimDetail,
-  setFieldsDirty
+  setFieldsDirty,
+  clearNotification
 } from '../actions';
 
 const scrollToError = () => {
@@ -44,8 +45,13 @@ class DocumentRequestPage extends React.Component {
     }
   }
   componentDidUpdate(prevProps) {
-    if (this.props.uploadError && !prevProps.uploadError) {
+    if (this.props.message && !prevProps.message) {
       scrollToError();
+    }
+  }
+  componentWillUnmount() {
+    if (!this.props.uploadComplete) {
+      this.props.clearNotification();
     }
   }
   goToFilesPage() {
@@ -56,21 +62,23 @@ class DocumentRequestPage extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <Loading/>;
+      content = <LoadingIndicator/>;
     } else {
       const trackedItem = this.props.trackedItem;
+      const filesPath = `your-claims/${this.props.claim.id}/files`;
+      const message = this.props.message;
+
       content = (
         <div className="claim-container">
           <nav className="va-nav-breadcrumbs">
             <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
               <li><Link to="your-claims">Your claims</Link></li>
-              <li><Link to={`your-claims/${this.props.claim.id}`}>Your Compensation Claim</Link></li>
+              <li><Link to={filesPath}>Your Disability Compensation Claim</Link></li>
               <li className="active">{trackedItem.displayName}</li>
             </ul>
           </nav>
-          {this.props.uploadError
-            ? <UploadError/>
-            : null}
+          {message &&
+            <Notification title={message.title} body={message.body} type={message.type}/>}
           <h1 className="claims-header">{trackedItem.displayName}</h1>
           {trackedItem.type.endsWith('you_list') ? <DueDate date={trackedItem.suspenseDate}/> : null}
           {trackedItem.type.endsWith('others_list')
@@ -85,6 +93,7 @@ class DocumentRequestPage extends React.Component {
               uploading={this.props.uploading}
               files={this.props.files}
               showMailOrFax={this.props.showMailOrFax}
+              backUrl={this.props.lastPage || filesPath}
               onSubmit={() => this.props.submitFiles(
                 this.props.claim.id,
                 this.props.trackedItem,
@@ -106,7 +115,9 @@ class DocumentRequestPage extends React.Component {
           <div name="topScrollElement"></div>
           {content}
         </div>
-        <AskVAQuestions/>
+        <div className="small-12 medium-4 columns">
+          <AskVAQuestions/>
+        </div>
       </div>
     );
   }
@@ -128,7 +139,9 @@ function mapStateToProps(state, ownProps) {
     uploadError: state.uploads.uploadError,
     uploadComplete: state.uploads.uploadComplete,
     uploadField: state.uploads.uploadField,
-    showMailOrFax: state.uploads.showMailOrFax
+    showMailOrFax: state.uploads.showMailOrFax,
+    lastPage: state.routing.lastPage,
+    message: state.notifications.message
   };
 }
 
@@ -141,7 +154,8 @@ const mapDispatchToProps = {
   cancelUpload,
   getClaimDetail,
   setFieldsDirty,
-  resetUploads
+  resetUploads,
+  clearNotification
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DocumentRequestPage));

@@ -19,6 +19,13 @@ export default class RotcHistoryFields extends React.Component {
       <legend>ROTC history</legend>
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
+        <ErrorableRadioButtons
+            label="Are you currently participating in a senior ROTC scholarship program that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)"
+            options={yesNo}
+            value={this.props.data.seniorRotcScholarshipProgram}
+            name="RotcTuition"
+            onValueChange={(update) => {this.props.onStateChange('seniorRotcScholarshipProgram', update);}}/>
+
         <ExpandingGroup open={this.props.data.seniorRotcCommissioned.value === 'Y'} additionalClass="edu-benefits-rotc-group">
           <ErrorableRadioButtons
               label="Were you commissioned as a result of senior ROTC?"
@@ -49,13 +56,6 @@ export default class RotcHistoryFields extends React.Component {
                   rows={this.props.data.seniorRotc.rotcScholarshipAmounts}
                   isValidRow={isValidRotcScholarshipAmount}
                   isValidSection={isValidPage}/>
-
-              <ErrorableRadioButtons
-                  label="Are you currently participating in a senior ROTC scholarship program that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)"
-                  options={yesNo}
-                  value={this.props.data.seniorRotcScholarshipProgram}
-                  name="RotcTuition"
-                  onValueChange={(update) => {this.props.onStateChange('seniorRotcScholarshipProgram', update);}}/>
 
             </div>
           </div>

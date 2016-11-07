@@ -13,7 +13,6 @@ import {
   openMoveToNewFolderModal,
   saveDraft,
   sendMessage,
-  sendReply,
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,
@@ -33,10 +32,10 @@ export class Thread extends React.Component {
   constructor(props) {
     super(props);
     this.apiFormattedDraft = this.apiFormattedDraft.bind(this);
+    this.handleDraftDelete = this.handleDraftDelete.bind(this);
+    this.handleDraftSave = this.handleDraftSave.bind(this);
+    this.handleDraftSend = this.handleDraftSend.bind(this);
     this.handleMessageDelete = this.handleMessageDelete.bind(this);
-    this.handleReplySave = this.handleReplySave.bind(this);
-    this.handleReplySend = this.handleReplySend.bind(this);
-    this.handleReplyDelete = this.handleReplyDelete.bind(this);
     this.makeHeader = this.makeHeader.bind(this);
     this.makeThread = this.makeThread.bind(this);
     this.makeForm = this.makeForm.bind(this);
@@ -61,37 +60,38 @@ export class Thread extends React.Component {
   }
 
   apiFormattedDraft() {
-    const draft = Object.assign({}, this.props.draft);
-    draft.body = draft.body.value;
-    draft.category = draft.category.value;
-    draft.recipient = draft.recipient.value;
-    draft.subject = draft.subject.value;
-    return draft;
+    const draft = this.props.draft;
+
+    return {
+      attachments: draft.attachments,
+      body: draft.body.value,
+      category: draft.category.value,
+      messageId: draft.messageId,
+      recipientId: +draft.recipient.value,
+      replyMessageId: draft.replyMessageId,
+      subject: draft.subject.value
+    };
   }
 
-  handleMessageDelete() {
-    this.props.deleteMessage(this.props.message.messageId);
-  }
-
-  handleReplySave() {
-    this.props.saveDraft(this.apiFormattedDraft());
-  }
-
-  handleReplySend() {
-    if (this.props.isNewMessage) {
-      this.props.sendMessage(this.apiFormattedDraft());
-    } else {
-      this.props.sendReply(this.apiFormattedDraft());
-    }
-  }
-
-  handleReplyDelete() {
+  handleDraftDelete() {
     this.props.toggleConfirmDelete();
     this.props.clearDraft();
 
     if (this.props.isSavedDraft) {
       this.props.deleteMessage(this.props.message.messageId);
     }
+  }
+
+  handleDraftSave() {
+    this.props.saveDraft(this.apiFormattedDraft());
+  }
+
+  handleDraftSend() {
+    this.props.sendMessage(this.apiFormattedDraft());
+  }
+
+  handleMessageDelete() {
+    this.props.deleteMessage(this.props.message.messageId);
   }
 
   makeHeader() {
@@ -186,10 +186,10 @@ export class Thread extends React.Component {
             onAttachmentsError={this.props.openAttachmentsModal}
             onBodyChange={this.props.updateDraft.bind(null, 'body')}
             onCategoryChange={this.props.updateDraft.bind(null, 'category')}
-            onDeleteMessage={this.handleReplyDelete}
+            onDeleteMessage={this.handleDraftDelete}
             onRecipientChange={this.props.updateDraft.bind(null, 'recipient')}
-            onSaveMessage={this.handleReplySave}
-            onSendMessage={this.handleReplySend}
+            onSaveMessage={this.handleDraftSave}
+            onSendMessage={this.handleDraftSend}
             onSubjectChange={this.props.updateDraft.bind(null, 'subject')}
             toggleConfirmDelete={this.props.toggleConfirmDelete}/>
       );
@@ -204,8 +204,8 @@ export class Thread extends React.Component {
             onAttachmentUpload={this.props.addDraftAttachments}
             onAttachmentsError={this.props.openAttachmentsModal}
             onBodyChange={this.props.updateDraft.bind(null, 'body')}
-            onSaveReply={this.handleReplySave}
-            onSendReply={this.handleReplySend}
+            onSaveReply={this.handleDraftSave}
+            onSendReply={this.handleDraftSend}
             toggleConfirmDelete={this.props.toggleConfirmDelete}
             toggleDetails={this.props.toggleReplyDetails}/>
       );
@@ -235,7 +235,7 @@ export class Thread extends React.Component {
         <ModalConfirmDelete
             cssClass="messaging-modal"
             onClose={this.props.toggleConfirmDelete}
-            onDelete={this.handleReplyDelete}
+            onDelete={this.handleDraftDelete}
             visible={this.props.modals.deleteConfirm.visible}/>
       </div>
     );
@@ -283,7 +283,6 @@ const mapDispatchToProps = {
   openMoveToNewFolderModal,
   saveDraft,
   sendMessage,
-  sendReply,
   toggleConfirmDelete,
   toggleMessageCollapsed,
   toggleMessagesCollapsed,

@@ -1,6 +1,6 @@
 import React from 'react';
-import moment from 'moment';
 
+import { formatDate } from '../utils/helpers';
 import TrackPackageLink from './TrackPackageLink';
 
 class OrderHistory extends React.Component {
@@ -14,12 +14,11 @@ class OrderHistory extends React.Component {
     return (
       <tr key={item.id}>
         <td>
-          Shipped on {moment(
-            attrs.shippedDate
-          ).format('MMM DD, YYYY')}
+          Shipped on {formatDate(attrs.shippedDate)}
         </td>
         <td>
           <TrackPackageLink
+              className="rx-history-tracking"
               external
               text={attrs.trackingNumber}
               url={item.links.trackingUrl}/>

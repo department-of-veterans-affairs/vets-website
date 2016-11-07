@@ -8,8 +8,8 @@ describe('<ClaimsListItem>', () => {
   it('should not show any flags', () => {
     const claim = {
       id: 1,
-      phase: 2,
       attributes: {
+        phase: 2,
         decisionLetterSent: false,
         developmentLetterSent: false,
         documentsNeeded: false
@@ -25,8 +25,8 @@ describe('<ClaimsListItem>', () => {
   it('should show development letter flag', () => {
     const claim = {
       id: 1,
-      phase: 2,
       attributes: {
+        phase: 2,
         decisionLetterSent: false,
         developmentLetterSent: true,
         documentsNeeded: false
@@ -42,8 +42,8 @@ describe('<ClaimsListItem>', () => {
   it('should show decision letter flag', () => {
     const claim = {
       id: 1,
-      phase: 2,
       attributes: {
+        phase: 2,
         decisionLetterSent: true,
         developmentLetterSent: true,
         documentsNeeded: false
@@ -59,8 +59,8 @@ describe('<ClaimsListItem>', () => {
   it('should show items needed flag', () => {
     const claim = {
       id: 1,
-      phase: 2,
       attributes: {
+        phase: 2,
         decisionLetterSent: false,
         developmentLetterSent: false,
         documentsNeeded: true
@@ -72,5 +72,22 @@ describe('<ClaimsListItem>', () => {
           claim={claim}/>
     );
     expect(tree.subTree('.communications').text()).to.contain('Items need your attention');
+  });
+  it('should hide flags when complete', () => {
+    const claim = {
+      id: 1,
+      attributes: {
+        phase: 8,
+        decisionLetterSent: false,
+        developmentLetterSent: true,
+        documentsNeeded: true
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <ClaimsListItem
+          claim={claim}/>
+    );
+    expect(tree.subTree('.communications').text()).to.equal('');
   });
 });

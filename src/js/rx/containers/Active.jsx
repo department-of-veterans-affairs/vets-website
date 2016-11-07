@@ -1,62 +1,75 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { loadPrescriptions } from '../actions/prescriptions';
+import {
+  loadPrescriptions,
+  sortPrescriptions
+} from '../actions/prescriptions';
+
+import {
+  openGlossaryModal,
+  openRefillModal
+} from '../actions/modals';
+
 import PrescriptionList from '../components/PrescriptionList';
 import SortMenu from '../components/SortMenu';
-import { sortOptions } from '../config.js';
+import { sortOptions } from '../config';
 
 class Active extends React.Component {
-  componentWillMount() {
-    this.props.dispatch(loadPrescriptions({ active: true }));
-    this.handleSortOnChange = this.handleSortOnChange.bind(this);
-    this.handleSortOnClick = this.handleSortOnClick.bind(this);
-    this.dispatchSortAction = this.dispatchSortAction.bind(this);
+  constructor(props) {
+    super(props);
+    this.handleSort = this.handleSort.bind(this);
   }
 
-  dispatchSortAction(action) {
-    this.props.dispatch({ type: action });
+  componentDidMount() {
+    this.props.loadPrescriptions({ active: true });
   }
 
-  handleSortOnChange(domEvent) {
-    if (domEvent.type === 'change') {
-      this.context.router.push({
-        pathname: '/',
-        query: { sort: domEvent.target.value }
-      });
+  componentDidUpdate() {
+    const newSort = this.props.location.query.sort;
+    const oldSort = this.props.sort;
+
+    if (newSort !== oldSort) {
+      this.props.sortPrescriptions(newSort);
     }
-    this.dispatchSortAction(domEvent.target.value);
   }
 
-  handleSortOnClick(domEvent) {
-    const fullURL = domEvent.target.href;
-
-    // Find the sort parameter, split the query string on the = and retrieve value
-    const sortParam = fullURL.match(/sort=[-a-z]{1,}/i)[0].split('=')[1];
-    this.dispatchSortAction(sortParam);
+  handleSort(sort) {
+    this.context.router.push({
+      ...this.props.location,
+      query: { sort }
+    });
   }
 
   render() {
-    const items = this.props.prescriptions.items;
+    const prescriptions = this.props.prescriptions;
     let content;
 
-    const sortParam = this.props.location.query.sort;
-
-    if (items) {
-      const sortValue = sortParam || 'lastRequested';
+    if (prescriptions) {
+      const sortValue = this.props.sort;
 
       content = (
         <div>
+          <p className="rx-tab-explainer">Your active VA prescriptions.</p>
           <SortMenu
-              changeHandler={this.handleSortOnChange}
-              clickHandler={this.handleSortOnClick}
+              onChange={this.handleSort}
+              onClick={this.handleSort}
               options={sortOptions}
               selected={sortValue}/>
           <PrescriptionList
-              items={this.props.prescriptions.items}
+              items={this.props.prescriptions}
               // If we're sorting by facility, tell PrescriptionList to group 'em.
-              grouped={sortValue === 'facilityName'}/>
+              grouped={sortValue === 'facilityName'}
+              refillModalHandler={this.props.openRefillModal}
+              glossaryModalHandler={this.props.openGlossaryModal}/>
         </div>
+      );
+    } else {
+      content = (
+        <p className="rx-tab-explainer rx-loading-error">
+          We couldn't retrieve your prescriptions.
+          Please refresh this page or try again later.
+        </p>
       );
     }
 
@@ -72,9 +85,18 @@ Active.contextTypes = {
   router: React.PropTypes.object.isRequired
 };
 
-// TODO: fill this out
 const mapStateToProps = (state) => {
-  return state;
+  return {
+    prescriptions: state.prescriptions.items,
+    sort: state.prescriptions.active.sort
+  };
 };
 
-export default connect(mapStateToProps)(Active);
+const mapDispatchToProps = {
+  openGlossaryModal,
+  openRefillModal,
+  loadPrescriptions,
+  sortPrescriptions
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Active);

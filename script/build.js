@@ -106,21 +106,19 @@ smith.destination(`../build/${options.buildtype}`);
 //
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
-const ignoreList = ['memorial-benefits/*'];
+const ignoreList = [];
 
 if (options.buildtype === 'production') {
   ignoreList.push('disability-benefits/track-claims/*');
-  ignoreList.push('education/apply-for-education-benefits/application.md');
   ignoreList.push('facilities/*');
   ignoreList.push('healthcare/messaging/*');
   ignoreList.push('healthcare/prescriptions/*');
   ignoreList.push('profile/*');
   ignoreList.push('auth/*');
   ignoreList.push('education/apply-for-education-benefits-new');
+  ignoreList.push('education/index-new');
 } else if (options.buildtype === 'staging') {
   ignoreList.push('facilities/*');
-  ignoreList.push('profile/*');
-  ignoreList.push('education/apply-for-education-benefits-new');
 }
 
 smith.use(ignore(ignoreList));

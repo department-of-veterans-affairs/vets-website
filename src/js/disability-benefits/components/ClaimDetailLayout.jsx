@@ -2,14 +2,16 @@ import React from 'react';
 import { Link } from 'react-router';
 import TabNav from '../components/TabNav';
 import AskVAQuestions from '../components/AskVAQuestions';
-import Loading from '../components/Loading';
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import AddingDetails from '../components/AddingDetails';
+import Notification from '../components/Notification';
+import { isPopulatedClaim } from '../utils/helpers';
 
-import { isCompleteClaim } from '../utils/helpers';
+const MAX_CONDITIONS = 3;
 
 export default class ClaimDetailLayout extends React.Component {
   render() {
-    const { claim, loading, message } = this.props;
+    const { claim, loading, message, clearNotification } = this.props;
 
     let content;
     if (!loading) {
@@ -18,28 +20,31 @@ export default class ClaimDetailLayout extends React.Component {
           <nav className="va-nav-breadcrumbs">
             <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
               <li><Link to="your-claims">Your claims</Link></li>
-              <li className="active">Your Compensation Claim</li>
+              <li className="active">Your Disability Compensation Claim</li>
             </ul>
           </nav>
-          {message}
-          <h1 className="claim-title">Your {"Compensation"} Claim</h1>
+          {message && <Notification title={message.title} body={message.body} type={message.type} onClose={clearNotification}/>}
+          <h1 className="claim-title">Your Disability Compensation Claim</h1>
           <div className="claim-conditions">
             <h6>Your Claimed Conditions:</h6>
             <p className="list">
-              {claim.attributes.contentionList
-                ? claim.attributes.contentionList.join(', ')
+              {claim.attributes.contentionList && claim.attributes.contentionList.length
+                ? claim.attributes.contentionList.slice(0, MAX_CONDITIONS).join(', ')
+                : 'Not available'}
+              {claim.attributes.contentionList && claim.attributes.contentionList.length > MAX_CONDITIONS
+                  ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all</Link></span>
                 : null}
             </p>
           </div>
           <TabNav id={this.props.claim.id}/>
           <div className="va-tab-content">
-            {isCompleteClaim(claim) ? null : <AddingDetails/>}
+            {isPopulatedClaim(claim) ? null : <AddingDetails/>}
             {this.props.children}
           </div>
         </div>
       );
     } else {
-      content = <Loading/>;
+      content = <LoadingIndicator/>;
     }
 
     return (
@@ -48,7 +53,9 @@ export default class ClaimDetailLayout extends React.Component {
           <div name="topScrollElement"></div>
           {content}
         </div>
-        <AskVAQuestions/>
+        <div className="small-12 medium-4 columns">
+          <AskVAQuestions/>
+        </div>
       </div>
     );
   }
@@ -57,6 +64,7 @@ export default class ClaimDetailLayout extends React.Component {
 ClaimDetailLayout.propTypes = {
   claim: React.PropTypes.object,
   loading: React.PropTypes.bool,
-  message: React.PropTypes.node
+  message: React.PropTypes.object,
+  clearNotification: React.PropTypes.func
 };
 

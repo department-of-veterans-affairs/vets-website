@@ -1,6 +1,6 @@
 {% if (majorlinks.length % 3) %}
   {% assign gridnum = 3 %}
-{% else %} 
+{% else %}
   {% assign gridnum = 2 %}
 {% endif %}
 
@@ -20,4 +20,7 @@
       </ul>
     </div>
   </div>
+  {% if extraspace %}
+    <br>
+  {% endif %}
 </div>

@@ -47,7 +47,10 @@
     display: inline-block;
     margin: 0;
     text-transform: none;
-    padding-right: 5px !important;
+    padding-right: 3px !important;
+    @media (min-width: $medium-screen) {
+      padding-right: 5px !important;
+    }
   }
 }
 
@@ -92,29 +95,34 @@
 
 .file-request-list-item {
   margin-top: 1.5em;
-  .item-container {
-    margin: 0.5em 0;
-    float: left;
-    h6 {
-      display: inline-block;
-      text-transform: none;
-      i {
-        margin-right: 6px;
-      }
-    }
-    p {
-      display: inline-block;
-      margin: 0;
-    }
-    button {
-      float: right;
-    }
-  }
-  .button-container {
-    float: right;
-  }
   &:last-child {
     border: none;
+  }
+  .file-request-title {
+    padding-bottom: 0 !important;
+  }
+}
+
+.item-container {
+  margin: 0 0 0.5em 0;
+  float: left;
+  h6 {
+    display: inline-block;
+    text-transform: none;
+  }
+  p {
+    display: inline-block;
+    margin: 0;
+  }
+  @media (min-width: $medium-screen) {
+    width: 66%;
+  }
+}
+
+.past-due > i {
+  margin-right: 3px;
+  @media (min-width: $medium-screen) {
+    margin-right: 6px;
   }
 }
 
@@ -170,7 +178,10 @@
 
 .form-process li.section-complete:before {
   background: $color-green;
-  content: "\2714";
+  content: "\2714\fe0e";
+  @media (max-width: $small-screen) {
+    content: "\2713\fe0e";
+  }
 }
 
 .form-process li.section-current {
@@ -227,20 +238,14 @@ a.claim-list-item {
 }
 
 .your-claims {
-  h1, h3 {
+  padding-top: 1em;
+  h3 {
     margin-top: 1em;
   }
 }
 
 .ask-va-questions {
   margin-top: 1.5em;
-  h4 {
-    border-bottom: 2px solid $color-primary;
-  }
-  p {
-    padding: 0;
-    margin-top: 0;
-  }
   .talk {
     margin: .5em 0;
     padding: 0;
@@ -252,6 +257,13 @@ a.claim-list-item {
       text-decoration: none;
       margin: 0.5em 0;
     }
+  }
+}
+
+.claims-sidebar-box {
+  padding-top: 0.3em;
+  .claims-sidebar-header {
+    border-bottom: 2px solid $color-primary;
   }
 }
 
@@ -299,8 +311,6 @@ a.claim-list-item {
 }
 
 // CSS for Tab-based navigation
-// TODO: Move these to vets-website
-
 .va-tabs {
   list-style: none;
   // Prevents wrapping, forces horizontal scrolling
@@ -319,11 +329,6 @@ a.claim-list-item {
     border-style: solid;
     display: inline-block;
   }
-
-  // Center navigation in viewports < 600px;
-  @media (max-width: $medium-screen) {
-    text-align: center;
-  }
 }
 
 .va-tab-trigger {
@@ -333,7 +338,6 @@ a.claim-list-item {
   border-bottom-color: $color-gray;
   color: $color-gray;
   display: inline-block;
-  // font-size: 1.17rem;
   padding: 1rem;
   margin: 0px -1px;
   text-decoration: none;
@@ -351,7 +355,6 @@ a.claim-list-item {
   }
 
   @media (min-width: $small-screen) {
-    font-size: inherit;
     padding-left: 4rem;
     padding-right: 4rem;
   }
@@ -369,8 +372,6 @@ a.claim-list-item {
   height: 0;
   clear: both;
  }
-
-// TODO: Add media queries for responsiveness
 
 .loading-message-center-spinner {
   > img {
@@ -541,13 +542,6 @@ p.first-of-type {
   > .usa-alert-body {
     padding-left: 4.2rem;
   }
-  a.usa-button {
-    position: absolute;
-    top: .75em;
-    right: 1em;
-    width: auto;
-    margin: 0;
-  }
 }
 
 .claims-alert-status {
@@ -557,4 +551,75 @@ p.first-of-type {
 
 .claims-header {
   margin: 0;
+}
+
+.estimation-header {
+  padding: 0.5em 0 0 !important;
+}
+
+.claims-files-cancel {
+  margin-left: 0;
+  @media (min-width: $small-screen) {
+    margin-left: 32px;
+  }
+}
+
+.disability-benefits-content {
+  margin: 0 5px;
+}
+
+.usa-input-error {
+  padding-left: 1rem;
+  right: 0.9em;
+}
+
+.item-title-container {
+  float: left;
+  width: 63%;
+  @media (max-width: $small-screen) {
+    float: none;
+    width: 100%;
+  }
+}
+.ask-va-alert, .file-request-list-item, .additional-evidence-alert, .need-files-alert {
+  position: relative;
+  padding-bottom: 3.5em;
+  @media (min-width: $medium-screen) {
+    padding-bottom: 1em;
+  }
+}
+
+.need-files-alert {
+  padding-bottom: 4em;
+}
+
+.view-details-button {
+  float: right;
+  margin: 0;
+  @media (max-width: $medium-screen) {
+    float: none;
+    position: absolute;
+    bottom: 1em;
+    left: 1em;
+    width: calc(100% - 2em) !important;
+  }
+}
+
+.tab-li {
+  @media (max-width: $small-screen) {
+    width: 33.33%;
+    text-align: center;
+  }
+  a {
+    @media (max-width: $small-screen) {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+}
+
+.claims-optional-desc {
+  font-size: 0.9em;
+  line-height: 0.3em;
+  margin-top: 5px;
 }

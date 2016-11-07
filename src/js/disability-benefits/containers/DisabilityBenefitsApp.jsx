@@ -3,32 +3,26 @@ import { connect } from 'react-redux';
 
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
-import FeaturesWarning from '../components/FeaturesWarning';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 class DisabilityBenefitsApp extends React.Component {
 
   render() {
-    const { available, synced, syncedDate } = this.props;
-    const isListPage = this.props.location.pathname === '/your-claims';
-    const view = (
-      <div>
-        {available && !synced
-          ? <ClaimSyncWarning syncedDate={syncedDate}/>
-          : null}
-        {available && synced && isListPage
-          ? <FeaturesWarning/>
-          : null}
-        {available
-          ? <div>
-            {this.props.children}
-          </div>
-          : <div className="row"><div className="columns medium-8"><ClaimsUnavailable/></div></div>}
-      </div>
-    );
+    const { available, synced } = this.props;
 
     return (
-      <RequiredLoginView authRequired={3} component={view}/>
+      <RequiredLoginView authRequired={3} serviceRequired={"disability-benefits"}>
+        <div className="disability-benefits-content">
+          {available && !synced
+            ? <ClaimSyncWarning/>
+            : null}
+          {available
+            ? <div>
+              {this.props.children}
+            </div>
+            : <div className="row"><div className="columns medium-8"><ClaimsUnavailable/></div></div>}
+        </div>
+      </RequiredLoginView>
     );
   }
 
@@ -37,9 +31,10 @@ class DisabilityBenefitsApp extends React.Component {
 function mapStateToProps(state) {
   return {
     available: state.claimSync.available,
-    synced: state.claimSync.synced,
-    syncedDate: state.claimSync.syncedDate
+    synced: state.claimSync.synced
   };
 }
 
 export default connect(mapStateToProps)(DisabilityBenefitsApp);
+
+export { DisabilityBenefitsApp };

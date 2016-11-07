@@ -44,7 +44,7 @@ class AskVAPage extends React.Component {
             <nav className="va-nav-breadcrumbs">
               <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
-                <li><Link to={`your-claims/${this.props.params.id}`}>Your Compensation Claim</Link></li>
+                <li><Link to={`your-claims/${this.props.params.id}`}>Your Disability Compensation Claim</Link></li>
                 <li className="active">Ask VA for a Claim Decision</li>
               </ul>
             </nav>
@@ -78,7 +78,9 @@ class AskVAPage extends React.Component {
                 : null}
             </div>
           </div>
-          <AskVAQuestions/>
+          <div className="small-12 medium-4 columns">
+            <AskVAQuestions/>
+          </div>
         </div>
       </div>
     );
