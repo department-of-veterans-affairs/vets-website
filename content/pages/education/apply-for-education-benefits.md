@@ -25,10 +25,10 @@ You must apply for education benefits using eBenefits.va.gov if you are:
 - A spouse or dependent
 - A survivor of a Veteran
 - A candidate for The National Call to Service program
-- A student who wants to change programs or school
+- A current education benefit recipient who wants to change schools
 
 <div markdown="0">
-	<a class="usa-button-primary usa-button-outline" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
+	<a class="usa-button-primary usa-button-outline transparent" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
 </div>
 
 </div>
