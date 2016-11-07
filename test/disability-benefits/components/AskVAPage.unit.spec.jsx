@@ -76,4 +76,24 @@ describe('<AskVAPage>', () => {
     tree.subTree('button').props.onClick();
     expect(submitRequest.called).to.be.true;
   });
+  it('should update claims and redirect after success', () => {
+    const router = {
+      push: sinon.spy()
+    };
+    const submitRequest = sinon.spy();
+    const getClaimDetail = sinon.spy();
+
+    const tree = SkinDeep.shallowRender(
+      <AskVAPage
+          params={{ id: 1 }}
+          submitRequest={submitRequest}
+          router={router}/>
+    );
+    tree.getMountedInstance().componentWillReceiveProps({
+      decisionRequested: true,
+      getClaimDetail
+    });
+    expect(getClaimDetail.calledWith(1)).to.be.true;
+    expect(router.push.calledWith('your-claims/1')).to.be.true;
+  });
 });
