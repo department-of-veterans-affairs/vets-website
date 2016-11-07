@@ -1,15 +1,16 @@
 .sign-in-link {
   a {
     color: #000;
-    text-decoration: none;
+    text-decoration: underline;
 
     &:visited {
       color: #000;
     }
 
     &:hover {
-      text-decoration: none;
-      background: none;
+      background: rgba(0, 0, 0, 0.05);
+      color: #000;
+      text-decoration: underline;
     }
   }
 };
