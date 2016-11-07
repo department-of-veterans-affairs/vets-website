@@ -1,3 +1,5 @@
+import assign from 'lodash/fp/assign';
+
 import { api } from '../config';
 
 export function loadPrescription(id) {
@@ -59,13 +61,13 @@ export function loadPrescriptions(options) {
 export function refillPrescription(id) {
   if (id) {
     const url = `${api.url}/${id}/refill`;
+    const settings = assign(api.settings, { method: 'PATCH' });
 
-    return dispatch => fetch(url, {
-      method: 'PATCH'
-    }).then(
-      data => dispatch({ type: 'REFILL_SUCCESS', id, data }),
-      err => dispatch({ type: 'REFILL_FAILURE', err })
-    );
+    return dispatch => fetch(url, settings)
+      .then(
+        data => dispatch({ type: 'REFILL_SUCCESS', id, data }),
+        err => dispatch({ type: 'REFILL_FAILURE', err })
+      );
   }
 
   return dispatch => dispatch({ type: 'REFILL_FAILURE' });
