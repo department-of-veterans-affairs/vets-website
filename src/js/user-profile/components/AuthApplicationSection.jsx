@@ -1,7 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { handleVerify } from '../../common/helpers/login-helpers.js';
+
 class AuthApplicationSection extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleVerify = handleVerify;
+  }
+
   render() {
     let content;
 
@@ -21,7 +28,7 @@ class AuthApplicationSection extends React.Component {
           <p><span className="label">Your account will allow you to:</span></p>
           <p><a href="/healthcare/apply">Apply for Healthcare</a></p>
           <p><a href="/education/apply-for-education-benefits">Apply for Education Benefits</a></p>
-          <p><span className="label">You need to <a href="#">verify your account</a> in order to:</span></p>
+          <p><span className="label">You need to <a href="#" onClick={this.handleVerify}>verify your account</a> in order to:</span></p>
           <p><a href="/healthcare/prescriptions">Refill your prescription</a></p>
           <p><a href="/disability-benefits/track-claims">Check your claim status</a></p>
         </div>
