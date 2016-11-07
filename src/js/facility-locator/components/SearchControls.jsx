@@ -123,7 +123,7 @@ class SearchControls extends Component {
         <form>
           <div className="columns medium-4">
             <label htmlFor="streetCityStateZip">Enter Street, City, State or Zip</label>
-            <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} ariaLabel="Street, City, State or Zip" title="Street, City, State or Zip"/>
+            <input ref="searchField" name="streetCityStateZip" type="text" onChange={this.handleQueryChange} value={currentQuery.searchString} aria-label="Street, City, State or Zip" title="Street, City, State or Zip"/>
           </div>
           <div className="columns medium-3">
             <label htmlFor="facilityType">Select Facility Type</label>
