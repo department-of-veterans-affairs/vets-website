@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import UserDataSection from '../components/UserDataSection';
-import LoginDataSection from '../components/LoginDataSection';
 import AuthApplicationSection from '../components/AuthApplicationSection';
 import AccountManagementSection from '../components/AccountManagementSection';
 
@@ -10,33 +9,17 @@ import RequiredLoginView from '../../common/components/RequiredLoginView';
 
 class UserProfileApp extends React.Component {
   render() {
-    let components;
     let view;
-
-    if (this.props.profile.accountType === 3) {
-      components = (
-        <div>
-          <UserDataSection/>
-          <LoginDataSection/>
-          <AuthApplicationSection/>
-          <AccountManagementSection/>
-        </div>
-      );
-    } else {
-      components = (
-        <div>
-          <LoginDataSection/>
-          <AuthApplicationSection/>
-          <AccountManagementSection/>
-        </div>
-      );
-    }
 
     view = (
       <div className="row">
         <div className="medium-8 small-12 columns">
           <h1>Your Vets.gov Account</h1>
-          {components}
+          <div>
+            <UserDataSection/>
+            <AuthApplicationSection/>
+            <AccountManagementSection/>
+          </div>
         </div>
       </div>
     );
