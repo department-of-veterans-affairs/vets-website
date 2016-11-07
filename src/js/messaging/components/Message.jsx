@@ -11,6 +11,17 @@ class Message extends React.Component {
     this.handleToggleCollapsed = this.handleToggleCollapsed.bind(this);
   }
 
+  componentDidUpdate() {
+    const shouldFetchMessage =
+      !this.props.isCollapsed &&
+      this.props.attrs.attachment &&
+      !this.props.attrs.attachments;
+
+    if (shouldFetchMessage) {
+      this.props.fetchMessage(this.props.attrs.messageId);
+    }
+  }
+
   handleToggleCollapsed() {
     if (this.props.onToggleCollapsed) {
       this.props.onToggleCollapsed(this.props.attrs.messageId);
@@ -27,6 +38,7 @@ class Message extends React.Component {
     let details;
     let headerOnClick;
     let messageOnClick;
+    let attachments;
 
     if (this.props.isCollapsed) {
       messageOnClick = this.handleToggleCollapsed;
@@ -39,11 +51,13 @@ class Message extends React.Component {
       );
 
       headerOnClick = this.handleToggleCollapsed;
-    }
 
-    let attachments;
-    if (this.props.attrs.attachment) {
-      attachments = (<MessageAttachmentsView attachments={this.props.attrs.attachments}/>);
+      if (this.props.attrs.attachment) {
+        attachments = (
+          <MessageAttachmentsView
+              attachments={this.props.attrs.attachments}/>
+        );
+      }
     }
 
     return (
@@ -84,6 +98,7 @@ Message.propTypes = {
   }).isRequired,
   isCollapsed: React.PropTypes.bool,
   onToggleCollapsed: React.PropTypes.func,
+  fetchMessage: React.PropTypes.func
 };
 
 export default Message;
