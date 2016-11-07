@@ -5,6 +5,7 @@ template: 6-info-page
 concurrence: complete
 showactionbar: false
 stickyactionbox: true
+beginbuttontext: Start Form 1990
 relatedlinks:
   - url: https://www.vets.gov/education/gi-bill/survivors-dependent-assistance/
     title: Apply for Dependents’ Educational Assistance (DEA) benefits
@@ -88,7 +89,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 </div>
 
-<a href="/education/apply-for-education-benefits/application" class="usa-button-primary va-button-primary">Begin Application</a>
+<a href="/education/apply-for-education-benefits/application" class="usa-button-primary va-button-primary">Start Form 1990</a>
 
 <div markdown="1">
 
