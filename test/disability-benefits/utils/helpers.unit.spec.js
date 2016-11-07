@@ -12,7 +12,8 @@ import {
   getPhaseDescription,
   truncateDescription,
   getSubmittedItemDate,
-  isClaimComplete
+  isClaimComplete,
+  itemsNeedingAttentionFromVet
 } from '../../../src/js/disability-benefits/utils/helpers';
 
 describe('Disability benefits helpers:', () => {
@@ -276,6 +277,26 @@ describe('Disability benefits helpers:', () => {
       });
 
       expect(isComplete).to.be.true;
+    });
+  });
+  describe('itemsNeedingAttentionFromVet', () => {
+    it('should return number of needed items from vet', () => {
+      const itemsNeeded = itemsNeedingAttentionFromVet([
+        {
+          type: 'still_need_from_you_list',
+          status: 'NEEDED'
+        },
+        {
+          type: 'still_need_from_you_list',
+          status: 'SUBMITTED_AWAITING_REVIEW'
+        },
+        {
+          type: 'still_need_from_others_list',
+          status: 'NEEDED'
+        }
+      ]);
+
+      expect(itemsNeeded).to.equal(1);
     });
   });
 });

@@ -6,6 +6,7 @@ import AskVAToDecide from '../components/AskVAToDecide';
 import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
+import { itemsNeedingAttentionFromVet } from '../utils/helpers';
 
 const FIRST_GATHERING_EVIDENCE_PHASE = 3;
 
@@ -35,10 +36,13 @@ class StatusPage extends React.Component {
       const phase = claim.attributes.phase;
       const showDecision = phase === FIRST_GATHERING_EVIDENCE_PHASE
         && !claim.attributes.waiverSubmitted;
+      const showDocsNeeded = !claim.attributes.decisionLetterSent &&
+        claim.attributes.documentsNeeded &&
+        itemsNeedingAttentionFromVet(claim.attributes.eventsTimeline) > 0;
 
       content = (
         <div>
-          {claim.attributes.documentsNeeded && !claim.attributes.decisionLetterSent
+          {showDocsNeeded
             ? <NeedFilesFromYou claimId={claim.id} events={claim.attributes.eventsTimeline}/>
             : null}
           {showDecision

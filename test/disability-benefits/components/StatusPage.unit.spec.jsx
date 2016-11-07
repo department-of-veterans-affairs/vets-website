@@ -30,7 +30,13 @@ describe('<StatusPage>', () => {
         phase: 2,
         documentsNeeded: true,
         decisionLetterSent: false,
-        waiverSubmitted: true
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
       }
     };
 
