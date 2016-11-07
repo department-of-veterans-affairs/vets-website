@@ -41,14 +41,15 @@ class StatusPage extends React.Component {
       const phase = claim.attributes.phase;
       const showDecision = phase === FIRST_GATHERING_EVIDENCE_PHASE
         && !claim.attributes.waiverSubmitted;
+      const filesNeeded = itemsNeedingAttentionFromVet(claim.attributes.eventsTimeline);
       const showDocsNeeded = !claim.attributes.decisionLetterSent &&
         claim.attributes.documentsNeeded &&
-        itemsNeedingAttentionFromVet(claim.attributes.eventsTimeline) > 0;
+        filesNeeded > 0;
 
       content = (
         <div>
           {showDocsNeeded
-            ? <NeedFilesFromYou claimId={claim.id} events={claim.attributes.eventsTimeline}/>
+            ? <NeedFilesFromYou claimId={claim.id} files={filesNeeded}/>
             : null}
           {showDecision
             ? <AskVAToDecide id={this.props.params.id}/>
