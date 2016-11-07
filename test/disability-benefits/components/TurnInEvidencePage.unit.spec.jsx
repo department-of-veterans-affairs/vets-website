@@ -94,6 +94,11 @@ describe('<TurnInEvidencePage>', () => {
       id: 1
     };
     const resetUploads = sinon.spy();
+    const h1 = document.createElement('h1');
+    const mainDiv = document.createElement('div');
+    mainDiv.setAttribute('id', 'main');
+    mainDiv.appendChild(h1);
+    document.body.appendChild(mainDiv);
     ReactTestUtils.renderIntoDocument(
       <TurnInEvidencePage
           claim={claim}
