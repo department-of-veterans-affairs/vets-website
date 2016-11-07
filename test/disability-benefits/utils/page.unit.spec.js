@@ -22,15 +22,6 @@ describe('Page utils:', () => {
     });
   });
   describe('setPageFocus', () => {
-    it('should focus on notification', () => {
-      const notification = document.createElement('div');
-      notification.classList.add('claims-notification');
-      document.body.appendChild(notification);
-      setPageFocus();
-      expect(document.activeElement.classList.contains('claims-notification')).to.be.true;
-      expect(notification.tabIndex).to.equal(-1);
-      document.body.removeChild(notification);
-    });
     it('should focus on selector', () => {
       const div = document.createElement('div');
       div.classList.add('testing');
