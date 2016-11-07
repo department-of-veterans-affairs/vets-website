@@ -504,6 +504,7 @@ h6 {
 // TODO: Remove !important once #content ul.breadcrumbs li.active
 // is refactored.
 .splash--alternate {
+
   li a {
     color: $color-primary-darkest !important;
     border-bottom: 2px solid $secondary-color !important;
