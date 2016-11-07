@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
 import AskVAQuestions from './AskVAQuestions';
+import { setUpPage } from '../utils/page';
 
 export default class ClaimEstimationPage extends React.Component {
   componentDidMount() {
     document.title = 'How VA Comes Up with Your Estimated Decision Date';
+    setUpPage();
   }
   render() {
     return (

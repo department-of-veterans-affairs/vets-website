@@ -12,6 +12,7 @@ import UploadStatus from './UploadStatus';
 import MailOrFax from './MailOrFax';
 import { displayFileSize, DOC_TYPES, getTopPosition } from '../utils/helpers';
 import { isValidFile, isValidDocument, isValidFileSize, isValidFileType, FILE_TYPES } from '../utils/validations';
+import { setFocus } from '../utils/page';
 
 const displayTypes = FILE_TYPES.map(type => (type === 'pdf' ? 'pdf (unlocked)' : type)).join(', ');
 
@@ -33,6 +34,7 @@ const scrollToError = () => {
       offset: -15,
       smooth: true
     });
+    errors[0].querySelector('label').focus();
   }
 };
 const Element = Scroll.Element;
@@ -59,7 +61,10 @@ class AddFilesForm extends React.Component {
     if (isValidFile(file)) {
       this.setState({ errorMessage: null });
       this.props.onAddFile(files);
-      setTimeout(() => scrollToFile(this.props.files.length - 1));
+      setTimeout(() => {
+        scrollToFile(this.props.files.length - 1);
+        setFocus(document.querySelectorAll('.document-item-container')[this.props.files.length - 1]);
+      });
     } else if (!isValidFileType(file)) {
       this.setState({ errorMessage: 'Please choose a file from one of the accepted types.' });
     } else if (!isValidFileSize(file)) {
