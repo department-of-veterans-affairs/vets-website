@@ -109,6 +109,7 @@ smith.destination(`../build/${options.buildtype}`);
 const ignoreList = [];
 
 if (options.buildtype === 'production') {
+  // Add files that you do not want to be pushed to production here.
   ignoreList.push('disability-benefits/track-claims/*');
   ignoreList.push('facilities/*');
   ignoreList.push('healthcare/messaging/*');
@@ -118,7 +119,7 @@ if (options.buildtype === 'production') {
   ignoreList.push('education/apply-for-education-benefits-new');
   ignoreList.push('education/index-new');
 } else if (options.buildtype === 'staging') {
-  ignoreList.push('facilities/*');
+  // Add files that you do not want to be pushed to staging here.
 }
 
 smith.use(ignore(ignoreList));
