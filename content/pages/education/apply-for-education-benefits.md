@@ -5,6 +5,7 @@ template: 6-info-page
 concurrence: complete
 showactionbar: false
 stickyactionbox: true
+beginbuttontext: Start Form 1990
 relatedlinks:
   - url: https://www.vets.gov/education/gi-bill/survivors-dependent-assistance/
     title: Apply for Dependents’ Educational Assistance (DEA) benefits
@@ -14,15 +15,34 @@ relatedlinks:
     title: Learn about the National Call to Service program
 ---
 
-If you are a Servicemember or Veteran interested in education and training opportunities, use this form (22-1990) to apply for your Certificate of Eligibility (COE).
+If you are a Servicemember or Veteran interested in education and training opportunities, use this form (**22-1990**) to apply for your Certificate of Eligibility (COE).
 
-### What are the steps?
+<div class="feature usa-content secondary" markdown="1">
 
-<div class="small-12 columns" markdown="0">
-<ol class="process" markdown="0">
-<li class="step one" markdown="0">
+##### For Forms 1990E, 1990N, 1995, 5490, 5495
 
-<div markdown="1">
+You must apply for education benefits using eBenefits.va.gov if you are:
+- A spouse or dependent
+- A survivor of a Veteran
+- A candidate for The National Call to Service program
+- A student who wants to change programs or school
+
+<div markdown="0">
+	<a class="usa-button-primary usa-button-outline" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
+</div>
+
+</div>
+
+<br>
+
+### What are the steps to apply with form 22-1990?
+
+- [Post- 9/11 GI Bill](/education/gi-bill/post-9-11/) (Chapter 33)
+- [Montgomery GI Bill](/education/gi-bill/montgomery-active-duty/) (MGIB-AD, Chapter 30)
+- [Montgomery GI Bill Selected Reserve](/education/gi-bill/montgomery-selected-reserve/) (MGIB-SR, Chapter 1606)
+- [Post-Vietnam Era Veterans' Educational Assistance Program](/education/other-educational-assistance-programs/veap/) (VEAP, Chapter 32)
+
+[An accredited representative]( http://www.va.gov/ogc/apps/accreditation/index.asp) with a Veterans Service Organization (VSO) can help you pick the right program.
 
 ##### Prepare
 
@@ -70,7 +90,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 </div>
 
-<a href="/education/apply-for-education-benefits/application" class="usa-button-primary va-button-primary">Begin Application</a>
+<a href="/education/apply-for-education-benefits/application" class="usa-button-primary va-button-primary">Start Form 1990</a>
 
 <div markdown="1">
 
