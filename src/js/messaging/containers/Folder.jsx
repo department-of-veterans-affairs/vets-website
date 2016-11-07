@@ -242,7 +242,7 @@ export class Folder extends React.Component {
     const folderMessages = this.makeMessagesTable();
 
     let messageSearch;
-    if (!!this.props.messages.length) {
+    if (this.props.messages && this.props.messages.length) {
       messageSearch = (<MessageSearch
           isAdvancedVisible={this.props.isAdvancedVisible}
           onAdvancedSearch={this.props.toggleAdvancedSearch}
