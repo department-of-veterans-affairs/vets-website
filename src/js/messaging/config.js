@@ -1,5 +1,6 @@
-import environment from '../common/helpers/environment';
 import assign from 'lodash/fp/assign';
+
+import environment from '../common/helpers/environment';
 
 function getHeaders(optionalHeaders = {}) {
   const defaultHeaders = {
