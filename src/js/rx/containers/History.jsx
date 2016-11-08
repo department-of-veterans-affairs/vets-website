@@ -5,13 +5,14 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Pagination from '../../common/components/Pagination';
 import SortableTable from '../../common/components/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modals';
-import Pagination from '../../common/components/Pagination';
+import GlossaryLink from '../components/GlossaryLink';
 import SortMenu from '../components/SortMenu';
 import { rxStatuses } from '../config';
-import { formatDate, getModalTerm } from '../utils/helpers';
+import { formatDate } from '../utils/helpers';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -22,7 +23,6 @@ class History extends React.Component {
     this.formattedSortParam = this.formattedSortParam.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
-    this.openGlossaryModal = this.openGlossaryModal.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
   }
 
@@ -102,11 +102,6 @@ class History extends React.Component {
     });
   }
 
-  openGlossaryModal(term) {
-    const content = getModalTerm(term);
-    this.props.openGlossaryModal(content);
-  }
-
   render() {
     const items = this.props.prescriptions;
     let content;
@@ -141,9 +136,9 @@ class History extends React.Component {
             ),
 
           refillStatus: (
-            <a onClick={() => this.openGlossaryModal(status)}>
-              {status}
-            </a>
+            <GlossaryLink
+                term={status}
+                onClick={this.props.openGlossaryModal}/>
             )
         };
       });
