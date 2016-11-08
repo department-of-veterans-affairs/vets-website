@@ -11,7 +11,7 @@ import {
   getHistoryPhaseDescription,
   getPhaseDescription,
   truncateDescription,
-  getSubmittedItemDate,
+  getItemDate,
   isClaimComplete,
   itemsNeedingAttentionFromVet
 } from '../../../src/js/disability-benefits/utils/helpers';
@@ -29,6 +29,18 @@ describe('Disability benefits helpers:', () => {
       const phaseActivity = groupTimelineActivity(events);
 
       expect(phaseActivity[1][0].type).to.equal('filed');
+    });
+    it('should filter out events without a date', () => {
+      const events = [
+        {
+          type: 'filed',
+          date: null
+        }
+      ];
+
+      const phaseActivity = groupTimelineActivity(events);
+
+      expect(phaseActivity).to.be.empty;
     });
     it('should group events after phase 1 into phase 2', () => {
       const events = [
@@ -215,9 +227,9 @@ describe('Disability benefits helpers:', () => {
       expect(desc).to.equal('Initial review');
     });
   });
-  describe('getSubmittedItemDate', () => {
+  describe('getItemDate', () => {
     it('should use the received date', () => {
-      const date = getSubmittedItemDate({
+      const date = getItemDate({
         receivedDate: '2010-01-01',
         documents: [
           { uploadDate: '2011-01-01' }
@@ -228,7 +240,7 @@ describe('Disability benefits helpers:', () => {
       expect(date).to.equal('2010-01-01');
     });
     it('should use the last document upload date', () => {
-      const date = getSubmittedItemDate({
+      const date = getItemDate({
         receivedDate: null,
         documents: [
           { uploadDate: '2011-01-01' },
@@ -240,7 +252,7 @@ describe('Disability benefits helpers:', () => {
       expect(date).to.equal('2012-01-01');
     });
     it('should use the date', () => {
-      const date = getSubmittedItemDate({
+      const date = getItemDate({
         receivedDate: null,
         documents: [
         ],
@@ -250,7 +262,7 @@ describe('Disability benefits helpers:', () => {
       expect(date).to.equal('2013-01-01');
     });
     it('should use the upload date', () => {
-      const date = getSubmittedItemDate({
+      const date = getItemDate({
         uploadDate: '2014-01-01',
         type: 'other_documents_list',
         date: '2013-01-01'

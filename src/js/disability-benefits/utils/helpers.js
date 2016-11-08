@@ -59,6 +59,18 @@ export function getUserPhase(phase) {
   return phase - 3;
 }
 
+export function getItemDate(item) {
+  if (item.receivedDate) {
+    return item.receivedDate;
+  } else if (item.documents && item.documents.length) {
+    return item.documents[item.documents.length - 1].uploadDate;
+  } else if (item.type === 'other_documents_list' && item.uploadDate) {
+    return item.uploadDate;
+  }
+
+  return item.date;
+}
+
 export function groupTimelineActivity(events) {
   const phases = {};
   const phaseEvents = events;
@@ -66,30 +78,32 @@ export function groupTimelineActivity(events) {
   let lastPhaseNumber = 1;
   let firstPhase = true;
 
-  phaseEvents.forEach(event => {
-    if (event.type.startsWith('phase')) {
-      const phaseNumber = parseInt(event.type.replace('phase', ''), 10);
-      const userPhaseNumber = getUserPhase(phaseNumber);
-      if (userPhaseNumber !== lastPhaseNumber || firstPhase) {
-        activity.push({
-          type: 'phase_entered',
-          date: event.date
-        });
-        phases[userPhaseNumber + 1] = (phases[userPhaseNumber + 1] || []).concat(activity);
-        activity = [];
-        lastPhaseNumber = userPhaseNumber;
-        firstPhase = false;
+  phaseEvents
+    .filter(event => !!getItemDate(event))
+    .forEach(event => {
+      if (event.type.startsWith('phase')) {
+        const phaseNumber = parseInt(event.type.replace('phase', ''), 10);
+        const userPhaseNumber = getUserPhase(phaseNumber);
+        if (userPhaseNumber !== lastPhaseNumber || firstPhase) {
+          activity.push({
+            type: 'phase_entered',
+            date: event.date
+          });
+          phases[userPhaseNumber + 1] = (phases[userPhaseNumber + 1] || []).concat(activity);
+          activity = [];
+          lastPhaseNumber = userPhaseNumber;
+          firstPhase = false;
+        } else {
+          activity.push({
+            type: 'micro_phase',
+            phaseNumber: phaseNumber + 1,
+            date: event.date
+          });
+        }
       } else {
-        activity.push({
-          type: 'micro_phase',
-          phaseNumber: phaseNumber + 1,
-          date: event.date
-        });
+        activity.push(event);
       }
-    } else {
-      activity.push(event);
-    }
-  });
+    });
 
   if (activity.length > 0) {
     phases[lastPhaseNumber] = (phases[lastPhaseNumber] || []).concat(activity);
@@ -172,17 +186,6 @@ export function truncateDescription(text) {
   return text;
 }
 
-export function getSubmittedItemDate(item) {
-  if (item.receivedDate) {
-    return item.receivedDate;
-  } else if (item.documents && item.documents.length) {
-    return item.documents[item.documents.length - 1].uploadDate;
-  } else if (item.type === 'other_documents_list') {
-    return item.uploadDate;
-  }
-
-  return item.date;
-}
 
 export function isClaimComplete(claim) {
   return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;

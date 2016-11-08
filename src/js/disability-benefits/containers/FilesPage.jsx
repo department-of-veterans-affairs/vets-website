@@ -7,7 +7,7 @@ import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import DueDate from '../components/DueDate';
 
 import { clearNotification } from '../actions';
-import { hasBeenReviewed, truncateDescription, getSubmittedItemDate } from '../utils/helpers';
+import { hasBeenReviewed, truncateDescription, getItemDate } from '../utils/helpers';
 import { scrollToTop, setUpPage, isTab, setFocus } from '../utils/page';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
@@ -119,12 +119,12 @@ class FilesPage extends React.Component {
                     ?
                     <div>
                       <h6 className="reviewed-file"><i className="fa fa-check-circle"></i>Reviewed by VA</h6>
-                      <p className="submission-date reviewed-file">{moment(getSubmittedItemDate(item)).format('MMM D, YYYY')}</p>
+                      <p className="submission-date reviewed-file">{moment(getItemDate(item)).format('MMM D, YYYY')}</p>
                     </div>
                     :
                     <div>
                       <h6>Submitted</h6>
-                      <p className="submission-date">{moment(getSubmittedItemDate(item)).format('MMM D, YYYY')}{item.status && ' (pending)'}</p>
+                      {!!getItemDate(item) && <p className="submission-date">{moment(getItemDate(item)).format('MMM D, YYYY')}{item.status && ' (pending)'}</p>}
                     </div>
                   }
                 </div>
