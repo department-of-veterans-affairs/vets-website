@@ -1,15 +1,18 @@
+$color-primary-darkest:      #112e51;
+
 .sign-in-link {
+  color: $color-primary-darkest;
   a {
-    color: #000;
-    text-decoration: underline;
+    color: $color-primary-darkest;
+    text-decoration: none;
 
     &:visited {
-      color: #000;
+      color: $color-primary-darkest;
     }
 
     &:hover {
       background: rgba(0, 0, 0, 0.05);
-      color: #000;
+      color: $color-primary-darkest;
       text-decoration: underline;
     }
   }
