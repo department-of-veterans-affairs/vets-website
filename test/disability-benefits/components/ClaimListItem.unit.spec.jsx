@@ -71,7 +71,7 @@ describe('<ClaimsListItem>', () => {
       <ClaimsListItem
           claim={claim}/>
     );
-    expect(tree.subTree('.communications').text()).to.contain('Items need your attention');
+    expect(tree.subTree('.communications').text()).to.contain('Items need attention');
   });
   it('should hide flags when complete', () => {
     const claim = {
