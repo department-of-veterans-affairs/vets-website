@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 const initialState = {
   currentItem: null,
-  items: null,
+  items: [],
   active: {
     loading: false,
     sort: 'prescriptionName'
@@ -68,12 +68,15 @@ export default function prescriptions(state = initialState, action) {
     case 'LOADING_DETAIL':
       return set('detail.loading', true, state);
 
-    case 'LOAD_PRESCRIPTION_FAILURE':
-      return set('detail.loading', false, state);
+    case 'LOAD_PRESCRIPTION_FAILURE': {
+      const loadingState = set('detail.loading', false, state);
+      return set('currentItem', null, loadingState);
+    }
 
     case 'LOAD_PRESCRIPTIONS_FAILURE': {
       const section = action.active ? 'active' : 'history';
-      return set(`${section}.loading`, false, state);
+      const loadingState = set(`${section}.loading`, false, state);
+      return set('items', null, loadingState);
     }
 
     case 'LOAD_PRESCRIPTION_SUCCESS': {
