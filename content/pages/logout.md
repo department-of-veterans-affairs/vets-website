@@ -10,7 +10,7 @@ title: Logout
     <div class="row">
       <div class="small-12 columns">
         <div style="padding: 2em 0;">
-        <h3>I am the logout <page class=""></page></h3>
+        <h3>I am the logout</h3>
         </div>
       </div>
     </div>

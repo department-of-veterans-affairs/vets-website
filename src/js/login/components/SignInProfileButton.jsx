@@ -13,7 +13,7 @@ class SignInProfileButton extends React.Component {
         <span>
           <span>Hello, {this.props.profile.email}</span><span className="signin-spacer">|</span>
           <a href="/profile">Profile</a><span className="signin-spacer">|</span>
-          <a ref="#" onClick={this.props.onUserLogout}>Sign Out</a>
+          <a href="#" onClick={this.props.onUserLogout}>Sign Out</a>
         </span>
       );
     } else {
