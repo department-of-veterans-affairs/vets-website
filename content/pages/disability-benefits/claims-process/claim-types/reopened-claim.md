@@ -2,6 +2,7 @@
 layout: page-breadcrumbs.html
 title: Reopened Claim
 concurrence: incomplete
+plainlanguage: 11-8-16 Ready for Beth review
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
     title: Standard Claim
