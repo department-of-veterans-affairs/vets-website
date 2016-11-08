@@ -176,7 +176,7 @@ export class Detail extends React.Component {
 
     // If the item in state doesn't reflect the item from the URL,
     // show the loader until the requested item finishes loading.
-    if (this.props.loading || !isSameRx) {
+    if (this.props.loading || (this.props.prescription && !isSameRx)) {
       content = <LoadingIndicator message="is loading your prescription..."/>;
     } else if (this.props.prescription) {
       const header = this.makeHeader();
