@@ -23,7 +23,9 @@ class Active extends React.Component {
   }
 
   componentDidMount() {
-    this.props.loadPrescriptions({ active: true });
+    if (!this.props.loading) {
+      this.props.loadPrescriptions({ active: true });
+    }
   }
 
   componentDidUpdate() {
@@ -90,7 +92,6 @@ Active.contextTypes = {
 const mapStateToProps = (state) => {
   return {
     ...state.prescriptions.active,
-    loading: state.prescriptions.loading,
     prescriptions: state.prescriptions.items,
   };
 };

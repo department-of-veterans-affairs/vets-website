@@ -6,9 +6,11 @@ const initialState = {
   currentItem: null,
   items: [],
   active: {
+    loading: false,
     sort: 'prescriptionName'
   },
   history: {
+    loading: false,
     sort: {
       value: 'refillSubmitDate',
       order: 'DESC',
@@ -16,7 +18,9 @@ const initialState = {
     page: 1,
     pages: 1
   },
-  loading: true,
+  detail: {
+    loading: false
+  }
 };
 
 function sortByName(items) {
@@ -55,31 +59,44 @@ function updateRefillStatus(items, id) {
 
 export default function prescriptions(state = initialState, action) {
   switch (action.type) {
-    case 'LOADING':
-      return set('loading', true, state);
+    case 'LOADING_ACTIVE':
+      return set('active.loading', true, state);
+
+    case 'LOADING_HISTORY':
+      return set('history.loading', true, state);
+
+    case 'LOADING_DETAIL':
+      return set('detail.loading', true, state);
 
     case 'LOAD_PRESCRIPTION_FAILURE':
-      return set('loading', false, state);
+      return set('detail.loading', false, state);
 
     case 'LOAD_PRESCRIPTIONS_FAILURE':
-      return set('loading', false, state);
+      const section = action.active ? 'active' : 'history';
+      return set(`${section}.loading`, false, state);
 
     case 'LOAD_PRESCRIPTIONS_SUCCESS': {
       const sort = action.data.meta.sort;
       const sortValue = Object.keys(sort)[0];
       const sortOrder = sort[sortValue];
-
       const pagination = action.data.meta.pagination;
+      const newState = { items: action.data.data };
 
-      return assign(state, {
-        loading: false,
-        items: action.data.data,
-        history: {
+      if (action.active) {
+        newState.active = {
+          loading: false,
+          sort: sortValue
+        }
+      } else {
+        newState.history = {
+          loading: false,
           sort: { value: sortValue, order: sortOrder },
           page: pagination.currentPage,
           pages: pagination.totalPages
         }
-      });
+      }
+
+      return assign(state, newState);
     }
 
     case 'LOAD_PRESCRIPTION_SUCCESS':

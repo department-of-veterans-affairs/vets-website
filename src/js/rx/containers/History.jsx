@@ -27,32 +27,38 @@ class History extends React.Component {
   }
 
   componentDidMount() {
-    const query = _.pick(this.props.location.query, ['page', 'sort']);
-    this.props.loadPrescriptions(query);
+    if (!this.props.loading) {
+      const query = _.pick(this.props.location.query, ['page', 'sort']);
+      this.props.loadPrescriptions(query);
+    }
   }
 
   componentDidUpdate(prevProps) {
-    const currentPage = this.props.page;
-    const currentSort = this.formattedSortParam(
-      this.props.sort.value,
-      this.props.sort.order
-    );
+    if (!this.props.loading) {
+      const currentPage = this.props.page;
+      const currentSort = this.formattedSortParam(
+        this.props.sort.value,
+        this.props.sort.order
+      );
 
-    const query = _.pick(this.props.location.query, ['page', 'sort']);
-    const requestedPage = +query.page || currentPage;
-    const requestedSort = query.sort || currentSort;
+      const query = _.pick(this.props.location.query, ['page', 'sort']);
+      const requestedPage = +query.page || currentPage;
+      const requestedSort = query.sort || currentSort;
 
-    const pageChanged = requestedPage !== currentPage;
-    const sortChanged = requestedSort !== currentSort;
+      // Check if page requested is different from page in state.
+      const pageChanged = requestedPage !== currentPage;
+      const sortChanged = requestedSort !== currentSort;
 
-    if (pageChanged || sortChanged) {
-      this.props.loadPrescriptions(query);
-    }
+      if (pageChanged || sortChanged) {
+        this.props.loadPrescriptions(query);
+      }
 
-    const pageUpdated = prevProps.page !== currentPage;
+      // Check if page in state changed.
+      const pageUpdated = prevProps.page !== currentPage;
 
-    if (pageUpdated) {
-      this.scrollToTop();
+      if (pageUpdated) {
+        this.scrollToTop();
+      }
     }
   }
 
@@ -179,7 +185,6 @@ History.contextTypes = {
 const mapStateToProps = (state) => {
   return {
     ...state.prescriptions.history,
-    loading: state.prescriptions.loading,
     prescriptions: state.prescriptions.items
   };
 };

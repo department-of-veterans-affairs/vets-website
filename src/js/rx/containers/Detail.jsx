@@ -32,15 +32,20 @@ export class Detail extends React.Component {
 
   componentDidMount() {
     scrollTo(0, 0);
+
     const requestedRxId = this.props.params.id;
-    this.props.loadPrescription(requestedRxId);
+    const currentRxId = _.get(this.props.prescription, 'rx.id');
+    const isSameRx = requestedRxId === currentRxId;
+
+    if (!this.props.loading && !isSameRx) {
+      this.props.loadPrescription(requestedRxId);
+    }
 
     // If order history was requested, scroll to it immediately if it's for
     // the same prescription that was viewed previously. Any updates from newly
     // fetched data for that prescription can load in the background.
     const shouldScrollToOrderHistory =
-      this.props.location.hash === '#rx-order-history' &&
-      requestedRxId === _.get(this.props.prescription, 'rx.id');
+      isSameRx && this.props.location.hash === '#rx-order-history';
 
     if (shouldScrollToOrderHistory) {
       this.scrollToOrderHistory();
@@ -225,7 +230,7 @@ export class Detail extends React.Component {
 const mapStateToProps = (state) => {
   return {
     alert: state.alert,
-    loading: state.prescriptions.loading,
+    loading: state.prescriptions.detail.loading,
     prescription: state.prescriptions.currentItem
   };
 };
