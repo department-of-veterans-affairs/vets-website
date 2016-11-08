@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Predischarge Claim
 source: http://www.benefits.va.gov/predischarge/index.asp
-plainlanguage: 11-7-16 Ready for Beth review
+plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: 2-detailed-landing
 showactionbar: false
 relatedlinks:
@@ -35,7 +35,7 @@ relatedlinks:
     description: ""
 ---
 
-If you have a disability and you're currently in predischarge status, you can file a claim for disability compensation up to 180 days prior to any of the following:
+If you have a disability and you're currently in predischarge status, you can file a claim for disability benefits up to 180 days before any of these changes to your status:
 - Separation from active duty
 - Retirement from active duty
 - Release from full-time Reserve duty
