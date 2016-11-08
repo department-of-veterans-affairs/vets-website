@@ -17,6 +17,9 @@ import SearchControls from '../components/SearchControls';
 import MobileSearchResult from '../components/MobileSearchResult';
 
 class VAMap extends Component {
+  static contextTypes = {
+    router: React.PropTypes.object
+  };
 
   componentDidMount() {
     const { location, currentQuery } = this.props;
@@ -168,7 +171,7 @@ class VAMap extends Component {
     // need to use this because Icons are rendered outside of Router context (Leaflet manipulates the DOM directly)
     const linkAction = (id, e) => {
       e.preventDefault();
-      browserHistory.push(`/facilities/facility/${id}`);
+      this.context.router.push(`facility/${id}`);
     };
 
     return facilities.map(f => {
