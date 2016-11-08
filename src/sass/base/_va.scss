@@ -220,6 +220,18 @@ hr {
   // TODO: clean up #content .main.interior a then remove !important
   text-decoration: none !important;
 }
+.usa-button-outline-exit.usa-button-primary[href^=http]::after {
+  // Option for adding exit-icon to ghost buttons
+  background-image: url(/img/icons/exit-icon-primary.png);
+  background-size: 1em auto;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  content: "";
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-left: .2em;
+}
 
 // Logo and Header
 .header {
@@ -1640,6 +1652,11 @@ p.byline {
 
 .feature {
 background: $polar;
+padding: 1em;
+margin: 0;
+}
+.feature-warning {
+background: $color-gold-lightest;
 padding: 1em;
 margin: 0;
 }
