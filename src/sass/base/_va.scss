@@ -175,6 +175,11 @@ button,
   }
 }
 
+.usa-button-outline.transparent,
+.usa-button-outline.transparent:hover {
+  background-color: rgba(0,0,0,0);
+}
+
 input.va-input-medium-large {
   max-width: 18rem;
 }
@@ -228,25 +233,11 @@ hr {
 
     .row {
       padding: 0 0.75em;
-
-      @media #{$medium} {
-        padding: 0;
-      }
     }
   }
 
   .top-banner {
-    @media #{$small} {
-      padding: 1em 0.75em;
-    }
-
-    @media #{$medium} {
-      padding: 1em 0;
-    }
-
-    @media #{$large} {
-      padding: 1em 0;
-    }
+    padding: 1em 0.75em;
   }
 
   .flex-auto {
@@ -416,20 +407,6 @@ h6 {
     font-family: $font-sans;
   }
 
-  @media #{$small} {
-    padding: 1em 0;
-    min-height: 14em;
-  }
-  @media #{$medium} {
-    padding: 2em 0;
-    min-height: 422px;
-  }
-
-  @media #{$large} {
-    padding: 2.5em 0;
-    min-height: 422px;
-  }
-
   h2.tagline {
     max-width: 11em;
     font-size: 2.5rem;
@@ -490,6 +467,24 @@ h6 {
   h3 {font-weight: 500; font-size: 1.4em; color: $color-va-gray-cool-medium;}
 }
 
+.home {
+  #content .splash {
+    @media #{$small} {
+      padding: 1em 0;
+      min-height: 14em;
+    }
+    @media #{$medium} {
+      padding: 2em 0;
+      min-height: 422px;
+    }
+
+    @media #{$large} {
+      padding: 2.5em 0;
+      min-height: 422px;
+    }
+  }
+}
+
 .splash--app {
   padding: 0 !important;
 
@@ -504,6 +499,7 @@ h6 {
 // TODO: Remove !important once #content ul.breadcrumbs li.active
 // is refactored.
 .splash--alternate {
+
   li a {
     color: $color-primary-darkest !important;
     border-bottom: 2px solid $secondary-color !important;
@@ -579,6 +575,15 @@ h6 {
 
   h3 {
     padding: 0 0 .5em 0;
+  }
+}
+
+.secondary {
+  p:nth-child(1),
+  p:first-of-type {
+    color: initial;
+    font-size: 1em;
+    padding: 0;
   }
 }
 
@@ -1359,7 +1364,7 @@ a.twitter {
     }
 
     .row {
-      padding: 0;
+      padding: 0 0.75em;
     }
   }
 }

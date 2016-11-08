@@ -17,7 +17,7 @@ class FacilityInfoBlock extends Component {
 
     return (
       <div>
-        <Link to={`/facilities/facility/${facility.id}`}>
+        <Link to={`facility/${facility.id}`}>
           <h5>{name}</h5>
         </Link>
         <p>
