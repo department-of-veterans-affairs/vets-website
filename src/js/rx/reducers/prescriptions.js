@@ -71,9 +71,10 @@ export default function prescriptions(state = initialState, action) {
     case 'LOAD_PRESCRIPTION_FAILURE':
       return set('detail.loading', false, state);
 
-    case 'LOAD_PRESCRIPTIONS_FAILURE':
+    case 'LOAD_PRESCRIPTIONS_FAILURE': {
       const section = action.active ? 'active' : 'history';
       return set(`${section}.loading`, false, state);
+    }
 
     case 'LOAD_PRESCRIPTIONS_SUCCESS': {
       const sort = action.data.meta.sort;
@@ -99,11 +100,10 @@ export default function prescriptions(state = initialState, action) {
       return assign(state, newState);
     }
 
-    case 'LOAD_PRESCRIPTION_SUCCESS':
-      return assign(state, {
-        currentItem: action.data,
-        loading: false
-      });
+    case 'LOAD_PRESCRIPTION_SUCCESS': {
+      const loadingState = set('detail.loading', false, state);
+      return set('currentItem', action.data, loadingState);
+    }
 
     case 'REFILL_SUCCESS':
       return set('items', updateRefillStatus(state.items, action.id), state);
