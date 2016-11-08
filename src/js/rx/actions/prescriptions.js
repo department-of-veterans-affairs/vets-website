@@ -56,14 +56,26 @@ export function loadPrescriptions(options) {
     });
 
     fetch(url, api.settings)
-      .then(res => res.json())
-      .then(
+      .then(response => {
+        if (!response.ok) {
+          return dispatch({
+            type: 'LOAD_PRESCRIPTIONS_FAILURE',
+            active: options.active
+          });
+        }
+
+        return response.json();
+      }).then(
         data => dispatch({
           type: 'LOAD_PRESCRIPTIONS_SUCCESS',
           active: options.active,
           data
         }),
-        error => dispatch({ type: 'LOAD_PRESCRIPTIONS_FAILURE', error })
+        error => dispatch({
+          type: 'LOAD_PRESCRIPTIONS_FAILURE',
+          active: options.active,
+          error
+        })
       );
   }
 }
