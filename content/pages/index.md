@@ -42,16 +42,16 @@ majorlinks:
     </a>
   </div>
   <div class="medium-4 columns">
-    <a href="/disability-benefits/apply-for-benefits/">
+    <a href="/facility-locator/">
       <div class="outline-link-block">
-        Apply for Disability Benefits
+        Find nearby VA locations
       </div>
     </a>
   </div>
   <div class="medium-4 columns">
-    <a href="/education/apply-for-education-benefits/">
+    <a href="/gi-bill-comparison-tool/">
       <div class="outline-link-block">
-        Apply for Education Benefits
+        View education benefits by school
       </div>
     </a>
   </div>
