@@ -74,7 +74,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 - Social Security number
 - Bank account direct deposit information
-- Education, military, and employment history (for example, journeyman or licensed plumber)
+- Education and military history
 - Basic information about the school or training facility where you want to attend
 
 </div>
