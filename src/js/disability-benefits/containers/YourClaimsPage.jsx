@@ -41,7 +41,7 @@ class YourClaimsPage extends React.Component {
     let content;
 
     if (loading) {
-      content = <LoadingIndicator screenReaderMessage="Loading claims list" setFocus/>;
+      content = <LoadingIndicator message="Loading claims list" setFocus/>;
     } else if (claims.length > 0) {
       content = (<div className="claim-list">
         {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}

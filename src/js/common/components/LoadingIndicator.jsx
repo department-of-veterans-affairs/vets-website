@@ -7,7 +7,7 @@ export default class LoadingIndicator extends React.Component {
     }
   }
   render() {
-    const { message, screenReaderMessage } = this.props;
+    const message = this.props.message;
 
     return (
       <div className="loading-indicator-container">
@@ -15,7 +15,7 @@ export default class LoadingIndicator extends React.Component {
             ref={(div) => { this.spinnerDiv = div; }}
             className="loading-indicator"
             role="progressbar"
-            aria-valuetext={message || screenReaderMessage}
+            aria-valuetext={message}
             tabIndex="0"></div>
         {message}
       </div>
@@ -24,12 +24,10 @@ export default class LoadingIndicator extends React.Component {
 }
 
 LoadingIndicator.propTypes = {
-  message: React.PropTypes.string,
-  screenReaderMessage: React.PropTypes.string,
+  message: React.PropTypes.string.required,
   setFocus: React.PropTypes.bool
 };
 
 LoadingIndicator.defaultProps = {
-  screenReaderMessage: 'Loading',
   setFocus: false
 };
