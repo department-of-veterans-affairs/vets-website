@@ -14,7 +14,7 @@ Find out if you can get VA support (known as disability compensation or benefits
 
 ### Can I get disability benefits from VA?
 
-Yes, if you have 1 or more conditions (illnesses) linked to Agent Orange, **and** 1 of these is true:
+Yes, if you have 1 or more conditions (illnesses) believed to have been caused by Agent Orange, **and** 1 of these is true:
 
   - You had regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam Era, **or**
   - You served near areas outside Vietnam where there was testing or storage of Agent Orange and other herbicides, **or**
