@@ -59,7 +59,7 @@ module.exports = {
       }],
     Refill: [
       {
-        term: 'Refill in process',
+        term: 'In process',
         definition: 'This prescription was sent to the pharmacy for review. Contact your VA pharmacy if you need this medication now.'
       },
       {

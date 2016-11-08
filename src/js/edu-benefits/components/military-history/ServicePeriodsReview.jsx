@@ -20,11 +20,11 @@ export default class ServicePeriodsReview extends React.Component {
                 <td>{tour.serviceStatus.value}</td>
               </tr>
               <tr>
-                <td>From date:</td>
+                <td>Start of service period:</td>
                 <td>{displayDateIfValid(tour.dateRange.from)}</td>
               </tr>
               <tr>
-                <td>To date:</td>
+                <td>End of service period:</td>
                 <td>{displayDateIfValid(tour.dateRange.to)}</td>
               </tr>
               <tr>
