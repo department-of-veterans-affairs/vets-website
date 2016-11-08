@@ -29,12 +29,12 @@ export default class ClaimDetailLayout extends React.Component {
             <h6>Your Claimed Conditions:</h6>
             <p className="list">
               {claim.attributes.contentionList && claim.attributes.contentionList.length
-                ? claim.attributes.contentionList.slice(0, MAX_CONDITIONS).join(', ')
+                  ? claim.attributes.contentionList.slice(0, MAX_CONDITIONS).map(cond => cond.trim()).join(', ')
                 : 'Not available'}
-              {claim.attributes.contentionList && claim.attributes.contentionList.length > MAX_CONDITIONS
-                  ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all</Link></span>
-                : null}
             </p>
+            {claim.attributes.contentionList && claim.attributes.contentionList.length > MAX_CONDITIONS
+                ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all</Link></span>
+              : null}
           </div>
           <TabNav id={this.props.claim.id}/>
           <div className="va-tab-content">
