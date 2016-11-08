@@ -33,22 +33,8 @@ export class Detail extends React.Component {
   componentDidMount() {
     scrollTo(0, 0);
 
-    const requestedRxId = this.props.params.id;
-    const currentRxId = _.get(this.props.prescription, 'rx.id');
-    const isSameRx = requestedRxId === currentRxId;
-
-    if (!this.props.loading && !isSameRx) {
-      this.props.loadPrescription(requestedRxId);
-    }
-
-    // If order history was requested, scroll to it immediately if it's for
-    // the same prescription that was viewed previously. Any updates from newly
-    // fetched data for that prescription can load in the background.
-    const shouldScrollToOrderHistory =
-      isSameRx && this.props.location.hash === '#rx-order-history';
-
-    if (shouldScrollToOrderHistory) {
-      this.scrollToOrderHistory();
+    if (!this.props.loading) {
+      this.props.loadPrescription(this.props.params.id);
     }
   }
 
@@ -56,9 +42,8 @@ export class Detail extends React.Component {
     // If order history was requested, scroll to it after data has been fetched
     // and the page has updated to a different prescription.
     const shouldScrollToOrderHistory =
-      this.props.location.hash === '#rx-order-history' &&
-      _.get(prevProps.prescription, 'rx.id') !==
-      _.get(this.props.prescription, 'rx.id');
+      !this.props.loading &&
+      this.props.location.hash === '#rx-order-history';
 
     if (shouldScrollToOrderHistory) {
       this.scrollToOrderHistory();
@@ -184,9 +169,14 @@ export class Detail extends React.Component {
   }
 
   render() {
+    const requestedRxId = this.props.params.id;
+    const currentRxId = _.get(this.props.prescription, 'rx.id');
+    const isSameRx = requestedRxId === currentRxId;
     let content;
 
-    if (this.props.loading) {
+    // If the item in state doesn't reflect the item from the URL,
+    // show the loader until the requested item finishes loading.
+    if (this.props.loading || !isSameRx) {
       content = <LoadingIndicator message="is loading your prescription..."/>;
     } else if (this.props.prescription) {
       const header = this.makeHeader();
