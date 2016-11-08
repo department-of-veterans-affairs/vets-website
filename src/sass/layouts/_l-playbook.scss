@@ -60,6 +60,15 @@
   }
 }
 
+#playbook .splash {
+  margin: 0;
+  background: $color-white url(/img/design/background/thread.png) center center no-repeat;
+  background-size: cover;
+  display: flex;
+  align-items: center;
+  min-height: 14em;
+}
+
 .post-date,
 .post-author {
   color: $color-va-gray-cool-dark;
