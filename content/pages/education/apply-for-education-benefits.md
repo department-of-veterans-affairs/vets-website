@@ -5,7 +5,7 @@ template: 6-info-page
 concurrence: complete
 showactionbar: false
 stickyactionbox: true
-beginbuttontext: Start Form 1990
+beginbuttontext: Start Form </br> 22-1990
 relatedlinks:
   - url: /education/gi-bill/survivors-dependent-assistance/
     title: Apply for Dependents’ Educational Assistance (DEA) benefits
@@ -17,9 +17,10 @@ relatedlinks:
 
 If you are a Servicemember or Veteran interested in education and training opportunities, use this form (**22-1990**) to apply for your Certificate of Eligibility (COE).
 
-<div class="feature usa-content secondary" markdown="1">
+<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
+	<div class="usa-alert-body">
 
-##### For Forms 1990E, 1990N, 1995, 5490, 5495
+##### For Forms 22-1990E, 22-1990N, 22-1995, 22-5490, and 22-5495
 
 You must apply for education benefits using eBenefits.va.gov if you are:
 - A spouse or dependent
@@ -27,10 +28,11 @@ You must apply for education benefits using eBenefits.va.gov if you are:
 - A candidate for The National Call to Service program
 - A current education benefit recipient who wants to change schools
 
-<div markdown="0">
-	<a class="usa-button-primary usa-button-outline transparent" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
-</div>
 
+<div markdown="0">
+	<a class="usa-button-primary usa-button-outline usa-button-outline-exit transparent" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
+</div>
+</div>	
 </div>
 
 <br>
@@ -131,7 +133,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ##### Decision
 
-- We usually review claims within 30 days.
+- We usually process claims within 30 days.
 - You'll get a COE in the mail if your application was approved. Bring this to the VA certifying official at your school.
 
 </div>
@@ -144,7 +146,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ##### Checking in on the status of your application?
 
-- We usually review claims within 30 days.
+- We usually process claims within 30 days.
 - If we’ve asked for documents, please upload them through the [GI Bill site](https://gibill.custhelp.com/app/home).
 - You can’t make changes to your application.
 - Call 888-442-4551 (888-GI-BILL-1) if you have questions.
