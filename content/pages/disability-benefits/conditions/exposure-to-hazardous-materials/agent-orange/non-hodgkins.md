@@ -21,11 +21,11 @@ Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymph
 
 <div class="call-out" markdown="1">
 
-### Can I get disability compensation from VA?
+### Can I get disability benefits from VA?
 Yes, if all of these are true:
 
-- You're ill with non-Hodgkin’s lymphoma
-- You had contact with Agent Orange while serving in the military
+- You're ill with non-Hodgkin’s lymphoma, **and**
+- You had contact with Agent Orange while serving in the military, **and**
 - You served in Vietnam or in the waters off Vietnam during the Vietnam War Era, in the Korean Demilitarized Zone, or in another area where Agent Orange was stored, tested, or sprayed
 
 ### Who's covered?
