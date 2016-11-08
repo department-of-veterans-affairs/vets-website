@@ -9,11 +9,12 @@ import { openGlossaryModal, openRefillModal } from '../actions/modals';
 import { loadPrescription } from '../actions/prescriptions';
 import BackLink from '../components/BackLink';
 import ContactCard from '../components/ContactCard';
+import GlossaryLink from '../components/GlossaryLink';
 import OrderHistory from '../components/OrderHistory';
 import TableVerticalHeader from '../components/tables/TableVerticalHeader';
 import SubmitRefill from '../components/SubmitRefill';
 import { rxStatuses } from '../config';
-import { formatDate, getModalTerm } from '../utils/helpers';
+import { formatDate } from '../utils/helpers';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -25,7 +26,6 @@ export class Detail extends React.Component {
     this.makeHeader = this.makeHeader.bind(this);
     this.makeInfo = this.makeInfo.bind(this);
     this.makeOrderHistory = this.makeOrderHistory.bind(this);
-    this.openGlossaryModal = this.openGlossaryModal.bind(this);
     this.scrollToOrderHistory = this.scrollToOrderHistory.bind(this);
   }
 
@@ -93,19 +93,17 @@ export class Detail extends React.Component {
   makeInfo() {
     const attrs = _.get(this.props.prescription, 'rx.attributes', {});
     const status = rxStatuses[attrs.refillStatus];
+
     const data = {
       'Prescription #': attrs.prescriptionNumber,
 
       Quantity: attrs.quantity,
 
-      'Prescription status': (
-        <button
-            className="rx-trigger"
-            onClick={() => this.openGlossaryModal(status)}
-            type="button">
-          {status}
-        </button>
-      ),
+      'Prescription status': status ? (
+        <GlossaryLink
+            term={status}
+            onClick={this.props.openGlossaryModal}/>
+      ) : null,
 
       'Last fill date': formatDate(
         attrs.refillDate,
@@ -162,11 +160,6 @@ export class Detail extends React.Component {
         {orderHistoryTable}
       </ScrollElement>
     );
-  }
-
-  openGlossaryModal(term) {
-    const content = getModalTerm(term);
-    this.props.openGlossaryModal(content);
   }
 
   scrollToOrderHistory() {
