@@ -31,13 +31,14 @@
     bottom: 0;
     display: -webkit-flex;
     display: flex;
-    -webkit-align-items: flex-start;
-    align-items: flex-start;
+    -webkit-align-items: center;
+    align-items: center;
     position: relative;
     margin-top: 5rem;
   
     button {
       margin: 0 1rem 0 0;
+      width: auto;
     }
   
     .usa-button-outline:hover {
