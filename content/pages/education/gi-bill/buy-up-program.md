@@ -5,7 +5,7 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-If you are on active duty and plan to use the the Montgomery GI Bill (MGIB) or Reserve Educational Assistance Program (REAP), you can increase you GI Bill monthly payments through the GI Bill buy-up program, sometimes called a kicker. Keep in mind that The National Defense Authorization Act of 2016 ended REAP on November 25, 2015. [Be sure and check your eligibility](https://www.vets.gov/education/other-educational-assistance-programs/reap/). 
+If you are on active duty and plan to use the the Montgomery GI Bill (MGIB) or Reserve Educational Assistance Program (REAP), you can increase you GI Bill monthly payments through the GI Bill buy-up program, sometimes called a kicker. Keep in mind that The National Defense Authorization Act of 2016 ended REAP on November 25, 2015. [Be sure and check to see if you can still get REAP benefits](https://www.vets.gov/education/other-educational-assistance-programs/reap/). 
 
 ### How do I get this benefit? 
 
