@@ -34,7 +34,7 @@ Yes, if both are true:
 
 You'll need to apply for benefits. 
 
-If you have a health problem that is believed to be caused by Agent Orange, you won't need to show the problem started during—or got worse because of—your military service.[See the list of Agent Orange-related health problems](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+If you have a health problem that is believed to be caused by Agent Orange, you won't need to show the problem started during—or got worse because of—your military service. [See the list of Agent Orange-related health problems](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
 If you have a health problem that’s not on this list, but you believe it was caused by Agent Orange, you'll need to show the problem started during—or got worse because of—your military service.
 
