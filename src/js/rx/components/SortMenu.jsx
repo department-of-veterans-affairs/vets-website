@@ -3,6 +3,7 @@
 */
 
 import React from 'react';
+import _ from 'lodash';
 import classNames from 'classnames';
 
 class SortMenu extends React.Component {
@@ -10,6 +11,10 @@ class SortMenu extends React.Component {
     super(props);
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  componentWillMount() {
+    this.selectId = _.uniqueId('sort-menu-');
   }
 
   handleChange(event) {
@@ -64,9 +69,9 @@ class SortMenu extends React.Component {
           </ul>
         </div>
         <div className="rx-sort-narrow">
-          <label htmlFor="sortby" className="usa-sr-only">Sort by</label>
+          <label htmlFor={this.selectId} className="usa-sr-only">Sort by</label>
           <select
-              id="sortby"
+              id={this.selectId}
               value={this.props.selected}
               onChange={this.handleChange}>
             {sortOptionElements(this.props.options)}
