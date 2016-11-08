@@ -36,11 +36,20 @@ class Pagination extends React.Component {
 
   pageNumbers(limit) {
     const totalPages = this.props.pages;
-    // If there are more pages returned than the limit to show
-    // cap the upper range at limit + the page number.
-    const end = (totalPages > limit) ? (limit + this.props.page) : totalPages;
+    let end;
+    let start; 
 
-    return range(this.props.page, end);
+    if (totalPages > limit) {
+      // If there are more pages returned than the limit to show
+      // cap the upper range at limit + the page number.
+      start = this.props.page;
+      end = limit + this.props.page;
+    } else {
+      start = 1;
+      end = totalPages + 1;
+    }
+
+    return range(start, end);
   }
 
   render() {
@@ -48,17 +57,17 @@ class Pagination extends React.Component {
       return <div/>;
     }
 
-    const pageList = this.pageNumbers(10).map((e) => {
+    const pageList = this.pageNumbers(10).map((pageNumber) => {
       const pageClass = classNames({
-        'va-pagination-active': this.props.page === e
+        'va-pagination-active': this.props.page === pageNumber
       });
 
       return (
         <a
-            key={e}
+            key={pageNumber}
             className={pageClass}
-            onClick={() => this.props.onPageSelect(e)}>
-          {e}
+            onClick={() => this.props.onPageSelect(pageNumber)}>
+          {pageNumber}
         </a>
       );
     });

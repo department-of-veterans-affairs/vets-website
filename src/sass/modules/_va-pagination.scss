@@ -20,10 +20,6 @@
       padding: 0 1rem 0 0;
     }
 
-    @media (min-width: $medium-screen) {
-      padding: 0 1rem;
-    }
-
     &:not(:empty) {
       @media (min-width: $small-screen) {
         &::before {
@@ -64,16 +60,15 @@
   }
 
   &-inner {
-    line-height: 1.5;
     overflow: hidden;
     white-space: nowrap;
 
     @media (max-width: $medium-screen) {
-      width: 20rem;      
+      width: 20rem;
     }
 
     @media (min-width: $large-screen) {
-      width: 40rem;     
+      width: 40rem;
     }
   }
 
