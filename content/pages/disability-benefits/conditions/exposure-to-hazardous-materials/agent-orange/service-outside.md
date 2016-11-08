@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Service Outside of Vietnam or Korea
 concurrence: incomplete
-plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
+plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page
 ---
 
@@ -12,13 +12,13 @@ Find out if you can get VA support (known as disability compensation or benefits
 
 <div class="call-out" markdown="1">
 
-### Can I get disability compensation from VA?
+### Can I get disability benefits from VA?
 
-Yes, if you have 1 or more health problems linked to Agent Orange, **and** 1 of these is true:
+Yes, if you have 1 or more conditions (illnesses) linked to Agent Orange, **and** 1 of these is true:
 
-  - You had regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam Era
-  - You served near areas outside Vietnam where there was testing or storage of Agent Orange and other herbicides
-  - You had regular and repeated contact with a C-123 aircraft that contained traces of Agent Orange
+  - You had regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam Era, **or**
+  - You served near areas outside Vietnam where there was testing or storage of Agent Orange and other herbicides, **or**
+  - You had regular and repeated contact with a C-123 aircraft that contained traces of Agent Orange, **or**
   - You took part in projects that tested, disposed of, or stored Agent Orange
   
 [See a list of Agent Orange‒related health problems](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
