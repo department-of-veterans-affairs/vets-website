@@ -34,29 +34,38 @@ class History extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    const currentPage = this.props.page;
+    const currentSort = this.formattedSortParam(
+      this.props.sort.value,
+      this.props.sort.order
+    );
+
+    const query = _.pick(this.props.location.query, ['page', 'sort']);
+    const requestedPage = +query.page || currentPage;
+    const requestedSort = query.sort || currentSort;
+
+    // Check if query params requested are different from state.
+    const pageChanged = requestedPage !== currentPage;
+    const sortChanged = requestedSort !== currentSort;
+
+    if (pageChanged || sortChanged) {
+      this.scrollToTop();
+    }
+
     if (!this.props.loading) {
-      const currentPage = this.props.page;
-      const currentSort = this.formattedSortParam(
-        this.props.sort.value,
-        this.props.sort.order
-      );
-
-      const query = _.pick(this.props.location.query, ['page', 'sort']);
-      const requestedPage = +query.page || currentPage;
-      const requestedSort = query.sort || currentSort;
-
-      // Check if page requested is different from page in state.
-      const pageChanged = requestedPage !== currentPage;
-      const sortChanged = requestedSort !== currentSort;
-
       if (pageChanged || sortChanged) {
         this.props.loadPrescriptions(query);
       }
 
-      // Check if page in state changed.
+      // Check if query params changed in state.
+      const prevSort = this.formattedSortParam(
+        prevProps.sort.value,
+        prevProps.sort.order
+      );
       const pageUpdated = prevProps.page !== currentPage;
+      const sortUpdated = prevSort !== currentSort;
 
-      if (pageUpdated) {
+      if (pageUpdated || sortUpdated) {
         this.scrollToTop();
       }
     }
