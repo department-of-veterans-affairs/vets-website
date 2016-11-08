@@ -80,7 +80,7 @@ export function loadPrescriptions(options) {
           error
         })
       );
-  }
+  };
 }
 
 export function refillPrescription(id) {

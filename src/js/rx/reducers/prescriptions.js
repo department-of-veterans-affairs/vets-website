@@ -92,14 +92,14 @@ export default function prescriptions(state = initialState, action) {
         newState.active = {
           loading: false,
           sort: sortValue
-        }
+        };
       } else {
         newState.history = {
           loading: false,
           sort: { value: sortValue, order: sortOrder },
           page: pagination.currentPage,
           pages: pagination.totalPages
-        }
+        };
       }
 
       return assign(state, newState);
