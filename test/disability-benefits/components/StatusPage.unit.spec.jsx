@@ -1,6 +1,7 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import { StatusPage } from '../../../src/js/disability-benefits/containers/StatusPage';
 
@@ -11,7 +12,13 @@ describe('<StatusPage>', () => {
         phase: 2,
         documentsNeeded: false,
         decisionLetterSent: false,
-        waiverSubmitted: true
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
       }
     };
 
@@ -30,7 +37,13 @@ describe('<StatusPage>', () => {
         phase: 2,
         documentsNeeded: true,
         decisionLetterSent: false,
-        waiverSubmitted: true
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
       }
     };
 
@@ -47,7 +60,13 @@ describe('<StatusPage>', () => {
         phase: 3,
         documentsNeeded: false,
         decisionLetterSent: false,
-        waiverSubmitted: false
+        waiverSubmitted: false,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
       }
     };
 
@@ -64,7 +83,13 @@ describe('<StatusPage>', () => {
         phase: 5,
         documentsNeeded: false,
         decisionLetterSent: true,
-        waiverSubmitted: true
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
       }
     };
 
@@ -80,7 +105,13 @@ describe('<StatusPage>', () => {
         phase: null,
         documentsNeeded: false,
         decisionLetterSent: false,
-        waiverSubmitted: true
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
       }
     };
 
@@ -100,5 +131,60 @@ describe('<StatusPage>', () => {
           claim={claim}/>
     );
     expect(tree.props.children).to.be.null;
+  });
+  it('should render notification', () => {
+    const claim = {};
+
+    const tree = SkinDeep.shallowRender(
+      <StatusPage
+          loading
+          message={{ title: 'Test', body: 'Body' }}
+          claim={claim}/>
+    );
+    expect(tree.props.message).not.to.be.null;
+  });
+  it('should clear alert', () => {
+    const claim = {
+      attributes: {
+        eventsTimeline: []
+      }
+    };
+    const clearNotification = sinon.spy();
+    const message = {
+      title: 'Test',
+      body: 'Test'
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <StatusPage
+          clearNotification={clearNotification}
+          message={message}
+          claim={claim}/>
+    );
+    expect(clearNotification.called).to.be.false;
+    tree.subTree('ClaimDetailLayout').props.clearNotification();
+    expect(clearNotification.called).to.be.true;
+  });
+  it('should clear notification when leaving', () => {
+    const claim = {
+      attributes: {
+        eventsTimeline: []
+      }
+    };
+    const clearNotification = sinon.spy();
+    const message = {
+      title: 'Test',
+      body: 'Test'
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <StatusPage
+          clearNotification={clearNotification}
+          message={message}
+          claim={claim}/>
+    );
+    expect(clearNotification.called).to.be.false;
+    tree.getMountedInstance().componentWillUnmount();
+    expect(clearNotification.called).to.be.true;
   });
 });
