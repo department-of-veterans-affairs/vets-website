@@ -5,7 +5,7 @@ template: 6-info-page
 concurrence: complete
 showactionbar: false
 stickyactionbox: true
-beginbuttontext: Start Form </br> 22-1990
+beginbuttontext: Start Form 22-1990
 relatedlinks:
   - url: /education/gi-bill/survivors-dependent-assistance/
     title: Apply for Dependents’ Educational Assistance (DEA) benefits
