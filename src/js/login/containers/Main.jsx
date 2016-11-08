@@ -57,9 +57,9 @@ class Main extends React.Component {
   }
 
   handleLogout() {
-    localStorage.removeItem('userToken');
-    this.props.onUpdateLoggedInStatus(false);
-    this.props.onClearUserData();
+    // localStorage.removeItem('userToken');
+    // this.props.onUpdateLoggedInStatus(false);
+    // this.props.onClearUserData();
     // location.reload();
     fetch(`${environment.API_URL}/v0/sessions`, {
       method: 'delete',
@@ -67,7 +67,9 @@ class Main extends React.Component {
         Authorization: `Token token=${localStorage.userToken}`
       })
     }).then(response => {
-      console.log(response);
+      return response.json();
+    }).then(json => {
+      // console.log(json);
     });
   }
 
