@@ -38,7 +38,7 @@ export class Detail extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     // If order history was requested, scroll to it after data has been fetched
     // and the page has updated to a different prescription.
     const shouldScrollToOrderHistory =
