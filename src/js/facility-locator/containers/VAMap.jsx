@@ -30,7 +30,12 @@ class VAMap extends Component {
       context: currentQuery.context,
     });
 
-    // populate search bar with address in Url
+    this.props.updateSearchQuery({
+      zoomLevel: location.query.zoomLevel,
+      currentPage: location.query.page,
+    });
+
+    // populate search bar with parameters from URL
     if (location.query.address) {
       this.props.updateSearchQuery({
         searchString: location.query.address,
@@ -81,11 +86,21 @@ class VAMap extends Component {
         context: newQuery.context,
       });
     }
+
+    // reset to page 1 if zoom level changes
+    if (currentQuery.zoomLevel !== newQuery.zoomLevel) {
+      this.updateUrlParams({
+        page: 1,
+      });
+      this.props.updateSearchQuery({
+        currentPage: 1,
+      });
+    }
   }
 
   // pushes coordinates to URL so that map link is useful for sharing
   // TODO (bshyong): try out existing query-string npm library
-  updateUrlParams(params) {
+  updateUrlParams = (params) => {
     const { location } = this.props;
 
     const queryParams = map({
@@ -131,8 +146,11 @@ class VAMap extends Component {
   }
 
   handleBoundsChanged = () => {
-    const { currentQuery: { facilityType, serviceType } } = this.props;
+    const { currentQuery: { facilityType, serviceType, currentPage } } = this.props;
+    const center = this.refs.map.leafletElement.getCenter();
     const bounds = this.refs.map.leafletElement.getBounds();
+    const zoom = this.refs.map.leafletElement.getZoom();
+
     const boundsArray = [
       bounds._southWest.lng,
       bounds._southWest.lat,
@@ -142,9 +160,18 @@ class VAMap extends Component {
 
     this.props.updateSearchQuery({
       bounds: boundsArray,
+      position: {
+        latitude: center.lat,
+        longitude: center.lng,
+      },
+      zoomLevel: zoom,
     });
 
-    this.props.searchWithBounds(boundsArray, facilityType, serviceType);
+    this.updateUrlParams({
+      zoomLevel: zoom,
+    });
+
+    this.props.searchWithBounds(boundsArray, facilityType, serviceType, currentPage);
   }
 
   centerMap = () => {
@@ -241,7 +268,7 @@ class VAMap extends Component {
   renderMobileView() {
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
-    const { currentQuery, facilities } = this.props;
+    const { currentQuery, facilities, pagination } = this.props;
 
     return (
       <div>
@@ -255,11 +282,11 @@ class VAMap extends Component {
             <TabPanel>
               <div className="facility-search-results">
                 <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
-                <ResultsList facilities={facilities} isMobile inProgress={currentQuery.inProgress}/>
+                <ResultsList facilities={facilities} pagination={pagination} isMobile currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>
             </TabPanel>
             <TabPanel>
-              <Map ref="map" center={position} zoom={12} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}>
+              <Map ref="map" center={position} zoom={currentQuery.zoomLevel} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}>
                 <TileLayer
                     url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                     attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
@@ -282,7 +309,7 @@ class VAMap extends Component {
 
   renderDesktopView() {
     // defaults to White House coordinates initially
-    const { currentQuery, facilities } = this.props;
+    const { currentQuery, facilities, pagination } = this.props;
     const coords = this.props.currentQuery.position;
     const position = [coords.latitude, coords.longitude];
 
@@ -296,12 +323,12 @@ class VAMap extends Component {
             <div className="facility-search-results">
               <p>Search Results near <strong>"{currentQuery.context}"</strong></p>
               <div>
-                <ResultsList facilities={facilities} inProgress={currentQuery.inProgress}/>
+                <ResultsList facilities={facilities} pagination={pagination} currentQuery={currentQuery} updateUrlParams={this.updateUrlParams}/>
               </div>
             </div>
           </div>
           <div className="columns medium-8 small-12" style={{ minHeight: '75vh' }}>
-            <Map ref="map" center={position} zoom={12} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
+            <Map ref="map" center={position} zoom={currentQuery.zoomLevel} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
               <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
@@ -337,6 +364,7 @@ function mapStateToProps(state) {
   return {
     currentQuery: state.searchQuery,
     facilities: state.facilities.facilities,
+    pagination: state.facilities.pagination,
     selectedFacility: state.facilities.selectedFacility,
   };
 }
