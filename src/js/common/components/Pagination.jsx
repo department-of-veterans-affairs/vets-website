@@ -37,7 +37,7 @@ class Pagination extends React.Component {
   pageNumbers(limit) {
     const totalPages = this.props.pages;
     let end;
-    let start; 
+    let start;
 
     if (totalPages > limit) {
       // If there are more pages returned than the limit to show
