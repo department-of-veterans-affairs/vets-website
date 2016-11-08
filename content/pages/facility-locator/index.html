@@ -1,5 +1,5 @@
 ---
-layout: home-no-search.html
+layout: page-breadcrumbs.html
 title: Facility Locator
 relatedlinks:
 - url: http://www.va.gov/directory/guide/PTSD.asp
@@ -7,6 +7,7 @@ relatedlinks:
 - url: http://www.va.gov/directory/guide/SUD.asp
   title: Substance Use Disorder (<abbr>SUD</abbr>) Program Locator
 ---
+  
 <style>
 html, body {
   height: 100%;
@@ -190,18 +191,6 @@ button.searchButton {
 </style>
 
 <div class="interior {{ page.id }}">
-  <div class="splash splash--app">
-    <div class="row">
-      <div class="small-12 columns">
-        <ul class="va-nav-breadcrumbs--playbook va-nav-breadcrumbs--inline" role="menubar" aria-label="Primary">
-          <li class="active">
-            <h2 class="va-breadcrumbs-heading">Facility Locator</h2>
-          </li>
-        </ul>
-        <p class="va-facloc-tagline">Find facilities throughout the U.S. and its territories</p>
-      </div>
-    </div>
-  </div>
 
   <div class="secondary-banner">
     <div class="row">
@@ -303,8 +292,6 @@ button.searchButton {
       </div>
     </div>
   </div>
-
-  {% include "content/includes/related-links.html" %}
 </div>
 <script src="map.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJI5rs8s_N42z1hrrls3HSIgtUNw_iy30&libraries=places,geometry&callback=init" async defer></script>

@@ -28,11 +28,9 @@ class RequiredLoginView extends React.Component {
       this.handleLogout();
     }
 
-    if (__BUILDTYPE__ !== 'production') {
-      this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
-        this.setState({ loginUrl: result.authenticate_via_get });
-      });
-    }
+    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
+      this.setState({ loginUrl: result.authenticate_via_get });
+    });
 
     window.addEventListener('message', this.setInitialLevel);
   }

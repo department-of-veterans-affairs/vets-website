@@ -86,8 +86,7 @@ class Prescription extends React.Component {
         <div
             key={`rx-${id}-status`}
             className="rx-prescription-status">
-          Refill status:
-          <button
+          Refill status: <button
               className="rx-trigger"
               data-term={displayStatus}
               onClick={this.openGlossaryModal}
