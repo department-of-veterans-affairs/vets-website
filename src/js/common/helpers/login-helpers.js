@@ -1,15 +1,15 @@
-// import moment from 'moment';
+import $ from 'jquery';
 import { commonStore } from '../store';
 
 import environment from './environment.js';
 import { updateLoggedInStatus, updateProfileField } from '../actions';
 
 export function handleVerify() {
-  const myStore = commonStore.getState();
-  const login = myStore.login;
-  const myVerifyUrl = login.loginUrl.third;
-  const receiver = window.open(myVerifyUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
-  receiver.focus();
+  this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
+    const myVerifyUrl = result.authenticate_via_get;
+    const receiver = window.open(myVerifyUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
+    receiver.focus();
+  });
 }
 
 export function getUserData() {

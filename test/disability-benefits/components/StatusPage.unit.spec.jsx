@@ -12,7 +12,13 @@ describe('<StatusPage>', () => {
         phase: 2,
         documentsNeeded: false,
         decisionLetterSent: false,
-        waiverSubmitted: true
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
       }
     };
 
@@ -31,7 +37,13 @@ describe('<StatusPage>', () => {
         phase: 2,
         documentsNeeded: true,
         decisionLetterSent: false,
-        waiverSubmitted: true
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
       }
     };
 
@@ -48,7 +60,13 @@ describe('<StatusPage>', () => {
         phase: 3,
         documentsNeeded: false,
         decisionLetterSent: false,
-        waiverSubmitted: false
+        waiverSubmitted: false,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
       }
     };
 
@@ -65,7 +83,13 @@ describe('<StatusPage>', () => {
         phase: 5,
         documentsNeeded: false,
         decisionLetterSent: true,
-        waiverSubmitted: true
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
       }
     };
 
@@ -81,7 +105,13 @@ describe('<StatusPage>', () => {
         phase: null,
         documentsNeeded: false,
         decisionLetterSent: false,
-        waiverSubmitted: true
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
       }
     };
 
