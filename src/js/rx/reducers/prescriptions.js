@@ -76,6 +76,11 @@ export default function prescriptions(state = initialState, action) {
       return set(`${section}.loading`, false, state);
     }
 
+    case 'LOAD_PRESCRIPTION_SUCCESS': {
+      const loadingState = set('detail.loading', false, state);
+      return set('currentItem', action.data, loadingState);
+    }
+
     case 'LOAD_PRESCRIPTIONS_SUCCESS': {
       const sort = action.data.meta.sort;
       const sortValue = Object.keys(sort)[0];
@@ -98,11 +103,6 @@ export default function prescriptions(state = initialState, action) {
       }
 
       return assign(state, newState);
-    }
-
-    case 'LOAD_PRESCRIPTION_SUCCESS': {
-      const loadingState = set('detail.loading', false, state);
-      return set('currentItem', action.data, loadingState);
     }
 
     case 'REFILL_SUCCESS':
