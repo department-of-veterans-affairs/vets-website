@@ -2215,6 +2215,10 @@ pre[class*='language-']  {
   padding: 1.5rem;
   z-index: 1;
 
+  a {
+    margin-right: 0;
+  }
+
   .show-for-large-up & {
     position: absolute;
     right: 0;
