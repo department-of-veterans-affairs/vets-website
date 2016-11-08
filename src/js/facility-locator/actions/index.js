@@ -91,11 +91,12 @@ export function searchWithAddress(query) {
   };
 }
 
-export function searchWithBounds(bounds, facilityType, serviceType) {
+export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
   const params = compact([
     ...bounds.map(c => `bbox[]=${c}`),
     facilityType ? `type=${facilityType}` : null,
     serviceType ? `services[]=${serviceType}` : null,
+    `page=${page}`
   ]).join('&');
   const url = `${api.url}?${params}`;
 
