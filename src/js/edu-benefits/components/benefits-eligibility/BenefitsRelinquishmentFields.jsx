@@ -38,7 +38,13 @@ export default class BenefitsRelinquishmentFields extends React.Component {
                   month={this.props.data.benefitsRelinquishedDate.month}
                   year={this.props.data.benefitsRelinquishedDate.year}
                   onValueChange={(update) => {this.props.onStateChange('benefitsRelinquishedDate', update);}}/>
-                Use today’s date unless you aren't going to use your Post 9/11 GI Bill benefits (Chapter 33) until later. If you do pick a future date, you can't get benefits until then.
+              <div>
+                <ul>
+                  <li>Use today's date unless you aren't going to use your Post 9/11 GI Bill benefits until later.</li>
+                  <li>If you pick a future date, you can't get benefits until then.</li>
+                  <li>If your classes started less than 2 years ago, enter the date they began.</li>
+                </ul>
+              </div>
             </div>
           </ExpandingGroup>
         </fieldset>

@@ -6,6 +6,7 @@ description:
 author: Robert McDonald
 layout: post-single.html
 body_class: post-single
+splash_image: thread.png
 tags:
  - transparency
  - website

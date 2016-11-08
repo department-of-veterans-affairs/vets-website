@@ -1,3 +1,5 @@
+import assign from 'lodash/fp/assign';
+
 import { api } from '../config';
 
 export function loadPrescription(id) {
@@ -25,22 +27,22 @@ export function loadPrescription(id) {
 
 export function loadPrescriptions(options) {
   let url = api.url;
+  let defaultSort = '-refill_submit_date';
   const queries = [];
 
   // Construct segments of the final URL based on options passed in.
   if (options) {
     if (options.active) {
       url = `${url}/active`;
-    }
-
-    if (options.sort) {
-      queries.push(`sort=${options.sort}`);
+      defaultSort = 'prescription_name';
     }
 
     if (options.page) {
       queries.push(`page=${options.page}`);
     }
   }
+
+  queries.push(`sort=${options.sort || defaultSort}`);
 
   // Append query parameters.
   if (queries.length > 0) {
@@ -59,14 +61,18 @@ export function loadPrescriptions(options) {
 export function refillPrescription(id) {
   if (id) {
     const url = `${api.url}/${id}/refill`;
+    const settings = assign(api.settings, { method: 'PATCH' });
 
-    return dispatch => fetch(url, {
-      method: 'PATCH'
-    }).then(
-      data => dispatch({ type: 'REFILL_SUCCESS', id, data }),
-      err => dispatch({ type: 'REFILL_FAILURE', err })
-    );
+    return dispatch => fetch(url, settings)
+      .then(
+        data => dispatch({ type: 'REFILL_SUCCESS', id, data }),
+        err => dispatch({ type: 'REFILL_FAILURE', err })
+      );
   }
 
   return dispatch => dispatch({ type: 'REFILL_FAILURE' });
+}
+
+export function sortPrescriptions(sort) {
+  return { type: 'SORT_PRESCRIPTIONS', sort };
 }

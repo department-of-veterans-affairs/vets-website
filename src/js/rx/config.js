@@ -1,17 +1,33 @@
-const headers = {
-  'X-Key-Inflection': 'camel'
-};
+import environment from '../common/helpers/environment';
 
-if (typeof localStorage !== 'undefined' && localStorage !== null) {
-  headers.Authorization = `Token token=${localStorage.userToken}`;
+function getHeaders() {
+  const headers = {
+    'X-Key-Inflection': 'camel'
+  };
+
+  if (typeof localStorage !== 'undefined' && localStorage !== null) {
+    headers.Authorization = `Token token=${localStorage.userToken}`;
+  }
+
+  return headers;
+}
+
+function getApiUrl() {
+  let url;
+
+  if (environment) {
+    url = environment.API_URL;
+  }
+
+  return url;
 }
 
 module.exports = {
   // Base URL to be used in API requests.
   api: {
-    url: '/api/v0/prescriptions',
+    url: `${getApiUrl()}/v0/prescriptions`,
     settings: {
-      headers
+      headers: getHeaders()
     }
   },
 
@@ -32,10 +48,6 @@ module.exports = {
       {
         term: 'Hold',
         definition: 'This prescription cannot be refilled until a hold is resolved by the pharmacy. Contact your VA pharmacy if you need this prescription now.'
-      },
-      {
-        term: 'Submitted',
-        definition: 'Your prescription refill has been submitted.'
       },
       {
         term: 'Suspended',
@@ -69,18 +81,22 @@ module.exports = {
     providerHold: 'Hold',
     submitted: 'Submitted',
     suspended: 'Suspended',
-    refillinprocess: 'Refill in process',
+    refillinprocess: 'In process',
     unknown: 'Unknown'
   },
 
   sortOptions: [
-    { value: 'prescriptionName',
+    {
+      value: 'prescriptionName',
       label: 'Prescription name'
     },
-    { value: 'facilityName',
+    {
+      value: 'facilityName',
       label: 'Facility name'
     },
-    { value: 'lastRequested',
-      label: 'Last requested date'
-    }]
+    {
+      value: 'lastSubmitDate',
+      label: 'Last submit date'
+    }
+  ]
 };

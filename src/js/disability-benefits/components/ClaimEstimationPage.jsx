@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router';
 import AskVAQuestions from './AskVAQuestions';
+import { setUpPage } from '../utils/page';
 
 export default class ClaimEstimationPage extends React.Component {
   componentDidMount() {
     document.title = 'How VA Comes Up with Your Estimated Decision Date';
+    setUpPage();
   }
   render() {
     return (
@@ -50,9 +52,11 @@ export default class ClaimEstimationPage extends React.Component {
               </ul>
             </div>
             <p>You can help speed up the process by promptly and electronically uploading the documents requested by the VA.</p>
-            <p>If you have questions, call VA at 1-800-827-1000, Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.</p>
+            <p>If you have questions, call VA at 1-855-574-7286, Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.</p>
           </div>
-          <AskVAQuestions/>
+          <div className="small-12 medium-4 columns">
+            <AskVAQuestions/>
+          </div>
         </div>
       </div>
     );

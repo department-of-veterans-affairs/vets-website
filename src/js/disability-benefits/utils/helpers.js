@@ -140,7 +140,7 @@ export function getDocTypeDescription(docType) {
   return DOC_TYPES.filter(type => type.value === docType)[0].label;
 }
 
-export function isCompleteClaim({ attributes }) {
+export function isPopulatedClaim({ attributes }) {
   return !!attributes.claimType
     && (attributes.contentionList && !!attributes.contentionList.length)
     && !!attributes.dateFiled
@@ -170,4 +170,20 @@ export function truncateDescription(text) {
   }
 
   return text;
+}
+
+export function getSubmittedItemDate(item) {
+  if (item.receivedDate) {
+    return item.receivedDate;
+  } else if (item.documents && item.documents.length) {
+    return item.documents[item.documents.length - 1].uploadDate;
+  } else if (item.type === 'other_documents_list') {
+    return item.uploadDate;
+  }
+
+  return item.date;
+}
+
+export function isClaimComplete(claim) {
+  return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;
 }

@@ -1,10 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
-import { openRefillModal } from '../actions/modal';
 import { rxStatuses } from '../config';
-import { formatDate } from '../utils/helpers';
+import { formatDate, getModalTerm } from '../utils/helpers';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitRefill from './SubmitRefill';
@@ -16,15 +14,17 @@ class Prescription extends React.Component {
     this.showTracking = this.showTracking.bind(this);
     this.showMessageProvider = this.showMessageProvider.bind(this);
     this.showRefillStatus = this.showRefillStatus.bind(this);
+    this.openGlossaryModal = this.openGlossaryModal.bind(this);
   }
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
-    const refillId = domEvent.target.refillId.value;
-    const content = this.props.prescriptions.items.find((rx) => {
-      return rx.id === refillId;
-    });
-    this.props.openRefillModal(content.attributes);
+    this.props.refillModalHandler(this.props.attributes);
+  }
+
+  openGlossaryModal(domEvent) {
+    const content = getModalTerm(domEvent.target.dataset.term);
+    this.props.glossaryModalHandler(content);
   }
 
   showTracking() {
@@ -40,14 +40,6 @@ class Prescription extends React.Component {
             className="usa-button"
             text="Track package"
             url={`/${id}#rx-order-history`}/>
-      );
-    } else {
-      trackMessage = (
-        <div
-            key={`rx-${id}-requested`}
-            className="rx-prescription-refill-requested">
-          Refill requested
-        </div>
       );
     }
 
@@ -88,12 +80,18 @@ class Prescription extends React.Component {
             text="Refill Prescription"/>
       );
     } else {
+      const displayStatus = (status === 'active') ? rxStatuses.refillinprocess : rxStatuses[status];
+
       refillStatus = (
         <div
             key={`rx-${id}-status`}
             className="rx-prescription-status">
-            Refill status:
-          <span> {rxStatuses[status]}</span>
+          Refill status:
+          <button
+              className="rx-trigger"
+              data-term={displayStatus}
+              onClick={this.openGlossaryModal}
+              type="button">{displayStatus}</button>
         </div>
       );
     }
@@ -132,11 +130,18 @@ class Prescription extends React.Component {
           <div className="rx-prescription-facility">
             Facility name: {attrs.facilityName}
           </div>
+          <div className="rx-prescription-submitted">
+            Last submit date: {
+              formatDate(attrs.refillSubmitDate, {
+                format: 'L'
+              })
+            }
+          </div>
           <div className="rx-prescription-refilled">
             Last fill date: {
               formatDate(attrs.refillDate, {
                 format: 'L',
-                validateInFuture: true
+                validateInPast: true
               })
             }
           </div>
@@ -155,6 +160,8 @@ class Prescription extends React.Component {
 
 Prescription.propTypes = {
   id: React.PropTypes.string.isRequired,
+  glossaryModalHandler: React.PropTypes.func.isRequired,
+  refillModalHandler: React.PropTypes.func.isRequired,
   type: React.PropTypes.string.isRequired,
   attributes: React.PropTypes.shape({
     prescriptionId: React.PropTypes.number.isRequired,
@@ -174,13 +181,5 @@ Prescription.propTypes = {
   }).isRequired
 };
 
-// TODO: fill this out
-const mapStateToProps = (state) => {
-  return state;
-};
+export default Prescription;
 
-const mapDispatchToProps = {
-  openRefillModal
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Prescription);
