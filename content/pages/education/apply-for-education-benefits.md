@@ -5,21 +5,22 @@ template: 6-info-page
 concurrence: complete
 showactionbar: false
 stickyactionbox: true
-beginbuttontext: Start Form 1990
+beginbuttontext: Start Form 22-1990
 relatedlinks:
-  - url: https://www.vets.gov/education/gi-bill/survivors-dependent-assistance/
+  - url: /education/gi-bill/survivors-dependent-assistance/
     title: Apply for Dependents’ Educational Assistance (DEA) benefits
-  - url: https://www.vets.gov/education/gi-bill/transfer/)
+  - url: /education/gi-bill/transfer/
     title: Apply for Transfer of Entitlement
-  - url: https://www.vets.gov/education/other-educational-assistance-programs/call-to-service/
+  - url: /education/other-educational-assistance-programs/call-to-service/
     title: Learn about the National Call to Service program
 ---
 
 If you are a Servicemember or Veteran interested in education and training opportunities, use this form (**22-1990**) to apply for your Certificate of Eligibility (COE).
 
-<div class="feature usa-content secondary" markdown="1">
+<div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
+	<div class="usa-alert-body">
 
-##### For Forms 1990E, 1990N, 1995, 5490, 5495
+##### For Forms 22-1990E, 22-1990N, 22-1995, 22-5490, and 22-5495
 
 You must apply for education benefits using eBenefits.va.gov if you are:
 - A spouse or dependent
@@ -27,10 +28,11 @@ You must apply for education benefits using eBenefits.va.gov if you are:
 - A candidate for The National Call to Service program
 - A current education benefit recipient who wants to change schools
 
-<div markdown="0">
-	<a class="usa-button-primary usa-button-outline transparent" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
-</div>
 
+<div markdown="0">
+	<a class="usa-button-primary usa-button-outline usa-button-outline-exit transparent" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
+</div>
+</div>	
 </div>
 
 <br>
@@ -74,8 +76,8 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 - Social Security number
 - Bank account direct deposit information
-- Education, military, and employment history (for example, journeyman or licensed plumber)
-- Basic information about the school you want to attend
+- Education and military history
+- Basic information about the school or training facility where you want to attend
 
 </div>
 
@@ -131,7 +133,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ##### Decision
 
-- We usually review claims within 30 days.
+- We usually process claims within 30 days.
 - You'll get a COE in the mail if your application was approved. Bring this to the VA certifying official at your school.
 
 </div>
@@ -144,7 +146,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 ##### Checking in on the status of your application?
 
-- We usually review claims within 30 days.
+- We usually process claims within 30 days.
 - If we’ve asked for documents, please upload them through the [GI Bill site](https://gibill.custhelp.com/app/home).
 - You can’t make changes to your application.
 - Call 888-442-4551 (888-GI-BILL-1) if you have questions.

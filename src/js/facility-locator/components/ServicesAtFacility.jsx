@@ -102,17 +102,17 @@ class ServicesAtFacility extends Component {
   }
 
   renderHealthServices() {
-    // const { facility } = this.props;
-    // const availableServices = flattenDeep(facility.attributes.services);
-    // TODO: clean up once we have real data
+    const { facility: { attributes: { services } } } = this.props;
 
-    const availableServices = ['Mental Health', 'Primary Care'];
+    if (!services.health) {
+      return null;
+    }
 
     return (
       <div className="mb2">
         <ul>
-          {availableServices.map(s => {
-            return this.renderService(s);
+          {services.health.map(s => {
+            return this.renderService(s.sl1[0]);
           })}
         </ul>
       </div>
@@ -126,7 +126,6 @@ class ServicesAtFacility extends Component {
       return null;
     }
 
-    // TODO: clean up once we have real data
     return (
       <div>
         <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment().format('MMMM D, YYYY')}</strong></p>
@@ -138,7 +137,7 @@ class ServicesAtFacility extends Component {
             This list may not include all of the services available at this location. Please check on the facility's website or call them for this information.
           </div>
         </div>
-        {facility.type === 'va_health_facility' ? this.renderHealthServices() : null}
+        {facility.attributes.facility_type === 'va_health_facility' ? this.renderHealthServices() : null}
       </div>
     );
   }

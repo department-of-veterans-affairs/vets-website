@@ -39,7 +39,7 @@ export default class SubmitMessage extends React.Component {
     return (
       <div className="edu-benefits-submit-success">
         <h3>Claim received</h3>
-        <p>Normally processed within <b>30 days</b></p>
+        <p>Normally processed within <strong>30 days</strong></p>
         <p>
           VA may contact you for more information or documents.<br/>
           <i>Please print this page for your records.</i>
@@ -50,20 +50,20 @@ export default class SubmitMessage extends React.Component {
 
           <ul className="claim-list">
             <li>
-              <b>Benefit claimed</b><br/>
+              <strong>Benefit claimed</strong><br/>
               {this.makeList(this.props.claimedBenefits)}
               {relinquished}
             </li>
             <li>
-              <b>Confirmation number</b><br/>
+              <strong>Confirmation number</strong><br/>
               <span>{this.props.confirmation}</span>
             </li>
             <li>
-              <b>Date receieved</b><br/>
+              <strong>Date received</strong><br/>
               <span>{moment(this.props.date).format('MMM D, YYYY')}</span>
             </li>
             <li>
-              <b>Your claim was sent to</b><br/>
+              <strong>Your claim was sent to</strong><br/>
               <address className="edu-benefits-pre">{this.props.address}</address>
             </li>
           </ul>
