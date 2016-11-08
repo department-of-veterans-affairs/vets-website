@@ -7,7 +7,6 @@ const routes = {
   component: FacilityLocatorApp,
   childRoutes: [
     {
-      component: VAMap,
       indexRoute: { component: VAMap },
       childRoutes: [
         { path: 'facility/:id', component: FacilityDetail },
