@@ -2,6 +2,18 @@ const request = require('request');
 const E2eHelpers = require('./e2e-helpers');
 // const Timeouts = require('../util/timeouts.js');
 
+function initAskVAMock() {
+  request({
+    uri: `${E2eHelpers.apiUrl}/mock`,
+    method: 'POST',
+    json: {
+      path: '/v0/disability_claims/11/request_decision',
+      verb: 'post',
+      value: {}
+    }
+  });
+}
+
 function initClaimsListMock() {
   request({
     uri: `${E2eHelpers.apiUrl}/mock`,
@@ -215,5 +227,6 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
 }
 module.exports = {
   initClaimsListMock,
-  initClaimDetailMocks
+  initClaimDetailMocks,
+  initAskVAMock
 };

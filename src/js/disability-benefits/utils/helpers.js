@@ -187,3 +187,7 @@ export function getSubmittedItemDate(item) {
 export function isClaimComplete(claim) {
   return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;
 }
+
+export function itemsNeedingAttentionFromVet(events) {
+  return events.filter(event => event.status === 'NEEDED' && event.type === 'still_need_from_you_list').length;
+}
