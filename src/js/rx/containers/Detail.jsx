@@ -204,7 +204,7 @@ export class Detail extends React.Component {
       );
     } else {
       content = (
-        <p>
+        <p className="rx-tab-explainer rx-loading-error">
           We couldn't retrieve your prescription.
           Please refresh this page or try again later.
         </p>

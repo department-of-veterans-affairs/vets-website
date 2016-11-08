@@ -11,13 +11,19 @@ export function loadPrescription(id) {
       dispatch({ type: 'LOADING_DETAIL' });
 
       Promise.all(rxUrls.map(url => {
-        return fetch(url, api.settings).then(res => res.json());
+        return fetch(url, api.settings).then(response => {
+          if (!response.ok) {
+            return Promise.reject();
+          }
+
+          return response.json();
+        });
       })).then(
         data => dispatch({
           type: 'LOAD_PRESCRIPTION_SUCCESS',
           data: { rx: data[0].data, trackings: data[1].data }
         }),
-        err => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE', err })
+        error => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE', error })
       );
     };
   }
@@ -58,10 +64,7 @@ export function loadPrescriptions(options) {
     fetch(url, api.settings)
       .then(response => {
         if (!response.ok) {
-          return dispatch({
-            type: 'LOAD_PRESCRIPTIONS_FAILURE',
-            active: options.active
-          });
+          return Promise.reject();
         }
 
         return response.json();
