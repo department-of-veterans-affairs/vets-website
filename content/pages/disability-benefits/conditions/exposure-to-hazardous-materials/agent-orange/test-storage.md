@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Testing and Storage Areas Outside of Vietnam
-plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
+plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page
 concurrence: incomplete
 ---
@@ -13,8 +13,7 @@ Were you part of testing or storing Agent Orange (a toxic chemical used to clear
 ### Can I get disability compensation from VA?
 
 Yes, if:
-- You have 1 or more health problems linked to Agent Orange
-AND
+- You have 1 or more health problems linked to Agent Orange, **and**
 - You were part of testing or storing Agent Orange during your military service
 
 [See a list of Agent Orange‒related health problems](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
