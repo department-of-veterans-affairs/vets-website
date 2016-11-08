@@ -16,7 +16,7 @@ if (process.env.BUILDTYPE === 'development') {
         .assert.title('Refill your prescriptions: Vets.gov')
         .waitForElementVisible('.va-tab-content', Timeouts.slow)
         .click('.va-tabs li:last-child a')
-        .waitForElementVisible('.rx-table', Timeouts.slow);
+        .waitForElementVisible('#rx-history', Timeouts.normal);
     }
   );
 }
