@@ -1,5 +1,5 @@
 import { SEARCH_QUERY_UPDATED, SEARCH_STARTED, SEARCH_SUCCEEDED, SEARCH_FAILED } from '../actions';
-// TODO (bshyong): flesh out shape of service Type object/options
+
 const INITIAL_STATE = {
   searchString: '',
   serviceType: null,
@@ -11,6 +11,8 @@ const INITIAL_STATE = {
   bounds: null,
   context: 20500,
   inProgress: false,
+  currentPage: 1,
+  zoomLevel: 12,
 };
 
 export default function (state = INITIAL_STATE, action) {
