@@ -111,7 +111,7 @@ const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('disability-benefits/track-claims/*');
   ignoreList.push('facilities/*');
-} 
+}
 
 smith.use(ignore(ignoreList));
 
