@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import Pagination from '../../common/components/Pagination';
 import SortableTable from '../../common/components/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
@@ -26,8 +27,10 @@ class History extends React.Component {
   }
 
   componentDidMount() {
-    const query = _.pick(this.props.location.query, ['page', 'sort']);
-    this.props.loadPrescriptions(query);
+    if (!this.props.loading) {
+      const query = _.pick(this.props.location.query, ['page', 'sort']);
+      this.props.loadPrescriptions(query);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -41,17 +44,30 @@ class History extends React.Component {
     const requestedPage = +query.page || currentPage;
     const requestedSort = query.sort || currentSort;
 
+    // Check if query params requested are different from state.
     const pageChanged = requestedPage !== currentPage;
     const sortChanged = requestedSort !== currentSort;
 
     if (pageChanged || sortChanged) {
-      this.props.loadPrescriptions(query);
+      this.scrollToTop();
     }
 
-    const pageUpdated = prevProps.page !== currentPage;
+    if (!this.props.loading) {
+      if (pageChanged || sortChanged) {
+        this.props.loadPrescriptions(query);
+      }
 
-    if (pageUpdated) {
-      this.scrollToTop();
+      // Check if query params changed in state.
+      const prevSort = this.formattedSortParam(
+        prevProps.sort.value,
+        prevProps.sort.order
+      );
+      const pageUpdated = prevProps.page !== currentPage;
+      const sortUpdated = prevSort !== currentSort;
+
+      if (pageUpdated || sortUpdated) {
+        this.scrollToTop();
+      }
     }
   }
 
@@ -90,7 +106,9 @@ class History extends React.Component {
     const items = this.props.prescriptions;
     let content;
 
-    if (items) {
+    if (this.props.loading) {
+      content = <LoadingIndicator message="is loading your prescriptions..."/>;
+    } else if (items) {
       const currentSort = this.props.sort;
 
       const fields = [

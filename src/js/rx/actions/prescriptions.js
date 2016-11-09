@@ -10,14 +10,22 @@ export function loadPrescription(id) {
     // Fetch both the prescription and its tracking history and
     // wait for retrieval and read of both resources to resolve.
     return dispatch => {
+      dispatch({ type: 'LOADING_DETAIL' });
+
       Promise.all(rxUrls.map(url => {
-        return fetch(url, api.settings).then(res => res.json());
+        return fetch(url, api.settings).then(response => {
+          if (!response.ok) {
+            return Promise.reject();
+          }
+
+          return response.json();
+        });
       })).then(
         data => dispatch({
           type: 'LOAD_PRESCRIPTION_SUCCESS',
           data: { rx: data[0].data, trackings: data[1].data }
         }),
-        err => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE', err })
+        error => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE', error })
       );
     };
   }
@@ -50,12 +58,31 @@ export function loadPrescriptions(options) {
     url = `${url}?${queryString}`;
   }
 
-  return dispatch => fetch(url, api.settings)
-    .then(res => res.json())
-    .then(
-      data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
-      err => dispatch({ type: 'LOAD_PRESCRIPTIONS_FAILURE', err })
-    );
+  return dispatch => {
+    dispatch({
+      type: options.active ? 'LOADING_ACTIVE' : 'LOADING_HISTORY'
+    });
+
+    fetch(url, api.settings)
+      .then(response => {
+        if (!response.ok) {
+          return Promise.reject();
+        }
+
+        return response.json();
+      }).then(
+        data => dispatch({
+          type: 'LOAD_PRESCRIPTIONS_SUCCESS',
+          active: options.active,
+          data
+        }),
+        error => dispatch({
+          type: 'LOAD_PRESCRIPTIONS_FAILURE',
+          active: options.active,
+          error
+        })
+      );
+  };
 }
 
 export function refillPrescription(id) {
