@@ -17,7 +17,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .waitForElementVisible('#rx-active', Timeouts.normal)
         .click('.va-tabs li:last-child a')
         .waitForElementVisible('#rx-history', Timeouts.normal)
-        .waitForElementVisible('.rx-table', Timeouts.molasses);
+        .waitForElementVisible('.rx-table', Timeouts.slow);
     }
   );
 }
