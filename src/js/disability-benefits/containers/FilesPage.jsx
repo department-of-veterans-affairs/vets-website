@@ -62,7 +62,7 @@ class FilesPage extends React.Component {
                   <p>{truncateDescription(item.description)}</p>
                   <DueDate date={item.suspenseDate}/>
                 </div>
-                <Link className="usa-button usa-button-outline view-details-button" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
+                <Link aria-label={`View Details for ${item.displayName}`} title={`View Details for ${item.displayName}`} className="usa-button usa-button-outline view-details-button" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
                 <div className="clearfix"></div>
               </div>
             ))}
@@ -74,7 +74,7 @@ class FilesPage extends React.Component {
                   <p>{truncateDescription(item.description)}</p>
                   <div className="claims-optional-desc"><h6>Optional</h6> - we requested this from others, but you may upload it if you have it.</div>
                 </div>
-                <Link className="usa-button usa-button-outline view-details-button" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
+                <Link aria-label={`View Details for ${item.displayName}`} title={`View Details for ${item.displayName}`} className="usa-button usa-button-outline view-details-button" to={`your-claims/${claim.id}/document-request/${item.trackedItemId}`}>View Details</Link>
                 <div className="clearfix"></div>
               </div>
             ))}
@@ -93,7 +93,7 @@ class FilesPage extends React.Component {
                   <div className="item-container">
                     <p>Do you have additional evidence to submit in order to support your claim? Upload it here now.</p>
                   </div>
-                  <Link className="usa-button usa-button-outline view-details-button" to={`your-claims/${claim.id}/turn-in-evidence`}>View Details</Link>
+                  <Link aria-label="View details for additional evidence" title="View details for additional evidence" className="usa-button usa-button-outline view-details-button" to={`your-claims/${claim.id}/turn-in-evidence`}>View Details</Link>
                   <div className="clearfix"></div>
                 </div>
               }
