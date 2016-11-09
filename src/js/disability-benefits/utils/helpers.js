@@ -71,42 +71,48 @@ export function getItemDate(item) {
   return item.date;
 }
 
+function getPhaseNumber(phase) {
+  return parseInt(phase.replace('phase', ''), 10);
+}
+
+function isEventOrPrimaryPhase(event) {
+  if (event.type === 'phase_entered') {
+    return event.phase <= 3 || event.phase >= 7;
+  }
+
+  return !!getItemDate(event);
+}
+
 export function groupTimelineActivity(events) {
   const phases = {};
-  const phaseEvents = events;
   let activity = [];
-  let lastPhaseNumber = 1;
-  let firstPhase = true;
 
-  phaseEvents
-    .filter(event => !!getItemDate(event))
-    .forEach(event => {
+  const phaseEvents = events
+    .map(event => {
       if (event.type.startsWith('phase')) {
-        const phaseNumber = parseInt(event.type.replace('phase', ''), 10);
-        const userPhaseNumber = getUserPhase(phaseNumber);
-        if (userPhaseNumber !== lastPhaseNumber || firstPhase) {
-          activity.push({
-            type: 'phase_entered',
-            date: event.date
-          });
-          phases[userPhaseNumber + 1] = (phases[userPhaseNumber + 1] || []).concat(activity);
-          activity = [];
-          lastPhaseNumber = userPhaseNumber;
-          firstPhase = false;
-        } else {
-          activity.push({
-            type: 'micro_phase',
-            phaseNumber: phaseNumber + 1,
-            date: event.date
-          });
-        }
-      } else {
-        activity.push(event);
+        return {
+          type: 'phase_entered',
+          phase: getPhaseNumber(event.type) + 1,
+          date: event.date
+        };
       }
-    });
+
+      return event;
+    })
+    .filter(isEventOrPrimaryPhase);
+
+  phaseEvents.forEach(event => {
+    if (event.type.startsWith('phase')) {
+      activity.push(event);
+      phases[getUserPhase(event.phase)] = activity;
+      activity = [];
+    } else {
+      activity.push(event);
+    }
+  });
 
   if (activity.length > 0) {
-    phases[lastPhaseNumber] = (phases[lastPhaseNumber] || []).concat(activity);
+    phases[1] = activity;
   }
 
   return phases;
@@ -185,7 +191,6 @@ export function truncateDescription(text) {
 
   return text;
 }
-
 
 export function isClaimComplete(claim) {
   return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;

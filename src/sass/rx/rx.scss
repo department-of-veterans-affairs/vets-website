@@ -102,6 +102,13 @@ button.usa-button-outline {
 .rx-tab-explainer {
   padding: 1rem 0;
 }
+
 .rx-loading-error {
   font-weight: bold;
+}
+
+#rx-active, #rx-history, #rx-detail {
+  .loading-indicator-container {
+    margin-top: 2rem;
+  }
 }
