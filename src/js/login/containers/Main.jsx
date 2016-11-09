@@ -57,10 +57,6 @@ class Main extends React.Component {
   }
 
   handleLogout() {
-    // localStorage.removeItem('userToken');
-    // this.props.onUpdateLoggedInStatus(false);
-    // this.props.onClearUserData();
-    // location.reload();
     fetch(`${environment.API_URL}/v0/sessions`, {
       method: 'delete',
       headers: new Headers({
@@ -69,7 +65,6 @@ class Main extends React.Component {
     }).then(response => {
       return response.json();
     }).then(json => {
-      // console.log(json);
       const myLogoutUrl = json.logout_via_get;
       const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
       receiver.focus();

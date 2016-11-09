@@ -19,7 +19,14 @@ export function getUserData() {
       Authorization: `Token token=${localStorage.userToken}`
     })
   }).then(response => {
-    return response.json();
+    let details;
+    // console.log(response.status);
+    if (response.status === 200) {
+      details = response.json();
+    } else {
+      details = prompt('Please enter your name', 'Harry Potter');
+    }
+    return details;
   }).then(json => {
     const userData = json.data.attributes.profile;
     commonStore.dispatch(updateProfileField('accountType', userData.loa.current));
