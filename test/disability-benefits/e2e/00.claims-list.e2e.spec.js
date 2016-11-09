@@ -37,7 +37,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client
         .expect
         .element('.claim-list-item-header')
-        .text.to.equal('Disability Compensation Claim');
+        .text.to.equal('Disability Compensation Claim – Received September 23, 2008');
 
       // Click to detail view
       client
