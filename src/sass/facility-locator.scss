@@ -36,6 +36,12 @@
     margin-top: 0;
   }
 
+  i.fa {
+    width: 18px;
+    text-align: center;
+    margin-right: 15px;
+  }
+
   .facility-result {
     padding: 1em;
     border-bottom: none;
@@ -46,10 +52,6 @@
 
     span.fa {
       margin-right: 0.5rem;
-    }
-
-    i.fa {
-      width: 18px;
     }
 
     a {

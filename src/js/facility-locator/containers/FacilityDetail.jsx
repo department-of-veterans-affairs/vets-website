@@ -27,7 +27,7 @@ class FacilityDetail extends Component {
     return (
       <span>
         <a href={website} target="_blank">
-          <i className="fa fa-globe" style={{ marginRight: '0.5rem' }}/> Website
+          <i className="fa fa-globe"/>Website
         </a>
       </span>
     );
