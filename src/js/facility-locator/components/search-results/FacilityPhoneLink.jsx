@@ -15,7 +15,8 @@ class FacilityPhoneLink extends Component {
       <div>
         <a href={`tel:${phone.mental_health_clinic}`}>
           <i className="fa fa-fw"/>
-          Mental Health: {phone.mental_health_clinic.replace(re, '$1-$2-$3 x$4')}
+          Mental Health:<br/>
+          <i className="fa fa-fw"/>{phone.mental_health_clinic.replace(re, '$1-$2-$3 x$4')}
         </a>
       </div>
     );
@@ -28,8 +29,9 @@ class FacilityPhoneLink extends Component {
       <div>
         <div>
           <a href={`tel:${phone.main}`}>
-            <i className="fa fa-phone"></i>
-            Main: {phone.main.replace(re, '$1-$2-$3 x$4').replace(/ x$/, '')}
+            <i className="fa fa-phone"/>
+            Main:<br/>
+            <i className="fa fa-fw"/>{phone.main.replace(re, '$1-$2-$3 x$4').replace(/ x$/, '')}
           </a>
         </div>
         {this.renderMentalHealthPhone()}
