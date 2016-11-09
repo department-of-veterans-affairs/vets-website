@@ -1,3 +1,4 @@
+import assign from 'lodash/fp/assign';
 import set from 'lodash/fp/set';
 
 import { makeField } from '../../common/model/fields';
@@ -7,6 +8,7 @@ import {
   CLEAR_DRAFT,
   DELETE_DRAFT_ATTACHMENT,
   FETCH_THREAD_SUCCESS,
+  FETCH_THREAD_MESSAGE_SUCCESS,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -52,21 +54,38 @@ export default function messages(state = initialState, action) {
       state.data.draft.attachments.splice(action.index, 1);
       return set('data.draft.attachments', state.data.draft.attachments, state);
 
+    case FETCH_THREAD_MESSAGE_SUCCESS: {
+      const updatedMessage = assign(
+        action.message.data.attributes,
+        { attachments: action.message.included }
+      );
+
+      const messageIndex = state.data.thread.findIndex(message =>
+        message.messageId === updatedMessage.messageId
+      );
+
+      return set(`data.thread[${messageIndex}]`, updatedMessage, state);
+    }
+
     case FETCH_THREAD_SUCCESS: {
       // Consolidate message attributes and attachments
-      const currentMessage = Object.assign({}, action.message.data.attributes, { attachments: action.message.included });
-      const thread = action.thread.map(message => message.attributes);
+      const currentMessage = assign(
+        action.message.data.attributes,
+        { attachments: action.message.included }
+      );
+
+      // Thread is received in most recent order.
+      // Reverse to display most recent message at the bottom.
+      const thread = action.thread.map(
+        message => message.attributes
+      ).reverse();
 
       // Collapse all the previous messages in the thread.
       const messagesCollapsed = new Set(thread.map((message) => {
         return message.messageId;
       }));
 
-      // Thread is received in most recent order.
-      // Reverse to display most recent message at the bottom.
-      thread.reverse();
-
-      const draft = Object.assign({}, initialState.data.draft);
+      const draft = assign({}, initialState.data.draft);
       draft.category = makeField(currentMessage.category);
       draft.subject = makeField(currentMessage.subject);
 

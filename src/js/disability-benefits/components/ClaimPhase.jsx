@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash/fp';
-import { getHistoryPhaseDescription, getUserPhaseDescription, getMicroPhaseDescription } from '../utils/helpers';
+import { getHistoryPhaseDescription, getUserPhaseDescription } from '../utils/helpers';
 
 const stepClasses = {
   1: 'one',
@@ -16,7 +16,7 @@ const COMPLETE_PHASE = 5;
 const INITIAL_ACTIVITY_ROWS = 5;
 
 function getClasses(phase, current) {
-  const processClass = 'step wow fadeIn animated';
+  const processClass = 'step';
   const stepClass = stepClasses[phase];
   if (phase === current) {
     return `${stepClass} ${processClass} section-current`;
@@ -46,13 +46,6 @@ export default class ClaimPhase extends React.Component {
         return (
           <div className="claims-evidence-item columns medium-9">
             Your claim moved to {getHistoryPhaseDescription(this.props.phase)}
-          </div>
-        );
-
-      case 'micro_phase':
-        return (
-          <div className="claims-evidence-item columns medium-9">
-            Your claim moved to {getMicroPhaseDescription(event.phaseNumber)}
           </div>
         );
 
@@ -96,6 +89,13 @@ export default class ClaimPhase extends React.Component {
         return (
           <div className="claims-evidence-item columns medium-9">
             We closed the notice for {event.displayName}
+          </div>
+        );
+
+      case 'other_documents_list':
+        return (
+          <div className="claims-evidence-item columns medium-9">
+            You or others submitted {event.fileType}. We will notify you when we've reviewed it.
           </div>
         );
 

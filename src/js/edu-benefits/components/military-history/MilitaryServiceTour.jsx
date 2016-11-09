@@ -32,7 +32,7 @@ export default class MilitaryServiceTour extends React.Component {
           <DateInput required
               errorMessage="Please provide a valid date"
               validation={validateIfDirtyDateObj(tour.dateRange.from, isValidDateField)}
-              label="Date entered"
+              label="Start of service period"
               name="fromDate"
               day={tour.dateRange.from.day}
               month={tour.dateRange.from.month}
@@ -41,7 +41,7 @@ export default class MilitaryServiceTour extends React.Component {
           <DateInput required
               errorMessage={isValidDateRange(tour.dateRange.from, tour.dateRange.to) ? 'Please provide a valid date' : 'Date separated must be after date entered'}
               validation={validateIfDirtyDateObj(tour.dateRange.to, date => isValidDateRange(tour.dateRange.from, date))}
-              label="Date separated"
+              label="End of service period"
               name="toDate"
               day={tour.dateRange.to.day}
               month={tour.dateRange.to.month}
