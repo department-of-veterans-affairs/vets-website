@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Reopened Claim
 concurrence: incomplete
-plainlanguage: 11-8-16 Ready for Beth review
+plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/standard-claim/
     title: Standard Claim
@@ -39,10 +39,10 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">    
 
-If you've had a claim for disability benefits denied in the past, you can file a reopened claim to get a new decision *if*:
+If you've had a claim for disability benefits denied in the past, you can file a reopened claim to get a new decision **if**:
 - Your claim was denied at least 1 or more years ago, **and**
 - You didn't file an appeal at that time, **and**
-- You have new evidence (new supporting documents like doctor's reports or medical test results) that we haven't seen before and that's directly related to your claim
+- You have new evidence (new supporting documents like a doctor's report or medical test results) that we haven't seen before and that's directly related to your claim
 
 **Example:**<br>
 A Veteran was treated several times during service for pain in his right elbow. He filed a claim for disability benefits, but his claim wasn’t granted because, when the Veteran was examined, the VA doctor didn’t find a problem. 
