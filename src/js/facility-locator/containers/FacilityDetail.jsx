@@ -52,11 +52,7 @@ class FacilityDetail extends Component {
     }
 
     return (
-      <div className="mb2">
-        <h4>Access to Care</h4>
-        <hr className="title"/>
-        <AccessToCare facility={facility}/>
-      </div>
+      <AccessToCare facility={facility}/>
     );
   }
 

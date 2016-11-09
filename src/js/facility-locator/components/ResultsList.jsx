@@ -14,10 +14,6 @@ class ResultsList extends Component {
   handlePageSelect = (page) => {
     const { currentQuery } = this.props;
 
-    this.props.updateUrlParams({
-      page,
-    });
-
     this.props.searchWithBounds(
       currentQuery.bounds,
       currentQuery.facilityType,
