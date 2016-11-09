@@ -10,7 +10,7 @@ import Pagination from '../../common/components/Pagination';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
 import ConsolidatedClaims from '../components/ConsolidatedClaims';
 import FeaturesWarning from '../components/FeaturesWarning';
-import { scrollToTop, setUpPage } from '../utils/page';
+import { scrollToTop, setUpPage, setPageFocus } from '../utils/page';
 
 class YourClaimsPage extends React.Component {
   constructor(props) {
@@ -20,7 +20,16 @@ class YourClaimsPage extends React.Component {
   componentDidMount() {
     this.props.getClaims();
     document.title = 'Track Claims: Vets.gov';
-    setUpPage();
+    if (this.props.loading) {
+      scrollToTop();
+    } else {
+      setUpPage();
+    }
+  }
+  componentDidUpdate(prevProps) {
+    if (!this.props.loading && prevProps.loading) {
+      setPageFocus();
+    }
   }
   changePage(page) {
     this.props.changePage(page);
@@ -32,7 +41,7 @@ class YourClaimsPage extends React.Component {
     let content;
 
     if (loading) {
-      content = <LoadingIndicator/>;
+      content = <LoadingIndicator message="Loading claims list" setFocus/>;
     } else if (claims.length > 0) {
       content = (<div className="claim-list">
         {claims.map(claim => <ClaimsListItem claim={claim} key={claim.id}/>)}
