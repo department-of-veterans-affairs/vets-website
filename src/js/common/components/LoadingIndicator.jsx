@@ -24,7 +24,7 @@ export default class LoadingIndicator extends React.Component {
 }
 
 LoadingIndicator.propTypes = {
-  message: React.PropTypes.string.required,
+  message: React.PropTypes.string.isRequired,
   setFocus: React.PropTypes.bool
 };
 
