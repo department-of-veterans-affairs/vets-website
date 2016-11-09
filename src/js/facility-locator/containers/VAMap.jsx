@@ -330,7 +330,6 @@ class VAMap extends Component {
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
               <DivMarker position={position} popupContent={<span>You are here</span>}>
                 <div className="current-position-icon">
-                  <i className="fa fa-star"></i>
                 </div>
               </DivMarker>
               <FeatureGroup ref="facilityMarkers">
