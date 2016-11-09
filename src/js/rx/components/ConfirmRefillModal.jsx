@@ -62,10 +62,13 @@ class ConfirmRefillModal extends React.Component {
 }
 
 ConfirmRefillModal.propTypes = {
-  drug: React.PropTypes.string,
-  dosage: React.PropTypes.string,
-  facilityName: React.PropTypes.string,
-  lastRefilled: React.PropTypes.string
+  prescription: React.PropTypes.shape({
+    prescriptionId: React.PropTypes.number.isRequired,
+    prescriptionName: React.PropTypes.string.isRequired
+  }),
+  isVisible: React.PropTypes.bool,
+  refillPrescription: React.PropTypes.func,
+  onCloseModal: React.PropTypes.func
 };
 
 export default ConfirmRefillModal;
