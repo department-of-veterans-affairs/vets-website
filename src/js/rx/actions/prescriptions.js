@@ -77,15 +77,28 @@ export function loadPrescriptions(options) {
   };
 }
 
-export function refillPrescription(id) {
-  if (id) {
-    const url = `/${id}/refill`;
+export function refillPrescription(prescription) {
+  if (prescription.prescriptionId) {
+    const url = `/${prescription.prescriptionId}/refill`;
 
-    return dispatch => apiRequest(url, { method: 'PATCH' })
-      .then(
-        data => dispatch({ type: 'REFILL_SUCCESS', id, data }),
-        err => dispatch({ type: 'REFILL_FAILURE', err })
+    return dispatch => {
+      apiRequest(url, { method: 'PATCH' })
+      .then(response => {
+        return (response.ok) ?
+          Promise.resolve() :
+          Promise.reject(response.json());
+      }).then(
+        () => dispatch({
+          type: 'REFILL_SUCCESS',
+          prescription
+        }),
+        response => dispatch({
+          type: 'REFILL_FAILURE',
+          errors: response.errors,
+          prescription
+        })
       );
+    };
   }
 
   return dispatch => dispatch({ type: 'REFILL_FAILURE' });

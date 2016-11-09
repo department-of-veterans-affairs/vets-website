@@ -108,8 +108,10 @@ export default function prescriptions(state = initialState, action) {
       return assign(state, newState);
     }
 
-    case 'REFILL_SUCCESS':
-      return set('items', updateRefillStatus(state.items, action.id), state);
+    case 'REFILL_SUCCESS': {
+      const newItems = updateRefillStatus(state.items, action.prescription.prescriptionId);
+      return set('items', newItems, state);
+    }
 
     case 'SORT_PRESCRIPTIONS': {
       const newState = set('active.sort', action.sort, state);

@@ -21,9 +21,8 @@ class RxRefillsApp extends React.Component {
           {this.props.children}
         </div>
         <ConfirmRefillModal
-            {...this.props.refillModal.prescription}
+            prescription={this.props.refillModal.prescription}
             isVisible={this.props.refillModal.visible}
-            openAlert={this.props.openAlert}
             refillPrescription={this.props.refillPrescription}
             onCloseModal={this.props.closeRefillModal}/>
         <GlossaryModal
