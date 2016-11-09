@@ -15,7 +15,7 @@ relatedlinks:
     title: Learn about the National Call to Service program
 ---
 
-If you are a Servicemember or Veteran interested in education and training opportunities, use this form (**22-1990**) to apply for your Certificate of Eligibility (COE).
+If you are a Servicemember or Veteran interested in education and training opportunities, use Form 22-1990 to apply for your Certificate of Eligibility (COE).
 
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
 	<div class="usa-alert-body">
@@ -37,7 +37,7 @@ You must apply for education benefits using eBenefits.va.gov if you are:
 
 <br>
 
-### What are the steps to apply with form 22-1990?
+### What are the steps to apply with Form 22-1990?
 
 <div class="small-12 columns" markdown="0">
 <ol class="process" markdown="0">
