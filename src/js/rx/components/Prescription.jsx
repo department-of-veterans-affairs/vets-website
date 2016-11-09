@@ -48,10 +48,10 @@ class Prescription extends React.Component {
 
     if (remaining === 0) {
       msgProvider = (
-        <div className="rx-call-provider">
-          <Link
-              key={`rx-${id}-call`}
-              to="/messaging">Message Provider</Link>
+        <div
+            className="rx-call-provider"
+            key={`rx-${id}-call`}>
+          <Link to="/messaging">Message Provider</Link>
         </div>
       );
     }
