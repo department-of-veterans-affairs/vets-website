@@ -9,7 +9,7 @@ export default function Notification({ title, body, onClose, type }) {
   return (
     <div className={classes} role="alert">
       {onClose && <button className="va-alert-close" onClick={onClose} aria-label="Close notification">
-        <i className="fa fa-close"></i>
+        <i className="fa fa-close" aria-label="Close icon"></i>
       </button>}
       <div className="usa-alert-body">
         <h4 className="usa-alert-heading">{title}</h4>
