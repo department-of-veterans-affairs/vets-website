@@ -35,3 +35,5 @@ class TabItem extends React.Component {
 }
 
 export default withRouter(TabItem);
+
+export { TabItem };
