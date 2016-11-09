@@ -1,36 +1,4 @@
-import environment from '../common/helpers/environment';
-
-function getHeaders() {
-  const headers = {
-    'X-Key-Inflection': 'camel'
-  };
-
-  if (typeof localStorage !== 'undefined' && localStorage !== null) {
-    headers.Authorization = `Token token=${localStorage.userToken}`;
-  }
-
-  return headers;
-}
-
-function getApiUrl() {
-  let url;
-
-  if (environment) {
-    url = environment.API_URL;
-  }
-
-  return url;
-}
-
 module.exports = {
-  // Base URL to be used in API requests.
-  api: {
-    url: `${getApiUrl()}/v0/prescriptions`,
-    settings: {
-      headers: getHeaders()
-    }
-  },
-
   glossary: {
     Prescription: [
       {
