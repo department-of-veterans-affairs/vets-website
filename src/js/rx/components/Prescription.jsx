@@ -85,7 +85,7 @@ class Prescription extends React.Component {
             className="rx-prescription-status">
           Refill status: <GlossaryLink
               term={displayStatus}
-              onClick={this.props.openGlossaryModal}/>
+              onClick={this.props.glossaryModalHandler}/>
         </div>
       );
     }
