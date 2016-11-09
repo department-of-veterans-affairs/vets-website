@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Standard Claim
-plainlanguage: 11-8-16 Ready for Beth review
+plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 concurrence: complete
 relatedlinks:
@@ -34,7 +34,7 @@ relatedlinks:
     description: ""
 ---
 
-If you'd like us to help you gather evidence (supporting documents like doctor's reports and medical test results) to support your disability benefits claim, you should file a standard claim.
+If you'd like us to help you gather evidence (supporting documents like a doctor's report and medical test results) to support your disability benefits claim, please file a standard claim.
 
 With a standard claim, we'll get your permission to gather any needed evidence for you. This may include medical records from:
 - Your non-VA doctor
@@ -44,7 +44,7 @@ With a standard claim, we'll get your permission to gather any needed evidence f
 
 ### What evidence will VA look for to support my claim?
 
-We'll seek to support your claim with evidence of:
+We want to support your claim with evidence of:
 
 - A current physical or mental disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work)
 - An event, injury, or illness that happened while you were serving in the military to cause the disability
