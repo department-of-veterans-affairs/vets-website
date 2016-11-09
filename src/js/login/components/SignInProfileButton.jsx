@@ -1,22 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { updateLoggedInStatus, logOut } from '../../common/actions';
+import { updateLoggedInStatus } from '../../common/actions';
 
 
 class SignInProfileButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.clearUserToken = this.clearUserToken.bind(this);
-  }
-
-  clearUserToken() {
-    localStorage.removeItem('userToken');
-    this.props.onUpdateLoggedInStatus(false);
-    this.props.onClearUserData();
-    location.reload();
-  }
-
   render() {
     let content;
 
@@ -25,7 +13,7 @@ class SignInProfileButton extends React.Component {
         <span>
           <span>Hello, {this.props.profile.email}</span><span className="signin-spacer">|</span>
           <a href="/profile">Profile</a><span className="signin-spacer">|</span>
-          <a href="#" onClick={this.clearUserToken}>Sign Out</a>
+          <a href="#" onClick={this.props.onUserLogout}>Sign Out</a>
         </span>
       );
     } else {
@@ -52,9 +40,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
-    },
-    onClearUserData: () => {
-      dispatch(logOut());
     }
   };
 };

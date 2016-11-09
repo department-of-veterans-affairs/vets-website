@@ -20,7 +20,7 @@ module.exports = E2eHelpers.createE2eTest(
 
     // Ensure detail page renders.
     client
-      .url(`${E2eHelpers.baseUrl}/healthcare/prescriptions/13650546`)
+      .url(`${E2eHelpers.baseUrl}/healthcare/prescriptions/13499271`)
       .waitForElementVisible('body', Timeouts.normal)
       .axeCheck('.main');
 
