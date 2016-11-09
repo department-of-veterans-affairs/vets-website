@@ -9,11 +9,13 @@ class FacilityPhoneLink extends Component {
       return null;
     }
 
+    const re = /^(\d{3})[ -]?(\d{3})[ -]?(\d{4}) x (\d*)/;
+
     return (
       <span>
         <a href={`tel:${phone.mental_health_clinic}`}>
           <i className="fa fa-fw"/>
-          Mental Health: {phone.main.replace(/ +x */, '')}
+          Mental Health: {phone.mental_health_clinic.replace(re, '$1-$2-$3 x$4')}
         </a>
       </span>
     );
