@@ -16,7 +16,7 @@ import {
   itemsNeedingAttentionFromVet
 } from '../../../src/js/disability-benefits/utils/helpers';
 
-describe('Disability benefits helpers:', () => {
+describe('Disability benefits helpers: ', () => {
   describe('groupTimelineActivity', () => {
     it('should group events before a phase into phase 1', () => {
       const events = [
@@ -55,7 +55,7 @@ describe('Disability benefits helpers:', () => {
       expect(phaseActivity[1][0].type).to.equal('filed');
       expect(phaseActivity[2].length).to.equal(3);
     });
-    it('should group micro phases into phase 3', () => {
+    it('should discard micro phases', () => {
       const events = [
         {
           type: 'phase5',
@@ -85,10 +85,75 @@ describe('Disability benefits helpers:', () => {
 
       const phaseActivity = groupTimelineActivity(events);
 
-      expect(phaseActivity[3].length).to.equal(3);
-      expect(phaseActivity[3][0].type).to.equal('micro_phase');
-      expect(phaseActivity[3][1].type).to.equal('micro_phase');
-      expect(phaseActivity[3][2].type).to.equal('phase_entered');
+      expect(phaseActivity[3].length).to.equal(1);
+      expect(phaseActivity[3][0].type).to.equal('phase_entered');
+    });
+    it('should group events into correct bucket', () => {
+      const events = [
+        {
+          type: 'received_from_you_list',
+          date: '2016-11-02'
+        },
+        {
+          type: 'received_from_you_list',
+          date: '2016-11-02'
+        },
+        {
+          type: 'received_from_you_list',
+          date: '2016-11-02'
+        },
+        {
+          type: 'received_from_you_list',
+          date: '2016-11-02'
+        },
+        {
+          type: 'phase5',
+          date: '2016-11-02'
+        },
+        {
+          type: 'phase4',
+          date: '2016-11-02'
+        },
+        {
+          type: 'phase3',
+          date: '2016-11-02'
+        },
+        {
+          type: 'phase2',
+          date: '2016-11-02'
+        },
+        {
+          type: 'other_documents_list',
+          uploadDate: '2016-03-24'
+        },
+        {
+          type: 'other_documents_list',
+          uploadDate: '2015-08-28'
+        },
+        {
+          type: 'other_documents_list',
+          uploadDate: '2015-08-28'
+        },
+        {
+          type: 'phase1',
+          date: '2015-04-20'
+        },
+        {
+          type: 'filed',
+          date: '2015-04-20'
+        },
+        {
+          type: 'other_documents_list',
+          uploadDate: null
+        }
+      ];
+
+      const phaseActivity = groupTimelineActivity(events);
+
+      expect(phaseActivity[3].length).to.equal(5);
+      expect(phaseActivity[3][4].type).to.equal('phase_entered');
+      expect(phaseActivity[2].length).to.equal(4);
+      expect(phaseActivity[1].length).to.equal(1);
     });
   });
   describe('isPopulatedClaim', () => {

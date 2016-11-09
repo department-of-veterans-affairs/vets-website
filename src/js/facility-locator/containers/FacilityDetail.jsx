@@ -2,6 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchVAFacility } from '../actions';
 import { Link, browserHistory } from 'react-router';
+import AccessToCare from '../components/AccessToCare';
 import FacilityAddress from '../components/search-results/FacilityAddress';
 import FacilityDirectionsLink from '../components/search-results/FacilityDirectionsLink';
 import FacilityHours from '../components/FacilityHours';
@@ -70,6 +71,11 @@ class FacilityDetail extends Component {
               <h4>Hours of Operation</h4>
               <hr className="title"/>
               <FacilityHours facility={facility}/>
+            </div>
+            <div className="mb2">
+              <h4>Access to Care</h4>
+              <hr className="title"/>
+              <AccessToCare facility={facility}/>
             </div>
           </div>
         </div>
