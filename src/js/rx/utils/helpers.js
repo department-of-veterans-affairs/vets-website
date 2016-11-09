@@ -1,4 +1,7 @@
+import merge from 'lodash/fp/merge';
 import moment from 'moment';
+
+import environment from '../../common/helpers/environment';
 import { glossary } from '../config';
 
 export function formatDate(date, options = {}) {
@@ -20,4 +23,21 @@ export function getModalTerm(term) {
     return obj.term === term;
   });
   return content;
+}
+
+export function apiRequest(resource, optionalSettings = {}) {
+  const baseUrl = `${environment.API_URL}/v0/prescriptions`;
+  const url = [baseUrl, resource].join('');
+
+  const defaultSettings = {
+    method: 'GET',
+    headers: {
+      Authorization: `Token token=${localStorage.userToken}`,
+      'X-Key-Inflection': 'camel'
+    }
+  };
+
+  const settings = merge(defaultSettings, optionalSettings);
+
+  return fetch(url, settings);
 }
