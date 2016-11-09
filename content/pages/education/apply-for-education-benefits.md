@@ -32,7 +32,7 @@ You must apply for education benefits using eBenefits.va.gov if you are:
 <div markdown="0">
 	<a class="usa-button-primary usa-button-outline usa-button-outline-exit transparent" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
 </div>
-</div>	
+</div>
 </div>
 
 <br>
@@ -91,7 +91,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 </div>
 
-<a href="/education/apply-for-education-benefits/application" class="usa-button-primary va-button-primary">Start Form 1990</a>
+<a href="/education/apply-for-education-benefits/application" class="usa-button-primary va-button-primary">Start Form 22-1990</a>
 
 <div markdown="1">
 
