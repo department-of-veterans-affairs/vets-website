@@ -99,6 +99,7 @@ class VAMap extends Component {
       ...location.query,
       zoomLevel: currentQuery.zoomLevel,
       page: currentQuery.currentPage,
+      address: currentQuery.searchString,
       ...params,
     }, (v, k) => {
       if (v) { return `${k}=${v}`; }
@@ -123,6 +124,7 @@ class VAMap extends Component {
         searchString: placeName,
         context: zipCode,
       });
+
       this.updateUrlParams({
         address: placeName,
         context: zipCode,
@@ -136,6 +138,7 @@ class VAMap extends Component {
     this.updateUrlParams({
       address: currentQuery.searchString,
     });
+
     this.props.searchWithAddress(currentQuery);
     this.handleBoundsChanged();
   }

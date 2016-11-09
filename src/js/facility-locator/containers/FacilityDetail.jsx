@@ -16,9 +16,26 @@ class FacilityDetail extends Component {
     this.props.fetchVAFacility(this.props.params.id);
   }
 
+  renderFacilityWebsite() {
+    const { facility } = this.props;
+    const { website } = facility.attributes;
+
+    if (!website) {
+      return null;
+    }
+
+    return (
+      <span>
+        <a href={website} target="_blank">
+          <i className="fa fa-globe" style={{ marginRight: '0.5rem' }}/> Website
+        </a>
+      </span>
+    );
+  }
+
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name, website } = facility.attributes;
+    const { name } = facility.attributes;
 
     return (
       <div>
@@ -30,11 +47,7 @@ class FacilityDetail extends Component {
           <FacilityPhoneLink facility={facility}/>
         </p>
         <p>
-          <span>
-            <a href={website} target="_blank">
-              <i className="fa fa-globe" style={{ marginRight: '0.5rem' }}/> Website
-            </a>
-          </span>
+          {this.renderFacilityWebsite()}
         </p>
         <p>
           <FacilityDirectionsLink facility={facility}/>
