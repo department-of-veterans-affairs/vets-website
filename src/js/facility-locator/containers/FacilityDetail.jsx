@@ -2,6 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { fetchVAFacility } from '../actions';
 import { Link, browserHistory } from 'react-router';
+import AccessToCare from '../components/AccessToCare';
 import FacilityAddress from '../components/search-results/FacilityAddress';
 import FacilityDirectionsLink from '../components/search-results/FacilityDirectionsLink';
 import FacilityHours from '../components/FacilityHours';
@@ -43,6 +44,22 @@ class FacilityDetail extends Component {
     );
   }
 
+  renderAccessToCare() {
+    const { facility } = this.props;
+
+    if (facility.attributes.facility_type !== 'va_health_facility') {
+      return null;
+    }
+
+    return (
+      <div className="mb2">
+        <h4>Access to Care</h4>
+        <hr className="title"/>
+        <AccessToCare facility={facility}/>
+      </div>
+    );
+  }
+
   render() {
     const { facility } = this.props;
 
@@ -71,6 +88,7 @@ class FacilityDetail extends Component {
               <hr className="title"/>
               <FacilityHours facility={facility}/>
             </div>
+            {this.renderAccessToCare()}
           </div>
         </div>
       </div>

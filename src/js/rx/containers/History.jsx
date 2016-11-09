@@ -4,13 +4,15 @@ import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 import _ from 'lodash';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Pagination from '../../common/components/Pagination';
 import SortableTable from '../../common/components/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modals';
-import Pagination from '../../common/components/Pagination';
+import GlossaryLink from '../components/GlossaryLink';
 import SortMenu from '../components/SortMenu';
 import { rxStatuses } from '../config';
-import { formatDate, getModalTerm } from '../utils/helpers';
+import { formatDate } from '../utils/helpers';
 
 const ScrollElement = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -21,13 +23,14 @@ class History extends React.Component {
     this.formattedSortParam = this.formattedSortParam.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
-    this.openGlossaryModal = this.openGlossaryModal.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
   }
 
   componentDidMount() {
-    const query = _.pick(this.props.location.query, ['page', 'sort']);
-    this.props.loadPrescriptions(query);
+    if (!this.props.loading) {
+      const query = _.pick(this.props.location.query, ['page', 'sort']);
+      this.props.loadPrescriptions(query);
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -41,17 +44,30 @@ class History extends React.Component {
     const requestedPage = +query.page || currentPage;
     const requestedSort = query.sort || currentSort;
 
+    // Check if query params requested are different from state.
     const pageChanged = requestedPage !== currentPage;
     const sortChanged = requestedSort !== currentSort;
 
     if (pageChanged || sortChanged) {
-      this.props.loadPrescriptions(query);
+      this.scrollToTop();
     }
 
-    const pageUpdated = prevProps.page !== currentPage;
+    if (!this.props.loading) {
+      if (pageChanged || sortChanged) {
+        this.props.loadPrescriptions(query);
+      }
 
-    if (pageUpdated) {
-      this.scrollToTop();
+      // Check if query params changed in state.
+      const prevSort = this.formattedSortParam(
+        prevProps.sort.value,
+        prevProps.sort.order
+      );
+      const pageUpdated = prevProps.page !== currentPage;
+      const sortUpdated = prevSort !== currentSort;
+
+      if (pageUpdated || sortUpdated) {
+        this.scrollToTop();
+      }
     }
   }
 
@@ -86,16 +102,13 @@ class History extends React.Component {
     });
   }
 
-  openGlossaryModal(term) {
-    const content = getModalTerm(term);
-    this.props.openGlossaryModal(content);
-  }
-
   render() {
     const items = this.props.prescriptions;
     let content;
 
-    if (items) {
+    if (this.props.loading) {
+      content = <LoadingIndicator message="is loading your prescriptions..."/>;
+    } else if (items) {
       const currentSort = this.props.sort;
 
       const fields = [
@@ -123,9 +136,9 @@ class History extends React.Component {
             ),
 
           refillStatus: (
-            <a onClick={() => this.openGlossaryModal(status)}>
-              {status}
-            </a>
+            <GlossaryLink
+                term={status}
+                onClick={this.props.openGlossaryModal}/>
             )
         };
       });
