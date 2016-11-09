@@ -11,7 +11,7 @@ export function loadPrescription(id) {
 
       Promise.all(urls.map(url => {
         return apiRequest(url).then(response => {
-          return (!response.ok) ? Promise.reject() : response.json();
+          return (response.ok) ? response.json() : Promise.reject();
         });
       })).then(
         data => dispatch({
@@ -61,11 +61,7 @@ export function loadPrescriptions(options) {
 
     apiRequest(url)
       .then(response => {
-        if (!response.ok) {
-          return Promise.reject();
-        }
-
-        return response.json();
+        return (response.ok) ? response.json() : Promise.reject();
       }).then(
         data => dispatch({
           type: 'LOAD_PRESCRIPTIONS_SUCCESS',
