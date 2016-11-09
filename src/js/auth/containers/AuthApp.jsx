@@ -22,9 +22,10 @@ class AuthApp extends React.Component {
     this.checkUserLevel();
   }
 
-  setMyToken(token) {
+  setMyToken(token, time) {
     window.opener.localStorage.removeItem('userToken');
     window.opener.localStorage.setItem('userToken', token);
+    window.opener.localStorage.setItem('entryTime', time);
     window.opener.postMessage(token, environment.BASE_URL);
     window.close();
   }
@@ -43,12 +44,12 @@ class AuthApp extends React.Component {
       if (userData.loa.highest === 3) {
         // This will require a user to MFA if they have not verified in the last 2 mins.
         if (userData.loa.current === 3 && !(moment() > moment(userData.last_signed_in).add(2, 'm'))) {
-          this.setMyToken(myToken);
+          this.setMyToken(myToken, userData.last_signed_in);
         } else {
           window.location.href = this.state.verifyUrl;
         }
       } else {
-        this.setMyToken(myToken);
+        this.setMyToken(myToken, userData.last_signed_in);
       }
     });
   }
