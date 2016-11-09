@@ -43,15 +43,15 @@ class FacilityDetail extends Component {
         <div>
           <FacilityAddress facility={facility}/>
         </div>
-        <p>
+        <div>
           <FacilityPhoneLink facility={facility}/>
-        </p>
-        <p>
+        </div>
+        <div>
           {this.renderFacilityWebsite()}
-        </p>
-        <p>
+        </div>
+        <div>
           <FacilityDirectionsLink facility={facility}/>
-        </p>
+        </div>
         <p>Planning to visit? Please call first as information on this page may change.</p>
       </div>
     );
