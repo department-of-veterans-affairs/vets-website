@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import moment from 'moment';
 import _ from 'lodash/fp';
-import { getHistoryPhaseDescription, getUserPhaseDescription, getMicroPhaseDescription } from '../utils/helpers';
+import { getHistoryPhaseDescription, getUserPhaseDescription } from '../utils/helpers';
 
 const stepClasses = {
   1: 'one',
@@ -46,13 +46,6 @@ export default class ClaimPhase extends React.Component {
         return (
           <div className="claims-evidence-item columns medium-9">
             Your claim moved to {getHistoryPhaseDescription(this.props.phase)}
-          </div>
-        );
-
-      case 'micro_phase':
-        return (
-          <div className="claims-evidence-item columns medium-9">
-            Your claim moved to {getMicroPhaseDescription(event.phaseNumber)}
           </div>
         );
 
