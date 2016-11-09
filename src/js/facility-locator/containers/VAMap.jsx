@@ -25,14 +25,9 @@ class VAMap extends Component {
     const { location, currentQuery } = this.props;
     let shouldGeolocate = true;
 
-    this.updateUrlParams({
-      location: [currentQuery.position.latitude, currentQuery.position.longitude].join(','),
-      context: currentQuery.context,
-    });
-
     this.props.updateSearchQuery({
-      zoomLevel: location.query.zoomLevel,
-      currentPage: location.query.page,
+      zoomLevel: location.query.zoomLevel || currentQuery.zoomLevel,
+      currentPage: location.query.page || currentQuery.currentPage,
     });
 
     // populate search bar with parameters from URL
@@ -88,7 +83,7 @@ class VAMap extends Component {
     }
 
     // reset to page 1 if zoom level changes
-    if (currentQuery.zoomLevel !== newQuery.zoomLevel) {
+    if ((currentQuery.zoomLevel !== newQuery.zoomLevel) && (currentQuery.currentPage !== 1)) {
       this.props.updateSearchQuery({
         currentPage: 1,
       });
