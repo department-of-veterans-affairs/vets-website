@@ -47,7 +47,7 @@ export default class AccessToCare extends Component {
 
     return (
       <div>
-        <table className="usa-table-borderless">
+        <table className="usa-table-borderless" style={{ margin: '2em 0 0.5em' }}>
           <thead>
             <tr>
               <th scope="col">Appointment Type</th>
@@ -59,6 +59,7 @@ export default class AccessToCare extends Component {
             {this.renderDataRows()}
           </tbody>
         </table>
+        <em>* % of Veterans who reported that they were "Always" or "Usually" able to get an appointment</em>
       </div>
     );
   }
