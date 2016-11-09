@@ -1,13 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import moment from 'moment';
 
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import DueDate from '../components/DueDate';
+import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
+import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 
 import { clearNotification } from '../actions';
-import { hasBeenReviewed, truncateDescription, getSubmittedItemDate } from '../utils/helpers';
+import { truncateDescription } from '../utils/helpers';
 import { scrollToTop, setUpPage, isTab, setFocus } from '../utils/page';
 
 const NEED_ITEMS_STATUS = 'NEEDED';
@@ -105,30 +106,11 @@ class FilesPage extends React.Component {
                 ? <div className="no-documents-turned-in"><p>You haven't turned in any documents to VA.</p></div>
                 : null}
 
-              {documentsTurnedIn.map((item, itemIndex) => (
-                <div className="submitted-file-list-item" key={itemIndex}>
-                  <p className="submission-file-type">{item.displayName || 'Additional evidence'}</p>
-                  {item.fileType && <p>{item.fileType}</p>}
-                  <p>{truncateDescription(item.description)}</p>
-                  {item.documents
-                    ? item.documents.map((doc, index) =>
-                      <p key={index} className="submission-item">{doc.filename}</p>)
-                    : null}
-                  {item.filename && <p className="submission-item">{item.filename}</p>}
-                  {hasBeenReviewed(item)
-                    ?
-                    <div>
-                      <h6 className="reviewed-file"><i className="fa fa-check-circle"></i>Reviewed by VA</h6>
-                      <p className="submission-date reviewed-file">{moment(getSubmittedItemDate(item)).format('MMM D, YYYY')}</p>
-                    </div>
-                    :
-                    <div>
-                      <h6>Submitted</h6>
-                      <p className="submission-date">{moment(getSubmittedItemDate(item)).format('MMM D, YYYY')}{item.status && ' (pending)'}</p>
-                    </div>
-                  }
-                </div>
-              ))}
+                {documentsTurnedIn
+                  .map((item, itemIndex) => (
+                    item.trackedItemId
+                      ? <SubmittedTrackedItem item={item} key={itemIndex}/>
+                      : <AdditionalEvidenceItem item={item} key={itemIndex}/>))}
             </div>
           </div>
         </div>
