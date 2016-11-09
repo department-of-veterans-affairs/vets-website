@@ -5,7 +5,7 @@ import $ from 'jquery';
 import environment from '../../common/helpers/environment.js';
 import { getUserData } from '../../common/helpers/login-helpers';
 
-import { updateLoggedInStatus, updateLogInUrl } from '../../common/actions';
+import { updateLoggedInStatus, updateLogInUrl, logOut } from '../../common/actions';
 import SignInProfileButton from '../components/SignInProfileButton';
 
 // TODO(crew): Redux-ify the state and how it is stored here.
@@ -14,6 +14,7 @@ class Main extends React.Component {
     super(props);
     this.setMyToken = this.setMyToken.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
     this.getUserData = getUserData;
   }
 
@@ -55,12 +56,32 @@ class Main extends React.Component {
     receiver.focus();
   }
 
+  handleLogout() {
+    // localStorage.removeItem('userToken');
+    // this.props.onUpdateLoggedInStatus(false);
+    // this.props.onClearUserData();
+    // location.reload();
+    fetch(`${environment.API_URL}/v0/sessions`, {
+      method: 'delete',
+      headers: new Headers({
+        Authorization: `Token token=${localStorage.userToken}`
+      })
+    }).then(response => {
+      return response.json();
+    }).then(json => {
+      // console.log(json);
+      const myLogoutUrl = json.logout_via_get;
+      const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
+      receiver.focus();
+    });
+  }
+
   render() {
     let content;
 
     if (__BUILDTYPE__ !== 'production') {
       content = (
-        <SignInProfileButton onUserLogin={this.handleLogin}/>
+        <SignInProfileButton onUserLogin={this.handleLogin} onUserLogout={this.handleLogout}/>
       );
     } else {
       content = null;
@@ -84,6 +105,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUpdateLoggedInStatus: (update) => {
       dispatch(updateLoggedInStatus(update));
+    },
+    onClearUserData: () => {
+      dispatch(logOut());
     }
   };
 };
