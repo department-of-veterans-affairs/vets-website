@@ -2,11 +2,11 @@
 layout: page-breadcrumbs.html
 title: Benefits Delivery at Discharge (BDD)
 concurrence: incomplete
-plainlanguage: 11-8-16 Ready for Beth review
+plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
-If you're a Servicemember with a disability, the Benefits Delivery at Discharge (BDD) program can help you get your VA  benefits sooner. Through the BDD program, you can start your claim for disability benefits 60 to 180 days before:
+If you're a Servicemember with a disability, the Benefits Delivery at Discharge (BDD) program can help you get your VA benefits sooner. Through the BDD program, you can start your claim for disability benefits 60 to 180 days before:
 - Separation (ending your military service)
 - Retirement
 - Release from active duty, or
@@ -33,11 +33,11 @@ Financial support (monthly payments)
 
 ### How do I get these disability benefits? 
 
-You'll need to apply for benefits. When you apply, you'll need to give us your service treatment records. You'll also need to make sure to complete all phases of the VA/DOD medical separation examination processes before your release from the military.
+You'll need to apply for benefits. When you apply, you'll have to give us your service treatment records. You'll also need to make sure you finish all phases of the VA/DOD medical separation examination processes before your release from the military.
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
 **Exception:** If you're less than 60 days from separation, you can file a different kind of claim called a Quick Start claim. [Learn more about Quick Start claims](/disability-benefits/claims-process/claim-types/predischarge-claim/quick-start/index.html).
 
 ### Get more information
-If you're on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing, where you'll learn how to start your claim. You can also call us toll free at 800-827-1000.
+If you're on a military base or other installation, contact your local Transition Assistance Office or ACAP Center (Army only) to make an appointment to attend a VA benefits briefing. At this briefing, you'll learn how to start your claim. You can also call us toll free at 800-827-1000.
