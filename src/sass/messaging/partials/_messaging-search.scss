@@ -179,6 +179,10 @@
     background: inherit;
     color: $color-primary-darker;
   }
+
+  &:focus {
+    box-shadow: 0 0 3px $color-focus, 0 0 7px $color-focus;
+  }
 }
 
 // Using an longer selector because of a form[type="submit"]
