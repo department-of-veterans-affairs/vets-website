@@ -106,10 +106,11 @@ class FilesPage extends React.Component {
                 ? <div className="no-documents-turned-in"><p>You haven't turned in any documents to VA.</p></div>
                 : null}
 
-              {documentsTurnedIn.map((item, itemIndex) => (
-                item.trackedItemId
-                  ? <SubmittedTrackedItem item={item} key={itemIndex}/>
-                  : <AdditionalEvidenceItem item={item} key={itemIndex}/>))}
+                {documentsTurnedIn
+                  .map((item, itemIndex) => (
+                    item.trackedItemId
+                      ? <SubmittedTrackedItem item={item} key={itemIndex}/>
+                      : <AdditionalEvidenceItem item={item} key={itemIndex}/>))}
             </div>
           </div>
         </div>

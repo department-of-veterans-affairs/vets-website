@@ -3,11 +3,11 @@ import moment from 'moment';
 
 import { getSubmittedItemDate } from '../utils/helpers';
 
-export default function SubmittedTrackedItem({ item }) {
+export default function AdditionalEvidenceItem({ item }) {
   const itemDate = getSubmittedItemDate(item);
   return (
     <div className="submitted-file-list-item">
-      <p className="submission-file-type">Additional Evidence</p>
+      <p className="submission-file-type additional-evidence">Additional Evidence</p>
       <p className="submission-item">
         File: {item.filename}<br/>
         Type: {item.fileType}
@@ -20,6 +20,6 @@ export default function SubmittedTrackedItem({ item }) {
   );
 }
 
-SubmittedTrackedItem.propTypes = {
-  item: React.PropTypes.object.required
+AdditionalEvidenceItem.propTypes = {
+  item: React.PropTypes.object.isRequired
 };

@@ -10,11 +10,11 @@ export default function SubmittedTrackedItem({ item }) {
       <p>{truncateDescription(item.description)}</p>
       {item.documents
         ? item.documents.map((doc, index) => (
-          <p key={index} className="submission-item">
-            {item.documents.length > 1 && <span><h6>File {index + 1}</h6><br/></span>}
+          <div key={index} className="submission-item">
+            {item.documents.length > 1 && <span><h6 className="claims-turnedin-file-header">File {index + 1}</h6><br/></span>}
             File: {doc.filename}<br/>
             Type: {doc.fileType}
-          </p>)
+          </div>)
         )
         : null}
       {hasBeenReviewed(item)
@@ -34,5 +34,5 @@ export default function SubmittedTrackedItem({ item }) {
 }
 
 SubmittedTrackedItem.propTypes = {
-  item: React.PropTypes.object.required
+  item: React.PropTypes.object.isRequired
 };
