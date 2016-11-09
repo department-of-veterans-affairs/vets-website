@@ -91,11 +91,12 @@ export function searchWithAddress(query) {
   };
 }
 
-export function searchWithBounds(bounds, facilityType, serviceType) {
+export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
   const params = compact([
     ...bounds.map(c => `bbox[]=${c}`),
     facilityType ? `type=${facilityType}` : null,
     serviceType ? `services[]=${serviceType}` : null,
+    `page=${page}`
   ]).join('&');
   const url = `${api.url}?${params}`;
 
@@ -112,7 +113,7 @@ export function searchWithBounds(bounds, facilityType, serviceType) {
       .then(
         data => {
           dispatch({ type: SEARCH_SUCCEEDED });
-          dispatch({ type: FETCH_VA_FACILITIES, payload: data.data });
+          dispatch({ type: FETCH_VA_FACILITIES, payload: data });
         },
         err => dispatch({ type: SEARCH_FAILED, err })
       );

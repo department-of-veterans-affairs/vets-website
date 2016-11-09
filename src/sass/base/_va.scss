@@ -1393,6 +1393,19 @@ a.twitter {
   }
 }
 
+.incompatible-browser-warning {
+  padding: 0.5em;
+  font-weight: bold;
+  background: $color-gold-lightest;
+  color: $color-black;
+  font-size: .9em;
+  display: none;
+
+  &.visible {
+    display: block;
+  }
+}
+
 // Only used in the footer
 .va-notice--banner--alt {
   padding: 1.25em 0;
@@ -2214,6 +2227,10 @@ pre[class*='language-']  {
   background-color: $color-gray-lightest;
   padding: 1.5rem;
   z-index: 1;
+
+  a {
+    margin-right: 0;
+  }
 
   .show-for-large-up & {
     position: absolute;

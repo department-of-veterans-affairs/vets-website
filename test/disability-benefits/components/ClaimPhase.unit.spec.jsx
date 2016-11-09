@@ -157,17 +157,6 @@ describe('<ClaimPhase>', () => {
 
       expect(descTree.text()).to.equal('Your claim moved to Claim received');
     });
-    it('should show micro entered description', () => {
-      const output = instance.getEventDescription({
-        type: 'micro_phase',
-        phaseNumber: 4,
-        date: '2010-01-04'
-      });
-
-      const descTree = SkinDeep.shallowRender(output);
-
-      expect(descTree.text()).to.equal('Your claim moved to Review of evidence');
-    });
     it('should show file description', () => {
       const output = instance.getEventDescription({
         type: 'filed',
