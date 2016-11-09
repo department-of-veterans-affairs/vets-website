@@ -1,5 +1,3 @@
-import assign from 'lodash/fp/assign';
-
 import { apiRequest } from '../utils/helpers';
 
 export function loadPrescription(id) {
