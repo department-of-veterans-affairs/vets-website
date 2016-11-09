@@ -86,6 +86,13 @@
 
 
 <div class="header">
+  <div class="incompatible-browser-warning">
+    <div class="row full">
+      <div class="small-12">
+        Your browser is out of date. To use this website, please <a href="https://whatbrowser.org/">update your browser</a> or use a different device.
+      </div>
+    </div>
+  </div>
   <div class="va-notice--banner">
     <div class="row flex">
       <div class="columns small-6 medium-8 message flex-center">
@@ -178,4 +185,21 @@
   var script = document.createElement("script");
   script.src = "https://search.usa.gov/javascripts/remote.loader.js";
   document.getElementsByTagName("head")[0].appendChild(script);
+
+  (function() {
+    var domReady = function(callback) {
+      document.readyState === "interactive" || document.readyState === "complete" ? callback() : document.addEventListener("DOMContentLoaded", callback);
+    };
+
+    domReady(function() {
+      // check whether browser is IE10 and older
+      if (window.navigator.userAgent.indexOf('MSIE ') > 0) {
+        var browserWarning = document.getElementsByClassName("incompatible-browser-warning")[0];
+
+        if (browserWarning) {
+          browserWarning.classList.add("visible");
+        }
+      }
+    });
+  })();
 </script>
