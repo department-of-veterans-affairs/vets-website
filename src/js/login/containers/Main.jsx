@@ -60,7 +60,7 @@ class Main extends React.Component {
 
   checkTokenStatus() {
     if (localStorage.userToken) {
-      if (moment() > moment(localStorage.entryTime).add(2, 'm')) {
+      if (moment() > moment(localStorage.entryTime).add(45, 'm')) {
         if (confirm('Your login time has expired. Would you like to login again?')) {
           this.handleLogin();
         } else {
