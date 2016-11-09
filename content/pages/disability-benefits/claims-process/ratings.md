@@ -1,15 +1,16 @@
 ---
 layout: page-breadcrumbs.html
 title: How VA Assigns Disability Ratings
+plainlanguage: 11-9-16 Ready for Beth review
 template: 1-topic-landing
 ---
 
-The amount of compensation depends on the severity of your disability. VA determines this based on the evidence you provide, as well as the information VA obtains about your disability.
+For each disability benefits claim, we assign a severity rating from 0% to 100% in 10% increments (for example, 10%, 20%, 30%). We base this rating on the evidence (supporting documents like a doctor's report or medical test results) you provide as well as other information we may get from other sources (like federal agencies). 
 
-VA rates disability from 0% to 100% in 10% increments (for example, 10%, 20%, 30%). See the [Combined Ratings page](http://www.benefits.va.gov/COMPENSATION/rates-index.asp#combined) for information about how VA calculates disability percentage for multiple disabilities.
+See the Combined Ratings page to learn how we calculate disability percentage for more than one disability. [See Combined Ratings](http://www.benefits.va.gov/COMPENSATION/rates-index.asp#combined).
 
-### You may be paid additional amounts, in certain instances, if:
+### You may be paid added amounts—in certain instances—if:
 
--	You have very severe disabilities or loss of limb(s).
--	You have a spouse, child(ren), or dependent parent(s).
--	You have a seriously disabled spouse.
+-	You have very severe disabilities or loss of limb(s)
+-	You have a spouse, child(ren), or dependent parent(s)
+-	You have a seriously disabled spouse
