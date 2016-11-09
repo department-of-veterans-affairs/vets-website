@@ -50,7 +50,8 @@ function updateRefillStatus(items, id) {
   const updateCount = set('attributes.refillRemaining', calculateCount, items[itemToUpdate]);
 
   // Update the refill status
-  const refillStatus = set('attributes.isRefillable', false, updateCount);
+  const isRefillable = set('attributes.isRefillable', false, updateCount);
+  const refillStatus = set('attributes.refillStatus', 'submitted', isRefillable);
 
   const updatedItems = set(itemToUpdate, refillStatus, items);
 
