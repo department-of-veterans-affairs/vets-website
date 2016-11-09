@@ -18,7 +18,7 @@ When you file a claim for disability benefits, you'll need to gather all related
 
 The Veterans Claims Assistance Act (VCAA) passed by Congress in 2000 defines both VA's and the Veteran's responsibilities:
 
-### We are responsible for:
+### We're responsible for:
 
 - Getting related records from:
 
@@ -28,7 +28,7 @@ The Veterans Claims Assistance Act (VCAA) passed by Congress in 2000 defines bot
 
 - Providing a medical exam or getting a doctor's opinion, if needed to decide the claim
 
-### You are responsible for:
+### You're responsible for:
 
 - Getting related records not held by a federal agency. These may include records from:
 
