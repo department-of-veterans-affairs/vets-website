@@ -10,6 +10,7 @@ describe('<StatusPage>', () => {
     const claim = {
       attributes: {
         phase: 2,
+        open: true,
         documentsNeeded: false,
         decisionLetterSent: false,
         waiverSubmitted: true,
@@ -30,6 +31,30 @@ describe('<StatusPage>', () => {
     expect(tree.subTree('AskVAToDecide')).to.be.false;
     expect(tree.subTree('ClaimsDecision')).to.be.false;
     expect(tree.subTree('ClaimsTimeline')).not.to.be.false;
+  });
+  it('should not render a timeline when closed', () => {
+    const claim = {
+      attributes: {
+        phase: 2,
+        open: false,
+        documentsNeeded: false,
+        decisionLetterSent: false,
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <StatusPage
+          claim={claim}/>
+    );
+    expect(tree.subTree('ClaimsDecision')).not.to.be.false;
+    expect(tree.subTree('ClaimsTimeline')).to.be.false;
   });
   it('should render need files from you component', () => {
     const claim = {
