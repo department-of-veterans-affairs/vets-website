@@ -56,7 +56,7 @@ class MessageSend extends React.Component {
         <MessageAddAttachment
             cssClass="msg-attach"
             allowedMimeTypes={this.props.allowedMimeTypes}
-            id="msg-attachments"
+            id="msg-attachments-input"
             label="Attach a file"
             name="messageAttachments"
             onChange={this.handleAttachmentsChange}/>
