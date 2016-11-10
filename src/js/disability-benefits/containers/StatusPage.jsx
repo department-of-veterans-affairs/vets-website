@@ -60,6 +60,8 @@ class StatusPage extends React.Component {
                 id={claim.id}
                 estimatedDate={claim.attributes.maxEstDate}
                 phase={phase}
+                currentPhaseBack={claim.attributes.currentPhaseBack}
+                everPhaseBack={claim.attributes.everPhaseBack}
                 events={claim.attributes.eventsTimeline}/>
             : null}
         </div>
