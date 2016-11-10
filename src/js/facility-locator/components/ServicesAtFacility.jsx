@@ -87,7 +87,7 @@ class ServicesAtFacility extends Component {
   }
 
   // TODO: Use this method to render separate lists for each L1 service
-  renderServices() {
+  renderServiceLists() {
     const { facility: { attributes: { services } } } = this.props;
 
     if (!services) {
@@ -97,6 +97,37 @@ class ServicesAtFacility extends Component {
     return (
       <div>
         {services.map(this.renderServiceBlock)}
+      </div>
+    );
+  }
+
+  renderServices() {
+    const { facility } = this.props;
+
+    switch (facility.attributes.facility_type) {
+      case 'va_health_facility':
+        return this.renderHealthServices();
+      case 'va_benefits_facility':
+        return this.renderBenefitsServices();
+      default:
+        return null;
+    }
+  }
+
+  renderBenefitsServices() {
+    const { facility: { attributes: { services } } } = this.props;
+
+    if (!services.benefits) {
+      return null;
+    }
+
+    return (
+      <div className="mb2">
+        <ul>
+          {services.benefits.standard.map(s => {
+            return this.renderService(s);
+          })}
+        </ul>
       </div>
     );
   }
@@ -137,7 +168,7 @@ class ServicesAtFacility extends Component {
             This list may not include all of the services available at this location. Please check on the facility's website or call them for this information.
           </div>
         </div>
-        {facility.attributes.facility_type === 'va_health_facility' ? this.renderHealthServices() : null}
+        {this.renderServices()}
       </div>
     );
   }
