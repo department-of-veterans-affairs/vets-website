@@ -68,7 +68,7 @@ class RequiredLoginView extends React.Component {
   handleLogin() {
     const myLoginUrl = this.state.loginUrl;
     // TODO(crew): Check on how this opens on mobile.
-    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
+    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
 

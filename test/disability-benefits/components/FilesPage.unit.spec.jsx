@@ -79,15 +79,9 @@ describe('<FilesPage>', () => {
             documents: [{
               filename: 'Filename'
             }],
+            trackedItemId: 2,
             status: 'ACCEPTED'
           },
-          {
-            type: 'still_need_from_you_list',
-            documents: [{
-              filename: 'Filename'
-            }],
-            status: 'SUBMITTED_AWAITING_REVIEW'
-          }
         ]
       }
     };
@@ -96,10 +90,7 @@ describe('<FilesPage>', () => {
       <FilesPage
           claim={claim}/>
     );
-    expect(tree.everySubTree('.submitted-file-list-item').length).to.equal(2);
-    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Filename');
-    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Reviewed by VA');
-    expect(tree.everySubTree('.submitted-file-list-item')[1].text()).to.contain('Submitted');
+    expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(1);
   });
   it('should display additional evidence docs', () => {
     const claim = {
@@ -118,12 +109,7 @@ describe('<FilesPage>', () => {
       <FilesPage
           claim={claim}/>
     );
-    expect(tree.everySubTree('.submitted-file-list-item').length).to.equal(1);
-    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Filename');
-    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Submitted');
-    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Additional evidence');
-    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Testing');
-    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).not.to.contain('pending');
+    expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
   });
   it('should render decision message', () => {
     const claim = {

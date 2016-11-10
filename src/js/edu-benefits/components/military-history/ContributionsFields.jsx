@@ -18,22 +18,22 @@ export default class ContributionsFields extends React.Component {
       <div className="input-section">
         <p>Select all that apply:</p>
         <ErrorableCheckbox
-            label="I am receiving benefits from the US Government as a civilian employee for the same term I am seeking benefits from VA."
+            label="I am receiving benefits from the U.S. Government as a civilian employee during the same time as I am seeking benefits from VA."
             name="civilianBenefitsAssistance"
             checked={this.props.data.civilianBenefitsAssistance}
             onValueChange={(update) => {this.props.onStateChange('civilianBenefitsAssistance', update);}}/>
         <ErrorableCheckbox
-            label="I made contributions (up to $600.00) to increase the amount of my monthly benefits."
+            label="I made contributions (up to $600) to increase the amount of my monthly benefits."
             name="additionalContributions"
             checked={this.props.data.additionalContributions}
             onValueChange={(update) => {this.props.onStateChange('additionalContributions', update);}}/>
         <ErrorableCheckbox
-            label="I qualify for an Active Duty Kicker (sometimes called a ‘college fund’)."
+            label="I qualify for an Active Duty Kicker (sometimes called a college fund)."
             name="activeDutyKicker"
             checked={this.props.data.activeDutyKicker}
             onValueChange={(update) => {this.props.onStateChange('activeDutyKicker', update);}}/>
         <ErrorableCheckbox
-            label="I qualify for a Reserve Kicker (sometimes called a ‘college fund’)."
+            label="I qualify for a Reserve Kicker (sometimes called a college fund)."
             name="reserveKicker"
             checked={this.props.data.reserveKicker}
             onValueChange={(update) => {this.props.onStateChange('reserveKicker', update);}}/>
@@ -41,7 +41,7 @@ export default class ContributionsFields extends React.Component {
             additionalClass="edu-benefits-active-group"
             open={this.props.data.activeDutyRepaying}>
           <ErrorableCheckbox
-              label="I have a period of service that the Department of Defense counts towards an education loan payment."
+              label="I have a period of service that the Department of Defense counts toward an education loan payment."
               name="activeDutyRepaying"
               checked={this.props.data.activeDutyRepaying}
               onValueChange={(update) => {this.props.onStateChange('activeDutyRepaying', update);}}/>
