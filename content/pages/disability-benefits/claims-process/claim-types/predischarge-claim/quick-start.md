@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Quick Start
-plainlanguage: 11-8-16 Ready for Beth review
+plainlanguage: 11-9-16 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
@@ -16,13 +16,15 @@ If you're in predischarge status, Quick Start can help you get your VA benefits 
 
 ### Can I get disability benefits from VA?
 Yes, if:
--	You're a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard), **and**
--	You have a known separation date (the date you'll be ending your active military service), **and**  
+-	You're a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard), 
+**and**
+-	You have a known separation date (the date you'll be ending your active military service), 
+**and**  
 -	Your separation date is within the next 1 to 59 days
 
 </div>
 
-### What kinds of disability benefits can I get?
+### What kind of disability benefits can I get?
 
 Expedited status decision on your disability claim (meaning you'll get your decision as soon as possible)
 
@@ -30,6 +32,6 @@ Expedited status decision on your disability claim (meaning you'll get your deci
 
 ### How do I get these disability benefits?
 
-You'll need to apply for benefits. When you apply, you'll have to give us your service treatment records. You'll also need to make sure you finish all phases of the VA/DOD medical separation examination processes before your release from the military.
+You'll need to apply for benefits. When you apply, please give us your service treatment records. You'll also need to make sure you finish all phases of the VA/DOD medical separation examination processes before your release from the military.
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
