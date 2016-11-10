@@ -7,7 +7,7 @@ import { updateLoggedInStatus, updateProfileField } from '../actions';
 export function handleVerify() {
   this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
     const myVerifyUrl = result.authenticate_via_get;
-    const receiver = window.open(myVerifyUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
+    const receiver = window.open(myVerifyUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   });
 }
