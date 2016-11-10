@@ -121,7 +121,6 @@ class TurnInEvidencePage extends React.Component {
             </div>
           </div>
         </div>
-
       );
     }
 
