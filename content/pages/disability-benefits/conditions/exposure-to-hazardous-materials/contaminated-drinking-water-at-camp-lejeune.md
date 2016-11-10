@@ -5,25 +5,24 @@ source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_le
 template: 1-topic-landing
 ---
 
-If you served at—or were assigned to—Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants (toxic chemicals) in the drinking water there. We believe that contact with these contaminants during your military service caused certain illnesses, and this is known as a presumptive service connection. 
+If you served at—or were assigned to—Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants (toxic chemicals) in the drinking water there. We believe that contact with these contaminants during your military service caused certain illnesses. This is known as a presumptive service connection. 
 
 Find out if you can get disability compensation or benefits for certain illnesses with a presumptive service connection.
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you served under official orders or other official assignment at Camp Lejeune or MCAS New River for any period of time from August 1953 through December 1987, and
-- You were discharged from the military under conditions other than dishonorable, 
-**and**
+You may be able to get disability benefits if you served under official orders or other official assignment at Camp Lejeune or MCAS New River for any period of time from August 1953 through December 1987, and both of these are true:
+- You were discharged from the military under conditions other than dishonorable, **and**
 - You have 1 or more presumptive conditions believed to be caused by contact with contaminants in the Camp Lejeune drinking water. These include:
 
-- Adult leukemia
-- Aplastic anemia and other myelodysplastic syndromes
-- Bladder cancer
-- Kidney cancer
-- Liver cancer
-- Multiple myeloma
-- Non-Hodgkin’s lymphoma
-- Parkinson’s disease
+  - Adult leukemia
+  - Aplastic anemia and other myelodysplastic syndromes
+  - Bladder cancer
+  - Kidney cancer
+  - Liver cancer
+  - Multiple myeloma
+  - Non-Hodgkin’s lymphoma
+  - Parkinson’s disease
 
 ### Who's covered?
 - Veterans
@@ -38,9 +37,9 @@ You may be able to get disability benefits if you served under official orders o
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits in 1 of 3 ways:
+You’ll need to apply for benefits. You can do this in 1 of 3 ways:
 
-- Apply online at [eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying because of illnesses linked to contaminants in the water supply at Camp Lejeune, and attach evidence, 
+- [Apply online at eBenefits](http://www.ebenefits.va.gov). (Be sure to note that you’re applying because of illnesses linked to contaminants in the water supply at Camp Lejeune, and attach evidence), 
 **or**
 - [Get help from an accredited representative or VSO]( http://www.va.gov/ogc/apps/accreditation/index.asp), 
 **or**
@@ -50,7 +49,7 @@ When you apply, you'll need to give us:
 
 - Your military records showing you served at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 while on active duty, or in the National Guard or Reserves, 
 **and**
-- Evidence (like a doctor’s report or medical test results) stating that you have 1 or more of the 8 illnesses on the presumptive conditions list (see above)
+- Evidence, like a doctor’s report or medical test results, stating that you have 1 or more of the 8 illnesses on the presumptive conditions list (see above)
 
 **Note:** We’ll begin reviewing claims filed for Camp Lejeune presumptive service connection in January 2017.
 
@@ -88,24 +87,16 @@ Yes. Family members of Veterans who served at Camp Lejeune and MCAS New River ca
 
 You’ll need to apply for benefits. When you do, please give us:
 
-- Proof of your relationship to the Veteran who served on active duty for at least 30 days at Camp Lejeune (like a marriage license or a birth certificate), 
+- Proof of your relationship to the Veteran who served on active duty for at least 30 days at Camp Lejeune (like a marriage license or a birth certificate), **and**
 
-**and**
+- Proof that you lived at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 (like utility bills, base housing records, military orders, or tax forms), **and**
 
-Proof that you lived at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 (like utility bills, base housing records, military orders, or tax forms), 
+- Medical records that show you have 1 of the 15 conditions listed above, **and**
 
-**and**
+- A copy of VA Form 10-10068b: The Camp Lejeune Family Member Program Application (your doctor needs to fill it out and sign it)  
 
-Medical records that show you have 1 of the 15 conditions listed above, 
-
-**and**
-
-A copy of VA Form 10-10068b: The Camp Lejeune Family Member Program Application (your doctor needs to fill it out and sign it)  
-
-To file Form 10-10068b:
--	[Fill out the Camp Lejeune Family Member Program form online](https://www.clfamilymembers.fsc.va.gov/), 
-
-**or**
+#### To file Form 10-10068b:
+-	[Fill out the Camp Lejeune Family Member Program form online](https://www.clfamilymembers.fsc.va.gov/), **or**
 
 - [Download Form 10-10068](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). Fax it to 512-460-5536, or mail it to: 
 
