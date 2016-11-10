@@ -1,10 +1,7 @@
+import { values, every } from 'lodash';
 import React, { Component } from 'react';
 
 export default class FacilityHours extends Component {
-  renderHours(hours) {
-    return ['', '-', 'CLOSED'].includes(hours) ? 'Closed' : hours;
-  }
-
   renderNotes(notes) {
     if (notes) {
       return (
@@ -30,6 +27,10 @@ export default class FacilityHours extends Component {
       attributes: { hours }
     } = facility;
 
+    if (every(values(hours), h => !h)) {
+      return null;
+    }
+
     const hourRows = Object.keys(hours).map(h => {
       if (hours[h] && hours[h] !== '') {
         return (
@@ -38,7 +39,7 @@ export default class FacilityHours extends Component {
               {h.charAt(0).toUpperCase() + h.substr(1)}:
             </div>
             <div className="small-6 columns">
-              {['-', 'CLOSED'].includes(hours[h]) ? 'Closed' : hours[h]}
+              {hours[h]}
             </div>
           </div>
         );
@@ -47,7 +48,13 @@ export default class FacilityHours extends Component {
     });
 
     return (
-      <div>{hourRows}</div>
+      <div>
+        <h4>Hours of Operation</h4>
+        <hr className="title"/>
+        <div>
+          {hourRows}
+        </div>
+      </div>
     );
   }
 }
