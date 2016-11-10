@@ -12,7 +12,7 @@ export default class MilitaryServiceFields extends React.Component {
     const activeDutyQuestions = (
       <div>
         <ErrorableRadioButtons
-            label="Are you currently on terminal leave?"
+            label="Are you on terminal leave now?"
             name="onTerminalLeave"
             options={yesNo}
             value={this.props.data.currentlyActiveDuty.onTerminalLeave}
@@ -34,7 +34,7 @@ export default class MilitaryServiceFields extends React.Component {
             onValueChange={(update) => {this.props.onStateChange('serviceAcademyGraduationYear', update);}}/>
         <ExpandingGroup open={this.props.data.currentlyActiveDuty.yes.value === 'Y'} additionalClass="edu-benefits-mil-group">
           <ErrorableRadioButtons
-              label="Are you currently on active duty?"
+              label="Are you on active duty now?"
               name="currentlyActiveDuty"
               options={yesNo}
               value={this.props.data.currentlyActiveDuty.yes}
