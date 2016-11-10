@@ -4,7 +4,7 @@ import SkinDeep from 'skin-deep';
 
 import ClaimsTimeline from '../../../src/js/disability-benefits/components/ClaimsTimeline';
 
-describe.only('<ClaimsTimeline>', () => {
+describe('<ClaimsTimeline>', () => {
   it('should render 5 phases', () => {
     const events = [];
 
@@ -40,5 +40,18 @@ describe.only('<ClaimsTimeline>', () => {
     );
 
     expect(tree.subTree('PhaseBackWarning')).not.to.be.false;
+  });
+  it('should not render phase back warning box if not in phase 6', () => {
+    const events = [];
+
+    const tree = SkinDeep.shallowRender(
+      <ClaimsTimeline
+          events={events}
+          everPhaseBack
+          currentPhaseBack
+          phase={4}/>
+    );
+
+    expect(tree.subTree('PhaseBackWarning')).to.be.false;
   });
 });
