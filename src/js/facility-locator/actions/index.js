@@ -104,6 +104,7 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
     dispatch({
       type: SEARCH_STARTED,
       payload: {
+        page,
         active: true,
       },
     });

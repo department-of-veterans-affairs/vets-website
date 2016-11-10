@@ -69,9 +69,9 @@
         margin-right: 6px;
       }
     }
-    p {
+    p, .submission-item {
       margin: 0;
-      padding: 0;
+      padding: 0 0 0.5em 0;
     }
     .submission-file-type {
       color: $color-primary-darkest;
@@ -79,6 +79,10 @@
       font-size: 1.15em;
       line-height: 1.5;
       font-weight: bold;
+      padding-bottom: 0;
+      &.additional-evidence {
+        padding-bottom: 0.5em;
+      }
     }
     .submission-item {
       display: block;
@@ -639,4 +643,8 @@ h1:focus {
 
 .va-nav-breadcrumbs:focus {
   outline: none
+}
+
+h6.claims-turnedin-file-header {
+  padding: 0 !important;
 }

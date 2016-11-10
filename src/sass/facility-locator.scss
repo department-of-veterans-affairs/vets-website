@@ -155,11 +155,11 @@
 
   .map-marker {
     font-size: 15px;
-    height: 50px;
+    height: 60px;
     margin-left: -25px;
     margin-top: -25px;
     text-align:center;
-    width: 50px;
+    width: 60px;
     z-index: 999;
     color: white;
   }
@@ -202,14 +202,14 @@
   }
 
   .current-position-icon {
-    height: 32px;
+    height: 60px;
     margin-left: -12px;
     margin-top: -12px;
     text-align:center;
     padding-top: 3px;
-    width: 32px;
+    width: 60px;
     z-index: 999;
-    background: url('/img/icons/map-pin-current.svg') no-repeat center center;
+    background: url('/img/icons/current-location-pin.svg') no-repeat center center;
     background-size: contain;
     color: white;
   }
