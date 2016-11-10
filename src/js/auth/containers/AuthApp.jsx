@@ -15,10 +15,6 @@ class AuthApp extends React.Component {
   }
 
   componentDidMount() {
-    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
-      this.setState({ verifyUrl: result.authenticate_via_get });
-    });
-
     if (this.props.location.query.token) {
       this.checkUserLevel();
     }
@@ -47,7 +43,9 @@ class AuthApp extends React.Component {
         if (userData.loa.current === 3 && !(moment() > moment(userData.last_signed_in).add(2, 'm'))) {
           this.setMyToken(myToken);
         } else {
-          window.location.href = this.state.verifyUrl;
+          this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=3`, result => {
+            window.location.href = result.authenticate_via_get;
+          });
         }
       } else {
         this.setMyToken(myToken);
