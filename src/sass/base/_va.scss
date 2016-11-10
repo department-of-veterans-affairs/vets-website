@@ -5,6 +5,10 @@ html, body {
   margin: 0;
 }
 
+html {
+    overflow: -moz-scrollbars-vertical;
+}
+
 body {
   color: $color-gray-dark;
   font-family: $font-sans;
