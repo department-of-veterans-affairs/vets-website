@@ -1,42 +1,43 @@
 ---
 layout: page-breadcrumbs.html
 title: Agent Orange
-plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
+plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: 3-panel-filters
 ---
 
-Agent Orange is a toxic chemical the U.S. military used to clear plants and trees during the Vietnam War. If you served in or near Vietnam during the Vietnam War Era—or in certain related jobs—you may have had contact with Agent Orange. Find out if you can get VA support (known as disability compensation or benefits) for health problems believed to be caused by Agent Orange.
+Agent Orange is a toxic chemical the U.S. military used to clear plants and trees during the Vietnam War. If you served in or near Vietnam during the Vietnam War Era—or in certain related jobs—you may have had contact with Agent Orange. Find out if you can get disability compensation or benefits.
 
 <div class="call-out" markdown="1">
 
-### Can I get disability compensation from VA?
+### Can I get disability benefits from VA?
 
-Yes, if both are true:
+You may be able to get disability benefits if:
 
-- You have a health problem believed to be caused by Agent Orange **and**
+- You have an illness believed to be caused by Agent Orange, **and**
 - You came into contact with Agent Orange while serving in the military
 
-[See the list of Agent Orange-related health problems](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See the list of Agent Orange-related conditions](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+
 
 #### Who's covered?
 
 - Veterans
-- Dependents of Veterans
+- Qualified dependents
 
 </div>
 
 ### What kind of disability benefits can I get?
 
 - Health care
-- Financial support (monthly payments)
+- Compensation (payments)
 
 ### How do I get these benefits?
 
 You'll need to apply for benefits. 
 
-If you have a health problem that is believed to be caused by Agent Orange, you won't need to show the problem started during—or got worse because of—your military service. [See the list of Agent Orange-related health problems](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+If you have a condition that is believed to be caused by Agent Orange, you won't need to show the problem started during—or got worse because of—your military service. [See the list of Agent Orange-related health problems](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
-If you have a health problem that’s not on this list, but you believe it was caused by Agent Orange, you'll need to show the problem started during—or got worse because of—your military service.
+If you have a condition that’s not on this list, but you believe it was caused by Agent Orange, you'll need to show the problem started during—or got worse because of—your military service.
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
@@ -44,10 +45,10 @@ If you have a health problem that’s not on this list, but you believe it was c
 
 Do you think you may have had contact with Agent Orange or other herbicides while serving in the military? [Get an Agent Orange Registry Health Exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/).
 
-Do you have non-Hodkin's lymphoma (a type of cancer of the lymph glands and other lymphatic tissue—a part of your immune system that helps to fight infection and illness)? You can get VA support. [Learn about Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/)
+Do you have non-Hodkin's lymphoma (a type of cancer)? You can get VA support. [Learn about Non-Hodgkin’s Lymphoma and Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/non-hodgkins/).
 
 
-### Did I have contact with Agent Orange?
+### Find out if you had contact with Agent Orange
 
 You may have had contact if you served in any of these ways:
 
