@@ -75,10 +75,12 @@ export function searchWithAddress(query) {
           payload: {
             ...query,
             context: zipCode,
+            bounds: res.features[0].bbox,
             position: {
               latitude: coordinates[1],
               longitude: coordinates[0],
             },
+            zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
           }
         });
       } else {
