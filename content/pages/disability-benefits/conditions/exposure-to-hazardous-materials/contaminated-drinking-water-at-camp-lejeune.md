@@ -13,6 +13,7 @@ Find out if you can get disability compensation or benefits for certain illnesse
 
 You may be able to get disability benefits if you served under official orders or other official assignment at Camp Lejeune or MCAS New River for any period of time from August 1953 through December 1987, and both of these are true:
 - You were discharged from the military under conditions other than dishonorable, **and**
+
 - You have 1 or more presumptive conditions believed to be caused by contact with contaminants in the Camp Lejeune drinking water. These include:
 
   - Adult leukemia
@@ -39,9 +40,9 @@ You may be able to get disability benefits if you served under official orders o
 
 You’ll need to apply for benefits. You can do this in 1 of 3 ways:
 
-- [Apply online at eBenefits](http://www.ebenefits.va.gov). (Be sure to note that you’re applying because of illnesses linked to contaminants in the water supply at Camp Lejeune, and attach evidence), 
+- [Apply online at eBenefits](http://www.ebenefits.va.gov). Be sure to note that you’re applying because of illnesses linked to contaminants in the water supply at Camp Lejeune, and attach evidence, 
 **or**
-- [Get help from an accredited representative or VSO]( http://www.va.gov/ogc/apps/accreditation/index.asp), 
+- [Get help from an accredited representative or VSO](http://www.va.gov/ogc/apps/accreditation/index.asp), 
 **or**
 - [Get help at a VA regional office](https://www.vets.gov/facility-locator/)
 
@@ -85,7 +86,17 @@ Yes. Family members of Veterans who served at Camp Lejeune and MCAS New River ca
 
 ### How do I get these benefits as a family member?
 
-You’ll need to apply for benefits. When you do, please give us:
+You’ll need to apply for benefits in 1 of 2 ways: 
+
+-	[Fill out the Camp Lejeune Family Member Program form online](https://www.clfamilymembers.fsc.va.gov/App/StepApplicant), **or**
+
+- [Download Form 10-10068](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). Fax it to 512-460-5536, or mail it to: 
+Department of Veterans Affairs
+Financial Services Center
+PO BOX 149200
+Austin, TX 78714-9200
+
+When you apply, please give us:
 
 - Proof of your relationship to the Veteran who served on active duty for at least 30 days at Camp Lejeune (like a marriage license or a birth certificate), **and**
 
@@ -93,21 +104,10 @@ You’ll need to apply for benefits. When you do, please give us:
 
 - Medical records that show you have 1 of the 15 conditions listed above, **and**
 
-- A copy of VA Form 10-10068b: The Camp Lejeune Family Member Program Application (your doctor needs to fill it out and sign it)  
-
-#### To file Form 10-10068b:
--	[Fill out the Camp Lejeune Family Member Program form online](https://www.clfamilymembers.fsc.va.gov/), **or**
-
-- [Download Form 10-10068](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068). Fax it to 512-460-5536, or mail it to: 
-
-Department of Veterans Affairs
-Financial Services Center
-PO BOX 149200
-Austin, TX 78714-9200
-
+- A copy of VA Form 10-10068b: The Camp Lejeune Family Member Program Treating Physician Report (your doctor needs to fill it out and sign it)  
 
 [DANNY: right hand column callout area]
-Need more help?
+Need help?
 
 [Find an accredited representative]( http://www.va.gov/ogc/apps/accreditation/index.asp).
 
