@@ -40,6 +40,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .expect.element('.usa-input-error-message').text.to.equal('Please select a file first');
 
       // File uploads don't appear to work in Nightwatch/PhantomJS
+      // TODO: switch to something that does support uploads or figure out the problem
 
       client.end();
     }
