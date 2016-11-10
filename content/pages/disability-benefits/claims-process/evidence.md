@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Evidence 
-plainlanguage: 11-9-16 Ready for Beth review
+plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 ---
 
@@ -52,7 +52,7 @@ The Fully Developed Claims (FDC) program lets you resolve your claim faster. You
 -	All related service-treatment and personnel records
 -	Any related private medical records
 
-We consider disability benefit claims fully developed when you have no more evidence to send and the only help you need from us is getting federal records and providing—or helping to provide—added medical exams or doctors' opinions. If VA figures out other private records exist that we need to decide your claim, we'll remove your claim from the FDC program and process it through the traditional claims process.
+We consider disability benefit claims fully developed when you have no more evidence to send and the only help you need from us is getting federal records and providing—or helping to provide—added medical exams or doctors' opinions. If we discover that there are other private records we need to decide your claim, we'll remove your claim from the FDC program and process it through the traditional claims process.
 
 #### Standard Claims
 
