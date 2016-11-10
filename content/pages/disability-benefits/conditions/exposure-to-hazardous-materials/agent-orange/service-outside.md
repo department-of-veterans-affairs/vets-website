@@ -6,34 +6,32 @@ plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page
 ---
 
-You may have had contact with Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War) even if you did not serve in Vietnam or in the Korean Demilitarized Zone.
-
-Find out if you can get VA support (known as disability compensation or benefits) for health problems believed to be caused by contact with Agent Orange.
+You may have had contact with Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War) even if you did not serve in Vietnam or in the Korean Demilitarized Zone. Find out if you can get disability compensation or benefits for illnesses believed to be caused by contact with Agent Orange.
 
 <div class="call-out" markdown="1">
 
 ### Can I get disability benefits from VA?
 
-Yes, if you have 1 or more conditions (illnesses) believed to have been caused by Agent Orange, **and** 1 of these is true:
+You may be able to get disability benefits if you have 1 or more illnesses believed to have been caused by Agent Orange and any 1 of these is true:
 
   - You had regular security duties on the fenced-in perimeters of bases in Thailand during the Vietnam Era, **or**
   - You served near areas outside Vietnam where there was testing or storage of Agent Orange and other herbicides, **or**
   - You had regular and repeated contact with a C-123 aircraft that contained traces of Agent Orange, **or**
   - You took part in projects that tested, disposed of, or stored Agent Orange
   
-[See a list of Agent Orange‒related health problems](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See a list of Agent Orange‒related illnesses](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
 
 ### Who's covered?
 
 - Veterans
-- Survivors of Veterans
+- Qualified survivors
 </div>
 
 ### What kind of disability benefits can I get?
 
 - Health care
-- Financial support (monthly payments)
+- Compensation (payments)
 - [An Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 -----
@@ -47,4 +45,4 @@ If you’re a Blue Water Veteran with non-Hodgkin’s lymphoma, you don't need t
 
 ### Get more information
 
-Want to know more about benefits for Veterans with health problems caused by contact with Agent Orange? [Learn more about Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
+Want to know more about benefits for Veterans with illnesses believed to be caused by contact with Agent Orange? [Learn more about Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
