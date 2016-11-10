@@ -51,7 +51,7 @@ class Prescription extends React.Component {
         <div
             className="rx-call-provider"
             key={`rx-${id}-call`}>
-          <Link to="/messaging">Message Provider</Link>
+          <a href="/healthcare/messaging/compose">Message Provider</a>
         </div>
       );
     }
