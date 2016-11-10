@@ -1,15 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Scroll from 'react-scroll';
 import _ from 'lodash';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+import Pagination from '../../common/components/Pagination';
 import SortableTable from '../../common/components/SortableTable';
 import { loadPrescriptions } from '../actions/prescriptions';
 import { openGlossaryModal } from '../actions/modals';
-import Pagination from '../../common/components/Pagination';
+import GlossaryLink from '../components/GlossaryLink';
 import SortMenu from '../components/SortMenu';
 import { rxStatuses } from '../config';
-import { formatDate, getModalTerm } from '../utils/helpers';
+import { formatDate } from '../utils/helpers';
+
+const ScrollElement = Scroll.Element;
+const scroller = Scroll.scroller;
 
 class History extends React.Component {
   constructor(props) {
@@ -17,28 +23,60 @@ class History extends React.Component {
     this.formattedSortParam = this.formattedSortParam.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
-    this.openGlossaryModal = this.openGlossaryModal.bind(this);
+    this.scrollToTop = this.scrollToTop.bind(this);
   }
 
   componentDidMount() {
-    const query = _.pick(this.props.location.query, ['page', 'sort']);
-    this.props.loadPrescriptions(query);
+    if (!this.props.loading) {
+      const query = _.pick(this.props.location.query, ['page', 'sort']);
+      this.props.loadPrescriptions(query);
+    }
   }
 
-  componentDidUpdate() {
-    const oldPage = this.props.page;
-    const oldSort = this.formattedSortParam(
+  componentDidUpdate(prevProps) {
+    const currentPage = this.props.page;
+    const currentSort = this.formattedSortParam(
       this.props.sort.value,
       this.props.sort.order
     );
 
     const query = _.pick(this.props.location.query, ['page', 'sort']);
-    const newPage = +query.page || oldPage;
-    const newSort = query.sort || oldSort;
+    const requestedPage = +query.page || currentPage;
+    const requestedSort = query.sort || currentSort;
 
-    if (newPage !== oldPage || newSort !== oldSort) {
-      this.props.loadPrescriptions(query);
+    // Check if query params requested are different from state.
+    const pageChanged = requestedPage !== currentPage;
+    const sortChanged = requestedSort !== currentSort;
+
+    if (pageChanged || sortChanged) {
+      this.scrollToTop();
     }
+
+    if (!this.props.loading) {
+      if (pageChanged || sortChanged) {
+        this.props.loadPrescriptions(query);
+      }
+
+      // Check if query params changed in state.
+      const prevSort = this.formattedSortParam(
+        prevProps.sort.value,
+        prevProps.sort.order
+      );
+      const pageUpdated = prevProps.page !== currentPage;
+      const sortUpdated = prevSort !== currentSort;
+
+      if (pageUpdated || sortUpdated) {
+        this.scrollToTop();
+      }
+    }
+  }
+
+  scrollToTop() {
+    scroller.scrollTo('history', {
+      duration: 500,
+      delay: 0,
+      smooth: true
+    });
   }
 
   formattedSortParam(value, order) {
@@ -64,16 +102,13 @@ class History extends React.Component {
     });
   }
 
-  openGlossaryModal(term) {
-    const content = getModalTerm(term);
-    this.props.openGlossaryModal(content);
-  }
-
   render() {
     const items = this.props.prescriptions;
     let content;
 
-    if (items) {
+    if (this.props.loading) {
+      content = <LoadingIndicator message="is loading your prescriptions..."/>;
+    } else if (items) {
       const currentSort = this.props.sort;
 
       const fields = [
@@ -101,15 +136,16 @@ class History extends React.Component {
             ),
 
           refillStatus: (
-            <a onClick={() => this.openGlossaryModal(status)}>
-              {status}
-            </a>
+            <GlossaryLink
+                term={status}
+                onClick={this.props.openGlossaryModal}/>
             )
         };
       });
 
       content = (
         <div>
+          <p className="rx-tab-explainer">Your VA prescription refill history.</p>
           <SortMenu
               onChange={this.handleSort}
               options={fields}
@@ -126,13 +162,22 @@ class History extends React.Component {
               pages={this.props.pages}/>
         </div>
       );
+    } else {
+      content = (
+        <p className="rx-tab-explainer rx-loading-error">
+          We couldn't retrieve your prescriptions.
+          Please refresh this page or try again later.
+        </p>
+      );
     }
 
     return (
-      <div id="rx-history" className="va-tab-content">
-        <p className="rx-tab-explainer">Your VA prescription refill history.</p>
+      <ScrollElement
+          id="rx-history"
+          name="history"
+          className="va-tab-content">
         {content}
-      </div>
+      </ScrollElement>
     );
   }
 }

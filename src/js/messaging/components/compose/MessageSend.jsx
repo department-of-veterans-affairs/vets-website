@@ -39,7 +39,7 @@ class MessageSend extends React.Component {
   }
 
   render() {
-    const isDisabled = this.props.charCount < 0;
+    const isDisabled = this.props.disabled;
 
     return (
       <div className={this.props.cssClass}>
@@ -56,7 +56,7 @@ class MessageSend extends React.Component {
         <MessageAddAttachment
             cssClass="msg-attach"
             allowedMimeTypes={this.props.allowedMimeTypes}
-            id="msg-attachments"
+            id="msg-attachments-input"
             label="Attach a file"
             name="messageAttachments"
             onChange={this.handleAttachmentsChange}/>
@@ -71,6 +71,7 @@ class MessageSend extends React.Component {
 MessageSend.propTypes = {
   allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string),
   cssClass: React.PropTypes.string,
+  disabled: React.PropTypes.bool,
   maxFiles: React.PropTypes.number,
   maxFileSize: React.PropTypes.number,
   maxTotalFileSize: React.PropTypes.number,

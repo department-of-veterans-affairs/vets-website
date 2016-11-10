@@ -79,14 +79,27 @@ describe('<FilesPage>', () => {
             documents: [{
               filename: 'Filename'
             }],
+            trackedItemId: 2,
             status: 'ACCEPTED'
           },
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FilesPage
+          claim={claim}/>
+    );
+    expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(1);
+  });
+  it('should display additional evidence docs', () => {
+    const claim = {
+      attributes: {
+        eventsTimeline: [
           {
-            type: 'still_need_from_you_list',
-            documents: [{
-              filename: 'Filename'
-            }],
-            status: 'SUBMITTED_AWAITING_REVIEW'
+            filename: 'Filename',
+            fileType: 'Testing',
+            type: 'other_documents_list'
           }
         ]
       }
@@ -96,10 +109,7 @@ describe('<FilesPage>', () => {
       <FilesPage
           claim={claim}/>
     );
-    expect(tree.everySubTree('.submitted-file-list-item').length).to.equal(2);
-    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Filename');
-    expect(tree.everySubTree('.submitted-file-list-item')[0].text()).to.contain('Reviewed by VA');
-    expect(tree.everySubTree('.submitted-file-list-item')[1].text()).to.contain('Submitted');
+    expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
   });
   it('should render decision message', () => {
     const claim = {

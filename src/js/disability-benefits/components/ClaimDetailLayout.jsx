@@ -7,6 +7,8 @@ import AddingDetails from '../components/AddingDetails';
 import Notification from '../components/Notification';
 import { isPopulatedClaim } from '../utils/helpers';
 
+const MAX_CONDITIONS = 3;
+
 export default class ClaimDetailLayout extends React.Component {
   render() {
     const { claim, loading, message, clearNotification } = this.props;
@@ -27,9 +29,12 @@ export default class ClaimDetailLayout extends React.Component {
             <h6>Your Claimed Conditions:</h6>
             <p className="list">
               {claim.attributes.contentionList && claim.attributes.contentionList.length
-                ? claim.attributes.contentionList.join(', ')
+                  ? claim.attributes.contentionList.slice(0, MAX_CONDITIONS).map(cond => cond.trim()).join(', ')
                 : 'Not available'}
             </p>
+            {claim.attributes.contentionList && claim.attributes.contentionList.length > MAX_CONDITIONS
+                ? <span><br/><Link to={`your-claims/${claim.id}/details`}>See all</Link></span>
+              : null}
           </div>
           <TabNav id={this.props.claim.id}/>
           <div className="va-tab-content">
@@ -39,7 +44,7 @@ export default class ClaimDetailLayout extends React.Component {
         </div>
       );
     } else {
-      content = <LoadingIndicator/>;
+      content = <LoadingIndicator setFocus message="Loading claim information"/>;
     }
 
     return (

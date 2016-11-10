@@ -111,14 +111,6 @@ const ignoreList = [];
 if (options.buildtype === 'production') {
   ignoreList.push('disability-benefits/track-claims/*');
   ignoreList.push('facilities/*');
-  ignoreList.push('healthcare/messaging/*');
-  ignoreList.push('healthcare/prescriptions/*');
-  ignoreList.push('profile/*');
-  ignoreList.push('auth/*');
-  ignoreList.push('education/apply-for-education-benefits-new');
-  ignoreList.push('education/index-new');
-} else if (options.buildtype === 'staging') {
-  ignoreList.push('facilities/*');
 }
 
 smith.use(ignore(ignoreList));

@@ -195,7 +195,7 @@ export class Folder extends React.Component {
   makeMessagesTable() {
     const messages = this.props.messages;
     if (!messages || messages.length === 0) {
-      return <h1 className="msg-nomessages">No messages</h1>;
+      return <p className="msg-nomessages">You have no messages in this folder.</p>;
     }
 
     const makeMessageLink = (content, id) => {
@@ -241,6 +241,18 @@ export class Folder extends React.Component {
     const messageNav = this.makeMessageNav();
     const folderMessages = this.makeMessagesTable();
 
+    let messageSearch;
+    if (this.props.messages && this.props.messages.length) {
+      messageSearch = (<MessageSearch
+          isAdvancedVisible={this.props.isAdvancedVisible}
+          onAdvancedSearch={this.props.toggleAdvancedSearch}
+          onDateChange={this.props.setDateRange}
+          onError={this.props.openAlert}
+          onFieldChange={this.props.setSearchParam}
+          onSubmit={this.handleSearch}
+          params={this.props.searchParams}/>);
+    }
+
     return (
       <div>
         <div id="messaging-content-header">
@@ -252,14 +264,7 @@ export class Folder extends React.Component {
           </button>
           <h2>{folderName}</h2>
         </div>
-        <MessageSearch
-            isAdvancedVisible={this.props.isAdvancedVisible}
-            onAdvancedSearch={this.props.toggleAdvancedSearch}
-            onDateChange={this.props.setDateRange}
-            onError={this.props.openAlert}
-            onFieldChange={this.props.setSearchParam}
-            onSubmit={this.handleSearch}
-            params={this.props.searchParams}/>
+        {messageSearch}
         <div id="messaging-folder-controls">
           <ComposeButton/>
           {messageNav}
