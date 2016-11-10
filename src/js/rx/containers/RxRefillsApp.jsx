@@ -2,9 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import { openAlert } from '../actions/alert';
 import { closeDisclaimer } from '../actions/disclaimer';
-import { openRefillModal, closeRefillModal, closeGlossaryModal } from '../actions/modals';
+import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
 import { refillPrescription } from '../actions/prescriptions';
 import Disclaimer from '../components/Disclaimer';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
@@ -55,8 +54,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  openAlert,
-  openRefillModal,
   closeDisclaimer,
   closeGlossaryModal,
   closeRefillModal,
