@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { updateSearchQuery, searchWithAddress, searchWithBounds, fetchVAFacility } from '../actions';
-import { map, find } from 'lodash';
+import { map, find, compact } from 'lodash';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
@@ -69,6 +69,9 @@ class VAMap extends Component {
     }
 
     Tabs.setUseDefaultStyles(false);
+    this.forceUpdate(() => {
+      this.handleBoundsChanged();
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -95,7 +98,7 @@ class VAMap extends Component {
   updateUrlParams = (params) => {
     const { location, currentQuery } = this.props;
 
-    const queryParams = map({
+    const queryParams = compact(map({
       ...location.query,
       zoomLevel: currentQuery.zoomLevel,
       page: currentQuery.currentPage,
@@ -104,7 +107,7 @@ class VAMap extends Component {
     }, (v, k) => {
       if (v) { return `${k}=${v}`; }
       return null;
-    }).join('&');
+    })).join('&');
 
     browserHistory.push(`/facilities${location.pathname}?${queryParams}`);
   }
