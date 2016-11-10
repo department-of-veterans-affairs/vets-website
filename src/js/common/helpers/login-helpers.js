@@ -25,7 +25,7 @@ export function getUserData() {
   fetch(`${environment.API_URL}/v0/user`, {
     method: 'GET',
     headers: new Headers({
-      Authorization: `Token token=${localStorage.userToken}`
+      Authorization: `Token token=${sessionStorage.userToken}`
     })
   }).then(response => {
     return response.json();

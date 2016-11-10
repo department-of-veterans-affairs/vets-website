@@ -23,9 +23,9 @@ class AuthApp extends React.Component {
   }
 
   setMyToken(token, time) {
-    window.opener.localStorage.removeItem('userToken');
-    window.opener.localStorage.setItem('userToken', token);
-    window.opener.localStorage.setItem('entryTime', time);
+    window.opener.sessionStorage.removeItem('userToken');
+    window.opener.sessionStorage.setItem('userToken', token);
+    window.opener.sessionStorage.setItem('entryTime', time);
     window.opener.postMessage(token, environment.BASE_URL);
     window.close();
   }

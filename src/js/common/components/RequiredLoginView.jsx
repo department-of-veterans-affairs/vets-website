@@ -24,7 +24,7 @@ class RequiredLoginView extends React.Component {
   }
 
   componentDidMount() {
-    if (localStorage.userToken) {
+    if (sessionStorage.userToken) {
       this.setUserLevel();
     } else {
       this.handleLogout();
@@ -41,7 +41,7 @@ class RequiredLoginView extends React.Component {
   }
 
   setInitialLevel() {
-    if (event.data === localStorage.userToken) {
+    if (event.data === sessionStorage.userToken) {
       this.setUserLevel();
     }
   }
@@ -50,7 +50,7 @@ class RequiredLoginView extends React.Component {
     fetch(`${environment.API_URL}/v0/user`, {
       method: 'GET',
       headers: new Headers({
-        Authorization: `Token token=${localStorage.userToken}`
+        Authorization: `Token token=${sessionStorage.userToken}`
       })
     }).then(response => {
       return response.json();

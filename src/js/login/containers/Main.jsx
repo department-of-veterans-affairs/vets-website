@@ -30,7 +30,7 @@ class Main extends React.Component {
   }
 
   setMyToken() {
-    if (event.data === localStorage.userToken) {
+    if (event.data === sessionStorage.userToken) {
       this.getUserData();
     }
   }
@@ -47,7 +47,7 @@ class Main extends React.Component {
     fetch(`${environment.API_URL}/v0/sessions`, {
       method: 'delete',
       headers: new Headers({
-        Authorization: `Token token=${localStorage.userToken}`
+        Authorization: `Token token=${sessionStorage.userToken}`
       })
     }).then(response => {
       return response.json();
@@ -59,8 +59,8 @@ class Main extends React.Component {
   }
 
   checkTokenStatus() {
-    if (localStorage.userToken) {
-      if (moment() > moment(localStorage.entryTime).add(45, 'm')) {
+    if (sessionStorage.userToken) {
+      if (moment() > moment(sessionStorage.entryTime).add(45, 'm')) {
         // TODO(crew): make more customized prompt.
         if (confirm("For security, you'll be automatically signed out in 2 minutes. To stay signed in, click OK. ")) {
           this.handleLogin();
