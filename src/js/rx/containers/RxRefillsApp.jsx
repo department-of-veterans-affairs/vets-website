@@ -2,10 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import RequiredLoginView from '../../common/components/RequiredLoginView';
-import { openAlert } from '../actions/alert.js';
-import { closeDisclaimer } from '../actions/disclaimer.js';
-import { openRefillModal, closeRefillModal, closeGlossaryModal } from '../actions/modals';
-import { refillPrescription } from '../actions/prescriptions.js';
+import { closeDisclaimer } from '../actions/disclaimer';
+import { closeRefillModal, closeGlossaryModal } from '../actions/modals';
+import { refillPrescription } from '../actions/prescriptions';
 import Disclaimer from '../components/Disclaimer';
 import ConfirmRefillModal from '../components/ConfirmRefillModal';
 import GlossaryModal from '../components/GlossaryModal';
@@ -21,9 +20,8 @@ class RxRefillsApp extends React.Component {
           {this.props.children}
         </div>
         <ConfirmRefillModal
-            {...this.props.refillModal.prescription}
+            prescription={this.props.refillModal.prescription}
             isVisible={this.props.refillModal.visible}
-            openAlert={this.props.openAlert}
             refillPrescription={this.props.refillPrescription}
             onCloseModal={this.props.closeRefillModal}/>
         <GlossaryModal
@@ -56,8 +54,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  openAlert,
-  openRefillModal,
   closeDisclaimer,
   closeGlossaryModal,
   closeRefillModal,
