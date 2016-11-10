@@ -59,12 +59,12 @@ export function getUserPhase(phase) {
   return phase - 3;
 }
 
-export function getSubmittedItemDate(item) {
+export function getItemDate(item) {
   if (item.receivedDate) {
     return item.receivedDate;
   } else if (item.documents && item.documents.length) {
     return item.documents[item.documents.length - 1].uploadDate;
-  } else if (item.type === 'other_documents_list') {
+  } else if (item.type === 'other_documents_list' && item.uploadDate) {
     return item.uploadDate;
   }
 
@@ -80,7 +80,7 @@ function isEventOrPrimaryPhase(event) {
     return event.phase <= 3 || event.phase >= 7;
   }
 
-  return !!getSubmittedItemDate(event);
+  return !!getItemDate(event);
 }
 
 export function groupTimelineActivity(events) {
