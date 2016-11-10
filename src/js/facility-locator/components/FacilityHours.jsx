@@ -88,7 +88,6 @@ export default class FacilityHours extends Component {
             {this.renderHours(hours.sunday)}
           </div>
         </div>
-        {this.renderNotes(hours.notes)}
       </div>
     );
   }
