@@ -9,28 +9,33 @@ class FacilityPhoneLink extends Component {
       return null;
     }
 
+    const re = /^(\d{3})[ -]?(\d{3})[ -]?(\d{4}) x (\d*)/;
+
     return (
-      <span>
+      <div>
         <a href={`tel:${phone.mental_health_clinic}`}>
           <i className="fa fa-fw"/>
-          Mental Health: {phone.main.replace(/ +x */, '')}
+          Mental Health:<br/>
+          <i className="fa fa-fw"/>{phone.mental_health_clinic.replace(re, '$1-$2-$3 x$4')}
         </a>
-      </span>
+      </div>
     );
   }
   render() {
     const { attributes: { phone } } = this.props.facility;
+    const re = /^(\d{3})[ -]?(\d{3})[ -]?(\d{4}) x (\d*)/;
 
     return (
-      <span>
-        <span>
+      <div>
+        <div>
           <a href={`tel:${phone.main}`}>
-            <i className="fa fa-phone" style={{ marginRight: '0.75rem' }}></i>
-            Main: {phone.main.replace(/ +x */, '')}
+            <i className="fa fa-phone"/>
+            Main:<br/>
+            <i className="fa fa-fw"/>{phone.main.replace(re, '$1-$2-$3 x$4').replace(/ x$/, '')}
           </a>
-        </span><br/>
+        </div>
         {this.renderMentalHealthPhone()}
-      </span>
+      </div>
     );
   }
 }
