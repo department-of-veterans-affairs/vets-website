@@ -6,7 +6,7 @@ template: 4-action-page-pending
 concurrence: incomplete
 ---
 
-Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of your body’s immune system that helps to fight infection and illness. We believe that non-Hodgkin’s lymphoma can be caused by contact with Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War). If you had contact with Agent Orange while serving in the military—and now have non-Hodgkin’s lymphoma—you can get VA support (known as disability compensation or benefits).
+Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymphatic tissue—a part of your body’s immune system that helps to fight infection and illness. We believe that non-Hodgkin’s lymphoma can be caused by contact with Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War). If you had contact with Agent Orange while serving in the military—and now have non-Hodgkin’s lymphoma—you can get disability compensation or benefits.
 
 ##### Signs of non-Hodgkin’s lymphoma include:
 
@@ -22,22 +22,21 @@ Non-Hodgkin’s lymphoma is a type of cancer of the lymph glands and other lymph
 <div class="call-out" markdown="1">
 
 ### Can I get disability benefits from VA?
-Yes, if all of these are true:
 
-- You're ill with non-Hodgkin’s lymphoma, **and**
+You can get disaiblity benefits if you're ill with non-Hodgkin’s lymphoma and both of these are true:
 - You had contact with Agent Orange while serving in the military, **and**
 - You served in Vietnam or in the waters off Vietnam during the Vietnam War Era, in the Korean Demilitarized Zone, or in another area where Agent Orange was stored, tested, or sprayed
 
 ### Who's covered?
 - Veterans
-- Dependents of Veterans
-- Survivors of Veterans
+- Qualified dependents
+- Qualified survivors
 </div>
 
 ### What kind of disability benefits can I get?
 
 - Health care
-- Financial support (monthly payments)
+- Compensation (payments)
 - [An Agent Orange Registry health exam]( http://www.publichealth.va.gov/exposures/agentorange/benefits/registry-exam.asp)
 
 -----
@@ -50,7 +49,7 @@ You’ll need to apply for benefits. We consider non-Hodgkin’s lymphoma to be 
 
 #### Get more information
 
-Having trouble figuring out if you had contact with Agent Orange? We can help after you file a claim for disability compensation benefits. [File a claim now](/disability-benefits/claims-process/).
+Having trouble figuring out if you had contact with Agent Orange? We can help after you file a claim for disability benefits. [File a claim now](/disability-benefits/claims-process/).
 
 Want to figure out where you may have come into contact with Agent Orange? [See locations linked to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
 
