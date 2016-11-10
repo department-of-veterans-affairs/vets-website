@@ -6,36 +6,36 @@ template: 4-action-page
 concurrence: incomplete
 ---
 
-Were you part of testing or storing Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War)—on bases in the United States or elsewhere? If yes, find out if you can get VA support (known as disability compensation or benefits) for health problems believed to be caused by Agent Orange.
+Were you part of testing or storing Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War)—on bases in the United States or elsewhere? Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
 
 <div class="call-out" markdown="1">
 
-### Can I get disability compensation from VA?
+### Can I get disability benefits from VA?
 
-Yes, if:
-- You have 1 or more health problems linked to Agent Orange, **and**
+You may be able to get disability benefits if:
+- You have 1 or more illnesses believed to be caused by Agent Orange, **and**
 - You were part of testing or storing Agent Orange during your military service
 
-[See a list of Agent Orange‒related health problems](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See a list of Agent Orange‒related illnesses](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
 ### Who's covered?
 
 - Veterans
-- Survivors of Veterans
+- Qualified survivors
 </div>
 
 
 ### What kind of disability benefits can I get?
 
 - Health care
-- Financial support (monthly payments)
+- Compensation (payments)
 - [An Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 -----
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military and that you have a health problem believed to be caused by Agent Orange.
+You’ll need to apply for benefits. When you apply, you’ll have to show that you had contact with Agent Orange while serving in the military and that you have an illness believed to be caused by Agent Orange.
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
