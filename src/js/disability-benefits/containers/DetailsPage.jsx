@@ -57,6 +57,7 @@ class DetailsPage extends React.Component {
     return (
       <ClaimDetailLayout
           claim={claim}
+          currentTab="Details"
           loading={loading}>
         {content}
       </ClaimDetailLayout>

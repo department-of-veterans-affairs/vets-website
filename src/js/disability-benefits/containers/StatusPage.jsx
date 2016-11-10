@@ -54,12 +54,14 @@ class StatusPage extends React.Component {
           {showDecision
             ? <AskVAToDecide id={this.props.params.id}/>
             : null}
-          {claim.attributes.decisionLetterSent ? <ClaimsDecision/> : null}
-          {phase !== null
+          {claim.attributes.decisionLetterSent || !claim.attributes.open ? <ClaimsDecision/> : null}
+          {phase !== null && claim.attributes.open
             ? <ClaimsTimeline
                 id={claim.id}
                 estimatedDate={claim.attributes.maxEstDate}
                 phase={phase}
+                currentPhaseBack={claim.attributes.currentPhaseBack}
+                everPhaseBack={claim.attributes.everPhaseBack}
                 events={claim.attributes.eventsTimeline}/>
             : null}
         </div>
@@ -71,6 +73,7 @@ class StatusPage extends React.Component {
           claim={claim}
           loading={loading}
           clearNotification={this.props.clearNotification}
+          currentTab="Status"
           message={message}>
         {content}
       </ClaimDetailLayout>
