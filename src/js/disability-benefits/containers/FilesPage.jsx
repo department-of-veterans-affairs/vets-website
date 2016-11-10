@@ -122,6 +122,7 @@ class FilesPage extends React.Component {
           claim={claim}
           loading={loading}
           clearNotification={this.props.clearNotification}
+          currentTab="Files"
           message={message}>
         {content}
       </ClaimDetailLayout>
