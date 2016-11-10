@@ -318,6 +318,10 @@ button.msg-btn-save {
     order: -2;
   }
 
+  input:focus + label {
+    box-shadow: 0 0 3px $color-focus, 0 0 7px $color-focus;
+  }
+
   label {
     background-color: inherit;
     cursor: pointer;

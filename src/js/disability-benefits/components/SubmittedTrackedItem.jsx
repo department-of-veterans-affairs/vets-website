@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-import { truncateDescription, hasBeenReviewed, getSubmittedItemDate } from '../utils/helpers';
+import { truncateDescription, hasBeenReviewed, getItemDate } from '../utils/helpers';
 
 export default function SubmittedTrackedItem({ item }) {
   return (
@@ -21,12 +21,12 @@ export default function SubmittedTrackedItem({ item }) {
         ?
         <div>
           <h6 className="reviewed-file"><i className="fa fa-check-circle"></i>Reviewed by VA</h6>
-          <p className="submission-date reviewed-file">{moment(getSubmittedItemDate(item)).format('MMM D, YYYY')}</p>
+          <p className="submission-date reviewed-file">{moment(getItemDate(item)).format('MMM D, YYYY')}</p>
         </div>
         :
         <div>
           <h6>Submitted</h6>
-          <p className="submission-date">{moment(getSubmittedItemDate(item)).format('MMM D, YYYY')}{' (pending)'}</p>
+          <p className="submission-date">{moment(getItemDate(item)).format('MMM D, YYYY')}{' (pending)'}</p>
         </div>
       }
     </div>

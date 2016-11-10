@@ -1,10 +1,10 @@
 import React from 'react';
 import moment from 'moment';
 
-import { getSubmittedItemDate } from '../utils/helpers';
+import { getItemDate } from '../utils/helpers';
 
 export default function AdditionalEvidenceItem({ item }) {
-  const itemDate = getSubmittedItemDate(item);
+  const itemDate = getItemDate(item);
   return (
     <div className="submitted-file-list-item">
       <p className="submission-file-type additional-evidence">Additional Evidence</p>
