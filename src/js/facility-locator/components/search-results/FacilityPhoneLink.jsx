@@ -22,7 +22,7 @@ class FacilityPhoneLink extends Component {
     const { attributes: { phone } } = this.props.facility;
 
     return (
-      <div>
+      <span>
         <span>
           <a href={`tel:${phone.main}`}>
             <i className="fa fa-phone" style={{ marginRight: '0.75rem' }}></i>
@@ -30,7 +30,7 @@ class FacilityPhoneLink extends Component {
           </a>
         </span><br/>
         {this.renderMentalHealthPhone()}
-      </div>
+      </span>
     );
   }
 }

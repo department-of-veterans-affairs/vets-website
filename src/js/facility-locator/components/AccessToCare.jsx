@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { reduce, capitalize } from 'lodash';
+import { reduce, capitalize, values, every } from 'lodash';
 
 export default class AccessToCare extends Component {
   renderDataRows() {
@@ -27,13 +27,17 @@ export default class AccessToCare extends Component {
         return `${s} ${capitalize(e)}`;
       }, '');
 
-      return (
-        <tr key={k}>
-          <th scope="row">{name}</th>
-          <td>{Math.round(dataObject[k].urgent * 100)}%</td>
-          <td>{Math.round(dataObject[k].routine * 100)}%</td>
-        </tr>
-      );
+      if (dataObject[k].urgent && dataObject[k].routine) {
+        return (
+          <tr key={k}>
+            <th scope="row">{name}</th>
+            <td>{Math.round(dataObject[k].urgent * 100)}%</td>
+            <td>{Math.round(dataObject[k].routine * 100)}%</td>
+          </tr>
+        );
+      }
+
+      return null;
     });
   }
 
@@ -45,21 +49,31 @@ export default class AccessToCare extends Component {
       return null;
     }
 
+    // hide entire section of all values are null
+    if (every(...values(facility.attributes.health), e => !e)) {
+      return null;
+    }
+
     return (
-      <div>
-        <table className="usa-table-borderless" style={{ margin: '2em 0 0.5em' }}>
-          <thead>
-            <tr>
-              <th scope="col">Appointment Type</th>
-              <th scope="col">Urgent</th>
-              <th scope="col">Routine</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.renderDataRows()}
-          </tbody>
-        </table>
-        <em>* % of Veterans who reported that they were "Always" or "Usually" able to get an appointment</em>
+      <div className="mb2">
+        <h4>Access to Care</h4>
+        <hr className="title"/>
+        <p>Current as of <strong>November 1, 2015 - April 30, 2016</strong></p>
+        <div>
+          <table className="usa-table-borderless" style={{ margin: '2em 0 0.5em' }}>
+            <thead>
+              <tr>
+                <th scope="col">Appointment Type</th>
+                <th scope="col">Urgent</th>
+                <th scope="col">Routine</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.renderDataRows()}
+            </tbody>
+          </table>
+          <span>Note: % of Veterans who reported that they were "Always" or "Usually" able to get an appointment</span>
+        </div>
       </div>
     );
   }
