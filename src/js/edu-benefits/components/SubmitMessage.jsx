@@ -83,7 +83,7 @@ export default class SubmitMessage extends React.Component {
             </div>
           </ExpandingGroup>
         </div>
-        <p>Need help? If you have questions, call 1-888-442-4551 (1-888-GI-Bill)</p>
+        <p>Need help? If you have questions, call 1-888-442-4551 (1-888-GI-BILL-1) from 8am - 7pm ET Mon - Fri.</p>
       </div>
     );
   }
