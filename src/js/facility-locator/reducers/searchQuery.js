@@ -12,7 +12,7 @@ const INITIAL_STATE = {
   context: 20500,
   inProgress: false,
   currentPage: 1,
-  zoomLevel: 12,
+  zoomLevel: 11,
 };
 
 export default function (state = INITIAL_STATE, action) {

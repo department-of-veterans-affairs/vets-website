@@ -25,14 +25,9 @@ class VAMap extends Component {
     const { location, currentQuery } = this.props;
     let shouldGeolocate = true;
 
-    this.updateUrlParams({
-      location: [currentQuery.position.latitude, currentQuery.position.longitude].join(','),
-      context: currentQuery.context,
-    });
-
     this.props.updateSearchQuery({
-      zoomLevel: location.query.zoomLevel,
-      currentPage: location.query.page,
+      zoomLevel: location.query.zoomLevel || currentQuery.zoomLevel,
+      currentPage: location.query.page || currentQuery.currentPage,
     });
 
     // populate search bar with parameters from URL
@@ -88,10 +83,7 @@ class VAMap extends Component {
     }
 
     // reset to page 1 if zoom level changes
-    if (currentQuery.zoomLevel !== newQuery.zoomLevel) {
-      this.updateUrlParams({
-        page: 1,
-      });
+    if ((currentQuery.zoomLevel !== newQuery.zoomLevel) && (currentQuery.currentPage !== 1)) {
       this.props.updateSearchQuery({
         currentPage: 1,
       });
@@ -101,15 +93,18 @@ class VAMap extends Component {
   // pushes coordinates to URL so that map link is useful for sharing
   // TODO (bshyong): try out existing query-string npm library
   updateUrlParams = (params) => {
-    const { location } = this.props;
+    const { location, currentQuery } = this.props;
 
     const queryParams = map({
       ...location.query,
+      zoomLevel: currentQuery.zoomLevel,
+      page: currentQuery.currentPage,
       ...params,
     }, (v, k) => {
       if (v) { return `${k}=${v}`; }
       return null;
     }).join('&');
+
     browserHistory.push(`/facilities${location.pathname}?${queryParams}`);
   }
 
@@ -164,10 +159,6 @@ class VAMap extends Component {
         latitude: center.lat,
         longitude: center.lng,
       },
-      zoomLevel: zoom,
-    });
-
-    this.updateUrlParams({
       zoomLevel: zoom,
     });
 
@@ -286,7 +277,7 @@ class VAMap extends Component {
               </div>
             </TabPanel>
             <TabPanel>
-              <Map ref="map" center={position} zoom={currentQuery.zoomLevel} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}>
+              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}>
                 <TileLayer
                     url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                     attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
@@ -328,13 +319,12 @@ class VAMap extends Component {
             </div>
           </div>
           <div className="columns medium-8 small-12" style={{ minHeight: '75vh' }}>
-            <Map ref="map" center={position} zoom={currentQuery.zoomLevel} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
+            <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
               <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
               <DivMarker position={position} popupContent={<span>You are here</span>}>
                 <div className="current-position-icon">
-                  <i className="fa fa-star"></i>
                 </div>
               </DivMarker>
               <FeatureGroup ref="facilityMarkers">

@@ -10,10 +10,6 @@ class MessageAddAttachment extends React.Component {
 
     return (
       <div className={this.props.cssClass}>
-        <label htmlFor={this.props.id}>
-          <i className="fa fa-paperclip"></i>
-          <span>{this.props.label}</span>
-        </label>
         <input
             multiple
             accept={mimeTypes}
@@ -21,6 +17,10 @@ class MessageAddAttachment extends React.Component {
             name={this.props.name}
             onChange={this.props.onChange}
             type="file"/>
+        <label htmlFor={this.props.id}>
+          <i className="fa fa-paperclip"></i>
+          <span>{this.props.label}</span>
+        </label>
       </div>
     );
   }
