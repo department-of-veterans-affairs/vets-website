@@ -1,13 +1,13 @@
 ---
 layout: page-breadcrumbs.html
-title: Agent Orange-Related Health Problems
+title: Agent Orange-Related Conditions
 plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
 template: 6-info-page
 ---
 
-We believe the following conditions (illnesses) are likely caused by contact with Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War). If you had contact with Agent Orange while serving in the military—and now have 1 or more of these conditions—you may be able to get VA support (called disability compensation or benefits).
+We believe the following conditions are likely caused by contact with Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War). If you had contact with Agent Orange while serving in the military—and now have 1 or more of these conditions—find out if you can get disability compensation or benefits.
 
-###Cancers believed to be caused by contact with Agent Orange
+### Cancers believed to be caused by contact with Agent Orange
 
 - **[Chronic B-cell Leukemia](http://www.publichealth.va.gov/exposures/agentorange/conditions/bcell-leukemia.asp):**
   A type of cancer that affects your white blood cells (cells in your body's immune system that help to fight off illnesses and infections)
@@ -19,7 +19,7 @@ We believe the following conditions (illnesses) are likely caused by contact wit
 - **[Respiratory Cancers](http://www.publichealth.va.gov/exposures/agentorange/conditions/respiratory_cancers.asp) (including lung cancer):** Cancers of the organs involved in breathing (including the lungs, larynx, trachea, and bronchus)
 - **[Soft Tissue Sarcomas](http://www.publichealth.va.gov/exposures/agentorange/conditions/soft-tissue-sarcoma.asp) (other than osteosarcoma, chondrosarcoma, Kaposi’s sarcoma, or mesothelioma):** Different types of cancers in body tissues such as muscle, fat, blood and lymph vessels, and connective tissues
 
-###Other illnesses believed to be caused by contact with Agent Orange
+### Other illnesses believed to be caused by contact with Agent Orange
 
 - **[AL Amyloidosis](http://www.publichealth.va.gov/exposures/agentorange/conditions/al_amyloidosis.asp):** A rare illness that happens when an abnormal protein (called amyloid) builds up in your body's tissues, nerves, or organs (like your heart, kidneys, or liver) and causes damage over time
 - **[Chloracne](http://www.publichealth.va.gov/exposures/agentorange/conditions/chloracne.asp) (or other types of acneform disease like it):** A skin condition that happens soon after contact with chemicals and looks like acne often seen in teenagers. Under our rating regulations, it must be at least 10% disabling within 1 year of contact with herbicides. 
