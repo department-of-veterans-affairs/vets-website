@@ -17,7 +17,7 @@ You may be able to get disability benefits if you have 1 or more illnesses belie
 - Vietnam (including aboard a ship on the inland waterways) for any length of time between January 9, 1962, and May 7, 1975, **or**
 - The Korean Demilitarized Zone for any length of time between April 1, 1968, and August 31, 1971
 
-[See a list of Agent Orange‒related conditions](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See a list of Agent Orange‒related illnesses](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
 <br>
 
