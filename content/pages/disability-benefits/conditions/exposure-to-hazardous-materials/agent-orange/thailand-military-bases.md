@@ -6,27 +6,25 @@ plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page
 ---
 
-If you had regular security duty on the fenced-in perimeters of a U.S. military base in Thailand or Royal Thai Air Force Bases between January 9, 1962, and May 7, 1975, you may have had contact with Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War). 
-
-Find out if you can get VA support (known as disability compensation or benefits) for health problems believed to be caused by contact with Agent Orange.
+If you had regular security duty on the fenced-in perimeters of a U.S. military base in Thailand or Royal Thai Air Force Bases between January 9, 1962, and May 7, 1975, you may have had contact with Agent Orange (a toxic chemical used to clear trees and plants during the Vietnam War). Find out if you can get disability compensation or benefits for illnesses believed to be caused by contact with Agent Orange.
 
 <div class="call-out" markdown="1">
 
-### Can I get disability compensation from VA?
-Yes, if: 
-- You have a health problem linked to Agent Orange, **and** 
-- You served perimeter security duty on RTAF bases in Thailand (including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang), **or**
-- You served perimeter security duty while stationed on a U.S. Army installation in Thailand
+### Can I get disability benefits from VA?
+
+You may be able to get disability benefits if you have an illness believed to be caused by Agent Orange and you served perimeter duty: 
+- On RTAF bases in Thailand (including U-Tapao, Ubon, Nakhon Phanom, Udorn, Takhli, Korat, or Don Muang), **or**
+- While stationed on a U.S. Army installation in Thailand
 
 ### Who's covered?
 - Veterans
-- Dependents of Veterans
-- Survivors of Veterans
+- Qualified dependents
+- Qualified survivors
 </div>
 
 ### What kind of disability benefits can I get?
 - Heath care
-- Financial support (monthly payments)
+- Compensation (payments)
 - [An Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 -----
@@ -43,9 +41,9 @@ To prove contact with Agent Orange based on Thailand service, you'll need to sen
 
 
 ### Get more information
-Having trouble figuring out if you had contact with Agent Orange? We can help after you file a claim for disability compensation benefits. [File a claim now](/disability-benefits/claims-process/).
+Having trouble figuring out if you had contact with Agent Orange? We can help after you file a claim for disability benefits. [File a claim now](/disability-benefits/claims-process/).
 
 Want to figure out where you may have come into contact with Agent Orange? [See locations linked to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
 
-Want to know more about benefits for Veterans with health problems caused by contact with Agent Orange? [Learn about Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
+Want to know more about benefits for Veterans with illnesses believed to be caused by contact with Agent Orange? [Learn about Agent Orange benefits](http://www.publichealth.va.gov/exposures/agentorange/benefits/index.asp).
 
