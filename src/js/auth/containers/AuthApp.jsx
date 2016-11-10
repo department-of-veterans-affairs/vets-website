@@ -19,13 +19,14 @@ class AuthApp extends React.Component {
       this.setState({ verifyUrl: result.authenticate_via_get });
     });
 
-    this.checkUserLevel();
+    if (this.props.location.query.token) {
+      this.checkUserLevel();
+    }
   }
 
-  setMyToken(token, time) {
-    window.opener.sessionStorage.removeItem('userToken');
-    window.opener.sessionStorage.setItem('userToken', token);
-    window.opener.sessionStorage.setItem('entryTime', time);
+  setMyToken(token) {
+    window.opener.localStorage.removeItem('userToken');
+    window.opener.localStorage.setItem('userToken', token);
     window.opener.postMessage(token, environment.BASE_URL);
     window.close();
   }
@@ -44,22 +45,35 @@ class AuthApp extends React.Component {
       if (userData.loa.highest === 3) {
         // This will require a user to MFA if they have not verified in the last 2 mins.
         if (userData.loa.current === 3 && !(moment() > moment(userData.last_signed_in).add(2, 'm'))) {
-          this.setMyToken(myToken, userData.last_signed_in);
+          this.setMyToken(myToken);
         } else {
           window.location.href = this.state.verifyUrl;
         }
       } else {
-        this.setMyToken(myToken, userData.last_signed_in);
+        this.setMyToken(myToken);
       }
     });
   }
 
   render() {
+    let view;
+
+    if (this.props.location.query.token) {
+      view = <h3>Logging you in...</h3>;
+    } else {
+      view = (
+        <div>
+          <h3>We are sorry that we could not successfully log you in.</h3>
+          <h3>Please call the Vets.gov Help Desk at 1-855-574-7286. We're open Monday‒Friday, 8:00 a.m.‒8:00 p.m. (ET).</h3>
+          <button onClick={window.close()}>Close</button>
+        </div>
+      );
+    }
     return (
       <div className="row">
         <div className="small-12 columns">
           <div>
-            <h3>Logging you in...</h3>
+            {view}
           </div>
         </div>
       </div>
