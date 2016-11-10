@@ -29,12 +29,12 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
 
       // should show two files requested
       client.elements('class name', 'file-request-list-item', (result) => {
-        client.assert.equal(result.value.length, 2);
+        client.assert.equal(result.value.length, 3);
       });
 
       // should show four files received
       client.elements('class name', 'submitted-file-list-item', (result) => {
-        client.assert.equal(result.value.length, 4);
+        client.assert.equal(result.value.length, 3);
       });
 
       // should show additional evidence box

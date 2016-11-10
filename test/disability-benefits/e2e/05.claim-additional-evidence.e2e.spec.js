@@ -24,10 +24,12 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .click('.va-tabs li:nth-child(2) > a')
         .waitForElementVisible('.file-request-list-item', Timeouts.normal);
 
-      // go to document request page
+      // go to additional evidence page
       client
-        .click('.file-request-list-item .usa-button')
+        .click('.additional-evidence-alert .usa-button')
         .waitForElementVisible('.upload-files', Timeouts.normal);
+
+      client.assert.urlContains('turn-in-evidence');
 
       client
         .expect.element('.upload-files button.usa-button').text.to.equal('Submit Files for Review');

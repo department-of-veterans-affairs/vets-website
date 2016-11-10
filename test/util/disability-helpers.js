@@ -150,7 +150,7 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
               description: 'What was received item one.',
               displayName: 'Request 10',
               overdue: false,
-              status: 'ACCEPTED',
+              status: 'SUBMITTED_AWAITING_REVIEW',
               uploaded: false,
               uploadsAllowed: false,
               openedDate: null,
@@ -196,12 +196,12 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
               documents: [],
               date: '2010-03-15'
             }, {
-              type: 'still_need_from_you_list',
+              type: 'still_need_from_others_list',
               trackedItemId: 1,
               description: '21-4142',
               displayName: 'Request 9',
               overdue: false,
-              status: 'SUBMITTED_AWAITING_REVIEW',
+              status: 'NEEDED',
               uploaded: false,
               uploadsAllowed: false,
               openedDate: null,
