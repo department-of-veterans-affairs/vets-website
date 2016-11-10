@@ -14,10 +14,6 @@ class ResultsList extends Component {
   handlePageSelect = (page) => {
     const { currentQuery } = this.props;
 
-    this.props.updateUrlParams({
-      page,
-    });
-
     this.props.searchWithBounds(
       currentQuery.bounds,
       currentQuery.facilityType,
@@ -76,7 +72,7 @@ class ResultsList extends Component {
               return (
                 <div key={f.id} className="facility-result" id={f.id}>
                   <FacilityInfoBlock facility={f}/>
-                  <FacilityPhoneLink facility={f}/><br/>
+                  <FacilityPhoneLink facility={f}/>
                   <FacilityDirectionsLink facility={f}/>
                 </div>
               );
