@@ -2,7 +2,21 @@ import React, { Component } from 'react';
 
 export default class FacilityHours extends Component {
   renderHours(hours) {
-    return hours === '-' ? 'Closed' : hours;
+    return ['', '-', 'CLOSED'].includes(hours) ? 'Closed' : hours;
+  }
+
+  renderNotes(notes) {
+    if (notes) {
+      return (
+        <div className="row">
+          <div className="small-12 columns">
+            <p>Notes: {notes}</p>
+          </div>
+        </div>
+      );
+    }
+
+    return null;
   }
 
   render() {
@@ -74,6 +88,7 @@ export default class FacilityHours extends Component {
             {this.renderHours(hours.sunday)}
           </div>
         </div>
+        {this.renderNotes(hours.notes)}
       </div>
     );
   }
