@@ -1,6 +1,6 @@
-// import { flattenDeep } from 'lodash';
-import React, { Component } from 'react';
+import { isEmpty } from 'lodash';
 import moment from 'moment';
+import React, { Component } from 'react';
 
 class ServicesAtFacility extends Component {
 
@@ -117,7 +117,7 @@ class ServicesAtFacility extends Component {
   renderBenefitsServices() {
     const { facility: { attributes: { services } } } = this.props;
 
-    if (!services.benefits) {
+    if (!services.benefits || isEmpty(services.benefits.standard)) {
       return null;
     }
 
@@ -140,12 +140,22 @@ class ServicesAtFacility extends Component {
     }
 
     return (
-      <div className="mb2">
-        <ul>
-          {services.health.map(s => {
-            return this.renderService(s.sl1[0]);
-          })}
-        </ul>
+      <div>
+        <div className="call-out clearfix">
+          <div className="columns small-1">
+            <h3><i className="fa fa-exclamation-circle"></i></h3>
+          </div>
+          <div className="columns small-11">
+            This list may not include all of the services available at this location. Please check on the facility's website or call them for this information.
+          </div>
+        </div>
+        <div className="mb2">
+          <ul>
+            {services.health.map(s => {
+              return this.renderService(s.sl1[0]);
+            })}
+          </ul>
+        </div>
       </div>
     );
   }
@@ -157,18 +167,18 @@ class ServicesAtFacility extends Component {
       return null;
     }
 
+    const services = this.renderServices();
+
+    if (!services) {
+      return null;
+    }
+
     return (
       <div>
+        <h4>Services</h4>
+        <hr className="title"/>
         <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment().format('MMMM D, YYYY')}</strong></p>
-        <div className="call-out clearfix">
-          <div className="columns small-1">
-            <h3><i className="fa fa-exclamation-circle"></i></h3>
-          </div>
-          <div className="columns small-11">
-            This list may not include all of the services available at this location. Please check on the facility's website or call them for this information.
-          </div>
-        </div>
-        {this.renderServices()}
+        {services}
       </div>
     );
   }
