@@ -14,8 +14,8 @@
     float: none;
     font-size: 1.5rem;
     font-weight: normal;
-    margin: 0;
-    padding: 0.5rem 1rem;
+    margin: 0 1rem;
+    padding: 0;
     width: auto;
 
     &:hover,
@@ -88,23 +88,14 @@
 }
 
 .messaging-thread-subject {
-  display: inline-block;
   font-weight: normal;
   // Overriding `#content .section h*`.
   padding: 0 2rem !important;
-  vertical-align: top;
-
-  @media (min-width: $medium-screen) {
-    width: 60%;
-  }
 }
 
 .messaging-thread-controls {
-  display: inline-block;
-  padding-right: 1rem;
-  text-align: right;
-  vertical-align: top;
-  width: 40%;
+  float: right;
+  margin: .25rem 1rem;
 
   @media (max-width: $medium-screen) {
     .messaging-btn-delete,
@@ -120,7 +111,6 @@
 
 .messaging-thread-form {
   font-size: 1.8rem;
-  margin: 1rem 0;
 
   & > button {
     display: none;
