@@ -5,7 +5,7 @@ plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: 3-panel-filters
 ---
 
-Agent Orange is a toxic chemical the U.S. military used to clear plants and trees during the Vietnam War. If you served in or near Vietnam during the Vietnam War Era—or in certain related jobs—you may have had contact with Agent Orange. Find out if you can get disability compensation or benefits.
+Agent Orange is a toxic chemical the U.S. military used to clear plants and trees during the Vietnam War. If you served in or near Vietnam during the Vietnam War Era—or in certain related jobs—you may have had contact with Agent Orange. Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
 
 <div class="call-out" markdown="1">
 
@@ -16,7 +16,7 @@ You may be able to get disability benefits if:
 - You have an illness believed to be caused by Agent Orange, **and**
 - You came into contact with Agent Orange while serving in the military
 
-[See the list of Agent Orange-related conditions](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See the list of Agent Orange-related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
 
 #### Who's covered?
@@ -35,9 +35,9 @@ You may be able to get disability benefits if:
 
 You'll need to apply for benefits. 
 
-If you have a condition that is believed to be caused by Agent Orange, you won't need to show the problem started during—or got worse because of—your military service. [See the list of Agent Orange-related health problems](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+If you have an illness believed to be caused by Agent Orange, you won't need to show the problem started during—or got worse because of—your military service. [See the list of Agent Orange-related illnesses](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
-If you have a condition that’s not on this list, but you believe it was caused by Agent Orange, you'll need to show the problem started during—or got worse because of—your military service.
+If you have an illness that’s not on this list, but you believe it was caused by Agent Orange, you'll need to show the problem started during—or got worse because of—your military service.
 
 [Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
 
