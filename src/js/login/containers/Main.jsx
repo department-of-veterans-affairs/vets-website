@@ -61,7 +61,8 @@ class Main extends React.Component {
   checkTokenStatus() {
     if (localStorage.userToken) {
       if (moment() > moment(localStorage.entryTime).add(45, 'm')) {
-        if (confirm('Your login time has expired. Would you like to login again?')) {
+        // TODO(crew): make more customized prompt.
+        if (confirm("For security, you'll be automatically signed out in 2 minutes. To stay signed in, click OK. ")) {
           this.handleLogin();
         } else {
           this.handleLogout();
