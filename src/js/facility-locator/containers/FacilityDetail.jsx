@@ -16,9 +16,26 @@ class FacilityDetail extends Component {
     this.props.fetchVAFacility(this.props.params.id);
   }
 
+  renderFacilityWebsite() {
+    const { facility } = this.props;
+    const { website } = facility.attributes;
+
+    if (!website) {
+      return null;
+    }
+
+    return (
+      <span>
+        <a href={website} target="_blank">
+          <i className="fa fa-globe"/>Website
+        </a>
+      </span>
+    );
+  }
+
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name, website } = facility.attributes;
+    const { name } = facility.attributes;
 
     return (
       <div>
@@ -26,19 +43,15 @@ class FacilityDetail extends Component {
         <div>
           <FacilityAddress facility={facility}/>
         </div>
-        <p>
+        <div>
           <FacilityPhoneLink facility={facility}/>
-        </p>
-        <p>
-          <span>
-            <a href={website} target="_blank">
-              <i className="fa fa-globe" style={{ marginRight: '0.5rem' }}/> Website
-            </a>
-          </span>
-        </p>
-        <p>
+        </div>
+        <div>
+          {this.renderFacilityWebsite()}
+        </div>
+        <div>
           <FacilityDirectionsLink facility={facility}/>
-        </p>
+        </div>
         <p>Planning to visit? Please call first as information on this page may change.</p>
       </div>
     );
@@ -71,8 +84,6 @@ class FacilityDetail extends Component {
           </Link>
           <div>
             {this.renderFacilityInfo()}
-            <h4>Services</h4>
-            <hr className="title"/>
             <ServicesAtFacility facility={facility}/>
           </div>
         </div>
