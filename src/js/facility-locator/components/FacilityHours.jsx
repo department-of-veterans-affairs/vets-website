@@ -30,65 +30,24 @@ export default class FacilityHours extends Component {
       attributes: { hours }
     } = facility;
 
+    const hourRows = Object.keys(hours).map(h => {
+      if (hours[h] && hours[h] !== '') {
+        return (
+          <div className="row" key={h}>
+            <div className="small-6 columns">
+              {h.charAt(0).toUpperCase() + h.substr(1)}:
+            </div>
+            <div className="small-6 columns">
+              {['-', 'CLOSED'].includes(hours[h]) ? 'Closed' : hours[h]}
+            </div>
+          </div>
+        );
+      }
+      return null;
+    });
+
     return (
-      <div>
-        <div className="row">
-          <div className="small-6 columns">
-              Monday:
-          </div>
-          <div className="small-6 columns">
-            {this.renderHours(hours.monday)}
-          </div>
-        </div>
-        <div className="row">
-          <div className="small-6 columns">
-              Tuesday:
-          </div>
-          <div className="small-6 columns">
-            {this.renderHours(hours.tuesday)}
-          </div>
-        </div>
-        <div className="row">
-          <div className="small-6 columns">
-              Wednesday:
-          </div>
-          <div className="small-6 columns">
-            {this.renderHours(hours.wednesday)}
-          </div>
-        </div>
-        <div className="row">
-          <div className="small-6 columns">
-              Thursday:
-          </div>
-          <div className="small-6 columns">
-            {this.renderHours(hours.thursday)}
-          </div>
-        </div>
-        <div className="row">
-          <div className="small-6 columns">
-              Friday:
-          </div>
-          <div className="small-6 columns">
-            {this.renderHours(hours.friday)}
-          </div>
-        </div>
-        <div className="row">
-          <div className="small-6 columns">
-              Saturday:
-          </div>
-          <div className="small-6 columns">
-            {this.renderHours(hours.saturday)}
-          </div>
-        </div>
-        <div className="row">
-          <div className="small-6 columns">
-              Sunday:
-          </div>
-          <div className="small-6 columns">
-            {this.renderHours(hours.sunday)}
-          </div>
-        </div>
-      </div>
+      <div>{hourRows}</div>
     );
   }
 }
