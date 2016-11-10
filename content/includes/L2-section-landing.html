@@ -3,7 +3,18 @@
     <div class="primary">
       <div class="row">
         <div class="small-12 columns usa-content">
-        <h1>{{ title }}</h1>
+        {% if path == 'employment' %}
+          <div style="margin-bottom:1em;">
+          <h1 style="display: inline-block; margin-bottom:0em;">Careers and Employment</h1>
+          <h6 style="display: inline-block;"> in partnership with 
+            <a href="https://www.dol.gov/vets/" class="external"> 
+              United States Department of Labor
+            </a>
+          </h6>
+          </div>
+        {% else %}
+          <h1>{{ title }}</h1>
+        {% endif %}
         <!-- Page content begins -->
         {{ contents }}        
         <!-- Page content ends -->
