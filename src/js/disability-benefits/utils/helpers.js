@@ -1,3 +1,6 @@
+import _ from 'lodash/fp';
+import environment from '../../common/helpers/environment';
+
 const evidenceGathering = 'Evidence gathering, review, and decision';
 
 const phaseMap = {
@@ -198,4 +201,28 @@ export function isClaimComplete(claim) {
 
 export function itemsNeedingAttentionFromVet(events) {
   return events.filter(event => event.status === 'NEEDED' && event.type === 'still_need_from_you_list').length;
+}
+
+export function makeRequest(url, userOptions = {}) {
+  const options = _.merge({
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'X-Key-Inflection': 'camel',
+      Authorization: `Token token=${localStorage.userToken}`
+    },
+    responseType: 'json',
+  }, userOptions);
+
+  return fetch(`${environment.API_URL}${url}`, options)
+    .then((resp) => {
+      if (resp.ok) {
+        if (options.responseType) {
+          return resp[options.responseType]();
+        }
+        return Promise.resolve();
+      }
+
+      return Promise.reject(resp);
+    });
 }

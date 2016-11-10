@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import {
   groupTimelineActivity,
@@ -13,7 +14,8 @@ import {
   truncateDescription,
   getItemDate,
   isClaimComplete,
-  itemsNeedingAttentionFromVet
+  itemsNeedingAttentionFromVet,
+  makeRequest
 } from '../../../src/js/disability-benefits/utils/helpers';
 
 describe('Disability benefits helpers: ', () => {
@@ -374,6 +376,51 @@ describe('Disability benefits helpers: ', () => {
       ]);
 
       expect(itemsNeeded).to.equal(1);
+    });
+  });
+  describe('makeRequest', () => {
+    let fetchMock = sinon.stub();
+    let oldFetch = global.fetch;
+    beforeEach(() => {
+      oldFetch = global.fetch;
+      fetchMock = sinon.stub();
+      global.fetch = fetchMock;
+    });
+    afterEach(() => {
+      global.fetch = oldFetch;
+    });
+    it('should make a fetch request', (done) => {
+      global.localStorage = { userToken: '1234' };
+      fetchMock.returns({
+        then: (fn) => fn({ ok: true, json: () => Promise.resolve() })
+      });
+
+      const promise = makeRequest('/testing');
+
+      expect(fetchMock.called).to.be.true;
+      expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
+      expect(fetchMock.firstCall.args[1].method).to.equal('GET');
+
+      promise.then(() => {
+        done();
+      });
+    });
+    it('should reject promise when there is an error', (done) => {
+      global.localStorage = { userToken: '1234' };
+      fetchMock.returns({
+        then: (fn) => fn({ ok: false, json: () => Promise.resolve() })
+      });
+
+      const promise = makeRequest('/testing');
+
+      expect(fetchMock.called).to.be.true;
+      expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
+      expect(fetchMock.firstCall.args[1].method).to.equal('GET');
+
+      promise.catch((resp) => {
+        expect(resp.ok).to.be.false;
+        done();
+      });
     });
   });
 });

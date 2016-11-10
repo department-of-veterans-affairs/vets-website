@@ -1,5 +1,6 @@
-import environment from '../../common/helpers/environment';
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
+import environment from '../../common/helpers/environment';
+import { makeRequest } from '../utils/helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -9,6 +10,7 @@ export const SUBMIT_DECISION_REQUEST = 'SUBMIT_DECISION_REQUEST';
 export const SET_DECISION_REQUESTED = 'SET_DECISION_REQUESTED';
 export const SET_DECISION_REQUEST_ERROR = 'SET_DECISION_REQUEST_ERROR';
 export const SET_UNAVAILABLE = 'SET_UNAVAILABLE';
+export const SET_UNAUTHORIZED = 'SET_UNAUTHORIZED';
 export const RESET_UPLOADS = 'RESET_UPLOADS';
 export const ADD_FILE = 'ADD_FILE';
 export const REMOVE_FILE = 'REMOVE_FILE';
@@ -26,6 +28,18 @@ export const SET_LAST_PAGE = 'SET_LAST_PAGE';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 
+function handleError(dispatch, callback) {
+  return (resp) => {
+    if (resp.status === 401) {
+      dispatch({
+        type: SET_UNAUTHORIZED
+      });
+      return Promise.reject(resp);
+    }
+    return callback ? callback(resp) : Promise.reject(resp);
+  };
+}
+
 export function setNotification(message) {
   return {
     type: SET_NOTIFICATION,
@@ -35,24 +49,10 @@ export function setNotification(message) {
 
 export function getClaims() {
   return (dispatch) => {
-    fetch(`${environment.API_URL}/v0/disability_claims`, {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${localStorage.userToken}`
-      }
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(res.statusText);
-      })
+    makeRequest('/v0/disability_claims')
       .then(
         claims => dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta }),
-        () => dispatch({ type: SET_UNAVAILABLE })
+        handleError(dispatch, () => dispatch({ type: SET_UNAVAILABLE }))
       );
   };
 }
@@ -75,24 +75,10 @@ export function getClaimDetail(id) {
     dispatch({
       type: GET_CLAIM_DETAIL
     });
-    fetch(`${environment.API_URL}/v0/disability_claims/${id}`, {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${localStorage.userToken}`
-      }
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(res.statusText);
-      })
+    makeRequest(`/v0/disability_claims/${id}`)
       .then(
         resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
-        () => dispatch({ type: SET_UNAVAILABLE })
+        handleError(dispatch, () => dispatch({ type: SET_UNAVAILABLE }))
       );
   };
 }
@@ -102,29 +88,16 @@ export function submitRequest(id) {
     dispatch({
       type: SUBMIT_DECISION_REQUEST
     });
-    fetch(`${environment.API_URL}/v0/disability_claims/${id}/request_decision`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${localStorage.userToken}`
-      }
-    })
-      .then(res => {
-        if (!res.ok) {
-          return Promise.reject(res.statusText);
-        }
-
-        return Promise.resolve();
-      })
+    makeRequest(`/v0/disability_claims/${id}/request_decision`, { method: 'POST' })
       .then(() => {
         dispatch({ type: SET_DECISION_REQUESTED });
         dispatch(setNotification({
           title: 'Request received',
           body: 'Thank you. We have your claim request and will make a decision.'
         }));
-      })
-      .catch(error => dispatch({ type: SET_DECISION_REQUEST_ERROR, error }));
+      }, handleError(dispatch, error => {
+        dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
+      }));
   };
 }
 
