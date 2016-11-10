@@ -6,33 +6,32 @@ plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
 template: 4-action-page
 ---
 
-Did you serve in Vietnam (including aboard a ship on the inland waterways) or in the Korean Demilitarized Zone during the Vietnam War Era? If yes, you likely had contact with Agent Orange (a toxic chemical the U.S. military used to clear plants and trees during the war). Find out if you can get VA support (known as disability compensation or benefits) for health problems believed to be caused by Agent Orange.
+Did you serve in Vietnam (including aboard a ship on the inland waterways) or in the Korean Demilitarized Zone during the Vietnam War Era? If you did, you likely had contact with Agent Orange (a toxic chemical the U.S. military used to clear plants and trees during the war). Find out if you can get disability compensation or benefits for illnesses believed to be caused by Agent Orange.
 
 <div class="call-out" markdown="1">
 
 ### Can I get disability benefits from VA?
 
-Yes, if you have 1 or more health problems linked to Agent Orange **and**
+You may be able to get disability benefits if you have 1 or more illnesses believed to be caused by Agent Orange and you served in:
 
-You served in:
 - Vietnam (including aboard a ship on the inland waterways) for any length of time between January 9, 1962, and May 7, 1975, **or**
 - The Korean Demilitarized Zone for any length of time between April 1, 1968, and August 31, 1971
 
-[See a list of Agent Orange‒related health problems](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
+[See a list of Agent Orange‒related conditions](https://www.vets.gov/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/diseases/).
 
 <br>
 
 ### Who's covered?
 
 - Veterans
-- Survivors of Veterans
+- Qualified survivors
 
 </div>
 
 ### What kind of disability benefits can I get?
 
 - Health care
-- Financial support (monthly payments)
+- Compensation (payments)
 - [An Agent Orange Registry health exam](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/registry-health-exam/)
 
 -----
