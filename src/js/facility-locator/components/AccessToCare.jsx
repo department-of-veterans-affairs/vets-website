@@ -50,7 +50,7 @@ export default class AccessToCare extends Component {
     }
 
     // hide entire section of all values are null
-    if (every(...values(facility.attributes.health), e => !e)) {
+    if (every(values(facility.attributes.feedback.health), e => !e)) {
       return null;
     }
 

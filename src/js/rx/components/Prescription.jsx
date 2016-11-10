@@ -48,10 +48,10 @@ class Prescription extends React.Component {
 
     if (remaining === 0) {
       msgProvider = (
-        <div className="rx-call-provider">
-          <Link
-              key={`rx-${id}-call`}
-              to="/messaging">Message Provider</Link>
+        <div
+            className="rx-call-provider"
+            key={`rx-${id}-call`}>
+          <a href="/healthcare/messaging/compose">Message Provider</a>
         </div>
       );
     }
@@ -85,7 +85,7 @@ class Prescription extends React.Component {
             className="rx-prescription-status">
           Refill status: <GlossaryLink
               term={displayStatus}
-              onClick={this.props.openGlossaryModal}/>
+              onClick={this.props.glossaryModalHandler}/>
         </div>
       );
     }

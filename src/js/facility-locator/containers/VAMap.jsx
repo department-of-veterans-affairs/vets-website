@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { updateSearchQuery, searchWithAddress, searchWithBounds, fetchVAFacility } from '../actions';
-import { map, find } from 'lodash';
+import { map, find, compact } from 'lodash';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
@@ -69,6 +69,9 @@ class VAMap extends Component {
     }
 
     Tabs.setUseDefaultStyles(false);
+    this.forceUpdate(() => {
+      this.handleBoundsChanged();
+    });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -95,15 +98,16 @@ class VAMap extends Component {
   updateUrlParams = (params) => {
     const { location, currentQuery } = this.props;
 
-    const queryParams = map({
+    const queryParams = compact(map({
       ...location.query,
       zoomLevel: currentQuery.zoomLevel,
       page: currentQuery.currentPage,
+      address: currentQuery.searchString,
       ...params,
     }, (v, k) => {
       if (v) { return `${k}=${v}`; }
       return null;
-    }).join('&');
+    })).join('&');
 
     browserHistory.push(`/facilities${location.pathname}?${queryParams}`);
   }
@@ -123,6 +127,7 @@ class VAMap extends Component {
         searchString: placeName,
         context: zipCode,
       });
+
       this.updateUrlParams({
         address: placeName,
         context: zipCode,
@@ -136,6 +141,7 @@ class VAMap extends Component {
     this.updateUrlParams({
       address: currentQuery.searchString,
     });
+
     this.props.searchWithAddress(currentQuery);
     this.handleBoundsChanged();
   }
@@ -282,8 +288,7 @@ class VAMap extends Component {
                     url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                     attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
                 <DivMarker position={position} popupContent={<span>You are here</span>}>
-                  <div className="current-position-icon">
-                    <i className="fa fa-star"></i>
+                  <div className="current-position-icon map-marker">
                   </div>
                 </DivMarker>
                 <FeatureGroup ref="facilityMarkers">
@@ -324,7 +329,7 @@ class VAMap extends Component {
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
               <DivMarker position={position} popupContent={<span>You are here</span>}>
-                <div className="current-position-icon">
+                <div className="current-position-icon map-marker">
                 </div>
               </DivMarker>
               <FeatureGroup ref="facilityMarkers">

@@ -20,7 +20,7 @@ export default class RotcHistoryFields extends React.Component {
       <p><span className="form-required-span">*</span>Indicates a required field</p>
       <div className="input-section">
         <ErrorableRadioButtons
-            label="Are you currently participating in a senior ROTC scholarship program that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)"
+            label="Are you in a senior ROTC scholarship program right now that pays your tuition, fees, books, and supplies? (Covered under Section 2107 of Title 10, U.S. Code)"
             options={yesNo}
             value={this.props.data.seniorRotcScholarshipProgram}
             name="RotcTuition"
@@ -38,7 +38,7 @@ export default class RotcHistoryFields extends React.Component {
               <ErrorableNumberInput
                   additionalClass="usa-input-medium"
                   errorMessage={validateIfDirty(this.props.data.seniorRotc.commissionYear, isValidYearOrBlank) ? undefined : 'Please enter a valid year'}
-                  label="Year of commission"
+                  label="Year of commission:"
                   min="1900"
                   name="commissionYear"
                   field={this.props.data.seniorRotc.commissionYear}

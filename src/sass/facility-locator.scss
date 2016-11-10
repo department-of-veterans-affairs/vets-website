@@ -36,6 +36,12 @@
     margin-top: 0;
   }
 
+  i.fa {
+    width: 18px;
+    text-align: center;
+    margin-right: 15px;
+  }
+
   .facility-result {
     padding: 1em;
     border-bottom: none;
@@ -202,16 +208,8 @@
   }
 
   .current-position-icon {
-    height: 60px;
-    margin-left: -12px;
-    margin-top: -12px;
-    text-align:center;
-    padding-top: 3px;
-    width: 60px;
-    z-index: 999;
     background: url('/img/icons/current-location-pin.svg') no-repeat center center;
     background-size: contain;
-    color: white;
   }
 
   .clearfix {

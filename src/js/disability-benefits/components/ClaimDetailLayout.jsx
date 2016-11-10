@@ -11,7 +11,7 @@ const MAX_CONDITIONS = 3;
 
 export default class ClaimDetailLayout extends React.Component {
   render() {
-    const { claim, loading, message, clearNotification } = this.props;
+    const { claim, loading, message, clearNotification, currentTab } = this.props;
 
     let content;
     if (!loading) {
@@ -37,7 +37,7 @@ export default class ClaimDetailLayout extends React.Component {
               : null}
           </div>
           <TabNav id={this.props.claim.id}/>
-          <div className="va-tab-content">
+          <div className="va-tab-content" role="tabpanel" id={`tabPanel${currentTab}`} aria-labelledby={`tab${currentTab}`}>
             {isPopulatedClaim(claim) ? null : <AddingDetails/>}
             {this.props.children}
           </div>
