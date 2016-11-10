@@ -75,7 +75,12 @@ export function searchWithAddress(query) {
           payload: {
             ...query,
             context: zipCode,
-            bounds: res.features[0].bbox,
+            bounds: res.features[0].bbox || [
+              coordinates[0] - 0.5,
+              coordinates[1] - 0.5,
+              coordinates[0] + 0.5,
+              coordinates[1] + 0.5,
+            ],
             position: {
               latitude: coordinates[1],
               longitude: coordinates[0],
