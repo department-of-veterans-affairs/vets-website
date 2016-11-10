@@ -54,9 +54,11 @@
   }
 }
 
+.claims-requested-files-container {
+  margin-bottom: 1.5em;
+}
 
 .submitted-files-list {
-  margin-top: 1.5em;
   margin-bottom: 2em;
   .submitted-file-list-item {
     margin: 0.5em 0;
@@ -552,6 +554,12 @@ p.first-of-type {
   &:focus {
     outline: none;
   }
+} 
+
+.claims-alert.phase-back-alert {
+  margin-top: 0;
+  margin-bottom: 0;
+  background-position: 1rem 1.4rem;
 }
 
 .claims-alert-status {
