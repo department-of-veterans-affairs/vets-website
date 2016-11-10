@@ -648,3 +648,10 @@ h1:focus {
 h6.claims-turnedin-file-header {
   padding: 0 !important;
 }
+
+.claims-close-mobile {
+  @media (max-width: $small-screen) {
+    margin-top: -4px;
+    width: 0;
+  }
+}
