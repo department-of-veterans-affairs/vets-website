@@ -109,6 +109,10 @@
   }
 }
 
+.file-request-list-item-optional {
+  background-color: $color-gray-lightest;
+}
+
 .item-container {
   margin: 0 0 0.5em 0;
   float: left;
@@ -251,9 +255,8 @@ a.claim-list-item {
 }
 
 .ask-va-questions {
-  margin-top: 1.5em;
   .talk {
-    margin: .5em 0;
+    margin: 0.5em 0;
     padding: 0;
   }
   .phone-number {
@@ -263,6 +266,13 @@ a.claim-list-item {
       text-decoration: none;
       margin: 0.5em 0;
     }
+  }
+}
+
+.ask-va-questions.claims-sidebar-box {
+  padding-top: 0.6em;
+  @media (max-width: $small-screen) {
+    padding: 2em 0;
   }
 }
 
@@ -655,4 +665,11 @@ h1:focus {
 
 h6.claims-turnedin-file-header {
   padding: 0 !important;
+}
+
+.notification-close {
+  @media (max-width: $small-screen) {
+    margin: -5px 5px 0 0;
+    width: 0;
+  }
 }
