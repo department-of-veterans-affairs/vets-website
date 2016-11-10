@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Exposure to Hazardous Materials
-template: 2-detailed-landing
+template: 1-topic-landing
 relatedlinks:
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/
     title: Agent Orange
