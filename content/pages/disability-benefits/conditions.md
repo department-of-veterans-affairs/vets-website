@@ -1,8 +1,8 @@
 ---
 layout: page-breadcrumbs.html
-title: Health Problems Linked to Military Service
+title: Conditions Linked to Military Service
 source: https://eauth.va.gov/ebenefits/learn/compensation
-plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
+plainlanguage: 10-21-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 relatedlinks:
   - url: /disability-benefits/conditions/ptsd/
@@ -20,39 +20,38 @@ relatedlinks:
 ---
 
 
-Do you have health problems that started—or got worse—while you were serving in the military? If yes, you may be able to get VA support (known as disability compensation or benefits) for these health problems.
+Do you have illnesses or injuries that started—or got worse—while you were serving in the military? If you do, you may be able to get disability compensation or benefits.
 
 <div class="call-out" markdown="0">
 
-### Can I get disability compensation from VA?
+### Can I get disability benefits from VA?
 
--Yes, if:
-
- -- You have a current health problem that affects your body or mind, **and**
- -- You got sick or injured while serving in the military—and can link the health problem you have now to this illness or injury, **or**
- -- You had a health problem before you joined the military—and serving made it worse
+You may be able to get disability benefits if you have a current illness or injury (known as a condition) that affects your body or mind and:
+- You got sick or injured while serving in the military—and can link your condition to this illness or injury, 
+ **or**
+- You had an illness or injury before you joined the military—and serving made it worse
 
 <br>
 
 ### Who's covered?
 
 - Veterans
-- Dependents of Veterans
+- Qualified dependents
 
 </div>
 
 ### What kind of disability benefits can I get?
 
 -	Health care
--	Financial support (monthly payments)
+-	Compensation (payments)
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. When you apply, you‘ll have to show that your health problems were likely caused by—or got worse because of—your service.
+You’ll need to apply for benefits. When you apply, you‘ll have to show that your conditions were likely caused by—or got worse because of—your service.
 
-#### What health problems are covered by these benefits?
+#### What conditions are covered by these benefits?
 
-You may be able to get support for health problems such as:
+You may be able to get benefits for conditions such as:
 
 - Chronic (long-lasting) back pain
 - Breathing problems or lung disease
@@ -62,10 +61,10 @@ You may be able to get support for health problems such as:
 - Ulcers
 - Cancers caused by contact with toxic chemicals or other dangers
 
-You may also be able to get support for:
+You may also be able to get benefits for:
 
-- Traumatic brain injury (an injury caused by a blow to the head or an object piercing the skull)
-- PTSD
+- Traumatic brain injury (TBI)
+- Post-traumatic stress (PTSD) 
 - Depression
 - Anxiety
 
