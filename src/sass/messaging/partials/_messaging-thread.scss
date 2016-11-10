@@ -1,3 +1,32 @@
+/********************
+ * Thread (General) *
+ ********************/
+
+.messaging-thread-content {
+  @media (max-width: $medium-screen) {
+    display: none;
+
+    &.opened {
+      display: block;
+    }
+  }
+}
+
+.messaging-thread-form-trigger {
+  display: none;
+
+  & > button {
+    display: block;
+    width: 100%;
+  }
+
+  @media (max-width: $medium-screen) {
+    background: $color-gray-lightest;
+    display: block;
+    padding: 1rem 2rem;
+  }
+}
+
 /*****************
  * Thread Header *
  *****************/
@@ -110,24 +139,9 @@
  ****************/
 
 .messaging-thread-form {
-  font-size: 1.8rem;
-
-  & > button {
+  .messaging-thread-header {
     display: none;
-    width: 100%;
-  }
-
-  @media (max-width: $medium-screen) {
-    background: $color-gray-lightest;
-    padding: 1rem 2rem;
-
-    & > form {
-      display: none;
-    }
-
-    & > button {
-      display: block;
-    }
+    padding: 0;
   }
 
   .msg-field {
@@ -138,6 +152,18 @@
     margin: 0;
     max-width: 100%;
     padding: 1rem 1.5rem;
+  }
+
+  @media (max-width: $medium-screen) {
+    display: none;
+
+    &.opened {
+      display: block;
+    }
+
+    .messaging-thread-header {
+      display: block;
+    }
   }
 }
 
