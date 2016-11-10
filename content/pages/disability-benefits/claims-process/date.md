@@ -2,7 +2,7 @@
 layout: page-breadcrumbs.html
 title: Effective Date of Disability
 concurrence: complete
-plainlanguage: 11-9-16 For Beth's review
+plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 relatedlinks:
   - url: /disability-benefits/claims-process/claim-types/fully-developed-claim/
@@ -39,7 +39,8 @@ Here’s how we decide effective dates in different cases. It’s more than a li
 
 The effective date for a disability that was caused—or made worse—by military service is whichever of these comes later:
 
--	The date we get your claim, **or**
+-	The date we get your claim, 
+**or**
 -	The date your illness or injury first began (also known as the date your entitlement arose)
 
 If we get your claim within 1 year of the day you left active service, the effective date can be as early as the day following separation.
@@ -56,7 +57,7 @@ We got Ric’s claim on July 5, 2014. Because his claim was received within 1 ye
 
 ### Presumptive Service Connection
 
-In most cases, if we believe your disability is related to your military service (known as a presumed service connection)—and we get your claim within 1 year of your separation from active service—then the effective date is the date your illness or injury first began.
+In most cases, if we believe your disability is related to your military service (known as a presumptive service connection)—and we get your claim within 1 year of your separation from active service—then the effective date is the date your illness or injury first began.
 
 If we get your claim more than 1 year after your separation from active service, the effective date is the date we got your claim or when your illness or injury first began—whichever is later.
 
@@ -66,7 +67,7 @@ Beth is a Veteran who separated from active service on September 30, 2013. Medic
 Less than 3 months later, Beth filed a claim that we got on July 1, 2014. We concluded that her high blood pressure was related to her service. Because we got the claim less than 1 year after Beth separated from active service, the effective date was April 15, 2014—the date when her illness first began.
 
 **Example 2**<br>
-Susan is a Veteran who ended her active service on September 30, 2013. Medical tests taken on April 15, 2014,  showed she had hypertension (high blood pressure). 
+Susan is a Veteran who ended her active service on September 30, 2013. Medical tests taken on April 15, 2014, showed she had hypertension (high blood pressure). 
 
 More than a year later, Susan filed a claim that we got on October 2, 2014. We concluded that her high blood pressure was related to her service. Because we got the claim more than 1 year after Susan separated from active service, the effective date was October 2, 2014—the date we got the claim.
 
@@ -86,7 +87,7 @@ If there’s a change in law or VA regulation that allows us to pay disability c
 
 For claims based on a Veteran’s death in service, the effective date is the first day of the month in which the Veteran died, or was presumed to have died. This is true only if we get the claim within 1 year of the date of the report of the Veteran’s actual or presumed death. Otherwise, the effective date is the date we get the claim.
 
-If the Veteran’s death occurred after service and we get the claim within 1 year of the Veteran’s passing, the effective date is the first day of the month in which the Veteran died.
+If the Veteran’s death happened after service and we get the claim within 1 year of the Veteran’s passing, the effective date is the first day of the month in which the Veteran died.
 
 If the death occurred after service and we get the claim more than 1 year after the Veteran’s death, the effective date is the date we get the claim.
 
@@ -102,10 +103,10 @@ A decision that's based on a difference of opinion will have an effective date o
 
 Increases in the disability rating are dated back to the earliest date when it can be shown that there was an increase in disability. This is only if we get the new claim request within 1 year from that date. Otherwise, the effective date is the date we get the claim.
 
-### Disability or Death Due to A Hospital Stay
+### Disability or Death Due to a Hospital Stay
 
-If we get a claim within 1 year after the date the Veteran suffered an injury, or their existing injury got worse, the effective date is the date the injury occurred or when it began to get worse.
+If we get a claim within 1 year after the date the Veteran suffered an injury, or their existing injury got worse, the effective date is the date the injury happened or when it began to get worse.
 
 If we get a claim within 1 year of the date of a Veteran’s death, the effective date is the first day of the month in which the Veteran died.
 
-If we get a claim more than 1 year after a Veteran suffered an injury, their injury got worse, or they died, the effective date is the date VA receives the claim.
+If we get a claim more than 1 year after a Veteran suffered an injury, their injury got worse, or they died, the effective date is the date we get the claim.
