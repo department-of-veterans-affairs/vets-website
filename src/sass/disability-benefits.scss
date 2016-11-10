@@ -651,7 +651,7 @@ h6.claims-turnedin-file-header {
 
 .claims-close-mobile {
   @media (max-width: $small-screen) {
-    margin-top: -4px;
+    margin: -5px 5px 0 0;
     width: 0;
   }
 }
