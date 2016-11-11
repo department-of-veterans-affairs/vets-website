@@ -18,36 +18,30 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client
         .click('a.claim-list-item:first-child')
         .waitForElementVisible('body', Timeouts.normal)
-        .waitForElementVisible('.claim-title', Timeouts.slow);
+        .waitForElementVisible('.claim-title', Timeouts.normal);
 
       // go to files tab
       client
         .click('.va-tabs li:nth-child(2) > a')
         .waitForElementVisible('.file-request-list-item', Timeouts.normal);
-      client.assert.urlContains('/your-claims/11/files');
-      client
-        .expect.element('a.va-tab-trigger.va-tab-trigger--current').text.to.equal('Files');
 
-      // should show two files requested
-      client.elements('class name', 'file-request-list-item', (result) => {
-        client.assert.equal(result.value.length, 3);
-      });
-
-      // should show four files received
-      client.elements('class name', 'submitted-file-list-item', (result) => {
-        client.assert.equal(result.value.length, 3);
-      });
-
-      // should show additional evidence box
+      // go to document request page
       client
-        .expect.element('.submit-additional-evidence .usa-alert').to.be.visible;
+        .click('.file-request-list-item .usa-button')
+        .waitForElementVisible('.upload-files', Timeouts.normal);
 
-      // should show a submitted date message
       client
-        .expect.element('.submitted-file-list-item:last-child h6').text.to.equal('Submitted');
-      // should show a reviewed date message
+        .expect.element('.upload-files button.usa-button').text.to.equal('Submit Files for Review');
+
       client
-        .expect.element('.submitted-file-list-item h6').text.to.equal('Reviewed By VA');
+        .click('.upload-files button.usa-button')
+        .waitForElementPresent('.usa-input-error', Timeouts.normal);
+
+      client
+        .expect.element('.usa-input-error-message').text.to.equal('Please select a file first');
+
+      // File uploads don't appear to work in Nightwatch/PhantomJS
+      // TODO: switch to something that does support uploads or figure out the problem
 
       client.end();
     }
