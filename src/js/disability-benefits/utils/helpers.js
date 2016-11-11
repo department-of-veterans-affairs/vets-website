@@ -199,3 +199,14 @@ export function isClaimComplete(claim) {
 export function itemsNeedingAttentionFromVet(events) {
   return events.filter(event => event.status === 'NEEDED' && event.type === 'still_need_from_you_list').length;
 }
+
+export function getCompletedDate(claim) {
+  if (claim.attributes && claim.attributes.eventsTimeline) {
+    const completedEvents = claim.attributes.eventsTimeline.filter(event => event.type === 'completed');
+    if (completedEvents.length) {
+      return completedEvents[0].date;
+    }
+  }
+
+  return null;
+}
