@@ -1,5 +1,6 @@
-import environment from '../../common/helpers/environment';
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
+
+import environment from '../../common/helpers/environment';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -75,7 +76,7 @@ export function getClaimDetail(id) {
     dispatch({
       type: GET_CLAIM_DETAIL
     });
-    fetch(`${environment.API_URL}/v0/disability_claims/${id}`, {
+    return fetch(`${environment.API_URL}/v0/disability_claims/${id}`, {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -88,11 +89,16 @@ export function getClaimDetail(id) {
           return res.json();
         }
 
-        return Promise.reject(res.statusText);
+        return Promise.reject(res);
       })
       .then(
         resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
-        () => dispatch({ type: SET_UNAVAILABLE })
+        resp => {
+          if (resp.status !== 404) {
+            dispatch({ type: SET_UNAVAILABLE });
+          }
+          return Promise.reject(resp);
+        }
       );
   };
 }
