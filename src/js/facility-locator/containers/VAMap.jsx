@@ -32,7 +32,7 @@ class VAMap extends Component {
 
     // populate search bar with parameters from URL
     if (location.query.address) {
-      this.props.updateSearchQuery({
+      this.props.searchWithAddress({
         searchString: location.query.address,
         context: location.query.context,
       });
@@ -69,9 +69,8 @@ class VAMap extends Component {
     }
 
     Tabs.setUseDefaultStyles(false);
-    this.forceUpdate(() => {
-      this.handleBoundsChanged();
-    });
+
+    this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -82,6 +81,7 @@ class VAMap extends Component {
       this.updateUrlParams({
         location: `${newQuery.position.latitude},${newQuery.position.longitude}`,
         context: newQuery.context,
+        address: newQuery.searchString,
       });
     }
 
@@ -90,6 +90,10 @@ class VAMap extends Component {
       this.props.updateSearchQuery({
         currentPage: 1,
       });
+    }
+
+    if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds)) {
+      this.props.searchWithBounds(newQuery.bounds, newQuery.facilityType, newQuery.serviceType, newQuery.currentPage);
     }
   }
 
@@ -117,13 +121,19 @@ class VAMap extends Component {
     mapboxClient.geocodeReverse(position, {
       types: 'address',
     }, (err, res) => {
-      // TODO (bshyong): handle error case
+      const coordinates = res.features[0].center;
       const placeName = res.features[0].place_name;
       const zipCode = find(res.features[0].context, (v) => {
         return v.id.includes('postcode');
       }).text;
 
       this.props.updateSearchQuery({
+        bounds: res.features[0].bbox || [
+          coordinates[0] - 0.5,
+          coordinates[1] - 0.5,
+          coordinates[0] + 0.5,
+          coordinates[1] + 0.5,
+        ],
         searchString: placeName,
         context: zipCode,
       });
@@ -138,26 +148,38 @@ class VAMap extends Component {
   handleSearch = () => {
     const { currentQuery } = this.props;
 
-    this.updateUrlParams({
-      address: currentQuery.searchString,
-    });
+    if (currentQuery.searchString && currentQuery.searchString.trim() !== '') {
+      this.updateUrlParams({
+        address: currentQuery.searchString,
+      });
 
-    this.props.searchWithAddress(currentQuery);
-    this.handleBoundsChanged();
+      this.props.searchWithAddress(currentQuery);
+    }
   }
 
   handleBoundsChanged = () => {
-    const { currentQuery: { facilityType, serviceType, currentPage } } = this.props;
-    const center = this.refs.map.leafletElement.getCenter();
-    const bounds = this.refs.map.leafletElement.getBounds();
-    const zoom = this.refs.map.leafletElement.getZoom();
+    const { currentQuery } = this.props;
+    const { position } = currentQuery;
 
-    const boundsArray = [
-      bounds._southWest.lng,
-      bounds._southWest.lat,
-      bounds._northEast.lng,
-      bounds._northEast.lat,
-    ];
+    let center = {
+      lat: position.latitude,
+      lng: position.longitude,
+    };
+    let boundsArray = currentQuery.bounds;
+    let zoom = currentQuery.zoomLevel;
+
+    if (this.refs.map) {
+      center = this.refs.map.leafletElement.getCenter();
+      zoom = this.refs.map.leafletElement.getZoom();
+      const bounds = this.refs.map.leafletElement.getBounds();
+
+      boundsArray = [
+        bounds._southWest.lng,
+        bounds._southWest.lat,
+        bounds._northEast.lng,
+        bounds._northEast.lat,
+      ];
+    }
 
     this.props.updateSearchQuery({
       bounds: boundsArray,
@@ -167,8 +189,6 @@ class VAMap extends Component {
       },
       zoomLevel: zoom,
     });
-
-    this.props.searchWithBounds(boundsArray, facilityType, serviceType, currentPage);
   }
 
   centerMap = () => {
@@ -283,7 +303,7 @@ class VAMap extends Component {
               </div>
             </TabPanel>
             <TabPanel>
-              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false}>
+              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
                 <TileLayer
                     url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                     attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
