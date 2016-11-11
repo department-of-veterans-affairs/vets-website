@@ -6,7 +6,7 @@ import AskVAToDecide from '../components/AskVAToDecide';
 import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import { setUpPage, isTab, scrollToTop, setFocus } from '../utils/page';
-import { itemsNeedingAttentionFromVet } from '../utils/helpers';
+import { itemsNeedingAttentionFromVet, getCompletedDate } from '../utils/helpers';
 
 import { clearNotification } from '../actions';
 
@@ -54,7 +54,7 @@ class StatusPage extends React.Component {
           {showDecision
             ? <AskVAToDecide id={this.props.params.id}/>
             : null}
-          {claim.attributes.decisionLetterSent || !claim.attributes.open ? <ClaimsDecision/> : null}
+          {claim.attributes.decisionLetterSent || !claim.attributes.open ? <ClaimsDecision completedDate={getCompletedDate(claim)}/> : null}
           {phase !== null && claim.attributes.open
             ? <ClaimsTimeline
                 id={claim.id}
