@@ -142,7 +142,7 @@ export function submitFiles(claimId, trackedItem, files) {
         inputName: 'file',
         customHeaders: {
           'X-Key-Inflection': 'camel',
-          Authorization: `Token token=${localStorage.userToken}`
+          Authorization: `Token token=${sessionStorage.userToken}`
         }
       },
       cors: {

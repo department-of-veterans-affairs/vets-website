@@ -19,7 +19,8 @@ title: Logout
 
 <script>
 if (location.search.substring(1) === 'success=true') {
-  window.opener.localStorage.removeItem('userToken');
+  window.opener.sessionStorage.removeItem('userToken');
+  window.opener.sessionStorage.removeItem('entryTime');
   window.opener.location.reload();
   window.close();
 } 

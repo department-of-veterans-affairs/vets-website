@@ -14,7 +14,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .url(`${E2eHelpers.baseUrl}/healthcare/prescriptions`)
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Refill your prescriptions: Vets.gov')
-        .waitForElementVisible('#rx-active', Timeouts.normal)
+        .waitForElementVisible('#rx-active', Timeouts.slow)
         .click('.va-tabs li:last-child a')
         .waitForElementVisible('#rx-history', Timeouts.normal)
         .waitForElementVisible('.rx-table', Timeouts.slow);

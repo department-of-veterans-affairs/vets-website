@@ -210,7 +210,7 @@ export function makeRequest(url, userOptions, dispatch, onSuccess, onError) {
     mode: 'cors',
     headers: {
       'X-Key-Inflection': 'camel',
-      Authorization: `Token token=${localStorage.userToken}`
+      Authorization: `Token token=${sessionStorage.userToken}`
     },
     responseType: 'json',
   }, userOptions);
