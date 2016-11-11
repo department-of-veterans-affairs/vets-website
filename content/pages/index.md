@@ -42,7 +42,7 @@ majorlinks:
     </a>
   </div>
   <div class="medium-4 columns">
-    <a href="/facility-locator/">
+    <a href="/facilities/">
       <div class="outline-link-block">
         Find nearby VA locations
       </div>
