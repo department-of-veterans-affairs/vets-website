@@ -181,20 +181,6 @@
     padding: 1.5rem;
   }
 
-  [type="button"] {
-    margin: 0 1rem 0 0;
-
-    @media (max-width: $medium-screen) {
-      -webkit-flex: 0 0 48%;
-      flex: 0 0 48%;
-      margin: 1.5rem 0rem .5rem;
-    }
-
-    &[disabled] {
-      background: $color-gray;
-    }
-  }
-
   .messaging-btn-delete {
     @media (max-width: $medium-screen) {
       display: none;
@@ -204,6 +190,37 @@
     line-height: 3.5rem;
     margin: 0 0 0 1rem;
     padding: 0 1rem;
+  }
+}
+
+.msg-send-buttons {
+  display: inline-flex;
+  margin-right: 1rem;
+
+  [type="button"] {
+    margin: 0 1rem 0 0;
+
+    &[disabled] {
+      background: $color-gray;
+    }
+  }
+
+  @media (max-width: $medium-screen) {
+    width: 100%;
+
+    [type="button"] {
+      -webkit-flex: 0 1 50%;
+      flex: 0 1 50%;
+      margin: 1.5rem 1rem .5rem;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
 }
 
