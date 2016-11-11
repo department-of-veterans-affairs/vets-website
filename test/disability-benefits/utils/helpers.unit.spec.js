@@ -15,7 +15,7 @@ import {
   getItemDate,
   isClaimComplete,
   itemsNeedingAttentionFromVet,
-  makeRequest
+  makeAuthRequest
 } from '../../../src/js/disability-benefits/utils/helpers';
 
 describe('Disability benefits helpers: ', () => {
@@ -378,7 +378,7 @@ describe('Disability benefits helpers: ', () => {
       expect(itemsNeeded).to.equal(1);
     });
   });
-  describe('makeRequest', () => {
+  describe('makeAuthRequest', () => {
     let fetchMock = sinon.stub();
     let oldFetch = global.fetch;
     beforeEach(() => {
@@ -396,7 +396,7 @@ describe('Disability benefits helpers: ', () => {
       });
 
       const onSuccess = () => done();
-      makeRequest('/testing', null, sinon.spy(), onSuccess);
+      makeAuthRequest('/testing', null, sinon.spy(), onSuccess);
 
       expect(fetchMock.called).to.be.true;
       expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
@@ -412,7 +412,7 @@ describe('Disability benefits helpers: ', () => {
         expect(resp.ok).to.be.false;
         done();
       };
-      makeRequest('/testing', null, sinon.spy(), sinon.spy(), onError);
+      makeAuthRequest('/testing', null, sinon.spy(), sinon.spy(), onError);
 
       expect(fetchMock.called).to.be.true;
       expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
@@ -433,7 +433,7 @@ describe('Disability benefits helpers: ', () => {
         done();
       };
 
-      makeRequest('/testing', null, dispatch, onSuccess, onError);
+      makeAuthRequest('/testing', null, dispatch, onSuccess, onError);
     });
   });
 });

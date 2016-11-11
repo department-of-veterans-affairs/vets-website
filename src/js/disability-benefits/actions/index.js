@@ -1,6 +1,6 @@
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
 import environment from '../../common/helpers/environment';
-import { makeRequest } from '../utils/helpers';
+import { makeAuthRequest } from '../utils/helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -37,7 +37,7 @@ export function setNotification(message) {
 
 export function getClaims() {
   return (dispatch) => {
-    makeRequest('/v0/disability_claims',
+    makeAuthRequest('/v0/disability_claims',
       null,
       dispatch,
       claims => dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta }),
@@ -64,7 +64,7 @@ export function getClaimDetail(id) {
     dispatch({
       type: GET_CLAIM_DETAIL
     });
-    makeRequest(`/v0/disability_claims/${id}`,
+    makeAuthRequest(`/v0/disability_claims/${id}`,
       null,
       dispatch,
       resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
@@ -78,7 +78,7 @@ export function submitRequest(id) {
     dispatch({
       type: SUBMIT_DECISION_REQUEST
     });
-    makeRequest(`/v0/disability_claims/${id}/request_decision`,
+    makeAuthRequest(`/v0/disability_claims/${id}/request_decision`,
       { method: 'POST' },
       dispatch,
       () => {

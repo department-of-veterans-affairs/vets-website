@@ -204,7 +204,7 @@ export function itemsNeedingAttentionFromVet(events) {
   return events.filter(event => event.status === 'NEEDED' && event.type === 'still_need_from_you_list').length;
 }
 
-export function makeRequest(url, userOptions, dispatch, onSuccess, onError) {
+export function makeAuthRequest(url, userOptions, dispatch, onSuccess, onError) {
   const options = _.merge({
     method: 'GET',
     mode: 'cors',
