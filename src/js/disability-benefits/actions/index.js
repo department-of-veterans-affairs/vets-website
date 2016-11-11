@@ -28,18 +28,6 @@ export const SET_LAST_PAGE = 'SET_LAST_PAGE';
 export const SET_NOTIFICATION = 'SET_NOTIFICATION';
 export const CLEAR_NOTIFICATION = 'CLEAR_NOTIFICATION';
 
-function handleError(dispatch, callback) {
-  return (resp) => {
-    if (resp.status === 401) {
-      dispatch({
-        type: SET_UNAUTHORIZED
-      });
-      return Promise.reject(resp);
-    }
-    return callback ? callback(resp) : Promise.reject(resp);
-  };
-}
-
 export function setNotification(message) {
   return {
     type: SET_NOTIFICATION,
@@ -49,11 +37,12 @@ export function setNotification(message) {
 
 export function getClaims() {
   return (dispatch) => {
-    makeRequest('/v0/disability_claims')
-      .then(
-        claims => dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta }),
-        handleError(dispatch, () => dispatch({ type: SET_UNAVAILABLE }))
-      );
+    makeRequest('/v0/disability_claims',
+      null,
+      dispatch,
+      claims => dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta }),
+      () => dispatch({ type: SET_UNAVAILABLE })
+    );
   };
 }
 
@@ -75,11 +64,12 @@ export function getClaimDetail(id) {
     dispatch({
       type: GET_CLAIM_DETAIL
     });
-    makeRequest(`/v0/disability_claims/${id}`)
-      .then(
-        resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
-        handleError(dispatch, () => dispatch({ type: SET_UNAVAILABLE }))
-      );
+    makeRequest(`/v0/disability_claims/${id}`,
+      null,
+      dispatch,
+      resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
+      () => dispatch({ type: SET_UNAVAILABLE })
+    );
   };
 }
 
@@ -88,16 +78,20 @@ export function submitRequest(id) {
     dispatch({
       type: SUBMIT_DECISION_REQUEST
     });
-    makeRequest(`/v0/disability_claims/${id}/request_decision`, { method: 'POST' })
-      .then(() => {
+    makeRequest(`/v0/disability_claims/${id}/request_decision`,
+      { method: 'POST' },
+      dispatch,
+      () => {
         dispatch({ type: SET_DECISION_REQUESTED });
         dispatch(setNotification({
           title: 'Request received',
           body: 'Thank you. We have your claim request and will make a decision.'
         }));
-      }, handleError(dispatch, error => {
+      },
+      error => {
         dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
-      }));
+      }
+    );
   };
 }
 
@@ -192,9 +186,15 @@ export function submitFiles(claimId, trackedItem, files) {
           });
         },
         onError: (id, name, reason) => {
+          const errorCode = reason.substr(-3);
           // this is a little hackish, but uploader expects a json response
-          if (!reason.substr(-3).startsWith('2')) {
+          if (!errorCode.startsWith('2')) {
             hasError = true;
+          }
+          if (errorCode === '401') {
+            dispatch({
+              type: SET_UNAUTHORIZED
+            });
           }
         }
       }

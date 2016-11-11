@@ -1,5 +1,6 @@
 import _ from 'lodash/fp';
 import environment from '../../common/helpers/environment';
+import { SET_UNAUTHORIZED } from '../actions';
 
 const evidenceGathering = 'Evidence gathering, review, and decision';
 
@@ -203,7 +204,7 @@ export function itemsNeedingAttentionFromVet(events) {
   return events.filter(event => event.status === 'NEEDED' && event.type === 'still_need_from_you_list').length;
 }
 
-export function makeRequest(url, userOptions = {}) {
+export function makeRequest(url, userOptions, dispatch, onSuccess, onError) {
   const options = _.merge({
     method: 'GET',
     mode: 'cors',
@@ -214,7 +215,7 @@ export function makeRequest(url, userOptions = {}) {
     responseType: 'json',
   }, userOptions);
 
-  return fetch(`${environment.API_URL}${url}`, options)
+  fetch(`${environment.API_URL}${url}`, options)
     .then((resp) => {
       if (resp.ok) {
         if (options.responseType) {
@@ -224,5 +225,15 @@ export function makeRequest(url, userOptions = {}) {
       }
 
       return Promise.reject(resp);
+    })
+    .then(onSuccess)
+    .catch((resp) => {
+      if (resp.status === 401) {
+        dispatch({
+          type: SET_UNAUTHORIZED
+        });
+      } else {
+        onError(resp);
+      }
     });
 }

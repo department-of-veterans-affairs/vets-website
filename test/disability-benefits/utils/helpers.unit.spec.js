@@ -395,32 +395,45 @@ describe('Disability benefits helpers: ', () => {
         then: (fn) => fn({ ok: true, json: () => Promise.resolve() })
       });
 
-      const promise = makeRequest('/testing');
+      const onSuccess = () => done();
+      makeRequest('/testing', null, sinon.spy(), onSuccess);
 
       expect(fetchMock.called).to.be.true;
       expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
       expect(fetchMock.firstCall.args[1].method).to.equal('GET');
-
-      promise.then(() => {
-        done();
-      });
     });
     it('should reject promise when there is an error', (done) => {
       global.localStorage = { userToken: '1234' };
       fetchMock.returns({
-        then: (fn) => fn({ ok: false, json: () => Promise.resolve() })
+        then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve() })
       });
 
-      const promise = makeRequest('/testing');
+      const onError = (resp) => {
+        expect(resp.ok).to.be.false;
+        done();
+      };
+      makeRequest('/testing', null, sinon.spy(), sinon.spy(), onError);
 
       expect(fetchMock.called).to.be.true;
       expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
       expect(fetchMock.firstCall.args[1].method).to.equal('GET');
-
-      promise.catch((resp) => {
-        expect(resp.ok).to.be.false;
-        done();
+    });
+    it('should dispatch auth error', (done) => {
+      global.localStorage = { userToken: '1234' };
+      fetchMock.returns({
+        then: (fn) => fn({ ok: false, status: 401, json: () => Promise.resolve() })
       });
+
+      const onError = sinon.spy();
+      const onSuccess = sinon.spy();
+      const dispatch = (action) => {
+        expect(action.type).to.equal('SET_UNAUTHORIZED');
+        expect(onError.called).to.be.false;
+        expect(onSuccess.called).to.be.false;
+        done();
+      };
+
+      makeRequest('/testing', null, dispatch, onSuccess, onError);
     });
   });
 });
