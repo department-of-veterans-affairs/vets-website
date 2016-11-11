@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import { paths, systemFolders } from '../config';
 import ButtonDelete from './buttons/ButtonDelete';
 import MoveTo from './MoveTo';
-import ButtonPrint from './buttons/ButtonPrint';
 import MessageNav from './MessageNav';
 import ToggleThread from './ToggleThread';
 
@@ -50,14 +49,12 @@ class ThreadHeader extends React.Component {
               totalItems={this.props.folderMessageCount}/>
           <ButtonDelete
               onClickHandler={this.props.onDeleteMessage}/>
-          <ButtonPrint/>
         </div>
         <div className="messaging-thread-title">
           <div className="messaging-thread-controls">
             {toggleThread}
             <ButtonDelete
                 onClickHandler={this.props.onDeleteMessage}/>
-            <ButtonPrint/>
           </div>
           <h2 className="messaging-thread-subject">{this.props.message.subject}</h2>
         </div>

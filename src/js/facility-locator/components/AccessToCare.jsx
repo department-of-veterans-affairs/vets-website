@@ -58,7 +58,7 @@ export default class AccessToCare extends Component {
       <div className="mb2">
         <h4>Access to Care</h4>
         <hr className="title"/>
-        <p>Current as of <strong>November 1, 2015 - April 30, 2016</strong></p>
+        <p>Current as of <strong>Feb 2016 - Jul 2016</strong></p>
         <div>
           <table className="usa-table-borderless" style={{ margin: '2em 0 0.5em' }}>
             <thead>

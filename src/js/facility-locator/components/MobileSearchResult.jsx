@@ -44,9 +44,9 @@ class MobileSearchResult extends Component {
     return (
       <div className="facility-result">
         <FacilityInfoBlock facility={facility}/>
-        <p>
+        <div>
           <FacilityPhoneLink facility={facility}/>
-        </p>
+        </div>
         <p>
           <span>
             <a href="#" target="_blank">
