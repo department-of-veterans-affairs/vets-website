@@ -140,18 +140,9 @@
 
 .messaging-thread-form {
   .messaging-thread-header {
+    border: none;
     display: none;
     padding: 0;
-  }
-
-  .msg-field {
-    border: none;
-  }
-
-  textarea {
-    margin: 0;
-    max-width: 100%;
-    padding: 1rem 1.5rem;
   }
 
   @media (max-width: $medium-screen) {
