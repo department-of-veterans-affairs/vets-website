@@ -1,8 +1,28 @@
+import { distBetween } from '../../utils/facilityDistance';
 import { Link } from 'react-router';
 import FacilityAddress from './FacilityAddress';
 import React, { Component, PropTypes } from 'react';
 
 class FacilityInfoBlock extends Component {
+  renderDistance() {
+    const { currentLocation, facility } = this.props;
+    if (currentLocation) {
+      const distance = distBetween(
+        currentLocation.latitude,
+        currentLocation.longitude,
+        facility.attributes.lat,
+        facility.attributes.long,
+      );
+      return (
+        <p>
+          Distance: <strong>{distance.toFixed(1)} miles</strong>
+        </p>
+      );
+    }
+
+    return null;
+  }
+
   render() {
     const { facility } = this.props;
     const { name, facility_type: facilityType } = facility.attributes;
@@ -23,6 +43,7 @@ class FacilityInfoBlock extends Component {
         <p>
           <FacilityAddress facility={facility}/>
         </p>
+        {this.renderDistance()}
         <p>
           <span>Facility type: <strong>{facilityTypes[facilityType]}</strong></span>
         </p>
