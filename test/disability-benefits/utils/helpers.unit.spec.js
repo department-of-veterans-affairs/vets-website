@@ -390,7 +390,7 @@ describe('Disability benefits helpers: ', () => {
       global.fetch = oldFetch;
     });
     it('should make a fetch request', (done) => {
-      global.localStorage = { userToken: '1234' };
+      global.sessionStorage = { userToken: '1234' };
       fetchMock.returns({
         then: (fn) => fn({ ok: true, json: () => Promise.resolve() })
       });
@@ -403,7 +403,7 @@ describe('Disability benefits helpers: ', () => {
       expect(fetchMock.firstCall.args[1].method).to.equal('GET');
     });
     it('should reject promise when there is an error', (done) => {
-      global.localStorage = { userToken: '1234' };
+      global.sessionStorage = { userToken: '1234' };
       fetchMock.returns({
         then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve() })
       });
@@ -419,7 +419,7 @@ describe('Disability benefits helpers: ', () => {
       expect(fetchMock.firstCall.args[1].method).to.equal('GET');
     });
     it('should dispatch auth error', (done) => {
-      global.localStorage = { userToken: '1234' };
+      global.sessionStorage = { userToken: '1234' };
       fetchMock.returns({
         then: (fn) => fn({ ok: false, status: 401, json: () => Promise.resolve() })
       });
