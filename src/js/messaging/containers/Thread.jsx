@@ -243,7 +243,7 @@ export class Thread extends React.Component {
                 className="usa-button msg-form-trigger"
                 type="button"
                 onClick={this.props.toggleThreadForm}>
-              Reply
+              {this.props.isSavedDraft ? 'Edit draft' : 'Reply'}
             </button>
           </div>
         </div>
@@ -256,7 +256,7 @@ export class Thread extends React.Component {
                 onClick={this.props.toggleThreadForm}>
               Cancel
             </a>
-            <h2>Reply/New Message</h2>
+            <h2>{this.props.isNewMessage ? 'New message' : 'Reply'}</h2>
             <button
                 className="messaging-send-button"
                 type="button">
