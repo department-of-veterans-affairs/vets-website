@@ -26,7 +26,6 @@ class SearchControls extends Component {
     this.props.updateSearchQuery({
       [e.target.name]: e.target.value,
     });
-    // TODO: better define shape of query object for facility/service types
   }
 
   handleSearch = (e) => {
@@ -49,9 +48,16 @@ class SearchControls extends Component {
   }
 
   handleFacilityFilterSelect(facilityType) {
-    this.props.updateSearchQuery({
-      facilityType,
-    });
+    if (facilityType === 'benefits') {
+      this.props.updateSearchQuery({
+        facilityType,
+      });
+    } else {
+      this.props.updateSearchQuery({
+        facilityType,
+        serviceType: null,
+      });
+    }
   }
 
   renderServiceFilterOptions() {

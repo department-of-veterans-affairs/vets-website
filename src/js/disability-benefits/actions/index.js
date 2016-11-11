@@ -40,7 +40,7 @@ export function getClaims() {
       mode: 'cors',
       headers: {
         'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${localStorage.userToken}`
+        Authorization: `Token token=${sessionStorage.userToken}`
       }
     })
       .then(res => {
@@ -80,7 +80,7 @@ export function getClaimDetail(id) {
       mode: 'cors',
       headers: {
         'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${localStorage.userToken}`
+        Authorization: `Token token=${sessionStorage.userToken}`
       }
     })
       .then(res => {
@@ -107,7 +107,7 @@ export function submitRequest(id) {
       mode: 'cors',
       headers: {
         'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${localStorage.userToken}`
+        Authorization: `Token token=${sessionStorage.userToken}`
       }
     })
       .then(res => {
@@ -175,7 +175,7 @@ export function submitFiles(claimId, trackedItem, files) {
         inputName: 'file',
         customHeaders: {
           'X-Key-Inflection': 'camel',
-          Authorization: `Token token=${localStorage.userToken}`
+          Authorization: `Token token=${sessionStorage.userToken}`
         }
       },
       cors: {
