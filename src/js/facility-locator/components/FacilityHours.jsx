@@ -1,4 +1,4 @@
-import { values, every } from 'lodash';
+import { values, every, capitalize } from 'lodash';
 import React, { Component } from 'react';
 
 export default class FacilityHours extends Component {
@@ -32,14 +32,14 @@ export default class FacilityHours extends Component {
     }
 
     const hourRows = Object.keys(hours).map(h => {
-      if (hours[h] && hours[h] !== '') {
+      if (h !== 'notes' && hours[h] && hours[h] !== '') {
         return (
           <div className="row" key={h}>
             <div className="small-6 columns">
-              {h.charAt(0).toUpperCase() + h.substr(1)}:
+              {capitalize(h)}:
             </div>
             <div className="small-6 columns">
-              {hours[h]}
+              {capitalize(hours[h])}
             </div>
           </div>
         );
