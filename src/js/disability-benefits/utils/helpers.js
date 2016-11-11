@@ -237,3 +237,14 @@ export function makeAuthRequest(url, userOptions, dispatch, onSuccess, onError) 
       }
     });
 }
+
+export function getCompletedDate(claim) {
+  if (claim.attributes && claim.attributes.eventsTimeline) {
+    const completedEvents = claim.attributes.eventsTimeline.filter(event => event.type === 'completed');
+    if (completedEvents.length) {
+      return completedEvents[0].date;
+    }
+  }
+
+  return null;
+}
