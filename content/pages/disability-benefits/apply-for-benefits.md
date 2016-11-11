@@ -25,15 +25,15 @@ relatedlinks:
     description: ""
 ---
 
-### Is this information for me?
+### Can I apply for disability benefits? 
 
 <div class="row" markdown="0">
 <div class="small-12 medium-8 columns usa-content"  markdown="1">
 
-Yes, if you're:
-- A Veteran filing a claim for VA support (known as disability compensation or benefits), or
-- A Servicemember getting ready to end your active military service, or
-- A Survivor of a Veteran or Servicemember who may qualify for these benefits
+You can apply for benefits if:
+- You're a Veteran filing a claim for disability compensation or benefits
+- You're a Servicemember getting ready to end your active military service
+- You're a survivor of a Veteran or Servicemember who may qualify for these benefits
 </div>
 
 
@@ -63,17 +63,15 @@ Yes, if you're:
 
 <div class="info-block usa-content" markdown="1">
 
-In September 2016, we took an average of about 125 days to process a disability claim.
+In September 2016, we took an average of about 125 days to process a disability claim. If your claim is complex, it may take us longer to review.
 
-If you’ve already filed a claim, check your claim's status on eBenefits.
-[Check your claim's status](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
 
 </div>
 
 <div class="disclaimer minimal" markdown="1">
 
-If your claim is complex, it may take us longer to review.
-
+If you’ve already filed a claim, check your claim's status on eBenefits.
+[Check your claim's status](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=compensation-pension-claim-status).
 </div>
 
 </div>
@@ -103,14 +101,14 @@ If your claim is complex, it may take us longer to review.
 
 ###### Documents you’ll need
 
-For the first compensation claim you send us, please provide:
+For the first disability claim you send us, please provide:
 
-- Discharge papers (DD214 or other documents with the same information)
+- Discharge papers (DD214 or other separation documents)
 - Service treatment records
 
-[Order service records through the National Archives]( https://www.archives.gov/veterans/military-service-records/).
+[Order service records through the National Archives](https://www.archives.gov/veterans/military-service-records/).
 
-For all compensation claims, please provide:
+For all disability claims, please provide:
 
 - VA medical records and hospital reports that relate to your claimed illnesses or injuries (called conditions)
 - Private medical records and hospital reports that relate to your claimed illnesses or injuries
@@ -131,7 +129,7 @@ Choose 1 of 3 ways:
 - [Work with an accredited representative](/disability-benefits/apply-for-benefits/help/index.html), or
 - [Get help at a VA regional office](http://www.benefits.va.gov/benefits/offices.asp)
 
-**Note:** If you're a Servicemember, you might want to learn about predischarge claims. [Find out about predischarge claims](/disability-benefits/claims-process/claim-types/predischarge-claim/).
+**Note:** If you're a Servicemember, find out how predischarge claims can speed up the claim decision process. [Learn about predischarge claims](/disability-benefits/claims-process/claim-types/predischarge-claim/).
 
 </div>
 
@@ -146,7 +144,7 @@ Choose 1 of 3 ways:
 ###### How long will it take for VA to review my claim?
 The amount of time it takes to review your claim depends on:
 
-- The type of claim you filed (like a disability compensation claim vs a claim for increased evaluation)
+- The type of claim you filed 
 - How many injuries or disabilities you claimed and how complex they are
 - How long it takes us to collect the evidence needed to decide your claim
 
@@ -157,12 +155,12 @@ The amount of time it takes to review your claim depends on:
 
 ###### What happens after I file my claim?
 
-1. We receive your claim. **(Claim status = Claim Received)**
-2. A Veterans Service Representative (VSR) looks at your claim to figure out if we need any more information to make a decision. **(Claim status = Under Review)**
-3. If we need more information, the VSR asks you for it or asks other governmental agencies for it on your behalf. **(Claim status = Gathering of Evidence)**
+1. We receive your claim. (Claim status: **Claim Received**)
+2. A Veterans Service Representative (VSR) looks at your claim to figure out if we need any more information to make a decision. (Claim status: **Under Review**)
+3. If we need more information, the VSR asks you for it or asks other governmental agencies for it on your behalf. (Claim status: **Gathering of Evidence**)
 4. Once we get—or we've tried to get—all the information we need, the VSR makes sure each issue claimed is ready for a decision.
-**(Claim status = Review of Evidence)**
-5. The VSR electronically sends your claim and supporting documents to a Rating Veterans Service Representative (RVSR) for a final decision. **(Claim status = Preparation for a Decision)**
+(Claim status: **Review of Evidence**)
+5. The VSR electronically sends your claim and supporting documents to a Rating Veterans Service Representative (RVSR) for a final decision. (Claim status: **Preparation for a Decision**)
 
 </div>
 
@@ -181,7 +179,7 @@ The amount of time it takes to review your claim depends on:
 
 ###### Do I need to do anything while I’m waiting?
 
-Not unless you hear from us. You don't need to do anything else unless we send you a letter asking for more information. And if we schedule any exams for you, be sure not to miss them.
+Not unless you hear from us. You don't need to do anything else unless we send you a letter asking for more information. If we schedule any exams for you, be sure not to miss them.
 
 </div>
 
@@ -194,7 +192,7 @@ Not unless you hear from us. You don't need to do anything else unless we send y
 ##### Decision
 
 - The RVSR decides your claim after reviewing all evidence in your record (including your application, VA claim exam reports, and service treatment records).
-- After deciding the claim, the RVSR sends it to a VSR to record the decision and write the decision notice (the letter you'll get telling you about our decision on your claim).
+- After deciding the claim, the RVSR sends it to a VSR to record the decision and write the decision notice (the letter you'll get about your claim decision).
 - A Senior Veterans Service Representative (SVSR) reviews the completed documents, then approves release of the decision notice and any payment.
 
 ###### What should I do if I disagree with your decision?
