@@ -1,3 +1,7 @@
+import _ from 'lodash/fp';
+import environment from '../../common/helpers/environment';
+import { SET_UNAUTHORIZED } from '../actions';
+
 const evidenceGathering = 'Evidence gathering, review, and decision';
 
 const phaseMap = {
@@ -198,6 +202,40 @@ export function isClaimComplete(claim) {
 
 export function itemsNeedingAttentionFromVet(events) {
   return events.filter(event => event.status === 'NEEDED' && event.type === 'still_need_from_you_list').length;
+}
+
+export function makeAuthRequest(url, userOptions, dispatch, onSuccess, onError) {
+  const options = _.merge({
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'X-Key-Inflection': 'camel',
+      Authorization: `Token token=${sessionStorage.userToken}`
+    },
+    responseType: 'json',
+  }, userOptions);
+
+  fetch(`${environment.API_URL}${url}`, options)
+    .then((resp) => {
+      if (resp.ok) {
+        if (options.responseType) {
+          return resp[options.responseType]();
+        }
+        return Promise.resolve();
+      }
+
+      return Promise.reject(resp);
+    })
+    .then(onSuccess)
+    .catch((resp) => {
+      if (resp.status === 401) {
+        dispatch({
+          type: SET_UNAUTHORIZED
+        });
+      } else {
+        onError(resp);
+      }
+    });
 }
 
 export function getCompletedDate(claim) {

@@ -6,12 +6,7 @@ import { getClaimDetail } from '../actions';
 
 class ClaimPage extends React.Component {
   componentDidMount() {
-    this.props.getClaimDetail(this.props.params.id)
-      .catch(resp => {
-        if (!resp.ok && resp.status === 404) {
-          this.props.router.replace('your-claims');
-        }
-      });
+    this.props.getClaimDetail(this.props.params.id, this.props.router);
     document.title = 'Your Disability Compensation Claim';
   }
   render() {
