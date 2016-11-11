@@ -18,7 +18,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client
         .click('a.claim-list-item:first-child')
         .waitForElementVisible('body', Timeouts.normal)
-        .waitForElementVisible('.claim-title', Timeouts.normal);
+        .waitForElementVisible('.claim-title', Timeouts.slow);
 
       // alert is visible
       client
