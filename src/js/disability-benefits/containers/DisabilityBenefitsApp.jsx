@@ -25,11 +25,12 @@ function AppContent({ authorized, available, synced, children, isDataAvailable }
 
 class DisabilityBenefitsApp extends React.Component {
   render() {
-    const { available, synced } = this.props;
+    const { available, synced, authorized } = this.props;
 
     return (
       <RequiredLoginView authRequired={3} serviceRequired={"disability-benefits"}>
         <AppContent
+            authorized={authorized}
             available={available}
             synced={synced}>
           {this.props.children}
@@ -42,7 +43,8 @@ class DisabilityBenefitsApp extends React.Component {
 function mapStateToProps(state) {
   return {
     available: state.claimSync.available,
-    synced: state.claimSync.synced
+    synced: state.claimSync.synced,
+    authorized: state.claimSync.authorized
   };
 }
 
