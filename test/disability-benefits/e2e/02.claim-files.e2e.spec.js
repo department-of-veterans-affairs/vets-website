@@ -13,11 +13,12 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       DisabilityHelpers.initClaimDetailMocks(false, true, false, 8);
 
       client
-        .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`);
+        .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
+        .waitForElementVisible('a.claim-list-item', Timeouts.slow);
       client
         .click('a.claim-list-item:first-child')
         .waitForElementVisible('body', Timeouts.normal)
-        .waitForElementVisible('.claim-title', Timeouts.normal);
+        .waitForElementVisible('.claim-title', Timeouts.slow);
 
       // go to files tab
       client
