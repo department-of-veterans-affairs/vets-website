@@ -63,7 +63,9 @@ export function searchWithAddress(query) {
       },
     });
 
-    mapboxClient.geocodeForward(query.searchString, (err, res) => {
+    mapboxClient.geocodeForward(query.searchString, {
+      country: 'us,vi,pr',
+    }, (err, res) => {
       const coordinates = res.features[0].center;
       const zipCode = (find(res.features[0].context, (v) => {
         return v.id.includes('postcode');
