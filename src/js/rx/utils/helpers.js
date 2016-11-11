@@ -32,7 +32,7 @@ export function apiRequest(resource, optionalSettings = {}) {
   const defaultSettings = {
     method: 'GET',
     headers: {
-      Authorization: `Token token=${localStorage.userToken}`,
+      Authorization: `Token token=${sessionStorage.userToken}`,
       'X-Key-Inflection': 'camel'
     }
   };

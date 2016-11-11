@@ -10,7 +10,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
 
       LoginHelpers.logIn(client, '/disability-benefits/track-claims', 3);
 
-      DisabilityHelpers.initClaimDetailMocks(true, true, false, null);
+      DisabilityHelpers.initClaimDetailMocks(false, false, false, 3);
 
       client
         .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
@@ -18,13 +18,14 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client
         .click('a.claim-list-item:first-child')
         .waitForElementVisible('body', Timeouts.normal)
-        .waitForElementVisible('.claim-title', Timeouts.slow);
+        .waitForElementVisible('.claim-title', Timeouts.normal);
 
       client
-        .expect.element('.claim-decision-is-ready').to.be.visible;
+        .click('.claim-completion-estimation a')
+        .waitForElementVisible('.estimation-header', Timeouts.normal);
 
       client
-        .expect.element('.disability-benefits-timeline').not.to.be.present;
+        .expect.element('.disability-benefits-content h1').text.to.equal('How VA Comes Up with Your Estimated Decision Date');
 
       client.end();
     }

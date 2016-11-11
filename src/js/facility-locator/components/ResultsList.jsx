@@ -72,7 +72,7 @@ class ResultsList extends Component {
               return (
                 <div key={f.id} className="facility-result" id={f.id}>
                   <FacilityInfoBlock facility={f}/>
-                  <FacilityPhoneLink facility={f}/><br/>
+                  <FacilityPhoneLink facility={f}/>
                   <FacilityDirectionsLink facility={f}/>
                 </div>
               );

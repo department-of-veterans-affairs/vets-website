@@ -1,11 +1,29 @@
 import React from 'react';
-import { IndexLink } from 'react-router';
+import { IndexLink, withRouter } from 'react-router';
 
 class TabItem extends React.Component {
+  constructor() {
+    super();
+    this.tabShortcut = this.tabShortcut.bind(this);
+  }
+  componentDidMount() {
+    document.addEventListener('keydown', this.tabShortcut);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.tabShortcut);
+  }
+  tabShortcut(evt) {
+    if (evt.altKey && evt.which === (48 + this.props.shortcut)) {
+      this.props.router.push(this.props.tabpath);
+    }
+  }
   render() {
     return (
-      <li className="tab-li">
+      <li className="tab-li" role="presentation">
         <IndexLink
+            id={`tab${this.props.title}`}
+            aria-controls={`tabPanel${this.props.title}`}
+            role="tab"
             className="va-tab-trigger"
             activeClassName="va-tab-trigger--current"
             to={this.props.tabpath}>
@@ -16,4 +34,6 @@ class TabItem extends React.Component {
   }
 }
 
-export default TabItem;
+export default withRouter(TabItem);
+
+export { TabItem };

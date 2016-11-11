@@ -11,7 +11,7 @@ VA health care includes regular checkups with your primary care doctor and acces
 
 ### Other ways to apply
 
-- Call 1-877-222-8387 Monday through Friday, 8:00 a.m. to 8:00 p.m. (EST) to get help with your application.
+- Call the vets.gov Help Desk 855-574-7286 Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
 - Mail in your application. You can download, print, and fill out the [10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf), then send it to this address:
 
@@ -35,7 +35,7 @@ VA health care includes regular checkups with your primary care doctor and acces
 
 ### How long will it take to process your application?
 
-Less than one week. If more than a week has passed since you submitted your application and you haven't heard back, please don’t apply again. Call **1-877-222-VETS** (8387), then press 2.
+Less than one week. If more than a week has passed since you submitted your application and you haven't heard back, please don’t apply again. Call **855-574-7286**.
 
 ### Are you eligible for VA health care?
 
