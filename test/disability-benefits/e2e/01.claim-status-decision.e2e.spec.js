@@ -13,7 +13,8 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       DisabilityHelpers.initClaimDetailMocks(true, true, false, null);
 
       client
-        .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`);
+        .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
+        .waitForElementVisible('a.claim-list-item', Timeouts.slow);
       client
         .click('a.claim-list-item:first-child')
         .waitForElementVisible('body', Timeouts.normal)
