@@ -14,7 +14,7 @@ describe('<ClaimsDecision>', () => {
 
     expect(tree.text()).not.to.contain('Your claim was completed');
   });
-  it('should render file due class', () => {
+  it('should render message with date sentence', () => {
     const date = '2010-03-01';
     const tree = SkinDeep.shallowRender(
       <ClaimsDecision
