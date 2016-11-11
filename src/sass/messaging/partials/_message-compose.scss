@@ -505,10 +505,6 @@ button.msg-btn-save {
     margin: 0;
   }
 
-  textarea {
-    margin: 0;
-  }
-
   @media (min-width: $medium-screen) {
     margin: 3rem 2rem;
 
@@ -526,6 +522,10 @@ button.msg-btn-save {
       label {
         display: none;
       }
+    }
+
+    textarea {
+      margin: 0;
     }
   }
 }
