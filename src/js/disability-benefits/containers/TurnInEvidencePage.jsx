@@ -68,7 +68,7 @@ class TurnInEvidencePage extends React.Component {
     let content;
 
     if (this.props.loading) {
-      content = <LoadingIndicator/>;
+      content = <LoadingIndicator setFocus message="Loading claim information"/>;
     } else {
       const filesPath = `your-claims/${this.props.claim.id}/files`;
       const message = this.props.message;
