@@ -38,7 +38,7 @@ class Main extends React.Component {
   handleLogin() {
     this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
       const myLoginUrl = result.authenticate_via_get;
-      const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,top=50,left=500,width=500,height=750');
+      const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
       receiver.focus();
     });
   }
@@ -53,8 +53,7 @@ class Main extends React.Component {
       return response.json();
     }).then(json => {
       const myLogoutUrl = json.logout_via_get;
-      const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-      receiver.focus();
+      window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     });
   }
 
