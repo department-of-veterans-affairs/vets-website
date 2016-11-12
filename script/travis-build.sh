@@ -5,7 +5,7 @@
 #
 # Since there are minor differences between the production and development build
 # types, both types are built and tested with unit and e2e tests. The accessibility
-# test suite will run over PRs to staging and production branches.
+# test suite will run over PRs to the `production` branch.
 
 set -e
 
@@ -73,8 +73,7 @@ npm run test:e2e;
 
 # Run accessibility tests for staging and production
 
-if [[ $TRAVIS_BRANCH == 'staging' ||
-      $TRAVIS_BRANCH == 'production' ]]
+if [[ $TRAVIS_BRANCH == 'production' ]]
 then
   npm run test:accessibility;
 fi
