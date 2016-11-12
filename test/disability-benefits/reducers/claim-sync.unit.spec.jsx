@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import claimSync from '../../../src/js/disability-benefits/reducers/claim-sync';
-import { SET_CLAIMS, SET_CLAIM_DETAIL, SET_UNAVAILABLE } from '../../../src/js/disability-benefits/actions';
+import { SET_CLAIMS, SET_CLAIM_DETAIL, SET_UNAVAILABLE, SET_UNAUTHORIZED } from '../../../src/js/disability-benefits/actions';
 
 describe('Claim sync reducer', () => {
   it('should set unavailable', () => {
@@ -10,6 +10,13 @@ describe('Claim sync reducer', () => {
     });
 
     expect(state.available).to.be.false;
+  });
+  it('should set unauthorized', () => {
+    const state = claimSync(undefined, {
+      type: SET_UNAUTHORIZED
+    });
+
+    expect(state.authorized).to.be.false;
   });
 
   it('should set out of sync', () => {
@@ -27,6 +34,7 @@ describe('Claim sync reducer', () => {
 
     expect(state.synced).to.be.false;
     expect(state.available).to.true;
+    expect(state.authorized).to.true;
   });
 
   it('should set out of sync on list request', () => {
@@ -46,5 +54,6 @@ describe('Claim sync reducer', () => {
 
     expect(state.synced).to.be.false;
     expect(state.available).to.true;
+    expect(state.authorized).to.true;
   });
 });
