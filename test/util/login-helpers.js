@@ -4,7 +4,7 @@ const Timeouts = require('./timeouts');
 
 function setUserToken(client) {
   client.execute(() => {
-    window.localStorage.userToken = '1234567';
+    window.sessionStorage.userToken = '1234567';
   },
   [],
   (val) => {

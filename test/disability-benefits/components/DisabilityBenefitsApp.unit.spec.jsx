@@ -9,6 +9,7 @@ describe('<DisabilityBenefitsApp>', () => {
     const tree = SkinDeep.shallowRender(
       <DisabilityBenefitsApp
           available
+          authorized
           synced>
         <div className="test-child"/>
       </DisabilityBenefitsApp>
@@ -20,6 +21,7 @@ describe('<DisabilityBenefitsApp>', () => {
   it('should render sync warning', () => {
     const tree = SkinDeep.shallowRender(
       <DisabilityBenefitsApp
+          authorized
           available>
         <div className="test-child"/>
       </DisabilityBenefitsApp>
@@ -30,12 +32,22 @@ describe('<DisabilityBenefitsApp>', () => {
   });
   it('should render unavailable', () => {
     const tree = SkinDeep.shallowRender(
-      <DisabilityBenefitsApp>
+      <DisabilityBenefitsApp authorized>
         <div className="test-child"/>
       </DisabilityBenefitsApp>
     );
     expect(tree.everySubTree('.test-child')).to.be.empty;
     expect(tree.everySubTree('ClaimSyncWarning')).to.be.empty;
     expect(tree.everySubTree('ClaimsUnavailable')).not.to.be.empty;
+  });
+  it('should render uauthorized', () => {
+    const tree = SkinDeep.shallowRender(
+      <DisabilityBenefitsApp>
+        <div className="test-child"/>
+      </DisabilityBenefitsApp>
+    );
+    expect(tree.everySubTree('.test-child')).to.be.empty;
+    expect(tree.everySubTree('ClaimSyncWarning')).to.be.empty;
+    expect(tree.everySubTree('ClaimsUnauthorized')).not.to.be.empty;
   });
 });
