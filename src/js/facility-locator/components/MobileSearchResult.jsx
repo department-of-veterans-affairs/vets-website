@@ -48,13 +48,6 @@ class MobileSearchResult extends Component {
           <FacilityPhoneLink facility={facility}/>
         </div>
         <p>
-          <span>
-            <a href="#" target="_blank">
-              <i className="fa fa-globe-o" style={{ marginRight: '0.5rem' }}/> Website
-            </a>
-          </span>
-        </p>
-        <p>
           <FacilityDirectionsLink facility={facility}/>
         </p>
         <div>
