@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 
 import { allowedMimeTypes, composeMessage } from '../../config';
 import * as validations from '../../utils/validations';
@@ -8,16 +9,21 @@ class ReplyForm extends React.Component {
   render() {
     const reply = this.props.reply;
 
-    let subject = !this.props.detailsCollapsed
-                ? <div><label>Subject line:</label> {this.props.subject}</div>
-                : null;
+    const detailsClass = classNames({
+      'msg-reply-details': true,
+      'opened': !this.props.detailsCollapsed
+    });
 
     const replyDetails = (
       <div
-          className="msg-reply-details"
+          className={detailsClass}
           onClick={this.props.toggleDetails}>
-        <div><label>Reply to:</label> {this.props.recipient}</div>
-        {subject}
+        <div className="msg-reply-detail">
+          <label>Reply to:</label> {this.props.recipient}
+        </div>
+        <div className="msg-reply-detail">
+          <label>Subject line:</label> {this.props.subject}
+        </div>
       </div>
     );
 

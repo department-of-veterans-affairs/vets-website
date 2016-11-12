@@ -206,6 +206,7 @@
   }
 
   @media (max-width: $medium-screen) {
+    margin: 0;
     width: 100%;
 
     [type="button"] {
@@ -489,11 +490,13 @@ button.msg-btn-save {
     }
   }
 
-  .msg-reply-details {
-    border: 1px solid $color-gray;
-    border-bottom-width: 0;
-    cursor: pointer;
-    padding: 1rem;
+  .msg-field {
+    border-top: none;
+  }
+
+  .msg-reply-detail {
+    border-bottom: 1px solid $color-gray;
+    padding: 1.5rem;
 
     label {
       display: inline-block;
@@ -507,6 +510,29 @@ button.msg-btn-save {
 
   @media (min-width: $medium-screen) {
     margin: 3rem 2rem;
+
+    .msg-reply-detail {
+      border: none;
+      display: none;
+      padding: 0;
+
+      &:first-child {
+        display: block;
+      }
+    }
+
+    .msg-reply-details {
+      border: 1px solid $color-gray;
+      border-bottom: none;
+      cursor: pointer;
+      padding: 1rem;
+
+      &.opened {
+        .msg-reply-detail {
+          display: block;
+        }
+      }
+    }
 
     .msg-field {
       border: none;
