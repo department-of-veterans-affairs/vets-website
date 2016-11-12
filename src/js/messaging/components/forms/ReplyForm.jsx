@@ -11,7 +11,7 @@ class ReplyForm extends React.Component {
 
     const detailsClass = classNames({
       'msg-reply-details': true,
-      'opened': !this.props.detailsCollapsed
+      opened: !this.props.detailsCollapsed
     });
 
     const replyDetails = (
