@@ -23,7 +23,7 @@ class ResultsList extends Component {
   }
 
   renderMobileView() {
-    const { facilities, pagination: { current_page: currentPage, total_pages: totalPages } } = this.props;
+    const { currentQuery, facilities, pagination: { current_page: currentPage, total_pages: totalPages } } = this.props;
 
     return (
       <div>
@@ -32,7 +32,7 @@ class ResultsList extends Component {
             facilities.map(f => {
               return (
                 <div key={f.id} className="mobile-search-result">
-                  <MobileSearchResult facility={f}/>
+                  <MobileSearchResult facility={f} currentLocation={currentQuery.position}/>
                 </div>
               );
             })
@@ -71,7 +71,7 @@ class ResultsList extends Component {
             facilities.map(f => {
               return (
                 <div key={f.id} className="facility-result" id={f.id}>
-                  <FacilityInfoBlock facility={f}/>
+                  <FacilityInfoBlock facility={f} currentLocation={currentQuery.position}/>
                   <FacilityPhoneLink facility={f}/>
                   <FacilityDirectionsLink facility={f}/>
                 </div>

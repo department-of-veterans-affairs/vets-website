@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import {
   groupTimelineActivity,
@@ -13,7 +14,8 @@ import {
   truncateDescription,
   getItemDate,
   isClaimComplete,
-  itemsNeedingAttentionFromVet
+  itemsNeedingAttentionFromVet,
+  makeAuthRequest
 } from '../../../src/js/disability-benefits/utils/helpers';
 
 describe('Disability benefits helpers: ', () => {
@@ -374,6 +376,64 @@ describe('Disability benefits helpers: ', () => {
       ]);
 
       expect(itemsNeeded).to.equal(1);
+    });
+  });
+  describe('makeAuthRequest', () => {
+    let fetchMock = sinon.stub();
+    let oldFetch = global.fetch;
+    beforeEach(() => {
+      oldFetch = global.fetch;
+      fetchMock = sinon.stub();
+      global.fetch = fetchMock;
+    });
+    afterEach(() => {
+      global.fetch = oldFetch;
+    });
+    it('should make a fetch request', (done) => {
+      global.sessionStorage = { userToken: '1234' };
+      fetchMock.returns({
+        then: (fn) => fn({ ok: true, json: () => Promise.resolve() })
+      });
+
+      const onSuccess = () => done();
+      makeAuthRequest('/testing', null, sinon.spy(), onSuccess);
+
+      expect(fetchMock.called).to.be.true;
+      expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
+      expect(fetchMock.firstCall.args[1].method).to.equal('GET');
+    });
+    it('should reject promise when there is an error', (done) => {
+      global.sessionStorage = { userToken: '1234' };
+      fetchMock.returns({
+        then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve() })
+      });
+
+      const onError = (resp) => {
+        expect(resp.ok).to.be.false;
+        done();
+      };
+      makeAuthRequest('/testing', null, sinon.spy(), sinon.spy(), onError);
+
+      expect(fetchMock.called).to.be.true;
+      expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
+      expect(fetchMock.firstCall.args[1].method).to.equal('GET');
+    });
+    it('should dispatch auth error', (done) => {
+      global.sessionStorage = { userToken: '1234' };
+      fetchMock.returns({
+        then: (fn) => fn({ ok: false, status: 401, json: () => Promise.resolve() })
+      });
+
+      const onError = sinon.spy();
+      const onSuccess = sinon.spy();
+      const dispatch = (action) => {
+        expect(action.type).to.equal('SET_UNAUTHORIZED');
+        expect(onError.called).to.be.false;
+        expect(onSuccess.called).to.be.false;
+        done();
+      };
+
+      makeAuthRequest('/testing', null, dispatch, onSuccess, onError);
     });
   });
 });
