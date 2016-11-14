@@ -137,9 +137,7 @@ export default function alert(state = initialState, action) {
 
       const content = (
         <b>
-          Your message has been sent. {link} It can take
-          up to 72 hours for a message to be seen and/or
-          a response to be sent.
+          Your message has been sent. {link} Please allow up to 72 hours for a response from your health care team.
         </b>
       );
 
