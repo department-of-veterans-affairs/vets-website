@@ -59,7 +59,7 @@ export function setUnavailable() {
   };
 }
 
-export function getClaimDetail(id) {
+export function getClaimDetail(id, router) {
   return (dispatch) => {
     dispatch({
       type: GET_CLAIM_DETAIL
@@ -68,7 +68,13 @@ export function getClaimDetail(id) {
       null,
       dispatch,
       resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
-      () => dispatch({ type: SET_UNAVAILABLE })
+      resp => {
+        if (resp.status !== 404 || !router) {
+          dispatch({ type: SET_UNAVAILABLE });
+        } else {
+          router.replace('your-claims');
+        }
+      }
     );
   };
 }
