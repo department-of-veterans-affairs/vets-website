@@ -17,9 +17,9 @@ relatedlinks:
     title: How does VA decide when my disability compensation starts?
 ---
 
-Do you need help filing a disability compensation claim? You may want to work with an accredited representative—a professional trained in the claims process who we trust to help you with VA-related needs.
+If you need help filing a disability claim, you may want to work with an accredited representative. We trust these professionals because they are trained in the claims process and can help you with VA-related needs.
 
-Most accredited representatives work for Veterans Service Organizations (VSOs). These private nonprofit groups advocate on behalf of Veterans and Servicemembers as well as their dependents and survivors. VSOs may also work for state or county governments.
+Most accredited representatives work for Veterans Service Organizations (VSOs). These private nonprofit groups advocate on behalf of Veterans and Servicemembers as well as their dependents and survivors. 
 
 <div class="call-out" markdown="0">
 
@@ -38,7 +38,7 @@ Accredited representatives help you understand and apply for VA benefits, like:
 
 - Financial support (monthly payments)
 - Education
-- Vocational rehabilitation and employment (job training, job searches, and more)
+- Vocational Rehabilitation & Employment (VR&E)
 - Home loans
 - Life insurance
 - Pension
@@ -49,17 +49,16 @@ Accredited representatives can also help you gather supporting documents (like d
 
 #### What does it cost to use an accredited representative?
 
-Many VSOs provide their services free of charge. But they may ask you to pay them back for unusual expenses. Unlike VSOs, VA-accredited claims agents and attorneys may charge for their services. If you believe you were charged an unreasonable fee by a claims agent or attorney, read our guide on how to challenge a fee. [Download our "How to Challenge a Fee" guide](http://www.va.gov/OGC/docs/Accred/HowtoChallengeaFee.pdf).
+Many VSOs provide their services free of charge, but they may ask you to pay them back for unusual expenses. However, VA-accredited claims agents and attorneys may charge for their services. Make sure you ask up front what, if any, fees you will be charged. If you believe you were charged an unreasonable fee by a claims agent or attorney, you can challenge a fee. [Find out more in the "How to Challenge a Fee" guide](http://www.va.gov/OGC/docs/Accred/HowtoChallengeaFee.pdf).
 
 -----
 
 ### How do I find an accredited representative?
 
-You can find an accredited representative in 1 of 3 ways:
+You can find an accredited representative in 1 of 2 ways:
 
-1. Find a local representative (including a recognized VSO, an attorney, or a claims agent) by state/territory, zip code, or the organization’s name online through eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
-2. Find a VSO office in or near your local regional benefit office through our directory of VSOs. [Visit our VSO directory](https://www.va.gov/vso/).
-3. Use the VA Office of General Counsel's list of VA-recognized organizations and VA-accredited individuals. You can get more information about selecting a representative or file a complaint about your representative. [See the VA Office of General Counsel list](http://www.va.gov/ogc/accreditation.asp).
+1. Find a local representative (including a recognized VSO, an attorney, or a claims agent) by state/territory, zip code, or the organization’s name online through eBenefits. [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/vso-search).
+2. Use the VA Office of General Counsel's list of VA-recognized organizations and VA-accredited individuals. You can get more information about selecting a representative or filing a complaint about your representative. [See the VA Office of General Counsel list](http://www.va.gov/ogc/accreditation.asp).
 
 #### How do I set up a VSO or other accredited representative to work on my behalf?
 
