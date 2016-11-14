@@ -42,21 +42,23 @@ class MessageSend extends React.Component {
     const isDisabled = this.props.disabled;
 
     return (
-      <div className={this.props.cssClass}>
-        <button
-            disabled={isDisabled}
-            type="button"
-            onClick={this.props.onSend}>Send</button>
-        <button
-            disabled={isDisabled}
-            className="usa-button-outline msg-btn-save"
-            type="button"
-            value="save"
-            onClick={this.props.onSave}>Save As Draft</button>
+      <div className="msg-send-group">
+        <div className="msg-send-buttons">
+          <button
+              disabled={isDisabled}
+              type="button"
+              onClick={this.props.onSend}>Send</button>
+          <button
+              disabled={isDisabled}
+              className="usa-button-outline msg-btn-save"
+              type="button"
+              value="save"
+              onClick={this.props.onSave}>Save As Draft</button>
+        </div>
         <MessageAddAttachment
             cssClass="msg-attach"
             allowedMimeTypes={this.props.allowedMimeTypes}
-            id="msg-attachments"
+            id="msg-attachments-input"
             label="Attach a file"
             name="messageAttachments"
             onChange={this.handleAttachmentsChange}/>
@@ -70,7 +72,6 @@ class MessageSend extends React.Component {
 
 MessageSend.propTypes = {
   allowedMimeTypes: React.PropTypes.arrayOf(React.PropTypes.string),
-  cssClass: React.PropTypes.string,
   disabled: React.PropTypes.bool,
   maxFiles: React.PropTypes.number,
   maxFileSize: React.PropTypes.number,

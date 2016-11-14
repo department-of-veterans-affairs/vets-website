@@ -75,10 +75,17 @@ export function searchWithAddress(query) {
           payload: {
             ...query,
             context: zipCode,
+            bounds: res.features[0].bbox || [
+              coordinates[0] - 0.5,
+              coordinates[1] - 0.5,
+              coordinates[0] + 0.5,
+              coordinates[1] + 0.5,
+            ],
             position: {
               latitude: coordinates[1],
               longitude: coordinates[0],
             },
+            zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
           }
         });
       } else {
@@ -91,11 +98,12 @@ export function searchWithAddress(query) {
   };
 }
 
-export function searchWithBounds(bounds, facilityType, serviceType) {
+export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
   const params = compact([
     ...bounds.map(c => `bbox[]=${c}`),
     facilityType ? `type=${facilityType}` : null,
     serviceType ? `services[]=${serviceType}` : null,
+    `page=${page}`
   ]).join('&');
   const url = `${api.url}?${params}`;
 
@@ -103,6 +111,7 @@ export function searchWithBounds(bounds, facilityType, serviceType) {
     dispatch({
       type: SEARCH_STARTED,
       payload: {
+        page,
         active: true,
       },
     });
@@ -112,7 +121,7 @@ export function searchWithBounds(bounds, facilityType, serviceType) {
       .then(
         data => {
           dispatch({ type: SEARCH_SUCCEEDED });
-          dispatch({ type: FETCH_VA_FACILITIES, payload: data.data });
+          dispatch({ type: FETCH_VA_FACILITIES, payload: data });
         },
         err => dispatch({ type: SEARCH_FAILED, err })
       );

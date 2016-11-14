@@ -26,7 +26,6 @@ class SearchControls extends Component {
     this.props.updateSearchQuery({
       [e.target.name]: e.target.value,
     });
-    // TODO: better define shape of query object for facility/service types
   }
 
   handleSearch = (e) => {
@@ -49,9 +48,16 @@ class SearchControls extends Component {
   }
 
   handleFacilityFilterSelect(facilityType) {
-    this.props.updateSearchQuery({
-      facilityType,
-    });
+    if (facilityType === 'benefits') {
+      this.props.updateSearchQuery({
+        facilityType,
+      });
+    } else {
+      this.props.updateSearchQuery({
+        facilityType,
+        serviceType: null,
+      });
+    }
   }
 
   renderServiceFilterOptions() {
@@ -65,27 +71,26 @@ class SearchControls extends Component {
         ];
       case 'benefits':
         return [
-          <option key="ApplyingForBenefits" value="ApplyingForBenefits">Applying For Benefits</option>,
-          <option key="CareerCounseling" value="CareerCounseling">Career Counseling</option>,
-          <option key="SchoolAssistance" value="SchoolAssistance">School Assistance</option>,
-          <option key="VocationalRehabilitationCareerAssistance" value="VocationalRehabilitationCareerAssistance">Vocational Rehabilitation Career Assistance</option>,
-          <option key="TransitionAssistance" value="TransitionAssistance">Transition Assistance</option>,
-          <option key="Pre-dischargeAssistance" value="Pre-dischargeAssistance">Pre-discharge Assistance</option>,
-          <option key="EmploymentAssistance" value="EmploymentAssistance">Employment Assistance</option>,
-          <option key="FinancialCounseling" value="FinancialCounseling">Financial Counseling</option>,
-          <option key="HousingAssistance" value="HousingAssistance">Housing Assistance</option>,
-          <option key="DisabilityClaimAssistance" value="DisabilityClaimAssistance">Disability Claim Assistance</option>,
-          <option key="EducationClaimAssistance" value="EducationClaimAssistance">Education Claim Assistance</option>,
-          <option key="InsuranceClaimAssistance" value="InsuranceClaimAssistance">Insurance Claim Assistance</option>,
-          <option key="VocationalRehabilitationClaimAssistance" value="VocationalRehabilitationClaimAssistance">Vocational Rehabilitation Claim Assistance</option>,
-          <option key="SurvivorClaimAssistance" value="SurvivorClaimAssistance">Survivor Claim Assistance</option>,
-          <option key="UpdatingContactInformation" value="UpdatingContactInformation">Updating Contact Information</option>,
-          <option key="UpdatingDirectDepositInformation" value="UpdatingDirectDepositInformation">Updating Direct Deposit Information</option>,
-          <option key="BurialClaimAssistance" value="BurialClaimAssistance">Burial Claim Assistance</option>,
-          <option key="eBenefitsLogonAssistance" value="eBenefitsLogonAssistance">eBenefits Logon Assistance</option>,
-          <option key="IntegratedDisabilityEvaluationSystem" value="IntegratedDisabilityEvaluationSystem">Integrated Disability Evaluation System</option>,
-          <option key="HomelessAssistance" value="HomelessAssistance">Homeless Assistance</option>,
-        ];
+          'ApplyingForBenefits',
+          'BurialClaimAssistance',
+          'DisabilityClaimAssistance',
+          'eBenefitsRegistrationAssistance',
+          'EducationAndCareerCounseling',
+          'EducationClaimAssistance',
+          'FamilyMemberClaimAssistance',
+          'HomelessAssistance',
+          'VAHomeLoanAssistance',
+          'InsuranceClaimAssistanceAndFinancialCounseling',
+          'IntegratedDisabilityEvaluationSystemAssistance',
+          'PreDischargeClaimAssistance',
+          'TransitionAssistance',
+          'UpdatingDirectDepositInformation',
+          'VocationalRehabilitationAndEmploymentAssistance',
+        ].map(e => {
+          return (<option key={e} value={e}>
+            {e.split(/(?=[A-Z])/).join(' ')}
+          </option>);
+        });
       default:
         return null;
     }

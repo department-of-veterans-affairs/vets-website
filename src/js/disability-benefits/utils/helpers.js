@@ -1,3 +1,7 @@
+import _ from 'lodash/fp';
+import environment from '../../common/helpers/environment';
+import { SET_UNAUTHORIZED } from '../actions';
+
 const evidenceGathering = 'Evidence gathering, review, and decision';
 
 const phaseMap = {
@@ -59,40 +63,60 @@ export function getUserPhase(phase) {
   return phase - 3;
 }
 
+export function getItemDate(item) {
+  if (item.receivedDate) {
+    return item.receivedDate;
+  } else if (item.documents && item.documents.length) {
+    return item.documents[item.documents.length - 1].uploadDate;
+  } else if (item.type === 'other_documents_list' && item.uploadDate) {
+    return item.uploadDate;
+  }
+
+  return item.date;
+}
+
+function getPhaseNumber(phase) {
+  return parseInt(phase.replace('phase', ''), 10);
+}
+
+function isEventOrPrimaryPhase(event) {
+  if (event.type === 'phase_entered') {
+    return event.phase <= 3 || event.phase >= 7;
+  }
+
+  return !!getItemDate(event);
+}
+
 export function groupTimelineActivity(events) {
   const phases = {};
-  const phaseEvents = events;
   let activity = [];
-  let lastPhaseNumber = 1;
-  let firstPhase = true;
+
+  const phaseEvents = events
+    .map(event => {
+      if (event.type.startsWith('phase')) {
+        return {
+          type: 'phase_entered',
+          phase: getPhaseNumber(event.type) + 1,
+          date: event.date
+        };
+      }
+
+      return event;
+    })
+    .filter(isEventOrPrimaryPhase);
 
   phaseEvents.forEach(event => {
     if (event.type.startsWith('phase')) {
-      const phaseNumber = parseInt(event.type.replace('phase', ''), 10);
-      const userPhaseNumber = getUserPhase(phaseNumber);
-      if (userPhaseNumber !== lastPhaseNumber || firstPhase) {
-        activity.push({
-          type: 'phase_entered',
-          date: event.date
-        });
-        phases[userPhaseNumber + 1] = (phases[userPhaseNumber + 1] || []).concat(activity);
-        activity = [];
-        lastPhaseNumber = userPhaseNumber;
-        firstPhase = false;
-      } else {
-        activity.push({
-          type: 'micro_phase',
-          phaseNumber: phaseNumber + 1,
-          date: event.date
-        });
-      }
+      activity.push(event);
+      phases[getUserPhase(event.phase)] = activity;
+      activity = [];
     } else {
       activity.push(event);
     }
   });
 
   if (activity.length > 0) {
-    phases[lastPhaseNumber] = (phases[lastPhaseNumber] || []).concat(activity);
+    phases[1] = activity;
   }
 
   return phases;
@@ -172,22 +196,55 @@ export function truncateDescription(text) {
   return text;
 }
 
-export function getSubmittedItemDate(item) {
-  if (item.receivedDate) {
-    return item.receivedDate;
-  } else if (item.documents && item.documents.length) {
-    return item.documents[item.documents.length - 1].uploadDate;
-  } else if (item.type === 'other_documents_list') {
-    return item.uploadDate;
-  }
-
-  return item.date;
-}
-
 export function isClaimComplete(claim) {
   return claim.attributes.decisionLetterSent || claim.attributes.phase === 8;
 }
 
 export function itemsNeedingAttentionFromVet(events) {
   return events.filter(event => event.status === 'NEEDED' && event.type === 'still_need_from_you_list').length;
+}
+
+export function makeAuthRequest(url, userOptions, dispatch, onSuccess, onError) {
+  const options = _.merge({
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'X-Key-Inflection': 'camel',
+      Authorization: `Token token=${sessionStorage.userToken}`
+    },
+    responseType: 'json',
+  }, userOptions);
+
+  fetch(`${environment.API_URL}${url}`, options)
+    .then((resp) => {
+      if (resp.ok) {
+        if (options.responseType) {
+          return resp[options.responseType]();
+        }
+        return Promise.resolve();
+      }
+
+      return Promise.reject(resp);
+    })
+    .then(onSuccess)
+    .catch((resp) => {
+      if (resp.status === 401) {
+        dispatch({
+          type: SET_UNAUTHORIZED
+        });
+      } else {
+        onError(resp);
+      }
+    });
+}
+
+export function getCompletedDate(claim) {
+  if (claim.attributes && claim.attributes.eventsTimeline) {
+    const completedEvents = claim.attributes.eventsTimeline.filter(event => event.type === 'completed');
+    if (completedEvents.length) {
+      return completedEvents[0].date;
+    }
+  }
+
+  return null;
 }

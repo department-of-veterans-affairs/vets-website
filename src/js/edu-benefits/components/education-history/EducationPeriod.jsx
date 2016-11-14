@@ -64,7 +64,7 @@ export default class EducationPeriod extends React.Component {
             options={hoursTypes}
             onValueChange={(update) => {onValueChange('hoursType', update);}}/>
         <ErrorableTextInput
-            label="Degree, diploma or certificate received"
+            label="Name of degree, diploma, or certificate"
             name="degreeReceived"
             field={period.degreeReceived}
             onValueChange={(update) => {onValueChange('degreeReceived', update);}}/>

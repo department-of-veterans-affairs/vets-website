@@ -15,7 +15,7 @@ relatedlinks:
     title: Learn about the National Call to Service program
 ---
 
-If you are a Servicemember or Veteran interested in education and training opportunities, use this form (**22-1990**) to apply for your Certificate of Eligibility (COE).
+If you are a Servicemember or Veteran interested in education and training opportunities, use Form 22-1990 to apply for your Certificate of Eligibility (COE).
 
 <div class="usa-alert usa-alert-warning usa-content secondary" markdown="1">
 	<div class="usa-alert-body">
@@ -32,12 +32,12 @@ You must apply for education benefits using eBenefits.va.gov if you are:
 <div markdown="0">
 	<a class="usa-button-primary usa-button-outline usa-button-outline-exit transparent" href="https://www.ebenefits.va.gov/ebenefits/vonapp">Apply on eBenefits</a>
 </div>
-</div>	
+</div>
 </div>
 
 <br>
 
-### What are the steps to apply with form 22-1990?
+### What are the steps to apply with Form 22-1990?
 
 <div class="small-12 columns" markdown="0">
 <ol class="process" markdown="0">
@@ -91,7 +91,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 </div>
 
-<a href="/education/apply-for-education-benefits/application" class="usa-button-primary va-button-primary">Start Form 1990</a>
+<a href="/education/apply-for-education-benefits/application" class="usa-button-primary va-button-primary">Start Form 22-1990</a>
 
 <div markdown="1">
 
@@ -99,7 +99,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 
 - Go to a VA regional office and have a VA employee assist you.
 - Work with your school’s VA certifying official. This person is usually in the Registrar or Financial Aid office at the school of your choice.
-- Call 888-442-4551 (888-GI-BILL-1) to have the application mailed to you. Fill it out and mail it to your VA regional claims processing office.
+- Call 888-442-4551 (888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri, to have the application mailed to you. Fill it out and mail it to your VA regional claims processing office.
 
 </div>
 
@@ -149,7 +149,7 @@ You may be eligible for more than one benefit, based on your service. When you a
 - We usually process claims within 30 days.
 - If we’ve asked for documents, please upload them through the [GI Bill site](https://gibill.custhelp.com/app/home).
 - You can’t make changes to your application.
-- Call 888-442-4551 (888-GI-BILL-1) if you have questions.
+- For questions about Education Benefits please call 1-888-442-4551 (1-888-GI-BILL-1) from 8:00 a.m. - 7:00 p.m. ET Mon - Fri.
 
 </div>
 

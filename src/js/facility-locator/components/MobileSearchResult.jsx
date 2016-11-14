@@ -39,14 +39,14 @@ class MobileSearchResult extends Component {
   }
 
   render() {
-    const { facility } = this.props;
+    const { facility, currentLocation } = this.props;
 
     return (
       <div className="facility-result">
-        <FacilityInfoBlock facility={facility}/>
-        <p>
+        <FacilityInfoBlock facility={facility} currentLocation={currentLocation}/>
+        <div>
           <FacilityPhoneLink facility={facility}/>
-        </p>
+        </div>
         <p>
           <span>
             <a href="#" target="_blank">

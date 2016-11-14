@@ -43,7 +43,7 @@ class AskVAPage extends React.Component {
     return (
       <div>
         <div className="row">
-          <div className="medium-8 columns">
+          <div className="medium-12 columns">
             <nav className="va-nav-breadcrumbs">
               <ul className="row va-nav-breadcrumbs-list" role="menubar" aria-label="Primary">
                 <li><Link to="your-claims">Your claims</Link></li>
@@ -51,6 +51,10 @@ class AskVAPage extends React.Component {
                 <li className="active">Ask VA for a Claim Decision</li>
               </ul>
             </nav>
+          </div>
+        </div>
+        <div className="row">
+          <div className="medium-8 columns">
             <div>
               <h1>Ask VA for a Claim Decision</h1>
               <p className="first-of-type">You should have received a letter in the mail requesting additional evidence VA needs to support your claim.</p>
