@@ -1,5 +1,3 @@
-import { api } from '../config';
-
 import {
   ADD_COMPOSE_ATTACHMENTS,
   DELETE_COMPOSE_ATTACHMENT,
@@ -9,6 +7,8 @@ import {
   RESET_MESSAGE_OBJECT,
   SET_MESSAGE_FIELD,
 } from '../utils/constants';
+
+import { apiRequest } from '../utils/helpers';
 
 export function deleteComposeMessage() {
   return { type: DELETE_COMPOSE_MESSAGE };
@@ -37,9 +37,9 @@ export function deleteComposeAttachment(index) {
 }
 
 export function fetchRecipients() {
-  const url = `${api.url}/recipients`;
+  const url = '/recipients';
   return dispatch => {
-    fetch(url, api.settings.get)
+    apiRequest(url)
     .then(res => res.json())
     .then(
       recipients => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),

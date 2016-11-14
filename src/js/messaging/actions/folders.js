@@ -1,7 +1,7 @@
-import assign from 'lodash/fp/assign';
-
-import { api } from '../config';
-import { createUrlWithQuery } from '../utils/helpers';
+import {
+  apiRequest,
+  createUrlWithQuery
+} from '../utils/helpers';
 
 import {
   CREATE_FOLDER_SUCCESS,
@@ -17,7 +17,7 @@ import {
   SET_CURRENT_FOLDER
 } from '../utils/constants';
 
-const baseUrl = `${api.url}/folders`;
+const baseUrl = '/folders';
 
 export function fetchFolders() {
   // Get the max number of folders.
@@ -27,7 +27,7 @@ export function fetchFolders() {
   const url = createUrlWithQuery(baseUrl, query);
 
   return dispatch => {
-    fetch(`${url}`, api.settings.get)
+    apiRequest(url)
     .then(res => res.json())
     .then(
       data => dispatch({ type: FETCH_FOLDERS_SUCCESS, data }),
@@ -42,7 +42,7 @@ export function fetchFolder(id, query = {}) {
 
   return dispatch => {
     Promise.all([folderUrl, messagesUrl].map(url =>
-      fetch(url, api.settings.get).then(res => res.json())
+      apiRequest(url).then(res => res.json())
     )).then(
       data => dispatch({
         type: FETCH_FOLDER_SUCCESS,
@@ -69,12 +69,13 @@ export function createNewFolder(folderName) {
   const folderData = { folder: {} };
   folderData.folder.name = folderName;
 
-  const settings = assign(api.settings.postJson, {
+  const settings = {
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(folderData)
-  });
+  };
 
   return dispatch => {
-    fetch(baseUrl, settings)
+    apiRequest(baseUrl, settings)
     .then(res => res.json())
     .then(
       data => dispatch({
@@ -89,7 +90,7 @@ export function createNewFolder(folderName) {
 export function deleteFolder(folder) {
   const url = `${baseUrl}/${folder.folderId}`;
   return dispatch => {
-    fetch(url, api.settings.delete)
+    apiRequest(url, { method: 'DELETE' })
     .then(response => {
       const action = response.ok
                    ? { type: DELETE_FOLDER_SUCCESS, folder }

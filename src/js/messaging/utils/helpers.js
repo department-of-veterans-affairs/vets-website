@@ -1,6 +1,9 @@
+import merge from 'lodash/fp/merge';
 import moment from 'moment';
 
-export function createQueryString(query) {
+import environment from '../../common/helpers/environment';
+
+function createQueryString(query) {
   const segments = [];
 
   for (const key of Object.keys(query)) {
@@ -17,6 +20,23 @@ export function createUrlWithQuery(url, query) {
                 : url;
 
   return fullUrl;
+}
+
+export function apiRequest(resource, optionalSettings = {}) {
+  const baseUrl = `${environment.API_URL}/v0/messaging/health`;
+  const url = [baseUrl, resource].join('');
+
+  const defaultSettings = {
+    method: 'GET',
+    headers: {
+      Authorization: `Token token=${sessionStorage.userToken}`,
+      'X-Key-Inflection': 'camel'
+    }
+  };
+
+  const settings = merge(defaultSettings, optionalSettings);
+
+  return fetch(url, settings);
 }
 
 export function formatFileSize(bytes, decimalplaces = 2) {

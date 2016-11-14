@@ -1,7 +1,4 @@
-import assign from 'lodash/fp/assign';
-
-import { api } from '../config';
-import { isJson } from '../utils/helpers';
+import { apiRequest, isJson } from '../utils/helpers';
 
 import {
   ADD_DRAFT_ATTACHMENTS,
@@ -29,7 +26,7 @@ import {
   UPDATE_DRAFT
 } from '../utils/constants';
 
-const baseUrl = `${api.url}/messages`;
+const baseUrl = '/messages';
 
 export function addDraftAttachments(files) {
   return { type: ADD_DRAFT_ATTACHMENTS, files };
@@ -47,7 +44,7 @@ export function deleteMessage(id) {
   const url = `${baseUrl}/${id}`;
 
   return dispatch => {
-    fetch(url, api.settings.delete)
+    apiRequest(url, { method: 'DELETE' })
     .then(response => {
       const action = response.ok
                    ? { type: DELETE_MESSAGE_SUCCESS }
@@ -64,7 +61,7 @@ export function fetchThread(id) {
 
   return dispatch => {
     Promise.all([messageUrl, threadUrl].map(url =>
-      fetch(url, api.settings.get).then(res => res.json())
+      apiRequest(url).then(res => res.json())
     )).then(
       data => dispatch({
         type: FETCH_THREAD_SUCCESS,
@@ -80,7 +77,7 @@ export function fetchThreadMessage(id) {
   return dispatch => {
     const messageUrl = `${baseUrl}/${id}`;
 
-    fetch(messageUrl, api.settings.get)
+    apiRequest(messageUrl)
     .then(response => response.json())
     .then(
       data => dispatch({
@@ -95,8 +92,9 @@ export function fetchThreadMessage(id) {
 export function moveMessageToFolder(messageId, folder) {
   const folderId = folder.folderId;
   const url = `${baseUrl}/${messageId}/move?folder_id=${folderId}`;
+
   return dispatch => {
-    fetch(url, api.settings.patch)
+    apiRequest(url, { method: 'PATCH' })
     .then(response => {
       const action = response.ok
                    ? { type: MOVE_MESSAGE_SUCCESS, folder }
@@ -108,14 +106,16 @@ export function moveMessageToFolder(messageId, folder) {
 }
 
 export function createFolderAndMoveMessage(folderName, messageId) {
-  const foldersUrl = `${api.url}/folders`;
+  const foldersUrl = '/folders';
   const folderData = { folder: { name: folderName } };
-  const settings = assign(api.settings.postJson, {
+
+  const settings = {
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(folderData)
-  });
+  };
 
   return dispatch => {
-    fetch(foldersUrl, settings)
+    apiRequest(foldersUrl, settings)
     .then(response => {
       if (!response.ok) {
         return dispatch({ type: CREATE_FOLDER_FAILURE });
@@ -134,7 +134,7 @@ export function createFolderAndMoveMessage(folderName, messageId) {
 }
 
 export function saveDraft(message) {
-  const draftsUrl = `${api.url}/message_drafts`;
+  const draftsUrl = '/message_drafts';
   const payload = {
     messageDraft: {
       body: message.body,
@@ -147,7 +147,7 @@ export function saveDraft(message) {
   const isReply = message.replyMessageId !== undefined;
   const isSavedDraft = message.messageId !== undefined;
   let url = draftsUrl;
-  let defaultSettings = api.settings.postJson;
+  let method = 'POST';
 
   if (isReply) {
     url = `${url}/${message.replyMessageId}/replydraft`;
@@ -157,15 +157,17 @@ export function saveDraft(message) {
   // Save a new draft if it doesn't have an id yet.
   if (isSavedDraft) {
     url = `${url}/${message.messageId}`;
-    defaultSettings = api.settings.put;
+    method = 'PUT';
   }
 
-  const settings = assign(defaultSettings, {
+  const settings = {
+    method,
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
-  });
+  };
 
   return dispatch => {
-    fetch(url, settings).then(response => {
+    apiRequest(url, settings).then(response => {
       if (isJson(response)) {
         return response.json().then(
           data => {
@@ -211,19 +213,20 @@ export function sendMessage(message) {
     payload.append('uploads[]', file);
   });
 
-  const settings = assign(api.settings.postFormData, {
+  const settings = {
+    method: 'POST',
     body: payload
-  });
+  };
 
   return dispatch => {
-    fetch(url, settings)
+    apiRequest(url, settings)
     .then(response => {
       // If the message has an id, it was a saved draft.
       // Delete the draft once message is successfully sent.
       const isSavedDraft = message.messageId !== undefined;
       if (response.ok && isSavedDraft) {
         const messageUrl = `${baseUrl}/${message.messageId}`;
-        fetch(messageUrl, api.settings.delete);
+        apiRequest(messageUrl, { method: 'DELETE' });
       }
 
       return response.json();
