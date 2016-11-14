@@ -2,9 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import ClaimsUnavailable from '../components/ClaimsUnavailable';
+import AskVAQuestions from '../components/AskVAQuestions';
 import ClaimsUnauthorized from '../components/ClaimsUnauthorized';
 import ClaimSyncWarning from '../components/ClaimSyncWarning';
 import RequiredLoginView from '../../common/components/RequiredLoginView';
+
+const unavailableView = (
+  <div className="row">
+    <div className="columns medium-8"><ClaimsUnavailable/></div>
+    <div className="columns medium-4"><AskVAQuestions/></div>
+  </div>
+);
 
 // this needs to be a React component for RequiredLoginView to pass down props
 function AppContent({ authorized, available, synced, children, isDataAvailable }) {
@@ -14,7 +22,7 @@ function AppContent({ authorized, available, synced, children, isDataAvailable }
     <div className="disability-benefits-content">
       {available && authorized && canUseApp && !synced && <ClaimSyncWarning/>}
       {!authorized && <div className="row"><div className="columns medium-8"><ClaimsUnauthorized/></div></div>}
-      {authorized && (!available || !canUseApp) && <div className="row"><div className="columns medium-8"><ClaimsUnavailable/></div></div>}
+      {authorized && (!available || !canUseApp) && unavailableView}
       {available && authorized && canUseApp &&
         <div>
           {children}
