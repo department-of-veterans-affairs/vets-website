@@ -182,13 +182,12 @@ export function saveDraft(message) {
 }
 
 export function sendMessage(message) {
+  let url = baseUrl;
   const payload = new FormData();
   const isReply = message.replyMessageId !== undefined;
   const isSavedDraft = message.messageId !== undefined;
-  let url = baseUrl;
 
-  // If the message has an id, it's a saved draft.
-  // Delete the draft once message is successfully sent.
+  // Deletes draft (if it was saved) once message is successfully sent.
   if (isSavedDraft) {
     payload.append('message[draft_id]', message.messageId);
   }
