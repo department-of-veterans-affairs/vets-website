@@ -50,9 +50,6 @@ class MobileSearchResult extends Component {
         <p>
           <FacilityDirectionsLink facility={facility}/>
         </p>
-        <div>
-          {this.renderHours()}
-        </div>
       </div>
     );
   }
