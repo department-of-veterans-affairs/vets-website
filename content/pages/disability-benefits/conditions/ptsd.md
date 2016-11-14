@@ -1,8 +1,9 @@
 ---
 layout: page-breadcrumbs.html
-title: Post-Traumatic Stress Disorder (PTSD)
+title: Post-Traumatic Stress (PTSD)
 concurrence: complete
 source: http://www.va.gov/opa/issues/ptsd.asp
+plainlanguage: 11-14-16 certified in compliance with the Plain Language Act
 template: 1-topic-landing
 ---
 
@@ -13,25 +14,27 @@ template: 1-topic-landing
 -	Text 838255 to get help right away.
 -	Call 911.
 -	Go to the nearest emergency room.
-Get more information and resources on the Veterans Crisis Line website. [Visit the Veterans Crisis Line website](https://www.veteranscrisisline.net/Default.aspx).
+
+##### Get more information and resources on the Veterans Crisis Line website
+
+[Visit the Veterans Crisis Line website](https://www.veteranscrisisline.net/Default.aspx).
 
 
-#### Post-Traumatic Stress Disorder (PTSD) Basics
+#### Post-Traumatic Stress (PTSD) Basics
 
 Post-traumatic stress can happen after someone goes through a traumatic event such as combat, an assault, or a disaster. Most people have some stress reactions following trauma. If the reactions don’t go away over time or they disrupt your life, you may have PTSD. [Learn more about PTSD](http://www.ptsd.va.gov/public/index.asp).
 
-If you have symptoms of PTSD and suffered a serious injury or sexual violation, or were threatened with injury, sexual violation, or death while serving in the military, you may be able to get VA support (known as disability compensation or benefits).
+If you have symptoms of PTSD and suffered a serious injury or sexual violation, or were threatened with injury, sexual violation, or death while serving in the military, you may be able to get disability compensation or benefits.
 
 
 
 <div class="call-out" markdown="1">
 
-### Can I get disability compensation from VA?
+### Can I get disability benefits from VA?
 
-Yes, if you have symptoms related to a traumatic event (the “stressor”) **or**:
--	Your experience with the stressor is related to the PTSD symptoms
--	The stressor happened during your service
--	You can’t function as well as you once could because of your symptoms
+You may be able to get disability benefits if you have symptoms related to a traumatic event (the “stressor”) or your experience with the stressor is related to the PTSD symptoms and:
+-	The stressor happened during your service, **and**
+-	You can’t function as well as you once could because of your symptoms, **and**
 -	A doctor has stated that you have PTSD
 
 <br>
@@ -44,17 +47,17 @@ Veterans
 ### What kind of disability benefits can I get?
 
 -	Health care
-- Financial support (monthly payments)
+- Compensation (payments)
 -	Treatment for PTSD
 
 --------
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits. We want to make sure you know that the screening process for disability compensation is geared toward getting a full understanding of your PTSD, not treating it.
+You’ll need to apply for benefits. Please note that the screening process for disability benefits is geared toward getting a full understanding of your PTSD, not treating it.
 
 To get help or treatment, contact your health care provider or any of the emergency contacts listed at the top of this page. 
 
 At VA, we’ve made great progress in PTSD treatments and have brought more mental health providers to VA medical centers to help provide the best care to Veterans with post-traumatic stress. [Learn more about our PTSD programs]( http://www.mentalhealth.va.gov/PTSD.asp).
 
-[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
+[Apply for benefits](/disability-benefits/apply-for-benefits/).
