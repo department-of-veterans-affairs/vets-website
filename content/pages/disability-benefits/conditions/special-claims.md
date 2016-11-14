@@ -26,4 +26,4 @@ relatedlinks:
 ---
 
 
-Do you have a disability (damage to your body or mind that makes you less able—or totally unable—to do everyday life tasks, including meaningful work) that doesn't fall within the listed health problems linked to military service? You may be able to get VA support (known as disability compensation or benefits). If you're a Veteran with a disability believed to be caused by service in the military, you may be able to get special compensation to help with:
+Do you have a disability that isn't listed on this site as being linked to military service? You may still be able to get disability compensation or benefits. If you're a Veteran with a disability believed to be caused by service in the military, you may be able to get special compensation to help with:
