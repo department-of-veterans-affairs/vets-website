@@ -1,4 +1,4 @@
-import { apiRequest, isJson } from '../utils/helpers';
+import { apiRequest } from '../utils/helpers';
 
 import {
   ADD_DRAFT_ATTACHMENTS,
@@ -44,14 +44,12 @@ export function deleteMessage(id) {
   const url = `${baseUrl}/${id}`;
 
   return dispatch => {
-    apiRequest(url, { method: 'DELETE' })
-    .then(response => {
-      const action = response.ok
-                   ? { type: DELETE_MESSAGE_SUCCESS }
-                   : { type: DELETE_MESSAGE_FAILURE };
-
-      return dispatch(action);
-    });
+    apiRequest(
+      url,
+      { method: 'DELETE' },
+      () => dispatch({ type: DELETE_MESSAGE_SUCCESS }),
+      () => dispatch({ type: DELETE_MESSAGE_FAILURE })
+    );
   };
 }
 
@@ -61,14 +59,18 @@ export function fetchThread(id) {
 
   return dispatch => {
     Promise.all([messageUrl, threadUrl].map(url =>
-      apiRequest(url).then(res => res.json())
+      apiRequest(
+        url,
+        null,
+        response => response,
+        () => dispatch({ type: FETCH_THREAD_FAILURE })
+      )
     )).then(
       data => dispatch({
         type: FETCH_THREAD_SUCCESS,
         message: data[0],
         thread: data[1].data
-      }),
-      err => dispatch({ type: FETCH_THREAD_FAILURE, err })
+      })
     );
   };
 }
@@ -77,14 +79,14 @@ export function fetchThreadMessage(id) {
   return dispatch => {
     const messageUrl = `${baseUrl}/${id}`;
 
-    apiRequest(messageUrl)
-    .then(response => response.json())
-    .then(
+    apiRequest(
+      messageUrl,
+      null,
       data => dispatch({
         type: FETCH_THREAD_MESSAGE_SUCCESS,
         message: data
       }),
-      error => dispatch({ type: FETCH_THREAD_MESSAGE_FAILURE, error })
+      () => dispatch({ type: FETCH_THREAD_MESSAGE_FAILURE })
     );
   };
 }
@@ -94,14 +96,12 @@ export function moveMessageToFolder(messageId, folder) {
   const url = `${baseUrl}/${messageId}/move?folder_id=${folderId}`;
 
   return dispatch => {
-    apiRequest(url, { method: 'PATCH' })
-    .then(response => {
-      const action = response.ok
-                   ? { type: MOVE_MESSAGE_SUCCESS, folder }
-                   : { type: MOVE_MESSAGE_FAILURE };
-
-      return dispatch(action);
-    });
+    apiRequest(
+      url,
+      { method: 'PATCH' },
+      () => dispatch({ type: MOVE_MESSAGE_SUCCESS, folder }),
+      () => dispatch({ type: MOVE_MESSAGE_FAILURE })
+    );
   };
 }
 
@@ -110,26 +110,22 @@ export function createFolderAndMoveMessage(folderName, messageId) {
   const folderData = { folder: { name: folderName } };
 
   const settings = {
+    method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(folderData)
   };
 
   return dispatch => {
-    apiRequest(foldersUrl, settings)
-    .then(response => {
-      if (!response.ok) {
-        return dispatch({ type: CREATE_FOLDER_FAILURE });
-      }
-
-      return response.json().then(
-        data => {
-          const folder = data.data.attributes;
-          dispatch({ type: CREATE_FOLDER_SUCCESS, folder, noAlert: true });
-          return dispatch(moveMessageToFolder(messageId, folder));
-        },
-        error => dispatch({ type: MOVE_MESSAGE_FAILURE, error })
-      );
-    });
+    apiRequest(
+      foldersUrl,
+      settings,
+      (data) => {
+        const folder = data.data.attributes;
+        dispatch({ type: CREATE_FOLDER_SUCCESS, folder, noAlert: true });
+        return dispatch(moveMessageToFolder(messageId, folder));
+      },
+      () => dispatch({ type: CREATE_FOLDER_FAILURE })
+    );
   };
 }
 
@@ -167,36 +163,35 @@ export function saveDraft(message) {
   };
 
   return dispatch => {
-    apiRequest(url, settings).then(response => {
-      if (isJson(response)) {
-        return response.json().then(
-          data => {
-            if (data.errors) {
-              return dispatch({
-                type: SAVE_DRAFT_FAILURE,
-                error: data.errors
-              });
-            }
+    apiRequest(
+      url,
+      settings,
+      (response) => {
+        if (isSavedDraft) {
+          return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
+        }
 
-            return dispatch({
-              type: SAVE_DRAFT_SUCCESS,
-              message: data.data.attributes
-            });
-          },
-          error => dispatch({ type: SAVE_DRAFT_FAILURE, error })
-        );
-      } else if (response.ok && isSavedDraft) {
-        return dispatch({ type: SAVE_DRAFT_SUCCESS, message });
-      }
-      return dispatch({ type: SAVE_DRAFT_FAILURE });
-    });
+        return dispatch({
+          type: SAVE_DRAFT_SUCCESS,
+          message: response.data.attributes
+        });
+      },
+      () => dispatch({ type: SAVE_DRAFT_FAILURE })
+    );
   };
 }
 
 export function sendMessage(message) {
   const payload = new FormData();
   const isReply = message.replyMessageId !== undefined;
+  const isSavedDraft = message.messageId !== undefined;
   let url = baseUrl;
+
+  // If the message has an id, it's a saved draft.
+  // Delete the draft once message is successfully sent.
+  if (isSavedDraft) {
+    payload.append('message[draft_id]', message.messageId);
+  }
 
   if (isReply) {
     url = `${url}/${message.replyMessageId}/reply`;
@@ -219,32 +214,14 @@ export function sendMessage(message) {
   };
 
   return dispatch => {
-    apiRequest(url, settings)
-    .then(response => {
-      // If the message has an id, it was a saved draft.
-      // Delete the draft once message is successfully sent.
-      const isSavedDraft = message.messageId !== undefined;
-      if (response.ok && isSavedDraft) {
-        const messageUrl = `${baseUrl}/${message.messageId}`;
-        apiRequest(messageUrl, { method: 'DELETE' });
-      }
-
-      return response.json();
-    }).then(
-      data => {
-        if (data.errors) {
-          return dispatch({
-            type: SEND_MESSAGE_FAILURE,
-            error: data.errors
-          });
-        }
-
-        return dispatch({
-          type: SEND_MESSAGE_SUCCESS,
-          message: data.data.attributes
-        });
-      },
-      error => dispatch({ type: SEND_MESSAGE_FAILURE, error })
+    apiRequest(
+      url,
+      settings,
+      response => dispatch({
+        type: SEND_MESSAGE_SUCCESS,
+        message: response.data.attributes
+      }),
+      () => dispatch({ type: SEND_MESSAGE_FAILURE })
     );
   };
 }

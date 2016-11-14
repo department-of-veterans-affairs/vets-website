@@ -39,11 +39,11 @@ export function deleteComposeAttachment(index) {
 export function fetchRecipients() {
   const url = '/recipients';
   return dispatch => {
-    apiRequest(url)
-    .then(res => res.json())
-    .then(
-      recipients => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
-      err => dispatch({ type: FETCH_RECIPIENTS_FAILURE, err })
+    apiRequest(
+      url,
+      null,
+      (recipients) => dispatch({ type: FETCH_RECIPIENTS_SUCCESS, recipients }),
+      () => dispatch({ type: FETCH_RECIPIENTS_FAILURE })
     );
   };
 }
