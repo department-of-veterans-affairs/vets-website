@@ -11,21 +11,19 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-Do you have a disability caused by an illnesss or injury that happened—or got worse—while you were actively serving in the military? If yes, you may be able to get VA support (called disability compensation or benefits)—no matter when or where you served. 
+Do you have a disability caused by an illness or injury that happened—or got worse—while you were actively serving in the military? If yes, you may be able to get disability compensation or benefits—no matter when or where you served. 
 
-###Can I get compensation?
+###Can I get disability benefits from VA?
 
-Yes, if all of the following are true:
-
-- You have a current physical or mental disability (damage to your body or mind that makes you less able—or totally unable—to do everyday tasks, including meaningful work)
-- You were injured or sick while actively serving in the military—and your injury or illness caused your disability or made a disability you already had worse
+You may be able to get disability benefits if you have a current physical or mental disability and:
+- You got injured or sick while actively serving in the military—and your injury or illness caused your disability or made a disability you already had worse, **and** 
 - You can link your current disability to an injury or illness that happened while you were actively serving in the military
 
 <div class="call-out" markdown="1">
 
-###What types of health problems may qualify me for disability benefits?
+###What illnesses and injuries (also called conditions) are covered by these benefits?
 
-You may be able to get benefits for health problems linked to military service, including:
+You may be able to get benefits for conditions believed to be caused by military service, including:
 
 - Chronic (long-lasting) back pain
 - Severe hearing loss
@@ -37,9 +35,9 @@ You may be able to get benefits for health problems linked to military service, 
 
 <br>
 
-You may also be able to get benefits for mental health problems linked to military service, including:
+You may also be able to get benefits for mental health conditions linked to military service, including:
 
-- PTSD (post-traumatic stress disorder)
+- Post-traumatic stress (PTSD)
 - Severe depression
 - Severe anxiety
 
