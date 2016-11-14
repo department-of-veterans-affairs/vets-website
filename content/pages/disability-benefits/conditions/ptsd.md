@@ -15,7 +15,7 @@ template: 1-topic-landing
 -	Call 911.
 -	Go to the nearest emergency room.
 
-##### Get more information and resources on the Veterans Crisis Line website
+##### Get more information and resources on the Veterans Crisis Line website.
 
 [Visit the Veterans Crisis Line website](https://www.veteranscrisisline.net/Default.aspx).
 
