@@ -5,6 +5,10 @@ html, body {
   margin: 0;
 }
 
+html {
+    overflow: -moz-scrollbars-vertical;
+}
+
 body {
   color: $color-gray-dark;
   font-family: $font-sans;
@@ -1390,6 +1394,19 @@ a.twitter {
 
   .row {
     max-width: 69.4em;
+  }
+}
+
+.incompatible-browser-warning {
+  padding: 0.5em;
+  font-weight: bold;
+  background: $color-gold-lightest;
+  color: $color-black;
+  font-size: .9em;
+  display: none;
+
+  &.visible {
+    display: block;
   }
 }
 

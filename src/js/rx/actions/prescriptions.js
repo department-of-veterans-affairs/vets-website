@@ -1,23 +1,27 @@
-import assign from 'lodash/fp/assign';
-
-import { api } from '../config';
+import { apiRequest } from '../utils/helpers';
 
 export function loadPrescription(id) {
   if (id) {
-    const rxUrl = `${api.url}/${id}`;
-    const rxUrls = [rxUrl, `${rxUrl}/trackings`];
+    const urls = [`/${id}`, `/${id}/trackings`];
 
     // Fetch both the prescription and its tracking history and
     // wait for retrieval and read of both resources to resolve.
     return dispatch => {
-      Promise.all(rxUrls.map(url => {
-        return fetch(url, api.settings).then(res => res.json());
+      dispatch({ type: 'LOADING_DETAIL' });
+
+      Promise.all(urls.map(url => {
+        return apiRequest(url).then(response => {
+          return (response.ok) ? response.json() : Promise.reject();
+        });
       })).then(
         data => dispatch({
           type: 'LOAD_PRESCRIPTION_SUCCESS',
-          data: { rx: data[0].data, trackings: data[1].data }
+          data: {
+            rx: data[0].data,
+            trackings: data[1].data
+          }
         }),
-        err => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE', err })
+        error => dispatch({ type: 'LOAD_PRESCRIPTION_FAILURE', error })
       );
     };
   }
@@ -26,7 +30,7 @@ export function loadPrescription(id) {
 }
 
 export function loadPrescriptions(options) {
-  let url = api.url;
+  let url = '';
   let defaultSort = '-refill_submit_date';
   const queries = [];
 
@@ -50,24 +54,51 @@ export function loadPrescriptions(options) {
     url = `${url}?${queryString}`;
   }
 
-  return dispatch => fetch(url, api.settings)
-    .then(res => res.json())
-    .then(
-      data => dispatch({ type: 'LOAD_PRESCRIPTIONS_SUCCESS', data }),
-      err => dispatch({ type: 'LOAD_PRESCRIPTIONS_FAILURE', err })
-    );
+  return dispatch => {
+    dispatch({
+      type: options.active ? 'LOADING_ACTIVE' : 'LOADING_HISTORY'
+    });
+
+    apiRequest(url)
+      .then(response => {
+        return (response.ok) ? response.json() : Promise.reject();
+      }).then(
+        data => dispatch({
+          type: 'LOAD_PRESCRIPTIONS_SUCCESS',
+          active: options.active,
+          data
+        }),
+        error => dispatch({
+          type: 'LOAD_PRESCRIPTIONS_FAILURE',
+          active: options.active,
+          error
+        })
+      );
+  };
 }
 
-export function refillPrescription(id) {
-  if (id) {
-    const url = `${api.url}/${id}/refill`;
-    const settings = assign(api.settings, { method: 'PATCH' });
+export function refillPrescription(prescription) {
+  if (prescription.prescriptionId) {
+    const url = `/${prescription.prescriptionId}/refill`;
 
-    return dispatch => fetch(url, settings)
-      .then(
-        data => dispatch({ type: 'REFILL_SUCCESS', id, data }),
-        err => dispatch({ type: 'REFILL_FAILURE', err })
+    return dispatch => {
+      apiRequest(url, { method: 'PATCH' })
+      .then(response => {
+        return (response.ok) ?
+          Promise.resolve() :
+          Promise.reject(response.json());
+      }).then(
+        () => dispatch({
+          type: 'REFILL_SUCCESS',
+          prescription
+        }),
+        response => dispatch({
+          type: 'REFILL_FAILURE',
+          errors: response.errors,
+          prescription
+        })
       );
+    };
   }
 
   return dispatch => dispatch({ type: 'REFILL_FAILURE' });

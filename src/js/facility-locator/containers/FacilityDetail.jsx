@@ -14,11 +14,29 @@ import ServicesAtFacility from '../components/ServicesAtFacility';
 class FacilityDetail extends Component {
   componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id);
+    window.scrollTo(0, 0);
+  }
+
+  renderFacilityWebsite() {
+    const { facility } = this.props;
+    const { website } = facility.attributes;
+
+    if (!website) {
+      return null;
+    }
+
+    return (
+      <span>
+        <a href={website} target="_blank">
+          <i className="fa fa-globe"/>Website
+        </a>
+      </span>
+    );
   }
 
   renderFacilityInfo() {
     const { facility } = this.props;
-    const { name, website } = facility.attributes;
+    const { name } = facility.attributes;
 
     return (
       <div>
@@ -26,21 +44,29 @@ class FacilityDetail extends Component {
         <div>
           <FacilityAddress facility={facility}/>
         </div>
-        <p>
+        <div>
           <FacilityPhoneLink facility={facility}/>
-        </p>
-        <p>
-          <span>
-            <a href={website} target="_blank">
-              <i className="fa fa-globe" style={{ marginRight: '0.5rem' }}/> Website
-            </a>
-          </span>
-        </p>
-        <p>
+        </div>
+        <div>
+          {this.renderFacilityWebsite()}
+        </div>
+        <div>
           <FacilityDirectionsLink facility={facility}/>
-        </p>
+        </div>
         <p>Planning to visit? Please call first as information on this page may change.</p>
       </div>
+    );
+  }
+
+  renderAccessToCare() {
+    const { facility } = this.props;
+
+    if (facility.attributes.facility_type !== 'va_health_facility') {
+      return null;
+    }
+
+    return (
+      <AccessToCare facility={facility}/>
     );
   }
 
@@ -59,8 +85,6 @@ class FacilityDetail extends Component {
           </Link>
           <div>
             {this.renderFacilityInfo()}
-            <h4>Services</h4>
-            <hr className="title"/>
             <ServicesAtFacility facility={facility}/>
           </div>
         </div>
@@ -68,15 +92,9 @@ class FacilityDetail extends Component {
           <div>
             <FacilityMap info={facility}/>
             <div className="mb2">
-              <h4>Hours of Operation</h4>
-              <hr className="title"/>
               <FacilityHours facility={facility}/>
             </div>
-            <div className="mb2">
-              <h4>Access to Care</h4>
-              <hr className="title"/>
-              <AccessToCare facility={facility}/>
-            </div>
+            {this.renderAccessToCare()}
           </div>
         </div>
       </div>

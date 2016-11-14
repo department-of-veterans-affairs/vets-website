@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 
 import { rxStatuses } from '../config';
-import { formatDate, getModalTerm } from '../utils/helpers';
+import { formatDate } from '../utils/helpers';
+import GlossaryLink from '../components/GlossaryLink';
 import RefillsRemainingCounter from './RefillsRemainingCounter';
 import TrackPackageLink from './TrackPackageLink';
 import SubmitRefill from './SubmitRefill';
@@ -14,17 +15,11 @@ class Prescription extends React.Component {
     this.showTracking = this.showTracking.bind(this);
     this.showMessageProvider = this.showMessageProvider.bind(this);
     this.showRefillStatus = this.showRefillStatus.bind(this);
-    this.openGlossaryModal = this.openGlossaryModal.bind(this);
   }
 
   handleSubmit(domEvent) {
     domEvent.preventDefault();
     this.props.refillModalHandler(this.props.attributes);
-  }
-
-  openGlossaryModal(domEvent) {
-    const content = getModalTerm(domEvent.target.dataset.term);
-    this.props.glossaryModalHandler(content);
   }
 
   showTracking() {
@@ -53,10 +48,10 @@ class Prescription extends React.Component {
 
     if (remaining === 0) {
       msgProvider = (
-        <div className="rx-call-provider">
-          <Link
-              key={`rx-${id}-call`}
-              to="/messaging">Message Provider</Link>
+        <div
+            className="rx-call-provider"
+            key={`rx-${id}-call`}>
+          <a href="/healthcare/messaging/compose">Message Provider</a>
         </div>
       );
     }
@@ -80,17 +75,17 @@ class Prescription extends React.Component {
             text="Refill Prescription"/>
       );
     } else {
-      const displayStatus = (status === 'active') ? rxStatuses.refillinprocess : rxStatuses[status];
+      const displayStatus = (status === 'active')
+                          ? rxStatuses.refillinprocess
+                          : rxStatuses[status];
 
       refillStatus = (
         <div
             key={`rx-${id}-status`}
             className="rx-prescription-status">
-          Refill status: <button
-              className="rx-trigger"
-              data-term={displayStatus}
-              onClick={this.openGlossaryModal}
-              type="button">{displayStatus}</button>
+          Refill status: <GlossaryLink
+              term={displayStatus}
+              onClick={this.props.glossaryModalHandler}/>
         </div>
       );
     }

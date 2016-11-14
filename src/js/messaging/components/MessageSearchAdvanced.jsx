@@ -114,7 +114,7 @@ class MessageSearchAdvanced extends React.Component {
       <div className="msg-search-advanced">
         {advancedSearchForm}
         <button
-            className="msg-search-advanced-toggle usa-button-unstyled"
+            className="msg-search-advanced-toggle"
             onClick={this.props.onAdvancedSearch}
             type="button">
           <i className={toggleClass}></i> Advanced Search</button>

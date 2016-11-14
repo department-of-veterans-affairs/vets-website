@@ -1,6 +1,6 @@
-// import { flattenDeep } from 'lodash';
-import React, { Component } from 'react';
+import { isEmpty } from 'lodash';
 import moment from 'moment';
+import React, { Component } from 'react';
 
 class ServicesAtFacility extends Component {
 
@@ -87,7 +87,7 @@ class ServicesAtFacility extends Component {
   }
 
   // TODO: Use this method to render separate lists for each L1 service
-  renderServices() {
+  renderServiceLists() {
     const { facility: { attributes: { services } } } = this.props;
 
     if (!services) {
@@ -101,6 +101,37 @@ class ServicesAtFacility extends Component {
     );
   }
 
+  renderServices() {
+    const { facility } = this.props;
+
+    switch (facility.attributes.facility_type) {
+      case 'va_health_facility':
+        return this.renderHealthServices();
+      case 'va_benefits_facility':
+        return this.renderBenefitsServices();
+      default:
+        return null;
+    }
+  }
+
+  renderBenefitsServices() {
+    const { facility: { attributes: { services } } } = this.props;
+
+    if (!services.benefits || isEmpty(services.benefits.standard)) {
+      return null;
+    }
+
+    return (
+      <div className="mb2">
+        <ul>
+          {services.benefits.standard.map(s => {
+            return this.renderService(s);
+          })}
+        </ul>
+      </div>
+    );
+  }
+
   renderHealthServices() {
     const { facility: { attributes: { services } } } = this.props;
 
@@ -109,12 +140,23 @@ class ServicesAtFacility extends Component {
     }
 
     return (
-      <div className="mb2">
-        <ul>
-          {services.health.map(s => {
-            return this.renderService(s.sl1[0]);
-          })}
-        </ul>
+      <div>
+        <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment().subtract(9, 'd').format('MMMM D, YYYY')}</strong></p>
+        <div className="call-out clearfix">
+          <div className="columns small-1">
+            <h3><i className="fa fa-exclamation-circle"></i></h3>
+          </div>
+          <div className="columns small-11">
+            This list may not include all of the services available at this location. Please check on the facility's website or call them for this information.
+          </div>
+        </div>
+        <div className="mb2">
+          <ul>
+            {services.health.map(s => {
+              return this.renderService(s.sl1[0]);
+            })}
+          </ul>
+        </div>
       </div>
     );
   }
@@ -126,18 +168,17 @@ class ServicesAtFacility extends Component {
       return null;
     }
 
+    const services = this.renderServices();
+
+    if (!services) {
+      return null;
+    }
+
     return (
       <div>
-        <p style={{ margin: '0 0 0.5em' }}>Services current as of <strong>{moment().format('MMMM D, YYYY')}</strong></p>
-        <div className="call-out clearfix">
-          <div className="columns small-1">
-            <h3><i className="fa fa-exclamation-circle"></i></h3>
-          </div>
-          <div className="columns small-11">
-            This list may not include all of the services available at this location. Please check on the facility's website or call them for this information.
-          </div>
-        </div>
-        {facility.attributes.facility_type === 'va_health_facility' ? this.renderHealthServices() : null}
+        <h4>Services</h4>
+        <hr className="title"/>
+        {services}
       </div>
     );
   }

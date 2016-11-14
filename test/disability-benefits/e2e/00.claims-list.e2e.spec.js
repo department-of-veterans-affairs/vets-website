@@ -15,7 +15,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
         .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
         .waitForElementVisible('body', Timeouts.normal)
         .assert.title('Track Claims: Vets.gov')
-        .waitForElementVisible('a.claim-list-item', Timeouts.normal);
+        .waitForElementVisible('a.claim-list-item', Timeouts.slow);
 
       // Combined claim link
       // TODO(crew): Ask someone to find out why this isn't working
@@ -37,7 +37,7 @@ if (!process.env.BUILDTYPE || process.env.BUILDTYPE === 'development') {
       client
         .expect
         .element('.claim-list-item-header')
-        .text.to.equal('Disability Compensation Claim');
+        .text.to.equal('Disability Compensation Claim – Received September 23, 2008');
 
       // Click to detail view
       client

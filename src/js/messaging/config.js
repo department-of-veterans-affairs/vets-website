@@ -7,8 +7,8 @@ function getHeaders(optionalHeaders = {}) {
     'X-Key-Inflection': 'camel'
   };
 
-  if (typeof localStorage !== 'undefined' && localStorage !== null) {
-    defaultHeaders.Authorization = `Token token=${localStorage.userToken}`;
+  if (typeof sessionStorage !== 'undefined' && sessionStorage !== null) {
+    defaultHeaders.Authorization = `Token token=${sessionStorage.userToken}`;
   }
 
   return assign(defaultHeaders, optionalHeaders);
