@@ -7,7 +7,9 @@ plainlanguage: 11-4-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 ---
 
-If the Board of Veterans’ Appeals (Board) has sent you a final disability benefits claim decision that you disagree with, you still have a way to appeal. You can take your appeal to the United States Court of Appeals for Veterans Claims (Court). The Court reviews Board decisions appealed by those who believe the Board erred in its decision.
+If the Board of Veterans’ Appeals (Board) has sent you a final disability benefits claim decision that you disagree with, you still have a way to appeal. You can take your appeal to the United States Court of Appeals for Veterans Claims (Court). The Court reviews Board decisions appealed by those who believe the Board made a mistake in its decision. You'll need to wait until you have a final decision from the Board—not the regional office—before you can appeal to this Court. 
+
+If you aren't sure about your claim status, call the BVA status line at 800-923-8387.
 
 <div class="call-out" markdown="0">
 
@@ -24,4 +26,4 @@ The Court has the sole power to accept or overturn Board decisions and is part o
 
 The Court’s main office is in Washington, D.C., but the Court can hold sessions anywhere in the United States. The Court does hold sessions in other parts of the country a small number of times each year.
 
-You'll need to wait until you have a final decision from the Board—not the regional office—before you can appeal to this Court.
+
