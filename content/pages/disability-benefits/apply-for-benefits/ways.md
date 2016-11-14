@@ -23,10 +23,12 @@ relatedlinks:
 
 Choose 1 of 3 ways to file your disability claim:
 
-1.	[Apply online through eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), or
+1.	[Apply online through eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation), **or**
 
-2.	[Get help from an accredited representative](/disability-benefits/apply-for-benefits/help/index.html) (a trained professional trusted to help with VA-related needs), or
+2.	[Get help from an accredited representative](/disability-benefits/apply-for-benefits/help/index.html) (a trained professional trusted to help with VA-related needs), **or**
 
 3.	[Ask for help at a VA regional office](http://www.benefits.va.gov/benefits/offices.asp)
 
-**Note:** If you're an active-duty Servicemember, you'll want to know about predischarge claims. [Learn about predischarge claims now](/disability-benefits/claims-process/claim-types/predischarge-claim/index.html).
+**Note:**  If you’re a Servicemember, find out how predischarge claims can speed up the claim decision process. [Learn about predischarge claims](/disability-benefits/claims-process/claim-types/predischarge-claim/index.html).
+
+ 
