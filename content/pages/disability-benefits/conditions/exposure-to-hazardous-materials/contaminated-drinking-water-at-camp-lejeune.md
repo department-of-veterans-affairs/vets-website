@@ -90,7 +90,7 @@ You’ll need to apply for benefits in 1 of 2 ways:
 <dd>Austin, TX 78714-9200</dd>
 </div>
 
-When you apply, please give us:
+When you apply, please provide:
 
 - Proof of your relationship to the Veteran who served on active duty for at least 30 days at Camp Lejeune (like a marriage license or a birth certificate), **and**
 
@@ -98,7 +98,7 @@ When you apply, please give us:
 
 - Medical records that show you have 1 of the 15 conditions listed above, **and**
 
-- [The Camp Lejeune Family Member Program Treating Physician Report](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b)(VA Form 10-10068b). Your doctor needs to fill it out and sign it.  
+- [The Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Your doctor needs to fill it out and sign it.  
 
 <div class="call-out" markdown="1">
 
