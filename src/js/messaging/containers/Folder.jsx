@@ -210,6 +210,26 @@ export class Folder extends React.Component {
       { label: 'Date', value: 'sentDate' }
     ];
 
+    const sortOptions = fields.map(field => {
+      return (
+        <option key={field.value} value={field.value}>
+          {field.label}
+        </option>
+      );
+    });
+
+    const sortSelect = (
+      <div className="msg-folder-sort-select">
+        <label htmlFor="folderSort" className="usa-sr-only">Sort by</label>
+        <select
+            id="folderSort"
+            value={currentSort.value}
+            onChange={(event) => this.handleSort(event.target.value)}>
+          {sortOptions}
+        </select>
+      </div>
+    );
+
     const data = this.props.messages.map(message => {
       const id = message.messageId;
       const rowClass = classNames({
@@ -227,13 +247,19 @@ export class Folder extends React.Component {
     });
 
     return (
-      <SortableTable
-          className="usa-table-borderless va-table-list msg-table-list"
-          currentSort={currentSort}
-          data={data}
-          fields={fields}
-          onSort={this.handleSort}/>
+      <div>
+        {sortSelect}
+        <SortableTable
+            className="usa-table-borderless va-table-list msg-table-list"
+            currentSort={currentSort}
+            data={data}
+            fields={fields}
+            onSort={this.handleSort}/>
+      </div>
     );
+  }
+
+  makeSortSelect() {
   }
 
   render() {

@@ -1,5 +1,5 @@
 #messaging-folder-controls {
-  margin: 0;  
+  margin: 0;
   position: relative;
   width: 100%;
 
@@ -29,6 +29,14 @@
 
 .msg-nomessages {
   margin: 0;
+}
+
+.msg-folder-sort-select {
+  padding: 0 2rem;
+
+  @media (min-width: $medium-screen) {
+    display: none;
+  }
 }
 
 .msg-table-list {
