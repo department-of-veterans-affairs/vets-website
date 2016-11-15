@@ -7,10 +7,6 @@ import { isValidField, isValidMonetaryValue } from '../../utils/validations';
 import { getMonetaryErrorMessage } from '../../utils/messages';
 import { veteranUpdateField } from '../../actions';
 
-function getErrorMessage(field, message) {
-  return isValidField(isValidMonetaryValue, field) ? undefined : message;
-}
-
 /**
  * Props:
  * `isSectionComplete` - Boolean. Marks the section as completed. Provides styles for completed sections.
