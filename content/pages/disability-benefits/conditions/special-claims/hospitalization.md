@@ -33,4 +33,4 @@ You'll need to apply for benefits. If you weren't in a VA hospital, give us your
 
 **Example:** A Veteran with a 40% service-connected disability rating for diabetes had to stay in a VA hospital after going into a diabetic coma. He needed to stay in the hospital for 25 days due to the coma and related infections. We temporarily raised his rating to 100% during his hospital stay. After he got out of the hospital, his disability rating went back to 40%.
 
-[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
+[Apply for benefits](/disability-benefits/apply-for-benefits/).
