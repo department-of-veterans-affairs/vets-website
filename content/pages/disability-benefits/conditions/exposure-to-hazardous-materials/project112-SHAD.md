@@ -12,7 +12,9 @@ If you were part of chemical and biological warfare testing for Projects 112 or 
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you were part of Projects 112 or SHAD testing from 1963 to 1974and you have an illness linked to this testing.
+You may be able to get disability benefits if:
+- You were part of Projects 112 or SHAD testing from 1963 to 1974, **and**
+- You have an illness believed to be caused by the testing
 
 ### Who's covered?
 
