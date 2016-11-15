@@ -50,9 +50,10 @@ You’ll need to apply for benefits. We consider non-Hodgkin’s lymphoma to be 
 #### Get more information
 
 Having trouble figuring out if you had contact with Agent Orange? We can help after you file a claim for disability benefits. 
-[File a claim now](/disability-benefits/claims-process/).<br />
 
-[Get help from an accredited representative](/disability-benefits/apply-for-benefits/help/).
+- [File a claim now](/disability-benefits/claims-process/).
+
+- [Get help from an accredited representative](/disability-benefits/apply-for-benefits/help/).
 
 Want to figure out where you may have come into contact with Agent Orange? [See locations linked to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
 
