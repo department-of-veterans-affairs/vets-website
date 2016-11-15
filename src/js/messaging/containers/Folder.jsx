@@ -201,7 +201,7 @@ export class Folder extends React.Component {
     const fields = [
       { label: 'most recent', value: 'sentDate', order: 'DESC' },
       { label: 'subject line', value: 'subject', order: 'ASC' },
-      { label: 'sender', value: 'senderName', order: 'ASC'  }
+      { label: 'sender', value: 'senderName', order: 'ASC' }
     ];
 
     const sortOptions = fields.map(field => {
