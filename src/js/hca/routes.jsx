@@ -73,18 +73,25 @@ const routes = [
       path="/household-information/financial-disclosure"/>,
   <Route
       component={SpouseInformationSection}
+      depends={[
+        { discloseFinancialInformation: { value: 'Y' }, maritalStatus: { value: 'Married' } },
+        { discloseFinancialInformation: { value: 'Y' }, maritalStatus: { value: 'Separated' } },
+      ]}
       key="/household-information/spouse-information"
       path="/household-information/spouse-information"/>,
   <Route
       component={ChildInformationSection}
+      depends={{ discloseFinancialInformation: { value: 'Y' } }}
       key="/household-information/child-information"
       path="/household-information/child-information"/>,
   <Route
       component={AnnualIncomeSection}
+      depends={{ discloseFinancialInformation: { value: 'Y' } }}
       key="/household-information/annual-income"
       path="/household-information/annual-income"/>,
   <Route
       component={DeductibleExpensesSection}
+      depends={{ discloseFinancialInformation: { value: 'Y' } }}
       key="/household-information/deductible-expenses"
       path="/household-information/deductible-expenses"/>,
 

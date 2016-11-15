@@ -5,7 +5,7 @@ import ErrorableRadioButtons from '../../../common/components/form-elements/Erro
 import GrowableTable from '../../../common/components/form-elements/GrowableTable.jsx';
 import Provider from './Provider.jsx';
 import { yesNo } from '../../../common/utils/options-for-select.js';
-import { isNotBlank, validateIfDirty } from '../../../common/utils/validations';
+import { isNotBlank, validateIfDirty } from '../../utils/validations';
 import { veteranUpdateField, ensureFieldsInitialized } from '../../actions';
 
 import { makeField } from '../../../common/model/fields';
