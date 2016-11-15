@@ -33,7 +33,7 @@ class ChildIncome extends React.Component {
         <ErrorableTextInput
             errorMessage={validateIfDirty(this.props.data.otherIncome, isBlank) || validateIfDirty(this.props.data.otherIncome, isValidMonetaryValue) ? undefined : message}
             label="Child Other Income Amount"
-            name="ChildOtherIncome"
+            name="childOtherIncome"
             field={this.props.data.otherIncome}
             onValueChange={(update) => {this.props.onValueChange('otherIncome', update);}}/>
       </div>
