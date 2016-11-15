@@ -29,6 +29,7 @@ export class Folder extends React.Component {
     this.handleSearch = this.handleSearch.bind(this);
     this.makeMessageNav = this.makeMessageNav.bind(this);
     this.makeMessagesTable = this.makeMessagesTable.bind(this);
+    this.makeSortMenu = this.makeSortMenu.bind(this);
     this.getQueryParams = this.getQueryParams.bind(this);
     this.buildSearchQuery = this.buildSearchQuery.bind(this);
   }
@@ -192,6 +193,49 @@ export class Folder extends React.Component {
     );
   }
 
+  makeSortMenu() {
+    if (!this.props.messages || this.props.messages.length === 0) {
+      return null;
+    }
+
+    const fields = [
+      { label: 'most recent', value: 'sentDate', order: 'DESC' },
+      { label: 'subject line', value: 'subject', order: 'ASC' },
+      { label: 'sender', value: 'senderName', order: 'ASC'  }
+    ];
+
+    const sortOptions = fields.map(field => {
+      return (
+        <option
+            key={field.value}
+            value={field.value}
+            data-order={field.order}>
+          Sort by {field.label}
+        </option>
+      );
+    });
+
+    const handleSort = (event) => {
+      const menu = event.target;
+      const selectedIndex = menu.selectedIndex;
+      const sortValue = menu.value;
+      const sortOrder = menu[selectedIndex].dataset.order;
+      this.handleSort(sortValue, sortOrder);
+    };
+
+    return (
+      <div className="msg-folder-sort-select">
+        <label htmlFor="folderSort" className="usa-sr-only">Sort by</label>
+        <select
+            id="folderSort"
+            value={this.props.sort.value}
+            onChange={handleSort}>
+          {sortOptions}
+        </select>
+      </div>
+    );
+  }
+
   makeMessagesTable() {
     const messages = this.props.messages;
     if (!messages || messages.length === 0) {
@@ -202,33 +246,11 @@ export class Folder extends React.Component {
       return <Link to={`/thread/${id}`}>{content}</Link>;
     };
 
-    const currentSort = this.props.sort;
-
     const fields = [
       { label: 'From', value: 'senderName' },
       { label: 'Subject line', value: 'subject' },
       { label: 'Date', value: 'sentDate' }
     ];
-
-    const sortOptions = fields.map(field => {
-      return (
-        <option key={field.value} value={field.value}>
-          {field.label}
-        </option>
-      );
-    });
-
-    const sortSelect = (
-      <div className="msg-folder-sort-select">
-        <label htmlFor="folderSort" className="usa-sr-only">Sort by</label>
-        <select
-            id="folderSort"
-            value={currentSort.value}
-            onChange={(event) => this.handleSort(event.target.value)}>
-          {sortOptions}
-        </select>
-      </div>
-    );
 
     const data = this.props.messages.map(message => {
       const id = message.messageId;
@@ -247,21 +269,19 @@ export class Folder extends React.Component {
     });
 
     return (
-      <div>
-        {sortSelect}
-        <SortableTable
-            className="usa-table-borderless va-table-list msg-table-list"
-            currentSort={currentSort}
-            data={data}
-            fields={fields}
-            onSort={this.handleSort}/>
-      </div>
+      <SortableTable
+          className="usa-table-borderless va-table-list msg-table-list"
+          currentSort={this.props.sort}
+          data={data}
+          fields={fields}
+          onSort={this.handleSort}/>
     );
   }
 
   render() {
     const folderName = _.get(this.props.attributes, 'name');
     const messageNav = this.makeMessageNav();
+    const sortMenu = this.makeSortMenu();
     const folderMessages = this.makeMessagesTable();
 
     let messageSearch;
@@ -292,6 +312,7 @@ export class Folder extends React.Component {
           {messageSearch}
           {messageNav}
         </div>
+        {sortMenu}
         {folderMessages}
       </div>
     );
