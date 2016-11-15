@@ -7,9 +7,9 @@ concurrence: complete
 source: http://www.bva.va.gov/index.asp
 ---
 
-If you disagree with the results of your disability benefits claim, you can file a Substantive Appeal (using VA Form 9) with your regional office.
+If you don't agree with the Statement of the Case, you can file	a	Substantive Appeal (using VA Form 9) with the Board	of Veterans’ Appeals. Make sure you read through all the instructions on the Statement of the Case. 
 
-[Download VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf).
+[Download and print out VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf).
 [Find your regional office](http://www.benefits.va.gov/benefits/offices.asp).
 
 
