@@ -252,11 +252,15 @@ export class Folder extends React.Component {
       { label: 'Date', value: 'sentDate' }
     ];
 
+    const folderId = this.props.attributes.folderId;
+    const markUnread = folderId >= 0;
+
     const data = this.props.messages.map(message => {
       const id = message.messageId;
       const rowClass = classNames({
         'messaging-message-row': true,
-        'messaging-message-row--unread': message.readReceipt === 'UNREAD'
+        'messaging-message-row--unread':
+          markUnread && message.readReceipt !== 'READ'
       });
 
       return {
