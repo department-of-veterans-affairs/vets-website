@@ -17,15 +17,14 @@ Spina bifida is a birth defect of the spinal cord that happens when a baby is st
 
 Your child may be able to get disability benefits if they were diagnosed with a form of spina bifida other than spina bifida occulta and:
   - The child's biological mother or father served in:
-    - South Vietnam (the Republic of Vietnam) any time from January 9, 1962, through May 7, 1975
-      OR
-    - The Korean Demilitarized Zone (DMZ) any time from April 1, 1968, through August 31, 1971
+    - South Vietnam (the Republic of Vietnam) any time from January 9, 1962, through May 7, 1975, **or**
+    - The Korean Demilitarized Zone (DMZ) any time from April 1, 1968, through August 31, 1971, **and**
   - The child was conceived after the parent served in either South Vietnam or the Republic of Korea
  
 
 ### For Other Birth Defects
 
-Your child may be able to get disability benefits if they have a covered birth defect that caused a permanent physical or mental disability and:
+Your child may be able to get disability benefits if they have a covered birth defect that caused a permanent physical or mental disability (a disability that doesn't go away) and:
   - The child's biological mother served in South Vietnam any time from January 9, 1962, through May 7, 1975, **and**
   - The child was conceived after the mother served in South Vietnam  
 
