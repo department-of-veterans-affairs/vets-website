@@ -1,7 +1,7 @@
 ---
 layout: page-breadcrumbs.html
 title: Non-Hodgkin’s Lymphoma and Agent Orange
-plainlanguage: 10-26-16 certified in compliance with the Plain Language Act
+plainlanguage: 10-26-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 concurrence: incomplete
 ---
@@ -51,6 +51,7 @@ You’ll need to apply for benefits. We consider non-Hodgkin’s lymphoma to be 
 
 Having trouble figuring out if you had contact with Agent Orange? We can help after you file a claim for disability benefits. 
 [File a claim now](/disability-benefits/claims-process/).
+
 [Get help from an accredited representative](/disability-benefits/apply-for-benefits/help/).
 
 Want to figure out where you may have come into contact with Agent Orange? [See locations linked to Agent Orange](/disability-benefits/conditions/exposure-to-hazardous-materials/agent-orange/).
