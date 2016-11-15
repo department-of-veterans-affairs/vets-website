@@ -28,7 +28,8 @@
   .msg-search-btn,
   [name=mquery] {
     position: relative;
-    &:focus
+
+    &:focus,
     &:hover {
       z-index: 1;
     }
