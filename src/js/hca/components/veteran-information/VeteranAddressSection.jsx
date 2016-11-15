@@ -21,6 +21,14 @@ class VeteranAddressSection extends React.Component {
             <td>{this.props.data.veteranAddress.street.value}</td>
           </tr>
           <tr>
+            <td>Line 2:</td>
+            <td>{this.props.data.veteranAddress.street2.value}</td>
+          </tr>
+          <tr>
+            <td>Line 3:</td>
+            <td>{this.props.data.veteranAddress.street3.value}</td>
+          </tr>
+          <tr>
             <td>City:</td>
             <td>{this.props.data.veteranAddress.city.value}</td>
           </tr>
