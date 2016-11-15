@@ -34,6 +34,4 @@ relatedlinks:
     description: ""
 ---
 
-If you're a Veteran, a survivor of a deceased Veteran, or a Servicemember within 180 days of ending your military service (also known as separation) and you have a disability, you can file a claim to get benefits for that disability. 
-
-The first claim you file for a certain disability is known as the original claim for that disability.
+If you're a Veteran, a survivor of a Veteran, or a Servicemember within 180 days of ending your military service and you have a disability, you can file a claim to get benefits for that disability. The first claim you file for a certain disability is known as the original claim for that disability.
