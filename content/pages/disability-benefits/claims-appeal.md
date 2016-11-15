@@ -29,7 +29,7 @@ You'll need to file an NOD within 1 year from the date on the letter letting you
 
 ### How do I file an appeal?
 
-[Complete and file VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf).
+[Complete and turn in VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf).
 
 #### What happens after I file my appeal?
 
@@ -37,7 +37,7 @@ We'll send you a written explanation (known as a Statement of the Case, or SOC) 
 
 ### What if I still don’t agree with the decision made on my claim(s) after VBA issues the SOC?
 
-If you disagree with the VBA decision, you can take your appeal to the Board of Veterans' Appeals for another look (known as a de novo, or new look, review). To do this, file a Substantive Appeal (VA Form 9).
+If you disagree with the VBA decision, you can take your appeal to the Board of Veterans' Appeals for another look (known as a de novo review or new look). To do this, file a Substantive Appeal (VA Form 9).
 
 ### When do I file a Substantive Appeal?
 
