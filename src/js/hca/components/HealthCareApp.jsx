@@ -7,11 +7,10 @@ import fetch from 'isomorphic-fetch';
 
 import IntroductionSection from './IntroductionSection.jsx';
 import Nav from './Nav.jsx';
-import ProgressButton from './ProgressButton';
+import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp } from '../actions';
-import { veteranToApplication } from '../../common/veteran';
+import { veteranToApplication } from '../../common/model/veteran';
 import * as validations from '../utils/validations';
-import config from '../../../config';
 
 // TODO(awong): Find some way to remove code when in production. It might require System.import()
 // and a promise.
@@ -135,7 +134,7 @@ class HealthCareApp extends React.Component {
       this.props.onUpdateSubmissionStatus('submitPending');
 
       // POST data to endpoint
-      fetch(`${config.apiRoot}/application`, {
+      fetch(`${window.VetsGov.api.url}/api/hca/v1/application`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',

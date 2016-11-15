@@ -2,12 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Address from '../Address';
-import DateInput from '../form-elements/DateInput';
-import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
-import FullName from '../questions/FullName';
-import Phone from '../questions/Phone';
-import SocialSecurityNumber from '../questions/SocialSecurityNumber';
-import { yesNo } from '../../utils/options-for-select.js';
+import DateInput from '../../../common/components/form-elements/DateInput';
+import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
+import FullName from '../../../common/components/questions/FullName';
+import Phone from '../../../common/components/questions/Phone';
+import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
+import { yesNo } from '../../../common/utils/options-for-select.js';
 import { isNotBlank, validateIfDirty, isValidMarriageDate } from '../../utils/validations';
 import { veteranUpdateField, updateSpouseAddress } from '../../actions';
 

@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import ErrorableCheckbox from '../form-elements/ErrorableCheckbox';
-import ErrorableSelect from '../form-elements/ErrorableSelect';
-import Gender from '../questions/Gender';
-import { maritalStatuses } from '../../utils/options-for-select.js';
+import ErrorableCheckbox from '../../../common/components/form-elements/ErrorableCheckbox';
+import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
+import Gender from '../../../common/components/questions/Gender';
+import { maritalStatuses } from '../../../common/utils/options-for-select.js';
 import { validateIfDirty, isNotBlank } from '../../utils/validations';
 import { veteranUpdateField } from '../../actions';
 
