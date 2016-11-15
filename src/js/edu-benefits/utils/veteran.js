@@ -1,5 +1,6 @@
 import _ from 'lodash/fp';
 import { makeField } from '../../common/model/fields';
+import { isValidAddressField } from '../utils/validations';
 import { dateToMoment } from './helpers';
 import moment from 'moment';
 
@@ -247,8 +248,9 @@ export function veteranToApplication(veteran) {
 
         return false;
 
+      case 'veteranAddress':
       case 'address':
-        if (value.city.value === '' && value.street.value === '') {
+        if (!isValidAddressField(value)) {
           return undefined;
         }
 
