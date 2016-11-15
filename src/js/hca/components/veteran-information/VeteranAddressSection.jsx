@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Address from '../../../common/components/questions/Address';
+import Address from '../Address';
 import { veteranUpdateField } from '../../actions';
 
 /**

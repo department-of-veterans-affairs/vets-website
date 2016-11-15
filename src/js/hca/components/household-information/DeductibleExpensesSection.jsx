@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
-import { isValidField, isValidMonetaryValue } from '../../../common/utils/validations';
+import { isValidField, isValidMonetaryValue } from '../../utils/validations';
 import { veteranUpdateField } from '../../actions';
 
 function getErrorMessage(field, message) {

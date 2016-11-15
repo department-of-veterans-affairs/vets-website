@@ -2,7 +2,7 @@ import React from 'react';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 
-import { isBlank, isValidMonetaryValue, validateIfDirty } from '../../../common/utils/validations';
+import { isBlank, isValidMonetaryValue, validateIfDirty } from '../../utils/validations';
 
 /**
  * Sub-component for children income portion AnnualIncomeSection.
