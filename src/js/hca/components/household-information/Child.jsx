@@ -8,7 +8,7 @@ import FullName from '../../../common/components/questions/FullName';
 import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
 
 import { childRelationships, yesNo } from '../../../common/utils/options-for-select.js';
-import { isNotBlank, isValidField, isValidMonetaryValue, validateIfDirty, isValidDependentDateField } from '../../../common/utils/validations';
+import { isNotBlank, isValidField, isValidMonetaryValue, validateIfDirty, isValidDependentDateField } from '../../utils/validations';
 
 // TODO: create unique nodes for each child in applicationData
 

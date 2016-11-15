@@ -5,71 +5,76 @@
   border-top: 1px solid $color-gray-lightest;
   font-size: .9em;
   overflow: hidden;
-  padding: 1rem;
+  padding: 2rem 0 1rem;
   position: relative;
   text-align: center;
   width: 100%;
 
-  a {
-    line-height: 2;
-    text-decoration: none;
+  > * {
+    display: inline-block;
+  }
+
+  &-prev {
+    @media (max-width: $medium-screen) {
+      margin-left: -3rem;
+      padding: 0 1rem 0 0;
+    }
+
+    &:not(:empty) {
+      @media (min-width: $small-screen) {
+        &::before {
+          content: '\003c\a0\a0';
+        } 
+      }
+    }
+  }
+
+  &-next {
+    @media (max-width: $medium-screen) {
+      margin-right: -3rem;
+      padding: 0 0 0 1rem;
+    }
+
+    &:not(:empty) {
+      @media (min-width: $small-screen) {
+        &::after {
+          content: '\a0\a0\003e';
+        }
+      }
+    }
   }
 
   &-prev,
-  &-next {
-    padding: 0 1rem;
+  &-next {    
+    position: relative;
+    top: -1rem;
+
     &:hover,
     &:focus {
       text-decoration: underline;
     }
-  }
 
-  &-prev,
-  &-next,
-  &-inner {
-    display: inline-block;
+    @media (min-width: $medium-screen) {
+      padding: 0 1rem;
+    }
   }
 
   &-inner {
-    line-height: 1.5;
-    max-width: 66%;
+    overflow: hidden;
     white-space: nowrap;
 
-    @media (max-width: $small-screen) {
-      @supports (display: flex) {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: nowrap;
-        align-items: center;
-      }
-      max-width: 100%;
+    @media (max-width: $medium-screen) {
+      width: 20rem;
     }
 
     @media (min-width: $large-screen) {
-      margin: 0 1rem;
-      max-width: 85%;
+      width: 40rem;
     }
   }
 
-  &-prev {
-    &::before {
-      content: '\003c\a0\a0';
-    }
-  }
-
-  &-next {
-    &::after {
-      content: '\a0\a0\003e';
-    }
-  }
-
-  @media (max-width: $small-screen) {
-    @supports (display: flex) {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: nowrap;
-      align-items: center;
-    }
+  a {
+    line-height: 2;
+    text-decoration: none;
   }
 }
 
@@ -77,8 +82,8 @@
   border-radius: 1000px;
   display: inline-block;
   height: 3rem;
-  margin: 0 .25rem;
-  min-width: 3rem;
+  margin: 0 .5rem;
+  width: 3rem;
   text-decoration: none;
 }
 
