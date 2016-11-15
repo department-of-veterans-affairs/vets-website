@@ -10,7 +10,7 @@ relatedlinks:
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/birth-defects/index.html
     title: Birth Defects (Like Spina Bifida)
   - url: /disability-benefits/conditions/special-claims/clothing/
-    title: Replacing Damaged Clothes
+    title: Replacing Damaged Clothing
   - url: /disability-benefits/conditions/special-claims/convalescence/
     title: Recovery from Surgery or an Immobilizing Disability (Convalescence)
   - url: /disability-benefits/conditions/special-claims/dentistry/
@@ -18,11 +18,11 @@ relatedlinks:
   - url: /disability-benefits/conditions/special-claims/hospitalization/
     title: Time Spent in a Hospital
   - url: /disability-benefits/conditions/special-claims/individual-unemployability
-    title: Being Unable to Work
+    title: Being Unable to Work (Individual Unemployability)
   - url: /disability-benefits/conditions/special-claims/title-38-USC-1151/
     title: Title 38 U.S.C. 1151 Disabilities
   - url: /disability-benefits/conditions/special-claims/prestabilization/
-    title: Temporary, Immediate Disability Needs 
+    title: Immediate Help for Temporary Disability Needs 
 ---
 
 
