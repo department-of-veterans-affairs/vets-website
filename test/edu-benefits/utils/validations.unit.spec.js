@@ -67,6 +67,37 @@ describe('Validations unit tests', () => {
       };
       expect(isValidDateRange(fromDate, toDate)).to.be.false;
     });
+    it('does not validate with partial dates', () => {
+      const fromDate = {
+        day: {
+          value: '',
+          dirty: true
+        },
+        month: {
+          value: 3,
+          dirty: true
+        },
+        year: {
+          value: 2006,
+          dirty: true
+        }
+      };
+      const toDate = {
+        day: {
+          value: 3,
+          dirty: true
+        },
+        month: {
+          value: 4,
+          dirty: true
+        },
+        year: {
+          value: 2008,
+          dirty: true
+        }
+      };
+      expect(isValidDateRange(fromDate, toDate)).to.be.false;
+    });
   });
   describe('isValidPage:', () => {
     describe('EmploymentHistory', () => {
