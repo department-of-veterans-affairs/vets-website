@@ -10,17 +10,17 @@ Has your clothing been damaged by your prosthetic or orthopedic device (such as 
 
 <div class="call-out" markdown="1">
 
-### Can I get disability compensation from VA?
+### Can I get disability benefits from VA?
 
-Yes, if:
+You may be able to get disability benefits if:
 
-  - Your prosthetic or orthopedic device or your skin medicine causes damage to your clothes
-  AND
+  - Your prosthetic or orthopedic device or your skin medicine causes damage to your clothes, **and**
   - You need this device or skin medicine because of an injury or illness related to your military service (called a service-connected condition)
 
 
 
 ### Who's covered?
+
 Veterans
 </div>
 
