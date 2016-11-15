@@ -6,13 +6,13 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page-pending
 ---
 
-Do you have a disability believed to be caused by your service in the military that prevents you from driving? If yes, you may be able to get disability compensation or benefits. 
+Do you have a disability related to your military service that prevents you from driving? If yes, you may be able to get disability compensation or benefits. 
 
 <div class="call-out" markdown="1">
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have a disability that's believed to be caused by your service (called a service-connected disability) **and** includes at least 1 of the following:
+You may be able to get disability benefits if you have a disability that's related to your service (called a service-connected disability) **and** includes at least 1 of the following:
   - Loss, or permanent (long-lasting) loss of use, of 1 or both feet, **or**
   - Loss, or permanent loss of use, of 1 or both hands, **or**
   - Permanent decreased vision in both eyes: 20/200 vision or less in your better eye with glasses, or greater than 20/200 vision but with a visual field defect that has reduced your peripheral vision to 20 degrees or less in your better eye, **or**
