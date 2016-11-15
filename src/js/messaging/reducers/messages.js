@@ -9,6 +9,7 @@ import {
   DELETE_DRAFT_ATTACHMENT,
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_MESSAGE_SUCCESS,
+  TOGGLE_THREAD_FORM,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -31,7 +32,8 @@ const initialState = {
   ui: {
     messagesCollapsed: new Set(),
     moveToOpened: false,
-    replyDetailsCollapsed: true
+    replyDetailsCollapsed: true,
+    formVisible: false
   }
 };
 
@@ -121,6 +123,9 @@ export default function messages(state = initialState, action) {
 
       return set('ui.messagesCollapsed', newMessagesCollapsed, state);
     }
+
+    case TOGGLE_THREAD_FORM:
+      return set('ui.formVisible', !state.ui.formVisible, state);
 
     case TOGGLE_MESSAGES_COLLAPSED: {
       // If any messages are collapsed at all, toggling

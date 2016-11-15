@@ -181,20 +181,6 @@
     padding: 1.5rem;
   }
 
-  [type="button"] {
-    margin: 0 1rem 0 0;
-
-    @media (max-width: $medium-screen) {
-      -webkit-flex: 0 0 48%;
-      flex: 0 0 48%;
-      margin: 1.5rem 0rem .5rem;
-    }
-
-    &[disabled] {
-      background: $color-gray;
-    }
-  }
-
   .messaging-btn-delete {
     @media (max-width: $medium-screen) {
       display: none;
@@ -204,6 +190,38 @@
     line-height: 3.5rem;
     margin: 0 0 0 1rem;
     padding: 0 1rem;
+  }
+}
+
+.msg-send-buttons {
+  display: inline-flex;
+  margin-right: 1rem;
+
+  [type="button"] {
+    margin: 0 1rem 0 0;
+
+    &[disabled] {
+      background: $color-gray;
+    }
+  }
+
+  @media (max-width: $medium-screen) {
+    margin: 0;
+    width: 100%;
+
+    [type="button"] {
+      -webkit-flex: 0 1 50%;
+      flex: 0 1 50%;
+      margin: 1.5rem 1rem .5rem;
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
   }
 }
 
@@ -254,14 +272,8 @@ button.msg-btn-save {
   }
 }
 
-.msg-compose-error .msg-send-group {
-  @media (min-width: $medium-screen) {
-    margin-left: 1.5rem;
-  }
-}
-
 .msg-write {
-  padding: 1rem;
+  padding: 1.5rem 1.5rem 2rem 1.5rem;
 
   @media (min-width: $medium-screen) {
     padding: 0;
@@ -422,8 +434,11 @@ button.msg-btn-save {
     padding: 1rem;
   }
 
-  .msg-write {
-    padding-left: 1.5rem;
+  .msg-write,
+  .msg-send-group {
+    @media (min-width: $medium-screen) {
+      margin-left: 1.5rem;
+    }
   }
 }
 
@@ -458,24 +473,85 @@ button.msg-btn-save {
 }
 
 #msg-reply {
-  margin: 3rem 2rem;
+  // Overrides USWDS positioning
+  .usa-input-error {
+    position: static;
+    right: auto;
+  }
 
-  .msg-reply-details {
-    border: 1px solid $color-black;
-    border-bottom-width: 0;
-    cursor: pointer;
-    padding: 1rem 1.5rem;
+  .msg-compose-error {
+    .msg-write {
+      padding: 1.5rem;
+      margin-left: 0;
+    }
 
-    label {
-      display: inline-block;
-      font-weight: bold;
-      margin: 0;
+    .msg-send-group {
+      margin-left: 0;
     }
   }
 
-  .msg-write {
+  .msg-field {
+    border-top: none;
+  }
+
+  .msg-reply-detail {
+    border-bottom: 1px solid $color-gray;
+    padding: 1.5rem;
+
     label {
+      display: inline-block;
+    }
+  }
+
+  label {
+    font-weight: bold;
+    margin: 0;
+  }
+
+  @media (min-width: $medium-screen) {
+    margin: 3rem 2rem;
+
+    .msg-reply-detail {
+      border: none;
       display: none;
+      padding: 0;
+
+      &:first-child {
+        display: block;
+      }
+    }
+
+    .msg-reply-details {
+      border: 1px solid $color-gray;
+      border-bottom: none;
+      cursor: pointer;
+      padding: 1rem;
+
+      &.opened {
+        .msg-reply-detail {
+          display: block;
+        }
+      }
+    }
+
+    .msg-field {
+      border: none;
+    }
+
+    .msg-compose-error .msg-write {
+      border-color: $color-gray;
+      border-style: solid;
+      border-width: 1px 1px 0;
+    }
+
+    .msg-write {
+      label {
+        display: none;
+      }
+    }
+
+    textarea {
+      margin: 0;
     }
   }
 }

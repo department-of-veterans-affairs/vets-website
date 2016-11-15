@@ -1,7 +1,10 @@
 #messaging-app {
   margin: auto;
   max-width: $site-max-width;
-  padding: 3rem 0;
+
+  @media (min-width: $medium-screen) {
+    padding: 3rem 0;
+  }
 }
 
 

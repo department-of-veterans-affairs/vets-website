@@ -51,12 +51,12 @@ class ThreadHeader extends React.Component {
               onClickHandler={this.props.onDeleteMessage}/>
         </div>
         <div className="messaging-thread-title">
-          <h2 className="messaging-thread-subject">{this.props.message.subject}</h2>
           <div className="messaging-thread-controls">
             {toggleThread}
             <ButtonDelete
                 onClickHandler={this.props.onDeleteMessage}/>
           </div>
+          <h2 className="messaging-thread-subject">{this.props.message.subject}</h2>
         </div>
       </div>
     );
