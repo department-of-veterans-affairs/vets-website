@@ -170,6 +170,10 @@ function isBlankDateField(field) {
   return isBlank(field.day.value) && isBlank(field.month.value) && isBlank(field.year.value);
 }
 
+function isNotBlankDateField(field) {
+  return isNotBlank(field.day.value) && isNotBlank(field.month.value) && isNotBlank(field.year.value);
+}
+
 function isValidDateField(field) {
   return isValidDate(field.day.value, field.month.value, field.year.value);
 }
@@ -190,7 +194,7 @@ function isValidFutureDateField(field) {
 }
 
 function isValidFutureOrPastDateField(field) {
-  if (!isBlankDateField(field)) {
+  if (isNotBlankDateField(field)) {
     const momentDate = dateToMoment(field);
     return momentDate.isValid() && momentDate.year() > 1900;
   }
@@ -199,14 +203,14 @@ function isValidFutureOrPastDateField(field) {
 }
 
 function isValidDateRange(fromDate, toDate) {
-  if (!isBlankDateField(fromDate) && !isBlankDateField(toDate)) {
+  if (isNotBlankDateField(fromDate) && isNotBlankDateField(toDate)) {
     const momentStart = dateToMoment(fromDate);
     const momentEnd = dateToMoment(toDate);
 
     return momentStart.isBefore(momentEnd);
   }
 
-  return true;
+  return isBlankDateField(fromDate) && isBlankDateField(toDate);
 }
 
 function isValidFullNameField(field) {
@@ -250,7 +254,7 @@ function isValidRelinquishedDate(field) {
   const pastDate = moment().subtract(2, 'years');
   const date = dateToMoment(field);
 
-  return !isBlankDateField(field) && date.isValid() && date.isAfter(pastDate);
+  return isNotBlankDateField(field) && date.isValid() && date.isAfter(pastDate);
 }
 
 function isValidBenefitsRelinquishmentPage(data) {
@@ -331,8 +335,8 @@ function isValidDirectDepositPage(data) {
 
 function isValidContributionsPage(data) {
   return !data.activeDutyRepaying ||
-    (!isBlankDateField(data.activeDutyRepayingPeriod.from)
-    && !isBlankDateField(data.activeDutyRepayingPeriod.to)
+    (isNotBlankDateField(data.activeDutyRepayingPeriod.from)
+    && isNotBlankDateField(data.activeDutyRepayingPeriod.to)
     && isValidDateRange(data.activeDutyRepayingPeriod.from, data.activeDutyRepayingPeriod.to));
 }
 
