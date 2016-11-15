@@ -11,7 +11,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 ### Other ways to apply
 
-- Call the vets.gov Help Desk 855-574-7286 Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
+- Call the vets.gov Help Desk at 855-574-7286, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
 - Mail in your application. [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf). Print the form, fill it out, and send it to this address:
 
@@ -21,14 +21,14 @@ With VA health care, you’re covered for regular checkups with your primary car
     <dd>Atlanta, GA 30329</dd>
 </dl>
 
-- Apply in person at your nearest VA medical center or clinic. Bring the 10-10EZ form with you. [Find a VA medical center or clinic near you](http://www.va.gov/directory/guide/division.asp?dnum=1).
+- Apply in person at your nearest VA medical center or clinic. Bring the 10-10EZ form with you. [Find a VA medical center or clinic near you](http://www.va.gov/directory/guide/division.asp?dnum=1).<br /> [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 <div class="call-out" markdown="1">
 
 ### What do I need to complete the 10-10EZ?
 
 - Your most recent tax return
-- Social security numbers for yourself and your qualified dependents
+- Social Security numbers for yourself and your qualified dependents
 - Account numbers for any current insurance programs in which you're already enrolled
 
 </div>
@@ -56,7 +56,7 @@ If you separated under a dishonorable discharge, visit healthcare.gov to find ou
 - You served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998
 - You served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
 
-If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you can get VA benefits. [Learn more about income limits](](http://nationalincomelimits.vaftl.us/).
+If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](](http://nationalincomelimits.vaftl.us/).
 
 ### Already enrolled?
 
