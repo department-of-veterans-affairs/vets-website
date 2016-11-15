@@ -40,8 +40,6 @@
 }
 
 .messaging-message-row {
-  position: relative;
-
   &--unread {
     font-weight: bold;
   }
@@ -66,6 +64,8 @@
   }
 
   @media (max-width: $medium-screen) {
+    position: relative;
+
     a {
       overflow: hidden;
       padding: 2rem;
