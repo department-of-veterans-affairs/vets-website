@@ -21,7 +21,7 @@ To get benefits, your chronic (long-lasting) illness or other condition must hav
 -	Been given a disability rating (measuring how severe your disability is) of 10% or more, **and**
 -	Not been caused by anything except your service in Southwest Asia or Afghanistan
 
-You also must've been discharged under conditions other than dishonorable to qualify for benefits.
+You also must have been discharged under conditions other than dishonorable to qualify for benefits.
 
 ##### If you served in Afghanistan:
 
