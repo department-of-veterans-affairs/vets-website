@@ -1,3 +1,7 @@
+import _ from 'lodash/fp';
+import environment from '../../common/helpers/environment';
+import { SET_UNAUTHORIZED } from '../actions';
+
 const evidenceGathering = 'Evidence gathering, review, and decision';
 
 const phaseMap = {
@@ -59,12 +63,12 @@ export function getUserPhase(phase) {
   return phase - 3;
 }
 
-export function getSubmittedItemDate(item) {
+export function getItemDate(item) {
   if (item.receivedDate) {
     return item.receivedDate;
   } else if (item.documents && item.documents.length) {
     return item.documents[item.documents.length - 1].uploadDate;
-  } else if (item.type === 'other_documents_list') {
+  } else if (item.type === 'other_documents_list' && item.uploadDate) {
     return item.uploadDate;
   }
 
@@ -80,7 +84,7 @@ function isEventOrPrimaryPhase(event) {
     return event.phase <= 3 || event.phase >= 7;
   }
 
-  return !!getSubmittedItemDate(event);
+  return !!getItemDate(event);
 }
 
 export function groupTimelineActivity(events) {
@@ -198,4 +202,49 @@ export function isClaimComplete(claim) {
 
 export function itemsNeedingAttentionFromVet(events) {
   return events.filter(event => event.status === 'NEEDED' && event.type === 'still_need_from_you_list').length;
+}
+
+export function makeAuthRequest(url, userOptions, dispatch, onSuccess, onError) {
+  const options = _.merge({
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'X-Key-Inflection': 'camel',
+      Authorization: `Token token=${sessionStorage.userToken}`
+    },
+    responseType: 'json',
+  }, userOptions);
+
+  fetch(`${environment.API_URL}${url}`, options)
+    .then((resp) => {
+      if (resp.ok) {
+        if (options.responseType) {
+          return resp[options.responseType]();
+        }
+        return Promise.resolve();
+      }
+
+      return Promise.reject(resp);
+    })
+    .then(onSuccess)
+    .catch((resp) => {
+      if (resp.status === 401) {
+        dispatch({
+          type: SET_UNAUTHORIZED
+        });
+      } else {
+        onError(resp);
+      }
+    });
+}
+
+export function getCompletedDate(claim) {
+  if (claim.attributes && claim.attributes.eventsTimeline) {
+    const completedEvents = claim.attributes.eventsTimeline.filter(event => event.type === 'completed');
+    if (completedEvents.length) {
+      return completedEvents[0].date;
+    }
+  }
+
+  return null;
 }

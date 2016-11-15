@@ -19,7 +19,7 @@ export default class MilitaryServiceTour extends React.Component {
           <div className="edu-benefits-first-label">
             <ErrorableTextInput required
                 errorMessage={validateIfDirty(tour.serviceBranch, isNotBlank) ? undefined : 'Please select a service branch'}
-                label="Branch of service"
+                label="Branch of service:"
                 name="serviceBranch"
                 field={tour.serviceBranch}
                 onValueChange={(update) => {onValueChange('serviceBranch', update);}}/>
@@ -32,7 +32,7 @@ export default class MilitaryServiceTour extends React.Component {
           <DateInput required
               errorMessage="Please provide a valid date"
               validation={validateIfDirtyDateObj(tour.dateRange.from, isValidDateField)}
-              label="Start of service period"
+              label="Start of service period:"
               name="fromDate"
               day={tour.dateRange.from.day}
               month={tour.dateRange.from.month}
@@ -54,13 +54,13 @@ export default class MilitaryServiceTour extends React.Component {
               additionalClass="edu-benefits-apply-group">
             <ErrorableCheckbox
                 className="form-field-alert"
-                label="Apply this service period to the benefit I'm applying for."
+                label="Apply this service period to the benefit I’m applying for."
                 name="applyPeriodToSelected"
                 checked={tour.applyPeriodToSelected}
                 onValueChange={(update) => {onValueChange('applyPeriodToSelected', update);}}/>
             <div>
               <ErrorableTextarea
-                  label="Please tell us which benefit you’d like this service applied to."
+                  label="Please explain how you’d like this service period applied."
                   name="benefitsToApplyTo"
                   field={tour.benefitsToApplyTo}
                   onValueChange={(update) => {onValueChange('benefitsToApplyTo', update);}}/>

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import {
   groupTimelineActivity,
@@ -11,9 +12,10 @@ import {
   getHistoryPhaseDescription,
   getPhaseDescription,
   truncateDescription,
-  getSubmittedItemDate,
+  getItemDate,
   isClaimComplete,
-  itemsNeedingAttentionFromVet
+  itemsNeedingAttentionFromVet,
+  makeAuthRequest
 } from '../../../src/js/disability-benefits/utils/helpers';
 
 describe('Disability benefits helpers: ', () => {
@@ -29,6 +31,18 @@ describe('Disability benefits helpers: ', () => {
       const phaseActivity = groupTimelineActivity(events);
 
       expect(phaseActivity[1][0].type).to.equal('filed');
+    });
+    it('should filter out events without a date', () => {
+      const events = [
+        {
+          type: 'filed',
+          date: null
+        }
+      ];
+
+      const phaseActivity = groupTimelineActivity(events);
+
+      expect(phaseActivity).to.be.empty;
     });
     it('should group events after phase 1 into phase 2', () => {
       const events = [
@@ -280,9 +294,9 @@ describe('Disability benefits helpers: ', () => {
       expect(desc).to.equal('Initial review');
     });
   });
-  describe('getSubmittedItemDate', () => {
+  describe('getItemDate', () => {
     it('should use the received date', () => {
-      const date = getSubmittedItemDate({
+      const date = getItemDate({
         receivedDate: '2010-01-01',
         documents: [
           { uploadDate: '2011-01-01' }
@@ -293,7 +307,7 @@ describe('Disability benefits helpers: ', () => {
       expect(date).to.equal('2010-01-01');
     });
     it('should use the last document upload date', () => {
-      const date = getSubmittedItemDate({
+      const date = getItemDate({
         receivedDate: null,
         documents: [
           { uploadDate: '2011-01-01' },
@@ -305,7 +319,7 @@ describe('Disability benefits helpers: ', () => {
       expect(date).to.equal('2012-01-01');
     });
     it('should use the date', () => {
-      const date = getSubmittedItemDate({
+      const date = getItemDate({
         receivedDate: null,
         documents: [
         ],
@@ -315,7 +329,7 @@ describe('Disability benefits helpers: ', () => {
       expect(date).to.equal('2013-01-01');
     });
     it('should use the upload date', () => {
-      const date = getSubmittedItemDate({
+      const date = getItemDate({
         uploadDate: '2014-01-01',
         type: 'other_documents_list',
         date: '2013-01-01'
@@ -362,6 +376,64 @@ describe('Disability benefits helpers: ', () => {
       ]);
 
       expect(itemsNeeded).to.equal(1);
+    });
+  });
+  describe('makeAuthRequest', () => {
+    let fetchMock = sinon.stub();
+    let oldFetch = global.fetch;
+    beforeEach(() => {
+      oldFetch = global.fetch;
+      fetchMock = sinon.stub();
+      global.fetch = fetchMock;
+    });
+    afterEach(() => {
+      global.fetch = oldFetch;
+    });
+    it('should make a fetch request', (done) => {
+      global.sessionStorage = { userToken: '1234' };
+      fetchMock.returns({
+        then: (fn) => fn({ ok: true, json: () => Promise.resolve() })
+      });
+
+      const onSuccess = () => done();
+      makeAuthRequest('/testing', null, sinon.spy(), onSuccess);
+
+      expect(fetchMock.called).to.be.true;
+      expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
+      expect(fetchMock.firstCall.args[1].method).to.equal('GET');
+    });
+    it('should reject promise when there is an error', (done) => {
+      global.sessionStorage = { userToken: '1234' };
+      fetchMock.returns({
+        then: (fn) => fn({ ok: false, status: 500, json: () => Promise.resolve() })
+      });
+
+      const onError = (resp) => {
+        expect(resp.ok).to.be.false;
+        done();
+      };
+      makeAuthRequest('/testing', null, sinon.spy(), sinon.spy(), onError);
+
+      expect(fetchMock.called).to.be.true;
+      expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
+      expect(fetchMock.firstCall.args[1].method).to.equal('GET');
+    });
+    it('should dispatch auth error', (done) => {
+      global.sessionStorage = { userToken: '1234' };
+      fetchMock.returns({
+        then: (fn) => fn({ ok: false, status: 401, json: () => Promise.resolve() })
+      });
+
+      const onError = sinon.spy();
+      const onSuccess = sinon.spy();
+      const dispatch = (action) => {
+        expect(action.type).to.equal('SET_UNAUTHORIZED');
+        expect(onError.called).to.be.false;
+        expect(onSuccess.called).to.be.false;
+        done();
+      };
+
+      makeAuthRequest('/testing', null, dispatch, onSuccess, onError);
     });
   });
 });

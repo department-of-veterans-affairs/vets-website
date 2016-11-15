@@ -1,5 +1,6 @@
-import environment from '../../common/helpers/environment';
 import { FineUploaderBasic } from 'fine-uploader/lib/core';
+import environment from '../../common/helpers/environment';
+import { makeAuthRequest } from '../utils/helpers';
 
 export const SET_CLAIMS = 'SET_CLAIMS';
 export const CHANGE_CLAIMS_PAGE = 'CHANGE_CLAIMS_PAGE';
@@ -9,6 +10,7 @@ export const SUBMIT_DECISION_REQUEST = 'SUBMIT_DECISION_REQUEST';
 export const SET_DECISION_REQUESTED = 'SET_DECISION_REQUESTED';
 export const SET_DECISION_REQUEST_ERROR = 'SET_DECISION_REQUEST_ERROR';
 export const SET_UNAVAILABLE = 'SET_UNAVAILABLE';
+export const SET_UNAUTHORIZED = 'SET_UNAUTHORIZED';
 export const RESET_UPLOADS = 'RESET_UPLOADS';
 export const ADD_FILE = 'ADD_FILE';
 export const REMOVE_FILE = 'REMOVE_FILE';
@@ -35,25 +37,12 @@ export function setNotification(message) {
 
 export function getClaims() {
   return (dispatch) => {
-    fetch(`${environment.API_URL}/v0/disability_claims`, {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${localStorage.userToken}`
-      }
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
-        }
-
-        return Promise.reject(res.statusText);
-      })
-      .then(
-        claims => dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta }),
-        () => dispatch({ type: SET_UNAVAILABLE })
-      );
+    makeAuthRequest('/v0/disability_claims',
+      null,
+      dispatch,
+      claims => dispatch({ type: SET_CLAIMS, claims: claims.data, meta: claims.meta }),
+      () => dispatch({ type: SET_UNAVAILABLE })
+    );
   };
 }
 
@@ -70,30 +59,23 @@ export function setUnavailable() {
   };
 }
 
-export function getClaimDetail(id) {
+export function getClaimDetail(id, router) {
   return (dispatch) => {
     dispatch({
       type: GET_CLAIM_DETAIL
     });
-    fetch(`${environment.API_URL}/v0/disability_claims/${id}`, {
-      method: 'GET',
-      mode: 'cors',
-      headers: {
-        'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${localStorage.userToken}`
-      }
-    })
-      .then(res => {
-        if (res.ok) {
-          return res.json();
+    makeAuthRequest(`/v0/disability_claims/${id}`,
+      null,
+      dispatch,
+      resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
+      resp => {
+        if (resp.status !== 404 || !router) {
+          dispatch({ type: SET_UNAVAILABLE });
+        } else {
+          router.replace('your-claims');
         }
-
-        return Promise.reject(res.statusText);
-      })
-      .then(
-        resp => dispatch({ type: SET_CLAIM_DETAIL, claim: resp.data, meta: resp.meta }),
-        () => dispatch({ type: SET_UNAVAILABLE })
-      );
+      }
+    );
   };
 }
 
@@ -102,29 +84,20 @@ export function submitRequest(id) {
     dispatch({
       type: SUBMIT_DECISION_REQUEST
     });
-    fetch(`${environment.API_URL}/v0/disability_claims/${id}/request_decision`, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'X-Key-Inflection': 'camel',
-        Authorization: `Token token=${localStorage.userToken}`
-      }
-    })
-      .then(res => {
-        if (!res.ok) {
-          return Promise.reject(res.statusText);
-        }
-
-        return Promise.resolve();
-      })
-      .then(() => {
+    makeAuthRequest(`/v0/disability_claims/${id}/request_decision`,
+      { method: 'POST' },
+      dispatch,
+      () => {
         dispatch({ type: SET_DECISION_REQUESTED });
         dispatch(setNotification({
           title: 'Request received',
           body: 'Thank you. We have your claim request and will make a decision.'
         }));
-      })
-      .catch(error => dispatch({ type: SET_DECISION_REQUEST_ERROR, error }));
+      },
+      error => {
+        dispatch({ type: SET_DECISION_REQUEST_ERROR, error });
+      }
+    );
   };
 }
 
@@ -175,7 +148,7 @@ export function submitFiles(claimId, trackedItem, files) {
         inputName: 'file',
         customHeaders: {
           'X-Key-Inflection': 'camel',
-          Authorization: `Token token=${localStorage.userToken}`
+          Authorization: `Token token=${sessionStorage.userToken}`
         }
       },
       cors: {
@@ -219,9 +192,15 @@ export function submitFiles(claimId, trackedItem, files) {
           });
         },
         onError: (id, name, reason) => {
+          const errorCode = reason.substr(-3);
           // this is a little hackish, but uploader expects a json response
-          if (!reason.substr(-3).startsWith('2')) {
+          if (!errorCode.startsWith('2')) {
             hasError = true;
+          }
+          if (errorCode === '401') {
+            dispatch({
+              type: SET_UNAUTHORIZED
+            });
           }
         }
       }

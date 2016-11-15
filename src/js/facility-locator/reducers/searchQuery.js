@@ -8,11 +8,16 @@ const INITIAL_STATE = {
     latitude: 38.8976763,
     longitude: -77.03653,
   },
-  bounds: null,
+  bounds: [
+    -77.53653,
+    38.3976763,
+    -76.53653,
+    39.3976763,
+  ],
   context: 20500,
   inProgress: false,
   currentPage: 1,
-  zoomLevel: 12,
+  zoomLevel: 11,
 };
 
 export default function (state = INITIAL_STATE, action) {

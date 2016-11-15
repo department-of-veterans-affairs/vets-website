@@ -13,7 +13,7 @@ If you haven’t gotten your decision notice:
 - [Check your status on eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=va-letters), or
 - [Contact your local VA or eligibility office](/facility-locator/)
 
-#### When will I get my first payment? 
+#### When will I get my first payment?
 
 If your decision notice shows at least a 10% disability rating, you'll get your first payment within 15 days. We'll pay you either by direct deposit or check. If you don’t get a payment after 15 days, please call the Veterans Help Line at 800-827-1000.  
 
@@ -40,17 +40,5 @@ If you disagree with your disability rating, you can file an appeal. You'll need
 - **If you can’t work due to your disability caused by service in the military**—even without a 100% rating—you can apply for individual unemployability. [Learn more about individual unemployability](/disability-benefits/conditions/special-claims/individual-unemployability/).
 - **If you need special clothing because of your injuries**, you may be able to get money to buy new clothes. [Learn more about the clothing allowance benefit](/disability-benefits/conditions/special-claims/clothing/).
 
-
-#### How do I make sure I keep getting my benefits?
-
-To make sure you keep getting your benefits, you'll need to update your information with us any time something happens in your life that might affect your disability rating or payment, like:
-- You move and have a new address
-- You get married or divorced—or your spouse dies
-- You have a child
-- Your disability gets worse
-
-#### What do I do if my disability gets worse?
-
-If your disability gets worse, you can file a claim to get more benefits. To update your information:
-- [Go to eBenefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation), or
-- [Contact your local VA or eligibility office](/facility-locator/).
+#### Keep in touch
+It's important to update your information with VA when you have a new address, a change to your marital status, or any other life change that could affect your rating or payment. If your condition becomes worse, you may file a claim for an increase in benefits. Update your information through [eBenefits]( https://www.ebenefits.va.gov/ebenefits/about/feature?feature=dependent-compensation) or by contacting your [local VA office or eligibility office](/facilities/).
