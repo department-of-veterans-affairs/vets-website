@@ -36,7 +36,7 @@ template: 6-info-page
 
 <div class="call-out" markdown="1">
 
-Already getting disability benefits but think you may now qualify for more? Find out by filing a new claim.
+If you are already getting disability benefits but think you may qualify for more, you can file a new claim.
 
 When you file a new claim, you may get:
 - More financial support 
