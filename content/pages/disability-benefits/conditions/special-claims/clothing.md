@@ -1,6 +1,6 @@
 ---
 layout: page-breadcrumbs.html
-title: Replacing Damaged Clothes
+title: Replacing Damaged Clothing
 concurrence: incomplete
 plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
