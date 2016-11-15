@@ -45,13 +45,8 @@ Filing your claim as you get ready to leave the military may speed up the claim 
 
 ### How to file your claim
 
-Are you between 60 and 180 days from separation?
+Are you between 1 and 59 days from separation? [Begin a Quick Start claim](/disability-benefits/claims-process/claim-types/predischarge-claim/quick-start/index.html).
 
-[Enter the Benefit Delivery at Discharge (BDD) program](/disability-benefits/claims-process/claim-types/predischarge-claim/bdd/index.html).
+Are you between 60 and 180 days from separation? [Enter the Benefit Delivery at Discharge (BDD) program](/disability-benefits/claims-process/claim-types/predischarge-claim/bdd/index.html).
 
-Are you between 1 and 59 days from separation?
-[Begin a Quick Start claim](/disability-benefits/claims-process/claim-types/predischarge-claim/quick-start/index.html).
-
-Are you stationed overseas?
-
-[Go to an intake site in Korea or Germany](/disability-benefits/claims-process/claim-types/predischarge-claim/overseas/index.html).
+Are you stationed overseas? [Go to an intake site in Korea or Germany](/disability-benefits/claims-process/claim-types/predischarge-claim/overseas/index.html).
