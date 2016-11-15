@@ -7,25 +7,26 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-Are you recovering from surgery or a disability related to your military service that's left you unable to move (called an immobilizing  disability)? You may be able to get a temporary 100% disability rating and VA support (known as disability compensation or benefits).
+Are you recovering from surgery or a disability related to your military service that's left you unable to move (called an immobilizing  disability)? You may be able to get a temporary 100% disability rating and disability compensation or benefits.
 
 <div class="call-out" markdown="1">
 
-### Can I get disability compensation from VA?
+### Can I get disability benefits from VA?
 
-Yes, if all of the following are true:
+You may be able to get disability benefits if you've had a surgery or other treatment performed at a VA hospital, approved hospital, or outpatient center for a disability related to your military service (called a service-connected disability).
 
-  -	You've had a surgery or other treatment performed at a VA hospital, approved hospital, or outpatient center for a disability related to your military service (called a service-connected disability)
-  -	The surgery required a recovery time of at least 1 month **or** reports show that the surgery or treatment was for a service-connected disability
+**If you had surgery**, you may be able to get disability benefits if:
+  -	The surgery required a recovery time of at least 1 month **or** reports show that the surgery or treatment was for a service-connected disability, **and**
   -	The surgery resulted in severe issues, such as:
       - Surgical wounds that haven't healed all the way
       - Stumps of recent amputations
       - Being unable to move due to being put in splints or casts to help with healing (known as therapeutic immobilizations)
       - Being unable to leave your house (known as house confinement)
       - Being required to use a wheelchair or crutches
-      OR
-      -	1 major joint or more was immobilized by a cast without surgery
+ 
+**If you didn't have surgery**, you may still be able to get disability benefits if you had 1 or more major joints immobilized by a cast.
 
+<br>
 ### Who's covered?
 Veterans
 </div>
@@ -33,8 +34,8 @@ Veterans
 ### What kind of disability benefits can I get?
 
 -	Health care
-- Added financial support while you recover
--	A temporary 100% disability rating
+- Added compensation (payments) while you recover
+-	A temporary 100% disability rating (a rating that measures how bad your disability is and helps us decide your level of benefits)
 
 -----
 
