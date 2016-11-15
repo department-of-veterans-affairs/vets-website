@@ -9,7 +9,7 @@ relatedlinks:
     title: PTSD
     description: Learn about the symptoms of post-traumatic stress—and how to get help.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/
-    title: Contact with Toxins and Other Dangers
+    title: Contact with Harmful Chemicals or Other Hazardous Materials
     description: Find out if you may have had contact with toxic chemicals or other dangers (like Agent Orange or radiation)—and what to do if you have. 
   - url: /disability-benefits/conditions/pow/
     title: Prisoners of War (<abbr>POW</abbr>s)
