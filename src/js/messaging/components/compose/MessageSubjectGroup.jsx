@@ -25,27 +25,23 @@ class MessageSubjectGroup extends React.Component {
     );
 
     return (
-      <fieldset>
+      <fieldset className="msg-subject-fieldset">
         <div className={errItemClass}>
-          <div className="msg-subject-group-inner">
-            <legend>Subject line:</legend>
-            <div>
-              {errMessage}
-              <div className="msg-subject-line">
-                <MessageCategory
-                    categories={this.props.categories}
-                    category={this.props.category}
-                    cssClass="msg-category"
-                    onValueChange={this.props.onCategoryChange}/>
-                <MessageSubject
-                    charMax={this.props.charMax}
-                    cssClass="msg-subject"
-                    onValueChange={this.props.onSubjectChange}
-                    placeholder={this.props.subjectPlaceholder}
-                    required={this.props.subjectRequired}
-                    subject={this.props.subject}/>
-              </div>
-            </div>
+          <legend>Subject line:</legend>
+          {errMessage}
+          <div className="msg-subject-line">
+            <MessageCategory
+                categories={this.props.categories}
+                category={this.props.category}
+                cssClass="msg-category"
+                onValueChange={this.props.onCategoryChange}/>
+            <MessageSubject
+                charMax={this.props.charMax}
+                cssClass="msg-subject"
+                onValueChange={this.props.onSubjectChange}
+                placeholder={this.props.subjectPlaceholder}
+                required={this.props.subjectRequired}
+                subject={this.props.subject}/>
           </div>
         </div>
       </fieldset>

@@ -31,6 +31,7 @@ class ReplyForm extends React.Component {
       <form id="msg-reply">
         {replyDetails}
         <MessageWriteGroup
+            cssClass="msg-reply-message"
             allowedMimeTypes={allowedMimeTypes}
             errorMessage={validations.isValidMessageBody(reply.body) ? undefined : composeMessage.errors.message}
             files={reply.attachments}
