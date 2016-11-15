@@ -69,32 +69,16 @@ module.exports = E2eHelpers.createE2eTest(
     client.assert.cssClassPresent('.hca-process li.step:nth-child(3)', 'section-complete');
 
     // Financial disclosure page.
-    client.expect.element('input[name="understandsFinancialDisclosure"] + label').to.be.visible;
+    client.expect.element('input[name="discloseFinancialInformation-0"] + label').to.be.visible;
     HcaHelpers.completeFinancialDisclosure(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/financial-disclosure');
 
-    // Spouse information Page.
-    client.expect.element('select[name="maritalStatus"]').to.be.visible;
-    HcaHelpers.completeSpouseInformation(client, HcaHelpers.testValues, true);
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/spouse-information');
-
-    // Child Information Page.
-    client.expect.element('input[name="hasChildrenToReport-0"] + label').to.be.visible;
-    HcaHelpers.completeChildInformation(client, HcaHelpers.testValues, true);
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/child-information');
-
-    // Annual Income Page.
-    client.expect.element('input[name="veteranGrossIncome"]').to.be.visible;
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/annual-income');
-
-    // Deductible Expenses Page.
-    client.expect.element('input[name="deductibleMedicalExpenses"]').to.be.visible;
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/deductible-expenses');
+    // Selecting "no" for financial disclosures here causes the application to skip the next several sections:
+    // Spouse information Page
+    // Child Information Page
+    // Annual Income Page
+    // Deductible Expenses Page
 
     client.assert.cssClassPresent('.hca-process li.step:nth-child(4)', 'section-complete');
 

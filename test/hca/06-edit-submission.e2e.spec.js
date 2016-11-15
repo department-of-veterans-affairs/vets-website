@@ -79,32 +79,16 @@ module.exports = E2eHelpers.createE2eTest(
     E2eHelpers.expectNavigateAwayFrom(client, '/va-benefits/basic-information');
 
     // Financial disclosure page.
-    client.expect.element('input[name="understandsFinancialDisclosure"] + label').to.be.visible;
+    client.expect.element('input[name="discloseFinancialInformation-0"] + label').to.be.visible;
     HcaHelpers.completeFinancialDisclosure(client, HcaHelpers.testValues, true);
     client.click('.form-panel .usa-button-primary');
     E2eHelpers.expectNavigateAwayFrom(client, '/household-information/financial-disclosure');
 
-    // Spouse information Page.
-    client.expect.element('select[name="maritalStatus"]').to.be.visible;
-    HcaHelpers.completeSpouseInformation(client, HcaHelpers.testValues, true);
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/spouse-information');
-
-    // Child Information Page.
-    client.expect.element('input[name="hasChildrenToReport-0"] + label').to.be.visible;
-    HcaHelpers.completeChildInformation(client, HcaHelpers.testValues, true);
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/child-information');
-
-    // Annual Income Page.
-    client.expect.element('input[name="veteranGrossIncome"]').to.be.visible;
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/annual-income');
-
-    // Deductible Expenses Page.
-    client.expect.element('input[name="deductibleMedicalExpenses"]').to.be.visible;
-    client.click('.form-panel .usa-button-primary');
-    E2eHelpers.expectNavigateAwayFrom(client, '/household-information/deductible-expenses');
+    // Selecting "no" for financial disclosures here causes the application to skip the next several sections:
+    // Spouse information Page
+    // Child Information Page
+    // Annual Income Page
+    // Deductible Expenses Page
 
     // Medicare and Medicaid Page.
     client.expect.element('input[name="isMedicaidEligible-0"] + label').to.be.visible;
@@ -184,12 +168,10 @@ module.exports = E2eHelpers.createE2eTest(
     nextSection(client);
 
     // Edit spouse information
-    vetInfoCopy.maritalStatus = 'Separated';
-    vetInfoCopy.dateOfMarriage.year = '';
-    vetInfoCopy.spouseDateOfBirth.year = '';
+    vetInfoCopy.spouseFullName.first = 'Anne';
     editSection(client);
     HcaHelpers.completeSpouseInformation(client, vetInfoCopy, true);
-    verifyEdit(client, 'Separated');
+    verifyEdit(client, 'Anne Hathaway');
 
     client.click('.form-panel .usa-button-primary');
     client.expect.element('.js-test-location').attribute('data-location')

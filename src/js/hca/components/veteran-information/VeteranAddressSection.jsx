@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import Address from '../../../common/components/questions/Address';
+import Address from '../Address';
 import { veteranUpdateField } from '../../actions';
 
 /**
@@ -19,6 +19,14 @@ class VeteranAddressSection extends React.Component {
           <tr>
             <td>Street:</td>
             <td>{this.props.data.veteranAddress.street.value}</td>
+          </tr>
+          <tr>
+            <td>Line 2:</td>
+            <td>{this.props.data.veteranAddress.street2.value}</td>
+          </tr>
+          <tr>
+            <td>Line 3:</td>
+            <td>{this.props.data.veteranAddress.street3.value}</td>
           </tr>
           <tr>
             <td>City:</td>
