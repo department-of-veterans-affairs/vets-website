@@ -50,7 +50,7 @@ class ModalCreateFolder extends React.Component {
 
         <div className="va-modal-button-group">
           <button
-              disabled={error.hasError}
+              disabled={error.hasError || !this.props.newFolderName.dirty}
               type="submit">Create</button>
           <button
               className="usa-button-outline"

@@ -71,7 +71,7 @@ class DateInput extends React.Component {
     if (this.props.required) {
       isValid = validateIfDirtyDate(day, month, year, dateValidator) && (this.props.validation !== undefined ? this.props.validation : true);
     } else {
-      isValid = (isBlank(day.value) && isBlank(month.value) && isBlank(year.value)) ||
+      isValid = ((isBlank(day.value) || this.props.hideDayField) && isBlank(month.value) && isBlank(year.value)) ||
         (validateIfDirtyDate(day, month, year, dateValidator) && (this.props.validation !== undefined ? this.props.validation : true));
     }
 
