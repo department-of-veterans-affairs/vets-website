@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
-import { isValidName, isBlank } from '../../../common/utils/validations';
+import { isValidName, isBlank } from '../../utils/validations';
 
 class MothersMaidenName extends React.Component {
   constructor() {
@@ -30,7 +30,7 @@ class MothersMaidenName extends React.Component {
       <div>
         <ErrorableTextInput
             errorMessage={this.validateRequiredFields(this.props.value, this.props.required) ? undefined : 'Please enter a valid name'}
-            label="Mother’s maiden mame"
+            label="Mother’s maiden name"
             name="mothersMaidenName"
             field={this.props.value}
             onValueChange={(update) => {this.handleChange(update);}}/>
