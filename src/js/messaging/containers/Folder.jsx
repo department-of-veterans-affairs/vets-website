@@ -259,9 +259,6 @@ export class Folder extends React.Component {
     );
   }
 
-  makeSortSelect() {
-  }
-
   render() {
     const folderName = _.get(this.props.attributes, 'name');
     const messageNav = this.makeMessageNav();
@@ -290,9 +287,9 @@ export class Folder extends React.Component {
           </button>
           <h2>{folderName}</h2>
         </div>
-        {messageSearch}
         <div id="messaging-folder-controls">
           <ComposeButton/>
+          {messageSearch}
           {messageNav}
         </div>
         {folderMessages}

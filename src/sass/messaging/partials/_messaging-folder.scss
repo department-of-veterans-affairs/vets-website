@@ -32,7 +32,7 @@
 }
 
 .msg-folder-sort-select {
-  padding: 0 2rem;
+  padding: 1rem 2rem 2rem;
 
   @media (min-width: $medium-screen) {
     display: none;
@@ -40,6 +40,8 @@
 }
 
 .msg-table-list {
+  margin-top: 0;
+
   @media (max-width: $medium-screen) {
     border-color: $color-gray-light;
     border-style: solid;
