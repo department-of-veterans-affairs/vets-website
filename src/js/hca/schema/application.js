@@ -1,6 +1,6 @@
 // Relocate options-for-select.
-const options = require('../../utils/options-for-select');
-import _ from 'lodash';
+const options = require('../../client/utils/options-for-select');
+const _ = require('lodash');
 
 const states = _.uniq(_.flatten(_.values(options.states)).map(object => object.value));
 const countries = options.countries.map(object => object.value);
@@ -48,6 +48,14 @@ module.exports = {
         street: {
           type: 'string',
           minLength: 1,
+          maxLength: 50
+        },
+        street2: {
+          type: 'string',
+          maxLength: 50
+        },
+        street3: {
+          type: 'string',
           maxLength: 50
         },
         city: {
@@ -243,7 +251,8 @@ module.exports = {
     },
     email: {
       type: 'string',
-      pattern: '^(([a-zA-Z]|[0-9])|([-]|[_]|[.]))+[@](([a-zA-Z0-9])|([-])){2,63}[.](([a-zA-Z0-9]){2,63})+$' // Email pattern from RegEx 101 https://regex101.com/
+      // regex from client/validations.js' isValidEmail, with some extra escaping
+      pattern: '^(([^<>()\\[\\]\\\\.,;:\\s@"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@"]+)*)|(".+"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$'
     },
     homePhone: {
       $ref: '#/definitions/phone'
@@ -251,7 +260,7 @@ module.exports = {
     mobilePhone: {
       $ref: '#/definitions/phone'
     },
-    understandsFinancialDisclosure: {
+    discloseFinancialInformation: {
       type: 'boolean'
     },
     spouseFullName: {
@@ -387,5 +396,16 @@ module.exports = {
     'lastEntryDate',
     'lastDischargeDate',
     'dischargeType'
-  ]
+  ],
+  dependencies: {
+    veteranGrossIncome: ['discloseFinancialInformation'],
+    veteranNetIncome: ['discloseFinancialInformation'],
+    veteranOtherIncome: ['discloseFinancialInformation'],
+    spouseGrossIncome: ['discloseFinancialInformation'],
+    spouseNetIncome: ['discloseFinancialInformation'],
+    spouseOtherIncome: ['discloseFinancialInformation'],
+    deductibleMedicalExpenses: ['discloseFinancialInformation'],
+    deductibleFuneralExpenses: ['discloseFinancialInformation'],
+    deductibleEducationExpenses: ['discloseFinancialInformation']
+  }
 };
