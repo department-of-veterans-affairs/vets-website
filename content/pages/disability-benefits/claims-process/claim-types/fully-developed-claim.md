@@ -37,6 +37,6 @@ relatedlinks:
 You can use the Fully Developed Claims (FDC) program to get a faster decision on your disability benefits claim. With this program, you send in all the evidence (supporting documents) you have—or can easily get—when you file your claim. This may include:
 - Records of medical treatment you've received for the claimed illness or injury (also known as a condition) while serving in the military
 - Military personnel records that relate to the claimed condition
-- Private medical records you may have related to the claimed condition (like reports from your own doctor or X-rays or other test results from a non-VA hospital or other treatment center)
+- Private medical records you may have related to the claimed condition like reports from your own doctor or X-rays or other test results from a non-VA hospital or other treatment center
 
 We consider your disability benefits claim fully developed when you've sent us all evidence and the only help you need from us is to get your federal records and arrange for any added health exams or doctor's opinions that may be needed.
