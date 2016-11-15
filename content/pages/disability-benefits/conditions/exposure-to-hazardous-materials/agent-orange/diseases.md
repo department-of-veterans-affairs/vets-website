@@ -29,7 +29,6 @@ We believe the following illnesses are likely caused by contact with Agent Orang
 - **[Peripheral Neuropathy, Early Onset](http://www.publichealth.va.gov/exposures/agentorange/conditions/peripheral_neuropathy.asp):** An illness of the nervous system that causes numbness, tingling, and weakness. Under our rating regulations, it must be at least 10% disabling within 1 year of contact with herbicides.
 - **[Porphyria Cutanea Tarda](http://www.publichealth.va.gov/exposures/agentorange/conditions/porphyria-cutanea-tarda.asp):** A rare illness that can make your liver stop working the way it should and can cause your skin to thin and blister when you are out in the sun. Under VA’s rating regulations, it must be at least 10% disabling within 1 year of contact with herbicides.
 
-{:.va-list--feature}
 
 If you have an illness you think is caused by contact with Agent Orange—and you don't see it listed here—you can still apply for benefits. You'll need to show that you have a disability and include doctor or hospital reports stating that your illness is believed to be caused by contact with Agent Orange.
 
