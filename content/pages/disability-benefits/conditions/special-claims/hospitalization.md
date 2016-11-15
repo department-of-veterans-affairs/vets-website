@@ -6,14 +6,14 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Writing Act
 template: 4-action-page-pending
 ---
 
-Did you spend time in a VA hospital or other VA-approved hospital for a disability related to your military service (called a service-connected disability)? If yes, you may be able to get added VA support (known as disability compensation or benefits) with a temporary 100% disability rating during your hospital stay.
+Did you spend time in a VA hospital or other VA-approved hospital for a disability related to your military service (called a service-connected disability)? If yes, you may be able to get added disability compensation or benefits with a temporary 100% disability rating during your hospital stay.
 
 <div class="call-out" markdown="1">
 
-### Can I get disability compensation from VA?
+### Can I get disability benefits from VA?
 
-Yes, if you either:
-  - Spent more than 21 days in a VA hospital or other approved hospital for a service-connected disability
+You may be able to get disability benefits if you either:
+  - Spent more than 21 days in a VA hospital or other approved hospital for a service-connected disability, **or**
   - Were under hospital observation for more than 21 days at VA expense for a service-connected disability
 
 ### Who's covered?
@@ -23,7 +23,7 @@ Veterans
 ### What kind of disability benefits can I get?
 
 - Health care
-- Added financial support (payments) for the time you spent in the hospital
+- Increased compensation (payments) for the time you spent in the hospital
 
 -----
 
