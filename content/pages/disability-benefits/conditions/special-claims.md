@@ -18,11 +18,11 @@ relatedlinks:
   - url: /disability-benefits/conditions/special-claims/hospitalization/
     title: Time Spent in a Hospital
   - url: /disability-benefits/conditions/special-claims/individual-unemployability
-    title: Being Unable to Work
+    title: Being Unable to Work (Individual Unemployability)
   - url: /disability-benefits/conditions/special-claims/title-38-USC-1151/
     title: Title 38 U.S.C. 1151 Disabilities
   - url: /disability-benefits/conditions/special-claims/prestabilization/
-    title: Temporary, Immediate Disability Needs 
+    title: Immediate Help for Temporary Disability Needs 
 ---
 
 
