@@ -228,7 +228,7 @@ export class Folder extends React.Component {
 
     return (
       <SortableTable
-          className="usa-table-borderless va-table-list"
+          className="usa-table-borderless va-table-list msg-table-list"
           currentSort={currentSort}
           data={data}
           fields={fields}
