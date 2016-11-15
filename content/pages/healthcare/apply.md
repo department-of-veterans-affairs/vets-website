@@ -5,7 +5,7 @@ template: 1-topic-landing
 showtempbar: true
 ---
 
-With VA health care, you’re covered for regular checkups with your primary care doctor and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and elder care plus medical equipment, prosthetics, and prescriptions.
+With VA health care, you’re covered for regular checkups with your primary care doctor and appointments with specialists (like cardiologists, gynecologists, and mental health providers). You also gain access to home health and elder care, plus medical equipment, prosthetics, and prescriptions.
 
 <a class="usa-button-primary va-button-primary" href="/healthcare/apply/application">Apply online for VA health care</a>
 
@@ -21,7 +21,7 @@ With VA health care, you’re covered for regular checkups with your primary car
     <dd>Atlanta, GA 30329</dd>
 </dl>
 
-- Apply in person at your nearest VA medical center or clinic. Bring the 10-10EZ form with you. [Find a VA medical center or clinic near you](http://www.va.gov/directory/guide/division.asp?dnum=1).<br /> [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
+- Apply in person at your nearest VA medical center or clinic. Bring the 10-10EZ form with you.<br /> [Find a VA medical center or clinic near you](http://www.va.gov/directory/guide/division.asp?dnum=1).<br /> [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf).
 
 <div class="call-out" markdown="1">
 
@@ -35,7 +35,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 ### When will I hear back about my application?
 
-In less than 1 week. If more than a week has passed since you gave us your application and you haven't heard back, please don’t apply again. Call **855-574-7286**.
+In less than 1 week. If more than a week has passed since you gave us your application and you haven't heard back, please don’t apply again. Call <span class="tel">855-574-7286</span>.
 
 ### Can I get VA health care?
 
@@ -56,7 +56,7 @@ If you separated under a dishonorable discharge, visit healthcare.gov to find ou
 - You served in Southwest Asia during the Gulf War between August 2, 1990, and November 11, 1998
 - You served at least 30 days at Camp Lejeune between August 1, 1953, and December 31, 1987
 
-If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](](http://nationalincomelimits.vaftl.us/).
+If none of the above apply to you, you may still qualify for care based on your income. Learn more about how the amount of money your family makes can affect whether you qualify for VA benefits. [Learn more about income limits](http://nationalincomelimits.vaftl.us/).
 
 ### Already enrolled?
 
