@@ -2,7 +2,7 @@ import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { updateSearchQuery, searchWithAddress, searchWithBounds, fetchVAFacility } from '../actions';
-import { map, find, compact } from 'lodash';
+import { map, find, compact, isEmpty, throttle } from 'lodash';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
@@ -43,6 +43,8 @@ class VAMap extends Component {
       this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
     }
 
+    this.zoomOut = throttle(() => this.refs.map.leafletElement.zoomOut(), 2000);
+
     Tabs.setUseDefaultStyles(false);
   }
 
@@ -67,6 +69,19 @@ class VAMap extends Component {
 
     if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds)) {
       this.props.searchWithBounds(newQuery.bounds, newQuery.facilityType, newQuery.serviceType, newQuery.currentPage);
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { currentQuery } = prevProps;
+    const newQuery = this.props.currentQuery;
+
+    if (isEmpty(this.props.facilities) && !newQuery.inProgress && !currentQuery.inProgress && newQuery.bounds && parseInt(newQuery.zoomLevel, 10) > 2) {
+      this.zoomOut();
+    }
+
+    if (!isEmpty(this.props.facilities) || currentQuery.inProgress) {
+      this.zoomOut.cancel();
     }
   }
 
