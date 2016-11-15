@@ -23,54 +23,27 @@ class VAMap extends Component {
 
   componentDidMount() {
     const { location, currentQuery } = this.props;
-    let shouldGeolocate = true;
 
-    this.props.updateSearchQuery({
-      zoomLevel: location.query.zoomLevel || currentQuery.zoomLevel,
-      currentPage: location.query.page || currentQuery.currentPage,
-    });
-
-    // populate search bar with parameters from URL
     if (location.query.address) {
       this.props.searchWithAddress({
         searchString: location.query.address,
         context: location.query.context,
       });
-    }
-
-    if (location.query.location) {
-      shouldGeolocate = false;
-      const coords = location.query.location.split(',').map(Number);
-      this.props.updateSearchQuery({
-        position: {
-          latitude: coords[0],
-          longitude: coords[1],
-        }
-      });
-
-      if (!location.query.address) {
-        this.reverseGeocode({
-          latitude: coords[0],
-          longitude: coords[1],
-        });
-      }
-    }
-
-    if (navigator.geolocation && shouldGeolocate) {
+    } else if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((currentPosition) => {
         this.props.updateSearchQuery({
           position: currentPosition.coords,
         });
-        this.updateUrlParams({
-          location: [currentPosition.coords.latitude, currentPosition.coords.longitude].join(','),
-        });
+
         this.reverseGeocode(currentPosition.coords);
+      }, () => {
+        this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
       });
+    } else {
+      this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
     }
 
     Tabs.setUseDefaultStyles(false);
-
-    this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
   }
 
   componentWillReceiveProps(nextProps) {
