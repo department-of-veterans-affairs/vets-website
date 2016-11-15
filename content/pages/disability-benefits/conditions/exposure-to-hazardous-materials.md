@@ -23,7 +23,7 @@ relatedlinks:
     title: Ionizing Radiation
     description: If you were a POW in Japan, worked with or near nuclear testing, worked with X-rays or at a nuclear reactor, or worked in certain other jobs, you may have had contact with ionizing radiation.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/mustard-gas/
-    title: Mustard Gas
+    title: Contact with Mustard Gas or Lewisite
     description: If you served at the German bombing of Bari, Italy, in World War II or worked in certain other jobs, you may have had contact with mustard gas.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/project112-SHAD/
     title: Project 112/SHAD
@@ -36,4 +36,4 @@ relatedlinks:
     description: If you served in Iraq, Afghanistan, Djibouti, or near Atsugi, Japan, you may have had contact with toxic particles or pollutants.
 ---
 
-Find out if you can get disability compensation or benefits for conditions believed to be caused by contact with harmful chemicals or other hazardous materials while serving in the military.
+Find out if you can get disability compensation or benefits for illnesses or other conditions believed to be caused by contact with harmful chemicals or other hazardous materials while serving in the military.
