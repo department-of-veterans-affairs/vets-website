@@ -24,7 +24,7 @@ Conditions believed to be caused by time spent as a POW are covered by these ben
 **For former POWs held captive for any length of time:**
 
 **Conditions that affect your body, including:**
--	Osteoporosis (brittle bones) (for claims filed on or after October 10, 2008, and you have a diagnosis of post-traumatic stress (PTSD))
+-	Osteoporosis (for claims filed on or after October 10, 2008, and you have a diagnosis of post-traumatic stress (PTSD))
 -	Lasting damage from frostbite
 -	Post-traumatic osteoarthritis (pain and swelling in your joints that happens when a past injury causes a joint—such as your knee or elbow—to wear out)
 -	A stroke or problems (such as memory loss, loss of speech, or weakness in an arm or leg) caused by a stroke
@@ -50,7 +50,7 @@ Conditions believed to be caused by time spent as a POW are covered by these ben
 **Any nutritional deficiency, including:**
 -	Avitaminosis 
 -	Beriberi, including beriberi heart disease 
--	Malnutrition, including optic atrophy connected to malnutrition, or
+-	Malnutrition, including optic atrophy connected to malnutrition
 -	Pellagra 
 <br>
 
