@@ -39,7 +39,6 @@ export default class ClaimPhase extends React.Component {
   }
   getEventDescription(event) {
     const filesPath = `your-claims/${this.props.id}/document-request/${event.trackedItemId}`;
-    const fromVet = event.type.endsWith('you_list');
 
     switch (event.type) {
       case 'phase_entered':
