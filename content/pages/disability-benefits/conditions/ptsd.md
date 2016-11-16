@@ -35,7 +35,7 @@ If you have symptoms of PTSD and suffered a serious injury or sexual violation, 
 You may be able to get disability benefits if you have symptoms related to a traumatic event (the “stressor”) or your experience with the stressor is related to the PTSD symptoms and:
 -	The stressor happened during your service, **and**
 -	You can’t function as well as you once could because of your symptoms, **and**
--	A doctor has stated that you have PTSD
+-	You have been diagnosed with PTSD
 
 <br>
 
@@ -58,6 +58,6 @@ You’ll need to apply for benefits. Please note that the screening process for 
 
 To get help or treatment, contact your health care provider or any of the emergency contacts listed at the top of this page. 
 
-At VA, we’ve made great progress in PTSD treatments and have brought more mental health providers to VA medical centers to help provide the best care to Veterans with post-traumatic stress. [Learn more about our PTSD programs]( http://www.mentalhealth.va.gov/PTSD.asp).
+At VA, we’ve made great progress in treating PTSD and have brought more mental health providers to VA medical centers to help provide the best care to Veterans with post-traumatic stress. [Learn more about our PTSD programs]( http://www.mentalhealth.va.gov/PTSD.asp).
 
 [Apply for benefits](/disability-benefits/apply-for-benefits/).
