@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import SortableTable from '../../common/components/SortableTable';
 
 import {
@@ -237,6 +238,9 @@ export class Folder extends React.Component {
   }
 
   render() {
+    if (this.props.loading) {
+      return <LoadingIndicator message="is loading your folder..."/>;
+    }
     const folderName = _.get(this.props.attributes, 'name');
     const messageNav = this.makeMessageNav();
     const folderMessages = this.makeMessagesTable();
@@ -295,6 +299,7 @@ const mapStateToProps = (state) => {
     attributes,
     currentRange: `${startCount} - ${endCount}`,
     filter: folder.filter,
+    loading: state.folders.ui.loading,
     messageCount: totalCount,
     messages,
     page,

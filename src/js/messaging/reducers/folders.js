@@ -11,6 +11,7 @@ import {
   DELETE_MESSAGE_SUCCESS,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
+  LOADING_FOLDER,
   MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
@@ -40,6 +41,7 @@ const initialState = {
     items: []
   },
   ui: {
+    loading: false,
     nav: {
       foldersExpanded: false,
       visible: false
@@ -75,21 +77,25 @@ export default function folders(state = initialState, action) {
       const sortValue = Object.keys(sort)[0];
       const sortOrder = sort[sortValue];
 
-      const newItem = {
+      const newState = set('data.currentItem', {
         attributes,
         filter,
         messages,
         pagination,
         persistFolder,
         sort: { value: sortValue, order: sortOrder },
-      };
-      return set('data.currentItem', newItem, state);
+      }, state);
+
+      return set('ui.loading', false, newState);
     }
 
     case FETCH_FOLDERS_SUCCESS: {
       const items = action.data.data.map(folder => folder.attributes);
       return set('data.items', items, state);
     }
+
+    case LOADING_FOLDER:
+      return set('ui.loading', true, state);
 
     case TOGGLE_FOLDER_NAV:
       return set('ui.nav.visible', !state.ui.nav.visible, state);
