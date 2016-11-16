@@ -13,7 +13,7 @@ relatedlinks:
     description: Find out if you may have had contact with toxic chemicals or other dangers (like Agent Orange or radiation)—and what to do if you have. 
   - url: /disability-benefits/conditions/pow/
     title: Prisoners of War (<abbr>POW</abbr>s)
-    description: Get support for issues that can affect prisoners’ bodies and minds.
+    description: Get support for issues resulting from captivity.
   - url: /disability-benefits/conditions/special-claims/
     title: Special Claims
     description: Get help with needs such as special equipment, hospital or rehab care, dental care, being unable to work, and more.
