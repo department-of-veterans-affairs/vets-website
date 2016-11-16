@@ -112,38 +112,42 @@ class Prescription extends React.Component {
     return (
       <div className="rx-prescription">
         <div className="rx-prescription-inner cf">
-          <input type="hidden" name="refillId" value={id}/>
-          <h3 className="rx-prescription-title" title={name}>
-            <Link to={`/${id}`}>
-              {name}
-            </Link>
-          </h3>
-          <div className="rx-prescription-number">
-            Prescription <abbr title="number">#</abbr>: {attrs.prescriptionNumber}
-          </div>
-          <div className="rx-prescription-facility">
-            Facility name: {attrs.facilityName}
-          </div>
-          <div className="rx-prescription-submitted">
-            Last submit date: {
-              formatDate(attrs.refillSubmitDate, {
-                format: 'L'
-              })
-            }
-          </div>
-          <div className="rx-prescription-refilled">
-            Last fill date: {
-              formatDate(attrs.refillDate, {
-                format: 'L',
-                validateInPast: true
-              })
-            }
+          <div className="rx-prescription-info">
+            <input type="hidden" name="refillId" value={id}/>
+            <h3 className="rx-prescription-title" title={name}>
+              <Link to={`/${id}`}>
+                {name}
+              </Link>
+            </h3>
+            <div className="rx-prescription-number">
+              Prescription <abbr title="number">#</abbr>: {attrs.prescriptionNumber}
+            </div>
+            <div className="rx-prescription-facility">
+              Facility name: {attrs.facilityName}
+            </div>
+            <div className="rx-prescription-submitted">
+              Last submit date: {
+                formatDate(attrs.refillSubmitDate, {
+                  format: 'L'
+                })
+              }
+            </div>
+            <div className="rx-prescription-refilled">
+              Last fill date: {
+                formatDate(attrs.refillDate, {
+                  format: 'L',
+                  validateInPast: true
+                })
+              }
+            </div>
           </div>
           <div className="rx-prescription-countaction">
-            <RefillsRemainingCounter
+            <div>
+              <RefillsRemainingCounter
                 remaining={attrs.refillRemaining}/>
-            <div className="rx-prescription-action">
-              {action}
+              <div className="rx-prescription-action">
+                {action}
+              </div>
             </div>
           </div>
         </div>
