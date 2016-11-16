@@ -16,6 +16,14 @@ function expectNavigateAwayFrom(client, urlSubstring) {
     .to.not.contain(urlSubstring).before(Timeouts.normal);
 }
 
+function expectValueToBeBlank(client, field) {
+  client.expect.element(field).to.have.value.that.equals('');
+}
+
+function expectInputToNotBeSelected(client, field) {
+  client.expect.element(field).to.not.be.selected;
+}
+
 function overrideVetsGovApi(client) {
   client.execute(() => {
     window.VetsGov.api.url = 'http://localhost:4000';
@@ -33,5 +41,7 @@ module.exports = {
   apiUrl: 'http://localhost:4000',
   createE2eTest,
   expectNavigateAwayFrom,
+  expectValueToBeBlank,
+  expectInputToNotBeSelected,
   overrideVetsGovApi,
 };
