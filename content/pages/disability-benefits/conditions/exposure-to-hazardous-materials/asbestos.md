@@ -7,9 +7,7 @@ plainlanguage: 10-21-16 certified in compliance with the Plain Language Act
 template: 1-topic-landing
 ---
 
-Asbestos is a group of toxic fibers that were once used in many buildings and products. If you served in Iraq or other countries in the Middle East and Southeast Asia, you may have had contact with asbestos as it was released into the air when old buildings were damaged. Or, you may have had contact with asbestos if you worked in certain jobs or settings (like shipyards, construction, or vehicle repair). 
-
-Find out if you can get disability compensation or benefits for illnesses believed to be caused by asbestos.
+Asbestos is a group of toxic fibers that were once used in many buildings and products. If you served in Iraq or other countries in the Middle East and Southeast Asia, you may have had contact with asbestos as it was released into the air when old buildings were damaged. Or, you may have had contact with asbestos if you worked in certain jobs or settings (like shipyards, construction, or vehicle repair). Find out if you can get disability compensation or benefits for illnesses believed to be caused by asbestos.
 
 <div class="call-out" markdown="1">
 
