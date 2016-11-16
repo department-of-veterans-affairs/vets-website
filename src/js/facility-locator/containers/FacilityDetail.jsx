@@ -14,6 +14,7 @@ import ServicesAtFacility from '../components/ServicesAtFacility';
 class FacilityDetail extends Component {
   componentWillMount() {
     this.props.fetchVAFacility(this.props.params.id);
+    window.scrollTo(0, 0);
   }
 
   renderFacilityWebsite() {
