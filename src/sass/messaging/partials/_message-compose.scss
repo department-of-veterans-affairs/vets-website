@@ -48,8 +48,9 @@
 .msg-subject-group {
   margin-top: 0;
   padding: 1.5rem 0;
-
+  
   @media (min-width: $medium-screen) {
+    border-left: 4px solid orange;
     display: inline-block;
     width: 95%;
   }
@@ -61,12 +62,6 @@
 }
 
 .msg-subject-group-inner {
-  @media (min-width: $medium-screen) {
-    -webkit-align-items: center;
-    align-items: center;
-    display: flex;
-  }
-
   .usa-input-error-message {
     margin-left: 0rem;
   }
@@ -111,14 +106,6 @@
   }
 }
 
-.msg-recipient > div {
-  -webkit-align-items: center;
-  align-items: center;
-  display: -webkit-flex;
-  display: flex;
-  margin-bottom: 0;
-}
-
 .msg-recipient > div,
 .msg-subject-group {
   padding: 1.5rem;
@@ -152,12 +139,6 @@
 
 .msg-recipient label {
   padding-right: 1rem;
-
-  @media (min-width: $medium-screen) {
-    -webkit-flex: 0 0 10rem;
-    flex:  0 0 10rem;
-    text-align: right;
-  }
 }
 
 .msg-recipient {
@@ -272,8 +253,15 @@ button.msg-btn-save {
   }
 }
 
+.msg-compose-write {
+  @media (min-width: $medium-screen) {
+    border-left-color: green;
+    padding-left: 1.5rem;
+  }
+}
+
 .msg-write {
-  padding: 1.5rem 1.5rem 2rem 1.5rem;
+  padding: 1.5rem 1rem 2rem;
 
   @media (min-width: $medium-screen) {
     padding: 0;
@@ -421,12 +409,6 @@ button.msg-btn-save {
     border: 0;
     margin: 0;
     padding: 0;
-  }
-
-  legend {
-    @media (min-width: $medium-screen) {
-      transform: translateY(50%);
-    }
   }
 
   textarea {
