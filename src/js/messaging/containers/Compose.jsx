@@ -41,8 +41,7 @@ export class Compose extends React.Component {
 
   componentDidUpdate() {
     if (this.props.redirect) {
-      const returnUrl = `${paths.FOLDERS_URL}/${this.props.currentFolderId}`;
-      this.context.router.replace(returnUrl);
+      this.context.router.replace(this.props.redirect);
     }
   }
 
@@ -147,10 +146,9 @@ Compose.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    currentFolderId: state.folders.data.currentItem.persistFolder,
     message: state.compose.message,
     recipients: state.compose.recipients,
-    redirect: state.redirect,
+    redirect: state.folders.ui.redirect,
     deleteConfirmModal: state.modals.deleteConfirm
   };
 };

@@ -33,7 +33,6 @@ import ThreadHeader from '../components/ThreadHeader';
 import ModalConfirmDelete from '../components/compose/ModalConfirmDelete';
 import NewMessageForm from '../components/forms/NewMessageForm';
 import ReplyForm from '../components/forms/ReplyForm';
-import { paths } from '../config';
 
 export class Thread extends React.Component {
   constructor(props) {
@@ -57,8 +56,7 @@ export class Thread extends React.Component {
 
   componentDidUpdate() {
     if (this.props.redirect) {
-      const returnUrl = `${paths.FOLDERS_URL}/${this.props.persistFolder}`;
-      this.context.router.push(returnUrl);
+      this.context.router.push(this.props.redirect);
       return;
     }
 
@@ -324,7 +322,7 @@ const mapStateToProps = (state) => {
     moveToOpened: state.messages.ui.moveToOpened,
     persistFolder: folder.persistFolder,
     recipients: state.compose.recipients,
-    redirect: state.redirect,
+    redirect: state.folders.ui.redirect,
     replyDetailsCollapsed: state.messages.ui.replyDetailsCollapsed,
     thread: state.messages.data.thread
   };

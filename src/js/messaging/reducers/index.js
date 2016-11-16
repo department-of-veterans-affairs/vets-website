@@ -5,7 +5,6 @@ import compose from './compose';
 import folders from './folders';
 import messages from './messages';
 import modals from './modals';
-import redirect from './redirect';
 import search from './search';
 
 export default combineReducers({
@@ -14,6 +13,5 @@ export default combineReducers({
   folders,
   messages,
   modals,
-  redirect,
   search
 });

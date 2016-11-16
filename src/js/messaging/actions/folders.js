@@ -15,6 +15,7 @@ import {
   LOADING_FOLDER,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS,
+  RESET_REDIRECT,
   SET_CURRENT_FOLDER
 } from '../utils/constants';
 
@@ -109,4 +110,8 @@ export function setCurrentFolder(folderId) {
     type: SET_CURRENT_FOLDER,
     folderId
   };
+}
+
+export function resetRedirect() {
+  return { type: RESET_REDIRECT };
 }
