@@ -11,6 +11,9 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
+
+## Disabilities Linked to Military Service
+
 Do you have a disability caused by an illness or injury that happened—or got worse—while you were actively serving in the military? If yes, you may be able to get disability compensation or benefits—no matter when or where you served. 
 
 ### Can I get disability benefits from VA?
@@ -18,8 +21,6 @@ Do you have a disability caused by an illness or injury that happened—or got w
 You may be able to get disability benefits if you have a current physical or mental disability and:
 - You got injured or sick while actively serving in the military—and your injury or illness caused your disability or made a disability you already had worse, **and** 
 - You can link your current disability to an injury or illness that happened while you were actively serving in the military
-
-<div class="call-out" markdown="1">
 
 ### What illnesses and injuries (also called conditions) are covered by these benefits?
 
@@ -32,8 +33,6 @@ You may be able to get benefits for conditions believed to be caused by military
 - Ulcers 
 - Cancer (if caused by contact with toxic chemicals or other dangers)
 - Traumatic brain injury (TBI) 
-
-<br>
 
 You may also be able to get benefits for mental health conditions linked to military service, including:
 
