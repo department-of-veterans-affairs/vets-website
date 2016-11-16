@@ -11,7 +11,7 @@ VA gives entrepreneurship training for Veterans who'd like start a business. Tra
 
 ### Can I get entrepreneurship training to start my own business?
 
-Yes, if you qualify for any of these programs:
+You can get entrepreneurship training if you qualify for any of these programs:
 
 - [Post-9/11 GI Bill](/education/gi-bill/post-9-11)
 - Montgomery GI Bill, [Active Duty](/education/gi-bill/montgomery-active-duty) or [Selected Reserve](/education/gi-bill/montgomery-selected-reserve)
@@ -23,6 +23,6 @@ Yes, if you qualify for any of these programs:
 
 ### How do I get this training? 
 
-Contact your local [VA Small Business Liaison](http://www.va.gov/osdbu/about/contacts.asp).
+[Contact your local VA Small Business Liaison](http://www.va.gov/osdbu/about/contacts.asp).
 
 Think about going to a [conference or informational event](http://www.va.gov/osdbu/library/events.asp). You can talk directly to VA Small Business Liaisons and entrepreneurs who often go to these events. 
