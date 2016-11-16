@@ -19,11 +19,9 @@ You may be able to get disability benefits if you recently ended your active mil
 - You have a severe service-connected disability that is unstable (meaning an illness or injury that is changing in nature or hasn't yet been fully treated), **and**
 - Your disability is expected to continue for an unknown amount of time
 
-</div>
-
 ### Who's covered?
-
 Veterans
+</div>
 
 ### What kind of benefits can I get?
 
