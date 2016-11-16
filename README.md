@@ -31,7 +31,6 @@ very secret.
 | run automated accessibility tests | `npm run build && npm run test:accessibility` |
 | test for broken links | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
 | add new npm modules | `npm install -D my-module` followed by `npm shrinkwrap --dev`. There are no non-dev modules here. |
-| get the latest json schema | `git submodule init; git submodule update; cd schema; git checkout master; git pull; cd ..`. Then you can commit the changes, if any.  |
 
 ## Directory structure
 
