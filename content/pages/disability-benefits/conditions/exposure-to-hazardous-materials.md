@@ -15,10 +15,10 @@ relatedlinks:
     description: If you served in South Vietnam or the Republic of Korea during certain time periods, you may have had contact with chemicals like Agent Orange believed to cause birth defects in the children of Veterans.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/contaminated-drinking-water-at-camp-lejeune/
     title: Contaminated Drinking Water at Camp Lejeune
-    description: If you served at Camp Lejeune between August 1953 and December 1987, you may be at risk for certain illnesses believed to be caused by contaminants found in the camp's drinking water during that time.
+    description: If you served at Camp Lejeune or MCAS New River between August 1953 and December 1987, you may be at risk for certain illnesses believed to be caused by contaminants found in the drinking water during that time.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/gulf-war-illness/
     title: Gulf War Illness
-    description: If you served in Southwest Asia, you may be at risk of certain illnesses linked to that region.
+    description: If you served in the Southwest Asia theater of operations, you may be at risk of certain illnesses linked to that region.
   - url: /disability-benefits/conditions/exposure-to-hazardous-materials/ionizing-radiation/
     title: Ionizing Radiation
     description: If you were a POW in Japan, worked with or near nuclear testing, worked with X-rays or at a nuclear reactor, or worked in certain other jobs, you may have had contact with ionizing radiation.
