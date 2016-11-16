@@ -16,6 +16,7 @@ import {
   fetchRecipients,
   openAttachmentsModal,
   resetMessage,
+  resetRedirect,
   saveDraft,
   sendMessage,
   setMessageField,
@@ -36,6 +37,17 @@ export class Compose extends React.Component {
   componentDidMount() {
     this.props.resetMessage();
     this.props.fetchRecipients();
+  }
+
+  componentDidUpdate() {
+    if (this.props.redirect) {
+      const returnUrl = `${paths.FOLDERS_URL}/${this.props.currentFolderId}`;
+      this.context.router.replace(returnUrl);
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.resetRedirect();
   }
 
   apiFormattedMessage() {
@@ -129,10 +141,16 @@ export class Compose extends React.Component {
   }
 }
 
+Compose.contextTypes = {
+  router: React.PropTypes.object.isRequired
+};
+
 const mapStateToProps = (state) => {
   return {
+    currentFolderId: state.folders.data.currentItem.persistFolder,
     message: state.compose.message,
     recipients: state.compose.recipients,
+    redirect: state.redirect,
     deleteConfirmModal: state.modals.deleteConfirm
   };
 };
@@ -144,6 +162,7 @@ const mapDispatchToProps = {
   fetchRecipients,
   openAttachmentsModal,
   resetMessage,
+  resetRedirect,
   saveDraft,
   sendMessage,
   setMessageField,

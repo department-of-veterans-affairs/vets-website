@@ -1,20 +1,12 @@
 import set from 'lodash/fp/set';
 import concat from 'lodash/fp/concat';
 
-import { paths } from '../config';
-import history from '../history';
-
 import {
   CREATE_FOLDER_SUCCESS,
-  DELETE_COMPOSE_MESSAGE,
   DELETE_FOLDER_SUCCESS,
-  DELETE_MESSAGE_SUCCESS,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
   LOADING_FOLDER,
-  MOVE_MESSAGE_SUCCESS,
-  SAVE_DRAFT_SUCCESS,
-  SEND_MESSAGE_SUCCESS,
   SET_CURRENT_FOLDER,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS
@@ -106,18 +98,6 @@ export default function folders(state = initialState, action) {
     case SET_CURRENT_FOLDER:
       // The + forces +action.folderId to be a number
       return set('data.currentItem.persistFolder', +action.folderId, state);
-
-    case DELETE_COMPOSE_MESSAGE:
-    case DELETE_MESSAGE_SUCCESS:
-    case MOVE_MESSAGE_SUCCESS:
-    case SAVE_DRAFT_SUCCESS:
-    case SEND_MESSAGE_SUCCESS: {
-      // Upon completing any of these actions, go to the most recent folder.
-      const currentFolderId = state.data.currentItem.persistFolder;
-      const returnUrl = `${paths.FOLDERS_URL}/${currentFolderId}`;
-      history.replace(returnUrl);
-      return state;
-    }
 
     default:
       return state;

@@ -5,6 +5,8 @@ export const alertStatus = {
   WARNING: 'warning'
 };
 
+export const RESET_REDIRECT = 'RESET_REDIRECT';
+
 // Alert action types
 export const CLOSE_ALERT = 'CLOSE_ALERT';
 export const OPEN_ALERT = 'OPEN_ALERT';
