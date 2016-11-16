@@ -106,13 +106,9 @@ smith.destination(`../build/${options.buildtype}`);
 //
 // TODO(awong): Verify that memorial-benefits should still be in the source tree.
 //    https://github.com/department-of-veterans-affairs/vets-website/issues/2721
-const ignoreList = [];
 
-if (options.buildtype === 'production') {
-  ignoreList.push('disability-benefits/track-claims/*');
-}
-
-smith.use(ignore(ignoreList));
+// const ignoreList = [];
+// smith.use(ignore(ignoreList));
 
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
 // during templating end up not showing which file they came from. Load it very early in in the
