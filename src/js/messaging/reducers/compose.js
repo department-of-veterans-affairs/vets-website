@@ -7,7 +7,6 @@ import {
   DELETE_COMPOSE_ATTACHMENT,
   DELETE_COMPOSE_MESSAGE,
   FETCH_RECIPIENTS_SUCCESS,
-  FETCH_RECIPIENTS_FAILURE,
   RESET_MESSAGE_OBJECT,
   SET_MESSAGE_FIELD,
 } from '../utils/constants';
@@ -67,7 +66,6 @@ export default function compose(state = initialState, action) {
       return resetMessage(state);
     case SET_MESSAGE_FIELD:
       return set(action.path, action.field, state);
-    case FETCH_RECIPIENTS_FAILURE:
     default:
       return state;
   }
