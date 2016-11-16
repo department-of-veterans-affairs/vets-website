@@ -9,7 +9,7 @@ If you're in predischarge status, Quick Start can help you get your VA benefits 
 
 - Separation (ending your military service)
 - Retirement
-- Release from active duty, or
+- Release from active duty
 - Demobilization (a stand down from combat-ready status)
 
 <div class="call-out" markdown="0">
