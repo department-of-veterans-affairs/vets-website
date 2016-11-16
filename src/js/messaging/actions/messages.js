@@ -15,6 +15,7 @@ import {
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_MESSAGE_FAILURE,
   FETCH_THREAD_MESSAGE_SUCCESS,
+  LOADING_THREAD,
   MOVE_MESSAGE_FAILURE,
   MOVE_MESSAGE_SUCCESS,
   SAVE_DRAFT_FAILURE,
@@ -63,6 +64,8 @@ export function fetchThread(id) {
   const threadUrl = `${messageUrl}/thread`;
 
   return dispatch => {
+    dispatch({ type: LOADING_THREAD });
+
     Promise.all([messageUrl, threadUrl].map(url =>
       fetch(url, api.settings.get).then(res => res.json())
     )).then(

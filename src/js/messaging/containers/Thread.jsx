@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
+
 import {
   addDraftAttachments,
   clearDraft,
@@ -219,6 +221,10 @@ export class Thread extends React.Component {
   }
 
   render() {
+    if (this.props.loading) {
+      return <LoadingIndicator message="is loading the thread..."/>;
+    }
+
     const header = this.makeHeader();
     const thread = this.makeThread();
     const form = this.makeForm();
@@ -295,6 +301,7 @@ const mapStateToProps = (state) => {
     isFormVisible: state.messages.ui.formVisible,
     isNewMessage,
     isSavedDraft,
+    loading: state.messages.ui.loading,
     message,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
