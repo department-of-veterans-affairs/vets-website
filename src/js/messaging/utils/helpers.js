@@ -51,8 +51,7 @@ export function apiRequest(resource, optionalSettings = {}, success, error) {
 
       return Promise.resolve(response);
     })
-    .then(success)
-    .catch(error);
+    .then(success, error);
 }
 
 export function formatFileSize(bytes, decimalplaces = 2) {
