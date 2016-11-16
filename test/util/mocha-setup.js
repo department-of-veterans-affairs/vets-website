@@ -2,7 +2,7 @@ import chai from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import jsdom from 'jsdom';
 
-global.__BUILDTYPE__ = process.env.BUILDTYPE;
+global.__BUILDTYPE__ = process.env.BUILDTYPE || 'development';
 
 chai.use(chaiAsPromised);
 
