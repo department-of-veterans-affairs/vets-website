@@ -15,7 +15,7 @@ If you're in predischarge status, Quick Start can help you get your VA benefits 
 <div class="call-out" markdown="0">
 
 ### Can I file a Quick Start claim?
-You can file a Quick Start claim if you're a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard) and
+You can file a Quick Start claim if you're a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard) and both of these are true:
 -	You have a known separation date (the date you'll be ending your active military service), **and**  
 -	Your separation date is within the next 1 to 59 days
 
@@ -23,7 +23,7 @@ You can file a Quick Start claim if you're a Servicemember on full-time active d
 
 ### What do I get through Quick Start?
 
-An expedited status decision on your disability claim (meaning you'll get your decision as soon as possible)
+You can get an expedited status decision on your disability claim (meaning you'll get your decision as soon as possible).
 
 -----
 
@@ -31,4 +31,4 @@ An expedited status decision on your disability claim (meaning you'll get your d
 
 You'll need to apply for benefits. When you apply, please give us your service treatment records. You'll also need to make sure you finish all phases of the VA/DOD medical separation examination processes before your release from the military.
 
-[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
+[Apply for benefits](/disability-benefits/apply-for-benefits/).
