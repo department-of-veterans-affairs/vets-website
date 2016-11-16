@@ -38,13 +38,13 @@ relatedlinks:
 <div class="row" markdown="0">
 <div class="small-12 columns usa-content" markdown="1">
 
-Sometimes, a disability related to your military service (called service connected) can cause—or worsen—another disability. Even if this other disability isn't service-connected, you can file a secondary claim for added disability benefits.
+Sometimes, a disability related to your military service (called service connected) can cause—or worsen—another disability. Even if this other disability isn't service connected, you can file a secondary claim for added disability benefits.
 
 **Example 1**<br>
-A Veteran has a service-connected knee injury that causes him to walk with a limp. Because of the limp, he gets arthritis (joint pain) in his hip. The arthritis didn't start while he was serving in the military, and it wasn't directly made worse by his service. We may still consider it service connected if he can show it was caused by his service-connected knee injury.
+A Veteran has a service-connected knee injury that makes him walk with a limp. Because of the limp, he gets arthritis (joint pain) in his hip. The arthritis didn't start while he was serving in the military or become worse because of his service, but we may still consider it service connected if he can show it was caused by his service-connected knee injury.
 
 **Example 2**<br>
-A Veteran served in the Army for 20 years. While serving, she was diagnosed with hypertension (high blood pressure). After ending her service, she got disability benefits for her high blood pressure, which was shown to be connected to her service. She was later diagnosed with coronary artery disease (the most common type of heart disease) caused by her high blood pressure. She can now file a secondary claim to show that her heart disease is also connected to her service.
+A Veteran served in the Army for 20 years. While serving, she was diagnosed with hypertension (high blood pressure). After ending her service, she got disability benefits for her high blood pressure, which proved to be connected to her service. She was later diagnosed with coronary artery disease (the most common type of heart disease) caused by her high blood pressure. She can now file a secondary claim to show that her heart disease is also connected to her service.
 
 
 </div>
