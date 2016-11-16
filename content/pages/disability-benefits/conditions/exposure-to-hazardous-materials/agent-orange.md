@@ -39,7 +39,7 @@ If you have an illness believed to be caused by Agent Orange, you won't need to 
 
 If you have an illness that’s not on this list, but you believe it was caused by Agent Orange, you'll need to show the problem started during—or got worse because of—your military service.
 
-[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
+[Apply for benefits](/disability-benefits/apply-for-benefits/).
 
 ### Get more information
 
