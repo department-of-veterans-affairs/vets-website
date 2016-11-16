@@ -9,20 +9,21 @@ VA can help you pursue a career as a pilot in the aviation industry.
 
 <div class="call-out" markdown="1">
 
-### Who is covered
+### Who's covered
 
 Veterans eligible for any of the GI Bill programs.
 </div>
 
 ### What benefits can I get? 
+
 Under MGIB or REAP, we pay you back for part of flight training costs at an approved pilot school. Under the Post-9/11 GI Bill, we pay the pilot school the full cost of your flight training, up to a yearly limit (in proportion to your level of eligibility). If flight training is part of your college degree at an approved college or university, we pay the required tuition and fees, a monthly housing allowance, and a books and supplies stipend.
 
 ### Can I get benefits for vocational flight training and still have GI Bill benefits left?
 
-Yes, if:
+You can get benefits if you have at least:
 
-- You have at least a private pilot’s license.
-- You have at least a second-class medical certificate valid for second-class privileges or a first-class medical certificate if you want to pursue the Airline Transport Pilot (ATP) certificate.
+- A private pilot’s license, or
+- A second-class medical certificate valid for second-class privileges or a first-class medical certificate if you want to pursue the Airline Transport Pilot (ATP) certificate.
 
 ------
 
