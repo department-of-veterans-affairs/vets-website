@@ -144,7 +144,7 @@ class Prescription extends React.Component {
           <div className="rx-prescription-countaction">
             <div>
               <RefillsRemainingCounter
-                remaining={attrs.refillRemaining}/>
+                  remaining={attrs.refillRemaining}/>
               <div className="rx-prescription-action">
                 {action}
               </div>
