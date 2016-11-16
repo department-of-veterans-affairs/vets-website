@@ -61,7 +61,7 @@ class Modal extends React.Component {
         <div className="va-modal-inner">
           {closeButton}
           <div className="va-modal-body">
-            {this.props.contents}
+            {this.props.contents || this.props.children}
           </div>
         </div>
       </div>
@@ -70,7 +70,7 @@ class Modal extends React.Component {
 }
 
 Modal.propTypes = {
-  contents: React.PropTypes.node.isRequired,
+  contents: React.PropTypes.node, /* alternatively use child nodes */
   cssClass: React.PropTypes.string,
   id: React.PropTypes.string,
   onClose: React.PropTypes.func.isRequired,
