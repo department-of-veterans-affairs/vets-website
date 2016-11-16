@@ -11,9 +11,7 @@ If you are the dependent of a Veteran who was permanently and totally disabled w
 
 ###Can I get education benefits?
 
-Yes, if:
-
-**You are the child or spouse of:**
+**You can get benefits if you are the child or spouse of:**
 
 - A Veteran who died or who is permanently and totally disabled as the result of active service.
 - A Veteran who was permanently and totally disabled as the result of active service and who died while in this condition.
@@ -21,9 +19,9 @@ Yes, if:
 - A Servicemember missing in action or captured in the line of duty by a hostile force.
 - A Servicemember forcibly detained or interned in the line of duty by a foreign entity.
 
-**If you are the child of the Veteran or Servicemember:**
+**If you are the child of the Veteran or Servicemember, you can get benefits if:**
 
-- You must be between the ages of 18 and 26, except in special circumstances.
+- You are between the ages of 18 and 26, except in special circumstances.
 - You can be married or unmarried.
 - If you are over 18 years old and using DEA, you can't get [Dependency Indemnity Compensation (DIC](http://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp) from VA. 
 - If you join the military, you can't use this benefit while on active duty, and you must not be discharged under dishonorable conditions. Military service can extend your eligibility but this increase generally doesn't go past your 31st birthday.
@@ -41,7 +39,7 @@ Eligible dependents of Veterans
 
 ### What benefits can I get? 
 
-A monthly payment of up to $1,021. View [current rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp).
+A monthly payment of up to $1,021. [View current rates](http://www.benefits.va.gov/GIBILL/resources/benefits_resources/rates/ch35/ch35rates100115.asp).
 
 For both children and spouses, if you're eligible for both DEA and the [Fry Scholarship](/education/gi-bill/survivors-dependent-assistance/fry-scholarship/), you must pick one or the other. Once you make this choice, you can't change it.
 
