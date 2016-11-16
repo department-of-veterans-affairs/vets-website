@@ -12,13 +12,13 @@ Do you have a disability related to your military service that prevents you from
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you have a disability that's related to your service (called a service-connected disability) **and** includes at least 1 of the following:
-  - Loss, or permanent (long-lasting) loss of use, of 1 or both feet, **or**
+You may be able to get disability benefits if you have a disability that's related to your service (called a service-connected disability) and includes at least 1 of the following:
+  - Loss, or permanent loss of use, of 1 or both feet, **or**
   - Loss, or permanent loss of use, of 1 or both hands, **or**
   - Permanent decreased vision in both eyes: 20/200 vision or less in your better eye with glasses, or greater than 20/200 vision but with a visual field defect that has reduced your peripheral vision to 20 degrees or less in your better eye, **or**
   - A severe burn injury, **or**
-  - Amyotrophic lateral sclerosis (ALS) (a disease that affects the nerve cells in your brain and spinal cord and leads to loss of muscle control that gets worse over time), **or**
-  - Ankylosis (a stiffness or locking of a joint caused by bones fusing together) in 1 or both knees or hips (**Note:** This qualifies you for an adaptive-equipment grant only)
+  - Amyotrophic lateral sclerosis (ALS), **or**
+  - Ankylosis in 1 or both knees or hips (**Note:** This qualifies you for an adaptive-equipment grant only)
 
 ### Who's covered?
 
@@ -35,7 +35,7 @@ You may be able to get disability benefits if you have a disability that's relat
 
 ### How do I get these benefits?
 
-You'll need to apply for benefits and get our approval *before* buying a vehicle or adaptive equipment. You can apply for—and use—either grant before or after military discharge.
+You'll need to apply for benefits and get our approval **before** buying a vehicle or adaptive equipment. You can apply for—and use—either grant before or after military discharge. [Apply for benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
 
 For the 1-time payment to help you buy a specially equipped vehicle, we'll pay the vehicle's seller directly. For the adaptive-equipment grant, we may pay you or we may pay the seller of the equipment directly.  
 
