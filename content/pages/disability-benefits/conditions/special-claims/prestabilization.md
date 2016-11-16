@@ -15,14 +15,15 @@ If you qualify for these benefits, you'll get a special disability rating known 
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you recently ended your active military service, and:
-- You have a severe service-connected disability that is unstable (meaning an illness or injury that is changing in nature or hasn't yet been fully treated), and
+You may be able to get disability benefits if you recently ended your active military service, **and**
+- You have a severe service-connected disability that is unstable (meaning an illness or injury that is changing in nature or hasn't yet been fully treated), **and**
 - Your disability is expected to continue for an unknown amount of time
 
-<br>
-### Who's covered?
-Veterans
 </div>
+
+### Who's covered?
+
+Veterans
 
 ### What kind of benefits can I get?
 
@@ -32,8 +33,7 @@ Veterans
 ### How do I get these benefits?
 
 You'll need to apply for benefits. When you apply, you'll have to show that you have a severe, service-connected disability that is unstable and expected to continue for an unknown amount of time. This information will normally be part of your Service Treatment Record.
-
-[Apply for benefits](https://www.vets.gov/disability-benefits/apply-for-benefits/).
+[Apply for benefits](https://www.ebenefits.va.gov/ebenefits/about/feature?feature=disability-compensation).
 
 **Example**<br>
 While in active service, a Servicemember was diagnosed with Hodgkin’s disease and began chemotherapy that continued during and after her medical discharge process. She continued to get treatment through her local VA medical center, and we gave her a prestabilization rating of 100% for 1 year from her date of discharge.
