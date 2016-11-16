@@ -37,7 +37,7 @@ class FilesPage extends React.Component {
 
     let content = null;
     if (!loading) {
-      const trackedItems = claim.attributes.eventsTimeline.filter(event => event.type.endsWith('_list'));
+      const trackedItems = claim.attributes.eventsTimeline.filter(event => event.type.endsWith('_list') && !event.type.startsWith('never_received_from'));
       const filesNeeded = trackedItems
         .filter(event => event.status === NEED_ITEMS_STATUS && event.type === 'still_need_from_you_list');
       const optionalFiles = trackedItems
