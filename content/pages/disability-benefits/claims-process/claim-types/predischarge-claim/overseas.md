@@ -25,7 +25,7 @@ Use the BDD or Quick Start programs through the "Fly-in" claim process, which le
 - Look for an email from a BDD officer who will contact you to schedule an exam at the Landstuhl Regional Medical Center (LRMC) and to let you know about the information and evidence (supporting documents like doctor's reports and medical test results) needed to support your claim.
 - Contact the clinics at LRMC to schedule your exams as directed.
 - Arrange your travel, and get your command's approval to make the trip.
-- Bring a copy of your Service Treatment Records (STRs) when you report for your exams. These won't returned. BDD and Quick Start claims can't be processed without the STRs.
+- Bring a copy of your Service Treatment Records (STRs) when you report for your exams. These won't be returned. BDD and Quick Start claims can't be processed without the STRs.
 
 [Get service information for the Landstuhl BDD office](https://ermc.amedd.army.mil/landstuhl/services.cfm?MTFinfo_id=733).
 
