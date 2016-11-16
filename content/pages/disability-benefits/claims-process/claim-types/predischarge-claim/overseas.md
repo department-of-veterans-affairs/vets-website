@@ -7,6 +7,9 @@ plainlanguage: 11-8-16 certified in compliance with the Plain Writing Act
 template: 1-topic-landing
 ---
 
+
+You can file a disability claim if you're stationed overseas. 
+
 ### If you're stationed within the Kaiserslautern Military Community (KMC)
 
 Visit the Landstuhl Benefits Delivery at Discharge (BDD) office, where you can start your disability claim while you're on active duty in predischarge status. Walk-in hours are Tuesday, Wednesday, and Thursday from 10:00 a.m. to 12:00 p.m. and from 1:00 p.m. to 3:00 p.m.
