@@ -23,7 +23,7 @@ You may be able to get disability benefits if you have an illness believed to be
 - Assigned to a gaseous diffusion plant at Portsmouth, Ohio, **or**
 - Assigned to a gaseous diffusion plant at Area K-25 at Oak Ridge, Tennessee
 
-To qualify for benefits, you must've been discharged under conditions other than dishonorable.
+To qualify for benefits, you must have been discharged under conditions other than dishonorable.
 
 ### Who’s covered?
 Veterans
@@ -39,8 +39,7 @@ Veterans
 
 ### How do I get these benefits?
 
-You’ll need to apply for benefits.
+You’ll need to apply for benefits. [Apply for benefits](/disability-benefits/apply-for-benefits/).
 
 Your service records must show that you were part of 1 of the radiation risk activities described above and in 38 CFR 3.309(d)(3)(ii). You’ll also need to claim an illness or disability believed to be caused by contact with radiation. It’s not enough to state that you had contact with radiation during service.
 
-[Apply for benefits](/disability-benefits/apply-for-benefits/).
