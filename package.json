@@ -154,6 +154,7 @@
     "tinyliquid": "^0.2.33",
     "url-loader": "^0.5.7",
     "uswds": "^0.10.0",
+    "vets-json-schema": "git://github.com/department-of-veterans-affairs/vets-json-schema#257777275869377d4d0c65348a97bf9c7df51d4a",
     "webpack": "^1.13.1",
     "whatwg-fetch": "http://registry.npmjs.org/whatwg-fetch/-/whatwg-fetch-1.0.0.tgz",
     "winston": "^2.2.0"
