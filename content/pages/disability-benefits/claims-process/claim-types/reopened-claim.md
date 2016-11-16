@@ -39,8 +39,8 @@ template: 6-info-page
 <div class="row" markdown="0">
 <div class="small-12 columns" markdown="1">    
 
-If you've had a claim for disability benefits denied in the past, you can file a reopened claim to get a new decision **if**:
-- Your claim was denied at least 1 or more years ago, **and**
+If you've had a claim for disability benefits denied in the past, you can file a reopened claim to get a new decision if all of these are true:
+- We denied your claim at least 1 or more years ago, **and**
 - You didn't file an appeal at that time, **and**
 - You have new evidence (new supporting documents like a doctor's report or medical test results) that we haven't seen before and that's directly related to your claim
 
