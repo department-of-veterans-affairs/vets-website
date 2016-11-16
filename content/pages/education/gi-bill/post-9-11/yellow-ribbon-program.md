@@ -7,8 +7,8 @@ concurrence: incomplete
 
 The Yellow Ribbon Program can help you pay for higher out-of-state, private, or graduate school tuition that the [Post-9/11 GI Bill](/education/gi-bill/post-9-11/) doesn't cover.
 
-Can I use the Yellow Ribbon Program?
-: Yes, if:
+### Can I use the Yellow Ribbon Program?
+You can use the Yellow Ribbon Program if:
 
   - You qualify for the [maximum benefit rate under the Post-9/11 GI Bill](https://www.vets.gov/education/gi-bill/post-9-11/).
   - Your school voluntarily participates in the [Yellow Ribbon Program](http://www.benefits.va.gov/GIBILL/yellow_ribbon/yrp_list_2015.asp ).
@@ -18,12 +18,12 @@ Can I use the Yellow Ribbon Program?
  
 
 Who's covered?
-: Veterans who qualify
-: Dependents who qualify
+- Veterans
+- Qualified dependents 
 
 What benefits can I get? 
-: Extra money for tuition
-{:.va-callout}
+- Extra money for tuition
+
 
 ------
 
