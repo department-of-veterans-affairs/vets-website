@@ -9,7 +9,7 @@ template: 1-topic-landing
 If you're a Servicemember with a disability, the Benefits Delivery at Discharge (BDD) program can help you get your VA benefits sooner. Through the BDD program, you can start your claim for disability benefits 60 to 180 days before:
 - Separation 
 - Retirement
-- Release from active duty, or
+- Release from active duty
 - Demobilization
 
 
@@ -17,7 +17,7 @@ If you're a Servicemember with a disability, the Benefits Delivery at Discharge 
 
 ### Can I use the BDD program to get my disability benefits sooner?
 
-Yes, if:
+You can use the BDD program if:
 
 -	You're a Servicemember on full-time active duty (including a member of the National Guard, Reserve, or Coast Guard), **and**
 - You have a known separation date, **and**
