@@ -28,11 +28,9 @@ If your symptoms appear within 1 year after discharge—even if they weren't the
 
 <div class="call-out" markdown="1">
 
-### Can I get disability compensation from VA?
+### Can I get disability benefits from VA?
 
-You may be able to get benefits if: 
-
-  -	You have an illness that is at least 10% disabling (a rating that measures how severe your disability is) within 1 year after discharge, **and**
+You may be able to get benefits if you have an illness that is at least 10% disabling (a rating that measures how severe your disability is) within 1 year after discharge and:
   -	The illness is listed in Title 38, Code of Federal Regulation, 3.09(a), **and**
   -	You were discharged under conditions other than dishonorable
 
