@@ -50,7 +50,7 @@
   padding: 1.5rem 0;
   
   @media (min-width: $medium-screen) {
-    border-left: 4px solid orange;
+    border-left: 4px solid transparent;
     display: inline-block;
     width: 95%;
   }
@@ -255,7 +255,6 @@ button.msg-btn-save {
 
 .msg-compose-write {
   @media (min-width: $medium-screen) {
-    border-left-color: green;
     padding-left: 1.5rem;
   }
 }
