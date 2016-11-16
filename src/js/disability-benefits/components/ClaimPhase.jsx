@@ -39,7 +39,6 @@ export default class ClaimPhase extends React.Component {
   }
   getEventDescription(event) {
     const filesPath = `your-claims/${this.props.id}/document-request/${event.trackedItemId}`;
-    const fromVet = event.type.endsWith('you_list');
 
     switch (event.type) {
       case 'phase_entered':
@@ -60,7 +59,7 @@ export default class ClaimPhase extends React.Component {
         if (event.uploaded || event.status === 'SUBMITTED_AWAITING_REVIEW') {
           return (
             <div className="claims-evidence-item columns medium-9">
-              {fromVet ? 'You' : 'Others'} submitted {event.displayName}. We will notify you when we have reviewed it.
+              You or others submitted {event.displayName}. We will notify you when we have reviewed it.
             </div>
           );
         }
@@ -75,7 +74,7 @@ export default class ClaimPhase extends React.Component {
         if (event.status === 'SUBMITTED_AWAITING_REVIEW') {
           return (
             <div className="claims-evidence-item columns medium-9">
-              {fromVet ? 'You' : 'Others'} submitted {event.displayName}. We will notify you when we have reviewed it.
+              You or others submitted {event.displayName}. We will notify you when we have reviewed it.
             </div>
           );
         }
