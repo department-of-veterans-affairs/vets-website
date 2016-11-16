@@ -61,6 +61,7 @@ describe('<StatusPage>', () => {
       attributes: {
         phase: 2,
         documentsNeeded: true,
+        open: true,
         decisionLetterSent: false,
         waiverSubmitted: true,
         eventsTimeline: [
@@ -77,6 +78,52 @@ describe('<StatusPage>', () => {
           claim={claim}/>
     );
     expect(tree.subTree('NeedFilesFromYou')).not.to.be.false;
+  });
+  it('should not render need files from you when closed', () => {
+    const claim = {
+      attributes: {
+        phase: 2,
+        documentsNeeded: true,
+        decisionLetterSent: false,
+        open: false,
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <StatusPage
+          claim={claim}/>
+    );
+    expect(tree.subTree('NeedFilesFromYou')).to.be.false;
+  });
+  it('should not render files needed from you when decision letter sent', () => {
+    const claim = {
+      attributes: {
+        phase: 2,
+        documentsNeeded: true,
+        decisionLetterSent: true,
+        open: true,
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <StatusPage
+          claim={claim}/>
+    );
+    expect(tree.subTree('NeedFilesFromYou')).to.be.false;
   });
   it('should render ask va to decide component', () => {
     const claim = {
