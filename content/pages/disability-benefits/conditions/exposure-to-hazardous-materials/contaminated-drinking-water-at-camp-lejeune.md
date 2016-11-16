@@ -5,6 +5,7 @@ source: http://benefits.va.gov/compensation/claims-postservice-exposures-camp_le
 template: 4-action-page
 ---
 
+<<<<<<< HEAD
 Did you serve at Camp Lejeune, North Carolina, for 30 days or more any time from August 1953 through December 1987? If yes, you and your family may have drank water with toxic chemicals in it (called contaminated water). If you or someone in your family has a health problem linked to this contaminated water, you may be able to get free health care and other support from the VA.
 
 ### Can I get disability benefits from VA?
@@ -18,6 +19,25 @@ You may be able to get disability benefits if you served under official orders o
 - You served at Camp Lejeune when the water was contaminated (August 1953 through December 1987)
 - You have a current health problem linked to the contaminated water. [Learn about the 15 health problems link to Camp LeJeune's water >](http://www.publichealth.va.gov/exposures/camp-lejeune/index.asp)
 - You have a doctor or hospital report that states the health problem was caused by the contaminated water at Camp Lejeune
+=======
+If you served at—or were assigned to—Marine Corps Base Camp Lejeune or Marine Corps Air Station (MCAS) New River in North Carolina, you may have had contact with contaminants (toxic chemicals) in the drinking water there. We believe that contact with these contaminants during your military service caused certain illnesses. This is known as a presumptive service connection. Find out if you can get disability compensation or benefits for certain illnesses with a presumptive service connection.
+
+### Can I get disability benefits from VA?
+
+You may be able to get disability benefits if you served under official orders or other official assignment at Camp Lejeune or MCAS New River for any period of time from August 1953 through December 1987, and both of these are true:
+
+- You were discharged from the military under conditions other than dishonorable, **and**<br /><br /> 
+- You have 1 or more presumptive conditions believed to be caused by contact with contaminants in the Camp Lejeune drinking water. These include:
+
+  - Adult leukemia
+  - Aplastic anemia and other myelodysplastic syndromes
+  - Bladder cancer
+  - Kidney cancer
+  - Liver cancer
+  - Multiple myeloma
+  - Non-Hodgkin’s lymphoma
+  - Parkinson’s disease
+>>>>>>> origin/camp-lejeune-update
 
 ### Who's covered?
 
@@ -86,6 +106,7 @@ You’ll need to apply for benefits in 1 of 2 ways:
 <dd>Austin, TX 78714-9200</dd>
 </div>
 
+<<<<<<< HEAD
 ### What support might I get?
 
 - Monthly payments (called compensation)
@@ -108,6 +129,18 @@ To help support your claim, upload this information (if you have it) along with 
 - Medical records that show you have 1 of the 15 conditions listed above, **and**
 - [The Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Your doctor needs to fill it out and sign it.  
 
+=======
+When you apply, please provide:
+
+- Proof of your relationship to the Veteran who served on active duty for at least 30 days at Camp Lejeune (like a marriage license or a birth certificate), **and**
+
+- Proof that you lived at Camp Lejeune or MCAS New River for at least 30 days from August 1953 through December 1987 (like utility bills, base housing records, military orders, or tax forms), **and**
+
+- Medical records that show you have 1 of the 15 conditions listed above, **and**
+
+- [The Camp Lejeune Family Member Program Treating Physician Report (VA Form 10-10068b)](https://www.clfamilymembers.fsc.va.gov/Home/DownloadForm/10-10068b). Your doctor needs to fill it out and sign it.  
+
+>>>>>>> origin/camp-lejeune-update
 <div class="call-out" markdown="1">
 
 ### What was in the drinking water?
