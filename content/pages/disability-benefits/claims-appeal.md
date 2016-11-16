@@ -21,13 +21,13 @@ You have the right to appeal any disability benefits decision. The VA appeals pr
 
 - File a new claim with your regional office along with any missing evidence (supporting documents like doctor's reports or medical test results), **or**
 - Start an appeal at your regional office by filing a Notice of Disagreement (NOD). If you need help figuring out the process, contact an accredited representative (a trained professional trusted to help with VA-related claims). [Find an accredited representative](/disability-benefits/apply-for-benefits/help/index.html).
-
-### When do I file an NOD?
-
-You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim(s).
 </div>
 
-### How do I file an appeal?
+#### When do I file an NOD?
+
+You'll need to file an NOD within 1 year from the date on the letter letting you know of the decision on your claim(s).
+
+#### How do I file an appeal?
 
 [Complete and turn in VA Form 21-0958](http://www.vba.va.gov/pubs/forms/VBA-21-0958-ARE.pdf).
 
@@ -39,11 +39,11 @@ We'll send you a written explanation (known as a Statement of the Case, or SOC) 
 
 If you disagree with the VBA decision, you can take your appeal to the Board of Veterans' Appeals for another look (known as a de novo review or new look). To do this, file a Substantive Appeal (VA Form 9).
 
-### When do I file a Substantive Appeal?
+#### When do I file a Substantive Appeal?
 
 You'll need to file a Substantive Appeal within 60 days from the date on the letter that comes along with the SOC—or within the remainder of the 1-year period starting from the date on the letter letting you know of the original decision on your claim—whichever gives you more time.
 
-### How do I file a Substantive Appeal?
+#### How do I file a Substantive Appeal?
 
 [Fill out and file VA Form 9](http://www.va.gov/vaforms/va/pdf/VA9.pdf).
 
