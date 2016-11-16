@@ -21,7 +21,9 @@
   }
 
   button {
-    width: auto;
+    @media (min-width: $medium-screen) {
+      width: auto;
+    }  
   }
 
   .msg-search-btn,
@@ -83,31 +85,34 @@
 }
 
 .msg-search-advanced-controls {
-  padding-top: 1.5rem;
   text-align: left;
-
-  &::after {
-    content: '\a0';
-    display: block;
-  }
 }
 
 .msg-search-advanced-group {
-  position: relative;
+  @media (min-width: $medium-screen) {
+    align-items: center;
+    display: flex; 
+  }
 
-  @media (max-width: $medium-screen) {
-    -webkit-flex-wrap: wrap;
-    flex-wrap: wrap;
+  label {
+    @media (min-width: $medium-screen) {
+      -webkit-flex: 1 0 10rem;
+      flex:  1 0 10rem; 
+      width: auto;
+    }
   }
 
   > div:not(.form-checkbox) { 
-    -webkit-align-items: inherit;  
-    align-items: inherit;
-    display: inherit;
-    -webkit-flex: 1 1 100%;
-    flex: 1 1 100%;
     margin-bottom: 1.5rem;
-  }
+
+    @media (min-width: $medium-screen) {
+      // Affects the element's  children
+      align-items: center;
+      display: flex;
+      // Affects the element itself, since it's a flex child
+      flex: 0 1 75%;
+    }
+  } 
 
   .form-checkbox {
     -webkit-flex: 0 1 25%;
@@ -126,19 +131,8 @@
       }
     }
   }
-  
-  label {
-    width: 7rem;
 
-    @media (min-width: $medium-screen) {
-      -webkit-flex: 1 0 10rem;
-      flex:  1 0 10rem; 
-      width: auto;
-    }
-  }
-  
   [type=text] {
-    -webkit-flex: 1 1 100%;
     flex: 1 1 100%;
   } 
 }
@@ -149,17 +143,17 @@
 
   @media (max-width: $medium-screen) {
     padding-top: 0;
-    width: 7rem;
+  }
+
+  @media (min-width: $medium-screen) {
+    flex: 0 1 10rem;
   }
 }
 
-.msg-search-date-range {
-  margin-left: 7rem;
-  position: relative;
-  top: -3.2rem;
-  
-  @media (min-width: $medium-screen) {
-    margin-left: 10rem;
+.msg-search-date-range { 
+  @media (max-width: $medium-screen) {
+    display: flex;
+    align-items: center;
   }
  
   span {
@@ -189,7 +183,7 @@
 // Using an longer selector because of a form[type="submit"]
 // somewhere in the CSS
 form .msg-search-advanced-submit[type="submit"] {
-  margin: 0 0 0 7rem;
+  margin: 0;
 
   @media (min-width: $medium-screen) {
     margin-left: 10rem;
