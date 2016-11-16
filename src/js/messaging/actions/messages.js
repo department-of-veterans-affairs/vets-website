@@ -21,6 +21,7 @@ import {
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_FAILURE,
   SEND_MESSAGE_SUCCESS,
+  TOGGLE_THREAD_FORM,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
   TOGGLE_MOVE_TO,
@@ -255,6 +256,10 @@ export function toggleMessagesCollapsed() {
 
 export function toggleReplyDetails() {
   return { type: TOGGLE_REPLY_DETAILS };
+}
+
+export function toggleThreadForm() {
+  return { type: TOGGLE_THREAD_FORM };
 }
 
 export function updateDraft(key, field) {

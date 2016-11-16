@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
 
 import {
   addDraftAttachments,
@@ -19,6 +20,7 @@ import {
   toggleMessagesCollapsed,
   toggleMoveTo,
   toggleReplyDetails,
+  toggleThreadForm,
   updateDraft
 } from '../actions';
 
@@ -221,17 +223,47 @@ export class Thread extends React.Component {
     const thread = this.makeThread();
     const form = this.makeForm();
 
+    const threadClass = classNames({
+      'messaging-thread-content': true,
+      opened: !this.props.isFormVisible
+    });
+
+    const formClass = classNames({
+      'messaging-thread-form': true,
+      opened: this.props.isFormVisible
+    });
+
     return (
       <div>
-        {header}
-        {thread}
-        <div className="messaging-thread-form">
+        <div className={threadClass}>
+          {header}
+          {thread}
+          <div className="messaging-thread-form-trigger">
+            <button
+                className="usa-button msg-form-trigger"
+                type="button"
+                onClick={this.props.toggleThreadForm}>
+              {this.props.isSavedDraft ? 'Edit draft' : 'Reply'}
+            </button>
+          </div>
+        </div>
+        <div className={formClass}>
+          <div
+              id="messaging-content-header"
+              className="messaging-thread-header">
+            <a
+                className="messaging-cancel-link"
+                onClick={this.props.toggleThreadForm}>
+              Cancel
+            </a>
+            <h2>{this.props.isNewMessage ? 'New message' : 'Reply'}</h2>
+            <button
+                className="messaging-send-button"
+                type="button">
+              Send
+            </button>
+          </div>
           {form}
-          <button
-              className="usa-button"
-              type="button">
-            Reply
-          </button>
         </div>
         <NoticeBox/>
         <ModalConfirmDelete
@@ -260,6 +292,7 @@ const mapStateToProps = (state) => {
     draft,
     folders: state.folders.data.items,
     folderMessages: folder.messages,
+    isFormVisible: state.messages.ui.formVisible,
     isNewMessage,
     isSavedDraft,
     message,
@@ -291,6 +324,7 @@ const mapDispatchToProps = {
   toggleMessagesCollapsed,
   toggleMoveTo,
   toggleReplyDetails,
+  toggleThreadForm,
   updateDraft
 };
 

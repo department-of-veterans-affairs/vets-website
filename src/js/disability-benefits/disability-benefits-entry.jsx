@@ -11,6 +11,7 @@ import initReact from '../common/init-react';
 import reducer from './reducers';
 import routes from './routes.jsx';
 import { setLastPage } from './actions';
+import { basename } from './utils/page';
 
 require('../common');  // Bring in the common javascript.
 require('../../sass/disability-benefits.scss');
@@ -24,7 +25,7 @@ if (__BUILDTYPE__ === 'development' && window.devToolsExtension) {
 }
 
 const browserHistory = useRouterHistory(createHistory)({
-  basename: '/disability-benefits/track-claims'
+  basename
 });
 
 browserHistory.listen((location) => {
