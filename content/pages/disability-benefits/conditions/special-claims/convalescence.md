@@ -26,10 +26,9 @@ You may be able to get disability benefits if you've had a surgery or other trea
  
 **If you didn't have surgery**, you may still be able to get disability benefits if you had 1 or more major joints immobilized by a cast.
 
-</div>
-
 ### Who's covered?
 Veterans
+</div>
 
 ### What kind of disability benefits can I get?
 
