@@ -5,15 +5,15 @@ plainlanguage: 11-9-16 certified in compliance with the Plain Writing Act
 template: 6-info-page
 ---
 
-When you file a claim for disability benefits, you'll need to gather all related evidence (supporting documents like a doctor's report or medical test results) so we can decide on your claim. You may have some of these documents—or be able to easily get them—but we'll need your permission to access others.
+When you file a claim for disability benefits, you'll need to gather all related evidence (supporting documents like a doctor's report or medical test results) so we can decide on your claim. You may have some of these documents—or be able to easily get them—but we'll need your permission to get others.
 
 <div class="call-out" markdown="1">
 
 ### The documents you’ll need to provide include:
 
--	Your discharge or separation papers (DD214 or other documents with the same information)
+-	Your DD214 or other separation documents
 -	Service treatment records (if you have them)
--	Medical evidence related to your illness or injury (supporting documents like a doctor's or hospital report or medical test results)
+-	Medical evidence related to your illness or injury (supporting documents like a doctor's report or medical test results)
 </div>
 
 The Veterans Claims Assistance Act (VCAA) passed by Congress in 2000 defines both VA's and the Veteran's responsibilities:
@@ -36,7 +36,7 @@ The Veterans Claims Assistance Act (VCAA) passed by Congress in 2000 defines bot
   -	Private (non-VA) doctors and hospitals
   -	Current or former employers
 
-- Providing any information we may need to access other records that may be required
+- Providing any information we may need to get other required records
 
 **Example**<br>
 A Veteran filed a disability claim that included prior treatment from a private doctor and a prior Social Security disability award. In this case, we were responsible for getting the Social Security records. We also helped to get the private doctor's records, but the Veteran was responsible for making sure we got those.
@@ -52,7 +52,7 @@ The Fully Developed Claims (FDC) program lets you resolve your claim faster. You
 -	All related service-treatment and personnel records
 -	Any related private medical records
 
-We consider disability benefit claims fully developed when you have no more evidence to send and the only help you need from us is getting federal records and providing—or helping to provide—added medical exams or doctors' opinions. If we discover that there are other private records we need to decide your claim, we'll remove your claim from the FDC program and process it through the traditional claims process.
+We consider disability claims to be fully developed when you have no more evidence to send and the only help you need from us is getting federal records and providing—or helping to provide—added medical exams or doctors' opinions. If we discover that there are other private records we need to decide your claim, we'll remove your claim from the FDC program and review it through the traditional claims process.
 
 #### Standard Claims
 
