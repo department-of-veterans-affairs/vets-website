@@ -43,6 +43,7 @@ class StatusPage extends React.Component {
         && !claim.attributes.waiverSubmitted;
       const filesNeeded = itemsNeedingAttentionFromVet(claim.attributes.eventsTimeline);
       const showDocsNeeded = !claim.attributes.decisionLetterSent &&
+        claim.attributes.open &&
         claim.attributes.documentsNeeded &&
         filesNeeded > 0;
 

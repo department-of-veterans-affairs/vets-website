@@ -8,6 +8,8 @@ import { makeField } from '../../../../src/js/common/model/fields';
 describe('<VeteranAddressSection>', () => {
   const nullAddress = {
     street: makeField(''),
+    street2: makeField(''),
+    street3: makeField(''),
     city: makeField(''),
     country: makeField(''),
     state: makeField(''),
