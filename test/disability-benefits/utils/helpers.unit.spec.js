@@ -399,7 +399,7 @@ describe('Disability benefits helpers: ', () => {
       makeAuthRequest('/testing', null, sinon.spy(), onSuccess);
 
       expect(fetchMock.called).to.be.true;
-      expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
+      expect(fetchMock.firstCall.args[0]).to.contain('/testing');
       expect(fetchMock.firstCall.args[1].method).to.equal('GET');
     });
     it('should reject promise when there is an error', (done) => {
@@ -415,7 +415,7 @@ describe('Disability benefits helpers: ', () => {
       makeAuthRequest('/testing', null, sinon.spy(), sinon.spy(), onError);
 
       expect(fetchMock.called).to.be.true;
-      expect(fetchMock.firstCall.args[0]).to.equal('https://dev-api.vets.gov/testing');
+      expect(fetchMock.firstCall.args[0]).to.contain('/testing');
       expect(fetchMock.firstCall.args[1].method).to.equal('GET');
     });
     it('should dispatch auth error', (done) => {
