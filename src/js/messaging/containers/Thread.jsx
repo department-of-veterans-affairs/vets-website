@@ -49,8 +49,10 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
-    const id = this.props.params.id;
-    this.props.fetchThread(id);
+    if (!this.props.loading) {
+      const id = this.props.params.id;
+      this.props.fetchThread(id);
+    }
   }
 
   componentDidUpdate() {
@@ -60,15 +62,17 @@ export class Thread extends React.Component {
       return;
     }
 
-    if (this.props.isNewMessage && this.props.recipients.length === 0) {
-      this.props.fetchRecipients();
-    }
+    if (!this.props.loading) {
+      if (this.props.isNewMessage && this.props.recipients.length === 0) {
+        this.props.fetchRecipients();
+      }
 
-    const message = this.props.message;
-    const newId = +this.props.params.id;
+      const message = this.props.message;
+      const newId = +this.props.params.id;
 
-    if (!message || newId !== message.messageId) {
-      this.props.fetchThread(newId);
+      if (!message || newId !== message.messageId) {
+        this.props.fetchThread(newId);
+      }
     }
   }
 
