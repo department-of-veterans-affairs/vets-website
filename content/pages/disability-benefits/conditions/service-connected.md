@@ -13,7 +13,7 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 
 Do you have a disability caused by an illness or injury that happened—or got worse—while you were actively serving in the military? If yes, you may be able to get disability compensation or benefits—no matter when or where you served. 
 
-###Can I get disability benefits from VA?
+### Can I get disability benefits from VA?
 
 You may be able to get disability benefits if you have a current physical or mental disability and:
 - You got injured or sick while actively serving in the military—and your injury or illness caused your disability or made a disability you already had worse, **and** 
@@ -21,17 +21,17 @@ You may be able to get disability benefits if you have a current physical or men
 
 <div class="call-out" markdown="1">
 
-###What illnesses and injuries (also called conditions) are covered by these benefits?
+### What illnesses and injuries (also called conditions) are covered by these benefits?
 
 You may be able to get benefits for conditions believed to be caused by military service, including:
 
 - Chronic (long-lasting) back pain
 - Severe hearing loss
 - Scar tissue
-- Loss of range of motion (problems moving your body)
-- Ulcers (painful sores in your stomach or small intestine)
+- Loss of range of motion 
+- Ulcers 
 - Cancer (if caused by contact with toxic chemicals or other dangers)
-- Traumatic brain injury (TBI) (an injury caused by a blow to the head or an object piercing the skull)
+- Traumatic brain injury (TBI) 
 
 <br>
 
