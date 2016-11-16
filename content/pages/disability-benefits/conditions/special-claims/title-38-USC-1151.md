@@ -12,9 +12,8 @@ If you suffered an added disability while getting VA medical care or taking part
 <div class="call-out" markdown="1">
 
 ### Can I get compensation from VA?
-Yes, if:
 
-- You have an added disability or an injury or disease got worse as a direct result of:
+You can get compensation from VA if you have an added disability or an injury or disease got worse as a direct result of:
   - VA carelessness or negligence, **or**
   - VA medical or surgical treatment, **or**
   - A VA health exam, **or**
