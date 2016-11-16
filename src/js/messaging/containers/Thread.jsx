@@ -260,7 +260,7 @@ export class Thread extends React.Component {
           {thread}
           <div className="messaging-thread-form-trigger">
             <button
-                className="usa-button msg-form-trigger"
+                className="usa-button"
                 type="button"
                 onClick={this.props.toggleThreadForm}>
               {this.props.isSavedDraft ? 'Edit draft' : 'Reply'}

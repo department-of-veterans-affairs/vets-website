@@ -17,7 +17,7 @@ export function isValidFileSize(file) {
 }
 
 export function isValidFileType(file) {
-  return FILE_TYPES.some(type => file.name.endsWith(type));
+  return FILE_TYPES.some(type => file.name.toLowerCase().endsWith(type));
 }
 
 export function isValidFile(file) {
