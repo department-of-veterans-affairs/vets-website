@@ -2,7 +2,7 @@ import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
-import { AnnualIncomeSection } from '../../../../src/client/components/household-information/AnnualIncomeSection';
+import { AnnualIncomeSection } from '../../../../src/js/hca/components/household-information/AnnualIncomeSection';
 import { makeField } from '../../../../src/common/fields';
 import { addChildIncomeFields } from '../../../../src/client/actions';
 
