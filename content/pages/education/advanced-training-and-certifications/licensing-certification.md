@@ -24,7 +24,7 @@ Veterans
 If you paid for a test(s) to become a licensed or certified mechanic, medical technician, attorney, therapist, website developer, computer network engineer, or other professional, we may pay you back. There's no limit to the number of tests you can take, or the number of times you take the same test. We pay for tests even when you don’t score high enough to get your license or certification, but VA won't pay for fees or costs you need to pay to get your license or certification.
 
 ### How do I get this benefit?
-You have to turn in proof of payment. [Fill out VA Form 22-0803](http://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf)(Application for Reimbursement of Licensing or Certification Test) and either [upload it on the GI Bill site](https://gibill.custhelp.com/app/utils/login_form/) or [mail it to your nearest VA regional processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
+You have to turn in proof of payment. [Fill out VA Form 22-0803](http://www.vba.va.gov/pubs/forms/VBA-22-0803-ARE.pdf) (Application for Reimbursement of Licensing or Certification Test) and either [upload it on the GI Bill site](https://gibill.custhelp.com/app/utils/login_form/) or [mail it to your nearest VA regional processing office](http://www.benefits.va.gov/gibill/regional_processing.asp).
 
 Find out [how your GI Bill entitlement will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) if you use the licensing and certification benefit.
 
