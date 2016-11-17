@@ -31,6 +31,7 @@ very secret.
 | run automated accessibility tests | `npm run build && npm run test:accessibility` |
 | test for broken links | Build the site. Broken Link Checking is done via a Metalsmith plugin during build. Note that it only runs on *build* not watch. |
 | add new npm modules | `npm install -D my-module` followed by `npm shrinkwrap --dev`. There are no non-dev modules here. |
+| get the latest json schema | Update vets-json-schema in package.json with the latest commit hash, then run `npm update vets-json-schema && npm shrinkwrap --dev` |
 
 ## Directory structure
 
