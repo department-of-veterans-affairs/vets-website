@@ -68,7 +68,7 @@ function initClaimsListMock() {
   });
 }
 
-function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitted, phase) {
+function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitted, phase, estDate) {
   request({
     uri: `${E2eHelpers.apiUrl}/mock`,
     method: 'POST',
@@ -83,7 +83,7 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
             evssId: 189685,
             dateFiled: '2008-09-23',
             minEstDate: '2013-05-02',
-            maxEstDate: '2014-01-02',
+            maxEstDate: estDate || '2014-01-02',
             phaseChangeDate: '2012-10-31',
             open: true,
             waiverSubmitted,
