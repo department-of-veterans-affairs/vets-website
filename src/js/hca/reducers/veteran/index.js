@@ -1,9 +1,10 @@
 import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 
-import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE, VETERAN_OVERWRITE, UPDATE_SPOUSE_ADDRESS } from '../../actions';
+import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE, VETERAN_OVERWRITE, UPDATE_SPOUSE_ADDRESS, ADD_CHILD_INCOME_FIELDS } from '../../actions';
 import { makeField, dirtyAllFields } from '../../../common/model/fields';
 import { blankVeteran } from '../../../common/model/veteran';
+import { blankChildIncome } from '../../../common/model/child';
 
 // Add deep object manipulation routines to lodash.
 _.mixin(lodashDeep);
@@ -58,6 +59,23 @@ export default function veteran(state = blankVeteran, action) {
       } else {
         _.set(newState, action.propertyPath, emptyAddress);
       }
+      return newState;
+    }
+
+    case ADD_CHILD_INCOME_FIELDS: {
+      newState = Object.assign({}, state);
+      const emptyChildIncomeFields = blankChildIncome;
+
+      if (newState[action.propertyPath].length > 0) {
+        newState[action.propertyPath].map((child) => {
+          if (!_.has(child, 'grossIncome')) {
+            _.merge(child, emptyChildIncomeFields);
+          }
+
+          return child;
+        });
+      }
+
       return newState;
     }
 

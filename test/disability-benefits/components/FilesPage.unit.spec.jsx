@@ -86,6 +86,37 @@ describe('<FilesPage>', () => {
     );
     expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
   });
+  it('should show never received docs as tracked items', () => {
+    const claim = {
+      attributes: {
+        eventsTimeline: [
+          {
+            type: 'never_received_from_you_list',
+            documents: [{
+              filename: 'Filename'
+            }],
+            trackedItemId: 2,
+            status: 'ACCEPTED'
+          },
+          {
+            type: 'never_received_from_others_list',
+            documents: [{
+              filename: 'Filename'
+            }],
+            trackedItemId: 3,
+            status: 'NEEDED'
+          },
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <FilesPage
+          claim={claim}/>
+    );
+    expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(2);
+    expect(tree.everySubTree('AdditionalEvidenceItem')).to.be.empty;
+  });
   it('should clear alert', () => {
     const claim = {
       attributes: {
