@@ -402,6 +402,9 @@ function completeMedicareAndMedicaid(client, data, onlyRequiredFields) {
 
   if (!onlyRequiredFields) {
     client
+      .click('input[name="isEnrolledMedicarePartA-0"]');
+
+    client
       .setValue('select[name="medicarePartAEffectiveMonth"]', data.medicarePartAEffectiveDate.month)
       .setValue('select[name="medicarePartAEffectiveDay"]', data.medicarePartAEffectiveDate.day)
       .setValue('input[name="medicarePartAEffectiveYear"]', data.medicarePartAEffectiveDate.year);
