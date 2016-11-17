@@ -77,7 +77,18 @@ class VAMap extends Component {
     const newQuery = this.props.currentQuery;
 
     if (isEmpty(this.props.facilities) && !newQuery.inProgress && currentQuery.inProgress && newQuery.bounds && parseInt(newQuery.zoomLevel, 10) > 2) {
-      this.zoomOut();
+      if (isMobile.any) {
+        this.props.updateSearchQuery({
+          bounds: [
+            newQuery.bounds[0] - 0.5,
+            newQuery.bounds[1] - 0.5,
+            newQuery.bounds[2] + 0.5,
+            newQuery.bounds[3] + 0.5,
+          ],
+        });
+      } else {
+        this.zoomOut();
+      }
     }
 
     if (!isEmpty(this.props.facilities) || currentQuery.inProgress) {
@@ -141,7 +152,7 @@ class VAMap extends Component {
         address: currentQuery.searchString,
       });
 
-      this.props.searchWithAddress(currentQuery);
+      this.props.searchWithAddress(currentQuery, isMobile.any);
     }
   }
 
@@ -291,7 +302,7 @@ class VAMap extends Component {
               </div>
             </TabPanel>
             <TabPanel>
-              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
+              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false} doubleClickZoom={false} dragging={false} zoomControl={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
                 <TileLayer
                     url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                     attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>

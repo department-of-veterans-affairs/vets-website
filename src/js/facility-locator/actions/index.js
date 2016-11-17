@@ -54,7 +54,7 @@ export function fetchVAFacility(id, facility = null) {
   };
 }
 
-export function searchWithAddress(query) {
+export function searchWithAddress(query, includeBounds) {
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
@@ -72,7 +72,7 @@ export function searchWithAddress(query) {
       }) || {}).text || res.features[0].place_name;
 
       if (!err) {
-        dispatch({
+        const dispatchObj = {
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
@@ -83,7 +83,18 @@ export function searchWithAddress(query) {
             },
             zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
           }
-        });
+        };
+
+        if (includeBounds) {
+          dispatchObj.payload.bounds = res.features[0].bbox || [
+            coordinates[0] - 0.5,
+            coordinates[1] - 0.5,
+            coordinates[0] + 0.5,
+            coordinates[1] + 0.5,
+          ];
+        }
+
+        dispatch(dispatchObj);
       } else {
         dispatch({
           type: SEARCH_FAILED,
