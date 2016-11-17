@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { states } from '../../common/utils/options-for-select';
+import { states } from './options-for-select';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {
@@ -311,7 +311,7 @@ function isValidChildInformationField(child) {
     isValidDateField(child.childDateOfBirth) &&
     isValidDateField(child.childBecameDependent) &&
     isValidDependentDateField(child.childBecameDependent, child.childDateOfBirth) &&
-    isValidField(isValidMonetaryValue, child.childEducationExpenses);
+    isValidRequiredField(isValidMonetaryValue, child.childEducationExpenses);
 }
 
 function isValidChildren(data) {

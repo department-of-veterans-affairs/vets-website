@@ -1,20 +1,20 @@
 import React from 'react';
 
-import ErrorableSelect from '../../../common/components/form-elements/ErrorableSelect';
-import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
-import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
-import DateInput from '../../../common/components/form-elements/DateInput';
-import FullName from '../../../common/components/questions/FullName';
-import SocialSecurityNumber from '../../../common/components/questions/SocialSecurityNumber';
+import ErrorableSelect from '../form-elements/ErrorableSelect';
+import ErrorableTextInput from '../form-elements/ErrorableTextInput';
+import ErrorableRadioButtons from '../form-elements/ErrorableRadioButtons';
+import DateInput from '../form-elements/DateInput';
+import FullName from '../questions/FullName';
+import SocialSecurityNumber from '../questions/SocialSecurityNumber';
 
-import { childRelationships, yesNo } from '../../../common/utils/options-for-select.js';
-import { isNotBlank, isValidField, isValidMonetaryValue, validateIfDirty, isValidDependentDateField } from '../../utils/validations';
+import { childRelationships, yesNo } from '../../utils/options-for-select.js';
+import { isNotBlank, validateIfDirty, isValidDependentDateField } from '../../utils/validations';
+import { getMonetaryErrorMessage } from '../../utils/messages';
 
 // TODO: create unique nodes for each child in applicationData
 
 class Child extends React.Component {
   render() {
-    const message = 'Please enter only numbers and a decimal point if necessary (no commas or currency signs)';
     let content;
     let livedWithChildField;
 
@@ -119,8 +119,8 @@ class Child extends React.Component {
 
           <div className="row">
             <div className="small-12 columns">
-              <ErrorableTextInput
-                  errorMessage={isValidField(isValidMonetaryValue, this.props.data.childEducationExpenses) ? undefined : message}
+              <ErrorableTextInput required
+                  errorMessage={getMonetaryErrorMessage(this.props.data.childEducationExpenses)}
                   label="Expenses paid by your dependent child for college, vocational rehabilitation, or training (e.g., tuition, books, materials)?"
                   name="childEducationExpenses"
                   field={this.props.data.childEducationExpenses}
