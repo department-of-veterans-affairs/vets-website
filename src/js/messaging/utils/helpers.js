@@ -1,6 +1,9 @@
+import merge from 'lodash/fp/merge';
 import moment from 'moment';
 
-export function createQueryString(query) {
+import environment from '../../common/helpers/environment';
+
+function createQueryString(query) {
   const segments = [];
 
   for (const key of Object.keys(query)) {
@@ -10,6 +13,11 @@ export function createQueryString(query) {
   return segments.join('&');
 }
 
+function isJson(response) {
+  const contentType = response.headers.get('content-type');
+  return contentType && contentType.indexOf('application/json') !== -1;
+}
+
 export function createUrlWithQuery(url, query) {
   const queryString = createQueryString(query);
   const fullUrl = queryString
@@ -17,6 +25,33 @@ export function createUrlWithQuery(url, query) {
                 : url;
 
   return fullUrl;
+}
+
+export function apiRequest(resource, optionalSettings = {}, success, error) {
+  const baseUrl = `${environment.API_URL}/v0/messaging/health`;
+  const url = [baseUrl, resource].join('');
+
+  const defaultSettings = {
+    method: 'GET',
+    headers: {
+      Authorization: `Token token=${sessionStorage.userToken}`,
+      'X-Key-Inflection': 'camel'
+    }
+  };
+
+  const settings = merge(defaultSettings, optionalSettings);
+
+  return fetch(url, settings)
+    .then((response) => {
+      if (!response.ok) {
+        return Promise.reject(response);
+      } else if (isJson(response)) {
+        return response.json();
+      }
+
+      return Promise.resolve(response);
+    })
+    .then(success, error);
 }
 
 export function formatFileSize(bytes, decimalplaces = 2) {
@@ -76,9 +111,4 @@ export function formattedDate(date, options = {}) {
   }
 
   return dateString;
-}
-
-export function isJson(response) {
-  const contentType = response.headers.get('content-type');
-  return contentType && contentType.indexOf('application/json') !== -1;
 }

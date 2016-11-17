@@ -1,10 +1,39 @@
+/********************
+ * Thread (General) *
+ ********************/
+
+.messaging-thread-content {
+  @media (max-width: $medium-screen) {
+    display: none;
+
+    &.opened {
+      display: block;
+    }
+  }
+}
+
+.messaging-thread-form-trigger {
+  display: none;
+
+  & > button {
+    display: block;
+    width: 100%;
+  }
+
+  @media (max-width: $medium-screen) {
+    background: $color-gray-lightest;
+    display: block;
+    padding: 1rem 2rem;
+  }
+}
+
 /*****************
  * Thread Header *
  *****************/
 
 .messaging-thread-header {
   border-bottom: 2px solid $color-black;
-  padding: 2.25rem 0;
+  padding: 0 0 2.25rem 0;
 
   .messaging-toggle-thread,
   .messaging-btn-delete,
@@ -14,8 +43,8 @@
     float: none;
     font-size: 1.5rem;
     font-weight: normal;
-    margin: 0;
-    padding: 0.5rem 1rem;
+    margin: 0 1rem;
+    padding: 0;
     width: auto;
 
     &:hover,
@@ -88,23 +117,14 @@
 }
 
 .messaging-thread-subject {
-  display: inline-block;
   font-weight: normal;
   // Overriding `#content .section h*`.
   padding: 0 2rem !important;
-  vertical-align: top;
-
-  @media (min-width: $medium-screen) {
-    width: 60%;
-  }
 }
 
 .messaging-thread-controls {
-  display: inline-block;
-  padding-right: 1rem;
-  text-align: right;
-  vertical-align: top;
-  width: 40%;
+  float: right;
+  margin: .25rem 1rem;
 
   @media (max-width: $medium-screen) {
     .messaging-btn-delete,
@@ -119,35 +139,22 @@
  ****************/
 
 .messaging-thread-form {
-  font-size: 1.8rem;
-  margin: 1rem 0;
-
-  & > button {
+  .messaging-thread-header {
+    border: none;
     display: none;
-    width: 100%;
+    padding: 0;
   }
 
   @media (max-width: $medium-screen) {
-    background: $color-gray-lightest;
-    padding: 1rem 2rem;
+    display: none;
 
-    & > form {
-      display: none;
-    }
-
-    & > button {
+    &.opened {
       display: block;
     }
-  }
 
-  .msg-field {
-    border: none;
-  }
-
-  textarea {
-    margin: 0;
-    max-width: 100%;
-    padding: 1rem 1.5rem;
+    .messaging-thread-header {
+      display: block;
+    }
   }
 }
 
