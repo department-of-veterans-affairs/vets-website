@@ -27,7 +27,7 @@ class UserDataSection extends React.Component {
           <p><span className="label medium-4 columns">Email Address:</span>{this.props.profile.email}</p>
         </div>
         <div className="medium-4">
-          <a href="https://wallet.id.me/settings">
+          <a href="https://wallet.id.me/settings" target="_blank">
             <button className="usa-button-outline">Change Your Password</button>
           </a>
         </div>
