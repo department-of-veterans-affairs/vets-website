@@ -132,7 +132,7 @@ class SearchControls extends Component {
           </div>
           <div className="columns medium-3">
             <label htmlFor="facilityType">Select Facility Type</label>
-            <div tabIndex="1" className={`facility-dropdown-wrapper ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown} onBlur={() => {setTimeout(() => {this.setState({ facilityDropdownActive: false });}, 200);}}>
+            <div tabIndex="1" className={`facility-dropdown-wrapper ${facilityDropdownActive ? 'active' : ''}`} onClick={this.toggleFacilityDropdown}>
               <div className="flex-center">
                 {this.renderSelectOptionWithIcon(currentQuery.facilityType)}
               </div>
