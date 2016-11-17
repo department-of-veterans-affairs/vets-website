@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import merge from 'lodash/fp/merge';
 import moment from 'moment';
 
@@ -111,4 +112,8 @@ export function formattedDate(date, options = {}) {
   }
 
   return dateString;
+}
+
+export function folderLink(folderName) {
+  return `/${_.kebabCase(folderName)}`;
 }
