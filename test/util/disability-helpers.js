@@ -85,7 +85,7 @@ function initClaimDetailMocks(decisionLetterSent, documentsNeeded, waiverSubmitt
             minEstDate: '2013-05-02',
             maxEstDate: estDate || '2014-01-02',
             phaseChangeDate: '2012-10-31',
-            open: true,
+            open: !decisionLetterSent,
             waiverSubmitted,
             documentsNeeded,
             developmentLetterSent: true,
