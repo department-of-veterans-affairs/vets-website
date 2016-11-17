@@ -37,13 +37,13 @@ class FilesPage extends React.Component {
 
     let content = null;
     if (!loading) {
-      const trackedItems = claim.attributes.eventsTimeline.filter(event => event.type.endsWith('_list') && !event.type.startsWith('never_received_from'));
+      const trackedItems = claim.attributes.eventsTimeline.filter(event => event.type.endsWith('_list'));
       const filesNeeded = trackedItems
         .filter(event => event.status === NEED_ITEMS_STATUS && event.type === 'still_need_from_you_list');
       const optionalFiles = trackedItems
         .filter(event => event.status === NEED_ITEMS_STATUS && event.type === 'still_need_from_others_list');
       const documentsTurnedIn = trackedItems
-        .filter(event => event.status !== NEED_ITEMS_STATUS || event.type.startsWith('received_from'));
+        .filter(event => event.status !== NEED_ITEMS_STATUS || !event.type.startsWith('still_need_from'));
 
       content = (
         <div>

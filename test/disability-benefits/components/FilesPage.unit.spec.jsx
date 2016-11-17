@@ -86,7 +86,7 @@ describe('<FilesPage>', () => {
     );
     expect(tree.everySubTree('AdditionalEvidenceItem').length).to.equal(1);
   });
-  it('should not show never received docs', () => {
+  it('should show never received docs as tracked items', () => {
     const claim = {
       attributes: {
         eventsTimeline: [
@@ -103,6 +103,7 @@ describe('<FilesPage>', () => {
             documents: [{
               filename: 'Filename'
             }],
+            trackedItemId: 3,
             status: 'NEEDED'
           },
         ]
@@ -113,7 +114,7 @@ describe('<FilesPage>', () => {
       <FilesPage
           claim={claim}/>
     );
-    expect(tree.everySubTree('SubmittedTrackedItem')).to.be.empty;
+    expect(tree.everySubTree('SubmittedTrackedItem').length).to.equal(2);
     expect(tree.everySubTree('AdditionalEvidenceItem')).to.be.empty;
   });
   it('should clear alert', () => {
