@@ -311,7 +311,7 @@ function isValidChildInformationField(child) {
     isValidDateField(child.childDateOfBirth) &&
     isValidDateField(child.childBecameDependent) &&
     isValidDependentDateField(child.childBecameDependent, child.childDateOfBirth) &&
-    isValidField(isValidMonetaryValue, child.childEducationExpenses);
+    isValidRequiredField(isValidMonetaryValue, child.childEducationExpenses);
 }
 
 function isValidChildren(data) {
