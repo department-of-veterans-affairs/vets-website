@@ -6,7 +6,7 @@ import ChildIncome from './ChildIncome';
 import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
 import FixedTable from '../../../common/components/form-elements/FixedTable.jsx';
 import { getMonetaryErrorMessage } from '../../utils/messages';
-import { veteranUpdateField } from '../../actions';
+import { veteranUpdateField, addChildIncomeFields } from '../../actions';
 
 /**
  * Props:
@@ -14,6 +14,9 @@ import { veteranUpdateField } from '../../actions';
  * `reviewSection` - Boolean. Hides components that are only needed for ReviewAndSubmitSection.
  */
 class AnnualIncomeSection extends React.Component {
+  componentWillMount() {
+    this.props.addChildIncomeFields('children');
+  }
 
   handleChange(field, update) {
     this.props.onStateChange(field, update);
@@ -233,6 +236,9 @@ function mapDispatchToProps(dispatch) {
     onStateChange: (field, update) => {
       dispatch(veteranUpdateField(field, update));
     },
+    addChildIncomeFields: (propertyPath) => {
+      dispatch(addChildIncomeFields(propertyPath));
+    }
   };
 }
 
