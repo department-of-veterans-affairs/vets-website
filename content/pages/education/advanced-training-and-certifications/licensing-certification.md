@@ -10,7 +10,7 @@ VA may pay Veterans back for licensing or certification exam costs.
 <div class="call-out" markdown="1">
 
 ### Can I get paid back for licensing and certification test fees?
-Yes, if:
+You can get paid back if:
 
   -	You qualify for the GI Bill.
   -	You're taking an exam that costs less than $2,000.
