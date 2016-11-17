@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import set from 'lodash/fp/set';
 import concat from 'lodash/fp/concat';
 
@@ -38,7 +39,7 @@ const initialState = {
         order: 'DESC'
       }
     },
-    items: []
+    items: new Map()
   },
   ui: {
     loading: false,
@@ -91,7 +92,12 @@ export default function folders(state = initialState, action) {
     }
 
     case FETCH_FOLDERS_SUCCESS: {
-      const items = action.data.data.map(folder => folder.attributes);
+      const items = new Map();
+      action.data.data.forEach((folder) => {
+        const item = folder.attributes;
+        items.set(_.kebabCase(item.name), item);
+      });
+
       return set('data.items', items, state);
     }
 

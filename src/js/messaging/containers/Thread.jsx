@@ -49,7 +49,7 @@ export class Thread extends React.Component {
 
   componentDidMount() {
     if (!this.props.loading) {
-      const id = this.props.params.id;
+      const id = this.props.params.messageId;
       this.props.fetchThread(id);
     }
   }
@@ -66,7 +66,7 @@ export class Thread extends React.Component {
       }
 
       const message = this.props.message;
-      const newId = +this.props.params.id;
+      const newId = +this.props.params.messageId;
 
       if (!message || newId !== message.messageId) {
         this.props.fetchThread(newId);
@@ -308,9 +308,12 @@ const mapStateToProps = (state) => {
   const isSavedDraft = message && !message.sentDate;
   const isNewMessage = draft.replyMessageId === undefined;
 
+  const folders = [];
+  state.folders.data.items.forEach(value => folders.push(value));
+
   return {
     draft,
-    folders: state.folders.data.items,
+    folders,
     folderMessages: folder.messages,
     isFormVisible: state.messages.ui.formVisible,
     isNewMessage,
