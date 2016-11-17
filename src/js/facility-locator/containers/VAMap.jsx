@@ -76,7 +76,7 @@ class VAMap extends Component {
     const { currentQuery } = prevProps;
     const newQuery = this.props.currentQuery;
 
-    if (isEmpty(this.props.facilities) && !newQuery.inProgress && !currentQuery.inProgress && newQuery.bounds && parseInt(newQuery.zoomLevel, 10) > 2) {
+    if (isEmpty(this.props.facilities) && !newQuery.inProgress && currentQuery.inProgress && newQuery.bounds && parseInt(newQuery.zoomLevel, 10) > 2) {
       this.zoomOut();
     }
 
