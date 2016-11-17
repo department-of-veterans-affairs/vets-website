@@ -5,21 +5,22 @@ template: 4-action-page-pending
 concurrence: complete
 ---
 
-If you are pursuing higher education that requires testing as part of the application process, you may be eligible for reimbursement from VA.
+If you have to pay for a test(s) as part of the application process for college or other training, VA may pay you back.
+
 <div class="call-out" markdown="1">
 
-### Are you eligible for compensation?
-Yes, if:
+### Can I get paid back for exam fees?
 
-You are a Veteran eligible for the GI Bill
+You can get paid back for the cost of exams if you are a Veteran or Servicemember and you're eligible for the GI Bill. 
 
-### Who is covered
-You
+### Who's covered
+Veterans
+Servicemembers
 </div>
 
-### Available benefits
+### What kind of benefits can I get? 
 
-Reimbursement for testing fees, including:
+Payment for testing fees, including:
 
 - Registration fees
 - Fees for specialized tests
@@ -29,13 +30,13 @@ Reimbursement for testing fees, including:
 
 ### How it works
 - Proof of payment may be required.
-- Learn how [your GI Bill benefit package will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for testing expenses.
-- VA can reimburse you only for mandatory test fees.
+- [Learn how your GI Bill benefit package will be charged](https://gibill.custhelp.com/app/answers/detail/a_id/29) for testing expenses.
+- VA can only pay you back for mandatory test fees.
 
-#### VA will not reimburse you for the following fees:
+#### VA won't reimburse you for the following fees:
 
 - Fees associated with pretests (such as Kaplan tests)
-- Fees to receive scores quickly
+- Fees to get scores quickly
 - Optional items not required to take an approved test
 
 #### VA has approved the following tests for reimbursement:
@@ -57,4 +58,4 @@ Reimbursement for testing fees, including:
 - ECE (Excelsior College Examinations)
 - PLA (Prior Learning Assessment) testing through learningcounts.org
 
-See the [complete list of tests and fees](http://inquiry.vba.va.gov/weamspub/buildSearchNE.do).
+[See the complete list of tests and fees](http://inquiry.vba.va.gov/weamspub/buildSearchNE.do).
