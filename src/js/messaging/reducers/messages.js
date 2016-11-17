@@ -9,6 +9,7 @@ import {
   DELETE_DRAFT_ATTACHMENT,
   FETCH_THREAD_SUCCESS,
   FETCH_THREAD_MESSAGE_SUCCESS,
+  LOADING_THREAD,
   TOGGLE_THREAD_FORM,
   TOGGLE_MESSAGE_COLLAPSED,
   TOGGLE_MESSAGES_COLLAPSED,
@@ -30,10 +31,11 @@ const initialState = {
     }
   },
   ui: {
+    formVisible: false,
+    loading: false,
     messagesCollapsed: new Set(),
     moveToOpened: false,
-    replyDetailsCollapsed: true,
-    formVisible: false
+    replyDetailsCollapsed: true
   }
 };
 
@@ -111,6 +113,9 @@ export default function messages(state = initialState, action) {
       newState = set('data.draft', draft, newState);
       return set('data.message', currentMessage, newState);
     }
+
+    case LOADING_THREAD:
+      return set('ui.loading', true, state);
 
     case TOGGLE_MESSAGE_COLLAPSED: {
       const newMessagesCollapsed = new Set(state.ui.messagesCollapsed);
