@@ -1,10 +1,6 @@
-import _ from 'lodash';
-import lodashDeep from 'lodash-deep';
+import _ from 'lodash/fp';
 
 import { UPDATE_PROFILE_FIELD, LOG_OUT } from '../actions';
-
-// Add deep object manipulation routines to lodash.
-_.mixin(lodashDeep);
 
 // TODO(crew): Romove before this goes to production.
 const initialState = {
@@ -21,17 +17,13 @@ const initialState = {
 };
 
 function profileInformation(state = initialState, action) {
-  let newState = undefined;
   switch (action.type) {
     case UPDATE_PROFILE_FIELD: {
-      newState = Object.assign({}, state);
-      _.set(newState, action.propertyPath, action.value);
-      return newState;
+      return _.set(action.propertyPath, action.value, state);
     }
 
     case LOG_OUT: {
-      newState = initialState;
-      return newState;
+      return initialState;
     }
 
     default:
