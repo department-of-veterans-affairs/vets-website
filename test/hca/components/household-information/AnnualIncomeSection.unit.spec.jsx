@@ -3,8 +3,8 @@ import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
 import { AnnualIncomeSection } from '../../../../src/js/hca/components/household-information/AnnualIncomeSection';
-import { makeField } from '../../../../src/common/fields';
-import { addChildIncomeFields } from '../../../../src/client/actions';
+import { makeField } from '../../../../src/js/common/model/fields';
+import { addChildIncomeFields } from '../../../../src/js/hca/actions';
 
 describe('<AnnualIncomeSection>', () => {
   it('renders the correct spouse income amounts', () => {
