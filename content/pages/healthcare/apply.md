@@ -66,7 +66,6 @@ To update your personal, insurance, or financial information from a previous app
 ### Additional forms for caregivers, National Guard, and Reserve Servicemembers
 
 - [Apply as a caregiver (10-10CG)](/healthcare/forms/vha-10-10CG.pdf)
-- [Apply as National Guard and Reserve (10-10EZ-Demob)](/healthcare/forms/10-10EZ-DEMOB.pdf)
 
 #### Instructions for downloading the forms
 
