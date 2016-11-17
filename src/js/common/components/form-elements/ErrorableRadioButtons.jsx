@@ -76,12 +76,16 @@ class ErrorableRadioButtons extends React.Component {
     const optionElements = options.map((obj, index) => {
       let optionLabel;
       let optionValue;
+      let optionAdditional;
       if (_.isString(obj)) {
         optionLabel = obj;
         optionValue = obj;
       } else {
         optionLabel = obj.label;
         optionValue = obj.value;
+        if (obj.additional) {
+          optionAdditional = (<div><p>{obj.additional}</p></div>);
+        }
       }
       const checked = optionValue === storedValue ? 'checked=true' : '';
       const matchingSubSection = this.getMatchingSubSection(optionValue === storedValue, optionValue);
@@ -96,6 +100,7 @@ class ErrorableRadioButtons extends React.Component {
               onChange={this.handleChange}/>
           <label htmlFor={`${this.inputId}-${index}`}>
             {optionLabel}
+            {checked ? optionAdditional : null}
           </label>
           {matchingSubSection}
         </div>
@@ -130,6 +135,10 @@ ErrorableRadioButtons.propTypes = {
         value: React.PropTypes.oneOfType([
           React.PropTypes.string,
           React.PropTypes.bool
+        ]),
+        additional: React.PropTypes.oneOfType([
+          React.PropTypes.string,
+          React.PropTypes.element
         ])
       })
     ])).isRequired,
