@@ -9,14 +9,11 @@
 
 set -e
 
-# Don't build or run tests for pushes to production or master. Tests
-# were already run with the PR build that was merged and caused this to run.
+# Don't build or run tests for a push to a branch that's not production or
+# master. If this is a PR for a branch, we fall through to the tests
 
-echo "Travis branch: $TRAVIS_BRANCH";
-echo "Travis pull request: $TRAVIS_PULL_REQUEST";
-
-if [[ ( $TRAVIS_BRANCH == "production" ||
-        $TRAVIS_BRANCH == "master" ) &&
+if [[ ( $TRAVIS_BRANCH != "production" &&
+        $TRAVIS_BRANCH != "master" ) &&
       $TRAVIS_PULL_REQUEST == "false" ]]
 then
   exit 0;
@@ -60,6 +57,16 @@ echo "TRAVIS_JOB_NUMBER=$TRAVIS_JOB_NUMBER" >> $BUILD_DETAILS_FILE
 echo "TRAVIS_COMMIT=$TRAVIS_COMMIT" >> $BUILD_DETAILS_FILE
 echo "TRAVIS_COMMIT_RANGE=$TRAVIS_COMMIT_RANGE" >> $BUILD_DETAILS_FILE
 echo "TRAVIS_BRANCH=$TRAVIS_BRANCH" >> $BUILD_DETAILS_FILE
+
+# Don't run tests for pushes to production or master. Tests were already run
+# with the PR build that was merged and caused this to run.
+
+if [[ ( $TRAVIS_BRANCH == "production" ||
+        $TRAVIS_BRANCH == "master" ) &&
+      $TRAVIS_PULL_REQUEST == "false" ]]
+then
+  exit 0;
+fi
 
 # Run unit tests
 npm run test:unit;
