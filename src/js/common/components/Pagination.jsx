@@ -1,18 +1,20 @@
 import React from 'react';
 import classNames from 'classnames';
+import range from 'lodash/fp/range';
 
 class Pagination extends React.Component {
   constructor(props) {
     super(props);
     this.next = this.next.bind(this);
     this.prev = this.prev.bind(this);
+    this.pageNumbers = this.pageNumbers.bind(this);
   }
 
   next() {
     let nextPage;
     if (this.props.pages > this.props.page) {
       nextPage = (
-        <a className="va-pagination-next" onClick={() => {this.props.onPageSelect(this.props.page + 1);}}>
+        <a onClick={() => {this.props.onPageSelect(this.props.page + 1);}}>
           Next
         </a>
       );
@@ -24,22 +26,38 @@ class Pagination extends React.Component {
     let prevPage;
     if (this.props.page > 1) {
       prevPage = (
-        <a className="va-pagination-prev" onClick={() => {this.props.onPageSelect(this.props.page - 1);}}>
-          Previous
+        <a onClick={() => {this.props.onPageSelect(this.props.page - 1);}}>
+          <abbr title="Previous">Prev</abbr>
         </a>
       );
     }
     return prevPage;
   }
 
+  pageNumbers(limit) {
+    const totalPages = this.props.pages;
+    let end;
+    let start;
+
+    if (totalPages > limit) {
+      // If there are more pages returned than the limit to show
+      // cap the upper range at limit + the page number.
+      start = this.props.page;
+      end = limit + this.props.page;
+    } else {
+      start = 1;
+      end = totalPages + 1;
+    }
+
+    return range(start, end);
+  }
 
   render() {
     if (this.props.pages === 1) {
       return <div/>;
     }
 
-    const pageList = Array(this.props.pages).fill().map((e, i) => {
-      const pageNumber = i + 1;
+    const pageList = this.pageNumbers(10).map((pageNumber) => {
       const pageClass = classNames({
         'va-pagination-active': this.props.page === pageNumber
       });
@@ -56,11 +74,11 @@ class Pagination extends React.Component {
 
     return (
       <div className="va-pagination">
+        <span className="va-pagination-prev">{this.prev()}</span>
         <div className="va-pagination-inner">
-          {this.prev()}
           {pageList}
-          {this.next()}
         </div>
+        <span className="va-pagination-next">{this.next()}</span>
       </div>
     );
   }

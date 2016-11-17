@@ -1,5 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import classNames from 'classnames';
+
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 
 import {
   addDraftAttachments,
@@ -12,6 +15,7 @@ import {
   moveMessageToFolder,
   openAttachmentsModal,
   openMoveToNewFolderModal,
+  resetRedirect,
   saveDraft,
   sendMessage,
   toggleConfirmDelete,
@@ -19,6 +23,7 @@ import {
   toggleMessagesCollapsed,
   toggleMoveTo,
   toggleReplyDetails,
+  toggleThreadForm,
   updateDraft
 } from '../actions';
 
@@ -43,21 +48,34 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
-    const id = this.props.params.id;
-    this.props.fetchThread(id);
+    if (!this.props.loading) {
+      const id = this.props.params.id;
+      this.props.fetchThread(id);
+    }
   }
 
   componentDidUpdate() {
-    if (this.props.isNewMessage && this.props.recipients.length === 0) {
-      this.props.fetchRecipients();
+    if (this.props.redirect) {
+      this.context.router.push(this.props.redirect);
+      return;
     }
 
-    const message = this.props.message;
-    const newId = +this.props.params.id;
+    if (!this.props.loading) {
+      if (this.props.isNewMessage && this.props.recipients.length === 0) {
+        this.props.fetchRecipients();
+      }
 
-    if (!message || newId !== message.messageId) {
-      this.props.fetchThread(newId);
+      const message = this.props.message;
+      const newId = +this.props.params.id;
+
+      if (!message || newId !== message.messageId) {
+        this.props.fetchThread(newId);
+      }
     }
+  }
+
+  componentWillUnmount() {
+    this.props.resetRedirect();
   }
 
   apiFormattedDraft() {
@@ -217,21 +235,55 @@ export class Thread extends React.Component {
   }
 
   render() {
+    if (this.props.loading) {
+      return <LoadingIndicator message="is loading the thread..."/>;
+    }
+
     const header = this.makeHeader();
     const thread = this.makeThread();
     const form = this.makeForm();
 
+    const threadClass = classNames({
+      'messaging-thread-content': true,
+      opened: !this.props.isFormVisible
+    });
+
+    const formClass = classNames({
+      'messaging-thread-form': true,
+      opened: this.props.isFormVisible
+    });
+
     return (
       <div>
-        {header}
-        {thread}
-        <div className="messaging-thread-form">
+        <div className={threadClass}>
+          {header}
+          {thread}
+          <div className="messaging-thread-form-trigger">
+            <button
+                className="usa-button"
+                type="button"
+                onClick={this.props.toggleThreadForm}>
+              {this.props.isSavedDraft ? 'Edit draft' : 'Reply'}
+            </button>
+          </div>
+        </div>
+        <div className={formClass}>
+          <div
+              id="messaging-content-header"
+              className="messaging-thread-header">
+            <a
+                className="messaging-cancel-link"
+                onClick={this.props.toggleThreadForm}>
+              Cancel
+            </a>
+            <h2>{this.props.isNewMessage ? 'New message' : 'Reply'}</h2>
+            <button
+                className="messaging-send-button"
+                type="button">
+              Send
+            </button>
+          </div>
           {form}
-          <button
-              className="usa-button"
-              type="button">
-            Reply
-          </button>
         </div>
         <NoticeBox/>
         <ModalConfirmDelete
@@ -260,14 +312,17 @@ const mapStateToProps = (state) => {
     draft,
     folders: state.folders.data.items,
     folderMessages: folder.messages,
+    isFormVisible: state.messages.ui.formVisible,
     isNewMessage,
     isSavedDraft,
+    loading: state.messages.ui.loading,
     message,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
     persistFolder: folder.persistFolder,
     recipients: state.compose.recipients,
+    redirect: state.folders.ui.redirect,
     replyDetailsCollapsed: state.messages.ui.replyDetailsCollapsed,
     thread: state.messages.data.thread
   };
@@ -284,6 +339,7 @@ const mapDispatchToProps = {
   moveMessageToFolder,
   openAttachmentsModal,
   openMoveToNewFolderModal,
+  resetRedirect,
   saveDraft,
   sendMessage,
   toggleConfirmDelete,
@@ -291,6 +347,7 @@ const mapDispatchToProps = {
   toggleMessagesCollapsed,
   toggleMoveTo,
   toggleReplyDetails,
+  toggleThreadForm,
   updateDraft
 };
 
