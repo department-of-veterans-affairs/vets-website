@@ -1,9 +1,4 @@
 module.exports = {
-  // The indices of systemFolders are positive. The
-  // actual folder IDs are negative. Remember to invert
-  // when needed.
-  systemFolders: ['Inbox', 'Sent', 'Drafts', 'Deleted'],
-
   // An array of objects containing the category name (label) and a
   // value for use with select, radio button inputs.
   messageCategories: [

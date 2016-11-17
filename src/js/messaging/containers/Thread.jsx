@@ -48,6 +48,7 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
+    // TODO: Validate this.props.params.folderName.
     if (!this.props.loading) {
       const id = this.props.params.messageId;
       this.props.fetchThread(id);
@@ -118,11 +119,18 @@ export class Thread extends React.Component {
       return null;
     }
 
+    const folders = this.props.folders;
+    const currentFolder = folders.get(this.props.params.folderName);
+
     // Exclude the current folder from the list of folders
     // that are passed down to the MoveTo component.
-    const moveToFolders = this.props.folders.filter((folder) => {
-      return folder.folderId !== this.props.persistFolder &&
-             folder.name !== 'Sent';
+    const moveToFolders = [];
+    folders.forEach((folder) => {
+      const isCurrentFolder = folder.folderId === currentFolder.folderId;
+
+      if (!isCurrentFolder) {
+        moveToFolders.push(folder);
+      }
     });
 
     const folderMessages = this.props.folderMessages;
@@ -146,9 +154,9 @@ export class Thread extends React.Component {
           currentMessageNumber={currentIndex + 1}
           moveToFolders={moveToFolders}
           folderMessageCount={folderMessageCount}
+          folderName={currentFolder.name}
           message={this.props.message}
           onMessageSelect={handleMessageSelect}
-          persistedFolder={this.props.persistFolder}
           threadMessageCount={this.props.thread.length + 1}
           messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
           moveToIsOpen={this.props.moveToOpened}
@@ -308,12 +316,9 @@ const mapStateToProps = (state) => {
   const isSavedDraft = message && !message.sentDate;
   const isNewMessage = draft.replyMessageId === undefined;
 
-  const folders = [];
-  state.folders.data.items.forEach(value => folders.push(value));
-
   return {
     draft,
-    folders,
+    folders: state.folders.data.items,
     folderMessages: folder.messages,
     isFormVisible: state.messages.ui.formVisible,
     isNewMessage,
@@ -323,7 +328,6 @@ const mapStateToProps = (state) => {
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
-    persistFolder: folder.persistFolder,
     recipients: state.compose.recipients,
     redirect: state.folders.ui.redirect,
     replyDetailsCollapsed: state.messages.ui.replyDetailsCollapsed,

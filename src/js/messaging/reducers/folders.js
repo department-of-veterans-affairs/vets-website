@@ -2,7 +2,7 @@ import _ from 'lodash';
 import set from 'lodash/fp/set';
 import concat from 'lodash/fp/concat';
 
-import { paths } from '../config';
+import { folderLink } from '../utils/helpers';
 
 import {
   CREATE_FOLDER_SUCCESS,
@@ -119,10 +119,15 @@ export default function folders(state = initialState, action) {
     case MOVE_MESSAGE_SUCCESS:
     case SAVE_DRAFT_SUCCESS:
     case SEND_MESSAGE_SUCCESS: {
-      // Upon completing any of these actions,
-      // set the redirect to the most recent folder.
-      const lastFolderId = state.data.currentItem.persistFolder;
-      const url = `${paths.FOLDERS_URL}/${lastFolderId}`;
+      // Upon completing any of these actions, set the redirect to the most
+      // recent folder. Default to 'Inbox' if no folder has been visited.
+      const folderName = _.get(
+        state,
+        'data.currentItem.attributes.name',
+        'Inbox'
+      );
+
+      const url = folderLink(folderName);
       return set('ui.redirect', url, state);
     }
 
