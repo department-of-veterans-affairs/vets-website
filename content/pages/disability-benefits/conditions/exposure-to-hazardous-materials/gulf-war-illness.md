@@ -7,13 +7,13 @@ plainlanguage: 10-28-16 certified in compliance with the Plain Language Act
 template: 4-action-page
 ---
 
-If you served in Southwest Asia theater of military operations or in Afghanistan, you may suffer from illnesses or other conditions related to service in this region. Find out if you can get disability compensation or benefits.
+If you served in the Southwest Asia theater of military operations or in Afghanistan, you may suffer from illnesses or other conditions related to service in this region. Find out if you can get disability compensation or benefits.
 
 <div class="call-out" markdown="1">
 
 ### Can I get disability benefits from VA?
 
-You may be able to get disability benefits if you served in Southwest Asia theater of operations during the Gulf War period, or in Afghanistan on or after September 19, 2001, and you have 1 or more illnesses or other conditions related to service in this region.
+You may be able to get disability benefits if you served in the Southwest Asia theater of operations during the Gulf War period, or in Afghanistan on or after September 19, 2001, and you have 1 or more illnesses or other conditions related to service in this region.
 
 To get benefits, your chronic illness or other condition must have:
 -	Started while you were on active duty or before December 31, 2016 (see below for more about illnesses caused by infection while serving in Afghanistan), **and**
