@@ -6,15 +6,17 @@ import { connect } from 'react-redux';
 import fetch from 'isomorphic-fetch';
 
 import IntroductionSection from './IntroductionSection.jsx';
-import Nav from './Nav.jsx'; // TODO: use Nav and NavButtons from the common folder
+import Nav from './Nav.jsx';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp } from '../actions';
 import { veteranToApplication } from '../../common/model/veteran';
-import * as validations from '../../common/utils/validations';
+import * as validations from '../utils/validations';
 
-import PopulateVeteranButton from './debug/PopulateVeteranButton';
-import PerfPanel from './debug/PerfPanel';
-import RoutesDropdown from './debug/RoutesDropdown';
+// TODO(awong): Find some way to remove code when in production. It might require System.import()
+// and a promise.
+// import PopulateVeteranButton from './debug/PopulateVeteranButton';
+// import PerfPanel from './debug/PerfPanel';
+// import RoutesDropdown from './debug/RoutesDropdown';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -25,6 +27,7 @@ class HealthCareApp extends React.Component {
     this.handleBack = this.handleBack.bind(this);
     this.handleContinue = this.handleContinue.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.checkDependencies = this.checkDependencies.bind(this);
     this.getUrl = this.getUrl.bind(this);
     this.removeOnbeforeunload = this.removeOnbeforeunload.bind(this);
     this.onbeforeunload = this.onbeforeunload.bind(this);
@@ -48,31 +51,46 @@ class HealthCareApp extends React.Component {
     return message;
   }
 
-  getUrl(direction) {
+  getUrl(direction, markAsComplete) {
     const routes = this.props.route.childRoutes;
-    const panels = [];
-    let currentPath = this.props.location.pathname;
-    let nextPath = '';
+    const paths = routes.map((d) => { return d.path; });
+    const data = this.props.data;
 
-    // TODO(awong): remove the '/' alias for '/introduction' using history.replaceState()
+    let currentPath = this.props.location.pathname;
     if (currentPath === '/') {
       currentPath = '/introduction';
     }
+    const currentIndex = paths.indexOf(currentPath);
+    const increment = direction === 'back' ? -1 : 1;
 
-    panels.push.apply(panels, routes.map((obj) => { return obj.path; }));
-
-    for (let i = 0; i < panels.length; i++) {
-      if (currentPath === panels[i]) {
-        if (direction === 'back') {
-          nextPath = panels[i - 1];
+    let nextPath = '';
+    for (let i = currentIndex; i >= 0 && i <= routes.length; i += increment) {
+      const route = routes[i + increment];
+      if (route) {
+        // Check to see if we should skip the next route
+        if (route.depends !== undefined && !this.checkDependencies(route.depends, data)) {
+          if (markAsComplete) {
+            this.props.onCompletedStatus(route.path);
+          }
+          continue;
         } else {
-          nextPath = panels[i + 1];
+          nextPath = route.path;
+          break;
         }
-        break;
       }
     }
 
     return nextPath;
+  }
+
+  checkDependencies(depends, data) {
+    const arr = _.isArray(depends) ? depends : [depends];
+    for (let i = 0; i < arr.length; i++) {
+      if (_.matches(arr[i])(data)) {
+        return true;
+      }
+    }
+    return false;
   }
 
   removeOnbeforeunload() {
@@ -94,7 +112,7 @@ class HealthCareApp extends React.Component {
 
     this.props.onFieldsInitialized(sectionFields);
     if (validations.isValidSection(path, formData)) {
-      this.context.router.push(this.getUrl('next'));
+      this.context.router.push(this.getUrl('next', true));
       this.props.onCompletedStatus(path);
     }
     this.scrollToTop();
@@ -218,8 +236,10 @@ class HealthCareApp extends React.Component {
       );
     } else {
       submitMessage = (<div className="usa-alert usa-alert-error">
-        <p><strong>Due to a system error, we weren't able to process your application. Please try again later.</strong></p>
-        <p>We apologize for the inconvenience. If you'd like to complete this form by phone, please call 877-222-VETS (8387) and press 2, M-F 7:00 a.m.to 7:00 p.m. (CST), Sat 9:00 a.m. to 5:30 p.m. (CST).</p>
+        <div className="usa-alert-body">
+          <span><strong>Due to a system error, we weren't able to process your application. Please try again later.</strong></span>
+          <span>We apologize for the inconvenience. If you'd like to complete this form by phone, please call 877-222-VETS (8387) and press 2, M-F 7:00 a.m.to 7:00 p.m. (CST), Sat 9:00 a.m. to 5:30 p.m. (CST).</span>
+        </div>
       </div>);
       submitButton = (
         <ProgressButton
@@ -232,7 +252,7 @@ class HealthCareApp extends React.Component {
 
     if (this.props.location.pathname === '/review-and-submit') {
       buttons = (<div>
-        <div className="row form-progress-buttons">
+        <div className="row progress-buttons">
           <div className="small-6 medium-5 columns">
             {backButton}
           </div>
@@ -251,7 +271,7 @@ class HealthCareApp extends React.Component {
       </div>);
     } else if (this.props.location.pathname === '/introduction') {
       buttons = (
-        <div className="row form-progress-buttons">
+        <div className="row progress-buttons">
           <div className="small-6 medium-5 columns">
             <ProgressButton
                 onButtonClick={this.handleContinue}
@@ -263,7 +283,7 @@ class HealthCareApp extends React.Component {
       );
     } else if (this.props.location.pathname === '/submit-message') {
       buttons = (
-        <div className="row form-progress-buttons">
+        <div className="row progress-buttons">
           <div className="small-6 medium-5 columns">
             {/* TODO: Figure out where this button should take the user. */}
             <a href="/">
@@ -274,7 +294,7 @@ class HealthCareApp extends React.Component {
       );
     } else {
       buttons = (
-        <div className="row form-progress-buttons">
+        <div className="row progress-buttons">
           <div className="small-6 medium-5 columns">
             {backButton}
           </div>
@@ -284,24 +304,25 @@ class HealthCareApp extends React.Component {
         </div>
       );
     }
-    let devPanel = undefined;
-    if (__BUILDTYPE__ === 'development') {
-      const queryParams = _.fromPairs(
-        window.location.search.substring(1).split('&').map((v) => { return v.split('='); }));
-      if (queryParams.devPanel === '1') {
-        devPanel = (
-          <div className="row">
-            <RoutesDropdown/>
-            <PopulateVeteranButton/>
-            <PerfPanel/>
-          </div>
-        );
-      }
-    }
+
+    // This no longer works
+    // let devPanel = undefined;
+    // if (__DEV__) {
+    //   const queryParams = _.fromPairs(
+    //     window.location.search.substring(1).split('&').map((v) => { return v.split('='); }));
+    //   if (queryParams.devPanel === '1') {
+    //     devPanel = (
+    //       <div className="row">
+    //         <RoutesDropdown/>
+    //         <PopulateVeteranButton/>
+    //         <PerfPanel/>
+    //       </div>
+    //     );
+    //   }
+    // }
 
     return (
       <div>
-        {devPanel}
         <div className="row">
           <Element name="topScrollElement"/>
           <div className="medium-4 columns show-for-medium-up">

@@ -81,4 +81,17 @@ describe('veteranToApplication', () => {
 
     expect(applicationData.serviceAcademyGraduationYear).to.be.undefined;
   });
+  it('removes addresses with missing info', () => {
+    const formData = createVeteran();
+    formData.school.address = {
+      city: makeField('Test'),
+      street: makeField(''),
+      state: makeField('MA'),
+      country: makeField('USA'),
+      postalCode: makeField('01060')
+    };
+    const applicationData = JSON.parse(veteranToApplication(formData));
+
+    expect(applicationData.school.address).to.be.undefined;
+  });
 });
