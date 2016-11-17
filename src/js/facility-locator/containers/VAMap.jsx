@@ -2,11 +2,10 @@ import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { updateSearchQuery, searchWithAddress, searchWithBounds, fetchVAFacility } from '../actions';
-import { map, find, compact, isEmpty, throttle } from 'lodash';
+import { map, find, compact, isEmpty, debounce } from 'lodash';
 import { Map, TileLayer, FeatureGroup } from 'react-leaflet';
 import { mapboxClient, mapboxToken } from '../components/MapboxClient';
 import { Tabs, TabList, TabPanel, Tab } from 'react-tabs';
-import DivMarker from '../components/markers/DivMarker';
 import isMobile from 'ismobilejs';
 import CemeteryMarker from '../components/markers/CemeteryMarker';
 import HealthMarker from '../components/markers/HealthMarker';
@@ -20,6 +19,14 @@ class VAMap extends Component {
   static contextTypes = {
     router: React.PropTypes.object
   };
+
+  constructor(props) {
+    super(props);
+
+    this.zoomOut = debounce(() => this.refs.map.leafletElement.zoomOut(0.5), 2500, {
+      leading: true,
+    });
+  }
 
   componentDidMount() {
     const { location, currentQuery } = this.props;
@@ -43,8 +50,6 @@ class VAMap extends Component {
       this.props.searchWithBounds(currentQuery.bounds, currentQuery.facilityType, currentQuery.serviceType, currentQuery.currentPage);
     }
 
-    this.zoomOut = throttle(() => this.refs.map.leafletElement.zoomOut(), 2000);
-
     Tabs.setUseDefaultStyles(false);
   }
 
@@ -67,8 +72,12 @@ class VAMap extends Component {
       });
     }
 
-    if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds)) {
+    if (newQuery.bounds && (currentQuery.bounds !== newQuery.bounds) && !newQuery.inProgress) {
       this.props.searchWithBounds(newQuery.bounds, newQuery.facilityType, newQuery.serviceType, newQuery.currentPage);
+    }
+
+    if (!isEmpty(nextProps.facilities) || newQuery.inProgress) {
+      this.zoomOut.cancel();
     }
   }
 
@@ -302,7 +311,7 @@ class VAMap extends Component {
               </div>
             </TabPanel>
             <TabPanel>
-              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false} doubleClickZoom={false} dragging={false} zoomControl={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
+              <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ width: '100%', maxHeight: '55vh' }} scrollWheelZoom={false} zoomSnap={0.5} zoomDelta={0.5} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged} onViewReset={this.handleBoundsChanged}>
                 <TileLayer
                     url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                     attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
@@ -339,7 +348,7 @@ class VAMap extends Component {
             </div>
           </div>
           <div className="columns medium-8 small-12" style={{ minHeight: '75vh' }}>
-            <Map ref="map" center={position} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} doubleClickZoom={false} dragging={false} zoomControl={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged}>
+            <Map ref="map" center={position} zoomSnap={0.5} zoomDelta={0.5} zoom={parseInt(currentQuery.zoomLevel, 10)} style={{ minHeight: '75vh', width: '100%' }} scrollWheelZoom={false} onMoveEnd={this.handleBoundsChanged} onLoad={this.handleBoundsChanged}>
               <TileLayer
                   url={`https://api.mapbox.com/styles/v1/mapbox/streets-v9/tiles/256/{z}/{x}/{y}?access_token=${mapboxToken}`}
                   attribution='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>'/>
