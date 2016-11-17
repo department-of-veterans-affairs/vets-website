@@ -9,14 +9,13 @@
 
 set -e
 
-# Don't build or run tests for pushes to staging, production, or master. Tests
+# Don't build or run tests for pushes to production or master. Tests
 # were already run with the PR build that was merged and caused this to run.
 
 echo "Travis branch: $TRAVIS_BRANCH";
 echo "Travis pull request: $TRAVIS_PULL_REQUEST";
 
-if [[ ( $TRAVIS_BRANCH == "staging" ||
-        $TRAVIS_BRANCH == "production" ||
+if [[ ( $TRAVIS_BRANCH == "production" ||
         $TRAVIS_BRANCH == "master" ) &&
       $TRAVIS_PULL_REQUEST == "false" ]]
 then
@@ -71,9 +70,15 @@ npm run selenium:bootstrap;
 # Run end to end tests
 npm run test:e2e;
 
-# Run accessibility tests for staging and production
-
-if [[ $TRAVIS_BRANCH == 'production' ]]
+# Run accessibility tests
+#
+# This is triggered for the development build type to ensure that all new
+# features are tested. If features are available in production that are not
+# available in development, then this will need to be evaluated.
+#
+# After we throw more power at these builds and don't have runtime issues, then
+# we should remove this condition and perform this across all build types.
+if [[ $BUILDTYPE == "development" ]]
 then
   npm run test:accessibility;
 fi
