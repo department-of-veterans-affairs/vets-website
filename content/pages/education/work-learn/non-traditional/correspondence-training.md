@@ -21,7 +21,7 @@ Qualified dependents
 
 ### What benefits can I get? 
 
-Paid back for the cost of classes 
+You may be paid back for the cost of classes 
 
 ### How do I get these benefits? 
 
