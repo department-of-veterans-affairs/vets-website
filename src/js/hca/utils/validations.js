@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { states } from './options-for-select';
+import { states } from '../../common/utils/options-for-select';
 
 function validateIfDirty(field, validator) {
   if (field.dirty) {

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 
 import ChildIncome from './ChildIncome';
-import ErrorableTextInput from '../form-elements/ErrorableTextInput';
-import FixedTable from '../form-elements/FixedTable.jsx';
+import ErrorableTextInput from '../../../common/components/form-elements/ErrorableTextInput';
+import FixedTable from '../../../common/components/form-elements/FixedTable.jsx';
 import { getMonetaryErrorMessage } from '../../utils/messages';
 import { veteranUpdateField, addChildIncomeFields } from '../../actions';
 

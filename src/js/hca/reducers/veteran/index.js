@@ -2,9 +2,9 @@ import _ from 'lodash';
 import lodashDeep from 'lodash-deep';
 
 import { ENSURE_FIELDS_INITIALIZED, VETERAN_FIELD_UPDATE, VETERAN_OVERWRITE, UPDATE_SPOUSE_ADDRESS, ADD_CHILD_INCOME_FIELDS } from '../../actions';
-import { makeField, dirtyAllFields } from '../../../common/fields';
-import { blankVeteran } from '../../../common/veteran';
-import { blankChildIncome } from '../../../common/child';
+import { makeField, dirtyAllFields } from '../../../common/model/fields';
+import { blankVeteran } from '../../../common/model/veteran';
+import { blankChildIncome } from '../../../common/model/child';
 
 // Add deep object manipulation routines to lodash.
 _.mixin(lodashDeep);
