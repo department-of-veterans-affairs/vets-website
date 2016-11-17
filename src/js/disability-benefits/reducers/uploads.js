@@ -45,7 +45,7 @@ export default function claimDetailReducer(state = initialState, action) {
       return _.set('files', state.files.filter((file, index) => index !== action.index), state);
     }
     case SET_UPLOADING: {
-      return _.merge(state, {
+      return _.assign(state, {
         uploading: action.uploading,
         uploadError: false,
         uploadComplete: false,
@@ -56,7 +56,7 @@ export default function claimDetailReducer(state = initialState, action) {
       return _.set('progress', action.progress, state);
     }
     case DONE_UPLOADING: {
-      return _.merge(state, {
+      return _.assign(state, {
         uploading: false,
         uploadComplete: true,
         uploader: null,
@@ -64,7 +64,7 @@ export default function claimDetailReducer(state = initialState, action) {
       });
     }
     case SET_UPLOAD_ERROR: {
-      return _.merge(state, {
+      return _.assign(state, {
         uploading: false,
         uploadError: true,
         uploader: null
@@ -77,7 +77,7 @@ export default function claimDetailReducer(state = initialState, action) {
       return _.set('showMailOrFax', action.visible, state);
     }
     case CANCEL_UPLOAD: {
-      return _.merge(state, {
+      return _.assign(state, {
         uploading: false,
         uploader: null
       });
