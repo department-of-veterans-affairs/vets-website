@@ -109,6 +109,9 @@ smith.destination(`../build/${options.buildtype}`);
 // To use:
 // const ignore = require('metalsmith-ignore');
 // const ignoreList = [];
+// if (options.buildtype === 'production') {
+//   ignoreList.push('disability-benefits/track-claims/*');
+// }
 // smith.use(ignore(ignoreList));
 
 // This adds the filename into the "entry" that is passed to other plugins. Without this errors
