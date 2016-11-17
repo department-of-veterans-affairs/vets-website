@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import ClaimsDecision from '../components/ClaimsDecision';
+import ClaimComplete from '../components/ClaimComplete';
 import AskVAToDecide from '../components/AskVAToDecide';
 import ClaimsTimeline from '../components/ClaimsTimeline';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
@@ -43,6 +44,7 @@ class StatusPage extends React.Component {
         && !claim.attributes.waiverSubmitted;
       const filesNeeded = itemsNeedingAttentionFromVet(claim.attributes.eventsTimeline);
       const showDocsNeeded = !claim.attributes.decisionLetterSent &&
+        claim.attributes.open &&
         claim.attributes.documentsNeeded &&
         filesNeeded > 0;
 
@@ -54,7 +56,8 @@ class StatusPage extends React.Component {
           {showDecision
             ? <AskVAToDecide id={this.props.params.id}/>
             : null}
-          {claim.attributes.decisionLetterSent || !claim.attributes.open ? <ClaimsDecision completedDate={getCompletedDate(claim)}/> : null}
+          {claim.attributes.decisionLetterSent && !claim.attributes.open ? <ClaimsDecision completedDate={getCompletedDate(claim)}/> : null}
+          {!claim.attributes.decisionLetterSent && !claim.attributes.open ? <ClaimComplete completedDate={getCompletedDate(claim)}/> : null}
           {phase !== null && claim.attributes.open
             ? <ClaimsTimeline
                 id={claim.id}
