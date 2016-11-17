@@ -151,7 +151,9 @@ class SearchControls extends Component {
               {this.renderServiceFilterOptions()}
             </select>
           </div>
-          <input type="submit" className="columns medium-2" value="Search" onClick={this.handleSearch}/>
+          <div className="columns medium-2">
+            <input type="submit" value="Search" onClick={this.handleSearch}/>
+          </div>
         </form>
       </div>
     );
