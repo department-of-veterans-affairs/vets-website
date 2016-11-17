@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 
 import ErrorableRadioButtons from '../../../common/components/form-elements/ErrorableRadioButtons';
 import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
