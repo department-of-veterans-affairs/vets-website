@@ -53,7 +53,33 @@ describe('<StatusPage>', () => {
       <StatusPage
           claim={claim}/>
     );
+    expect(tree.subTree('ClaimsDecision')).to.be.false;
+    expect(tree.subTree('ClaimComplete')).not.to.be.false;
+    expect(tree.subTree('ClaimsTimeline')).to.be.false;
+  });
+  it('should not render ClaimComplete with decision letter', () => {
+    const claim = {
+      attributes: {
+        phase: 2,
+        open: false,
+        documentsNeeded: false,
+        decisionLetterSent: true,
+        waiverSubmitted: true,
+        eventsTimeline: [
+          {
+            type: 'still_need_from_you_list',
+            status: 'NEEDED'
+          }
+        ]
+      }
+    };
+
+    const tree = SkinDeep.shallowRender(
+      <StatusPage
+          claim={claim}/>
+    );
     expect(tree.subTree('ClaimsDecision')).not.to.be.false;
+    expect(tree.subTree('ClaimComplete')).to.be.false;
     expect(tree.subTree('ClaimsTimeline')).to.be.false;
   });
   it('should render need files from you component', () => {

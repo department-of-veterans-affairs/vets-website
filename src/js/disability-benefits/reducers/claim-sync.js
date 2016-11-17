@@ -16,13 +16,13 @@ const initialState = {
 export default function claimDetailReducer(state = initialState, action) {
   switch (action.type) {
     case SET_CLAIM_DETAIL:
-      return _.merge(state, {
+      return _.assign(state, {
         synced: action.meta.successfulSync,
         available: true,
         authorized: true
       });
     case SET_CLAIMS:
-      return _.merge(state, {
+      return _.assign(state, {
         synced: action.meta.successfulSync,
         available: true,
         authorized: true
