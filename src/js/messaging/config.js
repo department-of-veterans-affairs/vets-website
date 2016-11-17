@@ -1,11 +1,4 @@
 module.exports = {
-  paths: {
-    INBOX_URL: '/',
-    COMPOSE_URL: '/compose',
-    FOLDERS_URL: '/folder',
-    THREADS_URL: '/thread'
-  },
-
   // The indices of systemFolders are positive. The
   // actual folder IDs are negative. Remember to invert
   // when needed.
