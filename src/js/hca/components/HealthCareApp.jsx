@@ -6,11 +6,12 @@ import { connect } from 'react-redux';
 import fetch from 'isomorphic-fetch';
 
 import IntroductionSection from './IntroductionSection.jsx';
-import Nav from './Nav.jsx';
+import Nav from '../../common/components/Nav.jsx';
 import ProgressButton from '../../common/components/form-elements/ProgressButton';
 import { ensureFieldsInitialized, updateCompletedStatus, updateSubmissionStatus, updateSubmissionId, updateSubmissionTimestamp } from '../actions';
 import { veteranToApplication } from '../../common/model/veteran';
 import * as validations from '../utils/validations';
+import { chapters } from '../routes';
 
 // TODO(awong): Find some way to remove code when in production. It might require System.import()
 // and a promise.
@@ -326,7 +327,11 @@ class HealthCareApp extends React.Component {
         <div className="row">
           <Element name="topScrollElement"/>
           <div className="medium-4 columns show-for-medium-up">
-            <Nav currentUrl={this.props.location.pathname}/>
+            <Nav
+                data={this.props.data}
+                pages={this.props.uiState.sections}
+                chapters={chapters}
+                currentUrl={this.props.location.pathname}/>
           </div>
           <div className="medium-8 columns">
             <div className="progress-box">
@@ -350,8 +355,8 @@ HealthCareApp.contextTypes = {
 
 function mapStateToProps(state) {
   return {
-    data: state.veteran,
     uiState: state.uiState,
+    data: state.veteran,
   };
 }
 
