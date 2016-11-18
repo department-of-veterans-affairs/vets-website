@@ -63,6 +63,8 @@
     {{ contents }} 
   {% endcase %}
   
-  <!--{% include "content/includes/related-links.html" %}-->
+  {% if path != 'employment' %}
+  {% include "content/includes/general-related-links.html" %}
+  {% endif %}
 </div>
 {% include "content/includes/footer.html" %}
