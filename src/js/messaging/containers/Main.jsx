@@ -23,14 +23,8 @@ import ModalCreateFolder from '../components/ModalCreateFolder';
 export class Main extends React.Component {
   constructor(props) {
     super(props);
-    this.handleFolderChange = this.handleFolderChange.bind(this);
     this.handleFolderNameChange = this.handleFolderNameChange.bind(this);
     this.handleSubmitCreateNewFolder = this.handleSubmitCreateNewFolder.bind(this);
-  }
-
-  handleFolderChange(domEvent) {
-    const folderId = domEvent.target.dataset.folderid;
-    this.props.setCurrentFolder(folderId);
   }
 
   handleFolderNameChange(field) {
@@ -67,7 +61,7 @@ export class Main extends React.Component {
               isExpanded={this.props.nav.foldersExpanded}
               onToggleFolders={this.props.toggleManagedFolders}
               onCreateNewFolder={this.props.openCreateFolderModal}
-              onFolderChange={this.handleOnFolderChange}/>
+              onFolderChange={this.props.toggleFolderNav}/>
         </div>
         <div id="messaging-content">
           {this.props.children}
