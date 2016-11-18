@@ -12,6 +12,18 @@
   width: 100%;
   z-index: 3;
 
+  &-split {
+    .va-modal-inner {
+      min-width: 650px;
+    }
+
+    &-left,
+    &-right {
+      float: left;
+      width: 50%;
+    }
+  }
+
   &-title {
     background: $color-primary-darkest;
     color: $color-white;
