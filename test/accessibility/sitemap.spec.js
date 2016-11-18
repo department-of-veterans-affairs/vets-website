@@ -33,7 +33,7 @@ module.exports = {
 
     // do not check old facility locator
     sitemapURLs.forEach(url => {
-      if (url.endsWith('facility-locator')) {
+      if (url.endsWith('facility-locator') || url.endsWith('auth/login/callback')) {
         return;
       }
 
