@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import set from 'lodash/fp/set';
-import concat from 'lodash/fp/concat';
 
 import { folderUrl } from '../utils/helpers';
 
@@ -57,15 +56,16 @@ export default function folders(state = initialState, action) {
   switch (action.type) {
     // TODO: Handle the response in an appropriate way
     case CREATE_FOLDER_SUCCESS: {
-      const newFolderList = concat(state.data.items, action.folder);
-      return set('data.items', newFolderList, state);
+      const folder = action.folder;
+      const newFolders = new Map(state.data.items);
+      newFolders.set(folderKey(folder.name), folder);
+      return set('data.items', newFolders, state);
     }
 
     case DELETE_FOLDER_SUCCESS: {
-      const newFolders = state.data.items.filter(folder => {
-        return folder.folderId !== action.folder.folderId;
-      });
-
+      const folder = action.folder;
+      const newFolders = new Map(state.data.items);
+      newFolders.delete(folderKey(folder.name));
       return set('data.items', newFolders, state);
     }
 

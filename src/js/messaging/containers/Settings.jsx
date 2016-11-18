@@ -65,8 +65,15 @@ export class Settings extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const folders = [];
+  state.folders.data.items.forEach((folder) => {
+    if (folder.folderId > 0) {
+      folders.push(folder);
+    }
+  });
+
   return {
-    folders: state.folders.data.items.slice(4)
+    folders
   };
 };
 
