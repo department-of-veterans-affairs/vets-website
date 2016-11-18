@@ -12,6 +12,15 @@
   width: 100%;
   z-index: 3;
 
+  &-title {
+    background: $color-primary-darkest;
+    color: $color-white;
+    font-size: 2.4rem;
+    margin: 0;
+    // Abusing important until #content .section h3 is cleared up.
+    padding: .5rem 2rem !important;
+	}
+
   &-inner {
     background: $color-white;
     margin: auto;
@@ -26,7 +35,7 @@
   &-body {
     padding: 2rem;
   }
-  
+
   &-button-group {
     bottom: 0;
     display: -webkit-flex;
@@ -35,12 +44,12 @@
     align-items: center;
     position: relative;
     margin-top: 5rem;
-  
+
     button {
       margin: 0 1rem 0 0;
       width: auto;
     }
-  
+
     .usa-button-outline:hover {
       background: transparent !important;
     }
