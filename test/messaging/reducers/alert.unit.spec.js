@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import SkinDeep from 'skin-deep';
 
-import { paths } from '../../../src/js/messaging/config';
 import alertReducer from '../../../src/js/messaging/reducers/alert';
 
 import {

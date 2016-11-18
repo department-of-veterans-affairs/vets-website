@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
 
