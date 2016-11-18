@@ -24,7 +24,7 @@ export default function claimsReducer(state = initialState, action) {
     case SET_CLAIMS: {
       const sortedList = _.orderBy([phaseChangeDate, 'id'], 'desc', action.claims);
       const current = (state.page - 1) * ROWS_PER_PAGE;
-      return _.merge(state, {
+      return _.assign(state, {
         list: sortedList,
         visibleRows: sortedList.slice(current, current + ROWS_PER_PAGE),
         pages: Math.ceil(action.claims.length / ROWS_PER_PAGE)
