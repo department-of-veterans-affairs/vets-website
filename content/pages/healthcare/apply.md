@@ -11,7 +11,7 @@ With VA health care, you’re covered for regular checkups with your primary car
 
 ### Other ways to apply
 
-- Call the vets.gov Help Desk at 855-574-7286, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
+- Call the vets.gov Help Desk at <span class="tel">855-574-7286</span>, Monday through Friday, 8:00 a.m. to 8:00 p.m. (ET) to get help with your application.
 
 - Mail in your application. [Download the 10-10EZ](http://www.va.gov/vaforms/medical/pdf/1010EZ-fillable.pdf). Print the form, fill it out, and send it to this address:
 
@@ -72,26 +72,30 @@ To update your personal, insurance, or financial information from a prior applic
 
 <dl>
     <dd><strong>Internet Explorer:</strong></dd>
-    <dd>Right click on 1 of the links above for the form you want to download.</dd>
-    <dd>Choose <b>Save Target As...</b></dd>
-    <dd>Choose where you want to save the file on your hard drive.</dd>
-    <dd>Click <b>Save</b>.</dd>
+    <dd>1. Right click on 1 of the links above for the form you want to download.</dd>
+    <dd>2. Choose <b>Save Target As...</b></dd>
+    <dd>3. Choose where you want to save the file on your hard drive.</dd>
+    <dd>4. Click <b>Save</b>.</dd>
 </dl>
+
+Double click on the downloaded file to open it.
 
 <dl>
     <dd><strong>Firefox or Chrome:</strong></dd>
-    <dd>Right click on 1 of the links above for the form you want to download.</dd>
-    <dd>Choose <b>Save Link As...</b></dd>
-    <dd>Choose where you want to save the file on your hard drive.</dd>
-    <dd>Click <b>Save</b>.</dd>
+    <dd>1. Right click on 1 of the links above for the form you want to download.</dd>
+    <dd>2. Choose <b>Save Link As...</b></dd>
+    <dd>3. Choose where you want to save the file on your hard drive.</dd>
+    <dd>4. Click <b>Save</b>.</dd>
 </dl>
+
+Double click on the downloaded file to open it.
 
 <dl>
     <dd><strong>Safari:</strong></dd>
-    <dd>Right click on 1 of the links above for the form you want to download.</dd>
-    <dd>Choose <b>Download Linked File As...</b> </dd>
-    <dd>Choose where you want to save the file on your hard drive.</dd>
-    <dd>Click <b>Save</b>.</dd>
+    <dd>1. Right click on 1 of the links above for the form you want to download.</dd>
+    <dd>2. Choose <b>Download Linked File As...</b> </dd>
+    <dd>3. Choose where you want to save the file on your hard drive.</dd>
+    <dd>4. Click <b>Save</b>.</dd>
 </dl>
 
 Double click on the downloaded file to open it.
