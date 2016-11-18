@@ -168,8 +168,11 @@ button.msg-btn-newfolder[type="button"],
     h2 {
       flex: 0 1 70%;
       line-height: inherit !important;
-      text-align: center;
+      overflow: hidden;
       padding: 0 1.5rem !important;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     } 
   }
 }
@@ -188,16 +191,9 @@ button.msg-btn-newfolder[type="button"],
   border-radius: 0;
   flex: 0;
   line-height: inherit;
+  margin: 0;
   padding: 1.5rem;
-}
-
-.messaging-menu-button {
-  margin: 0;
   width: auto;
-}
-
-.messaging-send-button {
-  margin: 0;
 }
 
 .messaging-modal {
