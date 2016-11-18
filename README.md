@@ -232,26 +232,29 @@ The automated accessibility tests are contained within the `test/accessibility`
 directory. All URLs from the generated sitemap are scanned with aXe
 rules for 508 compliance.
 
-Automated accessibility tests are run on the `master`, `staging`, and
-`production` branches, but they will only report, not fail, on the `master`
-branch.
+Automated accessibility tests are run by Travis on PRs for the development build
+type.
 
 ### Continuous Integration
 Continuous integration and deployment is done via
 [Travis CI](travis-ci.org/department-of-veterans-affairs/vets-website). All of the configuration
 is stored in `.travis.yml`.
 
-The build configuration will depend on the branch being pushed. The `master`
-branch and any feature branches will trigger a build with the default build type
-(development), while the staging and production branches will use the production
-build type.
+In the interest of preventing a backlog on Travis, some optimizations were
+chosen for the CI pipeline. These require utilizing the pull request workflow
+we've established, and not directly pushing to master or production outside of
+a pull request.
 
-A push to `master`, `staging`, or `production` will trigger additional automated
-accessibility testing. To run these tests locally, use `$ npm run test:accessibility` after
-ensuring you've run a current build.
+Builds are triggered for PRs for all build types. The special branch name
+`content/wip/.*`, will fail by default and not run any builds. This is to allow
+rapid iteration on WIP content team work before builds are tested.
 
-Travis will build with `NODE_ENV=production` and test both "production" and
-"development" `BUILDTYPE`.
+Accessibility tests are run on PRs over the development build type. If features
+are available in production that are not available in development, then this
+optimization will need to be removed.
+
+Please see the `/script/travis-build.sh` file for more documentation and an
+overview of the CI configuration.
 
 ### Deploy
 Because this is a static site, deployment is simply synchronizing the generated artifacts
