@@ -7,25 +7,19 @@ export default class ServicePeriodsReview extends React.Component {
     return (
       <div>
         {this.props.data.toursOfDuty.map((tour, index) => {
-          return (<table key={index} className="review usa-table-borderless">
+          return (<table key={index} className="review review-growable usa-table-borderless">
             <thead>
               <tr>
-                <td scope="col">Service Period - {tour.serviceBranch.value}</td>
-                <td scope="col"></td>
+                <td scope="col" colSpan="2">
+                  <strong>{tour.serviceBranch.value}</strong><br/>
+                  {displayDateIfValid(tour.dateRange.from)} - {displayDateIfValid(tour.dateRange.to)}
+                </td>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Service status:</td>
                 <td>{tour.serviceStatus.value}</td>
-              </tr>
-              <tr>
-                <td>Start of service period:</td>
-                <td>{displayDateIfValid(tour.dateRange.from)}</td>
-              </tr>
-              <tr>
-                <td>End of service period:</td>
-                <td>{displayDateIfValid(tour.dateRange.to)}</td>
               </tr>
               <tr>
                 <td>Apply this service period to the benefit I’m applying for.</td>

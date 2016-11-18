@@ -58,6 +58,7 @@ export default class ReviewCollapsiblePanel extends React.Component {
   render() {
     let pageContent = null;
     if (this.state.open) {
+      const pageCount = this.props.pages.length;
       pageContent = (
         <div id={`collapsible-${this.id}`} className="usa-accordion-content">
           {this.props.pages.map(page => {
@@ -67,9 +68,10 @@ export default class ReviewCollapsiblePanel extends React.Component {
 
             return (
               <div key={page.path} className="form-review-panel-page">
-                <Element name={`page${page.path}ScrollElement`}/>
+                <Element name={`${page.path}ScrollElement`}/>
                 {!editing &&
-                  <div className="form-review-panel-edit">
+                  <div className="form-review-panel-page-header-row">
+                    <h5 className="form-review-panel-page-header">{pageCount > 1 && page.name}</h5>
                     <button
                         className="edit-btn primary-outline"
                         onClick={() => this.handleEdit(page.path)}><i className="fa before-text fa-pencil"></i>Edit</button>
@@ -94,8 +96,10 @@ export default class ReviewCollapsiblePanel extends React.Component {
       <div id={`${this.id}-collapsiblePanel`} className="usa-accordion-bordered form-review-panel">
         <ul className="usa-unstyled-list">
           <li>
-            <div className="accordion-header clearfix" aria-expanded={this.state.open ? 'true' : 'false'} aria-controls={`collapsible-${this.id}`} onClick={this.toggleChapter}>
-              {this.props.chapter}
+            <div className="accordion-header clearfix" >
+              <button className="usa-button-unstyled" aria-expanded={this.state.open ? 'true' : 'false'} aria-controls={`collapsible-${this.id}`} onClick={this.toggleChapter}>
+                {this.props.chapter}
+              </button>
             </div>
             {this.state.open && pageContent}
           </li>
