@@ -50,7 +50,7 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
-    if (!this.props.loading.message) {
+    if (!this.props.loading) {
       const id = this.props.params.messageId;
       this.props.fetchThread(id);
     }
@@ -62,19 +62,7 @@ export class Thread extends React.Component {
       return;
     }
 
-    if (!this.props.loading.folder) {
-      const currentFolder = this.getCurrentFolder();
-      const shouldFetchFolder =
-        currentFolder &&
-        currentFolder.folderId !==
-        this.props.folder.attributes.folderId;
-
-      if (shouldFetchFolder) {
-        this.props.fetchFolder(currentFolder.folderId);
-      }
-    }
-
-    if (!this.props.loading.message) {
+    if (!this.props.loading) {
       if (this.props.isNewMessage && this.props.recipients.length === 0) {
         this.props.fetchRecipients();
       }
@@ -149,7 +137,7 @@ export class Thread extends React.Component {
       }
     });
 
-    const folderMessages = this.props.folder.messages;
+    const folderMessages = this.props.folderMessages;
     const folderMessageCount = folderMessages.length;
 
     // Find the current message's position
@@ -162,7 +150,7 @@ export class Thread extends React.Component {
     const handleMessageSelect = (messageNumber) => {
       const index = messageNumber - 1;
       const selectedId = folderMessages[index].messageId;
-      this.context.router.push(`/thread/${selectedId}`);
+      this.context.router.push(`/${this.props.params.folderName}/${selectedId}`);
     };
 
     return (
@@ -259,7 +247,7 @@ export class Thread extends React.Component {
   }
 
   render() {
-    if (this.props.loading.message) {
+    if (this.props.loading) {
       return <LoadingIndicator message="is loading the thread..."/>;
     }
 
@@ -335,14 +323,11 @@ const mapStateToProps = (state) => {
   return {
     draft,
     folders: state.folders.data.items,
-    folder,
+    folderMessages: folder.messages,
     isFormVisible: state.messages.ui.formVisible,
     isNewMessage,
     isSavedDraft,
-    loading: {
-      message: state.messages.ui.loading,
-      folder: state.folders.ui.loading
-    },
+    loading: state.messages.ui.loading,
     message,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
