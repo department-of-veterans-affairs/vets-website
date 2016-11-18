@@ -5,7 +5,7 @@ template: 1-topic-landing
 concurrence: incomplete
 ---
 
-If you are the dependent of a Veteran who was permanently and totally disabled while on active duty or due to a service-related condition, you may qualify for 45 months of college or graduate degree, certificate courses, apprenticeship, and on-the-job training under the Survivors' and Dependents’ Educational Assistance (DEA) program.
+If you are the dependent of a Veteran who has died or who was permanently and totally disabled while on active duty or due to a service-related condition, you may qualify for 45 months of college or graduate degree, certificate courses, apprenticeship, and on-the-job training under the Survivors' and Dependents’ Educational Assistance (DEA) program.
 
 <div class="call-out usa-content" markdown="1">
 
@@ -23,8 +23,10 @@ If you are the dependent of a Veteran who was permanently and totally disabled w
 
 - You are between the ages of 18 and 26, except in special circumstances.
 - You can be married or unmarried.
-- If you are over 18 years old and using DEA, you can't get [Dependency Indemnity Compensation (DIC](http://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp) from VA. 
-- If you join the military, you can't use this benefit while on active duty, and you must not be discharged under dishonorable conditions. Military service can extend your eligibility but this increase generally doesn't go past your 31st birthday.
+
+If you are over 18 years old and using DEA, you can't get [Dependency Indemnity Compensation (DIC](http://www.benefits.va.gov/COMPENSATION/types-dependency_and_indemnity.asp) from VA. 
+
+If you join the military, you can't use this benefit while on active duty, and you must not be discharged under dishonorable conditions. Military service can extend your eligibility but this increase generally doesn't go past your 31st birthday.
 
 **If you are the spouse of the Veteran or Servicemember:**
 
