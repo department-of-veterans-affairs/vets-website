@@ -32,13 +32,13 @@ export default class BenefitsRelinquishmentFields extends React.Component {
     );
 
     // nest DateInputs inside radio buttons
-    const options = relinquishableBenefits.map((d) => {
-      const option = Object.assign({}, d);
-      if (d.value !== 'unknown') {
-        if (d.additional) {
+    const options = relinquishableBenefits.map((benefit) => {
+      const option = Object.assign({}, benefit);
+      if (benefit.value !== 'unknown') {
+        if (benefit.additional) {
           option.additional = (
             <div>
-              <p>{d.additional}</p>
+              <p>{benefit.additional}</p>
               {dateFields}
             </div>
           );
