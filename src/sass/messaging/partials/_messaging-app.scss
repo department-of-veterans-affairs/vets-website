@@ -189,11 +189,18 @@ button.msg-btn-newfolder[type="button"],
 .messaging-send-button {
   background: $color-primary;
   border-radius: 0;
-  flex: 0;
   line-height: inherit;
   margin: 0;
   padding: 1.5rem;
   width: auto;
+}
+
+.messaging-menu-button {
+  flex: 0;
+}
+
+.messaging-send-button {
+  flex: 1;
 }
 
 .messaging-modal {
