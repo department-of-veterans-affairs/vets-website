@@ -114,6 +114,6 @@ export function formattedDate(date, options = {}) {
   return dateString;
 }
 
-export function folderLink(folderName) {
-  return `/${_.kebabCase(folderName)}`;
+export function folderUrl(folderName) {
+  return folderName ? `/${_.kebabCase(folderName)}` : '/inbox';
 }

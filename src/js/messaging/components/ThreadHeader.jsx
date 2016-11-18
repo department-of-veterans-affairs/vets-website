@@ -5,7 +5,7 @@ import ButtonDelete from './buttons/ButtonDelete';
 import MoveTo from './MoveTo';
 import MessageNav from './MessageNav';
 import ToggleThread from './ToggleThread';
-import { folderLink } from '../utils/helpers';
+import { folderUrl } from '../utils/helpers';
 
 class ThreadHeader extends React.Component {
   render() {
@@ -19,7 +19,7 @@ class ThreadHeader extends React.Component {
       );
     }
 
-    const backUrl = folderLink(this.props.folderName);
+    const backUrl = folderUrl(this.props.folderName);
 
     return (
       <div className="messaging-thread-header">

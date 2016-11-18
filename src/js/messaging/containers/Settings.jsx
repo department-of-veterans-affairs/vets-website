@@ -10,7 +10,7 @@ import {
 
 import ButtonCreateFolder from '../components/buttons/ButtonCreateFolder';
 import ButtonDelete from '../components/buttons/ButtonDelete';
-import { folderLink } from '../utils/helpers';
+import { folderUrl } from '../utils/helpers';
 
 export class Settings extends React.Component {
   render() {
@@ -18,7 +18,7 @@ export class Settings extends React.Component {
       return (
         <tr key={folder.folderId}>
           <td>
-            <Link to={folderLink(folder.name)}>
+            <Link to={folderUrl(folder.name)}>
               {folder.name}
             </Link>
           </td>

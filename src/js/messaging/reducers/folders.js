@@ -2,7 +2,7 @@ import _ from 'lodash';
 import set from 'lodash/fp/set';
 import concat from 'lodash/fp/concat';
 
-import { folderLink } from '../utils/helpers';
+import { folderUrl } from '../utils/helpers';
 
 import {
   CREATE_FOLDER_SUCCESS,
@@ -51,6 +51,8 @@ const initialState = {
   }
 };
 
+const folderKey = (folderName) => _.kebabCase(folderName);
+
 export default function folders(state = initialState, action) {
   switch (action.type) {
     // TODO: Handle the response in an appropriate way
@@ -95,7 +97,7 @@ export default function folders(state = initialState, action) {
       const items = new Map();
       action.data.data.forEach((folder) => {
         const item = folder.attributes;
-        items.set(_.kebabCase(item.name), item);
+        items.set(folderKey(item.name), item);
       });
 
       return set('data.items', items, state);
@@ -127,7 +129,7 @@ export default function folders(state = initialState, action) {
         'Inbox'
       );
 
-      const url = folderLink(folderName);
+      const url = folderUrl(folderName);
       return set('ui.redirect', url, state);
     }
 
