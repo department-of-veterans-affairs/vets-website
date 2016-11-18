@@ -99,7 +99,7 @@ Main.propTypes = {
 
 const mapStateToProps = (state) => {
   const folders = [];
-  state.folders.data.items.forEach(value => folders.push(value));
+  state.folders.data.items.forEach(folder => folders.push(folder));
 
   return {
     attachmentsModal: state.modals.attachments,
