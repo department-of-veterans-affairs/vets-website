@@ -65,7 +65,7 @@ class Address extends React.Component {
             label="Street"
             name="address"
             autocomplete="address-line1"
-            charMax={35}
+            charMax={30}
             field={this.props.value.street}
             required={this.props.required}
             onValueChange={(update) => {this.handleChange('street', update);}}/>
