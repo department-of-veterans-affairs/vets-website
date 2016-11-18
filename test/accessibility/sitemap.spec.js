@@ -32,11 +32,6 @@ module.exports = {
     }
 
     sitemapURLs.forEach(url => {
-      // TODO(@jkassemi): When @bshyong completes new FL remove this exclusion
-      if (url.endsWith('facility-locator/index.html')) {
-        return;
-      }
-
       client
         .url(url)
         .waitForElementVisible('body', Timeouts.normal)
