@@ -137,7 +137,7 @@ export default function alert(state = initialState, action) {
 
       const content = (
         <b>
-          Your message has been sent. {link} Please allow up to 72 hours for a response from your health care team.
+          Your message has been sent. {link} Please allow up to three working days for a response from your health care team.
         </b>
       );
 
