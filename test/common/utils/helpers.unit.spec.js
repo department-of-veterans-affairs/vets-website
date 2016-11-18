@@ -43,5 +43,20 @@ describe('Helpers unit tests', () => {
       expect(result).to.be.true;
       expect(matcher.calledWith(data)).to.be.true;
     });
+    it('matches against array', () => {
+      const page = {
+        depends: [
+          { testData: 'N' },
+          { testData: 'Y' }
+        ]
+      };
+      const data = {
+        testData: 'Y'
+      };
+
+      const result = isActivePage(page, data);
+
+      expect(result).to.be.true;
+    });
   });
 });
