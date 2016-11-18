@@ -139,12 +139,8 @@
 
 .msg-search-date-range-legend {
   font: inherit;
-  padding-top: 1rem;
-
-  @media (max-width: $medium-screen) {
-    padding-top: 0;
-  }
-
+  padding-top: 0rem;
+  
   @media (min-width: $medium-screen) {
     flex: 0 1 10rem;
   }
@@ -152,13 +148,37 @@
 
 .msg-search-date-range { 
   @media (max-width: $medium-screen) {
+    > div {
+      text-align: center;
+      width: 100%
+    }
+  }
+
+  @media (min-width: $medium-screen) {
     display: flex;
     align-items: center;
   }
- 
+
   span {
-    padding: 0 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+
+    @media (max-width: $medium-screen) {
+      display: block;
+      text-align: center;
+      padding-bottom: .25rem;
+      padding-top: .25rem;
+    }
+
+    @media (min-width: $medium-screen) {
+      display: flex;
+      align-items: center;
+    }
   }
+}
+
+.react-datepicker__input-container {
+  flex: 1 0 22rem;
 }
 
 .msg-search-advanced-toggle {

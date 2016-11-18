@@ -83,7 +83,7 @@ class MessageSearchAdvanced extends React.Component {
           </div>
 
           <fieldset className="msg-search-advanced-group">
-            <div className="va-flex">
+            <div>
               <legend className="msg-search-date-range-legend">Date range</legend>
               <div className="msg-search-date-range">
                 <label
