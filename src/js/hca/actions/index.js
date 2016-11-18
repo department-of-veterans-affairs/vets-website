@@ -6,6 +6,7 @@ export const UPDATE_INCOMPLETE_STATUS = 'UPDATE_INCOMPLETE_STATUS';
 export const UPDATE_REVIEW_STATUS = 'UPDATE_REVIEW_STATUS';
 export const UPDATE_VERIFIED_STATUS = 'UPDATE_VERIFIED_STATUS';
 export const UPDATE_SPOUSE_ADDRESS = 'UPDATE_SPOUSE_ADDRESS';
+export const ADD_CHILD_INCOME_FIELDS = 'ADD_CHILD_INCOME_FIELDS';
 export const UPDATE_SUBMISSION_STATUS = 'UPDATE_SUBMISSION_STATUS';
 export const UPDATE_SUBMISSION_ID = 'UPDATE_SUBMISSION_ID';
 export const UPDATE_SUBMISSION_TIMESTAMP = 'UPDATE_SUBMISSION_TIMESTAMP';
@@ -68,6 +69,13 @@ export function updateSpouseAddress(propertyPath, value) {
     type: UPDATE_SPOUSE_ADDRESS,
     propertyPath,
     value
+  };
+}
+
+export function addChildIncomeFields(propertyPath) {
+  return {
+    type: ADD_CHILD_INCOME_FIELDS,
+    propertyPath
   };
 }
 

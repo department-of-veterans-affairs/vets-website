@@ -372,7 +372,8 @@ function completeChildInformation(client, data, onlyRequiredFields) {
     .setValue('input[name="childBirthYear"]', data.children[0].childDateOfBirth.year)
     .setValue('select[name="childBecameDependentMonth"]', data.children[0].childBecameDependent.month)
     .setValue('select[name="childBecameDependentDay"]', data.children[0].childBecameDependent.day)
-    .setValue('input[name="childBecameDependentYear"]', data.children[0].childBecameDependent.year);
+    .setValue('input[name="childBecameDependentYear"]', data.children[0].childBecameDependent.year)
+    .setValue('input[name="childEducationExpenses"]', '6000');
 
   if (!onlyRequiredFields) {
     client
@@ -380,7 +381,6 @@ function completeChildInformation(client, data, onlyRequiredFields) {
       .setValue('select[name="suffix"]', 'Jr.')
       .click('input[name="childDisabledBefore18-0"]')
       .click('input[name="childAttendedSchoolLastYear-0"]')
-      .setValue('input[name="childEducationExpenses"]', '6000')
       .click('input[name="childCohabitedLastYear-1"]')
       .click('input[name="childReceivedSupportLastYear-0"]');
   }
