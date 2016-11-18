@@ -703,7 +703,7 @@ const completeVeteran = {
 };
 
 function veteranToApplication(veteran) {
-  if (_.includes(['Never Married', 'Widowed', 'Divorced'], veteran.maritalStatus.value)) {
+  if (_.includes(['Never Married', 'Widowed', 'Divorced'], veteran.maritalStatus.value) || veteran.discloseFinancialInformation.value === 'N') {
     /* eslint-disable no-param-reassign*/
     delete veteran.spouseAddress;
     delete veteran.spouseFullName;

@@ -12,8 +12,10 @@ import {
   FETCH_FOLDERS_FAILURE,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDER_FAILURE,
+  LOADING_FOLDER,
   TOGGLE_FOLDER_NAV,
   TOGGLE_MANAGED_FOLDERS,
+  RESET_REDIRECT,
   SET_CURRENT_FOLDER
 } from '../utils/constants';
 
@@ -41,6 +43,8 @@ export function fetchFolder(id, query = {}) {
   const messagesUrl = createUrlWithQuery(`${folderUrl}/messages`, query);
 
   return dispatch => {
+    dispatch({ type: LOADING_FOLDER });
+
     Promise.all([folderUrl, messagesUrl].map(url =>
       apiRequest(
         url,
@@ -109,4 +113,8 @@ export function setCurrentFolder(folderId) {
     type: SET_CURRENT_FOLDER,
     folderId
   };
+}
+
+export function resetRedirect() {
+  return { type: RESET_REDIRECT };
 }
