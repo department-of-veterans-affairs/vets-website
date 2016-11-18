@@ -44,6 +44,10 @@ export function isActivePage(page, data) {
     return page.depends(data);
   }
 
+  if (Array.isArray(page.depends)) {
+    return page.depends.some(condition => _.matches(condition)(data));
+  }
+
   return page.depends === undefined || _.matches(page.depends)(data);
 }
 
