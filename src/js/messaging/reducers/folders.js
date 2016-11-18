@@ -2,7 +2,6 @@ import set from 'lodash/fp/set';
 import concat from 'lodash/fp/concat';
 
 import { paths } from '../config';
-import history from '../history';
 
 import {
   CREATE_FOLDER_SUCCESS,
@@ -11,7 +10,9 @@ import {
   DELETE_MESSAGE_SUCCESS,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
+  LOADING_FOLDER,
   MOVE_MESSAGE_SUCCESS,
+  RESET_REDIRECT,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
   SET_CURRENT_FOLDER,
@@ -40,10 +41,12 @@ const initialState = {
     items: []
   },
   ui: {
+    loading: false,
     nav: {
       foldersExpanded: false,
       visible: false
-    }
+    },
+    redirect: null
   }
 };
 
@@ -75,21 +78,25 @@ export default function folders(state = initialState, action) {
       const sortValue = Object.keys(sort)[0];
       const sortOrder = sort[sortValue];
 
-      const newItem = {
+      const newState = set('data.currentItem', {
         attributes,
         filter,
         messages,
         pagination,
         persistFolder,
         sort: { value: sortValue, order: sortOrder },
-      };
-      return set('data.currentItem', newItem, state);
+      }, state);
+
+      return set('ui.loading', false, newState);
     }
 
     case FETCH_FOLDERS_SUCCESS: {
       const items = action.data.data.map(folder => folder.attributes);
       return set('data.items', items, state);
     }
+
+    case LOADING_FOLDER:
+      return set('ui.loading', true, state);
 
     case TOGGLE_FOLDER_NAV:
       return set('ui.nav.visible', !state.ui.nav.visible, state);
@@ -106,12 +113,15 @@ export default function folders(state = initialState, action) {
     case MOVE_MESSAGE_SUCCESS:
     case SAVE_DRAFT_SUCCESS:
     case SEND_MESSAGE_SUCCESS: {
-      // Upon completing any of these actions, go to the most recent folder.
-      const currentFolderId = state.data.currentItem.persistFolder;
-      const returnUrl = `${paths.FOLDERS_URL}/${currentFolderId}`;
-      history.replace(returnUrl);
-      return state;
+      // Upon completing any of these actions,
+      // set the redirect to the most recent folder.
+      const lastFolderId = state.data.currentItem.persistFolder;
+      const url = `${paths.FOLDERS_URL}/${lastFolderId}`;
+      return set('ui.redirect', url, state);
     }
+
+    case RESET_REDIRECT:
+      return set('ui.redirect', null, state);
 
     default:
       return state;

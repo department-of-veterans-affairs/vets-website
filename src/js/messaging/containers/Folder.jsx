@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import LoadingIndicator from '../../common/components/LoadingIndicator';
 import SortableTable from '../../common/components/SortableTable';
 
 import {
@@ -35,70 +36,74 @@ export class Folder extends React.Component {
   }
 
   componentDidMount() {
-    const id = this.props.params.id;
-    const query = this.getQueryParams();
-    this.props.fetchFolder(id, query);
+    if (!this.props.loading) {
+      const id = this.props.params.id;
+      const query = this.getQueryParams();
+      this.props.fetchFolder(id, query);
+    }
   }
 
   componentDidUpdate() {
-    const query = this.getQueryParams();
+    if (!this.props.loading) {
+      const query = this.getQueryParams();
 
-    const oldId = this.props.attributes.folderId;
-    const newId = +this.props.params.id;
-    const idChanged = newId !== oldId;
+      const oldId = this.props.attributes.folderId;
+      const newId = +this.props.params.id;
+      const idChanged = newId !== oldId;
 
-    const pageChanged = () => {
-      const oldPage = this.props.page;
-      const newPage = +query.page || oldPage;
-      return newPage !== oldPage;
-    };
+      const pageChanged = () => {
+        const oldPage = this.props.page;
+        const newPage = +query.page || oldPage;
+        return newPage !== oldPage;
+      };
 
-    const sortChanged = () => {
-      const oldSort = this.formattedSortParam(
-        this.props.sort.value,
-        this.props.sort.order
-      );
-      const newSort = query.sort || oldSort;
-      return newSort !== oldSort;
-    };
+      const sortChanged = () => {
+        const oldSort = this.formattedSortParam(
+          this.props.sort.value,
+          this.props.sort.order
+        );
+        const newSort = query.sort || oldSort;
+        return newSort !== oldSort;
+      };
 
-    const filterChanged = () => {
-      const fromDateSearchChanged =
-        query['filter[[sent_date][gteq]]'] !==
-        _.get(this.props.filter, 'sentDate.gteq');
+      const filterChanged = () => {
+        const fromDateSearchChanged =
+          query['filter[[sent_date][gteq]]'] !==
+          _.get(this.props.filter, 'sentDate.gteq');
 
-      const toDateSearchChanged =
-        query['filter[[sent_date][lteq]]'] !==
-        _.get(this.props.filter, 'sentDate.lteq');
+        const toDateSearchChanged =
+          query['filter[[sent_date][lteq]]'] !==
+          _.get(this.props.filter, 'sentDate.lteq');
 
-      const senderSearchChanged =
-        (query['filter[[sender_name][eq]]'] !==
-        _.get(this.props.filter, 'senderName.eq')) ||
-        (query['filter[[sender_name][match]]'] !==
-        _.get(this.props.filter, 'senderName.match'));
+        const senderSearchChanged =
+          (query['filter[[sender_name][eq]]'] !==
+          _.get(this.props.filter, 'senderName.eq')) ||
+          (query['filter[[sender_name][match]]'] !==
+          _.get(this.props.filter, 'senderName.match'));
 
-      const subjectSearchChanged =
-        (query['filter[[subject][eq]]'] !==
-        _.get(this.props.filter, 'subject.eq')) ||
-        (query['filter[[subject][match]]'] !==
-        _.get(this.props.filter, 'subject.match'));
+        const subjectSearchChanged =
+          (query['filter[[subject][eq]]'] !==
+          _.get(this.props.filter, 'subject.eq')) ||
+          (query['filter[[subject][match]]'] !==
+          _.get(this.props.filter, 'subject.match'));
 
-      return (
-        fromDateSearchChanged ||
-        toDateSearchChanged ||
-        senderSearchChanged ||
-        subjectSearchChanged
-      );
-    };
+        return (
+          fromDateSearchChanged ||
+          toDateSearchChanged ||
+          senderSearchChanged ||
+          subjectSearchChanged
+        );
+      };
 
-    const shouldUpdate =
-      idChanged ||
-      pageChanged() ||
-      sortChanged() ||
-      filterChanged();
+      const shouldUpdate =
+        idChanged ||
+        pageChanged() ||
+        sortChanged() ||
+        filterChanged();
 
-    if (shouldUpdate) {
-      this.props.fetchFolder(newId, query);
+      if (shouldUpdate) {
+        this.props.fetchFolder(newId, query);
+      }
     }
   }
 
@@ -283,6 +288,9 @@ export class Folder extends React.Component {
   }
 
   render() {
+    if (this.props.loading) {
+      return <LoadingIndicator message="is loading the folder..."/>;
+    }
     const folderName = _.get(this.props.attributes, 'name');
     const messageNav = this.makeMessageNav();
     const sortMenu = this.makeSortMenu();
@@ -343,6 +351,7 @@ const mapStateToProps = (state) => {
     attributes,
     currentRange: `${startCount} - ${endCount}`,
     filter: folder.filter,
+    loading: state.folders.ui.loading,
     messageCount: totalCount,
     messages,
     page,
