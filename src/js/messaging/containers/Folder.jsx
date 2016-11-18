@@ -113,7 +113,6 @@ export class Folder extends React.Component {
   getRequestedFolderId() {
     const folderName = this.props.params.folderName;
     const folder = this.props.folders.get(folderName);
-
     return folder ? folder.folderId : null;
   }
 
