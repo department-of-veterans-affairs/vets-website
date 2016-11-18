@@ -5,7 +5,7 @@ concurrence: incomplete
 template: 4-action-page-pending
 ---
 
-If you want to learn a trade or skill through on-the-job training (OJT) or apprenticeships, there are VA benefits that can help.
+If you want to learn a trade or skill through on-the-job training (OJT) or apprenticeships, VA benefits are available.
 
 <div class="call-out" markdown="1">
 
