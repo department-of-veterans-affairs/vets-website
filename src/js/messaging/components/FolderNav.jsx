@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router';
-import _ from 'lodash';
 import classNames from 'classnames';
 
 import ButtonCreateFolder from './buttons/ButtonCreateFolder';

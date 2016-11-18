@@ -80,6 +80,12 @@ export class Thread extends React.Component {
     this.props.resetRedirect();
   }
 
+  getCurrentFolder() {
+    const folderName = this.props.params.folderName;
+    const folder = this.props.folders.get(folderName);
+    return folder;
+  }
+
   apiFormattedDraft() {
     const draft = this.props.draft;
 
@@ -92,12 +98,6 @@ export class Thread extends React.Component {
       replyMessageId: draft.replyMessageId,
       subject: draft.subject.value
     };
-  }
-
-  getCurrentFolder() {
-    const folderName = this.props.params.folderName;
-    const folder = this.props.folders.get(folderName);
-    return folder;
   }
 
   handleDraftDelete() {
