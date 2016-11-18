@@ -9,6 +9,7 @@ import {
   clearDraft,
   deleteDraftAttachment,
   deleteMessage,
+  fetchFolder,
   fetchRecipients,
   fetchThread,
   fetchThreadMessage,
@@ -38,6 +39,7 @@ export class Thread extends React.Component {
   constructor(props) {
     super(props);
     this.apiFormattedDraft = this.apiFormattedDraft.bind(this);
+    this.getCurrentFolder = this.getCurrentFolder.bind(this);
     this.handleDraftDelete = this.handleDraftDelete.bind(this);
     this.handleDraftSave = this.handleDraftSave.bind(this);
     this.handleDraftSend = this.handleDraftSend.bind(this);
@@ -48,8 +50,7 @@ export class Thread extends React.Component {
   }
 
   componentDidMount() {
-    // TODO: Validate this.props.params.folderName.
-    if (!this.props.loading) {
+    if (!this.props.loading.message) {
       const id = this.props.params.messageId;
       this.props.fetchThread(id);
     }
@@ -61,7 +62,19 @@ export class Thread extends React.Component {
       return;
     }
 
-    if (!this.props.loading) {
+    if (!this.props.loading.folder) {
+      const currentFolder = this.getCurrentFolder();
+      const shouldFetchFolder =
+        currentFolder &&
+        currentFolder.folderId !==
+        this.props.folder.attributes.folderId;
+
+      if (shouldFetchFolder) {
+        this.props.fetchFolder(currentFolder.folderId);
+      }
+    }
+
+    if (!this.props.loading.message) {
       if (this.props.isNewMessage && this.props.recipients.length === 0) {
         this.props.fetchRecipients();
       }
@@ -93,6 +106,12 @@ export class Thread extends React.Component {
     };
   }
 
+  getCurrentFolder() {
+    const folderName = this.props.params.folderName;
+    const folder = this.props.folders.get(folderName);
+    return folder;
+  }
+
   handleDraftDelete() {
     this.props.toggleConfirmDelete();
     this.props.clearDraft();
@@ -119,21 +138,18 @@ export class Thread extends React.Component {
       return null;
     }
 
-    const folders = this.props.folders;
-    const currentFolder = folders.get(this.props.params.folderName);
+    const currentFolder = this.getCurrentFolder();
 
     // Exclude the current folder from the list of folders
     // that are passed down to the MoveTo component.
     const moveToFolders = [];
-    folders.forEach((folder) => {
-      const isCurrentFolder = folder.folderId === currentFolder.folderId;
-
-      if (!isCurrentFolder) {
+    this.props.folders.forEach((folder) => {
+      if (folder.folderId !== currentFolder.folderId) {
         moveToFolders.push(folder);
       }
     });
 
-    const folderMessages = this.props.folderMessages;
+    const folderMessages = this.props.folder.messages;
     const folderMessageCount = folderMessages.length;
 
     // Find the current message's position
@@ -243,7 +259,7 @@ export class Thread extends React.Component {
   }
 
   render() {
-    if (this.props.loading) {
+    if (this.props.loading.message) {
       return <LoadingIndicator message="is loading the thread..."/>;
     }
 
@@ -319,11 +335,14 @@ const mapStateToProps = (state) => {
   return {
     draft,
     folders: state.folders.data.items,
-    folderMessages: folder.messages,
+    folder,
     isFormVisible: state.messages.ui.formVisible,
     isNewMessage,
     isSavedDraft,
-    loading: state.messages.ui.loading,
+    loading: {
+      message: state.messages.ui.loading,
+      folder: state.folders.ui.loading
+    },
     message,
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
@@ -340,6 +359,7 @@ const mapDispatchToProps = {
   clearDraft,
   deleteDraftAttachment,
   deleteMessage,
+  fetchFolder,
   fetchRecipients,
   fetchThread,
   fetchThreadMessage,
