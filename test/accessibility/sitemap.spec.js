@@ -31,7 +31,12 @@ module.exports = {
       this.verify.fail('No URLs found in sitemap');
     }
 
+    // do not check old facility locator
     sitemapURLs.forEach(url => {
+      if (url.endsWith('facility-locator')) {
+        return;
+      }
+
       client
         .url(url)
         .waitForElementVisible('body', Timeouts.normal)
