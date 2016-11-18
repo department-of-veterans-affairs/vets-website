@@ -164,7 +164,7 @@ describe('alert reducer', () => {
     expect(newState.status).to.eql('success');
     // Check that a link to the draft exists.
     const link = SkinDeep.shallowRender(newState.content).subTree('Link');
-    expect(link.props.to).to.eql(`${paths.THREADS_URL}/${message.messageId}`);
+    expect(link.props.to).to.eql(`/drafts/${message.messageId}`);
   });
 
   it('should alert when saving a draft fails', () => {
@@ -183,7 +183,7 @@ describe('alert reducer', () => {
     expect(newState.status).to.eql('success');
     // Check that a link to the message exists.
     const link = SkinDeep.shallowRender(newState.content).subTree('Link');
-    expect(link.props.to).to.eql(`${paths.THREADS_URL}/${message.messageId}`);
+    expect(link.props.to).to.eql(`/sent/${message.messageId}`);
   });
 
   it('should alert when sending a message fails', () => {
