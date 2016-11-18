@@ -3,8 +3,6 @@ import Scroll from 'react-scroll';
 import _ from 'lodash';
 
 import * as validations from '../utils/validations';
-import { getActivePages } from '../../common/utils/helpers';
-import { pages } from '../routes';
 
 const Element = Scroll.Element;
 const scroller = Scroll.scroller;
@@ -19,9 +17,10 @@ export default class ReviewCollapsiblePanel extends React.Component {
   constructor() {
     super();
     this.handleSave = this.handleSave.bind(this);
-    this.handleNext = this.handleNext.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.scrollToTop = this.scrollToTop.bind(this);
+    this.toggleChapter = this.toggleChapter.bind(this);
+    this.state = { open: false };
   }
 
   componentWillMount() {
@@ -36,95 +35,69 @@ export default class ReviewCollapsiblePanel extends React.Component {
     });
   }
 
-  handleSave() {
-    const currentPath = this.props.updatePath;
+  handleSave(path) {
     const formData = this.props.data;
-    const pageFields = this.props.uiData.pages[currentPath].fields;
+    const pageFields = this.props.uiData.pages[path].fields;
 
     this.props.onFieldsInitialized(pageFields);
-    if (validations.isValidPage(currentPath, formData)) {
-      this.props.onUpdateSaveStatus(currentPath);
+    if (validations.isValidPage(path, formData)) {
+      this.props.onUpdateEditStatus(path, false);
     }
-    this.scrollToTop();
+    // this.scrollToTop();
   }
 
-  handleNext() {
-    const currentPath = this.props.updatePath;
-    this.props.onUpdateVerifiedStatus(currentPath, true);
-    // TODO: find a better solution for this or a different implementation.
-    setTimeout(() => this.scrollToTop(), 100);  // eslint-disable-line scanjs-rules/call_setTimeout
+  handleEdit(path) {
+    this.props.onUpdateEditStatus(path, true);
+    // this.scrollToTop();
   }
 
-  handleEdit() {
-    const currentPath = this.props.updatePath;
-    this.props.onUpdateEditStatus(currentPath);
-    this.props.onUpdateVerifiedStatus(currentPath, false);
-    this.scrollToTop();
-  }
-
-  allPreviousPagesVerified(pageState, data, currentPath) {
-    const filteredPages = getActivePages(pages, data);
-    const pageIndex = filteredPages.map(page => page.name).indexOf(currentPath);
-    const prevPath = filteredPages[pageIndex - 1].name;
-    return pageIndex === 1 || pageState[prevPath].verified;
+  toggleChapter() {
+    this.setState({ open: !this.state.open });
   }
 
   render() {
-    const currentPath = this.props.updatePath;
-    const pageComplete = this.props.uiData.pages[currentPath].complete;
-    const pageVerified = this.props.uiData.pages[currentPath].verified;
+    let pageContent = null;
+    if (this.state.open) {
+      pageContent = (
+        <div id={`collapsible-${this.id}`} className="usa-accordion-content">
+          {this.props.pages.map(page => {
+            const ReviewComponent = page.reviewComponent;
+            const Component = page.fieldsComponent;
+            const editing = this.props.uiData.pages[page.path].reviewEdit;
 
-    const prevPagesVerified = this.allPreviousPagesVerified(this.props.uiData.pages, this.props.data, currentPath);
-    const panelActive = !pageVerified && prevPagesVerified;
-
-    const editButtonVisible = (pageVerified || pageComplete) && prevPagesVerified;
-    const nextButtonVisible = !pageVerified && pageComplete && prevPagesVerified;
-
-    const editButtonClasses = pageVerified ? 'medium-6 medium-offset-6 columns' : 'small-6 columns';
-    const buttonEdit = (
-      <div className={editButtonClasses}>
-        <button
-            className="edit-btn primary-outline"
-            onClick={this.handleEdit}><i className="fa before-text fa-pencil"></i>Edit</button>
-      </div>
-    );
-    const buttonNext = (
-      <div className="small-6 columns">
-        <button
-            className="edit-btn"
-            onClick={this.handleNext}>Next<i className="fa after-text fa-angle-double-right"></i></button>
-      </div>
-    );
-
-    const panelAction = (<button
-        className="usa-button-primary"
-        onClick={this.handleSave}>Update page</button>
-    );
-
-    const pageContent = (
-      <div id={`collapsible-${this.id}`} className="usa-accordion-content">
-          {pageComplete ? this.props.reviewComponent : this.props.component}
-          {!pageComplete ? panelAction : null}
-      </div>
-    );
+            return (
+              <div key={page.path} className="form-review-panel-page">
+                <Element name={`page${page.path}ScrollElement`}/>
+                {!editing &&
+                  <div className="form-review-panel-edit">
+                    <button
+                        className="edit-btn primary-outline"
+                        onClick={() => this.handleEdit(page.path)}><i className="fa before-text fa-pencil"></i>Edit</button>
+                  </div>}
+                {!editing
+                    ? <ReviewComponent data={this.props.data}/>
+                    : <Component
+                        data={this.props.data}
+                        onStateChange={this.props.onStateChange}
+                        initializeFields={this.props.onFieldsInitialized}/>}
+                {editing && <button
+                    className="usa-button-primary"
+                    onClick={() => this.handleSave(page.path)}>Update page</button>}
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
 
     return (
       <div id={`${this.id}-collapsiblePanel`} className="usa-accordion-bordered form-review-panel">
-        {panelActive ? <Element name="topScrollReviewPanel"/> : null}
         <ul className="usa-unstyled-list">
           <li>
-            <div className="accordion-header clearfix" aria-expanded="true" aria-controls={`collapsible-${this.id}`}>
-              <div className="medium-5 columns page-label">
-                {this.props.pageLabel}
-              </div>
-              <div className="medium-7 columns">
-                <div>
-                  {editButtonVisible ? buttonEdit : null}
-                  {nextButtonVisible ? buttonNext : null}
-                </div>
-              </div>
+            <div className="accordion-header clearfix" aria-expanded={this.state.open ? 'true' : 'false'} aria-controls={`collapsible-${this.id}`} onClick={this.toggleChapter}>
+              {this.props.chapter}
             </div>
-            {panelActive ? pageContent : null}
+            {this.state.open && pageContent}
           </li>
         </ul>
       </div>
@@ -135,12 +108,6 @@ export default class ReviewCollapsiblePanel extends React.Component {
 ReviewCollapsiblePanel.propTypes = {
   data: React.PropTypes.object.isRequired,
   uiData: React.PropTypes.object.isRequired,
-  pageLabel: React.PropTypes.string.isRequired,
-  updatePath: React.PropTypes.string.isRequired,
-  component: React.PropTypes.object.isRequired,
-  reviewComponent: React.PropTypes.object.isRequired,
   onFieldsInitialized: React.PropTypes.func.isRequired,
-  onUpdateSaveStatus: React.PropTypes.func.isRequired,
-  onUpdateVerifiedStatus: React.PropTypes.func.isRequired,
   onUpdateEditStatus: React.PropTypes.func.isRequired
 };
