@@ -25,7 +25,7 @@ You may be paid back for the cost of classes
 
 ### How do I get these benefits? 
 
-You'll need to apply for benefits. [Apply for education benefits](/education/apply-for-education-benefits/). Payment amounts are based on the specific GI Bill program you are using. If you're enrolled in correspondence training, VA determines your payment amount and pays it quarterly after getting certification from the school that you completed your lessons.
+You'll need to apply for benefits. [Apply for education benefits](/education/apply-for-education-benefits/). Payment amounts are based on the specific GI Bill program you are using. If you're enrolled in correspondence training, VA determines your payment amount and pays it quarterly after getting certification from the school that you completed your lessons. 
 
 For Post-9/11 GI Bill recipients, VA reimburses the actual costs of the school’s in-state tuition and fees, up to the maximum amount allowed by law. View the [current payment rates](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp). For all other GI Bill recipients, VA reimburses 55% of the approved costs.
 
