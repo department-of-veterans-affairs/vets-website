@@ -1,6 +1,7 @@
 // Variables
 
 @import 'style';
+@import 'modules/m-form-process';
 
 $button-stroke: inset 0 0 0 1px;
 
@@ -113,66 +114,28 @@ button.hca-button-disabled {
   margin: 0 0.35em;
 }
 
-.hca-process {
-  li {
-    h5 {
-      color: $color-gray;
+.hca-review-panel {
+  button {
+    background-color: $color-primary;
+    color: $white;
+    background-image: none;
+    &:hover {
+      background-color: $color-primary-darker;
+      color: $white;
     }
-    li {
-      display: none;
-    }
-    &:before {
-      background: $color-gray;
-    }
-    &.section-complete {
-      &:before {
-        background: $color-green;
-        content: "\2714\fe0e";
-        @media (max-width: $small-screen) {
-          content: "\2713\fe0e";
-        }
-      }
-    }
-    &.section-current {
-      h5 {
-        font-weight: bold;
-        color: $color-primary;
-      }
-      li {
-        display: list-item;
-        &.sub-section-current {
-          font-weight: bold;
-          color: $color-primary;
-        }
-      }
-      &:before {
-        background: $color-primary;
+  }
+  .edit-btn {
+    padding: 1rem;
+    &.primary-outline {
+      background-color: transparent;
+      border: 1px solid $color-primary;
+      color: $color-primary;
+      &:hover {
+      border: 1px solid $color-primary-darker;
+      color: $color-primary-darker;
       }
     }
   }
-}
-
-.hca-review-panel {
-  button {
-      background-color: $color-primary;
-      color: $white;
-      &:hover {
-        background-color: $color-primary-darker;
-        color: $white;
-      }
-    }
-    .edit-btn {
-      padding: 1rem;
-      &.primary-outline {
-        background-color: transparent;
-        border: 1px solid $color-primary;
-        color: $color-primary;
-        &:hover {
-        border: 1px solid $color-primary-darker;
-        color: $color-primary-darker;
-        }
-      }
-    }
   .accordion-header {
     min-height: 7rem;
     padding: 1rem;
