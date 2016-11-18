@@ -1,17 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import { paths, systemFolders } from '../config';
 import ButtonDelete from './buttons/ButtonDelete';
 import MoveTo from './MoveTo';
 import MessageNav from './MessageNav';
 import ToggleThread from './ToggleThread';
+import { folderUrl } from '../utils/helpers';
 
 class ThreadHeader extends React.Component {
   render() {
     let toggleThread;
-    let returnUrlText;
-    let returnUrlPath;
 
     if (this.props.threadMessageCount > 1) {
       toggleThread = (
@@ -21,19 +19,12 @@ class ThreadHeader extends React.Component {
       );
     }
 
-    if (this.props.persistedFolder === undefined) {
-      // Returns 'Inbox'
-      returnUrlText = systemFolders[0];
-      returnUrlPath = `${paths.FOLDERS_URL}/0`;
-    } else {
-      returnUrlText = systemFolders[Math.abs(this.props.persistedFolder)];
-      returnUrlPath = `${paths.FOLDERS_URL}/${this.props.persistedFolder}`;
-    }
+    const backUrl = folderUrl(this.props.folderName);
 
     return (
       <div className="messaging-thread-header">
         <div className="messaging-thread-nav">
-          <Link to={returnUrlPath}>&lt; Back to {returnUrlText}</Link>
+          <Link to={backUrl}>&lt; Back to {this.props.folderName}</Link>
           <MoveTo
               folders={this.props.moveToFolders}
               isOpen={!this.props.moveToIsOpen}
@@ -74,6 +65,7 @@ ThreadHeader.propTypes = {
     })
   ).isRequired,
   folderMessageCount: React.PropTypes.number.isRequired,
+  folderName: React.PropTypes.string.isRequired,
   message: React.PropTypes.shape({
     messageId: React.PropTypes.number,
     subject: React.PropTypes.string
@@ -86,8 +78,7 @@ ThreadHeader.propTypes = {
   onDeleteMessage: React.PropTypes.func,
   onMessageSelect: React.PropTypes.func,
   onToggleThread: React.PropTypes.func,
-  onToggleMoveTo: React.PropTypes.func,
-  persistedFolder: React.PropTypes.number
+  onToggleMoveTo: React.PropTypes.func
 };
 
 export default ThreadHeader;

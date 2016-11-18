@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import classNames from 'classnames';
 
 import ButtonCreateFolder from './buttons/ButtonCreateFolder';
+import { folderUrl } from '../utils/helpers';
 
 class FolderNav extends React.Component {
   constructor(props) {
@@ -38,7 +39,7 @@ class FolderNav extends React.Component {
           activeClassName="usa-current"
           className={isPersistFolder}
           data-folderid={folder.folderId}
-          to={`/folder/${folder.folderId}`}
+          to={folderUrl(folder.name)}
           onClick={this.props.onFolderChange}>
         {folder.name}
         {count}
