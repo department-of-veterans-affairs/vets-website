@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import ToolTip from './ToolTip';
+import ExpandingGroup from '../../../common/components/form-elements/ExpandingGroup';
 
 import { makeField } from '../../model/fields.js';
 
@@ -89,8 +90,8 @@ class ErrorableRadioButtons extends React.Component {
       }
       const checked = optionValue === storedValue ? 'checked=true' : '';
       const matchingSubSection = this.getMatchingSubSection(optionValue === storedValue, optionValue);
-      return (
-        <div key={reactKey++} className="form-radio-buttons">
+      const radioButton = (
+        <div className="form-radio-buttons">
           <input
               checked={checked}
               id={`${this.inputId}-${index}`}
@@ -100,11 +101,27 @@ class ErrorableRadioButtons extends React.Component {
               onChange={this.handleChange}/>
           <label htmlFor={`${this.inputId}-${index}`}>
             {optionLabel}
-            {checked ? optionAdditional : null}
           </label>
           {matchingSubSection}
         </div>
       );
+
+      let output = radioButton;
+
+      // Return an expanding group for buttons with additional content
+      if (optionAdditional) {
+        output = (
+          <ExpandingGroup
+              additionalClass="edu-benefits-active-group"
+              open={checked}
+              key={reactKey++}>
+            {radioButton}
+            <div>{optionAdditional}</div>
+          </ExpandingGroup>
+        );
+      }
+
+      return output;
     });
 
     return (
