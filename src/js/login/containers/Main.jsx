@@ -21,7 +21,17 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('message', this.setMyToken);
+    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
+      this.setState({ loginUrl: result.authenticate_via_get });
+    });
+
+    const el = window;
+    if (el.addEventListener) {
+      el.addEventListener('message', this.setMyToken, false);
+    } else if (el.attachEvent) {
+      el.attachEvent('message', this.setMyToken);
+    }
+
     window.onload = this.checkTokenStatus();
   }
 
@@ -32,29 +42,30 @@ class Main extends React.Component {
   setMyToken() {
     if (event.data === sessionStorage.userToken) {
       this.getUserData();
+
+      $.ajax({
+        url: `${environment.API_URL}/v0/sessions`,
+        type: 'DELETE',
+        headers: {
+          Authorization: `Token token=${sessionStorage.userToken}`
+        },
+        success: (result) => {
+          this.setState({ logoutUrl: result.logout_via_get });
+        }
+      });
     }
   }
 
   handleLogin() {
-    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
-      const myLoginUrl = result.authenticate_via_get;
-      const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-      receiver.focus();
-    });
+    const myLoginUrl = this.state.loginUrl;
+    const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
   }
 
   handleLogout() {
-    fetch(`${environment.API_URL}/v0/sessions`, {
-      method: 'delete',
-      headers: new Headers({
-        Authorization: `Token token=${sessionStorage.userToken}`
-      })
-    }).then(response => {
-      return response.json();
-    }).then(json => {
-      const myLogoutUrl = json.logout_via_get;
-      window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
-    });
+    const myLogoutUrl = this.state.logoutUrl;
+    const receiver = window.open(myLogoutUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
+    receiver.focus();
   }
 
   checkTokenStatus() {

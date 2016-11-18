@@ -34,7 +34,13 @@ class RequiredLoginView extends React.Component {
       this.setState({ loginUrl: result.authenticate_via_get });
     });
 
-    window.addEventListener('message', this.setInitialLevel);
+    const el = window;
+    if (el.addEventListener) {
+      el.addEventListener('message', this.setInitialLevel, false);
+    } else if (el.attachEvent) {
+      el.attachEvent('message', this.setInitialLevel);
+    }
+
     setTimeout(() => {
       this.setState({ loading: false });
     }, 2000);
@@ -72,7 +78,6 @@ class RequiredLoginView extends React.Component {
 
   handleLogin() {
     const myLoginUrl = this.state.loginUrl;
-    // TODO(crew): Check on how this opens on mobile.
     const receiver = window.open(myLoginUrl, '_blank', 'resizable=yes,scrollbars=1,top=50,left=500,width=500,height=750');
     receiver.focus();
   }
