@@ -13,7 +13,7 @@ module.exports = E2eHelpers.createE2eTest(
     // Claim list page
     client
       .url(`${E2eHelpers.baseUrl}/disability-benefits/track-claims`)
-      .waitForElementVisible('a.claim-list-item', Timeouts.normal)
+      .waitForElementVisible('a.claim-list-item', Timeouts.slow)
       .axeCheck('.main');
 
     client
@@ -89,4 +89,3 @@ module.exports = E2eHelpers.createE2eTest(
     client.end();
   }
 );
-

@@ -1,3 +1,5 @@
+import React from 'react';
+import _ from 'lodash';
 import merge from 'lodash/fp/merge';
 import moment from 'moment';
 
@@ -85,7 +87,12 @@ export function formattedDate(date, options = {}) {
   let dateString;
 
   if (momentDate.isSame(now, 'd')) {
-    dateString = momentDate.format('HH:mm');
+    dateString = (
+      <span>
+        {momentDate.format('HH:mm')}
+        &nbsp;<abbr title="Eastern Standard Time">EST</abbr>
+      </span>
+    );
   } else if (momentDate.isSame(now, 'y')) {
     dateString = momentDate.format('MMM D');
   } else {
@@ -106,9 +113,13 @@ export function formattedDate(date, options = {}) {
         }
       });
 
-      dateString = `${dateString} (${momentDate.fromNow()})`;
+      dateString = <span>{dateString} ({momentDate.fromNow()})</span>;
     }
   }
 
   return dateString;
+}
+
+export function folderUrl(folderName) {
+  return folderName ? `/${_.kebabCase(folderName)}` : '/inbox';
 }
