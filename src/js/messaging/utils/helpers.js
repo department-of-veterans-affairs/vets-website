@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import merge from 'lodash/fp/merge';
 import moment from 'moment';
 
@@ -117,4 +118,8 @@ export function formattedDate(date, options = {}) {
   }
 
   return dateString;
+}
+
+export function folderUrl(folderName) {
+  return folderName ? `/${_.kebabCase(folderName)}` : '/inbox';
 }

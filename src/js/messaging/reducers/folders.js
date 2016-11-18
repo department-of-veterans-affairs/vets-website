@@ -1,7 +1,7 @@
+import _ from 'lodash';
 import set from 'lodash/fp/set';
-import concat from 'lodash/fp/concat';
 
-import { paths } from '../config';
+import { folderUrl } from '../utils/helpers';
 
 import {
   CREATE_FOLDER_SUCCESS,
@@ -38,7 +38,7 @@ const initialState = {
         order: 'DESC'
       }
     },
-    items: []
+    items: new Map()
   },
   ui: {
     loading: false,
@@ -50,19 +50,22 @@ const initialState = {
   }
 };
 
+const folderKey = (folderName) => _.kebabCase(folderName);
+
 export default function folders(state = initialState, action) {
   switch (action.type) {
     // TODO: Handle the response in an appropriate way
     case CREATE_FOLDER_SUCCESS: {
-      const newFolderList = concat(state.data.items, action.folder);
-      return set('data.items', newFolderList, state);
+      const folder = action.folder;
+      const newFolders = new Map(state.data.items);
+      newFolders.set(folderKey(folder.name), folder);
+      return set('data.items', newFolders, state);
     }
 
     case DELETE_FOLDER_SUCCESS: {
-      const newFolders = state.data.items.filter(folder => {
-        return folder.folderId !== action.folder.folderId;
-      });
-
+      const folder = action.folder;
+      const newFolders = new Map(state.data.items);
+      newFolders.delete(folderKey(folder.name));
       return set('data.items', newFolders, state);
     }
 
@@ -91,7 +94,12 @@ export default function folders(state = initialState, action) {
     }
 
     case FETCH_FOLDERS_SUCCESS: {
-      const items = action.data.data.map(folder => folder.attributes);
+      const items = new Map();
+      action.data.data.forEach((folder) => {
+        const item = folder.attributes;
+        items.set(folderKey(item.name), item);
+      });
+
       return set('data.items', items, state);
     }
 
@@ -113,10 +121,15 @@ export default function folders(state = initialState, action) {
     case MOVE_MESSAGE_SUCCESS:
     case SAVE_DRAFT_SUCCESS:
     case SEND_MESSAGE_SUCCESS: {
-      // Upon completing any of these actions,
-      // set the redirect to the most recent folder.
-      const lastFolderId = state.data.currentItem.persistFolder;
-      const url = `${paths.FOLDERS_URL}/${lastFolderId}`;
+      // Upon completing any of these actions, set the redirect to the most
+      // recent folder. Default to 'Inbox' if no folder has been visited.
+      const folderName = _.get(
+        state,
+        'data.currentItem.attributes.name',
+        'Inbox'
+      );
+
+      const url = folderUrl(folderName);
       return set('ui.redirect', url, state);
     }
 
