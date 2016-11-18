@@ -85,7 +85,7 @@ class ErrorableRadioButtons extends React.Component {
         optionLabel = obj.label;
         optionValue = obj.value;
         if (obj.additional) {
-          optionAdditional = (<div><p>{obj.additional}</p></div>);
+          optionAdditional = (<div>{obj.additional}</div>);
         }
       }
       const checked = optionValue === storedValue ? 'checked=true' : '';
@@ -112,7 +112,7 @@ class ErrorableRadioButtons extends React.Component {
       if (optionAdditional) {
         output = (
           <ExpandingGroup
-              additionalClass="edu-benefits-active-group"
+              additionalClass="form-expanding-group-active-radio"
               open={checked}
               key={reactKey++}>
             {radioButton}
