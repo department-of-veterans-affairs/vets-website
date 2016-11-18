@@ -2,7 +2,7 @@ import React from 'react';
 import $ from 'jquery';
 
 import environment from '../helpers/environment.js';
-import { handleVerify } from '../helpers/login-helpers.js';
+import { handleVerify, addEvent } from '../helpers/login-helpers.js';
 
 import SystemDownView from './SystemDownView';
 import LoadingIndicator from '../../common/components/LoadingIndicator';
@@ -34,19 +34,16 @@ class RequiredLoginView extends React.Component {
       this.setState({ loginUrl: result.authenticate_via_get });
     });
 
-    const el = window;
-    if (el.addEventListener) {
-      el.addEventListener('message', this.setInitialLevel, false);
-    } else if (el.attachEvent) {
-      el.attachEvent('message', this.setInitialLevel);
-    }
+    addEvent(window, 'message', (evt) => {
+      this.setInitialLevel(evt);
+    });
 
     setTimeout(() => {
       this.setState({ loading: false });
     }, 2000);
   }
 
-  setInitialLevel() {
+  setInitialLevel(event) {
     if (event.data === sessionStorage.userToken) {
       this.setUserLevel();
     }

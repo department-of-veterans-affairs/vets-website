@@ -4,7 +4,7 @@ import $ from 'jquery';
 import moment from 'moment';
 
 import environment from '../../common/helpers/environment.js';
-import { getUserData } from '../../common/helpers/login-helpers';
+import { getUserData, addEvent } from '../../common/helpers/login-helpers';
 
 import { updateLoggedInStatus, updateLogInUrl, logOut } from '../../common/actions';
 import SignInProfileButton from '../components/SignInProfileButton';
@@ -21,28 +21,7 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
-      this.setState({ loginUrl: result.authenticate_via_get });
-    });
-
-    const el = window;
-    if (el.addEventListener) {
-      el.addEventListener('message', this.setMyToken, false);
-    } else if (el.attachEvent) {
-      el.attachEvent('message', this.setMyToken);
-    }
-
-    window.onload = this.checkTokenStatus();
-  }
-
-  componentWillUnmount() {
-    this.serverRequest.abort();
-  }
-
-  setMyToken() {
-    if (event.data === sessionStorage.userToken) {
-      this.getUserData();
-
+    if (sessionStorage.userToken) {
       $.ajax({
         url: `${environment.API_URL}/v0/sessions`,
         type: 'DELETE',
@@ -53,6 +32,26 @@ class Main extends React.Component {
           this.setState({ logoutUrl: result.logout_via_get });
         }
       });
+    }
+
+    this.serverRequest = $.get(`${environment.API_URL}/v0/sessions/new?level=1`, result => {
+      this.setState({ loginUrl: result.authenticate_via_get });
+    });
+
+    addEvent(window, 'message', (evt) => {
+      this.setMyToken(evt);
+    });
+
+    window.onload = this.checkTokenStatus();
+  }
+
+  componentWillUnmount() {
+    this.serverRequest.abort();
+  }
+
+  setMyToken(event) {
+    if (event.data === sessionStorage.userToken) {
+      this.getUserData();
     }
   }
 
