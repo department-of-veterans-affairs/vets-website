@@ -166,9 +166,9 @@ button.msg-btn-newfolder[type="button"],
     position: relative;
 
     h2 {
-      flex: 0 1 66.66%;
       line-height: inherit !important;
       overflow: hidden;
+      min-width: 66.66%;
       padding: 0 1.5rem !important;
       text-align: center;
       text-overflow: ellipsis;
