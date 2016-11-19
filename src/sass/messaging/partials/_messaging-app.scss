@@ -157,7 +157,9 @@ button.msg-btn-newfolder[type="button"],
 }
 
 #messaging-content-header {
-  display: none;
+  h2 {
+    padding: 0 !important;
+  }
 
   @media (max-width: $medium-screen) {
     align-items: center;
@@ -178,21 +180,30 @@ button.msg-btn-newfolder[type="button"],
 }
 
 .messaging-cancel-link {
-  display: block;
+  display: none;
   flex: 0;
   line-height: inherit;
   padding: 1.5rem 0;
   margin-left: 1.5rem;
+
+  @media (max-width: $medium-screen) {
+    display: block;
+  }
 }
 
 .messaging-menu-button,
 .messaging-send-button {
   background: $color-primary;
   border-radius: 0;
+  display: none;
   line-height: inherit;
   margin: 0;
   padding: 1.5rem;
   width: auto;
+
+  @media (max-width: $medium-screen) {
+    display: block;
+  }
 }
 
 .messaging-menu-button {
