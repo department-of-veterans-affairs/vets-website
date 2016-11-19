@@ -456,17 +456,6 @@ button.msg-btn-save {
     right: auto;
   }
 
-  .msg-compose-error {
-    .msg-write {
-      padding: .25rem 1rem 1rem;
-      margin-left: 0;
-    }
-
-    .msg-send-group {
-      margin-left: 0;
-    }
-  }
-
   .msg-field {
     border-top: none;
   }
@@ -515,10 +504,18 @@ button.msg-btn-save {
       border: none;
     }
 
-    .msg-compose-error .msg-write {
-      border-color: $color-gray;
-      border-style: solid;
-      border-width: 1px 1px 0;
+    .msg-compose-error {
+      .msg-write {
+        border-color: $color-gray;
+        border-style: solid;
+        border-width: 1px 1px 0;
+        padding: .25rem 1rem 1rem;
+        margin-left: 0;
+      }
+
+      .msg-send-group {
+        margin-left: 0;
+      }
     }
 
     .msg-write {
