@@ -11,6 +11,7 @@
   top: 0;
   width: 100%;
   z-index: 3;
+  cursor: pointer;
 
   &-split {
     .va-modal-inner {
@@ -55,6 +56,7 @@
     top: 50%;
     transform: translateY(-50%);
     width: 100%;
+    cursor: auto;
   }
 
   &-body {
