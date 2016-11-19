@@ -14,13 +14,20 @@
 
   &-split {
     .va-modal-inner {
-      min-width: 650px;
+      min-width: 770px;
     }
-
+    &-container {
+      display: flex;
+    }
     &-left,
     &-right {
-      float: left;
-      width: 50%;
+      flex: 1;
+      padding: 0 20px;
+    }
+    &-divider {
+      margin: 3px 0;
+      width: 3px;
+      background: $color-primary-alt-lightest;
     }
   }
 
