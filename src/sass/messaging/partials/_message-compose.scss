@@ -16,6 +16,10 @@
     .usa-input-error-message {
       margin: 0 0 0 11.5rem;
     }
+
+    .msg-write-group {
+      padding: .75rem 0;
+    }
   }
 }
 
@@ -245,12 +249,6 @@ button.msg-btn-save {
       border-width: 1px 1px 0 1px;
       padding: 1rem;
     }
-  }
-}
-
-.msg-compose-write {
-  @media (min-width: $medium-screen) {
-    padding: .75rem 0;
   }
 }
 
