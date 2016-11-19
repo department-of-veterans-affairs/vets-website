@@ -168,20 +168,25 @@ button.msg-btn-newfolder[type="button"],
     position: relative;
 
     h2 {
+      flex: 1;
       line-height: inherit !important;
       overflow: hidden;
-      min-width: 66.66%;
       padding: 0 1.5rem !important;
       text-align: center;
       text-overflow: ellipsis;
       white-space: nowrap;
+    }
+
+    &.messaging-folder-header {
+      h2 {
+        max-width: 65%;
+      }
     }
   }
 }
 
 .messaging-cancel-link {
   display: none;
-  flex: 0;
   line-height: inherit;
   padding: 1.5rem 0;
   margin-left: 1.5rem;
@@ -204,14 +209,6 @@ button.msg-btn-newfolder[type="button"],
   @media (max-width: $medium-screen) {
     display: block;
   }
-}
-
-.messaging-menu-button {
-  flex: 0;
-}
-
-.messaging-send-button {
-  flex: 1;
 }
 
 .messaging-modal {

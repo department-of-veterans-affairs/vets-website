@@ -278,7 +278,9 @@ export class Folder extends React.Component {
 
     return (
       <div>
-        <div id="messaging-content-header">
+        <div
+            id="messaging-content-header"
+            className="messaging-folder-header">
           <button
               className="messaging-menu-button"
               type="button"
