@@ -23,9 +23,17 @@ class SearchControls extends Component {
   }
 
   handleFilterChange = (e) => {
-    this.props.updateSearchQuery({
-      [e.target.name]: e.target.value,
-    });
+    const { facilityType } = this.props.currentQuery;
+
+    if (facilityType === 'benefits' && e.target.value === 'All') {
+      this.props.updateSearchQuery({
+        [e.target.name]: null,
+      });
+    } else {
+      this.props.updateSearchQuery({
+        [e.target.name]: e.target.value,
+      });
+    }
   }
 
   handleSearch = (e) => {
