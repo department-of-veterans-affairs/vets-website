@@ -39,9 +39,9 @@
 .msg-field.usa-input-error {
   @media (max-width: $medium-screen) {
     margin: 0;
+    padding: 0;
   }
 
-  padding: 0;
   border-left: 4px solid $color-secondary;
 }
 
