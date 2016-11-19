@@ -14,7 +14,7 @@
 
   &-split {
     .va-modal-inner {
-      min-width: 770px;
+      min-width: 710px;
     }
     &-container {
       display: flex;
@@ -24,8 +24,11 @@
       flex: 1;
       padding: 0 20px;
     }
+		p:first-child,
+		h5:first-child {
+			margin-top: 0;
+		}
     &-divider {
-      margin: 3px 0;
       width: 3px;
       background: $color-primary-alt-lightest;
     }
@@ -77,6 +80,13 @@
 
 .va-modal button {
   white-space: nowrap;
+  span.exit-icon {
+    background-image: url(/img/icons/exit-icon-primary.png);
+    background-position: 100% 50%;
+    background-repeat: no-repeat;
+    background-size: 1em auto;
+    padding-right: 1.2em;
+  }
 } 
 
 .va-modal-close {
