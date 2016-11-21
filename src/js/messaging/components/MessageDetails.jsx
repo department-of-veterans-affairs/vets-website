@@ -46,7 +46,7 @@ class MessageDetails extends React.Component {
                   moment(
                     this.props.attrs.sentDate
                   ).format('ddd, MMM D, YYYY [at] HH:mm')
-                }
+                } <abbr title="Eastern Standard Time">EST</abbr>
               </td>
             </tr>
             <tr>
