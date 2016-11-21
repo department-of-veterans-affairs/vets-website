@@ -20,8 +20,8 @@ class FinancialDisclosureSection extends React.Component {
     if (this.props.data.discloseFinancialInformation.value === 'N') {
       message = (
         <div className="usa-alert usa-alert-info">
-          <div className="hca-alert-body">
-            <p>If you don't provide your financial information and you don't have another qualifying eligibility factor, VA can't enroll you.</p>
+          <div className="usa-alert-body">
+            <span>If you don't provide your financial information and you don't have another qualifying eligibility factor, VA can't enroll you.</span>
           </div>
         </div>
       );
@@ -52,12 +52,12 @@ class FinancialDisclosureSection extends React.Component {
           </ol>
 
           <div className="usa-alert usa-alert-info">
-            <div className="hca-alert-body">
-              <p>
+            <div className="usa-alert-body">
+              <span>
                 Note: You don't have to provide your financial information. But if you don't have a qualifying
                 eligibility factor, this information is the only other way for us to see if you can get VA
                 health care benefits-- including added benefits like waived copays.
-              </p>
+              </span>
             </div>
           </div>
 

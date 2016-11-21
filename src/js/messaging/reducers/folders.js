@@ -1,8 +1,7 @@
+import _ from 'lodash';
 import set from 'lodash/fp/set';
-import concat from 'lodash/fp/concat';
 
-import { paths } from '../config';
-import history from '../history';
+import { folderUrl } from '../utils/helpers';
 
 import {
   CREATE_FOLDER_SUCCESS,
@@ -11,7 +10,9 @@ import {
   DELETE_MESSAGE_SUCCESS,
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDERS_SUCCESS,
+  LOADING_FOLDER,
   MOVE_MESSAGE_SUCCESS,
+  RESET_REDIRECT,
   SAVE_DRAFT_SUCCESS,
   SEND_MESSAGE_SUCCESS,
   SET_CURRENT_FOLDER,
@@ -37,29 +38,34 @@ const initialState = {
         order: 'DESC'
       }
     },
-    items: []
+    items: new Map()
   },
   ui: {
+    loading: false,
     nav: {
       foldersExpanded: false,
       visible: false
-    }
+    },
+    redirect: null
   }
 };
+
+const folderKey = (folderName) => _.kebabCase(folderName);
 
 export default function folders(state = initialState, action) {
   switch (action.type) {
     // TODO: Handle the response in an appropriate way
     case CREATE_FOLDER_SUCCESS: {
-      const newFolderList = concat(state.data.items, action.folder);
-      return set('data.items', newFolderList, state);
+      const folder = action.folder;
+      const newFolders = new Map(state.data.items);
+      newFolders.set(folderKey(folder.name), folder);
+      return set('data.items', newFolders, state);
     }
 
     case DELETE_FOLDER_SUCCESS: {
-      const newFolders = state.data.items.filter(folder => {
-        return folder.folderId !== action.folder.folderId;
-      });
-
+      const folder = action.folder;
+      const newFolders = new Map(state.data.items);
+      newFolders.delete(folderKey(folder.name));
       return set('data.items', newFolders, state);
     }
 
@@ -75,21 +81,30 @@ export default function folders(state = initialState, action) {
       const sortValue = Object.keys(sort)[0];
       const sortOrder = sort[sortValue];
 
-      const newItem = {
+      const newState = set('data.currentItem', {
         attributes,
         filter,
         messages,
         pagination,
         persistFolder,
         sort: { value: sortValue, order: sortOrder },
-      };
-      return set('data.currentItem', newItem, state);
+      }, state);
+
+      return set('ui.loading', false, newState);
     }
 
     case FETCH_FOLDERS_SUCCESS: {
-      const items = action.data.data.map(folder => folder.attributes);
+      const items = new Map();
+      action.data.data.forEach((folder) => {
+        const item = folder.attributes;
+        items.set(folderKey(item.name), item);
+      });
+
       return set('data.items', items, state);
     }
+
+    case LOADING_FOLDER:
+      return set('ui.loading', true, state);
 
     case TOGGLE_FOLDER_NAV:
       return set('ui.nav.visible', !state.ui.nav.visible, state);
@@ -106,12 +121,20 @@ export default function folders(state = initialState, action) {
     case MOVE_MESSAGE_SUCCESS:
     case SAVE_DRAFT_SUCCESS:
     case SEND_MESSAGE_SUCCESS: {
-      // Upon completing any of these actions, go to the most recent folder.
-      const currentFolderId = state.data.currentItem.persistFolder;
-      const returnUrl = `${paths.FOLDERS_URL}/${currentFolderId}`;
-      history.replace(returnUrl);
-      return state;
+      // Upon completing any of these actions, set the redirect to the most
+      // recent folder. Default to 'Inbox' if no folder has been visited.
+      const folderName = _.get(
+        state,
+        'data.currentItem.attributes.name',
+        'Inbox'
+      );
+
+      const url = folderUrl(folderName);
+      return set('ui.redirect', url, state);
     }
+
+    case RESET_REDIRECT:
+      return set('ui.redirect', null, state);
 
     default:
       return state;
