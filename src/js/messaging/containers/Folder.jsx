@@ -24,19 +24,20 @@ import { formattedDate } from '../utils/helpers';
 export class Folder extends React.Component {
   constructor(props) {
     super(props);
+    this.buildSearchQuery = this.buildSearchQuery.bind(this);
+    this.getQueryParams = this.getQueryParams.bind(this);
+    this.getRequestedFolderId = this.getRequestedFolderId.bind(this);
     this.formattedSortParam = this.formattedSortParam.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.makeMessageNav = this.makeMessageNav.bind(this);
     this.makeMessagesTable = this.makeMessagesTable.bind(this);
-    this.getQueryParams = this.getQueryParams.bind(this);
-    this.buildSearchQuery = this.buildSearchQuery.bind(this);
   }
 
   componentDidMount() {
     if (!this.props.loading) {
-      const id = this.props.params.id;
+      const id = this.getRequestedFolderId();
       const query = this.getQueryParams();
       this.props.fetchFolder(id, query);
     }
@@ -44,11 +45,14 @@ export class Folder extends React.Component {
 
   componentDidUpdate() {
     if (!this.props.loading) {
-      const query = this.getQueryParams();
-
       const oldId = this.props.attributes.folderId;
-      const newId = +this.props.params.id;
+      const newId = this.getRequestedFolderId();
+
+      if (newId === null) { return; }
+
       const idChanged = newId !== oldId;
+
+      const query = this.getQueryParams();
 
       const pageChanged = () => {
         const oldPage = this.props.page;
@@ -104,6 +108,12 @@ export class Folder extends React.Component {
         this.props.fetchFolder(newId, query);
       }
     }
+  }
+
+  getRequestedFolderId() {
+    const folderName = this.props.params.folderName;
+    const folder = this.props.folders.get(folderName);
+    return folder ? folder.folderId : null;
   }
 
   getQueryParams() {
@@ -204,7 +214,7 @@ export class Folder extends React.Component {
     }
 
     const makeMessageLink = (content, id) => {
-      return <Link to={`/thread/${id}`}>{content}</Link>;
+      return <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>;
     };
 
     const currentSort = this.props.sort;
@@ -245,6 +255,11 @@ export class Folder extends React.Component {
     if (this.props.loading) {
       return <LoadingIndicator message="is loading the folder..."/>;
     }
+
+    if (this.getRequestedFolderId() === null) {
+      return <b>Sorry, this folder does not exist.</b>;
+    }
+
     const folderName = _.get(this.props.attributes, 'name');
     const messageNav = this.makeMessageNav();
     const folderMessages = this.makeMessagesTable();
@@ -303,6 +318,7 @@ const mapStateToProps = (state) => {
     attributes,
     currentRange: `${startCount} - ${endCount}`,
     filter: folder.filter,
+    folders: state.folders.data.items,
     loading: state.folders.ui.loading,
     messageCount: totalCount,
     messages,

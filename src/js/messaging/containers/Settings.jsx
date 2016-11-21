@@ -10,17 +10,15 @@ import {
 
 import ButtonCreateFolder from '../components/buttons/ButtonCreateFolder';
 import ButtonDelete from '../components/buttons/ButtonDelete';
-import { paths } from '../config';
+import { folderUrl } from '../utils/helpers';
 
 export class Settings extends React.Component {
   render() {
     const folderRows = this.props.folders.map(folder => {
-      const link = `${paths.FOLDERS_URL}/${folder.folderId}`;
-
       return (
         <tr key={folder.folderId}>
           <td>
-            <Link to={link}>
+            <Link to={folderUrl(folder.name)}>
               {folder.name}
             </Link>
           </td>
@@ -67,8 +65,15 @@ export class Settings extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+  const folders = [];
+  state.folders.data.items.forEach((folder) => {
+    if (folder.folderId > 0) {
+      folders.push(folder);
+    }
+  });
+
   return {
-    folders: state.folders.data.items.slice(4)
+    folders
   };
 };
 
