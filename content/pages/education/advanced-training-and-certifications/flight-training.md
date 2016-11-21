@@ -37,8 +37,8 @@ You can get benefits if you have at least:
 - If you use the MGIB or REAP, VA will pay you back for 60% of the approved fees. [Learn more about the payments](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
 - If you use the Post-9/11 GI Bill, your payment depends on what flight course you take and what type of school you attend.
     - If your school is a standalone Part 141 pilot school, VA pays the school for the full cost of training up to a yearly limit*. See the [annual maximum amount](http://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp).
-    - If your school is a public college or university, VA reimburses the school the full cost of tuition and fees*. There is no yearly limit.
-    - If your school is a private college or university, VA reimburses the school the full cost of tuition and fees. There is a yearly limit*.
+    - If your school is a public college or university, VA reimburses the school the full cost of tuition and fees*. 
+    - If your school is a private college or university, VA reimburses the school the full cost of tuition and fees.*
 
 *Your level of eligibility and remaining entitlement will limit the payment amount.
 
