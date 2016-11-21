@@ -74,8 +74,8 @@
   padding-bottom: 2rem;
   position: relative;
 
-  .msg-move-to {
-    vertical-align: top;
+  > * {
+    vertical-align: middle;
   }
 
   button {
@@ -84,7 +84,6 @@
 
   a {
     margin-right: 1rem;
-    vertical-align: middle;
   }
 
   i {
