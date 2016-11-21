@@ -157,54 +157,50 @@ button.msg-btn-newfolder[type="button"],
 }
 
 #messaging-content-header {
-  position: relative;
+  display: none;
 
   @media (max-width: $medium-screen) {
+    align-items: center;
     background: $color-gray-lightest;
-    text-align: center;
-
-    .messaging-cancel-link,
-    .messaging-menu-button,
-    .messaging-send-button {
-      display: block;
-    }
+    display: flex;
+    position: relative;
 
     h2 {
-      padding: 1rem !important;
+      line-height: inherit !important;
+      overflow: hidden;
+      min-width: 66.66%;
+      padding: 0 1.5rem !important;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 }
 
-.messaging-cancel-link,
-.messaging-menu-button,
-.messaging-send-button {
-  display: none;
-  height: 100%;
-  margin: 0;
-  position: absolute;
-  top: 0;
-  width: auto;
-}
-
 .messaging-cancel-link {
-  color: $color-primary;
-  left: 0;
-  padding: 1.25rem 1.5rem;
+  display: block;
+  flex: 0;
+  line-height: inherit;
+  padding: 1.5rem 0;
+  margin-left: 1.5rem;
 }
 
 .messaging-menu-button,
 .messaging-send-button {
   background: $color-primary;
   border-radius: 0;
-  padding: 1rem;
+  line-height: inherit;
+  margin: 0;
+  padding: 1.5rem;
+  width: auto;
 }
 
 .messaging-menu-button {
-  left: 0;
+  flex: 0;
 }
 
 .messaging-send-button {
-  right: 0;
+  flex: 1;
 }
 
 .messaging-modal {
