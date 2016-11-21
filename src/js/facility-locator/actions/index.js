@@ -101,7 +101,7 @@ export function searchWithAddress(query) {
       }) || {}).text || res.features[0].place_name;
 
       if (!err) {
-        const dispatchObj = {
+        dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
             ...query,
@@ -118,10 +118,6 @@ export function searchWithAddress(query) {
             ],
             zoomLevel: res.features[0].id.split('.')[0] === 'region' ? 7 : 11,
           }
-        };
-        dispatch(dispatchObj);
-        dispatch({
-          type: SEARCH_SUCCEEDED,
         });
       } else {
         dispatch({
