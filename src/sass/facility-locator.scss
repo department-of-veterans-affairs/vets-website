@@ -266,6 +266,11 @@
         padding: 0;
       }
 
+      span.legend.spacer {
+        height: 2.4em;
+        width: 1px;
+      }
+
       span.legend {
         border-radius: 1em;
         margin-right: 0.5em;
@@ -284,14 +289,14 @@
         list-style: none;
         opacity: 0;
         pointer-events: none;
-        z-index: 1001;
+        z-index: 1010;
 
         li {
           color: $color-black;
           display: block;
           padding: 0.25em 1em;
           text-decoration: none;
-          z-index: 1001;
+          z-index: 1011;
         }
 
         li:hover {
