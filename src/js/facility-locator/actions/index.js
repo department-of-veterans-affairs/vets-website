@@ -68,7 +68,7 @@ export function searchWithBounds(bounds, facilityType, serviceType, page = 1) {
       type: SEARCH_STARTED,
       payload: {
         page,
-        active: true,
+        searchBoundsInProgress: true,
       },
     });
 
@@ -87,9 +87,6 @@ export function searchWithAddress(query) {
   return dispatch => {
     dispatch({
       type: SEARCH_STARTED,
-      payload: {
-        active: true,
-      },
     });
 
     mapboxClient.geocodeForward(query.searchString, {
