@@ -61,7 +61,7 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.form-panel .usa-button-primary');
 
     // Financial disclosure page.
-    HcaHelpers.completeFinancialDisclosure(client, HcaHelpers.testValues, true);
+    HcaHelpers.completeFinancialDisclosure(client, HcaHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-panel .usa-button-primary');
@@ -79,17 +79,19 @@ module.exports = E2eHelpers.createE2eTest(
       .click('.form-panel .usa-button-primary');
 
     // Annual Income Page.
+    HcaHelpers.completeAnnualIncomeInformation(client, HcaHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-panel .usa-button-primary');
 
     // Deductible Expenses Page.
+    HcaHelpers.completeDeductibleExpenses(client, HcaHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-panel .usa-button-primary');
 
     // Medicare and Medicaid Page.
-    HcaHelpers.completeMedicareAndMedicaid(client, HcaHelpers.testValues, true);
+    HcaHelpers.completeMedicareAndMedicaid(client, HcaHelpers.testValues);
     client
       .axeCheck('.main')
       .click('.form-panel .usa-button-primary');

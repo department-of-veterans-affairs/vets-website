@@ -9,6 +9,7 @@ import {
   clearDraft,
   deleteDraftAttachment,
   deleteMessage,
+  fetchFolder,
   fetchRecipients,
   fetchThread,
   fetchThreadMessage,
@@ -38,6 +39,7 @@ export class Thread extends React.Component {
   constructor(props) {
     super(props);
     this.apiFormattedDraft = this.apiFormattedDraft.bind(this);
+    this.getCurrentFolder = this.getCurrentFolder.bind(this);
     this.handleDraftDelete = this.handleDraftDelete.bind(this);
     this.handleDraftSave = this.handleDraftSave.bind(this);
     this.handleDraftSend = this.handleDraftSend.bind(this);
@@ -49,7 +51,7 @@ export class Thread extends React.Component {
 
   componentDidMount() {
     if (!this.props.loading) {
-      const id = this.props.params.id;
+      const id = this.props.params.messageId;
       this.props.fetchThread(id);
     }
   }
@@ -66,7 +68,7 @@ export class Thread extends React.Component {
       }
 
       const message = this.props.message;
-      const newId = +this.props.params.id;
+      const newId = +this.props.params.messageId;
 
       if (!message || newId !== message.messageId) {
         this.props.fetchThread(newId);
@@ -76,6 +78,12 @@ export class Thread extends React.Component {
 
   componentWillUnmount() {
     this.props.resetRedirect();
+  }
+
+  getCurrentFolder() {
+    const folderName = this.props.params.folderName;
+    const folder = this.props.folders.get(folderName);
+    return folder;
   }
 
   apiFormattedDraft() {
@@ -118,11 +126,15 @@ export class Thread extends React.Component {
       return null;
     }
 
+    const currentFolder = this.getCurrentFolder();
+
     // Exclude the current folder from the list of folders
     // that are passed down to the MoveTo component.
-    const moveToFolders = this.props.folders.filter((folder) => {
-      return folder.folderId !== this.props.persistFolder &&
-             folder.name !== 'Sent';
+    const moveToFolders = [];
+    this.props.folders.forEach((folder) => {
+      if (folder.folderId !== currentFolder.folderId) {
+        moveToFolders.push(folder);
+      }
     });
 
     const folderMessages = this.props.folderMessages;
@@ -138,7 +150,7 @@ export class Thread extends React.Component {
     const handleMessageSelect = (messageNumber) => {
       const index = messageNumber - 1;
       const selectedId = folderMessages[index].messageId;
-      this.context.router.push(`/thread/${selectedId}`);
+      this.context.router.push(`/${this.props.params.folderName}/${selectedId}`);
     };
 
     return (
@@ -146,9 +158,9 @@ export class Thread extends React.Component {
           currentMessageNumber={currentIndex + 1}
           moveToFolders={moveToFolders}
           folderMessageCount={folderMessageCount}
+          folderName={currentFolder.name}
           message={this.props.message}
           onMessageSelect={handleMessageSelect}
-          persistedFolder={this.props.persistFolder}
           threadMessageCount={this.props.thread.length + 1}
           messagesCollapsed={(this.props.messagesCollapsed.size > 0)}
           moveToIsOpen={this.props.moveToOpened}
@@ -320,7 +332,6 @@ const mapStateToProps = (state) => {
     messagesCollapsed: state.messages.ui.messagesCollapsed,
     modals: state.modals,
     moveToOpened: state.messages.ui.moveToOpened,
-    persistFolder: folder.persistFolder,
     recipients: state.compose.recipients,
     redirect: state.folders.ui.redirect,
     replyDetailsCollapsed: state.messages.ui.replyDetailsCollapsed,
@@ -333,6 +344,7 @@ const mapDispatchToProps = {
   clearDraft,
   deleteDraftAttachment,
   deleteMessage,
+  fetchFolder,
   fetchRecipients,
   fetchThread,
   fetchThreadMessage,
