@@ -1,7 +1,8 @@
 import React from 'react';
 import { Route } from 'react-router';
 
-import { chapterNames, groupPagesIntoChapters, getPageList, hasServiceBefore1978 } from './utils/helpers';
+import { chapterNames, hasServiceBefore1978 } from './utils/helpers';
+import { groupPagesIntoChapters, getPageList } from '../common/utils/helpers';
 
 import IntroductionPage from './containers/IntroductionPage.jsx';
 import VeteranInformationReview from './components/veteran-information/VeteranInformationReview';

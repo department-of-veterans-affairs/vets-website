@@ -24,19 +24,21 @@ import { formattedDate } from '../utils/helpers';
 export class Folder extends React.Component {
   constructor(props) {
     super(props);
+    this.buildSearchQuery = this.buildSearchQuery.bind(this);
+    this.getQueryParams = this.getQueryParams.bind(this);
+    this.getRequestedFolderId = this.getRequestedFolderId.bind(this);
     this.formattedSortParam = this.formattedSortParam.bind(this);
     this.handlePageSelect = this.handlePageSelect.bind(this);
     this.handleSort = this.handleSort.bind(this);
     this.handleSearch = this.handleSearch.bind(this);
     this.makeMessageNav = this.makeMessageNav.bind(this);
     this.makeMessagesTable = this.makeMessagesTable.bind(this);
-    this.getQueryParams = this.getQueryParams.bind(this);
-    this.buildSearchQuery = this.buildSearchQuery.bind(this);
+    this.makeSortMenu = this.makeSortMenu.bind(this);
   }
 
   componentDidMount() {
     if (!this.props.loading) {
-      const id = this.props.params.id;
+      const id = this.getRequestedFolderId();
       const query = this.getQueryParams();
       this.props.fetchFolder(id, query);
     }
@@ -44,11 +46,14 @@ export class Folder extends React.Component {
 
   componentDidUpdate() {
     if (!this.props.loading) {
-      const query = this.getQueryParams();
-
       const oldId = this.props.attributes.folderId;
-      const newId = +this.props.params.id;
+      const newId = this.getRequestedFolderId();
+
+      if (newId === null) { return; }
+
       const idChanged = newId !== oldId;
+
+      const query = this.getQueryParams();
 
       const pageChanged = () => {
         const oldPage = this.props.page;
@@ -104,6 +109,12 @@ export class Folder extends React.Component {
         this.props.fetchFolder(newId, query);
       }
     }
+  }
+
+  getRequestedFolderId() {
+    const folderName = this.props.params.folderName;
+    const folder = this.props.folders.get(folderName);
+    return folder ? folder.folderId : null;
   }
 
   getQueryParams() {
@@ -197,6 +208,49 @@ export class Folder extends React.Component {
     );
   }
 
+  makeSortMenu() {
+    if (!this.props.messages || this.props.messages.length === 0) {
+      return null;
+    }
+
+    const fields = [
+      { label: 'most recent', value: 'sentDate', order: 'DESC' },
+      { label: 'subject line', value: 'subject', order: 'ASC' },
+      { label: 'sender', value: 'senderName', order: 'ASC' }
+    ];
+
+    const sortOptions = fields.map(field => {
+      return (
+        <option
+            key={field.value}
+            value={field.value}
+            data-order={field.order}>
+          Sort by {field.label}
+        </option>
+      );
+    });
+
+    const handleSort = (event) => {
+      const menu = event.target;
+      const selectedIndex = menu.selectedIndex;
+      const sortValue = menu.value;
+      const sortOrder = menu[selectedIndex].dataset.order;
+      this.handleSort(sortValue, sortOrder);
+    };
+
+    return (
+      <div className="msg-folder-sort-select">
+        <label htmlFor="folderSort" className="usa-sr-only">Sort by</label>
+        <select
+            id="folderSort"
+            value={this.props.sort.value}
+            onChange={handleSort}>
+          {sortOptions}
+        </select>
+      </div>
+    );
+  }
+
   makeMessagesTable() {
     const messages = this.props.messages;
     if (!messages || messages.length === 0) {
@@ -204,10 +258,8 @@ export class Folder extends React.Component {
     }
 
     const makeMessageLink = (content, id) => {
-      return <Link to={`/thread/${id}`}>{content}</Link>;
+      return <Link to={`/${this.props.params.folderName}/${id}`}>{content}</Link>;
     };
-
-    const currentSort = this.props.sort;
 
     const fields = [
       { label: 'From', value: 'senderName' },
@@ -215,11 +267,15 @@ export class Folder extends React.Component {
       { label: 'Date', value: 'sentDate' }
     ];
 
+    const folderId = this.props.attributes.folderId;
+    const markUnread = folderId >= 0;
+
     const data = this.props.messages.map(message => {
       const id = message.messageId;
       const rowClass = classNames({
         'messaging-message-row': true,
-        'messaging-message-row--unread': message.readReceipt === 'UNREAD'
+        'messaging-message-row--unread':
+          markUnread && message.readReceipt !== 'READ'
       });
 
       return {
@@ -233,8 +289,8 @@ export class Folder extends React.Component {
 
     return (
       <SortableTable
-          className="usa-table-borderless va-table-list"
-          currentSort={currentSort}
+          className="usa-table-borderless va-table-list msg-table-list"
+          currentSort={this.props.sort}
           data={data}
           fields={fields}
           onSort={this.handleSort}/>
@@ -245,8 +301,14 @@ export class Folder extends React.Component {
     if (this.props.loading) {
       return <LoadingIndicator message="is loading the folder..."/>;
     }
+
+    if (this.getRequestedFolderId() === null) {
+      return <b>Sorry, this folder does not exist.</b>;
+    }
+
     const folderName = _.get(this.props.attributes, 'name');
     const messageNav = this.makeMessageNav();
+    const sortMenu = this.makeSortMenu();
     const folderMessages = this.makeMessagesTable();
 
     let messageSearch;
@@ -263,7 +325,9 @@ export class Folder extends React.Component {
 
     return (
       <div>
-        <div id="messaging-content-header">
+        <div
+            id="messaging-content-header"
+            className="messaging-folder-header">
           <button
               className="messaging-menu-button"
               type="button"
@@ -272,11 +336,12 @@ export class Folder extends React.Component {
           </button>
           <h2>{folderName}</h2>
         </div>
-        {messageSearch}
         <div id="messaging-folder-controls">
           <ComposeButton/>
+          {messageSearch}
           {messageNav}
         </div>
+        {sortMenu}
         {folderMessages}
       </div>
     );
@@ -303,6 +368,7 @@ const mapStateToProps = (state) => {
     attributes,
     currentRange: `${startCount} - ${endCount}`,
     filter: folder.filter,
+    folders: state.folders.data.items,
     loading: state.folders.ui.loading,
     messageCount: totalCount,
     messages,
